@@ -1,0 +1,8 @@
+-> MAIN
+loop::times 1000000
+loop::idx
+copy
+print
+scrap
+loop::cont
+exit

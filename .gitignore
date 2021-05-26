@@ -1,0 +1,7 @@
+vm
+!vm/
+*.obj
+*.odt
+*.o
+*.dblite
+a.ltn

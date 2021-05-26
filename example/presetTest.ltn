@@ -1,0 +1,13 @@
+-> MAIN
+size
+copy
+print
+load 0
+copy
+print
+zero
+zero
+array::get
+copy
+print
+exit

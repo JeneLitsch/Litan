@@ -1,0 +1,20 @@
+-> MAIN
+array::new
+
+newl 0
+newl 3
+loop::range
+copy
+loop::idx
+array::add
+loop::cont
+
+newl 0
+newl 3
+loop::range
+copy
+array::pop
+print
+loop::cont
+
+exit

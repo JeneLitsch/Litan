@@ -1,0 +1,20 @@
+#define value
+-> MAIN
+newl 0
+store <value>
+-> LOOP
+load <value>
+copy
+print
+inc
+copy
+store <value>
+newl 10
+bgri
+ifsk
+
+exit
+
+clear
+suspend
+goto LOOP

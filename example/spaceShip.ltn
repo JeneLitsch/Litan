@@ -1,0 +1,29 @@
+// demo for spaceship/ 3-way comparison operator 
+goto MAIN
+
+-> EQUAL
+newl 1
+newl 1
+spshi
+print
+return
+
+-> LESS
+newl 0
+newl 1
+spshi
+print
+return
+
+-> MORE
+newl 1
+newl 0
+spshi
+print
+return
+
+-> MAIN
+jump EQUAL
+jump MORE
+jump LESS
+exit
