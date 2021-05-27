@@ -79,10 +79,11 @@ void until(const ltn::ByteCode & instructions){
 int main(int argc, char const *argv[]) {
 	if(argc <= 2) return 1;
 	
-	// std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(0.1)) << std::endl;
-	// std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(1.1)) << std::endl;
-	// std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(-0.1)) << std::endl;
-	// std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(-1.1)) << std::endl;
+	std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(0.1)) << std::endl;
+	std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(1.1)) << std::endl;
+	std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(-0.1)) << std::endl;
+	std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(-1.1)) << std::endl;
+	std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(2.0)) << std::endl;
 
 
 	if(std::string(argv[1]) == std::string("-asm")){

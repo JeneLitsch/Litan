@@ -18,7 +18,7 @@ std::uint64_t ltn::Float::doubleToUint(double flt){
 	// stitch together the number
 	std::uint64_t binary =
 		static_cast<std::uint64_t>(mantisse) | 
-		static_cast<std::uint64_t>(exponent & 0xff) << 52 |
+		static_cast<std::uint64_t>(exponent & 0xff) << 53 |
 		static_cast<std::uint64_t>(negative) << 63;
 
 
@@ -29,7 +29,7 @@ std::uint64_t ltn::Float::doubleToUint(double flt){
 
 double ltn::Float::uintToDouble(std::uint64_t uInt){
 	// exract parts
-	std::int8_t exponent = std::int8_t((uInt >> 52) & 0xff); 
+	std::int8_t exponent = std::int8_t((uInt >> 53) & 0xff); 
 	std::int64_t mantisse = uInt & 0x1FFFFFFFFFFFFF; // 53 x "1"
 	bool negative = (uInt >> 63) == 1;
 	
