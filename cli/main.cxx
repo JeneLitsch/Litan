@@ -32,12 +32,6 @@ ltn::ByteCode assemble(const std::string & file){
 	ltn::ByteCode byteCode = asmr.assemble(script);
 
 	std::cout << ">> Finished assembling" << std::endl;
-
-	std::size_t i = 1;
-	for(std::uint64_t inst : byteCode.getInstructions()){
-		std::cout << i << "    " << std::setfill('0') << std::setw(16) << std::hex << inst << std::dec << std::endl;
-		i++;	
-	}
 	return byteCode;
 }
 
@@ -79,12 +73,6 @@ void until(const ltn::ByteCode & instructions){
 int main(int argc, char const *argv[]) {
 	if(argc <= 2) return 1;
 	
-	std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(0.1)) << std::endl;
-	std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(1.1)) << std::endl;
-	std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(-0.1)) << std::endl;
-	std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(-1.1)) << std::endl;
-	std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(2.0)) << std::endl;
-
 
 	if(std::string(argv[1]) == std::string("-asm")){
 		launch(assemble(argv[2]));
