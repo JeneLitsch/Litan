@@ -133,8 +133,20 @@ void ltn::PseudoAssembler::processPkg(const TokenPackage & pkg){
 		}
 
 		if(pkg.inst == "newf"){
-			std::uint64_t value = ltn::Float::doubleToUint(std::stod(pkg.args[0]));
-			this->processPkg(TokenPackage(pkg.line, "newi" , {std::to_string(value)}));
+			try {
+				double valueD = std::stod(pkg.args[0]);
+				std::uint64_t valueI = ltn::Float::doubleToUint(valueD);
+				std::cout << valueD << std::endl;	
+				long valueL = (valueI >> 0) & 0xffffffff;
+				long valueU = (valueI >> 32) & 0xffffffff;
+				this->processPkg(TokenPackage(pkg.line, "newl" , {std::to_string(valueL)}));
+				this->processPkg(TokenPackage(pkg.line, "newu" , {std::to_string(valueU)}));
+				this->processPkg(TokenPackage(pkg.line, "bitor", {}));
+
+			}
+			catch(...) {
+				throw std::runtime_error("Invalid floating point number: \"" + pkg.args[0] + "\"");
+			}
 			return;
 		}
 

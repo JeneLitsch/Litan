@@ -5,6 +5,7 @@
 #include <fstream>
 #include <chrono>
 #include "TextExtension.hxx"
+#include "Float.hxx"
 
 void benchmark(const ltn::ByteCode & instructions, unsigned number){
 	std::cout << ">> Creating virual machine..." << std::endl;
@@ -41,6 +42,7 @@ ltn::ByteCode assemble(const std::string & file){
 }
 
 void launch(const ltn::ByteCode & instructions){
+
 	std::cout << ">> Creating virual machine..." << std::endl;
 	ltn::VM vm;
 	TextExtension ext;
@@ -77,6 +79,10 @@ void until(const ltn::ByteCode & instructions){
 int main(int argc, char const *argv[]) {
 	if(argc <= 2) return 1;
 	
+	// std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(0.1)) << std::endl;
+	// std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(1.1)) << std::endl;
+	// std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(-0.1)) << std::endl;
+	// std::cout << ltn::Float::uintToDouble(ltn::Float::doubleToUint(-1.1)) << std::endl;
 
 
 	if(std::string(argv[1]) == std::string("-asm")){
