@@ -1,18 +1,13 @@
 #pragma once
-
-
+#include <vector>
+#include <string>
 namespace ltn {
-	inline std::string readFile(const std::string filename) {
-		std::ifstream file(filename);
-		std::string content((std::istreambuf_iterator<char>(file)),
-					std::istreambuf_iterator<char>());
-		file.close();
-		return content;
-	}
+	std::string readFile(const std::string filename);
+	void writeFile(const std::string & filename, const std::string content);
+	
+	std::string toHex(const std::vector<std::uint64_t> byteCode);
+	std::vector<std::uint64_t> fromHex(const std::string & hexCode);
 
-	inline void writeFile(const std::string & filename, const std::string content) {
-		std::ofstream out(filename);
-		out << content;
-		out.close();
-	}
+	std::string toBin(const std::vector<std::uint64_t> byteCode);
+	std::vector<std::uint64_t> fromBin(const std::string & binCode);
 }

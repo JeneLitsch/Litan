@@ -29,7 +29,7 @@ std::vector<ltn::TokenPackage> ltn::PseudoAssembler::process(const std::vector<T
 	}
 }
 
-void ltn::PseudoAssembler::registerAlias(const std::string & alias, IExtension::Slot slot, std::uint8_t funct){
+void ltn::PseudoAssembler::registerAlias(const std::string & alias, Slot slot, std::uint8_t funct){
 	this->aliases[alias] = { slot, funct };
 }
 

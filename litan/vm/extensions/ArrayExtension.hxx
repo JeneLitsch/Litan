@@ -5,7 +5,7 @@
 #include <map>
 #include <queue>
 #include "Environment.hxx"
-#include "VMInstructions.hxx"
+#include "LtnInstructions.hxx"
 
 namespace ltn{
 	// VM Extension for dynamic memory management

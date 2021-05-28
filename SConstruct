@@ -1,3 +1,41 @@
+class Builder:
+	__libs = []
+	__libInclude = []
+	__flags = []
+	__compiler = ""
+
+	def __init__(self, compiler, flags):
+		self.__compiler = compiler
+		self.__flags = flags
+
+	def __makeEnvironment(self, includeDirs):
+		env = Environment(
+			CXX = self.__compiler,
+			CXXFLAGS = self.__flags,
+			CPPPATH = includeDirs + self.__libInclude,
+			CPPDEFINES = [],
+			LIBS = self.__libs,
+			LIBPATH = ".",
+			CXXCOMSTR = "[Compiling] $TARGET",
+			LINKCOMSTR = "[Linking] $TARGET")
+		return env
+
+	def __getFiles(self, dirs):
+		files = []
+		for dir in dirs:
+			files.append(Glob(dir + "/*.cxx"))
+		return files
+
+	def buildLib(self, dirs, target):
+		env = self.__makeEnvironment(dirs)
+		env.Library(target, self.__getFiles(dirs))
+		self.__libs = target
+		self.__libInclude += dirs
+
+	def build(self, dirs, target):
+		env = self.__makeEnvironment(dirs)
+		env.Program(target, self.__getFiles(dirs))
+
 flags = [
 	"-std=c++2a",
 	]
@@ -24,20 +62,10 @@ flags += [
 
 print(flags)
 
-dirsLtnVm = [
-	".",
-	"cli",
-	"litan/shared",
-	"litan/shared/program",
-	"litan/vm",
-	"litan/vm/registers",
-	"litan/vm/extensions",
-	"litan/assembler",
-]
+
 
 dirsLtnC = [
 	".",
-	"litan/shared",
 	"litan/compiler",
 	"litan/compiler/utils",
 	"litan/compiler/lexer",
@@ -51,19 +79,28 @@ dirsLtnC = [
 	"litan/compiler/compiler/components",
 ]
 
-def run(dirs, target):
-	files = []
-	for dir in dirs:
-		files.append(Glob(dir + "/*.cxx"))
+dirsLtnA = [
+	"litan/assembler",
+]
+
+dirsLtnVm = [
+	".",
+	"litan/vm",
+	"litan/vm/registers",
+	"litan/vm/extensions",
+]
 
 
-	env = Environment(CXX = "clang++", CXXFLAGS = flags, CPPPATH = dirs, CPPDEFINES = [], LIBS = [], LIBPATH = ".", SCONS_CXX_STANDART="c++20", 
-		CXXCOMSTR = "[Compiling] $TARGET",
-		LINKCOMSTR = "[Linking] $TARGET")
-	env.Append(CPPDEFINES = [
-		"SFML_STATIC"
-	])
-	env.Program(target, files)
+dirsShared = [
+	"litan/shared",
+	"litan/shared/program",
+]
 
-run(dirsLtnVm, "ltnvm")
-run(dirsLtnC, "ltnc")
+
+
+builder = Builder("clang++", flags)
+
+builder.buildLib(dirsShared, "ltnShared") 
+builder.build(dirsLtnC, "ltnc")
+builder.build(dirsLtnA, "ltna")
+builder.build(dirsLtnVm, "ltnvm")

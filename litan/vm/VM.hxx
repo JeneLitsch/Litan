@@ -3,7 +3,7 @@
 #include <stack>
 #include <vector>
 #include "LtnFloat.hxx"
-#include "VMInstructions.hxx"
+#include "LtnInstructions.hxx"
 #include "Environment.hxx"
 
 #include "IExtension.hxx"
@@ -26,7 +26,7 @@ namespace ltn {
 		void init(const std::vector<std::uint64_t> & byteCode);
 		void reset();
 		Status run();
-		void installExtension(IExtension & ext, IExtension::Slot slot);
+		void installExtension(IExtension & ext, Slot slot);
 
 	private:
 		Environment env;

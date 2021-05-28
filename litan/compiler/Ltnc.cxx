@@ -21,5 +21,7 @@ std::string ltnc::LTNC::compile(
 	if(!silent) std::cout << ">> Compiling..." << std::endl;
 	auto asmb = compiler.compile(ast, optimizationLevel, comments);
 	if(!silent) std::cout << ">> Done compiling code!" << std::endl;
+	std::cout << std::endl;
 	return asmb;
+
 }

@@ -4,6 +4,8 @@ vm
 *.odt
 *.o
 *.dblite
+*.a
+.scons
 ltnc
 ltna
 ltnvm

@@ -12,7 +12,7 @@ ltn::VM::VM() :
 	this->reset();
 }
 
-void ltn::VM::installExtension(IExtension & ext, IExtension::Slot slot){
+void ltn::VM::installExtension(IExtension & ext, Slot slot){
 	this->extensions[static_cast<unsigned>(slot)] = &ext;
 	ext.setEnvironsment(this->env);
 }

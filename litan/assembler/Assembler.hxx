@@ -1,5 +1,5 @@
 #pragma once
-#include "VMInstructions.hxx"
+#include "LtnInstructions.hxx"
 #include <vector>
 #include <string>
 #include <map>
@@ -10,7 +10,7 @@ namespace ltn {
 	class Assembler {
 	public:
 		std::vector<std::uint64_t> assemble(const std::vector<TokenPackage> & tokens);
-		void registerAlias(const std::string & alias, IExtension::Slot slot, std::uint8_t funct);
+		void registerAlias(const std::string & alias, Slot slot, std::uint8_t funct);
 		void setIncludeDirectories(const std::vector<std::string> & includeDirectories);
 	private:
 		void searchMarkers(const std::vector<TokenPackage> & lines);

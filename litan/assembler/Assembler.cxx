@@ -17,7 +17,7 @@ void ltn::Assembler::searchMarkers(const std::vector<TokenPackage> & tokenPackag
 		}
 	}
 }
-void ltn::Assembler::registerAlias(const std::string & alias, IExtension::Slot slot, std::uint8_t funct){
+void ltn::Assembler::registerAlias(const std::string & alias, Slot slot, std::uint8_t funct){
 	this->pseudoAssembler.registerAlias(alias, slot, funct);
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "Environment.hxx"
-#include "VMInstructions.hxx"
+#include "LtnInstructions.hxx"
 #include <stack>
 namespace ltn{
 	class LoopExtension {
