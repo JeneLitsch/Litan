@@ -1,0 +1,412 @@
+-> MAIN 
+call FNX_main_0
+
+exit 
+-> FNX_main_0
+newi 0
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+load 0
+newi 1
+addi
+store 0
+return 

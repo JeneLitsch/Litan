@@ -1,6 +1,6 @@
 #pragma once
 #include "Register.hxx"
-#include "Float.hxx"
+#include "LtnFloat.hxx"
 #include <vector>
 #include <stack>
 namespace ltn{

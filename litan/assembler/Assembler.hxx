@@ -5,12 +5,11 @@
 #include <map>
 #include "AssemblerParser.hxx"
 #include "PseudoAssembler.hxx"
-#include "Script.hxx"
-#include "ByteCode.hxx"
+#include "TokenPackage.hxx"
 namespace ltn {
 	class Assembler {
 	public:
-		ByteCode assemble(const Script & script);
+		std::vector<std::uint64_t> assemble(const std::vector<TokenPackage> & tokens);
 		void registerAlias(const std::string & alias, IExtension::Slot slot, std::uint8_t funct);
 		void setIncludeDirectories(const std::vector<std::string> & includeDirectories);
 	private:

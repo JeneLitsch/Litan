@@ -1,0 +1,32 @@
+-> MAIN 
+call FNX_main_0
+
+exit 
+// main 0 -> 0
+-> FNX_main_0
+// assign to int var a
+newi 0
+store 0
+newi -100
+newi 100
+loop::range 
+loop::idx 
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+loop::cont 
+newi -200
+newi 200
+loop::range 
+loop::idx 
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+loop::cont 
+return 

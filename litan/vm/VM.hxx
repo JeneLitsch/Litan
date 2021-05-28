@@ -2,14 +2,14 @@
 #include <cstdint>
 #include <stack>
 #include <vector>
-#include "Float.hxx"
+#include "LtnFloat.hxx"
 #include "VMInstructions.hxx"
 #include "Environment.hxx"
 
 #include "IExtension.hxx"
 #include "ArrayExtension.hxx"
 #include "LoopExtension.hxx"
-#include "ByteCode.hxx"
+
 namespace ltn {
 	// the i prefix means integer
 	// the f prefix means floating point
@@ -23,11 +23,10 @@ namespace ltn {
 			ERROR
 		};
 		VM();
-		void init(const ByteCode & byteCode);
+		void init(const std::vector<std::uint64_t> & byteCode);
 		void reset();
 		Status run();
 		void installExtension(IExtension & ext, IExtension::Slot slot);
-	protected:
 
 	private:
 		Environment env;

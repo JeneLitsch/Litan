@@ -18,8 +18,8 @@ void ltn::VM::installExtension(IExtension & ext, IExtension::Slot slot){
 }
 
 
-void ltn::VM::init(const ByteCode & byteCode){
-	this->env.instructions = byteCode.getInstructions();
+void ltn::VM::init(const std::vector<std::uint64_t> & byteCode){
+	this->env.instructions = byteCode;
 	this->reset();
 }
 

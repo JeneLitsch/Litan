@@ -24,31 +24,46 @@ flags += [
 
 print(flags)
 
-dirs = [
+dirsLtnVm = [
 	".",
 	"cli",
-	"litan",
-	"litan/program",
-	"litan/utils",
+	"litan/shared",
+	"litan/shared/program",
 	"litan/vm",
 	"litan/vm/registers",
 	"litan/vm/extensions",
 	"litan/assembler",
 ]
 
-incl = []
-libs = []
+dirsLtnC = [
+	".",
+	"litan/shared",
+	"litan/compiler",
+	"litan/compiler/utils",
+	"litan/compiler/lexer",
+	"litan/compiler/parser",
+	"litan/compiler/parser/nodes",
+	"litan/compiler/parser/nodes/expr",
+	"litan/compiler/parser/nodes/stmt",
+	"litan/compiler/parser/nodes/decl",
+	"litan/compiler/compiler",
+	"litan/compiler/compiler/evaluation",
+	"litan/compiler/compiler/components",
+]
+
+def run(dirs, target):
+	files = []
+	for dir in dirs:
+		files.append(Glob(dir + "/*.cxx"))
 
 
-files = []
-for dir in dirs:
-	files.append(Glob(dir + "/*.cxx"))
+	env = Environment(CXX = "clang++", CXXFLAGS = flags, CPPPATH = dirs, CPPDEFINES = [], LIBS = [], LIBPATH = ".", SCONS_CXX_STANDART="c++20", 
+		CXXCOMSTR = "[Compiling] $TARGET",
+		LINKCOMSTR = "[Linking] $TARGET")
+	env.Append(CPPDEFINES = [
+		"SFML_STATIC"
+	])
+	env.Program(target, files)
 
-
-env = Environment(CXX = "clang++", CXXFLAGS = flags, CPPPATH = dirs + incl, CPPDEFINES = [], LIBS = libs, LIBPATH = ".", SCONS_CXX_STANDART="c++20", 
-	CXXCOMSTR = "[Compiling] $TARGET",
-	LINKCOMSTR = "[Linking] $TARGET")
-env.Append(CPPDEFINES = [
-	"SFML_STATIC"
-])
-env.Program('vm', files)
+run(dirsLtnVm, "ltnvm")
+run(dirsLtnC, "ltnc")

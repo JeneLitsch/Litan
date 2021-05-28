@@ -22,14 +22,14 @@ void ltn::Assembler::registerAlias(const std::string & alias, IExtension::Slot s
 }
 
 // assemble code
-ltn::ByteCode ltn::Assembler::assemble(const Script & script){
+std::vector<std::uint64_t> ltn::Assembler::assemble(const std::vector<TokenPackage> & tokens){
 	this->markers.clear();
 	this->instructions.clear();
 	
 	
 	std::size_t lineNr = 1;
 	
-	std::vector<TokenPackage> tokenPackages = pseudoAssembler.process(script.getCommands(), includeDirectories);
+	std::vector<TokenPackage> tokenPackages = pseudoAssembler.process(tokens, includeDirectories);
 
 	this->searchMarkers(tokenPackages);
 	if(!this->markers.contains("MAIN")){
@@ -46,7 +46,7 @@ ltn::ByteCode ltn::Assembler::assemble(const Script & script){
 		}
 		lineNr++;
 	}
-	return ByteCode(this->instructions);
+	return this->instructions;
 }
 
 void ltn::Assembler::setIncludeDirectories(const std::vector<std::string> & includeDirectories){

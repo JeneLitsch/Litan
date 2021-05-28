@@ -1,5 +1,5 @@
 #include "PseudoAssembler.hxx"
-#include "Float.hxx"
+#include "LtnFloat.hxx"
 #include "AssemblerParser.hxx"
 #include <fstream>
 #include <stdexcept>

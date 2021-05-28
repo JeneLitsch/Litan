@@ -1,0 +1,1428 @@
+-> MAIN 
+call FNX_main_0
+
+exit 
+// main 0 -> 0
+-> FNX_main_0
+// assign to int var a
+newi 0
+store 0
+newi -100
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -99
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -98
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -97
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -96
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -95
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -94
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -93
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -92
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -91
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -90
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -89
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -88
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -87
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -86
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -85
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -84
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -83
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -82
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -81
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -80
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -79
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -78
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -77
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -76
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -75
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -74
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -73
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -72
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -71
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -70
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -69
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -68
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -67
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -66
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -65
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -64
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -63
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -62
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -61
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -60
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -59
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -58
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -57
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -56
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -55
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -54
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -53
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -52
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -51
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -50
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -49
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -48
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -47
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -46
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -45
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -44
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -43
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -42
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -41
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -40
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -39
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -38
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -37
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -36
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -35
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -34
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -33
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -32
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -31
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -30
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -29
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -28
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -27
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -26
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -25
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -24
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -23
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -22
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -21
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -20
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -19
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -18
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -17
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -16
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -15
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -14
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -13
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -12
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -11
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -10
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -9
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -8
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -7
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -6
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -5
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -4
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -3
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -2
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -1
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 0
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 1
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 2
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 3
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 4
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 5
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 6
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 7
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 8
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 9
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 10
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 11
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 12
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 13
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 14
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 15
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 16
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 17
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 18
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 19
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 20
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 21
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 22
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 23
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 24
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 25
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 26
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 27
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 28
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 29
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 30
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 31
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 32
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 33
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 34
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 35
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 36
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 37
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 38
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 39
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 40
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 41
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 42
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 43
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 44
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 45
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 46
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 47
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 48
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 49
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 50
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 51
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 52
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 53
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 54
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 55
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 56
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 57
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 58
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 59
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 60
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 61
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 62
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 63
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 64
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 65
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 66
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 67
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 68
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 69
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 70
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 71
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 72
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 73
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 74
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 75
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 76
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 77
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 78
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 79
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 80
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 81
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 82
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 83
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 84
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 85
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 86
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 87
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 88
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 89
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 90
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 91
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 92
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 93
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 94
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 95
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 96
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 97
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 98
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 99
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi 100
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+newi -200
+newi 200
+loop::range 
+loop::idx 
+store 1
+// assign to int var a
+newi 15
+load 0
+addi
+store 0
+loop::cont 
+return 

@@ -1,0 +1,1 @@
+./ltnc example/fib/fib.ltn -O3 -C example/fib/file1.ltns example/fib/file2.ltns
