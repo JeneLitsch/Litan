@@ -3,6 +3,7 @@
 
 ### Components
 - ltnc:   Compiler
+- ltna:   Assembler
 - ltnvm:  Virtual Machine
 
 
