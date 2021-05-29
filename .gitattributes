@@ -1,5 +1,5 @@
 
-*.ltn linguist-detectable=true
+*.ltn linguist-detectable=false
 *.ltn linguist-language=text
 
 *.hex.ltn linguist-detectable=false
