@@ -24,6 +24,8 @@ std::shared_ptr<ltnc::Stmt> ltnc::ParserStmt::eval(ParserPackage & parsePkg) con
 std::shared_ptr<ltnc::Stmt> ltnc::ParserStmt::stmt(ParserPackage & parsePkg) const {
 	if(auto stmt = this->block->eval(parsePkg)) return stmt;
 	if(auto stmt = this->print->eval(parsePkg)) return stmt;
+	if(auto stmt = this->print->eval(parsePkg)) return stmt;
+	if(auto stmt = this->asmBlock(parsePkg)) return stmt;
 	
 	if(parsePkg.match(TokenType::IDENTIFIER)) return this->assign->eval(parsePkg);
 
@@ -119,4 +121,21 @@ std::shared_ptr<ltnc::StmtWhile> ltnc::ParserStmt::whileLoop(ParserPackage & par
 		return parsePkg.error("expected )");
 	}
 	return parsePkg.error("Invalid while loop");
+}
+
+std::shared_ptr<ltnc::StmtAsm> ltnc::ParserStmt::asmBlock(ParserPackage & parsePkg) const {
+	if(parsePkg.match(TokenType::ASM)){
+		auto asmStmt = std::make_shared<StmtAsm>();
+		if(parsePkg.match(TokenType::L_BRACE)){
+			while(parsePkg.match(TokenType::STRING_LITERAL)) {
+				asmStmt->instructions.push_back(parsePkg.prev().string);
+			}
+			if(parsePkg.match(TokenType::R_BRACE)){
+				return asmStmt;
+			}
+			return parsePkg.error("Expected } after asm block");
+		}
+		return parsePkg.error("Expected { before asm block and after \"asm\" keyword");
+	}
+	return nullptr;
 }

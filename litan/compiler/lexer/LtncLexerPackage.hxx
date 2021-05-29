@@ -18,8 +18,10 @@ namespace ltnc {
 
 		std::string makeLexeme() const;
 		void newToken(TokenType type);
+		void newToken(TokenType type, const std::string & lexeme);
+		void addToken(Token token);
 		const std::vector<Token> getTokens() const;
-		std::nullptr_t error(const std::string & msg, LexerPackage & lexPkg);
+		std::nullptr_t error(const std::string & msg);
 
 	private:
 		unsigned getLine() const;

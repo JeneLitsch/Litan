@@ -1,0 +1,11 @@
+-> MAIN 
+call FNX_main_0
+
+exit 
+-> FNX_main_0
+call FNX_asmFx_1
+print
+return 
+-> FNX_asmFx_1
+newi 42
+return

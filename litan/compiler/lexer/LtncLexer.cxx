@@ -41,7 +41,7 @@ std::vector<ltnc::Token> ltnc::Lexer::tokenize(const std::string & str) {
 				LNC::ignoreLine()
 			}),
 		}),
-
+		LNC::string(),
 		LNC::newLine(),
 		LNC::ignore('\t'),
 		LNC::ignore(' '),
@@ -67,7 +67,7 @@ void ltnc::Lexer::process(LexerPackage & lexPkg, LexerNode & tree) {
 		return;
 	}
 	else {
-		lexPkg.error("Error: Unknown token: " + lexPkg.makeLexeme(), lexPkg);
+		lexPkg.error("Error: Unknown token: " + lexPkg.makeLexeme());
 	}
 }
 

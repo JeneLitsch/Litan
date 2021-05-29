@@ -16,5 +16,6 @@ namespace ltnc {
 
 		static LexerNode numliteral();
 		static LexerNode identifier();
+		static LexerNode string();
 	};
 }

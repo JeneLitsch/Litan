@@ -28,6 +28,7 @@ namespace ltnc {
 		std::string compileFunction(CompilerPack & compPkg, std::shared_ptr<DeclFunction> stmt);
 		std::string compileEval(CompilerPack & compPkg, std::shared_ptr<StmtExpr> stmt);
 		std::string compileReturn(CompilerPack & compPkg, std::shared_ptr<StmtReturn> stmt);
+		std::string compileAsm(CompilerPack & compPkg, std::shared_ptr<StmtAsm> stmt);
 
 		ExprCompiler & exprCompiler;
 	};

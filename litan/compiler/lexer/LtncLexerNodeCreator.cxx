@@ -114,6 +114,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	keywords.insert({"while", TokenType::WHILE});
 	keywords.insert({"return", TokenType::RETURN});
 	keywords.insert({"repeat", TokenType::REPEAT});
+	keywords.insert({"asm", TokenType::ASM});
 
 	return LexerNode([keywords](LexerPackage & lexPkg) {
 		if(lexPkg.matchAlpha()) {
@@ -131,3 +132,21 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	});
 }
 
+ltnc::LexerNode ltnc::LexerNodeCreator::string() {
+	return LexerNode([](LexerPackage & lexPkg) {
+		if(lexPkg.match('"')){
+			while(!lexPkg.match('"')) {
+				lexPkg.next();
+				if(lexPkg.isAtEnd()) {
+					lexPkg.error("Unterminated string");
+				}
+			}
+			std::string lexeme = lexPkg.makeLexeme(); 
+			lexPkg.newToken(
+				TokenType::STRING_LITERAL,
+				lexeme.substr(1, lexeme.size()-2));
+			return true;
+		}
+		return false;
+	});
+}

@@ -60,13 +60,21 @@ unsigned ltnc::LexerPackage::getLine() const {
 }
 
 void ltnc::LexerPackage::newToken(TokenType type) {
-	this->tokens.push_back(Token(type, this->makeLexeme(), line));
+	this->addToken(Token(type, this->makeLexeme(), line));
+}
+
+void ltnc::LexerPackage::newToken(TokenType type, const std::string & lexeme) {
+	this->addToken(Token(type, lexeme, line));
+}
+
+void ltnc::LexerPackage::addToken(Token token) {
+	this->tokens.push_back(token);
 }
 
 const std::vector<ltnc::Token> ltnc::LexerPackage::getTokens() const {
 	return this->tokens;
 }
 
-std::nullptr_t ltnc::LexerPackage::error(const std::string & msg, LexerPackage & lexPkg) {
-	throw std::runtime_error("Lexer-Error: " + msg + " in line " + std::to_string(lexPkg.getLine()) + " at " + lexPkg.getTokens().back().string);
+std::nullptr_t ltnc::LexerPackage::error(const std::string & msg) {
+	throw std::runtime_error("Lexer-Error: " + msg + " in line " + std::to_string(this->getLine()) + " at " + this->getTokens().back().string);
 }

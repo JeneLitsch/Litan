@@ -75,6 +75,10 @@ namespace ltnc {
 		std::shared_ptr<Stmt> stmtElse;
 		virtual ~StmtIf() = default;
 	};
-	
+
+	struct StmtAsm : public Stmt {
+		std::vector<std::string> instructions;
+		virtual ~StmtAsm() = default;
+	};
 
 }

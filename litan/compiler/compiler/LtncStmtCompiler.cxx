@@ -46,6 +46,9 @@ std::string ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shared_
 	if(auto stmt_ = std::dynamic_pointer_cast<ltnc::StmtReturn>(stmt)) {
 		return this->compileReturn(compPkg, stmt_);
 	}
+	if(auto stmt_ = std::dynamic_pointer_cast<ltnc::StmtAsm>(stmt)) {
+		return this->compileAsm(compPkg, stmt_);
+	}
 	return "";
 }
 
@@ -302,5 +305,13 @@ std::string ltnc::StmtCompiler::compileReturn(CompilerPack & compPkg, std::share
 		}
 	}
 	code += "return \n";
+	return code;
+}
+
+std::string ltnc::StmtCompiler::compileAsm(CompilerPack & compPkg, std::shared_ptr<StmtAsm> stmt) {
+	std::string code;
+	for(const std::string & instruction : stmt->instructions) {
+		code += instruction + "\n";
+	}
 	return code;
 }

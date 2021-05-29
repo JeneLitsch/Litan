@@ -19,6 +19,7 @@ namespace ltnc {
 		std::shared_ptr<StmtFor> forLoop(ParserPackage & parsePkg) const;
 		std::shared_ptr<StmtRepeat> repeatLoop(ParserPackage & parsePkg) const;
 		std::shared_ptr<StmtWhile> whileLoop(ParserPackage & parsePkg) const;
+		std::shared_ptr<StmtAsm> asmBlock(ParserPackage & parsePkg) const;
 		
 		const ParserNode<StmtBlock> * block; 
 		const ParserNode<Stmt> * print; 
