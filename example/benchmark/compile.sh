@@ -12,4 +12,4 @@ echo "Compile: O2"
 echo ""
 echo "Compile: O3"
 ./ltnc example/benchmark/testO3.asm.ltn -O3 -c example/benchmark/test.ltn
-./ltna example/benchmark/testO3.hex.ltnx example/benchmark/testO3.asm.ltn -hex
+./ltna example/benchmark/testO3.hex.ltn example/benchmark/testO3.asm.ltn -hex
