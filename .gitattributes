@@ -1,8 +1,7 @@
-*.hex.ltn linguist-detectable=false
-*.hex.ltn linguist-language=binary
-
-*.bin.ltn linguist-detectable=false
-*.bin.ltn linguist-language=binary
 
 *.ltn linguist-detectable=true
 *.ltn linguist-language=text
+
+*.hex.ltn linguist-detectable=false
+
+*.bin.ltn linguist-detectable=false
