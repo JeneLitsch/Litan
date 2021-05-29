@@ -145,6 +145,7 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 
 		if(pkg.inst == "newl") return this->vFormat(InstCode::NEWL, toInt32(pkg.args[0])); 
 		if(pkg.inst == "newu") return this->vFormat(InstCode::NEWU, toInt32(pkg.args[0])); 
+		if(pkg.inst == "stackalloc") return this->vFormat(InstCode::STACKALLOC, toInt32(pkg.args[0])); 
 		if(pkg.inst == "->") return;
 
 		if(pkg.inst == "print") return this->sFormat(InstCode::PRINT, static_cast<std::uint8_t>(toInt32(pkg.args[0])), 0, 0);

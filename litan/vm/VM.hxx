@@ -30,7 +30,6 @@ namespace ltn {
 
 	private:
 		Environment env;
-		std::array<std::uint64_t, 256> newStackFrame();
 		ArrayExtension arrayExt;
 		LoopExtension loopExt;
 		std::array<IExtension*, 8> extensions;
@@ -56,6 +55,8 @@ namespace ltn {
 		void array();
 		void loop();
 		void fetch();
+		void init();
+		void stackalloc();
 
 		void casti(); void castf();
 

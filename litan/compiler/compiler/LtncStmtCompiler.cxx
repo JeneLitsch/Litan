@@ -249,19 +249,23 @@ std::string ltnc::StmtCompiler::compileFunction(CompilerPack & compPkg, std::sha
 	for(const Param & param : decl->signature.params) {
 		compPkg.getScopes().get().registerVar(param.name, param.type);
 	}
-
+	// eval body
+	std::string bodyCode = this->compileStmt(compPkg, decl->body);
 
 	// create code;
 	std::string code;
 	code += this->comment(decl->signature.name + " " + std::to_string(decl->signature.params.size()) + " -> " + std::to_string(static_cast<int>(decl->signature.returnType.type)));
 	code += "-> " + fxInfo.jumpMark + "\n";
 	// load params into memory (backwards because LIFO)
+	std::uint64_t varCount = compPkg.getScopes().get().getSize();
 	for(auto param = decl->signature.params.rbegin(); param != decl->signature.params.rend(); ++param) {
 		// store parameter;
+		std::uint64_t varAddr = compPkg.getScopes().get().getVar((*param).name).addr;
+		code += "stackalloc " + std::to_string(varCount) + "\n";
 		code += this->comment("store parameter " + param->name);
-		code += "store " + std::to_string(compPkg.getScopes().get().getVar((*param).name).addr) + "\n";
+		code += "store " + std::to_string(varAddr) + "\n";
 	}
-	code += this->compileStmt(compPkg, decl->body);
+	code += bodyCode;
 	compPkg.getScopes().remove();
 	return code;
 }

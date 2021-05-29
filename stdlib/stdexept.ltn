@@ -1,4 +1,4 @@
-fnx throw() voi {
+fnx error() voi {
 	asm {
 		"error"
 	}

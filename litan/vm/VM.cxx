@@ -23,28 +23,17 @@ void ltn::VM::init(const std::vector<std::uint64_t> & byteCode){
 	this->reset();
 }
 
-
-std::array<std::uint64_t, 256> ltn::VM::newStackFrame(){
-	std::array<std::uint64_t, 256> frame;
-	frame.fill(0);
-	return frame;
-}
-
-
 void ltn::VM::reset(){
 	
 
 	//reset 
 	this->env.pc = 0;
-	this->env.stack_ptr = 0;
-	this->env.memory = {};
 
 	this->loopExt.reset();
 	this->arrayExt.reset();
 
 	// clear stack
 	this->env.acc.reset();
-	this->env.adr.reset();
 }
 
 ltn::VM::Status ltn::VM::run(){
@@ -83,7 +72,8 @@ ltn::VM::Status ltn::VM::execute(){
 		case InstCode::SCRAP: this->scrap(); break;
 		case InstCode::CLEAR: this->clear(); break;
 		case InstCode::FETCH: this->fetch(); break;
-		case InstCode::INIT: this->env.memory.push(this->newStackFrame()); break;
+		case InstCode::INIT: this->init(); break;
+		case InstCode::STACKALLOC: this->stackalloc(); break;
 
 		case InstCode::NEWL: this->newl(); break;
 		case InstCode::NEWU: this->newu(); break;
@@ -152,9 +142,6 @@ ltn::VM::Status ltn::VM::execute(){
 		if(this->env.acc.isFull()){
 			throw std::runtime_error("Stack limit one on acc is reached");
 		}
-		if(this->env.adr.isFull()){
-			throw std::runtime_error("Stack limit one on adr is reached");
-		}
 	}
 }
 
@@ -166,12 +153,12 @@ void ltn::VM::exit(){
 // copy value from memory to acc
 void ltn::VM::load(){
 	std::uint32_t addr = static_cast<std::uint32_t>(this->env.pollU());
-	this->env.acc.push(this->env.memory.top()[this->env.resolveAddr(addr)]);
+	this->env.acc.push(this->env.callStack.top().memoryBlock[this->env.resolveAddr(addr)]);
 }
 // pop value from acc and write to memory
 void ltn::VM::store(){
 	std::uint32_t addr = static_cast<std::uint32_t>(this->env.pollU());
-	this->env.memory.top()[this->env.resolveAddr(addr)] = this->env.pollU();
+	this->env.callStack.top().memoryBlock[this->env.resolveAddr(addr)] = this->env.pollU();
 }
 
 void ltn::VM::copy(){
@@ -214,6 +201,13 @@ void ltn::VM::loop(){
 // TODO
 void ltn::VM::fetch(){
 	std::cout << "Fetch" << std::endl;
+}
+
+void ltn::VM::init() {
+	this->env.callStack.push(StackFrame()); 
+}
+void ltn::VM::stackalloc() {
+	this->env.callStack.top().memoryBlock.resize(this->env.callStack.top().memoryBlock.size() + this->getArg32());
 }
 
 void ltn::VM::casti(){
@@ -405,9 +399,8 @@ void ltn::VM::spshf(){
 
 // jump and push address to adrStack
 void ltn::VM::call(){
-	this->env.adr.push(this->env.pc);
-	this->env.memory.push(this->newStackFrame());
-	this->got0();
+	this->env.callStack.push(StackFrame(this->env.pc));
+	this->env.pc = this->getArg56();
 }
 // jump without pushign the address to adrStack
 void ltn::VM::got0(){
@@ -415,8 +408,8 @@ void ltn::VM::got0(){
 }
 // pop last address from adrStack and jump to it 
 void ltn::VM::rtrn(){
-	this->env.pc = this->env.adr.pop();
-	this->env.memory.pop();
+	this->env.pc = this->env.callStack.top().jumpback;
+	this->env.callStack.pop();
 }
 // skip one instruction if value popped is 0
 void ltn::VM::ifsk(){
