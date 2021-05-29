@@ -5,6 +5,6 @@
 *.asm.ltn linguist-language=assembly
 
 *.hex.ltn linguist-detectable=true
-*.hex.ltn linguist-language="Pure Data"
+*.hex.ltn linguist-language=Pure Data
 *.bin.ltn linguist-detectable=true
-*.bin.ltn linguist-language="Pure Data"
+*.bin.ltn linguist-language=Pure Data
