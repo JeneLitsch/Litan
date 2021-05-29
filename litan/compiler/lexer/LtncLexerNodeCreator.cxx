@@ -107,7 +107,6 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	keywords.insert({"voi", TokenType::VOI});
 	keywords.insert({"con", TokenType::CON});
 	keywords.insert({"fnx", TokenType::FNX});
-	keywords.insert({"print", TokenType::PRINT});
 	keywords.insert({"if", TokenType::IF});
 	keywords.insert({"else", TokenType::ELSE});
 	keywords.insert({"for", TokenType::FOR});
@@ -118,7 +117,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 
 	return LexerNode([keywords](LexerPackage & lexPkg) {
 		if(lexPkg.matchAlpha()) {
-			while(!lexPkg.isAtEnd() && lexPkg.matchAlpha());
+			while(lexPkg.matchAlpha() || lexPkg.match('_'));
 			std::string lexeme = lexPkg.makeLexeme();
 			if(keywords.contains(lexeme)) {
 				lexPkg.newToken(keywords.at(lexeme));

@@ -37,9 +37,6 @@ std::string ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shared_
 	if(auto stmt_ = std::dynamic_pointer_cast<ltnc::StmtWhile>(stmt)) {
 		return this->compileWhile(compPkg, stmt_);
 	}
-	if(auto stmt_ = std::dynamic_pointer_cast<ltnc::StmtPrint>(stmt)) {
-		return this->compilePrint(compPkg, stmt_);
-	}
 	if(auto stmt_ = std::dynamic_pointer_cast<ltnc::StmtExpr>(stmt)) {
 		return this->compileEval(compPkg, stmt_);
 	}
@@ -50,16 +47,6 @@ std::string ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shared_
 		return this->compileAsm(compPkg, stmt_);
 	}
 	return "";
-}
-
-
-std::string ltnc::StmtCompiler::compilePrint(CompilerPack & compPkg, std::shared_ptr<StmtPrint> stmt) {
-	auto expr = exprCompiler.compileExpr(compPkg, stmt->expr);
-	switch (expr.type.type) {
-	case Type::INT: return expr.code + "print\n";
-	case Type::FLT: return expr.code + "print 1\n";
-	default: throw std::runtime_error("[should never occur] Error while compiling print");
-	}
 }
 
 

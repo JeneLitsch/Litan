@@ -6,7 +6,6 @@ namespace ltnc {
 	public:
 		void connect(
 			const ParserNode<StmtBlock> & block,
-			const ParserNode<Stmt> & print,
 			const ParserNode<Stmt> & ifelse,
 			const ParserNode<Stmt> & assign,
 			const ParserNode<Expr> & expr,
@@ -22,7 +21,6 @@ namespace ltnc {
 		std::shared_ptr<StmtAsm> asmBlock(ParserPackage & parsePkg) const;
 		
 		const ParserNode<StmtBlock> * block; 
-		const ParserNode<Stmt> * print; 
 		const ParserNode<Stmt> * ifelse; 
 
 		const ParserNode<Stmt> * assign; 

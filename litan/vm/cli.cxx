@@ -38,7 +38,17 @@ void launch(const std::vector<std::uint64_t> & instructions){
 	vm.init(instructions);
 	vm.reset();
 	std::cout << ">> Starting vm" << std::endl;
-	vm.run();
+	switch (vm.run()) {
+		case ltn::VM::Status::EXITED:
+			std::cout << ">> Terminated" << std::endl;
+			return;
+		case ltn::VM::Status::ERROR:
+			std::cout << ">> Error" << std::endl;
+			return;
+		case ltn::VM::Status::SUSPENDED:
+			std::cout << ">> Suspended" << std::endl;
+			break;
+	}
 	std::cout << ">> Terminated" << std::endl;
 }
 
@@ -76,7 +86,7 @@ int main(int argc, char const *argv[]) {
 	}
 	
 
-	if(mode == "-asm"){
+	if(mode == "-run"){
 		launch(load(file, format));
 	}
 

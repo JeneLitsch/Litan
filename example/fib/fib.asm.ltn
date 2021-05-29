@@ -2,20 +2,15 @@
 call FNX_main_0
 
 exit 
-// main 0 -> 0
 -> FNX_main_0
 newi 50
 call FNX_fib_1
 
 return 
-// fib 1 -> 0
 -> FNX_fib_1
-// store parameter end
 store 0
-// assign to int var curr
 newi 1
 store 1
-// assign to int var last
 newi 0
 store 2
 newi 1
@@ -24,27 +19,34 @@ loop::range
 loop::idx 
 store 4
 load 1
-print
-// assign to int var next
+call FNX_print_3
+
 load 2
 load 1
 call FNX_fibNext_2
 store 5
-// assign to int var last
 load 1
 store 2
-// assign to int var curr
 load 5
 store 1
 loop::cont 
 return 
-// fibNext 2 -> 1
 -> FNX_fibNext_2
-// store parameter curr
 store 1
-// store parameter last
 store 0
 load 0
 load 1
 addi
 return 
+-> FNX_print_3
+store 0
+load 0
+print
+return
+-> FNX_print_4
+store 0
+load 0
+print 1
+return
+-> FNX_throw_5
+error

@@ -5,7 +5,6 @@
 #include "LtncParserPackage.hxx"
 
 #include "LtncParserStmt.hxx"
-#include "LtncParserPrint.hxx"
 #include "LtncParserAssign.hxx"
 #include "LtncParserDeclInt.hxx"
 #include "LtncParserDeclFlt.hxx"
@@ -30,7 +29,6 @@ namespace ltnc {
 
 		ParserStmt stmt;
 		ParserBlock block;
-		ParserPrint print;
 		ParserIfElse ifelse;
 		ParserAssign assign;
 		ParserDeclInt declInt;

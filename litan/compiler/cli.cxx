@@ -107,7 +107,10 @@ namespace ltnc {
 	};
 }
 
-
+std::string getStdCode() {
+	return 
+		ltn::readFile("stdlib/stdio.ltn") + ltn::readFile("stdlib/stdexept.ltn");
+}
 
 
 int main(int argc, char const *argv[]) {
@@ -143,7 +146,11 @@ int main(int argc, char const *argv[]) {
 	}
 	try {
 		ltnc::LTNC ltnc;
-		std::string asmb = ltnc.compile(source, args.getComments(), args.getSilent(), args.getOptimizationLevel());
+		std::string asmb = ltnc.compile(
+			source + getStdCode(),
+			args.getComments(),
+			args.getSilent(),
+			args.getOptimizationLevel());
 		ltn::writeFile(args.getDstFile(), asmb);
 		return 0;
 	}

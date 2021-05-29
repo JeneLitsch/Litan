@@ -3,14 +3,12 @@
 
 void ltnc::ParserStmt::connect(			
 	const ParserNode<StmtBlock> & block,
-	const ParserNode<Stmt> & print,
 	const ParserNode<Stmt> & ifelse,
 	const ParserNode<Stmt> & assign,
 	const ParserNode<Expr> & expr,
 	const ParserNode<ExprCall> & call) {
 	
 	this->block = &block;
-	this->print = &print;
 	this->ifelse = & ifelse;
 	this->assign = &assign;
 	this->expr = &expr;
@@ -23,8 +21,6 @@ std::shared_ptr<ltnc::Stmt> ltnc::ParserStmt::eval(ParserPackage & parsePkg) con
 
 std::shared_ptr<ltnc::Stmt> ltnc::ParserStmt::stmt(ParserPackage & parsePkg) const {
 	if(auto stmt = this->block->eval(parsePkg)) return stmt;
-	if(auto stmt = this->print->eval(parsePkg)) return stmt;
-	if(auto stmt = this->print->eval(parsePkg)) return stmt;
 	if(auto stmt = this->asmBlock(parsePkg)) return stmt;
 	
 	if(parsePkg.match(TokenType::IDENTIFIER)) return this->assign->eval(parsePkg);

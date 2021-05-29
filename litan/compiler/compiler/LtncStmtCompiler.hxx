@@ -18,7 +18,6 @@ namespace ltnc {
 		std::string compileProgram(CompilerPack & compPkg, std::shared_ptr<Program> program);
 	private:
 		std::string compileStmt(CompilerPack & compPkg, std::shared_ptr<Stmt> stmt);
-		std::string compilePrint(CompilerPack & compPkg, std::shared_ptr<StmtPrint> stmt);
 		std::string compileIf(CompilerPack & compPkg, std::shared_ptr<StmtIf> stmt);
 		std::string compileAssign(CompilerPack & compPkg, std::shared_ptr<StmtAssign> stmt);
 		std::string compileBlock(CompilerPack & compPkg, std::shared_ptr<StmtBlock> stmt);

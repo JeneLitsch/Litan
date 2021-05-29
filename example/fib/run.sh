@@ -1,2 +1,2 @@
-./ltnvm -asm example/fib/fib.hex.ltn -hex
-./ltnvm -asm example/fib/fib.bin.ltn -bin
+./ltnvm -run example/fib/fib.hex.ltn -hex
+./ltnvm -run example/fib/fib.bin.ltn -bin

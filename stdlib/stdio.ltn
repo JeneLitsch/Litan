@@ -1,0 +1,16 @@
+
+fnx print(int num) voi {
+	asm {
+		"load 0"
+		"print"
+		"return"
+	}
+}
+
+fnx print(flt num) voi {
+	asm {
+		"load 0"
+		"print 1"
+		"return"
+	}
+}

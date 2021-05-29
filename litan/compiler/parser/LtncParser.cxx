@@ -4,9 +4,8 @@
 #include "LtncParserPrimary.hxx"
 
 ltnc::Parser::Parser() {
-	this->stmt.connect(this->block, this->print, this->ifelse, this->assign, this->expr, this->call);
+	this->stmt.connect(this->block, this->ifelse, this->assign, this->expr, this->call);
 	this->block.connect(this->stmt, this->declInt, this->declFlt);
-	this->print.connect(this->expr);
 	this->assign.connect(this->expr);
 	this->function.connect(this->block);
 	this->ifelse.connect(this->stmt, this->expr);

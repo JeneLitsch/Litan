@@ -6,7 +6,7 @@ fnx fib (int end) voi {
 	curr = 1;
 	last = 0;
 	for(i, 1, end) {
-		print curr;
+		->print(curr);
 		int next;
 		next = ->fibNext(last, curr);
 		last = curr;
