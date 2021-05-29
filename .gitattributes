@@ -3,5 +3,4 @@
 *.ltn linguist-language=text
 
 *.hex.ltn linguist-detectable=false
-
 *.bin.ltn linguist-detectable=false
