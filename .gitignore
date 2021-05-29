@@ -9,3 +9,6 @@ vm
 ltnc
 ltna
 ltnvm
+example/benchmark/*.asm.ltn
+example/benchmark/*.hex.ltn
+example/benchmark/*.bin.ltn
