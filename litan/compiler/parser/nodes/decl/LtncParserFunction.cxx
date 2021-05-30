@@ -21,6 +21,7 @@ std::shared_ptr<ltnc::DeclFunction> ltnc::ParserFunction::function(ParserPackage
 			while(parsePkg.match({
 				TokenType::VOI,
 				TokenType::INT,
+				TokenType::ARR,
 				TokenType::FLT})) {
 				TokenType tokenType = parsePkg.prev().type;
 				Type type;
@@ -32,6 +33,9 @@ std::shared_ptr<ltnc::DeclFunction> ltnc::ParserFunction::function(ParserPackage
 				}
 				if(tokenType == TokenType::FLT) {
 					type = Type::FLT;
+				}
+				if(tokenType == TokenType::ARR) {
+					type = Type::ARR;
 				}
 				if(parsePkg.match(TokenType::IDENTIFIER)) {
 					std::string name = parsePkg.prev().string;
@@ -56,6 +60,9 @@ std::shared_ptr<ltnc::DeclFunction> ltnc::ParserFunction::function(ParserPackage
 				}
 				else if(parsePkg.match(TokenType::FLT)) {
 					returnType = Type::FLT;
+				}
+				else if(parsePkg.match(TokenType::ARR)) {
+					returnType = Type::ARR;
 				}
 				else {
 					return parsePkg.error("Missing or invalid return type");

@@ -3,6 +3,7 @@
 #include "LtncLexer.hxx"
 #include "LtncParser.hxx"
 #include "LtncCompiler.hxx"
+#include "LtnFileIO.hxx"
 
 std::string ltnc::LTNC::compile(
 	const std::string & source,
@@ -13,8 +14,13 @@ std::string ltnc::LTNC::compile(
 	ltnc::Parser parser;
 	ltnc::Compiler compiler;
 
+	std::string code = source 
+		+ ltn::readFile("stdlib/stdarr.ltn") 
+		+ ltn::readFile("stdlib/stdio.ltn") 
+		+ ltn::readFile("stdlib/stdexept.ltn");
+
 	if(!silent) std::cout << ">> Tokenization..." << std::endl;
-	auto tokens = lexer.tokenize(source);
+	auto tokens = lexer.tokenize(code);
 	if(!silent) std::cout << ">> Parsing..." << std::endl;
 	auto ast = parser.parse(tokens);
 	if(!silent) std::cout << ">> Compiling..." << std::endl;

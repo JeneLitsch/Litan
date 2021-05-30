@@ -8,6 +8,7 @@
 #include "LtncParserAssign.hxx"
 #include "LtncParserDeclInt.hxx"
 #include "LtncParserDeclFlt.hxx"
+#include "LtncParserDeclArr.hxx"
 #include "LtncParserFunction.hxx"
 
 #include "LtncParserExpr.hxx"
@@ -33,6 +34,7 @@ namespace ltnc {
 		ParserAssign assign;
 		ParserDeclInt declInt;
 		ParserDeclFlt declFlt;
+		ParserDeclArr declArr;
 		ParserFunction function;
 
 		ParserExpr expr;

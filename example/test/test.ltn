@@ -1,16 +1,17 @@
 fnx main() voi {
-	->test(4);
-	return;
-}
+	repeat(5) {
+		->print(42);
+	}
 
-fnx test(int a) voi {
-	int b;
-	b = 4;
-	if (b == 4) {
-		int c;
-	}
-	else {
-		int e;
-	}
+	arr array;
+	array = ->newArray();
+
+	->addToArray(array, 10);
+	->addToArray(array, 20);
+	->addToArray(array, 30);
+	->print(->readArrayI(array, 0));
+	->print(->readArrayI(array, 1));
+	->print(->readArrayI(array, 2));
+	->delArray(array);
 	return;
 }

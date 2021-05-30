@@ -4,32 +4,80 @@ exit
 
 
 -> FNX_main_0
-stackalloc 0
-newi 4
-call FNX_test_1
-return 
-
-
--> FNX_test_1
-stackalloc 3
+stackalloc 1
+newi 0
+newi 5
+dec
+loop::range 
+loop::idx 
+newi 42
+call FNX_print_5
+loop::cont 
+call FNX_newArray_1
 store 0
-newi 4
-store 1
-load 1
-newi 4
-eqli
-ifnx
-goto IF_5
-goto ELSE_6
--> IF_5
-goto END_IF_7
--> ELSE_6
-goto END_IF_7
--> END_IF_7
+load 0
+newi 10
+call FNX_addToArray_3
+load 0
+newi 20
+call FNX_addToArray_3
+load 0
+newi 30
+call FNX_addToArray_3
+load 0
+newi 0
+call FNX_readArrayI_4
+call FNX_print_5
+load 0
+newi 1
+call FNX_readArrayI_4
+call FNX_print_5
+load 0
+newi 2
+call FNX_readArrayI_4
+call FNX_print_5
+load 0
+call FNX_delArray_2
 return 
 
 
--> FNX_print_2
+-> FNX_newArray_1
+stackalloc 1
+array::new
+store 1
+load 0
+return 
+
+
+-> FNX_delArray_2
+stackalloc 1
+store 0
+load 0
+array::del
+return 
+
+
+-> FNX_addToArray_3
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+array::add
+return 
+
+
+-> FNX_readArrayI_4
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+array::get
+return
+
+
+-> FNX_print_5
 stackalloc 1
 store 0
 load 0
@@ -37,7 +85,7 @@ print
 return
 
 
--> FNX_print_3
+-> FNX_print_6
 stackalloc 1
 store 0
 load 0
@@ -45,7 +93,7 @@ print 1
 return
 
 
--> FNX_error_4
+-> FNX_error_7
 stackalloc 0
 error
 

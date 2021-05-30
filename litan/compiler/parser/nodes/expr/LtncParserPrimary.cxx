@@ -20,5 +20,6 @@ std::shared_ptr<ltnc::Expr> ltnc::ParserPrimary::eval(ParserPackage & parsePkg) 
 	if (parsePkg.match(TokenType::CALL)) {
 		return this->call->eval(parsePkg);
 	}
+	if (parsePkg.match(TokenType::L_PARAN)) {}
 	return parsePkg.error("No matching expression");
 }

@@ -5,6 +5,7 @@ std::string ltnc::StmtCompiler::compileProgram(CompilerPack & compPkg, std::shar
 	compPkg.getScopes().addFunctionScope(FxSignature(Type::VOI, "", {}));
 	for(const auto & function : program->functions) {
 		compPkg.registerFunction(function);
+		std::cout << function->signature.name << std::endl;
 	}
 	std::string code;
 	code += "-> MAIN \n"; 
@@ -94,7 +95,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::sh
 
 		// unrolling
 		if(shouldBeOptimized) {
-			for(int idx = 0; idx <= amount; idx++) {
+			for(int idx = 0; idx < amount; idx++) {
 				code += codeStmt.code;
 			}
 			return StmtInfo(code, codeStmt.stackalloc);
@@ -106,6 +107,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::sh
 	return StmtInfo(
 		"newi 0\n" +
 		expr.code +
+		"dec\n" +
 		"loop::range \n" +
 		"loop::idx \n" +
 		codeStmt.code +
