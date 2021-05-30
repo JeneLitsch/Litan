@@ -1,13 +1,13 @@
 #pragma once
 #include <string>
+#include "LtncCompilerSettings.hxx"
 namespace ltnc {
 	class LTNC {
 	public:
 		std::string compile(
 			const std::string & source,
-			bool comments,
-			bool silent,
-			unsigned optimizationLevel) const;
+			const CompilerSettings & settings,
+			bool silent) const;
 	private:
 	};
 }

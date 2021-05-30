@@ -6,9 +6,8 @@
 
 std::string ltnc::LTNC::compile(
 	const std::string & source,
-	bool comments,
-	bool silent,
-	unsigned optimizationLevel) const {
+	const CompilerSettings & settings,
+	bool silent) const {
 
 	ltnc::Lexer lexer;
 	ltnc::Parser parser;
@@ -19,7 +18,7 @@ std::string ltnc::LTNC::compile(
 	if(!silent) std::cout << ">> Parsing..." << std::endl;
 	auto ast = parser.parse(tokens);
 	if(!silent) std::cout << ">> Compiling..." << std::endl;
-	auto asmb = compiler.compile(ast, optimizationLevel, comments);
+	auto asmb = compiler.compile(ast, settings);
 	if(!silent) std::cout << ">> Done compiling code!" << std::endl;
 	std::cout << std::endl;
 	return asmb;

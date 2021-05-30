@@ -148,9 +148,10 @@ int main(int argc, char const *argv[]) {
 		ltnc::LTNC ltnc;
 		std::string asmb = ltnc.compile(
 			source + getStdCode(),
-			args.getComments(),
-			args.getSilent(),
-			args.getOptimizationLevel());
+			ltnc::CompilerSettings(
+				args.getComments(),
+				args.getOptimizationLevel()),
+			args.getSilent());
 		ltn::writeFile(args.getDstFile(), asmb);
 		return 0;
 	}

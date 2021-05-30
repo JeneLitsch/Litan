@@ -1,6 +1,7 @@
 #include "LtncCompilerPack.hxx"
 #include <iostream>
-ltnc::CompilerPack::CompilerPack() {
+ltnc::CompilerPack::CompilerPack(const CompilerSettings & settings) 
+	: settings(settings) {
 	this->jumpmarkCounter = 0;
 }
 
@@ -32,4 +33,8 @@ const ltnc::ScopeStack & ltnc::CompilerPack::getScopes() const {
 
 ltnc::ScopeStack & ltnc::CompilerPack::getScopes(){
 	return this->scopeStack;
+}
+
+const ltnc::CompilerSettings & ltnc::CompilerPack::getSettings() const {
+	return this->settings;
 }

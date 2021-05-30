@@ -48,6 +48,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileBinary(CompilerPack & compPkg, std::sh
 	}
 }
 
+
 ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 	CompilerPack & compPkg,
 	std::shared_ptr<ExprBinary> expr,
@@ -59,13 +60,14 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 
 	std::string suffix = this->getSuffux(l, r);
 
-	if(this->getOptimizationLevel()) {		
+	if(compPkg.getSettings().getOptimizationLevel()) {		
 		if(auto optimized = eval.optimize(l, r)) {
 			return *optimized;
 		}
 	}
 	return ExprInfo(l.type, l.code + r.code + command + suffix + "\n");
 }
+
 
 ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 	CompilerPack & compPkg,
@@ -109,6 +111,7 @@ std::string ltnc::ExprCompiler::getSuffux(const ExprInfo & l, const ExprInfo & r
 		default: throw std::runtime_error("Invalid Type for operation");
 	}
 }
+
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileCall(CompilerPack & compPkg, std::shared_ptr<ExprCall> expr) {
 	std::string code;

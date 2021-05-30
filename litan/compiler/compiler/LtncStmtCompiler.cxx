@@ -1,5 +1,6 @@
 #include "LtncStmtCompiler.hxx"
 #include <iostream>
+
 std::string ltnc::StmtCompiler::compileProgram(CompilerPack & compPkg, std::shared_ptr<Program> program){
 	compPkg.getScopes().addFunctionScope(FxSignature(Type::VOI, "", {}));
 	for(const auto & function : program->functions) {
@@ -9,14 +10,13 @@ std::string ltnc::StmtCompiler::compileProgram(CompilerPack & compPkg, std::shar
 	code += "-> MAIN \n"; 
 	code += this->compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main")));
 	code += "exit \n";
+	code += "\n\n";
 	for(const auto & function : program->functions) {
 		code += this->compileFunction(compPkg, function);
 	}
 	
 	return code;
 }
-
-
 
 std::string ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shared_ptr<Stmt> stmt){
 	if(auto stmt_ = std::dynamic_pointer_cast<ltnc::StmtAssign>(stmt)) {
@@ -44,7 +44,7 @@ std::string ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shared_
 		return this->compileReturn(compPkg, stmt_);
 	}
 	if(auto stmt_ = std::dynamic_pointer_cast<ltnc::StmtAsm>(stmt)) {
-		return this->compileAsm(compPkg, stmt_);
+		return this->asmBlock.compile(compPkg, stmt_);
 	}
 	return "";
 }
@@ -58,7 +58,7 @@ std::string ltnc::StmtCompiler::compileAssign(CompilerPack & compPkg, std::share
 
 	if(expr.type != var.type) throw std::runtime_error("Types do not match: " + expr.code);
 
-	return this->comment("assign to int var " + stmt->name) + expr.code
+	return this->comment(compPkg, "assign to int var " + stmt->name) + expr.code
 		+ "store " + std::to_string(var.addr) + "\n";
 }
 
@@ -77,6 +77,7 @@ std::string ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::share
 	std::string codeStmt = this->compileBlock(compPkg, stmt->stmt);
 	compPkg.getScopes().remove();
 
+	// unroll repeat
 	if(expr.constant) {
 		std::int64_t amount = std::get<std::int64_t>(expr.constant->value);
 		if(amount <= 0) {
@@ -85,10 +86,9 @@ std::string ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::share
 
 		std::string code;
 		bool shouldBeOptimized =
-			(this->getOptimizationLevel() == 1 && amount < 128) ||
-			(this->getOptimizationLevel() == 2 && amount < 256) ||
-			(this->getOptimizationLevel() >= 3 && amount < 1024);
-
+			(compPkg.getSettings().getOptimizationLevel() == 1 && amount < 64) ||
+			(compPkg.getSettings().getOptimizationLevel() == 2 && amount < 128) ||
+			(compPkg.getSettings().getOptimizationLevel() >= 3 && amount < 256);
 
 		// unrolling
 		if(shouldBeOptimized) {
@@ -98,7 +98,8 @@ std::string ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::share
 			return code;
 		}
 	}
-	
+
+
 	// create code
 	return 
 		"newi 0\n" +
@@ -121,7 +122,7 @@ std::string ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::shared_p
 	if(to.type != Type::INT){
 		throw std::runtime_error("Upper bound of for loop needs to be a integer expression.");
 	}
-	
+
 	compPkg.getScopes().addBlockScope();
 	// iteration variable
 	Var counter = compPkg.getScopes().get().registerVar(stmt->name, Type::INT);
@@ -129,34 +130,6 @@ std::string ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::shared_p
 	std::string codeStmt = this->compileBlock(compPkg, stmt->stmt);
 	compPkg.getScopes().remove();
 
-	if(from.constant && to.constant) {
-		std::int64_t lowerBound = std::get<std::int64_t>(from.constant->value);
-		std::int64_t upperBound = std::get<std::int64_t>(to.constant->value);
-		if(lowerBound > upperBound) {
-			std::cout << ">> [Warning] for loop: Lower constant boundary needs to smaller than the upper Limit" << std::endl;
-		}
-		std::int64_t delta = std::abs(lowerBound - upperBound);
-
-		std::string code;
-		bool shouldBeOptimized =
-			(this->getOptimizationLevel() == 1 && delta < 128) ||
-			(this->getOptimizationLevel() == 2 && delta < 256) ||
-			(this->getOptimizationLevel() >= 3 && delta < 1024);
-
-
-		// unrolling
-		if(shouldBeOptimized) {
-			for(int idx = lowerBound; idx <= upperBound; idx++) {
-				code += "newi " + std::to_string(idx) + "\n";
-				code += "store " + std::to_string(counter.addr) + "\n";
-				code += codeStmt;
-			}
-			return code;
-		}
-	}
-	
-
-	// create code
 	return 
 		from.code +
 		to.code +
@@ -192,7 +165,6 @@ std::string ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::shared
 	for(const auto & stmt : block->statements) {
 		code+= this->compileStmt(compPkg, stmt);
 	}
-
 	compPkg.getScopes().remove();
 	return code;
 }
@@ -254,26 +226,24 @@ std::string ltnc::StmtCompiler::compileFunction(CompilerPack & compPkg, std::sha
 
 	// create code;
 	std::string code;
-	code += this->comment(decl->signature.name + " " + std::to_string(decl->signature.params.size()) + " -> " + std::to_string(static_cast<int>(decl->signature.returnType.type)));
+	code += this->comment(compPkg, decl->signature.name + " " + std::to_string(decl->signature.params.size()) + " -> " + std::to_string(static_cast<int>(decl->signature.returnType.type)));
 	code += "-> " + fxInfo.jumpMark + "\n";
 	// load params into memory (backwards because LIFO)
-	std::uint64_t varCount = compPkg.getScopes().get().getSize();
 	for(auto param = decl->signature.params.rbegin(); param != decl->signature.params.rend(); ++param) {
 		// store parameter;
 		std::uint64_t varAddr = compPkg.getScopes().get().getVar((*param).name).addr;
-		code += "stackalloc " + std::to_string(varCount) + "\n";
-		code += this->comment("store parameter " + param->name);
 		code += "store " + std::to_string(varAddr) + "\n";
 	}
+	code += "stackalloc 64\n";
 	code += bodyCode;
 	compPkg.getScopes().remove();
-	return code;
+	return code + "\n\n";
 }
 
 std::string ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shared_ptr<StmtExpr> stmt) {
 	ExprInfo exprInfo = this->exprCompiler.compileExpr(compPkg, stmt->expr);
 	std::string code;
-	code += exprInfo.code + "\n";
+	code += exprInfo.code;
 	if(exprInfo.type == Type::INT || exprInfo.type == Type::FLT) {
 		code += "scrap \n";
 	}
@@ -299,10 +269,3 @@ std::string ltnc::StmtCompiler::compileReturn(CompilerPack & compPkg, std::share
 	return code;
 }
 
-std::string ltnc::StmtCompiler::compileAsm(CompilerPack & compPkg, std::shared_ptr<StmtAsm> stmt) {
-	std::string code;
-	for(const std::string & instruction : stmt->instructions) {
-		code += instruction + "\n";
-	}
-	return code;
-}

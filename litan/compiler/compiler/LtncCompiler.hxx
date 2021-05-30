@@ -8,8 +8,7 @@ namespace ltnc {
 		Compiler() : stmtCompiler(exprCompiler) {}
 		std::string compile(
 			std::shared_ptr<Program> program,
-			unsigned optimizations = 0,
-			bool comments = false);
+			const CompilerSettings & settings);
 	private:
 		StmtCompiler stmtCompiler;
 		ExprCompiler exprCompiler;

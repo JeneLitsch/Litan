@@ -1,8 +1,10 @@
 -> MAIN 
 call FNX_main_0
-
 exit 
+
+
 -> FNX_main_0
+stackalloc 64
 newi 0
 store 0
 newi 0
@@ -15,3 +17,26 @@ addi
 store 0
 loop::cont 
 return 
+
+
+-> FNX_print_1
+store 0
+stackalloc 64
+load 0
+print
+return
+
+
+-> FNX_print_2
+store 0
+stackalloc 64
+load 0
+print 1
+return
+
+
+-> FNX_error_3
+stackalloc 64
+error
+
+

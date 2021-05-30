@@ -5,20 +5,23 @@
 #include "LtncDecl.hxx"
 #include "LtncSignature.hxx"
 #include "LtncFxInfo.hxx"
+#include "LtncCompilerSettings.hxx"
+
 namespace ltnc {
 	class CompilerPack {
 	public:
 
-		CompilerPack();
+		CompilerPack(const CompilerSettings & settings);
 		std::string makeJumpMark(std::string type);
 		void registerFunction(const std::shared_ptr<DeclFunction> & fx);
 		std::optional<FxInfo> matchFunction(const FxSignature & signature) const;
 		const ScopeStack & getScopes() const;
 		ScopeStack & getScopes();
-
+		const CompilerSettings & getSettings() const;
 	private:
 		std::uint64_t jumpmarkCounter;
 		ScopeStack scopeStack;
 		std::vector<FxInfo> fxSignatures;
+		CompilerSettings settings;
 	};
 }
