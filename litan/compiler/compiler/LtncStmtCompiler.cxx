@@ -8,17 +8,17 @@ std::string ltnc::StmtCompiler::compileProgram(CompilerPack & compPkg, std::shar
 	}
 	std::string code;
 	code += "-> MAIN \n"; 
-	code += this->compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main")));
+	code += this->compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main"))).code;
 	code += "exit \n";
 	code += "\n\n";
 	for(const auto & function : program->functions) {
-		code += this->compileFunction(compPkg, function);
+		code += this->compileFunction(compPkg, function).code;
 	}
 	
 	return code;
 }
 
-std::string ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shared_ptr<Stmt> stmt){
+ltnc::StmtInfo ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shared_ptr<Stmt> stmt){
 	if(auto stmt_ = std::dynamic_pointer_cast<ltnc::StmtAssign>(stmt)) {
 		return this->compileAssign(compPkg, stmt_);
 	}
@@ -44,25 +44,27 @@ std::string ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shared_
 		return this->compileReturn(compPkg, stmt_);
 	}
 	if(auto stmt_ = std::dynamic_pointer_cast<ltnc::StmtAsm>(stmt)) {
-		return this->asmBlock.compile(compPkg, stmt_);
+		return StmtInfo(this->asmBlock.compile(compPkg, stmt_),0);
 	}
-	return "";
+	return StmtInfo("",0);
 }
 
 
 
-std::string ltnc::StmtCompiler::compileAssign(CompilerPack & compPkg, std::shared_ptr<StmtAssign> stmt){
+ltnc::StmtInfo ltnc::StmtCompiler::compileAssign(CompilerPack & compPkg, std::shared_ptr<StmtAssign> stmt){
 	auto expr = exprCompiler.compileExpr(compPkg, stmt->expr);
 	
 	Var var = compPkg.getScopes().get().getVar(stmt->name);
 
 	if(expr.type != var.type) throw std::runtime_error("Types do not match: " + expr.code);
 
-	return this->comment(compPkg, "assign to int var " + stmt->name) + expr.code
-		+ "store " + std::to_string(var.addr) + "\n";
+	return StmtInfo( 
+		this->comment(compPkg, "assign to int var " + stmt->name) 
+		+ expr.code
+		+ "store " + std::to_string(var.addr) + "\n", 0);
 }
 
-std::string ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::shared_ptr<StmtRepeat> stmt) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::shared_ptr<StmtRepeat> stmt) {
 	// From and to expression
 	ExprInfo expr = this->exprCompiler.compileExpr(compPkg, stmt->expr); 
 
@@ -74,7 +76,7 @@ std::string ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::share
 	compPkg.getScopes().addBlockScope();
 	// iteration variable
 	// create code inside loop
-	std::string codeStmt = this->compileBlock(compPkg, stmt->stmt);
+	StmtInfo codeStmt = this->compileBlock(compPkg, stmt->stmt);
 	compPkg.getScopes().remove();
 
 	// unroll repeat
@@ -93,24 +95,25 @@ std::string ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::share
 		// unrolling
 		if(shouldBeOptimized) {
 			for(int idx = 0; idx <= amount; idx++) {
-				code += codeStmt;
+				code += codeStmt.code;
 			}
-			return code;
+			return StmtInfo(code, codeStmt.stackalloc);
 		}
 	}
 
 
 	// create code
-	return 
+	return StmtInfo(
 		"newi 0\n" +
 		expr.code +
 		"loop::range \n" +
 		"loop::idx \n" +
-		codeStmt +
-		"loop::cont \n";
+		codeStmt.code +
+		"loop::cont \n",
+		codeStmt.stackalloc);
 }
 
-std::string ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::shared_ptr<StmtFor> stmt) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::shared_ptr<StmtFor> stmt) {
 	// From and to expression
 	ExprInfo from = this->exprCompiler.compileExpr(compPkg, stmt->exprFrom); 
 	ExprInfo to = this->exprCompiler.compileExpr(compPkg, stmt->exprTo);
@@ -127,51 +130,57 @@ std::string ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::shared_p
 	// iteration variable
 	Var counter = compPkg.getScopes().get().registerVar(stmt->name, Type::INT);
 	// create code inside loop
-	std::string codeStmt = this->compileBlock(compPkg, stmt->stmt);
+	StmtInfo codeStmt = this->compileBlock(compPkg, stmt->stmt);
 	compPkg.getScopes().remove();
 
-	return 
+	return StmtInfo(
 		from.code +
 		to.code +
 		"loop::range \n" +
 		"loop::idx \n" +
 		"store " + std::to_string(counter.addr) + "\n" +
-		codeStmt +
-		"loop::cont \n";
+		codeStmt.code +
+		"loop::cont \n",
+		codeStmt.stackalloc + 1);
 }
 
 
-std::string ltnc::StmtCompiler::compileWhile(CompilerPack & compPkg, std::shared_ptr<StmtWhile> stmt) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileWhile(CompilerPack & compPkg, std::shared_ptr<StmtWhile> stmt) {
 	auto codeExpr = this->exprCompiler.compileExpr(compPkg, stmt->expr); 
 	auto codeStmt = this->compileStmt(compPkg, stmt->stmt);
 	auto endMark = compPkg.makeJumpMark("LOOP_END");
 	auto loopMark = compPkg.makeJumpMark("LOOP");
-	return 
+	return StmtInfo(
 		"-> " + loopMark + "\n" +
 		codeExpr.code +
 		"ifnot\n" +
 		"goto " + endMark + "\n" +
-		codeStmt +
+		codeStmt.code +
 		"goto " + loopMark + "\n" +
-		"-> " + endMark + "\n";
+		"-> " + endMark + "\n",
+		codeStmt.stackalloc);
 }
 
-std::string ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::shared_ptr<StmtBlock> block) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::shared_ptr<StmtBlock> block) {
 	compPkg.getScopes().addBlockScope();
 	std::string code;
 	for(const auto & decl : block->declarations) {
 		Var var = compPkg.getScopes().get().registerVar(decl->name, decl->type);
 	}
+	unsigned stackalloc = 0;
 	for(const auto & stmt : block->statements) {
-		code+= this->compileStmt(compPkg, stmt);
+		StmtInfo stmtInfo = this->compileStmt(compPkg, stmt);
+		stackalloc = std::max<unsigned>(stackalloc, stmtInfo.stackalloc);
+		code += stmtInfo.code;
 	}
+	stackalloc += block->declarations.size();
 	compPkg.getScopes().remove();
-	return code;
+	return StmtInfo(code, stackalloc);
 }
 
 
 
-std::string ltnc::StmtCompiler::compileIf(CompilerPack & compPkg, std::shared_ptr<StmtIf> stmt) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileIf(CompilerPack & compPkg, std::shared_ptr<StmtIf> stmt) {
 
 	// make jump marks
 	std::string jmIf = compPkg.makeJumpMark("IF");
@@ -179,41 +188,46 @@ std::string ltnc::StmtCompiler::compileIf(CompilerPack & compPkg, std::shared_pt
 	std::string jmEnd = compPkg.makeJumpMark("END_IF");
 	
 
-	std::string condition = this->exprCompiler.compileExpr(compPkg, stmt->condition).code;
-	std::string codeIf = this->compileStmt(compPkg, stmt->stmtIf);
-	
+	ExprInfo condition = this->exprCompiler.compileExpr(compPkg, stmt->condition);
+	StmtInfo codeIf = this->compileStmt(compPkg, stmt->stmtIf);
+
 
 	if(stmt->stmtElse) {
-		std::string codeElse = this->compileStmt(compPkg, stmt->stmtElse);
-		return
-			condition +
+		StmtInfo codeElse = this->compileStmt(compPkg, stmt->stmtElse);
+		unsigned stackalloc = std::max<unsigned>(codeIf.stackalloc, codeElse.stackalloc);
+
+		std::string code =
+			condition.code +
 			"ifnx" + "\n" +
 			"goto " + jmIf + "\n" +
 			"goto " + jmElse + "\n" +
 			"-> " + jmIf + "\n" +
-			codeIf +
+			codeIf.code +
 			"goto " + jmEnd + "\n" +
 			
 			"-> " + jmElse + "\n" +
-			codeElse +
+			codeElse.code +
 			"goto " + jmEnd + "\n" +
 			
 			"-> " + jmEnd + "\n";
+
+		return StmtInfo(code, stackalloc);
 	}
 	else {
-		return
-			condition +
+		std::string code =
+			condition.code +
 			"ifnx" + "\n" +
 			"goto " + jmIf + "\n" +
 			"goto " + jmEnd + "\n" +
 			
 			"-> " + jmIf + "\n" +
-			codeIf +
+			codeIf.code +
 			"-> " + jmEnd + "\n";
+		return StmtInfo(code, codeIf.stackalloc);
 	}
 }
 
-std::string ltnc::StmtCompiler::compileFunction(CompilerPack & compPkg, std::shared_ptr<DeclFunction> decl) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileFunction(CompilerPack & compPkg, std::shared_ptr<DeclFunction> decl) {
 	FxInfo fxInfo = *compPkg.matchFunction(decl->signature);
 
 	compPkg.getScopes().addFunctionScope(fxInfo.signature);
@@ -222,35 +236,37 @@ std::string ltnc::StmtCompiler::compileFunction(CompilerPack & compPkg, std::sha
 		compPkg.getScopes().get().registerVar(param.name, param.type);
 	}
 	// eval body
-	std::string bodyCode = this->compileStmt(compPkg, decl->body);
+	StmtInfo body = this->compileStmt(compPkg, decl->body);
 
 	// create code;
 	std::string code;
 	code += this->comment(compPkg, decl->signature.name + " " + std::to_string(decl->signature.params.size()) + " -> " + std::to_string(static_cast<int>(decl->signature.returnType.type)));
 	code += "-> " + fxInfo.jumpMark + "\n";
 	// load params into memory (backwards because LIFO)
-	for(auto param = decl->signature.params.rbegin(); param != decl->signature.params.rend(); ++param) {
+	const auto & params = decl->signature.params; 
+	code += "stackalloc " + std::to_string(body.stackalloc + params.size()) + "\n";
+	for(auto param = params.rbegin(); param != params.rend(); ++param) {
 		// store parameter;
 		std::uint64_t varAddr = compPkg.getScopes().get().getVar((*param).name).addr;
 		code += "store " + std::to_string(varAddr) + "\n";
 	}
-	code += "stackalloc 64\n";
-	code += bodyCode;
+	code += body.code;
+	code += "\n\n";
 	compPkg.getScopes().remove();
-	return code + "\n\n";
+	return StmtInfo(code, 0);
 }
 
-std::string ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shared_ptr<StmtExpr> stmt) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shared_ptr<StmtExpr> stmt) {
 	ExprInfo exprInfo = this->exprCompiler.compileExpr(compPkg, stmt->expr);
 	std::string code;
 	code += exprInfo.code;
 	if(exprInfo.type == Type::INT || exprInfo.type == Type::FLT) {
 		code += "scrap \n";
 	}
-	return code;
+	return StmtInfo(code, 0);
 }
 
-std::string ltnc::StmtCompiler::compileReturn(CompilerPack & compPkg, std::shared_ptr<StmtReturn> stmt) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileReturn(CompilerPack & compPkg, std::shared_ptr<StmtReturn> stmt) {
 	std::string code = "";
 	FxSignature signature = compPkg.getScopes().get().getFxSignature();
 	if(stmt->expr) {
@@ -266,6 +282,6 @@ std::string ltnc::StmtCompiler::compileReturn(CompilerPack & compPkg, std::share
 		}
 	}
 	code += "return \n";
-	return code;
+	return StmtInfo(code, 0);
 }
 

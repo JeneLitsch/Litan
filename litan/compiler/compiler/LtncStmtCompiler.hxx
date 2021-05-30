@@ -3,6 +3,9 @@
 #include <map>
 #include <stack>
 #include <cstdint>
+
+#include "LtncStmtInfo.hxx"
+
 #include "LtncAst.hxx"
 #include "LtncType.hxx"
 #include "LtncScope.hxx"
@@ -18,16 +21,16 @@ namespace ltnc {
 		StmtCompiler(ExprCompiler & exprCompiler) : exprCompiler(exprCompiler) {}
 		std::string compileProgram(CompilerPack & compPkg, std::shared_ptr<Program> program);
 	private:
-		std::string compileStmt(CompilerPack & compPkg, std::shared_ptr<Stmt> stmt);
-		std::string compileIf(CompilerPack & compPkg, std::shared_ptr<StmtIf> stmt);
-		std::string compileAssign(CompilerPack & compPkg, std::shared_ptr<StmtAssign> stmt);
-		std::string compileBlock(CompilerPack & compPkg, std::shared_ptr<StmtBlock> stmt);
-		std::string compileFor(CompilerPack & compPkg, std::shared_ptr<StmtFor> stmt);
-		std::string compileRepeat(CompilerPack & compPkg, std::shared_ptr<StmtRepeat> stmt);
-		std::string compileWhile(CompilerPack & compPkg, std::shared_ptr<StmtWhile> stmt);
-		std::string compileFunction(CompilerPack & compPkg, std::shared_ptr<DeclFunction> stmt);
-		std::string compileEval(CompilerPack & compPkg, std::shared_ptr<StmtExpr> stmt);
-		std::string compileReturn(CompilerPack & compPkg, std::shared_ptr<StmtReturn> stmt);
+		StmtInfo compileStmt(CompilerPack & compPkg, std::shared_ptr<Stmt> stmt);
+		StmtInfo compileIf(CompilerPack & compPkg, std::shared_ptr<StmtIf> stmt);
+		StmtInfo compileAssign(CompilerPack & compPkg, std::shared_ptr<StmtAssign> stmt);
+		StmtInfo compileBlock(CompilerPack & compPkg, std::shared_ptr<StmtBlock> stmt);
+		StmtInfo compileFor(CompilerPack & compPkg, std::shared_ptr<StmtFor> stmt);
+		StmtInfo compileRepeat(CompilerPack & compPkg, std::shared_ptr<StmtRepeat> stmt);
+		StmtInfo compileWhile(CompilerPack & compPkg, std::shared_ptr<StmtWhile> stmt);
+		StmtInfo compileFunction(CompilerPack & compPkg, std::shared_ptr<DeclFunction> stmt);
+		StmtInfo compileEval(CompilerPack & compPkg, std::shared_ptr<StmtExpr> stmt);
+		StmtInfo compileReturn(CompilerPack & compPkg, std::shared_ptr<StmtReturn> stmt);
 
 		ExprCompiler & exprCompiler;
 		AsmBlockCompiler asmBlock;

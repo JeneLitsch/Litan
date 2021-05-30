@@ -1,0 +1,16 @@
+fnx main() voi {
+	->test(4);
+	return;
+}
+
+fnx test(int a) voi {
+	int b;
+	b = 4;
+	if (b == 4) {
+		int c;
+	}
+	else {
+		int e;
+	}
+	return;
+}

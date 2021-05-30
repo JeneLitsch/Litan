@@ -5,7 +5,7 @@
 ./ltna example/recursionBench/testOpt.hex.ltn example/recursionBench/testOpt.asm.ltn -hex
 
 echo "Old"
-./ltnvmOld -bench=100000 example/recursionBench/testOld.hex.ltn -hex
+./ltnvmPrev -bench=100000 example/recursionBench/testOld.hex.ltn -hex
 echo "New"
 ./ltnvm -bench=100000 example/recursionBench/test.hex.ltn -hex
 echo "New Opt"

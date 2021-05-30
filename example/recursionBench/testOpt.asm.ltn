@@ -4,15 +4,15 @@ exit
 
 
 -> FNX_main_0
-stackalloc 64
+stackalloc 0
 newi 10
 call FNX_rec_1
 return 
 
 
 -> FNX_rec_1
+stackalloc 1
 store 0
-stackalloc 64
 load 0
 newi 0
 bgri
@@ -35,23 +35,23 @@ goto END_IF_7
 
 
 -> FNX_print_2
+stackalloc 1
 store 0
-stackalloc 64
 load 0
 print
 return
 
 
 -> FNX_print_3
+stackalloc 1
 store 0
-stackalloc 64
 load 0
 print 1
 return
 
 
 -> FNX_error_4
-stackalloc 64
+stackalloc 0
 error
 
 
