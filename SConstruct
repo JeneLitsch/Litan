@@ -86,7 +86,7 @@ dirsLtnA = [
 dirsLtnVm = [
 	".",
 	"litan/vm",
-	"litan/vm/registers",
+	"litan/vm/memory",
 	"litan/vm/extensions",
 ]
 

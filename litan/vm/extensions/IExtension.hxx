@@ -1,5 +1,5 @@
 #pragma once
-#include "Environment.hxx"
+#include "LtnEnvironment.hxx"
 #include "LtnExtSlot.hxx"
 namespace ltn{
 	class IExtension {

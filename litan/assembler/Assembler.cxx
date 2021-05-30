@@ -112,22 +112,20 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "store") return this->cFormat(InstCode::STORE); 
 		
 
-		if(pkg.inst == "array::new") return this->fFormat(InstCode::ARRAY, static_cast<std::uint8_t>(ArrayFunct::NEW));  
-		if(pkg.inst == "array::del") return this->fFormat(InstCode::ARRAY, static_cast<std::uint8_t>(ArrayFunct::DEL));  
-		if(pkg.inst == "array::add") return this->fFormat(InstCode::ARRAY, static_cast<std::uint8_t>(ArrayFunct::ADD));  
-		if(pkg.inst == "array::pop") return this->fFormat(InstCode::ARRAY, static_cast<std::uint8_t>(ArrayFunct::POP));  
-		if(pkg.inst == "array::set") return this->fFormat(InstCode::ARRAY, static_cast<std::uint8_t>(ArrayFunct::SET));  
-		if(pkg.inst == "array::get") return this->fFormat(InstCode::ARRAY, static_cast<std::uint8_t>(ArrayFunct::GET));  
-		if(pkg.inst == "array::clr") return this->fFormat(InstCode::ARRAY, static_cast<std::uint8_t>(ArrayFunct::CLR));  
-		if(pkg.inst == "array::len") return this->fFormat(InstCode::ARRAY, static_cast<std::uint8_t>(ArrayFunct::LEN));  
+		if(pkg.inst == "array::new") return this->cFormat(InstCode::ARRAY_NEW);  
+		if(pkg.inst == "array::del") return this->cFormat(InstCode::ARRAY_DEL);  
+		if(pkg.inst == "array::add") return this->cFormat(InstCode::ARRAY_ADD);  
+		if(pkg.inst == "array::pop") return this->cFormat(InstCode::ARRAY_POP);  
+		if(pkg.inst == "array::set") return this->cFormat(InstCode::ARRAY_SET);  
+		if(pkg.inst == "array::get") return this->cFormat(InstCode::ARRAY_GET);  
+		if(pkg.inst == "array::clr") return this->cFormat(InstCode::ARRAY_CLR);  
+		if(pkg.inst == "array::len") return this->cFormat(InstCode::ARRAY_LEN);  
 
-		if(pkg.inst == "loop::inf") return this->fFormat(InstCode::LOOP, static_cast<std::uint8_t>(LoopFunct::INF));  
-		if(pkg.inst == "loop::range") return this->fFormat(InstCode::LOOP, static_cast<std::uint8_t>(LoopFunct::RANGE));
-
-		if(pkg.inst == "loop::cont") return this->fFormat(InstCode::LOOP, static_cast<std::uint8_t>(LoopFunct::CONT));  
-		if(pkg.inst == "loop::stop") return this->fFormat(InstCode::LOOP, static_cast<std::uint8_t>(LoopFunct::STOP));
-
-		if(pkg.inst == "loop::idx") return this->fFormat(InstCode::LOOP, static_cast<std::uint8_t>(LoopFunct::IDX));  
+		if(pkg.inst == "loop::inf") return this->cFormat(InstCode::LOOP_INF);  
+		if(pkg.inst == "loop::range") return this->cFormat(InstCode::LOOP_RANGE);
+		if(pkg.inst == "loop::cont") return this->cFormat(InstCode::LOOP_CONT);  
+		if(pkg.inst == "loop::stop") return this->cFormat(InstCode::LOOP_STOP);
+		if(pkg.inst == "loop::idx") return this->cFormat(InstCode::LOOP_IDX);  
 	}
 	if(pkg.args.size() == 1){
 		

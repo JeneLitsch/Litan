@@ -4,11 +4,8 @@
 #include <vector>
 #include "LtnFloat.hxx"
 #include "LtnInstructions.hxx"
-#include "Environment.hxx"
-
 #include "IExtension.hxx"
-#include "ArrayExtension.hxx"
-#include "LoopExtension.hxx"
+#include "LtnEnvironment.hxx"
 
 namespace ltn {
 	// the i prefix means integer
@@ -30,8 +27,6 @@ namespace ltn {
 
 	private:
 		Environment env;
-		ArrayExtension arrayExt;
-		LoopExtension loopExt;
 		std::array<IExtension*, 8> extensions;
 
 		// decoding and args
@@ -48,12 +43,9 @@ namespace ltn {
 
 
 		// memory and system instructions
-		void exit();
 		void load(); void store(); void copy(); void size();
 		void print();
 		void scrap(); void clear();
-		void array();
-		void loop();
 		void fetch();
 		void init();
 		void stackalloc();
@@ -81,6 +73,22 @@ namespace ltn {
 		void got0();
 		void rtrn();
 		void ifsk();
+		
+		void loopRange();
+		void loopInf();
+		void loopCont();
+		void loopStop();
+		void loopIdx();
+
+		void arrayNew();
+		void arrayDel();
+		void arrayClr();
+		void arrayGet(); 
+		void arraySet();
+		void arrayAdd();
+		void arrayPop();
+		void arrayLen();
+		
 
 	};
 }

@@ -5,9 +5,7 @@
 #include <iomanip>
 
 // memorySize and stackLimit in 64bit blocks
-ltn::VM::VM() :
-	 	arrayExt(this->env), 
-		loopExt(this->env) {
+ltn::VM::VM() {
 	
 	this->reset();
 }
@@ -24,16 +22,11 @@ void ltn::VM::init(const std::vector<std::uint64_t> & byteCode){
 }
 
 void ltn::VM::reset(){
-	
-
-	//reset 
-	this->env.pc = 0;
-
-	this->loopExt.reset();
-	this->arrayExt.reset();
-
-	// clear stack
 	this->env.acc.reset();
+	this->env.heap.clear();
+	this->env.stack.clear();
+	this->env.pc = 0;
+	this->env.loops = {};
 }
 
 ltn::VM::Status ltn::VM::run(){
@@ -128,9 +121,21 @@ ltn::VM::Status ltn::VM::execute(){
 		case InstCode::EXT6: this->extensions[6]->call(this->getArg8()); break;
 		case InstCode::EXT7: this->extensions[7]->call(this->getArg8()); break;
 
-		case InstCode::ARRAY: this->array(); break;
-		case InstCode::LOOP: this->loop(); break;
-		
+		case InstCode::ARRAY_NEW: this->arrayNew(); break;
+		case InstCode::ARRAY_DEL: this->arrayDel(); break;
+		case InstCode::ARRAY_CLR: this->arrayClr(); break;
+		case InstCode::ARRAY_GET: this->arrayGet(); break;
+		case InstCode::ARRAY_SET: this->arraySet(); break;
+		case InstCode::ARRAY_ADD: this->arrayAdd(); break;
+		case InstCode::ARRAY_POP: this->arrayPop(); break;
+		case InstCode::ARRAY_LEN: this->arrayLen(); break;
+
+		case InstCode::LOOP_RANGE: this->loopRange(); break;
+		case InstCode::LOOP_INF: this->loopInf(); break;
+		case InstCode::LOOP_STOP: this->loopStop(); break;
+		case InstCode::LOOP_CONT: this->loopCont(); break;
+		case InstCode::LOOP_IDX: this->loopIdx(); break;
+
 		default:
 			std::string hex;
 			std::stringstream ss;
@@ -146,56 +151,45 @@ ltn::VM::Status ltn::VM::execute(){
 }
 
 
-// memory inst
-void ltn::VM::exit(){
-	this->env.running = false;
-}
 // copy value from memory to acc
 void ltn::VM::load(){
-	std::uint32_t addr = static_cast<std::uint32_t>(this->env.pollU());
-	this->env.acc.push(this->env.callStack.top().memoryBlock[this->env.resolveAddr(addr)]);
+	std::uint32_t addr = static_cast<std::uint32_t>(this->env.acc.popU());
+	this->env.acc.push(this->env.stack.get().memoryBlock[addr]);
 }
 // pop value from acc and write to memory
 void ltn::VM::store(){
-	std::uint32_t addr = static_cast<std::uint32_t>(this->env.pollU());
-	this->env.callStack.top().memoryBlock[this->env.resolveAddr(addr)] = this->env.pollU();
+	std::uint32_t addr = static_cast<std::uint32_t>(this->env.acc.popU());
+	this->env.stack.get().memoryBlock[addr] = this->env.acc.popU();
 }
 
 void ltn::VM::copy(){
-	this->env.push(this->env.acc.top());
+	this->env.acc.push(this->env.acc.top());
 }
 void ltn::VM::size(){
-	this->env.push(this->env.acc.size());
+	this->env.acc.push(this->env.acc.size());
 }
 // print or put value into ouput
 void ltn::VM::print(){
 	switch (this->getArg8()){
 	case 0:
-		std::cout << this->env.pollI() << std::endl;
+		std::cout << this->env.acc.popI() << std::endl;
 		break;
 	case 1:
-		std::cout << this->env.pollF() << std::endl;
+		std::cout << this->env.acc.popF() << std::endl;
 		break;
 	default:
-		std::cout << this->env.pollU()  << std::endl;
+		std::cout << this->env.acc.popU()  << std::endl;
 		break;
 	}
 	
 }
 // pop and discard one value from acc
 void ltn::VM::scrap(){
-	this->env.acc.pop();
+	this->env.acc.popU();
 }
 // discard entire accStack
 void ltn::VM::clear(){
 	this->env.acc.reset();
-}
-// push args and sysStack into extension as a kind of syscall
-void ltn::VM::array(){
-	this->arrayExt.call(this->getArg8());
-}
-void ltn::VM::loop(){
-	this->loopExt.call(this->getArg8());
 }
 
 // TODO
@@ -204,25 +198,25 @@ void ltn::VM::fetch(){
 }
 
 void ltn::VM::init() {
-	this->env.callStack.push(StackFrame()); 
+	this->env.stack.push(0); 
 }
 void ltn::VM::stackalloc() {
-	this->env.callStack.top().memoryBlock.resize(this->env.callStack.top().memoryBlock.size() + this->getArg32());
+	this->env.stack.get().memoryBlock.resize(this->env.stack.get().memoryBlock.size() + this->getArg32());
 }
 
 void ltn::VM::casti(){
-	this->env.push(static_cast<std::int64_t>(std::round(this->env.pollF())));
+	this->env.acc.push(static_cast<std::int64_t>(std::round(this->env.acc.popF())));
 }
 
 void ltn::VM::castf(){
-	this->env.push(static_cast<double>(this->env.pollI()));
+	this->env.acc.push(static_cast<double>(this->env.acc.popI()));
 }
 
 
 // new inst (can be merged with bitxor)
 // load a value in the lower 32 bits
 void ltn::VM::newl(){
-	this->env.acc.push(this->getArg32());
+	this->env.acc.push(static_cast<std::uint64_t>(this->getArg32()));
 } 
 // load a value in the upper 32 bits
 void ltn::VM::newu(){
@@ -236,39 +230,39 @@ void ltn::VM::newu(){
 
 // math inst
 void ltn::VM::addi(){
-	std::int64_t r = this->env.pollI();
-	std::int64_t l = this->env.pollI();
+	std::int64_t r = this->env.acc.popI();
+	std::int64_t l = this->env.acc.popI();
 	
-	this->env.push(l + r);
+	this->env.acc.push(l + r);
 }
 void ltn::VM::subi(){
-	std::int64_t r = this->env.pollI();
-	std::int64_t l = this->env.pollI();
+	std::int64_t r = this->env.acc.popI();
+	std::int64_t l = this->env.acc.popI();
 	
-	this->env.push(l - r);
+	this->env.acc.push(l - r);
 }
 void ltn::VM::mlti(){
-	std::int64_t r = this->env.pollI();
-	std::int64_t l = this->env.pollI();
+	std::int64_t r = this->env.acc.popI();
+	std::int64_t l = this->env.acc.popI();
 	
-	this->env.push(l * r);
+	this->env.acc.push(l * r);
 }
 void ltn::VM::divi(){
-	std::int64_t r = this->env.pollI();
-	std::int64_t l = this->env.pollI();
+	std::int64_t r = this->env.acc.popI();
+	std::int64_t l = this->env.acc.popI();
 	
-	this->env.push(l / r);
+	this->env.acc.push(l / r);
 }
 void ltn::VM::powi(){
-	std::int64_t r = this->env.pollI();
-	std::int64_t l = this->env.pollI();
+	std::int64_t r = this->env.acc.popI();
+	std::int64_t l = this->env.acc.popI();
 	
-	this->env.push(static_cast<std::int64_t>(std::pow(l, r)));
+	this->env.acc.push(static_cast<std::int64_t>(std::pow(l, r)));
 }
 void ltn::VM::modi(){
-	std::int64_t r = this->env.pollI();
-	std::int64_t l = this->env.pollI();
-	this->env.push(l % r);
+	std::int64_t r = this->env.acc.popI();
+	std::int64_t l = this->env.acc.popI();
+	this->env.acc.push(l % r);
 }
 
 void ltn::VM::inc(){
@@ -280,126 +274,126 @@ void ltn::VM::dec(){
 
 
 void ltn::VM::addf(){
-	double r = this->env.pollF();
-	double l = this->env.pollF();
-	this->env.push(l + r);
+	double r = this->env.acc.popF();
+	double l = this->env.acc.popF();
+	this->env.acc.push(l + r);
 }
 void ltn::VM::subf(){
-	double r = this->env.pollF();
-	double l = this->env.pollF();
-	this->env.push(l - r);
+	double r = this->env.acc.popF();
+	double l = this->env.acc.popF();
+	this->env.acc.push(l - r);
 }
 void ltn::VM::mltf(){
-	double r = this->env.pollF();
-	double l = this->env.pollF();
+	double r = this->env.acc.popF();
+	double l = this->env.acc.popF();
 	
-	this->env.push(l * r);
+	this->env.acc.push(l * r);
 }
 void ltn::VM::divf(){
-	double r = this->env.pollF();
-	double l = this->env.pollF();
+	double r = this->env.acc.popF();
+	double l = this->env.acc.popF();
 	
-	this->env.push(l / r);
+	this->env.acc.push(l / r);
 }
 void ltn::VM::powf(){
-	double r = this->env.pollF();
-	double l = this->env.pollF();
+	double r = this->env.acc.popF();
+	double l = this->env.acc.popF();
 	
-	this->env.push(std::pow(l,r));
+	this->env.acc.push(std::pow(l,r));
 }
 void ltn::VM::modf(){
-	double r = this->env.pollF();
-	double l = this->env.pollF();
-	this->env.push(std::fmod(l,r));
+	double r = this->env.acc.popF();
+	double l = this->env.acc.popF();
+	this->env.acc.push(std::fmod(l,r));
 }
 
 
 // bitwise
 void ltn::VM::bit_or(){
-	std::uint64_t r = this->env.pollU();
-	std::uint64_t l = this->env.pollU();
-	this->env.push(l | r);
+	std::uint64_t r = this->env.acc.popU();
+	std::uint64_t l = this->env.acc.popU();
+	this->env.acc.push(l | r);
 }
 void ltn::VM::bit_and(){
-	std::uint64_t r = this->env.pollU();
-	std::uint64_t l = this->env.pollU();
-	this->env.push(l & r);
+	std::uint64_t r = this->env.acc.popU();
+	std::uint64_t l = this->env.acc.popU();
+	this->env.acc.push(l & r);
 }
 void ltn::VM::bit_xor(){
-	std::uint64_t r = this->env.pollU();
-	std::uint64_t l = this->env.pollU();
-	this->env.push(l ^ r);
+	std::uint64_t r = this->env.acc.popU();
+	std::uint64_t l = this->env.acc.popU();
+	this->env.acc.push(l ^ r);
 }
 
 
 // logic
 void ltn::VM::log_or(){
-	std::uint64_t r = this->env.pollU();
-	std::uint64_t l = this->env.pollU();
-	this->env.push(l || r);
+	std::uint64_t r = this->env.acc.popU();
+	std::uint64_t l = this->env.acc.popU();
+	this->env.acc.push(l || r);
 }
 void ltn::VM::log_and() {
-	std::uint64_t r = this->env.pollU();
-	std::uint64_t l = this->env.pollU();
-	this->env.push(l && r);
+	std::uint64_t r = this->env.acc.popU();
+	std::uint64_t l = this->env.acc.popU();
+	this->env.acc.push(l && r);
 }
 void ltn::VM::log_xor() {
-	std::uint64_t r = this->env.pollU();
-	std::uint64_t l = this->env.pollU();
-	this->env.push(!l != !r);
+	std::uint64_t r = this->env.acc.popU();
+	std::uint64_t l = this->env.acc.popU();
+	this->env.acc.push(!l != !r);
 }
 
 
 // comparison
 void ltn::VM::eqli(){
-	std::int64_t r = this->env.pollI();
-	std::int64_t l = this->env.pollI();
-	this->env.push(l == r);
+	std::int64_t r = this->env.acc.popI();
+	std::int64_t l = this->env.acc.popI();
+	this->env.acc.push(l == r);
 }
 void ltn::VM::smli(){
-	std::int64_t r = this->env.pollI();
-	std::int64_t l = this->env.pollI();
-	this->env.push(l < r);
+	std::int64_t r = this->env.acc.popI();
+	std::int64_t l = this->env.acc.popI();
+	this->env.acc.push(l < r);
 }
 void ltn::VM::bgri(){
-	std::int64_t r = this->env.pollI();
-	std::int64_t l = this->env.pollI();
-	this->env.push(l > r);
+	std::int64_t r = this->env.acc.popI();
+	std::int64_t l = this->env.acc.popI();
+	this->env.acc.push(l > r);
 }
 void ltn::VM::spshi(){
-	std::int64_t r = this->env.pollI();
-	std::int64_t l = this->env.pollI();
-	if(l == r) return this->env.push(0L);
-	if(l > r) return this->env.push(1L);
-	if(l < r) return this->env.push(-1L);
+	std::int64_t r = this->env.acc.popI();
+	std::int64_t l = this->env.acc.popI();
+	if(l == r) return this->env.acc.push(0L);
+	if(l > r) return this->env.acc.push(1L);
+	if(l < r) return this->env.acc.push(-1L);
 }
 
 void ltn::VM::eqlf(){
-	double l = this->env.pollF();
-	double r = this->env.pollF();
-	this->env.push(l == r);
+	double l = this->env.acc.popF();
+	double r = this->env.acc.popF();
+	this->env.acc.push(l == r);
 }
 void ltn::VM::smlf(){
-	double r = this->env.pollF();
-	double l = this->env.pollF();
-	this->env.push(l < r);
+	double r = this->env.acc.popF();
+	double l = this->env.acc.popF();
+	this->env.acc.push(l < r);
 }
 void ltn::VM::bgrf(){
-	double r = this->env.pollF();
-	double l = this->env.pollF();
-	this->env.push(l > r);
+	double r = this->env.acc.popF();
+	double l = this->env.acc.popF();
+	this->env.acc.push(l > r);
 }
 void ltn::VM::spshf(){
-	double r = this->env.pollF();
-	double l = this->env.pollF();
-	if(l == r) return this->env.push(0L);
-	if(l > r) return this->env.push(1L);
-	if(l < r) return this->env.push(-1L);
+	double r = this->env.acc.popF();
+	double l = this->env.acc.popF();
+	if(l == r) return this->env.acc.push(0L);
+	if(l > r) return this->env.acc.push(1L);
+	if(l < r) return this->env.acc.push(-1L);
 }
 
 // jump and push address to adrStack
 void ltn::VM::call(){
-	this->env.callStack.push(StackFrame(this->env.pc));
+	this->env.stack.push(this->env.pc);
 	this->env.pc = this->getArg56();
 }
 // jump without pushign the address to adrStack
@@ -408,12 +402,111 @@ void ltn::VM::got0(){
 }
 // pop last address from adrStack and jump to it 
 void ltn::VM::rtrn(){
-	this->env.pc = this->env.callStack.top().jumpback;
-	this->env.callStack.pop();
+	this->env.pc = this->env.stack.get().jumpback;
+	this->env.stack.pop();
 }
 // skip one instruction if value popped is 0
 void ltn::VM::ifsk(){
-	if(this->env.pollI() == 0){
+	if(this->env.acc.popI() == 0){
 		this->env.pc++;
 	}
 }
+
+void ltn::VM::arrayNew(){
+	this->env.acc.push(this->env.heap.allocateArray());
+}
+
+void ltn::VM::arrayDel(){
+	std::uint64_t ptr = this->env.acc.popU();
+	this->env.heap.destroy(ptr);
+
+}
+
+void ltn::VM::arrayClr(){
+	std::uint64_t ptr = this->env.acc.popU();
+	this->env.heap.accessArray(ptr).clear();
+}
+
+void ltn::VM::arrayGet(){
+	std::uint64_t idx = this->env.acc.popU();
+	std::uint64_t ptr = this->env.acc.popU();
+	auto & array = this->env.heap.accessArray(ptr);
+	if(idx < array.size()){
+		this->env.acc.push(array[idx]);
+	}
+	else{
+		throw std::runtime_error("Access Violation" 
+			"at id: " + std::to_string(ptr) + " "
+			"at index: " + std::to_string(idx));
+	}
+}
+
+void ltn::VM::arraySet(){
+	std::uint64_t value = this->env.acc.popU();
+	std::uint64_t idx = this->env.acc.popU();
+	std::uint64_t ptr = this->env.acc.popU();
+	auto & array = this->env.heap.accessArray(ptr);
+	if(idx < array.size()){
+		array[idx] = value;
+	}
+	else{
+		throw std::runtime_error("Access Violation" 
+			"at id: " + std::to_string(ptr) + " "
+			"at index: " + std::to_string(idx));
+	}
+}
+
+void ltn::VM::arrayAdd(){
+	std::uint64_t value = this->env.acc.popU();
+	std::uint64_t addr = this->env.acc.popU();
+	this->env.heap.accessArray(addr).push_back(value);
+}
+
+void ltn::VM::arrayPop(){
+	std::uint64_t ptr = this->env.acc.popU();
+	auto & array = this->env.heap.accessArray(ptr);
+	if(array.empty()) {
+		throw std::runtime_error("Access Violation at id: " + std::to_string(ptr) + " attempt to pop from empty buffer");
+	}
+	this->env.acc.push(array.back());
+	array.pop_back();
+}
+
+void ltn::VM::arrayLen(){
+	std::uint64_t addr = this->env.acc.popU();
+	this->env.acc.push(this->env.heap.accessArray(addr).size());
+}
+
+void ltn::VM::loopRange() {
+	std::int64_t end = env.acc.popI();
+	std::int64_t start = env.acc.popI();
+	this->env.loops.push(Loop(env.pc, start, end));
+}
+
+void ltn::VM::loopInf() {
+	this->env.loops.push(Loop(env.pc));
+}
+
+void ltn::VM::loopCont() {
+	Loop & loop = this->env.loops.top();
+	// stop if end of loop is reached
+	if(loop.atEnd()){
+		this->env.loops.pop();
+	}
+	else{
+		// jump back
+		env.pc = loop.addr;
+		// increment
+		loop.idx++;
+	}
+}
+
+void ltn::VM::loopStop() {
+	this->env.loops.pop();
+}
+
+void ltn::VM::loopIdx() {
+	env.acc.push(this->env.loops.top().idx);
+}
+
+

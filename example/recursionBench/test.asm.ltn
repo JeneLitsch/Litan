@@ -17,9 +17,9 @@ load 0
 newi 0
 bgri
 ifnx
-goto IF_5
-goto ELSE_6
--> IF_5
+goto IF_9
+goto ELSE_10
+-> IF_9
 load 0
 newi 1
 subi
@@ -27,14 +27,50 @@ store 0
 load 0
 call FNX_rec_1
 return 
-goto END_IF_7
--> ELSE_6
+goto END_IF_11
+-> ELSE_10
 return 
-goto END_IF_7
--> END_IF_7
+goto END_IF_11
+-> END_IF_11
 
 
--> FNX_print_2
+-> FNX_newArray_2
+stackalloc 1
+array::new
+store 1
+load 0
+return 
+
+
+-> FNX_delArray_3
+stackalloc 1
+store 0
+load 0
+array::del
+return 
+
+
+-> FNX_addToArray_4
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+array::add
+return 
+
+
+-> FNX_readArrayI_5
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+array::get
+return
+
+
+-> FNX_print_6
 stackalloc 1
 store 0
 load 0
@@ -42,7 +78,7 @@ print
 return
 
 
--> FNX_print_3
+-> FNX_print_7
 stackalloc 1
 store 0
 load 0
@@ -50,7 +86,7 @@ print 1
 return
 
 
--> FNX_error_4
+-> FNX_error_8
 stackalloc 0
 error
 
