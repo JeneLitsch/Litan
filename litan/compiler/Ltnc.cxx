@@ -14,10 +14,13 @@ std::string ltnc::LTNC::compile(
 	ltnc::Parser parser;
 	ltnc::Compiler compiler;
 
+
+
 	std::string code = source 
 		+ ltn::readFile("stdlib/stdarr.ltn") 
 		+ ltn::readFile("stdlib/stdio.ltn") 
-		+ ltn::readFile("stdlib/stdexept.ltn");
+		+ ltn::readFile("stdlib/stdexept.ltn")
+		+ ltn::readFile("stdlib/stdstring.ltn");
 
 	if(!silent) std::cout << ">> Tokenization..." << std::endl;
 	auto tokens = lexer.tokenize(code);

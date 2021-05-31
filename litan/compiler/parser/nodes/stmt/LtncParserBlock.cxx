@@ -5,12 +5,14 @@ void ltnc::ParserBlock::connect(
 	const ParserNode<Stmt> & stmt,
 	const ParserNode<DeclVar> & declInt,
 	const ParserNode<DeclVar> & declFlt,
-	const ParserNode<DeclVar> & declArr) {
+	const ParserNode<DeclVar> & declArr,
+	const ParserNode<DeclVar> & declStr) {
 	
 	this->stmt = &stmt;
 	this->declInt = &declInt;
 	this->declFlt = &declFlt;
 	this->declArr = &declArr;
+	this->declStr = &declStr;
 }
 
 std::shared_ptr<ltnc::StmtBlock> ltnc::ParserBlock::eval(ParserPackage & parsePkg) const {
@@ -25,6 +27,9 @@ std::shared_ptr<ltnc::StmtBlock> ltnc::ParserBlock::eval(ParserPackage & parsePk
 				block->declarations.push_back(decl);
 			}
 			else if(auto decl = this->declArr->eval(parsePkg)) {
+				block->declarations.push_back(decl);
+			}
+			else if(auto decl = this->declStr->eval(parsePkg)) {
 				block->declarations.push_back(decl);
 			}
 			else if(parsePkg.match(TokenType::VOI)) throw std::runtime_error("Variables of type voi/void are not allowed.");

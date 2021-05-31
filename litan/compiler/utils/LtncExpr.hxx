@@ -21,6 +21,12 @@ namespace ltnc {
 		ExprFltLiteral(double number): number(number) {}
 		double number;
 	};
+
+	struct ExprStrLiteral : public Expr {
+		virtual ~ExprStrLiteral() = default;
+		ExprStrLiteral(std::string string): string(string) {}
+		std::string string;
+	};
 	
 	struct ExprVar : public Expr {
 		virtual ~ExprVar() = default;

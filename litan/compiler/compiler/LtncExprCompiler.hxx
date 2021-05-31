@@ -31,6 +31,7 @@ namespace ltnc {
 
 		ExprInfo compileIntLit(CompilerPack & compPkg, std::shared_ptr<ExprIntLiteral> expr);
 		ExprInfo compileFltLit(CompilerPack & compPkg, std::shared_ptr<ExprFltLiteral> expr);
+		ExprInfo compileStrLit(CompilerPack & compPkg, std::shared_ptr<ExprStrLiteral> expr);
 		ExprInfo compileVar(CompilerPack & compPkg, std::shared_ptr<ExprVar> expr);
 
 		ExprInfo compileCall(CompilerPack & compPkg, std::shared_ptr<ExprCall> expr);

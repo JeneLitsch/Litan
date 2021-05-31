@@ -1,6 +1,7 @@
 #include "Assembler.hxx"
 #include <sstream>
 #include <iostream>
+#include <iomanip>
 
 // interate over code to find and save markers with their jump addresses
 void ltn::Assembler::searchMarkers(const std::vector<TokenPackage> & tokenPackages){
@@ -29,7 +30,7 @@ std::vector<std::uint64_t> ltn::Assembler::assemble(const std::vector<TokenPacka
 	
 	std::size_t lineNr = 1;
 	
-	std::vector<TokenPackage> tokenPackages = pseudoAssembler.process(tokens, includeDirectories);
+	std::vector<TokenPackage> tokenPackages = pseudoAssembler.process(tokens);
 
 	this->searchMarkers(tokenPackages);
 	if(!this->markers.contains("MAIN")){
@@ -49,9 +50,6 @@ std::vector<std::uint64_t> ltn::Assembler::assemble(const std::vector<TokenPacka
 	return this->instructions;
 }
 
-void ltn::Assembler::setIncludeDirectories(const std::vector<std::string> & includeDirectories){
-	this->includeDirectories = includeDirectories;
-}
 
 void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 	if(pkg.inst == "") return;
@@ -111,15 +109,19 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "load") return this->cFormat(InstCode::LOAD); 
 		if(pkg.inst == "store") return this->cFormat(InstCode::STORE); 
 		
+		if(pkg.inst == "heap::del") return this->cFormat(InstCode::HEAP_DEL);  
 
 		if(pkg.inst == "array::new") return this->cFormat(InstCode::ARRAY_NEW);  
-		if(pkg.inst == "array::del") return this->cFormat(InstCode::ARRAY_DEL);  
 		if(pkg.inst == "array::add") return this->cFormat(InstCode::ARRAY_ADD);  
 		if(pkg.inst == "array::pop") return this->cFormat(InstCode::ARRAY_POP);  
 		if(pkg.inst == "array::set") return this->cFormat(InstCode::ARRAY_SET);  
 		if(pkg.inst == "array::get") return this->cFormat(InstCode::ARRAY_GET);  
 		if(pkg.inst == "array::clr") return this->cFormat(InstCode::ARRAY_CLR);  
 		if(pkg.inst == "array::len") return this->cFormat(InstCode::ARRAY_LEN);  
+
+		if(pkg.inst == "string::new") return this->cFormat(InstCode::STRING_NEW);  
+		if(pkg.inst == "string::add") return this->cFormat(InstCode::STRING_ADD);  
+		if(pkg.inst == "string::print") return this->cFormat(InstCode::STRING_PRINT);  
 
 		if(pkg.inst == "loop::inf") return this->cFormat(InstCode::LOOP_INF);  
 		if(pkg.inst == "loop::range") return this->cFormat(InstCode::LOOP_RANGE);
@@ -147,10 +149,71 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "->") return;
 
 		if(pkg.inst == "print") return this->sFormat(InstCode::PRINT, static_cast<std::uint8_t>(toInt32(pkg.args[0])), 0, 0);
+
 	}
+	if(pkg.inst == "string::data") {
+		std::uint64_t data = 0;
+		std::string str = this->decodeString(pkg.args);
+		std::uint8_t len = str.size();
+		if(len > 6) {
+			std::cout << ">> Warning: String data to long" << std::endl;
+		}
+		data |= len;
+		for(int i = 0; i < len; i++) {
+			char chr = str[i];
+			data |= std::uint64_t(chr) << (i+1)*8;
+		}
+		return this->dFormat(InstCode::STRING_DATA, data); 
+	}
+
 	if(pkg.inst == "//") return;
 	throw std::runtime_error("No signature matches: " + pkg.inst);
 }
+
+std::string ltn::Assembler::decodeString(const std::vector<std::string> & args) const {
+	std::string encodedString;
+	for(const std::string & arg : args) {
+		encodedString += arg + " ";
+	}
+	encodedString.pop_back();
+	if(encodedString.front() != '\'' || encodedString.back() != '\'') {
+		throw std::runtime_error("String is not delimited");
+	}
+	encodedString.pop_back();
+	encodedString.erase(encodedString.begin());
+
+	std::vector<std::string> encodedChars;
+	
+	for(unsigned idx = 0; idx < encodedString.size(); idx++) {
+		char chr = encodedString[idx];
+		if(chr == '\\') {
+			encodedChars.push_back(encodedString.substr(idx,2));
+			idx++;
+		}
+		else {
+			encodedChars.push_back(encodedString.substr(idx,1));
+		}
+	}
+
+
+	std::string decodedStr;
+	for(const std::string & encodedChar : encodedChars) {
+		if(encodedChar.size() == 1) {
+			decodedStr.push_back(encodedChar[0]);
+		}
+		else {
+			if(encodedChar == "\\n") {
+				decodedStr.push_back('\n');
+			}
+			if(encodedChar == "\\t") {
+				decodedStr.push_back('\t');
+			}
+		}
+	}
+	return decodedStr;
+}
+
+
 
 std::uint32_t ltn::Assembler::toInt32(const std::string & str){
 	if(str.substr(0,2) == "0x"){
@@ -222,5 +285,12 @@ void ltn::Assembler::sFormat(InstCode code, std::uint8_t arg8, std::uint16_t arg
 	inst |= static_cast<std::uint64_t>(arg16) << 16;
 	// 32-bit arg
 	inst |= static_cast<std::uint64_t>(arg32) << 32;
+	this->instructions.push_back(inst);
+}
+
+void ltn::Assembler::dFormat(InstCode code, std::uint64_t arg56) {
+	std::uint64_t inst = 0;
+	inst |= static_cast<std::uint64_t>(code);
+	inst |= static_cast<std::uint64_t>(arg56) << 8;
 	this->instructions.push_back(inst);
 }

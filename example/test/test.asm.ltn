@@ -4,44 +4,60 @@ exit
 
 
 -> FNX_main_0
-stackalloc 1
-newi 0
-newi 5
-dec
-loop::range 
-loop::idx 
-newi 42
-call FNX_print_5
-loop::cont 
-call FNX_newArray_1
+stackalloc 4
+// hello 
+string::new
+string::data 'hello '
 store 0
+// world
+string::new
+string::data 'world'
+store 1
 load 0
-newi 10
-call FNX_addToArray_3
+load 1
+call FNX_add_12
+store 2
 load 0
-newi 20
-call FNX_addToArray_3
+call FNX_print_9
+load 1
+call FNX_print_9
+load 2
+call FNX_print_9
+// Lorem ipsum dolor sit amet
+string::new
+string::data 'Lorem '
+string::data 'ipsum '
+string::data 'dolor '
+string::data 'sit am'
+string::data 'et'
+store 3
+load 3
+call FNX_print_9
 load 0
-newi 30
-call FNX_addToArray_3
-load 0
-newi 0
-call FNX_readArrayI_4
-call FNX_print_5
-load 0
-newi 1
-call FNX_readArrayI_4
-call FNX_print_5
-load 0
-newi 2
-call FNX_readArrayI_4
-call FNX_print_5
-load 0
-call FNX_delArray_2
-return 
+call FNX_delete_11
+load 1
+call FNX_delete_11
+load 2
+call FNX_delete_11
+load 3
+call FNX_delete_11
 
 
--> FNX_newArray_1
+-> FNX_hello_1
+stackalloc 0
+string::new
+string::data 'hello '
+return
+
+
+-> FNX_world_2
+stackalloc 0
+string::new
+string::data 'world'
+return
+
+
+-> FNX_newArray_3
 stackalloc 1
 array::new
 store 1
@@ -49,15 +65,15 @@ load 0
 return 
 
 
--> FNX_delArray_2
+-> FNX_delete_4
 stackalloc 1
 store 0
 load 0
-array::del
+heap::del
 return 
 
 
--> FNX_addToArray_3
+-> FNX_addToArray_5
 stackalloc 2
 store 1
 store 0
@@ -67,7 +83,7 @@ array::add
 return 
 
 
--> FNX_readArrayI_4
+-> FNX_readArrayI_6
 stackalloc 2
 store 1
 store 0
@@ -77,24 +93,50 @@ array::get
 return
 
 
--> FNX_print_5
+-> FNX_print_7
 stackalloc 1
 store 0
 load 0
 print
-return
+return 
 
 
--> FNX_print_6
+-> FNX_print_8
 stackalloc 1
 store 0
 load 0
 print 1
-return
+return 
 
 
--> FNX_error_7
+-> FNX_print_9
+stackalloc 1
+store 0
+load 0
+string::print
+return 
+
+
+-> FNX_error_10
 stackalloc 0
 error
+
+
+-> FNX_delete_11
+stackalloc 1
+store 0
+load 0
+heap::del
+return 
+
+
+-> FNX_add_12
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+string::add
+return
 
 

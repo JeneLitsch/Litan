@@ -74,20 +74,31 @@ namespace ltn {
 		void rtrn();
 		void ifsk();
 		
-		void loopRange();
-		void loopInf();
-		void loopCont();
-		void loopStop();
-		void loopIdx();
-
+		// heap
+		void heapDel();
+		
+		// array 
 		void arrayNew();
-		void arrayDel();
 		void arrayClr();
 		void arrayGet(); 
 		void arraySet();
 		void arrayAdd();
 		void arrayPop();
 		void arrayLen();
+
+		// string
+		void stringNew();
+		void stringAdd();
+		void stringData();
+		void stringPrint();
+
+		// loop
+		void loopRange();
+		void loopInf();
+		void loopCont();
+		void loopStop();
+		void loopIdx();
+
 		
 
 	};

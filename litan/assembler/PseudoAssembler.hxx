@@ -7,7 +7,7 @@ namespace ltn{
 	// preprocessor for translate pseudo instructions, macros and preprocessor directives
 	class PseudoAssembler {
 	public:
-		std::vector<TokenPackage> process(const std::vector<TokenPackage> & tokensPackages, const std::vector<std::string> & includeDirectories);
+		std::vector<TokenPackage> process(const std::vector<TokenPackage> & tokensPackages);
 
 		void registerAlias(const std::string & alias, Slot slot, std::uint8_t funct);
 	private:
@@ -18,6 +18,5 @@ namespace ltn{
 
 		std::set<std::string> includeGuard;
 		std::vector<TokenPackage> newPkgs;
-		std::vector<std::string> includeDirectories;
 	};
 }

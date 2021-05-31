@@ -13,6 +13,10 @@ std::shared_ptr<ltnc::Expr> ltnc::ParserPrimary::eval(ParserPackage & parsePkg) 
 		double value = std::stod(parsePkg.prev().string);
 		return std::make_shared<ExprFltLiteral>(value);
 	}
+	if (parsePkg.match(TokenType::STRING_LITERAL)) {
+		std::string value = parsePkg.prev().string;
+		return std::make_shared<ExprStrLiteral>(value);
+	}
 	if (parsePkg.match(TokenType::IDENTIFIER)) {
 		std::string name = parsePkg.prev().string;
 		return std::make_shared<ExprVar>(name);
@@ -20,6 +24,5 @@ std::shared_ptr<ltnc::Expr> ltnc::ParserPrimary::eval(ParserPackage & parsePkg) 
 	if (parsePkg.match(TokenType::CALL)) {
 		return this->call->eval(parsePkg);
 	}
-	if (parsePkg.match(TokenType::L_PARAN)) {}
 	return parsePkg.error("No matching expression");
 }

@@ -3,14 +3,22 @@ fnx print(int num) voi {
 	asm {
 		"load 0"
 		"print"
-		"return"
 	}
+	return;
 }
 
 fnx print(flt num) voi {
 	asm {
 		"load 0"
 		"print 1"
-		"return"
 	}
+	return;
+}
+
+fnx print(str s) voi {
+	asm {
+		"load 0"
+		"string::print"
+	}
+	return;
 }

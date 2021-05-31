@@ -1,17 +1,36 @@
 fnx main() voi {
-	repeat(5) {
-		->print(42);
+	str str1;
+	str str2;
+	str str3;
+	str1 = "hello ";
+	str2 = "world";
+	str3 = ->add(str1, str2);
+	-> print(str1);
+	-> print(str2);
+	-> print(str3);
+
+	str str4;
+	str4 = "Lorem ipsum dolor sit amet";
+	-> print(str4);
+
+	-> delete(str1);
+	-> delete(str2);
+	-> delete(str3);
+	-> delete(str4);
+}
+
+fnx hello() str {
+	asm {
+		"string::new"
+		"string::data 'hello '"
+		"return"
 	}
+}
 
-	arr array;
-	array = ->newArray();
-
-	->addToArray(array, 10);
-	->addToArray(array, 20);
-	->addToArray(array, 30);
-	->print(->readArrayI(array, 0));
-	->print(->readArrayI(array, 1));
-	->print(->readArrayI(array, 2));
-	->delArray(array);
-	return;
+fnx world() str {
+	asm {
+		"string::new"
+		"string::data 'world'"
+		"return"
+	}
 }

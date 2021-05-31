@@ -8,10 +8,10 @@ fnx newArray() arr {
 	return array;
 }
 
-fnx delArray(arr array) voi {
+fnx delete(arr array) voi {
 	asm {
 		"load 0"
-		"array::del"
+		"heap::del"
 	}
 	return;
 }

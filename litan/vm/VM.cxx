@@ -121,8 +121,9 @@ ltn::VM::Status ltn::VM::execute(){
 		case InstCode::EXT6: this->extensions[6]->call(this->getArg8()); break;
 		case InstCode::EXT7: this->extensions[7]->call(this->getArg8()); break;
 
+		case InstCode::HEAP_DEL: this->heapDel(); break;
+
 		case InstCode::ARRAY_NEW: this->arrayNew(); break;
-		case InstCode::ARRAY_DEL: this->arrayDel(); break;
 		case InstCode::ARRAY_CLR: this->arrayClr(); break;
 		case InstCode::ARRAY_GET: this->arrayGet(); break;
 		case InstCode::ARRAY_SET: this->arraySet(); break;
@@ -136,6 +137,10 @@ ltn::VM::Status ltn::VM::execute(){
 		case InstCode::LOOP_CONT: this->loopCont(); break;
 		case InstCode::LOOP_IDX: this->loopIdx(); break;
 
+		case InstCode::STRING_NEW: this->stringNew(); break;
+		case InstCode::STRING_ADD: this->stringAdd(); break;
+		case InstCode::STRING_DATA: this->stringData(); break;
+		case InstCode::STRING_PRINT: this->stringPrint(); break;
 		default:
 			std::string hex;
 			std::stringstream ss;
@@ -143,6 +148,7 @@ ltn::VM::Status ltn::VM::execute(){
 			ss >> hex;
 			throw std::runtime_error("Unknown instruction: 0x" + hex);
 		}
+		// std::cout << "Size: " << this->env.acc.size() << " Inst: " << int(this->opcode) << std::endl;
 		// stack size guard
 		if(this->env.acc.isFull()){
 			throw std::runtime_error("Stack limit one on acc is reached");
@@ -412,15 +418,18 @@ void ltn::VM::ifsk(){
 	}
 }
 
+// Heap instructions
+void ltn::VM::heapDel(){
+	std::uint64_t ptr = this->env.acc.popU();
+	this->env.heap.destroy(ptr);
+}
+
+
+// Array instructions
 void ltn::VM::arrayNew(){
 	this->env.acc.push(this->env.heap.allocateArray());
 }
 
-void ltn::VM::arrayDel(){
-	std::uint64_t ptr = this->env.acc.popU();
-	this->env.heap.destroy(ptr);
-
-}
 
 void ltn::VM::arrayClr(){
 	std::uint64_t ptr = this->env.acc.popU();
@@ -477,6 +486,38 @@ void ltn::VM::arrayLen(){
 	this->env.acc.push(this->env.heap.accessArray(addr).size());
 }
 
+
+void ltn::VM::stringNew() {
+	this->env.acc.push(this->env.heap.allocateString());
+}
+
+void ltn::VM::stringAdd() {
+	std::uint64_t ptr2 = this->env.acc.popU();	
+	std::uint64_t ptr1 = this->env.acc.popU();
+	std::uint64_t ptr3 = this->env.heap.allocateString();
+	this->env.heap.accessString(ptr3) = this->env.heap.accessString(ptr1) + this->env.heap.accessString(ptr2);
+	this->env.acc.push(ptr3);
+}
+
+void ltn::VM::stringData() {
+	std::uint64_t ptr = this->env.acc.top();
+	std::uint8_t len = this->getArg8();
+	std::string str = "";
+	for(unsigned int i = 2; i < 2 + len; i++) {
+		char chr = static_cast<char>((this->currentInstruction >> i*8) & 0xff);
+		str.push_back(chr);
+	}
+	this->env.heap.accessString(ptr) += str;
+}
+
+void ltn::VM::stringPrint() {
+	std::uint64_t ptr = this->env.acc.popU();
+	std::cout << this->env.heap.accessString(ptr) << std::endl;
+}
+
+
+
+// Loop instruction
 void ltn::VM::loopRange() {
 	std::int64_t end = env.acc.popI();
 	std::int64_t start = env.acc.popI();

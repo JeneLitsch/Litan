@@ -10,6 +10,18 @@ std::shared_ptr<ltnc::DeclFunction> ltnc::ParserFunction::eval(ParserPackage & p
 	return this->function(parsePkg);
 }
 
+ltnc::Type ltnc::ParserFunction::toType(TokenType tokenType) const {
+	switch (tokenType)
+	{
+	case TokenType::VOI: return Type::VOI;
+	case TokenType::INT: return Type::INT;
+	case TokenType::FLT: return Type::FLT;
+	case TokenType::ARR: return Type::ARR;
+	case TokenType::STR: return Type::STR;
+	default:break;
+	}
+}
+
 std::shared_ptr<ltnc::DeclFunction> ltnc::ParserFunction::function(ParserPackage & parsePkg) const{
 	if(parsePkg.match(TokenType::IDENTIFIER)) {
 
@@ -22,20 +34,12 @@ std::shared_ptr<ltnc::DeclFunction> ltnc::ParserFunction::function(ParserPackage
 				TokenType::VOI,
 				TokenType::INT,
 				TokenType::ARR,
+				TokenType::STR,
 				TokenType::FLT})) {
 				TokenType tokenType = parsePkg.prev().type;
-				Type type;
+				Type type = this->toType(tokenType);
 				if(tokenType == TokenType::VOI) {
 					return parsePkg.error("Void is not an allowed paramter type");
-				}
-				if(tokenType == TokenType::INT) {
-					type = Type::INT;
-				}
-				if(tokenType == TokenType::FLT) {
-					type = Type::FLT;
-				}
-				if(tokenType == TokenType::ARR) {
-					type = Type::ARR;
 				}
 				if(parsePkg.match(TokenType::IDENTIFIER)) {
 					std::string name = parsePkg.prev().string;
@@ -63,6 +67,9 @@ std::shared_ptr<ltnc::DeclFunction> ltnc::ParserFunction::function(ParserPackage
 				}
 				else if(parsePkg.match(TokenType::ARR)) {
 					returnType = Type::ARR;
+				}
+				else if(parsePkg.match(TokenType::STR)) {
+					returnType = Type::STR;
 				}
 				else {
 					return parsePkg.error("Missing or invalid return type");

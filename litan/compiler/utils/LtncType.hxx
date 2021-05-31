@@ -19,7 +19,7 @@ namespace ltnc {
 
 
 	struct Type {
-		enum Variation {VOI, INT, FLT, ARR} type;
+		enum Variation {VOI, INT, FLT, ARR, STR} type;
 		
 		Type(Variation type) : type(type) {}
 		

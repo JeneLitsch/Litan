@@ -1,0 +1,16 @@
+fnx delete(str string) voi {
+	asm {
+		"load 0"
+		"heap::del"
+	}
+	return;
+}
+
+fnx add(str s1, str s2) str {
+	asm {
+		"load 0"
+		"load 1"
+		"string::add"
+		"return"
+	}
+}

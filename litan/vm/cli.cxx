@@ -75,7 +75,6 @@ void until(const std::vector<std::uint64_t> & instructions){
 
 int main(int argc, char const *argv[]) {
 	if(argc <= 2) return 1;
-
 	std::cout << "Litan Virtual Machine (c) Jene Litsch 2021" << std::endl;
 
 	std::string mode = argv[1];
@@ -85,27 +84,33 @@ int main(int argc, char const *argv[]) {
 		format = argv[3];
 	}
 	
-
-	if(mode == "-run"){
-		launch(load(file, format));
-	}
-
-	if(mode == "-until"){
-		until(load(file, format));
-	}
-
-	if(mode.substr(0,7) == "-bench="){
-		unsigned number;
-		if(argc > 3) {
-			number = static_cast<unsigned>(std::stoul(mode.substr(7)));
-		}
-		else{
-			number = 1000;
+	try {
+		if(mode == "-run"){
+			launch(load(file, format));
 		}
 
-		benchmark(load(file, format),number);
+		if(mode == "-until"){
+			until(load(file, format));
+		}
+
+		if(mode.substr(0,7) == "-bench="){
+			unsigned number;
+			if(argc > 3) {
+				number = static_cast<unsigned>(std::stoul(mode.substr(7)));
+			}
+			else{
+				number = 1000;
+			}
+
+			benchmark(load(file, format),number);
+		}
+		std::cout << std::endl;
 	}
-	std::cout << std::endl;
+	catch(std::runtime_error error) {
+		std::cout << ">> VM terminated after runtime error: ";
+		std::cout << error.what() << std::endl;
+		std::cout << std::endl;
+	}
 
 	return 0;
 }

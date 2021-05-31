@@ -5,7 +5,7 @@
 
 ltnc::Parser::Parser() {
 	this->stmt.connect(this->block, this->ifelse, this->assign, this->expr, this->call);
-	this->block.connect(this->stmt, this->declInt, this->declFlt, this->declArr);
+	this->block.connect(this->stmt, this->declInt, this->declFlt, this->declArr, this->declStr);
 	this->assign.connect(this->expr);
 	this->function.connect(this->block);
 	this->ifelse.connect(this->stmt, this->expr);

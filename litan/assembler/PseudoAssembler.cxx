@@ -5,8 +5,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <filesystem>
-std::vector<ltn::TokenPackage> ltn::PseudoAssembler::process(const std::vector<TokenPackage> & tokensPackages, const std::vector<std::string> & includeDirectories){
-	this->includeDirectories = includeDirectories;
+std::vector<ltn::TokenPackage> ltn::PseudoAssembler::process(const std::vector<TokenPackage> & tokensPackages){
 	this->newPkgs.clear();
 	bool ok = true;
 	std::size_t lineNr = 1;
@@ -199,23 +198,6 @@ void ltn::PseudoAssembler::processPkg(const TokenPackage & pkg){
 			return;
 		}
 	}
-
-	// multiple new(x) and load operations in one line
-	// if(pkg.inst == "push"){
-	// 	for(const auto & arg : pkg.args) {
-	// 		if(arg.substr(0,3) == "[$]") {
-	// 			this->processPkg(TokenPackage(pkg.line, "load", {arg.substr(3)}));
-	// 		}
-	// 		if(arg.substr(0,3) == "[f]") {
-	// 			this->processPkg(TokenPackage(pkg.line, "newf", {arg.substr(3)}));
-	// 		}
-	// 		if(arg.substr(0,3) == "[i]") {
-	// 			this->processPkg(TokenPackage(pkg.line, "newi", {arg.substr(3)}));
-	// 		}
-
-	// 	}
-	// 	return;
-	// }
 
 
 	// resolve aliases

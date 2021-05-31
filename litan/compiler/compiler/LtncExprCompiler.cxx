@@ -13,6 +13,9 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileExpr(CompilerPack & compPkg,  std::sha
 	if(auto expr_ = std::dynamic_pointer_cast<ltnc::ExprFltLiteral>(expr)) {
 		return this->compileFltLit(compPkg, expr_);
 	}
+	if(auto expr_ = std::dynamic_pointer_cast<ltnc::ExprStrLiteral>(expr)) {
+		return this->compileStrLit(compPkg, expr_);
+	}
 	if(auto expr_ = std::dynamic_pointer_cast<ltnc::ExprVar>(expr)) {
 		return this->compileVar(compPkg, expr_);
 	}
@@ -94,6 +97,19 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileFltLit(CompilerPack & compPkg, std::sh
 	return ExprInfo(Type::FLT, code, Constant(value));
 }
 
+ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::shared_ptr<ExprStrLiteral> expr) {
+	std::string string = expr->string;
+	std::vector<std::string> stringParts;
+	for(unsigned idx = 0; idx < string.size(); idx+=6) {
+		stringParts.push_back(string.substr(idx,6));
+	}
+	std::string code = "// " + expr->string + "\n";
+	code += "string::new\n";
+	for(const std::string & str : stringParts) {
+		code += "string::data '" + str + "'\n";
+	}
+	return ExprInfo(Type::STR, code);
+}
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileVar(CompilerPack & compPkg, std::shared_ptr<ExprVar> expr) {
 	Var var = compPkg.getScopes().get().getVar(expr->name);
