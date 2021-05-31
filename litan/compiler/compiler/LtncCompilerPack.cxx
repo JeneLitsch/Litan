@@ -35,6 +35,14 @@ ltnc::ScopeStack & ltnc::CompilerPack::getScopes(){
 	return this->scopeStack;
 }
 
+const ltnc::TypeTable & ltnc::CompilerPack::getTypeTable() const {
+	return this->typeTable;
+}
+
+ltnc::TypeTable & ltnc::CompilerPack::getTypeTable(){
+	return this->typeTable;
+}
+
 const ltnc::CompilerSettings & ltnc::CompilerPack::getSettings() const {
 	return this->settings;
 }

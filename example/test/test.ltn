@@ -1,7 +1,10 @@
+
+typedef foo;
+
 fnx main() voi {
-	str str1;
-	str str2;
-	str str3;
+	var str str1;
+	var str str2;
+	var str str3;
 	str1 = "hello ";
 	str2 = "world";
 	str3 = ->add(str1, str2);
@@ -9,7 +12,7 @@ fnx main() voi {
 	-> print(str2);
 	-> print(str3);
 
-	str str4;
+	var str str4;
 	str4 = "Lorem ipsum dolor sit amet";
 	-> print(str4);
 
@@ -17,6 +20,25 @@ fnx main() voi {
 	-> delete(str2);
 	-> delete(str3);
 	-> delete(str4);
+
+	var foo a;
+	a = -> makeFoo();
+	-> print(a);
+}
+
+fnx makeFoo() foo {
+	asm {
+		"newl 42"
+		"return"
+	}
+}
+
+fnx print(foo obj) voi {
+	asm {
+		"load 0"
+		"print"
+		"return"
+	}
 }
 
 fnx hello() str {

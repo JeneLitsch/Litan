@@ -5,7 +5,7 @@
 
 ltnc::Parser::Parser() {
 	this->stmt.connect(this->block, this->ifelse, this->assign, this->expr, this->call);
-	this->block.connect(this->stmt, this->declInt, this->declFlt, this->declArr, this->declStr);
+	this->block.connect(this->stmt, this->declVar);
 	this->assign.connect(this->expr);
 	this->function.connect(this->block);
 	this->ifelse.connect(this->stmt, this->expr);
@@ -23,9 +23,17 @@ ltnc::Parser::Parser() {
 std::shared_ptr<ltnc::Program> ltnc::Parser::parse(const std::vector<Token> & tokens) const {
 	ParserPackage parsePkg(tokens);
 	auto program = std::make_shared<Program>();
-	while(parsePkg.match(TokenType::FNX) && !parsePkg.isAtEnd()) {
-		auto stmt = this->function.eval(parsePkg);
-		program->functions.push_back(stmt);
+	while(!parsePkg.isAtEnd()) {
+		if(parsePkg.match(TokenType::FNX)){
+			auto stmt = this->function.eval(parsePkg);
+			program->functions.push_back(stmt);
+		}
+		else if (auto typeDecl = declType.eval(parsePkg)) {
+			program->types.push_back(*typeDecl);
+		}
+		else {
+			throw std::runtime_error("Unknown declaration at: " + parsePkg.curr().string);
+		}
 	}
 	return program;
 }

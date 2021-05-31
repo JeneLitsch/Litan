@@ -87,14 +87,14 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 ltnc::ExprInfo ltnc::ExprCompiler::compileIntLit(CompilerPack & compPkg, std::shared_ptr<ExprIntLiteral> expr) {
 	std::int64_t value = expr->number;
 	std::string code = "newi " + std::to_string(value) + "\n";
-	return ExprInfo(Type::INT , code, Constant(value));
+	return ExprInfo(Type("int"), code, Constant(value));
 }
 
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileFltLit(CompilerPack & compPkg, std::shared_ptr<ExprFltLiteral> expr) {
 	double value = expr->number;
 	std::string code = "newf " + std::to_string(value) + "\n";
-	return ExprInfo(Type::FLT, code, Constant(value));
+	return ExprInfo(Type("flt"), code, Constant(value));
 }
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::shared_ptr<ExprStrLiteral> expr) {
@@ -108,7 +108,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::sh
 	for(const std::string & str : stringParts) {
 		code += "string::data '" + str + "'\n";
 	}
-	return ExprInfo(Type::STR, code);
+	return ExprInfo(Type("str"), code);
 }
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileVar(CompilerPack & compPkg, std::shared_ptr<ExprVar> expr) {
@@ -121,11 +121,13 @@ std::string ltnc::ExprCompiler::getSuffux(const ExprInfo & l, const ExprInfo & r
 	if(l.type != r.type) {
 		throw std::runtime_error("Expression types do not match: \"" + l.code + "\" and \"" + r.code + "\"");
 	}
-	switch (l.type.type) {
-		case Type::INT: return "i";
-		case Type::FLT: return "f";
-		default: throw std::runtime_error("Invalid Type for operation");
+	if(l.type == "int") {
+		return "i";
 	}
+	if(l.type == "flt") {
+		return "f";
+	}
+	throw std::runtime_error("Invalid Type for operation");
 }
 
 
@@ -140,7 +142,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileCall(CompilerPack & compPkg, std::shar
 		code += exprInfo.code;
 	}
 
-	if(auto fxInfo = compPkg.matchFunction(FxSignature(Type::VOI, expr->name, params))) {
+	if(auto fxInfo = compPkg.matchFunction(FxSignature(Type("voi"), expr->name, params))) {
 		// create jump to fx
 		code += "call "  + fxInfo->jumpMark + "\n";
 		return ExprInfo(fxInfo->signature.returnType, code);

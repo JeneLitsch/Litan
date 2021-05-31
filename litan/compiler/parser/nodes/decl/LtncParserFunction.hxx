@@ -10,7 +10,6 @@ namespace ltnc {
 	private:
 
 		std::shared_ptr<DeclFunction> function(ParserPackage & parsePkg) const;
-		Type toType(TokenType tokenType) const;
 		const ParserNode<StmtBlock> * block; 
 	};
 }

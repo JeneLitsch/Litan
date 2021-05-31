@@ -1,6 +1,6 @@
 
 fnx newArray() arr {
-	arr array;
+	var arr array;
 	asm {
 		"array::new"
 		"store 1"

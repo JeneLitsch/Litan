@@ -4,7 +4,7 @@ exit
 
 
 -> FNX_main_0
-stackalloc 4
+stackalloc 5
 // hello 
 string::new
 string::data 'hello '
@@ -15,14 +15,14 @@ string::data 'world'
 store 1
 load 0
 load 1
-call FNX_add_12
+call FNX_add_14
 store 2
 load 0
-call FNX_print_9
+call FNX_print_11
 load 1
-call FNX_print_9
+call FNX_print_11
 load 2
-call FNX_print_9
+call FNX_print_11
 // Lorem ipsum dolor sit amet
 string::new
 string::data 'Lorem '
@@ -32,32 +32,50 @@ string::data 'sit am'
 string::data 'et'
 store 3
 load 3
-call FNX_print_9
+call FNX_print_11
 load 0
-call FNX_delete_11
+call FNX_delete_13
 load 1
-call FNX_delete_11
+call FNX_delete_13
 load 2
-call FNX_delete_11
+call FNX_delete_13
 load 3
-call FNX_delete_11
+call FNX_delete_13
+call FNX_makeFoo_1
+store 4
+load 4
+call FNX_print_2
 
 
--> FNX_hello_1
+-> FNX_makeFoo_1
+stackalloc 0
+newl 42
+return
+
+
+-> FNX_print_2
+stackalloc 1
+store 0
+load 0
+print
+return
+
+
+-> FNX_hello_3
 stackalloc 0
 string::new
 string::data 'hello '
 return
 
 
--> FNX_world_2
+-> FNX_world_4
 stackalloc 0
 string::new
 string::data 'world'
 return
 
 
--> FNX_newArray_3
+-> FNX_newArray_5
 stackalloc 1
 array::new
 store 1
@@ -65,7 +83,7 @@ load 0
 return 
 
 
--> FNX_delete_4
+-> FNX_delete_6
 stackalloc 1
 store 0
 load 0
@@ -73,7 +91,7 @@ heap::del
 return 
 
 
--> FNX_addToArray_5
+-> FNX_addToArray_7
 stackalloc 2
 store 1
 store 0
@@ -83,7 +101,7 @@ array::add
 return 
 
 
--> FNX_readArrayI_6
+-> FNX_readArrayI_8
 stackalloc 2
 store 1
 store 0
@@ -93,7 +111,7 @@ array::get
 return
 
 
--> FNX_print_7
+-> FNX_print_9
 stackalloc 1
 store 0
 load 0
@@ -101,7 +119,7 @@ print
 return 
 
 
--> FNX_print_8
+-> FNX_print_10
 stackalloc 1
 store 0
 load 0
@@ -109,7 +127,7 @@ print 1
 return 
 
 
--> FNX_print_9
+-> FNX_print_11
 stackalloc 1
 store 0
 load 0
@@ -117,12 +135,12 @@ string::print
 return 
 
 
--> FNX_error_10
+-> FNX_error_12
 stackalloc 0
 error
 
 
--> FNX_delete_11
+-> FNX_delete_13
 stackalloc 1
 store 0
 load 0
@@ -130,7 +148,7 @@ heap::del
 return 
 
 
--> FNX_add_12
+-> FNX_add_14
 stackalloc 2
 store 1
 store 0

@@ -7,7 +7,7 @@ namespace ltnc {
 
 	struct Program {
 		std::vector<std::shared_ptr<DeclFunction>> functions;
-		std::vector<std::string> includes;
+		std::vector<Type> types;
 		virtual ~Program() = default;
 	};
 }

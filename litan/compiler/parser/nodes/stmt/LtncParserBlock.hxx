@@ -6,17 +6,11 @@ namespace ltnc {
 	public:
 		void connect(
 			const ParserNode<Stmt> & stmt,
-			const ParserNode<DeclVar> & declInt,
-			const ParserNode<DeclVar> & declFlt,
-			const ParserNode<DeclVar> & declArr,
-			const ParserNode<DeclVar> & declStr);
+			const ParserNode<DeclVar> & declVar);
 		
 		virtual std::shared_ptr<StmtBlock> eval(ParserPackage & parsePkg) const override;
 	private:
-		const ParserNode<DeclVar> * declInt; 
-		const ParserNode<DeclVar> * declFlt; 
-		const ParserNode<DeclVar> * declArr; 
-		const ParserNode<DeclVar> * declStr; 
+		const ParserNode<DeclVar> * declVar; 
 		const ParserNode<Stmt> * stmt; 
 	};
 }

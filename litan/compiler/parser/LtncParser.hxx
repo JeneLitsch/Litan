@@ -6,10 +6,8 @@
 
 #include "LtncParserStmt.hxx"
 #include "LtncParserAssign.hxx"
-#include "LtncParserDeclInt.hxx"
-#include "LtncParserDeclFlt.hxx"
-#include "LtncParserDeclArr.hxx"
-#include "LtncParserDeclStr.hxx"
+#include "LtncParserDeclVar.hxx"
+#include "LtncParserDeclType.hxx"
 #include "LtncParserFunction.hxx"
 
 #include "LtncParserExpr.hxx"
@@ -33,10 +31,8 @@ namespace ltnc {
 		ParserBlock block;
 		ParserIfElse ifelse;
 		ParserAssign assign;
-		ParserDeclInt declInt;
-		ParserDeclFlt declFlt;
-		ParserDeclArr declArr;
-		ParserDeclStr declStr;
+		ParserDeclVar declVar;
+		ParserDeclType declType;
 		ParserFunction function;
 
 		ParserExpr expr;

@@ -102,11 +102,8 @@ ltnc::LexerNode ltnc::LexerNodeCreator::numliteral() {
 
 ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	std::map<std::string, TokenType> keywords;
-	keywords.insert({"int", TokenType::INT});
-	keywords.insert({"flt", TokenType::FLT});
-	keywords.insert({"voi", TokenType::VOI});
-	keywords.insert({"arr", TokenType::ARR});
-	keywords.insert({"str", TokenType::STR});
+	keywords.insert({"typedef", TokenType::TYPEDEF});
+	keywords.insert({"var", TokenType::VAR});
 	keywords.insert({"con", TokenType::CON});
 	keywords.insert({"fnx", TokenType::FNX});
 	keywords.insert({"if", TokenType::IF});

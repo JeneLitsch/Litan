@@ -2,7 +2,7 @@
 #include <iostream>
 
 std::string ltnc::StmtCompiler::compileProgram(CompilerPack & compPkg, std::shared_ptr<Program> program){
-	compPkg.getScopes().addFunctionScope(FxSignature(Type::VOI, "", {}));
+	compPkg.getScopes().addFunctionScope(FxSignature(Type("voi"), "", {}));
 	for(const auto & function : program->functions) {
 		compPkg.registerFunction(function);
 	}
@@ -69,7 +69,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::sh
 	ExprInfo expr = this->exprCompiler.compileExpr(compPkg, stmt->expr); 
 
 
-	if(expr.type != Type::INT){
+	if(expr.type != "int"){
 		throw std::runtime_error("Upper bound of for loop needs to be a integer expression.");
 	}
 	
@@ -118,17 +118,17 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::share
 	ExprInfo from = this->exprCompiler.compileExpr(compPkg, stmt->exprFrom); 
 	ExprInfo to = this->exprCompiler.compileExpr(compPkg, stmt->exprTo);
 
-	if(from.type != Type::INT){
+	if(from.type != "int"){
 		throw std::runtime_error("Lower bound of for loop needs to be a integer expression.");
 	}
 
-	if(to.type != Type::INT){
+	if(to.type != "int"){
 		throw std::runtime_error("Upper bound of for loop needs to be a integer expression.");
 	}
 
 	compPkg.getScopes().addBlockScope();
 	// iteration variable
-	Var counter = compPkg.getScopes().get().registerVar(stmt->name, Type::INT);
+	Var counter = compPkg.getScopes().get().registerVar(stmt->name, Type("int"));
 	// create code inside loop
 	StmtInfo codeStmt = this->compileBlock(compPkg, stmt->stmt);
 	compPkg.getScopes().remove();
@@ -164,6 +164,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::sha
 	compPkg.getScopes().addBlockScope();
 	std::string code;
 	for(const auto & decl : block->declarations) {
+		compPkg.getTypeTable().guardType(decl->type);
 		Var var = compPkg.getScopes().get().registerVar(decl->name, decl->type);
 	}
 	unsigned stackalloc = 0;
@@ -229,9 +230,14 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileIf(CompilerPack & compPkg, std::shared
 ltnc::StmtInfo ltnc::StmtCompiler::compileFunction(CompilerPack & compPkg, std::shared_ptr<DeclFunction> decl) {
 	FxInfo fxInfo = *compPkg.matchFunction(decl->signature);
 
+	compPkg.getTypeTable().guardType(decl->signature.returnType);
+
 	compPkg.getScopes().addFunctionScope(fxInfo.signature);
 	// register parameter
 	for(const Param & param : decl->signature.params) {
+		// check existence of type
+		compPkg.getTypeTable().guardType(param.type);
+		// register var
 		compPkg.getScopes().get().registerVar(param.name, param.type);
 	}
 	// eval body
@@ -239,7 +245,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileFunction(CompilerPack & compPkg, std::
 
 	// create code;
 	std::string code;
-	code += this->comment(compPkg, decl->signature.name + " " + std::to_string(decl->signature.params.size()) + " -> " + std::to_string(static_cast<int>(decl->signature.returnType.type)));
+	code += this->comment(compPkg, decl->signature.name + " " + std::to_string(decl->signature.params.size()) + " -> " + decl->signature.returnType.typeName);
 	code += "-> " + fxInfo.jumpMark + "\n";
 	// load params into memory (backwards because LIFO)
 	const auto & params = decl->signature.params; 
@@ -259,7 +265,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shar
 	ExprInfo exprInfo = this->exprCompiler.compileExpr(compPkg, stmt->expr);
 	std::string code;
 	code += exprInfo.code;
-	if(exprInfo.type == Type::INT || exprInfo.type == Type::FLT) {
+	if(exprInfo.type == "int" || exprInfo.type == "int") {
 		code += "scrap \n";
 	}
 	return StmtInfo(code, 0);
@@ -276,7 +282,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileReturn(CompilerPack & compPkg, std::sh
 		code += exprInfo.code; 
 	}
 	else {
-		if(Type::VOI != signature.returnType) {
+		if("voi" != signature.returnType) {
 			throw std::runtime_error("Type of return statement do not match return type of function");
 		}
 	}
