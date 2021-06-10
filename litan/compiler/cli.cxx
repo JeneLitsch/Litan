@@ -14,7 +14,7 @@ namespace ltnc {
 			this->optimizationLevel = 0;
 			this->silent = false;
 			this->comments = false;
-			for(unsigned idx = 2; idx < argc; idx++) {
+			for(int idx = 2; idx < argc; idx++) {
 				if(std::string(argv[idx]) == "-O0") {
 					this->optimizationLevel = 0;
 					continue;

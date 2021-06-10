@@ -6,6 +6,8 @@
 #include "LtncDivEvaluator.hxx"
 #include "LtncModEvaluator.hxx"
 
+#include "Unused.hxx"
+
 ltnc::ExprInfo ltnc::ExprCompiler::compileExpr(CompilerPack & compPkg,  std::shared_ptr<Expr> expr) {
 	if(auto expr_ = std::dynamic_pointer_cast<ltnc::ExprIntLiteral>(expr)) {
 		return this->compileIntLit(compPkg, expr_);
@@ -25,6 +27,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileExpr(CompilerPack & compPkg,  std::sha
 	if(auto expr_ = std::dynamic_pointer_cast<ltnc::ExprCall>(expr)) {
 		return this->compileCall(compPkg, expr_);
 	}
+	throw std::runtime_error("Invalid Expr");
 }
 
 
@@ -47,7 +50,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileBinary(CompilerPack & compPkg, std::sh
 	case TokenType::MOD: 			return this->buildBinary(compPkg, expr, "mod", ModEvaluator());
 
 	// error
-	default: 						throw("Invalid expression"); break;
+	default: 						throw std::runtime_error("Invalid expression");
 	}
 }
 
@@ -85,6 +88,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileIntLit(CompilerPack & compPkg, std::shared_ptr<ExprIntLiteral> expr) {
+	UNUSED(compPkg);
 	std::int64_t value = expr->number;
 	std::string code = "newi " + std::to_string(value) + "\n";
 	return ExprInfo(Type("int"), code, Constant(value));
@@ -92,12 +96,14 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileIntLit(CompilerPack & compPkg, std::sh
 
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileFltLit(CompilerPack & compPkg, std::shared_ptr<ExprFltLiteral> expr) {
+	UNUSED(compPkg);
 	double value = expr->number;
 	std::string code = "newf " + std::to_string(value) + "\n";
 	return ExprInfo(Type("flt"), code, Constant(value));
 }
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::shared_ptr<ExprStrLiteral> expr) {
+	UNUSED(compPkg);
 	std::string string = expr->string;
 	std::vector<std::string> stringParts;
 	for(unsigned idx = 0; idx < string.size(); idx+=6) {

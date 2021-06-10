@@ -1,6 +1,7 @@
 #pragma once 
 #include "LtncParserNode.hxx"
 namespace ltnc {
+	// Parses if statement with optional else
 	class ParserIfElse : public ParserNode<Stmt> {
 	public:
 		void connect(const ParserNode<Stmt> & stmt, const ParserNode<Expr> & expr);

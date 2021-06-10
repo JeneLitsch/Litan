@@ -2,6 +2,7 @@
 #include "LtncParserNode.hxx"
 
 namespace ltnc {
+	// Parses addition and subtraction
 	class ParserTerm : public ParserNode<Expr> {
 	public:
 		void connect(const ParserNode<Expr> & product);

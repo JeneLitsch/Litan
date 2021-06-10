@@ -18,7 +18,7 @@ namespace ltnc {
 	inline bool operator==(const FxSignature & signatureL, const FxSignature & signatureR) {
 		if(signatureL.params.size() != signatureR.params.size()) return false;
 
-		for(int idx = 0; idx < signatureL.params.size(); idx++){
+		for(std::size_t idx = 0; idx < signatureL.params.size(); idx++){
 			const Param & paramL = signatureL.params[idx];
 			const Param & paramR = signatureR.params[idx];
 			if(paramL.type != paramR.type) {

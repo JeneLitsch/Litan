@@ -2,6 +2,8 @@
 #include "LtncParserNode.hxx"
 
 namespace ltnc {
+	// Parses binary comparision operations 
+	// == != < > >= <=
 	class ParserComparison : public ParserNode<Expr> {
 	public:
 		void connect(const ParserNode<Expr> & term);

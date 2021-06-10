@@ -1,4 +1,3 @@
-#pragma once
 #include <Ltna.hxx>
 #include <iostream>
 #include "LtnFileIO.hxx"
@@ -16,7 +15,6 @@ int main(int argc, char const *argv[]) {
 	std::cout << "Dst: " << dst << std::endl;
 	std::cout << "Format: " << format << std::endl;
 	
-	ltna::Ltna ltna;
 
 	std::string assembly = ltn::readFile(src);
 	ltna::Ltna ltnA;

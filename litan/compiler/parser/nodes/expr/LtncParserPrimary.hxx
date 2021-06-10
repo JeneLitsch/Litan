@@ -3,6 +3,8 @@
 #include "LtncParserNode.hxx"
 
 namespace ltnc {
+	// Parses primary expression 
+	// literals, call and identifier
 	class ParserPrimary : public ParserNode<Expr> {
 	public:
 		void connect(const ParserNode<ExprCall> & call);

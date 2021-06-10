@@ -2,6 +2,7 @@
 #include "LtncParserNode.hxx"
 
 namespace ltnc {
+	// Parses a variaty of statements
 	class ParserStmt : public ParserNode<Stmt> {
 	public:
 		void connect(

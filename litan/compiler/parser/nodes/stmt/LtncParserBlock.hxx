@@ -2,6 +2,7 @@
 #include "LtncParserNode.hxx"
 #include "LtncDecl.hxx"
 namespace ltnc {
+	// Parses code block until "}"
 	class ParserBlock : public ParserNode<StmtBlock> {
 	public:
 		void connect(

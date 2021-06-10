@@ -31,7 +31,7 @@ std::vector<std::uint64_t> ltn::fromHex(const std::string & hexCode) {
 	}
 	std::size_t len = hexCode.size()/16U;
 	std::vector<std::uint64_t> bytecode;
-	for(int idx = 0; idx < len; idx++) {
+	for(std::size_t idx = 0; idx < len; idx++) {
 		bytecode.push_back(std::stoull(hexCode.substr(idx * 16, 16), nullptr, 16));
 	}
 	return bytecode;
@@ -40,7 +40,7 @@ std::vector<std::uint64_t> ltn::fromHex(const std::string & hexCode) {
 std::string ltn::toBin(const std::vector<std::uint64_t> byteCode) {
 	std::stringstream strStream;
 	for(std::uint64_t instruction : byteCode) {
-		for(int idx = 0; idx < 8; idx++) {
+		for(std::size_t idx = 0; idx < 8; idx++) {
 			strStream << char(std::uint64_t(instruction >> 8 * (7-idx)) & 0xff); 
 		}
 	}
@@ -50,9 +50,9 @@ std::string ltn::toBin(const std::vector<std::uint64_t> byteCode) {
 std::vector<std::uint64_t> ltn::fromBin(const std::string & binCode) {
 	std::size_t len = binCode.size()/8U;
 	std::vector<std::uint64_t> bytecode;
-	for(int idx = 0; idx < len; idx++) {
+	for(std::size_t idx = 0; idx < len; idx++) {
 		std::uint64_t instruction = 0;
-		for(int byteIdx = 0; byteIdx < 8; byteIdx++) {
+		for(std::size_t byteIdx = 0; byteIdx < 8; byteIdx++) {
 			instruction |= (std::uint64_t(std::uint8_t(binCode[idx * 8 + (7-byteIdx)])) << byteIdx * 8);
 		}
 		// std::cout << std::setfill('0') << std::setw(16) << std::hex << instruction << std::dec << std::endl;

@@ -28,6 +28,7 @@ std::vector<std::uint64_t> load(const std::string & file, const std::string & mo
 	if(mode == "-bin") {
 		return ltn::fromBin(code);
 	}
+	return {};
 }
 
 void launch(const std::vector<std::uint64_t> & instructions){

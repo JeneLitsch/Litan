@@ -92,7 +92,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::numliteral() {
 				while(!lexPkg.isAtEnd() && lexPkg.matchDigit());
 			}
 			std::string lexeme = lexPkg.makeLexeme();
-			TokenType type = isFloat?TokenType::NUMBER_FLT:TokenType::NUMBER_INT;
+			TokenType type = isFloat ? TokenType::FLOAT_LITERAL : TokenType::INT_LITERAL;
 			lexPkg.newToken(type);
 			return true;
 		}

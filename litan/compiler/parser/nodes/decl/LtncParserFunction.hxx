@@ -2,14 +2,18 @@
 #include "LtncParserNode.hxx"
 
 namespace ltnc {
+	// Parses a function
 	class ParserFunction : public ParserNode<DeclFunction> {
 	public:
 		void connect(const ParserNode<StmtBlock> & block);
 		
 		virtual std::shared_ptr<DeclFunction> eval(ParserPackage & parsePkg) const override;
 	private:
-
-		std::shared_ptr<DeclFunction> function(ParserPackage & parsePkg) const;
+		std::string name(ParserPackage & parsePkg) const;
+		std::vector<Param> parameterList(ParserPackage & parsePkg) const;
+		Type returnType(ParserPackage & parsePkg) const;
+		std::shared_ptr<StmtBlock> body(ParserPackage & parsePkg) const;
+		
 		const ParserNode<StmtBlock> * block; 
 	};
 }

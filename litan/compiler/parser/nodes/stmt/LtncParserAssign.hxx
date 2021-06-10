@@ -2,6 +2,7 @@
 #include "LtncParserNode.hxx"
 #
 namespace ltnc {
+	// Parses an assignmet operation
 	class ParserAssign : public ParserNode<Stmt> {
 	public:
 		void connect(const ParserNode<Expr> & expr);

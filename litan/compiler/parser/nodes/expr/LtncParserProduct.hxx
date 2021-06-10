@@ -2,6 +2,7 @@
 #include "LtncParserNode.hxx"
 
 namespace ltnc {
+	// Parses multiplication and division
 	class ParserProduct : public ParserNode<Expr> {
 	public:
 		void connect(const ParserNode<Expr> & primary);

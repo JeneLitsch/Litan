@@ -154,12 +154,12 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 	if(pkg.inst == "string::data") {
 		std::uint64_t data = 0;
 		std::string str = this->decodeString(pkg.args);
-		std::uint8_t len = str.size();
+		std::size_t len = str.size();
 		if(len > 6) {
 			std::cout << ">> Warning: String data to long" << std::endl;
 		}
-		data |= len;
-		for(int i = 0; i < len; i++) {
+		data |= std::uint8_t(len);
+		for(std::size_t i = 0; i < len; i++) {
 			char chr = str[i];
 			data |= std::uint64_t(chr) << (i+1)*8;
 		}

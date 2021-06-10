@@ -39,9 +39,9 @@ ltnc::Var ltnc::Scope::getVar(const std::string & name) const {
 
 std::uint32_t ltnc::Scope::getSize() const {
 	if(this->prev) {
-		return this->vars.size() + this->prev->getSize();
+		return std::uint32_t(this->vars.size()) + this->prev->getSize();
 	}
-	return this->vars.size();
+	return std::uint32_t(this->vars.size());
 }
 
 const ltnc::FxSignature & ltnc::Scope::getFxSignature() const {
