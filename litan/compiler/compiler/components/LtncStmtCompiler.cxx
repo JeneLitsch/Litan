@@ -1,24 +1,11 @@
 #include "LtncStmtCompiler.hxx"
 #include <iostream>
 
-std::string ltnc::StmtCompiler::compileProgram(CompilerPack & compPkg, std::shared_ptr<Program> program){
-	compPkg.getScopes().addFunctionScope(FxSignature(Type("voi"), "", {}));
-	for(const auto & function : program->functions) {
-		compPkg.registerFunction(function);
-	}
-	std::string code;
-	code += "-> MAIN \n"; 
-	code += this->compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main"))).code;
-	code += "exit \n";
-	code += "\n\n";
-	for(const auto & function : program->functions) {
-		code += this->compileFunction(compPkg, function).code;
-	}
-	
-	return code;
+ltnc::StmtInfo ltnc::StmtCompiler::compile(CompilerPack & compPkg, const std::shared_ptr<Stmt> & stmt) const {
+	return this->compileStmt(compPkg, stmt);
 }
 
-ltnc::StmtInfo ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shared_ptr<Stmt> stmt){
+ltnc::StmtInfo ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shared_ptr<Stmt> stmt) const {
 	if(auto stmt_ = std::dynamic_pointer_cast<ltnc::StmtAssign>(stmt)) {
 		return this->compileAssign(compPkg, stmt_);
 	}
@@ -44,14 +31,14 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shar
 		return this->compileReturn(compPkg, stmt_);
 	}
 	if(auto stmt_ = std::dynamic_pointer_cast<ltnc::StmtAsm>(stmt)) {
-		return StmtInfo(this->asmBlock.compile(compPkg, stmt_),0);
+		return StmtInfo(this->asmbCompiler.compile(compPkg, stmt_), 0);
 	}
 	return StmtInfo("",0);
 }
 
 
 
-ltnc::StmtInfo ltnc::StmtCompiler::compileAssign(CompilerPack & compPkg, std::shared_ptr<StmtAssign> stmt){
+ltnc::StmtInfo ltnc::StmtCompiler::compileAssign(CompilerPack & compPkg, std::shared_ptr<StmtAssign> stmt) const {
 	auto expr = exprCompiler.compileExpr(compPkg, stmt->expr);
 	
 	Var var = compPkg.getScopes().get().getVar(stmt->name);
@@ -64,7 +51,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileAssign(CompilerPack & compPkg, std::sh
 		+ "store " + std::to_string(var.addr) + "\n", 0);
 }
 
-ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::shared_ptr<StmtRepeat> stmt) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::shared_ptr<StmtRepeat> stmt) const {
 	// From and to expression
 	ExprInfo expr = this->exprCompiler.compileExpr(compPkg, stmt->expr); 
 
@@ -113,7 +100,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::sh
 		codeStmt.stackalloc);
 }
 
-ltnc::StmtInfo ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::shared_ptr<StmtFor> stmt) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::shared_ptr<StmtFor> stmt) const {
 	// From and to expression
 	ExprInfo from = this->exprCompiler.compileExpr(compPkg, stmt->exprFrom); 
 	ExprInfo to = this->exprCompiler.compileExpr(compPkg, stmt->exprTo);
@@ -144,7 +131,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::share
 }
 
 
-ltnc::StmtInfo ltnc::StmtCompiler::compileWhile(CompilerPack & compPkg, std::shared_ptr<StmtWhile> stmt) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileWhile(CompilerPack & compPkg, std::shared_ptr<StmtWhile> stmt) const {
 	auto codeExpr = this->exprCompiler.compileExpr(compPkg, stmt->expr); 
 	auto codeStmt = this->compileStmt(compPkg, stmt->stmt);
 	auto endMark = compPkg.makeJumpMark("LOOP_END");
@@ -160,7 +147,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileWhile(CompilerPack & compPkg, std::sha
 		codeStmt.stackalloc);
 }
 
-ltnc::StmtInfo ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::shared_ptr<StmtBlock> block) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::shared_ptr<StmtBlock> block) const {
 	compPkg.getScopes().addBlockScope();
 	std::string code;
 	for(const auto & decl : block->declarations) {
@@ -180,7 +167,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::sha
 
 
 
-ltnc::StmtInfo ltnc::StmtCompiler::compileIf(CompilerPack & compPkg, std::shared_ptr<StmtIf> stmt) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileIf(CompilerPack & compPkg, std::shared_ptr<StmtIf> stmt) const {
 
 	// make jump marks
 	std::string jmIf = compPkg.makeJumpMark("IF");
@@ -227,41 +214,9 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileIf(CompilerPack & compPkg, std::shared
 	}
 }
 
-ltnc::StmtInfo ltnc::StmtCompiler::compileFunction(CompilerPack & compPkg, std::shared_ptr<DeclFunction> decl) {
-	FxInfo fxInfo = *compPkg.matchFunction(decl->signature);
 
-	compPkg.getTypeTable().guardType(decl->signature.returnType);
 
-	compPkg.getScopes().addFunctionScope(fxInfo.signature);
-	// register parameter
-	for(const Param & param : decl->signature.params) {
-		// check existence of type
-		compPkg.getTypeTable().guardType(param.type);
-		// register var
-		compPkg.getScopes().get().registerVar(param.name, param.type);
-	}
-	// eval body
-	StmtInfo body = this->compileStmt(compPkg, decl->body);
-
-	// create code;
-	std::string code;
-	code += this->comment(compPkg, decl->signature.name + " " + std::to_string(decl->signature.params.size()) + " -> " + decl->signature.returnType.typeName);
-	code += "-> " + fxInfo.jumpMark + "\n";
-	// load params into memory (backwards because LIFO)
-	const auto & params = decl->signature.params; 
-	code += "stackalloc " + std::to_string(body.stackalloc + params.size()) + "\n";
-	for(auto param = params.rbegin(); param != params.rend(); ++param) {
-		// store parameter;
-		std::uint64_t varAddr = compPkg.getScopes().get().getVar((*param).name).addr;
-		code += "store " + std::to_string(varAddr) + "\n";
-	}
-	code += body.code;
-	code += "\n\n";
-	compPkg.getScopes().remove();
-	return StmtInfo(code, 0);
-}
-
-ltnc::StmtInfo ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shared_ptr<StmtExpr> stmt) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shared_ptr<StmtExpr> stmt) const {
 	ExprInfo exprInfo = this->exprCompiler.compileExpr(compPkg, stmt->expr);
 	std::string code;
 	code += exprInfo.code;
@@ -271,7 +226,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shar
 	return StmtInfo(code, 0);
 }
 
-ltnc::StmtInfo ltnc::StmtCompiler::compileReturn(CompilerPack & compPkg, std::shared_ptr<StmtReturn> stmt) {
+ltnc::StmtInfo ltnc::StmtCompiler::compileReturn(CompilerPack & compPkg, std::shared_ptr<StmtReturn> stmt) const {
 	std::string code = "";
 	FxSignature signature = compPkg.getScopes().get().getFxSignature();
 	if(stmt->expr) {

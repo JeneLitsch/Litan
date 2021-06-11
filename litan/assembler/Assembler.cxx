@@ -208,6 +208,12 @@ std::string ltn::Assembler::decodeString(const std::vector<std::string> & args) 
 			if(encodedChar == "\\t") {
 				decodedStr.push_back('\t');
 			}
+			if(encodedChar == "\\\"") {
+				decodedStr.push_back('"');
+			}
+			if(encodedChar == "\\\\") {
+				decodedStr.push_back('\\');
+			}
 		}
 	}
 	return decodedStr;

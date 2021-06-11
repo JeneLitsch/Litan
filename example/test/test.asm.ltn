@@ -9,9 +9,9 @@ stackalloc 5
 string::new
 string::data 'hello '
 store 0
-// world
+// world!
 string::new
-string::data 'world'
+string::data 'world!'
 store 1
 load 0
 load 1

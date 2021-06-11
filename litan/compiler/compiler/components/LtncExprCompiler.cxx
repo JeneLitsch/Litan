@@ -8,7 +8,12 @@
 
 #include "Unused.hxx"
 
-ltnc::ExprInfo ltnc::ExprCompiler::compileExpr(CompilerPack & compPkg,  std::shared_ptr<Expr> expr) {
+ltnc::ExprInfo ltnc::ExprCompiler::compile(CompilerPack & compPkg, const std::shared_ptr<Expr> & expr) const {
+	return this->compileExpr(compPkg, expr);
+}
+
+
+ltnc::ExprInfo ltnc::ExprCompiler::compileExpr(CompilerPack & compPkg,  std::shared_ptr<Expr> expr) const {
 	if(auto expr_ = std::dynamic_pointer_cast<ltnc::ExprIntLiteral>(expr)) {
 		return this->compileIntLit(compPkg, expr_);
 	}
@@ -31,7 +36,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileExpr(CompilerPack & compPkg,  std::sha
 }
 
 
-ltnc::ExprInfo ltnc::ExprCompiler::compileBinary(CompilerPack & compPkg, std::shared_ptr<ExprBinary> expr) {
+ltnc::ExprInfo ltnc::ExprCompiler::compileBinary(CompilerPack & compPkg, std::shared_ptr<ExprBinary> expr) const {
 	switch (expr->type)	{
 
 	// comparision operator
@@ -59,7 +64,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 	CompilerPack & compPkg,
 	std::shared_ptr<ExprBinary> expr,
 	const std::string & command,
-	const Evaluator & eval) {
+	const Evaluator & eval) const {
 
 	ExprInfo l = this->compileExpr(compPkg, expr->l);
 	ExprInfo r = this->compileExpr(compPkg, expr->r);
@@ -78,7 +83,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 	CompilerPack & compPkg,
 	std::shared_ptr<ExprBinary> expr,
-	const std::string & command) {
+	const std::string & command) const {
 	
 	ExprInfo l = this->compileExpr(compPkg, expr->l);
 	ExprInfo r = this->compileExpr(compPkg, expr->r);
@@ -87,7 +92,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 }
 
 
-ltnc::ExprInfo ltnc::ExprCompiler::compileIntLit(CompilerPack & compPkg, std::shared_ptr<ExprIntLiteral> expr) {
+ltnc::ExprInfo ltnc::ExprCompiler::compileIntLit(CompilerPack & compPkg, std::shared_ptr<ExprIntLiteral> expr) const {
 	UNUSED(compPkg);
 	std::int64_t value = expr->number;
 	std::string code = "newi " + std::to_string(value) + "\n";
@@ -95,14 +100,14 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileIntLit(CompilerPack & compPkg, std::sh
 }
 
 
-ltnc::ExprInfo ltnc::ExprCompiler::compileFltLit(CompilerPack & compPkg, std::shared_ptr<ExprFltLiteral> expr) {
+ltnc::ExprInfo ltnc::ExprCompiler::compileFltLit(CompilerPack & compPkg, std::shared_ptr<ExprFltLiteral> expr) const {
 	UNUSED(compPkg);
 	double value = expr->number;
 	std::string code = "newf " + std::to_string(value) + "\n";
 	return ExprInfo(Type("flt"), code, Constant(value));
 }
 
-ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::shared_ptr<ExprStrLiteral> expr) {
+ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::shared_ptr<ExprStrLiteral> expr) const {
 	UNUSED(compPkg);
 	std::string string = expr->string;
 	std::vector<std::string> stringParts;
@@ -117,13 +122,13 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::sh
 	return ExprInfo(Type("str"), code);
 }
 
-ltnc::ExprInfo ltnc::ExprCompiler::compileVar(CompilerPack & compPkg, std::shared_ptr<ExprVar> expr) {
+ltnc::ExprInfo ltnc::ExprCompiler::compileVar(CompilerPack & compPkg, std::shared_ptr<ExprVar> expr) const {
 	Var var = compPkg.getScopes().get().getVar(expr->name);
 	return ExprInfo(var.type, "load " + std::to_string(var.addr) + "\n");
 }
 
 
-std::string ltnc::ExprCompiler::getSuffux(const ExprInfo & l, const ExprInfo & r) {
+std::string ltnc::ExprCompiler::getSuffux(const ExprInfo & l, const ExprInfo & r) const {
 	if(l.type != r.type) {
 		throw std::runtime_error("Expression types do not match: \"" + l.code + "\" and \"" + r.code + "\"");
 	}
@@ -137,7 +142,7 @@ std::string ltnc::ExprCompiler::getSuffux(const ExprInfo & l, const ExprInfo & r
 }
 
 
-ltnc::ExprInfo ltnc::ExprCompiler::compileCall(CompilerPack & compPkg, std::shared_ptr<ExprCall> expr) {
+ltnc::ExprInfo ltnc::ExprCompiler::compileCall(CompilerPack & compPkg, std::shared_ptr<ExprCall> expr) const {
 	std::string code;
 	std::vector<Param> params;
 

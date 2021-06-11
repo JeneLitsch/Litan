@@ -77,6 +77,8 @@ dirsLtnC = [
 	"litan/compiler/compiler",
 	"litan/compiler/compiler/evaluation",
 	"litan/compiler/compiler/components",
+	"litan/compiler/compiler/scoping",
+	"litan/compiler/compiler/utils",
 ]
 
 dirsLtnA = [

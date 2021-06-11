@@ -6,7 +6,7 @@ fnx main() voi {
 	var str str2;
 	var str str3;
 	str1 = "hello ";
-	str2 = "world";
+	str2 = "world!";
 	str3 = ->add(str1, str2);
 	-> print(str1);
 	-> print(str2);

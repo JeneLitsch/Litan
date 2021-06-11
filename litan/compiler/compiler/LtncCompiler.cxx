@@ -15,5 +15,17 @@ std::string ltnc::Compiler::compile(
 		compPkg.getTypeTable().registerType(type.typeName);
 	}
 
-	return stmtCompiler.compileProgram(compPkg, program);
+	compPkg.getScopes().addFunctionScope(FxSignature(Type("voi"), "", {}));
+	for(const auto & function : program->functions) {
+		compPkg.registerFunction(function);
+	}
+	std::string code;
+	code += "-> MAIN \n"; 
+	code += stmtCompiler.compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main"))).code;
+	code += "exit \n";
+	code += "\n\n";
+	for(const auto & function : program->functions) {
+		code += this->declCompiler.compile(compPkg, function).code;
+	}
+	return code;
 }

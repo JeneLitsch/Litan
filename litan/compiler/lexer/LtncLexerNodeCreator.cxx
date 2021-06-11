@@ -134,6 +134,17 @@ ltnc::LexerNode ltnc::LexerNodeCreator::string() {
 	return LexerNode([](LexerPackage & lexPkg) {
 		if(lexPkg.match('"')){
 			while(!lexPkg.match('"')) {
+				if(lexPkg.match('\\')) {
+					bool valid = 
+						lexPkg.match('n') ||
+						lexPkg.match('\\') ||
+						lexPkg.match('t') ||
+						lexPkg.match('"');
+					if(!valid) {
+						lexPkg.error("Invalid escape sequence");
+					}
+					
+				}
 				lexPkg.next();
 				if(lexPkg.isAtEnd()) {
 					lexPkg.error("Unterminated string");
