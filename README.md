@@ -1,5 +1,5 @@
 # Litan
-[Lit]weight [A]ssembly E[n]gine
+[Li]gh[t]weight [A]ssembly E[n]gine
 
 ### Components
 - ltnc:   Compiler
