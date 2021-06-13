@@ -17,8 +17,14 @@
 namespace ltnc {
 	class StmtCompiler : public CompilerComponent<StmtInfo, Stmt> {
 	public:
-		StmtCompiler(ExprCompiler & exprCompiler, AsmbCompiler & asmbCompiler) 
-			: exprCompiler(exprCompiler), asmbCompiler(asmbCompiler) {}
+		StmtCompiler(
+			const ExprCompiler & exprCompiler,
+			const AsmbCompiler & asmbCompiler,
+			const VariCompiler & variCompiler) 
+			:
+			exprCompiler(exprCompiler),
+			asmbCompiler(asmbCompiler),
+			variCompiler(variCompiler) {}
 
 		StmtInfo compile(CompilerPack & compPkg, const std::shared_ptr<Stmt> & stmt) const;
 
@@ -31,8 +37,9 @@ namespace ltnc {
 		StmtInfo compileWhile(CompilerPack & compPkg, std::shared_ptr<StmtWhile> stmt) const;
 		StmtInfo compileEval(CompilerPack & compPkg, std::shared_ptr<StmtExpr> stmt) const;
 		StmtInfo compileReturn(CompilerPack & compPkg, std::shared_ptr<StmtReturn> stmt) const;
-
-		ExprCompiler & exprCompiler;
-		AsmbCompiler & asmbCompiler;
+	private:
+		const ExprCompiler & exprCompiler;
+		const AsmbCompiler & asmbCompiler;
+		const VariCompiler & variCompiler;
 	};
 }

@@ -10,9 +10,9 @@ std::shared_ptr<ltnc::Stmt> ltnc::ParserIfElse::eval(ParserPackage & parsePkg) c
 		std::shared_ptr<Expr> condition;
 		std::shared_ptr<Stmt> stmtIf;
 		std::shared_ptr<Stmt> stmtElse;
-		if(parsePkg.match(TokenType::L_PARAN)) {
+		if(parsePkg.match(TokenType::L_PAREN)) {
 			condition = this->expr->eval(parsePkg);
-			if(parsePkg.match(TokenType::R_PARAN)) {
+			if(parsePkg.match(TokenType::R_PAREN)) {
 				stmtIf = this->stmt->eval(parsePkg);
 				if(parsePkg.match(TokenType::ELSE)) {
 					stmtElse = this->stmt->eval(parsePkg);

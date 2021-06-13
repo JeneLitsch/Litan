@@ -50,21 +50,25 @@ std::shared_ptr<ltnc::Stmt> ltnc::ParserStmt::stmt(ParserPackage & parsePkg) con
 		}
 		return parsePkg.error("expected ; after return statement");
 	}
-	return parsePkg.error("no matching statement");
+	auto stmt = std::make_shared<StmtExpr>(this->expr->eval(parsePkg));
+	if (parsePkg.match(TokenType::SEMICOLON)) {
+		return stmt;
+	}
+	return parsePkg.error("expected ;");
 }
 
 
 
 std::shared_ptr<ltnc::StmtFor> ltnc::ParserStmt::forLoop(ParserPackage & parsePkg) const {
 	auto loop = std::make_shared<StmtFor>();
-	if(parsePkg.match(TokenType::L_PARAN)) {
+	if(parsePkg.match(TokenType::L_PAREN)) {
 		if(parsePkg.match(TokenType::IDENTIFIER)) {
 			loop->name = parsePkg.prev().string;
 			if(parsePkg.match(TokenType::COMMA)) {
 				loop->exprFrom = this->expr->eval(parsePkg);
 				if(parsePkg.match(TokenType::COMMA)){
 					loop->exprTo = this->expr->eval(parsePkg);
-					if(parsePkg.match(TokenType::R_PARAN)){
+					if(parsePkg.match(TokenType::R_PAREN)){
 						if(auto block = this->block->eval(parsePkg)){
 							loop->stmt = block;
 							return loop;
@@ -85,9 +89,9 @@ std::shared_ptr<ltnc::StmtFor> ltnc::ParserStmt::forLoop(ParserPackage & parsePk
 
 std::shared_ptr<ltnc::StmtRepeat> ltnc::ParserStmt::repeatLoop(ParserPackage & parsePkg) const {
 	auto loop = std::make_shared<StmtRepeat>();
-	if(parsePkg.match(TokenType::L_PARAN)) {
+	if(parsePkg.match(TokenType::L_PAREN)) {
 		loop->expr = this->expr->eval(parsePkg);
-		if(parsePkg.match(TokenType::R_PARAN)){
+		if(parsePkg.match(TokenType::R_PAREN)){
 			if(auto block = this->block->eval(parsePkg)){
 				loop->stmt = block;
 				return loop;
@@ -102,9 +106,9 @@ std::shared_ptr<ltnc::StmtRepeat> ltnc::ParserStmt::repeatLoop(ParserPackage & p
 
 std::shared_ptr<ltnc::StmtWhile> ltnc::ParserStmt::whileLoop(ParserPackage & parsePkg) const {
 	auto loop = std::make_shared<StmtWhile>();
-	if(parsePkg.match(TokenType::L_PARAN)) {
+	if(parsePkg.match(TokenType::L_PAREN)) {
 		loop->expr = this->expr->eval(parsePkg);
-		if(parsePkg.match(TokenType::R_PARAN)) {
+		if(parsePkg.match(TokenType::R_PAREN)) {
 			if(auto block = this->block->eval(parsePkg)) {
 				loop->stmt = block;
 				return loop;

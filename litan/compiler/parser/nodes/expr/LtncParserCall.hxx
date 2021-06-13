@@ -11,6 +11,6 @@ namespace ltnc {
 		const ParserExpr * expr;
 	private:
 		// matches parameters
-		std::vector<std::shared_ptr<Expr>> evelParameters(ParserPackage & parsePkg) const;
+		std::vector<std::shared_ptr<Expr>> evalParameters(ParserPackage & parsePkg) const;
 	};
 }

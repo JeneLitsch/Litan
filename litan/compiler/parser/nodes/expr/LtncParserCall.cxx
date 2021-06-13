@@ -13,8 +13,8 @@ std::shared_ptr<ltnc::ExprCall> ltnc::ParserCall::eval(ParserPackage & parsePkg)
 	// function name
 	if(parsePkg.match(TokenType::IDENTIFIER)) {
 		std::string name = parsePkg.prev().string;
-		if (parsePkg.match(TokenType::L_PARAN)) {
-			auto parameters = this->evelParameters(parsePkg);
+		if (parsePkg.match(TokenType::L_PAREN)) {
+			auto parameters = this->evalParameters(parsePkg);
 			return std::make_shared<ExprCall>(name, parameters);
 		}
 		return parsePkg.error("expected (");
@@ -24,10 +24,10 @@ std::shared_ptr<ltnc::ExprCall> ltnc::ParserCall::eval(ParserPackage & parsePkg)
 
 
 
-std::vector<std::shared_ptr<ltnc::Expr>> ltnc::ParserCall::evelParameters(ParserPackage & parsePkg) const {
+std::vector<std::shared_ptr<ltnc::Expr>> ltnc::ParserCall::evalParameters(ParserPackage & parsePkg) const {
 	// parameters
 	std::vector<std::shared_ptr<Expr>> parameters;
-	if (!parsePkg.match(TokenType::R_PARAN)) {
+	if (!parsePkg.match(TokenType::R_PAREN)) {
 		while(!parsePkg.isAtEnd()) {
 			auto expr = this->expr->eval(parsePkg);
 			parameters.push_back(expr);
@@ -36,7 +36,7 @@ std::vector<std::shared_ptr<ltnc::Expr>> ltnc::ParserCall::evelParameters(Parser
 				continue;
 			}
 			// end list
-			else if (parsePkg.match(TokenType::R_PARAN)) {
+			else if (parsePkg.match(TokenType::R_PAREN)) {
 				break;
 			}
 			else {

@@ -55,5 +55,5 @@ std::string ltnc::DeclCompiler::fxComment(
 		text += "inline ";
 	}
 	text += "]";
-	return this->comment(compPkg, text);
+	return text;
 }

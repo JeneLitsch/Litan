@@ -11,7 +11,8 @@ ltnc::Parser::Parser() {
 	this->ifelse.connect(this->stmt, this->expr);
 	this->declStruct.connect(this->declVar);
 
-	this->expr.connect(this->comparison);
+	this->expr.connect(this->comparison, this->newstruct, this->delstruct);
+	this->delstruct.connect(this->var);
 	this->comparison.connect(this->term);
 	this->term.connect(this->product);
 	this->product.connect(this->unary);

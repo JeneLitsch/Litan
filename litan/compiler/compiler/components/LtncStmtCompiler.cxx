@@ -1,6 +1,7 @@
 #include "LtncStmtCompiler.hxx"
 #include <iostream>
 #include <sstream>
+#include "LtncVariCompiler.hxx"
 
 ltnc::StmtInfo ltnc::StmtCompiler::compile(CompilerPack & compPkg, const std::shared_ptr<Stmt> & stmt) const {
 	return this->compileStmt(compPkg, stmt);
@@ -34,14 +35,14 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shar
 	if(auto stmt_ = std::dynamic_pointer_cast<ltnc::StmtAsm>(stmt)) {
 		return StmtInfo(this->asmbCompiler.compile(compPkg, stmt_), 0);
 	}
-	return StmtInfo("",0);
+	throw std::runtime_error("Invalid Statement");
 }
 
 
 
 ltnc::StmtInfo ltnc::StmtCompiler::compileAssign(CompilerPack & compPkg, std::shared_ptr<StmtAssign> stmt) const {
 	auto expr = exprCompiler.compileExpr(compPkg, stmt->expr);
-	auto access = this->exprCompiler.compileAccess(compPkg, stmt->var, expr);
+	auto access = this->variCompiler.compile(compPkg, stmt->var, expr);
 	if(expr.type != access.type.name) {
 		throw std::runtime_error("Types do not match: " + expr.code.str());
 	}

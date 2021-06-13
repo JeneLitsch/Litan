@@ -12,6 +12,8 @@
 #include "LtncParserFunction.hxx"
 
 #include "LtncParserExpr.hxx"
+#include "LtncParserNew.hxx"
+#include "LtncParserDel.hxx"
 #include "LtncParserComparison.hxx"
 #include "LtncParserTerm.hxx"
 #include "LtncParserProduct.hxx"
@@ -40,6 +42,8 @@ namespace ltnc {
 		ParserFunction function;
 
 		ParserExpr expr;
+		ParserNew newstruct;
+		ParserDel delstruct;
 		ParserComparison comparison;
 		ParserTerm term;
 		ParserProduct product;

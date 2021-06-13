@@ -25,9 +25,9 @@ std::shared_ptr<ltnc::Expr> ltnc::ParserPrimary::eval(ParserPackage & parsePkg) 
 		return std::make_shared<ExprStrLiteral>(value);
 	}
 
-	if (parsePkg.match(TokenType::L_PARAN)) {
+	if (parsePkg.match(TokenType::L_PAREN)) {
 		auto expr_ = this->expr->eval(parsePkg);
-		if (!parsePkg.match(TokenType::R_PARAN)) {
+		if (!parsePkg.match(TokenType::R_PAREN)) {
 			return parsePkg.error("Expected )");
 		}
 		return expr_;

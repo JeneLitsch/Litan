@@ -36,7 +36,7 @@ std::string ltnc::ParserFunction::name(ParserPackage & parsePkg) const {
 
 std::vector<ltnc::Param> ltnc::ParserFunction::parameterList(ParserPackage & parsePkg) const {
 	// parameter list
-	if(parsePkg.match(TokenType::L_PARAN)) {
+	if(parsePkg.match(TokenType::L_PAREN)) {
 		std::vector<Param> parameters;
 		while(parsePkg.match(TokenType::IDENTIFIER)) {
 			Type type = Type(parsePkg.prev().string);
@@ -56,7 +56,7 @@ std::vector<ltnc::Param> ltnc::ParserFunction::parameterList(ParserPackage & par
 				break;
 			}
 		}
-		if(parsePkg.match(TokenType::R_PARAN)) {
+		if(parsePkg.match(TokenType::R_PAREN)) {
 			return parameters;
 		}
 		parsePkg.error("expected )");

@@ -28,8 +28,8 @@ std::vector<ltnc::Token> ltnc::Lexer::tokenize(const std::string & str) {
 		
 		LNC::chr('{', TokenType::L_BRACE),
 		LNC::chr('}', TokenType::R_BRACE),
-		LNC::chr('(', TokenType::L_PARAN),
-		LNC::chr(')', TokenType::R_PARAN),
+		LNC::chr('(', TokenType::L_PAREN),
+		LNC::chr(')', TokenType::R_PAREN),
 
 		LNC::chr('+', TokenType::PLUS),
 		LNC::chr('-', TokenType::MINUS, {
