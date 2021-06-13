@@ -104,6 +104,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	std::map<std::string, TokenType> keywords;
 	keywords.insert({"typedef", TokenType::TYPEDEF});
 	keywords.insert({"var", TokenType::VAR});
+	keywords.insert({"inl", TokenType::INLINE});
 	keywords.insert({"con", TokenType::CON});
 	keywords.insert({"fnx", TokenType::FNX});
 	keywords.insert({"if", TokenType::IF});
@@ -112,6 +113,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	keywords.insert({"while", TokenType::WHILE});
 	keywords.insert({"return", TokenType::RETURN});
 	keywords.insert({"repeat", TokenType::REPEAT});
+	keywords.insert({"struct", TokenType::STRUCT});
 	keywords.insert({"asm", TokenType::ASM});
 
 	return LexerNode([keywords](LexerPackage & lexPkg) {

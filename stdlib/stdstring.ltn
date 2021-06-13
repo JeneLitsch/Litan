@@ -1,3 +1,5 @@
+typedef str;
+
 fnx delete(str string) voi {
 	asm {
 		"load 0"
@@ -6,7 +8,8 @@ fnx delete(str string) voi {
 	return;
 }
 
-fnx add(str s1, str s2) str {
+// create new string with merged content of str1 and str2
+fnx add(str string1, str string2) str {
 	asm {
 		"load 0"
 		"load 1"

@@ -1,19 +1,25 @@
 #include "LtncTypeTable.hxx"
 
-void ltnc::TypeTable::registerType(const std::string & typeName) {
-	if(this->types.contains(typeName)) {
-		throw std::runtime_error("Type is already defined: " + typeName);
+void ltnc::TypeTable::registerType(const Type & type) {
+	if(this->types.contains(type)) {
+		throw std::runtime_error("Type is already defined: " + type.name);
 	}
-	this->types.insert(typeName);
+	this->types.insert(type);
 }
 
-bool ltnc::TypeTable::checkType(const Type & type) const {
-	return this->types.contains(type.typeName);
+bool ltnc::TypeTable::checkType(const std::string & typeName) const {
+	return this->types.contains(typeName);
 }
 
 
-void ltnc::TypeTable::guardType(const Type & type) const {
-	if(!this->checkType(type)) {
-		throw std::runtime_error("Type is not defined: " + type.typeName);
+void ltnc::TypeTable::guardType(const std::string & typeName) const {
+	if(!this->checkType(typeName)) {
+		throw std::runtime_error("Type is not defined: " + typeName);
 	}
+}
+
+
+const ltnc::Type & ltnc::TypeTable::getType(const std::string & typeName) const {
+	this->guardType(typeName);
+	return *this->types.find(typeName);
 }

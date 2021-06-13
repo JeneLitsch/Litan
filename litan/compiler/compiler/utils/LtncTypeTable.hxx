@@ -7,10 +7,11 @@
 namespace ltnc {
 	class TypeTable {
 	public:
-		void registerType(const std::string & typeName);
-		bool checkType(const Type & type) const;
-		void guardType(const Type & type) const;
+		void registerType(const Type & type);
+		bool checkType(const std::string & typeName) const;
+		void guardType(const std::string & typeName) const;
+		const Type & getType(const std::string & typeName) const;
 	private:
-		std::set<std::string> types;
+		std::set<Type> types;
 	};
 }

@@ -8,12 +8,18 @@ void ltnc::ParserFunction::connect(const ParserNode<StmtBlock> & block) {
 
 
 std::shared_ptr<ltnc::DeclFunction> ltnc::ParserFunction::eval(ParserPackage & parsePkg) const {
-	auto name 		= this->name(parsePkg);
-	auto parameters = this->parameterList(parsePkg);
-	auto returnType = this->returnType(parsePkg);
-	auto body 		= this->body(parsePkg);
+	if(parsePkg.match(TokenType::FNX)){
+		auto name 		= this->name(parsePkg);
+		auto parameters = this->parameterList(parsePkg);
+		auto returnType = this->returnType(parsePkg);
 
-	return std::make_shared<DeclFunction>(FxSignature(returnType, name, parameters), body);
+		bool inlined 	= this->isInline(parsePkg);
+		
+		auto body 		= this->body(parsePkg);
+
+		return std::make_shared<DeclFunction>(FxSignature(returnType, name, parameters), body, inlined);
+	}
+	return nullptr;
 }
 
 
@@ -79,3 +85,6 @@ std::shared_ptr<ltnc::StmtBlock> ltnc::ParserFunction::body(ParserPackage & pars
 }
 
 
+bool ltnc::ParserFunction::isInline(ParserPackage & parsePkg) const {
+	return parsePkg.match(TokenType::INLINE);
+}

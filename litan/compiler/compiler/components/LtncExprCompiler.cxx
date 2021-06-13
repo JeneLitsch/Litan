@@ -7,6 +7,9 @@
 #include "LtncModEvaluator.hxx"
 
 #include "Unused.hxx"
+#include <iostream>
+#include <sstream>
+#include <functional>
 
 ltnc::ExprInfo ltnc::ExprCompiler::compile(CompilerPack & compPkg, const std::shared_ptr<Expr> & expr) const {
 	return this->compileExpr(compPkg, expr);
@@ -65,12 +68,16 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 	std::shared_ptr<ExprBinary> expr,
 	const std::string & command,
 	const Evaluator & eval) const {
+	
 
+	// left and right
 	ExprInfo l = this->compileExpr(compPkg, expr->l);
 	ExprInfo r = this->compileExpr(compPkg, expr->r);
 
+	// i or f for int or float
 	std::string suffix = this->getSuffux(l, r);
 
+	// try constant folding
 	if(compPkg.getSettings().getOptimizationLevel()) {		
 		if(auto optimized = eval.optimize(l, r)) {
 			return *optimized;
@@ -84,10 +91,13 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 	CompilerPack & compPkg,
 	std::shared_ptr<ExprBinary> expr,
 	const std::string & command) const {
-	
+	// left and right expr
 	ExprInfo l = this->compileExpr(compPkg, expr->l);
 	ExprInfo r = this->compileExpr(compPkg, expr->r);
+
+	// i or f for int or float
 	std::string suffix = this->getSuffux(l, r);
+	
 	return ExprInfo(l.type, l.code + r.code + command + suffix + "\n");
 }
 
@@ -123,21 +133,109 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::sh
 }
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileVar(CompilerPack & compPkg, std::shared_ptr<ExprVar> expr) const {
-	Var var = compPkg.getScopes().get().getVar(expr->name);
-	return ExprInfo(var.type, "load " + std::to_string(var.addr) + "\n");
+	// read access
+	ExprInfo access = this->compileAccess(compPkg, expr);
+	return access;
+	// heap
 }
 
 
+ltnc::ExprInfo ltnc::ExprCompiler::compileAccess(CompilerPack & compPkg, const std::shared_ptr<ExprVar> & access, const std::optional<ExprInfo> & expr) const {
+	std::stringstream code;
+	Var var("", 0, "");
+
+
+	// find next var
+	std::function nextVar = [
+		&path = access->path,
+		&scopeStack = compPkg.getScopes(),
+		&typeTable = compPkg.getTypeTable()
+		] (
+		unsigned i,
+		const Var & lastVar)
+		-> Var {
+		
+		// get address on stack
+		if(i) {
+			// lookup struct type
+			const Type & type = typeTable.getType(lastVar.typeName);
+			// search next member
+			const auto & members = type.members; 
+			for(const auto & newVar : members) {
+				if(newVar->name == path[i]) {
+					return *newVar;
+				}
+			}
+			// undefined member
+			throw std::runtime_error("struct " + lastVar.name + " does not contain variable: " + path[i]);
+		}
+		// stack
+		else {
+			return scopeStack.get().getVar(path[0]); 
+		}
+	};
+
+
+	// generate code for acces
+	std::function makeCode = [
+		&path = access->path] (
+		unsigned i,
+		const Var & var,
+		const std::optional<ExprInfo> & expr)
+		-> std::string {
+		std::stringstream code;
+
+		// load from stack
+		if(i == 0) {
+			code << "load " << var.addr << "\n";
+		}
+
+		// write to heap
+		else if(i == path.size() - 1 && expr) {
+			code << "newl " << var.addr << "\n";
+			code << expr->code;
+			code << "array::set \n";
+		}
+
+		// load from heap
+		else {
+			code << "newl " << var.addr << "\n";
+			code << "array::get \n";
+		}
+
+		return code.str();
+	};
+
+
+	// follow refs
+	for(unsigned i = 0; i < access->path.size(); i++) {
+		var = nextVar(i, var);
+		code << makeCode(i, var, expr);
+	}
+
+
+	return ExprInfo(var.typeName, code.str());
+}
+
+
+
 std::string ltnc::ExprCompiler::getSuffux(const ExprInfo & l, const ExprInfo & r) const {
+	// mismatch
 	if(l.type != r.type) {
 		throw std::runtime_error("Expression types do not match: \"" + l.code + "\" and \"" + r.code + "\"");
 	}
+
+	// integer
 	if(l.type == "int") {
 		return "i";
 	}
+
+	// float
 	if(l.type == "flt") {
 		return "f";
 	}
+
+	// if type is not int or flt
 	throw std::runtime_error("Invalid Type for operation");
 }
 
@@ -149,6 +247,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileCall(CompilerPack & compPkg, std::shar
 	// parameter list
 	for(const auto & expr : expr->paramExprs) {
 		ExprInfo exprInfo = this->compileExpr(compPkg, expr);
+		std::cout << exprInfo.type.name << std::endl;
 		params.push_back(Param(exprInfo.type, ""));
 		code += exprInfo.code;
 	}

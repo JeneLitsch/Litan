@@ -1,58 +1,137 @@
+struct Bar {
+	var int x;
+}
 
-typedef foo;
+struct Foo {
+	var Bar bar;
+}
 
 fnx main() voi {
-	var str str1;
-	var str str2;
-	var str str3;
-	str1 = "hello ";
-	str2 = "world!";
-	str3 = ->add(str1, str2);
-	-> print(str1);
-	-> print(str2);
-	-> print(str3);
-
-	var str str4;
-	str4 = "Lorem ipsum dolor sit amet";
-	-> print(str4);
-
-	-> delete(str1);
-	-> delete(str2);
-	-> delete(str3);
-	-> delete(str4);
-
-	var foo a;
-	a = -> makeFoo();
-	-> print(a);
+	var int a;
+	a = 43 - 1;
+	->print(a);
+	var Foo foo;
+	var Bar bar;
+	foo = ->makeFoo();
+	foo.bar.x = 41;
+	->print(foo.bar.x);
+	return;
 }
 
-fnx makeFoo() foo {
+fnx makeFoo() Foo {
+	var Foo foo; 
+	var Bar bar;
+	bar = ->makeBar();
 	asm {
-		"newl 42"
-		"return"
+		"array::new" "store 0"
+		"load 0" "load 1" "array::add"
 	}
+	return foo;
 }
 
-fnx print(foo obj) voi {
+fnx makeBar() Bar {
+	var Bar bar;
+	asm {
+		"array::new" "store 0"
+		"load 0" "newl 42" "array::add"
+	}
+	return bar;
+}
+
+fnx getX(Foo foo) int {
 	asm {
 		"load 0"
-		"print"
+		"newl 0" "array::get"
+	}
+	asm {
+		"newl 0" "array::get"
+	}
+	asm {
 		"return"
 	}
 }
 
-fnx hello() str {
+fnx setX(Foo foo, int x) voi {
 	asm {
-		"string::new"
-		"string::data 'hello '"
+		"load 0"
+		"newl 0" "array::get"
+	}
+	asm {
+		"newl 0" "load 1" "array::set"
+	}
+	asm {
 		"return"
 	}
 }
 
-fnx world() str {
-	asm {
-		"string::new"
-		"string::data 'world'"
-		"return"
-	}
-}
+// typedef Foo;
+
+// struct Bar {
+// 	var int a;
+// 	var int b;
+// 	var flt c;
+// }
+
+// fnx main() voi {
+// 	var str str1;
+// 	var str str2;
+// 	var str str3;
+// 	str1 = "hello ";
+// 	str2 = "world!";
+// 	str3 = ->add(str1, str2);
+// 	-> print(str1);
+// 	-> print(str2);
+// 	-> print(str3);
+
+// 	var str str4;
+// 	str4 = "Lorem ipsum dolor sit amet";
+// 	-> print(str4);
+
+// 	->print(->min(3, 2));
+// 	->print(->min(3.0, 2.0));
+// 	->print(->max(3, 2));
+// 	->print(->max(3.0, 2.0));
+
+// 	-> delete(str1);
+// 	-> delete(str2);
+// 	-> delete(str3);
+// 	-> delete(str4);
+
+// 	var Foo a;
+// 	a = -> makeFoo();
+// 	-> print(a);
+
+// 	var Bar b;
+// 	b.a = 42;
+// }
+
+// fnx makeFoo() Foo {
+// 	asm {
+// 		"newl 42"
+// 		"return"
+// 	}
+// }
+
+// fnx print(Foo obj) voi {
+// 	asm {
+// 		"load 0"
+// 		"print"
+// 		"return"
+// 	}
+// }
+
+// fnx hello() str {
+// 	asm {
+// 		"string::new"
+// 		"string::data 'hello '"
+// 		"return"
+// 	}
+// }
+
+// fnx world() str {
+// 	asm {
+// 		"string::new"
+// 		"string::data 'world'"
+// 		"return"
+// 	}
+// }

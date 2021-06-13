@@ -1,7 +1,7 @@
 #pragma once
 #include "LtncType.hxx"
 #include <cstdint>
-#include <map>
+#include <set>
 #include <memory>
 #include "LtncVar.hxx"
 #include "LtncSignature.hxx"
@@ -15,11 +15,11 @@ namespace ltnc {
 		
 		Var registerVar(const std::string & name, Type type);
 		Var getVar(const std::string & name) const;
-		std::uint32_t getSize() const;
+		std::uint32_t countVars() const;
 		const FxSignature & getFxSignature() const;
 	private:
 		std::optional<FxSignature> fxSignature;
-		std::map<std::string, Var> vars;
+		std::set<Var, std::less<>> vars;
 		Scope * prev;
 	};
 

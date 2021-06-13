@@ -13,6 +13,8 @@ namespace ltnc {
 		std::vector<Param> parameterList(ParserPackage & parsePkg) const;
 		Type returnType(ParserPackage & parsePkg) const;
 		std::shared_ptr<StmtBlock> body(ParserPackage & parsePkg) const;
+
+		bool isInline(ParserPackage & parsePkg) const;
 		
 		const ParserNode<StmtBlock> * block; 
 	};

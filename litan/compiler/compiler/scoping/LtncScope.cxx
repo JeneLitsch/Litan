@@ -18,17 +18,17 @@ ltnc::Scope::Scope(){
 }
 
 ltnc::Var ltnc::Scope::registerVar(const std::string & name, Type type){
-	Var var = Var(type, this->getSize());
+	Var var = Var(type.name, this->countVars(), name);
 	if(this->vars.contains(name)){
 		throw std::runtime_error("Variable already defined: " + name);
 	}
-	this->vars.insert({name, var});
+	this->vars.insert({var});
 	return var;
 }
 
 ltnc::Var ltnc::Scope::getVar(const std::string & name) const {
 	if(this->vars.contains(name)){
-		Var var = this->vars.at(name);
+		Var var = *this->vars.find(name);
 		return var;
 	}
 	if(this->prev) {
@@ -37,9 +37,9 @@ ltnc::Var ltnc::Scope::getVar(const std::string & name) const {
 	throw std::runtime_error("Variable not defined: " + name);
 }
 
-std::uint32_t ltnc::Scope::getSize() const {
+std::uint32_t ltnc::Scope::countVars() const {
 	if(this->prev) {
-		return std::uint32_t(this->vars.size()) + this->prev->getSize();
+		return std::uint32_t(this->vars.size()) + this->prev->countVars();
 	}
 	return std::uint32_t(this->vars.size());
 }

@@ -30,8 +30,8 @@ namespace ltnc {
 	
 	struct ExprVar : public Expr {
 		virtual ~ExprVar() = default;
-		ExprVar(const std::string & name): name(name) {}
-		std::string name;
+		ExprVar(const std::string & name): path({name}) {}
+		std::vector<std::string> path;
 	};
 
 	struct ExprBinary : public Expr {

@@ -1,3 +1,4 @@
+// printing
 
 fnx print(int num) voi {
 	asm {

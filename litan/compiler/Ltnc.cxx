@@ -17,6 +17,8 @@ std::string ltnc::LTNC::compile(
 
 
 	std::string code = source 
+		+ ltn::readFile("stdlib/stdbasics.ltn") 
+		+ ltn::readFile("stdlib/stdmath.ltn") 
 		+ ltn::readFile("stdlib/stdarr.ltn") 
 		+ ltn::readFile("stdlib/stdio.ltn") 
 		+ ltn::readFile("stdlib/stdexept.ltn")

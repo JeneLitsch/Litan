@@ -1,0 +1,34 @@
+// min 2 ==============================
+
+fnx min(int a, int b) int inl {
+	if (a < b) {
+		return a;
+	}
+	return b;
+}
+
+fnx min(flt a, flt b) flt inl {
+	if (a < b) {
+		return a;
+	}
+	return b;
+}
+
+
+
+
+// max 2 ==============================
+
+fnx max(int a, int b) int inl {
+	if (a > b) {
+		return a;
+	}
+	return b;
+}
+
+fnx max(flt a, flt b) flt inl {
+	if (a > b) {
+		return a;
+	}
+	return b;
+}

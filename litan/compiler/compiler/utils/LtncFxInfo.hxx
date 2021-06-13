@@ -6,5 +6,7 @@ namespace ltnc {
 			: signature(signature), jumpMark(jumpMark) {}
 		FxSignature signature;
 		std::string jumpMark;
+		bool inlined = false;
+		std::optional<std::string> inlineCode;
 	};
 }

@@ -1,0 +1,4 @@
+// register base types
+typedef voi;
+typedef int;
+typedef flt;

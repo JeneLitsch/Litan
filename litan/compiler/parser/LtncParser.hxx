@@ -8,6 +8,7 @@
 #include "LtncParserAssign.hxx"
 #include "LtncParserDeclVar.hxx"
 #include "LtncParserDeclType.hxx"
+#include "LtncParserDeclStruct.hxx"
 #include "LtncParserFunction.hxx"
 
 #include "LtncParserExpr.hxx"
@@ -16,6 +17,7 @@
 #include "LtncParserProduct.hxx"
 #include "LtncParserPrimary.hxx"
 #include "LtncParserCall.hxx"
+#include "LtncParserVar.hxx"
 #include "LtncParserIfElse.hxx"
 #include "LtncParserBlock.hxx"
 
@@ -33,6 +35,7 @@ namespace ltnc {
 		ParserAssign assign;
 		ParserDeclVar declVar;
 		ParserDeclType declType;
+		ParserDeclStruct declStruct;
 		ParserFunction function;
 
 		ParserExpr expr;
@@ -41,5 +44,6 @@ namespace ltnc {
 		ParserProduct product;
 		ParserPrimary primary;
 		ParserCall call;
+		ParserVar var;
 	};
 }

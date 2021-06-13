@@ -120,7 +120,7 @@ int main(int argc, char const *argv[]) {
 	if(!args.getSilent()){
 
 		std::cout << "Litan Compiler (c) Jene Litsch 2021" << std::endl;
-		std::cout << "Flags: [";
+		std::cout << "Flags: [ ";
 		if(args.getOptimizationLevel()) {
 			std::cout << "-O" << args.getOptimizationLevel() << " ";
 		}

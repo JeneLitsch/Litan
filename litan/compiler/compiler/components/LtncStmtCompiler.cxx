@@ -1,5 +1,6 @@
 #include "LtncStmtCompiler.hxx"
 #include <iostream>
+#include <sstream>
 
 ltnc::StmtInfo ltnc::StmtCompiler::compile(CompilerPack & compPkg, const std::shared_ptr<Stmt> & stmt) const {
 	return this->compileStmt(compPkg, stmt);
@@ -40,15 +41,28 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shar
 
 ltnc::StmtInfo ltnc::StmtCompiler::compileAssign(CompilerPack & compPkg, std::shared_ptr<StmtAssign> stmt) const {
 	auto expr = exprCompiler.compileExpr(compPkg, stmt->expr);
-	
-	Var var = compPkg.getScopes().get().getVar(stmt->name);
+	// stack
+	if(stmt->var->path.size() == 1) {
+		
+		Var var = compPkg.getScopes().get().getVar(stmt->var->path[0]);
 
-	if(expr.type != var.type) throw std::runtime_error("Types do not match: " + expr.code);
+		if(expr.type != var.typeName) throw std::runtime_error("Types do not match: " + expr.code);
 
-	return StmtInfo( 
-		this->comment(compPkg, "assign to int var " + stmt->name) 
-		+ expr.code
-		+ "store " + std::to_string(var.addr) + "\n", 0);
+		return StmtInfo( 
+			this->comment(compPkg, "assign to int var " + stmt->var->path[0]) 
+			+ expr.code
+			+ "store " + std::to_string(var.addr) + "\n", 0);
+	}
+
+	// heap
+	else {
+		std::stringstream code;
+		ExprInfo access = this->exprCompiler.compileAccess(compPkg, stmt->var, expr);
+		if(expr.type != access.type.name) throw std::runtime_error("Types do not match: " + expr.code);
+		code << access.code;
+		return StmtInfo(code.str(), 0);
+	}
+	throw std::runtime_error("STOPPER");
 }
 
 ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::shared_ptr<StmtRepeat> stmt) const {
@@ -151,7 +165,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::sha
 	compPkg.getScopes().addBlockScope();
 	std::string code;
 	for(const auto & decl : block->declarations) {
-		compPkg.getTypeTable().guardType(decl->type);
+		compPkg.getTypeTable().guardType(decl->type.name);
 		Var var = compPkg.getScopes().get().registerVar(decl->name, decl->type);
 	}
 	unsigned stackalloc = 0;

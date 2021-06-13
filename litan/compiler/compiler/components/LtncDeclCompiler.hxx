@@ -12,8 +12,13 @@ namespace ltnc {
 	class DeclCompiler : public CompilerComponent<StmtInfo, DeclFunction> {
 	public:
 		DeclCompiler(StmtCompiler & stmtCompiler);
-		virtual StmtInfo compile(CompilerPack & compPkg, const std::shared_ptr<DeclFunction> & stmt) const override;
+		virtual StmtInfo compile(
+			CompilerPack & compPkg,
+			const std::shared_ptr<DeclFunction> & decl) const override;
 	private:
+		std::string fxComment(
+			CompilerPack & compPkg,
+			const std::shared_ptr<DeclFunction> & decl) const;
 		StmtCompiler & stmtCompiler;
 	};
 }

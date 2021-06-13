@@ -23,13 +23,10 @@ std::shared_ptr<ltnc::Stmt> ltnc::ParserStmt::stmt(ParserPackage & parsePkg) con
 	if(auto stmt = this->block->eval(parsePkg)) return stmt;
 	if(auto stmt = this->asmBlock(parsePkg)) return stmt;
 	
-	if(parsePkg.match(TokenType::IDENTIFIER)) return this->assign->eval(parsePkg);
-
-
+	if(auto stmt = this->assign->eval(parsePkg)) return stmt;
 	
-	if(auto stmt = this->ifelse->eval(parsePkg)) {
-		return stmt;
-	}
+	if(auto stmt = this->ifelse->eval(parsePkg)) return stmt;
+	
 	if(parsePkg.match(TokenType::FOR)) return this->forLoop(parsePkg);
 	if(parsePkg.match(TokenType::WHILE)) return this->whileLoop(parsePkg);
 	if(parsePkg.match(TokenType::REPEAT)) return this->repeatLoop(parsePkg);

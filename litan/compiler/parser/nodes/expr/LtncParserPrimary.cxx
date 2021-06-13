@@ -1,7 +1,11 @@
 #include "LtncParserPrimary.hxx"
 
-void ltnc::ParserPrimary::connect(const ParserNode<ExprCall> & call) {
+void ltnc::ParserPrimary::connect(
+	const ParserNode<ExprCall> & call,
+	const ParserNode<ExprVar> & var) {
+	
 	this->call = &call;
+	this->var = &var;
 }
 
 std::shared_ptr<ltnc::Expr> ltnc::ParserPrimary::eval(ParserPackage & parsePkg) const  {
@@ -20,10 +24,7 @@ std::shared_ptr<ltnc::Expr> ltnc::ParserPrimary::eval(ParserPackage & parsePkg) 
 	}
 
 	// variables and constants
-	if (parsePkg.match(TokenType::IDENTIFIER)) {
-		std::string name = parsePkg.prev().string;
-		return std::make_shared<ExprVar>(name);
-	}
+	if (auto expr = this->var->eval(parsePkg)) return expr;
 
 	// call function
 	if (parsePkg.match(TokenType::CALL)) {

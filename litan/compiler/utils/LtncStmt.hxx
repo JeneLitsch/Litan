@@ -7,6 +7,7 @@
 namespace ltnc {
 
 	struct Expr;
+	struct ExprVar;
 	struct DeclVar;
 
 	struct Stmt {
@@ -28,10 +29,10 @@ namespace ltnc {
 	};
 
 	struct StmtAssign : public Stmt {
-		StmtAssign(const std::string & name, std::shared_ptr<Expr> expr)
-			: name(name), expr(expr) {}
+		StmtAssign(const std::shared_ptr<ExprVar> & var, std::shared_ptr<Expr> expr)
+			: var(var), expr(expr) {}
 		virtual ~StmtAssign() = default;
-		std::string name;
+		std::shared_ptr<ExprVar> var;
 		std::shared_ptr<Expr> expr; 
 	};
 

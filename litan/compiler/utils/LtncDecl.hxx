@@ -20,15 +20,29 @@ namespace ltnc {
 		Type type;
 	};
 
+	struct DeclStruct : public Decl {
+		DeclStruct(const std::string & name)  {
+			this->name = name;
+		}
+		std::string name;
+		std::vector<std::shared_ptr<DeclVar>> members;
+	};
+
 	struct DeclFunction : public Decl {
 		DeclFunction(
 			FxSignature signature,
-			std::shared_ptr<Stmt> body) :		
+			std::shared_ptr<Stmt> body,
+			bool inlined = false) 
+			
+			:		
+			
 			signature(signature),
-			body(body) {}
+			body(body),
+			inlined(inlined) {}
 
 		virtual ~DeclFunction() = default;
 		FxSignature signature;
 		std::shared_ptr<Stmt> body;
+		bool inlined;
 	};
 }
