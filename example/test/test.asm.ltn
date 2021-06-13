@@ -6,11 +6,19 @@ exit
 // main ( -> voi ) [ ]
 -> FNX_main_0
 stackalloc 3
+newf 42.600000
+call FNX_toInt_5
+call FNX_print_15
+newi 42
+call FNX_toFlt_6
+newf 0.500000
+addf
+call FNX_print_16
 // assign to int var a
 newi 42
 store 0
 load 0
-call FNX_print_13
+call FNX_print_15
 // assign to int var foo
 call FNX_makeFoo_1
 store 1
@@ -25,7 +33,7 @@ newl 0
 array::get 
 newl 0
 array::get 
-call FNX_print_13
+call FNX_print_15
 return 
 
 
@@ -82,8 +90,26 @@ array::set
 return
 
 
+// toInt ( flt -> int ) [ ]
+-> FNX_toInt_5
+stackalloc 1
+store 0
+load 0
+casti
+return
+
+
+// toFlt ( int -> flt ) [ ]
+-> FNX_toFlt_6
+stackalloc 1
+store 0
+load 0
+castf
+return
+
+
 // min ( int int -> int ) [ inline ]
--> FNX_min_5
+-> FNX_min_7
 stackalloc 2
 store 1
 store 0
@@ -91,18 +117,18 @@ load 0
 load 1
 smli
 ifnx
-goto IF_31
-goto END_IF_33
--> IF_31
+goto IF_33
+goto END_IF_35
+-> IF_33
 load 0
 return 
--> END_IF_33
+-> END_IF_35
 load 1
 return 
 
 
 // min ( flt flt -> flt ) [ inline ]
--> FNX_min_6
+-> FNX_min_8
 stackalloc 2
 store 1
 store 0
@@ -110,18 +136,18 @@ load 0
 load 1
 smlf
 ifnx
-goto IF_34
-goto END_IF_36
--> IF_34
+goto IF_36
+goto END_IF_38
+-> IF_36
 load 0
 return 
--> END_IF_36
+-> END_IF_38
 load 1
 return 
 
 
 // max ( int int -> int ) [ inline ]
--> FNX_max_7
+-> FNX_max_9
 stackalloc 2
 store 1
 store 0
@@ -129,18 +155,18 @@ load 0
 load 1
 bgri
 ifnx
-goto IF_37
-goto END_IF_39
--> IF_37
+goto IF_39
+goto END_IF_41
+-> IF_39
 load 0
 return 
--> END_IF_39
+-> END_IF_41
 load 1
 return 
 
 
 // max ( flt flt -> flt ) [ inline ]
--> FNX_max_8
+-> FNX_max_10
 stackalloc 2
 store 1
 store 0
@@ -148,18 +174,18 @@ load 0
 load 1
 bgrf
 ifnx
-goto IF_40
-goto END_IF_42
--> IF_40
+goto IF_42
+goto END_IF_44
+-> IF_42
 load 0
 return 
--> END_IF_42
+-> END_IF_44
 load 1
 return 
 
 
 // newArray ( -> arr ) [ ]
--> FNX_newArray_9
+-> FNX_newArray_11
 stackalloc 1
 array::new
 store 1
@@ -168,7 +194,7 @@ return
 
 
 // delete ( arr -> voi ) [ ]
--> FNX_delete_10
+-> FNX_delete_12
 stackalloc 1
 store 0
 load 0
@@ -177,7 +203,7 @@ return
 
 
 // addToArray ( arr int -> voi ) [ ]
--> FNX_addToArray_11
+-> FNX_addToArray_13
 stackalloc 2
 store 1
 store 0
@@ -188,7 +214,7 @@ return
 
 
 // readArrayI ( arr int -> int ) [ ]
--> FNX_readArrayI_12
+-> FNX_readArrayI_14
 stackalloc 2
 store 1
 store 0
@@ -199,7 +225,7 @@ return
 
 
 // print ( int -> voi ) [ ]
--> FNX_print_13
+-> FNX_print_15
 stackalloc 1
 store 0
 load 0
@@ -208,7 +234,7 @@ return
 
 
 // print ( flt -> voi ) [ ]
--> FNX_print_14
+-> FNX_print_16
 stackalloc 1
 store 0
 load 0
@@ -217,7 +243,7 @@ return
 
 
 // print ( str -> voi ) [ ]
--> FNX_print_15
+-> FNX_print_17
 stackalloc 1
 store 0
 load 0
@@ -226,13 +252,13 @@ return
 
 
 // error ( -> voi ) [ ]
--> FNX_error_16
+-> FNX_error_18
 stackalloc 0
 error
 
 
 // delete ( str -> voi ) [ ]
--> FNX_delete_17
+-> FNX_delete_19
 stackalloc 1
 store 0
 load 0
@@ -241,7 +267,7 @@ return
 
 
 // add ( str str -> str ) [ ]
--> FNX_add_18
+-> FNX_add_20
 stackalloc 2
 store 1
 store 0

@@ -2,3 +2,19 @@
 typedef voi;
 typedef int;
 typedef flt;
+
+fnx toInt(flt number) int {
+	asm {
+		"load 0"
+		"casti"
+		"return"
+	}
+}
+
+fnx toFlt(int number) flt {
+	asm {
+		"load 0"
+		"castf"
+		"return"
+	}
+}

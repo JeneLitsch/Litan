@@ -7,6 +7,8 @@ struct Foo {
 }
 
 fnx main() voi {
+	->print(->toInt(42.6));
+	->print(->toFlt(42) + 0.5);
 	var int a;
 	a = 43 - 1;
 	->print(a);
