@@ -79,6 +79,7 @@ dirsLtnC = [
 	"litan/compiler/compiler/components",
 	"litan/compiler/compiler/scoping",
 	"litan/compiler/compiler/utils",
+	"litan/compiler/compiler/utils/codeBuffer",
 ]
 
 dirsLtnA = [

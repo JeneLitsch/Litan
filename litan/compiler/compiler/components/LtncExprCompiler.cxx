@@ -6,6 +6,8 @@
 #include "LtncDivEvaluator.hxx"
 #include "LtncModEvaluator.hxx"
 
+#include "LtncInst.hxx"
+
 #include "Unused.hxx"
 #include <iostream>
 #include <sstream>
@@ -83,7 +85,13 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 			return *optimized;
 		}
 	}
-	return ExprInfo(l.type, l.code + r.code + command + suffix + "\n");
+
+	CodeBuffer code(compPkg.getSettings().areCommentsActive());
+	code << l.code;
+	code << r.code;
+	code << AssemblyCode(command + suffix);
+	
+	return ExprInfo(l.type, code);
 }
 
 
@@ -97,37 +105,42 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 
 	// i or f for int or float
 	std::string suffix = this->getSuffux(l, r);
+
+	CodeBuffer code(compPkg.getSettings().areCommentsActive());
+	code << l.code;
+	code << r.code;
+	code << AssemblyCode(command + suffix);
 	
-	return ExprInfo(l.type, l.code + r.code + command + suffix + "\n");
+	return ExprInfo(l.type, code);
 }
 
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileIntLit(CompilerPack & compPkg, std::shared_ptr<ExprIntLiteral> expr) const {
-	UNUSED(compPkg);
 	std::int64_t value = expr->number;
-	std::string code = "newi " + std::to_string(value) + "\n";
+	CodeBuffer code = compPkg.codeBuffer();
+	code << Inst::newi(value);
 	return ExprInfo(Type("int"), code, Constant(value));
 }
 
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileFltLit(CompilerPack & compPkg, std::shared_ptr<ExprFltLiteral> expr) const {
-	UNUSED(compPkg);
 	double value = expr->number;
-	std::string code = "newf " + std::to_string(value) + "\n";
+	CodeBuffer code = compPkg.codeBuffer();
+	code << Inst::newf(value);
 	return ExprInfo(Type("flt"), code, Constant(value));
 }
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::shared_ptr<ExprStrLiteral> expr) const {
-	UNUSED(compPkg);
 	std::string string = expr->string;
 	std::vector<std::string> stringParts;
 	for(unsigned idx = 0; idx < string.size(); idx+=6) {
 		stringParts.push_back(string.substr(idx,6));
 	}
-	std::string code = "// " + expr->string + "\n";
-	code += "string::new\n";
+	CodeBuffer code = compPkg.codeBuffer();
+	code << Comment(expr->string);
+	code << AssemblyCode("string::new");
 	for(const std::string & str : stringParts) {
-		code += "string::data '" + str + "'\n";
+		code << AssemblyCode("string::data '" + str);
 	}
 	return ExprInfo(Type("str"), code);
 }
@@ -141,7 +154,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileVar(CompilerPack & compPkg, std::share
 
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileAccess(CompilerPack & compPkg, const std::shared_ptr<ExprVar> & access, const std::optional<ExprInfo> & expr) const {
-	std::stringstream code;
+	CodeBuffer code = compPkg.codeBuffer();
 	Var var("", 0, "");
 
 
@@ -182,28 +195,34 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileAccess(CompilerPack & compPkg, const s
 		unsigned i,
 		const Var & var,
 		const std::optional<ExprInfo> & expr)
-		-> std::string {
-		std::stringstream code;
+		-> CodeBuffer {
+		CodeBuffer code(false);
 
-		// load from stack
+		// stack
 		if(i == 0) {
-			code << "load " << var.addr << "\n";
+			if(path.size() == 1 && expr) {
+				code << expr->code;
+				code << Inst::store(var.addr);
+			}
+			else {
+				code << Inst::load(var.addr);
+			}
 		}
 
-		// write to heap
-		else if(i == path.size() - 1 && expr) {
-			code << "newl " << var.addr << "\n";
-			code << expr->code;
-			code << "array::set \n";
-		}
-
-		// load from heap
+		// heap
 		else {
-			code << "newl " << var.addr << "\n";
-			code << "array::get \n";
+			if(i == path.size() - 1 && expr) {
+				code << Inst::newl(var.addr);
+				code << expr->code;
+				code << AssemblyCode("array::set");
+			}
+			else {
+				code << Inst::newl(var.addr);
+				code << AssemblyCode("array::get");
+			}
 		}
 
-		return code.str();
+		return code;
 	};
 
 
@@ -214,7 +233,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileAccess(CompilerPack & compPkg, const s
 	}
 
 
-	return ExprInfo(var.typeName, code.str());
+	return ExprInfo(var.typeName, code);
 }
 
 
@@ -222,7 +241,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileAccess(CompilerPack & compPkg, const s
 std::string ltnc::ExprCompiler::getSuffux(const ExprInfo & l, const ExprInfo & r) const {
 	// mismatch
 	if(l.type != r.type) {
-		throw std::runtime_error("Expression types do not match: \"" + l.code + "\" and \"" + r.code + "\"");
+		throw std::runtime_error("Expression types do not match: \"" + l.code.str() + "\" and \"" + r.code.str() + "\"");
 	}
 
 	// integer
@@ -241,20 +260,19 @@ std::string ltnc::ExprCompiler::getSuffux(const ExprInfo & l, const ExprInfo & r
 
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileCall(CompilerPack & compPkg, std::shared_ptr<ExprCall> expr) const {
-	std::string code;
+	CodeBuffer code(compPkg.getSettings().areCommentsActive());
 	std::vector<Param> params;
 
 	// parameter list
 	for(const auto & expr : expr->paramExprs) {
 		ExprInfo exprInfo = this->compileExpr(compPkg, expr);
-		std::cout << exprInfo.type.name << std::endl;
 		params.push_back(Param(exprInfo.type, ""));
-		code += exprInfo.code;
+		code << exprInfo.code;
 	}
 
 	if(auto fxInfo = compPkg.matchFunction(FxSignature(Type("voi"), expr->name, params))) {
 		// create jump to fx
-		code += "call "  + fxInfo->jumpMark + "\n";
+		code << AssemblyCode("call "  + fxInfo->jumpMark);
 		return ExprInfo(fxInfo->signature.returnType, code);
 	}
 	throw std::runtime_error("No matching function for: " + expr->name);

@@ -1,14 +1,15 @@
 #pragma once
 #include <string>
+#include "LtncCodeBuffer.hxx"
 namespace ltnc {
 	struct StmtInfo {
-		StmtInfo(const std::string & code, unsigned stackalloc)
+		StmtInfo(const CodeBuffer & code, unsigned stackalloc)
 			: code(code), stackalloc(stackalloc)  {}
 		
 		StmtInfo(const StmtInfo & info) 
 			: code(info.code), stackalloc(info.stackalloc) {}
 		
-		const std::string code;
+		const CodeBuffer code;
 		const unsigned stackalloc;
 	};
 }

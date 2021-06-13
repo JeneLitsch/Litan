@@ -7,6 +7,7 @@
 #include "LtncFxInfo.hxx"
 #include "LtncCompilerSettings.hxx"
 #include "LtncTypeTable.hxx"
+#include "LtncCodeBuffer.hxx"
 namespace ltnc {
 	class CompilerPack {
 	public:
@@ -31,6 +32,9 @@ namespace ltnc {
 		TypeTable & getTypeTable();
 
 		const CompilerSettings & getSettings() const;
+
+		CodeBuffer codeBuffer() const;
+
 	private:
 		std::uint64_t jumpmarkCounter;
 		ScopeStack scopeStack;

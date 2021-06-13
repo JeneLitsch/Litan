@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <optional>
 #include "LtncExprInfo.hxx"
+#include "LtncCodeBuffer.hxx"
+#include "LtncAssemblyCode.hxx"
 namespace ltnc {
 	// Base class for binary operator 
 	class Evaluator {

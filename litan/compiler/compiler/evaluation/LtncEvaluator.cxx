@@ -10,14 +10,18 @@ std::optional<ltnc::ExprInfo> ltnc::Evaluator::optimize(
 				std::get<std::int64_t>(l.constant->value),
 				std::get<std::int64_t>(r.constant->value));
 			Constant constant(value);
-			return ExprInfo(l.type, "newi " + std::to_string(value) + "\n", constant);
+			CodeBuffer code(false);
+			code << AssemblyCode("newi " + std::to_string(value));
+			return ExprInfo(l.type, code, constant);
 		}
 		if(l.type == "flt") {
 			double value = this->eval(
 				std::get<double>(l.constant->value),
 				std::get<double>(r.constant->value));
 			Constant constant(value);
-			return ExprInfo(l.type, "newf " + std::to_string(value) + "\n", constant);
+			CodeBuffer code(false);
+			code << AssemblyCode("newf " + std::to_string(value));
+			return ExprInfo(l.type,  code, constant);
 		}
 	}
 	return {};

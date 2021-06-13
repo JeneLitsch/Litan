@@ -11,6 +11,7 @@ namespace ltnc {
 		Type() : name("voi") {}
 		std::string name;
 		std::vector<std::shared_ptr<Var>> members;
+		unsigned fixedSize = 0;
 	};
 
 	inline bool operator==(const Type & typeL, const Type & typeR) {

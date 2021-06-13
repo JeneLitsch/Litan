@@ -58,3 +58,7 @@ ltnc::TypeTable & ltnc::CompilerPack::getTypeTable(){
 const ltnc::CompilerSettings & ltnc::CompilerPack::getSettings() const {
 	return this->settings;
 }
+
+ltnc::CodeBuffer ltnc::CompilerPack::codeBuffer() const {
+	return CodeBuffer(this->settings.areCommentsActive());
+}

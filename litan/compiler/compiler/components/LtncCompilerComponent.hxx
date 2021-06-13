@@ -1,6 +1,8 @@
 #pragma once 
 #include <memory>
 #include "LtncCompilerPack.hxx"
+#include "LtncCodeBuffer.hxx"
+#include "LtncAssemblyCode.hxx"
 namespace ltnc {
 	template<class OUT, class IN>
 	class CompilerComponent {

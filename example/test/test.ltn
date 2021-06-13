@@ -7,6 +7,30 @@ struct Foo {
 }
 
 fnx main() voi {
+	for(idx, 1, 10){
+		->print(idx);
+	}
+	
+	repeat(3){
+		->print(4.2);
+	}
+	
+	var int i;
+	i = 0;
+	while(i < 3) {
+		if(i <= 0) {
+			->print(0.5);
+		}
+		else if(i <= 1) {
+			->print(1.5);
+		}
+		else if(i <= 2) {
+			->print(2.5);
+		}
+		->print(i);
+		i = i + 1;
+	}
+	
 	->print(->toInt(42.6));
 	->print(->toFlt(42) + 0.5);
 	var int a;
@@ -17,6 +41,10 @@ fnx main() voi {
 	foo = ->makeFoo();
 	foo.bar.x = 41;
 	->print(foo.bar.x);
+	asm {
+		"size"
+		"print"
+	}
 	return;
 }
 

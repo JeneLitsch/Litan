@@ -4,7 +4,7 @@ std::string ltnc::Compiler::compile(
 	std::shared_ptr<Program> program,
 	const CompilerSettings & settings){
 	CompilerPack compPkg(settings);
-	std::string code;
+	CodeBuffer code = compPkg.codeBuffer();
 
 	// register types
 	for(const Type & type : program->types) {
@@ -30,25 +30,15 @@ std::string ltnc::Compiler::compile(
 	
 	// init code
 	compPkg.getScopes().addFunctionScope(FxSignature(Type("voi"), "", {}));
-	code += "-> MAIN \n"; 
-	code += stmtCompiler.compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main"))).code;
-	code += "exit \n";
-	code += "\n\n";
-
-	if (settings.getOptimizationLevel()) {
-		// compile functions
-		for(auto & fx : program->functions) {
-			if(fx->inlined) {
-				std::string fxCode = this->declCompiler.compile(compPkg, fx).code;
-				compPkg.addInlineCode(fx->signature, code);
-			}
-		}
-	}
+	code << AssemblyCode("-> MAIN"); 
+	code << stmtCompiler.compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main"))).code;
+	code << AssemblyCode("exit");
+	code << AssemblyCode("\n");
 
 	// compile functions
 	for(const auto & function : program->functions) {
-		code += this->declCompiler.compile(compPkg, function).code;
+		code << this->declCompiler.compile(compPkg, function).code;
 	}
 
-	return code;
+	return code.str();
 }

@@ -20,19 +20,19 @@ ltnc::StmtInfo ltnc::DeclCompiler::compile(
 	StmtInfo body = stmtCompiler.compileStmt(compPkg, decl->body);
 
 	// create code;
-	std::string code;
-	code += this->fxComment(compPkg, decl);
-	code += "-> " + fxInfo.jumpMark + "\n";
+	CodeBuffer code = compPkg.codeBuffer();
+	code << Comment(this->fxComment(compPkg, decl));
+	code << AssemblyCode("-> " + fxInfo.jumpMark);
 	// load params into memory (backwards because LIFO)
 	const auto & params = decl->signature.params; 
-	code += "stackalloc " + std::to_string(body.stackalloc + params.size()) + "\n";
+	code << AssemblyCode("stackalloc " + std::to_string(body.stackalloc + params.size()));
 	for(auto param = params.rbegin(); param != params.rend(); ++param) {
 		// store parameter;
 		std::uint64_t varAddr = compPkg.getScopes().get().getVar((*param).name).addr;
-		code += "store " + std::to_string(varAddr) + "\n";
+		code << Inst::store(varAddr);
 	}
-	code += body.code;
-	code += "\n\n";
+	code << body.code;
+	code << AssemblyCode("\n");
 	compPkg.getScopes().remove();
 	return StmtInfo(code, 0);
 }
