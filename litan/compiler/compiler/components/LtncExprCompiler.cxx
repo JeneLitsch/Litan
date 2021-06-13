@@ -37,6 +37,9 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileExpr(CompilerPack & compPkg,  std::sha
 	if(auto expr_ = std::dynamic_pointer_cast<ltnc::ExprCall>(expr)) {
 		return this->compileCall(compPkg, expr_);
 	}
+	if(auto expr_ = std::dynamic_pointer_cast<ltnc::ExprUnary>(expr)) {
+		return this->compileUnary(compPkg, expr_);
+	}
 	throw std::runtime_error("Invalid Expr");
 }
 
@@ -60,7 +63,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileBinary(CompilerPack & compPkg, std::sh
 	case TokenType::MOD: 			return this->buildBinary(compPkg, expr, "mod", ModEvaluator());
 
 	// error
-	default: 						throw std::runtime_error("Invalid expression");
+	default: 						throw std::runtime_error("Invalid binary expression");
 	}
 }
 
@@ -112,6 +115,25 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 	code << AssemblyCode(command + suffix);
 	
 	return ExprInfo(l.type, code);
+}
+
+ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::shared_ptr<ExprUnary> expr) const {
+	CodeBuffer code = compPkg.codeBuffer();
+	if(expr->type == TokenType::MINUS) {
+		ExprInfo exprInfo = this->compile(compPkg, expr->r);
+		if(exprInfo.type == "int"){
+			code << exprInfo.code;
+			code << AssemblyCode("mnsi");
+			return ExprInfo(exprInfo.type, code);
+		}
+		if(exprInfo.type == "flt") {
+			code << exprInfo.code;
+			code << AssemblyCode("mnsf");
+			return ExprInfo(exprInfo.type, code);
+		}
+		throw std::runtime_error("Invalid unary expression type for \"-\"");
+	}
+	throw std::runtime_error("Invalid unary expression");
 }
 
 

@@ -34,6 +34,17 @@ namespace ltnc {
 		std::vector<std::string> path;
 	};
 
+	struct ExprUnary : public Expr {
+		virtual ~ExprUnary() = default;
+		ExprUnary(
+			TokenType type,
+			const std::shared_ptr<Expr> & r)
+			: type(type), r(r) {}
+
+		TokenType type;
+		std::shared_ptr<Expr> r;
+	};
+
 	struct ExprBinary : public Expr {
 		virtual ~ExprBinary() = default;
 		ExprBinary(

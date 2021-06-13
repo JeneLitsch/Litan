@@ -2,10 +2,12 @@
 
 void ltnc::ParserPrimary::connect(
 	const ParserNode<ExprCall> & call,
-	const ParserNode<ExprVar> & var) {
+	const ParserNode<ExprVar> & var,
+	const ParserNode<Expr> & expr) {
 	
 	this->call = &call;
 	this->var = &var;
+	this->expr = &expr;
 }
 
 std::shared_ptr<ltnc::Expr> ltnc::ParserPrimary::eval(ParserPackage & parsePkg) const  {
@@ -21,6 +23,14 @@ std::shared_ptr<ltnc::Expr> ltnc::ParserPrimary::eval(ParserPackage & parsePkg) 
 	if (parsePkg.match(TokenType::STRING_LITERAL)) {
 		std::string value = parsePkg.prev().string;
 		return std::make_shared<ExprStrLiteral>(value);
+	}
+
+	if (parsePkg.match(TokenType::L_PARAN)) {
+		auto expr_ = this->expr->eval(parsePkg);
+		if (!parsePkg.match(TokenType::R_PARAN)) {
+			return parsePkg.error("Expected )");
+		}
+		return expr_;
 	}
 
 	// variables and constants

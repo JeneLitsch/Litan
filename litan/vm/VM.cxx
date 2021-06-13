@@ -78,8 +78,9 @@ ltn::VM::Status ltn::VM::execute(){
 		case InstCode::POWI: this->powi(); break;
 		case InstCode::MODI: this->modi(); break;
 		case InstCode::CASTI: this->casti(); break;
-		case InstCode::INC: this->inc(); break;
-		case InstCode::DEC: this->dec(); break;
+		case InstCode::INCI: this->inci(); break;
+		case InstCode::DECI: this->deci(); break;
+		case InstCode::MNSI: this->mnsi(); break;
 		
 		case InstCode::ADDF: this->addf(); break;
 		case InstCode::SUBF: this->subf(); break;
@@ -88,6 +89,7 @@ ltn::VM::Status ltn::VM::execute(){
 		case InstCode::POWF: this->powf(); break;
 		case InstCode::MODF: this->modf(); break;
 		case InstCode::CASTF: this->castf(); break;
+		case InstCode::MNSF: this->mnsf(); break;
 
 		case InstCode::BITOR: this->bit_or(); break;
 		case InstCode::BITAND: this->bit_and(); break;
@@ -271,13 +273,16 @@ void ltn::VM::modi(){
 	this->env.acc.push(l % r);
 }
 
-void ltn::VM::inc(){
+void ltn::VM::inci(){
 	this->env.acc.top()++;
 }
-void ltn::VM::dec(){
+void ltn::VM::deci(){
 	this->env.acc.top()--;
 }
 
+void ltn::VM::mnsi(){
+	this->env.acc.push(-this->env.acc.popI());
+}
 
 void ltn::VM::addf(){
 	double r = this->env.acc.popF();
@@ -313,6 +318,9 @@ void ltn::VM::modf(){
 	this->env.acc.push(std::fmod(l,r));
 }
 
+void ltn::VM::mnsf(){
+	this->env.acc.push(-this->env.acc.popF());
+}
 
 // bitwise
 void ltn::VM::bit_or(){

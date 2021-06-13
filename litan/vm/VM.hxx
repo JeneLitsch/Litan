@@ -57,8 +57,13 @@ namespace ltn {
 
 		// math instructions
 		void addi(); void subi(); void mlti(); void divi(); void powi(); void modi();
-		void inc(); void dec();
+		void inci(); void deci();
+		void mnsi(); 
+		
 		void addf(); void subf(); void mltf(); void divf(); void powf(); void modf();
+		void incf(); void decf();
+		void mnsf();
+
 
 		// logic and bitwise instructions
 		void bit_or(); void bit_and(); void bit_xor();

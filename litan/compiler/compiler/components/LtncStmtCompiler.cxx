@@ -42,28 +42,13 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shar
 ltnc::StmtInfo ltnc::StmtCompiler::compileAssign(CompilerPack & compPkg, std::shared_ptr<StmtAssign> stmt) const {
 	auto expr = exprCompiler.compileExpr(compPkg, stmt->expr);
 	auto access = this->exprCompiler.compileAccess(compPkg, stmt->var, expr);
-		CodeBuffer code = compPkg.codeBuffer();
-		if(expr.type != access.type.name) throw std::runtime_error("Types do not match: " + expr.code.str());
-		code << access.code;
-		return StmtInfo(code, 0);
-
-	// stack
-	if(stmt->var->path.size() == 1) {
-		CodeBuffer code = compPkg.codeBuffer();
-		Var var = compPkg.getScopes().get().getVar(stmt->var->path[0]);
-
-		if(expr.type != var.typeName) throw std::runtime_error("Types do not match: " + expr.code.str());
-
-		code << Comment("assign to int var " + stmt->var->path[0]); 
-		code << expr.code;
-		code << Inst::store(var.addr);
-		return StmtInfo(code, 0);
+	if(expr.type != access.type.name) {
+		throw std::runtime_error("Types do not match: " + expr.code.str());
 	}
-
-	// heap
-	else {
-
-	}
+	
+	CodeBuffer code = compPkg.codeBuffer();
+	code << access.code;
+	return StmtInfo(code, 0);
 }
 
 ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::shared_ptr<StmtRepeat> stmt) const {

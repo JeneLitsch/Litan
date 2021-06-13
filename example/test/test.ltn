@@ -7,11 +7,17 @@ struct Foo {
 }
 
 fnx main() voi {
-	for(idx, 1, 10){
+	var int a;
+	a = 42;
+	->print(-a);
+	->print(2.0 * -(3.0 - 1.0));
+	->print(1 + 2 + 3);
+	
+	for(idx, 1, 10) {
 		->print(idx);
 	}
 	
-	repeat(3){
+	repeat(3) {
 		->print(4.2);
 	}
 	
@@ -33,7 +39,6 @@ fnx main() voi {
 	
 	->print(->toInt(42.6));
 	->print(->toFlt(42) + 0.5);
-	var int a;
 	a = 43 - 1;
 	->print(a);
 	var Foo foo;
@@ -68,31 +73,31 @@ fnx makeBar() Bar {
 	return bar;
 }
 
-fnx getX(Foo foo) int {
-	asm {
-		"load 0"
-		"newl 0" "array::get"
-	}
-	asm {
-		"newl 0" "array::get"
-	}
-	asm {
-		"return"
-	}
-}
+// fnx getX(Foo foo) int {
+// 	asm {
+// 		"load 0"
+// 		"newl 0" "array::get"
+// 	}
+// 	asm {
+// 		"newl 0" "array::get"
+// 	}
+// 	asm {
+// 		"return"
+// 	}
+// }
 
-fnx setX(Foo foo, int x) voi {
-	asm {
-		"load 0"
-		"newl 0" "array::get"
-	}
-	asm {
-		"newl 0" "load 1" "array::set"
-	}
-	asm {
-		"return"
-	}
-}
+// fnx setX(Foo foo, int x) voi {
+// 	asm {
+// 		"load 0"
+// 		"newl 0" "array::get"
+// 	}
+// 	asm {
+// 		"newl 0" "load 1" "array::set"
+// 	}
+// 	asm {
+// 		"return"
+// 	}
+// }
 
 // typedef Foo;
 

@@ -15,6 +15,7 @@
 #include "LtncParserComparison.hxx"
 #include "LtncParserTerm.hxx"
 #include "LtncParserProduct.hxx"
+#include "LtncParserUnary.hxx"
 #include "LtncParserPrimary.hxx"
 #include "LtncParserCall.hxx"
 #include "LtncParserVar.hxx"
@@ -42,6 +43,7 @@ namespace ltnc {
 		ParserComparison comparison;
 		ParserTerm term;
 		ParserProduct product;
+		ParserUnary unary;
 		ParserPrimary primary;
 		ParserCall call;
 		ParserVar var;

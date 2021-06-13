@@ -14,8 +14,9 @@ ltnc::Parser::Parser() {
 	this->expr.connect(this->comparison);
 	this->comparison.connect(this->term);
 	this->term.connect(this->product);
-	this->product.connect(this->primary);
-	this->primary.connect(this->call, this->var);
+	this->product.connect(this->unary);
+	this->unary.connect(this->primary);
+	this->primary.connect(this->call, this->var, this->expr);
 	this->call.connect(this->expr);
 }
 

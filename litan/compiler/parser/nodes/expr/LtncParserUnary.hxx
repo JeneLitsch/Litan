@@ -5,19 +5,15 @@
 namespace ltnc {
 	// Parses primary expression 
 	// literals, call and identifier
-	class ParserPrimary : public ParserNode<Expr> {
+	class ParserUnary : public ParserNode<Expr> {
 	public:
 		void connect(
-			const ParserNode<ExprCall> & call,
-			const ParserNode<ExprVar> & var,
-			const ParserNode<Expr> & expr);
+			const ParserNode<Expr> & primary);
 
 		virtual std::shared_ptr<Expr> eval(
 			ParserPackage & parsePkg) const override;
 	
 	private:
-		const ParserNode<ExprCall> * call;
-		const ParserNode<ExprVar> * var;
-		const ParserNode<Expr> * expr;
+		const ParserNode<Expr> * primary;
 	};
 }

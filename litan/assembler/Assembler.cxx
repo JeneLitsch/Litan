@@ -71,8 +71,17 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "divi") return this->cFormat(InstCode::DIVI);
 		if(pkg.inst == "powi") return this->cFormat(InstCode::POWI);
 		if(pkg.inst == "modi") return this->cFormat(InstCode::MODI);
-		if(pkg.inst == "inc") return this->cFormat(InstCode::INC);
-		if(pkg.inst == "dec") return this->cFormat(InstCode::DEC);
+
+		if(pkg.inst == "inc") return this->cFormat(InstCode::INCI);
+		if(pkg.inst == "dec") return this->cFormat(InstCode::DECI);
+		if(pkg.inst == "inci") return this->cFormat(InstCode::INCI);
+		if(pkg.inst == "deci") return this->cFormat(InstCode::DECI);
+
+		if(pkg.inst == "incf") std::runtime_error("Flaoting point incrementation not valid");
+		if(pkg.inst == "decf") std::runtime_error("Flaoting point decrementation not valid");
+
+		if(pkg.inst == "mnsi") return this->cFormat(InstCode::MNSI);
+		if(pkg.inst == "mnsf") return this->cFormat(InstCode::MNSF);
 
 		if(pkg.inst == "addf") return this->cFormat(InstCode::ADDF);
 		if(pkg.inst == "subf") return this->cFormat(InstCode::SUBF);

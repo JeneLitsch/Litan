@@ -20,6 +20,7 @@ namespace ltnc {
 		// compiles generic binary expression
 		ExprInfo compileBinary(CompilerPack & compPkg, std::shared_ptr<ExprBinary> expr) const;
 
+
 		// optimzed binary operator
 		ExprInfo buildBinary(
 			CompilerPack & compPkg,
@@ -32,6 +33,9 @@ namespace ltnc {
 			CompilerPack & compPkg,
 			std::shared_ptr<ExprBinary> expr,
 			const std::string & command) const;
+
+
+		ExprInfo compileUnary(CompilerPack & compPkg, std::shared_ptr<ExprUnary> expr) const;
 
 		// int literal
 		ExprInfo compileIntLit(CompilerPack & compPkg, std::shared_ptr<ExprIntLiteral> expr) const;
