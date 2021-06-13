@@ -1,4 +1,0 @@
-fnx main() voi {
-	->fib(50);
-	return;
-}
