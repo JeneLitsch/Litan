@@ -1,4 +1,5 @@
-#pragma once 
+#pragma once
+#include <iostream>
 #include <string>
 #include <vector>
 #include "LtncType.hxx"
@@ -26,5 +27,33 @@ namespace ltnc {
 			}
 		}
 		return signatureL.name == signatureR.name;
+	}
+
+	inline bool operator<(const FxSignature & signatureL, const FxSignature & signatureR) {
+		if(signatureL.params.size() < signatureR.params.size()) {
+			return true;
+		}
+		for(std::size_t idx = 0; idx < signatureR.params.size(); idx++){
+			const Param & paramL = signatureL.params[idx];
+			const Param & paramR = signatureR.params[idx];
+			if(paramL.type < paramR.type) {
+				return true;
+			}
+		}
+		return signatureL.name < signatureR.name;
+	}
+
+	inline bool operator>(const FxSignature & signatureL, const FxSignature & signatureR) {
+		if(signatureL.params.size() > signatureR.params.size()) {
+			return true;
+		}
+		for(std::size_t idx = 0; idx < signatureL.params.size(); idx++){
+			const Param & paramL = signatureL.params[idx];
+			const Param & paramR = signatureR.params[idx];
+			if(paramL.type > paramR.type) {
+				return true;
+			}
+		}
+		return signatureL.name > signatureR.name;
 	}
 };

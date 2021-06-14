@@ -24,7 +24,7 @@ ltnc::ExprInfo ltnc::VariCompiler::compile(
 		// get address on stack
 		if(i) {
 			// lookup struct type
-			const Type & type = typeTable.getType(lastVar.typeName);
+			const Type & type = typeTable.match(lastVar.typeName);
 			// search next member
 			const auto & members = type.members; 
 			for(const auto & newVar : members) {

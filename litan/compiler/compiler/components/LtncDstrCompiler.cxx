@@ -14,7 +14,7 @@ ltnc::ExprInfo ltnc::DstrCompiler::compile(
 
 	ExprInfo exprInfo = this->variCompiler.compile(compPkg, exprDel->exprVar, {});
 
-	const Type & type = compPkg.getSymbolTable().getType(exprInfo.type.name);
+	const Type & type = compPkg.getSymbolTable().match(exprInfo.type.name);
 	
 	ExprInfo setNull = this->variCompiler.compile(compPkg, exprDel->exprVar, this->nullPtr(type));
 

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <sstream>
+#include <algorithm>
 #include <iomanip>
 
 // memorySize and stackLimit in 64bit blocks
@@ -132,6 +133,9 @@ ltn::VM::Status ltn::VM::execute(){
 		case InstCode::ARRAY_ADD: this->arrayAdd(); break;
 		case InstCode::ARRAY_POP: this->arrayPop(); break;
 		case InstCode::ARRAY_LEN: this->arrayLen(); break;
+		case InstCode::ARRAY_FLL: this->arrayFll(); break;
+		case InstCode::ARRAY_RSZ: this->arrayRsz(); break;
+		case InstCode::ARRAY_ERS: this->arrayErs(); break;
 
 		case InstCode::LOOP_RANGE: this->loopRange(); break;
 		case InstCode::LOOP_INF: this->loopInf(); break;
@@ -475,8 +479,8 @@ void ltn::VM::arraySet(){
 
 void ltn::VM::arrayAdd(){
 	std::uint64_t value = this->env.acc.popU();
-	std::uint64_t addr = this->env.acc.popU();
-	this->env.heap.accessArray(addr).push_back(value);
+	std::uint64_t ptr = this->env.acc.popU();
+	this->env.heap.accessArray(ptr).push_back(value);
 }
 
 void ltn::VM::arrayPop(){
@@ -490,10 +494,30 @@ void ltn::VM::arrayPop(){
 }
 
 void ltn::VM::arrayLen(){
-	std::uint64_t addr = this->env.acc.popU();
-	this->env.acc.push(this->env.heap.accessArray(addr).size());
+	std::uint64_t ptr = this->env.acc.popU();
+	this->env.acc.push(this->env.heap.accessArray(ptr).size());
 }
 
+
+void ltn::VM::arrayFll() {
+	std::uint64_t value = this->env.acc.popU();
+	std::uint64_t ptr = this->env.acc.popU();
+	std::vector<std::uint64_t> & array = this->env.heap.accessArray(ptr);
+	std::fill(array.begin(), array.end(), value);
+}
+
+void ltn::VM::arrayRsz(){
+	std::uint64_t size = this->env.acc.popU();
+	std::uint64_t ptr = this->env.acc.popU();
+	this->env.heap.accessArray(ptr).resize(size, 0);
+}
+
+void ltn::VM::arrayErs(){
+	std::uint64_t idx = this->env.acc.popU();
+	std::uint64_t ptr = this->env.acc.popU();
+	std::vector<std::uint64_t> & array = this->env.heap.accessArray(ptr);
+	array.erase(array.begin() + idx);
+}
 
 void ltn::VM::stringNew() {
 	this->env.acc.push(this->env.heap.allocateString());

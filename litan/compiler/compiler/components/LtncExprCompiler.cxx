@@ -248,11 +248,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileCall(CompilerPack & compPkg, std::shar
 		params.push_back(Param(exprInfo.type, ""));
 		code << exprInfo.code;
 	}
-
-	if(auto fxInfo = compPkg.getSymbolTable().matchFunction(FxSignature(Type("voi"), expr->name, params))) {
-		// create jump to fx
-		code << AssemblyCode("call "  + fxInfo->jumpMark);
-		return ExprInfo(fxInfo->signature.returnType, code);
-	}
-	throw std::runtime_error("No matching function for: " + expr->name);
+	auto fxInfo = compPkg.getSymbolTable().match(FxSignature(Type("voi"), expr->name, params));
+	code << AssemblyCode("call "  + fxInfo.jumpMark);
+	return ExprInfo(fxInfo.signature.returnType, code);
 }

@@ -2,7 +2,6 @@
 #include <iostream>
 ltnc::CompilerPack::CompilerPack(const CompilerSettings & settings) 
 	: settings(settings) {
-	this->jumpmarkCounter = 0;
 }
 
 

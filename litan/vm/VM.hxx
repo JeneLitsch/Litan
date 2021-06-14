@@ -83,13 +83,16 @@ namespace ltn {
 		void heapDel();
 		
 		// array 
-		void arrayNew();
-		void arrayClr();
-		void arrayGet(); 
-		void arraySet();
-		void arrayAdd();
-		void arrayPop();
-		void arrayLen();
+		void arrayNew(); // new array
+		void arrayClr(); // clear array
+		void arrayGet(); // get element
+		void arraySet(); // set element
+		void arrayAdd(); // push element
+		void arrayPop(); // pop element
+		void arrayLen(); // array.size()
+		void arrayFll(); // array fill
+		void arrayRsz(); // array resize
+		void arrayErs(); // erase element
 
 		// string
 		void stringNew();

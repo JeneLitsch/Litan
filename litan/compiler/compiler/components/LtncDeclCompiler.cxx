@@ -7,7 +7,7 @@ ltnc::StmtInfo ltnc::DeclCompiler::compile(
 	CompilerPack & compPkg,
 	const std::shared_ptr<DeclFunction> & decl) const {
 		
-	FxInfo fxInfo = *compPkg.getSymbolTable().matchFunction(decl->signature);
+	const FxInfo & fxInfo = compPkg.getSymbolTable().match(decl->signature);
 	compPkg.getSymbolTable().guardType(decl->signature.returnType.name);
 	compPkg.getSymbolTable().addFunctionScope(fxInfo.signature);
 	

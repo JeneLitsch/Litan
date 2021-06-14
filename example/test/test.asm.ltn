@@ -5,7 +5,85 @@ exit
 
 // main ( -> voi ) [ ]
 -> FNX_main_0
-stackalloc 1
+stackalloc 2
+array::new
+store 0
+load 0
+newl 5
+array::rsz
+load 0
+newl 5
+array::fll
+load 0
+newl 0
+newl 10
+array::set
+load 0
+newl 1
+newl 20
+array::set
+load 0
+newl 2
+newl 30
+array::set
+load 0
+newl 3
+newl 40
+array::set
+load 0
+newl 4
+newl 50
+array::set
+load 0
+newl 0
+array::get
+print
+load 0
+newl 0
+array::ers
+load 0
+array::len
+print
+load 0
+newl 0
+array::get
+print
+load 0
+newl 0
+array::ers
+load 0
+array::len
+print
+load 0
+newl 0
+array::get
+print
+load 0
+newl 0
+array::ers
+load 0
+array::len
+print
+load 0
+newl 0
+array::get
+print
+load 0
+newl 0
+array::ers
+load 0
+array::len
+print
+load 0
+newl 0
+array::get
+print
+load 0
+newl 0
+array::ers
+load 0
+array::len
+print
 // Foo
 array::new
 copy
@@ -14,8 +92,8 @@ array::add
 copy
 newl 0
 array::add
-store 0
-load 0
+store 1
+load 1
 newl 0
 // Bar
 array::new
@@ -23,11 +101,11 @@ copy
 newl 0
 array::add
 array::set
-load 0
+load 1
 heap::del
 newl 0
-store 0
-load 0
+store 1
+load 1
 ifnx
 goto IF_17
 goto ELSE_18

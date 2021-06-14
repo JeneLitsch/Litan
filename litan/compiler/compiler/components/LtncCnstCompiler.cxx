@@ -13,7 +13,7 @@ ltnc::ExprInfo ltnc::CnstCompiler::defaultConstructor(
 	CompilerPack & compPkg,
 	const std::shared_ptr<ExprNew> & exprNew) const {
 	const std::string typeName = exprNew->typeName;
-	const Type & type = compPkg.getSymbolTable().getType(typeName);
+	const Type & type = compPkg.getSymbolTable().match(typeName);
 
 	
 	CodeBuffer code = compPkg.codeBuffer();

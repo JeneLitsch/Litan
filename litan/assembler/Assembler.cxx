@@ -127,6 +127,9 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "array::get") return this->cFormat(InstCode::ARRAY_GET);  
 		if(pkg.inst == "array::clr") return this->cFormat(InstCode::ARRAY_CLR);  
 		if(pkg.inst == "array::len") return this->cFormat(InstCode::ARRAY_LEN);  
+		if(pkg.inst == "array::fll") return this->cFormat(InstCode::ARRAY_FLL);  
+		if(pkg.inst == "array::rsz") return this->cFormat(InstCode::ARRAY_RSZ);  
+		if(pkg.inst == "array::ers") return this->cFormat(InstCode::ARRAY_ERS);  
 
 		if(pkg.inst == "string::new") return this->cFormat(InstCode::STRING_NEW);  
 		if(pkg.inst == "string::add") return this->cFormat(InstCode::STRING_ADD);  

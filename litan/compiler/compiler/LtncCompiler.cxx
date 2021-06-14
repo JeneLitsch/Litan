@@ -8,7 +8,7 @@ std::string ltnc::Compiler::compile(
 
 	// register types
 	for(const Type & type : program->types) {
-		compPkg.getSymbolTable().registerType(type);
+		compPkg.getSymbolTable().insert(type);
 	}
 
 	for(const DeclStruct & struct_ : program->structs) {
@@ -20,12 +20,12 @@ std::string ltnc::Compiler::compile(
 			auto var = std::make_shared<Var>(type.name, addr, name);
 			structType.members.push_back(var);
 		}
-		compPkg.getSymbolTable().registerType(structType);
+		compPkg.getSymbolTable().insert(structType);
 	}
 
 	// register functions
 	for(const auto & function : program->functions) {
-		compPkg.getSymbolTable().registerFunction(function->signature);
+		compPkg.getSymbolTable().insert(function->signature);
 	}
 	
 	// init code

@@ -8,6 +8,42 @@ struct Foo {
 }
 
 fnx main() voi {
+	var int arr;	
+	asm {
+		"array::new" "store 0"
+
+		"load 0" "newl 5" "array::rsz"
+
+		"load 0" "newl 5" "array::fll"
+
+		"load 0" "newl 0" "newl 10" "array::set"
+		"load 0" "newl 1" "newl 20" "array::set"
+		"load 0" "newl 2" "newl 30" "array::set"
+		"load 0" "newl 3" "newl 40" "array::set"
+		"load 0" "newl 4" "newl 50" "array::set"
+		
+		"load 0" "newl 0" "array::get" "print"
+		"load 0" "newl 0" "array::ers"
+		"load 0" "array::len" "print"
+
+		"load 0" "newl 0" "array::get" "print"
+		"load 0" "newl 0" "array::ers"
+		"load 0" "array::len" "print"
+
+		"load 0" "newl 0" "array::get" "print"
+		"load 0" "newl 0" "array::ers"
+		"load 0" "array::len" "print"
+
+		"load 0" "newl 0" "array::get" "print"
+		"load 0" "newl 0" "array::ers"
+		"load 0" "array::len" "print"
+
+		"load 0" "newl 0" "array::get" "print"
+		"load 0" "newl 0" "array::ers"
+		"load 0" "array::len" "print"
+	}
+
+
 	// ->print(~1);
 	// ->print(!1);
 	// ->print(-1);
