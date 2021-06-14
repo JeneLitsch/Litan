@@ -17,6 +17,7 @@ ltnc::Scope::Scope(){
 	this->vars = {};
 }
 
+
 ltnc::Var ltnc::Scope::registerVar(const std::string & name, Type type){
 	Var var = Var(type.name, this->countVars(), name);
 	if(this->vars.contains(name)){
@@ -25,6 +26,7 @@ ltnc::Var ltnc::Scope::registerVar(const std::string & name, Type type){
 	this->vars.insert({var});
 	return var;
 }
+
 
 ltnc::Var ltnc::Scope::getVar(const std::string & name) const {
 	if(this->vars.contains(name)){
@@ -37,12 +39,14 @@ ltnc::Var ltnc::Scope::getVar(const std::string & name) const {
 	throw std::runtime_error("Variable not defined: " + name);
 }
 
+
 std::uint32_t ltnc::Scope::countVars() const {
 	if(this->prev) {
 		return std::uint32_t(this->vars.size()) + this->prev->countVars();
 	}
 	return std::uint32_t(this->vars.size());
 }
+
 
 const ltnc::FxSignature & ltnc::Scope::getFxSignature() const {
 	if(this->fxSignature) {

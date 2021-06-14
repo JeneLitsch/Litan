@@ -249,7 +249,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileCall(CompilerPack & compPkg, std::shar
 		code << exprInfo.code;
 	}
 
-	if(auto fxInfo = compPkg.matchFunction(FxSignature(Type("voi"), expr->name, params))) {
+	if(auto fxInfo = compPkg.getSymbolTable().matchFunction(FxSignature(Type("voi"), expr->name, params))) {
 		// create jump to fx
 		code << AssemblyCode("call "  + fxInfo->jumpMark);
 		return ExprInfo(fxInfo->signature.returnType, code);

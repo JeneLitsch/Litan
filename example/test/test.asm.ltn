@@ -24,11 +24,19 @@ newl 0
 array::add
 array::set
 load 0
+heap::del
+newl 0
+store 0
+load 0
 ifnx
 goto IF_17
-goto END_IF_19
+goto ELSE_18
 -> IF_17
 newi 1234
+call FNX_print_11
+goto END_IF_19
+-> ELSE_18
+newi 4321
 call FNX_print_11
 goto END_IF_19
 -> END_IF_19

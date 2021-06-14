@@ -1,13 +1,12 @@
 #pragma once
 #include <string>
 #include <set>
-#include "LtncScopeStack.hxx"
 #include "LtncDecl.hxx"
 #include "LtncSignature.hxx"
 #include "LtncFxInfo.hxx"
 #include "LtncCompilerSettings.hxx"
-#include "LtncTypeTable.hxx"
 #include "LtncCodeBuffer.hxx"
+#include "LtncSymbolTable.hxx"
 namespace ltnc {
 	class CompilerPack {
 	public:
@@ -25,11 +24,8 @@ namespace ltnc {
 			const FxSignature & signature,
 			const std::string & code);
 
-		const ScopeStack & getScopes() const;
-		ScopeStack & getScopes();
-
-		const TypeTable & getTypeTable() const;
-		TypeTable & getTypeTable();
+		const SymbolTable & getSymbolTable() const;
+		SymbolTable & getSymbolTable();
 
 		const CompilerSettings & getSettings() const;
 
@@ -37,9 +33,8 @@ namespace ltnc {
 
 	private:
 		std::uint64_t jumpmarkCounter;
-		ScopeStack scopeStack;
 		std::vector<FxInfo> fxSignatures;
 		CompilerSettings settings;
-		TypeTable typeTable;
+		SymbolTable symbolTable;
 	};
 }

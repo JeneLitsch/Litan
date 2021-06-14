@@ -10,7 +10,6 @@
 #include "LtncType.hxx"
 #include "LtncScope.hxx"
 #include "LtncExprCompiler.hxx"
-#include "LtncScopeStack.hxx"
 #include "LtncCompilerPack.hxx"
 #include "LtncAsmbCompiler.hxx"
 

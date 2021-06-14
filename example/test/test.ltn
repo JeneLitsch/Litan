@@ -27,6 +27,9 @@ fnx main() voi {
 	if (foo) {
 		->print(1234);
 	}
+	else {
+		->print(4321);
+	}
 	asm {
 		"size"
 		"print"

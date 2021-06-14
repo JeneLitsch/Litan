@@ -63,11 +63,11 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::sh
 		throw std::runtime_error("Upper bound of for loop needs to be a integer expression.");
 	}
 	
-	compPkg.getScopes().addBlockScope();
+	compPkg.getSymbolTable().addBlockScope();
 	// iteration variable
 	// create code inside loop
 	StmtInfo codeStmt = this->compileBlock(compPkg, stmt->stmt);
-	compPkg.getScopes().remove();
+	compPkg.getSymbolTable().remove();
 
 	// unroll repeat
 	if(expr.constant) {
@@ -114,12 +114,12 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::share
 		throw std::runtime_error("Upper bound of for loop needs to be a integer expression.");
 	}
 
-	compPkg.getScopes().addBlockScope();
+	compPkg.getSymbolTable().addBlockScope();
 	// iteration variable
-	Var counter = compPkg.getScopes().get().registerVar(stmt->name, Type("int"));
+	Var counter = compPkg.getSymbolTable().get().registerVar(stmt->name, Type("int"));
 	// create code inside loop
 	StmtInfo body = this->compileBlock(compPkg, stmt->stmt);
-	compPkg.getScopes().remove();
+	compPkg.getSymbolTable().remove();
 
 	CodeBuffer code = compPkg.codeBuffer();
 	code << from.code;
@@ -137,8 +137,8 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::share
 ltnc::StmtInfo ltnc::StmtCompiler::compileWhile(CompilerPack & compPkg, std::shared_ptr<StmtWhile> stmt) const {
 	auto codeExpr = this->exprCompiler.compileExpr(compPkg, stmt->expr); 
 	auto codeStmt = this->compileStmt(compPkg, stmt->stmt);
-	auto endMark = compPkg.makeJumpMark("LOOP_END");
-	auto loopMark = compPkg.makeJumpMark("LOOP");
+	auto endMark = compPkg.getSymbolTable().makeJumpMark("LOOP_END");
+	auto loopMark = compPkg.getSymbolTable().makeJumpMark("LOOP");
 	
 	CodeBuffer code = compPkg.codeBuffer();
 	code << AssemblyCode("-> " + loopMark);
@@ -153,11 +153,11 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileWhile(CompilerPack & compPkg, std::sha
 }
 
 ltnc::StmtInfo ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::shared_ptr<StmtBlock> block) const {
-	compPkg.getScopes().addBlockScope();
+	compPkg.getSymbolTable().addBlockScope();
 	CodeBuffer code = compPkg.codeBuffer();
 	for(const auto & decl : block->declarations) {
-		compPkg.getTypeTable().guardType(decl->type.name);
-		Var var = compPkg.getScopes().get().registerVar(decl->name, decl->type);
+		compPkg.getSymbolTable().guardType(decl->type.name);
+		Var var = compPkg.getSymbolTable().get().registerVar(decl->name, decl->type);
 	}
 	unsigned stackalloc = 0;
 	for(const auto & stmt : block->statements) {
@@ -166,7 +166,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::sha
 		code << stmtInfo.code;
 	}
 	stackalloc += block->declarations.size();
-	compPkg.getScopes().remove();
+	compPkg.getSymbolTable().remove();
 	return StmtInfo(code, stackalloc);
 }
 
@@ -176,9 +176,9 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileIf(CompilerPack & compPkg, std::shared
 	CodeBuffer code = compPkg.codeBuffer();
 
 	// make jump marks
-	std::string jmIf = compPkg.makeJumpMark("IF");
-	std::string jmElse = compPkg.makeJumpMark("ELSE");
-	std::string jmEnd = compPkg.makeJumpMark("END_IF");
+	std::string jmIf = compPkg.getSymbolTable().makeJumpMark("IF");
+	std::string jmElse = compPkg.getSymbolTable().makeJumpMark("ELSE");
+	std::string jmEnd = compPkg.getSymbolTable().makeJumpMark("END_IF");
 	
 
 	ExprInfo condition = this->exprCompiler.compileExpr(compPkg, stmt->condition);
@@ -235,7 +235,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shar
 
 ltnc::StmtInfo ltnc::StmtCompiler::compileReturn(CompilerPack & compPkg, std::shared_ptr<StmtReturn> stmt) const {
 	CodeBuffer code = compPkg.codeBuffer();
-	FxSignature signature = compPkg.getScopes().get().getFxSignature();
+	FxSignature signature = compPkg.getSymbolTable().get().getFxSignature();
 	if(stmt->expr) {
 		ExprInfo exprInfo = this->exprCompiler.compileExpr(compPkg, stmt->expr);
 		if(exprInfo.type != signature.returnType) {

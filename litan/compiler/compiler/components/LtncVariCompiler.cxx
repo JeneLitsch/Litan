@@ -14,8 +14,8 @@ ltnc::ExprInfo ltnc::VariCompiler::compile(
 	// find next var
 	std::function nextVar = [
 		&path = access->path,
-		&scopeStack = compPkg.getScopes(),
-		&typeTable = compPkg.getTypeTable()
+		&scopeStack = compPkg.getSymbolTable(),
+		&typeTable = compPkg.getSymbolTable()
 		] (
 		unsigned i,
 		const Var & lastVar)
