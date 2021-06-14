@@ -1,5 +1,5 @@
 #include "LtncDeclCompiler.hxx"
-
+#include "Unused.hxx"
 ltnc::DeclCompiler::DeclCompiler(StmtCompiler & stmtCompiler)
 	: stmtCompiler(stmtCompiler) {}
 
@@ -21,7 +21,7 @@ ltnc::StmtInfo ltnc::DeclCompiler::compile(
 
 	// create code;
 	CodeBuffer code = compPkg.codeBuffer();
-	code << Comment(this->fxComment(compPkg, decl));
+	code << Comment(this->fxComment(decl));
 	code << AssemblyCode("-> " + fxInfo.jumpMark);
 	// load params into memory (backwards because LIFO)
 	const auto & params = decl->signature.params; 
@@ -29,7 +29,7 @@ ltnc::StmtInfo ltnc::DeclCompiler::compile(
 	for(auto param = params.rbegin(); param != params.rend(); ++param) {
 		// store parameter;
 		std::uint64_t varAddr = compPkg.getScopes().get().getVar((*param).name).addr;
-		code << Inst::store(varAddr);
+		code << Inst::store(static_cast<std::uint32_t>(varAddr));
 	}
 	code << body.code;
 	code << AssemblyCode("\n");
@@ -40,8 +40,8 @@ ltnc::StmtInfo ltnc::DeclCompiler::compile(
 
 
 std::string ltnc::DeclCompiler::fxComment(
-	CompilerPack & compPkg,
 	const std::shared_ptr<DeclFunction> & decl) const {
+
 	
 	std::string text;
 	text += decl->signature.name + " ( ";

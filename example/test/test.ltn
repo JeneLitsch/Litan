@@ -8,19 +8,25 @@ struct Foo {
 }
 
 fnx main() voi {
+	// ->print(~1);
+	// ->print(!1);
+	// ->print(-1);
+	// if(!(1 == 0)) {
+	// 	->print(42);
+	// }
+	// else {
+	// 	->print(1337);
+	// }
 	var Foo foo;
 	foo = new Foo();
 	foo.bar = new Bar();
-	foo.bar.x = 42;
-	foo.test = 1337;
-	->print(foo.bar.x);
-	del foo.bar;
-	->print(foo.test);
-	
-	foo.bar = new Bar();
-	foo.bar.x = 69;
-	->print(foo.bar.x);
-
+	// foo.bar.x = 42;
+	// foo.test = 1337;
+	// ->print(foo.bar.x);
+	del foo;
+	if (foo) {
+		->print(1234);
+	}
 	asm {
 		"size"
 		"print"

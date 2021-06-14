@@ -1,9 +1,10 @@
 #pragma once
-#include "LtncCompilerComponent.hxx"
 #include "LtncStmt.hxx"
+#include "LtncCompilerPack.hxx"
+#include "LtncCodeBuffer.hxx"
 namespace ltnc {
-	class AsmbCompiler : public CompilerComponent<CodeBuffer, StmtAsm> {
+	class AsmbCompiler {
 	public:
-		virtual CodeBuffer compile(CompilerPack & compPkg, const std::shared_ptr<StmtAsm> & stmt) const override;
+		CodeBuffer compile(CompilerPack & compPkg, const std::shared_ptr<StmtAsm> & stmt) const;
 	};
 }

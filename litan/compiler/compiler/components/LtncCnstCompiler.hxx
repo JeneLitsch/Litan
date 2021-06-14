@@ -1,15 +1,17 @@
 #pragma once
 #include <string>
-#include "LtncCompilerComponent.hxx"
 #include "LtncAst.hxx"
 #include "LtncExprInfo.hxx"
+#include "LtncCodeBuffer.hxx"
+#include "LtncCompilerPack.hxx"
+
 namespace ltnc {
-	class CnstCompiler : public CompilerComponent<ExprInfo, ExprNew> {
+	class CnstCompiler {
 	public:
 		CnstCompiler();
-		virtual ExprInfo compile(
+		ExprInfo compile(
 			CompilerPack & compPkg,
-			const std::shared_ptr<ExprNew> & exprNew) const override;
+			const std::shared_ptr<ExprNew> & exprNew) const;
 
 	private:
 		ExprInfo defaultConstructor(

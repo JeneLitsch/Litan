@@ -14,7 +14,7 @@ namespace ltnc {
 			declCompiler(stmtCompiler),
 			stmtCompiler(exprCompiler, asmbCompiler, variCompiler),
 			exprCompiler(cnstCompiler, dstrCompiler, variCompiler),
-			dstrCompiler(exprCompiler, variCompiler)
+			dstrCompiler(variCompiler)
 			{}
 		
 		std::string compile(

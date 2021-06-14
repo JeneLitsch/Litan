@@ -1,5 +1,5 @@
 #include "LtncCnstCompiler.hxx"
-
+#include "Unused.hxx"
 
 ltnc::CnstCompiler::CnstCompiler() {}
 
@@ -20,6 +20,7 @@ ltnc::ExprInfo ltnc::CnstCompiler::defaultConstructor(
 	code << Comment(exprNew->typeName);
 	code << AssemblyCode("array::new");
 	for(const auto & member : type.members) {
+		UNUSED(member);
 		code << AssemblyCode("copy");
 		code << Inst::newl(0); // init with nullptr;
 		code << AssemblyCode("array::add");

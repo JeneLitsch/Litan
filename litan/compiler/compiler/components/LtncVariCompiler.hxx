@@ -1,7 +1,7 @@
 #pragma once
-#include "LtncCompilerComponent.hxx"
 #include "LtncExpr.hxx"
 #include "LtncExprInfo.hxx"
+#include "LtncCompilerPack.hxx"
 namespace ltnc {
 	class VariCompiler {
 	public:

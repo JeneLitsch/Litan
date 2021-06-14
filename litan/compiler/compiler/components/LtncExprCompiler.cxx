@@ -137,7 +137,9 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::shared_ptr<ExprUnary> expr) const {
 	CodeBuffer code = compPkg.codeBuffer();
-	if(expr->type == TokenType::MINUS) {
+	switch (expr->type)	{
+	
+	case TokenType::MINUS: {
 		ExprInfo exprInfo = this->compile(compPkg, expr->r);
 		if(exprInfo.type == "int"){
 			code << exprInfo.code;
@@ -151,7 +153,33 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::sha
 		}
 		throw std::runtime_error("Invalid unary expression type for \"-\"");
 	}
-	throw std::runtime_error("Invalid unary expression");
+
+
+	case TokenType::LOG_NOT: {
+		ExprInfo exprInfo = this->compile(compPkg, expr->r);
+		if(exprInfo.type == "int"){
+			code << exprInfo.code;
+			code << AssemblyCode("lognot");
+			return ExprInfo(exprInfo.type, code);
+		}
+		throw std::runtime_error("Invalid unary expression type for \"!\"");
+	}
+
+
+	case TokenType::BIT_NOT: {
+		ExprInfo exprInfo = this->compile(compPkg, expr->r);
+		if(exprInfo.type == "int"){
+			code << exprInfo.code;
+			code << AssemblyCode("bitnot");
+			return ExprInfo(exprInfo.type, code);
+		}
+		throw std::runtime_error("Invalid unary expression type for \"!\"");
+	}
+
+
+	default:
+		throw std::runtime_error("Invalid unary expression");
+	}
 }
 
 

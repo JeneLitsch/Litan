@@ -9,9 +9,10 @@ std::vector<ltnc::Token> ltnc::Lexer::tokenize(const std::string & str) {
 	typedef LexerNodeCreator LNC;
 	// create lexing tree
 	LexerNode tree = LNC::connector({
-		LNC::chr('!', {
-			LNC::chr('=', TokenType::UNEQUAL)
+		LNC::chr('!', TokenType::LOG_NOT, { 
+			LNC::chr('=', TokenType::UNEQUAL),
 		}),
+		LNC::chr('~', TokenType::BIT_NOT),
 		LNC::chr('=', TokenType::ASSIGN, {
 			LNC::chr('=', TokenType::EQUAL)
 		}),

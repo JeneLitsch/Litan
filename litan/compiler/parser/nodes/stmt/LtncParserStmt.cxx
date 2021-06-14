@@ -31,14 +31,6 @@ std::shared_ptr<ltnc::Stmt> ltnc::ParserStmt::stmt(ParserPackage & parsePkg) con
 	if(parsePkg.match(TokenType::WHILE)) return this->whileLoop(parsePkg);
 	if(parsePkg.match(TokenType::REPEAT)) return this->repeatLoop(parsePkg);
 
-	if(parsePkg.match(TokenType::CALL)) {
-		auto stmt = std::make_shared<StmtExpr>(this->call->eval(parsePkg));
-		if (parsePkg.match(TokenType::SEMICOLON)) {
-			return stmt;
-		}
-		return parsePkg.error("expected ;");
-	}
-
 	if(parsePkg.match(TokenType::RETURN)) {
 		if (parsePkg.match(TokenType::SEMICOLON)) {
 			return std::make_shared<StmtReturn>(nullptr);

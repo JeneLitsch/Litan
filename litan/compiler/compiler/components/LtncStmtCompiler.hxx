@@ -15,7 +15,7 @@
 #include "LtncAsmbCompiler.hxx"
 
 namespace ltnc {
-	class StmtCompiler : public CompilerComponent<StmtInfo, Stmt> {
+	class StmtCompiler {
 	public:
 		StmtCompiler(
 			const ExprCompiler & exprCompiler,

@@ -4,7 +4,6 @@
 #include "LtncExpr.hxx"
 #include "LtncScope.hxx"
 #include "LtncCompilerPack.hxx"
-#include "LtncCompilerComponent.hxx"
 #include "LtncExprInfo.hxx"
 #include "LtncEvaluator.hxx"
 #include "LtncCnstCompiler.hxx"
@@ -12,13 +11,13 @@
 namespace ltnc {
 	// Creates a variaty of expressions
 	class VariCompiler;
-	class ExprCompiler : public CompilerComponent<ExprInfo, Expr> {
+	class ExprCompiler {
 	public:
 		ExprCompiler(
 			const CnstCompiler & cnstCompiler,
 			const DstrCompiler & cstrCompiler,
 			const VariCompiler & variCompiler);
-		virtual ExprInfo compile(CompilerPack & compPkg, const std::shared_ptr<Expr> & expr) const override;
+		ExprInfo compile(CompilerPack & compPkg, const std::shared_ptr<Expr> & expr) const;
 
 		// compiles generic expression
 		ExprInfo compileExpr(CompilerPack & compPkg, std::shared_ptr<Expr> expr) const;

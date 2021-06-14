@@ -24,49 +24,14 @@ newl 0
 array::add
 array::set
 load 0
-newl 0
-array::get
-newl 0
-newi 42
-array::set
-load 0
-newl 1
-newi 1337
-array::set
-load 0
-newl 0
-array::get
-newl 0
-array::get
+ifnx
+goto IF_17
+goto END_IF_19
+-> IF_17
+newi 1234
 call FNX_print_11
-load 0
-newl 0
-array::get
-heap::del
-load 0
-newl 1
-array::get
-call FNX_print_11
-load 0
-newl 0
-// Bar
-array::new
-copy
-newl 0
-array::add
-array::set
-load 0
-newl 0
-array::get
-newl 0
-newi 69
-array::set
-load 0
-newl 0
-array::get
-newl 0
-array::get
-call FNX_print_11
+goto END_IF_19
+-> END_IF_19
 size
 print
 return
@@ -99,13 +64,13 @@ load 0
 load 1
 smli
 ifnx
-goto IF_17
-goto END_IF_19
--> IF_17
+goto IF_20
+goto END_IF_22
+-> IF_20
 load 0
 return
-goto END_IF_19
--> END_IF_19
+goto END_IF_22
+-> END_IF_22
 load 1
 return
 
@@ -119,13 +84,13 @@ load 0
 load 1
 smlf
 ifnx
-goto IF_20
-goto END_IF_22
--> IF_20
+goto IF_23
+goto END_IF_25
+-> IF_23
 load 0
 return
-goto END_IF_22
--> END_IF_22
+goto END_IF_25
+-> END_IF_25
 load 1
 return
 
@@ -139,13 +104,13 @@ load 0
 load 1
 bgri
 ifnx
-goto IF_23
-goto END_IF_25
--> IF_23
+goto IF_26
+goto END_IF_28
+-> IF_26
 load 0
 return
-goto END_IF_25
--> END_IF_25
+goto END_IF_28
+-> END_IF_28
 load 1
 return
 
@@ -159,13 +124,13 @@ load 0
 load 1
 bgrf
 ifnx
-goto IF_26
-goto END_IF_28
--> IF_26
+goto IF_29
+goto END_IF_31
+-> IF_29
 load 0
 return
-goto END_IF_28
--> END_IF_28
+goto END_IF_31
+-> END_IF_31
 load 1
 return
 
