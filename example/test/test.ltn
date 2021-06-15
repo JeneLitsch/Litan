@@ -16,7 +16,17 @@ fnx main() voi {
 	var Foo foo = ->fx(42, 1337);
 	->print(foo.test);
 	->print(foo.bar.x);
+	asm {
+		"load 0"
+		"heap::exist"
+		"print"
+	}
 	del foo.bar;
 	del foo;
+	asm {
+		"load 0"
+		"heap::exist"
+		"print"
+	}
 	return;
 }

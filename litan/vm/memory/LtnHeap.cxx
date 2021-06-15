@@ -84,3 +84,7 @@ std::string & ltn::Heap::accessString(std::uint64_t ptr) {
 		throw std::runtime_error("Access Violation at ptr: " + std::to_string(ptr));
 	}
 }
+
+bool ltn::Heap::exists(std::uint64_t ptr) const {
+	return this->objects.contains(ptr);
+}

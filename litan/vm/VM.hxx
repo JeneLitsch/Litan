@@ -81,6 +81,7 @@ namespace ltn {
 		
 		// heap
 		void heapDel();
+		void heapExist();
 		
 		// array 
 		void arrayNew(); // new array

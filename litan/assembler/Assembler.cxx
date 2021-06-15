@@ -119,6 +119,7 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "store") return this->cFormat(InstCode::STORE); 
 		
 		if(pkg.inst == "heap::del") return this->cFormat(InstCode::HEAP_DEL);  
+		if(pkg.inst == "heap::exist") return this->cFormat(InstCode::HEAP_EXIST);
 
 		if(pkg.inst == "array::new") return this->cFormat(InstCode::ARRAY_NEW);  
 		if(pkg.inst == "array::add") return this->cFormat(InstCode::ARRAY_ADD);  

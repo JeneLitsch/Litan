@@ -17,6 +17,8 @@ namespace ltn {
 
 		std::vector<std::uint64_t> & accessArray(std::uint64_t ptr);
 		std::string & accessString(std::uint64_t ptr);
+
+		bool exists(std::uint64_t ptr) const;
 	private:
 		std::map<std::uint64_t, HeapObject> objects;
 		std::queue<std::uint64_t> resuseableIDs;

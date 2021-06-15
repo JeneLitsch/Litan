@@ -125,6 +125,7 @@ ltn::VM::Status ltn::VM::execute(){
 		case InstCode::EXT7: this->extensions[7]->call(this->getArg8()); break;
 
 		case InstCode::HEAP_DEL: this->heapDel(); break;
+		case InstCode::HEAP_EXIST: this->heapExist(); break;
 
 		case InstCode::ARRAY_NEW: this->arrayNew(); break;
 		case InstCode::ARRAY_CLR: this->arrayClr(); break;
@@ -435,6 +436,12 @@ void ltn::VM::heapDel(){
 	std::uint64_t ptr = this->env.acc.popU();
 	this->env.heap.destroy(ptr);
 }
+
+void ltn::VM::heapExist() {
+	std::uint64_t ptr = this->env.acc.popU();
+	this->env.acc.push(this->env.heap.exists(ptr));
+}
+
 
 
 // Array instructions

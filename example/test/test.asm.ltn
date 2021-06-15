@@ -43,6 +43,9 @@ newl 0
 array::get
 call FNX_print12
 load 0
+heap::exist
+print
+load 0
 newl 0
 array::get
 heap::del
@@ -54,6 +57,9 @@ load 0
 heap::del
 newl 0
 store 0
+load 0
+heap::exist
+print
 return
 
 
