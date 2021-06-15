@@ -2,6 +2,7 @@
 #include <variant>
 #include <string>
 #include "LtncType.hxx"
+#include "LtncTypeId.hxx"
 #include "LtncCodeBuffer.hxx"
 namespace ltnc {
 	struct Constant {
@@ -12,16 +13,16 @@ namespace ltnc {
 
 	struct ExprInfo {
 
-		ExprInfo(Type type, CodeBuffer code)
-			: type(type), code(code)  {}
+		ExprInfo(const TypeId & typeId, CodeBuffer code)
+			: typeId(typeId), code(code)  {}
 		
-		ExprInfo(Type type, CodeBuffer code, const Constant & constant)
-			: type(type), code(code), constant(constant)  {}
+		ExprInfo(const TypeId & typeId, CodeBuffer code, const Constant & constant)
+			: typeId(typeId), code(code), constant(constant)  {}
 
 		ExprInfo(const ExprInfo & info) 
-			: type(info.type), code(info.code), constant(info.constant) {}
+			: typeId(info.typeId), code(info.code), constant(info.constant) {}
 		
-		const Type type;
+		const TypeId typeId;
 		const CodeBuffer code;
 		const std::optional<Constant> constant; 
 	};

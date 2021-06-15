@@ -17,7 +17,7 @@ std::shared_ptr<ltnc::DeclFunction> ltnc::ParserFunction::eval(ParserPackage & p
 		
 		auto body 		= this->body(parsePkg);
 
-		return std::make_shared<DeclFunction>(FxSignature(returnType, name, parameters), body, inlined);
+		return std::make_shared<DeclFunction>(FunctionSignature(returnType, name, parameters), body, inlined);
 	}
 	return nullptr;
 }
@@ -41,13 +41,13 @@ std::vector<ltnc::Param> ltnc::ParserFunction::parameterList(ParserPackage & par
 		while(parsePkg.match(TokenType::IDENTIFIER)) {
 			Type type = Type(parsePkg.prev().string);
 			// not allowed
-			if(type == "voi") {
+			if(type == TypeId("voi")) {
 				parsePkg.error("Void is not an allowed paramter type");
 			}
 			// allowed
 			if(parsePkg.match(TokenType::IDENTIFIER)) {
 				std::string name = parsePkg.prev().string;
-				parameters.push_back(Param(type, name));
+				parameters.push_back(Param(type.id, name));
 			}
 			else{
 				parsePkg.error("Expected identifier for parameter name");
@@ -67,12 +67,12 @@ std::vector<ltnc::Param> ltnc::ParserFunction::parameterList(ParserPackage & par
 
 
 
-ltnc::Type ltnc::ParserFunction::returnType(ParserPackage & parsePkg) const {
+ltnc::TypeId ltnc::ParserFunction::returnType(ParserPackage & parsePkg) const {
 	if(parsePkg.match(TokenType::IDENTIFIER)) {
-		return Type(parsePkg.prev().string);
+		return TypeId(parsePkg.prev().string);
 	}
 	parsePkg.error("Missing return type");
-	return Type("ERROR");
+	return TypeId("ERROR");
 }
 
 

@@ -112,7 +112,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 	code << r.code;
 	code << AssemblyCode(command + suffix);
 	
-	return ExprInfo(l.type, code);
+	return ExprInfo(l.typeId, code);
 }
 
 
@@ -132,7 +132,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 	code << r.code;
 	code << AssemblyCode(command + suffix);
 	
-	return ExprInfo(l.type, code);
+	return ExprInfo(l.typeId, code);
 }
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::shared_ptr<ExprUnary> expr) const {
@@ -141,15 +141,15 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::sha
 	
 	case TokenType::MINUS: {
 		ExprInfo exprInfo = this->compile(compPkg, expr->r);
-		if(exprInfo.type == "int"){
+		if(exprInfo.typeId == TypeId("int")){
 			code << exprInfo.code;
 			code << AssemblyCode("mnsi");
-			return ExprInfo(exprInfo.type, code);
+			return ExprInfo(exprInfo.typeId, code);
 		}
-		if(exprInfo.type == "flt") {
+		if(exprInfo.typeId == TypeId("flt")) {
 			code << exprInfo.code;
 			code << AssemblyCode("mnsf");
-			return ExprInfo(exprInfo.type, code);
+			return ExprInfo(exprInfo.typeId, code);
 		}
 		throw std::runtime_error("Invalid unary expression type for \"-\"");
 	}
@@ -157,10 +157,10 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::sha
 
 	case TokenType::LOG_NOT: {
 		ExprInfo exprInfo = this->compile(compPkg, expr->r);
-		if(exprInfo.type == "int"){
+		if(exprInfo.typeId == TypeId("int")){
 			code << exprInfo.code;
 			code << AssemblyCode("lognot");
-			return ExprInfo(exprInfo.type, code);
+			return ExprInfo(exprInfo.typeId, code);
 		}
 		throw std::runtime_error("Invalid unary expression type for \"!\"");
 	}
@@ -168,10 +168,10 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::sha
 
 	case TokenType::BIT_NOT: {
 		ExprInfo exprInfo = this->compile(compPkg, expr->r);
-		if(exprInfo.type == "int"){
+		if(exprInfo.typeId == TypeId("int")){
 			code << exprInfo.code;
 			code << AssemblyCode("bitnot");
-			return ExprInfo(exprInfo.type, code);
+			return ExprInfo(exprInfo.typeId, code);
 		}
 		throw std::runtime_error("Invalid unary expression type for \"!\"");
 	}
@@ -187,7 +187,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileIntLit(CompilerPack & compPkg, std::sh
 	std::int64_t value = expr->number;
 	CodeBuffer code = compPkg.codeBuffer();
 	code << Inst::newi(value);
-	return ExprInfo(Type("int"), code, Constant(value));
+	return ExprInfo(TypeId("int"), code, Constant(value));
 }
 
 
@@ -195,7 +195,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileFltLit(CompilerPack & compPkg, std::sh
 	double value = expr->number;
 	CodeBuffer code = compPkg.codeBuffer();
 	code << Inst::newf(value);
-	return ExprInfo(Type("flt"), code, Constant(value));
+	return ExprInfo(TypeId("flt"), code, Constant(value));
 }
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::shared_ptr<ExprStrLiteral> expr) const {
@@ -210,7 +210,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::sh
 	for(const std::string & str : stringParts) {
 		code << AssemblyCode("string::data '" + str);
 	}
-	return ExprInfo(Type("str"), code);
+	return ExprInfo(TypeId("str"), code);
 }
 
 
@@ -219,17 +219,17 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::sh
 
 std::string ltnc::ExprCompiler::getSuffux(const ExprInfo & l, const ExprInfo & r) const {
 	// mismatch
-	if(l.type != r.type) {
+	if(l.typeId != r.typeId) {
 		throw std::runtime_error("Expression types do not match: \"" + l.code.str() + "\" and \"" + r.code.str() + "\"");
 	}
 
 	// integer
-	if(l.type == "int") {
+	if(l.typeId == TypeId("int")) {
 		return "i";
 	}
 
 	// float
-	if(l.type == "flt") {
+	if(l.typeId == TypeId("flt")) {
 		return "f";
 	}
 
@@ -245,10 +245,10 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileCall(CompilerPack & compPkg, std::shar
 	// parameter list
 	for(const auto & expr : expr->paramExprs) {
 		ExprInfo exprInfo = this->compileExpr(compPkg, expr);
-		params.push_back(Param(exprInfo.type, ""));
+		params.push_back(Param(exprInfo.typeId, ""));
 		code << exprInfo.code;
 	}
-	auto fxInfo = compPkg.getSymbolTable().match(FxSignature(Type("voi"), expr->name, params));
+	auto fxInfo = compPkg.getSymbolTable().match(FunctionSignature(TypeId("voi"), expr->name, params));
 	code << AssemblyCode("call "  + fxInfo.jumpMark);
 	return ExprInfo(fxInfo.signature.returnType, code);
 }

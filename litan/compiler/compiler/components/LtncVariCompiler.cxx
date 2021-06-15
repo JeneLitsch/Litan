@@ -8,7 +8,7 @@ ltnc::ExprInfo ltnc::VariCompiler::compile(
 	const std::optional<ExprInfo> & expr) const {
 
 	CodeBuffer code = compPkg.codeBuffer();
-	Var var("", 0, "");
+	Var var(TypeId(""), 0, "");
 
 
 	// find next var
@@ -24,7 +24,7 @@ ltnc::ExprInfo ltnc::VariCompiler::compile(
 		// get address on stack
 		if(i) {
 			// lookup struct type
-			const Type & type = typeTable.match(lastVar.typeName);
+			const Type & type = typeTable.match(lastVar.typeId);
 			// search next member
 			const auto & members = type.members; 
 			for(const auto & newVar : members) {
@@ -37,7 +37,7 @@ ltnc::ExprInfo ltnc::VariCompiler::compile(
 		}
 		// stack
 		else {
-			return scopeStack.get().getVar(path[0]); 
+			return scopeStack.match(path[0]); 
 		}
 	};
 
@@ -86,5 +86,5 @@ ltnc::ExprInfo ltnc::VariCompiler::compile(
 	}
 
 
-	return ExprInfo(var.typeName, code);
+	return ExprInfo(var.typeId, code);
 }

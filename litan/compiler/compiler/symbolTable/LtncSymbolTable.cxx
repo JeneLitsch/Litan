@@ -1,5 +1,9 @@
 #include "LtncSymbolTable.hxx"
 #include <iostream>
+#include "LtncTypeSearch.hxx"
+#include "LtncFuncSearch.hxx"
+#include "LtncVarSearch.hxx"
+
 ltnc::SymbolTable::SymbolTable() {
 	this->jumpmarkCounter = 0;
 }
@@ -8,8 +12,14 @@ void ltnc::SymbolTable::addBlockScope() {
 	this->scope.emplace(this->get());
 }
 
-void ltnc::SymbolTable::addFunctionScope(const FxSignature & signature) {
-	this->scope.emplace(signature);
+void ltnc::SymbolTable::addFunctionScope(const FunctionSignature & signature) {
+	this->scope.emplace(this->global, signature);
+}
+
+std::string ltnc::SymbolTable::makeJumpMark(const std::string & type) {
+	std::string jm = type + std::to_string(this->jumpmarkCounter);
+	this->jumpmarkCounter++;
+	return jm;
 }
 
 void ltnc::SymbolTable::remove() {
@@ -20,69 +30,57 @@ ltnc::Scope & ltnc::SymbolTable::get() {
 	return this->scope.top();
 }
 
-void ltnc::SymbolTable::insert(const Type & type) {
-	if(this->checkType(type.name)) {
-		throw std::runtime_error("Type is already defined: " + type.name);
+ltnc::TypeId ltnc::SymbolTable::insert(const Type & type) {
+	TypeSearch search(type.id);
+	if(this->global.find<Type>(search)) {
+		throw std::runtime_error("Type is already defined: " + type.id.name);
 	}
-	this->types.push_back(type);
+	this->global.add(type);
+	return type.id;
 }
 
-bool ltnc::SymbolTable::checkType(const std::string & typeName) const {
-	return this->find(typeName) != nullptr;
-}
-
-
-void ltnc::SymbolTable::guardType(const std::string & typeName) const {
-	if(!this->checkType(typeName)) {
-		throw std::runtime_error("Type is not defined: " + typeName);
-	}
-}
-
-
-const ltnc::Type & ltnc::SymbolTable::match(const std::string & typeName) const {
-	if(auto type = this->find(typeName)) {
-		return *type;
-	}
-	throw std::runtime_error("Type is not defined: " + typeName);
-}
-
-
-void ltnc::SymbolTable::insert(const FxSignature & signature) {
-	if(this->find(signature)) {
+ltnc::FunctionSignature ltnc::SymbolTable::insert(const FunctionSignature & signature) {
+	FuncSearch search(signature);
+	if(this->global.find<Func>(search)) {
 		throw std::runtime_error("Function is already defined.");
 	}
-	FxInfo fxInfo(signature, this->makeJumpMark("FNX_" + signature.name));
-	this->fxs.push_back(fxInfo);
+	Function fxInfo(signature, this->makeJumpMark("FNX_" + signature.name));
+	this->global.add(fxInfo);
+	return signature;
 }
 
-const ltnc::FxInfo & ltnc::SymbolTable::match(const FxSignature & signature) const {
-	if(auto fx = this->find(signature)) {
+std::string ltnc::SymbolTable::insert(const std::string & name, const TypeId & typeId) {
+	VarSearch search(name);
+	if(this->get().find<Var>(search), false) {
+		throw std::runtime_error("Var is already defined: " + name);
+	}
+	Var var = Var(typeId, this->get().countVars(), name);
+	this->get().add(var);
+	return name;
+}
+
+
+
+const ltnc::Type & ltnc::SymbolTable::match(const TypeId & typeId) const {
+	TypeSearch search(typeId);
+	if(auto type = this->scope.top().find<Type>(search)) {
+		return *type;
+	}
+	throw std::runtime_error("Type is not defined: " + typeId.name);
+}
+
+const ltnc::Function & ltnc::SymbolTable::match(const FunctionSignature & signature) const {
+	FuncSearch search(signature);
+	if(auto fx = this->scope.top().find<Func>(search)) {
 		return *fx;
 	}
 	throw std::runtime_error("No matching function for: " + signature.name);
 }
 
-std::string ltnc::SymbolTable::makeJumpMark(std::string type) {
-	std::string name = type + "_" + std::to_string(this->jumpmarkCounter);
-	this->jumpmarkCounter++;
-	return name;
-}
-
-const ltnc::Type * ltnc::SymbolTable::find(const std::string & typeName) const {
-	for(const auto & type : this->types) {
-		if(type == typeName) {
-			return &type;
-		}
+const ltnc::Var & ltnc::SymbolTable::match(const std::string & name) const {
+	VarSearch search(name);
+	if(auto var = this->scope.top().find<Var>(search)) {
+		return *var;
 	}
-	return nullptr;
-}
-
-
-const ltnc::FxInfo * ltnc::SymbolTable::find(const FxSignature & signature) const {
-	for(const auto & fx : this->fxs) {
-		if(fx == signature) {
-			return &fx;
-		}
-	}
-	return nullptr;
+	throw std::runtime_error("No matching var for: " + name);
 }

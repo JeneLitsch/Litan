@@ -12,12 +12,11 @@ ltnc::ExprInfo ltnc::CnstCompiler::compile(
 ltnc::ExprInfo ltnc::CnstCompiler::defaultConstructor(
 	CompilerPack & compPkg,
 	const std::shared_ptr<ExprNew> & exprNew) const {
-	const std::string typeName = exprNew->typeName;
-	const Type & type = compPkg.getSymbolTable().match(typeName);
+	const Type & type = compPkg.getSymbolTable().match(exprNew->typeId);
 
 	
 	CodeBuffer code = compPkg.codeBuffer();
-	code << Comment(exprNew->typeName);
+	code << Comment(exprNew->typeId.name);
 	code << AssemblyCode("array::new");
 	for(const auto & member : type.members) {
 		UNUSED(member);
@@ -25,5 +24,5 @@ ltnc::ExprInfo ltnc::CnstCompiler::defaultConstructor(
 		code << Inst::newl(0); // init with nullptr;
 		code << AssemblyCode("array::add");
 	}
-	return ExprInfo(exprNew->typeName, code);
+	return ExprInfo(TypeId(exprNew->typeId), code);
 }	

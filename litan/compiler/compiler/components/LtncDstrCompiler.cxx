@@ -14,23 +14,23 @@ ltnc::ExprInfo ltnc::DstrCompiler::compile(
 
 	ExprInfo exprInfo = this->variCompiler.compile(compPkg, exprDel->exprVar, {});
 
-	const Type & type = compPkg.getSymbolTable().match(exprInfo.type.name);
+	const Type & type = compPkg.getSymbolTable().match(exprInfo.typeId);
 	
 	ExprInfo setNull = this->variCompiler.compile(compPkg, exprDel->exprVar, this->nullPtr(type));
 
 	if(type.members.empty()) {
-		throw std::runtime_error("Type " + type.name + " is not a heap allocated struct");
+		throw std::runtime_error("Type " + type.id.name + " is not a heap allocated struct");
 	}
 	CodeBuffer code = compPkg.codeBuffer();
 	code << exprInfo.code;
 	code << AssemblyCode("heap::del");
 	code << setNull.code;
-	return ExprInfo(Type("voi"), code);
+	return ExprInfo(TypeId("voi"), code);
 }
 
 ltnc::ExprInfo ltnc::DstrCompiler::nullPtr(const Type & type) const {
 	CodeBuffer code(false);
 	code << AssemblyCode("newl 0");
-	ExprInfo nullPtr = ExprInfo(type, code);
+	ExprInfo nullPtr = ExprInfo(type.id, code);
 	return nullPtr;
 }

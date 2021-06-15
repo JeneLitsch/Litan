@@ -43,7 +43,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shar
 ltnc::StmtInfo ltnc::StmtCompiler::compileAssign(CompilerPack & compPkg, std::shared_ptr<StmtAssign> stmt) const {
 	auto expr = exprCompiler.compileExpr(compPkg, stmt->expr);
 	auto access = this->variCompiler.compile(compPkg, stmt->var, expr);
-	if(expr.type != access.type.name) {
+	if(expr.typeId != TypeId(access.typeId.name)) {
 		throw std::runtime_error("Types do not match: " + expr.code.str());
 	}
 	
@@ -59,7 +59,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::sh
 	ExprInfo expr = this->exprCompiler.compileExpr(compPkg, stmt->expr); 
 
 
-	if(expr.type != "int"){
+	if(expr.typeId != TypeId("int")){
 		throw std::runtime_error("Upper bound of for loop needs to be a integer expression.");
 	}
 	
@@ -106,17 +106,18 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::share
 	ExprInfo from = this->exprCompiler.compileExpr(compPkg, stmt->exprFrom); 
 	ExprInfo to = this->exprCompiler.compileExpr(compPkg, stmt->exprTo);
 
-	if(from.type != "int"){
+	if(from.typeId != TypeId("int")){
 		throw std::runtime_error("Lower bound of for loop needs to be a integer expression.");
 	}
 
-	if(to.type != "int"){
+	if(to.typeId != TypeId("int")){
 		throw std::runtime_error("Upper bound of for loop needs to be a integer expression.");
 	}
 
 	compPkg.getSymbolTable().addBlockScope();
 	// iteration variable
-	Var counter = compPkg.getSymbolTable().get().registerVar(stmt->name, Type("int"));
+	compPkg.getSymbolTable().insert(stmt->name, TypeId("int"));
+	Var counter = compPkg.getSymbolTable().match(stmt->name);
 	// create code inside loop
 	StmtInfo body = this->compileBlock(compPkg, stmt->stmt);
 	compPkg.getSymbolTable().remove();
@@ -156,8 +157,9 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::sha
 	compPkg.getSymbolTable().addBlockScope();
 	CodeBuffer code = compPkg.codeBuffer();
 	for(const auto & decl : block->declarations) {
-		compPkg.getSymbolTable().guardType(decl->type.name);
-		Var var = compPkg.getSymbolTable().get().registerVar(decl->name, decl->type);
+		compPkg.getSymbolTable().match(decl->type.id);
+		compPkg.getSymbolTable().insert(decl->name, decl->type.id);
+		Var counter = compPkg.getSymbolTable().match(decl->name);
 	}
 	unsigned stackalloc = 0;
 	for(const auto & stmt : block->statements) {
@@ -227,7 +229,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shar
 	ExprInfo exprInfo = this->exprCompiler.compileExpr(compPkg, stmt->expr);
 	CodeBuffer code = compPkg.codeBuffer();
 	code << exprInfo.code;
-	if(exprInfo.type != "voi") {
+	if(exprInfo.typeId != TypeId("voi")) {
 		code << "scrap";
 	}
 	return StmtInfo(code, 0);
@@ -235,16 +237,16 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shar
 
 ltnc::StmtInfo ltnc::StmtCompiler::compileReturn(CompilerPack & compPkg, std::shared_ptr<StmtReturn> stmt) const {
 	CodeBuffer code = compPkg.codeBuffer();
-	FxSignature signature = compPkg.getSymbolTable().get().getFxSignature();
+	FunctionSignature signature = compPkg.getSymbolTable().get().getFxSignature();
 	if(stmt->expr) {
 		ExprInfo exprInfo = this->exprCompiler.compileExpr(compPkg, stmt->expr);
-		if(exprInfo.type != signature.returnType) {
+		if(exprInfo.typeId != signature.returnType) {
 			throw std::runtime_error("Type of return statement do not match return type of function");
 		}
 		code << exprInfo.code; 
 	}
 	else {
-		if("voi" != signature.returnType) {
+		if(TypeId("voi") != signature.returnType) {
 			throw std::runtime_error("Type of return statement do not match return type of function");
 		}
 	}

@@ -7,7 +7,7 @@ std::shared_ptr<ltnc::DeclVar> ltnc::ParserDeclVar::eval(ParserPackage & parsePk
 			if(parsePkg.match(TokenType::IDENTIFIER)) {
 				std::string name = parsePkg.prev().string;
 				if (parsePkg.match(TokenType::SEMICOLON)) {
-					return std::make_shared<DeclVar>(name, Type(typeName));
+					return std::make_shared<DeclVar>(name, Type(TypeId(typeName)));
 				}
 				return parsePkg.error("expected ;");
 			}

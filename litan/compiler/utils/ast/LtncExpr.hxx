@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include "LtncToken.hxx"
+#include "LtncTypeId.hxx"
 namespace ltnc {
 
 	struct Expr {
@@ -78,8 +79,8 @@ namespace ltnc {
 	// New operator: new Foo()
 	struct ExprNew : public Expr {
 		virtual ~ExprNew() = default;
-		ExprNew(std::string typeName): typeName(typeName) {}
-		std::string typeName;
+		ExprNew(const TypeId & typeId): typeId(typeId) {}
+		TypeId typeId;
 	};
 
 	// New operator: new Foo()

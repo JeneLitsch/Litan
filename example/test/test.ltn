@@ -8,7 +8,7 @@ struct Foo {
 }
 
 fnx main() voi {
-	var int arr;	
+	var int arrs;	
 	asm {
 		"array::new" "store 0"
 

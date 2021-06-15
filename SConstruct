@@ -68,6 +68,8 @@ dirsLtnC = [
 	".",
 	"litan/compiler",
 	"litan/compiler/utils",
+	"litan/compiler/utils/ast",
+	"litan/compiler/utils/symbols",
 	"litan/compiler/lexer",
 	"litan/compiler/parser",
 	"litan/compiler/parser/nodes",
@@ -78,6 +80,7 @@ dirsLtnC = [
 	"litan/compiler/compiler/evaluation",
 	"litan/compiler/compiler/components",
 	"litan/compiler/compiler/symbolTable",
+	"litan/compiler/compiler/symbolTable/search",
 	"litan/compiler/compiler/utils",
 	"litan/compiler/compiler/utils/codeBuffer",
 ]

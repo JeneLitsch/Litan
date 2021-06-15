@@ -1,25 +1,54 @@
 #pragma once
-#include "LtncType.hxx"
 #include <cstdint>
 #include <set>
 #include <memory>
+#include <variant>
+
+#include "LtncFunction.hxx"
+#include "LtncType.hxx"
 #include "LtncVar.hxx"
-#include "LtncSignature.hxx"
 namespace ltnc {
 	
 	class Scope {
 	public:
 		Scope(Scope & scope);
-		Scope(const FxSignature & signature);
+		Scope(Scope & scope, const FunctionSignature & signature);
 		Scope();
 		
-		Var registerVar(const std::string & name, Type type);
-		Var getVar(const std::string & name) const;
 		std::uint32_t countVars() const;
-		const FxSignature & getFxSignature() const;
+		const FunctionSignature & getFxSignature() const;
+
+		typedef std::variant<
+			Type,
+			Function,
+			Var
+		> Entry;
+
+		template<class Searched, class Searcher>
+		const Searched * find(const Searcher & searcher, bool fallthrough = true) const {
+			for(const Entry & entry : table) {
+				if(const Searched * value = std::visit(searcher, entry)) {
+					return value;
+				}
+			}
+			if(this->prev && fallthrough) {
+				return this->prev->find<Searched, Searcher>(searcher, true);
+			}
+			return nullptr;
+		}
+
+		void add(const Type & entry);
+		void add(const Function & entry);
+		void add(const Var & entry);
+
+
 	private:
-		std::optional<FxSignature> fxSignature;
-		std::set<Var, std::less<>> vars;
+		unsigned counterVars;
+		unsigned counterTypes;
+		unsigned counterFuncs;
+
+		std::vector<Entry> table;
+		std::optional<FunctionSignature> fxSignature;
 		Scope * prev;
 	};
 

@@ -5,23 +5,23 @@ std::string ltnc::Compiler::compile(
 	const CompilerSettings & settings){
 	CompilerPack compPkg(settings);
 	CodeBuffer code = compPkg.codeBuffer();
-
 	// register types
 	for(const Type & type : program->types) {
 		compPkg.getSymbolTable().insert(type);
 	}
 
 	for(const DeclStruct & struct_ : program->structs) {
-		Type structType(struct_.name);
+		Type structType(TypeId(struct_.name));
 		for(const auto & member : struct_.members) {
 			auto name = member->name;
 			auto type = member->type;
 			auto addr = structType.members.size();
-			auto var = std::make_shared<Var>(type.name, addr, name);
+			auto var = std::make_shared<Var>(type.id, addr, name);
 			structType.members.push_back(var);
 		}
 		compPkg.getSymbolTable().insert(structType);
 	}
+
 
 	// register functions
 	for(const auto & function : program->functions) {
@@ -29,7 +29,7 @@ std::string ltnc::Compiler::compile(
 	}
 	
 	// init code
-	compPkg.getSymbolTable().addFunctionScope(FxSignature(Type("voi"), "", {}));
+	compPkg.getSymbolTable().addFunctionScope(FunctionSignature(TypeId("voi"), "", {}));
 	code << AssemblyCode("-> MAIN"); 
 	code << stmtCompiler.compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main"))).code;
 	code << AssemblyCode("exit");

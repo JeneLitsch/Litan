@@ -7,14 +7,14 @@ ltnc::StmtInfo ltnc::DeclCompiler::compile(
 	CompilerPack & compPkg,
 	const std::shared_ptr<DeclFunction> & decl) const {
 		
-	const FxInfo & fxInfo = compPkg.getSymbolTable().match(decl->signature);
-	compPkg.getSymbolTable().guardType(decl->signature.returnType.name);
-	compPkg.getSymbolTable().addFunctionScope(fxInfo.signature);
+	const Func & func = compPkg.getSymbolTable().match(decl->signature);
+	compPkg.getSymbolTable().match(decl->signature.returnType);
+	compPkg.getSymbolTable().addFunctionScope(func.signature);
 	
 	// register parameter
 	for(const Param & param : decl->signature.params) {
-		compPkg.getSymbolTable().guardType(param.type.name);
-		compPkg.getSymbolTable().get().registerVar(param.name, param.type.name);
+		compPkg.getSymbolTable().match(param.typeId);
+		compPkg.getSymbolTable().insert(param.name, TypeId(param.typeId));
 	}
 	// eval body
 	StmtInfo body = stmtCompiler.compileStmt(compPkg, decl->body);
@@ -22,13 +22,13 @@ ltnc::StmtInfo ltnc::DeclCompiler::compile(
 	// create code;
 	CodeBuffer code = compPkg.codeBuffer();
 	code << Comment(this->fxComment(decl));
-	code << AssemblyCode("-> " + fxInfo.jumpMark);
+	code << AssemblyCode("-> " + func.jumpMark);
 	// load params into memory (backwards because LIFO)
 	const auto & params = decl->signature.params; 
 	code << AssemblyCode("stackalloc " + std::to_string(body.stackalloc + params.size()));
 	for(auto param = params.rbegin(); param != params.rend(); ++param) {
 		// store parameter;
-		std::uint64_t varAddr = compPkg.getSymbolTable().get().getVar((*param).name).addr;
+		std::uint64_t varAddr = compPkg.getSymbolTable().match((*param).name).addr;
 		code << Inst::store(static_cast<std::uint32_t>(varAddr));
 	}
 	code << body.code;
@@ -46,7 +46,7 @@ std::string ltnc::DeclCompiler::fxComment(
 	std::string text;
 	text += decl->signature.name + " ( ";
 	for (const auto & param : decl->signature.params) {
-		text += param.type.name + " ";
+		text += param.typeId.name + " ";
 	}
 	text += "-> ";
 	text += decl->signature.returnType.name + " ) ";

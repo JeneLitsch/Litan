@@ -2,8 +2,6 @@
 #include <string>
 #include <set>
 #include "LtncDecl.hxx"
-#include "LtncSignature.hxx"
-#include "LtncFxInfo.hxx"
 #include "LtncCompilerSettings.hxx"
 #include "LtncCodeBuffer.hxx"
 #include "LtncSymbolTable.hxx"
@@ -15,10 +13,6 @@ namespace ltnc {
 
 
 		
-		void addInlineCode(
-			const FxSignature & signature,
-			const std::string & code);
-
 		const SymbolTable & getSymbolTable() const;
 		SymbolTable & getSymbolTable();
 

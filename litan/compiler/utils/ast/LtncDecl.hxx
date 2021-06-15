@@ -4,7 +4,7 @@
 #include <vector>
 #include "LtncType.hxx"
 #include "LtncVar.hxx"
-#include "LtncSignature.hxx"
+#include "LtncFunctionSignature.hxx"
 namespace ltnc {
 	struct Stmt;
 
@@ -30,7 +30,7 @@ namespace ltnc {
 
 	struct DeclFunction : public Decl {
 		DeclFunction(
-			FxSignature signature,
+			FunctionSignature signature,
 			std::shared_ptr<Stmt> body,
 			bool inlined = false) 
 			
@@ -41,7 +41,7 @@ namespace ltnc {
 			inlined(inlined) {}
 
 		virtual ~DeclFunction() = default;
-		FxSignature signature;
+		FunctionSignature signature;
 		std::shared_ptr<Stmt> body;
 		bool inlined;
 	};

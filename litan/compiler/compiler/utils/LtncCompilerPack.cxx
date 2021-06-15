@@ -4,10 +4,6 @@ ltnc::CompilerPack::CompilerPack(const CompilerSettings & settings)
 	: settings(settings) {
 }
 
-
-
-
-
 const ltnc::SymbolTable & ltnc::CompilerPack::getSymbolTable() const {
 	return this->symbolTable;
 }

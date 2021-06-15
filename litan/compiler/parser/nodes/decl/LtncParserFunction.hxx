@@ -11,7 +11,7 @@ namespace ltnc {
 	private:
 		std::string name(ParserPackage & parsePkg) const;
 		std::vector<Param> parameterList(ParserPackage & parsePkg) const;
-		Type returnType(ParserPackage & parsePkg) const;
+		TypeId returnType(ParserPackage & parsePkg) const;
 		std::shared_ptr<StmtBlock> body(ParserPackage & parsePkg) const;
 
 		bool isInline(ParserPackage & parsePkg) const;

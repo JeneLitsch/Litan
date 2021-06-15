@@ -1,32 +1,30 @@
 #pragma once
 #include <stack>
 #include "LtncScope.hxx"
-#include "LtncFxInfo.hxx"
+#include <variant>
+#include "LtncFunction.hxx"
 namespace ltnc {
+
 	class SymbolTable {
 	public:
 		SymbolTable();
 
-		std::string makeJumpMark(std::string type);
+		std::string makeJumpMark(const std::string & type);
 
-		void insert(const Type & type);
-		void insert(const FxSignature & signature);
+		TypeId insert(const Type & type);
+		FunctionSignature insert(const FunctionSignature & signature);
+		std::string insert(const std::string & name, const TypeId & typeId);
 
-		const Type & match(const std::string & typeName) const;
-		const FxInfo & match(const FxSignature & signature) const;
-
-		bool checkType(const std::string & typeName) const;
-		void guardType(const std::string & typeName) const;
+		const Type & match(const TypeId & typeId) const;
+		const Function & match(const FunctionSignature & signature) const;
+		const Var & match(const std::string & name) const;
 
 		void addBlockScope();
-		void addFunctionScope(const FxSignature & signature);
+		void addFunctionScope(const FunctionSignature & signature);
 		void remove();
 		Scope & get();
 	private:
-		const Type * find(const std::string & typeName) const;  
-		const FxInfo * find(const FxSignature & signature) const; 
-		std::vector<Type> types;
-		std::vector<FxInfo> fxs;
+		Scope global;
 		std::stack<Scope> scope;
 		std::uint64_t jumpmarkCounter;
 	};
