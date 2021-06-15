@@ -22,7 +22,9 @@ namespace ltnc {
 		void addBlockScope();
 		void addFunctionScope(const FunctionSignature & signature);
 		void remove();
-		Scope & get();
+
+		const FunctionSignature & currentFxSignature() const;
+		
 	private:
 		Scope global;
 		std::stack<Scope> scope;

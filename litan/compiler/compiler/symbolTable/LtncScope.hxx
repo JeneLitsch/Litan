@@ -25,7 +25,7 @@ namespace ltnc {
 		> Entry;
 
 		template<class Searched, class Searcher>
-		const Searched * find(const Searcher & searcher, bool fallthrough = true) const {
+		const Searched * find(const Searcher & searcher, bool fallthrough) const {
 			for(const Entry & entry : table) {
 				if(const Searched * value = std::visit(searcher, entry)) {
 					return value;

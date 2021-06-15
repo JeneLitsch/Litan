@@ -9,7 +9,7 @@ ltnc::SymbolTable::SymbolTable() {
 }
 
 void ltnc::SymbolTable::addBlockScope() {
-	this->scope.emplace(this->get());
+	this->scope.emplace(this->scope.top());
 }
 
 void ltnc::SymbolTable::addFunctionScope(const FunctionSignature & signature) {
@@ -26,22 +26,20 @@ void ltnc::SymbolTable::remove() {
 	this->scope.pop();
 }
 
-ltnc::Scope & ltnc::SymbolTable::get() {
-	return this->scope.top();
-}
-
 ltnc::TypeId ltnc::SymbolTable::insert(const Type & type) {
 	TypeSearch search(type.id);
-	if(this->global.find<Type>(search)) {
+	if(this->global.find<Type>(search, true)) {
 		throw std::runtime_error("Type is already defined: " + type.id.name);
 	}
 	this->global.add(type);
 	return type.id;
 }
 
+
+
 ltnc::FunctionSignature ltnc::SymbolTable::insert(const FunctionSignature & signature) {
 	FuncSearch search(signature);
-	if(this->global.find<Func>(search)) {
+	if(this->global.find<Func>(search, true)) {
 		throw std::runtime_error("Function is already defined.");
 	}
 	Function fxInfo(signature, this->makeJumpMark("FNX_" + signature.name));
@@ -49,13 +47,15 @@ ltnc::FunctionSignature ltnc::SymbolTable::insert(const FunctionSignature & sign
 	return signature;
 }
 
+
+
 std::string ltnc::SymbolTable::insert(const std::string & name, const TypeId & typeId) {
 	VarSearch search(name);
-	if(this->get().find<Var>(search), false) {
+	if(this->scope.top().find<Var>(search, false)) {
 		throw std::runtime_error("Var is already defined: " + name);
 	}
-	Var var = Var(typeId, this->get().countVars(), name);
-	this->get().add(var);
+	Var var = Var(typeId, this->scope.top().countVars(), name);
+	this->scope.top().add(var);
 	return name;
 }
 
@@ -63,24 +63,34 @@ std::string ltnc::SymbolTable::insert(const std::string & name, const TypeId & t
 
 const ltnc::Type & ltnc::SymbolTable::match(const TypeId & typeId) const {
 	TypeSearch search(typeId);
-	if(auto type = this->scope.top().find<Type>(search)) {
+	if(auto type = this->scope.top().find<Type>(search, true)) {
 		return *type;
 	}
 	throw std::runtime_error("Type is not defined: " + typeId.name);
 }
 
+
+
 const ltnc::Function & ltnc::SymbolTable::match(const FunctionSignature & signature) const {
 	FuncSearch search(signature);
-	if(auto fx = this->scope.top().find<Func>(search)) {
+	if(auto fx = this->scope.top().find<Func>(search, true)) {
 		return *fx;
 	}
 	throw std::runtime_error("No matching function for: " + signature.name);
 }
 
+
+
 const ltnc::Var & ltnc::SymbolTable::match(const std::string & name) const {
 	VarSearch search(name);
-	if(auto var = this->scope.top().find<Var>(search)) {
+	if(auto var = this->scope.top().find<Var>(search, true)) {
 		return *var;
 	}
 	throw std::runtime_error("No matching var for: " + name);
+}
+
+
+
+const ltnc::FunctionSignature & ltnc::SymbolTable::currentFxSignature() const {
+	return this->scope.top().getFxSignature();
 }

@@ -14,17 +14,20 @@ namespace ltnc {
 	};
 
 	struct DeclVar : public Decl {
-		DeclVar(const std::string & name, Type type)
-			: name(name), type(type) {}
+		DeclVar(
+			const std::string & name,
+			const TypeId & typeId)
+			: name(name), typeId(typeId) {}
+		
 		std::string name;
-		Type type;
+		TypeId typeId;
 	};
 
 	struct DeclStruct : public Decl {
-		DeclStruct(const std::string & name)  {
-			this->name = name;
-		}
-		std::string name;
+		DeclStruct(const TypeId & typeId)
+			: typeId(typeId) {}
+		
+		TypeId typeId;
 		std::vector<std::shared_ptr<DeclVar>> members;
 	};
 

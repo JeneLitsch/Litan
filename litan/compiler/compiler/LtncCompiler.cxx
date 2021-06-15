@@ -11,12 +11,12 @@ std::string ltnc::Compiler::compile(
 	}
 
 	for(const DeclStruct & struct_ : program->structs) {
-		Type structType(TypeId(struct_.name));
+		Type structType(struct_.typeId);
 		for(const auto & member : struct_.members) {
 			auto name = member->name;
-			auto type = member->type;
+			auto typeId = member->typeId;
 			auto addr = structType.members.size();
-			auto var = std::make_shared<Var>(type.id, addr, name);
+			auto var = std::make_shared<Var>(typeId, addr, name);
 			structType.members.push_back(var);
 		}
 		compPkg.getSymbolTable().insert(structType);

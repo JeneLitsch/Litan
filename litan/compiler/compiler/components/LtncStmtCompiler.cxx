@@ -157,8 +157,8 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::sha
 	compPkg.getSymbolTable().addBlockScope();
 	CodeBuffer code = compPkg.codeBuffer();
 	for(const auto & decl : block->declarations) {
-		compPkg.getSymbolTable().match(decl->type.id);
-		compPkg.getSymbolTable().insert(decl->name, decl->type.id);
+		compPkg.getSymbolTable().match(decl->typeId);
+		compPkg.getSymbolTable().insert(decl->name, decl->typeId);
 		Var counter = compPkg.getSymbolTable().match(decl->name);
 	}
 	unsigned stackalloc = 0;
@@ -237,7 +237,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shar
 
 ltnc::StmtInfo ltnc::StmtCompiler::compileReturn(CompilerPack & compPkg, std::shared_ptr<StmtReturn> stmt) const {
 	CodeBuffer code = compPkg.codeBuffer();
-	FunctionSignature signature = compPkg.getSymbolTable().get().getFxSignature();
+	FunctionSignature signature = compPkg.getSymbolTable().currentFxSignature();
 	if(stmt->expr) {
 		ExprInfo exprInfo = this->exprCompiler.compileExpr(compPkg, stmt->expr);
 		if(exprInfo.typeId != signature.returnType) {
