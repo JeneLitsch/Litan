@@ -13,6 +13,9 @@ std::string ltnc::Compiler::compile(
 	for(const DeclStruct & struct_ : program->structs) {
 		Type structType(struct_.typeId);
 		for(const auto & member : struct_.members) {
+			if(member->assign) {
+				throw std::runtime_error("Assignment to members is not allowed");
+			}
 			auto name = member->name;
 			auto typeId = member->typeId;
 			auto addr = structType.members.size();

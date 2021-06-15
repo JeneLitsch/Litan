@@ -17,10 +17,22 @@ namespace ltnc {
 		DeclVar(
 			const std::string & name,
 			const TypeId & typeId)
-			: name(name), typeId(typeId) {}
+		: 	
+			name(name),
+			typeId(typeId) {}
+
+		DeclVar(
+			const std::string & name,
+			const TypeId & typeId,
+			const std::shared_ptr<Stmt> & assign)
+		: 	
+			name(name),
+			typeId(typeId),
+			assign(assign) {}
 		
 		std::string name;
 		TypeId typeId;
+		std::shared_ptr<Stmt> assign;
 	};
 
 	struct DeclStruct : public Decl {

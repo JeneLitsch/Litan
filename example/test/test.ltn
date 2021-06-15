@@ -8,8 +8,7 @@ struct Foo {
 }
 
 fnx fx(int a, int b) int {
-	var int c;
-	c = 1;
+	var int c = 1 + 1;
 	->print(a);
 	->print(b);
 	->print(c);

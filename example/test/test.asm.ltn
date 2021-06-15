@@ -8,7 +8,7 @@ exit
 stackalloc 3
 store 1
 store 0
-newi 1
+newi 2
 store 2
 load 0
 call FNX_print12

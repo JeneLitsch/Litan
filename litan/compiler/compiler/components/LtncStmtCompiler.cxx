@@ -160,6 +160,10 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::sha
 		compPkg.getSymbolTable().match(decl->typeId);
 		compPkg.getSymbolTable().insert(decl->name, decl->typeId);
 		Var counter = compPkg.getSymbolTable().match(decl->name);
+		if(decl->assign) {
+			StmtInfo stmtInfo = this->compileStmt(compPkg, decl->assign);
+			code << stmtInfo.code;
+		}
 	}
 	unsigned stackalloc = 0;
 	for(const auto & stmt : block->statements) {

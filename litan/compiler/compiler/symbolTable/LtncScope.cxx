@@ -61,6 +61,5 @@ void ltnc::Scope::add(const Function & entry) {
 
 void ltnc::Scope::add(const Var & entry) {
 	counterVars++;
-	std::cout << entry.name << ": " << entry.addr << std::endl;
 	this->table.push_back(Entry(entry));
 }

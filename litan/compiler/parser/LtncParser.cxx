@@ -19,6 +19,7 @@ ltnc::Parser::Parser() {
 	this->unary.connect(this->primary);
 	this->primary.connect(this->call, this->var, this->expr);
 	this->call.connect(this->expr);
+	this->declVar.connect(this->expr);
 }
 
 
