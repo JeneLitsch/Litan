@@ -234,7 +234,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shar
 	CodeBuffer code = compPkg.codeBuffer();
 	code << exprInfo.code;
 	if(exprInfo.typeId != TypeId("voi")) {
-		code << "scrap";
+		code << AssemblyCode("scrap");
 	}
 	return StmtInfo(code, 0);
 }

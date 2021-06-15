@@ -7,15 +7,16 @@ struct Foo {
 	var int test;
 }
 
-fnx fx(int a, int b) int {
-	var int c = 1 + 1;
-	->print(a);
-	->print(b);
-	->print(c);
-	return a + b + c;
+fnx fx(int a, int b) Foo {
+	var Foo foo = new Foo(new Bar(a), b);
+	return foo;
 }
 
 fnx main() voi {
-	->print(->fx(3, 5));
+	var Foo foo = ->fx(42, 1337);
+	->print(foo.test);
+	->print(foo.bar.x);
+	del foo.bar;
+	del foo;
 	return;
 }

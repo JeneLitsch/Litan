@@ -6,9 +6,10 @@
 #include "LtncCompilerPack.hxx"
 
 namespace ltnc {
+	class ExprCompiler;
 	class CnstCompiler {
 	public:
-		CnstCompiler();
+		CnstCompiler(const ExprCompiler & exprCompiler);
 		ExprInfo compile(
 			CompilerPack & compPkg,
 			const std::shared_ptr<ExprNew> & exprNew) const;
@@ -16,6 +17,12 @@ namespace ltnc {
 	private:
 		ExprInfo defaultConstructor(
 			CompilerPack & compPkg,
-			const std::shared_ptr<ExprNew> & exprNew) const;	
+			const std::shared_ptr<ExprNew> & exprNew) const;
+
+		ExprInfo parameterConstructor(
+			CompilerPack & compPkg,
+			const std::shared_ptr<ExprNew> & exprNew) const;
+		
+		const ExprCompiler & exprCompiler;		
 	};
 }

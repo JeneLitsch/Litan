@@ -68,10 +68,13 @@ namespace ltnc {
 	// Call function: ->fx();
 	struct ExprCall : public Expr {
 		virtual ~ExprCall() = default;
+
 		ExprCall(const std::string & name, const std::vector<std::shared_ptr<Expr>> & paramExprs)
 			: name(name), paramExprs(paramExprs) {}
+
 		ExprCall(const std::string & name)
 			: name(name), paramExprs({}) {}
+
 		std::string name;
 		std::vector<std::shared_ptr<Expr>> paramExprs;
 	};
@@ -79,8 +82,12 @@ namespace ltnc {
 	// New operator: new Foo()
 	struct ExprNew : public Expr {
 		virtual ~ExprNew() = default;
-		ExprNew(const TypeId & typeId): typeId(typeId) {}
+
+		ExprNew(const TypeId & typeId, const std::vector<std::shared_ptr<Expr>> & paramExprs)
+			: typeId(typeId), paramExprs(paramExprs) {}
+		
 		TypeId typeId;
+		std::vector<std::shared_ptr<Expr>> paramExprs;
 	};
 
 	// New operator: new Foo()

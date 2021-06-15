@@ -14,6 +14,7 @@ namespace ltnc {
 			declCompiler(stmtCompiler),
 			stmtCompiler(exprCompiler, asmbCompiler, variCompiler),
 			exprCompiler(cnstCompiler, dstrCompiler, variCompiler),
+			cnstCompiler(exprCompiler),
 			dstrCompiler(variCompiler)
 			{}
 		

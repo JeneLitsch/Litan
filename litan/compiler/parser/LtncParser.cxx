@@ -11,14 +11,17 @@ ltnc::Parser::Parser() {
 	this->ifelse.connect(this->stmt, this->expr);
 	this->declStruct.connect(this->declVar);
 
+	this->param.connect(this->expr);
+
 	this->expr.connect(this->comparison, this->newstruct, this->delstruct);
+	this->newstruct.connect(this->param);
 	this->delstruct.connect(this->var);
 	this->comparison.connect(this->term);
 	this->term.connect(this->product);
 	this->product.connect(this->unary);
 	this->unary.connect(this->primary);
 	this->primary.connect(this->call, this->var, this->expr);
-	this->call.connect(this->expr);
+	this->call.connect(this->param);
 	this->declVar.connect(this->expr);
 }
 

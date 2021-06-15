@@ -11,6 +11,8 @@
 #include "LtncParserDeclStruct.hxx"
 #include "LtncParserFunction.hxx"
 
+#include "LtncParserParameter.hxx"
+
 #include "LtncParserExpr.hxx"
 #include "LtncParserNew.hxx"
 #include "LtncParserDel.hxx"
@@ -40,6 +42,8 @@ namespace ltnc {
 		ParserDeclType declType;
 		ParserDeclStruct declStruct;
 		ParserFunction function;
+
+		ParserParameter param;
 
 		ParserExpr expr;
 		ParserNew newstruct;
