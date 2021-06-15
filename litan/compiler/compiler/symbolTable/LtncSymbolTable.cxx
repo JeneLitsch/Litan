@@ -9,11 +9,12 @@ ltnc::SymbolTable::SymbolTable() {
 }
 
 void ltnc::SymbolTable::addBlockScope() {
-	this->scope.emplace(this->scope.top());
+	Scope & prev = this->scope.top();
+	this->scope.push(Scope(&prev));
 }
 
 void ltnc::SymbolTable::addFunctionScope(const FunctionSignature & signature) {
-	this->scope.emplace(this->global, signature);
+	this->scope.push(Scope(&this->global, signature));
 }
 
 std::string ltnc::SymbolTable::makeJumpMark(const std::string & type) {

@@ -11,8 +11,8 @@ namespace ltnc {
 	
 	class Scope {
 	public:
-		Scope(Scope & scope);
-		Scope(Scope & scope, const FunctionSignature & signature);
+		Scope(const Scope * scope);
+		Scope(const Scope * scope, const FunctionSignature & signature);
 		Scope();
 		
 		std::uint32_t countVars() const;
@@ -49,7 +49,7 @@ namespace ltnc {
 
 		std::vector<Entry> table;
 		std::optional<FunctionSignature> fxSignature;
-		Scope * prev;
+		const Scope * prev;
 	};
 
 }

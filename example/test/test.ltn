@@ -7,68 +7,16 @@ struct Foo {
 	var int test;
 }
 
+fnx fx(int a, int b) int {
+	var int c;
+	c = 1;
+	->print(a);
+	->print(b);
+	->print(c);
+	return a + b + c;
+}
+
 fnx main() voi {
-	var int arrs;	
-	asm {
-		"array::new" "store 0"
-
-		"load 0" "newl 5" "array::rsz"
-
-		"load 0" "newl 5" "array::fll"
-
-		"load 0" "newl 0" "newl 10" "array::set"
-		"load 0" "newl 1" "newl 20" "array::set"
-		"load 0" "newl 2" "newl 30" "array::set"
-		"load 0" "newl 3" "newl 40" "array::set"
-		"load 0" "newl 4" "newl 50" "array::set"
-		
-		"load 0" "newl 0" "array::get" "print"
-		"load 0" "newl 0" "array::ers"
-		"load 0" "array::len" "print"
-
-		"load 0" "newl 0" "array::get" "print"
-		"load 0" "newl 0" "array::ers"
-		"load 0" "array::len" "print"
-
-		"load 0" "newl 0" "array::get" "print"
-		"load 0" "newl 0" "array::ers"
-		"load 0" "array::len" "print"
-
-		"load 0" "newl 0" "array::get" "print"
-		"load 0" "newl 0" "array::ers"
-		"load 0" "array::len" "print"
-
-		"load 0" "newl 0" "array::get" "print"
-		"load 0" "newl 0" "array::ers"
-		"load 0" "array::len" "print"
-	}
-
-
-	// ->print(~1);
-	// ->print(!1);
-	// ->print(-1);
-	// if(!(1 == 0)) {
-	// 	->print(42);
-	// }
-	// else {
-	// 	->print(1337);
-	// }
-	var Foo foo;
-	foo = new Foo();
-	foo.bar = new Bar();
-	// foo.bar.x = 42;
-	// foo.test = 1337;
-	// ->print(foo.bar.x);
-	del foo;
-	if (foo) {
-		->print(1234);
-	}
-	else {
-		->print(4321);
-	}
-	asm {
-		"size"
-		"print"
-	}
+	->print(->fx(3, 5));
 	return;
 }

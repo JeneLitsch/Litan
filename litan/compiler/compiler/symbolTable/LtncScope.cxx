@@ -1,20 +1,32 @@
 #include "LtncScope.hxx"
 
-ltnc::Scope::Scope(Scope & scope) 
+ltnc::Scope::Scope(const Scope * scope) 
 	: Scope() {
-	this->prev = &scope;
+	this->prev = scope;
+
+	this->counterFuncs = 0;
+	this->counterTypes = 0;
+	this->counterVars = 0;
 }
 
 
-ltnc::Scope::Scope(Scope & scope, const FunctionSignature & signature) 
+ltnc::Scope::Scope(const Scope * scope, const FunctionSignature & signature) 
 	: Scope() {
-	this->prev = &scope; 
+	this->prev = scope; 
 	this->fxSignature = signature;
+
+	this->counterFuncs = 0;
+	this->counterTypes = 0;
+	this->counterVars = 0;
 }
 
 
 ltnc::Scope::Scope(){
 	this->prev = nullptr;
+
+	this->counterFuncs = 0;
+	this->counterTypes = 0;
+	this->counterVars = 0;
 }
 
 
@@ -49,5 +61,6 @@ void ltnc::Scope::add(const Function & entry) {
 
 void ltnc::Scope::add(const Var & entry) {
 	counterVars++;
+	std::cout << entry.name << ": " << entry.addr << std::endl;
 	this->table.push_back(Entry(entry));
 }
