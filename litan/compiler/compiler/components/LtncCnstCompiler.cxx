@@ -26,7 +26,7 @@ ltnc::ExprInfo ltnc::CnstCompiler::defaultConstructor(
 		UNUSED(member);
 		code << AssemblyCode("copy");
 		code << Inst::newl(0); // init with nullptr;
-		code << AssemblyCode("array::add");
+		code << AssemblyCode("array::pushb");
 	}
 	return ExprInfo(TypeId(exprNew->typeId), code);
 }	
@@ -63,7 +63,7 @@ ltnc::ExprInfo ltnc::CnstCompiler::parameterConstructor(
 
 		code << AssemblyCode("copy");
 		code << expr.code;
-		code << AssemblyCode("array::add");
+		code << AssemblyCode("array::pushb");
 	}
 	return ExprInfo(TypeId(exprNew->typeId), code);
 }	

@@ -16,6 +16,9 @@ std::shared_ptr<ltnc::StmtBlock> ltnc::ParserBlock::eval(ParserPackage & parsePk
 
 			if(auto decl = this->declVar->eval(parsePkg)) {
 				block->declarations.push_back(decl);
+				if(decl->assign) {
+					block->statements.push_back(decl->assign);
+				}
 			}
 			else {
 				auto stmt = this->stmt->eval(parsePkg);

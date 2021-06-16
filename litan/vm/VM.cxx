@@ -126,17 +126,23 @@ ltn::VM::Status ltn::VM::execute(){
 
 		case InstCode::HEAP_DEL: this->heapDel(); break;
 		case InstCode::HEAP_EXIST: this->heapExist(); break;
+		case InstCode::HEAP_COPY: this->heapCopy(); break;
 
 		case InstCode::ARRAY_NEW: this->arrayNew(); break;
 		case InstCode::ARRAY_CLR: this->arrayClr(); break;
 		case InstCode::ARRAY_GET: this->arrayGet(); break;
 		case InstCode::ARRAY_SET: this->arraySet(); break;
-		case InstCode::ARRAY_ADD: this->arrayAdd(); break;
-		case InstCode::ARRAY_POP: this->arrayPop(); break;
 		case InstCode::ARRAY_LEN: this->arrayLen(); break;
 		case InstCode::ARRAY_FLL: this->arrayFll(); break;
 		case InstCode::ARRAY_RSZ: this->arrayRsz(); break;
 		case InstCode::ARRAY_ERS: this->arrayErs(); break;
+
+		case InstCode::ARRAY_PUSHF: this->arrayPushF(); break;
+		case InstCode::ARRAY_PUSHB: this->arrayPushB(); break;
+		case InstCode::ARRAY_POPF: this->arrayPopF(); break;
+		case InstCode::ARRAY_POPB: this->arrayPopB(); break;
+		case InstCode::ARRAY_GETF: this->arrayGetF(); break;
+		case InstCode::ARRAY_GETB: this->arrayGetB(); break;
 
 		case InstCode::LOOP_RANGE: this->loopRange(); break;
 		case InstCode::LOOP_INF: this->loopInf(); break;
@@ -442,6 +448,12 @@ void ltn::VM::heapExist() {
 	this->env.acc.push(this->env.heap.exists(ptr));
 }
 
+void ltn::VM::heapCopy() {
+	std::uint64_t ptr = this->env.acc.popU();
+	std::uint64_t newptr = this->env.heap.copy(ptr);
+	this->env.acc.push(newptr);
+	std::cout << ptr << " -> " << newptr << std::endl; 
+}
 
 
 // Array instructions
@@ -484,21 +496,6 @@ void ltn::VM::arraySet(){
 	}
 }
 
-void ltn::VM::arrayAdd(){
-	std::uint64_t value = this->env.acc.popU();
-	std::uint64_t ptr = this->env.acc.popU();
-	this->env.heap.accessArray(ptr).push_back(value);
-}
-
-void ltn::VM::arrayPop(){
-	std::uint64_t ptr = this->env.acc.popU();
-	auto & array = this->env.heap.accessArray(ptr);
-	if(array.empty()) {
-		throw std::runtime_error("Access Violation at id: " + std::to_string(ptr) + " attempt to pop from empty buffer");
-	}
-	this->env.acc.push(array.back());
-	array.pop_back();
-}
 
 void ltn::VM::arrayLen(){
 	std::uint64_t ptr = this->env.acc.popU();
@@ -524,6 +521,52 @@ void ltn::VM::arrayErs(){
 	std::uint64_t ptr = this->env.acc.popU();
 	std::vector<std::uint64_t> & array = this->env.heap.accessArray(ptr);
 	array.erase(array.begin() + idx);
+}
+
+void ltn::VM::arrayPushF(){
+	std::uint64_t value = this->env.acc.popU();
+	std::uint64_t ptr = this->env.acc.popU();
+	auto & array = this->env.heap.accessArray(ptr);
+	array.insert(array.begin(), value);
+}
+
+void ltn::VM::arrayPushB(){
+	std::uint64_t value = this->env.acc.popU();
+	std::uint64_t ptr = this->env.acc.popU();
+	auto & array = this->env.heap.accessArray(ptr);
+	array.push_back(value);
+}
+
+void ltn::VM::arrayPopF(){
+	std::uint64_t ptr = this->env.acc.popU();
+	auto & array = this->env.heap.accessArray(ptr);
+	if(array.empty()) {
+		throw std::runtime_error("Access Violation at id: " + std::to_string(ptr) + " attempt to pop from empty buffer");
+	}
+	this->env.acc.push(array.front());
+	array.erase(array.begin());
+}
+
+void ltn::VM::arrayPopB(){
+	std::uint64_t ptr = this->env.acc.popU();
+	auto & array = this->env.heap.accessArray(ptr);
+	if(array.empty()) {
+		throw std::runtime_error("Access Violation at id: " + std::to_string(ptr) + " attempt to pop from empty buffer");
+	}
+	this->env.acc.push(array.back());
+	array.pop_back();
+}
+
+void ltn::VM::arrayGetF(){
+	std::uint64_t ptr = this->env.acc.popU();
+	auto & array = this->env.heap.accessArray(ptr);
+	this->env.acc.push(array.front());
+}
+
+void ltn::VM::arrayGetB(){
+	std::uint64_t ptr = this->env.acc.popU();
+	auto & array = this->env.heap.accessArray(ptr);
+	this->env.acc.push(array.back());
 }
 
 void ltn::VM::stringNew() {

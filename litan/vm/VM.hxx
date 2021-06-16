@@ -82,18 +82,24 @@ namespace ltn {
 		// heap
 		void heapDel();
 		void heapExist();
+		void heapCopy();
 		
 		// array 
 		void arrayNew(); // new array
 		void arrayClr(); // clear array
 		void arrayGet(); // get element
 		void arraySet(); // set element
-		void arrayAdd(); // push element
-		void arrayPop(); // pop element
 		void arrayLen(); // array.size()
 		void arrayFll(); // array fill
 		void arrayRsz(); // array resize
 		void arrayErs(); // erase element
+
+		void arrayPushF(); // push element
+		void arrayPushB(); // push element
+		void arrayPopF(); // pop element
+		void arrayPopB(); // pop element
+		void arrayGetF(); // pop element
+		void arrayGetB(); // pop element
 
 		// string
 		void stringNew();

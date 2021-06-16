@@ -10,7 +10,8 @@ std::shared_ptr<ltnc::Expr> ltnc::ParserUnary::eval(ParserPackage & parsePkg) co
 	if(parsePkg.match({
 		TokenType::MINUS,
 		TokenType::LOG_NOT,
-		TokenType::BIT_NOT})) {
+		TokenType::BIT_NOT,
+		TokenType::COPY})) {
 		Token op = parsePkg.prev();
 		std::shared_ptr<ltnc::Expr> r = this->eval(parsePkg);
 		return std::make_shared<ExprUnary>(op.type, r);

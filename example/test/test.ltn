@@ -14,19 +14,10 @@ fnx fx(int a, int b) Foo {
 
 fnx main() voi {
 	var Foo foo = ->fx(42, 1337);
-	->print(foo.test);
-	->print(foo.bar.x);
-	asm {
-		"load 0"
-		"heap::exist"
-		"print"
-	}
-	del foo.bar;
-	del foo;
-	asm {
-		"load 0"
-		"heap::exist"
-		"print"
-	}
+	var Foo foo2 = copy foo;
+	foo.test = 7331;
+	->print(foo2.bar.x);
+	->print(foo2.test);
+
 	return;
 }

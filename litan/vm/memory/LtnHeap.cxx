@@ -12,43 +12,38 @@ void ltn::Heap::clear() {
 }
 
 std::uint64_t ltn::Heap::allocateArray()  {
-	std::uint64_t addr;
-
-	// determine id
-	// new id
-	if(this->resuseableIDs.empty()){
-		addr = this->nextID;
-		this->nextID++;
-	}
-	// reuse id
-	else{
-		addr = this->resuseableIDs.front();
-		this->resuseableIDs.pop();
-	}
-
-	this->objects.insert({addr, HeapObject(HeapObject::Type::ARRAY)});
-	// push pointer
-	return addr;
+	std::uint64_t newPtr = this->createPtr();
+	this->objects.insert({newPtr, HeapObject(HeapObject::Type::ARRAY)});
+	return newPtr;
 }
 
 std::uint64_t ltn::Heap::allocateString()  {
-	std::uint64_t addr;
+	std::uint64_t newPtr = this->createPtr();
+	this->objects.insert({newPtr, HeapObject(HeapObject::Type::STRING)});
+	return newPtr;
+}
+
+std::uint64_t ltn::Heap::copy(std::uint64_t ptr) {
+	std::uint64_t newPtr = this->createPtr();
+	this->objects.insert({newPtr, this->objects.at(ptr)});
+	return newPtr;
+}
+
+std::uint64_t ltn::Heap::createPtr() {
+	std::uint64_t ptr;
 
 	// determine id
 	// new id
 	if(this->resuseableIDs.empty()){
-		addr = this->nextID;
+		ptr = this->nextID;
 		this->nextID++;
 	}
 	// reuse id
 	else{
-		addr = this->resuseableIDs.front();
+		ptr = this->resuseableIDs.front();
 		this->resuseableIDs.pop();
 	}
-
-	this->objects.insert({addr, HeapObject(HeapObject::Type::STRING)});
-	// push pointer
-	return addr;
+	return ptr;
 }
 
 void ltn::Heap::destroy(std::uint64_t ptr) {

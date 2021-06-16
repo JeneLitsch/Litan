@@ -137,17 +137,16 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::shared_ptr<ExprUnary> expr) const {
 	CodeBuffer code = compPkg.codeBuffer();
+	ExprInfo exprInfo = this->compile(compPkg, expr->r);
+	code << exprInfo.code;
 	switch (expr->type)	{
 	
 	case TokenType::MINUS: {
-		ExprInfo exprInfo = this->compile(compPkg, expr->r);
 		if(exprInfo.typeId == TypeId("int")){
-			code << exprInfo.code;
 			code << AssemblyCode("mnsi");
 			return ExprInfo(exprInfo.typeId, code);
 		}
 		if(exprInfo.typeId == TypeId("flt")) {
-			code << exprInfo.code;
 			code << AssemblyCode("mnsf");
 			return ExprInfo(exprInfo.typeId, code);
 		}
@@ -158,7 +157,6 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::sha
 	case TokenType::LOG_NOT: {
 		ExprInfo exprInfo = this->compile(compPkg, expr->r);
 		if(exprInfo.typeId == TypeId("int")){
-			code << exprInfo.code;
 			code << AssemblyCode("lognot");
 			return ExprInfo(exprInfo.typeId, code);
 		}
@@ -169,11 +167,22 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::sha
 	case TokenType::BIT_NOT: {
 		ExprInfo exprInfo = this->compile(compPkg, expr->r);
 		if(exprInfo.typeId == TypeId("int")){
-			code << exprInfo.code;
 			code << AssemblyCode("bitnot");
 			return ExprInfo(exprInfo.typeId, code);
 		}
 		throw std::runtime_error("Invalid unary expression type for \"!\"");
+	}
+
+	case TokenType::COPY: {
+		ExprInfo exprInfo = this->compile(compPkg, expr->r);
+		if(exprInfo.typeId == TypeId("int")){
+			throw std::runtime_error("Cannot copy int");
+		}
+		if(exprInfo.typeId == TypeId("flt")) {
+			throw std::runtime_error("Cannot copy flt");
+		}
+		code << AssemblyCode("heap::copy");
+		return ExprInfo(exprInfo.typeId, code);
 	}
 
 

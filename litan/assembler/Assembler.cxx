@@ -120,10 +120,9 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		
 		if(pkg.inst == "heap::del") return this->cFormat(InstCode::HEAP_DEL);  
 		if(pkg.inst == "heap::exist") return this->cFormat(InstCode::HEAP_EXIST);
+		if(pkg.inst == "heap::copy") return this->cFormat(InstCode::HEAP_COPY);
 
 		if(pkg.inst == "array::new") return this->cFormat(InstCode::ARRAY_NEW);  
-		if(pkg.inst == "array::add") return this->cFormat(InstCode::ARRAY_ADD);  
-		if(pkg.inst == "array::pop") return this->cFormat(InstCode::ARRAY_POP);  
 		if(pkg.inst == "array::set") return this->cFormat(InstCode::ARRAY_SET);  
 		if(pkg.inst == "array::get") return this->cFormat(InstCode::ARRAY_GET);  
 		if(pkg.inst == "array::clr") return this->cFormat(InstCode::ARRAY_CLR);  
@@ -132,6 +131,13 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "array::rsz") return this->cFormat(InstCode::ARRAY_RSZ);  
 		if(pkg.inst == "array::ers") return this->cFormat(InstCode::ARRAY_ERS);  
 
+		if(pkg.inst == "array::pushf") return this->cFormat(InstCode::ARRAY_PUSHF);  
+		if(pkg.inst == "array::pushb") return this->cFormat(InstCode::ARRAY_PUSHB);  
+		if(pkg.inst == "array::popf") return this->cFormat(InstCode::ARRAY_POPF);  
+		if(pkg.inst == "array::popb") return this->cFormat(InstCode::ARRAY_POPB);
+		if(pkg.inst == "array::getf") return this->cFormat(InstCode::ARRAY_GETF);
+		if(pkg.inst == "array::getb") return this->cFormat(InstCode::ARRAY_GETB);
+#
 		if(pkg.inst == "string::new") return this->cFormat(InstCode::STRING_NEW);  
 		if(pkg.inst == "string::add") return this->cFormat(InstCode::STRING_ADD);  
 		if(pkg.inst == "string::print") return this->cFormat(InstCode::STRING_PRINT);  
