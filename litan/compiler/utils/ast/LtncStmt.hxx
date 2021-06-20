@@ -33,7 +33,7 @@ namespace ltnc {
 			: var(var), expr(expr) {}
 		virtual ~StmtAssign() = default;
 		std::shared_ptr<ExprVar> var;
-		std::shared_ptr<Expr> expr; 
+		std::shared_ptr<Expr> expr;
 	};
 
 	struct StmtPrint : public Stmt {

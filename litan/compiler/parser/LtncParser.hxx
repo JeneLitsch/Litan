@@ -42,7 +42,7 @@ namespace ltnc {
 		ParserDeclType declType;
 		ParserDeclStruct declStruct;
 		ParserFunction function;
-
+		
 		ParserParameter param;
 
 		ParserExpr expr;

@@ -173,6 +173,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::sha
 		throw std::runtime_error("Invalid unary expression type for \"!\"");
 	}
 
+
 	case TokenType::COPY: {
 		ExprInfo exprInfo = this->compile(compPkg, expr->r);
 		if(exprInfo.typeId == TypeId("int")){
@@ -196,7 +197,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileIntLit(CompilerPack & compPkg, std::sh
 	std::int64_t value = expr->number;
 	CodeBuffer code = compPkg.codeBuffer();
 	code << Inst::newi(value);
-	return ExprInfo(TypeId("int"), code, Constant(value));
+	return ExprInfo(TypeId("int"), code, ConstValue(value));
 }
 
 
@@ -204,7 +205,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileFltLit(CompilerPack & compPkg, std::sh
 	double value = expr->number;
 	CodeBuffer code = compPkg.codeBuffer();
 	code << Inst::newf(value);
-	return ExprInfo(TypeId("flt"), code, Constant(value));
+	return ExprInfo(TypeId("flt"), code, ConstValue(value));
 }
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::shared_ptr<ExprStrLiteral> expr) const {
@@ -254,7 +255,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileCall(CompilerPack & compPkg, std::shar
 	// parameter list
 	for(const auto & expr : expr->paramExprs) {
 		ExprInfo exprInfo = this->compileExpr(compPkg, expr);
-		params.push_back(Param(exprInfo.typeId, ""));
+		params.push_back(Param(exprInfo.typeId, VarId("")));
 		code << exprInfo.code;
 	}
 	auto fxInfo = compPkg.getSymbolTable().match(FunctionSignature(TypeId("voi"), expr->name, params));

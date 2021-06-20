@@ -4,13 +4,8 @@
 #include "LtncType.hxx"
 #include "LtncTypeId.hxx"
 #include "LtncCodeBuffer.hxx"
+#include "LtncConstValue.hxx"
 namespace ltnc {
-	struct Constant {
-		Constant(std::int64_t value) : value(value) {}
-		Constant(double value) : value(value) {}		
-		const std::variant<std::int64_t, double> value;
-	};
-
 	struct ExprInfo {
 
 		ExprInfo(
@@ -19,16 +14,16 @@ namespace ltnc {
 			code(code),
 			assignable(false)  {}
 		
-		ExprInfo(const TypeId & typeId, CodeBuffer code, const Constant & constant)
+		ExprInfo(const TypeId & typeId, CodeBuffer code, const ConstValue & constValue)
 		: 	typeId(typeId),
 			code(code),
-			constant(constant),
+			constValue(constValue),
 			assignable(false)  {}
 
-		ExprInfo(const TypeId & typeId, CodeBuffer code, const Constant & constant, bool assignable)
+		ExprInfo(const TypeId & typeId, CodeBuffer code, const ConstValue & constValue, bool assignable)
 		: 	typeId(typeId),
 			code(code),
-			constant(constant),
+			constValue(constValue),
 			assignable(assignable)  {}
 
 		ExprInfo(const TypeId & typeId, CodeBuffer code, bool assignable)
@@ -39,12 +34,12 @@ namespace ltnc {
 		ExprInfo(const ExprInfo & info) 
 		: 	typeId(info.typeId),
 			code(info.code),
-			constant(info.constant),
+			constValue(info.constValue),
 			assignable(false) {}
 		
 		const TypeId typeId;
 		const CodeBuffer code;
-		const std::optional<Constant> constant; 
+		const std::optional<ConstValue> constValue; 
 		const bool assignable;
 	};
 }

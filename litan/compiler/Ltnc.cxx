@@ -4,7 +4,6 @@
 #include "LtncParser.hxx"
 #include "LtncCompiler.hxx"
 #include "LtnFileIO.hxx"
-
 std::string ltnc::LTNC::compile(
 	const std::string & source,
 	const CompilerSettings & settings,

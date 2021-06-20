@@ -13,11 +13,7 @@ fnx fx(int a, int b) Foo {
 }
 
 fnx main() voi {
-	var Foo foo = ->fx(42, 1337);
-	var Foo foo2 = copy foo;
-	foo.test = 7331;
-	->print(foo2.bar.x);
-	->print(foo2.test);
-
+	var int a = 42;
+	->print(a);
 	return;
 }

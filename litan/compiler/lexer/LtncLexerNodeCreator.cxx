@@ -105,7 +105,8 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	keywords.insert({"typedef", TokenType::TYPEDEF});
 	keywords.insert({"var", TokenType::VAR});
 	keywords.insert({"inl", TokenType::INLINE});
-	keywords.insert({"con", TokenType::CON});
+	keywords.insert({"const", TokenType::CONST});
+	keywords.insert({"uniform", TokenType::UNIFORM});
 	keywords.insert({"new", TokenType::NEW});
 	keywords.insert({"copy", TokenType::COPY});
 	keywords.insert({"del", TokenType::DEL});

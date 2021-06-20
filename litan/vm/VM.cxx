@@ -452,7 +452,6 @@ void ltn::VM::heapCopy() {
 	std::uint64_t ptr = this->env.acc.popU();
 	std::uint64_t newptr = this->env.heap.copy(ptr);
 	this->env.acc.push(newptr);
-	std::cout << ptr << " -> " << newptr << std::endl; 
 }
 
 
@@ -520,7 +519,7 @@ void ltn::VM::arrayErs(){
 	std::uint64_t idx = this->env.acc.popU();
 	std::uint64_t ptr = this->env.acc.popU();
 	std::vector<std::uint64_t> & array = this->env.heap.accessArray(ptr);
-	array.erase(array.begin() + idx);
+	array.erase(array.begin() + long(idx));
 }
 
 void ltn::VM::arrayPushF(){

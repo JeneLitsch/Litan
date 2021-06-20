@@ -8,7 +8,7 @@ ltnc::ExprInfo ltnc::VariCompiler::compile(
 	const std::optional<ExprInfo> & expr) const {
 
 	CodeBuffer code = compPkg.codeBuffer();
-	Var var(TypeId(""), 0, "");
+	Var var(TypeId(""), 0, VarId(""));
 
 
 	// find next var
@@ -37,7 +37,7 @@ ltnc::ExprInfo ltnc::VariCompiler::compile(
 		}
 		// stack
 		else {
-			return scopeStack.match(path[0]); 
+			return scopeStack.match(VarId(path[0])); 
 		}
 	};
 

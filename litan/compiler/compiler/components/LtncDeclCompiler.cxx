@@ -28,7 +28,7 @@ ltnc::StmtInfo ltnc::DeclCompiler::compile(
 	code << AssemblyCode("stackalloc " + std::to_string(body.stackalloc + params.size()));
 	for(auto param = params.rbegin(); param != params.rend(); ++param) {
 		// store parameter;
-		std::uint64_t varAddr = compPkg.getSymbolTable().match((*param).name).addr;
+		std::uint64_t varAddr = compPkg.getSymbolTable().match(VarId((*param).name)).addr;
 		code << Inst::store(static_cast<std::uint32_t>(varAddr));
 	}
 	code << body.code;

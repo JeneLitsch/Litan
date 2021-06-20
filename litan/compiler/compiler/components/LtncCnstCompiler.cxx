@@ -37,8 +37,8 @@ ltnc::ExprInfo ltnc::CnstCompiler::parameterConstructor(
 	const std::shared_ptr<ExprNew> & exprNew) const {
 	const Type & type = compPkg.getSymbolTable().match(exprNew->typeId);
 
-	unsigned provided = exprNew->paramExprs.size();
-	unsigned expected = type.members.size();
+	std::size_t provided = exprNew->paramExprs.size();
+	std::size_t expected = type.members.size();
 
 	if(provided != expected) {
 		throw std::runtime_error(
@@ -46,12 +46,12 @@ ltnc::ExprInfo ltnc::CnstCompiler::parameterConstructor(
 			std::to_string(provided) + " provided");
 	}
 
-	unsigned exprCount = provided;
+	std::size_t exprCount = provided;
 
 	CodeBuffer code = compPkg.codeBuffer();
 	code << Comment(exprNew->typeId.name);
 	code << AssemblyCode("array::new");
-	for(unsigned i = 0; i < exprCount; i++) {
+	for(std::size_t i = 0; i < exprCount; i++) {
 		const auto & member = type.members[i];
 		const auto & param = exprNew->paramExprs[i];
 		ExprInfo expr = this->exprCompiler.compile(compPkg, param);

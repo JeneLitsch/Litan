@@ -22,7 +22,6 @@ namespace ltnc {
 		ExprInfo parameterConstructor(
 			CompilerPack & compPkg,
 			const std::shared_ptr<ExprNew> & exprNew) const;
-		
 		const ExprCompiler & exprCompiler;		
 	};
 }

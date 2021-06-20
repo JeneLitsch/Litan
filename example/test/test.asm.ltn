@@ -27,27 +27,10 @@ return
 
 // main ( -> voi ) [ ]
 -> FNX_main1
-stackalloc 2
+stackalloc 1
 newi 42
-newi 1337
-call FNX_fx0
 store 0
 load 0
-heap::copy
-store 1
-load 0
-newl 1
-newi 7331
-array::set
-load 1
-newl 0
-array::get
-newl 0
-array::get
-call FNX_print12
-load 1
-newl 1
-array::get
 call FNX_print12
 return
 

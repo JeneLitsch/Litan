@@ -13,11 +13,11 @@ namespace ltnc {
 
 		TypeId insert(const Type & type);
 		FunctionSignature insert(const FunctionSignature & signature);
-		std::string insert(const std::string & name, const TypeId & typeId);
+		VarId insert(const VarId & varId, const TypeId & typeId);
 
 		const Type & match(const TypeId & typeId) const;
 		const Function & match(const FunctionSignature & signature) const;
-		const Var & match(const std::string & name) const;
+		const Var & match(const VarId & id) const;
 
 		void addBlockScope();
 		void addFunctionScope(const FunctionSignature & signature);
@@ -26,6 +26,7 @@ namespace ltnc {
 		const FunctionSignature & currentFxSignature() const;
 		
 	private:
+		void add(const auto & entry);
 		Scope global;
 		std::stack<Scope> scope;
 		std::uint64_t jumpmarkCounter;

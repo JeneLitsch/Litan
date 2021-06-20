@@ -33,10 +33,10 @@ std::shared_ptr<ltnc::Program> ltnc::Parser::parse(const std::vector<Token> & to
 		if(auto function = this->function.eval(parsePkg)){
 			program->functions.push_back(function);
 		}
-		else if (auto typeDecl = declType.eval(parsePkg)) {
+		else if (auto typeDecl = this->declType.eval(parsePkg)) {
 			program->types.push_back(*typeDecl);
 		}
-		else if (auto structDecl = declStruct.eval(parsePkg)) {
+		else if (auto structDecl = this->declStruct.eval(parsePkg)) {
 			program->structs.push_back(*structDecl);
 		}
 		else {

@@ -6,7 +6,8 @@ void ltnc::ParserDeclVar::connect(const ParserNode<Expr> & expr) {
 
 
 std::shared_ptr<ltnc::DeclVar> ltnc::ParserDeclVar::eval(ParserPackage & parsePkg) const {
-	if(parsePkg.match(TokenType::VAR)) {
+	if(parsePkg.match({TokenType::VAR, TokenType::CONST})) {
+		bool constant = parsePkg.prev().type == TokenType::CONST;
 		if(parsePkg.match(TokenType::IDENTIFIER)) {
 			std::string typeName = parsePkg.prev().string;
 			if(parsePkg.match(TokenType::IDENTIFIER)) {
@@ -19,6 +20,9 @@ std::shared_ptr<ltnc::DeclVar> ltnc::ParserDeclVar::eval(ParserPackage & parsePk
 					assign = std::make_shared<StmtAssign>(
 						access,
 						expr);
+				}
+				if(constant && !assign) {
+					return parsePkg.error("Unassigned const value");
 				}
 				if (parsePkg.match(TokenType::SEMICOLON)) {
 					return std::make_shared<DeclVar>(name, TypeId(typeName), assign);

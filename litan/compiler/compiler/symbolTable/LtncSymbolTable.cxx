@@ -50,17 +50,24 @@ ltnc::FunctionSignature ltnc::SymbolTable::insert(const FunctionSignature & sign
 
 
 
-std::string ltnc::SymbolTable::insert(const std::string & name, const TypeId & typeId) {
-	VarSearch search(name);
+ltnc::VarId ltnc::SymbolTable::insert(const VarId & varId, const TypeId & typeId) {
+	VarSearch search(varId.name);
 	if(this->scope.top().find<Var>(search, false)) {
-		throw std::runtime_error("Var is already defined: " + name);
+		throw std::runtime_error("Var is already defined: " + varId.name);
 	}
-	Var var = Var(typeId, this->scope.top().countVars(), name);
-	this->scope.top().add(var);
-	return name;
+	Var var = Var(typeId, this->scope.top().countVars(), varId.name);
+	this->add(var);
+	return varId;
 }
 
-
+void ltnc::SymbolTable::add(const auto & entry) {
+	if(this->scope.empty()) {
+		this->global.add(entry);
+	}
+	else {
+		this->scope.top().add(entry);
+	}
+}
 
 const ltnc::Type & ltnc::SymbolTable::match(const TypeId & typeId) const {
 	TypeSearch search(typeId);
@@ -82,15 +89,13 @@ const ltnc::Function & ltnc::SymbolTable::match(const FunctionSignature & signat
 
 
 
-const ltnc::Var & ltnc::SymbolTable::match(const std::string & name) const {
-	VarSearch search(name);
+const ltnc::Var & ltnc::SymbolTable::match(const VarId & id) const {
+	VarSearch search(id.name);
 	if(auto var = this->scope.top().find<Var>(search, true)) {
 		return *var;
 	}
-	throw std::runtime_error("No matching var for: " + name);
+	throw std::runtime_error("No matching var for: " + id.name);
 }
-
-
 
 const ltnc::FunctionSignature & ltnc::SymbolTable::currentFxSignature() const {
 	return this->scope.top().getFxSignature();

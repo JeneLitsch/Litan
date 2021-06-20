@@ -46,7 +46,6 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileAssign(CompilerPack & compPkg, std::sh
 	if(expr.typeId != TypeId(access.typeId.name)) {
 		throw std::runtime_error("Types do not match: " + expr.code.str());
 	}
-	
 	CodeBuffer code = compPkg.codeBuffer();
 	code << access.code;
 	return StmtInfo(code, 0);
@@ -70,8 +69,8 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::sh
 	compPkg.getSymbolTable().remove();
 
 	// unroll repeat
-	if(expr.constant) {
-		std::int64_t amount = std::get<std::int64_t>(expr.constant->value);
+	if(expr.constValue) {
+		std::int64_t amount = std::get<std::int64_t>(expr.constValue->value);
 		if(amount <= 0) {
 			std::cout << ">> [Warning] repeat loop: needs to be bigger than 0" << std::endl;
 		}
@@ -117,7 +116,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::share
 	compPkg.getSymbolTable().addBlockScope();
 	// iteration variable
 	compPkg.getSymbolTable().insert(stmt->name, TypeId("int"));
-	Var counter = compPkg.getSymbolTable().match(stmt->name);
+	Var counter = compPkg.getSymbolTable().match(VarId(stmt->name));
 	// create code inside loop
 	StmtInfo body = this->compileBlock(compPkg, stmt->stmt);
 	compPkg.getSymbolTable().remove();
@@ -159,7 +158,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileBlock(CompilerPack & compPkg, std::sha
 	for(const auto & decl : block->declarations) {
 		compPkg.getSymbolTable().match(decl->typeId);
 		compPkg.getSymbolTable().insert(decl->name, decl->typeId);
-		Var counter = compPkg.getSymbolTable().match(decl->name);
+		Var counter = compPkg.getSymbolTable().match(VarId(decl->name));
 	}
 	unsigned stackalloc = 0;
 	for(const auto & stmt : block->statements) {

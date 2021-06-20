@@ -5,9 +5,6 @@ namespace ltnc {
 		TypeId(const std::string & name)
 			: name(name) {}
 
-		TypeId(const TypeId & typeId)
-			: name(typeId.name) {}
-	
 		std::string name;
 	};
 

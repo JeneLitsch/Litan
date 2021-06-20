@@ -12,7 +12,6 @@ std::shared_ptr<ltnc::ExprCall> ltnc::ParserCall::eval(ParserPackage & parsePkg)
 		std::string name = parsePkg.prev().string;
 		auto parameters = this->exprParam->eval(parsePkg);
 		return std::make_shared<ExprCall>(name, *parameters);
-		return parsePkg.error("expected (");
 	} 
 	return parsePkg.error("expected identifier");
 }
