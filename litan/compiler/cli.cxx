@@ -147,7 +147,8 @@ int main(int argc, char const *argv[]) {
 			source,
 			ltnc::CompilerSettings(
 				args.getComments(),
-				args.getOptimizationLevel()),
+				args.getOptimizationLevel(),
+				"stdlib"),
 			args.getSilent());
 		ltn::writeFile(args.getDstFile(), asmb);
 		return 0;
