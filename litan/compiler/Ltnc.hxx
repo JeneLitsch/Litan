@@ -2,7 +2,7 @@
 #include <string>
 #include "LtncCompilerSettings.hxx"
 namespace ltnc {
-	class LTNC {
+	class Ltnc {
 	public:
 		std::string compile(
 			const std::string & source,

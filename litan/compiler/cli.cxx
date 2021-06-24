@@ -142,7 +142,7 @@ int main(int argc, char const *argv[]) {
 		source += ltn::readFile(srcFile);
 	}
 	try {
-		ltnc::LTNC ltnc;
+		ltnc::Ltnc ltnc;
 		std::string asmb = ltnc.compile(
 			source,
 			ltnc::CompilerSettings(
