@@ -14,6 +14,8 @@ fnx fx(int a, int b) Foo {
 
 fnx main() voi {
 	var int a = 42;
+	var str string1 = "Hello World";
+	->print(string1);
 	->print(a);
 	return;
 }

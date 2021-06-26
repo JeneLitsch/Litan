@@ -27,9 +27,16 @@ return
 
 // main ( -> voi ) [ ]
 -> FNX_main1
-stackalloc 1
+stackalloc 2
 newi 42
 store 0
+// Hello World
+string::new
+string::data 'Hello '
+string::data 'World'
+store 1
+load 1
+call FNX_print14
 load 0
 call FNX_print12
 return

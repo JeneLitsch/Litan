@@ -218,7 +218,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::sh
 	code << Comment(expr->string);
 	code << AssemblyCode("string::new");
 	for(const std::string & str : stringParts) {
-		code << AssemblyCode("string::data '" + str);
+		code << AssemblyCode("string::data '" + str + "'");
 	}
 	return ExprInfo(TypeId("str"), code);
 }
