@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include "LtncVariCompiler.hxx"
+#include "LtncBaseTypes.hxx"
 
 ltnc::StmtInfo ltnc::StmtCompiler::compile(CompilerPack & compPkg, const std::shared_ptr<Stmt> & stmt) const {
 	return this->compileStmt(compPkg, stmt);
@@ -58,7 +59,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileRepeat(CompilerPack & compPkg, std::sh
 	ExprInfo expr = this->exprCompiler.compileExpr(compPkg, stmt->expr); 
 
 
-	if(expr.typeId != TypeId("int")){
+	if(expr.typeId != TypeId(TInt)){
 		throw std::runtime_error("Upper bound of for loop needs to be a integer expression.");
 	}
 	
@@ -105,11 +106,11 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileFor(CompilerPack & compPkg, std::share
 	ExprInfo from = this->exprCompiler.compileExpr(compPkg, stmt->exprFrom); 
 	ExprInfo to = this->exprCompiler.compileExpr(compPkg, stmt->exprTo);
 
-	if(from.typeId != TypeId("int")){
+	if(from.typeId != TypeId(TInt)){
 		throw std::runtime_error("Lower bound of for loop needs to be a integer expression.");
 	}
 
-	if(to.typeId != TypeId("int")){
+	if(to.typeId != TypeId(TInt)){
 		throw std::runtime_error("Upper bound of for loop needs to be a integer expression.");
 	}
 
@@ -228,7 +229,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileEval(CompilerPack & compPkg, std::shar
 	ExprInfo exprInfo = this->exprCompiler.compileExpr(compPkg, stmt->expr);
 	CodeBuffer code = compPkg.codeBuffer();
 	code << exprInfo.code;
-	if(exprInfo.typeId != TypeId("voi")) {
+	if(exprInfo.typeId != TypeId(TVoid)) {
 		code << AssemblyCode("scrap");
 	}
 	return StmtInfo(code, 0);
@@ -245,7 +246,7 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileReturn(CompilerPack & compPkg, std::sh
 		code << exprInfo.code; 
 	}
 	else {
-		if(TypeId("voi") != signature.returnType) {
+		if(TypeId(TVoid) != signature.returnType) {
 			throw std::runtime_error("Type of return statement do not match return type of function");
 		}
 	}

@@ -5,7 +5,7 @@ namespace ltnc {
 	// Parses multiplication and division
 	class ParserProduct : public ParserNode<Expr> {
 	public:
-		void connect(const ParserNode<Expr> & unary);
+		ParserProduct(const ParserNode<Expr> & unary);
 		virtual std::shared_ptr<Expr> eval(ParserPackage & parsePkg) const override;
 	private:
 		const ParserNode<Expr> * unary; 

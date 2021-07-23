@@ -1,7 +1,7 @@
 #include "LtncParserAssign.hxx"
 #include <iostream>
 
-void ltnc::ParserAssign::connect(
+ltnc::ParserAssign::ParserAssign(
 	const ParserNode<Expr> & expr,
 	const ParserNode<ExprVar> & var) {
 	

@@ -1,14 +1,14 @@
 #include "LtncParserFunction.hxx"
+#include "LtncBaseTypes.hxx"
 
-
-void ltnc::ParserFunction::connect(const ParserNode<StmtBlock> & block) {
+ltnc::ParserFunction::ParserFunction(const ParserNode<StmtBlock> & block) {
 	this->block = &block;
 }
 
 
 
 std::shared_ptr<ltnc::DeclFunction> ltnc::ParserFunction::eval(ParserPackage & parsePkg) const {
-	if(parsePkg.match(TokenType::FNX)){
+	if(parsePkg.match(TokenType::FX)){
 		auto name 		= this->name(parsePkg);
 		auto parameters = this->parameterList(parsePkg);
 		auto returnType = this->returnType(parsePkg);
@@ -41,7 +41,7 @@ std::vector<ltnc::Param> ltnc::ParserFunction::parameterList(ParserPackage & par
 		while(parsePkg.match(TokenType::IDENTIFIER)) {
 			Type type = Type(parsePkg.prev().string);
 			// not allowed
-			if(type == TypeId("voi")) {
+			if(type == TypeId(TVoid)) {
 				parsePkg.error("Void is not an allowed paramter type");
 			}
 			// allowed
@@ -68,11 +68,13 @@ std::vector<ltnc::Param> ltnc::ParserFunction::parameterList(ParserPackage & par
 
 
 ltnc::TypeId ltnc::ParserFunction::returnType(ParserPackage & parsePkg) const {
-	if(parsePkg.match(TokenType::IDENTIFIER)) {
-		return TypeId(parsePkg.prev().string);
+	if(parsePkg.match(TokenType::ARROW)) {
+		if(parsePkg.match(TokenType::IDENTIFIER)) {
+			return TypeId(parsePkg.prev().string);
+		}
+		parsePkg.error("Missing return type");
 	}
-	parsePkg.error("Missing return type");
-	return TypeId("ERROR");
+	return TypeId(TVoid);
 }
 
 

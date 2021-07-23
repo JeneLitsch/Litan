@@ -7,7 +7,7 @@ namespace ltnc {
 	// literals, call and identifier
 	class ParserPrimary : public ParserNode<Expr> {
 	public:
-		void connect(
+		ParserPrimary(
 			const ParserNode<ExprCall> & call,
 			const ParserNode<ExprVar> & var,
 			const ParserNode<Expr> & expr);

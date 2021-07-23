@@ -5,9 +5,9 @@
 namespace ltnc {
 	class ParserDeclStruct : public ParserNode<DeclStruct> {
 	public:
-		void connect(const ParserNode<DeclVar> & declVar);
+		ParserDeclStruct(const ParserNode<DeclVar> & declVar);
 		virtual std::shared_ptr<DeclStruct> eval(ParserPackage & parsePkg) const override;
 	private:
-		const ParserNode<DeclVar> * declVar;
+		const ParserNode<DeclVar> & declVar;
 	};
 }

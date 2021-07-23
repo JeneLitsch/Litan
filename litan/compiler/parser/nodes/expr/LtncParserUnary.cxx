@@ -1,6 +1,7 @@
 #include "LtncParserUnary.hxx"
 #include <iostream>
-void ltnc::ParserUnary::connect(
+
+ltnc::ParserUnary::ParserUnary(
 	const ParserNode<Expr> & primary) {
 	
 	this->primary = &primary;

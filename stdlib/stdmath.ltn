@@ -1,13 +1,13 @@
 // min 2 ==============================
 
-fnx min(int a, int b) int inl {
+function min(Int a, Int b) -> Int {
 	if (a < b) {
 		return a;
 	}
 	return b;
 }
 
-fnx min(flt a, flt b) flt inl {
+function min(Float a, Float b) -> Float {
 	if (a < b) {
 		return a;
 	}
@@ -19,14 +19,14 @@ fnx min(flt a, flt b) flt inl {
 
 // max 2 ==============================
 
-fnx max(int a, int b) int inl {
+function max(Int a, Int b) -> Int {
 	if (a > b) {
 		return a;
 	}
 	return b;
 }
 
-fnx max(flt a, flt b) flt inl {
+function max(Float a, Float b) -> Float {
 	if (a > b) {
 		return a;
 	}

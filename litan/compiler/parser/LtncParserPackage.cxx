@@ -1,5 +1,6 @@
 #include "LtncParserPackage.hxx"
 #include <stdexcept>
+#include <iostream>
 
 ltnc::ParserPackage::ParserPackage(const std::vector<Token> & tokens) {
 	this->current = 0;
@@ -14,6 +15,11 @@ bool ltnc::ParserPackage::match(TokenType type){
 		return true;
 	}
 	return false;
+}
+
+void ltnc::ParserPackage::back() {
+	std::cout << this->current << std::endl;
+	this->current--;
 }
 
 bool ltnc::ParserPackage::match(const std::vector<TokenType> types) {

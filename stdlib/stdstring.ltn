@@ -1,6 +1,6 @@
-typedef str;
+typedef String;
 
-fnx delete(str string) voi {
+function destroy(String string) -> Void {
 	asm {
 		"load 0"
 		"heap::del"
@@ -9,7 +9,7 @@ fnx delete(str string) voi {
 }
 
 // create new string with merged content of str1 and str2
-fnx add(str string1, str string2) str {
+function add(String string1, String string2) -> String {
 	asm {
 		"load 0"
 		"load 1"

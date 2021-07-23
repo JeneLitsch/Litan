@@ -5,7 +5,7 @@ namespace ltnc {
 	// Parses a variaty of statements
 	class ParserStmt : public ParserNode<Stmt> {
 	public:
-		void connect(
+		ParserStmt(
 			const ParserNode<StmtBlock> & block,
 			const ParserNode<Stmt> & ifelse,
 			const ParserNode<Stmt> & assign,
@@ -21,11 +21,11 @@ namespace ltnc {
 		std::shared_ptr<StmtWhile> whileLoop(ParserPackage & parsePkg) const;
 		std::shared_ptr<StmtAsm> asmBlock(ParserPackage & parsePkg) const;
 		
-		const ParserNode<StmtBlock> * block; 
-		const ParserNode<Stmt> * ifelse; 
+		const ParserNode<StmtBlock> & block; 
+		const ParserNode<Stmt> & ifelse; 
 
-		const ParserNode<Stmt> * assign; 
-		const ParserNode<Expr> * expr; 
-		const ParserNode<ExprCall> * call; 
+		const ParserNode<Stmt> & assign; 
+		const ParserNode<Expr> & expr; 
+		const ParserNode<ExprCall> & call; 
 	};
 }

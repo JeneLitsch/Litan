@@ -4,7 +4,7 @@
 namespace ltnc {
 	class ParserDel : public ParserNode<ExprDel> {
 	public:
-		void connect(const ParserNode<ExprVar> & exprVar);
+		ParserDel(const ParserNode<ExprVar> & exprVar);
 		virtual std::shared_ptr<ExprDel> eval(ParserPackage & parsePkg) const override;
 
 	private:

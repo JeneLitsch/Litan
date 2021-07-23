@@ -4,17 +4,27 @@
 #include <vector>
 #include "LtncType.hxx"
 #include "LtncVar.hxx"
+#include "LtncBaseTypes.hxx"
+
 namespace ltnc {
 	class FunctionSignature {
 	public:
-		FunctionSignature(const TypeId & returnType, std::string name, const std::vector<Param> & params)
-			: returnType(returnType), name(name), params(params) {}
+		FunctionSignature(
+			const TypeId & returnType,
+			const std::string & name,
+			const std::vector<Param> & params,
+			bool ignoreRaw = false)
+		:	returnType(returnType),
+			name(name),
+			params(params),
+			ignoreRaw(ignoreRaw) {}
 		
 		TypeId returnType;
 		std::string name;
 		std::vector<Param> params;
+		bool ignoreRaw;
 	};
-
+	
 
 	inline bool operator==(const FunctionSignature & signatureL, const FunctionSignature & signatureR) {
 		if(signatureL.params.size() != signatureR.params.size()) return false;
@@ -22,6 +32,14 @@ namespace ltnc {
 		for(std::size_t idx = 0; idx < signatureL.params.size(); idx++){
 			const Param & paramL = signatureL.params[idx];
 			const Param & paramR = signatureR.params[idx];
+
+			// skip raw ?
+			if(signatureL.ignoreRaw || signatureR.ignoreRaw) {
+				if(paramL.typeId == TRaw || paramR.typeId == TRaw) {
+					continue;
+				}
+			}
+
 			if(paramL.typeId != paramR.typeId) {
 				return false;
 			}
@@ -29,35 +47,3 @@ namespace ltnc {
 		return signatureL.name == signatureR.name;
 	}
 };
-
-
-
-	// inline bool operator<(const FunctionSignature & signatureL, const FunctionSignature & signatureR) {
-	// 	if(signatureL.params.size() < signatureR.params.size()) {
-	// 		return true;
-	// 	}
-	// 	for(std::size_t idx = 0; idx < signatureR.params.size(); idx++){
-	// 		const Param & paramL = signatureL.params[idx];
-	// 		const Param & paramR = signatureR.params[idx];
-	// 		if(paramL.type < paramR.type) {
-	// 			return true;
-	// 		}
-	// 	}
-	// 	return signatureL.name < signatureR.name;
-	// }
-
-
-
-	// inline bool operator>(const FunctionSignature & signatureL, const FunctionSignature & signatureR) {
-	// 	if(signatureL.params.size() > signatureR.params.size()) {
-	// 		return true;
-	// 	}
-	// 	for(std::size_t idx = 0; idx < signatureL.params.size(); idx++){
-	// 		const Param & paramL = signatureL.params[idx];
-	// 		const Param & paramR = signatureR.params[idx];
-	// 		if(paramL.type > paramR.type) {
-	// 			return true;
-	// 		}
-	// 	}
-	// 	return signatureL.name > signatureR.name;
-	// }

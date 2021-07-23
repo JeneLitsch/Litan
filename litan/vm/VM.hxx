@@ -58,7 +58,7 @@ namespace ltn {
 		// math instructions
 		void addi(); void subi(); void mlti(); void divi(); void powi(); void modi();
 		void inci(); void deci();
-		void mnsi(); 
+		void mnsi();
 		
 		void addf(); void subf(); void mltf(); void divf(); void powf(); void modf();
 		void incf(); void decf();

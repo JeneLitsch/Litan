@@ -1,4 +1,4 @@
-fnx error() voi {
+function error() -> Void {
 	asm {
 		"error"
 	}

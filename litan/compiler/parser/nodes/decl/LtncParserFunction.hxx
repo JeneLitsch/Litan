@@ -5,7 +5,7 @@ namespace ltnc {
 	// Parses a function
 	class ParserFunction : public ParserNode<DeclFunction> {
 	public:
-		void connect(const ParserNode<StmtBlock> & block);
+		ParserFunction(const ParserNode<StmtBlock> & block);
 		
 		virtual std::shared_ptr<DeclFunction> eval(ParserPackage & parsePkg) const override;
 	private:

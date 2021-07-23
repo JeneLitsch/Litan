@@ -1,20 +1,31 @@
 struct Bar {
-	var int x;
+	var Int x;
 }
 
 struct Foo {
 	var Bar bar;
-	var int test;
+	var Int test;
 }
 
-fnx fx(int a, int b) Foo {
+function fx(Int a, Int b) -> Foo {
 	var Foo foo = new Foo(new Bar(a), b);
 	return foo;
 }
 
-fnx main() voi {
-	var int a = 42;
-	var str string1 = "Hello World";
+function main() -> Void {
+	var Array arr = ->Array();
+	->pushBack(arr, 1.1);
+	->pushBack(arr, 2.1);
+	->pushBack(arr, 3.1);
+
+	->print(->at(arr, 0));
+	->print(->at(arr, 1));
+	->print(->at(arr, 2));
+
+	->print(->Int(4.6));
+
+	var Int a = 42;
+	var String string1 = "Hello World";
 	->print(string1);
 	->print(a);
 	return;

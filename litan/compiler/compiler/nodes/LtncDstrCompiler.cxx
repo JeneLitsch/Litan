@@ -1,6 +1,7 @@
 #include "LtncDstrCompiler.hxx"
 #include "LtncExprCompiler.hxx"
 #include "LtncVariCompiler.hxx"
+#include "LtncBaseTypes.hxx"
 
 ltnc::DstrCompiler::DstrCompiler(
 	const VariCompiler & variCompiler)
@@ -25,7 +26,7 @@ ltnc::ExprInfo ltnc::DstrCompiler::compile(
 	code << exprInfo.code;
 	code << AssemblyCode("heap::del");
 	code << setNull.code;
-	return ExprInfo(TypeId("voi"), code);
+	return ExprInfo(TypeId(TVoid), code);
 }
 
 ltnc::ExprInfo ltnc::DstrCompiler::nullPtr(const Type & type) const {

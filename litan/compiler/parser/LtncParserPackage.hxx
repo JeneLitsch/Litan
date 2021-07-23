@@ -7,6 +7,7 @@ namespace ltnc {
 		ParserPackage(const std::vector<Token> & tokens);
 		bool match(TokenType type);
 		bool match(const std::vector<TokenType> types);
+		void back();
 		bool isAtEnd() const;
 		const Token & prev() const;
 		const Token & curr() const;

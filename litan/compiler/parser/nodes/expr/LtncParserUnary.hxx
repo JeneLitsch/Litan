@@ -7,7 +7,7 @@ namespace ltnc {
 	// literals, call and identifier
 	class ParserUnary : public ParserNode<Expr> {
 	public:
-		void connect(
+		ParserUnary(
 			const ParserNode<Expr> & primary);
 
 		virtual std::shared_ptr<Expr> eval(

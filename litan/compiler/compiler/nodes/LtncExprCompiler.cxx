@@ -13,6 +13,7 @@
 #include <iostream>
 #include <sstream>
 #include <functional>
+#include "LtncBaseTypes.hxx"
 
 
 ltnc::ExprCompiler::ExprCompiler(
@@ -142,11 +143,11 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::sha
 	switch (expr->type)	{
 	
 	case TokenType::MINUS: {
-		if(exprInfo.typeId == TypeId("int")){
+		if(exprInfo.typeId == TypeId(TInt)){
 			code << AssemblyCode("mnsi");
 			return ExprInfo(exprInfo.typeId, code);
 		}
-		if(exprInfo.typeId == TypeId("flt")) {
+		if(exprInfo.typeId == TypeId(TFloat)) {
 			code << AssemblyCode("mnsf");
 			return ExprInfo(exprInfo.typeId, code);
 		}
@@ -156,7 +157,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::sha
 
 	case TokenType::LOG_NOT: {
 		ExprInfo exprInfo = this->compile(compPkg, expr->r);
-		if(exprInfo.typeId == TypeId("int")){
+		if(exprInfo.typeId == TypeId(TInt)){
 			code << AssemblyCode("lognot");
 			return ExprInfo(exprInfo.typeId, code);
 		}
@@ -166,7 +167,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::sha
 
 	case TokenType::BIT_NOT: {
 		ExprInfo exprInfo = this->compile(compPkg, expr->r);
-		if(exprInfo.typeId == TypeId("int")){
+		if(exprInfo.typeId == TypeId(TInt)){
 			code << AssemblyCode("bitnot");
 			return ExprInfo(exprInfo.typeId, code);
 		}
@@ -176,10 +177,10 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::sha
 
 	case TokenType::COPY: {
 		ExprInfo exprInfo = this->compile(compPkg, expr->r);
-		if(exprInfo.typeId == TypeId("int")){
+		if(exprInfo.typeId == TypeId(TInt)){
 			throw std::runtime_error("Cannot copy int");
 		}
-		if(exprInfo.typeId == TypeId("flt")) {
+		if(exprInfo.typeId == TypeId(TFloat)) {
 			throw std::runtime_error("Cannot copy flt");
 		}
 		code << AssemblyCode("heap::copy");
@@ -197,7 +198,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileIntLit(CompilerPack & compPkg, std::sh
 	std::int64_t value = expr->number;
 	CodeBuffer code = compPkg.codeBuffer();
 	code << Inst::newi(value);
-	return ExprInfo(TypeId("int"), code, ConstValue(value));
+	return ExprInfo(TypeId(TInt), code, ConstValue(value));
 }
 
 
@@ -205,7 +206,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileFltLit(CompilerPack & compPkg, std::sh
 	double value = expr->number;
 	CodeBuffer code = compPkg.codeBuffer();
 	code << Inst::newf(value);
-	return ExprInfo(TypeId("flt"), code, ConstValue(value));
+	return ExprInfo(TypeId(TFloat), code, ConstValue(value));
 }
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::shared_ptr<ExprStrLiteral> expr) const {
@@ -220,7 +221,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileStrLit(CompilerPack & compPkg, std::sh
 	for(const std::string & str : stringParts) {
 		code << AssemblyCode("string::data '" + str + "'");
 	}
-	return ExprInfo(TypeId("str"), code);
+	return ExprInfo(TypeId(TString), code);
 }
 
 
@@ -234,12 +235,12 @@ std::string ltnc::ExprCompiler::getSuffux(const ExprInfo & l, const ExprInfo & r
 	}
 
 	// integer
-	if(l.typeId == TypeId("int")) {
+	if(l.typeId == TypeId(TInt)) {
 		return "i";
 	}
 
 	// float
-	if(l.typeId == TypeId("flt")) {
+	if(l.typeId == TypeId(TFloat)) {
 		return "f";
 	}
 
@@ -258,7 +259,15 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileCall(CompilerPack & compPkg, std::shar
 		params.push_back(Param(exprInfo.typeId, VarId("")));
 		code << exprInfo.code;
 	}
-	auto fxInfo = compPkg.getSymbolTable().match(FunctionSignature(TypeId("voi"), expr->name, params));
+	ltnc::Function fxInfo = [&expr, &params, &compPkg]() {
+		try {
+	 		return compPkg.getSymbolTable().match(FunctionSignature(TypeId(TRaw), expr->name, params));
+		}
+		catch(...) {
+	 		return compPkg.getSymbolTable().match(FunctionSignature(TypeId(TRaw), expr->name, params, true));
+		}
+	}();
+	
 	code << AssemblyCode("call "  + fxInfo.jumpMark);
 	return ExprInfo(fxInfo.signature.returnType, code);
 }

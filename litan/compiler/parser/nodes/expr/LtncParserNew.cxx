@@ -2,7 +2,7 @@
 #include "LtncParserExpr.hxx"
 #include "LtncParserParameter.hxx"
 
-void ltnc::ParserNew::connect(const ParserParameter & exprParam) {
+ltnc::ParserNew::ParserNew(const ParserParameter & exprParam) {
 	this->exprParam = &exprParam;
 }
 

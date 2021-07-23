@@ -224,7 +224,16 @@ void ltn::VM::stackalloc() {
 }
 
 void ltn::VM::casti(){
-	this->env.acc.push(static_cast<std::int64_t>(std::round(this->env.acc.popF())));
+	switch (this->getArg8()) {
+	case 1:
+		return this->env.acc.push(static_cast<std::int64_t>(std::round(this->env.acc.popF())));
+	case 2:
+		return this->env.acc.push(static_cast<std::int64_t>(std::floor(this->env.acc.popF())));
+	case 3:
+		return this->env.acc.push(static_cast<std::int64_t>(std::ceil(this->env.acc.popF())));
+	default:
+		return this->env.acc.push(static_cast<std::int64_t>(this->env.acc.popF()));
+	}
 }
 
 void ltn::VM::castf(){

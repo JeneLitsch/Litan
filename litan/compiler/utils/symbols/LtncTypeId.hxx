@@ -5,6 +5,9 @@ namespace ltnc {
 		TypeId(const std::string & name)
 			: name(name) {}
 
+		TypeId(const char * name)
+			: name(name) {}
+
 		std::string name;
 	};
 

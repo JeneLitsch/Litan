@@ -1,6 +1,6 @@
 #include "LtncParserExpr.hxx"
 
-void ltnc::ParserExpr::connect(
+ltnc::ParserExpr::ParserExpr(
 	const ParserNode<Expr> & comparison,
 	const ParserNode<ExprNew> & newstruct,
 	const ParserNode<ExprDel> & delstruct) {

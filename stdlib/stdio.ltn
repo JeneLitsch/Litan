@@ -1,6 +1,6 @@
 // printing
 
-fnx print(int num) voi {
+function print(Int num) -> Void {
 	asm {
 		"load 0"
 		"print"
@@ -8,7 +8,7 @@ fnx print(int num) voi {
 	return;
 }
 
-fnx print(flt num) voi {
+function print(Float num) -> Void {
 	asm {
 		"load 0"
 		"print 1"
@@ -16,7 +16,7 @@ fnx print(flt num) voi {
 	return;
 }
 
-fnx print(str s) voi {
+function print(String s) -> Void {
 	asm {
 		"load 0"
 		"string::print"

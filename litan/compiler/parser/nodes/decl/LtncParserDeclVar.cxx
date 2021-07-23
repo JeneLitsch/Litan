@@ -1,6 +1,7 @@
 #include "LtncParserDeclVar.hxx"
+#include "LtncBaseTypes.hxx"
 
-void ltnc::ParserDeclVar::connect(const ParserNode<Expr> & expr) {
+ltnc::ParserDeclVar::ParserDeclVar(const ParserNode<Expr> & expr) {
 	this->expr = &expr;
 }
 
@@ -10,6 +11,9 @@ std::shared_ptr<ltnc::DeclVar> ltnc::ParserDeclVar::eval(ParserPackage & parsePk
 		bool constant = parsePkg.prev().type == TokenType::CONST;
 		if(parsePkg.match(TokenType::IDENTIFIER)) {
 			std::string typeName = parsePkg.prev().string;
+			if(typeName == TVoid) {
+				return parsePkg.error("Void is not allowed as variable type");
+			}
 			if(parsePkg.match(TokenType::IDENTIFIER)) {
 				std::string name = parsePkg.prev().string;
 				// direct initialisation

@@ -16,7 +16,7 @@ namespace ltnc {
 		VarId insert(const VarId & varId, const TypeId & typeId);
 
 		const Type & match(const TypeId & typeId) const;
-		const Function & match(const FunctionSignature & signature) const;
+		const Function & match(const FunctionSignature & signature, bool ignoreRaw = false) const;
 		const Var & match(const VarId & id) const;
 
 		void addBlockScope();

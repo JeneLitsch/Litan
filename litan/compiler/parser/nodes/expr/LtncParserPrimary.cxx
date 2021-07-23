@@ -1,6 +1,6 @@
 #include "LtncParserPrimary.hxx"
 
-void ltnc::ParserPrimary::connect(
+ltnc::ParserPrimary::ParserPrimary(
 	const ParserNode<ExprCall> & call,
 	const ParserNode<ExprVar> & var,
 	const ParserNode<Expr> & expr) {
@@ -33,12 +33,14 @@ std::shared_ptr<ltnc::Expr> ltnc::ParserPrimary::eval(ParserPackage & parsePkg) 
 		return expr_;
 	}
 
-	// variables and constants
-	if (auto expr = this->var->eval(parsePkg)) return expr;
-
 	// call function
-	if (parsePkg.match(TokenType::CALL)) {
-		return this->call->eval(parsePkg);
+	if (auto expr = this->call->eval(parsePkg)) {
+		return expr;
+	}
+
+	// variables and constants
+	if (auto expr = this->var->eval(parsePkg)) {
+		return expr;
 	}
 	return parsePkg.error("No matching expression");
 }

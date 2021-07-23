@@ -5,7 +5,7 @@
 namespace ltnc {
 	class ParserExpr : public ParserNode<Expr> {
 	public:
-		void connect(
+		ParserExpr(
 			const ParserNode<Expr> & comparison,
 			const ParserNode<ExprNew> & newstruct,
 			const ParserNode<ExprDel> & delstruct);

@@ -34,7 +34,7 @@ std::vector<ltnc::Token> ltnc::Lexer::tokenize(const std::string & str) {
 
 		LNC::chr('+', TokenType::PLUS),
 		LNC::chr('-', TokenType::MINUS, {
-			LNC::chr('>', TokenType::CALL),
+			LNC::chr('>', TokenType::ARROW),
 		}),
 		LNC::chr('*', TokenType::STAR),
 		LNC::chr('%', TokenType::MOD),

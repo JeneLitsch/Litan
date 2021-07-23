@@ -5,7 +5,7 @@ namespace ltnc {
 	// Parses a call operation like "->foo()"
 	class ParserCall : public ParserNode<ExprCall> {
 	public:
-		void connect(const ParserParameter & exprParam);
+		ParserCall(const ParserParameter & exprParam);
 		virtual std::shared_ptr<ExprCall> eval(ParserPackage & parsePkg) const override;
 	private:
 		const ParserParameter * exprParam;

@@ -1,5 +1,6 @@
 #include "LtncCompiler.hxx"
 #include <iostream>
+#include "LtncBaseTypes.hxx"
 std::string ltnc::Compiler::compile(
 	std::shared_ptr<Program> program,
 	const CompilerSettings & settings){
@@ -42,7 +43,7 @@ std::string ltnc::Compiler::compile(
 	}
 	
 	// init code
-	compPkg.getSymbolTable().addFunctionScope(FunctionSignature(TypeId("voi"), "", {}));
+	compPkg.getSymbolTable().addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
 	code << AssemblyCode("-> MAIN"); 
 	code << stmtCompiler.compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main"))).code;
 	code << AssemblyCode("exit");

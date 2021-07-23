@@ -109,8 +109,8 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	keywords.insert({"uniform", TokenType::UNIFORM});
 	keywords.insert({"new", TokenType::NEW});
 	keywords.insert({"copy", TokenType::COPY});
-	keywords.insert({"del", TokenType::DEL});
-	keywords.insert({"fnx", TokenType::FNX});
+	keywords.insert({"delete", TokenType::DEL});
+	keywords.insert({"function", TokenType::FX});
 	keywords.insert({"if", TokenType::IF});
 	keywords.insert({"else", TokenType::ELSE});
 	keywords.insert({"for", TokenType::FOR});

@@ -2,7 +2,7 @@
 #include "LtncParserExpr.hxx"
 
 
-void ltnc::ParserDel::connect(const ParserNode<ExprVar> & exprVar) {
+ltnc::ParserDel::ParserDel(const ParserNode<ExprVar> & exprVar) {
 	this->exprVar = &exprVar;
 }
 

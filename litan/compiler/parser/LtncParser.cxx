@@ -3,27 +3,24 @@
 #include "LtncParserCall.hxx"
 #include "LtncParserPrimary.hxx"
 
-ltnc::Parser::Parser() {
-	this->stmt.connect(this->block, this->ifelse, this->assign, this->expr, this->call);
-	this->block.connect(this->stmt, this->declVar);
-	this->assign.connect(this->expr, this->var);
-	this->function.connect(this->block);
-	this->ifelse.connect(this->stmt, this->expr);
-	this->declStruct.connect(this->declVar);
-
-	this->param.connect(this->expr);
-
-	this->expr.connect(this->comparison, this->newstruct, this->delstruct);
-	this->newstruct.connect(this->param);
-	this->delstruct.connect(this->var);
-	this->comparison.connect(this->term);
-	this->term.connect(this->product);
-	this->product.connect(this->unary);
-	this->unary.connect(this->primary);
-	this->primary.connect(this->call, this->var, this->expr);
-	this->call.connect(this->param);
-	this->declVar.connect(this->expr);
-}
+ltnc::Parser::Parser()
+:	stmt(this->block, this->ifelse, this->assign, this->expr, this->call),
+	block(this->stmt, this->declVar),
+	assign(this->expr, this->var),
+	function(this->block),
+	ifelse(this->stmt, this->expr),
+	declStruct(this->declVar),
+	param(this->expr),
+	expr(this->comparison, this->newstruct, this->delstruct),
+	newstruct(this->param),
+	delstruct(this->var),
+	comparison(this->term),
+	term(this->product), 
+	product(this->unary),
+	unary(this->primary),
+	primary(this->call, this->var, this->expr),
+	call(this->param),
+	declVar(this->expr) {}
 
 
 std::shared_ptr<ltnc::Program> ltnc::Parser::parse(const std::vector<Token> & tokens) const {

@@ -1,20 +1,11 @@
 // register base types
-typedef voi;
-typedef int;
-typedef flt;
+typedef Void;
+typedef Int;
+typedef Float;
+typedef Raw;
 
-fnx toInt(flt number) int {
-	asm {
-		"load 0"
-		"casti"
-		"return"
-	}
-}
+function Int(Raw number) 	-> Int { asm { "load 0" "return" }}
+function Int(Float number) 	-> Int { asm { "load 0" "casti" "return" }}
 
-fnx toFlt(int number) flt {
-	asm {
-		"load 0"
-		"castf"
-		"return"
-	}
-}
+function Float(Raw number) -> Float { asm {	"load 0" "return" }}
+function Float(Int number) -> Float { asm {	"load 0" "castf" "return" }}

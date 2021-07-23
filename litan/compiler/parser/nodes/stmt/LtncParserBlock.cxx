@@ -1,7 +1,7 @@
 #include "LtncParserBlock.hxx"
 
 
-void ltnc::ParserBlock::connect(
+ltnc::ParserBlock::ParserBlock(
 	const ParserNode<Stmt> & stmt,
 	const ParserNode<DeclVar> & declVar) {
 	

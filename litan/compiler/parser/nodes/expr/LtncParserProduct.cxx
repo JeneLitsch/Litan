@@ -1,6 +1,6 @@
 #include "LtncParserProduct.hxx"
 
-void ltnc::ParserProduct::connect(const ParserNode<Expr> & unary) {
+ltnc::ParserProduct::ParserProduct(const ParserNode<Expr> & unary) {
 	this->unary = &unary;
 }
 

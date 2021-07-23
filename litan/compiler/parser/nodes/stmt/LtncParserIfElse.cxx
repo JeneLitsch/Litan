@@ -1,6 +1,6 @@
 #include "LtncParserIfElse.hxx"
 
-void ltnc::ParserIfElse::connect(const ParserNode<Stmt> & stmt, const ParserNode<Expr> & expr) {
+ltnc::ParserIfElse::ParserIfElse(const ParserNode<Stmt> & stmt, const ParserNode<Expr> & expr) {
 	this->expr = &expr;
 	this->stmt = &stmt;
 }

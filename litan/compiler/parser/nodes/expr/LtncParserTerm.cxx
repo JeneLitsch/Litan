@@ -1,6 +1,6 @@
 #include "LtncParserTerm.hxx"
 
-void ltnc::ParserTerm::connect(const ParserNode<Expr> & product) {
+ltnc::ParserTerm::ParserTerm(const ParserNode<Expr> & product) {
 	this->product = &product;
 }
 

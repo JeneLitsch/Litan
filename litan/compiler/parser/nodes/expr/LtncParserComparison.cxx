@@ -1,6 +1,6 @@
 #include "LtncParserComparison.hxx"
 
-void ltnc::ParserComparison::connect(const ParserNode<Expr> & term) {
+ltnc::ParserComparison::ParserComparison(const ParserNode<Expr> & term) {
 	this->term = &term;
 }
 

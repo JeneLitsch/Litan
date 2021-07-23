@@ -1,12 +1,12 @@
 #include "LtncEvaluator.hxx"
-
+#include "LtncBaseTypes.hxx"
 std::optional<ltnc::ExprInfo> ltnc::Evaluator::optimize(
 	const ExprInfo & l,
 	const ExprInfo & r) const {
 
 	if(l.constValue && r.constValue) {
 		
-		if(l.typeId == TypeId("int")) {
+		if(l.typeId == TypeId(TInt)) {
 			std::int64_t value = this->eval(
 				std::get<std::int64_t>(l.constValue->value),
 				std::get<std::int64_t>(r.constValue->value));
@@ -16,7 +16,7 @@ std::optional<ltnc::ExprInfo> ltnc::Evaluator::optimize(
 			return ExprInfo(l.typeId, code, constValue);
 		}
 
-		if(l.typeId == TypeId("flt")) {
+		if(l.typeId == TypeId(TFloat)) {
 			double value = this->eval(
 				std::get<double>(l.constValue->value),
 				std::get<double>(r.constValue->value));

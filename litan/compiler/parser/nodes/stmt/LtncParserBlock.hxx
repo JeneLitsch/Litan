@@ -5,7 +5,7 @@ namespace ltnc {
 	// Parses code block until "}"
 	class ParserBlock : public ParserNode<StmtBlock> {
 	public:
-		void connect(
+		ParserBlock(
 			const ParserNode<Stmt> & stmt,
 			const ParserNode<DeclVar> & declVar);
 		
