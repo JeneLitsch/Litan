@@ -82,6 +82,8 @@ ltn::VM::Status ltn::VM::execute(){
 		case InstCode::INCI: this->inci(); break;
 		case InstCode::DECI: this->deci(); break;
 		case InstCode::MNSI: this->mnsi(); break;
+		case InstCode::MINI: this->mini(); break;
+		case InstCode::MAXI: this->maxi(); break;
 		
 		case InstCode::ADDF: this->addf(); break;
 		case InstCode::SUBF: this->subf(); break;
@@ -91,6 +93,8 @@ ltn::VM::Status ltn::VM::execute(){
 		case InstCode::MODF: this->modf(); break;
 		case InstCode::CASTF: this->castf(); break;
 		case InstCode::MNSF: this->mnsf(); break;
+		case InstCode::MINF: this->minf(); break;
+		case InstCode::MAXF: this->maxf(); break;
 
 		case InstCode::BITOR: this->bit_or(); break;
 		case InstCode::BITAND: this->bit_and(); break;
@@ -304,6 +308,18 @@ void ltn::VM::mnsi(){
 	this->env.acc.push(-this->env.acc.popI());
 }
 
+void ltn::VM::mini(){
+	const std::int64_t a = this->env.acc.popI();
+	const std::int64_t b = this->env.acc.popI();
+	this->env.acc.push(std::min(a, b));
+}
+
+void ltn::VM::maxi(){
+	const std::int64_t a = this->env.acc.popI();
+	const std::int64_t b = this->env.acc.popI();
+	this->env.acc.push(std::max(a, b));
+}
+
 void ltn::VM::addf(){
 	double r = this->env.acc.popF();
 	double l = this->env.acc.popF();
@@ -341,6 +357,19 @@ void ltn::VM::modf(){
 void ltn::VM::mnsf(){
 	this->env.acc.push(-this->env.acc.popF());
 }
+
+void ltn::VM::minf(){
+	const double a = this->env.acc.popF();
+	const double b = this->env.acc.popF();
+	this->env.acc.push(std::min(a, b));
+}
+
+void ltn::VM::maxf(){
+	const double a = this->env.acc.popF();
+	const double b = this->env.acc.popF();
+	this->env.acc.push(std::max(a, b));
+}
+
 
 // bitwise
 void ltn::VM::bit_or(){

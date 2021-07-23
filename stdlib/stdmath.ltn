@@ -1,34 +1,14 @@
-// min 2 ==============================
-
-function min(Int a, Int b) -> Int {
-	if (a < b) {
-		return a;
-	}
-	return b;
-}
-
-function min(Float a, Float b) -> Float {
-	if (a < b) {
-		return a;
-	}
-	return b;
-}
+// === min ===
+function min(Int a, Int b) 		-> Int 		{ asm { "load 0" "load 1" "mini" "return" }}
+function min(Float a, Float b)	-> Float 	{ asm { "load 0" "load 1" "minf" "return" }}
 
 
+// === max ===
+function max(Int a, Int b) 		-> Int 		{ asm { "load 0" "load 1" "maxi" "return" }}
+function max(Float a, Float b)	-> Float 	{ asm { "load 0" "load 1" "maxf" "return" }}
 
 
-// max 2 ==============================
-
-function max(Int a, Int b) -> Int {
-	if (a > b) {
-		return a;
-	}
-	return b;
-}
-
-function max(Float a, Float b) -> Float {
-	if (a > b) {
-		return a;
-	}
-	return b;
-}
+// === rounding ===
+function round(Float x) -> Int { asm { "load 0" "casti 1" "return" }}
+function floor(Float x) -> Int { asm { "load 0" "casti 2" "return" }}
+function ceil (Float x) -> Int { asm { "load 0" "casti 3" "return" }}

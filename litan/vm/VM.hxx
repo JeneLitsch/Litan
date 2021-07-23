@@ -59,11 +59,12 @@ namespace ltn {
 		void addi(); void subi(); void mlti(); void divi(); void powi(); void modi();
 		void inci(); void deci();
 		void mnsi();
+		void mini(); void maxi();
 		
 		void addf(); void subf(); void mltf(); void divf(); void powf(); void modf();
 		void incf(); void decf();
 		void mnsf();
-
+		void minf(); void maxf();
 
 		// logic and bitwise instructions
 		void bit_or(); void bit_and(); void bit_xor();

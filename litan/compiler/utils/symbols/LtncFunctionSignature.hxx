@@ -33,11 +33,11 @@ namespace ltnc {
 			const Param & paramL = signatureL.params[idx];
 			const Param & paramR = signatureR.params[idx];
 
+			bool ingoreL = paramL.typeId == TRaw && signatureR.ignoreRaw;
+			bool ingoreR = paramR.typeId == TRaw && signatureL.ignoreRaw;
 			// skip raw ?
-			if(signatureL.ignoreRaw || signatureR.ignoreRaw) {
-				if(paramL.typeId == TRaw || paramR.typeId == TRaw) {
-					continue;
-				}
+			if(ingoreL || ingoreR) {
+				continue;
 			}
 
 			if(paramL.typeId != paramR.typeId) {

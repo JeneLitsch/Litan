@@ -2,15 +2,24 @@ struct Bar {
 	var Int x;
 }
 
+
 struct Foo {
 	var Bar bar;
 	var Int test;
 }
 
-function fx(Int a, Int b) -> Foo {
-	var Foo foo = new Foo(new Bar(a), b);
-	return foo;
+
+function fx(Int a, Int b) -> Void {
+	->print(->min(a, b));
+	->print(->max(a, b));
 }
+
+
+function fx(Float a, Float b) -> Void {
+	->print(->min(a, b));
+	->print(->max(a, b));
+}
+
 
 function main() -> Void {
 	var Array arr = ->Array();
@@ -18,15 +27,14 @@ function main() -> Void {
 	->pushBack(arr, 2.1);
 	->pushBack(arr, 3.1);
 
-	->print(->at(arr, 0));
-	->print(->at(arr, 1));
-	->print(->at(arr, 2));
+	->print(->Float(->at(arr, 0)));
+	->print(->Float(->at(arr, 1)));
+	->print(->Float(->at(arr, 2)));
 
-	->print(->Int(4.6));
+	->fx(-7, 42);
+	->fx(-7.3, 42.2);
 
 	var Int a = 42;
-	var String string1 = "Hello World";
-	->print(string1);
+	->print("Hello World");
 	->print(a);
-	return;
 }

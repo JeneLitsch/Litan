@@ -1,5 +1,1 @@
-function error() -> Void {
-	asm {
-		"error"
-	}
-}
+function error() -> Void { asm { "error" }}

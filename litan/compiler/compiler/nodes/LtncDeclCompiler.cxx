@@ -32,6 +32,12 @@ ltnc::StmtInfo ltnc::DeclCompiler::compile(
 		code << Inst::store(static_cast<std::uint32_t>(varAddr));
 	}
 	code << body.code;
+	if(decl->signature.returnType == TVoid) {
+		code << AssemblyCode("return");
+	}
+	else {
+		code << AssemblyCode("error");
+	}
 	code << AssemblyCode("\n");
 	compPkg.getSymbolTable().remove();
 	return StmtInfo(code, 0);

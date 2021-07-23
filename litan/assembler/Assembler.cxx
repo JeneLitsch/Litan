@@ -82,6 +82,10 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 
 		if(pkg.inst == "mnsi") return this->cFormat(InstCode::MNSI);
 		if(pkg.inst == "mnsf") return this->cFormat(InstCode::MNSF);
+		if(pkg.inst == "mini") return this->cFormat(InstCode::MINI);
+		if(pkg.inst == "minf") return this->cFormat(InstCode::MINF);
+		if(pkg.inst == "maxi") return this->cFormat(InstCode::MAXI);
+		if(pkg.inst == "maxf") return this->cFormat(InstCode::MAXF);
 
 		if(pkg.inst == "addf") return this->cFormat(InstCode::ADDF);
 		if(pkg.inst == "subf") return this->cFormat(InstCode::SUBF);
@@ -106,8 +110,8 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "smlf") return this->cFormat(InstCode::SMLF);
 		if(pkg.inst == "bgrf") return this->cFormat(InstCode::BGRF);
 
-		if(pkg.inst == "casti") return this->cFormat(InstCode::CASTI);
-		if(pkg.inst == "castf") return this->cFormat(InstCode::CASTF);
+		if(pkg.inst == "casti") return this->fFormat(InstCode::CASTI, 0);
+		if(pkg.inst == "castf") return this->fFormat(InstCode::CASTF, 0);
 
 		if(pkg.inst == "return") return this->cFormat(InstCode::RETURN);
 		if(pkg.inst == "ifnx") return this->cFormat(InstCode::IFSK);
@@ -137,7 +141,7 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "array::popb") return this->cFormat(InstCode::ARRAY_POPB);
 		if(pkg.inst == "array::getf") return this->cFormat(InstCode::ARRAY_GETF);
 		if(pkg.inst == "array::getb") return this->cFormat(InstCode::ARRAY_GETB);
-#
+
 		if(pkg.inst == "string::new") return this->cFormat(InstCode::STRING_NEW);  
 		if(pkg.inst == "string::add") return this->cFormat(InstCode::STRING_ADD);  
 		if(pkg.inst == "string::print") return this->cFormat(InstCode::STRING_PRINT);  
@@ -149,6 +153,7 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "loop::idx") return this->cFormat(InstCode::LOOP_IDX);  
 	}
 	if(pkg.args.size() == 1){
+		if(pkg.inst == "casti") return this->fFormat(InstCode::CASTI, static_cast<std::uint8_t>(this->toInt32(pkg.args[0])));
 		
 		if(pkg.inst == "ext::0") return this->fFormat(InstCode::EXT0, static_cast<std::uint8_t>(this->toInt32(pkg.args[0])));  
 		if(pkg.inst == "ext::1") return this->fFormat(InstCode::EXT1, static_cast<std::uint8_t>(this->toInt32(pkg.args[0])));  
