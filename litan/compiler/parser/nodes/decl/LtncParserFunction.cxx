@@ -17,7 +17,7 @@ std::shared_ptr<ltnc::DeclFunction> ltnc::ParserFunction::eval(ParserPackage & p
 		
 		auto body 		= this->body(parsePkg);
 
-		return std::make_shared<DeclFunction>(FunctionSignature(returnType, name, parameters), body, inlined);
+		return std::make_shared<DeclFunction>(FunctionSignature(returnType, name, parameters, parsePkg.ns), body, inlined);
 	}
 	return nullptr;
 }
@@ -38,22 +38,28 @@ std::vector<ltnc::Param> ltnc::ParserFunction::parameterList(ParserPackage & par
 	// parameter list
 	if(parsePkg.match(TokenType::L_PAREN)) {
 		std::vector<Param> parameters;
-		while(parsePkg.match(TokenType::IDENTIFIER)) {
-			Type type = Type(parsePkg.prev().string);
-			// not allowed
-			if(type == TypeId(TVoid)) {
-				parsePkg.error("Void is not an allowed paramter type");
-			}
-			// allowed
+		while(parsePkg.curr().type == TokenType::IDENTIFIER) {
+			Namespace ns = parserNamespace(parsePkg);
 			if(parsePkg.match(TokenType::IDENTIFIER)) {
-				std::string name = parsePkg.prev().string;
-				parameters.push_back(Param(type.id, name));
+				TypeId typeId = TypeId(parsePkg.prev().string, ns);
+				// not allowed
+				if(typeId == TypeId(TVoid)) {
+					parsePkg.error("Void is not an allowed paramter type");
+				}
+				// allowed
+				if(parsePkg.match(TokenType::IDENTIFIER)) {
+					std::string name = parsePkg.prev().string;
+					parameters.push_back(Param(typeId, name));
+				}
+				else{
+					parsePkg.error("Expected identifier for parameter name");
+				}
+				if(!parsePkg.match(TokenType::COMMA)) {
+					break;
+				}
 			}
-			else{
-				parsePkg.error("Expected identifier for parameter name");
-			}
-			if(!parsePkg.match(TokenType::COMMA)) {
-				break;
+			else {
+				parsePkg.error("expected Parameter Type");
 			}
 		}
 		if(parsePkg.match(TokenType::R_PAREN)) {
@@ -69,10 +75,7 @@ std::vector<ltnc::Param> ltnc::ParserFunction::parameterList(ParserPackage & par
 
 ltnc::TypeId ltnc::ParserFunction::returnType(ParserPackage & parsePkg) const {
 	if(parsePkg.match(TokenType::ARROW)) {
-		if(parsePkg.match(TokenType::IDENTIFIER)) {
-			return TypeId(parsePkg.prev().string);
-		}
-		parsePkg.error("Missing return type");
+		return parseType(parsePkg);
 	}
 	return TypeId(TVoid);
 }

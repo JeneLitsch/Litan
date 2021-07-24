@@ -110,6 +110,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	keywords.insert({"new", TokenType::NEW});
 	keywords.insert({"copy", TokenType::COPY});
 	keywords.insert({"delete", TokenType::DEL});
+	keywords.insert({"namespace", TokenType::NAMESPACE});
 	keywords.insert({"function", TokenType::FX});
 	keywords.insert({"if", TokenType::IF});
 	keywords.insert({"else", TokenType::ELSE});

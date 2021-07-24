@@ -74,6 +74,15 @@ namespace ltnc {
 					continue;
 				}
 
+				if(std::string(argv[idx]) == "-P") {
+					this->print = true;
+					continue;
+				}
+				if(std::string(argv[idx]) == "-p") {
+					this->print = true;
+					continue;
+				}
+
 				this->files.push_back(argv[idx]);
 			}
 		}
@@ -90,6 +99,10 @@ namespace ltnc {
 			return this->silent;
 		}
 
+		bool getPrint() const {
+			return this->print;
+		}
+
 		const std::vector<std::string> & getFiles() const {
 			return this->files;
 		}
@@ -104,6 +117,7 @@ namespace ltnc {
 		unsigned optimizationLevel;
 		bool comments;
 		bool silent;
+		bool print;
 	};
 }
 
@@ -122,10 +136,13 @@ int main(int argc, char const *argv[]) {
 		std::cout << "Litan Compiler (c) Jene Litsch 2021" << std::endl;
 		std::cout << "Flags: [ ";
 		if(args.getOptimizationLevel()) {
-			std::cout << "-O" << args.getOptimizationLevel() << " ";
+			std::cout << "-o" << args.getOptimizationLevel() << " ";
 		}
 		if(args.getComments()) {
-			std::cout << "-C ";
+			std::cout << "-c ";
+		}
+		if(args.getPrint()) {
+			std::cout << "-p ";
 		}
 		std::cout << "]" << std::endl;
 
@@ -149,7 +166,8 @@ int main(int argc, char const *argv[]) {
 				args.getComments(),
 				args.getOptimizationLevel(),
 				"stdlib"),
-			args.getSilent());
+			args.getSilent(),
+			args.getPrint());
 		ltn::writeFile(args.getDstFile(), asmb);
 		return 0;
 	}

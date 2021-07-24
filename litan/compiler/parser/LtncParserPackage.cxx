@@ -18,7 +18,6 @@ bool ltnc::ParserPackage::match(TokenType type){
 }
 
 void ltnc::ParserPackage::back() {
-	std::cout << this->current << std::endl;
 	this->current--;
 }
 

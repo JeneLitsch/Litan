@@ -27,18 +27,47 @@ std::shared_ptr<ltnc::Program> ltnc::Parser::parse(const std::vector<Token> & to
 	ParserPackage parsePkg(tokens);
 	auto program = std::make_shared<Program>();
 	while(!parsePkg.isAtEnd()) {
-		if(auto function = this->function.eval(parsePkg)){
-			program->functions.push_back(function);
-		}
-		else if (auto typeDecl = this->declType.eval(parsePkg)) {
-			program->types.push_back(*typeDecl);
-		}
-		else if (auto structDecl = this->declStruct.eval(parsePkg)) {
-			program->structs.push_back(*structDecl);
-		}
-		else {
-			throw std::runtime_error("Unknown declaration at: " + parsePkg.curr().string);
-		}
+		this->parseDecl(parsePkg, *program);
 	}
 	return program;
+}
+
+bool ltnc::Parser::parseNamespace(ParserPackage & parsePkg, Program & program) const {
+	if(parsePkg.match(TokenType::NAMESPACE)) {
+		if(parsePkg.match(TokenType::IDENTIFIER)) {
+			parsePkg.ns.push(parsePkg.prev().string);
+			// std::cout << parsePkg.ns.str() << std::endl;
+			if(parsePkg.match(TokenType::L_BRACE)) {
+				while(!parsePkg.match(TokenType::R_BRACE)) {
+					parseDecl(parsePkg, program);
+				}
+				parsePkg.ns.pop();
+				return true;
+			}
+			else {
+				throw parsePkg.error("Expected { after namespace declaration");
+			}
+		}
+		else {
+			throw parsePkg.error("Expected name after keyword namespace");
+		}
+	}
+	return false;
+}
+
+void ltnc::Parser::parseDecl(ParserPackage & parsePkg, Program & program) const {
+	if(auto function = this->function.eval(parsePkg)){
+		program.functions.push_back(function);
+	}
+	else if (auto typeDecl = this->declType.eval(parsePkg)) {
+		program.types.push_back(*typeDecl);
+	}
+	else if (auto structDecl = this->declStruct.eval(parsePkg)) {
+		program.structs.push_back(*structDecl);
+	}
+	else if(this->parseNamespace(parsePkg, program)) {
+ 	}
+	else {
+		throw std::runtime_error("Unknown declaration at: " + parsePkg.curr().string);
+	}
 }

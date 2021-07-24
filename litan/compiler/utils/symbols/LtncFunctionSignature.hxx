@@ -5,22 +5,23 @@
 #include "LtncType.hxx"
 #include "LtncVar.hxx"
 #include "LtncBaseTypes.hxx"
+#include "LtncSymbol.hxx"
 
 namespace ltnc {
-	class FunctionSignature {
+	class FunctionSignature : public Symbol {
 	public:
 		FunctionSignature(
 			const TypeId & returnType,
 			const std::string & name,
 			const std::vector<Param> & params,
+			const Namespace & ns = Namespace(),
 			bool ignoreRaw = false)
-		:	returnType(returnType),
-			name(name),
+		:	Symbol(name, ns),
+			returnType(returnType),
 			params(params),
 			ignoreRaw(ignoreRaw) {}
-		
+
 		TypeId returnType;
-		std::string name;
 		std::vector<Param> params;
 		bool ignoreRaw;
 	};
@@ -44,6 +45,6 @@ namespace ltnc {
 				return false;
 			}
 		}
-		return signatureL.name == signatureR.name;
+		return Symbol(signatureL) == Symbol(signatureR);
 	}
 };

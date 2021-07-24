@@ -7,7 +7,8 @@ namespace ltnc {
 		std::string compile(
 			const std::string & source,
 			const CompilerSettings & settings,
-			bool silent) const;
+			bool silent,
+			bool print) const;
 	private:
 	};
 }

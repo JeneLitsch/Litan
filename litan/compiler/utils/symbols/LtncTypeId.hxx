@@ -1,17 +1,21 @@
 #pragma once
-#include <string>
+#include "LtncSymbol.hxx"
 namespace ltnc {
-	struct TypeId {
+	struct TypeId : public Symbol {
+		TypeId(const std::string & name, Namespace & ns)
+			: Symbol(name, ns) {}
+
+		TypeId(const char * name, Namespace & ns)
+			: Symbol(name, ns) {}
+
 		TypeId(const std::string & name)
-			: name(name) {}
+			: Symbol(name) {}
 
 		TypeId(const char * name)
-			: name(name) {}
-
-		std::string name;
+			: Symbol(name) {}
 	};
 
 	inline bool operator==(const TypeId & l, const TypeId & r) {
-		return l.name == r.name;
+		return Symbol(l) == Symbol(r);
 	}
 }

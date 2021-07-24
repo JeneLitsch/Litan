@@ -23,11 +23,6 @@ namespace ltnc {
 			std::shared_ptr<Program> program,
 			const CompilerSettings & settings);
 	private:
-		// ConstValue findUniformValue(
-		// 	const ConstantId & constId,
-		// 	const TypeId & typeId,
-		// 	const std::map<ConstantId, ConstValue> & uniforms) const;
-
 		DeclCompiler declCompiler;
 		StmtCompiler stmtCompiler;
 		ExprCompiler exprCompiler;

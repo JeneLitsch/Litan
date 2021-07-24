@@ -1,0 +1,38 @@
+namespace ltn {
+	typedef Array;
+
+	function array() -> ltn::Array {
+		var ltn::Array array;
+		asm {
+			"array::new"
+			"store 0"
+		}
+		return array;
+	}
+
+	function destroy(ltn::Array array) -> Void {
+		asm {
+			"load 0"
+			"heap::del"
+		}
+		return;
+	}
+
+	function pushBack(ltn::Array array, Raw value) -> Void {
+		asm {
+			"load 0"
+			"load 1"
+			"array::pushb"
+		}
+		return;
+	}
+
+	function at(ltn::Array array, Int idx) -> Raw {
+		asm {
+			"load 0"
+			"load 1"
+			"array::get"
+			"return"
+		}
+	}
+}

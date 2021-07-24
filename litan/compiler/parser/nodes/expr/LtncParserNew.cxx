@@ -8,12 +8,9 @@ ltnc::ParserNew::ParserNew(const ParserParameter & exprParam) {
 
 std::shared_ptr<ltnc::ExprNew> ltnc::ParserNew::eval(ParserPackage & parsePkg) const {
 	if(parsePkg.match(TokenType::NEW)) {
-		if(parsePkg.match(TokenType::IDENTIFIER)) {
-			std::string typeName = parsePkg.prev().string;
-			auto parameters = this->exprParam->eval(parsePkg);
-			return std::make_shared<ExprNew>(typeName, *parameters);
-		}
-		return parsePkg.error("expected type tame after \"new\"");
+		TypeId typeId = parseType(parsePkg);
+		auto parameters = this->exprParam->eval(parsePkg);
+		return std::make_shared<ExprNew>(typeId, *parameters);
 	}
 	return nullptr;
 }

@@ -44,8 +44,9 @@ ltnc::StmtInfo ltnc::StmtCompiler::compileStmt(CompilerPack & compPkg, std::shar
 ltnc::StmtInfo ltnc::StmtCompiler::compileAssign(CompilerPack & compPkg, std::shared_ptr<StmtAssign> stmt) const {
 	auto expr = exprCompiler.compileExpr(compPkg, stmt->expr);
 	auto access = this->variCompiler.compile(compPkg, stmt->var, expr);
-	if(expr.typeId != TypeId(access.typeId.name)) {
-		throw std::runtime_error("Types do not match: " + expr.code.str());
+	if(expr.typeId != access.typeId) {
+		throw std::runtime_error("Types in Assignment do not match: " 
+			+ access.typeId.ns.str() + access.typeId.name + "=" + expr.typeId.ns.str() + expr.typeId.name);
 	}
 	CodeBuffer code = compPkg.codeBuffer();
 	code << access.code;

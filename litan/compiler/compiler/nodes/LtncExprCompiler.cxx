@@ -261,10 +261,10 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileCall(CompilerPack & compPkg, std::shar
 	}
 	ltnc::Function fxInfo = [&expr, &params, &compPkg]() {
 		try {
-	 		return compPkg.getSymbolTable().match(FunctionSignature(TypeId(TRaw), expr->name, params));
+	 		return compPkg.getSymbolTable().match(FunctionSignature(TypeId(TRaw), expr->name, params, expr->ns));
 		}
 		catch(...) {
-	 		return compPkg.getSymbolTable().match(FunctionSignature(TypeId(TRaw), expr->name, params, true));
+	 		return compPkg.getSymbolTable().match(FunctionSignature(TypeId(TRaw), expr->name, params, expr->ns, true));
 		}
 	}();
 	

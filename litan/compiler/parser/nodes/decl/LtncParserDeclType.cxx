@@ -5,7 +5,7 @@ std::shared_ptr<ltnc::Type> ltnc::ParserDeclType::eval(ParserPackage & parsePkg)
 		if(parsePkg.match(TokenType::IDENTIFIER)){
 			std::string typeName = parsePkg.prev().string;
 			if(parsePkg.match(TokenType::SEMICOLON)){
-				return std::make_shared<Type>(typeName);
+				return std::make_shared<Type>(TypeId(typeName, parsePkg.ns));
 			}
 			parsePkg.error("expected ;");
 		}

@@ -28,15 +28,6 @@ std::string ltnc::Compiler::compile(
 	}
 
 
-	// for(const auto & uniform : program->uniforms) {
-	// 	code << Comment("uniform : " + uniform->typeId.name + " " + uniform->constId.name);
-	// 	ConstValue value = this->findUniformValue(
-	// 		uniform->constId,
-	// 		uniform->typeId,
-	// 		uniforms);
-	// 	compPkg.getSymbolTable().insert(uniform->constId, uniform->typeId, value);
-	// }
-
 	// register functions
 	for(const auto & function : program->functions) {
 		compPkg.getSymbolTable().insert(function->signature);
@@ -45,7 +36,7 @@ std::string ltnc::Compiler::compile(
 	// init code
 	compPkg.getSymbolTable().addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
 	code << AssemblyCode("-> MAIN"); 
-	code << stmtCompiler.compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main"))).code;
+	code << stmtCompiler.compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main", Namespace()))).code;
 	code << AssemblyCode("exit");
 	code << AssemblyCode("\n");
 
@@ -56,18 +47,3 @@ std::string ltnc::Compiler::compile(
 
 	return code.str();
 }
-
-// ltnc::ConstValue ltnc::Compiler::findUniformValue(
-// 	const ConstantId & constId,
-// 	const TypeId & typeId,
-// 	const std::map<ConstantId, ConstValue> & uniforms) const { 
-// 	if (typeId != TypeId("int") && typeId != TypeId("flt")) {
-// 		throw std::runtime_error("Only int and flt are supported for uniforms");
-// 	}
-// 	for(const auto & uniform : uniforms) {
-// 		if(uniform.first.name == constId.name) {
-// 			return uniform.second;
-// 		}
-// 	}
-// 	throw std::runtime_error("Not matching uniform value for " + constId.name);
-// }

@@ -41,7 +41,7 @@ ltnc::TypeId ltnc::SymbolTable::insert(const Type & type) {
 ltnc::FunctionSignature ltnc::SymbolTable::insert(const FunctionSignature & signature) {
 	FuncSearch search(signature);
 	if(this->global.find<Func>(search, true)) {
-		throw std::runtime_error("Function " + signature.name + " is already defined.");
+		throw std::runtime_error("Function " + signature.name + " is already defined in namespace " + signature.ns.str() + ".");
 	}
 	Function fxInfo(signature, this->makeJumpMark("FNX_" + signature.name));
 	this->global.add(fxInfo);
@@ -79,12 +79,12 @@ const ltnc::Type & ltnc::SymbolTable::match(const TypeId & typeId) const {
 
 
 
-const ltnc::Function & ltnc::SymbolTable::match(const FunctionSignature & signature, bool ignoreRaw) const {
+const ltnc::Function & ltnc::SymbolTable::match(const FunctionSignature & signature) const {
 	FuncSearch search(signature);
 	if(auto fx = this->scope.top().find<Func>(search, true)) {
 		return *fx;
 	}
-	throw std::runtime_error("No matching function for: " + signature.name);
+	throw std::runtime_error("No matching function for: " + signature.name + " in namespace: " + signature.ns.str());
 }
 
 

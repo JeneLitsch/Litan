@@ -1,38 +1,60 @@
-struct Bar {
-	var Int x;
+
+namespace a {
+	function fx() -> Void {
+		->print(1);
+	}
+}
+
+namespace b {
+	function fx() -> Void {
+		->print(2);
+	}
+}
+
+namespace test {
+	struct Bar {
+		var Int x;
+	}
+	typedef A;
+	namespace a1 {
+		function fx(Int a, Int b) -> Void {
+			->print(->min(a, b));
+			->print(->max(a, b));
+		}
+
+		function fx(Float a, Float b) -> Void {
+			->print(->min(a, b));
+			->print(->max(a, b));
+		}
+	}
 }
 
 
+
 struct Foo {
-	var Bar bar;
+	var test::Bar bar;
 	var Int test;
 }
 
 
-function fx(Int a, Int b) -> Void {
-	->print(->min(a, b));
-	->print(->max(a, b));
-}
-
-
-function fx(Float a, Float b) -> Void {
-	->print(->min(a, b));
-	->print(->max(a, b));
-}
-
 
 function main() -> Void {
-	var Array arr = ->Array();
-	->pushBack(arr, 1.1);
-	->pushBack(arr, 2.1);
-	->pushBack(arr, 3.1);
+	var Foo foo = new Foo(new test::Bar(42), 3);
 
-	->print(->Float(->at(arr, 0)));
-	->print(->Float(->at(arr, 1)));
-	->print(->Float(->at(arr, 2)));
+	const ltn::Array arr = ->ltn::array();
+	->ltn::pushBack(arr, 1.1);
+	->ltn::pushBack(arr, 2.1);
+	->ltn::pushBack(arr, 3.1);
 
-	->fx(-7, 42);
-	->fx(-7.3, 42.2);
+	->print(->Float(->ltn::at(arr, 0)));
+	->print(->Float(->ltn::at(arr, 1)));
+	->print(->Float(->ltn::at(arr, 2)));
+
+	->test::a1::fx(-7, 42);
+	->test::a1::fx(-7.3, 42.2);
+
+	->a::fx();
+	->b::fx();
 
 	var Int a = 42;
 	->print("Hello World");

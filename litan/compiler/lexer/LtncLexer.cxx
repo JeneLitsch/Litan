@@ -26,6 +26,9 @@ std::vector<ltnc::Token> ltnc::Lexer::tokenize(const std::string & str) {
 		LNC::chr(';', TokenType::SEMICOLON),
 		LNC::chr(',', TokenType::COMMA),
 		LNC::chr('.', TokenType::DOT),
+		LNC::chr(':', {
+			LNC::chr(':', TokenType::DOUBLE_COLON) 
+		}),
 		
 		LNC::chr('{', TokenType::L_BRACE),
 		LNC::chr('}', TokenType::R_BRACE),

@@ -5,6 +5,7 @@
 #include <vector>
 #include "LtncToken.hxx"
 #include "LtncTypeId.hxx"
+#include "LtncNamespace.hxx"
 namespace ltnc {
 
 	struct Expr {
@@ -69,13 +70,14 @@ namespace ltnc {
 	struct ExprCall : public Expr {
 		virtual ~ExprCall() = default;
 
-		ExprCall(const std::string & name, const std::vector<std::shared_ptr<Expr>> & paramExprs)
-			: name(name), paramExprs(paramExprs) {}
+		ExprCall(const std::string & name, const Namespace & ns, const std::vector<std::shared_ptr<Expr>> & paramExprs)
+			: name(name), ns(ns), paramExprs(paramExprs) {}
 
-		ExprCall(const std::string & name)
-			: name(name), paramExprs({}) {}
+		ExprCall(const std::string & name, const Namespace & ns)
+			: name(name), ns(ns), paramExprs({}) {}
 
 		std::string name;
+		Namespace ns;
 		std::vector<std::shared_ptr<Expr>> paramExprs;
 	};
 

@@ -2,6 +2,7 @@
 #include "LtncExpr.hxx"
 #include "LtncStmt.hxx"
 #include "LtncToken.hxx"
+#include "LtncNamespace.hxx"
 #include "LtncParserPackage.hxx"
 
 #include "LtncParserStmt.hxx"
@@ -32,7 +33,8 @@ namespace ltnc {
 		Parser();
 		std::shared_ptr<Program> parse(const std::vector<Token> & tokens) const;
 	private:
-
+		bool parseNamespace(ParserPackage & parsePkg, Program & program) const;
+		void parseDecl(ParserPackage & parsePkg, Program & program) const;
 
 		ParserStmt stmt;
 		ParserBlock block;

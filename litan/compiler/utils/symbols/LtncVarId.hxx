@@ -1,9 +1,8 @@
 #pragma once
-#include <string>
+#include "LtncSymbol.hxx"
 namespace ltnc {
-	struct VarId {
+	struct VarId : public Symbol {
 		VarId (const std::string & name) 
-			: name(name) {}
-		std::string name;
+			: Symbol(name) {}
 	};
 }
