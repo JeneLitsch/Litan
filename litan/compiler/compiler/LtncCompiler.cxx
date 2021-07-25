@@ -1,9 +1,14 @@
 #include "LtncCompiler.hxx"
 #include <iostream>
 #include "LtncBaseTypes.hxx"
+#include "LtncConstructorGenerator.hxx"
+#include "LtncCompilerFunctions.hxx"
+
 std::string ltnc::Compiler::compile(
 	std::shared_ptr<Program> program,
 	const CompilerSettings & settings){
+
+	ConstructorGenerator constructorGenerator;
 
 	CompilerPack compPkg(settings);
 	compPkg.getSymbolTable().addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
@@ -42,13 +47,13 @@ std::string ltnc::Compiler::compile(
 	
 	// init code
 	code << AssemblyCode("-> MAIN"); 
-	code << stmtCompiler.compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main", Namespace()))).code;
+	code << compile::justAnExpression(compPkg, StmtExpr(std::make_shared<ExprCall>("main", Namespace()))).code;
 	code << AssemblyCode("exit");
 	code << AssemblyCode("\n");
 
 	// compile functions
 	for(const auto & function : program->functions) {
-		code << this->declCompiler.compile(compPkg, function).code;
+		code << compile::function(compPkg, *function).code;
 	}
 
 	return code.str();

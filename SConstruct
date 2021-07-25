@@ -79,6 +79,7 @@ dirsLtnC = [
 	"litan/compiler/compiler",
 	"litan/compiler/compiler/evaluation",
 	"litan/compiler/compiler/generation",
+	"litan/compiler/compiler/functions",
 	"litan/compiler/compiler/nodes",
 	"litan/compiler/compiler/symbolTable",
 	"litan/compiler/compiler/symbolTable/search",

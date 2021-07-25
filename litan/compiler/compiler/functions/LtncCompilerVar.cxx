@@ -1,11 +1,7 @@
-#include "LtncVariCompiler.hxx"
-#include "Unused.hxx"
+#include "LtncCompilerFunctions.hxx"
 #include <functional>
 
-ltnc::ExprInfo ltnc::VariCompiler::compile(
-	CompilerPack & compPkg,
-	const std::shared_ptr<ExprVar> & access,
-	const std::optional<ExprInfo> & expr) const {
+ltnc::ExprInfo ltnc::compile::var(CompilerPack & compPkg, const ExprVar & varExpr, const std::optional<ExprInfo> & expr) {
 
 	CodeBuffer code = compPkg.codeBuffer();
 	Var var(TypeId(""), 0, VarId(""));
@@ -13,7 +9,7 @@ ltnc::ExprInfo ltnc::VariCompiler::compile(
 
 	// find next var
 	std::function nextVar = [
-		&path = access->path,
+		&path = varExpr.path,
 		&scopeStack = compPkg.getSymbolTable(),
 		&typeTable = compPkg.getSymbolTable()
 		] (
@@ -44,7 +40,7 @@ ltnc::ExprInfo ltnc::VariCompiler::compile(
 
 	// generate code for acces
 	std::function makeCode = [
-		&path = access->path] (
+		&path = varExpr.path] (
 		unsigned i,
 		const Var & var,
 		const std::optional<ExprInfo> & expr)
@@ -80,7 +76,7 @@ ltnc::ExprInfo ltnc::VariCompiler::compile(
 
 
 	// follow refs
-	for(unsigned i = 0; i < access->path.size(); i++) {
+	for(unsigned i = 0; i < varExpr.path.size(); i++) {
 		var = nextVar(i, var);
 		code << makeCode(i, var, expr);
 	}
