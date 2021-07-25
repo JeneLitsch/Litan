@@ -6,7 +6,5 @@ namespace ltnc {
 	public:
 		Parser();
 		std::shared_ptr<Program> parse(const std::vector<Token> & tokens) const;
-	private:
-
 	};
 }

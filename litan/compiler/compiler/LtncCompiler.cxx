@@ -1,14 +1,14 @@
 #include "LtncCompiler.hxx"
 #include <iostream>
 #include "LtncBaseTypes.hxx"
-#include "LtncConstructorGenerator.hxx"
+#include "LtncCtorGenerator.hxx"
 #include "LtncCompilerFunctions.hxx"
 
 std::string ltnc::Compiler::compile(
 	std::shared_ptr<Program> program,
 	const CompilerSettings & settings){
 
-	ConstructorGenerator constructorGenerator;
+	CtorGenerator ctorGenerator;
 
 	CompilerPack compPkg(settings);
 	compPkg.getSymbolTable().addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
@@ -34,8 +34,8 @@ std::string ltnc::Compiler::compile(
 			structType.members.push_back(var);
 		}
 		// add automatic constructors
-		code << constructorGenerator.defaultCtor(compPkg, structType);
-		code << constructorGenerator.parameterCtor(compPkg, structType);
+		code << ctorGenerator.defaultCtor(compPkg, structType);
+		code << ctorGenerator.parameterCtor(compPkg, structType);
 		compPkg.getSymbolTable().insert(structType);
 	}
 

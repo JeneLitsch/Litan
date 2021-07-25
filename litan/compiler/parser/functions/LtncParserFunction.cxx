@@ -9,7 +9,6 @@ std::string name(ltnc::ParserPackage & parsePkg) {
 }
 
 
-
 std::vector<ltnc::Param> parameterList(ltnc::ParserPackage & parsePkg) {
 	// parameter list
 	if(parsePkg.match(ltnc::TokenType::L_PAREN)) {
@@ -58,8 +57,8 @@ ltnc::TypeId returnType(ltnc::ParserPackage & parsePkg) {
 
 
 
-std::shared_ptr<ltnc::StmtBlock> body(ltnc::ParserPackage & parsePkg) {
-	if(auto body = ltnc::parse::codeBlock(parsePkg)) {
+std::shared_ptr<ltnc::Stmt> body(ltnc::ParserPackage & parsePkg) {
+	if(auto body = ltnc::parse::statement(parsePkg)) {
 		return body;
 	}
 	return parsePkg.error("expected block statement");

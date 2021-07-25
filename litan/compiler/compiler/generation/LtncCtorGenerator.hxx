@@ -6,7 +6,7 @@ namespace ltnc {
 	struct Constructor {
 		CodeBuffer code;
 	};
-	class ConstructorGenerator {
+	class CtorGenerator {
 	public:
 		CodeBuffer defaultCtor(
 			CompilerPack & compilePkg,
