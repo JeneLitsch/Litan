@@ -6,24 +6,31 @@ std::string ltnc::Compiler::compile(
 	const CompilerSettings & settings){
 
 	CompilerPack compPkg(settings);
+	compPkg.getSymbolTable().addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
 	CodeBuffer code = compPkg.codeBuffer();
-	// register types
+	// register typedefs
 	for(const Type & type : program->types) {
 		compPkg.getSymbolTable().insert(type);
+		
 	}
 
+
+	// register structs
 	for(const DeclStruct & struct_ : program->structs) {
 		Type structType(struct_.typeId);
 		for(const auto & member : struct_.members) {
-			if(member->assign) {
+			if(member.assign) {
 				throw std::runtime_error("Assignment to members is not allowed");
 			}
-			auto name = member->name;
-			auto typeId = member->typeId;
+			auto name = member.name;
+			auto typeId = member.typeId;
 			auto addr = structType.members.size();
 			auto var = std::make_shared<Var>(typeId, addr, name);
 			structType.members.push_back(var);
 		}
+		// add automatic constructors
+		code << constructorGenerator.defaultCtor(compPkg, structType);
+		code << constructorGenerator.parameterCtor(compPkg, structType);
 		compPkg.getSymbolTable().insert(structType);
 	}
 
@@ -34,7 +41,6 @@ std::string ltnc::Compiler::compile(
 	}
 	
 	// init code
-	compPkg.getSymbolTable().addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
 	code << AssemblyCode("-> MAIN"); 
 	code << stmtCompiler.compileEval(compPkg, std::make_shared<StmtExpr>(std::make_shared<ExprCall>("main", Namespace()))).code;
 	code << AssemblyCode("exit");

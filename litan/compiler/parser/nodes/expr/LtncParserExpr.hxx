@@ -5,15 +5,10 @@
 namespace ltnc {
 	class ParserExpr : public ParserNode<Expr> {
 	public:
-		ParserExpr(
-			const ParserNode<Expr> & comparison,
-			const ParserNode<ExprNew> & newstruct,
-			const ParserNode<ExprDel> & delstruct);
+		ParserExpr(const ParserNode<Expr> & comparison);
 		virtual std::shared_ptr<Expr> eval(ParserPackage & parsePkg) const override;
 	
 	private:
-		const ParserNode<Expr> * comparison;
-		const ParserNode<ExprNew> * newstruct;
-		const ParserNode<ExprDel> * delstruct;
+		const ParserNode<Expr> & comparison;
 	};
 }

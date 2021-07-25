@@ -29,11 +29,11 @@ std::string ltnc::Ltnc::compile(
 	auto tokens = lexer.tokenize(code);
 	if(!silent) std::cout << ">> Parsing..." << std::endl;
 	auto ast = parser.parse(tokens);
+	if(!silent) std::cout << ">> Compiling..." << std::endl;
+	auto asmb = compiler.compile(ast, settings);
 	if(!silent && print) {
 		std::cout << StructurePrinter(*ast) << std::endl;
 	}
-	if(!silent) std::cout << ">> Compiling..." << std::endl;
-	auto asmb = compiler.compile(ast, settings);
 	if(!silent) std::cout << ">> Done compiling code!" << std::endl;
 	std::cout << std::endl;
 	return asmb;

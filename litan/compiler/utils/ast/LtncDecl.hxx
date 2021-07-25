@@ -35,13 +35,6 @@ namespace ltnc {
 		std::shared_ptr<Stmt> assign;
 	};
 
-	struct DeclStruct : public Decl {
-		DeclStruct(const TypeId & typeId)
-			: typeId(typeId) {}
-		
-		TypeId typeId;
-		std::vector<std::shared_ptr<DeclVar>> members;
-	};
 
 	struct DeclFunction : public Decl {
 		DeclFunction(
@@ -59,5 +52,13 @@ namespace ltnc {
 		FunctionSignature signature;
 		std::shared_ptr<Stmt> body;
 		bool inlined;
+	};
+
+	struct DeclStruct : public Decl {
+		DeclStruct(const TypeId & typeId)
+			: typeId(typeId) {}
+		
+		TypeId typeId;
+		std::vector<DeclVar> members;
 	};
 }

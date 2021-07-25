@@ -17,13 +17,8 @@
 
 
 ltnc::ExprCompiler::ExprCompiler(
-	const CnstCompiler & cnstCompiler,
-	const DstrCompiler & dstrCompiler,
 	const VariCompiler & variCompiler) 
-	: 
-	cnstCompiler(cnstCompiler),
-	dstrCompiler(dstrCompiler),
-	variCompiler(variCompiler) {}
+	: variCompiler(variCompiler) {}
 
 
 ltnc::ExprInfo ltnc::ExprCompiler::compile(CompilerPack & compPkg, const std::shared_ptr<Expr> & expr) const {
@@ -32,12 +27,6 @@ ltnc::ExprInfo ltnc::ExprCompiler::compile(CompilerPack & compPkg, const std::sh
 
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileExpr(CompilerPack & compPkg,  std::shared_ptr<Expr> expr) const {
-	if(auto expr_ = std::dynamic_pointer_cast<ltnc::ExprNew>(expr)) {
-		return this->cnstCompiler.compile(compPkg, expr_);
-	}
-	if(auto expr_ = std::dynamic_pointer_cast<ltnc::ExprDel>(expr)) {
-		return this->dstrCompiler.compile(compPkg, expr_);
-	}
 	if(auto expr_ = std::dynamic_pointer_cast<ltnc::ExprIntLiteral>(expr)) {
 		return this->compileIntLit(compPkg, expr_);
 	}
@@ -64,8 +53,13 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileExpr(CompilerPack & compPkg,  std::sha
 
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileBinary(CompilerPack & compPkg, std::shared_ptr<ExprBinary> expr) const {
+	static const AddEvaluator addEvaluator;
+	static const SubEvaluator subEvaluator;
+	static const MltEvaluator mltEvaluator;
+	static const DivEvaluator divEvaluator;
+	static const ModEvaluator modEvaluator;
+	
 	switch (expr->type)	{
-
 	// comparision operator
 	case TokenType::EQUAL:			return this->buildBinary(compPkg, expr, "eql");
 	case TokenType::UNEQUAL: 		return this->buildBinary(compPkg, expr, "uneql");
@@ -75,11 +69,11 @@ ltnc::ExprInfo ltnc::ExprCompiler::compileBinary(CompilerPack & compPkg, std::sh
 	case TokenType::BIGGEREQUAL: 	return this->buildBinary(compPkg, expr, "bgreql");
 
 	// arithmetic binary operators 
-	case TokenType::PLUS: 			return this->buildBinary(compPkg, expr, "add", AddEvaluator());
-	case TokenType::MINUS: 			return this->buildBinary(compPkg, expr, "sub", SubEvaluator());
-	case TokenType::STAR: 			return this->buildBinary(compPkg, expr, "mlt", MltEvaluator());
-	case TokenType::SLASH: 			return this->buildBinary(compPkg, expr, "div", DivEvaluator());
-	case TokenType::MOD: 			return this->buildBinary(compPkg, expr, "mod", ModEvaluator());
+	case TokenType::PLUS: 			return this->buildBinary(compPkg, expr, "add", &addEvaluator);
+	case TokenType::MINUS: 			return this->buildBinary(compPkg, expr, "sub", &subEvaluator);
+	case TokenType::STAR: 			return this->buildBinary(compPkg, expr, "mlt", &mltEvaluator);
+	case TokenType::SLASH: 			return this->buildBinary(compPkg, expr, "div", &divEvaluator);
+	case TokenType::MOD: 			return this->buildBinary(compPkg, expr, "mod", &modEvaluator);
 
 	// error
 	default: 						throw std::runtime_error("Invalid binary expression");
@@ -91,7 +85,7 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 	CompilerPack & compPkg,
 	std::shared_ptr<ExprBinary> expr,
 	const std::string & command,
-	const Evaluator & eval) const {
+	const Evaluator * eval) const {
 	
 
 	// left and right
@@ -102,8 +96,8 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 	std::string suffix = this->getSuffux(l, r);
 
 	// try constant folding
-	if(compPkg.getSettings().getOptimizationLevel()) {		
-		if(auto optimized = eval.optimize(l, r)) {
+	if(eval && compPkg.getSettings().getOptimizationLevel()) {		
+		if(auto optimized = eval->optimize(l, r)) {
 			return *optimized;
 		}
 	}
@@ -116,25 +110,6 @@ ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
 	return ExprInfo(l.typeId, code);
 }
 
-
-ltnc::ExprInfo ltnc::ExprCompiler::buildBinary(
-	CompilerPack & compPkg,
-	std::shared_ptr<ExprBinary> expr,
-	const std::string & command) const {
-	// left and right expr
-	ExprInfo l = this->compileExpr(compPkg, expr->l);
-	ExprInfo r = this->compileExpr(compPkg, expr->r);
-
-	// i or f for int or float
-	std::string suffix = this->getSuffux(l, r);
-
-	CodeBuffer code(compPkg.getSettings().areCommentsActive());
-	code << l.code;
-	code << r.code;
-	code << AssemblyCode(command + suffix);
-	
-	return ExprInfo(l.typeId, code);
-}
 
 ltnc::ExprInfo ltnc::ExprCompiler::compileUnary(CompilerPack & compPkg, std::shared_ptr<ExprUnary> expr) const {
 	CodeBuffer code = compPkg.codeBuffer();

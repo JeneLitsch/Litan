@@ -8,3 +8,6 @@ function Int(Float number) 	-> Int { asm { "load 0" "casti" "return" }}
 
 function Float(Raw number) -> Float { asm {	"load 0" "return" }}
 function Float(Int number) -> Float { asm {	"load 0" "castf" "return" }}
+
+
+function destroy(Raw obj) -> Void { asm { "load 0" "heap::del" }}

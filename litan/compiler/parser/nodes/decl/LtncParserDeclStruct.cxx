@@ -12,7 +12,7 @@ std::shared_ptr<ltnc::DeclStruct> ltnc::ParserDeclStruct::eval(ParserPackage & p
 				return parsePkg.error("Expected {");
 			}
 			while(auto member = this->declVar.eval(parsePkg)) {
-				structNode->members.push_back(member);
+				structNode->members.push_back(*member);
 			}
 			if(!parsePkg.match(TokenType::R_BRACE)) {
 				return parsePkg.error("Expected }");

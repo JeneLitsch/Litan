@@ -6,16 +6,12 @@
 #include "LtncCompilerPack.hxx"
 #include "LtncExprInfo.hxx"
 #include "LtncEvaluator.hxx"
-#include "LtncCnstCompiler.hxx"
-#include "LtncDstrCompiler.hxx"
 namespace ltnc {
 	// Creates a variaty of expressions
 	class VariCompiler;
 	class ExprCompiler {
 	public:
 		ExprCompiler(
-			const CnstCompiler & cnstCompiler,
-			const DstrCompiler & cstrCompiler,
 			const VariCompiler & variCompiler);
 		ExprInfo compile(CompilerPack & compPkg, const std::shared_ptr<Expr> & expr) const;
 
@@ -31,14 +27,7 @@ namespace ltnc {
 			CompilerPack & compPkg,
 			std::shared_ptr<ExprBinary> expr,
 			const std::string & command,
-			const Evaluator & eval) const;
-
-		// unoptimized binary operator
-		ExprInfo buildBinary(
-			CompilerPack & compPkg,
-			std::shared_ptr<ExprBinary> expr,
-			const std::string & command) const;
-
+			const Evaluator * eval = nullptr) const;
 
 		ExprInfo compileUnary(CompilerPack & compPkg, std::shared_ptr<ExprUnary> expr) const;
 
@@ -57,8 +46,8 @@ namespace ltnc {
 		// throws if types do not match or type is not and int or flt
 		std::string getSuffux(const ExprInfo & l, const ExprInfo & r) const;
 
-		const CnstCompiler & cnstCompiler;
-		const DstrCompiler & dstrCompiler;
 		const VariCompiler & variCompiler;
+
+
 	};
 }

@@ -3,9 +3,10 @@
 #include "LtncStmtCompiler.hxx"
 #include "LtncExprCompiler.hxx"
 #include "LtncDeclCompiler.hxx"
-#include "LtncCnstCompiler.hxx"
-#include "LtncDstrCompiler.hxx"
 #include "LtncVariCompiler.hxx"
+
+#include "LtncConstructorGenerator.hxx"
+
 namespace ltnc {
 	class Compiler {
 
@@ -14,10 +15,7 @@ namespace ltnc {
 		Compiler() : 
 			declCompiler(stmtCompiler),
 			stmtCompiler(exprCompiler, asmbCompiler, variCompiler),
-			exprCompiler(cnstCompiler, dstrCompiler, variCompiler),
-			cnstCompiler(exprCompiler),
-			dstrCompiler(variCompiler)
-			{}
+			exprCompiler(variCompiler) {}
 		
 		std::string compile(
 			std::shared_ptr<Program> program,
@@ -27,8 +25,8 @@ namespace ltnc {
 		StmtCompiler stmtCompiler;
 		ExprCompiler exprCompiler;
 		AsmbCompiler asmbCompiler;
-		CnstCompiler cnstCompiler;
-		DstrCompiler dstrCompiler;
 		VariCompiler variCompiler;
+
+		ConstructorGenerator constructorGenerator;
 	};
 }
