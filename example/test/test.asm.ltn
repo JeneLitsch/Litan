@@ -2,14 +2,8 @@
 -> FNX_Test0
 array::new
 copy
-newl 0
-array::pushb
-copy
-newl 0
-array::pushb
-copy
-newl 0
-array::pushb
+newl 3
+array::rsz
 return
 
 
@@ -36,8 +30,8 @@ return
 -> FNX_Bar2
 array::new
 copy
-newl 0
-array::pushb
+newl 1
+array::rsz
 return
 
 
@@ -56,11 +50,8 @@ return
 -> FNX_Foo4
 array::new
 copy
-newl 0
-array::pushb
-copy
-newl 0
-array::pushb
+newl 2
+array::rsz
 return
 
 
@@ -134,13 +125,21 @@ return
 
 // main ( -> Void ) [ ]
 -> FNX_main10
-stackalloc 3
-newi 1
-newi 2
-newi 3
-call FNX_Test1
+stackalloc 4
+call FNX_Foo4
 store 0
 load 0
+newl 0
+newi 42
+call FNX_Bar3
+array::set
+load 0
+newl 1
+newi 1337
+array::set
+load 0
+newl 0
+array::get
 newl 0
 array::get
 call FNX_print26
@@ -148,32 +147,49 @@ load 0
 newl 1
 array::get
 call FNX_print26
-load 0
+newi 1
+newi 2
+newi 3
+call FNX_Test1
+store 1
+newi 4
+newi 5
+call FNX_min16
+call FNX_print26
+load 1
+newl 0
+array::get
+call FNX_print26
+load 1
+newl 1
+array::get
+call FNX_print26
+load 1
 newl 2
 array::get
 call FNX_print26
 call FNX_Array23
-store 1
-load 1
+store 2
+load 2
 newf 1.100000
 call FNX_pushBack24
-load 1
+load 2
 newf 2.100000
 call FNX_pushBack24
-load 1
+load 2
 newf 3.100000
 call FNX_pushBack24
-load 1
+load 2
 newi 0
 call FNX_at25
 call FNX_Float13
 call FNX_print27
-load 1
+load 2
 newi 1
 call FNX_at25
 call FNX_Float13
 call FNX_print27
-load 1
+load 2
 newi 2
 call FNX_at25
 call FNX_Float13
@@ -188,16 +204,16 @@ newf 42.200000
 call FNX_fx9
 call FNX_fx6
 call FNX_fx7
-load 1
+load 2
 call FNX_destroy15
 newi 42
-store 2
+store 3
 // Hello World
 string::new
 string::data 'Hello '
 string::data 'World'
 call FNX_print28
-load 2
+load 3
 call FNX_print26
 return
 

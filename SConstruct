@@ -67,12 +67,16 @@ print(flags)
 dirsLtnC = [
 	".",
 	"litan/compiler",
+	
 	"litan/compiler/utils",
 	"litan/compiler/utils/ast",
 	"litan/compiler/utils/symbols",
+
 	"litan/compiler/lexer",
+
 	"litan/compiler/parser",
 	"litan/compiler/parser/functions",
+
 	"litan/compiler/compiler",
 	"litan/compiler/compiler/evaluation",
 	"litan/compiler/compiler/generation",

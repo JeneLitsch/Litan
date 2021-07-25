@@ -23,18 +23,16 @@ namespace test {
 	typedef A;
 	namespace a1 {
 		function fx(Int a, Int b) -> Void {
-			->print(->min(a, b));
-			->print(->max(a, b));
+			->print(->ltn::min(a, b));
+			->print(->ltn::max(a, b));
 		}
 
 		function fx(Float a, Float b) -> Void {
-			->print(->min(a, b));
-			->print(->max(a, b));
+			->print(->ltn::min(a, b));
+			->print(->ltn::max(a, b));
 		}
 	}
 }
-
-
 
 struct Foo {
 	var test::Bar bar;
@@ -44,7 +42,15 @@ struct Foo {
 
 
 function main() -> Void {
+	var Foo foo = ->Foo();
+	foo.bar = ->test::Bar(42);
+	foo.test = 1337;
+
+	->print(foo.bar.x);
+	->print(foo.test);
+
 	var test::Test test = ->test::Test(1, 2, 3);
+	->print(->ltn::min(4, 5));
 	->print(test.a);
 	->print(test.b);
 	->print(test.c);
