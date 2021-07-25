@@ -1,14 +1,23 @@
-#include "LtncParserDeclVar.hxx"
-#include "LtncBaseTypes.hxx"
+#include "LtncParserFunctions.hxx"
 
-ltnc::ParserDeclVar::ParserDeclVar(const ParserNode<Expr> & expr) {
-	this->expr = &expr;
+std::shared_ptr<ltnc::ExprVar> ltnc::parse::var(ParserPackage & parsePkg) {
+	// variables and constants
+	if (parsePkg.match(TokenType::IDENTIFIER)) {
+		auto exprVar = std::make_shared<ExprVar>(parsePkg.prev().string);
+		while(parsePkg.match(TokenType::DOT)) {
+			if (!parsePkg.match(TokenType::IDENTIFIER)) {
+				return parsePkg.error("expected identifier after .");
+			}
+			exprVar->path.push_back(parsePkg.prev().string);
+		}
+		return exprVar;
+	}
+	return nullptr;
 }
 
-
-std::shared_ptr<ltnc::DeclVar> ltnc::ParserDeclVar::eval(ParserPackage & parsePkg) const {
+std::shared_ptr<ltnc::DeclVar> ltnc::parse::declareVar(ParserPackage & parsePkg)  {
 	if(parsePkg.match({TokenType::VAR, TokenType::CONST})) {
-		TypeId typeId = parseType(parsePkg);
+		TypeId typeId = type(parsePkg);
 		if(typeId.name == TVoid) {
 			return parsePkg.error("Void is not allowed as variable type");
 		}
@@ -17,7 +26,7 @@ std::shared_ptr<ltnc::DeclVar> ltnc::ParserDeclVar::eval(ParserPackage & parsePk
 			// direct initialisation
 			std::shared_ptr<StmtAssign> assign = nullptr;
 			if(parsePkg.match(TokenType::ASSIGN)) {
-				auto expr = this->expr->eval(parsePkg);
+				auto expr = expression(parsePkg);
 				auto access = std::make_shared<ExprVar>(name);
 				assign = std::make_shared<StmtAssign>(
 					access,

@@ -1,9 +1,6 @@
-#include "LtncParserDeclStruct.hxx"
+#include "LtncParserFunctions.hxx"
 
-ltnc::ParserDeclStruct::ParserDeclStruct(const ParserNode<DeclVar> & declVar)
-:	declVar(declVar) {}
-
-std::shared_ptr<ltnc::DeclStruct> ltnc::ParserDeclStruct::eval(ParserPackage & parsePkg) const {
+std::shared_ptr<ltnc::DeclStruct> ltnc::parse::declareStruct(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::STRUCT)) {
 		if(parsePkg.match(TokenType::IDENTIFIER)) {
 			std::string name = parsePkg.prev().string;
@@ -11,7 +8,7 @@ std::shared_ptr<ltnc::DeclStruct> ltnc::ParserDeclStruct::eval(ParserPackage & p
 			if(!parsePkg.match(TokenType::L_BRACE)) {
 				return parsePkg.error("Expected {");
 			}
-			while(auto member = this->declVar.eval(parsePkg)) {
+			while(auto member = declareVar(parsePkg)) {
 				structNode->members.push_back(*member);
 			}
 			if(!parsePkg.match(TokenType::R_BRACE)) {

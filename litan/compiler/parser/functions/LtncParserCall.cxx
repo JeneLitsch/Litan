@@ -1,17 +1,12 @@
-#include "LtncParserParameter.hxx"
-#include "LtncParserExpr.hxx"
+#include "LtncParserFunctions.hxx"
 
-ltnc::ParserParameter::ParserParameter(const ParserExpr & expr) {
-	this->expr = &expr;
-}
-
-std::shared_ptr<std::vector<std::shared_ptr<ltnc::Expr>>> ltnc::ParserParameter::eval(ParserPackage & parsePkg) const {
+std::shared_ptr<std::vector<std::shared_ptr<ltnc::Expr>>> ltnc::parse::parameters(ParserPackage & parsePkg) {
 	// parameters
 	if (parsePkg.match(TokenType::L_PAREN)) {
 		std::vector<std::shared_ptr<Expr>> parameters;
 		if (!parsePkg.match(TokenType::R_PAREN)) {
 			while(!parsePkg.isAtEnd()) {
-				auto expr = this->expr->eval(parsePkg);
+				auto expr = expression(parsePkg);
 				parameters.push_back(expr);
 				// next paramter
 				if(parsePkg.match(TokenType::COMMA)) {
@@ -29,4 +24,18 @@ std::shared_ptr<std::vector<std::shared_ptr<ltnc::Expr>>> ltnc::ParserParameter:
 		return std::make_shared<std::vector<std::shared_ptr<Expr>>>(parameters);
 	}
 	return {parsePkg.error("expected (")};
+}
+
+
+std::shared_ptr<ltnc::ExprCall> ltnc::parse::call(ParserPackage & parsePkg) {
+	if(parsePkg.match(TokenType::ARROW)) {
+		Namespace ns = nameSpace(parsePkg);
+		// function name
+		if(parsePkg.match(TokenType::IDENTIFIER)) {
+			std::string name = parsePkg.prev().string;
+			auto params = parameters(parsePkg);
+			return std::make_shared<ExprCall>(name, ns, *params);
+		}
+	}
+	return nullptr;
 }

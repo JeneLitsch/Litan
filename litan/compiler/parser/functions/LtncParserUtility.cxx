@@ -1,6 +1,6 @@
-#include "LtncParserNode.hxx"
+#include "LtncParserFunctions.hxx"
 
-ltnc::Namespace ltnc::parserNamespace(ParserPackage & parsePkg) {
+ltnc::Namespace ltnc::parse::nameSpace(ParserPackage & parsePkg) {
 	Namespace ns;
 	while(parsePkg.match(TokenType::IDENTIFIER)) {
 		ns.push(parsePkg.prev().string);
@@ -13,8 +13,8 @@ ltnc::Namespace ltnc::parserNamespace(ParserPackage & parsePkg) {
 	throw std::runtime_error("Expected idendifier");
 }
 
-ltnc::TypeId ltnc::parseType(ParserPackage & parsePkg) {
-	Namespace ns = parserNamespace(parsePkg);
+ltnc::TypeId ltnc::parse::type(ParserPackage & parsePkg) {
+	Namespace ns = nameSpace(parsePkg);
 	if(parsePkg.match(TokenType::IDENTIFIER)) {
 		return TypeId(parsePkg.prev().string, ns);
 	}
