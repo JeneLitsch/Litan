@@ -1,0 +1,22 @@
+namespace ltn {
+	typedef Queue;
+
+	function Queue() -> ltn::Queue {
+		asm { "array::new" "return" }
+	}
+
+	function push(ltn::Queue queue, Raw value) -> Void
+		asm { "load 0" "load 1" "array::pushb" }
+
+
+	function pop(ltn::Queue queue) -> Raw
+		asm { "load 0" "array::popf" "return" }
+
+
+	function front(ltn::Queue queue) -> Raw
+		asm { "load 0" "array::getf" "return" }
+
+
+	function empty(ltn::Queue queue) -> Int 
+		asm { "load 0" "array::len" "newl 0" "eqli" "return" }
+}

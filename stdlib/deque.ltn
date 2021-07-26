@@ -1,0 +1,34 @@
+namespace ltn {
+	typedef Deque;
+
+	function Deque() -> ltn::Deque
+		asm { "array::new" "return" }
+
+
+	function pushFront(ltn::Deque deque, Raw value) -> Void
+		asm { "load 0" "load 1" "array::pushf" }
+
+
+	function popFront(ltn::Deque deque) -> Raw
+		asm { "load 0" "array::popf" "return" }
+
+
+	function pushBack(ltn::Deque deque, Raw value) -> Void
+		asm { "load 0" "load 1" "array::pushb" }
+
+
+	function popBack(ltn::Deque deque) -> Raw
+		asm { "load 0" "array::popb" "return" }
+
+
+	function front(ltn::Deque deque) -> Raw
+		asm { "load 0" "array::getf" "return" }
+
+
+	function back(ltn::Deque deque) -> Raw
+		asm { "load 0" "array::getb" "return" }
+
+
+	function empty(ltn::Deque deque) -> Int 
+		asm { "load 0" "array::len" "newl 0" "eqli" "return" }
+}

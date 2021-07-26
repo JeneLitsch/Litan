@@ -22,6 +22,8 @@ std::string ltnc::Ltnc::compile(
 		+ ltn::readFile(settings.getStdlibPath() + "/math.ltn") + "\n"
 		+ ltn::readFile(settings.getStdlibPath() + "/array.ltn") + "\n"
 		+ ltn::readFile(settings.getStdlibPath() + "/stack.ltn") + "\n"
+		+ ltn::readFile(settings.getStdlibPath() + "/queue.ltn") + "\n"
+		+ ltn::readFile(settings.getStdlibPath() + "/deque.ltn") + "\n"
 		+ ltn::readFile(settings.getStdlibPath() + "/io.ltn") + "\n"
 		+ ltn::readFile(settings.getStdlibPath() + "/exept.ltn") + "\n"
 		+ ltn::readFile(settings.getStdlibPath() + "/string.ltn") + "\n";

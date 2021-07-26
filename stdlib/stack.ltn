@@ -5,18 +5,18 @@ namespace ltn {
 		asm { "array::new" "return" }
 	}
 
-	function push(ltn::Stack array, Raw value) -> Void
+	function push(ltn::Stack stack, Raw value) -> Void
 		asm { "load 0" "load 1" "array::pushb" }
 
 
-	function pop(ltn::Stack array) -> Raw
+	function pop(ltn::Stack stack) -> Raw
 		asm { "load 0" "array::popb" "return" }
 
 
-	function top(ltn::Stack array) -> Raw
+	function top(ltn::Stack stack) -> Raw
 		asm { "load 0" "array::getb" "return" }
 
 
-	function empty(ltn::Stack array) -> Int 
+	function empty(ltn::Stack stack) -> Int 
 		asm { "load 0" "array::len" "newl 0" "eqli" "return" }
 }
