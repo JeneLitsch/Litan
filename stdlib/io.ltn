@@ -1,3 +1,4 @@
+function print(Raw raw) 	-> Void { asm { "load 0" "print 0" }}
 function print(Int num) 	-> Void { asm { "load 0" "print 0" }}
 function print(Float num) 	-> Void { asm { "load 0" "print 1" }}
-function print(String s) 	-> Void { asm { "load 0" "string::print" }}
+function print(String str) 	-> Void { asm { "load 0" "string::print" }}

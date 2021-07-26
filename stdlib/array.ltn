@@ -1,30 +1,55 @@
 namespace ltn {
+	// Array based on std::vector
 	typedef Array;
+	
+	function Array() -> ltn::Array
+		asm { "array::new" "return" }
 
-	function Array() -> ltn::Array {
-		var ltn::Array array;
-		asm {
-			"array::new"
-			"store 0"
-		}
+
+	function Array(Int size) -> ltn::Array {
+		if(size < 0) ->error();
+		var ltn::Array array = ->ltn::Array();
+		asm { "load 1" "load 0" "array::rsz" }
 		return array;
 	}
 
-	function pushBack(ltn::Array array, Raw value) -> Void {
-		asm {
-			"load 0"
-			"load 1"
-			"array::pushb"
-		}
-		return;
-	}
 
-	function at(ltn::Array array, Int idx) -> Raw {
-		asm {
-			"load 0"
-			"load 1"
-			"array::get"
-			"return"
-		}
-	}
+	function clear(ltn::Array array) -> Void
+		asm { "load 0" "array::clr" }
+
+
+	function insert(ltn::Array array, Int index, Raw value) -> Void
+		asm { "load 0" "load 1" "load 2" "array::ins" }
+
+
+	function erase(ltn::Array array, Int index) -> Void 
+		asm { "load 0" "load 1" "array::ers" }
+
+
+	function empty(ltn::Array array) -> Int 
+		asm { "load 0" "array::len" "newl 0" "eqli" "return" }
+
+
+	function exists(ltn::Array array) -> Int
+		asm { "load 0" "heap::exist" "return" }
+
+
+	function size(ltn::Array array) -> Int
+		asm { "load 0" "array::len" "return" }
+
+
+	function pushBack(ltn::Array array, Raw value) -> Void
+		asm { "load 0" "load 1" "array::pushb" }
+
+
+	function popBack(ltn::Array array) -> Raw
+		asm { "load 0" "array::popb" "return" }
+
+
+	function at(ltn::Array array, Int idx) -> Raw 
+		asm { "load 0" "load 1" "array::get" "return" }
+
+
+	function at(ltn::Array array, Int idx, Raw value) -> Void
+		asm { "load 0" "load 1" "load 2" "array::set" }
 }

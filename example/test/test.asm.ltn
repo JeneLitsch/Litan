@@ -79,7 +79,7 @@ exit
 -> FNX_fx6
 stackalloc 0
 newi 1
-call FNX_print26
+call FNX_print41
 return
 
 
@@ -87,7 +87,7 @@ return
 -> FNX_fx7
 stackalloc 0
 newi 2
-call FNX_print26
+call FNX_print41
 return
 
 
@@ -99,11 +99,11 @@ store 0
 load 0
 load 1
 call FNX_min16
-call FNX_print26
+call FNX_print41
 load 0
 load 1
 call FNX_max18
-call FNX_print26
+call FNX_print41
 return
 
 
@@ -115,106 +115,39 @@ store 0
 load 0
 load 1
 call FNX_min17
-call FNX_print27
+call FNX_print42
 load 0
 load 1
 call FNX_max19
-call FNX_print27
+call FNX_print42
 return
 
 
 // main ( -> Void ) [ ]
 -> FNX_main10
-stackalloc 4
-call FNX_Foo4
+stackalloc 2
+call FNX_Stack35
 store 0
-load 0
-newl 0
-newi 42
-call FNX_Bar3
-array::set
-load 0
-newl 1
-newi 1337
-array::set
-load 0
-newl 0
-array::get
-newl 0
-array::get
-call FNX_print26
-load 0
-newl 1
-array::get
-call FNX_print26
-newi 1
-newi 2
-newi 3
-call FNX_Test1
-store 1
-newi 4
-newi 5
-call FNX_min16
-call FNX_print26
-load 1
-newl 0
-array::get
-call FNX_print26
-load 1
-newl 1
-array::get
-call FNX_print26
-load 1
-newl 2
-array::get
-call FNX_print26
-call FNX_Array23
-store 2
-load 2
-newf 1.100000
-call FNX_pushBack24
-load 2
-newf 2.100000
-call FNX_pushBack24
-load 2
-newf 3.100000
-call FNX_pushBack24
-load 2
 newi 0
-call FNX_at25
-call FNX_Float13
-call FNX_print27
-load 2
-newi 1
-call FNX_at25
-call FNX_Float13
-call FNX_print27
-load 2
-newi 2
-call FNX_at25
-call FNX_Float13
-call FNX_print27
-newi 7
-mnsi
-newi 42
-call FNX_fx8
-newf 7.300000
-mnsf
-newf 42.200000
-call FNX_fx9
-call FNX_fx6
-call FNX_fx7
-load 2
-call FNX_destroy15
-newi 42
-store 3
-// Hello World
-string::new
-string::data 'Hello '
-string::data 'World'
-call FNX_print28
-load 3
-call FNX_print26
+newi 25
+loop::range
+loop::idx
+store 1
+load 0
+load 1
+call FNX_push36
+loop::cont
+-> LOOP48
+load 0
+call FNX_empty39
+lognot
+ifnot
+goto LOOP_END47
+load 0
+call FNX_pop37
+call FNX_print40
+goto LOOP48
+-> LOOP_END47
 return
 
 
@@ -345,16 +278,103 @@ error
 
 // Array ( -> Array ) [ ]
 -> FNX_Array23
-stackalloc 1
+stackalloc 0
 array::new
+return
+error
+
+
+// Array ( Int -> Array ) [ ]
+-> FNX_Array24
+stackalloc 2
 store 0
 load 0
+newi 0
+smli
+ifnx
+goto IF49
+goto END_IF51
+-> IF49
+call FNX_error44
+goto END_IF51
+-> END_IF51
+call FNX_Array23
+store 1
+load 1
+load 0
+array::rsz
+load 1
+return
+error
+
+
+// clear ( Array -> Void ) [ ]
+-> FNX_clear25
+stackalloc 1
+store 0
+load 0
+array::clr
+return
+
+
+// insert ( Array Int Raw -> Void ) [ ]
+-> FNX_insert26
+stackalloc 3
+store 2
+store 1
+store 0
+load 0
+load 1
+load 2
+array::ins
+return
+
+
+// erase ( Array Int -> Void ) [ ]
+-> FNX_erase27
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+array::ers
+return
+
+
+// empty ( Array -> Int ) [ ]
+-> FNX_empty28
+stackalloc 1
+store 0
+load 0
+array::len
+newl 0
+eqli
+return
+error
+
+
+// exists ( Array -> Int ) [ ]
+-> FNX_exists29
+stackalloc 1
+store 0
+load 0
+heap::exist
+return
+error
+
+
+// size ( Array -> Int ) [ ]
+-> FNX_size30
+stackalloc 1
+store 0
+load 0
+array::len
 return
 error
 
 
 // pushBack ( Array Raw -> Void ) [ ]
--> FNX_pushBack24
+-> FNX_pushBack31
 stackalloc 2
 store 1
 store 0
@@ -362,11 +382,20 @@ load 0
 load 1
 array::pushb
 return
+
+
+// popBack ( Array -> Raw ) [ ]
+-> FNX_popBack32
+stackalloc 1
+store 0
+load 0
+array::popb
 return
+error
 
 
 // at ( Array Int -> Raw ) [ ]
--> FNX_at25
+-> FNX_at33
 stackalloc 2
 store 1
 store 0
@@ -377,8 +406,81 @@ return
 error
 
 
+// at ( Array Int Raw -> Void ) [ ]
+-> FNX_at34
+stackalloc 3
+store 2
+store 1
+store 0
+load 0
+load 1
+load 2
+array::set
+return
+
+
+// Stack ( -> Stack ) [ ]
+-> FNX_Stack35
+stackalloc 0
+array::new
+return
+error
+
+
+// push ( Stack Raw -> Void ) [ ]
+-> FNX_push36
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+array::pushb
+return
+
+
+// pop ( Stack -> Raw ) [ ]
+-> FNX_pop37
+stackalloc 1
+store 0
+load 0
+array::popb
+return
+error
+
+
+// top ( Stack -> Raw ) [ ]
+-> FNX_top38
+stackalloc 1
+store 0
+load 0
+array::getb
+return
+error
+
+
+// empty ( Stack -> Int ) [ ]
+-> FNX_empty39
+stackalloc 1
+store 0
+load 0
+array::len
+newl 0
+eqli
+return
+error
+
+
+// print ( Raw -> Void ) [ ]
+-> FNX_print40
+stackalloc 1
+store 0
+load 0
+print 0
+return
+
+
 // print ( Int -> Void ) [ ]
--> FNX_print26
+-> FNX_print41
 stackalloc 1
 store 0
 load 0
@@ -387,7 +489,7 @@ return
 
 
 // print ( Float -> Void ) [ ]
--> FNX_print27
+-> FNX_print42
 stackalloc 1
 store 0
 load 0
@@ -396,7 +498,7 @@ return
 
 
 // print ( String -> Void ) [ ]
--> FNX_print28
+-> FNX_print43
 stackalloc 1
 store 0
 load 0
@@ -405,14 +507,14 @@ return
 
 
 // error ( -> Void ) [ ]
--> FNX_error29
+-> FNX_error44
 stackalloc 0
 error
 return
 
 
 // destroy ( String -> Void ) [ ]
--> FNX_destroy30
+-> FNX_destroy45
 stackalloc 1
 store 0
 load 0
@@ -421,7 +523,7 @@ return
 
 
 // add ( String String -> String ) [ ]
--> FNX_add31
+-> FNX_add46
 stackalloc 2
 store 1
 store 0

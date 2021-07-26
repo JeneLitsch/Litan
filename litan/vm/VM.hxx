@@ -94,6 +94,7 @@ namespace ltn {
 		void arrayFll(); // array fill
 		void arrayRsz(); // array resize
 		void arrayErs(); // erase element
+		void arrayIns(); // insert element
 
 		void arrayPushF(); // push element
 		void arrayPushB(); // push element

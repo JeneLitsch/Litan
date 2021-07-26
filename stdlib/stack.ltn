@@ -1,0 +1,22 @@
+namespace ltn {
+	typedef Stack;
+
+	function Stack() -> ltn::Stack {
+		asm { "array::new" "return" }
+	}
+
+	function push(ltn::Stack array, Raw value) -> Void
+		asm { "load 0" "load 1" "array::pushb" }
+
+
+	function pop(ltn::Stack array) -> Raw
+		asm { "load 0" "array::popb" "return" }
+
+
+	function top(ltn::Stack array) -> Raw
+		asm { "load 0" "array::getb" "return" }
+
+
+	function empty(ltn::Stack array) -> Int 
+		asm { "load 0" "array::len" "newl 0" "eqli" "return" }
+}

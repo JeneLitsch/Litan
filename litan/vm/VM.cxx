@@ -140,6 +140,7 @@ ltn::VM::Status ltn::VM::execute(){
 		case InstCode::ARRAY_FLL: this->arrayFll(); break;
 		case InstCode::ARRAY_RSZ: this->arrayRsz(); break;
 		case InstCode::ARRAY_ERS: this->arrayErs(); break;
+		case InstCode::ARRAY_INS: this->arrayIns(); break;
 
 		case InstCode::ARRAY_PUSHF: this->arrayPushF(); break;
 		case InstCode::ARRAY_PUSHB: this->arrayPushB(); break;
@@ -558,6 +559,14 @@ void ltn::VM::arrayErs(){
 	std::uint64_t ptr = this->env.acc.popU();
 	std::vector<std::uint64_t> & array = this->env.heap.accessArray(ptr);
 	array.erase(array.begin() + long(idx));
+}
+
+void ltn::VM::arrayIns(){
+	std::uint64_t value = this->env.acc.popU();
+	std::uint64_t idx = this->env.acc.popU();
+	std::uint64_t ptr = this->env.acc.popU();
+	std::vector<std::uint64_t> & array = this->env.heap.accessArray(ptr);
+	array.insert(array.begin() + long(idx), value);
 }
 
 void ltn::VM::arrayPushF(){

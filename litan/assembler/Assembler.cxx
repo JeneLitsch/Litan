@@ -134,6 +134,7 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "array::fll") return this->cFormat(InstCode::ARRAY_FLL);  
 		if(pkg.inst == "array::rsz") return this->cFormat(InstCode::ARRAY_RSZ);  
 		if(pkg.inst == "array::ers") return this->cFormat(InstCode::ARRAY_ERS);  
+		if(pkg.inst == "array::ins") return this->cFormat(InstCode::ARRAY_INS);  
 
 		if(pkg.inst == "array::pushf") return this->cFormat(InstCode::ARRAY_PUSHF);  
 		if(pkg.inst == "array::pushb") return this->cFormat(InstCode::ARRAY_PUSHB);  

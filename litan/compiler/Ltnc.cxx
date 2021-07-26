@@ -18,12 +18,13 @@ std::string ltnc::Ltnc::compile(
 
 
 	std::string code = source 
-		+ ltn::readFile(settings.getStdlibPath() + "/basic.ltn") 
-		+ ltn::readFile(settings.getStdlibPath() + "/math.ltn") 
-		+ ltn::readFile(settings.getStdlibPath() + "/array.ltn") 
-		+ ltn::readFile(settings.getStdlibPath() + "/io.ltn") 
-		+ ltn::readFile(settings.getStdlibPath() + "/exept.ltn")
-		+ ltn::readFile(settings.getStdlibPath() + "/string.ltn");
+		+ ltn::readFile(settings.getStdlibPath() + "/basic.ltn") + "\n"
+		+ ltn::readFile(settings.getStdlibPath() + "/math.ltn") + "\n"
+		+ ltn::readFile(settings.getStdlibPath() + "/array.ltn") + "\n"
+		+ ltn::readFile(settings.getStdlibPath() + "/stack.ltn") + "\n"
+		+ ltn::readFile(settings.getStdlibPath() + "/io.ltn") + "\n"
+		+ ltn::readFile(settings.getStdlibPath() + "/exept.ltn") + "\n"
+		+ ltn::readFile(settings.getStdlibPath() + "/string.ltn") + "\n";
 
 	if(!silent) std::cout << ">> Tokenization..." << std::endl;
 	auto tokens = lexer.tokenize(code);

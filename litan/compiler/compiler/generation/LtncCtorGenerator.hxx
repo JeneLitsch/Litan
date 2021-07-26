@@ -3,9 +3,6 @@
 #include "LtncCodeBuffer.hxx"
 #include "LtncCompilerPack.hxx"
 namespace ltnc {
-	struct Constructor {
-		CodeBuffer code;
-	};
 	class CtorGenerator {
 	public:
 		CodeBuffer defaultCtor(
