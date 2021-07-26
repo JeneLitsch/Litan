@@ -8,11 +8,11 @@ ltnc::StmtInfo ltnc::compile::ifElse(CompilerPack & compPkg, const StmtIf & stmt
 	std::string jmElse = compPkg.getSymbolTable().makeJumpMark("ELSE");
 	std::string jmEnd = compPkg.getSymbolTable().makeJumpMark("END_IF");
 	
-
 	ExprInfo condition = expression(compPkg, *stmt.condition);
 	StmtInfo codeIf = statement(compPkg, *stmt.stmtIf);
 	unsigned stackalloc;
 
+	// ifElse
 	if(stmt.stmtElse) {
 		StmtInfo codeElse = statement(compPkg, *stmt.stmtElse);
 		stackalloc = std::max<unsigned>(codeIf.stackalloc, codeElse.stackalloc);
@@ -33,6 +33,7 @@ ltnc::StmtInfo ltnc::compile::ifElse(CompilerPack & compPkg, const StmtIf & stmt
 		code << AssemblyCode("-> " + jmEnd);		
 	}
 
+	// if
 	else {
 		stackalloc = codeIf.stackalloc;
 		code << condition.code;

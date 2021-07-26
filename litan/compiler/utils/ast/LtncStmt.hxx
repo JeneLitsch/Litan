@@ -54,19 +54,19 @@ namespace ltnc {
 		std::string name = ""; 
 		std::shared_ptr<Expr> exprFrom = nullptr; 
 		std::shared_ptr<Expr> exprTo = nullptr; 
-		std::shared_ptr<StmtBlock> stmt = nullptr;
+		std::shared_ptr<Stmt> stmt = nullptr;
 	};
 
 	struct StmtRepeat : public Stmt {
 		virtual ~StmtRepeat() = default;
 		std::shared_ptr<Expr> expr = nullptr; 
-		std::shared_ptr<StmtBlock> stmt = nullptr;
+		std::shared_ptr<Stmt> stmt = nullptr;
 	};
 
 	struct StmtWhile : public Stmt {
 		virtual ~StmtWhile() = default;
 		std::shared_ptr<Expr> expr = nullptr; 
-		std::shared_ptr<StmtBlock> stmt = nullptr;
+		std::shared_ptr<Stmt> stmt = nullptr;
 	};
 
 

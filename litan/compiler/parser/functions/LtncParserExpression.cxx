@@ -69,9 +69,14 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::primary(ParserPackage & parsePkg) {
 		double value = std::stod(parsePkg.prev().string);
 		return std::make_shared<ExprFltLiteral>(value);
 	}
+	
 	if (parsePkg.match(TokenType::STRING_LITERAL)) {
 		std::string value = parsePkg.prev().string;
 		return std::make_shared<ExprStrLiteral>(value);
+	}
+
+	if (parsePkg.match(TokenType::NUL)) {
+		return std::make_shared<ExprNul>();
 	}
 
 	if (parsePkg.match(TokenType::L_PAREN)) {

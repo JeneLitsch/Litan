@@ -39,19 +39,13 @@ namespace ltnc {
 	struct DeclFunction : public Decl {
 		DeclFunction(
 			FunctionSignature signature,
-			std::shared_ptr<Stmt> body,
-			bool inlined = false) 
-			
-			:		
-			
-			signature(signature),
-			body(body),
-			inlined(inlined) {}
+			std::shared_ptr<Stmt> body) 
+		:	signature(signature),
+			body(body) {}
 
 		virtual ~DeclFunction() = default;
 		FunctionSignature signature;
 		std::shared_ptr<Stmt> body;
-		bool inlined;
 	};
 
 	struct DeclStruct : public Decl {

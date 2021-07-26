@@ -8,11 +8,6 @@ std::string fxComment(const ltnc::DeclFunction & decl) {
 	}
 	text += "-> ";
 	text += decl.signature.returnType.name + " ) ";
-	text += "[ ";
-	if (decl.inlined) {
-		text += "inline ";
-	}
-	text += "]";
 	return text;
 }
 

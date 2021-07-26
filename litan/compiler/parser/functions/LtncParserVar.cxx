@@ -16,8 +16,8 @@ std::shared_ptr<ltnc::ExprVar> ltnc::parse::var(ParserPackage & parsePkg) {
 }
 
 std::shared_ptr<ltnc::DeclVar> ltnc::parse::declareVar(ParserPackage & parsePkg)  {
-	if(parsePkg.match({TokenType::VAR, TokenType::CONST})) {
-		TypeId typeId = type(parsePkg);
+	if(parsePkg.match(TokenType::VAR)) {
+		TypeId typeId = parse::typeId(parsePkg);
 		if(typeId.name == TVoid) {
 			return parsePkg.error("Void is not allowed as variable type");
 		}
@@ -37,6 +37,7 @@ std::shared_ptr<ltnc::DeclVar> ltnc::parse::declareVar(ParserPackage & parsePkg)
 			}
 			return parsePkg.error("expected ;");
 		}
+		return parsePkg.error("Expected variable name");
 	}
 	return nullptr;
 }

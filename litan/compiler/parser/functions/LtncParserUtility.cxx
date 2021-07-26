@@ -13,10 +13,18 @@ ltnc::Namespace ltnc::parse::nameSpace(ParserPackage & parsePkg) {
 	throw std::runtime_error("Expected idendifier");
 }
 
-ltnc::TypeId ltnc::parse::type(ParserPackage & parsePkg) {
+ltnc::TypeId ltnc::parse::typeId(ParserPackage & parsePkg) {
 	Namespace ns = nameSpace(parsePkg);
 	if(parsePkg.match(TokenType::IDENTIFIER)) {
 		return TypeId(parsePkg.prev().string, ns);
 	}
 	throw parsePkg.error("Invalid Type");
+}
+
+ltnc::Symbol ltnc::parse::functionSymbol(ParserPackage & parsePkg) {
+	Namespace ns = nameSpace(parsePkg);
+	if(parsePkg.match(TokenType::IDENTIFIER)) {
+		return Symbol(parsePkg.prev().string, ns);
+	}
+	throw parsePkg.error("Invalid Function");
 }

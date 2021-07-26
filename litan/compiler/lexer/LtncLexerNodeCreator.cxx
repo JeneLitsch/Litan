@@ -104,10 +104,8 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	std::map<std::string, TokenType> keywords;
 	keywords.insert({"typedef", TokenType::TYPEDEF});
 	keywords.insert({"var", TokenType::VAR});
-	keywords.insert({"inl", TokenType::INLINE});
-	keywords.insert({"const", TokenType::CONST});
-	keywords.insert({"uniform", TokenType::UNIFORM});
 	keywords.insert({"copy", TokenType::COPY});
+	keywords.insert({"nullptr", TokenType::NUL});
 	keywords.insert({"namespace", TokenType::NAMESPACE});
 	keywords.insert({"function", TokenType::FX});
 	keywords.insert({"if", TokenType::IF});

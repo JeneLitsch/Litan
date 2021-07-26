@@ -1,25 +1,21 @@
 #include "LtncParserFunctions.hxx"
 
+
 std::shared_ptr<ltnc::Stmt> ltnc::parse::statement(ParserPackage & parsePkg) {
 	if(auto stmt = codeBlock(parsePkg)) return stmt;
 	if(auto stmt = assembly(parsePkg)) return stmt;
 	if(auto stmt = assign(parsePkg)) return stmt;
 	if(auto stmt = ifElse(parsePkg)) return stmt;
-	if(parsePkg.match(TokenType::FOR)) return forLoop(parsePkg);
-	if(parsePkg.match(TokenType::WHILE)) return whileLoop(parsePkg);
-	if(parsePkg.match(TokenType::REPEAT)) return repeatLoop(parsePkg);
+	if(auto stmt = returnStmt(parsePkg)) return stmt;
+	if(auto stmt = forLoop(parsePkg)) return stmt;
+	if(auto stmt = whileLoop(parsePkg)) return stmt;
+	if(auto stmt = repeatLoop(parsePkg)) return stmt;
+	if(auto stmt = justAnExpression(parsePkg)) return stmt;
+	return parsePkg.error("Expected statement");
+}
 
-	if(parsePkg.match(TokenType::RETURN)) {
-		if (parsePkg.match(TokenType::SEMICOLON)) {
-			return std::make_shared<StmtReturn>(nullptr);
-		}
-		auto expr = expression(parsePkg);
-		auto stmt = std::make_shared<StmtReturn>(expr);
-		if (parsePkg.match(TokenType::SEMICOLON)) {
-			return stmt;
-		}
-		return parsePkg.error("expected ; after return statement");
-	}
+
+std::shared_ptr<ltnc::Stmt> ltnc::parse::justAnExpression(ParserPackage & parsePkg) {
 	auto stmt = std::make_shared<StmtExpr>(expression(parsePkg));
 	if (parsePkg.match(TokenType::SEMICOLON)) {
 		return stmt;
@@ -27,7 +23,26 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::statement(ParserPackage & parsePkg) {
 	return parsePkg.error("expected ;");
 }
 
-std::shared_ptr<ltnc::StmtAsm> ltnc::parse::assembly(ParserPackage & parsePkg) {
+
+std::shared_ptr<ltnc::Stmt> ltnc::parse::returnStmt(ParserPackage & parsePkg) {
+	if(parsePkg.match(TokenType::RETURN)) {
+		// return void
+		if (parsePkg.match(TokenType::SEMICOLON)) {
+			return std::make_shared<StmtReturn>(nullptr);
+		}
+		// return expression;
+		auto expr = expression(parsePkg);
+		auto stmt = std::make_shared<StmtReturn>(expr);
+		if (parsePkg.match(TokenType::SEMICOLON)) {
+			return stmt;
+		}	
+		return parsePkg.error("expected ; after return statement");
+	}
+	return nullptr;
+}
+
+
+std::shared_ptr<ltnc::Stmt> ltnc::parse::assembly(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::ASM)){
 		auto asmStmt = std::make_shared<StmtAsm>();
 		if(parsePkg.match(TokenType::L_BRACE)){
@@ -43,6 +58,7 @@ std::shared_ptr<ltnc::StmtAsm> ltnc::parse::assembly(ParserPackage & parsePkg) {
 	}
 	return nullptr;
 }
+
 
 std::shared_ptr<ltnc::Stmt> ltnc::parse::assign(ParserPackage & parsePkg) {
 	if(auto exprVar = var(parsePkg)) {

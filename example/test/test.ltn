@@ -41,7 +41,11 @@ struct Foo {
 
 
 function main() -> Void {
+	var Pointer ptr = nullptr;
 	var ltn::Deque deque = ->ltn::Deque();
+	repeat(5) {
+		->print(5);
+	}
 	for(idx, 0, 25) {
 		->ltn::pushFront(deque, idx);
 	}

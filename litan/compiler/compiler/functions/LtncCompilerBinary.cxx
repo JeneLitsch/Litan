@@ -9,6 +9,7 @@
 std::string getSuffux(
 	const ltnc::ExprInfo & l,
 	const ltnc::ExprInfo & r) {
+	
 	// mismatch
 	if(l.typeId != r.typeId) {
 		throw std::runtime_error("Expression types do not match: \"" + l.code.str() + "\" and \"" + r.code.str() + "\"");

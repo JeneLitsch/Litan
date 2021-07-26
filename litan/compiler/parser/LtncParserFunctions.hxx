@@ -15,13 +15,15 @@ namespace ltnc {
 		// Statement
 
 		std::shared_ptr<Stmt> statement(ParserPackage & parsePkg);
-		std::shared_ptr<StmtFor> forLoop(ParserPackage & parsePkg);
-		std::shared_ptr<StmtRepeat> repeatLoop(ParserPackage & parsePkg);
-		std::shared_ptr<StmtWhile> whileLoop(ParserPackage & parsePkg);
-		std::shared_ptr<StmtAsm> assembly(ParserPackage & parsePkg);
+		std::shared_ptr<Stmt> forLoop(ParserPackage & parsePkg);
+		std::shared_ptr<Stmt> repeatLoop(ParserPackage & parsePkg);
+		std::shared_ptr<Stmt> whileLoop(ParserPackage & parsePkg);
+		std::shared_ptr<Stmt> assembly(ParserPackage & parsePkg);
 		std::shared_ptr<Stmt> ifElse(ParserPackage & parsePkg);
-		std::shared_ptr<StmtBlock> codeBlock(ParserPackage & parsePkg);
+		std::shared_ptr<Stmt> codeBlock(ParserPackage & parsePkg);
 		std::shared_ptr<Stmt> assign(ParserPackage & parsePkg);
+		std::shared_ptr<Stmt> returnStmt(ParserPackage & parsePkg);
+		std::shared_ptr<Stmt> justAnExpression(ParserPackage & parsePkg);
 
 
 		// Expressions
@@ -39,6 +41,7 @@ namespace ltnc {
 
 		// Utility
 		Namespace nameSpace(ParserPackage & parsePkg); 
-		TypeId type(ParserPackage & parsePkg);
+		TypeId typeId(ParserPackage & parsePkg);
+		Symbol functionSymbol(ParserPackage & parsePkg);
 	}
 }

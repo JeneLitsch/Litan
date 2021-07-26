@@ -26,6 +26,12 @@ namespace ltnc {
 		double number;
 	};
 
+	// Flt literal: 42.0
+	struct ExprNul : public Expr {
+		virtual ~ExprNul() = default;
+		ExprNul() {}
+	};
+
 	// Str literal: "hello world!"
 	struct ExprStrLiteral : public Expr {
 		virtual ~ExprStrLiteral() = default;
