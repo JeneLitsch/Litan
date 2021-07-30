@@ -5,5 +5,5 @@
 #define TInt "Int"
 #define TFloat "Float"
 #define TString "String"
-#define TArray "Array"
 #define TRaw "Raw"
+#define TPointer "Pointer"

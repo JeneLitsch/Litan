@@ -52,6 +52,7 @@
 		"chrono": "cpp",
 		"ratio": "cpp",
 		"codecvt": "cpp",
-		"set": "cpp"
+		"set": "cpp",
+		"unordered_set": "cpp"
 	}
 }

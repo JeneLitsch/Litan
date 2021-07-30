@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <set>
 
 #include "LtncTypeId.hxx"
 
@@ -10,12 +11,23 @@ namespace ltnc {
 	struct Var;
 	struct Type {
 
-		Type(const TypeId & id) : id(id) {}
-		Type() : id(TypeId("voi")) {}
+		Type() : Type(TypeId("voi"), {}) {}
+		Type(const TypeId & id, const std::vector<TypeId> & castableTo = {}) 
+			: id(id), castableTo(castableTo) { this->castableTo.push_back(id); }
 
 		TypeId id;
 		std::vector<std::shared_ptr<Var>> members;
 		unsigned fixedSize = 0;
+		std::vector<TypeId> castableTo;
+
+		bool isCastableTo(const TypeId & id) const {
+			for(const TypeId & castable : this->castableTo) {
+				if(castable == id) {
+					return true;
+				}
+			}
+			return false;
+		}
 	};
 
 	inline bool operator==(const Type & typeL, const Type & typeR) {

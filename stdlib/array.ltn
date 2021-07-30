@@ -13,7 +13,6 @@ namespace ltn {
 		return array;
 	}
 
-
 	function clear(ltn::Array array) -> Void
 		asm { "load 0" "array::clr" }
 
@@ -28,10 +27,6 @@ namespace ltn {
 
 	function empty(ltn::Array array) -> Int 
 		asm { "load 0" "array::len" "newl 0" "eqli" "return" }
-
-
-	function exists(ltn::Array array) -> Int
-		asm { "load 0" "heap::exist" "return" }
 
 
 	function size(ltn::Array array) -> Int

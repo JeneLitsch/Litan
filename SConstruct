@@ -96,6 +96,10 @@ dirsLtnVm = [
 	"litan/vm",
 	"litan/vm/memory",
 	"litan/vm/extensions",
+	"litan/vm/error",
+	"litan/vm/error/heapAccess",
+	"litan/vm/error/registerAccess",
+	"litan/vm/error/instructions",
 ]
 
 

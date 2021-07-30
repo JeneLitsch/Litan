@@ -12,6 +12,7 @@ namespace ltn {
 
 		std::uint64_t allocateArray();
 		std::uint64_t allocateString();
+
 		std::uint64_t copy(std::uint64_t ptr);
 
 		void destroy(std::uint64_t ptr);

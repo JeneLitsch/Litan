@@ -54,13 +54,11 @@ std::vector<std::uint64_t> ltn::Assembler::assemble(const std::vector<TokenPacka
 void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 	if(pkg.inst == "") return;
 	if(pkg.args.size() == 0){
-		if(pkg.inst == "exit") return this->cFormat(InstCode::EXIT); 
-		if(pkg.inst == "suspend") return this->cFormat(InstCode::SUSPEND); 
-		if(pkg.inst == "error") return this->cFormat(InstCode::ERROR); 
+		if(pkg.inst == "exit") return this->cFormat(InstCode::EXIT);
+		if(pkg.inst == "error") return this->cFormat(InstCode::ERROR);
 		if(pkg.inst == "scrap") return this->cFormat(InstCode::SCRAP); 
 		if(pkg.inst == "clear") return this->cFormat(InstCode::CLEAR); 
 		if(pkg.inst == "print") return this->cFormat(InstCode::PRINT);
-		if(pkg.inst == "fetch") return this->cFormat(InstCode::FETCH);
 		if(pkg.inst == "copy") return this->cFormat(InstCode::COPY);
 		if(pkg.inst == "size") return this->cFormat(InstCode::SIZE);
 		if(pkg.inst == "init") return this->cFormat(InstCode::INIT);

@@ -39,7 +39,7 @@ ltnc::TypeId ltnc::SymbolTable::insert(const Type & type) {
 
 
 ltnc::FunctionSignature ltnc::SymbolTable::insert(const FunctionSignature & signature) {
-	FuncSearch search(signature);
+	FuncSearch search(signature, *this, true);
 	if(this->global.find<Func>(search, true)) {
 		throw std::runtime_error("Function " + signature.name + " is already defined in namespace " + signature.ns.str() + ".");
 	}
@@ -79,8 +79,10 @@ const ltnc::Type & ltnc::SymbolTable::match(const TypeId & typeId) const {
 
 
 
-const ltnc::Function & ltnc::SymbolTable::match(const FunctionSignature & signature) const {
-	FuncSearch search(signature);
+const ltnc::Function & ltnc::SymbolTable::match(
+	const FunctionSignature & signature,
+	bool perfectFit) const {
+	FuncSearch search(signature, *this, perfectFit);
 	if(auto fx = this->scope.top().find<Func>(search, true)) {
 		return *fx;
 	}

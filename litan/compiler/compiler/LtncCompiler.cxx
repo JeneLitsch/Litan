@@ -14,15 +14,19 @@ std::string ltnc::Compiler::compile(
 	compPkg.getSymbolTable().addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
 	CodeBuffer code = compPkg.codeBuffer();
 	// register typedefs
-	for(const Type & type : program->types) {
+	for(const Type & t : program->types) {
+		Type type = t;
+		type.castableTo.push_back(TypeId(TRaw));
+		type.castableTo.push_back(TypeId(TPointer));
 		compPkg.getSymbolTable().insert(type);
-		
 	}
 
 
 	// register structs
 	for(const DeclStruct & struct_ : program->structs) {
 		Type structType(struct_.typeId);
+		structType.castableTo.push_back(TypeId(TRaw));
+		structType.castableTo.push_back(TypeId(TPointer));
 		for(const auto & member : struct_.members) {
 			if(member.assign) {
 				throw std::runtime_error("Assignment to members is not allowed");

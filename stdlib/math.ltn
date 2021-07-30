@@ -1,16 +1,37 @@
 namespace ltn {
+
 	// === min ===
-	function min(Int a, Int b) 		-> Int 		{ asm { "load 0" "load 1" "mini" "return" }}
-	function min(Float a, Float b)	-> Float 	{ asm { "load 0" "load 1" "minf" "return" }}
+	function min(Int a, Int b) -> Int {
+		asm { "load 0" "load 1" "mini" "return" }
+	}
+	
+	function min(Float a, Float b)	-> Float {
+		asm { "load 0" "load 1" "minf" "return" }
+	}
+
 
 
 	// === max ===
-	function max(Int a, Int b) 		-> Int 		{ asm { "load 0" "load 1" "maxi" "return" }}
-	function max(Float a, Float b)	-> Float 	{ asm { "load 0" "load 1" "maxf" "return" }}
+	function max(Int a, Int b) -> Int {
+		asm { "load 0" "load 1" "maxi" "return" }
+	}
+
+	function max(Float a, Float b) -> Float {
+		asm { "load 0" "load 1" "maxf" "return" }
+	}
+
 
 
 	// === rounding ===
-	function round(Float x) -> Int 	{ asm { "load 0" "casti 1" "return" }}
-	function floor(Float x) -> Int 	{ asm { "load 0" "casti 2" "return" }}
-	function ceil (Float x) -> Int 	{ asm { "load 0" "casti 3" "return" }}
+	function round(Float x) -> Int { 
+		asm { "load 0" "casti 1" "return" }
+	}
+
+	function floor(Float x) -> Int {
+		asm { "load 0" "casti 2" "return" }
+	}
+
+	function ceil (Float x) -> Int {
+		asm { "load 0" "casti 3" "return" }
+	}
 }

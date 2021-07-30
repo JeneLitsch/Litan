@@ -6,6 +6,7 @@
 #include "LtnInstructions.hxx"
 #include "IExtension.hxx"
 #include "LtnEnvironment.hxx"
+#include "LtnError.hxx"
 
 namespace ltn {
 	// the i prefix means integer
@@ -14,24 +15,16 @@ namespace ltn {
 	// 64bit values are loaded from 2x 32bit literals
 	class VM {
 	public:
-		enum class Status {
-			SUSPENDED,
-			EXITED,
-			ERROR
-		};
 		VM();
 		void init(const std::vector<std::uint64_t> & byteCode);
-		void reset();
-		Status run();
+		void run();
 		void installExtension(IExtension & ext, Slot slot);
 
 	private:
 		Environment env;
 		std::array<IExtension*, 8> extensions;
-
+		
 		// decoding and args
-		void decode();
-		InstCode opcode;
 		std::uint64_t currentInstruction;
 
 		inline std::uint8_t getArg8() { return std::uint8_t((this->currentInstruction >> 8) & 0xff); }
@@ -39,40 +32,72 @@ namespace ltn {
 		inline std::uint32_t getArg32() { return std::uint32_t((this->currentInstruction >> 32) & 0xffffffff); }
 		inline std::uint64_t getArg56() { return std::uint64_t((this->currentInstruction >> 8) & 0xfffffffffffffff); }
 
-		Status execute();
-
+		void execute();
 
 		// memory and system instructions
-		void load(); void store(); void copy(); void size();
+		void load();
+		void store();
+		void copy();
+		void size();
 		void print();
-		void scrap(); void clear();
-		void fetch();
+		void scrap();
+		void clear();
 		void init();
 		void stackalloc();
 
-		void casti(); void castf();
+		// value instruction
+		void casti();
+		void castf();
+		void newl();
+		void newu();
 
-		// create values
-		void newl(); void newu();
-
-		// math instructions
-		void addi(); void subi(); void mlti(); void divi(); void powi(); void modi();
-		void inci(); void deci();
+		// int math instructions
+		void addi();
+		void subi();
+		void mlti();
+		void divi();
+		void powi();
+		void modi();
+		void inci();
+		void deci();
 		void mnsi();
-		void mini(); void maxi();
+		void mini();
+		void maxi();
 		
-		void addf(); void subf(); void mltf(); void divf(); void powf(); void modf();
-		void incf(); void decf();
+		// float math instructions
+		void addf();
+		void subf();
+		void mltf();
+		void divf();
+		void powf();
+		void modf();
+		void incf();
+		void decf();
 		void mnsf();
-		void minf(); void maxf();
+		void minf();
+		void maxf();
 
-		// logic and bitwise instructions
-		void bit_or(); void bit_and(); void bit_xor();
-		void log_or(); void log_and(); void log_xor();
+		// bitwise instructions
+		void bit_or(); 
+		void bit_and();
+		void bit_xor();
 		
-		// comparison
-		void eqli(); void smli(); void bgri(); void spshi();
-		void eqlf(); void smlf(); void bgrf(); void spshf();
+		// logic instructions
+		void log_or();
+		void log_and();
+		void log_xor();
+		
+		// int comparison
+		void eqli();
+		void smli();
+		void bgri();
+		void spshi();
+		
+		// float comparison
+		void eqlf();
+		void smlf();
+		void bgrf();
+		void spshf();
 
 		// control flow
 		void call();
@@ -95,7 +120,6 @@ namespace ltn {
 		void arrayRsz(); // array resize
 		void arrayErs(); // erase element
 		void arrayIns(); // insert element
-
 		void arrayPushF(); // push element
 		void arrayPushB(); // push element
 		void arrayPopF(); // pop element
@@ -103,20 +127,17 @@ namespace ltn {
 		void arrayGetF(); // pop element
 		void arrayGetB(); // pop element
 
-		// string
+		// string instructions
 		void stringNew();
 		void stringAdd();
 		void stringData();
 		void stringPrint();
 
-		// loop
+		// loop instruction
 		void loopRange();
 		void loopInf();
 		void loopCont();
 		void loopStop();
 		void loopIdx();
-
-		
-
 	};
 }

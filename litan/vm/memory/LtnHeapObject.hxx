@@ -8,6 +8,7 @@ namespace ltn {
 			ARRAY,
 			STRING,
 		};
+		
 		HeapObject(Type type) : type(type) {
 			if(this->type == Type::ARRAY) {
 				data = std::vector<std::uint64_t>();

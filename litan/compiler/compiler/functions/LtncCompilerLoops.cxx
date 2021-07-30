@@ -29,6 +29,7 @@ ltnc::StmtInfo ltnc::compile::repeatLoop(CompilerPack & compPkg, const StmtRepea
 	return StmtInfo(code, codeStmt.stackalloc);
 }
 
+
 ltnc::StmtInfo ltnc::compile::forLoop(CompilerPack & compPkg, const StmtFor & stmt) {
 	// From and to expression
 	ExprInfo from = expression(compPkg, *stmt.exprFrom); 
@@ -44,7 +45,7 @@ ltnc::StmtInfo ltnc::compile::forLoop(CompilerPack & compPkg, const StmtFor & st
 
 	compPkg.getSymbolTable().addBlockScope();
 	// iteration variable
-	compPkg.getSymbolTable().insert(stmt.name, TypeId("int"));
+	compPkg.getSymbolTable().insert(stmt.name, TypeId(TInt));
 	const Var & counter = compPkg.getSymbolTable().match(VarId(stmt.name));
 	StmtInfo body = statement(compPkg, *stmt.stmt);
 

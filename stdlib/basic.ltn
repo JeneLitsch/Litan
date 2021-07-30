@@ -4,10 +4,20 @@ typedef Float;
 typedef Raw;
 typedef Pointer;
 
-function Int(Raw number) 	-> Int { asm { "load 0" "return" }}
-function Int(Float number) 	-> Int { asm { "load 0" "casti" "return" }}
+function Int(Raw number) -> Int
+	asm { "load 0" "return" }
 
-function Float(Raw number) -> Float { asm {	"load 0" "return" }}
-function Float(Int number) -> Float { asm {	"load 0" "castf" "return" }}
+function Int(Float number) -> Int
+	asm { "load 0" "casti" "return" }
 
-function destroy(Raw obj) -> Void { asm { "load 0" "heap::del" }}
+function Float(Raw number) -> Float
+	asm { "load 0" "return" }
+
+function Float(Int number) -> Float
+	asm { "load 0" "castf" "return" }
+
+function destroy(Pointer ptr) -> Void
+	asm { "load 0" "heap::del" }
+
+function exists(Pointer ptr) -> Int
+	asm { "load 0" "heap::exist" "return" }

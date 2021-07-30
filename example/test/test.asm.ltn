@@ -98,11 +98,11 @@ store 1
 store 0
 load 0
 load 1
-call FNX_min16
+call FNX_min17
 call FNX_print54
 load 0
 load 1
-call FNX_max18
+call FNX_max19
 call FNX_print54
 return
 
@@ -114,22 +114,20 @@ store 1
 store 0
 load 0
 load 1
-call FNX_min17
+call FNX_min18
 call FNX_print55
 load 0
 load 1
-call FNX_max19
+call FNX_max20
 call FNX_print55
 return
 
 
 // main ( -> Void ) 
 -> FNX_main10
-stackalloc 3
-newl 0
-store 0
+stackalloc 2
 call FNX_Deque45
-store 1
+store 0
 newi 0
 newi 5
 dec
@@ -141,18 +139,18 @@ newi 0
 newi 25
 loop::range
 loop::idx
-store 2
+store 1
+load 0
 load 1
-load 2
 call FNX_pushFront46
 loop::cont
 -> LOOP61
-load 1
+load 0
 call FNX_empty52
 lognot
 ifnot
 goto LOOP_END60
-load 1
+load 0
 call FNX_popBack49
 call FNX_print53
 goto LOOP61
@@ -198,7 +196,7 @@ return
 error
 
 
-// destroy ( Raw -> Void ) 
+// destroy ( Pointer -> Void ) 
 -> FNX_destroy15
 stackalloc 1
 store 0
@@ -207,8 +205,18 @@ heap::del
 return
 
 
+// exists ( Pointer -> Int ) 
+-> FNX_exists16
+stackalloc 1
+store 0
+load 0
+heap::exist
+return
+error
+
+
 // min ( Int Int -> Int ) 
--> FNX_min16
+-> FNX_min17
 stackalloc 2
 store 1
 store 0
@@ -220,7 +228,7 @@ error
 
 
 // min ( Float Float -> Float ) 
--> FNX_min17
+-> FNX_min18
 stackalloc 2
 store 1
 store 0
@@ -232,7 +240,7 @@ error
 
 
 // max ( Int Int -> Int ) 
--> FNX_max18
+-> FNX_max19
 stackalloc 2
 store 1
 store 0
@@ -244,7 +252,7 @@ error
 
 
 // max ( Float Float -> Float ) 
--> FNX_max19
+-> FNX_max20
 stackalloc 2
 store 1
 store 0
@@ -256,7 +264,7 @@ error
 
 
 // round ( Float -> Int ) 
--> FNX_round20
+-> FNX_round21
 stackalloc 1
 store 0
 load 0
@@ -266,7 +274,7 @@ error
 
 
 // floor ( Float -> Int ) 
--> FNX_floor21
+-> FNX_floor22
 stackalloc 1
 store 0
 load 0
@@ -276,7 +284,7 @@ error
 
 
 // ceil ( Float -> Int ) 
--> FNX_ceil22
+-> FNX_ceil23
 stackalloc 1
 store 0
 load 0
@@ -286,7 +294,7 @@ error
 
 
 // Array ( -> Array ) 
--> FNX_Array23
+-> FNX_Array24
 stackalloc 0
 array::new
 return
@@ -294,7 +302,7 @@ error
 
 
 // Array ( Int -> Array ) 
--> FNX_Array24
+-> FNX_Array25
 stackalloc 2
 store 0
 load 0
@@ -307,7 +315,7 @@ goto END_IF64
 call FNX_error57
 goto END_IF64
 -> END_IF64
-call FNX_Array23
+call FNX_Array24
 store 1
 load 1
 load 0
@@ -318,7 +326,7 @@ error
 
 
 // clear ( Array -> Void ) 
--> FNX_clear25
+-> FNX_clear26
 stackalloc 1
 store 0
 load 0
@@ -327,7 +335,7 @@ return
 
 
 // insert ( Array Int Raw -> Void ) 
--> FNX_insert26
+-> FNX_insert27
 stackalloc 3
 store 2
 store 1
@@ -340,7 +348,7 @@ return
 
 
 // erase ( Array Int -> Void ) 
--> FNX_erase27
+-> FNX_erase28
 stackalloc 2
 store 1
 store 0
@@ -351,23 +359,13 @@ return
 
 
 // empty ( Array -> Int ) 
--> FNX_empty28
+-> FNX_empty29
 stackalloc 1
 store 0
 load 0
 array::len
 newl 0
 eqli
-return
-error
-
-
-// exists ( Array -> Int ) 
--> FNX_exists29
-stackalloc 1
-store 0
-load 0
-heap::exist
 return
 error
 

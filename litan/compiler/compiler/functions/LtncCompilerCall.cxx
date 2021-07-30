@@ -11,11 +11,12 @@ ltnc::ExprInfo ltnc::compile::call(CompilerPack & compPkg, const ExprCall & expr
 		code << exprInfo.code;
 	}
 	ltnc::Function fxInfo = [&expr, &params, &compPkg]() {
+		FunctionSignature fxSig = FunctionSignature(TypeId(TVoid), expr.name, params, expr.ns);
 		try {
-	 		return compPkg.getSymbolTable().match(FunctionSignature(TypeId(TRaw), expr.name, params, expr.ns));
+	 		return compPkg.getSymbolTable().match(fxSig, true);
 		}
 		catch(...) {
-	 		return compPkg.getSymbolTable().match(FunctionSignature(TypeId(TRaw), expr.name, params, expr.ns, true));
+	 		return compPkg.getSymbolTable().match(fxSig, false);
 		}
 	}();
 	

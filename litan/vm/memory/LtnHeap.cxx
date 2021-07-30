@@ -1,4 +1,6 @@
 #include "LtnHeap.hxx"
+#include "LtnNullptrViolation.hxx"
+#include "LtnPointerAccessViolation.hxx"
 
 ltn::Heap::Heap() {
 	this->nextID = 1;
@@ -52,31 +54,31 @@ void ltn::Heap::destroy(std::uint64_t ptr) {
 		this->objects.erase(ptr);
 	}
 	else{
-		throw std::runtime_error("Access Violation at id: " + std::to_string(ptr));
+		throw PointerAccessViolation(ptr, "Pointer");
 	}
 }
 
 std::vector<std::uint64_t> & ltn::Heap::accessArray(std::uint64_t ptr) {
 	if(ptr == 0) {
-		throw std::runtime_error("Access Violation: nullptr");
+		throw NullptrViolation();
 	}
 	if(this->objects.contains(ptr)){
 		return std::get<std::vector<std::uint64_t>>(this->objects.at(ptr).data);
 	}
 	else{
-		throw std::runtime_error("Access Violation at ptr: " + std::to_string(ptr));
+		throw PointerAccessViolation(ptr, "Array");
 	}
 }
 
 std::string & ltn::Heap::accessString(std::uint64_t ptr) {
 	if(ptr == 0) {
-		throw std::runtime_error("Access Violation: nullptr");
+		throw NullptrViolation();
 	}
 	if(this->objects.contains(ptr)){
 		return std::get<std::string>(this->objects.at(ptr).data);
 	}
 	else{
-		throw std::runtime_error("Access Violation at ptr: " + std::to_string(ptr));
+		throw PointerAccessViolation(ptr, "String");
 	}
 }
 

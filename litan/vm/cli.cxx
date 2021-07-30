@@ -1,4 +1,4 @@
-#include "VM.hxx"
+#include "LtnVM.hxx"
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -37,41 +37,14 @@ void launch(const std::vector<std::uint64_t> & instructions){
 	ltn::VM vm;
 	std::cout << ">> Initialising vm" << std::endl;
 	vm.init(instructions);
-	vm.reset();
 	std::cout << ">> Starting vm" << std::endl;
-	switch (vm.run()) {
-		case ltn::VM::Status::EXITED:
-			std::cout << ">> Terminated" << std::endl;
-			return;
-		case ltn::VM::Status::ERROR:
-			std::cout << ">> Error" << std::endl;
-			return;
-		case ltn::VM::Status::SUSPENDED:
-			std::cout << ">> Suspended" << std::endl;
-			break;
+	try {
+		vm.run();
+		std::cout << ">> Terminated" << std::endl;
 	}
-	std::cout << ">> Terminated" << std::endl;
-}
-
-void until(const std::vector<std::uint64_t> & instructions){
-	std::cout << ">> Creating virual machine..." << std::endl;
-	ltn::VM vm;
-	std::cout << ">> Initialising vm" << std::endl;
-	vm.init(instructions);
-	std::cout << ">> Starting vm" << std::endl;
-	while(true){
-		switch (vm.run()) {
-		case ltn::VM::Status::EXITED:
-			std::cout << ">> Terminated" << std::endl;
-			return;
-		case ltn::VM::Status::ERROR:
-			std::cout << ">> Error" << std::endl;
-			return;
-		case ltn::VM::Status::SUSPENDED:
-			std::cout << ">> Suspended" << std::endl;
-			break;
-		}
-	}
+	catch(ltn::Error error) {
+		std::cout << ">> Error: " << error.what() << std::endl;
+	}	
 }
 
 int main(int argc, char const *argv[]) {
@@ -88,10 +61,6 @@ int main(int argc, char const *argv[]) {
 	try {
 		if(mode == "-run"){
 			launch(load(file, format));
-		}
-
-		if(mode == "-until"){
-			until(load(file, format));
 		}
 
 		if(mode.substr(0,7) == "-bench="){
