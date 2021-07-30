@@ -145,8 +145,27 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "stack::pop") return this->cFormat(InstCode::STACK_POP);  
 		if(pkg.inst == "stack::top") return this->cFormat(InstCode::STACK_TOP);  
 		if(pkg.inst == "stack::size") return this->cFormat(InstCode::STACK_SIZE);  
-		if(pkg.inst == "stack::empty") return this->cFormat(InstCode::STACK_EMTPY);  
+		if(pkg.inst == "stack::empty") return this->cFormat(InstCode::STACK_EMPTY);  
 		if(pkg.inst == "stack::clear") return this->cFormat(InstCode::STACk_CLEAR);  
+
+		if(pkg.inst == "queue::new") return this->cFormat(InstCode::QUEUE_NEW);  
+		if(pkg.inst == "queue::push") return this->cFormat(InstCode::QUEUE_PUSH);  
+		if(pkg.inst == "queue::pop") return this->cFormat(InstCode::QUEUE_POP);  
+		if(pkg.inst == "queue::front") return this->cFormat(InstCode::QUEUE_FRONT);  
+		if(pkg.inst == "queue::size") return this->cFormat(InstCode::QUEUE_SIZE);  
+		if(pkg.inst == "queue::empty") return this->cFormat(InstCode::QUEUE_EMPTY);  
+		if(pkg.inst == "queue::clear") return this->cFormat(InstCode::QUEUE_CLEAR);  
+
+		if(pkg.inst == "deque::new") return this->cFormat(InstCode::DEQUE_NEW);  
+		if(pkg.inst == "deque::pushf") return this->cFormat(InstCode::DEQUE_PUSHF);  
+		if(pkg.inst == "deque::pushb") return this->cFormat(InstCode::DEQUE_PUSHB);  
+		if(pkg.inst == "deque::popf") return this->cFormat(InstCode::DEQUE_POPF);  
+		if(pkg.inst == "deque::popb") return this->cFormat(InstCode::DEQUE_POPB);  
+		if(pkg.inst == "deque::front") return this->cFormat(InstCode::DEQUE_FRONT);  
+		if(pkg.inst == "deque::back") return this->cFormat(InstCode::DEQUE_BACK);  
+		if(pkg.inst == "deque::size") return this->cFormat(InstCode::DEQUE_SIZE);  
+		if(pkg.inst == "deque::empty") return this->cFormat(InstCode::DEQUE_EMPTY);  
+		if(pkg.inst == "deque::clear") return this->cFormat(InstCode::DEQUE_CLEAR);  
 
 		if(pkg.inst == "string::new") return this->cFormat(InstCode::STRING_NEW);  
 		if(pkg.inst == "string::add") return this->cFormat(InstCode::STRING_ADD);  

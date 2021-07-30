@@ -142,6 +142,27 @@ namespace ltn {
 		void stackSize();
 		void stackClear();
 
+		// queue(type) instructions
+		void queueNew();
+		void queuePush();
+		void queuePop();
+		void queueFront();
+		void queueEmpty();
+		void queueSize();
+		void queueClear();
+
+		// queue(type) instructions
+		void dequeNew();
+		void dequePushF();
+		void dequePushB();
+		void dequePopF();
+		void dequePopB();
+		void dequeFront();
+		void dequeBack();
+		void dequeEmpty();
+		void dequeSize();
+		void dequeClear();
+
 		// loop instruction
 		void loopRange();
 		void loopInf();

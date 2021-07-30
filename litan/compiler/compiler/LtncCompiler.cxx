@@ -16,8 +16,10 @@ std::string ltnc::Compiler::compile(
 	// register typedefs
 	for(const Type & t : program->types) {
 		Type type = t;
-		type.castableTo.push_back(TypeId(TRaw));
-		type.castableTo.push_back(TypeId(TPointer));
+		if(t.id != TVoid) {
+			type.castableTo.push_back(TypeId(TRaw));
+			type.castableTo.push_back(TypeId(TPointer));
+		}
 		compPkg.getSymbolTable().insert(type);
 	}
 

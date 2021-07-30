@@ -141,8 +141,27 @@ void ltn::VM::execute(){
 		case InstCode::STACK_POP: this->stackPop(); break;
 		case InstCode::STACK_TOP: this->stackTop(); break;
 		case InstCode::STACK_SIZE: this->stackSize(); break;
-		case InstCode::STACK_EMTPY: this->stackEmpty(); break;
+		case InstCode::STACK_EMPTY: this->stackEmpty(); break;
 		case InstCode::STACk_CLEAR: this->stackClear(); break;
+
+		case InstCode::QUEUE_NEW: this->queueNew(); break;
+		case InstCode::QUEUE_PUSH: this->queuePush(); break;
+		case InstCode::QUEUE_POP: this->queuePop(); break;
+		case InstCode::QUEUE_FRONT: this->queueFront(); break;
+		case InstCode::QUEUE_SIZE: this->queueSize(); break;
+		case InstCode::QUEUE_EMPTY: this->queueEmpty(); break;
+		case InstCode::QUEUE_CLEAR: this->queueClear(); break;
+
+		case InstCode::DEQUE_NEW: this->dequeNew(); break;
+		case InstCode::DEQUE_PUSHF: this->dequePushF(); break;
+		case InstCode::DEQUE_PUSHB: this->dequePushB(); break;
+		case InstCode::DEQUE_POPF: this->dequePopF(); break;
+		case InstCode::DEQUE_POPB: this->dequePopB(); break;
+		case InstCode::DEQUE_FRONT: this->dequeFront(); break;
+		case InstCode::DEQUE_BACK: this->dequeBack(); break;
+		case InstCode::DEQUE_SIZE: this->dequeSize(); break;
+		case InstCode::DEQUE_EMPTY: this->dequeEmpty(); break;
+		case InstCode::DEQUE_CLEAR: this->dequeClear(); break;
 
 		case InstCode::LOOP_RANGE: this->loopRange(); break;
 		case InstCode::LOOP_INF: this->loopInf(); break;
