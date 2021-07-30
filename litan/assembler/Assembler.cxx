@@ -133,13 +133,20 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "array::rsz") return this->cFormat(InstCode::ARRAY_RSZ);  
 		if(pkg.inst == "array::ers") return this->cFormat(InstCode::ARRAY_ERS);  
 		if(pkg.inst == "array::ins") return this->cFormat(InstCode::ARRAY_INS);  
-
 		if(pkg.inst == "array::pushf") return this->cFormat(InstCode::ARRAY_PUSHF);  
 		if(pkg.inst == "array::pushb") return this->cFormat(InstCode::ARRAY_PUSHB);  
 		if(pkg.inst == "array::popf") return this->cFormat(InstCode::ARRAY_POPF);  
 		if(pkg.inst == "array::popb") return this->cFormat(InstCode::ARRAY_POPB);
 		if(pkg.inst == "array::getf") return this->cFormat(InstCode::ARRAY_GETF);
 		if(pkg.inst == "array::getb") return this->cFormat(InstCode::ARRAY_GETB);
+
+		if(pkg.inst == "stack::new") return this->cFormat(InstCode::STACK_NEW);  
+		if(pkg.inst == "stack::push") return this->cFormat(InstCode::STACK_PUSH);  
+		if(pkg.inst == "stack::pop") return this->cFormat(InstCode::STACK_POP);  
+		if(pkg.inst == "stack::top") return this->cFormat(InstCode::STACK_TOP);  
+		if(pkg.inst == "stack::size") return this->cFormat(InstCode::STACK_SIZE);  
+		if(pkg.inst == "stack::empty") return this->cFormat(InstCode::STACK_EMTPY);  
+		if(pkg.inst == "stack::clear") return this->cFormat(InstCode::STACk_CLEAR);  
 
 		if(pkg.inst == "string::new") return this->cFormat(InstCode::STRING_NEW);  
 		if(pkg.inst == "string::add") return this->cFormat(InstCode::STRING_ADD);  

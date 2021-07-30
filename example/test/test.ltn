@@ -41,14 +41,15 @@ struct Foo {
 
 
 function main() -> Void {
-	var ltn::Deque deque = ->ltn::Deque();
+	var ltn::Stack stack = ->ltn::Stack();
 	repeat(5) {
 		->print(5);
 	}
 	for(idx, 0, 25) {
-		->ltn::pushFront(deque, idx);
+		->print(->ltn::empty(stack)); 
+		->ltn::push(stack, idx);
 	}
-	while(!->ltn::empty(deque)) {
-		->print(->ltn::popBack(deque)); 
+	while(!->ltn::empty(stack)) {
+		->print(->ltn::pop(stack)); 
 	}
 }

@@ -4,7 +4,7 @@
 #include <vector>
 #include "LtnFloat.hxx"
 #include "LtnInstructions.hxx"
-#include "IExtension.hxx"
+#include "LtnIExtension.hxx"
 #include "LtnEnvironment.hxx"
 #include "LtnError.hxx"
 
@@ -132,6 +132,15 @@ namespace ltn {
 		void stringAdd();
 		void stringData();
 		void stringPrint();
+
+		// stack(type) instructions
+		void stackNew();
+		void stackPush();
+		void stackPop();
+		void stackTop();
+		void stackEmpty();
+		void stackSize();
+		void stackClear();
 
 		// loop instruction
 		void loopRange();

@@ -46,6 +46,7 @@ void ltn::VM::execute(){
 		switch (opcode) {
 		case InstCode::EXIT: return;
 		case InstCode::ERROR: throw Error();
+		
 		case InstCode::LOAD: this->load(); break;
 		case InstCode::STORE: this->store(); break;
 		case InstCode::COPY: this->copy(); break;
@@ -128,13 +129,20 @@ void ltn::VM::execute(){
 		case InstCode::ARRAY_RSZ: this->arrayRsz(); break;
 		case InstCode::ARRAY_ERS: this->arrayErs(); break;
 		case InstCode::ARRAY_INS: this->arrayIns(); break;
-
 		case InstCode::ARRAY_PUSHF: this->arrayPushF(); break;
 		case InstCode::ARRAY_PUSHB: this->arrayPushB(); break;
 		case InstCode::ARRAY_POPF: this->arrayPopF(); break;
 		case InstCode::ARRAY_POPB: this->arrayPopB(); break;
 		case InstCode::ARRAY_GETF: this->arrayGetF(); break;
 		case InstCode::ARRAY_GETB: this->arrayGetB(); break;
+
+		case InstCode::STACK_NEW: this->stackNew(); break;
+		case InstCode::STACK_PUSH: this->stackPush(); break;
+		case InstCode::STACK_POP: this->stackPop(); break;
+		case InstCode::STACK_TOP: this->stackTop(); break;
+		case InstCode::STACK_SIZE: this->stackSize(); break;
+		case InstCode::STACK_EMTPY: this->stackEmpty(); break;
+		case InstCode::STACk_CLEAR: this->stackClear(); break;
 
 		case InstCode::LOOP_RANGE: this->loopRange(); break;
 		case InstCode::LOOP_INF: this->loopInf(); break;
@@ -146,6 +154,7 @@ void ltn::VM::execute(){
 		case InstCode::STRING_ADD: this->stringAdd(); break;
 		case InstCode::STRING_DATA: this->stringData(); break;
 		case InstCode::STRING_PRINT: this->stringPrint(); break;
+		
 		default: throw IllegalInstruction(static_cast<std::uint8_t>(opcode));
 		}
 	}

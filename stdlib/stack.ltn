@@ -2,21 +2,24 @@ namespace ltn {
 	typedef Stack;
 
 	function Stack() -> ltn::Stack {
-		asm { "array::new" "return" }
+		asm { "stack::new" "return" }
 	}
 
 	function push(ltn::Stack stack, Raw value) -> Void
-		asm { "load 0" "load 1" "array::pushb" }
+		asm { "load 0" "load 1" "stack::push" }
 
 
 	function pop(ltn::Stack stack) -> Raw
-		asm { "load 0" "array::popb" "return" }
+		asm { "load 0" "stack::pop" "return" }
 
 
 	function top(ltn::Stack stack) -> Raw
-		asm { "load 0" "array::getb" "return" }
+		asm { "load 0" "stack::top" "return" }
 
 
 	function empty(ltn::Stack stack) -> Int 
-		asm { "load 0" "array::len" "newl 0" "eqli" "return" }
+		asm { "load 0" "stack::empty" "return" }
+
+	function size(ltn::Stack stack) -> Int 
+		asm { "load 0" "stack::size" "return" }
 }

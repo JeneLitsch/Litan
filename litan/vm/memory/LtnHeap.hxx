@@ -4,21 +4,30 @@
 #include <cstdint>
 #include <queue>
 #include "LtnHeapObject.hxx"
+#include "LtnNullptrViolation.hxx"
+#include "LtnPointerAccessViolation.hxx"
 namespace ltn {
 	class Heap {
 	public:
 		Heap();
 		void clear();
 
-		std::uint64_t allocateArray();
-		std::uint64_t allocateString();
+		std::uint64_t allocate(HeapObject::Type type);
 
 		std::uint64_t copy(std::uint64_t ptr);
 
 		void destroy(std::uint64_t ptr);
 
-		std::vector<std::uint64_t> & accessArray(std::uint64_t ptr);
-		std::string & accessString(std::uint64_t ptr);
+		template <class T>
+		T & access(std::uint64_t ptr) {
+			if(ptr == 0) {
+				throw NullptrViolation();
+			}
+			if(!this->objects.contains(ptr)) {
+				throw PointerAccessViolation(ptr, "HeapObject");
+			}
+			return std::get<T>(this->objects.at(ptr).data);
+		}
 
 		bool exists(std::uint64_t ptr) const;
 	private:

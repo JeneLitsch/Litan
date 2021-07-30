@@ -1,6 +1,5 @@
 #include "LtnHeap.hxx"
-#include "LtnNullptrViolation.hxx"
-#include "LtnPointerAccessViolation.hxx"
+
 
 ltn::Heap::Heap() {
 	this->nextID = 1;
@@ -13,15 +12,10 @@ void ltn::Heap::clear() {
 	this->resuseableIDs = {};
 }
 
-std::uint64_t ltn::Heap::allocateArray()  {
-	std::uint64_t newPtr = this->createPtr();
-	this->objects.insert({newPtr, HeapObject(HeapObject::Type::ARRAY)});
-	return newPtr;
-}
 
-std::uint64_t ltn::Heap::allocateString()  {
+std::uint64_t ltn::Heap::allocate(HeapObject::Type type)  {
 	std::uint64_t newPtr = this->createPtr();
-	this->objects.insert({newPtr, HeapObject(HeapObject::Type::STRING)});
+	this->objects.insert({newPtr, HeapObject(type)});
 	return newPtr;
 }
 
@@ -55,30 +49,6 @@ void ltn::Heap::destroy(std::uint64_t ptr) {
 	}
 	else{
 		throw PointerAccessViolation(ptr, "Pointer");
-	}
-}
-
-std::vector<std::uint64_t> & ltn::Heap::accessArray(std::uint64_t ptr) {
-	if(ptr == 0) {
-		throw NullptrViolation();
-	}
-	if(this->objects.contains(ptr)){
-		return std::get<std::vector<std::uint64_t>>(this->objects.at(ptr).data);
-	}
-	else{
-		throw PointerAccessViolation(ptr, "Array");
-	}
-}
-
-std::string & ltn::Heap::accessString(std::uint64_t ptr) {
-	if(ptr == 0) {
-		throw NullptrViolation();
-	}
-	if(this->objects.contains(ptr)){
-		return std::get<std::string>(this->objects.at(ptr).data);
-	}
-	else{
-		throw PointerAccessViolation(ptr, "String");
 	}
 }
 
