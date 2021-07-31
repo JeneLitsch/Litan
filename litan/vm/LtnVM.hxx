@@ -106,35 +106,33 @@ namespace ltn {
 		void ifsk();
 		
 		// heap
-		void heapDel();
+		void heapAllocate();
+		void heapDelete();
 		void heapExist();
+		void heapIsType();
 		void heapCopy();
 		
 		// array 
-		void arrayNew(); // new array
-		void arrayClr(); // clear array
-		void arrayGet(); // get element
-		void arraySet(); // set element
-		void arrayLen(); // array.size()
-		void arrayFll(); // array fill
-		void arrayRsz(); // array resize
-		void arrayErs(); // erase element
-		void arrayIns(); // insert element
-		void arrayPushF(); // push element
-		void arrayPushB(); // push element
-		void arrayPopF(); // pop element
-		void arrayPopB(); // pop element
-		void arrayGetF(); // pop element
-		void arrayGetB(); // pop element
+		void arrayClear();
+		void arrayGet();
+		void arraySet();
+		void arraySize();
+		void arrayEmpty();
+		void arrayFill();
+		void arrayResize();
+		void arrayErase();
+		void arrayInsert();
+		void arrayPushBack();
+		void arrayPopBack();
+		void arrayFront();
+		void arrayBack(); 
 
 		// string instructions
-		void stringNew();
 		void stringAdd();
 		void stringData();
 		void stringPrint();
 
 		// stack(type) instructions
-		void stackNew();
 		void stackPush();
 		void stackPop();
 		void stackTop();
@@ -143,7 +141,6 @@ namespace ltn {
 		void stackClear();
 
 		// queue(type) instructions
-		void queueNew();
 		void queuePush();
 		void queuePop();
 		void queueFront();

@@ -2,9 +2,9 @@ namespace ltn {
 	typedef Deque;
 
 	function Deque() -> ltn::Deque
-		asm { "deque::new" "return" }
+		asm { "heap::allocate::deque" "return" }
 
-	function clear(ltn::Deque array) -> Void
+	function clear(ltn::Deque deque) -> Void
 		asm { "load 0" "deque::clear" }
 
 	function pushFront(ltn::Deque deque, Raw value) -> Void

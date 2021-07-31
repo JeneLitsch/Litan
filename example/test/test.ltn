@@ -39,19 +39,14 @@ struct Foo {
 	var Int test;
 }
 
+function is(Pointer ptr) -> Int {
+	asm { "load 0" "heap::istype::deque" "return" }
+}
 
 function main() -> Void {
-	var ltn::Deque deque = ->ltn::Deque();
-	->ltn::pushBack(deque, 1);
-	->ltn::pushFront(deque, 2);
-	->ltn::pushFront(deque, 3);
-	->print(->ltn::empty(deque));
-	->print(->ltn::size(deque));
-	->print(->ltn::popFront(deque));
-	->print(->ltn::popFront(deque));
-	->print(->ltn::empty(deque));
-	->ltn::clear(deque);
-	->print(->ltn::empty(deque));
-	->ltn::clear(deque);
-	->print(->ltn::empty(deque));
+	->print(->is(->ltn::Deque()));
+	->print(->is(->ltn::Array()));
+	->print(->is(->ltn::Queue()));
+	->print(->is(->ltn::Stack()));
+	->print(->is("Hello World"));
 }

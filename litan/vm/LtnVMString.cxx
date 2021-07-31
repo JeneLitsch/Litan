@@ -1,14 +1,10 @@
 #include "LtnVM.hxx"
 #include <iostream>
 
-void ltn::VM::stringNew() {
-	this->env.acc.push(this->env.heap.allocate(HeapObject::Type::STRING));
-}
-
 void ltn::VM::stringAdd() {
 	std::uint64_t ptr2 = this->env.acc.popU();	
 	std::uint64_t ptr1 = this->env.acc.popU();
-	std::uint64_t ptr3 = this->env.heap.allocate(HeapObject::Type::STRING);
+	std::uint64_t ptr3 = this->env.heap.allocate(HeapType::STRING);
 	HeapString str1 = this->env.heap.access<HeapString>(ptr1);
 	HeapString str2 = this->env.heap.access<HeapString>(ptr2);
 	HeapString str3 = this->env.heap.access<HeapString>(ptr3);

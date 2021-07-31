@@ -17,7 +17,7 @@ function Float(Int number) -> Float
 	asm { "load 0" "castf" "return" }
 
 function destroy(Pointer ptr) -> Void
-	asm { "load 0" "heap::del" }
+	asm { "load 0" "heap::delete" }
 
 function exists(Pointer ptr) -> Int
 	asm { "load 0" "heap::exist" "return" }

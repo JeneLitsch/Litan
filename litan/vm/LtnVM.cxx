@@ -116,27 +116,26 @@ void ltn::VM::execute(){
 		case InstCode::EXT6: this->extensions[6]->call(this->getArg8()); break;
 		case InstCode::EXT7: this->extensions[7]->call(this->getArg8()); break;
 
-		case InstCode::HEAP_DEL: this->heapDel(); break;
+		case InstCode::HEAP_ALLOCATE: this->heapAllocate(); break;
+		case InstCode::HEAP_DELETE: this->heapDelete(); break;
 		case InstCode::HEAP_EXIST: this->heapExist(); break;
+		case InstCode::HEAP_ISTYPE: this->heapIsType(); break;
 		case InstCode::HEAP_COPY: this->heapCopy(); break;
 
-		case InstCode::ARRAY_NEW: this->arrayNew(); break;
-		case InstCode::ARRAY_CLR: this->arrayClr(); break;
+		case InstCode::ARRAY_CLEAR: this->arrayClear(); break;
 		case InstCode::ARRAY_GET: this->arrayGet(); break;
 		case InstCode::ARRAY_SET: this->arraySet(); break;
-		case InstCode::ARRAY_LEN: this->arrayLen(); break;
-		case InstCode::ARRAY_FLL: this->arrayFll(); break;
-		case InstCode::ARRAY_RSZ: this->arrayRsz(); break;
-		case InstCode::ARRAY_ERS: this->arrayErs(); break;
-		case InstCode::ARRAY_INS: this->arrayIns(); break;
-		case InstCode::ARRAY_PUSHF: this->arrayPushF(); break;
-		case InstCode::ARRAY_PUSHB: this->arrayPushB(); break;
-		case InstCode::ARRAY_POPF: this->arrayPopF(); break;
-		case InstCode::ARRAY_POPB: this->arrayPopB(); break;
-		case InstCode::ARRAY_GETF: this->arrayGetF(); break;
-		case InstCode::ARRAY_GETB: this->arrayGetB(); break;
+		case InstCode::ARRAY_SIZE: this->arraySize(); break;
+		case InstCode::ARRAY_EMPTY: this->arrayEmpty(); break;
+		case InstCode::ARRAY_FILL: this->arrayFill(); break;
+		case InstCode::ARRAY_RESIZE: this->arrayResize(); break;
+		case InstCode::ARRAY_ERASE: this->arrayErase(); break;
+		case InstCode::ARRAY_INSERT: this->arrayInsert(); break;
+		case InstCode::ARRAY_PUSHB: this->arrayPushBack(); break;
+		case InstCode::ARRAY_POPB: this->arrayPopBack(); break;
+		case InstCode::ARRAY_FRONT: this->arrayFront(); break;
+		case InstCode::ARRAY_BACK: this->arrayBack(); break;
 
-		case InstCode::STACK_NEW: this->stackNew(); break;
 		case InstCode::STACK_PUSH: this->stackPush(); break;
 		case InstCode::STACK_POP: this->stackPop(); break;
 		case InstCode::STACK_TOP: this->stackTop(); break;
@@ -144,7 +143,6 @@ void ltn::VM::execute(){
 		case InstCode::STACK_EMPTY: this->stackEmpty(); break;
 		case InstCode::STACk_CLEAR: this->stackClear(); break;
 
-		case InstCode::QUEUE_NEW: this->queueNew(); break;
 		case InstCode::QUEUE_PUSH: this->queuePush(); break;
 		case InstCode::QUEUE_POP: this->queuePop(); break;
 		case InstCode::QUEUE_FRONT: this->queueFront(); break;
@@ -152,7 +150,6 @@ void ltn::VM::execute(){
 		case InstCode::QUEUE_EMPTY: this->queueEmpty(); break;
 		case InstCode::QUEUE_CLEAR: this->queueClear(); break;
 
-		case InstCode::DEQUE_NEW: this->dequeNew(); break;
 		case InstCode::DEQUE_PUSHF: this->dequePushF(); break;
 		case InstCode::DEQUE_PUSHB: this->dequePushB(); break;
 		case InstCode::DEQUE_POPF: this->dequePopF(); break;
@@ -169,7 +166,6 @@ void ltn::VM::execute(){
 		case InstCode::LOOP_CONT: this->loopCont(); break;
 		case InstCode::LOOP_IDX: this->loopIdx(); break;
 
-		case InstCode::STRING_NEW: this->stringNew(); break;
 		case InstCode::STRING_ADD: this->stringAdd(); break;
 		case InstCode::STRING_DATA: this->stringData(); break;
 		case InstCode::STRING_PRINT: this->stringPrint(); break;

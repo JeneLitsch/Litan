@@ -3,6 +3,7 @@
 #include <stack>
 #include <cstdint>
 #include <variant>
+#include "LtnHeapTypes.hxx"
 namespace ltn {
 	using HeapArray = std::vector<std::uint64_t>;
 	using HeapStack = std::stack<std::uint64_t>;
@@ -10,25 +11,19 @@ namespace ltn {
 	using HeapDeque = std::deque<std::uint64_t>;
 	using HeapString = std::string;
 	struct HeapObject {
-		enum class Type {
-			ARRAY,
-			STACK,
-			QUEUE,
-			DEQUE,
-			STRING,
-		};
+
 		
-		HeapObject(Type type) : type(type) {
+		HeapObject(HeapType type) : type(type) {
 			switch (type) {
-			case Type::ARRAY: data = HeapArray(); break;
-			case Type::STACK: data = HeapStack(); break;
-			case Type::QUEUE: data = HeapQueue(); break;
-			case Type::DEQUE: data = HeapDeque(); break;
-			case Type::STRING: data = HeapString(); break;
+			case HeapType::ARRAY: data = HeapArray(); break;
+			case HeapType::STACK: data = HeapStack(); break;
+			case HeapType::QUEUE: data = HeapQueue(); break;
+			case HeapType::DEQUE: data = HeapDeque(); break;
+			case HeapType::STRING: data = HeapString(); break;
 			}
 		}
 
-		const Type type;
+		const HeapType type;
 		std::variant<
 			HeapArray,
 			HeapStack,

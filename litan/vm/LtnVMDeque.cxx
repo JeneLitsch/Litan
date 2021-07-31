@@ -2,11 +2,6 @@
 #include "LtnPopFromEmpty.hxx"
 
 // deque instructions
-void ltn::VM::dequeNew(){
-	this->env.acc.push(this->env.heap.allocate(HeapObject::Type::DEQUE));
-}
-
-
 void ltn::VM::dequeClear(){
 	std::uint64_t ptr = this->env.acc.popU();
 	this->env.heap.access<HeapDeque>(ptr).clear();

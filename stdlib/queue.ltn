@@ -2,7 +2,7 @@ namespace ltn {
 	typedef Queue;
 
 	function Queue() -> ltn::Queue {
-		asm { "queue::new" "return" }
+		asm { "heap::allocate::queue" "return" }
 	}
 
 	function push(ltn::Queue queue, Raw value) -> Void

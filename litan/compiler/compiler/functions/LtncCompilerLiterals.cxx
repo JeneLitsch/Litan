@@ -24,7 +24,7 @@ ltnc::ExprInfo ltnc::compile::stringLiteral(CompilerPack & compPkg, const ExprSt
 	}
 	CodeBuffer code = compPkg.codeBuffer();
 	code << Comment(expr.string);
-	code << AssemblyCode("string::new");
+	code << AssemblyCode("heap::allocate::string");
 	for(const std::string & str : stringParts) {
 		code << AssemblyCode("string::data '" + str + "'");
 	}

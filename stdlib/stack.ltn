@@ -2,7 +2,7 @@ namespace ltn {
 	typedef Stack;
 
 	function Stack() -> ltn::Stack {
-		asm { "stack::new" "return" }
+		asm { "heap::allocate::stack" "return" }
 	}
 
 	function push(ltn::Stack stack, Raw value) -> Void

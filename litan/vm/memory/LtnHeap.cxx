@@ -13,7 +13,7 @@ void ltn::Heap::clear() {
 }
 
 
-std::uint64_t ltn::Heap::allocate(HeapObject::Type type)  {
+std::uint64_t ltn::Heap::allocate(HeapType type)  {
 	std::uint64_t newPtr = this->createPtr();
 	this->objects.insert({newPtr, HeapObject(type)});
 	return newPtr;

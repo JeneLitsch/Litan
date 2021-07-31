@@ -2,7 +2,6 @@
 #include <sstream>
 #include <iostream>
 #include <iomanip>
-
 // interate over code to find and save markers with their jump addresses
 void ltn::Assembler::searchMarkers(const std::vector<TokenPackage> & tokenPackages){
 	std::size_t cmdNr = 0;
@@ -120,27 +119,34 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "load") return this->cFormat(InstCode::LOAD); 
 		if(pkg.inst == "store") return this->cFormat(InstCode::STORE); 
 		
-		if(pkg.inst == "heap::del") return this->cFormat(InstCode::HEAP_DEL);  
+		if(pkg.inst == "heap::allocate::array") return this->fFormat(InstCode::HEAP_ALLOCATE, ltn::HeapType::ARRAY);  
+		if(pkg.inst == "heap::allocate::stack") return this->fFormat(InstCode::HEAP_ALLOCATE, ltn::HeapType::STACK);  
+		if(pkg.inst == "heap::allocate::queue") return this->fFormat(InstCode::HEAP_ALLOCATE, ltn::HeapType::QUEUE);  
+		if(pkg.inst == "heap::allocate::deque") return this->fFormat(InstCode::HEAP_ALLOCATE, ltn::HeapType::DEQUE);  
+		if(pkg.inst == "heap::allocate::string") return this->fFormat(InstCode::HEAP_ALLOCATE, ltn::HeapType::STRING);  
+		if(pkg.inst == "heap::delete") return this->cFormat(InstCode::HEAP_DELETE);  
 		if(pkg.inst == "heap::exist") return this->cFormat(InstCode::HEAP_EXIST);
+		if(pkg.inst == "heap::istype::array") return this->fFormat(InstCode::HEAP_ISTYPE, ltn::HeapType::ARRAY);
+		if(pkg.inst == "heap::istype::stack") return this->fFormat(InstCode::HEAP_ISTYPE, ltn::HeapType::STACK);
+		if(pkg.inst == "heap::istype::queue") return this->fFormat(InstCode::HEAP_ISTYPE, ltn::HeapType::QUEUE);
+		if(pkg.inst == "heap::istype::deque") return this->fFormat(InstCode::HEAP_ISTYPE, ltn::HeapType::DEQUE);
+		if(pkg.inst == "heap::istype::string") return this->fFormat(InstCode::HEAP_ISTYPE, ltn::HeapType::STRING);
 		if(pkg.inst == "heap::copy") return this->cFormat(InstCode::HEAP_COPY);
 
-		if(pkg.inst == "array::new") return this->cFormat(InstCode::ARRAY_NEW);  
 		if(pkg.inst == "array::set") return this->cFormat(InstCode::ARRAY_SET);  
 		if(pkg.inst == "array::get") return this->cFormat(InstCode::ARRAY_GET);  
-		if(pkg.inst == "array::clr") return this->cFormat(InstCode::ARRAY_CLR);  
-		if(pkg.inst == "array::len") return this->cFormat(InstCode::ARRAY_LEN);  
-		if(pkg.inst == "array::fll") return this->cFormat(InstCode::ARRAY_FLL);  
-		if(pkg.inst == "array::rsz") return this->cFormat(InstCode::ARRAY_RSZ);  
-		if(pkg.inst == "array::ers") return this->cFormat(InstCode::ARRAY_ERS);  
-		if(pkg.inst == "array::ins") return this->cFormat(InstCode::ARRAY_INS);  
-		if(pkg.inst == "array::pushf") return this->cFormat(InstCode::ARRAY_PUSHF);  
-		if(pkg.inst == "array::pushb") return this->cFormat(InstCode::ARRAY_PUSHB);  
-		if(pkg.inst == "array::popf") return this->cFormat(InstCode::ARRAY_POPF);  
-		if(pkg.inst == "array::popb") return this->cFormat(InstCode::ARRAY_POPB);
-		if(pkg.inst == "array::getf") return this->cFormat(InstCode::ARRAY_GETF);
-		if(pkg.inst == "array::getb") return this->cFormat(InstCode::ARRAY_GETB);
+		if(pkg.inst == "array::clear") return this->cFormat(InstCode::ARRAY_CLEAR);  
+		if(pkg.inst == "array::size") return this->cFormat(InstCode::ARRAY_SIZE);  
+		if(pkg.inst == "array::empty") return this->cFormat(InstCode::ARRAY_EMPTY);  
+		if(pkg.inst == "array::fill") return this->cFormat(InstCode::ARRAY_FILL);  
+		if(pkg.inst == "array::resize") return this->cFormat(InstCode::ARRAY_RESIZE);  
+		if(pkg.inst == "array::erase") return this->cFormat(InstCode::ARRAY_ERASE);  
+		if(pkg.inst == "array::insert") return this->cFormat(InstCode::ARRAY_INSERT);  
+		if(pkg.inst == "array::pushback") return this->cFormat(InstCode::ARRAY_PUSHB);  
+		if(pkg.inst == "array::popback") return this->cFormat(InstCode::ARRAY_POPB);
+		if(pkg.inst == "array::front") return this->cFormat(InstCode::ARRAY_FRONT);
+		if(pkg.inst == "array::back") return this->cFormat(InstCode::ARRAY_BACK);
 
-		if(pkg.inst == "stack::new") return this->cFormat(InstCode::STACK_NEW);  
 		if(pkg.inst == "stack::push") return this->cFormat(InstCode::STACK_PUSH);  
 		if(pkg.inst == "stack::pop") return this->cFormat(InstCode::STACK_POP);  
 		if(pkg.inst == "stack::top") return this->cFormat(InstCode::STACK_TOP);  
@@ -148,7 +154,6 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "stack::empty") return this->cFormat(InstCode::STACK_EMPTY);  
 		if(pkg.inst == "stack::clear") return this->cFormat(InstCode::STACk_CLEAR);  
 
-		if(pkg.inst == "queue::new") return this->cFormat(InstCode::QUEUE_NEW);  
 		if(pkg.inst == "queue::push") return this->cFormat(InstCode::QUEUE_PUSH);  
 		if(pkg.inst == "queue::pop") return this->cFormat(InstCode::QUEUE_POP);  
 		if(pkg.inst == "queue::front") return this->cFormat(InstCode::QUEUE_FRONT);  
@@ -156,7 +161,6 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "queue::empty") return this->cFormat(InstCode::QUEUE_EMPTY);  
 		if(pkg.inst == "queue::clear") return this->cFormat(InstCode::QUEUE_CLEAR);  
 
-		if(pkg.inst == "deque::new") return this->cFormat(InstCode::DEQUE_NEW);  
 		if(pkg.inst == "deque::pushf") return this->cFormat(InstCode::DEQUE_PUSHF);  
 		if(pkg.inst == "deque::pushb") return this->cFormat(InstCode::DEQUE_PUSHB);  
 		if(pkg.inst == "deque::popf") return this->cFormat(InstCode::DEQUE_POPF);  
@@ -167,7 +171,6 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "deque::empty") return this->cFormat(InstCode::DEQUE_EMPTY);  
 		if(pkg.inst == "deque::clear") return this->cFormat(InstCode::DEQUE_CLEAR);  
 
-		if(pkg.inst == "string::new") return this->cFormat(InstCode::STRING_NEW);  
 		if(pkg.inst == "string::add") return this->cFormat(InstCode::STRING_ADD);  
 		if(pkg.inst == "string::print") return this->cFormat(InstCode::STRING_PRINT);  
 
@@ -305,6 +308,11 @@ void ltn::Assembler::fFormat(InstCode code, std::uint8_t funct){
 	inst |= static_cast<std::uint64_t>(funct) << 8;
 	this->instructions.push_back(inst);
 }
+
+void ltn::Assembler::fFormat(InstCode code, HeapType type) {
+	return this->fFormat(code, static_cast<std::uint8_t>(type));
+}
+
 
 void ltn::Assembler::vFormat(InstCode code, std::uint32_t val){
 	std::uint64_t inst = 0;

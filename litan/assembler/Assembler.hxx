@@ -6,6 +6,7 @@
 #include "AssemblerParser.hxx"
 #include "PseudoAssembler.hxx"
 #include "TokenPackage.hxx"
+#include "LtnHeapTypes.hxx"
 namespace ltn {
 	class Assembler {
 	public:
@@ -25,6 +26,7 @@ namespace ltn {
 		void cFormat(InstCode code);
 		// buffer format
 		void fFormat(InstCode code, std::uint8_t funct);
+		void fFormat(InstCode code, HeapType type);
 		// value format with 32bit parameter
 		void vFormat(InstCode code, std::uint32_t val);
 		// jump format with 56bit parameter

@@ -12,7 +12,7 @@ namespace ltn {
 		Heap();
 		void clear();
 
-		std::uint64_t allocate(HeapObject::Type type);
+		std::uint64_t allocate(HeapType type);
 
 		std::uint64_t copy(std::uint64_t ptr);
 
@@ -27,6 +27,10 @@ namespace ltn {
 				throw PointerAccessViolation(ptr, "HeapObject");
 			}
 			return std::get<T>(this->objects.at(ptr).data);
+		}
+
+		HeapObject & access(std::uint64_t ptr) {
+			return this->objects.at(ptr);
 		}
 
 		bool exists(std::uint64_t ptr) const;

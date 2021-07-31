@@ -1,9 +1,5 @@
 #include "LtnVM.hxx"
 
-void ltn::VM::queueNew(){
-	this->env.acc.push(this->env.heap.allocate(HeapObject::Type::QUEUE));
-}
-
 void ltn::VM::queuePush(){
 	std::uint64_t value = env.acc.popU();
 	std::uint64_t ptr = env.acc.popU();

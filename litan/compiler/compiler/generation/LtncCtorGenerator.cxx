@@ -29,10 +29,10 @@ ltnc::CodeBuffer ltnc::CtorGenerator::defaultCtor(
 	CodeBuffer code = compilePkg.codeBuffer();
 	code << Comment(type.id.name);
 	code << AssemblyCode("-> " + jumpMark);
-	code << AssemblyCode("array::new");
+	code << AssemblyCode("heap::allocate::array");
 	code << AssemblyCode("copy");
 	code << Inst::newl(static_cast<std::uint32_t>(type.members.size()));
-	code << AssemblyCode("array::rsz");
+	code << AssemblyCode("array::resize");
 	code << AssemblyCode("return");
 	code << AssemblyCode("\n");
 	return code;
@@ -59,7 +59,7 @@ ltnc::CodeBuffer ltnc::CtorGenerator::parameterCtor(
 	}
 
 	// allocate object
-	code << AssemblyCode("array::new");
+	code << AssemblyCode("heap::allocate::array");
 	
 	// write to object on heap
 	for(const auto & member : type.members) {
@@ -67,7 +67,7 @@ ltnc::CodeBuffer ltnc::CtorGenerator::parameterCtor(
 		UNUSED(member);
 		code << AssemblyCode("copy");
 		code << Inst::load(index);
-		code << AssemblyCode("array::pushb");
+		code << AssemblyCode("array::pushback");
 	}
 
 	code << AssemblyCode("return");
