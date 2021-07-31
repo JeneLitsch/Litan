@@ -57,10 +57,15 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "error") return this->cFormat(InstCode::ERROR);
 		if(pkg.inst == "scrap") return this->cFormat(InstCode::SCRAP); 
 		if(pkg.inst == "clear") return this->cFormat(InstCode::CLEAR); 
-		if(pkg.inst == "print") return this->cFormat(InstCode::PRINT);
 		if(pkg.inst == "copy") return this->cFormat(InstCode::COPY);
 		if(pkg.inst == "size") return this->cFormat(InstCode::SIZE);
 		if(pkg.inst == "init") return this->cFormat(InstCode::INIT);
+
+		if(pkg.inst == "print::newline") return this->fFormat(InstCode::PRINT, ltn::OuputFormat::NEWLINE);
+		if(pkg.inst == "print::int") return this->fFormat(InstCode::PRINT, ltn::OuputFormat::INT);
+		if(pkg.inst == "print::uint") return this->fFormat(InstCode::PRINT, ltn::OuputFormat::UINT);
+		if(pkg.inst == "print::float") return this->fFormat(InstCode::PRINT, ltn::OuputFormat::FLOAT);
+		if(pkg.inst == "print::string") return this->fFormat(InstCode::PRINT, ltn::OuputFormat::STRING);
 
 		if(pkg.inst == "addi") return this->cFormat(InstCode::ADDI);
 		if(pkg.inst == "subi") return this->cFormat(InstCode::SUBI);
@@ -172,7 +177,6 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "deque::clear") return this->cFormat(InstCode::DEQUE_CLEAR);  
 
 		if(pkg.inst == "string::add") return this->cFormat(InstCode::STRING_ADD);  
-		if(pkg.inst == "string::print") return this->cFormat(InstCode::STRING_PRINT);  
 
 		if(pkg.inst == "loop::inf") return this->cFormat(InstCode::LOOP_INF);  
 		if(pkg.inst == "loop::range") return this->cFormat(InstCode::LOOP_RANGE);
@@ -199,9 +203,6 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "newu") return this->vFormat(InstCode::NEWU, toInt32(pkg.args[0])); 
 		if(pkg.inst == "stackalloc") return this->vFormat(InstCode::STACKALLOC, toInt32(pkg.args[0])); 
 		if(pkg.inst == "->") return;
-
-		if(pkg.inst == "print") return this->sFormat(InstCode::PRINT, static_cast<std::uint8_t>(toInt32(pkg.args[0])), 0, 0);
-
 	}
 	if(pkg.inst == "string::data") {
 		std::uint64_t data = 0;
@@ -311,6 +312,10 @@ void ltn::Assembler::fFormat(InstCode code, std::uint8_t funct){
 
 void ltn::Assembler::fFormat(InstCode code, HeapType type) {
 	return this->fFormat(code, static_cast<std::uint8_t>(type));
+}
+
+void ltn::Assembler::fFormat(InstCode code, OuputFormat format) {
+	return this->fFormat(code, static_cast<std::uint8_t>(format));
 }
 
 

@@ -168,7 +168,6 @@ void ltn::VM::execute(){
 
 		case InstCode::STRING_ADD: this->stringAdd(); break;
 		case InstCode::STRING_DATA: this->stringData(); break;
-		case InstCode::STRING_PRINT: this->stringPrint(); break;
 		
 		default: throw IllegalInstruction(static_cast<std::uint8_t>(opcode));
 		}

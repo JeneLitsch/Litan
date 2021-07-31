@@ -1,4 +1,5 @@
 namespace ltn {
+
 	// Array based on std::vector
 	typedef Array;
 	

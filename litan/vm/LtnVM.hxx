@@ -130,7 +130,6 @@ namespace ltn {
 		// string instructions
 		void stringAdd();
 		void stringData();
-		void stringPrint();
 
 		// stack(type) instructions
 		void stackPush();

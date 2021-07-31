@@ -1,13 +1,13 @@
 
 namespace a {
 	function fx() -> Void {
-		->print(1);
+		->ltn::print(1);
 	}
 }
 
 namespace b {
 	function fx() -> Void {
-		->print(2);
+		->ltn::print(2);
 	}
 }
 
@@ -23,13 +23,13 @@ namespace test {
 	typedef A;
 	namespace a1 {
 		function fx(Int a, Int b) -> Void {
-			->print(->ltn::min(a, b));
-			->print(->ltn::max(a, b));
+			->ltn::print(->ltn::min(a, b));
+			->ltn::print(->ltn::max(a, b));
 		}
 
 		function fx(Float a, Float b) -> Void {
-			->print(->ltn::min(a, b));
-			->print(->ltn::max(a, b));
+			->ltn::print(->ltn::min(a, b));
+			->ltn::print(->ltn::max(a, b));
 		}
 	}
 }
@@ -44,9 +44,7 @@ function is(Pointer ptr) -> Int {
 }
 
 function main() -> Void {
-	->print(->is(->ltn::Deque()));
-	->print(->is(->ltn::Array()));
-	->print(->is(->ltn::Queue()));
-	->print(->is(->ltn::Stack()));
-	->print(->is("Hello World"));
+	->ltn::println(-1);
+	->ltn::println(2.5);
+	->ltn::println(->ltn::Deque());
 }

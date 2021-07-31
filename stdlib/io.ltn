@@ -1,11 +1,30 @@
-function print(Raw raw) -> Void 
-	asm { "load 0" "print 0" }
+namespace ltn {
 
-function print(Int num) -> Void 
-	asm { "load 0" "print 0" }
+	function print(Raw raw) -> Void 
+		asm { "load 0" "print::uint" }
 
-function print(Float num) -> Void 
-	asm { "load 0" "print 1" }
+	function print(Int num) -> Void 
+		asm { "load 0" "print::int" }
 
-function print(String str) -> Void 
-	asm { "load 0" "string::print" }
+	function print(Float num) -> Void 
+		asm { "load 0" "print::float" }
+
+	function print(String str) -> Void 
+		asm { "load 0" "print::string" }
+
+
+	function println(Raw raw) -> Void 
+		asm { "load 0" "print::uint" "print::newline" }
+
+	function println(Int num) -> Void 
+		asm { "load 0" "print::int" "print::newline" }
+
+	function println(Float num) -> Void 
+		asm { "load 0" "print::float" "print::newline" }
+
+	function println(String str) -> Void 
+		asm { "load 0" "print::string" "print::newline" }
+
+	function println() -> Void 
+		asm { "print::newline" }
+}

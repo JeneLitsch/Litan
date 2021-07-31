@@ -21,21 +21,6 @@ void ltn::VM::size(){
 	this->env.acc.push(this->env.acc.size());
 }
 
-// print or put value into ouput
-void ltn::VM::print(){
-	switch (this->getArg8()){
-	case 0:
-		std::cout << this->env.acc.popI() << std::endl;
-		break;
-	case 1:
-		std::cout << this->env.acc.popF() << std::endl;
-		break;
-	default:
-		std::cout << this->env.acc.popU()  << std::endl;
-		break;
-	}
-	
-}
 
 // pop and discard one value from acc
 void ltn::VM::scrap(){

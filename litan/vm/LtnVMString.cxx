@@ -22,8 +22,3 @@ void ltn::VM::stringData() {
 	}
 	this->env.heap.access<HeapString>(ptr) += str;
 }
-
-void ltn::VM::stringPrint() {
-	std::uint64_t ptr = this->env.acc.popU();
-	std::cout << this->env.heap.access<HeapString>(ptr) << std::endl;
-}

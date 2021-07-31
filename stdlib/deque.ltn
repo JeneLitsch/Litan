@@ -1,11 +1,14 @@
 namespace ltn {
+
 	typedef Deque;
 
 	function Deque() -> ltn::Deque
 		asm { "heap::allocate::deque" "return" }
 
+
 	function clear(ltn::Deque deque) -> Void
 		asm { "load 0" "deque::clear" }
+
 
 	function pushFront(ltn::Deque deque, Raw value) -> Void
 		asm { "load 0" "load 1" "deque::pushf" }
@@ -30,8 +33,10 @@ namespace ltn {
 	function back(ltn::Deque deque) -> Raw
 		asm { "load 0" "deque::back" "return" }
 
+
 	function size(ltn::Deque deque) -> Int 
 		asm { "load 0" "deque::size" "return" }
+
 
 	function empty(ltn::Deque deque) -> Int 
 		asm { "load 0" "deque::empty" "return" }

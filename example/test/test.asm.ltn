@@ -136,24 +136,13 @@ error
 // main ( -> Void ) 
 -> FNX_main11
 stackalloc 0
+newi 1
+mnsi
+call FNX_println64
+newf 2.500000
+call FNX_println65
 call FNX_Deque49
-call FNX_is10
-call FNX_print60
-call FNX_Array25
-call FNX_is10
-call FNX_print60
-call FNX_Queue44
-call FNX_is10
-call FNX_print60
-call FNX_Stack38
-call FNX_is10
-call FNX_print60
-// Hello World
-heap::allocate::string
-string::data 'Hello '
-string::data 'World'
-call FNX_is10
-call FNX_print60
+call FNX_println63
 return
 
 
@@ -308,12 +297,12 @@ load 0
 newi 0
 smli
 ifnx
-goto IF65
-goto END_IF67
--> IF65
-call FNX_error63
-goto END_IF67
--> END_IF67
+goto IF70
+goto END_IF72
+-> IF70
+call FNX_error68
+goto END_IF72
+-> END_IF72
 call FNX_Array25
 store 1
 load 1
@@ -653,7 +642,7 @@ error
 stackalloc 1
 store 0
 load 0
-print 0
+print::uint
 return
 
 
@@ -662,7 +651,7 @@ return
 stackalloc 1
 store 0
 load 0
-print 0
+print::int
 return
 
 
@@ -671,7 +660,7 @@ return
 stackalloc 1
 store 0
 load 0
-print 1
+print::float
 return
 
 
@@ -680,19 +669,66 @@ return
 stackalloc 1
 store 0
 load 0
-string::print
+print::string
+return
+
+
+// println ( Raw -> Void ) 
+-> FNX_println63
+stackalloc 1
+store 0
+load 0
+print::uint
+print::newline
+return
+
+
+// println ( Int -> Void ) 
+-> FNX_println64
+stackalloc 1
+store 0
+load 0
+print::int
+print::newline
+return
+
+
+// println ( Float -> Void ) 
+-> FNX_println65
+stackalloc 1
+store 0
+load 0
+print::float
+print::newline
+return
+
+
+// println ( String -> Void ) 
+-> FNX_println66
+stackalloc 1
+store 0
+load 0
+print::string
+print::newline
+return
+
+
+// println ( -> Void ) 
+-> FNX_println67
+stackalloc 0
+print::newline
 return
 
 
 // error ( -> Void ) 
--> FNX_error63
+-> FNX_error68
 stackalloc 0
 error
 return
 
 
 // add ( String String -> String ) 
--> FNX_add64
+-> FNX_add69
 stackalloc 2
 store 1
 store 0
