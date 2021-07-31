@@ -37,10 +37,9 @@ void ltn::VM::run(){
 
 void ltn::VM::execute(){
 	while(true){
-		std::uint64_t inst = this->env.instructions[this->env.pc];
+		this->currentInstruction = this->env.instructions[this->env.pc];
+		const InstCode opcode = static_cast<InstCode>(this->currentInstruction & 0xff);
 		this->env.pc++;
-		InstCode opcode = static_cast<InstCode>(std::uint8_t((inst) & 0xff));
-		this->currentInstruction = inst;
 
 
 		switch (opcode) {

@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace ltn{
+namespace ltna {
 	struct TokenPackage{
 		TokenPackage(){};
 		TokenPackage(const std::string & line, const std::string & inst, const std::vector<std::string> & args)

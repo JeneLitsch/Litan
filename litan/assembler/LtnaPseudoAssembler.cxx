@@ -1,11 +1,11 @@
-#include "PseudoAssembler.hxx"
+#include "LtnaPseudoAssembler.hxx"
+#include "LtnaAssemblerParser.hxx"
 #include "LtnFloat.hxx"
-#include "AssemblerParser.hxx"
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
 #include <filesystem>
-std::vector<ltn::TokenPackage> ltn::PseudoAssembler::process(const std::vector<TokenPackage> & tokensPackages){
+std::vector<ltna::TokenPackage> ltna::PseudoAssembler::process(const std::vector<TokenPackage> & tokensPackages){
 	this->newPkgs.clear();
 	bool ok = true;
 	std::size_t lineNr = 1;
@@ -28,11 +28,11 @@ std::vector<ltn::TokenPackage> ltn::PseudoAssembler::process(const std::vector<T
 	}
 }
 
-void ltn::PseudoAssembler::registerAlias(const std::string & alias, Slot slot, std::uint8_t funct){
+void ltna::PseudoAssembler::registerAlias(const std::string & alias, ltn::Slot slot, std::uint8_t funct){
 	this->aliases[alias] = { slot, funct };
 }
 
-void ltn::PseudoAssembler::includeFile(const std::string & path){
+void ltna::PseudoAssembler::includeFile(const std::string & path){
 	if(this->includeGuard.contains(path)) return;
 	this->includeGuard.insert(path);
 	AssemblerParser parser;
@@ -45,7 +45,7 @@ void ltn::PseudoAssembler::includeFile(const std::string & path){
 	}
 }
 
-void ltn::PseudoAssembler::processPkg(const TokenPackage & pkg){
+void ltna::PseudoAssembler::processPkg(const TokenPackage & pkg){
 	if(pkg.args.size() == 0){
 		
 		if(pkg.inst == "bitnot"){

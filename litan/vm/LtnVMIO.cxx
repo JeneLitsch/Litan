@@ -1,6 +1,7 @@
 #include "LtnVM.hxx"
 #include <iostream>
 #include "LtnIoFormat.hxx"
+
 // print or put value into ouput
 void ltn::VM::print(){
 	OuputFormat ouputFormat = static_cast<OuputFormat>(this->getArg8());  
@@ -23,7 +24,7 @@ void ltn::VM::print(){
 		break;
 
 	case OuputFormat::STRING:
-		std::uint64_t ptr = this->env.acc.popU();
+		const std::uint64_t ptr = this->env.acc.popU();
 		std::cout << this->env.heap.access<HeapString>(ptr) << std::endl;
 		break;
 	}	

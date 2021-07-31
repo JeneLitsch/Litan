@@ -1,9 +1,9 @@
-#include "AssemblerParser.hxx"
+#include "LtnaAssemblerParser.hxx"
 #include <sstream>
 #include <algorithm>
 #include <iostream>
 
-std::vector<ltn::TokenPackage> ltn::AssemblerParser::parse(const std::string & code) const {
+std::vector<ltna::TokenPackage> ltna::AssemblerParser::parse(const std::string & code) const {
 	std::vector<TokenPackage> tokenPackages;
 	std::vector<std::string> lines = this->split(code, '\n');
 	for(const std::string & line : lines){
@@ -12,7 +12,7 @@ std::vector<ltn::TokenPackage> ltn::AssemblerParser::parse(const std::string & c
 	return tokenPackages;
 }
 
-void ltn::AssemblerParser::parseLine(const std::string line, std::vector<TokenPackage> & tokenPackages) const{
+void ltna::AssemblerParser::parseLine(const std::string line, std::vector<TokenPackage> & tokenPackages) const{
 	std::vector<std::string> tokens = this->split(line, ' ');
 	
 	for(std::string & token : tokens){
@@ -28,7 +28,7 @@ void ltn::AssemblerParser::parseLine(const std::string line, std::vector<TokenPa
 }
 
 // split strings into string at a given delimeter
-std::vector<std::string> ltn::AssemblerParser::split(const std::string & str, char delim) const{
+std::vector<std::string> ltna::AssemblerParser::split(const std::string & str, char delim) const{
     std::string line;
     std::vector<std::string> lines;
     std::stringstream ss(str);

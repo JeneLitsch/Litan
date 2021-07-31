@@ -3,38 +3,38 @@
 
 // Math Instruction
 void ltn::VM::addi(){
-	std::int64_t r = this->env.acc.popI();
-	std::int64_t l = this->env.acc.popI();
+	const std::int64_t r = this->env.acc.popI();
+	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l + r);
 }
 
 void ltn::VM::subi(){
-	std::int64_t r = this->env.acc.popI();
-	std::int64_t l = this->env.acc.popI();
+	const std::int64_t r = this->env.acc.popI();
+	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l - r);
 }
 
 void ltn::VM::mlti(){
-	std::int64_t r = this->env.acc.popI();
-	std::int64_t l = this->env.acc.popI();
+	const std::int64_t r = this->env.acc.popI();
+	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l * r);
 }
 
 void ltn::VM::divi(){
-	std::int64_t r = this->env.acc.popI();
-	std::int64_t l = this->env.acc.popI();
+	const std::int64_t r = this->env.acc.popI();
+	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l / r);
 }
 
 void ltn::VM::powi(){
-	std::int64_t r = this->env.acc.popI();
-	std::int64_t l = this->env.acc.popI();
+	const std::int64_t r = this->env.acc.popI();
+	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(static_cast<std::int64_t>(std::pow(l, r)));
 }
 
 void ltn::VM::modi(){
-	std::int64_t r = this->env.acc.popI();
-	std::int64_t l = this->env.acc.popI();
+	const std::int64_t r = this->env.acc.popI();
+	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l % r);
 }
 
@@ -66,26 +66,26 @@ void ltn::VM::maxi(){
 
 // Comparison
 void ltn::VM::eqli(){
-	std::int64_t r = this->env.acc.popI();
-	std::int64_t l = this->env.acc.popI();
+	const std::int64_t r = this->env.acc.popI();
+	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l == r);
 }
 
 void ltn::VM::smli(){
-	std::int64_t r = this->env.acc.popI();
-	std::int64_t l = this->env.acc.popI();
+	const std::int64_t r = this->env.acc.popI();
+	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l < r);
 }
 
 void ltn::VM::bgri(){
-	std::int64_t r = this->env.acc.popI();
-	std::int64_t l = this->env.acc.popI();
+	const std::int64_t r = this->env.acc.popI();
+	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l > r);
 }
 
 void ltn::VM::spshi(){
-	std::int64_t r = this->env.acc.popI();
-	std::int64_t l = this->env.acc.popI();
+	const std::int64_t r = this->env.acc.popI();
+	const std::int64_t l = this->env.acc.popI();
 	if(l == r) return this->env.acc.push(0L);
 	if(l > r) return this->env.acc.push(1L);
 	if(l < r) return this->env.acc.push(-1L);

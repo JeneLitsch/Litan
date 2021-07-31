@@ -1,9 +1,11 @@
-#include "Assembler.hxx"
+#include "LtnaAssembler.hxx"
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#include "LtnaStringDecoder.hxx"
+#include "LtnaNumberParser.hxx"
 // interate over code to find and save markers with their jump addresses
-void ltn::Assembler::searchMarkers(const std::vector<TokenPackage> & tokenPackages){
+void ltna::Assembler::searchMarkers(const std::vector<TokenPackage> & tokenPackages){
 	std::size_t cmdNr = 0;
 	for(const TokenPackage & pkg : tokenPackages){		
 		if(pkg.inst == "") {}
@@ -17,12 +19,12 @@ void ltn::Assembler::searchMarkers(const std::vector<TokenPackage> & tokenPackag
 		}
 	}
 }
-void ltn::Assembler::registerAlias(const std::string & alias, Slot slot, std::uint8_t funct){
+void ltna::Assembler::registerAlias(const std::string & alias, ltn::Slot slot, std::uint8_t funct){
 	this->pseudoAssembler.registerAlias(alias, slot, funct);
 }
 
 // assemble code
-std::vector<std::uint64_t> ltn::Assembler::assemble(const std::vector<TokenPackage> & tokens){
+std::vector<std::uint64_t> ltna::Assembler::assemble(const std::vector<TokenPackage> & tokens){
 	this->markers.clear();
 	this->instructions.clear();
 	
@@ -50,7 +52,7 @@ std::vector<std::uint64_t> ltn::Assembler::assemble(const std::vector<TokenPacka
 }
 
 
-void ltn::Assembler::assembleLine(const TokenPackage & pkg){
+void ltna::Assembler::assembleLine(const TokenPackage & pkg){
 	if(pkg.inst == "") return;
 	if(pkg.args.size() == 0){
 		if(pkg.inst == "exit") return this->cFormat(InstCode::EXIT);
@@ -185,180 +187,89 @@ void ltn::Assembler::assembleLine(const TokenPackage & pkg){
 		if(pkg.inst == "loop::idx") return this->cFormat(InstCode::LOOP_IDX);  
 	}
 	if(pkg.args.size() == 1){
-		if(pkg.inst == "casti") return this->fFormat(InstCode::CASTI, static_cast<std::uint8_t>(this->toInt32(pkg.args[0])));
+		if(pkg.inst == "casti") return this->fFormat(InstCode::CASTI, NumberParser::toInt8(pkg.args[0]));
 		
-		if(pkg.inst == "ext::0") return this->fFormat(InstCode::EXT0, static_cast<std::uint8_t>(this->toInt32(pkg.args[0])));  
-		if(pkg.inst == "ext::1") return this->fFormat(InstCode::EXT1, static_cast<std::uint8_t>(this->toInt32(pkg.args[0])));  
-		if(pkg.inst == "ext::2") return this->fFormat(InstCode::EXT2, static_cast<std::uint8_t>(this->toInt32(pkg.args[0])));  
-		if(pkg.inst == "ext::3") return this->fFormat(InstCode::EXT3, static_cast<std::uint8_t>(this->toInt32(pkg.args[0])));  
-		if(pkg.inst == "ext::4") return this->fFormat(InstCode::EXT4, static_cast<std::uint8_t>(this->toInt32(pkg.args[0])));  
-		if(pkg.inst == "ext::5") return this->fFormat(InstCode::EXT5, static_cast<std::uint8_t>(this->toInt32(pkg.args[0])));  
-		if(pkg.inst == "ext::6") return this->fFormat(InstCode::EXT6, static_cast<std::uint8_t>(this->toInt32(pkg.args[0])));  
-		if(pkg.inst == "ext::7") return this->fFormat(InstCode::EXT7, static_cast<std::uint8_t>(this->toInt32(pkg.args[0])));  
+		if(pkg.inst == "ext::0") return this->fFormat(InstCode::EXT0, NumberParser::toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::1") return this->fFormat(InstCode::EXT1, NumberParser::toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::2") return this->fFormat(InstCode::EXT2, NumberParser::toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::3") return this->fFormat(InstCode::EXT3, NumberParser::toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::4") return this->fFormat(InstCode::EXT4, NumberParser::toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::5") return this->fFormat(InstCode::EXT5, NumberParser::toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::6") return this->fFormat(InstCode::EXT6, NumberParser::toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::7") return this->fFormat(InstCode::EXT7, NumberParser::toInt8(pkg.args[0]));  
 
 		if(pkg.inst == "call") return this->jFormat(InstCode::CALL, pkg.args[0]);  
 		if(pkg.inst == "goto") return this->jFormat(InstCode::GOTO, pkg.args[0]);  
 
-		if(pkg.inst == "newl") return this->vFormat(InstCode::NEWL, toInt32(pkg.args[0])); 
-		if(pkg.inst == "newu") return this->vFormat(InstCode::NEWU, toInt32(pkg.args[0])); 
-		if(pkg.inst == "stackalloc") return this->vFormat(InstCode::STACKALLOC, toInt32(pkg.args[0])); 
+		if(pkg.inst == "newl") return this->vFormat(InstCode::NEWL, NumberParser::toInt32(pkg.args[0])); 
+		if(pkg.inst == "newu") return this->vFormat(InstCode::NEWU, NumberParser::toInt32(pkg.args[0])); 
+		if(pkg.inst == "stackalloc") return this->vFormat(InstCode::STACKALLOC, NumberParser::toInt32(pkg.args[0])); 
 		if(pkg.inst == "->") return;
 	}
-	if(pkg.inst == "string::data") {
-		std::uint64_t data = 0;
-		std::string str = this->decodeString(pkg.args);
-		std::size_t len = str.size();
-		if(len > 6) {
-			std::cout << ">> Warning: String data to long" << std::endl;
-		}
-		data |= std::uint8_t(len);
-		for(std::size_t i = 0; i < len; i++) {
-			char chr = str[i];
-			data |= std::uint64_t(chr) << (i+1)*8;
-		}
-		return this->dFormat(InstCode::STRING_DATA, data); 
-	}
+	if(pkg.inst == "string::data") return this->dFormat(pkg.args);
 
 	if(pkg.inst == "//") return;
 	throw std::runtime_error("No signature matches: " + pkg.inst);
 }
 
-std::string ltn::Assembler::decodeString(const std::vector<std::string> & args) const {
-	std::string encodedString;
-	for(const std::string & arg : args) {
-		encodedString += arg + " ";
-	}
-	encodedString.pop_back();
-	if(encodedString.front() != '\'' || encodedString.back() != '\'') {
-		throw std::runtime_error("String is not delimited");
-	}
-	encodedString.pop_back();
-	encodedString.erase(encodedString.begin());
-
-	std::vector<std::string> encodedChars;
-	
-	for(unsigned idx = 0; idx < encodedString.size(); idx++) {
-		char chr = encodedString[idx];
-		if(chr == '\\') {
-			encodedChars.push_back(encodedString.substr(idx,2));
-			idx++;
-		}
-		else {
-			encodedChars.push_back(encodedString.substr(idx,1));
-		}
-	}
-
-
-	std::string decodedStr;
-	for(const std::string & encodedChar : encodedChars) {
-		if(encodedChar.size() == 1) {
-			decodedStr.push_back(encodedChar[0]);
-		}
-		else {
-			if(encodedChar == "\\n") {
-				decodedStr.push_back('\n');
-			}
-			if(encodedChar == "\\t") {
-				decodedStr.push_back('\t');
-			}
-			if(encodedChar == "\\\"") {
-				decodedStr.push_back('"');
-			}
-			if(encodedChar == "\\\\") {
-				decodedStr.push_back('\\');
-			}
-		}
-	}
-	return decodedStr;
-}
 
 
 
-std::uint32_t ltn::Assembler::toInt32(const std::string & str){
-	if(str.substr(0,2) == "0x"){
-		return static_cast<std::uint32_t>(std::stoull(str.substr(2), nullptr, 16));
-	}
-	if(str.substr(0,2) == "0b"){
-		return static_cast<std::uint32_t>(std::stoull(str.substr(2), nullptr, 2));
-	}
-	return static_cast<std::uint32_t>(std::stoull(str, nullptr, 10));
-}
-
-std::uint64_t ltn::Assembler::toInt64(const std::string & str){
-	if(str.substr(0,2) == "0x"){
-		return static_cast<std::uint64_t>(std::stoull(str.substr(2), nullptr, 16));
-	}
-	if(str.substr(0,2) == "0b"){
-		return static_cast<std::uint64_t>(std::stoull(str.substr(2), nullptr, 2));
-	}
-	return static_cast<std::uint64_t>(std::stoull(str, nullptr, 10));
-}
-
-void ltn::Assembler::cFormat(InstCode code){
+void ltna::Assembler::cFormat(InstCode opcode){
 	std::uint64_t inst = 0;
 	// opcode
-	inst |= static_cast<std::uint8_t>(code);
+	inst |= static_cast<std::uint8_t>(opcode);
 	this->instructions.push_back(inst);
 }
 
-void ltn::Assembler::fFormat(InstCode code, std::uint8_t funct){
+void ltna::Assembler::fFormat(InstCode opcode, std::uint8_t funct){
 	std::uint64_t inst = 0;
-	// opcode
-	inst |= static_cast<std::uint8_t>(code);
-	// 8-bit arg function code
+	inst |= static_cast<std::uint8_t>(opcode);
 	inst |= static_cast<std::uint64_t>(funct) << 8;
 	this->instructions.push_back(inst);
 }
 
-void ltn::Assembler::fFormat(InstCode code, HeapType type) {
-	return this->fFormat(code, static_cast<std::uint8_t>(type));
+void ltna::Assembler::fFormat(InstCode opcode, ltn::HeapType type) {
+	return this->fFormat(opcode, static_cast<std::uint8_t>(type));
 }
 
-void ltn::Assembler::fFormat(InstCode code, OuputFormat format) {
-	return this->fFormat(code, static_cast<std::uint8_t>(format));
+void ltna::Assembler::fFormat(InstCode opcode, ltn::OuputFormat format) {
+	return this->fFormat(opcode, static_cast<std::uint8_t>(format));
 }
 
-
-void ltn::Assembler::vFormat(InstCode code, std::uint32_t val){
+void ltna::Assembler::vFormat(InstCode opcode, std::uint32_t val){
 	std::uint64_t inst = 0;
-	// opcode
-	inst |= static_cast<std::uint8_t>(code);
-	// 32bit parameter
+	inst |= static_cast<std::uint8_t>(opcode);
 	inst |= static_cast<std::uint64_t>(val) << 32;
 	this->instructions.push_back(inst);
 }
-void ltn::Assembler::jFormat(InstCode code, const std::string & destination){
-	std::uint64_t addr = 0;
-	if(this->markers.contains(destination)){
-		addr = this->markers.at(destination);
-	}
-	else {
-		addr = this->toInt64(destination);
-	}
+
+void ltna::Assembler::jFormat(InstCode opcode, const std::string & destination){
+	std::uint64_t addr = this->markers.at(destination);
 	std::uint64_t inst = 0;
-	// opcode
-	inst |= static_cast<std::uint8_t>(code);
-	// 56 address
-	inst |= addr << 8;
+	inst |= static_cast<std::uint8_t>(opcode);
+	inst |= static_cast<std::uint64_t>(addr) << 8;
 	this->instructions.push_back(inst);
 }
 
-void ltn::Assembler::sFormat(InstCode code, std::uint8_t arg8, std::uint16_t arg16, std::uint32_t arg32){
+void ltna::Assembler::dFormat(InstCode opcode, std::uint64_t arg56) {
 	std::uint64_t inst = 0;
-	// opcode
-	inst |= static_cast<std::uint8_t>(code);
-	// 8-bit arg
-	inst |= static_cast<std::uint64_t>(arg8) << 8;
-	// 16-bit arg
-	inst |= static_cast<std::uint64_t>(arg16) << 16;
-	// 32-bit arg
-	inst |= static_cast<std::uint64_t>(arg32) << 32;
-	this->instructions.push_back(inst);
-}
-
-void ltn::Assembler::dFormat(InstCode code, std::uint64_t arg56) {
-	std::uint64_t inst = 0;
-	inst |= static_cast<std::uint64_t>(code);
+	inst |= static_cast<std::uint64_t>(opcode);
 	inst |= static_cast<std::uint64_t>(arg56) << 8;
 	this->instructions.push_back(inst);
+}
+
+void ltna::Assembler::dFormat(const std::vector<std::string> & stringData) {
+	std::uint64_t data = 0;
+	std::string str = StringDecoder::decode(stringData);
+	std::size_t len = str.size();
+	if(len > 6) {
+		std::cout << ">> Warning: String data to long" << std::endl;
+	}
+	data |= std::uint8_t(len);
+	for(std::size_t i = 0; i < len; i++) {
+		char chr = str[i];
+		data |= std::uint64_t(chr) << (i+1)*8;
+	}
+	return this->dFormat(InstCode::STRING_DATA, data); 
 }

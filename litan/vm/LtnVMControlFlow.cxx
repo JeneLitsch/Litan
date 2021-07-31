@@ -24,8 +24,8 @@ void ltn::VM::ifsk(){
 
 // Loop instruction
 void ltn::VM::loopRange() {
-	std::int64_t end = env.acc.popI();
-	std::int64_t start = env.acc.popI();
+	const std::int64_t end = env.acc.popI();
+	const std::int64_t start = env.acc.popI();
 	this->env.loops.push(Loop(env.pc, start, end));
 }
 

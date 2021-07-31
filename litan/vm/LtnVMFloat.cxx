@@ -3,41 +3,41 @@
 
 // Math Instruction
 void ltn::VM::addf(){
-	double r = this->env.acc.popF();
-	double l = this->env.acc.popF();
+	const double r = this->env.acc.popF();
+	const double l = this->env.acc.popF();
 	this->env.acc.push(l + r);
 }
 
 void ltn::VM::subf(){
-	double r = this->env.acc.popF();
-	double l = this->env.acc.popF();
+	const double r = this->env.acc.popF();
+	const double l = this->env.acc.popF();
 	this->env.acc.push(l - r);
 }
 
 void ltn::VM::mltf(){
-	double r = this->env.acc.popF();
-	double l = this->env.acc.popF();
+	const double r = this->env.acc.popF();
+	const double l = this->env.acc.popF();
 	
 	this->env.acc.push(l * r);
 }
 
 void ltn::VM::divf(){
-	double r = this->env.acc.popF();
-	double l = this->env.acc.popF();
+	const double r = this->env.acc.popF();
+	const double l = this->env.acc.popF();
 	
 	this->env.acc.push(l / r);
 }
 
 void ltn::VM::powf(){
-	double r = this->env.acc.popF();
-	double l = this->env.acc.popF();
+	const double r = this->env.acc.popF();
+	const double l = this->env.acc.popF();
 	
 	this->env.acc.push(std::pow(l,r));
 }
 
 void ltn::VM::modf(){
-	double r = this->env.acc.popF();
-	double l = this->env.acc.popF();
+	const double r = this->env.acc.popF();
+	const double l = this->env.acc.popF();
 	this->env.acc.push(std::fmod(l,r));
 }
 
@@ -60,23 +60,23 @@ void ltn::VM::maxf(){
 
 // Comparison
 void ltn::VM::eqlf(){
-	double l = this->env.acc.popF();
-	double r = this->env.acc.popF();
+	const double l = this->env.acc.popF();
+	const double r = this->env.acc.popF();
 	this->env.acc.push(l == r);
 }
 void ltn::VM::smlf(){
-	double r = this->env.acc.popF();
-	double l = this->env.acc.popF();
+	const double r = this->env.acc.popF();
+	const double l = this->env.acc.popF();
 	this->env.acc.push(l < r);
 }
 void ltn::VM::bgrf(){
-	double r = this->env.acc.popF();
-	double l = this->env.acc.popF();
+	const double r = this->env.acc.popF();
+	const double l = this->env.acc.popF();
 	this->env.acc.push(l > r);
 }
 void ltn::VM::spshf(){
-	double r = this->env.acc.popF();
-	double l = this->env.acc.popF();
+	const double r = this->env.acc.popF();
+	const double l = this->env.acc.popF();
 	if(l == r) return this->env.acc.push(0L);
 	if(l > r) return this->env.acc.push(1L);
 	if(l < r) return this->env.acc.push(-1L);

@@ -3,13 +3,13 @@
 
 // copy value from memory to acc
 void ltn::VM::load(){
-	std::uint32_t addr = static_cast<std::uint32_t>(this->env.acc.popU());
+	const std::uint32_t addr = static_cast<std::uint32_t>(this->env.acc.popU());
 	this->env.acc.push(this->env.stack.get().memoryBlock[addr]);
 }
 
 // pop value from acc and write to memory
 void ltn::VM::store(){
-	std::uint32_t addr = static_cast<std::uint32_t>(this->env.acc.popU());
+	const std::uint32_t addr = static_cast<std::uint32_t>(this->env.acc.popU());
 	this->env.stack.get().memoryBlock[addr] = this->env.acc.popU();
 }
 

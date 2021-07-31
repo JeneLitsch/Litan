@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "TokenPackage.hxx"
+#include "LtnaTokenPackage.hxx"
 
-namespace ltn{
+namespace ltna {
 	class AssemblerParser {
 	public:
 		std::vector<TokenPackage> parse(const std::string & code) const;
