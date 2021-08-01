@@ -25,7 +25,7 @@ namespace ltn{
 			this->current++; 
 		}
 
-		void reset();
+		inline void reset() { this->current = 0; }
 
 		// const std::stack<std::uint64_t> & getStack() const;
 	private:

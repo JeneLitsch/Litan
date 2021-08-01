@@ -28,9 +28,3 @@ ltnc::ExprInfo ltnc::compile::expression(CompilerPack & compPkg, const Expr & ex
 	throw std::runtime_error("Invalid Expr");
 }
 
-
-ltnc::ExprInfo ltnc::compile::nul() {
-	CodeBuffer code(false);
-	code << Inst::newl(0);
-	return ExprInfo(TypeId("Pointer"), code);
-}

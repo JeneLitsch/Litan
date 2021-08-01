@@ -10,9 +10,10 @@ namespace ltna {
 	public:
 		std::vector<std::uint64_t> assemble(const std::vector<TokenPackage> & tokens);
 	private:
-		void searchMarkers(const std::vector<TokenPackage> & lines);
-		std::uint64_t toInstruction(const TokenPackage & tokenPackages) const;
-		MarkerTable markerTable;
-		std::vector<std::uint64_t> instructions;
+		MarkerTable searchMarkers(
+			const std::vector<TokenPackage> & lines);
+		std::uint64_t toInstruction(
+			const TokenPackage & tokenPackages,
+			const MarkerTable & markerTable) const;
 	};
 }

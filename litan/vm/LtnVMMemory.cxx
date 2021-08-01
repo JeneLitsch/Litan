@@ -32,10 +32,6 @@ void ltn::VM::clear(){
 	this->env.acc.reset();
 }
 
-void ltn::VM::init() {
-	this->env.stack.push(0); 
-}
-
 void ltn::VM::stackalloc() {
 	this->env.stack.get().memoryBlock.resize(this->env.stack.get().memoryBlock.size() + this->getArg32());
 }

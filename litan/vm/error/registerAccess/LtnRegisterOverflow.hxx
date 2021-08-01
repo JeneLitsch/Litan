@@ -1,8 +1,8 @@
 #pragma once
-#include "LtnError.hxx"
+#include "LtnRuntimeError.hxx"
 
 namespace ltn {
-	class RegisterOverflow : public Error {
+	class RegisterOverflow : public RuntimeError {
 	public:
 		RegisterOverflow();
 	};

@@ -1,7 +1,7 @@
 #pragma once
-#include "LtnError.hxx"
+#include "LtnRuntimeError.hxx"
 namespace ltn {
-	class AccessViolation : public Error {
+	class AccessViolation : public RuntimeError {
 	public:
 		std::uint64_t getPtr() const;
 		std::uint64_t getIdx() const;

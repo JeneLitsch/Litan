@@ -6,7 +6,7 @@
 #include "LtnInstructions.hxx"
 #include "LtnIExtension.hxx"
 #include "LtnEnvironment.hxx"
-#include "LtnError.hxx"
+#include "LtnRuntimeError.hxx"
 
 namespace ltn {
 	// the i prefix means integer
@@ -45,7 +45,6 @@ namespace ltn {
 		void print();
 		void scrap();
 		void clear();
-		void init();
 		void stackalloc();
 
 		// value instruction

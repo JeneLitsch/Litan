@@ -42,7 +42,7 @@ void launch(const std::vector<std::uint64_t> & instructions){
 		vm.run();
 		std::cout << ">> Terminated" << std::endl;
 	}
-	catch(ltn::Error error) {
+	catch(ltn::RuntimeError error) {
 		std::cout << ">> Error: " << error.what() << std::endl;
 	}	
 }

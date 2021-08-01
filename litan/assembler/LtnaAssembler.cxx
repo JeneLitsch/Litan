@@ -6,46 +6,38 @@
 #include "LtnaNumberParser.hxx"
 #include "LtnaInstructionBuilder.hxx"
 
+#include "LtnaUnknownInstruction.hxx"
+
 // interate over code to find and save markers with their jump addresses
-void ltna::Assembler::searchMarkers(const std::vector<TokenPackage> & tokenPackages) {
+ltna::MarkerTable ltna::Assembler::searchMarkers(const std::vector<TokenPackage> & tokenPackages) {
+	MarkerTable markerTable;
 	std::size_t cmdNr = 0;
 	for(const TokenPackage & pkg : tokenPackages){		
 		if(pkg.inst == "") {}
 		if(pkg.inst == "//") {}
 		else if(pkg.inst == "->") {
 			// + 1 because of goto MAIN
-			this->markerTable.add(pkg.args[0], cmdNr + 1);
+			markerTable.add(pkg.args[0], cmdNr + 1);
 		}
 		else{
 			cmdNr++;
 		}
 	}
+	return markerTable;
 }
 
 // assemble code
 std::vector<std::uint64_t> ltna::Assembler::assemble(const std::vector<TokenPackage> & tokens) {
-	this->markerTable.clear();
 		
-	std::size_t lineNr = 1;
 	std::vector<std::uint64_t> instructions;
+	MarkerTable markerTable = this->searchMarkers(tokens);
 	
-	this->searchMarkers(tokens);
-	if(!this->markerTable.contains("MAIN")){
-		throw std::runtime_error("MAIN is not defined");
-	}
-	instructions.push_back(this->toInstruction(TokenPackage("<automatic>", "goto", {"MAIN"})));
+	instructions.push_back(this->toInstruction(TokenPackage("<automatic>", "goto", {"MAIN"}, 0), markerTable));
 	for(const TokenPackage & pkg : tokens) {
-		try {
-			if(pkg.inst == "") continue;
-			if(pkg.inst == "//") continue;
-			if(pkg.inst == "->") continue;
-			instructions.push_back(this->toInstruction(pkg));
-		}	
-		catch(std::exception error) {
-			throw std::runtime_error(
-				"Error in line:" + std::to_string(lineNr) + " | " + pkg.line + "\n" + error.what());
-		}
-		lineNr++;
+		if(pkg.inst == "") continue;
+		if(pkg.inst == "//") continue;
+		if(pkg.inst == "->") continue;
+		instructions.push_back(this->toInstruction(pkg, markerTable));
 	}
 	return instructions;
 }
@@ -53,7 +45,10 @@ std::vector<std::uint64_t> ltna::Assembler::assemble(const std::vector<TokenPack
 
 
 
-std::uint64_t ltna::Assembler::toInstruction(const TokenPackage & pkg) const {
+std::uint64_t ltna::Assembler::toInstruction(
+	const TokenPackage & pkg,
+	const MarkerTable & markerTable) const {
+
 	if(pkg.args.size() == 0) {
 		if(pkg.inst == "exit") return cFormat(InstCode::EXIT);
 		if(pkg.inst == "error") return cFormat(InstCode::ERROR);
@@ -189,26 +184,26 @@ std::uint64_t ltna::Assembler::toInstruction(const TokenPackage & pkg) const {
 		if(pkg.inst == "loop::idx") return cFormat(InstCode::LOOP_IDX);  
 	}
 	if(pkg.args.size() == 1) {
-		if(pkg.inst == "casti") return fFormat(InstCode::CASTI, NumberParser::toInt8(pkg.args[0]));
+		if(pkg.inst == "casti") return fFormat(InstCode::CASTI, toInt8(pkg.args[0]));
 		
-		if(pkg.inst == "ext::0") return fFormat(InstCode::EXT0, NumberParser::toInt8(pkg.args[0]));  
-		if(pkg.inst == "ext::1") return fFormat(InstCode::EXT1, NumberParser::toInt8(pkg.args[0]));  
-		if(pkg.inst == "ext::2") return fFormat(InstCode::EXT2, NumberParser::toInt8(pkg.args[0]));  
-		if(pkg.inst == "ext::3") return fFormat(InstCode::EXT3, NumberParser::toInt8(pkg.args[0]));  
-		if(pkg.inst == "ext::4") return fFormat(InstCode::EXT4, NumberParser::toInt8(pkg.args[0]));  
-		if(pkg.inst == "ext::5") return fFormat(InstCode::EXT5, NumberParser::toInt8(pkg.args[0]));  
-		if(pkg.inst == "ext::6") return fFormat(InstCode::EXT6, NumberParser::toInt8(pkg.args[0]));  
-		if(pkg.inst == "ext::7") return fFormat(InstCode::EXT7, NumberParser::toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::0") return fFormat(InstCode::EXT0, toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::1") return fFormat(InstCode::EXT1, toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::2") return fFormat(InstCode::EXT2, toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::3") return fFormat(InstCode::EXT3, toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::4") return fFormat(InstCode::EXT4, toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::5") return fFormat(InstCode::EXT5, toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::6") return fFormat(InstCode::EXT6, toInt8(pkg.args[0]));  
+		if(pkg.inst == "ext::7") return fFormat(InstCode::EXT7, toInt8(pkg.args[0]));  
 
-		if(pkg.inst == "call") return jFormat(InstCode::CALL, this->markerTable.find(pkg.args[0]));  
-		if(pkg.inst == "goto") return jFormat(InstCode::GOTO, this->markerTable.find(pkg.args[0]));  
+		if(pkg.inst == "call") return jFormat(InstCode::CALL, markerTable.find(pkg.args[0]));  
+		if(pkg.inst == "goto") return jFormat(InstCode::GOTO, markerTable.find(pkg.args[0]));  
 
-		if(pkg.inst == "newl") return vFormat(InstCode::NEWL, NumberParser::toInt32(pkg.args[0])); 
-		if(pkg.inst == "newu") return vFormat(InstCode::NEWU, NumberParser::toInt32(pkg.args[0])); 
-		if(pkg.inst == "stackalloc") return vFormat(InstCode::STACKALLOC, NumberParser::toInt32(pkg.args[0])); 
+		if(pkg.inst == "newl") return vFormat(InstCode::NEWL, toInt32(pkg.args[0])); 
+		if(pkg.inst == "newu") return vFormat(InstCode::NEWU, toInt32(pkg.args[0])); 
+		if(pkg.inst == "stackalloc") return vFormat(InstCode::STACKALLOC, toInt32(pkg.args[0])); 
 	}
 	if(pkg.inst == "string::data") return dFormat(pkg.args);
-	throw std::runtime_error("No signature matches: " + pkg.inst);
+	throw UnknownInstruction(pkg.inst, pkg.lineNr);
 }
 
 

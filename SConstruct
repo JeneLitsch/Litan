@@ -89,6 +89,7 @@ dirsLtnC = [
 
 dirsLtnA = [
 	"litan/assembler",
+	"litan/assembler/error",
 ]
 
 dirsLtnVm = [

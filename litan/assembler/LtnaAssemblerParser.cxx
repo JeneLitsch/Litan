@@ -6,13 +6,15 @@
 std::vector<ltna::TokenPackage> ltna::AssemblerParser::parse(const std::string & code) const {
 	std::vector<TokenPackage> tokenPackages;
 	std::vector<std::string> lines = this->split(code, '\n');
+	std::uint64_t lineNr = 1;
 	for(const std::string & line : lines){
-		this->parseLine(line, tokenPackages);
+		this->parseLine(line, lineNr, tokenPackages);
+		lineNr++;
 	}
 	return tokenPackages;
 }
 
-void ltna::AssemblerParser::parseLine(const std::string line, std::vector<TokenPackage> & tokenPackages) const{
+void ltna::AssemblerParser::parseLine(const std::string line, std::uint64_t lineNr, std::vector<TokenPackage> & tokenPackages) const{
 	std::vector<std::string> tokens = this->split(line, ' ');
 	
 	for(std::string & token : tokens){
@@ -22,7 +24,11 @@ void ltna::AssemblerParser::parseLine(const std::string line, std::vector<TokenP
 	if (tokens.empty()) return;
 	if (tokens[0] == "") return;
 	else{
-		TokenPackage package(line, tokens[0], std::vector(tokens.begin()+1, tokens.end()));
+		TokenPackage package(
+			line,
+			tokens[0],
+			std::vector(tokens.begin()+1, tokens.end()),
+			lineNr);
 		tokenPackages.push_back(package);
 	}
 }

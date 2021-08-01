@@ -4,7 +4,6 @@
 namespace ltn {
 	class Error : public std::runtime_error {
 	public:
-		Error();
-		Error(const std::string & msg);
+		Error(const std::string & str) : std::runtime_error(str) {}
 	};
 }

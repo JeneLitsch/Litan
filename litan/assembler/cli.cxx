@@ -1,6 +1,7 @@
 #include <Ltna.hxx>
 #include <iostream>
 #include "LtnFileIO.hxx"
+#include "LtnaAssemblerError.hxx"
 int main(int argc, char const *argv[]) {
 	std::cout << "Litan Assembler (c) Jene Litsch 2021" << std::endl;
 	if(argc <= 3) {
@@ -18,7 +19,15 @@ int main(int argc, char const *argv[]) {
 
 	std::string assembly = ltn::readFile(src);
 	ltna::Ltna ltnA;
-	std::vector<std::uint64_t> byteCode = ltnA.assemble(assembly);
+	std::vector<std::uint64_t> byteCode;
+	try {
+		byteCode = ltnA.assemble(assembly);
+	}
+	catch (ltna::AssemblerError error) {
+		std::cout << "Error while assembling: " << error.what() << std::endl;
+		std::cout << std::endl;
+		return -1;
+	}
 	if (format == "-hex") {
 		std::cout << ">> Assemble to hexCode" << std::endl;
 		std::string hexCode = ltn::toHex(byteCode);

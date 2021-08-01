@@ -83,16 +83,6 @@ void ltna::PseudoAssembler::processPkg(const TokenPackage & pkg) {
 			this->processPkg(TokenPackage(pkg.line, "store" , {}));
 			return;
 		}
-
-		if(pkg.inst == "zero") {
-			this->processPkg(TokenPackage(pkg.line, "newl" , {"0"}));
-			return;
-		}
-
-		if(pkg.inst == "null") {
-			this->processPkg(TokenPackage(pkg.line, "newl" , {"0"}));
-			return;
-		}
 	}
 	
 	if (pkg.args.size() == 1) {

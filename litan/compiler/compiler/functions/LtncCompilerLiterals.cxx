@@ -30,3 +30,9 @@ ltnc::ExprInfo ltnc::compile::stringLiteral(CompilerPack & compPkg, const ExprSt
 	}
 	return ExprInfo(TypeId(TString), code);
 }
+
+ltnc::ExprInfo ltnc::compile::nul() {
+	CodeBuffer code(false);
+	code << Inst::newl(0);
+	return ExprInfo(TypeId(TPointer), code);
+}

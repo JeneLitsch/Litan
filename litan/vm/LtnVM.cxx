@@ -44,7 +44,7 @@ void ltn::VM::execute(){
 
 		switch (opcode) {
 		case InstCode::EXIT: return;
-		case InstCode::ERROR: throw Error();
+		case InstCode::ERROR: throw RuntimeError();
 		
 		case InstCode::LOAD: this->load(); break;
 		case InstCode::STORE: this->store(); break;
@@ -53,7 +53,6 @@ void ltn::VM::execute(){
 		case InstCode::PRINT: this->print(); break;
 		case InstCode::SCRAP: this->scrap(); break;
 		case InstCode::CLEAR: this->clear(); break;
-		case InstCode::INIT: this->init(); break;
 		case InstCode::STACKALLOC: this->stackalloc(); break;
 
 		case InstCode::NEWL: this->newl(); break;
