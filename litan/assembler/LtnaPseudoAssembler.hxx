@@ -12,11 +12,7 @@ namespace ltna {
 		void registerAlias(const std::string & alias, ltn::Slot slot, std::uint8_t funct);
 	private:
 		std::map<std::string, std::pair<ltn::Slot, std::uint8_t>> aliases;
-		void includeFile(const std::string & path);
-
 		void processPkg(const TokenPackage & pkg);
-
-		std::set<std::string> includeGuard;
 		std::vector<TokenPackage> newPkgs;
 	};
 }

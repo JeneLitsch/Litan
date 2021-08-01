@@ -137,7 +137,6 @@ error
 -> FNX_main11
 stackalloc 0
 newi 1
-mnsi
 call FNX_println64
 newf 2.500000
 call FNX_println65

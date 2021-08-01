@@ -16,3 +16,8 @@ void ltn::VM::bit_xor(){
 	const std::uint64_t l = this->env.acc.popU();
 	this->env.acc.push(l ^ r);
 }
+
+void ltn::VM::bit_not() {
+	const std::uint64_t x = this->env.acc.popU();
+	this->env.acc.push(~x);
+}

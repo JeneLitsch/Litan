@@ -86,10 +86,12 @@ void ltn::VM::execute(){
 		case InstCode::BITOR: this->bit_or(); break;
 		case InstCode::BITAND: this->bit_and(); break;
 		case InstCode::BITXOR: this->bit_xor(); break;
+		case InstCode::BITNOT: this->bit_not(); break;
 		
 		case InstCode::LOGOR: this->log_or(); break;
 		case InstCode::LOGAND: this->log_and(); break;
 		case InstCode::LOGXOR: this->log_xor(); break;
+		case InstCode::LOGNOT: this->log_not(); break;
 
 		case InstCode::EQLI: this->eqli(); break;
 		case InstCode::SMLI: this->smli(); break;

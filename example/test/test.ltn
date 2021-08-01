@@ -44,7 +44,7 @@ function is(Pointer ptr) -> Int {
 }
 
 function main() -> Void {
-	->ltn::println(-1);
+	->ltn::println(1);
 	->ltn::println(2.5);
 	->ltn::println(->ltn::Deque());
 }

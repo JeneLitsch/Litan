@@ -84,11 +84,13 @@ namespace ltn {
 		void bit_or(); 
 		void bit_and();
 		void bit_xor();
+		void bit_not();
 		
 		// logic instructions
 		void log_or();
 		void log_and();
 		void log_xor();
+		void log_not();
 		
 		// int comparison
 		void eqli();
