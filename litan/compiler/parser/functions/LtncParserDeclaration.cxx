@@ -36,6 +36,6 @@ void ltnc::parse::declaration(ParserPackage & parsePkg, Program & program) {
 	else if(::mameSpace(parsePkg, program)) {
  	}
 	else {
-		throw std::runtime_error("Unknown declaration at: " + parsePkg.curr().string);
+		throw parsePkg.error("Unknown declaration at: " + parsePkg.curr().string);
 	}
 }

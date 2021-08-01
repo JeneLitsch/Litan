@@ -5,6 +5,7 @@ ltnc::LexerPackage::LexerPackage(const std::string & code) {
 	this->line = 1;
 	this->start = 0;
 	this->current = 0;
+	this->column = 0;
 }
 
 bool ltnc::LexerPackage::isAtEnd() const {
@@ -19,7 +20,7 @@ std::string ltnc::LexerPackage::makeLexeme() const {
 bool ltnc::LexerPackage::match(char chr) {
 	if(this->isAtEnd()) return false;
 	if(this->string[current] == chr) {
-		this->current++;
+		this->next();
 		return true;
 	}
 	return false;
@@ -28,7 +29,7 @@ bool ltnc::LexerPackage::match(char chr) {
 bool ltnc::LexerPackage::matchAlpha(){
 	if(this->isAtEnd()) return false;
 	if(std::isalpha(this->string[current])) {
-		this->current++;
+		this->next();
 		return true;
 	}
 	return false;
@@ -36,7 +37,7 @@ bool ltnc::LexerPackage::matchAlpha(){
 bool ltnc::LexerPackage::matchDigit(){
 	if(this->isAtEnd()) return false;
 	if(std::isdigit(this->string[current])) {
-		this->current++;
+		this->next();
 		return true;
 	}
 	return false;
@@ -45,6 +46,7 @@ bool ltnc::LexerPackage::matchDigit(){
 
 void ltnc::LexerPackage::newLine() {
 	this->line++;
+	this->column = 0;
 }
 
 void ltnc::LexerPackage::sync() {
@@ -53,18 +55,16 @@ void ltnc::LexerPackage::sync() {
 
 void ltnc::LexerPackage::next() {
 	this->current++;
-}
-
-unsigned ltnc::LexerPackage::getLine() const {
-	return this->line;
+	this->column++;
 }
 
 void ltnc::LexerPackage::newToken(TokenType type) {
-	this->addToken(Token(type, this->makeLexeme(), line));
+	this->newToken(type, this->makeLexeme());
 }
 
 void ltnc::LexerPackage::newToken(TokenType type, const std::string & lexeme) {
-	this->addToken(Token(type, lexeme, line));
+	DebugInfo debugInfo(line, column, lexeme);
+	this->addToken(Token(type, lexeme, debugInfo));
 }
 
 void ltnc::LexerPackage::addToken(Token token) {
@@ -76,5 +76,9 @@ const std::vector<ltnc::Token> ltnc::LexerPackage::getTokens() const {
 }
 
 std::nullptr_t ltnc::LexerPackage::error(const std::string & msg) {
-	throw std::runtime_error("Lexer-Error: " + msg + " in line " + std::to_string(this->getLine()) + " at " + this->getTokens().back().string);
+	throw std::runtime_error(
+		"Lexer-Error: " + msg + 
+		" in line " + std::to_string(this->line) + 
+		" in column " + std::to_string(this->column) + 
+		" at " + this->getTokens().back().string);
 }

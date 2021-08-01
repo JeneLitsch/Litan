@@ -41,5 +41,10 @@ const ltnc::Token & ltnc::ParserPackage::curr() const {
 }
 
 std::nullptr_t ltnc::ParserPackage::error(const std::string & msg) {
-	throw std::runtime_error("Parsing-Error: " + msg + " in line " + std::to_string(this->curr().line) + " at " + this->curr().string);
+	const DebugInfo & debugInfo = this->curr().debugInfo;
+	throw std::runtime_error(
+		"Parsing-Error: " + msg + 
+		" in line " + std::to_string(debugInfo.lineNr) + 
+		" in column " + std::to_string(debugInfo.column) +
+		" at " + this->curr().debugInfo.lexeme);
 }

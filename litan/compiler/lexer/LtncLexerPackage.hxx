@@ -40,10 +40,10 @@ namespace ltnc {
 		std::nullptr_t error(const std::string & msg);
 
 	private:
-		unsigned getLine() const;
 		unsigned start = 0;
 		unsigned current = 0;
 		unsigned line = 0;
+		unsigned column = 0;
 		std::string string;
 		std::vector<Token> tokens;
 	};
