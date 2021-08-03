@@ -1,29 +1,29 @@
 #include "LtncParserFunctions.hxx"
 
-std::shared_ptr<std::vector<std::shared_ptr<ltnc::Expr>>> ltnc::parse::parameters(ParserPackage & parsePkg) {
+auto parameters(ltnc::ParserPackage & parsePkg) {
 	// parameters
-	if (parsePkg.match(TokenType::L_PAREN)) {
-		std::vector<std::shared_ptr<Expr>> parameters;
-		if (!parsePkg.match(TokenType::R_PAREN)) {
+	if (parsePkg.match(ltnc::TokenType::L_PAREN)) {
+		std::vector<std::shared_ptr<ltnc::Expr>> parameters;
+		if (!parsePkg.match(ltnc::TokenType::R_PAREN)) {
 			while(!parsePkg.isAtEnd()) {
-				auto expr = expression(parsePkg);
+				auto expr = ltnc::parse::expression(parsePkg);
 				parameters.push_back(expr);
 				// next paramter
-				if(parsePkg.match(TokenType::COMMA)) {
+				if(parsePkg.match(ltnc::TokenType::COMMA)) {
 					continue;
 				}
 				// end list
-				else if (parsePkg.match(TokenType::R_PAREN)) {
+				else if (parsePkg.match(ltnc::TokenType::R_PAREN)) {
 					break;
 				}
 				else {
-					return {parsePkg.error("expected ) or , with an expression")};
+					throw ltnc::error::unclosedParameterList(parsePkg);
 				}
 			}
 		}
-		return std::make_shared<std::vector<std::shared_ptr<Expr>>>(parameters);
+		return std::vector<std::shared_ptr<ltnc::Expr>>(parameters);
 	}
-	return {parsePkg.error("expected (")};
+	throw ltnc::error::unopenedParameterList(parsePkg);
 }
 
 
@@ -34,8 +34,9 @@ std::shared_ptr<ltnc::ExprCall> ltnc::parse::call(ParserPackage & parsePkg) {
 		if(parsePkg.match(TokenType::IDENTIFIER)) {
 			std::string name = parsePkg.prev().string;
 			auto params = parameters(parsePkg);
-			return std::make_shared<ExprCall>(name, ns, *params);
+			return std::make_shared<ExprCall>(name, ns, params);
 		}
+		throw error::expectedIdentifier(parsePkg);
 	}
 	return nullptr;
 }

@@ -13,8 +13,9 @@ namespace ltnc {
 		const Token & prev() const;
 		const Token & curr() const;
 
-		std::nullptr_t error(const std::string & msg);
 		Namespace ns;
+
+		operator const TokenDebugInfo&() const;
 
 	private:
 		unsigned current;

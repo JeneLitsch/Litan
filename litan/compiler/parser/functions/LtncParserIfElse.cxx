@@ -14,8 +14,11 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::ifElse(ParserPackage & parsePkg) {
 				}
 			}
 		}
-		if(!condition || !stmtIf) {
-			throw std::runtime_error("Invalid if-else");
+		if(!condition) {
+			throw error::missingCondition(parsePkg);
+		}
+		if(!stmtIf) {
+			throw error::missingIfBranch(parsePkg);
 		}
 		auto ifElse = std::make_shared<StmtIf>();
 		ifElse->stmtIf = stmtIf;

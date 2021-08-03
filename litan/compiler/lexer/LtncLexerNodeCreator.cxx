@@ -14,6 +14,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::chr(char chr, std::vector<LexerNode> nod
 	});
 }
 
+
 ltnc::LexerNode ltnc::LexerNodeCreator::chr(char chr, TokenType type) {
 	return LexerNode([chr, type](LexerPackage & lexPkg) {
 		if(lexPkg.match(chr))  {
@@ -23,6 +24,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::chr(char chr, TokenType type) {
 		return false;
 	});
 }
+
 
 ltnc::LexerNode ltnc::LexerNodeCreator::chr(char chr, TokenType type, std::vector<LexerNode> nodes) {
 	return LexerNode([chr, nodes, type](LexerPackage & lexPkg) {
@@ -39,6 +41,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::chr(char chr, TokenType type, std::vecto
 	});
 }
 
+
 ltnc::LexerNode ltnc::LexerNodeCreator::connector(std::vector<LexerNode> nodes) {
 	return LexerNode([nodes](LexerPackage & lexPkg) {
 		for(const LexerNode & node : nodes) {
@@ -49,6 +52,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::connector(std::vector<LexerNode> nodes) 
 		return false;
 	});
 }
+
 
 ltnc::LexerNode ltnc::LexerNodeCreator::ignoreLine() {
 	return LexerNode([](LexerPackage & lexPkg) {
@@ -63,6 +67,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::ignoreLine() {
 	});
 }
 
+
 ltnc::LexerNode ltnc::LexerNodeCreator::newLine() {
 	return LexerNode([](LexerPackage & lexPkg) {
 		if(lexPkg.match('\n'))  {
@@ -73,14 +78,16 @@ ltnc::LexerNode ltnc::LexerNodeCreator::newLine() {
 	});
 }
 
+
 ltnc::LexerNode ltnc::LexerNodeCreator::ignore(char chr) {
 	return LexerNode([chr](LexerPackage & lexPkg) {
-		if(lexPkg.match(chr))  {
+		if(lexPkg.match(chr)) {
 			return true;
 		}
 		return false;
 	});
 }
+
 
 ltnc::LexerNode ltnc::LexerNodeCreator::numliteral() {
 	return LexerNode([](LexerPackage & lexPkg) {
@@ -99,6 +106,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::numliteral() {
 		return false;
 	});
 }
+
 
 ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	std::map<std::string, TokenType> keywords;
@@ -133,6 +141,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	});
 }
 
+
 ltnc::LexerNode ltnc::LexerNodeCreator::string() {
 	return LexerNode([](LexerPackage & lexPkg) {
 		if(lexPkg.match('"')){
@@ -146,7 +155,6 @@ ltnc::LexerNode ltnc::LexerNodeCreator::string() {
 					if(!valid) {
 						lexPkg.error("Invalid escape sequence");
 					}
-					
 				}
 				lexPkg.next();
 				if(lexPkg.isAtEnd()) {

@@ -1,4 +1,3 @@
-
 namespace a {
 	function fx() -> Void {
 		->ltn::print(1);
@@ -44,6 +43,15 @@ function is(Pointer ptr) -> Int {
 }
 
 function main() -> Void {
+	var Int x;
+	x = 41;
+	repeat(5); {
+		x = x + 1;
+		->ltn::println(x);	
+	}
+	while(!1) ->ltn::print(5);
+	
+	var Int a = (3 + 4);
 	->ltn::println(1);
 	->ltn::println(2.5);
 	->ltn::println(->ltn::Deque());

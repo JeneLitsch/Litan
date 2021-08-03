@@ -2,35 +2,36 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include "LtncAstNode.hxx"
 #include "LtncType.hxx"
 #include "LtncVar.hxx"
 #include "LtncFunctionSignature.hxx"
 namespace ltnc {
 	struct Stmt;
-
-	struct Decl  {
-		Decl() {}
+	struct Decl : public AstNode {
+		Decl(const NodeDebugInfo & debugInfo) : AstNode(debugInfo) {}
+		Decl() : AstNode() {}
 		virtual ~Decl() = default;
 	};
 
 	struct DeclVar : public Decl {
 		DeclVar(
-			const std::string & name,
+			const VarId & varId,
 			const TypeId & typeId)
 		: 	
-			name(name),
+			varId(varId),
 			typeId(typeId) {}
 
 		DeclVar(
-			const std::string & name,
+			const VarId & varId,
 			const TypeId & typeId,
 			const std::shared_ptr<Stmt> & assign)
 		: 	
-			name(name),
+			varId(varId),
 			typeId(typeId),
 			assign(assign) {}
 		
-		std::string name;
+		VarId varId;
 		TypeId typeId;
 		std::shared_ptr<Stmt> assign;
 	};
@@ -38,9 +39,11 @@ namespace ltnc {
 
 	struct DeclFunction : public Decl {
 		DeclFunction(
-			FunctionSignature signature,
+			const NodeDebugInfo & debugInfo,
+			const FunctionSignature & signature,
 			std::shared_ptr<Stmt> body) 
-		:	signature(signature),
+		:	Decl(debugInfo),
+			signature(signature),
 			body(body) {}
 
 		virtual ~DeclFunction() = default;

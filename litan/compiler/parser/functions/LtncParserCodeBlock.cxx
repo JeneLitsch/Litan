@@ -14,11 +14,10 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::codeBlock(ParserPackage & parsePkg) {
 			else {
 				auto stmt = statement(parsePkg);
 				if(parsePkg.isAtEnd()) {
-					return parsePkg.error("No closing }");
+					throw error::expectedBraceR(parsePkg);
 				}
 				block->statements.push_back(stmt);
 			}
-
 		}
 		return block;
 	}

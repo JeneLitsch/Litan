@@ -81,10 +81,10 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::primary(ParserPackage & parsePkg) {
 
 	if (parsePkg.match(TokenType::L_PAREN)) {
 		auto expr_ = expression(parsePkg);
-		if (!parsePkg.match(TokenType::R_PAREN)) {
-			return parsePkg.error("Expected )");
+		if (parsePkg.match(TokenType::R_PAREN)) {
+			return expr_;
 		}
-		return expr_;
+		throw error::expectedParenR(parsePkg);
 	}
 
 	// call function
@@ -96,5 +96,5 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::primary(ParserPackage & parsePkg) {
 	if (auto expr = var(parsePkg)) {
 		return expr;
 	}
-	return parsePkg.error("No matching expression");
+	throw error::expectedExpression(parsePkg);
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "LtncDebugInfo.hxx"
+#include "LtncTokenDebugInfo.hxx"
 namespace ltnc {
 	enum class TokenType {
 		IDENTIFIER, INT_LITERAL, FLOAT_LITERAL, STRING_LITERAL, FX, NAMESPACE, VAR, TYPEDEF, STRUCT,
@@ -17,10 +17,10 @@ namespace ltnc {
 		___EOF___,
 	};
 	struct Token {
-		Token(TokenType type, const std::string & string, const DebugInfo & debugInfo)
+		Token(TokenType type, const std::string & string, const TokenDebugInfo & debugInfo)
 		: type(type), string(string), debugInfo(debugInfo) {}
 		TokenType type;
 		std::string string;
-		DebugInfo debugInfo;
+		TokenDebugInfo debugInfo;
 	};
 }

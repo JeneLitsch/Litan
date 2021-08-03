@@ -3,12 +3,13 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include "LtncAstNode.hxx"
 #include "LtncToken.hxx"
 #include "LtncTypeId.hxx"
 #include "LtncNamespace.hxx"
 namespace ltnc {
 
-	struct Expr {
+	struct Expr : public AstNode {
 		virtual ~Expr() = default;
 	};
 
@@ -41,9 +42,18 @@ namespace ltnc {
 	
 	// Varible access: foo.bar.x
 	struct ExprVar : public Expr {
+		ExprVar(const std::vector<VarId> & path)
+			: path(path) {}
+
+		ExprVar(const VarId & varId)
+			: path({varId}) {}
+		
+		ExprVar(const std::string & name)
+			: path({name}) {}
+		
 		virtual ~ExprVar() = default;
-		ExprVar(const std::string & name): path({name}) {}
-		std::vector<std::string> path;
+		
+		std::vector<VarId> path;
 	};
 
 	// Unary operator: -x

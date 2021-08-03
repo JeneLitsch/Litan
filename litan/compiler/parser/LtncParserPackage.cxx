@@ -40,11 +40,6 @@ const ltnc::Token & ltnc::ParserPackage::curr() const {
 	return this->tokens[this->current];
 }
 
-std::nullptr_t ltnc::ParserPackage::error(const std::string & msg) {
-	const DebugInfo & debugInfo = this->curr().debugInfo;
-	throw std::runtime_error(
-		"Parsing-Error: " + msg + 
-		" in line " + std::to_string(debugInfo.lineNr) + 
-		" in column " + std::to_string(debugInfo.column) +
-		" at " + this->curr().debugInfo.lexeme);
+ltnc::ParserPackage::operator const TokenDebugInfo&() const {
+	return this->curr().debugInfo;
 }

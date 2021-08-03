@@ -29,7 +29,7 @@ ltnc::ExprInfo ltnc::compile::var(CompilerPack & compPkg, const ExprVar & varExp
 				}
 			}
 			// undefined member
-			throw std::runtime_error("struct " + lastVar.name + " does not contain variable: " + path[i]);
+			throw std::runtime_error("struct " + lastVar.name + " does not contain variable: " + path[i].name);
 		}
 		// stack
 		else {

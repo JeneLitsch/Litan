@@ -1,6 +1,7 @@
 #pragma once
 #include "LtncAst.hxx"
 #include "LtncParserPackage.hxx"
+#include "LtncErrorHandling.hxx"
 
 namespace ltnc {
 	namespace parse {
@@ -36,7 +37,6 @@ namespace ltnc {
 		std::shared_ptr<Expr> primary(ParserPackage & parsePkg);
 		std::shared_ptr<ExprVar> var(ParserPackage & parsePkg);
 		std::shared_ptr<ExprCall> call(ParserPackage & parsePkg);
-		std::shared_ptr<std::vector<std::shared_ptr<Expr>>> parameters(ParserPackage & parsePkg);
 
 
 		// Utility

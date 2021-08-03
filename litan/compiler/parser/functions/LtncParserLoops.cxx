@@ -11,21 +11,21 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::forLoop(ParserPackage & parsePkg) {
 					if(parsePkg.match(TokenType::COMMA)){
 						loop->exprTo = expression(parsePkg);
 						if(parsePkg.match(TokenType::R_PAREN)){
-							if(auto block = codeBlock(parsePkg)){
-								loop->stmt = block;
+							if(auto stmt = statement(parsePkg)){
+								loop->stmt = stmt;
 								return loop;
 							}
-							return parsePkg.error("expected block statement");
+							throw error::expectedStatement(parsePkg);
 						}
-						return parsePkg.error("expected )");
+						throw error::expectedParenR(parsePkg);
 					}
-					return parsePkg.error("expected ,");
+					throw error::expectedComma(parsePkg);
 				}
-				return parsePkg.error("expected ,");
+				throw error::expectedComma(parsePkg);
 			}
-			return parsePkg.error("expected identfier");
+			throw error::malformedFor(parsePkg);
 		}
-		return parsePkg.error("expected (");
+		throw error::expectedParenL(parsePkg);
 	}
 	return nullptr;
 }
@@ -37,15 +37,14 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::repeatLoop(ParserPackage & parsePkg) {
 		if(parsePkg.match(TokenType::L_PAREN)) {
 			loop->expr = expression(parsePkg);
 			if(parsePkg.match(TokenType::R_PAREN)){
-				if(auto block = codeBlock(parsePkg)){
-					loop->stmt = block;
+				if(auto stmt = statement(parsePkg)){
+					loop->stmt = stmt;
 					return loop;
 				}
-				return parsePkg.error("expected block statement");
+				throw error::expectedStatement(parsePkg);
 			}
-			return parsePkg.error("expected )");
 		}
-		return parsePkg.error("expected (");
+		throw error::malformedRepeat(parsePkg);
 	}
 	return nullptr;
 }
@@ -57,15 +56,14 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::whileLoop(ParserPackage & parsePkg) {
 		if(parsePkg.match(TokenType::L_PAREN)) {
 			loop->expr = expression(parsePkg);
 			if(parsePkg.match(TokenType::R_PAREN)) {
-				if(auto block = codeBlock(parsePkg)) {
-					loop->stmt = block;
+				if(auto stmt = statement(parsePkg)) {
+					loop->stmt = stmt;
 					return loop;
 				}
-				return parsePkg.error("expected {");
+				throw error::expectedStatement(parsePkg);
 			}
-			return parsePkg.error("expected )");
 		}
-		return parsePkg.error("Invalid while loop");
+		throw error::malformedWhile(parsePkg);
 	}
 	return nullptr;
 }

@@ -12,11 +12,11 @@ std::shared_ptr<ltnc::DeclStruct> ltnc::parse::declareStruct(ParserPackage & par
 				if(parsePkg.match(TokenType::R_BRACE)) {
 					return structNode;
 				}
-				return parsePkg.error("Expected }");
+				throw error::expectedBraceR(parsePkg);
 			}
-			return parsePkg.error("Expected {");
+			throw error::expectedBraceL(parsePkg);
 		}
-		return parsePkg.error("Expected struct name");
+		throw error::unnamedStruct(parsePkg);
 	}
 	return nullptr;
 }

@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include "LtncAstNode.hxx"
 #include "LtncType.hxx"
 #include "LtncVar.hxx"
 namespace ltnc {
@@ -10,7 +11,7 @@ namespace ltnc {
 	struct ExprVar;
 	struct DeclVar;
 
-	struct Stmt {
+	struct Stmt : public AstNode {
 		virtual ~Stmt() = default;
 	};
 

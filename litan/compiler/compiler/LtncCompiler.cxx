@@ -33,10 +33,10 @@ std::string ltnc::Compiler::compile(
 			if(member.assign) {
 				throw std::runtime_error("Assignment to members is not allowed");
 			}
-			auto name = member.name;
+			auto varId = member.varId;
 			auto typeId = member.typeId;
 			auto addr = structType.members.size();
-			auto var = std::make_shared<Var>(typeId, addr, name);
+			auto var = std::make_shared<Var>(typeId, addr, varId);
 			structType.members.push_back(var);
 		}
 		// add automatic constructors

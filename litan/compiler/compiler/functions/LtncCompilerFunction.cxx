@@ -23,6 +23,9 @@ ltnc::StmtInfo ltnc::compile::function(
 	for(const Param & param : decl.signature.params) {
 		compPkg.getSymbolTable().match(param.typeId);
 		compPkg.getSymbolTable().insert(param.name, TypeId(param.typeId));
+		if(param.typeId == TVoid) {
+			throw std::runtime_error("Void is not an allowed paramter type");
+		}
 	}
 	// eval body
 	StmtInfo body = statement(compPkg, *decl.body);

@@ -7,9 +7,9 @@ std::shared_ptr<ltnc::Type> ltnc::parse::declareType(ParserPackage & parsePkg) {
 			if(parsePkg.match(TokenType::SEMICOLON)){
 				return std::make_shared<Type>(TypeId(typeName, parsePkg.ns));
 			}
-			parsePkg.error("expected ;");
+			throw error::expectedSemicolon(parsePkg);
 		}
-		parsePkg.error("expected typename");
+		throw error::unnamedType(parsePkg);
 	}
 	return nullptr;
 }

@@ -72,6 +72,7 @@ dirsLtnC = [
 	"litan/compiler/utils/ast",
 	"litan/compiler/utils/symbols",
 	"litan/compiler/utils/debug",
+	"litan/compiler/utils/error",
 
 	"litan/compiler/lexer",
 

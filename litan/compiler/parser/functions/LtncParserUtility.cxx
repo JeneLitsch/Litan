@@ -10,7 +10,7 @@ ltnc::Namespace ltnc::parse::nameSpace(ParserPackage & parsePkg) {
 			return ns;
 		}
 	}
-	throw std::runtime_error("Expected idendifier");
+	throw error::expectedIdentifier(parsePkg);
 }
 
 ltnc::TypeId ltnc::parse::typeId(ParserPackage & parsePkg) {
@@ -18,7 +18,7 @@ ltnc::TypeId ltnc::parse::typeId(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::IDENTIFIER)) {
 		return TypeId(parsePkg.prev().string, ns);
 	}
-	throw parsePkg.error("Invalid Type");
+	throw error::expectedIdentifier(parsePkg);
 }
 
 ltnc::Symbol ltnc::parse::functionSymbol(ParserPackage & parsePkg) {
@@ -26,5 +26,5 @@ ltnc::Symbol ltnc::parse::functionSymbol(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::IDENTIFIER)) {
 		return Symbol(parsePkg.prev().string, ns);
 	}
-	throw parsePkg.error("Invalid Function");
+	throw error::expectedIdentifier(parsePkg);
 }

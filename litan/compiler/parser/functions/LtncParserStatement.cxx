@@ -11,7 +11,7 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::statement(ParserPackage & parsePkg) {
 	if(auto stmt = whileLoop(parsePkg)) return stmt;
 	if(auto stmt = repeatLoop(parsePkg)) return stmt;
 	if(auto stmt = justAnExpression(parsePkg)) return stmt;
-	return parsePkg.error("Expected statement");
+	throw error::expectedStatement(parsePkg);
 }
 
 
@@ -20,7 +20,7 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::justAnExpression(ParserPackage & parseP
 	if (parsePkg.match(TokenType::SEMICOLON)) {
 		return stmt;
 	}
-	return parsePkg.error("expected ;");
+	throw error::expectedSemicolon(parsePkg);
 }
 
 
@@ -36,7 +36,7 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::returnStmt(ParserPackage & parsePkg) {
 		if (parsePkg.match(TokenType::SEMICOLON)) {
 			return stmt;
 		}	
-		return parsePkg.error("expected ; after return statement");
+		throw error::expectedSemicolon(parsePkg);
 	}
 	return nullptr;
 }
@@ -52,9 +52,9 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::assembly(ParserPackage & parsePkg) {
 			if(parsePkg.match(TokenType::R_BRACE)){
 				return asmStmt;
 			}
-			return parsePkg.error("Expected } after asm block");
+			throw error::unclosedAsm(parsePkg);
 		}
-		return parsePkg.error("Expected { before asm block and after \"asm\" keyword");
+		throw error::unopenedAsm(parsePkg);
 	}
 	return nullptr;
 }
@@ -67,9 +67,9 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::assign(ParserPackage & parsePkg) {
 			if (parsePkg.match(TokenType::SEMICOLON)) {
 				return std::make_shared<StmtAssign>(exprVar, expr);
 			}
-			return parsePkg.error("assign: expected ;");
+			throw error::expectedSemicolon(parsePkg);
 		}
-		return parsePkg.error("expected =");
+		throw error::expectedEqual(parsePkg);
 	}
 	return nullptr;
 }

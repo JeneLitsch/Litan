@@ -1,5 +1,6 @@
 #include "LtncLexerPackage.hxx"
 #include <stdexcept>
+#include "LtncErrorHandling.hxx"
 ltnc::LexerPackage::LexerPackage(const std::string & code) {
 	this->string = code;
 	this->line = 1;
@@ -63,7 +64,7 @@ void ltnc::LexerPackage::newToken(TokenType type) {
 }
 
 void ltnc::LexerPackage::newToken(TokenType type, const std::string & lexeme) {
-	DebugInfo debugInfo(line, column, lexeme);
+	TokenDebugInfo debugInfo(line, column, lexeme);
 	this->addToken(Token(type, lexeme, debugInfo));
 }
 

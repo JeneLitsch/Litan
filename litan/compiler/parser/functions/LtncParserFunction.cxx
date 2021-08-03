@@ -4,18 +4,13 @@ std::string functionName(ltnc::ParserPackage & parsePkg) {
 	if(parsePkg.match(ltnc::TokenType::IDENTIFIER)) {
 		return parsePkg.prev().string;
 	}
-	parsePkg.error("expected function name");
-	return "";
+	throw ltnc::error::unnamedFunction(parsePkg);
 }
 
 
 std::optional<ltnc::Param> parameter(ltnc::ParserPackage & parsePkg) {
 	if(parsePkg.curr().type == ltnc::TokenType::IDENTIFIER) {
 		ltnc::TypeId typeId = ltnc::parse::typeId(parsePkg);
-		// not allowed
-		if(typeId == ltnc::TypeId(TVoid)) {
-			parsePkg.error("Void is not an allowed parameter type");
-		}
 		// allowed
 		if(parsePkg.match(ltnc::TokenType::IDENTIFIER)) {
 			std::string name = parsePkg.prev().string;
@@ -23,7 +18,7 @@ std::optional<ltnc::Param> parameter(ltnc::ParserPackage & parsePkg) {
 			return ltnc::Param(typeId, name);
 		}
 		else{
-			parsePkg.error("Expected identifier for parameter name");
+			ltnc::error::unnamedParameter(parsePkg);
 		}
 	}
 	return {};
@@ -40,19 +35,21 @@ std::vector<ltnc::Param> parameterList(ltnc::ParserPackage & parsePkg) {
 		if(parsePkg.match(ltnc::TokenType::R_PAREN)) {
 			return parameters;
 		}
-		parsePkg.error("expected ) after parameter list");
+		throw ltnc::error::unclosedParameterList(parsePkg);
 	}
-	parsePkg.error("expected ( after function name");
-	return {};
+	throw ltnc::error::unopenedParameterList(parsePkg);
 }
 
 
 
 ltnc::TypeId returnType(ltnc::ParserPackage & parsePkg) {
 	if(parsePkg.match(ltnc::TokenType::ARROW)) {
-		return ltnc::parse::typeId(parsePkg);
+		try {
+			return ltnc::parse::typeId(parsePkg);
+		}
+		catch(...) {}
 	}
-	return ltnc::TypeId(TVoid);
+	throw ltnc::error::missingReturnType(parsePkg);
 }
 
 
@@ -61,18 +58,20 @@ std::shared_ptr<ltnc::Stmt> body(ltnc::ParserPackage & parsePkg) {
 	if(auto body = ltnc::parse::statement(parsePkg)) {
 		return body;
 	}
-	return parsePkg.error("expected block statement");
+	throw ltnc::error::expectedStatement(parsePkg);
 }
 
 
 std::shared_ptr<ltnc::DeclFunction> ltnc::parse::declareFunction(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::FX)){
-		auto name 		= ::functionName(parsePkg);
-		auto parameters = ::parameterList(parsePkg);
-		auto returnType = ::returnType(parsePkg);
-		auto body 		= ::body(parsePkg);
-
-		return std::make_shared<DeclFunction>(FunctionSignature(returnType, name, parameters, parsePkg.ns), body);
+		auto startToken 	= parsePkg.prev(); 
+		auto name 			= ::functionName(parsePkg);
+		auto parameters 	= ::parameterList(parsePkg);
+		auto returnType 	= ::returnType(parsePkg);
+		auto body 			= ::body(parsePkg);
+		auto fxSignature	= FunctionSignature(returnType, name, parameters, parsePkg.ns);
+		auto debugInfo		= NodeDebugInfo(startToken.debugInfo, fxSignature);
+		return std::make_shared<DeclFunction>(debugInfo, fxSignature, body);
 	}
 	return nullptr;
 }

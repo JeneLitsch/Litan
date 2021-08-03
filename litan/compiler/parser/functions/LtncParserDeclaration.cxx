@@ -13,11 +13,11 @@ bool mameSpace(ltnc::ParserPackage & parsePkg, ltnc::Program & program) {
 				return true;
 			}
 			else {
-				throw parsePkg.error("Expected { after namespace declaration");
+				throw ltnc::error::expectedBraceL(parsePkg);
 			}
 		}
 		else {
-			throw parsePkg.error("Expected name after keyword namespace");
+			throw ltnc::error::unnamedNamespace(parsePkg);
 		}
 	}
 	return false;
@@ -36,6 +36,6 @@ void ltnc::parse::declaration(ParserPackage & parsePkg, Program & program) {
 	else if(::mameSpace(parsePkg, program)) {
  	}
 	else {
-		throw parsePkg.error("Unknown declaration at: " + parsePkg.curr().string);
+		throw error::expectedDeclaration(parsePkg);
 	}
 }

@@ -173,7 +173,7 @@ int main(int argc, char const *argv[]) {
 	}
 	catch(std::runtime_error e) {
 		std::cout << "[ERROR] " << e.what() << std::endl;
-		std::cout << "\t>> Error while compiling" << std::endl;
+		std::cout << std::endl;
 		return 1;
 	}
 }

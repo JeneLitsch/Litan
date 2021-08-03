@@ -135,7 +135,31 @@ error
 
 // main ( -> Void ) 
 -> FNX_main11
-stackalloc 0
+stackalloc 2
+newi 41
+store 0
+newi 0
+newi 5
+dec
+loop::range
+load 0
+newi 1
+addi
+store 0
+load 0
+call FNX_println64
+loop::cont
+-> LOOP71
+newi 1
+lognot
+ifnot
+goto LOOP_END70
+newi 5
+call FNX_print60
+goto LOOP71
+-> LOOP_END70
+newi 7
+store 1
 newi 1
 call FNX_println64
 newf 2.500000
@@ -296,12 +320,12 @@ load 0
 newi 0
 smli
 ifnx
-goto IF70
-goto END_IF72
--> IF70
+goto IF72
+goto END_IF74
+-> IF72
 call FNX_error68
-goto END_IF72
--> END_IF72
+goto END_IF74
+-> END_IF74
 call FNX_Array25
 store 1
 load 1
