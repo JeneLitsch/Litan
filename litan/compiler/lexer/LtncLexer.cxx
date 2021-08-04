@@ -25,6 +25,14 @@ std::vector<ltnc::Token> ltnc::Lexer::tokenize(
 			LNC::chr('=', TokenType::SMALLEREQUAL)
 		}),
 
+		LNC::chr('&', TokenType::BIT_AND, {
+			LNC::chr('&', TokenType::LOG_AND)
+		}),
+		LNC::chr('|', TokenType::BIT_OR, {
+			LNC::chr('|', TokenType::LOG_OR)
+		}),
+
+
 		LNC::chr(';', TokenType::SEMICOLON),
 		LNC::chr(',', TokenType::COMMA),
 		LNC::chr('.', TokenType::DOT),

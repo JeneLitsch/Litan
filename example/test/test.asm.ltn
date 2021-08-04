@@ -135,8 +135,14 @@ error
 
 // main ( -> Void ) 
 -> FNX_main11
-stackalloc 4
-newi 1
+stackalloc 6
+call FNX_Deque50
+store 1
+load 1
+call FNX_exists18
+lognot
+store 2
+newl 1
 ifnx
 goto IF71
 goto END_IF73
@@ -169,21 +175,19 @@ newi 1
 newi 5
 loop::range
 loop::idx
-store 3
-load 3
+store 5
+load 5
 call FNX_print61
 loop::cont
 call FNX_println68
 call FNX_Foo4
-store 1
+store 3
 newi 7
-store 2
+store 4
 newi 1
 call FNX_println65
 newf 2.500000
 call FNX_println66
-call FNX_Deque50
-call FNX_println64
 newi 666
 call FNX_functionFromElsewhere12
 return
@@ -246,7 +250,7 @@ heap::delete
 return
 
 
-// exists ( Pointer -> Int ) 
+// exists ( Pointer -> Bool ) 
 -> FNX_exists18
 stackalloc 1
 store 0
@@ -399,7 +403,7 @@ array::erase
 return
 
 
-// empty ( Array -> Int ) 
+// empty ( Array -> Bool ) 
 -> FNX_empty31
 stackalloc 1
 store 0
@@ -522,7 +526,7 @@ return
 error
 
 
-// empty ( Stack -> Int ) 
+// empty ( Stack -> Bool ) 
 -> FNX_empty43
 stackalloc 1
 store 0
@@ -581,7 +585,7 @@ return
 error
 
 
-// empty ( Queue -> Int ) 
+// empty ( Queue -> Bool ) 
 -> FNX_empty49
 stackalloc 1
 store 0
@@ -680,7 +684,7 @@ return
 error
 
 
-// empty ( Deque -> Int ) 
+// empty ( Deque -> Bool ) 
 -> FNX_empty59
 stackalloc 1
 store 0

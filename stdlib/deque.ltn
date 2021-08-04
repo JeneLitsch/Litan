@@ -38,6 +38,6 @@ namespace ltn {
 		asm { "load 0" "deque::size" "return" }
 
 
-	function empty(ltn::Deque deque) -> Int 
+	function empty(ltn::Deque deque) -> Bool 
 		asm { "load 0" "deque::empty" "return" }
 }

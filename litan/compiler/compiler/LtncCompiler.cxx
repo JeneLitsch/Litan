@@ -9,9 +9,19 @@ std::string ltnc::Compiler::compile(
 	const CompilerSettings & settings){
 
 	CtorGenerator ctorGenerator;
-
 	CompilerPack compPkg(settings);
-	compPkg.getSymbolTable().addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
+
+	SymbolTable & sTable = compPkg.getSymbolTable();
+
+	sTable.insert(Type(TVoid));
+	sTable.insert(Type(TInt, {TBool}));
+	sTable.insert(Type(TBool, {TInt}));
+	sTable.insert(Type(TRaw));
+	sTable.insert(Type(TFloat));
+	sTable.insert(Type(TPointer));
+	
+	sTable.addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
+
 	CodeBuffer code = compPkg.codeBuffer();
 	// register typedefs
 	for(const Type & t : program->types) {
@@ -20,7 +30,7 @@ std::string ltnc::Compiler::compile(
 			type.castableTo.push_back(TypeId(TRaw));
 			type.castableTo.push_back(TypeId(TPointer));
 		}
-		compPkg.getSymbolTable().insert(type);
+		sTable.insert(type);
 	}
 
 
@@ -42,13 +52,13 @@ std::string ltnc::Compiler::compile(
 		// add automatic constructors
 		code << ctorGenerator.defaultCtor(compPkg, structType);
 		code << ctorGenerator.parameterCtor(compPkg, structType);
-		compPkg.getSymbolTable().insert(structType);
+		sTable.insert(structType);
 	}
 
 
 	// register functions
 	for(const auto & function : program->functions) {
-		compPkg.getSymbolTable().insert(function->signature);
+		sTable.insert(function->signature);
 	}
 	
 	// init code

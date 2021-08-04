@@ -124,6 +124,8 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 	keywords.insert({"repeat", TokenType::REPEAT});
 	keywords.insert({"struct", TokenType::STRUCT});
 	keywords.insert({"asm", TokenType::ASM});
+	keywords.insert({"true", TokenType::TRUE});
+	keywords.insert({"false", TokenType::FALSE});
 
 	return LexerNode([keywords](LexerPackage & lexPkg) {
 		if(lexPkg.matchAlpha()) {

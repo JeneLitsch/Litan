@@ -21,9 +21,10 @@ ltnc::ExprInfo ltnc::compile::unary(CompilerPack & compPkg, const ExprUnary & ex
 
 	case TokenType::LOG_NOT: {
 		ExprInfo exprInfo = expression(compPkg, *expr.r);
-		if(exprInfo.typeId == TypeId(TInt)){
+		if(	exprInfo.typeId == TypeId(TInt) ||
+			exprInfo.typeId == TypeId(TBool)) {
 			code << AssemblyCode("lognot");
-			return ExprInfo(exprInfo.typeId, code);
+			return ExprInfo(TBool, code);
 		}
 		throw error::incompatibleOperator(exprInfo.typeId, "!", expr.debugInfo);
 	}

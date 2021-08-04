@@ -1,9 +1,3 @@
-typedef Void;
-typedef Int;
-typedef Float;
-typedef Raw;
-typedef Pointer;
-
 function Int(Raw number) -> Int
 	asm { "load 0" "return" }
 
@@ -19,5 +13,5 @@ function Float(Int number) -> Float
 function destroy(Pointer ptr) -> Void
 	asm { "load 0" "heap::delete" }
 
-function exists(Pointer ptr) -> Int
+function exists(Pointer ptr) -> Bool
 	asm { "load 0" "heap::exist" "return" }

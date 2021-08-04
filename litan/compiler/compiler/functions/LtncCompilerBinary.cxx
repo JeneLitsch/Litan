@@ -48,6 +48,15 @@ ltnc::ExprInfo buildBinary(
 	return ltnc::ExprInfo(l.typeId, code);
 }
 
+ltnc::ExprInfo overrideType(
+	const ltnc::ExprInfo & exprInfo,
+	const ltnc::TypeId & typeId) {
+	if(exprInfo.constValue) {
+		return ltnc::ExprInfo(typeId, exprInfo.code, *exprInfo.constValue);
+	}
+	return ltnc::ExprInfo(typeId, exprInfo.code);
+}
+
 ltnc::ExprInfo ltnc::compile::binaryExpr(CompilerPack & compPkg, const ExprBinary & expr) {
 	static const AddEvaluator addEvaluator;
 	static const SubEvaluator subEvaluator;
@@ -57,12 +66,12 @@ ltnc::ExprInfo ltnc::compile::binaryExpr(CompilerPack & compPkg, const ExprBinar
 	
 	switch (expr.type)	{
 	// comparision operator
-	case TokenType::EQUAL:			return buildBinary(compPkg, expr, "eql");
-	case TokenType::UNEQUAL: 		return buildBinary(compPkg, expr, "uneql");
-	case TokenType::SMALLER: 		return buildBinary(compPkg, expr, "sml");
-	case TokenType::SMALLEREQUAL: 	return buildBinary(compPkg, expr, "smleql");
-	case TokenType::BIGGER: 		return buildBinary(compPkg, expr, "bgr");
-	case TokenType::BIGGEREQUAL: 	return buildBinary(compPkg, expr, "bgreql");
+	case TokenType::EQUAL:			return overrideType(buildBinary(compPkg, expr, "eql"), TBool);
+	case TokenType::UNEQUAL: 		return overrideType(buildBinary(compPkg, expr, "uneql"), TBool);
+	case TokenType::SMALLER: 		return overrideType(buildBinary(compPkg, expr, "sml"), TBool);
+	case TokenType::SMALLEREQUAL: 	return overrideType(buildBinary(compPkg, expr, "smleql"), TBool);
+	case TokenType::BIGGER: 		return overrideType(buildBinary(compPkg, expr, "bgr"), TBool);
+	case TokenType::BIGGEREQUAL: 	return overrideType(buildBinary(compPkg, expr, "bgreql"), TBool);
 
 	// arithmetic binary operators 
 	case TokenType::PLUS: 			return buildBinary(compPkg, expr, "add", &addEvaluator);

@@ -17,6 +17,6 @@ namespace ltn {
 		asm { "load 0" "queue::front" "return" }
 
 
-	function empty(ltn::Queue queue) -> Int 
+	function empty(ltn::Queue queue) -> Bool 
 		asm { "load 0" "queue::empty" "return" }
 }

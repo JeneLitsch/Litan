@@ -25,6 +25,9 @@ ltnc::ExprInfo ltnc::compile::expression(CompilerPack & compPkg, const Expr & ex
 	if(auto expr_ = dynamic_cast<const ExprNul*>(&expr)) {
 		return nul();
 	}
+	if(auto expr_ = dynamic_cast<const ExprBool*>(&expr)) {
+		return boolLiteral(*expr_);
+	}
 	throw error::invalidExpression(expr.debugInfo);
 }
 

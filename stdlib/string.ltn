@@ -1,5 +1,4 @@
 typedef String;
-
 // create new string with merged content of str1 and str2
 function add(String string1, String string2) -> String {
 	asm {

@@ -47,5 +47,6 @@ namespace ltnc {
 		ExprInfo call(CompilerPack & compPkg, const ExprCall & expr);
 		ExprInfo var(CompilerPack & compPkg, const ExprVar & var, const std::optional<ExprInfo> & expr);
 		ExprInfo nul();
+		ExprInfo boolLiteral(const ExprBool & expr);
 	}
 }

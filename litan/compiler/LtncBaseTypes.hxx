@@ -7,3 +7,4 @@
 #define TString "String"
 #define TRaw "Raw"
 #define TPointer "Pointer"
+#define TBool "Bool"

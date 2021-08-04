@@ -26,7 +26,7 @@ namespace ltn {
 		asm { "load 0" "load 1" "array::erase" }
 
 
-	function empty(ltn::Array array) -> Int 
+	function empty(ltn::Array array) -> Bool 
 		asm { "load 0" "array::empty" "return" }
 
 

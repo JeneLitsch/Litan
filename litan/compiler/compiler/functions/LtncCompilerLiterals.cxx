@@ -36,3 +36,9 @@ ltnc::ExprInfo ltnc::compile::nul() {
 	code << Inst::newl(0);
 	return ExprInfo(TypeId(TPointer), code);
 }
+
+ltnc::ExprInfo ltnc::compile::boolLiteral(const ExprBool & expr) {
+	CodeBuffer code(false);
+	code << Inst::newl(expr.value);
+	return ExprInfo(TypeId(TBool), code);
+}

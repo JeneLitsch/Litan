@@ -43,6 +43,7 @@ namespace ltnc {
 		std::shared_ptr<Expr> floatLiteral(ParserPackage & parsePkg);
 		std::shared_ptr<Expr> stringLiteral(ParserPackage & parsePkg);
 		std::shared_ptr<Expr> nulLiteral(ParserPackage & parsePkg);
+		std::shared_ptr<Expr> boolLiteral(ParserPackage & parsePkg);
 
 		// Utility
 		Namespace nameSpace(ParserPackage & parsePkg); 

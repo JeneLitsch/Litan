@@ -64,6 +64,7 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::primary(ParserPackage & parsePkg) {
 	if(auto literal = floatLiteral(parsePkg)) return literal;
 	if(auto literal = stringLiteral(parsePkg)) return literal;
 	if(auto literal = nulLiteral(parsePkg)) return literal;
+	if(auto literal = boolLiteral(parsePkg)) return literal;
 
 	if (parsePkg.match(TokenType::L_PAREN)) {
 		auto expr_ = expression(parsePkg);

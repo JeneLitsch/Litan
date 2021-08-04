@@ -37,3 +37,12 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::nulLiteral(ParserPackage & parsePkg) {
 	return nullptr;
 }
 
+std::shared_ptr<ltnc::Expr> ltnc::parse::boolLiteral(ParserPackage & parsePkg) {
+	if (parsePkg.match(TokenType::TRUE)) {
+		return std::make_shared<ExprBool>(true, parsePkg.prev().debugInfo);
+	}
+	if (parsePkg.match(TokenType::FALSE)) {
+		return std::make_shared<ExprBool>(false, parsePkg.prev().debugInfo);
+	}
+	return nullptr;
+}

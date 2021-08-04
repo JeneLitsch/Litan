@@ -45,7 +45,9 @@ function is(Pointer ptr) -> Int {
 
 function main() -> Void {
 	var Int x;
-	if(1) {
+	var ltn::Deque deque = ->ltn::Deque();
+	var Bool b = !->exists(deque);
+	if(true && false) {
 		->ltn::println(420);
 	}
  	repeat(5) {
@@ -59,11 +61,10 @@ function main() -> Void {
 	->ltn::println();
 
 	var Foo foo = ->Foo();
-	
+
 	var Int a = (3 + 4);
 	->ltn::println(1);
 	->ltn::println(2.5);
-	->ltn::println(->ltn::Deque());
 	->functionFromElsewhere(666);
 	return;
 }

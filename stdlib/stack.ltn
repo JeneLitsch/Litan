@@ -17,7 +17,7 @@ namespace ltn {
 		asm { "load 0" "stack::top" "return" }
 
 
-	function empty(ltn::Stack stack) -> Int 
+	function empty(ltn::Stack stack) -> Bool 
 		asm { "load 0" "stack::empty" "return" }
 
 	function size(ltn::Stack stack) -> Int 

@@ -35,11 +35,17 @@ namespace ltnc {
 		double number;
 	};
 
-	// Flt literal: 42.0
 	struct ExprNul : public Expr {
 		virtual ~ExprNul() = default;
 		ExprNul(const DebugInfo & debugInfo)
 			: Expr(debugInfo) {}
+	};
+
+	struct ExprBool : public Expr {
+		virtual ~ExprBool() = default;
+		ExprBool(bool value, const DebugInfo & debugInfo)
+			: Expr(debugInfo), value(value) {}
+		bool value;
 	};
 
 	// Str literal: "hello world!"
