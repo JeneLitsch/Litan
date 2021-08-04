@@ -3,8 +3,11 @@
 #include "LtncError.hxx"
 #include "LtncErrorCreationLexer.hxx"
 
-ltnc::LexerPackage::LexerPackage(const std::string & code) {
-	this->string = code;
+ltnc::LexerPackage::LexerPackage(
+	const std::string & source,
+	const std::string & sourceName) {
+	this->source = source;
+	this->sourceName = sourceName;
 	this->line = 1;
 	this->start = 0;
 	this->current = 0;
@@ -12,11 +15,11 @@ ltnc::LexerPackage::LexerPackage(const std::string & code) {
 }
 
 bool ltnc::LexerPackage::isAtEnd() const {
-	return this->current >= this->string.size();
+	return this->current >= this->source.size();
 }
 
 std::string ltnc::LexerPackage::makeLexeme() const {
-	return this->string.substr(this->start, this->current - this->start);
+	return this->source.substr(this->start, this->current - this->start);
 }
 
 ltnc::DebugInfo ltnc::LexerPackage::makeDebugInfo() const {
@@ -24,12 +27,12 @@ ltnc::DebugInfo ltnc::LexerPackage::makeDebugInfo() const {
 }
 
 ltnc::DebugInfo ltnc::LexerPackage::makeDebugInfo(const std::string & str) const {
-	return DebugInfo(line, column, str);
+	return DebugInfo(line, column, str, sourceName);
 }
 
 bool ltnc::LexerPackage::match(char chr) {
 	if(this->isAtEnd()) return false;
-	if(this->string[current] == chr) {
+	if(this->source[current] == chr) {
 		this->next();
 		return true;
 	}
@@ -38,7 +41,7 @@ bool ltnc::LexerPackage::match(char chr) {
 
 bool ltnc::LexerPackage::matchAlpha(){
 	if(this->isAtEnd()) return false;
-	if(std::isalpha(this->string[current])) {
+	if(std::isalpha(this->source[current])) {
 		this->next();
 		return true;
 	}
@@ -46,7 +49,7 @@ bool ltnc::LexerPackage::matchAlpha(){
 }
 bool ltnc::LexerPackage::matchDigit(){
 	if(this->isAtEnd()) return false;
-	if(std::isdigit(this->string[current])) {
+	if(std::isdigit(this->source[current])) {
 		this->next();
 		return true;
 	}

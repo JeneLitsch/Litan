@@ -3,10 +3,12 @@
 ltnc::DebugInfo::DebugInfo(
 	unsigned lineNr,
 	unsigned column,
-	const std::string & lexeme)
+	const std::string & lexeme,
+	const std::string & sourceName)
 :	lineNr(lineNr),
 	column(column),
-	lexeme(lexeme) {}
+	lexeme(lexeme),
+	sourceName(sourceName) {}
 
 ltnc::DebugInfo::DebugInfo()
 :	lineNr(0),

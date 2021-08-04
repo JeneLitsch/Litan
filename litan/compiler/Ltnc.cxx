@@ -5,40 +5,90 @@
 #include "LtncCompiler.hxx"
 #include "LtnFileIO.hxx"
 #include "LtncStructurePrinter.hxx"
+
+std::vector<ltnc::Ltnc::SourcePair> includeStdLib(
+	const std::vector<ltnc::Ltnc::SourcePair> & sources_,
+	const std::string & stdPath) {
+	
+	std::vector<ltnc::Ltnc::SourcePair> sources = sources_;
+	std::vector<std::string> libFiles = {
+		"/basic.ltn",
+		"/math.ltn",
+		"/array.ltn",
+		"/stack.ltn",
+		"/queue.ltn",
+		"/deque.ltn",
+		"/io.ltn",
+		"/exept.ltn",
+		"/string.ltn"}; 
+	
+	for(const std::string & file : libFiles) {
+		auto filepath = stdPath + file; 
+		sources.push_back({filepath, ltn::readFile(filepath)});
+	}
+	
+	return sources;
+}
+
+std::vector<ltnc::Token> tokenize(
+	const std::vector<ltnc::Ltnc::SourcePair> & sources) {
+	ltnc::Lexer lexer;
+	std::vector<ltnc::Token> tokens;
+	for(const ltnc::Ltnc::SourcePair & source : sources) {
+		auto newTokens = lexer.tokenize(source.source, source.sourceName);
+		tokens.reserve(tokens.size() + newTokens.size());
+		for(const auto & token : newTokens) {
+			tokens.push_back(token);
+		}
+	}
+	return tokens;
+}
+
 std::string ltnc::Ltnc::compile(
-	const std::string & source,
+	const std::vector<SourcePair> & sources_,
 	const CompilerSettings & settings,
 	bool silent,
 	bool print) const {
 
-	ltnc::Lexer lexer;
 	ltnc::Parser parser;
 	ltnc::Compiler compiler;
 
 
-
-	std::string code = source 
-		+ ltn::readFile(settings.getStdlibPath() + "/basic.ltn") + "\n"
-		+ ltn::readFile(settings.getStdlibPath() + "/math.ltn") + "\n"
-		+ ltn::readFile(settings.getStdlibPath() + "/array.ltn") + "\n"
-		+ ltn::readFile(settings.getStdlibPath() + "/stack.ltn") + "\n"
-		+ ltn::readFile(settings.getStdlibPath() + "/queue.ltn") + "\n"
-		+ ltn::readFile(settings.getStdlibPath() + "/deque.ltn") + "\n"
-		+ ltn::readFile(settings.getStdlibPath() + "/io.ltn") + "\n"
-		+ ltn::readFile(settings.getStdlibPath() + "/exept.ltn") + "\n"
-		+ ltn::readFile(settings.getStdlibPath() + "/string.ltn") + "\n";
-
-	if(!silent) std::cout << ">> Tokenization..." << std::endl;
-	auto tokens = lexer.tokenize(code);
-	if(!silent) std::cout << ">> Parsing..." << std::endl;
-	auto ast = parser.parse(tokens);
-	if(!silent) std::cout << ">> Compiling..." << std::endl;
-	auto asmb = compiler.compile(ast, settings);
-	if(!silent && print) {
-		std::cout << StructurePrinter(*ast) << std::endl;
+	if(!silent) {
+		std::cout << ">> Including standard library..." << std::endl;
 	}
-	if(!silent) std::cout << ">> Done compiling code!" << std::endl;
+	auto sources = includeStdLib(sources_, settings.getStdlibPath());
+
+
+	if(!silent) {
+		std::cout << ">> Tokenization..." << std::endl;
+	}
+	auto tokens = tokenize(sources);
+
+
+	if(!silent) {
+		std::cout << ">> Parsing..." << std::endl;
+	}
+	auto ast = parser.parse(tokens);
+
+
+	if(!silent) {
+		std::cout << ">> Compiling..." << std::endl;
+	}
+	auto asmb = compiler.compile(ast, settings);
+	
+
+	if(!silent) {
+		std::cout << ">> Done compiling code!" << std::endl;
+	}
+
+
+	if(!silent && print) {
+		std::cout 
+			<< "All Symbols" << "\n"
+			<< StructurePrinter(*ast) << std::endl;
+	}
+	
 	std::cout << std::endl;
 	return asmb;
-
 }

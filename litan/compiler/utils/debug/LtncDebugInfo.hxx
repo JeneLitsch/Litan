@@ -10,7 +10,8 @@ namespace ltnc {
 		DebugInfo(
 			unsigned lineNr,
 			unsigned column,
-			const std::string & lexeme);
+			const std::string & lexeme,
+			const std::string & sourceName);
 		
 		DebugInfo();
 
@@ -20,6 +21,7 @@ namespace ltnc {
 		unsigned lineNr;
 		unsigned column;
 		std::string lexeme;
+		std::string sourceName;
 
 		std::optional<FunctionSignature> inFunction;
 	};

@@ -7,6 +7,7 @@ std::string makeMessage(
 	const ltnc::DebugInfo & debugInfo) {
 	std::stringstream ss;
 	ss << "Error(" << static_cast<unsigned>(errorCode) << ") at [";
+	ss << debugInfo.sourceName << ":";
 	ss << debugInfo.lineNr << ":";
 	ss << debugInfo.column << "]";
 	if(debugInfo.inFunction) {

@@ -7,7 +7,9 @@ namespace ltnc {
 	// Can be passed through lexing tree
 	class LexerPackage {
 	public:
-		LexerPackage(const std::string & code);
+		LexerPackage(
+			const std::string & source,
+			const std::string & sourceName);
 
 		// Returns true if all characters are processed
 		bool isAtEnd() const;
@@ -46,7 +48,8 @@ namespace ltnc {
 		unsigned current = 0;
 		unsigned line = 0;
 		unsigned column = 0;
-		std::string string;
+		std::string source;
+		std::string sourceName;
 		std::vector<Token> tokens;
 	};
 }

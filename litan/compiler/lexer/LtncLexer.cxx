@@ -5,7 +5,9 @@
 ltnc::Lexer::Lexer() {}
 
 
-std::vector<ltnc::Token> ltnc::Lexer::tokenize(const std::string & str) {
+std::vector<ltnc::Token> ltnc::Lexer::tokenize(
+	const std::string & source,
+	const std::string & sourceName) {
 	typedef LexerNodeCreator LNC;
 	// create lexing tree
 	LexerNode tree = LNC::connector({
@@ -56,7 +58,7 @@ std::vector<ltnc::Token> ltnc::Lexer::tokenize(const std::string & str) {
 	});
 
 	// run until end of string
-	LexerPackage lexPkg(str);
+	LexerPackage lexPkg(source, sourceName);
 	while (!lexPkg.isAtEnd()) {
 		this->process(lexPkg, tree);
 	}

@@ -154,18 +154,19 @@ int main(int argc, char const *argv[]) {
 		std::cout << "Dst: " << args.getDstFile() << std::endl;
 
 	}
-	std::string source;
+	std::vector<ltnc::Ltnc::SourcePair> sources;
 	for(const std::string & srcFile : args.getFiles()) {
-		source += ltn::readFile(srcFile);
+		sources.push_back({srcFile, ltn::readFile(srcFile)});
 	}
 	try {
 		ltnc::Ltnc ltnc;
+		ltnc::CompilerSettings settings(
+			args.getComments(),
+			args.getOptimizationLevel(),
+			"stdlib");
 		std::string asmb = ltnc.compile(
-			source,
-			ltnc::CompilerSettings(
-				args.getComments(),
-				args.getOptimizationLevel(),
-				"stdlib"),
+			sources,
+			settings,
 			args.getSilent(),
 			args.getPrint());
 		ltn::writeFile(args.getDstFile(), asmb);
