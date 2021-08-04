@@ -1,10 +1,9 @@
 #pragma once
-#include "LtncNodeDebugInfo.hxx"
+#include "LtncDebugInfo.hxx"
 namespace ltnc {
 	struct AstNode {
-		AstNode() = default;
-		AstNode(const NodeDebugInfo & debugInfo) 
+		AstNode(const DebugInfo & debugInfo) 
 			: debugInfo(debugInfo) {}
-		std::optional<NodeDebugInfo> debugInfo;
+		DebugInfo debugInfo;
 	};
 }

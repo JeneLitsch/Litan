@@ -2,7 +2,7 @@
 
 std::shared_ptr<ltnc::Stmt> ltnc::parse::codeBlock(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::L_BRACE)){
-		auto block = std::make_shared<StmtBlock>();
+		auto block = std::make_shared<StmtBlock>(parsePkg.prev().debugInfo);
 		while(!parsePkg.match(TokenType::R_BRACE)) {
 
 			if(auto decl = declareVar(parsePkg)) {

@@ -1,5 +1,5 @@
 #include "LtncLexer.hxx"
-
+#include "LtncErrorHandling.hxx"
 ltnc::Lexer::Lexer() {
 
 }
@@ -72,8 +72,7 @@ void ltnc::Lexer::process(LexerPackage & lexPkg, LexerNode & tree) {
 		return;
 	}
 	else {
-		lexPkg.newToken(TokenType::___NONE__);
-		lexPkg.error("Error: Unknown token: " + lexPkg.makeLexeme());
+		throw error::invalidToken(lexPkg.makeDebugInfo(), lexPkg.makeLexeme());
 	}
 }
 

@@ -138,6 +138,15 @@ error
 stackalloc 2
 newi 41
 store 0
+newi 1
+ifnx
+goto IF70
+goto END_IF72
+-> IF70
+newi 420
+call FNX_println64
+goto END_IF72
+-> END_IF72
 newi 0
 newi 5
 dec
@@ -149,15 +158,15 @@ store 0
 load 0
 call FNX_println64
 loop::cont
--> LOOP71
+-> LOOP74
 newi 1
 lognot
 ifnot
-goto LOOP_END70
+goto LOOP_END73
 newi 5
 call FNX_print60
-goto LOOP71
--> LOOP_END70
+goto LOOP74
+-> LOOP_END73
 newi 7
 store 1
 newi 1
@@ -320,12 +329,12 @@ load 0
 newi 0
 smli
 ifnx
-goto IF72
-goto END_IF74
--> IF72
+goto IF75
+goto END_IF77
+-> IF75
 call FNX_error68
-goto END_IF74
--> END_IF74
+goto END_IF77
+-> END_IF77
 call FNX_Array25
 store 1
 load 1

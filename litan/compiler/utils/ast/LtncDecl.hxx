@@ -8,25 +8,27 @@
 #include "LtncFunctionSignature.hxx"
 namespace ltnc {
 	struct Stmt;
+	
 	struct Decl : public AstNode {
-		Decl(const NodeDebugInfo & debugInfo) : AstNode(debugInfo) {}
-		Decl() : AstNode() {}
+		Decl(const DebugInfo & debugInfo) : AstNode(debugInfo) {}	
 		virtual ~Decl() = default;
 	};
 
 	struct DeclVar : public Decl {
 		DeclVar(
+			const DebugInfo & debugInfo,
 			const VarId & varId,
 			const TypeId & typeId)
-		: 	
+		: 	Decl(debugInfo),
 			varId(varId),
 			typeId(typeId) {}
 
 		DeclVar(
+			const DebugInfo & debugInfo,
 			const VarId & varId,
 			const TypeId & typeId,
 			const std::shared_ptr<Stmt> & assign)
-		: 	
+		: 	Decl(debugInfo),
 			varId(varId),
 			typeId(typeId),
 			assign(assign) {}
@@ -39,7 +41,7 @@ namespace ltnc {
 
 	struct DeclFunction : public Decl {
 		DeclFunction(
-			const NodeDebugInfo & debugInfo,
+			const DebugInfo & debugInfo,
 			const FunctionSignature & signature,
 			std::shared_ptr<Stmt> body) 
 		:	Decl(debugInfo),
@@ -52,8 +54,13 @@ namespace ltnc {
 	};
 
 	struct DeclStruct : public Decl {
-		DeclStruct(const TypeId & typeId)
-			: typeId(typeId) {}
+		DeclStruct(
+			const DebugInfo & debugInfo,
+			const TypeId & typeId,
+			const std::vector<DeclVar> & members)
+		:	Decl(debugInfo),
+			typeId(typeId),
+			members(members) {}
 		
 		TypeId typeId;
 		std::vector<DeclVar> members;

@@ -29,12 +29,13 @@ auto parameters(ltnc::ParserPackage & parsePkg) {
 
 std::shared_ptr<ltnc::ExprCall> ltnc::parse::call(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::ARROW)) {
+		const auto & debugInfo = parsePkg.prev().debugInfo;
 		Namespace ns = nameSpace(parsePkg);
 		// function name
 		if(parsePkg.match(TokenType::IDENTIFIER)) {
 			std::string name = parsePkg.prev().string;
 			auto params = parameters(parsePkg);
-			return std::make_shared<ExprCall>(name, ns, params);
+			return std::make_shared<ExprCall>(debugInfo, name, ns, params);
 		}
 		throw error::expectedIdentifier(parsePkg);
 	}

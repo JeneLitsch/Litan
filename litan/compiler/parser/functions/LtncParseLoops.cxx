@@ -2,7 +2,7 @@
 
 std::shared_ptr<ltnc::Stmt> ltnc::parse::forLoop(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::FOR)) {
-		auto loop = std::make_shared<StmtFor>();
+		auto loop = std::make_shared<StmtFor>(parsePkg.prev().debugInfo);
 		if(parsePkg.match(TokenType::L_PAREN)) {
 			if(parsePkg.match(TokenType::IDENTIFIER)) {
 				loop->name = parsePkg.prev().string;
@@ -33,7 +33,7 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::forLoop(ParserPackage & parsePkg) {
 
 std::shared_ptr<ltnc::Stmt> ltnc::parse::repeatLoop(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::REPEAT)) {
-		auto loop = std::make_shared<StmtRepeat>();
+		auto loop = std::make_shared<StmtRepeat>(parsePkg.prev().debugInfo);
 		if(parsePkg.match(TokenType::L_PAREN)) {
 			loop->expr = expression(parsePkg);
 			if(parsePkg.match(TokenType::R_PAREN)){
@@ -52,7 +52,7 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::repeatLoop(ParserPackage & parsePkg) {
 
 std::shared_ptr<ltnc::Stmt> ltnc::parse::whileLoop(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::WHILE)) {
-		auto loop = std::make_shared<StmtWhile>();
+		auto loop = std::make_shared<StmtWhile>(parsePkg.prev().debugInfo);
 		if(parsePkg.match(TokenType::L_PAREN)) {
 			loop->expr = expression(parsePkg);
 			if(parsePkg.match(TokenType::R_PAREN)) {

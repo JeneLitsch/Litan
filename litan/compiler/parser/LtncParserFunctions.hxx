@@ -38,6 +38,11 @@ namespace ltnc {
 		std::shared_ptr<ExprVar> var(ParserPackage & parsePkg);
 		std::shared_ptr<ExprCall> call(ParserPackage & parsePkg);
 
+		// literals
+		std::shared_ptr<Expr> intLiteral(ParserPackage & parsePkg);
+		std::shared_ptr<Expr> floatLiteral(ParserPackage & parsePkg);
+		std::shared_ptr<Expr> stringLiteral(ParserPackage & parsePkg);
+		std::shared_ptr<Expr> nulLiteral(ParserPackage & parsePkg);
 
 		// Utility
 		Namespace nameSpace(ParserPackage & parsePkg); 

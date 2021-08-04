@@ -15,7 +15,7 @@ namespace ltnc {
 
 		Namespace ns;
 
-		operator const TokenDebugInfo&() const;
+		operator const DebugInfo&() const;
 
 	private:
 		unsigned current;

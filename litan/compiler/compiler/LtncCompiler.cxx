@@ -53,7 +53,7 @@ std::string ltnc::Compiler::compile(
 	
 	// init code
 	code << AssemblyCode("-> MAIN"); 
-	code << compile::justAnExpression(compPkg, StmtExpr(std::make_shared<ExprCall>("main", Namespace()))).code;
+	code << compile::justAnExpression(compPkg, StmtExpr(DebugInfo(), std::make_shared<ExprCall>(DebugInfo(), "main", Namespace()))).code;
 	code << AssemblyCode("exit");
 	code << AssemblyCode("\n");
 

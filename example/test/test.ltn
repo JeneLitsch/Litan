@@ -45,7 +45,10 @@ function is(Pointer ptr) -> Int {
 function main() -> Void {
 	var Int x;
 	x = 41;
-	repeat(5); {
+	if(1) {
+		->ltn::println(420);
+	}
+ 	repeat(5) {
 		x = x + 1;
 		->ltn::println(x);	
 	}

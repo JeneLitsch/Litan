@@ -17,7 +17,7 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::comparison(ParserPackage & parsePkg) {
 		
 		Token op = parsePkg.prev();
 		std::shared_ptr<ltnc::Expr> r = term(parsePkg);
-		l = std::make_shared<ExprBinary>(op.type, l, r);
+		l = std::make_shared<ExprBinary>(op.debugInfo, op.type, l, r);
 	}
 	return l;
 }
@@ -28,7 +28,7 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::term(ParserPackage & parsePkg) {
 	while(parsePkg.match({TokenType::PLUS, TokenType::MINUS})) {
 		Token op = parsePkg.prev();
 		std::shared_ptr<ltnc::Expr> r = product(parsePkg);
-		l = std::make_shared<ExprBinary>(op.type, l, r);
+		l = std::make_shared<ExprBinary>(op.debugInfo, op.type, l, r);
 	}
 	return l;
 }
@@ -39,7 +39,7 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::product(ParserPackage & parsePkg) {
 	while(parsePkg.match({TokenType::STAR, TokenType::SLASH, TokenType::MOD})) {
 		Token op = parsePkg.prev();
 		std::shared_ptr<ltnc::Expr> r = unary(parsePkg);
-		l = std::make_shared<ExprBinary>(op.type, l, r);
+		l = std::make_shared<ExprBinary>(op.debugInfo, op.type, l, r);
 	}
 	return l;
 }
@@ -53,31 +53,17 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::unary(ParserPackage & parsePkg) {
 		TokenType::COPY})) {
 		Token op = parsePkg.prev();
 		std::shared_ptr<ltnc::Expr> r = unary(parsePkg);
-		return std::make_shared<ExprUnary>(op.type, r);
+		return std::make_shared<ExprUnary>(op.debugInfo, op.type, r);
 	}
 	return primary(parsePkg);	
 }
 
-
 std::shared_ptr<ltnc::Expr> ltnc::parse::primary(ParserPackage & parsePkg) {
 	// literals
-	if (parsePkg.match(TokenType::INT_LITERAL)) {
-		std::int64_t value = std::stoll(parsePkg.prev().string);
-		return std::make_shared<ExprIntLiteral>(value);
-	}
-	if (parsePkg.match(TokenType::FLOAT_LITERAL)) {
-		double value = std::stod(parsePkg.prev().string);
-		return std::make_shared<ExprFltLiteral>(value);
-	}
-	
-	if (parsePkg.match(TokenType::STRING_LITERAL)) {
-		std::string value = parsePkg.prev().string;
-		return std::make_shared<ExprStrLiteral>(value);
-	}
-
-	if (parsePkg.match(TokenType::NUL)) {
-		return std::make_shared<ExprNul>();
-	}
+	if(auto literal = intLiteral(parsePkg)) return literal;
+	if(auto literal = floatLiteral(parsePkg)) return literal;
+	if(auto literal = stringLiteral(parsePkg)) return literal;
+	if(auto literal = nulLiteral(parsePkg)) return literal;
 
 	if (parsePkg.match(TokenType::L_PAREN)) {
 		auto expr_ = expression(parsePkg);
@@ -87,12 +73,10 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::primary(ParserPackage & parsePkg) {
 		throw error::expectedParenR(parsePkg);
 	}
 
-	// call function
 	if (auto expr = call(parsePkg)) {
 		return expr;
 	}
 
-	// variables and constants
 	if (auto expr = var(parsePkg)) {
 		return expr;
 	}

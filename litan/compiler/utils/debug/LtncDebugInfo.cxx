@@ -1,6 +1,6 @@
-#include "LtncTokenDebugInfo.hxx"
+#include "LtncDebugInfo.hxx"
 
-ltnc::TokenDebugInfo::TokenDebugInfo(
+ltnc::DebugInfo::DebugInfo(
 	unsigned lineNr,
 	unsigned column,
 	const std::string & lexeme)
@@ -8,7 +8,7 @@ ltnc::TokenDebugInfo::TokenDebugInfo(
 	column(column),
 	lexeme(lexeme) {}
 
-ltnc::TokenDebugInfo::TokenDebugInfo()
+ltnc::DebugInfo::DebugInfo()
 :	lineNr(0),
 	column(0),
 	lexeme("") {}

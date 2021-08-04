@@ -15,7 +15,14 @@ bool ltnc::LexerPackage::isAtEnd() const {
 
 std::string ltnc::LexerPackage::makeLexeme() const {
 	return this->string.substr(this->start, this->current - this->start);
+}
 
+ltnc::DebugInfo ltnc::LexerPackage::makeDebugInfo() const {
+	return this->makeDebugInfo(this->makeLexeme());
+}
+
+ltnc::DebugInfo ltnc::LexerPackage::makeDebugInfo(const std::string & str) const {
+	return DebugInfo(line, column, str);
 }
 
 bool ltnc::LexerPackage::match(char chr) {
@@ -64,8 +71,7 @@ void ltnc::LexerPackage::newToken(TokenType type) {
 }
 
 void ltnc::LexerPackage::newToken(TokenType type, const std::string & lexeme) {
-	TokenDebugInfo debugInfo(line, column, lexeme);
-	this->addToken(Token(type, lexeme, debugInfo));
+	this->addToken(Token(type, lexeme, this->makeDebugInfo(lexeme)));
 }
 
 void ltnc::LexerPackage::addToken(Token token) {

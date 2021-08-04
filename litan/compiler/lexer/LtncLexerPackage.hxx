@@ -27,6 +27,8 @@ namespace ltnc {
 
 		// Returns string between start and current
 		std::string makeLexeme() const;
+		DebugInfo makeDebugInfo() const;
+		DebugInfo makeDebugInfo(const std::string & str) const;
 		
 		// Create token
 		void newToken(TokenType type);

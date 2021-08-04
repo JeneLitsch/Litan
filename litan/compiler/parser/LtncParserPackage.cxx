@@ -40,6 +40,6 @@ const ltnc::Token & ltnc::ParserPackage::curr() const {
 	return this->tokens[this->current];
 }
 
-ltnc::ParserPackage::operator const TokenDebugInfo&() const {
+ltnc::ParserPackage::operator const DebugInfo&() const {
 	return this->curr().debugInfo;
 }

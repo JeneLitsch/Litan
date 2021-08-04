@@ -64,13 +64,12 @@ std::shared_ptr<ltnc::Stmt> body(ltnc::ParserPackage & parsePkg) {
 
 std::shared_ptr<ltnc::DeclFunction> ltnc::parse::declareFunction(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::FX)){
-		auto startToken 	= parsePkg.prev(); 
+		auto debugInfo 		= parsePkg.prev().debugInfo; 
 		auto name 			= ::functionName(parsePkg);
 		auto parameters 	= ::parameterList(parsePkg);
 		auto returnType 	= ::returnType(parsePkg);
 		auto body 			= ::body(parsePkg);
 		auto fxSignature	= FunctionSignature(returnType, name, parameters, parsePkg.ns);
-		auto debugInfo		= NodeDebugInfo(startToken.debugInfo, fxSignature);
 		return std::make_shared<DeclFunction>(debugInfo, fxSignature, body);
 	}
 	return nullptr;

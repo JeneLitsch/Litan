@@ -5,17 +5,19 @@
 #include "LtncFunctionSignature.hxx"
 
 namespace ltnc {
-	class TokenDebugInfo {
+	class DebugInfo {
 	public:
-		TokenDebugInfo(
+		DebugInfo(
 			unsigned lineNr,
 			unsigned column,
 			const std::string & lexeme);
 		
-		TokenDebugInfo();
+		DebugInfo();
 
 		unsigned lineNr;
 		unsigned column;
 		std::string lexeme;
+
+		std::optional<FunctionSignature> inFunction;
 	};
 }

@@ -4,7 +4,8 @@
 std::shared_ptr<ltnc::ExprVar> ltnc::parse::var(ParserPackage & parsePkg) {
 	// variables and constants
 	if (parsePkg.match(TokenType::IDENTIFIER)) {
-		auto exprVar = std::make_shared<ExprVar>(parsePkg.prev().string);
+		const DebugInfo & debugInfo = parsePkg.prev().debugInfo;
+		auto exprVar = std::make_shared<ExprVar>(debugInfo, parsePkg.prev().string);
 		while(parsePkg.match(TokenType::DOT)) {
 			if (!parsePkg.match(TokenType::IDENTIFIER)) {
 				throw ltnc::error::unnamedVariable(parsePkg);
@@ -28,9 +29,10 @@ std::shared_ptr<ltnc::StmtAssign> parseAssign(
 	const ltnc::VarId & varId,
 	ltnc::ParserPackage & parsePkg) {
 	if(parsePkg.match(ltnc::TokenType::ASSIGN)) {
+		const ltnc::DebugInfo & debugInfo = parsePkg.prev().debugInfo;
 		auto expr = ltnc::parse::expression(parsePkg);
-		auto access = std::make_shared<ltnc::ExprVar>(varId);
-		return std::make_shared<ltnc::StmtAssign>(access,expr);
+		auto access = std::make_shared<ltnc::ExprVar>(debugInfo, varId);
+		return std::make_shared<ltnc::StmtAssign>(debugInfo, access, expr);
 	}
 	return nullptr;
 }
@@ -38,11 +40,12 @@ std::shared_ptr<ltnc::StmtAssign> parseAssign(
 
 std::shared_ptr<ltnc::DeclVar> ltnc::parse::declareVar(ParserPackage & parsePkg)  {
 	if(parsePkg.match(TokenType::VAR)) {
+		auto debugInfo = parsePkg.prev().debugInfo;
 		auto typeId = parse::typeId(parsePkg);
 		auto varId = parseVarName(parsePkg);
 		auto assign = parseAssign(varId, parsePkg);
 		if (parsePkg.match(TokenType::SEMICOLON)) {
-			return std::make_shared<DeclVar>(varId, typeId, assign);
+			return std::make_shared<DeclVar>(debugInfo, varId, typeId, assign);
 		}
 		throw error::expectedSemicolon(parsePkg);
 	}
