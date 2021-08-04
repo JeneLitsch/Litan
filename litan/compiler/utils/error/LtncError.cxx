@@ -1,4 +1,4 @@
-#include "LtncCompilerError.hxx"
+#include "LtncError.hxx"
 #include <sstream>
 
 std::string makeMessage(
@@ -20,15 +20,15 @@ std::string makeMessage(
 }
 
 
-ltnc::ErrorCode ltnc::CompilerError::getErrorCode() const {
+ltnc::ErrorCode ltnc::Error::getErrorCode() const {
 	return this->errorCode;
 }
 
 
-ltnc::CompilerError::CompilerError(
+ltnc::Error::Error(
 	ErrorCode errorCode,
 	const std::string & msg,
 	const DebugInfo & debugInfo)
-	: Error(makeMessage(errorCode, msg, debugInfo)),
+	: ltn::Error(makeMessage(errorCode, msg, debugInfo)),
 	errorCode(errorCode) {}
 

@@ -13,3 +13,9 @@ ltnc::DebugInfo::DebugInfo()
 	column(0),
 	lexeme("") {}
 
+ltnc::DebugInfo ltnc::DebugInfo::withFunction(
+	const FunctionSignature & inFunction) const{
+	DebugInfo debugInfo = *this;
+	debugInfo.inFunction = inFunction;
+	return debugInfo; 
+}

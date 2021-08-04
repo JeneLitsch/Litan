@@ -16,7 +16,12 @@ ltnc::ExprInfo ltnc::compile::call(CompilerPack & compPkg, const ExprCall & expr
 	 		return compPkg.getSymbolTable().match(fxSig, true);
 		}
 		catch(...) {
-	 		return compPkg.getSymbolTable().match(fxSig, false);
+			try  {
+	 			return compPkg.getSymbolTable().match(fxSig, false);
+			}
+			catch(...) {
+				throw error::noMatchingFunction(expr.debugInfo, fxSig);
+			}
 		}
 	}();
 	

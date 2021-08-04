@@ -8,8 +8,7 @@ ltnc::StmtInfo ltnc::compile::assign(CompilerPack & compPkg, const StmtAssign & 
 	
 	bool castable = typeL.isCastableTo(access.typeId);
 	if(!castable) {
-		throw std::runtime_error("Types in Assignment do not match: " 
-			+ access.typeId.ns.str() + access.typeId.name + "=" + expr.typeId.ns.str() + expr.typeId.name);
+		throw error::incompatibleTypes(stmt.debugInfo, expr.typeId, access.typeId);
 	}
 	CodeBuffer code = compPkg.codeBuffer();
 	code << access.code;

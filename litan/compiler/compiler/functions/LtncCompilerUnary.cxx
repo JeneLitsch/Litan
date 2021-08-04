@@ -15,7 +15,7 @@ ltnc::ExprInfo ltnc::compile::unary(CompilerPack & compPkg, const ExprUnary & ex
 			code << AssemblyCode("mnsf");
 			return ExprInfo(exprInfo.typeId, code);
 		}
-		throw std::runtime_error("Invalid unary expression type for \"-\"");
+		throw error::incompatibleOperator(exprInfo.typeId, "-", expr.debugInfo);
 	}
 
 
@@ -25,7 +25,7 @@ ltnc::ExprInfo ltnc::compile::unary(CompilerPack & compPkg, const ExprUnary & ex
 			code << AssemblyCode("lognot");
 			return ExprInfo(exprInfo.typeId, code);
 		}
-		throw std::runtime_error("Invalid unary expression type for \"!\"");
+		throw error::incompatibleOperator(exprInfo.typeId, "!", expr.debugInfo);
 	}
 
 
@@ -35,7 +35,7 @@ ltnc::ExprInfo ltnc::compile::unary(CompilerPack & compPkg, const ExprUnary & ex
 			code << AssemblyCode("bitnot");
 			return ExprInfo(exprInfo.typeId, code);
 		}
-		throw std::runtime_error("Invalid unary expression type for \"!\"");
+		throw error::incompatibleOperator(exprInfo.typeId, "~", expr.debugInfo);
 	}
 
 
@@ -53,6 +53,6 @@ ltnc::ExprInfo ltnc::compile::unary(CompilerPack & compPkg, const ExprUnary & ex
 
 
 	default:
-		throw std::runtime_error("Invalid unary expression");
+		throw error::invalidUnaryExpression(expr.debugInfo);
 	}
 }

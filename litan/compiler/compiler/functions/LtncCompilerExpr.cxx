@@ -25,6 +25,6 @@ ltnc::ExprInfo ltnc::compile::expression(CompilerPack & compPkg, const Expr & ex
 	if(auto expr_ = dynamic_cast<const ExprNul*>(&expr)) {
 		return nul();
 	}
-	throw std::runtime_error("Invalid Expr");
+	throw error::invalidExpression(expr.debugInfo);
 }
 

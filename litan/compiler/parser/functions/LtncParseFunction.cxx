@@ -70,7 +70,7 @@ std::shared_ptr<ltnc::DeclFunction> ltnc::parse::declareFunction(ParserPackage &
 		auto returnType 	= ::returnType(parsePkg);
 		auto body 			= ::body(parsePkg);
 		auto fxSignature	= FunctionSignature(returnType, name, parameters, parsePkg.ns);
-		return std::make_shared<DeclFunction>(debugInfo, fxSignature, body);
+		return std::make_shared<DeclFunction>(debugInfo.withFunction(fxSignature), fxSignature, body);
 	}
 	return nullptr;
 }

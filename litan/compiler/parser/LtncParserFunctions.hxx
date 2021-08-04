@@ -1,8 +1,8 @@
 #pragma once
 #include "LtncAst.hxx"
 #include "LtncParserPackage.hxx"
-#include "LtncErrorHandling.hxx"
-
+#include "LtncError.hxx"
+#include "LtncErrorCreationParser.hxx"
 namespace ltnc {
 	namespace parse {
 		

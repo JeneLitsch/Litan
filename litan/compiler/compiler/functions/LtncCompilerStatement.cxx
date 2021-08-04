@@ -28,7 +28,7 @@ ltnc::StmtInfo ltnc::compile::statement(CompilerPack & compPkg, const Stmt & stm
 	if(auto stmt_ = dynamic_cast<const StmtAsm*>(&stmt)) {
 		return StmtInfo(assembly(compPkg, *stmt_), 0);
 	}
-	throw std::runtime_error("Invalid Statement");
+	throw error::invalidStatement(stmt.debugInfo);
 }
 
 ltnc::StmtInfo ltnc::compile::justAnExpression(CompilerPack & compPkg, const StmtExpr & stmt) {

@@ -135,9 +135,7 @@ error
 
 // main ( -> Void ) 
 -> FNX_main11
-stackalloc 2
-newi 41
-store 0
+stackalloc 4
 newi 1
 ifnx
 goto IF70
@@ -167,14 +165,26 @@ newi 5
 call FNX_print60
 goto LOOP74
 -> LOOP_END73
-newi 7
+newi 1
+newi 5
+loop::range
+loop::idx
+store 3
+load 3
+call FNX_print60
+loop::cont
+call FNX_println67
+call FNX_Foo4
 store 1
+newi 7
+store 2
 newi 1
 call FNX_println64
 newf 2.500000
 call FNX_println65
 call FNX_Deque49
 call FNX_println63
+return
 return
 
 

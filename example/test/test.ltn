@@ -33,6 +33,7 @@ namespace test {
 	}
 }
 
+
 struct Foo {
 	var test::Bar bar;
 	var Int test;
@@ -44,7 +45,6 @@ function is(Pointer ptr) -> Int {
 
 function main() -> Void {
 	var Int x;
-	x = 41;
 	if(1) {
 		->ltn::println(420);
 	}
@@ -53,9 +53,16 @@ function main() -> Void {
 		->ltn::println(x);	
 	}
 	while(!1) ->ltn::print(5);
+	for(i, 1, 5) {
+		->ltn::print(i);
+	}
+	->ltn::println();
+
+	var Foo foo = ->Foo();
 	
 	var Int a = (3 + 4);
 	->ltn::println(1);
 	->ltn::println(2.5);
 	->ltn::println(->ltn::Deque());
+	return;
 }

@@ -45,7 +45,8 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::returnStmt(ParserPackage & parsePkg) {
 
 std::shared_ptr<ltnc::Stmt> ltnc::parse::assembly(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::ASM)){
-		auto asmStmt = std::make_shared<StmtAsm>(parsePkg.prev().debugInfo);
+		auto debugInfo = parsePkg.prev().debugInfo;
+		auto asmStmt = std::make_shared<StmtAsm>(debugInfo);
 		if(parsePkg.match(TokenType::L_BRACE)){
 			while(parsePkg.match(TokenType::STRING_LITERAL)) {
 				asmStmt->instructions.push_back(parsePkg.prev().string);

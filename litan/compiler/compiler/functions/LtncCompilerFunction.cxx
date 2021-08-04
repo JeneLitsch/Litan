@@ -24,7 +24,7 @@ ltnc::StmtInfo ltnc::compile::function(
 		compPkg.getSymbolTable().match(param.typeId);
 		compPkg.getSymbolTable().insert(param.name, TypeId(param.typeId));
 		if(param.typeId == TVoid) {
-			throw std::runtime_error("Void is not an allowed paramter type");
+			throw error::voidParameter(decl.debugInfo);
 		}
 	}
 	// eval body

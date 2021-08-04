@@ -11,7 +11,8 @@ ltnc::ExprInfo ltnc::compile::var(CompilerPack & compPkg, const ExprVar & varExp
 	std::function nextVar = [
 		&path = varExpr.path,
 		&scopeStack = compPkg.getSymbolTable(),
-		&typeTable = compPkg.getSymbolTable()
+		&typeTable = compPkg.getSymbolTable(),
+		&varExpr
 		] (
 		unsigned i,
 		const Var & lastVar)
@@ -29,11 +30,16 @@ ltnc::ExprInfo ltnc::compile::var(CompilerPack & compPkg, const ExprVar & varExp
 				}
 			}
 			// undefined member
-			throw std::runtime_error("struct " + lastVar.name + " does not contain variable: " + path[i].name);
+			throw error::notAMember(path[i], type.id, varExpr.debugInfo);
 		}
 		// stack
 		else {
-			return scopeStack.match(VarId(path[0])); 
+			try {
+				return scopeStack.match(VarId(path[0])); 
+			}
+			catch(...) {
+				throw error::undefinedVariable(path[i], varExpr.debugInfo);
+			}
 		}
 	};
 

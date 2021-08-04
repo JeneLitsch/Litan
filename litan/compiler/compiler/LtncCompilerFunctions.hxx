@@ -7,6 +7,8 @@
 
 #include "LtncStmtInfo.hxx"
 #include "LtncExprInfo.hxx"
+#include "LtncError.hxx"
+#include "LtncErrorCreationCompiler.hxx"
 
 namespace ltnc {
 	namespace compile {

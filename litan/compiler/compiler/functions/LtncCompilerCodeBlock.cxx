@@ -8,7 +8,7 @@ ltnc::StmtInfo ltnc::compile::codeBlock(CompilerPack & compPkg, const StmtBlock 
 		compPkg.getSymbolTable().match(decl->typeId);
 		compPkg.getSymbolTable().insert(decl->varId, decl->typeId);
 		if(decl->typeId == TVoid) {
-			throw std::runtime_error("Void is not allowed as variable type");
+			throw error::voidVariable(decl->debugInfo, decl->varId);
 		}
 	}
 

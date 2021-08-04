@@ -3,9 +3,9 @@
 #include "LtncErrorCode.hxx"
 #include "LtncDebugInfo.hxx"
 namespace ltnc {
-	class CompilerError : public ltn::Error {
+	class Error : public ltn::Error {
 	public:
-		CompilerError(
+		Error(
 			ErrorCode errorCode,
 			const std::string & msg,
 			const DebugInfo & debugInfo);

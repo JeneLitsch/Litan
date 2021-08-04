@@ -1,8 +1,8 @@
 #include "LtncLexer.hxx"
-#include "LtncErrorHandling.hxx"
-ltnc::Lexer::Lexer() {
+#include "LtncError.hxx"
+#include "LtncErrorCreationLexer.hxx"
 
-}
+ltnc::Lexer::Lexer() {}
 
 
 std::vector<ltnc::Token> ltnc::Lexer::tokenize(const std::string & str) {

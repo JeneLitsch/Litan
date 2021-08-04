@@ -5,4 +5,6 @@ namespace ltnc {
 		VarId (const std::string & name) 
 			: Symbol(name) {}
 	};
+
+	std::ostream & operator<<(std::ostream & stream, const VarId & varId);
 }

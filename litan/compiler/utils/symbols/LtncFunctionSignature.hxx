@@ -14,12 +14,11 @@ namespace ltnc {
 			const TypeId & returnType,
 			const std::string & name,
 			const std::vector<Param> & params,
-			const Namespace & ns = Namespace())
-		:	Symbol(name, ns),
-			returnType(returnType),
-			params(params) {}
-
+			const Namespace & ns = Namespace());
 		TypeId returnType;
 		std::vector<Param> params;
 	};
+	std::ostream & operator<<(
+		std::ostream & stream,
+		const FunctionSignature & fxSignature);
 };

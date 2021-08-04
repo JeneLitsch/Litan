@@ -6,26 +6,13 @@
 #include "LtncDivEvaluator.hxx"
 #include "LtncModEvaluator.hxx"
 
-std::string getSuffux(
-	const ltnc::ExprInfo & l,
-	const ltnc::ExprInfo & r) {
-	
-	// mismatch
-	if(l.typeId != r.typeId) {
-		throw std::runtime_error("Expression types do not match: \"" + l.code.str() + "\" and \"" + r.code.str() + "\"");
-	}
-
-	// integer
-	if(l.typeId == ltnc::TypeId(TInt)) {
+std::string getSuffux(const ltnc::TypeId & typeId) {
+	if(typeId == TInt) {
 		return "i";
 	}
-
-	// float
-	if(l.typeId == ltnc::TypeId(TFloat)) {
+	if(typeId == TFloat) {
 		return "f";
 	}
-
-	// if type is not int or flt
 	throw std::runtime_error("Invalid Type for operation");
 }
 
@@ -39,9 +26,12 @@ ltnc::ExprInfo buildBinary(
 	// left and right
 	ltnc::ExprInfo l = ltnc::compile::expression(compPkg, *expr.l);
 	ltnc::ExprInfo r = ltnc::compile::expression(compPkg, *expr.r);
-
+	// mismatch
+	if(l.typeId != r.typeId) {
+		throw ltnc::error::incompatibleTypes(expr.debugInfo, l.typeId, r.typeId);
+	}
 	// i or f for int or float
-	std::string suffix = getSuffux(l, r);
+	std::string suffix = getSuffux(l.typeId);
 
 	// try constant folding
 	if(eval && compPkg.getSettings().getOptimizationLevel()) {		
@@ -82,6 +72,6 @@ ltnc::ExprInfo ltnc::compile::binaryExpr(CompilerPack & compPkg, const ExprBinar
 	case TokenType::MOD: 			return buildBinary(compPkg, expr, "mod", &modEvaluator);
 
 	// error
-	default: 						throw std::runtime_error("Invalid binary expression");
+	default: 						throw error::invalidBinaryExpression(expr.debugInfo);
 	}
 }

@@ -8,7 +8,7 @@ ltnc::StmtInfo ltnc::compile::repeatLoop(CompilerPack & compPkg, const StmtRepea
 
 
 	if(expr.typeId != TypeId(TInt)){
-		throw std::runtime_error("Upper bound of for loop needs to be a integer expression.");
+		throw error::repeatCountNotInt(stmt.debugInfo);
 	}
 	
 	compPkg.getSymbolTable().addBlockScope();
@@ -35,12 +35,12 @@ ltnc::StmtInfo ltnc::compile::forLoop(CompilerPack & compPkg, const StmtFor & st
 	ExprInfo from = expression(compPkg, *stmt.exprFrom); 
 	ExprInfo to = expression(compPkg, *stmt.exprTo);
 
-	if(from.typeId != TypeId(TInt)){
-		throw std::runtime_error("Lower bound of for loop needs to be a integer expression.");
+	if(from.typeId != TInt) {
+		throw error::lowerBoundNotInt(stmt.debugInfo);
 	}
 
-	if(to.typeId != TypeId(TInt)){
-		throw std::runtime_error("Upper bound of for loop needs to be a integer expression.");
+	if(to.typeId != TInt) {
+		throw error::upperBoundNotInt(stmt.debugInfo);
 	}
 
 	compPkg.getSymbolTable().addBlockScope();

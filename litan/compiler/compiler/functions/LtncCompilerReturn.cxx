@@ -6,13 +6,13 @@ ltnc::StmtInfo ltnc::compile::returnStatement(CompilerPack & compPkg, const Stmt
 	if(stmt.expr) {
 		ExprInfo exprInfo = expression(compPkg, *stmt.expr);
 		if(exprInfo.typeId != signature.returnType) {
-			throw std::runtime_error("Type of return statement do not match return type of function");
+			throw error::unmatchingReturnType(signature.returnType, exprInfo.typeId, stmt.debugInfo);
 		}
 		code << exprInfo.code; 
 	}
 	else {
 		if(TypeId(TVoid) != signature.returnType) {
-			throw std::runtime_error("Type of return statement do not match return type of function");
+			throw error::unmatchingReturnType( signature.returnType, TVoid, stmt.debugInfo);
 		}
 	}
 	code << AssemblyCode("return");

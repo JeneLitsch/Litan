@@ -1,6 +1,8 @@
 #include "LtncLexerPackage.hxx"
 #include <stdexcept>
-#include "LtncErrorHandling.hxx"
+#include "LtncError.hxx"
+#include "LtncErrorCreationLexer.hxx"
+
 ltnc::LexerPackage::LexerPackage(const std::string & code) {
 	this->string = code;
 	this->line = 1;

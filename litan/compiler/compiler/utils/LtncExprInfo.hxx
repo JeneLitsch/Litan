@@ -9,29 +9,41 @@ namespace ltnc {
 	struct ExprInfo {
 
 		ExprInfo(
-			const TypeId & typeId, CodeBuffer code)
+			const TypeId & typeId,
+			CodeBuffer code)
 		:	typeId(typeId),
 			code(code),
 			assignable(false)  {}
 		
-		ExprInfo(const TypeId & typeId, CodeBuffer code, const ConstValue & constValue)
+		ExprInfo(
+			const TypeId & typeId,
+			CodeBuffer code,
+			const ConstValue & constValue)
 		: 	typeId(typeId),
 			code(code),
 			constValue(constValue),
 			assignable(false)  {}
 
-		ExprInfo(const TypeId & typeId, CodeBuffer code, const ConstValue & constValue, bool assignable)
+		ExprInfo(
+			const TypeId & typeId,
+			CodeBuffer code,
+			const ConstValue & constValue,
+			bool assignable)
 		: 	typeId(typeId),
 			code(code),
 			constValue(constValue),
 			assignable(assignable)  {}
 
-		ExprInfo(const TypeId & typeId, CodeBuffer code, bool assignable)
+		ExprInfo(
+			const TypeId & typeId,
+			CodeBuffer code,
+			bool assignable)
 		:	typeId(typeId),
 			code(code),
 			assignable(assignable)  {}
 
-		ExprInfo(const ExprInfo & info) 
+		ExprInfo(
+			const ExprInfo & info) 
 		: 	typeId(info.typeId),
 			code(info.code),
 			constValue(info.constValue),
