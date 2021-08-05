@@ -9,12 +9,12 @@ namespace ltnc {
 		// Declarations
 		std::shared_ptr<DeclStruct> declareStruct(ParserPackage & parsePkg);
 		std::shared_ptr<Type> declareType(ParserPackage & parsePkg);
-		std::shared_ptr<DeclVar> declareVar(ParserPackage & parsePkg);
 		std::shared_ptr<DeclFunction> declareFunction(ParserPackage & parsePkg);
 		void declaration(ParserPackage & parsePkg, Program & program);
 
 		// Statement
 
+		std::shared_ptr<StmtVar> declareVar(ParserPackage & parsePkg);
 		std::shared_ptr<Stmt> statement(ParserPackage & parsePkg);
 		std::shared_ptr<Stmt> forLoop(ParserPackage & parsePkg);
 		std::shared_ptr<Stmt> repeatLoop(ParserPackage & parsePkg);

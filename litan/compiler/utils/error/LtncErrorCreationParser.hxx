@@ -13,6 +13,8 @@ namespace ltnc {
 		Error expectedParenR(const DebugInfo & debugInfo);
 		Error expectedBraceL(const DebugInfo & debugInfo);
 		Error expectedBraceR(const DebugInfo & debugInfo);
+		Error expectedChevronL(const DebugInfo & debugInfo);
+		Error expectedChevronR(const DebugInfo & debugInfo);
 
 		Error expectedComma(const DebugInfo & debugInfo);
 		Error expectedEqual(const DebugInfo & debugInfo);

@@ -9,7 +9,7 @@ namespace ltnc {
 
 	struct Expr;
 	struct ExprVar;
-	struct DeclVar;
+	struct StmtVar;
 
 	struct Stmt : public AstNode {
 		Stmt(const DebugInfo & debugInfo) : AstNode(debugInfo) {}
@@ -60,7 +60,7 @@ namespace ltnc {
 		virtual ~StmtBlock() = default;
 		
 		std::vector<std::shared_ptr<Stmt>> statements;
-		std::vector<std::shared_ptr<DeclVar>> declarations;
+		std::vector<std::shared_ptr<StmtVar>> vars;
 	};
 
 	struct StmtFor : public Stmt {
@@ -99,6 +99,32 @@ namespace ltnc {
 		StmtAsm(const DebugInfo & debugInfo) : Stmt(debugInfo) {}
 		std::vector<std::string> instructions;
 		virtual ~StmtAsm() = default;
+	};
+
+	struct StmtVar : public Stmt {
+		StmtVar(
+			const DebugInfo & debugInfo,
+			const VarId & varId,
+			const TypeId & typeId)
+		: 	Stmt(debugInfo),
+			varId(varId),
+			typeId(typeId) {}
+
+		StmtVar(
+			const DebugInfo & debugInfo,
+			const VarId & varId,
+			const TypeId & typeId,
+			const std::shared_ptr<Stmt> & assign)
+		: 	Stmt(debugInfo),
+			varId(varId),
+			typeId(typeId),
+			assign(assign) {}
+
+		virtual ~StmtVar() = default;
+		
+		VarId varId;
+		TypeId typeId;
+		std::shared_ptr<Stmt> assign;
 	};
 
 }

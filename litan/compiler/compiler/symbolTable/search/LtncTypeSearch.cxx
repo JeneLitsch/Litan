@@ -11,7 +11,7 @@ const ltnc::Type * ltnc::TypeSearch::operator()(const Type & type) const {
 	return nullptr;
 }
 
-const ltnc::Type * ltnc::TypeSearch::operator()(const Func & func) const {
+const ltnc::Type * ltnc::TypeSearch::operator()(const Function & func) const {
 	UNUSED(func);
 	return nullptr;
 }

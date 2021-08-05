@@ -8,7 +8,7 @@ namespace ltnc {
 	public:
 		TypeSearch(const TypeId & typeId);
 		const Type * operator()(const Type & type) const;
-		const Type * operator()(const Func & func) const;
+		const Type * operator()(const Function & func) const;
 		const Type * operator()(const Var & var) const;
 	private:
 		TypeId typeId;

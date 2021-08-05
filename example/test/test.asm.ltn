@@ -6,9 +6,7 @@ exit
 // main ( -> Void ) 
 -> FNX_main0
 stackalloc 1
-newl 1
-newl 1
-logand
+newl 0
 store 0
 load 0
 call FNX_println56
@@ -61,6 +59,10 @@ newi 2
 newi 16
 powi
 call FNX_println55
+newf 2.000000
+newf 16.000000
+powf
+call FNX_println57
 return
 
 
@@ -230,8 +232,6 @@ goto END_IF64
 call FNX_error60
 goto END_IF64
 -> END_IF64
-call FNX_Array15
-store 1
 load 1
 load 0
 array::resize

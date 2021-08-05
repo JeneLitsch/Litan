@@ -33,6 +33,14 @@ namespace ltnc {
 		return Error(ErrorCode::EXPECTED_BRACE_R, "Expected }", debugInfo);
 	}
 
+	Error error::expectedChevronL(const DebugInfo & debugInfo) {
+		return Error(ErrorCode::EXPECTED_CHEVRON_L, "Expected <", debugInfo);
+	}
+
+	Error error::expectedChevronR(const DebugInfo & debugInfo) {
+		return Error(ErrorCode::EXPECTED_CHEVRON_R, "Expected >", debugInfo);
+	}
+
 	Error error::expectedComma(const DebugInfo & debugInfo) {
 		return Error(ErrorCode::EXPECTED_COMMA, "Expected ,", debugInfo);
 	}

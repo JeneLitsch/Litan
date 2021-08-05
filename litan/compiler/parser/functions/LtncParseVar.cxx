@@ -38,14 +38,14 @@ std::shared_ptr<ltnc::StmtAssign> parseAssign(
 }
 
 
-std::shared_ptr<ltnc::DeclVar> ltnc::parse::declareVar(ParserPackage & parsePkg)  {
+std::shared_ptr<ltnc::StmtVar> ltnc::parse::declareVar(ParserPackage & parsePkg)  {
 	if(parsePkg.match(TokenType::VAR)) {
 		auto debugInfo = parsePkg.prev().debugInfo;
 		auto typeId = parse::typeId(parsePkg);
 		auto varId = parseVarName(parsePkg);
 		auto assign = parseAssign(varId, parsePkg);
 		if (parsePkg.match(TokenType::SEMICOLON)) {
-			return std::make_shared<DeclVar>(debugInfo, varId, typeId, assign);
+			return std::make_shared<StmtVar>(debugInfo, varId, typeId, assign);
 		}
 		throw error::expectedSemicolon(parsePkg);
 	}

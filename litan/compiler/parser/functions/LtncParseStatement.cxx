@@ -10,6 +10,7 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::statement(ParserPackage & parsePkg) {
 	if(auto stmt = forLoop(parsePkg)) return stmt;
 	if(auto stmt = whileLoop(parsePkg)) return stmt;
 	if(auto stmt = repeatLoop(parsePkg)) return stmt;
+	if(auto stmt = declareVar(parsePkg)) return stmt;
 	if(auto stmt = justAnExpression(parsePkg)) return stmt;
 	throw error::expectedStatement(parsePkg);
 }

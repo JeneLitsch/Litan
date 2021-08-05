@@ -10,7 +10,7 @@ namespace ltnc {
 		VarSearch(const std::string & name);
 		
 		const Var * operator()(const Type & type) const;
-		const Var * operator()(const Func & func) const;
+		const Var * operator()(const Function & func) const;
 		const Var * operator()(const Var & var) const;
 	private:
 		std::string name;

@@ -6,37 +6,17 @@
 #include "LtncType.hxx"
 #include "LtncVar.hxx"
 #include "LtncFunctionSignature.hxx"
+#include "LtncStmt.hxx"
 namespace ltnc {
 	struct Stmt;
+	struct StmtVar;
 	
 	struct Decl : public AstNode {
 		Decl(const DebugInfo & debugInfo) : AstNode(debugInfo) {}	
 		virtual ~Decl() = default;
 	};
 
-	struct DeclVar : public Decl {
-		DeclVar(
-			const DebugInfo & debugInfo,
-			const VarId & varId,
-			const TypeId & typeId)
-		: 	Decl(debugInfo),
-			varId(varId),
-			typeId(typeId) {}
 
-		DeclVar(
-			const DebugInfo & debugInfo,
-			const VarId & varId,
-			const TypeId & typeId,
-			const std::shared_ptr<Stmt> & assign)
-		: 	Decl(debugInfo),
-			varId(varId),
-			typeId(typeId),
-			assign(assign) {}
-		
-		VarId varId;
-		TypeId typeId;
-		std::shared_ptr<Stmt> assign;
-	};
 
 
 	struct DeclFunction : public Decl {
@@ -57,12 +37,12 @@ namespace ltnc {
 		DeclStruct(
 			const DebugInfo & debugInfo,
 			const TypeId & typeId,
-			const std::vector<DeclVar> & members)
+			const std::vector<StmtVar> & members)
 		:	Decl(debugInfo),
 			typeId(typeId),
 			members(members) {}
 		
 		TypeId typeId;
-		std::vector<DeclVar> members;
+		std::vector<StmtVar> members;
 	};
 }

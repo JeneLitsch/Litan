@@ -9,9 +9,9 @@ namespace ltnc {
 	class FuncSearch {
 	public:
 		FuncSearch(const FunctionSignature & signature, const SymbolTable & sTable, bool perfectFit);
-		const Func * operator()(const Type & type) const;
-		const Func * operator()(const Func & func) const;
-		const Func * operator()(const Var & var) const;
+		const Function * operator()(const Type & type) const;
+		const Function * operator()(const Function & func) const;
+		const Function * operator()(const Var & var) const;
 	private:
 		const FunctionSignature & signature;
 		const SymbolTable & sTable;

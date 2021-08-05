@@ -109,25 +109,27 @@ ltnc::LexerNode ltnc::LexerNodeCreator::numliteral() {
 
 
 ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
-	std::map<std::string, TokenType> keywords;
-	keywords.insert({"typedef", TokenType::TYPEDEF});
-	keywords.insert({"var", TokenType::VAR});
-	keywords.insert({"copy", TokenType::COPY});
-	keywords.insert({"nullptr", TokenType::NUL});
-	keywords.insert({"namespace", TokenType::NAMESPACE});
-	keywords.insert({"function", TokenType::FX});
-	keywords.insert({"if", TokenType::IF});
-	keywords.insert({"else", TokenType::ELSE});
-	keywords.insert({"for", TokenType::FOR});
-	keywords.insert({"while", TokenType::WHILE});
-	keywords.insert({"return", TokenType::RETURN});
-	keywords.insert({"repeat", TokenType::REPEAT});
-	keywords.insert({"struct", TokenType::STRUCT});
-	keywords.insert({"asm", TokenType::ASM});
-	keywords.insert({"true", TokenType::TRUE});
-	keywords.insert({"false", TokenType::FALSE});
 
-	return LexerNode([keywords](LexerPackage & lexPkg) {
+	return LexerNode([](LexerPackage & lexPkg) {
+		const static std::map<std::string, TokenType> keywords = {
+			{"typedef", TokenType::TYPEDEF},
+			{"var", TokenType::VAR},
+			{"copy", TokenType::COPY},
+			{"nullptr", TokenType::NUL},
+			{"namespace", TokenType::NAMESPACE},
+			{"function", TokenType::FX},
+			{"if", TokenType::IF},
+			{"else", TokenType::ELSE},
+			{"for", TokenType::FOR},
+			{"while", TokenType::WHILE},
+			{"return", TokenType::RETURN},
+			{"repeat", TokenType::REPEAT},
+			{"struct", TokenType::STRUCT},
+			{"template", TokenType::TEMPLATE},
+			{"asm", TokenType::ASM},
+			{"true", TokenType::TRUE},
+			{"false", TokenType::FALSE}
+		};
 		if(lexPkg.matchAlpha()) {
 			while(lexPkg.matchAlpha() || lexPkg.match('_') || lexPkg.matchDigit());
 			std::string lexeme = lexPkg.makeLexeme();

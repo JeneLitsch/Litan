@@ -15,7 +15,7 @@ ltnc::StmtInfo ltnc::compile::function(
 	CompilerPack & compPkg,
 	const DeclFunction & decl) {
 		
-	const Func & func = compPkg.getSymbolTable().match(decl.signature);
+	const Function & func = compPkg.getSymbolTable().match(decl.signature);
 	compPkg.getSymbolTable().match(decl.signature.returnType);
 	compPkg.getSymbolTable().addFunctionScope(func.signature);
 	

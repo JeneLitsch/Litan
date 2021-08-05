@@ -2,7 +2,8 @@
 
 namespace ltnc {
 	enum class ErrorCode {
-		NO_CODE = 0,
+		MISC = 0,
+		NO_CODE,
 		NO_MAIN,
 
 		INVALID_TOKEN = 100,
@@ -15,6 +16,8 @@ namespace ltnc {
 		EXPECTED_PAREN_R,
 		EXPECTED_BRACE_L,
 		EXPECTED_BRACE_R,
+		EXPECTED_CHEVRON_L,
+		EXPECTED_CHEVRON_R,
 		EXPECTED_COMMA,
 		EXPECTED_EQUAL,
 		EXPECTED_IDENTIFIER,

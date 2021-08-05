@@ -1,7 +1,7 @@
 #include "LtncParserFunctions.hxx"
 
-std::vector<ltnc::DeclVar> parseMembers(ltnc::ParserPackage & parsePkg) {
-	std::vector<ltnc::DeclVar> members;
+std::vector<ltnc::StmtVar> parseMembers(ltnc::ParserPackage & parsePkg) {
+	std::vector<ltnc::StmtVar> members;
 	if(parsePkg.match(ltnc::TokenType::L_BRACE)) {
 		while(auto member = ltnc::parse::declareVar(parsePkg)) {
 			members.push_back(*member);

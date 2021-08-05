@@ -7,7 +7,6 @@ namespace ltnc {
 		FunctionSignature signature;
 		std::string jumpMark;
 	};
-	typedef Function Func;
 
 
 	inline bool operator==(const Function & fxL, const Function & fxR) {

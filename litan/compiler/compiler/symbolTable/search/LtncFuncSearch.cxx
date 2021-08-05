@@ -46,12 +46,12 @@ namespace ltnc {
 ltnc::FuncSearch::FuncSearch(const FunctionSignature & signature, const SymbolTable & sTable, bool perfectFit) 
 	: signature(signature), sTable(sTable), perfectFit(perfectFit) {}
 
-const ltnc::Func * ltnc::FuncSearch::operator()(const Type & type) const {
+const ltnc::Function * ltnc::FuncSearch::operator()(const Type & type) const {
 	UNUSED(type);
 	return nullptr;
 }
 
-const ltnc::Func * ltnc::FuncSearch::operator()(const Func & func) const {
+const ltnc::Function * ltnc::FuncSearch::operator()(const Function & func) const {
 	if(this->perfectFit) {
 		if(compare(this->signature, func.signature)) {
 			return &func;
@@ -65,7 +65,7 @@ const ltnc::Func * ltnc::FuncSearch::operator()(const Func & func) const {
 	return nullptr;
 }
 
-const ltnc::Func * ltnc::FuncSearch::operator()(const Var & var) const {
+const ltnc::Function * ltnc::FuncSearch::operator()(const Var & var) const {
 	UNUSED(var);
 	return nullptr;
 }

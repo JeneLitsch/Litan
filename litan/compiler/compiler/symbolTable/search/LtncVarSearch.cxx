@@ -9,7 +9,7 @@ const ltnc::Var * ltnc::VarSearch::operator()(const Type & type) const {
 	return nullptr;
 }
 
-const ltnc::Var * ltnc::VarSearch::operator()(const Func & func) const {
+const ltnc::Var * ltnc::VarSearch::operator()(const Function & func) const {
 	UNUSED(func);
 	return nullptr;
 }

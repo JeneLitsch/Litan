@@ -61,16 +61,48 @@ std::shared_ptr<ltnc::Stmt> body(ltnc::ParserPackage & parsePkg) {
 	throw ltnc::error::expectedStatement(parsePkg);
 }
 
+bool isTemplate(ltnc::ParserPackage & parsePkg) {
+	return parsePkg.match(ltnc::TokenType::TEMPLATE);
+}
+
+std::optional<std::string> templateParameter(ltnc::ParserPackage & parsePkg) {
+	if(parsePkg.match(ltnc::TokenType::IDENTIFIER)) {
+		std::string name = parsePkg.prev().string;
+		parsePkg.match(ltnc::TokenType::COMMA);
+		return name;
+	}
+	return {};
+}
+
+std::vector<std::string> templateParameterList(ltnc::ParserPackage & parsePkg) {
+	if(parsePkg.match(ltnc::TokenType::SMALLER)) {
+		std::vector<std::string> parameters;
+		while(auto param = templateParameter(parsePkg)) {
+			parameters.push_back(*param);
+		}
+		if(parsePkg.match(ltnc::TokenType::BIGGER)) {
+			return parameters;
+		}
+		throw ltnc::error::unclosedParameterList(parsePkg);
+	}
+	throw ltnc::error::unopenedParameterList(parsePkg);
+}
 
 std::shared_ptr<ltnc::DeclFunction> ltnc::parse::declareFunction(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::FX)){
 		auto debugInfo 		= parsePkg.prev().debugInfo; 
-		auto name 			= ::functionName(parsePkg);
-		auto parameters 	= ::parameterList(parsePkg);
-		auto returnType 	= ::returnType(parsePkg);
-		auto body 			= ::body(parsePkg);
-		auto fxSignature	= FunctionSignature(returnType, name, parameters, parsePkg.ns);
-		return std::make_shared<DeclFunction>(debugInfo.withFunction(fxSignature), fxSignature, body);
+		if(isTemplate(parsePkg)) {
+			templateParameterList(parsePkg);
+			throw ltnc::Error(ErrorCode::MISC, "Templates are not supported yet", debugInfo);
+		}
+		else {
+			auto name 			= ::functionName(parsePkg);
+			auto parameters 	= ::parameterList(parsePkg);
+			auto returnType 	= ::returnType(parsePkg);
+			auto body 			= ::body(parsePkg);
+			auto fxSignature	= FunctionSignature(returnType, name, parameters, parsePkg.ns);
+			return std::make_shared<DeclFunction>(debugInfo.withFunction(fxSignature), fxSignature, body);
+		}
 	}
 	return nullptr;
 }
