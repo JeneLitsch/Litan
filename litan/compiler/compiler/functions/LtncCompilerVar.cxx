@@ -90,3 +90,5 @@ ltnc::ExprInfo ltnc::compile::var(CompilerPack & compPkg, const ExprVar & varExp
 
 	return ExprInfo(var.typeId, code);
 }
+
+
