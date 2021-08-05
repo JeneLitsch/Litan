@@ -1,70 +1,14 @@
-namespace a {
-	function fx() -> Void {
-		->ltn::print(1);
-	}
-}
-
-namespace b {
-	function fx() -> Void {
-		->ltn::print(2);
-	}
-}
-
-namespace test {
-	struct Test {
-		var Int a;
-		var Int b;
-		var Int c;
-	}
-	struct Bar {
-		var Int x;
-	}
-	typedef A;
-	namespace a1 {
-		function fx(Int a, Int b) -> Void {
-			->ltn::print(->ltn::min(a, b));
-			->ltn::print(->ltn::max(a, b));
-		}
-
-		function fx(Float a, Float b) -> Void {
-			->ltn::print(->ltn::min(a, b));
-			->ltn::print(->ltn::max(a, b));
-		}
-	}
-}
-
-
-struct Foo {
-	var test::Bar bar;
-	var Int test;
-}
-
-function is(Pointer ptr) -> Int {
-	asm { "load 0" "heap::istype::deque" "return" }
-}
-
 function main() -> Void {
-	var Int x;
-	var ltn::Deque deque = ->ltn::Deque();
-	var Bool b = !->exists(deque);
-	if(true && false) {
-		->ltn::println(420);
-	}
- 	repeat(5) {
-		x = x + 1;
-		->ltn::println(x);	
-	}
-	while(!1) ->ltn::print(5);
-	for(i, 1, 5) {
-		->ltn::print(i);
-	}
-	->ltn::println();
+	var Bool b = true && true;
+	->ltn::println(b);
+	->ltn::println(b <= 1);
+	->ltn::println(!b);
 
-	var Foo foo = ->Foo();
+	->ltn::println(42.0 <=> 0.0 == 1);
+	->ltn::println(0.0 <=> 0.0 == 0);
+	->ltn::println(0.0 <=> 2.0 == -1);
 
-	var Int a = (3 + 4);
-	->ltn::println(1);
-	->ltn::println(2.5);
-	->functionFromElsewhere(666);
-	return;
+	->ltn::println(42 <=> 0 == 1);
+	->ltn::println(0 <=> 0 == 0);
+	->ltn::println(0 <=> 2 == -1);
 }

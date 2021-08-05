@@ -19,6 +19,10 @@ void ltn::VM::print(){
 		std::cout << this->env.acc.popU() << std::flush;
 		break;
 
+	case OuputFormat::BOOL:
+		std::cout << std::boolalpha << bool(this->env.acc.popU()) << std::flush;
+		break;
+
 	case OuputFormat::FLOAT:
 		std::cout << this->env.acc.popF() << std::flush;
 		break;

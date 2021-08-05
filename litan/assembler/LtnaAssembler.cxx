@@ -61,6 +61,7 @@ std::uint64_t ltna::Assembler::toInstruction(
 		if(pkg.inst == "print::newline") return fFormat(InstCode::PRINT, ltn::OuputFormat::NEWLINE);
 		if(pkg.inst == "print::int") return fFormat(InstCode::PRINT, ltn::OuputFormat::INT);
 		if(pkg.inst == "print::uint") return fFormat(InstCode::PRINT, ltn::OuputFormat::UINT);
+		if(pkg.inst == "print::bool") return fFormat(InstCode::PRINT, ltn::OuputFormat::BOOL);
 		if(pkg.inst == "print::float") return fFormat(InstCode::PRINT, ltn::OuputFormat::FLOAT);
 		if(pkg.inst == "print::string") return fFormat(InstCode::PRINT, ltn::OuputFormat::STRING);
 

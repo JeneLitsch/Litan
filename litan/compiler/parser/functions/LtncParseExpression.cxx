@@ -1,47 +1,73 @@
 #include "LtncParserFunctions.hxx"
+#include <functional>
+
+namespace ltnc {
+	namespace parse {
+		using ExprFx = std::function<std::shared_ptr<Expr>(ParserPackage & parsePkg)>; 
+		std::shared_ptr<ltnc::Expr> binary(
+			const std::vector<TokenType> & acceptedTokens,
+			const ExprFx & nextPresedence,
+			ParserPackage & parsePkg) {
+			
+
+			std::shared_ptr<ltnc::Expr> l = nextPresedence(parsePkg);
+			while(parsePkg.match(acceptedTokens)) {
+				Token op = parsePkg.prev();
+				std::shared_ptr<ltnc::Expr> r = nextPresedence(parsePkg);
+				l = std::make_shared<ExprBinary>(op.debugInfo, op.type, l, r);
+			}
+			return l;
+		}
+	}
+}
 
 std::shared_ptr<ltnc::Expr> ltnc::parse::expression(ParserPackage & parsePkg) {
-	return comparison(parsePkg);
+	return logicAnd(parsePkg);
 }
 
+std::shared_ptr<ltnc::Expr> ltnc::parse::logicAnd(ParserPackage & parsePkg) {
+	return binary({ TokenType::LOG_AND }, logicOr, parsePkg);
+}
+
+std::shared_ptr<ltnc::Expr> ltnc::parse::logicOr(ParserPackage & parsePkg) {
+	return binary({ TokenType::LOG_OR }, equality, parsePkg);
+}
+
+std::shared_ptr<ltnc::Expr> ltnc::parse::equality(ParserPackage & parsePkg) {
+	return binary(
+		{ TokenType::EQUAL, TokenType::UNEQUAL },
+		comparison,
+		parsePkg);
+}
 
 std::shared_ptr<ltnc::Expr> ltnc::parse::comparison(ParserPackage & parsePkg) {
-	std::shared_ptr<ltnc::Expr> l = term(parsePkg);
-	while(parsePkg.match({
-		TokenType::EQUAL,
-		TokenType::UNEQUAL,
-		TokenType::BIGGER,
-		TokenType::BIGGEREQUAL,
-		TokenType::SMALLER,
-		TokenType::SMALLEREQUAL})) {
-		
-		Token op = parsePkg.prev();
-		std::shared_ptr<ltnc::Expr> r = term(parsePkg);
-		l = std::make_shared<ExprBinary>(op.debugInfo, op.type, l, r);
-	}
-	return l;
+	return binary(
+		{ 	TokenType::BIGGER, TokenType::BIGGEREQUAL,
+			TokenType::SMALLER, TokenType::SMALLEREQUAL },
+		threeWay,
+		parsePkg);
 }
 
+std::shared_ptr<ltnc::Expr> ltnc::parse::threeWay(ParserPackage & parsePkg) {
+	return binary(
+		{ 	TokenType::SPACESHIP },
+		term,
+		parsePkg);
+}
 
 std::shared_ptr<ltnc::Expr> ltnc::parse::term(ParserPackage & parsePkg) {
-	std::shared_ptr<ltnc::Expr> l = product(parsePkg);
-	while(parsePkg.match({TokenType::PLUS, TokenType::MINUS})) {
-		Token op = parsePkg.prev();
-		std::shared_ptr<ltnc::Expr> r = product(parsePkg);
-		l = std::make_shared<ExprBinary>(op.debugInfo, op.type, l, r);
-	}
-	return l;
+	return binary(
+		{ TokenType::PLUS, TokenType::MINUS },
+		product,
+		parsePkg);
 }
 
 
 std::shared_ptr<ltnc::Expr> ltnc::parse::product(ParserPackage & parsePkg) {
-	std::shared_ptr<ltnc::Expr> l = unary(parsePkg);
-	while(parsePkg.match({TokenType::STAR, TokenType::SLASH, TokenType::MOD})) {
-		Token op = parsePkg.prev();
-		std::shared_ptr<ltnc::Expr> r = unary(parsePkg);
-		l = std::make_shared<ExprBinary>(op.debugInfo, op.type, l, r);
-	}
-	return l;
+	return binary(
+		{ TokenType::STAR, TokenType::SLASH, TokenType::MOD },
+		unary,
+		parsePkg);
 }
 
 

@@ -30,7 +30,11 @@ namespace ltnc {
 		// Expressions
 
 		std::shared_ptr<Expr> expression(ParserPackage & parsePkg);
+		std::shared_ptr<Expr> logicAnd(ParserPackage & parsePkg);
+		std::shared_ptr<Expr> logicOr(ParserPackage & parsePkg);
+		std::shared_ptr<Expr> equality(ParserPackage & parsePkg);
 		std::shared_ptr<Expr> comparison(ParserPackage & parsePkg);
+		std::shared_ptr<Expr> threeWay(ParserPackage & parsePkg);
 		std::shared_ptr<Expr> term(ParserPackage & parsePkg);
 		std::shared_ptr<Expr> product(ParserPackage & parsePkg);
 		std::shared_ptr<Expr> unary(ParserPackage & parsePkg);

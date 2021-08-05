@@ -7,6 +7,7 @@ namespace ltn {
 		FLOAT,
 		INT,
 		UINT,
+		BOOL,
 		STRING,
 		
 	};

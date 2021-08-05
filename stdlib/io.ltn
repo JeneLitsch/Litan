@@ -6,6 +6,9 @@ namespace ltn {
 	function print(Int num) -> Void 
 		asm { "load 0" "print::int" }
 
+	function print(Bool b) -> Void 
+		asm { "load 0" "print::bool" }
+
 	function print(Float num) -> Void 
 		asm { "load 0" "print::float" }
 
@@ -18,6 +21,9 @@ namespace ltn {
 
 	function println(Int num) -> Void 
 		asm { "load 0" "print::int" "print::newline" }
+
+	function println(Bool b) -> Void 
+		asm { "load 0" "print::bool" "print::newline" }
 
 	function println(Float num) -> Void 
 		asm { "load 0" "print::float" "print::newline" }

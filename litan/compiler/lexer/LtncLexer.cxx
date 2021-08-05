@@ -22,7 +22,9 @@ std::vector<ltnc::Token> ltnc::Lexer::tokenize(
 			LNC::chr('=', TokenType::BIGGEREQUAL)
 		}),
 		LNC::chr('<', TokenType::SMALLER, {
-			LNC::chr('=', TokenType::SMALLEREQUAL)
+			LNC::chr('=', TokenType::SMALLEREQUAL, {
+				LNC::chr('>', TokenType::SPACESHIP)
+			})
 		}),
 
 		LNC::chr('&', TokenType::BIT_AND, {
