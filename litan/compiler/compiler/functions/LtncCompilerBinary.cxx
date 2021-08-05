@@ -102,6 +102,7 @@ ltnc::ExprInfo ltnc::compile::binaryExpr(CompilerPack & compPkg, const ExprBinar
 	case TokenType::STAR: 			return buildBinary(compPkg, expr, "mlt", useSuffux);
 	case TokenType::SLASH: 			return buildBinary(compPkg, expr, "div", useSuffux);
 	case TokenType::MOD: 			return buildBinary(compPkg, expr, "mod", useSuffux);
+	case TokenType::POWER: 			return buildBinary(compPkg, expr, "pow", useSuffux);
 
 	// error
 	default: 						throw error::invalidBinaryExpression(expr.debugInfo);

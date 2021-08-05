@@ -58,6 +58,8 @@ std::vector<ltnc::Token> ltnc::Lexer::tokenize(
 				LNC::ignoreLine()
 			}),
 		}),
+		LNC::chr('^', TokenType::POWER),
+
 		LNC::string(),
 		LNC::newLine(),
 		LNC::ignore('\t'),

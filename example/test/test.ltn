@@ -11,4 +11,6 @@ function main() -> Void {
 	->ltn::println(42 <=> 0 == 1);
 	->ltn::println(0 <=> 0 == 0);
 	->ltn::println(0 <=> 2 == -1);
+
+	->ltn::println(2^16);
 }

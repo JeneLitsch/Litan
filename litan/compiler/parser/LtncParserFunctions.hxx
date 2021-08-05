@@ -37,6 +37,7 @@ namespace ltnc {
 		std::shared_ptr<Expr> threeWay(ParserPackage & parsePkg);
 		std::shared_ptr<Expr> term(ParserPackage & parsePkg);
 		std::shared_ptr<Expr> product(ParserPackage & parsePkg);
+		std::shared_ptr<Expr> exponent(ParserPackage & parsePkg);
 		std::shared_ptr<Expr> unary(ParserPackage & parsePkg);
 		std::shared_ptr<Expr> primary(ParserPackage & parsePkg);
 		std::shared_ptr<ExprVar> var(ParserPackage & parsePkg);

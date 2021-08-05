@@ -57,6 +57,10 @@ newi 1
 mnsi
 eqli
 call FNX_println56
+newi 2
+newi 16
+powi
+call FNX_println55
 return
 
 

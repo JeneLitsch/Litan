@@ -66,6 +66,13 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::term(ParserPackage & parsePkg) {
 std::shared_ptr<ltnc::Expr> ltnc::parse::product(ParserPackage & parsePkg) {
 	return binary(
 		{ TokenType::STAR, TokenType::SLASH, TokenType::MOD },
+		exponent,
+		parsePkg);
+}
+
+std::shared_ptr<ltnc::Expr> ltnc::parse::exponent(ParserPackage & parsePkg) {
+	return binary(
+		{ TokenType::POWER },
 		unary,
 		parsePkg);
 }
