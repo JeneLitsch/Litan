@@ -21,4 +21,4 @@ namespace ltnc {
 	std::ostream & operator<<(
 		std::ostream & stream,
 		const FunctionSignature & fxSignature);
-};
+}

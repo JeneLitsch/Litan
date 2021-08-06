@@ -58,6 +58,7 @@ flags += [
 	"-Walloca",
 	"-Wparentheses",
 	"-Wunreachable-code-aggressive"
+	# "-fconcepts",
 ]
 
 print(flags)

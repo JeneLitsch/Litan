@@ -16,6 +16,11 @@ bool ltnc::operator==(const TypeId & l, const TypeId & r) {
 	return Symbol(l) == Symbol(r);
 }
 
+bool ltnc::operator!=(const TypeId & l, const TypeId & r) {
+	return !(l == r);
+}
+
+
 std::ostream & ltnc::operator<<(std::ostream & stream, const TypeId & typeId) {
 	stream << typeId.ns << typeId.name;
 	return stream;

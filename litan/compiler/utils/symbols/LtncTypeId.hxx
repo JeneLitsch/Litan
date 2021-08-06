@@ -9,5 +9,7 @@ namespace ltnc {
 	};
 
 	bool operator==(const TypeId & l, const TypeId & r);
+	bool operator!=(const TypeId & l, const TypeId & r);
 	std::ostream & operator<<(std::ostream & stream, const TypeId & typeId);
+
 }
