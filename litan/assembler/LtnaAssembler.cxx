@@ -175,8 +175,8 @@ namespace ltna {
 			{ "ext::6", { 2, [](auto args, auto) { return inst2Funct(InstCode::EXT6, toInt8(args[0])); }}},
 			{ "ext::7", { 2, [](auto args, auto) { return inst2Funct(InstCode::EXT7, toInt8(args[0])); }}},
 
-			{ "call", { 9, [](auto args, auto markerTable) { return inst9(InstCode::CALL, markerTable.find(args[0])); }}},
-			{ "goto", { 9, [](auto args, auto markerTable) { return inst9(InstCode::GOTO, markerTable.find(args[0])); }}},
+			{ "call", { 9, [](auto args, auto markerTable) { return inst8(InstCode::CALL, markerTable.find(args[0])); }}},
+			{ "goto", { 9, [](auto args, auto markerTable) { return inst8(InstCode::GOTO, markerTable.find(args[0])); }}},
 
 			{ "newl", { 5, [](auto args, auto) { return inst4(InstCode::NEWL, toInt32(args[0])); }}},
 			{ "newu", { 5, [](auto args, auto) { return inst4(InstCode::NEWU, toInt32(args[0])); }}},
