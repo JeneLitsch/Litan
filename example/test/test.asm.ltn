@@ -3,80 +3,32 @@ call FNX_main0
 exit
 
 
-// main ( -> Void ) 
 -> FNX_main0
-stackalloc 2
-newl 1
-newl 1
-logand
-store 0
-load 0
-call FNX_println56
-load 0
-newi 1
-smleqli
-call FNX_println56
-load 0
-lognot
-call FNX_println56
-newf 42.000000
-newf 0.000000
-spshf
-newi 1
-eqli
-call FNX_println56
-newf 0.000000
-newf 0.000000
-spshf
+stackalloc 0
 newi 0
-eqli
-call FNX_println56
-newf 0.000000
-newf 2.000000
-spshf
+newi 1000
+dec
+loop::range
+newi 0
 newi 1
-mnsi
-eqli
-call FNX_println56
-newi 42
+uneqli
+scrap
 newi 0
-spshi
 newi 1
-eqli
-call FNX_println56
+uneqli
+scrap
 newi 0
-newi 0
-spshi
-newi 0
-eqli
-call FNX_println56
-newi 0
-newi 2
-spshi
 newi 1
-mnsi
-eqli
-call FNX_println56
-newi 2
-newi 16
-powi
-call FNX_println55
-newf 2.000000
-newf 16.000000
-powf
-call FNX_println57
+uneqli
+scrap
+newi 0
 newi 1
-store 0
-newi 2
-store 1
-load 0
-call FNX_println55
-load 1
-call FNX_println55
+uneqli
+scrap
+loop::cont
 return
 
 
-// functionFromElsewhere ( Int -> Void ) 
 -> FNX_functionFromElsewhere1
 stackalloc 1
 store 0
@@ -85,7 +37,6 @@ call FNX_println55
 return
 
 
-// Int ( Raw -> Int ) 
 -> FNX_Int2
 stackalloc 1
 store 0
@@ -94,7 +45,6 @@ return
 error
 
 
-// Int ( Float -> Int ) 
 -> FNX_Int3
 stackalloc 1
 store 0
@@ -104,7 +54,6 @@ return
 error
 
 
-// Float ( Raw -> Float ) 
 -> FNX_Float4
 stackalloc 1
 store 0
@@ -113,7 +62,6 @@ return
 error
 
 
-// Float ( Int -> Float ) 
 -> FNX_Float5
 stackalloc 1
 store 0
@@ -123,7 +71,6 @@ return
 error
 
 
-// destroy ( Pointer -> Void ) 
 -> FNX_destroy6
 stackalloc 1
 store 0
@@ -132,7 +79,6 @@ heap::delete
 return
 
 
-// exists ( Pointer -> Bool ) 
 -> FNX_exists7
 stackalloc 1
 store 0
@@ -142,7 +88,6 @@ return
 error
 
 
-// min ( Int Int -> Int ) 
 -> FNX_min8
 stackalloc 2
 store 1
@@ -154,7 +99,6 @@ return
 error
 
 
-// min ( Float Float -> Float ) 
 -> FNX_min9
 stackalloc 2
 store 1
@@ -166,7 +110,6 @@ return
 error
 
 
-// max ( Int Int -> Int ) 
 -> FNX_max10
 stackalloc 2
 store 1
@@ -178,7 +121,6 @@ return
 error
 
 
-// max ( Float Float -> Float ) 
 -> FNX_max11
 stackalloc 2
 store 1
@@ -190,7 +132,6 @@ return
 error
 
 
-// round ( Float -> Int ) 
 -> FNX_round12
 stackalloc 1
 store 0
@@ -200,7 +141,6 @@ return
 error
 
 
-// floor ( Float -> Int ) 
 -> FNX_floor13
 stackalloc 1
 store 0
@@ -210,7 +150,6 @@ return
 error
 
 
-// ceil ( Float -> Int ) 
 -> FNX_ceil14
 stackalloc 1
 store 0
@@ -220,7 +159,6 @@ return
 error
 
 
-// Array ( -> Array ) 
 -> FNX_Array15
 stackalloc 0
 heap::allocate::array
@@ -228,7 +166,6 @@ return
 error
 
 
-// Array ( Int -> Array ) 
 -> FNX_Array16
 stackalloc 2
 store 0
@@ -252,7 +189,6 @@ return
 error
 
 
-// clear ( Array -> Void ) 
 -> FNX_clear17
 stackalloc 1
 store 0
@@ -261,7 +197,6 @@ array::clear
 return
 
 
-// insert ( Array Int Raw -> Void ) 
 -> FNX_insert18
 stackalloc 3
 store 2
@@ -274,7 +209,6 @@ array::insert
 return
 
 
-// erase ( Array Int -> Void ) 
 -> FNX_erase19
 stackalloc 2
 store 1
@@ -285,7 +219,6 @@ array::erase
 return
 
 
-// empty ( Array -> Bool ) 
 -> FNX_empty20
 stackalloc 1
 store 0
@@ -295,7 +228,6 @@ return
 error
 
 
-// size ( Array -> Int ) 
 -> FNX_size21
 stackalloc 1
 store 0
@@ -305,7 +237,6 @@ return
 error
 
 
-// pushback ( Array Raw -> Void ) 
 -> FNX_pushback22
 stackalloc 2
 store 1
@@ -316,7 +247,6 @@ array::pushback
 return
 
 
-// popback ( Array -> Raw ) 
 -> FNX_popback23
 stackalloc 1
 store 0
@@ -326,7 +256,6 @@ return
 error
 
 
-// at ( Array Int -> Raw ) 
 -> FNX_at24
 stackalloc 2
 store 1
@@ -338,7 +267,6 @@ return
 error
 
 
-// at ( Array Int Raw -> Void ) 
 -> FNX_at25
 stackalloc 3
 store 2
@@ -351,7 +279,6 @@ array::set
 return
 
 
-// front ( Array -> Raw ) 
 -> FNX_front26
 stackalloc 1
 store 0
@@ -360,7 +287,6 @@ array::front
 error
 
 
-// back ( Array -> Raw ) 
 -> FNX_back27
 stackalloc 1
 store 0
@@ -369,7 +295,6 @@ array::back
 error
 
 
-// Stack ( -> Stack ) 
 -> FNX_Stack28
 stackalloc 0
 heap::allocate::stack
@@ -377,7 +302,6 @@ return
 error
 
 
-// push ( Stack Raw -> Void ) 
 -> FNX_push29
 stackalloc 2
 store 1
@@ -388,7 +312,6 @@ stack::push
 return
 
 
-// pop ( Stack -> Raw ) 
 -> FNX_pop30
 stackalloc 1
 store 0
@@ -398,7 +321,6 @@ return
 error
 
 
-// top ( Stack -> Raw ) 
 -> FNX_top31
 stackalloc 1
 store 0
@@ -408,7 +330,6 @@ return
 error
 
 
-// empty ( Stack -> Bool ) 
 -> FNX_empty32
 stackalloc 1
 store 0
@@ -418,7 +339,6 @@ return
 error
 
 
-// size ( Stack -> Int ) 
 -> FNX_size33
 stackalloc 1
 store 0
@@ -428,7 +348,6 @@ return
 error
 
 
-// Queue ( -> Queue ) 
 -> FNX_Queue34
 stackalloc 0
 heap::allocate::queue
@@ -436,7 +355,6 @@ return
 error
 
 
-// push ( Queue Raw -> Void ) 
 -> FNX_push35
 stackalloc 2
 store 1
@@ -447,7 +365,6 @@ queue::push
 return
 
 
-// pop ( Queue -> Raw ) 
 -> FNX_pop36
 stackalloc 1
 store 0
@@ -457,7 +374,6 @@ return
 error
 
 
-// front ( Queue -> Raw ) 
 -> FNX_front37
 stackalloc 1
 store 0
@@ -467,7 +383,6 @@ return
 error
 
 
-// empty ( Queue -> Bool ) 
 -> FNX_empty38
 stackalloc 1
 store 0
@@ -477,7 +392,6 @@ return
 error
 
 
-// Deque ( -> Deque ) 
 -> FNX_Deque39
 stackalloc 0
 heap::allocate::deque
@@ -485,7 +399,6 @@ return
 error
 
 
-// clear ( Deque -> Void ) 
 -> FNX_clear40
 stackalloc 1
 store 0
@@ -494,7 +407,6 @@ deque::clear
 return
 
 
-// pushFront ( Deque Raw -> Void ) 
 -> FNX_pushFront41
 stackalloc 2
 store 1
@@ -505,7 +417,6 @@ deque::pushf
 return
 
 
-// popFront ( Deque -> Raw ) 
 -> FNX_popFront42
 stackalloc 1
 store 0
@@ -515,7 +426,6 @@ return
 error
 
 
-// pushBack ( Deque Raw -> Void ) 
 -> FNX_pushBack43
 stackalloc 2
 store 1
@@ -526,7 +436,6 @@ deque::pushb
 return
 
 
-// popBack ( Deque -> Raw ) 
 -> FNX_popBack44
 stackalloc 1
 store 0
@@ -536,7 +445,6 @@ return
 error
 
 
-// front ( Deque -> Raw ) 
 -> FNX_front45
 stackalloc 1
 store 0
@@ -546,7 +454,6 @@ return
 error
 
 
-// back ( Deque -> Raw ) 
 -> FNX_back46
 stackalloc 1
 store 0
@@ -556,7 +463,6 @@ return
 error
 
 
-// size ( Deque -> Int ) 
 -> FNX_size47
 stackalloc 1
 store 0
@@ -566,7 +472,6 @@ return
 error
 
 
-// empty ( Deque -> Bool ) 
 -> FNX_empty48
 stackalloc 1
 store 0
@@ -576,7 +481,6 @@ return
 error
 
 
-// print ( Raw -> Void ) 
 -> FNX_print49
 stackalloc 1
 store 0
@@ -585,7 +489,6 @@ print::uint
 return
 
 
-// print ( Int -> Void ) 
 -> FNX_print50
 stackalloc 1
 store 0
@@ -594,7 +497,6 @@ print::int
 return
 
 
-// print ( Bool -> Void ) 
 -> FNX_print51
 stackalloc 1
 store 0
@@ -603,7 +505,6 @@ print::bool
 return
 
 
-// print ( Float -> Void ) 
 -> FNX_print52
 stackalloc 1
 store 0
@@ -612,7 +513,6 @@ print::float
 return
 
 
-// print ( String -> Void ) 
 -> FNX_print53
 stackalloc 1
 store 0
@@ -621,7 +521,6 @@ print::string
 return
 
 
-// println ( Raw -> Void ) 
 -> FNX_println54
 stackalloc 1
 store 0
@@ -631,7 +530,6 @@ print::newline
 return
 
 
-// println ( Int -> Void ) 
 -> FNX_println55
 stackalloc 1
 store 0
@@ -641,7 +539,6 @@ print::newline
 return
 
 
-// println ( Bool -> Void ) 
 -> FNX_println56
 stackalloc 1
 store 0
@@ -651,7 +548,6 @@ print::newline
 return
 
 
-// println ( Float -> Void ) 
 -> FNX_println57
 stackalloc 1
 store 0
@@ -661,7 +557,6 @@ print::newline
 return
 
 
-// println ( String -> Void ) 
 -> FNX_println58
 stackalloc 1
 store 0
@@ -671,21 +566,18 @@ print::newline
 return
 
 
-// println ( -> Void ) 
 -> FNX_println59
 stackalloc 0
 print::newline
 return
 
 
-// error ( -> Void ) 
 -> FNX_error60
 stackalloc 0
 error
 return
 
 
-// add ( String String -> String ) 
 -> FNX_add61
 stackalloc 2
 store 1

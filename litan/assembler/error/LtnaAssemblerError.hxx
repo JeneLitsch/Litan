@@ -8,6 +8,9 @@ namespace ltna {
 			std::uint64_t lineNr);
 
 		AssemblerError(
+			const std::string & inst);
+
+		AssemblerError(
 			const std::string & msg,
 			const std::string & inst,
 			std::uint64_t lineNr);

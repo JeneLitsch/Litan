@@ -14,6 +14,8 @@ namespace ltnc {
 
 		static Inst load(std::uint32_t addr);
 		static Inst store(std::uint32_t addr);
+		
+		static Inst stringData(const std::string & str);
 
 	protected:
 		Inst(const std::string & string = "");

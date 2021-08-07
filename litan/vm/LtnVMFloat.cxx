@@ -60,9 +60,11 @@ void ltn::VM::maxf(){
 
 // Comparison
 void ltn::VM::eqlf(){
+	const std::uint8_t invert = this->getArg8();
 	const double l = this->env.acc.popF();
 	const double r = this->env.acc.popF();
-	this->env.acc.push(l == r);
+	const bool result = (l == r) != (invert & 0x01);
+	this->env.acc.push(result);
 }
 void ltn::VM::smlf(){
 	const double r = this->env.acc.popF();

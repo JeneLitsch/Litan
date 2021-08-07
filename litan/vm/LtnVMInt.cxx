@@ -66,9 +66,11 @@ void ltn::VM::maxi(){
 
 // Comparison
 void ltn::VM::eqli(){
+	const std::uint8_t invert = this->getArg8();
 	const std::int64_t r = this->env.acc.popI();
 	const std::int64_t l = this->env.acc.popI();
-	this->env.acc.push(l == r);
+	const bool result = (l == r) != (invert & 0x01);
+	this->env.acc.push(result);
 }
 
 void ltn::VM::smli(){

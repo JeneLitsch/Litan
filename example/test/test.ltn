@@ -1,25 +1,12 @@
 function main() -> Void {
-	{
-		var Bool b = true && true;
-		->ltn::println(b);
-		->ltn::println(b <= 1);
-		->ltn::println(!b);
-
-		->ltn::println(42.0 <=> 0.0 == 1);
-		->ltn::println(0.0 <=> 0.0 == 0);
-		->ltn::println(0.0 <=> 2.0 == -1);
-
-		->ltn::println(42 <=> 0 == 1);
-		->ltn::println(0 <=> 0 == 0);
-		->ltn::println(0 <=> 2 == -1);
-
-		->ltn::println(2^16);
-		->ltn::println(2.0^16.0);
+	repeat(1000) {
+		0 != 1;
+		0 != 1;
+		0 != 1;
+		0 != 1;
 	}
-	{
-		var Int a = 1;
-		var Int b = 2;
-		->ltn::println(a);
-		->ltn::println(b);
-	}
+	// ->ltn::println(0 != 1);
+	// ->ltn::println(0 == 1);
+	// ->ltn::println(2 != 2);
+	// ->ltn::println(2 == 2);
 }

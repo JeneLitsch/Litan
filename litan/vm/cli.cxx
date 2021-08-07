@@ -10,7 +10,7 @@ void benchmark(const std::vector<std::uint64_t> & instructions, unsigned number)
 	ltn::VM vm;
 	std::cout << ">> Initialising vm" << std::endl;
 	vm.init(instructions);
-	std::cout << ">> Benchmarking 100x" << std::endl;
+	std::cout << ">> Benchmarking " << number << "x" << std::endl;
 	auto t0 = std::chrono::high_resolution_clock::now();
 	for(unsigned i = 0; i < number; i++){
 		vm.run();

@@ -8,6 +8,7 @@
 #include "LtnaInstructionBuilder.hxx"
 
 #include "LtnaUnknownInstruction.hxx"
+using namespace std;
 
 namespace ltna {
 
@@ -31,168 +32,178 @@ namespace ltna {
 	}
 
 	static const TranslationTable translationTable = {
-		{0, TranslationBlock{
-			{ "exit", { fx(inst1, InstCode::EXIT)}},
-			{ "error", { fx(inst1, InstCode::ERROR)}},
-			{ "scrap", { fx(inst1, InstCode::SCRAP)}},
-			{ "clear", { fx(inst1, InstCode::CLEAR)}},
-			{ "copy", { fx(inst1, InstCode::COPY)}},
-			{ "size", { fx(inst1, InstCode::SIZE)}},
+		// No arguments
+		{0, {
+			{ "exit", { fx(cInst, InstCode::EXIT)}},
+			{ "error", { fx(cInst, InstCode::ERROR)}},
+			{ "scrap", { fx(cInst, InstCode::SCRAP)}},
+			{ "clear", { fx(cInst, InstCode::CLEAR)}},
+			{ "copy", { fx(cInst, InstCode::COPY)}},
+			{ "size", { fx(cInst, InstCode::SIZE)}},
 			
-			{ "print::newline", { fx(inst2Format, InstCode::PRINT, ltn::OuputFormat::NEWLINE)}},
-			{ "print::int", { fx(inst2Format, InstCode::PRINT, ltn::OuputFormat::INT)}},
-			{ "print::uint", { fx(inst2Format, InstCode::PRINT, ltn::OuputFormat::UINT)}},
-			{ "print::bool", { fx(inst2Format, InstCode::PRINT, ltn::OuputFormat::BOOL)}},
-			{ "print::float", { fx(inst2Format, InstCode::PRINT, ltn::OuputFormat::FLOAT)}},
-			{ "print::string", { fx(inst2Format, InstCode::PRINT, ltn::OuputFormat::STRING)}},
+			{ "print::newline", { fx(fInstFormat, InstCode::PRINT, ltn::OuputFormat::NEWLINE)}},
+			{ "print::int", { fx(fInstFormat, InstCode::PRINT, ltn::OuputFormat::INT)}},
+			{ "print::uint", { fx(fInstFormat, InstCode::PRINT, ltn::OuputFormat::UINT)}},
+			{ "print::bool", { fx(fInstFormat, InstCode::PRINT, ltn::OuputFormat::BOOL)}},
+			{ "print::float", { fx(fInstFormat, InstCode::PRINT, ltn::OuputFormat::FLOAT)}},
+			{ "print::string", { fx(fInstFormat, InstCode::PRINT, ltn::OuputFormat::STRING)}},
 
-			{ "addi", { fx(inst1, InstCode::ADDI)}}, 
-			{ "subi", { fx(inst1, InstCode::SUBI)}}, 
-			{ "mlti", { fx(inst1, InstCode::MLTI)}}, 
-			{ "divi", { fx(inst1, InstCode::DIVI)}}, 
-			{ "modi", { fx(inst1, InstCode::MODI)}}, 
-			{ "powi", { fx(inst1, InstCode::POWI)}},
-			{ "inc",  { fx(inst1, InstCode::INCI)}},
-			{ "dec",  { fx(inst1, InstCode::DECI)}},
-			{ "inci", { fx(inst1, InstCode::INCI)}},
-			{ "deci", { fx(inst1, InstCode::DECI)}},
-			{ "mnsi", { fx(inst1, InstCode::MNSI)}},
-			{ "mini", { fx(inst1, InstCode::MINI)}},
-			{ "maxi", { fx(inst1, InstCode::MAXI)}},
+			{ "addi", { fx(cInst, InstCode::ADDI)}}, 
+			{ "subi", { fx(cInst, InstCode::SUBI)}}, 
+			{ "mlti", { fx(cInst, InstCode::MLTI)}}, 
+			{ "divi", { fx(cInst, InstCode::DIVI)}}, 
+			{ "modi", { fx(cInst, InstCode::MODI)}}, 
+			{ "powi", { fx(cInst, InstCode::POWI)}},
+			{ "inc",  { fx(cInst, InstCode::INCI)}},
+			{ "dec",  { fx(cInst, InstCode::DECI)}},
+			{ "inci", { fx(cInst, InstCode::INCI)}},
+			{ "deci", { fx(cInst, InstCode::DECI)}},
+			{ "mnsi", { fx(cInst, InstCode::MNSI)}},
+			{ "mini", { fx(cInst, InstCode::MINI)}},
+			{ "maxi", { fx(cInst, InstCode::MAXI)}},
 
-			{ "eqli", { fx(inst1, InstCode::EQLI)}},
-			{ "smli", { fx(inst1, InstCode::SMLI)}},
-			{ "bgri", { fx(inst1, InstCode::BGRI)}},
-			{ "spshi", { fx(inst1, InstCode::SPSHI)}},
+			{ "eqli", { fx(cInst, InstCode::EQLI)}},
+			{ "uneqli", { fx(fInstFunct, InstCode::EQLI, 1)}},
+			{ "smli", { fx(cInst, InstCode::SMLI)}},
+			{ "bgri", { fx(cInst, InstCode::BGRI)}},
+			{ "spshi", { fx(cInst, InstCode::SPSHI)}},
 		
-			{ "addf", { fx(inst1, InstCode::ADDF)}}, 
-			{ "subf", { fx(inst1, InstCode::SUBF)}}, 
-			{ "mltf", { fx(inst1, InstCode::MLTF)}}, 
-			{ "divf", { fx(inst1, InstCode::DIVF)}}, 
-			{ "modf", { fx(inst1, InstCode::MODF)}}, 
-			{ "powf", { fx(inst1, InstCode::POWF)}},
-			{ "mnsf", { fx(inst1, InstCode::MNSF)}},
-			{ "minf", { fx(inst1, InstCode::MINF)}},
-			{ "maxf", { fx(inst1, InstCode::MAXF)}},
+			{ "addf", { fx(cInst, InstCode::ADDF)}}, 
+			{ "subf", { fx(cInst, InstCode::SUBF)}}, 
+			{ "mltf", { fx(cInst, InstCode::MLTF)}}, 
+			{ "divf", { fx(cInst, InstCode::DIVF)}}, 
+			{ "modf", { fx(cInst, InstCode::MODF)}}, 
+			{ "powf", { fx(cInst, InstCode::POWF)}},
+			{ "mnsf", { fx(cInst, InstCode::MNSF)}},
+			{ "minf", { fx(cInst, InstCode::MINF)}},
+			{ "maxf", { fx(cInst, InstCode::MAXF)}},
 
-			{ "eqlf", { fx(inst1, InstCode::EQLF)}},
-			{ "smlf", { fx(inst1, InstCode::SMLF)}},
-			{ "bgrf", { fx(inst1, InstCode::BGRF)}},
-			{ "spshf", { fx(inst1, InstCode::SPSHF)}},
+			{ "eqlf", { fx(cInst, InstCode::EQLF)}},
+			{ "uneqlf", { fx(fInstFunct, InstCode::EQLF, 1)}},
+			{ "smlf", { fx(cInst, InstCode::SMLF)}},
+			{ "bgrf", { fx(cInst, InstCode::BGRF)}},
+			{ "spshf", { fx(cInst, InstCode::SPSHF)}},
 
-			{ "bitor", { fx(inst1, InstCode::BITOR)}},
-			{ "bitand", { fx(inst1, InstCode::BITAND)}},
-			{ "bitxor", { fx(inst1, InstCode::BITXOR)}},
-			{ "bitnot", { fx(inst1, InstCode::BITNOT)}},
+			{ "bitor", { fx(cInst, InstCode::BITOR)}},
+			{ "bitand", { fx(cInst, InstCode::BITAND)}},
+			{ "bitxor", { fx(cInst, InstCode::BITXOR)}},
+			{ "bitnot", { fx(cInst, InstCode::BITNOT)}},
 		
-			{ "logor", { fx(inst1, InstCode::LOGOR)}},
-			{ "logand", { fx(inst1, InstCode::LOGAND)}},
-			{ "logxor", { fx(inst1, InstCode::LOGXOR)}},
-			{ "lognot", { fx(inst1, InstCode::LOGNOT)}},
+			{ "logor", { fx(cInst, InstCode::LOGOR)}},
+			{ "logand", { fx(cInst, InstCode::LOGAND)}},
+			{ "logxor", { fx(cInst, InstCode::LOGXOR)}},
+			{ "lognot", { fx(cInst, InstCode::LOGNOT)}},
 
-			{ "casti", { fx(inst2Funct, InstCode::CASTI, 0)}},
-			{ "castf", { fx(inst2Funct, InstCode::CASTF, 0)}},
+			{ "casti", { fx(fInstFunct, InstCode::CASTI, 0)}},
+			{ "castf", { fx(fInstFunct, InstCode::CASTF, 0)}},
 
-			{ "return", { fx(inst1, InstCode::RETURN)}},
-			{ "ifnx", { fx(inst1, InstCode::IFSK)}},
+			{ "return", { fx(cInst, InstCode::RETURN)}},
+			{ "ifnx", { fx(cInst, InstCode::IFSK)}},
 
-			{ "load", { fx(inst1, InstCode::LOAD)}},
-			{ "store", { fx(inst1, InstCode::STORE)}},
+			{ "load", { fx(cInst, InstCode::LOAD)}},
+			{ "store", { fx(cInst, InstCode::STORE)}},
 
-			{ "heap::delete", { fx(inst1, InstCode::HEAP_DELETE)}},
-			{ "heap::exist", { fx(inst1, InstCode::HEAP_EXIST)}},
-			{ "heap::copy", { fx(inst1, InstCode::HEAP_COPY)}},
-			{ "heap::allocate::array", { fx(inst2Type, InstCode::HEAP_ALLOCATE, ltn::HeapType::ARRAY)}},
-			{ "heap::allocate::stack", { fx(inst2Type, InstCode::HEAP_ALLOCATE, ltn::HeapType::STACK)}},
-			{ "heap::allocate::queue", { fx(inst2Type, InstCode::HEAP_ALLOCATE, ltn::HeapType::QUEUE)}},
-			{ "heap::allocate::deque", { fx(inst2Type, InstCode::HEAP_ALLOCATE, ltn::HeapType::DEQUE)}},
-			{ "heap::allocate::string", { fx(inst2Type, InstCode::HEAP_ALLOCATE, ltn::HeapType::STRING)}},
-			{ "heap::istype::array", { fx(inst2Type, InstCode::HEAP_ISTYPE, ltn::HeapType::ARRAY)}},
-			{ "heap::istype::stack", { fx(inst2Type, InstCode::HEAP_ISTYPE, ltn::HeapType::STACK)}},
-			{ "heap::istype::queue", { fx(inst2Type, InstCode::HEAP_ISTYPE, ltn::HeapType::QUEUE)}},
-			{ "heap::istype::deque", { fx(inst2Type, InstCode::HEAP_ISTYPE, ltn::HeapType::DEQUE)}},
-			{ "heap::istype::string", { fx(inst2Type, InstCode::HEAP_ISTYPE, ltn::HeapType::STRING)}},
+			{ "heap::delete", { fx(cInst, InstCode::HEAP_DELETE)}},
+			{ "heap::exist", { fx(cInst, InstCode::HEAP_EXIST)}},
+			{ "heap::copy", { fx(cInst, InstCode::HEAP_COPY)}},
+			{ "heap::allocate::array", { fx(fInstType, InstCode::HEAP_ALLOCATE, ltn::HeapType::ARRAY)}},
+			{ "heap::allocate::stack", { fx(fInstType, InstCode::HEAP_ALLOCATE, ltn::HeapType::STACK)}},
+			{ "heap::allocate::queue", { fx(fInstType, InstCode::HEAP_ALLOCATE, ltn::HeapType::QUEUE)}},
+			{ "heap::allocate::deque", { fx(fInstType, InstCode::HEAP_ALLOCATE, ltn::HeapType::DEQUE)}},
+			{ "heap::allocate::string", { fx(fInstType, InstCode::HEAP_ALLOCATE, ltn::HeapType::STRING)}},
+			{ "heap::istype::array", { fx(fInstType, InstCode::HEAP_ISTYPE, ltn::HeapType::ARRAY)}},
+			{ "heap::istype::stack", { fx(fInstType, InstCode::HEAP_ISTYPE, ltn::HeapType::STACK)}},
+			{ "heap::istype::queue", { fx(fInstType, InstCode::HEAP_ISTYPE, ltn::HeapType::QUEUE)}},
+			{ "heap::istype::deque", { fx(fInstType, InstCode::HEAP_ISTYPE, ltn::HeapType::DEQUE)}},
+			{ "heap::istype::string", { fx(fInstType, InstCode::HEAP_ISTYPE, ltn::HeapType::STRING)}},
 
-			{ "array::set", { fx(inst1, InstCode::ARRAY_SET)}},
-			{ "array::get", { fx(inst1, InstCode::ARRAY_GET)}},
-			{ "array::clear", { fx(inst1, InstCode::ARRAY_CLEAR)}},
-			{ "array::size", { fx(inst1, InstCode::ARRAY_SIZE)}},
-			{ "array::empty", { fx(inst1, InstCode::ARRAY_EMPTY)}},
-			{ "array::fill", { fx(inst1, InstCode::ARRAY_FILL)}},
-			{ "array::resize", { fx(inst1, InstCode::ARRAY_RESIZE)}},
-			{ "array::erase", { fx(inst1, InstCode::ARRAY_ERASE)}},
-			{ "array::insert", { fx(inst1, InstCode::ARRAY_INSERT)}},
-			{ "array::pushback", { fx(inst1, InstCode::ARRAY_PUSHB)}},
-			{ "array::popback", { fx(inst1, InstCode::ARRAY_POPB)}},
-			{ "array::front", { fx(inst1, InstCode::ARRAY_FRONT)}},
-			{ "array::back", { fx(inst1, InstCode::ARRAY_BACK)}},
+			{ "array::set", { fx(cInst, InstCode::ARRAY_SET)}},
+			{ "array::get", { fx(cInst, InstCode::ARRAY_GET)}},
+			{ "array::clear", { fx(cInst, InstCode::ARRAY_CLEAR)}},
+			{ "array::size", { fx(cInst, InstCode::ARRAY_SIZE)}},
+			{ "array::empty", { fx(cInst, InstCode::ARRAY_EMPTY)}},
+			{ "array::fill", { fx(cInst, InstCode::ARRAY_FILL)}},
+			{ "array::resize", { fx(cInst, InstCode::ARRAY_RESIZE)}},
+			{ "array::erase", { fx(cInst, InstCode::ARRAY_ERASE)}},
+			{ "array::insert", { fx(cInst, InstCode::ARRAY_INSERT)}},
+			{ "array::pushback", { fx(cInst, InstCode::ARRAY_PUSHB)}},
+			{ "array::popback", { fx(cInst, InstCode::ARRAY_POPB)}},
+			{ "array::front", { fx(cInst, InstCode::ARRAY_FRONT)}},
+			{ "array::back", { fx(cInst, InstCode::ARRAY_BACK)}},
 
-			{ "stack::push", { fx(inst1, InstCode::STACK_PUSH)}},
-			{ "stack::pop", { fx(inst1, InstCode::STACK_POP)}},
-			{ "stack::top", { fx(inst1, InstCode::STACK_TOP)}},
-			{ "stack::size", { fx(inst1, InstCode::STACK_SIZE)}},
-			{ "stack::empty", { fx(inst1, InstCode::STACK_EMPTY)}},
-			{ "stack::clear", { fx(inst1, InstCode::STACk_CLEAR)}},
+			{ "stack::push", { fx(cInst, InstCode::STACK_PUSH)}},
+			{ "stack::pop", { fx(cInst, InstCode::STACK_POP)}},
+			{ "stack::top", { fx(cInst, InstCode::STACK_TOP)}},
+			{ "stack::size", { fx(cInst, InstCode::STACK_SIZE)}},
+			{ "stack::empty", { fx(cInst, InstCode::STACK_EMPTY)}},
+			{ "stack::clear", { fx(cInst, InstCode::STACk_CLEAR)}},
 
-			{ "queue::push", { fx(inst1, InstCode::QUEUE_PUSH)}},
-			{ "queue::pop", { fx(inst1, InstCode::QUEUE_POP)}},
-			{ "queue::front", { fx(inst1, InstCode::QUEUE_FRONT)}},
-			{ "queue::size", { fx(inst1, InstCode::QUEUE_SIZE)}},
-			{ "queue::empty", { fx(inst1, InstCode::QUEUE_EMPTY)}},
-			{ "queue::clear", { fx(inst1, InstCode::QUEUE_CLEAR)}},
+			{ "queue::push", { fx(cInst, InstCode::QUEUE_PUSH)}},
+			{ "queue::pop", { fx(cInst, InstCode::QUEUE_POP)}},
+			{ "queue::front", { fx(cInst, InstCode::QUEUE_FRONT)}},
+			{ "queue::size", { fx(cInst, InstCode::QUEUE_SIZE)}},
+			{ "queue::empty", { fx(cInst, InstCode::QUEUE_EMPTY)}},
+			{ "queue::clear", { fx(cInst, InstCode::QUEUE_CLEAR)}},
 
-			{ "deque::pushf", { fx(inst1, InstCode::DEQUE_PUSHF)}},
-			{ "deque::pushb", { fx(inst1, InstCode::DEQUE_PUSHB)}},
-			{ "deque::popf", { fx(inst1, InstCode::DEQUE_POPF)}},
-			{ "deque::popb", { fx(inst1, InstCode::DEQUE_POPB)}},
-			{ "deque::front", { fx(inst1, InstCode::DEQUE_FRONT)}},
-			{ "deque::back", { fx(inst1, InstCode::DEQUE_BACK)}},
-			{ "deque::size", { fx(inst1, InstCode::DEQUE_SIZE)}},
-			{ "deque::empty", { fx(inst1, InstCode::DEQUE_EMPTY)}},
-			{ "deque::clear", { fx(inst1, InstCode::DEQUE_CLEAR)}},
+			{ "deque::pushf", { fx(cInst, InstCode::DEQUE_PUSHF)}},
+			{ "deque::pushb", { fx(cInst, InstCode::DEQUE_PUSHB)}},
+			{ "deque::popf", { fx(cInst, InstCode::DEQUE_POPF)}},
+			{ "deque::popb", { fx(cInst, InstCode::DEQUE_POPB)}},
+			{ "deque::front", { fx(cInst, InstCode::DEQUE_FRONT)}},
+			{ "deque::back", { fx(cInst, InstCode::DEQUE_BACK)}},
+			{ "deque::size", { fx(cInst, InstCode::DEQUE_SIZE)}},
+			{ "deque::empty", { fx(cInst, InstCode::DEQUE_EMPTY)}},
+			{ "deque::clear", { fx(cInst, InstCode::DEQUE_CLEAR)}},
 
-			{ "string::add", { fx(inst1, InstCode::STRING_ADD)}},
+			{ "string::add", { fx(cInst, InstCode::STRING_ADD)}},
 
-			{ "loop::inf", { fx(inst1, InstCode::LOOP_INF)}},
-			{ "loop::range", { fx(inst1, InstCode::LOOP_RANGE)}},
-			{ "loop::cont", { fx(inst1, InstCode::LOOP_CONT)}},
-			{ "loop::stop", { fx(inst1, InstCode::LOOP_STOP)}},
-			{ "loop::idx", { fx(inst1, InstCode::LOOP_IDX)}},
+			{ "loop::inf", { fx(cInst, InstCode::LOOP_INF)}},
+			{ "loop::range", { fx(cInst, InstCode::LOOP_RANGE)}},
+			{ "loop::cont", { fx(cInst, InstCode::LOOP_CONT)}},
+			{ "loop::stop", { fx(cInst, InstCode::LOOP_STOP)}},
+			{ "loop::idx", { fx(cInst, InstCode::LOOP_IDX)}},
 
 		}},
-		{1, TranslationBlock{
-			{ "casti", {[](auto args, auto) { return inst2Funct(InstCode::CASTI, toInt8(args[0])); }}},
+		// One argument
+		{1, {
+			{ "casti", {[](auto args, auto) { return fInstFunct(InstCode::CASTI, toInt8(args[0])); }}},
 			
-			{ "ext::0", {[](auto args, auto) { return inst2Funct(InstCode::EXT0, toInt8(args[0])); }}},
-			{ "ext::1", {[](auto args, auto) { return inst2Funct(InstCode::EXT1, toInt8(args[0])); }}},
-			{ "ext::2", {[](auto args, auto) { return inst2Funct(InstCode::EXT2, toInt8(args[0])); }}},
-			{ "ext::3", {[](auto args, auto) { return inst2Funct(InstCode::EXT3, toInt8(args[0])); }}},
-			{ "ext::4", {[](auto args, auto) { return inst2Funct(InstCode::EXT4, toInt8(args[0])); }}},
-			{ "ext::5", {[](auto args, auto) { return inst2Funct(InstCode::EXT5, toInt8(args[0])); }}},
-			{ "ext::6", {[](auto args, auto) { return inst2Funct(InstCode::EXT6, toInt8(args[0])); }}},
-			{ "ext::7", {[](auto args, auto) { return inst2Funct(InstCode::EXT7, toInt8(args[0])); }}},
+			{ "ext::0", {[](auto args, auto) { return fInstFunct(InstCode::EXT0, toInt8(args[0])); }}},
+			{ "ext::1", {[](auto args, auto) { return fInstFunct(InstCode::EXT1, toInt8(args[0])); }}},
+			{ "ext::2", {[](auto args, auto) { return fInstFunct(InstCode::EXT2, toInt8(args[0])); }}},
+			{ "ext::3", {[](auto args, auto) { return fInstFunct(InstCode::EXT3, toInt8(args[0])); }}},
+			{ "ext::4", {[](auto args, auto) { return fInstFunct(InstCode::EXT4, toInt8(args[0])); }}},
+			{ "ext::5", {[](auto args, auto) { return fInstFunct(InstCode::EXT5, toInt8(args[0])); }}},
+			{ "ext::6", {[](auto args, auto) { return fInstFunct(InstCode::EXT6, toInt8(args[0])); }}},
+			{ "ext::7", {[](auto args, auto) { return fInstFunct(InstCode::EXT7, toInt8(args[0])); }}},
 
-			{ "call", {[](auto args, auto markerTable) { return inst8(InstCode::CALL, markerTable.find(args[0])); }}},
-			{ "goto", {[](auto args, auto markerTable) { return inst8(InstCode::GOTO, markerTable.find(args[0])); }}},
+			{ "call", {[](auto args, auto markerTable) { return jInst(InstCode::CALL, markerTable.find(args[0])); }}},
+			{ "goto", {[](auto args, auto markerTable) { return jInst(InstCode::GOTO, markerTable.find(args[0])); }}},
 
-			{ "newl", {[](auto args, auto) { return inst4(InstCode::NEWL, toInt32(args[0])); }}},
-			{ "newu", {[](auto args, auto) { return inst4(InstCode::NEWU, toInt32(args[0])); }}},
-			{ "stackalloc", {[](auto args, auto) { return inst4(InstCode::STACKALLOC, toInt32(args[0])); }}},
+			{ "load", {[](auto args, auto) { return pInst(InstCode::LOAD, 1, toInt32(args[0])); }}},
+			{ "store", {[](auto args, auto) { return pInst(InstCode::STORE, 1, toInt32(args[0])); }}},
+			
+			{ "newl", {[](auto args, auto) { return vInst(InstCode::NEWL, toInt32(args[0])); }}},
+			{ "newu", {[](auto args, auto) { return vInst(InstCode::NEWU, toInt32(args[0])); }}},
+			{ "stackalloc", {[](auto args, auto) { return vInst(InstCode::STACKALLOC, toInt32(args[0])); }}},
 		}},
-		{-1, TranslationBlock{
-			{ "string::data", InstructionInfo([](auto args, auto) { return instX(InstCode::STRING_DATA, args); })},
+		// Multiple Argments
+		{-1, {
+			{ "string::data", InstructionInfo([](auto args, auto) { return xInst(InstCode::STRING_DATA, args); })},
 		}},
 	};
 
-	// interate over code to find and save markers with their jump addresses
+	// Iterate over instructions and track all jumpmarks
 	MarkerTable searchMarkers(const std::vector<TokenPackage> & tokenPackages) {
 		ltna::MarkerTable markerTable;
 		std::size_t cmdNr = 0;
-		for(const TokenPackage & pkg : tokenPackages){		
+		for(const TokenPackage & pkg : tokenPackages){
+			// ingore empty line	
 			if(pkg.inst == "") {}
+			// ingore comments
 			if(pkg.inst == "//") {}
+			// next instruction after jumpmark
 			else if(pkg.inst == "->") {
-				// + 1 because of goto MAIN
 				markerTable.add(pkg.args[0], cmdNr + 1);
 			}
 			else{
@@ -202,7 +213,7 @@ namespace ltna {
 		return markerTable;
 	}
 
-
+	// Find and returns a single Instruction
 	const InstructionInfo & findInstruction(int blockId, const std::string & name) {
 		if(translationTable.contains(blockId)) {
 			const auto & block = translationTable.at(blockId);
@@ -217,6 +228,7 @@ namespace ltna {
 		throw UnknownInstruction(name, 0);
 	}
 
+	// Assembles a instruction to a 64-Bit/8-Byte Block 
 	std::uint64_t toInstruction(
 		const TokenPackage & pkg,
 		const MarkerTable & markerTable) {
@@ -226,7 +238,7 @@ namespace ltna {
 	}
 }
 
-// assemble code
+// Assembles code to Instruction list
 std::vector<std::uint64_t> ltna::Assembler::assemble(const std::vector<TokenPackage> & tokens) {
 
 	std::vector<std::uint64_t> instructions;

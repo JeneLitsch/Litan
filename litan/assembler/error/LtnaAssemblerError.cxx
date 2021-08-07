@@ -8,6 +8,12 @@ ltna::AssemblerError::AssemblerError(
 	lineNr(lineNr) {}
 
 ltna::AssemblerError::AssemblerError(
+	const std::string & msg) 
+:	Error(msg),
+	inst(""),
+	lineNr(0) {}
+
+ltna::AssemblerError::AssemblerError(
 	const std::string & msg,
 	const std::string & inst,
 	std::uint64_t lineNr) 
