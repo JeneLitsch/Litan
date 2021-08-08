@@ -1,5 +1,20 @@
+function fx(Int x) -> Void {
+	var Int a = 4;
+	{
+		var Float f = 3.5;
+		->ltn::println(a);
+		->ltn::println(x);
+		->ltn::println(f);
+	}
+}
+
 function main() -> Void {
 	repeat(100) {
 		->fx6();
 	}
+	// var Int a = 4;
+	// var Int b = -4;
+	// ->ltn::println(a);
+	// ->ltn::println(b);
+	// ->fx(42);
 }

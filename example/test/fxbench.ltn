@@ -23,6 +23,7 @@ function fx2() -> Void {
 	->fx1();
 	->fx1();
 	->fx1();
+	return;
 }
 
 function fx3() -> Void {
@@ -41,6 +42,7 @@ function fx3() -> Void {
 	->fx2();
 	->fx2();
 	->fx2();
+	return;
 }
 
 function fx4() -> Void {
@@ -59,6 +61,7 @@ function fx4() -> Void {
 	->fx3();
 	->fx3();
 	->fx3();
+	return;
 }
 
 function fx5() -> Void {
@@ -77,6 +80,7 @@ function fx5() -> Void {
 	->fx4();
 	->fx4();
 	->fx4();
+	return;
 }
 
 function fx6() -> Void {
@@ -95,4 +99,5 @@ function fx6() -> Void {
 	->fx5();
 	->fx5();
 	->fx5();
+	return;
 }

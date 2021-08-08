@@ -5,14 +5,14 @@
 void ltn::VM::load(){
 	const std::uint8_t immediate = this->getArg8();
 	const std::uint64_t addr = immediate ? this->getArg32() : this->env.acc.popU();
-	this->env.acc.push(this->env.stack.get().memoryBlock[addr]);
+	this->env.acc.push(this->env.stack.read(addr));
 }
 
 // pop value from acc and write to memory
 void ltn::VM::store(){
 	const std::uint8_t immediate = this->getArg8();
 	const std::uint64_t addr = immediate ? this->getArg32() : this->env.acc.popU();
-	this->env.stack.get().memoryBlock[addr] = this->env.acc.popU();
+	this->env.stack.write(addr, this->env.acc.popU());
 }
 
 void ltn::VM::copy(){
@@ -35,5 +35,5 @@ void ltn::VM::clear(){
 }
 
 void ltn::VM::stackalloc() {
-	this->env.stack.get().memoryBlock.resize(this->env.stack.get().memoryBlock.size() + this->getArg32());
+	this->env.stack.allocate(this->getArg32());
 }

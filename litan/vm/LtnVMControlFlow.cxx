@@ -2,7 +2,7 @@
 
 // jump and push address to adrStack
 void ltn::VM::call(){
-	this->env.stack.push(this->env.pc);
+	this->env.stack.call(this->env.pc);
 	this->env.pc = this->getArg56();
 }
 // jump without pushign the address to adrStack
@@ -11,7 +11,7 @@ void ltn::VM::got0(){
 }
 // pop last address from adrStack and jump to it 
 void ltn::VM::rtrn(){
-	this->env.pc = this->env.stack.get().jumpback;
+	this->env.pc = this->env.stack.jumpback();
 	this->env.stack.pop();
 }
 // skip one instruction if value popped is 0
