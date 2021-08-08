@@ -1,0 +1,98 @@
+function fx1() -> Void {
+	var Int a;
+	var Int b;
+	var Int c;
+	var Int d;
+	var Int e;
+	return;
+}
+
+function fx2() -> Void {
+	var Int a;
+	var Int b;
+	var Int c;
+	var Int d;
+	var Int e;
+	->fx1();
+	->fx1();
+	->fx1();
+	->fx1();
+	->fx1();
+	->fx1();
+	->fx1();
+	->fx1();
+	->fx1();
+	->fx1();
+}
+
+function fx3() -> Void {
+	var Int a;
+	var Int b;
+	var Int c;
+	var Int d;
+	var Int e;
+	->fx2();
+	->fx2();
+	->fx2();
+	->fx2();
+	->fx2();
+	->fx2();
+	->fx2();
+	->fx2();
+	->fx2();
+	->fx2();
+}
+
+function fx4() -> Void {
+	var Int a;
+	var Int b;
+	var Int c;
+	var Int d;
+	var Int e;
+	->fx3();
+	->fx3();
+	->fx3();
+	->fx3();
+	->fx3();
+	->fx3();
+	->fx3();
+	->fx3();
+	->fx3();
+	->fx3();
+}
+
+function fx5() -> Void {
+	var Int a;
+	var Int b;
+	var Int c;
+	var Int d;
+	var Int e;
+	->fx4();
+	->fx4();
+	->fx4();
+	->fx4();
+	->fx4();
+	->fx4();
+	->fx4();
+	->fx4();
+	->fx4();
+	->fx4();
+}
+
+function fx6() -> Void {
+	var Int a;
+	var Int b;
+	var Int c;
+	var Int d;
+	var Int e;
+	->fx5();
+	->fx5();
+	->fx5();
+	->fx5();
+	->fx5();
+	->fx5();
+	->fx5();
+	->fx5();
+	->fx5();
+	->fx5();
+}

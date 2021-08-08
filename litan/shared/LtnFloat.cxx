@@ -3,48 +3,25 @@
 #include <cmath>
 #include <iostream>
 #include <bitset>
+
 std::uint64_t ltn::Float::doubleToUint(double flt){
 	// extract parts
 	int exponent;
-	std::int64_t mantisse = static_cast<std::int64_t>(frexp(flt, &exponent) * std::pow(2, 53));
-	bool negative = mantisse < 0;
-	// std::cout << "toUint" << std::endl;
-	// std::cout << std::bitset<64>(exponent) << std::endl;
-	// std::cout << int(negative) << std::endl;
-	
-	// absolute mantisse (sign is added separatly)
-	mantisse = std::abs(mantisse);
+	const std::uint64_t mantisse = static_cast<std::uint64_t>(std::abs(frexp(flt, &exponent) * std::pow(2, 53)));
+	const std::uint64_t negative = flt < 0;
 
-	// stitch together the number
-	std::uint64_t binary =
-		static_cast<std::uint64_t>(mantisse) | 
+	return 	
+		mantisse | 
 		static_cast<std::uint64_t>(exponent & 0xff) << 53 |
-		static_cast<std::uint64_t>(negative) << 63;
-
-
-	return binary;
+		(negative & 0x1) << 63;
 }
 
-
-
 double ltn::Float::uintToDouble(std::uint64_t uInt){
-	// exract parts
-	std::int8_t exponent = std::int8_t((uInt >> 53) & 0xff); 
-	std::int64_t mantisse = uInt & 0x1FFFFFFFFFFFFF; // 53 x "1"
-	bool negative = (uInt >> 63) == 1;
-	
-	// std::cout << "toDouble" << std::endl;
-	// std::cout << int(exponent) << std::endl;
-	// std::cout << int(negative) << std::endl;
-	// std::cout << std::bitset<64>(uInt) << std::endl;
-
-	// shift and cast mantisse
-	double fMantisse = static_cast<double>(mantisse) / std::pow(2, 53);
-
-	// form float
-	double flt = fMantisse * std::pow(2, exponent);
-
-	//apply sign
-	if(negative) return -flt;
-	return flt;
+	const std::uint64_t exponent = (uInt >> 53) & 0xff; 
+	const bool negative = (uInt) & (UINT64_C(1) << 63);	
+	const double fMantisse 
+		= static_cast<double>(uInt & 0x1FFFFFFFFFFFFF)
+		/ static_cast<double>(UINT64_C(2) << 53);
+	const double flt = fMantisse * static_cast<double>(UINT64_C(2) << exponent);
+	return (!negative * flt) - (negative * flt);
 }

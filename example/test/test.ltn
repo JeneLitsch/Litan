@@ -1,12 +1,5 @@
 function main() -> Void {
-	repeat(1000) {
-		0 != 1;
-		0 != 1;
-		0 != 1;
-		0 != 1;
+	repeat(100) {
+		->fx6();
 	}
-	// ->ltn::println(0 != 1);
-	// ->ltn::println(0 == 1);
-	// ->ltn::println(2 != 2);
-	// ->ltn::println(2 == 2);
 }
