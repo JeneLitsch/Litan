@@ -12,12 +12,12 @@ std::uint64_t ltn::Float::doubleToUint(double flt){
 
 	return 	
 		mantisse | 
-		static_cast<std::uint64_t>(exponent & 0xff) << 53 |
+		static_cast<std::uint64_t>(exponent & 0xff) + 128 << 53 |
 		(negative & 0x1) << 63;
 }
 
 double ltn::Float::uintToDouble(std::uint64_t uInt){
-	const std::uint64_t exponent = (uInt >> 53) & 0xff; 
+	const std::uint64_t exponent = static_cast<std::uint64_t>(static_cast<std::int8_t>(uInt >> 53)-128); 
 	const bool negative = (uInt) & (UINT64_C(1) << 63);	
 	const double fMantisse 
 		= static_cast<double>(uInt & 0x1FFFFFFFFFFFFF)

@@ -103,6 +103,12 @@ namespace ltna {
 			{ "load", { fx(cInst, InstCode::LOAD)}},
 			{ "store", { fx(cInst, InstCode::STORE)}},
 
+			{ "sort::radix::desc::unsigned",	{ fx(fInstFunct, InstCode::SORT_RADIX, 0b10)}},
+			{ "sort::radix::desc::signed", 		{ fx(fInstFunct, InstCode::SORT_RADIX, 0b11)}},
+			{ "sort::radix::ascn::unsigned",	{ fx(fInstFunct, InstCode::SORT_RADIX, 0b00)}},
+			{ "sort::radix::ascn::signed", 		{ fx(fInstFunct, InstCode::SORT_RADIX, 0b01)}},
+
+
 			{ "heap::delete", { fx(cInst, InstCode::HEAP_DELETE)}},
 			{ "heap::exist", { fx(cInst, InstCode::HEAP_EXIST)}},
 			{ "heap::copy", { fx(cInst, InstCode::HEAP_COPY)}},

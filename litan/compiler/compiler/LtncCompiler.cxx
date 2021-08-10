@@ -14,11 +14,11 @@ std::string ltnc::Compiler::compile(
 	SymbolTable & sTable = compPkg.getSymbolTable();
 
 	sTable.insert(Type(TVoid));
-	sTable.insert(Type(TInt, {TBool}));
-	sTable.insert(Type(TBool, {TInt}));
+	sTable.insert(Type(TInt, {TBool, TRaw}));
+	sTable.insert(Type(TBool, {TInt, TRaw}));
 	sTable.insert(Type(TRaw));
-	sTable.insert(Type(TFloat));
-	sTable.insert(Type(TPointer));
+	sTable.insert(Type(TFloat, {TRaw}));
+	sTable.insert(Type(TPointer, {TRaw}));
 	
 	sTable.addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
 

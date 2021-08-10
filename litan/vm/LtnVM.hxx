@@ -63,6 +63,8 @@ namespace ltn {
 		void mnsi();
 		void mini();
 		void maxi();
+
+		void sortRadix();
 		
 		// float math instructions
 		void addf();

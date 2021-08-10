@@ -1,20 +1,37 @@
 function fx(Int x) -> Void {
 	var Int a = 4;
 	{
-		var Float f = 3.5;
+		var Float f = -3.5;
 		->ltn::println(a);
-		->ltn::println(x);
 		->ltn::println(f);
+		->ltn::println(x);
 	}
 }
 
 function main() -> Void {
-	repeat(100) {
-		->fx6();
-	}
-	// var Int a = 4;
-	// var Int b = -4;
+	// repeat(100) {
+	// 	->fx6();
+	// }
+	// var Float a = 4.1;
+	// var Float b = -4.1;
 	// ->ltn::println(a);
 	// ->ltn::println(b);
 	// ->fx(42);
+	var ltn::Array array = ->ltn::Array();
+	->ltn::pushback(array, -3);
+	->ltn::pushback(array, -5);
+	->ltn::pushback(array, -2);
+	->ltn::pushback(array, -7);
+	->ltn::pushback(array, 5);
+	->ltn::pushback(array, 1);
+	->ltn::pushback(array, 3);
+	->ltn::pushback(array, 2);
+	->ltn::pushback(array, 8);
+	->ltn::pushback(array, 7);
+	->ltn::pushback(array, -1);
+	->ltn::radixSortAscn(array, false);
+
+	for(idx, 0, ->ltn::size(array)-1) {
+		->ltn::println(->Int(->ltn::at(array, idx)));
+	}
 }

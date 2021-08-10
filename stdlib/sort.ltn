@@ -1,0 +1,20 @@
+
+namespace ltn {
+	function radixSortDesc(ltn::Array array, Bool signed) -> Void {
+		if(signed) asm {
+			"load 0" "sort::radix::desc::signed"
+		}
+		else asm {
+			"load 0" "sort::radix::desc::unsigned"
+		}
+	}	
+
+	function radixSortAscn(ltn::Array array, Bool signed) -> Void {
+		if(signed) asm {
+			"load 0" "sort::radix::ascn::signed"
+		}
+		else asm {
+			"load 0" "sort::radix::ascn::unsigned"
+		}
+	}	
+}

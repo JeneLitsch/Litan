@@ -15,6 +15,7 @@ std::vector<ltnc::Ltnc::SourcePair> includeStdLib(
 		"/basic.ltn",
 		"/math.ltn",
 		"/array.ltn",
+		"/sort.ltn",
 		"/stack.ltn",
 		"/queue.ltn",
 		"/deque.ltn",

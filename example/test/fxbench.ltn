@@ -1,9 +1,9 @@
 function fx1() -> Void {
-	var Int a;
-	var Int b;
-	var Int c;
-	var Int d;
-	var Int e;
+	var Int a = 1;
+	var Int b = 1;
+	var Int c = 1;
+	var Int d = 1;
+	var Int e = 1;
 	return;
 }
 

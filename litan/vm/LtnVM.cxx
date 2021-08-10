@@ -116,6 +116,8 @@ void ltn::VM::execute(){
 		case InstCode::EXT6: this->extensions[6]->call(this->getArg8()); break;
 		case InstCode::EXT7: this->extensions[7]->call(this->getArg8()); break;
 
+		case InstCode::SORT_RADIX: this->sortRadix(); break;
+
 		case InstCode::HEAP_ALLOCATE: this->heapAllocate(); break;
 		case InstCode::HEAP_DELETE: this->heapDelete(); break;
 		case InstCode::HEAP_EXIST: this->heapExist(); break;

@@ -14,10 +14,10 @@ namespace ltn{
 		inline std::uint64_t popU() { return this->pop(); }
 		inline double popF() { return Float::uintToDouble(this->pop()); }
 
-		inline void push(std::int64_t val) { this->push(static_cast<std::uint64_t>(val)); }
-		inline void push(bool val) { this->push(static_cast<std::uint64_t>(val)); }
-		inline void push(double val) { this->push(Float::doubleToUint(val)); }
-		inline void push(std::uint64_t value) {
+		inline void push(const std::int64_t val) { this->push(static_cast<std::uint64_t>(val)); }
+		inline void push(const bool val) { this->push(static_cast<std::uint64_t>(val)); }
+		inline void push(const double val) { this->push(Float::doubleToUint(val)); }
+		inline void push(const std::uint64_t value) {
 			if(this->current >= 256) {
 				throw RegisterOverflow();
 			}

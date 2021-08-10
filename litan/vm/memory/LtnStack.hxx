@@ -1,35 +1,42 @@
 #pragma once
 #include <stack>
-#include "LtnStackFrame.hxx"
 namespace ltn {
 	class Stack {
 	public:
-		inline void call(std::uint64_t jumpback) {
+		// inits a new stackframe
+		/* |                 |
+		   | ...             |
+		   | jumpback        |
+		   | oldStackPointer |
+		   |=================|
+		   | ...old Frame... |
+		*/
+		inline void call(const std::uint64_t jumpback) {
 			const std::uint64_t oldStackPointer = stackPointer;
 			const std::uint64_t newStackPointer = this->callStack.size(); 
 			this->callStack.push_back(oldStackPointer);
 			this->callStack.push_back(jumpback);
 			this->stackPointer = newStackPointer;
 		}
-		inline void allocate(std::size_t size) {
+		// adds new space on top of the current stackFrame
+		inline void allocate(const std::size_t size) {
 			this->callStack.resize(this->callStack.size() + size);
 		}
-		inline void pop() {
+		inline std::uint64_t pop() {
+			const std::uint64_t jumpback = this->callStack[stackPointer + 1];
 			const std::uint64_t newStackPointer = this->callStack[stackPointer];
 			this->callStack.resize(stackPointer);
 			this->stackPointer = newStackPointer;
+			return jumpback;
 		}
-		inline std::uint64_t read(std::uint64_t addr) {
-			return this->callStack[stackPointer + addr + 2];
+		inline std::uint64_t read(const std::uint64_t addr) {
+			return this->callStack[this->stackPointer + 2 + addr];
 		}
-		inline void write(std::uint64_t addr, std::uint64_t value) {
-			this->callStack[stackPointer + addr + 2] = value;
+		inline void write(const std::uint64_t addr, const std::uint64_t value) {
+			this->callStack[this->stackPointer + 2 + addr] = value;
 		}
 		inline void clear() {
 			this->callStack = {};
-		}
-		inline std::uint64_t jumpback() {
-			return this->callStack[stackPointer + 1];
 		}
 	private:
 		std::vector<std::uint64_t> callStack;
