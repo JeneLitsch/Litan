@@ -9,6 +9,7 @@
 #include "LtnIndexAccessViolation.hxx"
 #include "LtnIllegalInstruction.hxx"
 #include "LtnPopFromEmpty.hxx"
+#include "LtnVMInt.hxx"
 
 // memorySize and stackLimit in 64bit blocks
 ltn::VM::VM() {}
@@ -27,7 +28,8 @@ void ltn::VM::run(){
 	this->env.acc.reset();
 	this->env.heap.clear();
 	this->env.stack.clear();
-	this->env.pc = 0;
+	this->env.startIP = this->env.instructions.data();
+	this->env.ip = this->env.startIP;
 	this->env.loops = {};
 
 	this->execute();
@@ -37,9 +39,8 @@ void ltn::VM::run(){
 
 void ltn::VM::execute(){
 	while(true){
-		this->currentInstruction = this->env.instructions[this->env.pc];
-		const InstCode opcode = static_cast<InstCode>(this->currentInstruction & 0xff);
-		this->env.pc++;
+		const InstCode opcode = static_cast<InstCode>(*this->env.ip & 0xff);
+		this->env.ip++;
 
 
 		switch (opcode) {

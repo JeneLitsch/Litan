@@ -9,29 +9,11 @@ function fx(Int x) -> Void {
 }
 
 function main() -> Void {
-	// repeat(100) {
-	// 	->fx6();
-	// }
-	// var Float a = 4.1;
-	// var Float b = -4.1;
-	// ->ltn::println(a);
-	// ->ltn::println(b);
-	// ->fx(42);
-	var ltn::Array array = ->ltn::Array();
-	->ltn::pushback(array, -3);
-	->ltn::pushback(array, -5);
-	->ltn::pushback(array, -2);
-	->ltn::pushback(array, -7);
-	->ltn::pushback(array, 5);
-	->ltn::pushback(array, 1);
-	->ltn::pushback(array, 3);
-	->ltn::pushback(array, 2);
-	->ltn::pushback(array, 8);
-	->ltn::pushback(array, 7);
-	->ltn::pushback(array, -1);
-	->ltn::radixSortAscn(array, false);
-
-	for(idx, 0, ->ltn::size(array)-1) {
-		->ltn::println(->Int(->ltn::at(array, idx)));
+	repeat(10000) {
+		var Int a = 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8;
+		var Int b = 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8;
+		var Int c = 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8;
+		var Int d = 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8;
+		var Int e = 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8;
 	}
 }

@@ -17,7 +17,7 @@ void ltn::VM::stringData() {
 	const std::uint8_t len = this->getArg8();
 	std::string str = "";
 	for(unsigned int i = 2; i < 2 + len; i++) {
-		char chr = static_cast<char>((this->currentInstruction >> i*8) & 0xff);
+		const char chr = this->getArg8(i);
 		str.push_back(chr);
 	}
 	this->env.heap.access<HeapString>(ptr) += str;

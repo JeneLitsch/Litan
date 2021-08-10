@@ -10,6 +10,15 @@ namespace ltn {
 		Stack stack;
 		std::stack<Loop> loops;
 		std::vector<std::uint64_t> instructions;
-		std::uint64_t pc;
+		std::uint64_t * ip;
+		std::uint64_t * startIP;
+
+		inline std::uint64_t getPc() {
+			return static_cast<std::uint64_t>(std::distance(this->startIP, this->ip));
+		}
+
+		inline void jump(std::uint64_t addr) {
+			this->ip = this->startIP + addr; 
+		}
 	};
 }

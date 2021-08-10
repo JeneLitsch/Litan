@@ -2,21 +2,21 @@
 
 // jump and push address to adrStack
 void ltn::VM::call(){
-	this->env.stack.call(this->env.pc);
-	this->env.pc = this->getArg56();
+	this->env.stack.call(this->env.getPc());
+	this->env.jump(this->getArg56());
 }
 // jump without pushign the address to adrStack
 void ltn::VM::got0(){
-	this->env.pc = this->getArg56();
+	this->env.jump(this->getArg56());
 }
 // pop last address from adrStack and jump to it 
 void ltn::VM::rtrn(){
-	this->env.pc = this->env.stack.pop();
+	this->env.ip = this->env.startIP + this->env.stack.pop();
 }
 // skip one instruction if value popped is 0
 void ltn::VM::ifsk(){
 	if(this->env.acc.popI() == 0){
-		this->env.pc++;
+		this->env.ip++;
 	}
 }
 
@@ -25,11 +25,11 @@ void ltn::VM::ifsk(){
 void ltn::VM::loopRange() {
 	const std::int64_t end = env.acc.popI();
 	const std::int64_t start = env.acc.popI();
-	this->env.loops.push(Loop(env.pc, start, end));
+	this->env.loops.push(Loop(this->env.getPc(), start, end));
 }
 
 void ltn::VM::loopInf() {
-	this->env.loops.push(Loop(env.pc));
+	this->env.loops.push(Loop(this->env.getPc()));
 }
 
 void ltn::VM::loopCont() {
@@ -40,7 +40,7 @@ void ltn::VM::loopCont() {
 	}
 	else{
 		// jump back
-		env.pc = loop.addr;
+		env.ip = this->env.startIP + loop.addr;
 		// increment
 		loop.idx++;
 	}

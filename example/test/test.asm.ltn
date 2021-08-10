@@ -116,58 +116,91 @@ return
 
 
 -> FNX_main7
-stackalloc 2
-call FNX_Array22
-store 0
-load 0
-newi -3
-call FNX_pushback29
-load 0
-newi -5
-call FNX_pushback29
-load 0
-newi -2
-call FNX_pushback29
-load 0
-newi -7
-call FNX_pushback29
-load 0
-newi 5
-call FNX_pushback29
-load 0
-newi 1
-call FNX_pushback29
-load 0
-newi 3
-call FNX_pushback29
-load 0
-newi 2
-call FNX_pushback29
-load 0
-newi 8
-call FNX_pushback29
-load 0
-newi 7
-call FNX_pushback29
-load 0
-newi -1
-call FNX_pushback29
-load 0
-newl 0
-call FNX_radixSortAscn36
+stackalloc 5
 newi 0
-load 0
-call FNX_size28
-newi 1
-subi
+newi 10000
+dec
 loop::range
-loop::idx
+newi 1
+newi 2
+addi
+newi 3
+addi
+newi 4
+addi
+newi 5
+addi
+newi 6
+addi
+newi 7
+addi
+newi 8
+addi
+store 0
+newi 1
+newi 2
+addi
+newi 3
+addi
+newi 4
+addi
+newi 5
+addi
+newi 6
+addi
+newi 7
+addi
+newi 8
+addi
 store 1
-load 0
-load 1
-call FNX_at31
-call FNX_Int9
-call FNX_println64
+newi 1
+newi 2
+addi
+newi 3
+addi
+newi 4
+addi
+newi 5
+addi
+newi 6
+addi
+newi 7
+addi
+newi 8
+addi
+store 2
+newi 1
+newi 2
+addi
+newi 3
+addi
+newi 4
+addi
+newi 5
+addi
+newi 6
+addi
+newi 7
+addi
+newi 8
+addi
+store 3
+newi 1
+newi 2
+addi
+newi 3
+addi
+newi 4
+addi
+newi 5
+addi
+newi 6
+addi
+newi 7
+addi
+newi 8
+addi
+store 4
 loop::cont
 return
 
