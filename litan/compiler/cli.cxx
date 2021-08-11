@@ -5,6 +5,7 @@
 #include <streambuf>
 #include "Ltnc.hxx"
 #include "LtnFileIO.hxx"
+#include "LtnError.hxx"
 
 namespace ltnc {
 	class CmdArgs {
@@ -172,8 +173,8 @@ int main(int argc, char const *argv[]) {
 		ltn::writeFile(args.getDstFile(), asmb);
 		return 0;
 	}
-	catch(std::runtime_error e) {
-		std::cout << "[ERROR] " << e.what() << std::endl;
+	catch(const ltn::Error & error) {
+		std::cout << error << std::endl;
 		std::cout << std::endl;
 		return 1;
 	}

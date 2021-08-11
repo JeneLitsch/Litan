@@ -76,9 +76,9 @@ int main(int argc, char const *argv[]) {
 		}
 		std::cout << std::endl;
 	}
-	catch(std::runtime_error error) {
+	catch(const ltn::Error & error) {
 		std::cout << ">> VM terminated after runtime error: ";
-		std::cout << error.what() << std::endl;
+		std::cout << error << std::endl;
 		std::cout << std::endl;
 	}
 

@@ -19,7 +19,7 @@ ltnc::Error ltnc::error::noMatchingFunction(
 	std::stringstream ss;
 	ss	<< "No matching function: "
 		<< fxSignature;
-	return Error(ErrorCode::INCOMPATIBLE_TYPES, ss.str(), debugInfo);
+	return Error(ErrorCode::NO_MATCHING_FUNCTION, ss.str(), debugInfo);
 }
 
 ltnc::Error ltnc::error::voidParameter(

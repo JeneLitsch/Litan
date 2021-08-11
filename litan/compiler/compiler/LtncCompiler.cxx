@@ -3,6 +3,7 @@
 #include "LtncBaseTypes.hxx"
 #include "LtncCtorGenerator.hxx"
 #include "LtncCompilerFunctions.hxx"
+#include "LtnCumulatedError.hxx"
 
 std::string ltnc::Compiler::compile(
 	std::shared_ptr<Program> program,
@@ -10,6 +11,7 @@ std::string ltnc::Compiler::compile(
 
 	CtorGenerator ctorGenerator;
 	CompilerPack compPkg(settings);
+	ltn::CumulatedError cumulatedError;
 
 	SymbolTable & sTable = compPkg.getSymbolTable();
 
@@ -36,29 +38,39 @@ std::string ltnc::Compiler::compile(
 
 	// register structs
 	for(const DeclStruct & struct_ : program->structs) {
-		Type structType(struct_.typeId);
-		structType.castableTo.push_back(TypeId(TRaw));
-		structType.castableTo.push_back(TypeId(TPointer));
-		for(const auto & member : struct_.members) {
-			if(member.assign) {
-				throw std::runtime_error("Assignment to members is not allowed");
+		try {
+			Type structType(struct_.typeId);
+			structType.castableTo.push_back(TypeId(TRaw));
+			structType.castableTo.push_back(TypeId(TPointer));
+			for(const auto & member : struct_.members) {
+				if(member.assign) {
+					throw std::runtime_error("Assignment to members is not allowed");
+				}
+				auto varId = member.varId;
+				auto typeId = member.typeId;
+				auto addr = structType.members.size();
+				auto var = std::make_shared<Var>(typeId, addr, varId);
+				structType.members.push_back(var);
 			}
-			auto varId = member.varId;
-			auto typeId = member.typeId;
-			auto addr = structType.members.size();
-			auto var = std::make_shared<Var>(typeId, addr, varId);
-			structType.members.push_back(var);
+			// add automatic constructors
+			code << ctorGenerator.defaultCtor(compPkg, structType);
+			code << ctorGenerator.parameterCtor(compPkg, structType);
+			sTable.insert(structType);
 		}
-		// add automatic constructors
-		code << ctorGenerator.defaultCtor(compPkg, structType);
-		code << ctorGenerator.parameterCtor(compPkg, structType);
-		sTable.insert(structType);
+		catch(const ltn::Error & error) {
+			cumulatedError.pushError(error);
+		}
 	}
 
 
 	// register functions
 	for(const auto & function : program->functions) {
-		sTable.insert(function->signature);
+		try {
+			sTable.insert(function->signature);
+		}
+		catch(const ltn::Error & error) {
+			cumulatedError.pushError(error);
+		}
 	}
 	
 	// init code
@@ -69,8 +81,15 @@ std::string ltnc::Compiler::compile(
 
 	// compile functions
 	for(const auto & function : program->functions) {
-		code << compile::function(compPkg, *function).code;
+		try {
+			code << compile::function(compPkg, *function).code;
+		}
+		catch(const ltn::Error & error) {
+			cumulatedError.pushError(error);
+		}
 	}
-
+	if(cumulatedError.throwable()) {
+		throw cumulatedError;
+	}
 	return code.str();
 }

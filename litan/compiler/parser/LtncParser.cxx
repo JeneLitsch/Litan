@@ -2,6 +2,7 @@
 #include <iostream>
 #include "LtncParserPackage.hxx"
 #include "LtncParserFunctions.hxx"
+#include "LtnCumulatedError.hxx"
 ltnc::Parser::Parser() {}
 
 
@@ -10,7 +11,9 @@ std::shared_ptr<ltnc::Program> ltnc::Parser::parse(const std::vector<Token> & to
 	auto program = std::make_shared<Program>();
 	while(!parsePkg.isAtEnd()) {
 		parse::declaration(parsePkg, *program);
+
 	}
+
 	return program;
 }
 

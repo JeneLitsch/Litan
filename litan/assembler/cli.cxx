@@ -23,8 +23,8 @@ int main(int argc, char const *argv[]) {
 	try {
 		byteCode = ltnA.assemble(assembly);
 	}
-	catch (ltna::AssemblerError error) {
-		std::cout << "Error while assembling: " << error.what() << std::endl;
+	catch (const ltna::AssemblerError & error) {
+		std::cout << "Error while assembling: " << error << std::endl;
 		std::cout << std::endl;
 		return -1;
 	}

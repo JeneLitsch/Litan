@@ -3,7 +3,4 @@
 
 ./ltna example/test/test.bin.ltn example/test/test.asm.ltn -bin
 
-# ./ltnvm -run example/test/test.bin.ltn -bin
-./ltnvm -bench=100 example/test/test.bin.ltn -bin
-./ltnvm3 -bench=100 example/test/test.bin.ltn -bin
-./ltnvm2 -bench=100 example/test/test.bin.ltn -bin
+./ltnvm -run example/test/test.bin.ltn -bin
