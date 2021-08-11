@@ -9,7 +9,6 @@
 #include "LtnIndexAccessViolation.hxx"
 #include "LtnIllegalInstruction.hxx"
 #include "LtnPopFromEmpty.hxx"
-#include "LtnVMInt.hxx"
 
 // memorySize and stackLimit in 64bit blocks
 ltn::VM::VM() {}
@@ -21,15 +20,15 @@ void ltn::VM::installExtension(IExtension & ext, Slot slot){
 
 
 void ltn::VM::init(const std::vector<std::uint64_t> & byteCode){
-	this->env.instructions = byteCode;
+	this->env.bytecode.instructions = byteCode;
 }
 
 void ltn::VM::run(){
 	this->env.acc.reset();
 	this->env.heap.clear();
 	this->env.stack.clear();
-	this->env.startIP = this->env.instructions.data();
-	this->env.ip = this->env.startIP;
+	this->env.bytecode.start = this->env.bytecode.instructions.data();
+	this->env.ip = this->env.bytecode.start;
 	this->env.loops = {};
 
 	this->execute();
@@ -41,7 +40,6 @@ void ltn::VM::execute(){
 	while(true){
 		const InstCode opcode = static_cast<InstCode>(*this->env.ip & 0xff);
 		this->env.ip++;
-
 
 		switch (opcode) {
 		case InstCode::EXIT: return;

@@ -23,7 +23,7 @@ void ltn::VM::dequePushF(){
 	const std::uint64_t value = this->env.acc.popU();
 	const std::uint64_t ptr = this->env.acc.popU();
 	auto & deque = this->env.heap.access<HeapDeque>(ptr);
-	deque.insert(deque.begin(), value);
+	deque.push_front(value);
 }
 
 void ltn::VM::dequePushB(){

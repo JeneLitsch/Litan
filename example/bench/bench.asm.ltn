@@ -1,0 +1,623 @@
+-> MAIN
+call FNX_main1
+exit
+
+
+-> FNX_fx0
+stackalloc 3
+store 0
+newi 4
+store 1
+newf -3.500000
+store 2
+load 1
+call FNX_println57
+load 2
+call FNX_println59
+load 0
+call FNX_println57
+return
+
+
+-> FNX_main1
+stackalloc 0
+newi 0
+newi 1000000
+dec
+loop::range
+loop::cont
+return
+
+
+-> FNX_Int2
+stackalloc 1
+store 0
+load 0
+return
+error
+
+
+-> FNX_Int3
+stackalloc 1
+store 0
+load 0
+casti
+return
+error
+
+
+-> FNX_Float4
+stackalloc 1
+store 0
+load 0
+return
+error
+
+
+-> FNX_Float5
+stackalloc 1
+store 0
+load 0
+castf
+return
+error
+
+
+-> FNX_destroy6
+stackalloc 1
+store 0
+load 0
+heap::delete
+return
+
+
+-> FNX_exists7
+stackalloc 1
+store 0
+load 0
+heap::exist
+return
+error
+
+
+-> FNX_min8
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+mini
+return
+error
+
+
+-> FNX_min9
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+minf
+return
+error
+
+
+-> FNX_max10
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+maxi
+return
+error
+
+
+-> FNX_max11
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+maxf
+return
+error
+
+
+-> FNX_round12
+stackalloc 1
+store 0
+load 0
+casti 1
+return
+error
+
+
+-> FNX_floor13
+stackalloc 1
+store 0
+load 0
+casti 2
+return
+error
+
+
+-> FNX_ceil14
+stackalloc 1
+store 0
+load 0
+casti 3
+return
+error
+
+
+-> FNX_Array15
+stackalloc 0
+heap::allocate::array
+return
+error
+
+
+-> FNX_Array16
+stackalloc 2
+store 0
+load 0
+newi 0
+smli
+ifnx
+goto IF64
+goto END_IF66
+-> IF64
+call FNX_error62
+goto END_IF66
+-> END_IF66
+call FNX_Array15
+store 1
+load 1
+load 0
+array::resize
+load 1
+return
+error
+
+
+-> FNX_clear17
+stackalloc 1
+store 0
+load 0
+array::clear
+return
+
+
+-> FNX_insert18
+stackalloc 3
+store 2
+store 1
+store 0
+load 0
+load 1
+load 2
+array::insert
+return
+
+
+-> FNX_erase19
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+array::erase
+return
+
+
+-> FNX_empty20
+stackalloc 1
+store 0
+load 0
+array::empty
+return
+error
+
+
+-> FNX_size21
+stackalloc 1
+store 0
+load 0
+array::size
+return
+error
+
+
+-> FNX_pushback22
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+array::pushback
+return
+
+
+-> FNX_popback23
+stackalloc 1
+store 0
+load 0
+array::popback
+return
+error
+
+
+-> FNX_at24
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+array::get
+return
+error
+
+
+-> FNX_at25
+stackalloc 3
+store 2
+store 1
+store 0
+load 0
+load 1
+load 2
+array::set
+return
+
+
+-> FNX_front26
+stackalloc 1
+store 0
+load 0
+array::front
+error
+
+
+-> FNX_back27
+stackalloc 1
+store 0
+load 0
+array::back
+error
+
+
+-> FNX_radixSortDesc28
+stackalloc 2
+store 1
+store 0
+load 1
+ifnx
+goto IF67
+goto ELSE68
+-> IF67
+load 0
+sort::radix::desc::signed
+goto END_IF69
+-> ELSE68
+load 0
+sort::radix::desc::unsigned
+goto END_IF69
+-> END_IF69
+return
+
+
+-> FNX_radixSortAscn29
+stackalloc 2
+store 1
+store 0
+load 1
+ifnx
+goto IF70
+goto ELSE71
+-> IF70
+load 0
+sort::radix::ascn::signed
+goto END_IF72
+-> ELSE71
+load 0
+sort::radix::ascn::unsigned
+goto END_IF72
+-> END_IF72
+return
+
+
+-> FNX_Stack30
+stackalloc 0
+heap::allocate::stack
+return
+error
+
+
+-> FNX_push31
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+stack::push
+return
+
+
+-> FNX_pop32
+stackalloc 1
+store 0
+load 0
+stack::pop
+return
+error
+
+
+-> FNX_top33
+stackalloc 1
+store 0
+load 0
+stack::top
+return
+error
+
+
+-> FNX_empty34
+stackalloc 1
+store 0
+load 0
+stack::empty
+return
+error
+
+
+-> FNX_size35
+stackalloc 1
+store 0
+load 0
+stack::size
+return
+error
+
+
+-> FNX_Queue36
+stackalloc 0
+heap::allocate::queue
+return
+error
+
+
+-> FNX_push37
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+queue::push
+return
+
+
+-> FNX_pop38
+stackalloc 1
+store 0
+load 0
+queue::pop
+return
+error
+
+
+-> FNX_front39
+stackalloc 1
+store 0
+load 0
+queue::front
+return
+error
+
+
+-> FNX_empty40
+stackalloc 1
+store 0
+load 0
+queue::empty
+return
+error
+
+
+-> FNX_Deque41
+stackalloc 0
+heap::allocate::deque
+return
+error
+
+
+-> FNX_clear42
+stackalloc 1
+store 0
+load 0
+deque::clear
+return
+
+
+-> FNX_pushFront43
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+deque::pushf
+return
+
+
+-> FNX_popFront44
+stackalloc 1
+store 0
+load 0
+deque::popf
+return
+error
+
+
+-> FNX_pushBack45
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+deque::pushb
+return
+
+
+-> FNX_popBack46
+stackalloc 1
+store 0
+load 0
+deque::popb
+return
+error
+
+
+-> FNX_front47
+stackalloc 1
+store 0
+load 0
+deque::front
+return
+error
+
+
+-> FNX_back48
+stackalloc 1
+store 0
+load 0
+deque::back
+return
+error
+
+
+-> FNX_size49
+stackalloc 1
+store 0
+load 0
+deque::size
+return
+error
+
+
+-> FNX_empty50
+stackalloc 1
+store 0
+load 0
+deque::empty
+return
+error
+
+
+-> FNX_print51
+stackalloc 1
+store 0
+load 0
+print::uint
+return
+
+
+-> FNX_print52
+stackalloc 1
+store 0
+load 0
+print::int
+return
+
+
+-> FNX_print53
+stackalloc 1
+store 0
+load 0
+print::bool
+return
+
+
+-> FNX_print54
+stackalloc 1
+store 0
+load 0
+print::float
+return
+
+
+-> FNX_print55
+stackalloc 1
+store 0
+load 0
+print::string
+return
+
+
+-> FNX_println56
+stackalloc 1
+store 0
+load 0
+print::uint
+print::newline
+return
+
+
+-> FNX_println57
+stackalloc 1
+store 0
+load 0
+print::int
+print::newline
+return
+
+
+-> FNX_println58
+stackalloc 1
+store 0
+load 0
+print::bool
+print::newline
+return
+
+
+-> FNX_println59
+stackalloc 1
+store 0
+load 0
+print::float
+print::newline
+return
+
+
+-> FNX_println60
+stackalloc 1
+store 0
+load 0
+print::string
+print::newline
+return
+
+
+-> FNX_println61
+stackalloc 0
+print::newline
+return
+
+
+-> FNX_error62
+stackalloc 0
+error
+return
+
+
+-> FNX_add63
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+string::add
+return
+error
+
+

@@ -1,7 +1,5 @@
 ./ltnc example/test/test.asm.ltn -p -o3\
-	example/test/fxbench.ltn\
-	example/test/test.ltn\
-	example/test/test2.ltn
+	example/test/test.ltn
 
 ./ltna example/test/test.bin.ltn example/test/test.asm.ltn -bin
 

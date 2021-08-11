@@ -26,11 +26,25 @@ namespace ltn {
 		std::array<IExtension*, 8> extensions;
 		
 		// decoding and args
-		inline std::uint8_t getArg8() { return std::uint8_t((*(this->env.ip-1) >> 8) & 0xff); }
-		inline std::uint8_t getArg8(int argNum) { return std::uint8_t((*(this->env.ip-1) >> 8 * (1 + argNum)) & 0xff); }
-		inline std::uint16_t getArg16() { return std::uint16_t((*(this->env.ip-1) >> 16) & 0xffff); }
-		inline std::uint32_t getArg32() { return std::uint32_t((*(this->env.ip-1) >> 32) & 0xffffffff); }
-		inline std::uint64_t getArg56() { return std::uint64_t((*(this->env.ip-1) >> 8) & 0xfffffffffffffff); }
+		inline std::uint8_t getArg8() { 
+			return std::uint8_t((*(this->env.ip-1) >> 8) & 0xff);
+		}
+		
+		inline std::uint8_t getArg8(int argNum) {
+			return std::uint8_t((*(this->env.ip-1) >> 8 * (1 + argNum)) & 0xff);
+		}
+		
+		inline std::uint16_t getArg16() {
+			return std::uint16_t((*(this->env.ip-1) >> 16) & 0xffff);
+		}
+		
+		inline std::uint32_t getArg32() {
+			return std::uint32_t((*(this->env.ip-1) >> 32) & 0xffffffff);
+		}
+		
+		inline std::uint64_t getArg56() {
+			return std::uint64_t((*(this->env.ip-1) >> 8) & 0xfffffffffffffff);
+		}
 
 		void execute();
 

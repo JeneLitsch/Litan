@@ -11,11 +11,11 @@ void ltn::VM::got0(){
 }
 // pop last address from adrStack and jump to it 
 void ltn::VM::rtrn(){
-	this->env.ip = this->env.startIP + this->env.stack.pop();
+	this->env.ip = this->env.bytecode.start + this->env.stack.pop();
 }
 // skip one instruction if value popped is 0
 void ltn::VM::ifsk(){
-	if(this->env.acc.popI() == 0){
+	if(!this->env.acc.popI()) {
 		this->env.ip++;
 	}
 }
@@ -36,14 +36,12 @@ void ltn::VM::loopCont() {
 	Loop & loop = this->env.loops.top();
 	// stop if end of loop is reached
 	if(loop.atEnd()){
-		this->env.loops.pop();
+		return this->env.loops.pop();
 	}
-	else{
-		// jump back
-		env.ip = this->env.startIP + loop.addr;
-		// increment
-		loop.idx++;
-	}
+	// jump back
+	env.jump(loop.addr);
+	// increment
+	loop.idx++;
 }
 
 void ltn::VM::loopStop() {
