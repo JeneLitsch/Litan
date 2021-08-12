@@ -34,45 +34,6 @@ void ltna::PseudoAssembler::registerAlias(const std::string & alias, ltn::Slot s
 }
 
 void ltna::PseudoAssembler::processPkg(const TokenPackage & pkg) {
-	if(pkg.args.size() == 0) {
-		
-		if(pkg.inst == "ifnot") {
-			this->processPkg(TokenPackage(pkg.line, "lognot" , {}));
-			this->processPkg(TokenPackage(pkg.line, "ifnx" , {}));
-			return;
-		}
-
-		if(pkg.inst == "smleqli") {
-			this->processPkg(TokenPackage(pkg.line, "bgri" , {}));
-			this->processPkg(TokenPackage(pkg.line, "lognot" , {}));
-			return;
-		}
-
-		if(pkg.inst == "bgreqli") {
-			this->processPkg(TokenPackage(pkg.line, "smli" , {}));
-			this->processPkg(TokenPackage(pkg.line, "lognot" , {}));
-			return;
-		}
-
-		if(pkg.inst == "smleqlf") {
-			this->processPkg(TokenPackage(pkg.line, "bgrf" , {}));
-			this->processPkg(TokenPackage(pkg.line, "lognot" , {}));
-			return;
-		}
-
-		if(pkg.inst == "bgreqlf") {
-			this->processPkg(TokenPackage(pkg.line, "smlf" , {}));
-			this->processPkg(TokenPackage(pkg.line, "lognot" , {}));
-			return;
-		}
-
-		if(pkg.inst == "memcopyptr") {
-			this->processPkg(TokenPackage(pkg.line, "load" , {}));
-			this->processPkg(TokenPackage(pkg.line, "store" , {}));
-			return;
-		}
-	}
-	
 	if (pkg.args.size() == 1) {
 		if(pkg.inst == "newi") {
 			long value = std::stoll(pkg.args[0]);
@@ -105,33 +66,6 @@ void ltna::PseudoAssembler::processPkg(const TokenPackage & pkg) {
 			}
 			return;
 		}
-
-		if(pkg.inst == "loop::times") {
-			this->processPkg(TokenPackage(pkg.line, "newl", {"1"}));
-			this->processPkg(TokenPackage(pkg.line, "newl", {pkg.args[0]}));
-			this->processPkg(TokenPackage(pkg.line, "loop::range", {}));
-			return;
-		}
-		
-
-	}
-
-	if (pkg.args.size() == 2) {
-
-		if(pkg.inst == "memcopy") {
-			this->processPkg(TokenPackage(pkg.line, "load" , {pkg.args[0]}));
-			this->processPkg(TokenPackage(pkg.line, "store", {pkg.args[1]}));
-			return;
-		}
-
-		if(pkg.inst == "loop::range") {
-			this->processPkg(TokenPackage(pkg.line, "newi", {pkg.args[0]}));
-			this->processPkg(TokenPackage(pkg.line, "newi", {pkg.args[1]}));
-			this->processPkg(TokenPackage(pkg.line, "loop::range", {}));
-			return;
-		}
-
-
 	}
 
 	// resolve aliases

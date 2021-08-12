@@ -41,8 +41,13 @@ return
 stackalloc 1
 newi 42
 store 0
+newi 0
+newi 4
+dec
+loop::range
 load 0
 call FNX_fx2
+loop::cont
 return
 
 
