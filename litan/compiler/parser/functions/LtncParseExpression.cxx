@@ -86,8 +86,8 @@ std::unique_ptr<ltnc::Expr> ltnc::parse::unary(ParserPackage & parsePkg) {
 		TokenType::BIT_NOT,
 		TokenType::COPY})) {
 		Token op = parsePkg.prev();
-		std::shared_ptr<ltnc::Expr> r = unary(parsePkg);
-		return std::make_unique<ExprUnary>(op.debugInfo, op.type, r);
+		std::unique_ptr<ltnc::Expr> r = unary(parsePkg);
+		return std::make_unique<ExprUnary>(op.debugInfo, op.type, std::move(r));
 	}
 	return primary(parsePkg);	
 }

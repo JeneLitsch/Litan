@@ -39,9 +39,10 @@ return
 
 -> FNX_main3
 stackalloc 1
-newi 4
+newi 42
 store 0
-call FNX_error64
+load 0
+call FNX_fx2
 return
 
 

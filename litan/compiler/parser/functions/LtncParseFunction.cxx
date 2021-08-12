@@ -54,7 +54,7 @@ ltnc::TypeId returnType(ltnc::ParserPackage & parsePkg) {
 
 
 
-std::shared_ptr<ltnc::Stmt> body(ltnc::ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Stmt> body(ltnc::ParserPackage & parsePkg) {
 	if(auto body = ltnc::parse::statement(parsePkg)) {
 		return body;
 	}
@@ -104,7 +104,7 @@ std::unique_ptr<ltnc::DeclFunction> ltnc::parse::declareFunction(ParserPackage &
 			return std::make_unique<DeclFunction>(
 				debugInfo.withFunction(fxSignature),
 				fxSignature,
-				body);
+				std::move(body));
 		}
 	}
 	return nullptr;

@@ -23,14 +23,14 @@ namespace ltnc {
 		DeclFunction(
 			const DebugInfo & debugInfo,
 			const FunctionSignature & signature,
-			std::shared_ptr<Stmt> body) 
+			std::unique_ptr<Stmt> body) 
 		:	Decl(debugInfo),
 			signature(signature),
-			body(body) {}
+			body(std::move(body)) {}
 
 		virtual ~DeclFunction() = default;
 		FunctionSignature signature;
-		std::shared_ptr<Stmt> body;
+		std::unique_ptr<Stmt> body;
 	};
 
 	struct DeclStruct : public Decl {

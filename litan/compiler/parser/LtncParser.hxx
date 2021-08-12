@@ -6,7 +6,7 @@ namespace ltnc {
 	class Parser {
 	public:
 		Parser();
-		std::shared_ptr<Program> parse(
+		std::unique_ptr<Program> parse(
 			ltn::ErrorReporter & error,
 			const std::vector<Token> & tokens) const;
 	};

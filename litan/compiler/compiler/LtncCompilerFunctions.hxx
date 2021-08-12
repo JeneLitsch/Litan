@@ -37,16 +37,11 @@ namespace ltnc {
 
 
 		// Expressions
-
 		ExprInfo expression(CompilerPack & compPkg, const Expr & expr);		
 		ExprInfo binaryExpr(CompilerPack & compPkg, const ExprBinary & expr);
 		ExprInfo unary(CompilerPack & compPkg, const ExprUnary & expr);
-		ExprInfo intLiteral(CompilerPack & compPkg, const ExprIntLiteral & expr);
-		ExprInfo floatLiteral(CompilerPack & compPkg, const ExprFltLiteral & expr);
-		ExprInfo stringLiteral(CompilerPack & compPkg, const ExprStrLiteral & expr);		
+		ExprInfo literal(CompilerPack & compPkg, const ExprLiteral & expr);
 		ExprInfo call(CompilerPack & compPkg, const ExprCall & expr);
 		ExprInfo var(CompilerPack & compPkg, const ExprVar & var, const std::optional<ExprInfo> & expr);
-		ExprInfo nul();
-		ExprInfo boolLiteral(const ExprBool & expr);
 	}
 }

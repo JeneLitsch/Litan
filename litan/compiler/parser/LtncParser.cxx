@@ -5,12 +5,12 @@
 ltnc::Parser::Parser() {}
 
 
-std::shared_ptr<ltnc::Program> ltnc::Parser::parse(
+std::unique_ptr<ltnc::Program> ltnc::Parser::parse(
 	ltn::ErrorReporter & error,
 	const std::vector<Token> & tokens) const {
 
 	ParserPackage parsePkg(error, tokens);
-	auto program = std::make_shared<Program>();
+	auto program = std::make_unique<Program>();
 	while(!parsePkg.isAtEnd()) {
 		try {
 			parse::declaration(parsePkg, *program);

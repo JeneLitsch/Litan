@@ -77,7 +77,7 @@ std::string ltnc::Ltnc::compile(
 	if(!silent) {
 		std::cout << ">> Compiling..." << std::endl;
 	}
-	auto asmb = compiler.compile(ast, error, settings);
+	auto asmb = compiler.compile(*ast, error, settings);
 	
 	if(error.throwable()) {
 		throw error;

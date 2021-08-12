@@ -6,7 +6,7 @@
 #include "LtnErrorReporter.hxx"
 
 std::string ltnc::Compiler::compile(
-	std::shared_ptr<Program> program,
+	const Program & program,
 	ltn::ErrorReporter & error,
 	const CompilerSettings & settings){
 
@@ -28,7 +28,7 @@ std::string ltnc::Compiler::compile(
 
 	CodeBuffer code = compPkg.codeBuffer();
 	// register typedefs
-	for(const auto & t : program->types) {
+	for(const auto & t : program.types) {
 		Type type = *t;
 		if(type.id != TVoid) {
 			type.castableTo.push_back(TypeId(TRaw));
@@ -39,7 +39,7 @@ std::string ltnc::Compiler::compile(
 
 
 	// register structs
-	for(const auto & struct_ : program->structs) {
+	for(const auto & struct_ : program.structs) {
 		try {
 			Type structType(struct_->typeId);
 			structType.castableTo.push_back(TypeId(TRaw));
@@ -66,7 +66,7 @@ std::string ltnc::Compiler::compile(
 
 
 	// register functions
-	for(const auto & function : program->functions) {
+	for(const auto & function : program.functions) {
 		try {
 			sTable.insert(function->debugInfo, function->signature);
 		}
@@ -87,7 +87,7 @@ std::string ltnc::Compiler::compile(
 	}
 
 	// compile functions
-	for(const auto & function : program->functions) {
+	for(const auto & function : program.functions) {
 		try {
 			code << compile::function(compPkg, *function).code;
 		}

@@ -7,7 +7,7 @@ namespace ltnc {
 	class Compiler {
 	public:
 		std::string compile(
-			std::shared_ptr<Program> program,
+			const Program & program,
 			ltn::ErrorReporter & error,
 			const CompilerSettings & settings);
 	};

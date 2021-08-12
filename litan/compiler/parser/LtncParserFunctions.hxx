@@ -43,6 +43,7 @@ namespace ltnc {
 		std::unique_ptr<ExprCall> call(ParserPackage & parsePkg);
 
 		// literals
+		std::unique_ptr<Expr> literal(ParserPackage & parsePkg);
 		std::unique_ptr<Expr> intLiteral(ParserPackage & parsePkg);
 		std::unique_ptr<Expr> floatLiteral(ParserPackage & parsePkg);
 		std::unique_ptr<Expr> stringLiteral(ParserPackage & parsePkg);
