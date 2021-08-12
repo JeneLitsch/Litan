@@ -5,10 +5,9 @@
 #include "LtncAstNode.hxx"
 #include "LtncType.hxx"
 #include "LtncVar.hxx"
+#include "LtncExpr.hxx"
 namespace ltnc {
 
-	struct Expr;
-	struct ExprVar;
 	struct StmtVar;
 
 	struct Stmt : public AstNode {
@@ -19,39 +18,39 @@ namespace ltnc {
 	struct StmtReturn : public Stmt {
 		StmtReturn(
 			const DebugInfo & debugInfo,
-			std::shared_ptr<Expr> expr)
-			: Stmt(debugInfo), expr(expr) {}
+			std::unique_ptr<Expr> expr)
+			: Stmt(debugInfo), expr(std::move(expr)) {}
 		virtual ~StmtReturn() = default;
-		std::shared_ptr<Expr> expr;
+		std::unique_ptr<Expr> expr;
 	};
 
 	struct StmtExpr : public Stmt {
 		StmtExpr(
 			const DebugInfo & debugInfo,
-			std::shared_ptr<Expr> expr)
-			: Stmt(debugInfo), expr(expr) {}
+			std::unique_ptr<Expr> expr)
+			: Stmt(debugInfo), expr(std::move(expr)) {}
 		virtual ~StmtExpr() = default;
-		std::shared_ptr<Expr> expr;
+		std::unique_ptr<Expr> expr;
 	};
 
 	struct StmtAssign : public Stmt {
 		StmtAssign(
 			const DebugInfo & debugInfo,
-			const std::shared_ptr<ExprVar> & var,
-			std::shared_ptr<Expr> expr)
-			: Stmt(debugInfo), var(var), expr(expr) {}
+			std::unique_ptr<ExprVar> var,
+			std::unique_ptr<Expr> expr)
+			: Stmt(debugInfo), var(std::move(var)), expr(std::move(expr)) {}
 		virtual ~StmtAssign() = default;
-		std::shared_ptr<ExprVar> var;
-		std::shared_ptr<Expr> expr;
+		std::unique_ptr<ExprVar> var;
+		std::unique_ptr<Expr> expr;
 	};
 
 	struct StmtPrint : public Stmt {
 		StmtPrint(
 			const DebugInfo & debugInfo,
-			std::shared_ptr<Expr> expr)
-			: Stmt(debugInfo), expr(expr) {}
+			std::unique_ptr<Expr> expr)
+			: Stmt(debugInfo), expr(std::move(expr)) {}
 		virtual ~StmtPrint() = default;
-		std::shared_ptr<Expr> expr; 
+		std::unique_ptr<Expr> expr; 
 	};
 
 	struct StmtBlock : public Stmt {
@@ -59,39 +58,38 @@ namespace ltnc {
 
 		virtual ~StmtBlock() = default;
 		
-		std::vector<std::shared_ptr<Stmt>> statements;
-		std::vector<std::shared_ptr<StmtVar>> vars;
+		std::vector<std::unique_ptr<Stmt>> statements;
 	};
 
 	struct StmtFor : public Stmt {
 		StmtFor(const DebugInfo & debugInfo) : Stmt(debugInfo) {}
 		virtual ~StmtFor() = default;
 		std::string name = ""; 
-		std::shared_ptr<Expr> exprFrom = nullptr; 
-		std::shared_ptr<Expr> exprTo = nullptr; 
-		std::shared_ptr<Stmt> stmt = nullptr;
+		std::unique_ptr<Expr> exprFrom = nullptr; 
+		std::unique_ptr<Expr> exprTo = nullptr; 
+		std::unique_ptr<Stmt> stmt = nullptr;
 	};
 
 	struct StmtRepeat : public Stmt {
 		StmtRepeat(const DebugInfo & debugInfo) : Stmt(debugInfo) {}
 		virtual ~StmtRepeat() = default;
-		std::shared_ptr<Expr> expr = nullptr; 
-		std::shared_ptr<Stmt> stmt = nullptr;
+		std::unique_ptr<Expr> expr = nullptr; 
+		std::unique_ptr<Stmt> stmt = nullptr;
 	};
 
 	struct StmtWhile : public Stmt {
 		StmtWhile(const DebugInfo & debugInfo) : Stmt(debugInfo) {}
 		virtual ~StmtWhile() = default;
-		std::shared_ptr<Expr> expr = nullptr; 
-		std::shared_ptr<Stmt> stmt = nullptr;
+		std::unique_ptr<Expr> expr = nullptr; 
+		std::unique_ptr<Stmt> stmt = nullptr;
 	};
 
 
 	struct StmtIf : public Stmt {
 		StmtIf(const DebugInfo & debugInfo) : Stmt(debugInfo) {}
-		std::shared_ptr<Expr> condition; 
-		std::shared_ptr<Stmt> stmtIf; 
-		std::shared_ptr<Stmt> stmtElse;
+		std::unique_ptr<Expr> condition; 
+		std::unique_ptr<Stmt> stmtIf; 
+		std::unique_ptr<Stmt> stmtElse;
 		virtual ~StmtIf() = default;
 	};
 
@@ -114,17 +112,17 @@ namespace ltnc {
 			const DebugInfo & debugInfo,
 			const VarId & varId,
 			const TypeId & typeId,
-			const std::shared_ptr<Stmt> & assign)
+			std::unique_ptr<Stmt> assign)
 		: 	Stmt(debugInfo),
 			varId(varId),
 			typeId(typeId),
-			assign(assign) {}
+			assign(std::move(assign)) {}
 
 		virtual ~StmtVar() = default;
 		
 		VarId varId;
 		TypeId typeId;
-		std::shared_ptr<Stmt> assign;
+		std::unique_ptr<Stmt> assign;
 	};
 
 }

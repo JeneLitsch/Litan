@@ -6,9 +6,9 @@
 namespace ltnc {
 
 	struct Program {
-		std::vector<std::shared_ptr<DeclFunction>> functions;
-		std::vector<DeclStruct> structs;
-		std::vector<Type> types;
+		std::vector<std::unique_ptr<DeclFunction>> functions;
+		std::vector<std::unique_ptr<DeclStruct>> structs;
+		std::vector<std::unique_ptr<Type>> types;
 		virtual ~Program() = default;
 	};
 }

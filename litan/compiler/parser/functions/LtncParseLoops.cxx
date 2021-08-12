@@ -1,8 +1,8 @@
 #include "LtncParserFunctions.hxx"
 
-std::shared_ptr<ltnc::Stmt> ltnc::parse::forLoop(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Stmt> ltnc::parse::forLoop(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::FOR)) {
-		auto loop = std::make_shared<StmtFor>(parsePkg.prev().debugInfo);
+		auto loop = std::make_unique<StmtFor>(parsePkg.prev().debugInfo);
 		if(parsePkg.match(TokenType::L_PAREN)) {
 			if(parsePkg.match(TokenType::IDENTIFIER)) {
 				loop->name = parsePkg.prev().string;
@@ -12,7 +12,7 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::forLoop(ParserPackage & parsePkg) {
 						loop->exprTo = expression(parsePkg);
 						if(parsePkg.match(TokenType::R_PAREN)){
 							if(auto stmt = statement(parsePkg)){
-								loop->stmt = stmt;
+								loop->stmt = std::move(stmt);
 								return loop;
 							}
 							throw error::expectedStatement(parsePkg);
@@ -31,14 +31,14 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::forLoop(ParserPackage & parsePkg) {
 }
 
 
-std::shared_ptr<ltnc::Stmt> ltnc::parse::repeatLoop(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Stmt> ltnc::parse::repeatLoop(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::REPEAT)) {
-		auto loop = std::make_shared<StmtRepeat>(parsePkg.prev().debugInfo);
+		auto loop = std::make_unique<StmtRepeat>(parsePkg.prev().debugInfo);
 		if(parsePkg.match(TokenType::L_PAREN)) {
 			loop->expr = expression(parsePkg);
 			if(parsePkg.match(TokenType::R_PAREN)){
 				if(auto stmt = statement(parsePkg)){
-					loop->stmt = stmt;
+					loop->stmt = std::move(stmt);
 					return loop;
 				}
 				throw error::expectedStatement(parsePkg);
@@ -50,14 +50,14 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::repeatLoop(ParserPackage & parsePkg) {
 }
 
 
-std::shared_ptr<ltnc::Stmt> ltnc::parse::whileLoop(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Stmt> ltnc::parse::whileLoop(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::WHILE)) {
-		auto loop = std::make_shared<StmtWhile>(parsePkg.prev().debugInfo);
+		auto loop = std::make_unique<StmtWhile>(parsePkg.prev().debugInfo);
 		if(parsePkg.match(TokenType::L_PAREN)) {
 			loop->expr = expression(parsePkg);
 			if(parsePkg.match(TokenType::R_PAREN)) {
 				if(auto stmt = statement(parsePkg)) {
-					loop->stmt = stmt;
+					loop->stmt = std::move(stmt);
 					return loop;
 				}
 				throw error::expectedStatement(parsePkg);

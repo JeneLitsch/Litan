@@ -14,13 +14,13 @@ std::string ltnc::StructurePrinter::print() const {
 
 	for(const auto & strct : this->program.structs) {
 		ss << "struct: ";
-		ss << strct.typeId.ns << strct.typeId.name;
+		ss << strct->typeId.ns << strct->typeId.name;
 		ss << "\n";
 	}
 
 	for(const auto & typeDef : this->program.types) {
 		ss << "type: ";
-		ss << typeDef.id.ns << typeDef.id.name;
+		ss << typeDef->id.ns << typeDef->id.name;
 		ss << "\n";
 	}
 

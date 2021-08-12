@@ -1,11 +1,11 @@
 #include "LtncParserFunctions.hxx"
 
-std::shared_ptr<ltnc::Type> ltnc::parse::declareType(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Type> ltnc::parse::declareType(ParserPackage & parsePkg) {
 	if (parsePkg.match(TokenType::TYPEDEF)) {
 		if(parsePkg.match(TokenType::IDENTIFIER)){
 			std::string typeName = parsePkg.prev().string;
 			if(parsePkg.match(TokenType::SEMICOLON)){
-				return std::make_shared<Type>(TypeId(typeName, parsePkg.ns));
+				return std::make_unique<Type>(TypeId(typeName, parsePkg.ns));
 			}
 			throw error::expectedSemicolon(parsePkg);
 		}

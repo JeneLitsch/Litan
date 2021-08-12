@@ -1,7 +1,7 @@
 #include "LtncParserFunctions.hxx"
 
 
-std::shared_ptr<ltnc::Stmt> ltnc::parse::statement(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Stmt> ltnc::parse::statement(ParserPackage & parsePkg) {
 	if(auto stmt = codeBlock(parsePkg)) return stmt;
 	if(auto stmt = assembly(parsePkg)) return stmt;
 	if(auto stmt = assign(parsePkg)) return stmt;
@@ -16,27 +16,26 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::statement(ParserPackage & parsePkg) {
 }
 
 
-std::shared_ptr<ltnc::Stmt> ltnc::parse::justAnExpression(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Stmt> ltnc::parse::justAnExpression(ParserPackage & parsePkg) {
 	auto expr = expression(parsePkg);
-	auto stmt = std::make_shared<StmtExpr>(expr->debugInfo, expr);
 	if (parsePkg.match(TokenType::SEMICOLON)) {
-		return stmt;
+		return std::make_unique<StmtExpr>(expr->debugInfo, std::move(expr));
 	}
 	throw error::expectedSemicolon(parsePkg);
 }
 
 
-std::shared_ptr<ltnc::Stmt> ltnc::parse::returnStmt(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Stmt> ltnc::parse::returnStmt(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::RETURN)) {
 		const auto & debugInto = parsePkg.prev().debugInfo;
 		// return void
 		if (parsePkg.match(TokenType::SEMICOLON)) {
-			return std::make_shared<StmtReturn>(debugInto, nullptr);
+			return std::make_unique<StmtReturn>(debugInto, nullptr);
 		}
 		// return expression;
 		auto expr = expression(parsePkg);
 		if (parsePkg.match(TokenType::SEMICOLON)) {
-			return std::make_shared<StmtReturn>(debugInto, expr);
+			return std::make_unique<StmtReturn>(debugInto, std::move(expr));
 		}	
 		throw error::expectedSemicolon(parsePkg);
 	}
@@ -44,10 +43,10 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::returnStmt(ParserPackage & parsePkg) {
 }
 
 
-std::shared_ptr<ltnc::Stmt> ltnc::parse::assembly(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Stmt> ltnc::parse::assembly(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::ASM)){
 		auto debugInfo = parsePkg.prev().debugInfo;
-		auto asmStmt = std::make_shared<StmtAsm>(debugInfo);
+		auto asmStmt = std::make_unique<StmtAsm>(debugInfo);
 		if(parsePkg.match(TokenType::L_BRACE)){
 			while(parsePkg.match(TokenType::STRING_LITERAL)) {
 				asmStmt->instructions.push_back(parsePkg.prev().string);
@@ -63,12 +62,12 @@ std::shared_ptr<ltnc::Stmt> ltnc::parse::assembly(ParserPackage & parsePkg) {
 }
 
 
-std::shared_ptr<ltnc::Stmt> ltnc::parse::assign(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Stmt> ltnc::parse::assign(ParserPackage & parsePkg) {
 	if(auto exprVar = var(parsePkg)) {
 		if (parsePkg.match(TokenType::ASSIGN)) {
 			auto expr = expression(parsePkg);
 			if (parsePkg.match(TokenType::SEMICOLON)) {
-				return std::make_shared<StmtAssign>(exprVar->debugInfo, exprVar, expr);
+				return std::make_unique<StmtAssign>(exprVar->debugInfo, std::move(exprVar), std::move(expr));
 			}
 			throw error::expectedSemicolon(parsePkg);
 		}

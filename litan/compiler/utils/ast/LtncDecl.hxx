@@ -37,12 +37,12 @@ namespace ltnc {
 		DeclStruct(
 			const DebugInfo & debugInfo,
 			const TypeId & typeId,
-			const std::vector<StmtVar> & members)
+			std::vector<std::unique_ptr<StmtVar>> members)
 		:	Decl(debugInfo),
 			typeId(typeId),
-			members(members) {}
+			members(std::move(members)) {}
 		
 		TypeId typeId;
-		std::vector<StmtVar> members;
+		std::vector<std::unique_ptr<StmtVar>> members;
 	};
 }

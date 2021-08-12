@@ -28,9 +28,9 @@ std::string ltnc::Compiler::compile(
 
 	CodeBuffer code = compPkg.codeBuffer();
 	// register typedefs
-	for(const Type & t : program->types) {
-		Type type = t;
-		if(t.id != TVoid) {
+	for(const auto & t : program->types) {
+		Type type = *t;
+		if(type.id != TVoid) {
 			type.castableTo.push_back(TypeId(TRaw));
 			type.castableTo.push_back(TypeId(TPointer));
 		}
@@ -39,17 +39,17 @@ std::string ltnc::Compiler::compile(
 
 
 	// register structs
-	for(const DeclStruct & struct_ : program->structs) {
+	for(const auto & struct_ : program->structs) {
 		try {
-			Type structType(struct_.typeId);
+			Type structType(struct_->typeId);
 			structType.castableTo.push_back(TypeId(TRaw));
 			structType.castableTo.push_back(TypeId(TPointer));
-			for(const auto & member : struct_.members) {
-				if(member.assign) {
+			for(const auto & member : struct_->members) {
+				if(member->assign) {
 					throw std::runtime_error("Assignment to members is not allowed");
 				}
-				auto varId = member.varId;
-				auto typeId = member.typeId;
+				auto varId = member->varId;
+				auto typeId = member->typeId;
 				auto addr = structType.members.size();
 				auto var = std::make_shared<Var>(typeId, addr, varId);
 				structType.members.push_back(var);
@@ -57,7 +57,7 @@ std::string ltnc::Compiler::compile(
 			// add automatic constructors
 			code << ctorGenerator.defaultCtor(compPkg, structType);
 			code << ctorGenerator.parameterCtor(compPkg, structType);
-			sTable.insert(struct_.debugInfo, structType);
+			sTable.insert(struct_->debugInfo, structType);
 		}
 		catch(const ltn::Error & error) {
 			compPkg.error << error;
@@ -78,7 +78,7 @@ std::string ltnc::Compiler::compile(
 	try {
 		// init code
 		code << AssemblyCode("-> MAIN"); 
-		code << compile::justAnExpression(compPkg, StmtExpr(DebugInfo(), std::make_shared<ExprCall>(DebugInfo(), "main", Namespace()))).code;
+		code << compile::justAnExpression(compPkg, StmtExpr(DebugInfo(), std::make_unique<ExprCall>(DebugInfo(), "main", Namespace()))).code;
 		code << AssemblyCode("exit");
 		code << AssemblyCode("\n");
 	}

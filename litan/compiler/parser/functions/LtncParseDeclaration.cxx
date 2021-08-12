@@ -25,13 +25,13 @@ bool mameSpace(ltnc::ParserPackage & parsePkg, ltnc::Program & program) {
 
 void ltnc::parse::declaration(ParserPackage & parsePkg, Program & program) {
 	if(auto function = declareFunction(parsePkg)){
-		program.functions.push_back(function);
+		program.functions.push_back(std::move(function));
 	}
 	else if (auto typeDecl = declareType(parsePkg)) {
-		program.types.push_back(*typeDecl);
+		program.types.push_back(std::move(typeDecl));
 	}
 	else if (auto structDecl = declareStruct(parsePkg)) {
-		program.structs.push_back(*structDecl);
+		program.structs.push_back(std::move(structDecl));
 	}
 	else if(::mameSpace(parsePkg, program)) {
  	}

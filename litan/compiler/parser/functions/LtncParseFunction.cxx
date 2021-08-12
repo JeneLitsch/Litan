@@ -88,7 +88,7 @@ std::vector<std::string> templateParameterList(ltnc::ParserPackage & parsePkg) {
 	throw ltnc::error::unopenedParameterList(parsePkg);
 }
 
-std::shared_ptr<ltnc::DeclFunction> ltnc::parse::declareFunction(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::DeclFunction> ltnc::parse::declareFunction(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::FX)){
 		auto debugInfo 		= parsePkg.prev().debugInfo; 
 		if(isTemplate(parsePkg)) {
@@ -101,7 +101,10 @@ std::shared_ptr<ltnc::DeclFunction> ltnc::parse::declareFunction(ParserPackage &
 			auto returnType 	= ::returnType(parsePkg);
 			auto body 			= ::body(parsePkg);
 			auto fxSignature	= FunctionSignature(returnType, name, parameters, parsePkg.ns);
-			return std::make_shared<DeclFunction>(debugInfo.withFunction(fxSignature), fxSignature, body);
+			return std::make_unique<DeclFunction>(
+				debugInfo.withFunction(fxSignature),
+				fxSignature,
+				body);
 		}
 	}
 	return nullptr;

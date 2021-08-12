@@ -19,7 +19,7 @@ ltnc::StmtInfo ltnc::compile::codeBlock(
 	compPkg.getSymbolTable().addBlockScope();
 	for(const auto & stmt : block.statements) {
 		try {
-			if(auto var = std::dynamic_pointer_cast<StmtVar>(stmt)) {
+			if(const auto * var = dynamic_cast<const StmtVar*>(stmt.get())) {
 				compPkg.getSymbolTable().match(var->debugInfo, var->typeId);
 				compPkg.getSymbolTable().insert(var->debugInfo, var->varId, var->typeId);
 				varCount++;

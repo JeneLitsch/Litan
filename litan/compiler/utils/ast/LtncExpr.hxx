@@ -114,41 +114,17 @@ namespace ltnc {
 			const DebugInfo & debugInfo,
 			const std::string & name,
 			const Namespace & ns,
-			const std::vector<std::shared_ptr<Expr>> & paramExprs)
-			: Expr(debugInfo), name(name), ns(ns), paramExprs(paramExprs) {}
+			std::vector<std::unique_ptr<Expr>> paramExprs)
+			: Expr(debugInfo), name(name), ns(ns), paramExprs(std::move(paramExprs)) {}
 
 		ExprCall(
 			const DebugInfo & debugInfo,
 			const std::string & name,
 			const Namespace & ns)
-			: Expr(debugInfo), name(name), ns(ns), paramExprs({}) {}
+			: Expr(debugInfo), name(name), ns(ns) {}
 
 		std::string name;
 		Namespace ns;
-		std::vector<std::shared_ptr<Expr>> paramExprs;
-	};
-
-	// New operator: new Foo()
-	struct ExprNew : public Expr {
-		virtual ~ExprNew() = default;
-
-		ExprNew(
-			const DebugInfo & debugInfo,
-			const TypeId & typeId,
-			const std::vector<std::shared_ptr<Expr>> & paramExprs)
-			: Expr(debugInfo), typeId(typeId), paramExprs(paramExprs) {}
-		
-		TypeId typeId;
-		std::vector<std::shared_ptr<Expr>> paramExprs;
-	};
-
-	// New operator: new Foo()
-	struct ExprDel : public Expr {
-		virtual ~ExprDel() = default;
-		ExprDel(
-			const DebugInfo & debugInfo,
-			const std::shared_ptr<ExprVar> & exprVar)
-			: Expr(debugInfo), exprVar(exprVar) {}
-		std::shared_ptr<ExprVar> exprVar;
+		std::vector<std::unique_ptr<Expr>> paramExprs;
 	};
 }

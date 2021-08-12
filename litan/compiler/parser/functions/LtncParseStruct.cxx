@@ -1,13 +1,13 @@
 #include "LtncParserFunctions.hxx"
 
-std::vector<ltnc::StmtVar> parseMembers(ltnc::ParserPackage & parsePkg) {
-	std::vector<ltnc::StmtVar> members;
+std::vector<std::unique_ptr<ltnc::StmtVar>> parseMembers(ltnc::ParserPackage & parsePkg) {
+	std::vector<std::unique_ptr<ltnc::StmtVar>> members;
 	if(parsePkg.match(ltnc::TokenType::L_BRACE)) {
 		while(true) {
 			try {
 				auto member = ltnc::parse::declareVar(parsePkg);
 				if(!member) break;
-				members.push_back(*member);
+				members.push_back(std::move(member));
 			}
 			catch (const ltn::Error & error) {
 				parsePkg.error << error;
@@ -31,12 +31,15 @@ ltnc::TypeId parseTypeId(ltnc::ParserPackage & parsePkg) {
 	throw ltnc::error::unnamedStruct(parsePkg);
 }
 
-std::shared_ptr<ltnc::DeclStruct> ltnc::parse::declareStruct(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::DeclStruct> ltnc::parse::declareStruct(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::STRUCT)) {
 		auto debugInfo = parsePkg.prev().debugInfo; 
 		auto typeId = parseTypeId(parsePkg);
 		auto members = parseMembers(parsePkg);
-		return std::make_shared<DeclStruct>(debugInfo, typeId, members);
+		return std::make_unique<DeclStruct>(
+			debugInfo,
+			typeId,
+			std::move(members));
 	}
 	return nullptr;
 }

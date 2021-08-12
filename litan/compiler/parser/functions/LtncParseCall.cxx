@@ -3,11 +3,11 @@
 auto parameters(ltnc::ParserPackage & parsePkg) {
 	// parameters
 	if (parsePkg.match(ltnc::TokenType::L_PAREN)) {
-		std::vector<std::shared_ptr<ltnc::Expr>> parameters;
+		std::vector<std::unique_ptr<ltnc::Expr>> parameters;
 		if (!parsePkg.match(ltnc::TokenType::R_PAREN)) {
 			while(!parsePkg.isAtEnd()) {
 				auto expr = ltnc::parse::expression(parsePkg);
-				parameters.push_back(expr);
+				parameters.push_back(std::move(expr));
 				// next paramter
 				if(parsePkg.match(ltnc::TokenType::COMMA)) {
 					continue;
@@ -21,13 +21,13 @@ auto parameters(ltnc::ParserPackage & parsePkg) {
 				}
 			}
 		}
-		return std::vector<std::shared_ptr<ltnc::Expr>>(parameters);
+		return parameters;
 	}
 	throw ltnc::error::unopenedParameterList(parsePkg);
 }
 
 
-std::shared_ptr<ltnc::ExprCall> ltnc::parse::call(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::ExprCall> ltnc::parse::call(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::ARROW)) {
 		const auto & debugInfo = parsePkg.prev().debugInfo;
 		Namespace ns = nameSpace(parsePkg);
@@ -35,7 +35,7 @@ std::shared_ptr<ltnc::ExprCall> ltnc::parse::call(ParserPackage & parsePkg) {
 		if(parsePkg.match(TokenType::IDENTIFIER)) {
 			std::string name = parsePkg.prev().string;
 			auto params = parameters(parsePkg);
-			return std::make_shared<ExprCall>(debugInfo, name, ns, params);
+			return std::make_unique<ExprCall>(debugInfo, name, ns, std::move(params));
 		}
 		throw error::expectedIdentifier(parsePkg);
 	}

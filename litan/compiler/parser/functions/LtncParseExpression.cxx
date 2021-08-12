@@ -3,44 +3,45 @@
 
 namespace ltnc {
 	namespace parse {
-		using ExprFx = std::function<std::shared_ptr<Expr>(ParserPackage & parsePkg)>; 
-		std::shared_ptr<ltnc::Expr> binary(
+		using ExprFx = std::function<std::unique_ptr<Expr>(ParserPackage & parsePkg)>; 
+		std::unique_ptr<ltnc::Expr> binary(
 			const std::vector<TokenType> & acceptedTokens,
 			const ExprFx & nextPresedence,
 			ParserPackage & parsePkg) {
 			
 
-			std::shared_ptr<ltnc::Expr> l = nextPresedence(parsePkg);
+			std::unique_ptr<ltnc::Expr> l = nextPresedence(parsePkg);
 			while(parsePkg.match(acceptedTokens)) {
 				Token op = parsePkg.prev();
-				std::shared_ptr<ltnc::Expr> r = nextPresedence(parsePkg);
-				l = std::make_shared<ExprBinary>(op.debugInfo, op.type, l, r);
+				std::unique_ptr<ltnc::Expr> r = nextPresedence(parsePkg);
+				auto expr = std::make_unique<ExprBinary>(op.debugInfo, op.type, std::move(l), std::move(r));
+				l = std::move(expr);
 			}
 			return l;
 		}
 	}
 }
 
-std::shared_ptr<ltnc::Expr> ltnc::parse::expression(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Expr> ltnc::parse::expression(ParserPackage & parsePkg) {
 	return logicAnd(parsePkg);
 }
 
-std::shared_ptr<ltnc::Expr> ltnc::parse::logicAnd(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Expr> ltnc::parse::logicAnd(ParserPackage & parsePkg) {
 	return binary({ TokenType::LOG_AND }, logicOr, parsePkg);
 }
 
-std::shared_ptr<ltnc::Expr> ltnc::parse::logicOr(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Expr> ltnc::parse::logicOr(ParserPackage & parsePkg) {
 	return binary({ TokenType::LOG_OR }, equality, parsePkg);
 }
 
-std::shared_ptr<ltnc::Expr> ltnc::parse::equality(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Expr> ltnc::parse::equality(ParserPackage & parsePkg) {
 	return binary(
 		{ TokenType::EQUAL, TokenType::UNEQUAL },
 		comparison,
 		parsePkg);
 }
 
-std::shared_ptr<ltnc::Expr> ltnc::parse::comparison(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Expr> ltnc::parse::comparison(ParserPackage & parsePkg) {
 	return binary(
 		{ 	TokenType::BIGGER, TokenType::BIGGEREQUAL,
 			TokenType::SMALLER, TokenType::SMALLEREQUAL },
@@ -48,14 +49,14 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::comparison(ParserPackage & parsePkg) {
 		parsePkg);
 }
 
-std::shared_ptr<ltnc::Expr> ltnc::parse::threeWay(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Expr> ltnc::parse::threeWay(ParserPackage & parsePkg) {
 	return binary(
 		{ 	TokenType::SPACESHIP },
 		term,
 		parsePkg);
 }
 
-std::shared_ptr<ltnc::Expr> ltnc::parse::term(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Expr> ltnc::parse::term(ParserPackage & parsePkg) {
 	return binary(
 		{ TokenType::PLUS, TokenType::MINUS },
 		product,
@@ -63,14 +64,14 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::term(ParserPackage & parsePkg) {
 }
 
 
-std::shared_ptr<ltnc::Expr> ltnc::parse::product(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Expr> ltnc::parse::product(ParserPackage & parsePkg) {
 	return binary(
 		{ TokenType::STAR, TokenType::SLASH, TokenType::MOD },
 		exponent,
 		parsePkg);
 }
 
-std::shared_ptr<ltnc::Expr> ltnc::parse::exponent(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Expr> ltnc::parse::exponent(ParserPackage & parsePkg) {
 	return binary(
 		{ TokenType::POWER },
 		unary,
@@ -78,7 +79,7 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::exponent(ParserPackage & parsePkg) {
 }
 
 
-std::shared_ptr<ltnc::Expr> ltnc::parse::unary(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Expr> ltnc::parse::unary(ParserPackage & parsePkg) {
 	if(parsePkg.match({
 		TokenType::MINUS,
 		TokenType::LOG_NOT,
@@ -86,12 +87,12 @@ std::shared_ptr<ltnc::Expr> ltnc::parse::unary(ParserPackage & parsePkg) {
 		TokenType::COPY})) {
 		Token op = parsePkg.prev();
 		std::shared_ptr<ltnc::Expr> r = unary(parsePkg);
-		return std::make_shared<ExprUnary>(op.debugInfo, op.type, r);
+		return std::make_unique<ExprUnary>(op.debugInfo, op.type, r);
 	}
 	return primary(parsePkg);	
 }
 
-std::shared_ptr<ltnc::Expr> ltnc::parse::primary(ParserPackage & parsePkg) {
+std::unique_ptr<ltnc::Expr> ltnc::parse::primary(ParserPackage & parsePkg) {
 	// literals
 	if(auto literal = intLiteral(parsePkg)) return literal;
 	if(auto literal = floatLiteral(parsePkg)) return literal;
