@@ -11,8 +11,7 @@ namespace ltna {
 
 		void registerAlias(const std::string & alias, ltn::Slot slot, std::uint8_t funct);
 	private:
+		std::vector<TokenPackage> processPkg(const TokenPackage & pkg);
 		std::map<std::string, std::pair<ltn::Slot, std::uint8_t>> aliases;
-		void processPkg(const TokenPackage & pkg);
-		std::vector<TokenPackage> newPkgs;
 	};
 }

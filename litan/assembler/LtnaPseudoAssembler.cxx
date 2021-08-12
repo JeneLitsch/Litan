@@ -5,14 +5,15 @@
 #include <stdexcept>
 #include <iostream>
 #include <filesystem>
+#include "LtnVectorUtils.hxx"
 
 std::vector<ltna::TokenPackage> ltna::PseudoAssembler::process(const std::vector<TokenPackage> & tokensPackages) {
-	this->newPkgs.clear();
+	std::vector<TokenPackage> newPkgs;
 	bool ok = true;
 	std::size_t lineNr = 1;
 	for(const TokenPackage & pkg : tokensPackages){ 
 		try {
-			this->processPkg(pkg);
+			newPkgs = newPkgs + this->processPkg(pkg);
 		}	
 		catch(std::runtime_error error) {
 			std::cout << "Error in line:" + std::to_string(lineNr) << " | " << pkg.line << std::endl;
@@ -22,7 +23,7 @@ std::vector<ltna::TokenPackage> ltna::PseudoAssembler::process(const std::vector
 		lineNr++;
 	}
 	if(ok) {
-		return this->newPkgs;
+		return newPkgs;
 	}
 	else {
 		return { TokenPackage("Preprocessor Error", "error", {})};
@@ -33,20 +34,23 @@ void ltna::PseudoAssembler::registerAlias(const std::string & alias, ltn::Slot s
 	this->aliases[alias] = { slot, funct };
 }
 
-void ltna::PseudoAssembler::processPkg(const TokenPackage & pkg) {
+std::vector<ltna::TokenPackage> ltna::PseudoAssembler::processPkg(const TokenPackage & pkg) {
 	if (pkg.args.size() == 1) {
 		if(pkg.inst == "newi") {
 			long value = std::stoll(pkg.args[0]);
 			long valueL = (value >> 0) & 0xffffffff;
 			long valueU = (value >> 32) & 0xffffffff;
-			this->processPkg(TokenPackage(pkg.line, "newl" , {std::to_string(valueL)}));
 
 			// optimize for small positive values
 			if(valueU != 0){
-				this->processPkg(TokenPackage(pkg.line, "newu" , {std::to_string(valueU)}));
-				this->processPkg(TokenPackage(pkg.line, "bitor", {}));
+				return 
+					this->processPkg(TokenPackage(pkg.line, "newl" , {std::to_string(valueL)})) +
+					this->processPkg(TokenPackage(pkg.line, "newu" , {std::to_string(valueU)})) +
+					this->processPkg(TokenPackage(pkg.line, "bitor", {}));
 			}
-			return;
+			else {
+				return this->processPkg(TokenPackage(pkg.line, "newl" , {std::to_string(valueL)}));
+			}
 		}
 
 		if(pkg.inst == "newf") {
@@ -55,16 +59,14 @@ void ltna::PseudoAssembler::processPkg(const TokenPackage & pkg) {
 				std::uint64_t valueI = ltn::Float::doubleToUint(valueD);
 				long valueL = (valueI >> 0) & 0xffffffff;
 				long valueU = (valueI >> 32) & 0xffffffff;
-				this->processPkg(TokenPackage(pkg.line, "newl" , {std::to_string(valueL)}));
-				if(valueU != 0){
-					this->processPkg(TokenPackage(pkg.line, "newu" , {std::to_string(valueU)}));
+				return
+					this->processPkg(TokenPackage(pkg.line, "newl" , {std::to_string(valueL)})) +
+					this->processPkg(TokenPackage(pkg.line, "newu" , {std::to_string(valueU)})) +
 					this->processPkg(TokenPackage(pkg.line, "bitor", {}));
-				}
 			}
 			catch(...) {
 				throw std::runtime_error("Invalid floating point number: \"" + pkg.args[0] + "\"");
 			}
-			return;
 		}
 	}
 
@@ -75,10 +77,8 @@ void ltna::PseudoAssembler::processPkg(const TokenPackage & pkg) {
 		// funct, arg1, arg2...
 		args.insert(args.begin(), std::to_string(cmd.second));
 		long extensionSlot = static_cast<long>(cmd.first);
-		this->processPkg(TokenPackage(pkg.line, "ext::" + std::to_string(extensionSlot), args));
-		return;
+		return this->processPkg(TokenPackage(pkg.line, "ext::" + std::to_string(extensionSlot), args));
 	}
 
-
-	this->newPkgs.push_back(pkg);
+	return {pkg};
 }
