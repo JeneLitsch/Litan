@@ -45,8 +45,8 @@ ltnc::StmtInfo ltnc::compile::forLoop(CompilerPack & compPkg, const StmtFor & st
 
 	compPkg.getSymbolTable().addBlockScope();
 	// iteration variable
-	compPkg.getSymbolTable().insert(stmt.name, TypeId(TInt));
-	const Var & counter = compPkg.getSymbolTable().match(VarId(stmt.name));
+	compPkg.getSymbolTable().insert(stmt.debugInfo, stmt.name, TypeId(TInt));
+	const Var & counter = compPkg.getSymbolTable().match(stmt.debugInfo, VarId(stmt.name));
 	StmtInfo body = statement(compPkg, *stmt.stmt);
 
 	compPkg.getSymbolTable().remove();

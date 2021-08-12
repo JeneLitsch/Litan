@@ -13,11 +13,11 @@ ltnc::ExprInfo ltnc::compile::call(CompilerPack & compPkg, const ExprCall & expr
 	ltnc::Function function = [&expr, &params, &compPkg]() {
 		FunctionSignature fxSig = FunctionSignature(TypeId(TVoid), expr.name, params, expr.ns);
 		try {
-	 		return compPkg.getSymbolTable().match(fxSig, true);
+	 		return compPkg.getSymbolTable().match(expr.debugInfo, fxSig, true);
 		}
 		catch(...) {
 			try  {
-	 			return compPkg.getSymbolTable().match(fxSig, false);
+	 			return compPkg.getSymbolTable().match(expr.debugInfo, fxSig, false);
 			}
 			catch(...) {
 				throw error::noMatchingFunction(expr.debugInfo, fxSig);

@@ -5,11 +5,14 @@
 #include "LtncCompilerSettings.hxx"
 #include "LtncCodeBuffer.hxx"
 #include "LtncSymbolTable.hxx"
+#include "LtnErrorReporter.hxx"
 namespace ltnc {
 	class CompilerPack {
 	public:
 
-		CompilerPack(const CompilerSettings & settings);
+		CompilerPack(
+			const CompilerSettings & settings,
+			ltn::ErrorReporter & error);
 
 
 		
@@ -19,6 +22,8 @@ namespace ltnc {
 		const CompilerSettings & getSettings() const;
 
 		CodeBuffer codeBuffer() const;
+
+		ltn::ErrorReporter & error;
 
 	private:
 		CompilerSettings settings;

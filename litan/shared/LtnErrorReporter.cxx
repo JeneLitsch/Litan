@@ -1,12 +1,13 @@
-#include "LtnCumulatedError.hxx"
+#include "LtnErrorReporter.hxx"
 #include <sstream>
-ltn::CumulatedError::CumulatedError()
+
+ltn::ErrorReporter::ErrorReporter()
 	: Error("") {
 
 }
 
-void ltn::CumulatedError::pushError(const Error & error) {
-	if(const CumulatedError * err = dynamic_cast<const CumulatedError*>(&error)) {
+ltn::ErrorReporter & ltn::ErrorReporter::operator<<(const Error & error) {
+	if(const ErrorReporter * err = dynamic_cast<const ErrorReporter*>(&error)) {
 		for(const ltn::Error & suberr : err->suberrors) {
 			this->suberrors.push_back(suberr);
 		}
@@ -14,14 +15,15 @@ void ltn::CumulatedError::pushError(const Error & error) {
 	else {
 		this->suberrors.push_back(error);
 	}
+	return *this;
 }
 
 
-bool ltn::CumulatedError::throwable() const {
+bool ltn::ErrorReporter::throwable() const {
 	return !this->suberrors.empty();
 }
 
-std::string ltn::CumulatedError::str() const {
+std::string ltn::ErrorReporter::str() const {
 	std::stringstream ss;
 	for(const ltn::Error & suberr : this->suberrors) {
 		ss << suberr.what() << "\n";

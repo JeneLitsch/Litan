@@ -1,7 +1,9 @@
 #include "LtncCompilerPack.hxx"
 #include <iostream>
-ltnc::CompilerPack::CompilerPack(const CompilerSettings & settings) 
-	: settings(settings) {
+ltnc::CompilerPack::CompilerPack(
+	const CompilerSettings & settings,
+	ltn::ErrorReporter & error) 
+	: error(error), settings(settings) {
 }
 
 const ltnc::SymbolTable & ltnc::CompilerPack::getSymbolTable() const {

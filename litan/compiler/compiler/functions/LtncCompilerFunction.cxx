@@ -15,14 +15,14 @@ ltnc::StmtInfo ltnc::compile::function(
 	CompilerPack & compPkg,
 	const DeclFunction & decl) {
 		
-	const Function & func = compPkg.getSymbolTable().match(decl.signature);
-	compPkg.getSymbolTable().match(decl.signature.returnType);
+	const Function & func = compPkg.getSymbolTable().match(decl.debugInfo, decl.signature);
+	compPkg.getSymbolTable().match(decl.debugInfo, decl.signature.returnType);
 	compPkg.getSymbolTable().addFunctionScope(func.signature);
 	
 	// register parameter
 	for(const Param & param : decl.signature.params) {
-		compPkg.getSymbolTable().match(param.typeId);
-		compPkg.getSymbolTable().insert(param.name, TypeId(param.typeId));
+		compPkg.getSymbolTable().match(decl.debugInfo, param.typeId);
+		compPkg.getSymbolTable().insert(decl.debugInfo, param.name, TypeId(param.typeId));
 		if(param.typeId == TVoid) {
 			throw error::voidParameter(decl.debugInfo);
 		}
@@ -39,7 +39,7 @@ ltnc::StmtInfo ltnc::compile::function(
 	code << AssemblyCode("stackalloc " + std::to_string(body.stackalloc + params.size()));
 	for(auto param = params.rbegin(); param != params.rend(); ++param) {
 		// store parameter;
-		std::uint64_t varAddr = compPkg.getSymbolTable().match(VarId((*param).name)).addr;
+		std::uint64_t varAddr = compPkg.getSymbolTable().match(decl.debugInfo, VarId((*param).name)).addr;
 		code << Inst::store(static_cast<std::uint32_t>(varAddr));
 	}
 	code << body.code;

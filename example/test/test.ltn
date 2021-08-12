@@ -1,16 +1,18 @@
-function fx(x) -> Void {
+function fx(Int x) -> Void {
 	var Int a = 4;
 	{
-		var Int f = -3.5;
-		->ltn::println();
-		->ltn::pritln(f);
-		->ltn::prinln(x);
-		var Void a;
-
+		var Float f = -3.5;
+		->ltn::println(1);
+		->ltn::println(f);
+		->ltn::println(x);
 	}
 }
 
+struct C {
+	var Int a;
+}
+
 function main() -> Void {
-	var Int a = 4.0;
+	var Int a = 4;
 	->error();
 }

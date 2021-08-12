@@ -14,10 +14,12 @@ std::string registerCtor(
 		}
 	}
 	
+	ltnc::DebugInfo automatic(0,0, "", "");
+
 	// register function and create jumpMark 
 	ltnc::FunctionSignature signature(type.id, type.id.name, params, type.id.ns);
-	symbolTable.insert(signature);
-	return symbolTable.match(signature).jumpMark;
+	symbolTable.insert(automatic, signature);
+	return symbolTable.match(automatic, signature).jumpMark;
 }
 
 ltnc::CodeBuffer ltnc::CtorGenerator::defaultCtor(

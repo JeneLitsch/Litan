@@ -11,7 +11,6 @@ namespace ltnc {
 		std::shared_ptr<Type> declareType(ParserPackage & parsePkg);
 		std::shared_ptr<DeclFunction> declareFunction(ParserPackage & parsePkg);
 		void declaration(ParserPackage & parsePkg, Program & program);
-
 		// Statement
 
 		std::shared_ptr<StmtVar> declareVar(ParserPackage & parsePkg);

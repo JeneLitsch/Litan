@@ -3,24 +3,26 @@
 #include "LtncBaseTypes.hxx"
 #include "LtncCtorGenerator.hxx"
 #include "LtncCompilerFunctions.hxx"
-#include "LtnCumulatedError.hxx"
+#include "LtnErrorReporter.hxx"
 
 std::string ltnc::Compiler::compile(
 	std::shared_ptr<Program> program,
+	ltn::ErrorReporter & error,
 	const CompilerSettings & settings){
 
 	CtorGenerator ctorGenerator;
-	CompilerPack compPkg(settings);
-	ltn::CumulatedError cumulatedError;
+	CompilerPack compPkg(settings, error);
 
 	SymbolTable & sTable = compPkg.getSymbolTable();
 
-	sTable.insert(Type(TVoid));
-	sTable.insert(Type(TInt, {TBool, TRaw}));
-	sTable.insert(Type(TBool, {TInt, TRaw}));
-	sTable.insert(Type(TRaw));
-	sTable.insert(Type(TFloat, {TRaw}));
-	sTable.insert(Type(TPointer, {TRaw}));
+	DebugInfo misc(0,0, "", "");
+
+	sTable.insert(misc, Type(TVoid));
+	sTable.insert(misc, Type(TInt, {TBool, TRaw}));
+	sTable.insert(misc, Type(TBool, {TInt, TRaw}));
+	sTable.insert(misc, Type(TRaw));
+	sTable.insert(misc, Type(TFloat, {TRaw}));
+	sTable.insert(misc, Type(TPointer, {TRaw}));
 	
 	sTable.addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
 
@@ -32,7 +34,7 @@ std::string ltnc::Compiler::compile(
 			type.castableTo.push_back(TypeId(TRaw));
 			type.castableTo.push_back(TypeId(TPointer));
 		}
-		sTable.insert(type);
+		sTable.insert(misc, type);
 	}
 
 
@@ -55,10 +57,10 @@ std::string ltnc::Compiler::compile(
 			// add automatic constructors
 			code << ctorGenerator.defaultCtor(compPkg, structType);
 			code << ctorGenerator.parameterCtor(compPkg, structType);
-			sTable.insert(structType);
+			sTable.insert(struct_.debugInfo, structType);
 		}
 		catch(const ltn::Error & error) {
-			cumulatedError.pushError(error);
+			compPkg.error << error;
 		}
 	}
 
@@ -66,18 +68,23 @@ std::string ltnc::Compiler::compile(
 	// register functions
 	for(const auto & function : program->functions) {
 		try {
-			sTable.insert(function->signature);
+			sTable.insert(function->debugInfo, function->signature);
 		}
 		catch(const ltn::Error & error) {
-			cumulatedError.pushError(error);
+			compPkg.error << error;
 		}
 	}
 	
-	// init code
-	code << AssemblyCode("-> MAIN"); 
-	code << compile::justAnExpression(compPkg, StmtExpr(DebugInfo(), std::make_shared<ExprCall>(DebugInfo(), "main", Namespace()))).code;
-	code << AssemblyCode("exit");
-	code << AssemblyCode("\n");
+	try {
+		// init code
+		code << AssemblyCode("-> MAIN"); 
+		code << compile::justAnExpression(compPkg, StmtExpr(DebugInfo(), std::make_shared<ExprCall>(DebugInfo(), "main", Namespace()))).code;
+		code << AssemblyCode("exit");
+		code << AssemblyCode("\n");
+	}
+	catch(const ltn::Error & error) {
+		compPkg.error << error;
+	}
 
 	// compile functions
 	for(const auto & function : program->functions) {
@@ -85,11 +92,9 @@ std::string ltnc::Compiler::compile(
 			code << compile::function(compPkg, *function).code;
 		}
 		catch(const ltn::Error & error) {
-			cumulatedError.pushError(error);
+			compPkg.error << error;
 		}
 	}
-	if(cumulatedError.throwable()) {
-		throw cumulatedError;
-	}
+
 	return code.str();
 }

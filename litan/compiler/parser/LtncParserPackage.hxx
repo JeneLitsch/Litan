@@ -2,18 +2,26 @@
 #include <vector>
 #include "LtncToken.hxx"
 #include "LtncNamespace.hxx"
+#include "LtnErrorReporter.hxx"
 namespace ltnc {
 	class ParserPackage {
 	public:
-		ParserPackage(const std::vector<Token> & tokens);
+		ParserPackage(
+			ltn::ErrorReporter & error,
+			const std::vector<Token> & tokens);
+		bool test(TokenType type);
+		bool test(const std::vector<TokenType> types);
 		bool match(TokenType type);
 		bool match(const std::vector<TokenType> types);
 		void back();
+		void advance();
 		bool isAtEnd() const;
 		const Token & prev() const;
 		const Token & curr() const;
+		void resync(const std::vector<TokenType> & tokenTypes);
 
 		Namespace ns;
+		ltn::ErrorReporter & error;
 
 		operator const DebugInfo&() const;
 

@@ -3,8 +3,18 @@
 std::vector<ltnc::StmtVar> parseMembers(ltnc::ParserPackage & parsePkg) {
 	std::vector<ltnc::StmtVar> members;
 	if(parsePkg.match(ltnc::TokenType::L_BRACE)) {
-		while(auto member = ltnc::parse::declareVar(parsePkg)) {
-			members.push_back(*member);
+		while(true) {
+			try {
+				auto member = ltnc::parse::declareVar(parsePkg);
+				if(!member) break;
+				members.push_back(*member);
+			}
+			catch (const ltn::Error & error) {
+				parsePkg.error << error;
+				parsePkg.resync({
+					ltnc::TokenType::VAR,
+					ltnc::TokenType::R_BRACE});
+			}
 		}
 		if(parsePkg.match(ltnc::TokenType::R_BRACE)) {
 			return members;

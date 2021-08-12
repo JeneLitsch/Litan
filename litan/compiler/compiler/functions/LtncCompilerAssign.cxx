@@ -4,7 +4,7 @@ ltnc::StmtInfo ltnc::compile::assign(CompilerPack & compPkg, const StmtAssign & 
 	auto expr = expression(compPkg, *stmt.expr);
 	auto access = var(compPkg, *stmt.var, expr);
 	const SymbolTable & sTable = compPkg.getSymbolTable();
-	const Type & typeL = sTable.match(expr.typeId);
+	const Type & typeL = sTable.match(stmt.debugInfo, expr.typeId);
 	
 	bool castable = typeL.isCastableTo(access.typeId);
 	if(!castable) {

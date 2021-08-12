@@ -21,7 +21,7 @@ ltnc::ExprInfo ltnc::compile::var(CompilerPack & compPkg, const ExprVar & varExp
 		// get address on stack
 		if(i) {
 			// lookup struct type
-			const Type & type = typeTable.match(lastVar.typeId);
+			const Type & type = typeTable.match(varExpr.debugInfo, lastVar.typeId);
 			// search next member
 			const auto & members = type.members; 
 			for(const auto & newVar : members) {
@@ -35,7 +35,7 @@ ltnc::ExprInfo ltnc::compile::var(CompilerPack & compPkg, const ExprVar & varExp
 		// stack
 		else {
 			try {
-				return scopeStack.match(VarId(path[0])); 
+				return scopeStack.match(varExpr.debugInfo, VarId(path[0])); 
 			}
 			catch(...) {
 				throw error::undefinedVariable(path[i], varExpr.debugInfo);

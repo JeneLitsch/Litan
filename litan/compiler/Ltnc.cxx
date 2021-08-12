@@ -53,6 +53,7 @@ std::string ltnc::Ltnc::compile(
 
 	ltnc::Parser parser;
 	ltnc::Compiler compiler;
+	ltn::ErrorReporter error;
 
 
 	if(!silent) {
@@ -70,14 +71,17 @@ std::string ltnc::Ltnc::compile(
 	if(!silent) {
 		std::cout << ">> Parsing..." << std::endl;
 	}
-	auto ast = parser.parse(tokens);
+	auto ast = parser.parse(error, tokens);
 
 
 	if(!silent) {
 		std::cout << ">> Compiling..." << std::endl;
 	}
-	auto asmb = compiler.compile(ast, settings);
+	auto asmb = compiler.compile(ast, error, settings);
 	
+	if(error.throwable()) {
+		throw error;
+	}
 
 	if(!silent) {
 		std::cout << ">> Done compiling code!" << std::endl;
@@ -89,7 +93,8 @@ std::string ltnc::Ltnc::compile(
 			<< "All Symbols" << "\n"
 			<< StructurePrinter(*ast) << std::endl;
 	}
-	
+
+
 	std::cout << std::endl;
 	return asmb;
 }

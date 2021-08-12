@@ -2,7 +2,10 @@
 #include <stdexcept>
 #include <iostream>
 
-ltnc::ParserPackage::ParserPackage(const std::vector<Token> & tokens) {
+ltnc::ParserPackage::ParserPackage(
+	ltn::ErrorReporter & error,
+	const std::vector<Token> & tokens)
+		: error(error) {
 	this->current = 0;
 	this->tokens = tokens;
 }
@@ -17,8 +20,28 @@ bool ltnc::ParserPackage::match(TokenType type){
 	return false;
 }
 
+bool ltnc::ParserPackage::test(TokenType type) {
+	if(this->isAtEnd()) return false;
+	if(this->tokens[current].type == type){
+		return true;
+	}
+	return false;
+}
+
+bool ltnc::ParserPackage::test(const std::vector<TokenType> types) {
+	for(TokenType type : types) {
+		if(test(type)) return true;
+	}
+	return false;
+}
+
+
 void ltnc::ParserPackage::back() {
 	this->current--;
+}
+
+void ltnc::ParserPackage::advance() {
+	this->current++;
 }
 
 bool ltnc::ParserPackage::match(const std::vector<TokenType> types) {
@@ -42,4 +65,18 @@ const ltnc::Token & ltnc::ParserPackage::curr() const {
 
 ltnc::ParserPackage::operator const DebugInfo&() const {
 	return this->curr().debugInfo;
+}
+
+void ltnc::ParserPackage::resync(const std::vector<TokenType> & tokenTypes) {
+	while(true) {
+		if(this->isAtEnd()) {
+			return;
+		}
+		for(TokenType type : tokenTypes) {
+			if(this->test(type)) {
+				return;
+			}
+		}
+		this->advance();
+	}
 }

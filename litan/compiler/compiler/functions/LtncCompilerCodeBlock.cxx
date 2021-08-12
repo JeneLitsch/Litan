@@ -1,10 +1,12 @@
 #include "LtncCompilerFunctions.hxx"
-#include "LtnCumulatedError.hxx"
+#include "LtnErrorReporter.hxx"
 
-ltnc::StmtInfo ltnc::compile::codeBlock(CompilerPack & compPkg, const StmtBlock & block) {
+ltnc::StmtInfo ltnc::compile::codeBlock(
+	CompilerPack & compPkg,
+	const StmtBlock & block) {
 
 	CodeBuffer code = compPkg.codeBuffer();
-	ltn::CumulatedError cumulatedError;
+	ltn::ErrorReporter errorReporter;
 	unsigned stackalloc = 0;
 	unsigned varCount = 0;
 
@@ -18,8 +20,8 @@ ltnc::StmtInfo ltnc::compile::codeBlock(CompilerPack & compPkg, const StmtBlock 
 	for(const auto & stmt : block.statements) {
 		try {
 			if(auto var = std::dynamic_pointer_cast<StmtVar>(stmt)) {
-				compPkg.getSymbolTable().match(var->typeId);
-				compPkg.getSymbolTable().insert(var->varId, var->typeId);
+				compPkg.getSymbolTable().match(var->debugInfo, var->typeId);
+				compPkg.getSymbolTable().insert(var->debugInfo, var->varId, var->typeId);
 				varCount++;
 				if(var->typeId == TVoid) {
 					throw error::voidVariable(var->debugInfo, var->varId);
@@ -33,11 +35,11 @@ ltnc::StmtInfo ltnc::compile::codeBlock(CompilerPack & compPkg, const StmtBlock 
 			}
 		}
 		catch(const ltn::Error & error) {
-			cumulatedError.pushError(error);
+			errorReporter << error;
 		}
 	}
-	if(cumulatedError.throwable()) {
-		throw cumulatedError;
+	if(errorReporter.throwable()) {
+		throw errorReporter;
 	}
 	stackalloc += varCount;
 	compPkg.getSymbolTable().remove();

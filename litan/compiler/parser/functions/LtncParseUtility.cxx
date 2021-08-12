@@ -1,5 +1,7 @@
 #include "LtncParserFunctions.hxx"
 
+
+
 ltnc::Namespace ltnc::parse::nameSpace(ParserPackage & parsePkg) {
 	Namespace ns;
 	while(parsePkg.match(TokenType::IDENTIFIER)) {
