@@ -1,7 +1,7 @@
 #include "LtncLexerNodeCreator.hxx"
 #include <map>
 
-ltnc::LexerNode ltnc::LexerNodeCreator::chr(char chr, std::vector<LexerNode> nodes) {
+ltn::c::LexerNode ltn::c::LexerNodeCreator::chr(char chr, std::vector<LexerNode> nodes) {
 	return LexerNode([chr, nodes](LexerPackage & lexPkg) {
 		if(lexPkg.match(chr))  {
 			for(const LexerNode & node : nodes) {
@@ -15,7 +15,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::chr(char chr, std::vector<LexerNode> nod
 }
 
 
-ltnc::LexerNode ltnc::LexerNodeCreator::chr(char chr, TokenType type) {
+ltn::c::LexerNode ltn::c::LexerNodeCreator::chr(char chr, TokenType type) {
 	return LexerNode([chr, type](LexerPackage & lexPkg) {
 		if(lexPkg.match(chr))  {
 			lexPkg.newToken(type);
@@ -26,7 +26,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::chr(char chr, TokenType type) {
 }
 
 
-ltnc::LexerNode ltnc::LexerNodeCreator::chr(char chr, TokenType type, std::vector<LexerNode> nodes) {
+ltn::c::LexerNode ltn::c::LexerNodeCreator::chr(char chr, TokenType type, std::vector<LexerNode> nodes) {
 	return LexerNode([chr, nodes, type](LexerPackage & lexPkg) {
 		if(lexPkg.match(chr))  {
 			for(const LexerNode & node : nodes) {
@@ -42,7 +42,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::chr(char chr, TokenType type, std::vecto
 }
 
 
-ltnc::LexerNode ltnc::LexerNodeCreator::connector(std::vector<LexerNode> nodes) {
+ltn::c::LexerNode ltn::c::LexerNodeCreator::connector(std::vector<LexerNode> nodes) {
 	return LexerNode([nodes](LexerPackage & lexPkg) {
 		for(const LexerNode & node : nodes) {
 			if(node.eval(lexPkg)) {
@@ -54,7 +54,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::connector(std::vector<LexerNode> nodes) 
 }
 
 
-ltnc::LexerNode ltnc::LexerNodeCreator::ignoreLine() {
+ltn::c::LexerNode ltn::c::LexerNodeCreator::ignoreLine() {
 	return LexerNode([](LexerPackage & lexPkg) {
 		while (!lexPkg.isAtEnd()){
 			if(lexPkg.match('\n')) {
@@ -68,7 +68,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::ignoreLine() {
 }
 
 
-ltnc::LexerNode ltnc::LexerNodeCreator::newLine() {
+ltn::c::LexerNode ltn::c::LexerNodeCreator::newLine() {
 	return LexerNode([](LexerPackage & lexPkg) {
 		if(lexPkg.match('\n'))  {
 			lexPkg.newLine();
@@ -79,7 +79,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::newLine() {
 }
 
 
-ltnc::LexerNode ltnc::LexerNodeCreator::ignore(char chr) {
+ltn::c::LexerNode ltn::c::LexerNodeCreator::ignore(char chr) {
 	return LexerNode([chr](LexerPackage & lexPkg) {
 		if(lexPkg.match(chr)) {
 			return true;
@@ -89,7 +89,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::ignore(char chr) {
 }
 
 
-ltnc::LexerNode ltnc::LexerNodeCreator::numliteral() {
+ltn::c::LexerNode ltn::c::LexerNodeCreator::numliteral() {
 	return LexerNode([](LexerPackage & lexPkg) {
 		if(lexPkg.matchDigit()) {
 			bool isFloat = false;
@@ -108,7 +108,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::numliteral() {
 }
 
 
-ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
+ltn::c::LexerNode ltn::c::LexerNodeCreator::identifier() {
 
 	return LexerNode([](LexerPackage & lexPkg) {
 		const static std::map<std::string, TokenType> keywords = {
@@ -146,7 +146,7 @@ ltnc::LexerNode ltnc::LexerNodeCreator::identifier() {
 }
 
 
-ltnc::LexerNode ltnc::LexerNodeCreator::string() {
+ltn::c::LexerNode ltn::c::LexerNodeCreator::string() {
 	return LexerNode([](LexerPackage & lexPkg) {
 		if(lexPkg.match('"')){
 			while(!lexPkg.match('"')) {

@@ -1,6 +1,6 @@
 #include "LtncCompilerFunctions.hxx"
 
-ltnc::ExprInfo ltnc::compile::unary(CompilerPack & compPkg, const ExprUnary & expr) {
+ltn::c::ExprInfo ltn::c::compile::unary(CompilerPack & compPkg, const ExprUnary & expr) {
 	CodeBuffer code = compPkg.codeBuffer();
 	ExprInfo exprInfo = expression(compPkg, *expr.r);
 	switch (expr.type)	{

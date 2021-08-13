@@ -1,7 +1,7 @@
 #include "LtnaStringDecoder.hxx"
 #include <stdexcept>
 
-std::string ltna::StringDecoder::decode(const std::vector<std::string> & args) {
+std::string ltn::a::StringDecoder::decode(const std::vector<std::string> & args) {
 	std::string encodedString;
 	for(const std::string & arg : args) {
 		encodedString += arg + " ";

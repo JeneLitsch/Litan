@@ -7,7 +7,7 @@
 #include "LtncFunction.hxx"
 #include "LtncType.hxx"
 #include "LtncVar.hxx"
-namespace ltnc {
+namespace ltn::c {
 	
 	class Scope {
 	public:

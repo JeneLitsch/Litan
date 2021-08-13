@@ -3,7 +3,7 @@
 #include "LtncError.hxx"
 #include "LtncErrorCreationLexer.hxx"
 
-ltnc::LexerPackage::LexerPackage(
+ltn::c::LexerPackage::LexerPackage(
 	const std::string & source,
 	const std::string & sourceName) {
 	this->source = source;
@@ -14,23 +14,23 @@ ltnc::LexerPackage::LexerPackage(
 	this->column = 0;
 }
 
-bool ltnc::LexerPackage::isAtEnd() const {
+bool ltn::c::LexerPackage::isAtEnd() const {
 	return this->current >= this->source.size();
 }
 
-std::string ltnc::LexerPackage::makeLexeme() const {
+std::string ltn::c::LexerPackage::makeLexeme() const {
 	return this->source.substr(this->start, this->current - this->start);
 }
 
-ltnc::DebugInfo ltnc::LexerPackage::makeDebugInfo() const {
+ltn::c::DebugInfo ltn::c::LexerPackage::makeDebugInfo() const {
 	return this->makeDebugInfo(this->makeLexeme());
 }
 
-ltnc::DebugInfo ltnc::LexerPackage::makeDebugInfo(const std::string & str) const {
+ltn::c::DebugInfo ltn::c::LexerPackage::makeDebugInfo(const std::string & str) const {
 	return DebugInfo(line, column, str, sourceName);
 }
 
-bool ltnc::LexerPackage::match(char chr) {
+bool ltn::c::LexerPackage::match(char chr) {
 	if(this->isAtEnd()) return false;
 	if(this->source[current] == chr) {
 		this->next();
@@ -39,7 +39,7 @@ bool ltnc::LexerPackage::match(char chr) {
 	return false;
 }
 
-bool ltnc::LexerPackage::matchAlpha(){
+bool ltn::c::LexerPackage::matchAlpha(){
 	if(this->isAtEnd()) return false;
 	if(std::isalpha(this->source[current])) {
 		this->next();
@@ -47,7 +47,7 @@ bool ltnc::LexerPackage::matchAlpha(){
 	}
 	return false;
 }
-bool ltnc::LexerPackage::matchDigit(){
+bool ltn::c::LexerPackage::matchDigit(){
 	if(this->isAtEnd()) return false;
 	if(std::isdigit(this->source[current])) {
 		this->next();
@@ -57,37 +57,37 @@ bool ltnc::LexerPackage::matchDigit(){
 }
 
 
-void ltnc::LexerPackage::newLine() {
+void ltn::c::LexerPackage::newLine() {
 	this->line++;
 	this->column = 0;
 }
 
-void ltnc::LexerPackage::sync() {
+void ltn::c::LexerPackage::sync() {
 	this->start = this->current;
 }
 
-void ltnc::LexerPackage::next() {
+void ltn::c::LexerPackage::next() {
 	this->current++;
 	this->column++;
 }
 
-void ltnc::LexerPackage::newToken(TokenType type) {
+void ltn::c::LexerPackage::newToken(TokenType type) {
 	this->newToken(type, this->makeLexeme());
 }
 
-void ltnc::LexerPackage::newToken(TokenType type, const std::string & lexeme) {
+void ltn::c::LexerPackage::newToken(TokenType type, const std::string & lexeme) {
 	this->addToken(Token(type, lexeme, this->makeDebugInfo(lexeme)));
 }
 
-void ltnc::LexerPackage::addToken(Token token) {
+void ltn::c::LexerPackage::addToken(Token token) {
 	this->tokens.push_back(token);
 }
 
-const std::vector<ltnc::Token> ltnc::LexerPackage::getTokens() const {
+const std::vector<ltn::c::Token> ltn::c::LexerPackage::getTokens() const {
 	return this->tokens;
 }
 
-std::nullptr_t ltnc::LexerPackage::error(const std::string & msg) {
+std::nullptr_t ltn::c::LexerPackage::error(const std::string & msg) {
 	throw std::runtime_error(
 		"Lexer-Error: " + msg + 
 		" in line " + std::to_string(this->line) + 

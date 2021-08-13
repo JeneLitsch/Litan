@@ -1,8 +1,8 @@
 #include "LtncComment.hxx"
 
-ltnc::Comment::Comment(const std::string & string) 
+ltn::c::Comment::Comment(const std::string & string) 
 	: string(string) {}
 
-std::string ltnc::Comment::toString() const {
+std::string ltn::c::Comment::toString() const {
 	return "// " + this->string + "\n"; 
 }

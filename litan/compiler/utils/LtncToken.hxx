@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "LtncDebugInfo.hxx"
-namespace ltnc {
+namespace ltn::c {
 	enum class TokenType {
 		IDENTIFIER, INT_LITERAL, FLOAT_LITERAL, STRING_LITERAL, FX, NAMESPACE, VAR, TYPEDEF, STRUCT, TEMPLATE,
 		ASSIGN, ARROW, RETURN, ASM, COPY, 

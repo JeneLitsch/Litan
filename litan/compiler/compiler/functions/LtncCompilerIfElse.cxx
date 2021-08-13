@@ -1,6 +1,6 @@
 #include "LtncCompilerFunctions.hxx"
 
-ltnc::StmtInfo ltnc::compile::ifElse(CompilerPack & compPkg, const StmtIf & stmt) {
+ltn::c::StmtInfo ltn::c::compile::ifElse(CompilerPack & compPkg, const StmtIf & stmt) {
 	CodeBuffer code = compPkg.codeBuffer();
 
 	// make jump marks

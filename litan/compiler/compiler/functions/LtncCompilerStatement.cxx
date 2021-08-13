@@ -1,6 +1,6 @@
 #include "LtncCompilerFunctions.hxx"
 
-ltnc::StmtInfo ltnc::compile::statement(CompilerPack & compPkg, const Stmt & stmt) {
+ltn::c::StmtInfo ltn::c::compile::statement(CompilerPack & compPkg, const Stmt & stmt) {
 	if(auto stmt_ = dynamic_cast<const StmtAssign*>(&stmt)) {
 		return assign(compPkg, *stmt_);
 	}
@@ -31,7 +31,7 @@ ltnc::StmtInfo ltnc::compile::statement(CompilerPack & compPkg, const Stmt & stm
 	throw error::invalidStatement(stmt.debugInfo);
 }
 
-ltnc::StmtInfo ltnc::compile::justAnExpression(CompilerPack & compPkg, const StmtExpr & stmt) {
+ltn::c::StmtInfo ltn::c::compile::justAnExpression(CompilerPack & compPkg, const StmtExpr & stmt) {
 	ExprInfo exprInfo = expression(compPkg, *stmt.expr);
 	CodeBuffer code = compPkg.codeBuffer();
 	code << exprInfo.code;

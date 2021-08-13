@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "LtncToken.hxx"
-namespace ltnc {
+namespace ltn::c {
 	// Data container for Lexer
 	// Can be passed through lexing tree
 	class LexerPackage {

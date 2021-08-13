@@ -3,7 +3,7 @@
 #include "LtncStmt.hxx"
 #include "LtncExpr.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 
 	struct Program {
 		std::vector<std::unique_ptr<DeclFunction>> functions;

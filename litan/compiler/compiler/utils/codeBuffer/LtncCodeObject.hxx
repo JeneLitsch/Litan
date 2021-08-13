@@ -1,7 +1,7 @@
 #pragma once
 #include "LtncBufferObject.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 	class ICodeObject : public IBufferObject {
 	public:
 	};

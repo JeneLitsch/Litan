@@ -1,6 +1,6 @@
 #pragma once
 #include "LtncFunctionSignature.hxx"
-namespace ltnc {
+namespace ltn::c {
 	struct Function {
 		Function(FunctionSignature signature, std::string jumpMark)
 			: signature(signature), jumpMark(jumpMark) {}

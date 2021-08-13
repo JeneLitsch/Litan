@@ -1,7 +1,7 @@
 #include "LtncCompilerFunctions.hxx"
 #include <functional>
 
-ltnc::ExprInfo ltnc::compile::var(CompilerPack & compPkg, const ExprVar & varExpr, const std::optional<ExprInfo> & expr) {
+ltn::c::ExprInfo ltn::c::compile::var(CompilerPack & compPkg, const ExprVar & varExpr, const std::optional<ExprInfo> & expr) {
 
 	CodeBuffer code = compPkg.codeBuffer();
 	Var var(TypeId(""), 0, VarId(""));

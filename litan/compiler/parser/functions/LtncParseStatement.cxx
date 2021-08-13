@@ -1,7 +1,7 @@
 #include "LtncParserFunctions.hxx"
 
 
-std::unique_ptr<ltnc::Stmt> ltnc::parse::statement(ParserPackage & parsePkg) {
+std::unique_ptr<ltn::c::Stmt> ltn::c::parse::statement(ParserPackage & parsePkg) {
 	if(auto stmt = codeBlock(parsePkg)) return stmt;
 	if(auto stmt = assembly(parsePkg)) return stmt;
 	if(auto stmt = assign(parsePkg)) return stmt;
@@ -16,7 +16,7 @@ std::unique_ptr<ltnc::Stmt> ltnc::parse::statement(ParserPackage & parsePkg) {
 }
 
 
-std::unique_ptr<ltnc::Stmt> ltnc::parse::justAnExpression(ParserPackage & parsePkg) {
+std::unique_ptr<ltn::c::Stmt> ltn::c::parse::justAnExpression(ParserPackage & parsePkg) {
 	auto expr = expression(parsePkg);
 	if (parsePkg.match(TokenType::SEMICOLON)) {
 		return std::make_unique<StmtExpr>(expr->debugInfo, std::move(expr));
@@ -25,7 +25,7 @@ std::unique_ptr<ltnc::Stmt> ltnc::parse::justAnExpression(ParserPackage & parseP
 }
 
 
-std::unique_ptr<ltnc::Stmt> ltnc::parse::returnStmt(ParserPackage & parsePkg) {
+std::unique_ptr<ltn::c::Stmt> ltn::c::parse::returnStmt(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::RETURN)) {
 		const auto & debugInto = parsePkg.prev().debugInfo;
 		// return void
@@ -43,7 +43,7 @@ std::unique_ptr<ltnc::Stmt> ltnc::parse::returnStmt(ParserPackage & parsePkg) {
 }
 
 
-std::unique_ptr<ltnc::Stmt> ltnc::parse::assembly(ParserPackage & parsePkg) {
+std::unique_ptr<ltn::c::Stmt> ltn::c::parse::assembly(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::ASM)){
 		auto debugInfo = parsePkg.prev().debugInfo;
 		auto asmStmt = std::make_unique<StmtAsm>(debugInfo);
@@ -62,7 +62,7 @@ std::unique_ptr<ltnc::Stmt> ltnc::parse::assembly(ParserPackage & parsePkg) {
 }
 
 
-std::unique_ptr<ltnc::Stmt> ltnc::parse::assign(ParserPackage & parsePkg) {
+std::unique_ptr<ltn::c::Stmt> ltn::c::parse::assign(ParserPackage & parsePkg) {
 	if(auto exprVar = var(parsePkg)) {
 		if (parsePkg.match(TokenType::ASSIGN)) {
 			auto expr = expression(parsePkg);

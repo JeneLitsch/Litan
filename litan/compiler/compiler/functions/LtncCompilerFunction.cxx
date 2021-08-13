@@ -1,6 +1,6 @@
 #include "LtncCompilerFunctions.hxx"
 
-std::string fxComment(const ltnc::DeclFunction & decl) {
+std::string fxComment(const ltn::c::DeclFunction & decl) {
 	std::string text;
 	text += decl.signature.name + " ( ";
 	for (const auto & param : decl.signature.params) {
@@ -11,7 +11,7 @@ std::string fxComment(const ltnc::DeclFunction & decl) {
 	return text;
 }
 
-ltnc::StmtInfo ltnc::compile::function(
+ltn::c::StmtInfo ltn::c::compile::function(
 	CompilerPack & compPkg,
 	const DeclFunction & decl) {
 		

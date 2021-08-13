@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace ltna {
+namespace ltn::a {
 	struct TokenPackage{
 		TokenPackage(){};
 

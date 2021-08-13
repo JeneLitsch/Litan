@@ -2,7 +2,7 @@
 #include "LtnError.hxx"
 #include "LtncErrorCode.hxx"
 #include "LtncDebugInfo.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class Error : public ltn::Error {
 	public:
 		Error(

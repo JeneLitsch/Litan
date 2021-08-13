@@ -2,9 +2,9 @@
 #include <sstream>
 
 std::string makeMessage(
-	ltnc::ErrorCode errorCode,
+	ltn::c::ErrorCode errorCode,
 	const std::string & msg,
-	const ltnc::DebugInfo & debugInfo) {
+	const ltn::c::DebugInfo & debugInfo) {
 	std::stringstream ss;
 	ss << "Error(" << static_cast<unsigned>(errorCode) << ") at [";
 	ss << debugInfo.sourceName << ":";
@@ -21,12 +21,12 @@ std::string makeMessage(
 }
 
 
-ltnc::ErrorCode ltnc::Error::getErrorCode() const {
+ltn::c::ErrorCode ltn::c::Error::getErrorCode() const {
 	return this->errorCode;
 }
 
 
-ltnc::Error::Error(
+ltn::c::Error::Error(
 	ErrorCode errorCode,
 	const std::string & msg,
 	const DebugInfo & debugInfo)

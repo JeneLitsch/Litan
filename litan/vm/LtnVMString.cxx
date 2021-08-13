@@ -1,7 +1,7 @@
 #include "LtnVM.hxx"
 #include <iostream>
 
-void ltn::VM::stringAdd() {
+void ltn::vm::VM::stringAdd() {
 	const std::uint64_t ptr2 = this->env.acc.popU();	
 	const std::uint64_t ptr1 = this->env.acc.popU();
 	const std::uint64_t ptr3 = this->env.heap.allocate(HeapType::STRING);
@@ -12,7 +12,7 @@ void ltn::VM::stringAdd() {
 	this->env.acc.push(ptr3);
 }
 
-void ltn::VM::stringData() {
+void ltn::vm::VM::stringData() {
 	const std::uint64_t ptr = this->env.acc.top();
 	const std::uint8_t len = this->getArg8();
 	std::string str = "";

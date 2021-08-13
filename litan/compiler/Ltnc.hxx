@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "LtncCompilerSettings.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class Ltnc {
 	public:
 		struct SourcePair {

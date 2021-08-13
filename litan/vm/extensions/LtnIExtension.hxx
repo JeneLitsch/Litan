@@ -1,7 +1,7 @@
 #pragma once
 #include "LtnEnvironment.hxx"
 #include "LtnExtSlot.hxx"
-namespace ltn{
+namespace ltn::vm {
 	class IExtension {
 	public:
 		virtual void call(std::uint8_t func) = 0;

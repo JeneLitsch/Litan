@@ -1,6 +1,6 @@
 #include "LtncCompilerSettings.hxx"
 
-ltnc::CompilerSettings::CompilerSettings(
+ltn::c::CompilerSettings::CompilerSettings(
 	bool comments,
 	unsigned optimizations,
 	const std::string & stdlibPath) 
@@ -8,14 +8,14 @@ ltnc::CompilerSettings::CompilerSettings(
 	optimizations(optimizations),
 	stdlibPath(stdlibPath) {}
 
-bool ltnc::CompilerSettings::areCommentsActive() const {
+bool ltn::c::CompilerSettings::areCommentsActive() const {
 	return this->addComments;
 }
 
-unsigned ltnc::CompilerSettings::getOptimizationLevel() const {
+unsigned ltn::c::CompilerSettings::getOptimizationLevel() const {
 	return this->optimizations;
 }
 
-const std::string ltnc::CompilerSettings::getStdlibPath() const {
+const std::string ltn::c::CompilerSettings::getStdlibPath() const {
 	return this->stdlibPath;
 }

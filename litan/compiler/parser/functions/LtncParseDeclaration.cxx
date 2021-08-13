@@ -1,29 +1,29 @@
 #include "LtncParserFunctions.hxx"
 
-bool mameSpace(ltnc::ParserPackage & parsePkg, ltnc::Program & program) {
-	if(parsePkg.match(ltnc::TokenType::NAMESPACE)) {
-		if(parsePkg.match(ltnc::TokenType::IDENTIFIER)) {
+bool mameSpace(ltn::c::ParserPackage & parsePkg, ltn::c::Program & program) {
+	if(parsePkg.match(ltn::c::TokenType::NAMESPACE)) {
+		if(parsePkg.match(ltn::c::TokenType::IDENTIFIER)) {
 			parsePkg.ns.push(parsePkg.prev().string);
 			// std::cout << parsePkg.ns.str() << std::endl;
-			if(parsePkg.match(ltnc::TokenType::L_BRACE)) {
-				while(!parsePkg.match(ltnc::TokenType::R_BRACE)) {
-					ltnc::parse::declaration(parsePkg, program);
+			if(parsePkg.match(ltn::c::TokenType::L_BRACE)) {
+				while(!parsePkg.match(ltn::c::TokenType::R_BRACE)) {
+					ltn::c::parse::declaration(parsePkg, program);
 				}
 				parsePkg.ns.pop();
 				return true;
 			}
 			else {
-				throw ltnc::error::expectedBraceL(parsePkg);
+				throw ltn::c::error::expectedBraceL(parsePkg);
 			}
 		}
 		else {
-			throw ltnc::error::unnamedNamespace(parsePkg);
+			throw ltn::c::error::unnamedNamespace(parsePkg);
 		}
 	}
 	return false;
 }
 
-void ltnc::parse::declaration(ParserPackage & parsePkg, Program & program) {
+void ltn::c::parse::declaration(ParserPackage & parsePkg, Program & program) {
 	if(auto function = declareFunction(parsePkg)){
 		program.functions.push_back(std::move(function));
 	}

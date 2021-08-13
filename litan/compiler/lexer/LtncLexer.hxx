@@ -5,7 +5,7 @@
 #include "LtncLexerPackage.hxx"
 #include "LtncLexerNodeCreator.hxx"
 #include "LtncLexerNode.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class Lexer {
 	public:
 		Lexer();

@@ -1,6 +1,6 @@
 #pragma once
 #include "LtncSymbol.hxx"
-namespace ltnc {
+namespace ltn::c {
 	struct TypeId : public Symbol {
 		TypeId(const std::string & name, Namespace & ns);
 		TypeId(const char * name, Namespace & ns);

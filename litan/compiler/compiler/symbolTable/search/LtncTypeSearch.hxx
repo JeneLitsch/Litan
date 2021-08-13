@@ -3,7 +3,7 @@
 #include "LtncVar.hxx"
 #include "LtncType.hxx"
 #include "LtncFunction.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class TypeSearch {
 	public:
 		TypeSearch(const TypeId & typeId);

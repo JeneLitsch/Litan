@@ -1,9 +1,9 @@
 #include "LtncMltEvaluator.hxx"
 
-double ltnc::MltEvaluator::eval(double a, double b) const {
+double ltn::c::MltEvaluator::eval(double a, double b) const {
 	return a * b;
 }
 
-std::int64_t ltnc::MltEvaluator::eval(std::int64_t a, std::int64_t b) const {
+std::int64_t ltn::c::MltEvaluator::eval(std::int64_t a, std::int64_t b) const {
 	return a * b;
 }

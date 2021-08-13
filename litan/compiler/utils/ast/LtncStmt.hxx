@@ -6,7 +6,7 @@
 #include "LtncType.hxx"
 #include "LtncVar.hxx"
 #include "LtncExpr.hxx"
-namespace ltnc {
+namespace ltn::c {
 
 	struct StmtVar;
 

@@ -1,6 +1,6 @@
 #include "LtncCompilerFunctions.hxx"
 
-ltnc::StmtInfo ltnc::compile::assign(CompilerPack & compPkg, const StmtAssign & stmt) {
+ltn::c::StmtInfo ltn::c::compile::assign(CompilerPack & compPkg, const StmtAssign & stmt) {
 	auto expr = expression(compPkg, *stmt.expr);
 	auto access = var(compPkg, *stmt.var, expr);
 	const SymbolTable & sTable = compPkg.getSymbolTable();

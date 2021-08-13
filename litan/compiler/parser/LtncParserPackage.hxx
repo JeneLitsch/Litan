@@ -3,7 +3,7 @@
 #include "LtncToken.hxx"
 #include "LtncNamespace.hxx"
 #include "LtnErrorReporter.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class ParserPackage {
 	public:
 		ParserPackage(

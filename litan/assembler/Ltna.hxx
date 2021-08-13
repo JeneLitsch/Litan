@@ -2,7 +2,8 @@
 #include "LtnaAssembler.hxx"
 #include "LtnaPseudoAssembler.hxx"
 #include "LtnaAssemblerParser.hxx"
-namespace ltna {
+
+namespace ltn::a {
 	class Ltna {
 	public:
 		std::vector<std::uint64_t> assemble(const std::string & assembly);

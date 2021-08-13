@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-namespace ltnc {
+namespace ltn::c {
 	class IBufferObject {
 	public:
 		virtual std::string toString() const = 0;

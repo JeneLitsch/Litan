@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ltnc {
+namespace ltn::c {
 	enum class ErrorCode {
 		MISC = 0,
 		NO_CODE,

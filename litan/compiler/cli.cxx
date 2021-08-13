@@ -7,7 +7,7 @@
 #include "LtnFileIO.hxx"
 #include "LtnError.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 	class CmdArgs {
 	public:
 		CmdArgs(int argc, char const *argv[]) {
@@ -131,7 +131,7 @@ int main(int argc, char const *argv[]) {
 		return 0;
 	}
 
-	ltnc::CmdArgs args(argc, argv);
+	ltn::c::CmdArgs args(argc, argv);
 	if(!args.getSilent()){
 
 		std::cout << "Litan Compiler (c) Jene Litsch 2021" << std::endl;
@@ -155,13 +155,13 @@ int main(int argc, char const *argv[]) {
 		std::cout << "Dst: " << args.getDstFile() << std::endl;
 
 	}
-	std::vector<ltnc::Ltnc::SourcePair> sources;
+	std::vector<ltn::c::Ltnc::SourcePair> sources;
 	for(const std::string & srcFile : args.getFiles()) {
 		sources.push_back({srcFile, ltn::readFile(srcFile)});
 	}
 	try {
-		ltnc::Ltnc ltnc;
-		ltnc::CompilerSettings settings(
+		ltn::c::Ltnc ltnc;
+		ltn::c::CompilerSettings settings(
 			args.getComments(),
 			args.getOptimizationLevel(),
 			"stdlib");

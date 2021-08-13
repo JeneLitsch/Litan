@@ -10,7 +10,7 @@
 #include "LtncError.hxx"
 #include "LtncErrorCreationCompiler.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 	namespace compile {
 		// Assembly Blocks
 		

@@ -5,7 +5,7 @@
 #include "LtnFloat.hxx"
 #include "LtnRegisterUnderflow.hxx"
 #include "LtnRegisterOverflow.hxx"
-namespace ltn{
+namespace ltn::vm {
 	class Register {
 	public:
 

@@ -1,7 +1,7 @@
 #include "LtnRuntimeError.hxx"
 
-ltn::RuntimeError::RuntimeError(const std::string & msg)
+ltn::vm::RuntimeError::RuntimeError(const std::string & msg)
 	: Error(msg) {}
 
-ltn::RuntimeError::RuntimeError()
+ltn::vm::RuntimeError::RuntimeError()
 	: Error("An error occured during runtime") {}

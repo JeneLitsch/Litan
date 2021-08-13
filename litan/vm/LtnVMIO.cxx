@@ -3,7 +3,7 @@
 #include "LtnIoFormat.hxx"
 
 // print or put value into ouput
-void ltn::VM::print(){
+void ltn::vm::VM::print(){
 	OuputFormat ouputFormat = static_cast<OuputFormat>(this->getArg8());  
 
 	switch (ouputFormat){

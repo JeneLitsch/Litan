@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "LtncBufferObject.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class Comment : public IBufferObject {
 	public:
 		Comment(const std::string & string);

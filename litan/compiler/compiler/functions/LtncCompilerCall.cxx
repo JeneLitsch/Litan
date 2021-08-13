@@ -1,6 +1,6 @@
 #include "LtncCompilerFunctions.hxx"
 
-ltnc::ExprInfo ltnc::compile::call(CompilerPack & compPkg, const ExprCall & expr) {
+ltn::c::ExprInfo ltn::c::compile::call(CompilerPack & compPkg, const ExprCall & expr) {
 	CodeBuffer code(compPkg.getSettings().areCommentsActive());
 	std::vector<Param> params;
 
@@ -10,7 +10,7 @@ ltnc::ExprInfo ltnc::compile::call(CompilerPack & compPkg, const ExprCall & expr
 		params.push_back(Param(exprInfo.typeId, VarId("")));
 		code << exprInfo.code;
 	}
-	ltnc::Function function = [&expr, &params, &compPkg]() {
+	ltn::c::Function function = [&expr, &params, &compPkg]() {
 		FunctionSignature fxSig = FunctionSignature(TypeId(TVoid), expr.name, params, expr.ns);
 		try {
 	 		return compPkg.getSymbolTable().match(expr.debugInfo, fxSig, true);

@@ -7,7 +7,7 @@
 
 void benchmark(const std::vector<std::uint64_t> & instructions, unsigned number){
 	std::cout << ">> Creating virual machine..." << std::endl;
-	ltn::VM vm;
+	ltn::vm::VM vm;
 	std::cout << ">> Initialising vm" << std::endl;
 	vm.init(instructions);
 	std::cout << ">> Benchmarking " << number << "x" << std::endl;
@@ -34,7 +34,7 @@ std::vector<std::uint64_t> load(const std::string & file, const std::string & mo
 void launch(const std::vector<std::uint64_t> & instructions){
 
 	std::cout << ">> Creating virual machine..." << std::endl;
-	ltn::VM vm;
+	ltn::vm::VM vm;
 	std::cout << ">> Initialising vm" << std::endl;
 	vm.init(instructions);
 	std::cout << ">> Starting vm" << std::endl;
@@ -42,7 +42,7 @@ void launch(const std::vector<std::uint64_t> & instructions){
 		vm.run();
 		std::cout << ">> Terminated" << std::endl;
 	}
-	catch(ltn::RuntimeError error) {
+	catch(ltn::vm::RuntimeError error) {
 		std::cout << ">> Error: " << error.what() << std::endl;
 	}	
 }

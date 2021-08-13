@@ -6,7 +6,7 @@
 #include "LtncCodeBuffer.hxx"
 #include "LtncSymbolTable.hxx"
 #include "LtnErrorReporter.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class CompilerPack {
 	public:
 

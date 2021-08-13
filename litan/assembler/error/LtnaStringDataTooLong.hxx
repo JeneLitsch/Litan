@@ -1,6 +1,6 @@
 #pragma once
 #include "LtnaAssemblerError.hxx"
-namespace ltna {
+namespace ltn::a {
 	class StringDataTooLong : public AssemblerError {
 	public:
 		StringDataTooLong();

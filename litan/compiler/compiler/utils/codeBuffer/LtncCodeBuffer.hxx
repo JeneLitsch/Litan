@@ -6,7 +6,7 @@
 #include "LtncAssemblyCode.hxx"
 #include "LtncComment.hxx"
 #include "LtncInst.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class CodeBuffer {
 	public:
 		CodeBuffer(bool comments);

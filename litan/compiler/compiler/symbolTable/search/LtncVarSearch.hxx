@@ -4,7 +4,7 @@
 #include "LtncType.hxx"
 #include "LtncFunction.hxx"
 #include "Unused.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class VarSearch {
 	public:
 		VarSearch(const std::string & name);

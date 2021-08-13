@@ -11,19 +11,19 @@
 #include "LtnPopFromEmpty.hxx"
 
 // memorySize and stackLimit in 64bit blocks
-ltn::VM::VM() {}
+ltn::vm::VM::VM() {}
 
-void ltn::VM::installExtension(IExtension & ext, Slot slot){
+void ltn::vm::VM::installExtension(IExtension & ext, Slot slot){
 	this->extensions[static_cast<unsigned>(slot)] = &ext;
 	ext.setEnvironsment(this->env);
 }
 
 
-void ltn::VM::init(const std::vector<std::uint64_t> & byteCode){
+void ltn::vm::VM::init(const std::vector<std::uint64_t> & byteCode){
 	this->env.bytecode.instructions = byteCode;
 }
 
-void ltn::VM::run(){
+void ltn::vm::VM::run(){
 	this->env.acc.reset();
 	this->env.heap.clear();
 	this->env.stack.clear();
@@ -36,7 +36,7 @@ void ltn::VM::run(){
 
 
 
-void ltn::VM::execute(){
+void ltn::vm::VM::execute(){
 	while(true){
 		const InstCode opcode = static_cast<InstCode>(*this->env.ip & 0xff);
 		this->env.ip++;

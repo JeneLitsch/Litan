@@ -1,6 +1,6 @@
 #pragma once
 #include "LtnaAssemblerError.hxx"
-namespace ltna {
+namespace ltn::a {
 	class InvalidMarker : public AssemblerError {
 	public:
 		std::string marker;

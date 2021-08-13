@@ -5,7 +5,7 @@
 #include "LtncCompilerFunctions.hxx"
 #include "LtnErrorReporter.hxx"
 
-std::string ltnc::Compiler::compile(
+std::string ltn::c::Compiler::compile(
 	const Program & program,
 	ltn::ErrorReporter & error,
 	const CompilerSettings & settings){

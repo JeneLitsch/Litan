@@ -1,6 +1,6 @@
 #include "LtncEvaluator.hxx"
 #include "LtncBaseTypes.hxx"
-std::optional<ltnc::ExprInfo> ltnc::Evaluator::optimize(
+std::optional<ltn::c::ExprInfo> ltn::c::Evaluator::optimize(
 	const ExprInfo & l,
 	const ExprInfo & r) const {
 

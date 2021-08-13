@@ -1,9 +1,9 @@
 #include "LtncModEvaluator.hxx"
 
-double ltnc::ModEvaluator::eval(double a, double b) const {
+double ltn::c::ModEvaluator::eval(double a, double b) const {
 	return a + b;
 }
 
-std::int64_t ltnc::ModEvaluator::eval(std::int64_t a, std::int64_t b) const {
+std::int64_t ltn::c::ModEvaluator::eval(std::int64_t a, std::int64_t b) const {
 	return a + b;
 }

@@ -1,6 +1,6 @@
 #include "LtncCompilerFunctions.hxx"
 
-ltnc::StmtInfo ltnc::compile::repeatLoop(CompilerPack & compPkg, const StmtRepeat & stmt) {
+ltn::c::StmtInfo ltn::c::compile::repeatLoop(CompilerPack & compPkg, const StmtRepeat & stmt) {
 	
 	CodeBuffer code = compPkg.codeBuffer();
 	// From and to expression
@@ -30,7 +30,7 @@ ltnc::StmtInfo ltnc::compile::repeatLoop(CompilerPack & compPkg, const StmtRepea
 }
 
 
-ltnc::StmtInfo ltnc::compile::forLoop(CompilerPack & compPkg, const StmtFor & stmt) {
+ltn::c::StmtInfo ltn::c::compile::forLoop(CompilerPack & compPkg, const StmtFor & stmt) {
 	// From and to expression
 	ExprInfo from = expression(compPkg, *stmt.exprFrom); 
 	ExprInfo to = expression(compPkg, *stmt.exprTo);
@@ -64,7 +64,7 @@ ltnc::StmtInfo ltnc::compile::forLoop(CompilerPack & compPkg, const StmtFor & st
 }
 
 
-ltnc::StmtInfo ltnc::compile::whileLoop(CompilerPack & compPkg, const StmtWhile & stmt) {
+ltn::c::StmtInfo ltn::c::compile::whileLoop(CompilerPack & compPkg, const StmtWhile & stmt) {
 	auto codeExpr = expression(compPkg, *stmt.expr); 
 	auto codeStmt = statement(compPkg, *stmt.stmt);
 	auto endMark = compPkg.getSymbolTable().makeJumpMark("LOOP_END");

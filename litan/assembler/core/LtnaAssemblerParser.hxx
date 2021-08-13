@@ -3,7 +3,7 @@
 #include <vector>
 #include "LtnaTokenPackage.hxx"
 
-namespace ltna {
+namespace ltn::a {
 	class AssemblerParser {
 	public:
 		std::vector<TokenPackage> parse(const std::string & code) const;

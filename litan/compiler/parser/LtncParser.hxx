@@ -2,7 +2,7 @@
 #include "LtncToken.hxx"
 #include "LtncAst.hxx"
 #include "LtnErrorReporter.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class Parser {
 	public:
 		Parser();

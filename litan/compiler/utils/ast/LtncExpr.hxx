@@ -8,7 +8,7 @@
 #include "LtncTypeId.hxx"
 #include "LtncNamespace.hxx"
 #include "LtncConstValue.hxx"
-namespace ltnc {
+namespace ltn::c {
 
 	struct Expr : public AstNode {
 		Expr(const DebugInfo & debugInfo) : AstNode(debugInfo) {}

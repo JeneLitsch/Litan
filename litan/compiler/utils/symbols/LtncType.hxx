@@ -7,7 +7,7 @@
 
 #include "LtncTypeId.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 	struct Var;
 	struct Type {
 

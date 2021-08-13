@@ -8,7 +8,7 @@
 #include "LtnEnvironment.hxx"
 #include "LtnRuntimeError.hxx"
 
-namespace ltn {
+namespace ltn::vm {
 	// the i prefix means integer
 	// the f prefix means floating point
 	// each value and instruction is 64 bit

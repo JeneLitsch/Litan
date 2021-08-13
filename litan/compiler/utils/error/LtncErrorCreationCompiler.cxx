@@ -1,7 +1,7 @@
 #include "LtncErrorCreationCompiler.hxx"
 #include <sstream>
 
-ltnc::Error ltnc::error::incompatibleTypes(
+ltn::c::Error ltn::c::error::incompatibleTypes(
 	const DebugInfo & debugInfo,
 	const TypeId & from,
 	const TypeId & to) {
@@ -13,7 +13,7 @@ ltnc::Error ltnc::error::incompatibleTypes(
 	return Error(ErrorCode::INCOMPATIBLE_TYPES, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::noMatchingFunction(
+ltn::c::Error ltn::c::error::noMatchingFunction(
 	const DebugInfo & debugInfo,
 	const FunctionSignature & fxSignature) {
 	std::stringstream ss;
@@ -22,14 +22,14 @@ ltnc::Error ltnc::error::noMatchingFunction(
 	return Error(ErrorCode::NO_MATCHING_FUNCTION, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::voidParameter(
+ltn::c::Error ltn::c::error::voidParameter(
 	const DebugInfo & debugInfo){
 	std::stringstream ss;
 	ss	<< "Void parameter is not allowed.";
 	return Error(ErrorCode::VOID_PARAMETER, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::voidVariable(
+ltn::c::Error ltn::c::error::voidVariable(
 	const DebugInfo & debugInfo,
 	const VarId & varId){
 	std::stringstream ss;
@@ -38,28 +38,28 @@ ltnc::Error ltnc::error::voidVariable(
 	return Error(ErrorCode::VOID_VARIABLE, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::lowerBoundNotInt(
+ltn::c::Error ltn::c::error::lowerBoundNotInt(
 	const DebugInfo & debugInfo){
 	std::stringstream ss;
 	ss	<< "Lower bound of for loop needs to be an Int.";
 	return Error(ErrorCode::LOWER_BOUND_NOT_INT, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::upperBoundNotInt(
+ltn::c::Error ltn::c::error::upperBoundNotInt(
 	const DebugInfo & debugInfo){
 	std::stringstream ss;
 	ss	<< "Upper bound of for loop needs to be an Int.";
 	return Error(ErrorCode::UPPER_BOUND_NOT_INT, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::repeatCountNotInt(
+ltn::c::Error ltn::c::error::repeatCountNotInt(
 	const DebugInfo & debugInfo){
 	std::stringstream ss;
 	ss	<< "Repeat count needs to be an Int.";
 	return Error(ErrorCode::REPEAT_COUNT_NOT_INT, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::unmatchingReturnType(
+ltn::c::Error ltn::c::error::unmatchingReturnType(
 	const TypeId & returnType,
 	const TypeId & exprType,
 	const DebugInfo & debugInfo){
@@ -71,7 +71,7 @@ ltnc::Error ltnc::error::unmatchingReturnType(
 	return Error(ErrorCode::UNMATCHING_RETURN_TYPE, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::incompatibleOperator(
+ltn::c::Error ltn::c::error::incompatibleOperator(
 	const TypeId & typeId,
 	const std::string & op,
 	const DebugInfo & debugInfo){
@@ -83,10 +83,10 @@ ltnc::Error ltnc::error::incompatibleOperator(
 	return Error(ErrorCode::INCOMPATIBLE_OPERATOR, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::notAMember(
-	const ltnc::VarId & member,
-	const ltnc::TypeId & typeId,
-	const ltnc::DebugInfo & debugInfo) {
+ltn::c::Error ltn::c::error::notAMember(
+	const ltn::c::VarId & member,
+	const ltn::c::TypeId & typeId,
+	const ltn::c::DebugInfo & debugInfo) {
 	std::stringstream ss;
 	ss	<< member 
 		<< " is not a member of "
@@ -94,9 +94,9 @@ ltnc::Error ltnc::error::notAMember(
 	return Error(ErrorCode::NOT_A_MEMBER, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::undefinedVariable(
-	const ltnc::VarId & member,
-	const ltnc::DebugInfo & debugInfo) {
+ltn::c::Error ltn::c::error::undefinedVariable(
+	const ltn::c::VarId & member,
+	const ltn::c::DebugInfo & debugInfo) {
 	std::stringstream ss;
 	ss	<< "Variable " 
 		<< member
@@ -104,28 +104,28 @@ ltnc::Error ltnc::error::undefinedVariable(
 	return Error(ErrorCode::UNDEFINED_VARIABLE, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::invalidStatement(
+ltn::c::Error ltn::c::error::invalidStatement(
 	const DebugInfo & debugInfo) {
 	std::stringstream ss;
 	ss	<< "Invalid statement";
 	return Error(ErrorCode::INVALID_STATEMENT, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::invalidExpression(
+ltn::c::Error ltn::c::error::invalidExpression(
 	const DebugInfo & debugInfo) {
 	std::stringstream ss;
 	ss	<< "Invalid expression";
 	return Error(ErrorCode::INVALID_EXPRESSION, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::invalidBinaryExpression(
+ltn::c::Error ltn::c::error::invalidBinaryExpression(
 	const DebugInfo & debugInfo) {
 	std::stringstream ss;
 	ss	<< "Invalid binary expression";
 	return Error(ErrorCode::INVALID_BINARY_EXPRESSION, ss.str(), debugInfo);
 }
 
-ltnc::Error ltnc::error::invalidUnaryExpression(
+ltn::c::Error ltn::c::error::invalidUnaryExpression(
 	const DebugInfo & debugInfo) {
 	std::stringstream ss;
 	ss	<< "Invalid unary expression";

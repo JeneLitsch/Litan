@@ -1,10 +1,10 @@
 #include "LtncStructurePrinter.hxx"
 #include <sstream>
 
-ltnc::StructurePrinter::StructurePrinter(const Program & program)
+ltn::c::StructurePrinter::StructurePrinter(const Program & program)
 	: program(program) {}
 
-std::string ltnc::StructurePrinter::print() const {
+std::string ltn::c::StructurePrinter::print() const {
 	std::stringstream ss;
 	for(const auto & fx : this->program.functions) {
 		ss << "Fx: ";
@@ -28,7 +28,7 @@ std::string ltnc::StructurePrinter::print() const {
 }
 
 
-std::ostream & ltnc::operator<<(std::ostream & stream, const StructurePrinter & printer) {
+std::ostream & ltn::c::operator<<(std::ostream & stream, const StructurePrinter & printer) {
 	stream << printer.print();
 	return stream;
 }

@@ -1,6 +1,6 @@
 #include "LtncParserFunctions.hxx"
 
-std::unique_ptr<ltnc::Stmt> ltnc::parse::ifElse(ParserPackage & parsePkg) {
+std::unique_ptr<ltn::c::Stmt> ltn::c::parse::ifElse(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::IF)) {
 		auto ifElse = std::make_unique<StmtIf>(parsePkg.prev().debugInfo);
 		if(parsePkg.match(TokenType::L_PAREN)) {

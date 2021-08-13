@@ -6,8 +6,9 @@
 #include <iostream>
 #include <filesystem>
 #include "LtnVectorUtils.hxx"
+#include "LtnaAssemblerError.hxx"
 
-std::vector<ltna::TokenPackage> ltna::PseudoAssembler::process(const std::vector<TokenPackage> & tokensPackages) {
+std::vector<ltn::a::TokenPackage> ltn::a::PseudoAssembler::process(const std::vector<TokenPackage> & tokensPackages) {
 	std::vector<TokenPackage> newPkgs;
 	bool ok = true;
 	std::size_t lineNr = 1;
@@ -30,11 +31,11 @@ std::vector<ltna::TokenPackage> ltna::PseudoAssembler::process(const std::vector
 	}
 }
 
-void ltna::PseudoAssembler::registerAlias(const std::string & alias, ltn::Slot slot, std::uint8_t funct) {
+void ltn::a::PseudoAssembler::registerAlias(const std::string & alias, ltn::Slot slot, std::uint8_t funct) {
 	this->aliases[alias] = { slot, funct };
 }
 
-std::vector<ltna::TokenPackage> ltna::PseudoAssembler::processPkg(const TokenPackage & pkg) {
+std::vector<ltn::a::TokenPackage> ltn::a::PseudoAssembler::processPkg(const TokenPackage & pkg) {
 	if (pkg.args.size() == 1) {
 		if(pkg.inst == "newi") {
 			long value = std::stoll(pkg.args[0]);
@@ -65,7 +66,7 @@ std::vector<ltna::TokenPackage> ltna::PseudoAssembler::processPkg(const TokenPac
 					this->processPkg(TokenPackage(pkg.line, "bitor", {}));
 			}
 			catch(...) {
-				throw std::runtime_error("Invalid floating point number: \"" + pkg.args[0] + "\"");
+				throw ltn::a::AssemblerError("Invalid floating point number: \"" + pkg.args[0] + "\"");
 			}
 		}
 	}

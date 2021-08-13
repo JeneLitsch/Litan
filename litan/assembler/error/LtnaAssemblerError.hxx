@@ -1,6 +1,6 @@
 #pragma once
 #include "LtnError.hxx"
-namespace ltna {
+namespace ltn::a {
 	class AssemblerError : public ltn::Error {
 	public:
 		AssemblerError(

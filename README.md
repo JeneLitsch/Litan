@@ -2,7 +2,7 @@
 [Li]gh[t]weight [A]ssembly E[n]gine
 
 ### Components
-- ltnc:   Compiler
+- ltn::c:   Compiler
 - ltna:   Assembler
 - ltnvm:  Virtual Machine
 

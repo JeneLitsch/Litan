@@ -7,7 +7,7 @@
 #include "LtncVar.hxx"
 #include "LtncFunctionSignature.hxx"
 #include "LtncStmt.hxx"
-namespace ltnc {
+namespace ltn::c {
 	struct Stmt;
 	struct StmtVar;
 	

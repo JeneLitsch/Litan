@@ -1,99 +1,99 @@
 #include "LtncParserFunctions.hxx"
 
-std::string functionName(ltnc::ParserPackage & parsePkg) {
-	if(parsePkg.match(ltnc::TokenType::IDENTIFIER)) {
+std::string functionName(ltn::c::ParserPackage & parsePkg) {
+	if(parsePkg.match(ltn::c::TokenType::IDENTIFIER)) {
 		return parsePkg.prev().string;
 	}
-	throw ltnc::error::unnamedFunction(parsePkg);
+	throw ltn::c::error::unnamedFunction(parsePkg);
 }
 
 
-std::optional<ltnc::Param> parameter(ltnc::ParserPackage & parsePkg) {
-	if(parsePkg.curr().type == ltnc::TokenType::IDENTIFIER) {
-		ltnc::TypeId typeId = ltnc::parse::typeId(parsePkg);
+std::optional<ltn::c::Param> parameter(ltn::c::ParserPackage & parsePkg) {
+	if(parsePkg.curr().type == ltn::c::TokenType::IDENTIFIER) {
+		ltn::c::TypeId typeId = ltn::c::parse::typeId(parsePkg);
 		// allowed
-		if(parsePkg.match(ltnc::TokenType::IDENTIFIER)) {
+		if(parsePkg.match(ltn::c::TokenType::IDENTIFIER)) {
 			std::string name = parsePkg.prev().string;
-			parsePkg.match(ltnc::TokenType::COMMA);
-			return ltnc::Param(typeId, name);
+			parsePkg.match(ltn::c::TokenType::COMMA);
+			return ltn::c::Param(typeId, name);
 		}
 		else{
-			ltnc::error::unnamedParameter(parsePkg);
+			ltn::c::error::unnamedParameter(parsePkg);
 		}
 	}
 	return {};
 }
 
 
-std::vector<ltnc::Param> parameterList(ltnc::ParserPackage & parsePkg) {
+std::vector<ltn::c::Param> parameterList(ltn::c::ParserPackage & parsePkg) {
 	// parameter list
-	if(parsePkg.match(ltnc::TokenType::L_PAREN)) {
-		std::vector<ltnc::Param> parameters;
+	if(parsePkg.match(ltn::c::TokenType::L_PAREN)) {
+		std::vector<ltn::c::Param> parameters;
 		while(auto param = parameter(parsePkg)) {
 			parameters.push_back(*param);
 		}
-		if(parsePkg.match(ltnc::TokenType::R_PAREN)) {
+		if(parsePkg.match(ltn::c::TokenType::R_PAREN)) {
 			return parameters;
 		}
-		throw ltnc::error::unclosedParameterList(parsePkg);
+		throw ltn::c::error::unclosedParameterList(parsePkg);
 	}
-	throw ltnc::error::unopenedParameterList(parsePkg);
+	throw ltn::c::error::unopenedParameterList(parsePkg);
 }
 
 
 
-ltnc::TypeId returnType(ltnc::ParserPackage & parsePkg) {
-	if(parsePkg.match(ltnc::TokenType::ARROW)) {
+ltn::c::TypeId returnType(ltn::c::ParserPackage & parsePkg) {
+	if(parsePkg.match(ltn::c::TokenType::ARROW)) {
 		try {
-			return ltnc::parse::typeId(parsePkg);
+			return ltn::c::parse::typeId(parsePkg);
 		}
 		catch(...) {}
 	}
-	throw ltnc::error::missingReturnType(parsePkg);
+	throw ltn::c::error::missingReturnType(parsePkg);
 }
 
 
 
-std::unique_ptr<ltnc::Stmt> body(ltnc::ParserPackage & parsePkg) {
-	if(auto body = ltnc::parse::statement(parsePkg)) {
+std::unique_ptr<ltn::c::Stmt> body(ltn::c::ParserPackage & parsePkg) {
+	if(auto body = ltn::c::parse::statement(parsePkg)) {
 		return body;
 	}
-	throw ltnc::error::expectedStatement(parsePkg);
+	throw ltn::c::error::expectedStatement(parsePkg);
 }
 
-bool isTemplate(ltnc::ParserPackage & parsePkg) {
-	return parsePkg.match(ltnc::TokenType::TEMPLATE);
+bool isTemplate(ltn::c::ParserPackage & parsePkg) {
+	return parsePkg.match(ltn::c::TokenType::TEMPLATE);
 }
 
-std::optional<std::string> templateParameter(ltnc::ParserPackage & parsePkg) {
-	if(parsePkg.match(ltnc::TokenType::IDENTIFIER)) {
+std::optional<std::string> templateParameter(ltn::c::ParserPackage & parsePkg) {
+	if(parsePkg.match(ltn::c::TokenType::IDENTIFIER)) {
 		std::string name = parsePkg.prev().string;
-		parsePkg.match(ltnc::TokenType::COMMA);
+		parsePkg.match(ltn::c::TokenType::COMMA);
 		return name;
 	}
 	return {};
 }
 
-std::vector<std::string> templateParameterList(ltnc::ParserPackage & parsePkg) {
-	if(parsePkg.match(ltnc::TokenType::SMALLER)) {
+std::vector<std::string> templateParameterList(ltn::c::ParserPackage & parsePkg) {
+	if(parsePkg.match(ltn::c::TokenType::SMALLER)) {
 		std::vector<std::string> parameters;
 		while(auto param = templateParameter(parsePkg)) {
 			parameters.push_back(*param);
 		}
-		if(parsePkg.match(ltnc::TokenType::BIGGER)) {
+		if(parsePkg.match(ltn::c::TokenType::BIGGER)) {
 			return parameters;
 		}
-		throw ltnc::error::unclosedParameterList(parsePkg);
+		throw ltn::c::error::unclosedParameterList(parsePkg);
 	}
-	throw ltnc::error::unopenedParameterList(parsePkg);
+	throw ltn::c::error::unopenedParameterList(parsePkg);
 }
 
-std::unique_ptr<ltnc::DeclFunction> ltnc::parse::declareFunction(ParserPackage & parsePkg) {
+std::unique_ptr<ltn::c::DeclFunction> ltn::c::parse::declareFunction(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::FX)){
 		auto debugInfo 		= parsePkg.prev().debugInfo; 
 		if(isTemplate(parsePkg)) {
 			templateParameterList(parsePkg);
-			throw ltnc::Error(ErrorCode::MISC, "Templates are not supported yet", debugInfo);
+			throw ltn::c::Error(ErrorCode::MISC, "Templates are not supported yet", debugInfo);
 		}
 		else {
 			auto name 			= ::functionName(parsePkg);

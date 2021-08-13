@@ -3,7 +3,7 @@
 #include "LtncAst.hxx"
 #include "LtncCompilerSettings.hxx"
 #include "LtnErrorReporter.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class Compiler {
 	public:
 		std::string compile(

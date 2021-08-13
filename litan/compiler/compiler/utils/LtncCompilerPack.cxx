@@ -1,24 +1,24 @@
 #include "LtncCompilerPack.hxx"
 #include <iostream>
-ltnc::CompilerPack::CompilerPack(
+ltn::c::CompilerPack::CompilerPack(
 	const CompilerSettings & settings,
 	ltn::ErrorReporter & error) 
 	: error(error), settings(settings) {
 }
 
-const ltnc::SymbolTable & ltnc::CompilerPack::getSymbolTable() const {
+const ltn::c::SymbolTable & ltn::c::CompilerPack::getSymbolTable() const {
 	return this->symbolTable;
 }
 
-ltnc::SymbolTable & ltnc::CompilerPack::getSymbolTable(){
+ltn::c::SymbolTable & ltn::c::CompilerPack::getSymbolTable(){
 	return this->symbolTable;
 }
 
 
-const ltnc::CompilerSettings & ltnc::CompilerPack::getSettings() const {
+const ltn::c::CompilerSettings & ltn::c::CompilerPack::getSettings() const {
 	return this->settings;
 }
 
-ltnc::CodeBuffer ltnc::CompilerPack::codeBuffer() const {
+ltn::c::CodeBuffer ltn::c::CompilerPack::codeBuffer() const {
 	return CodeBuffer(this->settings.areCommentsActive());
 }

@@ -1,6 +1,6 @@
 #include "LtncCompilerFunctions.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 	class LiteralExtractor {
 	public:
 		LiteralExtractor(CompilerPack & compPkg)
@@ -42,6 +42,6 @@ namespace ltnc {
 	};
 }
 
-ltnc::ExprInfo ltnc::compile::literal(CompilerPack & compPkg, const ExprLiteral & expr) {
+ltn::c::ExprInfo ltn::c::compile::literal(CompilerPack & compPkg, const ExprLiteral & expr) {
 	return std::visit(LiteralExtractor(compPkg), expr.value);
 }

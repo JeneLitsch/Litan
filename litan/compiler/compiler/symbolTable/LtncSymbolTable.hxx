@@ -4,7 +4,7 @@
 #include <variant>
 #include "LtncFunction.hxx"
 #include "LtncDebugInfo.hxx"
-namespace ltnc {
+namespace ltn::c {
 
 	class SymbolTable {
 	public:

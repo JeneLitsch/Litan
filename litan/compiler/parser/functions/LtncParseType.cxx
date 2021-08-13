@@ -1,6 +1,6 @@
 #include "LtncParserFunctions.hxx"
 
-std::unique_ptr<ltnc::Type> ltnc::parse::declareType(ParserPackage & parsePkg) {
+std::unique_ptr<ltn::c::Type> ltn::c::parse::declareType(ParserPackage & parsePkg) {
 	if (parsePkg.match(TokenType::TYPEDEF)) {
 		if(parsePkg.match(TokenType::IDENTIFIER)){
 			std::string typeName = parsePkg.prev().string;

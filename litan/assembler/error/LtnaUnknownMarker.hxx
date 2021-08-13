@@ -1,6 +1,6 @@
 #pragma once
 #include "LtnaInvalidMarker.hxx"
-namespace ltna {
+namespace ltn::a {
 	class UnknownMarker : public InvalidMarker {
 	public:
 		UnknownMarker(const std::string & marker);

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "LtncCodeBuffer.hxx"
-namespace ltnc {
+namespace ltn::c {
 	struct StmtInfo {
 		StmtInfo(const CodeBuffer & code, unsigned stackalloc)
 			: code(code), stackalloc(stackalloc)  {}

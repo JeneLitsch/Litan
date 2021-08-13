@@ -8,23 +8,23 @@
 
 #include <functional>
 
-std::string useSuffux(const ltnc::TypeId & typeId) {
+std::string useSuffux(const ltn::c::TypeId & typeId) {
 	if(typeId == TInt) return "i";
 	if(typeId == TBool) return "i";
 	if(typeId == TFloat) return "f";
 	throw std::runtime_error("Invalid Type for operation");
 }
 
-std::string ingoreSuffix(const ltnc::TypeId & typeId) {
+std::string ingoreSuffix(const ltn::c::TypeId & typeId) {
 	if(typeId == TInt) return "";
 	if(typeId == TBool) return "";
 	if(typeId == TFloat) return "";
 	throw std::runtime_error("Invalid Type for operation");
 }
 
-std::optional<ltnc::TypeId> matchTypes(
-	const ltnc::TypeId & typeL,
-	const ltnc::TypeId & typeR) {
+std::optional<ltn::c::TypeId> matchTypes(
+	const ltn::c::TypeId & typeL,
+	const ltn::c::TypeId & typeR) {
 	
 	if(typeL == typeR) return typeL;
 	if(typeL == TInt && typeR == TBool) return TInt;
@@ -32,20 +32,20 @@ std::optional<ltnc::TypeId> matchTypes(
 	return {};
 }
 
-ltnc::ExprInfo buildBinary(
-	ltnc::CompilerPack & compPkg,
-	const ltnc::ExprBinary & expr,
+ltn::c::ExprInfo buildBinary(
+	ltn::c::CompilerPack & compPkg,
+	const ltn::c::ExprBinary & expr,
 	const std::string & command,
-	const std::function<std::string(const ltnc::TypeId & typeId)> & getSuffix,
-	const ltnc::Evaluator * eval = nullptr) {
+	const std::function<std::string(const ltn::c::TypeId & typeId)> & getSuffix,
+	const ltn::c::Evaluator * eval = nullptr) {
 	
 	// left and right
-	ltnc::ExprInfo l = ltnc::compile::expression(compPkg, *expr.l);
-	ltnc::ExprInfo r = ltnc::compile::expression(compPkg, *expr.r);
+	ltn::c::ExprInfo l = ltn::c::compile::expression(compPkg, *expr.l);
+	ltn::c::ExprInfo r = ltn::c::compile::expression(compPkg, *expr.r);
 	// mismatch
-	std::optional<ltnc::TypeId> type = matchTypes(l.typeId, r.typeId);
+	std::optional<ltn::c::TypeId> type = matchTypes(l.typeId, r.typeId);
 	if(!type) {
-		throw ltnc::error::incompatibleTypes(expr.debugInfo, l.typeId, r.typeId);
+		throw ltn::c::error::incompatibleTypes(expr.debugInfo, l.typeId, r.typeId);
 	}
 	// i or f for int or float
 	std::string suffix = getSuffix(*type);
@@ -57,24 +57,24 @@ ltnc::ExprInfo buildBinary(
 		}
 	}
 
-	ltnc::CodeBuffer code(compPkg.getSettings().areCommentsActive());
+	ltn::c::CodeBuffer code(compPkg.getSettings().areCommentsActive());
 	code << l.code;
 	code << r.code;
-	code << ltnc::AssemblyCode(command + suffix);
+	code << ltn::c::AssemblyCode(command + suffix);
 	
-	return ltnc::ExprInfo(*type, code);
+	return ltn::c::ExprInfo(*type, code);
 }
 
-ltnc::ExprInfo overrideType(
-	const ltnc::ExprInfo & exprInfo,
-	const ltnc::TypeId & typeId) {
+ltn::c::ExprInfo overrideType(
+	const ltn::c::ExprInfo & exprInfo,
+	const ltn::c::TypeId & typeId) {
 	if(exprInfo.constValue) {
-		return ltnc::ExprInfo(typeId, exprInfo.code, *exprInfo.constValue);
+		return ltn::c::ExprInfo(typeId, exprInfo.code, *exprInfo.constValue);
 	}
-	return ltnc::ExprInfo(typeId, exprInfo.code);
+	return ltn::c::ExprInfo(typeId, exprInfo.code);
 }
 
-ltnc::ExprInfo ltnc::compile::binaryExpr(CompilerPack & compPkg, const ExprBinary & expr) {
+ltn::c::ExprInfo ltn::c::compile::binaryExpr(CompilerPack & compPkg, const ExprBinary & expr) {
 	// static const AddEvaluator addEvaluator;
 	// static const SubEvaluator subEvaluator;
 	// static const MltEvaluator mltEvaluator;

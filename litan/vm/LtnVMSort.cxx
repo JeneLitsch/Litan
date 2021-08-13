@@ -1,7 +1,7 @@
 #include "LtnVM.hxx"
 #include <bitset>
 #include <iostream>
-void ltn::VM::sortRadix() {
+void ltn::vm::VM::sortRadix() {
 
 	const std::uint64_t ptr = this->env.acc.popU();
 	HeapArray & arr = this->env.heap.access<HeapArray>(ptr);

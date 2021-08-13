@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "LtncNamespace.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class Symbol {
 	public:
 		Symbol(const std::string & name);

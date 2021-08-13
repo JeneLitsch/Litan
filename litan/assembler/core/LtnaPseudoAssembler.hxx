@@ -3,7 +3,7 @@
 #include <map>
 #include "LtnExtSlot.hxx"
 #include <set>
-namespace ltna {
+namespace ltn::a {
 	// preprocessor for translate pseudo instructions, macros and preprocessor directives
 	class PseudoAssembler {
 	public:

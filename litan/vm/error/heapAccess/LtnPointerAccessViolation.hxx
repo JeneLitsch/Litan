@@ -1,6 +1,6 @@
 #pragma once
 #include "LtnAccessViolation.hxx"
-namespace ltn {
+namespace ltn::vm {
 	class PointerAccessViolation : public AccessViolation {
 	public:
 		PointerAccessViolation(

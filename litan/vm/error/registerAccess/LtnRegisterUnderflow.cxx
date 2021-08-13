@@ -1,4 +1,4 @@
 #include "LtnRegisterUnderflow.hxx"
 
-ltn::RegisterUnderflow::RegisterUnderflow()
+ltn::vm::RegisterUnderflow::RegisterUnderflow()
 	: RuntimeError("Register underflow") {}

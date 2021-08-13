@@ -1,6 +1,6 @@
 #include "LtncParserFunctions.hxx"
 
-std::unique_ptr<ltnc::Stmt> ltnc::parse::forLoop(ParserPackage & parsePkg) {
+std::unique_ptr<ltn::c::Stmt> ltn::c::parse::forLoop(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::FOR)) {
 		auto loop = std::make_unique<StmtFor>(parsePkg.prev().debugInfo);
 		if(parsePkg.match(TokenType::L_PAREN)) {
@@ -31,7 +31,7 @@ std::unique_ptr<ltnc::Stmt> ltnc::parse::forLoop(ParserPackage & parsePkg) {
 }
 
 
-std::unique_ptr<ltnc::Stmt> ltnc::parse::repeatLoop(ParserPackage & parsePkg) {
+std::unique_ptr<ltn::c::Stmt> ltn::c::parse::repeatLoop(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::REPEAT)) {
 		auto loop = std::make_unique<StmtRepeat>(parsePkg.prev().debugInfo);
 		if(parsePkg.match(TokenType::L_PAREN)) {
@@ -50,7 +50,7 @@ std::unique_ptr<ltnc::Stmt> ltnc::parse::repeatLoop(ParserPackage & parsePkg) {
 }
 
 
-std::unique_ptr<ltnc::Stmt> ltnc::parse::whileLoop(ParserPackage & parsePkg) {
+std::unique_ptr<ltn::c::Stmt> ltn::c::parse::whileLoop(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::WHILE)) {
 		auto loop = std::make_unique<StmtWhile>(parsePkg.prev().debugInfo);
 		if(parsePkg.match(TokenType::L_PAREN)) {

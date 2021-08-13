@@ -2,7 +2,7 @@
 #include <stack>
 #include "LtnInstructions.hxx"
 #include "LtnEnvironment.hxx"
-namespace ltn{
+namespace ltn::vm {
 	struct Loop {
 		Loop(std::uint64_t addr, std::int64_t start, std::int64_t end)
 			: end(end), infinite(false){

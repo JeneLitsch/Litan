@@ -2,7 +2,7 @@
 #include "LtncFunction.hxx"
 #include "LtncCodeBuffer.hxx"
 #include "LtncCompilerPack.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class CtorGenerator {
 	public:
 		CodeBuffer defaultCtor(

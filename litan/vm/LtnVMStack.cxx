@@ -1,13 +1,13 @@
 #include "LtnVM.hxx"
 
-void ltn::VM::stackPush(){
+void ltn::vm::VM::stackPush(){
 	const std::uint64_t value = env.acc.popU();
 	const std::uint64_t ptr = env.acc.popU();
 	auto & stack = env.heap.access<HeapStack>(ptr);
 	stack.push(value);
 }
 
-void ltn::VM::stackPop(){
+void ltn::vm::VM::stackPop(){
 	const std::uint64_t ptr = env.acc.popU();
 	auto & stack = env.heap.access<HeapStack>(ptr);
 	const std::uint64_t value = stack.top();
@@ -15,26 +15,26 @@ void ltn::VM::stackPop(){
 	env.acc.push(value);
 }
 
-void ltn::VM::stackTop(){
+void ltn::vm::VM::stackTop(){
 	const std::uint64_t ptr = env.acc.popU();
 	auto & stack = env.heap.access<HeapStack>(ptr);
 	const std::uint64_t value = stack.top();
 	env.acc.push(value);
 }
 
-void ltn::VM::stackEmpty(){
+void ltn::vm::VM::stackEmpty(){
 	const std::uint64_t ptr = env.acc.popU();
 	auto & stack = env.heap.access<HeapStack>(ptr);
 	env.acc.push(std::uint64_t(stack.empty()));
 }
 
-void ltn::VM::stackSize(){
+void ltn::vm::VM::stackSize(){
 	const std::uint64_t ptr = env.acc.popU();
 	auto & stack = env.heap.access<HeapStack>(ptr);
 	env.acc.push(std::uint64_t(stack.size()));
 }
 
-void ltn::VM::stackClear(){
+void ltn::vm::VM::stackClear(){
 	const std::uint64_t ptr = env.acc.popU();
 	auto & stack = env.heap.access<HeapStack>(ptr);
 	stack = {};

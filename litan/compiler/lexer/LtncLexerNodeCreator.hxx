@@ -1,6 +1,6 @@
 #pragma once
 #include "LtncLexerNode.hxx"
-namespace ltnc {
+namespace ltn::c {
 	// creates a variaty of lexing nodes
 	class LexerNodeCreator {
 	public:

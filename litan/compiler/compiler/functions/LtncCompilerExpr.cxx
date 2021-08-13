@@ -1,6 +1,6 @@
 #include "LtncCompilerFunctions.hxx"
 
-ltnc::ExprInfo ltnc::compile::expression(CompilerPack & compPkg, const Expr & expr) {
+ltn::c::ExprInfo ltn::c::compile::expression(CompilerPack & compPkg, const Expr & expr) {
 	if(auto expr_ = dynamic_cast<const ExprLiteral *>(&expr)) {
 		return literal(compPkg, *expr_);
 	}

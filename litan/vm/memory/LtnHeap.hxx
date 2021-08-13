@@ -6,7 +6,7 @@
 #include "LtnHeapObject.hxx"
 #include "LtnNullptrViolation.hxx"
 #include "LtnPointerAccessViolation.hxx"
-namespace ltn {
+namespace ltn::vm {
 	class Heap {
 	public:
 		Heap();

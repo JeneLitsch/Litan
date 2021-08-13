@@ -1,7 +1,7 @@
 #include "LtncCompilerFunctions.hxx"
 #include "LtnErrorReporter.hxx"
 
-ltnc::StmtInfo ltnc::compile::codeBlock(
+ltn::c::StmtInfo ltn::c::compile::codeBlock(
 	CompilerPack & compPkg,
 	const StmtBlock & block) {
 

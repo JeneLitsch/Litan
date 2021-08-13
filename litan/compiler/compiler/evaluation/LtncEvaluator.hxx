@@ -4,7 +4,7 @@
 #include "LtncExprInfo.hxx"
 #include "LtncCodeBuffer.hxx"
 #include "LtncAssemblyCode.hxx"
-namespace ltnc {
+namespace ltn::c {
 	// Base class for binary operator 
 	class Evaluator {
 	public:

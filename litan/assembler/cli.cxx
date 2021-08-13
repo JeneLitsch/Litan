@@ -18,12 +18,12 @@ int main(int argc, char const *argv[]) {
 	
 
 	std::string assembly = ltn::readFile(src);
-	ltna::Ltna ltnA;
+	ltn::a::Ltna ltnA;
 	std::vector<std::uint64_t> byteCode;
 	try {
 		byteCode = ltnA.assemble(assembly);
 	}
-	catch (const ltna::AssemblerError & error) {
+	catch (const ltn::a::AssemblerError & error) {
 		std::cout << "Error while assembling: " << error << std::endl;
 		std::cout << std::endl;
 		return -1;

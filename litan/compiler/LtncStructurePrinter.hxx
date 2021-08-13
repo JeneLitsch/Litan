@@ -2,7 +2,7 @@
 #include "LtncAst.hxx"
 #include <ostream>
 
-namespace ltnc {
+namespace ltn::c {
 	class StructurePrinter {
 	public:
 		StructurePrinter(const Program & program);

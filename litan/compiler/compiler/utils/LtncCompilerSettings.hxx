@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-namespace ltnc {
+namespace ltn::c {
 	class CompilerSettings {
 	public:
 		CompilerSettings(bool comments, unsigned optimization, const std::string & stdlibPath);

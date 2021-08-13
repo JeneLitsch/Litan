@@ -2,10 +2,10 @@
 #include <iostream>
 #include "LtncParserPackage.hxx"
 #include "LtncParserFunctions.hxx"
-ltnc::Parser::Parser() {}
+ltn::c::Parser::Parser() {}
 
 
-std::unique_ptr<ltnc::Program> ltnc::Parser::parse(
+std::unique_ptr<ltn::c::Program> ltn::c::Parser::parse(
 	ltn::ErrorReporter & error,
 	const std::vector<Token> & tokens) const {
 
@@ -15,7 +15,7 @@ std::unique_ptr<ltnc::Program> ltnc::Parser::parse(
 		try {
 			parse::declaration(parsePkg, *program);
 		}
-		catch(const ltnc::Error & error) {
+		catch(const ltn::c::Error & error) {
 			parsePkg.error << error;
 			parsePkg.resync({ 
 				TokenType::FX,

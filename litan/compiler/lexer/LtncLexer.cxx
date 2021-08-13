@@ -2,10 +2,10 @@
 #include "LtncError.hxx"
 #include "LtncErrorCreationLexer.hxx"
 
-ltnc::Lexer::Lexer() {}
+ltn::c::Lexer::Lexer() {}
 
 
-std::vector<ltnc::Token> ltnc::Lexer::tokenize(
+std::vector<ltn::c::Token> ltn::c::Lexer::tokenize(
 	const std::string & source,
 	const std::string & sourceName) {
 	typedef LexerNodeCreator LNC;
@@ -80,7 +80,7 @@ std::vector<ltnc::Token> ltnc::Lexer::tokenize(
 
 
 
-void ltnc::Lexer::process(LexerPackage & lexPkg, LexerNode & tree) {
+void ltn::c::Lexer::process(LexerPackage & lexPkg, LexerNode & tree) {
 	lexPkg.sync();
 	if(tree.eval(lexPkg)) {
 		return;

@@ -2,7 +2,7 @@
 #include <string>
 #include <cstdint>
 #include <unordered_map>
-namespace ltna {
+namespace ltn::a {
 	class MarkerTable {
 	public:
 		void clear();

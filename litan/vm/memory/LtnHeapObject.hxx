@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <variant>
 #include "LtnHeapTypes.hxx"
-namespace ltn {
+namespace ltn::vm {
 	using HeapArray = std::vector<std::uint64_t>;
 	using HeapStack = std::stack<std::uint64_t>;
 	using HeapQueue = std::queue<std::uint64_t>;

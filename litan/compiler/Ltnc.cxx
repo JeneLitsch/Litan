@@ -6,11 +6,11 @@
 #include "LtnFileIO.hxx"
 #include "LtncStructurePrinter.hxx"
 
-std::vector<ltnc::Ltnc::SourcePair> includeStdLib(
-	const std::vector<ltnc::Ltnc::SourcePair> & sources_,
+std::vector<ltn::c::Ltnc::SourcePair> includeStdLib(
+	const std::vector<ltn::c::Ltnc::SourcePair> & sources_,
 	const std::string & stdPath) {
 	
-	std::vector<ltnc::Ltnc::SourcePair> sources = sources_;
+	std::vector<ltn::c::Ltnc::SourcePair> sources = sources_;
 	std::vector<std::string> libFiles = {
 		"/basic.ltn",
 		"/math.ltn",
@@ -31,11 +31,11 @@ std::vector<ltnc::Ltnc::SourcePair> includeStdLib(
 	return sources;
 }
 
-std::vector<ltnc::Token> tokenize(
-	const std::vector<ltnc::Ltnc::SourcePair> & sources) {
-	ltnc::Lexer lexer;
-	std::vector<ltnc::Token> tokens;
-	for(const ltnc::Ltnc::SourcePair & source : sources) {
+std::vector<ltn::c::Token> tokenize(
+	const std::vector<ltn::c::Ltnc::SourcePair> & sources) {
+	ltn::c::Lexer lexer;
+	std::vector<ltn::c::Token> tokens;
+	for(const ltn::c::Ltnc::SourcePair & source : sources) {
 		auto newTokens = lexer.tokenize(source.source, source.sourceName);
 		tokens.reserve(tokens.size() + newTokens.size());
 		for(const auto & token : newTokens) {
@@ -45,14 +45,14 @@ std::vector<ltnc::Token> tokenize(
 	return tokens;
 }
 
-std::string ltnc::Ltnc::compile(
+std::string ltn::c::Ltnc::compile(
 	const std::vector<SourcePair> & sources_,
 	const CompilerSettings & settings,
 	bool silent,
 	bool print) const {
 
-	ltnc::Parser parser;
-	ltnc::Compiler compiler;
+	ltn::c::Parser parser;
+	ltn::c::Compiler compiler;
 	ltn::ErrorReporter error;
 
 

@@ -10,7 +10,7 @@
 #include "LtnaUnknownInstruction.hxx"
 using namespace std;
 
-namespace ltna {
+namespace ltn::a {
 
 	using InstCreateFx = std::function<std::uint64_t(
 		const std::vector<std::string> &,
@@ -201,7 +201,7 @@ namespace ltna {
 
 	// Iterate over instructions and track all jumpmarks
 	MarkerTable searchMarkers(const std::vector<TokenPackage> & tokenPackages) {
-		ltna::MarkerTable markerTable;
+		ltn::a::MarkerTable markerTable;
 		std::size_t cmdNr = 0;
 		for(const TokenPackage & pkg : tokenPackages){
 			// ingore empty line	
@@ -245,7 +245,7 @@ namespace ltna {
 }
 
 // Assembles code to Instruction list
-std::vector<std::uint64_t> ltna::Assembler::assemble(const std::vector<TokenPackage> & tokens) {
+std::vector<std::uint64_t> ltn::a::Assembler::assemble(const std::vector<TokenPackage> & tokens) {
 
 	std::vector<std::uint64_t> instructions;
 	MarkerTable markerTable = searchMarkers(tokens);

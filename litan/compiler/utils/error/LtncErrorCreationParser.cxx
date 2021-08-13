@@ -1,6 +1,6 @@
 #include "LtncErrorCreationParser.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 	Error error::expectedExpression(const DebugInfo & debugInfo) {
 		return Error(ErrorCode::EXPECTED_EXPRESSION, "Expected expression", debugInfo);
 	}

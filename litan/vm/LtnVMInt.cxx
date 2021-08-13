@@ -2,61 +2,61 @@
 #include <cmath>
 
 // Math Instruction
-void ltn::VM::addi(){
+void ltn::vm::VM::addi(){
 	const std::int64_t r = this->env.acc.popI();
 	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l + r);
 }
 
-void ltn::VM::subi(){
+void ltn::vm::VM::subi(){
 	const std::int64_t r = this->env.acc.popI();
 	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l - r);
 }
 
-void ltn::VM::mlti(){
+void ltn::vm::VM::mlti(){
 	const std::int64_t r = this->env.acc.popI();
 	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l * r);
 }
 
-void ltn::VM::divi(){
+void ltn::vm::VM::divi(){
 	const std::int64_t r = this->env.acc.popI();
 	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l / r);
 }
 
-void ltn::VM::powi(){
+void ltn::vm::VM::powi(){
 	const std::int64_t r = this->env.acc.popI();
 	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(static_cast<std::int64_t>(std::pow(l, r)));
 }
 
-void ltn::VM::modi(){
+void ltn::vm::VM::modi(){
 	const std::int64_t r = this->env.acc.popI();
 	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l % r);
 }
 
-void ltn::VM::inci(){
+void ltn::vm::VM::inci(){
 	this->env.acc.top()++;
 }
 
-void ltn::VM::deci(){
+void ltn::vm::VM::deci(){
 	this->env.acc.top()--;
 }
 
-void ltn::VM::mnsi(){
+void ltn::vm::VM::mnsi(){
 	this->env.acc.push(-this->env.acc.popI());
 }
 
-void ltn::VM::mini(){
+void ltn::vm::VM::mini(){
 	const std::int64_t a = this->env.acc.popI();
 	const std::int64_t b = this->env.acc.popI();
 	this->env.acc.push(std::min(a, b));
 }
 
-void ltn::VM::maxi(){
+void ltn::vm::VM::maxi(){
 	const std::int64_t a = this->env.acc.popI();
 	const std::int64_t b = this->env.acc.popI();
 	this->env.acc.push(std::max(a, b));
@@ -65,7 +65,7 @@ void ltn::VM::maxi(){
 
 
 // Comparison
-void ltn::VM::eqli(){
+void ltn::vm::VM::eqli(){
 	const std::uint8_t invert = this->getArg8();
 	const std::int64_t r = this->env.acc.popI();
 	const std::int64_t l = this->env.acc.popI();
@@ -73,19 +73,19 @@ void ltn::VM::eqli(){
 	this->env.acc.push(result);
 }
 
-void ltn::VM::smli(){
+void ltn::vm::VM::smli(){
 	const std::int64_t r = this->env.acc.popI();
 	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l < r);
 }
 
-void ltn::VM::bgri(){
+void ltn::vm::VM::bgri(){
 	const std::int64_t r = this->env.acc.popI();
 	const std::int64_t l = this->env.acc.popI();
 	this->env.acc.push(l > r);
 }
 
-void ltn::VM::spshi(){
+void ltn::vm::VM::spshi(){
 	const std::int64_t r = this->env.acc.popI();
 	const std::int64_t l = this->env.acc.popI();
 	if(l == r) return this->env.acc.push(0L);

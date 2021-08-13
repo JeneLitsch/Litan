@@ -6,7 +6,7 @@
 #include "LtnHeapTypes.hxx"
 #include "LtnIoFormat.hxx"
 
-namespace ltna {
+namespace ltn::a {
 	// command format
 	std::uint64_t cInst(InstCode opcode);
 	

@@ -2,7 +2,7 @@
 #include "Unused.hxx"
 #include "LtncSymbolTable.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 	bool compare(
 		const FunctionSignature & signatureL,
 		const FunctionSignature & signatureR) {
@@ -43,15 +43,15 @@ namespace ltnc {
 	}
 }
 
-ltnc::FuncSearch::FuncSearch(const FunctionSignature & signature, const SymbolTable & sTable, bool perfectFit) 
+ltn::c::FuncSearch::FuncSearch(const FunctionSignature & signature, const SymbolTable & sTable, bool perfectFit) 
 	: signature(signature), sTable(sTable), perfectFit(perfectFit) {}
 
-const ltnc::Function * ltnc::FuncSearch::operator()(const Type & type) const {
+const ltn::c::Function * ltn::c::FuncSearch::operator()(const Type & type) const {
 	UNUSED(type);
 	return nullptr;
 }
 
-const ltnc::Function * ltnc::FuncSearch::operator()(const Function & func) const {
+const ltn::c::Function * ltn::c::FuncSearch::operator()(const Function & func) const {
 	if(this->perfectFit) {
 		if(compare(this->signature, func.signature)) {
 			return &func;
@@ -65,7 +65,7 @@ const ltnc::Function * ltnc::FuncSearch::operator()(const Function & func) const
 	return nullptr;
 }
 
-const ltnc::Function * ltnc::FuncSearch::operator()(const Var & var) const {
+const ltn::c::Function * ltn::c::FuncSearch::operator()(const Var & var) const {
 	UNUSED(var);
 	return nullptr;
 }

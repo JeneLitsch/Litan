@@ -1,6 +1,6 @@
 #include "LtncParserFunctions.hxx"
 
-std::unique_ptr<ltnc::Stmt> ltnc::parse::codeBlock(ParserPackage & parsePkg) {
+std::unique_ptr<ltn::c::Stmt> ltn::c::parse::codeBlock(ParserPackage & parsePkg) {
 	if(parsePkg.match(TokenType::L_BRACE)){
 		auto block = std::make_unique<StmtBlock>(parsePkg.prev().debugInfo);
 		while(!parsePkg.match(TokenType::R_BRACE)) {

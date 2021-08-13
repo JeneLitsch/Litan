@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <ostream>
-namespace ltnc {
+namespace ltn::c {
 	class Namespace {
 		friend bool operator==(const Namespace & nsL, const Namespace & nsR);
 	public:

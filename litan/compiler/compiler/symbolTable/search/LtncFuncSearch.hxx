@@ -4,7 +4,7 @@
 #include "LtncType.hxx"
 #include "LtncFunction.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 	class SymbolTable;
 	class FuncSearch {
 	public:

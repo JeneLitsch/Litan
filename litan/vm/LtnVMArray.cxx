@@ -5,12 +5,12 @@
 #include "LtnPopFromEmpty.hxx"
 
 // Array instructions
-void ltn::VM::arrayClear(){
+void ltn::vm::VM::arrayClear(){
 	const std::uint64_t ptr = this->env.acc.popU();
 	this->env.heap.access<HeapArray>(ptr).clear();
 }
 
-void ltn::VM::arrayGet(){
+void ltn::vm::VM::arrayGet(){
 	const std::uint64_t idx = this->env.acc.popU();
 	const std::uint64_t ptr = this->env.acc.popU();
 	auto & array = this->env.heap.access<HeapArray>(ptr);
@@ -22,7 +22,7 @@ void ltn::VM::arrayGet(){
 	}
 }
 
-void ltn::VM::arraySet(){
+void ltn::vm::VM::arraySet(){
 	const std::uint64_t value = this->env.acc.popU();
 	const std::uint64_t idx = this->env.acc.popU();
 	const std::uint64_t ptr = this->env.acc.popU();
@@ -36,37 +36,37 @@ void ltn::VM::arraySet(){
 }
 
 
-void ltn::VM::arraySize(){
+void ltn::vm::VM::arraySize(){
 	const std::uint64_t ptr = this->env.acc.popU();
 	this->env.acc.push(this->env.heap.access<HeapArray>(ptr).size());
 }
 
-void ltn::VM::arrayEmpty(){
+void ltn::vm::VM::arrayEmpty(){
 	const std::uint64_t ptr = this->env.acc.popU();
 	this->env.acc.push(this->env.heap.access<HeapArray>(ptr).empty());
 }
 
-void ltn::VM::arrayFill() {
+void ltn::vm::VM::arrayFill() {
 	const std::uint64_t value = this->env.acc.popU();
 	const std::uint64_t ptr = this->env.acc.popU();
 	std::vector<std::uint64_t> & array = this->env.heap.access<HeapArray>(ptr);
 	std::fill(array.begin(), array.end(), value);
 }
 
-void ltn::VM::arrayResize(){
+void ltn::vm::VM::arrayResize(){
 	const std::uint64_t size = this->env.acc.popU();
 	const std::uint64_t ptr = this->env.acc.popU();
 	this->env.heap.access<HeapArray>(ptr).resize(size, 0);
 }
 
-void ltn::VM::arrayErase(){
+void ltn::vm::VM::arrayErase(){
 	const std::uint64_t idx = this->env.acc.popU();
 	const std::uint64_t ptr = this->env.acc.popU();
 	std::vector<std::uint64_t> & array = this->env.heap.access<HeapArray>(ptr);
 	array.erase(array.begin() + long(idx));
 }
 
-void ltn::VM::arrayInsert(){
+void ltn::vm::VM::arrayInsert(){
 	const std::uint64_t value = this->env.acc.popU();
 	const std::uint64_t idx = this->env.acc.popU();
 	const std::uint64_t ptr = this->env.acc.popU();
@@ -74,7 +74,7 @@ void ltn::VM::arrayInsert(){
 	array.insert(array.begin() + long(idx), value);
 }
 
-void ltn::VM::arrayPushBack(){
+void ltn::vm::VM::arrayPushBack(){
 	const std::uint64_t value = this->env.acc.popU();
 	const std::uint64_t ptr = this->env.acc.popU();
 	auto & array = this->env.heap.access<HeapArray>(ptr);
@@ -82,7 +82,7 @@ void ltn::VM::arrayPushBack(){
 }
 
 
-void ltn::VM::arrayPopBack(){
+void ltn::vm::VM::arrayPopBack(){
 	const std::uint64_t ptr = this->env.acc.popU();
 	auto & array = this->env.heap.access<HeapArray>(ptr);
 	if(array.empty()) {
@@ -92,13 +92,13 @@ void ltn::VM::arrayPopBack(){
 	array.pop_back();
 }
 
-void ltn::VM::arrayFront(){
+void ltn::vm::VM::arrayFront(){
 	const std::uint64_t ptr = this->env.acc.popU();
 	auto & array = this->env.heap.access<HeapArray>(ptr);
 	this->env.acc.push(array.front());
 }
 
-void ltn::VM::arrayBack(){
+void ltn::vm::VM::arrayBack(){
 	const std::uint64_t ptr = this->env.acc.popU();
 	auto & array = this->env.heap.access<HeapArray>(ptr);
 	this->env.acc.push(array.back());

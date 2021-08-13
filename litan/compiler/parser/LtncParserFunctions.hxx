@@ -3,7 +3,7 @@
 #include "LtncParserPackage.hxx"
 #include "LtncError.hxx"
 #include "LtncErrorCreationParser.hxx"
-namespace ltnc {
+namespace ltn::c {
 	namespace parse {
 		
 		// Declarations

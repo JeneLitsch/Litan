@@ -5,7 +5,7 @@
 #include "LtnInstructions.hxx"
 #include "LtnaTokenPackage.hxx"
 #include "LtnaMarkerTable.hxx"
-namespace ltna {
+namespace ltn::a {
 	class Assembler {
 	public:
 		// Assembles written Assembly code to a list of 64-Bit instructions

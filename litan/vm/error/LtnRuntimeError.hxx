@@ -1,6 +1,6 @@
 #pragma once
 #include "LtnError.hxx"
-namespace ltn {
+namespace ltn::vm {
 	class RuntimeError : public Error {
 	public:
 		RuntimeError();

@@ -1,6 +1,6 @@
 #include "LtncFunctionSignature.hxx"
 
-ltnc::FunctionSignature::FunctionSignature(
+ltn::c::FunctionSignature::FunctionSignature(
 	const TypeId & returnType,
 	const std::string & name,
 	const std::vector<Param> & params,
@@ -10,7 +10,7 @@ ltnc::FunctionSignature::FunctionSignature(
 	params(params) {}
 
 
-std::ostream & ltnc::operator<<(
+std::ostream & ltn::c::operator<<(
 	std::ostream & stream,
 	const FunctionSignature & fxSignature) {
 	stream 

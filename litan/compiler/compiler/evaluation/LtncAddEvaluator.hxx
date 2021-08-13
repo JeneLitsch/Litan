@@ -1,7 +1,7 @@
 #pragma once
 #include "LtncEvaluator.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 	class AddEvaluator : public Evaluator {
 	protected:
 		virtual double eval(double a, double b) const override;

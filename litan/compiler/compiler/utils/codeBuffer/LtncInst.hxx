@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "LtncCodeObject.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class Inst : public ICodeObject {
 	public:
 		virtual std::string toString() const override;

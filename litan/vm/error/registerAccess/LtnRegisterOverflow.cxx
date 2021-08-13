@@ -1,4 +1,4 @@
 #include "LtnRegisterOverflow.hxx"
 
-ltn::RegisterOverflow::RegisterOverflow()
+ltn::vm::RegisterOverflow::RegisterOverflow()
 	: RuntimeError("Register overflow") {}

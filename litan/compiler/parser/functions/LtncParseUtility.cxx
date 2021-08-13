@@ -2,7 +2,7 @@
 
 
 
-ltnc::Namespace ltnc::parse::nameSpace(ParserPackage & parsePkg) {
+ltn::c::Namespace ltn::c::parse::nameSpace(ParserPackage & parsePkg) {
 	Namespace ns;
 	while(parsePkg.match(TokenType::IDENTIFIER)) {
 		ns.push(parsePkg.prev().string);
@@ -15,7 +15,7 @@ ltnc::Namespace ltnc::parse::nameSpace(ParserPackage & parsePkg) {
 	throw error::expectedIdentifier(parsePkg);
 }
 
-ltnc::TypeId ltnc::parse::typeId(ParserPackage & parsePkg) {
+ltn::c::TypeId ltn::c::parse::typeId(ParserPackage & parsePkg) {
 	Namespace ns = nameSpace(parsePkg);
 	if(parsePkg.match(TokenType::IDENTIFIER)) {
 		return TypeId(parsePkg.prev().string, ns);
@@ -23,7 +23,7 @@ ltnc::TypeId ltnc::parse::typeId(ParserPackage & parsePkg) {
 	throw error::expectedIdentifier(parsePkg);
 }
 
-ltnc::Symbol ltnc::parse::functionSymbol(ParserPackage & parsePkg) {
+ltn::c::Symbol ltn::c::parse::functionSymbol(ParserPackage & parsePkg) {
 	Namespace ns = nameSpace(parsePkg);
 	if(parsePkg.match(TokenType::IDENTIFIER)) {
 		return Symbol(parsePkg.prev().string, ns);

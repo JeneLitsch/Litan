@@ -4,7 +4,7 @@
 #include <optional>
 #include "LtncFunctionSignature.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 	class DebugInfo {
 	public:
 		DebugInfo(

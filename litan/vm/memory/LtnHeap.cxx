@@ -1,31 +1,31 @@
 #include "LtnHeap.hxx"
 
 
-ltn::Heap::Heap() {
+ltn::vm::Heap::Heap() {
 	this->nextID = 1;
 	this->objects.clear();
 }
 
-void ltn::Heap::clear() {
+void ltn::vm::Heap::clear() {
 	this->nextID = 1;
 	this->objects.clear();
 	this->resuseableIDs = {};
 }
 
 
-std::uint64_t ltn::Heap::allocate(HeapType type)  {
+std::uint64_t ltn::vm::Heap::allocate(HeapType type)  {
 	std::uint64_t newPtr = this->createPtr();
 	this->objects.insert({newPtr, HeapObject(type)});
 	return newPtr;
 }
 
-std::uint64_t ltn::Heap::copy(std::uint64_t ptr) {
+std::uint64_t ltn::vm::Heap::copy(std::uint64_t ptr) {
 	std::uint64_t newPtr = this->createPtr();
 	this->objects.insert({newPtr, this->objects.at(ptr)});
 	return newPtr;
 }
 
-std::uint64_t ltn::Heap::createPtr() {
+std::uint64_t ltn::vm::Heap::createPtr() {
 	std::uint64_t ptr;
 
 	// determine id
@@ -42,7 +42,7 @@ std::uint64_t ltn::Heap::createPtr() {
 	return ptr;
 }
 
-void ltn::Heap::destroy(std::uint64_t ptr) {
+void ltn::vm::Heap::destroy(std::uint64_t ptr) {
 	if(this->objects.contains(ptr)){
 		this->resuseableIDs.push(ptr);
 		this->objects.erase(ptr);
@@ -52,6 +52,6 @@ void ltn::Heap::destroy(std::uint64_t ptr) {
 	}
 }
 
-bool ltn::Heap::exists(std::uint64_t ptr) const {
+bool ltn::vm::Heap::exists(std::uint64_t ptr) const {
 	return this->objects.contains(ptr);
 }

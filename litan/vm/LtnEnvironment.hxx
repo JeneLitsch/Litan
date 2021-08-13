@@ -3,7 +3,7 @@
 #include "LtnHeap.hxx"
 #include "LtnStack.hxx"
 #include "LtnLoop.hxx"
-namespace ltn {
+namespace ltn::vm {
 	struct Environment {
 		Register acc;
 		Heap heap;

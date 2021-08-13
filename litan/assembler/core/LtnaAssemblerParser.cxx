@@ -17,7 +17,7 @@ std::vector<std::string> split(const std::string & str, char delim) {
 // Creates a token package of a given instruction
 // The first part is the instruction name
 // Every subsequent token is an argument
-void parseLine(const std::string line, std::uint64_t lineNr, std::vector<ltna::TokenPackage> & tokenPackages) {
+void parseLine(const std::string line, std::uint64_t lineNr, std::vector<ltn::a::TokenPackage> & tokenPackages) {
 	std::vector<std::string> tokens = split(line, ' ');
 	
 	for(std::string & token : tokens){
@@ -27,7 +27,7 @@ void parseLine(const std::string line, std::uint64_t lineNr, std::vector<ltna::T
 	if (tokens.empty()) return;
 	if (tokens[0] == "") return;
 	else{
-		ltna::TokenPackage package(
+		ltn::a::TokenPackage package(
 			line,
 			tokens[0],
 			std::vector(tokens.begin()+1, tokens.end()),
@@ -37,7 +37,7 @@ void parseLine(const std::string line, std::uint64_t lineNr, std::vector<ltna::T
 }
 
 
-std::vector<ltna::TokenPackage> ltna::AssemblerParser::parse(const std::string & code) const {
+std::vector<ltn::a::TokenPackage> ltn::a::AssemblerParser::parse(const std::string & code) const {
 	std::vector<TokenPackage> tokenPackages;
 	std::vector<std::string> lines = split(code, '\n');
 	std::uint64_t lineNr = 1;

@@ -5,7 +5,7 @@
 #include "LtncTypeId.hxx"
 #include "LtncCodeBuffer.hxx"
 #include "LtncConstValue.hxx"
-namespace ltnc {
+namespace ltn::c {
 	struct ExprInfo {
 
 		ExprInfo(

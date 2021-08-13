@@ -1,6 +1,6 @@
 #include "LtnPointerAccessViolation.hxx"
 
-ltn::PointerAccessViolation::PointerAccessViolation(
+ltn::vm::PointerAccessViolation::PointerAccessViolation(
 	std::uint64_t ptr,
 	const std::string & type)
 :	AccessViolation(

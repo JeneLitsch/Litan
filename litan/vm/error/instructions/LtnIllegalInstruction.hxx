@@ -1,6 +1,6 @@
 #pragma once
 #include "LtnRuntimeError.hxx"
-namespace ltn {
+namespace ltn::vm {
 	class IllegalInstruction : RuntimeError {
 	public:
 		IllegalInstruction(std::uint8_t opcode);

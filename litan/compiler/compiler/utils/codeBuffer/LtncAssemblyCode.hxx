@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "LtncCodeObject.hxx"
-namespace ltnc {
+namespace ltn::c {
 	class AssemblyCode : public ICodeObject {
 	public:
 		AssemblyCode(const std::string & string);

@@ -1,19 +1,19 @@
 #include "LtncNamespace.hxx"
 #include <sstream>
 
-ltnc::Namespace::Namespace() {}
+ltn::c::Namespace::Namespace() {}
 
-ltnc::Namespace::Namespace(const std::vector<std::string> & path) : path(path) {}
+ltn::c::Namespace::Namespace(const std::vector<std::string> & path) : path(path) {}
 	
-void ltnc::Namespace::push(const std::string & ns) {
+void ltn::c::Namespace::push(const std::string & ns) {
 	path.push_back(ns);
 }
 
-void ltnc::Namespace::pop() {
+void ltn::c::Namespace::pop() {
 	path.pop_back();
 }
 
-std::string ltnc::Namespace::str() const {
+std::string ltn::c::Namespace::str() const {
 	std::stringstream ss;
 	for(const std::string & step : this->path) {
 		ss << step << "::";
@@ -21,11 +21,11 @@ std::string ltnc::Namespace::str() const {
 	return ss.str();
 }
 
-std::ostream & ltnc::operator<<(std::ostream & stream, const Namespace & ns) {
+std::ostream & ltn::c::operator<<(std::ostream & stream, const Namespace & ns) {
 	stream << ns.str();
 	return stream;
 }
 
-bool ltnc::operator==(const Namespace & nsL, const Namespace & nsR) {
+bool ltn::c::operator==(const Namespace & nsL, const Namespace & nsR) {
 	return nsL.path == nsR.path;
 }

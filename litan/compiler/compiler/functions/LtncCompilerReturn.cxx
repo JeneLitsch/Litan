@@ -1,6 +1,6 @@
 #include "LtncCompilerFunctions.hxx"
 
-ltnc::StmtInfo ltnc::compile::returnStatement(CompilerPack & compPkg, const StmtReturn & stmt) {
+ltn::c::StmtInfo ltn::c::compile::returnStatement(CompilerPack & compPkg, const StmtReturn & stmt) {
 	CodeBuffer code = compPkg.codeBuffer();
 	FunctionSignature signature = compPkg.getSymbolTable().currentFxSignature();
 	if(stmt.expr) {

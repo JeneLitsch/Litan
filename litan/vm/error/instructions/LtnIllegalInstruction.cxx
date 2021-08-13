@@ -1,8 +1,8 @@
 #include "LtnIllegalInstruction.hxx"
 
-ltn::IllegalInstruction::IllegalInstruction(std::uint8_t opcode)
+ltn::vm::IllegalInstruction::IllegalInstruction(std::uint8_t opcode)
 	: RuntimeError("Illegal Instruction: " + std::to_string(opcode)), opcode(opcode) {}
 
-std::uint8_t ltn::IllegalInstruction::getOpCode() const {
+std::uint8_t ltn::vm::IllegalInstruction::getOpCode() const {
 	return this->opcode;
 }

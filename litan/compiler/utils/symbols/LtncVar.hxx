@@ -3,7 +3,7 @@
 #include "LtncVarId.hxx"
 #include <cstdint>
 #include <string>
-namespace ltnc {
+namespace ltn::c {
 	struct Var {
 		Var(const TypeId & typeId, std::uint32_t addr, const VarId & id)
 			: typeId(typeId), addr(addr), name(id.name) {}

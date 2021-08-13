@@ -1,7 +1,7 @@
 #pragma once
 #include "LtncError.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 	namespace error {
 		Error expectedExpression(const DebugInfo & debugInfo);
 		Error expectedStatement(const DebugInfo & debugInfo);

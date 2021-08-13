@@ -7,7 +7,7 @@
 #include "LtncBaseTypes.hxx"
 #include "LtncSymbol.hxx"
 
-namespace ltnc {
+namespace ltn::c {
 	class FunctionSignature : public Symbol {
 	public:
 		FunctionSignature(

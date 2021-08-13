@@ -1,6 +1,6 @@
 #include "LtncDebugInfo.hxx"
 
-ltnc::DebugInfo::DebugInfo(
+ltn::c::DebugInfo::DebugInfo(
 	unsigned lineNr,
 	unsigned column,
 	const std::string & lexeme,
@@ -10,12 +10,12 @@ ltnc::DebugInfo::DebugInfo(
 	lexeme(lexeme),
 	sourceName(sourceName) {}
 
-ltnc::DebugInfo::DebugInfo()
+ltn::c::DebugInfo::DebugInfo()
 :	lineNr(0),
 	column(0),
 	lexeme("") {}
 
-ltnc::DebugInfo ltnc::DebugInfo::withFunction(
+ltn::c::DebugInfo ltn::c::DebugInfo::withFunction(
 	const FunctionSignature & inFunction) const{
 	DebugInfo debugInfo = *this;
 	debugInfo.inFunction = inFunction;

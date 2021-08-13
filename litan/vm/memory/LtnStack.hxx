@@ -1,6 +1,6 @@
 #pragma once
 #include <stack>
-namespace ltn {
+namespace ltn::vm {
 	class Stack {
 	public:
 		// inits a new stackframe

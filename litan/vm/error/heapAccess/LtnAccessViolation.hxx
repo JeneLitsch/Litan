@@ -1,6 +1,6 @@
 #pragma once
 #include "LtnRuntimeError.hxx"
-namespace ltn {
+namespace ltn::vm {
 	class AccessViolation : public RuntimeError {
 	public:
 		std::uint64_t getPtr() const;

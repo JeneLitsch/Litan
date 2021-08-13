@@ -2,27 +2,27 @@
 #include "Unused.hxx"
 
 std::string registerCtor(
-	ltnc::SymbolTable & symbolTable,
-	const ltnc::Type & type, bool useParamters) {
+	ltn::c::SymbolTable & symbolTable,
+	const ltn::c::Type & type, bool useParamters) {
 
 	// add members as ctor parameter
 	// skip for default ctor
-	std::vector<ltnc::Param> params;
+	std::vector<ltn::c::Param> params;
 	if(useParamters) {
 		for(const auto & member : type.members) {
-			params.push_back(ltnc::Param(member->typeId, ltnc::VarId(member->name)));
+			params.push_back(ltn::c::Param(member->typeId, ltn::c::VarId(member->name)));
 		}
 	}
 	
-	ltnc::DebugInfo automatic(0,0, "", "");
+	ltn::c::DebugInfo automatic(0,0, "", "");
 
 	// register function and create jumpMark 
-	ltnc::FunctionSignature signature(type.id, type.id.name, params, type.id.ns);
+	ltn::c::FunctionSignature signature(type.id, type.id.name, params, type.id.ns);
 	symbolTable.insert(automatic, signature);
 	return symbolTable.match(automatic, signature).jumpMark;
 }
 
-ltnc::CodeBuffer ltnc::CtorGenerator::defaultCtor(
+ltn::c::CodeBuffer ltn::c::CtorGenerator::defaultCtor(
 	CompilerPack & compilePkg,
 	const Type & type) const {
 
@@ -40,7 +40,7 @@ ltnc::CodeBuffer ltnc::CtorGenerator::defaultCtor(
 	return code;
 }
 
-ltnc::CodeBuffer ltnc::CtorGenerator::parameterCtor(
+ltn::c::CodeBuffer ltn::c::CtorGenerator::parameterCtor(
 	CompilerPack & compilePkg,
 	const Type & type) const {
 

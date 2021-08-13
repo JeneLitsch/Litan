@@ -1,6 +1,6 @@
 #include "LtnaInvalidMarker.hxx"
 
-ltna::InvalidMarker::InvalidMarker(
+ltn::a::InvalidMarker::InvalidMarker(
 	const std::string & msg,
 	const std::string & inst,
 	const std::string & marker,
