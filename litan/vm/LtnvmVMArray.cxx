@@ -1,8 +1,8 @@
 #include "LtnVM.hxx"
-#include "LtnAccessViolation.hxx"
-#include "LtnIndexAccessViolation.hxx"
-#include "LtnPointerAccessViolation.hxx"
-#include "LtnPopFromEmpty.hxx"
+#include "LtnvmAccessViolation.hxx"
+#include "LtnvmIndexAccessViolation.hxx"
+#include "LtnvmPointerAccessViolation.hxx"
+#include "LtnvmPopFromEmpty.hxx"
 
 // Array instructions
 void ltn::vm::VM::arrayClear(){

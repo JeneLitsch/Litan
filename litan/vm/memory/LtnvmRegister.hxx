@@ -3,8 +3,8 @@
 #include <array>
 #include <iterator>
 #include "LtnFloat.hxx"
-#include "LtnRegisterUnderflow.hxx"
-#include "LtnRegisterOverflow.hxx"
+#include "LtnvmRegisterUnderflow.hxx"
+#include "LtnvmRegisterOverflow.hxx"
 namespace ltn::vm {
 	class Register {
 	public:

@@ -1,4 +1,4 @@
-#include "LtnIndexAccessViolation.hxx"
+#include "LtnvmIndexAccessViolation.hxx"
 
 ltn::vm::IndexAccessViolation::IndexAccessViolation(
 	std::uint64_t ptr,

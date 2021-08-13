@@ -1,5 +1,5 @@
 #pragma once
-#include "LtnEnvironment.hxx"
+#include "LtnvmEnvironment.hxx"
 #include "LtnExtSlot.hxx"
 namespace ltn::vm {
 	class IExtension {

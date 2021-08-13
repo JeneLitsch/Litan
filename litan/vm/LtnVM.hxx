@@ -4,9 +4,9 @@
 #include <vector>
 #include "LtnFloat.hxx"
 #include "LtnInstructions.hxx"
-#include "LtnIExtension.hxx"
-#include "LtnEnvironment.hxx"
-#include "LtnRuntimeError.hxx"
+#include "LtnvmIExtension.hxx"
+#include "LtnvmEnvironment.hxx"
+#include "LtnvmRuntimeError.hxx"
 
 namespace ltn::vm {
 	// the i prefix means integer

@@ -1,5 +1,5 @@
 #pragma once
-#include "LtnAccessViolation.hxx"
+#include "LtnvmAccessViolation.hxx"
 namespace ltn::vm {
 	class IndexAccessViolation : public AccessViolation {
 	public:

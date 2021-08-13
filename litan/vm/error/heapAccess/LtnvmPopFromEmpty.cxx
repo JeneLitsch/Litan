@@ -1,4 +1,4 @@
-#include "LtnPopFromEmpty.hxx"
+#include "LtnvmPopFromEmpty.hxx"
 
 ltn::vm::PopFromEmpty::PopFromEmpty(std::uint64_t ptr)
 	: AccessViolation(

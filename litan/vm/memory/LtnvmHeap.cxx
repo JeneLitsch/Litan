@@ -1,4 +1,4 @@
-#include "LtnHeap.hxx"
+#include "LtnvmHeap.hxx"
 
 
 ltn::vm::Heap::Heap() {

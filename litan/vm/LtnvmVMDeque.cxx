@@ -1,5 +1,5 @@
 #include "LtnVM.hxx"
-#include "LtnPopFromEmpty.hxx"
+#include "LtnvmPopFromEmpty.hxx"
 
 // deque instructions
 void ltn::vm::VM::dequeClear(){

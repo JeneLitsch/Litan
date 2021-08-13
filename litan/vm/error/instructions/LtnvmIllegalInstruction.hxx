@@ -1,5 +1,5 @@
 #pragma once
-#include "LtnRuntimeError.hxx"
+#include "LtnvmRuntimeError.hxx"
 namespace ltn::vm {
 	class IllegalInstruction : RuntimeError {
 	public:

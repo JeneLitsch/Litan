@@ -1,4 +1,4 @@
-#include "LtnPointerAccessViolation.hxx"
+#include "LtnvmPointerAccessViolation.hxx"
 
 ltn::vm::PointerAccessViolation::PointerAccessViolation(
 	std::uint64_t ptr,

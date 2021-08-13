@@ -1,8 +1,8 @@
 #pragma once
-#include "LtnRegister.hxx"
-#include "LtnHeap.hxx"
-#include "LtnStack.hxx"
-#include "LtnLoop.hxx"
+#include "LtnvmRegister.hxx"
+#include "LtnvmHeap.hxx"
+#include "LtnvmStack.hxx"
+#include "LtnvmLoop.hxx"
 namespace ltn::vm {
 	struct Environment {
 		Register acc;

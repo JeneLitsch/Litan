@@ -4,11 +4,11 @@
 #include <sstream>
 #include <algorithm>
 #include <iomanip>
-#include "LtnAccessViolation.hxx"
-#include "LtnPointerAccessViolation.hxx"
-#include "LtnIndexAccessViolation.hxx"
-#include "LtnIllegalInstruction.hxx"
-#include "LtnPopFromEmpty.hxx"
+#include "LtnvmAccessViolation.hxx"
+#include "LtnvmPointerAccessViolation.hxx"
+#include "LtnvmIndexAccessViolation.hxx"
+#include "LtnvmIllegalInstruction.hxx"
+#include "LtnvmPopFromEmpty.hxx"
 
 // memorySize and stackLimit in 64bit blocks
 ltn::vm::VM::VM() {}

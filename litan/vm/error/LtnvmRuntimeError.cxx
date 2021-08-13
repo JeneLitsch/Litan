@@ -1,4 +1,4 @@
-#include "LtnRuntimeError.hxx"
+#include "LtnvmRuntimeError.hxx"
 
 ltn::vm::RuntimeError::RuntimeError(const std::string & msg)
 	: Error(msg) {}

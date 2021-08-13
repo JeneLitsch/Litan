@@ -3,9 +3,9 @@
 #include <vector>
 #include <cstdint>
 #include <queue>
-#include "LtnHeapObject.hxx"
-#include "LtnNullptrViolation.hxx"
-#include "LtnPointerAccessViolation.hxx"
+#include "LtnvmHeapObject.hxx"
+#include "LtnvmNullptrViolation.hxx"
+#include "LtnvmPointerAccessViolation.hxx"
 namespace ltn::vm {
 	class Heap {
 	public:
