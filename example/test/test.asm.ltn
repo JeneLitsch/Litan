@@ -29,24 +29,24 @@ store 1
 newf -3.500000
 store 2
 newi 1
-call FNX_println59
+call FNX_println63
 load 2
-call FNX_println61
+call FNX_println65
 load 0
-call FNX_println59
+call FNX_println63
 return
 
 
 -> FNX_main3
-stackalloc 1
-newi 42
-store 0
+stackalloc 0
 newi 0
-newi 4
+newi 10
 dec
 loop::range
-load 0
-call FNX_fx2
+newf -10.000000
+newf 10.000000
+call FNX_randFloat11
+call FNX_println65
 loop::cont
 return
 
@@ -102,7 +102,43 @@ return
 error
 
 
--> FNX_min10
+-> FNX_randInt10
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+rand::int
+return
+error
+
+
+-> FNX_randFloat11
+stackalloc 2
+store 1
+store 0
+load 0
+load 1
+rand::float
+return
+error
+
+
+-> FNX_randNorm12
+stackalloc 0
+rand::norm
+return
+error
+
+
+-> FNX_randUnit13
+stackalloc 0
+rand::unit
+return
+error
+
+
+-> FNX_min14
 stackalloc 2
 store 1
 store 0
@@ -113,7 +149,7 @@ return
 error
 
 
--> FNX_min11
+-> FNX_min15
 stackalloc 2
 store 1
 store 0
@@ -124,7 +160,7 @@ return
 error
 
 
--> FNX_max12
+-> FNX_max16
 stackalloc 2
 store 1
 store 0
@@ -135,7 +171,7 @@ return
 error
 
 
--> FNX_max13
+-> FNX_max17
 stackalloc 2
 store 1
 store 0
@@ -146,7 +182,7 @@ return
 error
 
 
--> FNX_round14
+-> FNX_round18
 stackalloc 1
 store 0
 load 0
@@ -155,7 +191,7 @@ return
 error
 
 
--> FNX_floor15
+-> FNX_floor19
 stackalloc 1
 store 0
 load 0
@@ -164,7 +200,7 @@ return
 error
 
 
--> FNX_ceil16
+-> FNX_ceil20
 stackalloc 1
 store 0
 load 0
@@ -173,27 +209,27 @@ return
 error
 
 
--> FNX_Array17
+-> FNX_Array21
 stackalloc 0
 heap::allocate::array
 return
 error
 
 
--> FNX_Array18
+-> FNX_Array22
 stackalloc 2
 store 0
 load 0
 newi 0
 smli
 ifnx
-goto IF66
-goto END_IF68
--> IF66
-call FNX_error64
-goto END_IF68
--> END_IF68
-call FNX_Array17
+goto IF70
+goto END_IF72
+-> IF70
+call FNX_error68
+goto END_IF72
+-> END_IF72
+call FNX_Array21
 store 1
 load 1
 load 0
@@ -203,7 +239,7 @@ return
 error
 
 
--> FNX_clear19
+-> FNX_clear23
 stackalloc 1
 store 0
 load 0
@@ -211,7 +247,7 @@ array::clear
 return
 
 
--> FNX_insert20
+-> FNX_insert24
 stackalloc 3
 store 2
 store 1
@@ -223,7 +259,7 @@ array::insert
 return
 
 
--> FNX_erase21
+-> FNX_erase25
 stackalloc 2
 store 1
 store 0
@@ -233,7 +269,7 @@ array::erase
 return
 
 
--> FNX_empty22
+-> FNX_empty26
 stackalloc 1
 store 0
 load 0
@@ -242,7 +278,7 @@ return
 error
 
 
--> FNX_size23
+-> FNX_size27
 stackalloc 1
 store 0
 load 0
@@ -251,7 +287,7 @@ return
 error
 
 
--> FNX_pushback24
+-> FNX_pushback28
 stackalloc 2
 store 1
 store 0
@@ -261,7 +297,7 @@ array::pushback
 return
 
 
--> FNX_popback25
+-> FNX_popback29
 stackalloc 1
 store 0
 load 0
@@ -270,7 +306,7 @@ return
 error
 
 
--> FNX_at26
+-> FNX_at30
 stackalloc 2
 store 1
 store 0
@@ -281,7 +317,7 @@ return
 error
 
 
--> FNX_at27
+-> FNX_at31
 stackalloc 3
 store 2
 store 1
@@ -293,7 +329,7 @@ array::set
 return
 
 
--> FNX_front28
+-> FNX_front32
 stackalloc 1
 store 0
 load 0
@@ -301,7 +337,7 @@ array::front
 error
 
 
--> FNX_back29
+-> FNX_back33
 stackalloc 1
 store 0
 load 0
@@ -309,54 +345,54 @@ array::back
 error
 
 
--> FNX_radixSortDesc30
+-> FNX_radixSortDesc34
 stackalloc 2
 store 1
 store 0
 load 1
 ifnx
-goto IF69
-goto ELSE70
--> IF69
+goto IF73
+goto ELSE74
+-> IF73
 load 0
 sort::radix::desc::signed
-goto END_IF71
--> ELSE70
+goto END_IF75
+-> ELSE74
 load 0
 sort::radix::desc::unsigned
-goto END_IF71
--> END_IF71
+goto END_IF75
+-> END_IF75
 return
 
 
--> FNX_radixSortAscn31
+-> FNX_radixSortAscn35
 stackalloc 2
 store 1
 store 0
 load 1
 ifnx
-goto IF72
-goto ELSE73
--> IF72
+goto IF76
+goto ELSE77
+-> IF76
 load 0
 sort::radix::ascn::signed
-goto END_IF74
--> ELSE73
+goto END_IF78
+-> ELSE77
 load 0
 sort::radix::ascn::unsigned
-goto END_IF74
--> END_IF74
+goto END_IF78
+-> END_IF78
 return
 
 
--> FNX_Stack32
+-> FNX_Stack36
 stackalloc 0
 heap::allocate::stack
 return
 error
 
 
--> FNX_push33
+-> FNX_push37
 stackalloc 2
 store 1
 store 0
@@ -366,7 +402,7 @@ stack::push
 return
 
 
--> FNX_pop34
+-> FNX_pop38
 stackalloc 1
 store 0
 load 0
@@ -375,7 +411,7 @@ return
 error
 
 
--> FNX_top35
+-> FNX_top39
 stackalloc 1
 store 0
 load 0
@@ -384,7 +420,7 @@ return
 error
 
 
--> FNX_empty36
+-> FNX_empty40
 stackalloc 1
 store 0
 load 0
@@ -393,7 +429,7 @@ return
 error
 
 
--> FNX_size37
+-> FNX_size41
 stackalloc 1
 store 0
 load 0
@@ -402,14 +438,14 @@ return
 error
 
 
--> FNX_Queue38
+-> FNX_Queue42
 stackalloc 0
 heap::allocate::queue
 return
 error
 
 
--> FNX_push39
+-> FNX_push43
 stackalloc 2
 store 1
 store 0
@@ -419,7 +455,7 @@ queue::push
 return
 
 
--> FNX_pop40
+-> FNX_pop44
 stackalloc 1
 store 0
 load 0
@@ -428,7 +464,7 @@ return
 error
 
 
--> FNX_front41
+-> FNX_front45
 stackalloc 1
 store 0
 load 0
@@ -437,7 +473,7 @@ return
 error
 
 
--> FNX_empty42
+-> FNX_empty46
 stackalloc 1
 store 0
 load 0
@@ -446,14 +482,14 @@ return
 error
 
 
--> FNX_Deque43
+-> FNX_Deque47
 stackalloc 0
 heap::allocate::deque
 return
 error
 
 
--> FNX_clear44
+-> FNX_clear48
 stackalloc 1
 store 0
 load 0
@@ -461,7 +497,7 @@ deque::clear
 return
 
 
--> FNX_pushFront45
+-> FNX_pushFront49
 stackalloc 2
 store 1
 store 0
@@ -471,7 +507,7 @@ deque::pushf
 return
 
 
--> FNX_popFront46
+-> FNX_popFront50
 stackalloc 1
 store 0
 load 0
@@ -480,7 +516,7 @@ return
 error
 
 
--> FNX_pushBack47
+-> FNX_pushBack51
 stackalloc 2
 store 1
 store 0
@@ -490,7 +526,7 @@ deque::pushb
 return
 
 
--> FNX_popBack48
+-> FNX_popBack52
 stackalloc 1
 store 0
 load 0
@@ -499,7 +535,7 @@ return
 error
 
 
--> FNX_front49
+-> FNX_front53
 stackalloc 1
 store 0
 load 0
@@ -508,7 +544,7 @@ return
 error
 
 
--> FNX_back50
+-> FNX_back54
 stackalloc 1
 store 0
 load 0
@@ -517,7 +553,7 @@ return
 error
 
 
--> FNX_size51
+-> FNX_size55
 stackalloc 1
 store 0
 load 0
@@ -526,7 +562,7 @@ return
 error
 
 
--> FNX_empty52
+-> FNX_empty56
 stackalloc 1
 store 0
 load 0
@@ -535,79 +571,43 @@ return
 error
 
 
--> FNX_print53
-stackalloc 1
-store 0
-load 0
-print::uint
-return
-
-
--> FNX_print54
-stackalloc 1
-store 0
-load 0
-print::int
-return
-
-
--> FNX_print55
-stackalloc 1
-store 0
-load 0
-print::bool
-return
-
-
--> FNX_print56
-stackalloc 1
-store 0
-load 0
-print::float
-return
-
-
 -> FNX_print57
 stackalloc 1
 store 0
 load 0
-print::string
-return
-
-
--> FNX_println58
-stackalloc 1
-store 0
-load 0
 print::uint
-print::newline
 return
 
 
--> FNX_println59
+-> FNX_print58
 stackalloc 1
 store 0
 load 0
 print::int
-print::newline
 return
 
 
--> FNX_println60
+-> FNX_print59
 stackalloc 1
 store 0
 load 0
 print::bool
-print::newline
 return
 
 
--> FNX_println61
+-> FNX_print60
 stackalloc 1
 store 0
 load 0
 print::float
-print::newline
+return
+
+
+-> FNX_print61
+stackalloc 1
+store 0
+load 0
+print::string
 return
 
 
@@ -615,24 +615,60 @@ return
 stackalloc 1
 store 0
 load 0
-print::string
+print::uint
 print::newline
 return
 
 
 -> FNX_println63
+stackalloc 1
+store 0
+load 0
+print::int
+print::newline
+return
+
+
+-> FNX_println64
+stackalloc 1
+store 0
+load 0
+print::bool
+print::newline
+return
+
+
+-> FNX_println65
+stackalloc 1
+store 0
+load 0
+print::float
+print::newline
+return
+
+
+-> FNX_println66
+stackalloc 1
+store 0
+load 0
+print::string
+print::newline
+return
+
+
+-> FNX_println67
 stackalloc 0
 print::newline
 return
 
 
--> FNX_error64
+-> FNX_error68
 stackalloc 0
 error
 return
 
 
--> FNX_add65
+-> FNX_add69
 stackalloc 2
 store 1
 store 0

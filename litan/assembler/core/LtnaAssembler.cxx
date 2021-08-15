@@ -108,6 +108,11 @@ namespace ltn::a {
 			{ "sort::radix::ascn::unsigned",	{ fx(fInstFunct, InstCode::SORT_RADIX, 0b00)}},
 			{ "sort::radix::ascn::signed", 		{ fx(fInstFunct, InstCode::SORT_RADIX, 0b01)}},
 
+			{ "rand::int",		{ fx(cInst, InstCode::RAND_INT)}},
+			{ "rand::float",	{ fx(cInst, InstCode::RAND_FLOAT)}},
+			{ "rand::norm",		{ fx(cInst, InstCode::RAND_NORM)}},
+			{ "rand::unit",		{ fx(cInst, InstCode::RAND_UNIT)}},
+
 
 			{ "heap::delete", { fx(cInst, InstCode::HEAP_DELETE)}},
 			{ "heap::exist", { fx(cInst, InstCode::HEAP_EXIST)}},

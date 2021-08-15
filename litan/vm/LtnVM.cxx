@@ -11,7 +11,9 @@
 #include "LtnvmPopFromEmpty.hxx"
 
 // memorySize and stackLimit in 64bit blocks
-ltn::vm::VM::VM() {}
+ltn::vm::VM::VM() {
+	this->random.seed(std::random_device()());
+}
 
 void ltn::vm::VM::installExtension(IExtension & ext, Slot slot){
 	this->extensions[static_cast<unsigned>(slot)] = &ext;
@@ -116,6 +118,11 @@ void ltn::vm::VM::execute(){
 		case InstCode::EXT7: this->extensions[7]->call(this->getArg8()); break;
 
 		case InstCode::SORT_RADIX: this->sortRadix(); break;
+
+		case InstCode::RAND_INT: this->randInt(); break;
+		case InstCode::RAND_FLOAT: this->randFloat(); break;
+		case InstCode::RAND_NORM: this->randNorm(); break;
+		case InstCode::RAND_UNIT: this->randUnit(); break;
 
 		case InstCode::HEAP_ALLOCATE: this->heapAllocate(); break;
 		case InstCode::HEAP_DELETE: this->heapDelete(); break;

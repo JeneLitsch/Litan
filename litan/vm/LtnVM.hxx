@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <stack>
+#include <random>
 #include <vector>
 #include "LtnFloat.hxx"
 #include "LtnInstructions.hxx"
@@ -24,6 +25,7 @@ namespace ltn::vm {
 		VM(const VM&) = delete;
 		Environment env;
 		std::array<IExtension*, 8> extensions;
+		std::mt19937_64 random;
 		
 		// decoding and args
 		inline std::uint8_t getArg8() { 
@@ -78,6 +80,11 @@ namespace ltn::vm {
 		void maxi();
 
 		void sortRadix();
+
+		void randInt();
+		void randFloat();
+		void randNorm();
+		void randUnit();
 		
 		// float math instructions
 		void addf();

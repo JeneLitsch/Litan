@@ -88,7 +88,5 @@ void ltn::vm::VM::bgri(){
 void ltn::vm::VM::spshi(){
 	const std::int64_t r = this->env.acc.popI();
 	const std::int64_t l = this->env.acc.popI();
-	if(l == r) return this->env.acc.push(0L);
-	if(l > r) return this->env.acc.push(1L);
-	if(l < r) return this->env.acc.push(-1L);
+	this->env.acc.push(0L + (l > r) - (l < r));
 }

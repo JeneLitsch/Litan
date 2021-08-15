@@ -79,7 +79,5 @@ void ltn::vm::VM::bgrf(){
 void ltn::vm::VM::spshf(){
 	const double r = this->env.acc.popF();
 	const double l = this->env.acc.popF();
-	if(l == r) return this->env.acc.push(0L);
-	if(l > r) return this->env.acc.push(1L);
-	if(l < r) return this->env.acc.push(-1L);
+	this->env.acc.push(0L + (l > r) - (l < r));
 }

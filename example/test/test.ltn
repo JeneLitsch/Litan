@@ -13,8 +13,7 @@ struct C {
 }
 
 function main() -> Void {
-	var Int a = 42;
-	repeat(4) {
-		->fx(a);
+	repeat(10) {
+		->ltn::println(->ltn::randFloat(-10.0, 10.0));
 	}
 }

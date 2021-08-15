@@ -13,6 +13,7 @@ std::vector<ltn::c::Ltnc::SourcePair> includeStdLib(
 	std::vector<ltn::c::Ltnc::SourcePair> sources = sources_;
 	std::vector<std::string> libFiles = {
 		"/basic.ltn",
+		"/rand.ltn",
 		"/math.ltn",
 		"/array.ltn",
 		"/sort.ltn",

@@ -21,11 +21,70 @@ return
 
 -> FNX_main1
 stackalloc 0
-newi 0
-newi 1000000
-dec
-loop::range
-loop::cont
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
+newf 0.000000
+newf 0.000000
+spshf
+scrap
 return
 
 
