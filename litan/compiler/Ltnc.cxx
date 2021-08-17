@@ -93,9 +93,9 @@ std::string ltn::c::Ltnc::compile(
 		std::cout 
 			<< "All Symbols" << "\n"
 			<< StructurePrinter(*ast) << std::endl;
+		std::cout << std::endl;
 	}
 
 
-	std::cout << std::endl;
 	return asmb;
 }

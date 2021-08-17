@@ -14,6 +14,6 @@ struct C {
 
 function main() -> Void {
 	repeat(10) {
-		->ltn::println(->ltn::randFloat(-10.0, 10.0));
+		->ltn::println(->ltn::randUnit());
 	}
 }

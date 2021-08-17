@@ -43,9 +43,7 @@ newi 0
 newi 10
 dec
 loop::range
-newf -10.000000
-newf 10.000000
-call FNX_randFloat11
+call FNX_randUnit13
 call FNX_println65
 loop::cont
 return
