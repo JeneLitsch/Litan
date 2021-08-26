@@ -38,6 +38,7 @@ namespace ltn::c {
 
 		// Expressions
 		ExprInfo expression(CompilerPack & compPkg, const Expr & expr);		
+		ExprInfo ternary(CompilerPack & compPkg, const ExprTernary & expr);
 		ExprInfo binaryExpr(CompilerPack & compPkg, const ExprBinary & expr);
 		ExprInfo unary(CompilerPack & compPkg, const ExprUnary & expr);
 		ExprInfo literal(CompilerPack & compPkg, const ExprLiteral & expr);

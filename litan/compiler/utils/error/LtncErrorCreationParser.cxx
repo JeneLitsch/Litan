@@ -16,6 +16,11 @@ namespace ltn::c {
 	Error error::expectedSemicolon(const DebugInfo & debugInfo) {
 		return Error(ErrorCode::EXPECTED_SEMICOLON, "Expected ;", debugInfo);
 	}
+	
+	Error error::expectedColon(const DebugInfo & debugInfo) {
+		return Error(ErrorCode::EXPECTED_COLON, "Expected :", debugInfo);
+	}
+
 
 	Error error::expectedParenL(const DebugInfo & debugInfo) {
 		return Error(ErrorCode::EXPECTED_PAREN_L, "Expected (", debugInfo);

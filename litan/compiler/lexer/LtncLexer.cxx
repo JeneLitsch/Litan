@@ -11,6 +11,7 @@ std::vector<ltn::c::Token> ltn::c::Lexer::tokenize(
 	typedef LexerNodeCreator LNC;
 	// create lexing tree
 	LexerNode tree = LNC::connector({
+		LNC::chr('?', TokenType::QUESTIONMARK),
 		LNC::chr('!', TokenType::LOG_NOT, { 
 			LNC::chr('=', TokenType::UNEQUAL),
 		}),
@@ -38,7 +39,7 @@ std::vector<ltn::c::Token> ltn::c::Lexer::tokenize(
 		LNC::chr(';', TokenType::SEMICOLON),
 		LNC::chr(',', TokenType::COMMA),
 		LNC::chr('.', TokenType::DOT),
-		LNC::chr(':', {
+		LNC::chr(':', TokenType::COLON, {
 			LNC::chr(':', TokenType::DOUBLE_COLON) 
 		}),
 		

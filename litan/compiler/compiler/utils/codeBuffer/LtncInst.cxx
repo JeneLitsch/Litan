@@ -28,7 +28,13 @@ ltn::c::Inst ltn::c::Inst::newf(double value) {
 	return Inst("newf " + std::to_string(value));
 }
 
+ltn::c::Inst ltn::c::Inst::got0(const std::string & markStr) {
+	return Inst("goto " + markStr);
+}
 
+ltn::c::Inst ltn::c::Inst::mark(const std::string & markStr) {
+	return Inst("-> " + markStr);
+}
 
 ltn::c::Inst ltn::c::Inst::load(std::uint32_t value) {
 	return Inst("load " + std::to_string(value));

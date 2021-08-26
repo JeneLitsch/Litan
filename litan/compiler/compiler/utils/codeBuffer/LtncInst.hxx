@@ -12,6 +12,9 @@ namespace ltn::c {
 		static Inst newi(std::int64_t value);
 		static Inst newf(double value);
 
+		static Inst got0(const std::string & markStr);
+		static Inst mark(const std::string & markStr);
+
 		static Inst load(std::uint32_t addr);
 		static Inst store(std::uint32_t addr);
 		

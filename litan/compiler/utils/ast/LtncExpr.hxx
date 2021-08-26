@@ -73,11 +73,31 @@ namespace ltn::c {
 			TokenType type,
 			std::unique_ptr<Expr> l,
 			std::unique_ptr<Expr> r)
-			: Expr(debugInfo), type(type), l(std::move(l)), r(std::move(r)) {}
+			:	Expr(debugInfo),
+				type(type),
+				l(std::move(l)),
+				r(std::move(r)) {}
 
 		TokenType type;
 		std::unique_ptr<Expr> l;
 		std::unique_ptr<Expr> r;
+	};
+
+	struct ExprTernary : public Expr {
+		virtual ~ExprTernary() = default;
+		ExprTernary(
+			const DebugInfo & debugInfo,
+			std::unique_ptr<Expr> condition,
+			std::unique_ptr<Expr> trueBranch,
+			std::unique_ptr<Expr> falseBranch)
+			:	Expr(debugInfo),
+				condition(std::move(condition)),
+				trueBranch(std::move(trueBranch)),
+				falseBranch(std::move(falseBranch)) {}
+
+		std::unique_ptr<Expr> condition;
+		std::unique_ptr<Expr> trueBranch;
+		std::unique_ptr<Expr> falseBranch;
 	};
 
 	// Call function: ->fx();

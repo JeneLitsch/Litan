@@ -11,7 +11,9 @@ void ltn::vm::VM::got0(){
 }
 // pop last address from adrStack and jump to it 
 void ltn::vm::VM::rtrn(){
-	this->env.ip = this->env.bytecode.start + this->env.stack.pop();
+	this->env.ip 
+		= this->env.bytecode.start 
+		+ this->env.stack.rtrn();
 }
 // skip one instruction if value popped is 0
 void ltn::vm::VM::ifsk(){

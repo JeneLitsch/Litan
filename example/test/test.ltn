@@ -1,19 +1,13 @@
-function fx(Int x) -> Void {
-	var Int a = 4;
-	{
-		var Float f = -3.5;
-		->ltn::println(1);
-		->ltn::println(f);
-		->ltn::println(x);
-	}
+function fxTrue() -> Void {
+	->ltn::println(true);
 }
 
-struct C {
-	var Int a;
+function fxFalse() -> Void {
+	->ltn::println(false);
 }
+
 
 function main() -> Void {
-	repeat(10) {
-		->ltn::println(->ltn::randUnit());
-	}
+	var Bool b = true;
+	(b) ? ->fxTrue() : ->fxFalse();
 }

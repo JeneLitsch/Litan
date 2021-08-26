@@ -8,6 +8,7 @@ namespace ltn::c {
 		Error expectedDeclaration(const DebugInfo & debugInfo);
 
 		Error expectedSemicolon(const DebugInfo & debugInfo);
+		Error expectedColon(const DebugInfo & debugInfo);
 
 		Error expectedParenL(const DebugInfo & debugInfo);
 		Error expectedParenR(const DebugInfo & debugInfo);

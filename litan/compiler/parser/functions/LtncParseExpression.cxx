@@ -22,8 +22,31 @@ namespace ltn::c {
 	}
 }
 
+std::unique_ptr<ltn::c::Expr> ltn::c::parse::ternary(ParserPackage & parsePkg) {
+	auto condition = logicAnd(parsePkg);
+	if(parsePkg.match(TokenType::QUESTIONMARK)) {
+		auto debugInfo = parsePkg.prev().debugInfo;
+		auto branchTrue = logicAnd(parsePkg);
+		if(parsePkg.match(TokenType::COLON)) {
+			auto branchFalse = logicAnd(parsePkg);
+			return std::make_unique<ExprTernary>(
+				debugInfo,
+				std::move(condition),
+				std::move(branchTrue),
+				std::move(branchFalse));
+		}
+		else {
+			throw ltn::c::error::expectedColon(parsePkg.prev().debugInfo);
+		}
+	}
+	else {
+		return condition;
+	}
+}
+
+
 std::unique_ptr<ltn::c::Expr> ltn::c::parse::expression(ParserPackage & parsePkg) {
-	return logicAnd(parsePkg);
+	return ternary(parsePkg);
 }
 
 std::unique_ptr<ltn::c::Expr> ltn::c::parse::logicAnd(ParserPackage & parsePkg) {

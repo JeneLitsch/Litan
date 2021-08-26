@@ -22,7 +22,7 @@ namespace ltn::vm {
 		inline void allocate(const std::size_t size) {
 			this->callStack.resize(this->callStack.size() + size);
 		}
-		inline std::uint64_t pop() {
+		inline std::uint64_t rtrn() {
 			const std::uint64_t jumpback = this->callStack[stackPointer + 1];
 			const std::uint64_t newStackPointer = this->callStack[stackPointer];
 			this->callStack.resize(stackPointer);

@@ -29,6 +29,7 @@ namespace ltn::c {
 		// Expressions
 
 		std::unique_ptr<Expr> expression(ParserPackage & parsePkg);
+		std::unique_ptr<Expr> ternary(ParserPackage & parsePkg);
 		std::unique_ptr<Expr> logicAnd(ParserPackage & parsePkg);
 		std::unique_ptr<Expr> logicOr(ParserPackage & parsePkg);
 		std::unique_ptr<Expr> equality(ParserPackage & parsePkg);
