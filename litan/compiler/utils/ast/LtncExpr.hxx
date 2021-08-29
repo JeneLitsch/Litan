@@ -34,22 +34,18 @@ namespace ltn::c {
 	struct ExprVar : public Expr {
 		ExprVar(
 			const DebugInfo & debugInfo,
-			const std::vector<VarId> & path)
-			: Expr(debugInfo), path(path) {}
-
-		ExprVar(
-			const DebugInfo & debugInfo,
 			const VarId & varId)
-			: Expr(debugInfo), path({varId}) {}
+			: Expr(debugInfo), varId({varId}) {}
 		
 		ExprVar(
 			const DebugInfo & debugInfo,
 			const std::string & name)
-			: Expr(debugInfo), path({name}) {}
+			: Expr(debugInfo), varId({name}) {}
 		
 		virtual ~ExprVar() = default;
 		
-		std::vector<VarId> path;
+		VarId varId;
+		std::unique_ptr<ExprVar> next;
 	};
 
 	// Unary operator: -x

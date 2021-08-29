@@ -6,51 +6,47 @@ ltn::c::Var resolveVariable(
 	const ltn::c::ExprVar & expr,
 	const ltn::c::SymbolTable & sTable) {
 
-	const auto & path = expr.path;
 	try {
-		return sTable.match(expr.debugInfo, ltn::c::VarId(path[0])); 
+		return sTable.match(expr.debugInfo, ltn::c::VarId(expr.varId)); 
 	}
 	catch(...) {
-		throw ltn::c::error::undefinedVariable(path[0], expr.debugInfo);
+		throw ltn::c::error::undefinedVariable(expr.varId, expr.debugInfo);
 	}
 }
 
 
+
 ltn::c::Var resolveMember(
-	const unsigned i,
 	const ltn::c::ExprVar & expr,
 	const ltn::c::SymbolTable & sTable,
 	const ltn::c::Var & lastVar) {
-
-	const auto & path = expr.path;
 
 	// lookup struct type
 	const ltn::c::Type & type = sTable.match(expr.debugInfo, lastVar.typeId);
 	// search next member
 	const auto & members = type.members; 
 	for(const auto & newVar : members) {
-		if(newVar->name == path[i]) {
+		if(newVar->name == expr.varId) {
 			return *newVar;
 		}
 	}
 	// undefined member
-	throw ltn::c::error::notAMember(path[i], type.id, expr.debugInfo);
+	throw ltn::c::error::notAMember(expr.varId, type.id, expr.debugInfo);
 }
 
 
+
 ltn::c::Var resolveNext(
-	const unsigned i,
+	const bool isFirst,
 	const ltn::c::SymbolTable & sTable,
 	const ltn::c::Var & lastVar,
 	const ltn::c::ExprVar & expr) {
 	
-	const bool isFirst = (i == 0);
-
 	if(isFirst) {
 		return resolveVariable(expr, sTable);
 	}
 	else {
-		return resolveMember(i, expr, sTable, lastVar);
+		return resolveMember(expr, sTable, lastVar);
 	}
 }
 
@@ -84,6 +80,7 @@ ltn::c::CodeBuffer read(
 }
 
 
+
 ltn::c::CodeBuffer writeStack(
 	const ltn::c::Var & var,
 	const ltn::c::ExprInfo & exprInfo) {
@@ -108,6 +105,7 @@ ltn::c::CodeBuffer writeHeap(
 }
 
 
+
 ltn::c::CodeBuffer write(
 	const bool isStack,
 	const ltn::c::Var & var,
@@ -120,6 +118,7 @@ ltn::c::CodeBuffer write(
 		return writeHeap(var, exprInfo);
 	}
 }
+
 
 
 ltn::c::CodeBuffer generateCode(
@@ -139,23 +138,23 @@ ltn::c::CodeBuffer generateCode(
 }
 
 
+
 ltn::c::ExprInfo ltn::c::compile::var(CompilerPack & compPkg, const ExprVar & varExpr, const std::optional<ExprInfo> & exprInfo) {
 
 	CodeBuffer code = compPkg.codeBuffer();
 	Var var(TypeId(""), 0, VarId(""));
 
+	const ExprVar * current = &varExpr;
 
-	// follow refs
-	for(unsigned i = 0; i < varExpr.path.size(); i++) {
+	while(current) {
 		const SymbolTable & sTable = compPkg.getSymbolTable(); 
-		const std::size_t pathEnd = varExpr.path.size() - 1;
-		const bool isFirst = (i == 0);
-		const bool isLast = (i == pathEnd);
+		const bool isFirst = (current == &varExpr);
+		const bool isLast = !(current->next);
 
-		var = resolveNext(i, sTable, var, varExpr);
+		var = resolveNext(isFirst, sTable, var, *current);
 		code << generateCode(isFirst, isLast, var, exprInfo);
+		current = current->next.get();
 	}
-
 
 	return ExprInfo(var.typeId, code);
 }

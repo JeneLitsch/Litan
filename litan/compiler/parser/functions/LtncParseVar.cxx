@@ -5,12 +5,20 @@ std::unique_ptr<ltn::c::ExprVar> ltn::c::parse::var(ParserPackage & parsePkg) {
 	// variables and constants
 	if (parsePkg.match(TokenType::IDENTIFIER)) {
 		const DebugInfo & debugInfo = parsePkg.prev().debugInfo;
-		auto exprVar = std::make_unique<ExprVar>(debugInfo, parsePkg.prev().string);
+		
+		const std::string varName = parsePkg.prev().string;
+		auto exprVar = std::make_unique<ExprVar>(debugInfo, varName);
+		auto * last = exprVar.get();
+
+		
 		while(parsePkg.match(TokenType::DOT)) {
 			if (!parsePkg.match(TokenType::IDENTIFIER)) {
 				throw ltn::c::error::unnamedVariable(parsePkg);
 			}
-			exprVar->path.push_back(parsePkg.prev().string);
+			const std::string varName = parsePkg.prev().string;
+			auto && next = std::make_unique<ExprVar>(debugInfo, varName);
+			last->next = std::move(next);
+			last = last->next.get();
 		}
 		return exprVar;
 	}
