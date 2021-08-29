@@ -7,7 +7,22 @@ function fxFalse() -> Void {
 }
 
 
+struct Struct1 {
+	var Int x;
+}
+
+struct Struct2 {
+	var Struct1 s1;
+}
+
 function main() -> Void {
-	var Bool b = true;
-	(b) ? ->fxTrue() : ->fxFalse();
+	var Struct2 s2 = ->Struct2(->Struct1(10));
+	s2.s1.x = 42;
+	var Int a = s2.s1.x;
+	var Int b = a;
+	var Int c = b;
+	->ltn::println(c);
+	->destroy(s2.s1);
+	->destroy(s2);
+	return;
 }
