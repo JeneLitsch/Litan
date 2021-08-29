@@ -4,7 +4,6 @@
 std::unique_ptr<ltn::c::Stmt> ltn::c::parse::statement(ParserPackage & parsePkg) {
 	if(auto stmt = codeBlock(parsePkg)) return stmt;
 	if(auto stmt = assembly(parsePkg)) return stmt;
-	if(auto stmt = assign(parsePkg)) return stmt;
 	if(auto stmt = ifElse(parsePkg)) return stmt;
 	if(auto stmt = returnStmt(parsePkg)) return stmt;
 	if(auto stmt = forLoop(parsePkg)) return stmt;
@@ -62,16 +61,3 @@ std::unique_ptr<ltn::c::Stmt> ltn::c::parse::assembly(ParserPackage & parsePkg) 
 }
 
 
-std::unique_ptr<ltn::c::Stmt> ltn::c::parse::assign(ParserPackage & parsePkg) {
-	if(auto exprVar = var(parsePkg)) {
-		if (parsePkg.match(TokenType::ASSIGN)) {
-			auto expr = expression(parsePkg);
-			if (parsePkg.match(TokenType::SEMICOLON)) {
-				return std::make_unique<StmtAssign>(exprVar->debugInfo, std::move(exprVar), std::move(expr));
-			}
-			throw error::expectedSemicolon(parsePkg);
-		}
-		throw error::expectedEqual(parsePkg);
-	}
-	return nullptr;
-}

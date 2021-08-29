@@ -1,6 +1,6 @@
 #include "LtncCompilerFunctions.hxx"
 
-ltn::c::StmtInfo ltn::c::compile::assign(CompilerPack & compPkg, const StmtAssign & stmt) {
+ltn::c::ExprInfo ltn::c::compile::assign(CompilerPack & compPkg, const ExprAssign & stmt) {
 	auto expr = expression(compPkg, *stmt.expr);
 	auto access = var(compPkg, *stmt.var, expr);
 	const SymbolTable & sTable = compPkg.getSymbolTable();
@@ -12,5 +12,5 @@ ltn::c::StmtInfo ltn::c::compile::assign(CompilerPack & compPkg, const StmtAssig
 	}
 	CodeBuffer code = compPkg.codeBuffer();
 	code << access.code;
-	return StmtInfo(code, 0);
+	return ExprInfo(TypeId(TVoid), code);
 }

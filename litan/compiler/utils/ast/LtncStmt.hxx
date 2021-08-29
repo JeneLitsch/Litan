@@ -33,16 +33,6 @@ namespace ltn::c {
 		std::unique_ptr<Expr> expr;
 	};
 
-	struct StmtAssign : public Stmt {
-		StmtAssign(
-			const DebugInfo & debugInfo,
-			std::unique_ptr<ExprVar> var,
-			std::unique_ptr<Expr> expr)
-			: Stmt(debugInfo), var(std::move(var)), expr(std::move(expr)) {}
-		virtual ~StmtAssign() = default;
-		std::unique_ptr<ExprVar> var;
-		std::unique_ptr<Expr> expr;
-	};
 
 	struct StmtPrint : public Stmt {
 		StmtPrint(
@@ -112,7 +102,7 @@ namespace ltn::c {
 			const DebugInfo & debugInfo,
 			const VarId & varId,
 			const TypeId & typeId,
-			std::unique_ptr<Stmt> assign)
+			std::unique_ptr<ExprAssign> assign)
 		: 	Stmt(debugInfo),
 			varId(varId),
 			typeId(typeId),
@@ -122,7 +112,7 @@ namespace ltn::c {
 		
 		VarId varId;
 		TypeId typeId;
-		std::unique_ptr<Stmt> assign;
+		std::unique_ptr<ExprAssign> assign;
 	};
 
 }

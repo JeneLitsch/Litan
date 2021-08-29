@@ -117,4 +117,16 @@ namespace ltn::c {
 		Namespace ns;
 		std::vector<std::unique_ptr<Expr>> paramExprs;
 	};
+
+
+	struct ExprAssign : public Expr {
+		ExprAssign(
+			const DebugInfo & debugInfo,
+			std::unique_ptr<ExprVar> var,
+			std::unique_ptr<Expr> expr)
+			: Expr(debugInfo), var(std::move(var)), expr(std::move(expr)) {}
+		virtual ~ExprAssign() = default;
+		std::unique_ptr<ExprVar> var;
+		std::unique_ptr<Expr> expr;
+	};
 }

@@ -1,5 +1,7 @@
 #include "LtncParserFunctions.hxx"
 #include <functional>
+#include "LtncUniqueCast.hxx"
+
 
 namespace ltn::c {
 	namespace parse {
@@ -20,6 +22,18 @@ namespace ltn::c {
 			return l;
 		}
 	}
+}
+
+std::unique_ptr<ltn::c::Expr> ltn::c::parse::assign(ParserPackage & parsePkg) {
+	auto expr = ternary(parsePkg);
+	if(auto exprVar= dynamic_unique_cast<ExprVar>(std::move(expr))) {
+		if (parsePkg.match(TokenType::ASSIGN)) {
+			auto exprRight = expression(parsePkg);
+			return std::make_unique<ExprAssign>(exprVar->debugInfo, std::move(exprVar), std::move(exprRight));
+		}
+		return exprVar;
+	}
+	return expr;
 }
 
 std::unique_ptr<ltn::c::Expr> ltn::c::parse::ternary(ParserPackage & parsePkg) {
@@ -46,7 +60,7 @@ std::unique_ptr<ltn::c::Expr> ltn::c::parse::ternary(ParserPackage & parsePkg) {
 
 
 std::unique_ptr<ltn::c::Expr> ltn::c::parse::expression(ParserPackage & parsePkg) {
-	return ternary(parsePkg);
+	return assign(parsePkg);
 }
 
 std::unique_ptr<ltn::c::Expr> ltn::c::parse::logicAnd(ParserPackage & parsePkg) {

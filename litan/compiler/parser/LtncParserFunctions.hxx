@@ -21,7 +21,6 @@ namespace ltn::c {
 		std::unique_ptr<Stmt> assembly(ParserPackage & parsePkg);
 		std::unique_ptr<Stmt> ifElse(ParserPackage & parsePkg);
 		std::unique_ptr<Stmt> codeBlock(ParserPackage & parsePkg);
-		std::unique_ptr<Stmt> assign(ParserPackage & parsePkg);
 		std::unique_ptr<Stmt> returnStmt(ParserPackage & parsePkg);
 		std::unique_ptr<Stmt> justAnExpression(ParserPackage & parsePkg);
 
@@ -29,6 +28,7 @@ namespace ltn::c {
 		// Expressions
 
 		std::unique_ptr<Expr> expression(ParserPackage & parsePkg);
+		std::unique_ptr<Expr> assign(ParserPackage & parsePkg);
 		std::unique_ptr<Expr> ternary(ParserPackage & parsePkg);
 		std::unique_ptr<Expr> logicAnd(ParserPackage & parsePkg);
 		std::unique_ptr<Expr> logicOr(ParserPackage & parsePkg);

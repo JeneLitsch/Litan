@@ -26,8 +26,8 @@ ltn::c::StmtInfo ltn::c::compile::codeBlock(
 				if(var->typeId == TVoid) {
 					throw error::voidVariable(var->debugInfo, var->varId);
 				}
-				if(var->assign)  {
-					compileStatement(*var->assign);
+				if(var->assign) {
+					code << expression(compPkg, *var->assign).code;
 				}
 			}
 			else {

@@ -33,14 +33,14 @@ ltn::c::VarId parseVarName(ltn::c::ParserPackage & parsePkg) {
 }
 
 
-std::unique_ptr<ltn::c::StmtAssign> parseAssign(
+std::unique_ptr<ltn::c::ExprAssign> parseAssign(
 	const ltn::c::VarId & varId,
 	ltn::c::ParserPackage & parsePkg) {
 	if(parsePkg.match(ltn::c::TokenType::ASSIGN)) {
 		const ltn::c::DebugInfo & debugInfo = parsePkg.prev().debugInfo;
 		auto expr = ltn::c::parse::expression(parsePkg);
 		auto access = std::make_unique<ltn::c::ExprVar>(debugInfo, varId);
-		return std::make_unique<ltn::c::StmtAssign>(debugInfo, std::move(access), std::move(expr));
+		return std::make_unique<ltn::c::ExprAssign>(debugInfo, std::move(access), std::move(expr));
 	}
 	return nullptr;
 }

@@ -1,9 +1,7 @@
 #include "LtncCompilerFunctions.hxx"
 
 ltn::c::StmtInfo ltn::c::compile::statement(CompilerPack & compPkg, const Stmt & stmt) {
-	if(auto stmt_ = dynamic_cast<const StmtAssign*>(&stmt)) {
-		return assign(compPkg, *stmt_);
-	}
+
 	if(auto stmt_ = dynamic_cast<const StmtBlock*>(&stmt)) {
 		return codeBlock(compPkg, *stmt_);
 	}

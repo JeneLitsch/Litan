@@ -10,6 +10,9 @@ ltn::c::ExprInfo ltn::c::compile::expression(CompilerPack & compPkg, const Expr 
 	if(auto expr_ = dynamic_cast<const ExprTernary*>(&expr)) {
 		return ternary(compPkg, *expr_);
 	}
+	if(auto expr_ = dynamic_cast<const ExprAssign*>(&expr)) {
+		return assign(compPkg, *expr_);
+	}
 	if(auto expr_ = dynamic_cast<const ExprBinary*>(&expr)) {
 		return binaryExpr(compPkg, *expr_);
 	}

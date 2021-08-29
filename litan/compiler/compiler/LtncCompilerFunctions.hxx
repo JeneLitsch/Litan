@@ -26,7 +26,6 @@ namespace ltn::c {
 
 		StmtInfo statement(CompilerPack & compPkg, const Stmt & stmt);
 		StmtInfo ifElse(CompilerPack & compPkg, const StmtIf & stmt);
-		StmtInfo assign(CompilerPack & compPkg, const StmtAssign & stmt);
 		StmtInfo codeBlock(CompilerPack & compPkg, const StmtBlock & stmt);
 		StmtInfo forLoop(CompilerPack & compPkg, const StmtFor & stmt);
 		StmtInfo repeatLoop(CompilerPack & compPkg, const StmtRepeat & stmt);
@@ -38,6 +37,7 @@ namespace ltn::c {
 
 		// Expressions
 		ExprInfo expression(CompilerPack & compPkg, const Expr & expr);		
+		ExprInfo assign(CompilerPack & compPkg, const ExprAssign & stmt);
 		ExprInfo ternary(CompilerPack & compPkg, const ExprTernary & expr);
 		ExprInfo binaryExpr(CompilerPack & compPkg, const ExprBinary & expr);
 		ExprInfo unary(CompilerPack & compPkg, const ExprUnary & expr);
