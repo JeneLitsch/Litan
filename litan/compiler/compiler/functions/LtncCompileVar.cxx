@@ -62,8 +62,7 @@ ltn::c::CodeBuffer readStack(const ltn::c::Var & var){
 
 ltn::c::CodeBuffer readHeap(const ltn::c::Var & var) {
 	ltn::c::CodeBuffer code(false);
-	code << ltn::c::Inst::newl(var.addr);
-	code << ltn::c::AssemblyCode("array::get");
+	code << ltn::c::Inst::structRead(var.addr);
 	return code;
 }
 
@@ -98,9 +97,8 @@ ltn::c::CodeBuffer writeHeap(
 	const ltn::c::ExprInfo & exprInfo) {
 	
 	ltn::c::CodeBuffer code(false);
-	code << ltn::c::Inst::newl(var.addr);
 	code << exprInfo.code;
-	code << ltn::c::AssemblyCode("array::set");
+	code << ltn::c::Inst::structWrite(var.addr);
 	return code;
 }
 

@@ -8,6 +8,14 @@ std::string ltn::c::Inst::toString() const {
 	return this->string + "\n";
 }
 
+ltn::c::Inst ltn::c::Inst::stackalloc(std::uint32_t count) {
+	return Inst("stackalloc " + std::to_string(count));
+}
+
+ltn::c::Inst ltn::c::Inst::call(const std::string & jumpMark) {
+	return Inst("call " + jumpMark);
+}
+
 ltn::c::Inst ltn::c::Inst::newl(std::uint32_t value) {
 	return Inst("newl " + std::to_string(value));
 }
@@ -44,6 +52,9 @@ ltn::c::Inst ltn::c::Inst::store(std::uint32_t value) {
 	return Inst("store " + std::to_string(value));
 }
 
+ltn::c::Inst ltn::c::Inst::allocateStruct(std::size_t size){
+	return Inst("heap::allocate::struct " + std::to_string(size));
+}
 
 ltn::c::Inst ltn::c::Inst::stringData(const std::string & str) {
 	if(str.size() > 6) {
@@ -62,3 +73,13 @@ ltn::c::Inst ltn::c::Inst::stringData(const std::string & str) {
 		return Inst("string::data " + ss.str());
 	}
 }
+
+ltn::c::Inst ltn::c::Inst::structRead(std::uint32_t addr) {
+	return Inst("struct::read " + std::to_string(addr));
+
+}
+
+ltn::c::Inst ltn::c::Inst::structWrite(std::uint32_t addr) {
+	return Inst("struct::write " + std::to_string(addr));
+}
+

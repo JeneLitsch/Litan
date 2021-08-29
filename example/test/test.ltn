@@ -9,6 +9,8 @@ function fxFalse() -> Void {
 
 struct Struct1 {
 	var Int x;
+	var Int y;
+	var Int z;
 }
 
 struct Struct2 {
@@ -16,11 +18,9 @@ struct Struct2 {
 }
 
 function main() -> Void {
-	var Int a;
-	var Int b;
-	a = 4;
-	b = a;
-	->ltn::println(a);
-	->ltn::println(b);
+	var Struct2 s2 = ->Struct2(->Struct1(1, 2, 3));
+	->ltn::println(s2.s1.x);
+	->ltn::println(s2.s1.y);
+	->ltn::println(s2.s1.z);
 	return;
 }

@@ -1,36 +1,38 @@
 -> FNX_Struct10
-heap::allocate::array
-copy
-newl 1
-array::resize
+heap::allocate::struct 3
 return
 
 
 -> FNX_Struct11
-stackalloc 1
+stackalloc 3
 store 0
-heap::allocate::array
+store 1
+store 2
+heap::allocate::struct 3
+copy
+load 2
+struct::write 0
+copy
+load 1
+struct::write 1
 copy
 load 0
-array::pushback
+struct::write 2
 return
 
 
 -> FNX_Struct22
-heap::allocate::array
-copy
-newl 1
-array::resize
+heap::allocate::struct 1
 return
 
 
 -> FNX_Struct23
 stackalloc 1
 store 0
-heap::allocate::array
+heap::allocate::struct 1
 copy
 load 0
-array::pushback
+struct::write 0
 return
 
 
@@ -54,14 +56,24 @@ return
 
 
 -> FNX_main6
-stackalloc 2
-newi 4
+stackalloc 1
+newi 1
+newi 2
+newi 3
+call FNX_Struct11
+call FNX_Struct23
 store 0
 load 0
-store 1
-load 0
+struct::read 0
+struct::read 0
 call FNX_println66
-load 1
+load 0
+struct::read 0
+struct::read 1
+call FNX_println66
+load 0
+struct::read 0
+struct::read 2
 call FNX_println66
 return
 return

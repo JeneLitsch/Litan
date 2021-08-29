@@ -25,6 +25,6 @@ ltn::c::ExprInfo ltn::c::compile::call(CompilerPack & compPkg, const ExprCall & 
 		}
 	}();
 	
-	code << AssemblyCode("call "  + function.jumpMark);
+	code << Inst::call(function.jumpMark);
 	return ExprInfo(function.signature.returnType, code);
 }

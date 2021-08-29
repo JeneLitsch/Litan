@@ -13,6 +13,7 @@ namespace ltn::vm {
 		void clear();
 
 		std::uint64_t allocate(HeapType type);
+		std::uint64_t allocate(std::size_t size = 0);
 
 		std::uint64_t copy(std::uint64_t ptr);
 

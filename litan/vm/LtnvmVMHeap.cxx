@@ -3,7 +3,13 @@
 // Heap instructions
 void ltn::vm::VM::heapAllocate(){
 	const HeapType type = static_cast<HeapType>(getArg8());
-	this->env.acc.push(this->env.heap.allocate(type));
+	if(type == HeapType::STRUCT) {
+		const std::uint32_t size = this->getArg32();
+		this->env.acc.push(this->env.heap.allocate(size));
+	}
+	else {
+		this->env.acc.push(this->env.heap.allocate(type));
+	}
 }
 
 // Heap instructions

@@ -22,6 +22,41 @@ std::string registerCtor(
 	return symbolTable.match(automatic, signature).jumpMark;
 }
 
+
+
+ltn::c::CodeBuffer allocateStruct(std::size_t size) {
+	ltn::c::CodeBuffer code(false);
+	code << ltn::c::Inst::allocateStruct(size);
+	return code;
+}
+
+
+
+ltn::c::CodeBuffer readParameters(std::size_t size) {
+	ltn::c::CodeBuffer code(false);
+	code << ltn::c::Inst::stackalloc(static_cast<std::uint32_t>(size));
+	// read params from acc
+	for(unsigned i = 0; i < size; i++) {
+		code << ltn::c::Inst::store(i);
+	}
+	return code;
+}
+
+
+
+ltn::c::CodeBuffer initMembers(std::size_t size) {
+	// write to object on heap
+	ltn::c::CodeBuffer code(false);
+	for(unsigned i = 0; i < size; i++) {
+		code << ltn::c::AssemblyCode("copy");
+		code << ltn::c::Inst::load(static_cast<std::uint32_t>(size - i - 1));
+		code << ltn::c::Inst::structWrite(i);
+	}
+	return code;
+}
+
+
+
 ltn::c::CodeBuffer ltn::c::CtorGenerator::defaultCtor(
 	CompilerPack & compilePkg,
 	const Type & type) const {
@@ -31,14 +66,13 @@ ltn::c::CodeBuffer ltn::c::CtorGenerator::defaultCtor(
 	CodeBuffer code = compilePkg.codeBuffer();
 	code << Comment(type.id.name);
 	code << AssemblyCode("-> " + jumpMark);
-	code << AssemblyCode("heap::allocate::array");
-	code << AssemblyCode("copy");
-	code << Inst::newl(static_cast<std::uint32_t>(type.members.size()));
-	code << AssemblyCode("array::resize");
+	code << allocateStruct(type.members.size());
 	code << AssemblyCode("return");
 	code << AssemblyCode("\n");
 	return code;
 }
+
+
 
 ltn::c::CodeBuffer ltn::c::CtorGenerator::parameterCtor(
 	CompilerPack & compilePkg,
@@ -46,32 +80,14 @@ ltn::c::CodeBuffer ltn::c::CtorGenerator::parameterCtor(
 
 	std::string jumpMark = registerCtor(compilePkg.getSymbolTable(), type, true);
 
+	const std::size_t size = type.members.size();
 	// ctor head 
 	CodeBuffer code = compilePkg.codeBuffer();
 	code << Comment(type.id.name);
 	code << AssemblyCode("-> " + jumpMark);
-	code << AssemblyCode("stackalloc " + std::to_string(type.members.size()));
-	
-	std::uint32_t index = 0; 
-	// read params from acc
-	for(const auto & member : type.members) {
-		UNUSED(member);
-		code << Inst::store(index);
-		index++;
-	}
-
-	// allocate object
-	code << AssemblyCode("heap::allocate::array");
-	
-	// write to object on heap
-	for(const auto & member : type.members) {
-		index--;
-		UNUSED(member);
-		code << AssemblyCode("copy");
-		code << Inst::load(index);
-		code << AssemblyCode("array::pushback");
-	}
-
+	code << readParameters(size);
+	code << allocateStruct(size);
+	code << initMembers(size);
 	code << AssemblyCode("return");
 	code << AssemblyCode("\n");
 	return code;

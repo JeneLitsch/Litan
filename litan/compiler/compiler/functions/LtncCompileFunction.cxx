@@ -36,7 +36,7 @@ ltn::c::StmtInfo ltn::c::compile::function(
 	code << AssemblyCode("-> " + func.jumpMark);
 	// load params into memory (backwards because LIFO)
 	const auto & params = decl.signature.params; 
-	code << AssemblyCode("stackalloc " + std::to_string(body.stackalloc + params.size()));
+	code << Inst::stackalloc(body.stackalloc + params.size());
 	for(auto param = params.rbegin(); param != params.rend(); ++param) {
 		// store parameter;
 		std::uint64_t varAddr = compPkg.getSymbolTable().match(decl.debugInfo, VarId((*param).name)).addr;

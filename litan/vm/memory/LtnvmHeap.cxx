@@ -19,6 +19,12 @@ std::uint64_t ltn::vm::Heap::allocate(HeapType type)  {
 	return newPtr;
 }
 
+std::uint64_t ltn::vm::Heap::allocate(std::size_t size)  {
+	std::uint64_t newPtr = this->createPtr();
+	this->objects.insert({newPtr, HeapObject(size)});
+	return newPtr;
+}
+
 std::uint64_t ltn::vm::Heap::copy(std::uint64_t ptr) {
 	std::uint64_t newPtr = this->createPtr();
 	this->objects.insert({newPtr, this->objects.at(ptr)});

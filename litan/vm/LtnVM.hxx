@@ -154,6 +154,9 @@ namespace ltn::vm {
 		void stringAdd();
 		void stringData();
 
+		void structRead();
+		void structWrite();
+
 		// stack(type) instructions
 		void stackPush();
 		void stackPop();

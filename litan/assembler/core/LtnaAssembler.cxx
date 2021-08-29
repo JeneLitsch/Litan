@@ -191,10 +191,14 @@ namespace ltn::a {
 
 			{ "load", {[](auto args, auto) { return pInst(InstCode::LOAD, 1, toInt32(args[0])); }}},
 			{ "store", {[](auto args, auto) { return pInst(InstCode::STORE, 1, toInt32(args[0])); }}},
+
+			{ "struct::read", {[](auto args, auto) { return vInst(InstCode::STRUCT_READ, toInt32(args[0])); }}},
+			{ "struct::write", {[](auto args, auto) { return vInst(InstCode::STRUCT_WRITE, toInt32(args[0])); }}},
 			
 			{ "newl", {[](auto args, auto) { return vInst(InstCode::NEWL, toInt32(args[0])); }}},
 			{ "newu", {[](auto args, auto) { return vInst(InstCode::NEWU, toInt32(args[0])); }}},
 			{ "stackalloc", {[](auto args, auto) { return vInst(InstCode::STACKALLOC, toInt32(args[0])); }}},
+			{ "heap::allocate::struct", {[](auto args, auto) { return pInst(InstCode::HEAP_ALLOCATE, std::uint8_t(HeapType::STRUCT), toInt32(args[0])); }}},
 		}},
 		// Multiple Argments
 		{-1, {

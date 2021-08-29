@@ -174,6 +174,9 @@ void ltn::vm::VM::execute(){
 
 		case InstCode::STRING_ADD: this->stringAdd(); break;
 		case InstCode::STRING_DATA: this->stringData(); break;
+
+		case InstCode::STRUCT_READ: this->structRead(); break;
+		case InstCode::STRUCT_WRITE: this->structWrite(); break;
 		
 		default: throw IllegalInstruction(static_cast<std::uint8_t>(opcode));
 		}

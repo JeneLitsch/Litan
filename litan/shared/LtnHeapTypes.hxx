@@ -2,6 +2,7 @@
 
 namespace ltn {
 	enum class HeapType {
+		STRUCT,
 		ARRAY,
 		STACK,
 		QUEUE,
