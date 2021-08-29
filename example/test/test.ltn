@@ -6,6 +6,17 @@ function fxFalse() -> Void {
 	->ltn::println(false);
 }
 
+template<T>
+function fx(T x) -> Void {
+	->ltn::println(x);
+}
+
+
+template<T, S>
+struct Pair {
+	var T l;
+	var S r;
+}
 
 struct Struct1 {
 	var Int x;

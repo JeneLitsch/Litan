@@ -45,4 +45,40 @@ namespace ltn::c {
 		TypeId typeId;
 		std::vector<std::unique_ptr<StmtVar>> members;
 	};
+
+
+	struct DeclTemplate : public Decl {
+		DeclTemplate(
+			const DebugInfo & debugInfo,
+			std::vector<std::string> && placeholders) 
+		:	Decl(debugInfo),
+			placeholders(std::move(placeholders)) {}
+
+		virtual ~DeclTemplate() = default;
+		std::vector<std::string> placeholders;
+	};
+
+	struct DeclTemplateFunction : public DeclTemplate {
+		DeclTemplateFunction(
+			const DebugInfo & debugInfo,
+			std::vector<std::string> && placeholders,
+			std::unique_ptr<DeclFunction> && decl) 
+		:	DeclTemplate(debugInfo, std::move(placeholders)),
+			decl(std::move(decl)) {}
+
+		virtual ~DeclTemplateFunction() = default;
+		std::unique_ptr<DeclFunction> decl;
+	};
+
+	struct DeclTemplateStruct : public DeclTemplate {
+		DeclTemplateStruct(
+			const DebugInfo & debugInfo,
+			std::vector<std::string> && placeholders,
+			std::unique_ptr<DeclStruct> && decl) 
+		:	DeclTemplate(debugInfo, std::move(placeholders)),
+			decl(std::move(decl)) {}
+
+		virtual ~DeclTemplateStruct() = default;
+		std::unique_ptr<DeclStruct> decl;
+	};
 }

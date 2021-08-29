@@ -8,6 +8,7 @@ namespace ltn::c {
 		StructurePrinter(const Program & program);
 		std::string print() const;
 	private:
+		static std::string toString(const std::vector<std::string> & strs);
 		const Program & program; 
 	};
 

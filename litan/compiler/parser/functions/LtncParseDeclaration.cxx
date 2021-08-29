@@ -1,4 +1,5 @@
 #include "LtncParserFunctions.hxx"
+#include "LtncUniqueCast.hxx"
 
 bool mameSpace(ltn::c::ParserPackage & parsePkg, ltn::c::Program & program) {
 	if(parsePkg.match(ltn::c::TokenType::NAMESPACE)) {
@@ -23,6 +24,8 @@ bool mameSpace(ltn::c::ParserPackage & parsePkg, ltn::c::Program & program) {
 	return false;
 }
 
+
+
 void ltn::c::parse::declaration(ParserPackage & parsePkg, Program & program) {
 	if(auto function = declareFunction(parsePkg)){
 		program.functions.push_back(std::move(function));
@@ -33,7 +36,16 @@ void ltn::c::parse::declaration(ParserPackage & parsePkg, Program & program) {
 	else if (auto structDecl = declareStruct(parsePkg)) {
 		program.structs.push_back(std::move(structDecl));
 	}
+	else if (auto templ4te = declareTemplate(parsePkg)) {
+		if(auto tmpl = dynamic_unique_cast<DeclTemplateStruct>(std::move(templ4te))) {
+			program.structTemplates.push_back(std::move(tmpl));
+		}
+		if(auto tmpl = dynamic_unique_cast<DeclTemplateFunction>(std::move(templ4te))) {
+			program.functionTemplates.push_back(std::move(tmpl));
+		}
+	}
 	else if(::mameSpace(parsePkg, program)) {
+
  	}
 	else {
 		throw error::expectedDeclaration(parsePkg);

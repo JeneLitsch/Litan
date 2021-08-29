@@ -17,6 +17,11 @@ std::string ltn::c::Compiler::compile(
 
 	DebugInfo misc(0,0, "", "");
 
+	// global scope
+	sTable.addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
+
+
+	// primitives
 	sTable.insert(misc, Type(TVoid));
 	sTable.insert(misc, Type(TInt, {TBool, TRaw}));
 	sTable.insert(misc, Type(TBool, {TInt, TRaw}));
@@ -24,9 +29,9 @@ std::string ltn::c::Compiler::compile(
 	sTable.insert(misc, Type(TFloat, {TRaw}));
 	sTable.insert(misc, Type(TPointer, {TRaw}));
 	
-	sTable.addFunctionScope(FunctionSignature(TypeId(TVoid), "", {}));
 
 	CodeBuffer code = compPkg.codeBuffer();
+	
 	// register typedefs
 	for(const auto & t : program.types) {
 		Type type = *t;

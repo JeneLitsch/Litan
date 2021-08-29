@@ -10,6 +10,7 @@ namespace ltn::c {
 		std::unique_ptr<DeclStruct> declareStruct(ParserPackage & parsePkg);
 		std::unique_ptr<Type> declareType(ParserPackage & parsePkg);
 		std::unique_ptr<DeclFunction> declareFunction(ParserPackage & parsePkg);
+		std::unique_ptr<DeclTemplate> declareTemplate(ParserPackage & parsePkg);
 		void declaration(ParserPackage & parsePkg, Program & program);
 		// Statement
 
