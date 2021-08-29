@@ -37,9 +37,7 @@ namespace ltn::a {
 			{ "exit", { fx(cInst, InstCode::EXIT)}},
 			{ "error", { fx(cInst, InstCode::ERROR)}},
 			{ "scrap", { fx(cInst, InstCode::SCRAP)}},
-			{ "clear", { fx(cInst, InstCode::CLEAR)}},
 			{ "copy", { fx(cInst, InstCode::COPY)}},
-			{ "size", { fx(cInst, InstCode::SIZE)}},
 			
 			{ "print::newline", { fx(fInstFormat, InstCode::PRINT, ltn::OuputFormat::NEWLINE)}},
 			{ "print::int", { fx(fInstFormat, InstCode::PRINT, ltn::OuputFormat::INT)}},
@@ -98,7 +96,7 @@ namespace ltn::a {
 			{ "castf", { fx(fInstFunct, InstCode::CASTF, 0)}},
 
 			{ "return", { fx(cInst, InstCode::RETURN)}},
-			{ "ifnx", { fx(cInst, InstCode::IFSK)}},
+			{ "ifnx", { fx(cInst, InstCode::IFNX)}},
 
 			{ "load", { fx(cInst, InstCode::LOAD)}},
 			{ "store", { fx(cInst, InstCode::STORE)}},

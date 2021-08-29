@@ -54,35 +54,15 @@ return
 
 
 -> FNX_main6
-stackalloc 4
-newi 10
-call FNX_Struct11
-call FNX_Struct23
+stackalloc 2
+newi 4
 store 0
 load 0
-newl 0
-array::get
-newl 0
-newi 42
-array::set
-load 0
-newl 0
-array::get
-newl 0
-array::get
 store 1
-load 1
-store 2
-load 2
-store 3
-load 3
+load 0
 call FNX_println66
-load 0
-newl 0
-array::get
-call FNX_destroy11
-load 0
-call FNX_destroy11
+load 1
+call FNX_println66
 return
 return
 

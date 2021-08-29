@@ -16,13 +16,11 @@ struct Struct2 {
 }
 
 function main() -> Void {
-	var Struct2 s2 = ->Struct2(->Struct1(10));
-	s2.s1.x = 42;
-	var Int a = s2.s1.x;
-	var Int b = a;
-	var Int c = b;
-	->ltn::println(c);
-	->destroy(s2.s1);
-	->destroy(s2);
+	var Int a;
+	var Int b;
+	a = 4;
+	b = a;
+	->ltn::println(a);
+	->ltn::println(b);
 	return;
 }

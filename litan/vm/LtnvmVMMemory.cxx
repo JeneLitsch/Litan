@@ -12,7 +12,8 @@ void ltn::vm::VM::load(){
 void ltn::vm::VM::store(){
 	const std::uint8_t immediate = this->getArg8();
 	const std::uint64_t addr = immediate ? this->getArg32() : this->env.acc.popU();
-	this->env.stack.write(addr, this->env.acc.popU());
+	const std::uint64_t value = this->env.acc.popU();
+	this->env.stack.write(addr, value);
 }
 
 void ltn::vm::VM::copy(){
@@ -27,11 +28,6 @@ void ltn::vm::VM::size(){
 // pop and discard one value from acc
 void ltn::vm::VM::scrap(){
 	this->env.acc.popU();
-}
-
-// discard entire accStack
-void ltn::vm::VM::clear(){
-	this->env.acc.reset();
 }
 
 void ltn::vm::VM::stackalloc() {

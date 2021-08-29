@@ -57,7 +57,6 @@ namespace ltn::vm {
 		void size();
 		void print();
 		void scrap();
-		void clear();
 		void stackalloc();
 
 		// value instruction

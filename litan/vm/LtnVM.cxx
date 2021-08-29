@@ -50,10 +50,8 @@ void ltn::vm::VM::execute(){
 		case InstCode::LOAD: this->load(); break;
 		case InstCode::STORE: this->store(); break;
 		case InstCode::COPY: this->copy(); break;
-		case InstCode::SIZE: this->size(); break;
 		case InstCode::PRINT: this->print(); break;
 		case InstCode::SCRAP: this->scrap(); break;
-		case InstCode::CLEAR: this->clear(); break;
 		case InstCode::STACKALLOC: this->stackalloc(); break;
 
 		case InstCode::NEWL: this->newl(); break;
@@ -105,7 +103,7 @@ void ltn::vm::VM::execute(){
 
 		case InstCode::CALL: this->call(); break;
 		case InstCode::GOTO: this->got0(); break;
-		case InstCode::IFSK: this->ifsk(); break;
+		case InstCode::IFNX: this->ifsk(); break;
 		case InstCode::RETURN: this->rtrn(); break;
 
 		case InstCode::EXT0: this->extensions[0]->call(this->getArg8()); break;
