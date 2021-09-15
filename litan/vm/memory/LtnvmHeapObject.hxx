@@ -2,6 +2,7 @@
 #include <vector>
 #include <stack>
 #include <cstdint>
+#include <string>
 #include <variant>
 #include "LtnHeapTypes.hxx"
 namespace ltn::vm {
