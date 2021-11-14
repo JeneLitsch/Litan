@@ -1,9 +1,11 @@
 #pragma once
 #include "ltnc/ast/Function.hxx"
+#include "ltnc/ast/Source.hxx"
 #include "ltnc/ast/Statement.hxx"
 #include "ltnc/lex/Lexer.hxx"
 namespace ltn::c::parse {
 
+	std::unique_ptr<ast::Source> source(lex::Lexer & lexer);
 	std::unique_ptr<ast::Function> function(lex::Lexer & lexer);
 
 	std::unique_ptr<ast::Statement> statement(lex::Lexer & lexer);

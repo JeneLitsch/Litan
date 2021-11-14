@@ -22,9 +22,10 @@ env = Environment(
 
 ltnc = [
 	"ltnc",
+	"ltnc/ast",
 	"ltnc/lex",
 	"ltnc/parse",
-	"ltnc/ast",
+	"ltnc/compile",
 ]
 
 env.Program('bin/ltnc', glob(ltnc))
