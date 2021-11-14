@@ -4,7 +4,7 @@
 #include <vector>
 #include <tuple>
 
-namespace ltnc::ast {
+namespace ltn::c::ast {
 	class Statement;
 	struct Function : public Node {
 		Function(

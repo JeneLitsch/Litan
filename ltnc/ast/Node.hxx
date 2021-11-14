@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-namespace ltnc::ast {
+namespace ltn::c::ast {
 	struct Node {
 		virtual ~Node() = default;
 	};

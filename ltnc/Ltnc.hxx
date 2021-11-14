@@ -1,7 +1,7 @@
 #pragma once
 #include <istream>
 #include <ostream>
-namespace ltnc {
+namespace ltn::c {
 	class Ltnc {
 	public:
 		Ltnc() = default;

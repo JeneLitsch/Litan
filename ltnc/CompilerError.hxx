@@ -3,7 +3,7 @@
 #include <ostream>
 #include <string>
 
-namespace ltnc {
+namespace ltn::c {
 	class CompilerError : public std::runtime_error {
 	public:
 		CompilerError(

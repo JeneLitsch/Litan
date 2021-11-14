@@ -2,7 +2,7 @@
 #include <cctype>
 #include <istream>
 
-namespace ltnc::lex {
+namespace ltn::c::lex {
 	// std::ws with newline counting
 	struct WS {	std::size_t & line; };
 

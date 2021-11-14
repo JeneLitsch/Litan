@@ -5,9 +5,9 @@
 // The following functions are for parsing the head of function
 // function foo(Type name, ...) -> RType
 
-namespace ltnc::parse {
+namespace ltn::c::parse {
 	namespace {
-		using TT = ltnc::lex::Token::Type;
+		using TT = ltn::c::lex::Token::Type;
 		using Parameter = std::tuple<std::string, std::string>;
 		using Parameters = std::vector<Parameter>;
 
@@ -15,7 +15,7 @@ namespace ltnc::parse {
 			if(auto token = lexer.match(TT::INDENTIFIER)) {
 				return token->str;
 			}
-			throw ltnc::CompilerError{errMsg, lexer.inLine()};
+			throw ltn::c::CompilerError{errMsg, lexer.inLine()};
 		}
 
 		// return type of paramter
@@ -37,7 +37,7 @@ namespace ltnc::parse {
 		// Returns a array of all parameters
 		Parameters parameterList(lex::Lexer & lexer) {
 			if(!lexer.match(TT::PAREN_L)) {
-				throw ltnc::CompilerError{"mission (", lexer.inLine()};
+				throw ltn::c::CompilerError{"mission (", lexer.inLine()};
 			}
 			
 			Parameters parameters{};
@@ -49,7 +49,7 @@ namespace ltnc::parse {
 					std::cout << type << " " << name << " "; 
 					if(lexer.match(TT::PAREN_R)) break;
 					if(!lexer.match(TT::COMMA)) {
-						throw ltnc::CompilerError{"expected comma between parameters", lexer.inLine()};
+						throw ltn::c::CompilerError{"expected comma between parameters", lexer.inLine()};
 					}
 				}
 			} 
@@ -63,7 +63,7 @@ namespace ltnc::parse {
 			if(lexer.match(TT::ARROW)) {
 				return indentifier(lexer, "expected return type");
 			}
-			throw ltnc::CompilerError{"expected ->", lexer.inLine()};
+			throw ltn::c::CompilerError{"expected ->", lexer.inLine()};
 		}
 	}
 

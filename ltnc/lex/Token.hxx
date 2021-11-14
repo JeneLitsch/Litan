@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-namespace ltnc::lex {
+namespace ltn::c::lex {
 	struct Token {
 		enum class Type {
 			___EOF___,

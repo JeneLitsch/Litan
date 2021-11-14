@@ -7,11 +7,11 @@
 int main(){
 	const std::filesystem::path path = "example/example1.ltn"; 
 	std::ifstream file(path);
-	ltnc::Ltnc compiler;
+	ltn::c::Ltnc compiler;
 	try {
 		compiler.compile(file, path);
 	}
-	catch(const ltnc::CompilerError & error) {
+	catch(const ltn::c::CompilerError & error) {
 		std::cout << error << "\n";
 	}
 }

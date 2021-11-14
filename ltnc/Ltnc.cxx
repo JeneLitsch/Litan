@@ -3,7 +3,7 @@
 #include "lex/Lexer.hxx"
 #include "parse/parsing.hxx"
 
-void ltnc::Ltnc::compile(std::istream & in, const std::string &) {
+void ltn::c::Ltnc::compile(std::istream & in, const std::string &) {
 	std::size_t line = 1;
 	std::vector<std::unique_ptr<ast::Function>> functions;
 	lex::Lexer lexer{in, line};
@@ -12,6 +12,6 @@ void ltnc::Ltnc::compile(std::istream & in, const std::string &) {
 	}
 }
 
-void ltnc::Ltnc::yield(std::ostream & out) {
+void ltn::c::Ltnc::yield(std::ostream & out) {
 	out << "Hello World\n";
 }

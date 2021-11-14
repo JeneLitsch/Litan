@@ -1,7 +1,7 @@
 #pragma once
 #include <optional>
 #include "Token.hxx"
-namespace ltnc::lex {
+namespace ltn::c::lex {
 	class Lexer {
 	public:
 		Lexer(std::istream & in, std::size_t & line);

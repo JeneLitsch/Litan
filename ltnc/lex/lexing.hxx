@@ -3,6 +3,6 @@
 #include <istream>
 #include "Token.hxx"
 
-namespace ltnc::lex {
+namespace ltn::c::lex {
 	Token token(std::istream & in, std::size_t & line);
 }

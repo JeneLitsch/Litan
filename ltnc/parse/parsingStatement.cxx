@@ -2,9 +2,9 @@
 #include "ltnc/lex/lexing.hxx"
 #include "ltnc/CompilerError.hxx"
 
-namespace ltnc::parse {
+namespace ltn::c::parse {
 	namespace {
-		using TT = ltnc::lex::Token::Type;
+		using TT = ltn::c::lex::Token::Type;
 	}
 
 	std::unique_ptr<ast::StatementExpression> expr(lex::Lexer & lexer) {

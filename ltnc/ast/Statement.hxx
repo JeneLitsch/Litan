@@ -2,7 +2,7 @@
 #include "Node.hxx"
 #include "Expression.hxx"
 #include <vector>
-namespace ltnc::ast {
+namespace ltn::c::ast {
 	struct Statement : public Node {
 		virtual ~Statement() = default;
 	};

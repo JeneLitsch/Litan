@@ -3,7 +3,7 @@
 #include "ltnc/CompilerError.hxx"
 #include "WS.hxx"
 
-namespace ltnc::lex { namespace {
+namespace ltn::c::lex { namespace {
 
 	bool isAtEnd(std::istream & in, std::size_t & line) {
 		return in.eof();
@@ -56,9 +56,9 @@ namespace ltnc::lex { namespace {
 	};
 }}
 
-ltnc::lex::Token ltnc::lex::token(std::istream & in, std::size_t & line) {
+ltn::c::lex::Token ltn::c::lex::token(std::istream & in, std::size_t & line) {
 	const auto match = [&] (auto & in, auto chr) {
-		return ltnc::lex::match(in, chr, line);
+		return ltn::c::lex::match(in, chr, line);
 	};
 	if(isAtEnd(in >> WS(line), line)) return {Token::Type::___EOF___, "___EOF___"};
 	

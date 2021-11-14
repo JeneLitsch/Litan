@@ -1,10 +1,10 @@
 #include "Lexer.hxx"
 #include "lexing.hxx"
 
-ltnc::lex::Lexer::Lexer(std::istream & in, std::size_t & line)
+ltn::c::lex::Lexer::Lexer(std::istream & in, std::size_t & line)
 	:	in(in), line(line) {}
 
-std::optional<ltnc::lex::Token> ltnc::lex::Lexer::match(Token::Type type) {
+std::optional<ltn::c::lex::Token> ltn::c::lex::Lexer::match(Token::Type type) {
 	if(!this->token) {
 		this->token = lex::token(in, line);
 	}
