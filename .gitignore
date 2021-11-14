@@ -1,5 +1,5 @@
 *.dblite
 *.o
 *.a
-*.vscode
+.vscode
 /bin
