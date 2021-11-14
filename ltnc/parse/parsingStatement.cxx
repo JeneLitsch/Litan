@@ -9,8 +9,9 @@ namespace ltn::c::parse {
 
 	std::unique_ptr<ast::StatementExpression> expr(lex::Lexer & lexer) {
 		// Expression
+		auto expr = expression(lexer);
 		if(auto semicolon = lexer.match(TT::SEMICOLON)) {
-			return std::make_unique<ast::StatementExpression>(nullptr);
+			return std::make_unique<ast::StatementExpression>(std::move(expr));
 		}
 		throw CompilerError{"missing semicolon", lexer.inLine()};
 	}

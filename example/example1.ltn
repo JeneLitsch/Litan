@@ -1,11 +1,11 @@
 function fx(Int a, Int b) -> Int {}
 function fx(Int a) -> Int {}
 function fx() -> Int {
-	if() {
+	if(1 == 1) {
 
 	}
-	else if() {
-
+	else if(1 < 0) {
+		--1 + !1;
 	}
 	else {}
 }

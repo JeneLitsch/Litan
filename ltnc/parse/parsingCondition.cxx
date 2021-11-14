@@ -10,9 +10,10 @@ namespace ltn::c::parse {
 		if(!lexer.match(TT::PAREN_L)) {
 			throw CompilerError{"expected (", lexer.inLine()};
 		}
+		auto expr = expression(lexer);
 		if(!lexer.match(TT::PAREN_R)) {
 			throw CompilerError{"expected )", lexer.inLine()};
 		}
-		return nullptr;
+		return expr;
 	}
 }
