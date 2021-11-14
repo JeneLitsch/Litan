@@ -1,0 +1,11 @@
+function fx(Int a, Int b) -> Int {}
+function fx(Int a) -> Int {}
+function fx() -> Int {
+	if() {
+
+	}
+	else if() {
+
+	}
+	else {}
+}

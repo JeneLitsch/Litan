@@ -1,2 +1,0 @@
-function error() -> Void 
-	asm { "error" }

@@ -1,3 +1,0 @@
-function functionFromElsewhere(Int a) -> Void {
-	->ltn::println(a);
-}

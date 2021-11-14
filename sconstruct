@@ -1,0 +1,30 @@
+flags = [
+	"-std=c++2a",
+	"-Wall", "-Wextra", "-Wconversion", "-Wunreachable-code", "-Wuninitialized", "-pedantic-errors" , "-Wold-style-cast", "-Wno-error=unused-variable"
+]
+
+def glob(dirs):
+	files = []
+	for dir in dirs:
+		files.append(Glob(dir + "/*.cxx"))
+	return files
+
+env = Environment(
+	CXX = "g++-10",
+	CXXFLAGS = flags,
+	CPPPATH = ["."],
+	CPPDEFINES = [],
+	LIBS = [],
+	LIBPATH = ".",
+	SCONS_CXX_STANDART="c++20",
+	CXXCOMSTR = "[Compiling] $TARGET",
+	LINKCOMSTR = "[Linking] $TARGET")
+
+ltnc = [
+	"ltnc",
+	"ltnc/lex",
+	"ltnc/parse",
+	"ltnc/ast",
+]
+
+env.Program('bin/ltnc', glob(ltnc))
