@@ -28,4 +28,9 @@ ltnc = [
 	"ltnc/compile",
 ]
 
+ltnvm = [
+	"ltnvm",
+]
+
 env.Program('bin/ltnc', glob(ltnc))
+env.Program('bin/ltnvm', glob(ltnvm))
