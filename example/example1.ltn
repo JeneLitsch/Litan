@@ -1,5 +1,7 @@
-function fx(Int a, Int b) -> Int {}
-function fx(Int a) -> Int {}
+function fx(Int a, Int b) -> Void {}
+
+function fx(Int a) -> Array[Int] {}
+
 function fx() -> Int {
 	if(1 == 1) {
 
@@ -8,4 +10,7 @@ function fx() -> Int {
 		--1 + !1;
 	}
 	else {}
+	a;
+	var Int i = a;
+	i = 42;
 }

@@ -8,60 +8,34 @@
 namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
-		using Parameter = std::tuple<std::string, std::string>;
-		using Parameters = std::vector<Parameter>;
-
-		std::string indentifier(lex::Lexer & lexer, const std::string & errMsg){
-			if(auto token = lexer.match(TT::INDENTIFIER)) {
-				return token->str;
-			}
-			throw ltn::c::CompilerError{errMsg, lexer.inLine()};
-		}
-
-		// return type of paramter
-		std::string parameterType(lex::Lexer & lexer) {
-			return indentifier(lexer, "expected parameter");
-		}
-
-		// return name of paramter
-		std::string parameterName(lex::Lexer & lexer) {
-			return indentifier(lexer, "expected parameter name");
-		}
-
-		// return function name
-		std::string functionName(lex::Lexer & lexer) {
-			return indentifier(lexer, "expected function name");
-		}
-
 
 		// Returns a array of all parameters
-		Parameters parameterList(lex::Lexer & lexer) {
+		ast::Parameters parameterList(lex::Lexer & lexer) {
 			if(!lexer.match(TT::PAREN_L)) {
 				throw ltn::c::CompilerError{"mission (", lexer.inLine()};
 			}
 			
-			Parameters parameters{};
+			ast::Parameters parameters{};
 			if(!lexer.match(TT::PAREN_R)) {
 				while(true) {
-					const auto type = parameterType(lexer);
+					auto type = parse::type(lexer);
 					const auto name = parameterName(lexer);
-					parameters.push_back(Parameter{type, name});
-					std::cout << type << " " << name << " "; 
+					ast::Parameter param {std::move(type), name};
+					parameters.push_back(std::move(param));
 					if(lexer.match(TT::PAREN_R)) break;
 					if(!lexer.match(TT::COMMA)) {
 						throw ltn::c::CompilerError{"expected comma between parameters", lexer.inLine()};
 					}
 				}
 			} 
-			std::cout << "\n";
 			return parameters;
 		}
 
 
 		// returns return type
-		std::string returnType(lex::Lexer & lexer) {
+		auto returnType(lex::Lexer & lexer) {
 			if(lexer.match(TT::ARROW)) {
-				return indentifier(lexer, "expected return type");
+				return type(lexer);
 			}
 			throw ltn::c::CompilerError{"expected ->", lexer.inLine()};
 		}
@@ -71,10 +45,10 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Function> function(lex::Lexer & lexer) {
 		if(lexer.match(TT::FUNCTION)) {
 			const auto name = functionName(lexer);
-			const auto parameters = parameterList(lexer);
-			const auto returnT = returnType(lexer);
-			auto body = statement(lexer); 
-			return std::make_unique<ast::Function>(name, returnT, parameters, std::move(body));
+			auto && parameters = parameterList(lexer);
+			auto && returnType = parse::returnType(lexer);
+			auto && body = statement(lexer); 
+			return std::make_unique<ast::Function>(name, std::move(returnType), std::move(parameters), std::move(body));
 		}
 		return nullptr;
 	}

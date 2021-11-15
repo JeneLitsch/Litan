@@ -44,4 +44,22 @@ namespace ltn::c::ast {
 		virtual ~StatementExpression() = default;
 		std::unique_ptr<Expression> expression;
 	};
+
+	struct NewVar : public Statement {
+		enum class MemoryClass { VAR, REF };
+		NewVar(
+			MemoryClass memoryClass, 
+			std::unique_ptr<Type> type,
+			const std::string & name,
+			std::unique_ptr<Assign> assign)
+			:	memoryClass(memoryClass),
+				type(std::move(type)),
+				name(name),
+				assign(std::move(assign)) {}
+		virtual ~NewVar() = default;
+		MemoryClass memoryClass;
+		std::unique_ptr<Type> type; 
+		std::string name;
+		std::unique_ptr<Assign> assign; 
+	};
 }

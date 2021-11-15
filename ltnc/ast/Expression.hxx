@@ -64,4 +64,25 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> l;
 		std::unique_ptr<Expression> r;
 	};
+
+
+	struct Var : public Literal {
+	public:
+		Var(const std::string & name)
+			:	name(name) {}
+		virtual ~Var() = default;
+		std::string name;
+	};
+
+
+	struct Assign : public Literal {
+	public:
+		Assign(
+			std::unique_ptr<Expression> l,
+			std::unique_ptr<Expression> r)
+			:	l(std::move(l)), r(std::move(r)) {}
+		virtual ~Assign() = default;
+		std::unique_ptr<Expression> l;
+		std::unique_ptr<Expression> r;
+	};
 }

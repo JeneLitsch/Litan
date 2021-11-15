@@ -51,6 +51,7 @@ namespace ltn::c::lex { namespace {
 		{"function", 	Token::Type::FUNCTION},
 		{"return", 		Token::Type::RETURN},
 		{"var", 		Token::Type::VAR},
+		{"ref", 		Token::Type::REF},
 		{"if", 			Token::Type::IF},
 		{"else", 		Token::Type::ELSE},
 	};

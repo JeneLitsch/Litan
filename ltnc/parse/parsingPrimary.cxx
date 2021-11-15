@@ -7,14 +7,14 @@ namespace ltn::c::parse {
 	}
 
 	std::unique_ptr<ast::Expression> paren(lex::Lexer & lexer) {
-		if(!lexer.match(TT::PAREN_L)) {
-			throw CompilerError{"expected (", lexer.inLine()};
+		if(lexer.match(TT::PAREN_L)) {
+			auto expr = expression(lexer);
+			if(!lexer.match(TT::PAREN_R)) {
+				throw CompilerError{"expected )", lexer.inLine()};
+			}
+			return expr;
 		}
-		auto expr = expression(lexer);
-		if(!lexer.match(TT::PAREN_R)) {
-			throw CompilerError{"expected )", lexer.inLine()};
-		}
-		return expr;
+		return nullptr;
 	}
 
 	std::unique_ptr<ast::Integer> integer(lex::Lexer & lexer) {
@@ -49,11 +49,17 @@ namespace ltn::c::parse {
 		return nullptr;
 	}
 
+	std::unique_ptr<ast::Var> variable(lex::Lexer & lexer) {
+		const auto name = parse::variableName(lexer);
+		return std::make_unique<ast::Var>(name);
+	}
+
 	std::unique_ptr<ast::Expression> primary(lex::Lexer & lexer) {
 		if(auto expr = integer(lexer)) return expr;
 		if(auto expr = floating(lexer)) return expr;
 		if(auto expr = boolean(lexer)) return expr;
 		if(auto expr = paren(lexer)) return expr;
+		if(auto expr = variable(lexer)) return expr;
 		throw CompilerError{"Invalid Expression", lexer.inLine()};
 	}
 }
