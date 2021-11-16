@@ -49,6 +49,13 @@ namespace ltn::c::parse {
 		return nullptr;
 	}
 
+	std::unique_ptr<ast::New> newObject(lex::Lexer & lexer) {
+		if(lexer.match(TT::NEW)) {
+			return std::make_unique<ast::New>(type(lexer));
+		}
+		return nullptr;
+	}
+
 	std::unique_ptr<ast::Var> variable(lex::Lexer & lexer) {
 		const auto name = parse::variableName(lexer);
 		return std::make_unique<ast::Var>(name);
@@ -59,8 +66,8 @@ namespace ltn::c::parse {
 		if(auto expr = floating(lexer)) return expr;
 		if(auto expr = boolean(lexer)) return expr;
 		if(auto expr = paren(lexer)) return expr;
-		if(auto expr = variable(lexer)) return expr;
-		throw CompilerError{"Invalid Expression", lexer.inLine()};
+		if(auto expr = newObject(lexer)) return expr;
+		return variable(lexer);
 	}
 }
 

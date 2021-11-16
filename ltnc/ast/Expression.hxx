@@ -1,5 +1,6 @@
 #pragma once
 #include "Node.hxx"
+#include "ltnc/type/Type.hxx"
 #include <vector>
 namespace ltn::c::ast {
 	struct Expression : public Node {
@@ -66,12 +67,21 @@ namespace ltn::c::ast {
 	};
 
 
-	struct Var : public Literal {
+	struct Var : public Expression {
 	public:
 		Var(const std::string & name)
 			:	name(name) {}
 		virtual ~Var() = default;
 		std::string name;
+	};
+
+
+	struct New : public Literal {
+	public:
+		New(type::Type type)
+			:	type(std::move(type)) {}
+		virtual ~New() = default;
+		type::Type type;
 	};
 
 

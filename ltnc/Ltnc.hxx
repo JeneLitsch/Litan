@@ -2,8 +2,9 @@
 #include <istream>
 #include <ostream>
 #include <sstream>
-#include "SymbolTable.hxx"
 #include "Config.hxx"
+#include "compile/Scope.hxx"
+#include "compile/FxTable.hxx"
 namespace ltn::c {
 	class Ltnc {
 	public:
@@ -13,7 +14,8 @@ namespace ltn::c {
 		void yield(std::ostream & out);
 	private:
 		Config config;
-		SymbolTable sTable;
+		compile::Scope scope;
+		compile::FxTable fxTable;
 		std::stringstream buffer;
 	};
 }

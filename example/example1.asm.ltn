@@ -1,3 +1,9 @@
 // Function fx
+:FX0
+return
 // Function fx
+:FX1
+error
 // Function fx
+:FX2
+error

@@ -37,6 +37,14 @@ namespace ltn::c::parse {
 		return nullptr;
 	}
 
+	std::unique_ptr<ast::Return> retrn(lex::Lexer & lexer) {
+		if(lexer.match(TT::RETURN)) {
+			auto expr = expression(lexer);
+			return std::make_unique<ast::Return>(std::move(expr));
+		}
+		return nullptr;
+	}
+
 	void extraSemicolon(lex::Lexer & lexer) {
 		while(lexer.match(TT::SEMICOLON)) {
 			throw CompilerError("Extra ;", lexer.inLine());
@@ -49,6 +57,7 @@ namespace ltn::c::parse {
 		if(auto stmt = ifElse(lexer)) return stmt;
 		if(auto stmt = whileLoop(lexer)) return stmt;
 		if(auto stmt = semicolon(lexer, newVar)) return stmt;
+		if(auto stmt = semicolon(lexer, retrn)) return stmt;
 		return semicolon(lexer, expr);
 	}
 }

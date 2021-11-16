@@ -7,5 +7,6 @@ namespace ltn {
 		ADDF = 0x20, SUBF, MLTF, DIVF, MODF,
 		NEWI = 0x30, NEWF, NEWU, READ, WRITE, SCRAP,
 		GOTO = 0x40, CALL, RETURN,
+		OUT,
 	};
 }

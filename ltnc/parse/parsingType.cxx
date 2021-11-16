@@ -7,7 +7,7 @@ namespace ltn::c::parse {
 		using OP = ltn::c::ast::Unary::Type;
 	}
 
-	std::unique_ptr<ast::Type> container(
+	type::Type container(
 		lex::Lexer & lexer, const std::string & name) {
 		if(!lexer.match(TT::BRACKET_L)) {
 			throw CompilerError("expected [", lexer.inLine());	
@@ -16,15 +16,15 @@ namespace ltn::c::parse {
 		if(!lexer.match(TT::BRACKET_R)) {
 			throw CompilerError("expected ]", lexer.inLine());
 		}
-		return std::make_unique<ast::TypeContainer>(name, std::move(contained));
+		return type::Type{name, {contained}};
 	}
 
-	std::unique_ptr<ast::Type> type(lex::Lexer & lexer) {
+	type::Type type(lex::Lexer & lexer) {
 		if(const auto id = lexer.match(TT::INDENTIFIER)) {
 			if(id->str == "Array") {
 				return container(lexer, "Array");
 			}
-			return std::make_unique<ast::TypeName>(id->str);
+			return type::Type{id->str};
 		}
 		else {
 			throw CompilerError("expected valid typename", lexer.inLine());

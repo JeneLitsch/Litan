@@ -26,6 +26,7 @@ ltnc = [
 	"ltnc/lex",
 	"ltnc/parse",
 	"ltnc/compile",
+	"ltnc/type",
 ]
 
 ltnvm = [

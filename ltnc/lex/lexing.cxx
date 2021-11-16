@@ -47,13 +47,24 @@ namespace ltn::c::lex { namespace {
 		return str;
 	}
 
+	void comment(std::istream & in, std::size_t & line) {
+		while(true) {
+			if(match(in, '\n', line)) return;
+			if(isAtEnd(in, line)) return;
+			in.ignore();
+		}
+	}
+
 	const static std::unordered_map<std::string_view, Token::Type> keywords{
 		{"function", 	Token::Type::FUNCTION},
+		{"while", 		Token::Type::WHILE},
 		{"return", 		Token::Type::RETURN},
 		{"var", 		Token::Type::VAR},
 		{"ref", 		Token::Type::REF},
 		{"if", 			Token::Type::IF},
 		{"else", 		Token::Type::ELSE},
+		{"new", 		Token::Type::NEW},
+		{"return", 		Token::Type::RETURN},
 	};
 }}
 
@@ -79,7 +90,13 @@ ltn::c::lex::Token ltn::c::lex::token(std::istream & in, std::size_t & line) {
 	}
 	if(match(in, '+')) return {Token::Type::PLUS, "+"};
 	if(match(in, '*')) return {Token::Type::STAR, "*"};
-	if(match(in, '/')) return {Token::Type::SLASH, "*"};
+	if(match(in, '/')) {
+		if(match(in, '/')) {
+			comment(in, line);
+			return token(in, line);
+		}
+		return {Token::Type::SLASH, "*"};
+	}
 	if(match(in, '%')) return {Token::Type::PERCENT, "%"};
 	
 	if(match(in, '=')) {
