@@ -1,8 +1,5 @@
 #include "compiling.hxx"
-#include "ltnc/CompilerError.hxx"
-#include <sstream>
-#include "Instructions.hxx"
-#include "utils.hxx"
+
 namespace ltn::c::compile {
 	namespace {
 		auto makeFxId(CompilerInfo & info) {

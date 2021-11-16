@@ -1,10 +1,12 @@
 #pragma once
 #include <string>
-namespace ltn::c::assembly {
+#include "ltnc/type/Type.hxx"
+
+namespace ltn::c::compile {
 	struct ExprCode {
-	public:
 		std::string code;
 		bool assignable;
 		bool constant;
+		type::Type type;
 	};
-};
+}

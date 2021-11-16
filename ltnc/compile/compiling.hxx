@@ -1,14 +1,18 @@
 #pragma once
+#include <sstream>
+#include "utils.hxx"
 #include "Scope.hxx"
 #include "FxTable.hxx"
-
+#include "Instructions.hxx"
+#include "StmtCode.hxx"
+#include "ExprCode.hxx"
 #include "ltnc/Config.hxx"
-
-#include "ltnc/ast/Expression.hxx"
-#include "ltnc/ast/Function.hxx"
-#include "ltnc/ast/Source.hxx"
-#include "ltnc/ast/Statement.hxx"
+#include "ltnc/CompilerError.hxx"
 #include "ltnc/ast/Node.hxx"
+#include "ltnc/ast/Source.hxx"
+#include "ltnc/ast/Function.hxx"
+#include "ltnc/ast/Expression.hxx"
+#include "ltnc/ast/Statement.hxx"
 #include "ltnc/type/Primitives.hxx"
 #include "ltnc/type/Type.hxx"
 
@@ -23,5 +27,9 @@ namespace ltn::c::compile {
 
 
 	std::string source(const ast::Source & source, CompilerInfo & info);
-	std::string function(const ast::Function & function, CompilerInfo & info);
+	std::string function(const ast::Function & fx, CompilerInfo & info);
+	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info);
+	ExprCode expression(const ast::Expression & expr, CompilerInfo & info);
+	ExprCode binary(const ast::Binary & expr, CompilerInfo & info);
+	ExprCode unary(const ast::Binary & expr, CompilerInfo & info);
 }	

@@ -11,12 +11,11 @@ function fx() -> Int {
 	else if(1 < 0) {
 		--1 + !1;
 	}
-		
 	else {}
 	while(true) {
 		if(1) {}
 	}
 	a;
 	var Int i = a;
-	i = 42;
+	i = 42 + 1;
 }

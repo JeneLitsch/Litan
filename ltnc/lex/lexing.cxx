@@ -5,7 +5,7 @@
 
 namespace ltn::c::lex { namespace {
 
-	bool isAtEnd(std::istream & in, std::size_t & line) {
+	bool isAtEnd(std::istream & in) {
 		return in.eof();
 	}
 
@@ -16,7 +16,7 @@ namespace ltn::c::lex { namespace {
 	
 	bool check(std::istream & in, char chr, std::size_t & line) {
 		in >> WS(line);
-		if(isAtEnd(in, line)) return false;
+		if(isAtEnd(in)) return false;
 		return in.peek() == chr;
 	}
 
@@ -50,7 +50,7 @@ namespace ltn::c::lex { namespace {
 	void comment(std::istream & in, std::size_t & line) {
 		while(true) {
 			if(match(in, '\n', line)) return;
-			if(isAtEnd(in, line)) return;
+			if(isAtEnd(in)) return;
 			in.ignore();
 		}
 	}
@@ -72,7 +72,7 @@ ltn::c::lex::Token ltn::c::lex::token(std::istream & in, std::size_t & line) {
 	const auto match = [&] (auto & in, auto chr) {
 		return ltn::c::lex::match(in, chr, line);
 	};
-	if(isAtEnd(in >> WS(line), line)) return {Token::Type::___EOF___, "___EOF___"};
+	if(isAtEnd(in >> WS(line))) return {Token::Type::___EOF___, "___EOF___"};
 	
 	if(match(in, ',')) return {Token::Type::COMMA, ","};
 	if(match(in, ';')) return {Token::Type::SEMICOLON, ";"};
