@@ -1,43 +1,20 @@
 #include "compiling.hxx"
 
 namespace ltn::c::compile {
-	CompilerError cannotNegate(
-		const type::Type & type,
-		const lex::DebugInfo & debug) {
-		std::stringstream ss;
-		ss << "Cannot negate " << type;
-		return { ss.str(), debug.line };
-	} 
-
 	ExprCode negate(const ast::Expression & expr, CompilerInfo & info) {
 		const auto code = expression(expr, info);
 		std::stringstream ss;
 		ss << code.code;
-		if(type::isInt(code.type)) {
-			ss << inst::negi;
-		} else 
-		if(type::isFloat(code.type)) {
-			ss << inst::negf;
-		}
-		else {
-			throw cannotNegate(code.type, expr.debugInfo);
-		}
-		
-		return ExprCode{ss.str(), false, code.constant, code.type };
+		ss << inst::neg;
+		return ExprCode{ss.str(), false, code.constant };
 	}
 
 	ExprCode notigate (const ast::Expression & expr, CompilerInfo & info) {
 		const auto code = expression(expr, info);
 		std::stringstream ss;
 		ss << code.code;
-		if(type::isBool(code.type)) {
-			ss << inst::negi;
-		} 
-		else {
-			throw cannotNegate(code.type, expr.debugInfo);
-		}
-		
-		return ExprCode{ss.str(), false, code.constant, code.type };
+		ss << inst::n0t;
+		return ExprCode{ss.str(), false, code.constant};
 	}
 	
 	ExprCode unary(const ast::Unary & expr, CompilerInfo & info) {

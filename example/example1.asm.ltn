@@ -4,18 +4,13 @@ if
 jump IF1
 jump IF_END3
 :IF1
-newi 1
-newi 1
-addi
-scrap
+...
 jump IF_END2
 :IF_END3
-newi 4
-newi 2
-addi
-scrap
 jump IF_END3
 :IF_END2
+null
 return
 :FX4
+null
 return

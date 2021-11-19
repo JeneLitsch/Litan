@@ -23,9 +23,7 @@ namespace ltn::c::compile {
 			const auto code = expression(*exprstmt->expression, info);
 			std::stringstream ss;
 			ss << code.code;
-			if(!type::isVoid(code.type)) {
-				ss << inst::scrap;
-			}
+			ss << inst::scrap;
 			return { ss.str() };
 		}
 		return { "...\n" };

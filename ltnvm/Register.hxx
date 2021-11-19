@@ -1,18 +1,14 @@
 #pragma once
 #include <vector>
 #include <cstdint>
+#include "Value.hxx"
 
 namespace ltn::vm {
 	class Register {
 	public:
-		std::uint64_t popU();
-		std::int64_t popI();
-		double popF();
-
-		void pushU(std::uint64_t value);
-		void pushI(std::int64_t value);
-		void pushF(double value);
+		Value pop();
+		void push(Value value);
 	private:
-		std::vector<std::uint64_t> stack;
+		std::vector<Value> stack;
 	};
 }

@@ -14,9 +14,8 @@ namespace ltn::c::compile {
 		
 		for(const auto & fx : source.functions) {
 			info.fxTable.insert({
-				fx->returnType,
 				fx->name,
-				toTypes(fx->parameters),
+				fx->parameters.size(),
 				makeFxId(info)});
 		}
 

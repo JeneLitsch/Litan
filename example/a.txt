@@ -10,7 +10,7 @@ byte 0
 byte 0
 byte 0
 jump
-byte 19
+byte 6
 byte 0
 byte 0
 byte 0
@@ -18,28 +18,9 @@ byte 0
 byte 0
 byte 0
 byte 0
-newi
-byte 1
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-newi
-byte 1
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-addi
-scrap
+...
 jump
-byte 2e
+byte 7
 byte 0
 byte 0
 byte 0
@@ -47,28 +28,8 @@ byte 0
 byte 0
 byte 0
 byte 0
-newi
-byte 4
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-newi
-byte 2
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-addi
-scrap
 jump
-byte 19
+byte 6
 byte 0
 byte 0
 byte 0
@@ -76,5 +37,7 @@ byte 0
 byte 0
 byte 0
 byte 0
+null
 return
+null
 return

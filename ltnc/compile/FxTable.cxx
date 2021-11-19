@@ -8,14 +8,14 @@ namespace ltn::c::compile {
 		std::stringstream msg;
 		msg << "Function ";
 		msg << fx.name << "(";
-		printArray(msg, fx.parameters);
+		msg << fx.parameters;
 		msg << ") already exists";
 		return CompilerError{ msg.str(), 0 };
 	}
 
 	const FxSignature * FxTable::find(
 		const std::string_view name,
-		const std::vector<type::Type> & parameters) {
+		const std::size_t parameters) {
 		for(const auto & fx : this->functions) {
 			if((fx.name == name) && fx.parameters == parameters) {
 				return &fx;

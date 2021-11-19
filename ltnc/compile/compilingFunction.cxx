@@ -2,21 +2,15 @@
 
 namespace ltn::c::compile {
 
-	std::string_view tail(const type::Type & returnType) {
-		if(type::isVoid(returnType)) {
-			return inst::r3turn;
-		}
-		return inst::error;
-	} 
-
 	std::string function(const ast::Function & fx, CompilerInfo & info) {
-		const auto & fxSig = info.fxTable.find(fx.name, toTypes(fx.parameters));
+		const auto & fxSig = info.fxTable.find(fx.name, fx.parameters.size());
 		std::stringstream ss;
 		ss << inst::jumpmark(fxSig->id);
 		if(fx.body) {
 			ss << compile::statement(*fx.body, info).code;
 		}
-		ss << tail(fx.returnType);
+		ss << inst::null;
+		ss << inst::reTurn;
 		return ss.str();
 	}
 }

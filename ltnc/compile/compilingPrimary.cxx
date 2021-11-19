@@ -2,27 +2,34 @@
 
 namespace ltn::c::compile {
 
-	ExprCode literal(const std::string & code, const std::string_view & type) {
-		return ExprCode{code, false, true, type::Type(type)};
-	}
-
 	ExprCode integer(const ast::Integer & expr) {
-		return literal(inst::newi(expr.value), type::TInt);
+		return ExprCode{inst::newi(expr.value), false, true};
 	}
 
 	ExprCode floating(const ast::Float & expr) {
-		return literal(inst::newf(expr.value), type::TFloat);
+		return ExprCode{ inst::newf(expr.value), false, true };
 	}
 
 	ExprCode boolean(const ast::Bool & expr) {
 		const auto inst = (expr.value ? inst::truE : inst::falsE);
-		return literal(std::string(inst), type::TBool);
+		return ExprCode{ std::string(inst), false, true};
 	}
+
+	ExprCode newvalue(const ast::New & expr) {
+		if(expr.type == ast::New::Type::ARRAY) {
+			return ExprCode{ std::string(inst::newarr), false, true};
+		}
+		if(expr.type == ast::New::Type::MAP) {
+			return ExprCode{ std::string(inst::newmap), false, true};
+		}
+		throw CompilerError{"Unknown new type", expr.debugInfo.line};
+	} 
 	
 	ExprCode primary(const ast::Primary & expr, CompilerInfo & info) {
 		if(auto expr_ = as<ast::Integer>(expr)) return integer(*expr_);
 		if(auto expr_ = as<ast::Float>(expr)) 	return floating(*expr_);
 		if(auto expr_ = as<ast::Bool>(expr)) 	return boolean(*expr_);
+		if(auto expr_ = as<ast::New>(expr)) 	return newvalue(*expr_);
 		throw CompilerError{"Unknown primary expression", expr.debugInfo.line};
 	}
 }

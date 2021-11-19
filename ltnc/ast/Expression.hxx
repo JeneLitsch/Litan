@@ -1,6 +1,5 @@
 #pragma once
 #include "Node.hxx"
-#include "ltnc/type/Type.hxx"
 #include <vector>
 namespace ltn::c::ast {
 	struct Expression : public Node {
@@ -94,11 +93,11 @@ namespace ltn::c::ast {
 
 	struct New : public Primary {
 	public:
-		New(type::Type type,
-			const lex::DebugInfo & debugInfo)
-			:	Primary(debugInfo), type(std::move(type)) {}
+		enum class Type { ARRAY, MAP };
+		New(const lex::DebugInfo & debugInfo, Type type)
+			:	Primary(debugInfo), type(type) {}
 		virtual ~New() = default;
-		const type::Type type;
+		Type type;
 	};
 
 

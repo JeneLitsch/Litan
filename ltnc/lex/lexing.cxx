@@ -59,7 +59,6 @@ namespace ltn::c::lex {
 			{"while", 		Token::Type::WHILE},
 			{"return", 		Token::Type::RETURN},
 			{"var", 		Token::Type::VAR},
-			{"ref", 		Token::Type::REF},
 			{"if", 			Token::Type::IF},
 			{"else", 		Token::Type::ELSE},
 			{"new", 		Token::Type::NEW},

@@ -18,9 +18,6 @@ namespace ltn::c::compile {
 		const auto idIfEnd = makeJumpId("IF_END", info);
 		const auto condition = compile::expression(*stmt.condition, info);
 		const auto ifBranch = compile::statement(*stmt.ifBranch, info);
-		if(!type::isBool(condition.type)) {
-			throw mustBeBool(stmt.debugInfo);
-		}
 		if(stmt.elseBranch) {
 			const auto elseBranch = compile::statement(*stmt.elseBranch, info);
 			const auto idElse = makeJumpId("IF_END", info);

@@ -1,1 +1,1 @@
-function fx(Int a, Int b) -> Void {}
+function fx(a, b) {}

@@ -1,10 +1,9 @@
 #pragma once
-#include "ltnc/type/Type.hxx"
+#include <string>
 namespace ltn::c::compile {
 	struct FxSignature {
-		type::Type returnType;
 		std::string name;
-		std::vector<type::Type> parameters;
+		std::size_t parameters;
 		std::string id;
 	};
 

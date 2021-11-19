@@ -11,6 +11,6 @@ namespace ltn::c::compile {
 		if(auto primary = as<ast::Primary>(expr)) {
 			return compile::primary(*primary, info);
 		}
-		return { "...\n", false, false, type::Type(type::TVoid) };
+		return { "...\n", false, false };
 	}
 }

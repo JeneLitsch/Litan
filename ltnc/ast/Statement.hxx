@@ -69,21 +69,14 @@ namespace ltn::c::ast {
 	};
 
 	struct NewVar : public Statement {
-		enum class MemoryClass { VAR, REF };
 		NewVar(
-			MemoryClass memoryClass, 
-			type::Type type,
 			const std::string & name,
 			std::unique_ptr<Assign> assign,
 			const lex::DebugInfo & debugInfo)
 			:	Statement(debugInfo),
-				memoryClass(memoryClass),
-				type(std::move(type)),
 				name(name),
 				assign(std::move(assign)) {}
 		virtual ~NewVar() = default;
-		const MemoryClass memoryClass;
-		const type::Type type; 
 		const std::string name;
 		const std::unique_ptr<Assign> assign; 
 	};

@@ -5,7 +5,6 @@
 namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
-		using MC = ast::NewVar::MemoryClass;
 	}
 
 	std::unique_ptr<ast::Statement> semicolon(lex::Lexer & lexer, auto fx) {
@@ -22,18 +21,15 @@ namespace ltn::c::parse {
 	}
 
 	std::unique_ptr<ast::NewVar> newVar(lex::Lexer & lexer) {
-		const auto make = [&] (MC mc) {
-			auto type = parse::type(lexer);
+		if(lexer.match(TT::VAR)) {
 			auto name = parse::variableName(lexer);
 			if(auto && r = parse::assignR(lexer)) {
 				auto && l = std::make_unique<ast::Var>(name, lexer.debug());
 				auto && assign = std::make_unique<ast::Assign>(std::move(l), std::move(r), lexer.debug()); 
-				return std::make_unique<ast::NewVar>(mc, std::move(type), name, std::move(assign), lexer.debug());
+				return std::make_unique<ast::NewVar>(name, std::move(assign), lexer.debug());
 			} 
-			return std::make_unique<ast::NewVar>(mc, std::move(type), name, nullptr, lexer.debug());
-		};
-		if(lexer.match(TT::VAR)) return make(MC::VAR);
-		if(lexer.match(TT::REF)) return make(MC::REF);
+			return std::make_unique<ast::NewVar>(name, nullptr, lexer.debug());
+		}
 		return nullptr;
 	}
 

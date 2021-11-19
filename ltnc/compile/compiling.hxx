@@ -13,8 +13,6 @@
 #include "ltnc/ast/Function.hxx"
 #include "ltnc/ast/Expression.hxx"
 #include "ltnc/ast/Statement.hxx"
-#include "ltnc/type/Primitives.hxx"
-#include "ltnc/type/Type.hxx"
 
 namespace ltn::c::compile {
 	struct CompilerInfo {

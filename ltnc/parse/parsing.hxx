@@ -2,7 +2,6 @@
 #include "ltnc/ast/Function.hxx"
 #include "ltnc/ast/Source.hxx"
 #include "ltnc/ast/Statement.hxx"
-#include "ltnc/type/Type.hxx"
 #include "ltnc/lex/Lexer.hxx"
 
 namespace ltn::c::parse {
@@ -26,8 +25,6 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Expression> term(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> comparision(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> equality(lex::Lexer & lexer);	
-
-	type::Type type(lex::Lexer & lexer);
 
 	std::string variableName(lex::Lexer & lexer);
 	std::string functionName(lex::Lexer & lexer);

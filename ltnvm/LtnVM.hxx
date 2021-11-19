@@ -11,8 +11,7 @@ namespace ltn::vm {
 	private:
 		void exec();
 		
-		void addi(), subi(), mlti(), divi(), modi();
-		void addf(), subf(), mltf(), divf(), modf();
+		void add(), sub(), mlt(), div(), mod();
 
 		Stack stack;
 		Register reg;

@@ -4,6 +4,7 @@
 namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
+		using NT = ast::New::Type;
 	}
 
 	std::unique_ptr<ast::Expression> paren(lex::Lexer & lexer) {
@@ -51,7 +52,14 @@ namespace ltn::c::parse {
 
 	std::unique_ptr<ast::New> newObject(lex::Lexer & lexer) {
 		if(lexer.match(TT::NEW)) {
-			return std::make_unique<ast::New>(type(lexer), lexer.debug());
+			if(auto type = lexer.match(TT::INDENTIFIER)) {
+				if(type->str == "Array") {
+					return std::make_unique<ast::New>(lexer.debug(), NT::ARRAY);
+				}
+				if(type->str == "Map") {
+					return std::make_unique<ast::New>(lexer.debug(), NT::MAP);
+				}
+			}
 		}
 		return nullptr;
 	}

@@ -1,8 +1,8 @@
-function fx() -> Void {
+function fx() {
 	if(true) {
-		1 + 1;
+		var a = new Array;
 	}
 	else {
-		4 + 2;
+
 	}
 }
