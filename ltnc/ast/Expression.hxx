@@ -4,48 +4,58 @@
 #include <vector>
 namespace ltn::c::ast {
 	struct Expression : public Node {
+		Expression(const lex::DebugInfo & debugInfo) : Node(debugInfo) {}
 		virtual ~Expression() = default;
 	};
 
+	struct Primary : public Expression {
+		Primary(const lex::DebugInfo & debugInfo) : Expression(debugInfo) {}
+		virtual ~Primary() = default;
+	};
 
-
-	struct Literal : public Expression {
+	struct Literal : public Primary {
+		Literal(const lex::DebugInfo & debugInfo) : Primary(debugInfo) {}
 		virtual ~Literal() = default;
 	};
 
 	struct Integer : public Literal {
 	public:
-		Integer(std::int64_t value)
-			:	value(value) {}
+		Integer(std::int64_t value, const lex::DebugInfo & debugInfo)
+			:	Literal(debugInfo), value(value) {}
 		virtual ~Integer() = default;
-		std::int64_t value;
+		const std::int64_t value;
 	};
 
 	struct Float : public Literal {
 	public:
-		Float(double value)
-			:	value(value) {}
+		Float(double value, const lex::DebugInfo & debugInfo)
+			:	Literal(debugInfo), value(value) {}
 		virtual ~Float() = default;
-		double value;
+		const double value;
 	};
 
 	struct Bool : public Literal {
 	public:
-		Bool(bool value)
-			:	value(value) {}
+		Bool(bool value, const lex::DebugInfo & debugInfo)
+			:	Literal(debugInfo), value(value) {}
 		virtual ~Bool() = default;
-		bool value;
+		const bool value;
 	};
 
 
 
 	struct Unary : public Expression {
 		enum class Type { NEG, NOT };
-		Unary(Type type, std::unique_ptr<Expression> expression)
-			:	type(type), expression(std::move(expression)) {}
+		Unary(
+			Type type,
+			std::unique_ptr<Expression> expression,
+			const lex::DebugInfo & debugInfo)
+			:	Expression(debugInfo),
+				type(type),
+				expression(std::move(expression)) {}
 		virtual ~Unary() = default;
-		Type type;
-		std::unique_ptr<Expression> expression;
+		const Type type;
+		const std::unique_ptr<Expression> expression;
 	};
 
 
@@ -58,41 +68,49 @@ namespace ltn::c::ast {
 		Binary(
 			Type type,
 			std::unique_ptr<Expression> l,
-			std::unique_ptr<Expression> r)
-			:	type(type), l(std::move(l)), r(std::move(r)) {}
+			std::unique_ptr<Expression> r,
+			const lex::DebugInfo & debugInfo)
+			:	Expression(debugInfo),
+				type(type),
+				l(std::move(l)),
+				r(std::move(r)) {}
 		virtual ~Binary() = default;
-		Type type;
-		std::unique_ptr<Expression> l;
-		std::unique_ptr<Expression> r;
+		const Type type;
+		const std::unique_ptr<Expression> l;
+		const std::unique_ptr<Expression> r;
 	};
 
 
-	struct Var : public Expression {
+	struct Var : public Primary {
 	public:
-		Var(const std::string & name)
-			:	name(name) {}
+		Var(const std::string & name,
+			const lex::DebugInfo & debugInfo)
+			:	Primary(debugInfo),
+				name(name) {}
 		virtual ~Var() = default;
-		std::string name;
+		const std::string name;
 	};
 
 
-	struct New : public Literal {
+	struct New : public Primary {
 	public:
-		New(type::Type type)
-			:	type(std::move(type)) {}
+		New(type::Type type,
+			const lex::DebugInfo & debugInfo)
+			:	Primary(debugInfo), type(std::move(type)) {}
 		virtual ~New() = default;
-		type::Type type;
+		const type::Type type;
 	};
 
 
-	struct Assign : public Literal {
+	struct Assign : public Expression {
 	public:
 		Assign(
 			std::unique_ptr<Expression> l,
-			std::unique_ptr<Expression> r)
-			:	l(std::move(l)), r(std::move(r)) {}
+			std::unique_ptr<Expression> r,
+			const lex::DebugInfo & debugInfo)
+			:	Expression(debugInfo), l(std::move(l)), r(std::move(r)) {}
 		virtual ~Assign() = default;
-		std::unique_ptr<Expression> l;
-		std::unique_ptr<Expression> r;
+		const std::unique_ptr<Expression> l;
+		const std::unique_ptr<Expression> r;
 	};
 }

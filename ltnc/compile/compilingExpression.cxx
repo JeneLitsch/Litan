@@ -5,6 +5,12 @@ namespace ltn::c::compile {
 		if(auto binary = as<ast::Binary>(expr)) {
 			return compile::binary(*binary, info);
 		}
+		if(auto unary = as<ast::Unary>(expr)) {
+			return compile::unary(*unary, info);
+		}
+		if(auto primary = as<ast::Primary>(expr)) {
+			return compile::primary(*primary, info);
+		}
 		return { "...\n", false, false, type::Type(type::TVoid) };
 	}
 }

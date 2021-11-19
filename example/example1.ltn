@@ -1,21 +1,8 @@
-function fx(Int a, Int b) -> Void {}
-
-function fx(Int a) -> Array[Int] {
-	return new Array[Int];
-}
-
-function fx() -> Int {
-	if(1 == 1) {
-
+function fx() -> Void {
+	if(true) {
+		1 + 1;
 	}
-	else if(1 < 0) {
-		--1 + !1;
+	else {
+		4 + 2;
 	}
-	else {}
-	while(true) {
-		if(1) {}
-	}
-	a;
-	var Int i = a;
-	i = 42 + 1;
 }

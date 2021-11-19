@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "DebugInfo.hxx"
 namespace ltn::c::lex {
 	struct Token {
 		enum class Type {
@@ -10,7 +11,8 @@ namespace ltn::c::lex {
 			ARROW, SEMICOLON, COMMA,
 			ASSIGN, PLUS, MINUS, STAR, SLASH, PERCENT,
 			EQUAL, UNEQUAL, SMALLER, BIGGER, SMALLER_EQUAL, BIGGER_EQUAL,
-			NOT, 
+			NOT,
+			PIPE, 
 		};
 		Type type;
 		std::string str;

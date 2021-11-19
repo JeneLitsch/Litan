@@ -12,16 +12,16 @@ namespace ltn::c::parse {
 		// Returns a array of all parameters
 		ast::Parameters parameterList(lex::Lexer & lexer) {
 			if(!lexer.match(TT::PAREN_L)) {
-				throw ltn::c::CompilerError{"mission (", lexer.inLine()};
+				throw ltn::c::CompilerError{"missing (", lexer.inLine()};
 			}
 			
 			ast::Parameters parameters{};
 			if(!lexer.match(TT::PAREN_R)) {
 				while(true) {
-					auto type = parse::type(lexer);
+					const auto type = parse::type(lexer);
 					const auto name = parameterName(lexer);
-					ast::Parameter param {std::move(type), name};
-					parameters.push_back(std::move(param));
+					ast::Parameter param {type, name};
+					parameters.push_back(param);
 					if(lexer.match(TT::PAREN_R)) break;
 					if(!lexer.match(TT::COMMA)) {
 						throw ltn::c::CompilerError{"expected comma between parameters", lexer.inLine()};
@@ -48,7 +48,12 @@ namespace ltn::c::parse {
 			auto && parameters = parameterList(lexer);
 			auto && returnType = parse::returnType(lexer);
 			auto && body = statement(lexer); 
-			return std::make_unique<ast::Function>(name, std::move(returnType), std::move(parameters), std::move(body));
+			return std::make_unique<ast::Function>(
+				name,
+				std::move(returnType),
+				std::move(parameters),
+				std::move(body),
+				lexer.debug());
 		}
 		return nullptr;
 	}

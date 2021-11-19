@@ -21,7 +21,8 @@ namespace ltn::c::parse {
 			return std::make_unique<ast::IfElse>(
 				std::move(expr),
 				std::move(ifBody),
-				std::move(elseBody));
+				std::move(elseBody),
+				lexer.debug());
 		}
 		return nullptr;
 	}

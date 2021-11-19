@@ -18,7 +18,7 @@ namespace ltn::c::parse {
 	}
 
 	auto expr(lex::Lexer & lexer) {
-		return std::make_unique<ast::StatementExpression>(assign(lexer));
+		return std::make_unique<ast::StatementExpression>(assign(lexer), lexer.debug());
 	}
 
 	std::unique_ptr<ast::NewVar> newVar(lex::Lexer & lexer) {
@@ -26,11 +26,11 @@ namespace ltn::c::parse {
 			auto type = parse::type(lexer);
 			auto name = parse::variableName(lexer);
 			if(auto && r = parse::assignR(lexer)) {
-				auto && l = std::make_unique<ast::Var>(name);
-				auto && assign = std::make_unique<ast::Assign>(std::move(l), std::move(r)); 
-				return std::make_unique<ast::NewVar>(mc, std::move(type), name, std::move(assign));
+				auto && l = std::make_unique<ast::Var>(name, lexer.debug());
+				auto && assign = std::make_unique<ast::Assign>(std::move(l), std::move(r), lexer.debug()); 
+				return std::make_unique<ast::NewVar>(mc, std::move(type), name, std::move(assign), lexer.debug());
 			} 
-			return std::make_unique<ast::NewVar>(mc, std::move(type), name, nullptr);
+			return std::make_unique<ast::NewVar>(mc, std::move(type), name, nullptr, lexer.debug());
 		};
 		if(lexer.match(TT::VAR)) return make(MC::VAR);
 		if(lexer.match(TT::REF)) return make(MC::REF);
@@ -40,7 +40,7 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Return> retrn(lex::Lexer & lexer) {
 		if(lexer.match(TT::RETURN)) {
 			auto expr = expression(lexer);
-			return std::make_unique<ast::Return>(std::move(expr));
+			return std::make_unique<ast::Return>(std::move(expr), lexer.debug());
 		}
 		return nullptr;
 	}

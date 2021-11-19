@@ -8,8 +8,8 @@ namespace ltn::c::parse {
 		using OP = ltn::c::ast::Binary::Type;
 	}
 
-	std::unique_ptr<ast::Binary> bin(OP op, auto && l, auto && r) {
-		return std::make_unique<ast::Binary>(op, std::move(l), std::move(r));
+	std::unique_ptr<ast::Binary> bin(lex::Lexer & lexer, OP op, auto && l, auto && r) {
+		return std::make_unique<ast::Binary>(op, std::move(l), std::move(r), lexer.debug());
 	}
 
 	
@@ -18,15 +18,15 @@ namespace ltn::c::parse {
 		auto l = unary(lexer);
 		if(lexer.match(TT::STAR)) {
 			auto r = factor(lexer);
-			return bin(OP::MLT, l, r);
+			return bin(lexer, OP::MLT, l, r);
 		}
 		if(lexer.match(TT::SLASH)) {
 			auto r = factor(lexer);
-			return bin(OP::DIV, l, r);
+			return bin(lexer, OP::DIV, l, r);
 		}
 		if(lexer.match(TT::PERCENT)) {
 			auto r = factor(lexer);
-			return bin(OP::MOD, l, r);
+			return bin(lexer, OP::MOD, l, r);
 		}
 		return l;
 	}
@@ -35,11 +35,11 @@ namespace ltn::c::parse {
 		auto l = factor(lexer);
 		if(lexer.match(TT::PLUS)) {
 			auto r = term(lexer);
-			return bin(OP::ADD, l, r);
+			return bin(lexer, OP::ADD, l, r);
 		}
 		if(lexer.match(TT::MINUS)) {
 			auto r = term(lexer);
-			return bin(OP::SUB, l, r);
+			return bin(lexer, OP::SUB, l, r);
 		}
 		return l;
 	}
@@ -48,19 +48,19 @@ namespace ltn::c::parse {
 		auto l = term(lexer);
 		if(lexer.match(TT::SMALLER)) {
 			auto r = comparision(lexer);
-			return bin(OP::SMALLER, l, r);
+			return bin(lexer, OP::SMALLER, l, r);
 		}
 		if(lexer.match(TT::SMALLER_EQUAL)) {
 			auto r = comparision(lexer);
-			return bin(OP::SMALLEREQUAL, l, r);
+			return bin(lexer, OP::SMALLEREQUAL, l, r);
 		}
 		if(lexer.match(TT::BIGGER)) {
 			auto r = comparision(lexer);
-			return bin(OP::BIGGER, l, r);
+			return bin(lexer, OP::BIGGER, l, r);
 		}
 		if(lexer.match(TT::BIGGER_EQUAL)) {
 			auto r = comparision(lexer);
-			return bin(OP::BIGGEREQUAL, l, r);
+			return bin(lexer, OP::BIGGEREQUAL, l, r);
 		}
 		return l;
 	}
@@ -69,11 +69,11 @@ namespace ltn::c::parse {
 		auto l = comparision(lexer);
 		if(lexer.match(TT::EQUAL)) {
 			auto r = equality(lexer);
-			return bin(OP::EQUAL, l, r);
+			return bin(lexer, OP::EQUAL, l, r);
 		}
 		if(lexer.match(TT::UNEQUAL)) {
 			auto r = equality(lexer);
-			return bin(OP::UNEQUEL, l, r);
+			return bin(lexer, OP::UNEQUEL, l, r);
 		}
 		return l;
 	}

@@ -23,7 +23,7 @@ namespace ltn::c::parse {
 			std::int64_t value;
 			ss << token->str;
 			ss >> value;
-			return std::make_unique<ast::Integer>(value); 
+			return std::make_unique<ast::Integer>(value, lexer.debug()); 
 		}
 		return nullptr;
 	}
@@ -34,31 +34,31 @@ namespace ltn::c::parse {
 			double value;
 			ss << token->str;
 			ss >> value;
-			return std::make_unique<ast::Float>(value); 
+			return std::make_unique<ast::Float>(value, lexer.debug()); 
 		}
 		return nullptr;
 	}
 
 	std::unique_ptr<ast::Bool> boolean(lex::Lexer & lexer) {
 		if(auto token = lexer.match(TT::TRUE)) {
-			return std::make_unique<ast::Bool>(true); 
+			return std::make_unique<ast::Bool>(true, lexer.debug()); 
 		}
 		if(auto token = lexer.match(TT::FALSE)) {
-			return std::make_unique<ast::Bool>(false); 
+			return std::make_unique<ast::Bool>(false, lexer.debug()); 
 		}
 		return nullptr;
 	}
 
 	std::unique_ptr<ast::New> newObject(lex::Lexer & lexer) {
 		if(lexer.match(TT::NEW)) {
-			return std::make_unique<ast::New>(type(lexer));
+			return std::make_unique<ast::New>(type(lexer), lexer.debug());
 		}
 		return nullptr;
 	}
 
 	std::unique_ptr<ast::Var> variable(lex::Lexer & lexer) {
 		const auto name = parse::variableName(lexer);
-		return std::make_unique<ast::Var>(name);
+		return std::make_unique<ast::Var>(name, lexer.debug());
 	}
 
 	std::unique_ptr<ast::Expression> primary(lex::Lexer & lexer) {

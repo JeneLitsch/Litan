@@ -17,5 +17,7 @@ namespace ltn::c {
 		compile::Scope scope;
 		compile::FxTable fxTable;
 		std::stringstream buffer;
+		std::size_t line = 1;
+		std::size_t jumpMarkCounter = 0;
 	};
 }

@@ -12,7 +12,6 @@ namespace ltn::c::compile {
 	std::string function(const ast::Function & fx, CompilerInfo & info) {
 		const auto & fxSig = info.fxTable.find(fx.name, toTypes(fx.parameters));
 		std::stringstream ss;
-		ss << inst::comment("Function " + fx.name);
 		ss << inst::jumpmark(fxSig->id);
 		if(fx.body) {
 			ss << compile::statement(*fx.body, info).code;

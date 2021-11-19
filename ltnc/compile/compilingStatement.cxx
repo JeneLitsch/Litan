@@ -16,8 +16,17 @@ namespace ltn::c::compile {
 		if(auto block = as<ast::Block>(stmt)) {
 			return compile::block(*block, info);
 		}
+		if(auto ifElse = as<ast::IfElse>(stmt)) {
+			return compile::ifElse(*ifElse, info);
+		}
 		if(auto exprstmt = as<ast::StatementExpression>(stmt)) {
-			return { expression(*exprstmt->expression, info).code };
+			const auto code = expression(*exprstmt->expression, info);
+			std::stringstream ss;
+			ss << code.code;
+			if(!type::isVoid(code.type)) {
+				ss << inst::scrap;
+			}
+			return { ss.str() };
 		}
 		return { "...\n" };
 	}

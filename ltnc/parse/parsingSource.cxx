@@ -8,15 +8,15 @@ namespace ltn::c::parse {
 
 
 	std::unique_ptr<ast::Source> source(lex::Lexer & lexer) {
-		auto source = std::make_unique<ast::Source>();
+		std::vector<std::unique_ptr<ast::Function>> functions;
 		while(!lexer.match(TT::___EOF___)) {
 			if(auto fx = parse::function(lexer)) {
-				source->functions.push_back(std::move(fx));
+				functions.push_back(std::move(fx));
 			}
 			else {
 				throw CompilerError("Not a function", lexer.inLine());
 			}
 		}
-		return source;
+		return std::make_unique<ast::Source>(std::move(functions), lexer.debug());
 	}
 }

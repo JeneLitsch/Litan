@@ -4,52 +4,68 @@
 #include <vector>
 namespace ltn::c::ast {
 	struct Statement : public Node {
+		Statement(const lex::DebugInfo & debugInfo) : Node(debugInfo) {}
 		virtual ~Statement() = default;
 	};
 
 	struct Block : public Statement {
+		Block(
+			std::vector<std::unique_ptr<Statement>> statements,
+			const lex::DebugInfo & debugInfo) 
+			:	Statement(debugInfo),
+				statements(std::move(statements)) {}
 		virtual ~Block() = default;
-		std::vector<std::unique_ptr<Statement>> statements;
+		const std::vector<std::unique_ptr<Statement>> statements;
 	};
 
 	struct IfElse : public Statement {
 		IfElse(
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Statement> ifBranch,
-			std::unique_ptr<Statement> elseBranch)
-			:	condition(std::move(condition)),
+			std::unique_ptr<Statement> elseBranch,
+			const lex::DebugInfo & debugInfo)
+			:	Statement(debugInfo),
+				condition(std::move(condition)),
 				ifBranch(std::move(ifBranch)),
 				elseBranch(std::move(elseBranch)) {}
 		virtual ~IfElse() = default;
-		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Statement> ifBranch;
-		std::unique_ptr<Statement> elseBranch;
+		const std::unique_ptr<Expression> condition;
+		const std::unique_ptr<Statement> ifBranch;
+		const std::unique_ptr<Statement> elseBranch;
 	};
 
 	struct While : public Statement {
 		While(
 			std::unique_ptr<Expression> condition,
-			std::unique_ptr<Statement> body)
-			:	condition(std::move(condition)),
+			std::unique_ptr<Statement> body,
+			const lex::DebugInfo & debugInfo)
+			:	Statement(debugInfo),
+				condition(std::move(condition)),
 				body(std::move(body)) {}
 
 		virtual ~While() = default;
-		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Statement> body;
+		const std::unique_ptr<Expression> condition;
+		const std::unique_ptr<Statement> body;
 	};
 
 	struct StatementExpression : public Statement {
-		StatementExpression(std::unique_ptr<Expression> expression)
-			:	expression(std::move(expression)) {}
+		StatementExpression(
+			std::unique_ptr<Expression> expression,
+			const lex::DebugInfo & debugInfo)
+			:	Statement(debugInfo),
+				expression(std::move(expression)) {}
 		virtual ~StatementExpression() = default;
-		std::unique_ptr<Expression> expression;
+		const std::unique_ptr<Expression> expression;
 	};
 
 	struct Return : public Statement {
-		Return(std::unique_ptr<Expression> expression)
-			:	expression(std::move(expression)) {}
+		Return(
+			std::unique_ptr<Expression> expression,
+			const lex::DebugInfo & debugInfo)
+			:	Statement(debugInfo),
+				expression(std::move(expression)) {}
 		virtual ~Return() = default;
-		std::unique_ptr<Expression> expression;
+		const std::unique_ptr<Expression> expression;
 	};
 
 	struct NewVar : public Statement {
@@ -58,15 +74,17 @@ namespace ltn::c::ast {
 			MemoryClass memoryClass, 
 			type::Type type,
 			const std::string & name,
-			std::unique_ptr<Assign> assign)
-			:	memoryClass(memoryClass),
+			std::unique_ptr<Assign> assign,
+			const lex::DebugInfo & debugInfo)
+			:	Statement(debugInfo),
+				memoryClass(memoryClass),
 				type(std::move(type)),
 				name(name),
 				assign(std::move(assign)) {}
 		virtual ~NewVar() = default;
-		MemoryClass memoryClass;
-		type::Type type; 
-		std::string name;
-		std::unique_ptr<Assign> assign; 
+		const MemoryClass memoryClass;
+		const type::Type type; 
+		const std::string name;
+		const std::unique_ptr<Assign> assign; 
 	};
 }

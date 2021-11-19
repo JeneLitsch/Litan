@@ -4,9 +4,11 @@
 namespace {
 	std::string to_str(const std::string & msg, std::size_t line) {
 		std::stringstream ss;
-		ss 	<< "[Litan Compiler Error] " 
-			<< "line:" << line << " " 
-			<< msg;
+		ss 	<< "[Litan Compiler Error] ";
+		if(line) {
+			ss	<< "line:" << line << " "; 
+		}
+		ss	<< msg;
 		return ss.str();
 	}
 }

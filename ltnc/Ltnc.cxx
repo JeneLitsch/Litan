@@ -5,9 +5,8 @@
 #include "compile/compiling.hxx"
 
 void ltn::c::Ltnc::compile(std::istream & in, const std::string &) {
-	std::size_t line = 1;
-	std::size_t jumpMarkCounter = 0;
-	lex::Lexer lexer{in, line};
+
+	lex::Lexer lexer{in, this->line};
 	auto source = parse::source(lexer);
 	compile::CompilerInfo info {
 		this->config,

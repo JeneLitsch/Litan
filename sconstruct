@@ -22,6 +22,7 @@ env = Environment(
 
 ltnc = [
 	"ltnc",
+	"ltnc/cli",
 	"ltnc/ast",
 	"ltnc/lex",
 	"ltnc/parse",
@@ -29,9 +30,18 @@ ltnc = [
 	"ltnc/type",
 ]
 
+ltna = [
+	"ltna",
+	"ltna/cli",
+	"ltna/linking",
+	"ltna/expand",
+	"ltna/assemble",
+]
+
 ltnvm = [
 	"ltnvm",
 ]
 
 env.Program('bin/ltnc', glob(ltnc))
+env.Program('bin/ltna', glob(ltna))
 env.Program('bin/ltnvm', glob(ltnvm))

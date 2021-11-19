@@ -53,13 +53,13 @@ namespace ltn::c::compile {
 
 	ExprCode binary(const ast::Binary & binary, CompilerInfo & info) {
 		const auto l = compile::expression(*binary.l, info);
-		const auto r = compile::expression(*binary.l, info);
+		const auto r = compile::expression(*binary.r, info);
 		const auto resultType = mergeTypes(l.type, r.type);
 
 		std::stringstream ss;
 		ss << l.code;
-		ss << getBinInst(resultType, binary.type);
 		ss << r.code;
+		ss << getBinInst(resultType, binary.type);
 		return { ss.str(), false, l.constant && r.constant, resultType};
 	}
 	

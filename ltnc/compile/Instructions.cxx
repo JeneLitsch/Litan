@@ -11,4 +11,37 @@ namespace ltn::c::compile::inst {
 		ss << ":" << name << "\n";
 		return ss.str(); 
 	}
+
+	std::string byte(std::uint8_t byte) {
+		std::stringstream ss;
+		ss 	<< "byte "
+			<< std::hex << static_cast<unsigned>(byte) << "\n";
+		return ss.str(); 
+	}
+
+	std::string jump(const std::string_view & to) {
+		std::stringstream ss;
+		ss 	<< "jump " << to << "\n";
+		return ss.str();
+	}
+
+	const std::string newu(std::uint64_t value) {
+		std::stringstream ss;
+		ss << "newu " << value << "\n";
+		return ss.str();
+	}
+
+	const std::string newi(std::int64_t value) {
+		std::stringstream ss;
+		ss << "newi " << value << "\n";
+		return ss.str();
+	}
+
+	const std::string newf(double value) {
+		std::stringstream ss;
+		ss << "newf " << value << "\n";
+		return ss.str();
+	}
+
+
 }

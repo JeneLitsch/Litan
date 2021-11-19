@@ -14,15 +14,17 @@ namespace ltn::c::ast {
 			const std::string & name,
 			const type::Type & returnType,
 			Parameters parameters,
-			std::unique_ptr<Statement> && body)
-			:	name(name),
+			std::unique_ptr<Statement> && body,
+			const lex::DebugInfo & debugInfo)
+			:	Declaration(debugInfo),
+				name(name),
 				returnType(returnType),
 				parameters(std::move(parameters)),
 				body(std::move(body)) {}
 				
-		std::string name;
-		type::Type returnType;
-		Parameters parameters;
-		std::unique_ptr<Statement> body;
+		const std::string name;
+		const type::Type returnType;
+		const Parameters parameters;
+		const std::unique_ptr<Statement> body;
 	};
 }

@@ -3,8 +3,13 @@
 #include "Function.hxx"
 
 namespace ltn::c::ast {
-	struct Source {
+	struct Source : public Node {
+		Source(
+			std::vector<std::unique_ptr<Function>> && functions,
+			const lex::DebugInfo & debugInfo)
+			:	Node(debugInfo),
+				functions(std::move(functions)) {}
 		virtual ~Source() = default;
-		std::vector<std::unique_ptr<Function>> functions;
+		const std::vector<std::unique_ptr<Function>> functions;
 	};
 }

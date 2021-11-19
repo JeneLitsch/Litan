@@ -10,7 +10,7 @@ namespace ltn::c::parse {
 		if(lexer.match(TT::WHILE)) {
 			auto expr = condition(lexer);
 			auto body = statement(lexer);
-			return std::make_unique<ast::While>(std::move(expr), std::move(body));
+			return std::make_unique<ast::While>(std::move(expr), std::move(body), lexer.debug());
 		}
 		return nullptr;
 	}

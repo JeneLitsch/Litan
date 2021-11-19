@@ -1,15 +1,21 @@
-// Function fx
 :FX0
+true
+if
+jump IF1
+jump IF_END3
+:IF1
+newi 1
+newi 1
+addi
+scrap
+jump IF_END2
+:IF_END3
+newi 4
+newi 2
+addi
+scrap
+jump IF_END3
+:IF_END2
 return
-// Function fx
-:FX1
-...
-error
-// Function fx
-:FX2
-...
-...
-...
-...
-...
-error
+:FX4
+return
