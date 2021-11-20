@@ -1,5 +1,0 @@
-function main() {
-	var a = 42;
-	a = (1336 + 1) * 2;
-	return a;
-}

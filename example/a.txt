@@ -6,8 +6,20 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte a
+byte 16
 exit
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 15
+return
+null
+return
 makevar
 newi
 byte 0
@@ -28,16 +40,7 @@ byte 0
 byte 0
 byte 0
 write
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 5
-byte 38
-newi
+call
 byte 0
 byte 0
 byte 0
@@ -45,8 +48,7 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 1
-add
+byte a
 newi
 byte 0
 byte 0
@@ -79,8 +81,6 @@ byte 0
 byte 0
 byte 0
 read
-return
-null
 return
 null
 return

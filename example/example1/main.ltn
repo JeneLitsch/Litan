@@ -1,0 +1,9 @@
+function fx() {
+	return 21;
+}
+
+function main() {
+	var a = 42;
+	a = ->fx() * 2;
+	return a;
+}

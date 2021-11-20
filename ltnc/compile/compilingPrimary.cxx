@@ -29,6 +29,22 @@ namespace ltn::c::compile {
 			ss << inst::read;
 			return ExprCode{ ss.str(), false, true};
 		}
+
+		ExprCode callFx(const ast::Call & call, CompilerInfo & info, Scope & scope) {
+			const auto fx = info.fxTable.find(call.name, call.parameters.size());
+			if(fx) {
+				std::stringstream ss;
+				for(const auto & param : call.parameters) {
+					const auto paramCode = compile::expression(*param, info, scope);
+					ss << paramCode.code;
+				}
+				ss << inst::call(fx->id);
+				return ExprCode{ ss.str(), false, false };
+			}
+			throw CompilerError {
+				"Function " + call.name + " is not defined",
+				call.debugInfo.line };
+		}
 	}
 
 	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope) {
@@ -37,6 +53,7 @@ namespace ltn::c::compile {
 		if(auto expr_ = as<ast::Bool>(expr)) 	return boolean(*expr_);
 		if(auto expr_ = as<ast::New>(expr)) 	return newvalue(*expr_);
 		if(auto expr_ = as<ast::Var>(expr)) 	return readVar(*expr_, scope);
+		if(auto expr_ = as<ast::Call>(expr)) 	return callFx(*expr_, info, scope);
 		throw CompilerError{"Unknown primary expression", expr.debugInfo.line};
 	}
 }
