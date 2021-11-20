@@ -11,6 +11,9 @@ std::uint64_t ltn::c::compile::Scope::resolve(
 	if(this->vars.contains(name)) {
 		return this->vars.at(name);
 	}
+	else if(this->parent) {
+		return this->parent->resolve(name, line);
+	}
 	throw CompilerError{"Undefined variable " + name, line};
 }
 

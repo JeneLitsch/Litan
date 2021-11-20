@@ -12,12 +12,12 @@ namespace ltn::vm {
 
 	#define COMP_II(op)\
 		if(isInt(l) && isInt(r)) {\
-			this->reg.push(Value{l.i op r.i});\
+			return this->reg.push(Value{l.i op r.i});\
 		}
 
 	#define COMP_FF(op)\
 		if(isFloat(l) && isFloat(r)) {\
-			this->reg.push(Value{l.f op r.f});\
+			return this->reg.push(Value{l.f op r.f});\
 		}
 
 	std::runtime_error cannotCompare() {

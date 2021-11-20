@@ -4,9 +4,15 @@ namespace ltn::c::compile {
 
 	std::string function(const ast::Function & fx, CompilerInfo & info) {
 		Scope scope;
-		const auto & fxSig = info.fxTable.find(fx.name, fx.parameters.size());
 		std::stringstream ss;
+		const auto & fxSig = info.fxTable.find(fx.name, fx.parameters.size());
 		ss << inst::jumpmark(fxSig->id);
+		for(const auto & param : fx.parameters) {
+			const auto addr = scope.insert(param, fx.debugInfo.line);
+			ss << inst::makevar;
+			ss << inst::newref(addr);
+			ss << inst::write;
+		}
 		if(fx.body) {
 			ss << compile::statement(*fx.body, info, scope).code;
 		}

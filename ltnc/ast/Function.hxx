@@ -15,7 +15,7 @@ namespace ltn::c::ast {
 			const lex::DebugInfo & debugInfo)
 			:	Declaration(debugInfo),
 				name(name),
-				parameters(std::move(parameters)),
+				parameters(parameters),
 				body(std::move(body)) {}
 				
 		const std::string name;

@@ -34,11 +34,14 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Function> function(lex::Lexer & lexer) {
 		if(lexer.match(TT::FUNCTION)) {
 			const auto name = functionName(lexer);
-			auto && parameters = parameterList(lexer);
+			const auto parameters = parameterList(lexer);
+			for(const auto param : parameters) {
+				std::cout << param << std::endl;
+			}
 			auto && body = statement(lexer); 
 			return std::make_unique<ast::Function>(
 				name,
-				std::move(parameters),
+				parameters,
 				std::move(body),
 				lexer.debug());
 		}

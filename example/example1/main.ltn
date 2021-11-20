@@ -1,9 +1,10 @@
-function fx() {
-	return 21;
+function fib(n) {
+	if(n <= 0) return 0;
+	if(n == 1) return 1;
+	return ->fib(n - 1) + ->fib(n - 2);
 }
 
+
 function main() {
-	var a = 42;
-	a = ->fx() * 2;
-	return a;
+	return ->fib(5);
 }
