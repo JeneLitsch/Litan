@@ -14,7 +14,6 @@ namespace ltn::c {
 		void yield(std::ostream & out);
 	private:
 		Config config;
-		compile::Scope scope;
 		compile::FxTable fxTable;
 		std::stringstream buffer;
 		std::size_t line = 1;

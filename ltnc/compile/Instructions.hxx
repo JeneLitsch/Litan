@@ -4,7 +4,6 @@
 namespace ltn::c::compile::inst {
 	std::string comment(std::string msg);
 	std::string jumpmark(const std::string_view id);
-	const std::string_view r3turn = "return\n";
 	const std::string_view error = "error\n";
 	
 	const std::string_view add = "add\n";
@@ -37,6 +36,8 @@ namespace ltn::c::compile::inst {
 	const std::string_view read = "read\n";
 	const std::string_view write = "write\n";
 	const std::string_view scrap = "scrap\n";
+	const std::string_view makevar = "makevar\n";
+	const std::string makeref(std::uint64_t value);
 	
 	std::string byte(std::uint8_t byte);
 }

@@ -24,9 +24,7 @@ namespace ltn::c::parse {
 		if(lexer.match(TT::VAR)) {
 			auto name = parse::variableName(lexer);
 			if(auto && r = parse::assignR(lexer)) {
-				auto && l = std::make_unique<ast::Var>(name, lexer.debug());
-				auto && assign = std::make_unique<ast::Assign>(std::move(l), std::move(r), lexer.debug()); 
-				return std::make_unique<ast::NewVar>(name, std::move(assign), lexer.debug());
+				return std::make_unique<ast::NewVar>(name, std::move(r), lexer.debug());
 			} 
 			return std::make_unique<ast::NewVar>(name, nullptr, lexer.debug());
 		}

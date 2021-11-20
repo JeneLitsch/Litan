@@ -71,13 +71,13 @@ namespace ltn::c::ast {
 	struct NewVar : public Statement {
 		NewVar(
 			const std::string & name,
-			std::unique_ptr<Assign> assign,
+			std::unique_ptr<Expression> right,
 			const lex::DebugInfo & debugInfo)
 			:	Statement(debugInfo),
 				name(name),
-				assign(std::move(assign)) {}
+				right(std::move(right)) {}
 		virtual ~NewVar() = default;
 		const std::string name;
-		const std::unique_ptr<Assign> assign; 
+		const std::unique_ptr<Expression> right; 
 	};
 }

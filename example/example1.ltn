@@ -1,14 +1,5 @@
 function fx() {
-	if(true) {
-		var a = new Array;
-		a[0][0][42] = 1;
-		->fx(1, 2);
-		while(true) {
-			return ->fx(1, 2) + 1;
-		}
-	}
-	else {
-		a = 1 + 1;
-	}
+	var a = 42;
+	a = 1337;
 	return a;
 }

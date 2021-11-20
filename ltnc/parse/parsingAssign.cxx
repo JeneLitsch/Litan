@@ -9,7 +9,7 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Expression> assign(lex::Lexer & lexer) {
 		auto l = expression(lexer);
 		if(auto r = assignR(lexer)) {
-			return std::make_unique<ast::Assign>(std::move(l), std::move(l), lexer.debug());
+			return std::make_unique<ast::Assign>(std::move(l), std::move(r), lexer.debug());
 		}
 		return l;
 	}

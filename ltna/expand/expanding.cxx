@@ -41,6 +41,11 @@ namespace ltn::a::expand {
 			std::stringstream ls(line);
 			std::string inst;
 			ls >> inst;
+
+			if(inst == "makeref") {
+				out << expandLiteral<std::uint64_t>(ls, "makeref");
+				return;
+			}
 			if(inst == "newu") {
 				out << expandLiteral<std::uint64_t>(ls, "newu");
 				return;

@@ -43,5 +43,10 @@ namespace ltn::c::compile::inst {
 		return ss.str();
 	}
 
+	const std::string makeref(std::uint64_t value) {
+		std::stringstream ss;
+		ss << "makeref " << value << "\n";
+		return ss.str();
+	}
 
 }

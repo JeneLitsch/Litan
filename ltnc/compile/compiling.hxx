@@ -17,7 +17,6 @@
 namespace ltn::c::compile {
 	struct CompilerInfo {
 		const Config & config;
-		Scope & scope;
 		FxTable & fxTable;
 		std::uint64_t & jumpMarkCounter; 
 	};
@@ -27,11 +26,11 @@ namespace ltn::c::compile {
 	std::string source(const ast::Source & source, CompilerInfo & info);
 	std::string function(const ast::Function & fx, CompilerInfo & info);
 
-	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info);
-	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info);
+	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope);
+	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope);
 
-	ExprCode expression(const ast::Expression & expr, CompilerInfo & info);
-	ExprCode binary(const ast::Binary & expr, CompilerInfo & info);
-	ExprCode unary(const ast::Unary & expr, CompilerInfo & info);
-	ExprCode primary(const ast::Primary & expr, CompilerInfo & info);
+	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope);
+	ExprCode binary(const ast::Binary & expr, CompilerInfo & info, Scope & scope);
+	ExprCode unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope);
+	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope);
 }	

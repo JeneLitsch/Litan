@@ -10,7 +10,6 @@ void ltn::c::Ltnc::compile(std::istream & in, const std::string &) {
 	auto source = parse::source(lexer);
 	compile::CompilerInfo info {
 		this->config,
-		this->scope,
 		this->fxTable,
 		jumpMarkCounter};
 	this->buffer << compile::source(*source, info);

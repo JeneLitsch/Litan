@@ -1,24 +1,19 @@
 :FX0
-true
-if
-jump IF1
-jump IF_END3
-:IF1
-...
-...
+makevar
+newi 42
+makeref 0
+write
+newi 1337
+makeref 0
+write
+null
 scrap
-...
-scrap
-...
-jump IF_END2
-:IF_END3
-...
-scrap
-jump IF_END3
-:IF_END2
-...
+makeref 0
+return
 null
 return
-:FX4
+
+:FX1
 null
 return
+

@@ -10,6 +10,7 @@ namespace ltn::a::linking {
 				{"newf", 9},
 				{"goto", 9},
 				{"call", 9},
+				{"makeref", 9},
 			};
 			if(sizeTable.contains(inst)) {
 				return sizeTable.at(inst);

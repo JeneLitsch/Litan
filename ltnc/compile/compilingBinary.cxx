@@ -19,9 +19,9 @@ namespace ltn::c::compile {
 		throw CompilerError{"Invalid binary operation", 0};
 	}
 
-	ExprCode binary(const ast::Binary & binary, CompilerInfo & info) {
-		const auto l = compile::expression(*binary.l, info);
-		const auto r = compile::expression(*binary.r, info);
+	ExprCode binary(const ast::Binary & binary, CompilerInfo & info, Scope & scope) {
+		const auto l = compile::expression(*binary.l, info, scope);
+		const auto r = compile::expression(*binary.r, info, scope);
 
 		std::stringstream ss;
 		ss << l.code;
