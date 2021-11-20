@@ -91,11 +91,12 @@ namespace ltn::c::parse {
 			}
 			return nullptr;
 		}
+	}
 
-		std::unique_ptr<ast::Var> variable(lex::Lexer & lexer) {
-			const auto name = parse::variableName(lexer);
-			return std::make_unique<ast::Var>(name, lexer.debug());
-		}
+
+	std::unique_ptr<ast::Var> variable(lex::Lexer & lexer) {
+		const auto name = parse::variableName(lexer);
+		return std::make_unique<ast::Var>(name, lexer.debug());
 	}
 
 

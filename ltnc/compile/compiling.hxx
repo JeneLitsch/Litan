@@ -13,6 +13,8 @@
 #include "ltnc/ast/Function.hxx"
 #include "ltnc/ast/Expression.hxx"
 #include "ltnc/ast/Statement.hxx"
+#include "ltnc/ast/Literals.hxx"
+#include "ltnc/ast/Assignable.hxx"
 
 namespace ltn::c::compile {
 	struct CompilerInfo {
@@ -29,8 +31,12 @@ namespace ltn::c::compile {
 	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope);
 
-	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope, bool write);
-	ExprCode binary(const ast::Binary & expr, CompilerInfo & info, Scope & scope, bool write);
-	ExprCode unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope, bool write);
-	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope, bool write);
+	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope);
+	ExprCode binary(const ast::Binary & expr, CompilerInfo & info, Scope & scope);
+	ExprCode unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope);
+	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope);
+
+	ExprCode assignable(const ast::Assignable & expr, CompilerInfo & info, Scope & scope);
+
+	ExprCode varRef(const ast::Var & expr, Scope & scope);
 }	

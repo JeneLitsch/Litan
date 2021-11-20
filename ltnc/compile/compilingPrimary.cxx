@@ -22,24 +22,21 @@ namespace ltn::c::compile {
 			throw CompilerError{"Unknown new type", expr.debugInfo.line};
 		}
 
-		ExprCode var(const ast::Var & expr, Scope & scope, bool write) {
-			const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
+		ExprCode readVar(const ast::Var & expr, Scope & scope) {
+			const auto ref = compile::varRef(expr, scope);
 			std::stringstream ss;
-			ss << inst::newref(addr);
-			if(!write) {
-				ss << inst::read;
-			}
-			return ExprCode{ss.str(), true, false};
+			ss << ref.code;
+			ss << inst::read;
+			return ExprCode{ ss.str(), false, true};
 		}
-
 	}
 
-	ExprCode primary(const ast::Primary & expr, CompilerInfo &, Scope & scope, bool write) {
+	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope) {
 		if(auto expr_ = as<ast::Integer>(expr)) return integer(*expr_);
 		if(auto expr_ = as<ast::Float>(expr)) 	return floating(*expr_);
 		if(auto expr_ = as<ast::Bool>(expr)) 	return boolean(*expr_);
 		if(auto expr_ = as<ast::New>(expr)) 	return newvalue(*expr_);
-		if(auto expr_ = as<ast::Var>(expr)) 	return var(*expr_, scope, write);
+		if(auto expr_ = as<ast::Var>(expr)) 	return readVar(*expr_, scope);
 		throw CompilerError{"Unknown primary expression", expr.debugInfo.line};
 	}
 }

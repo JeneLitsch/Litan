@@ -2,6 +2,8 @@
 #include "ltnc/ast/Function.hxx"
 #include "ltnc/ast/Source.hxx"
 #include "ltnc/ast/Statement.hxx"
+#include "ltnc/ast/Assignable.hxx"
+#include "ltnc/ast/Literals.hxx"
 #include "ltnc/lex/Lexer.hxx"
 
 namespace ltn::c::parse {
@@ -16,8 +18,9 @@ namespace ltn::c::parse {
 	
 	std::unique_ptr<ast::Expression> expression(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> condition(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> primary(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> unary(lex::Lexer & lexer);
+	std::unique_ptr<ast::Expression> primary(lex::Lexer & lexer);
+	std::unique_ptr<ast::Var> variable(lex::Lexer & lexer);
 
 	std::unique_ptr<ast::Expression> assign(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> assignR(lex::Lexer & lexer);

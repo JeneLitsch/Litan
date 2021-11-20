@@ -36,7 +36,27 @@ byte 0
 byte 0
 byte 0
 byte 5
-byte 39
+byte 38
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+add
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2
+mlt
 newref
 byte 0
 byte 0

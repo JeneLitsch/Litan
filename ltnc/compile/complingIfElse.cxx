@@ -7,16 +7,12 @@ namespace ltn::c::compile {
 			ss << name << info.jumpMarkCounter++;
 			return ss.str();
 		}
-
-		CompilerError mustBeBool(const lex::DebugInfo & debug) {
-			return CompilerError{"Condition must be a bool.", debug.line};
-		}
 	}
 
 	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope) {
 		const auto idIf = makeJumpId("IF", info);
 		const auto idIfEnd = makeJumpId("IF_END", info);
-		const auto condition = compile::expression(*stmt.condition, info, scope, false);
+		const auto condition = compile::expression(*stmt.condition, info, scope);
 		const auto ifBranch = compile::statement(*stmt.ifBranch, info, scope);
 		if(stmt.elseBranch) {
 			const auto elseBranch = compile::statement(*stmt.elseBranch, info, scope);

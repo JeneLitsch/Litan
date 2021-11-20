@@ -4,10 +4,15 @@
 namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
+
+		std::unique_ptr<ast::Assignable> assignable(lex::Lexer & lexer) {
+			return parse::variable(lexer);
+		}
 	}
+	
 
 	std::unique_ptr<ast::Expression> assign(lex::Lexer & lexer) {
-		auto l = expression(lexer);
+		auto l = assignable(lexer);
 		if(auto r = assignR(lexer)) {
 			return std::make_unique<ast::Assign>(std::move(l), std::move(r), lexer.debug());
 		}

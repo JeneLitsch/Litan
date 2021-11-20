@@ -6,7 +6,11 @@ makevar
 newi 42
 newref 0
 write
-newi 1337
+newi 1336
+newi 1
+add
+newi 2
+mlt
 newref 0
 write
 null

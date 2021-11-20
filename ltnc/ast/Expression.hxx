@@ -1,7 +1,10 @@
 #pragma once
 #include "Node.hxx"
 #include <vector>
+
 namespace ltn::c::ast {
+	class Assignable;
+
 	struct Expression : public Node {
 		Expression(const lex::DebugInfo & debugInfo) : Node(debugInfo) {}
 		virtual ~Expression() = default;
@@ -11,37 +14,6 @@ namespace ltn::c::ast {
 		Primary(const lex::DebugInfo & debugInfo) : Expression(debugInfo) {}
 		virtual ~Primary() = default;
 	};
-
-	struct Literal : public Primary {
-		Literal(const lex::DebugInfo & debugInfo) : Primary(debugInfo) {}
-		virtual ~Literal() = default;
-	};
-
-	struct Integer : public Literal {
-	public:
-		Integer(std::int64_t value, const lex::DebugInfo & debugInfo)
-			:	Literal(debugInfo), value(value) {}
-		virtual ~Integer() = default;
-		const std::int64_t value;
-	};
-
-	struct Float : public Literal {
-	public:
-		Float(double value, const lex::DebugInfo & debugInfo)
-			:	Literal(debugInfo), value(value) {}
-		virtual ~Float() = default;
-		const double value;
-	};
-
-	struct Bool : public Literal {
-	public:
-		Bool(bool value, const lex::DebugInfo & debugInfo)
-			:	Literal(debugInfo), value(value) {}
-		virtual ~Bool() = default;
-		const bool value;
-	};
-
-
 
 	struct Unary : public Expression {
 		enum class Type { NEG, NOT };
@@ -56,20 +28,6 @@ namespace ltn::c::ast {
 		const Type type;
 		const std::unique_ptr<Expression> expression;
 	};
-
-	struct Index : public Expression {
-		Index(
-			std::unique_ptr<Expression> expression,
-			std::unique_ptr<Expression> index,
-			const lex::DebugInfo & debugInfo)
-			:	Expression(debugInfo),
-				expression(std::move(expression)),
-				index(std::move(index)) {}
-		virtual ~Index() = default;
-		const std::unique_ptr<Expression> expression;
-		const std::unique_ptr<Expression> index;
-	};
-
 
 	struct Binary : public Expression {
 		enum class Type {
@@ -93,17 +51,6 @@ namespace ltn::c::ast {
 	};
 
 
-	struct Var : public Primary {
-	public:
-		Var(const std::string & name,
-			const lex::DebugInfo & debugInfo)
-			:	Primary(debugInfo),
-				name(name) {}
-		virtual ~Var() = default;
-		const std::string name;
-	};
-
-
 	struct New : public Primary {
 	public:
 		enum class Type { ARRAY };
@@ -117,22 +64,22 @@ namespace ltn::c::ast {
 	struct Assign : public Expression {
 	public:
 		Assign(
-			std::unique_ptr<Expression> l,
+			std::unique_ptr<Assignable> l,
 			std::unique_ptr<Expression> r,
 			const lex::DebugInfo & debugInfo)
 			:	Expression(debugInfo), l(std::move(l)), r(std::move(r)) {}
 		virtual ~Assign() = default;
-		const std::unique_ptr<Expression> l;
+		const std::unique_ptr<Assignable> l;
 		const std::unique_ptr<Expression> r;
 	};
 
-	struct Call : public Expression {
+	struct Call : public Primary {
 	public:
 		Call(
 			const std::string & name,
 			std::vector<std::unique_ptr<Expression>> parameters,
 			const lex::DebugInfo & debugInfo)
-			:	Expression(debugInfo),
+			:	Primary(debugInfo),
 				name(name),
 				parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
