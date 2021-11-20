@@ -22,9 +22,7 @@ namespace ltn::a::assemble {
 			{"newd", Inst::NEWF},
 			{"true", Inst::TRUE},
 			{"false", Inst::FALSE},
-			{"read", Inst::READ},
-			{"write", Inst::WRITE},
-			{"scrap", Inst::SCRAP},
+			{"newarr", Inst::NEWARR},
 
 			{"jump", Inst::JUMP},
 			{"link", Inst::LINK},
@@ -32,6 +30,10 @@ namespace ltn::a::assemble {
 			{"if", Inst::IF},
 			{"error", Inst::ERROR},
 
+			{"read", Inst::READ},
+			{"write", Inst::WRITE},
+			{"scrap", Inst::SCRAP},
+			
 			{"out", Inst::OUT},
 		};
 
@@ -57,5 +59,6 @@ namespace ltn::a::assemble {
 		while(!in.eof()) {
 			bytecode.push_back(assembleLine(in));
 		}
+		return bytecode;
 	}
 }

@@ -57,6 +57,19 @@ namespace ltn::c::ast {
 		const std::unique_ptr<Expression> expression;
 	};
 
+	struct Index : public Expression {
+		Index(
+			std::unique_ptr<Expression> expression,
+			std::unique_ptr<Expression> index,
+			const lex::DebugInfo & debugInfo)
+			:	Expression(debugInfo),
+				expression(std::move(expression)),
+				index(std::move(index)) {}
+		virtual ~Index() = default;
+		const std::unique_ptr<Expression> expression;
+		const std::unique_ptr<Expression> index;
+	};
+
 
 	struct Binary : public Expression {
 		enum class Type {
@@ -93,7 +106,7 @@ namespace ltn::c::ast {
 
 	struct New : public Primary {
 	public:
-		enum class Type { ARRAY, MAP };
+		enum class Type { ARRAY };
 		New(const lex::DebugInfo & debugInfo, Type type)
 			:	Primary(debugInfo), type(type) {}
 		virtual ~New() = default;
@@ -111,5 +124,19 @@ namespace ltn::c::ast {
 		virtual ~Assign() = default;
 		const std::unique_ptr<Expression> l;
 		const std::unique_ptr<Expression> r;
+	};
+
+	struct Call : public Expression {
+	public:
+		Call(
+			const std::string & name,
+			std::vector<std::unique_ptr<Expression>> parameters,
+			const lex::DebugInfo & debugInfo)
+			:	Expression(debugInfo),
+				name(name),
+				parameters(std::move(parameters)) {}
+		virtual ~Call() = default;
+		const std::string name;
+		const std::vector<std::unique_ptr<Expression>> parameters;
 	};
 }

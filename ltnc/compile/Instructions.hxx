@@ -28,7 +28,6 @@ namespace ltn::c::compile::inst {
 	const std::string_view falsE = "false\n";
 	const std::string_view null = "null\n";
 	const std::string_view newarr = "newarr\n";
-	const std::string_view newmap = "newmap\n";
 
 	std::string jump(const std::string_view & to);
 	const std::string_view link = "link\n";

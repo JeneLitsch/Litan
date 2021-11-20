@@ -19,9 +19,6 @@ namespace ltn::c::compile {
 		if(expr.type == ast::New::Type::ARRAY) {
 			return ExprCode{ std::string(inst::newarr), false, true};
 		}
-		if(expr.type == ast::New::Type::MAP) {
-			return ExprCode{ std::string(inst::newmap), false, true};
-		}
 		throw CompilerError{"Unknown new type", expr.debugInfo.line};
 	} 
 	
