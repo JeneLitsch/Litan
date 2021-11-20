@@ -2,30 +2,30 @@
 #include <sstream>
 
 namespace ltn::c::compile::inst {
-	std::string comment(std::string msg) {
+	const std::string comment(std::string msg) {
 		return "// " + msg + "\n";
 	}
 
-	std::string jumpmark(const std::string_view name) {
+	const std::string jumpmark(const std::string_view name) {
 		std::stringstream ss;
 		ss << ":" << name << "\n";
 		return ss.str(); 
 	}
 
-	std::string byte(std::uint8_t byte) {
+	const std::string byte(std::uint8_t byte) {
 		std::stringstream ss;
 		ss 	<< "byte "
 			<< std::hex << static_cast<unsigned>(byte) << "\n";
 		return ss.str(); 
 	}
 
-	std::string jump(const std::string_view & to) {
+	const std::string jump(const std::string_view & to) {
 		std::stringstream ss;
 		ss 	<< "jump " << to << "\n";
 		return ss.str();
 	}
 
-	std::string call(const std::string_view & to) {
+	const std::string call(const std::string_view & to) {
 		std::stringstream ss;
 		ss 	<< "call " << to << "\n";
 		return ss.str();
@@ -52,6 +52,12 @@ namespace ltn::c::compile::inst {
 	const std::string newref(std::uint64_t value) {
 		std::stringstream ss;
 		ss << "newref " << value << "\n";
+		return ss.str();
+	}
+
+	const std::string ifelse(const std::string_view & to) {
+		std::stringstream ss;
+		ss << "ifelse " << to << "\n";
 		return ss.str();
 	}
 

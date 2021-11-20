@@ -9,26 +9,18 @@ newref 0
 read
 newi 0
 smleql
-if
-jump IF2
-jump IF_END3
-:IF2
+ifelse IF_END2
 newi 0
 return
-jump IF_END3
-:IF_END3
+:IF_END2
 newref 0
 read
 newi 1
 eql
-if
-jump IF4
-jump IF_END5
-:IF4
+ifelse IF_END3
 newi 1
 return
-jump IF_END5
-:IF_END5
+:IF_END3
 newref 0
 read
 newi 1
@@ -45,7 +37,7 @@ null
 return
 
 :FX1_main_0
-newi 5
+newi 20
 call FX0_fib_1
 return
 null

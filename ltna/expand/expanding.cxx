@@ -67,6 +67,10 @@ namespace ltn::a::expand {
 				out << expandLiteral<std::uint64_t>(ls, "call");
 				return;
 			}
+			if(inst == "ifelse") {
+				out << expandLiteral<std::uint64_t>(ls, "ifelse");
+				return;
+			}
 			if(line != "") {
 				out << line << "\n";
 			}

@@ -14,13 +14,13 @@ namespace ltn::vm {
 		}
 
 	#define BIN_FF(op)\
-		if(isInt(l) && isInt(r)) {\
-			return this->reg.push(Value{l.i op r.i});\
+		if(isFloat(l) && isFloat(r)) {\
+			return this->reg.push(Value{l.f op r.f});\
 		}
 
 	#define BIN_FX_FF(op)\
-		if(isInt(l) && isInt(r)) {\
-			return this->reg.push(Value{op(l.i, r.i)});\
+		if(isFloat(l) && isFloat(r)) {\
+			return this->reg.push(Value{op(l.f, r.f)});\
 		}
 
 	void LtnVM::add() { 

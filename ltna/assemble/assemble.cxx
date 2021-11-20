@@ -31,7 +31,7 @@ namespace ltn::a::assemble {
 			{"jump", Inst::JUMP},
 			{"call", Inst::CALL},
 			{"return", Inst::RETURN},
-			{"if", Inst::IF},
+			{"ifelse", Inst::IF},
 			{"error", Inst::ERROR},
 			{"exit", Inst::EXIT},
 

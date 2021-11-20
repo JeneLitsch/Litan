@@ -13,7 +13,7 @@ namespace ltn::a::linking {
 			if(inst[0] != ':') {
 				std::string label;
 				ss >> label;
-				if(inst == "jump" || inst == "call") {
+				if(inst == "jump" || inst == "call" || inst == "ifelse") {
 					if(table.contains(label)) {
 						out << inst << " " << table.at(label) << "\n"; 
 					}

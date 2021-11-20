@@ -6,5 +6,5 @@ function fib(n) {
 
 
 function main() {
-	return ->fib(5);
+	return ->fib(20);
 }

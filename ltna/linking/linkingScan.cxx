@@ -11,6 +11,7 @@ namespace ltn::a::linking {
 				{"jump", 9},
 				{"call", 9},
 				{"newref", 9},
+				{"ifelse", 9},
 			};
 			if(sizeTable.contains(inst)) {
 				return sizeTable.at(inst);

@@ -24,8 +24,9 @@ namespace ltn::vm {
 	}
 	void LtnVM::iF() {
 		const auto value = this->reg.pop();
+		const auto elseAddr = this->fetchUint();
 		if(!isTruthy(value)) {
-			pc++;
+			this->pc = elseAddr;
 		}
 	}
 	void LtnVM::error() {

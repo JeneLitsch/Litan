@@ -2,8 +2,8 @@
 #include <string>
 
 namespace ltn::c::compile::inst {
-	std::string comment(std::string msg);
-	std::string jumpmark(const std::string_view id);
+	const std::string comment(std::string msg);
+	const std::string jumpmark(const std::string_view id);
 	const std::string_view error = "error\n";
 	
 	const std::string_view add = "add\n";
@@ -28,10 +28,10 @@ namespace ltn::c::compile::inst {
 	const std::string_view null = "null\n";
 	const std::string_view newarr = "newarr\n";
 
-	std::string jump(const std::string_view & to);
-	std::string call(const std::string_view & to);
+	const std::string jump(const std::string_view & to);
+	const std::string call(const std::string_view & to);
 	const std::string_view reTurn = "return\n";
-	const std::string_view iF = "if\n";
+	const std::string ifelse(const std::string_view & to);
 	const std::string_view exlt = "exit\n";
 
 	const std::string_view read = "read\n";
@@ -40,5 +40,5 @@ namespace ltn::c::compile::inst {
 	const std::string_view makevar = "makevar\n";
 	const std::string newref(std::uint64_t value);
 	
-	std::string byte(std::uint8_t byte);
+	const std::string byte(std::uint8_t byte);
 }
