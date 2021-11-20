@@ -29,8 +29,8 @@ namespace ltn::c::compile {
 	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope);
 
-	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope);
-	ExprCode binary(const ast::Binary & expr, CompilerInfo & info, Scope & scope);
-	ExprCode unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope);
-	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope);
+	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope, bool write);
+	ExprCode binary(const ast::Binary & expr, CompilerInfo & info, Scope & scope, bool write);
+	ExprCode unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope, bool write);
+	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope, bool write);
 }	

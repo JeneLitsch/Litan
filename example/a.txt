@@ -1,7 +1,4 @@
-true
-if
-jump
-byte 4
+call
 byte 0
 byte 0
 byte 0
@@ -9,8 +6,10 @@ byte 0
 byte 0
 byte 0
 byte 0
-jump
-byte 6
+byte a
+exit
+makevar
+newi
 byte 0
 byte 0
 byte 0
@@ -18,9 +17,8 @@ byte 0
 byte 0
 byte 0
 byte 0
-...
-jump
-byte 7
+byte 2a
+newref
 byte 0
 byte 0
 byte 0
@@ -28,8 +26,18 @@ byte 0
 byte 0
 byte 0
 byte 0
-jump
-byte 6
+byte 0
+write
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 5
+byte 39
+newref
 byte 0
 byte 0
 byte 0
@@ -37,6 +45,21 @@ byte 0
 byte 0
 byte 0
 byte 0
+byte 0
+write
+null
+scrap
+newref
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+read
+return
 null
 return
 null

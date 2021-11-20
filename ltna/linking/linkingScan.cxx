@@ -8,9 +8,9 @@ namespace ltn::a::linking {
 				{"newu", 9},
 				{"newi", 9},
 				{"newf", 9},
-				{"goto", 9},
+				{"jump", 9},
 				{"call", 9},
-				{"makeref", 9},
+				{"newref", 9},
 			};
 			if(sizeTable.contains(inst)) {
 				return sizeTable.at(inst);
@@ -37,7 +37,6 @@ namespace ltn::a::linking {
 			else {
 				position += getInstSize(inst);
 			}
-			;
 		}
 		return table;
 	}

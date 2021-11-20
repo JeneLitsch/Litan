@@ -1,4 +1,4 @@
-function fx() {
+function main() {
 	var a = 42;
 	a = 1337;
 	return a;

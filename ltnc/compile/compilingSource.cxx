@@ -2,9 +2,9 @@
 
 namespace ltn::c::compile {
 	namespace {
-		auto makeFxId(CompilerInfo & info) {
+		auto makeFxId(CompilerInfo & info, const std::string_view name) {
 			std::stringstream ss;
-			ss << "FX" << info.jumpMarkCounter++;
+			ss << "FX" << info.jumpMarkCounter++ << "_" << name;
 			return ss.str();
 		}
 	}
@@ -16,7 +16,7 @@ namespace ltn::c::compile {
 			info.fxTable.insert({
 				fx->name,
 				fx->parameters.size(),
-				makeFxId(info)});
+				makeFxId(info, fx->name)});
 		}
 
 		for(const auto & function : source.functions) {

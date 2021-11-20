@@ -15,24 +15,30 @@ namespace ltn::a::assemble {
 			{"bgr", Inst::BGR},
 			{"smleql", Inst::SMLEQL},
 			{"bgreql", Inst::BGREQL},
+
 			{"neg", Inst::NEG},
+			{"not", Inst::NOT},
 
 			{"newu", Inst::NEWU},
 			{"newi", Inst::NEWI},
-			{"newd", Inst::NEWF},
+			{"newf", Inst::NEWF},
+			{"newref", Inst::NEWREF},
 			{"true", Inst::TRUE},
 			{"false", Inst::FALSE},
 			{"newarr", Inst::NEWARR},
+			{"null", Inst::NVLL},
 
 			{"jump", Inst::JUMP},
-			{"link", Inst::LINK},
+			{"call", Inst::CALL},
 			{"return", Inst::RETURN},
 			{"if", Inst::IF},
 			{"error", Inst::ERROR},
+			{"exit", Inst::EXIT},
 
 			{"read", Inst::READ},
 			{"write", Inst::WRITE},
 			{"scrap", Inst::SCRAP},
+			{"makevar", Inst::MAKEVAR},
 			
 			{"out", Inst::OUT},
 		};

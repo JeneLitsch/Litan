@@ -1,19 +1,23 @@
-:FX0
+call FX0_main
+exit
+
+:FX0_main
 makevar
 newi 42
-makeref 0
+newref 0
 write
 newi 1337
-makeref 0
+newref 0
 write
 null
 scrap
-makeref 0
+newref 0
+read
 return
 null
 return
 
-:FX1
+:FX1_fx
 null
 return
 

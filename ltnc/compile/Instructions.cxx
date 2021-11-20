@@ -25,6 +25,12 @@ namespace ltn::c::compile::inst {
 		return ss.str();
 	}
 
+	std::string call(const std::string_view & to) {
+		std::stringstream ss;
+		ss 	<< "call " << to << "\n";
+		return ss.str();
+	}
+
 	const std::string newu(std::uint64_t value) {
 		std::stringstream ss;
 		ss << "newu " << value << "\n";
@@ -43,9 +49,9 @@ namespace ltn::c::compile::inst {
 		return ss.str();
 	}
 
-	const std::string makeref(std::uint64_t value) {
+	const std::string newref(std::uint64_t value) {
 		std::stringstream ss;
-		ss << "makeref " << value << "\n";
+		ss << "newref " << value << "\n";
 		return ss.str();
 	}
 

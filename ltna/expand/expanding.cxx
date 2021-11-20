@@ -13,6 +13,7 @@ namespace ltn::a::expand {
 				byte = value & 0xff;
 				value >>= 8;
 			}
+			std::reverse(bytes.begin(), bytes.end());
 			return bytes;
 		}
 		
@@ -42,8 +43,8 @@ namespace ltn::a::expand {
 			std::string inst;
 			ls >> inst;
 
-			if(inst == "makeref") {
-				out << expandLiteral<std::uint64_t>(ls, "makeref");
+			if(inst == "newref") {
+				out << expandLiteral<std::uint64_t>(ls, "newref");
 				return;
 			}
 			if(inst == "newu") {
@@ -62,7 +63,13 @@ namespace ltn::a::expand {
 				out << expandLiteral<std::uint64_t>(ls, "jump");
 				return;
 			}
-			out << line << "\n";
+			if(inst == "call") {
+				out << expandLiteral<std::uint64_t>(ls, "call");
+				return;
+			}
+			if(line != "") {
+				out << line << "\n";
+			}
 		}
 	}
 

@@ -16,7 +16,7 @@ namespace ltn::c::compile {
 	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope) {
 		const auto idIf = makeJumpId("IF", info);
 		const auto idIfEnd = makeJumpId("IF_END", info);
-		const auto condition = compile::expression(*stmt.condition, info, scope);
+		const auto condition = compile::expression(*stmt.condition, info, scope, false);
 		const auto ifBranch = compile::statement(*stmt.ifBranch, info, scope);
 		if(stmt.elseBranch) {
 			const auto elseBranch = compile::statement(*stmt.elseBranch, info, scope);

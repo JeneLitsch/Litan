@@ -4,6 +4,7 @@
 #include "Ltna.hxx"
 #include "linking/linking.hxx"
 #include "expand/expanding.hxx"
+#include "assemble/assemble.hxx"
 
 std::vector<std::uint8_t> ltn::a::Ltna::assemble(std::istream & in) const {
 	const std::string code = [&] {
@@ -18,8 +19,9 @@ std::vector<std::uint8_t> ltn::a::Ltna::assemble(std::istream & in) const {
 	std::ofstream out("example/a.txt");
 	std::stringstream source(code);
 	std::stringstream patched;
+	std::stringstream expanded;
 	linking::patch(source, patched, table);
-	expand::expand(patched, out);
-	out.close();
-	return { 1, 2, 3 };
+	expand::expand(patched, expanded);
+	out << expanded.str();
+	return assemble::assemble(expanded);
 }

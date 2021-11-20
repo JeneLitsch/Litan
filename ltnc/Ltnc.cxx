@@ -3,6 +3,7 @@
 #include "lex/Lexer.hxx"
 #include "parse/parsing.hxx"
 #include "compile/compiling.hxx"
+#include "compile/Instructions.hxx"
 
 void ltn::c::Ltnc::compile(std::istream & in, const std::string &) {
 
@@ -16,5 +17,13 @@ void ltn::c::Ltnc::compile(std::istream & in, const std::string &) {
 }
 
 void ltn::c::Ltnc::yield(std::ostream & out) {
-	out << this->buffer.rdbuf();
+	if(const auto fxmain = this->fxTable.find("main", 0)) {
+		out	<< compile::inst::call(fxmain->id) 
+			<< compile::inst::exlt
+			<< "\n";
+		out << this->buffer.rdbuf();
+	}
+	else {
+		throw CompilerError {"main() is undefined", 0};
+	}
 }

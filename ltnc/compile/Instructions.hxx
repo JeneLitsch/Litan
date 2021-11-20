@@ -29,15 +29,16 @@ namespace ltn::c::compile::inst {
 	const std::string_view newarr = "newarr\n";
 
 	std::string jump(const std::string_view & to);
-	const std::string_view link = "link\n";
+	std::string call(const std::string_view & to);
 	const std::string_view reTurn = "return\n";
 	const std::string_view iF = "if\n";
+	const std::string_view exlt = "exit\n";
 
 	const std::string_view read = "read\n";
 	const std::string_view write = "write\n";
 	const std::string_view scrap = "scrap\n";
 	const std::string_view makevar = "makevar\n";
-	const std::string makeref(std::uint64_t value);
+	const std::string newref(std::uint64_t value);
 	
 	std::string byte(std::uint8_t byte);
 }

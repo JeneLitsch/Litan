@@ -15,12 +15,15 @@ void ltn::vm::Stack::write(std::uint64_t offset, Value value) {
 	this->stack[addr] = value;
 }
 
-void ltn::vm::Stack::pushFrame(std::uint64_t localAlloc, std::uint64_t jumpBack) {
+void ltn::vm::Stack::makeVar() {
+	this->stack.push_back(Value{0U, Value::Type::NVLL});
+}
+
+void ltn::vm::Stack::pushFrame(std::uint64_t jumpBack) {
 	const std::uint64_t newFramePointer = this->stack.size();
-	this->stack.push_back(Value{jumpBack});
-	this->stack.push_back(Value{this->framePointer});
+	this->stack.push_back(Value{jumpBack, Value::Type::NVLL});
+	this->stack.push_back(Value{this->framePointer, Value::Type::NVLL});
 	this->framePointer = newFramePointer;
-	this->stack.resize(this->stack.size() + localAlloc, Value{0U, Value::Type::NVLL});
 }
 std::uint64_t ltn::vm::Stack::popFrame() {
 	const std::uint64_t jumpBack 		= this->stack[this->framePointer + 0].u;

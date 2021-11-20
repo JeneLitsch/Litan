@@ -8,8 +8,9 @@ namespace ltn::vm {
 		Value read(std::uint64_t offset) const;
 
 		void write(std::uint64_t offset, Value value);
+		void makeVar();
 
-		void pushFrame(std::uint64_t localAlloc, std::uint64_t jumpBack);	
+		void pushFrame(std::uint64_t jumpBack);	
 		std::uint64_t popFrame();
 	private:
 

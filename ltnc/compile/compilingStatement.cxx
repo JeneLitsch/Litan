@@ -16,7 +16,7 @@ namespace ltn::c::compile {
 		StmtCode reTurn(const ast::Return & ret, CompilerInfo & info, Scope & scope) {
 			std::stringstream ss;
 			if(ret.expression) {
-				auto code = compile::expression(*ret.expression, info, scope);
+				auto code = compile::expression(*ret.expression, info, scope, false);
 				ss << code.code;
 			}
 			else {
@@ -31,9 +31,9 @@ namespace ltn::c::compile {
 			std::stringstream ss;
 			ss << inst::makevar;
 			if(newVar.right) {
-				const auto expr = compile::expression(*newVar.right, info, scope);
+				const auto expr = compile::expression(*newVar.right, info, scope, false);
 				ss << expr.code;
-				ss << inst::makeref(addr);
+				ss << inst::newref(addr);
 				ss << inst::write;
 			}
 			return {ss.str()};
@@ -54,7 +54,7 @@ namespace ltn::c::compile {
 			return compile::reTurn(*reTurn, info, scope);
 		}
 		if(auto exprstmt = as<ast::StatementExpression>(stmt)) {
-			const auto code = expression(*exprstmt->expression, info, scope);
+			const auto code = expression(*exprstmt->expression, info, scope, false);
 			std::stringstream ss;
 			ss << code.code;
 			ss << inst::scrap;
