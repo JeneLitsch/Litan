@@ -54,38 +54,27 @@ return
 
 :FX2_main_0
 makevar
-newi 0
+newf 0
 newref 0
 write
 makevar
 newi 1
 newref 1
 write
-:WHILE_BEGIN5
-newref 0
-read
-newi 7
-sml
-ifelse WHILE_END6
-newref 1
-read
-newi 2
-mlt
-newref 1
+makevar
+true
+ifelse IF_END5
+newi 42
+newref 2
 write
 null
 scrap
-newref 0
-read
-newi 1
-add
-newref 0
+:IF_END5
+makevar
+newi 1337
+newref 3
 write
-null
-scrap
-jump WHILE_BEGIN5
-:WHILE_END6
-newref 1
+newref 2
 read
 return
 null

@@ -59,6 +59,7 @@ namespace ltn::c::parse {
 		if(auto stmt = block(lexer)) return stmt;
 		if(auto stmt = ifElse(lexer)) return stmt;
 		if(auto stmt = whileLoop(lexer)) return stmt;
+		if(auto stmt = forLoop(lexer)) return stmt;
 		if(auto stmt = semicolon(lexer, newVar)) return stmt;
 		if(auto stmt = retrn(lexer)) return stmt;
 		return semicolon(lexer, expr);

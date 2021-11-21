@@ -15,6 +15,7 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Block> block(lex::Lexer & lexer);
 	std::unique_ptr<ast::IfElse> ifElse(lex::Lexer & lexer);
 	std::unique_ptr<ast::While> whileLoop(lex::Lexer & lexer);
+	std::unique_ptr<ast::For> forLoop(lex::Lexer & lexer);
 	
 	std::unique_ptr<ast::Expression> expression(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> condition(lex::Lexer & lexer);

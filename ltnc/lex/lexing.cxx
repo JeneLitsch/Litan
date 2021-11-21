@@ -57,6 +57,7 @@ namespace ltn::c::lex {
 		const static std::unordered_map<std::string_view, Token::Type> keywords{
 			{"function", 	Token::Type::FUNCTION},
 			{"while", 		Token::Type::WHILE},
+			{"for", 		Token::Type::FOR},
 			{"return", 		Token::Type::RETURN},
 			{"var", 		Token::Type::VAR},
 			{"if", 			Token::Type::IF},

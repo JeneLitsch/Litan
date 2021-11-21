@@ -50,6 +50,9 @@ namespace ltn::c::compile {
 		if(auto loop = as<ast::While>(stmt)) {
 			return compile::whileLoop(*loop, info, scope);
 		}
+		if(auto loop = as<ast::For>(stmt)) {
+			return compile::forLoop(*loop, info, scope);
+		}
 		if(auto newVar = as<ast::NewVar>(stmt)) {
 			return compile::newVar(*newVar, info, scope);
 		}

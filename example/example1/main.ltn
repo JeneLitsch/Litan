@@ -10,11 +10,10 @@ function add(a, b) {
 
 
 function main() {
-	var a = 0;
+	var a = 0.0;
 	var b = 1;
-	while(a < 7) {
-		b = b * 2;
-		a = a + 1;
-	}
-	return b;
+	var x;
+	if(true) x = 42;
+	var y = 1337;
+	return x;
 }

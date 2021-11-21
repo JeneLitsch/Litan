@@ -18,6 +18,19 @@ namespace ltn::c::ast {
 		const std::vector<std::unique_ptr<Statement>> statements;
 	};
 
+	struct NewVar : public Statement {
+		NewVar(
+			const std::string & name,
+			std::unique_ptr<Expression> right,
+			const lex::DebugInfo & debugInfo)
+			:	Statement(debugInfo),
+				name(name),
+				right(std::move(right)) {}
+		virtual ~NewVar() = default;
+		const std::string name;
+		const std::unique_ptr<Expression> right; 
+	};
+
 	struct IfElse : public Statement {
 		IfElse(
 			std::unique_ptr<Expression> condition,
@@ -34,6 +47,7 @@ namespace ltn::c::ast {
 		const std::unique_ptr<Statement> elseBranch;
 	};
 
+
 	struct While : public Statement {
 		While(
 			std::unique_ptr<Expression> condition,
@@ -45,6 +59,26 @@ namespace ltn::c::ast {
 
 		virtual ~While() = default;
 		const std::unique_ptr<Expression> condition;
+		const std::unique_ptr<Statement> body;
+	};
+
+	struct For : public Statement {
+		For(
+			std::unique_ptr<NewVar> var,
+			std::unique_ptr<Expression> from,
+			std::unique_ptr<Expression> to,
+			std::unique_ptr<Statement> body,
+			const lex::DebugInfo & debugInfo)
+			:	Statement(debugInfo),
+				var(std::move(var)),
+				from(std::move(from)),
+				to(std::move(to)),
+				body(std::move(body)) {}
+
+		virtual ~For() = default;
+		const std::unique_ptr<NewVar> var;
+		const std::unique_ptr<Expression> from;
+		const std::unique_ptr<Expression> to;
 		const std::unique_ptr<Statement> body;
 	};
 
@@ -68,16 +102,4 @@ namespace ltn::c::ast {
 		const std::unique_ptr<Expression> expression;
 	};
 
-	struct NewVar : public Statement {
-		NewVar(
-			const std::string & name,
-			std::unique_ptr<Expression> right,
-			const lex::DebugInfo & debugInfo)
-			:	Statement(debugInfo),
-				name(name),
-				right(std::move(right)) {}
-		virtual ~NewVar() = default;
-		const std::string name;
-		const std::unique_ptr<Expression> right; 
-	};
 }

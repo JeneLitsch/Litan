@@ -206,7 +206,7 @@ return
 null
 return
 makevar
-newi
+newf
 byte 0
 byte 0
 byte 0
@@ -245,26 +245,8 @@ byte 0
 byte 0
 byte 1
 write
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-read
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 7
-sml
+makevar
+true
 ifelse
 byte 0
 byte 0
@@ -273,18 +255,17 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 5d
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-read
+byte 17
 newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2a
+newref
 byte 0
 byte 0
 byte 0
@@ -293,29 +274,10 @@ byte 0
 byte 0
 byte 0
 byte 2
-mlt
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
 write
 null
 scrap
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-read
+makevar
 newi
 byte 0
 byte 0
@@ -323,9 +285,8 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 0
-byte 1
-add
+byte 5
+byte 39
 newref
 byte 0
 byte 0
@@ -334,19 +295,8 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 0
+byte 3
 write
-null
-scrap
-jump
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte f7
 newref
 byte 0
 byte 0
@@ -355,7 +305,7 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 1
+byte 2
 read
 return
 null
