@@ -1,12 +1,10 @@
 #include "compiling.hxx"
 
 namespace ltn::c::compile {
-	namespace {
-		auto makeJumpId(const std::string_view name, CompilerInfo & info) {
-			std::stringstream ss;
-			ss << name << info.jumpMarkCounter++;
-			return ss.str();
-		}
+	std::string makeJumpId(const std::string_view name, CompilerInfo & info) {
+		std::stringstream ss;
+		ss << name << info.jumpMarkCounter++;
+		return ss.str();
 	}
 
 	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope) {

@@ -27,10 +27,11 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::NewVar> newVar(lex::Lexer & lexer) {
 		if(lexer.match(TT::VAR)) {
 			auto name = parse::variableName(lexer);
-			if(auto && r = parse::assignR(lexer)) {
-				return std::make_unique<ast::NewVar>(name, std::move(r), lexer.debug());
-			} 
-			return std::make_unique<ast::NewVar>(name, nullptr, lexer.debug());
+			auto && r = parse::assignR(lexer);
+			return std::make_unique<ast::NewVar>(
+				name,
+				std::move(r),
+				lexer.debug());
 		}
 		return nullptr;
 	}

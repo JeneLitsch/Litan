@@ -27,7 +27,6 @@ namespace ltn::c::parse {
 			} 
 			return parameters;
 		}
-
 	}
 
 	// parses and returns a function node
@@ -35,10 +34,7 @@ namespace ltn::c::parse {
 		if(lexer.match(TT::FUNCTION)) {
 			const auto name = functionName(lexer);
 			const auto parameters = parameterList(lexer);
-			for(const auto param : parameters) {
-				std::cout << param << std::endl;
-			}
-			auto && body = statement(lexer); 
+			auto body = statement(lexer); 
 			return std::make_unique<ast::Function>(
 				name,
 				parameters,

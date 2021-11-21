@@ -47,6 +47,9 @@ namespace ltn::c::compile {
 		if(auto ifElse = as<ast::IfElse>(stmt)) {
 			return compile::ifElse(*ifElse, info, scope);
 		}
+		if(auto loop = as<ast::While>(stmt)) {
+			return compile::whileLoop(*loop, info, scope);
+		}
 		if(auto newVar = as<ast::NewVar>(stmt)) {
 			return compile::newVar(*newVar, info, scope);
 		}

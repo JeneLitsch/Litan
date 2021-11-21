@@ -23,6 +23,7 @@ namespace ltn::c::compile {
 		std::uint64_t & jumpMarkCounter; 
 	};
 
+	std::string makeJumpId(const std::string_view name, CompilerInfo & info);
 
 
 	std::string source(const ast::Source & source, CompilerInfo & info);
@@ -30,6 +31,7 @@ namespace ltn::c::compile {
 
 	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope);
+	StmtCode whileLoop(const ast::While & stmt, CompilerInfo & info, Scope & scope);
 
 	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope);
 	ExprCode binary(const ast::Binary & expr, CompilerInfo & info, Scope & scope);

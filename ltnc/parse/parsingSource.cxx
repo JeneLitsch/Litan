@@ -6,7 +6,6 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 	}
 
-
 	std::unique_ptr<ast::Source> source(lex::Lexer & lexer) {
 		std::vector<std::unique_ptr<ast::Function>> functions;
 		while(!lexer.match(TT::___EOF___)) {
@@ -14,7 +13,7 @@ namespace ltn::c::parse {
 				functions.push_back(std::move(fx));
 			}
 			else {
-				throw CompilerError("Not a function", lexer.inLine());
+				throw CompilerError("Exprected function", lexer.inLine());
 			}
 		}
 		return std::make_unique<ast::Source>(std::move(functions), lexer.debug());
