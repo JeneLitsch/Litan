@@ -6,7 +6,7 @@
 namespace ltn::vm {
 	class LtnVM {
 	public:
-		LtnVM(std::ostream & out = std::cout) : out(out) {}
+		LtnVM(std::ostream & ostream = std::cout) : ostream(ostream) {}
 		void setup(std::vector<std::uint8_t> code) {
 			this->byteCode = code;
 			this->pc = 0;
@@ -29,11 +29,11 @@ namespace ltn::vm {
 
 		void read(), write(), scrap(), makevar();
 
-		void ouT();
+		void out();
 
 		Stack stack;
 		Register reg;
-		std::reference_wrapper<std::ostream> out;
+		std::reference_wrapper<std::ostream> ostream;
 		std::vector<std::uint8_t> byteCode;
 		std::uint64_t pc;
 	};

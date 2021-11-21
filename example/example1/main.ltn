@@ -6,5 +6,12 @@ function fib(n) {
 
 
 function main() {
-	return ->fib(20);
+	var a = 4;
+	a = 42;
+	a = 1337;
+	var b = 0;
+	if(false) {
+		b = ->fib(10);
+	}
+	return a + b;
 }

@@ -19,7 +19,7 @@ namespace ltn::vm {
 	void LtnVM::exec() {
 		while(true) {
 			std::uint8_t inst = this->fetchByte();
-			out.get() << this->pc-1 << " : " << std::hex << "0x" << int(inst) << "\n" << std::dec; 
+			ostream.get() << this->pc-1 << " : " << std::hex << "0x" << int(inst) << "\n" << std::dec; 
 			switch (static_cast<Inst>(inst))
 			{
 			case Inst::ADD: add(); break;
@@ -53,7 +53,9 @@ namespace ltn::vm {
 			case Inst::IF: iF(); break;
 			case Inst::ERROR: error(); break;
 			case Inst::EXIT: {
-				this->out.get() << "Exit with code " << this->reg.pop().u << "\n";
+				this->ostream.get() << "Exit with code ";
+				this->out();
+				this->ostream.get() << "\n";
 				return;
 			}
 				
@@ -62,6 +64,8 @@ namespace ltn::vm {
 			case Inst::WRITE: write(); break;
 			case Inst::SCRAP: scrap(); break;
 			case Inst::MAKEVAR: makevar(); break;
+
+			case Inst::OUT: out(); break;
 			
 			default: {
 				std::stringstream ss;
@@ -71,9 +75,4 @@ namespace ltn::vm {
 			}
 		}
 	}
-
-	void LtnVM::ouT() {
-
-	}
-
 }

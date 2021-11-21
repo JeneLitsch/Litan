@@ -6,17 +6,22 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 
 		std::unique_ptr<ast::Assignable> assignable(lex::Lexer & lexer) {
-			return parse::variable(lexer);
+			if(auto name = lexer.match(TT::INDENTIFIER)) {
+				return std::make_unique<ast::Var>(name->str, lexer.debug());
+			}
+			return nullptr;
 		}
 	}
 	
 
 	std::unique_ptr<ast::Expression> assign(lex::Lexer & lexer) {
-		auto l = assignable(lexer);
-		if(auto r = assignR(lexer)) {
-			return std::make_unique<ast::Assign>(std::move(l), std::move(r), lexer.debug());
+		if(auto l = assignable(lexer)) {
+			if(auto r = assignR(lexer)) {
+				return std::make_unique<ast::Assign>(std::move(l), std::move(r), lexer.debug());
+			}
+			return l;
 		}
-		return l;
+		return parse::expression(lexer); 
 	}
 
 	std::unique_ptr<ast::Expression> assignR(lex::Lexer & lexer) {

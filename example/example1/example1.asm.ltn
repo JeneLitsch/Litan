@@ -37,8 +37,38 @@ null
 return
 
 :FX1_main_0
-newi 20
+makevar
+newi 4
+newref 0
+write
+newi 42
+newref 0
+write
+null
+scrap
+newi 1337
+newref 0
+write
+null
+scrap
+makevar
+newi 0
+newref 1
+write
+false
+ifelse IF_END4
+newi 10
 call FX0_fib_1
+newref 1
+write
+null
+scrap
+:IF_END4
+newref 0
+read
+newref 1
+read
+add
 return
 null
 return

@@ -52,8 +52,8 @@ namespace ltn::c::compile {
 		if(auto expr_ = as<ast::Float>(expr)) 	return floating(*expr_);
 		if(auto expr_ = as<ast::Bool>(expr)) 	return boolean(*expr_);
 		if(auto expr_ = as<ast::New>(expr)) 	return newvalue(*expr_);
-		if(auto expr_ = as<ast::Var>(expr)) 	return readVar(*expr_, scope);
 		if(auto expr_ = as<ast::Call>(expr)) 	return callFx(*expr_, info, scope);
+		if(auto expr_ = as<ast::Var>(expr)) 	return readVar(*expr_, scope);
 		throw CompilerError{"Unknown primary expression", expr.debugInfo.line};
 	}
 }
