@@ -24,8 +24,14 @@ namespace ltn::c::compile {
 			return ExprCode{ ss.str(), false, true};
 		}
 
-		ExprCode array(const ast::Array &) {
-			return ExprCode{ std::string(inst::newarr), false, true};
+		ExprCode array(const ast::Array & array, CompilerInfo & info, Scope & scope) {
+			std::stringstream ss;
+			ss << inst::newarr;
+			for(const auto & elem : array.initElements) {
+				ss << expression(*elem, info, scope).code;
+				ss << inst::elem;
+			}
+			return ExprCode{ ss.str(), false, true};
 		}
 
 		ExprCode readVar(const ast::Var & expr, Scope & scope) {
@@ -58,7 +64,7 @@ namespace ltn::c::compile {
 		if(auto expr_ = as<ast::Float>(expr)) 	return floating(*expr_);
 		if(auto expr_ = as<ast::Bool>(expr)) 	return boolean(*expr_);
 		if(auto expr_ = as<ast::String>(expr)) 	return string(*expr_);
-		if(auto expr_ = as<ast::Array>(expr)) 	return array(*expr_);
+		if(auto expr_ = as<ast::Array>(expr)) 	return array(*expr_, info, scope);
 		if(auto expr_ = as<ast::Call>(expr)) 	return callFx(*expr_, info, scope);
 		if(auto expr_ = as<ast::Var>(expr)) 	return readVar(*expr_, scope);
 		throw CompilerError{"Unknown primary expression", expr.debugInfo.line};

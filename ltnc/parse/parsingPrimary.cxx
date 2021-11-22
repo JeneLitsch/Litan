@@ -48,16 +48,31 @@ namespace ltn::c::parse {
 			return nullptr;
 		}
 
+		std::unique_ptr<ast::Literal> array(lex::Lexer & lexer) {
+			std::vector<std::unique_ptr<ast::Expression>> initElements;
+			if(!lexer.match(TT::BRACKET_R)) {
+				while(true) {
+					if(lexer.match(TT::___EOF___)) {
+						throw CompilerError{"Expected ]", lexer.inLine()};
+					}
+					initElements.push_back(expression(lexer));
+					if(lexer.match(TT::BRACKET_R)) break;
+					if(!lexer.match(TT::COMMA)) {
+						throw CompilerError{"Expected ,", lexer.inLine()};
+					}
+				}
+			}
+			return std::make_unique<ast::Array>(
+				std::move(initElements),
+				lexer.debug());
+		}
 
 		std::unique_ptr<ast::Literal> newObject(lex::Lexer & lexer) {
 			if(auto token = lexer.match(TT::STRING)) {
 				return std::make_unique<ast::String>(token->str, lexer.debug()); 
 			}
 			if(lexer.match(TT::BRACKET_L)) {
-				if(auto type = lexer.match(TT::BRACKET_R)) {
-					return std::make_unique<ast::Array>(lexer.debug());
-				}
-				throw CompilerError{"Expected ]", lexer.inLine()};
+				return array(lexer);
 			}
 			return nullptr;
 		}

@@ -15,13 +15,13 @@ std::uint64_t ltn::vm::Heap::alloc(const HeapObject & object) {
 	if(reuse.empty()) {
 		const std::uint64_t addr = this->objects.size();
 		this->objects.push_back(object);
-		return addr + 1;
+		return addr;
 	}
 	else {
 		std::uint64_t addr = this->reuse.front();
 		this->reuse.pop();
 		this->objects[addr] = object;
-		return addr + 1;
+		return addr;
 	}
 }
 
@@ -34,13 +34,10 @@ std::uint64_t ltn::vm::Heap::allocArray() {
 }
 
 ltn::vm::HeapObject & ltn::vm::Heap::get(std::uint64_t addr) {
-	if(addr == 0) {
-		throw accessViolation(addr, "nullptr");
-	}
 	if(addr > this->objects.size()) {
 		throw accessViolation(addr, "");
 	}
-	return this->objects[addr-1];
+	return this->objects[addr];
 }
 
 ltn::vm::String & ltn::vm::Heap::readString(std::uint64_t addr) {

@@ -41,8 +41,12 @@ namespace ltn::c::ast {
 
 	struct Array : public Literal {
 	public:
-		Array(const lex::DebugInfo & debugInfo)
-			:	Literal(debugInfo) {}
+		Array(
+			std::vector<std::unique_ptr<Expression>> && initElements,
+			const lex::DebugInfo & debugInfo)
+			:	Literal(debugInfo),
+			initElements(std::move(initElements)) {}
 		virtual ~Array() = default;
+		std::vector<std::unique_ptr<Expression>> initElements;
 	};
 }

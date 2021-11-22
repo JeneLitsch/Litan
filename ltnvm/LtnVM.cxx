@@ -50,6 +50,7 @@ namespace ltn::vm {
 			case Inst::NEWSTR: newstr(); break;
 			case Inst::NVLL: null(); break;
 			case Inst::CHAR: ch4r(); break;
+			case Inst::ELEM: elem(); break;
 
 			case Inst::JUMP: jump(); break;
 			case Inst::CALL: call(); break;

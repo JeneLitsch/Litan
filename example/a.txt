@@ -52,6 +52,49 @@ byte 0
 byte 0
 byte 0
 byte 0
+byte 0
+read
+elem
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2
+elem
+newarr
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2a
+elem
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 5
+byte 39
+elem
+elem
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
 byte 1
 write
 addr

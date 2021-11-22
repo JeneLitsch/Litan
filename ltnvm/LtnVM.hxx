@@ -24,14 +24,13 @@ namespace ltn::vm {
 		
 		void neg(), n0t(), inc(), dec();
 
-		void newi(), newf(), newu(), addr(), truE(), falsE(), newarr(), newstr(), null(), ch4r();
+		void newi(), newf(), newu(), addr(), truE(), falsE(), newarr(), newstr(), null(), ch4r(), elem();
 
 		void jump(), call(), reTurn(), iF(), error();
 
 		void read(), write(), scrap(), makevar();
 
-		void out(); 
-
+		void out();
 
 		void outValue(const Value & value);
 

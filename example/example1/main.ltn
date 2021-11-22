@@ -6,6 +6,6 @@
 
 function main() {
 	var str = "Hello World";
-	var arr = [];
+	var arr = [str, 2, [42, 1337]];
 	return arr;
 }

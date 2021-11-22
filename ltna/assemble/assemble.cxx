@@ -31,6 +31,7 @@ namespace ltn::a::assemble {
 			{"newstr", Inst::NEWSTR},
 			{"null", Inst::NVLL},
 			{"char", Inst::CHAR},
+			{"elem", Inst::ELEM},
 
 			{"jump", Inst::JUMP},
 			{"call", Inst::CALL},

@@ -19,6 +19,17 @@ addr 0
 write
 makevar
 newarr
+addr 0
+read
+elem
+newi 2
+elem
+newarr
+newi 42
+elem
+newi 1337
+elem
+elem
 addr 1
 write
 addr 1

@@ -36,7 +36,13 @@ namespace ltn::vm {
 	void LtnVM::ch4r() {
 		const auto chr = this->fetchByte();
 		const auto ptr = this->reg.peek();
-		std::string & str = this->heap.readString(ptr.u);
+		auto & str = this->heap.readString(ptr.u);
 		str.push_back(static_cast<char>(chr));
+	}
+	void LtnVM::elem() {
+		const auto value = this->reg.pop();
+		const auto ptr = this->reg.peek();
+		auto & arr = this->heap.readArray(ptr.u);
+		arr.push_back(value);
 	}
 }
