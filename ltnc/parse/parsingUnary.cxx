@@ -6,16 +6,6 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 		using OP = ltn::c::ast::Unary::Type;
 
-		std::unique_ptr<ast::Expression> index(lex::Lexer & lexer) {
-			if(lexer.match(TT::BRACKET_L)) {
-				auto index = expression(lexer);
-				if(lexer.match(TT::BRACKET_R)) {
-					return index;
-				}
-				throw CompilerError{"Missing ]", lexer.inLine()};
-			}
-			return nullptr;
-		}
 
 		std::unique_ptr<ast::Expression> unaryR(
 			lex::Lexer & lexer,
@@ -32,6 +22,16 @@ namespace ltn::c::parse {
 		}
 	}
 
+	std::unique_ptr<ast::Expression> index(lex::Lexer & lexer) {
+		if(lexer.match(TT::BRACKET_L)) {
+			auto index = expression(lexer);
+			if(lexer.match(TT::BRACKET_R)) {
+				return index;
+			}
+			throw CompilerError{"Missing ]", lexer.inLine()};
+		}
+		return nullptr;
+	}
 
 	std::unique_ptr<ast::Expression> unary(lex::Lexer & lexer) {
 		if(lexer.match(TT::MINUS)) {

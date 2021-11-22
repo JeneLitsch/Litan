@@ -24,7 +24,26 @@ namespace ltn::vm {
 		const auto indexable = this->reg.pop();
 		if(indexable.type == Value::Type::ARRAY) {
 			const auto & arr = heap.readArray(indexable.u);
+			if(index.u >= arr.size()) {
+				throw std::runtime_error{"Array out range"};
+			}
 			this->reg.push(arr[index.u]);
+			return;
 		}
+		throw std::runtime_error{"Not an indexable type"};
+	}
+	void LtnVM::at_write() {
+		const auto index = this->reg.pop();
+		const auto indexable = this->reg.pop();
+		const auto value = this->reg.pop();
+		if(indexable.type == Value::Type::ARRAY) {
+			auto & arr = heap.readArray(indexable.u);
+			if(index.u >= arr.size()) {
+				throw std::runtime_error{"Array out range"};
+			}
+			arr[index.u] = value;
+			return;
+		}
+		throw std::runtime_error{"Not an indexable type"};
 	}
 }

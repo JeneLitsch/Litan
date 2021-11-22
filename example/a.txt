@@ -9,42 +9,9 @@ byte 0
 byte a
 exit
 makevar
-newstr
-char
-byte 48
-char
-byte 65
-char
-byte 6c
-char
-byte 6c
-char
-byte 6f
-char
-byte 20
-char
-byte 57
-char
-byte 6f
-char
-byte 72
-char
-byte 6c
-char
-byte 64
-addr
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-write
-makevar
 newarr
-addr
+newarr
+newi
 byte 0
 byte 0
 byte 0
@@ -52,8 +19,8 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 0
-read
+byte 1
+elem
 elem
 newi
 byte 0
@@ -65,7 +32,26 @@ byte 0
 byte 0
 byte 2
 elem
-newarr
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 3
+elem
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+write
 newi
 byte 0
 byte 0
@@ -75,18 +61,6 @@ byte 0
 byte 0
 byte 0
 byte 2a
-elem
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 5
-byte 39
-elem
-elem
 addr
 byte 0
 byte 0
@@ -95,17 +69,7 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 1
-write
-addr
 byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
 read
 newi
 byte 0
@@ -115,7 +79,39 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 2
+byte 0
+at
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+at_write
+null
+scrap
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+read
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
 at
 return
 null

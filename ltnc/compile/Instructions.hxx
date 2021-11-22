@@ -46,6 +46,7 @@ namespace ltn::c::compile::inst {
 	const std::string_view scrap = "scrap\n";
 	const std::string_view makevar = "makevar\n";
 	const std::string_view at = "at\n";
+	const std::string_view at_write = "at_write\n";
 	
 	const std::string byte(std::uint8_t byte);
 }

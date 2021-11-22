@@ -5,9 +5,6 @@ namespace ltn::c::compile {
 		ExprCode assign(const ast::Assign & expr, CompilerInfo & info, Scope & scope) {
 			const auto l = compile::assignable(*expr.l, info, scope);
 			const auto r = compile::expression(*expr.r, info, scope);
-			if(!l.assignable) {
-				throw CompilerError{"Left side must be assignable", expr.debugInfo.line};
-			}
 			std::stringstream ss;
 			ss << r.code;
 			ss << l.code;

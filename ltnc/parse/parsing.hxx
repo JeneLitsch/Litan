@@ -20,6 +20,7 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Expression> expression(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> condition(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> unary(lex::Lexer & lexer);
+	std::unique_ptr<ast::Expression> index(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> primary(lex::Lexer & lexer);
 	std::unique_ptr<ast::Var> variable(lex::Lexer & lexer);
 

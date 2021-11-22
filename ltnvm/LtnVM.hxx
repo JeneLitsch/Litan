@@ -28,11 +28,10 @@ namespace ltn::vm {
 
 		void jump(), call(), reTurn(), iF(), error();
 
-		void read(), write(), scrap(), makevar();
+		void read(), write(), scrap(), makevar(), at(), at_write();
 
 		void out();
 
-		void at();
 
 		void outValue(const Value & value);
 

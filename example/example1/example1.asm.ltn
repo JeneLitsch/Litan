@@ -3,38 +3,29 @@ exit
 
 :FX0_main_0
 makevar
-newstr
-char 48
-char 65
-char 6c
-char 6c
-char 6f
-char 20
-char 57
-char 6f
-char 72
-char 6c
-char 64
-addr 0
-write
-makevar
 newarr
-addr 0
-read
+newarr
+newi 1
+elem
 elem
 newi 2
 elem
-newarr
+newi 3
+elem
+addr 0
+write
 newi 42
-elem
-newi 1337
-elem
-elem
-addr 1
-write
-addr 1
+addr 0
 read
-newi 2
+newi 0
+at
+newi 0
+at_write
+null
+scrap
+addr 0
+read
+newi 0
 at
 return
 null

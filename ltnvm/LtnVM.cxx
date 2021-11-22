@@ -71,8 +71,9 @@ namespace ltn::vm {
 			case Inst::MAKEVAR: makevar(); break;
 
 			case Inst::OUT: out(); break;
-			
+
 			case Inst::AT: at(); break;
+			case Inst::AT_WRITE: at_write(); break;
 			
 			default: {
 				std::stringstream ss;

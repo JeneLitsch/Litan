@@ -7,7 +7,17 @@ namespace ltn::c::compile {
 			std::stringstream ss;
 			ss << addr.code;
 			ss << inst::write;
-			return ExprCode{ss.str(), true, false};
+			return ExprCode{ss.str(), false, false};
+		}
+
+		ExprCode writeIndex(const ast::Index & expr, CompilerInfo & info, Scope & scope) {
+			const auto arr = expression(*expr.expression, info, scope);
+			const auto idx = expression(*expr.index, info, scope);
+			std::stringstream ss;
+			ss << arr.code;
+			ss << idx.code;
+			ss << inst::at_write;
+			return ExprCode{ss.str(), false, false};
 		}
 	}
 
@@ -18,9 +28,12 @@ namespace ltn::c::compile {
 		return ExprCode{ss.str(), true, false};
 	}
 
-	ExprCode assignable(const ast::Assignable & expr, CompilerInfo &, Scope & scope) {
+	ExprCode assignable(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
 		if(auto expr_ = as<ast::Var>(expr)) {
 			return writeVar(*expr_, scope);
+		}
+		if(auto expr_ = as<ast::Index>(expr)) {
+			return writeIndex(*expr_, info, scope);
 		}
 		throw std::runtime_error{"Unknow assingable type"};
 	}

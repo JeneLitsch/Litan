@@ -2,10 +2,16 @@
 // 	if(n <= 0) return 0;
 // 	if(n == 1) return 1;
 // 	return ->fib(n - 1) + ->fib(n - 2);
+// }#
+
+// function fx() {
+// 	var str = "Hello World";
+// 	var arr = [str, 2, [42, 1337]];
+// 	return arr;
 // }
 
 function main() {
-	var str = "Hello World";
-	var arr = [str, 2, [42, 1337]];
-	return arr[2];
+	var arr = [[1], 2, 3];
+	arr[0][0] = 42;
+	return arr[0];
 }

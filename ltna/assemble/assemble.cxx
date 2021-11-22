@@ -45,6 +45,7 @@ namespace ltn::a::assemble {
 			{"scrap", Inst::SCRAP},
 			{"makevar", Inst::MAKEVAR},
 			{"at", Inst::AT},
+			{"at_write", Inst::AT_WRITE},
 			
 			{"out", Inst::OUT},
 		};
