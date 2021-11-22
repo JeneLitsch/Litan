@@ -4,9 +4,6 @@
 namespace ltn::a::expand {
 	namespace {
 
-
-
-
 		auto toBytes(std::uint64_t value) {
 			std::array<std::uint8_t, 8> bytes;
 			for(std::uint8_t & byte : bytes) {
@@ -43,8 +40,8 @@ namespace ltn::a::expand {
 			std::string inst;
 			ls >> inst;
 
-			if(inst == "newref") {
-				out << expandLiteral<std::uint64_t>(ls, "newref");
+			if(inst == "addr") {
+				out << expandLiteral<std::uint64_t>(ls, "addr");
 				return;
 			}
 			if(inst == "newu") {
@@ -69,6 +66,14 @@ namespace ltn::a::expand {
 			}
 			if(inst == "ifelse") {
 				out << expandLiteral<std::uint64_t>(ls, "ifelse");
+				return;
+			}
+			if(inst == "char") {
+				ls >> std::ws;
+				std::string chr;
+				ls >> chr;
+				out << "char\n";
+				out	<< "byte " << std::hex << chr << "\n";
 				return;
 			}
 			if(line != "") {

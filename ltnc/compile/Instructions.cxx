@@ -49,9 +49,9 @@ namespace ltn::c::compile::inst {
 		return ss.str();
 	}
 
-	const std::string newref(std::uint64_t value) {
+	const std::string addr(std::uint64_t value) {
 		std::stringstream ss;
-		ss << "newref " << value << "\n";
+		ss << "addr " << value << "\n";
 		return ss.str();
 	}
 
@@ -60,5 +60,12 @@ namespace ltn::c::compile::inst {
 		ss << "ifelse " << to << "\n";
 		return ss.str();
 	}
+
+	const std::string ch4r(char chr) {
+		std::stringstream ss;
+		ss << "char " << std::hex << static_cast<int>(chr) << "\n";
+		return ss.str();
+	}
+
 
 }

@@ -37,12 +37,12 @@ namespace ltn::c::compile {
 		// Init
 		ss << var.code;
 		ss << from.code;
-		ss << inst::newref(iVar);
+		ss << inst::addr(iVar);
 		ss << inst::write;
 
 		// Condition
 		ss << inst::jumpmark(begin);
-		ss << inst::newref(iVar);
+		ss << inst::addr(iVar);
 		ss << inst::read;
 		ss << to.code;
 		ss << inst::sml;
@@ -52,10 +52,10 @@ namespace ltn::c::compile {
 		ss << body.code;
 
 		// Increments
-		ss << inst::newref(iVar);
+		ss << inst::addr(iVar);
 		ss << inst::read;
 		ss << inst::inc;
-		ss << inst::newref(iVar);
+		ss << inst::addr(iVar);
 		ss << inst::write;
 
 		// End of loop

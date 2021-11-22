@@ -13,8 +13,8 @@ namespace ltn::vm {
 	void LtnVM::newu(){
 		this->reg.push(Value{this->fetchUint(), Value::Type::NVLL});
 	}
-	void LtnVM::newref(){
-		this->reg.push(Value{this->fetchUint(), Value::Type::REF});
+	void LtnVM::addr(){
+		this->reg.push(Value{this->fetchUint(), Value::Type::ADDR});
 	}
 	void LtnVM::truE(){
 		this->reg.push(Value{true, Value::Type::BOOL});

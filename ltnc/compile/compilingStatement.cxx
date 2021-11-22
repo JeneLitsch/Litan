@@ -27,7 +27,7 @@ namespace ltn::c::compile {
 		}
 		
 	}
-	
+
 	StmtCode newVar(const ast::NewVar & newVar, CompilerInfo & info, Scope & scope) {
 		const auto addr = scope.insert(newVar.name, newVar.debugInfo.line);
 		std::stringstream ss;
@@ -35,7 +35,7 @@ namespace ltn::c::compile {
 		if(newVar.right) {
 			const auto expr = compile::expression(*newVar.right, info, scope);
 			ss << expr.code;
-			ss << inst::newref(addr);
+			ss << inst::addr(addr);
 			ss << inst::write;
 		}
 		return {ss.str()};

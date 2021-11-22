@@ -10,7 +10,7 @@ namespace ltn::c::compile {
 		for(const auto & param : fx.parameters) {
 			const auto addr = scope.insert(param, fx.debugInfo.line);
 			ss << inst::makevar;
-			ss << inst::newref(addr);
+			ss << inst::addr(addr);
 			ss << inst::write;
 		}
 		if(fx.body) {

@@ -49,6 +49,13 @@ namespace ltn::c::parse {
 			return nullptr;
 		}
 
+		std::unique_ptr<ast::String> string(lex::Lexer & lexer) {
+			if(auto token = lexer.match(TT::STRING)) {
+				return std::make_unique<ast::String>(token->str, lexer.debug()); 
+			}
+			return nullptr;
+		}
+
 		std::unique_ptr<ast::New> newObject(lex::Lexer & lexer) {
 			if(lexer.match(TT::NEW)) {
 				if(auto type = lexer.match(TT::INDENTIFIER)) {
@@ -104,6 +111,7 @@ namespace ltn::c::parse {
 		if(auto expr = integer(lexer)) return expr;
 		if(auto expr = floating(lexer)) return expr;
 		if(auto expr = boolean(lexer)) return expr;
+		if(auto expr = string(lexer)) return expr;
 		if(auto expr = paren(lexer)) return expr;
 		if(auto expr = newObject(lexer)) return expr;
 		if(auto expr = call(lexer)) return expr;

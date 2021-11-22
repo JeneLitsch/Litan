@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include "ltnc/CompilerError.hxx"
 #include "WS.hxx"
+#include <sstream>
 
 namespace ltn::c::lex {
 	namespace {
@@ -49,7 +50,11 @@ namespace ltn::c::lex {
 		}
 
 		void comment(std::istream & in, std::size_t & line) {
-			while(in.peek() != '\n' && !isAtEnd(in)) {
+			while(!isAtEnd(in)) {
+				if(in.peek() == '\n') {
+					line++;
+					return;	
+				}
 				in.ignore();
 			}
 		}
@@ -67,6 +72,41 @@ namespace ltn::c::lex {
 			{"true", 		Token::Type::TRUE},
 			{"false", 		Token::Type::FALSE},
 		};
+
+		char deEscape(auto chr, std::size_t & line) {
+			switch (chr) {
+			case 'n': return '\n';
+			case 't': return '\t';
+			case '\\': return '\\';
+			case '"': return '"';
+			default: break;
+			}
+			throw CompilerError{"Invalid escape sequence", line};
+		}
+
+
+		std::string string(std::istream & in, std::size_t & line) {
+			std::stringstream ss;
+			while(!in.eof()) {
+				const auto chr = static_cast<char>(in.get());
+				if(chr == '"') {
+					return ss.str();
+				}
+				if(chr == '\n') {
+					throw CompilerError{"Newline needs to be escaped \\n", line};
+				}
+				if(chr == '\t') {
+					throw CompilerError{"Tab needs to be escaped \\t", line};
+				}
+				if(chr == '\\') {
+					ss << deEscape(in.get(), line);
+				}
+				else {
+					ss << chr;
+				}
+			}
+			throw CompilerError{"Unterminated string", line};
+		}
 	}
 	
 	Token token(std::istream & in, std::size_t & line) {
@@ -115,6 +155,11 @@ namespace ltn::c::lex {
 		if(match(in, '!')) {
 			if(match(in, '=')) return {Token::Type::UNEQUAL, "!="};
 			return {Token::Type::NOT, "!"};
+		}
+
+		if(match(in, '"')) {
+			const auto str = string(in, line);
+			return {Token::Type::STRING, str};
 		}
 
 		if(checkAlpha(in)) {

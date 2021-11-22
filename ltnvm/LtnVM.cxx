@@ -43,11 +43,12 @@ namespace ltn::vm {
 			case Inst::NEWI: newi(); break;
 			case Inst::NEWF: newf(); break;
 			case Inst::NEWU: newu(); break;
-			case Inst::NEWREF: newref(); break;
+			case Inst::ADDR: addr(); break;
 			case Inst::TRUE: truE(); break;
 			case Inst::FALSE: falsE(); break;
 			case Inst::NEWARR: newarr(); break;
 			case Inst::NVLL: null(); break;
+			case Inst::CHAR: ch4r(); break;
 
 			case Inst::JUMP: jump(); break;
 			case Inst::CALL: call(); break;
@@ -55,7 +56,7 @@ namespace ltn::vm {
 			case Inst::IF: iF(); break;
 			case Inst::ERROR: error(); break;
 			case Inst::EXIT: {
-				this->ostream.get() << "Exit with code ";
+				this->ostream.get() << "Exit main() with return value: ";
 				this->out();
 				this->ostream.get() << "\n";
 				return;
@@ -69,6 +70,10 @@ namespace ltn::vm {
 
 			case Inst::OUT: out(); break;
 			
+			case Inst::ALLOC_STR: allocStr(); break;
+			case Inst::ALLOC_ARR: allocArr(); break;
+
+
 			default: {
 				std::stringstream ss;
 				ss << "Illegal Instruction: " << std::hex << int(inst) << std::dec;

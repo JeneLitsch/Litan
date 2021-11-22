@@ -3,18 +3,18 @@
 namespace ltn::c::compile {
 	namespace {
 		ExprCode writeVar(const ast::Var & expr, Scope & scope) {
-			const auto ref = varRef(expr, scope);
+			const auto addr = compile::addr(expr, scope);
 			std::stringstream ss;
-			ss << ref.code;
+			ss << addr.code;
 			ss << inst::write;
 			return ExprCode{ss.str(), true, false};
 		}
 	}
 
-	ExprCode varRef(const ast::Var & expr, Scope & scope) {
+	ExprCode addr(const ast::Var & expr, Scope & scope) {
 		const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
 		std::stringstream ss;
-		ss << inst::newref(addr);
+		ss << inst::addr(addr);
 		return ExprCode{ss.str(), true, false};
 	}
 

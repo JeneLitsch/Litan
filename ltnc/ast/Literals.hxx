@@ -31,5 +31,11 @@ namespace ltn::c::ast {
 		const bool value;
 	};
 
-	
+	struct String : public Literal {
+	public:
+		String(const std::string & value, const lex::DebugInfo & debugInfo)
+			:	Literal(debugInfo), value(value) {}
+		virtual ~String() = default;
+		const std::string value;
+	};
 }

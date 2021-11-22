@@ -3,6 +3,7 @@
 #include "Register.hxx"
 #include <iostream>
 #include <functional>
+#include "Heap.hxx"
 namespace ltn::vm {
 	class LtnVM {
 	public:
@@ -23,7 +24,7 @@ namespace ltn::vm {
 		
 		void neg(), n0t(), inc(), dec();
 
-		void newi(), newf(), newu(), newref(), truE(), falsE(), newarr(), null();
+		void newi(), newf(), newu(), addr(), truE(), falsE(), newarr(), null(), ch4r();
 
 		void jump(), call(), reTurn(), iF(), error();
 
@@ -31,8 +32,11 @@ namespace ltn::vm {
 
 		void out();
 
+		void allocStr(), allocArr();
+
 		Stack stack;
 		Register reg;
+		Heap heap;
 		std::reference_wrapper<std::ostream> ostream;
 		std::vector<std::uint8_t> byteCode;
 		std::uint64_t pc;

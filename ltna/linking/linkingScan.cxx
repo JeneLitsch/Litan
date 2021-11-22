@@ -10,8 +10,9 @@ namespace ltn::a::linking {
 				{"newf", 9},
 				{"jump", 9},
 				{"call", 9},
-				{"newref", 9},
+				{"addr", 9},
 				{"ifelse", 9},
+				{"char", 2},
 			};
 			if(sizeTable.contains(inst)) {
 				return sizeTable.at(inst);

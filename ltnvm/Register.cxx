@@ -10,3 +10,7 @@ ltn::vm::Value ltn::vm::Register::pop() {
 void ltn::vm::Register::push(ltn::vm::Value value) {
 	this->stack.push_back(value);
 }
+
+ltn::vm::Value ltn::vm::Register::peek() {
+	return this->stack.back();
+}

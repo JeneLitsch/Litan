@@ -24,11 +24,12 @@ namespace ltn::a::assemble {
 			{"newu", Inst::NEWU},
 			{"newi", Inst::NEWI},
 			{"newf", Inst::NEWF},
-			{"newref", Inst::NEWREF},
+			{"addr", Inst::ADDR},
 			{"true", Inst::TRUE},
 			{"false", Inst::FALSE},
 			{"newarr", Inst::NEWARR},
 			{"null", Inst::NVLL},
+			{"char", Inst::CHAR},
 
 			{"jump", Inst::JUMP},
 			{"call", Inst::CALL},
@@ -43,6 +44,9 @@ namespace ltn::a::assemble {
 			{"makevar", Inst::MAKEVAR},
 			
 			{"out", Inst::OUT},
+
+			{"alloc_str", Inst::ALLOC_STR},
+			{"alloc_arr", Inst::ALLOC_ARR},
 		};
 
 

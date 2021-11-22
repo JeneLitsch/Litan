@@ -9,16 +9,30 @@ byte 0
 byte a
 exit
 makevar
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-newref
+alloc_str
+char
+byte 48
+char
+byte 65
+char
+byte 6c
+char
+byte 6c
+char
+byte 6f
+char
+byte 20
+char
+byte 57
+char
+byte 6f
+char
+byte 72
+char
+byte 6c
+char
+byte 64
+addr
 byte 0
 byte 0
 byte 0
@@ -28,119 +42,7 @@ byte 0
 byte 0
 byte 0
 write
-makevar
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-write
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-read
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte b
-sml
-ifelse
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 8e
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-read
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-read
-add
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-write
-null
-scrap
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-read
-inc
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-write
-jump
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 32
-newref
+addr
 byte 0
 byte 0
 byte 0

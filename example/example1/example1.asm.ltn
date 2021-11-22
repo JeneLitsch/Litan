@@ -3,36 +3,21 @@ exit
 
 :FX0_main_0
 makevar
-newi 0
-newref 0
+alloc_str
+char 48
+char 65
+char 6c
+char 6c
+char 6f
+char 20
+char 57
+char 6f
+char 72
+char 6c
+char 64
+addr 0
 write
-makevar
-newi 0
-newref 1
-write
-:FOR_BEGIN1
-newref 1
-read
-newi 11
-sml
-ifelse FOR_END2
-newref 0
-read
-newref 1
-read
-add
-newref 0
-write
-null
-scrap
-newref 1
-read
-inc
-newref 1
-write
-jump FOR_BEGIN1
-:FOR_END2
-newref 0
+addr 0
 read
 return
 null

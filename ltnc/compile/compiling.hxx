@@ -42,5 +42,5 @@ namespace ltn::c::compile {
 
 	ExprCode assignable(const ast::Assignable & expr, CompilerInfo & info, Scope & scope);
 
-	ExprCode varRef(const ast::Var & expr, Scope & scope);
+	ExprCode addr(const ast::Var & expr, Scope & scope);
 }	

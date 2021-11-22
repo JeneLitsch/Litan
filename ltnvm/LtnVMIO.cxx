@@ -21,13 +21,19 @@ namespace ltn::vm {
 			this->ostream.get() << "null";
 			break;
 
-		case Value::Type::REF:
-			this->ostream.get() << "ref:" << value.u;
+		case Value::Type::ADDR:
+			this->ostream.get() << "addr:" << value.u;
 			break;
 
 		case Value::Type::ARRAY:
 			this->ostream.get() << "array:" << value.u;
 			break;
+
+		case Value::Type::STRING: {
+			const std::string & str = this->heap.readString(value.u);
+			this->ostream.get() << str;
+
+		} break;
 		}
 	}
 }

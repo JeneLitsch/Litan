@@ -12,7 +12,7 @@ namespace ltn::vm {
 		return val.type == Value::Type::BOOL;
 	}
 
-	inline bool isRef(const Value & val) {
-		return val.type == Value::Type::REF;
+	inline bool isAddr(const Value & val) {
+		return val.type == Value::Type::ADDR;
 	}
 }
