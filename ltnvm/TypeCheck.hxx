@@ -15,4 +15,12 @@ namespace ltn::vm {
 	inline bool isAddr(const Value & val) {
 		return val.type == Value::Type::ADDR;
 	}
+
+	inline bool isStr(const Value & val) {
+		return val.type == Value::Type::STRING;
+	}
+
+	inline bool isArr(const Value & val) {
+		return val.type == Value::Type::ARRAY;
+	}
 }

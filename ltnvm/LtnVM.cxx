@@ -19,7 +19,7 @@ namespace ltn::vm {
 	void LtnVM::exec() {
 		while(true) {
 			std::uint8_t inst = this->fetchByte();
-			ostream.get() << this->pc-1 << " : " << std::hex << "0x" << int(inst) << "\n" << std::dec; 
+			// ostream.get() << this->pc-1 << " : " << std::hex << "0x" << int(inst) << "\n" << std::dec; 
 			switch (static_cast<Inst>(inst))
 			{
 			case Inst::ADD: add(); break;

@@ -10,12 +10,12 @@ namespace ltn::vm {
 
 	void LtnVM::jump() {
 		const auto addr = this->fetchUint(); 
-		this->ostream.get() << "Jump: " << std::hex << addr << "\n" << std::dec;
+		// this->ostream.get() << "Jump: " << std::hex << addr << "\n" << std::dec;
 		this->pc = addr;
 	}
 	void LtnVM::call() {
 		const auto addr = this->fetchUint(); 
-		this->ostream.get() << "Call: " << std::hex << addr << "\n" << std::dec;
+		// this->ostream.get() << "Call: " << std::hex << addr << "\n" << std::dec;
 		this->stack.pushFrame(this->pc);
 		this->pc = addr;
 	}

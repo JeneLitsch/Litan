@@ -25,10 +25,12 @@ namespace ltn::vm {
 	void LtnVM::newarr(){
 		const auto ptr = this->heap.allocArray();
 		this->reg.push({ ptr, Value::Type::ARRAY });
+		this->heap.collectGarbage(this->stack, this->reg);
 	}
 	void LtnVM::newstr() {
 		const auto ptr = this->heap.allocString();
 		this->reg.push({ ptr, Value::Type::STRING });
+		this->heap.collectGarbage(this->stack, this->reg);
 	}
 	void LtnVM::null() {
 		this->reg.push(Value{false, Value::Type::NVLL});

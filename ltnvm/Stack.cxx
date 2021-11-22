@@ -33,3 +33,6 @@ std::uint64_t ltn::vm::Stack::popFrame() {
 	return jumpBack;
 }
 
+const std::vector<ltn::vm::Value> & ltn::vm::Stack::getContainer() const {
+	return this->stack;
+}

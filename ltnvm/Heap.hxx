@@ -11,7 +11,7 @@ namespace ltn::vm {
 	using String = std::string;
 	struct HeapObject {
 		std::variant<
-				String, Array> obj;
+				String, Array, std::monostate> obj;
 		bool marked = false;
 	};
 	
@@ -26,6 +26,9 @@ namespace ltn::vm {
 
 		void collectGarbage(const Stack & stack, const Register & reg);
 	private:
+		void mark(const std::vector<Value> & values);
+		void sweep();
+
 		HeapObject & get(std::uint64_t addr);
 		std::uint64_t alloc(const HeapObject & object);
 		std::vector<HeapObject> objects;

@@ -1,6 +1,9 @@
 #include "Heap.hxx"
 #include <stdexcept>
 #include <sstream>
+#include <iostream>
+#include "TypeCheck.hxx"
+
 namespace {
 	auto accessViolation(std::uint64_t at, const std::string_view msg) {
 		std::stringstream ss;
@@ -60,3 +63,38 @@ ltn::vm::Array & ltn::vm::Heap::readArray(std::uint64_t addr) {
 	}
 }
 
+void ltn::vm::Heap::collectGarbage(const Stack & stack, const Register & reg) {
+	mark(stack.getContainer());
+	mark(reg.getContainer());
+	sweep();
+}
+
+void ltn::vm::Heap::mark(const std::vector<Value> & values) {
+	for(const auto & value : values) {
+		if(isArr(value)) {
+			auto & obj = get(value.u);
+			auto & arr = readArray(value.u);
+			obj.marked = true;
+			mark(arr);
+		}
+		if(isStr(value)) {
+			auto & obj = get(value.u);
+			obj.marked = true;
+		}
+	}
+}
+
+void ltn::vm::Heap::sweep() {
+	std::uint64_t idx = 0;
+	for(auto & obj : this->objects) {
+		if(obj.marked) {
+			obj.marked = false;
+		}
+		else if(!std::get_if<std::monostate>(&obj.obj)) {
+			obj.obj = std::monostate();
+			std::cout << "Deleted: " << idx << "\n";
+			this->reuse.push(idx);
+		}
+		idx++;
+	}
+}
