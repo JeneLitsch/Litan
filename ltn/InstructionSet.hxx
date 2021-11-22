@@ -12,7 +12,7 @@ namespace ltn {
 
 		JUMP = 0x40, CALL, RETURN, IF, ERROR, EXIT,
 
-		READ = 0x60, WRITE, SCRAP, MAKEVAR,
+		READ = 0x60, WRITE, SCRAP, MAKEVAR, AT,
 
 		OUT = 0x70,
 	};

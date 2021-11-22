@@ -19,4 +19,12 @@ namespace ltn::vm {
 	void LtnVM::makevar() {
 		this->stack.makeVar();
 	}
+	void LtnVM::at() {
+		const auto index = this->reg.pop();
+		const auto indexable = this->reg.pop();
+		if(indexable.type == Value::Type::ARRAY) {
+			const auto & arr = heap.readArray(indexable.u);
+			this->reg.push(arr[index.u]);
+		}
+	}
 }

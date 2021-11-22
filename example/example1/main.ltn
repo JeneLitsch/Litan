@@ -7,5 +7,5 @@
 function main() {
 	var str = "Hello World";
 	var arr = [str, 2, [42, 1337]];
-	return arr;
+	return arr[2];
 }

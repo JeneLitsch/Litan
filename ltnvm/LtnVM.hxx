@@ -32,6 +32,8 @@ namespace ltn::vm {
 
 		void out();
 
+		void at();
+
 		void outValue(const Value & value);
 
 		Stack stack;

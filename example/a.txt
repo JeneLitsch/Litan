@@ -107,6 +107,16 @@ byte 0
 byte 0
 byte 1
 read
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2
+at
 return
 null
 return

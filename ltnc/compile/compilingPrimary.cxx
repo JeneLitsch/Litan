@@ -57,6 +57,16 @@ namespace ltn::c::compile {
 				"Function " + call.name + " is not defined",
 				call.debugInfo.line };
 		}
+
+		ExprCode index(const ast::Index & index, CompilerInfo & info, Scope & scope) {
+			const auto arr = expression(*index.expression, info, scope);
+			const auto idx = expression(*index.index, info, scope);
+			std::stringstream ss;
+			ss	<< arr.code
+				<< idx.code
+				<< inst::at;
+			return ExprCode{ss.str(), false, false};
+		}
 	}
 
 	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope) {
@@ -67,6 +77,7 @@ namespace ltn::c::compile {
 		if(auto expr_ = as<ast::Array>(expr)) 	return array(*expr_, info, scope);
 		if(auto expr_ = as<ast::Call>(expr)) 	return callFx(*expr_, info, scope);
 		if(auto expr_ = as<ast::Var>(expr)) 	return readVar(*expr_, scope);
+		if(auto expr_ = as<ast::Index>(expr)) 	return index(*expr_, info, scope);
 		throw CompilerError{"Unknown primary expression", expr.debugInfo.line};
 	}
 }

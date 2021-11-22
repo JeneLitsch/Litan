@@ -72,6 +72,8 @@ namespace ltn::vm {
 
 			case Inst::OUT: out(); break;
 			
+			case Inst::AT: at(); break;
+			
 			default: {
 				std::stringstream ss;
 				ss << "Illegal Instruction: " << std::hex << int(inst) << std::dec;

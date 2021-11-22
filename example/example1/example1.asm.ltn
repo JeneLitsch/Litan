@@ -34,6 +34,8 @@ addr 1
 write
 addr 1
 read
+newi 2
+at
 return
 null
 return
