@@ -38,4 +38,11 @@ namespace ltn::c::ast {
 		virtual ~String() = default;
 		const std::string value;
 	};
+
+	struct Array : public Literal {
+	public:
+		Array(const lex::DebugInfo & debugInfo)
+			:	Literal(debugInfo) {}
+		virtual ~Array() = default;
+	};
 }

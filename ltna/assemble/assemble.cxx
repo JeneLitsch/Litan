@@ -28,6 +28,7 @@ namespace ltn::a::assemble {
 			{"true", Inst::TRUE},
 			{"false", Inst::FALSE},
 			{"newarr", Inst::NEWARR},
+			{"newstr", Inst::NEWSTR},
 			{"null", Inst::NVLL},
 			{"char", Inst::CHAR},
 
@@ -44,9 +45,6 @@ namespace ltn::a::assemble {
 			{"makevar", Inst::MAKEVAR},
 			
 			{"out", Inst::OUT},
-
-			{"alloc_str", Inst::ALLOC_STR},
-			{"alloc_arr", Inst::ALLOC_ARR},
 		};
 
 

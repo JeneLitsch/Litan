@@ -3,7 +3,7 @@ exit
 
 :FX0_main_0
 makevar
-alloc_str
+newstr
 char 48
 char 65
 char 6c
@@ -17,7 +17,11 @@ char 6c
 char 64
 addr 0
 write
-addr 0
+makevar
+newarr
+addr 1
+write
+addr 1
 read
 return
 null

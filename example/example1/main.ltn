@@ -5,6 +5,7 @@
 // }
 
 function main() {
-	var str = "Hello World";  
-	return str;
+	var str = "Hello World";
+	var arr = [];
+	return arr;
 }

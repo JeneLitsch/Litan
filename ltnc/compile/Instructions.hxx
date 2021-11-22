@@ -30,6 +30,7 @@ namespace ltn::c::compile::inst {
 	const std::string_view falsE = "false\n";
 	const std::string_view null = "null\n";
 	const std::string_view newarr = "newarr\n";
+	const std::string_view newstr = "newstr\n";
 	const std::string addr(std::uint64_t value);
 	const std::string ch4r(char chr);
 
@@ -43,9 +44,6 @@ namespace ltn::c::compile::inst {
 	const std::string_view write = "write\n";
 	const std::string_view scrap = "scrap\n";
 	const std::string_view makevar = "makevar\n";
-
-	const std::string_view alloc_string = "alloc_str\n";
-	const std::string_view alloc_array = "alloc_arr\n";
 	
 	const std::string byte(std::uint8_t byte);
 }

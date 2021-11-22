@@ -47,6 +47,7 @@ namespace ltn::vm {
 			case Inst::TRUE: truE(); break;
 			case Inst::FALSE: falsE(); break;
 			case Inst::NEWARR: newarr(); break;
+			case Inst::NEWSTR: newstr(); break;
 			case Inst::NVLL: null(); break;
 			case Inst::CHAR: ch4r(); break;
 
@@ -70,10 +71,6 @@ namespace ltn::vm {
 
 			case Inst::OUT: out(); break;
 			
-			case Inst::ALLOC_STR: allocStr(); break;
-			case Inst::ALLOC_ARR: allocArr(); break;
-
-
 			default: {
 				std::stringstream ss;
 				ss << "Illegal Instruction: " << std::hex << int(inst) << std::dec;

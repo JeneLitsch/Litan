@@ -17,18 +17,15 @@ namespace ltn::c::compile {
 
 		ExprCode string(const ast::String & expr) {
 			std::stringstream ss;
-			ss << inst::alloc_string << std::hex;
+			ss << inst::newstr << std::hex;
 			for(char chr : expr.value) {
 				ss << inst::ch4r(chr);
 			}
 			return ExprCode{ ss.str(), false, true};
 		}
 
-		ExprCode newvalue(const ast::New & expr) {
-			if(expr.type == ast::New::Type::ARRAY) {
-				return ExprCode{ std::string(inst::newarr), false, true};
-			}
-			throw CompilerError{"Unknown new type", expr.debugInfo.line};
+		ExprCode array(const ast::Array &) {
+			return ExprCode{ std::string(inst::newarr), false, true};
 		}
 
 		ExprCode readVar(const ast::Var & expr, Scope & scope) {
@@ -61,7 +58,7 @@ namespace ltn::c::compile {
 		if(auto expr_ = as<ast::Float>(expr)) 	return floating(*expr_);
 		if(auto expr_ = as<ast::Bool>(expr)) 	return boolean(*expr_);
 		if(auto expr_ = as<ast::String>(expr)) 	return string(*expr_);
-		if(auto expr_ = as<ast::New>(expr)) 	return newvalue(*expr_);
+		if(auto expr_ = as<ast::Array>(expr)) 	return array(*expr_);
 		if(auto expr_ = as<ast::Call>(expr)) 	return callFx(*expr_, info, scope);
 		if(auto expr_ = as<ast::Var>(expr)) 	return readVar(*expr_, scope);
 		throw CompilerError{"Unknown primary expression", expr.debugInfo.line};

@@ -23,9 +23,20 @@ namespace ltn::vm {
 		this->reg.push(Value{false, Value::Type::BOOL});
 	}
 	void LtnVM::newarr(){
-		throw std::runtime_error {"No heap allocation implented"};
+		const auto ptr = this->heap.allocArray();
+		this->reg.push({ ptr, Value::Type::ARRAY });
+	}
+	void LtnVM::newstr() {
+		const auto ptr = this->heap.allocString();
+		this->reg.push({ ptr, Value::Type::STRING });
 	}
 	void LtnVM::null() {
 		this->reg.push(Value{false, Value::Type::NVLL});
+	}
+	void LtnVM::ch4r() {
+		const auto chr = this->fetchByte();
+		const auto ptr = this->reg.peek();
+		std::string & str = this->heap.readString(ptr.u);
+		str.push_back(static_cast<char>(chr));
 	}
 }

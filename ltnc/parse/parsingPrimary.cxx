@@ -4,7 +4,6 @@
 namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
-		using NT = ast::New::Type;
 
 		std::unique_ptr<ast::Expression> paren(lex::Lexer & lexer) {
 			if(lexer.match(TT::PAREN_L)) {
@@ -49,21 +48,16 @@ namespace ltn::c::parse {
 			return nullptr;
 		}
 
-		std::unique_ptr<ast::String> string(lex::Lexer & lexer) {
+
+		std::unique_ptr<ast::Literal> newObject(lex::Lexer & lexer) {
 			if(auto token = lexer.match(TT::STRING)) {
 				return std::make_unique<ast::String>(token->str, lexer.debug()); 
 			}
-			return nullptr;
-		}
-
-		std::unique_ptr<ast::New> newObject(lex::Lexer & lexer) {
-			if(lexer.match(TT::NEW)) {
-				if(auto type = lexer.match(TT::INDENTIFIER)) {
-					if(type->str == "Array") {
-						return std::make_unique<ast::New>(lexer.debug(), NT::ARRAY);
-					}
-					throw CompilerError{"Invalid type " + type->str, lexer.inLine()};
+			if(lexer.match(TT::BRACKET_L)) {
+				if(auto type = lexer.match(TT::BRACKET_R)) {
+					return std::make_unique<ast::Array>(lexer.debug());
 				}
+				throw CompilerError{"Expected ]", lexer.inLine()};
 			}
 			return nullptr;
 		}
@@ -111,7 +105,6 @@ namespace ltn::c::parse {
 		if(auto expr = integer(lexer)) return expr;
 		if(auto expr = floating(lexer)) return expr;
 		if(auto expr = boolean(lexer)) return expr;
-		if(auto expr = string(lexer)) return expr;
 		if(auto expr = paren(lexer)) return expr;
 		if(auto expr = newObject(lexer)) return expr;
 		if(auto expr = call(lexer)) return expr;

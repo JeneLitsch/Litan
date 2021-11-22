@@ -9,7 +9,7 @@ byte 0
 byte a
 exit
 makevar
-alloc_str
+newstr
 char
 byte 48
 char
@@ -42,6 +42,8 @@ byte 0
 byte 0
 byte 0
 write
+makevar
+newarr
 addr
 byte 0
 byte 0
@@ -50,7 +52,17 @@ byte 0
 byte 0
 byte 0
 byte 0
+byte 1
+write
+addr
 byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
 read
 return
 null

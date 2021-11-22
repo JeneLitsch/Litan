@@ -51,14 +51,7 @@ namespace ltn::c::ast {
 	};
 
 
-	struct New : public Primary {
-	public:
-		enum class Type { ARRAY };
-		New(const lex::DebugInfo & debugInfo, Type type)
-			:	Primary(debugInfo), type(type) {}
-		virtual ~New() = default;
-		Type type;
-	};
+
 
 
 	struct Assign : public Expression {
