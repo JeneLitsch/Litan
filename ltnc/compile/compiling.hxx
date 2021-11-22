@@ -33,6 +33,7 @@ namespace ltn::c::compile {
 	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode whileLoop(const ast::While & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode forLoop(const ast::For & stmt, CompilerInfo & info, Scope & scope);
+	StmtCode newVar(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope);
 
 	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope);
 	ExprCode binary(const ast::Binary & expr, CompilerInfo & info, Scope & scope);

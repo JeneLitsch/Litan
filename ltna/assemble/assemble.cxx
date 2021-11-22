@@ -18,6 +18,8 @@ namespace ltn::a::assemble {
 
 			{"neg", Inst::NEG},
 			{"not", Inst::NOT},
+			{"inc", Inst::INC},
+			{"dec", Inst::DEC},
 
 			{"newu", Inst::NEWU},
 			{"newi", Inst::NEWI},

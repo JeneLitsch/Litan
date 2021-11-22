@@ -6,7 +6,7 @@ namespace ltn {
 		ADD = 0x10, SUB, MLT, DIV, MOD,
 		EQL, UEQL, SML, BGR, SMLEQL, BGREQL,
 
-		NEG = 0x20, NOT,
+		NEG = 0x20, NOT, INC, DEC,
 		
 		NEWI = 0x30, NEWF, NEWU, NEWREF, TRUE, FALSE, NEWARR, NVLL,
 

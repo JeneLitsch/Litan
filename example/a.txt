@@ -6,29 +6,9 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte cf
+byte a
 exit
 makevar
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-write
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-read
 newi
 byte 0
 byte 0
@@ -38,128 +18,6 @@ byte 0
 byte 0
 byte 0
 byte 0
-smleql
-ifelse
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 3c
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-return
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-read
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-eql
-ifelse
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 63
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-return
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-read
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-sub
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte a
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-read
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 2
-sub
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte a
-add
-return
-null
-return
-makevar
 newref
 byte 0
 byte 0
@@ -171,6 +29,15 @@ byte 0
 byte 0
 write
 makevar
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
 newref
 byte 0
 byte 0
@@ -181,6 +48,35 @@ byte 0
 byte 0
 byte 1
 write
+newref
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+read
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte b
+sml
+ifelse
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 8e
 newref
 byte 0
 byte 0
@@ -202,19 +98,6 @@ byte 0
 byte 1
 read
 add
-return
-null
-return
-makevar
-newf
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
 newref
 byte 0
 byte 0
@@ -224,69 +107,9 @@ byte 0
 byte 0
 byte 0
 byte 0
-write
-makevar
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-write
-makevar
-true
-ifelse
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-byte 17
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 2a
-newref
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 2
 write
 null
 scrap
-makevar
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 5
-byte 39
 newref
 byte 0
 byte 0
@@ -295,8 +118,28 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 3
+byte 1
+read
+inc
+newref
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
 write
+jump
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 32
 newref
 byte 0
 byte 0
@@ -305,7 +148,7 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 2
+byte 0
 read
 return
 null

@@ -1,80 +1,38 @@
-call FX2_main_0
+call FX0_main_0
 exit
 
-:FX0_fib_1
+:FX0_main_0
 makevar
-newref 0
-write
-newref 0
-read
 newi 0
-smleql
-ifelse IF_END3
-newi 0
-return
-:IF_END3
-newref 0
-read
-newi 1
-eql
-ifelse IF_END4
-newi 1
-return
-:IF_END4
-newref 0
-read
-newi 1
-sub
-call FX0_fib_1
-newref 0
-read
-newi 2
-sub
-call FX0_fib_1
-add
-return
-null
-return
-
-:FX1_add_2
-makevar
 newref 0
 write
 makevar
+newi 0
 newref 1
 write
+:FOR_BEGIN1
+newref 1
+read
+newi 11
+sml
+ifelse FOR_END2
 newref 0
 read
 newref 1
 read
 add
-return
-null
-return
-
-:FX2_main_0
-makevar
-newf 0
 newref 0
-write
-makevar
-newi 1
-newref 1
-write
-makevar
-true
-ifelse IF_END5
-newi 42
-newref 2
 write
 null
 scrap
-:IF_END5
-makevar
-newi 1337
-newref 3
+newref 1
+read
+inc
+newref 1
 write
-newref 2
+jump FOR_BEGIN1
+:FOR_END2
+newref 0
 read
 return
 null

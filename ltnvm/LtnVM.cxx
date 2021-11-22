@@ -37,6 +37,8 @@ namespace ltn::vm {
 			
 			case Inst::NEG: neg(); break;
 			case Inst::NOT: n0t(); break;
+			case Inst::INC: inc(); break;
+			case Inst::DEC: dec(); break;
 
 			case Inst::NEWI: newi(); break;
 			case Inst::NEWF: newf(); break;

@@ -26,18 +26,19 @@ namespace ltn::c::compile {
 			return {ss.str()};
 		}
 		
-		StmtCode newVar(const ast::NewVar & newVar, CompilerInfo & info, Scope & scope) {
-			const auto addr = scope.insert(newVar.name, newVar.debugInfo.line);
-			std::stringstream ss;
-			ss << inst::makevar;
-			if(newVar.right) {
-				const auto expr = compile::expression(*newVar.right, info, scope);
-				ss << expr.code;
-				ss << inst::newref(addr);
-				ss << inst::write;
-			}
-			return {ss.str()};
+	}
+	
+	StmtCode newVar(const ast::NewVar & newVar, CompilerInfo & info, Scope & scope) {
+		const auto addr = scope.insert(newVar.name, newVar.debugInfo.line);
+		std::stringstream ss;
+		ss << inst::makevar;
+		if(newVar.right) {
+			const auto expr = compile::expression(*newVar.right, info, scope);
+			ss << expr.code;
+			ss << inst::newref(addr);
+			ss << inst::write;
 		}
+		return {ss.str()};
 	}
 
 	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope) {

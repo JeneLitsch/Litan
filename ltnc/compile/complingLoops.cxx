@@ -21,13 +21,48 @@ namespace ltn::c::compile {
 
 
 	StmtCode forLoop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
-		throw CompilerError{"No for loop allowed", stmt.debugInfo.line};
-		const auto var = statement(*stmt.var, info, scope);
-		const auto from = expression(*stmt.from, info, scope);
-		const auto to = expression(*stmt.to, info, scope);
-		const auto body = statement(*stmt.body, info, scope);
+		Scope loopScope{&scope};
+
+		const auto var = newVar(*stmt.var, info, loopScope);
+		const auto from = expression(*stmt.from, info, loopScope);
+		const auto to = expression(*stmt.to, info, loopScope);
+		const auto body = statement(*stmt.body, info, loopScope);
 		const auto begin = makeJumpId("FOR_BEGIN", info);
 		const auto end = makeJumpId("FOR_END", info);
+		
+		const auto iVar = loopScope.resolve(stmt.var->name, stmt.debugInfo.line);
+				
+		std::stringstream ss;
+		
+		// Init
+		ss << var.code;
+		ss << from.code;
+		ss << inst::newref(iVar);
+		ss << inst::write;
+
+		// Condition
+		ss << inst::jumpmark(begin);
+		ss << inst::newref(iVar);
+		ss << inst::read;
+		ss << to.code;
+		ss << inst::sml;
+		ss << inst::ifelse(end);
+
+		// body
+		ss << body.code;
+
+		// Increments
+		ss << inst::newref(iVar);
+		ss << inst::read;
+		ss << inst::inc;
+		ss << inst::newref(iVar);
+		ss << inst::write;
+
+		// End of loop
+		ss << inst::jump(begin);
+		ss << inst::jumpmark(end);
+
+		return StmtCode{ss.str()};
 	}
 
 }
