@@ -20,5 +20,5 @@ function main() {
 	->f();
 	var arr = [[1], 2, 3];
 	arr[0][0] = 42;
-	return arr;
+	return arr + ["Hello World"] + [1337];
 }

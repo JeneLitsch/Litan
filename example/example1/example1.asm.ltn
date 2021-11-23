@@ -47,6 +47,25 @@ null
 scrap
 addr 0
 read
+newarr
+newstr
+char 48
+char 65
+char 6c
+char 6c
+char 6f
+char 20
+char 57
+char 6f
+char 72
+char 6c
+char 64
+elem
+newarr
+newi 1337
+elem
+add
+add
 return
 null
 return

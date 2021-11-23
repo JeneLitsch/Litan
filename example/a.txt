@@ -155,6 +155,44 @@ byte 0
 byte 0
 byte 0
 read
+newarr
+newstr
+char
+byte 48
+char
+byte 65
+char
+byte 6c
+char
+byte 6c
+char
+byte 6f
+char
+byte 20
+char
+byte 57
+char
+byte 6f
+char
+byte 72
+char
+byte 6c
+char
+byte 64
+elem
+newarr
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 5
+byte 39
+elem
+add
+add
 return
 null
 return

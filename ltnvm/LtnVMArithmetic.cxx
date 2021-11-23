@@ -4,6 +4,17 @@
 
 namespace ltn::vm {
 
+	namespace {
+		template<class T>
+		std::vector<T> operator+(const std::vector<T> & l, const std::vector<T> & r) {
+			std::vector<T> vec;
+			vec.reserve(l.size() + r.size());
+			vec.insert(std::end(vec), l.begin(), l.end());
+			vec.insert(std::end(vec), r.begin(), r.end());
+			return vec;
+		}
+	}
+
 	#define FETCH\
 		const auto r = this->reg.pop();\
 		const auto l = this->reg.pop();
@@ -27,6 +38,14 @@ namespace ltn::vm {
 		FETCH
 		BIN_II(+)
 		BIN_FF(+)
+		if(isArr(l) && isArr(r)) {
+			const auto arrL = this->heap.readArray(l.u);
+			const auto arrR = this->heap.readArray(r.u);
+			const auto ref = this->heap.allocArray();
+			auto & arr = this->heap.readArray(ref);
+			arr = arrL + arrR;
+			return this->reg.push({ref, Value::Type::ARRAY});
+		}
 		throw std::runtime_error{"Cannot add types"};
 	}
 	void LtnVM::sub() {
