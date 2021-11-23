@@ -131,7 +131,9 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 0
+byte 64
+true
+mod
 at
 newi
 byte 0
@@ -145,6 +147,7 @@ byte 0
 at_write
 null
 scrap
+false
 addr
 byte 0
 byte 0
@@ -180,17 +183,14 @@ byte 6c
 char
 byte 64
 elem
-newarr
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 5
-byte 39
-elem
+newstr
+char
+byte 46
+char
+byte 6f
+char
+byte 6f
+add
 add
 add
 return

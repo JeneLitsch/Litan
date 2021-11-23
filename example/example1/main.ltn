@@ -19,6 +19,6 @@ function f() {
 function main() {
 	->f();
 	var arr = [[1], 2, 3];
-	arr[0][0] = 42;
-	return arr + ["Hello World"] + [1337];
+	arr[100%true][0] = 42;
+	return false + arr + ["Hello World"] + "Foo";
 }

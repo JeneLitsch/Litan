@@ -39,12 +39,15 @@ write
 newi 42
 addr 0
 read
-newi 0
+newi 100
+true
+mod
 at
 newi 0
 at_write
 null
 scrap
+false
 addr 0
 read
 newarr
@@ -61,9 +64,11 @@ char 72
 char 6c
 char 64
 elem
-newarr
-newi 1337
-elem
+newstr
+char 46
+char 6f
+char 6f
+add
 add
 add
 return
