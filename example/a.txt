@@ -6,7 +6,7 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 30
+byte 34
 exit
 makevar
 newstr
@@ -33,7 +33,11 @@ byte 0
 byte 1
 write
 makevar
-newstr
+newarr
+newarr
+newarr
+elem
+elem
 addr
 byte 0
 byte 0
@@ -46,16 +50,6 @@ byte 2
 write
 null
 return
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte a
-scrap
 call
 byte 0
 byte 0

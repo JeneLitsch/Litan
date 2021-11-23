@@ -4,12 +4,12 @@
 #include "ltnc/Ltnc.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "Args.hxx"
+#include "ltnc/compile/LtnBackend.hxx"
 
 int main(int argc, char const *argv[]){
 	try {
 		const ltn::c::Args args{argv, static_cast<std::size_t>(argc)};
-		ltn::c::Ltnc compiler;
-
+		ltn::c::Ltnc compiler{std::make_unique<ltn::c::compile::LtnBackend>()};
 
 		for(const auto & source : args.getSources()) {
 			std::cout << "[Compiling] " << source << "\n";

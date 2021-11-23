@@ -11,15 +11,17 @@ newstr
 addr 1
 write
 makevar
-newstr
+newarr
+newarr
+newarr
+elem
+elem
 addr 2
 write
 null
 return
 
 :FX1_main_0
-call FX0_f_0
-scrap
 call FX0_f_0
 scrap
 makevar

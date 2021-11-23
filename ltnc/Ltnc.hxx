@@ -3,20 +3,17 @@
 #include <ostream>
 #include <sstream>
 #include "Config.hxx"
-#include "compile/Scope.hxx"
-#include "compile/FxTable.hxx"
+#include "Backend.hxx"
 namespace ltn::c {
 	class Ltnc {
 	public:
-		Ltnc() = default;
+		Ltnc(std::unique_ptr<Backend> backend) : backend(std::move(backend)) {}
 		virtual ~Ltnc() = default;
 		void compile(std::istream & in, const std::string & sourceName);
 		void yield(std::ostream & out);
 	private:
 		Config config;
-		compile::FxTable fxTable;
-		std::stringstream buffer;
 		std::size_t line = 1;
-		std::size_t jumpMarkCounter = 0;
+		std::unique_ptr<Backend> backend;
 	};
 }

@@ -8,16 +8,15 @@
 // 	var str = "Hello World";
 // 	var arr = [str, 2, [42, 1337]];
 // 	return arr;
-// }#
+// }
 
 function f() {
 	var a = ""; 
 	var b = ""; 
-	var c = ""; 
+	var c = [[[]]]; 
 }
 
 function main() {
-	->f();
 	->f();
 	var arr = [[1], 2, 3];
 	arr[0][0] = 42;

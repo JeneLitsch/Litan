@@ -30,4 +30,15 @@ namespace ltn::c::ast {
 		const std::string name;
 	};
 
+	struct Assign : public Expression {
+	public:
+		Assign(
+			std::unique_ptr<Assignable> l,
+			std::unique_ptr<Expression> r,
+			const lex::DebugInfo & debugInfo)
+			:	Expression(debugInfo), l(std::move(l)), r(std::move(r)) {}
+		virtual ~Assign() = default;
+		const std::unique_ptr<Assignable> l;
+		const std::unique_ptr<Expression> r;
+	};
 }
