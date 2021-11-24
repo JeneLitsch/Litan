@@ -59,11 +59,7 @@ namespace ltn::c::lex {
 
 		// ignores rest of line
 		void comment(std::istream & in, std::size_t & line) {
-			while(!isAtEnd(in)) {
-				if(in.peek() == '\n') {
-					line++;
-					return;	
-				}
+			while(!isAtEnd(in) && in.peek() != '\n') {
 				in.ignore();
 			}
 		}
@@ -148,7 +144,7 @@ namespace ltn::c::lex {
 				comment(in, line);
 				return token(in, line);
 			}
-			return {Token::Type::SLASH, "*"};
+			return {Token::Type::SLASH, "/"};
 		}
 		if(match('%')) return {Token::Type::PERCENT, "%"};
 		
