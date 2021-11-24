@@ -10,6 +10,7 @@ namespace ltn::c::parse {
 
 	std::unique_ptr<ast::Source> source(lex::Lexer & lexer);
 	std::unique_ptr<ast::Function> function(lex::Lexer & lexer);
+	std::unique_ptr<ast::Asm> asmFunction(lex::Lexer & lexer);
 
 	std::unique_ptr<ast::Statement> statement(lex::Lexer & lexer);
 	std::unique_ptr<ast::Block> block(lex::Lexer & lexer);

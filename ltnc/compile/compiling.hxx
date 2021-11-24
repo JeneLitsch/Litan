@@ -27,6 +27,7 @@ namespace ltn::c::compile {
 
 
 	std::string source(const ast::Source & source, CompilerInfo & info);
+	std::string functional(const ast::Functional & fx, CompilerInfo & info);
 	std::string function(const ast::Function & fx, CompilerInfo & info);
 
 	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope);

@@ -5,11 +5,11 @@
 namespace ltn::c::ast {
 	struct Source : public Node {
 		Source(
-			std::vector<std::unique_ptr<Function>> && functions,
+			std::vector<std::unique_ptr<Functional>> && functions,
 			const lex::DebugInfo & debugInfo)
 			:	Node(debugInfo),
 				functions(std::move(functions)) {}
 		virtual ~Source() = default;
-		const std::vector<std::unique_ptr<Function>> functions;
+		const std::vector<std::unique_ptr<Functional>> functions;
 	};
 }

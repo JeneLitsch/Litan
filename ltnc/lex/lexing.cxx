@@ -60,17 +60,18 @@ namespace ltn::c::lex {
 		}
 
 		const static std::unordered_map<std::string_view, Token::Type> keywords{
-			{"function", 	Token::Type::FUNCTION},
-			{"while", 		Token::Type::WHILE},
-			{"for", 		Token::Type::FOR},
-			{"return", 		Token::Type::RETURN},
-			{"var", 		Token::Type::VAR},
-			{"if", 			Token::Type::IF},
-			{"else", 		Token::Type::ELSE},
-			{"new", 		Token::Type::NEW},
-			{"return", 		Token::Type::RETURN},
-			{"true", 		Token::Type::TRUE},
-			{"false", 		Token::Type::FALSE},
+			{"function",    Token::Type::FUNCTION},
+			{"while",       Token::Type::WHILE},
+			{"for",         Token::Type::FOR},
+			{"return",      Token::Type::RETURN},
+			{"var",         Token::Type::VAR},
+			{"if",          Token::Type::IF},
+			{"else",        Token::Type::ELSE},
+			{"new",         Token::Type::NEW},
+			{"return",      Token::Type::RETURN},
+			{"true",        Token::Type::TRUE},
+			{"false",       Token::Type::FALSE},
+			{"asm",         Token::Type::ASM},
 		};
 
 		char deEscape(auto chr, std::size_t & line) {

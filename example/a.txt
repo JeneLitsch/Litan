@@ -6,8 +6,12 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 78
+byte 7c
 exit
+sub
+return
+null
+return
 makevar
 addr
 byte 0
@@ -118,15 +122,6 @@ elem
 return
 null
 return
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 3
 newi
 byte 0
 byte 0
@@ -136,7 +131,24 @@ byte 0
 byte 0
 byte 0
 byte 5
-shift_l
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 3
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte a
 return
 makevar
 newarr

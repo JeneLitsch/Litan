@@ -20,7 +20,7 @@ namespace ltn::c::compile {
 		}
 
 		for(const auto & function : source.functions) {
-			ss << compile::function(*function, info); 
+			ss << compile::functional(*function, info); 
 		}
 		
 		return ss.str();

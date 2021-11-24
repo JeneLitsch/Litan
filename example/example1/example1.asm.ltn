@@ -1,7 +1,13 @@
-call FX2_main_0
+call FX3_main_0
 exit
 
-:FX0_f_2
+:FX0_sub_2
+sub
+return
+null
+return
+
+:FX1_f_2
 makevar
 addr 0
 write
@@ -31,7 +37,7 @@ return
 null
 return
 
-:FX1_makeArr_0
+:FX2_makeArr_0
 newarr
 newi 1
 elem
@@ -43,10 +49,10 @@ return
 null
 return
 
-:FX2_main_0
-newi 3
+:FX3_main_0
 newi 5
-shift_l
+newi 3
+call FX0_sub_2
 return
 makevar
 newarr

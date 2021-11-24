@@ -101,5 +101,4 @@ namespace ltn::c::ast {
 		virtual ~Return() = default;
 		const std::unique_ptr<Expression> expression;
 	};
-
 }
