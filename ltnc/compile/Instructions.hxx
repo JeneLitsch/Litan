@@ -17,6 +17,8 @@ namespace ltn::c::compile::inst {
 	const std::string_view bgreql = "bgreql\n";
 	const std::string_view eql = "eql\n";
 	const std::string_view ueql = "ueql\n";
+	const std::string_view shift_l = "shift_l\n";
+	const std::string_view shift_r = "shift_r\n";
 
 	const std::string_view neg = "neg\n";
 	const std::string_view n0t = "not\n";

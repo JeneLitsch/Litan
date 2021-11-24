@@ -34,7 +34,8 @@ namespace ltn::c::ast {
 			ADD, SUB,
 			MLT, DIV, MOD,
 			BIGGER, SMALLER, BIGGEREQUAL, SMALLEREQUAL,
-			EQUAL, UNEQUEL, };
+			EQUAL, UNEQUEL,
+			SHIFT_L, SHIFT_R, };
 		Binary(
 			Type type,
 			std::unique_ptr<Expression> l,

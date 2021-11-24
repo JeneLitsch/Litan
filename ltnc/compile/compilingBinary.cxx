@@ -15,6 +15,8 @@ namespace ltn::c::compile {
 		case ast::Binary::Type::BIGGEREQUAL: return inst::bgreql;
 		case ast::Binary::Type::EQUAL: return inst::eql;
 		case ast::Binary::Type::UNEQUEL: return inst::ueql;
+		case ast::Binary::Type::SHIFT_L: return inst::shift_l;
+		case ast::Binary::Type::SHIFT_R: return inst::shift_r;
 		}
 		throw CompilerError{"Invalid binary operation", 0};
 	}

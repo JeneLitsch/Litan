@@ -15,6 +15,8 @@ namespace ltn::a::assemble {
 			{"bgr", Inst::BGR},
 			{"smleql", Inst::SMLEQL},
 			{"bgreql", Inst::BGREQL},
+			{"shift_l", Inst::SHIFT_L},
+			{"shift_r", Inst::SHIFT_R},
 
 			{"neg", Inst::NEG},
 			{"not", Inst::NOT},

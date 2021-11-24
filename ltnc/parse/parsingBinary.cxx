@@ -13,7 +13,6 @@ namespace ltn::c::parse {
 	}
 
 	
-
 	std::unique_ptr<ast::Expression> factor(lex::Lexer & lexer) {
 		auto l = unary(lexer);
 		if(lexer.match(TT::STAR)) {
@@ -44,8 +43,22 @@ namespace ltn::c::parse {
 		return l;
 	}
 
-	std::unique_ptr<ast::Expression> comparision(lex::Lexer & lexer) {
+
+	std::unique_ptr<ast::Expression> shift(lex::Lexer & lexer) {
 		auto l = term(lexer);
+		if(lexer.match(TT::SHIFT_L)) {
+			auto r = shift(lexer);
+			return bin(lexer, OP::SHIFT_L, l, r);
+		}
+		if(lexer.match(TT::SHIFT_R)) {
+			auto r = shift(lexer);
+			return bin(lexer, OP::SHIFT_R, l, r);
+		}
+		return l;
+	}
+
+	std::unique_ptr<ast::Expression> comparision(lex::Lexer & lexer) {
+		auto l = shift(lexer);
 		if(lexer.match(TT::SMALLER)) {
 			auto r = comparision(lexer);
 			return bin(lexer, OP::SMALLER, l, r);

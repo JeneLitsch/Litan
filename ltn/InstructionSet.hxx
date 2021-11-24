@@ -5,6 +5,7 @@ namespace ltn {
 		
 		ADD = 0x10, SUB, MLT, DIV, MOD,
 		EQL, UEQL, SML, BGR, SMLEQL, BGREQL,
+		SHIFT_L, SHIFT_R,
 
 		NEG = 0x20, NOT, INC, DEC,
 		

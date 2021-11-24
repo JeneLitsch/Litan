@@ -150,10 +150,21 @@ namespace ltn::vm {
 		this->reg.push(arithMod(l, r, "Not operator % for types"));
 	}
 
+	void LtnVM::shift_l() {
+		FETCH
+		if(isInt(l) && isInt(r)) {
+			return this->reg.push(Value{l.i << r.i});
+		}
+		throw std::runtime_error{"Only ints can be bit-shifted"};
+	}
 
+	void LtnVM::shift_r() {
+		FETCH
+		if(isInt(l) && isInt(r)) {
+			return this->reg.push(Value{l.i >> r.i});
+		}
+		throw std::runtime_error{"Only ints can be bit-shifted"};
+	}
 
 	#undef FETCH
-	#undef BIN_II
-	#undef BIN_FF
-	#undef BIN_FX_FF
 }

@@ -118,6 +118,26 @@ elem
 return
 null
 return
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 3
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 5
+shift_l
+return
 makevar
 newarr
 newarr

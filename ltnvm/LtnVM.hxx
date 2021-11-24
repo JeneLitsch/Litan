@@ -21,6 +21,7 @@ namespace ltn::vm {
 		
 		void add(), sub(), mlt(), div(), mod();
 		void eql(), ueql(), sml(), bgr(), bgreql(), smleql();
+		void shift_l(), shift_r();
 		
 		void neg(), n0t(), inc(), dec();
 

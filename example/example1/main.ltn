@@ -22,6 +22,7 @@ function makeArr() {
 }
 
 function main() {
+	return 3 << 5;
 	var arr = [[1], 2, 3];
 	arr[100%true][0] = 42;
 	return false + arr + ["Hello World"] + "Foo";

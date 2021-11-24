@@ -44,6 +44,10 @@ null
 return
 
 :FX2_main_0
+newi 3
+newi 5
+shift_l
+return
 makevar
 newarr
 newarr
