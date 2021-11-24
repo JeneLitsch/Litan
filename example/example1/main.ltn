@@ -10,14 +10,15 @@
 // 	return arr;
 // }
 
-function f() {
+
+function f(a, b) {
 	var a = ""; 
 	var b = ""; 
-	var c = [[[]]]; 
+	var c = [[[a, b]]]; 
 }
 
 function main() {
-	->f();
+	f(1, 2);
 	var arr = [[1], 2, 3];
 	arr[100%true][0] = 42;
 	return false + arr + ["Hello World"] + "Foo";

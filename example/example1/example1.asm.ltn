@@ -1,28 +1,42 @@
 call FX1_main_0
 exit
 
-:FX0_f_0
+:FX0_f_2
 makevar
-newstr
 addr 0
 write
 makevar
-newstr
 addr 1
+write
+makevar
+newstr
+addr 2
+write
+makevar
+newstr
+addr 3
 write
 makevar
 newarr
 newarr
 newarr
-elem
-elem
 addr 2
+read
+elem
+addr 3
+read
+elem
+elem
+elem
+addr 4
 write
 null
 return
 
 :FX1_main_0
-call FX0_f_0
+newi 1
+newi 2
+call FX0_f_2
 scrap
 makevar
 newarr

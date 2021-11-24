@@ -6,10 +6,9 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 34
+byte 60
 exit
 makevar
-newstr
 addr
 byte 0
 byte 0
@@ -21,7 +20,6 @@ byte 0
 byte 0
 write
 makevar
-newstr
 addr
 byte 0
 byte 0
@@ -33,11 +31,7 @@ byte 0
 byte 1
 write
 makevar
-newarr
-newarr
-newarr
-elem
-elem
+newstr
 addr
 byte 0
 byte 0
@@ -48,8 +42,76 @@ byte 0
 byte 0
 byte 2
 write
+makevar
+newstr
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 3
+write
+makevar
+newarr
+newarr
+newarr
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2
+read
+elem
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 3
+read
+elem
+elem
+elem
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 4
+write
 null
 return
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2
 call
 byte 0
 byte 0

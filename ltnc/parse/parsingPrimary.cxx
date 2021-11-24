@@ -78,34 +78,35 @@ namespace ltn::c::parse {
 		}
 
 		auto parameters(lex::Lexer & lexer) {
-			if(lexer.match(TT::PAREN_L)) {
-				std::vector<std::unique_ptr<ast::Expression>> parameters;
+			std::vector<std::unique_ptr<ast::Expression>> parameters;
+			if(lexer.match(TT::PAREN_R)) {
+				return parameters;
+			}
+			while(true) {
+				parameters.push_back(expression(lexer));
 				if(lexer.match(TT::PAREN_R)) {
 					return parameters;
 				}
-				while(true) {
-					parameters.push_back(expression(lexer));
-					if(lexer.match(TT::PAREN_R)) {
-						return parameters;
-					}
-					if(!lexer.match(TT::COMMA)) {
-						throw CompilerError{"Missing ,", lexer.inLine()};
-					}
+				if(!lexer.match(TT::COMMA)) {
+					throw CompilerError{"Missing ,", lexer.inLine()};
 				}
 			}
-			throw CompilerError{"Missing ( after function name", lexer.inLine()};
 		}
 
-		std::unique_ptr<ast::Call> call(lex::Lexer & lexer) {
-			if(auto callOp = lexer.match(TT::ARROW)) {
-				auto name = parse::functionName(lexer);
-				auto parameters = parse::parameters(lexer);
-				return std::make_unique<ast::Call>(
-					name,
-					std::move(parameters),
+		std::unique_ptr<ast::Expression> identifier(lex::Lexer & lexer) {
+			if(auto identifier = lexer.match(TT::INDENTIFIER)) {
+				if(lexer.match(TT::PAREN_L)) {
+					auto parameters = parse::parameters(lexer);
+					return std::make_unique<ast::Call>(
+						identifier->str,
+						std::move(parameters),
+						lexer.debug());
+				}
+				return std::make_unique<ast::Var>(
+					identifier->str,
 					lexer.debug());
 			}
-			return nullptr;
+			throw CompilerError{"Expected indentifier", lexer.inLine()};
 		}
 	}
 
@@ -122,8 +123,7 @@ namespace ltn::c::parse {
 		if(auto expr = boolean(lexer)) return expr;
 		if(auto expr = paren(lexer)) return expr;
 		if(auto expr = newObject(lexer)) return expr;
-		if(auto expr = call(lexer)) return expr;
-		return variable(lexer);
+		return identifier(lexer);
 	}
 }
 
