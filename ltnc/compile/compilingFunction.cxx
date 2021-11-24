@@ -4,9 +4,12 @@ namespace ltn::c::compile {
 	namespace {
 		// compiles Litan function
 		std::string function(const ast::Function & fx, CompilerInfo & info) {
-			Scope scope;
+			Scope scope{fx.nameSpace};
 			std::stringstream ss;
-			const auto & fxSig = info.fxTable.resolve(fx.name, fx.parameters.size());
+			const auto & fxSig = info.fxTable.resolve(
+				fx.name,
+				fx.nameSpace,
+				fx.parameters.size());
 			ss << inst::jumpmark(fxSig->id);
 			for(const auto & param : fx.parameters) {
 				const auto addr = scope.insert(param, fx.debugInfo.line);
@@ -26,7 +29,11 @@ namespace ltn::c::compile {
 		// compiles asmFunction
 		std::string asmFunction(const ast::Asm & fx, CompilerInfo & info) {
 			std::stringstream ss;
-			const auto & fxSig = info.fxTable.resolve(fx.name, fx.parameters.size());
+			const auto & fxSig = info.fxTable.resolve(
+				fx.name,
+				fx.nameSpace,
+				fx.parameters.size());
+			
 			ss << inst::jumpmark(fxSig->id);
 			for(const auto inst : fx.instructions) {
 				ss << inst << "\n";

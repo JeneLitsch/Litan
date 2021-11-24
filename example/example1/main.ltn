@@ -10,9 +10,16 @@
 // 	return arr;
 // }
 
-asm sub(a, b) {
-	"sub"
-	"return"
+namespace ltn {
+	function subtract(a, b) {
+		return math::sub(a,b);
+	}
+	namespace math {
+		asm sub(a, b) {
+			"sub"
+			"return"
+		}
+	}
 }
 
 function f(a, b) {
@@ -26,7 +33,7 @@ function makeArr() {
 }
 
 function main() {
-	return sub(5, 3);
+	return ltn::math::sub(5, 3);
 	var arr = [[1], 2, 3];
 	arr[100%true][0] = 42;
 	return false + arr + ["Hello World"] + "Foo";

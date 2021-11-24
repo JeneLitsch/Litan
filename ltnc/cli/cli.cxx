@@ -5,6 +5,7 @@
 #include "ltnc/CompilerError.hxx"
 #include "Args.hxx"
 #include "ltnc/compile/LtnBackend.hxx"
+#include "ltnc/ast/Namespace.hxx"
 
 int main(int argc, char const *argv[]){
 	try {

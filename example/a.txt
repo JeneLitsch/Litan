@@ -6,8 +6,62 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 7c
+byte b2
 exit
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+write
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+write
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+read
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+read
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 40
+return
+null
+return
 sub
 return
 null
@@ -148,7 +202,7 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte a
+byte 40
 return
 makevar
 newarr

@@ -1,8 +1,13 @@
 #include "Scope.hxx"
 #include "ltnc/CompilerError.hxx"
 
+ltn::c::compile::Scope::Scope(const ast::Namespace & nameSpace) 
+	: parent(nullptr), nameSpace(nameSpace) {
+
+}
+
 ltn::c::compile::Scope::Scope(const Scope * parent) 
-	: parent(parent) {}
+	: parent(parent), nameSpace(parent->nameSpace) {}
 
 // tries to resolve variable recursively
 std::uint64_t ltn::c::compile::Scope::resolve(
@@ -37,4 +42,9 @@ std::uint64_t ltn::c::compile::Scope::recSize() const {
 		return this->vars.size() + parent->recSize();
 	}
 	return this->vars.size();
+}
+
+
+const ltn::c::ast::Namespace & ltn::c::compile::Scope::getNamespace() const {
+	return this->nameSpace;
 }

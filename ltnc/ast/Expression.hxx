@@ -1,7 +1,7 @@
 #pragma once
 #include "Node.hxx"
 #include <vector>
-
+#include "Namespace.hxx"
 namespace ltn::c::ast {
 	class Assignable;
 
@@ -61,13 +61,16 @@ namespace ltn::c::ast {
 	public:
 		Call(
 			const std::string & name,
+			const Namespace & nameSpace,
 			std::vector<std::unique_ptr<Expression>> parameters,
 			const lex::DebugInfo & debugInfo)
 			:	Primary(debugInfo),
 				name(name),
+				nameSpace(nameSpace),
 				parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
 		const std::string name;
+		const Namespace nameSpace;
 		const std::vector<std::unique_ptr<Expression>> parameters;
 	};
 }

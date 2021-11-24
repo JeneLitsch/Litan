@@ -7,6 +7,13 @@ namespace ltn::c::compile {
 	public:
 		const FxSignature * resolve(
 			const std::string_view name,
+			const ast::Namespace & from,
+			const ast::Namespace & to,
+			const std::size_t parameters);
+
+		const FxSignature * resolve(
+			const std::string_view name,
+			const ast::Namespace & full,
 			const std::size_t parameters);
 
 		void insert(const FxSignature & fx);

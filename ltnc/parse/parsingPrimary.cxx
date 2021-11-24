@@ -97,11 +97,21 @@ namespace ltn::c::parse {
 		// function call or variable
 		std::unique_ptr<ast::Expression> identifier(lex::Lexer & lexer) {
 			if(auto identifier = lexer.match(TT::INDENTIFIER)) {
+				ast::Namespace nameSpace = {identifier->str};
+				std::string fxName = identifier->str;
+				while(lexer.match(TT::COLONx2)) {
+					if(auto i = lexer.match(TT::INDENTIFIER)) {
+						nameSpace.push_back(i->str);
+						fxName = i->str;
+					}
+				}
+				nameSpace.pop_back();
 				// call fx(...)
 				if(lexer.match(TT::PAREN_L)) {
 					auto parameters = parse::parameters(lexer);
 					return std::make_unique<ast::Call>(
-						identifier->str,
+						fxName,
+						nameSpace,
 						std::move(parameters),
 						lexer.debug());
 				}

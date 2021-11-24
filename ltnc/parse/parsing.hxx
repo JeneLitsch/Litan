@@ -12,7 +12,9 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Source> source(lex::Lexer & lexer);
 	
 	// Funcionals
-	std::unique_ptr<ast::Functional> functional(lex::Lexer & lexer);
+	std::unique_ptr<ast::Functional> functional(
+		lex::Lexer & lexer,
+		const ast::Namespace & nameSpace);
 
 	// Statements
 	std::unique_ptr<ast::Statement> statement(lex::Lexer & lexer);

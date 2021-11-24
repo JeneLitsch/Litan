@@ -50,24 +50,30 @@ namespace ltn::c::parse {
 		}
 
 		// parses and returns a function node
-		std::unique_ptr<ast::Function> function(lex::Lexer & lexer) {
+		std::unique_ptr<ast::Function> function(
+			lex::Lexer & lexer,
+			const ast::Namespace & nameSpace) {
 			const auto name = functionName(lexer);
 			const auto parameters = parameterList(lexer);
 			auto body = statement(lexer); 
 			return std::make_unique<ast::Function>(
 				name,
+				nameSpace,
 				parameters,
 				std::move(body),
 				lexer.debug());
 		}
 
 		// parses and returns a asm function node
-		std::unique_ptr<ast::Asm> asmFunction(lex::Lexer & lexer) {
+		std::unique_ptr<ast::Asm> asmFunction(
+			lex::Lexer & lexer,
+			const ast::Namespace & nameSpace) {
 			const auto name = functionName(lexer);
 			const auto paramters = parameterList(lexer);
 			const auto instructions = parse::instructions(lexer);
 			return std::make_unique<ast::Asm>(
 				name,
+				nameSpace,
 				paramters,
 				instructions,
 				lexer.debug());
@@ -75,12 +81,14 @@ namespace ltn::c::parse {
 	}
 
 	// parses and returns a functional node
-	std::unique_ptr<ast::Functional> functional(lex::Lexer & lexer) {
+	std::unique_ptr<ast::Functional> functional(
+		lex::Lexer & lexer,
+		const ast::Namespace & nameSpace) {
 		if(lexer.match(TT::FUNCTION)) {
-			return function(lexer);
+			return function(lexer, nameSpace);
 		}
 		if(lexer.match(TT::ASM)) {
-			return asmFunction(lexer);
+			return asmFunction(lexer, nameSpace);
 		}
 		return nullptr;
 

@@ -12,7 +12,7 @@ void ltn::c::compile::LtnBackend::compile(
 
 void ltn::c::compile::LtnBackend::yield(std::ostream & out) {
 	// Jump to main()
-	if(const auto fxmain = this->fxTable.resolve("main", 0)) {
+	if(const auto fxmain = this->fxTable.resolve("main", {}, 0)) {
 		out	<< compile::inst::call(fxmain->id) 
 			<< compile::inst::exlt
 			<< "\n";

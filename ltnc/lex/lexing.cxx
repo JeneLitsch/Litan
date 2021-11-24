@@ -58,7 +58,7 @@ namespace ltn::c::lex {
 		}
 
 		// ignores rest of line
-		void comment(std::istream & in, std::size_t & line) {
+		void comment(std::istream & in) {
 			while(!isAtEnd(in) && in.peek() != '\n') {
 				in.ignore();
 			}
@@ -79,6 +79,7 @@ namespace ltn::c::lex {
 			{"true",        Token::Type::TRUE},
 			{"false",       Token::Type::FALSE},
 			{"asm",         Token::Type::ASM},
+			{"namespace",   Token::Type::NAMESPACE},
 		};
 		
 		 
@@ -141,7 +142,7 @@ namespace ltn::c::lex {
 		if(match('*')) return {Token::Type::STAR, "*"};
 		if(match('/')) {
 			if(match('/')) {
-				comment(in, line);
+				comment(in);
 				return token(in, line);
 			}
 			return {Token::Type::SLASH, "/"};
@@ -171,6 +172,13 @@ namespace ltn::c::lex {
 		if(match('"')) {
 			const auto str = string(in, line);
 			return {Token::Type::STRING, str};
+		}
+
+		if(match(':')) {
+			if(match(':')) {
+				return {Token::Type::COLONx2, "::"};
+			}
+			throw CompilerError{"\":\" is not a valid token.", line};
 		}
 
 		if(checkAlpha(in)) {

@@ -53,7 +53,11 @@ namespace ltn::c::compile {
 		// compiles function call fx(...)
 		ExprCode callFx(const ast::Call & call, CompilerInfo & info, Scope & scope) {
 			// resolve function
-			const auto fx = info.fxTable.resolve(call.name, call.parameters.size());
+			const auto fx = info.fxTable.resolve(
+				call.name,
+				scope.getNamespace(),
+				call.nameSpace,
+				call.parameters.size());
 			if(fx) {
 				std::stringstream ss;
 				for(const auto & param : call.parameters) {

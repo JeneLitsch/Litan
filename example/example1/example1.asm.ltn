@@ -1,13 +1,29 @@
-call FX3_main_0
+call FX4_main_0
 exit
 
-:FX0_sub_2
+:FX0_ltn_subtract_2
+makevar
+addr 0
+write
+makevar
+addr 1
+write
+addr 0
+read
+addr 1
+read
+call FX1_ltn_math_sub_2
+return
+null
+return
+
+:FX1_ltn_math_sub_2
 sub
 return
 null
 return
 
-:FX1_f_2
+:FX2_f_2
 makevar
 addr 0
 write
@@ -37,7 +53,7 @@ return
 null
 return
 
-:FX2_makeArr_0
+:FX3_makeArr_0
 newarr
 newi 1
 elem
@@ -49,10 +65,10 @@ return
 null
 return
 
-:FX3_main_0
+:FX4_main_0
 newi 5
 newi 3
-call FX0_sub_2
+call FX1_ltn_math_sub_2
 return
 makevar
 newarr

@@ -16,9 +16,29 @@ namespace ltn::c::compile {
 	// returns function if defined or nultptr otherwise
 	const FxSignature * FxTable::resolve(
 		const std::string_view name,
+		const ast::Namespace & from,
+		const ast::Namespace & to,
 		const std::size_t parameters) {
 		for(const auto & fx : this->functions) {
-			if((fx.name == name) && fx.parameters == parameters) {
+			if(
+				fx.name == name &&
+				fx.parameters == parameters &&
+				ast::match(fx.nameSpace, from, to)) {
+				return &fx;
+			}
+		}
+		return nullptr;
+	}
+
+	const FxSignature * FxTable::resolve(
+		const std::string_view name,
+		const ast::Namespace & full,
+		const std::size_t parameters) {
+		for(const auto & fx : this->functions) {
+			if(
+				fx.name == name &&
+				fx.parameters == parameters &&
+				fx.nameSpace == full) {
 				return &fx;
 			}
 		}
@@ -28,7 +48,7 @@ namespace ltn::c::compile {
 	// defines new function
 	void FxTable::insert(const FxSignature & fx) {
 		// Prevent redefinition
-		if(this->resolve(fx.name, fx.parameters)) {
+		if(this->resolve(fx.name, fx.nameSpace, fx.parameters)) {
 			throw multipleDefinitions(fx);
 		}
 		this->functions.push_back(fx);
