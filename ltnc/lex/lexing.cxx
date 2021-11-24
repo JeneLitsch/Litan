@@ -126,7 +126,6 @@ namespace ltn::c::lex {
 		if(match(in, ']')) return {Token::Type::BRACKET_R, "]"};
 		
 		if(match(in, '-')) {
-			if(match(in, '>')) return {Token::Type::ARROW, "->"};
 			return {Token::Type::MINUS, "-"};
 		}
 		if(match(in, '+')) return {Token::Type::PLUS, "+"};
@@ -144,11 +143,14 @@ namespace ltn::c::lex {
 			if(match(in, '=')) return {Token::Type::EQUAL, "=="};
 			return {Token::Type::ASSIGN, "="};
 		}
+
 		if(match(in, '<')) {
+			if(match(in, '<')) return {Token::Type::SHIFT_L, "<<"};
 			if(match(in, '=')) return {Token::Type::SMALLER_EQUAL, "<="};
 			return {Token::Type::SMALLER, "<"};
 		}
 		if(match(in, '>')) {
+			if(match(in, '>')) return {Token::Type::SHIFT_R, ">>"};
 			if(match(in, '=')) return {Token::Type::BIGGER_EQUAL, ">="};
 			return {Token::Type::BIGGER, ">"};
 		}

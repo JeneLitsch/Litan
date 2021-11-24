@@ -6,7 +6,7 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 60
+byte 78
 exit
 makevar
 addr
@@ -54,7 +54,6 @@ byte 0
 byte 0
 byte 3
 write
-makevar
 newarr
 newarr
 newarr
@@ -82,18 +81,10 @@ read
 elem
 elem
 elem
-addr
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 4
-write
+return
 null
 return
+newarr
 newi
 byte 0
 byte 0
@@ -103,6 +94,7 @@ byte 0
 byte 0
 byte 0
 byte 1
+elem
 newi
 byte 0
 byte 0
@@ -112,7 +104,8 @@ byte 0
 byte 0
 byte 0
 byte 2
-call
+elem
+newi
 byte 0
 byte 0
 byte 0
@@ -120,8 +113,11 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte a
-scrap
+byte 3
+elem
+return
+null
+return
 makevar
 newarr
 newarr
