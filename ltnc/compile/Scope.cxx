@@ -4,6 +4,7 @@
 ltn::c::compile::Scope::Scope(const Scope * parent) 
 	: parent(parent) {}
 
+// tries to resolve variable recursively
 std::uint64_t ltn::c::compile::Scope::resolve(
 	const std::string & name,
 	std::size_t line) const{
@@ -17,6 +18,8 @@ std::uint64_t ltn::c::compile::Scope::resolve(
 	throw CompilerError{"Undefined variable " + name, line};
 }
 
+// defines new variable and prevents disambiguations
+// Variables in outer scope can not be hidden
 std::uint64_t ltn::c::compile::Scope::insert(
 	const std::string & name,
 	std::size_t line) {
@@ -28,6 +31,7 @@ std::uint64_t ltn::c::compile::Scope::insert(
 	return addr;
 }
 
+// size of all stacked scopes combined
 std::uint64_t ltn::c::compile::Scope::recSize() const {
 	if(this->parent) {
 		return this->vars.size() + parent->recSize();

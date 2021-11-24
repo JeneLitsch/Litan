@@ -17,7 +17,9 @@ namespace ltn::c::parse {
 	
 	std::unique_ptr<ast::Expression> assign(lex::Lexer & lexer) {
 		auto expr = expression(lexer);
+		// try parsing assigment
 		if(auto r = assignR(lexer)) {
+			// ensure left side is assingable
 			if(auto l = unique_cast_if<ast::Assignable>(expr)) {
 				return std::make_unique<ast::Assign>(
 					std::move(l),
@@ -31,6 +33,7 @@ namespace ltn::c::parse {
 		return expr;
 	}
 
+	// Tries parsing assignment after and including =
 	std::unique_ptr<ast::Expression> assignR(lex::Lexer & lexer) {
 		if(lexer.match(TT::ASSIGN)) {
 			return expression(lexer);

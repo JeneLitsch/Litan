@@ -7,12 +7,14 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 	}
 
+	// Maches ; or throws
 	void semicolon(lex::Lexer & lexer) {
 		if(!lexer.match(TT::SEMICOLON)) {
-			throw CompilerError{"missing semicolon", lexer.inLine()};
+			throw CompilerError{"missing ;", lexer.inLine()};
 		}
 	}
 
+	// Enforces ; after statement
 	std::unique_ptr<ast::Statement> semicolon(lex::Lexer & lexer, auto fx) {
 		auto stmt = fx(lexer);
 		if(!stmt) return nullptr;
@@ -20,10 +22,12 @@ namespace ltn::c::parse {
 		return stmt;
 	}
 
+	// parses Statement consiting of an Expression
 	auto expr(lex::Lexer & lexer) {
 		return std::make_unique<ast::StatementExpression>(assign(lexer), lexer.debug());
 	}
 
+	// parses variable creation -> var a ...  
 	std::unique_ptr<ast::NewVar> newVar(lex::Lexer & lexer) {
 		if(lexer.match(TT::VAR)) {
 			auto name = parse::variableName(lexer);
@@ -36,6 +40,7 @@ namespace ltn::c::parse {
 		return nullptr;
 	}
 
+	// parses return statement -> return ...
 	std::unique_ptr<ast::Statement> retrn(lex::Lexer & lexer) {
 		if(lexer.match(TT::RETURN)) {
 			if(lexer.match(TT::SEMICOLON)) {
@@ -48,6 +53,7 @@ namespace ltn::c::parse {
 		return nullptr;
 	}
 
+	// prevent extra ;
 	void extraSemicolon(lex::Lexer & lexer) {
 		while(lexer.match(TT::SEMICOLON)) {
 			throw CompilerError("Extra ;", lexer.inLine());

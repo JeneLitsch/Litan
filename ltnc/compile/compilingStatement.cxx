@@ -2,6 +2,7 @@
 
 namespace ltn::c::compile {
 	namespace {
+		// compiles -> code block {...}
 		StmtCode block(const ast::Block & block, CompilerInfo & info, Scope & parent) {
 			Scope scope(&parent);
 			std::stringstream ss;
@@ -13,6 +14,7 @@ namespace ltn::c::compile {
 			return {ss.str()};
 		}
 
+		// compiles -> return...;
 		StmtCode reTurn(const ast::Return & ret, CompilerInfo & info, Scope & scope) {
 			std::stringstream ss;
 			if(ret.expression) {
@@ -27,7 +29,7 @@ namespace ltn::c::compile {
 		}
 		
 	}
-
+	// compiles variable creation -> var foo ...;
 	StmtCode newVar(const ast::NewVar & newVar, CompilerInfo & info, Scope & scope) {
 		const auto addr = scope.insert(newVar.name, newVar.debugInfo.line);
 		std::stringstream ss;
@@ -41,6 +43,8 @@ namespace ltn::c::compile {
 		return {ss.str()};
 	}
 
+
+	// compiles statement
 	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope) {
 		if(auto block = as<ast::Block>(stmt)) {
 			return compile::block(*block, info, scope);

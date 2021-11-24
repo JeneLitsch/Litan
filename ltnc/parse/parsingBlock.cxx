@@ -6,6 +6,7 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 	}
 
+	// Block statement between { ... }
 	std::unique_ptr<ast::Block> block(lex::Lexer & lexer) {
 		std::vector<std::unique_ptr<ast::Statement>> statements;
 		if(lexer.match(TT::BRACE_L)) {

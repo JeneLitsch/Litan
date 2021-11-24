@@ -9,10 +9,7 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Source> source(lex::Lexer & lexer) {
 		std::vector<std::unique_ptr<ast::Functional>> functions;
 		while(!lexer.match(TT::___EOF___)) {
-			if(auto fx = parse::function(lexer)) {
-				functions.push_back(std::move(fx));
-			}
-			else if(auto fx = parse::asmFunction(lexer)) {
+			if(auto fx = parse::functional(lexer)) {
 				functions.push_back(std::move(fx));
 			}
 			else {

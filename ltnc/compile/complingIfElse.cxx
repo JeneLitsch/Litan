@@ -5,6 +5,7 @@ namespace ltn::c::compile {
 		
 	}
 	
+	// creates a jump label
 	std::string makeJumpId(const std::string_view name, CompilerInfo & info) {
 		std::stringstream ss;
 		ss << name << info.jumpMarkCounter++;
@@ -12,11 +13,16 @@ namespace ltn::c::compile {
 	}
 
 	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope) {
+		// Separate scopes for branches
 		Scope ifScope{&scope};
 		Scope elseScope{&scope};
+
+		// compiles parts
 		const auto idIfEnd = makeJumpId("IF_END", info);
 		const auto condition = expression(*stmt.condition, info, scope);
 		const auto ifBranch = statement(*stmt.ifBranch, info, ifScope);
+		
+		// with else
 		if(stmt.elseBranch) {
 			const auto elseBranch = statement(*stmt.elseBranch, info, elseScope);
 			const auto idElse = makeJumpId("IF_ELSE", info);
@@ -34,6 +40,7 @@ namespace ltn::c::compile {
 			ss << inst::jumpmark(idIfEnd);
 			return {ss.str()};
 		}
+		// without else
 		else {
 			std::stringstream ss;
 			ss << condition.code;

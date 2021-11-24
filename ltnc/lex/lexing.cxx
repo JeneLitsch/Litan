@@ -7,39 +7,47 @@
 namespace ltn::c::lex {
 	namespace {
 		using TT = Token::Type; 
+
+		// Returns true if stream is empty 
 		bool isAtEnd(std::istream & in) {
 			return in.eof();
 		}
 
+		// return next char from "in"
 		char consume(std::istream & in) {
 			return static_cast<char>(in.get());
 		}
 
-		
+		// peeks at "in" and returns true if chars matches
 		bool check(std::istream & in, char chr, std::size_t & line) {
 			in >> WS(line);
 			if(isAtEnd(in)) return false;
 			return in.peek() == chr;
 		}
 
+		// returns true if next char is a digit
 		bool checkDigit(std::istream & in) {
 			return std::isdigit(in.peek());
 		}
 
+		// returns true if next char is a letter
 		bool checkAlpha(std::istream & in) {
 			return std::isalpha(in.peek());
 		}
 
+		// returns true if next char is a letter or digit
 		bool checkAlNum(std::istream & in) {
 			return std::isalnum(in.peek());
 		}
 
+		// returns true and consumes if the next char matches 
 		bool match(std::istream & in, char chr, std::size_t & line) {
 			const bool b = check(in, chr, line);
 			if(b) consume(in);
 			return b;
 		}
 
+		// fetches from "in" while checkFx returns true
 		std::string read(std::istream & in, const auto & checkFx) {
 			std::string str;
 			while(checkFx(in)) {
@@ -49,6 +57,7 @@ namespace ltn::c::lex {
 			return str;
 		}
 
+		// ignores rest of line
 		void comment(std::istream & in, std::size_t & line) {
 			while(!isAtEnd(in)) {
 				if(in.peek() == '\n') {
@@ -59,6 +68,8 @@ namespace ltn::c::lex {
 			}
 		}
 
+
+		// Table of keywords
 		const static std::unordered_map<std::string_view, Token::Type> keywords{
 			{"function",    Token::Type::FUNCTION},
 			{"while",       Token::Type::WHILE},
@@ -73,7 +84,8 @@ namespace ltn::c::lex {
 			{"false",       Token::Type::FALSE},
 			{"asm",         Token::Type::ASM},
 		};
-
+		
+		 
 		char deEscape(auto chr, std::size_t & line) {
 			switch (chr) {
 			case 'n': return '\n';
@@ -85,7 +97,7 @@ namespace ltn::c::lex {
 			throw CompilerError{"Invalid escape sequence", line};
 		}
 
-
+		// Reads and deescape string from in
 		std::string string(std::istream & in, std::size_t & line) {
 			std::stringstream ss;
 			while(!in.eof()) {
@@ -111,56 +123,56 @@ namespace ltn::c::lex {
 	}
 	
 	Token token(std::istream & in, std::size_t & line) {
-		const auto match = [&] (auto & in, auto chr) {
+		const auto match = [&] (auto chr) {
 			return ltn::c::lex::match(in, chr, line);
 		};
 		if(isAtEnd(in >> WS(line))) return {Token::Type::___EOF___, "___EOF___"};
 		
-		if(match(in, ',')) return {Token::Type::COMMA, ","};
-		if(match(in, ';')) return {Token::Type::SEMICOLON, ";"};
+		if(match(',')) return {Token::Type::COMMA, ","};
+		if(match(';')) return {Token::Type::SEMICOLON, ";"};
 		
-		if(match(in, '(')) return {Token::Type::PAREN_L, "("};
-		if(match(in, ')')) return {Token::Type::PAREN_R, ")"};
-		if(match(in, '{')) return {Token::Type::BRACE_L, "{"};
-		if(match(in, '}')) return {Token::Type::BRACE_R, "}"};
-		if(match(in, '[')) return {Token::Type::BRACKET_L, "["};
-		if(match(in, ']')) return {Token::Type::BRACKET_R, "]"};
+		if(match('(')) return {Token::Type::PAREN_L, "("};
+		if(match(')')) return {Token::Type::PAREN_R, ")"};
+		if(match('{')) return {Token::Type::BRACE_L, "{"};
+		if(match('}')) return {Token::Type::BRACE_R, "}"};
+		if(match('[')) return {Token::Type::BRACKET_L, "["};
+		if(match(']')) return {Token::Type::BRACKET_R, "]"};
 		
-		if(match(in, '-')) {
+		if(match('-')) {
 			return {Token::Type::MINUS, "-"};
 		}
-		if(match(in, '+')) return {Token::Type::PLUS, "+"};
-		if(match(in, '*')) return {Token::Type::STAR, "*"};
-		if(match(in, '/')) {
-			if(match(in, '/')) {
+		if(match('+')) return {Token::Type::PLUS, "+"};
+		if(match('*')) return {Token::Type::STAR, "*"};
+		if(match('/')) {
+			if(match('/')) {
 				comment(in, line);
 				return token(in, line);
 			}
 			return {Token::Type::SLASH, "*"};
 		}
-		if(match(in, '%')) return {Token::Type::PERCENT, "%"};
+		if(match('%')) return {Token::Type::PERCENT, "%"};
 		
-		if(match(in, '=')) {
-			if(match(in, '=')) return {Token::Type::EQUAL, "=="};
+		if(match('=')) {
+			if(match('=')) return {Token::Type::EQUAL, "=="};
 			return {Token::Type::ASSIGN, "="};
 		}
 
-		if(match(in, '<')) {
-			if(match(in, '<')) return {Token::Type::SHIFT_L, "<<"};
-			if(match(in, '=')) return {Token::Type::SMALLER_EQUAL, "<="};
+		if(match('<')) {
+			if(match('<')) return {Token::Type::SHIFT_L, "<<"};
+			if(match('=')) return {Token::Type::SMALLER_EQUAL, "<="};
 			return {Token::Type::SMALLER, "<"};
 		}
-		if(match(in, '>')) {
-			if(match(in, '>')) return {Token::Type::SHIFT_R, ">>"};
-			if(match(in, '=')) return {Token::Type::BIGGER_EQUAL, ">="};
+		if(match('>')) {
+			if(match('>')) return {Token::Type::SHIFT_R, ">>"};
+			if(match('=')) return {Token::Type::BIGGER_EQUAL, ">="};
 			return {Token::Type::BIGGER, ">"};
 		}
-		if(match(in, '!')) {
-			if(match(in, '=')) return {Token::Type::UNEQUAL, "!="};
+		if(match('!')) {
+			if(match('=')) return {Token::Type::UNEQUAL, "!="};
 			return {Token::Type::NOT, "!"};
 		}
 
-		if(match(in, '"')) {
+		if(match('"')) {
 			const auto str = string(in, line);
 			return {Token::Type::STRING, str};
 		}
@@ -175,7 +187,7 @@ namespace ltn::c::lex {
 
 		if(checkDigit(in)) {
 			const auto literalInt = read(in, checkDigit);
-			if(match(in, '.')) {
+			if(match('.')) {
 				const auto literalFraction = read(in, checkDigit);
 				return {Token::Type::FLOAT, literalInt + "." + literalFraction};
 			}

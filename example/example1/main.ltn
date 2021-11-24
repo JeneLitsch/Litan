@@ -11,8 +11,8 @@
 // }
 
 asm sub(a, b) {
-	"sub";
-	"return";
+	"sub"
+	"return"
 }
 
 function f(a, b) {

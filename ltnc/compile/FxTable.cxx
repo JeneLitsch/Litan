@@ -13,7 +13,8 @@ namespace ltn::c::compile {
 		return CompilerError{ msg.str(), 0 };
 	}
 
-	const FxSignature * FxTable::find(
+	// returns function if defined or nultptr otherwise
+	const FxSignature * FxTable::resolve(
 		const std::string_view name,
 		const std::size_t parameters) {
 		for(const auto & fx : this->functions) {
@@ -24,8 +25,10 @@ namespace ltn::c::compile {
 		return nullptr;
 	}
 
+	// defines new function
 	void FxTable::insert(const FxSignature & fx) {
-		if(this->find(fx.name, fx.parameters)) {
+		// Prevent redefinition
+		if(this->resolve(fx.name, fx.parameters)) {
 			throw multipleDefinitions(fx);
 		}
 		this->functions.push_back(fx);

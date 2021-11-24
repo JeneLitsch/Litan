@@ -2,6 +2,7 @@
 
 namespace ltn::c::compile {
 
+	// map binary operator types to instructions
 	std::string_view getBinInst(ast::Binary::Type op) {
 		switch (op) {
 		case ast::Binary::Type::ADD: return inst::add;
@@ -21,6 +22,7 @@ namespace ltn::c::compile {
 		throw CompilerError{"Invalid binary operation", 0};
 	}
 
+	// compiles a binary operation
 	ExprCode binary(const ast::Binary & binary, CompilerInfo & info, Scope & scope) {
 		const auto l = compile::expression(*binary.l, info, scope);
 		const auto r = compile::expression(*binary.r, info, scope);

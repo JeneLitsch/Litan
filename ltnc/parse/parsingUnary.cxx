@@ -6,7 +6,7 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 		using OP = ltn::c::ast::Unary::Type;
 
-
+		// recursive right sided unary -> [i]
 		std::unique_ptr<ast::Expression> unaryR(
 			lex::Lexer & lexer,
 			std::unique_ptr<ast::Expression> l) {
@@ -22,6 +22,7 @@ namespace ltn::c::parse {
 		}
 	}
 
+	// index operator
 	std::unique_ptr<ast::Expression> index(lex::Lexer & lexer) {
 		if(lexer.match(TT::BRACKET_L)) {
 			auto index = expression(lexer);
@@ -33,6 +34,7 @@ namespace ltn::c::parse {
 		return nullptr;
 	}
 
+	// Operators - ! [i]
 	std::unique_ptr<ast::Expression> unary(lex::Lexer & lexer) {
 		if(lexer.match(TT::MINUS)) {
 			return std::make_unique<ast::Unary>(OP::NEG, unary(lexer), lexer.debug());

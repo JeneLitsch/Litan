@@ -9,6 +9,7 @@ namespace ltn::c::compile {
 		}
 	}
 
+	// compiles source
 	std::string source(const ast::Source & source, CompilerInfo & info) {
 		std::stringstream ss;
 		

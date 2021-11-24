@@ -2,6 +2,7 @@
 
 namespace ltn::c::compile {
 	namespace {
+		// write to an local variable
 		ExprCode writeVar(const ast::Var & expr, Scope & scope) {
 			const auto addr = compile::addr(expr, scope);
 			std::stringstream ss;
@@ -10,6 +11,7 @@ namespace ltn::c::compile {
 			return ExprCode{ss.str(), false, false};
 		}
 
+		// write to an array at index [i]
 		ExprCode writeIndex(const ast::Index & expr, CompilerInfo & info, Scope & scope) {
 			const auto arr = expression(*expr.expression, info, scope);
 			const auto idx = expression(*expr.index, info, scope);
@@ -21,6 +23,7 @@ namespace ltn::c::compile {
 		}
 	}
 
+	// get local stack address of var
 	ExprCode addr(const ast::Var & expr, Scope & scope) {
 		const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
 		std::stringstream ss;
@@ -28,6 +31,7 @@ namespace ltn::c::compile {
 		return ExprCode{ss.str(), true, false};
 	}
 
+	// compile assignable variable
 	ExprCode assignable(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
 		if(auto expr_ = as<ast::Var>(expr)) {
 			return writeVar(*expr_, scope);

@@ -12,7 +12,7 @@ namespace ltn::c::parse {
 		return std::make_unique<ast::Binary>(op, std::move(l), std::move(r), lexer.debug());
 	}
 
-	
+	// Operators * / %
 	std::unique_ptr<ast::Expression> factor(lex::Lexer & lexer) {
 		auto l = unary(lexer);
 		if(lexer.match(TT::STAR)) {
@@ -30,6 +30,7 @@ namespace ltn::c::parse {
 		return l;
 	}
 
+	// Operators + -
 	std::unique_ptr<ast::Expression> term(lex::Lexer & lexer) {
 		auto l = factor(lexer);
 		if(lexer.match(TT::PLUS)) {
@@ -43,7 +44,7 @@ namespace ltn::c::parse {
 		return l;
 	}
 
-
+	// Operators << >>
 	std::unique_ptr<ast::Expression> shift(lex::Lexer & lexer) {
 		auto l = term(lexer);
 		if(lexer.match(TT::SHIFT_L)) {
@@ -57,6 +58,7 @@ namespace ltn::c::parse {
 		return l;
 	}
 
+	// Operators < <= => >
 	std::unique_ptr<ast::Expression> comparision(lex::Lexer & lexer) {
 		auto l = shift(lexer);
 		if(lexer.match(TT::SMALLER)) {
@@ -78,6 +80,7 @@ namespace ltn::c::parse {
 		return l;
 	}
 
+	// Operators == != 
 	std::unique_ptr<ast::Expression> equality(lex::Lexer & lexer) {
 		auto l = comparision(lexer);
 		if(lexer.match(TT::EQUAL)) {

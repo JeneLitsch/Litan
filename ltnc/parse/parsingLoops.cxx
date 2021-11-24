@@ -6,6 +6,7 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 	}
 
+	// parses while loop -> while(...)
 	std::unique_ptr<ast::While> whileLoop(lex::Lexer & lexer) {
 		if(lexer.match(TT::WHILE)) {
 			auto expr = condition(lexer);
@@ -18,6 +19,7 @@ namespace ltn::c::parse {
 		return nullptr;
 	}
 
+	// parses while loop -> for i (a, b)
 	std::unique_ptr<ast::For> forLoop(lex::Lexer & lexer) {
 		if(lexer.match(TT::FOR)) {
 			auto varName = variableName(lexer);

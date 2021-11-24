@@ -6,6 +6,7 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 	}
 
+	// expression in (...) for e.g. if, while...
 	std::unique_ptr<ast::Expression> condition(lex::Lexer & lexer) {
 		if(!lexer.match(TT::PAREN_L)) {
 			throw CompilerError{"expected (", lexer.inLine()};

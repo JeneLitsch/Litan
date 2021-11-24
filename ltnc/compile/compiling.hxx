@@ -23,25 +23,28 @@ namespace ltn::c::compile {
 		std::uint64_t & jumpMarkCounter; 
 	};
 
-	std::string makeJumpId(const std::string_view name, CompilerInfo & info);
 
-
+	// Source
 	std::string source(const ast::Source & source, CompilerInfo & info);
+	
+	// Functional
 	std::string functional(const ast::Functional & fx, CompilerInfo & info);
-	std::string function(const ast::Function & fx, CompilerInfo & info);
 
+	// Statement
 	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode whileLoop(const ast::While & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode forLoop(const ast::For & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode newVar(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope);
 
+	// Expression
 	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope);
 	ExprCode binary(const ast::Binary & expr, CompilerInfo & info, Scope & scope);
 	ExprCode unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope);
 	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope);
-
 	ExprCode assignable(const ast::Assignable & expr, CompilerInfo & info, Scope & scope);
-
 	ExprCode addr(const ast::Var & expr, Scope & scope);
+
+	// utils
+	std::string makeJumpId(const std::string_view name, CompilerInfo & info);
 }	

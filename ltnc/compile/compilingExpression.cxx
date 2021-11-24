@@ -13,6 +13,7 @@ namespace ltn::c::compile {
 		}
 	}
 
+	// compiles any Expression
 	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		if(auto binary = as<ast::Binary>(expr)) {
 			return compile::binary(*binary, info, scope);

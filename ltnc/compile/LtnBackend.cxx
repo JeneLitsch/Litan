@@ -11,7 +11,8 @@ void ltn::c::compile::LtnBackend::compile(
 }
 
 void ltn::c::compile::LtnBackend::yield(std::ostream & out) {
-	if(const auto fxmain = this->fxTable.find("main", 0)) {
+	// Jump to main()
+	if(const auto fxmain = this->fxTable.resolve("main", 0)) {
 		out	<< compile::inst::call(fxmain->id) 
 			<< compile::inst::exlt
 			<< "\n";

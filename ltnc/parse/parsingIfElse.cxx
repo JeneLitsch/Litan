@@ -6,6 +6,7 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 	}
 
+	// parses else branch and returns it if it's existing  
 	std::unique_ptr<ast::Statement> elseBranch(lex::Lexer & lexer) {
 		if(lexer.match(TT::ELSE)) {
 			return statement(lexer);
@@ -13,6 +14,7 @@ namespace ltn::c::parse {
 		return nullptr;
 	}
 
+	// parses if-else statement  
 	std::unique_ptr<ast::IfElse> ifElse(lex::Lexer & lexer) {
 		if(lexer.match(TT::IF)) {
 			auto expr = condition(lexer); 

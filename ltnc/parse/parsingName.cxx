@@ -6,6 +6,7 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 	}
 
+	// parses identifier
 	std::string indentifier(lex::Lexer & lexer, const std::string & errMsg){
 		if(auto token = lexer.match(TT::INDENTIFIER)) {
 			return token->str;

@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <unordered_map>
 namespace ltn::c::compile {
+	// Tracks, stores and resolves local variables  
 	class Scope {
 	public:
 		Scope(const Scope * parent = nullptr);

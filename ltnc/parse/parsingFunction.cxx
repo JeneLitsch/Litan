@@ -35,25 +35,22 @@ namespace ltn::c::parse {
 			
 			std::vector<std::string> insts{};
 			if(!lexer.match(TT::BRACE_R)) {
-				while(true) {
+				while(!lexer.match(TT::BRACE_R)) {
 					if(auto str = lexer.match(TT::STRING)) {
 						insts.push_back(str->str);
 					}
-					if(lexer.match(TT::BRACE_R)) break;
-					if(!lexer.match(TT::SEMICOLON)) {
-						throw ltn::c::CompilerError{
-							"expected ; after instruction",
-							lexer.inLine()};
+					else {
+						throw CompilerError{
+							"Expected instruction between \"...\"",
+							lexer.inLine() };
 					}
 				}
 			} 
 			return insts;
 		}
-	}
 
-	// parses and returns a function node
-	std::unique_ptr<ast::Function> function(lex::Lexer & lexer) {
-		if(lexer.match(TT::FUNCTION)) {
+		// parses and returns a function node
+		std::unique_ptr<ast::Function> function(lex::Lexer & lexer) {
 			const auto name = functionName(lexer);
 			const auto parameters = parameterList(lexer);
 			auto body = statement(lexer); 
@@ -63,11 +60,9 @@ namespace ltn::c::parse {
 				std::move(body),
 				lexer.debug());
 		}
-		return nullptr;
-	}
 
-	std::unique_ptr<ast::Asm> asmFunction(lex::Lexer & lexer) {
-		if(lexer.match(TT::ASM)) {
+		// parses and returns a asm function node
+		std::unique_ptr<ast::Asm> asmFunction(lex::Lexer & lexer) {
 			const auto name = functionName(lexer);
 			const auto paramters = parameterList(lexer);
 			const auto instructions = parse::instructions(lexer);
@@ -77,6 +72,17 @@ namespace ltn::c::parse {
 				instructions,
 				lexer.debug());
 		}
+	}
+
+	// parses and returns a functional node
+	std::unique_ptr<ast::Functional> functional(lex::Lexer & lexer) {
+		if(lexer.match(TT::FUNCTION)) {
+			return function(lexer);
+		}
+		if(lexer.match(TT::ASM)) {
+			return asmFunction(lexer);
+		}
 		return nullptr;
+
 	}
 }
