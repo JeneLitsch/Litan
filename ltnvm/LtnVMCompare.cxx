@@ -1,67 +1,38 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
+#include "CalcBinary.hxx"
+#include "Operations.hxx"
 
 namespace ltn::vm {
-	namespace {
-
-	}
 
 	#define FETCH\
 		const auto r = this->reg.pop();\
 		const auto l = this->reg.pop();
 
-	#define COMP_II(op)\
-		if(isInt(l) && isInt(r)) {\
-			return this->reg.push(Value{l.i op r.i});\
-		}
-
-	#define COMP_FF(op)\
-		if(isFloat(l) && isFloat(r)) {\
-			return this->reg.push(Value{l.f op r.f});\
-		}
-
-	std::runtime_error cannotCompare() {
-		return  std::runtime_error{"Cannot compare different type"};
-	}
-
 	void LtnVM::eql() {
 		FETCH
-		COMP_II(==)
-		COMP_FF(==)
-		throw cannotCompare();
+		return this->reg.push(calc<Equality>(l, r, "cannot compare =="));
 	}
 	void LtnVM::ueql() {
 		FETCH
-		COMP_II(!=)
-		COMP_FF(!=)
-		throw cannotCompare();
+		return this->reg.push(calc<UnEquality>(l, r, "cannot compare !="));
 	}
 	void LtnVM::sml() {
 		FETCH
-		COMP_II(<)
-		COMP_FF(<)
-		throw cannotCompare();
+		return this->reg.push(calc<Less>(l, r, "cannot compare <"));
 	}
 	void LtnVM::bgr() {
 		FETCH
-		COMP_II(>)
-		COMP_FF(>)
-		throw cannotCompare();
-	}
-	void LtnVM::bgreql() {
-		FETCH
-		COMP_II(>=)
-		COMP_FF(>=)
-		throw cannotCompare();
+		return this->reg.push(calc<Greater>(l, r, "cannot compare >"));
 	}
 	void LtnVM::smleql() {
 		FETCH
-		COMP_II(<=)
-		COMP_FF(<=)
-		throw cannotCompare();
+		return this->reg.push(calc<LessEqual>(l, r, "cannot compare <="));
+	}
+	void LtnVM::bgreql() {
+		FETCH
+		return this->reg.push(calc<GreaterEqual>(l, r, "cannot compare >="));
 	}
 
-	#undef COMP_II
-	#undef COMP_FF
 	#undef FETCH
 }

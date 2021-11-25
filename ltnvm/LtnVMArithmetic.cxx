@@ -3,11 +3,15 @@
 #include "TypeCheck.hxx"
 #include <sstream>
 #include "Stringify.hxx"
-namespace ltn::vm {
+#include "Operations.hxx"
+#include "CalcBinary.hxx"
 
+namespace ltn::vm {
 	namespace {
 		template<class T>
-		std::vector<T> operator+(const std::vector<T> & l, const std::vector<T> & r) {
+		std::vector<T> operator+(
+			const std::vector<T> & l,
+			const std::vector<T> & r) {
 			std::vector<T> vec;
 			vec.reserve(l.size() + r.size());
 			vec.insert(std::end(vec), l.begin(), l.end());
@@ -15,88 +19,9 @@ namespace ltn::vm {
 			return vec;
 		}
 
-		struct modulo {
-			auto operator()(auto l, auto r) {
-				constexpr bool isI =
-					std::same_as<decltype(l), std::int64_t> &&
-					std::same_as<decltype(r), std::int64_t>; 
-				if(r != 0) {
-					if constexpr(isI) {
-						return l%r;
-					}
-					else {
-						return std::fmod(l, r);
-					}
-				}
-				throw std::runtime_error{"Modulo by 0"};
-			}
-		};
-
-		struct division {
-			auto operator()(auto l, auto r) {
-				using T = decltype(l/r);
-				if(r != 0) {
-					return static_cast<T>(l) / static_cast<T>(r);
-				}
-				throw std::runtime_error{"Division by 0"};
-			}
-		};
-
 		#define FETCH\
 			const auto r = this->reg.pop();\
 			const auto l = this->reg.pop();
-
-		std::runtime_error typeError(
-			const Value &,
-			const Value &,
-			const std::string_view & str) {
-			return std::runtime_error{ static_cast<std::string>(str) };
-		}
-
-
-		template<class OP>
-		Value arith(const Value & l, const Value & r, const std::string_view & msg) {
-			if(isBool(l)) {
-				if(isBool(r)) {
-					return { static_cast<std::int64_t>(OP()(l.b, r.b))};
-				}
-				if(isInt(r)) {
-					return {OP()(l.b, r.i)};
-				}
-				if(isFloat(r)) {
-					return {OP()(l.b, r.f)};
-				}
-			}
-			if(isInt(l)) {
-				if(isBool(r)) {
-					return {OP()(l.i, r.b)};
-				}
-				if(isInt(r)) {
-					return {OP()(l.i, r.i)};
-				}
-				if(isFloat(r)) {
-					return {OP()(l.i, r.f)};
-				}
-			}
-			if(isFloat(l)) {
-				if(isBool(r)) {
-					return {OP()(l.f, r.b)};
-				}
-				if(isInt(r)) {
-					return {OP()(l.f, r.i)};
-				}
-				if(isFloat(r)) {
-					return {OP()(l.f, r.f)};
-				}
-			}
-			throw typeError(l, r, msg);
-		}
-
-		constexpr auto arithAdd = arith<std::plus<void>>;
-		constexpr auto arithSub = arith<std::minus<void>>;
-		constexpr auto arithMlt = arith<std::multiplies<void>>;
-		constexpr auto arithDiv = arith<division>;
-		constexpr auto arithMod = arith<modulo>;
 
 		Array toArray(const Value & value, Heap & heap) {
 			if(isArr(value)) {
@@ -107,9 +32,8 @@ namespace ltn::vm {
 	}
 
 
-	void LtnVM::add() { 
+	void LtnVM::add() {
 		FETCH
-
 		if(isArr(l)) {
 			const auto & arrL = heap.readArray(l.u);
 			const auto & arrR = toArray(r, heap);
@@ -135,31 +59,34 @@ namespace ltn::vm {
 			return this->reg.push({ref, Value::Type::STRING});
 		}
 
-
-		// Numbers
-		this->reg.push(arithAdd(l, r, "Not operator + for types"));
+		constexpr auto msg = "Not operator + for types";
+		this->reg.push(calc<Addition>(l, r, msg));
 	}
 
 
 
 	void LtnVM::sub() {
 		FETCH
-		this->reg.push(arithSub(l, r, "Not operator - for types"));
+		constexpr auto msg = "Not operator - for types";
+		this->reg.push(calc<Subtraction>(l, r, msg));
 	}
 
 	void LtnVM::mlt() {
 		FETCH
-		this->reg.push(arithMlt(l, r, "Not operator * for types"));
+		constexpr auto msg = "Not operator * for types";
+		this->reg.push(calc<Multiplication>(l, r, msg));
 	}
 
 	void LtnVM::div() {
 		FETCH
-		this->reg.push(arithDiv(l, r, "Not operator / for types"));
+		constexpr auto msg =  "Not operator / for types";
+		this->reg.push(calc<Division>(l, r, msg));
 	}
 
 	void LtnVM::mod() {
 		FETCH
-		this->reg.push(arithMod(l, r, "Not operator % for types"));
+		constexpr auto msg = "Not operator % for types";
+		this->reg.push(calc<Modulo>(l, r, msg));
 	}
 
 	void LtnVM::shift_l() {

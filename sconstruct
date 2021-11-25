@@ -1,5 +1,5 @@
 flags = [
-	"-std=c++2a",
+	"-std=c++2a", "-O3",
 	"-Wall", "-Wextra", "-Wconversion", "-Wunreachable-code", "-Wuninitialized", "-pedantic-errors" , "-Wold-style-cast", "-Wno-error=unused-variable"
 ]
 

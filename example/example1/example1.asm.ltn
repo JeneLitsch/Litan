@@ -1,4 +1,4 @@
-call FX16_main_0
+call FX14_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -127,84 +127,11 @@ return
 null
 return
 
-:FX14_foo_bar_fx_0
-newi 41
-return
-null
-return
-
-:FX15_foo_fx_0
-call FX14_foo_bar_fx_0
-newi 1
-add
-return
-null
-return
-
-:FX16_main_0
-makevar
-call FX5_ltn_cin_0
-addr 0
-write
-makevar
-call FX0_ltn_cout_0
-addr 1
-write
-addr 1
-read
-newstr
-char 61
-char 20
-char 3d
-char 20
-call FX1_ltn_print_2
-scrap
-makevar
-addr 0
-read
-call FX12_ltn_readfloat_1
-addr 2
-write
-addr 1
-read
-newstr
-char 62
-char 20
-char 3d
-char 20
-call FX1_ltn_print_2
-scrap
-makevar
-addr 0
-read
-call FX12_ltn_readfloat_1
-addr 3
-write
-addr 1
-read
-newstr
-char 52
-char 65
-char 73
-char 75
-char 6c
-char 74
-char 20
-char 61
-char 20
-char 2b
-char 20
-char 62
-char 20
-char 3d
-char 20
-addr 2
-read
-addr 3
-read
-add
-add
-call FX3_ltn_println_2
+:FX14_main_0
+newf 42
+true
+bgreql
+call FX4_ltn_println_1
 scrap
 null
 return
