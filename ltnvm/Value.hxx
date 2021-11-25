@@ -6,7 +6,7 @@ namespace ltn::vm {
 		enum class Type : std::uint32_t {
 			NVLL, ADDR,
 			INT, FLOAT, BOOL,
-			ARRAY, STRING,
+			ARRAY, STRING, ISTREAM, OSTREAM,
 		};
 		constexpr Value()
 			: u(0), type(Type::NVLL) {}

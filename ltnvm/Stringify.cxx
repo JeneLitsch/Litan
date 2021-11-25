@@ -3,6 +3,9 @@
 #include <sstream>
 namespace ltn::vm {
 	std::string toString(const Value & value, Heap & heap) {
+		if(isNull(value)) {
+			return "null";
+		}
 		if(isBool(value)) {
 			std::stringstream ss;
 			ss << std::boolalpha << value.b;
@@ -31,6 +34,9 @@ namespace ltn::vm {
 			}
 			ss << "]";
 			return ss.str();
+		}
+		if(isOStream(value)) {
+			return "<ostream>";
 		}
 		throw std::runtime_error{"Cannot convert to string"};
 	}

@@ -16,6 +16,5 @@ namespace foo {
 }
 
 function main() {
-    foo::bar::fx();
-    return foo::fx();
+	ltn::println("Number: " + 3);
 }

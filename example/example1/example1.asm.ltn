@@ -1,25 +1,102 @@
-call FX2_main_0
+call FX7_main_0
 exit
 
-:FX0_foo_bar_fx_0
+:FX0_ltn_out_std_0
+newout_std
+return
+null
+return
+
+:FX1_ltn_print_2
+out
+null
+return
+
+:FX2_ltn_print_1
+makevar
+addr 0
+write
+call FX0_ltn_out_std_0
+addr 0
+read
+call FX1_ltn_print_2
+scrap
+null
+return
+
+:FX3_ltn_println_2
+makevar
+addr 0
+write
+makevar
+addr 1
+write
+addr 1
+read
+addr 0
+read
+call FX1_ltn_print_2
+scrap
+addr 1
+read
+newstr
+char a
+call FX1_ltn_print_2
+scrap
+null
+return
+
+:FX4_ltn_println_1
+makevar
+addr 0
+write
+makevar
+call FX0_ltn_out_std_0
+addr 1
+write
+addr 1
+read
+addr 0
+read
+call FX1_ltn_print_2
+scrap
+addr 1
+read
+newstr
+char a
+call FX1_ltn_print_2
+scrap
+null
+return
+
+:FX5_foo_bar_fx_0
 newi 41
 return
 null
 return
 
-:FX1_foo_fx_0
-call FX0_foo_bar_fx_0
+:FX6_foo_fx_0
+call FX5_foo_bar_fx_0
 newi 1
 add
 return
 null
 return
 
-:FX2_main_0
-call FX0_foo_bar_fx_0
+:FX7_main_0
+newstr
+char 4e
+char 75
+char 6d
+char 62
+char 65
+char 72
+char 3a
+char 20
+newi 3
+add
+call FX4_ltn_println_1
 scrap
-call FX1_foo_fx_0
-return
 null
 return
 

@@ -11,7 +11,9 @@ namespace ltn::c::compile {
 				fx.nameSpace,
 				fx.parameters.size());
 			ss << inst::jumpmark(fxSig->id);
-			for(const auto & param : fx.parameters) {
+			auto params = fx.parameters;
+			std::reverse(params.begin(), params.end());
+			for(const auto & param : params) {
 				const auto addr = scope.insert(param, fx.debugInfo.line);
 				ss << inst::makevar;
 				ss << inst::addr(addr);

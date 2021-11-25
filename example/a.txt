@@ -5,9 +5,221 @@ byte 0
 byte 0
 byte 0
 byte 0
+byte 1
 byte 0
-byte 2c
 exit
+newout_std
+return
+null
+return
+out
+null
+return
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+write
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte a
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+read
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte e
+scrap
+null
+return
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+write
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+write
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+read
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+read
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte e
+scrap
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+read
+newstr
+char
+byte a
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte e
+scrap
+null
+return
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+write
+makevar
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte a
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+write
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+read
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+read
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte e
+scrap
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+read
+newstr
+char
+byte a
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte e
+scrap
+null
+return
 newi
 byte 0
 byte 0
@@ -28,7 +240,7 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte a
+byte de
 newi
 byte 0
 byte 0
@@ -42,6 +254,33 @@ add
 return
 null
 return
+newstr
+char
+byte 4e
+char
+byte 75
+char
+byte 6d
+char
+byte 62
+char
+byte 65
+char
+byte 72
+char
+byte 3a
+char
+byte 20
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 3
+add
 call
 byte 0
 byte 0
@@ -50,17 +289,7 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte a
+byte 88
 scrap
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 16
-return
 null
 return

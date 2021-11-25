@@ -23,7 +23,7 @@ std::uint64_t ltn::vm::Heap::alloc(const HeapObject & object) {
 	else {
 		std::uint64_t addr = this->reuse.front();
 		this->reuse.pop();
-		this->objects[addr] = object;
+		this->objects[addr] = std::move(object);
 		return addr;
 	}
 }
@@ -35,6 +35,11 @@ std::uint64_t ltn::vm::Heap::allocString(const std::string & str) {
 std::uint64_t ltn::vm::Heap::allocArray(const Array & arr) {
 	return this->alloc({arr});
 }
+
+std::uint64_t ltn::vm::Heap::allocOStream(const OStream & out) {
+	return this->alloc({out});
+}
+
 
 ltn::vm::HeapObject & ltn::vm::Heap::get(std::uint64_t addr) {
 	if(addr > this->objects.size()) {
@@ -63,6 +68,16 @@ ltn::vm::Array & ltn::vm::Heap::readArray(std::uint64_t addr) {
 	}
 }
 
+ltn::vm::OStream & ltn::vm::Heap::readOStream(std::uint64_t addr) {
+	auto & object = get(addr);
+	if(auto * stream = std::get_if<OStream>(&object.obj)) {
+		return *stream;
+	}
+	else {
+		throw accessViolation(addr, "not an ostream");
+	}
+}
+
 void ltn::vm::Heap::collectGarbage(const Stack & stack, const Register & reg) {
 	mark(stack.getContainer());
 	mark(reg.getContainer());
@@ -77,7 +92,7 @@ void ltn::vm::Heap::mark(const std::vector<Value> & values) {
 			obj.marked = true;
 			mark(arr);
 		}
-		if(isStr(value)) {
+		if(isStr(value) || isOStream(value)) {
 			auto & obj = get(value.u);
 			obj.marked = true;
 		}
@@ -92,7 +107,6 @@ void ltn::vm::Heap::sweep() {
 		}
 		else if(!std::get_if<std::monostate>(&obj.obj)) {
 			obj.obj = std::monostate();
-			std::cout << "Deleted: " << idx << "\n";
 			this->reuse.push(idx);
 		}
 		idx++;

@@ -1,5 +1,9 @@
 #include "Value.hxx"
 namespace ltn::vm {
+	inline bool isNull(const Value & val) {
+		return val.type == Value::Type::NVLL;
+	}
+
 	inline bool isInt(const Value & val) {
 		return val.type == Value::Type::INT;
 	}
@@ -22,5 +26,9 @@ namespace ltn::vm {
 
 	inline bool isArr(const Value & val) {
 		return val.type == Value::Type::ARRAY;
+	}
+
+	inline bool isOStream(const Value & val) {
+		return val.type == Value::Type::OSTREAM;
 	}
 }

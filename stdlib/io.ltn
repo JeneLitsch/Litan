@@ -1,0 +1,29 @@
+
+namespace ltn {
+	namespace out {
+		asm std() {
+			"newout_std"
+			"return"
+		}
+	}
+
+	asm print(stream, value) {
+		"out"
+	}
+
+	function print(value) {
+		print(out::std(), value);
+	}
+
+	function println(stream, value) {
+		print(stream, value);
+		print(stream, "\n");
+	}
+
+	function println(value) {
+		var stream = out::std();
+		print(stream, value);
+		print(stream, "\n");
+	}
+
+}

@@ -1,6 +1,7 @@
 #include "LtnVM.hxx"
 #include "ltn/InstructionSet.hxx"
 #include <sstream>
+#include "Stringify.hxx"
 namespace ltn::vm {
 	std::uint8_t LtnVM::fetchByte() {
 		return byteCode[this->pc++];
@@ -50,6 +51,7 @@ namespace ltn::vm {
 			case Inst::FALSE: this->falsE(); break;
 			case Inst::NEWARR: this->newarr(); break;
 			case Inst::NEWSTR: this->newstr(); break;
+			case Inst::NEWOUT_STD: this->newout_std(); break;
 			case Inst::NVLL: this->null(); break;
 			case Inst::CHAR: this->ch4r(); break;
 			case Inst::ELEM: this->elem(); break;
@@ -61,7 +63,8 @@ namespace ltn::vm {
 			case Inst::ERROR: this->error(); break;
 			case Inst::EXIT: {
 				this->ostream.get() << "Exit main() with return value: ";
-				this->out();
+				const auto value = this->reg.pop();
+				this->ostream.get() << toString(value, this->heap);
 				this->ostream.get() << "\n";
 				return;
 			}

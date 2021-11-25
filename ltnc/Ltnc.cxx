@@ -2,6 +2,15 @@
 #include <vector>
 #include "lex/Lexer.hxx"
 #include "parse/parsing.hxx"
+#include <string_view>
+using namespace std::string_view_literals;
+
+const std::span<const std::string_view> ltn::c::Ltnc::stdLib() const {
+	constexpr static std::array stdFiles {
+		"io.ltn"sv,
+	};
+	return stdFiles;
+}
 
 void ltn::c::Ltnc::compile(std::istream & in, const std::string &) {
 

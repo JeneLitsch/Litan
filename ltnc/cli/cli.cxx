@@ -8,7 +8,6 @@
 #include "ltnc/ast/Namespace.hxx"
 #include <string_view>
 
-using namespace std::string_view_literals;
 
 void compileFile(ltn::c::Ltnc & ltnc, const std::filesystem::path & filepath) {
 	std::cout << "[Compiling] " << filepath << "\n";
@@ -25,12 +24,11 @@ void compileFile(ltn::c::Ltnc & ltnc, const std::filesystem::path & filepath) {
 }
 
 int main(int argc, char const *argv[]){
-	constexpr std::array<std::string_view, 0> stdFiles {};
 	try {
 		const ltn::c::Args args{argv, static_cast<std::size_t>(argc)};
 		ltn::c::Ltnc compiler{std::make_unique<ltn::c::compile::LtnBackend>()};
 		
-		for(const auto & stdFile : stdFiles) {
+		for(const auto & stdFile : compiler.stdLib()) {
 			const auto source = args.getStdLib() / stdFile; 
 			compileFile(compiler, source);
 		}

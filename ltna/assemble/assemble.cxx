@@ -31,6 +31,7 @@ namespace ltn::a::assemble {
 			{"false", Inst::FALSE},
 			{"newarr", Inst::NEWARR},
 			{"newstr", Inst::NEWSTR},
+			{"newout_std", Inst::NEWOUT_STD},
 			{"null", Inst::NVLL},
 			{"char", Inst::CHAR},
 			{"elem", Inst::ELEM},
