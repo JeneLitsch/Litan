@@ -63,6 +63,7 @@ namespace ltn::a::assemble {
 			{"floor", Inst::FLOOR},
 			{"ceil", Inst::CEIL},
 			{"abs", Inst::ABS},
+			{"hypot", Inst::HYPOT},
 			
 			{"sin", Inst::SIN},
 			{"cos", Inst::COS},

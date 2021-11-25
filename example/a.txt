@@ -6,7 +6,7 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 6a
+byte 6e
 exit
 newout_std
 return
@@ -348,6 +348,10 @@ abs
 return
 null
 return
+hypot
+return
+null
+return
 sin
 return
 null
@@ -368,8 +372,16 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 2a
-neg
+byte 4
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 3
 call
 byte 0
 byte 0
@@ -378,104 +390,7 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 5a
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 88
-scrap
-newf
-byte 40
-byte 45
-byte 0
-byte 62
-byte 4d
-byte d2
-byte f1
-byte aa
-neg
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-byte 5a
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 88
-scrap
-newf
-byte 40
-byte 45
-byte 0
-byte 62
-byte 4d
-byte d2
-byte f1
-byte aa
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-byte 5a
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 88
-scrap
-true
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-byte 5a
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 88
-scrap
-false
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-byte 5a
+byte 5e
 call
 byte 0
 byte 0

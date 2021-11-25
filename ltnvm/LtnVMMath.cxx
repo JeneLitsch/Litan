@@ -15,7 +15,7 @@ namespace ltn::vm {
 	}
 
 	bool less(const Value & l, const Value & r) {
-		return toDouble(l) < toDouble(r);
+		return toDouble(l) <= toDouble(r);
 	}
 
 	template<class Fx>
@@ -44,7 +44,7 @@ namespace ltn::vm {
 		}
 		throw std::runtime_error{msg};
 	}
-	
+
 	void LtnVM::min() {
 		FETCH
 		this->reg.push((less(l, r) ? l : r));
@@ -68,6 +68,10 @@ namespace ltn::vm {
 	void LtnVM::abs() {
 		constexpr auto msg = "Can only take abs() from numeric types";
 		this->reg.push(function<Absolute>(this->reg.pop(), msg));
+	}
+	void LtnVM::hypot() {
+		FETCH
+		this->reg.push(std::hypot(toDouble(l), toDouble(r)));
 	}
 	
 	void LtnVM::sin() {

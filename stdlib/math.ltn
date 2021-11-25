@@ -30,6 +30,12 @@ namespace ltn {
 		"return"
 	}
 
+	asm hypot(a, b) {
+		"hypot"
+		"return"
+	}
+
+
 	asm sin(b) {
 		"sin"
 		"return"

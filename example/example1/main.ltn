@@ -1,7 +1,3 @@
 function main() {
-	ltn::println(ltn::abs(-42));
-	ltn::println(ltn::abs(-42.003));
-	ltn::println(ltn::abs(42.003));
-	ltn::println(ltn::abs(true));
-	ltn::println(ltn::abs(false));
+	ltn::println(ltn::hypot(4, 3));
 }
