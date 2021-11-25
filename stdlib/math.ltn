@@ -35,6 +35,10 @@ namespace ltn {
 		"return"
 	}
 
+	asm sqrt(a) {
+		"sqrt"
+		"return"
+	}
 
 	asm sin(b) {
 		"sin"

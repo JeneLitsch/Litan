@@ -6,7 +6,7 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 6e
+byte 72
 exit
 newout_std
 return
@@ -352,6 +352,10 @@ hypot
 return
 null
 return
+sqrt
+return
+null
+return
 sin
 return
 null
@@ -372,16 +376,7 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 4
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 3
+byte 1
 call
 byte 0
 byte 0
@@ -390,7 +385,7 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 5e
+byte 62
 call
 byte 0
 byte 0

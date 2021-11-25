@@ -73,6 +73,10 @@ namespace ltn::vm {
 		FETCH
 		this->reg.push(std::hypot(toDouble(l), toDouble(r)));
 	}
+	void LtnVM::sqrt() {
+		const auto value = this->reg.pop();
+		this->reg.push(std::sqrt(toDouble(value)));
+	}
 	
 	void LtnVM::sin() {
 		constexpr auto msg = "sin() only accepts numeric types";

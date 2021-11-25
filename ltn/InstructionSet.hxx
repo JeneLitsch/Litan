@@ -20,7 +20,7 @@ namespace ltn {
 
 		OUT = 0x70, IN_STR, IN_LINE, IN_INT, IN_FLOAT,
 
-		MIN = 0x80, MAX, ROUND, FLOOR, CEIL, ABS, HYPOT,
+		MIN = 0x80, MAX, ROUND, FLOOR, CEIL, ABS, HYPOT, SQRT,
 		SIN = 0x90, COS, TAN,
 	};
 }

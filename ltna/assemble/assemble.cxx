@@ -64,6 +64,7 @@ namespace ltn::a::assemble {
 			{"ceil", Inst::CEIL},
 			{"abs", Inst::ABS},
 			{"hypot", Inst::HYPOT},
+			{"sqrt", Inst::SQRT},
 			
 			{"sin", Inst::SIN},
 			{"cos", Inst::COS},

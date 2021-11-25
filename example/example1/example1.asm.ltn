@@ -1,4 +1,4 @@
-call FX24_main_0
+call FX25_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -169,28 +169,33 @@ return
 null
 return
 
-:FX21_ltn_sin_1
+:FX21_ltn_sqrt_1
+sqrt
+return
+null
+return
+
+:FX22_ltn_sin_1
 sin
 return
 null
 return
 
-:FX22_ltn_cos_1
+:FX23_ltn_cos_1
 cos
 return
 null
 return
 
-:FX23_ltn_tan_1
+:FX24_ltn_tan_1
 tan
 return
 null
 return
 
-:FX24_main_0
-newi 4
-newi 3
-call FX20_ltn_hypot_2
+:FX25_main_0
+newi 1
+call FX21_ltn_sqrt_1
 call FX4_ltn_println_1
 scrap
 null
