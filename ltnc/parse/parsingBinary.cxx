@@ -6,102 +6,91 @@ namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 		using OP = ltn::c::ast::Binary::Type;
+
+		std::unique_ptr<ast::Binary> bin(
+			lex::Lexer & lexer, OP op, auto && l, auto && r) {
+		
+			return std::make_unique<ast::Binary>(
+				op, std::move(l), std::move(r), lexer.debug());
+		}
+
+		std::pair<bool, std::unique_ptr<ast::Expression>> fromTable(
+			lex::Lexer & lexer,
+			const auto & opTable,
+			auto presedenceDown,
+			auto && l) {
+			
+			for(const auto & [tt, op] : opTable) {
+				if(lexer.match(tt)) {
+					auto && r = presedenceDown(lexer);
+					return {false, bin(lexer, op, l, r)};
+				}
+			}
+			return {true, std::move(l)};
+		}
+
+		std::unique_ptr<ast::Expression> binary(
+			lex::Lexer & lexer, const auto & opTable, auto presedenceDown) {
+			while(true) {
+				auto l = presedenceDown(lexer);
+				while (true) {
+					auto [last, expr] = fromTable(lexer, opTable, presedenceDown, l);
+					l = std::move(expr);
+					if(last) return l;
+				}				
+			}
+		}
+
 	}
 
-	std::unique_ptr<ast::Binary> bin(lex::Lexer & lexer, OP op, auto && l, auto && r) {
-		return std::make_unique<ast::Binary>(op, std::move(l), std::move(r), lexer.debug());
-	}
+
 
 	// Operators * / %
 	std::unique_ptr<ast::Expression> factor(lex::Lexer & lexer) {
-		auto l = unary(lexer);
-		while(true) {
-			if(lexer.match(TT::STAR)) {
-				auto r = unary(lexer);
-				l = bin(lexer, OP::MLT, l, r);
-			}
-			else if(lexer.match(TT::SLASH)) {
-				auto r = unary(lexer);
-				l = bin(lexer, OP::DIV, l, r);
-			}
-			else if(lexer.match(TT::PERCENT)) {
-				auto r = unary(lexer);
-				l = bin(lexer, OP::MOD, l, r);
-			}
-			else return l;
-		}
+		constexpr std::array table {
+			std::pair{TT::STAR, OP::MLT},
+			std::pair{TT::SLASH, OP::DIV},
+			std::pair{TT::PERCENT, OP::MOD},
+		};
+		return binary(lexer, table, unary);
 	}
 
 	// Operators + -
 	std::unique_ptr<ast::Expression> term(lex::Lexer & lexer) {
-		auto l = factor(lexer);
-		while(true) {
-			if(lexer.match(TT::PLUS)) {
-				auto r = factor(lexer);
-				l = bin(lexer, OP::ADD, l, r);
-			}
-			else if(lexer.match(TT::MINUS)) {
-				auto r = factor(lexer);
-				l = bin(lexer, OP::SUB, l, r);
-			}
-			else return l;
-		}
+		constexpr std::array table {
+			std::pair{TT::PLUS, OP::ADD},
+			std::pair{TT::MINUS, OP::SUB},
+		};
+		return binary(lexer, table, factor);
 	}
 
 	// Operators << >>
 	std::unique_ptr<ast::Expression> shift(lex::Lexer & lexer) {
-		auto l = term(lexer);
-		while(true) {
-			if(lexer.match(TT::SHIFT_L)) {
-				auto r = term(lexer);
-				l = bin(lexer, OP::SHIFT_L, l, r);
-			}
-			else if(lexer.match(TT::SHIFT_R)) {
-				auto r = term(lexer);
-				l = bin(lexer, OP::SHIFT_R, l, r);
-			}
-			else return l;
-		}
+		constexpr std::array table {
+			std::pair{TT::SHIFT_L, OP::SHIFT_L},
+			std::pair{TT::SHIFT_R, OP::SHIFT_R},
+		};
+		return binary(lexer, table, term); 
 	}
 
 	// Operators < <= => >
 	std::unique_ptr<ast::Expression> comparision(lex::Lexer & lexer) {
-		auto l = shift(lexer);
-		while(true) {
-			if(lexer.match(TT::SMALLER)) {
-				auto r = shift(lexer);
-				l = bin(lexer, OP::SMALLER, l, r);
-			}
-			else if(lexer.match(TT::SMALLER_EQUAL)) {
-				auto r = shift(lexer);
-				l = bin(lexer, OP::SMALLEREQUAL, l, r);
-			}
-			else if(lexer.match(TT::BIGGER)) {
-				auto r = shift(lexer);
-				l = bin(lexer, OP::BIGGER, l, r);
-			}
-			else if(lexer.match(TT::BIGGER_EQUAL)) {
-				auto r = shift(lexer);
-				l = bin(lexer, OP::BIGGEREQUAL, l, r);
-			}
-			else return l;
-		}
+		constexpr std::array table {
+			std::pair{TT::SMALLER, OP::SMALLER},
+			std::pair{TT::SMALLER_EQUAL, OP::SMALLEREQUAL},
+			std::pair{TT::BIGGER, OP::BIGGER},
+			std::pair{TT::BIGGER_EQUAL, OP::BIGGEREQUAL},
+		};
+		return binary(lexer, table, shift);
 	}
 
 	// Operators == != 
 	std::unique_ptr<ast::Expression> equality(lex::Lexer & lexer) {
-		auto l = comparision(lexer);
-		while(true) {
-			if(lexer.match(TT::EQUAL)) {
-				auto r = comparision(lexer);
-				l = bin(lexer, OP::EQUAL, l, r);
-			}
-			else if(lexer.match(TT::UNEQUAL)) {
-				auto r = comparision(lexer);
-				l = bin(lexer, OP::UNEQUEL, l, r);
-			}
-			else return l;
-		}
+		constexpr std::array table {
+			std::pair{TT::EQUAL, OP::EQUAL},
+			std::pair{TT::UNEQUAL, OP::UNEQUEL},
+		};
+		return binary(lexer, table, comparision); 
 	}
 
 }

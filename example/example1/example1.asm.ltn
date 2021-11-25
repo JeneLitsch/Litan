@@ -2,19 +2,7 @@ call FX0_main_0
 exit
 
 :FX0_main_0
-newi 1
-newi 0
-add
-newarr
-newi 1
-elem
-newi 2
-elem
-newi 3
-elem
-add
-newi 4
-add
+null
 return
 null
 return
