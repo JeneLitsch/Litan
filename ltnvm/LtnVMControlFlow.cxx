@@ -5,6 +5,7 @@ namespace ltn::vm {
 	bool isTruthy(const Value & value) {
 		if(isBool(value)) return value.b;
 		if(isInt(value)) return value.i;
+		if(isFloat(value)) return value.f;
 		throw std::runtime_error{"Cannot convert to bool"};
 	}
 

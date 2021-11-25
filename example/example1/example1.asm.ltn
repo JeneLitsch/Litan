@@ -128,9 +128,7 @@ null
 return
 
 :FX14_main_0
-newf 42
-true
-bgreql
+newi 42
 call FX4_ltn_println_1
 scrap
 null

@@ -324,17 +324,15 @@ byte 2d
 return
 null
 return
-newf
-byte 40
-byte 45
+newi
 byte 0
 byte 0
 byte 0
 byte 0
 byte 0
 byte 0
-true
-bgreql
+byte 0
+byte 2a
 call
 byte 0
 byte 0

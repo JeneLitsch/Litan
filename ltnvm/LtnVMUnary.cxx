@@ -21,6 +21,12 @@ namespace ltn::vm {
 		if(isBool(x)) {
 			return this->reg.push({!x.b});
 		}
+		if(isInt(x)) {
+			return this->reg.push({!x.i});
+		}
+		if(isFloat(x)) {
+			return this->reg.push({!x.f});
+		}
 		throw std::runtime_error{"Cannot apply not"};
 	}
 
