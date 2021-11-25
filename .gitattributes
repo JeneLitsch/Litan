@@ -1,0 +1,5 @@
+
+*.ltn linguist-detectable=true
+*.ltn linguist-language=text
+*.asm.ltn linguist-detectable=false
+*.bin.ltn linguist-detectable=false
