@@ -6,7 +6,7 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 72
+byte 7e
 exit
 newout_std
 return
@@ -368,6 +368,30 @@ tan
 return
 null
 return
+size
+return
+null
+return
+front
+return
+null
+return
+back
+return
+null
+return
+makevar
+newarr
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 5
+byte 39
+elem
 newi
 byte 0
 byte 0
@@ -377,6 +401,57 @@ byte 0
 byte 0
 byte 0
 byte 1
+elem
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2
+elem
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 3
+elem
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2a
+elem
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+write
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+read
 call
 byte 0
 byte 0
@@ -385,7 +460,65 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 62
+byte 72
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 88
+scrap
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+read
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 76
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 88
+scrap
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+read
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 7a
 call
 byte 0
 byte 0

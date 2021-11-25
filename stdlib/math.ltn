@@ -1,57 +1,16 @@
 namespace ltn {
+	asm min(a, b) { "min" "return" }
+	asm max(a, b) { "max" "return" }
 	
-	asm min(a, b) {
-		"min"
-		"return"
-	}
-	
-	asm max(a, b) {
-		"max"
-		"return"
-	}
-	
-	asm round(a) {
-		"round"
-		"return"
-	}
-	
-	asm floor(b) {
-		"floor"
-		"return"
-	}
-	
-	asm ceil(b) {
-		"ceil"
-		"return"
-	}
+	asm round(a) { "round" "return" }
+	asm floor(b) { "floor" "return" }
+	asm ceil(b) { "ceil" "return" }
 
-	asm abs(b) {
-		"abs"
-		"return"
-	}
+	asm abs(b) { "abs" "return" }
+	asm hypot(a, b) { "hypot" "return" }
+	asm sqrt(a) { "sqrt" "return" }
 
-	asm hypot(a, b) {
-		"hypot"
-		"return"
-	}
-
-	asm sqrt(a) {
-		"sqrt"
-		"return"
-	}
-
-	asm sin(b) {
-		"sin"
-		"return"
-	}
-
-	asm cos(b) {
-		"cos"
-		"return"
-	}
-
-	asm tan(b) {
-		"tan"
-		"return"
-	}
+	asm sin(b) { "sin" "return" }
+	asm cos(b) { "cos" "return" }
+	asm tan(b) { "tan" "return" }
 }

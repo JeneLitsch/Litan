@@ -1,4 +1,4 @@
-call FX25_main_0
+call FX28_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -193,9 +193,52 @@ return
 null
 return
 
-:FX25_main_0
+:FX25_ltn_size_1
+size
+return
+null
+return
+
+:FX26_ltn_front_1
+front
+return
+null
+return
+
+:FX27_ltn_back_1
+back
+return
+null
+return
+
+:FX28_main_0
+makevar
+newarr
+newi 1337
+elem
 newi 1
-call FX21_ltn_sqrt_1
+elem
+newi 2
+elem
+newi 3
+elem
+newi 42
+elem
+addr 0
+write
+addr 0
+read
+call FX25_ltn_size_1
+call FX4_ltn_println_1
+scrap
+addr 0
+read
+call FX26_ltn_front_1
+call FX4_ltn_println_1
+scrap
+addr 0
+read
+call FX27_ltn_back_1
 call FX4_ltn_println_1
 scrap
 null

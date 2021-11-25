@@ -22,5 +22,6 @@ namespace ltn {
 
 		MIN = 0x80, MAX, ROUND, FLOOR, CEIL, ABS, HYPOT, SQRT,
 		SIN = 0x90, COS, TAN,
+		SIZE = 0xa0, FRONT, BACK,
 	};
 }

@@ -1,3 +1,6 @@
 function main() {
-	ltn::println(ltn::sqrt(1));
+	var arr = [1337, 1, 2, 3, 42];
+	ltn::println(ltn::size(arr));
+	ltn::println(ltn::front(arr));
+	ltn::println(ltn::back(arr));
 }

@@ -97,6 +97,9 @@ namespace ltn::vm {
 			case Inst::COS: this->cos(); break;
 			case Inst::TAN: this->tan(); break;
 			
+			case Inst::SIZE: this->size(); break;
+			case Inst::FRONT: this->front(); break;
+			case Inst::BACK: this->back(); break;
 			default: {
 				std::stringstream ss;
 				ss << "Illegal Instruction: " << std::hex << int(inst) << std::dec;

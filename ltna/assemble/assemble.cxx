@@ -69,6 +69,10 @@ namespace ltn::a::assemble {
 			{"sin", Inst::SIN},
 			{"cos", Inst::COS},
 			{"tan", Inst::TAN},
+
+			{"size", Inst::SIZE},
+			{"front", Inst::FRONT},
+			{"back", Inst::BACK},
 		};
 
 
