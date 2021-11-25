@@ -2,11 +2,19 @@ call FX0_main_0
 exit
 
 :FX0_main_0
-newi 8
+newi 1
+newi 0
+add
+newarr
+newi 1
+elem
 newi 2
-div
-newi 2
-div
+elem
+newi 3
+elem
+add
+newi 4
+add
 return
 null
 return

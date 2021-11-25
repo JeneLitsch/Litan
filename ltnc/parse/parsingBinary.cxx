@@ -38,11 +38,11 @@ namespace ltn::c::parse {
 		while(true) {
 			if(lexer.match(TT::PLUS)) {
 				auto r = factor(lexer);
-				return bin(lexer, OP::ADD, l, r);
+				l = bin(lexer, OP::ADD, l, r);
 			}
 			else if(lexer.match(TT::MINUS)) {
 				auto r = factor(lexer);
-				return bin(lexer, OP::SUB, l, r);
+				l = bin(lexer, OP::SUB, l, r);
 			}
 			else return l;
 		}
@@ -54,11 +54,11 @@ namespace ltn::c::parse {
 		while(true) {
 			if(lexer.match(TT::SHIFT_L)) {
 				auto r = term(lexer);
-				return bin(lexer, OP::SHIFT_L, l, r);
+				l = bin(lexer, OP::SHIFT_L, l, r);
 			}
 			else if(lexer.match(TT::SHIFT_R)) {
 				auto r = term(lexer);
-				return bin(lexer, OP::SHIFT_R, l, r);
+				l = bin(lexer, OP::SHIFT_R, l, r);
 			}
 			else return l;
 		}
@@ -70,19 +70,19 @@ namespace ltn::c::parse {
 		while(true) {
 			if(lexer.match(TT::SMALLER)) {
 				auto r = shift(lexer);
-				return bin(lexer, OP::SMALLER, l, r);
+				l = bin(lexer, OP::SMALLER, l, r);
 			}
 			else if(lexer.match(TT::SMALLER_EQUAL)) {
 				auto r = shift(lexer);
-				return bin(lexer, OP::SMALLEREQUAL, l, r);
+				l = bin(lexer, OP::SMALLEREQUAL, l, r);
 			}
 			else if(lexer.match(TT::BIGGER)) {
 				auto r = shift(lexer);
-				return bin(lexer, OP::BIGGER, l, r);
+				l = bin(lexer, OP::BIGGER, l, r);
 			}
 			else if(lexer.match(TT::BIGGER_EQUAL)) {
 				auto r = shift(lexer);
-				return bin(lexer, OP::BIGGEREQUAL, l, r);
+				l = bin(lexer, OP::BIGGEREQUAL, l, r);
 			}
 			else return l;
 		}
@@ -94,11 +94,11 @@ namespace ltn::c::parse {
 		while(true) {
 			if(lexer.match(TT::EQUAL)) {
 				auto r = comparision(lexer);
-				return bin(lexer, OP::EQUAL, l, r);
+				l = bin(lexer, OP::EQUAL, l, r);
 			}
 			else if(lexer.match(TT::UNEQUAL)) {
 				auto r = comparision(lexer);
-				return bin(lexer, OP::UNEQUEL, l, r);
+				l = bin(lexer, OP::UNEQUEL, l, r);
 			}
 			else return l;
 		}

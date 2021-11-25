@@ -4,7 +4,9 @@
 namespace ltn::vm {
 	struct Value {
 		enum class Type : std::uint32_t {
-			INT, FLOAT, BOOL, ARRAY, STRING, NVLL, ADDR,
+			NVLL, ADDR,
+			INT, FLOAT, BOOL,
+			ARRAY, STRING, ISTREAM, OSTREAM,
 		};
 		constexpr Value()
 			: u(0), type(Type::NVLL) {}

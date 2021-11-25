@@ -1,37 +1,10 @@
-// // function fib(n) {
-// // 	if(n <= 0) return 0;
-// // 	if(n == 1) return 1;
-// // 	return ->fib(n - 1) + ->fib(n - 2);
-// // }#
-
-// // function fx() {
-// // 	var str = "Hello World";
-// // 	var arr = [str, 2, [42, 1337]];
-// // 	return arr;
-// // }
-
-// namespace ltn {
-// 	function subtract(a, b) {
-// 		return math::sub(a,b);
-// 	}
-// 	namespace math {
-// 		asm sub(a, b) {
-// 			"sub"
-// 			"return"
-// 		}
-// 	}
-// }
-
-// function f(a, b) {
-// 	var a = "";
-// 	var b = "";
-// 	return [[[a, b]]]; 
-// }
-
-// function makeArr() {
-// 	return [1, 2, 3];
+// function fib(n) {
+// 	if(n <= 0) return 0;
+// 	if(n == 1) return 1;
+// 	return ->fib(n - 1) + ->fib(n - 2);
 // }
 
 function main() {
-	return 8 / 2 / 2;
+	return 1 + 0 + [1, 2, 3] + 4;
 }
+

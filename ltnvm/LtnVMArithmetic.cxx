@@ -104,25 +104,17 @@ namespace ltn::vm {
 			const auto arrL = heap.readArray(l.u);
 			if(isArr(r)) {
 				const auto arrR = heap.readArray(r.u);
-				const auto ref = heap.allocArray();
-				auto & arr = heap.readArray(ref);
-				arr = arrL + arrR;
+				const auto ref = heap.allocArray(arrL + arrR);
 				return this->reg.push({ref, Value::Type::ARRAY});
 			}
 			else {
-				const auto ref = heap.allocArray();
-				auto & arr = heap.readArray(ref);
-				arr = arrL;
-				arr.push_back(r);
+				const auto ref = heap.allocArray(arrL + std::vector{r});
 				return this->reg.push({ref, Value::Type::ARRAY});
 			}
 		}
 		if(isArr(r)) {
 			const auto arrR = heap.readArray(r.u);
-			const auto ref = heap.allocArray();
-			auto & arr = heap.readArray(ref);
-			arr = arrR;
-			arr.insert(arr.begin(), l);
+			const auto ref = heap.allocArray(std::vector{l} + arrR);
 			return this->reg.push({ref, Value::Type::ARRAY});
 		}
 		this->reg.push(arithAdd(l, r, "Not operator + for types"));

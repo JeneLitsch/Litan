@@ -16,7 +16,28 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 8
+byte 1
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+add
+newarr
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+elem
 newi
 byte 0
 byte 0
@@ -26,7 +47,7 @@ byte 0
 byte 0
 byte 0
 byte 2
-div
+elem
 newi
 byte 0
 byte 0
@@ -35,8 +56,19 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 2
-div
+byte 3
+elem
+add
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 4
+add
 return
 null
 return

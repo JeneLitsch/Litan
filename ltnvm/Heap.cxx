@@ -28,12 +28,12 @@ std::uint64_t ltn::vm::Heap::alloc(const HeapObject & object) {
 	}
 }
 
-std::uint64_t ltn::vm::Heap::allocString() {
-	return this->alloc({String{}});
+std::uint64_t ltn::vm::Heap::allocString(const std::string & str) {
+	return this->alloc({str});
 }
 
-std::uint64_t ltn::vm::Heap::allocArray() {
-	return this->alloc({Array{}});
+std::uint64_t ltn::vm::Heap::allocArray(const Array & arr) {
+	return this->alloc({arr});
 }
 
 ltn::vm::HeapObject & ltn::vm::Heap::get(std::uint64_t addr) {

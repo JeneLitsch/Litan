@@ -18,8 +18,8 @@ namespace ltn::vm {
 	class Heap {
 	public:
 		Heap();
-		std::uint64_t allocString();
-		std::uint64_t allocArray();
+		std::uint64_t allocString(const std::string & str = "");
+		std::uint64_t allocArray(const Array & arr = {});
 
 		String & readString(std::uint64_t addr);
 		Array & readArray(std::uint64_t addr);
