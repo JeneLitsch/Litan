@@ -11,6 +11,7 @@ namespace ltn::c {
 		Args(const char ** argv, std::size_t argc);
 		const std::span<const std::filesystem::path> getSources() const;
 		const std::filesystem::path & getTarget() const;
+		const std::filesystem::path & getStdLib() const;
 		bool isSet(const std::string & flag) const;
 	private:
 		std::unordered_set<std::string> flags;

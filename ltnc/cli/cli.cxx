@@ -6,24 +6,37 @@
 #include "Args.hxx"
 #include "ltnc/compile/LtnBackend.hxx"
 #include "ltnc/ast/Namespace.hxx"
+#include <string_view>
+
+using namespace std::string_view_literals;
+
+void compileFile(ltn::c::Ltnc & ltnc, const std::filesystem::path & filepath) {
+	std::cout << "[Compiling] " << filepath << "\n";
+	try {
+		if(!std::filesystem::exists(filepath)) {
+			throw ltn::c::CompilerError{"Cannot open " + filepath.string(), 0};
+		}
+		std::ifstream ifile(filepath);
+		ltnc.compile(ifile, filepath);
+	}
+	catch(const ltn::c::CompilerError & error) {
+		std::cout << error << "\n";
+	}
+}
 
 int main(int argc, char const *argv[]){
+	constexpr std::array<std::string_view, 0> stdFiles {};
 	try {
 		const ltn::c::Args args{argv, static_cast<std::size_t>(argc)};
 		ltn::c::Ltnc compiler{std::make_unique<ltn::c::compile::LtnBackend>()};
+		
+		for(const auto & stdFile : stdFiles) {
+			const auto source = args.getStdLib() / stdFile; 
+			compileFile(compiler, source);
+		}
 
 		for(const auto & source : args.getSources()) {
-			std::cout << "[Compiling] " << source << "\n";
-			try {
-				if(!std::filesystem::exists(source)) {
-					throw ltn::c::CompilerError{"Cannot open " + source.string(), 0};
-				}
-				std::ifstream ifile(source);
-				compiler.compile(ifile, source);
-			}
-			catch(const ltn::c::CompilerError & error) {
-				std::cout << error << "\n";
-			}
+			compileFile(compiler, source);
 		}
 
 		const auto & target = args.getTarget();
