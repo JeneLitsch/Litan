@@ -4,7 +4,18 @@
 // 	return ->fib(n - 1) + ->fib(n - 2);
 // }
 
-function main() {
-	return ;
+namespace foo {
+    namespace bar {
+        function fx() {
+            return 41;
+        }
+    }
+    function fx() {
+        return bar::fx() + 1;
+    }
 }
 
+function main() {
+    foo::bar::fx();
+    return foo::fx();
+}

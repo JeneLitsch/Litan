@@ -37,7 +37,7 @@ namespace ltn::c::parse {
 				lexer.inLine()};
 		}
 
-
+		// parses: namespace foo { ...
 		std::optional<std::string> openNamespace(lex::Lexer & lexer) {
 			if(lexer.match(TT::NAMESPACE)) {
 				if(auto name = lexer.match(TT::INDENTIFIER)) {
@@ -51,15 +51,13 @@ namespace ltn::c::parse {
 			return {};
 		}
 
+		// }
 		bool endNamespace(
 			lex::Lexer & lexer,
 			ast::Namespace & nameSpace) {
 			if(lexer.match(TT::BRACE_R)) {
 				if(nameSpace.empty()) {
 					throw extraBraceR(lexer);
-				}
-				else {
-					nameSpace.pop_back();
 				}
 				return true;
 			}
@@ -71,7 +69,9 @@ namespace ltn::c::parse {
 		Functionals functions;
 		ast::Namespace nameSpace;
 		while(!lexer.match(TT::___EOF___)) {
-			if(endNamespace(lexer, nameSpace));
+			if(endNamespace(lexer, nameSpace)) {
+				nameSpace.pop_back();
+			}
 			else if(auto ns = openNamespace(lexer)) {
 				nameSpace.push_back(*ns);
 			}

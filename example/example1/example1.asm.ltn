@@ -1,8 +1,24 @@
-call FX0_main_0
+call FX2_main_0
 exit
 
-:FX0_main_0
+:FX0_foo_bar_fx_0
+newi 41
+return
 null
+return
+
+:FX1_foo_fx_0
+call FX0_foo_bar_fx_0
+newi 1
+add
+return
+null
+return
+
+:FX2_main_0
+call FX0_foo_bar_fx_0
+scrap
+call FX1_foo_fx_0
 return
 null
 return

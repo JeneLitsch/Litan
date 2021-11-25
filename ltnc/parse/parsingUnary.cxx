@@ -36,12 +36,18 @@ namespace ltn::c::parse {
 
 	// Operators - ! [i]
 	std::unique_ptr<ast::Expression> unary(lex::Lexer & lexer) {
-		if(lexer.match(TT::MINUS)) {
-			return std::make_unique<ast::Unary>(OP::NEG, unary(lexer), lexer.debug());
+		// left unary
+		const std::array table {
+			std::pair{TT::MINUS, OP::NEG},
+			std::pair{TT::NOT, OP::NOT},
+		};
+		for(auto [tt, op] : table) {
+			if(lexer.match(tt)) {
+				auto && r = unary(lexer);
+				return std::make_unique<ast::Unary>(op, std::move(r), lexer.debug());
+			}
 		}
-		if(lexer.match(TT::NOT)) {
-			return std::make_unique<ast::Unary>(OP::NOT, unary(lexer), lexer.debug());
-		}
+		// right unary
 		return unaryR(lexer, parse::primary(lexer));
 	}
 }
