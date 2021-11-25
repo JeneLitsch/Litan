@@ -31,4 +31,8 @@ namespace ltn::vm {
 	inline bool isOStream(const Value & val) {
 		return val.type == Value::Type::OSTREAM;
 	}
+
+	inline bool isIStream(const Value & val) {
+		return val.type == Value::Type::ISTREAM;
+	}
 }

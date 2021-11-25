@@ -1,10 +1,8 @@
 
 namespace ltn {
-	namespace out {
-		asm std() {
-			"newout_std"
-			"return"
-		}
+	asm cout() {
+		"newout_std"
+		"return"
 	}
 
 	asm print(stream, value) {
@@ -12,7 +10,7 @@ namespace ltn {
 	}
 
 	function print(value) {
-		print(out::std(), value);
+		print(cout(), value);
 	}
 
 	function println(stream, value) {
@@ -21,9 +19,51 @@ namespace ltn {
 	}
 
 	function println(value) {
-		var stream = out::std();
+		var stream = cout();
 		print(stream, value);
 		print(stream, "\n");
+	}
+
+
+	asm cin() {
+		"newin_std"
+		"return"
+	}
+
+	asm read(stream) {
+		"in_str"
+		"return"
+	}
+
+	function read() {
+		return read(cin());
+	}
+
+	asm readln(stream) {
+		"in_line"
+		"return"
+	}
+
+	function readln() {
+		return readln(cin());
+	}
+
+	asm readint(stream) {
+		"in_int"
+		"return"
+	}
+
+	function readint() {
+		return readint(cin());
+	}
+
+	asm readfloat(stream) {
+		"in_float"
+		"return"
+	}
+
+	function readfloat() {
+		return readfloat(cin());
 	}
 
 }

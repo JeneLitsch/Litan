@@ -7,12 +7,13 @@
 #include "Stack.hxx"
 #include "Register.hxx"
 #include "OStream.hxx"
+#include "IStream.hxx"
 namespace ltn::vm {
 	using Array = std::vector<Value>;
 	using String = std::string;
 	struct HeapObject {
 		std::variant<
-				String, Array, std::monostate, OStream> obj;
+				std::monostate, String, Array, IStream, OStream> obj;
 		bool marked = false;
 	};
 	
@@ -22,10 +23,12 @@ namespace ltn::vm {
 		std::uint64_t allocString(const std::string & str = "");
 		std::uint64_t allocArray(const Array & arr = {});
 		std::uint64_t allocOStream(const OStream & out = {std::cout});
+		std::uint64_t allocIStream(const IStream & out = {std::cin});
 
 		String & readString(std::uint64_t addr);
 		Array & readArray(std::uint64_t addr);
 		OStream & readOStream(std::uint64_t addr);
+		IStream & readIStream(std::uint64_t addr);
 
 		void collectGarbage(const Stack & stack, const Register & reg);
 	private:

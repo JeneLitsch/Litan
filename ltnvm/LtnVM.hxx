@@ -28,7 +28,7 @@ namespace ltn::vm {
 		void newi(),newf(), newu();
 		void addr();
 		void truE(), falsE();
-		void newarr(), newstr(), newout_std();
+		void newarr(), newstr(), newout_std(), newin_std();
 		void null(), ch4r(), elem();
 
 		void jump(), call(), reTurn(), iF(), error();
@@ -36,6 +36,7 @@ namespace ltn::vm {
 		void read(), write(), scrap(), makevar(), at(), at_write();
 
 		void out();
+		void in_str(), in_line(), in_int(), in_float();
 
 
 		void outValue(const Value & value);

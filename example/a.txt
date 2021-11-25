@@ -6,7 +6,7 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 0
+byte 68
 exit
 newout_std
 return
@@ -220,6 +220,110 @@ byte e
 scrap
 null
 return
+newin_std
+return
+null
+return
+in_str
+return
+null
+return
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte de
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte e2
+return
+null
+return
+in_line
+return
+null
+return
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte de
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte fb
+return
+null
+return
+in_int
+return
+null
+return
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte de
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 14
+return
+null
+return
+in_float
+return
+null
+return
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte de
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 2d
+return
+null
+return
 newi
 byte 0
 byte 0
@@ -239,8 +343,8 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 0
-byte de
+byte 1
+byte 46
 newi
 byte 0
 byte 0
@@ -254,24 +358,155 @@ add
 return
 null
 return
+makevar
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte de
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+write
+makevar
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte a
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+write
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+read
 newstr
 char
-byte 4e
+byte 61
 char
-byte 75
+byte 20
 char
-byte 6d
+byte 3d
+char
+byte 20
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte e
+scrap
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+read
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 2d
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2
+write
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+read
+newstr
 char
 byte 62
 char
-byte 65
+byte 20
 char
-byte 72
-char
-byte 3a
+byte 3d
 char
 byte 20
-newi
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte e
+scrap
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+read
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 2d
+addr
 byte 0
 byte 0
 byte 0
@@ -280,6 +515,69 @@ byte 0
 byte 0
 byte 0
 byte 3
+write
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+read
+newstr
+char
+byte 52
+char
+byte 65
+char
+byte 73
+char
+byte 75
+char
+byte 6c
+char
+byte 74
+char
+byte 20
+char
+byte 61
+char
+byte 20
+char
+byte 2b
+char
+byte 20
+char
+byte 62
+char
+byte 20
+char
+byte 3d
+char
+byte 20
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2
+read
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 3
+read
+add
 add
 call
 byte 0
@@ -289,7 +587,7 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 88
+byte 3b
 scrap
 null
 return

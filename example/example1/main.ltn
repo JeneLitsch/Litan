@@ -16,5 +16,11 @@ namespace foo {
 }
 
 function main() {
-	ltn::println("Number: " + 3);
+	var in = ltn::cin();
+	var out = ltn::cout();
+	ltn::print(out, "a = ");
+	var a = ltn::readfloat(in);
+	ltn::print(out,"b = ");
+	var b = ltn::readfloat(in);
+	ltn::println(out, "Result a + b = " + (a + b));
 }

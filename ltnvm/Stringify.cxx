@@ -38,6 +38,9 @@ namespace ltn::vm {
 		if(isOStream(value)) {
 			return "<ostream>";
 		}
+		if(isIStream(value)) {
+			return "<istream>";
+		}
 		throw std::runtime_error{"Cannot convert to string"};
 	}
 }

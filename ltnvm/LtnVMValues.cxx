@@ -37,6 +37,11 @@ namespace ltn::vm {
 		this->reg.push({ ptr, Value::Type::OSTREAM });
 		this->heap.collectGarbage(this->stack, this->reg);
 	}
+	void LtnVM::newin_std() {
+		const auto ptr = this->heap.allocIStream(std::cin);
+		this->reg.push({ ptr, Value::Type::ISTREAM });
+		this->heap.collectGarbage(this->stack, this->reg);
+	}
 	void LtnVM::null() {
 		this->reg.push(Value{false, Value::Type::NVLL});
 	}

@@ -32,6 +32,7 @@ namespace ltn::a::assemble {
 			{"newarr", Inst::NEWARR},
 			{"newstr", Inst::NEWSTR},
 			{"newout_std", Inst::NEWOUT_STD},
+			{"newin_std", Inst::NEWIN_STD},
 			{"null", Inst::NVLL},
 			{"char", Inst::CHAR},
 			{"elem", Inst::ELEM},
@@ -51,6 +52,10 @@ namespace ltn::a::assemble {
 			{"at_write", Inst::AT_WRITE},
 			
 			{"out", Inst::OUT},
+			{"in_str", Inst::IN_STR},
+			{"in_line", Inst::IN_LINE},
+			{"in_int", Inst::IN_INT},
+			{"in_float", Inst::IN_FLOAT},
 		};
 
 

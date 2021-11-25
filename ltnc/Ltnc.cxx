@@ -13,7 +13,7 @@ const std::span<const std::string_view> ltn::c::Ltnc::stdLib() const {
 }
 
 void ltn::c::Ltnc::compile(std::istream & in, const std::string &) {
-
+	this->line = 0;
 	lex::Lexer lexer{in, this->line};
 	auto source = parse::source(lexer);
 	this->backend->compile(this->config, *source);

@@ -52,6 +52,7 @@ namespace ltn::vm {
 			case Inst::NEWARR: this->newarr(); break;
 			case Inst::NEWSTR: this->newstr(); break;
 			case Inst::NEWOUT_STD: this->newout_std(); break;
+			case Inst::NEWIN_STD: this->newin_std(); break;
 			case Inst::NVLL: this->null(); break;
 			case Inst::CHAR: this->ch4r(); break;
 			case Inst::ELEM: this->elem(); break;
@@ -76,6 +77,10 @@ namespace ltn::vm {
 			case Inst::MAKEVAR: this->makevar(); break;
 
 			case Inst::OUT: this->out(); break;
+			case Inst::IN_STR: this->in_str(); break;
+			case Inst::IN_LINE: this->in_line(); break;
+			case Inst::IN_INT: this->in_int(); break;
+			case Inst::IN_FLOAT: this->in_float(); break;
 
 			case Inst::AT: this->at(); break;
 			case Inst::AT_WRITE: this->at_write(); break;

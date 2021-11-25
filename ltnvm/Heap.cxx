@@ -40,6 +40,9 @@ std::uint64_t ltn::vm::Heap::allocOStream(const OStream & out) {
 	return this->alloc({out});
 }
 
+std::uint64_t ltn::vm::Heap::allocIStream(const IStream & in) {
+	return this->alloc({in});
+}
 
 ltn::vm::HeapObject & ltn::vm::Heap::get(std::uint64_t addr) {
 	if(addr > this->objects.size()) {
@@ -78,6 +81,16 @@ ltn::vm::OStream & ltn::vm::Heap::readOStream(std::uint64_t addr) {
 	}
 }
 
+ltn::vm::IStream & ltn::vm::Heap::readIStream(std::uint64_t addr) {
+	auto & object = get(addr);
+	if(auto * stream = std::get_if<IStream>(&object.obj)) {
+		return *stream;
+	}
+	else {
+		throw accessViolation(addr, "not an istream");
+	}
+}
+
 void ltn::vm::Heap::collectGarbage(const Stack & stack, const Register & reg) {
 	mark(stack.getContainer());
 	mark(reg.getContainer());
@@ -92,7 +105,7 @@ void ltn::vm::Heap::mark(const std::vector<Value> & values) {
 			obj.marked = true;
 			mark(arr);
 		}
-		if(isStr(value) || isOStream(value)) {
+		if(isStr(value) || isOStream(value) || isIStream(value)) {
 			auto & obj = get(value.u);
 			obj.marked = true;
 		}
