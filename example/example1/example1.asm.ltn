@@ -1,122 +1,12 @@
-call FX4_main_0
+call FX0_main_0
 exit
 
-:FX0_ltn_subtract_2
-makevar
-addr 0
-write
-makevar
-addr 1
-write
-addr 0
-read
-addr 1
-read
-call FX1_ltn_math_sub_2
-return
-null
-return
-
-:FX1_ltn_math_sub_2
-sub
-return
-null
-return
-
-:FX2_f_2
-makevar
-addr 0
-write
-makevar
-addr 1
-write
-makevar
-newstr
-addr 2
-write
-makevar
-newstr
-addr 3
-write
-newarr
-newarr
-newarr
-addr 2
-read
-elem
-addr 3
-read
-elem
-elem
-elem
-return
-null
-return
-
-:FX3_makeArr_0
-newarr
-newi 1
-elem
+:FX0_main_0
+newi 8
 newi 2
-elem
-newi 3
-elem
-return
-null
-return
-
-:FX4_main_0
-newi 5
-newi 3
-call FX1_ltn_math_sub_2
-return
-makevar
-newarr
-newarr
-newi 1
-elem
-elem
+div
 newi 2
-elem
-newi 3
-elem
-addr 0
-write
-newi 42
-addr 0
-read
-newi 100
-true
-mod
-at
-newi 0
-at_write
-null
-scrap
-false
-addr 0
-read
-newarr
-newstr
-char 48
-char 65
-char 6c
-char 6c
-char 6f
-char 20
-char 57
-char 6f
-char 72
-char 6c
-char 64
-elem
-newstr
-char 46
-char 6f
-char 6f
-add
-add
-add
+div
 return
 null
 return
