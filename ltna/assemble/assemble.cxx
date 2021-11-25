@@ -56,6 +56,17 @@ namespace ltn::a::assemble {
 			{"in_line", Inst::IN_LINE},
 			{"in_int", Inst::IN_INT},
 			{"in_float", Inst::IN_FLOAT},
+
+			{"min", Inst::MIN},
+			{"max", Inst::MAX},
+			{"round", Inst::ROUND},
+			{"floor", Inst::FLOOR},
+			{"ceil", Inst::CEIL},
+			{"abs", Inst::ABS},
+			
+			{"sin", Inst::SIN},
+			{"cos", Inst::COS},
+			{"tan", Inst::TAN},
 		};
 
 

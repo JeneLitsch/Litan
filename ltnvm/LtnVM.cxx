@@ -75,6 +75,8 @@ namespace ltn::vm {
 			case Inst::WRITE: this->write(); break;
 			case Inst::SCRAP: this->scrap(); break;
 			case Inst::MAKEVAR: this->makevar(); break;
+			case Inst::AT: this->at(); break;
+			case Inst::AT_WRITE: this->at_write(); break;
 
 			case Inst::OUT: this->out(); break;
 			case Inst::IN_STR: this->in_str(); break;
@@ -82,8 +84,16 @@ namespace ltn::vm {
 			case Inst::IN_INT: this->in_int(); break;
 			case Inst::IN_FLOAT: this->in_float(); break;
 
-			case Inst::AT: this->at(); break;
-			case Inst::AT_WRITE: this->at_write(); break;
+			case Inst::MIN: this->min(); break;
+			case Inst::MAX: this->max(); break;
+			case Inst::ROUND: this->round(); break;
+			case Inst::FLOOR: this->floor(); break;
+			case Inst::CEIL: this->ceil(); break;
+			case Inst::ABS: this->abs(); break;
+			
+			case Inst::SIN: this->sin(); break;
+			case Inst::COS: this->cos(); break;
+			case Inst::TAN: this->tan(); break;
 			
 			default: {
 				std::stringstream ss;

@@ -1,3 +1,7 @@
 function main() {
-	ltn::println(42);
+	ltn::println(ltn::abs(-42));
+	ltn::println(ltn::abs(-42.003));
+	ltn::println(ltn::abs(42.003));
+	ltn::println(ltn::abs(true));
+	ltn::println(ltn::abs(false));
 }

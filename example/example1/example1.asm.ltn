@@ -1,4 +1,4 @@
-call FX14_main_0
+call FX23_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -127,8 +127,81 @@ return
 null
 return
 
-:FX14_main_0
+:FX14_ltn_min_2
+min
+return
+null
+return
+
+:FX15_ltn_max_2
+max
+return
+null
+return
+
+:FX16_ltn_round_1
+round
+return
+null
+return
+
+:FX17_ltn_floor_1
+floor
+return
+null
+return
+
+:FX18_ltn_ceil_1
+ceil
+return
+null
+return
+
+:FX19_ltn_abs_1
+abs
+return
+null
+return
+
+:FX20_ltn_sin_1
+sin
+return
+null
+return
+
+:FX21_ltn_cos_1
+cos
+return
+null
+return
+
+:FX22_ltn_tan_1
+tan
+return
+null
+return
+
+:FX23_main_0
 newi 42
+neg
+call FX19_ltn_abs_1
+call FX4_ltn_println_1
+scrap
+newf 42.003
+neg
+call FX19_ltn_abs_1
+call FX4_ltn_println_1
+scrap
+newf 42.003
+call FX19_ltn_abs_1
+call FX4_ltn_println_1
+scrap
+true
+call FX19_ltn_abs_1
+call FX4_ltn_println_1
+scrap
+false
+call FX19_ltn_abs_1
 call FX4_ltn_println_1
 scrap
 null

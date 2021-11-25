@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <cmath>
+#include <cstdint>
 namespace ltn::vm {
 
 	// Promotes operands to at least int64

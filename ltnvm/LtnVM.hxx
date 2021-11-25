@@ -38,6 +38,8 @@ namespace ltn::vm {
 		void out();
 		void in_str(), in_line(), in_int(), in_float();
 
+		void min(), max(), round(), floor(), ceil(), abs();
+		void sin(), cos(), tan();
 
 		void outValue(const Value & value);
 

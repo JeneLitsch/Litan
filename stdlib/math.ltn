@@ -1,0 +1,47 @@
+namespace ltn {
+	
+	asm min(a, b) {
+		"min"
+		"return"
+	}
+	
+	asm max(a, b) {
+		"max"
+		"return"
+	}
+	
+	asm round(a) {
+		"round"
+		"return"
+	}
+	
+	asm floor(b) {
+		"floor"
+		"return"
+	}
+	
+	asm ceil(b) {
+		"ceil"
+		"return"
+	}
+
+	asm abs(b) {
+		"abs"
+		"return"
+	}
+
+	asm sin(b) {
+		"sin"
+		"return"
+	}
+
+	asm cos(b) {
+		"cos"
+		"return"
+	}
+
+	asm tan(b) {
+		"tan"
+		"return"
+	}
+}

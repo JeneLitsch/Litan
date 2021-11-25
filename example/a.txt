@@ -6,7 +6,7 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 46
+byte 6a
 exit
 newout_std
 return
@@ -324,6 +324,42 @@ byte 2d
 return
 null
 return
+min
+return
+null
+return
+max
+return
+null
+return
+round
+return
+null
+return
+floor
+return
+null
+return
+ceil
+return
+null
+return
+abs
+return
+null
+return
+sin
+return
+null
+return
+cos
+return
+null
+return
+tan
+return
+null
+return
 newi
 byte 0
 byte 0
@@ -333,6 +369,113 @@ byte 0
 byte 0
 byte 0
 byte 2a
+neg
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 5a
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 88
+scrap
+newf
+byte 40
+byte 45
+byte 0
+byte 62
+byte 4d
+byte d2
+byte f1
+byte aa
+neg
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 5a
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 88
+scrap
+newf
+byte 40
+byte 45
+byte 0
+byte 62
+byte 4d
+byte d2
+byte f1
+byte aa
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 5a
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 88
+scrap
+true
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 5a
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 88
+scrap
+false
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 5a
 call
 byte 0
 byte 0

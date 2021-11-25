@@ -18,6 +18,9 @@ namespace ltn {
 
 		READ = 0x60, WRITE, SCRAP, MAKEVAR, AT, AT_WRITE,
 
-		OUT = 0x70, IN_STR, IN_LINE, IN_INT, IN_FLOAT
+		OUT = 0x70, IN_STR, IN_LINE, IN_INT, IN_FLOAT,
+
+		MIN = 0x80, MAX, ROUND, FLOOR, CEIL, ABS,
+		SIN = 0x90, COS, TAN,
 	};
 }
