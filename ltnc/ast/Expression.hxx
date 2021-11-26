@@ -52,11 +52,6 @@ namespace ltn::c::ast {
 	};
 
 
-
-
-
-
-
 	struct Call : public Primary {
 	public:
 		Call(
@@ -72,5 +67,23 @@ namespace ltn::c::ast {
 		const std::string name;
 		const Namespace nameSpace;
 		const std::vector<std::unique_ptr<Expression>> parameters;
+	};
+
+
+	struct FxPointer : public Primary {
+	public:
+		FxPointer(
+			const std::string & name,
+			const Namespace & nameSpace,
+			const std::size_t placeholders,
+			const lex::DebugInfo & debugInfo)
+			:	Primary(debugInfo),
+				name(name),
+				nameSpace(nameSpace),
+				placeholders(std::move(placeholders)) {}
+		virtual ~FxPointer() = default;
+		const std::string name;
+		const Namespace nameSpace;
+		const std::size_t placeholders;
 	};
 }

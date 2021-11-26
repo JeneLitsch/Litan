@@ -26,6 +26,7 @@ namespace ltn::a::assemble {
 			{"newu", Inst::NEWU},
 			{"newi", Inst::NEWI},
 			{"newf", Inst::NEWF},
+			{"newfx", Inst::NEWFX},
 			{"addr", Inst::ADDR},
 			{"true", Inst::TRUE},
 			{"false", Inst::FALSE},
@@ -43,6 +44,7 @@ namespace ltn::a::assemble {
 			{"ifelse", Inst::IF},
 			{"error", Inst::ERROR},
 			{"exit", Inst::EXIT},
+			{"invoke", Inst::INVOKE},
 
 			{"read", Inst::READ},
 			{"write", Inst::WRITE},

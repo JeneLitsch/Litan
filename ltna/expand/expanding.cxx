@@ -23,15 +23,22 @@ namespace ltn::a::expand {
 		}
 
 		template<typename Value>
-		std::string expandLiteral(std::istream & line, const std::string_view & inst) {
+		std::string expandArg(std::istream & line) {
 			std::stringstream ss;
 			Value value;
 			line >> value;
 			const auto bytes = toBytes(value);
-			ss << inst << "\n";
 			for(const std::uint8_t byte : bytes) {
 				ss << "byte " << std::hex << unsigned(byte) << "\n"; 
 			}
+			return ss.str();
+		}
+
+		template<typename Value>
+		std::string expandLiteral(std::istream & line, const std::string_view & inst) {
+			std::stringstream ss;
+			ss << inst << "\n";
+			ss << expandArg<Value>(line);
 			return ss.str();
 		}
 
@@ -54,6 +61,13 @@ namespace ltn::a::expand {
 			}
 			if(inst == "newf") {
 				out << expandLiteral<double>(ls, "newf");
+				return;
+			}
+			if(inst == "newfx") {
+				std::stringstream ss;
+				ss << expandLiteral<std::uint64_t>(ls, "newfx");
+				ss << expandArg<std::uint64_t>(ls);
+				out << ss.str();
 				return;
 			}
 			if(inst == "jump") {

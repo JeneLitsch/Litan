@@ -35,4 +35,8 @@ namespace ltn::vm {
 	constexpr inline bool isIStream(const Value & val) {
 		return val.type == Value::Type::ISTREAM;
 	}
+
+	constexpr inline bool isFxPtr(const Value & val) {
+		return val.type == Value::Type::FX_PTR;
+	}
 }

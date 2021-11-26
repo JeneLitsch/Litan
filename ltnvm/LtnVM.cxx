@@ -46,6 +46,7 @@ namespace ltn::vm {
 			case Inst::NEWI: this->newi(); break;
 			case Inst::NEWF: this->newf(); break;
 			case Inst::NEWU: this->newu(); break;
+			case Inst::NEWFX: this->newfx(); break;
 			case Inst::ADDR: this->addr(); break;
 			case Inst::TRUE: this->truE(); break;
 			case Inst::FALSE: this->falsE(); break;
@@ -62,6 +63,7 @@ namespace ltn::vm {
 			case Inst::RETURN: this->reTurn(); break;
 			case Inst::IF: this->iF(); break;
 			case Inst::ERROR: this->error(); break;
+			case Inst::INVOKE: this->invoke(); break;
 			case Inst::EXIT: {
 				this->ostream.get() << "Exit main() with return value: ";
 				const auto value = this->reg.pop();

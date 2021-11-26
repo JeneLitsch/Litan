@@ -148,6 +148,8 @@ namespace ltn::c::lex {
 			return {Token::Type::SLASH, "/"};
 		}
 		if(match('%')) return {Token::Type::PERCENT, "%"};
+		if(match('&')) return {Token::Type::AMPERSAND, "&"};
+		if(match('_')) return {Token::Type::UNDERSCORE, "_"};
 		
 		if(match('=')) {
 			if(match('=')) return {Token::Type::EQUAL, "=="};

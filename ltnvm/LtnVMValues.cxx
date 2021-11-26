@@ -1,6 +1,6 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
-
+#include <iostream>
 
 
 namespace ltn::vm {
@@ -12,6 +12,12 @@ namespace ltn::vm {
 	}
 	void LtnVM::newu(){
 		this->reg.push(Value{this->fetchUint(), Value::Type::NVLL});
+	}
+	void LtnVM::newfx(){
+		const auto address = this->fetchUint(); 
+		const auto params = this->fetchUint();
+		const auto ref = this->heap.allocFxPointer(FxPointer{address, params});
+		this->reg.push(Value{ref, Value::Type::FX_PTR});
 	}
 	void LtnVM::addr(){
 		this->reg.push(Value{this->fetchUint(), Value::Type::ADDR});

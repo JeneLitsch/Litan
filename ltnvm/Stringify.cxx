@@ -41,6 +41,13 @@ namespace ltn::vm {
 		if(isIStream(value)) {
 			return "<istream>";
 		}
+		if(isFxPtr(value)) {
+			const auto & fxPtr = heap.readFxPointer(value.u);
+			std::stringstream ss;
+			ss << "<fx:";
+			ss << fxPtr.address << "," << fxPtr.params << ">";
+			return  ss.str();
+		}
 		throw std::runtime_error{"Cannot convert to string"};
 	}
 }

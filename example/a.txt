@@ -6,7 +6,7 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 7e
+byte d2
 exit
 newout_std
 return
@@ -380,19 +380,23 @@ back
 return
 null
 return
+invoke
+return
+null
+return
 makevar
-newarr
-newi
+addr
 byte 0
 byte 0
 byte 0
 byte 0
 byte 0
 byte 0
-byte 5
-byte 39
-elem
-newi
+byte 0
+byte 0
+write
+makevar
+addr
 byte 0
 byte 0
 byte 0
@@ -401,8 +405,8 @@ byte 0
 byte 0
 byte 0
 byte 1
-elem
-newi
+write
+addr
 byte 0
 byte 0
 byte 0
@@ -410,9 +414,9 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 2
-elem
-newi
+byte 1
+read
+addr
 byte 0
 byte 0
 byte 0
@@ -420,18 +424,13 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 3
-elem
-newi
 byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 2a
-elem
+read
+add
+return
+null
+return
+makevar
 addr
 byte 0
 byte 0
@@ -452,6 +451,85 @@ byte 0
 byte 0
 byte 0
 read
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2
+mlt
+return
+null
+return
+makevar
+newfx
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte b0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+write
+newfx
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 82
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+write
+null
+scrap
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2a
 call
 byte 0
 byte 0
@@ -460,16 +538,7 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 72
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 88
+byte b0
 scrap
 addr
 byte 0
@@ -481,6 +550,27 @@ byte 0
 byte 0
 byte 0
 read
+newarr
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2a
+elem
+newi
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte c
+elem
 call
 byte 0
 byte 0
@@ -489,45 +579,7 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 76
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 88
-scrap
-addr
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-read
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-byte 7a
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 88
-scrap
+byte 7e
+return
 null
 return

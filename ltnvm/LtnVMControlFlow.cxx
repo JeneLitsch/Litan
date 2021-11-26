@@ -1,5 +1,6 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
+#include <sstream>
 
 namespace ltn::vm {
 	bool isTruthy(const Value & value) {
@@ -11,12 +12,10 @@ namespace ltn::vm {
 
 	void LtnVM::jump() {
 		const auto addr = this->fetchUint(); 
-		// this->ostream.get() << "Jump: " << std::hex << addr << "\n" << std::dec;
 		this->pc = addr;
 	}
 	void LtnVM::call() {
 		const auto addr = this->fetchUint(); 
-		// this->ostream.get() << "Call: " << std::hex << addr << "\n" << std::dec;
 		this->stack.pushFrame(this->pc);
 		this->pc = addr;
 	}
@@ -32,5 +31,30 @@ namespace ltn::vm {
 	}
 	void LtnVM::error() {
 		throw std::runtime_error{"An error was thrown during runtime"};
+	}
+	void LtnVM::invoke() {
+		const auto refParam = this->reg.pop();
+		const auto refFx = this->reg.pop();
+		if(isFxPtr(refFx)) {
+			const auto & fxPtr = this->heap.readFxPointer(refFx.u);
+			if(isArr(refParam)) {
+				const auto & params = this->heap.readArray(refParam.u);
+				if(params.size() == fxPtr.params) {
+					for(const auto param : params) {
+						this->reg.push(param);
+					}
+					this->stack.pushFrame(this->pc);
+					this->pc = fxPtr.address;
+				}
+				else {
+					std::stringstream ss;
+					ss << "Invoked fx with wrong number of paramters.";
+					ss << "Got " << params.size() << " expected " << fxPtr.params;
+					throw std::runtime_error{ss.str()};
+				} 
+			}
+			else throw std::runtime_error{"invoke needs an array of parameters"};
+		}
+		else throw std::runtime_error{"Can only invoke fxPtr"};
 	}
 }

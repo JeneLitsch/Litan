@@ -1,0 +1,6 @@
+namespace ltn {
+	asm invoke(fx, params) {
+		"invoke"
+		"return"
+	}
+}

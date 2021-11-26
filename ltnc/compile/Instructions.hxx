@@ -36,6 +36,8 @@ namespace ltn::c::compile::inst {
 	const std::string addr(std::uint64_t value);
 	const std::string ch4r(char chr);
 	const std::string elem = "elem\n";
+	const std::string newfx(const std::string_view & fxName, std::size_t params);
+
 
 	const std::string jump(const std::string_view & to);
 	const std::string call(const std::string_view & to);

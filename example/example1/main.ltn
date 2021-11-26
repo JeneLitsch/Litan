@@ -1,6 +1,13 @@
-function main() {
-	var arr = [1337, 1, 2, 3, 42];
-	ltn::println(ltn::size(arr));
-	ltn::println(ltn::front(arr));
-	ltn::println(ltn::back(arr));
+function f(a, b) {
+	return a + b;
+}
+function f(a) {
+	return a * 2;
+}
+
+function main(){
+	var fx = &f(_);
+	fx = &f(_,_);
+	f(42);
+	return ltn::invoke(fx, [42, 12]);
 }

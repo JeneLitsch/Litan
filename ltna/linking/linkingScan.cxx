@@ -8,6 +8,7 @@ namespace ltn::a::linking {
 				{"newu", 9},
 				{"newi", 9},
 				{"newf", 9},
+				{"newfx", 17},
 				{"jump", 9},
 				{"call", 9},
 				{"addr", 9},

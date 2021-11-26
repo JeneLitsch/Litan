@@ -44,6 +44,11 @@ std::uint64_t ltn::vm::Heap::allocIStream(const IStream & in) {
 	return this->alloc({in});
 }
 
+std::uint64_t ltn::vm::Heap::allocFxPointer(FxPointer fxPtr) {
+	return this->alloc({fxPtr});
+}
+
+
 ltn::vm::HeapObject & ltn::vm::Heap::get(std::uint64_t addr) {
 	if(addr > this->objects.size()) {
 		throw accessViolation(addr, "");
@@ -91,6 +96,17 @@ ltn::vm::IStream & ltn::vm::Heap::readIStream(std::uint64_t addr) {
 	}
 }
 
+
+ltn::vm::FxPointer & ltn::vm::Heap::readFxPointer(std::uint64_t addr) {
+	auto & object = get(addr);
+	if(auto * stream = std::get_if<FxPointer>(&object.obj)) {
+		return *stream;
+	}
+	else {
+		throw accessViolation(addr, "not an FxPointer");
+	}
+}
+
 void ltn::vm::Heap::collectGarbage(const Stack & stack, const Register & reg) {
 	mark(stack.getContainer());
 	mark(reg.getContainer());
@@ -105,7 +121,10 @@ void ltn::vm::Heap::mark(const std::vector<Value> & values) {
 			obj.marked = true;
 			mark(arr);
 		}
-		if(isStr(value) || isOStream(value) || isIStream(value)) {
+		if(isStr(value)
+		|| isOStream(value)
+		|| isIStream(value)
+		|| isFxPtr(value)) {
 			auto & obj = get(value.u);
 			obj.marked = true;
 		}

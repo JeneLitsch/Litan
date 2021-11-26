@@ -68,4 +68,12 @@ namespace ltn::c::compile::inst {
 	}
 
 
+	const std::string newfx(
+		const std::string_view & fxName,
+		std::size_t params) {
+		std::stringstream ss;
+		ss 	<< "newfx " << fxName << " "
+			<< std::hex << static_cast<int>(params) << "\n";
+		return ss.str();
+	}
 }
