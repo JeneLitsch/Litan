@@ -12,6 +12,10 @@ namespace ltn::vm {
 			const auto & str = this->heap.readString(ref.u);
 			this->reg.push(static_cast<std::int64_t>(str.size()));
 		}
+		else if(isFxPtr(ref)) {
+			const auto & fxPtr = this->heap.readFxPointer(ref.u);
+			this->reg.push(static_cast<std::int64_t>(fxPtr.params));
+		}
 		else {
 			this->reg.push(static_cast<std::int64_t>(0));
 		}

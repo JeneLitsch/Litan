@@ -1,3 +1,4 @@
+function f(a, b, c, d, e) {}
 function f(a, b) {
 	return a + b;
 }
@@ -7,7 +8,7 @@ function f(a) {
 
 function main(){
 	var fx = &f(_);
-	fx = &f(_,_);
-	f(42);
-	return ltn::invoke(fx, [42, 12]);
+	ltn::println(ltn::size(fx));
+	fx = &f(_,_,_,_,_);
+	ltn::println(ltn::size(fx));
 }

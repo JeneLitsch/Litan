@@ -5,8 +5,8 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 1
-byte d2
+byte 2
+byte b
 exit
 newout_std
 return
@@ -406,6 +406,63 @@ byte 0
 byte 0
 byte 1
 write
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 2
+write
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 3
+write
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 4
+write
+null
+return
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+write
+makevar
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+write
 addr
 byte 0
 byte 0
@@ -473,7 +530,7 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte b0
+byte e9
 byte 0
 byte 0
 byte 0
@@ -492,6 +549,35 @@ byte 0
 byte 0
 byte 0
 write
+addr
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+read
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 1
+byte 72
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 88
+scrap
 newfx
 byte 0
 byte 0
@@ -508,7 +594,7 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 2
+byte 5
 addr
 byte 0
 byte 0
@@ -521,25 +607,6 @@ byte 0
 write
 null
 scrap
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 2a
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-byte b0
-scrap
 addr
 byte 0
 byte 0
@@ -550,27 +617,6 @@ byte 0
 byte 0
 byte 0
 read
-newarr
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 2a
-elem
-newi
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte c
-elem
 call
 byte 0
 byte 0
@@ -579,7 +625,16 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 7e
-return
+byte 72
+call
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 0
+byte 88
+scrap
 null
 return
