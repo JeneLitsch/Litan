@@ -264,14 +264,14 @@ makevar
 call FX30_ltn_clock_0
 write_0
 makevar
-makevar
 newi 1
-write_2
+write_1
 :FOR_BEGIN36
-read_2
+read_1
 newi 1000000
 sml
 ifelse FOR_END37
+makevar
 newstr
 char 41
 newstr
@@ -280,12 +280,10 @@ add
 newstr
 char_8 43 43 43 43 43 43 43 43 
 add
-write_1
-null
-scrap
-read_2
-inc
 write_2
+read_1
+inc
+write_1
 jump FOR_BEGIN36
 :FOR_END37
 read_0

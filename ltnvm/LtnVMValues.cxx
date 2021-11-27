@@ -1,7 +1,7 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
 #include <iostream>
-
+#include <string>
 
 namespace ltn::vm {
 	void LtnVM::newi(){
@@ -44,22 +44,30 @@ namespace ltn::vm {
 	void LtnVM::char_4() {
 		const auto ptr = this->reg.peek();
 		auto & str = this->heap.read<String>(ptr.u);
-		str.str.push_back(static_cast<char>(this->fetchByte()));
-		str.str.push_back(static_cast<char>(this->fetchByte()));
-		str.str.push_back(static_cast<char>(this->fetchByte()));
-		str.str.push_back(static_cast<char>(this->fetchByte()));
+		str.str.append(
+			this->byteCode.begin()+this->pc,
+			this->byteCode.begin()+this->pc+4);
+		this->pc+=4;
+		// str.str.push_back(static_cast<char>(this->fetchByte()));
+		// str.str.push_back(static_cast<char>(this->fetchByte()));
+		// str.str.push_back(static_cast<char>(this->fetchByte()));
+		// str.str.push_back(static_cast<char>(this->fetchByte()));
 	}
 
 	void LtnVM::char_8() {
 		const auto ptr = this->reg.peek();
 		auto & str = this->heap.read<String>(ptr.u);
-		str.str.push_back(static_cast<char>(this->fetchByte()));
-		str.str.push_back(static_cast<char>(this->fetchByte()));
-		str.str.push_back(static_cast<char>(this->fetchByte()));
-		str.str.push_back(static_cast<char>(this->fetchByte()));
-		str.str.push_back(static_cast<char>(this->fetchByte()));
-		str.str.push_back(static_cast<char>(this->fetchByte()));
-		str.str.push_back(static_cast<char>(this->fetchByte()));
-		str.str.push_back(static_cast<char>(this->fetchByte()));
+		str.str.append(
+			this->byteCode.begin()+this->pc,
+			this->byteCode.begin()+this->pc+8);
+		this->pc+=8;
+		// str.str.push_back(static_cast<char>(this->fetchByte()));
+		// str.str.push_back(static_cast<char>(this->fetchByte()));
+		// str.str.push_back(static_cast<char>(this->fetchByte()));
+		// str.str.push_back(static_cast<char>(this->fetchByte()));
+		// str.str.push_back(static_cast<char>(this->fetchByte()));
+		// str.str.push_back(static_cast<char>(this->fetchByte()));
+		// str.str.push_back(static_cast<char>(this->fetchByte()));
+		// str.str.push_back(static_cast<char>(this->fetchByte()));
 	}
 }
