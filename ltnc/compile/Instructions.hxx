@@ -61,4 +61,7 @@ namespace ltn::c::compile::inst {
 	const std::string_view write_3 = "write_3\n";
 	
 	const std::string byte(std::uint8_t byte);
+
+	const std::string readAddr(std::uint64_t addr);
+	const std::string writeAddr(std::uint64_t addr);
 }

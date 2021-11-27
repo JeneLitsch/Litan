@@ -6,16 +6,7 @@ namespace ltn::c::compile {
 		ExprCode writeVar(const ast::Var & expr, Scope & scope) {
 			const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
 			std::stringstream ss;
-
-			switch (addr) {
-			// Shortcut instructions
-			case 0: ss << inst::write_0; break;
-			case 1: ss << inst::write_1; break;
-			case 2: ss << inst::write_2; break;
-			case 3: ss << inst::write_3; break;
-			// Standard instructions
-			default: ss << inst::addr(addr) << inst::write; break;
-			}
+			ss << inst::writeAddr(addr);
 			return ExprCode{ss.str(), false, false};
 		}
 

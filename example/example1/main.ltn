@@ -12,5 +12,21 @@ function main(){
 	for i (1, 1000000) {
 		x = x + i;
 	}
-	return ltn::toSeconds(clock) + "s";
+	ltn::println(ltn::toSeconds(clock) + "s");
+	var a = 1;
+	var b = 2;
+	var c = 3;
+	var d = 4;
+	var e = 5;
+	var f = 6;
+	ltn::print(a);
+	ltn::print(b);
+	ltn::print(c);
+	ltn::print(d);
+	ltn::print(e);
+	ltn::println(f);
+	for i (0, 10) {
+		ltn::print(i);
+	}
+	ltn::println("");
 }

@@ -76,4 +76,33 @@ namespace ltn::c::compile::inst {
 			<< std::hex << static_cast<int>(params) << "\n";
 		return ss.str();
 	}
+
+	const std::string readAddr(std::uint64_t addr) {
+		std::stringstream ss;
+			switch (addr) {
+			// Shortcut instructions
+			case 0: ss << inst::read_0; break;
+			case 1: ss << inst::read_1; break;
+			case 2: ss << inst::read_2; break;
+			case 3: ss << inst::read_3; break;
+			// Standard instructions
+			default: ss << inst::addr(addr) << inst::read; break;
+		}
+		return ss.str();
+	}
+
+	const std::string writeAddr(std::uint64_t addr) {
+		std::stringstream ss;
+		switch (addr) {
+		// Shortcut instructions
+		case 0: ss << inst::write_0; break;
+		case 1: ss << inst::write_1; break;
+		case 2: ss << inst::write_2; break;
+		case 3: ss << inst::write_3; break;
+		// Standard instructions
+		default: ss << inst::addr(addr) << inst::write; break;
+		}
+		return ss.str();
+		
+	}
 }

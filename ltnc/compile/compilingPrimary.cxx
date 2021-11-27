@@ -45,15 +45,7 @@ namespace ltn::c::compile {
 		ExprCode readVar(const ast::Var & expr, Scope & scope) {
 			const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
 			std::stringstream ss;
-			switch (addr) {
-			// Shortcut instructions
-			case 0: ss << inst::read_0; break;
-			case 1: ss << inst::read_1; break;
-			case 2: ss << inst::read_2; break;
-			case 3: ss << inst::read_3; break;
-			// Standard instructions
-			default: ss << inst::addr(addr) << inst::read; break;
-			}
+			ss << inst::readAddr(addr);
 			return ExprCode{ ss.str(), false, true};
 		}
 

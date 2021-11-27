@@ -283,11 +283,9 @@ addr 1
 write
 makevar
 newi 1
-addr 2
-write
+write_2
 :FOR_BEGIN36
-addr 2
-read
+read_2
 newi 1000000
 sml
 ifelse FOR_END37
@@ -297,11 +295,9 @@ add
 write_1
 null
 scrap
-addr 2
-read
+read_2
 inc
-addr 2
-write
+write_2
 jump FOR_BEGIN36
 :FOR_END37
 read_0
@@ -309,7 +305,78 @@ call FX31_ltn_toSeconds_1
 newstr
 char 73
 add
-return
+call FX4_ltn_println_1
+scrap
+makevar
+newi 1
+addr 2
+write
+makevar
+newi 2
+addr 3
+write
+makevar
+newi 3
+addr 4
+write
+makevar
+newi 4
+addr 5
+write
+makevar
+newi 5
+addr 6
+write
+makevar
+newi 6
+addr 7
+write
+read_2
+call FX2_ltn_print_1
+scrap
+read_3
+call FX2_ltn_print_1
+scrap
+addr 4
+read
+call FX2_ltn_print_1
+scrap
+addr 5
+read
+call FX2_ltn_print_1
+scrap
+addr 6
+read
+call FX2_ltn_print_1
+scrap
+addr 7
+read
+call FX4_ltn_println_1
+scrap
+makevar
+newi 0
+addr 8
+write
+:FOR_BEGIN38
+addr 8
+read
+newi 10
+sml
+ifelse FOR_END39
+addr 8
+read
+call FX2_ltn_print_1
+scrap
+addr 8
+read
+inc
+addr 8
+write
+jump FOR_BEGIN38
+:FOR_END39
+newstr
+call FX4_ltn_println_1
+scrap
 null
 return
 
