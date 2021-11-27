@@ -60,12 +60,12 @@ namespace ltn::vm {
 		const auto chr = this->fetchByte();
 		const auto ptr = this->reg.peek();
 		auto & str = this->heap.read<String>(ptr.u);
-		str.push_back(static_cast<char>(chr));
+		str.str.push_back(static_cast<char>(chr));
 	}
 	void LtnVM::elem() {
 		const auto value = this->reg.pop();
 		const auto ptr = this->reg.peek();
 		auto & arr = this->heap.read<Array>(ptr.u);
-		arr.push_back(value);
+		arr.arr.push_back(value);
 	}
 }

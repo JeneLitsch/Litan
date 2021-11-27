@@ -22,15 +22,15 @@ namespace ltn::vm {
 			return ss.str();
 		}
 		if(isStr(value)) {
-			return heap.read<String>(value.u);
+			return heap.read<String>(value.u).str;
 		}
 		if(isArr(value)) {
 			const auto & arr = heap.read<Array>(value.u);
 			std::stringstream ss;
 			ss << "[";
-			for(std::size_t i = 0; i < arr.size(); i++) {
+			for(std::size_t i = 0; i < arr.arr.size(); i++) {
 				ss << ((i) ? (", ") : (""));
-				ss << toString(arr[i], heap);
+				ss << toString(arr.arr[i], heap);
 			}
 			ss << "]";
 			return ss.str();

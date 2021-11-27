@@ -2,6 +2,7 @@
 #include <memory>
 #include <ostream>
 #include <iostream>
+#include <string_view>
 namespace ltn::vm {
 	class OStream {
 	public:
@@ -15,6 +16,7 @@ namespace ltn::vm {
 			return *ptr;
 		}
 
+		constexpr static std::string_view typeName = "OStream";
 	private:
 		std::shared_ptr<std::ostream> storage;
 		std::ostream * ptr;

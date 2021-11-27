@@ -3,6 +3,7 @@
 #include <vector>
 #include <sstream>
 #include <variant>
+#include <string_view>
 #include <queue>
 #include "Stack.hxx"
 #include "Value.hxx"
@@ -12,8 +13,14 @@
 #include "objects/FxPointer.hxx"
 #include "objects/Clock.hxx"
 namespace ltn::vm {
-	using Array = std::vector<Value>;
-	using String = std::string;
+	struct Array {
+		std::vector<Value> arr;
+		constexpr static std::string_view typeName = "Array";
+	};
+	struct String {
+		std::string str;
+		constexpr static std::string_view typeName = "String";
+	};
 	struct HeapObject {
 		std::variant<
 				std::monostate,
@@ -54,19 +61,9 @@ namespace ltn::vm {
 				return *string;
 			}
 			else {
-				if constexpr(std::same_as<Obj, String>) {
-					throw accessViolation(addr, "not a String");
-				}
-				else if constexpr(std::same_as<Obj, Array>) {
-					throw accessViolation(addr, "not a Array");
-				}
-				else if constexpr(std::same_as<Obj, FxPointer>) {
-					throw accessViolation(addr, "not a FxPointer");
-				}
-				else if constexpr(std::same_as<Obj, Clock>) {
-					throw accessViolation(addr, "not a Clock");
-				}
-				else throw accessViolation(addr, "Unknwo Object");
+				std::stringstream ss;
+				ss << "not a" << Obj::typeName;
+				throw accessViolation(addr, ss.str());
 			}
 		}
 
@@ -84,7 +81,6 @@ namespace ltn::vm {
 		void sweep();
 
 		HeapObject & get(std::uint64_t addr);
-		std::uint64_t alloc_(const HeapObject & object);
 
 		std::vector<HeapObject> objects;
 		std::queue<std::uint64_t> reuse;

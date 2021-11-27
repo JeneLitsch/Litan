@@ -33,7 +33,7 @@ namespace ltn::vm {
 		auto & in = getIstream(this->heap, this->reg); 
 		std::string value;
 		in >> value;
-		const auto addr = heap.alloc<String>(value);
+		const auto addr = heap.alloc<String>({value});
 		reg.push(Value{addr, VT::STRING});
 	}
 
@@ -41,7 +41,7 @@ namespace ltn::vm {
 		auto & in = getIstream(this->heap, this->reg); 
 		std::string value;
 		std::getline(in, value);
-		const auto addr = heap.alloc<String>(value);
+		const auto addr = heap.alloc<String>({value});
 		reg.push(Value{addr, VT::STRING});
 	}
 

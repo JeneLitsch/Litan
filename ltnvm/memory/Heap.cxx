@@ -8,21 +8,6 @@
 
 ltn::vm::Heap::Heap() {}
 
-std::uint64_t ltn::vm::Heap::alloc_(const HeapObject & object) {
-	if(reuse.empty()) {
-		const std::uint64_t addr = this->objects.size();
-		this->objects.push_back(object);
-		return addr;
-	}
-	else {
-		std::uint64_t addr = this->reuse.front();
-		this->reuse.pop();
-		this->objects[addr] = std::move(object);
-		return addr;
-	}
-}
-
-
 
 ltn::vm::HeapObject & ltn::vm::Heap::get(std::uint64_t addr) {
 	if(addr > this->objects.size()) {
@@ -43,7 +28,7 @@ void ltn::vm::Heap::mark(const std::vector<Value> & values) {
 			auto & obj = get(value.u);
 			auto & arr = read<Array>(value.u);
 			obj.marked = true;
-			mark(arr);
+			mark(arr.arr);
 		}
 		if(isStr(value)
 		|| isOStream(value)

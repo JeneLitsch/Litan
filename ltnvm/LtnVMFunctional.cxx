@@ -10,7 +10,7 @@ namespace ltn::vm {
 			ss	<< "Invoked " << calledType
 				<< " with wrong number of paramters. ";
 			
-			ss	<< "Got " << got.size()
+			ss	<< "Got " << got.arr.size()
 				<< " expected " << callable.getParameters();
 			return std::runtime_error{ss.str()};
 		}
@@ -25,8 +25,8 @@ namespace ltn::vm {
 			// Call functions pointer
 			if(isFxPtr(refFx)) {
 				const auto & fxPtr = this->heap.read<FxPointer>(refFx.u);
-				if(params.size() == fxPtr.getParameters()) {
-					for(const auto param : params) {
+				if(params.arr.size() == fxPtr.getParameters()) {
+					for(const auto param : params.arr) {
 						this->reg.push(param);
 					}
 					this->stack.pushFrame(this->pc);
@@ -40,8 +40,8 @@ namespace ltn::vm {
 			// Call external binding
 			else if(isExt(refFx)) {
 				auto & fxPtr = *this->externals.at(refFx.u);
-				if(params.size() == fxPtr.getParameters()) {
-					ext::Api api{this->heap, this->reg, params};
+				if(params.arr.size() == fxPtr.getParameters()) {
+					ext::Api api{this->heap, this->reg, params.arr};
 					fxPtr(api);
 					this->reg.push(value::null);
 				}

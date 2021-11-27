@@ -27,7 +27,7 @@ namespace ltn::vm {
 			if(isArr(value)) {
 				return heap.read<Array>(value.u);
 			}
-			return {value};
+			return {{value}};
 		}
 	}
 
@@ -37,25 +37,25 @@ namespace ltn::vm {
 		if(isArr(l)) {
 			const auto & arrL = heap.read<Array>(l.u);
 			const auto & arrR = toArray(r, heap);
-			const auto ref = heap.alloc<Array>(arrL + arrR);
+			const auto ref = heap.alloc<Array>({arrL.arr + arrR.arr});
 			return this->reg.push({ref, Value::Type::ARRAY});
 		}
 
 		if(isStr(l)) {
 			const auto & strL = heap.read<String>(l.u);
-			const auto ref = heap.alloc<String>(strL + toString(r, heap));
+			const auto ref = heap.alloc<String>({strL.str + toString(r, heap)});
 			return this->reg.push({ref, Value::Type::STRING});
 		}
 
 		if(isArr(r)) {
 			const auto arrR = heap.read<Array>(r.u);
-			const auto ref = heap.alloc<Array>(std::vector{l} + arrR);
+			const auto ref = heap.alloc<Array>({std::vector{l} + arrR.arr});
 			return this->reg.push({ref, Value::Type::ARRAY});
 		}
 
 		if(isStr(r)) {
 			const auto & strR = heap.read<String>(r.u);
-			const auto ref =heap.alloc<String>(toString(l, heap) + strR);
+			const auto ref =heap.alloc<String>({toString(l, heap) + strR.str});
 			return this->reg.push({ref, Value::Type::STRING});
 		}
 
