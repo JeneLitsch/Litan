@@ -17,7 +17,8 @@ makevar
 addr 0
 write
 call FX0_ltn_cout_0
-read_0
+addr 0
+read
 call FX1_ltn_print_2
 scrap
 null
@@ -30,11 +31,14 @@ write
 makevar
 addr 1
 write
-read_1
-read_0
+addr 1
+read
+addr 0
+read
 call FX1_ltn_print_2
 scrap
-read_1
+addr 1
+read
 newstr
 char a
 call FX1_ltn_print_2
@@ -50,11 +54,14 @@ makevar
 call FX0_ltn_cout_0
 addr 1
 write
-read_1
-read_0
+addr 1
+read
+addr 0
+read
 call FX1_ltn_print_2
 scrap
-read_1
+addr 1
+read
 newstr
 char a
 call FX1_ltn_print_2
@@ -254,8 +261,10 @@ write
 makevar
 addr 1
 write
-read_1
-read_0
+addr 1
+read
+addr 0
+read
 add
 return
 null
@@ -265,7 +274,8 @@ return
 makevar
 addr 0
 write
-read_0
+addr 0
+read
 newi 2
 mlt
 return
@@ -274,42 +284,45 @@ return
 
 :FX35_main_0
 makevar
-call FX30_ltn_clock_0
+newi 1
 addr 0
 write
 makevar
-newi 0
+newi 2
 addr 1
 write
 makevar
-newi 1
+newi 3
 addr 2
 write
-:FOR_BEGIN36
-addr 2
+makevar
+newi 4
+addr 3
+write
+makevar
+newi 5
+addr 4
+write
+addr 0
 read
-newi 1000000
-sml
-ifelse FOR_END37
-read_1
-read_2
-add
-write_1
-null
+call FX2_ltn_print_1
+scrap
+addr 1
+read
+call FX2_ltn_print_1
 scrap
 addr 2
 read
-inc
-addr 2
-write
-jump FOR_BEGIN36
-:FOR_END37
-read_0
-call FX31_ltn_toSeconds_1
-newstr
-char 73
-add
-return
+call FX2_ltn_print_1
+scrap
+addr 3
+read
+call FX2_ltn_print_1
+scrap
+addr 4
+read
+call FX2_ltn_print_1
+scrap
 null
 return
 

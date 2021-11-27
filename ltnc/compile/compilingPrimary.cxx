@@ -43,10 +43,17 @@ namespace ltn::c::compile {
 
 		// compiles an variable read accessc
 		ExprCode readVar(const ast::Var & expr, Scope & scope) {
-			const auto addr = compile::addr(expr, scope);
+			const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
 			std::stringstream ss;
-			ss << addr.code;
-			ss << inst::read;
+			switch (addr) {
+			// Shortcut instructions
+			case 0: ss << inst::read_0; break;
+			case 1: ss << inst::read_1; break;
+			case 2: ss << inst::read_2; break;
+			case 3: ss << inst::read_3; break;
+			// Standard instructions
+			default: ss << inst::addr(addr) << inst::read; break;
+			}
 			return ExprCode{ ss.str(), false, true};
 		}
 

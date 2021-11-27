@@ -51,6 +51,14 @@ namespace ltn::c::compile::inst {
 	const std::string_view makevar = "makevar\n";
 	const std::string_view at = "at\n";
 	const std::string_view at_write = "at_write\n";
+	const std::string_view read_0 = "read_0\n";
+	const std::string_view read_1 = "read_1\n";
+	const std::string_view read_2 = "read_2\n";
+	const std::string_view read_3 = "read_3\n";
+	const std::string_view write_0 = "write_0\n";
+	const std::string_view write_1 = "write_1\n";
+	const std::string_view write_2 = "write_2\n";
+	const std::string_view write_3 = "write_3\n";
 	
 	const std::string byte(std::uint8_t byte);
 }

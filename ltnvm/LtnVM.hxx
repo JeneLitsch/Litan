@@ -40,6 +40,8 @@ namespace ltn::vm {
 		void jump(), call(), reTurn(), iF(), error(), invoke(), external();
 
 		void read(), write(), scrap(), makevar(), at(), at_write();
+		void read_0(), read_1(), read_2(), read_3();
+		void write_0(), write_1(), write_2(), write_3();
 
 		void out();
 		void in_str(), in_line(), in_int(), in_float();

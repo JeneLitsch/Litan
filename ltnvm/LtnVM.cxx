@@ -92,6 +92,14 @@ namespace ltn::vm {
 			case Inst::MAKEVAR: this->makevar(); break;
 			case Inst::AT: this->at(); break;
 			case Inst::AT_WRITE: this->at_write(); break;
+			case Inst::READ_0: this->read_0(); break;
+			case Inst::READ_1: this->read_1(); break;
+			case Inst::READ_2: this->read_2(); break;
+			case Inst::READ_3: this->read_3(); break;
+			case Inst::WRITE_0: this->write_0(); break;
+			case Inst::WRITE_1: this->write_1(); break;
+			case Inst::WRITE_2: this->write_2(); break;
+			case Inst::WRITE_3: this->write_3(); break;
 
 			case Inst::OUT: this->out(); break;
 			case Inst::IN_STR: this->in_str(); break;
