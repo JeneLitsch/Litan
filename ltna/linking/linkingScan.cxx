@@ -16,6 +16,8 @@ namespace ltn::a::linking {
 				{"write_x", 9},
 				{"ifelse", 9},
 				{"char", 2},
+				{"char_4", 5},
+				{"char_8", 9},
 			};
 			if(sizeTable.contains(inst)) {
 				return sizeTable.at(inst);

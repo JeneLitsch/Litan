@@ -264,8 +264,6 @@ makevar
 call FX30_ltn_clock_0
 write_0
 makevar
-newi 0
-write_1
 makevar
 newi 1
 write_2
@@ -274,8 +272,13 @@ read_2
 newi 1000000
 sml
 ifelse FOR_END37
-read_1
-read_2
+newstr
+char 41
+newstr
+char_4 42 42 42 42 
+add
+newstr
+char_8 43 43 43 43 43 43 43 43 
 add
 write_1
 null
@@ -292,59 +295,10 @@ char 73
 add
 call FX4_ltn_println_1
 scrap
-makevar
-newi 1
-write_2
-makevar
-newi 2
-write_3
-makevar
-newi 3
-write_x 4
-makevar
-newi 4
-write_x 5
-makevar
-newi 5
-write_x 6
-makevar
-newi 6
-write_x 7
-read_2
-call FX2_ltn_print_1
-scrap
-read_3
-call FX2_ltn_print_1
-scrap
-read_x 4
-call FX2_ltn_print_1
-scrap
-read_x 5
-call FX2_ltn_print_1
-scrap
-read_x 6
-call FX2_ltn_print_1
-scrap
-read_x 7
-call FX4_ltn_println_1
-scrap
-makevar
-newi 0
-write_x 8
-:FOR_BEGIN38
-read_x 8
-newi 10
-sml
-ifelse FOR_END39
-read_x 8
-call FX2_ltn_print_1
-scrap
-read_x 8
-inc
-write_x 8
-jump FOR_BEGIN38
-:FOR_END39
 newstr
+char_8 43 43 43 43 43 43 43 43 
+char_4 42 42 42 42 
+char 41
 call FX4_ltn_println_1
 scrap
 null

@@ -37,6 +37,8 @@ namespace ltn::a::assemble {
 			{"null", Inst::NVLL},
 			{"char", Inst::CHAR},
 			{"elem", Inst::ELEM},
+			{"char_4", Inst::CHAR_4},
+			{"char_8", Inst::CHAR_8},
 
 			{"jump", Inst::JUMP},
 			{"call", Inst::CALL},

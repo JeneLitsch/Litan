@@ -31,12 +31,12 @@ namespace ltn::vm {
 		
 		void neg(), n0t(), inc(), dec();
 
-		void newi(),newf(), newu(), newfx(), newClock();
-		void truE(), falsE();
-		void newarr(), newstr(), newout_std(), newin_std();
-		void null(), ch4r(), elem();
+		void newi(),newf(), newu(), truE(), falsE(), null(), ch4r(), elem();
+		void char_4(), char_8();
 
 		void jump(), call(), reTurn(), iF(), error(), invoke(), external();
+		
+		void newarr(), newstr(), newout_std(), newin_std(), newfx(), newClock();
 
 		void read(), write(), scrap(), makevar(),
 			at(), at_write(),

@@ -102,7 +102,29 @@ namespace ltn::c::compile::inst {
 		// Standard instructions
 		default: ss << "write_x " << addr << "\n"; break;
 		}
-		return ss.str();
-		
+		return ss.str();	
 	}
+
+	const std::string char_8(std::string_view & str) {
+		std::stringstream ss;
+		ss << "char_8 ";
+		for(std::size_t i = 0; i < 8; i++) {
+			ss << std::hex << int(str.front()) << " ";
+			str.remove_prefix(1);
+		}
+		ss << "\n";
+		return ss.str();
+	}
+
+	const std::string char_4(std::string_view & str) {
+		std::stringstream ss;
+		ss << "char_4 ";
+		for(std::size_t i = 0; i < 4; i++) {
+			ss << std::hex << int(str.front()) << " ";
+			str.remove_prefix(1);
+		}
+		ss << "\n";
+		return ss.str();
+	}
+
 }

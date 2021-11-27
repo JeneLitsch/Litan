@@ -24,8 +24,16 @@ namespace ltn::c::compile {
 		ExprCode string(const ast::String & expr) {
 			std::stringstream ss;
 			ss << inst::newstr << std::hex;
-			for(char chr : expr.value) {
-				ss << inst::ch4r(chr);
+			std::string_view str = expr.value;
+			while(str.size() >= 8) {
+				ss << inst::char_8(str);		
+			}
+			while(str.size() >= 4) {
+				ss << inst::char_4(str);
+			}
+			while(!str.empty()) {
+				ss << inst::ch4r(str.front());
+				str.remove_prefix(1);
 			}
 			return ExprCode{ ss.str(), false, true};
 		}

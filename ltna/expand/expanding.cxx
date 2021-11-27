@@ -42,6 +42,18 @@ namespace ltn::a::expand {
 			return ss.str();
 		}
 
+		std::string char_x(const std::string_view inst, std::size_t x, std::istream & ls) {
+			std::stringstream ss;
+			ls >> std::ws;
+			std::string chr;
+			ss << inst << "\n";
+			for(std::size_t i = 0; i < x; i++) {
+				ls >> chr;
+				ss	<< "byte " << std::hex << chr << "\n";
+			}
+			return ss.str();
+		}
+
 		void expandLine(const std::string & line, std::ostream & out) {
 			std::stringstream ls(line);
 			std::string inst;
@@ -93,9 +105,17 @@ namespace ltn::a::expand {
 			if(inst == "char") {
 				ls >> std::ws;
 				std::string chr;
-				ls >> chr;
 				out << "char\n";
+				ls >> chr;
 				out	<< "byte " << std::hex << chr << "\n";
+				return;
+			}
+			if(inst == "char_4") {
+				out << char_x("char_4", 4, ls);
+				return;
+			}
+			if(inst == "char_8") {
+				out << char_x("char_8", 8, ls);
 				return;
 			}
 			if(line != "") {

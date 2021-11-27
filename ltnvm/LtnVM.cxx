@@ -57,17 +57,14 @@ namespace ltn::vm {
 			case Inst::NEWI: this->newi(); break;
 			case Inst::NEWF: this->newf(); break;
 			case Inst::NEWU: this->newu(); break;
-			case Inst::NEWFX: this->newfx(); break;
-			case Inst::NEWCLOCK: this->newClock(); break;
 			case Inst::TRUE: this->truE(); break;
 			case Inst::FALSE: this->falsE(); break;
-			case Inst::NEWARR: this->newarr(); break;
-			case Inst::NEWSTR: this->newstr(); break;
-			case Inst::NEWOUT_STD: this->newout_std(); break;
-			case Inst::NEWIN_STD: this->newin_std(); break;
 			case Inst::NVLL: this->null(); break;
 			case Inst::CHAR: this->ch4r(); break;
 			case Inst::ELEM: this->elem(); break;
+			case Inst::CHAR_4: this->char_4(); break;
+			case Inst::CHAR_8: this->char_8(); break;
+
 
 			case Inst::JUMP: this->jump(); break;
 			case Inst::CALL: this->call(); break;
@@ -84,6 +81,12 @@ namespace ltn::vm {
 				return;
 			}
 				
+			case Inst::NEWARR: this->newarr(); break;
+			case Inst::NEWSTR: this->newstr(); break;
+			case Inst::NEWOUT_STD: this->newout_std(); break;
+			case Inst::NEWIN_STD: this->newin_std(); break;
+			case Inst::NEWFX: this->newfx(); break;
+			case Inst::NEWCLOCK: this->newClock(); break;
 			
 			case Inst::READ: this->read(); break;
 			case Inst::WRITE: this->write(); break;
