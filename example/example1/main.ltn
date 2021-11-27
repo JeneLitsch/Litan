@@ -11,8 +11,10 @@ function main(){
 	// for i (1, 1000000) {
 	// 	var x = "A" + "BBBB" + "CCCCCCCC";
 	// }
+	var x = 42;
 	if(true) {
 		var a = 42;
+		var b = 42;
 		a = 1337;
 	}
 	if(true) {
@@ -21,6 +23,10 @@ function main(){
 	}
 	for i (0, 11) {
 		ltn::println(i);
+	}
+	while(false) {
+		var a;
+		var b;
 	}
 
 	// ltn::println(ltn::toSeconds(clock) + "s");

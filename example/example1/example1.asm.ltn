@@ -263,38 +263,51 @@ return
 makevar
 makevar
 makevar
+newi 42
+write_0
 true
 ifelse IF_END36
 newi 42
-write_0
+write_1
+newi 42
+write_2
 newi 1337
-write_0
+write_1
 null
 scrap
 :IF_END36
 true
 ifelse IF_END37
 null
-write_0
-read_0
+write_1
+read_1
 call FX4_ltn_println_1
 scrap
 :IF_END37
 newi 0
-write_0
+write_1
 :FOR_BEGIN38
-read_0
+read_1
 newi 11
 sml
 ifelse FOR_END39
-read_0
+read_1
 call FX4_ltn_println_1
 scrap
-read_0
+read_1
 inc
-write_0
+write_1
 jump FOR_BEGIN38
 :FOR_END39
+:WHILE_BEGIN40
+false
+ifelse WHILE_END41
+null
+write_1
+null
+write_2
+jump WHILE_BEGIN40
+:WHILE_END41
 null
 return
 
