@@ -22,10 +22,10 @@ namespace ltn::vm {
 			return ss.str();
 		}
 		if(isStr(value)) {
-			return heap.readString(value.u);
+			return heap.read<String>(value.u);
 		}
 		if(isArr(value)) {
-			const auto & arr = heap.readArray(value.u);
+			const auto & arr = heap.read<Array>(value.u);
 			std::stringstream ss;
 			ss << "[";
 			for(std::size_t i = 0; i < arr.size(); i++) {
@@ -42,11 +42,17 @@ namespace ltn::vm {
 			return "<istream>";
 		}
 		if(isFxPtr(value)) {
-			const auto & fxPtr = heap.readFxPointer(value.u);
+			const auto & fxPtr = heap.read<FxPointer>(value.u);
 			std::stringstream ss;
 			ss << "<fx:";
 			ss << fxPtr.address << "," << fxPtr.params << ">";
 			return  ss.str();
+		}
+		if(isClock(value)) {
+			const auto & clock = heap.read<Clock>(value.u);
+			std::stringstream ss;
+			ss << "<clock: " << clock.getSeconds() << "s>";
+			return ss.str();
 		}
 		throw std::runtime_error{"Cannot convert to string"};
 	}

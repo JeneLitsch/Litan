@@ -27,6 +27,7 @@ namespace ltn::a::assemble {
 			{"newi", Inst::NEWI},
 			{"newf", Inst::NEWF},
 			{"newfx", Inst::NEWFX},
+			{"newclock", Inst::NEWCLOCK},
 			{"addr", Inst::ADDR},
 			{"true", Inst::TRUE},
 			{"false", Inst::FALSE},

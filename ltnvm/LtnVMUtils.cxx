@@ -5,15 +5,15 @@ namespace ltn::vm {
 	void LtnVM::size() {
 		const auto ref = this->reg.pop();
 		if (isArr(ref)) {
-			const auto & arr = this->heap.readArray(ref.u);
+			const auto & arr = this->heap.read<Array>(ref.u);
 			this->reg.push(static_cast<std::int64_t>(arr.size()));
 		}
 		else if(isStr(ref)) {
-			const auto & str = this->heap.readString(ref.u);
+			const auto & str = this->heap.read<String>(ref.u);
 			this->reg.push(static_cast<std::int64_t>(str.size()));
 		}
 		else if(isFxPtr(ref)) {
-			const auto & fxPtr = this->heap.readFxPointer(ref.u);
+			const auto & fxPtr = this->heap.read<FxPointer>(ref.u);
 			this->reg.push(static_cast<std::int64_t>(fxPtr.params));
 		}
 		else {
@@ -24,7 +24,7 @@ namespace ltn::vm {
 	void LtnVM::front() {
 		const auto ref = this->reg.pop();
 		if (isArr(ref)) {
-			const auto & arr = this->heap.readArray(ref.u);
+			const auto & arr = this->heap.read<Array>(ref.u);
 			this->reg.push(arr.front());
 		}
 		else {
@@ -35,7 +35,7 @@ namespace ltn::vm {
 	void LtnVM::back() {
 		const auto ref = this->reg.pop();
 		if (isArr(ref)) {
-			const auto & arr = this->heap.readArray(ref.u);
+			const auto & arr = this->heap.read<Array>(ref.u);
 			this->reg.push(arr.back());
 		}
 		else {

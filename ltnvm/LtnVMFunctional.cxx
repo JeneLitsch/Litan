@@ -20,11 +20,11 @@ namespace ltn::vm {
 		const auto refParam = this->reg.pop();
 		const auto refFx = this->reg.pop();
 		if(isArr(refParam)) {
-			const auto & params = this->heap.readArray(refParam.u);
+			const auto & params = this->heap.read<Array>(refParam.u);
 
 			// Call functions pointer
 			if(isFxPtr(refFx)) {
-				const auto & fxPtr = this->heap.readFxPointer(refFx.u);
+				const auto & fxPtr = this->heap.read<FxPointer>(refFx.u);
 				if(params.size() == fxPtr.getParameters()) {
 					for(const auto param : params) {
 						this->reg.push(param);

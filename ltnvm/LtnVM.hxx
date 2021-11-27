@@ -31,7 +31,7 @@ namespace ltn::vm {
 		
 		void neg(), n0t(), inc(), dec();
 
-		void newi(),newf(), newu(), newfx();
+		void newi(),newf(), newu(), newfx(), newClock();
 		void addr();
 		void truE(), falsE();
 		void newarr(), newstr(), newout_std(), newin_std();

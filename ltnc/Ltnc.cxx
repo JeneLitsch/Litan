@@ -11,6 +11,7 @@ const std::span<const std::string_view> ltn::c::Ltnc::stdLib() const {
 		"math.ltn"sv,
 		"utils.ltn"sv,
 		"functional.ltn"sv,
+		"chrono.ltn"sv,
 	};
 	return stdFiles;
 }

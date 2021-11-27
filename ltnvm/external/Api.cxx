@@ -18,7 +18,7 @@ void ltn::vm::ext::Api::returnFloat(double value) {
 }
 
 void ltn::vm::ext::Api::returnString(std::string value) {
-	this->returnVal = Value{this->heap.allocString(value), Value::Type::STRING};
+	this->returnVal = Value{this->heap.alloc<String>(value), Value::Type::STRING};
 }
 
 

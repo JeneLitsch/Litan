@@ -1,0 +1,6 @@
+namespace ltn {
+	asm clock() {
+		"newclock"
+		"return"
+	}
+}

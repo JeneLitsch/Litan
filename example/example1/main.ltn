@@ -7,6 +7,6 @@ function f(a) {
 }
 
 function main(){
-	var fx = ltn::external(42);
-	return ltn::invoke(fx, ["ABC", "DEF"]);
+	return ltn::invoke(&f(_), [21]);	
+	return ltn::clock();
 }

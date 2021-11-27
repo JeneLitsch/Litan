@@ -23,7 +23,7 @@ namespace ltn::vm {
 		const auto index = this->reg.pop();
 		const auto indexable = this->reg.pop();
 		if(indexable.type == Value::Type::ARRAY) {
-			const auto & arr = heap.readArray(indexable.u);
+			const auto & arr = heap.read<Array>(indexable.u);
 			if(index.u >= arr.size()) {
 				throw std::runtime_error{"Array out range"};
 			}
@@ -37,7 +37,7 @@ namespace ltn::vm {
 		const auto indexable = this->reg.pop();
 		const auto value = this->reg.pop();
 		if(indexable.type == Value::Type::ARRAY) {
-			auto & arr = heap.readArray(indexable.u);
+			auto & arr = heap.read<Array>(indexable.u);
 			if(index.u >= arr.size()) {
 				throw std::runtime_error{"Array out range"};
 			}

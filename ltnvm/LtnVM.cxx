@@ -58,6 +58,7 @@ namespace ltn::vm {
 			case Inst::NEWF: this->newf(); break;
 			case Inst::NEWU: this->newu(); break;
 			case Inst::NEWFX: this->newfx(); break;
+			case Inst::NEWCLOCK: this->newClock(); break;
 			case Inst::ADDR: this->addr(); break;
 			case Inst::TRUE: this->truE(); break;
 			case Inst::FALSE: this->falsE(); break;

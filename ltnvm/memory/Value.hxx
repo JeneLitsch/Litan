@@ -8,7 +8,8 @@ namespace ltn::vm {
 			INT, FLOAT, BOOL,
 			ARRAY, STRING,
 			ISTREAM, OSTREAM,
-			FX_PTR, EXTERNAL
+			FX_PTR, EXTERNAL,
+			CLOCK,
 		};
 		constexpr Value()
 			: u(0), type(Type::NVLL) {}

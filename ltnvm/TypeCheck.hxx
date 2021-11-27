@@ -44,4 +44,8 @@ namespace ltn::vm {
 	constexpr inline bool isExt(const Value & val) {
 		return val.type == Value::Type::EXTERNAL;
 	}
+
+	constexpr inline bool isClock(const Value & val) {
+		return val.type == Value::Type::CLOCK;
+	}
 }

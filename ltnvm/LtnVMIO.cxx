@@ -7,7 +7,7 @@ namespace ltn::vm {
 		const auto value = this->reg.pop();
 		const auto ref = this->reg.pop();
 		if(isOStream(ref)) {
-			auto & ostream = this->heap.readOStream(ref.u).get();
+			auto & ostream = this->heap.read<OStream>(ref.u).get();
 			ostream << toString(value, this->heap); 
 		}
 		else {
@@ -21,7 +21,7 @@ namespace ltn::vm {
 		std::istream & getIstream(Heap & heap, Register & reg) {
 			const auto ref = reg.pop();
 			if(isIStream(ref)) {
-				return heap.readIStream(ref.u).get();
+				return heap.read<IStream>(ref.u).get();
 			}
 			else {
 				throw std::runtime_error{"Can only read from istream"};
@@ -33,7 +33,7 @@ namespace ltn::vm {
 		auto & in = getIstream(this->heap, this->reg); 
 		std::string value;
 		in >> value;
-		const auto addr = heap.allocString(value);
+		const auto addr = heap.alloc<String>(value);
 		reg.push(Value{addr, VT::STRING});
 	}
 
@@ -41,7 +41,7 @@ namespace ltn::vm {
 		auto & in = getIstream(this->heap, this->reg); 
 		std::string value;
 		std::getline(in, value);
-		const auto addr = heap.allocString(value);
+		const auto addr = heap.alloc<String>(value);
 		reg.push(Value{addr, VT::STRING});
 	}
 
