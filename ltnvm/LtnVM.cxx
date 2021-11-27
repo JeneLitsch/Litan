@@ -16,6 +16,13 @@ namespace ltn::vm {
 		return value;
 	}
 
+	void LtnVM::registerExternal(
+		std::int64_t id,
+		std::unique_ptr<ext::External> && ext) {
+		this->externals.emplace(id, std::move(ext));
+	}
+
+
 
 	void LtnVM::exec() {
 		while(true) {
@@ -64,6 +71,7 @@ namespace ltn::vm {
 			case Inst::IF: this->iF(); break;
 			case Inst::ERROR: this->error(); break;
 			case Inst::INVOKE: this->invoke(); break;
+			case Inst::EXTERNAL: this->external(); break;
 			case Inst::EXIT: {
 				this->ostream.get() << "Exit main() with return value: ";
 				const auto value = this->reg.pop();

@@ -6,7 +6,7 @@ byte 0
 byte 0
 byte 0
 byte 2
-byte b
+byte f
 exit
 newout_std
 return
@@ -384,6 +384,10 @@ invoke
 return
 null
 return
+external
+return
+null
+return
 makevar
 addr
 byte 0
@@ -522,15 +526,7 @@ return
 null
 return
 makevar
-newfx
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-byte e9
+newi
 byte 0
 byte 0
 byte 0
@@ -538,47 +534,8 @@ byte 0
 byte 0
 byte 0
 byte 0
-byte 1
-addr
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-write
-addr
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-read
+byte 2a
 call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 1
-byte 72
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 88
-scrap
-newfx
 byte 0
 byte 0
 byte 0
@@ -587,14 +544,6 @@ byte 0
 byte 0
 byte 1
 byte 82
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 5
 addr
 byte 0
 byte 0
@@ -605,8 +554,6 @@ byte 0
 byte 0
 byte 0
 write
-null
-scrap
 addr
 byte 0
 byte 0
@@ -617,6 +564,7 @@ byte 0
 byte 0
 byte 0
 read
+newarr
 call
 byte 0
 byte 0
@@ -625,16 +573,7 @@ byte 0
 byte 0
 byte 0
 byte 1
-byte 72
-call
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 0
-byte 88
+byte 7e
 scrap
 null
 return

@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <iostream>
-#include "TypeCheck.hxx"
+#include "ltnvm/TypeCheck.hxx"
 
 namespace {
 	auto accessViolation(std::uint64_t at, const std::string_view msg) {

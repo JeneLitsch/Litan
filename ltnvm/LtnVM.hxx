@@ -1,9 +1,11 @@
 #pragma once
-#include "Stack.hxx"
-#include "Register.hxx"
 #include <iostream>
 #include <functional>
-#include "Heap.hxx"
+#include <unordered_map>
+#include "memory/Register.hxx"
+#include "memory/Stack.hxx"
+#include "memory/Heap.hxx"
+#include "external/External.hxx"
 namespace ltn::vm {
 	class LtnVM {
 	public:
@@ -12,7 +14,15 @@ namespace ltn::vm {
 			this->byteCode = code;
 			this->pc = 0;
 		}
-		void run() { exec(); };
+
+		void run() {
+			exec();
+		};
+
+		void registerExternal(
+			std::int64_t id,
+			std::unique_ptr<ext::External> && ext);
+	
 	private:
 		std::uint8_t fetchByte();
 		std::uint64_t fetchUint();
@@ -31,7 +41,7 @@ namespace ltn::vm {
 		void newarr(), newstr(), newout_std(), newin_std();
 		void null(), ch4r(), elem();
 
-		void jump(), call(), reTurn(), iF(), error(), invoke();
+		void jump(), call(), reTurn(), iF(), error(), invoke(), external();
 
 		void read(), write(), scrap(), makevar(), at(), at_write();
 
@@ -52,5 +62,6 @@ namespace ltn::vm {
 		std::reference_wrapper<std::ostream> ostream;
 		std::vector<std::uint8_t> byteCode;
 		std::uint64_t pc;
+		std::unordered_map<std::int64_t, std::unique_ptr<ext::External>> externals;
 	};
 }

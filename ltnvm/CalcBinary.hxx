@@ -1,7 +1,7 @@
 #pragma once
-#include "Value.hxx"
 #include <string_view>
 #include <stdexcept>
+#include "memory/Value.hxx"
 namespace ltn::vm {
 	inline std::runtime_error typeError(
 		const Value &,

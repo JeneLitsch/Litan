@@ -8,7 +8,7 @@ namespace ltn::vm {
 			INT, FLOAT, BOOL,
 			ARRAY, STRING,
 			ISTREAM, OSTREAM,
-			FX_PTR,
+			FX_PTR, EXTERNAL
 		};
 		constexpr Value()
 			: u(0), type(Type::NVLL) {}
@@ -32,5 +32,9 @@ namespace ltn::vm {
 			bool b;
 		};
 		Type type;
-	};	
+	};
+	namespace value {
+		constexpr inline static Value null {0, Value::Type::NVLL };
+	}
+
 }

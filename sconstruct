@@ -40,6 +40,9 @@ ltna = [
 
 ltnvm = [
 	"ltnvm",
+	"ltnvm/external",
+	"ltnvm/memory",
+	"ltnvm/memory/objects",
 ]
 
 env.Program('bin/ltnc', glob(ltnc))

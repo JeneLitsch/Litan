@@ -3,12 +3,12 @@
 #include <vector>
 #include <variant>
 #include <queue>
-#include "Value.hxx"
 #include "Stack.hxx"
+#include "Value.hxx"
 #include "Register.hxx"
-#include "OStream.hxx"
-#include "IStream.hxx"
-#include "FxPointer.hxx"
+#include "objects/OStream.hxx"
+#include "objects/IStream.hxx"
+#include "objects/FxPointer.hxx"
 namespace ltn::vm {
 	using Array = std::vector<Value>;
 	using String = std::string;

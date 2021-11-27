@@ -3,4 +3,9 @@ namespace ltn {
 		"invoke"
 		"return"
 	}
+
+	asm external(id) {
+		"external"
+		"return"
+	}
 }

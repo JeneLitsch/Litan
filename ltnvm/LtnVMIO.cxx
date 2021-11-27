@@ -27,25 +27,22 @@ namespace ltn::vm {
 				throw std::runtime_error{"Can only read from istream"};
 			}
 		}
-
-		void pushString(Heap & heap, Register & reg, const auto & value) {
-			const auto addr = heap.allocString(value);
-			reg.push(Value{addr, VT::STRING});
-		}
 	}
 
 	void LtnVM::in_str() {
 		auto & in = getIstream(this->heap, this->reg); 
 		std::string value;
 		in >> value;
-		pushString(this->heap, this->reg, value);
+		const auto addr = heap.allocString(value);
+		reg.push(Value{addr, VT::STRING});
 	}
 
 	void LtnVM::in_line() {
 		auto & in = getIstream(this->heap, this->reg); 
 		std::string value;
 		std::getline(in, value);
-		pushString(this->heap, this->reg, value);
+		const auto addr = heap.allocString(value);
+		reg.push(Value{addr, VT::STRING});
 	}
 
 	void LtnVM::in_int() {

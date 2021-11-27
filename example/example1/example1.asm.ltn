@@ -1,4 +1,4 @@
-call FX32_main_0
+call FX33_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -217,7 +217,13 @@ return
 null
 return
 
-:FX29_f_5
+:FX29_ltn_external_1
+external
+return
+null
+return
+
+:FX30_f_5
 makevar
 addr 0
 write
@@ -236,7 +242,7 @@ write
 null
 return
 
-:FX30_f_2
+:FX31_f_2
 makevar
 addr 0
 write
@@ -252,7 +258,7 @@ return
 null
 return
 
-:FX31_f_1
+:FX32_f_1
 makevar
 addr 0
 write
@@ -264,25 +270,16 @@ return
 null
 return
 
-:FX32_main_0
+:FX33_main_0
 makevar
-newfx FX31_f_1 1
+newi 42
+call FX29_ltn_external_1
 addr 0
 write
 addr 0
 read
-call FX25_ltn_size_1
-call FX4_ltn_println_1
-scrap
-newfx FX29_f_5 5
-addr 0
-write
-null
-scrap
-addr 0
-read
-call FX25_ltn_size_1
-call FX4_ltn_println_1
+newarr
+call FX28_ltn_invoke_2
 scrap
 null
 return

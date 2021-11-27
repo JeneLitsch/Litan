@@ -1,4 +1,4 @@
-#include "Value.hxx"
+#include "memory/Value.hxx"
 namespace ltn::vm {
 	constexpr inline bool isNull(const Value & val) {
 		return val.type == Value::Type::NVLL;
@@ -38,5 +38,9 @@ namespace ltn::vm {
 
 	constexpr inline bool isFxPtr(const Value & val) {
 		return val.type == Value::Type::FX_PTR;
+	}
+
+	constexpr inline bool isExt(const Value & val) {
+		return val.type == Value::Type::EXTERNAL;
 	}
 }

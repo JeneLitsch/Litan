@@ -45,6 +45,7 @@ namespace ltn::a::assemble {
 			{"error", Inst::ERROR},
 			{"exit", Inst::EXIT},
 			{"invoke", Inst::INVOKE},
+			{"external", Inst::EXTERNAL},
 
 			{"read", Inst::READ},
 			{"write", Inst::WRITE},

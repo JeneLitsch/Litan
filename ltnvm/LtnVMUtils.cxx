@@ -31,7 +31,7 @@ namespace ltn::vm {
 			throw std::runtime_error{"Cannot get front element from non array type"};
 		}
 	}
-
+	
 	void LtnVM::back() {
 		const auto ref = this->reg.pop();
 		if (isArr(ref)) {
