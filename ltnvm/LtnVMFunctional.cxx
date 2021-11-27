@@ -41,7 +41,7 @@ namespace ltn::vm {
 			else if(isExt(refFx)) {
 				auto & fxPtr = *this->externals.at(refFx.u);
 				if(params.size() == fxPtr.getParameters()) {
-					ext::Api api{heap};
+					ext::Api api{heap, params};
 					fxPtr(api);
 					this->reg.push(value::null);
 				}

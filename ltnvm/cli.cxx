@@ -3,11 +3,13 @@
 #include "LtnVM.hxx"
 #include "ltnvm/external/External.hxx"
 
-class HelloWorld : public ltn::vm::ext::External {
+class Test : public ltn::vm::ext::External {
 public:
-	HelloWorld() : External(0) {}
-	virtual void operator()(ltn::vm::ext::Api &) override {
-		std::cout << "Hello World\n";
+	Test() : External(2) {}
+	virtual void operator()(ltn::vm::ext::Api & api) override {
+		const auto a = api.parameter<std::string>(0); 
+		const auto b = api.parameter<std::string>(1); 
+		std::cout << a << "|" << b << "\n";
 	}
 };
 
@@ -21,7 +23,7 @@ int main(int argc, char const *argv[]) {
 			};
 			try {
 				ltn::vm::LtnVM vm{std::cout};
-				vm.registerExternal(42, std::make_unique<HelloWorld>());
+				vm.registerExternal(42, std::make_unique<Test>());
 				vm.setup(bytecode);
 				vm.run();
 				return EXIT_SUCCESS;

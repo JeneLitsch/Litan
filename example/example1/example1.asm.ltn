@@ -279,6 +279,16 @@ write
 addr 0
 read
 newarr
+newstr
+char 41
+char 42
+char 43
+elem
+newstr
+char 44
+char 45
+char 46
+elem
 call FX28_ltn_invoke_2
 scrap
 null

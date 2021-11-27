@@ -1,3 +1,4 @@
+#pragma once
 #include "memory/Value.hxx"
 namespace ltn::vm {
 	constexpr inline bool isNull(const Value & val) {

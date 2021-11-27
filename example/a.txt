@@ -565,6 +565,22 @@ byte 0
 byte 0
 read
 newarr
+newstr
+char
+byte 41
+char
+byte 42
+char
+byte 43
+elem
+newstr
+char
+byte 44
+char
+byte 45
+char
+byte 46
+elem
 call
 byte 0
 byte 0
