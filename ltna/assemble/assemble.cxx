@@ -54,6 +54,8 @@ namespace ltn::a::assemble {
 			{"makevar", Inst::MAKEVAR},
 			{"at", Inst::AT},
 			{"at_write", Inst::AT_WRITE},
+			{"read_x", Inst::READ_X},
+			{"write_x", Inst::WRITE_X},
 			{"read_0", Inst::READ_0},
 			{"read_1", Inst::READ_1},
 			{"read_2", Inst::READ_2},

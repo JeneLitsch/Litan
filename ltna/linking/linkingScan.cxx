@@ -12,6 +12,8 @@ namespace ltn::a::linking {
 				{"jump", 9},
 				{"call", 9},
 				{"addr", 9},
+				{"read_x", 9},
+				{"write_x", 9},
 				{"ifelse", 9},
 				{"char", 2},
 			};

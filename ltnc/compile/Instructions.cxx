@@ -77,7 +77,7 @@ namespace ltn::c::compile::inst {
 		return ss.str();
 	}
 
-	const std::string readAddr(std::uint64_t addr) {
+	const std::string read_x(std::uint64_t addr) {
 		std::stringstream ss;
 			switch (addr) {
 			// Shortcut instructions
@@ -86,12 +86,12 @@ namespace ltn::c::compile::inst {
 			case 2: ss << inst::read_2; break;
 			case 3: ss << inst::read_3; break;
 			// Standard instructions
-			default: ss << inst::addr(addr) << inst::read; break;
+			default: ss << "read_x " << addr << "\n"; break;
 		}
 		return ss.str();
 	}
 
-	const std::string writeAddr(std::uint64_t addr) {
+	const std::string write_x(std::uint64_t addr) {
 		std::stringstream ss;
 		switch (addr) {
 		// Shortcut instructions
@@ -100,7 +100,7 @@ namespace ltn::c::compile::inst {
 		case 2: ss << inst::write_2; break;
 		case 3: ss << inst::write_3; break;
 		// Standard instructions
-		default: ss << inst::addr(addr) << inst::write; break;
+		default: ss << "write_x " << addr << "\n"; break;
 		}
 		return ss.str();
 		

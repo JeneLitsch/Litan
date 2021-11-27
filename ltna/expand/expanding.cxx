@@ -47,6 +47,14 @@ namespace ltn::a::expand {
 			std::string inst;
 			ls >> inst;
 
+			if(inst == "read_x") {
+				out << expandLiteral<std::uint64_t>(ls, "read_x");
+				return;
+			}
+			if(inst == "write_x") {
+				out << expandLiteral<std::uint64_t>(ls, "write_x");
+				return;
+			}
 			if(inst == "addr") {
 				out << expandLiteral<std::uint64_t>(ls, "addr");
 				return;

@@ -47,6 +47,18 @@ namespace ltn::vm {
 		throw std::runtime_error{"Not an indexable type"};
 	}
 
+	void LtnVM::read_x() {
+		const auto addr = this->fetchUint();
+		const auto value = this->stack.read(addr);
+		this->reg.push(value);
+	}
+
+	void LtnVM::write_x() {
+		const auto addr = this->fetchUint();
+		const auto value = this->reg.pop();
+		this->stack.write(addr, value);
+	}
+
 	void LtnVM::read_0() { this->reg.push(this->stack.read(0)); }
 	void LtnVM::read_1() { this->reg.push(this->stack.read(1)); }
 	void LtnVM::read_2() { this->reg.push(this->stack.read(2)); }

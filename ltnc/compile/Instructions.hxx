@@ -62,6 +62,6 @@ namespace ltn::c::compile::inst {
 	
 	const std::string byte(std::uint8_t byte);
 
-	const std::string readAddr(std::uint64_t addr);
-	const std::string writeAddr(std::uint64_t addr);
+	const std::string read_x(std::uint64_t addr);
+	const std::string write_x(std::uint64_t addr);
 }

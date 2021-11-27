@@ -45,7 +45,7 @@ namespace ltn::c::compile {
 		ExprCode readVar(const ast::Var & expr, Scope & scope) {
 			const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
 			std::stringstream ss;
-			ss << inst::readAddr(addr);
+			ss << inst::read_x(addr);
 			return ExprCode{ ss.str(), false, true};
 		}
 

@@ -44,11 +44,11 @@ namespace ltn::c::compile {
 		// Init
 		ss << var.code;
 		ss << from.code;
-		ss << inst::writeAddr(iVar);
+		ss << inst::write_x(iVar);
 
 		// Condition
 		ss << inst::jumpmark(begin);
-		ss << inst::readAddr(iVar);
+		ss << inst::read_x(iVar);
 		ss << to.code;
 		ss << inst::sml;
 		ss << inst::ifelse(end);
@@ -57,9 +57,9 @@ namespace ltn::c::compile {
 		ss << body.code;
 
 		// Increments
-		ss << inst::readAddr(iVar);
+		ss << inst::read_x(iVar);
 		ss << inst::inc;
-		ss << inst::writeAddr(iVar);
+		ss << inst::write_x(iVar);
 
 		// End of loop
 		ss << inst::jump(begin);

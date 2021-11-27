@@ -37,8 +37,7 @@ namespace ltn::c::compile {
 		if(newVar.right) {
 			const auto expr = compile::expression(*newVar.right, info, scope);
 			ss << expr.code;
-			ss << inst::addr(addr);
-			ss << inst::write;
+			ss << inst::write_x(addr);
 		}
 		return {ss.str()};
 	}

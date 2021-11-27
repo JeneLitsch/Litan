@@ -6,7 +6,7 @@ namespace ltn::c::compile {
 		ExprCode writeVar(const ast::Var & expr, Scope & scope) {
 			const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
 			std::stringstream ss;
-			ss << inst::writeAddr(addr);
+			ss << inst::write_x(addr);
 			return ExprCode{ss.str(), false, false};
 		}
 
