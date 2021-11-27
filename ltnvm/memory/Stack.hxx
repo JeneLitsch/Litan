@@ -13,6 +13,7 @@ namespace ltn::vm {
 		void pushFrame(std::uint64_t jumpBack);	
 		std::uint64_t popFrame();
 		const std::vector<Value> & getContainer() const;
+		void reset();
 	private:
 		std::vector<Value> stack;
 		std::uint64_t framePointer = 0;

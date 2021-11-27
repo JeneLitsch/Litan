@@ -144,3 +144,8 @@ void ltn::vm::Heap::sweep() {
 		idx++;
 	}
 }
+
+void ltn::vm::Heap::reset() {
+	this->objects.clear();
+	this->reuse = {};
+}

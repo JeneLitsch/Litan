@@ -15,9 +15,7 @@ namespace ltn::vm {
 			this->pc = 0;
 		}
 
-		void run() {
-			exec();
-		};
+		void run();
 
 		void registerExternal(
 			std::int64_t id,
@@ -27,8 +25,6 @@ namespace ltn::vm {
 		std::uint8_t fetchByte();
 		std::uint64_t fetchUint();
 
-		void exec();
-		
 		void add(), sub(), mlt(), div(), mod();
 		void eql(), ueql(), sml(), bgr(), bgreql(), smleql();
 		void shift_l(), shift_r();
@@ -56,12 +52,15 @@ namespace ltn::vm {
 
 		void outValue(const Value & value);
 
+		// Runtime
 		Stack stack;
 		Register reg;
 		Heap heap;
-		std::reference_wrapper<std::ostream> ostream;
-		std::vector<std::uint8_t> byteCode;
 		std::uint64_t pc;
+
+		// Persistent
+		std::vector<std::uint8_t> byteCode;
+		std::reference_wrapper<std::ostream> ostream;
 		std::unordered_map<std::int64_t, std::unique_ptr<ext::External>> externals;
 	};
 }

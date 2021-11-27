@@ -16,12 +16,10 @@ std::vector<std::uint8_t> ltn::a::Ltna::assemble(std::istream & in) const {
 	std::stringstream scanStream(code);
 	const auto table = linking::scan(scanStream);
 	
-	std::ofstream out("example/a.txt");
 	std::stringstream source(code);
 	std::stringstream patched;
 	std::stringstream expanded;
 	linking::patch(source, patched, table);
 	expand::expand(patched, expanded);
-	out << expanded.str();
 	return assemble::assemble(expanded);
 }

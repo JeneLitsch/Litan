@@ -37,12 +37,15 @@ namespace ltn::vm {
 		FxPointer & readFxPointer(std::uint64_t addr);
 
 		void collectGarbage(const Stack & stack, const Register & reg);
+
+		void reset();
 	private:
 		void mark(const std::vector<Value> & values);
 		void sweep();
 
 		HeapObject & get(std::uint64_t addr);
 		std::uint64_t alloc(const HeapObject & object);
+		
 		std::vector<HeapObject> objects;
 		std::queue<std::uint64_t> reuse;
 	};

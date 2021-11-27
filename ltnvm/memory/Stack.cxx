@@ -36,3 +36,8 @@ std::uint64_t ltn::vm::Stack::popFrame() {
 const std::vector<ltn::vm::Value> & ltn::vm::Stack::getContainer() const {
 	return this->stack;
 }
+
+void ltn::vm::Stack::reset() {
+	this->stack.clear();
+	this->framePointer = 0;
+}

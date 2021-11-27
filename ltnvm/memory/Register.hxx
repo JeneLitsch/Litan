@@ -10,6 +10,8 @@ namespace ltn::vm {
 		Value peek();
 		void push(Value value);
 		const std::vector<Value> & getContainer() const;
+
+		void reset();
 	private:
 		std::vector<Value> stack;
 	};

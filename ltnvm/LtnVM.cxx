@@ -24,7 +24,11 @@ namespace ltn::vm {
 
 
 
-	void LtnVM::exec() {
+	void LtnVM::run() {
+		this->reg.reset();
+		this->stack.reset();
+		this->heap.reset();
+		this->pc = 0;
 		while(true) {
 			std::uint8_t inst = this->fetchByte();
 			// ostream.get() << this->pc-1 << " : " << std::hex << "0x" << int(inst) << "\n" << std::dec; 

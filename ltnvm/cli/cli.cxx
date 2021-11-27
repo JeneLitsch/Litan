@@ -1,6 +1,6 @@
 #include <fstream>
 #include <filesystem>
-#include "LtnVM.hxx"
+#include "ltnvm/LtnVM.hxx"
 #include "ltnvm/external/External.hxx"
 
 class Test : public ltn::vm::ext::External {
@@ -14,6 +14,13 @@ public:
 	}
 };
 
+void run(const std::vector<std::uint8_t> & bytecode) {
+	ltn::vm::LtnVM vm{std::cout};
+	vm.registerExternal(42, std::make_unique<Test>());
+	vm.setup(bytecode);
+	vm.run();
+}
+
 int main(int argc, char const *argv[]) {
 	if(argc > 1) {
 		if(std::filesystem::exists(argv[1])) {
@@ -23,10 +30,7 @@ int main(int argc, char const *argv[]) {
 				std::istreambuf_iterator<char>()
 			};
 			try {
-				ltn::vm::LtnVM vm{std::cout};
-				vm.registerExternal(42, std::make_unique<Test>());
-				vm.setup(bytecode);
-				vm.run();
+				run(bytecode);
 				return EXIT_SUCCESS;
 			}
 			catch(const std::runtime_error & error) {
