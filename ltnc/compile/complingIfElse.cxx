@@ -38,7 +38,7 @@ namespace ltn::c::compile {
 			ss << inst::jump(idIfEnd);
 
 			ss << inst::jumpmark(idIfEnd);
-			return {ss.str()};
+			return {ss.str(), std::max(ifBranch.varCount, elseBranch.varCount)};
 		}
 		// without else
 		else {
@@ -48,7 +48,7 @@ namespace ltn::c::compile {
 
 			ss << ifBranch.code;
 			ss << inst::jumpmark(idIfEnd);
-			return {ss.str()};
+			return {ss.str(), ifBranch.varCount};
 		}
 
 	}

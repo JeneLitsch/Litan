@@ -20,7 +20,7 @@ namespace ltn::c::compile {
 			<< inst::jump(begin)
 			<< inst::jumpmark(end);
 
-		return {ss.str()};
+		return {ss.str(), body.varCount};
 	}
 
 
@@ -42,7 +42,6 @@ namespace ltn::c::compile {
 		std::stringstream ss;
 		
 		// Init
-		ss << var.code;
 		ss << from.code;
 		ss << inst::write_x(iVar);
 
@@ -65,7 +64,7 @@ namespace ltn::c::compile {
 		ss << inst::jump(begin);
 		ss << inst::jumpmark(end);
 
-		return StmtCode{ss.str()};
+		return StmtCode{ss.str(), body.varCount + 1};
 	}
 
 }

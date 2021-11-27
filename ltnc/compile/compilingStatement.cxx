@@ -6,12 +6,15 @@ namespace ltn::c::compile {
 		StmtCode block(const ast::Block & block, CompilerInfo & info, Scope & parent) {
 			Scope scope(&parent);
 			std::stringstream ss;
+			std::size_t varCount = 0;
 			for(const auto & stmt : block.statements) {
 				if(stmt) {
-					ss << statement(*stmt, info, scope).code;
+					const auto compiled = statement(*stmt, info, scope); 
+					ss << compiled.code;
+					varCount += compiled.varCount;
 				} 
 			}
-			return {ss.str()};
+			return {ss.str(), varCount};
 		}
 
 		// compiles -> return...;
@@ -25,7 +28,7 @@ namespace ltn::c::compile {
 				ss << inst::null;
 			}
 			ss << inst::reTurn;
-			return {ss.str()};
+			return {ss.str(), 0};
 		}
 		
 	}
@@ -33,13 +36,15 @@ namespace ltn::c::compile {
 	StmtCode newVar(const ast::NewVar & newVar, CompilerInfo & info, Scope & scope) {
 		const auto addr = scope.insert(newVar.name, newVar.debugInfo.line);
 		std::stringstream ss;
-		ss << inst::makevar;
 		if(newVar.right) {
 			const auto expr = compile::expression(*newVar.right, info, scope);
 			ss << expr.code;
-			ss << inst::write_x(addr);
 		}
-		return {ss.str()};
+		else {
+			ss << inst::null;
+		}
+		ss << inst::write_x(addr);
+		return {ss.str(), 1};
 	}
 
 
@@ -68,8 +73,8 @@ namespace ltn::c::compile {
 			std::stringstream ss;
 			ss << code.code;
 			ss << inst::scrap;
-			return { ss.str() };
+			return { ss.str(), 0 };
 		}
-		return { "...STMT\n" };
+		return { "...STMT\n" , 0 };
 	}
 }

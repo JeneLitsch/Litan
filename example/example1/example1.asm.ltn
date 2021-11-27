@@ -261,44 +261,40 @@ return
 
 :FX35_main_0
 makevar
-call FX30_ltn_clock_0
+makevar
+makevar
+true
+ifelse IF_END36
+newi 42
 write_0
-makevar
-newi 1
-write_1
-:FOR_BEGIN36
-read_1
-newi 1000000
-sml
-ifelse FOR_END37
-makevar
-newstr
-char 41
-newstr
-char_4 42 42 42 42 
-add
-newstr
-char_8 43 43 43 43 43 43 43 43 
-add
-write_2
-read_1
-inc
-write_1
-jump FOR_BEGIN36
-:FOR_END37
+newi 1337
+write_0
+null
+scrap
+:IF_END36
+true
+ifelse IF_END37
+null
+write_0
 read_0
-call FX31_ltn_toSeconds_1
-newstr
-char 73
-add
 call FX4_ltn_println_1
 scrap
-newstr
-char_8 43 43 43 43 43 43 43 43 
-char_4 42 42 42 42 
-char 41
+:IF_END37
+newi 0
+write_0
+:FOR_BEGIN38
+read_0
+newi 11
+sml
+ifelse FOR_END39
+read_0
 call FX4_ltn_println_1
 scrap
+read_0
+inc
+write_0
+jump FOR_BEGIN38
+:FOR_END39
 null
 return
 

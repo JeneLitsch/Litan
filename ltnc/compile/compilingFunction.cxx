@@ -19,7 +19,11 @@ namespace ltn::c::compile {
 				ss << inst::write_x(addr);
 			}
 			if(fx.body) {
-				ss << compile::statement(*fx.body, info, scope).code;
+				const auto body = compile::statement(*fx.body, info, scope);
+				for(std::size_t i = 0; i < body.varCount; i++) {
+					ss << inst::makevar;
+				}
+				ss << body.code;
 			}
 			ss << inst::null;
 			ss << inst::reTurn;
