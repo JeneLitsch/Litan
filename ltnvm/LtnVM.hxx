@@ -49,6 +49,7 @@ namespace ltn::vm {
 		void sin(), cos(), tan();
 		
 		void size(), front(), back();
+		void to_seconds();
 
 		void outValue(const Value & value);
 

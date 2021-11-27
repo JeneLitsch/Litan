@@ -7,6 +7,10 @@ function f(a) {
 }
 
 function main(){
-	return ltn::invoke(&f(_), [21]);	
-	return ltn::clock();
+	var clock = ltn::clock(); 
+	var x = 0;
+	for i (1, 1000000) {
+		x = x + i;
+	}
+	return ltn::toSeconds(clock) + "s";
 }

@@ -42,4 +42,15 @@ namespace ltn::vm {
 			throw std::runtime_error{"Cannot get back element from non array type"};
 		}
 	}
+
+	void LtnVM::to_seconds() {
+		const auto ref = this->reg.pop();
+		if (isClock(ref)) {
+			const auto & clock = this->heap.read<Clock>(ref.u);
+			this->reg.push(clock.getSeconds());
+		}
+		else {
+			throw std::runtime_error{"Can only convert clock to seconds"};
+		}
+	}
 }

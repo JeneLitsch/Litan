@@ -77,6 +77,8 @@ namespace ltn::a::assemble {
 			{"size", Inst::SIZE},
 			{"front", Inst::FRONT},
 			{"back", Inst::BACK},
+
+			{"to_seconds", Inst::TO_SECONDS},
 		};
 
 

@@ -115,6 +115,8 @@ namespace ltn::vm {
 			case Inst::SIZE: this->size(); break;
 			case Inst::FRONT: this->front(); break;
 			case Inst::BACK: this->back(); break;
+
+			case Inst::TO_SECONDS: this->to_seconds(); break;
 			default: {
 				std::stringstream ss;
 				ss << "Illegal Instruction: " << std::hex << int(inst) << std::dec;

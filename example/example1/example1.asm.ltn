@@ -1,4 +1,4 @@
-call FX34_main_0
+call FX35_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -229,7 +229,13 @@ return
 null
 return
 
-:FX31_f_5
+:FX31_ltn_toSeconds_1
+to_seconds
+return
+null
+return
+
+:FX32_f_5
 makevar
 addr 0
 write
@@ -248,7 +254,7 @@ write
 null
 return
 
-:FX32_f_2
+:FX33_f_2
 makevar
 addr 0
 write
@@ -264,7 +270,7 @@ return
 null
 return
 
-:FX33_f_1
+:FX34_f_1
 makevar
 addr 0
 write
@@ -276,14 +282,47 @@ return
 null
 return
 
-:FX34_main_0
-newfx FX33_f_1 1
-newarr
-newi 21
-elem
-call FX28_ltn_invoke_2
-return
+:FX35_main_0
+makevar
 call FX30_ltn_clock_0
+addr 0
+write
+makevar
+newi 0
+addr 1
+write
+makevar
+newi 1
+addr 2
+write
+:FOR_BEGIN36
+addr 2
+read
+newi 1000000
+sml
+ifelse FOR_END37
+addr 1
+read
+addr 2
+read
+add
+addr 1
+write
+null
+scrap
+addr 2
+read
+inc
+addr 2
+write
+jump FOR_BEGIN36
+:FOR_END37
+addr 0
+read
+call FX31_ltn_toSeconds_1
+newstr
+char 73
+add
 return
 null
 return

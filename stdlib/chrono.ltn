@@ -3,4 +3,9 @@ namespace ltn {
 		"newclock"
 		"return"
 	}
+
+	asm toSeconds(clock) {
+		"to_seconds"
+		"return"
+	}
 }
