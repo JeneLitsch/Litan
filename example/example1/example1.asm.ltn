@@ -14,8 +14,7 @@ return
 
 :FX2_ltn_print_1
 makevar
-addr 0
-write
+write_0
 call FX0_ltn_cout_0
 read_0
 call FX1_ltn_print_2
@@ -25,11 +24,9 @@ return
 
 :FX3_ltn_println_2
 makevar
-addr 0
-write
+write_0
 makevar
-addr 1
-write
+write_1
 read_1
 read_0
 call FX1_ltn_print_2
@@ -44,8 +41,7 @@ return
 
 :FX4_ltn_println_1
 makevar
-addr 0
-write
+write_0
 makevar
 call FX0_ltn_cout_0
 write_1
@@ -229,30 +225,23 @@ return
 
 :FX32_f_5
 makevar
-addr 0
-write
+write_0
 makevar
-addr 1
-write
+write_1
 makevar
-addr 2
-write
+write_2
 makevar
-addr 3
-write
+write_3
 makevar
-addr 4
-write
+write_x 4
 null
 return
 
 :FX33_f_2
 makevar
-addr 0
-write
+write_0
 makevar
-addr 1
-write
+write_1
 read_1
 read_0
 add
@@ -262,8 +251,7 @@ return
 
 :FX34_f_1
 makevar
-addr 0
-write
+write_0
 read_0
 newi 2
 mlt

@@ -19,9 +19,6 @@ namespace ltn::vm {
 		const auto ref = this->heap.alloc<FxPointer>({address, params});
 		this->reg.push(Value{ref, Value::Type::FX_PTR});
 	}
-	void LtnVM::addr(){
-		this->reg.push(Value{this->fetchUint(), Value::Type::ADDR});
-	}
 	void LtnVM::truE(){
 		this->reg.push(Value{true, Value::Type::BOOL});
 	}

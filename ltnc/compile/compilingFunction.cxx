@@ -16,8 +16,7 @@ namespace ltn::c::compile {
 			for(const auto & param : params) {
 				const auto addr = scope.insert(param, fx.debugInfo.line);
 				ss << inst::makevar;
-				ss << inst::addr(addr);
-				ss << inst::write;
+				ss << inst::write_x(addr);
 			}
 			if(fx.body) {
 				ss << compile::statement(*fx.body, info, scope).code;
