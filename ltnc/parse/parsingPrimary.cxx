@@ -134,6 +134,7 @@ namespace ltn::c::parse {
 		// function call or variable
 		std::unique_ptr<ast::Expression> identifier(lex::Lexer & lexer) {
 			const auto [name, nameSpace] = symbol(lexer);
+			// functions
 			if(lexer.match(TT::PAREN_L)) {
 				auto parameters = parse::parameters(lexer);
 				return std::make_unique<ast::Call>(
@@ -142,10 +143,17 @@ namespace ltn::c::parse {
 					std::move(parameters),
 					lexer.debug());
 			}
-			// variable foo 
-			return std::make_unique<ast::Var>(
+			// variable
+			if(nameSpace.empty()) {
+				return std::make_unique<ast::Var>(
 				name,
 				lexer.debug());
+			}
+			else {
+				throw std::runtime_error{
+					"cannot address variable with namespace in front"
+				};
+			}
 		}
 
 		std::unique_ptr<ast::FxPointer> fxPointer(lex::Lexer & lexer) {
