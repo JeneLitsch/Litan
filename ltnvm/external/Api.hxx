@@ -7,7 +7,7 @@
 namespace ltn::vm::ext {
 	class Api {
 	public:
-		Api(Heap & heap, const std::vector<Value> & params);
+		Api(Heap & heap, Register & reg, const std::vector<Value> & params);
 
 		template<class T>
 		T parameter(std::size_t idx) const {
@@ -37,8 +37,17 @@ namespace ltn::vm::ext {
 			}
 		}
 
+		void returnBool(bool value);
+		void returnInt(std::int64_t value);
+		void returnFloat(double value);
+		void returnString(std::string value);
+
+		virtual ~Api();
+
 	private:
 		Heap & heap;
+		Register & reg;
 		std::vector<Value> params;
+		Value returnVal;
 	};
 }

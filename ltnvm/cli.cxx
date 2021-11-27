@@ -10,6 +10,7 @@ public:
 		const auto a = api.parameter<std::string>(0); 
 		const auto b = api.parameter<std::string>(1); 
 		std::cout << a << "|" << b << "\n";
+		api.returnString("Hello World");
 	}
 };
 

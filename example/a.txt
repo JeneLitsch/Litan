@@ -590,6 +590,6 @@ byte 0
 byte 0
 byte 1
 byte 7e
-scrap
+return
 null
 return

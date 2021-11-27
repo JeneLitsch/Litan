@@ -8,6 +8,5 @@ function f(a) {
 
 function main(){
 	var fx = ltn::external(42);
-	ltn::invoke(fx, ["ABC", "DEF"]);
-	// return ltn::invoke(&f(_,_), [4, 5]);
+	return ltn::invoke(fx, ["ABC", "DEF"]);
 }

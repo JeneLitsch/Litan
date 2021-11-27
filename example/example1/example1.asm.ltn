@@ -290,7 +290,7 @@ char 45
 char 46
 elem
 call FX28_ltn_invoke_2
-scrap
+return
 null
 return
 
