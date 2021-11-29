@@ -9,5 +9,7 @@ run () {
 	echo 
 }
 
+run "misc"
 run "vars"
 run "fx"
+run "modify"

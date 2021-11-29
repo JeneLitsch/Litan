@@ -3,7 +3,8 @@
 
 namespace ltn::c::parse {
 	namespace {
-		using TT = ltn::c::lex::Token::Type;
+		using TT = lex::Token::Type;
+		using MT = ast::Modify::Type;
 
 		template<class To, class From>
 		std::unique_ptr<To> unique_cast_if(std::unique_ptr<From> & from) {
@@ -27,8 +28,27 @@ namespace ltn::c::parse {
 					lexer.debug());
 			}
 			throw CompilerError{
-				"Left side of an assignment must be an assignable value",
+				"Left side of an assignment must be an assignable expression",
 				lexer.inLine()};
+		}
+		auto modifyTable = std::array{
+			std::pair{MT::ADD, TT::ASSIGN_ADD},
+			std::pair{MT::SUB, TT::ASSIGN_SUB},
+			std::pair{MT::MLT, TT::ASSIGN_MLT},
+			std::pair{MT::DIV, TT::ASSIGN_DIV},
+			std::pair{MT::MOD, TT::ASSIGN_MOD},
+		};
+		for(auto [mt, tt] : modifyTable) {
+			if(lexer.match(tt)) {
+				if(auto l = unique_cast_if<ast::Assignable>(expr)) {
+					auto r = expression(lexer);
+					return std::make_unique<ast::Modify>(
+						mt, std::move(l), std::move(r), lexer.debug());
+				}
+				throw CompilerError{
+					"Left side of an assignment must be an assignable expression",
+					lexer.inLine()};
+			}
 		}
 		return expr;
 	}

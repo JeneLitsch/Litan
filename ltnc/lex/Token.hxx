@@ -13,6 +13,7 @@ namespace ltn::c::lex {
 			EQUAL, UNEQUAL, SMALLER, BIGGER, SMALLER_EQUAL, BIGGER_EQUAL,
 			NOT,
 			SHIFT_L, SHIFT_R,
+			ASSIGN_ADD, ASSIGN_SUB, ASSIGN_MLT, ASSIGN_DIV, ASSIGN_MOD, 
 		};
 		Type type;
 		std::string str;

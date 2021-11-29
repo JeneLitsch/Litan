@@ -136,18 +136,39 @@ namespace ltn::c::lex {
 		if(match(']')) return {Token::Type::BRACKET_R, "]"};
 		
 		if(match('-')) {
+			if(match('=')) {
+				return {Token::Type::ASSIGN_SUB, "-="};
+			}
 			return {Token::Type::MINUS, "-"};
 		}
-		if(match('+')) return {Token::Type::PLUS, "+"};
-		if(match('*')) return {Token::Type::STAR, "*"};
+		if(match('+')) {
+			if(match('=')) {
+				return {Token::Type::ASSIGN_ADD, "+="};
+			}
+			return {Token::Type::PLUS, "+"};
+		}
+		if(match('*')) {
+			if(match('=')) {
+				return {Token::Type::ASSIGN_MLT, "*="};
+			}
+			return {Token::Type::STAR, "*"};
+		}
 		if(match('/')) {
+			if(match('=')) {
+				return {Token::Type::ASSIGN_DIV, "/="};
+			}
 			if(match('/')) {
 				comment(in);
 				return token(in, line);
 			}
 			return {Token::Type::SLASH, "/"};
 		}
-		if(match('%')) return {Token::Type::PERCENT, "%"};
+		if(match('%')) {
+			if(match('=')) {
+				return {Token::Type::ASSIGN_MOD, "%="};
+			}
+			return {Token::Type::PERCENT, "%"};
+		}
 		if(match('&')) return {Token::Type::AMPERSAND, "&"};
 		if(match('_')) return {Token::Type::UNDERSCORE, "_"};
 		

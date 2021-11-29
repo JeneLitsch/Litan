@@ -224,67 +224,8 @@ null
 return
 
 :FX32_main_0
-makevar
-makevar
-makevar
-makevar
-makevar
-makevar
-makevar
-makevar
-newi 0
-write_0
-newi 1
-write_1
-newi 2
-write_2
-newi 3
-write_3
-newi 4
-write_x 4
-newi 5
-write_x 5
-newi 6
-write_x 6
-read_0
-call FX2_ltn_print_1
-scrap
-read_1
-call FX2_ltn_print_1
-scrap
-read_2
-call FX2_ltn_print_1
-scrap
-read_3
-call FX2_ltn_print_1
-scrap
-read_x 4
-call FX2_ltn_print_1
-scrap
-read_x 5
-call FX2_ltn_print_1
-scrap
-newstr
-call FX4_ltn_println_1
-scrap
-newi 0
-write_x 7
-:FOR_BEGIN33
-read_x 7
-newi 6
-sml
-ifelse FOR_END34
-read_x 7
-call FX2_ltn_print_1
-scrap
-read_x 7
-inc
-write_x 7
-jump FOR_BEGIN33
-:FOR_END34
-newstr
-call FX4_ltn_println_1
-scrap
+newi 42
+return
 null
 return
 

@@ -230,59 +230,88 @@ makevar
 makevar
 makevar
 makevar
-makevar
-makevar
-newi 0
+newf 2
 write_0
-newi 1
+newf 2
 write_1
-newi 2
+newf 2
 write_2
-newi 3
+newf 2
 write_3
-newi 4
+newf 2
 write_x 4
-newi 5
-write_x 5
-newi 6
-write_x 6
 read_0
-call FX2_ltn_print_1
+newf 3
+add
+write_0
+null
 scrap
 read_1
-call FX2_ltn_print_1
+newf 3
+sub
+write_1
+null
 scrap
 read_2
-call FX2_ltn_print_1
+newf 3
+mlt
+write_2
+null
 scrap
 read_3
-call FX2_ltn_print_1
+newf 3
+div
+write_3
+null
 scrap
 read_x 4
-call FX2_ltn_print_1
+newf 3
+mod
+write_x 4
+null
 scrap
-read_x 5
-call FX2_ltn_print_1
-scrap
-newstr
+read_0
 call FX4_ltn_println_1
 scrap
-newi 0
-write_x 7
-:FOR_BEGIN33
-read_x 7
-newi 6
-sml
-ifelse FOR_END34
-read_x 7
-call FX2_ltn_print_1
+read_1
+call FX4_ltn_println_1
 scrap
-read_x 7
-inc
-write_x 7
-jump FOR_BEGIN33
-:FOR_END34
+read_2
+call FX4_ltn_println_1
+scrap
+read_3
+call FX4_ltn_println_1
+scrap
+read_x 4
+call FX4_ltn_println_1
+scrap
 newstr
+char_4 48 65 6c 6c 
+char 6f
+write_x 5
+read_x 5
+newstr
+char 20
+add
+write_x 5
+null
+scrap
+read_x 5
+newstr
+char_4 57 6f 72 6c 
+char 64
+add
+write_x 5
+null
+scrap
+read_x 5
+newstr
+char 21
+add
+write_x 5
+null
+scrap
+read_x 5
 call FX4_ltn_println_1
 scrap
 null

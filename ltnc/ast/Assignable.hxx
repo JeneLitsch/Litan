@@ -41,4 +41,21 @@ namespace ltn::c::ast {
 		const std::unique_ptr<Assignable> l;
 		const std::unique_ptr<Expression> r;
 	};
+
+	struct Modify : public Expression {
+		enum class Type { ADD, SUB, MLT, DIV, MOD };
+		Modify(
+			Type type,
+			std::unique_ptr<Assignable> l,
+			std::unique_ptr<Expression> r,
+			const lex::DebugInfo & debugInfo)
+			:	Expression(debugInfo),
+				type(type),
+				l(std::move(l)),
+				r(std::move(r)) {}
+		virtual ~Modify() = default;
+		const Type type;
+		const std::unique_ptr<Assignable> l;
+		const std::unique_ptr<Expression> r;
+	};
 }
