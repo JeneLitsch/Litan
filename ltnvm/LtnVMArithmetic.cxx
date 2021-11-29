@@ -34,6 +34,7 @@ namespace ltn::vm {
 
 	void LtnVM::add() {
 		FETCH
+		
 		if(isArr(l)) {
 			const auto & arrL = heap.read<Array>(l.u);
 			const auto & arrR = toArray(r, heap);

@@ -7,7 +7,7 @@ namespace ltn::c::compile {
 			const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
 			std::stringstream ss;
 			ss << inst::write_x(addr);
-			return ExprCode{ss.str(), false, false};
+			return ExprCode{ss.str() };
 		}
 
 		// write to an array at index [i]
@@ -18,7 +18,7 @@ namespace ltn::c::compile {
 			ss << arr.code;
 			ss << idx.code;
 			ss << inst::at_write;
-			return ExprCode{ss.str(), false, false};
+			return ExprCode{ss.str() };
 		}
 	}
 

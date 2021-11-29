@@ -13,7 +13,7 @@ namespace ltn::c::compile {
 			ss << r.code;
 			ss << l.code;
 			ss << inst::null;
-			return ExprCode{ss.str(), false, false};
+			return ExprCode{ss.str() };
 		}
 
 		ExprCode modify(
@@ -41,7 +41,7 @@ namespace ltn::c::compile {
 			ss << op;
 			ss << lW.code;			
 			ss << inst::null;
-			return ExprCode{ss.str(), false, false};
+			return ExprCode{ss.str() };
 		}
 	}
 
@@ -62,6 +62,6 @@ namespace ltn::c::compile {
 		if(auto modify = as<ast::Modify>(expr)) {
 			return compile::modify(*modify, info, scope);
 		}
-		return { "...EXPR\n", false, false };
+		return { "...EXPR\n" };
 	}
 }

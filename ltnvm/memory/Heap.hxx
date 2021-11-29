@@ -62,7 +62,10 @@ namespace ltn::vm {
 
 		template<class Obj>
 		Obj & read(std::uint64_t addr) {
-			auto & object = get(addr);
+			if(addr > this->objects.size()) {
+				throw accessViolation(addr, "");
+			}
+			auto & object = this->objects[addr];
 			if(auto * string = std::get_if<Obj>(&object.obj)) {
 				return *string;
 			}

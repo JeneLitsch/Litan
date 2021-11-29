@@ -1,0 +1,9 @@
+function f(a, b, c) {
+
+}
+
+function main() {
+	var clock = ltn::clock();
+	for i (0, 5000000) f(1, 2, 3);
+	ltn::println(ltn::toSeconds(clock) + "s");
+}

@@ -7,7 +7,7 @@ namespace ltn::c::compile {
 		std::stringstream ss;
 		ss << code.code;
 		ss << inst::neg;
-		return ExprCode{ss.str(), false, code.constant };
+		return ExprCode{ss.str() };
 	}
 
 	// compiles !
@@ -16,7 +16,7 @@ namespace ltn::c::compile {
 		std::stringstream ss;
 		ss << code.code;
 		ss << inst::n0t;
-		return ExprCode{ss.str(), false, code.constant};
+		return ExprCode{ss.str() };
 	}
 	
 	// compiles Unary

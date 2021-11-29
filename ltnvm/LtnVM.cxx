@@ -6,12 +6,12 @@ namespace ltn::vm {
 	std::uint8_t LtnVM::fetchByte() {
 		return byteCode[this->pc++];
 	}
-
+	
 	std::uint64_t LtnVM::fetchUint() {
 		std::uint64_t value = 0;
 		for(auto i = 0; i < 8; i++) {
 			value <<= 8;
-			value |= static_cast<std::uint64_t>(this->fetchByte());
+			value |= static_cast<std::uint64_t>(byteCode[this->pc++]);
 		}
 		return value;
 	}

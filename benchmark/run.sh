@@ -6,3 +6,4 @@ run () {
 
 run "string"
 run "memory"
+run "fx"

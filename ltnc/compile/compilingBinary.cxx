@@ -31,7 +31,7 @@ namespace ltn::c::compile {
 		ss << l.code;
 		ss << r.code;
 		ss << getBinInst(binary.type);
-		return { ss.str(), false, l.constant && r.constant };
+		return { ss.str() };
 	}
 	
 }

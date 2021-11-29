@@ -6,18 +6,18 @@ namespace ltn::c::compile {
 
 		// compiles int literal
 		ExprCode integer(const ast::Integer & expr) {
-			return ExprCode{inst::newi(expr.value), false, true};
+			return ExprCode{inst::newi(expr.value) };
 		}
 
 		// compiles float literal
 		ExprCode floating(const ast::Float & expr) {
-			return ExprCode{ inst::newf(expr.value), false, true };
+			return ExprCode{ inst::newf(expr.value) };
 		}
 
 		// compiles bool literal
 		ExprCode boolean(const ast::Bool & expr) {
 			const auto inst = (expr.value ? inst::truE : inst::falsE);
-			return ExprCode{ std::string(inst), false, true};
+			return ExprCode{ std::string(inst) };
 		}
 
 		// compiles string literal
@@ -35,7 +35,7 @@ namespace ltn::c::compile {
 				ss << inst::ch4r(str.front());
 				str.remove_prefix(1);
 			}
-			return ExprCode{ ss.str(), false, true};
+			return ExprCode{ ss.str() };
 		}
 
 		// compiles array literal
@@ -46,7 +46,7 @@ namespace ltn::c::compile {
 				ss << expression(*elem, info, scope).code;
 				ss << inst::elem;
 			}
-			return ExprCode{ ss.str(), false, true};
+			return ExprCode{ ss.str() };
 		}
 
 		// compiles an variable read accessc
@@ -54,7 +54,7 @@ namespace ltn::c::compile {
 			const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
 			std::stringstream ss;
 			ss << inst::read_x(addr);
-			return ExprCode{ ss.str(), false, true};
+			return ExprCode{ ss.str() };
 		}
 
 		// compiles function call fx(...)
@@ -72,7 +72,7 @@ namespace ltn::c::compile {
 					ss << paramCode.code;
 				}
 				ss << inst::call(fx->id);
-				return ExprCode{ ss.str(), false, false };
+				return ExprCode{ ss.str() };
 			}
 			throw CompilerError {
 				"Function " + call.name + " is not defined",
@@ -92,7 +92,7 @@ namespace ltn::c::compile {
 			if(fx) {
 				std::stringstream ss;
 				ss << inst::newfx(fx->id, ptr.placeholders);
-				return ExprCode{ss.str(), false, false};
+				return ExprCode{ss.str() };
 			}
 			throw CompilerError {
 				"Function " + ptr.name + " is not defined",
@@ -107,7 +107,7 @@ namespace ltn::c::compile {
 			ss	<< arr.code
 				<< idx.code
 				<< inst::at;
-			return ExprCode{ss.str(), false, false};
+			return ExprCode{ss.str() };
 		}
 	}
 
