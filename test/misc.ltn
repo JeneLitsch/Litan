@@ -1,6 +1,4 @@
+
 function main() {
-	// var fx = function(a, b) {
-	// 	return a + b;
-	// };
-	// return ltn::invoke(fx, [1, 2]);
+
 }

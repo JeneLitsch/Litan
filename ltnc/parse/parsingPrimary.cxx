@@ -182,6 +182,7 @@ namespace ltn::c::parse {
 		if(auto expr = string(lexer)) return expr;
 		if(auto expr = array(lexer)) return expr;
 		if(auto expr = fxPointer(lexer)) return expr;
+		if(auto stmt = lambda(lexer, "")) return stmt;
 		return identifier(lexer);
 	}
 }

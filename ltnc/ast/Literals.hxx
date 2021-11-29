@@ -2,6 +2,8 @@
 #include "Expression.hxx"
 
 namespace ltn::c::ast {
+	struct Functional;
+	
 	struct Literal : public Primary {
 		Literal(const lex::DebugInfo & debugInfo) : Primary(debugInfo) {}
 		virtual ~Literal() = default;
@@ -48,5 +50,15 @@ namespace ltn::c::ast {
 			initElements(std::move(initElements)) {}
 		virtual ~Array() = default;
 		std::vector<std::unique_ptr<Expression>> initElements;
+	};
+
+	struct Lambda : public Literal {
+		Lambda(
+			std::unique_ptr<Functional> fx,
+			const lex::DebugInfo & debugInfo)
+			:	Literal(debugInfo),
+				fx(std::move(fx)) {}
+		virtual ~Lambda() = default;
+		const std::unique_ptr<Functional> fx;
 	};
 }

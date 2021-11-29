@@ -5,7 +5,17 @@ function f(a, b) {
 	return a - b;
 }
 
+function makeAdd() {
+	return function(a, b) {
+		return a + b;
+	};
+}
+
 function main() {
+	var add = makeAdd();
+	ltn::println("add(1, 2) = " + ltn::invoke(add, [1, 2]));
+	ltn::println("add(20, 22) = " + ltn::invoke(add, [20, 22]));
+
 	var fxPtr = &f(_,_);
 	ltn::println(ltn::invoke(fxPtr, [f1(), f2()]));
 }

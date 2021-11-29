@@ -93,4 +93,22 @@ namespace ltn::c::parse {
 		return nullptr;
 
 	}
+
+	std::unique_ptr<ast::Lambda> lambda(
+		lex::Lexer & lexer,
+		std::string_view name) {
+		if(lexer.match(TT::FUNCTION)) {
+			const auto parameters = parameterList(lexer);
+			auto body = statement(lexer); 
+			auto fx = std::make_unique<ast::Function>(
+				"lambda" + std::string(name),
+				ast::Namespace{},
+				parameters,
+				std::move(body),
+				lexer.debug());
+			return std::make_unique<ast::Lambda>(std::move(fx), lexer.debug()); 
+		}
+		return nullptr;
+	}
+
 }

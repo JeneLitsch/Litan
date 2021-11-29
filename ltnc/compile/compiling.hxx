@@ -29,6 +29,7 @@ namespace ltn::c::compile {
 	
 	// Functional
 	std::string functional(const ast::Functional & fx, CompilerInfo & info);
+	ExprCode lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & scope);
 
 	// Statement
 	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope);

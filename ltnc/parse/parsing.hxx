@@ -16,6 +16,10 @@ namespace ltn::c::parse {
 		lex::Lexer & lexer,
 		const ast::Namespace & nameSpace);
 
+	std::unique_ptr<ast::Lambda> lambda(
+		lex::Lexer & lexer,
+		std::string_view name);
+
 	// Statements
 	std::unique_ptr<ast::Statement> statement(lex::Lexer & lexer);
 	std::unique_ptr<ast::Block> block(lex::Lexer & lexer);
@@ -23,7 +27,6 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::While> whileLoop(lex::Lexer & lexer);
 	std::unique_ptr<ast::For> forLoop(lex::Lexer & lexer);
 	
-
 	// Expressions
 	std::unique_ptr<ast::Expression> expression(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> condition(lex::Lexer & lexer);

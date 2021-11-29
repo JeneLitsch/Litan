@@ -1,4 +1,4 @@
-call FX35_main_0
+call FX36_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -247,11 +247,61 @@ return
 null
 return
 
-:FX35_main_0
+:FX35_makeAdd_0
+jump SKIP_LAMBDA37
+:LAMBDA37
 makevar
-newfx FX34_f_2 2
 write_0
+makevar
+write_1
+read_1
 read_0
+add
+return
+null
+return
+:SKIP_LAMBDA37
+newfx LAMBDA37 2
+return
+null
+return
+
+:FX36_main_0
+makevar
+makevar
+call FX35_makeAdd_0
+write_0
+newstr
+char_8 61 64 64 28 31 2c 20 32 
+char_4 29 20 3d 20 
+read_0
+newarr
+newi 1
+elem
+newi 2
+elem
+call FX28_ltn_invoke_2
+add
+call FX4_ltn_println_1
+scrap
+newstr
+char_8 61 64 64 28 32 30 2c 20 
+char_4 32 32 29 20 
+char 3d
+char 20
+read_0
+newarr
+newi 20
+elem
+newi 22
+elem
+call FX28_ltn_invoke_2
+add
+call FX4_ltn_println_1
+scrap
+newfx FX34_f_2 2
+write_1
+read_1
 newarr
 call FX32_f1_0
 elem
