@@ -6,9 +6,20 @@
 namespace ltn::vm {
 	class Register {
 	public:
-		Value pop();
-		Value peek();
-		void push(Value value);
+		inline Value pop()  {
+			const auto value = this->stack.back();
+			this->stack.pop_back();
+			return value;
+		}
+
+		inline const Value peek() const {
+			return this->stack.back();
+		}
+		
+		inline void push(const Value value) {
+			this->stack.push_back(value);
+		}
+
 		const std::vector<Value> & getContainer() const;
 
 		void reset();

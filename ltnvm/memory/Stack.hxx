@@ -4,11 +4,21 @@
 #include "Value.hxx"
 namespace ltn::vm {
 	class Stack {
+		constexpr static inline std::size_t BASE_OFFSET = 2;
 	public:
-		Value read(std::uint64_t offset) const;
+		inline Value read(std::uint64_t offset) const {
+			const std::size_t addr = this->framePointer + BASE_OFFSET + offset;
+			return this->stack[addr];
+		}
 
-		void write(std::uint64_t offset, Value value);
-		void makeVar();
+		inline void write(std::uint64_t offset, Value value) {
+			const std::size_t addr = this->framePointer + BASE_OFFSET + offset;
+			this->stack[addr] = value;
+		}
+		
+		inline void makeVar() {
+			this->stack.push_back(Value{0U, Value::Type::NVLL});
+		}
 
 		void pushFrame(std::uint64_t jumpBack);	
 		std::uint64_t popFrame();
