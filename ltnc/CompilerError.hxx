@@ -9,6 +9,8 @@ namespace ltn::c {
 		CompilerError(
 			const std::string & msg,
 			std::size_t line);
+
+		std::size_t getLine() const;
 	private:
 		std::size_t line;
 	};

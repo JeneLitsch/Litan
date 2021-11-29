@@ -40,7 +40,7 @@ namespace ltn::c::compile {
 				fx.parameters.size());
 			
 			ss << inst::jumpmark(fxSig->id);
-			for(const auto inst : fx.instructions) {
+			for(const auto & inst : fx.instructions) {
 				ss << inst << "\n";
 			}
 			ss << inst::null;

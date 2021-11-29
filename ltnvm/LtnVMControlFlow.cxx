@@ -8,7 +8,7 @@ namespace ltn::vm {
 	bool isTruthy(const Value & value) {
 		if(isBool(value)) return value.b;
 		if(isInt(value)) return value.i;
-		if(isFloat(value)) return value.f;
+		if(isFloat(value)) return value.f == 0.0;
 		throw std::runtime_error{"Cannot convert to bool"};
 	}
 

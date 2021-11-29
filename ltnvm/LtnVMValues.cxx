@@ -45,8 +45,8 @@ namespace ltn::vm {
 		const auto ptr = this->reg.peek();
 		auto & str = this->heap.read<String>(ptr.u);
 		str.str.append(
-			this->byteCode.begin()+this->pc,
-			this->byteCode.begin()+this->pc+4);
+			this->byteCode.begin()+static_cast<std::int64_t>(this->pc),
+			this->byteCode.begin()+static_cast<std::int64_t>(this->pc+4U));
 		this->pc+=4;
 		// str.str.push_back(static_cast<char>(this->fetchByte()));
 		// str.str.push_back(static_cast<char>(this->fetchByte()));
@@ -58,8 +58,8 @@ namespace ltn::vm {
 		const auto ptr = this->reg.peek();
 		auto & str = this->heap.read<String>(ptr.u);
 		str.str.append(
-			this->byteCode.begin()+this->pc,
-			this->byteCode.begin()+this->pc+8);
+			this->byteCode.begin()+static_cast<std::int64_t>(this->pc),
+			this->byteCode.begin()+static_cast<std::int64_t>(this->pc+8U));
 		this->pc+=8;
 		// str.str.push_back(static_cast<char>(this->fetchByte()));
 		// str.str.push_back(static_cast<char>(this->fetchByte()));

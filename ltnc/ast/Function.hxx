@@ -7,7 +7,7 @@
 #include "Namespace.hxx"
 
 namespace ltn::c::ast {
-	class Statement;
+	struct Statement;
 	using Parameters = std::vector<std::string>;
 
 	struct Functional : public Declaration {

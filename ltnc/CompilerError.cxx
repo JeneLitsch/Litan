@@ -18,3 +18,7 @@ ltn::c::CompilerError::CompilerError(
 	std::size_t line)
 	:	std::runtime_error(to_str(msg, line)),
 		line(line) {}
+
+std::size_t ltn::c::CompilerError::getLine() const {
+	return this->line;
+}

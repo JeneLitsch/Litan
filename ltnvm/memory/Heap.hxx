@@ -30,6 +30,12 @@ namespace ltn::vm {
 				Clock> obj;
 		bool marked = false;
 	};
+
+	inline auto accessViolation(std::uint64_t at, const std::string_view msg) {
+		std::stringstream ss;
+		ss << "Access Violation at " << at << ": " << msg;
+		return std::runtime_error{ ss.str() };
+	}
 	
 	class Heap {
 	public:
@@ -38,13 +44,13 @@ namespace ltn::vm {
 		std::uint64_t alloc(Obj && obj) {
 			if(reuse.empty()) {
 				const std::uint64_t addr = this->objects.size();
-				this->objects.push_back(std::move(HeapObject{obj}));
+				this->objects.push_back(HeapObject{obj});
 				return addr;
 			}
 			else {
 				std::uint64_t addr = this->reuse.front();
 				this->reuse.pop();
-				this->objects[addr] = std::move(HeapObject{obj});
+				this->objects[addr] = HeapObject{obj};
 				return addr;
 			}
 		}
@@ -71,11 +77,7 @@ namespace ltn::vm {
 
 		void reset();
 	private:
-		static auto accessViolation(std::uint64_t at, const std::string_view msg) {
-			std::stringstream ss;
-			ss << "Access Violation at " << at << ": " << msg;
-			return std::runtime_error{ ss.str() };
-		}
+
 
 		void mark(const std::vector<Value> & values);
 		void sweep();

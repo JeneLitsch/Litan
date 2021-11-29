@@ -25,7 +25,7 @@ namespace ltn::vm {
 			return this->reg.push({!x.i});
 		}
 		if(isFloat(x)) {
-			return this->reg.push({!x.f});
+			return this->reg.push({x.f != 0.0});
 		}
 		throw std::runtime_error{"Cannot apply not"};
 	}

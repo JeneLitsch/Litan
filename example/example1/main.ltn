@@ -7,30 +7,12 @@ function f(a) {
 }
 
 function main(){
-	// var clock = ltn::clock(); 
-	// for i (1, 1000000) {
-	// 	var x = "A" + "BBBB" + "CCCCCCCC";
-	// }
-	var x = 42;
-	if(true) {
-		var a = 42;
-		var b = 42;
-		a = 1337;
+	var clock = ltn::clock(); 
+	for i (1, 1000000) {
+		var x = "A" + "BBBB" + "CCCCCCCC";
 	}
-	if(true) {
-		var b;
-		ltn::println(b);
-	}
-	for i (0, 11) {
-		ltn::println(i);
-	}
-	while(false) {
-		var a;
-		var b;
-	}
-
-	// ltn::println(ltn::toSeconds(clock) + "s");
-	// ltn::println("CCCCCCCCBBBBA");
+	ltn::println(ltn::toSeconds(clock) + "s");
+	ltn::println("CCCCCCCCBBBBA");
 }
 
 // function main(){

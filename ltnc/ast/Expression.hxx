@@ -3,7 +3,7 @@
 #include <vector>
 #include "Namespace.hxx"
 namespace ltn::c::ast {
-	class Assignable;
+	struct Assignable;
 
 	struct Expression : public Node {
 		Expression(const lex::DebugInfo & debugInfo) : Node(debugInfo) {}

@@ -13,7 +13,6 @@ namespace ltn::c::compile {
 	private:
 		FxTable fxTable;
 		std::stringstream buffer;
-		std::size_t line = 1;
 		std::size_t jumpMarkCounter = 0;
 	};
 	

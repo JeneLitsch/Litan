@@ -20,7 +20,7 @@ namespace ltn::c::lex {
 
 		// peeks at "in" and returns true if chars matches
 		bool check(std::istream & in, char chr, std::size_t & line) {
-			in >> WS(line);
+			in >> WS{line};
 			if(isAtEnd(in)) return false;
 			return in.peek() == chr;
 		}
@@ -123,7 +123,7 @@ namespace ltn::c::lex {
 		const auto match = [&] (auto chr) {
 			return ltn::c::lex::match(in, chr, line);
 		};
-		if(isAtEnd(in >> WS(line))) return {Token::Type::___EOF___, "___EOF___"};
+		if(isAtEnd(in >> WS{line})) return {Token::Type::___EOF___, "___EOF___"};
 		
 		if(match(',')) return {Token::Type::COMMA, ","};
 		if(match(';')) return {Token::Type::SEMICOLON, ";"};

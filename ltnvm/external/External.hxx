@@ -4,6 +4,7 @@ namespace ltn::vm::ext {
 	class External {
 	public:
 		External(std::size_t parameters);
+		virtual ~External() = default;
 		virtual void operator()(Api & api) = 0;
 		std::size_t getParameters() const;
 	private:

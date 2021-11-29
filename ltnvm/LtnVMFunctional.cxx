@@ -39,7 +39,7 @@ namespace ltn::vm {
 
 			// Call external binding
 			else if(isExt(refFx)) {
-				auto & fxPtr = *this->externals.at(refFx.u);
+				auto & fxPtr = *this->externals.at(refFx.i);
 				if(params.arr.size() == fxPtr.getParameters()) {
 					ext::Api api{this->heap, this->reg, params.arr};
 					fxPtr(api);
