@@ -1,0 +1,30 @@
+function f(a, b, c, d, e) {}
+function f(a, b) {
+	return a + b;
+}
+function f(a) {
+	return a * 2;
+}
+
+
+
+function main(){
+	var x = 0;
+	var a = 1;
+	var b = 2;
+	var c = 3;
+	var d = 4;
+	var e = 5;
+	var f = 6;
+	ltn::print(x);
+	ltn::print(a);
+	ltn::print(b);
+	ltn::print(c);
+	ltn::print(d);
+	ltn::print(e);
+	ltn::println("");
+	for i (0, 6) {
+		ltn::print(i);
+	}
+	ltn::println("");
+}

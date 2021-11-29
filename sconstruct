@@ -23,30 +23,42 @@ env = Environment(
 
 ltnc = [
 	"ltnc",
-	"ltnc/cli",
 	"ltnc/ast",
 	"ltnc/lex",
 	"ltnc/parse",
 	"ltnc/compile",
 	"ltnc/type",
 ]
+ltncCli = [
+	"ltnc/cli",
+]
+
 
 ltna = [
 	"ltna",
-	"ltna/cli",
 	"ltna/linking",
 	"ltna/expand",
 	"ltna/assemble",
 ]
+ltnaCli = [
+	"ltna/cli",
+]
 
 ltnvm = [
 	"ltnvm",
-	"ltnvm/cli",
 	"ltnvm/external",
 	"ltnvm/memory",
 	"ltnvm/memory/objects",
 ]
+ltnvmCli = [
+	"ltnvm/cli",
+]
 
-env.Program('bin/ltnc', glob(ltnc))
-env.Program('bin/ltna', glob(ltna))
-env.Program('bin/ltnvm', glob(ltnvm))
+ltnCli = [
+	"ltn/cli"
+]
+
+env.Program('bin/ltnc', glob(ltnc + ltncCli))
+env.Program('bin/ltna', glob(ltna + ltnaCli))
+env.Program('bin/ltnvm', glob(ltnvm + ltnvmCli))
+env.Program('bin/ltn', glob(ltnc + ltna + ltnvm + ltnCli))

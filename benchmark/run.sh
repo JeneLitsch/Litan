@@ -1,0 +1,1 @@
+./bin/ltn benchmark/string.ltn ./stdlib

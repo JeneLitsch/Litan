@@ -39,10 +39,10 @@ int main(int argc, char const *argv[]){
 
 		const auto & target = args.getTarget();
 		std::cout << "[Target] " << target << "\n";
+		std::ofstream ofile(target);
 		if(!std::filesystem::exists(target)) {
 			throw ltn::c::CompilerError{"Cannot open " + target.string(), 0};
 		}
-		std::ofstream ofile(target);
 		compiler.yield(ofile);
 		std::cout << "Done!" << "\n";
 	}
