@@ -1,0 +1,11 @@
+function f1() { return 42; }
+function f2() { return 1337; }
+
+function f(a, b) {
+	return a - b;
+}
+
+function main() {
+	var fxPtr = &f(_,_);
+	ltn::println(ltn::invoke(fxPtr, [f1(), f2()]));
+}
