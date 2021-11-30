@@ -129,6 +129,7 @@ namespace ltn::vm {
 			case Inst::BACK: this->back(); break;
 
 			case Inst::TO_SECONDS: this->to_seconds(); break;
+			case Inst::TYPEID: this->typeId(); break;
 			default: {
 				std::stringstream ss;
 				ss << "Illegal Instruction: " << std::hex << int(inst) << std::dec;

@@ -1,6 +1,7 @@
 #include "parsing.hxx"
 #include "ltnc/CompilerError.hxx"
 #include <sstream>
+#include <bitset>
 namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
@@ -24,6 +25,17 @@ namespace ltn::c::parse {
 				ss << token->str;
 				ss >> value;
 				return std::make_unique<ast::Integer>(value, lexer.debug()); 
+			}
+			if(auto token = lexer.match(TT::INTEGER_HEX)) {
+				std::stringstream ss;
+				std::int64_t value;
+				ss << token->str;
+				ss >> std::hex >> value;
+				return std::make_unique<ast::Integer>(value, lexer.debug()); 
+			}
+			if(auto token = lexer.match(TT::INTEGER_BIN)) {
+				auto bits = std::bitset<64>(token->str); 
+				return std::make_unique<ast::Integer>(bits.to_ullong(), lexer.debug()); 
 			}
 			return nullptr;
 		}

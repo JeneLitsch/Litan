@@ -3,13 +3,14 @@
 
 namespace ltn::vm {
 	struct Value {
+		// DO NOT TOUCH/CHANGE THE VALUES !!!
 		enum class Type : std::uint32_t {
-			NVLL, ADDR,
-			INT, FLOAT, BOOL,
-			ARRAY, STRING,
-			ISTREAM, OSTREAM,
-			FX_PTR, EXTERNAL,
-			CLOCK,
+			NVLL = 0x00, ADDR,
+			BOOL = 0x10, INT, FLOAT, 
+			ARRAY = 0x20, STRING,
+			ISTREAM = 0x30, OSTREAM,
+			FX_PTR = 0x40, EXTERNAL,
+			CLOCK = 0x50,
 		};
 		constexpr Value()
 			: u(0), type(Type::NVLL) {}

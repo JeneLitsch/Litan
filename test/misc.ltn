@@ -1,27 +1,23 @@
-function t() {
-	ltn::println("true");
-	return true;
-}
-
-function f() {
-	ltn::println("false");
-	return false;
+function checkType(value) {
+	ltn::println(value);
+	ltn::println("Bool:    " + ltn::isBool(value));
+	ltn::println("Int:     " + ltn::isInt(value));
+	ltn::println("Float:   " + ltn::isFloat(value));
+	ltn::println("String:  " + ltn::isString(value));
+	ltn::println("OStream: " + ltn::isOStream(value));
+	ltn::println("IStream: " + ltn::isIStream(value));
+	ltn::println("Fx:      " + ltn::isFunctional(value));
+	ltn::println("Clock:   " + ltn::isClock(value));
+	ltn::println("");
 }
 
 function main() {
-	ltn::println("AND &&");
-	if(f() && t()) {
-		ltn::println("Both true");
-	}
-	else {
-		ltn::println("not true");
-	}
-
-	ltn::println("OR ||");
-	if(f() || t()) {
-		ltn::println("at least one true");
-	}
-	else {
-		ltn::println("both not true");
-	}
+	checkType(true);
+	checkType(1337);
+	checkType(42.42);
+	checkType("Hello World");
+	checkType(ltn::cout());
+	checkType(ltn::cin());
+	checkType(&checkType(_));
+	checkType(ltn::clock());
 }

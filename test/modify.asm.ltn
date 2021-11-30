@@ -1,4 +1,4 @@
-call FX32_main_0
+call FX43_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -223,7 +223,122 @@ return
 null
 return
 
-:FX32_main_0
+:FX32_ltn_typeId_1
+typeid
+return
+null
+return
+
+:FX33_ltn_isBool_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 16
+eql
+return
+null
+return
+
+:FX34_ltn_isInt_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 17
+eql
+return
+null
+return
+
+:FX35_ltn_isFloat_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 18
+eql
+return
+null
+return
+
+:FX36_ltn_isArray_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 32
+eql
+return
+null
+return
+
+:FX37_ltn_isString_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 33
+eql
+return
+null
+return
+
+:FX38_ltn_isIStream_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 48
+eql
+return
+null
+return
+
+:FX39_ltn_isOStream_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 49
+eql
+return
+null
+return
+
+:FX40_ltn_isClock_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 80
+eql
+return
+null
+return
+
+:FX41_ltn_isFunctional_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 64
+eql
+not
+ifelse OR42_TRUE
+read_0
+call FX32_ltn_typeId_1
+newi 65
+eql
+jump OR42_END
+:OR42_TRUE
+true
+:OR42_END
+return
+null
+return
+
+:FX43_main_0
 makevar
 makevar
 makevar

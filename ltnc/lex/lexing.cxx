@@ -30,6 +30,16 @@ namespace ltn::c::lex {
 			return std::isdigit(in.peek());
 		}
 
+		// returns true if next char is a hex digit
+		bool checkHexDigit(std::istream & in) {
+			return std::isxdigit(in.peek());
+		}
+
+		// returns true if next char is a hex digit
+		bool checkBinDigit(std::istream & in) {
+			return in.peek() == '0' || in.peek() == '1';
+		}
+
 		// returns true if next char is a letter
 		bool checkAlpha(std::istream & in) {
 			return std::isalpha(in.peek());
@@ -224,12 +234,26 @@ namespace ltn::c::lex {
 		}
 
 		if(checkDigit(in)) {
-			const auto literalInt = read(in, checkDigit);
-			if(match('.')) {
-				const auto literalFraction = read(in, checkDigit);
-				return {Token::Type::FLOAT, literalInt + "." + literalFraction};
+			if(match('0')) {
+				if(match('x')) {
+					const auto literalInt = read(in, checkHexDigit);
+					return {Token::Type::INTEGER_HEX, literalInt};
+				}
+				if(match('b')) {
+					const auto literalInt = read(in, checkBinDigit);
+					return {Token::Type::INTEGER_BIN, literalInt};
+				}
+				throw CompilerError{"Leading 0s not allowed", line};
 			}
-			return {Token::Type::INTEGER, literalInt};
+			else {
+				const auto literalInt = read(in, checkDigit);
+				if(match('.')) {
+					const auto literalFraction = read(in, checkDigit);
+					const auto literal = literalInt + "." + literalFraction;
+					return {Token::Type::FLOAT, literal};
+				}
+				return {Token::Type::INTEGER, literalInt};
+			}
 		}
 
 		throw CompilerError{"invalid token", line};

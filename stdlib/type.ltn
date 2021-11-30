@@ -1,0 +1,44 @@
+namespace ltn {
+
+	asm typeId(value) {
+		"typeid"
+		"return"
+	}
+
+	function isBool(value) {
+		return typeId(value) == 0x10;
+	}
+
+	function isInt(value) {
+		return typeId(value) == 0x11;
+	}
+
+	function isFloat(value) {
+		return typeId(value) == 0x12;
+	}
+
+	function isArray(value) {
+		return typeId(value) == 0x20;
+	}
+
+	function isString(value) {
+		return typeId(value) == 0x21;
+	}
+
+	function isIStream(value) {
+		return typeId(value) == 0x30;
+	}
+
+	function isOStream(value) {
+		return typeId(value) == 0x31;
+	}
+
+	function isClock(value) {
+		return typeId(value) == 0x50;
+	}
+
+	function isFunctional(value) {
+		return (typeId(value) == 0x40) 
+			|| (typeId(value) == 0x41);
+	}
+}

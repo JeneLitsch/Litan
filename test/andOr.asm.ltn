@@ -1,4 +1,4 @@
-call FX44_main_0
+call FX45_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -338,111 +338,85 @@ return
 null
 return
 
-:FX43_checkType_1
-makevar
-write_0
-read_0
-call FX4_ltn_println_1
-scrap
+:FX43_t_0
 newstr
-char_8 42 6f 6f 6c 3a 20 20 20 
-char 20
-read_0
-call FX33_ltn_isBool_1
-add
+char_4 74 72 75 65 
 call FX4_ltn_println_1
 scrap
-newstr
-char_8 49 6e 74 3a 20 20 20 20 
-char 20
-read_0
-call FX34_ltn_isInt_1
-add
-call FX4_ltn_println_1
-scrap
-newstr
-char_8 46 6c 6f 61 74 3a 20 20 
-char 20
-read_0
-call FX35_ltn_isFloat_1
-add
-call FX4_ltn_println_1
-scrap
-newstr
-char_8 53 74 72 69 6e 67 3a 20 
-char 20
-read_0
-call FX37_ltn_isString_1
-add
-call FX4_ltn_println_1
-scrap
-newstr
-char_8 4f 53 74 72 65 61 6d 3a 
-char 20
-read_0
-call FX39_ltn_isOStream_1
-add
-call FX4_ltn_println_1
-scrap
-newstr
-char_8 49 53 74 72 65 61 6d 3a 
-char 20
-read_0
-call FX38_ltn_isIStream_1
-add
-call FX4_ltn_println_1
-scrap
-newstr
-char_8 46 78 3a 20 20 20 20 20 
-char 20
-read_0
-call FX41_ltn_isFunctional_1
-add
-call FX4_ltn_println_1
-scrap
-newstr
-char_8 43 6c 6f 63 6b 3a 20 20 
-char 20
-read_0
-call FX40_ltn_isClock_1
-add
-call FX4_ltn_println_1
-scrap
-newstr
-call FX4_ltn_println_1
-scrap
+true
+return
 null
 return
 
-:FX44_main_0
-true
-call FX43_checkType_1
-scrap
-newi 1337
-call FX43_checkType_1
-scrap
-newf 42.42
-call FX43_checkType_1
-scrap
+:FX44_f_0
 newstr
-char_8 48 65 6c 6c 6f 20 57 6f 
-char 72
-char 6c
-char 64
-call FX43_checkType_1
+char_4 66 61 6c 73 
+char 65
+call FX4_ltn_println_1
 scrap
-call FX0_ltn_cout_0
-call FX43_checkType_1
+false
+return
+null
+return
+
+:FX45_main_0
+newstr
+char_4 41 4e 44 20 
+char 26
+char 26
+call FX4_ltn_println_1
 scrap
-call FX5_ltn_cin_0
-call FX43_checkType_1
+call FX44_f_0
+ifelse AND47_FALSE
+call FX43_t_0
+jump AND47_END
+:AND47_FALSE
+false
+:AND47_END
+ifelse IF_ELSE48
+newstr
+char_8 42 6f 74 68 20 74 72 75 
+char 65
+call FX4_ltn_println_1
 scrap
-newfx FX43_checkType_1 1
-call FX43_checkType_1
+jump IF_END46
+:IF_ELSE48
+newstr
+char_8 6e 6f 74 20 74 72 75 65 
+call FX4_ltn_println_1
 scrap
-call FX30_ltn_clock_0
-call FX43_checkType_1
+jump IF_END46
+:IF_END46
+newstr
+char_4 4f 52 20 7c 
+char 7c
+call FX4_ltn_println_1
 scrap
+call FX44_f_0
+not
+ifelse OR50_TRUE
+call FX43_t_0
+jump OR50_END
+:OR50_TRUE
+true
+:OR50_END
+ifelse IF_ELSE51
+newstr
+char_8 61 74 20 6c 65 61 73 74 
+char_8 20 6f 6e 65 20 74 72 75 
+char 65
+call FX4_ltn_println_1
+scrap
+jump IF_END49
+:IF_ELSE51
+newstr
+char_8 62 6f 74 68 20 6e 6f 74 
+char_4 20 74 72 75 
+char 65
+call FX4_ltn_println_1
+scrap
+jump IF_END49
+:IF_END49
 null
 return
 

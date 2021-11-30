@@ -1,4 +1,4 @@
-call FX36_main_0
+call FX47_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -223,19 +223,134 @@ return
 null
 return
 
-:FX32_f1_0
+:FX32_ltn_typeId_1
+typeid
+return
+null
+return
+
+:FX33_ltn_isBool_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 16
+eql
+return
+null
+return
+
+:FX34_ltn_isInt_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 17
+eql
+return
+null
+return
+
+:FX35_ltn_isFloat_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 18
+eql
+return
+null
+return
+
+:FX36_ltn_isArray_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 32
+eql
+return
+null
+return
+
+:FX37_ltn_isString_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 33
+eql
+return
+null
+return
+
+:FX38_ltn_isIStream_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 48
+eql
+return
+null
+return
+
+:FX39_ltn_isOStream_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 49
+eql
+return
+null
+return
+
+:FX40_ltn_isClock_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 80
+eql
+return
+null
+return
+
+:FX41_ltn_isFunctional_1
+makevar
+write_0
+read_0
+call FX32_ltn_typeId_1
+newi 64
+eql
+not
+ifelse OR42_TRUE
+read_0
+call FX32_ltn_typeId_1
+newi 65
+eql
+jump OR42_END
+:OR42_TRUE
+true
+:OR42_END
+return
+null
+return
+
+:FX43_f1_0
 newi 42
 return
 null
 return
 
-:FX33_f2_0
+:FX44_f2_0
 newi 1337
 return
 null
 return
 
-:FX34_f_2
+:FX45_f_2
 makevar
 write_0
 makevar
@@ -247,9 +362,9 @@ return
 null
 return
 
-:FX35_makeAdd_0
-jump SKIP_LAMBDA37
-:LAMBDA37
+:FX46_makeAdd_0
+jump SKIP_LAMBDA48
+:LAMBDA48
 makevar
 write_0
 makevar
@@ -260,13 +375,13 @@ add
 return
 null
 return
-:SKIP_LAMBDA37
-newfx LAMBDA37 2
+:SKIP_LAMBDA48
+newfx LAMBDA48 2
 return
 null
 return
 
-:FX36_main_0
+:FX47_main_0
 makevar
 makevar
 newstr
@@ -277,7 +392,7 @@ char 3d
 char 3d
 call FX4_ltn_println_1
 scrap
-call FX35_makeAdd_0
+call FX46_makeAdd_0
 write_0
 newstr
 char_8 61 64 64 28 31 2c 20 32 
@@ -314,13 +429,13 @@ char_8 6e 74 65 72 73 20 3d 3d
 char 3d
 call FX4_ltn_println_1
 scrap
-newfx FX34_f_2 2
+newfx FX45_f_2 2
 write_1
 read_1
 newarr
-call FX32_f1_0
+call FX43_f1_0
 elem
-call FX33_f2_0
+call FX44_f2_0
 elem
 call FX28_ltn_invoke_2
 call FX4_ltn_println_1

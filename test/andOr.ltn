@@ -1,0 +1,27 @@
+function t() {
+	ltn::println("true");
+	return true;
+}
+
+function f() {
+	ltn::println("false");
+	return false;
+}
+
+function main() {
+	ltn::println("AND &&");
+	if(f() && t()) {
+		ltn::println("Both true");
+	}
+	else {
+		ltn::println("not true");
+	}
+
+	ltn::println("OR ||");
+	if(f() || t()) {
+		ltn::println("at least one true");
+	}
+	else {
+		ltn::println("both not true");
+	}
+}

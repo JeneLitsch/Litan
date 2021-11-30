@@ -90,6 +90,8 @@ namespace ltn::a::assemble {
 			{"back", Inst::BACK},
 
 			{"to_seconds", Inst::TO_SECONDS},
+
+			{"typeid", Inst::TYPEID},
 		};
 
 
