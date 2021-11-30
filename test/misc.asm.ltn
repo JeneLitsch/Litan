@@ -1,4 +1,4 @@
-call FX43_main_0
+call FX44_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -338,7 +338,38 @@ return
 null
 return
 
-:FX43_main_0
+:FX43_test_0
+makevar
+makevar
+newarr
+newi 1
+elem
+write_0
+newarr
+newi 2
+elem
+read_0
+elem
+write_1
+read_1
+read_0
+newi 0
+at_write
+null
+scrap
+newstr
+char_8 48 65 6c 6c 6f 20 57 6f 
+char 72
+char 6c
+char 64
+call FX4_ltn_println_1
+scrap
+null
+return
+
+:FX44_main_0
+call FX43_test_0
+scrap
 newi 0
 call FX4_ltn_println_1
 scrap

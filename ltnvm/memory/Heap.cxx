@@ -26,9 +26,11 @@ void ltn::vm::Heap::mark(const std::vector<Value> & values) {
 	for(const auto & value : values) {
 		if(isArr(value)) {
 			auto & obj = get(value.u);
-			auto & arr = read<Array>(value.u);
-			obj.marked = true;
-			mark(arr.arr);
+			if(!obj.marked) {
+				auto & arr = read<Array>(value.u);
+				obj.marked = true;
+				mark(arr.arr);
+			}
 		}
 		if(isStr(value)
 		|| isOStream(value)
@@ -50,6 +52,7 @@ void ltn::vm::Heap::sweep() {
 		else if(!std::get_if<std::monostate>(&obj.obj)) {
 			obj.obj = std::monostate();
 			this->reuse.push(idx);
+			std::cout << "Delete " << idx << "\n";
 		}
 		idx++;
 	}

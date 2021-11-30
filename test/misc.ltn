@@ -1,4 +1,11 @@
+function test() {
+	var x = [1];
+	var y = [2, x];
+	x[0] = y;
+	ltn::println("Hello World");
+}
 function main() {
+	test();
 	ltn::println(0);
 	ltn::println(0.1);
 	ltn::println(-0.1);
