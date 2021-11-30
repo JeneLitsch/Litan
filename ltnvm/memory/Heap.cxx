@@ -52,7 +52,7 @@ void ltn::vm::Heap::sweep() {
 		else if(!std::get_if<std::monostate>(&obj.obj)) {
 			obj.obj = std::monostate();
 			this->reuse.push(idx);
-			std::cout << "Delete " << idx << "\n";
+			// std::cout << "Delete " << idx << "\n";
 		}
 		idx++;
 	}
