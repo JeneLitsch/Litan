@@ -12,10 +12,12 @@ function makeAdd() {
 }
 
 function main() {
+	ltn::println("=== Lambdas ===");
 	var add = makeAdd();
 	ltn::println("add(1, 2) = " + ltn::invoke(add, [1, 2]));
 	ltn::println("add(20, 22) = " + ltn::invoke(add, [20, 22]));
 
+	ltn::println("=== Function pointers ===");
 	var fxPtr = &f(_,_);
 	ltn::println(ltn::invoke(fxPtr, [f1(), f2()]));
 }

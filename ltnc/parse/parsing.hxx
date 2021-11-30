@@ -39,7 +39,9 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Expression> factor(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> term(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> comparision(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> equality(lex::Lexer & lexer);	
+	std::unique_ptr<ast::Expression> equality(lex::Lexer & lexer);
+	std::unique_ptr<ast::Expression> logOr(lex::Lexer & lexer);
+	std::unique_ptr<ast::Expression> logAnd(lex::Lexer & lexer);
 
 	// Utils
 	std::string variableName(lex::Lexer & lexer);

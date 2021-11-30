@@ -29,28 +29,50 @@ namespace ltn::c::ast {
 		const std::unique_ptr<Expression> expression;
 	};
 
-
-
 	struct Binary : public Expression {
+		Binary(
+			std::unique_ptr<Expression> l,
+			std::unique_ptr<Expression> r,
+			const lex::DebugInfo & debugInfo)
+			:	Expression(debugInfo),
+				l(std::move(l)),
+				r(std::move(r)) {}
+		virtual ~Binary() = default;
+		const std::unique_ptr<Expression> l;
+		const std::unique_ptr<Expression> r;
+	};
+
+	struct SimpleBinary : public Binary {
 		enum class Type {
 			ADD, SUB,
 			MLT, DIV, MOD,
 			BIGGER, SMALLER, BIGGEREQUAL, SMALLEREQUAL,
 			EQUAL, UNEQUEL,
 			SHIFT_L, SHIFT_R, };
-		Binary(
+		SimpleBinary(
 			Type type,
 			std::unique_ptr<Expression> l,
 			std::unique_ptr<Expression> r,
 			const lex::DebugInfo & debugInfo)
-			:	Expression(debugInfo),
-				type(type),
-				l(std::move(l)),
-				r(std::move(r)) {}
-		virtual ~Binary() = default;
+			:	Binary(std::move(l), std::move(r), debugInfo),
+				type(type) {}
+		virtual ~SimpleBinary() = default;
 		const Type type;
-		const std::unique_ptr<Expression> l;
-		const std::unique_ptr<Expression> r;
+	};
+
+	struct Logical : public Binary {
+		enum class Type {
+			AND, OR,
+		};
+		Logical(
+			Type type,
+			std::unique_ptr<Expression> l,
+			std::unique_ptr<Expression> r,
+			const lex::DebugInfo & debugInfo)
+			:	Binary(std::move(l), std::move(r), debugInfo),
+				type(type) {}
+		virtual ~Logical() = default;
+		const Type type;
 	};
 
 

@@ -5,15 +5,9 @@
 namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
-		using OP = ltn::c::ast::Binary::Type;
+		using OP = ltn::c::ast::SimpleBinary::Type;
 
-		std::unique_ptr<ast::Binary> bin(
-			lex::Lexer & lexer, OP op, auto && l, auto && r) {
-		
-			return std::make_unique<ast::Binary>(
-				op, std::move(l), std::move(r), lexer.debug());
-		}
-
+		template<class ResultType>
 		std::pair<bool, std::unique_ptr<ast::Expression>> fromTable(
 			lex::Lexer & lexer,
 			const auto & opTable,
@@ -23,24 +17,30 @@ namespace ltn::c::parse {
 			for(const auto & [tt, op] : opTable) {
 				if(lexer.match(tt)) {
 					auto && r = presedenceDown(lexer);
-					return {false, bin(lexer, op, l, r)};
+					auto bin = std::make_unique<ResultType>(
+						op, std::move(l), std::move(r), lexer.debug());
+					return {false, std::move(bin)}; 
 				}
 			}
 			return {true, std::move(l)};
 		}
 
+		template<class ResultType>
 		std::unique_ptr<ast::Expression> binary(
 			lex::Lexer & lexer, const auto & opTable, auto presedenceDown) {
 			while(true) {
 				auto l = presedenceDown(lexer);
 				while (true) {
-					auto [last, expr] = fromTable(lexer, opTable, presedenceDown, l);
+					auto [last, expr] = fromTable<ResultType>(
+						lexer,
+						opTable,
+						presedenceDown,
+						l);
 					l = std::move(expr);
 					if(last) return l;
 				}				
 			}
 		}
-
 	}
 
 
@@ -52,7 +52,7 @@ namespace ltn::c::parse {
 			std::pair{TT::SLASH, OP::DIV},
 			std::pair{TT::PERCENT, OP::MOD},
 		};
-		return binary(lexer, table, unary);
+		return binary<ast::SimpleBinary>(lexer, table, unary);
 	}
 
 	// Operators + -
@@ -61,7 +61,7 @@ namespace ltn::c::parse {
 			std::pair{TT::PLUS, OP::ADD},
 			std::pair{TT::MINUS, OP::SUB},
 		};
-		return binary(lexer, table, factor);
+		return binary<ast::SimpleBinary>(lexer, table, factor);
 	}
 
 	// Operators << >>
@@ -70,7 +70,7 @@ namespace ltn::c::parse {
 			std::pair{TT::SHIFT_L, OP::SHIFT_L},
 			std::pair{TT::SHIFT_R, OP::SHIFT_R},
 		};
-		return binary(lexer, table, term); 
+		return binary<ast::SimpleBinary>(lexer, table, term); 
 	}
 
 	// Operators < <= => >
@@ -81,7 +81,7 @@ namespace ltn::c::parse {
 			std::pair{TT::BIGGER, OP::BIGGER},
 			std::pair{TT::BIGGER_EQUAL, OP::BIGGEREQUAL},
 		};
-		return binary(lexer, table, shift);
+		return binary<ast::SimpleBinary>(lexer, table, shift);
 	}
 
 	// Operators == != 
@@ -90,8 +90,23 @@ namespace ltn::c::parse {
 			std::pair{TT::EQUAL, OP::EQUAL},
 			std::pair{TT::UNEQUAL, OP::UNEQUEL},
 		};
-		return binary(lexer, table, comparision); 
+		return binary<ast::SimpleBinary>(lexer, table, comparision); 
 	}
+
+	std::unique_ptr<ast::Expression> logOr(lex::Lexer & lexer) {
+		constexpr std::array table {
+			std::pair{TT::OR, ast::Logical::Type::OR}
+		};
+		return binary<ast::Logical>(lexer, table, equality);
+	}
+
+	std::unique_ptr<ast::Expression> logAnd(lex::Lexer & lexer) {
+		constexpr std::array table {
+			std::pair{TT::AND, ast::Logical::Type::AND}
+		};
+		return binary<ast::Logical>(lexer, table, logOr);
+	}
+
 
 }
 

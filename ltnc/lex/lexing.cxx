@@ -169,7 +169,18 @@ namespace ltn::c::lex {
 			}
 			return {Token::Type::PERCENT, "%"};
 		}
-		if(match('&')) return {Token::Type::AMPERSAND, "&"};
+		if(match('&')) {
+			if(match('&')) {
+				return {Token::Type::AND, "&&"};
+			}
+			return {Token::Type::AMPERSAND, "&"};
+		}
+		if(match('|')) {
+			if(match('|')) {
+				return {Token::Type::OR, "||"};
+			}
+			throw CompilerError{"\"|\" is not a valid token.", line};
+		}
 		if(match('_')) return {Token::Type::UNDERSCORE, "_"};
 		
 		if(match('=')) {

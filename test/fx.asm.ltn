@@ -269,6 +269,14 @@ return
 :FX36_main_0
 makevar
 makevar
+newstr
+char_8 3d 3d 3d 20 4c 61 6d 62 
+char_4 64 61 73 20 
+char 3d
+char 3d
+char 3d
+call FX4_ltn_println_1
+scrap
 call FX35_makeAdd_0
 write_0
 newstr
@@ -297,6 +305,13 @@ newi 22
 elem
 call FX28_ltn_invoke_2
 add
+call FX4_ltn_println_1
+scrap
+newstr
+char_8 3d 3d 3d 20 46 75 6e 63 
+char_8 74 69 6f 6e 20 70 6f 69 
+char_8 6e 74 65 72 73 20 3d 3d 
+char 3d
 call FX4_ltn_println_1
 scrap
 newfx FX34_f_2 2

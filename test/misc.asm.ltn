@@ -1,4 +1,4 @@
-call FX32_main_0
+call FX34_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -223,7 +223,85 @@ return
 null
 return
 
-:FX32_main_0
+:FX32_t_0
+newstr
+char_4 74 72 75 65 
+call FX4_ltn_println_1
+scrap
+true
+return
+null
+return
+
+:FX33_f_0
+newstr
+char_4 66 61 6c 73 
+char 65
+call FX4_ltn_println_1
+scrap
+false
+return
+null
+return
+
+:FX34_main_0
+newstr
+char_4 41 4e 44 20 
+char 26
+char 26
+call FX4_ltn_println_1
+scrap
+call FX33_f_0
+ifelse AND36_FALSE
+call FX32_t_0
+jump AND36_END
+:AND36_FALSE
+false
+:AND36_END
+ifelse IF_ELSE37
+newstr
+char_8 42 6f 74 68 20 74 72 75 
+char 65
+call FX4_ltn_println_1
+scrap
+jump IF_END35
+:IF_ELSE37
+newstr
+char_8 6e 6f 74 20 74 72 75 65 
+call FX4_ltn_println_1
+scrap
+jump IF_END35
+:IF_END35
+newstr
+char_4 4f 52 20 7c 
+char 7c
+call FX4_ltn_println_1
+scrap
+call FX33_f_0
+not
+ifelse OR39_TRUE
+call FX32_t_0
+jump OR39_END
+:OR39_TRUE
+true
+:OR39_END
+ifelse IF_ELSE40
+newstr
+char_8 61 74 20 6c 65 61 73 74 
+char_8 20 6f 6e 65 20 74 72 75 
+char 65
+call FX4_ltn_println_1
+scrap
+jump IF_END38
+:IF_ELSE40
+newstr
+char_8 62 6f 74 68 20 6e 6f 74 
+char_4 20 74 72 75 
+char 65
+call FX4_ltn_println_1
+scrap
+jump IF_END38
+:IF_END38
 null
 return
 

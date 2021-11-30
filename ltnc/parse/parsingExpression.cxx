@@ -7,7 +7,7 @@ namespace ltn::c::parse {
 
 	// generic expression
 	std::unique_ptr<ast::Expression> expression(lex::Lexer & lexer) {
-		return equality(lexer);
+		return logAnd(lexer);
 	}
 }
 
