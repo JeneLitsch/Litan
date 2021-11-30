@@ -83,6 +83,7 @@ namespace ltn::c::compile {
 				return logicalOr(l, r, info);
 			}
 		}
+		throw CompilerError{"Unknown binary Expr", 0};
 	}
 	
 }

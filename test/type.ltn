@@ -1,0 +1,23 @@
+function checkType(value) {
+	ltn::println(value);
+	ltn::println("Bool:    " + ltn::isBool(value));
+	ltn::println("Int:     " + ltn::isInt(value));
+	ltn::println("Float:   " + ltn::isFloat(value));
+	ltn::println("String:  " + ltn::isString(value));
+	ltn::println("OStream: " + ltn::isOStream(value));
+	ltn::println("IStream: " + ltn::isIStream(value));
+	ltn::println("Fx:      " + ltn::isFunctional(value));
+	ltn::println("Clock:   " + ltn::isClock(value));
+	ltn::println("");
+}
+
+function main() {
+	checkType(true);
+	checkType(1337);
+	checkType(42.42);
+	checkType("Hello World");
+	checkType(ltn::cout());
+	checkType(ltn::cin());
+	checkType(&checkType(_));
+	checkType(ltn::clock());
+}

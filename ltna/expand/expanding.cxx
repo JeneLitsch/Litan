@@ -1,6 +1,7 @@
 #include "expanding.hxx"
 #include <sstream>
 #include <array>
+#include "ltn/Bitcast.hxx"
 namespace ltn::a::expand {
 	namespace {
 
@@ -15,11 +16,11 @@ namespace ltn::a::expand {
 		}
 		
 		auto toBytes(std::int64_t value) {
-			return toBytes(*reinterpret_cast<std::uint64_t*>(&value));
+			return toBytes(bitcast<std::uint64_t>(value));
 		}
 
 		auto toBytes(double value) {
-			return toBytes(*reinterpret_cast<std::uint64_t*>(&value));
+			return toBytes(bitcast<std::uint64_t>(value));
 		}
 
 		template<typename Value>

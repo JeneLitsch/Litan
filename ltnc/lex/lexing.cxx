@@ -234,6 +234,7 @@ namespace ltn::c::lex {
 		}
 
 		if(checkDigit(in)) {
+			bool zero = false;
 			if(match('0')) {
 				if(match('x')) {
 					const auto literalInt = read(in, checkHexDigit);
@@ -243,17 +244,15 @@ namespace ltn::c::lex {
 					const auto literalInt = read(in, checkBinDigit);
 					return {Token::Type::INTEGER_BIN, literalInt};
 				}
-				throw CompilerError{"Leading 0s not allowed", line};
+				zero = true;
 			}
-			else {
-				const auto literalInt = read(in, checkDigit);
-				if(match('.')) {
-					const auto literalFraction = read(in, checkDigit);
-					const auto literal = literalInt + "." + literalFraction;
-					return {Token::Type::FLOAT, literal};
-				}
-				return {Token::Type::INTEGER, literalInt};
+			const auto literalInt = (zero?"0":"") + read(in, checkDigit);
+			if(match('.')) {
+				const auto literalFraction = read(in, checkDigit);
+				const auto literal = literalInt + "." + literalFraction;
+				return {Token::Type::FLOAT, literal};
 			}
+			return {Token::Type::INTEGER, literalInt};
 		}
 
 		throw CompilerError{"invalid token", line};
