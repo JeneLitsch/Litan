@@ -44,13 +44,13 @@ namespace ltn::vm {
 		std::uint64_t alloc(Obj && obj) {
 			if(reuse.empty()) {
 				const std::uint64_t addr = this->objects.size();
-				this->objects.push_back(HeapObject{obj});
+				this->objects.emplace_back(std::move(obj));
 				return addr;
 			}
 			else {
 				std::uint64_t addr = this->reuse.front();
 				this->reuse.pop();
-				this->objects[addr] = HeapObject{obj};
+				this->objects[addr] = HeapObject{std::move(obj)};
 				return addr;
 			}
 		}

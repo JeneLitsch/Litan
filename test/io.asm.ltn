@@ -1,4 +1,4 @@
-call FX49_main_0
+call FX47_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -368,85 +368,44 @@ return
 null
 return
 
-:FX47_t_0
+:FX47_main_0
+makevar
+makevar
+makevar
 newstr
-char_4 74 72 75 65 
-call FX5_ltn_println_1
-scrap
-true
-return
-null
-return
-
-:FX48_f_0
+char_8 74 65 73 74 2f 66 69 6c 
+char_8 65 73 2f 6f 75 74 70 75 
+char_4 74 2e 74 78 
+char 74
+call FX1_ltn_fout_1
+write_0
 newstr
-char_4 66 61 6c 73 
-char 65
-call FX5_ltn_println_1
-scrap
-false
-return
-null
-return
-
-:FX49_main_0
-newstr
-char_4 41 4e 44 20 
-char 26
-char 26
-call FX5_ltn_println_1
-scrap
-call FX48_f_0
-ifelse AND51_FALSE
-call FX47_t_0
-jump AND51_END
-:AND51_FALSE
-false
-:AND51_END
-ifelse IF_ELSE52
-newstr
-char_8 42 6f 74 68 20 74 72 75 
-char 65
-call FX5_ltn_println_1
-scrap
-jump IF_END50
-:IF_ELSE52
-newstr
-char_8 6e 6f 74 20 74 72 75 65 
-call FX5_ltn_println_1
-scrap
-jump IF_END50
-:IF_END50
-newstr
-char_4 4f 52 20 7c 
-char 7c
-call FX5_ltn_println_1
-scrap
-call FX48_f_0
+char_8 74 65 73 74 2f 66 69 6c 
+char_8 65 73 2f 69 6e 70 75 74 
+char_4 2e 74 78 74 
+call FX7_ltn_fin_1
+write_1
+:WHILE_BEGIN48
+read_1
+call FX16_ltn_isEof_1
 not
-ifelse OR54_TRUE
-call FX47_t_0
-jump OR54_END
-:OR54_TRUE
-true
-:OR54_END
-ifelse IF_ELSE55
-newstr
-char_8 61 74 20 6c 65 61 73 74 
-char_8 20 6f 6e 65 20 74 72 75 
-char 65
+ifelse WHILE_END49
+read_1
+call FX10_ltn_readln_1
+write_2
+read_0
+read_2
+call FX4_ltn_println_2
+scrap
+read_0
+read_2
+call FX4_ltn_println_2
+scrap
+read_2
 call FX5_ltn_println_1
 scrap
-jump IF_END53
-:IF_ELSE55
-newstr
-char_8 62 6f 74 68 20 6e 6f 74 
-char_4 20 74 72 75 
-char 65
-call FX5_ltn_println_1
-scrap
-jump IF_END53
-:IF_END53
+jump WHILE_BEGIN48
+:WHILE_END49
 null
 return
 

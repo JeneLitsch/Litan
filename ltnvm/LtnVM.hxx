@@ -36,7 +36,7 @@ namespace ltn::vm {
 
 		void jump(), call(), reTurn(), iF(), error(), invoke(), external();
 		
-		void newarr(), newstr(), newout_std(), newin_std(), newfx(), newClock();
+		void newarr(), newstr(), newout(), newin(), newfx(), newClock();
 
 		void read(), write(), scrap(), makevar(),
 			at(), at_write(),
@@ -45,7 +45,7 @@ namespace ltn::vm {
 		void write_0(), write_1(), write_2(), write_3();
 
 		void out();
-		void in_str(), in_line(), in_int(), in_float();
+		void in_str(), in_line(), in_int(), in_float(), is_eof();
 
 		void min(), max(), round(), floor(), ceil(), abs(), hypot(), sqrt();
 		

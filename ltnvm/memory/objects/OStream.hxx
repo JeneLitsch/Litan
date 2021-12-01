@@ -9,8 +9,8 @@ namespace ltn::vm {
 		OStream(std::ostream & in)
 			: ptr(&in) {}
 
-		OStream(std::unique_ptr<std::ostream> in) 
-			: storage(std::move(in)), ptr(storage.get()) {}
+		OStream(std::unique_ptr<std::ostream> && out) 
+			: storage(std::move(out)), ptr(storage.get()) {}
 
 		std::ostream & get() {
 			return *ptr;
@@ -18,7 +18,7 @@ namespace ltn::vm {
 
 		constexpr static std::string_view typeName = "OStream";
 	private:
-		std::shared_ptr<std::ostream> storage;
+		std::unique_ptr<std::ostream> storage;
 		std::ostream * ptr;
 	};
 }

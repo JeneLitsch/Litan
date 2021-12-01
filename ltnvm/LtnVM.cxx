@@ -83,8 +83,8 @@ namespace ltn::vm {
 				
 			case Inst::NEWARR: this->newarr(); break;
 			case Inst::NEWSTR: this->newstr(); break;
-			case Inst::NEWOUT_STD: this->newout_std(); break;
-			case Inst::NEWIN_STD: this->newin_std(); break;
+			case Inst::NEWOUT: this->newout(); break;
+			case Inst::NEWIN: this->newin(); break;
 			case Inst::NEWFX: this->newfx(); break;
 			case Inst::NEWCLOCK: this->newClock(); break;
 			
@@ -110,6 +110,7 @@ namespace ltn::vm {
 			case Inst::IN_LINE: this->in_line(); break;
 			case Inst::IN_INT: this->in_int(); break;
 			case Inst::IN_FLOAT: this->in_float(); break;
+			case Inst::IS_EOF: this->is_eof(); break;
 
 			case Inst::MIN: this->min(); break;
 			case Inst::MAX: this->max(); break;

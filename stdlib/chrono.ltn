@@ -8,4 +8,11 @@ namespace ltn {
 		"to_seconds"
 		"return"
 	}
+
+	asm toMilliseconds(clock) {
+		"to_seconds"
+		"newf 1000.0"
+		"mlt"
+		"return"
+	}
 }

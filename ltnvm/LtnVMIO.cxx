@@ -58,4 +58,9 @@ namespace ltn::vm {
 		in >> value;
 		reg.push(Value{value});
 	}
+
+	void LtnVM::is_eof() {
+		auto & in = getIstream(this->heap, this->reg); 
+		reg.push(Value{in.eof()});
+	}
 }

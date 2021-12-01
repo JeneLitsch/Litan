@@ -48,10 +48,6 @@ namespace ltn::vm {
 			this->byteCode.begin()+static_cast<std::int64_t>(this->pc),
 			this->byteCode.begin()+static_cast<std::int64_t>(this->pc+4U));
 		this->pc+=4;
-		// str.str.push_back(static_cast<char>(this->fetchByte()));
-		// str.str.push_back(static_cast<char>(this->fetchByte()));
-		// str.str.push_back(static_cast<char>(this->fetchByte()));
-		// str.str.push_back(static_cast<char>(this->fetchByte()));
 	}
 
 	void LtnVM::char_8() {
@@ -61,13 +57,5 @@ namespace ltn::vm {
 			this->byteCode.begin()+static_cast<std::int64_t>(this->pc),
 			this->byteCode.begin()+static_cast<std::int64_t>(this->pc+8U));
 		this->pc+=8;
-		// str.str.push_back(static_cast<char>(this->fetchByte()));
-		// str.str.push_back(static_cast<char>(this->fetchByte()));
-		// str.str.push_back(static_cast<char>(this->fetchByte()));
-		// str.str.push_back(static_cast<char>(this->fetchByte()));
-		// str.str.push_back(static_cast<char>(this->fetchByte()));
-		// str.str.push_back(static_cast<char>(this->fetchByte()));
-		// str.str.push_back(static_cast<char>(this->fetchByte()));
-		// str.str.push_back(static_cast<char>(this->fetchByte()));
 	}
 }

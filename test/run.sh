@@ -11,6 +11,7 @@ run () {
 
 run "vars"
 run "fx"
+run "io"
 run "modify"
 run "andOr"
 run "type"

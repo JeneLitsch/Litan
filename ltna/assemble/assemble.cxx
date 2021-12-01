@@ -32,8 +32,8 @@ namespace ltn::a::assemble {
 			{"false", Inst::FALSE},
 			{"newarr", Inst::NEWARR},
 			{"newstr", Inst::NEWSTR},
-			{"newout_std", Inst::NEWOUT_STD},
-			{"newin_std", Inst::NEWIN_STD},
+			{"newout", Inst::NEWOUT},
+			{"newin", Inst::NEWIN},
 			{"null", Inst::NVLL},
 			{"char", Inst::CHAR},
 			{"elem", Inst::ELEM},
@@ -71,6 +71,7 @@ namespace ltn::a::assemble {
 			{"in_line", Inst::IN_LINE},
 			{"in_int", Inst::IN_INT},
 			{"in_float", Inst::IN_FLOAT},
+			{"is_eof", Inst::IS_EOF},
 
 			{"min", Inst::MIN},
 			{"max", Inst::MAX},

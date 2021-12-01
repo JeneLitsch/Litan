@@ -10,7 +10,7 @@ namespace ltn::vm {
 			: ptr(&in) {}
 
 		IStream(std::unique_ptr<std::istream> in) 
-			: storage(std::move(in)), ptr(in.get()) {}
+			: storage(std::move(in)), ptr(storage.get()) {}
 
 		std::istream & get() {
 			return *ptr;
@@ -18,7 +18,7 @@ namespace ltn::vm {
 
 		constexpr static std::string_view typeName = "IStream";
 	private:
-		std::shared_ptr<std::istream> storage;
+		std::unique_ptr<std::istream> storage;
 		std::istream * ptr;
 	};
 }

@@ -1,7 +1,14 @@
 
 namespace ltn {
 	asm cout() {
-		"newout_std"
+		"newout"
+		"byte 0"
+		"return"
+	}
+
+	asm fout(path) {
+		"newout"
+		"byte 1"
 		"return"
 	}
 
@@ -26,7 +33,14 @@ namespace ltn {
 
 
 	asm cin() {
-		"newin_std"
+		"newin"
+		"byte 0"
+		"return"
+	}
+
+	asm fin(path) {
+		"newin"
+		"byte 1"
 		"return"
 	}
 
@@ -64,6 +78,11 @@ namespace ltn {
 
 	function readfloat() {
 		return readfloat(cin());
+	}
+
+	asm isEof(stream) {
+		"is_eof"
+		"return"
 	}
 
 }
