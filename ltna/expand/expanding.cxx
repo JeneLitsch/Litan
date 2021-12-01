@@ -2,11 +2,15 @@
 #include <sstream>
 #include <array>
 #include "ltn/Bitcast.hxx"
+#include "ltna/InstructionTable.hxx"
 namespace ltn::a::expand {
 	namespace {
-
-		auto toBytes(std::uint64_t value) {
-			std::array<std::uint8_t, 8> bytes;
+		
+		auto toBytes(std::integral auto value) {
+			constexpr static auto SIZE 
+				= sizeof(decltype(value))
+				/ sizeof(std::uint8_t);
+			std::array<std::uint8_t, SIZE> bytes;
 			for(std::uint8_t & byte : bytes) {
 				byte = value & 0xff;
 				value >>= 8;
@@ -30,7 +34,7 @@ namespace ltn::a::expand {
 			line >> value;
 			const auto bytes = toBytes(value);
 			for(const std::uint8_t byte : bytes) {
-				ss << "byte " << std::hex << unsigned(byte) << "\n"; 
+				ss << "byte " << std::hex << +byte << "\n"; 
 			}
 			return ss.str();
 		}
@@ -43,101 +47,15 @@ namespace ltn::a::expand {
 			return ss.str();
 		}
 
-		std::string char_x(const std::string_view inst, std::size_t x, std::istream & ls) {
+		std::string expandBytes(const std::string_view inst, std::size_t x, std::istream & ls) {
 			std::stringstream ss;
-			ls >> std::ws;
-			std::string chr;
+			unsigned chr;
 			ss << inst << "\n";
 			for(std::size_t i = 0; i < x; i++) {
-				ls >> chr;
+				ls >> std::hex >> chr;
 				ss	<< "byte " << std::hex << chr << "\n";
 			}
 			return ss.str();
-		}
-
-		void expandLine(const std::string & line, std::ostream & out) {
-			std::stringstream ls(line);
-			std::string inst;
-			ls >> inst;
-
-			if(inst == "read_x") {
-				out << expandLiteral<std::uint64_t>(ls, "read_x");
-				return;
-			}
-			if(inst == "write_x") {
-				out << expandLiteral<std::uint64_t>(ls, "write_x");
-				return;
-			}
-			if(inst == "addr") {
-				out << expandLiteral<std::uint64_t>(ls, "addr");
-				return;
-			}
-			if(inst == "newu") {
-				out << expandLiteral<std::uint64_t>(ls, "newu");
-				return;
-			}
-			if(inst == "newi") {
-				out << expandLiteral<std::int64_t>(ls, "newi");
-				return;
-			}
-			if(inst == "newf") {
-				out << expandLiteral<double>(ls, "newf");
-				return;
-			}
-			if(inst == "newfx") {
-				std::stringstream ss;
-				ss << expandLiteral<std::uint64_t>(ls, "newfx");
-				ss << expandArg<std::uint64_t>(ls);
-				out << ss.str();
-				return;
-			}
-			if(inst == "jump") {
-				out << expandLiteral<std::uint64_t>(ls, "jump");
-				return;
-			}
-			if(inst == "call") {
-				out << expandLiteral<std::uint64_t>(ls, "call");
-				return;
-			}
-			if(inst == "ifelse") {
-				out << expandLiteral<std::uint64_t>(ls, "ifelse");
-				return;
-			}
-			if(inst == "char") {
-				ls >> std::ws;
-				std::string chr;
-				out << "char\n";
-				ls >> chr;
-				out	<< "byte " << std::hex << chr << "\n";
-				return;
-			}
-			if(inst == "newin") {
-				ls >> std::ws;
-				std::string chr;
-				out << "newin\n";
-				ls >> chr;
-				out	<< "byte " << std::hex << chr << "\n";
-				return;
-			}
-			if(inst == "newout") {
-				ls >> std::ws;
-				std::string chr;
-				out << "newout\n";
-				ls >> chr;
-				out	<< "byte " << std::hex << chr << "\n";
-				return;
-			}
-			if(inst == "char_4") {
-				out << char_x("char_4", 4, ls);
-				return;
-			}
-			if(inst == "char_8") {
-				out << char_x("char_8", 8, ls);
-				return;
-			}
-			if(line != "") {
-				out << line << "\n";
-			}
 		}
 	}
 
@@ -145,7 +63,51 @@ namespace ltn::a::expand {
 	void expand(std::istream & in, std::ostream & out) {
 		std::string line;
 		while(std::getline(in >> std::ws, line)) {
-			expandLine(line, out);
+			std::stringstream ls(line);
+			std::string inst;
+			ls >> inst;
+
+			if(instructionTable.contains(inst)) {
+				const auto [opcode, size, args] = instructionTable.at(inst);
+				switch (args) {
+					case InstArgs::NONE: {
+						if(line != "") {
+							out << line << "\n";
+						}
+					} break;
+
+					case InstArgs::UINT: {
+						out << expandLiteral<std::uint64_t>(ls, inst);
+					} break;
+
+					case InstArgs::UINTx2: {
+						out << expandLiteral<std::uint64_t>(ls, inst);
+						out << expandArg<std::uint64_t>(ls);
+					} break;
+
+					case InstArgs::INT: {
+						out << expandLiteral<std::int64_t>(ls, inst);
+					} break;
+
+					case InstArgs::FLOAT: {
+						out << expandLiteral<double>(ls, inst);
+					} break;
+
+					case InstArgs::BYTE: [[fallthrough]];
+
+					case InstArgs::CHAR: {
+						out << expandBytes(inst, 1, ls);
+					} break;
+
+					case InstArgs::CHAR_4: {
+						out << expandBytes(inst, 4, ls);
+					} break;
+
+					case InstArgs::CHAR_8: {
+						out << expandBytes(inst, 8, ls);
+					} break;
+				}
+			}
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace ltn::a::linking {
 				table.emplace(label, position);
 			}
 			else {
-				const auto [_, size] = instructionTable.at(inst);
+				const auto [opcode, size, args] = instructionTable.at(inst);
 				position += size;
 			}
 		}

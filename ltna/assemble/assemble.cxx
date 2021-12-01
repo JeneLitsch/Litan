@@ -13,7 +13,7 @@ namespace ltn::a::assemble {
 				return static_cast<std::uint8_t>(byte);
 			}
 			if(instructionTable.contains(inst)) {
-				const auto [opcode, _] = instructionTable.at(inst);
+				const auto [opcode, size, args] = instructionTable.at(inst);
 				return static_cast<std::uint8_t>(opcode);
 			}
 			return {};
