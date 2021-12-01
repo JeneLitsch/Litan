@@ -2,15 +2,13 @@ call FX47_main_0
 exit
 
 :FX0_ltn_cout_0
-newout
-byte 0
+newout 0
 return
 null
 return
 
 :FX1_ltn_fout_1
-newout
-byte 1
+newout 1
 return
 null
 return
@@ -66,15 +64,13 @@ null
 return
 
 :FX6_ltn_cin_0
-newin
-byte 0
+newin 0
 return
 null
 return
 
 :FX7_ltn_fin_1
-newin
-byte 1
+newin 1
 return
 null
 return

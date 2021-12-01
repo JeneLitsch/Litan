@@ -1,14 +1,12 @@
 
 namespace ltn {
 	asm cout() {
-		"newout"
-		"byte 0"
+		"newout 0"
 		"return"
 	}
 
 	asm fout(path) {
-		"newout"
-		"byte 1"
+		"newout 1"
 		"return"
 	}
 
@@ -33,14 +31,12 @@ namespace ltn {
 
 
 	asm cin() {
-		"newin"
-		"byte 0"
+		"newin 0"
 		"return"
 	}
 
 	asm fin(path) {
-		"newin"
-		"byte 1"
+		"newin 1"
 		"return"
 	}
 

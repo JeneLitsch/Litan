@@ -111,6 +111,22 @@ namespace ltn::a::expand {
 				out	<< "byte " << std::hex << chr << "\n";
 				return;
 			}
+			if(inst == "newin") {
+				ls >> std::ws;
+				std::string chr;
+				out << "newin\n";
+				ls >> chr;
+				out	<< "byte " << std::hex << chr << "\n";
+				return;
+			}
+			if(inst == "newout") {
+				ls >> std::ws;
+				std::string chr;
+				out << "newout\n";
+				ls >> chr;
+				out	<< "byte " << std::hex << chr << "\n";
+				return;
+			}
 			if(inst == "char_4") {
 				out << char_x("char_4", 4, ls);
 				return;

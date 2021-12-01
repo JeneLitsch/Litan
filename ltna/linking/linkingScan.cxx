@@ -1,31 +1,8 @@
 #include "linking.hxx"
 #include <sstream>
+#include "ltna/InstructionTable.hxx"
+#include <iostream>
 namespace ltn::a::linking {
-	namespace {
-		using SizeTable = std::unordered_map<std::string_view, std::uint64_t>; 
-		std::uint64_t getInstSize(std::string_view inst) {
-			const static SizeTable sizeTable {
-				{"newu", 9},
-				{"newi", 9},
-				{"newf", 9},
-				{"newfx", 17},
-				{"jump", 9},
-				{"call", 9},
-				{"addr", 9},
-				{"read_x", 9},
-				{"write_x", 9},
-				{"ifelse", 9},
-				{"char", 2},
-				{"char_4", 5},
-				{"char_8", 9},
-			};
-			if(sizeTable.contains(inst)) {
-				return sizeTable.at(inst);
-			}
-			return 1;
-		}
-	}
-
 	AddressTable scan(std::istream & in) {
 		std::uint64_t position = 0;
 		AddressTable table;
@@ -42,7 +19,8 @@ namespace ltn::a::linking {
 				table.emplace(label, position);
 			}
 			else {
-				position += getInstSize(inst);
+				const auto [_, size] = instructionTable.at(inst);
+				position += size;
 			}
 		}
 		return table;
