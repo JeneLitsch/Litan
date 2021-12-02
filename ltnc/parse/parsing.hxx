@@ -16,9 +16,7 @@ namespace ltn::c::parse {
 		lex::Lexer & lexer,
 		const ast::Namespace & nameSpace);
 
-	std::unique_ptr<ast::Lambda> lambda(
-		lex::Lexer & lexer,
-		std::string_view name);
+	std::unique_ptr<ast::Lambda> lambda(lex::Lexer & lexer);
 
 	// Statements
 	std::unique_ptr<ast::Statement> statement(lex::Lexer & lexer);

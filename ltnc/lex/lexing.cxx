@@ -76,7 +76,7 @@ namespace ltn::c::lex {
 
 
 		// Table of keywords
-		const static std::unordered_map<std::string_view, Token::Type> keywords{
+		const std::unordered_map<std::string_view, Token::Type> keywords{
 			{"function",    Token::Type::FUNCTION},
 			{"while",       Token::Type::WHILE},
 			{"for",         Token::Type::FOR},

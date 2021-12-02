@@ -1,5 +1,6 @@
 #pragma once
 #include "Expression.hxx"
+#include <bitset>
 
 namespace ltn::c::ast {
 	struct Functional;
@@ -11,6 +12,9 @@ namespace ltn::c::ast {
 
 	struct Integer : public Literal {
 	public:
+		Integer(std::bitset<64> value, const lex::DebugInfo & debugInfo)
+			:	Integer(static_cast<std::int64_t>(value.to_ullong()), debugInfo) {}
+
 		Integer(std::int64_t value, const lex::DebugInfo & debugInfo)
 			:	Literal(debugInfo), value(value) {}
 		virtual ~Integer() = default;

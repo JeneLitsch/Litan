@@ -12,6 +12,7 @@ namespace ltn::c::parse {
 		if(!lexer.match(TT::SEMICOLON)) {
 			throw CompilerError{"missing ;", lexer.inLine()};
 		}
+		while(lexer.match(TT::SEMICOLON));
 	}
 
 	// Enforces ; after statement
@@ -53,15 +54,9 @@ namespace ltn::c::parse {
 		return nullptr;
 	}
 
-	// prevent extra ;
-	void extraSemicolon(lex::Lexer & lexer) {
-		while(lexer.match(TT::SEMICOLON)) {
-			throw CompilerError("Extra ;", lexer.inLine());
-		}
-	}
 
 	std::unique_ptr<ast::Statement> statement(lex::Lexer & lexer) {
-		extraSemicolon(lexer);
+		while(lexer.match(TT::SEMICOLON));
 		if(auto stmt = block(lexer)) return stmt;
 		if(auto stmt = ifElse(lexer)) return stmt;
 		if(auto stmt = whileLoop(lexer)) return stmt;

@@ -2,50 +2,48 @@
 #include "ltnc/CompilerError.hxx"
 #include <sstream>
 #include <bitset>
+#include "ltn/reading.hxx"
 namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
+
+		CompilerError expected(std::string token, const lex::Lexer & lexer) {
+			return {"Expected " + token, lexer.inLine()};
+		}
 
 		// Literals
 		std::unique_ptr<ast::Expression> paren(lex::Lexer & lexer) {
 			if(lexer.match(TT::PAREN_L)) {
 				auto expr = expression(lexer);
 				if(!lexer.match(TT::PAREN_R)) {
-					throw CompilerError{"expected )", lexer.inLine()};
+					throw expected("(", lexer);
 				}
 				return expr;
 			}
 			return nullptr;
 		}
 
+		template<class TempType, TT tt>
 		std::unique_ptr<ast::Integer> integer(lex::Lexer & lexer) {
-			if(auto token = lexer.match(TT::INTEGER)) {
-				std::stringstream ss;
-				std::int64_t value;
-				ss << token->str;
-				ss >> value;
+			if(auto token = lexer.match(tt)) {
+				std::stringstream ss{token->str};
+				if constexpr(tt == TT::INTEGER_HEX) {
+					ss >> std::hex;
+				}
+				const TempType value = read<TempType>(ss);
 				return std::make_unique<ast::Integer>(value, lexer.debug()); 
-			}
-			if(auto token = lexer.match(TT::INTEGER_HEX)) {
-				std::stringstream ss;
-				std::int64_t value;
-				ss << token->str;
-				ss >> std::hex >> value;
-				return std::make_unique<ast::Integer>(value, lexer.debug()); 
-			}
-			if(auto token = lexer.match(TT::INTEGER_BIN)) {
-				auto bits = std::bitset<64>(token->str); 
-				return std::make_unique<ast::Integer>(bits.to_ullong(), lexer.debug()); 
 			}
 			return nullptr;
 		}
 
+		constexpr auto integerDec = integer<std::int64_t,    TT::INTEGER>;
+		constexpr auto integerHex = integer<std::int64_t,    TT::INTEGER_HEX>;
+		constexpr auto integerBin = integer<std::bitset<64>, TT::INTEGER_BIN>;
+
 		std::unique_ptr<ast::Float> floating(lex::Lexer & lexer) {
 			if(auto token = lexer.match(TT::FLOAT)) {
-				std::stringstream ss;
-				double value;
-				ss << token->str;
-				ss >> value;
+				std::stringstream ss{token->str};
+				const double value = read<double>(ss);
 				return std::make_unique<ast::Float>(value, lexer.debug()); 
 			}
 			return nullptr;
@@ -67,12 +65,12 @@ namespace ltn::c::parse {
 				if(!lexer.match(TT::BRACKET_R)) {
 					while(true) {
 						if(lexer.match(TT::___EOF___)) {
-							throw CompilerError{"Expected ]", lexer.inLine()};
+							throw expected("]", lexer);
 						}
 						initElements.push_back(expression(lexer));
 						if(lexer.match(TT::BRACKET_R)) break;
 						if(!lexer.match(TT::COMMA)) {
-							throw CompilerError{"Expected ,", lexer.inLine()};
+							throw expected(",", lexer);
 						}
 					}
 				}
@@ -90,41 +88,40 @@ namespace ltn::c::parse {
 			return nullptr;
 		}
 
+
+		auto parameters(lex::Lexer & lexer, auto fxParam) {
+			if(lexer.match(TT::PAREN_R)) {
+				 return;
+			}
+			while(true) {
+				fxParam();
+				if(lexer.match(TT::PAREN_R)) {
+					return;
+				}
+				if(!lexer.match(TT::COMMA)) {
+					throw expected(",", lexer);
+				}
+			}
+		}
+
 		auto parameters(lex::Lexer & lexer) {
 			std::vector<std::unique_ptr<ast::Expression>> parameters;
-			if(lexer.match(TT::PAREN_R)) {
-				return parameters;
-			}
-			while(true) {
+			parse::parameters(lexer, [&] {
 				parameters.push_back(expression(lexer));
-				if(lexer.match(TT::PAREN_R)) {
-					return parameters;
-				}
-				if(!lexer.match(TT::COMMA)) {
-					throw CompilerError{"Missing ,", lexer.inLine()};
-				}
-			}
+			});
+			return parameters;
 		}
 
-		std::size_t placeholder(lex::Lexer & lexer) {
+		auto placeholder(lex::Lexer & lexer) {
 			std::size_t parameters = 0;
-			if(lexer.match(TT::PAREN_R)) {
-				return parameters;
-			}
-			while(true) {
-				if(!lexer.match(TT::UNDERSCORE)) {
-					throw CompilerError{"Exprected _ placeholder", lexer.inLine()};
+			parse::parameters(lexer, [&] {
+				if (!lexer.match(TT::UNDERSCORE)) {
+					throw expected("placeholder _", lexer);
 				}
-				parameters ++;
-				if(lexer.match(TT::PAREN_R)) {
-					return parameters;
-				}
-				if(!lexer.match(TT::COMMA)) {
-					throw CompilerError{"Missing ,", lexer.inLine()};
-				}
-			}
+				parameters++;
+			});
+			return parameters;
 		}
-
 
 		std::pair<std::string, ast::Namespace>
 		symbol(lex::Lexer & lexer) {
@@ -140,32 +137,42 @@ namespace ltn::c::parse {
 				nameSpace.pop_back();
 				return {name, nameSpace};
 			}
-			throw CompilerError{"Expected indentifier", lexer.inLine()};
+			throw expected("indentifier", lexer);
 		}
 
-		// function call or variable
-		std::unique_ptr<ast::Expression> identifier(lex::Lexer & lexer) {
-			const auto [name, nameSpace] = symbol(lexer);
-			// functions
-			if(lexer.match(TT::PAREN_L)) {
-				auto parameters = parse::parameters(lexer);
-				return std::make_unique<ast::Call>(
-					name,
-					nameSpace,
-					std::move(parameters),
-					lexer.debug());
-			}
-			// variable
-			if(nameSpace.empty()) {
-				return std::make_unique<ast::Var>(
+		std::unique_ptr<ast::Call> call(
+			const auto & name,
+			const auto & nameSpace,
+			lex::Lexer & lexer) {
+			auto parameters = parse::parameters(lexer);
+			return std::make_unique<ast::Call>(
 				name,
+				nameSpace,
+				std::move(parameters),
 				lexer.debug());
+			return nullptr;
+		}
+
+		std::unique_ptr<ast::Var> var(
+			const auto & name,
+			const auto & nameSpace,
+			const auto & lexer) {
+			if(nameSpace.empty()) {
+				return std::make_unique<ast::Var>(name, lexer.debug());
 			}
 			else {
-				throw std::runtime_error{
-					"cannot address variable with namespace in front"
-				};
+				throw CompilerError{
+					"cannot address variable with namespace in front",
+					lexer.inLine()};
 			}
+		}
+
+		std::unique_ptr<ast::Expression> identifier(lex::Lexer & lexer) {
+			const auto [name, nameSpace] = symbol(lexer);
+			if(lexer.match(TT::PAREN_L)) {
+				return call(name, nameSpace, lexer);
+			}
+			return var(name, nameSpace, lexer);
 		}
 
 		std::unique_ptr<ast::FxPointer> fxPointer(lex::Lexer & lexer) {
@@ -174,27 +181,26 @@ namespace ltn::c::parse {
 				if(lexer.match(TT::PAREN_L)) {
 					const auto placeholders = parse::placeholder(lexer);
 					return std::make_unique<ast::FxPointer>(
-						name,
-						nameSpace,
-						placeholders,
-						lexer.debug());
+						name, nameSpace, placeholders, lexer.debug());
 				}
-				throw CompilerError{"Expected (", lexer.inLine()};
+				throw expected("(", lexer);
 			}
-			return nullptr;
+			return nullptr; 
 		}
 	}
 
 	// parses primary expression
 	std::unique_ptr<ast::Expression> primary(lex::Lexer & lexer) {
-		if(auto expr = integer(lexer)) return expr;
+		if(auto expr = integerDec(lexer)) return expr;
+		if(auto expr = integerBin(lexer)) return expr;
+		if(auto expr = integerHex(lexer)) return expr;
 		if(auto expr = floating(lexer)) return expr;
 		if(auto expr = boolean(lexer)) return expr;
 		if(auto expr = paren(lexer)) return expr;
 		if(auto expr = string(lexer)) return expr;
 		if(auto expr = array(lexer)) return expr;
 		if(auto expr = fxPointer(lexer)) return expr;
-		if(auto stmt = lambda(lexer, "")) return stmt;
+		if(auto expr = lambda(lexer)) return expr;
 		return identifier(lexer);
 	}
 }

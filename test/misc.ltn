@@ -1,1 +1,5 @@
-function main() {}
+function main() {
+	ltn::println(0b111);
+	ltn::println(0xff);
+	ltn::println(1337);;;
+}

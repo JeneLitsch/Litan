@@ -3,6 +3,8 @@
 namespace ltn::c::compile {
 	namespace {
 		using MT = ast::Modify::Type;
+		
+		// =
 		ExprCode assign(
 			const ast::Assign & expr,
 			CompilerInfo & info,
@@ -16,6 +18,7 @@ namespace ltn::c::compile {
 			return ExprCode{ss.str() };
 		}
 
+		// += -= *= /= %=
 		ExprCode modify(
 			const ast::Modify & expr,
 			CompilerInfo & info,
@@ -45,7 +48,7 @@ namespace ltn::c::compile {
 		}
 	}
 
-	// compiles any Expression
+	// compiles any expression
 	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		if(auto binary = as<ast::Binary>(expr)) {
 			return compile::binary(*binary, info, scope);

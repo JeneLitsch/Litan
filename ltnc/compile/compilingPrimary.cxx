@@ -1,7 +1,15 @@
 #include "compiling.hxx"
-
+#include <string_view>
 namespace ltn::c::compile {
 	namespace {
+		CompilerError undefinedFunction(
+			const std::string_view & name,
+			const ast::Node & node) {
+			std::stringstream ss;
+			ss << "Function " << name << " is not defined";
+			return CompilerError { ss.str(), node.debugInfo.line };
+		}
+
 		// Literals
 
 		// compiles int literal
@@ -65,18 +73,17 @@ namespace ltn::c::compile {
 				scope.getNamespace(),
 				call.nameSpace,
 				call.parameters.size());
-			if(fx) {
-				std::stringstream ss;
-				for(const auto & param : call.parameters) {
-					const auto paramCode = compile::expression(*param, info, scope);
-					ss << paramCode.code;
-				}
-				ss << inst::call(fx->id);
-				return ExprCode{ ss.str() };
+			
+			if(!fx) {
+				throw undefinedFunction(call.name, call);
 			}
-			throw CompilerError {
-				"Function " + call.name + " is not defined",
-				call.debugInfo.line };
+			std::stringstream ss;
+			for(const auto & param : call.parameters) {
+				const auto paramCode = compile::expression(*param, info, scope);
+				ss << paramCode.code;
+			}
+			ss << inst::call(fx->id);
+			return ExprCode{ ss.str() };
 		}
 
 		ExprCode fxPointer(
@@ -89,14 +96,12 @@ namespace ltn::c::compile {
 				scope.getNamespace(),
 				ptr.nameSpace,
 				ptr.placeholders);
-			if(fx) {
-				std::stringstream ss;
-				ss << inst::newfx(fx->id, ptr.placeholders);
-				return ExprCode{ss.str() };
+			if(!fx) {
+				throw undefinedFunction(ptr.name, ptr);
 			}
-			throw CompilerError {
-				"Function " + ptr.name + " is not defined",
-				ptr.debugInfo.line };
+			std::stringstream ss;
+			ss << inst::newfx(fx->id, ptr.placeholders);
+			return ExprCode{ss.str() };
 		}
 
 		// compiles index read operation

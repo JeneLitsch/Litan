@@ -52,7 +52,7 @@ namespace ltn::c::parse {
 		}
 
 		// }
-		bool endNamespace(
+		bool closeNamespace(
 			lex::Lexer & lexer,
 			ast::Namespace & nameSpace) {
 			if(lexer.match(TT::BRACE_R)) {
@@ -69,11 +69,11 @@ namespace ltn::c::parse {
 		Functionals functions;
 		ast::Namespace nameSpace;
 		while(!lexer.match(TT::___EOF___)) {
-			if(endNamespace(lexer, nameSpace)) {
-				nameSpace.pop_back();
-			}
-			else if(auto ns = openNamespace(lexer)) {
+			if(auto ns = openNamespace(lexer)) {
 				nameSpace.push_back(*ns);
+			}
+			else if(closeNamespace(lexer, nameSpace)) {
+				nameSpace.pop_back();
 			}
 			else if(auto fx = parse::functional(lexer, nameSpace)) {
 				functions.push_back(std::move(fx));

@@ -7,7 +7,7 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 		using OP = ltn::c::ast::SimpleBinary::Type;
 
-		template<class ResultType>
+		template<class ExprType>
 		std::pair<bool, std::unique_ptr<ast::Expression>> fromTable(
 			lex::Lexer & lexer,
 			const auto & opTable,
@@ -17,7 +17,7 @@ namespace ltn::c::parse {
 			for(const auto & [tt, op] : opTable) {
 				if(lexer.match(tt)) {
 					auto && r = presedenceDown(lexer);
-					auto bin = std::make_unique<ResultType>(
+					auto bin = std::make_unique<ExprType>(
 						op, std::move(l), std::move(r), lexer.debug());
 					return {false, std::move(bin)}; 
 				}

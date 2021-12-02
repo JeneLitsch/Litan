@@ -21,7 +21,9 @@ namespace ltn::c::parse {
 					parameters.push_back(parameterName(lexer));
 					if(lexer.match(TT::PAREN_R)) break;
 					if(!lexer.match(TT::COMMA)) {
-						throw ltn::c::CompilerError{"expected comma between parameters", lexer.inLine()};
+						throw ltn::c::CompilerError{
+							"expected comma between parameters",
+							lexer.inLine()};
 					}
 				}
 			} 
@@ -50,32 +52,19 @@ namespace ltn::c::parse {
 		}
 
 		// parses and returns a function node
-		std::unique_ptr<ast::Function> function(
+		template<class FunctionalNode>
+		std::unique_ptr<FunctionalNode> functionalNode(
 			lex::Lexer & lexer,
-			const ast::Namespace & nameSpace) {
+			const ast::Namespace & nameSpace,
+			auto parseBody) {
 			const auto name = functionName(lexer);
 			const auto parameters = parameterList(lexer);
-			auto body = statement(lexer); 
-			return std::make_unique<ast::Function>(
+			auto body = parseBody(lexer); 
+			return std::make_unique<FunctionalNode>(
 				name,
 				nameSpace,
 				parameters,
 				std::move(body),
-				lexer.debug());
-		}
-
-		// parses and returns a asm function node
-		std::unique_ptr<ast::Asm> asmFunction(
-			lex::Lexer & lexer,
-			const ast::Namespace & nameSpace) {
-			const auto name = functionName(lexer);
-			const auto paramters = parameterList(lexer);
-			const auto instructions = parse::instructions(lexer);
-			return std::make_unique<ast::Asm>(
-				name,
-				nameSpace,
-				paramters,
-				instructions,
 				lexer.debug());
 		}
 	}
@@ -85,23 +74,20 @@ namespace ltn::c::parse {
 		lex::Lexer & lexer,
 		const ast::Namespace & nameSpace) {
 		if(lexer.match(TT::FUNCTION)) {
-			return function(lexer, nameSpace);
+			return functionalNode<ast::Function>(lexer, nameSpace, statement);
 		}
 		if(lexer.match(TT::ASM)) {
-			return asmFunction(lexer, nameSpace);
+			return functionalNode<ast::Asm>(lexer, nameSpace, instructions);
 		}
 		return nullptr;
-
 	}
 
-	std::unique_ptr<ast::Lambda> lambda(
-		lex::Lexer & lexer,
-		std::string_view name) {
+	std::unique_ptr<ast::Lambda> lambda(lex::Lexer & lexer) {
 		if(lexer.match(TT::FUNCTION)) {
 			const auto parameters = parameterList(lexer);
 			auto body = statement(lexer); 
 			auto fx = std::make_unique<ast::Function>(
-				"lambda" + std::string(name),
+				"lambda",
 				ast::Namespace{},
 				parameters,
 				std::move(body),

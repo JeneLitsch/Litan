@@ -365,6 +365,15 @@ null
 return
 
 :FX47_main_0
+newi 7
+call FX5_ltn_println_1
+scrap
+newi 255
+call FX5_ltn_println_1
+scrap
+newi 1337
+call FX5_ltn_println_1
+scrap
 null
 return
 
