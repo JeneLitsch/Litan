@@ -23,6 +23,7 @@ namespace ltn::vm {
 		const std::vector<Value> & getContainer() const;
 
 		void reset();
+		std::size_t size() const;
 	private:
 		std::vector<Value> stack;
 	};

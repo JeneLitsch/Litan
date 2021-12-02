@@ -10,8 +10,8 @@ def glob(dirs):
 	return files
 
 env = Environment(
-	CXX = "clang++",
-	# CXX = "g++",
+	# CXX = "clang++",
+	CXX = "g++",
 	CXXFLAGS = flags,
 	CPPPATH = ["."],
 	CPPDEFINES = [],

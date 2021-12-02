@@ -1,4 +1,4 @@
-call FX49_main_0
+call FX52_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -133,118 +133,122 @@ return
 null
 return
 
-:FX17_ltn_min_2
-min
-return
-null
-return
-
-:FX18_ltn_max_2
-max
-return
-null
-return
-
-:FX19_ltn_round_1
-round
-return
-null
-return
-
-:FX20_ltn_floor_1
-floor
-return
-null
-return
-
-:FX21_ltn_ceil_1
-ceil
-return
-null
-return
-
-:FX22_ltn_abs_1
-abs
-return
-null
-return
-
-:FX23_ltn_hypot_2
-hypot
-return
-null
-return
-
-:FX24_ltn_sqrt_1
-sqrt
-return
-null
-return
-
-:FX25_ltn_sin_1
-sin
-return
-null
-return
-
-:FX26_ltn_cos_1
-cos
-return
-null
-return
-
-:FX27_ltn_tan_1
-tan
-return
-null
-return
-
-:FX28_ltn_size_1
-size
-return
-null
-return
-
-:FX29_ltn_front_1
-front
-return
-null
-return
-
-:FX30_ltn_back_1
-back
-return
-null
-return
-
-:FX31_ltn_invoke_2
-invoke
-return
-null
-return
-
-:FX32_ltn_external_1
-external
-return
-null
-return
-
-:FX33_ltn_clock_0
+:FX17_ltn_clock_0
 newclock
 return
 null
 return
 
-:FX34_ltn_toSeconds_1
+:FX18_ltn_toSeconds_1
 to_seconds
 return
 null
 return
 
-:FX35_ltn_toMilliseconds_1
+:FX19_ltn_toMilliseconds_1
 to_seconds
 newf 1000.0
 mlt
+return
+null
+return
+
+:FX20_ltn_error_0
+error
+null
+return
+
+:FX21_ltn_error_1
+makevar
+write_0
+read_0
+call FX5_ltn_println_1
+scrap
+call FX20_ltn_error_0
+scrap
+null
+return
+
+:FX22_ltn_debug_state_0
+state
+return
+null
+return
+
+:FX23_ltn_invoke_2
+invoke
+return
+null
+return
+
+:FX24_ltn_external_1
+external
+return
+null
+return
+
+:FX25_ltn_min_2
+min
+return
+null
+return
+
+:FX26_ltn_max_2
+max
+return
+null
+return
+
+:FX27_ltn_round_1
+round
+return
+null
+return
+
+:FX28_ltn_floor_1
+floor
+return
+null
+return
+
+:FX29_ltn_ceil_1
+ceil
+return
+null
+return
+
+:FX30_ltn_abs_1
+abs
+return
+null
+return
+
+:FX31_ltn_hypot_2
+hypot
+return
+null
+return
+
+:FX32_ltn_sqrt_1
+sqrt
+return
+null
+return
+
+:FX33_ltn_sin_1
+sin
+return
+null
+return
+
+:FX34_ltn_cos_1
+cos
+return
+null
+return
+
+:FX35_ltn_tan_1
+tan
 return
 null
 return
@@ -364,7 +368,25 @@ return
 null
 return
 
-:FX47_t_0
+:FX47_ltn_size_1
+size
+return
+null
+return
+
+:FX48_ltn_front_1
+front
+return
+null
+return
+
+:FX49_ltn_back_1
+back
+return
+null
+return
+
+:FX50_t_0
 newstr
 char_4 74 72 75 65 
 call FX5_ltn_println_1
@@ -374,7 +396,7 @@ return
 null
 return
 
-:FX48_f_0
+:FX51_f_0
 newstr
 char_4 66 61 6c 73 
 char 65
@@ -385,64 +407,64 @@ return
 null
 return
 
-:FX49_main_0
+:FX52_main_0
 newstr
 char_4 41 4e 44 20 
 char 26
 char 26
 call FX5_ltn_println_1
 scrap
-call FX48_f_0
-ifelse AND51_FALSE
-call FX47_t_0
-jump AND51_END
-:AND51_FALSE
+call FX51_f_0
+ifelse AND54_FALSE
+call FX50_t_0
+jump AND54_END
+:AND54_FALSE
 false
-:AND51_END
-ifelse IF_ELSE52
-newstr
-char_8 42 6f 74 68 20 74 72 75 
-char 65
-call FX5_ltn_println_1
-scrap
-jump IF_END50
-:IF_ELSE52
-newstr
-char_8 6e 6f 74 20 74 72 75 65 
-call FX5_ltn_println_1
-scrap
-jump IF_END50
-:IF_END50
-newstr
-char_4 4f 52 20 7c 
-char 7c
-call FX5_ltn_println_1
-scrap
-call FX48_f_0
-not
-ifelse OR54_TRUE
-call FX47_t_0
-jump OR54_END
-:OR54_TRUE
-true
-:OR54_END
+:AND54_END
 ifelse IF_ELSE55
 newstr
-char_8 61 74 20 6c 65 61 73 74 
-char_8 20 6f 6e 65 20 74 72 75 
+char_8 42 6f 74 68 20 74 72 75 
 char 65
 call FX5_ltn_println_1
 scrap
 jump IF_END53
 :IF_ELSE55
 newstr
+char_8 6e 6f 74 20 74 72 75 65 
+call FX5_ltn_println_1
+scrap
+jump IF_END53
+:IF_END53
+newstr
+char_4 4f 52 20 7c 
+char 7c
+call FX5_ltn_println_1
+scrap
+call FX51_f_0
+not
+ifelse OR57_TRUE
+call FX50_t_0
+jump OR57_END
+:OR57_TRUE
+true
+:OR57_END
+ifelse IF_ELSE58
+newstr
+char_8 61 74 20 6c 65 61 73 74 
+char_8 20 6f 6e 65 20 74 72 75 
+char 65
+call FX5_ltn_println_1
+scrap
+jump IF_END56
+:IF_ELSE58
+newstr
 char_8 62 6f 74 68 20 6e 6f 74 
 char_4 20 74 72 75 
 char 65
 call FX5_ltn_println_1
 scrap
-jump IF_END53
-:IF_END53
+jump IF_END56
+:IF_END56
 null
 return
 

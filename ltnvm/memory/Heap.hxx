@@ -79,6 +79,8 @@ namespace ltn::vm {
 		void collectGarbage(const Stack & stack, const Register & reg);
 
 		void reset();
+
+		std::size_t size() const;
 	private:
 
 

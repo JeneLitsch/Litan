@@ -1,0 +1,8 @@
+namespace ltn {
+	namespace debug {
+		asm state() {
+			"state"
+			"return"
+		}
+	}
+}

@@ -31,8 +31,4 @@ namespace ltn::vm {
 			this->pc = elseAddr;
 		}
 	}
-	void LtnVM::error() {
-		throw std::runtime_error{"An error was thrown during runtime"};
-	}
-
 }

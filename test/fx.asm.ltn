@@ -1,4 +1,4 @@
-call FX51_main_0
+call FX54_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -133,118 +133,122 @@ return
 null
 return
 
-:FX17_ltn_min_2
-min
-return
-null
-return
-
-:FX18_ltn_max_2
-max
-return
-null
-return
-
-:FX19_ltn_round_1
-round
-return
-null
-return
-
-:FX20_ltn_floor_1
-floor
-return
-null
-return
-
-:FX21_ltn_ceil_1
-ceil
-return
-null
-return
-
-:FX22_ltn_abs_1
-abs
-return
-null
-return
-
-:FX23_ltn_hypot_2
-hypot
-return
-null
-return
-
-:FX24_ltn_sqrt_1
-sqrt
-return
-null
-return
-
-:FX25_ltn_sin_1
-sin
-return
-null
-return
-
-:FX26_ltn_cos_1
-cos
-return
-null
-return
-
-:FX27_ltn_tan_1
-tan
-return
-null
-return
-
-:FX28_ltn_size_1
-size
-return
-null
-return
-
-:FX29_ltn_front_1
-front
-return
-null
-return
-
-:FX30_ltn_back_1
-back
-return
-null
-return
-
-:FX31_ltn_invoke_2
-invoke
-return
-null
-return
-
-:FX32_ltn_external_1
-external
-return
-null
-return
-
-:FX33_ltn_clock_0
+:FX17_ltn_clock_0
 newclock
 return
 null
 return
 
-:FX34_ltn_toSeconds_1
+:FX18_ltn_toSeconds_1
 to_seconds
 return
 null
 return
 
-:FX35_ltn_toMilliseconds_1
+:FX19_ltn_toMilliseconds_1
 to_seconds
 newf 1000.0
 mlt
+return
+null
+return
+
+:FX20_ltn_error_0
+error
+null
+return
+
+:FX21_ltn_error_1
+makevar
+write_0
+read_0
+call FX5_ltn_println_1
+scrap
+call FX20_ltn_error_0
+scrap
+null
+return
+
+:FX22_ltn_debug_state_0
+state
+return
+null
+return
+
+:FX23_ltn_invoke_2
+invoke
+return
+null
+return
+
+:FX24_ltn_external_1
+external
+return
+null
+return
+
+:FX25_ltn_min_2
+min
+return
+null
+return
+
+:FX26_ltn_max_2
+max
+return
+null
+return
+
+:FX27_ltn_round_1
+round
+return
+null
+return
+
+:FX28_ltn_floor_1
+floor
+return
+null
+return
+
+:FX29_ltn_ceil_1
+ceil
+return
+null
+return
+
+:FX30_ltn_abs_1
+abs
+return
+null
+return
+
+:FX31_ltn_hypot_2
+hypot
+return
+null
+return
+
+:FX32_ltn_sqrt_1
+sqrt
+return
+null
+return
+
+:FX33_ltn_sin_1
+sin
+return
+null
+return
+
+:FX34_ltn_cos_1
+cos
+return
+null
+return
+
+:FX35_ltn_tan_1
+tan
 return
 null
 return
@@ -364,19 +368,37 @@ return
 null
 return
 
-:FX47_f1_0
+:FX47_ltn_size_1
+size
+return
+null
+return
+
+:FX48_ltn_front_1
+front
+return
+null
+return
+
+:FX49_ltn_back_1
+back
+return
+null
+return
+
+:FX50_f1_0
 newi 42
 return
 null
 return
 
-:FX48_f2_0
+:FX51_f2_0
 newi 1337
 return
 null
 return
 
-:FX49_f_2
+:FX52_f_2
 makevar
 write_0
 makevar
@@ -388,9 +410,9 @@ return
 null
 return
 
-:FX50_makeAdd_0
-jump SKIP_LAMBDA52
-:LAMBDA52
+:FX53_makeAdd_0
+jump SKIP_LAMBDA55
+:LAMBDA55
 makevar
 write_0
 makevar
@@ -401,13 +423,13 @@ add
 return
 null
 return
-:SKIP_LAMBDA52
-newfx LAMBDA52 2
+:SKIP_LAMBDA55
+newfx LAMBDA55 2
 return
 null
 return
 
-:FX51_main_0
+:FX54_main_0
 makevar
 makevar
 newstr
@@ -418,7 +440,7 @@ char 3d
 char 3d
 call FX5_ltn_println_1
 scrap
-call FX50_makeAdd_0
+call FX53_makeAdd_0
 write_0
 newstr
 char_8 61 64 64 28 31 2c 20 32 
@@ -429,7 +451,7 @@ newi 1
 elem
 newi 2
 elem
-call FX31_ltn_invoke_2
+call FX23_ltn_invoke_2
 add
 call FX5_ltn_println_1
 scrap
@@ -444,7 +466,7 @@ newi 20
 elem
 newi 22
 elem
-call FX31_ltn_invoke_2
+call FX23_ltn_invoke_2
 add
 call FX5_ltn_println_1
 scrap
@@ -455,15 +477,15 @@ char_8 6e 74 65 72 73 20 3d 3d
 char 3d
 call FX5_ltn_println_1
 scrap
-newfx FX49_f_2 2
+newfx FX52_f_2 2
 write_1
 read_1
 newarr
-call FX47_f1_0
+call FX50_f1_0
 elem
-call FX48_f2_0
+call FX51_f2_0
 elem
-call FX31_ltn_invoke_2
+call FX23_ltn_invoke_2
 call FX5_ltn_println_1
 scrap
 null

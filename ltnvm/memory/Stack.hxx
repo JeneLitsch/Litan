@@ -24,6 +24,7 @@ namespace ltn::vm {
 		std::uint64_t popFrame();
 		const std::vector<Value> & getContainer() const;
 		void reset();
+		std::size_t size() const;
 	private:
 		std::vector<Value> stack;
 		std::uint64_t framePointer = 0;

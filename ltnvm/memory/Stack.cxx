@@ -23,3 +23,8 @@ void ltn::vm::Stack::reset() {
 	this->stack.clear();
 	this->framePointer = 0;
 }
+
+std::size_t ltn::vm::Stack::size() const {
+	return this->stack.size();
+}
+

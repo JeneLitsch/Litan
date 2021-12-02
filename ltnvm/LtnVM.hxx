@@ -24,6 +24,8 @@ namespace ltn::vm {
 	private:
 		std::uint8_t fetchByte();
 		std::uint64_t fetchUint();
+		
+		void state();
 
 		void add(), sub(), mlt(), div(), mod();
 		void eql(), ueql(), sml(), bgr(), bgreql(), smleql();
@@ -34,7 +36,7 @@ namespace ltn::vm {
 		void newi(),newf(), newu(), truE(), falsE(), null(), ch4r(), elem();
 		void char_4(), char_8();
 
-		void jump(), call(), reTurn(), iF(), error(), invoke(), external();
+		void jump(), call(), reTurn(), iF(), invoke(), external();
 		
 		void newarr(), newstr(), newout(), newin(), newfx(), newClock();
 

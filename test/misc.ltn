@@ -1,5 +1,7 @@
 function main() {
-	ltn::println(0b111);
+	var str1 = "Hello";
+	var str2 = "World";
+	ltn::println(ltn::debug::state());
 	ltn::println(0xff);
 	ltn::println(1337);;;
 }

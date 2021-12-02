@@ -32,8 +32,23 @@ namespace ltn::vm {
 		while(true) {
 			std::uint8_t inst = this->fetchByte();
 			// ostream.get() << this->pc-1 << " : " << std::hex << "0x" << int(inst) << "\n" << std::dec; 
-			switch (static_cast<Inst>(inst))
-			{
+			switch (static_cast<Inst>(inst)) {
+			case Inst::EXIT: {
+				this->ostream.get() << "Exit main() with return value: ";
+				const auto value = this->reg.pop();
+				this->ostream.get() << toString(value, this->heap);
+				this->ostream.get() << "\n";
+				return;
+			}
+			
+			case Inst::ERROR: {
+				this->ostream.get() << "Terminated after an error occured \n";
+				return;
+			}
+
+			case Inst::STATE: this->state(); break;
+
+			
 			case Inst::ADD: this->add(); break;
 			case Inst::SUB: this->sub(); break;
 			case Inst::MLT: this->mlt(); break;
@@ -70,16 +85,8 @@ namespace ltn::vm {
 			case Inst::CALL: this->call(); break;
 			case Inst::RETURN: this->reTurn(); break;
 			case Inst::IF: this->iF(); break;
-			case Inst::ERROR: this->error(); break;
 			case Inst::INVOKE: this->invoke(); break;
 			case Inst::EXTERNAL: this->external(); break;
-			case Inst::EXIT: {
-				this->ostream.get() << "Exit main() with return value: ";
-				const auto value = this->reg.pop();
-				this->ostream.get() << toString(value, this->heap);
-				this->ostream.get() << "\n";
-				return;
-			}
 				
 			case Inst::NEWARR: this->newarr(); break;
 			case Inst::NEWSTR: this->newstr(); break;
@@ -130,7 +137,10 @@ namespace ltn::vm {
 			case Inst::BACK: this->back(); break;
 
 			case Inst::TO_SECONDS: this->to_seconds(); break;
+
 			case Inst::TYPEID: this->typeId(); break;
+
+
 			default: {
 				std::stringstream ss;
 				ss << "Illegal Instruction: " << std::hex << int(inst) << std::dec;

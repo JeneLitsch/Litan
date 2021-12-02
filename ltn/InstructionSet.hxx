@@ -2,7 +2,7 @@
 #include <cstdint>
 namespace ltn {
 	enum class Inst : std::uint8_t {
-		
+		EXIT = 0x00, ERROR, STATE,
 		ADD = 0x10, SUB, MLT, DIV, MOD,
 		EQL, UEQL, SML, BGR, SMLEQL, BGREQL,
 		SHIFT_L, SHIFT_R,
@@ -12,7 +12,7 @@ namespace ltn {
 		NEWI = 0x30, NEWF, NEWU, TRUE, FALSE, NVLL, CHAR, ELEM,
 		CHAR_4 = 0x38, CHAR_8,
 
-		JUMP = 0x40, CALL, RETURN, IF, ERROR, EXIT, INVOKE, EXTERNAL,
+		JUMP = 0x40, CALL, RETURN, IF, INVOKE, EXTERNAL,
 
 		NEWARR = 0x50, NEWSTR, NEWOUT, NEWIN, NEWFX, NEWCLOCK,
 
@@ -30,5 +30,7 @@ namespace ltn {
 		TO_SECONDS = 0xb0,
 
 		TYPEID = 0xc0,
+
+		
 	};
 }

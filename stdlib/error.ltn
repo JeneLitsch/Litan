@@ -1,0 +1,10 @@
+namespace ltn {
+	asm error() {
+		"error"
+	}
+
+	function error(msg) {
+		ltn::println(msg);
+		error();
+	}
+}

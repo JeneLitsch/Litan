@@ -8,3 +8,8 @@ const std::vector<ltn::vm::Value> & ltn::vm::Register::getContainer() const {
 void ltn::vm::Register::reset() {
 	this->stack.clear();
 }
+
+std::size_t ltn::vm::Register::size() const {
+	return this->stack.size();
+}
+

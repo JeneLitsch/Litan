@@ -62,3 +62,10 @@ void ltn::vm::Heap::reset() {
 	this->objects.clear();
 	this->reuse = {};
 }
+
+std::size_t ltn::vm::Heap::size() const {
+	return std::count_if(this->objects.begin(), this->objects.end(),
+	[] (const HeapObject & obj ) {
+		const bool b = std::get_if<std::monostate>(&obj.obj); 
+		return !b; });
+}

@@ -34,6 +34,10 @@ namespace ltn::a {
 		InstructionData>;
 	
 	const InstructionTable instructionTable{
+		{"error", {Inst::ERROR}},
+		{"exit", {Inst::EXIT}},
+		{"state", {Inst::STATE}},
+
 		// Binary operations
 		{"add", {Inst::ADD}},
 		{"sub", {Inst::SUB}},
@@ -80,8 +84,6 @@ namespace ltn::a {
 		{"call", {Inst::CALL, 9, ArgFormat::UINT, JumpFormat::ARG1}},
 		{"return", {Inst::RETURN}},
 		{"ifelse", {Inst::IF, 9, ArgFormat::UINT, JumpFormat::ARG1}},
-		{"error", {Inst::ERROR}},
-		{"exit", {Inst::EXIT}},
 
 		// Functional
 		{"invoke", {Inst::INVOKE}},
