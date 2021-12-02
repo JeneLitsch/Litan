@@ -4,7 +4,10 @@
 #include <tuple>
 #include "ltn/InstructionSet.hxx"
 namespace ltn::a {
-	enum struct InstArgs {
+	
+	using namespace std::string_view_literals;
+	
+	enum struct ArgFormat {
 		NONE,
 		UINT, UINTx2,
 		INT,
@@ -14,94 +17,124 @@ namespace ltn::a {
 		CHAR_4,
 		CHAR_8,
 	};
-	using namespace std::string_view_literals;
 	
-	using InstructionData = std::tuple<Inst, std::size_t, InstArgs>;
-	
+	enum class JumpFormat {
+		ARG1, NONE
+	};
+
+	struct InstructionData {
+		Inst opcode;
+		std::size_t bytes = 1;
+		ArgFormat argFormat = ArgFormat::NONE;
+		JumpFormat jumpFormat = JumpFormat::NONE;
+	};
+
 	using InstructionTable = std::unordered_map<
 		std::string_view,
 		InstructionData>;
 	
 	const InstructionTable instructionTable{
-		{"add", {Inst::ADD, 1, InstArgs::NONE}},
-		{"sub", {Inst::SUB, 1, InstArgs::NONE}},
-		{"mlt", {Inst::MLT, 1, InstArgs::NONE}},
-		{"div", {Inst::DIV, 1, InstArgs::NONE}},
-		{"mod", {Inst::MOD, 1, InstArgs::NONE}},
-		{"eql", {Inst::EQL, 1, InstArgs::NONE}},
-		{"ueql", {Inst::UEQL, 1, InstArgs::NONE}},
-		{"sml", {Inst::SML, 1, InstArgs::NONE}},
-		{"bgr", {Inst::BGR, 1, InstArgs::NONE}},
-		{"smleql", {Inst::SMLEQL, 1, InstArgs::NONE}},
-		{"bgreql", {Inst::BGREQL, 1, InstArgs::NONE}},
-		{"shift_l", {Inst::SHIFT_L, 1, InstArgs::NONE}},
-		{"shift_r", {Inst::SHIFT_R, 1, InstArgs::NONE}},
-		{"neg", {Inst::NEG, 1, InstArgs::NONE}},
-		{"not", {Inst::NOT, 1, InstArgs::NONE}},
-		{"inc", {Inst::INC, 1, InstArgs::NONE}},
-		{"dec", {Inst::DEC, 1, InstArgs::NONE}},
-		{"newu", {Inst::NEWU, 9, InstArgs::UINT}},
-		{"newi", {Inst::NEWI, 9, InstArgs::INT}},
-		{"newf", {Inst::NEWF, 9, InstArgs::FLOAT}},
-		{"newfx", {Inst::NEWFX, 17, InstArgs::UINTx2}},
-		{"newclock", {Inst::NEWCLOCK, 1, InstArgs::NONE}},
-		{"true", {Inst::TRUE, 1, InstArgs::NONE}},
-		{"false", {Inst::FALSE, 1, InstArgs::NONE}},
-		{"newarr", {Inst::NEWARR, 1, InstArgs::NONE}},
-		{"newstr", {Inst::NEWSTR, 1, InstArgs::NONE}},
-		{"newout", {Inst::NEWOUT, 2, InstArgs::BYTE}},
-		{"newin", {Inst::NEWIN, 2, InstArgs::BYTE}},
-		{"null", {Inst::NVLL, 1, InstArgs::NONE}},
-		{"char", {Inst::CHAR, 2, InstArgs::CHAR}},
-		{"elem", {Inst::ELEM, 1, InstArgs::NONE}},
-		{"char_4", {Inst::CHAR_4, 5, InstArgs::CHAR_4}},
-		{"char_8", {Inst::CHAR_8, 9, InstArgs::CHAR_8}},
-		{"jump", {Inst::JUMP, 9, InstArgs::UINT}},
-		{"call", {Inst::CALL, 9, InstArgs::UINT}},
-		{"return", {Inst::RETURN, 1, InstArgs::NONE}},
-		{"ifelse", {Inst::IF, 9, InstArgs::UINT}},
-		{"error", {Inst::ERROR, 1, InstArgs::NONE}},
-		{"exit", {Inst::EXIT, 1, InstArgs::NONE}},
-		{"invoke", {Inst::INVOKE, 1, InstArgs::NONE}},
-		{"external", {Inst::EXTERNAL, 1, InstArgs::NONE}},
-		{"read", {Inst::READ, 1, InstArgs::NONE}},
-		{"write", {Inst::WRITE, 1, InstArgs::NONE}},
-		{"scrap", {Inst::SCRAP, 1, InstArgs::NONE}},
-		{"makevar", {Inst::MAKEVAR, 1, InstArgs::NONE}},
-		{"at", {Inst::AT, 1, InstArgs::NONE}},
-		{"at_write", {Inst::AT_WRITE, 1, InstArgs::NONE}},
-		{"read_x", {Inst::READ_X, 9, InstArgs::UINT}},
-		{"write_x", {Inst::WRITE_X, 9, InstArgs::UINT}},
-		{"read_0", {Inst::READ_0, 1, InstArgs::NONE}},
-		{"read_1", {Inst::READ_1, 1, InstArgs::NONE}},
-		{"read_2", {Inst::READ_2, 1, InstArgs::NONE}},
-		{"read_3", {Inst::READ_3, 1, InstArgs::NONE}},
-		{"write_0", {Inst::WRITE_0, 1, InstArgs::NONE}},
-		{"write_1", {Inst::WRITE_1, 1, InstArgs::NONE}},
-		{"write_2", {Inst::WRITE_2, 1, InstArgs::NONE}},
-		{"write_3", {Inst::WRITE_3, 1, InstArgs::NONE}},
-		{"out", {Inst::OUT, 1, InstArgs::NONE}},
-		{"in_str", {Inst::IN_STR, 1, InstArgs::NONE}},
-		{"in_line", {Inst::IN_LINE, 1, InstArgs::NONE}},
-		{"in_int", {Inst::IN_INT, 1, InstArgs::NONE}},
-		{"in_float", {Inst::IN_FLOAT, 1, InstArgs::NONE}},
-		{"is_eof", {Inst::IS_EOF, 1, InstArgs::NONE}},
-		{"min", {Inst::MIN, 1, InstArgs::NONE}},
-		{"max", {Inst::MAX, 1, InstArgs::NONE}},
-		{"round", {Inst::ROUND, 1, InstArgs::NONE}},
-		{"floor", {Inst::FLOOR, 1, InstArgs::NONE}},
-		{"ceil", {Inst::CEIL, 1, InstArgs::NONE}},
-		{"abs", {Inst::ABS, 1, InstArgs::NONE}},
-		{"hypot", {Inst::HYPOT, 1, InstArgs::NONE}},
-		{"sqrt", {Inst::SQRT, 1, InstArgs::NONE}},
-		{"sin", {Inst::SIN, 1, InstArgs::NONE}},
-		{"cos", {Inst::COS, 1, InstArgs::NONE}},
-		{"tan", {Inst::TAN, 1, InstArgs::NONE}},
-		{"size", {Inst::SIZE, 1, InstArgs::NONE}},
-		{"front", {Inst::FRONT, 1, InstArgs::NONE}},
-		{"back", {Inst::BACK, 1, InstArgs::NONE}},
-		{"to_seconds", {Inst::TO_SECONDS, 1, InstArgs::NONE}},
-		{"typeid", {Inst::TYPEID, 1, InstArgs::NONE}},
+		// Binary operations
+		{"add", {Inst::ADD}},
+		{"sub", {Inst::SUB}},
+		{"mlt", {Inst::MLT}},
+		{"div", {Inst::DIV}},
+		{"mod", {Inst::MOD}},
+		{"eql", {Inst::EQL}},
+		{"ueql", {Inst::UEQL}},
+		{"sml", {Inst::SML}},
+		{"bgr", {Inst::BGR}},
+		{"smleql", {Inst::SMLEQL}},
+		{"bgreql", {Inst::BGREQL}},
+		{"shift_l", {Inst::SHIFT_L}},
+		{"shift_r", {Inst::SHIFT_R}},
 
+		// Unary operations
+		{"neg", {Inst::NEG}},
+		{"not", {Inst::NOT}},
+		{"inc", {Inst::INC}},
+		{"dec", {Inst::DEC}},
+
+		// Values
+		{"newu", {Inst::NEWU, 9, ArgFormat::UINT}},
+		{"newi", {Inst::NEWI, 9, ArgFormat::INT}},
+		{"newf", {Inst::NEWF, 9, ArgFormat::FLOAT}},
+		{"true", {Inst::TRUE}},
+		{"false", {Inst::FALSE}},
+		{"null", {Inst::NVLL}},
+		{"char", {Inst::CHAR, 2, ArgFormat::CHAR}},
+		{"elem", {Inst::ELEM}},
+		{"char_4", {Inst::CHAR_4, 5, ArgFormat::CHAR_4}},
+		{"char_8", {Inst::CHAR_8, 9, ArgFormat::CHAR_8}},
+		
+		// Allocations
+		{"newarr", {Inst::NEWARR}},
+		{"newstr", {Inst::NEWSTR}},
+		{"newout", {Inst::NEWOUT, 2, ArgFormat::BYTE}},
+		{"newin", {Inst::NEWIN, 2, ArgFormat::BYTE}},
+		{"newfx", {Inst::NEWFX, 17, ArgFormat::UINTx2, JumpFormat::ARG1}},
+		{"newclock", {Inst::NEWCLOCK}},
+
+		// Control flow
+		{"jump", {Inst::JUMP, 9, ArgFormat::UINT, JumpFormat::ARG1}},
+		{"call", {Inst::CALL, 9, ArgFormat::UINT, JumpFormat::ARG1}},
+		{"return", {Inst::RETURN}},
+		{"ifelse", {Inst::IF, 9, ArgFormat::UINT, JumpFormat::ARG1}},
+		{"error", {Inst::ERROR}},
+		{"exit", {Inst::EXIT}},
+
+		// Functional
+		{"invoke", {Inst::INVOKE}},
+		{"external", {Inst::EXTERNAL}},
+
+		// Memory
+		{"read", {Inst::READ}},
+		{"write", {Inst::WRITE}},
+		{"scrap", {Inst::SCRAP}},
+		{"makevar", {Inst::MAKEVAR}},
+		{"at", {Inst::AT}},
+		{"at_write", {Inst::AT_WRITE}},
+		{"read_x", {Inst::READ_X, 9, ArgFormat::UINT}},
+		{"write_x", {Inst::WRITE_X, 9, ArgFormat::UINT}},
+		{"read_0", {Inst::READ_0}},
+		{"read_1", {Inst::READ_1}},
+		{"read_2", {Inst::READ_2}},
+		{"read_3", {Inst::READ_3}},
+		{"write_0", {Inst::WRITE_0}},
+		{"write_1", {Inst::WRITE_1}},
+		{"write_2", {Inst::WRITE_2}},
+		{"write_3", {Inst::WRITE_3}},
+
+		// Io
+		{"out", {Inst::OUT}},
+		{"in_str", {Inst::IN_STR}},
+		{"in_line", {Inst::IN_LINE}},
+		{"in_int", {Inst::IN_INT}},
+		{"in_float", {Inst::IN_FLOAT}},
+		{"is_eof", {Inst::IS_EOF}},
+
+		// Math
+		{"min", {Inst::MIN}},
+		{"max", {Inst::MAX}},
+		{"round", {Inst::ROUND}},
+		{"floor", {Inst::FLOOR}},
+		{"ceil", {Inst::CEIL}},
+		{"abs", {Inst::ABS}},
+		{"hypot", {Inst::HYPOT}},
+		{"sqrt", {Inst::SQRT}},
+		{"sin", {Inst::SIN}},
+		{"cos", {Inst::COS}},
+		{"tan", {Inst::TAN}},
+
+		// Array Utils
+		{"size", {Inst::SIZE}},
+		{"front", {Inst::FRONT}},
+		{"back", {Inst::BACK}},
+
+		// Chrono utils
+		{"to_seconds", {Inst::TO_SECONDS}},
+
+		// Type utils
+		{"typeid", {Inst::TYPEID}},
 	};
 }

@@ -1,19 +1,16 @@
 #include "linking.hxx"
+#include "ltn/reading.hxx"
 #include <sstream>
+#include "ltna/InstructionTable.hxx"
 namespace ltn::a::linking {
 	namespace {
-		std::string resolveJump(
-			const std::string_view inst,
+		std::uint64_t resolveJump(
 			const std::string & label,
 			const AddressTable & table) {
-			std::stringstream ss;
 			if(table.contains(label)) {
-				ss << inst << " " << table.at(label); 
+				return table.at(label); 
 			}
-			else {
-				throw std::runtime_error("Undefined reference to " + label);
-			}
-			return ss.str();
+			throw std::runtime_error("Undefined reference to " + label);
 		}
 	}
 
@@ -21,19 +18,15 @@ namespace ltn::a::linking {
 		std::string line;
 		while(std::getline(in >> std::ws, line)) {
 			std::stringstream ls(line);
-			std::string inst;
- 			ls >> inst;
+			const auto inst = read<std::string>(ls);
 			if(inst[0] != ':') {
-				std::string label;
-				ls >> label;
-				if(inst == "jump" || inst == "call" || inst == "ifelse") {
-					out << resolveJump(inst, label, table) << "\n";
-				}
-				else if(inst == "newfx") {
-					out << resolveJump(inst, label, table);
-					std::string placeholders;
-					ls >> placeholders;
-					out << " " << placeholders << "\n";
+				const auto jumpFormat = instructionTable.at(inst).jumpFormat;
+				if(jumpFormat == JumpFormat::ARG1) {
+					const std::string label = read<std::string>(ls);
+					const std::string rest = read<std::string>(ls);
+					out << inst << " "
+						<< resolveJump(label, table) << " "
+						<< rest << "\n";
 				}
 				else {
 					out << line << "\n";

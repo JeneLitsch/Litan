@@ -2,6 +2,7 @@
 #include <sstream>
 #include "ltna/InstructionTable.hxx"
 #include <iostream>
+#include "ltn/reading.hxx"
 namespace ltn::a::linking {
 	AddressTable scan(std::istream & in) {
 		std::uint64_t position = 0;
@@ -9,8 +10,7 @@ namespace ltn::a::linking {
 		std::string line;
 		while(std::getline(in >> std::ws, line)) {
 			std::stringstream ss(line);
-			std::string inst;
- 			ss >> inst;
+			const auto inst = read<std::string>(ss);
 			if(inst[0] == ':') {
 				const std::string label = inst.substr(1); 
 				if(table.contains(label)) {
@@ -19,8 +19,7 @@ namespace ltn::a::linking {
 				table.emplace(label, position);
 			}
 			else {
-				const auto [opcode, size, args] = instructionTable.at(inst);
-				position += size;
+				position += instructionTable.at(inst).bytes;
 			}
 		}
 		return table;
