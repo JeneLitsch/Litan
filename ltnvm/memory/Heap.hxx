@@ -8,26 +8,21 @@
 #include "Stack.hxx"
 #include "Value.hxx"
 #include "Register.hxx"
+#include "objects/Array.hxx"
+#include "objects/String.hxx"
 #include "objects/OStream.hxx"
 #include "objects/IStream.hxx"
 #include "objects/FxPointer.hxx"
 #include "objects/Clock.hxx"
 namespace ltn::vm {
-	struct Array {
-		std::vector<Value> arr;
-		constexpr static std::string_view typeName = "Array";
-	};
-	struct String {
-		std::string str;
-		constexpr static std::string_view typeName = "String";
-	};
 	struct HeapObject {
 		std::variant<
-				std::monostate,
-				String, Array,
-				IStream, OStream,
-				FxPointer,
-				Clock> obj;
+			std::monostate,
+			String, Array,
+			IStream, OStream,
+			FxPointer,
+			Clock> obj;
+		
 		bool marked = false;
 	};
 

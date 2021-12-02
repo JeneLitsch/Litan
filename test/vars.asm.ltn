@@ -1,4 +1,4 @@
-call FX50_main_0
+call FX55_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -374,19 +374,47 @@ return
 null
 return
 
-:FX48_ltn_front_1
+:FX48_ltn_empty_1
+size
+newi 0
+eql
+return
+null
+return
+
+:FX49_ltn_front_1
 front
 return
 null
 return
 
-:FX49_ltn_back_1
+:FX50_ltn_back_1
 back
 return
 null
 return
 
-:FX50_main_0
+:FX51_ltn_insertBack_2
+insert_back
+null
+return
+
+:FX52_ltn_insertFront_2
+insert_front
+null
+return
+
+:FX53_ltn_removeBack_1
+remove_back
+null
+return
+
+:FX54_ltn_removeFront_1
+remove_front
+null
+return
+
+:FX55_main_0
 makevar
 makevar
 makevar
@@ -395,6 +423,11 @@ makevar
 makevar
 makevar
 makevar
+newstr
+char_8 4c 6f 63 61 6c 20 76 61 
+char_4 72 73 3a 20 
+call FX3_ltn_print_1
+scrap
 newi 0
 write_0
 newi 1
@@ -407,8 +440,6 @@ newi 4
 write_x 4
 newi 5
 write_x 5
-newi 6
-write_x 6
 read_0
 call FX3_ltn_print_1
 scrap
@@ -430,21 +461,81 @@ scrap
 newstr
 call FX5_ltn_println_1
 scrap
+newstr
+char_4 4c 6f 6f 70 
+char 3a
+char 20
+call FX3_ltn_print_1
+scrap
 newi 0
-write_x 7
-:FOR_BEGIN51
-read_x 7
+write_x 6
+:FOR_BEGIN56
+read_x 6
 newi 6
 sml
-ifelse FOR_END52
+ifelse FOR_END57
+read_x 6
+call FX3_ltn_print_1
+scrap
+read_x 6
+inc
+write_x 6
+jump FOR_BEGIN56
+:FOR_END57
+newstr
+call FX5_ltn_println_1
+scrap
+newstr
+char_4 41 72 72 61 
+char 79
+char 3a
+char 20
+call FX3_ltn_print_1
+scrap
+newarr
+write_x 6
+read_x 6
+newi 3
+call FX51_ltn_insertBack_2
+scrap
+read_x 6
+newi 4
+call FX51_ltn_insertBack_2
+scrap
+read_x 6
+newi 5
+call FX51_ltn_insertBack_2
+scrap
+read_x 6
+newi 2
+call FX52_ltn_insertFront_2
+scrap
+read_x 6
+newi 1
+call FX52_ltn_insertFront_2
+scrap
+read_x 6
+newi 0
+call FX52_ltn_insertFront_2
+scrap
+newi 0
+write_x 7
+:FOR_BEGIN58
 read_x 7
+read_x 6
+call FX47_ltn_size_1
+sml
+ifelse FOR_END59
+read_x 6
+read_x 7
+at
 call FX3_ltn_print_1
 scrap
 read_x 7
 inc
 write_x 7
-jump FOR_BEGIN51
-:FOR_END52
+jump FOR_BEGIN58
+:FOR_END59
 newstr
 call FX5_ltn_println_1
 scrap

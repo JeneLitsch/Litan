@@ -135,6 +135,10 @@ namespace ltn::vm {
 			case Inst::SIZE: this->size(); break;
 			case Inst::FRONT: this->front(); break;
 			case Inst::BACK: this->back(); break;
+			case Inst::INSERT_BACK: this->insert_back(); break;
+			case Inst::INSERT_FRONT: this->insert_front(); break;
+			case Inst::REMOVE_BACK: this->remove_back(); break;
+			case Inst::REMOVE_FRONT: this->remove_front(); break;
 
 			case Inst::TO_SECONDS: this->to_seconds(); break;
 

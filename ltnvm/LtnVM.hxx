@@ -54,6 +54,8 @@ namespace ltn::vm {
 		void sin(), cos(), tan();
 		
 		void size(), front(), back();
+		void insert_back(), insert_front();
+		void remove_back(), remove_front();
 		
 		void to_seconds();
 

@@ -26,7 +26,9 @@ namespace ltn {
 		SIN = 0x90, COS, TAN,
 
 		SIZE = 0xa0, FRONT, BACK,
-		
+		INSERT_BACK, INSERT_FRONT, 
+		REMOVE_BACK, REMOVE_FRONT,
+
 		TO_SECONDS = 0xb0,
 
 		TYPEID = 0xc0,

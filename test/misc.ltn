@@ -1,7 +1,10 @@
 function main() {
-	var str1 = "Hello";
-	var str2 = "World";
-	ltn::println(ltn::debug::state());
-	ltn::println(0xff);
-	ltn::println(1337);;;
+	var str = "Hello";
+	ltn::insertBack(str, " World!");
+	ltn::removeBack(str);
+	ltn::println(str);
+	ltn::println(ltn::empty([]));
+	ltn::println(ltn::empty(""));
+	ltn::println(ltn::empty([1000]));
+	ltn::println(ltn::empty("Hello World"));
 }

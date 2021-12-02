@@ -1,5 +1,38 @@
 namespace ltn {
-	asm size(arr) { "size" "return" }
-	asm front(arr) { "front" "return" }
-	asm back(arr) { "back" "return" }
+	asm size(arr) {
+		"size"
+		"return"
+	}
+
+	asm empty(arr) {
+		"size"
+		"newi 0"
+		"eql"
+		"return"
+	}
+	
+	asm front(arr) {
+		"front"
+		"return" }
+	
+	asm back(arr) {
+		"back"
+		"return"
+	}
+
+	asm insertBack(arr, element) {
+		"insert_back"
+	}
+
+	asm insertFront(arr, element) {
+		"insert_front"
+	}
+
+	asm removeBack(arr) {
+		"remove_back"
+	}
+
+	asm removeFront(arr) {
+		"remove_front"
+	}
 }

@@ -132,6 +132,10 @@ namespace ltn::a {
 		{"size", {Inst::SIZE}},
 		{"front", {Inst::FRONT}},
 		{"back", {Inst::BACK}},
+		{"insert_back", {Inst::INSERT_BACK}},
+		{"insert_front", {Inst::INSERT_FRONT}},
+		{"remove_back", {Inst::REMOVE_BACK}},
+		{"remove_front", {Inst::REMOVE_FRONT}},
 
 		// Chrono utils
 		{"to_seconds", {Inst::TO_SECONDS}},
