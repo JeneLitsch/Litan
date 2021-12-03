@@ -1,4 +1,4 @@
-call FX57_main_0
+call FX59_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -404,17 +404,27 @@ insert_front
 null
 return
 
-:FX53_ltn_removeBack_1
+:FX53_ltn_insert_3
+insert
+null
+return
+
+:FX54_ltn_removeBack_1
 remove_back
 null
 return
 
-:FX54_ltn_removeFront_1
+:FX55_ltn_removeFront_1
 remove_front
 null
 return
 
-:FX55_t_0
+:FX56_ltn_remove_2
+remove
+null
+return
+
+:FX57_t_0
 newstr
 char_4 74 72 75 65 
 call FX5_ltn_println_1
@@ -424,7 +434,7 @@ return
 null
 return
 
-:FX56_f_0
+:FX58_f_0
 newstr
 char_4 66 61 6c 73 
 char 65
@@ -435,64 +445,64 @@ return
 null
 return
 
-:FX57_main_0
+:FX59_main_0
 newstr
 char_4 41 4e 44 20 
 char 26
 char 26
 call FX5_ltn_println_1
 scrap
-call FX56_f_0
-ifelse AND59_FALSE
-call FX55_t_0
-jump AND59_END
-:AND59_FALSE
+call FX58_f_0
+ifelse AND61_FALSE
+call FX57_t_0
+jump AND61_END
+:AND61_FALSE
 false
-:AND59_END
-ifelse IF_ELSE60
+:AND61_END
+ifelse IF_ELSE62
 newstr
 char_8 42 6f 74 68 20 74 72 75 
 char 65
 call FX5_ltn_println_1
 scrap
-jump IF_END58
-:IF_ELSE60
+jump IF_END60
+:IF_ELSE62
 newstr
 char_8 6e 6f 74 20 74 72 75 65 
 call FX5_ltn_println_1
 scrap
-jump IF_END58
-:IF_END58
+jump IF_END60
+:IF_END60
 newstr
 char_4 4f 52 20 7c 
 char 7c
 call FX5_ltn_println_1
 scrap
-call FX56_f_0
+call FX58_f_0
 not
-ifelse OR62_TRUE
-call FX55_t_0
-jump OR62_END
-:OR62_TRUE
+ifelse OR64_TRUE
+call FX57_t_0
+jump OR64_END
+:OR64_TRUE
 true
-:OR62_END
-ifelse IF_ELSE63
+:OR64_END
+ifelse IF_ELSE65
 newstr
 char_8 61 74 20 6c 65 61 73 74 
 char_8 20 6f 6e 65 20 74 72 75 
 char 65
 call FX5_ltn_println_1
 scrap
-jump IF_END61
-:IF_ELSE63
+jump IF_END63
+:IF_ELSE65
 newstr
 char_8 62 6f 74 68 20 6e 6f 74 
 char_4 20 74 72 75 
 char 65
 call FX5_ltn_println_1
 scrap
-jump IF_END61
-:IF_END61
+jump IF_END63
+:IF_END63
 null
 return
 

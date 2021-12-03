@@ -1,10 +1,15 @@
 function main() {
-	var str = "Hello";
-	ltn::insertBack(str, " World!");
-	ltn::removeBack(str);
+	ltn::println("=== String ===");
+	var str = "HX World";
+	ltn::remove(str, 1);
+	ltn::insert(str, 1, "ello");
 	ltn::println(str);
-	ltn::println(ltn::empty([]));
-	ltn::println(ltn::empty(""));
-	ltn::println(ltn::empty([1000]));
-	ltn::println(ltn::empty("Hello World"));
+	ltn::println("");
+
+	ltn::println("=== Array ===");
+	var arr = [];
+	ltn::insertFront(arr, 1);
+	ltn::insertBack(arr, 3);
+	ltn::insert(arr, 1, 2);
+	ltn::println(arr);
 }

@@ -1,4 +1,4 @@
-call FX55_main_0
+call FX57_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -404,56 +404,77 @@ insert_front
 null
 return
 
-:FX53_ltn_removeBack_1
+:FX53_ltn_insert_3
+insert
+null
+return
+
+:FX54_ltn_removeBack_1
 remove_back
 null
 return
 
-:FX54_ltn_removeFront_1
+:FX55_ltn_removeFront_1
 remove_front
 null
 return
 
-:FX55_main_0
+:FX56_ltn_remove_2
+remove
+null
+return
+
+:FX57_main_0
+makevar
 makevar
 newstr
-char_4 48 65 6c 6c 
-char 6f
+char_8 3d 3d 3d 20 53 74 72 69 
+char_4 6e 67 20 3d 
+char 3d
+char 3d
+call FX5_ltn_println_1
+scrap
+newstr
+char_8 48 58 20 57 6f 72 6c 64 
 write_0
 read_0
+newi 1
+call FX56_ltn_remove_2
+scrap
+read_0
+newi 1
 newstr
-char_4 20 57 6f 72 
-char 6c
-char 64
-char 21
+char_4 65 6c 6c 6f 
+call FX53_ltn_insert_3
+scrap
+read_0
+call FX5_ltn_println_1
+scrap
+newstr
+call FX5_ltn_println_1
+scrap
+newstr
+char_8 3d 3d 3d 20 41 72 72 61 
+char_4 79 20 3d 3d 
+char 3d
+call FX5_ltn_println_1
+scrap
+newarr
+write_1
+read_1
+newi 1
+call FX52_ltn_insertFront_2
+scrap
+read_1
+newi 3
 call FX51_ltn_insertBack_2
 scrap
-read_0
-call FX53_ltn_removeBack_1
+read_1
+newi 1
+newi 2
+call FX53_ltn_insert_3
 scrap
-read_0
-call FX5_ltn_println_1
-scrap
-newarr
-call FX48_ltn_empty_1
-call FX5_ltn_println_1
-scrap
-newstr
-call FX48_ltn_empty_1
-call FX5_ltn_println_1
-scrap
-newarr
-newi 1000
-elem
-call FX48_ltn_empty_1
-call FX5_ltn_println_1
-scrap
-newstr
-char_8 48 65 6c 6c 6f 20 57 6f 
-char 72
-char 6c
-char 64
-call FX48_ltn_empty_1
+read_1
 call FX5_ltn_println_1
 scrap
 null

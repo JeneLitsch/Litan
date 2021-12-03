@@ -1,4 +1,4 @@
-call FX56_main_0
+call FX58_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -404,17 +404,27 @@ insert_front
 null
 return
 
-:FX53_ltn_removeBack_1
+:FX53_ltn_insert_3
+insert
+null
+return
+
+:FX54_ltn_removeBack_1
 remove_back
 null
 return
 
-:FX54_ltn_removeFront_1
+:FX55_ltn_removeFront_1
 remove_front
 null
 return
 
-:FX55_checkType_1
+:FX56_ltn_remove_2
+remove
+null
+return
+
+:FX57_checkType_1
 makevar
 write_0
 read_0
@@ -490,34 +500,34 @@ scrap
 null
 return
 
-:FX56_main_0
+:FX58_main_0
 true
-call FX55_checkType_1
+call FX57_checkType_1
 scrap
 newi 1337
-call FX55_checkType_1
+call FX57_checkType_1
 scrap
 newf 42.42
-call FX55_checkType_1
+call FX57_checkType_1
 scrap
 newstr
 char_8 48 65 6c 6c 6f 20 57 6f 
 char 72
 char 6c
 char 64
-call FX55_checkType_1
+call FX57_checkType_1
 scrap
 call FX0_ltn_cout_0
-call FX55_checkType_1
+call FX57_checkType_1
 scrap
 call FX6_ltn_cin_0
-call FX55_checkType_1
+call FX57_checkType_1
 scrap
-newfx FX55_checkType_1 1
-call FX55_checkType_1
+newfx FX57_checkType_1 1
+call FX57_checkType_1
 scrap
 call FX17_ltn_clock_0
-call FX55_checkType_1
+call FX57_checkType_1
 scrap
 null
 return

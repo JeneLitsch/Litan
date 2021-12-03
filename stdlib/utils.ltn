@@ -1,38 +1,46 @@
 namespace ltn {
-	asm size(arr) {
+	asm size(collection) {
 		"size"
 		"return"
 	}
 
-	asm empty(arr) {
+	asm empty(collection) {
 		"size"
 		"newi 0"
 		"eql"
 		"return"
 	}
 	
-	asm front(arr) {
+	asm front(collection) {
 		"front"
 		"return" }
 	
-	asm back(arr) {
+	asm back(collection) {
 		"back"
 		"return"
 	}
 
-	asm insertBack(arr, element) {
+	asm insertBack(collection, element) {
 		"insert_back"
 	}
 
-	asm insertFront(arr, element) {
+	asm insertFront(collection, element) {
 		"insert_front"
 	}
 
-	asm removeBack(arr) {
+	asm insert(collection, index, element) {
+		"insert"
+	}
+
+	asm removeBack(collection) {
 		"remove_back"
 	}
 
-	asm removeFront(arr) {
+	asm removeFront(collection) {
 		"remove_front"
+	}
+	
+	asm remove(collection, index) {
+		"remove"
 	}
 }

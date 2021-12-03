@@ -1,4 +1,4 @@
-call FX59_main_0
+call FX61_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -404,29 +404,39 @@ insert_front
 null
 return
 
-:FX53_ltn_removeBack_1
+:FX53_ltn_insert_3
+insert
+null
+return
+
+:FX54_ltn_removeBack_1
 remove_back
 null
 return
 
-:FX54_ltn_removeFront_1
+:FX55_ltn_removeFront_1
 remove_front
 null
 return
 
-:FX55_f1_0
+:FX56_ltn_remove_2
+remove
+null
+return
+
+:FX57_f1_0
 newi 42
 return
 null
 return
 
-:FX56_f2_0
+:FX58_f2_0
 newi 1337
 return
 null
 return
 
-:FX57_f_2
+:FX59_f_2
 makevar
 write_0
 makevar
@@ -438,9 +448,9 @@ return
 null
 return
 
-:FX58_makeAdd_0
-jump SKIP_LAMBDA60
-:LAMBDA60
+:FX60_makeAdd_0
+jump SKIP_LAMBDA62
+:LAMBDA62
 makevar
 write_0
 makevar
@@ -451,13 +461,13 @@ add
 return
 null
 return
-:SKIP_LAMBDA60
-newfx LAMBDA60 2
+:SKIP_LAMBDA62
+newfx LAMBDA62 2
 return
 null
 return
 
-:FX59_main_0
+:FX61_main_0
 makevar
 makevar
 newstr
@@ -468,7 +478,7 @@ char 3d
 char 3d
 call FX5_ltn_println_1
 scrap
-call FX58_makeAdd_0
+call FX60_makeAdd_0
 write_0
 newstr
 char_8 61 64 64 28 31 2c 20 32 
@@ -505,13 +515,13 @@ char_8 6e 74 65 72 73 20 3d 3d
 char 3d
 call FX5_ltn_println_1
 scrap
-newfx FX57_f_2 2
+newfx FX59_f_2 2
 write_1
 read_1
 newarr
-call FX55_f1_0
+call FX57_f1_0
 elem
-call FX56_f2_0
+call FX58_f2_0
 elem
 call FX23_ltn_invoke_2
 call FX5_ltn_println_1

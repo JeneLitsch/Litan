@@ -40,9 +40,9 @@ namespace ltn::vm {
 		
 		void newarr(), newstr(), newout(), newin(), newfx(), newClock();
 
-		void read(), write(), scrap(), makevar(),
-			at(), at_write(),
-			read_x(), write_x();
+		void read(), write(), scrap(), makevar();
+		void at(), at_write();
+		void read_x(), write_x();
 		void read_0(), read_1(), read_2(), read_3();
 		void write_0(), write_1(), write_2(), write_3();
 
@@ -54,8 +54,8 @@ namespace ltn::vm {
 		void sin(), cos(), tan();
 		
 		void size(), front(), back();
-		void insert_back(), insert_front();
-		void remove_back(), remove_front();
+		void insert_back(), insert_front(), insert();
+		void remove_back(), remove_front(), remove();
 		
 		void to_seconds();
 

@@ -1,4 +1,4 @@
-call FX55_main_0
+call FX57_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -404,17 +404,27 @@ insert_front
 null
 return
 
-:FX53_ltn_removeBack_1
+:FX53_ltn_insert_3
+insert
+null
+return
+
+:FX54_ltn_removeBack_1
 remove_back
 null
 return
 
-:FX54_ltn_removeFront_1
+:FX55_ltn_removeFront_1
 remove_front
 null
 return
 
-:FX55_main_0
+:FX56_ltn_remove_2
+remove
+null
+return
+
+:FX57_main_0
 makevar
 makevar
 makevar
