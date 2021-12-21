@@ -25,12 +25,12 @@ function main() {
 	var fxPtr = &f(_,_);
 	ltn::println(ltn::invoke(fxPtr, [f1(), f2()]));
 
-	ltn::println("=== Captures pointers ===");
+	ltn::println("=== Captures ===");
 	var a = 1;
 	var b = 2;
 	var lambda = function [a, b] () {
 		return a + b;
 	};
-	var result = ltn::invoke(lambda, []);
+	var result = ltn::invoke(lambda);
 	ltn::println(result);
 }

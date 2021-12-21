@@ -62,8 +62,6 @@ namespace ltn::vm {
 		}
 		else throw std::runtime_error{"invoke needs an array of parameters"};
 	}
-	
-	
 
 	void LtnVM::external() {
 		const auto value = this->reg.pop();

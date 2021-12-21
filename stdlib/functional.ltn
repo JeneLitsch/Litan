@@ -4,6 +4,12 @@ namespace ltn {
 		"return"
 	}
 
+	asm invoke(fx) {
+		"newarr"
+		"invoke"
+		"return"
+	}
+
 	asm external(id) {
 		"external"
 		"return"
