@@ -4,6 +4,7 @@
 
 namespace ltn::c::ast {
 	struct Functional;
+	struct Var;
 	
 	struct Literal : public Primary {
 		Literal(const lex::DebugInfo & debugInfo) : Primary(debugInfo) {}
@@ -59,10 +60,13 @@ namespace ltn::c::ast {
 	struct Lambda : public Literal {
 		Lambda(
 			std::unique_ptr<Functional> fx,
+			std::vector<std::unique_ptr<Var>> captures,
 			const lex::DebugInfo & debugInfo)
 			:	Literal(debugInfo),
-				fx(std::move(fx)) {}
+				fx(std::move(fx)),
+				captures(std::move(captures)) {}
 		virtual ~Lambda() = default;
 		const std::unique_ptr<Functional> fx;
+		const std::vector<std::unique_ptr<Var>> captures;
 	};
 }

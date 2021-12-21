@@ -88,6 +88,7 @@ namespace ltn::a {
 		// Functional
 		{"invoke", {Inst::INVOKE}},
 		{"external", {Inst::EXTERNAL}},
+		{"capture", {Inst::CAPTURE}},
 
 		// Memory
 		{"read", {Inst::READ}},

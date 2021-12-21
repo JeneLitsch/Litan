@@ -57,13 +57,7 @@ namespace ltn::c::compile {
 			return ExprCode{ ss.str() };
 		}
 
-		// compiles an variable read accessc
-		ExprCode readVar(const ast::Var & expr, Scope & scope) {
-			const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
-			std::stringstream ss;
-			ss << inst::read_x(addr);
-			return ExprCode{ ss.str() };
-		}
+
 
 		// compiles function call fx(...)
 		ExprCode callFx(const ast::Call & call, CompilerInfo & info, Scope & scope) {
@@ -116,6 +110,14 @@ namespace ltn::c::compile {
 		}
 	}
 
+	// compiles an variable read accessc
+	ExprCode readVar(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
+		const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
+		std::stringstream ss;
+		ss << inst::read_x(addr);
+		return ExprCode{ ss.str() };
+	}
+
 	// compiles Primary expression
 	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope) {
 		if(auto expr_ = as<ast::Integer>(expr)) {
@@ -137,7 +139,7 @@ namespace ltn::c::compile {
 			return callFx(*expr_, info, scope);
 		}
 		if(auto expr_ = as<ast::Var>(expr)) {
-			return readVar(*expr_, scope);
+			return readVar(*expr_, info, scope);
 		} 	
 		if(auto expr_ = as<ast::Index>(expr)) {
 			return index(*expr_, info, scope);

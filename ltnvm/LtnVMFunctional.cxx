@@ -16,6 +16,8 @@ namespace ltn::vm {
 		}
 	}
 
+
+
 	void LtnVM::invoke() {
 		const auto refParam = this->reg.pop();
 		const auto refFx = this->reg.pop();
@@ -29,6 +31,11 @@ namespace ltn::vm {
 					for(const auto param : params.arr) {
 						this->reg.push(param);
 					}
+					const auto begin = fxPtr.captured.rbegin();
+					const auto end = fxPtr.captured.rend();
+					for (auto i = begin; i != end; ++i ) { 
+						this->reg.push(*i);
+					} 
 					this->stack.pushFrame(this->pc);
 					this->pc = fxPtr.address;
 				}
@@ -55,11 +62,26 @@ namespace ltn::vm {
 		}
 		else throw std::runtime_error{"invoke needs an array of parameters"};
 	}
+	
+	
+
 	void LtnVM::external() {
 		const auto value = this->reg.pop();
 		if(isInt(value)) {
 			this->reg.push({value.u, Value::Type::EXTERNAL});
 		}
 		else throw std::runtime_error{"Cannot convert to external"};
+	}
+
+
+
+	void LtnVM::capture() {
+		const auto var = this->reg.pop();
+		const auto fxPtr = this->reg.peek();
+		if(isFxPtr(fxPtr)) {
+			auto & lambda = this->heap.read<FxPointer>(fxPtr.u);
+			lambda.captured.push_back(var);
+		}
+		else throw std::runtime_error{"Not a function pointer"};
 	}
 }

@@ -1,4 +1,5 @@
 #include "compiling.hxx"
+#include <iostream>
 
 namespace ltn::c::compile {
 	namespace {
@@ -81,28 +82,39 @@ namespace ltn::c::compile {
 			functional.debugInfo.line};
 	}
 
-	ExprCode lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & parent) {
+	ExprCode lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & outerScope) {
 		const auto id = makeJumpId("LAMBDA", info);
 		const auto skip = "SKIP_" + id;
 		const auto & fx = *lm.fx;
-		Scope scope{parent.getNamespace()};
+		std::stringstream ss;
 		
 		// Skip
-		std::stringstream ss;
 		ss << inst::jump(skip);
 		
-		// Function
-		ss << inst::jumpmark(id);
-		ss << parameters(fx, scope);
-		if(auto f = as<const ast::Function>(fx)) {
-			ss << body(*f, info, scope);
+		{ // Function
+			Scope innerScope{outerScope.getNamespace()};
+			ss << inst::jumpmark(id);
+			std::size_t cIndex = 0;
+			for(const auto & capture : lm.captures) {
+				const auto addr = innerScope.insert(capture->name, fx.debugInfo.line);
+				ss << inst::makevar;
+				ss << inst::write_x(addr);
+			}
+			ss << parameters(fx, innerScope);
+			if(auto f = as<const ast::Function>(fx)) {
+				ss << body(*f, info, innerScope);
+			}
+			ss << inst::null;
+			ss << inst::reTurn;
 		}
-		ss << inst::null;
-		ss << inst::reTurn;
 		
 		// Create pointer
 		ss << inst::jumpmark(skip);
 		ss << inst::newfx(id, fx.parameters.size());
+		for(const auto & capture : lm.captures) {
+			ss << compile::readVar(*capture, info, outerScope).code;
+			ss << inst::capture;
+		}
 
 		return { ss.str() };
 	}

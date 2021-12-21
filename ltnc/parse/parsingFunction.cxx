@@ -18,16 +18,38 @@ namespace ltn::c::parse {
 			ast::Parameters parameters{};
 			if(!lexer.match(TT::PAREN_R)) {
 				while(true) {
-					parameters.push_back(parameterName(lexer));
+					parameters.push_back(parse::parameterName(lexer));
 					if(lexer.match(TT::PAREN_R)) break;
 					if(!lexer.match(TT::COMMA)) {
-						throw ltn::c::CompilerError{
+						throw CompilerError{
 							"expected comma between parameters",
 							lexer.inLine()};
 					}
 				}
 			} 
 			return parameters;
+		}
+
+		// Returns a array of all parameters
+		std::vector<std::unique_ptr<ast::Var>> captures(lex::Lexer & lexer) {
+			if(!lexer.match(TT::BRACKET_L)) {
+				throw CompilerError{"missing [", lexer.inLine()};
+			}
+			
+			std::vector<std::unique_ptr<ast::Var>> captures{};
+			if(!lexer.match(TT::BRACKET_R)) {
+				while(true) {
+					const auto name = parse::variableName(lexer);
+					captures.push_back(std::make_unique<ast::Var>(name, lexer.debug()));
+					if(lexer.match(TT::BRACKET_R)) break;
+					if(!lexer.match(TT::COMMA)) {
+						throw CompilerError{
+							"expected comma between captures",
+							lexer.inLine()};
+					}
+				}
+			} 
+			return captures;
 		}
 
 		ast::Parameters instructions(lex::Lexer & lexer) {
@@ -84,15 +106,19 @@ namespace ltn::c::parse {
 
 	std::unique_ptr<ast::Lambda> lambda(lex::Lexer & lexer) {
 		if(lexer.match(TT::FUNCTION)) {
+			auto && captures = parse::captures(lexer);
 			const auto parameters = parameterList(lexer);
-			auto body = statement(lexer); 
-			auto fx = std::make_unique<ast::Function>(
+			auto && body = statement(lexer); 
+			auto && fx = std::make_unique<ast::Function>(
 				"lambda",
 				ast::Namespace{},
 				parameters,
 				std::move(body),
 				lexer.debug());
-			return std::make_unique<ast::Lambda>(std::move(fx), lexer.debug()); 
+			return std::make_unique<ast::Lambda>(
+				std::move(fx),
+				std::move(captures),
+				lexer.debug()); 
 		}
 		return nullptr;
 	}

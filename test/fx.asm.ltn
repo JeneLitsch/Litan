@@ -449,25 +449,61 @@ null
 return
 
 :FX60_makeAdd_0
+makevar
+makevar
+newarr
+newi 1
+elem
+newi 2
+elem
+newi 3
+elem
+write_0
+newarr
+newi 4
+elem
+newi 5
+elem
+newi 6
+elem
+write_1
 jump SKIP_LAMBDA62
 :LAMBDA62
 makevar
 write_0
 makevar
 write_1
-read_1
+makevar
+write_2
+makevar
+write_3
 read_0
+call FX5_ltn_println_1
+scrap
+read_1
+call FX5_ltn_println_1
+scrap
+read_3
+read_2
 add
 return
 null
 return
 :SKIP_LAMBDA62
 newfx LAMBDA62 2
+read_0
+capture
+read_1
+capture
 return
 null
 return
 
 :FX61_main_0
+makevar
+makevar
+makevar
+makevar
 makevar
 makevar
 newstr
@@ -524,6 +560,43 @@ elem
 call FX58_f2_0
 elem
 call FX23_ltn_invoke_2
+call FX5_ltn_println_1
+scrap
+newstr
+char_8 3d 3d 3d 20 43 61 70 74 
+char_8 75 72 65 73 20 70 6f 69 
+char_8 6e 74 65 72 73 20 3d 3d 
+char 3d
+call FX5_ltn_println_1
+scrap
+newi 1
+write_2
+newi 2
+write_3
+jump SKIP_LAMBDA63
+:LAMBDA63
+makevar
+write_0
+makevar
+write_1
+read_0
+read_1
+add
+return
+null
+return
+:SKIP_LAMBDA63
+newfx LAMBDA63 0
+read_2
+capture
+read_3
+capture
+write_x 4
+read_x 4
+newarr
+call FX23_ltn_invoke_2
+write_x 5
+read_x 5
 call FX5_ltn_println_1
 scrap
 null

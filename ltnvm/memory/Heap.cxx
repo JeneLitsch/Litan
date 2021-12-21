@@ -32,10 +32,17 @@ void ltn::vm::Heap::mark(const std::vector<Value> & values) {
 				mark(arr.arr);
 			}
 		}
-		if(isStr(value)
+		else if(isFxPtr(value)) {
+			auto & obj = get(value.u);
+			if(!obj.marked) {
+				auto & fx = read<FxPointer>(value.u);
+				obj.marked = true;
+				mark(fx.captured);
+			}
+		}
+		else if(isStr(value)
 		|| isOStream(value)
 		|| isIStream(value)
-		|| isFxPtr(value)
 		|| isClock(value)) {
 			auto & obj = get(value.u);
 			obj.marked = true;

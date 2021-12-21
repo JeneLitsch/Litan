@@ -32,7 +32,7 @@ std::uint64_t ltn::c::compile::Scope::insert(
 		throw CompilerError{"Redefintion of variable " + name, line};
 	}
 	const auto addr = recSize();
-	this->vars.emplace(name, addr);
+	this->vars.insert({name, addr});
 	return addr;
 }
 

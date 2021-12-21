@@ -68,6 +68,14 @@ namespace ltn::c::compile::inst {
 	}
 
 
+	const std::string read_captured(std::uint64_t index) {
+		std::stringstream ss;
+		ss << "read_captured " << index << "\n"; 
+		return ss.str();
+	}
+
+
+
 	const std::string newfx(
 		const std::string_view & fxName,
 		std::size_t params) {
