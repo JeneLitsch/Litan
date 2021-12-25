@@ -3,26 +3,12 @@
 #include <sstream>
 #include "Stringify.hxx"
 namespace ltn::vm {
-	std::uint8_t LtnVM::fetchByte() {
-		return byteCode[this->pc++];
-	}
-	
-	std::uint64_t LtnVM::fetchUint() {
-		std::uint64_t value = 0;
-		for(auto i = 0; i < 8; i++) {
-			value <<= 8;
-			value |= static_cast<std::uint64_t>(byteCode[this->pc++]);
-		}
-		return value;
-	}
 
 	void LtnVM::registerExternal(
 		std::int64_t id,
 		std::unique_ptr<ext::External> && ext) {
 		this->externals.emplace(id, std::move(ext));
 	}
-
-
 
 	void LtnVM::run() {
 		this->reg.reset();

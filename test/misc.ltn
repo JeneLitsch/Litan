@@ -14,5 +14,6 @@ function main() {
 	ltn::println(arr);
 
 	const a = 123456789;
-	ltn::println(a);
+	const b = a;
+	ltn::println(b);
 }

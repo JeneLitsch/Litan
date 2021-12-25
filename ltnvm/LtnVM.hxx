@@ -22,8 +22,18 @@ namespace ltn::vm {
 			std::unique_ptr<ext::External> && ext);
 	
 	private:
-		std::uint8_t fetchByte();
-		std::uint64_t fetchUint();
+		inline std::uint8_t fetchByte() {
+			return byteCode[this->pc++];
+		}
+	
+		inline std::uint64_t fetchUint() {
+			std::uint64_t value = 0;
+			for(auto i = 0; i < 8; i++) {
+				value <<= 8;
+				value |= static_cast<std::uint64_t>(byteCode[this->pc++]);
+			}
+			return value;
+		}
 		
 		void state();
 

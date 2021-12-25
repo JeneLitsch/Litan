@@ -29,7 +29,7 @@ int main(int argc, char const *argv[]) {
 			compileFile(compiler, source);
 		}
 		
-		for(std::size_t i = 0; i < argc-1U; i++) {
+		for(std::size_t i = 1; i < argc-1U; i++) {
 			compileFile(compiler, argv[i]);
 		}
 		std::stringstream ss;

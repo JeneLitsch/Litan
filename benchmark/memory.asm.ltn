@@ -480,61 +480,29 @@ makevar
 makevar
 makevar
 makevar
-newstr
-char_8 3d 3d 3d 20 53 74 72 69 
-char_4 6e 67 20 3d 
-char 3d
-char 3d
-call FX5_ltn_println_1
-scrap
-newstr
-char_8 48 58 20 57 6f 72 6c 64 
+call FX17_ltn_clock_0
 write_0
-read_0
-newi 1
-call FX61_ltn_remove_2
-scrap
-read_0
-newi 1
-newstr
-char_4 65 6c 6c 6f 
-call FX58_ltn_insert_3
-scrap
-read_0
-call FX5_ltn_println_1
-scrap
-newstr
-call FX5_ltn_println_1
-scrap
-newstr
-char_8 3d 3d 3d 20 41 72 72 61 
-char_4 79 20 3d 3d 
-char 3d
-call FX5_ltn_println_1
-scrap
-newarr
+newi 42
 write_1
-read_1
-newi 1
-call FX57_ltn_insertFront_2
-scrap
-read_1
-newi 3
-call FX56_ltn_insertBack_2
-scrap
-read_1
-newi 1
-newi 2
-call FX58_ltn_insert_3
-scrap
-read_1
-call FX5_ltn_println_1
-scrap
-newi 123456789
+newi 0
 write_2
+:FOR_BEGIN63
 read_2
+newi 10000000
+sml
+ifelse FOR_END64
+read_1
 write_3
-read_3
+read_2
+inc
+write_2
+jump FOR_BEGIN63
+:FOR_END64
+read_0
+call FX18_ltn_toSeconds_1
+newstr
+char 73
+add
 call FX5_ltn_println_1
 scrap
 null

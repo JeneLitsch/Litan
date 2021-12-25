@@ -1,38 +1,42 @@
 #include "LtnVM.hxx"
 
 namespace ltn::vm {
-	Struct & getStruct(const Value & ref, Heap & heap) {
-		if(isStruct(ref)) {
-			return heap.read<Struct>(ref.u);
-		}
-		else {
-			throw std::runtime_error {
-				"Cannot access member of non-struct type"};
-		}
-	}
-
-	Value * getMember(Struct & s, const auto id) {
-		for(auto & [memberId, member] : s.members) {
-			if(id == memberId) {
-				return &member;
+	namespace {
+		inline Struct & getStruct(const Value ref, Heap & heap) {
+			if(isStruct(ref)) {
+				return heap.read<Struct>(ref.u);
+			}
+			else {
+				throw std::runtime_error {
+					"Cannot access member of non-struct type"};
 			}
 		}
-		return nullptr;
-	}
 
-	void deleteMember(Struct & s, const auto id) {
-		const auto finder = [&] (const auto & pair) {
-			return pair.first == id;
-		};
-		auto found = std::find_if(s.members.begin(), s.members.end(), finder); 
-		s.members.erase(found);
+		Value * getMember(Struct & s, const auto id) {
+			for(auto & [memberId, member] : s.members) {
+				if(id == memberId) {
+					return &member;
+				}
+			}
+			return nullptr;
+		}
+
+		void deleteMember(Struct & s, const auto id) {			
+			const auto finder = [id] (const auto & pair) {
+				return pair.first == id;
+			};
+			const auto begin = s.members.begin();
+			const auto end = s.members.end();
+			const auto found = std::find_if(begin, end, finder); 
+			s.members.erase(found);
+		}
 	}
 
 	void LtnVM::member_read() {
 		const auto id = this->fetchUint();
 		const auto ref = this->reg.pop();
-		auto & s = heap.read<Struct>(ref.u);
-		if(const auto * member = getMember(s, id)) {
+		auto & s = getStruct(ref, this->heap);
+		if(const auto * const member = getMember(s, id)) {
 			this->reg.push(*member);
 		}
 		else {
@@ -44,8 +48,8 @@ namespace ltn::vm {
 		const auto id = this->fetchUint();
 		const auto ref = this->reg.pop();
 		const auto value = this->reg.pop();
-		auto & s = heap.read<Struct>(ref.u);
-		if(auto * member = getMember(s, id)) {
+		auto & s = getStruct(ref, this->heap);
+		if(auto * const member = getMember(s, id)) {
 			if(isNull(value)) {
 				deleteMember(s, id);
 			}
@@ -57,5 +61,4 @@ namespace ltn::vm {
 			s.members.push_back({id, value});
 		}
 	}
-
 }
