@@ -82,6 +82,7 @@ namespace ltn::c::lex {
 			{"for",         Token::Type::FOR},
 			{"return",      Token::Type::RETURN},
 			{"var",         Token::Type::VAR},
+			{"const",       Token::Type::CONST},
 			{"if",          Token::Type::IF},
 			{"else",        Token::Type::ELSE},
 			{"new",         Token::Type::NEW},
@@ -221,7 +222,7 @@ namespace ltn::c::lex {
 		if(match('.')) {
 			return {Token::Type::DOT, "."};
 		}
-		
+
 		if(match(':')) {
 			if(match(':')) {
 				return {Token::Type::COLONx2, "::"};

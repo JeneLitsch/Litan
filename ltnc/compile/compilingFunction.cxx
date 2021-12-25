@@ -9,9 +9,9 @@ namespace ltn::c::compile {
 			auto params = fx.parameters;
 			std::reverse(params.begin(), params.end());
 			for(const auto & param : params) {
-				const auto addr = scope.insert(param, fx.debugInfo.line);
+				const auto var = scope.insert(param, fx.debugInfo.line);
 				ss << inst::makevar;
-				ss << inst::write_x(addr);
+				ss << inst::write_x(var.address);
 			}
 			return ss.str();
 		}
@@ -95,9 +95,9 @@ namespace ltn::c::compile {
 			Scope innerScope{outerScope.getNamespace()};
 			ss << inst::jumpmark(id);
 			for(const auto & capture : lm.captures) {
-				const auto addr = innerScope.insert(capture->name, fx.debugInfo.line);
+				const auto var = innerScope.insert(capture->name, fx.debugInfo.line);
 				ss << inst::makevar;
-				ss << inst::write_x(addr);
+				ss << inst::write_x(var.address);
 			}
 			ss << parameters(fx, innerScope);
 			if(auto f = as<const ast::Function>(fx)) {

@@ -2,12 +2,21 @@
 
 namespace ltn::c::compile {
 	namespace {
+		CompilerError notMutable(const lex::DebugInfo & debug) {
+			return CompilerError{
+				"Cannot modify non-mutable variable",
+				debug.line};
+		}
+
 		// write to an local variable
 		ExprCode writeVar(const ast::Var & expr, Scope & scope) {
-			const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
-			std::stringstream ss;
-			ss << inst::write_x(addr);
-			return ExprCode{ss.str() };
+			const auto var = scope.resolve(expr.name, expr.debugInfo.line);
+			if(isMutable(var)) {
+				std::stringstream ss;
+				ss << inst::write_x(var.address);
+				return ExprCode{ss.str() };
+			}
+			else throw notMutable(expr.debugInfo);
 		}
 
 		// write to an array at index [i]

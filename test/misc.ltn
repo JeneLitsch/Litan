@@ -12,4 +12,7 @@ function main() {
 	ltn::insertBack(arr, 3);
 	ltn::insert(arr, 1, 2);
 	ltn::println(arr);
+
+	const a = 123456789;
+	ltn::println(a);
 }

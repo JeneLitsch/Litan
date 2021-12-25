@@ -40,6 +40,7 @@ namespace ltn::c::compile {
 	StmtCode whileLoop(const ast::While & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode forLoop(const ast::For & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode newVar(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope);
+	StmtCode newConst(const ast::NewConst & stmt, CompilerInfo & info, Scope & scope);
 
 	// Expression
 	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope);

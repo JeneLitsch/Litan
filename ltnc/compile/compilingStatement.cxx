@@ -32,21 +32,36 @@ namespace ltn::c::compile {
 			ss << inst::reTurn;
 			return {ss.str(), 0};
 		}
-		
+
+		// compiles variable creation -> var foo ...;
+		StmtCode newVariablelike(
+			const auto & newVar,
+			CompilerInfo & info,
+			Scope & scope,
+			Variable::Qualifier qualifier) {
+			
+			const auto var = scope.insert(
+				newVar.name, qualifier, newVar.debugInfo.line);
+			std::stringstream ss;
+			if(newVar.right) {
+				const auto expr = compile::expression(*newVar.right, info, scope);
+				ss << expr.code;
+			}
+			else {
+				ss << inst::null;
+			}
+			ss << inst::write_x(var.address);
+			return {ss.str(), 0, true};
+		}		
 	}
-	// compiles variable creation -> var foo ...;
-	StmtCode newVar(const ast::NewVar & newVar, CompilerInfo & info, Scope & scope) {
-		const auto addr = scope.insert(newVar.name, newVar.debugInfo.line);
-		std::stringstream ss;
-		if(newVar.right) {
-			const auto expr = compile::expression(*newVar.right, info, scope);
-			ss << expr.code;
-		}
-		else {
-			ss << inst::null;
-		}
-		ss << inst::write_x(addr);
-		return {ss.str(), 0, true};
+	
+
+	StmtCode newConst(const ast::NewConst & stmt, CompilerInfo & info, Scope & scope) {
+		return newVariablelike(stmt, info, scope, Variable::Qualifier::CONST);
+	}
+	
+	StmtCode newVar(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope) {
+		return newVariablelike(stmt, info, scope, Variable::Qualifier::MUTABLE);
 	}
 
 
@@ -66,6 +81,9 @@ namespace ltn::c::compile {
 		}
 		if(auto newVar = as<ast::NewVar>(stmt)) {
 			return compile::newVar(*newVar, info, scope);
+		}
+		if(auto newConst = as<ast::NewConst>(stmt)) {
+			return compile::newConst(*newConst, info, scope);
 		}
 		if(auto reTurn = as<ast::Return>(stmt)) {
 			return compile::reTurn(*reTurn, info, scope);

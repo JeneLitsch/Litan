@@ -31,6 +31,19 @@ namespace ltn::c::ast {
 		const std::unique_ptr<Expression> right; 
 	};
 
+	struct NewConst : public Statement {
+		NewConst(
+			const std::string & name,
+			std::unique_ptr<Expression> right,
+			const lex::DebugInfo & debugInfo)
+			:	Statement(debugInfo),
+				name(name),
+				right(std::move(right)) {}
+		virtual ~NewConst() = default;
+		const std::string name;
+		const std::unique_ptr<Expression> right; 
+	};
+
 	struct IfElse : public Statement {
 		IfElse(
 			std::unique_ptr<Expression> condition,

@@ -108,29 +108,30 @@ namespace ltn::c::compile {
 				<< inst::at;
 			return ExprCode{ss.str() };
 		}
+
+		ExprCode readMemberAccess(
+			const ast::MemberAccess & access,
+			CompilerInfo & info,
+			Scope & scope) {
+			std::stringstream ss;
+			ss << readVar(*access.var, info, scope).code;
+			for(const auto member : access.memberpath) {
+				const auto id = info.memberTable.getId(member);
+				ss << inst::member_read(id);
+			}
+			return ExprCode{ ss.str() };
+		}
 	}
 
 	// compiles an variable read accessc
 	ExprCode readVar(const ast::Var & expr, CompilerInfo &, Scope & scope) {
-		const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
+		const auto var = scope.resolve(expr.name, expr.debugInfo.line);
 		std::stringstream ss;
-		ss << inst::read_x(addr);
+		ss << inst::read_x(var.address);
 		return ExprCode{ ss.str() };
 	}
 
 
-	ExprCode readMemberAccess(
-		const ast::MemberAccess & access,
-		CompilerInfo & info,
-		Scope & scope) {
-		std::stringstream ss;
-		ss << readVar(*access.var, info, scope).code;
-		for(const auto member : access.memberpath) {
-			const auto id = info.memberTable.getId(member);
-			ss << inst::member_read(id);
-		}
-		return ExprCode{ ss.str() };
-	}
 
 
 	// compiles Primary expression

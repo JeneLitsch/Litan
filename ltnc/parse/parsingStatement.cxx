@@ -28,18 +28,22 @@ namespace ltn::c::parse {
 		return std::make_unique<ast::StatementExpression>(assign(lexer), lexer.debug());
 	}
 
+	template<class AstNodeType, TT tt>
 	// parses variable creation -> var a ...  
-	std::unique_ptr<ast::NewVar> newVar(lex::Lexer & lexer) {
-		if(lexer.match(TT::VAR)) {
+	std::unique_ptr<AstNodeType> initVar(lex::Lexer & lexer) {
+		if(lexer.match(tt)) {
 			auto name = parse::variableName(lexer);
 			auto && r = parse::assignR(lexer);
-			return std::make_unique<ast::NewVar>(
+			return std::make_unique<AstNodeType>(
 				name,
 				std::move(r),
 				lexer.debug());
 		}
 		return nullptr;
 	}
+
+	constexpr auto newVar = initVar<ast::NewVar, TT::VAR>;
+	constexpr auto newConst = initVar<ast::NewConst, TT::CONST>;
 
 	// parses return statement -> return ...
 	std::unique_ptr<ast::Statement> retrn(lex::Lexer & lexer) {
@@ -62,6 +66,7 @@ namespace ltn::c::parse {
 		if(auto stmt = whileLoop(lexer)) return stmt;
 		if(auto stmt = forLoop(lexer)) return stmt;
 		if(auto stmt = semicolon(lexer, newVar)) return stmt;
+		if(auto stmt = semicolon(lexer, newConst)) return stmt;
 		if(auto stmt = retrn(lexer)) return stmt;
 		return semicolon(lexer, expr);
 	}
