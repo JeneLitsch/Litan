@@ -1,4 +1,18 @@
 namespace ltn {
+	
+	asm struct() {
+		"newstruct"
+		"return"
+	}
+
+	function pair(first, second) {
+		var pair = ltn::struct();
+		pair.first = first;
+		pair.second = second;
+		return pair;
+	}
+
+	asm null() {}
 
 	asm typeId(value) {
 		"typeid"
@@ -33,12 +47,16 @@ namespace ltn {
 		return typeId(value) == 0x31;
 	}
 
+	function isFunctional(value) {
+		return (typeId(value) == 0x40) 
+			|| (typeId(value) == 0x41);
+	}
+
 	function isClock(value) {
 		return typeId(value) == 0x50;
 	}
 
-	function isFunctional(value) {
-		return (typeId(value) == 0x40) 
-			|| (typeId(value) == 0x41);
+	function isStruct(value) {
+		return typeId(value) == 0x60;
 	}
 }

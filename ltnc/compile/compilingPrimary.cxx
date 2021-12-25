@@ -111,12 +111,27 @@ namespace ltn::c::compile {
 	}
 
 	// compiles an variable read accessc
-	ExprCode readVar(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
+	ExprCode readVar(const ast::Var & expr, CompilerInfo &, Scope & scope) {
 		const auto addr = scope.resolve(expr.name, expr.debugInfo.line);
 		std::stringstream ss;
 		ss << inst::read_x(addr);
 		return ExprCode{ ss.str() };
 	}
+
+
+	ExprCode readMemberAccess(
+		const ast::MemberAccess & access,
+		CompilerInfo & info,
+		Scope & scope) {
+		std::stringstream ss;
+		ss << readVar(*access.var, info, scope).code;
+		for(const auto member : access.memberpath) {
+			const auto id = info.memberTable.getId(member);
+			ss << inst::member_read(id);
+		}
+		return ExprCode{ ss.str() };
+	}
+
 
 	// compiles Primary expression
 	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope) {
@@ -149,7 +164,10 @@ namespace ltn::c::compile {
 		}	
 		if(auto expr_ = as<ast::FxPointer>(expr)) {
 			return fxPointer(*expr_, info, scope);
-		}	
+		}
+		if(auto expr_ = as<ast::MemberAccess>(expr)) {
+			return readMemberAccess(*expr_, info, scope);
+		}		
 		
 		throw CompilerError{"Unknown primary expression", expr.debugInfo.line};
 	}

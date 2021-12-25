@@ -48,4 +48,8 @@ namespace ltn::vm {
 	constexpr inline bool isClock(const Value & val) {
 		return val.type == Value::Type::CLOCK;
 	}
+
+	constexpr inline bool isStruct(const Value & val) {
+		return val.type == Value::Type::STRUCT;
+	}
 }

@@ -478,92 +478,39 @@ return
 :FX62_main_0
 makevar
 makevar
-makevar
-makevar
-makevar
-makevar
-newf 2
+call FX37_ltn_struct_0
 write_0
-newf 2
+newi 42
+newi 1337
+call FX38_ltn_pair_2
 write_1
-newf 2
-write_2
-newf 2
-write_3
-newf 2
-write_x 4
 read_0
-newf 3
-add
-write_0
-null
+call FX50_ltn_isStruct_1
+call FX5_ltn_println_1
 scrap
-read_1
-newf 3
-sub
-write_1
-null
-scrap
-read_2
-newf 3
-mlt
-write_2
-null
-scrap
-read_3
-newf 3
-div
-write_3
-null
-scrap
-read_x 4
-newf 3
-mod
-write_x 4
+newi 1
+read_0
+member_write 2
 null
 scrap
 read_0
+member_read 2
+call FX5_ltn_println_1
+scrap
+read_0
+member_read 3
+call FX5_ltn_println_1
+scrap
+read_0
+member_read 4
 call FX5_ltn_println_1
 scrap
 read_1
+member_read 0
 call FX5_ltn_println_1
 scrap
-read_2
-call FX5_ltn_println_1
-scrap
-read_3
-call FX5_ltn_println_1
-scrap
-read_x 4
-call FX5_ltn_println_1
-scrap
-newstr
-char_4 48 65 6c 6c 
-char 6f
-write_x 5
-read_x 5
-newstr
-char 20
-add
-write_x 5
-null
-scrap
-read_x 5
-newstr
-char_4 57 6f 72 6c 
-char 64
-add
-write_x 5
-null
-scrap
-read_x 5
-newstr
-char 21
-add
-write_x 5
-null
-scrap
-read_x 5
+read_1
+member_read 1
 call FX5_ltn_println_1
 scrap
 null

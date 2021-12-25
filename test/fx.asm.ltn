@@ -1,4 +1,4 @@
-call FX62_main_0
+call FX66_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -260,128 +260,172 @@ return
 null
 return
 
-:FX37_ltn_typeId_1
+:FX37_ltn_struct_0
+newstruct
+return
+null
+return
+
+:FX38_ltn_pair_2
+makevar
+write_0
+makevar
+write_1
+makevar
+call FX37_ltn_struct_0
+write_2
+read_1
+read_2
+member_write 0
+null
+scrap
+read_0
+read_2
+member_write 1
+null
+scrap
+read_2
+return
+null
+return
+
+:FX39_ltn_null_0
+null
+return
+
+:FX40_ltn_typeId_1
 typeid
 return
 null
 return
 
-:FX38_ltn_isBool_1
+:FX41_ltn_isBool_1
 makevar
 write_0
 read_0
-call FX37_ltn_typeId_1
+call FX40_ltn_typeId_1
 newi 16
 eql
 return
 null
 return
 
-:FX39_ltn_isInt_1
+:FX42_ltn_isInt_1
 makevar
 write_0
 read_0
-call FX37_ltn_typeId_1
+call FX40_ltn_typeId_1
 newi 17
 eql
 return
 null
 return
 
-:FX40_ltn_isFloat_1
+:FX43_ltn_isFloat_1
 makevar
 write_0
 read_0
-call FX37_ltn_typeId_1
+call FX40_ltn_typeId_1
 newi 18
 eql
 return
 null
 return
 
-:FX41_ltn_isArray_1
+:FX44_ltn_isArray_1
 makevar
 write_0
 read_0
-call FX37_ltn_typeId_1
+call FX40_ltn_typeId_1
 newi 32
 eql
 return
 null
 return
 
-:FX42_ltn_isString_1
+:FX45_ltn_isString_1
 makevar
 write_0
 read_0
-call FX37_ltn_typeId_1
+call FX40_ltn_typeId_1
 newi 33
 eql
 return
 null
 return
 
-:FX43_ltn_isIStream_1
+:FX46_ltn_isIStream_1
 makevar
 write_0
 read_0
-call FX37_ltn_typeId_1
+call FX40_ltn_typeId_1
 newi 48
 eql
 return
 null
 return
 
-:FX44_ltn_isOStream_1
+:FX47_ltn_isOStream_1
 makevar
 write_0
 read_0
-call FX37_ltn_typeId_1
+call FX40_ltn_typeId_1
 newi 49
 eql
 return
 null
 return
 
-:FX45_ltn_isClock_1
+:FX48_ltn_isFunctional_1
 makevar
 write_0
 read_0
-call FX37_ltn_typeId_1
+call FX40_ltn_typeId_1
+newi 64
+eql
+not
+ifelse OR51_TRUE
+read_0
+call FX40_ltn_typeId_1
+newi 65
+eql
+jump OR51_END
+:OR51_TRUE
+true
+:OR51_END
+return
+null
+return
+
+:FX49_ltn_isClock_1
+makevar
+write_0
+read_0
+call FX40_ltn_typeId_1
 newi 80
 eql
 return
 null
 return
 
-:FX46_ltn_isFunctional_1
+:FX50_ltn_isStruct_1
 makevar
 write_0
 read_0
-call FX37_ltn_typeId_1
-newi 64
+call FX40_ltn_typeId_1
+newi 96
 eql
-not
-ifelse OR47_TRUE
-read_0
-call FX37_ltn_typeId_1
-newi 65
-eql
-jump OR47_END
-:OR47_TRUE
-true
-:OR47_END
 return
 null
 return
 
-:FX48_ltn_size_1
+:FX52_ltn_size_1
 size
 return
 null
 return
 
-:FX49_ltn_empty_1
+:FX53_ltn_empty_1
 size
 newi 0
 eql
@@ -389,61 +433,61 @@ return
 null
 return
 
-:FX50_ltn_front_1
+:FX54_ltn_front_1
 front
 return
 null
 return
 
-:FX51_ltn_back_1
+:FX55_ltn_back_1
 back
 return
 null
 return
 
-:FX52_ltn_insertBack_2
+:FX56_ltn_insertBack_2
 insert_back
 null
 return
 
-:FX53_ltn_insertFront_2
+:FX57_ltn_insertFront_2
 insert_front
 null
 return
 
-:FX54_ltn_insert_3
+:FX58_ltn_insert_3
 insert
 null
 return
 
-:FX55_ltn_removeBack_1
+:FX59_ltn_removeBack_1
 remove_back
 null
 return
 
-:FX56_ltn_removeFront_1
+:FX60_ltn_removeFront_1
 remove_front
 null
 return
 
-:FX57_ltn_remove_2
+:FX61_ltn_remove_2
 remove
 null
 return
 
-:FX58_f1_0
+:FX62_f1_0
 newi 42
 return
 null
 return
 
-:FX59_f2_0
+:FX63_f2_0
 newi 1337
 return
 null
 return
 
-:FX60_f_2
+:FX64_f_2
 makevar
 write_0
 makevar
@@ -455,7 +499,7 @@ return
 null
 return
 
-:FX61_makeAdd_0
+:FX65_makeAdd_0
 makevar
 makevar
 newarr
@@ -474,8 +518,8 @@ elem
 newi 6
 elem
 write_1
-jump SKIP_LAMBDA63
-:LAMBDA63
+jump SKIP_LAMBDA67
+:LAMBDA67
 makevar
 write_0
 makevar
@@ -496,8 +540,8 @@ add
 return
 null
 return
-:SKIP_LAMBDA63
-newfx LAMBDA63 2
+:SKIP_LAMBDA67
+newfx LAMBDA67 2
 read_0
 capture
 read_1
@@ -506,7 +550,7 @@ return
 null
 return
 
-:FX62_main_0
+:FX66_main_0
 makevar
 makevar
 makevar
@@ -521,7 +565,7 @@ char 3d
 char 3d
 call FX5_ltn_println_1
 scrap
-call FX61_makeAdd_0
+call FX65_makeAdd_0
 write_0
 newstr
 char_8 61 64 64 28 31 2c 20 32 
@@ -558,13 +602,13 @@ char_8 6e 74 65 72 73 20 3d 3d
 char 3d
 call FX5_ltn_println_1
 scrap
-newfx FX60_f_2 2
+newfx FX64_f_2 2
 write_1
 read_1
 newarr
-call FX58_f1_0
+call FX62_f1_0
 elem
-call FX59_f2_0
+call FX63_f2_0
 elem
 call FX23_ltn_invoke_2
 call FX5_ltn_println_1
@@ -578,8 +622,8 @@ newi 1
 write_2
 newi 2
 write_3
-jump SKIP_LAMBDA64
-:LAMBDA64
+jump SKIP_LAMBDA68
+:LAMBDA68
 makevar
 write_0
 makevar
@@ -590,8 +634,8 @@ add
 return
 null
 return
-:SKIP_LAMBDA64
-newfx LAMBDA64 0
+:SKIP_LAMBDA68
+newfx LAMBDA68 0
 read_2
 capture
 read_3

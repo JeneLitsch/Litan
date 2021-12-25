@@ -13,9 +13,7 @@ namespace {
 	}
 }
 
-ltn::c::CompilerError::CompilerError(
-	const std::string & msg,
-	std::size_t line)
+ltn::c::CompilerError::CompilerError(const std::string & msg, std::size_t line)
 	:	std::runtime_error(to_str(msg, line)),
 		line(line) {}
 

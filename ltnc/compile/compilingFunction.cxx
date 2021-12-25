@@ -94,7 +94,6 @@ namespace ltn::c::compile {
 		{ // Function
 			Scope innerScope{outerScope.getNamespace()};
 			ss << inst::jumpmark(id);
-			std::size_t cIndex = 0;
 			for(const auto & capture : lm.captures) {
 				const auto addr = innerScope.insert(capture->name, fx.debugInfo.line);
 				ss << inst::makevar;

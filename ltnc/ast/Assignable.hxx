@@ -58,4 +58,17 @@ namespace ltn::c::ast {
 		const std::unique_ptr<Assignable> l;
 		const std::unique_ptr<Expression> r;
 	};
+
+	struct MemberAccess : public Assignable {
+		MemberAccess(
+			std::unique_ptr<Var> var,
+			std::vector<std::string> && memberpath,
+			const lex::DebugInfo & debugInfo)
+			:	Assignable(debugInfo),
+				var(std::move(var)),
+				memberpath(std::move(memberpath)){};
+		virtual ~MemberAccess() = default;
+		std::unique_ptr<Var> var;
+		std::vector<std::string> memberpath;
+	};
 }

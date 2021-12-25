@@ -3,10 +3,13 @@
 void ltn::c::compile::LtnBackend::compile(
 	const Config & config,
 	const ast::Source & source) {
+	
 	compile::CompilerInfo info {
 		config,
 		this->fxTable,
-		jumpMarkCounter};
+		this->memberTable,
+		this->jumpMarkCounter};
+	
 	this->buffer << compile::source(source, info);
 }
 

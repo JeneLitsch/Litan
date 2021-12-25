@@ -20,6 +20,22 @@ namespace ltn::c::compile {
 			ss << inst::at_write;
 			return ExprCode{ss.str() };
 		}
+
+		ExprCode writeMemberAccess(const ast::MemberAccess & expr, CompilerInfo & info, Scope & scope) {
+			std::stringstream ss;
+			ss << readVar(*expr.var, info, scope).code;
+			const auto & path = expr.memberpath;
+			for(std::size_t i = 0; i < path.size() - 1; i++) {
+				const auto & name = path[i];
+				const auto id = info.memberTable.getId(name);
+				ss << inst::member_read(id);
+			}
+			const auto & name = path.back();
+			const auto id = info.memberTable.getId(name);
+			ss << inst::member_write(id);
+
+			return ExprCode{ss.str() };
+		}
 	}
 
 	// compile assignable variable
@@ -29,6 +45,9 @@ namespace ltn::c::compile {
 		}
 		if(auto expr_ = as<ast::Index>(expr)) {
 			return writeIndex(*expr_, info, scope);
+		}
+		if(auto expr_ = as<ast::MemberAccess>(expr)) {
+			return writeMemberAccess(*expr_, info, scope);
 		}
 		throw std::runtime_error{"Unknow assingable type"};
 	}

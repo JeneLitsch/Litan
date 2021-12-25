@@ -135,4 +135,16 @@ namespace ltn::c::compile::inst {
 		return ss.str();
 	}
 
+	const std::string member_read(std::uint64_t addr) {
+		std::stringstream ss;
+		ss << "member_read " << addr << "\n";
+		return ss.str();	
+	}
+
+	const std::string member_write(std::uint64_t addr) {
+		std::stringstream ss;
+		ss << "member_write " << addr << "\n";
+		return ss.str();	
+	}
+
 }

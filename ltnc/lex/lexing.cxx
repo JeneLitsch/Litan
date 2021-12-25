@@ -218,6 +218,10 @@ namespace ltn::c::lex {
 			return {Token::Type::STRING, str};
 		}
 
+		if(match('.')) {
+			return {Token::Type::DOT, "."};
+		}
+		
 		if(match(':')) {
 			if(match(':')) {
 				return {Token::Type::COLONx2, "::"};

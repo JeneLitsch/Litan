@@ -38,7 +38,7 @@ namespace ltn::vm {
 
 		void jump(), call(), reTurn(), iF(), invoke(), external(), capture(), read_captured();
 		
-		void newarr(), newstr(), newout(), newin(), newfx(), newClock();
+		void newarr(), newstr(), newout(), newin(), newfx(), newclock(), newstruct();
 
 		void read(), write(), scrap(), makevar();
 		void at(), at_write();
@@ -60,6 +60,8 @@ namespace ltn::vm {
 		void to_seconds();
 
 		void typeId();
+
+		void member_read(), member_write();
 
 		void outValue(const Value & value);
 

@@ -6,9 +6,7 @@
 namespace ltn::c {
 	class CompilerError : public std::runtime_error {
 	public:
-		CompilerError(
-			const std::string & msg,
-			std::size_t line);
+		CompilerError(const std::string & msg, std::size_t line);
 
 		std::size_t getLine() const;
 	private:

@@ -94,7 +94,8 @@ namespace ltn::vm {
 			case Inst::NEWOUT: this->newout(); break;
 			case Inst::NEWIN: this->newin(); break;
 			case Inst::NEWFX: this->newfx(); break;
-			case Inst::NEWCLOCK: this->newClock(); break;
+			case Inst::NEWCLOCK: this->newclock(); break;
+			case Inst::NEWSTRUCT: this->newstruct(); break;
 			
 			case Inst::READ: this->read(); break;
 			case Inst::WRITE: this->write(); break;
@@ -146,6 +147,9 @@ namespace ltn::vm {
 			case Inst::TO_SECONDS: this->to_seconds(); break;
 
 			case Inst::TYPEID: this->typeId(); break;
+
+			case Inst::MEMBER_READ: this->member_read(); break;
+			case Inst::MEMBER_WRITE: this->member_write(); break;
 
 
 			default: {

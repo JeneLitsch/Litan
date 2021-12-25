@@ -68,4 +68,7 @@ namespace ltn::c::compile::inst {
 
 	const std::string read_x(std::uint64_t addr);
 	const std::string write_x(std::uint64_t addr);
+
+	const std::string member_read(std::uint64_t addr);
+	const std::string member_write(std::uint64_t addr);
 }

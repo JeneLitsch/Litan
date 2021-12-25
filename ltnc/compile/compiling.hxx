@@ -1,8 +1,10 @@
 #pragma once
 #include <sstream>
+#include <span>
 #include "utils.hxx"
 #include "Scope.hxx"
 #include "FxTable.hxx"
+#include "MemberTable.hxx"
 #include "Instructions.hxx"
 #include "StmtCode.hxx"
 #include "ExprCode.hxx"
@@ -20,6 +22,7 @@ namespace ltn::c::compile {
 	struct CompilerInfo {
 		const Config & config;
 		FxTable & fxTable;
+		MemberTable & memberTable;
 		std::uint64_t & jumpMarkCounter; 
 	};
 

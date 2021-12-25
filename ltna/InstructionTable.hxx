@@ -78,6 +78,7 @@ namespace ltn::a {
 		{"newin", {Inst::NEWIN, 2, ArgFormat::BYTE}},
 		{"newfx", {Inst::NEWFX, 17, ArgFormat::UINTx2, JumpFormat::ARG1}},
 		{"newclock", {Inst::NEWCLOCK}},
+		{"newstruct", {Inst::NEWSTRUCT}},
 
 		// Control flow
 		{"jump", {Inst::JUMP, 9, ArgFormat::UINT, JumpFormat::ARG1}},
@@ -145,5 +146,8 @@ namespace ltn::a {
 
 		// Type utils
 		{"typeid", {Inst::TYPEID}},
+
+		{"member_read", {Inst::MEMBER_READ, 9, ArgFormat::UINT}},
+		{"member_write", {Inst::MEMBER_WRITE, 9, ArgFormat::UINT}},
 	};
 }

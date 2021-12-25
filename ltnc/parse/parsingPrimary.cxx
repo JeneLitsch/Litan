@@ -167,12 +167,37 @@ namespace ltn::c::parse {
 			}
 		}
 
+		std::vector<std::string> memberpath(lex::Lexer & lexer) {
+			std::vector<std::string> path;
+			while(lexer.match(TT::DOT)) {
+				if(auto member = lexer.match(TT::INDENTIFIER)) {
+					path.push_back(member->str);
+				}
+				else {
+					throw CompilerError{
+						"Expected identifier for member access",
+						lexer.inLine()};
+				}
+			}
+			return path;
+		}
+
 		std::unique_ptr<ast::Expression> identifier(lex::Lexer & lexer) {
 			const auto [name, nameSpace] = symbol(lexer);
 			if(lexer.match(TT::PAREN_L)) {
 				return call(name, nameSpace, lexer);
 			}
-			return var(name, nameSpace, lexer);
+			auto var = parse::var(name, nameSpace, lexer);
+			auto path = parse::memberpath(lexer);
+			if(path.empty()) {
+				return var;
+			}
+			else {
+				return std::make_unique<ast::MemberAccess>(
+					std::move(var),
+					std::move(path),
+					lexer.debug());
+			}
 		}
 
 		std::unique_ptr<ast::FxPointer> fxPointer(lex::Lexer & lexer) {

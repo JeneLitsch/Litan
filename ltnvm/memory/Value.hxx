@@ -11,6 +11,7 @@ namespace ltn::vm {
 			ISTREAM = 0x30, OSTREAM,
 			FX_PTR = 0x40, EXTERNAL,
 			CLOCK = 0x50,
+			STRUCT = 0x60,
 		};
 		constexpr Value()
 			: u(0), type(Type::NVLL) {}
@@ -36,7 +37,7 @@ namespace ltn::vm {
 		Type type;
 	};
 	namespace value {
-		constexpr inline static Value null {0, Value::Type::NVLL };
+		constexpr inline Value null {0, Value::Type::NVLL };
 	}
 
 }

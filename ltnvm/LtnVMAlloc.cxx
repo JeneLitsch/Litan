@@ -62,9 +62,15 @@ namespace ltn::vm {
 		}
 		throw std::runtime_error {"Unknow input variant"};
 	}
-	void LtnVM::newClock() {
+	void LtnVM::newclock() {
 		const auto ptr = this->heap.alloc<Clock>({});
 		this->reg.push({ ptr, Value::Type::CLOCK });
+		this->heap.collectGarbage(this->stack, this->reg);
+	}
+
+	void LtnVM::newstruct() {
+		const auto ptr = this->heap.alloc<Struct>({});
+		this->reg.push({ ptr, Value::Type::STRUCT });
 		this->heap.collectGarbage(this->stack, this->reg);
 	}
 }

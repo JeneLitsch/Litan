@@ -4,75 +4,100 @@
 #include <iostream>
 #include "ltnvm/TypeCheck.hxx"
 
+namespace ltn::vm {
+	Heap::Heap() {}
 
 
-ltn::vm::Heap::Heap() {}
-
-
-ltn::vm::HeapObject & ltn::vm::Heap::get(std::uint64_t addr) {
-	if(addr > this->objects.size()) {
-		throw accessViolation(addr, "");
+	HeapObject & ltn::vm::Heap::get(std::uint64_t addr) {
+		if(addr > this->objects.size()) {
+			throw accessViolation(addr, "");
+		}
+		return this->objects[addr];
 	}
-	return this->objects[addr];
-}
 
-void ltn::vm::Heap::collectGarbage(const Stack & stack, const Register & reg) {
-	mark(stack.getContainer());
-	mark(reg.getContainer());
-	sweep();
-}
+	void Heap::collectGarbage(const Stack & stack, const Register & reg) {
+		mark(stack.getContainer());
+		mark(reg.getContainer());
+		sweep();
+	}
 
-void ltn::vm::Heap::mark(const std::vector<Value> & values) {
-	for(const auto & value : values) {
+	void Heap::mark(const std::vector<Value> & values) {
+		for(const auto & value : values) {
+			this->mark(value);
+		}
+	}
+
+	void Heap::mark(const Struct::Members & members) {
+		for(const auto & [key, value] : members) {
+			this->mark(value);
+		}
+	}
+
+
+	void Heap::mark(const Value & value) {
 		if(isArr(value)) {
-			auto & obj = get(value.u);
+			auto & obj = this->get(value.u);
 			if(!obj.marked) {
-				auto & arr = read<Array>(value.u);
+				auto & arr = this->read<Array>(value.u);
 				obj.marked = true;
-				mark(arr.arr);
+				this->mark(arr.arr);
 			}
 		}
+		
 		else if(isFxPtr(value)) {
 			auto & obj = get(value.u);
 			if(!obj.marked) {
-				auto & fx = read<FxPointer>(value.u);
+				auto & fx = this->read<FxPointer>(value.u);
 				obj.marked = true;
-				mark(fx.captured);
+				this->mark(fx.captured);
 			}
 		}
-		else if(isStr(value)
-		|| isOStream(value)
-		|| isIStream(value)
-		|| isClock(value)) {
+
+		else if(isStruct(value)) {
 			auto & obj = get(value.u);
+			if(!obj.marked) {
+				auto & fx = this->read<Struct>(value.u);
+				obj.marked = true;
+				this->mark(fx.members);
+			}
+		}
+		
+		else if(
+			isStr(value) ||
+			isOStream(value) ||
+			isIStream(value) ||
+			isClock(value)) {
+			auto & obj = this->get(value.u);
 			obj.marked = true;
 		}
 	}
-}
 
-void ltn::vm::Heap::sweep() {
-	std::uint64_t idx = 0;
-	for(auto & obj : this->objects) {
-		if(obj.marked) {
-			obj.marked = false;
+	void ltn::vm::Heap::sweep() {
+		std::uint64_t idx = 0;
+		for(auto & obj : this->objects) {
+			if(obj.marked) {
+				obj.marked = false;
+			}
+			else if(!std::get_if<std::monostate>(&obj.obj)) {
+				obj.obj = std::monostate();
+				this->reuse.push(idx);
+				// std::cout << "Delete " << idx << "\n";
+			}
+			idx++;
 		}
-		else if(!std::get_if<std::monostate>(&obj.obj)) {
-			obj.obj = std::monostate();
-			this->reuse.push(idx);
-			// std::cout << "Delete " << idx << "\n";
-		}
-		idx++;
 	}
+
+	void Heap::reset() {
+		this->objects.clear();
+		this->reuse = {};
+	}
+
+	std::size_t Heap::size() const {
+		return std::count_if(this->objects.begin(), this->objects.end(),
+		[] (const HeapObject & obj ) {
+			const bool b = std::get_if<std::monostate>(&obj.obj); 
+			return !b; });
+	}
+
 }
 
-void ltn::vm::Heap::reset() {
-	this->objects.clear();
-	this->reuse = {};
-}
-
-std::size_t ltn::vm::Heap::size() const {
-	return std::count_if(this->objects.begin(), this->objects.end(),
-	[] (const HeapObject & obj ) {
-		const bool b = std::get_if<std::monostate>(&obj.obj); 
-		return !b; });
-}

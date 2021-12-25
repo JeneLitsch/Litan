@@ -14,6 +14,7 @@
 #include "objects/IStream.hxx"
 #include "objects/FxPointer.hxx"
 #include "objects/Clock.hxx"
+#include "objects/Struct.hxx"
 namespace ltn::vm {
 	struct HeapObject {
 		std::variant<
@@ -21,7 +22,8 @@ namespace ltn::vm {
 			String, Array,
 			IStream, OStream,
 			FxPointer,
-			Clock> obj;
+			Clock,
+			Struct> obj;
 		
 		bool marked = false;
 	};
@@ -80,6 +82,8 @@ namespace ltn::vm {
 
 
 		void mark(const std::vector<Value> & values);
+		void mark(const Struct::Members & members);
+		void mark(const Value & value);
 		void sweep();
 
 		HeapObject & get(std::uint64_t addr);
