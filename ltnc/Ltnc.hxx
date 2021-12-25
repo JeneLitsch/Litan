@@ -17,6 +17,6 @@ namespace ltn::c {
 		Config config;
 		std::size_t line = 1;
 		std::unique_ptr<Backend> backend;
-		std::vector<std::unique_ptr<ast::Functional>> functions;
+		ast::Program program;
 	};
 }

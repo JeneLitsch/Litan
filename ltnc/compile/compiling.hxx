@@ -10,13 +10,7 @@
 #include "ExprCode.hxx"
 #include "ltnc/Config.hxx"
 #include "ltnc/CompilerError.hxx"
-#include "ltnc/ast/Node.hxx"
-#include "ltnc/ast/Source.hxx"
-#include "ltnc/ast/Function.hxx"
-#include "ltnc/ast/Expression.hxx"
-#include "ltnc/ast/Statement.hxx"
-#include "ltnc/ast/Literals.hxx"
-#include "ltnc/ast/Assignable.hxx"
+#include "ltnc/ast/Ast.hxx"
 
 namespace ltn::c::compile {
 	struct CompilerInfo {
@@ -27,8 +21,6 @@ namespace ltn::c::compile {
 	};
 
 
-	// Source
-	std::string source(const ast::Source & source, CompilerInfo & info);
 	
 	// Functional
 	std::string functional(const ast::Functional & fx, CompilerInfo & info);

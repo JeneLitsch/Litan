@@ -1,6 +1,6 @@
 #pragma once
 #include <ostream>
-#include "ltnc/ast/Source.hxx"
+#include "ltnc/ast/Ast.hxx"
 #include "Config.hxx"
 namespace ltn::c {
 	class Backend {

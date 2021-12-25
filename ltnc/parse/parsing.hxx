@@ -1,15 +1,11 @@
 #pragma once
-#include "ltnc/ast/Function.hxx"
-#include "ltnc/ast/Source.hxx"
-#include "ltnc/ast/Statement.hxx"
-#include "ltnc/ast/Assignable.hxx"
-#include "ltnc/ast/Literals.hxx"
+#include "ltnc/ast/Ast.hxx"
 #include "ltnc/lex/Lexer.hxx"
 
 namespace ltn::c::parse {
 
 	// Sources
-	std::unique_ptr<ast::Source> source(lex::Lexer & lexer);
+	std::vector<std::unique_ptr<ast::Functional>> source(lex::Lexer & lexer);
 	
 	// Funcionals
 	std::unique_ptr<ast::Functional> functional(

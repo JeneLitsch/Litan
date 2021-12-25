@@ -65,7 +65,7 @@ namespace ltn::c::parse {
 		}
 	}
 
-	std::unique_ptr<ast::Source> source(lex::Lexer & lexer) {
+	std::vector<std::unique_ptr<ast::Functional>> source(lex::Lexer & lexer) {
 		Functionals functions;
 		ast::Namespace nameSpace;
 		while(!lexer.match(TT::___EOF___)) {
@@ -81,9 +81,7 @@ namespace ltn::c::parse {
 			else throw unknownDeclaration(lexer);
 		}
 		if(nameSpace.empty()) {
-			return std::make_unique<ast::Source>(
-				std::move(functions),
-				lexer.debug());
+			return functions; 
 		}
 		else throw unclosedNamespace(lexer);
 	}
