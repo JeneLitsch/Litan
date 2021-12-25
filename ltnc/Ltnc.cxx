@@ -23,9 +23,11 @@ void ltn::c::Ltnc::compile(std::istream & in, const std::string &) {
 	this->line = 0;
 	lex::Lexer lexer{in, this->line};
 	auto source = parse::source(lexer);
-	this->backend->compile(this->config, *source);
+	for(auto && fx : source->functions) {
+		this->functions.push_back(std::move(fx));
+	}
 }
 
 void ltn::c::Ltnc::yield(std::ostream & out) {
-	this->backend->yield(out);
+	this->backend->compile(out, this->config, this->functions);
 }

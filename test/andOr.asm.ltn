@@ -1,4 +1,4 @@
-call FX64_main_0
+call FX63_main_0
 exit
 
 :FX0_ltn_cout_0
@@ -384,15 +384,15 @@ call FX40_ltn_typeId_1
 newi 64
 eql
 not
-ifelse OR51_TRUE
+ifelse OR64_TRUE
 read_0
 call FX40_ltn_typeId_1
 newi 65
 eql
-jump OR51_END
-:OR51_TRUE
+jump OR64_END
+:OR64_TRUE
 true
-:OR51_END
+:OR64_END
 return
 null
 return
@@ -419,13 +419,13 @@ return
 null
 return
 
-:FX52_ltn_size_1
+:FX51_ltn_size_1
 size
 return
 null
 return
 
-:FX53_ltn_empty_1
+:FX52_ltn_empty_1
 size
 newi 0
 eql
@@ -433,49 +433,49 @@ return
 null
 return
 
-:FX54_ltn_front_1
+:FX53_ltn_front_1
 front
 return
 null
 return
 
-:FX55_ltn_back_1
+:FX54_ltn_back_1
 back
 return
 null
 return
 
-:FX56_ltn_insertBack_2
+:FX55_ltn_insertBack_2
 insert_back
 null
 return
 
-:FX57_ltn_insertFront_2
+:FX56_ltn_insertFront_2
 insert_front
 null
 return
 
-:FX58_ltn_insert_3
+:FX57_ltn_insert_3
 insert
 null
 return
 
-:FX59_ltn_removeBack_1
+:FX58_ltn_removeBack_1
 remove_back
 null
 return
 
-:FX60_ltn_removeFront_1
+:FX59_ltn_removeFront_1
 remove_front
 null
 return
 
-:FX61_ltn_remove_2
+:FX60_ltn_remove_2
 remove
 null
 return
 
-:FX62_t_0
+:FX61_t_0
 newstr
 char_4 74 72 75 65 
 call FX5_ltn_println_1
@@ -485,7 +485,7 @@ return
 null
 return
 
-:FX63_f_0
+:FX62_f_0
 newstr
 char_4 66 61 6c 73 
 char 65
@@ -496,16 +496,16 @@ return
 null
 return
 
-:FX64_main_0
+:FX63_main_0
 newstr
 char_4 41 4e 44 20 
 char 26
 char 26
 call FX5_ltn_println_1
 scrap
-call FX63_f_0
+call FX62_f_0
 ifelse AND66_FALSE
-call FX62_t_0
+call FX61_t_0
 jump AND66_END
 :AND66_FALSE
 false
@@ -529,10 +529,10 @@ char_4 4f 52 20 7c
 char 7c
 call FX5_ltn_println_1
 scrap
-call FX63_f_0
+call FX62_f_0
 not
 ifelse OR69_TRUE
-call FX62_t_0
+call FX61_t_0
 jump OR69_END
 :OR69_TRUE
 true

@@ -7,14 +7,13 @@ namespace ltn::c::compile {
 	class LtnBackend : public Backend {
 	public:
 		virtual void compile(
+			std::ostream & out,
 			const Config & config,
-			const ast::Source & source) override;
-		virtual void yield(std::ostream & out) override;
+			const std::vector<std::unique_ptr<ast::Functional>> & source) override;
 		virtual ~LtnBackend() = default;
 	private:
 		FxTable fxTable;
 		MemberTable memberTable;
-		std::stringstream buffer;
 		std::size_t jumpMarkCounter = 0;
 	};
 	

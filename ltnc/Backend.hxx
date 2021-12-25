@@ -6,9 +6,9 @@ namespace ltn::c {
 	class Backend {
 	public:
 		virtual void compile(
+			std::ostream & out,
 			const Config & config,
-			const ast::Source & source) = 0;
-		virtual void yield(std::ostream & out) = 0;
+			const std::vector<std::unique_ptr<ast::Functional>> & source) = 0;
 		virtual ~Backend() = default;
 	};
 }

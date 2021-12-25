@@ -10,6 +10,6 @@ namespace ltn::c::ast {
 			:	Node(debugInfo),
 				functions(std::move(functions)) {}
 		virtual ~Source() = default;
-		const std::vector<std::unique_ptr<Functional>> functions;
+		std::vector<std::unique_ptr<Functional>> functions;
 	};
 }
