@@ -15,4 +15,13 @@ namespace ltn {
 		"mlt"
 		"return"
 	}
+
+	function wait(seconds) {
+		var clock = clock();
+		var start = toSeconds(clock);
+		var current = start;
+		while(current - start <= seconds) {
+			current = toSeconds(clock);
+		}
+	}
 }
