@@ -42,7 +42,7 @@ namespace ltn::vm::ext {
 		virtual ~Api();
 
 	private:
-		const Value & getValue(std::size_t idx) {
+		const Value & getValue(std::size_t idx) const {
 			if(idx >= params.size()) {
 				throw std::runtime_error{"Parameter out of range"};
 			}
