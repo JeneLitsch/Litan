@@ -11,10 +11,7 @@ namespace ltn::vm::ext {
 
 		template<class T>
 		T parameter(std::size_t idx) const {
-			if(idx >= params.size()) {
-				throw std::runtime_error{"Parameter out of range"};
-			}
-			const Value & value = this->params[idx];
+			const Value & value = this->getValue(idx);
 
 			if constexpr(std::same_as<T, bool>) {
 				if(isBool(value)) return value.b;
@@ -45,6 +42,12 @@ namespace ltn::vm::ext {
 		virtual ~Api();
 
 	private:
+		const Value & getValue(std::size_t idx) {
+			if(idx >= params.size()) {
+				throw std::runtime_error{"Parameter out of range"};
+			}
+			return this->params[idx];
+		}
 		Heap & heap;
 		Register & reg;
 		std::vector<Value> params;
