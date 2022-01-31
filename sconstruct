@@ -27,6 +27,7 @@ ltnc = [
 	"ltnc/lex",
 	"ltnc/parse",
 	"ltnc/compile",
+	"ltnc/optimize",
 	"ltnc/type",
 ]
 ltncCli = [

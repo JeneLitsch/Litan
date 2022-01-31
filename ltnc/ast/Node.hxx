@@ -6,6 +6,6 @@ namespace ltn::c::ast {
 		Node(const lex::DebugInfo & debugInfo)
 			:	debugInfo(debugInfo) {}
 		virtual ~Node() = default;
-		const lex::DebugInfo debugInfo;
+		lex::DebugInfo debugInfo;
 	};
 }

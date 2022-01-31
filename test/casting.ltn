@@ -1,0 +1,15 @@
+function main() {
+	ltn::println(ltn::bool(0));
+	ltn::println(ltn::bool(1));
+	ltn::println(ltn::bool(ltn::null()));
+
+	ltn::println(ltn::int("-1337.3"));
+	ltn::println(ltn::int(1.5));
+	ltn::println(ltn::int(-42));
+
+	ltn::println(ltn::float("-1337.3"));
+	ltn::println(ltn::float(1.5));
+	ltn::println(ltn::float(-42));
+
+	ltn::println(ltn::string("\"" + ltn::null() + "\""));
+}

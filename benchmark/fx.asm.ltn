@@ -140,13 +140,13 @@ null
 return
 
 :FX18_ltn_toSeconds_1
-to_seconds
+cast_float
 return
 null
 return
 
 :FX19_ltn_toMilliseconds_1
-to_seconds
+cast_float
 newf 1000.0
 mlt
 return

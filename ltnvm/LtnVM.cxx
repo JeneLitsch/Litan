@@ -1,7 +1,7 @@
 #include "LtnVM.hxx"
 #include "ltn/InstructionSet.hxx"
 #include <sstream>
-#include "Stringify.hxx"
+#include "cast.hxx"
 namespace ltn::vm {
 
 	void LtnVM::registerExternal(
@@ -22,7 +22,7 @@ namespace ltn::vm {
 			case Inst::EXIT: {
 				this->ostream.get() << "Exit main() with return value: ";
 				const auto value = this->reg.pop();
-				this->ostream.get() << toString(value, this->heap);
+				this->ostream.get() << cast::to_string(value, this->heap);
 				this->ostream.get() << "\n";
 				return;
 			}
@@ -130,7 +130,10 @@ namespace ltn::vm {
 			case Inst::REMOVE_FRONT: this->remove_front(); break;
 			case Inst::REMOVE: this->remove(); break;
 
-			case Inst::TO_SECONDS: this->to_seconds(); break;
+			case Inst::CAST_INT: this->cast_int(); break;
+			case Inst::CAST_FLOAT: this->cast_float(); break;
+			case Inst::CAST_STRING: this->cast_string(); break;
+			case Inst::CAST_BOOL: this->cast_bool(); break;
 
 			case Inst::TYPEID: this->typeId(); break;
 

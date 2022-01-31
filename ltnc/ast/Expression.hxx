@@ -25,8 +25,8 @@ namespace ltn::c::ast {
 				type(type),
 				expression(std::move(expression)) {}
 		virtual ~Unary() = default;
-		const Type type;
-		const std::unique_ptr<Expression> expression;
+		Type type;
+		std::unique_ptr<Expression> expression;
 	};
 
 	struct Binary : public Expression {
@@ -38,8 +38,8 @@ namespace ltn::c::ast {
 				l(std::move(l)),
 				r(std::move(r)) {}
 		virtual ~Binary() = default;
-		const std::unique_ptr<Expression> l;
-		const std::unique_ptr<Expression> r;
+		std::unique_ptr<Expression> l;
+		std::unique_ptr<Expression> r;
 	};
 
 	struct SimpleBinary : public Binary {
@@ -57,7 +57,7 @@ namespace ltn::c::ast {
 			:	Binary(std::move(l), std::move(r), debugInfo),
 				type(type) {}
 		virtual ~SimpleBinary() = default;
-		const Type type;
+		Type type;
 	};
 
 	struct Logical : public Binary {
@@ -72,7 +72,7 @@ namespace ltn::c::ast {
 			:	Binary(std::move(l), std::move(r), debugInfo),
 				type(type) {}
 		virtual ~Logical() = default;
-		const Type type;
+		Type type;
 	};
 
 
@@ -88,9 +88,9 @@ namespace ltn::c::ast {
 				nameSpace(nameSpace),
 				parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
-		const std::string name;
-		const Namespace nameSpace;
-		const std::vector<std::unique_ptr<Expression>> parameters;
+		std::string name;
+		Namespace nameSpace;
+		std::vector<std::unique_ptr<Expression>> parameters;
 	};
 
 
@@ -106,8 +106,8 @@ namespace ltn::c::ast {
 				nameSpace(nameSpace),
 				placeholders(std::move(placeholders)) {}
 		virtual ~FxPointer() = default;
-		const std::string name;
-		const Namespace nameSpace;
-		const std::size_t placeholders;
+		std::string name;
+		Namespace nameSpace;
+		std::size_t placeholders;
 	};
 }

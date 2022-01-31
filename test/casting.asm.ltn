@@ -500,94 +500,60 @@ null
 return
 
 :FX65_main_0
-makevar
-makevar
-makevar
-makevar
-makevar
-makevar
-newf 2
-write_0
-newf 2
-write_1
-newf 2
-write_2
-newf 2
-write_3
-newf 2
-write_x 4
-read_0
-newf 3
-add
-write_0
-null
-scrap
-read_1
-newf 3
-sub
-write_1
-null
-scrap
-read_2
-newf 3
-mlt
-write_2
-null
-scrap
-read_3
-newf 3
-div
-write_3
-null
-scrap
-read_x 4
-newf 3
-mod
-write_x 4
-null
-scrap
-read_0
+newi 0
+call FX3_ltn_bool_1
 call FX18_ltn_println_1
 scrap
-read_1
+newi 1
+call FX3_ltn_bool_1
 call FX18_ltn_println_1
 scrap
-read_2
-call FX18_ltn_println_1
-scrap
-read_3
-call FX18_ltn_println_1
-scrap
-read_x 4
+call FX43_ltn_null_0
+call FX3_ltn_bool_1
 call FX18_ltn_println_1
 scrap
 newstr
-char_4 48 65 6c 6c 
-char 6f
-write_x 5
-read_x 5
-newstr
-char 20
-add
-write_x 5
-null
+char_4 2d 31 33 33 
+char 37
+char 2e
+char 33
+call FX0_ltn_int_1
+call FX18_ltn_println_1
 scrap
-read_x 5
-newstr
-char_4 57 6f 72 6c 
-char 64
-add
-write_x 5
-null
+newf 1.5
+call FX0_ltn_int_1
+call FX18_ltn_println_1
 scrap
-read_x 5
-newstr
-char 21
-add
-write_x 5
-null
+newi 42
+neg
+call FX0_ltn_int_1
+call FX18_ltn_println_1
 scrap
-read_x 5
+newstr
+char_4 2d 31 33 33 
+char 37
+char 2e
+char 33
+call FX1_ltn_float_1
+call FX18_ltn_println_1
+scrap
+newf 1.5
+call FX1_ltn_float_1
+call FX18_ltn_println_1
+scrap
+newi 42
+neg
+call FX1_ltn_float_1
+call FX18_ltn_println_1
+scrap
+newstr
+char 22
+call FX43_ltn_null_0
+add
+newstr
+char 22
+add
+call FX2_ltn_string_1
 call FX18_ltn_println_1
 scrap
 null

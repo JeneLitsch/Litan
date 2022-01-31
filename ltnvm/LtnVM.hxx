@@ -67,7 +67,7 @@ namespace ltn::vm {
 		void insert_back(), insert_front(), insert();
 		void remove_back(), remove_front(), remove();
 		
-		void to_seconds();
+		void cast_int(), cast_float(), cast_string(), cast_bool();
 
 		void typeId();
 

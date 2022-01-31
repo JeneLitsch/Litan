@@ -19,7 +19,7 @@ namespace ltn::c::ast {
 		Integer(std::int64_t value, const lex::DebugInfo & debugInfo)
 			:	Literal(debugInfo), value(value) {}
 		virtual ~Integer() = default;
-		const std::int64_t value;
+		std::int64_t value;
 	};
 
 	struct Float : public Literal {
@@ -27,7 +27,7 @@ namespace ltn::c::ast {
 		Float(double value, const lex::DebugInfo & debugInfo)
 			:	Literal(debugInfo), value(value) {}
 		virtual ~Float() = default;
-		const double value;
+		double value;
 	};
 
 	struct Bool : public Literal {
@@ -35,7 +35,7 @@ namespace ltn::c::ast {
 		Bool(bool value, const lex::DebugInfo & debugInfo)
 			:	Literal(debugInfo), value(value) {}
 		virtual ~Bool() = default;
-		const bool value;
+		bool value;
 	};
 
 	struct String : public Literal {
@@ -43,7 +43,7 @@ namespace ltn::c::ast {
 		String(const std::string & value, const lex::DebugInfo & debugInfo)
 			:	Literal(debugInfo), value(value) {}
 		virtual ~String() = default;
-		const std::string value;
+		std::string value;
 	};
 
 	struct Array : public Literal {
@@ -66,7 +66,7 @@ namespace ltn::c::ast {
 				fx(std::move(fx)),
 				captures(std::move(captures)) {}
 		virtual ~Lambda() = default;
-		const std::unique_ptr<Functional> fx;
-		const std::vector<std::unique_ptr<Var>> captures;
+		std::unique_ptr<Functional> fx;
+		std::vector<std::unique_ptr<Var>> captures;
 	};
 }

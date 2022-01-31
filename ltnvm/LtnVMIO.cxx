@@ -1,6 +1,6 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
-#include "Stringify.hxx"
+#include "cast.hxx"
 
 namespace ltn::vm {
 	void LtnVM::out() {
@@ -8,7 +8,7 @@ namespace ltn::vm {
 		const auto ref = this->reg.pop();
 		if(isOStream(ref)) {
 			auto & ostream = this->heap.read<OStream>(ref.u).get();
-			ostream << toString(value, this->heap); 
+			ostream << cast::to_string(value, this->heap); 
 		}
 		else {
 			throw std::runtime_error{"Can only output to ostream"};

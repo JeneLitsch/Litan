@@ -15,7 +15,7 @@ namespace ltn::c::ast {
 			:	Statement(debugInfo),
 				statements(std::move(statements)) {}
 		virtual ~Block() = default;
-		const std::vector<std::unique_ptr<Statement>> statements;
+		std::vector<std::unique_ptr<Statement>> statements;
 	};
 
 	struct NewVar : public Statement {
@@ -27,8 +27,8 @@ namespace ltn::c::ast {
 				name(name),
 				right(std::move(right)) {}
 		virtual ~NewVar() = default;
-		const std::string name;
-		const std::unique_ptr<Expression> right; 
+		std::string name;
+		std::unique_ptr<Expression> right; 
 	};
 
 	struct NewConst : public Statement {
@@ -40,8 +40,8 @@ namespace ltn::c::ast {
 				name(name),
 				right(std::move(right)) {}
 		virtual ~NewConst() = default;
-		const std::string name;
-		const std::unique_ptr<Expression> right; 
+		std::string name;
+		std::unique_ptr<Expression> right; 
 	};
 
 	struct IfElse : public Statement {
@@ -55,9 +55,9 @@ namespace ltn::c::ast {
 				ifBranch(std::move(ifBranch)),
 				elseBranch(std::move(elseBranch)) {}
 		virtual ~IfElse() = default;
-		const std::unique_ptr<Expression> condition;
-		const std::unique_ptr<Statement> ifBranch;
-		const std::unique_ptr<Statement> elseBranch;
+		std::unique_ptr<Expression> condition;
+		std::unique_ptr<Statement> ifBranch;
+		std::unique_ptr<Statement> elseBranch;
 	};
 
 
@@ -71,8 +71,8 @@ namespace ltn::c::ast {
 				body(std::move(body)) {}
 
 		virtual ~While() = default;
-		const std::unique_ptr<Expression> condition;
-		const std::unique_ptr<Statement> body;
+		std::unique_ptr<Expression> condition;
+		std::unique_ptr<Statement> body;
 	};
 
 	struct For : public Statement {
@@ -89,10 +89,10 @@ namespace ltn::c::ast {
 				body(std::move(body)) {}
 
 		virtual ~For() = default;
-		const std::unique_ptr<NewVar> var;
-		const std::unique_ptr<Expression> from;
-		const std::unique_ptr<Expression> to;
-		const std::unique_ptr<Statement> body;
+		std::unique_ptr<NewVar> var;
+		std::unique_ptr<Expression> from;
+		std::unique_ptr<Expression> to;
+		std::unique_ptr<Statement> body;
 	};
 
 	struct StatementExpression : public Statement {
@@ -102,7 +102,7 @@ namespace ltn::c::ast {
 			:	Statement(debugInfo),
 				expression(std::move(expression)) {}
 		virtual ~StatementExpression() = default;
-		const std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expression;
 	};
 
 	struct Return : public Statement {
@@ -112,6 +112,6 @@ namespace ltn::c::ast {
 			:	Statement(debugInfo),
 				expression(std::move(expression)) {}
 		virtual ~Return() = default;
-		const std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expression;
 	};
 }

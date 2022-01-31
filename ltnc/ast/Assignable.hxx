@@ -16,8 +16,8 @@ namespace ltn::c::ast {
 				expression(std::move(expression)),
 				index(std::move(index)) {}
 		virtual ~Index() = default;
-		const std::unique_ptr<Expression> expression;
-		const std::unique_ptr<Expression> index;
+		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> index;
 	};
 
 	struct Var : public Assignable {
@@ -27,7 +27,7 @@ namespace ltn::c::ast {
 			:	Assignable(debugInfo),
 				name(name) {}
 		virtual ~Var() = default;
-		const std::string name;
+		std::string name;
 	};
 
 	struct Assign : public Expression {
@@ -38,8 +38,8 @@ namespace ltn::c::ast {
 			const lex::DebugInfo & debugInfo)
 			:	Expression(debugInfo), l(std::move(l)), r(std::move(r)) {}
 		virtual ~Assign() = default;
-		const std::unique_ptr<Assignable> l;
-		const std::unique_ptr<Expression> r;
+		std::unique_ptr<Assignable> l;
+		std::unique_ptr<Expression> r;
 	};
 
 	struct Modify : public Expression {
@@ -54,9 +54,9 @@ namespace ltn::c::ast {
 				l(std::move(l)),
 				r(std::move(r)) {}
 		virtual ~Modify() = default;
-		const Type type;
-		const std::unique_ptr<Assignable> l;
-		const std::unique_ptr<Expression> r;
+		Type type;
+		std::unique_ptr<Assignable> l;
+		std::unique_ptr<Expression> r;
 	};
 
 	struct MemberAccess : public Assignable {

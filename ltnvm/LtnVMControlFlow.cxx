@@ -1,17 +1,9 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
+#include "cast.hxx"
 #include <sstream>
 
 namespace ltn::vm {
-
-
-	bool isTruthy(const Value & value) {
-		if(isBool(value)) return value.b;
-		if(isInt(value)) return value.i;
-		if(isFloat(value)) return value.f == 0.0;
-		throw std::runtime_error{"Cannot convert to bool"};
-	}
-
 	void LtnVM::jump() {
 		const auto addr = this->fetchUint(); 
 		this->pc = addr;
@@ -27,7 +19,7 @@ namespace ltn::vm {
 	void LtnVM::iF() {
 		const auto value = this->reg.pop();
 		const auto elseAddr = this->fetchUint();
-		if(!isTruthy(value)) {
+		if(!cast::to_bool(value, this->heap)) {
 			this->pc = elseAddr;
 		}
 	}

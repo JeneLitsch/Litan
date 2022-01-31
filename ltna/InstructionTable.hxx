@@ -142,7 +142,10 @@ namespace ltn::a {
 		{"remove", {Inst::REMOVE}},
 
 		// Chrono utils
-		{"to_seconds", {Inst::TO_SECONDS}},
+		{"cast_int", {Inst::CAST_INT}},
+		{"cast_float", {Inst::CAST_FLOAT}},
+		{"cast_string", {Inst::CAST_STRING}},
+		{"cast_bool", {Inst::CAST_BOOL}},
 
 		// Type utils
 		{"typeid", {Inst::TYPEID}},

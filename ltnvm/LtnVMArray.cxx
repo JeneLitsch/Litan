@@ -1,6 +1,6 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
-#include "Stringify.hxx"
+#include "cast.hxx"
 
 namespace ltn::vm {
 	void LtnVM::size() {
@@ -49,7 +49,7 @@ namespace ltn::vm {
 		const auto refArray = this->reg.pop();
 		if(isStr(refArray)) {
 			auto & string = this->heap.read<String>(refArray.u).str; 
-			string += toString(element, this->heap);
+			string += cast::to_string(element, this->heap);
 			return;
 		}
 		if(isArr(refArray)) {
@@ -65,7 +65,7 @@ namespace ltn::vm {
 		const auto refArray = this->reg.pop();
 		if(isStr(refArray)) {
 			auto & string = this->heap.read<String>(refArray.u).str; 
-			string = toString(element, this->heap) + string;
+			string = cast::to_string(element, this->heap) + string;
 			return;
 		}
 		if(isArr(refArray)) {
@@ -85,7 +85,7 @@ namespace ltn::vm {
 		}
 		if(isStr(refCollection)) {
 			auto & string = this->heap.read<String>(refCollection.u).str;
-			const auto str = toString(element, this->heap); 
+			const auto str = cast::to_string(element, this->heap); 
 			string.insert(index.i, str);
 			return;
 		}

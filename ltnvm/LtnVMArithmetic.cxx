@@ -2,7 +2,7 @@
 #include <cmath>
 #include "TypeCheck.hxx"
 #include <sstream>
-#include "Stringify.hxx"
+#include "cast.hxx"
 #include "Operations.hxx"
 #include "CalcBinary.hxx"
 
@@ -44,7 +44,7 @@ namespace ltn::vm {
 
 		if(isStr(l)) {
 			const auto & strL = heap.read<String>(l.u);
-			const auto ref = heap.alloc<String>({strL.str + toString(r, heap)});
+			const auto ref = heap.alloc<String>({strL.str + cast::to_string(r, heap)});
 			return this->reg.push({ref, Value::Type::STRING});
 		}
 
@@ -56,7 +56,7 @@ namespace ltn::vm {
 
 		if(isStr(r)) {
 			const auto & strR = heap.read<String>(r.u);
-			const auto ref =heap.alloc<String>({toString(l, heap) + strR.str});
+			const auto ref =heap.alloc<String>({cast::to_string(l, heap) + strR.str});
 			return this->reg.push({ref, Value::Type::STRING});
 		}
 

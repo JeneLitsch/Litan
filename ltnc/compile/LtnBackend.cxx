@@ -22,7 +22,6 @@ namespace ltn::c::compile {
 		const Config & config,
 		const std::vector<std::unique_ptr<ast::Functional>> & functions) {
 		
-		std::stringstream buffer;
 		compile::CompilerInfo info {
 			config,
 			this->fxTable,
@@ -37,19 +36,19 @@ namespace ltn::c::compile {
 				makeFxId(info, *fx)});
 		}
 
-		for(const auto & function : functions) {
-			buffer << compile::functional(*function, info); 
-		}
-		
 		// Jump to main()
 		if(const auto fxmain = this->fxTable.resolve("main", {}, 0)) {
-			out	<< compile::inst::call(fxmain->id) 
+			out
+				<< compile::inst::call(fxmain->id) 
 				<< compile::inst::exlt
 				<< "\n";
-			out << buffer.rdbuf();
 		}
 		else {
 			throw CompilerError {"main() is undefined", 0};
+		}
+
+		for(const auto & function : functions) {
+			out << compile::functional(*function, info); 
 		}
 	}
 }

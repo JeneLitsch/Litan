@@ -5,12 +5,12 @@ namespace ltn {
 	}
 
 	asm toSeconds(clock) {
-		"to_seconds"
+		"cast_float"
 		"return"
 	}
 
 	asm toMilliseconds(clock) {
-		"to_seconds"
+		"cast_float"
 		"newf 1000.0"
 		"mlt"
 		"return"

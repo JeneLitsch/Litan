@@ -7,11 +7,12 @@ using namespace std::string_view_literals;
 
 const std::span<const std::string_view> ltn::c::Ltnc::stdLib() const {
 	constexpr static std::array stdFiles {
-		"io.ltn"sv,
+		"cast.ltn"sv,
 		"chrono.ltn"sv,
-		"error.ltn"sv,
 		"debug.ltn"sv,
+		"error.ltn"sv,
 		"functional.ltn"sv,
+		"io.ltn"sv,
 		"math.ltn"sv,
 		"type.ltn"sv,
 		"utils.ltn"sv,

@@ -1,0 +1,21 @@
+namespace ltn {
+	asm int(x) {
+		"cast_int"
+		"return"
+	}
+
+	asm float(x) {
+		"cast_float"
+		"return"
+	}
+
+	asm string(x) {
+		"cast_string"
+		"return"
+	}
+
+	asm bool(x) {
+		"cast_bool"
+		"return"
+	}
+}

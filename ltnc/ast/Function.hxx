@@ -21,9 +21,9 @@ namespace ltn::c::ast {
 				nameSpace(nameSpace),
 				parameters(parameters) {}
 		virtual ~Functional() = default;
-		const std::string name;
+		std::string name;
 		Namespace nameSpace;
-		const Parameters parameters;
+		Parameters parameters;
 	};
 
 	struct Function : public Functional {
@@ -36,7 +36,7 @@ namespace ltn::c::ast {
 			:	Functional(name, nameSpace, parameters, debugInfo),
 				body(std::move(body)) {}
 		virtual ~Function() = default;
-		const std::unique_ptr<Statement> body;
+		std::unique_ptr<Statement> body;
 	};
 
 	struct Asm : public Functional {
