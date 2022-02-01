@@ -50,6 +50,10 @@ namespace ltn::c::lex {
 			return std::isalnum(in.peek());
 		}
 
+		bool checkIdChar(std::istream & in) {
+			return checkAlNum(in) || in.peek() == '_';
+		}
+
 		// returns true and consumes if the next char matches 
 		bool match(std::istream & in, char chr, std::size_t & line) {
 			const bool b = check(in, chr, line);
@@ -231,7 +235,7 @@ namespace ltn::c::lex {
 		}
 
 		if(checkAlpha(in)) {
-			const auto str = read(in, checkAlNum);
+			const auto str = read(in, checkIdChar);
 			if(keywords.contains(str)) {
 				return {keywords.at(str), str};
 			}

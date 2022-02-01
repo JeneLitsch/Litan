@@ -1,11 +1,11 @@
 function main() {
-	var foo = ltn::struct();
-	var bar = ltn::pair(42, 1337);
-	ltn::println(ltn::isStruct(foo));
+	var foo = std::struct();
+	var bar = std::pair(42, 1337);
+	std::println(std::is_struct(foo));
 	foo.a = 1;
-	ltn::println(foo.a);
-	ltn::println(foo.b);
-	ltn::println(foo.c);
-	ltn::println(bar.first);
-	ltn::println(bar.second);
+	std::println(foo.a);
+	std::println(foo.b);
+	std::println(foo.c);
+	std::println(bar.first);
+	std::println(bar.second);
 }

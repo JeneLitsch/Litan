@@ -1,19 +1,19 @@
 function main() {
-	ltn::println("=== String ===");
+	std::println("=== String ===");
 	var str = "HX World";
-	ltn::remove(str, 1);
-	ltn::insert(str, 1, "ello");
-	ltn::println(str);
-	ltn::println("");
+	std::remove(str, 1);
+	std::insert(str, 1, "ello");
+	std::println(str);
+	std::println("");
 
-	ltn::println("=== Array ===");
+	std::println("=== Array ===");
 	var arr = [];
-	ltn::insertFront(arr, 1);
-	ltn::insertBack(arr, 3);
-	ltn::insert(arr, 1, 2);
-	ltn::println(arr);
+	std::insert_front(arr, 1);
+	std::insert_back(arr, 3);
+	std::insert(arr, 1, 2);
+	std::println(arr);
 
 	const a = 123456789;
 	const b = a;
-	ltn::println(b);
+	std::println(b);
 }

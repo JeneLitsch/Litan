@@ -1,43 +1,43 @@
-call FX69_main_0
+call FX70_main_0
 exit
 
-:FX0_ltn_int_1
+:FX0_std_int_1
 cast_int
 return
 null
 return
 
-:FX1_ltn_float_1
+:FX1_std_float_1
 cast_float
 return
 null
 return
 
-:FX2_ltn_string_1
+:FX2_std_string_1
 cast_string
 return
 null
 return
 
-:FX3_ltn_bool_1
+:FX3_std_bool_1
 cast_bool
 return
 null
 return
 
-:FX4_ltn_clock_0
+:FX4_std_clock_0
 newclock
 return
 null
 return
 
-:FX5_ltn_toSeconds_1
+:FX5_std_to_seconds_1
 cast_float
 return
 null
 return
 
-:FX6_ltn_toMilliseconds_1
+:FX6_std_to_milliseconds_1
 cast_float
 newf 1000.0
 mlt
@@ -45,258 +45,288 @@ return
 null
 return
 
-:FX7_ltn_debug_state_0
+:FX7_std_wait_1
+makevar
+write_0
+makevar
+makevar
+makevar
+call FX4_std_clock_0
+write_1
+read_1
+call FX5_std_to_seconds_1
+write_2
+read_2
+write_3
+:WHILE_BEGIN71
+read_3
+read_2
+sub
+read_0
+smleql
+ifelse WHILE_END72
+read_1
+call FX5_std_to_seconds_1
+write_3
+null
+scrap
+jump WHILE_BEGIN71
+:WHILE_END72
+null
+return
+
+:FX8_std_debug_state_0
 state
 return
 null
 return
 
-:FX8_ltn_error_0
+:FX9_std_error_0
 error
 null
 return
 
-:FX9_ltn_error_1
+:FX10_std_error_1
 makevar
 write_0
 read_0
-call FX18_ltn_println_1
+call FX19_std_println_1
 scrap
-call FX8_ltn_error_0
+call FX9_std_error_0
 scrap
 null
 return
 
-:FX10_ltn_invoke_2
+:FX11_std_invoke_2
 invoke
 return
 null
 return
 
-:FX11_ltn_invoke_1
+:FX12_std_invoke_1
 newarr
 invoke
 return
 null
 return
 
-:FX12_ltn_external_1
+:FX13_std_external_1
 external
 return
 null
 return
 
-:FX13_ltn_cout_0
+:FX14_std_cout_0
 newout 0
 return
 null
 return
 
-:FX14_ltn_fout_1
+:FX15_std_fout_1
 newout 1
 return
 null
 return
 
-:FX15_ltn_print_2
+:FX16_std_print_2
 out
 null
 return
 
-:FX16_ltn_print_1
+:FX17_std_print_1
 makevar
 write_0
-call FX13_ltn_cout_0
+call FX14_std_cout_0
 read_0
-call FX15_ltn_print_2
+call FX16_std_print_2
 scrap
 null
 return
 
-:FX17_ltn_println_2
+:FX18_std_println_2
 makevar
 write_0
 makevar
 write_1
 read_1
 read_0
-call FX15_ltn_print_2
+call FX16_std_print_2
 scrap
 read_1
 newstr
 char a
-call FX15_ltn_print_2
+call FX16_std_print_2
 scrap
 null
 return
 
-:FX18_ltn_println_1
+:FX19_std_println_1
 makevar
 write_0
 makevar
-call FX13_ltn_cout_0
+call FX14_std_cout_0
 write_1
 read_1
 read_0
-call FX15_ltn_print_2
+call FX16_std_print_2
 scrap
 read_1
 newstr
 char a
-call FX15_ltn_print_2
+call FX16_std_print_2
 scrap
 null
 return
 
-:FX19_ltn_cin_0
+:FX20_std_cin_0
 newin 0
 return
 null
 return
 
-:FX20_ltn_fin_1
+:FX21_std_fin_1
 newin 1
 return
 null
 return
 
-:FX21_ltn_read_1
+:FX22_std_read_1
 in_str
 return
 null
 return
 
-:FX22_ltn_read_0
-call FX19_ltn_cin_0
-call FX21_ltn_read_1
+:FX23_std_read_0
+call FX20_std_cin_0
+call FX22_std_read_1
 return
 null
 return
 
-:FX23_ltn_readln_1
+:FX24_std_readln_1
 in_line
 return
 null
 return
 
-:FX24_ltn_readln_0
-call FX19_ltn_cin_0
-call FX23_ltn_readln_1
+:FX25_std_readln_0
+call FX20_std_cin_0
+call FX24_std_readln_1
 return
 null
 return
 
-:FX25_ltn_readint_1
+:FX26_std_read_int_1
 in_int
 return
 null
 return
 
-:FX26_ltn_readint_0
-call FX19_ltn_cin_0
-call FX25_ltn_readint_1
+:FX27_std_read_int_0
+call FX20_std_cin_0
+call FX26_std_read_int_1
 return
 null
 return
 
-:FX27_ltn_readfloat_1
+:FX28_std_read_float_1
 in_float
 return
 null
 return
 
-:FX28_ltn_readfloat_0
-call FX19_ltn_cin_0
-call FX27_ltn_readfloat_1
+:FX29_std_read_float_0
+call FX20_std_cin_0
+call FX28_std_read_float_1
 return
 null
 return
 
-:FX29_ltn_isEof_1
+:FX30_std_is_eof_1
 is_eof
 return
 null
 return
 
-:FX30_ltn_min_2
+:FX31_std_min_2
 min
 return
 null
 return
 
-:FX31_ltn_max_2
+:FX32_std_max_2
 max
 return
 null
 return
 
-:FX32_ltn_round_1
+:FX33_std_round_1
 round
 return
 null
 return
 
-:FX33_ltn_floor_1
+:FX34_std_floor_1
 floor
 return
 null
 return
 
-:FX34_ltn_ceil_1
+:FX35_std_ceil_1
 ceil
 return
 null
 return
 
-:FX35_ltn_abs_1
+:FX36_std_abs_1
 abs
 return
 null
 return
 
-:FX36_ltn_hypot_2
+:FX37_std_hypot_2
 hypot
 return
 null
 return
 
-:FX37_ltn_sqrt_1
+:FX38_std_sqrt_1
 sqrt
 return
 null
 return
 
-:FX38_ltn_sin_1
+:FX39_std_sin_1
 sin
 return
 null
 return
 
-:FX39_ltn_cos_1
+:FX40_std_cos_1
 cos
 return
 null
 return
 
-:FX40_ltn_tan_1
+:FX41_std_tan_1
 tan
 return
 null
 return
 
-:FX41_ltn_struct_0
+:FX42_std_struct_0
 newstruct
 return
 null
 return
 
-:FX42_ltn_pair_2
+:FX43_std_pair_2
 makevar
 write_0
 makevar
 write_1
 makevar
-call FX41_ltn_struct_0
+call FX42_std_struct_0
 write_2
 read_1
 read_2
@@ -313,143 +343,143 @@ return
 null
 return
 
-:FX43_ltn_null_0
+:FX44_std_null_0
 null
 return
 
-:FX44_ltn_typeId_1
+:FX45_std_typeId_1
 typeid
 return
 null
 return
 
-:FX45_ltn_isBool_1
+:FX46_std_is_bool_1
 makevar
 write_0
 read_0
-call FX44_ltn_typeId_1
+call FX45_std_typeId_1
 newi 16
 eql
 return
 null
 return
 
-:FX46_ltn_isInt_1
+:FX47_std_is_int_1
 makevar
 write_0
 read_0
-call FX44_ltn_typeId_1
+call FX45_std_typeId_1
 newi 17
 eql
 return
 null
 return
 
-:FX47_ltn_isFloat_1
+:FX48_std_is_float_1
 makevar
 write_0
 read_0
-call FX44_ltn_typeId_1
+call FX45_std_typeId_1
 newi 18
 eql
 return
 null
 return
 
-:FX48_ltn_isArray_1
+:FX49_std_is_array_1
 makevar
 write_0
 read_0
-call FX44_ltn_typeId_1
+call FX45_std_typeId_1
 newi 32
 eql
 return
 null
 return
 
-:FX49_ltn_isString_1
+:FX50_std_is_string_1
 makevar
 write_0
 read_0
-call FX44_ltn_typeId_1
+call FX45_std_typeId_1
 newi 33
 eql
 return
 null
 return
 
-:FX50_ltn_isIStream_1
+:FX51_std_is_istream_1
 makevar
 write_0
 read_0
-call FX44_ltn_typeId_1
+call FX45_std_typeId_1
 newi 48
 eql
 return
 null
 return
 
-:FX51_ltn_isOStream_1
+:FX52_std_is_ostream_1
 makevar
 write_0
 read_0
-call FX44_ltn_typeId_1
+call FX45_std_typeId_1
 newi 49
 eql
 return
 null
 return
 
-:FX52_ltn_isFunctional_1
+:FX53_std_is_functional_1
 makevar
 write_0
 read_0
-call FX44_ltn_typeId_1
+call FX45_std_typeId_1
 newi 64
 eql
 not
-ifelse OR70_TRUE
+ifelse OR73_TRUE
 read_0
-call FX44_ltn_typeId_1
+call FX45_std_typeId_1
 newi 65
 eql
-jump OR70_END
-:OR70_TRUE
+jump OR73_END
+:OR73_TRUE
 true
-:OR70_END
+:OR73_END
 return
 null
 return
 
-:FX53_ltn_isClock_1
+:FX54_std_is_clock_1
 makevar
 write_0
 read_0
-call FX44_ltn_typeId_1
+call FX45_std_typeId_1
 newi 80
 eql
 return
 null
 return
 
-:FX54_ltn_isStruct_1
+:FX55_std_is_struct_1
 makevar
 write_0
 read_0
-call FX44_ltn_typeId_1
+call FX45_std_typeId_1
 newi 96
 eql
 return
 null
 return
 
-:FX55_ltn_size_1
+:FX56_std_size_1
 size
 return
 null
 return
 
-:FX56_ltn_empty_1
+:FX57_std_empty_1
 size
 newi 0
 eql
@@ -457,61 +487,61 @@ return
 null
 return
 
-:FX57_ltn_front_1
+:FX58_std_front_1
 front
 return
 null
 return
 
-:FX58_ltn_back_1
+:FX59_std_back_1
 back
 return
 null
 return
 
-:FX59_ltn_insertBack_2
+:FX60_std_insert_back_2
 insert_back
 null
 return
 
-:FX60_ltn_insertFront_2
+:FX61_std_insert_front_2
 insert_front
 null
 return
 
-:FX61_ltn_insert_3
+:FX62_std_insert_3
 insert
 null
 return
 
-:FX62_ltn_removeBack_1
+:FX63_std_remove_back_1
 remove_back
 null
 return
 
-:FX63_ltn_removeFront_1
+:FX64_std_remove_front_1
 remove_front
 null
 return
 
-:FX64_ltn_remove_2
+:FX65_std_remove_2
 remove
 null
 return
 
-:FX65_f1_0
+:FX66_f1_0
 newi 42
 return
 null
 return
 
-:FX66_f2_0
+:FX67_f2_0
 newi 1337
 return
 null
 return
 
-:FX67_f_2
+:FX68_f_2
 makevar
 write_0
 makevar
@@ -523,7 +553,7 @@ return
 null
 return
 
-:FX68_makeAdd_0
+:FX69_makeAdd_0
 makevar
 makevar
 newarr
@@ -542,8 +572,8 @@ elem
 newi 6
 elem
 write_1
-jump SKIP_LAMBDA71
-:LAMBDA71
+jump SKIP_LAMBDA74
+:LAMBDA74
 makevar
 write_0
 makevar
@@ -553,10 +583,10 @@ write_2
 makevar
 write_3
 read_0
-call FX18_ltn_println_1
+call FX19_std_println_1
 scrap
 read_1
-call FX18_ltn_println_1
+call FX19_std_println_1
 scrap
 read_3
 read_2
@@ -564,8 +594,8 @@ add
 return
 null
 return
-:SKIP_LAMBDA71
-newfx LAMBDA71 2
+:SKIP_LAMBDA74
+newfx LAMBDA74 2
 read_0
 capture
 read_1
@@ -574,7 +604,7 @@ return
 null
 return
 
-:FX69_main_0
+:FX70_main_0
 makevar
 makevar
 makevar
@@ -587,9 +617,9 @@ char_4 64 61 73 20
 char 3d
 char 3d
 char 3d
-call FX18_ltn_println_1
+call FX19_std_println_1
 scrap
-call FX68_makeAdd_0
+call FX69_makeAdd_0
 write_0
 newstr
 char_8 61 64 64 28 31 2c 20 32 
@@ -600,9 +630,9 @@ newi 1
 elem
 newi 2
 elem
-call FX10_ltn_invoke_2
+call FX11_std_invoke_2
 add
-call FX18_ltn_println_1
+call FX19_std_println_1
 scrap
 newstr
 char_8 61 64 64 28 32 30 2c 20 
@@ -615,39 +645,39 @@ newi 20
 elem
 newi 22
 elem
-call FX10_ltn_invoke_2
+call FX11_std_invoke_2
 add
-call FX18_ltn_println_1
+call FX19_std_println_1
 scrap
 newstr
 char_8 3d 3d 3d 20 46 75 6e 63 
 char_8 74 69 6f 6e 20 70 6f 69 
 char_8 6e 74 65 72 73 20 3d 3d 
 char 3d
-call FX18_ltn_println_1
+call FX19_std_println_1
 scrap
-newfx FX67_f_2 2
+newfx FX68_f_2 2
 write_1
 read_1
 newarr
-call FX65_f1_0
+call FX66_f1_0
 elem
-call FX66_f2_0
+call FX67_f2_0
 elem
-call FX10_ltn_invoke_2
-call FX18_ltn_println_1
+call FX11_std_invoke_2
+call FX19_std_println_1
 scrap
 newstr
 char_8 3d 3d 3d 20 43 61 70 74 
 char_8 75 72 65 73 20 3d 3d 3d 
-call FX18_ltn_println_1
+call FX19_std_println_1
 scrap
 newi 1
 write_2
 newi 2
 write_3
-jump SKIP_LAMBDA72
-:LAMBDA72
+jump SKIP_LAMBDA75
+:LAMBDA75
 makevar
 write_0
 makevar
@@ -658,18 +688,18 @@ add
 return
 null
 return
-:SKIP_LAMBDA72
-newfx LAMBDA72 0
+:SKIP_LAMBDA75
+newfx LAMBDA75 0
 read_2
 capture
 read_3
 capture
 write_x 4
 read_x 4
-call FX11_ltn_invoke_1
+call FX12_std_invoke_1
 write_x 5
 read_x 5
-call FX18_ltn_println_1
+call FX19_std_println_1
 scrap
 null
 return

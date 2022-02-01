@@ -3,7 +3,7 @@ function f(a, b, c) {
 }
 
 function main() {
-	var clock = ltn::clock();
+	var clock = std::clock();
 	for i (0, 5000000) f(1, 2, 3);
-	ltn::println(ltn::toSeconds(clock) + "s");
+	std::println(std::to_seconds(clock) + "s");
 }

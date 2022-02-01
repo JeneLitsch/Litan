@@ -9,14 +9,14 @@ function main() {
 	c *= 3.0;
 	d /= 3.0;
 	e %= 3.0;
-	ltn::println(a);
-	ltn::println(b);
-	ltn::println(c);
-	ltn::println(d);
-	ltn::println(e);
+	std::println(a);
+	std::println(b);
+	std::println(c);
+	std::println(d);
+	std::println(e);
 	var s = "Hello";
 	s += " ";
 	s += "World";
 	s += "!";
-	ltn::println(s);
+	std::println(s);
 }

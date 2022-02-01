@@ -1,10 +1,10 @@
-namespace ltn {
+namespace std {
 	asm error() {
 		"error"
 	}
 
 	function error(msg) {
-		ltn::println(msg);
+		println(msg);
 		error();
 	}
 }

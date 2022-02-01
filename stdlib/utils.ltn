@@ -1,4 +1,4 @@
-namespace ltn {
+namespace std {
 	asm size(collection) {
 		"size"
 		"return"
@@ -20,11 +20,11 @@ namespace ltn {
 		"return"
 	}
 
-	asm insertBack(collection, element) {
+	asm insert_back(collection, element) {
 		"insert_back"
 	}
 
-	asm insertFront(collection, element) {
+	asm insert_front(collection, element) {
 		"insert_front"
 	}
 
@@ -32,11 +32,11 @@ namespace ltn {
 		"insert"
 	}
 
-	asm removeBack(collection) {
+	asm remove_back(collection) {
 		"remove_back"
 	}
 
-	asm removeFront(collection) {
+	asm remove_front(collection) {
 		"remove_front"
 	}
 	

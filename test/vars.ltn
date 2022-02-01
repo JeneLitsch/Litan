@@ -1,36 +1,36 @@
 function main(){
-	ltn::print("Local vars: ");
+	std::print("Local vars: ");
 	var x = 0;
 	var a = 1;
 	var b = 2;
 	var c = 3;
 	var d = 4;
 	var e = 5;
-	ltn::print(x);
-	ltn::print(a);
-	ltn::print(b);
-	ltn::print(c);
-	ltn::print(d);
-	ltn::print(e);
-	ltn::println("");
+	std::print(x);
+	std::print(a);
+	std::print(b);
+	std::print(c);
+	std::print(d);
+	std::print(e);
+	std::println("");
 
-	ltn::print("Loop: ");
+	std::print("Loop: ");
 	for i (0, 6) {
-		ltn::print(i);
+		std::print(i);
 	}
-	ltn::println("");
+	std::println("");
 
-	ltn::print("Array: ");
+	std::print("Array: ");
 	var array = [];
-	ltn::insertBack(array, 3);
-	ltn::insertBack(array, 4);
-	ltn::insertBack(array, 5);
-	ltn::insertFront(array, 2);
-	ltn::insertFront(array, 1);
-	ltn::insertFront(array, 0);
+	std::insert_back(array, 3);
+	std::insert_back(array, 4);
+	std::insert_back(array, 5);
+	std::insert_front(array, 2);
+	std::insert_front(array, 1);
+	std::insert_front(array, 0);
 
-	for i (0, ltn::size(array)) {
-		ltn::print(array[i]);
+	for i (0, std::size(array)) {
+		std::print(array[i]);
 	}
-	ltn::println("");
+	std::println("");
 }

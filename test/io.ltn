@@ -1,10 +1,10 @@
 function main() {
-	var fout = ltn::fout("test/files/output.txt");
-	var fin = ltn::fin("test/files/input.txt");
-	while(!ltn::isEof(fin)) {
-		var line = ltn::readln(fin);
-		ltn::println(fout, line);
-		ltn::println(fout, line);
-		ltn::println(line);
+	var fout = std::fout("test/files/output.txt");
+	var fin = std::fin("test/files/input.txt");
+	while(!std::is_eof(fin)) {
+		var line = std::readln(fin);
+		std::println(fout, line);
+		std::println(fout, line);
+		std::println(line);
 	}
 }

@@ -1,4 +1,4 @@
-namespace ltn {
+namespace std {
 	asm min(a, b) { "min" "return" }
 	asm max(a, b) { "max" "return" }
 	

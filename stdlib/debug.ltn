@@ -1,4 +1,4 @@
-namespace ltn {
+namespace std {
 	namespace debug {
 		asm state() {
 			"state"

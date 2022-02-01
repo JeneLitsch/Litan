@@ -1,4 +1,4 @@
-namespace ltn {
+namespace std {
 	
 	asm struct() {
 		"newstruct"
@@ -6,7 +6,7 @@ namespace ltn {
 	}
 
 	function pair(first, second) {
-		var pair = ltn::struct();
+		var pair = struct();
 		pair.first = first;
 		pair.second = second;
 		return pair;
@@ -19,44 +19,44 @@ namespace ltn {
 		"return"
 	}
 
-	function isBool(value) {
+	function is_bool(value) {
 		return typeId(value) == 0x10;
 	}
 
-	function isInt(value) {
+	function is_int(value) {
 		return typeId(value) == 0x11;
 	}
 
-	function isFloat(value) {
+	function is_float(value) {
 		return typeId(value) == 0x12;
 	}
 
-	function isArray(value) {
+	function is_array(value) {
 		return typeId(value) == 0x20;
 	}
 
-	function isString(value) {
+	function is_string(value) {
 		return typeId(value) == 0x21;
 	}
 
-	function isIStream(value) {
+	function is_istream(value) {
 		return typeId(value) == 0x30;
 	}
 
-	function isOStream(value) {
+	function is_ostream(value) {
 		return typeId(value) == 0x31;
 	}
 
-	function isFunctional(value) {
+	function is_functional(value) {
 		return (typeId(value) == 0x40) 
 			|| (typeId(value) == 0x41);
 	}
 
-	function isClock(value) {
+	function is_clock(value) {
 		return typeId(value) == 0x50;
 	}
 
-	function isStruct(value) {
+	function is_struct(value) {
 		return typeId(value) == 0x60;
 	}
 }

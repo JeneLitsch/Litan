@@ -1,8 +1,8 @@
 function main() {
-	var clock = ltn::clock();
+	var clock = std::clock();
 	var x = 42;
 	for i (0, 10000000) {
 		var y = x;
 	}
-	ltn::println(ltn::toSeconds(clock) + "s");
+	std::println(std::to_seconds(clock) + "s");
 }

@@ -9,28 +9,28 @@ function makeAdd() {
 	var arr1 = [1, 2, 3];
 	var arr2 = [4, 5, 6];
 	return function [arr1, arr2] (a, b) {
-		ltn::println(arr1);
-		ltn::println(arr2);
+		std::println(arr1);
+		std::println(arr2);
 		return a + b;
 	};
 }
 
 function main() {
-	ltn::println("=== Lambdas ===");
+	std::println("=== Lambdas ===");
 	var add = makeAdd();
-	ltn::println("add(1, 2) = " + ltn::invoke(add, [1, 2]));
-	ltn::println("add(20, 22) = " + ltn::invoke(add, [20, 22]));
+	std::println("add(1, 2) = " + std::invoke(add, [1, 2]));
+	std::println("add(20, 22) = " + std::invoke(add, [20, 22]));
 
-	ltn::println("=== Function pointers ===");
+	std::println("=== Function pointers ===");
 	var fxPtr = &f(_,_);
-	ltn::println(ltn::invoke(fxPtr, [f1(), f2()]));
+	std::println(std::invoke(fxPtr, [f1(), f2()]));
 
-	ltn::println("=== Captures ===");
+	std::println("=== Captures ===");
 	var a = 1;
 	var b = 2;
 	var lambda = function [a, b] () {
 		return a + b;
 	};
-	var result = ltn::invoke(lambda);
-	ltn::println(result);
+	var result = std::invoke(lambda);
+	std::println(result);
 }

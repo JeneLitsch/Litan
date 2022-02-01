@@ -1,5 +1,5 @@
 
-namespace ltn {
+namespace std {
 	asm cout() {
 		"newout 0"
 		"return"
@@ -58,25 +58,25 @@ namespace ltn {
 		return readln(cin());
 	}
 
-	asm readint(stream) {
+	asm read_int(stream) {
 		"in_int"
 		"return"
 	}
 
-	function readint() {
-		return readint(cin());
+	function read_int() {
+		return read_int(cin());
 	}
 
-	asm readfloat(stream) {
+	asm read_float(stream) {
 		"in_float"
 		"return"
 	}
 
-	function readfloat() {
-		return readfloat(cin());
+	function read_float() {
+		return read_float(cin());
 	}
 
-	asm isEof(stream) {
+	asm is_eof(stream) {
 		"is_eof"
 		"return"
 	}

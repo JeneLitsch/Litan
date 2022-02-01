@@ -1,4 +1,4 @@
-namespace ltn {
+namespace std {
 	asm invoke(fx, params) {
 		"invoke"
 		"return"

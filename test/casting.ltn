@@ -1,15 +1,15 @@
 function main() {
-	ltn::println(ltn::bool(0));
-	ltn::println(ltn::bool(1));
-	ltn::println(ltn::bool(ltn::null()));
+	std::println(std::bool(0));
+	std::println(std::bool(1));
+	std::println(std::bool(std::null()));
 
-	ltn::println(ltn::int("-1337.3"));
-	ltn::println(ltn::int(1.5));
-	ltn::println(ltn::int(-42));
+	std::println(std::int("-1337.3"));
+	std::println(std::int(1.5));
+	std::println(std::int(-42));
 
-	ltn::println(ltn::float("-1337.3"));
-	ltn::println(ltn::float(1.5));
-	ltn::println(ltn::float(-42));
+	std::println(std::float("-1337.3"));
+	std::println(std::float(1.5));
+	std::println(std::float(-42));
 
-	ltn::println(ltn::string("\"" + ltn::null() + "\""));
+	std::println(std::string("\"" + std::null() + "\""));
 }

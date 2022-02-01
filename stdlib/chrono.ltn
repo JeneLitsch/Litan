@@ -1,15 +1,15 @@
-namespace ltn {
+namespace std {
 	asm clock() {
 		"newclock"
 		"return"
 	}
 
-	asm toSeconds(clock) {
+	asm to_seconds(clock) {
 		"cast_float"
 		"return"
 	}
 
-	asm toMilliseconds(clock) {
+	asm to_milliseconds(clock) {
 		"cast_float"
 		"newf 1000.0"
 		"mlt"
@@ -18,10 +18,10 @@ namespace ltn {
 
 	function wait(seconds) {
 		var clock = clock();
-		var start = toSeconds(clock);
+		var start = to_seconds(clock);
 		var current = start;
 		while(current - start <= seconds) {
-			current = toSeconds(clock);
+			current = to_seconds(clock);
 		}
 	}
 }

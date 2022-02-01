@@ -1,4 +1,4 @@
-namespace ltn {
+namespace std {
 	asm int(x) {
 		"cast_int"
 		"return"
