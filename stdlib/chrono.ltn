@@ -18,6 +18,10 @@ namespace std {
 
 	function wait(seconds) {
 		var clock = clock();
+		return wait(seconds, clock);
+	}
+
+	function wait(seconds, clock) {
 		var start = to_seconds(clock);
 		var current = start;
 		while(current - start <= seconds) {
