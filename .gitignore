@@ -3,5 +3,6 @@
 *.a
 .vscode
 /bin
+/tmp
 .VSCodeCounter
 optimize
