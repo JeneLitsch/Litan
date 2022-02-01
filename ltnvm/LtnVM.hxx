@@ -59,7 +59,7 @@ namespace ltn::vm {
 		void out();
 		void in_str(), in_line(), in_int(), in_float(), is_eof();
 
-		void min(), max(), round(), floor(), ceil(), abs(), hypot(), sqrt();
+		void min(), max(), round(), floor(), ceil(), abs(), hypot(), sqrt(), log(), ln(), pow();
 		
 		void sin(), cos(), tan();
 		

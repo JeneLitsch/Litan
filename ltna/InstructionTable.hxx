@@ -127,6 +127,10 @@ namespace ltn::a {
 		{"abs", {Inst::ABS}},
 		{"hypot", {Inst::HYPOT}},
 		{"sqrt", {Inst::SQRT}},
+		{"log", {Inst::LOG}},
+		{"ln", {Inst::LN}},
+		{"pow", {Inst::POW}},
+
 		{"sin", {Inst::SIN}},
 		{"cos", {Inst::COS}},
 		{"tan", {Inst::TAN}},

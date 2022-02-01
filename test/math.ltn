@@ -1,0 +1,7 @@
+function main() {
+	std::println(std::pow(4, 3));
+	std::println(std::log(1000, 10));
+	std::println(std::lg(1000));
+	std::println(std::ld(1024));
+	std::println(std::ln(1024));
+}

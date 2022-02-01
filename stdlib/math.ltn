@@ -1,16 +1,83 @@
 namespace std {
-	asm min(a, b) { "min" "return" }
-	asm max(a, b) { "max" "return" }
+	asm min(a, b) {
+		"min"
+		"return"
+	}
 	
-	asm round(a) { "round" "return" }
-	asm floor(b) { "floor" "return" }
-	asm ceil(b) { "ceil" "return" }
+	asm max(a, b) {
+		"max"
+		"return"
+	}
+	
+	asm round(a) {
+		"round"
+		"return"
+	}
+	
+	asm floor(b) {
+		"floor"
+		"return"
+	}
+	
+	asm ceil(b) {
+		"ceil"
+		"return"
+	}
 
-	asm abs(b) { "abs" "return" }
-	asm hypot(a, b) { "hypot" "return" }
-	asm sqrt(a) { "sqrt" "return" }
+	asm abs(b) {
+		"abs"
+		"return"
+	}
+	
+	asm hypot(a, b) {
+		"hypot"
+		"return"
+	}
+	
+	asm sqrt(a) {
+		"sqrt"
+		"return"
+	}
+	
+	asm log(x, b) {
+		"log"
+		"return"
+	}
+	
+	asm ld(x) {
+		"newf 2"
+		"log"
+		"return"
+	}
+	
+	asm lg(x) {
+		"newf 10"
+		"log"
+		"return"
+	}
 
-	asm sin(b) { "sin" "return" }
-	asm cos(b) { "cos" "return" }
-	asm tan(b) { "tan" "return" }
+	asm ln(x) {
+		"ln"
+		"return"
+	}
+	
+	asm pow(b, e) {
+		"pow"
+		"return"
+	}
+
+	asm sin(b) {
+		"sin"
+		"return"
+	}
+	
+	asm cos(b) {
+		"cos"
+		"return"
+	}
+	
+	asm tan(b) {
+		"tan"
+		"return"
+	}
 }

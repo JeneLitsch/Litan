@@ -77,6 +77,21 @@ namespace ltn::vm {
 		const auto value = this->reg.pop();
 		this->reg.push(std::sqrt(toDouble(value)));
 	}
+	void LtnVM::log() {
+		FETCH
+		const auto result = std::log(toDouble(l)) / std::log(toDouble(r));
+		this->reg.push(result);
+	}
+	void LtnVM::ln() {
+		const auto value = this->reg.pop();
+		this->reg.push(std::log(toDouble(value)));
+	}
+	void LtnVM::pow() {
+		FETCH
+		const auto b = toDouble(l);
+		const auto e = toDouble(r);
+		this->reg.push(std::pow(b, e));
+	}
 	
 	void LtnVM::sin() {
 		constexpr auto msg = "sin() only accepts numeric types";

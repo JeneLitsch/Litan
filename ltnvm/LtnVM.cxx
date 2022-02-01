@@ -116,6 +116,9 @@ namespace ltn::vm {
 			case Inst::ABS: this->abs(); break;
 			case Inst::HYPOT: this->hypot(); break;
 			case Inst::SQRT: this->sqrt(); break;
+			case Inst::LOG: this->log(); break;
+			case Inst::LN: this->ln(); break;
+			case Inst::POW: this->pow(); break;
 			
 			case Inst::SIN: this->sin(); break;
 			case Inst::COS: this->cos(); break;
