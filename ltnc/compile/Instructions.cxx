@@ -74,6 +74,13 @@ namespace ltn::c::compile::inst {
 		return ss.str();
 	}
 
+	const std::string parameters(std::uint64_t count) {
+		std::stringstream ss;
+		ss << "parameters " << count << "\n"; 
+		return ss.str();
+	}
+
+
 
 
 	const std::string newfx(

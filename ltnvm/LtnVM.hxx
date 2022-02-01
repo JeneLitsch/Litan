@@ -46,7 +46,7 @@ namespace ltn::vm {
 		void newi(),newf(), newu(), truE(), falsE(), null(), ch4r(), elem();
 		void char_4(), char_8();
 
-		void jump(), call(), reTurn(), iF(), invoke(), external(), capture(), read_captured();
+		void jump(), call(), reTurn(), iF(), invoke(), external(), capture(), parameters();
 		
 		void newarr(), newstr(), newout(), newin(), newfx(), newclock(), newstruct();
 

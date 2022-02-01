@@ -74,6 +74,7 @@ namespace ltn::vm {
 			case Inst::INVOKE: this->invoke(); break;
 			case Inst::EXTERNAL: this->external(); break;
 			case Inst::CAPTURE: this->capture(); break;
+			case Inst::PARAMETERS: this->parameters(); break;
 				
 			case Inst::NEWARR: this->newarr(); break;
 			case Inst::NEWSTR: this->newstr(); break;

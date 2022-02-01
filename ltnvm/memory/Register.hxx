@@ -12,10 +12,20 @@ namespace ltn::vm {
 			return value;
 		}
 
+		inline void remove(std::uint64_t count)  {
+			this->stack.resize(this->stack.size() - count);
+		}
+
 		inline const Value peek() const {
 			return this->stack.back();
 		}
 		
+		auto peek(std::uint64_t count) {
+			auto begin = this->stack.end() - count;
+			auto end = this->stack.end();
+			return std::make_pair(begin, end);
+		}
+
 		inline void push(const Value value) {
 			this->stack.push_back(value);
 		}

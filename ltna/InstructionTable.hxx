@@ -83,6 +83,7 @@ namespace ltn::a {
 		// Control flow
 		{"jump", {Inst::JUMP, 9, ArgFormat::UINT, JumpFormat::ARG1}},
 		{"call", {Inst::CALL, 9, ArgFormat::UINT, JumpFormat::ARG1}},
+		{"parameters", {Inst::PARAMETERS, 2, ArgFormat::BYTE}},
 		{"return", {Inst::RETURN}},
 		{"ifelse", {Inst::IF, 9, ArgFormat::UINT, JumpFormat::ARG1}},
 

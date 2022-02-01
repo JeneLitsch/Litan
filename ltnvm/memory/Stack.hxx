@@ -20,6 +20,10 @@ namespace ltn::vm {
 			this->stack.push_back(Value{0U, Value::Type::NVLL});
 		}
 
+		inline void makeVar(Value value) {
+			this->stack.push_back(value);
+		}
+
 		void pushFrame(std::uint64_t jumpBack);	
 		std::uint64_t popFrame();
 		const std::vector<Value> & getContainer() const;

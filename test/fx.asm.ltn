@@ -46,8 +46,7 @@ null
 return
 
 :FX7_std_wait_1
-makevar
-write_0
+parameters 1
 makevar
 call FX4_std_clock_0
 write_1
@@ -59,13 +58,10 @@ null
 return
 
 :FX8_std_wait_2
-makevar
-write_0
-makevar
-write_1
+parameters 2
 makevar
 makevar
-read_0
+read_1
 call FX5_std_to_seconds_1
 write_2
 read_2
@@ -74,10 +70,10 @@ write_3
 read_3
 read_2
 sub
-read_1
+read_0
 smleql
 ifelse WHILE_END73
-read_0
+read_1
 call FX5_std_to_seconds_1
 write_3
 null
@@ -99,8 +95,7 @@ null
 return
 
 :FX11_std_error_1
-makevar
-write_0
+parameters 1
 read_0
 call FX20_std_println_1
 scrap
@@ -146,8 +141,7 @@ null
 return
 
 :FX18_std_print_1
-makevar
-write_0
+parameters 1
 call FX15_std_cout_0
 read_0
 call FX17_std_print_2
@@ -156,15 +150,12 @@ null
 return
 
 :FX19_std_println_2
-makevar
-write_0
-makevar
-write_1
-read_1
+parameters 2
 read_0
+read_1
 call FX17_std_print_2
 scrap
-read_1
+read_0
 newstr
 char a
 call FX17_std_print_2
@@ -173,8 +164,7 @@ null
 return
 
 :FX20_std_println_1
-makevar
-write_0
+parameters 1
 makevar
 call FX15_std_cout_0
 write_1
@@ -209,6 +199,7 @@ null
 return
 
 :FX24_std_read_0
+parameters 0
 call FX21_std_cin_0
 call FX23_std_read_1
 return
@@ -222,6 +213,7 @@ null
 return
 
 :FX26_std_readln_0
+parameters 0
 call FX21_std_cin_0
 call FX25_std_readln_1
 return
@@ -235,6 +227,7 @@ null
 return
 
 :FX28_std_read_int_0
+parameters 0
 call FX21_std_cin_0
 call FX27_std_read_int_1
 return
@@ -248,6 +241,7 @@ null
 return
 
 :FX30_std_read_float_0
+parameters 0
 call FX21_std_cin_0
 call FX29_std_read_float_1
 return
@@ -333,19 +327,16 @@ null
 return
 
 :FX44_std_pair_2
-makevar
-write_0
-makevar
-write_1
+parameters 2
 makevar
 call FX43_std_struct_0
 write_2
-read_1
+read_0
 read_2
 member_write 0
 null
 scrap
-read_0
+read_1
 read_2
 member_write 1
 null
@@ -366,8 +357,7 @@ null
 return
 
 :FX47_std_is_bool_1
-makevar
-write_0
+parameters 1
 read_0
 call FX46_std_typeid_1
 newi 16
@@ -377,8 +367,7 @@ null
 return
 
 :FX48_std_is_int_1
-makevar
-write_0
+parameters 1
 read_0
 call FX46_std_typeid_1
 newi 17
@@ -388,8 +377,7 @@ null
 return
 
 :FX49_std_is_float_1
-makevar
-write_0
+parameters 1
 read_0
 call FX46_std_typeid_1
 newi 18
@@ -399,8 +387,7 @@ null
 return
 
 :FX50_std_is_array_1
-makevar
-write_0
+parameters 1
 read_0
 call FX46_std_typeid_1
 newi 32
@@ -410,8 +397,7 @@ null
 return
 
 :FX51_std_is_string_1
-makevar
-write_0
+parameters 1
 read_0
 call FX46_std_typeid_1
 newi 33
@@ -421,8 +407,7 @@ null
 return
 
 :FX52_std_is_istream_1
-makevar
-write_0
+parameters 1
 read_0
 call FX46_std_typeid_1
 newi 48
@@ -432,8 +417,7 @@ null
 return
 
 :FX53_std_is_ostream_1
-makevar
-write_0
+parameters 1
 read_0
 call FX46_std_typeid_1
 newi 49
@@ -443,8 +427,7 @@ null
 return
 
 :FX54_std_is_functional_1
-makevar
-write_0
+parameters 1
 read_0
 call FX46_std_typeid_1
 newi 64
@@ -464,8 +447,7 @@ null
 return
 
 :FX55_std_is_clock_1
-makevar
-write_0
+parameters 1
 read_0
 call FX46_std_typeid_1
 newi 80
@@ -475,8 +457,7 @@ null
 return
 
 :FX56_std_is_struct_1
-makevar
-write_0
+parameters 1
 read_0
 call FX46_std_typeid_1
 newi 96
@@ -542,30 +523,30 @@ null
 return
 
 :FX67_f1_0
+parameters 0
 newi 42
 return
 null
 return
 
 :FX68_f2_0
+parameters 0
 newi 1337
 return
 null
 return
 
 :FX69_f_2
-makevar
-write_0
-makevar
-write_1
-read_1
+parameters 2
 read_0
+read_1
 sub
 return
 null
 return
 
 :FX70_makeAdd_0
+parameters 0
 makevar
 makevar
 newarr
@@ -590,18 +571,15 @@ makevar
 write_0
 makevar
 write_1
-makevar
-write_2
-makevar
-write_3
+parameters 2
 read_0
 call FX20_std_println_1
 scrap
 read_1
 call FX20_std_println_1
 scrap
-read_3
 read_2
+read_3
 add
 return
 null
@@ -617,6 +595,7 @@ null
 return
 
 :FX71_main_0
+parameters 0
 makevar
 makevar
 makevar
@@ -694,6 +673,7 @@ makevar
 write_0
 makevar
 write_1
+parameters 0
 read_0
 read_1
 add

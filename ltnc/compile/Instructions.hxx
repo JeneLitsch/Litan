@@ -47,6 +47,7 @@ namespace ltn::c::compile::inst {
 	const std::string call(const std::string_view & to);
 	constexpr std::string_view reTurn = "return\n";
 	const std::string ifelse(const std::string_view & to);
+	const std::string parameters(std::uint64_t count);
 	const std::string_view exlt = "exit\n";
 
 	constexpr std::string_view read = "read\n";

@@ -1,0 +1,195 @@
+Benchmarking "string"
+[Compiling] "./stdlib/cast.ltn"
+[Compiling] "./stdlib/chrono.ltn"
+[Compiling] "./stdlib/debug.ltn"
+[Compiling] "./stdlib/error.ltn"
+[Compiling] "./stdlib/functional.ltn"
+[Compiling] "./stdlib/io.ltn"
+[Compiling] "./stdlib/math.ltn"
+[Compiling] "./stdlib/type.ltn"
+[Compiling] "./stdlib/utils.ltn"
+[Compiling] "benchmark/string.ltn"
+[Target] "benchmark/string.asm.ltn"
+Done!
+0.335047s
+CCCCCCCCBBBBA
+Exit main() with return value: null
+
+Benchmarking "memory"
+[Compiling] "./stdlib/cast.ltn"
+[Compiling] "./stdlib/chrono.ltn"
+[Compiling] "./stdlib/debug.ltn"
+[Compiling] "./stdlib/error.ltn"
+[Compiling] "./stdlib/functional.ltn"
+[Compiling] "./stdlib/io.ltn"
+[Compiling] "./stdlib/math.ltn"
+[Compiling] "./stdlib/type.ltn"
+[Compiling] "./stdlib/utils.ltn"
+[Compiling] "benchmark/memory.ltn"
+[Target] "benchmark/memory.asm.ltn"
+Done!
+0.467822s
+Exit main() with return value: null
+
+Benchmarking "fx"
+[Compiling] "./stdlib/cast.ltn"
+[Compiling] "./stdlib/chrono.ltn"
+[Compiling] "./stdlib/debug.ltn"
+[Compiling] "./stdlib/error.ltn"
+[Compiling] "./stdlib/functional.ltn"
+[Compiling] "./stdlib/io.ltn"
+[Compiling] "./stdlib/math.ltn"
+[Compiling] "./stdlib/type.ltn"
+[Compiling] "./stdlib/utils.ltn"
+[Compiling] "benchmark/fx.ltn"
+[Target] "benchmark/fx.asm.ltn"
+Done!
+0.639124s
+Exit main() with return value: null
+
+Benchmarking "member"
+[Compiling] "./stdlib/cast.ltn"
+[Compiling] "./stdlib/chrono.ltn"
+[Compiling] "./stdlib/debug.ltn"
+[Compiling] "./stdlib/error.ltn"
+[Compiling] "./stdlib/functional.ltn"
+[Compiling] "./stdlib/io.ltn"
+[Compiling] "./stdlib/math.ltn"
+[Compiling] "./stdlib/type.ltn"
+[Compiling] "./stdlib/utils.ltn"
+[Compiling] "benchmark/member.ltn"
+[Target] "benchmark/member.asm.ltn"
+Done!
+0.228836s
+Exit main() with return value: null
+
+Benchmarking "string"
+[Compiling] "./stdlib/cast.ltn"
+[Compiling] "./stdlib/chrono.ltn"
+[Compiling] "./stdlib/debug.ltn"
+[Compiling] "./stdlib/error.ltn"
+[Compiling] "./stdlib/functional.ltn"
+[Compiling] "./stdlib/io.ltn"
+[Compiling] "./stdlib/math.ltn"
+[Compiling] "./stdlib/type.ltn"
+[Compiling] "./stdlib/utils.ltn"
+[Compiling] "benchmark/string.ltn"
+[Target] "benchmark/string.asm.ltn"
+Done!
+0.334843s
+CCCCCCCCBBBBA
+Exit main() with return value: null
+
+Benchmarking "memory"
+[Compiling] "./stdlib/cast.ltn"
+[Compiling] "./stdlib/chrono.ltn"
+[Compiling] "./stdlib/debug.ltn"
+[Compiling] "./stdlib/error.ltn"
+[Compiling] "./stdlib/functional.ltn"
+[Compiling] "./stdlib/io.ltn"
+[Compiling] "./stdlib/math.ltn"
+[Compiling] "./stdlib/type.ltn"
+[Compiling] "./stdlib/utils.ltn"
+[Compiling] "benchmark/memory.ltn"
+[Target] "benchmark/memory.asm.ltn"
+Done!
+0.469983s
+Exit main() with return value: null
+
+Benchmarking "fx"
+[Compiling] "./stdlib/cast.ltn"
+[Compiling] "./stdlib/chrono.ltn"
+[Compiling] "./stdlib/debug.ltn"
+[Compiling] "./stdlib/error.ltn"
+[Compiling] "./stdlib/functional.ltn"
+[Compiling] "./stdlib/io.ltn"
+[Compiling] "./stdlib/math.ltn"
+[Compiling] "./stdlib/type.ltn"
+[Compiling] "./stdlib/utils.ltn"
+[Compiling] "benchmark/fx.ltn"
+[Target] "benchmark/fx.asm.ltn"
+Done!
+0.638508s
+Exit main() with return value: null
+
+Benchmarking "member"
+[Compiling] "./stdlib/cast.ltn"
+[Compiling] "./stdlib/chrono.ltn"
+[Compiling] "./stdlib/debug.ltn"
+[Compiling] "./stdlib/error.ltn"
+[Compiling] "./stdlib/functional.ltn"
+[Compiling] "./stdlib/io.ltn"
+[Compiling] "./stdlib/math.ltn"
+[Compiling] "./stdlib/type.ltn"
+[Compiling] "./stdlib/utils.ltn"
+[Compiling] "benchmark/member.ltn"
+[Target] "benchmark/member.asm.ltn"
+Done!
+0.225421s
+Exit main() with return value: null
+
+Benchmarking "string"
+[Compiling] "./stdlib/cast.ltn"
+[Compiling] "./stdlib/chrono.ltn"
+[Compiling] "./stdlib/debug.ltn"
+[Compiling] "./stdlib/error.ltn"
+[Compiling] "./stdlib/functional.ltn"
+[Compiling] "./stdlib/io.ltn"
+[Compiling] "./stdlib/math.ltn"
+[Compiling] "./stdlib/type.ltn"
+[Compiling] "./stdlib/utils.ltn"
+[Compiling] "benchmark/string.ltn"
+[Target] "benchmark/string.asm.ltn"
+Done!
+0.342052s
+CCCCCCCCBBBBA
+Exit main() with return value: null
+
+Benchmarking "memory"
+[Compiling] "./stdlib/cast.ltn"
+[Compiling] "./stdlib/chrono.ltn"
+[Compiling] "./stdlib/debug.ltn"
+[Compiling] "./stdlib/error.ltn"
+[Compiling] "./stdlib/functional.ltn"
+[Compiling] "./stdlib/io.ltn"
+[Compiling] "./stdlib/math.ltn"
+[Compiling] "./stdlib/type.ltn"
+[Compiling] "./stdlib/utils.ltn"
+[Compiling] "benchmark/memory.ltn"
+[Target] "benchmark/memory.asm.ltn"
+Done!
+0.470764s
+Exit main() with return value: null
+
+Benchmarking "fx"
+[Compiling] "./stdlib/cast.ltn"
+[Compiling] "./stdlib/chrono.ltn"
+[Compiling] "./stdlib/debug.ltn"
+[Compiling] "./stdlib/error.ltn"
+[Compiling] "./stdlib/functional.ltn"
+[Compiling] "./stdlib/io.ltn"
+[Compiling] "./stdlib/math.ltn"
+[Compiling] "./stdlib/type.ltn"
+[Compiling] "./stdlib/utils.ltn"
+[Compiling] "benchmark/fx.ltn"
+[Target] "benchmark/fx.asm.ltn"
+Done!
+0.639873s
+Exit main() with return value: null
+
+Benchmarking "member"
+[Compiling] "./stdlib/cast.ltn"
+[Compiling] "./stdlib/chrono.ltn"
+[Compiling] "./stdlib/debug.ltn"
+[Compiling] "./stdlib/error.ltn"
+[Compiling] "./stdlib/functional.ltn"
+[Compiling] "./stdlib/io.ltn"
+[Compiling] "./stdlib/math.ltn"
+[Compiling] "./stdlib/type.ltn"
+[Compiling] "./stdlib/utils.ltn"
+[Compiling] "benchmark/member.ltn"
+[Target] "benchmark/member.asm.ltn"
+Done!
+0.225459s
+Exit main() with return value: null
+

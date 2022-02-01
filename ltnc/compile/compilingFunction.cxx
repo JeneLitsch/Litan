@@ -5,15 +5,10 @@ namespace ltn::c::compile {
 	namespace {
 
 		std::string parameters(const ast::Functional & fx, Scope & scope) {
-			std::stringstream ss;
-			auto params = fx.parameters;
-			std::reverse(params.begin(), params.end());
-			for(const auto & param : params) {
-				const auto var = scope.insert(param, fx.debugInfo.line);
-				ss << inst::makevar;
-				ss << inst::write_x(var.address);
+			for(const auto & param : fx.parameters) {
+				scope.insert(param, fx.debugInfo.line);
 			}
-			return ss.str();
+			return inst::parameters(fx.parameters.size());
 		}
 
 		std::string body(
