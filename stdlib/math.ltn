@@ -3,12 +3,22 @@ namespace std {
 		"min"
 		"return"
 	}
+
 	
 	asm max(a, b) {
 		"max"
 		"return"
 	}
 	
+	asm clamp(x, min, max) {
+		"makevar"
+		"write_0"
+		"max"
+		"read_0"
+		"min"
+		"return"
+	}
+
 	asm round(a) {
 		"round"
 		"return"

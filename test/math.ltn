@@ -1,7 +1,11 @@
 function main() {
-	std::println(std::pow(4, 3));
-	std::println(std::log(1000, 10));
-	std::println(std::lg(1000));
-	std::println(std::ld(1024));
-	std::println(std::ln(1024));
+	std::println("pow(4, 3) = "     + std::pow(4, 3));
+	std::println("log(1000, 10) = " + std::log(1000, 10));
+	std::println("lg(1000) = "      + std::lg(1000));
+	std::println("ld(1024) = "      + std::ld(1024));
+	std::println("ln(1024) = "      + std::ln(1024));
+
+	std::println(std::clamp(1.0, 3.0, 5.0));
+	std::println(std::clamp(6.0, 3.0, 5.0));
+	std::println(std::clamp(4.5, 3.0, 5.0));
 }
