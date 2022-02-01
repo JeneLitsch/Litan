@@ -6,3 +6,5 @@
 /tmp
 .VSCodeCounter
 optimize
+*.asm.ltn
+*.bin.ltn
