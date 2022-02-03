@@ -23,7 +23,13 @@ namespace ltn::vm {
 
 	struct Absolute {
 		constexpr inline auto operator()(const auto value) const {
-			return static_cast<decltype(value)>(std::abs(value));
+			using T = decltype(value);
+			if constexpr(std::same_as<T, const bool>) {
+				return value;
+			}
+			else {
+				return static_cast<decltype(value)>(std::abs(value));
+			}
 		}
 	};
 

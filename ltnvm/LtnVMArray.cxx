@@ -3,6 +3,17 @@
 #include "cast.hxx"
 
 namespace ltn::vm {
+	namespace {
+		void guardIndex(const auto & container, auto i) {
+			if(i < 0) {
+				throw std::runtime_error{"Negative index is not allowed"};
+			}
+			if(i >= static_cast<decltype(i)>(container.size())) {
+				throw std::runtime_error{"Index out of range"};
+			}
+		}
+	}
+
 	void LtnVM::size() {
 		const auto ref = this->reg.pop();
 		if (isArr(ref)) {
@@ -85,13 +96,15 @@ namespace ltn::vm {
 		}
 		if(isStr(refCollection)) {
 			auto & string = this->heap.read<String>(refCollection.u).str;
-			const auto str = cast::to_string(element, this->heap); 
-			string.insert(index.i, str);
+			const auto str = cast::to_string(element, this->heap);
+			guardIndex(str, index.i);
+			string.insert(static_cast<std::size_t>(index.i), str);
 			return;
 		}
 		if(isArr(refCollection)) {
-			auto & array = this->heap.read<Array>(refCollection.u).arr;
-			array.insert(array.begin() + index.i, element);
+			auto & arr = this->heap.read<Array>(refCollection.u).arr;
+			guardIndex(arr, index.i);
+			arr.insert(arr.begin() + index.i, element);
 			return;
 		}
 		throw std::runtime_error{"Can only append to a collection type"};

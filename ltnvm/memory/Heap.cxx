@@ -93,11 +93,16 @@ namespace ltn::vm {
 	}
 
 	std::size_t Heap::size() const {
-		return std::count_if(this->objects.begin(), this->objects.end(),
-		[] (const HeapObject & obj ) {
-			const bool b = std::get_if<std::monostate>(&obj.obj); 
-			return !b; });
+		const auto begin = this->objects.begin();
+		const auto end = this->objects.end();
+		
+		constexpr static auto pred = [] (const HeapObject & obj ) {
+			return !std::get_if<std::monostate>(&obj.obj);
+		};
+		
+		const auto result = std::count_if(begin, end, pred);
+		
+		return static_cast<std::uint64_t>(result);
 	}
-
 }
 

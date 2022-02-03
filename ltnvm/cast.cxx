@@ -111,7 +111,7 @@ namespace ltn::vm::cast {
 	}
 
 
-	bool to_bool(Value value, Heap & heap) {
+	bool to_bool(Value value) {
 		if(isBool(value)) {
 			return value.b;
 		}

@@ -16,7 +16,21 @@ namespace ltn::vm {
 		}
 	}
 
+	namespace {
+		inline void loadParamtersIntoRegister(Register & reg, const auto & params) {
+			for(const auto param : params) {
+				reg.push(param);
+			}
+		}
 
+		inline void loadCapturesIntoRegister(Register & reg, const auto & captured) {
+			const auto begin = captured.rbegin();
+			const auto end = captured.rend();
+			for (auto i = begin; i != end; ++i ) { 
+				reg.push(*i);
+			}
+		}
+	}
 
 	void LtnVM::invoke() {
 		const auto refParam = this->reg.pop();
@@ -28,20 +42,12 @@ namespace ltn::vm {
 			if(isFxPtr(refFx)) {
 				const auto & fxPtr = this->heap.read<FxPointer>(refFx.u);
 				if(params.arr.size() == fxPtr.getParameters()) {
-					for(const auto param : params.arr) {
-						this->reg.push(param);
-					}
-					const auto begin = fxPtr.captured.rbegin();
-					const auto end = fxPtr.captured.rend();
-					for (auto i = begin; i != end; ++i ) { 
-						this->reg.push(*i);
-					} 
+					loadParamtersIntoRegister(this->reg, params.arr);
+					loadCapturesIntoRegister(this->reg, fxPtr.captured);
 					this->stack.pushFrame(this->pc);
 					this->pc = fxPtr.address;
 				}
-				else {
-					throw wrongParameterCount(params, fxPtr, "function pointer");
-				} 
+				else throw wrongParameterCount(params, fxPtr, "function pointer");
 			}
 
 			// Call external binding
@@ -51,9 +57,7 @@ namespace ltn::vm {
 					ext::Api api{this->heap, this->reg, params.arr};
 					fxPtr(api);
 				}
-				else {
-					throw wrongParameterCount(params, fxPtr, "external");
-				} 
+				else throw wrongParameterCount(params, fxPtr, "external");
 			}
 
 			// Non callable

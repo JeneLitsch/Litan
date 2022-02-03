@@ -16,7 +16,7 @@ namespace ltn::vm {
 	void LtnVM::newfx(){
 		const auto address = this->fetchUint(); 
 		const auto params = this->fetchUint();
-		const auto ref = this->heap.alloc<FxPointer>({address, params});
+		const auto ref = this->heap.alloc<FxPointer>({address, params, {}});
 		this->reg.push(Value{ref, Value::Type::FX_PTR});
 	}
 	void LtnVM::truE(){

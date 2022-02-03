@@ -31,7 +31,7 @@ namespace ltn::vm {
 	void LtnVM::iF() {
 		const auto value = this->reg.pop();
 		const auto elseAddr = this->fetchUint();
-		if(!cast::to_bool(value, this->heap)) {
+		if(!cast::to_bool(value)) {
 			this->pc = elseAddr;
 		}
 	}

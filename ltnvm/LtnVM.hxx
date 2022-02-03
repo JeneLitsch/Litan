@@ -35,43 +35,136 @@ namespace ltn::vm {
 			return value;
 		}
 		
-		void state();
+		void
+			state();
 
-		void add(), sub(), mlt(), div(), mod();
-		void eql(), ueql(), sml(), bgr(), bgreql(), smleql();
-		void shift_l(), shift_r();
+		void
+			add(),
+			sub(),
+			mlt(),
+			div(),
+			mod();
 		
-		void neg(), n0t(), inc(), dec();
-
-		void newi(),newf(), newu(), truE(), falsE(), null(), ch4r(), elem();
-		void char_4(), char_8();
-
-		void jump(), call(), reTurn(), iF(), invoke(), external(), capture(), parameters();
+		void 
+			eql(),
+			ueql(),
+			sml(),
+			bgr(),
+			bgreql(),
+			smleql();
 		
-		void newarr(), newstr(), newout(), newin(), newfx(), newclock(), newstruct();
-
-		void read(), write(), scrap(), makevar();
-		void at(), at_write();
-		void read_x(), write_x();
-		void read_0(), read_1(), read_2(), read_3();
-		void write_0(), write_1(), write_2(), write_3();
-
-		void out();
-		void in_str(), in_line(), in_int(), in_float(), is_eof();
-
-		void min(), max(), round(), floor(), ceil(), abs(), hypot(), sqrt(), log(), ln(), pow();
+		void
+			shift_l(),
+			shift_r();
 		
-		void sin(), cos(), tan();
-		
-		void size(), front(), back();
-		void insert_back(), insert_front(), insert();
-		void remove_back(), remove_front(), remove();
-		
-		void cast_int(), cast_float(), cast_string(), cast_bool();
+		void
+			neg(),
+			n0t(),
+			inc(),
+			dec();
 
-		void typeId();
+		void
+			newi(),
+			newf(),
+			newu(),
+			truE(),
+			falsE(),
+			null(),
+			ch4r(),
+			elem();
+		
+		void
+			char_4(),
+			char_8();
 
-		void member_read(), member_write();
+		void
+			jump(),
+			call(),
+			reTurn(),
+			iF(),
+			invoke(),
+			external(),
+			capture(),
+			parameters();
+		
+		void
+			newarr(),
+			newstr(),
+			newout(),
+			newin(),
+			newfx(),
+			newclock(),
+			newstruct();
+
+		void
+			read(),
+			write(),
+			scrap(),
+			makevar();
+		
+		void
+			read_x(),
+			write_x(),
+			at(),
+			at_write(),
+			read_0(),
+			read_1(),
+			read_2(),
+			read_3(),
+			write_0(),
+			write_1(),
+			write_2(),
+			write_3();
+
+		void
+			out(),
+			in_str(),
+			in_line(),
+			in_int(),
+			in_float(),
+			is_eof();
+
+		void
+			min(),
+			max(),
+			round(),
+			floor(),
+			ceil(),
+			abs(),
+			hypot(),
+			sqrt(),
+			log(),
+			ln(),
+			pow();
+		
+		void
+			sin(),
+			cos(),
+			tan();
+		
+		void
+			size(),
+			front(),
+			back(),
+			insert_back(),
+			insert_front(),
+			insert(),
+			remove_back(),
+			remove_front(),
+			remove();
+		
+		void
+			cast_int(),
+			cast_float(),
+			cast_string(),
+			cast_bool();
+
+		void
+			typeId();
+
+		void
+			member_read(),
+			member_write();
 
 		void outValue(const Value & value);
 

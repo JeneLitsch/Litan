@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <cstdint>
+#include <iterator>
 #include "Value.hxx"
 
 namespace ltn::vm {
@@ -21,7 +22,7 @@ namespace ltn::vm {
 		}
 		
 		auto peek(std::uint64_t count) {
-			auto begin = this->stack.end() - count;
+			auto begin = this->stack.end() - static_cast<std::int64_t>(count);
 			auto end = this->stack.end();
 			return std::make_pair(begin, end);
 		}

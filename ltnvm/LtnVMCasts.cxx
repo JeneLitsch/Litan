@@ -21,14 +21,14 @@ namespace ltn::vm {
 	void LtnVM::cast_string() {
 		const auto value = this->reg.pop();
 		const auto str = cast::to_string(value, this->heap);
-		const auto ref = this->heap.alloc<String>(String(str));
+		const auto ref = this->heap.alloc<String>(String{str});
 		this->reg.push(Value{ref, Value::Type::STRING});
 	}
 
 
 	void LtnVM::cast_bool() {
 		const auto value = this->reg.pop();
-		const auto b = cast::to_bool(value, this->heap);
+		const auto b = cast::to_bool(value);
 		this->reg.push(Value(b));
 	}
 }
