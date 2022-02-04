@@ -3,6 +3,7 @@
 #include <vector>
 #include <sstream>
 #include <variant>
+#include <span>
 #include <string_view>
 #include <queue>
 #include "Stack.hxx"
@@ -15,6 +16,7 @@
 #include "objects/FxPointer.hxx"
 #include "objects/Clock.hxx"
 #include "objects/Struct.hxx"
+#include "objects/Range.hxx"
 namespace ltn::vm {
 	struct HeapObject {
 		std::variant<
@@ -23,7 +25,7 @@ namespace ltn::vm {
 			IStream, OStream,
 			FxPointer,
 			Clock,
-			Struct> obj;
+			Struct, Range> obj;
 		
 		bool marked = false;
 	};
@@ -81,7 +83,7 @@ namespace ltn::vm {
 	private:
 
 
-		void mark(const std::vector<Value> & values);
+		void mark(const std::span<const Value> values);
 		void mark(const Struct::Members & members);
 		void mark(const Value & value);
 		void sweep();

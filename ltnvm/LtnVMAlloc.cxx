@@ -73,4 +73,17 @@ namespace ltn::vm {
 		this->reg.push({ ptr, Value::Type::STRUCT });
 		this->heap.collectGarbage(this->stack, this->reg);
 	}
+
+	void LtnVM::newrange() {
+		const auto end = this->reg.pop();
+		const auto begin = this->reg.pop();
+		const auto array = this->reg.pop();
+		
+		if(!isArr(array)) throw std::runtime_error{"Expected array for range"};
+		if(!isInt(begin)) throw std::runtime_error{"Expected int for begin"};
+		if(!isInt(end))   throw std::runtime_error{"Expected int for end"};
+		
+		const auto range = this->heap.alloc<Range>({array.u, begin.i, end.i});
+		this->reg.push(Value{range, Value::Type::RANGE});
+	}
 }

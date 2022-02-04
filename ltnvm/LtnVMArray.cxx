@@ -19,18 +19,24 @@ namespace ltn::vm {
 		if (isArr(ref)) {
 			const auto & arr = this->heap.read<Array>(ref.u);
 			this->reg.push(static_cast<std::int64_t>(arr.arr.size()));
+			return;
 		}
-		else if(isStr(ref)) {
+		if(isStr(ref)) {
 			const auto & str = this->heap.read<String>(ref.u);
 			this->reg.push(static_cast<std::int64_t>(str.str.size()));
+			return;
 		}
-		else if(isFxPtr(ref)) {
+		if(isFxPtr(ref)) {
 			const auto & fxPtr = this->heap.read<FxPointer>(ref.u);
 			this->reg.push(static_cast<std::int64_t>(fxPtr.params));
+			return;
 		}
-		else {
-			this->reg.push(static_cast<std::int64_t>(0));
+		if(isRange(ref)) {
+			const auto & range = this->heap.read<Range>(ref.u);
+			this->reg.push(range.end - range.begin);
+			return;
 		}
+		this->reg.push(static_cast<std::int64_t>(0));
 	}
 
 	void LtnVM::front() {
@@ -180,5 +186,44 @@ namespace ltn::vm {
 			return removeIndex(array, index.i);
 		}
 		throw std::runtime_error{"Can only remove from a collection"};
+	}
+
+	namespace {
+		auto iterator(auto i) {
+			return Value(static_cast<std::int64_t>(i));
+		}
+	}
+
+	void LtnVM::begin() {
+		const auto ref = this->reg.pop();
+		if(isArr(ref)) {
+			this->reg.push(iterator(0));
+			return;
+		}
+
+		if(isRange(ref)) {
+			const auto & range = this->heap.read<Range>(ref.u);
+			this->reg.push(iterator(range.begin));
+			return;
+		}
+
+		throw std::runtime_error{"Can only get iterator from Array or Range"};
+	}
+
+	void LtnVM::end() {
+		const auto ref = this->reg.pop();
+		if(isArr(ref)) {
+			const auto & array = this->heap.read<Array>(ref.u);
+			this->reg.push(iterator(array.arr.size()));
+			return;
+		}
+
+		if(isRange(ref)) {
+			const auto & range = this->heap.read<Range>(ref.u);
+			this->reg.push(iterator(range.end));
+			return;
+		}
+
+		throw std::runtime_error{"Can only get iterator from Array or Range"};
 	}
 }

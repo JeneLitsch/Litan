@@ -52,4 +52,8 @@ namespace ltn::vm {
 	constexpr inline bool isStruct(const Value & val) {
 		return val.type == Value::Type::STRUCT;
 	}
+
+	constexpr inline bool isRange(const Value & val) {
+		return val.type == Value::Type::RANGE;
+	}
 }

@@ -1,8 +1,8 @@
 namespace std {
 	// executes "fx" for each element in range
 	function for_each(range, fx) {
-		for i (range.begin, range.end) {
-			std::invoke(fx, [range.array[i]]);
+		for i (std::begin(range), std::end(range)) {
+			std::invoke(fx, [std::array(range)[i]]);
 		}
 	}
 
@@ -10,8 +10,8 @@ namespace std {
 	// starts at "start" and adds (+=) all elements in range
 	function sum(range, start) {
 		var value = start;
-		for i (range.begin, range.end) {
-			value += range.array[i];
+		for i (std::begin(range), std::end(range)) {
+			value += std::array(range)[i];
 		}
 		return value;
 	}
@@ -20,8 +20,8 @@ namespace std {
 	// starts at 0 and adds (+=) all elements in range
 	function sum(range) {
 		var value = 0;
-		for i (range.begin, range.end) {
-			value += range.array[i];
+		for i (std::begin(range), std::end(range)) {
+			value += std::array(range)[i];
 		}
 		return value;
 	}
@@ -29,9 +29,9 @@ namespace std {
 
 	// returns index of found element or "range.end" if none is found   
 	function find(range, key) {
-		for i (range.begin, range.end) {
-			if(range.array[i] == key) return i;
+		for i (std::begin(range), std::end(range)) {
+			if(std::array(range)[i] == key) return i;
 		}
-		return range.end;
+		return std::end(range);
 	}
 }

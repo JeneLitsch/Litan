@@ -31,4 +31,23 @@ namespace ltn::vm {
 		const auto b = cast::to_bool(value);
 		this->reg.push(Value(b));
 	}
+
+
+	void LtnVM::cast_array() {
+		const auto ref = this->reg.pop();
+		
+		if(isArr(ref)) {
+			this->reg.push(ref);
+			return;
+		}
+
+		if(isRange(ref)) {
+			const auto & range = this->heap.read<Range>(ref.u);
+			const auto arrRef = Value{range.array, Value::Type::ARRAY};
+			this->reg.push(arrRef);
+			return;
+		}
+
+		throw std::runtime_error{"Cannot cast to array"};
+	}
 }

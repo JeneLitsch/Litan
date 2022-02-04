@@ -94,7 +94,8 @@ namespace ltn::vm {
 			newin(),
 			newfx(),
 			newclock(),
-			newstruct();
+			newstruct(),
+			newrange();
 
 		void
 			read(),
@@ -151,13 +152,16 @@ namespace ltn::vm {
 			insert(),
 			remove_back(),
 			remove_front(),
-			remove();
+			remove(),
+			begin(),
+			end();
 		
 		void
 			cast_int(),
 			cast_float(),
 			cast_string(),
-			cast_bool();
+			cast_bool(),
+			cast_array();
 
 		void
 			typeId();

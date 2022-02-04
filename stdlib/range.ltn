@@ -1,15 +1,4 @@
 namespace std {
-	namespace range {
-		function empty(range) {
-			return range.begin >= range.end;
-		}
-
-
-		function size(range) {
-			return range.end - range.begin;
-		}
-	}
-
 
 	function whole(array) {
 		return range(array, 0, std::size(array));
@@ -27,11 +16,8 @@ namespace std {
 	}
 
 
-	function range(array, begin, end) {
-		var range = std::struct();
-		range.array = array;
-		range.begin = begin;
-		range.end = end;
-		return range; 
+	asm range(array, begin, end) {
+		"newrange"
+		"return"
 	}
 }

@@ -11,7 +11,7 @@ namespace ltn::vm {
 			ISTREAM = 0x30, OSTREAM,
 			FX_PTR = 0x40, EXTERNAL,
 			CLOCK = 0x50,
-			STRUCT = 0x60,
+			STRUCT = 0x60, RANGE
 		};
 		constexpr Value()
 			: u(0), type(Type::NVLL) {}

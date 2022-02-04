@@ -21,7 +21,7 @@ namespace ltn::vm {
 		sweep();
 	}
 
-	void Heap::mark(const std::vector<Value> & values) {
+	void Heap::mark(const std::span<const Value> values) {
 		for(const auto & value : values) {
 			this->mark(value);
 		}
@@ -59,6 +59,15 @@ namespace ltn::vm {
 				auto & fx = this->read<Struct>(value.u);
 				obj.marked = true;
 				this->mark(fx.members);
+			}
+		}
+
+		else if(isRange(value)) {
+			auto & obj = get(value.u);
+			if(!obj.marked) {
+				auto & range = this->read<Range>(value.u);
+				obj.marked = true;
+				this->mark(Value{range.array, Value::Type::ARRAY});
 			}
 		}
 		

@@ -20,6 +20,16 @@ namespace std {
 		"return"
 	}
 
+	asm begin(collection) {
+		"begin"
+		"return"
+	}
+
+	asm end(collection) {
+		"end"
+		"return"
+	}
+
 	asm insert_back(collection, element) {
 		"insert_back"
 	}

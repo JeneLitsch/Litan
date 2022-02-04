@@ -79,6 +79,7 @@ namespace ltn::a {
 		{"newfx", {Inst::NEWFX, 17, ArgFormat::UINTx2, JumpFormat::ARG1}},
 		{"newclock", {Inst::NEWCLOCK}},
 		{"newstruct", {Inst::NEWSTRUCT}},
+		{"newrange", {Inst::NEWRANGE}},
 
 		// Control flow
 		{"jump", {Inst::JUMP, 9, ArgFormat::UINT, JumpFormat::ARG1}},
@@ -145,12 +146,15 @@ namespace ltn::a {
 		{"remove_back", {Inst::REMOVE_BACK}},
 		{"remove_front", {Inst::REMOVE_FRONT}},
 		{"remove", {Inst::REMOVE}},
+		{"begin", {Inst::BEGIN}},
+		{"end", {Inst::END}},
 
 		// Chrono utils
 		{"cast_int", {Inst::CAST_INT}},
 		{"cast_float", {Inst::CAST_FLOAT}},
 		{"cast_string", {Inst::CAST_STRING}},
 		{"cast_bool", {Inst::CAST_BOOL}},
+		{"cast_array", {Inst::CAST_ARRAY}},
 
 		// Type utils
 		{"typeid", {Inst::TYPEID}},
