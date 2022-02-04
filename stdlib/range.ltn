@@ -1,0 +1,25 @@
+namespace std {
+	function whole(array) {
+		return range(array, 0, std::size(array));
+	}
+
+
+	function first_n(array, n) {
+		return range(array, 0, n);
+	}
+
+
+	function last_n(array, n) {
+		var size = std::size(array);
+		return range(array, size - n, size);
+	}
+
+
+	function range(array, begin, end) {
+		var range = std::struct();
+		range.array = array;
+		range.begin = begin;
+		range.end = end;
+		return range; 
+	}
+}

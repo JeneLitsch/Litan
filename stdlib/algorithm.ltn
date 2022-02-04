@@ -1,0 +1,7 @@
+namespace std {
+	function for_each(range, fx) {
+		for i (range.begin, range.end) {
+			std::invoke(fx, [range.array[i]]);
+		}
+	} 
+}

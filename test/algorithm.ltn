@@ -1,0 +1,28 @@
+function test_range(range) {
+	std::println(range.array);
+	std::println(range.begin);
+	std::println(range.end);
+	std::for_each(range, &std::print(_));
+	std::println("");
+}
+
+function main() {
+	var array = [1,2,3,4];
+
+	std::println("=== whole ===");
+	var whole = std::whole(array);
+	test_range(whole);
+
+	std::println("=== range 0 -> 2 ===");
+	var range = std::range(array, 0, 2);
+	test_range(range);
+
+
+	std::println("=== first_n 3 ===");
+	var first3 = std::first_n(array, 3);
+	test_range(first3);
+
+	std::println("=== last_n 3 ===");
+	var last3 = std::last_n(array, 3);
+	test_range(last3);
+}
