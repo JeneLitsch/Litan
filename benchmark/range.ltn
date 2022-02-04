@@ -1,0 +1,9 @@
+function main() {
+	var clock = std::clock();
+	var array = [1,2,3,4];
+	for i (0, 100000) {
+		var range = std::whole(array);
+		std::sum(range);
+	}
+	std::println(std::to_seconds(clock) + "s");
+}
