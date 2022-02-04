@@ -2,8 +2,11 @@ function test_range(range) {
 	std::println(range.array);
 	std::println(range.begin);
 	std::println(range.end);
+	std::println("size: " + std::range::size(range));
 	std::for_each(range, &std::print(_));
 	std::println("");
+	std::println("sum(range) =     " + std::sum(range));
+	std::println("sum(range, \"\") = " + std::sum(range, ""));
 }
 
 function main() {

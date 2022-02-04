@@ -1,4 +1,16 @@
 namespace std {
+	namespace range {
+		function empty(range) {
+			return range.begin >= range.end;
+		}
+
+
+		function size(range) {
+			return range.end - range.begin;
+		}
+	}
+
+
 	function whole(array) {
 		return range(array, 0, std::size(array));
 	}
