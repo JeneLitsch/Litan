@@ -2,6 +2,7 @@
 #include "TypeCheck.hxx"
 #include "CalcBinary.hxx"
 #include "Operations.hxx"
+#include "compare.hxx"
 
 namespace ltn::vm {
 
@@ -11,27 +12,27 @@ namespace ltn::vm {
 
 	void LtnVM::eql() {
 		FETCH
-		return this->reg.push(calc<Equality>(l, r, "cannot compare =="));
+		return this->reg.push(compare(l, r) == 0);
 	}
 	void LtnVM::ueql() {
 		FETCH
-		return this->reg.push(calc<UnEquality>(l, r, "cannot compare !="));
+		return this->reg.push(compare(l, r) != 0);
 	}
 	void LtnVM::sml() {
 		FETCH
-		return this->reg.push(calc<Less>(l, r, "cannot compare <"));
+		return this->reg.push(compare(l, r) < 0);
 	}
 	void LtnVM::bgr() {
 		FETCH
-		return this->reg.push(calc<Greater>(l, r, "cannot compare >"));
+		return this->reg.push(compare(l, r) > 0);
 	}
 	void LtnVM::smleql() {
 		FETCH
-		return this->reg.push(calc<LessEqual>(l, r, "cannot compare <="));
+		return this->reg.push(compare(l, r) <= 0);
 	}
 	void LtnVM::bgreql() {
 		FETCH
-		return this->reg.push(calc<GreaterEqual>(l, r, "cannot compare >="));
+		return this->reg.push(compare(l, r) >= 0);
 	}
 
 	#undef FETCH

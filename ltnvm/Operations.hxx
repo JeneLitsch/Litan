@@ -45,12 +45,4 @@ namespace ltn::vm {
 			throw std::runtime_error{"Modulo by 0"};
 		}
 	};
-	
-	using Equality = Promoted<std::equal_to<void>>;
-	using UnEquality = Promoted<std::not_equal_to<void>>;
-	
-	using Less = Promoted<std::less<void>>;
-	using Greater = Promoted<std::greater<void>>;
-	using LessEqual = Promoted<std::less_equal<void>>;
-	using GreaterEqual = Promoted<std::greater_equal<void>>;
 }
