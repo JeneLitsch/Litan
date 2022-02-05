@@ -24,26 +24,37 @@ namespace ltn::vm {
 
 	void LtnVM::size() {
 		const auto ref = this->reg.pop();
+		
 		if (isArr(ref)) {
 			const auto & arr = this->heap.read<Array>(ref.u);
 			this->reg.push(static_cast<std::int64_t>(arr.arr.size()));
 			return;
 		}
+
 		if(isStr(ref)) {
 			const auto & str = this->heap.read<String>(ref.u);
 			this->reg.push(static_cast<std::int64_t>(str.str.size()));
 			return;
 		}
+
 		if(isFxPtr(ref)) {
 			const auto & fxPtr = this->heap.read<FxPointer>(ref.u);
 			this->reg.push(static_cast<std::int64_t>(fxPtr.params));
 			return;
 		}
+		
 		if(isRange(ref)) {
 			const auto & range = this->heap.read<Range>(ref.u);
 			this->reg.push(range.end - range.begin);
 			return;
 		}
+
+		if(isQueue(ref) || isStack(ref)) {
+			const auto & deq = this->heap.read<Deque>(ref.u).get();
+			this->reg.push(static_cast<std::int64_t>(deq.size()));
+			return;
+		}
+
 		this->reg.push(static_cast<std::int64_t>(0));
 	}
 

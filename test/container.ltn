@@ -4,10 +4,9 @@ function testContainer(container) {
 	std::push(container, 3);
 	std::push(container, 4);
 	std::println(std::peek(container));
-	std::println(std::pop(container));
-	std::println(std::pop(container));
-	std::println(std::pop(container));
-	std::println(std::pop(container));
+	while(!std::empty(container)) {
+		std::println(std::pop(container));
+	}
 }
 
 function main() {
