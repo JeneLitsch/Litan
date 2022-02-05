@@ -1,0 +1,11 @@
+function main() {
+	var array = [1,3];
+	std::insert_back(array, 4);
+	std::insert_front(array, 0);
+	std::insert(array, 2, 2);
+	std::println("[0, 1, 2, 3, 4] == " + array);
+	std::remove_front(array);
+	std::remove_back(array);
+	std::remove(array, 1);
+	std::println("[1, 3] == " + array);
+}

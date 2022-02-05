@@ -31,26 +31,26 @@ namespace std {
 	}
 
 	asm insert_back(collection, element) {
-		"insert_back"
+		"insert 2"
 	}
 
 	asm insert_front(collection, element) {
-		"insert_front"
+		"insert 0"
 	}
 
 	asm insert(collection, index, element) {
-		"insert"
+		"insert 1"
 	}
 
 	asm remove_back(collection) {
-		"remove_back"
+		"remove 2"
 	}
 
 	asm remove_front(collection) {
-		"remove_front"
+		"remove 0"
 	}
 	
 	asm remove(collection, index) {
-		"remove"
+		"remove 1"
 	}
 }

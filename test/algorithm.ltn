@@ -11,6 +11,8 @@ function test_range(range) {
 
 function main() {
 	var array = [2,3,4,1];
+	std::sort_ascn(array);
+	std::println(array);
 	
 
 	std::println("=== whole ===");
@@ -32,10 +34,8 @@ function main() {
 	test_range(last3);
 	
 	std::println("=== MISC ===");	
-	std::println(array);
 	std::println(std::find(array, 1));
 	std::println(std::find(array, 2));
 	std::println(std::find(array, 3));
 	std::println(std::find(array, 4));
-	std::sort_desc(array);
 }

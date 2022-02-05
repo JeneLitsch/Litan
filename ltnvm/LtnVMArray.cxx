@@ -61,59 +61,70 @@ namespace ltn::vm {
 		}
 	}
 
-	void LtnVM::insert_back() {
-		const auto element = this->reg.pop();
-		const auto refArray = this->reg.pop();
-		if(isStr(refArray)) {
-			auto & string = this->heap.read<String>(refArray.u).str; 
-			string += cast::to_string(element, this->heap);
-			return;
-		}
-		if(isArr(refArray)) {
-			auto & array = this->heap.read<Array>(refArray.u).arr;
-			array.push_back(element);
-			return;
-		}
-		throw std::runtime_error{"Can only append to array or string"};
-	}
-
-	void LtnVM::insert_front() {
-		const auto element = this->reg.pop();
-		const auto refArray = this->reg.pop();
-		if(isStr(refArray)) {
-			auto & string = this->heap.read<String>(refArray.u).str; 
-			string = cast::to_string(element, this->heap) + string;
-			return;
-		}
-		if(isArr(refArray)) {
-			auto & array = this->heap.read<Array>(refArray.u).arr;
-			array.insert(array.begin(), element);
-			return;
-		}
-		throw std::runtime_error{"Can only append to array or string"};
-	}
-
 	void LtnVM::insert() {
-		const auto element = this->reg.pop();
-		const auto index = this->reg.pop();
-		const auto refCollection = this->reg.pop();
-		if(!isInt(index)) {
-			throw std::runtime_error{"Expected integer as index"};
+		const auto type = this->fetchByte();
+
+		switch (type) {
+		case 0: {
+			const auto element = this->reg.pop();
+			const auto refArray = this->reg.pop();
+			if(isStr(refArray)) {
+				auto & string = this->heap.read<String>(refArray.u).str; 
+				string = cast::to_string(element, this->heap) + string;
+				return;
+			}
+			if(isArr(refArray)) {
+				auto & array = this->heap.read<Array>(refArray.u).arr;
+				array.insert(array.begin(), element);
+				return;
+			}
+			throw std::runtime_error{"Can only append to array or string"};
+		} break;
+
+		case 1: {
+			const auto element = this->reg.pop();
+			const auto index = this->reg.pop();
+			const auto refCollection = this->reg.pop();
+			if(!isInt(index)) {
+				throw std::runtime_error{"Expected integer as index"};
+			}
+			if(isStr(refCollection)) {
+				auto & string = this->heap.read<String>(refCollection.u).str;
+				const auto str = cast::to_string(element, this->heap);
+				guardIndex(str, index.i);
+				string.insert(static_cast<std::size_t>(index.i), str);
+				return;
+			}
+			if(isArr(refCollection)) {
+				auto & arr = this->heap.read<Array>(refCollection.u).arr;
+				guardIndex(arr, index.i);
+				arr.insert(arr.begin() + index.i, element);
+				return;
+			}
+			throw std::runtime_error{"Can only append to a collection type"};
+		} break;
+
+		case 2: {
+			const auto element = this->reg.pop();
+			const auto refArray = this->reg.pop();
+			if(isStr(refArray)) {
+				auto & string = this->heap.read<String>(refArray.u).str; 
+				string += cast::to_string(element, this->heap);
+				return;
+			}
+			if(isArr(refArray)) {
+				auto & array = this->heap.read<Array>(refArray.u).arr;
+				array.push_back(element);
+				return;
+			}
+			throw std::runtime_error{"Can only append to array or string"};
+		} break;
+		
+		default:
+			throw std::runtime_error{"Invalid insert type"};
+			break;
 		}
-		if(isStr(refCollection)) {
-			auto & string = this->heap.read<String>(refCollection.u).str;
-			const auto str = cast::to_string(element, this->heap);
-			guardIndex(str, index.i);
-			string.insert(static_cast<std::size_t>(index.i), str);
-			return;
-		}
-		if(isArr(refCollection)) {
-			auto & arr = this->heap.read<Array>(refCollection.u).arr;
-			guardIndex(arr, index.i);
-			arr.insert(arr.begin() + index.i, element);
-			return;
-		}
-		throw std::runtime_error{"Can only append to a collection type"};
+
 	}
 	
 	namespace {
@@ -143,49 +154,60 @@ namespace ltn::vm {
 			collection.erase(collection.begin() + index);
 		}
 	}  
-	
-
-	void LtnVM::remove_back() {
-		const auto refCollection = this->reg.pop();
-		if(isStr(refCollection)) {
-			auto & string = this->heap.read<String>(refCollection.u).str; 
-			return removeLast(string);
-		}
-		if(isArr(refCollection)) {
-			auto & array = this->heap.read<Array>(refCollection.u).arr;
-			return removeLast(array);
-		}
-		throw std::runtime_error{"Can only remove from a collection"};
-	}
-
-	void LtnVM::remove_front() {
-		const auto refCollection = this->reg.pop();
-		if(isStr(refCollection)) {
-			auto & string = this->heap.read<String>(refCollection.u).str;
-			return removeFirst(string);
-		}
-		if(isArr(refCollection)) {
-			auto & array = this->heap.read<Array>(refCollection.u).arr;
-			return removeFirst(array);
-		}
-		throw std::runtime_error{"Can only remove from a collection"};
-	}
 
 	void LtnVM::remove() {
-		const auto index = this->reg.pop();
-		const auto refCollection = this->reg.pop();
-		if(!isInt(index)) {
-			throw std::runtime_error{"Expected integer as index"};
+		const auto type = this->fetchByte();
+
+		switch (type) {
+		case 0: {
+			const auto refCollection = this->reg.pop();
+			if(isStr(refCollection)) {
+				auto & string = this->heap.read<String>(refCollection.u).str;
+				return removeFirst(string);
+			}
+			if(isArr(refCollection)) {
+				auto & array = this->heap.read<Array>(refCollection.u).arr;
+				return removeFirst(array);
+			}
+			throw std::runtime_error{"Can only remove from a collection"};
+		} break;
+
+		case 1: {
+			const auto index = this->reg.pop();
+			const auto refCollection = this->reg.pop();
+			if(!isInt(index)) {
+				throw std::runtime_error{"Expected integer as index"};
+			}
+			if(isStr(refCollection)) {
+				auto & string = this->heap.read<String>(refCollection.u).str;
+				return removeIndex(string, index.i);
+			}
+			if(isArr(refCollection)) {
+				auto & array = this->heap.read<Array>(refCollection.u).arr;
+				return removeIndex(array, index.i);
+			}
+			throw std::runtime_error{"Can only remove from a collection"};
+		} break;
+
+		case 2: {
+			const auto refCollection = this->reg.pop();
+			if(isStr(refCollection)) {
+				auto & string = this->heap.read<String>(refCollection.u).str; 
+				return removeLast(string);
+			}
+			if(isArr(refCollection)) {
+				auto & array = this->heap.read<Array>(refCollection.u).arr;
+				return removeLast(array);
+			}
+			throw std::runtime_error{"Can only remove from a collection"};
+		} break;
+
+		default:
+			throw std::runtime_error{"Invalid remove type"};
+			break;
 		}
-		if(isStr(refCollection)) {
-			auto & string = this->heap.read<String>(refCollection.u).str;
-			return removeIndex(string, index.i);
-		}
-		if(isArr(refCollection)) {
-			auto & array = this->heap.read<Array>(refCollection.u).arr;
-			return removeIndex(array, index.i);
-		}
-		throw std::runtime_error{"Can only remove from a collection"};
+
+
 	}
 
 	namespace {
