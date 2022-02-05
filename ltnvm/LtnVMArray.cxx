@@ -4,13 +4,21 @@
 
 namespace ltn::vm {
 	namespace {
-		void guardIndex(const auto & container, auto i) {
+		void guardIndex(const auto & collection, auto i) {
 			if(i < 0) {
 				throw std::runtime_error{"Negative index is not allowed"};
 			}
-			if(i >= static_cast<decltype(i)>(container.size())) {
+			if(i >= static_cast<decltype(i)>(collection.size())) {
 				throw std::runtime_error{"Index out of range"};
 			}
+		}
+
+		std::int64_t getIndex(Register & reg) {
+			const auto index = reg.pop();
+			if(!isInt(index)) {
+				throw std::runtime_error{"Expected integer as index"};
+			}
+			return index.i;
 		}
 	}
 
@@ -61,62 +69,96 @@ namespace ltn::vm {
 		}
 	}
 
+	namespace {
+		template<typename Collection>
+		void insertFront(const Value ref, Heap & heap, const Value elem) {
+			auto & collection = heap.read<Collection>(ref.u).get(); 
+
+			if constexpr(std::same_as<Collection, String>) {
+				collection = cast::to_string(elem, heap) + collection;
+				return;
+			}
+
+			else if constexpr(std::same_as<Collection, Array>) {
+				collection.insert(collection.begin(), elem);
+				return;
+			}
+
+			else {
+				static_assert("Only for String and Array");
+			}
+		}
+
+
+		template<typename Collection>
+		void insertBack(const Value ref, Heap & heap, const Value elem) {
+			auto & collection = heap.read<Collection>(ref.u).get(); 
+
+			if constexpr(std::same_as<Collection, String>) {
+				const auto & str = cast::to_string(elem, heap);
+				collection += str;
+				return;
+			}
+
+			else if constexpr(std::same_as<Collection, Array>) {
+				collection.push_back(elem);
+				return;
+			}
+
+			else {
+				static_assert("Only for String and Array");
+			}
+		}
+
+
+		template<typename Collection>
+		void insertI(const Value ref, Heap & heap, const Value elem, std::int64_t i) {
+			auto & collection = heap.read<Collection>(ref.u).get(); 
+			guardIndex(collection, i);
+
+			if constexpr(std::same_as<Collection, String>) {
+				const auto & str = cast::to_string(elem, heap);
+				collection.insert(static_cast<std::size_t>(i), str);
+				return;
+			}
+
+			else if constexpr(std::same_as<Collection, Array>) {
+				collection.insert(collection.begin() + i, elem);
+				return;
+			}
+
+			else {
+				static_assert("Only for String and Array");
+			}
+		}
+	}
+
 	void LtnVM::insert() {
 		const auto type = this->fetchByte();
 
 		switch (type) {
 		case 0: {
-			const auto element = this->reg.pop();
-			const auto refArray = this->reg.pop();
-			if(isStr(refArray)) {
-				auto & string = this->heap.read<String>(refArray.u).str; 
-				string = cast::to_string(element, this->heap) + string;
-				return;
-			}
-			if(isArr(refArray)) {
-				auto & array = this->heap.read<Array>(refArray.u).arr;
-				array.insert(array.begin(), element);
-				return;
-			}
+			const auto elem = this->reg.pop();
+			const auto ref = this->reg.pop();
+			if(isStr(ref)) return insertFront<String>(ref, this->heap, elem);
+			if(isArr(ref)) return insertFront<Array>(ref, this->heap, elem);
 			throw std::runtime_error{"Can only append to array or string"};
 		} break;
 
 		case 1: {
-			const auto element = this->reg.pop();
-			const auto index = this->reg.pop();
-			const auto refCollection = this->reg.pop();
-			if(!isInt(index)) {
-				throw std::runtime_error{"Expected integer as index"};
-			}
-			if(isStr(refCollection)) {
-				auto & string = this->heap.read<String>(refCollection.u).str;
-				const auto str = cast::to_string(element, this->heap);
-				guardIndex(str, index.i);
-				string.insert(static_cast<std::size_t>(index.i), str);
-				return;
-			}
-			if(isArr(refCollection)) {
-				auto & arr = this->heap.read<Array>(refCollection.u).arr;
-				guardIndex(arr, index.i);
-				arr.insert(arr.begin() + index.i, element);
-				return;
-			}
+			const auto elem = this->reg.pop();
+			const auto index = getIndex(this->reg);
+			const auto ref = this->reg.pop();
+			if(isStr(ref)) return insertI<String>(ref, this->heap, elem, index);
+			if(isArr(ref)) return insertI<Array>(ref, this->heap, elem, index);
 			throw std::runtime_error{"Can only append to a collection type"};
 		} break;
 
 		case 2: {
-			const auto element = this->reg.pop();
-			const auto refArray = this->reg.pop();
-			if(isStr(refArray)) {
-				auto & string = this->heap.read<String>(refArray.u).str; 
-				string += cast::to_string(element, this->heap);
-				return;
-			}
-			if(isArr(refArray)) {
-				auto & array = this->heap.read<Array>(refArray.u).arr;
-				array.push_back(element);
-				return;
-			}
+			const auto elem = this->reg.pop();
+			const auto ref = this->reg.pop();
+			if(isStr(ref)) return insertBack<String>(ref, this->heap, elem);
+			if(isArr(ref)) return insertBack<Array>(ref, this->heap, elem);
 			throw std::runtime_error{"Can only append to array or string"};
 		} break;
 		
@@ -134,17 +176,23 @@ namespace ltn::vm {
 			}
 		}
 
-		void removeLast(auto & collection) {
+		template<typename Collection>
+		void removeLast(const Value ref, Heap & heap) {
+			auto & collection = heap.read<Collection>(ref.u).get(); 
 			guardEmpty(collection);
 			collection.pop_back();
 		}
 
-		void removeFirst(auto & collection) {
+		template<typename Collection>
+		void removeFirst(const Value ref, Heap & heap) {
+			auto & collection = heap.read<Collection>(ref.u).get(); 
 			guardEmpty(collection);
 			collection.erase(collection.begin());
 		}
 
-		void removeIndex(auto & collection, auto index) {
+		template<typename Collection>
+		void removeIndex(const Value ref, Heap & heap, std::int64_t index) {
+			auto & collection = heap.read<Collection>(ref.u).get(); 
 			if(index < 0) {
 				throw std::runtime_error{"Negative idex is not allowed"};
 			}
@@ -160,45 +208,24 @@ namespace ltn::vm {
 
 		switch (type) {
 		case 0: {
-			const auto refCollection = this->reg.pop();
-			if(isStr(refCollection)) {
-				auto & string = this->heap.read<String>(refCollection.u).str;
-				return removeFirst(string);
-			}
-			if(isArr(refCollection)) {
-				auto & array = this->heap.read<Array>(refCollection.u).arr;
-				return removeFirst(array);
-			}
+			const auto ref = this->reg.pop();
+			if(isStr(ref)) return removeFirst<String>(ref, this->heap);
+			if(isArr(ref)) return removeFirst<Array>(ref, this->heap);
 			throw std::runtime_error{"Can only remove from a collection"};
 		} break;
 
 		case 1: {
-			const auto index = this->reg.pop();
-			const auto refCollection = this->reg.pop();
-			if(!isInt(index)) {
-				throw std::runtime_error{"Expected integer as index"};
-			}
-			if(isStr(refCollection)) {
-				auto & string = this->heap.read<String>(refCollection.u).str;
-				return removeIndex(string, index.i);
-			}
-			if(isArr(refCollection)) {
-				auto & array = this->heap.read<Array>(refCollection.u).arr;
-				return removeIndex(array, index.i);
-			}
+			const auto index = getIndex(this->reg);
+			const auto ref = this->reg.pop();
+			if(isStr(ref)) return removeIndex<String>(ref, this->heap, index);
+			if(isArr(ref)) return removeIndex<Array>(ref, this->heap, index);
 			throw std::runtime_error{"Can only remove from a collection"};
 		} break;
 
 		case 2: {
-			const auto refCollection = this->reg.pop();
-			if(isStr(refCollection)) {
-				auto & string = this->heap.read<String>(refCollection.u).str; 
-				return removeLast(string);
-			}
-			if(isArr(refCollection)) {
-				auto & array = this->heap.read<Array>(refCollection.u).arr;
-				return removeLast(array);
-			}
+			const auto ref = this->reg.pop();
+			if(isStr(ref)) return removeLast<String>(ref, this->heap);
+			if(isArr(ref)) return removeLast<Array>(ref, this->heap);
 			throw std::runtime_error{"Can only remove from a collection"};
 		} break;
 

@@ -6,5 +6,11 @@ namespace ltn::vm {
 	struct Array {
 		std::vector<Value> arr;
 		constexpr static std::string_view typeName = "Array";
+		const std::vector<Value> & get() const {
+			return this->arr;
+		}
+		std::vector<Value> & get() {
+			return this->arr;
+		}
 	};
 }

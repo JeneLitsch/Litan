@@ -8,4 +8,14 @@ function main() {
 	std::remove_back(array);
 	std::remove(array, 1);
 	std::println("[1, 3] == " + array);
+
+	var string = "bd";
+	std::insert_front(string, "a");
+	std::insert_back(string, "e");
+	std::insert(string, 2, "c");
+	std::println("abcde == " + string);
+	std::remove_front(string);
+	std::remove_back(string);
+	std::remove(string, 1);
+	std::println("bd == " + string);
 }
