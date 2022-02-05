@@ -12,27 +12,27 @@ namespace ltn::vm {
 
 	void LtnVM::eql() {
 		FETCH
-		return this->reg.push(compare(l, r) == 0);
+		return this->reg.push(compare(l, r, this->heap) == 0);
 	}
 	void LtnVM::ueql() {
 		FETCH
-		return this->reg.push(compare(l, r) != 0);
+		return this->reg.push(compare(l, r, this->heap) != 0);
 	}
 	void LtnVM::sml() {
 		FETCH
-		return this->reg.push(compare(l, r) < 0);
+		return this->reg.push(compare(l, r, this->heap) < 0);
 	}
 	void LtnVM::bgr() {
 		FETCH
-		return this->reg.push(compare(l, r) > 0);
+		return this->reg.push(compare(l, r, this->heap) > 0);
 	}
 	void LtnVM::smleql() {
 		FETCH
-		return this->reg.push(compare(l, r) <= 0);
+		return this->reg.push(compare(l, r, this->heap) <= 0);
 	}
 	void LtnVM::bgreql() {
 		FETCH
-		return this->reg.push(compare(l, r) >= 0);
+		return this->reg.push(compare(l, r, this->heap) >= 0);
 	}
 
 	#undef FETCH
