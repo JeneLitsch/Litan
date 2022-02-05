@@ -10,11 +10,13 @@ function test_range(range) {
 }
 
 function main() {
-	var array = [1,2,3,4];
+	var array = [2,3,4,1];
+	
 
 	std::println("=== whole ===");
 	var whole = std::whole(array);
 	test_range(whole);
+	test_range(array);
 
 	std::println("=== range 0 -> 2 ===");
 	var range = std::range(array, 0, 2);
@@ -28,4 +30,12 @@ function main() {
 	std::println("=== last_n 3 ===");
 	var last3 = std::last_n(array, 3);
 	test_range(last3);
+	
+	std::println("=== MISC ===");	
+	std::println(array);
+	std::println(std::find(array, 1));
+	std::println(std::find(array, 2));
+	std::println(std::find(array, 3));
+	std::println(std::find(array, 4));
+	std::sort_desc(array);
 }

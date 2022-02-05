@@ -84,6 +84,7 @@ namespace ltn::vm {
 			iF(),
 			invoke(),
 			external(),
+			algorithm(),
 			capture(),
 			parameters();
 		

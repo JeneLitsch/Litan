@@ -91,6 +91,7 @@ namespace ltn::a {
 		// Functional
 		{"invoke", {Inst::INVOKE}},
 		{"external", {Inst::EXTERNAL}},
+		{"algorithm", {Inst::ALGORITHM, 2, ArgFormat::BYTE}},
 		{"capture", {Inst::CAPTURE}},
 
 		// Memory

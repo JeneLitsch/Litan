@@ -73,6 +73,7 @@ namespace ltn::vm {
 			case Inst::IF: this->iF(); break;
 			case Inst::INVOKE: this->invoke(); break;
 			case Inst::EXTERNAL: this->external(); break;
+			case Inst::ALGORITHM: this->algorithm(); break;
 			case Inst::CAPTURE: this->capture(); break;
 			case Inst::PARAMETERS: this->parameters(); break;
 				

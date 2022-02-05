@@ -27,11 +27,19 @@ namespace std {
 	}
 
 
-	// returns index of found element or "range.end" if none is found   
-	function find(range, key) {
-		for i (std::begin(range), std::end(range)) {
-			if(std::array(range)[i] == key) return i;
-		}
-		return std::end(range);
+	asm sort_ascn(range) {
+		"algorithm 1"
 	}
+
+	asm sort_desc(range) {
+		"algorithm 2"
+	}
+
+	asm find(range, key) {
+		"parameters 2"
+		"read_1"
+		"read_0"
+		"algorithm 10"
+		"return"
+	} 
 }
