@@ -17,6 +17,7 @@
 #include "objects/Clock.hxx"
 #include "objects/Struct.hxx"
 #include "objects/Range.hxx"
+#include "objects/Deque.hxx"
 namespace ltn::vm {
 	struct HeapObject {
 		std::variant<
@@ -25,7 +26,8 @@ namespace ltn::vm {
 			IStream, OStream,
 			FxPointer,
 			Clock,
-			Struct, Range> obj;
+			Struct, Range,
+			Deque> obj;
 		
 		bool marked = false;
 	};
@@ -82,10 +84,15 @@ namespace ltn::vm {
 		std::size_t size() const;
 	private:
 
-
 		void mark(const std::span<const Value> values);
-		void mark(const Struct::Members & members);
+		void mark(const std::deque<Value> & values);
 		void mark(const Value & value);
+		void markArray(const Value & value);
+		void markFxPtr(const Value & value);
+		void markStruct(const Value & value);
+		void markRange(const Value & value);
+		void markDefault(const Value & value);
+		void markDeque(const Value & value);
 		void sweep();
 
 		HeapObject & get(std::uint64_t addr);

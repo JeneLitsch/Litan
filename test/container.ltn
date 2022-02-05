@@ -1,0 +1,21 @@
+function testContainer(container) {
+	std::push(container, 1);
+	std::push(container, 2);
+	std::push(container, 3);
+	std::push(container, 4);
+	std::println(std::peek(container));
+	std::println(std::pop(container));
+	std::println(std::pop(container));
+	std::println(std::pop(container));
+	std::println(std::pop(container));
+}
+
+function main() {
+	std::println("Stack");
+	testContainer(std::stack());
+	std::println("");
+	
+	std::println("Queue");
+	testContainer(std::queue());
+	std::println("");
+}

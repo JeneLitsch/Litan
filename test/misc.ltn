@@ -16,4 +16,7 @@ function main() {
 	const a = 123456789;
 	const b = a;
 	std::println(b);
+
+	std::println(42 + "s");
+	std::println("s" + 42 );
 }

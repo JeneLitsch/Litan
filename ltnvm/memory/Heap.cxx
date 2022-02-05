@@ -2,7 +2,6 @@
 #include <stdexcept>
 #include <sstream>
 #include <iostream>
-#include "ltnvm/TypeCheck.hxx"
 
 namespace ltn::vm {
 	Heap::Heap() {}
@@ -15,86 +14,6 @@ namespace ltn::vm {
 		return this->objects[addr];
 	}
 
-	void Heap::collectGarbage(const Stack & stack, const Register & reg) {
-		mark(stack.getContainer());
-		mark(reg.getContainer());
-		sweep();
-	}
-
-	void Heap::mark(const std::span<const Value> values) {
-		for(const auto & value : values) {
-			this->mark(value);
-		}
-	}
-
-	void Heap::mark(const Struct::Members & members) {
-		for(const auto & [key, value] : members) {
-			this->mark(value);
-		}
-	}
-
-
-	void Heap::mark(const Value & value) {
-		if(isArr(value)) {
-			auto & obj = this->get(value.u);
-			if(!obj.marked) {
-				auto & arr = this->read<Array>(value.u);
-				obj.marked = true;
-				this->mark(arr.arr);
-			}
-		}
-		
-		else if(isFxPtr(value)) {
-			auto & obj = get(value.u);
-			if(!obj.marked) {
-				auto & fx = this->read<FxPointer>(value.u);
-				obj.marked = true;
-				this->mark(fx.captured);
-			}
-		}
-
-		else if(isStruct(value)) {
-			auto & obj = get(value.u);
-			if(!obj.marked) {
-				auto & fx = this->read<Struct>(value.u);
-				obj.marked = true;
-				this->mark(fx.members);
-			}
-		}
-
-		else if(isRange(value)) {
-			auto & obj = get(value.u);
-			if(!obj.marked) {
-				auto & range = this->read<Range>(value.u);
-				obj.marked = true;
-				this->mark(Value{range.array, Value::Type::ARRAY});
-			}
-		}
-		
-		else if(
-			isStr(value) ||
-			isOStream(value) ||
-			isIStream(value) ||
-			isClock(value)) {
-			auto & obj = this->get(value.u);
-			obj.marked = true;
-		}
-	}
-
-	void ltn::vm::Heap::sweep() {
-		std::uint64_t idx = 0;
-		for(auto & obj : this->objects) {
-			if(obj.marked) {
-				obj.marked = false;
-			}
-			else if(!std::get_if<std::monostate>(&obj.obj)) {
-				obj.obj = std::monostate();
-				this->reuse.push(idx);
-				// std::cout << "Delete " << idx << "\n";
-			}
-			idx++;
-		}
-	}
 
 	void Heap::reset() {
 		this->objects.clear();

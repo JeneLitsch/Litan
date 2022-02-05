@@ -86,4 +86,17 @@ namespace ltn::vm {
 		const auto range = this->heap.alloc<Range>({array.u, begin.i, end.i});
 		this->reg.push(Value{range, Value::Type::RANGE});
 	}
+
+
+	void LtnVM::newstack() {
+		const auto ref = this->heap.alloc<Deque>({});
+		this->reg.push({ ref, Value::Type::STACK });
+		this->heap.collectGarbage(this->stack, this->reg);
+	}
+
+	void LtnVM::newqueue() {
+		const auto ref = this->heap.alloc<Deque>({});
+		this->reg.push({ ref, Value::Type::QUEUE });
+		this->heap.collectGarbage(this->stack, this->reg);
+	}
 }

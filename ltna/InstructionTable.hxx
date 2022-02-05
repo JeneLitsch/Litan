@@ -80,6 +80,8 @@ namespace ltn::a {
 		{"newclock", {Inst::NEWCLOCK}},
 		{"newstruct", {Inst::NEWSTRUCT}},
 		{"newrange", {Inst::NEWRANGE}},
+		{"newstack", {Inst::NEWSTACK}},
+		{"newqueue", {Inst::NEWQUEUE}},
 
 		// Control flow
 		{"jump", {Inst::JUMP, 9, ArgFormat::UINT, JumpFormat::ARG1}},
@@ -145,6 +147,9 @@ namespace ltn::a {
 		{"remove", {Inst::REMOVE, 2, ArgFormat::BYTE}},
 		{"begin", {Inst::BEGIN}},
 		{"end", {Inst::END}},
+		{"push", {Inst::PUSH}},
+		{"pop", {Inst::POP}},
+		{"peek", {Inst::PEEK}},
 
 		// Chrono utils
 		{"cast_int", {Inst::CAST_INT}},

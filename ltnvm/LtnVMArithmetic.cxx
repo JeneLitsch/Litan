@@ -43,8 +43,9 @@ namespace ltn::vm {
 		}
 
 		if(isStr(l)) {
-			const auto & strL = heap.read<String>(l.u);
-			const auto ref = heap.alloc<String>({strL.str + cast::to_string(r, heap)});
+			const auto & strL = heap.read<String>(l.u).get();
+			const auto strR = cast::to_string(r, heap);
+			const auto ref = heap.alloc<String>({strL + strR});
 			return this->reg.push({ref, Value::Type::STRING});
 		}
 
@@ -55,8 +56,9 @@ namespace ltn::vm {
 		}
 
 		if(isStr(r)) {
-			const auto & strR = heap.read<String>(r.u);
-			const auto ref =heap.alloc<String>({cast::to_string(l, heap) + strR.str});
+			const auto strL = cast::to_string(l, heap);
+			const auto & strR = heap.read<String>(r.u).get();
+			const auto ref = heap.alloc<String>({strL + strR});
 			return this->reg.push({ref, Value::Type::STRING});
 		}
 

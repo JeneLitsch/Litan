@@ -10,6 +10,7 @@ const std::span<const std::string_view> ltn::c::Ltnc::stdLib() const {
 		"algorithm.ltn"sv,
 		"cast.ltn"sv,
 		"chrono.ltn"sv,
+		"container.ltn"sv,
 		"debug.ltn"sv,
 		"error.ltn"sv,
 		"functional.ltn"sv,

@@ -56,4 +56,12 @@ namespace ltn::vm {
 	constexpr inline bool isRange(const Value & val) {
 		return val.type == Value::Type::RANGE;
 	}
+
+	constexpr inline bool isStack(const Value & val) {
+		return val.type == Value::Type::STACK;
+	}
+
+	constexpr inline bool isQueue(const Value & val) {
+		return val.type == Value::Type::QUEUE;
+	}
 }

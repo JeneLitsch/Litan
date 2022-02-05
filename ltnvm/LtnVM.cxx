@@ -85,6 +85,8 @@ namespace ltn::vm {
 			case Inst::NEWCLOCK: this->newclock(); break;
 			case Inst::NEWSTRUCT: this->newstruct(); break;
 			case Inst::NEWRANGE: this->newrange(); break;
+			case Inst::NEWSTACK: this->newstack(); break;
+			case Inst::NEWQUEUE: this->newqueue(); break;
 			
 			case Inst::READ: this->read(); break;
 			case Inst::WRITE: this->write(); break;
@@ -133,6 +135,9 @@ namespace ltn::vm {
 			case Inst::REMOVE: this->remove(); break;
 			case Inst::BEGIN: this->begin(); break;
 			case Inst::END: this->end(); break;
+			case Inst::PUSH: this->push(); break;
+			case Inst::POP: this->pop(); break;
+			case Inst::PEEK: this->peek(); break;
 
 			case Inst::CAST_INT: this->cast_int(); break;
 			case Inst::CAST_FLOAT: this->cast_float(); break;

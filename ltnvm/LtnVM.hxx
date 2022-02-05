@@ -96,7 +96,9 @@ namespace ltn::vm {
 			newfx(),
 			newclock(),
 			newstruct(),
-			newrange();
+			newrange(),
+			newstack(),
+			newqueue();
 
 		void
 			read(),
@@ -148,14 +150,13 @@ namespace ltn::vm {
 			size(),
 			front(),
 			back(),
-			insert_back(),
-			insert_front(),
 			insert(),
-			remove_back(),
-			remove_front(),
 			remove(),
 			begin(),
-			end();
+			end(),
+			push(),
+			pop(),
+			peek();
 		
 		void
 			cast_int(),

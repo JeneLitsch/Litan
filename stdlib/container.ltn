@@ -1,0 +1,25 @@
+namespace std {
+	asm queue() {
+		"newqueue"
+		"return"
+	}
+
+	asm stack() {
+		"newstack"
+		"return"
+	}
+
+	asm push(container, elem) {
+		"push"
+	}
+
+	asm pop(container) {
+		"pop"
+		"return"
+	}
+
+	asm peek(container) {
+		"peek"
+		"return"
+	}
+}
