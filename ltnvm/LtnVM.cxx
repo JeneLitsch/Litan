@@ -139,6 +139,7 @@ namespace ltn::vm {
 			case Inst::PUSH: this->push(); break;
 			case Inst::POP: this->pop(); break;
 			case Inst::PEEK: this->peek(); break;
+			case Inst::CONTAINS: this->contains(); break;
 
 			case Inst::CAST_INT: this->cast_int(); break;
 			case Inst::CAST_FLOAT: this->cast_float(); break;

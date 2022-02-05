@@ -30,4 +30,6 @@ function main() {
 	std::println("world == " + map["hello"]);
 	std::println("b == " + std::at(map, 2));
 	std::println("null == " + std::at(map, "c"));
+	std::println("true == " + std::contains(map, 1));
+	std::println("false == " + std::contains(map, 42));
 }

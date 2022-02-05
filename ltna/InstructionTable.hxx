@@ -151,6 +151,7 @@ namespace ltn::a {
 		{"push", {Inst::PUSH}},
 		{"pop", {Inst::POP}},
 		{"peek", {Inst::PEEK}},
+		{"contains", {Inst::CONTAINS}},
 
 		// Chrono utils
 		{"cast_int", {Inst::CAST_INT}},

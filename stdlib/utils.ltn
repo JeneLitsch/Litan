@@ -39,6 +39,7 @@ namespace std {
 		"insert 2"
 	}
 
+
 	asm insert_front(collection, element) {
 		"insert 0"
 	}

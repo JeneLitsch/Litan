@@ -157,7 +157,8 @@ namespace ltn::vm {
 			end(),
 			push(),
 			pop(),
-			peek();
+			peek(),
+			contains();
 		
 		void
 			cast_int(),

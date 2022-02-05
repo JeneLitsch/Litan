@@ -62,4 +62,18 @@ namespace ltn::vm {
 
 		throw std::runtime_error{"Can only peek at container type"};
 	}
+
+
+	void LtnVM::contains() {
+		const auto key = reg.pop();
+		const auto ref = reg.pop();
+
+		if(isMap(ref)) {
+			auto & container = heap.read<Map>(ref.u).get();
+			this->reg.push(container.contains(key));
+			return;
+		}
+
+		throw std::runtime_error{"Can only check \"contains\" on map"};
+	}
 }
