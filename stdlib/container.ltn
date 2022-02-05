@@ -9,6 +9,11 @@ namespace std {
 		"return"
 	}
 
+	asm map() {
+		"newmap"
+		"return"
+	}
+
 	asm push(container, elem) {
 		"push"
 	}

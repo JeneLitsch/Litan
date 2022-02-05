@@ -64,4 +64,8 @@ namespace ltn::vm {
 	constexpr inline bool isQueue(const Value & val) {
 		return val.type == Value::Type::QUEUE;
 	}
+
+	constexpr inline bool isMap(const Value & val) {
+		return val.type == Value::Type::MAP;
+	}
 }

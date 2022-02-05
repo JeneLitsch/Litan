@@ -82,6 +82,7 @@ namespace ltn::a {
 		{"newrange", {Inst::NEWRANGE}},
 		{"newstack", {Inst::NEWSTACK}},
 		{"newqueue", {Inst::NEWQUEUE}},
+		{"newmap", {Inst::NEWMAP}},
 
 		// Control flow
 		{"jump", {Inst::JUMP, 9, ArgFormat::UINT, JumpFormat::ARG1}},

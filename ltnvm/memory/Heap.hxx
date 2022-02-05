@@ -18,6 +18,7 @@
 #include "objects/Struct.hxx"
 #include "objects/Range.hxx"
 #include "objects/Deque.hxx"
+#include "objects/Map.hxx"
 namespace ltn::vm {
 	struct HeapObject {
 		std::variant<
@@ -27,7 +28,7 @@ namespace ltn::vm {
 			FxPointer,
 			Clock,
 			Struct, Range,
-			Deque> obj;
+			Deque, Map> obj;
 		
 		bool marked = false;
 	};
@@ -93,6 +94,7 @@ namespace ltn::vm {
 		void markRange(const Value & value);
 		void markDefault(const Value & value);
 		void markDeque(const Value & value);
+		void markMap(const Value & value);
 		void sweep();
 
 		HeapObject & get(std::uint64_t addr);

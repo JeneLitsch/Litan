@@ -17,4 +17,17 @@ function main() {
 	std::println("Queue");
 	testContainer(std::queue());
 	std::println("");
+
+	std::println("Map");
+	var map = std::map();
+	std::insert(map, 1, "a");
+	std::insert(map, 2, "b");
+	std::insert(map, "c", "d");
+	std::remove(map, "c");
+	map["hello"] = "world";
+	std::println("3 == " + std::size(map));
+	std::println("a == " + map[1]);
+	std::println("world == " + map["hello"]);
+	std::println("b == " + std::at(map, 2));
+	std::println("null == " + std::at(map, "c"));
 }

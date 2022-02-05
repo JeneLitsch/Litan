@@ -12,7 +12,7 @@ namespace ltn::vm {
 			FX_PTR = 0x40, EXTERNAL,
 			CLOCK = 0x50,
 			STRUCT = 0x60, RANGE,
-			QUEUE = 0x70, STACK,
+			QUEUE = 0x70, STACK, MAP,
 		};
 		constexpr Value()
 			: u(0), type(Type::NVLL) {}

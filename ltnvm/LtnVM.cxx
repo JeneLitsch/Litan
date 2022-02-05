@@ -87,6 +87,7 @@ namespace ltn::vm {
 			case Inst::NEWRANGE: this->newrange(); break;
 			case Inst::NEWSTACK: this->newstack(); break;
 			case Inst::NEWQUEUE: this->newqueue(); break;
+			case Inst::NEWMAP: this->newmap(); break;
 			
 			case Inst::READ: this->read(); break;
 			case Inst::WRITE: this->write(); break;

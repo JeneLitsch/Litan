@@ -98,7 +98,8 @@ namespace ltn::vm {
 			newstruct(),
 			newrange(),
 			newstack(),
-			newqueue();
+			newqueue(),
+			newmap();
 
 		void
 			read(),

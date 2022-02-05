@@ -99,4 +99,10 @@ namespace ltn::vm {
 		this->reg.push({ ref, Value::Type::QUEUE });
 		this->heap.collectGarbage(this->stack, this->reg);
 	}
+
+	void LtnVM::newmap() {
+		const auto ref = this->heap.alloc<Map>(Map{this->heap});
+		this->reg.push({ ref, Value::Type::MAP });
+		this->heap.collectGarbage(this->stack, this->reg);
+	}
 }

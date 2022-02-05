@@ -35,6 +35,8 @@ namespace ltn::vm {
 
 		if(isStack(value))   return this->markDeque(value);
 		if(isQueue(value))   return this->markDeque(value);
+
+		if(isMap(value))     return this->markMap(value);
 	}
 
 	void Heap::markArray(const Value & ref) {
@@ -84,6 +86,19 @@ namespace ltn::vm {
 			auto & deque = this->read<Deque>(value.u);
 			obj.marked = true;
 			this->mark(deque.get());
+		}
+	}
+
+
+	void Heap::markMap(const Value & value) {
+		auto & obj = get(value.u);
+		if(!obj.marked) {
+			auto & map = this->read<Map>(value.u).get();
+			obj.marked = true;
+			for(auto & [key, value] : map) {
+				this->mark(key);
+				this->mark(value);
+			}
 		}
 	}
 
