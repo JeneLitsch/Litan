@@ -41,5 +41,28 @@ namespace std {
 		"read_0"
 		"algorithm 10"
 		"return"
-	} 
+	}
+
+
+	asm copy_front(range, target) {
+		"parameters 2"
+		"read_1"
+		"read_0"
+		"algorithm 20"
+	}
+
+	asm copy_back(range, target) {
+		"parameters 2"
+		"read_1"
+		"read_0"
+		"algorithm 22"
+	}
+
+
+	asm fill(range, target) {
+		"parameters 2"
+		"read_1"
+		"read_0"
+		"algorithm 30"
+	}
 }

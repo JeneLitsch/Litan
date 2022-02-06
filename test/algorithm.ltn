@@ -38,4 +38,16 @@ function main() {
 	std::println(std::find(array, 2));
 	std::println(std::find(array, 3));
 	std::println(std::find(array, 4));
+	std::println(std::find(array, 5));
+
+	std::println("=== copy ===");
+	var a1 = [1,2,3];
+	std::println(a1);
+	var a2 = [4,5,6];
+	std::copy_back(a2, a1);
+	std::println(a1);
+	std::copy_front(a2, a1);
+	std::println(a1);
+	std::fill(std::first_n(a1, 3), 42);
+	std::println(a1);
 }
