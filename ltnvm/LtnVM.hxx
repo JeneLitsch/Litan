@@ -105,13 +105,12 @@ namespace ltn::vm {
 			read(),
 			write(),
 			scrap(),
-			makevar();
-		
-		void
+			makevar(),
 			read_x(),
 			write_x(),
-			at(),
-			at_write(),
+			swap();
+		
+		void
 			read_0(),
 			read_1(),
 			read_2(),
@@ -149,6 +148,8 @@ namespace ltn::vm {
 		
 		void
 			size(),
+			at(),
+			at_write(),
 			front(),
 			back(),
 			insert(),

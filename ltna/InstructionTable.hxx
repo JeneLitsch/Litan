@@ -12,7 +12,7 @@ namespace ltn::a {
 		UINT, UINTx2,
 		INT,
 		FLOAT,
-		BYTE,
+		BYTE, BYTEx2,
 		CHAR,
 		CHAR_4,
 		CHAR_8,
@@ -102,10 +102,10 @@ namespace ltn::a {
 		{"write", {Inst::WRITE}},
 		{"scrap", {Inst::SCRAP}},
 		{"makevar", {Inst::MAKEVAR}},
-		{"at", {Inst::AT}},
-		{"at_write", {Inst::AT_WRITE}},
 		{"read_x", {Inst::READ_X, 9, ArgFormat::UINT}},
 		{"write_x", {Inst::WRITE_X, 9, ArgFormat::UINT}},
+		{"swap", {Inst::SWAP, 3, ArgFormat::BYTEx2}},
+
 		{"read_0", {Inst::READ_0}},
 		{"read_1", {Inst::READ_1}},
 		{"read_2", {Inst::READ_2}},
@@ -142,6 +142,8 @@ namespace ltn::a {
 
 		// Array Utils
 		{"size", {Inst::SIZE}},
+		{"at", {Inst::AT}},
+		{"at_write", {Inst::AT_WRITE}},
 		{"front", {Inst::FRONT}},
 		{"back", {Inst::BACK}},
 		{"insert", {Inst::INSERT, 2, ArgFormat::BYTE}},

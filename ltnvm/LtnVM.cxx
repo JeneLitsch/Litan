@@ -93,10 +93,10 @@ namespace ltn::vm {
 			case Inst::WRITE: this->write(); break;
 			case Inst::SCRAP: this->scrap(); break;
 			case Inst::MAKEVAR: this->makevar(); break;
-			case Inst::AT: this->at(); break;
-			case Inst::AT_WRITE: this->at_write(); break;
 			case Inst::READ_X: this->read_x(); break;
 			case Inst::WRITE_X: this->write_x(); break;
+			case Inst::SWAP: this->swap(); break;
+
 			case Inst::READ_0: this->read_0(); break;
 			case Inst::READ_1: this->read_1(); break;
 			case Inst::READ_2: this->read_2(); break;
@@ -130,6 +130,8 @@ namespace ltn::vm {
 			case Inst::TAN: this->tan(); break;
 			
 			case Inst::SIZE: this->size(); break;
+			case Inst::AT: this->at(); break;
+			case Inst::AT_WRITE: this->at_write(); break;
 			case Inst::FRONT: this->front(); break;
 			case Inst::BACK: this->back(); break;
 			case Inst::INSERT: this->insert(); break;

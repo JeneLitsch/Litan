@@ -94,6 +94,10 @@ namespace ltn::a::expand {
 					out << expandBytes(1, ls);
 					break;
 
+				case ArgFormat::BYTEx2:
+					out << expandBytes(2, ls);
+					break;
+
 				case ArgFormat::CHAR:
 					out << expandBytes(1, ls);
 					break;

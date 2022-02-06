@@ -36,33 +36,25 @@ namespace std {
 	}
 
 	asm find(range, key) {
-		"parameters 2"
-		"read_1"
-		"read_0"
+		"swap 0 1"
 		"algorithm 10"
 		"return"
 	}
 
 
 	asm copy_front(range, target) {
-		"parameters 2"
-		"read_1"
-		"read_0"
+		"swap 0 1"
 		"algorithm 20"
 	}
 
 	asm copy_back(range, target) {
-		"parameters 2"
-		"read_1"
-		"read_0"
+		"swap 0 1"
 		"algorithm 22"
 	}
 
 
 	asm fill(range, target) {
-		"parameters 2"
-		"read_1"
-		"read_0"
+		"swap 0 1"
 		"algorithm 30"
 	}
 }

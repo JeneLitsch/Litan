@@ -44,6 +44,13 @@ namespace ltn::vm {
 	}
 
 
+	void LtnVM::swap() {
+		const auto first = this->fetchByte();
+		const auto second = this->fetchByte();
+		this->reg.swap(first, second);
+	}
+
+
 	void LtnVM::read_0() { this->reg.push(this->stack.read(0)); }
 	void LtnVM::read_1() { this->reg.push(this->stack.read(1)); }
 	void LtnVM::read_2() { this->reg.push(this->stack.read(2)); }
