@@ -31,9 +31,11 @@ namespace std {
 		"algorithm 1"
 	}
 
+
 	asm sort_desc(range) {
 		"algorithm 2"
 	}
+
 
 	asm find(range, key) {
 		"swap 0 1"
@@ -47,6 +49,7 @@ namespace std {
 		"algorithm 20"
 	}
 
+
 	asm copy_back(range, target) {
 		"swap 0 1"
 		"algorithm 22"
@@ -56,5 +59,10 @@ namespace std {
 	asm fill(range, target) {
 		"swap 0 1"
 		"algorithm 30"
+	}
+
+	asm reverse(range, target) {
+		"swap 0 1"
+		"algorithm 40"
 	}
 }

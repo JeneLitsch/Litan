@@ -50,4 +50,6 @@ function main() {
 	std::println(a1);
 	std::fill(std::first_n(a1, 3), 42);
 	std::println(a1);
+	std::reverse(a1, 42);
+	std::println(a1);
 }

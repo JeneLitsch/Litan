@@ -99,7 +99,7 @@ namespace ltn::vm {
 		}
 
 		
-		void fill(auto begin, auto end, Register & reg) {
+		inline void fill(auto begin, auto end, Register & reg) {
 			const auto value = reg.pop();
 			std::fill(begin, end, value);
 		}
@@ -120,6 +120,8 @@ namespace ltn::vm {
 		case 0x22: return copy_back(begin, end, this->reg, this->heap);
 
 		case 0x30: return fill(begin, end, this->reg);
+		
+		case 0x40: return std::reverse(begin, end);
 		
 		default: {
 			throw std::runtime_error{"Invalid algorithm type"};
