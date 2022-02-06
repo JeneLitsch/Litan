@@ -28,12 +28,24 @@ namespace std {
 
 
 	asm sort_ascn(range) {
-		"algorithm 1"
+		"algorithm 00"
 	}
 
 
 	asm sort_desc(range) {
-		"algorithm 2"
+		"algorithm 01"
+	}
+
+
+	asm is_sorted_ascn(range) {
+		"algorithm 02"
+		"return"
+	}
+
+
+	asm is_sorted_desc(range) {
+		"algorithm 03"
+		"return"
 	}
 
 

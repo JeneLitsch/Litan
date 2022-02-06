@@ -55,16 +55,33 @@ namespace ltn::vm {
 		}
 
 
+
+
 		// Algorithms
 		void sort_desc(auto begin, auto end, Heap & heap) {
-			const auto comp = smaller(heap);
+			const auto comp = bigger(heap);
 			std::sort(begin, end, comp);
 		}
 
 
 		void sort_ascn(auto begin, auto end, Heap & heap) {
-			const auto comp = bigger(heap);
+			const auto comp = smaller(heap);
 			std::sort(begin, end, comp);
+		}
+
+
+		inline void is_sorted_ascn(auto begin, auto end, Register & reg, Heap & heap) {
+			const auto comp = smaller(heap);
+			const bool result = std::is_sorted(begin, end, comp);
+			reg.push(result);
+		}
+
+
+		inline void is_sorted_desc(auto begin, auto end, Register & reg, Heap & heap) {
+			const auto comp = bigger(heap);
+			const bool result = std::is_sorted(begin, end, comp);
+			reg.push(result);
+
 		}
 
 
@@ -111,8 +128,10 @@ namespace ltn::vm {
 		const auto [begin, end] = toCppRange(ref, this->heap);
 
 		switch (type) {
+		case 0x00: return sort_ascn(begin, end, this->heap);
 		case 0x01: return sort_desc(begin, end, this->heap);
-		case 0x02: return sort_ascn(begin, end, this->heap);
+		case 0x02: return is_sorted_ascn(begin, end, this->reg, this->heap);
+		case 0x03: return is_sorted_desc(begin, end, this->reg, this->heap);
 		
 		case 0x10: return find(begin, end, this->reg, this->heap);
 		

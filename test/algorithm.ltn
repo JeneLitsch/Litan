@@ -52,4 +52,10 @@ function main() {
 	std::println(a1);
 	std::reverse(a1, 42);
 	std::println(a1);
+	std::sort_ascn(a1);
+	std::println(std::is_sorted_ascn(a1));
+	std::println(a1);
+	std::sort_desc(a1);
+	std::println(std::is_sorted_desc(a1));
+	std::println(a1);
 }
