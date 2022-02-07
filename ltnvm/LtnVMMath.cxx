@@ -47,11 +47,13 @@ namespace ltn::vm {
 
 	void LtnVM::min() {
 		FETCH
-		this->reg.push((less(l, r) ? l : r));
+		const auto less = compare(l, r, this->heap) < 0;
+		this->reg.push(less ? l : r);
 	}
 	void LtnVM::max() {
 		FETCH
-		this->reg.push((less(l, r) ? r : l));
+		const auto more = compare(l, r, this->heap) > 0;
+		this->reg.push(more ? l : r);
 	}
 	void LtnVM::round() {
 		constexpr auto msg = "Can only round numeric types";

@@ -48,6 +48,9 @@ function main() {
 	std::println(a1);
 	std::copy_front(a2, a1);
 	std::println(a1);
+	
+	
+	std::println("=== Sort and Fill ===");
 	std::fill(std::first_n(a1, 3), 42);
 	std::println(a1);
 	std::reverse(a1, 42);
