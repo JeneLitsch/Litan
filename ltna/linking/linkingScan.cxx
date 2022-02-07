@@ -35,7 +35,7 @@ namespace ltn::a::linking {
 		while(std::getline(in >> std::ws, line)) {
 			std::stringstream ss(line);
 			const auto inst = read<std::string>(ss);
-			if(inst[0] == ':') {
+			if(isJumpMark(inst)) {
 				const std::string label = inst.substr(1); 
 				if(table.contains(label)) {
 					throw std::runtime_error("Redefinition of label " + label);

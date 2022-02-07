@@ -17,14 +17,17 @@ namespace ltn::a::linking {
 	bool isJump(ArgFormat format) {
 		return format == ArgFormat::JUMP 
 			|| format == ArgFormat::JUMP_UINT;
-	} 
+	}
+
+	void discard(const auto &) {}
 
 	void patch(std::istream & in, std::ostream & out, const AddressTable & table) {
 		std::string line;
 		while(std::getline(in >> std::ws, line)) {
 			std::stringstream ls(line);
 			const auto inst = read<std::string>(ls);
-			if(inst[0] != ':') {
+			if(isJumpMark(inst)) discard(inst);
+			else {
 				const auto argFormat = instructionTable.at(inst).argFormat;
 				if(isJump(argFormat)) {
 					const std::string label = read<std::string>(ls);

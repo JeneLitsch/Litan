@@ -73,12 +73,12 @@ namespace ltn::a::expand {
 				case ArgFormat::NONE:
 					break;
 
-				case ArgFormat::UINT:
+				case ArgFormat::UINT:   [[fallthrough]];
 				case ArgFormat::JUMP:
 					out << expandArg<std::uint64_t>(ls);
 					break;
 
-				case ArgFormat::UINTx2:
+				case ArgFormat::UINTx2: [[fallthrough]];
 				case ArgFormat::JUMP_UINT:
 					out << expandArg<std::uint64_t>(ls);
 					out << expandArg<std::uint64_t>(ls);
@@ -92,7 +92,7 @@ namespace ltn::a::expand {
 					out << expandArg<double>(ls);
 					break;
 
-				case ArgFormat::BYTE:
+				case ArgFormat::BYTE:  [[fallthrough]];
 				case ArgFormat::CHAR:
 					out << expandBytes(1, ls);
 					break;
