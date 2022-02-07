@@ -14,14 +14,19 @@ namespace ltn::a::linking {
 		}
 	}
 
+	bool isJump(ArgFormat format) {
+		return format == ArgFormat::JUMP 
+			|| format == ArgFormat::JUMP_UINT;
+	} 
+
 	void patch(std::istream & in, std::ostream & out, const AddressTable & table) {
 		std::string line;
 		while(std::getline(in >> std::ws, line)) {
 			std::stringstream ls(line);
 			const auto inst = read<std::string>(ls);
 			if(inst[0] != ':') {
-				const auto jumpFormat = instructionTable.at(inst).jumpFormat;
-				if(jumpFormat == JumpFormat::ARG1) {
+				const auto argFormat = instructionTable.at(inst).argFormat;
+				if(isJump(argFormat)) {
 					const std::string label = read<std::string>(ls);
 					const std::string rest = read<std::string>(ls);
 					out << inst << " "

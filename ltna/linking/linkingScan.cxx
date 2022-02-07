@@ -4,6 +4,30 @@
 #include <iostream>
 #include "ltn/reading.hxx"
 namespace ltn::a::linking {
+	std::size_t toArgSize(ArgFormat argFormat) {
+		switch (argFormat) {
+		case ArgFormat::NONE:      return 0;
+		case ArgFormat::UINT:      return 8;
+		case ArgFormat::UINTx2:    return 16;
+		case ArgFormat::JUMP:      return 8;
+		case ArgFormat::JUMP_UINT: return 16;
+		case ArgFormat::INT:       return 8;
+		case ArgFormat::FLOAT:     return 8;
+		case ArgFormat::BYTE:      return 1;
+		case ArgFormat::BYTEx2:    return 2;
+		case ArgFormat::CHAR:      return 1;
+		case ArgFormat::CHARx4:    return 4;
+		case ArgFormat::CHARx8:    return 8;
+		}
+		throw std::logic_error{"Missing args size in switch-case"};
+	}
+
+	std::size_t toInstSize(std::string_view inst) {
+		const auto argFormat = instructionTable.at(inst).argFormat;
+		constexpr std::size_t opcodeSize = 1;
+		return opcodeSize + toArgSize(argFormat);
+	} 
+
 	AddressTable scan(std::istream & in) {
 		std::uint64_t position = 0;
 		AddressTable table;
@@ -19,7 +43,7 @@ namespace ltn::a::linking {
 				table.emplace(label, position);
 			}
 			else {
-				position += instructionTable.at(inst).bytes;
+				position += toInstSize(inst);
 			}
 		}
 		return table;

@@ -74,10 +74,12 @@ namespace ltn::a::expand {
 					break;
 
 				case ArgFormat::UINT:
+				case ArgFormat::JUMP:
 					out << expandArg<std::uint64_t>(ls);
 					break;
 
 				case ArgFormat::UINTx2:
+				case ArgFormat::JUMP_UINT:
 					out << expandArg<std::uint64_t>(ls);
 					out << expandArg<std::uint64_t>(ls);
 					break;
@@ -91,6 +93,7 @@ namespace ltn::a::expand {
 					break;
 
 				case ArgFormat::BYTE:
+				case ArgFormat::CHAR:
 					out << expandBytes(1, ls);
 					break;
 
@@ -98,15 +101,11 @@ namespace ltn::a::expand {
 					out << expandBytes(2, ls);
 					break;
 
-				case ArgFormat::CHAR:
-					out << expandBytes(1, ls);
-					break;
-
-				case ArgFormat::CHAR_4:
+				case ArgFormat::CHARx4:
 					out << expandBytes(4, ls);
 					break;
 
-				case ArgFormat::CHAR_8:
+				case ArgFormat::CHARx8:
 					out << expandBytes(8, ls);
 					break;
 			}
