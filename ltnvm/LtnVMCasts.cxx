@@ -20,9 +20,14 @@ namespace ltn::vm {
 
 	void LtnVM::cast_string() {
 		const auto value = this->reg.pop();
-		const auto str = cast::to_string(value, this->heap);
-		const auto ref = this->heap.alloc<String>(String{str});
-		this->reg.push(Value{ref, Value::Type::STRING});
+		if(isStr(value)) {
+			this->reg.push(value);
+		}
+		else {
+			const auto str = cast::to_string(value, this->heap);
+			const auto ref = this->heap.alloc<String>(String{str});
+			this->reg.push(Value{ref, Value::Type::STRING});
+		}
 	}
 
 

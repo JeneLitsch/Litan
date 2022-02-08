@@ -13,6 +13,9 @@ namespace ltn::vm {
 			CLOCK = 0x50,
 			STRUCT = 0x60, RANGE,
 			QUEUE = 0x70, STACK, MAP,
+
+			OBJ_FIRST = ARRAY,
+			OBJ_LAST = MAP
 		};
 		constexpr Value()
 			: u(0), type(Type::NVLL) {}

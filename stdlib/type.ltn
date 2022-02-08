@@ -5,6 +5,7 @@ namespace std {
 		"return"
 	}
 
+
 	function pair(first, second) {
 		var pair = struct();
 		pair.first = first;
@@ -14,49 +15,66 @@ namespace std {
 
 	asm null() {}
 
+
 	asm typeid(value) {
 		"typeid"
 		"return"
 	}
 
+
 	function is_bool(value) {
 		return typeid(value) == 0x10;
 	}
+
 
 	function is_int(value) {
 		return typeid(value) == 0x11;
 	}
 
+
 	function is_float(value) {
 		return typeid(value) == 0x12;
 	}
+
 
 	function is_array(value) {
 		return typeid(value) == 0x20;
 	}
 
+
 	function is_string(value) {
 		return typeid(value) == 0x21;
 	}
+
 
 	function is_istream(value) {
 		return typeid(value) == 0x30;
 	}
 
+
 	function is_ostream(value) {
 		return typeid(value) == 0x31;
 	}
+
 
 	function is_functional(value) {
 		return (typeid(value) == 0x40) 
 			|| (typeid(value) == 0x41);
 	}
 
+
 	function is_clock(value) {
 		return typeid(value) == 0x50;
 	}
 
+
 	function is_struct(value) {
 		return typeid(value) == 0x60;
 	}
+
+
+	asm clone(ref) {
+		"clone"
+		"return"
+	} 
 }

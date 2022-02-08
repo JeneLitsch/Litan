@@ -5,9 +5,15 @@
 
 namespace ltn::vm {
 	struct Struct {
-		using Members = std::vector<std::pair<std::uint64_t, Value>>; 
-		Members members;
+		using Members = std::vector<std::pair<std::uint64_t, Value>>;
+
 		constexpr static std::string_view typeName = "Struct";
+		
+		Members members;
+	
+		auto clone() const {
+			return *this;
+		}
 	};
 	
 }

@@ -4,13 +4,20 @@
 #include "ltnvm/memory/Value.hxx"
 namespace ltn::vm {
 	struct Array {
-		std::vector<Value> arr;
 		constexpr static std::string_view typeName = "Array";
-		const std::vector<Value> & get() const {
+		
+		std::vector<Value> arr;
+
+		const auto & get() const {
 			return this->arr;
 		}
-		std::vector<Value> & get() {
+		
+		auto & get() {
 			return this->arr;
+		}
+
+		auto clone() const {
+			return *this;
 		}
 	};
 }

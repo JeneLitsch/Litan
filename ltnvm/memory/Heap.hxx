@@ -21,17 +21,27 @@
 #include "objects/Map.hxx"
 namespace ltn::vm {
 	struct HeapObject {
-		std::variant<
+		using Data = std::variant<
 			std::monostate,
 			String, Array,
 			IStream, OStream,
 			FxPointer,
 			Clock,
 			Struct, Range,
-			Deque, Map> obj;
+			Deque, Map>;
+ 		Data obj;
 		
 		bool marked = false;
+		
+		static HeapObject clone(std::monostate) {
+			return HeapObject{std::monostate{}};
+		}
+
+		static HeapObject clone(const auto & obj) {
+			return HeapObject{obj.clone()};
+		}
 	};
+
 
 	inline auto accessViolation(std::uint64_t at, const std::string_view msg) {
 		std::stringstream ss;
@@ -42,6 +52,8 @@ namespace ltn::vm {
 	class Heap {
 	public:
 		Heap();
+
+
 		template<class Obj>
 		std::uint64_t alloc(Obj && obj) {
 			if(reuse.empty()) {
@@ -57,10 +69,12 @@ namespace ltn::vm {
 			}
 		}
 
+
 		template<class Obj>
 		std::uint64_t alloc(const Obj & obj) {
 			return this->alloc<Obj>(Obj{obj});
 		}
+
 
 		template<class Obj>
 		Obj & read(std::uint64_t addr) {
@@ -78,11 +92,25 @@ namespace ltn::vm {
 			}
 		}
 
+
+		std::uint64_t clone(std::uint64_t ptr) {
+			auto & obj = this->get(ptr);
+			constexpr static auto cloning = [] (const auto & data) {
+				return HeapObject::clone(data);
+			};
+			auto newdata = std::visit(cloning, obj.obj);
+			return this->alloc(newdata);
+		}
+
+
 		void collectGarbage(const Stack & stack, const Register & reg);
+
 
 		void reset();
 
+
 		std::size_t size() const;
+
 	private:
 
 		void mark(const std::span<const Value> values);

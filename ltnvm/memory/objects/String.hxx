@@ -4,13 +4,20 @@
 
 namespace ltn::vm {
 	struct String {
-		std::string str;
 		constexpr static std::string_view typeName = "String";
-		const std::string & get() const {
+		
+		std::string str;
+		
+		auto & get() {
 			return this->str;
 		}
-		std::string & get() {
+
+		const auto & get() const {
 			return this->str;
+		}
+
+		auto clone() const {
+			return *this;
 		}
 	};
 }

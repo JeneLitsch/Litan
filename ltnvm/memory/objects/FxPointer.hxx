@@ -11,6 +11,9 @@ namespace ltn::vm {
 		}
 		std::vector<Value> captured;
 		constexpr static std::string_view typeName = "FxPointer";
-
+		
+		auto clone() const {
+			return *this;
+		}
 	};
 }

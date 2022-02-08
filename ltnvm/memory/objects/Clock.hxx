@@ -4,9 +4,16 @@
 namespace ltn::vm {
 	class Clock {
 	public:
-		Clock();
-		double getSeconds() const;
 		constexpr static std::string_view typeName = "Clock";
+		
+		Clock();
+
+		double getSeconds() const;
+
+		auto clone() const {
+			return *this;
+		}
+
 	private:
 		std::chrono::steady_clock clock;
 		std::chrono::time_point<std::chrono::steady_clock> start;

@@ -4,10 +4,15 @@
 
 namespace ltn::vm {
 	struct Range {
+		constexpr static std::string_view typeName = "Range";
+		
 		std::uint64_t array;
 		std::int64_t begin;
 		std::int64_t end;
-		constexpr static std::string_view typeName = "Range";
+	
+		auto clone() const {
+			return *this;
+		}
 	};
 	
 }

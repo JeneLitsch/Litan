@@ -169,7 +169,8 @@ namespace ltn::vm {
 			cast_array();
 
 		void
-			typeId();
+			typeId(),
+			clone();
 
 		void
 			member_read(),

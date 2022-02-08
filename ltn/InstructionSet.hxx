@@ -35,7 +35,7 @@ namespace ltn {
 
 		CAST_INT = 0xb0, CAST_FLOAT, CAST_STRING, CAST_BOOL, CAST_ARRAY,
 
-		TYPEID = 0xc0,
+		TYPEID = 0xc0, CLONE,
 
 		MEMBER_READ = 0xd0, MEMBER_WRITE,		
 	};

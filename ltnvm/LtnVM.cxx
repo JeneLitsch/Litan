@@ -150,6 +150,7 @@ namespace ltn::vm {
 			case Inst::CAST_ARRAY: this->cast_array(); break;
 
 			case Inst::TYPEID: this->typeId(); break;
+			case Inst::CLONE: this->clone(); break;
 
 			case Inst::MEMBER_READ: this->member_read(); break;
 			case Inst::MEMBER_WRITE: this->member_write(); break;

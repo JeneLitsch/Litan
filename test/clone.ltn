@@ -1,0 +1,12 @@
+function main() {
+	var a1 = [1,2,3,4,5];
+	var a2 = a1;
+	var a3 = std::clone(a1);
+
+	std::insert_back(a1, 6);
+	std::sort_desc(a3);
+
+	std::println(a1);
+	std::println(a2);
+	std::println(a3);
+}

@@ -11,14 +11,22 @@ namespace ltn::vm {
 		bool operator()(const Value l, const Value r) const;
 	};
 	struct Map {
-		Map(Heap & heap) : map(Comparator{&heap}) {}
-		std::map<Value, Value, Comparator> map;
 		constexpr static std::string_view typeName = "map";
+		
+		std::map<Value, Value, Comparator> map;
+
+		Map(Heap & heap) : map(Comparator{&heap}) {}
+		
 		const auto & get() const {
 			return this->map;
 		}
+		
 		auto & get() {
 			return this->map;
+		}
+
+		auto clone() const {
+			return *this;
 		}
 	};
 }

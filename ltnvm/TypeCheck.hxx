@@ -68,4 +68,13 @@ namespace ltn::vm {
 	constexpr inline bool isMap(const Value & val) {
 		return val.type == Value::Type::MAP;
 	}
+
+
+
+	constexpr inline bool isObject(const Value & val) {
+		const auto first = static_cast<std::uint32_t>(Value::Type::OBJ_FIRST); 
+		const auto last = static_cast<std::uint32_t>(Value::Type::OBJ_LAST);
+		const auto value = static_cast<std::uint32_t>(val.type);
+		return first <= value && value <= last;
+	}
 }

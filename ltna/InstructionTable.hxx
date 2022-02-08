@@ -157,6 +157,7 @@ namespace ltn::a {
 
 		// Type utils
 		{"typeid",        {Inst::TYPEID}},
+		{"clone",         {Inst::CLONE}},
 
 		{"member_read",   {Inst::MEMBER_READ,  ArgFormat::UINT}},
 		{"member_write",  {Inst::MEMBER_WRITE, ArgFormat::UINT}},
