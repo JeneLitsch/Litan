@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "ltnc/SourceLocation.hxx"
 namespace ltn::c::lex {
 	struct Token {
 		enum class Type {
@@ -17,6 +18,7 @@ namespace ltn::c::lex {
 		};
 		Type type;
 		std::string str;
+		SourceLocation location;
 		static const Token end;
 	};
 }

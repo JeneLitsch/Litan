@@ -1,19 +1,22 @@
 #include "Lexer.hxx"
 #include "lexing.hxx"
+#include <set>
 
 namespace ltn::c::lex {
 	using TT = Token::Type;
+	
 	Lexer::Lexer(std::istream & in, std::string sourcename)
 		:	in(in) {
-		this->loc = SourceLocation{1, sourcename};
-		Token t = lex::token(in, this->loc);
+		SourceLocation loc{1, sourcename};
+		Token t = lex::token(in, loc);
 		while (t.type != TT::___EOF___) {
 			this->tokens.push_back(t);
 			t = lex::token(in, loc);
 		}
-		this->tokens.push_back(Token::end);
+		this->tokens.push_back(t);
 		this->current = this->tokens.begin();
 	}
+
 
 	std::optional<Token> Lexer::match(Token::Type type) {
 		if(this->current->type == type) {
@@ -26,17 +29,16 @@ namespace ltn::c::lex {
 		}
 	}
 
+
 	void Lexer::sync() {
-		auto stops = std::array{
+		const static std::set<TT> stops {
 			TT::NAMESPACE,
 			TT::FUNCTION,
 			TT::ASM,
 			TT::___EOF___,
 		};
-		while(true) {
-			for(const auto tt : stops) {
-				if(this->current->type == tt) return;
-			}
+
+		while(!stops.contains(this->current->type)) {
 			std::advance(this->current, 1);
 		}
 	}

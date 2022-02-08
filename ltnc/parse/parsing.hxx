@@ -43,28 +43,28 @@ namespace ltn::c::parse {
 	std::string parameterName(lex::Lexer & lexer);
 
 
-	// Error catching
-	auto attempt(auto fx, auto & errors, lex::Lexer & lexer, const ast::Namespace & ns) 
-		-> decltype(fx(lexer, ns)) {
-		try {
-			return fx(lexer, ns);;
-		}
-		catch(const CompilerError & error) {
-			errors.push(error);
-			lexer.sync();
-			return nullptr;
-		}
-	}
+	// // Error catching
+	// auto attempt(auto fx, auto & errors, lex::Lexer & lexer, const ast::Namespace & ns) 
+	// 	-> decltype(fx(lexer, ns)) {
+	// 	try {
+	// 		return fx(lexer, ns);;
+	// 	}
+	// 	catch(const CompilerError & error) {
+	// 		errors.push(error);
+	// 		lexer.sync();
+	// 		return nullptr;
+	// 	}
+	// }
 
-	auto attempt(auto fx, auto & errors, lex::Lexer & lexer)
-		-> decltype(fx(lexer)) {
-		try {
-			return fx(lexer);
-		}
-		catch(const CompilerError & error) {
-			errors.push(error);
-			lexer.sync();
-			return nullptr;
-		}
-	}
+	// auto attempt(auto fx, auto & errors, lex::Lexer & lexer)
+	// 	-> decltype(fx(lexer)) {
+	// 	try {
+	// 		return fx(lexer);
+	// 	}
+	// 	catch(const CompilerError & error) {
+	// 		errors.push(error);
+	// 		lexer.sync();
+	// 		return nullptr;
+	// 	}
+	// }
 }

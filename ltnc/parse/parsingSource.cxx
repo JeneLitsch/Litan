@@ -87,10 +87,10 @@ namespace ltn::c::parse {
 				lexer.sync();
 			}
 		}
-		if(nameSpace.empty()) {
-			errors.may_throw();
-			return functions; 
+		if(!nameSpace.empty()) {
+			errors.push(unclosedNamespace(lexer));
 		}
-		else throw unclosedNamespace(lexer);
+		errors.may_throw();
+		return functions; 
 	}
 }

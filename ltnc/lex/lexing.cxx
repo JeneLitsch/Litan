@@ -81,20 +81,20 @@ namespace ltn::c::lex {
 
 		// Table of keywords
 		const std::unordered_map<std::string_view, Token::Type> keywords{
-			{"function",    Token::Type::FUNCTION},
-			{"while",       Token::Type::WHILE},
-			{"for",         Token::Type::FOR},
-			{"return",      Token::Type::RETURN},
-			{"var",         Token::Type::VAR},
-			{"const",       Token::Type::CONST},
-			{"if",          Token::Type::IF},
-			{"else",        Token::Type::ELSE},
-			{"new",         Token::Type::NEW},
-			{"return",      Token::Type::RETURN},
-			{"true",        Token::Type::TRUE},
-			{"false",       Token::Type::FALSE},
-			{"asm",         Token::Type::ASM},
-			{"namespace",   Token::Type::NAMESPACE},
+			{"function",    TT::FUNCTION},
+			{"while",       TT::WHILE},
+			{"for",         TT::FOR},
+			{"return",      TT::RETURN},
+			{"var",         TT::VAR},
+			{"const",       TT::CONST},
+			{"if",          TT::IF},
+			{"else",        TT::ELSE},
+			{"new",         TT::NEW},
+			{"return",      TT::RETURN},
+			{"true",        TT::TRUE},
+			{"false",       TT::FALSE},
+			{"asm",         TT::ASM},
+			{"namespace",   TT::NAMESPACE},
 		};
 		
 		 
@@ -138,98 +138,105 @@ namespace ltn::c::lex {
 		const auto match = [&] (auto chr) {
 			return ltn::c::lex::match(in, chr, location.line);
 		};
-		if(isAtEnd(in >> WS{location.line})) return {Token::Type::___EOF___, "___EOF___"};
+
+		const auto make = [&location] (auto type, const auto &str) {
+			return Token{type, str, location};
+		};
+
+		in >> WS{location.line};
 		
-		if(match(',')) return {Token::Type::COMMA, ","};
-		if(match(';')) return {Token::Type::SEMICOLON, ";"};
+		if(isAtEnd(in)) return make(TT::___EOF___, "___EOF__");
 		
-		if(match('(')) return {Token::Type::PAREN_L, "("};
-		if(match(')')) return {Token::Type::PAREN_R, ")"};
-		if(match('{')) return {Token::Type::BRACE_L, "{"};
-		if(match('}')) return {Token::Type::BRACE_R, "}"};
-		if(match('[')) return {Token::Type::BRACKET_L, "["};
-		if(match(']')) return {Token::Type::BRACKET_R, "]"};
+		if(match(',')) return make(TT::COMMA, ",");
+		if(match(';')) return make(TT::SEMICOLON, ";");
+		
+		if(match('(')) return make(TT::PAREN_L, "(");
+		if(match(')')) return make(TT::PAREN_R, ")");
+		if(match('{')) return make(TT::BRACE_L, "{");
+		if(match('}')) return make(TT::BRACE_R, "}");
+		if(match('[')) return make(TT::BRACKET_L, "[");
+		if(match(']')) return make(TT::BRACKET_R, "]");
 		
 		if(match('-')) {
 			if(match('=')) {
-				return {Token::Type::ASSIGN_SUB, "-="};
+				return make(TT::ASSIGN_SUB, "-=");
 			}
-			return {Token::Type::MINUS, "-"};
+			return make(TT::MINUS, "-");
 		}
 		if(match('+')) {
 			if(match('=')) {
-				return {Token::Type::ASSIGN_ADD, "+="};
+				return make(TT::ASSIGN_ADD, "+=");
 			}
-			return {Token::Type::PLUS, "+"};
+			return make(TT::PLUS, "+");
 		}
 		if(match('*')) {
 			if(match('=')) {
-				return {Token::Type::ASSIGN_MLT, "*="};
+				return make(TT::ASSIGN_MLT, "*=");
 			}
-			return {Token::Type::STAR, "*"};
+			return make(TT::STAR, "*");
 		}
 		if(match('/')) {
 			if(match('=')) {
-				return {Token::Type::ASSIGN_DIV, "/="};
+				return make(TT::ASSIGN_DIV, "/=");
 			}
 			if(match('/')) {
 				comment(in);
 				return token(in, location);
 			}
-			return {Token::Type::SLASH, "/"};
+			return make(TT::SLASH, "/");
 		}
 		if(match('%')) {
 			if(match('=')) {
-				return {Token::Type::ASSIGN_MOD, "%="};
+				return make(TT::ASSIGN_MOD, "%=");
 			}
-			return {Token::Type::PERCENT, "%"};
+			return make(TT::PERCENT, "%");
 		}
 		if(match('&')) {
 			if(match('&')) {
-				return {Token::Type::AND, "&&"};
+				return make(TT::AND, "&&");
 			}
-			return {Token::Type::AMPERSAND, "&"};
+			return make(TT::AMPERSAND, "&");
 		}
 		if(match('|')) {
 			if(match('|')) {
-				return {Token::Type::OR, "||"};
+				return make(TT::OR, "||");
 			}
 			throw CompilerError{"\"|\" is not a valid token.", location};
 		}
-		if(match('_')) return {Token::Type::UNDERSCORE, "_"};
+		if(match('_')) return make(TT::UNDERSCORE, "_");
 		
 		if(match('=')) {
-			if(match('=')) return {Token::Type::EQUAL, "=="};
-			return {Token::Type::ASSIGN, "="};
+			if(match('=')) return make(TT::EQUAL, "==");
+			return make(TT::ASSIGN, "=");
 		}
 
 		if(match('<')) {
-			if(match('<')) return {Token::Type::SHIFT_L, "<<"};
-			if(match('=')) return {Token::Type::SMALLER_EQUAL, "<="};
-			return {Token::Type::SMALLER, "<"};
+			if(match('<')) return make(TT::SHIFT_L, "<<");
+			if(match('=')) return make(TT::SMALLER_EQUAL, "<=");
+			return make(TT::SMALLER, "<");
 		}
 		if(match('>')) {
-			if(match('>')) return {Token::Type::SHIFT_R, ">>"};
-			if(match('=')) return {Token::Type::BIGGER_EQUAL, ">="};
-			return {Token::Type::BIGGER, ">"};
+			if(match('>')) return make(TT::SHIFT_R, ">>");
+			if(match('=')) return make(TT::BIGGER_EQUAL, ">=");
+			return make(TT::BIGGER, ">");
 		}
 		if(match('!')) {
-			if(match('=')) return {Token::Type::UNEQUAL, "!="};
-			return {Token::Type::NOT, "!"};
+			if(match('=')) return make(TT::UNEQUAL, "!=");
+			return make(TT::NOT, "!");
 		}
 
 		if(match('"')) {
 			const auto str = string(in, location);
-			return {Token::Type::STRING, str};
+			return make(TT::STRING, str);
 		}
 
 		if(match('.')) {
-			return {Token::Type::DOT, "."};
+			return make(TT::DOT, ".");
 		}
 
 		if(match(':')) {
 			if(match(':')) {
-				return {Token::Type::COLONx2, "::"};
+				return make(TT::COLONx2, "::");
 			}
 			throw CompilerError{"\":\" is not a valid token.", location};
 		}
@@ -237,9 +244,9 @@ namespace ltn::c::lex {
 		if(checkAlpha(in)) {
 			const auto str = read(in, checkIdChar);
 			if(keywords.contains(str)) {
-				return {keywords.at(str), str};
+				return make(keywords.at(str), str);
 			}
-			return {Token::Type::INDENTIFIER, str};
+			return make(TT::INDENTIFIER, str);
 		}
 
 		if(checkDigit(in)) {
@@ -247,11 +254,11 @@ namespace ltn::c::lex {
 			if(match('0')) {
 				if(match('x')) {
 					const auto literalInt = read(in, checkHexDigit);
-					return {Token::Type::INTEGER_HEX, literalInt};
+					return make(TT::INTEGER_HEX, literalInt);
 				}
 				if(match('b')) {
 					const auto literalInt = read(in, checkBinDigit);
-					return {Token::Type::INTEGER_BIN, literalInt};
+					return make(TT::INTEGER_BIN, literalInt);
 				}
 				zero = true;
 			}
@@ -259,9 +266,9 @@ namespace ltn::c::lex {
 			if(match('.')) {
 				const auto literalFraction = read(in, checkDigit);
 				const auto literal = literalInt + "." + literalFraction;
-				return {Token::Type::FLOAT, literal};
+				return make(TT::FLOAT, literal);
 			}
-			return {Token::Type::INTEGER, literalInt};
+			return make(TT::INTEGER, literalInt);
 		}
 
 		throw CompilerError{"invalid token", location};
