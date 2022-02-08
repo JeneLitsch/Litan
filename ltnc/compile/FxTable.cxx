@@ -10,7 +10,7 @@ namespace ltn::c::compile {
 		msg << fx.name << "(";
 		msg << fx.parameters;
 		msg << ") already exists";
-		return CompilerError{ msg.str(), 0 };
+		return CompilerError{ msg.str(), {} };
 	}
 
 	// returns function if defined or nultptr otherwise

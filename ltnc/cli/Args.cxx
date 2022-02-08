@@ -15,7 +15,7 @@ ltn::c::Args::Args(const char ** argv, std::size_t argc) {
 		}
 	}
 	if(this->files.size() < 2) {
-		throw CompilerError{"Source and traget needed", 0};
+		throw CompilerError{"Source and traget needed", {}};
 	}
 }
 

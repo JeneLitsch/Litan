@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include "ltnc/ast/Namespace.hxx"
 #include "Variable.hxx"
+#include "ltnc/SourceLocation.hxx"
 namespace ltn::c::compile {
 
 
@@ -11,9 +12,9 @@ namespace ltn::c::compile {
 	public:
 		Scope(const ast::Namespace & nameSpace);
 		Scope(const Scope * parent);
-		Variable resolve(const std::string & name, std::size_t line) const;
-		Variable insert(const std::string & name, Variable::Qualifier qualifier, std::size_t line);
-		Variable insert(const std::string & name, std::size_t line);
+		Variable resolve(const std::string & name, const SourceLocation & location) const;
+		Variable insert(const std::string & name, Variable::Qualifier qualifier, const SourceLocation & location);
+		Variable insert(const std::string & name, const SourceLocation & location);
 		const ast::Namespace & getNamespace() const;
 	private:
 		std::uint64_t recSize() const;

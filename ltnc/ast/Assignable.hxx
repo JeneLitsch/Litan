@@ -4,15 +4,15 @@
 namespace ltn::c::ast {
 	struct Assignable : public Primary {
 		virtual ~Assignable() = default;
-		Assignable(const lex::DebugInfo & debugInfo) : Primary(debugInfo) {}
+		Assignable(const SourceLocation & location) : Primary(location) {}
 	};
 
 	struct Index : public Assignable {
 		Index(
 			std::unique_ptr<Expression> expression,
 			std::unique_ptr<Expression> index,
-			const lex::DebugInfo & debugInfo)
-			:	Assignable(debugInfo),
+			const SourceLocation & location)
+			:	Assignable(location),
 				expression(std::move(expression)),
 				index(std::move(index)) {}
 		virtual ~Index() = default;
@@ -23,8 +23,8 @@ namespace ltn::c::ast {
 	struct Var : public Assignable {
 	public:
 		Var(const std::string & name,
-			const lex::DebugInfo & debugInfo)
-			:	Assignable(debugInfo),
+			const SourceLocation & location)
+			:	Assignable(location),
 				name(name) {}
 		virtual ~Var() = default;
 		std::string name;
@@ -35,8 +35,8 @@ namespace ltn::c::ast {
 		Assign(
 			std::unique_ptr<Assignable> l,
 			std::unique_ptr<Expression> r,
-			const lex::DebugInfo & debugInfo)
-			:	Expression(debugInfo), l(std::move(l)), r(std::move(r)) {}
+			const SourceLocation & location)
+			:	Expression(location), l(std::move(l)), r(std::move(r)) {}
 		virtual ~Assign() = default;
 		std::unique_ptr<Assignable> l;
 		std::unique_ptr<Expression> r;
@@ -48,8 +48,8 @@ namespace ltn::c::ast {
 			Type type,
 			std::unique_ptr<Assignable> l,
 			std::unique_ptr<Expression> r,
-			const lex::DebugInfo & debugInfo)
-			:	Expression(debugInfo),
+			const SourceLocation & location)
+			:	Expression(location),
 				type(type),
 				l(std::move(l)),
 				r(std::move(r)) {}
@@ -63,8 +63,8 @@ namespace ltn::c::ast {
 		MemberAccess(
 			std::unique_ptr<Var> var,
 			std::vector<std::string> && memberpath,
-			const lex::DebugInfo & debugInfo)
-			:	Assignable(debugInfo),
+			const SourceLocation & location)
+			:	Assignable(location),
 				var(std::move(var)),
 				memberpath(std::move(memberpath)){};
 		virtual ~MemberAccess() = default;

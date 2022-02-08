@@ -25,11 +25,11 @@ namespace ltn::c::parse {
 				return std::make_unique<ast::Assign>(
 					std::move(l),
 					std::move(r),
-					lexer.debug());
+					lexer.location());
 			}
 			throw CompilerError{
 				"Left side of an assignment must be an assignable expression",
-				lexer.inLine()};
+				lexer.location()};
 		}
 		auto modifyTable = std::array{
 			std::pair{MT::ADD, TT::ASSIGN_ADD},
@@ -43,11 +43,11 @@ namespace ltn::c::parse {
 				if(auto l = unique_cast_if<ast::Assignable>(expr)) {
 					auto r = expression(lexer);
 					return std::make_unique<ast::Modify>(
-						mt, std::move(l), std::move(r), lexer.debug());
+						mt, std::move(l), std::move(r), lexer.location());
 				}
 				throw CompilerError{
 					"Left side of an assignment must be an assignable expression",
-					lexer.inLine()};
+					lexer.location()};
 			}
 		}
 		return expr;

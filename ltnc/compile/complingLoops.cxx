@@ -37,7 +37,7 @@ namespace ltn::c::compile {
 		const auto end = makeJumpId("FOR_END", info);
 
 		// get address of index var
-		const auto iVar = loopScope.resolve(stmt.var->name, stmt.debugInfo.line);
+		const auto iVar = loopScope.resolve(stmt.var->name, stmt.location);
 				
 		std::stringstream ss;
 		

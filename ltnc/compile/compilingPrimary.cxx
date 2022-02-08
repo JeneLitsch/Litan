@@ -7,7 +7,7 @@ namespace ltn::c::compile {
 			const ast::Node & node) {
 			std::stringstream ss;
 			ss << "Function " << name << " is not defined";
-			return CompilerError { ss.str(), node.debugInfo.line };
+			return CompilerError { ss.str(), node.location };
 		}
 
 		// Literals
@@ -125,7 +125,7 @@ namespace ltn::c::compile {
 
 	// compiles an variable read accessc
 	ExprCode readVar(const ast::Var & expr, CompilerInfo &, Scope & scope) {
-		const auto var = scope.resolve(expr.name, expr.debugInfo.line);
+		const auto var = scope.resolve(expr.name, expr.location);
 		std::stringstream ss;
 		ss << inst::read_x(var.address);
 		return ExprCode{ ss.str() };
@@ -170,6 +170,6 @@ namespace ltn::c::compile {
 			return readMemberAccess(*expr_, info, scope);
 		}		
 		
-		throw CompilerError{"Unknown primary expression", expr.debugInfo.line};
+		throw CompilerError{"Unknown primary expression", expr.location};
 	}
 }

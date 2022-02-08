@@ -1,6 +1,7 @@
 #include "Litan.hxx"
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 
 void compileFile(ltn::c::Ltnc & ltnc, const std::filesystem::path & filepath) {
 	std::cout << "[Compiling] " << filepath << "\n";
@@ -21,21 +22,29 @@ int main(int argc, char const *argv[]) {
 		ltn::Ltnc compiler{std::make_unique<ltn::LtnBackend>()};
 		ltn::Ltna assembler;
 		ltn::LtnVm vm;
+		try {
+			std::filesystem::path stdlib = argv[argc-1];
+					
+			for(const auto & stdFile : compiler.stdLib()) {
+				const auto source = stdlib / stdFile; 
+				compileFile(compiler, source);
+			}
+			
+			for(std::int64_t i = 1; i+1 < argc; i++) {
+				compileFile(compiler, argv[i]);
+			}
+			std::stringstream ss;
+			compiler.yield(ss);
+			vm.setup(assembler.assemble(ss));
+			vm.run();
+		}
+		catch (const ltn::c::CompilerError & error) {
+			std::cout << error << "\n";
+		}
+		catch (const std::runtime_error & error) {
+			std::cout << error.what() << "\n";
+		}
 
-		std::filesystem::path stdlib = argv[argc-1];
-				
-		for(const auto & stdFile : compiler.stdLib()) {
-			const auto source = stdlib / stdFile; 
-			compileFile(compiler, source);
-		}
-		
-		for(std::int64_t i = 1; i+1 < argc; i++) {
-			compileFile(compiler, argv[i]);
-		}
-		std::stringstream ss;
-		compiler.yield(ss);
-		vm.setup(assembler.assemble(ss));
-		vm.run();
 		return EXIT_SUCCESS;
 	}
 	std::cout << "[Error] expected file and stdlib path";

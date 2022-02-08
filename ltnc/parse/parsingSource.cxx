@@ -9,32 +9,32 @@ namespace ltn::c::parse {
 		CompilerError anonymousNamespace(const lex::Lexer & lexer) {
 			return CompilerError {
 				"Expected namespace name. Anonymous not supported",
-				lexer.inLine()};
+				lexer.location()};
 		}
 
 		CompilerError unknownDeclaration(const lex::Lexer & lexer) {
 			return CompilerError(
 				"Unknown declaration."
 				"Exprected function, namespace or asm-function.",
-				lexer.inLine());
+				lexer.location());
 		}
 
 		CompilerError unclosedNamespace(const lex::Lexer & lexer) {
 			return CompilerError {
 				"Unclosed namespace. Expected }",
-				lexer.inLine()};
+				lexer.location()};
 		}
 
 		CompilerError missingBraceR(const lex::Lexer & lexer) {
 			return CompilerError {
 				"Expected {",
-				lexer.inLine()};
+				lexer.location()};
 		}
 
 		CompilerError extraBraceR(const lex::Lexer & lexer) {
 			return CompilerError {
 				"Extra {",
-				lexer.inLine()};
+				lexer.location()};
 		}
 
 		// parses: namespace foo { ...
@@ -68,19 +68,27 @@ namespace ltn::c::parse {
 	std::vector<std::unique_ptr<ast::Functional>> source(lex::Lexer & lexer) {
 		Functionals functions;
 		ast::Namespace nameSpace;
+		ErrorAccu errors;
 		while(!lexer.match(TT::___EOF___)) {
-			if(auto ns = openNamespace(lexer)) {
-				nameSpace.push_back(*ns);
+			try {
+				if(auto ns = openNamespace(lexer)) {
+					nameSpace.push_back(*ns);
+				}
+				else if(closeNamespace(lexer, nameSpace)) {
+					nameSpace.pop_back();
+				}
+				else if(auto fx = parse::functional(lexer, nameSpace)) {
+					functions.push_back(std::move(fx));
+				}
+				else throw unknownDeclaration(lexer);
 			}
-			else if(closeNamespace(lexer, nameSpace)) {
-				nameSpace.pop_back();
+			catch(const CompilerError & error) {
+				errors.push(error);
+				lexer.sync();
 			}
-			else if(auto fx = parse::functional(lexer, nameSpace)) {
-				functions.push_back(std::move(fx));
-			}
-			else throw unknownDeclaration(lexer);
 		}
 		if(nameSpace.empty()) {
+			errors.may_throw();
 			return functions; 
 		}
 		else throw unclosedNamespace(lexer);

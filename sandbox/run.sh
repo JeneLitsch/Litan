@@ -8,5 +8,3 @@ run () {
 	./bin/ltnvm $binFile
 	echo 
 }
-
-run "swap"

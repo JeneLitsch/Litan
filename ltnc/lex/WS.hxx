@@ -1,6 +1,7 @@
 #pragma once
 #include <cctype>
 #include <istream>
+#include <iostream>
 
 namespace ltn::c::lex {
 	// std::ws with newline counting

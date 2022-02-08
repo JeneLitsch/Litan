@@ -15,8 +15,8 @@ namespace ltn::c::ast {
 			const std::string & name,
 			Namespace nameSpace,
 			Parameters parameters,
-			const lex::DebugInfo & debugInfo)
-			:	Declaration(debugInfo),
+			const SourceLocation & location)
+			:	Declaration(location),
 				name(name),
 				nameSpace(nameSpace),
 				parameters(parameters) {}
@@ -32,8 +32,8 @@ namespace ltn::c::ast {
 			Namespace nameSpace,
 			Parameters parameters,
 			std::unique_ptr<Statement> && body,
-			const lex::DebugInfo & debugInfo)
-			:	Functional(name, nameSpace, parameters, debugInfo),
+			const SourceLocation & location)
+			:	Functional(name, nameSpace, parameters, location),
 				body(std::move(body)) {}
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
@@ -45,8 +45,8 @@ namespace ltn::c::ast {
 			Namespace nameSpace,
 			Parameters parameters,
 			const std::vector<std::string> & instructions,
-			const lex::DebugInfo & debugInfo)
-			:	Functional(name, nameSpace, parameters, debugInfo),
+			const SourceLocation & location)
+			:	Functional(name, nameSpace, parameters, location),
 				instructions(instructions) {}
 		virtual ~Asm() = default;
 		std::vector<std::string> instructions;		

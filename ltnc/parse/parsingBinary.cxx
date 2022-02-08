@@ -18,7 +18,7 @@ namespace ltn::c::parse {
 				if(lexer.match(tt)) {
 					auto && r = presedenceDown(lexer);
 					auto bin = std::make_unique<ExprType>(
-						op, std::move(l), std::move(r), lexer.debug());
+						op, std::move(l), std::move(r), lexer.location());
 					return {false, std::move(bin)}; 
 				}
 			}

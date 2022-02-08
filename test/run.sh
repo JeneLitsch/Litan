@@ -24,3 +24,11 @@ run "compare"
 run "array"
 run "container"
 run "clone"
+
+run_error () {
+	echo "Testing Errors"
+	./bin/ltn test/error1.ltn test/error2.ltn ./stdlib
+	echo
+}
+
+run_error

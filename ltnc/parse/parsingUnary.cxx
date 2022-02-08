@@ -15,7 +15,7 @@ namespace ltn::c::parse {
 				auto full = std::make_unique<ast::Index>(
 					std::move(l),
 					std::move(index),
-					index->debugInfo);
+					index->location);
 				return unaryR(lexer, std::move(full));
 			}
 			return l;
@@ -29,7 +29,7 @@ namespace ltn::c::parse {
 			if(lexer.match(TT::BRACKET_R)) {
 				return index;
 			}
-			throw CompilerError{"Missing ]", lexer.inLine()};
+			throw CompilerError{"Missing ]", lexer.location()};
 		}
 		return nullptr;
 	}
@@ -44,7 +44,7 @@ namespace ltn::c::parse {
 		for(auto [tt, op] : table) {
 			if(lexer.match(tt)) {
 				auto && r = unary(lexer);
-				return std::make_unique<ast::Unary>(op, std::move(r), lexer.debug());
+				return std::make_unique<ast::Unary>(op, std::move(r), lexer.location());
 			}
 		}
 		// right unary

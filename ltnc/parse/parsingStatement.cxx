@@ -10,7 +10,7 @@ namespace ltn::c::parse {
 	// Maches ; or throws
 	void semicolon(lex::Lexer & lexer) {
 		if(!lexer.match(TT::SEMICOLON)) {
-			throw CompilerError{"missing ;", lexer.inLine()};
+			throw CompilerError{"missing ;", lexer.location()};
 		}
 		while(lexer.match(TT::SEMICOLON));
 	}
@@ -25,7 +25,7 @@ namespace ltn::c::parse {
 
 	// parses Statement consiting of an Expression
 	auto expr(lex::Lexer & lexer) {
-		return std::make_unique<ast::StatementExpression>(assign(lexer), lexer.debug());
+		return std::make_unique<ast::StatementExpression>(assign(lexer), lexer.location());
 	}
 
 	template<class AstNodeType, TT tt>
@@ -37,7 +37,7 @@ namespace ltn::c::parse {
 			return std::make_unique<AstNodeType>(
 				name,
 				std::move(r),
-				lexer.debug());
+				lexer.location());
 		}
 		return nullptr;
 	}
@@ -49,11 +49,11 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Statement> retrn(lex::Lexer & lexer) {
 		if(lexer.match(TT::RETURN)) {
 			if(lexer.match(TT::SEMICOLON)) {
-				return std::make_unique<ast::Return>(nullptr, lexer.debug());
+				return std::make_unique<ast::Return>(nullptr, lexer.location());
 			}
 			auto expr = expression(lexer);
 			semicolon(lexer);
-			return std::make_unique<ast::Return>(std::move(expr), lexer.debug());
+			return std::make_unique<ast::Return>(std::move(expr), lexer.location());
 		}
 		return nullptr;
 	}

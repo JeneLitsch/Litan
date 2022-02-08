@@ -3,7 +3,7 @@
 
 namespace ltn::c::ast {
 	struct Declaration : public Node {
-		Declaration(const lex::DebugInfo & debugInfo) : Node(debugInfo) {}
+		Declaration(const SourceLocation & location) : Node(location) {}
 		virtual ~Declaration() = default;
 	};
 }

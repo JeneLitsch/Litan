@@ -6,12 +6,12 @@ namespace ltn::c::ast {
 	struct Assignable;
 
 	struct Expression : public Node {
-		Expression(const lex::DebugInfo & debugInfo) : Node(debugInfo) {}
+		Expression(const SourceLocation & location) : Node(location) {}
 		virtual ~Expression() = default;
 	};
 
 	struct Primary : public Expression {
-		Primary(const lex::DebugInfo & debugInfo) : Expression(debugInfo) {}
+		Primary(const SourceLocation & location) : Expression(location) {}
 		virtual ~Primary() = default;
 	};
 
@@ -20,8 +20,8 @@ namespace ltn::c::ast {
 		Unary(
 			Type type,
 			std::unique_ptr<Expression> expression,
-			const lex::DebugInfo & debugInfo)
-			:	Expression(debugInfo),
+			const SourceLocation & location)
+			:	Expression(location),
 				type(type),
 				expression(std::move(expression)) {}
 		virtual ~Unary() = default;
@@ -33,8 +33,8 @@ namespace ltn::c::ast {
 		Binary(
 			std::unique_ptr<Expression> l,
 			std::unique_ptr<Expression> r,
-			const lex::DebugInfo & debugInfo)
-			:	Expression(debugInfo),
+			const SourceLocation & location)
+			:	Expression(location),
 				l(std::move(l)),
 				r(std::move(r)) {}
 		virtual ~Binary() = default;
@@ -53,8 +53,8 @@ namespace ltn::c::ast {
 			Type type,
 			std::unique_ptr<Expression> l,
 			std::unique_ptr<Expression> r,
-			const lex::DebugInfo & debugInfo)
-			:	Binary(std::move(l), std::move(r), debugInfo),
+			const SourceLocation & location)
+			:	Binary(std::move(l), std::move(r), location),
 				type(type) {}
 		virtual ~SimpleBinary() = default;
 		Type type;
@@ -68,8 +68,8 @@ namespace ltn::c::ast {
 			Type type,
 			std::unique_ptr<Expression> l,
 			std::unique_ptr<Expression> r,
-			const lex::DebugInfo & debugInfo)
-			:	Binary(std::move(l), std::move(r), debugInfo),
+			const SourceLocation & location)
+			:	Binary(std::move(l), std::move(r), location),
 				type(type) {}
 		virtual ~Logical() = default;
 		Type type;
@@ -82,8 +82,8 @@ namespace ltn::c::ast {
 			const std::string & name,
 			const Namespace & nameSpace,
 			std::vector<std::unique_ptr<Expression>> parameters,
-			const lex::DebugInfo & debugInfo)
-			:	Primary(debugInfo),
+			const SourceLocation & location)
+			:	Primary(location),
 				name(name),
 				nameSpace(nameSpace),
 				parameters(std::move(parameters)) {}
@@ -100,8 +100,8 @@ namespace ltn::c::ast {
 			const std::string & name,
 			const Namespace & nameSpace,
 			const std::size_t placeholders,
-			const lex::DebugInfo & debugInfo)
-			:	Primary(debugInfo),
+			const SourceLocation & location)
+			:	Primary(location),
 				name(name),
 				nameSpace(nameSpace),
 				placeholders(std::move(placeholders)) {}

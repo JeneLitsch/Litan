@@ -11,7 +11,7 @@ namespace ltn::c::parse {
 		if(auto token = lexer.match(TT::INDENTIFIER)) {
 			return token->str;
 		}
-		throw ltn::c::CompilerError{errMsg, lexer.inLine()};
+		throw ltn::c::CompilerError{errMsg, lexer.location()};
 	}
 
 	std::string variableName(lex::Lexer & lexer) {

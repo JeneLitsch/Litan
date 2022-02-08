@@ -23,15 +23,20 @@ const std::span<const std::string_view> ltn::c::Ltnc::stdLib() const {
 	return stdFiles;
 }
 
-void ltn::c::Ltnc::compile(std::istream & in, const std::string &) {
-	this->line = 0;
-	lex::Lexer lexer{in, this->line};
-	auto source = parse::source(lexer);
-	for(auto && fx : source) {
-		this->program.functions.push_back(std::move(fx));
+void ltn::c::Ltnc::compile(std::istream & in, const std::string & sourcename) {
+	lex::Lexer lexer{in, sourcename};
+	try {
+		auto source = parse::source(lexer);
+		for(auto && fx : source) {
+			this->program.functions.push_back(std::move(fx));
+		}
+	}
+	catch(const CompilerError & error) {
+		this->errors.push(error);
 	}
 }
 
 void ltn::c::Ltnc::yield(std::ostream & out) {
+	this->errors.may_throw();
 	this->backend->compile(out, this->config, this->program.functions);
 }

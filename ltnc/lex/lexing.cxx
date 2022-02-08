@@ -98,7 +98,7 @@ namespace ltn::c::lex {
 		};
 		
 		 
-		char deEscape(auto chr, std::size_t & line) {
+		char deEscape(auto chr, const SourceLocation & location) {
 			switch (chr) {
 			case 'n': return '\n';
 			case 't': return '\t';
@@ -106,11 +106,11 @@ namespace ltn::c::lex {
 			case '"': return '"';
 			default: break;
 			}
-			throw CompilerError{"Invalid escape sequence", line};
+			throw CompilerError{"Invalid escape sequence", location};
 		}
 
 		// Reads and deescape string from in
-		std::string string(std::istream & in, std::size_t & line) {
+		std::string string(std::istream & in, const SourceLocation & location) {
 			std::stringstream ss;
 			while(!in.eof()) {
 				const auto chr = static_cast<char>(in.get());
@@ -118,27 +118,27 @@ namespace ltn::c::lex {
 					return ss.str();
 				}
 				if(chr == '\n') {
-					throw CompilerError{"Newline needs to be escaped \\n", line};
+					throw CompilerError{"Newline needs to be escaped \\n", location};
 				}
 				if(chr == '\t') {
-					throw CompilerError{"Tab needs to be escaped \\t", line};
+					throw CompilerError{"Tab needs to be escaped \\t", location};
 				}
 				if(chr == '\\') {
-					ss << deEscape(in.get(), line);
+					ss << deEscape(in.get(), location);
 				}
 				else {
 					ss << chr;
 				}
 			}
-			throw CompilerError{"Unterminated string", line};
+			throw CompilerError{"Unterminated string", location};
 		}
 	}
 	
-	Token token(std::istream & in, std::size_t & line) {
+	Token token(std::istream & in, SourceLocation & location) {
 		const auto match = [&] (auto chr) {
-			return ltn::c::lex::match(in, chr, line);
+			return ltn::c::lex::match(in, chr, location.line);
 		};
-		if(isAtEnd(in >> WS{line})) return {Token::Type::___EOF___, "___EOF___"};
+		if(isAtEnd(in >> WS{location.line})) return {Token::Type::___EOF___, "___EOF___"};
 		
 		if(match(',')) return {Token::Type::COMMA, ","};
 		if(match(';')) return {Token::Type::SEMICOLON, ";"};
@@ -174,7 +174,7 @@ namespace ltn::c::lex {
 			}
 			if(match('/')) {
 				comment(in);
-				return token(in, line);
+				return token(in, location);
 			}
 			return {Token::Type::SLASH, "/"};
 		}
@@ -194,7 +194,7 @@ namespace ltn::c::lex {
 			if(match('|')) {
 				return {Token::Type::OR, "||"};
 			}
-			throw CompilerError{"\"|\" is not a valid token.", line};
+			throw CompilerError{"\"|\" is not a valid token.", location};
 		}
 		if(match('_')) return {Token::Type::UNDERSCORE, "_"};
 		
@@ -219,7 +219,7 @@ namespace ltn::c::lex {
 		}
 
 		if(match('"')) {
-			const auto str = string(in, line);
+			const auto str = string(in, location);
 			return {Token::Type::STRING, str};
 		}
 
@@ -231,7 +231,7 @@ namespace ltn::c::lex {
 			if(match(':')) {
 				return {Token::Type::COLONx2, "::"};
 			}
-			throw CompilerError{"\":\" is not a valid token.", line};
+			throw CompilerError{"\":\" is not a valid token.", location};
 		}
 
 		if(checkAlpha(in)) {
@@ -264,7 +264,7 @@ namespace ltn::c::lex {
 			return {Token::Type::INTEGER, literalInt};
 		}
 
-		throw CompilerError{"invalid token", line};
+		throw CompilerError{"invalid token", location};
 	}
 }
 

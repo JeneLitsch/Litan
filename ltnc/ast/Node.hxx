@@ -1,11 +1,11 @@
 #pragma once
 #include <memory>
-#include "ltnc/lex/DebugInfo.hxx"
+#include "ltnc/SourceLocation.hxx"
 namespace ltn::c::ast {
 	struct Node {
-		Node(const lex::DebugInfo & debugInfo)
-			:	debugInfo(debugInfo) {}
+		Node(const SourceLocation & location)
+			:	location(location) {}
 		virtual ~Node() = default;
-		lex::DebugInfo debugInfo;
+		SourceLocation location;
 	};
 }

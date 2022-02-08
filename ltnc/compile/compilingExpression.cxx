@@ -36,7 +36,7 @@ namespace ltn::c::compile {
 				}
 				throw CompilerError{
 					"Unknow modify operator",
-					expr.debugInfo.line};
+					expr.location};
 			}();
 			std::stringstream ss;
 			ss << lR.code;

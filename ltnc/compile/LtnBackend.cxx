@@ -44,7 +44,7 @@ namespace ltn::c::compile {
 				<< "\n";
 		}
 		else {
-			throw CompilerError {"main() is undefined", 0};
+			throw CompilerError {"main() is undefined", {}};
 		}
 
 		for(const auto & function : functions) {

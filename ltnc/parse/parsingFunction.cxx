@@ -12,7 +12,7 @@ namespace ltn::c::parse {
 		// Returns a array of all parameters
 		ast::Parameters parameterList(lex::Lexer & lexer) {
 			if(!lexer.match(TT::PAREN_L)) {
-				throw ltn::c::CompilerError{"missing (", lexer.inLine()};
+				throw ltn::c::CompilerError{"missing (", lexer.location()};
 			}
 			
 			ast::Parameters parameters{};
@@ -23,7 +23,7 @@ namespace ltn::c::parse {
 					if(!lexer.match(TT::COMMA)) {
 						throw CompilerError{
 							"expected comma between parameters",
-							lexer.inLine()};
+							lexer.location()};
 					}
 				}
 			} 
@@ -33,19 +33,19 @@ namespace ltn::c::parse {
 		// Returns a array of all parameters
 		std::vector<std::unique_ptr<ast::Var>> captures(lex::Lexer & lexer) {
 			if(!lexer.match(TT::BRACKET_L)) {
-				throw CompilerError{"missing [", lexer.inLine()};
+				throw CompilerError{"missing [", lexer.location()};
 			}
 			
 			std::vector<std::unique_ptr<ast::Var>> captures{};
 			if(!lexer.match(TT::BRACKET_R)) {
 				while(true) {
 					const auto name = parse::variableName(lexer);
-					captures.push_back(std::make_unique<ast::Var>(name, lexer.debug()));
+					captures.push_back(std::make_unique<ast::Var>(name, lexer.location()));
 					if(lexer.match(TT::BRACKET_R)) break;
 					if(!lexer.match(TT::COMMA)) {
 						throw CompilerError{
 							"expected comma between captures",
-							lexer.inLine()};
+							lexer.location()};
 					}
 				}
 			} 
@@ -54,7 +54,7 @@ namespace ltn::c::parse {
 
 		ast::Parameters instructions(lex::Lexer & lexer) {
 			if(!lexer.match(TT::BRACE_L)) {
-				throw ltn::c::CompilerError{"missing {", lexer.inLine()};
+				throw ltn::c::CompilerError{"missing {", lexer.location()};
 			}
 			
 			std::vector<std::string> insts{};
@@ -66,7 +66,7 @@ namespace ltn::c::parse {
 					else {
 						throw CompilerError{
 							"Expected instruction between \"...\"",
-							lexer.inLine() };
+							lexer.location() };
 					}
 				}
 			} 
@@ -87,7 +87,7 @@ namespace ltn::c::parse {
 				nameSpace,
 				parameters,
 				std::move(body),
-				lexer.debug());
+				lexer.location());
 		}
 	}
 
@@ -95,6 +95,7 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Functional> functional(
 		lex::Lexer & lexer,
 		const ast::Namespace & nameSpace) {
+
 		if(lexer.match(TT::FUNCTION)) {
 			return functionalNode<ast::Function>(lexer, nameSpace, statement);
 		}
@@ -114,11 +115,11 @@ namespace ltn::c::parse {
 				ast::Namespace{},
 				parameters,
 				std::move(body),
-				lexer.debug());
+				lexer.location());
 			return std::make_unique<ast::Lambda>(
 				std::move(fx),
 				std::move(captures),
-				lexer.debug()); 
+				lexer.location()); 
 		}
 		return nullptr;
 	}

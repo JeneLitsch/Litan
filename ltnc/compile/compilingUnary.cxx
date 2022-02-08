@@ -27,6 +27,6 @@ namespace ltn::c::compile {
 		if(expr.type == ast::Unary::Type::NOT) {
 			return notigate(*expr.expression, info, scope);
 		}
-		throw CompilerError{"Unknown unary expression", expr.debugInfo.line};
+		throw CompilerError{"Unknown unary expression", expr.location};
 	}
 }

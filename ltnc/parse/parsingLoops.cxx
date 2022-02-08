@@ -14,7 +14,7 @@ namespace ltn::c::parse {
 			return std::make_unique<ast::While>(
 				std::move(expr),
 				std::move(body),
-				lexer.debug());
+				lexer.location());
 		}
 		return nullptr;
 	}
@@ -26,7 +26,7 @@ namespace ltn::c::parse {
 			auto var = std::make_unique<ast::NewVar>(
 				varName,
 				nullptr,
-				lexer.debug());
+				lexer.location());
 			if(lexer.match(TT::PAREN_L)) {
 				auto from = expression(lexer);
 				if(lexer.match(TT::COMMA)) {
@@ -38,14 +38,14 @@ namespace ltn::c::parse {
 							std::move(from),
 							std::move(to),
 							std::move(body),
-							lexer.debug()
+							lexer.location()
 						);
 					}
-					throw CompilerError{"Expected )", lexer.inLine()};
+					throw CompilerError{"Expected )", lexer.location()};
 				}
-				throw CompilerError{"Expected ,", lexer.inLine()};
+				throw CompilerError{"Expected ,", lexer.location()};
 			}
-			throw CompilerError{"Expected (", lexer.inLine()};
+			throw CompilerError{"Expected (", lexer.location()};
 		}
 		return nullptr;
 	}

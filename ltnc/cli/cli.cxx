@@ -13,7 +13,7 @@ void compileFile(ltn::c::Ltnc & ltnc, const std::filesystem::path & filepath) {
 	std::cout << "[Compiling] " << filepath << "\n";
 	try {
 		if(!std::filesystem::exists(filepath)) {
-			throw ltn::c::CompilerError{"Cannot open " + filepath.string(), 0};
+			throw ltn::c::CompilerError{"Cannot open " + filepath.string(), {}};
 		}
 		std::ifstream ifile(filepath);
 		ltnc.compile(ifile, filepath);
@@ -41,7 +41,7 @@ int main(int argc, char const *argv[]){
 		std::cout << "[Target] " << target << "\n";
 		std::ofstream ofile(target);
 		if(!std::filesystem::exists(target)) {
-			throw ltn::c::CompilerError{"Cannot open " + target.string(), 0};
+			throw ltn::c::CompilerError{"Cannot open " + target.string(), {}};
 		}
 		compiler.yield(ofile);
 		std::cout << "Done!" << "\n";

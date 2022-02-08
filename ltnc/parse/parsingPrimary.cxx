@@ -8,7 +8,7 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 
 		CompilerError expected(std::string token, const lex::Lexer & lexer) {
-			return {"Expected " + token, lexer.inLine()};
+			return {"Expected " + token, lexer.location()};
 		}
 
 		// Literals
@@ -31,7 +31,7 @@ namespace ltn::c::parse {
 					ss >> std::hex;
 				}
 				const TempType value = read<TempType>(ss);
-				return std::make_unique<ast::Integer>(value, lexer.debug()); 
+				return std::make_unique<ast::Integer>(value, lexer.location()); 
 			}
 			return nullptr;
 		}
@@ -44,17 +44,17 @@ namespace ltn::c::parse {
 			if(auto token = lexer.match(TT::FLOAT)) {
 				std::stringstream ss{token->str};
 				const double value = read<double>(ss);
-				return std::make_unique<ast::Float>(value, lexer.debug()); 
+				return std::make_unique<ast::Float>(value, lexer.location()); 
 			}
 			return nullptr;
 		}
 
 		std::unique_ptr<ast::Bool> boolean(lex::Lexer & lexer) {
 			if(auto token = lexer.match(TT::TRUE)) {
-				return std::make_unique<ast::Bool>(true, lexer.debug()); 
+				return std::make_unique<ast::Bool>(true, lexer.location()); 
 			}
 			if(auto token = lexer.match(TT::FALSE)) {
-				return std::make_unique<ast::Bool>(false, lexer.debug()); 
+				return std::make_unique<ast::Bool>(false, lexer.location()); 
 			}
 			return nullptr;
 		}
@@ -76,14 +76,14 @@ namespace ltn::c::parse {
 				}
 				return std::make_unique<ast::Array>(
 					std::move(initElements),
-					lexer.debug());
+					lexer.location());
 			}
 			return nullptr;
 		}
 
 		std::unique_ptr<ast::Literal> string(lex::Lexer & lexer) {
 			if(auto token = lexer.match(TT::STRING)) {
-				return std::make_unique<ast::String>(token->str, lexer.debug()); 
+				return std::make_unique<ast::String>(token->str, lexer.location()); 
 			}
 			return nullptr;
 		}
@@ -149,7 +149,7 @@ namespace ltn::c::parse {
 				name,
 				nameSpace,
 				std::move(parameters),
-				lexer.debug());
+				lexer.location());
 			return nullptr;
 		}
 
@@ -158,12 +158,12 @@ namespace ltn::c::parse {
 			const auto & nameSpace,
 			const auto & lexer) {
 			if(nameSpace.empty()) {
-				return std::make_unique<ast::Var>(name, lexer.debug());
+				return std::make_unique<ast::Var>(name, lexer.location());
 			}
 			else {
 				throw CompilerError{
 					"cannot address variable with namespace in front",
-					lexer.inLine()};
+					lexer.location()};
 			}
 		}
 
@@ -176,7 +176,7 @@ namespace ltn::c::parse {
 				else {
 					throw CompilerError{
 						"Expected identifier for member access",
-						lexer.inLine()};
+						lexer.location()};
 				}
 			}
 			return path;
@@ -196,7 +196,7 @@ namespace ltn::c::parse {
 				return std::make_unique<ast::MemberAccess>(
 					std::move(var),
 					std::move(path),
-					lexer.debug());
+					lexer.location());
 			}
 		}
 
@@ -206,7 +206,7 @@ namespace ltn::c::parse {
 				if(lexer.match(TT::PAREN_L)) {
 					const auto placeholders = parse::placeholder(lexer);
 					return std::make_unique<ast::FxPointer>(
-						name, nameSpace, placeholders, lexer.debug());
+						name, nameSpace, placeholders, lexer.location());
 				}
 				throw expected("(", lexer);
 			}

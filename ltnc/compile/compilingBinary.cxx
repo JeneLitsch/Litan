@@ -19,7 +19,7 @@ namespace ltn::c::compile {
 			case ast::SimpleBinary::Type::SHIFT_L: return inst::shift_l;
 			case ast::SimpleBinary::Type::SHIFT_R: return inst::shift_r;
 			}
-			throw CompilerError{"Invalid binary operation", 0};
+			throw CompilerError{"Invalid binary operation", {}};
 		}
 
 		ExprCode logicalAnd(const auto & l, const auto & r, CompilerInfo & info) {
@@ -83,7 +83,7 @@ namespace ltn::c::compile {
 				return logicalOr(l, r, info);
 			}
 		}
-		throw CompilerError{"Unknown binary Expr", 0};
+		throw CompilerError{"Unknown binary Expr", {}};
 	}
 	
 }

@@ -41,7 +41,7 @@ namespace ltn::c::compile {
 			Variable::Qualifier qualifier) {
 			
 			const auto var = scope.insert(
-				newVar.name, qualifier, newVar.debugInfo.line);
+				newVar.name, qualifier, newVar.location);
 			std::stringstream ss;
 			if(newVar.right) {
 				const auto expr = compile::expression(*newVar.right, info, scope);

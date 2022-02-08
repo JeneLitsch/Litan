@@ -24,7 +24,7 @@ namespace ltn::c::parse {
 				std::move(expr),
 				std::move(ifBody),
 				std::move(elseBody),
-				lexer.debug());
+				lexer.location());
 		}
 		return nullptr;
 	}

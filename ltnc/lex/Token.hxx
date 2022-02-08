@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include "DebugInfo.hxx"
 namespace ltn::c::lex {
 	struct Token {
 		enum class Type {
@@ -18,5 +17,6 @@ namespace ltn::c::lex {
 		};
 		Type type;
 		std::string str;
+		static const Token end;
 	};
 }

@@ -12,12 +12,12 @@ namespace ltn::c::parse {
 		std::vector<std::unique_ptr<ast::Statement>> statements;
 		while(!lexer.match(TT::BRACE_R)) {
 			if(lexer.match(TT::___EOF___)) {
-				throw CompilerError{"missing closing }", lexer.inLine()}; 
+				throw CompilerError{"missing closing }", lexer.location()}; 
 			}
 			statements.push_back(statement(lexer));
 		}
 		return std::make_unique<ast::Block>(
 			std::move(statements),
-			lexer.debug());
+			lexer.location());
 	}
 }

@@ -6,7 +6,7 @@ namespace ltn::c::compile {
 
 		std::string parameters(const ast::Functional & fx, Scope & scope) {
 			for(const auto & param : fx.parameters) {
-				scope.insert(param, fx.debugInfo.line);
+				scope.insert(param, fx.location);
 			}
 			return inst::parameters(fx.parameters.size());
 		}
@@ -74,7 +74,7 @@ namespace ltn::c::compile {
 		}
 		throw CompilerError{
 			"Unknown functional declaration",
-			functional.debugInfo.line};
+			functional.location};
 	}
 
 	ExprCode lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & outerScope) {
@@ -90,7 +90,7 @@ namespace ltn::c::compile {
 			Scope innerScope{outerScope.getNamespace()};
 			ss << inst::jumpmark(id);
 			for(const auto & capture : lm.captures) {
-				const auto var = innerScope.insert(capture->name, fx.debugInfo.line);
+				const auto var = innerScope.insert(capture->name, fx.location);
 				ss << inst::makevar;
 				ss << inst::write_x(var.address);
 			}
