@@ -11,6 +11,8 @@ function test_range(range) {
 
 function main() {
 	var array = [2,3,4,1];
+	std::println(std::first_n(array,2));
+	std::println(std::last_n(array,2));
 	std::sort_ascn(array);
 	std::println(array);
 	

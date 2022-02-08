@@ -49,6 +49,18 @@ namespace ltn::vm::cast {
 			ss << "]";
 			return ss.str();
 		}
+		if(isRange(value)) {
+			const auto & range = heap.read<Range>(value.u);
+			const auto & array = heap.read<Array>(range.array);
+			std::stringstream ss;
+			ss << "[";
+			for(std::int64_t i = range.begin; i < range.end; i++) {
+				ss << ((i != range.begin) ? (", ") : (""));
+				ss << to_string(array.arr[i], heap);
+			}
+			ss << "]";
+			return ss.str();
+		}
 		if(isOStream(value)) {
 			return "<ostream>";
 		}
