@@ -32,15 +32,31 @@ namespace ltn::c::lex {
 
 	void Lexer::sync() {
 		const static std::set<TT> stops {
+			TT::___EOF___,
+			TT::SEMICOLON,
 			TT::NAMESPACE,
 			TT::FUNCTION,
 			TT::ASM,
-			TT::___EOF___,
+			TT::VAR,
+			TT::FOR,
+			TT::WHILE,
+			TT::IF,
+			TT::ELSE,
+			TT::BRACE_R,
 		};
-
+		
+		if(this->current == this->tokens.end()) {
+			std::advance(this->current, -1);
+			return;
+		}
+		// std::cout << this->current->str << std::endl;
+		if(this->current->type == TT::___EOF___) return;
+		std::advance(this->current, 1);
 		while(!stops.contains(this->current->type)) {
+			// std::cout << this->current->str << "\n";
 			std::advance(this->current, 1);
 		}
+		this->match(TT::SEMICOLON);
 	}
 }
 

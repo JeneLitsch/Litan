@@ -8,14 +8,25 @@ namespace ltn::c::parse {
 
 	// Block statement between { ... }
 	std::unique_ptr<ast::Block> block(lex::Lexer & lexer) {
+		ErrorAccu errors;
 		if(!lexer.match(TT::BRACE_L)) return nullptr;
 		std::vector<std::unique_ptr<ast::Statement>> statements;
-		while(!lexer.match(TT::BRACE_R)) {
-			if(lexer.match(TT::___EOF___)) {
-				throw CompilerError{"missing closing }", lexer.location()}; 
+		try {
+			while(!lexer.match(TT::BRACE_R)) {
+				if(lexer.match(TT::___EOF___)) {
+					throw CompilerError{"missing closing }", lexer.location()}; 
+				}
+				if(lexer.match(TT::ELSE)) {
+					throw CompilerError{"Unexpected else", lexer.location()}; 
+				}
+				auto stmt = attempt(statement, errors, lexer);
+				if(stmt) statements.push_back(std::move(stmt));
 			}
-			statements.push_back(statement(lexer));
 		}
+		catch(const CompilerError & error) {
+			errors.push(error);
+		}
+		errors.may_throw();
 		return std::make_unique<ast::Block>(
 			std::move(statements),
 			lexer.location());

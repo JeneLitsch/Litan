@@ -1,21 +1,7 @@
-function main( {
-	sta::println("Hello World");
-	if(true) {
+function main() {
+	var 4 = t;
+	if(true){}
+	else(4 == t) {
 
-	}
-	return
-}
-
-namespace abc { 
-	function f() {
-		for 1, 2);
-	}
-
-	function g() {
-		for 1, 2);
-	}
-
-	function h() {
-		for 1, 2);
 	}
 }

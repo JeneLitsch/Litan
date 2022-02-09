@@ -25,7 +25,7 @@ namespace ltn::c::parse {
 				lexer.location()};
 		}
 
-		CompilerError missingBraceR(const lex::Lexer & lexer) {
+		CompilerError missingBraceL(const lex::Lexer & lexer) {
 			return CompilerError {
 				"Expected {",
 				lexer.location()};
@@ -33,7 +33,7 @@ namespace ltn::c::parse {
 
 		CompilerError extraBraceR(const lex::Lexer & lexer) {
 			return CompilerError {
-				"Extra {",
+				"Extra }",
 				lexer.location()};
 		}
 
@@ -44,7 +44,7 @@ namespace ltn::c::parse {
 					if(lexer.match(TT::BRACE_L)) {
 						return name->str;
 					}
-					else throw missingBraceR(lexer);
+					else throw missingBraceL(lexer);
 				}
 				else throw anonymousNamespace(lexer);
 			}

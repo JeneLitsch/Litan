@@ -56,15 +56,15 @@ namespace ltn::c::parse {
 	// 	}
 	// }
 
-	// auto attempt(auto fx, auto & errors, lex::Lexer & lexer)
-	// 	-> decltype(fx(lexer)) {
-	// 	try {
-	// 		return fx(lexer);
-	// 	}
-	// 	catch(const CompilerError & error) {
-	// 		errors.push(error);
-	// 		lexer.sync();
-	// 		return nullptr;
-	// 	}
-	// }
+	auto attempt(auto fx, auto & errors, lex::Lexer & lexer)
+		-> decltype(fx(lexer)) {
+		try {
+			return fx(lexer);
+		}
+		catch(const CompilerError & error) {
+			errors.push(error);
+			lexer.sync();
+			return nullptr;
+		}
+	}
 }

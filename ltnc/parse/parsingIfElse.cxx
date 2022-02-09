@@ -9,6 +9,9 @@ namespace ltn::c::parse {
 	// parses else branch and returns it if it's existing  
 	std::unique_ptr<ast::Statement> elseBranch(lex::Lexer & lexer) {
 		if(lexer.match(TT::ELSE)) {
+			if(lexer.match(TT::PAREN_L)) {
+				throw CompilerError{"else does not have a condition", lexer.location()};
+			}
 			return statement(lexer);
 		}
 		return nullptr;
