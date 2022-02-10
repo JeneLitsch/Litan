@@ -24,7 +24,15 @@ const std::span<const std::string_view> ltn::c::Ltnc::stdLib() const {
 }
 
 void ltn::c::Ltnc::compile(std::istream & in, const std::string & sourcename) {
-	lex::Lexer lexer{in, sourcename};
+	lex::Lexer lexer;
+	
+	try {
+		lexer.load(in, sourcename);
+	}
+	catch(const CompilerError & error) {
+		this->errors.push(error);
+	}
+
 	try {
 		auto source = parse::source(lexer);
 		for(auto && fx : source) {

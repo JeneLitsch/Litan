@@ -1,20 +1,27 @@
 #include "Lexer.hxx"
 #include "lexing.hxx"
 #include <set>
+#include "ltnc/CompilerError.hxx"
 
 namespace ltn::c::lex {
 	using TT = Token::Type;
 	
-	Lexer::Lexer(std::istream & in, std::string sourcename)
-		:	in(in) {
+	void Lexer::load(std::istream & in, std::string sourcename) {
 		SourceLocation loc{1, sourcename};
-		Token t = lex::token(in, loc);
-		while (t.type != TT::___EOF___) {
-			this->tokens.push_back(t);
-			t = lex::token(in, loc);
+		ErrorAccu errors;
+		while (true) {
+			try {
+				Token t = lex::token(in, loc);
+				this->tokens.push_back(t);
+				if(t.type == TT::___EOF___) break;
+			}
+			catch(const CompilerError & error) {
+				errors.push(error);
+				in.ignore();
+			}
 		}
-		this->tokens.push_back(t);
 		this->current = this->tokens.begin();
+		errors.may_throw();
 	}
 
 
@@ -28,7 +35,6 @@ namespace ltn::c::lex {
 			return {};
 		}
 	}
-
 
 	void Lexer::sync() {
 		const static std::set<TT> stops {

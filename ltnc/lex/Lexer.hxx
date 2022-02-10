@@ -9,7 +9,8 @@ namespace ltn::c::lex {
 
 	class Lexer {
 	public:
-		Lexer(std::istream & in, std::string sourcename);
+		Lexer() = default;
+		void load(std::istream & in, std::string sourcename);
 		std::optional<lex::Token> match(Token::Type type);
 		void sync();
 		
@@ -27,6 +28,5 @@ namespace ltn::c::lex {
 	private:
 		std::vector<Token> tokens;
 		std::vector<Token>::iterator current;
-		std::istream & in;
 	};
 }

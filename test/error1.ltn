@@ -1,7 +1,11 @@
 function main() {
 	var 4 = t;
 	if(true){}
-	else(4 == t) {
+	else(4 @@ t) {
 
 	}
 }
+
+asdhalikf
+
+function f({
