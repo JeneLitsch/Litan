@@ -1,3 +1,5 @@
-function test(a, %) 
-	return a + b - _3;
+function test() {
+	const a = 4;
+	a = 5;
+	b = 76;
 }

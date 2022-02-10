@@ -5,12 +5,12 @@
 #include <vector>
 #include "Token.hxx"
 #include "ltnc/SourceLocation.hxx"
+#include "ltnc/Reporter.hxx"
 namespace ltn::c::lex {
 
 	class Lexer {
 	public:
-		Lexer() = default;
-		void load(std::istream & in, std::string sourcename);
+		Lexer(std::istream & in, std::string sourcename, Reporter & reporter);
 		std::optional<lex::Token> match(Token::Type type);
 		void sync();
 		

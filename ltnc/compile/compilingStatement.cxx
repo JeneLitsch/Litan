@@ -9,12 +9,17 @@ namespace ltn::c::compile {
 			std::size_t varCount = 0;
 			std::size_t newAllocs = 0;
 			for(const auto & stmt : block.statements) {
-				if(stmt) {
-					const auto compiled = statement(*stmt, info, scope); 
-					ss << compiled.code;
-					varCount = std::max(varCount, compiled.varCount);
-					newAllocs += compiled.directAllocation;
-				} 
+				try {
+					if(stmt) {
+						const auto compiled = compile::statement(*stmt, info, scope); 
+						ss << compiled.code;
+						varCount = std::max(varCount, compiled.varCount);
+						newAllocs += compiled.directAllocation;
+					} 
+				}
+				catch(const CompilerError & error) {
+					info.reporter.push(error);
+				}
 			}
 			return {ss.str(), varCount + newAllocs, false};
 		}

@@ -1,4 +1,5 @@
 function main() {
+	const a = 5;
 	var 4 = t;
 	if(true){}
 	else(4 @@ t) {

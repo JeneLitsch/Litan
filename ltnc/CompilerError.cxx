@@ -26,22 +26,4 @@ namespace ltn::c {
 	CompilerError::CompilerError(const std::string & msg)
 		:	std::runtime_error(msg){}
 
-
-	void ErrorAccu::may_throw() const {
-		if(this->errors.empty()) return;
-		std::stringstream ss;
-		bool first = true;
-		for(const auto & msg : this->errors) {
-			if(first) {
-				first = false;
-			} 
-			else {
-				ss << "\n";
-			}
-			ss << msg;
-		}
-		auto str = ss.str();
-		throw CompilerError{str};
-	}
-
 }

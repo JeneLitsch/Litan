@@ -19,15 +19,4 @@ namespace ltn::c {
 		out << error.what() << std::endl;
 		return out;
 	}
-
-	class ErrorAccu {
-	public:
-		void push(const auto & error) {
-			this->errors.push_back(error.what());
-		}
-
-		void may_throw() const;
-	private:
-		std::vector<std::string> errors;
-	};
 }

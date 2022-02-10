@@ -9,7 +9,8 @@ namespace ltn::c::compile {
 		virtual void compile(
 			std::ostream & out,
 			const Config & config,
-			const std::vector<std::unique_ptr<ast::Functional>> & source) override;
+			const std::vector<std::unique_ptr<ast::Functional>> & source,
+			Reporter & reporter) override;
 		virtual ~LtnBackend() = default;
 	private:
 		FxTable fxTable;

@@ -68,29 +68,27 @@ namespace ltn::c::parse {
 	std::vector<std::unique_ptr<ast::Functional>> source(lex::Lexer & lexer) {
 		Functionals functions;
 		ast::Namespace nameSpace;
-		ErrorAccu errors;
 		while(!lexer.match(TT::___EOF___)) {
-			try {
-				if(auto ns = openNamespace(lexer)) {
-					nameSpace.push_back(*ns);
-				}
-				else if(closeNamespace(lexer, nameSpace)) {
-					nameSpace.pop_back();
-				}
-				else if(auto fx = parse::functional(lexer, nameSpace)) {
-					functions.push_back(std::move(fx));
-				}
-				else throw unknownDeclaration(lexer);
+			// try {
+			if(auto ns = openNamespace(lexer)) {
+				nameSpace.push_back(*ns);
 			}
-			catch(const CompilerError & error) {
-				errors.push(error);
-				lexer.sync();
+			else if(closeNamespace(lexer, nameSpace)) {
+				nameSpace.pop_back();
 			}
+			else if(auto fx = parse::functional(lexer, nameSpace)) {
+				functions.push_back(std::move(fx));
+			}
+			else throw unknownDeclaration(lexer);
+			// }
+			// catch(const CompilerError & error) {
+			// 	reporter.push(error);
+			// 	lexer.sync();
+			// }
 		}
 		if(!nameSpace.empty()) {
-			errors.push(unclosedNamespace(lexer));
+			throw unclosedNamespace(lexer);
 		}
-		errors.may_throw();
 		return functions; 
 	}
 }

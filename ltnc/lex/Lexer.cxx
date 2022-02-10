@@ -6,9 +6,8 @@
 namespace ltn::c::lex {
 	using TT = Token::Type;
 	
-	void Lexer::load(std::istream & in, std::string sourcename) {
+	Lexer::Lexer(std::istream & in, std::string sourcename, Reporter & reporter) {
 		SourceLocation loc{1, sourcename};
-		ErrorAccu errors;
 		while (true) {
 			try {
 				Token t = lex::token(in, loc);
@@ -16,12 +15,11 @@ namespace ltn::c::lex {
 				if(t.type == TT::___EOF___) break;
 			}
 			catch(const CompilerError & error) {
-				errors.push(error);
+				reporter.push(error);
 				in.ignore();
 			}
 		}
 		this->current = this->tokens.begin();
-		errors.may_throw();
 	}
 
 

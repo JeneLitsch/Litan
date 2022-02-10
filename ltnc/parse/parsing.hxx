@@ -2,6 +2,7 @@
 #include "ltnc/ast/Ast.hxx"
 #include "ltnc/lex/Lexer.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "ltnc/Reporter.hxx"
 namespace ltn::c::parse {
 
 	// Sources

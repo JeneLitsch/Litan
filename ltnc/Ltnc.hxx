@@ -6,6 +6,7 @@
 #include "Config.hxx"
 #include "Backend.hxx"
 #include "CompilerError.hxx"
+#include "Reporter.hxx"
 namespace ltn::c {
 	class Ltnc {
 	public:
@@ -19,6 +20,6 @@ namespace ltn::c {
 		std::size_t line = 1;
 		std::unique_ptr<Backend> backend;
 		ast::Program program;
-		ErrorAccu errors;
+		Reporter reporter;
 	};
 }

@@ -24,15 +24,7 @@ const std::span<const std::string_view> ltn::c::Ltnc::stdLib() const {
 }
 
 void ltn::c::Ltnc::compile(std::istream & in, const std::string & sourcename) {
-	lex::Lexer lexer;
-	
-	try {
-		lexer.load(in, sourcename);
-	}
-	catch(const CompilerError & error) {
-		this->errors.push(error);
-	}
-
+	lex::Lexer lexer{in, sourcename, reporter};
 	try {
 		auto source = parse::source(lexer);
 		for(auto && fx : source) {
@@ -40,11 +32,16 @@ void ltn::c::Ltnc::compile(std::istream & in, const std::string & sourcename) {
 		}
 	}
 	catch(const CompilerError & error) {
-		this->errors.push(error);
+		this->reporter.push(error);
 	}
 }
 
 void ltn::c::Ltnc::yield(std::ostream & out) {
-	this->errors.may_throw();
-	this->backend->compile(out, this->config, this->program.functions);
+	try {
+		this->backend->compile(out, this->config, this->program.functions, reporter);
+	}
+	catch(const CompilerError & error) {
+		this->reporter.push(error);
+	}
+	this->reporter.may_throw();
 }

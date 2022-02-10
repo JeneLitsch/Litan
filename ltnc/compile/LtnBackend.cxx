@@ -14,19 +14,34 @@ namespace ltn::c::compile {
 			ss << "_" << fx.name << "_" << fx.parameters.size();
 			return ss.str();
 		}
+
+		void initCode(std::ostream & out, FxTable & fxTable) {
+			// Jump to main()
+			if(const auto fxmain = fxTable.resolve("main", {}, 0)) {
+				out
+					<< compile::inst::call(fxmain->id) 
+					<< compile::inst::exlt
+					<< "\n";
+			}
+			else {
+				throw CompilerError {"main() is undefined", {}};
+			}
+		}
 	}
 
 	// compiles source
 	void LtnBackend::compile(
 		std::ostream & out,
 		const Config & config,
-		const std::vector<std::unique_ptr<ast::Functional>> & functions) {
+		const std::vector<std::unique_ptr<ast::Functional>> & functions,
+		Reporter & reporter) {
 		
 		compile::CompilerInfo info {
 			config,
 			this->fxTable,
 			this->memberTable,
-			this->jumpMarkCounter};
+			this->jumpMarkCounter,
+			reporter};
 		
 		for(const auto & fx : functions) {
 			info.fxTable.insert({
@@ -36,19 +51,20 @@ namespace ltn::c::compile {
 				makeFxId(info, *fx)});
 		}
 
-		// Jump to main()
-		if(const auto fxmain = this->fxTable.resolve("main", {}, 0)) {
-			out
-				<< compile::inst::call(fxmain->id) 
-				<< compile::inst::exlt
-				<< "\n";
+		try {
+			initCode(out, fxTable);
 		}
-		else {
-			throw CompilerError {"main() is undefined", {}};
+		catch(const CompilerError & error) {
+			reporter.push(error);
 		}
 
 		for(const auto & function : functions) {
-			out << compile::functional(*function, info); 
+			try {
+				out << compile::functional(*function, info); 
+			}
+			catch(const CompilerError & error) {
+				reporter.push(error);
+			}
 		}
 	}
 }

@@ -10,6 +10,7 @@
 #include "ExprCode.hxx"
 #include "ltnc/Config.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "ltnc/Reporter.hxx"
 #include "ltnc/ast/Ast.hxx"
 
 namespace ltn::c::compile {
@@ -18,6 +19,7 @@ namespace ltn::c::compile {
 		FxTable & fxTable;
 		MemberTable & memberTable;
 		std::uint64_t & jumpMarkCounter; 
+		Reporter & reporter;
 	};
 
 
