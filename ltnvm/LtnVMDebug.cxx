@@ -6,15 +6,15 @@
 namespace ltn::vm {
 	namespace {
 		std::uint64_t unwind(Stack & stack) {
-		while(stack.depth()) {
-			const auto handler = stack.getExceptHandler();
-			if(handler != 0) {
-				stack.setExceptHandler(0);
-				return handler;
+			while(stack.depth()) {
+				const auto handler = stack.getExceptHandler();
+				if(handler != 0) {
+					stack.setExceptHandler(0);
+					return handler;
+				}
+				stack.popFrame();
 			}
-			stack.popFrame();
-		}
-		throw std::runtime_error{"Unhandled Exception"};
+			throw std::runtime_error{"Unhandled Exception"};
 		}
 	}
 
