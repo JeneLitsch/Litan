@@ -13,6 +13,7 @@ namespace ltn::vm {
 		while(this->stack.depth()) {
 			const auto handler = this->stack.getExceptHandler();
 			if(handler != 0) {
+				this->stack.setExceptHandler(0);
 				this->pc = handler;
 				return;
 			}

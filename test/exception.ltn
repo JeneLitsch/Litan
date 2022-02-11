@@ -13,4 +13,5 @@ function main() {
 }
 except {
 	std::println("ERROR");
+	throw;
 }
