@@ -29,8 +29,10 @@ namespace ltn::vm {
 		const std::vector<Value> & getContainer() const;
 		void reset();
 		std::size_t size() const;
+		std::uint64_t depth() const;
 	private:
 		std::vector<Value> stack;
 		std::uint64_t framePointer = 0;
+		std::uint64_t depthCounter = 0;
 	};
 }

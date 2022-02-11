@@ -1,6 +1,11 @@
 function main() {
+	var a = function [] () {
 
+	}
+	except(e) {
+	
+	};
 }
 except(error) {
-	
+
 }

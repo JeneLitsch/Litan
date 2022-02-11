@@ -36,7 +36,9 @@ namespace ltn::vm {
 		}
 		
 		void
-			state();
+			state(),
+			tRy(),
+			untry();
 
 		void
 			add(),
@@ -188,5 +190,11 @@ namespace ltn::vm {
 		std::vector<std::uint8_t> byteCode;
 		std::reference_wrapper<std::ostream> ostream;
 		std::unordered_map<std::int64_t, std::unique_ptr<ext::External>> externals;
+		
+		struct ExceptHandler {
+			std::uint64_t addr;
+			std::uint64_t depth;
+		};
+		std::vector<ExceptHandler> exceptHandlers;
 	};
 }

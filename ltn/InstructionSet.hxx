@@ -2,7 +2,7 @@
 #include <cstdint>
 namespace ltn {
 	enum class Inst : std::uint8_t {
-		EXIT = 0x00, ERROR, STATE,
+		EXIT = 0x00, ERROR, STATE, TRY, UNTRY,
 		ADD = 0x10, SUB, MLT, DIV, MOD,
 		EQL, UEQL, SML, BGR, SMLEQL, BGREQL,
 		SHIFT_L, SHIFT_R,

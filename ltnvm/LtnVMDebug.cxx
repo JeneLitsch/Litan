@@ -4,6 +4,17 @@
 #include <sstream>
 
 namespace ltn::vm {
+	void LtnVM::tRy() {
+		const auto addr = this->fetchUint();
+		const auto depth = this->stack.depth();
+		const auto handler = ExceptHandler{addr, depth};
+		this->exceptHandlers.push_back(handler);
+	}
+
+	void LtnVM::untry() {
+		this->exceptHandlers.pop_back();
+	}
+
 	void LtnVM::state() {
 		const auto regSize = this->reg.size();
 		const auto stackSize = this->stack.size();

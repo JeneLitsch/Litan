@@ -30,6 +30,8 @@ namespace ltn::a {
 		{"error",         {Inst::ERROR}},
 		{"exit",          {Inst::EXIT}},
 		{"state",         {Inst::STATE}},
+		{"try",           {Inst::TRY,        ArgFormat::JUMP}},
+		{"untry",         {Inst::UNTRY}},
 
 		// Binary operations
 		{"add",           {Inst::ADD}},
