@@ -4,22 +4,27 @@
 #include <sstream>
 
 namespace ltn::vm {
+	namespace {
+		std::uint64_t unwind(Stack & stack) {
+		while(stack.depth()) {
+			const auto handler = stack.getExceptHandler();
+			if(handler != 0) {
+				stack.setExceptHandler(0);
+				return handler;
+			}
+			stack.popFrame();
+		}
+		throw std::runtime_error{"Unhandled Exception"};
+		}
+	}
+
 	void LtnVM::tRy() {
 		const auto addr = this->fetchUint();
 		this->stack.setExceptHandler(addr);
 	}
 
 	void LtnVM::thr0w() {
-		while(this->stack.depth()) {
-			const auto handler = this->stack.getExceptHandler();
-			if(handler != 0) {
-				this->stack.setExceptHandler(0);
-				this->pc = handler;
-				return;
-			}
-			this->reTurn();
-		}
-		throw std::runtime_error{"Unhandled Exception"};
+		this->pc = unwind(this->stack);
 	}
 
 

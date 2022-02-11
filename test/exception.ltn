@@ -1,13 +1,15 @@
 function g() {
 	throw;
 }
+
+
 function main() {
-	g();
 	var a = function [] () {
-		throw;
+		g();
 	}
 	except {
 		std::println("ERROR in Lambda");
+		throw;
 	};
 	std::invoke(a, []);
 }
