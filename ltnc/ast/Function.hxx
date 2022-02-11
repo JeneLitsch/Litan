@@ -10,6 +10,19 @@ namespace ltn::c::ast {
 	struct Statement;
 	using Parameters = std::vector<std::string>;
 
+	struct Except : public Node {
+		Except(
+			const std::string & errorname,
+			std::unique_ptr<Statement> && body,
+			const SourceLocation & location)
+			:	Node(location),
+				body(std::move(body)),
+				errorname(errorname) {}
+		virtual ~Except() = default;
+		std::unique_ptr<Statement> body;
+		std::string errorname;
+	};
+
 	struct Functional : public Declaration {
 		Functional(
 			const std::string & name,
@@ -37,6 +50,7 @@ namespace ltn::c::ast {
 				body(std::move(body)) {}
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
+		std::unique_ptr<Except> except;
 	};
 
 	struct Asm : public Functional {

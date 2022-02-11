@@ -24,6 +24,7 @@ run "compare"
 run "array"
 run "container"
 run "clone"
+run "exception"
 
 run_error () {
 	echo "Testing Errors"

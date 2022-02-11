@@ -73,6 +73,25 @@ namespace ltn::c::parse {
 			return insts;
 		}
 
+
+		std::unique_ptr<ast::Except> except(lex::Lexer & lexer) {
+			if(lexer.match(TT::EXCEPT)) {
+				auto params = parameterList(lexer);
+				if(params.size() != 1) {
+					throw CompilerError{
+						"Except only takes one error parameter",
+						lexer.location()};
+				}
+				auto body = parse::statement(lexer);
+				return std::make_unique<ast::Except>(
+					params[0],
+					std::move(body),
+					lexer.location());
+			}
+			else return nullptr;
+		}
+
+
 		// parses and returns a function node
 		template<class FunctionalNode>
 		std::unique_ptr<FunctionalNode> functionalNode(
@@ -81,7 +100,7 @@ namespace ltn::c::parse {
 			auto parseBody) {
 			const auto name = functionName(lexer);
 			const auto parameters = parameterList(lexer);
-			auto body = parseBody(lexer); 
+			auto body = parseBody(lexer);
 			return std::make_unique<FunctionalNode>(
 				name,
 				nameSpace,
@@ -97,7 +116,9 @@ namespace ltn::c::parse {
 		const ast::Namespace & nameSpace) {
 
 		if(lexer.match(TT::FUNCTION)) {
-			return functionalNode<ast::Function>(lexer, nameSpace, statement);
+			auto fx = functionalNode<ast::Function>(lexer, nameSpace, statement);
+			fx->except = except(lexer);
+			return fx;
 		}
 		if(lexer.match(TT::ASM)) {
 			return functionalNode<ast::Asm>(lexer, nameSpace, instructions);
@@ -107,15 +128,16 @@ namespace ltn::c::parse {
 
 	std::unique_ptr<ast::Lambda> lambda(lex::Lexer & lexer) {
 		if(lexer.match(TT::FUNCTION)) {
-			auto && captures = parse::captures(lexer);
+			auto captures = parse::captures(lexer);
 			const auto parameters = parameterList(lexer);
-			auto && body = statement(lexer); 
-			auto && fx = std::make_unique<ast::Function>(
+			auto body = statement(lexer); 
+			auto fx = std::make_unique<ast::Function>(
 				"lambda",
 				ast::Namespace{},
 				parameters,
 				std::move(body),
 				lexer.location());
+			fx->except = except(lexer);
 			return std::make_unique<ast::Lambda>(
 				std::move(fx),
 				std::move(captures),

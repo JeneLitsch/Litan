@@ -89,12 +89,12 @@ namespace ltn::c::lex {
 			{"const",       TT::CONST},
 			{"if",          TT::IF},
 			{"else",        TT::ELSE},
-			{"new",         TT::NEW},
 			{"return",      TT::RETURN},
 			{"true",        TT::TRUE},
 			{"false",       TT::FALSE},
 			{"asm",         TT::ASM},
 			{"namespace",   TT::NAMESPACE},
+			{"except",      TT::EXCEPT},
 		};
 		
 		 
