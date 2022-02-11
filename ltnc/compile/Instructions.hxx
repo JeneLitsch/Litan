@@ -6,6 +6,7 @@ namespace ltn::c::compile::inst {
 	const std::string jumpmark(const std::string_view id);
 	const std::string jumpmarkExcept(const std::string_view id);
 	const std::string_view error = "error\n";
+	const std::string_view thr0w = "throw\n";
 	
 	constexpr std::string_view add = "add\n";
 	constexpr std::string_view sub = "sub\n";

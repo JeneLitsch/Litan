@@ -76,15 +76,15 @@ namespace ltn::c::parse {
 
 		std::unique_ptr<ast::Except> except(lex::Lexer & lexer) {
 			if(lexer.match(TT::EXCEPT)) {
-				auto params = parameterList(lexer);
-				if(params.size() != 1) {
-					throw CompilerError{
-						"Except only takes one error parameter",
-						lexer.location()};
-				}
+				// auto params = parameterList(lexer);
+				// if(params.size() != 1) {
+				// 	throw CompilerError{
+				// 		"Except only takes one error parameter",
+				// 		lexer.location()};
+				// }
 				auto body = parse::statement(lexer);
 				return std::make_unique<ast::Except>(
-					params[0],
+					// params[0],
 					std::move(body),
 					lexer.location());
 			}

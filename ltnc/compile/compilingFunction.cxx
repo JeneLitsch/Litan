@@ -32,7 +32,7 @@ namespace ltn::c::compile {
 			CompilerInfo & info,
 			Scope & scope) {
 			
-			scope.insert(except.errorname, except.location);
+			// scope.insert(except.errorname, except.location);
 			std::ostringstream ss;
 			ss << inst::jumpmarkExcept(fxid);
 			// ss << inst::parameters(1);
@@ -41,6 +41,8 @@ namespace ltn::c::compile {
 			ss << inst::reTurn;
 			return ss.str();
 		}
+
+
 
 		// compiles Litan function
 		std::string function(const ast::Function & fx, CompilerInfo & info) {
@@ -108,20 +110,24 @@ namespace ltn::c::compile {
 		// Skip
 		ss << inst::jump(skip);
 		
-		{ // Function
+		if(auto f = as<const ast::Function>(fx)) {
 			Scope innerScope{outerScope.getNamespace()};
 			ss << inst::jumpmark(id);
+			if(f->except) {
+				ss << inst::tRy(id);
+			}
 			for(const auto & capture : lm.captures) {
 				const auto var = innerScope.insert(capture->name, fx.location);
 				ss << inst::makevar;
 				ss << inst::write_x(var.address);
 			}
 			ss << parameters(fx, innerScope);
-			if(auto f = as<const ast::Function>(fx)) {
-				ss << body(*f, info, innerScope);
-			}
+			ss << body(*f, info, innerScope);
 			ss << inst::null;
 			ss << inst::reTurn;
+			if(f->except) {
+				ss << except(*f->except, id, info, innerScope);
+			}
 		}
 		
 		// Create pointer

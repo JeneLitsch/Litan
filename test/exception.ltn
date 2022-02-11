@@ -1,9 +1,16 @@
+function g() {
+	throw;
+}
 function main() {
+	g();
 	var a = function [] () {
 		throw;
+	}
+	except {
+		std::println("ERROR in Lambda");
 	};
 	std::invoke(a, []);
 }
-except(error) {
+except {
 	std::println("ERROR");
 }

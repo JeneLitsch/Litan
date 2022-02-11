@@ -1,5 +1,4 @@
 #include "compiling.hxx"
-
 namespace ltn::c::compile {
 	namespace {
 		// compiles -> code block {...}
@@ -71,8 +70,10 @@ namespace ltn::c::compile {
 	}
 
 
-	StmtCode thr0w(const ast::Throw & stmt, CompilerInfo & info, Scope & scope) {
-		return {"throw\n", 0};
+	StmtCode thr0w(const ast::Throw &) {
+		std::ostringstream ss;
+		ss << inst::thr0w;
+		return {ss.str(), 0};
 	}
 
 
@@ -100,7 +101,7 @@ namespace ltn::c::compile {
 			return compile::reTurn(*reTurn, info, scope);
 		}
 		if(auto thr0w = as<ast::Throw>(stmt)) {
-			return compile::thr0w(*thr0w, info, scope);
+			return compile::thr0w(*thr0w);
 		}
 		if(auto exprstmt = as<ast::StatementExpression>(stmt)) {
 			const auto code = expression(*exprstmt->expression, info, scope);
