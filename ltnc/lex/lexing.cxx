@@ -95,6 +95,7 @@ namespace ltn::c::lex {
 			{"asm",         TT::ASM},
 			{"namespace",   TT::NAMESPACE},
 			{"except",      TT::EXCEPT},
+			{"throw",       TT::THROW},
 		};
 		
 		 

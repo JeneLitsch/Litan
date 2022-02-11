@@ -4,6 +4,7 @@
 namespace ltn::c::compile::inst {
 	const std::string comment(std::string msg);
 	const std::string jumpmark(const std::string_view id);
+	const std::string jumpmarkExcept(const std::string_view id);
 	const std::string_view error = "error\n";
 	
 	constexpr std::string_view add = "add\n";
@@ -45,6 +46,7 @@ namespace ltn::c::compile::inst {
 
 	const std::string jump(const std::string_view & to);
 	const std::string call(const std::string_view & to);
+	const std::string tRy(const std::string_view & to);
 	constexpr std::string_view reTurn = "return\n";
 	const std::string ifelse(const std::string_view & to);
 	const std::string parameters(std::uint64_t count);

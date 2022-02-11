@@ -65,8 +65,14 @@ namespace ltn::c::compile {
 		return newVariablelike(stmt, info, scope, Variable::Qualifier::CONST);
 	}
 	
+
 	StmtCode newVar(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope) {
 		return newVariablelike(stmt, info, scope, Variable::Qualifier::MUTABLE);
+	}
+
+
+	StmtCode thr0w(const ast::Throw & stmt, CompilerInfo & info, Scope & scope) {
+		return {"throw\n", 0};
 	}
 
 
@@ -92,6 +98,9 @@ namespace ltn::c::compile {
 		}
 		if(auto reTurn = as<ast::Return>(stmt)) {
 			return compile::reTurn(*reTurn, info, scope);
+		}
+		if(auto thr0w = as<ast::Throw>(stmt)) {
+			return compile::thr0w(*thr0w, info, scope);
 		}
 		if(auto exprstmt = as<ast::StatementExpression>(stmt)) {
 			const auto code = expression(*exprstmt->expression, info, scope);

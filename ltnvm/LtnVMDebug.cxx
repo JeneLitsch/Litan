@@ -6,14 +6,21 @@
 namespace ltn::vm {
 	void LtnVM::tRy() {
 		const auto addr = this->fetchUint();
-		const auto depth = this->stack.depth();
-		const auto handler = ExceptHandler{addr, depth};
-		this->exceptHandlers.push_back(handler);
+		this->stack.setExceptHandler(addr);
 	}
 
-	void LtnVM::untry() {
-		this->exceptHandlers.pop_back();
+	void LtnVM::thr0w() {
+		while(this->stack.depth()) {
+			const auto handler = this->stack.getExceptHandler();
+			if(handler != 0) {
+				this->pc = handler;
+				return;
+			}
+			this->reTurn();
+		}
+		throw std::runtime_error{"Unhandled Exception"};
 	}
+
 
 	void LtnVM::state() {
 		const auto regSize = this->reg.size();

@@ -12,7 +12,7 @@ namespace ltn::c::compile {
 		}
 
 		std::string body(
-			const ast::Function & fx,
+			const auto & fx,
 			CompilerInfo & info,
 			Scope & scope) {
 			std::stringstream ss;
@@ -26,6 +26,22 @@ namespace ltn::c::compile {
 			return ss.str();
 		}
 
+		std::string except(	
+			const ast::Except & except,
+			const std::string & fxid,
+			CompilerInfo & info,
+			Scope & scope) {
+			
+			scope.insert(except.errorname, except.location);
+			std::ostringstream ss;
+			ss << inst::jumpmarkExcept(fxid);
+			// ss << inst::parameters(1);
+			ss << body(except, info, scope);
+			ss << inst::null;
+			ss << inst::reTurn;
+			return ss.str();
+		}
+
 		// compiles Litan function
 		std::string function(const ast::Function & fx, CompilerInfo & info) {
 			Scope scope{fx.nameSpace};
@@ -35,10 +51,16 @@ namespace ltn::c::compile {
 				fx.nameSpace,
 				fx.parameters.size());
 			ss << inst::jumpmark(fxSig->id);
+			if(fx.except) {
+				ss << inst::tRy(fxSig->id);
+			}
 			ss << parameters(fx, scope);
 			ss << body(fx, info, scope);
 			ss << inst::null;
 			ss << inst::reTurn;
+			if(fx.except) {
+				ss << except(*fx.except, fxSig->id, info, scope);
+			}
 			ss << "\n";
 			return ss.str();
 		}

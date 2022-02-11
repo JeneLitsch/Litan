@@ -8,6 +8,7 @@ namespace ltn::vm {
 		const std::uint64_t newFramePointer = this->stack.size();
 		this->stack.push_back(Value{jumpBack, Value::Type::NVLL});
 		this->stack.push_back(Value{this->framePointer, Value::Type::NVLL});
+		this->stack.push_back(Value{0, Value::Type::NVLL});
 		this->framePointer = newFramePointer;
 	}
 
@@ -39,5 +40,14 @@ namespace ltn::vm {
 		return this->depthCounter;
 	}
 
+	std::uint64_t Stack::getExceptHandler() const {
+		const std::size_t addr = this->framePointer + EXCEPT_OFFSET;
+		return this->stack[addr].u;
+	}
+
+	void Stack::setExceptHandler(std::uint64_t addr) {
+		const std::size_t index = this->framePointer + EXCEPT_OFFSET;
+		this->stack[index].u = addr;
+	}
 }
 

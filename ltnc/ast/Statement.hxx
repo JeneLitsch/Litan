@@ -8,6 +8,12 @@ namespace ltn::c::ast {
 		virtual ~Statement() = default;
 	};
 
+	struct Throw : public Statement {
+		Throw(const SourceLocation & location) 
+			:	Statement(location) {}
+		virtual ~Throw() = default;
+	};
+
 	struct Block : public Statement {
 		Block(
 			std::vector<std::unique_ptr<Statement>> statements,

@@ -1,11 +1,9 @@
 function main() {
 	var a = function [] () {
-
-	}
-	except(e) {
-	
+		throw;
 	};
+	std::invoke(a, []);
 }
 except(error) {
-
+	std::println("ERROR");
 }

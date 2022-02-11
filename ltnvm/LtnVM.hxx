@@ -38,7 +38,7 @@ namespace ltn::vm {
 		void
 			state(),
 			tRy(),
-			untry();
+			thr0w();
 
 		void
 			add(),

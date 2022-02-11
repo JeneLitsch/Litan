@@ -12,6 +12,12 @@ namespace ltn::c::compile::inst {
 		return ss.str(); 
 	}
 
+	const std::string jumpmarkExcept(const std::string_view name) {
+		std::stringstream ss;
+		ss << ":" << name << "_EXCEPT\n";
+		return ss.str(); 
+	}
+
 	const std::string byte(std::uint8_t byte) {
 		std::stringstream ss;
 		ss 	<< "byte "
@@ -28,6 +34,12 @@ namespace ltn::c::compile::inst {
 	const std::string call(const std::string_view & to) {
 		std::stringstream ss;
 		ss 	<< "call " << to << "\n";
+		return ss.str();
+	}
+
+	const std::string tRy(const std::string_view & to) {
+		std::stringstream ss;
+		ss 	<< "try " << to << "_EXCEPT\n";
 		return ss.str();
 	}
 

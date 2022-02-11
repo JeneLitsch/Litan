@@ -4,7 +4,8 @@
 #include "Value.hxx"
 namespace ltn::vm {
 	class Stack {
-		constexpr static inline std::size_t BASE_OFFSET = 2;
+		constexpr static inline std::size_t EXCEPT_OFFSET = 2;
+		constexpr static inline std::size_t BASE_OFFSET = 3;
 	public:
 		inline Value read(std::uint64_t offset) const {
 			const std::size_t addr = this->framePointer + BASE_OFFSET + offset;
@@ -30,6 +31,8 @@ namespace ltn::vm {
 		void reset();
 		std::size_t size() const;
 		std::uint64_t depth() const;
+		std::uint64_t getExceptHandler() const;
+		void setExceptHandler(std::uint64_t addr);
 	private:
 		std::vector<Value> stack;
 		std::uint64_t framePointer = 0;
