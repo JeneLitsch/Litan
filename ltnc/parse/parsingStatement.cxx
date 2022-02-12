@@ -61,7 +61,14 @@ namespace ltn::c::parse {
 
 	std::unique_ptr<ast::Throw> thr0w(lex::Lexer & lexer) {
 		if(lexer.match(TT::THROW)) {
-			return std::make_unique<ast::Throw>(lexer.location());
+			std::unique_ptr<ast::Expression> expr = nullptr;
+			if(!lexer.match(TT::SEMICOLON)) {
+				expr = parse::expression(lexer);
+				semicolon(lexer);
+			}
+			return std::make_unique<ast::Throw>(
+				std::move(expr),
+				lexer.location());
 		}
 		else return nullptr;
 	}
@@ -75,7 +82,7 @@ namespace ltn::c::parse {
 		if(auto stmt = forLoop(lexer)) return stmt;
 		if(auto stmt = semicolon(lexer, newVar)) return stmt;
 		if(auto stmt = semicolon(lexer, newConst)) return stmt;
-		if(auto stmt = semicolon(lexer, thr0w)) return stmt;
+		if(auto stmt = thr0w(lexer)) return stmt;
 		if(auto stmt = retrn(lexer)) return stmt;
 		return semicolon(lexer, expr);
 	}

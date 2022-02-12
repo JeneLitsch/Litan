@@ -1,19 +1,23 @@
 function g() {
-	throw;
+	throw "Hello World";
 }
 
+function f() {
+	var y;
+	g();
+}
+except(error) {
+	var x = error;
+	std::println("A" + x + x);
+	throw x;
+}
 
 function main() {
-	var a = function [] () {
-		g();
-	}
-	except {
-		std::println("ERROR in Lambda");
-		throw;
-	};
-	std::invoke(a, []);
+	f();
+	var x = 43;
 }
-except {
-	std::println("ERROR");
-	throw;
+except(error) {
+	var a = 42;
+	std::println("B" + error);
+	throw error;
 }

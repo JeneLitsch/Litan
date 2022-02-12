@@ -4,9 +4,12 @@
 #include "Value.hxx"
 namespace ltn::vm {
 	class Stack {
+		constexpr static inline std::size_t ABS_EXCEPTION = 0;
 		constexpr static inline std::size_t EXCEPT_OFFSET = 2;
 		constexpr static inline std::size_t BASE_OFFSET = 3;
 	public:
+		Stack();
+
 		inline Value read(std::uint64_t offset) const {
 			const std::size_t addr = this->framePointer + BASE_OFFSET + offset;
 			return this->stack[addr];
@@ -31,11 +34,15 @@ namespace ltn::vm {
 		void reset();
 		std::size_t size() const;
 		std::uint64_t depth() const;
+
 		std::uint64_t getExceptHandler() const;
 		void setExceptHandler(std::uint64_t addr);
+		void setException(Value value);
+		Value getException();
+	
 	private:
 		std::vector<Value> stack;
-		std::uint64_t framePointer = 0;
-		std::uint64_t depthCounter = 0;
+		std::uint64_t framePointer;
+		std::uint64_t depthCounter;
 	};
 }

@@ -70,8 +70,14 @@ namespace ltn::c::compile {
 	}
 
 
-	StmtCode thr0w(const ast::Throw &) {
+	StmtCode thr0w(const ast::Throw & thr0w, CompilerInfo & info, Scope & scope) {
 		std::ostringstream ss;
+		if(thr0w.expr) {
+			ss << compile::expression(*thr0w.expr, info, scope).code;
+		}
+		else {
+			ss << inst::null;
+		}
 		ss << inst::thr0w;
 		return {ss.str(), 0};
 	}
@@ -101,7 +107,7 @@ namespace ltn::c::compile {
 			return compile::reTurn(*reTurn, info, scope);
 		}
 		if(auto thr0w = as<ast::Throw>(stmt)) {
-			return compile::thr0w(*thr0w);
+			return compile::thr0w(*thr0w, info, scope);
 		}
 		if(auto exprstmt = as<ast::StatementExpression>(stmt)) {
 			const auto code = expression(*exprstmt->expression, info, scope);

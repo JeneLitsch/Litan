@@ -9,9 +9,13 @@ namespace ltn::c::ast {
 	};
 
 	struct Throw : public Statement {
-		Throw(const SourceLocation & location) 
-			:	Statement(location) {}
+		Throw(
+			std::unique_ptr<Expression> expr,
+			const SourceLocation & location) 
+			:	Statement(location),
+				expr(std::move(expr)) {}
 		virtual ~Throw() = default;
+		std::unique_ptr<Expression> expr;
 	};
 
 	struct Block : public Statement {

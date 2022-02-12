@@ -5,11 +5,16 @@
 
 namespace ltn::vm {
 	namespace {
+		void clearTopFrame(Stack & stack) {
+			const auto jb = stack.popFrame();
+			stack.pushFrame(jb);
+		}
+
 		std::uint64_t unwind(Stack & stack) {
 			while(stack.depth()) {
 				const auto handler = stack.getExceptHandler();
 				if(handler != 0) {
-					stack.setExceptHandler(0);
+					clearTopFrame(stack);
 					return handler;
 				}
 				stack.popFrame();
@@ -18,13 +23,23 @@ namespace ltn::vm {
 		}
 	}
 
+
 	void LtnVM::tRy() {
 		const auto addr = this->fetchUint();
 		this->stack.setExceptHandler(addr);
 	}
 
+
 	void LtnVM::thr0w() {
+		const auto except = this->reg.pop();
 		this->pc = unwind(this->stack);
+		this->stack.setException(except);
+	}
+
+
+	void LtnVM::c4tch() {
+		const auto except = this->stack.getException();
+		this->reg.push(except);
 	}
 
 

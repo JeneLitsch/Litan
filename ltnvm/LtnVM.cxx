@@ -35,7 +35,7 @@ namespace ltn::vm {
 			case Inst::STATE: this->state(); break;
 			case Inst::TRY: this->tRy(); break;
 			case Inst::THROW: this->thr0w(); break;
-
+			case Inst::CATCH: this->c4tch(); break;
 			
 			case Inst::ADD: this->add(); break;
 			case Inst::SUB: this->sub(); break;

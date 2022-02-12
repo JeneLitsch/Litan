@@ -3,6 +3,9 @@
 
 
 namespace ltn::vm {
+	Stack::Stack() {
+		this->reset();
+	}
 	void Stack::pushFrame(std::uint64_t jumpBack) {
 		this->depthCounter++;
 		const std::uint64_t newFramePointer = this->stack.size();
@@ -29,7 +32,9 @@ namespace ltn::vm {
 
 	void Stack::reset() {
 		this->stack.clear();
-		this->framePointer = 0;
+		this->stack.push_back(value::null);
+		this->framePointer = 1;
+		this->depthCounter = 0;
 	}
 
 	std::size_t Stack::size() const {
@@ -48,6 +53,14 @@ namespace ltn::vm {
 	void Stack::setExceptHandler(std::uint64_t addr) {
 		const std::size_t index = this->framePointer + EXCEPT_OFFSET;
 		this->stack[index].u = addr;
+	}
+
+	void Stack::setException(Value value) {
+		this->stack[ABS_EXCEPTION] = value;
+	}
+	
+	Value Stack::getException() {
+		return this->stack[ABS_EXCEPTION];
 	}
 }
 

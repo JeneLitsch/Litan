@@ -12,12 +12,15 @@ namespace ltn::c::ast {
 
 	struct Except : public Node {
 		Except(
+			const std::string & errorname,
 			std::unique_ptr<Statement> && body,
 			const SourceLocation & location)
 			:	Node(location),
-				body(std::move(body)) {}
+				body(std::move(body)),
+				errorname(errorname) {}
 		virtual ~Except() = default;
 		std::unique_ptr<Statement> body;
+		std::string errorname;
 	};
 
 	struct Functional : public Declaration {
