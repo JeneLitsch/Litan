@@ -23,5 +23,7 @@ function f4() {
 
 
 function main() {
-	return f4();
+	var x = f4(); 
+	std::println(std::debug::state());
+	return x;
 }

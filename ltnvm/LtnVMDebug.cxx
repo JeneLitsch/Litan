@@ -15,7 +15,6 @@ namespace ltn::vm {
 			while(stack.depth()) {
 				const auto handler = stack.getExceptHandler();
 				if(handler != 0) {
-					clearTopFrame(stack);
 					return handler;
 				}
 				stack.popFrame();
@@ -27,16 +26,19 @@ namespace ltn::vm {
 
 	void LtnVM::tRy() {
 		const auto addr = this->fetchUint();
+		const auto regSize = this->reg.size();
 		this->stack.setExceptHandler(addr);
-		this->stack.setRegSize(this->reg.size());
+		std::cout << "REG_SIZE:" << regSize << std::endl; 
+		this->stack.setRegSize(regSize);
 	}
 
 
 	void LtnVM::thr0w() {
 		const auto except = this->reg.pop();
-		// const auto regSize = this->stack.getRegSize(); 
-		// this->reg.resize(regSize);
 		this->pc = unwind(this->stack);
+		const auto regSize = this->stack.getRegSize();
+		this->reg.resize(regSize);
+		clearTopFrame(stack);
 		this->reg.push(except);
 	}
 
