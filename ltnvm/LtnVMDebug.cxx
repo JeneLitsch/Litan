@@ -28,7 +28,6 @@ namespace ltn::vm {
 		const auto addr = this->fetchUint();
 		const auto regSize = this->reg.size();
 		this->stack.setExceptHandler(addr);
-		std::cout << "REG_SIZE:" << regSize << std::endl; 
 		this->stack.setRegSize(regSize);
 	}
 
