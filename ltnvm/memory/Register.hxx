@@ -18,6 +18,10 @@ namespace ltn::vm {
 			this->stack.resize(this->stack.size() - count);
 		}
 
+		inline void resize(std::uint64_t count)  {
+			this->stack.resize(count);
+		}
+
 		inline const Value peek() const {
 			return this->stack.back();
 		}

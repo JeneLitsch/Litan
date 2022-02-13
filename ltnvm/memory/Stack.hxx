@@ -4,9 +4,9 @@
 #include "Value.hxx"
 namespace ltn::vm {
 	class Stack {
-		constexpr static inline std::size_t ABS_EXCEPTION = 0;
 		constexpr static inline std::size_t EXCEPT_OFFSET = 2;
-		constexpr static inline std::size_t BASE_OFFSET = 3;
+		constexpr static inline std::size_t REG_SIZE_OFFSET = 3;
+		constexpr static inline std::size_t BASE_OFFSET = 4;
 	public:
 		Stack();
 
@@ -37,9 +37,8 @@ namespace ltn::vm {
 
 		std::uint64_t getExceptHandler() const;
 		void setExceptHandler(std::uint64_t addr);
-		void setException(Value value);
-		Value getException();
-	
+		std::uint64_t getRegSize() const;
+		void setRegSize(std::uint64_t size);
 	private:
 		std::vector<Value> stack;
 		std::uint64_t framePointer;

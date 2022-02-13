@@ -32,7 +32,6 @@ namespace ltn::a {
 		{"state",         {Inst::STATE}},
 		{"try",           {Inst::TRY,        ArgFormat::JUMP}},
 		{"throw",         {Inst::THROW}},
-		{"catch",         {Inst::CATCH}},
 
 		// Binary operations
 		{"add",           {Inst::ADD}},

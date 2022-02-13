@@ -1,23 +1,27 @@
-function g() {
-	throw "Hello World";
+function f1() {
+	throw;
+	return 1337;
 }
 
-function f() {
-	var y;
-	g();
+
+function f2() {
+	return f1();
 }
-except(error) {
-	var x = error;
-	std::println("A" + x + x);
-	throw x;
+except(e) {
+	return 22;
 }
+
+
+function f3() {
+	return 10 + f2();
+}
+
+
+function f4() {
+	return 10 + f3();
+}
+
 
 function main() {
-	f();
-	var x = 43;
-}
-except(error) {
-	var a = 42;
-	std::println("B" + error);
-	throw error;
+	return f4();
 }

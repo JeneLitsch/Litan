@@ -10,6 +10,7 @@ namespace ltn::vm {
 			stack.pushFrame(jb);
 		}
 
+
 		std::uint64_t unwind(Stack & stack) {
 			while(stack.depth()) {
 				const auto handler = stack.getExceptHandler();
@@ -27,18 +28,15 @@ namespace ltn::vm {
 	void LtnVM::tRy() {
 		const auto addr = this->fetchUint();
 		this->stack.setExceptHandler(addr);
+		this->stack.setRegSize(this->reg.size());
 	}
 
 
 	void LtnVM::thr0w() {
 		const auto except = this->reg.pop();
+		// const auto regSize = this->stack.getRegSize(); 
+		// this->reg.resize(regSize);
 		this->pc = unwind(this->stack);
-		this->stack.setException(except);
-	}
-
-
-	void LtnVM::c4tch() {
-		const auto except = this->stack.getException();
 		this->reg.push(except);
 	}
 

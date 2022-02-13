@@ -36,7 +36,6 @@ namespace ltn::c::compile {
 			// std::cout << "ERR " << except.errorname << ":" << var.address << ":" << scope.recSize() << std::endl;
 			std::ostringstream ss;
 			ss << inst::jumpmarkExcept(fxid);
-			ss << inst::c4tch;
 			ss << inst::parameters(1);
 			ss << body(except, info, scope);
 			ss << inst::null;
