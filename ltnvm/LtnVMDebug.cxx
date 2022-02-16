@@ -39,10 +39,6 @@ namespace ltn::vm {
 		this->reg.resize(regSize);
 		clearTopFrame(stack);
 		this->reg.push(except);
-		std::cout << "Except: "
-			<< static_cast<int>(except.type)
-			<< " | "
-			<< except.u << "\n";
 	}
 
 
