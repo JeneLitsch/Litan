@@ -79,6 +79,32 @@ except(error) {
 }
 
 
+function run(fx) {
+	std::invoke(fx);
+}
+except(error) {
+	std::println("10) " + error);
+}
+function error10() {
+	var fx = function [] () {
+		// var a = 4 + std::cout();
+		// a.x = 5;
+		throw "Error in lambda";
+	};
+	run(fx);
+}
+
+
+
+function error11() {
+	throw "Error in function";
+}
+except(error) {
+	std::println("11) " + error);
+}
+
+
+
 function main() {
 	error1();
 	error2();
@@ -89,4 +115,6 @@ function main() {
 	error7();
 	error8();
 	error9();
+	error10();
+	error11();
 }

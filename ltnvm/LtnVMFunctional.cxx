@@ -3,7 +3,7 @@
 #include <sstream>
 namespace ltn::vm {
 	namespace {
-		inline void loadParamtersIntoRegister(Register & reg, const auto & params) {
+		inline void loadParametersIntoRegister(Register & reg, const auto & params) {
 			for(const auto param : params) {
 				reg.push(param);
 			}
@@ -28,7 +28,7 @@ namespace ltn::vm {
 			if(isFxPtr(refFx)) {
 				const auto & fxPtr = this->heap.read<FxPointer>(refFx.u);
 				if(params.arr.size() == fxPtr.getParameters()) {
-					loadParamtersIntoRegister(this->reg, params.arr);
+					loadParametersIntoRegister(this->reg, params.arr);
 					loadCapturesIntoRegister(this->reg, fxPtr.captured);
 					this->stack.pushFrame(this->pc);
 					this->pc = fxPtr.address;

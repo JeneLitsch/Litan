@@ -30,9 +30,10 @@ namespace ltn::c::compile {
 			const ast::Except & except,
 			const std::string & fxid,
 			CompilerInfo & info,
-			Scope & scope) {
+			const auto & nameSpace) {
 			
-			const auto var = scope.insert(except.errorname, except.location);
+			Scope scope{nameSpace};
+			scope.insert(except.errorname, except.location);
 			// std::cout << "ERR " << except.errorname << ":" << var.address << ":" << scope.recSize() << std::endl;
 			std::ostringstream ss;
 			ss << inst::jumpmarkExcept(fxid);
@@ -63,7 +64,7 @@ namespace ltn::c::compile {
 			ss << inst::reTurn;
 			if(fx.except) {
 				// std::cout << "Size: " << scope.recSize() << std::endl;
-				ss << except(*fx.except, fxSig->id, info, scope);
+				ss << except(*fx.except, fxSig->id, info, fx.nameSpace);
 			}
 			ss << "\n";
 			return ss.str();
@@ -128,7 +129,7 @@ namespace ltn::c::compile {
 			ss << inst::null;
 			ss << inst::reTurn;
 			if(f->except) {
-				ss << except(*f->except, id, info, innerScope);
+				ss << except(*f->except, id, info, outerScope.getNamespace());
 			}
 		}
 		

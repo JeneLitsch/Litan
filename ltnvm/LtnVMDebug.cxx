@@ -6,8 +6,8 @@
 namespace ltn::vm {
 	namespace {
 		void clearTopFrame(Stack & stack) {
-			const auto jb = stack.popFrame();
-			stack.pushFrame(jb);
+			const auto jumpback = stack.popFrame();
+			stack.pushFrame(jumpback);
 		}
 
 
@@ -39,6 +39,10 @@ namespace ltn::vm {
 		this->reg.resize(regSize);
 		clearTopFrame(stack);
 		this->reg.push(except);
+		std::cout << "Except: "
+			<< static_cast<int>(except.type)
+			<< " | "
+			<< except.u << "\n";
 	}
 
 
