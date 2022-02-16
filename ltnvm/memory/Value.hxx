@@ -42,8 +42,13 @@ namespace ltn::vm {
 	};
 	namespace value {
 		constexpr inline Value null {0, Value::Type::NVLL };
+
 		constexpr inline Value integer(auto i) {
 			return Value{static_cast<std::int64_t>(i)};
+		}
+
+		constexpr inline Value string(std::uint64_t addr) {
+			return Value{addr, Value::Type::STRING};
 		}
 	}
 

@@ -18,7 +18,7 @@ namespace ltn::vm {
 			return;
 		}
 		
-		throw std::runtime_error{"Can only push to container type"};
+		throw except::invalidArgument();
 	}
 
 	void LtnVM::pop() {
@@ -40,7 +40,7 @@ namespace ltn::vm {
 			return;
 		}
 	
-		throw std::runtime_error{"Can only pop from container type"};
+		throw except::invalidArgument();
 	}
 
 	void LtnVM::peek() {
@@ -60,7 +60,7 @@ namespace ltn::vm {
 			return;
 		}
 
-		throw std::runtime_error{"Can only peek at container type"};
+		throw except::invalidArgument();
 	}
 
 
@@ -74,6 +74,6 @@ namespace ltn::vm {
 			return;
 		}
 
-		throw std::runtime_error{"Can only check \"contains\" on map"};
+		throw except::invalidArgument();
 	}
 }

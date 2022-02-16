@@ -11,7 +11,7 @@ namespace ltn::vm {
 			ostream << cast::to_string(value, this->heap); 
 		}
 		else {
-			throw std::runtime_error{"Can only output to ostream"};
+			throw except::notOutput();
 		}
 	}
 
@@ -24,7 +24,7 @@ namespace ltn::vm {
 				return heap.read<IStream>(ref.u).get();
 			}
 			else {
-				throw std::runtime_error{"Can only read from istream"};
+				throw except::notInput();
 			}
 		}
 	}

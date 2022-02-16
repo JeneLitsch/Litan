@@ -6,9 +6,11 @@
 #include "memory/Stack.hxx"
 #include "memory/Heap.hxx"
 #include "external/External.hxx"
+#include "Exception.hxx"
 namespace ltn::vm {
 	class LtnVM {
 	public:
+
 		LtnVM(std::ostream & ostream = std::cout) : ostream(ostream) {}
 		void setup(std::vector<std::uint8_t> code) {
 			this->byteCode = code;
@@ -34,7 +36,9 @@ namespace ltn::vm {
 			}
 			return value;
 		}
-		
+
+		void error(const std::string & msg);
+
 		void
 			state(),
 			tRy(),

@@ -2,19 +2,12 @@
 #include <string_view>
 #include <stdexcept>
 #include "memory/Value.hxx"
+#include "Exception.hxx"
 namespace ltn::vm {
-	inline std::runtime_error typeError(
-		const Value &,
-		const Value &,
-		const std::string_view & str) {
-		return std::runtime_error{ static_cast<std::string>(str) };
-	}
-
 	template<class OP>
-	constexpr inline  Value calc(
+	constexpr inline Value calc(
 		const Value & l,
-		const Value & r,
-		const std::string_view & msg) {
+		const Value & r) {
 		constexpr OP op;
 		if (isBool(l)) {
 			if(isBool(r)) return Value{op(l.b, r.b)};
@@ -31,6 +24,6 @@ namespace ltn::vm {
 			if(isInt(r)) return Value{op(l.f, r.i)};
 			if(isFloat(r)) return Value{op(l.f, r.f)};
 		}
-		throw typeError(l, r, msg);
+		throw except::invalidOperands();
 	}
 }

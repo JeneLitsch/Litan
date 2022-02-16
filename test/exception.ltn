@@ -1,15 +1,92 @@
-function f() {
-	throw "FEHLER";
+function error1() {
+	var file = std::fin("test123");
+}
+except(error) {
+	std::println("1) " + error);
+}
+
+
+
+function error2() {
+	var x = std::cout() + 1;
+}
+except(error) {
+	std::println("2) " + error);
+}
+
+
+
+function error3() {
+	var x = std::array("Hello World");
+}
+except(error) {
+	std::println("3) " + error);
+}
+
+
+
+function error4() {
+	var x = std::begin("1234");
+}
+except(error) {
+	std::println("4) " + error);
+}
+
+
+
+function error5() {
+	std::remove_front([]);
+}
+except(error) {
+	std::println("5) " + error);
+}
+
+
+function test(a, b, c) {}
+function error6() {
+	std::invoke(&test(_,_,_), [42, 1337]);
+}
+except(error) {
+	std::println("6) " + error);
+}
+
+
+
+function error7() {
+	std::println("Hello World", std::cin());
+}
+except(error) {
+	std::println("7) " + error);
+}
+
+
+
+function error8() {
+	var a = std::abs("-123");
+}
+except(error) {
+	std::println("8) " + error);
+}
+
+
+
+function error9() {
+	var a = 4;
+	a.x = 5;
+}
+except(error) {
+	std::println("9) " + error);
 }
 
 
 function main() {
-	var a = 42;
-	std::println(a);
-	f();
-	var x = 1 + 2;
-	std::println(x);
-}
-except(error) {
-	std::println(error);
+	error1();
+	error2();
+	error3();
+	error4();
+	error5();
+	error6();
+	error7();
+	error8();
+	error9();
 }

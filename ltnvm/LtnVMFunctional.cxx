@@ -3,20 +3,6 @@
 #include <sstream>
 namespace ltn::vm {
 	namespace {
-		std::runtime_error wrongParameterCount(
-			const auto & got, const auto & callable,
-			const std::string_view calledType) {
-			std::stringstream ss;
-			ss	<< "Invoked " << calledType
-				<< " with wrong number of paramters. ";
-			
-			ss	<< "Got " << got.arr.size()
-				<< " expected " << callable.getParameters();
-			return std::runtime_error{ss.str()};
-		}
-	}
-
-	namespace {
 		inline void loadParamtersIntoRegister(Register & reg, const auto & params) {
 			for(const auto param : params) {
 				reg.push(param);
@@ -47,7 +33,7 @@ namespace ltn::vm {
 					this->stack.pushFrame(this->pc);
 					this->pc = fxPtr.address;
 				}
-				else throw wrongParameterCount(params, fxPtr, "function pointer");
+				else throw except::invalidParameters(fxPtr.getParameters(), params.arr.size());
 			}
 
 			// Call external binding
@@ -57,13 +43,13 @@ namespace ltn::vm {
 					ext::Api api{this->heap, this->reg, params.arr};
 					fxPtr(api);
 				}
-				else throw wrongParameterCount(params, fxPtr, "external");
+				else throw except::invalidParameters(fxPtr.getParameters(), params.arr.size());
 			}
 
 			// Non callable
-			else throw std::runtime_error{"Can only invoke fxPtr or external"};
+			else throw except::invalidArgument();
 		}
-		else throw std::runtime_error{"invoke needs an array of parameters"};
+		else throw except::invalidArgument();
 	}
 
 	void LtnVM::external() {
@@ -71,7 +57,7 @@ namespace ltn::vm {
 		if(isInt(value)) {
 			this->reg.push({value.u, Value::Type::EXTERNAL});
 		}
-		else throw std::runtime_error{"Cannot convert to external"};
+		else throw except::invalidCast("External");
 	}
 
 
@@ -83,6 +69,6 @@ namespace ltn::vm {
 			auto & lambda = this->heap.read<FxPointer>(fxPtr.u);
 			lambda.captured.push_back(var);
 		}
-		else throw std::runtime_error{"Not a function pointer"};
+		else throw except::invalidArgument();
 	}
 }

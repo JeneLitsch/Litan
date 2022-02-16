@@ -81,7 +81,7 @@ namespace ltn::vm {
 			const auto ref = this->reg.pop();
 			if(isStr(ref)) return insertFront<String>(ref, this->heap, elem);
 			if(isArr(ref)) return insertFront<Array>(ref, this->heap, elem);
-			throw std::runtime_error{"Can only append to array or string"};
+			throw except::invalidArgument();
 		} break;
 
 		case 1: {
@@ -92,7 +92,7 @@ namespace ltn::vm {
 			const auto index = toIndex(key);
 			if(isStr(ref)) return insertI<String>(ref, this->heap, elem, index);
 			if(isArr(ref)) return insertI<Array>(ref, this->heap, elem, index);
-			throw std::runtime_error{"Can only append to a collection type"};
+			throw except::invalidArgument();
 		} break;
 
 		case 2: {
@@ -100,11 +100,11 @@ namespace ltn::vm {
 			const auto ref = this->reg.pop();
 			if(isStr(ref)) return insertBack<String>(ref, this->heap, elem);
 			if(isArr(ref)) return insertBack<Array>(ref, this->heap, elem);
-			throw std::runtime_error{"Can only append to array or string"};
+			throw except::invalidArgument();
 		} break;
 		
 		default:
-			throw std::runtime_error{"Invalid insert type"};
+			throw except::invalidArgument();
 			break;
 		}
 	}
@@ -127,6 +127,6 @@ namespace ltn::vm {
 			return;
 		}
 
-		throw std::runtime_error{"Not an indexable type"};
+		throw except::invalidArgument();
 	}
 }

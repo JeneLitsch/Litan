@@ -18,31 +18,25 @@ namespace ltn::vm {
 	using Addition = Promoted<std::plus<void>>;
 	using Subtraction = Promoted<std::minus<void>>;
 	using Multiplication = Promoted<std::multiplies<void>>;
-	
+
 	struct Division {
 		constexpr auto operator()(const auto l, const auto r) const {
 			using T = decltype(l+r+std::int64_t(1));
-			if(r != 0) {
-				return static_cast<T>(l) / static_cast<T>(r);
-			}
-			// Catch zero division
-			throw std::runtime_error{"Division by 0"};
+			if(r == 0) throw except::divisionBy0;
+			return static_cast<T>(l) / static_cast<T>(r);
 		}
 	};
 
 	struct Modulo {
 		constexpr auto operator()(const auto l, const auto r) const {
 			using T = decltype(l+r+std::int64_t(1));
-			if(r != 0) {
-				if constexpr(std::integral<T>) {
-					return static_cast<std::int64_t>(l%r);
-				}
-				else {
-					return std::fmod(l, r);
-				}
+			if(r == 0) throw except::divisionBy0;
+			if constexpr(std::integral<T>) {
+				return static_cast<std::int64_t>(l%r);
 			}
-			// Catch zero division
-			throw std::runtime_error{"Modulo by 0"};
+			else {
+				return std::fmod(l, r);
+			}
 		}
 	};
 }

@@ -20,15 +20,13 @@ namespace ltn::vm {
 				const auto end = array.arr.begin() + range.end;
 				return std::make_pair(begin, end);
 			}
-			throw std::runtime_error{"Algorithm need range or array"};
+			throw except::invalidArgument();
 		}
 
 
 		std::uint64_t popArrayRef(Register & reg) {
 			const auto ref = reg.pop();
-			if(!isArr(ref)) {
-				throw std::runtime_error{"Expected Array"};
-			}
+			if(!isArr(ref)) throw except::invalidArgument();
 			return ref.u;
 		}
 

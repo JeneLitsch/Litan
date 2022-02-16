@@ -4,7 +4,7 @@
 #include <sstream>
 #include "cast.hxx"
 #include "Operations.hxx"
-#include "CalcBinary.hxx"
+#include "calcBinary.hxx"
 
 namespace ltn::vm {
 	namespace {
@@ -62,34 +62,29 @@ namespace ltn::vm {
 			return this->reg.push({ref, Value::Type::STRING});
 		}
 
-		constexpr auto msg = "Not operator + for types";
-		this->reg.push(calc<Addition>(l, r, msg));
+		this->reg.push(calc<Addition>(l, r));
 	}
 
 
 
 	void LtnVM::sub() {
 		FETCH
-		constexpr auto msg = "Not operator - for types";
-		this->reg.push(calc<Subtraction>(l, r, msg));
+		this->reg.push(calc<Subtraction>(l, r));
 	}
 
 	void LtnVM::mlt() {
 		FETCH
-		constexpr auto msg = "Not operator * for types";
-		this->reg.push(calc<Multiplication>(l, r, msg));
+		this->reg.push(calc<Multiplication>(l, r));
 	}
 
 	void LtnVM::div() {
 		FETCH
-		constexpr auto msg =  "Not operator / for types";
-		this->reg.push(calc<Division>(l, r, msg));
+		this->reg.push(calc<Division>(l, r));
 	}
 
 	void LtnVM::mod() {
 		FETCH
-		constexpr auto msg = "Not operator % for types";
-		this->reg.push(calc<Modulo>(l, r, msg));
+		this->reg.push(calc<Modulo>(l, r));
 	}
 
 	void LtnVM::shift_l() {
@@ -97,7 +92,7 @@ namespace ltn::vm {
 		if(isInt(l) && isInt(r)) {
 			return this->reg.push(Value{l.i << r.i});
 		}
-		throw std::runtime_error{"Only ints can be bit-shifted"};
+		throw except::invalidOperands();
 	}
 
 	void LtnVM::shift_r() {
@@ -105,7 +100,7 @@ namespace ltn::vm {
 		if(isInt(l) && isInt(r)) {
 			return this->reg.push(Value{l.i >> r.i});
 		}
-		throw std::runtime_error{"Only ints can be bit-shifted"};
+		throw except::invalidOperands();
 	}
 
 	#undef FETCH

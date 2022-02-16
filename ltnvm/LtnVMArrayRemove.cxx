@@ -3,9 +3,7 @@
 namespace ltn::vm {
 	namespace {
 		void guardEmpty(const auto & collection) {
-			if(collection.empty()) {
-				throw std::runtime_error{"Cannot remove from empty collection"};
-			}
+			if(collection.empty()) throw except::emptyCollection();
 		}
 
 		template<typename Collection>
@@ -26,10 +24,10 @@ namespace ltn::vm {
 		void removeI(const Value ref, Heap & heap, std::int64_t index) {
 			auto & collection = heap.read<Collection>(ref.u).get(); 
 			if(index < 0) {
-				throw std::runtime_error{"Negative idex is not allowed"};
+				throw except::negativeIndex();
 			}
 			if(collection.size() <= static_cast<std::size_t>(index)) {
-				throw std::runtime_error{"Index out of range"};
+				throw except::outOfRange();
 			}
 			collection.erase(collection.begin() + index);
 		}
@@ -48,7 +46,7 @@ namespace ltn::vm {
 			const auto ref = this->reg.pop();
 			if(isStr(ref)) return removeFirst<String>(ref, this->heap);
 			if(isArr(ref)) return removeFirst<Array>(ref, this->heap);
-			throw std::runtime_error{"Can only remove from a collection"};
+			throw except::invalidArgument();
 		} break;
 
 		case 1: {
@@ -58,18 +56,18 @@ namespace ltn::vm {
 			const auto index = toIndex(key);
 			if(isStr(ref)) return removeI<String>(ref, this->heap, index);
 			if(isArr(ref)) return removeI<Array>(ref, this->heap, index);
-			throw std::runtime_error{"Can only remove from a collection"};
+			throw except::invalidArgument();
 		} break;
 
 		case 2: {
 			const auto ref = this->reg.pop();
 			if(isStr(ref)) return removeLast<String>(ref, this->heap);
 			if(isArr(ref)) return removeLast<Array>(ref, this->heap);
-			throw std::runtime_error{"Can only remove from a collection"};
+			throw except::invalidArgument();
 		} break;
 
 		default:
-			throw std::runtime_error{"Invalid remove type"};
+			throw except::invalidArgument();
 			break;
 		}
 	}

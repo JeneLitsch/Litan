@@ -15,6 +15,6 @@ namespace ltn::vm {
 			const auto & newref = this->heap.clone(ref.u);
 			this->reg.push(Value{newref, ref.type});
 		}
-		else throw std::runtime_error{"Can only clone object"};
+		else throw except::invalidArgument();
 	}
 }

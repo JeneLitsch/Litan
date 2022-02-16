@@ -19,7 +19,7 @@ namespace ltn::vm {
 	}
 
 	template<class Fx>
-	Value rounding(const Value & value, const auto & msg) {
+	Value rounding(const Value & value) {
 		constexpr Fx fx{};
 		if(isFloat(value)) {
 			return Value{fx(value.f)};
@@ -27,11 +27,11 @@ namespace ltn::vm {
 		if(isInt(value) || isBool(value)) {
 			return value;
 		}
-		throw std::runtime_error{msg};
+		throw except::invalidArgument();
 	}
 
 	template<class Fx>
-	Value function(const Value & value, const auto & msg) {
+	Value function(const Value & value) {
 		constexpr Fx fx{};
 		if(isFloat(value)) {
 			return Value{fx(value.f)};
@@ -42,7 +42,7 @@ namespace ltn::vm {
 		if(isBool(value)) {
 			return Value{fx(value.b)};
 		}
-		throw std::runtime_error{msg};
+		throw except::invalidArgument();
 	}
 
 	void LtnVM::min() {
@@ -56,20 +56,16 @@ namespace ltn::vm {
 		this->reg.push(more ? l : r);
 	}
 	void LtnVM::round() {
-		constexpr auto msg = "Can only round numeric types";
-		this->reg.push(rounding<Round>(this->reg.pop(), msg));
+		this->reg.push(rounding<Round>(this->reg.pop()));
 	}
 	void LtnVM::floor() {
-		constexpr auto msg = "Can only floor numeric types";
-		this->reg.push(rounding<Floor>(this->reg.pop(), msg));
+		this->reg.push(rounding<Floor>(this->reg.pop()));
 	}
 	void LtnVM::ceil() {
-		constexpr auto msg = "Can only ceil numeric types";
-		this->reg.push(rounding<Ceil>(this->reg.pop(), msg));
+		this->reg.push(rounding<Ceil>(this->reg.pop()));
 	}
 	void LtnVM::abs() {
-		constexpr auto msg = "Can only take abs() from numeric types";
-		this->reg.push(function<Absolute>(this->reg.pop(), msg));
+		this->reg.push(function<Absolute>(this->reg.pop()));
 	}
 	void LtnVM::hypot() {
 		FETCH
@@ -96,16 +92,13 @@ namespace ltn::vm {
 	}
 	
 	void LtnVM::sin() {
-		constexpr auto msg = "sin() only accepts numeric types";
-		this->reg.push(function<Sinus>(this->reg.pop(), msg));
+		this->reg.push(function<Sinus>(this->reg.pop()));
 	}
 	void LtnVM::cos() {
-		constexpr auto msg = "cos() only accepts numeric types";
-		this->reg.push(function<Cosinus>(this->reg.pop(), msg));
+		this->reg.push(function<Cosinus>(this->reg.pop()));
 	}
 	void LtnVM::tan() {
-		constexpr auto msg = "tan() only accepts numeric types";
-		this->reg.push(function<Tangents>(this->reg.pop(), msg));
+		this->reg.push(function<Tangents>(this->reg.pop()));
 	}
 
 	#undef FETCH

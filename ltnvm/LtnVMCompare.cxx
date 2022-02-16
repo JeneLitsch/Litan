@@ -1,6 +1,6 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
-#include "CalcBinary.hxx"
+#include "calcBinary.hxx"
 #include "Operations.hxx"
 #include "compare.hxx"
 

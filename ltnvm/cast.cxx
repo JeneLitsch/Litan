@@ -1,5 +1,6 @@
 #include "cast.hxx"
 #include "TypeCheck.hxx"
+#include "Exception.hxx"
 
 namespace ltn::vm::cast {
 	namespace {
@@ -9,7 +10,7 @@ namespace ltn::vm::cast {
 			std::stringstream ss{str};
 			ss >> to;
 			if(ss.fail()) {
-				throw std::runtime_error{"Cannot parse string to value"};
+				throw except::invalidArgument("Cannot parse string to value");
 			}
 			return to;
 		}
@@ -80,7 +81,7 @@ namespace ltn::vm::cast {
 			ss << "<clock: " << clock.getSeconds() << "s>";
 			return ss.str();
 		}
-		throw std::runtime_error{"Cannot convert to string"};
+		throw except::invalidCast("String");
 	}
 
 
@@ -96,7 +97,7 @@ namespace ltn::vm::cast {
 			const auto & str = heap.read<String>(value.u);
 			return parseValue<std::int64_t>(str.str); 
 		}
-		throw std::runtime_error{"Cannot convert to integer"};
+		throw except::invalidCast("Int");
 	}
 
 
@@ -119,7 +120,7 @@ namespace ltn::vm::cast {
 			const auto & clock = heap.read<Clock>(value.u);
 			return clock.getSeconds();
 		}
-		throw std::runtime_error{"Cannot convert to float"};
+		throw except::invalidCast("Float");
 	}
 
 
@@ -139,6 +140,6 @@ namespace ltn::vm::cast {
 		if(isNull(value)) {
 			return false;
 		}
-		throw std::runtime_error{"Cannot convert to bool"};
+		throw except::invalidCast("Bool");
 	}
 }

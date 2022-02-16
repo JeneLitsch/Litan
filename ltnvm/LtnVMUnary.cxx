@@ -14,7 +14,7 @@ namespace ltn::vm {
 		if(isFloat(x)) {
 			return this->reg.push({- x.f});
 		}
-		throw std::runtime_error{"Cannot negate"};
+		throw except::invalidArgument();
 	}
 	void LtnVM::n0t() {
 		FETCH
@@ -27,7 +27,7 @@ namespace ltn::vm {
 		if(isFloat(x)) {
 			return this->reg.push({x.f != 0.0});
 		}
-		throw std::runtime_error{"Cannot apply not"};
+		throw except::invalidArgument();
 	}
 
 	void LtnVM::inc() {
@@ -38,7 +38,7 @@ namespace ltn::vm {
 		if(isFloat(x)) {
 			return this->reg.push({x.f + 1});
 		}
-		throw std::runtime_error{"Cannot increment"};
+		throw except::invalidArgument();
 	}
 	void LtnVM::dec() {
 		FETCH
@@ -48,7 +48,7 @@ namespace ltn::vm {
 		if(isFloat(x)) {
 			return this->reg.push({x.f - 1});
 		}
-		throw std::runtime_error{"Cannot decrement"};
+		throw except::invalidArgument();
 	}
 
 	#undef FETCH

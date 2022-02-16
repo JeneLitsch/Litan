@@ -29,13 +29,13 @@ namespace ltn::vm {
 			case 1: {
 				const auto ref = this->reg.pop();
 				if(!isStr(ref)) {
-					throw std::runtime_error{"Filestream needs path as string"};
+					throw except::invalidArgument();
 				}
 				const auto & path = this->heap.read<String>(ref.u).str;
 				return addOut(OStream{std::make_unique<std::ofstream>(path)});
 			}
 		}
-		throw std::runtime_error {"Unknow output variant"};
+		throw std::runtime_error{"Unknow output variant"};
 	}
 	void LtnVM::newin() {
 		const auto addIn = [&] (auto && in) {
@@ -51,11 +51,11 @@ namespace ltn::vm {
 			case 1: {
 				const auto ref = this->reg.pop();
 				if(!isStr(ref)) {
-					throw std::runtime_error{"Filestream needs path as string"};
+					throw except::invalidArgument();
 				}
 				const auto & path = this->heap.read<String>(ref.u).str;
 				if(!std::filesystem::exists(path)) {
-					throw std::runtime_error{"Cannot open fin \"" + path + "\""};
+					throw except::cannotOpenFile(path);
 				}
 				return addIn(IStream{std::make_unique<std::ifstream>(path)});
 			}
@@ -79,9 +79,9 @@ namespace ltn::vm {
 		const auto begin = this->reg.pop();
 		const auto array = this->reg.pop();
 		
-		if(!isArr(array)) throw std::runtime_error{"Expected array for range"};
-		if(!isInt(begin)) throw std::runtime_error{"Expected int for begin"};
-		if(!isInt(end))   throw std::runtime_error{"Expected int for end"};
+		if(!isArr(array)) throw except::invalidArgument();
+		if(!isInt(begin)) throw except::invalidArgument();
+		if(!isInt(end))   throw except::invalidArgument();
 		
 		const auto range = this->heap.alloc<Range>({array.u, begin.i, end.i});
 		this->reg.push(Value{range, Value::Type::RANGE});

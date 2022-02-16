@@ -7,8 +7,7 @@ namespace ltn::vm {
 				return heap.read<Struct>(ref.u);
 			}
 			else {
-				throw std::runtime_error {
-					"Cannot access member of non-struct type"};
+				throw except::invalidMemberAccess();
 			}
 		}
 

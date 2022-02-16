@@ -27,7 +27,7 @@ namespace ltn::vm {
 			return;
 		}
 
-		throw std::runtime_error{"Not an indexable type"};
+		throw except::invalidArgument();
 	}
 
 
@@ -85,7 +85,7 @@ namespace ltn::vm {
 			this->reg.push(arr.arr.front());
 		}
 		else {
-			throw std::runtime_error{"Cannot get front element from non array type"};
+			throw except::invalidArgument();
 		}
 	}
 
@@ -97,7 +97,7 @@ namespace ltn::vm {
 			this->reg.push(arr.arr.back());
 		}
 		else {
-			throw std::runtime_error{"Cannot get back element from non array type"};
+			throw except::invalidArgument();
 		}
 	}
 
@@ -122,7 +122,7 @@ namespace ltn::vm {
 			return;
 		}
 
-		throw std::runtime_error{"Can only get iterator from Array or Range"};
+		throw except::invalidArgument();
 	}
 
 
@@ -140,6 +140,6 @@ namespace ltn::vm {
 			return;
 		}
 
-		throw std::runtime_error{"Can only get iterator from Array or Range"};
+		throw except::invalidArgument();
 	}
 }

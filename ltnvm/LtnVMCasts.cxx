@@ -53,6 +53,6 @@ namespace ltn::vm {
 			return;
 		}
 
-		throw std::runtime_error{"Cannot cast to array"};
+		throw except::invalidCast("Array");
 	}
 }
