@@ -7,14 +7,30 @@ function make_lambda_1(a, b) {
 
 function make_lambda_2() {
 	return lambda () {
-		std::println("2st Lambda call"); 
+		std::println("2nd Lambda call"); 
 	};
 }
+
+
+function make_lambda_3() {
+	return lambda [] {
+		std::println("3rd Lambda call"); 
+	};
+}
+
+
+function make_lambda_4() {
+	return lambda {
+		std::println("4th Lambda call"); 
+	};
+}
+
 
 function main() {
 	var f1 = make_lambda_1(20, 22);
 	std::println("Result: " + std::invoke(f1));
 
-	var f2 = make_lambda_2();
-	std::invoke(f2);
+	std::invoke(make_lambda_2());
+	std::invoke(make_lambda_3());
+	std::invoke(make_lambda_4());
 }

@@ -12,6 +12,7 @@ namespace ltn::c::lex {
 	public:
 		Lexer(std::istream & in, std::string sourcename, Reporter & reporter);
 		std::optional<lex::Token> match(Token::Type type);
+		bool check(Token::Type type);
 		void sync();
 		
 		std::size_t inLine() const {

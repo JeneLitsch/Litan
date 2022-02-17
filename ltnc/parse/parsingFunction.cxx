@@ -30,10 +30,15 @@ namespace ltn::c::parse {
 			return parameters;
 		}
 
+		ast::Parameters optionalParameters(lex::Lexer & lexer) {
+			if(lexer.check(TT::PAREN_L)) return parameterList(lexer);
+			return {};
+		}
+
 		// Returns a array of all parameters
 		std::vector<std::unique_ptr<ast::Var>> captures(lex::Lexer & lexer) {
 			if(!lexer.match(TT::BRACKET_L)) return {};
-			
+
 			std::vector<std::unique_ptr<ast::Var>> captures{};
 			if(!lexer.match(TT::BRACKET_R)) {
 				while(true) {
@@ -127,7 +132,7 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Lambda> lambda(lex::Lexer & lexer) {
 		if(lexer.match(TT::LAMBDA)) {
 			auto captures = parse::captures(lexer);
-			const auto parameters = parameterList(lexer);
+			const auto parameters = optionalParameters(lexer);
 			auto body = statement(lexer); 
 			auto fx = std::make_unique<ast::Function>(
 				"lambda",

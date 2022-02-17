@@ -34,6 +34,12 @@ namespace ltn::c::lex {
 		}
 	}
 
+	
+	bool Lexer::check(Token::Type type) {
+		return this->current->type == type;
+	}
+
+
 	void Lexer::sync() {
 		const static std::set<TT> stops {
 			TT::___EOF___,
