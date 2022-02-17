@@ -127,7 +127,7 @@ namespace ltn::c::parse {
 	}
 
 	std::unique_ptr<ast::Lambda> lambda(lex::Lexer & lexer) {
-		if(lexer.match(TT::FUNCTION)) {
+		if(lexer.match(TT::LAMBDA)) {
 			auto captures = parse::captures(lexer);
 			const auto parameters = parameterList(lexer);
 			auto body = statement(lexer); 

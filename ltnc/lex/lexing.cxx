@@ -82,6 +82,7 @@ namespace ltn::c::lex {
 		// Table of keywords
 		const std::unordered_map<std::string_view, Token::Type> keywords{
 			{"function",    TT::FUNCTION},
+			{"lambda",      TT::LAMBDA},
 			{"while",       TT::WHILE},
 			{"for",         TT::FOR},
 			{"return",      TT::RETURN},

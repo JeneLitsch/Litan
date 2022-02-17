@@ -1,0 +1,12 @@
+function make_lambda(a, b) {
+	return lambda [a, b] () {
+		std::println("1st Lambda call: " + a + " + " + b + " = " + (a+b)); 
+		return a + b;
+	};
+}
+
+function main() {
+	var f = make_lambda(20, 22);
+	var r = std::invoke(f);
+	std::println("Result: " + r);
+}

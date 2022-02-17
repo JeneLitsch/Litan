@@ -86,7 +86,7 @@ except(error) {
 	std::println("10) " + error);
 }
 function error10() {
-	var fx = function [] () {
+	var fx = lambda [] () {
 		// var a = 4 + std::cout();
 		// a.x = 5;
 		throw "Error in lambda";

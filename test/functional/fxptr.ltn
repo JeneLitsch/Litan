@@ -1,0 +1,32 @@
+function add(a, b) {
+	return a + b;
+}
+
+function sub(a, b) {
+	return a - b;
+}
+
+function mlt(a, b) {
+	return a * b;
+}
+
+function div(a, b) {
+	return a / b;
+}
+
+function mod(a, b) {
+	return a % b;
+}
+
+function calc(a, b, fx, op) {
+	var result = std::invoke(fx, [a,b]);
+	std::println(a + " " + op + " " + b + " = " + result);
+}
+
+function main() {
+	calc(22, 20, &add(_,_), "+");
+	calc(22, 20, &sub(_,_), "-");
+	calc(22, 20, &mlt(_,_), "*");
+	calc(22, 20, &div(_,_), "/");
+	calc(22, 20, &mod(_,_), "%");
+}
