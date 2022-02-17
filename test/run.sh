@@ -10,17 +10,14 @@ run () {
 }
 
 run "vars"
-run "fx"
 run "io"
 run "modify"
-run "andOr"
 run "type"
 run "misc"
 run "struct"
 run "casting"
 run "math"
 run "algorithm"
-run "compare"
 run "array"
 run "container"
 run "clone"
