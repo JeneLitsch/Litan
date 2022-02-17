@@ -32,9 +32,7 @@ namespace ltn::c::parse {
 
 		// Returns a array of all parameters
 		std::vector<std::unique_ptr<ast::Var>> captures(lex::Lexer & lexer) {
-			if(!lexer.match(TT::BRACKET_L)) {
-				throw CompilerError{"missing [", lexer.location()};
-			}
+			if(!lexer.match(TT::BRACKET_L)) return {};
 			
 			std::vector<std::unique_ptr<ast::Var>> captures{};
 			if(!lexer.match(TT::BRACKET_R)) {
