@@ -23,10 +23,20 @@ function calc(a, b, fx, op) {
 	std::println(a + " " + op + " " + b + " = " + result);
 }
 
+function foo(a, b, c) {
+	std::println("I have 3 parameters: " + a + ", " + b + ", " + c);
+}
+
+function foo(a, b) {
+	std::println("I have 2 parameters: " + a + ", " + b);
+}
+
 function main() {
 	calc(22, 20, &add(_,_), "+");
 	calc(22, 20, &sub(_,_), "-");
 	calc(22, 20, &mlt(_,_), "*");
 	calc(22, 20, &div(_,_), "/");
 	calc(22, 20, &mod(_,_), "%");
+	std::invoke(&foo(_,_,_), [1, 2, 3]);
+	std::invoke(&foo(_,_), [42, 1337]);
 }

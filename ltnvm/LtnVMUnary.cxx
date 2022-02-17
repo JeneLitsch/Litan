@@ -8,6 +8,9 @@ namespace ltn::vm {
 
 	void LtnVM::neg() {
 		FETCH
+		if(isBool(x)) {
+			return this->reg.push({- static_cast<std::int64_t>(x.b)});
+		}
 		if(isInt(x)) {
 			return this->reg.push({- x.i});
 		}
