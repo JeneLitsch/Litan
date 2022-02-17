@@ -25,6 +25,7 @@ run "array"
 run "container"
 run "clone"
 run "exception"
+run "string"
 
 run_error () {
 	echo "Testing Errors"

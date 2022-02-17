@@ -142,4 +142,11 @@ namespace ltn::vm::cast {
 		}
 		throw except::invalidCast("Bool");
 	}
+
+	char to_char(Value value) {
+		if(isInt(value)) {
+			return static_cast<char>(value.i);
+		}
+		throw except::invalidCast("Char");
+	}
 }

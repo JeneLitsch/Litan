@@ -98,24 +98,26 @@ namespace ltn::c::lex {
 			{"throw",       TT::THROW},
 		};
 		
-		 
+
+		template<char END> 
 		char deEscape(auto chr, const SourceLocation & location) {
 			switch (chr) {
 			case 'n': return '\n';
 			case 't': return '\t';
 			case '\\': return '\\';
-			case '"': return '"';
+			case END: return END;
 			default: break;
 			}
 			throw CompilerError{"Invalid escape sequence", location};
 		}
 
 		// Reads and deescape string from in
+		template<char END> 
 		std::string string(std::istream & in, const SourceLocation & location) {
 			std::stringstream ss;
 			while(!in.eof()) {
 				const auto chr = static_cast<char>(in.get());
-				if(chr == '"') {
+				if(chr == END) {
 					return ss.str();
 				}
 				if(chr == '\n') {
@@ -125,7 +127,7 @@ namespace ltn::c::lex {
 					throw CompilerError{"Tab needs to be escaped \\t", location};
 				}
 				if(chr == '\\') {
-					ss << deEscape(in.get(), location);
+					ss << deEscape<END>(in.get(), location);
 				}
 				else {
 					ss << chr;
@@ -227,8 +229,16 @@ namespace ltn::c::lex {
 		}
 
 		if(match('"')) {
-			const auto str = string(in, location);
+			const auto str = string<'"'>(in, location);
 			return make(TT::STRING, str);
+		}
+
+		if(match('\'')) {
+			const auto str = string<'\''>(in, location);
+			if(str.size() != 1) {
+				throw CompilerError{"Expected single char", location};
+			}
+			return make(TT::CHAR, str);
 		}
 
 		if(match('.')) {

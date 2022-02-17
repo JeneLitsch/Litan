@@ -40,6 +40,16 @@ namespace ltn::c::parse {
 		constexpr auto integerHex = integer<std::int64_t,    TT::INTEGER_HEX>;
 		constexpr auto integerBin = integer<std::bitset<64>, TT::INTEGER_BIN>;
 
+
+
+		std::unique_ptr<ast::Integer> character(lex::Lexer & lexer) {
+			if(auto t = lexer.match(TT::CHAR)) {
+				return std::make_unique<ast::Integer>(t->str[0], lexer.location()); 
+			}
+			return nullptr;
+		}
+
+
 		std::unique_ptr<ast::Float> floating(lex::Lexer & lexer) {
 			if(auto token = lexer.match(TT::FLOAT)) {
 				std::stringstream ss{token->str};
@@ -219,6 +229,7 @@ namespace ltn::c::parse {
 		if(auto expr = integerDec(lexer)) return expr;
 		if(auto expr = integerBin(lexer)) return expr;
 		if(auto expr = integerHex(lexer)) return expr;
+		if(auto expr = character(lexer)) return expr;
 		if(auto expr = floating(lexer)) return expr;
 		if(auto expr = boolean(lexer)) return expr;
 		if(auto expr = paren(lexer)) return expr;

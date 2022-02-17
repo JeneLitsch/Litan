@@ -9,7 +9,14 @@ namespace ltn::vm {
 			auto & collection = heap.read<Collection>(ref.u).get(); 
 
 			if constexpr(std::same_as<Collection, String>) {
-				collection = cast::to_string(elem, heap) + collection;
+				if(isInt(elem)) {
+					const auto chr = cast::to_char(elem);
+					collection.insert(collection.begin(), chr);
+				}
+				else {
+					const auto str = cast::to_string(elem, heap);
+					collection = str + collection;
+				}
 				return;
 			}
 
@@ -29,8 +36,14 @@ namespace ltn::vm {
 			auto & collection = heap.read<Collection>(ref.u).get(); 
 
 			if constexpr(std::same_as<Collection, String>) {
-				const auto & str = cast::to_string(elem, heap);
-				collection += str;
+				if(isInt(elem)) {
+					const auto chr = cast::to_char(elem);
+					collection.push_back(chr);
+				}
+				else {
+					const auto & str = cast::to_string(elem, heap);
+					collection += str;
+				}
 				return;
 			}
 
@@ -48,11 +61,19 @@ namespace ltn::vm {
 		template<typename Collection>
 		void insertI(const Value ref, Heap & heap, const Value elem, std::int64_t i) {
 			auto & collection = heap.read<Collection>(ref.u).get(); 
-			guardIndex(collection, i);
+			if(i != static_cast<std::int64_t>(collection.size())) {
+				guardIndex(collection, i);
+			}
 
 			if constexpr(std::same_as<Collection, String>) {
-				const auto & str = cast::to_string(elem, heap);
-				collection.insert(static_cast<std::size_t>(i), str);
+				if(isInt(elem)) {
+					const auto chr = cast::to_char(elem);
+					collection.insert(collection.begin() + i, chr);
+				}
+				else {
+					const auto & str = cast::to_string(elem, heap);
+					collection.insert(collection.begin() + i, str.begin(), str.end());
+				}
 				return;
 			}
 
@@ -109,7 +130,9 @@ namespace ltn::vm {
 		}
 	}
 
-		void LtnVM::at_write() {
+
+
+	void LtnVM::at_write() {
 		const auto key = this->reg.pop();
 		const auto ref = this->reg.pop();
 		const auto elem = this->reg.pop();
@@ -119,6 +142,14 @@ namespace ltn::vm {
 			const auto index = toIndex(key);
 			guardIndex(arr, index);
 			arr[index] = elem;
+			return;
+		}
+
+		if(isStr(ref)) {
+			auto & str = heap.read<String>(ref.u).get();
+			const auto index = toIndex(key);
+			guardIndex(str, index);
+			str[index] = cast::to_int(elem, this->heap);
 			return;
 		}
 

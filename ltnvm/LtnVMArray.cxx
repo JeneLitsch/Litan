@@ -16,6 +16,15 @@ namespace ltn::vm {
 			return;
 		}
 
+		if(isStr(ref)) {
+			const auto & str = heap.read<String>(ref.u).get();
+			const auto index = toIndex(key);
+			guardIndex(str, index);
+			const auto chr = str[index];
+			this->reg.push(value::integer(chr));
+			return;
+		}
+
 		if(isMap(ref)) {
 			const auto & map = heap.read<Map>(ref.u).get();
 			if(map.contains(key)) {
@@ -80,25 +89,41 @@ namespace ltn::vm {
 
 	void LtnVM::front() {
 		const auto ref = this->reg.pop();
+		
 		if (isArr(ref)) {
-			const auto & arr = this->heap.read<Array>(ref.u);
-			this->reg.push(arr.arr.front());
+			const auto & arr = this->heap.read<Array>(ref.u).get();
+			this->reg.push(arr.front());
+			return;
 		}
-		else {
-			throw except::invalidArgument();
+
+		if (isStr(ref)) {
+			const auto & str = this->heap.read<String>(ref.u).get();
+			const auto chr = str.front(); 
+			this->reg.push(value::integer(chr));
+			return;
 		}
+
+		throw except::invalidArgument();
 	}
 
 	
 	void LtnVM::back() {
 		const auto ref = this->reg.pop();
+		
 		if (isArr(ref)) {
-			const auto & arr = this->heap.read<Array>(ref.u);
-			this->reg.push(arr.arr.back());
+			const auto & arr = this->heap.read<Array>(ref.u).get();
+			this->reg.push(arr.back());
+			return;
 		}
-		else {
-			throw except::invalidArgument();
+
+		if (isStr(ref)) {
+			const auto & str = this->heap.read<String>(ref.u).get();
+			const auto chr = str.back(); 
+			this->reg.push(value::integer(chr));
+			return;
 		}
+
+		throw except::invalidArgument();
 	}
 
 

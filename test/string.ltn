@@ -1,0 +1,31 @@
+function main() {
+	var str = "1234";
+	var c0 = str[0];
+	var c1 = str[1];
+	var c2 = str[2];
+	var c3 = str[3];
+	str[0] = c1;
+	str[1] = c1;
+	str[2] = c1;
+	str[3] = c1;
+
+	var str2 = "";
+	std::insert_front(str2, 'x');
+	std::insert_front(str2, c0);
+	std::insert_front(str2, c1);
+	std::insert_front(str2, c2);
+	std::insert_front(str2, c3);
+	std::insert(str2, 5, "Hello World");
+	std::insert_back(str2, 'x');
+	std::insert_back(str2, c0);
+	std::insert_back(str2, c1);
+	std::insert_back(str2, c2);
+	std::insert_back(str2, c3);
+	std::remove_front(str2);
+	std::remove_front(str2);
+	std::remove_back(str2);
+	std::remove_back(str2);
+	
+	std::println("21xHello Worldx12 : 2222");
+	std::println(str2 + " : " + str);
+}
