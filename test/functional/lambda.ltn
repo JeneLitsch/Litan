@@ -25,12 +25,19 @@ function make_lambda_4() {
 	};
 }
 
+function make_lambda_5() {
+	return lambda (x) {
+		std::println("5th Lambda call: " + x); 
+	};
+}
 
 function main() {
 	var f1 = make_lambda_1(20, 22);
-	std::println("Result: " + std::invoke(f1));
+	var result = std::invoke(f1);
+	std::println("Result: " + result);
 
 	std::invoke(make_lambda_2());
 	std::invoke(make_lambda_3());
 	std::invoke(make_lambda_4());
+	std::invoke(make_lambda_5(), ["Hello World"]);
 }
