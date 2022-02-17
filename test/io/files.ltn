@@ -1,6 +1,6 @@
 function main() {
-	var fout = std::fout("test/files/output.txt");
-	var fin = std::fin("test/files/input.txt");
+	var fout = std::fout("tmp/files/output.txt");
+	var fin = std::fin("tmp/files/input.txt");
 	while(!std::is_eof(fin)) {
 		var line = std::readln(fin);
 		std::println(fout, line);
