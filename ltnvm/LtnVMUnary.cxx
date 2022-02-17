@@ -1,6 +1,6 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
-
+#include "cast.hxx"
 
 
 namespace ltn::vm {
@@ -21,16 +21,7 @@ namespace ltn::vm {
 	}
 	void LtnVM::n0t() {
 		FETCH
-		if(isBool(x)) {
-			return this->reg.push({!x.b});
-		}
-		if(isInt(x)) {
-			return this->reg.push({!x.i});
-		}
-		if(isFloat(x)) {
-			return this->reg.push({x.f != 0.0});
-		}
-		throw except::invalidArgument();
+		return this->reg.push(!cast::to_bool(x));
 	}
 
 	void LtnVM::inc() {
