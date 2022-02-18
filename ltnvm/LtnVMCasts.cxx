@@ -48,11 +48,14 @@ namespace ltn::vm {
 
 		if(isRange(ref)) {
 			const auto & range = this->heap.read<Range>(ref.u);
-			const auto arrRef = Value{range.array, Value::Type::ARRAY};
+			const auto arrRef = value::array(range.array);
 			this->reg.push(arrRef);
 			return;
 		}
 
-		throw except::invalidCast("Array");
+		auto && array = cast::to_array(ref);
+		const auto ptr = this->heap.alloc<Array>({std::move(array)});
+		const auto arrRef = value::array(ptr); 
+		this->reg.push(arrRef);
 	}
 }

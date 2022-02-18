@@ -27,9 +27,6 @@ namespace ltn::vm {
 	}
 
 
-
-
-
 	void LtnVM::read_x() {
 		const auto addr = this->fetchUint();
 		const auto value = this->stack.read(addr);

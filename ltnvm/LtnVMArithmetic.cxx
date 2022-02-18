@@ -6,6 +6,10 @@
 #include "Operations.hxx"
 #include "calcBinary.hxx"
 
+#define FETCH\
+	const auto r = this->reg.pop();\
+	const auto l = this->reg.pop();
+
 namespace ltn::vm {
 	namespace {
 		template<class T>
@@ -19,9 +23,6 @@ namespace ltn::vm {
 			return vec;
 		}
 
-		#define FETCH\
-			const auto r = this->reg.pop();\
-			const auto l = this->reg.pop();
 
 		Array toArray(const Value & value, Heap & heap) {
 			if(isArr(value)) {
@@ -103,5 +104,5 @@ namespace ltn::vm {
 		throw except::invalidOperands();
 	}
 
-	#undef FETCH
 }
+#undef FETCH

@@ -28,4 +28,10 @@ function main() {
 	
 	std::println("21xHello Worldx12 : 2222");
 	std::println(str2 + " : " + str);
+
+	var str3 = "HX World";
+	std::remove(str3, 1);
+	std::insert(str3, 1, "ello");
+	std::println(str3);
+	std::println("");
 }

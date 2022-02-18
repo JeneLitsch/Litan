@@ -18,4 +18,11 @@ function main() {
 	std::remove_back(string);
 	std::remove(string, 1);
 	std::println("bd == " + string);
+
+	var arr = [];
+	std::insert_front(arr, 1);
+	std::insert_back(arr, 3);
+	std::insert(arr, 1, 2);
+	std::println("[1, 2, 3] == " + arr);
+	std::println("[42] == " + std::array(42));
 }

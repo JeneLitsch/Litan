@@ -50,6 +50,10 @@ namespace ltn::vm {
 		constexpr inline Value string(std::uint64_t addr) {
 			return Value{addr, Value::Type::STRING};
 		}
+
+		constexpr inline Value array(std::uint64_t addr) {
+			return Value{addr, Value::Type::ARRAY};
+		}
 	}
 
 }

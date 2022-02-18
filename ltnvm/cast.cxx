@@ -85,6 +85,9 @@ namespace ltn::vm::cast {
 	}
 
 
+	std::vector<Value> to_array(Value value) {
+		return {value};
+	}
 
 	std::int64_t to_int(Value value, Heap & heap) {
 		if(isInt(value)) {

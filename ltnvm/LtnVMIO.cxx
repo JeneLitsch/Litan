@@ -15,6 +15,7 @@ namespace ltn::vm {
 		}
 	}
 
+
 	namespace {
 		using VT = Value::Type;
 
@@ -29,6 +30,7 @@ namespace ltn::vm {
 		}
 	}
 
+
 	void LtnVM::in_str() {
 		auto & in = getIstream(this->heap, this->reg); 
 		std::string value;
@@ -36,6 +38,7 @@ namespace ltn::vm {
 		const auto addr = heap.alloc<String>({value});
 		reg.push(Value{addr, VT::STRING});
 	}
+
 
 	void LtnVM::in_line() {
 		auto & in = getIstream(this->heap, this->reg); 
@@ -45,6 +48,7 @@ namespace ltn::vm {
 		reg.push(Value{addr, VT::STRING});
 	}
 
+
 	void LtnVM::in_int() {
 		auto & in = getIstream(this->heap, this->reg); 
 		std::int64_t value;
@@ -52,12 +56,14 @@ namespace ltn::vm {
 		reg.push(Value{value});
 	}
 
+
 	void LtnVM::in_float() {
 		auto & in = getIstream(this->heap, this->reg); 
 		double value;
 		in >> value;
 		reg.push(Value{value});
 	}
+
 
 	void LtnVM::is_eof() {
 		auto & in = getIstream(this->heap, this->reg); 
