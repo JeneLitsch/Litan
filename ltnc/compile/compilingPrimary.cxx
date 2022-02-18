@@ -36,20 +36,7 @@ namespace ltn::c::compile {
 
 		// compiles string literal
 		ExprCode string(const ast::String & expr) {
-			std::stringstream ss;
-			ss << inst::newstr << std::hex;
-			std::string_view str = expr.value;
-			while(str.size() >= 8) {
-				ss << inst::char_8(str);		
-			}
-			while(str.size() >= 4) {
-				ss << inst::char_4(str);
-			}
-			while(!str.empty()) {
-				ss << inst::ch4r(str.front());
-				str.remove_prefix(1);
-			}
-			return ExprCode{ ss.str() };
+			return ExprCode{ inst::newstr(expr.value) };
 		}
 
 		// compiles array literal

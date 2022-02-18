@@ -13,8 +13,7 @@ namespace ltn::a {
 		JUMP, JUMP_UINT,
 		INT,
 		FLOAT,
-		BYTE, BYTEx2,
-		CHAR, CHARx4, CHARx8,
+		BYTE, BYTEx2, UINT_BYTExX,
 	};
 	
 	struct InstructionData {
@@ -62,13 +61,10 @@ namespace ltn::a {
 		{"true",          {Inst::TRUE}},
 		{"false",         {Inst::FALSE}},
 		{"null",          {Inst::NVLL}},
-		{"char",          {Inst::CHAR,         ArgFormat::CHAR}},
-		{"char_4",        {Inst::CHAR_4,       ArgFormat::CHARx4}},
-		{"char_8",        {Inst::CHAR_8,       ArgFormat::CHARx8}},
 		
 		// Allocations
 		{"newarr",        {Inst::NEWARR,       ArgFormat::UINT}},
-		{"newstr",        {Inst::NEWSTR}},
+		{"newstr",        {Inst::NEWSTR,       ArgFormat::UINT_BYTExX}},
 		{"newout",        {Inst::NEWOUT,       ArgFormat::BYTE}},
 		{"newin",         {Inst::NEWIN,        ArgFormat::BYTE}},
 		{"newfx",         {Inst::NEWFX,        ArgFormat::JUMP_UINT}},

@@ -118,6 +118,20 @@ namespace ltn::c::compile::inst {
 	}
 
 
+	const std::string newstr(std::string_view str) {
+		std::stringstream ss;
+		const auto size = str.size();
+		ss << "newstr ";
+		ss << std::hex << size << " ";
+		for(std::size_t i = 0; i < size; i++) {
+			ss << int(str.front()) << " ";
+			str.remove_prefix(1);
+		}
+		ss << "\n";
+		return ss.str();
+	}
+
+
 	const std::string read_x(std::uint64_t addr) {
 		std::stringstream ss;
 			switch (addr) {

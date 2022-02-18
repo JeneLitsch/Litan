@@ -7,7 +7,7 @@
 namespace ltn::vm {
 
 	void pushAll(auto & array, Register & reg, std::uint64_t size) {
-		[[unlikely]] if(!size) return;
+		if(!size) return;
 		const auto value = reg.pop();
 		pushAll(array, reg, size -1);
 		array.push_back(value);
@@ -24,8 +24,12 @@ namespace ltn::vm {
 
 
 	void LtnVM::newstr() {
-		const auto ptr = this->heap.alloc<String>({});
+		const auto size = this->fetchUint();
+		const auto cstr = this->fetchStr();
+		std::string str(cstr, cstr + size); 
+		const auto ptr = this->heap.alloc<String>({std::move(str)});
 		this->reg.push({ ptr, Value::Type::STRING });
+		this->pc += size;
 		this->heap.collectGarbage(this->stack, this->reg);
 	}
 

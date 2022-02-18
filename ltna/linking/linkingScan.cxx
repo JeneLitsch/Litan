@@ -15,9 +15,6 @@ namespace ltn::a::linking {
 		case ArgFormat::FLOAT:     return 8;
 		case ArgFormat::BYTE:      return 1;
 		case ArgFormat::BYTEx2:    return 2;
-		case ArgFormat::CHAR:      return 1;
-		case ArgFormat::CHARx4:    return 4;
-		case ArgFormat::CHARx8:    return 8;
 		}
 		throw std::logic_error{"Missing args size in switch-case"};
 	}
@@ -41,6 +38,10 @@ namespace ltn::a::linking {
 					throw std::runtime_error("Redefinition of label " + label);
 				}
 				table.emplace(label, position);
+			}
+			else if(instructionTable.at(inst).argFormat == ArgFormat::UINT_BYTExX) {
+				const auto size = read<std::int64_t>(ss >> std::hex);
+				position += 1 + 8 + size;
 			}
 			else {
 				position += toInstSize(inst);

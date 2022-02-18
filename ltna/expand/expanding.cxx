@@ -92,8 +92,7 @@ namespace ltn::a::expand {
 					out << expandArg<double>(ls);
 					break;
 
-				case ArgFormat::BYTE:  [[fallthrough]];
-				case ArgFormat::CHAR:
+				case ArgFormat::BYTE:
 					out << expandBytes(1, ls);
 					break;
 
@@ -101,12 +100,13 @@ namespace ltn::a::expand {
 					out << expandBytes(2, ls);
 					break;
 
-				case ArgFormat::CHARx4:
-					out << expandBytes(4, ls);
-					break;
-
-				case ArgFormat::CHARx8:
-					out << expandBytes(8, ls);
+				case ArgFormat::UINT_BYTExX:
+					const auto size = read<std::uint64_t>(ls >> std::hex);
+					const auto bytes = toBytes(size);
+					for(const std::uint8_t byte : bytes) {
+						out << "byte " << std::hex << +byte << "\n"; 
+					}
+					out << expandBytes(size, ls);
 					break;
 			}
 		}

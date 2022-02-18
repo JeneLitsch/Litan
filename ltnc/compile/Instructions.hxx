@@ -39,7 +39,7 @@ namespace ltn::c::compile::inst {
 	constexpr std::string_view falsE = "false\n";
 	constexpr std::string_view null = "null\n";
 	const std::string newarr(std::uint64_t size);
-	constexpr std::string_view newstr = "newstr\n";
+	const std::string newstr(std::string_view str);
 	const std::string ch4r(char chr);
 	const std::string elem = "elem\n";
 	const std::string newfx(const std::string_view & fxName, std::size_t params);

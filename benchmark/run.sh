@@ -16,8 +16,8 @@ run () {
 }
 
 
-run "array"
-# run "string"
+# run "array"
+run "string"
 # run "memory"
 # run "fx"
 # run "member"

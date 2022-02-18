@@ -28,6 +28,7 @@ namespace ltn::vm {
 			return byteCode[this->pc++];
 		}
 	
+
 		inline std::uint64_t fetchUint() {
 			std::uint64_t value = 0;
 			for(auto i = 0; i < 8; i++) {
@@ -37,7 +38,14 @@ namespace ltn::vm {
 			return value;
 		}
 
+			
+		inline const std::uint8_t * fetchStr() {
+			return this->byteCode.data() + this->pc;
+		}
+
+
 		void error(const std::string & msg);
+
 
 		void
 			state(),
@@ -79,11 +87,6 @@ namespace ltn::vm {
 			null(),
 			elem();
 		
-		void
-			ch4r(),
-			char_4(),
-			char_8();
-
 		void
 			jump(),
 			call(),
