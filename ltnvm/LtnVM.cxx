@@ -152,10 +152,11 @@ namespace ltn::vm {
 				case Inst::PEEK: this->peek(); break;
 				case Inst::CONTAINS: this->contains(); break;
 
+				case Inst::CAST_BOOL: this->cast_bool(); break;
+				case Inst::CAST_CHAR: this->cast_char(); break;
 				case Inst::CAST_INT: this->cast_int(); break;
 				case Inst::CAST_FLOAT: this->cast_float(); break;
 				case Inst::CAST_STRING: this->cast_string(); break;
-				case Inst::CAST_BOOL: this->cast_bool(); break;
 				case Inst::CAST_ARRAY: this->cast_array(); break;
 
 				case Inst::TYPEID: this->typeId(); break;

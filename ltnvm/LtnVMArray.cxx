@@ -21,7 +21,7 @@ namespace ltn::vm {
 			const auto index = toIndex(key);
 			guardIndex(str, index);
 			const auto chr = str[index];
-			this->reg.push(value::integer(chr));
+			this->reg.push(value::character(chr));
 			return;
 		}
 
@@ -99,7 +99,7 @@ namespace ltn::vm {
 		if (isStr(ref)) {
 			const auto & str = this->heap.read<String>(ref.u).get();
 			const auto chr = str.front(); 
-			this->reg.push(value::integer(chr));
+			this->reg.push(value::character(chr));
 			return;
 		}
 
@@ -119,7 +119,7 @@ namespace ltn::vm {
 		if (isStr(ref)) {
 			const auto & str = this->heap.read<String>(ref.u).get();
 			const auto chr = str.back(); 
-			this->reg.push(value::integer(chr));
+			this->reg.push(value::character(chr));
 			return;
 		}
 

@@ -2,18 +2,34 @@ function equation(a, b, r, op) {
 	std::println(a + " " +  op + " " + b + " = " + r);
 }
 
-function test(a, b) {
+function test_arith(a, b) {
 	equation(a, b, a+b, "+");
 	equation(a, b, a-b, "-");
 	equation(a, b, a*b, "*");
 	equation(a, b, a/b, "/");
 	equation(a, b, a%b, "%");
+}
+
+function test_compare(a, b) {
+	equation(a, b, a<b, "<");
+	equation(a, b, a>b, ">");
+	equation(a, b, a<=b, "<=");
+	equation(a, b, a>=b, ">=");
+	equation(a, b, a==b, "==");
+	equation(a, b, a!=b, "!=");
+}
+
+function test(a, b) {
+	test_arith(a,b);
+	test_compare(a,b);
 	std::println("");
 }
+
 
 function main() {
 	test(true, true);
 	test(false, 2.5);
 	test(-1, 1.5);
-	std::println('A' + 1);
+	test('A', 1.1);
+	test_compare("AB", "ABC");
 }

@@ -152,10 +152,11 @@ namespace ltn::a {
 		{"contains",      {Inst::CONTAINS}},
 
 		// Chrono utils
+		{"cast_char",     {Inst::CAST_CHAR}},
+		{"cast_bool",     {Inst::CAST_BOOL}},
 		{"cast_int",      {Inst::CAST_INT}},
 		{"cast_float",    {Inst::CAST_FLOAT}},
 		{"cast_string",   {Inst::CAST_STRING}},
-		{"cast_bool",     {Inst::CAST_BOOL}},
 		{"cast_array",    {Inst::CAST_ARRAY}},
 
 		// Type utils

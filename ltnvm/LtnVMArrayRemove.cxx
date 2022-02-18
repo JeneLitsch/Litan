@@ -21,7 +21,7 @@ namespace ltn::vm {
 		}
 
 		template<typename Collection>
-		void removeI(const Value ref, Heap & heap, std::int64_t index) {
+		void removeI(const Value ref, Heap & heap, std::int64_t index, std::int64_t size = 1) {
 			auto & collection = heap.read<Collection>(ref.u).get(); 
 			if(index < 0) {
 				throw except::negativeIndex();
@@ -29,7 +29,9 @@ namespace ltn::vm {
 			if(collection.size() <= static_cast<std::size_t>(index)) {
 				throw except::outOfRange();
 			}
-			collection.erase(collection.begin() + index);
+			const auto begin = collection.begin() + index;
+			const auto end = begin + size;
+			collection.erase(begin, end);
 		}
 
 		void removeM(const Value ref, Heap & heap, const Value key) {

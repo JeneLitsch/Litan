@@ -9,9 +9,8 @@ namespace ltn::vm {
 			auto & collection = heap.read<Collection>(ref.u).get(); 
 
 			if constexpr(std::same_as<Collection, String>) {
-				if(isInt(elem)) {
-					const auto chr = cast::to_char(elem);
-					collection.insert(collection.begin(), chr);
+				if(isChar(elem)) {
+					collection.insert(collection.begin(), elem.c);
 				}
 				else {
 					const auto str = cast::to_string(elem, heap);
@@ -36,9 +35,8 @@ namespace ltn::vm {
 			auto & collection = heap.read<Collection>(ref.u).get(); 
 
 			if constexpr(std::same_as<Collection, String>) {
-				if(isInt(elem)) {
-					const auto chr = cast::to_char(elem);
-					collection.push_back(chr);
+				if(isChar(elem)) {
+					collection.push_back(elem.c);
 				}
 				else {
 					const auto & str = cast::to_string(elem, heap);
@@ -66,9 +64,8 @@ namespace ltn::vm {
 			}
 
 			if constexpr(std::same_as<Collection, String>) {
-				if(isInt(elem)) {
-					const auto chr = cast::to_char(elem);
-					collection.insert(collection.begin() + i, chr);
+				if(isChar(elem)) {
+					collection.insert(collection.begin() + i, elem.c);
 				}
 				else {
 					const auto & str = cast::to_string(elem, heap);
@@ -149,7 +146,7 @@ namespace ltn::vm {
 			auto & str = heap.read<String>(ref.u).get();
 			const auto index = toIndex(key);
 			guardIndex(str, index);
-			str[index] = cast::to_int(elem, this->heap);
+			str[index] = cast::to_char(elem);
 			return;
 		}
 

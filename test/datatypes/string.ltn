@@ -35,3 +35,6 @@ function main() {
 	std::println(str3);
 	std::println("");
 }
+except(error) {
+	std::println(error);
+}

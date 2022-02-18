@@ -26,6 +26,9 @@ namespace ltn::vm::cast {
 			ss << std::boolalpha << value.b;
 			return ss.str();
 		}
+		if(isChar(value)) {
+			return std::string(1, value.c);
+		}
 		if(isInt(value)) {
 			std::stringstream ss;
 			ss << value.i;
@@ -90,22 +93,37 @@ namespace ltn::vm::cast {
 	}
 
 	std::int64_t to_int(Value value, Heap & heap) {
+		if(isChar(value)) {
+			return value.i;
+		}		
+		
 		if(isInt(value)) {
 			return value.i;
 		}
+		
 		if(isFloat(value)) {
 			return static_cast<std::int64_t>(value.f);
 		}
+		
 		if(isStr(value)) {
 			const auto & str = heap.read<String>(value.u);
 			return parseValue<std::int64_t>(str.str); 
 		}
+		
 		throw except::invalidCast("Int");
 	}
 
 
 
 	double to_float(Value value, Heap & heap) {
+		if(isBool(value)) {
+			return static_cast<double>(value.b);
+		}
+
+		if(isChar(value)) {
+			return static_cast<double>(value.c);
+		}
+
 		if(isInt(value)) {
 			return static_cast<double>(value.i);
 		}
@@ -123,6 +141,7 @@ namespace ltn::vm::cast {
 			const auto & clock = heap.read<Clock>(value.u);
 			return clock.getSeconds();
 		}
+
 		throw except::invalidCast("Float");
 	}
 
@@ -130,6 +149,10 @@ namespace ltn::vm::cast {
 	bool to_bool(Value value) {
 		if(isBool(value)) {
 			return value.b;
+		}
+
+		if(isChar(value)) {
+			return value.c;
 		}
 
 		if(isInt(value)) {
@@ -143,13 +166,23 @@ namespace ltn::vm::cast {
 		if(isNull(value)) {
 			return false;
 		}
-		throw except::invalidCast("Bool");
+
+		return true;
 	}
 
 	char to_char(Value value) {
+		if(isChar(value)) {
+			return value.c;
+		}
+
 		if(isInt(value)) {
 			return static_cast<char>(value.i);
 		}
+
+		if(isFloat(value)) {
+			return static_cast<char>(value.f);
+		}
+
 		throw except::invalidCast("Char");
 	}
 }

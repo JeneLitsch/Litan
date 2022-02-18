@@ -4,17 +4,23 @@
 #include <sstream>
 
 namespace ltn::vm {
+	void LtnVM::cast_char() {
+		const auto value = this->reg.pop();
+		const auto c = cast::to_char(value);
+		this->reg.push(value::character(c));
+	}
+
 	void LtnVM::cast_int() {
 		const auto value = this->reg.pop();
 		const auto i = cast::to_int(value, this->heap);
-		this->reg.push(Value(i));
+		this->reg.push(value::integer(i));
 	}
 
 
 	void LtnVM::cast_float() {
 		const auto value = this->reg.pop();
 		const auto f = cast::to_float(value, this->heap);
-		this->reg.push(Value(f));
+		this->reg.push(value::floating(f));
 	}
 
 

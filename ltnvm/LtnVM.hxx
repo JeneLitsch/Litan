@@ -169,10 +169,11 @@ namespace ltn::vm {
 			contains();
 		
 		void
+			cast_bool(),
+			cast_char(),
 			cast_int(),
 			cast_float(),
 			cast_string(),
-			cast_bool(),
 			cast_array();
 
 		void
