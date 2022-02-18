@@ -63,12 +63,11 @@ namespace ltn::a {
 		{"false",         {Inst::FALSE}},
 		{"null",          {Inst::NVLL}},
 		{"char",          {Inst::CHAR,         ArgFormat::CHAR}},
-		{"elem",          {Inst::ELEM}},
 		{"char_4",        {Inst::CHAR_4,       ArgFormat::CHARx4}},
 		{"char_8",        {Inst::CHAR_8,       ArgFormat::CHARx8}},
 		
 		// Allocations
-		{"newarr",        {Inst::NEWARR}},
+		{"newarr",        {Inst::NEWARR,       ArgFormat::UINT}},
 		{"newstr",        {Inst::NEWSTR}},
 		{"newout",        {Inst::NEWOUT,       ArgFormat::BYTE}},
 		{"newin",         {Inst::NEWIN,        ArgFormat::BYTE}},

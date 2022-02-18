@@ -38,7 +38,7 @@ namespace ltn::c::compile::inst {
 	constexpr std::string_view truE = "true\n";
 	constexpr std::string_view falsE = "false\n";
 	constexpr std::string_view null = "null\n";
-	constexpr std::string_view newarr = "newarr\n";
+	const std::string newarr(std::uint64_t size);
 	constexpr std::string_view newstr = "newstr\n";
 	const std::string ch4r(char chr);
 	const std::string elem = "elem\n";

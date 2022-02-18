@@ -55,11 +55,10 @@ namespace ltn::c::compile {
 		// compiles array literal
 		ExprCode array(const ast::Array & array, CompilerInfo & info, Scope & scope) {
 			std::stringstream ss;
-			ss << inst::newarr;
 			for(const auto & elem : array.initElements) {
 				ss << expression(*elem, info, scope).code;
-				ss << inst::elem;
 			}
+			ss << inst::newarr(array.initElements.size());
 			return ExprCode{ ss.str() };
 		}
 

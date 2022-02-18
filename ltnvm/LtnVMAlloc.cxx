@@ -5,9 +5,19 @@
 #include <filesystem>
 
 namespace ltn::vm {
-	
+
+	void pushAll(auto & array, Register & reg, std::uint64_t size) {
+		[[unlikely]] if(!size) return;
+		const auto value = reg.pop();
+		pushAll(array, reg, size -1);
+		array.push_back(value);
+	} 
+
 	void LtnVM::newarr(){
 		const auto ptr = this->heap.alloc<Array>({});
+		auto & arr = this->heap.read<Array>(ptr).get(); 
+		const auto size = this->fetchUint();
+		pushAll(arr, this->reg, size);
 		this->reg.push({ ptr, Value::Type::ARRAY });
 		this->heap.collectGarbage(this->stack, this->reg);
 	}

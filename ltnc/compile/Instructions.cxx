@@ -111,6 +111,13 @@ namespace ltn::c::compile::inst {
 		return ss.str();
 	}
 
+	const std::string newarr(std::uint64_t size) {
+		std::stringstream ss;
+		ss 	<< "newarr " << std::hex << size << "\n";
+		return ss.str();
+	}
+
+
 	const std::string read_x(std::uint64_t addr) {
 		std::stringstream ss;
 			switch (addr) {

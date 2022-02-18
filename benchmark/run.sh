@@ -16,8 +16,9 @@ run () {
 }
 
 
-run "string"
-run "memory"
-run "fx"
-run "member"
-run "range"
+run "array"
+# run "string"
+# run "memory"
+# run "fx"
+# run "member"
+# run "range"
