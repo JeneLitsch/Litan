@@ -13,6 +13,10 @@ namespace ltn::vm {
 		return val.type == Value::Type::FLOAT;
 	}
 
+	constexpr inline bool isChar(const Value & val) {
+		return val.type == Value::Type::CHAR;
+	}
+
 	constexpr inline bool isBool(const Value & val) {
 		return val.type == Value::Type::BOOL;
 	}

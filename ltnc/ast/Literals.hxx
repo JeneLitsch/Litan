@@ -38,6 +38,14 @@ namespace ltn::c::ast {
 		bool value;
 	};
 
+	struct Char : public Literal {
+	public:
+		Char(std::uint8_t value, const SourceLocation & location)
+			:	Literal(location), value(value) {}
+		virtual ~Char() = default;
+		std::uint8_t value;
+	};
+
 	struct String : public Literal {
 	public:
 		String(const std::string & value, const SourceLocation & location)

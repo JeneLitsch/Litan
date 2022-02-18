@@ -6,7 +6,7 @@ namespace ltn::vm {
 		// DO NOT TOUCH/CHANGE THE VALUES !!!
 		enum class Type : std::uint32_t {
 			NVLL = 0x00, ADDR,
-			BOOL = 0x10, INT, FLOAT, 
+			BOOL = 0x10, INT, FLOAT, CHAR,
 			ARRAY = 0x20, STRING,
 			ISTREAM = 0x30, OSTREAM,
 			FX_PTR = 0x40, EXTERNAL,
@@ -25,6 +25,9 @@ namespace ltn::vm {
 		
 		constexpr Value(std::int64_t value) 
 			: i(value), type(Type::INT) {}
+
+		constexpr Value(char value) 
+			: c(value), type(Type::CHAR) {}
 		
 		constexpr Value(double value)
 			: f(value), type(Type::FLOAT) {}
@@ -37,6 +40,7 @@ namespace ltn::vm {
 			std::int64_t i;
 			double f;
 			bool b;
+			char c;
 		};
 		Type type;
 	};
@@ -45,6 +49,14 @@ namespace ltn::vm {
 
 		constexpr inline Value integer(auto i) {
 			return Value{static_cast<std::int64_t>(i)};
+		}
+
+		constexpr inline Value floating(auto i) {
+			return Value{static_cast<double>(i)};
+		}
+
+		constexpr inline Value character(auto i) {
+			return Value{static_cast<char>(i)};
 		}
 
 		constexpr inline Value string(std::uint64_t addr) {

@@ -4,26 +4,26 @@
 #include "memory/Value.hxx"
 #include "Exception.hxx"
 namespace ltn::vm {
-	template<class OP>
+	template<typename Op>
+	constexpr inline Value calcR(
+		auto l,
+		const Value & r) {
+		constexpr Op op;
+		if(isBool(r))  return Value{op(l, r.b)};
+		if(isInt(r))   return Value{op(l, r.i)};
+		if(isFloat(r)) return Value{op(l, r.f)};
+		if(isChar(r))  return Value{op(l, r.c)};
+		throw except::invalidOperands();
+	}
+
+	template<typename Op>
 	constexpr inline Value calc(
 		const Value & l,
 		const Value & r) {
-		constexpr OP op;
-		if (isBool(l)) {
-			if(isBool(r)) return Value{op(l.b, r.b)};
-			if(isInt(r)) return Value{op(l.b, r.i)};
-			if(isFloat(r)) return Value{op(l.b, r.f)};
-		}
-		if(isInt(l)) {
-			if(isBool(r)) return Value{op(l.i, r.b)};
-			if(isInt(r)) return Value{op(l.i, r.i)};
-			if(isFloat(r)) return Value{op(l.i, r.f)};
-		}
-		if(isFloat(l)) {
-			if(isBool(r)) return Value{op(l.f, r.b)};
-			if(isInt(r)) return Value{op(l.f, r.i)};
-			if(isFloat(r)) return Value{op(l.f, r.f)};
-		}
+		if (isBool(l))  return calcR<Op>(l.b, r);
+		if (isInt(l))   return calcR<Op>(l.i, r);
+		if (isFloat(l)) return calcR<Op>(l.f, r);
+		if (isChar(l))  return calcR<Op>(l.c, r);
 		throw except::invalidOperands();
 	}
 }

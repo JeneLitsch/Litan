@@ -58,6 +58,7 @@ namespace ltn::a {
 		{"newu",          {Inst::NEWU,         ArgFormat::UINT}},
 		{"newi",          {Inst::NEWI,         ArgFormat::INT}},
 		{"newf",          {Inst::NEWF,         ArgFormat::FLOAT}},
+		{"newc",          {Inst::NEWC,         ArgFormat::BYTE}},
 		{"true",          {Inst::TRUE}},
 		{"false",         {Inst::FALSE}},
 		{"null",          {Inst::NVLL}},

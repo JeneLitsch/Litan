@@ -66,11 +66,12 @@ namespace ltn::vm {
 				case Inst::NEWI: this->newi(); break;
 				case Inst::NEWF: this->newf(); break;
 				case Inst::NEWU: this->newu(); break;
+				case Inst::NEWC: this->newc(); break;
 				case Inst::TRUE: this->truE(); break;
 				case Inst::FALSE: this->falsE(); break;
 				case Inst::NVLL: this->null(); break;
-				case Inst::CHAR: this->ch4r(); break;
 				case Inst::ELEM: this->elem(); break;
+				case Inst::CHAR: this->ch4r(); break;
 				case Inst::CHAR_4: this->char_4(); break;
 				case Inst::CHAR_8: this->char_8(); break;
 

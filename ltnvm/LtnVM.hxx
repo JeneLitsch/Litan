@@ -73,13 +73,14 @@ namespace ltn::vm {
 			newi(),
 			newf(),
 			newu(),
+			newc(),
 			truE(),
 			falsE(),
 			null(),
-			ch4r(),
 			elem();
 		
 		void
+			ch4r(),
 			char_4(),
 			char_8();
 

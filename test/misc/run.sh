@@ -11,6 +11,6 @@ run () {
 
 run "vars"
 run "modify"
-run "misc"
 run "math"
 run "algorithm"
+run "operators"

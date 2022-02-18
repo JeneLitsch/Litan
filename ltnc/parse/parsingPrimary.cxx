@@ -42,9 +42,9 @@ namespace ltn::c::parse {
 
 
 
-		std::unique_ptr<ast::Integer> character(lex::Lexer & lexer) {
+		std::unique_ptr<ast::Char> character(lex::Lexer & lexer) {
 			if(auto t = lexer.match(TT::CHAR)) {
-				return std::make_unique<ast::Integer>(t->str[0], lexer.location()); 
+				return std::make_unique<ast::Char>(t->str[0], lexer.location()); 
 			}
 			return nullptr;
 		}

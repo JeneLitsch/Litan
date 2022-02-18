@@ -28,6 +28,12 @@ namespace ltn::c::compile {
 			return ExprCode{ std::string(inst) };
 		}
 
+
+		// compiles bool literal
+		ExprCode character(const ast::Char & expr) {
+			return ExprCode{ inst::newc(expr.value) };
+		}
+
 		// compiles string literal
 		ExprCode string(const ast::String & expr) {
 			std::stringstream ss;
@@ -144,6 +150,9 @@ namespace ltn::c::compile {
 		} 
 		if(auto expr_ = as<ast::Bool>(expr)) {
 			return boolean(*expr_);
+		}
+		if(auto expr_ = as<ast::Char>(expr)) {
+			return character(*expr_);
 		} 
 		if(auto expr_ = as<ast::String>(expr)) {
 			return string(*expr_);

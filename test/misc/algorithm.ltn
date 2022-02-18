@@ -1,5 +1,6 @@
 function test_range(range) {
 	std::println(std::array(range));
+	std::println(range);
 	std::println(std::begin(range));
 	std::println(std::end(range));
 	std::println("size: " + std::size(range));

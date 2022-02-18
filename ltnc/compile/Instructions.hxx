@@ -34,6 +34,7 @@ namespace ltn::c::compile::inst {
 	const std::string newu(std::uint64_t value);
 	const std::string newi(std::int64_t value);
 	const std::string newf(double value);
+	const std::string newc(char value);
 	constexpr std::string_view truE = "true\n";
 	constexpr std::string_view falsE = "false\n";
 	constexpr std::string_view null = "null\n";

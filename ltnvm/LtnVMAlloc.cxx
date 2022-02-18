@@ -5,16 +5,21 @@
 #include <filesystem>
 
 namespace ltn::vm {
+	
 	void LtnVM::newarr(){
 		const auto ptr = this->heap.alloc<Array>({});
 		this->reg.push({ ptr, Value::Type::ARRAY });
 		this->heap.collectGarbage(this->stack, this->reg);
 	}
+
+
 	void LtnVM::newstr() {
 		const auto ptr = this->heap.alloc<String>({});
 		this->reg.push({ ptr, Value::Type::STRING });
 		this->heap.collectGarbage(this->stack, this->reg);
 	}
+
+
 	void LtnVM::newout() {
 		const auto addOut = [&] (auto && out) {
 			using T = decltype(out)&&;
@@ -37,6 +42,8 @@ namespace ltn::vm {
 		}
 		throw std::runtime_error{"Unknow output variant"};
 	}
+
+
 	void LtnVM::newin() {
 		const auto addIn = [&] (auto && in) {
 			using T = decltype(in)&&;
@@ -62,17 +69,21 @@ namespace ltn::vm {
 		}
 		throw std::runtime_error {"Unknow input variant"};
 	}
+
+
 	void LtnVM::newclock() {
 		const auto ptr = this->heap.alloc<Clock>({});
 		this->reg.push({ ptr, Value::Type::CLOCK });
 		this->heap.collectGarbage(this->stack, this->reg);
 	}
 
+
 	void LtnVM::newstruct() {
 		const auto ptr = this->heap.alloc<Struct>({});
 		this->reg.push({ ptr, Value::Type::STRUCT });
 		this->heap.collectGarbage(this->stack, this->reg);
 	}
+
 
 	void LtnVM::newrange() {
 		const auto end = this->reg.pop();
@@ -94,15 +105,25 @@ namespace ltn::vm {
 		this->heap.collectGarbage(this->stack, this->reg);
 	}
 
+
 	void LtnVM::newqueue() {
 		const auto ref = this->heap.alloc<Deque>({});
 		this->reg.push({ ref, Value::Type::QUEUE });
 		this->heap.collectGarbage(this->stack, this->reg);
 	}
 
+
 	void LtnVM::newmap() {
 		const auto ref = this->heap.alloc<Map>(Map{this->heap});
 		this->reg.push({ ref, Value::Type::MAP });
 		this->heap.collectGarbage(this->stack, this->reg);
+	}
+
+
+	void LtnVM::newfx(){
+		const auto address = this->fetchUint(); 
+		const auto params = this->fetchUint();
+		const auto ref = this->heap.alloc<FxPointer>({address, params, {}});
+		this->reg.push(Value{ref, Value::Type::FX_PTR});
 	}
 }

@@ -61,6 +61,13 @@ namespace ltn::c::compile::inst {
 		return ss.str();
 	}
 
+	const std::string newc(char byte) {
+		std::stringstream ss;
+		ss 	<< "newc "
+			<< std::hex << static_cast<unsigned>(byte) << "\n";
+		return ss.str(); 
+	}
+
 	const std::string addr(std::uint64_t value) {
 		std::stringstream ss;
 		ss << "addr " << value << "\n";
