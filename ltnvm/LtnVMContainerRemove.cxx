@@ -1,5 +1,6 @@
 #include "LtnVM.hxx"
 #include "index.hxx"
+
 namespace ltn::vm {
 	namespace {
 		void guardEmpty(const auto & collection) {

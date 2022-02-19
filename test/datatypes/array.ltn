@@ -25,4 +25,12 @@ function main() {
 	std::insert(arr, 1, 2);
 	std::println("[1, 2, 3] == " + arr);
 	std::println("[42] == " + std::array(42));
+
+	var arr2 = std::array();
+	std::push(arr2, 1);
+	std::push(arr2, 2);
+	std::push(arr2, 3);
+	std::push(arr2, 4);
+	std::pop(arr2);
+	std::println("[1, 2, 3] == " + arr2);
 }
