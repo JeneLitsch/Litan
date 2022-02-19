@@ -2,6 +2,7 @@
 #include "TypeCheck.hxx"
 #include <iostream>
 #include <sstream>
+#include "cast.hxx"
 
 namespace ltn::vm {
 	namespace {
@@ -23,8 +24,18 @@ namespace ltn::vm {
 		}
 	}
 
+	void printBuffer(auto & buffer, Heap & heap) {
+		for(const auto & value : buffer.getContainer()) {
+			std::cout << cast::to_string(value, heap) << " | ";
+		}
+	} 
+
 
 	void LtnVM::tRy() {
+		// std::cout << "TRY: ";
+		// printBuffer(this->reg, this->heap);
+		// std::cout << "\n";
+
 		const auto addr = this->fetchUint();
 		const auto regSize = this->reg.size();
 		this->stack.setExceptHandler(addr);
@@ -37,8 +48,12 @@ namespace ltn::vm {
 		this->pc = unwind(this->stack);
 		const auto regSize = this->stack.getRegSize();
 		this->reg.resize(regSize);
-		clearTopFrame(stack);
+		clearTopFrame(stack);		
 		this->reg.push(except);
+
+		// std::cout << "CATCH: ";
+		// printBuffer(this->reg, this->heap);
+		// std::cout << "\n";
 	}
 
 

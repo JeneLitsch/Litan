@@ -168,6 +168,7 @@ namespace ltn::vm {
 				} break;				
 				}
 			}
+
 		}
 		catch(const Exception & error) {
 			this->error(error.msg);

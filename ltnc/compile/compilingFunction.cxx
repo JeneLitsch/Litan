@@ -55,15 +55,14 @@ namespace ltn::c::compile {
 				fx.nameSpace,
 				fx.parameters.size());
 			ss << inst::jumpmark(fxSig->id);
+			ss << parameters(fx, scope);
 			if(fx.except) {
 				ss << inst::tRy(fxSig->id);
 			}
-			ss << parameters(fx, scope);
 			ss << body(fx, info, scope);
 			ss << inst::null;
 			ss << inst::reTurn;
 			if(fx.except) {
-				// std::cout << "Size: " << scope.recSize() << std::endl;
 				ss << except(*fx.except, fxSig->id, info, fx.nameSpace);
 			}
 			ss << "\n";
@@ -116,15 +115,15 @@ namespace ltn::c::compile {
 		if(auto f = as<const ast::Function>(fx)) {
 			Scope innerScope{outerScope.getNamespace()};
 			ss << inst::jumpmark(id);
-			if(f->except) {
-				ss << inst::tRy(id);
-			}
 			for(const auto & capture : lm.captures) {
 				const auto var = innerScope.insert(capture->name, fx.location);
 				ss << inst::makevar;
 				ss << inst::write_x(var.address);
 			}
 			ss << parameters(fx, innerScope);
+			if(f->except) {
+				ss << inst::tRy(id);
+			}
 			ss << body(*f, info, innerScope);
 			ss << inst::null;
 			ss << inst::reTurn;
