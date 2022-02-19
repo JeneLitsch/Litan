@@ -49,11 +49,11 @@ namespace ltn::vm {
 		const auto regSize = this->stack.getRegSize();
 		this->reg.resize(regSize);
 		clearTopFrame(stack);		
-		this->reg.push(except);
-
 		// std::cout << "CATCH: ";
 		// printBuffer(this->reg, this->heap);
 		// std::cout << "\n";
+		this->reg.push(except);
+		
 	}
 
 
