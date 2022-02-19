@@ -22,15 +22,10 @@ namespace ltn::vm {
 		}
 
 		template<typename Collection>
-		void removeI(const Value ref, Heap & heap, std::int64_t index, std::int64_t size = 1) {
-			auto & collection = heap.read<Collection>(ref.u).get(); 
-			if(index < 0) {
-				throw except::negativeIndex();
-			}
-			if(collection.size() <= static_cast<std::size_t>(index)) {
-				throw except::outOfRange();
-			}
-			const auto begin = collection.begin() + index;
+		void removeI(const Value ref, Heap & heap, std::int64_t i, std::int64_t size = 1) {
+			auto & collection = heap.read<Collection>(ref.u).get();
+			guardIndex(collection, i);
+			const auto begin = collection.begin() + i;
 			const auto end = begin + size;
 			collection.erase(begin, end);
 		}

@@ -1,5 +1,6 @@
 #include "expanding.hxx"
 #include <sstream>
+#include <iostream>
 #include <array>
 #include <ranges>
 #include "ltn/Bitcast.hxx"
@@ -101,7 +102,7 @@ namespace ltn::a::expand {
 					break;
 
 				case ArgFormat::UINT_BYTExX:
-					const auto size = read<std::uint64_t>(ls >> std::hex);
+					const auto size = read<std::uint64_t>(ls);
 					const auto bytes = toBytes(size);
 					for(const std::uint8_t byte : bytes) {
 						out << "byte " << std::hex << +byte << "\n"; 

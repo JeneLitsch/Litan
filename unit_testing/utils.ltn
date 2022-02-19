@@ -1,0 +1,39 @@
+function test_case(fx, case) {
+}
+
+function test_all_cases(name, fx, cases) {
+	std::println("Testing: \"" + name + "\" ...");
+	var errors = 0;
+	std::println(std::size(cases));
+	for i (0, std::size(cases)) {
+		var case = cases[i];
+		var params = case[0];
+		var result = case[1];
+		var r = std::invoke(fx, params);
+		var correct = (r == result);
+
+		if(correct) std::print("ok: ");
+		else std::print("[ERROR] ");
+		std::print(std::string(params) + " -> " + result);
+		if(!correct) { 
+			std::print(" got " + r);
+		}
+		std::println("");
+
+		errors += !correct;
+	}
+	std::println("");
+	return errors;
+}
+
+function interprete_result(errors) {
+	std::println("=== Result ===");
+	if(errors) {
+		std::println("Test failed");
+		std::println(errors + " ERROR(S)");
+	}
+	else {
+		std::println("No errors found. Test successful :)");
+	}
+	std::println("");
+}

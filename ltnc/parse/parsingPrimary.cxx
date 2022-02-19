@@ -78,8 +78,9 @@ namespace ltn::c::parse {
 							throw expected("]", lexer);
 						}
 						initElements.push_back(expression(lexer));
+						const bool comma = !!lexer.match(TT::COMMA);
 						if(lexer.match(TT::BRACKET_R)) break;
-						if(!lexer.match(TT::COMMA)) {
+						if(!comma) {
 							throw expected(",", lexer);
 						}
 					}

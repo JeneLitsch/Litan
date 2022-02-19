@@ -40,7 +40,7 @@ namespace ltn::a::linking {
 				table.emplace(label, position);
 			}
 			else if(instructionTable.at(inst).argFormat == ArgFormat::UINT_BYTExX) {
-				const auto size = read<std::int64_t>(ss >> std::hex);
+				const auto size = read<std::int64_t>(ss);
 				position += 1 + 8 + size;
 			}
 			else {

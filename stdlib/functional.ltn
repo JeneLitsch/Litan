@@ -5,7 +5,7 @@ namespace std {
 	}
 
 	asm invoke(fx) {
-		"newarr"
+		"newarr 0"
 		"invoke"
 		"return"
 	}

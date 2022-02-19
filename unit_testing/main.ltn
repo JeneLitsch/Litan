@@ -1,0 +1,17 @@
+function main() {
+	var errors = 0;
+	
+	std::println("=== Running unit tests ===");
+	errors += math::add();
+	errors += math::sub();
+	errors += math::mlt();
+	errors += math::div();
+	errors += math::mod();
+	errors += math::eql();
+	
+	interprete_result(errors);
+	return errors;
+}
+except(e) {
+	std::println(e);
+}

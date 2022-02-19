@@ -21,9 +21,9 @@ namespace ltn::vm {
 		if(isFloat(l)) COMPARE_R(l.f);
 		if(l.type == r.type) {
 			if(isStr(l)) {
-				const auto & strL = heap.read<String>(l.u);
-				const auto & strR = heap.read<String>(r.u);
-				return strL.str <=> strR.str;
+				const auto & strL = heap.read<String>(l.u).get();
+				const auto & strR = heap.read<String>(r.u).get();
+				return strL <=> strR;
 			}
 			return std::partial_ordering::equivalent;
 		}

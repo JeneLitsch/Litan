@@ -1,0 +1,109 @@
+namespace math {
+	function add() {
+		var cases = [
+			[[1, 2], 3],
+			[[1, -2], -1],
+			[[true, true], 2],
+			[[true, 1.9], 2.9],
+			[[-1, -1.9], -2.9],
+			[['A', 2], 'C'],
+			[['A', 2], 67],
+			[['A', 'A'], 65 * 2],
+			[["123", "45"], "123456"],
+			[["123", "45"], "1234567"],
+		];
+
+		std::println(std::size(cases));
+		
+		var fx = lambda (a, b) {
+			return a + b;
+		};
+
+		return test_all_cases("Add+", fx, cases);
+	}
+
+	function sub() {
+		var cases = [
+			[[1, 2], -1],
+			[[1, -2], 3],
+			[[true, true], 0],
+			[[true, false], 1],
+			[[false, true], -1],
+			[['C', 2], 'A'],
+		];
+		
+		var fx = lambda (a, b) {
+			return a - b;
+		};
+
+		return test_all_cases("Subtract-", fx, cases);
+	}
+
+	function mlt() {
+		var cases = [
+			[[1, 2], 2],
+			[[1.5, -2], -3],
+			[[true, true], 1],
+			[[true, false], 0],
+			[[false, true], 0],
+			[['C', 2], 'C' + 'C'],
+		];
+		
+		var fx = lambda (a, b) {
+			return a * b;
+		};
+
+		return test_all_cases("Multiply*", fx, cases);
+	}
+
+	
+	function div() {
+		var cases = [
+			[[1, 2], 0],
+			[[1, 2.0], 0.5],
+			[[true, 2], 0],
+			[[true, 2.0], 0.5],
+		];
+		
+		var fx = lambda (a, b) {
+			return a / b;
+		};
+
+		return test_all_cases("Divide*", fx, cases);
+	}
+
+
+	function mod() {
+		var cases = [
+			[[5, 2], 1],
+			[[1.5, 1.0], 0.5],
+			[[-3.5, 7.0], -3.5],
+			[[-24.0, -7.0], -3],
+			[[-24, -7], -3],
+		];
+		
+		var fx = lambda (a, b) {
+			return a % b;
+		};
+
+		return test_all_cases("Modulo*", fx, cases);
+	}
+
+
+	function eql() {
+		var cases = [
+			[["Hello", "Hello"], true],
+			[["Hello", "World"], false],
+			[[0, false], true],
+			[[std::null(), true], false],
+			[[std::cout(), std::cout()], true],
+			[["123", "123"], true],
+		];
+
+		var fx = lambda (a, b) {
+			return a == b;
+		};
+
+		return test_all_cases("Equal==", fx, cases);
+	}
+}
