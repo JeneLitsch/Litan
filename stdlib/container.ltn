@@ -32,4 +32,65 @@ namespace std {
 		"contains"
 		"return"
 	}
+
+	asm size(collection) {
+		"size"
+		"return"
+	}
+
+	asm empty(collection) {
+		"size"
+		"newi 0"
+		"eql"
+		"return"
+	}
+
+	asm at(collection, i) {
+		"at"
+		"return"
+	}
+	
+	asm front(collection) {
+		"front"
+		"return" }
+	
+	asm back(collection) {
+		"back"
+		"return"
+	}
+
+	asm begin(collection) {
+		"begin"
+		"return"
+	}
+
+	asm end(collection) {
+		"end"
+		"return"
+	}
+
+	asm insert_back(collection, element) {
+		"insert 2"
+	}
+
+
+	asm insert_front(collection, element) {
+		"insert 0"
+	}
+
+	asm insert(collection, index, element) {
+		"insert 1"
+	}
+
+	asm remove_back(collection) {
+		"remove 2"
+	}
+
+	asm remove_front(collection) {
+		"remove 0"
+	}
+	
+	asm remove(collection, index) {
+		"remove 1"
+	}
 }
