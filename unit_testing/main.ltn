@@ -1,14 +1,28 @@
 function main() {
-	var errors = 0;
 	
-	std::println("=== Running unit tests ===");
-	errors += math::add();
-	errors += math::sub();
-	errors += math::mlt();
-	errors += math::div();
-	errors += math::mod();
-	errors += math::eql();
-	
+
+	var tests = [
+		&test::add(),
+		&test::sub(),
+		&test::mlt(),
+		&test::div(),
+		&test::mod(),
+
+		&test::eql(),
+		&test::uneql(),
+		&test::smaller(),
+		&test::bigger(),
+		&test::smaller_eql(),
+		&test::bigger_eql(),
+
+		&test::queue(),
+		&test::array(),
+		
+		&test::exception(),
+	];
+
+
+	var errors = run_tests(tests);
 	interprete_result(errors);
 	return errors;
 }

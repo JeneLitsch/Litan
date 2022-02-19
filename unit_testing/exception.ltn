@@ -1,0 +1,22 @@
+namespace test {
+	function doesItThrow(fx, params) {
+		std::invoke(fx, params);
+		return false;
+	}
+	except(e) {
+		return true;
+	}
+
+	function justThrow() { throw; }
+	function noThrow() { }
+
+	function exception() {
+		var cases = [
+			[[ &justThrow(),         []               ], true],
+			[[ &noThrow(),           []               ], false],
+			[[ &std::remove_back(_), [std::array()]   ], true],
+			[[ &std::remove_back(_), [std::array(42)] ], false],
+		];
+		return test_all_cases("Exception", &doesItThrow(_,_), cases);
+	}
+}

@@ -1,4 +1,4 @@
-namespace math {
+namespace test {
 	function add() {
 		var cases = [
 			[[1, 2], 3],
@@ -9,12 +9,12 @@ namespace math {
 			[['A', 2], 'C'],
 			[['A', 2], 67],
 			[['A', 'A'], 65 * 2],
-			[["123", "45"], "123456"],
-			[["123", "45"], "1234567"],
+			[["123", "45"], "12345"],
+			[[[1,2,3], 4], [1,2,3,4]],
+			[[[1,2,3], "4"], [1,2,3,"4"]],
+			[["4", [1, 2, 3]], "4[1, 2, 3]"],
 		];
 
-		std::println(std::size(cases));
-		
 		var fx = lambda (a, b) {
 			return a + b;
 		};
@@ -69,7 +69,7 @@ namespace math {
 			return a / b;
 		};
 
-		return test_all_cases("Divide*", fx, cases);
+		return test_all_cases("Divide/", fx, cases);
 	}
 
 
@@ -86,24 +86,6 @@ namespace math {
 			return a % b;
 		};
 
-		return test_all_cases("Modulo*", fx, cases);
-	}
-
-
-	function eql() {
-		var cases = [
-			[["Hello", "Hello"], true],
-			[["Hello", "World"], false],
-			[[0, false], true],
-			[[std::null(), true], false],
-			[[std::cout(), std::cout()], true],
-			[["123", "123"], true],
-		];
-
-		var fx = lambda (a, b) {
-			return a == b;
-		};
-
-		return test_all_cases("Equal==", fx, cases);
+		return test_all_cases("Modulo%", fx, cases);
 	}
 }
