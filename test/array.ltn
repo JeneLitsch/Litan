@@ -101,7 +101,7 @@ namespace test {
 			[[[]], []],
 			[[std::cout()], [std::cout()]],
 			[[std::cin()], [std::cin()]],
-			[[std::null()], [std::null()]],
+			[[null], [std::null_v()]],
 			[['A'], ['A']],
 			[[-3.5], [-3.5]],
 		];

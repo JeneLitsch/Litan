@@ -50,6 +50,14 @@ namespace ltn::c::parse {
 		}
 
 
+		std::unique_ptr<ast::Null> null(lex::Lexer & lexer) {
+			if(auto t = lexer.match(TT::NVLL)) {
+				return std::make_unique<ast::Null>(lexer.location()); 
+			}
+			return nullptr;
+		}
+
+
 		std::unique_ptr<ast::Float> floating(lex::Lexer & lexer) {
 			if(auto token = lexer.match(TT::FLOAT)) {
 				std::stringstream ss{token->str};
@@ -233,6 +241,7 @@ namespace ltn::c::parse {
 		if(auto expr = character(lexer)) return expr;
 		if(auto expr = floating(lexer)) return expr;
 		if(auto expr = boolean(lexer)) return expr;
+		if(auto expr = null(lexer)) return expr;
 		if(auto expr = paren(lexer)) return expr;
 		if(auto expr = string(lexer)) return expr;
 		if(auto expr = array(lexer)) return expr;

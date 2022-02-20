@@ -4,7 +4,7 @@ namespace test {
 			[["Hello", "Hello"], true],
 			[["Hello", "World"], false],
 			[[0, false], true],
-			[[std::null(), true], false],
+			[[std::null_v(), true], false],
 			[[std::cout(), std::cout()], true],
 			[["123", "123"], true],
 		];
@@ -22,7 +22,7 @@ namespace test {
 			[["Hello", "Hello"], false],
 			[["Hello", "World"], true],
 			[[0, false], false],
-			[[std::null(), true], true],
+			[[std::null_v(), true], true],
 			[[std::cout(), std::cout()], false],
 			[["123", "123"], false],
 		];

@@ -13,7 +13,7 @@ namespace std {
 		return pair;
 	}
 
-	asm null() {}
+	asm null_v() {}
 
 
 	asm typeid(value) {

@@ -28,6 +28,11 @@ namespace ltn::c::compile {
 			return ExprCode{ std::string(inst) };
 		}
 
+		// compiles null literal
+		ExprCode null(const ast::Null &) {
+			return ExprCode{ std::string(inst::null) };
+		}
+
 
 		// compiles bool literal
 		ExprCode character(const ast::Char & expr) {
@@ -139,6 +144,9 @@ namespace ltn::c::compile {
 		}
 		if(auto expr_ = as<ast::Char>(expr)) {
 			return character(*expr_);
+		}
+		if(auto expr_ = as<ast::Null>(expr)) {
+			return null(*expr_);
 		} 
 		if(auto expr_ = as<ast::String>(expr)) {
 			return string(*expr_);
