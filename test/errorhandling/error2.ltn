@@ -1,5 +1,0 @@
-function test() {
-	const a = 4;
-	a = 5;
-	b = 76;
-}
