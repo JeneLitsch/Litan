@@ -38,12 +38,4 @@ namespace ltn::vm {
 	void LtnVM::null() {
 		this->reg.push(Value{false, Value::Type::NVLL});
 	}
-
-
-	void LtnVM::elem() {
-		const auto value = this->reg.pop();
-		const auto ptr = this->reg.peek();
-		auto & arr = this->heap.read<Array>(ptr.u);
-		arr.arr.push_back(value);
-	}
 }

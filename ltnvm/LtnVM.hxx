@@ -84,8 +84,7 @@ namespace ltn::vm {
 			newc(),
 			truE(),
 			falsE(),
-			null(),
-			elem();
+			null();
 		
 		void
 			jump(),
