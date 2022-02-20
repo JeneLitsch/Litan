@@ -164,7 +164,7 @@ namespace ltn::vm::cast {
 		}
 		
 		if(isFloat(value)) {
-			return value.f == 0.0;
+			return value.f != 0.0;
 		}
 
 		if(isNull(value)) {

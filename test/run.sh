@@ -3,6 +3,7 @@ asmFile="test/$test.asm.ltn"
 binFile="test/$test.bin.ltn"
 
 ./bin/ltnc 	$asmFile ./stdlib\
+	test/bool.ltn\
 	test/utils.ltn\
 	test/main.ltn\
 	test/arith.ltn\

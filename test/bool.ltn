@@ -1,0 +1,25 @@
+namespace test {
+	function not() {
+		var cases = [
+			[[true], false],
+			[[false], true],
+			[[null], true],
+			[["Hello World"], false],
+			[[2], false],
+			[[0], true],
+			[[-1], false],
+			[[-1.5], false],
+			[[-0.0], true],
+		];
+
+		var not = lambda(b) {
+			return !b;
+		};
+
+		return test_all_cases("Not!", not, cases);
+	}
+
+	function bool() {
+		return not();
+	}
+}
