@@ -7,7 +7,9 @@ binFile="unit_testing/$test.bin.ltn"
 	unit_testing/main.ltn\
 	unit_testing/arith.ltn\
 	unit_testing/comp.ltn\
-	unit_testing/collection.ltn\
+	unit_testing/array.ltn\
+	unit_testing/queue.ltn\
+	unit_testing/math.ltn\
 	unit_testing/exception.ltn\
 
 ./bin/ltna 	$binFile  $asmFile

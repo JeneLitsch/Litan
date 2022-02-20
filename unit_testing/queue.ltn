@@ -1,0 +1,46 @@
+namespace test {
+	function queue_push_pop_peek() {
+		var fx = lambda(values) {
+			var queue = std::queue();
+			for i (0, std::size(values)) {
+				std::push(queue, values[i]);
+			}
+			var q0 = std::pop(queue);
+			var q1 = std::peek(queue);
+			return q1 + q0;
+		};
+
+		var cases = [
+			[[[1, 2, 42]], 3],
+			[[[1000, 337, 42]], 1337],
+			[[[-3, -5, 42, 1, 1, 1, 1]], -8],
+		];
+
+		return test_all_cases("Queue(push, pop, peek)", fx, cases);
+	}
+
+	function queue_size() {
+		var fx = lambda(size) {
+			var queue = std::queue();
+			for i (0, size) {
+				std::push(queue, 42);
+			}
+			return std::size(queue);
+		};
+
+		var cases = [
+			[[3],3],
+			[[4],4],
+			[[-4],0],
+			[['A'],65],
+		];
+
+		return test_all_cases("Queue(size)", fx, cases);
+	}
+
+	function queue() {
+		return
+			queue_push_pop_peek()+
+			queue_size();
+	}
+}

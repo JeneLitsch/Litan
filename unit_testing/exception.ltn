@@ -11,11 +11,25 @@ namespace test {
 	function noThrow() { }
 
 	function exception() {
+		var throws = lambda(a,b) {
+			throw;
+		};
+		
+		var catches = lambda [throws] (a,b) {
+			return std::invoke(throws, [a, b]);
+		}
+		except(e) {
+			return 42;
+		};
+		
 		var cases = [
-			[[ &justThrow(),         []               ], true],
-			[[ &noThrow(),           []               ], false],
-			[[ &std::remove_back(_), [std::array()]   ], true],
-			[[ &std::remove_back(_), [std::array(42)] ], false],
+			[[ &justThrow(),           []               ], true],
+			[[ &noThrow(),             []               ], false],
+			[[ &std::remove_back(_),   [std::array()]   ], true],
+			[[ &std::remove_back(_),   [std::array(42)] ], false],
+			[[ throws,                 [1,2] ],            true],
+			[[ catches,                [1,2] ],            false],
+
 		];
 		return test_all_cases("Exception", &doesItThrow(_,_), cases);
 	}

@@ -9,6 +9,7 @@ namespace ltn::vm {
 
 	double toDouble(const Value & value) {
 		if(isBool(value)) return static_cast<double>(value.b);
+		if(isChar(value)) return static_cast<double>(value.c);
 		if(isInt(value)) return static_cast<double>(value.i);
 		if(isFloat(value)) return static_cast<double>(value.f);
 		throw std::runtime_error {"Expected numeric type"};
@@ -26,7 +27,7 @@ namespace ltn::vm {
 		if(isFloat(value)) {
 			return Value{fx(value.f)};
 		}
-		if(isInt(value) || isBool(value)) {
+		if(isInt(value) || isBool(value) || isChar(value)) {
 			return value;
 		}
 		throw except::invalidArgument();
@@ -43,6 +44,9 @@ namespace ltn::vm {
 			return Value{fx(value.i)};
 		}
 		if(isBool(value)) {
+			return Value{fx(value.b)};
+		}
+		if(isChar(value)) {
 			return Value{fx(value.b)};
 		}
 		throw except::invalidArgument();

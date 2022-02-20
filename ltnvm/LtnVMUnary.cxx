@@ -11,6 +11,9 @@ namespace ltn::vm {
 		if(isBool(x)) {
 			return this->reg.push({- static_cast<std::int64_t>(x.b)});
 		}
+		if(isChar(x)) {
+			return this->reg.push({- static_cast<std::int64_t>(x.c)});
+		}
 		if(isInt(x)) {
 			return this->reg.push({- x.i});
 		}

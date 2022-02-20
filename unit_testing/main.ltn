@@ -19,6 +19,7 @@ function main() {
 		&test::array(),
 		
 		&test::exception(),
+		&test::math(),
 	];
 
 

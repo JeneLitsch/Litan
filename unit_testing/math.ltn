@@ -1,0 +1,139 @@
+namespace test {
+	function min() {
+		var cases = [
+			[[3, 4], 3],
+			[['A', 'B'], 'A'],
+			[['Z', 'B'], 'B'],
+			[[true, false], false],
+			[[false, true], false],
+			[["ABC", "BC"], "ABC"],
+			[[-1, -2], -2],
+			[[-3, -2], -3],
+			[[-3, true], -3],
+			[[3, true], true],
+		];
+		return test_all_cases("std::min", &std::min(_,_), cases);
+	}
+
+	function max() {
+		var cases = [
+			[[3, 4], 4],
+			[['A', 'B'], 'B'],
+			[['Z', 'B'], 'Z'],
+			[[true, false], true],
+			[[false, true], true],
+			[["ABC", "BC"], "BC"],
+			[[-1, -2], -1],
+			[[-3, -2], -2],
+			[[-3, true], true],
+			[[3, true], 3],
+		];
+		return test_all_cases("std::max", &std::max(_,_), cases);
+	}
+
+	function clamp() {
+		var cases = [
+			[[1, 0, 2], 1],
+			[[4, 0, 2], 2],
+			[[4, 0, true], 1],
+			[["D", "A", "C"], "C"],
+			[['A', 'B', 'D'], 'B'],
+			[[-1, -2, 3], -1],
+			[[-41, -2, 3], -2],
+		];
+		return test_all_cases("std::clamp", &std::clamp(_,_,_), cases);
+	}
+
+	function round() {
+		var cases = [
+			[[1.1], 1.0],
+			[[1.5], 2.0],
+			[[-1.5], -2.0],
+			[[-1.1], -1.0],
+			[[-0.0], 0.0],
+			[[true], true],
+			[[false], false],
+			[['A'], 'A'],
+		];
+		return test_all_cases("std::round", &std::round(_), cases);
+	}
+
+	function floor() {
+		var cases = [
+			[[1.1], 1.0],
+			[[1.5], 1.0],
+			[[-1.5], -2.0],
+			[[-1.1], -2.0],
+			[[-0.0], 0.0],
+			[[true], true],
+			[[false], false],
+			[['A'], 'A'],
+		];
+		return test_all_cases("std::floor", &std::floor(_), cases);
+	}
+
+	function ceil() {
+		var cases = [
+			[[1.1], 2.0],
+			[[1.5], 2.0],
+			[[-1.5], -1.0],
+			[[-1.1], -1.0],
+			[[-0.0], 0.0],
+			[[true], true],
+			[[false], false],
+			[['A'], 'A'],
+		];
+		return test_all_cases("std::ceil", &std::ceil(_), cases);
+	}
+
+	function abs() {
+		var cases = [
+			[[1.1], 1.1],
+			[[1.5], 1.5],
+			[[-1.5], 1.5],
+			[[-42], 42],
+			[['A'], 'A'],
+			[['A'], 'A'],
+			[[-1.1], 1.1],
+			[[-0.0], 0.0],
+			[[true], true],
+			[[false], false],
+		];
+		return test_all_cases("std::abs", &std::abs(_), cases);
+	}
+
+	function hypot() {
+		var cases = [
+			[[3 ,4], 5],
+			[[-3 ,-4], 5],
+		];
+		return test_all_cases("std::hypot", &std::hypot(_,_), cases);
+	}
+
+	function sqrt() {
+		var cases = [
+			[[256], 16],
+			[[16], 4],
+			[[9], 3],
+			[[4], 2],
+			[[true], true],
+			[[0], 0],
+		];
+		return test_all_cases("std::sqrt", &std::sqrt(_), cases);
+	}
+
+	function math() {
+		return
+			min() +
+			max() + 
+			clamp() +
+			round() +
+			floor() +
+			ceil() +
+			abs() +
+			hypot() +
+			sqrt();
+	}
+
+	// <TODO>
+}

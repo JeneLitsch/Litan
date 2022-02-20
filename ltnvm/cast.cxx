@@ -93,6 +93,10 @@ namespace ltn::vm::cast {
 	}
 
 	std::int64_t to_int(Value value, Heap & heap) {
+		if(isBool(value)) {
+			return value.b;
+		}	
+
 		if(isChar(value)) {
 			return value.i;
 		}		

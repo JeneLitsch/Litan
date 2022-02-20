@@ -1,22 +1,38 @@
+function test_single_case(fx, params, expected) {
+	var r = std::invoke(fx, params);
+	var correct = (r == expected);
+
+	if(correct) std::print("ok: ");
+	else std::print("[ERROR] ");
+	std::print(std::string(params) + " -> " + expected);
+	if(!correct) { 
+		std::print(" got " + r);
+	}
+	std::println("");
+	return std::int(!correct);
+}
+
 function test_all_cases(name, fx, cases) {
 	std::println("Testing: \"" + name + "\" with " + std::size(cases) + " cases ...");
 	var errors = 0;
 	for i (0, std::size(cases)) {
 		var case = cases[i];
 		var params = case[0];
-		var result = case[1];
-		var r = std::invoke(fx, params);
-		var correct = (r == result);
+		var expected = case[1];
+		errors += test_single_case(fx, params, expected);
+	}
+	std::println("");
+	return errors;
+}
 
-		if(correct) std::print("ok: ");
-		else std::print("[ERROR] ");
-		std::print(std::string(params) + " -> " + result);
-		if(!correct) { 
-			std::print(" got " + r);
-		}
-		std::println("");
-
-		errors += !correct;
+function test_functions(name, tests) {
+	std::println("Testing: \"" + name + "\"");
+	var errors = 0;
+	for i (0, std::size(tests)) {
+		var test = tests[i];
+		var fx = test[0];
+		var expected = test[1];
+		errors += test_single_case(fx, [], expected);
 	}
 	std::println("");
 	return errors;

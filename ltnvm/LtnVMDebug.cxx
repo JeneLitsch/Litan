@@ -24,18 +24,7 @@ namespace ltn::vm {
 		}
 	}
 
-	void printBuffer(auto & buffer, Heap & heap) {
-		for(const auto & value : buffer.getContainer()) {
-			std::cout << cast::to_string(value, heap) << " | ";
-		}
-	} 
-
-
 	void LtnVM::tRy() {
-		// std::cout << "TRY: ";
-		// printBuffer(this->reg, this->heap);
-		// std::cout << "\n";
-
 		const auto addr = this->fetchUint();
 		const auto regSize = this->reg.size();
 		this->stack.setExceptHandler(addr);
@@ -49,9 +38,6 @@ namespace ltn::vm {
 		const auto regSize = this->stack.getRegSize();
 		this->reg.resize(regSize);
 		clearTopFrame(stack);		
-		// std::cout << "CATCH: ";
-		// printBuffer(this->reg, this->heap);
-		// std::cout << "\n";
 		this->reg.push(except);
 		
 	}

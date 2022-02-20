@@ -37,11 +37,13 @@ void ltn::c::Ltnc::compile(std::istream & in, const std::string & sourcename) {
 }
 
 void ltn::c::Ltnc::yield(std::ostream & out) {
+	std::ostringstream ss;
 	try {
-		this->backend->compile(out, this->config, this->program.functions, reporter);
+		this->backend->compile(ss, this->config, this->program.functions, reporter);
 	}
 	catch(const CompilerError & error) {
 		this->reporter.push(error);
 	}
 	this->reporter.may_throw();
+	out << ss.str();
 }
