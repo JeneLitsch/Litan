@@ -12,6 +12,7 @@ binFile="test/$test.bin.ltn"
 	test/queue.ltn\
 	test/math.ltn\
 	test/exception.ltn\
+	test/range.ltn\
 
 ./bin/ltna 	$binFile  $asmFile
 ./bin/ltnvm $binFile

@@ -1,0 +1,33 @@
+namespace test {
+	function range_size() {
+		var array = [0,1,2,3,4,5];
+		var cases = [
+			[[std::first_n(array, 3)], 3],
+			[[std::first_n(array, 4)], 4],
+			[[std::first_n(array, 0)], 0],
+			[[std::last_n(array, 3)], 3],
+			[[std::last_n(array, 4)], 4],
+			[[std::last_n(array, 0)], 0],
+			[[std::whole(array)], 6],
+		];
+		return test_all_cases("Range(std::size)", &std::size(_), cases);
+	}
+
+	function range_to_string() {
+		var array = [0,1,2,3,4,5];
+		var cases = [
+			[[std::first_n(array, 3)], "[0, 1, 2]"],
+			[[std::first_n(array, 4)], "[0, 1, 2, 3]"],
+			[[std::first_n(array, 0)], "[]"],
+			[[std::last_n(array, 3)], "[3, 4, 5]"],
+			[[std::last_n(array, 4)], "[2, 3, 4, 5]"],
+			[[std::last_n(array, 0)], "[]"],
+			[[std::whole(array)], "[0, 1, 2, 3, 4, 5]"],
+		];
+		return test_all_cases("Range(std::size)", &std::string(_), cases);
+	}
+
+	function range() {
+		return range_size() + range_to_string();
+	}
+}

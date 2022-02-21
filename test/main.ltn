@@ -17,8 +17,12 @@ function main() {
 		&test::array(),
 		
 		&test::exception(),
+		
 		&test::math(),
+		
 		&test::bool(),
+
+		&test::range(),
 	];
 
 
