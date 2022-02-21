@@ -2,22 +2,16 @@
 #include "TypeCheck.hxx"
 #include <cmath>
 #include "MathFunctions.hxx"
+#include "convert.hxx"
+
 namespace ltn::vm {
 	#define FETCH\
 		const auto r = this->reg.pop();\
 		const auto l = this->reg.pop();
 
-	double toDouble(const Value & value) {
-		if(isBool(value)) return static_cast<double>(value.b);
-		if(isChar(value)) return static_cast<double>(value.c);
-		if(isInt(value)) return static_cast<double>(value.i);
-		if(isFloat(value)) return static_cast<double>(value.f);
-		throw std::runtime_error {"Expected numeric type"};
-	}
-
 
 	bool less(const Value & l, const Value & r) {
-		return toDouble(l) <= toDouble(r);
+		return convert::to_float(l) <= convert::to_float(r);
 	}
 
 
@@ -89,33 +83,37 @@ namespace ltn::vm {
 
 	void LtnVM::hypot() {
 		FETCH
-		this->reg.push(std::hypot(toDouble(l), toDouble(r)));
+		this->reg.push(std::hypot(
+			convert::to_float(l),
+			convert::to_float(r)));
 	}
 
 
 	void LtnVM::sqrt() {
 		const auto value = this->reg.pop();
-		this->reg.push(std::sqrt(toDouble(value)));
+		this->reg.push(std::sqrt(convert::to_float(value)));
 	}
 
 
 	void LtnVM::log() {
 		FETCH
-		const auto result = std::log(toDouble(l)) / std::log(toDouble(r));
+		const auto result 
+			= std::log(convert::to_float(l))
+			/ std::log(convert::to_float(r));
 		this->reg.push(result);
 	}
 
 
 	void LtnVM::ln() {
 		const auto value = this->reg.pop();
-		this->reg.push(std::log(toDouble(value)));
+		this->reg.push(std::log(convert::to_float(value)));
 	}
 
 
 	void LtnVM::pow() {
 		FETCH
-		const auto b = toDouble(l);
-		const auto e = toDouble(r);
+		const auto b = convert::to_float(l);
+		const auto e = convert::to_float(r);
 		this->reg.push(std::pow(b, e));
 	}
 	

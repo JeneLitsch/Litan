@@ -88,4 +88,8 @@ namespace test {
 
 		return test_all_cases("Modulo%", fx, cases);
 	}
+
+	function arith() {
+		return add() + sub() + mlt() + div() + mod();
+	}
 }

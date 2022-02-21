@@ -1,0 +1,38 @@
+namespace test {
+	function range_test(fx) {
+		return lambda [fx] (range) {
+			std::invoke(fx, [range]);
+			return std::array(range);
+		};
+	}
+
+	function sort_ascn() {
+		var fx = range_test(&std::sort_ascn(_));
+		var cases = [
+			[[[3, 2, 1]], [1, 2, 3]],
+			[[std::first_n([3, 2, 1],2)], [2, 3, 1]],
+			[[std::last_n([3, 2, 1],2)], [3, 1, 2]],
+			[[std::whole([3, 2, 1])], [1, 2, 3]],
+			[[['C', 'A', 'B']], ['A', 'B', 'C']],
+			[[[]], []],
+		];
+		return test_all_cases("sort_ascn", fx, cases);
+	}
+
+	function sort_desc() {
+		var fx = range_test(&std::sort_desc(_));
+		var cases = [
+			[[[1, 2, 3]], [3, 2, 1]],
+			[[std::first_n([1, 2, 3],2)], [2, 1, 3]],
+			[[std::last_n([1, 2, 3],2)], [1, 3, 2]],
+			[[std::whole([1, 2, 3])], [3, 2, 1]],
+			[[['A', 'B', 'C']], ['C', 'B', 'A']],
+			[[[]], []],
+		];
+		return test_all_cases("sort_desc", fx, cases);
+	}
+
+	function algorithm() {
+		return sort_ascn() + sort_desc();
+	}
+}

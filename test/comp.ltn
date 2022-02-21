@@ -133,4 +133,14 @@ namespace test {
 
 		return test_all_cases("BiggerEqual>=", fx, cases);
 	}
+
+	function compare() {
+		return
+			eql() + 
+			uneql() + 
+			smaller() + 
+			bigger() + 
+			smaller_eql() + 
+			bigger_eql();
+	}
 }

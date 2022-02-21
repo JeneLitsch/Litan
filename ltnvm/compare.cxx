@@ -25,6 +25,22 @@ namespace ltn::vm {
 				const auto & strR = heap.read<String>(r.u).get();
 				return strL <=> strR;
 			}
+			if(isArr(l)) {
+				const auto & arrL = heap.read<Array>(l.u).get();
+				const auto & arrR = heap.read<Array>(r.u).get();
+				if(arrL.size() != arrR.size()) {
+					return arrL.size() <=> arrR.size();
+				}
+				for(std::size_t i = 0; i < arrL.size(); i++) {
+					const auto & elemL = arrL[i];
+					const auto & elemR = arrR[i];
+					const auto & comp = compare(elemL, elemR, heap);
+					if(comp != 0) {
+						return comp;
+					}
+				}
+				return std::partial_ordering::equivalent;
+			}
 			return std::partial_ordering::equivalent;
 		}
 		return l.type <=> r.type;

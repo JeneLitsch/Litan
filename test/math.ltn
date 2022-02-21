@@ -122,6 +122,78 @@ namespace test {
 		return test_all_cases("std::sqrt", &std::sqrt(_), cases);
 	}
 
+	function log() {
+		var cases = [
+			// [[1000, 10], 3],
+			[[64, 4], 3],
+			[[256, 2], 8],
+		];
+		return test_all_cases("std::log", &std::log(_,_), cases);
+	}
+
+	function ld() {
+		var cases = [
+			[[1], 0],
+			[[2], 1],
+			[[4], 2],
+			[[8], 3],
+			[[16], 4],
+			[[32], 5],
+			[[1024], 10],
+		];
+		return test_all_cases("std::ld", &std::ld(_), cases);
+	}
+
+	function lg() {
+		var cases = [
+			[[1], 0],
+			[[10], 1],
+			[[100], 2],
+			// [[1000], 3],
+			// [[1000000], 6],
+		];
+		return test_all_cases("std::lg", &std::lg(_), cases);
+	}
+
+	function ln() {
+		var cases = [
+			[[1], 0],
+		];
+		return test_all_cases("std::ln", &std::ln(_), cases);
+	}
+
+	function pow() {
+		var cases = [
+			[[2, 2], 4],
+			[[3, 2], 9],
+			[[4, 3], 64],
+			[[10, 4], 10000],
+			[[3, 4], 81],
+		];
+		return test_all_cases("std::pow", &std::pow(_,_), cases);
+	}
+
+	function sin() {
+		var cases = [
+			[[0], 0],
+		];
+		return test_all_cases("std::sin", &std::sin(_), cases);
+	}
+
+	function cos() {
+		var cases = [
+			[[0], 1],
+		];
+		return test_all_cases("std::cos", &std::cos(_), cases);
+	}
+
+	function tan() {
+		var cases = [
+			[[0], 0],
+		];
+		return test_all_cases("std::tan", &std::tan(_), cases);
+	}
+
 	function math() {
 		return
 			min() +
@@ -132,8 +204,14 @@ namespace test {
 			ceil() +
 			abs() +
 			hypot() +
-			sqrt();
+			sqrt() +
+			log() +
+			ld() +
+			lg() +
+			ln() +
+			pow() +
+			sin() +
+			cos() +
+			tan();
 	}
-
-	// <TODO>
 }

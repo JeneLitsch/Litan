@@ -10,9 +10,11 @@ binFile="test/$test.bin.ltn"
 	test/comp.ltn\
 	test/array.ltn\
 	test/queue.ltn\
+	test/stack.ltn\
 	test/math.ltn\
 	test/exception.ltn\
 	test/range.ltn\
+	test/algorithm.ltn\
 
 ./bin/ltna 	$binFile  $asmFile
 ./bin/ltnvm $binFile

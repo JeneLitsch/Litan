@@ -1,6 +1,7 @@
 #include "cast.hxx"
 #include "TypeCheck.hxx"
 #include "Exception.hxx"
+#include "convert.hxx"
 
 namespace ltn::vm::cast {
 	namespace {
@@ -93,18 +94,6 @@ namespace ltn::vm::cast {
 	}
 
 	std::int64_t to_int(Value value, Heap & heap) {
-		if(isBool(value)) {
-			return value.b;
-		}	
-
-		if(isChar(value)) {
-			return value.i;
-		}		
-		
-		if(isInt(value)) {
-			return value.i;
-		}
-		
 		if(isFloat(value)) {
 			return static_cast<std::int64_t>(value.f);
 		}
@@ -113,29 +102,13 @@ namespace ltn::vm::cast {
 			const auto & str = heap.read<String>(value.u);
 			return parseValue<std::int64_t>(str.str); 
 		}
-		
-		throw except::invalidCast("Int");
+
+		return convert::to_int(value);
 	}
 
 
 
 	double to_float(Value value, Heap & heap) {
-		if(isBool(value)) {
-			return static_cast<double>(value.b);
-		}
-
-		if(isChar(value)) {
-			return static_cast<double>(value.c);
-		}
-
-		if(isInt(value)) {
-			return static_cast<double>(value.i);
-		}
-		
-		if(isFloat(value)) {
-			return value.f;
-		}
-
 		if(isStr(value)) {
 			const auto & str = heap.read<String>(value.u);
 			return parseValue<double>(str.str); 
@@ -146,39 +119,15 @@ namespace ltn::vm::cast {
 			return clock.getSeconds();
 		}
 
-		throw except::invalidCast("Float");
+		return convert::to_float(value);
 	}
 
 
 	bool to_bool(Value value) {
-		if(isBool(value)) {
-			return value.b;
-		}
-
-		if(isChar(value)) {
-			return value.c;
-		}
-
-		if(isInt(value)) {
-			return value.i;
-		}
-		
-		if(isFloat(value)) {
-			return value.f != 0.0;
-		}
-
-		if(isNull(value)) {
-			return false;
-		}
-
-		return true;
+		return convert::to_bool(value);
 	}
 
 	char to_char(Value value) {
-		if(isChar(value)) {
-			return value.c;
-		}
-
 		if(isInt(value)) {
 			return static_cast<char>(value.i);
 		}
@@ -187,6 +136,6 @@ namespace ltn::vm::cast {
 			return static_cast<char>(value.f);
 		}
 
-		throw except::invalidCast("Char");
+		return convert::to_char(value);
 	}
 }
