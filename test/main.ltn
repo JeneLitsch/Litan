@@ -12,6 +12,7 @@ function main() {
 		&test::algorithm(),
 		&test::struct(),
 		&test::types(),
+		&test::loops(),
 	];
 
 

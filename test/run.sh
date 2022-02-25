@@ -7,7 +7,7 @@ binFile="test/$test.bin.ltn"
 	test/utils.ltn\
 	test/main.ltn\
 	test/arith.ltn\
-	test/comp.ltn\
+	test/compare.ltn\
 	test/array.ltn\
 	test/queue.ltn\
 	test/stack.ltn\
@@ -17,6 +17,7 @@ binFile="test/$test.bin.ltn"
 	test/algorithm.ltn\
 	test/struct.ltn\
 	test/types.ltn\
+	test/loops.ltn\
 
 ./bin/ltna 	$binFile  $asmFile
 ./bin/ltnvm $binFile

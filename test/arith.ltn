@@ -89,7 +89,24 @@ namespace test {
 		return test_all_cases("Modulo%", fx, cases);
 	}
 
+
+	function neg() {
+		var cases = [
+			[[1], -1], 
+			[[-1], 1], 
+			[[true], -1], 
+			[[3.5], -3.5], 
+		];
+
+		var neg = lambda (a) {
+			return -a;
+		};
+
+		return test_all_cases("Negate%", neg, cases);
+	}
+
+
 	function arith() {
-		return add() + sub() + mlt() + div() + mod();
+		return add() + sub() + mlt() + div() + mod() + neg();
 	}
 }
