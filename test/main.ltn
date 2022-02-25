@@ -10,6 +10,7 @@ function main() {
 		&test::bool(),
 		&test::range(),
 		&test::algorithm(),
+		&test::struct(),
 	];
 
 

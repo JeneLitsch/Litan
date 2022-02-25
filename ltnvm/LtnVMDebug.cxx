@@ -2,7 +2,7 @@
 #include "TypeCheck.hxx"
 #include <iostream>
 #include <sstream>
-#include "cast.hxx"
+#include "convert.hxx"
 
 namespace ltn::vm {
 	namespace {

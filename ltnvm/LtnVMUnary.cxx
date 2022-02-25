@@ -1,6 +1,6 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
-#include "cast.hxx"
+#include "convert.hxx"
 
 
 namespace ltn::vm {
@@ -24,7 +24,7 @@ namespace ltn::vm {
 	}
 	void LtnVM::n0t() {
 		FETCH
-		return this->reg.push(!cast::to_bool(x));
+		return this->reg.push(!convert::to_bool(x));
 	}
 
 	void LtnVM::inc() {

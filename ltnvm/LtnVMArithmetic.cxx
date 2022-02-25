@@ -2,9 +2,9 @@
 #include <cmath>
 #include "TypeCheck.hxx"
 #include <sstream>
-#include "cast.hxx"
 #include "Operations.hxx"
 #include "calcBinary.hxx"
+#include "convert.hxx"
 
 #define FETCH\
 	const auto r = this->reg.pop();\
@@ -45,7 +45,7 @@ namespace ltn::vm {
 
 		if(isStr(l)) {
 			const auto & strL = heap.read<String>(l.u).get();
-			const auto strR = cast::to_string(r, heap);
+			const auto strR = convert::to_string(r, heap);
 			const auto ref = heap.alloc<String>({strL + strR});
 			return this->reg.push({ref, Value::Type::STRING});
 		}
@@ -57,7 +57,7 @@ namespace ltn::vm {
 		}
 
 		if(isStr(r)) {
-			const auto strL = cast::to_string(l, heap);
+			const auto strL = convert::to_string(l, heap);
 			const auto & strR = heap.read<String>(r.u).get();
 			const auto ref = heap.alloc<String>({strL + strR});
 			return this->reg.push({ref, Value::Type::STRING});

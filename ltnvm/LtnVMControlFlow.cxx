@@ -1,6 +1,6 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
-#include "cast.hxx"
+#include "convert.hxx"
 #include <sstream>
 #include <stack>
 
@@ -31,7 +31,7 @@ namespace ltn::vm {
 	void LtnVM::iF() {
 		const auto value = this->reg.pop();
 		const auto elseAddr = this->fetchUint();
-		if(!cast::to_bool(value)) {
+		if(!convert::to_bool(value)) {
 			this->pc = elseAddr;
 		}
 	}

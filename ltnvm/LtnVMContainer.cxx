@@ -1,6 +1,6 @@
 #include "LtnVM.hxx"
 #include <stdexcept>
-#include "cast.hxx"
+#include "convert.hxx"
 #include "index.hxx"
 namespace ltn::vm {
 	

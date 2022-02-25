@@ -1,6 +1,6 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
-#include "cast.hxx"
+#include "convert.hxx"
 
 namespace ltn::vm {
 	void LtnVM::out() {
@@ -8,7 +8,7 @@ namespace ltn::vm {
 		const auto ref = this->reg.pop();
 		if(isOStream(ref)) {
 			auto & ostream = this->heap.read<OStream>(ref.u).get();
-			ostream << cast::to_string(value, this->heap); 
+			ostream << convert::to_string(value, this->heap); 
 		}
 		else {
 			throw except::notOutput();

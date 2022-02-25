@@ -1,6 +1,6 @@
 #include "LtnVM.hxx"
 #include "index.hxx"
-#include "cast.hxx"
+#include "convert.hxx"
 
 namespace ltn::vm {
 	namespace {
@@ -13,7 +13,7 @@ namespace ltn::vm {
 		}
 
 		void pushF(string & str, Heap & heap, const Value elem) {
-			const auto strL = cast::to_string(elem, heap);
+			const auto strL = convert::to_string(elem, heap);
 			str = strL + str;
 		}
 
@@ -38,7 +38,7 @@ namespace ltn::vm {
 		}
 
 		void pushB(string & str, Heap & heap, const Value elem) {
-			const auto & strR = cast::to_string(elem, heap);
+			const auto & strR = convert::to_string(elem, heap);
 			str += strR;
 		}
 
@@ -68,7 +68,7 @@ namespace ltn::vm {
 		}
 
 		void pushI(string & str, Heap & heap, const Value elem, auto i) {
-			const auto & strX = cast::to_string(elem, heap);
+			const auto & strX = convert::to_string(elem, heap);
 			const auto begin = std::begin(strX);
 			const auto end = std::end(strX);
 			const auto at = std::begin(str) + i;
@@ -124,7 +124,7 @@ namespace ltn::vm {
 			auto & str = heap.read<String>(ref.u).get();
 			const auto index = toIndex(key);
 			guardIndex(str, index);
-			str[index] = cast::to_char(elem);
+			str[index] = convert::to_char(elem);
 			return;
 		}
 
