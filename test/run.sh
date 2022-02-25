@@ -16,6 +16,7 @@ binFile="test/$test.bin.ltn"
 	test/range.ltn\
 	test/algorithm.ltn\
 	test/struct.ltn\
+	test/types.ltn\
 
 ./bin/ltna 	$binFile  $asmFile
 ./bin/ltnvm $binFile

@@ -1,0 +1,26 @@
+namespace test {
+	function typeid() {
+		var map = std::map();
+		map[1] = "a"; 
+		map[2] = "b"; 
+		var cases = [
+			[[1],              0x11],
+			[[null],           0x00],
+			[[[]],             0x20],
+			[["test"],         0x21],
+			[[std::cin()],     0x30],
+			[[std::cout()],    0x31],
+			[[&std::struct()], 0x40],
+			[[std::struct()],  0x60],
+			[[std::whole([])], 0x61],
+			[[std::queue()],   0x70],
+			[[std::stack()],   0x71],
+			[[map],            0x72],
+		];
+		return test_all_cases("std::typeid", &std::typeid(_), cases);
+	}
+	
+	function types() {
+		return typeid();
+	}
+}

@@ -67,5 +67,4 @@ namespace ltn::vm {
 			return Value{addr, Value::Type::ARRAY};
 		}
 	}
-
 }
