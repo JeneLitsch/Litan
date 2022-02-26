@@ -6,6 +6,7 @@ namespace test {
 		};
 	}
 
+
 	function sort_ascn() {
 		var fx = range_test(&std::sort_ascn(_));
 		var cases = [
@@ -16,8 +17,9 @@ namespace test {
 			[[['C', 'A', 'B']], ['A', 'B', 'C']],
 			[[[]], []],
 		];
-		return test_all_cases("sort_ascn", fx, cases);
+		return test_all_cases("std::sort_ascn", fx, cases);
 	}
+
 
 	function sort_desc() {
 		var fx = range_test(&std::sort_desc(_));
@@ -29,10 +31,52 @@ namespace test {
 			[[['A', 'B', 'C']], ['C', 'B', 'A']],
 			[[[]], []],
 		];
-		return test_all_cases("sort_desc", fx, cases);
+		return test_all_cases("std::sort_desc", fx, cases);
 	}
 
+
+	function reverse() {
+		var fx = range_test(&std::reverse(_));
+		var cases = [
+			[[[1, 2, 3]], [3, 2, 1]],
+			[[[]], []],
+			[[[42, 1337]], [1337, 42]],
+		];
+		return test_all_cases("std::reverse", fx, cases);
+	}
+
+
+
+	function is_sorted_desc() {
+		var cases = [
+			[[[1, 2, 3]], false],
+			[[[3, 2, 1]], true],
+			[[[1, 3, 1, 4]], false],
+			[[[42, 1337]], false],
+			[[[1337, 42]], true],
+		];
+		return test_all_cases("std::is_sorted_desc", &std::is_sorted_desc(_), cases);
+	}
+
+
+	function is_sorted_ascn() {
+		var cases = [
+			[[[1, 2, 3]], true],
+			[[[3, 2, 1]], false],
+			[[[1, 3, 1, 4]], false],
+			[[[42, 1337]], true],
+			[[[1337, 42]], false],
+		];
+		return test_all_cases("std::is_sorted_ascn", &std::is_sorted_ascn(_), cases);
+	}
+
+
 	function algorithm() {
-		return sort_ascn() + sort_desc();
+		return 
+			sort_ascn() +
+			sort_desc() +
+			is_sorted_desc() +
+			is_sorted_ascn() +
+			reverse();
 	}
 }

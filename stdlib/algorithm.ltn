@@ -73,8 +73,7 @@ namespace std {
 		"algorithm 30"
 	}
 
-	asm reverse(range, target) {
-		"swap 0 1"
+	asm reverse(range) {
 		"algorithm 40"
 	}
 }
