@@ -9,7 +9,7 @@ namespace ltn::vm {
 
 	HeapObject & ltn::vm::Heap::get(std::uint64_t addr) {
 		if(addr > this->objects.size()) {
-			throw accessViolation(addr, "");
+			throw access_violation(addr, "");
 		}
 		return this->objects[addr];
 	}

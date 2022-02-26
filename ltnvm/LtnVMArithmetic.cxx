@@ -25,7 +25,7 @@ namespace ltn::vm {
 
 
 		Array toArray(const Value & value, Heap & heap) {
-			if(isArr(value)) {
+			if(is_array(value)) {
 				return heap.read<Array>(value.u);
 			}
 			return {{value}};
@@ -36,27 +36,27 @@ namespace ltn::vm {
 	void LtnVM::add() {
 		FETCH
 		
-		if(isArr(l)) {
+		if(is_array(l)) {
 			const auto & arrL = heap.read<Array>(l.u);
 			const auto & arrR = toArray(r, heap);
 			const auto ref = heap.alloc<Array>({arrL.arr + arrR.arr});
 			return this->reg.push({ref, Value::Type::ARRAY});
 		}
 
-		if(isStr(l)) {
+		if(is_string(l)) {
 			const auto & strL = heap.read<String>(l.u).get();
 			const auto strR = convert::to_string(r, heap);
 			const auto ref = heap.alloc<String>({strL + strR});
 			return this->reg.push({ref, Value::Type::STRING});
 		}
 
-		if(isArr(r)) {
+		if(is_array(r)) {
 			const auto arrR = heap.read<Array>(r.u);
 			const auto ref = heap.alloc<Array>({std::vector{l} + arrR.arr});
 			return this->reg.push({ref, Value::Type::ARRAY});
 		}
 
-		if(isStr(r)) {
+		if(is_string(r)) {
 			const auto strL = convert::to_string(l, heap);
 			const auto & strR = heap.read<String>(r.u).get();
 			const auto ref = heap.alloc<String>({strL + strR});
@@ -90,18 +90,18 @@ namespace ltn::vm {
 
 	void LtnVM::shift_l() {
 		FETCH
-		if(isInt(l) && isInt(r)) {
+		if(is_int(l) && is_int(r)) {
 			return this->reg.push(Value{l.i << r.i});
 		}
-		throw except::invalidOperands();
+		throw except::invalid_operands();
 	}
 
 	void LtnVM::shift_r() {
 		FETCH
-		if(isInt(l) && isInt(r)) {
+		if(is_int(l) && is_int(r)) {
 			return this->reg.push(Value{l.i >> r.i});
 		}
-		throw except::invalidOperands();
+		throw except::invalid_operands();
 	}
 
 }

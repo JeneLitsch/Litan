@@ -4,7 +4,7 @@
 #include "cast.hxx"
 namespace ltn::vm {
 
-	void LtnVM::registerExternal(
+	void LtnVM::register_external(
 		std::int64_t id,
 		std::unique_ptr<ext::External> && ext) {
 		this->externals.emplace(id, std::move(ext));
@@ -24,7 +24,7 @@ namespace ltn::vm {
 		RESUME:
 		try {
 			while(true) {
-				std::uint8_t inst = this->fetchByte();
+				std::uint8_t inst = this->fetch_byte();
 				switch (static_cast<Inst>(inst)) {
 				case Inst::EXIT: {
 					this->ostream.get() << "Exit main() with return value: ";
@@ -154,7 +154,7 @@ namespace ltn::vm {
 				case Inst::CAST_STRING: this->cast_string(); break;
 				case Inst::CAST_ARRAY: this->cast_array(); break;
 
-				case Inst::TYPEID: this->typeId(); break;
+				case Inst::TYPEID: this->type_id(); break;
 				case Inst::CLONE: this->clone(); break;
 
 				case Inst::MEMBER_READ: this->member_read(); break;

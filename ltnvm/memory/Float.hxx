@@ -7,11 +7,11 @@ static_assert(std::numeric_limits<double>::is_iec559);
 static_assert(sizeof(double) == sizeof(std::uint64_t));
 
 namespace ltn::vm {
-	inline std::uint64_t toUint(double value) {
+	inline std::uint64_t to_uint(double value) {
 		return bitcast<std::uint64_t>(value);
 	}
 
-	inline double toFloat(std::uint64_t value) {
+	inline double to_float(std::uint64_t value) {
 		return bitcast<double>(value);
 	}
 }

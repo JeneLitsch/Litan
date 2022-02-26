@@ -5,25 +5,25 @@
 #include "Exception.hxx"
 namespace ltn::vm {
 	template<typename Op>
-	constexpr inline Value calcR(
+	constexpr inline Value calc_r(
 		auto l,
 		const Value & r) {
 		constexpr Op op;
-		if(isBool(r))  return Value{op(l, r.b)};
-		if(isInt(r))   return Value{op(l, r.i)};
-		if(isFloat(r)) return Value{op(l, r.f)};
-		if(isChar(r))  return Value{op(l, r.c)};
-		throw except::invalidOperands();
+		if(is_bool(r))  return Value{op(l, r.b)};
+		if(is_int(r))   return Value{op(l, r.i)};
+		if(is_float(r)) return Value{op(l, r.f)};
+		if(is_char(r))  return Value{op(l, r.c)};
+		throw except::invalid_operands();
 	}
 
 	template<typename Op>
 	constexpr inline Value calc(
 		const Value & l,
 		const Value & r) {
-		if (isBool(l))  return calcR<Op>(l.b, r);
-		if (isInt(l))   return calcR<Op>(l.i, r);
-		if (isFloat(l)) return calcR<Op>(l.f, r);
-		if (isChar(l))  return calcR<Op>(l.c, r);
-		throw except::invalidOperands();
+		if (is_bool(l))  return calc_r<Op>(l.b, r);
+		if (is_int(l))   return calc_r<Op>(l.i, r);
+		if (is_float(l)) return calc_r<Op>(l.f, r);
+		if (is_char(l))  return calc_r<Op>(l.c, r);
+		throw except::invalid_operands();
 	}
 }

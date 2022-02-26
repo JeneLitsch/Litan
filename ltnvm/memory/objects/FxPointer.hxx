@@ -6,7 +6,7 @@ namespace ltn::vm {
 	struct FxPointer {
 		std::uint64_t address;
 		std::size_t params;
-		std::size_t getParameters() const {
+		std::size_t get_parameters() const {
 			return this->params;
 		}
 		std::vector<Value> captured;

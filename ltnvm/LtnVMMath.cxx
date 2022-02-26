@@ -18,32 +18,32 @@ namespace ltn::vm {
 	template<class Fx>
 	Value rounding(const Value & value) {
 		constexpr Fx fx{};
-		if(isFloat(value)) {
+		if(is_float(value)) {
 			return Value{fx(value.f)};
 		}
-		if(isInt(value) || isBool(value) || isChar(value)) {
+		if(is_int(value) || is_bool(value) || is_char(value)) {
 			return value;
 		}
-		throw except::invalidArgument();
+		throw except::invalid_argument();
 	}
 
 
 	template<class Fx>
 	Value function(const Value & value) {
 		constexpr Fx fx{};
-		if(isFloat(value)) {
+		if(is_float(value)) {
 			return Value{fx(value.f)};
 		}
-		if(isInt(value)) {
+		if(is_int(value)) {
 			return Value{fx(value.i)};
 		}
-		if(isBool(value)) {
+		if(is_bool(value)) {
 			return Value{fx(value.b)};
 		}
-		if(isChar(value)) {
+		if(is_char(value)) {
 			return Value{fx(value.b)};
 		}
-		throw except::invalidArgument();
+		throw except::invalid_argument();
 	}
 
 

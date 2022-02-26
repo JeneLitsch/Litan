@@ -26,7 +26,7 @@ namespace ltn::vm {
 
 	void LtnVM::cast_string() {
 		const auto value = this->reg.pop();
-		if(isStr(value)) {
+		if(is_string(value)) {
 			this->reg.push(value);
 		}
 		else {
@@ -47,12 +47,12 @@ namespace ltn::vm {
 	void LtnVM::cast_array() {
 		const auto ref = this->reg.pop();
 		
-		if(isArr(ref)) {
+		if(is_array(ref)) {
 			this->reg.push(ref);
 			return;
 		}
 
-		if(isRange(ref)) {
+		if(is_range(ref)) {
 			const auto & range = this->heap.read<Range>(ref.u);
 			const auto arrRef = value::array(range.array);
 			this->reg.push(arrRef);

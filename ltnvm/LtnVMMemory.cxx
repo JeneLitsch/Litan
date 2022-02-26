@@ -23,27 +23,27 @@ namespace ltn::vm {
 
 
 	void LtnVM::makevar() {
-		this->stack.makeVar();
+		this->stack.make_var();
 	}
 
 
 	void LtnVM::read_x() {
-		const auto addr = this->fetchUint();
+		const auto addr = this->fetch_uint();
 		const auto value = this->stack.read(addr);
 		this->reg.push(value);
 	}
 
 
 	void LtnVM::write_x() {
-		const auto addr = this->fetchUint();
+		const auto addr = this->fetch_uint();
 		const auto value = this->reg.pop();
 		this->stack.write(addr, value);
 	}
 
 
 	void LtnVM::swap() {
-		const auto first = this->fetchByte();
-		const auto second = this->fetchByte();
+		const auto first = this->fetch_byte();
+		const auto second = this->fetch_byte();
 		this->reg.swap(first, second);
 	}
 

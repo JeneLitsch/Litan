@@ -19,17 +19,17 @@ namespace ltn::vm {
 
 		void run();
 
-		void registerExternal(
+		void register_external(
 			std::int64_t id,
 			std::unique_ptr<ext::External> && ext);
 	
 	private:
-		inline std::uint8_t fetchByte() {
+		inline std::uint8_t fetch_byte() {
 			return byteCode[this->pc++];
 		}
 	
 
-		inline std::uint64_t fetchUint() {
+		inline std::uint64_t fetch_uint() {
 			std::uint64_t value = 0;
 			for(auto i = 0; i < 8; i++) {
 				value <<= 8;
@@ -39,7 +39,7 @@ namespace ltn::vm {
 		}
 
 			
-		inline const std::uint8_t * fetchStr() {
+		inline const std::uint8_t * fetch_str() {
 			return this->byteCode.data() + this->pc;
 		}
 
@@ -179,14 +179,14 @@ namespace ltn::vm {
 			cast_array();
 
 		void
-			typeId(),
+			type_id(),
 			clone();
 
 		void
 			member_read(),
 			member_write();
 
-		void outValue(const Value & value);
+		void out_value(const Value & value);
 
 		// Runtime
 		Stack stack;

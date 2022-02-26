@@ -11,22 +11,22 @@ namespace ltn::vm::ext {
 
 		template<class T>
 		T parameter(std::size_t idx) const {
-			const Value & value = this->getValue(idx);
+			const Value & value = this->get_value(idx);
 
 			if constexpr(std::same_as<T, bool>) {
-				if(isBool(value)) return value.b;
+				if(is_bool(value)) return value.b;
 				throw std::runtime_error{"Parameter not a boolean"};
 			}
 			else if constexpr(std::integral<T>) {
-				if(isInt(value)) return value.i;
+				if(is_int(value)) return value.i;
 				throw std::runtime_error{"Parameter not an integer"};
 			}
 			else if constexpr(std::floating_point<T>) {
-				if(isFloat(value)) return value.f;
+				if(is_float(value)) return value.f;
 				throw std::runtime_error{"Parameter not a float"};
 			}
 			else if constexpr(std::same_as<T, std::string>) {
-				if(isStr(value)) return this->heap.read<String>(value.u).str;
+				if(is_string(value)) return this->heap.read<String>(value.u).str;
 				throw std::runtime_error{"Parameter not a string"};
 			}
 			else {
@@ -34,15 +34,15 @@ namespace ltn::vm::ext {
 			}
 		}
 
-		void returnBool(bool value);
-		void returnInt(std::int64_t value);
-		void returnFloat(double value);
-		void returnString(std::string value);
+		void return_bool(bool value);
+		void return_int(std::int64_t value);
+		void return_float(double value);
+		void return_string(std::string value);
 
 		virtual ~Api();
 
 	private:
-		const Value & getValue(std::size_t idx) const {
+		const Value & get_value(std::size_t idx) const {
 			if(idx >= params.size()) {
 				throw std::runtime_error{"Parameter out of range"};
 			}
@@ -51,6 +51,6 @@ namespace ltn::vm::ext {
 		Heap & heap;
 		Register & reg;
 		std::vector<Value> params;
-		Value returnVal;
+		Value return_value;
 	};
 }

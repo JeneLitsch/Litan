@@ -8,24 +8,24 @@ namespace ltn::vm {
 
 
 	#define COMPARE_R(l) {\
-		if(isBool(r))  return cmp(l, r.b);\
-		if(isChar(r))  return cmp(l, r.c);\
-		if(isInt(r))   return cmp(l, r.i);\
-		if(isFloat(r)) return cmp(l, r.f);\
+		if(is_bool(r))  return cmp(l, r.b);\
+		if(is_char(r))  return cmp(l, r.c);\
+		if(is_int(r))   return cmp(l, r.i);\
+		if(is_float(r)) return cmp(l, r.f);\
 	}
 
 	std::partial_ordering compare(const Value l, const Value r, Heap & heap) {
-		if(isBool(l))  COMPARE_R(l.b);
-		if(isChar(l))  COMPARE_R(l.c);
-		if(isInt(l))   COMPARE_R(l.i);
-		if(isFloat(l)) COMPARE_R(l.f);
+		if(is_bool(l))  COMPARE_R(l.b);
+		if(is_char(l))  COMPARE_R(l.c);
+		if(is_int(l))   COMPARE_R(l.i);
+		if(is_float(l)) COMPARE_R(l.f);
 		if(l.type == r.type) {
-			if(isStr(l)) {
+			if(is_string(l)) {
 				const auto & strL = heap.read<String>(l.u).get();
 				const auto & strR = heap.read<String>(r.u).get();
 				return strL <=> strR;
 			}
-			if(isArr(l)) {
+			if(is_array(l)) {
 				const auto & arrL = heap.read<Array>(l.u).get();
 				const auto & arrR = heap.read<Array>(r.u).get();
 				if(arrL.size() != arrR.size()) {

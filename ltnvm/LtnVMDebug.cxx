@@ -7,35 +7,35 @@
 namespace ltn::vm {
 	namespace {
 		void clearTopFrame(Stack & stack) {
-			const auto jumpback = stack.popFrame();
-			stack.pushFrame(jumpback);
+			const auto jumpback = stack.pop_frame();
+			stack.push_frame(jumpback);
 		}
 
 
 		std::uint64_t unwind(Stack & stack) {
 			while(stack.depth()) {
-				const auto handler = stack.getExceptHandler();
+				const auto handler = stack.get_except_handler();
 				if(handler != 0) {
 					return handler;
 				}
-				stack.popFrame();
+				stack.pop_frame();
 			}
 			throw std::runtime_error{"Unhandled Exception"};
 		}
 	}
 
 	void LtnVM::tRy() {
-		const auto addr = this->fetchUint();
+		const auto addr = this->fetch_uint();
 		const auto regSize = this->reg.size();
-		this->stack.setExceptHandler(addr);
-		this->stack.setRegSize(regSize);
+		this->stack.set_except_handler(addr);
+		this->stack.set_regsize(regSize);
 	}
 
 
 	void LtnVM::thr0w() {
 		const auto except = this->reg.pop();
 		this->pc = unwind(this->stack);
-		const auto regSize = this->stack.getRegSize();
+		const auto regSize = this->stack.get_regsize();
 		this->reg.resize(regSize);
 		clearTopFrame(stack);		
 		this->reg.push(except);

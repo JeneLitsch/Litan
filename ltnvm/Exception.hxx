@@ -17,57 +17,57 @@ namespace ltn::vm {
 	};
 
 	namespace except {
-		inline Exception invalidArgument(
+		inline Exception invalid_argument(
 			const std::string & msg = "Invalid argument") {
 			return {Exception::Type::INVALID_ARGUMENT, msg};
 		}
 		
-		inline Exception invalidOperands() {
-			return invalidArgument("Invalid operands");
+		inline Exception invalid_operands() {
+			return invalid_argument("Invalid operands");
 		}
 
-		inline Exception notOutput() {
-			return invalidArgument("Not an output stream");
+		inline Exception not_output() {
+			return invalid_argument("Not an output stream");
 		}
 
-		inline Exception notInput() {
-			return invalidArgument("Not an input stream");
+		inline Exception not_input() {
+			return invalid_argument("Not an input stream");
 		}
 
-		inline Exception invalidParameters(std::size_t expected, std::size_t got) {
+		inline Exception invalid_parameters(std::size_t expected, std::size_t got) {
 			std::ostringstream ss;
 			ss << "Invalid paramters: Expected " << expected << " got " << got;
-			return invalidArgument(ss.str());
+			return invalid_argument(ss.str());
 		}
 
-		inline Exception invalidCast(const std::string & toType) {
-			return invalidArgument("Invalid cast to " + toType);
+		inline Exception invalid_cast(const std::string & toType) {
+			return invalid_argument("Invalid cast to " + toType);
 		}
 
-		inline Exception cannotOpenFile(const std::string & path) {
+		inline Exception cannot_open_file(const std::string & path) {
 			return {Exception::Type::FILE_ERROR,
 				"Cannot open file: \"" + path + "\""};
 		}
 
-		inline Exception divisionBy0(
+		inline Exception division_by_zero(
 			const std::string & msg = "Division by 0"){
 			return {Exception::Type::DIVISION_BY_0, msg};
 		}
 
-		inline Exception outOfRange(
+		inline Exception out_of_range(
 			const std::string & msg = "Out of range") {
 			return {Exception::Type::OUT_OF_RANGE, msg};
 		}
 
-		inline Exception negativeIndex() {
-			return outOfRange("Out of range: negative index");
+		inline Exception negative_index() {
+			return out_of_range("Out of range: negative index");
 		}
 
-		inline Exception emptyCollection() {
-			return outOfRange("Out of range: empty collection");
+		inline Exception empty_collection() {
+			return out_of_range("Out of range: empty collection");
 		}
 
-		inline Exception invalidMemberAccess() {
+		inline Exception invalid_member_access() {
 			return {Exception::Type::INVALID_MEMBER_ACCESS,
 				"Invalid member access"};
 		}

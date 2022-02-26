@@ -6,12 +6,12 @@
 namespace ltn::vm::cast {
 	namespace {
 		template<typename To>
-		To parseValue(const std::string & str) {
+		To parse_value(const std::string & str) {
 			To to;
 			std::stringstream ss{str};
 			ss >> to;
 			if(ss.fail()) {
-				throw except::invalidArgument("Cannot parse string to value");
+				throw except::invalid_argument("Cannot parse string to value");
 			}
 			return to;
 		}
@@ -28,13 +28,13 @@ namespace ltn::vm::cast {
 	}
 
 	std::int64_t to_int(Value value, Heap & heap) {
-		if(isFloat(value)) {
+		if(is_float(value)) {
 			return static_cast<std::int64_t>(value.f);
 		}
 		
-		if(isStr(value)) {
+		if(is_string(value)) {
 			const auto & str = heap.read<String>(value.u);
-			return parseValue<std::int64_t>(str.str); 
+			return parse_value<std::int64_t>(str.str); 
 		}
 
 		return convert::to_int(value);
@@ -43,9 +43,9 @@ namespace ltn::vm::cast {
 
 
 	double to_float(Value value, Heap & heap) {
-		if(isStr(value)) {
+		if(is_string(value)) {
 			const auto & str = heap.read<String>(value.u);
-			return parseValue<double>(str.str); 
+			return parse_value<double>(str.str); 
 		}
 		
 		if (isClock(value)) {
@@ -62,11 +62,11 @@ namespace ltn::vm::cast {
 	}
 
 	char to_char(Value value) {
-		if(isInt(value)) {
+		if(is_int(value)) {
 			return static_cast<char>(value.i);
 		}
 
-		if(isFloat(value)) {
+		if(is_float(value)) {
 			return static_cast<char>(value.f);
 		}
 

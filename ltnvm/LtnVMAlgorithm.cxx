@@ -5,28 +5,28 @@
 
 namespace ltn::vm {
 	namespace {
-		auto toCppRange(const Value ref, Heap & heap) {
-			if(isArr(ref)) {
+		auto to_cpp_range(const Value ref, Heap & heap) {
+			if(is_array(ref)) {
 				auto & array = heap.read<Array>(ref.u);
 				const auto begin = array.arr.begin();
 				const auto end = array.arr.end();
 				return std::make_pair(begin, end);
 			}
 
-			if(isRange(ref)) {
+			if(is_range(ref)) {
 				auto & range = heap.read<Range>(ref.u);
 				auto & array = heap.read<Array>(range.array);
 				const auto begin = array.arr.begin() + range.begin;
 				const auto end = array.arr.begin() + range.end;
 				return std::make_pair(begin, end);
 			}
-			throw except::invalidArgument();
+			throw except::invalid_argument();
 		}
 
 
-		std::uint64_t popArrayRef(Register & reg) {
+		std::uint64_t pop_array_ref(Register & reg) {
 			const auto ref = reg.pop();
-			if(!isArr(ref)) throw except::invalidArgument();
+			if(!is_array(ref)) throw except::invalid_argument();
 			return ref.u;
 		}
 
@@ -98,7 +98,7 @@ namespace ltn::vm {
 
 
 		void copy_front(auto begin, auto end, Register & reg, Heap & heap) {
-			const auto refArr = popArrayRef(reg);
+			const auto refArr = pop_array_ref(reg);
 			auto & array = heap.read<Array>(refArr).get();
 			auto beginArr = array.begin();
 			auto inserter = std::insert_iterator(array, beginArr);
@@ -107,7 +107,7 @@ namespace ltn::vm {
 
 
 		void copy_back(auto begin, auto end, Register & reg, Heap & heap) {
-			const auto refArr = popArrayRef(reg);
+			const auto refArr = pop_array_ref(reg);
 			auto & array = heap.read<Array>(refArr).get();
 			auto inserter = std::back_inserter(array);
 			std::copy(begin, end, inserter);
@@ -122,8 +122,8 @@ namespace ltn::vm {
 
 	void LtnVM::algorithm() {
 		const auto ref = this->reg.pop();
-		const auto type = this->fetchByte();
-		const auto [begin, end] = toCppRange(ref, this->heap);
+		const auto type = this->fetch_byte();
+		const auto [begin, end] = to_cpp_range(ref, this->heap);
 
 		switch (type) {
 		case 0x00: return sort_ascn(begin, end, this->heap);

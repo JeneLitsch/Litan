@@ -4,7 +4,7 @@
 #include "memory/Register.hxx"
 
 namespace ltn::vm {
-	void guardIndex(const auto & collection, auto i) {
+	void guard_index(const auto & collection, auto i) {
 		if(i < 0) {
 			throw std::runtime_error{"Negative index is not allowed"};
 		}
@@ -13,8 +13,8 @@ namespace ltn::vm {
 		}
 	}
 
-	inline std::int64_t toIndex(const Value value) {
-		if(!isInt(value)) {
+	inline std::int64_t to_index(const Value value) {
+		if(!is_int(value)) {
 			throw std::runtime_error{"Expected integer as index"};
 		}
 		return value.i;

@@ -2,16 +2,16 @@
 
 namespace ltn::vm {
 	namespace {
-		inline Struct & getStruct(const Value ref, Heap & heap) {
-			if(isStruct(ref)) {
+		inline Struct & get_struct(const Value ref, Heap & heap) {
+			if(is_struct(ref)) {
 				return heap.read<Struct>(ref.u);
 			}
 			else {
-				throw except::invalidMemberAccess();
+				throw except::invalid_member_access();
 			}
 		}
 
-		Value * getMember(Struct & s, const auto id) {
+		Value * get_member(Struct & s, const auto id) {
 			for(auto & [memberId, member] : s.members) {
 				if(id == memberId) {
 					return &member;
@@ -20,7 +20,7 @@ namespace ltn::vm {
 			return nullptr;
 		}
 
-		void deleteMember(Struct & s, const auto id) {			
+		void delete_member(Struct & s, const auto id) {			
 			const auto finder = [id] (const auto & pair) {
 				return pair.first == id;
 			};
@@ -32,10 +32,10 @@ namespace ltn::vm {
 	}
 
 	void LtnVM::member_read() {
-		const auto id = this->fetchUint();
+		const auto id = this->fetch_uint();
 		const auto ref = this->reg.pop();
-		auto & s = getStruct(ref, this->heap);
-		if(const auto * const member = getMember(s, id)) {
+		auto & s = get_struct(ref, this->heap);
+		if(const auto * const member = get_member(s, id)) {
 			this->reg.push(*member);
 		}
 		else {
@@ -44,13 +44,13 @@ namespace ltn::vm {
 	}
 	
 	void LtnVM::member_write() {
-		const auto id = this->fetchUint();
+		const auto id = this->fetch_uint();
 		const auto ref = this->reg.pop();
 		const auto value = this->reg.pop();
-		auto & s = getStruct(ref, this->heap);
-		if(auto * const member = getMember(s, id)) {
-			if(isNull(value)) {
-				deleteMember(s, id);
+		auto & s = get_struct(ref, this->heap);
+		if(auto * const member = get_member(s, id)) {
+			if(is_null(value)) {
+				delete_member(s, id);
 			}
 			else {
 				(*member) = value;

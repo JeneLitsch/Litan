@@ -1,9 +1,9 @@
 #include "Heap.hxx"
 #include "ltnvm/TypeCheck.hxx"
 namespace ltn::vm {
-	void Heap::collectGarbage(const Stack & stack, const Register & reg) {
-		mark(stack.getContainer());
-		mark(reg.getContainer());
+	void Heap::collect_garbage(const Stack & stack, const Register & reg) {
+		mark(stack.get_container());
+		mark(reg.get_container());
 		sweep();
 	}
 
@@ -20,26 +20,26 @@ namespace ltn::vm {
 	}
 
 	void Heap::mark(const Value & value) {
-		if(isArr(value))     return this->markArray(value);
-		if(isStr(value))     return this->markDefault(value);
+		if(is_array(value))     return this->mark_array(value);
+		if(is_string(value))     return this->mark_default(value);
 		
-		if(isIStream(value)) return this->markDefault(value);
-		if(isOStream(value)) return this->markDefault(value);
+		if(is_istream(value)) return this->mark_default(value);
+		if(is_ostream(value)) return this->mark_default(value);
 		
-		if(isFxPtr(value))   return this->markFxPtr(value);
+		if(is_fxptr(value))   return this->mark_fxptr(value);
 
-		if(isClock(value))   return this->markDefault(value);
+		if(isClock(value))   return this->mark_default(value);
 		
-		if(isStruct(value))  return this->markStruct(value);
-		if(isRange(value))   return this->markRange(value);
+		if(is_struct(value))  return this->mark_struct(value);
+		if(is_range(value))   return this->mark_range(value);
 
-		if(isStack(value))   return this->markDeque(value);
-		if(isQueue(value))   return this->markDeque(value);
+		if(is_stack(value))   return this->mark_deque(value);
+		if(is_queue(value))   return this->mark_deque(value);
 
-		if(isMap(value))     return this->markMap(value);
+		if(is_map(value))     return this->mark_map(value);
 	}
 
-	void Heap::markArray(const Value & ref) {
+	void Heap::mark_array(const Value & ref) {
 		auto & obj = this->get(ref.u);
 		if(!obj.marked) {
 			auto & arr = this->read<Array>(ref.u);
@@ -48,7 +48,7 @@ namespace ltn::vm {
 		}
 	}
 
-	void Heap::markFxPtr(const Value & value) {
+	void Heap::mark_fxptr(const Value & value) {
 		auto & obj = get(value.u);
 		if(!obj.marked) {
 			auto & fx = this->read<FxPointer>(value.u);
@@ -58,7 +58,7 @@ namespace ltn::vm {
 	}
 
 
-	void Heap::markStruct(const Value & value) {
+	void Heap::mark_struct(const Value & value) {
 		auto & obj = get(value.u);
 		if(!obj.marked) {
 			auto & s = this->read<Struct>(value.u);
@@ -70,7 +70,7 @@ namespace ltn::vm {
 	}
 
 
-	void Heap::markRange(const Value & value) {
+	void Heap::mark_range(const Value & value) {
 		auto & obj = get(value.u);
 		if(!obj.marked) {
 			auto & range = this->read<Range>(value.u);
@@ -80,7 +80,7 @@ namespace ltn::vm {
 	}
 
 	
-	void Heap::markDeque(const Value & value) {
+	void Heap::mark_deque(const Value & value) {
 		auto & obj = get(value.u);
 		if(!obj.marked) {
 			auto & deque = this->read<Deque>(value.u);
@@ -90,7 +90,7 @@ namespace ltn::vm {
 	}
 
 
-	void Heap::markMap(const Value & value) {
+	void Heap::mark_map(const Value & value) {
 		auto & obj = get(value.u);
 		if(!obj.marked) {
 			auto & map = this->read<Map>(value.u).get();
@@ -103,7 +103,7 @@ namespace ltn::vm {
 	}
 
 
-	void Heap::markDefault(const Value & value) {
+	void Heap::mark_default(const Value & value) {
 		auto & obj = this->get(value.u);
 		obj.marked = true;
 	}

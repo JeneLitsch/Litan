@@ -4,7 +4,7 @@
 
 
 namespace ltn::vm {
-	void LtnVM::typeId() {
+	void LtnVM::type_id() {
 		const auto value = this->reg.pop();
 		this->reg.push(Value{static_cast<std::int64_t>(value.type)});
 	}
@@ -15,6 +15,6 @@ namespace ltn::vm {
 			const auto & newref = this->heap.clone(ref.u);
 			this->reg.push(Value{newref, ref.type});
 		}
-		else throw except::invalidArgument();
+		else throw except::invalid_argument();
 	}
 }

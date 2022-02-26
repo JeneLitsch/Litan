@@ -5,22 +5,22 @@
 
 namespace ltn::vm {
 	void LtnVM::newi(){
-		this->reg.push(Value{this->fetchUint(), Value::Type::INT});
+		this->reg.push(Value{this->fetch_uint(), Value::Type::INT});
 	}
 
 
 	void LtnVM::newf(){
-		this->reg.push(Value{this->fetchUint(), Value::Type::FLOAT});
+		this->reg.push(Value{this->fetch_uint(), Value::Type::FLOAT});
 	}
 
 
 	void LtnVM::newu(){
-		this->reg.push(Value{this->fetchUint(), Value::Type::NVLL});
+		this->reg.push(Value{this->fetch_uint(), Value::Type::NVLL});
 	}
 	
 
 	void LtnVM::newc() {
-		const auto chr = this->fetchByte();
+		const auto chr = this->fetch_byte();
 		this->reg.push(value::character(chr));
 	}
 	

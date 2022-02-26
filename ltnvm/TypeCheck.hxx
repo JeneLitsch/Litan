@@ -1,51 +1,51 @@
 #pragma once
 #include "memory/Value.hxx"
 namespace ltn::vm {
-	constexpr inline bool isNull(const Value & val) {
+	constexpr inline bool is_null(const Value & val) {
 		return val.type == Value::Type::NVLL;
 	}
 
-	constexpr inline bool isInt(const Value & val) {
+	constexpr inline bool is_int(const Value & val) {
 		return val.type == Value::Type::INT;
 	}
 
-	constexpr inline bool isFloat(const Value & val) {
+	constexpr inline bool is_float(const Value & val) {
 		return val.type == Value::Type::FLOAT;
 	}
 
-	constexpr inline bool isChar(const Value & val) {
+	constexpr inline bool is_char(const Value & val) {
 		return val.type == Value::Type::CHAR;
 	}
 
-	constexpr inline bool isBool(const Value & val) {
+	constexpr inline bool is_bool(const Value & val) {
 		return val.type == Value::Type::BOOL;
 	}
 
-	constexpr inline bool isAddr(const Value & val) {
+	constexpr inline bool is_addr(const Value & val) {
 		return val.type == Value::Type::ADDR;
 	}
 
-	constexpr inline bool isStr(const Value & val) {
+	constexpr inline bool is_string(const Value & val) {
 		return val.type == Value::Type::STRING;
 	}
 
-	constexpr inline bool isArr(const Value & val) {
+	constexpr inline bool is_array(const Value & val) {
 		return val.type == Value::Type::ARRAY;
 	}
 
-	constexpr inline bool isOStream(const Value & val) {
+	constexpr inline bool is_ostream(const Value & val) {
 		return val.type == Value::Type::OSTREAM;
 	}
 
-	constexpr inline bool isIStream(const Value & val) {
+	constexpr inline bool is_istream(const Value & val) {
 		return val.type == Value::Type::ISTREAM;
 	}
 
-	constexpr inline bool isFxPtr(const Value & val) {
+	constexpr inline bool is_fxptr(const Value & val) {
 		return val.type == Value::Type::FX_PTR;
 	}
 
-	constexpr inline bool isExt(const Value & val) {
+	constexpr inline bool is_external(const Value & val) {
 		return val.type == Value::Type::EXTERNAL;
 	}
 
@@ -53,23 +53,23 @@ namespace ltn::vm {
 		return val.type == Value::Type::CLOCK;
 	}
 
-	constexpr inline bool isStruct(const Value & val) {
+	constexpr inline bool is_struct(const Value & val) {
 		return val.type == Value::Type::STRUCT;
 	}
 
-	constexpr inline bool isRange(const Value & val) {
+	constexpr inline bool is_range(const Value & val) {
 		return val.type == Value::Type::RANGE;
 	}
 
-	constexpr inline bool isStack(const Value & val) {
+	constexpr inline bool is_stack(const Value & val) {
 		return val.type == Value::Type::STACK;
 	}
 
-	constexpr inline bool isQueue(const Value & val) {
+	constexpr inline bool is_queue(const Value & val) {
 		return val.type == Value::Type::QUEUE;
 	}
 
-	constexpr inline bool isMap(const Value & val) {
+	constexpr inline bool is_map(const Value & val) {
 		return val.type == Value::Type::MAP;
 	}
 

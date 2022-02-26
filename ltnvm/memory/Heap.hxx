@@ -43,7 +43,7 @@ namespace ltn::vm {
 	};
 
 
-	inline auto accessViolation(std::uint64_t at, const std::string_view msg) {
+	inline auto access_violation(std::uint64_t at, const std::string_view msg) {
 		std::stringstream ss;
 		ss << "Access Violation at " << at << ": " << msg;
 		return std::runtime_error{ ss.str() };
@@ -79,7 +79,7 @@ namespace ltn::vm {
 		template<class Obj>
 		Obj & read(std::uint64_t addr) {
 			if(addr > this->objects.size()) {
-				throw accessViolation(addr, "");
+				throw access_violation(addr, "");
 			}
 			auto & object = this->objects[addr];
 			if(auto * string = std::get_if<Obj>(&object.obj)) {
@@ -88,7 +88,7 @@ namespace ltn::vm {
 			else {
 				std::stringstream ss;
 				ss << "not a" << Obj::typeName;
-				throw accessViolation(addr, ss.str());
+				throw access_violation(addr, ss.str());
 			}
 		}
 
@@ -103,7 +103,7 @@ namespace ltn::vm {
 		}
 
 
-		void collectGarbage(const Stack & stack, const Register & reg);
+		void collect_garbage(const Stack & stack, const Register & reg);
 
 
 		void reset();
@@ -116,13 +116,13 @@ namespace ltn::vm {
 		void mark(const std::span<const Value> values);
 		void mark(const std::deque<Value> & values);
 		void mark(const Value & value);
-		void markArray(const Value & value);
-		void markFxPtr(const Value & value);
-		void markStruct(const Value & value);
-		void markRange(const Value & value);
-		void markDefault(const Value & value);
-		void markDeque(const Value & value);
-		void markMap(const Value & value);
+		void mark_array(const Value & value);
+		void mark_fxptr(const Value & value);
+		void mark_struct(const Value & value);
+		void mark_range(const Value & value);
+		void mark_default(const Value & value);
+		void mark_deque(const Value & value);
+		void mark_map(const Value & value);
 		void sweep();
 
 		HeapObject & get(std::uint64_t addr);

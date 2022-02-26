@@ -10,13 +10,13 @@ public:
 		const auto a = api.parameter<std::string>(0); 
 		const auto b = api.parameter<std::string>(1); 
 		std::cout << a << "|" << b << "\n";
-		api.returnString("Hello World");
+		api.return_string("Hello World");
 	}
 };
 
 void run(const std::vector<std::uint8_t> & bytecode) {
 	ltn::vm::LtnVM vm{std::cout};
-	vm.registerExternal(42, std::make_unique<Test>());
+	vm.register_external(42, std::make_unique<Test>());
 	vm.setup(bytecode);
 	vm.run();
 }

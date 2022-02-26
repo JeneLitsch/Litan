@@ -8,29 +8,29 @@
 
 namespace ltn::vm {
 	void LtnVM::jump() {
-		const auto addr = this->fetchUint(); 
+		const auto addr = this->fetch_uint(); 
 		this->pc = addr;
 	}
 
 
 
 	void LtnVM::call() {
-		const auto addr = this->fetchUint(); 
-		this->stack.pushFrame(this->pc);
+		const auto addr = this->fetch_uint(); 
+		this->stack.push_frame(this->pc);
 		this->pc = addr;
 	}
 
 
 
 	void LtnVM::reTurn() {
-		this->pc = this->stack.popFrame();
+		this->pc = this->stack.pop_frame();
 	}
 
 
 
 	void LtnVM::iF() {
 		const auto value = this->reg.pop();
-		const auto elseAddr = this->fetchUint();
+		const auto elseAddr = this->fetch_uint();
 		if(!convert::to_bool(value)) {
 			this->pc = elseAddr;
 		}
@@ -39,10 +39,10 @@ namespace ltn::vm {
 
 
 	void LtnVM::parameters() {
-		const auto count = this->fetchByte();
+		const auto count = this->fetch_byte();
 		auto [begin, end] = this->reg.peek(count);
 		for(auto it = begin; it != end; it++) {
-			this->stack.makeVar(*it);
+			this->stack.make_var(*it);
 		}
 		this->reg.remove(count);
 	}

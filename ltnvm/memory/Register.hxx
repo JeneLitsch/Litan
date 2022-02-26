@@ -43,7 +43,7 @@ namespace ltn::vm {
 			std::swap(stack[i1], stack[i2]);
 		}
 
-		const std::vector<Value> & getContainer() const;
+		const std::vector<Value> & get_container() const;
 
 		void reset();
 		std::size_t size() const;

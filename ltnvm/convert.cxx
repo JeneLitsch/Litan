@@ -35,23 +35,23 @@ namespace ltn::vm::convert {
 
 
 	bool to_bool(const Value value) {
-		if(isBool(value)) {
+		if(is_bool(value)) {
 			return value.b;
 		}
 
-		if(isChar(value)) {
+		if(is_char(value)) {
 			return value.c;
 		}
 
-		if(isInt(value)) {
+		if(is_int(value)) {
 			return value.i;
 		}
 		
-		if(isFloat(value)) {
+		if(is_float(value)) {
 			return value.f != 0.0;
 		}
 
-		if(isNull(value)) {
+		if(is_null(value)) {
 			return false;
 		}
 
@@ -60,89 +60,89 @@ namespace ltn::vm::convert {
 
 
 	std::int64_t to_int(const Value value) {
-		if(isBool(value)) {
+		if(is_bool(value)) {
 			return value.b;
 		}	
 
-		if(isChar(value)) {
+		if(is_char(value)) {
 			return value.i;
 		}
 
-		if(isInt(value)) {
+		if(is_int(value)) {
 			return value.i;
 		}
 		
-		throw except::invalidCast("Int");
+		throw except::invalid_cast("Int");
 	}
 
 
 	double to_float(const Value value) {
-		if(isBool(value)) {
+		if(is_bool(value)) {
 			return static_cast<double>(value.b);
 		}
 
-		if(isChar(value)) {
+		if(is_char(value)) {
 			return static_cast<double>(value.c);
 		}
 
-		if(isInt(value)) {
+		if(is_int(value)) {
 			return static_cast<double>(value.i);
 		}
 
-		if(isFloat(value)) {
+		if(is_float(value)) {
 			return value.f;
 		}
-		throw except::invalidCast("Float");
+		throw except::invalid_cast("Float");
 	}
 
 
 	char to_char(const Value value) {
-		if(isChar(value)) {
+		if(is_char(value)) {
 			return value.c;
 		}
 
-		throw except::invalidCast("Char");
+		throw except::invalid_cast("Char");
 	}
 
 
 	std::string to_string(Value value, Heap & heap) {
-		if(isNull(value)) {
+		if(is_null(value)) {
 			return "null";
 		}
-		if(isBool(value)) {
+		if(is_bool(value)) {
 			std::stringstream ss;
 			ss << std::boolalpha << value.b;
 			return ss.str();
 		}
 
-		if(isChar(value)) {
+		if(is_char(value)) {
 			return std::string(1, value.c);
 		}
 
-		if(isInt(value)) {
+		if(is_int(value)) {
 			std::stringstream ss;
 			ss << value.i;
 			return ss.str();
 		}
 
-		if(isFloat(value)) {
+		if(is_float(value)) {
 			std::stringstream ss;
 			ss << value.f;
 			return ss.str();
 		}
 
-		if(isStr(value)) {
+		if(is_string(value)) {
 			return heap.read<String>(value.u).str;
 		}
 
-		if(isArr(value)) {
+		if(is_array(value)) {
 			const auto & array = heap.read<Array>(value.u).get();
 			std::stringstream ss;
 			print_all(std::begin(array), std::end(array), ss, heap);
 			return ss.str();
 		}
 
-		if(isRange(value)) {
+		if(is_range(value)) {
 			const auto & range = heap.read<Range>(value.u);
 			const auto & array = heap.read<Array>(range.array).get();
 			auto begin = std::begin(array) + range.begin;
@@ -152,19 +152,19 @@ namespace ltn::vm::convert {
 			return ss.str();
 		}
 
-		if(isOStream(value)) {
+		if(is_ostream(value)) {
 			return "<ostream>";
 		}
 
-		if(isIStream(value)) {
+		if(is_istream(value)) {
 			return "<istream>";
 		}
 
-		if(isFxPtr(value)) {
-			const auto & fxPtr = heap.read<FxPointer>(value.u);
+		if(is_fxptr(value)) {
+			const auto & fxptr = heap.read<FxPointer>(value.u);
 			std::ostringstream ss;
 			ss << "<fx:";
-			ss << fxPtr.address << "," << fxPtr.params << ">";
+			ss << fxptr.address << "," << fxptr.params << ">";
 			return  ss.str();
 		}
 
@@ -175,31 +175,31 @@ namespace ltn::vm::convert {
 			return ss.str();
 		}
 
-		if(isStruct(value)) {
+		if(is_struct(value)) {
 			return "<struct>";
 		}
 
-		if(isQueue(value)) {
+		if(is_queue(value)) {
 			const auto & deque = heap.read<Deque>(value.u).get();
 			std::ostringstream ss;
 			print_all(std::begin(deque), std::end(deque), ss, heap, '<', '>');
 			return ss.str();
 		}
 
-		if(isStack(value)) {
+		if(is_stack(value)) {
 			const auto & deque = heap.read<Deque>(value.u).get();
 			std::ostringstream ss;
 			print_all(std::begin(deque), std::end(deque), ss, heap, '<', '>');
 			return ss.str();
 		}
 
-		if(isMap(value)) {
+		if(is_map(value)) {
 			const auto & map = heap.read<Map>(value.u).get();
 			std::ostringstream ss;
 			print_all(std::begin(map), std::end(map), ss, heap, '{', '}');
 			return ss.str();
 		}
 
-		throw except::invalidCast("String");
+		throw except::invalid_cast("String");
 	}
 }

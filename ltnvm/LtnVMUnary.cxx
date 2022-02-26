@@ -8,19 +8,19 @@ namespace ltn::vm {
 
 	void LtnVM::neg() {
 		FETCH
-		if(isBool(x)) {
+		if(is_bool(x)) {
 			return this->reg.push({- static_cast<std::int64_t>(x.b)});
 		}
-		if(isChar(x)) {
+		if(is_char(x)) {
 			return this->reg.push({- static_cast<std::int64_t>(x.c)});
 		}
-		if(isInt(x)) {
+		if(is_int(x)) {
 			return this->reg.push({- x.i});
 		}
-		if(isFloat(x)) {
+		if(is_float(x)) {
 			return this->reg.push({- x.f});
 		}
-		throw except::invalidArgument();
+		throw except::invalid_argument();
 	}
 	void LtnVM::n0t() {
 		FETCH
@@ -29,23 +29,23 @@ namespace ltn::vm {
 
 	void LtnVM::inc() {
 		FETCH
-		if(isInt(x)) {
+		if(is_int(x)) {
 			return this->reg.push({x.i + 1});
 		}
-		if(isFloat(x)) {
+		if(is_float(x)) {
 			return this->reg.push({x.f + 1});
 		}
-		throw except::invalidArgument();
+		throw except::invalid_argument();
 	}
 	void LtnVM::dec() {
 		FETCH
-		if(isInt(x)) {
+		if(is_int(x)) {
 			return this->reg.push({x.i - 1});
 		}
-		if(isFloat(x)) {
+		if(is_float(x)) {
 			return this->reg.push({x.f - 1});
 		}
-		throw except::invalidArgument();
+		throw except::invalid_argument();
 	}
 
 	#undef FETCH

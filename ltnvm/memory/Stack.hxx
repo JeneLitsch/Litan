@@ -11,37 +11,37 @@ namespace ltn::vm {
 		Stack();
 
 		inline Value read(std::uint64_t offset) const {
-			const std::size_t addr = this->framePointer + BASE_OFFSET + offset;
+			const std::size_t addr = this->frame_pointer + BASE_OFFSET + offset;
 			return this->stack[addr];
 		}
 
 		inline void write(std::uint64_t offset, Value value) {
-			const std::size_t addr = this->framePointer + BASE_OFFSET + offset;
+			const std::size_t addr = this->frame_pointer + BASE_OFFSET + offset;
 			this->stack[addr] = value;
 		}
 		
-		inline void makeVar() {
+		inline void make_var() {
 			this->stack.push_back(Value{0U, Value::Type::NVLL});
 		}
 
-		inline void makeVar(Value value) {
+		inline void make_var(Value value) {
 			this->stack.push_back(value);
 		}
 
-		void pushFrame(std::uint64_t jumpBack);	
-		std::uint64_t popFrame();
-		const std::vector<Value> & getContainer() const;
+		void push_frame(std::uint64_t jumpBack);	
+		std::uint64_t pop_frame();
+		const std::vector<Value> & get_container() const;
 		void reset();
 		std::size_t size() const;
 		std::uint64_t depth() const;
 
-		std::uint64_t getExceptHandler() const;
-		void setExceptHandler(std::uint64_t addr);
-		std::uint64_t getRegSize() const;
-		void setRegSize(std::uint64_t size);
+		std::uint64_t get_except_handler() const;
+		void set_except_handler(std::uint64_t addr);
+		std::uint64_t get_regsize() const;
+		void set_regsize(std::uint64_t size);
 	private:
 		std::vector<Value> stack;
-		std::uint64_t framePointer;
-		std::uint64_t depthCounter;
+		std::uint64_t frame_pointer;
+		std::uint64_t depth_counter;
 	};
 }
