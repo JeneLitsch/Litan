@@ -11,6 +11,6 @@ namespace ltn::c::compile {
 		Qualifier qualifier;
 	};
 
-	bool isConst(const Variable & var);
-	bool isMutable(const Variable & var);
+	bool is_const(const Variable & var);
+	bool is_mutable(const Variable & var);
 }

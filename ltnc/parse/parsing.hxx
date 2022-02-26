@@ -11,16 +11,16 @@ namespace ltn::c::parse {
 	// Funcionals
 	std::unique_ptr<ast::Functional> functional(
 		lex::Lexer & lexer,
-		const ast::Namespace & nameSpace);
+		const ast::Namespace & namespaze);
 
 	std::unique_ptr<ast::Lambda> lambda(lex::Lexer & lexer);
 
 	// Statements
 	std::unique_ptr<ast::Statement> statement(lex::Lexer & lexer);
 	std::unique_ptr<ast::Block> block(lex::Lexer & lexer);
-	std::unique_ptr<ast::IfElse> ifElse(lex::Lexer & lexer);
-	std::unique_ptr<ast::While> whileLoop(lex::Lexer & lexer);
-	std::unique_ptr<ast::For> forLoop(lex::Lexer & lexer);
+	std::unique_ptr<ast::IfElse> if_else(lex::Lexer & lexer);
+	std::unique_ptr<ast::While> while_loop(lex::Lexer & lexer);
+	std::unique_ptr<ast::For> for_loop(lex::Lexer & lexer);
 	
 	// Expressions
 	std::unique_ptr<ast::Expression> expression(lex::Lexer & lexer);
@@ -30,32 +30,18 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Expression> primary(lex::Lexer & lexer);
 
 	std::unique_ptr<ast::Expression> assign(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> assignR(lex::Lexer & lexer);
+	std::unique_ptr<ast::Expression> assign_r(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> factor(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> term(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> comparision(lex::Lexer & lexer);
 	std::unique_ptr<ast::Expression> equality(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> logOr(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> logAnd(lex::Lexer & lexer);
+	std::unique_ptr<ast::Expression> logical_or(lex::Lexer & lexer);
+	std::unique_ptr<ast::Expression> logical_and(lex::Lexer & lexer);
 
 	// Utils
-	std::string variableName(lex::Lexer & lexer);
-	std::string functionName(lex::Lexer & lexer);
-	std::string parameterName(lex::Lexer & lexer);
-
-
-	// // Error catching
-	// auto attempt(auto fx, auto & errors, lex::Lexer & lexer, const ast::Namespace & ns) 
-	// 	-> decltype(fx(lexer, ns)) {
-	// 	try {
-	// 		return fx(lexer, ns);;
-	// 	}
-	// 	catch(const CompilerError & error) {
-	// 		errors.push(error);
-	// 		lexer.sync();
-	// 		return nullptr;
-	// 	}
-	// }
+	std::string variable_name(lex::Lexer & lexer);
+	std::string function_name(lex::Lexer & lexer);
+	std::string parameter_name(lex::Lexer & lexer);
 
 	auto attempt(auto fx, auto & errors, lex::Lexer & lexer)
 		-> decltype(fx(lexer)) {

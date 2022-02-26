@@ -19,18 +19,18 @@ ltn::c::Args::Args(const char ** argv, std::size_t argc) {
 	}
 }
 
-const std::span<const std::filesystem::path> ltn::c::Args::getSources() const {
+const std::span<const std::filesystem::path> ltn::c::Args::get_sources() const {
 	return { this->files.begin() + 2, this->files.end() };
 }
 
-const std::filesystem::path & ltn::c::Args::getStdLib() const {
+const std::filesystem::path & ltn::c::Args::get_stdlib() const {
 	return this->files[1];
 }
 
-const std::filesystem::path & ltn::c::Args::getTarget() const {
+const std::filesystem::path & ltn::c::Args::get_target() const {
 	return this->files[0];
 }
 
-bool ltn::c::Args::isSet(const std::string & flag) const {
+bool ltn::c::Args::is_set(const std::string & flag) const {
 	return this->flags.contains(flag);
 }

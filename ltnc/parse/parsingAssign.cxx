@@ -19,7 +19,7 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Expression> assign(lex::Lexer & lexer) {
 		auto expr = expression(lexer);
 		// try parsing assigment
-		if(auto r = assignR(lexer)) {
+		if(auto r = assign_r(lexer)) {
 			// ensure left side is assingable
 			if(auto l = unique_cast_if<ast::Assignable>(expr)) {
 				return std::make_unique<ast::Assign>(
@@ -31,7 +31,7 @@ namespace ltn::c::parse {
 				"Left side of an assignment must be an assignable expression",
 				lexer.location()};
 		}
-		auto modifyTable = std::array{
+		auto modify_table = std::array{
 			std::pair{MT::ADD,     TT::ASSIGN_ADD},
 			std::pair{MT::SUB,     TT::ASSIGN_SUB},
 			std::pair{MT::MLT,     TT::ASSIGN_MLT},
@@ -40,7 +40,7 @@ namespace ltn::c::parse {
 			std::pair{MT::SHIFT_L, TT::ASSIGN_SHIFT_L},
 			std::pair{MT::SHIFT_R, TT::ASSIGN_SHIFT_R},
 		};
-		for(auto [mt, tt] : modifyTable) {
+		for(auto [mt, tt] : modify_table) {
 			if(lexer.match(tt)) {
 				if(auto l = unique_cast_if<ast::Assignable>(expr)) {
 					auto r = expression(lexer);
@@ -56,7 +56,7 @@ namespace ltn::c::parse {
 	}
 
 	// Tries parsing assignment after and including =
-	std::unique_ptr<ast::Expression> assignR(lex::Lexer & lexer) {
+	std::unique_ptr<ast::Expression> assign_r(lex::Lexer & lexer) {
 		if(lexer.match(TT::ASSIGN)) {
 			return expression(lexer);
 		}

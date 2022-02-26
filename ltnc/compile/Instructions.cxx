@@ -12,7 +12,7 @@ namespace ltn::c::compile::inst {
 		return ss.str(); 
 	}
 
-	const std::string jumpmarkExcept(const std::string_view name) {
+	const std::string jumpmark_except(const std::string_view name) {
 		std::stringstream ss;
 		ss << ":" << name << "_EXCEPT\n";
 		return ss.str(); 

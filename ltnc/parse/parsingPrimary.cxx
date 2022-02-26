@@ -79,13 +79,13 @@ namespace ltn::c::parse {
 
 		std::unique_ptr<ast::Literal> array(lex::Lexer & lexer) {
 			if(lexer.match(TT::BRACKET_L)) {
-				std::vector<std::unique_ptr<ast::Expression>> initElements;
+				std::vector<std::unique_ptr<ast::Expression>> initial_elements;
 				if(!lexer.match(TT::BRACKET_R)) {
 					while(true) {
 						if(lexer.match(TT::___EOF___)) {
 							throw expected("]", lexer);
 						}
-						initElements.push_back(expression(lexer));
+						initial_elements.push_back(expression(lexer));
 						const bool comma = !!lexer.match(TT::COMMA);
 						if(lexer.match(TT::BRACKET_R)) break;
 						if(!comma) {
@@ -94,7 +94,7 @@ namespace ltn::c::parse {
 					}
 				}
 				return std::make_unique<ast::Array>(
-					std::move(initElements),
+					std::move(initial_elements),
 					lexer.location());
 			}
 			return nullptr;
@@ -144,33 +144,33 @@ namespace ltn::c::parse {
 
 		std::pair<std::string, ast::Namespace>
 		symbol(lex::Lexer & lexer) {
-			ast::Namespace nameSpace;
+			ast::Namespace namespaze;
 			if(lexer.match(TT::COLONx2)) {
-				nameSpace.push_back("::");
+				namespaze.push_back("::");
 			}
 			if(const auto & identifier = lexer.match(TT::INDENTIFIER)) {
-				nameSpace.push_back(identifier->str);
+				namespaze.push_back(identifier->str);
 				std::string name = identifier->str;
 				while(lexer.match(TT::COLONx2)) {
 					if(auto i = lexer.match(TT::INDENTIFIER)) {
-						nameSpace.push_back(i->str);
+						namespaze.push_back(i->str);
 						name = i->str;
 					}
 				}
-				nameSpace.pop_back();
-				return {name, nameSpace};
+				namespaze.pop_back();
+				return {name, namespaze};
 			}
 			throw expected("indentifier", lexer);
 		}
 
 		std::unique_ptr<ast::Call> call(
 			const auto & name,
-			const auto & nameSpace,
+			const auto & namespaze,
 			lex::Lexer & lexer) {
 			auto parameters = parse::parameters(lexer);
 			return std::make_unique<ast::Call>(
 				name,
-				nameSpace,
+				namespaze,
 				std::move(parameters),
 				lexer.location());
 			return nullptr;
@@ -178,9 +178,9 @@ namespace ltn::c::parse {
 
 		std::unique_ptr<ast::Var> var(
 			const auto & name,
-			const auto & nameSpace,
+			const auto & namespaze,
 			const auto & lexer) {
-			if(nameSpace.empty()) {
+			if(namespaze.empty()) {
 				return std::make_unique<ast::Var>(name, lexer.location());
 			}
 			else {
@@ -206,11 +206,11 @@ namespace ltn::c::parse {
 		}
 
 		std::unique_ptr<ast::Expression> identifier(lex::Lexer & lexer) {
-			const auto [name, nameSpace] = symbol(lexer);
+			const auto [name, namespaze] = symbol(lexer);
 			if(lexer.match(TT::PAREN_L)) {
-				return call(name, nameSpace, lexer);
+				return call(name, namespaze, lexer);
 			}
-			auto var = parse::var(name, nameSpace, lexer);
+			auto var = parse::var(name, namespaze, lexer);
 			auto path = parse::memberpath(lexer);
 			if(path.empty()) {
 				return var;
@@ -225,11 +225,11 @@ namespace ltn::c::parse {
 
 		std::unique_ptr<ast::FxPointer> fxPointer(lex::Lexer & lexer) {
 			if(lexer.match(TT::AMPERSAND)) {
-				const auto [name, nameSpace] = symbol(lexer);
+				const auto [name, namespaze] = symbol(lexer);
 				if(lexer.match(TT::PAREN_L)) {
 					const auto placeholders = parse::placeholder(lexer);
 					return std::make_unique<ast::FxPointer>(
-						name, nameSpace, placeholders, lexer.location());
+						name, namespaze, placeholders, lexer.location());
 				}
 				throw expected("(", lexer);
 			}

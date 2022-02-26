@@ -5,22 +5,22 @@ namespace ltn::c::compile {
 		StmtCode block(const ast::Block & block, CompilerInfo & info, Scope & parent) {
 			Scope scope(&parent);
 			std::stringstream ss;
-			std::size_t varCount = 0;
+			std::size_t locals = 0;
 			std::size_t newAllocs = 0;
 			for(const auto & stmt : block.statements) {
 				try {
 					if(stmt) {
 						const auto compiled = compile::statement(*stmt, info, scope); 
 						ss << compiled.code;
-						varCount = std::max(varCount, compiled.varCount);
-						newAllocs += compiled.directAllocation;
+						locals = std::max(locals, compiled.var_count);
+						newAllocs += compiled.direct_allocation;
 					} 
 				}
 				catch(const CompilerError & error) {
 					info.reporter.push(error);
 				}
 			}
-			return {ss.str(), varCount + newAllocs, false};
+			return {ss.str(), locals + newAllocs, false};
 		}
 
 		// compiles -> return...;
@@ -38,17 +38,17 @@ namespace ltn::c::compile {
 		}
 
 		// compiles variable creation -> var foo ...;
-		StmtCode newVariablelike(
-			const auto & newVar,
+		StmtCode new_variable_like(
+			const auto & new_variable,
 			CompilerInfo & info,
 			Scope & scope,
 			Variable::Qualifier qualifier) {
 			
 			const auto var = scope.insert(
-				newVar.name, qualifier, newVar.location);
+				new_variable.name, qualifier, new_variable.location);
 			std::stringstream ss;
-			if(newVar.right) {
-				const auto expr = compile::expression(*newVar.right, info, scope);
+			if(new_variable.right) {
+				const auto expr = compile::expression(*new_variable.right, info, scope);
 				ss << expr.code;
 			}
 			else {
@@ -60,13 +60,13 @@ namespace ltn::c::compile {
 	}
 	
 
-	StmtCode newConst(const ast::NewConst & stmt, CompilerInfo & info, Scope & scope) {
-		return newVariablelike(stmt, info, scope, Variable::Qualifier::CONST);
+	StmtCode new_const(const ast::NewConst & stmt, CompilerInfo & info, Scope & scope) {
+		return new_variable_like(stmt, info, scope, Variable::Qualifier::CONST);
 	}
 	
 
-	StmtCode newVar(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope) {
-		return newVariablelike(stmt, info, scope, Variable::Qualifier::MUTABLE);
+	StmtCode new_variable(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope) {
+		return new_variable_like(stmt, info, scope, Variable::Qualifier::MUTABLE);
 	}
 
 
@@ -88,20 +88,20 @@ namespace ltn::c::compile {
 		if(auto block = as<ast::Block>(stmt)) {
 			return compile::block(*block, info, scope);
 		}
-		if(auto ifElse = as<ast::IfElse>(stmt)) {
-			return compile::ifElse(*ifElse, info, scope);
+		if(auto if_else = as<ast::IfElse>(stmt)) {
+			return compile::if_else(*if_else, info, scope);
 		}
 		if(auto loop = as<ast::While>(stmt)) {
-			return compile::whileLoop(*loop, info, scope);
+			return compile::while_loop(*loop, info, scope);
 		}
 		if(auto loop = as<ast::For>(stmt)) {
-			return compile::forLoop(*loop, info, scope);
+			return compile::for_loop(*loop, info, scope);
 		}
-		if(auto newVar = as<ast::NewVar>(stmt)) {
-			return compile::newVar(*newVar, info, scope);
+		if(auto new_variable = as<ast::NewVar>(stmt)) {
+			return compile::new_variable(*new_variable, info, scope);
 		}
-		if(auto newConst = as<ast::NewConst>(stmt)) {
-			return compile::newConst(*newConst, info, scope);
+		if(auto new_const = as<ast::NewConst>(stmt)) {
+			return compile::new_const(*new_const, info, scope);
 		}
 		if(auto reTurn = as<ast::Return>(stmt)) {
 			return compile::reTurn(*reTurn, info, scope);

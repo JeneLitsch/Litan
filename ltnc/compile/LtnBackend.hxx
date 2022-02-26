@@ -13,9 +13,9 @@ namespace ltn::c::compile {
 			Reporter & reporter) override;
 		virtual ~LtnBackend() = default;
 	private:
-		FxTable fxTable;
+		FxTable fx_table;
 		MemberTable memberTable;
-		std::size_t jumpMarkCounter = 0;
+		std::size_t jump_mark_counter = 0;
 	};
 	
 }

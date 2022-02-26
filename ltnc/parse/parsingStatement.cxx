@@ -30,10 +30,10 @@ namespace ltn::c::parse {
 
 	template<class AstNodeType, TT tt>
 	// parses variable creation -> var a ...  
-	std::unique_ptr<AstNodeType> initVar(lex::Lexer & lexer) {
+	std::unique_ptr<AstNodeType> initialize_variable(lex::Lexer & lexer) {
 		if(lexer.match(tt)) {
-			auto name = parse::variableName(lexer);
-			auto && r = parse::assignR(lexer);
+			auto name = parse::variable_name(lexer);
+			auto && r = parse::assign_r(lexer);
 			return std::make_unique<AstNodeType>(
 				name,
 				std::move(r),
@@ -42,8 +42,8 @@ namespace ltn::c::parse {
 		return nullptr;
 	}
 
-	constexpr auto newVar = initVar<ast::NewVar, TT::VAR>;
-	constexpr auto newConst = initVar<ast::NewConst, TT::CONST>;
+	constexpr auto new_variable = initialize_variable<ast::NewVar, TT::VAR>;
+	constexpr auto new_const = initialize_variable<ast::NewConst, TT::CONST>;
 
 	// parses return statement -> return ...
 	std::unique_ptr<ast::Statement> retrn(lex::Lexer & lexer) {
@@ -77,11 +77,11 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Statement> statement(lex::Lexer & lexer) {
 		while(lexer.match(TT::SEMICOLON));
 		if(auto stmt = block(lexer)) return stmt;
-		if(auto stmt = ifElse(lexer)) return stmt;
-		if(auto stmt = whileLoop(lexer)) return stmt;
-		if(auto stmt = forLoop(lexer)) return stmt;
-		if(auto stmt = semicolon(lexer, newVar)) return stmt;
-		if(auto stmt = semicolon(lexer, newConst)) return stmt;
+		if(auto stmt = if_else(lexer)) return stmt;
+		if(auto stmt = while_loop(lexer)) return stmt;
+		if(auto stmt = for_loop(lexer)) return stmt;
+		if(auto stmt = semicolon(lexer, new_variable)) return stmt;
+		if(auto stmt = semicolon(lexer, new_const)) return stmt;
 		if(auto stmt = thr0w(lexer)) return stmt;
 		if(auto stmt = retrn(lexer)) return stmt;
 		return semicolon(lexer, expr);

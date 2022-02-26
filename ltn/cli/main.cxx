@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 
-void compileFile(ltn::c::Ltnc & ltnc, const std::filesystem::path & filepath) {
+void compile_file(ltn::c::Ltnc & ltnc, const std::filesystem::path & filepath) {
 	std::cout << "[Compiling] " << filepath << "\n";
 	try {
 		if(!std::filesystem::exists(filepath)) {
@@ -25,13 +25,13 @@ int main(int argc, char const *argv[]) {
 		try {
 			std::filesystem::path stdlib = argv[argc-1];
 					
-			for(const auto & stdFile : compiler.stdLib()) {
+			for(const auto & stdFile : compiler.stdlib()) {
 				const auto source = stdlib / stdFile; 
-				compileFile(compiler, source);
+				compile_file(compiler, source);
 			}
 			
 			for(std::int64_t i = 1; i+1 < argc; i++) {
-				compileFile(compiler, argv[i]);
+				compile_file(compiler, argv[i]);
 			}
 			std::stringstream ss;
 			compiler.yield(ss);

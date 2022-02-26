@@ -2,7 +2,7 @@
 #include <string_view>
 namespace ltn::c::compile {
 	namespace {
-		CompilerError undefinedFunction(
+		CompilerError undefined_function(
 			const std::string_view & name,
 			const ast::Node & node) {
 			std::stringstream ss;
@@ -47,10 +47,10 @@ namespace ltn::c::compile {
 		// compiles array literal
 		ExprCode array(const ast::Array & array, CompilerInfo & info, Scope & scope) {
 			std::stringstream ss;
-			for(const auto & elem : array.initElements) {
+			for(const auto & elem : array.initial_elements) {
 				ss << expression(*elem, info, scope).code;
 			}
-			ss << inst::newarr(array.initElements.size());
+			ss << inst::newarr(array.initial_elements.size());
 			return ExprCode{ ss.str() };
 		}
 
@@ -59,19 +59,18 @@ namespace ltn::c::compile {
 		// compiles function call fx(...)
 		ExprCode callFx(const ast::Call & call, CompilerInfo & info, Scope & scope) {
 			// resolve function
-			const auto fx = info.fxTable.resolve(
+			const auto fx = info.fx_table.resolve(
 				call.name,
-				scope.getNamespace(),
-				call.nameSpace,
+				scope.get_namespace(),
+				call.namespaze,
 				call.parameters.size());
 			
 			if(!fx) {
-				throw undefinedFunction(call.name, call);
+				throw undefined_function(call.name, call);
 			}
 			std::stringstream ss;
 			for(const auto & param : call.parameters) {
-				const auto paramCode = compile::expression(*param, info, scope);
-				ss << paramCode.code;
+				ss << compile::expression(*param, info, scope).code;
 			}
 			ss << inst::call(fx->id);
 			return ExprCode{ ss.str() };
@@ -82,13 +81,13 @@ namespace ltn::c::compile {
 			CompilerInfo & info,
 			Scope & scope) {
 			
-			const auto fx = info.fxTable.resolve(
+			const auto fx = info.fx_table.resolve(
 				ptr.name,
-				scope.getNamespace(),
-				ptr.nameSpace,
+				scope.get_namespace(),
+				ptr.namespaze,
 				ptr.placeholders);
 			if(!fx) {
-				throw undefinedFunction(ptr.name, ptr);
+				throw undefined_function(ptr.name, ptr);
 			}
 			std::stringstream ss;
 			ss << inst::newfx(fx->id, ptr.placeholders);
@@ -111,9 +110,9 @@ namespace ltn::c::compile {
 			CompilerInfo & info,
 			Scope & scope) {
 			std::stringstream ss;
-			ss << readVar(*access.var, info, scope).code;
+			ss << read_variable(*access.var, info, scope).code;
 			for(const auto & member : access.memberpath) {
-				const auto id = info.memberTable.getId(member);
+				const auto id = info.memberTable.get_id(member);
 				ss << inst::member_read(id);
 			}
 			return ExprCode{ ss.str() };
@@ -121,7 +120,7 @@ namespace ltn::c::compile {
 	}
 
 	// compiles an variable read accessc
-	ExprCode readVar(const ast::Var & expr, CompilerInfo &, Scope & scope) {
+	ExprCode read_variable(const ast::Var & expr, CompilerInfo &, Scope & scope) {
 		const auto var = scope.resolve(expr.name, expr.location);
 		std::stringstream ss;
 		ss << inst::read_x(var.address);
@@ -158,7 +157,7 @@ namespace ltn::c::compile {
 			return callFx(*expr_, info, scope);
 		}
 		if(auto expr_ = as<ast::Var>(expr)) {
-			return readVar(*expr_, info, scope);
+			return read_variable(*expr_, info, scope);
 		} 	
 		if(auto expr_ = as<ast::Index>(expr)) {
 			return index(*expr_, info, scope);

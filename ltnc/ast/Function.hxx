@@ -26,27 +26,27 @@ namespace ltn::c::ast {
 	struct Functional : public Declaration {
 		Functional(
 			const std::string & name,
-			Namespace nameSpace,
+			Namespace namespaze,
 			Parameters parameters,
 			const SourceLocation & location)
 			:	Declaration(location),
 				name(name),
-				nameSpace(nameSpace),
+				namespaze(namespaze),
 				parameters(parameters) {}
 		virtual ~Functional() = default;
 		std::string name;
-		Namespace nameSpace;
+		Namespace namespaze;
 		Parameters parameters;
 	};
 
 	struct Function : public Functional {
 		Function(
 			const std::string & name,
-			Namespace nameSpace,
+			Namespace namespaze,
 			Parameters parameters,
 			std::unique_ptr<Statement> && body,
 			const SourceLocation & location)
-			:	Functional(name, nameSpace, parameters, location),
+			:	Functional(name, namespaze, parameters, location),
 				body(std::move(body)) {}
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
@@ -56,11 +56,11 @@ namespace ltn::c::ast {
 	struct Asm : public Functional {
 		Asm(
 			const std::string & name,
-			Namespace nameSpace,
+			Namespace namespaze,
 			Parameters parameters,
 			const std::vector<std::string> & instructions,
 			const SourceLocation & location)
-			:	Functional(name, nameSpace, parameters, location),
+			:	Functional(name, namespaze, parameters, location),
 				instructions(instructions) {}
 		virtual ~Asm() = default;
 		std::vector<std::string> instructions;		

@@ -6,58 +6,58 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 		using Functionals = std::vector<std::unique_ptr<ast::Functional>>;
 
-		CompilerError anonymousNamespace(const lex::Lexer & lexer) {
+		CompilerError anonymous_namespace(const lex::Lexer & lexer) {
 			return CompilerError {
 				"Expected namespace name. Anonymous not supported",
 				lexer.location()};
 		}
 
-		CompilerError unknownDeclaration(const lex::Lexer & lexer) {
+		CompilerError unknown_declaration(const lex::Lexer & lexer) {
 			return CompilerError(
 				"Unknown declaration."
 				"Exprected function, namespace or asm-function.",
 				lexer.location());
 		}
 
-		CompilerError unclosedNamespace(const lex::Lexer & lexer) {
+		CompilerError unclosed_namespace(const lex::Lexer & lexer) {
 			return CompilerError {
 				"Unclosed namespace. Expected }",
 				lexer.location()};
 		}
 
-		CompilerError missingBraceL(const lex::Lexer & lexer) {
+		CompilerError missing_brace_l(const lex::Lexer & lexer) {
 			return CompilerError {
 				"Expected {",
 				lexer.location()};
 		}
 
-		CompilerError extraBraceR(const lex::Lexer & lexer) {
+		CompilerError extra_brace_r(const lex::Lexer & lexer) {
 			return CompilerError {
 				"Extra }",
 				lexer.location()};
 		}
 
 		// parses: namespace foo { ...
-		std::optional<std::string> openNamespace(lex::Lexer & lexer) {
+		std::optional<std::string> open_namespace(lex::Lexer & lexer) {
 			if(lexer.match(TT::NAMESPACE)) {
 				if(auto name = lexer.match(TT::INDENTIFIER)) {
 					if(lexer.match(TT::BRACE_L)) {
 						return name->str;
 					}
-					else throw missingBraceL(lexer);
+					else throw missing_brace_l(lexer);
 				}
-				else throw anonymousNamespace(lexer);
+				else throw anonymous_namespace(lexer);
 			}
 			return {};
 		}
 
 		// }
-		bool closeNamespace(
+		bool close_namespace(
 			lex::Lexer & lexer,
-			ast::Namespace & nameSpace) {
+			ast::Namespace & namespaze) {
 			if(lexer.match(TT::BRACE_R)) {
-				if(nameSpace.empty()) {
-					throw extraBraceR(lexer);
+				if(namespaze.empty()) {
+					throw extra_brace_r(lexer);
 				}
 				return true;
 			}
@@ -67,22 +67,22 @@ namespace ltn::c::parse {
 
 	std::vector<std::unique_ptr<ast::Functional>> source(lex::Lexer & lexer) {
 		Functionals functions;
-		ast::Namespace nameSpace;
+		ast::Namespace namespaze;
 		while(!lexer.match(TT::___EOF___)) {
 			// try {
-			if(auto ns = openNamespace(lexer)) {
-				nameSpace.push_back(*ns);
+			if(auto ns = open_namespace(lexer)) {
+				namespaze.push_back(*ns);
 			}
-			else if(closeNamespace(lexer, nameSpace)) {
-				nameSpace.pop_back();
+			else if(close_namespace(lexer, namespaze)) {
+				namespaze.pop_back();
 			}
-			else if(auto fx = parse::functional(lexer, nameSpace)) {
+			else if(auto fx = parse::functional(lexer, namespaze)) {
 				functions.push_back(std::move(fx));
 			}
-			else throw unknownDeclaration(lexer);
+			else throw unknown_declaration(lexer);
 		}
-		if(!nameSpace.empty()) {
-			throw unclosedNamespace(lexer);
+		if(!namespaze.empty()) {
+			throw unclosed_namespace(lexer);
 		}
 		return functions; 
 	}

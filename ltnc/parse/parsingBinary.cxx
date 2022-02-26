@@ -8,15 +8,15 @@ namespace ltn::c::parse {
 		using OP = ltn::c::ast::SimpleBinary::Type;
 
 		template<class ExprType>
-		std::pair<bool, std::unique_ptr<ast::Expression>> fromTable(
+		std::pair<bool, std::unique_ptr<ast::Expression>> from_table(
 			lex::Lexer & lexer,
 			const auto & opTable,
-			auto presedenceDown,
+			auto presedence_down,
 			auto && l) {
 			
 			for(const auto & [tt, op] : opTable) {
 				if(lexer.match(tt)) {
-					auto && r = presedenceDown(lexer);
+					auto && r = presedence_down(lexer);
 					auto bin = std::make_unique<ExprType>(
 						op, std::move(l), std::move(r), lexer.location());
 					return {false, std::move(bin)}; 
@@ -27,14 +27,14 @@ namespace ltn::c::parse {
 
 		template<class ResultType>
 		std::unique_ptr<ast::Expression> binary(
-			lex::Lexer & lexer, const auto & opTable, auto presedenceDown) {
+			lex::Lexer & lexer, const auto & opTable, auto presedence_down) {
 			while(true) {
-				auto l = presedenceDown(lexer);
+				auto l = presedence_down(lexer);
 				while (true) {
-					auto [last, expr] = fromTable<ResultType>(
+					auto [last, expr] = from_table<ResultType>(
 						lexer,
 						opTable,
-						presedenceDown,
+						presedence_down,
 						l);
 					l = std::move(expr);
 					if(last) return l;
@@ -93,18 +93,18 @@ namespace ltn::c::parse {
 		return binary<ast::SimpleBinary>(lexer, table, comparision); 
 	}
 
-	std::unique_ptr<ast::Expression> logOr(lex::Lexer & lexer) {
+	std::unique_ptr<ast::Expression> logical_or(lex::Lexer & lexer) {
 		constexpr std::array table {
 			std::pair{TT::OR, ast::Logical::Type::OR}
 		};
 		return binary<ast::Logical>(lexer, table, equality);
 	}
 
-	std::unique_ptr<ast::Expression> logAnd(lex::Lexer & lexer) {
+	std::unique_ptr<ast::Expression> logical_and(lex::Lexer & lexer) {
 		constexpr std::array table {
 			std::pair{TT::AND, ast::Logical::Type::AND}
 		};
-		return binary<ast::Logical>(lexer, table, logOr);
+		return binary<ast::Logical>(lexer, table, logical_or);
 	}
 
 

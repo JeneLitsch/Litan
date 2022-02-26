@@ -3,7 +3,7 @@
 namespace ltn::c::compile {
 	namespace {
 		// map binary operator types to instructions
-		std::string_view getBinInst(ast::SimpleBinary::Type op) {
+		std::string_view get_binary_instruction(ast::SimpleBinary::Type op) {
 			switch (op) {
 			case ast::SimpleBinary::Type::ADD: return inst::add;
 			case ast::SimpleBinary::Type::SUB: return inst::sub;
@@ -22,8 +22,8 @@ namespace ltn::c::compile {
 			throw CompilerError{"Invalid binary operation", {}};
 		}
 
-		ExprCode logicalAnd(const auto & l, const auto & r, CompilerInfo & info) {
-			const auto id = makeJumpId("AND", info);
+		ExprCode logical_and(const auto & l, const auto & r, CompilerInfo & info) {
+			const auto id = make_jump_id("AND", info);
 			const auto end = id + "_END";
 			const auto falsE = id + "_FALSE";
 			std::stringstream ss;
@@ -41,8 +41,8 @@ namespace ltn::c::compile {
 			return { ss.str() };
 		}
 
-		ExprCode logicalOr(const auto & l, const auto & r, CompilerInfo & info) {
-			const auto id = makeJumpId("OR", info);
+		ExprCode logical_or(const auto & l, const auto & r, CompilerInfo & info) {
+			const auto id = make_jump_id("OR", info);
 			const auto end = id + "_END";
 			const auto truE = id + "_TRUE";
 			std::stringstream ss;
@@ -72,15 +72,15 @@ namespace ltn::c::compile {
 			std::stringstream ss;
 			ss << l.code;
 			ss << r.code;
-			ss << getBinInst(bin->type);
+			ss << get_binary_instruction(bin->type);
 			return { ss.str() };
 		}
 		if(auto logical = as<ast::Logical>(binary)) {
 			if(logical->type == ast::Logical::Type::AND) {
-				return logicalAnd(l, r, info);
+				return logical_and(l, r, info);
 			}
 			if(logical->type == ast::Logical::Type::OR) {
-				return logicalOr(l, r, info);
+				return logical_or(l, r, info);
 			}
 		}
 		throw CompilerError{"Unknown binary Expr", {}};

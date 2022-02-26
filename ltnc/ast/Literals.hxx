@@ -64,12 +64,12 @@ namespace ltn::c::ast {
 	struct Array : public Literal {
 	public:
 		Array(
-			std::vector<std::unique_ptr<Expression>> && initElements,
+			std::vector<std::unique_ptr<Expression>> && initial_elements,
 			const SourceLocation & location)
 			:	Literal(location),
-			initElements(std::move(initElements)) {}
+			initial_elements(std::move(initial_elements)) {}
 		virtual ~Array() = default;
-		std::vector<std::unique_ptr<Expression>> initElements;
+		std::vector<std::unique_ptr<Expression>> initial_elements;
 	};
 
 	struct Lambda : public Literal {

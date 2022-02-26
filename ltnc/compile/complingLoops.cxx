@@ -1,15 +1,15 @@
 #include "compiling.hxx"
 
 namespace ltn::c::compile {
-	StmtCode whileLoop(const ast::While & stmt, CompilerInfo & info, Scope & scope) {
+	StmtCode while_loop(const ast::While & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
-		Scope loopScope{&scope}; 
+		Scope loop_scope{&scope}; 
 		
 		// compile parts
 		const auto condition = expression(*stmt.condition, info, scope);
-		const auto body = statement(*stmt.body, info, loopScope);
-		const auto begin = makeJumpId("WHILE_BEGIN", info);
-		const auto end = makeJumpId("WHILE_END", info);
+		const auto body = statement(*stmt.body, info, loop_scope);
+		const auto begin = make_jump_id("WHILE_BEGIN", info);
+		const auto end = make_jump_id("WHILE_END", info);
 
 		// generate asm code
 		std::stringstream ss;
@@ -20,24 +20,24 @@ namespace ltn::c::compile {
 			<< inst::jump(begin)
 			<< inst::jumpmark(end);
 
-		return {ss.str(), body.varCount};
+		return {ss.str(), body.var_count};
 	}
 
 
-	StmtCode forLoop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
+	StmtCode for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
-		Scope loopScope{&scope};
+		Scope loop_scope{&scope};
 
 		// compile parts
-		const auto var = newVar(*stmt.var, info, loopScope);
-		const auto from = expression(*stmt.from, info, loopScope);
-		const auto to = expression(*stmt.to, info, loopScope);
-		const auto body = statement(*stmt.body, info, loopScope);
-		const auto begin = makeJumpId("FOR_BEGIN", info);
-		const auto end = makeJumpId("FOR_END", info);
+		const auto var = new_variable(*stmt.var, info, loop_scope);
+		const auto from = expression(*stmt.from, info, loop_scope);
+		const auto to = expression(*stmt.to, info, loop_scope);
+		const auto body = statement(*stmt.body, info, loop_scope);
+		const auto begin = make_jump_id("FOR_BEGIN", info);
+		const auto end = make_jump_id("FOR_END", info);
 
 		// get address of index var
-		const auto iVar = loopScope.resolve(stmt.var->name, stmt.location);
+		const auto iVar = loop_scope.resolve(stmt.var->name, stmt.location);
 				
 		std::stringstream ss;
 		
@@ -64,7 +64,7 @@ namespace ltn::c::compile {
 		ss << inst::jump(begin);
 		ss << inst::jumpmark(end);
 
-		return StmtCode{ss.str(), body.varCount + 1};
+		return StmtCode{ss.str(), body.var_count + 1};
 	}
 
 }

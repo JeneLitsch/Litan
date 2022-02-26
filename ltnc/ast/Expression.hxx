@@ -80,16 +80,16 @@ namespace ltn::c::ast {
 	public:
 		Call(
 			const std::string & name,
-			const Namespace & nameSpace,
+			const Namespace & namespaze,
 			std::vector<std::unique_ptr<Expression>> parameters,
 			const SourceLocation & location)
 			:	Primary(location),
 				name(name),
-				nameSpace(nameSpace),
+				namespaze(namespaze),
 				parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
 		std::string name;
-		Namespace nameSpace;
+		Namespace namespaze;
 		std::vector<std::unique_ptr<Expression>> parameters;
 	};
 
@@ -98,16 +98,16 @@ namespace ltn::c::ast {
 	public:
 		FxPointer(
 			const std::string & name,
-			const Namespace & nameSpace,
+			const Namespace & namespaze,
 			const std::size_t placeholders,
 			const SourceLocation & location)
 			:	Primary(location),
 				name(name),
-				nameSpace(nameSpace),
+				namespaze(namespaze),
 				placeholders(std::move(placeholders)) {}
 		virtual ~FxPointer() = default;
 		std::string name;
-		Namespace nameSpace;
+		Namespace namespaze;
 		std::size_t placeholders;
 	};
 }

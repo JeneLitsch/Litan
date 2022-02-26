@@ -5,13 +5,13 @@ namespace ltn::c::compile {
 	public:
 		StmtCode(
 			const std::string & code,
-			std::size_t varCount,
-			bool directAllocation = false)
+			std::size_t var_count,
+			bool direct_allocation = false)
 			: 	code(code),
-				varCount(varCount),
-				directAllocation(directAllocation) {}
+				var_count(var_count),
+				direct_allocation(direct_allocation) {}
 		std::string code;
-		std::size_t varCount = 0;
-		bool directAllocation = false;
+		std::size_t var_count = 0;
+		bool direct_allocation = false;
 	};
 }

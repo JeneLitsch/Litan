@@ -3,39 +3,39 @@
 namespace ltn::c::compile {
 	
 	// creates a jump label
-	std::string makeJumpId(const std::string_view name, CompilerInfo & info) {
+	std::string make_jump_id(const std::string_view name, CompilerInfo & info) {
 		std::stringstream ss;
-		ss << name << info.jumpMarkCounter++;
+		ss << name << info.jump_mark_counter++;
 		return ss.str();
 	}
 
-	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope) {
+	StmtCode if_else(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope) {
 		// Separate scopes for branches
-		Scope ifScope{&scope};
-		Scope elseScope{&scope};
+		Scope if_scope{&scope};
+		Scope else_scope{&scope};
 
 		// compiles parts
-		const auto idIfEnd = makeJumpId("IF_END", info);
+		const auto idIfEnd = make_jump_id("IF_END", info);
 		const auto condition = expression(*stmt.condition, info, scope);
-		const auto ifBranch = statement(*stmt.ifBranch, info, ifScope);
+		const auto if_branch = statement(*stmt.if_branch, info, if_scope);
 		
 		// with else
-		if(stmt.elseBranch) {
-			const auto elseBranch = statement(*stmt.elseBranch, info, elseScope);
-			const auto idElse = makeJumpId("IF_ELSE", info);
+		if(stmt.else_branch) {
+			const auto else_branch = statement(*stmt.else_branch, info, else_scope);
+			const auto idElse = make_jump_id("IF_ELSE", info);
 			std::stringstream ss;
 			ss << condition.code;
 			ss << inst::ifelse(idElse);
 
-			ss << ifBranch.code;
+			ss << if_branch.code;
 			ss << inst::jump(idIfEnd);
 
 			ss << inst::jumpmark(idElse);
-			ss << elseBranch.code;
+			ss << else_branch.code;
 			ss << inst::jump(idIfEnd);
 
 			ss << inst::jumpmark(idIfEnd);
-			return {ss.str(), std::max(ifBranch.varCount, elseBranch.varCount)};
+			return {ss.str(), std::max(if_branch.var_count, else_branch.var_count)};
 		}
 		// without else
 		else {
@@ -43,9 +43,9 @@ namespace ltn::c::compile {
 			ss << condition.code;
 			ss << inst::ifelse(idIfEnd);
 
-			ss << ifBranch.code;
+			ss << if_branch.code;
 			ss << inst::jumpmark(idIfEnd);
-			return {ss.str(), ifBranch.varCount};
+			return {ss.str(), if_branch.var_count};
 		}
 
 	}

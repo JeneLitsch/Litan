@@ -57,17 +57,17 @@ namespace ltn::c::ast {
 	struct IfElse : public Statement {
 		IfElse(
 			std::unique_ptr<Expression> condition,
-			std::unique_ptr<Statement> ifBranch,
-			std::unique_ptr<Statement> elseBranch,
+			std::unique_ptr<Statement> if_branch,
+			std::unique_ptr<Statement> else_branch,
 			const SourceLocation & location)
 			:	Statement(location),
 				condition(std::move(condition)),
-				ifBranch(std::move(ifBranch)),
-				elseBranch(std::move(elseBranch)) {}
+				if_branch(std::move(if_branch)),
+				else_branch(std::move(else_branch)) {}
 		virtual ~IfElse() = default;
 		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Statement> ifBranch;
-		std::unique_ptr<Statement> elseBranch;
+		std::unique_ptr<Statement> if_branch;
+		std::unique_ptr<Statement> else_branch;
 	};
 
 

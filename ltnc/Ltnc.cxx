@@ -5,7 +5,7 @@
 #include <string_view>
 using namespace std::string_view_literals;
 
-const std::span<const std::string_view> ltn::c::Ltnc::stdLib() const {
+const std::span<const std::string_view> ltn::c::Ltnc::stdlib() const {
 	constexpr static std::array stdFiles {
 		"algorithm.ltn"sv,
 		"cast.ltn"sv,

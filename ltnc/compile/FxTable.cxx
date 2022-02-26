@@ -4,7 +4,7 @@
 #include <iostream>
 #include "ltn/printing.hxx"
 namespace ltn::c::compile {
-	CompilerError multipleDefinitions(const FxSignature & fx) {
+	CompilerError multiple_definitions(const FxSignature & fx) {
 		std::stringstream msg;
 		msg << "Function ";
 		msg << fx.name << "(";
@@ -35,7 +35,7 @@ namespace ltn::c::compile {
 			for(const auto & fx : functions) {
 				const bool names_match = fx.name == name;
 				const bool params_match = fx.parameters == parameters;
-				const bool namespaces_match = (from + to) == fx.nameSpace;
+				const bool namespaces_match = (from + to) == fx.namespaze;
 				if(names_match && params_match && namespaces_match) {
 					return &fx;
 				}
@@ -64,7 +64,7 @@ namespace ltn::c::compile {
 				for(const auto & fx : functions) {
 					const bool names_match = fx.name == name;
 					const bool params_match = fx.parameters == parameters;
-					const bool namespaces_match = fx.nameSpace == ast::Namespace{to.begin()+1, to.end()};
+					const bool namespaces_match = fx.namespaze == ast::Namespace{to.begin()+1, to.end()};
 					if(names_match && params_match && namespaces_match) {
 						return &fx;
 					}
@@ -93,7 +93,7 @@ namespace ltn::c::compile {
 			if(
 				fx.name == name &&
 				fx.parameters == parameters &&
-				fx.nameSpace == full) {
+				fx.namespaze == full) {
 				return &fx;
 			}
 		}
@@ -103,8 +103,8 @@ namespace ltn::c::compile {
 	// defines new function
 	void FxTable::insert(const FxSignature & fx) {
 		// Prevent redefinition
-		if(this->resolve(fx.name, fx.nameSpace, fx.parameters)) {
-			throw multipleDefinitions(fx);
+		if(this->resolve(fx.name, fx.namespaze, fx.parameters)) {
+			throw multiple_definitions(fx);
 		}
 		this->functions.push_back(fx);
 	}

@@ -12,7 +12,7 @@ namespace ltn::c {
 	public:
 		Ltnc(std::unique_ptr<Backend> backend) : backend(std::move(backend)) {}
 		virtual ~Ltnc() = default;
-		const std::span<const std::string_view> stdLib() const;
+		const std::span<const std::string_view> stdlib() const;
 		void compile(std::istream & in, const std::string & sourceName);
 		void yield(std::ostream & out);
 	private:

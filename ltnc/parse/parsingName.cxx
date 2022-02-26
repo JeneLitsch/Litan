@@ -14,15 +14,15 @@ namespace ltn::c::parse {
 		throw ltn::c::CompilerError{errMsg, lexer.location()};
 	}
 
-	std::string variableName(lex::Lexer & lexer) {
+	std::string variable_name(lex::Lexer & lexer) {
 		return indentifier(lexer, "invalid variable name");
 	}
 
-	std::string parameterName(lex::Lexer & lexer) {
+	std::string parameter_name(lex::Lexer & lexer) {
 		return indentifier(lexer, "invalid parameter name");
 	}
 
-	std::string functionName(lex::Lexer & lexer) {
+	std::string function_name(lex::Lexer & lexer) {
 		return indentifier(lexer, "invalid function name");
 	}
 }

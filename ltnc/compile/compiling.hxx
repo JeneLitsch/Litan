@@ -16,9 +16,9 @@
 namespace ltn::c::compile {
 	struct CompilerInfo {
 		const Config & config;
-		FxTable & fxTable;
+		FxTable & fx_table;
 		MemberTable & memberTable;
-		std::uint64_t & jumpMarkCounter; 
+		std::uint64_t & jump_mark_counter; 
 		Reporter & reporter;
 	};
 
@@ -30,11 +30,11 @@ namespace ltn::c::compile {
 
 	// Statement
 	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope);
-	StmtCode ifElse(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope);
-	StmtCode whileLoop(const ast::While & stmt, CompilerInfo & info, Scope & scope);
-	StmtCode forLoop(const ast::For & stmt, CompilerInfo & info, Scope & scope);
-	StmtCode newVar(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope);
-	StmtCode newConst(const ast::NewConst & stmt, CompilerInfo & info, Scope & scope);
+	StmtCode if_else(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope);
+	StmtCode while_loop(const ast::While & stmt, CompilerInfo & info, Scope & scope);
+	StmtCode for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope);
+	StmtCode new_variable(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope);
+	StmtCode new_const(const ast::NewConst & stmt, CompilerInfo & info, Scope & scope);
 
 	// Expression
 	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope);
@@ -43,8 +43,8 @@ namespace ltn::c::compile {
 	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope);
 	ExprCode assignable(const ast::Assignable & expr, CompilerInfo & info, Scope & scope);
 	ExprCode addr(const ast::Var & expr, Scope & scope);
-	ExprCode readVar(const ast::Var & expr, CompilerInfo & info, Scope & scope);
+	ExprCode read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope);
 
 	// utils
-	std::string makeJumpId(const std::string_view name, CompilerInfo & info);
+	std::string make_jump_id(const std::string_view name, CompilerInfo & info);
 }	

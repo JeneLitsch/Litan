@@ -4,7 +4,7 @@
 namespace ltn::c::compile::inst {
 	const std::string comment(std::string msg);
 	const std::string jumpmark(const std::string_view id);
-	const std::string jumpmarkExcept(const std::string_view id);
+	const std::string jumpmark_except(const std::string_view id);
 	const std::string_view error = "error\n";
 	const std::string_view thr0w = "throw\n";
 	const std::string_view c4tch = "catch\n";

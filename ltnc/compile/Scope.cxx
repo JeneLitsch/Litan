@@ -2,13 +2,13 @@
 #include "ltnc/CompilerError.hxx"
 
 namespace ltn::c::compile {
-	Scope::Scope(const ast::Namespace & nameSpace) 
-		: parent(nullptr), nameSpace(nameSpace) {
+	Scope::Scope(const ast::Namespace & namespaze) 
+		: parent(nullptr), namespaze(namespaze) {
 
 	}
 
 	Scope::Scope(const Scope * parent) 
-		: parent(parent), nameSpace(parent->nameSpace) {}
+		: parent(parent), namespaze(parent->namespaze) {}
 
 	// tries to resolve variable recursively
 	Variable Scope::resolve(
@@ -53,8 +53,8 @@ namespace ltn::c::compile {
 	}
 
 
-	const ltn::c::ast::Namespace & ltn::c::compile::Scope::getNamespace() const {
-		return this->nameSpace;
+	const ltn::c::ast::Namespace & ltn::c::compile::Scope::get_namespace() const {
+		return this->namespaze;
 	}
 
 }

@@ -10,7 +10,7 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 
 		// Returns a array of all parameters
-		ast::Parameters parameterList(lex::Lexer & lexer) {
+		ast::Parameters parameter_list(lex::Lexer & lexer) {
 			if(!lexer.match(TT::PAREN_L)) {
 				throw ltn::c::CompilerError{"missing (", lexer.location()};
 			}
@@ -18,7 +18,7 @@ namespace ltn::c::parse {
 			ast::Parameters parameters{};
 			if(!lexer.match(TT::PAREN_R)) {
 				while(true) {
-					parameters.push_back(parse::parameterName(lexer));
+					parameters.push_back(parse::parameter_name(lexer));
 					if(lexer.match(TT::PAREN_R)) break;
 					if(!lexer.match(TT::COMMA)) {
 						throw CompilerError{
@@ -30,8 +30,8 @@ namespace ltn::c::parse {
 			return parameters;
 		}
 
-		ast::Parameters optionalParameters(lex::Lexer & lexer) {
-			if(lexer.check(TT::PAREN_L)) return parameterList(lexer);
+		ast::Parameters optional_parameters(lex::Lexer & lexer) {
+			if(lexer.check(TT::PAREN_L)) return parameter_list(lexer);
 			return {};
 		}
 
@@ -42,7 +42,7 @@ namespace ltn::c::parse {
 			std::vector<std::unique_ptr<ast::Var>> captures{};
 			if(!lexer.match(TT::BRACKET_R)) {
 				while(true) {
-					const auto name = parse::variableName(lexer);
+					const auto name = parse::variable_name(lexer);
 					captures.push_back(std::make_unique<ast::Var>(name, lexer.location()));
 					if(lexer.match(TT::BRACKET_R)) break;
 					if(!lexer.match(TT::COMMA)) {
@@ -79,7 +79,7 @@ namespace ltn::c::parse {
 
 		std::unique_ptr<ast::Except> except(lex::Lexer & lexer) {
 			if(lexer.match(TT::EXCEPT)) {
-				auto params = parameterList(lexer);
+				auto params = parameter_list(lexer);
 				if(params.size() != 1) {
 					throw CompilerError{
 						"Except only takes one error parameter",
@@ -97,16 +97,16 @@ namespace ltn::c::parse {
 
 		// parses and returns a function node
 		template<class FunctionalNode>
-		std::unique_ptr<FunctionalNode> functionalNode(
+		std::unique_ptr<FunctionalNode> functional_node(
 			lex::Lexer & lexer,
-			const ast::Namespace & nameSpace,
+			const ast::Namespace & namespaze,
 			auto parseBody) {
-			const auto name = functionName(lexer);
-			const auto parameters = parameterList(lexer);
+			const auto name = function_name(lexer);
+			const auto parameters = parameter_list(lexer);
 			auto body = parseBody(lexer);
 			return std::make_unique<FunctionalNode>(
 				name,
-				nameSpace,
+				namespaze,
 				parameters,
 				std::move(body),
 				lexer.location());
@@ -116,15 +116,15 @@ namespace ltn::c::parse {
 	// parses and returns a functional node
 	std::unique_ptr<ast::Functional> functional(
 		lex::Lexer & lexer,
-		const ast::Namespace & nameSpace) {
+		const ast::Namespace & namespaze) {
 
 		if(lexer.match(TT::FUNCTION)) {
-			auto fx = functionalNode<ast::Function>(lexer, nameSpace, statement);
+			auto fx = functional_node<ast::Function>(lexer, namespaze, statement);
 			fx->except = except(lexer);
 			return fx;
 		}
 		if(lexer.match(TT::ASM)) {
-			return functionalNode<ast::Asm>(lexer, nameSpace, instructions);
+			return functional_node<ast::Asm>(lexer, namespaze, instructions);
 		}
 		return nullptr;
 	}
@@ -132,7 +132,7 @@ namespace ltn::c::parse {
 	std::unique_ptr<ast::Lambda> lambda(lex::Lexer & lexer) {
 		if(lexer.match(TT::LAMBDA)) {
 			auto captures = parse::captures(lexer);
-			const auto parameters = optionalParameters(lexer);
+			const auto parameters = optional_parameters(lexer);
 			auto body = statement(lexer); 
 			auto fx = std::make_unique<ast::Function>(
 				"lambda",

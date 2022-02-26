@@ -7,7 +7,7 @@ namespace ltn::c::parse {
 		using OP = ltn::c::ast::Unary::Type;
 
 		// recursive right sided unary -> [i]
-		std::unique_ptr<ast::Expression> unaryR(
+		std::unique_ptr<ast::Expression> unary_r(
 			lex::Lexer & lexer,
 			std::unique_ptr<ast::Expression> l) {
 			
@@ -16,7 +16,7 @@ namespace ltn::c::parse {
 					std::move(l),
 					std::move(index),
 					index->location);
-				return unaryR(lexer, std::move(full));
+				return unary_r(lexer, std::move(full));
 			}
 			return l;
 		}
@@ -48,7 +48,7 @@ namespace ltn::c::parse {
 			}
 		}
 		// right unary
-		return unaryR(lexer, parse::primary(lexer));
+		return unary_r(lexer, parse::primary(lexer));
 	}
 }
 

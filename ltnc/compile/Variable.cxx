@@ -1,11 +1,11 @@
 #include "Variable.hxx"
 
 namespace ltn::c::compile {
-	bool isConst(const Variable & var) {
+	bool is_const(const Variable & var) {
 		return var.qualifier == Variable::Qualifier::CONST;
 	}
 
-	bool isMutable(const Variable & var) {
+	bool is_mutable(const Variable & var) {
 		return var.qualifier == Variable::Qualifier::MUTABLE;
 	}
 }

@@ -4,7 +4,7 @@
 namespace ltn::c::compile {
 	struct FxSignature {
 		std::string name;
-		ast::Namespace nameSpace;
+		ast::Namespace namespaze;
 		std::size_t parameters;
 		std::string id;
 	};

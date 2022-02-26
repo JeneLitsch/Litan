@@ -9,7 +9,7 @@ namespace ltn::c::lex {
 		using TT = Token::Type; 
 
 		// Returns true if stream is empty 
-		bool isAtEnd(std::istream & in) {
+		bool is_at_end(std::istream & in) {
 			return in.eof();
 		}
 
@@ -21,37 +21,37 @@ namespace ltn::c::lex {
 		// peeks at "in" and returns true if chars matches
 		bool check(std::istream & in, char chr, std::size_t & line) {
 			in >> WS{line};
-			if(isAtEnd(in)) return false;
+			if(is_at_end(in)) return false;
 			return in.peek() == chr;
 		}
 
 		// returns true if next char is a digit
-		bool checkDigit(std::istream & in) {
+		bool check_digit(std::istream & in) {
 			return std::isdigit(in.peek());
 		}
 
 		// returns true if next char is a hex digit
-		bool checkHexDigit(std::istream & in) {
+		bool check_hex_digit(std::istream & in) {
 			return std::isxdigit(in.peek());
 		}
 
 		// returns true if next char is a hex digit
-		bool checkBinDigit(std::istream & in) {
+		bool check_bin_digit(std::istream & in) {
 			return in.peek() == '0' || in.peek() == '1';
 		}
 
 		// returns true if next char is a letter
-		bool checkAlpha(std::istream & in) {
+		bool check_alpha(std::istream & in) {
 			return std::isalpha(in.peek());
 		}
 
 		// returns true if next char is a letter or digit
-		bool checkAlNum(std::istream & in) {
+		bool check_alpha_numeric(std::istream & in) {
 			return std::isalnum(in.peek());
 		}
 
-		bool checkIdChar(std::istream & in) {
-			return checkAlNum(in) || in.peek() == '_';
+		bool check_id_char(std::istream & in) {
+			return check_alpha_numeric(in) || in.peek() == '_';
 		}
 
 		// returns true and consumes if the next char matches 
@@ -73,7 +73,7 @@ namespace ltn::c::lex {
 
 		// ignores rest of line
 		void comment(std::istream & in) {
-			while(!isAtEnd(in) && in.peek() != '\n') {
+			while(!is_at_end(in) && in.peek() != '\n') {
 				in.ignore();
 			}
 		}
@@ -102,7 +102,7 @@ namespace ltn::c::lex {
 		
 
 		template<char END> 
-		char deEscape(auto chr, const SourceLocation & location) {
+		char de_escape(auto chr, const SourceLocation & location) {
 			switch (chr) {
 			case 'n': return '\n';
 			case 't': return '\t';
@@ -129,7 +129,7 @@ namespace ltn::c::lex {
 					throw CompilerError{"Tab needs to be escaped \\t", location};
 				}
 				if(chr == '\\') {
-					ss << deEscape<END>(in.get(), location);
+					ss << de_escape<END>(in.get(), location);
 				}
 				else {
 					ss << chr;
@@ -150,7 +150,7 @@ namespace ltn::c::lex {
 
 		in >> WS{location.line};
 		
-		if(isAtEnd(in)) return make(TT::___EOF___, "___EOF__");
+		if(is_at_end(in)) return make(TT::___EOF___, "___EOF__");
 		
 		if(match(',')) return make(TT::COMMA, ",");
 		if(match(';')) return make(TT::SEMICOLON, ";");
@@ -263,34 +263,34 @@ namespace ltn::c::lex {
 			throw CompilerError{"\":\" is not a valid token.", location};
 		}
 
-		if(checkAlpha(in)) {
-			const auto str = read(in, checkIdChar);
+		if(check_alpha(in)) {
+			const auto str = read(in, check_id_char);
 			if(keywords.contains(str)) {
 				return make(keywords.at(str), str);
 			}
 			return make(TT::INDENTIFIER, str);
 		}
 
-		if(checkDigit(in)) {
+		if(check_digit(in)) {
 			bool zero = false;
 			if(match('0')) {
 				if(match('x')) {
-					const auto literalInt = read(in, checkHexDigit);
-					return make(TT::INTEGER_HEX, literalInt);
+					const auto int_literal = read(in, check_hex_digit);
+					return make(TT::INTEGER_HEX, int_literal);
 				}
 				if(match('b')) {
-					const auto literalInt = read(in, checkBinDigit);
-					return make(TT::INTEGER_BIN, literalInt);
+					const auto int_literal = read(in, check_bin_digit);
+					return make(TT::INTEGER_BIN, int_literal);
 				}
 				zero = true;
 			}
-			const auto literalInt = (zero?"0":"") + read(in, checkDigit);
+			const auto int_literal = (zero?"0":"") + read(in, check_digit);
 			if(match('.')) {
-				const auto literalFraction = read(in, checkDigit);
-				const auto literal = literalInt + "." + literalFraction;
+				const auto literalFraction = read(in, check_digit);
+				const auto literal = int_literal + "." + literalFraction;
 				return make(TT::FLOAT, literal);
 			}
-			return make(TT::INTEGER, literalInt);
+			return make(TT::INTEGER, int_literal);
 		}
 
 		throw CompilerError{"invalid token", location};

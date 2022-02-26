@@ -3,21 +3,21 @@
 
 namespace ltn::c::compile {
 	namespace {
-		auto makeFxId(
+		auto make_fxid(
 			CompilerInfo & info,
 			const ast::Functional & fx) {
 			std::stringstream ss;
-			ss << "FX" << info.jumpMarkCounter++;
-			for(const auto & sns : fx.nameSpace) {
+			ss << "FX" << info.jump_mark_counter++;
+			for(const auto & sns : fx.namespaze) {
 				ss << "_" << sns;
 			}
 			ss << "_" << fx.name << "_" << fx.parameters.size();
 			return ss.str();
 		}
 
-		void initCode(std::ostream & out, FxTable & fxTable) {
+		void startup_code(std::ostream & out, FxTable & fx_table) {
 			// Jump to main()
-			if(const auto fxmain = fxTable.resolve("main", {}, 0)) {
+			if(const auto fxmain = fx_table.resolve("main", {}, 0)) {
 				out
 					<< compile::inst::call(fxmain->id) 
 					<< compile::inst::exlt
@@ -38,21 +38,21 @@ namespace ltn::c::compile {
 		
 		compile::CompilerInfo info {
 			config,
-			this->fxTable,
+			this->fx_table,
 			this->memberTable,
-			this->jumpMarkCounter,
+			this->jump_mark_counter,
 			reporter};
 		
 		for(const auto & fx : functions) {
-			info.fxTable.insert({
+			info.fx_table.insert({
 				fx->name,
-				fx->nameSpace,
+				fx->namespaze,
 				fx->parameters.size(),
-				makeFxId(info, *fx)});
+				make_fxid(info, *fx)});
 		}
 
 		try {
-			initCode(out, fxTable);
+			startup_code(out, fx_table);
 		}
 		catch(const CompilerError & error) {
 			reporter.push(error);
