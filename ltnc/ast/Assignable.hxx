@@ -43,7 +43,7 @@ namespace ltn::c::ast {
 	};
 
 	struct Modify : public Expression {
-		enum class Type { ADD, SUB, MLT, DIV, MOD };
+		enum class Type { ADD, SUB, MLT, DIV, MOD, SHIFT_L, SHIFT_R };
 		Modify(
 			Type type,
 			std::unique_ptr<Assignable> l,

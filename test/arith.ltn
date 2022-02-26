@@ -134,8 +134,14 @@ namespace test {
 			return a << b;
 		};
 
+		var shift_eq = lambda (a, b) {
+			a <<= b;
+			return a;
+		};
+
 		return
-			test_all_cases("Shift l<<", shift, cases);
+			test_all_cases("Shift l<<", shift, cases) +
+			test_all_cases("Shift l<<=", shift_eq, cases);
 	}
 
 	function shift_r() {
@@ -149,8 +155,14 @@ namespace test {
 			return a >> b;
 		};
 
+		var shift_eq = lambda (a, b) {
+			a >>= b;
+			return a;
+		};
+
 		return
-			test_all_cases("Shift l<<", shift, cases);
+			test_all_cases("Shift l>>", shift, cases) +
+			test_all_cases("Shift l>>=", shift_eq, cases);
 	}
 
 

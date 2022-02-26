@@ -32,11 +32,13 @@ namespace ltn::c::parse {
 				lexer.location()};
 		}
 		auto modifyTable = std::array{
-			std::pair{MT::ADD, TT::ASSIGN_ADD},
-			std::pair{MT::SUB, TT::ASSIGN_SUB},
-			std::pair{MT::MLT, TT::ASSIGN_MLT},
-			std::pair{MT::DIV, TT::ASSIGN_DIV},
-			std::pair{MT::MOD, TT::ASSIGN_MOD},
+			std::pair{MT::ADD,     TT::ASSIGN_ADD},
+			std::pair{MT::SUB,     TT::ASSIGN_SUB},
+			std::pair{MT::MLT,     TT::ASSIGN_MLT},
+			std::pair{MT::DIV,     TT::ASSIGN_DIV},
+			std::pair{MT::MOD,     TT::ASSIGN_MOD},
+			std::pair{MT::SHIFT_L, TT::ASSIGN_SHIFT_L},
+			std::pair{MT::SHIFT_R, TT::ASSIGN_SHIFT_R},
 		};
 		for(auto [mt, tt] : modifyTable) {
 			if(lexer.match(tt)) {

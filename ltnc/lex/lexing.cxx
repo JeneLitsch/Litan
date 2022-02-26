@@ -216,15 +216,24 @@ namespace ltn::c::lex {
 		}
 
 		if(match('<')) {
-			if(match('<')) return make(TT::SHIFT_L, "<<");
+			if(match('<')) {
+				if(match('=')) return make(TT::ASSIGN_SHIFT_L, "<<=");
+				return make(TT::SHIFT_L, "<<");
+			}
+			
 			if(match('=')) return make(TT::SMALLER_EQUAL, "<=");
 			return make(TT::SMALLER, "<");
 		}
+
 		if(match('>')) {
-			if(match('>')) return make(TT::SHIFT_R, ">>");
+			if(match('>')) {
+				if(match('=')) return make(TT::ASSIGN_SHIFT_R, ">>=");
+				return make(TT::SHIFT_R, ">>");
+			}
 			if(match('=')) return make(TT::BIGGER_EQUAL, ">=");
 			return make(TT::BIGGER, ">");
 		}
+
 		if(match('!')) {
 			if(match('=')) return make(TT::UNEQUAL, "!=");
 			return make(TT::NOT, "!");
