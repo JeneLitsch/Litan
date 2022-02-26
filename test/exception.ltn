@@ -30,8 +30,8 @@ namespace test {
 		};
 		
 		var cases1 = [
-			[[ &just_throw(),           []               ], true],
-			[[ &no_throw(),             []               ], false],
+			[[ &just_throw(),          []               ], true],
+			[[ &no_throw(),            []               ], false],
 			[[ &std::remove_back(_),   [std::array()]   ], true],
 			[[ &std::remove_back(_),   [std::array(42)] ], false],
 			[[ throws,                 [1,2] ],            true],

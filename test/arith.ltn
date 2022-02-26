@@ -98,7 +98,6 @@ namespace test {
 		return
 			test_all_cases("Divide/", div, cases) +
 			test_all_cases("Divide/=", div_eq, cases);
-
 	}
 
 
@@ -125,6 +124,36 @@ namespace test {
 			test_all_cases("Modulo%=", mod_eq, cases);
 	}
 
+	function shift_l() {
+		var cases = [
+			[[1, 1], 2],
+			[[2, 2], 8],
+		];
+		
+		var shift = lambda (a, b) {
+			return a << b;
+		};
+
+		return
+			test_all_cases("Shift l<<", shift, cases);
+	}
+
+	function shift_r() {
+		var cases = [
+			[[1, 1], 0],
+			[[2, 1], 1],
+			[[8, 2], 2],
+		];
+		
+		var shift = lambda (a, b) {
+			return a >> b;
+		};
+
+		return
+			test_all_cases("Shift l<<", shift, cases);
+	}
+
+
 
 	function neg() {
 		var cases = [
@@ -143,6 +172,8 @@ namespace test {
 
 
 	function arith() {
-		return add() + sub() + mlt() + div() + mod() + neg();
+		return
+			add() + sub() + mlt() + div() + mod() + neg() +
+			shift_l() + shift_r();
 	}
 }
