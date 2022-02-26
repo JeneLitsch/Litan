@@ -1,5 +1,5 @@
 namespace test {
-	function doesItThrow(fx, params) {
+	function does_it_throw(fx, params) {
 		std::invoke(fx, params);
 		return false;
 	}
@@ -7,8 +7,15 @@ namespace test {
 		return true;
 	}
 
-	function justThrow() { throw; }
-	function noThrow() { }
+	function just_throw() { throw; }
+	function no_throw() { }
+	function throw_42() { throw 42; }
+	function throw_hello() { throw "hello"; }
+
+	function get_exception(fx) {
+		std::invoke(fx);
+	}
+	except(e) { return e; }
 
 	function exception() {
 		var throws = lambda(a,b) {
@@ -22,15 +29,22 @@ namespace test {
 			return 42;
 		};
 		
-		var cases = [
-			[[ &justThrow(),           []               ], true],
-			[[ &noThrow(),             []               ], false],
+		var cases1 = [
+			[[ &just_throw(),           []               ], true],
+			[[ &no_throw(),             []               ], false],
 			[[ &std::remove_back(_),   [std::array()]   ], true],
 			[[ &std::remove_back(_),   [std::array(42)] ], false],
 			[[ throws,                 [1,2] ],            true],
 			[[ catches,                [1,2] ],            false],
-
 		];
-		return test_all_cases("Exception", &doesItThrow(_,_), cases);
+
+		var cases2 = [
+			[[&throw_42()], 42],
+			[[&throw_hello()], "hello"],
+		];
+
+		return
+			test_all_cases("Exception", &does_it_throw(_,_), cases1) + 
+			test_all_cases("Exception", &get_exception(_), cases2);
 	}
 }
