@@ -1,19 +1,20 @@
 function main() {
 	var tests = [
-		&test::arith(),
-		&test::compare(),
-		&test::queue(),
-		&test::stack(),
-		&test::array(),	
-		&test::exception(),
-		&test::math(),
-		&test::bool(),
-		&test::range(),
 		&test::algorithm(),
+		&test::arith(),
+		&test::array(),	
+		&test::bool(),
+		&test::captures(),
+		&test::compare(),
+		&test::exception(),
+		&test::loops(),
+		&test::math(),
+		&test::namespacing(),
+		&test::queue(),
+		&test::range(),
+		&test::stack(),
 		&test::struct(),
 		&test::types(),
-		&test::loops(),
-		&test::namespacing(),
 	];
 
 

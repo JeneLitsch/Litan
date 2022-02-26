@@ -15,11 +15,18 @@ namespace test {
 			[["4", [1, 2, 3]], "4[1, 2, 3]"],
 		];
 
-		var fx = lambda (a, b) {
+		var add = lambda (a, b) {
 			return a + b;
 		};
 
-		return test_all_cases("Add+", fx, cases);
+		var add_eq = lambda (a, b) {
+			a += b;
+			return a;
+		};
+
+		return
+			test_all_cases("Add+", add, cases) + 
+			test_all_cases("Add+=", add_eq, cases);
 	}
 
 	function sub() {
@@ -32,11 +39,18 @@ namespace test {
 			[['C', 2], 'A'],
 		];
 		
-		var fx = lambda (a, b) {
+		var sub = lambda (a, b) {
 			return a - b;
 		};
 
-		return test_all_cases("Subtract-", fx, cases);
+		var sub_eq = lambda (a, b) {
+			a -= b;
+			return a;
+		};
+
+		return 
+			test_all_cases("Subtract-", sub, cases) +
+			test_all_cases("Subtract-=", sub_eq, cases);
 	}
 
 	function mlt() {
@@ -49,11 +63,18 @@ namespace test {
 			[['C', 2], 'C' + 'C'],
 		];
 		
-		var fx = lambda (a, b) {
+		var mlt = lambda (a, b) {
 			return a * b;
 		};
 
-		return test_all_cases("Multiply*", fx, cases);
+		var mlt_eq = lambda (a, b) {
+			a *= b;
+			return a;
+		};
+
+		return
+			test_all_cases("Multiply*", mlt, cases) +
+			test_all_cases("Multiply*=", mlt_eq, cases);
 	}
 
 	
@@ -65,11 +86,19 @@ namespace test {
 			[[true, 2.0], 0.5],
 		];
 		
-		var fx = lambda (a, b) {
+		var div = lambda (a, b) {
 			return a / b;
 		};
 
-		return test_all_cases("Divide/", fx, cases);
+		var div_eq = lambda (a, b) {
+			a /= b;
+			return a;
+		};
+
+		return
+			test_all_cases("Divide/", div, cases) +
+			test_all_cases("Divide/=", div_eq, cases);
+
 	}
 
 
@@ -82,11 +111,18 @@ namespace test {
 			[[-24, -7], -3],
 		];
 		
-		var fx = lambda (a, b) {
+		var mod = lambda (a, b) {
 			return a % b;
 		};
 
-		return test_all_cases("Modulo%", fx, cases);
+		var mod_eq = lambda (a, b) {
+			a %= b;
+			return a;
+		};
+
+		return
+			test_all_cases("Modulo%", mod, cases) +
+			test_all_cases("Modulo%=", mod_eq, cases);
 	}
 
 
