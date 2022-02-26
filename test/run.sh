@@ -18,6 +18,7 @@ binFile="test/$test.bin.ltn"
 	test/struct.ltn\
 	test/types.ltn\
 	test/loops.ltn\
+	test/namespace.ltn\
 
 ./bin/ltna 	$binFile  $asmFile
 ./bin/ltnvm $binFile

@@ -144,8 +144,12 @@ namespace ltn::c::parse {
 
 		std::pair<std::string, ast::Namespace>
 		symbol(lex::Lexer & lexer) {
-			if(auto identifier = lexer.match(TT::INDENTIFIER)) {
-				ast::Namespace nameSpace = {identifier->str};
+			ast::Namespace nameSpace;
+			if(lexer.match(TT::COLONx2)) {
+				nameSpace.push_back("::");
+			}
+			if(const auto & identifier = lexer.match(TT::INDENTIFIER)) {
+				nameSpace.push_back(identifier->str);
 				std::string name = identifier->str;
 				while(lexer.match(TT::COLONx2)) {
 					if(auto i = lexer.match(TT::INDENTIFIER)) {

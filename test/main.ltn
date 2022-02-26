@@ -13,6 +13,7 @@ function main() {
 		&test::struct(),
 		&test::types(),
 		&test::loops(),
+		&test::namespacing(),
 	];
 
 

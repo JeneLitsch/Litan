@@ -1,4 +1,5 @@
 #include "Namespace.hxx"
+#include <iostream>
 namespace ltn::c::ast {
 
 	namespace {
@@ -12,25 +13,10 @@ namespace ltn::c::ast {
 			vec.insert(std::end(vec), r.begin(), r.end());
 			return vec;
 		}
-
 	}
 
-	bool match(
-		const Namespace & full,
-		const Namespace & from,
-		const Namespace & to) {
-			
-		if((from + to) == full) {
-			return true;
-		}
-		else if(from.empty()) {
-			return false;
-		}
-		else {
-			return match(
-				full,
-				{from.begin(), from.end()-1},
-				to);
-		}
+
+	bool is_absolute(const Namespace & ns) {
+		return (!ns.empty()) && (ns[0] == "::");
 	}
 }

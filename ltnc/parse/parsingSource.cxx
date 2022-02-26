@@ -80,11 +80,6 @@ namespace ltn::c::parse {
 				functions.push_back(std::move(fx));
 			}
 			else throw unknownDeclaration(lexer);
-			// }
-			// catch(const CompilerError & error) {
-			// 	reporter.push(error);
-			// 	lexer.sync();
-			// }
 		}
 		if(!nameSpace.empty()) {
 			throw unclosedNamespace(lexer);
