@@ -1,5 +1,5 @@
 namespace test {
-	function test_for_alt1() {
+	function for_alt1() {
 		var fx = lambda(begin, end) {
 			var sum = 0;
 			for i (begin, end) {
@@ -24,8 +24,35 @@ namespace test {
 		return test_all_cases("for", fx, cases); 
 	}
 
+	function while_loop() {
+		var fx = lambda(arr, stop) {
+			var i = 0;
+			while(i < std::size(arr) && arr[i] != stop) {
+				i+=1;
+			}
+			if(i >= std::size(arr)) {
+				return -1;
+			};
+
+			return i;
+		}
+		except(e) {
+			return -1;
+		};
+
+		var cases = [
+			[[[1,2,3], 3], 2],
+			[[[1,2,3], 4], -1],
+			[[[1337, 42], 3], -1],
+			[[[1337, 42], 666], -1],
+			[[[1337, 666, 42], 666], 1],
+			[[[1337, 666, 42], 42], 2],
+		];
+
+		return test_all_cases("while", fx, cases);
+	}
+
 	function loops() {
-		return
-			test_for_alt1();
+		return while_loop() + for_alt1();
 	}
 }
