@@ -1,0 +1,24 @@
+namespace test {
+	function if_else() {
+		var fx = lambda (condition, a, b) {
+			if(condition) {
+				return a;
+			}
+			else return b;
+		};
+
+		var cases = [
+			[[true, 1, 2], 1], 
+			[[false, 1, 2], 2], 
+			[[null, 1, 2], 2], 
+			[[1, 1, 2], 1], 
+		];
+
+		return test_all_cases("if else", fx, cases);
+	}
+	
+	function conditional() {
+		return
+			if_else();
+	}
+}
