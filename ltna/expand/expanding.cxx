@@ -12,7 +12,7 @@ namespace ltn::a::expand {
 		template<typename T>
 		concept not_usigned_integral = !std::is_unsigned<T>::value;
 		
-		auto toBytes(std::unsigned_integral auto value) {
+		auto to_bytes(std::unsigned_integral auto value) {
 			constexpr static auto SIZE = sizeof(value) / sizeof(std::uint8_t);
 			std::array<std::uint8_t, SIZE> bytes;
 			for(std::uint8_t & byte : bytes) {
@@ -23,22 +23,22 @@ namespace ltn::a::expand {
 			return bytes;
 		}
 		
-		auto toBytes(not_usigned_integral auto value) {
-			return toBytes(bitcast<std::uint64_t>(value));
+		auto to_bytes(not_usigned_integral auto value) {
+			return to_bytes(bitcast<std::uint64_t>(value));
 		}
 
 		template<typename Value>
 		std::string expandArg(std::istream & line) {
 			std::stringstream ss;
 			const auto value = read<Value>(line);
-			const auto bytes = toBytes(value);
+			const auto bytes = to_bytes(value);
 			for(const std::uint8_t byte : bytes) {
 				ss << "byte " << std::hex << +byte << "\n"; 
 			}
 			return ss.str();
 		}
 
-		std::string expandBytes(std::size_t byteCount, std::istream & ls) {
+		std::string expand_bytes(std::size_t byteCount, std::istream & ls) {
 			std::stringstream ss;
 			for(std::size_t i = 0; i < byteCount; i++) {
 				const auto byte = read<unsigned>(ls >> std::hex);
@@ -63,10 +63,10 @@ namespace ltn::a::expand {
 			}
 			
 			const auto inst = read<std::string>(ls);
-			if(!instructionTable.contains(inst)) {
+			if(!instruction_table.contains(inst)) {
 				return;
 			}
-			const auto argFormat = instructionTable.at(inst).argFormat;
+			const auto argFormat = instruction_table.at(inst).arg_format;
 			
 			out << inst << "\n";
 			
@@ -94,20 +94,20 @@ namespace ltn::a::expand {
 					break;
 
 				case ArgFormat::BYTE:
-					out << expandBytes(1, ls);
+					out << expand_bytes(1, ls);
 					break;
 
 				case ArgFormat::BYTEx2:
-					out << expandBytes(2, ls);
+					out << expand_bytes(2, ls);
 					break;
 
 				case ArgFormat::UINT_BYTExX:
 					const auto size = read<std::uint64_t>(ls);
-					const auto bytes = toBytes(size);
+					const auto bytes = to_bytes(size);
 					for(const std::uint8_t byte : bytes) {
 						out << "byte " << std::hex << +byte << "\n"; 
 					}
-					out << expandBytes(size, ls);
+					out << expand_bytes(size, ls);
 					break;
 			}
 		}

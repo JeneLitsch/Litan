@@ -4,7 +4,7 @@
 #include "ltna/InstructionTable.hxx"
 namespace ltn::a::linking {
 	namespace {
-		std::uint64_t resolveJump(
+		std::uint64_t resolve_jump(
 			const std::string & label,
 			const AddressTable & table) {
 			if(table.contains(label)) {
@@ -19,21 +19,18 @@ namespace ltn::a::linking {
 			|| format == ArgFormat::JUMP_UINT;
 	}
 
-	void discard(const auto &) {}
-
 	void patch(std::istream & in, std::ostream & out, const AddressTable & table) {
 		std::string line;
 		while(std::getline(in >> std::ws, line)) {
 			std::stringstream ls(line);
 			const auto inst = read<std::string>(ls);
-			if(isJumpMark(inst)) discard(inst);
-			else {
-				const auto argFormat = instructionTable.at(inst).argFormat;
+			if(!is_jumpmark(inst)) {
+				const auto argFormat = instruction_table.at(inst).arg_format;
 				if(isJump(argFormat)) {
 					const std::string label = read<std::string>(ls);
 					const std::string rest = read<std::string>(ls);
 					out << inst << " "
-						<< resolveJump(label, table) << " "
+						<< resolve_jump(label, table) << " "
 						<< rest << "\n";
 				}
 				else {

@@ -10,5 +10,5 @@ namespace ltn::a::linking {
 	AddressTable scan(std::istream & in);
 	void patch(std::istream & in, std::ostream & out, const AddressTable & table);
 
-	bool isJumpMark(std::string_view inst);
+	bool is_jumpmark(std::string_view inst);
 }

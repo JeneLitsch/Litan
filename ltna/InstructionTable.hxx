@@ -18,14 +18,14 @@ namespace ltn::a {
 	
 	struct InstructionData {
 		Inst opcode;
-		ArgFormat argFormat = ArgFormat::NONE;
+		ArgFormat arg_format = ArgFormat::NONE;
 	};
 
 	using InstructionTable = std::unordered_map<
 		std::string_view,
 		InstructionData>;
 	
-	const InstructionTable instructionTable{
+	const InstructionTable instruction_table{
 		{"error",         {Inst::ERROR}},
 		{"exit",          {Inst::EXIT}},
 		{"state",         {Inst::STATE}},

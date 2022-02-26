@@ -19,8 +19,8 @@ namespace ltn::a::linking {
 		throw std::logic_error{"Missing args size in switch-case"};
 	}
 
-	std::size_t toInstSize(std::string_view inst) {
-		const auto argFormat = instructionTable.at(inst).argFormat;
+	std::size_t to_inst_size(std::string_view inst) {
+		const auto argFormat = instruction_table.at(inst).arg_format;
 		constexpr std::size_t opcodeSize = 1;
 		return opcodeSize + toArgSize(argFormat);
 	} 
@@ -32,19 +32,19 @@ namespace ltn::a::linking {
 		while(std::getline(in >> std::ws, line)) {
 			std::stringstream ss(line);
 			const auto inst = read<std::string>(ss);
-			if(isJumpMark(inst)) {
+			if(is_jumpmark(inst)) {
 				const std::string label = inst.substr(1); 
 				if(table.contains(label)) {
 					throw std::runtime_error("Redefinition of label " + label);
 				}
 				table.emplace(label, position);
 			}
-			else if(instructionTable.at(inst).argFormat == ArgFormat::UINT_BYTExX) {
+			else if(instruction_table.at(inst).arg_format == ArgFormat::UINT_BYTExX) {
 				const auto size = read<std::int64_t>(ss);
 				position += 1 + 8 + size;
 			}
 			else {
-				position += toInstSize(inst);
+				position += to_inst_size(inst);
 			}
 		}
 		return table;

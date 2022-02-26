@@ -11,10 +11,10 @@ ltn::a::Args::Args(const char ** argv, std::size_t argc) {
 	}
 }
 
-const std::filesystem::path & ltn::a::Args::getTarget() const {
+const std::filesystem::path & ltn::a::Args::get_target() const {
 	return this->target;
 }
 
-const std::filesystem::path & ltn::a::Args::getSource() const {
+const std::filesystem::path & ltn::a::Args::get_source() const {
 	return this->source;
 }
