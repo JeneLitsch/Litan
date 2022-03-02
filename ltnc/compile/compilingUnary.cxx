@@ -37,7 +37,7 @@ namespace ltn::c::compile {
 		switch (expr.type) {
 		case UT::NEG: return negate(inner, info, scope);
 		case UT::NOT: return notigate(inner, info, scope);
-		case UT::NUL: return notigate(inner, info, scope);
+		case UT::NUL: return null_test(inner, info, scope);
 		}
 
 		throw CompilerError{"Unknown unary expression", expr.location};

@@ -11,6 +11,7 @@ function main() {
 	}
 
 	std::println(?null);
+	std::println(?false);
 
 	// if(a ?? 3) {
 
