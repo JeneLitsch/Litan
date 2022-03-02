@@ -53,10 +53,28 @@ namespace test {
 	}
 
 
+	function nullco() {
+		var fx = lambda(a, b) {
+			return a??b;
+		};
+		var cases = [
+			[[true, 1],            true],
+			[[false, 1],           false],
+			[[null, 42],           42],
+			[[std::cout(), 42],    std::cout()],
+			[["Hello", 42],        "Hello"],
+			[[-15.0, 42],          -15.0],
+			[[std::null_v(), 3.5], 3.5],
+		];
+		return test_all_cases("Null coalescing operator ??", fx, cases);
+	}
+
+
 	function conditional() {
 		return
 			if_else() +
 			ternary() +
-			elvis();
+			elvis() +
+			nullco();
 	}
 }

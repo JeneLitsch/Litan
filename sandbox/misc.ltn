@@ -6,12 +6,13 @@ function main() {
 	// std::println(true ? 42 : -1);
 	// std::println(false ? 42 : -1);
 
-	std::println(false ?: 42);
-	std::println(true ?: 42);
-	std::println(std::debug::state());
+	// std::println(false ?: 42);
+	// std::println(true ?: 42);
 
-	// std::println(null ?? 42);
-	// std::println(1337 ?? 42);
+	std::println(null ?? 42);
+	std::println(false ?? 42);
+	std::println(1337 ?? 42);
+	std::println(std::debug::state());
 	
 
 	// if(a ?? 3) {
