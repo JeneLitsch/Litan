@@ -16,9 +16,26 @@ namespace test {
 
 		return test_all_cases("if else", fx, cases);
 	}
+
+	function ternary() {
+		var fx = lambda (condition, a, b) {
+			return condition ? a : b;
+		};
+		var cases = [
+			[[true, 1, 2],  1],
+			[[false, 1, 2], 2],
+			[[-1, 1, 2],    1],
+			[[null, 1, 2],  2],
+			[["", 1, 2],    1],
+			[[[], 1, 2],    1],
+			[[0, 1, 2],     2],
+		];
+		return test_all_cases("ternary c ? a : b", fx, cases);
+ 	}
 	
 	function conditional() {
 		return
-			if_else();
+			if_else() +
+			ternary();
 	}
 }

@@ -243,6 +243,8 @@ namespace ltn::c::lex {
 			return make(TT::QMARK, "?");
 		}
 
+	
+
 		if(match('"')) {
 			const auto str = string<'"'>(in, location);
 			return make(TT::STRING, str);
@@ -264,7 +266,7 @@ namespace ltn::c::lex {
 			if(match(':')) {
 				return make(TT::COLONx2, "::");
 			}
-			throw CompilerError{"\":\" is not a valid token.", location};
+			return make(TT::COLON, ":");
 		}
 
 		if(check_alpha(in)) {

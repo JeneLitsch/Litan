@@ -50,6 +50,27 @@ namespace ltn::c::compile {
 		}
 	}
 
+	ExprCode ternary(const ast::Ternary & expr, CompilerInfo & info, Scope & scope) {
+		const auto jumpmark = make_jump_id("TERNARY", info);
+		const auto jumpmark_else = jumpmark + "_ELSE"; 
+		const auto jumpmark_end = jumpmark + "_END"; 
+		std::ostringstream ss;
+
+		ss << expression(*expr.condition, info, scope).code;
+		ss << inst::ifelse(jumpmark_else);
+
+		ss << expression(*expr.if_expr, info, scope).code;
+		ss << inst::jump(jumpmark_end);
+
+		ss << inst::jumpmark(jumpmark_else);
+		ss << expression(*expr.else_expr, info, scope).code;
+		ss << inst::jump(jumpmark_end);
+
+		ss << inst::jumpmark(jumpmark_end);
+
+		return {ss.str()};
+	}
+
 	// compiles any expression
 	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		if(auto binary = as<ast::Binary>(expr)) {
@@ -67,6 +88,9 @@ namespace ltn::c::compile {
 		if(auto modify = as<ast::Modify>(expr)) {
 			return compile::modify(*modify, info, scope);
 		}
-		return { "...EXPR\n" };
+		if(auto ternary = as<ast::Ternary>(expr)) {
+			return compile::ternary(*ternary, info, scope);
+		} 
+		throw CompilerError{"Unknown Expression"};
 	}
 }

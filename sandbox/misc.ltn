@@ -1,18 +1,16 @@
 function main() {
-	var a;
-
-
-	if(!a) {
-
-	}
-
-	if(?a) {
-
-	}
-
 	std::println(?null);
 	std::println(?false);
 	std::println(?true);
+
+	std::println(true ? 42 : -1);
+	std::println(false ? 42 : -1);
+
+	// std::println(null ?? 42);
+	// std::println(1337 ?? 42);
+	
+	// std::println(false ?: 42);
+	// std::println(true ?: 42);
 
 	// if(a ?? 3) {
 

@@ -10,6 +10,48 @@ namespace ltn::c::ast {
 		virtual ~Expression() = default;
 	};
 
+	struct Ternary : public Expression {
+		Ternary(
+			const SourceLocation & location,
+			std::unique_ptr<Expression> condition,
+			std::unique_ptr<Expression> if_expr,
+			std::unique_ptr<Expression> else_expr) 
+			:	Expression(location),
+				condition(std::move(condition)),
+				if_expr(std::move(if_expr)),
+				else_expr(std::move(else_expr)) {}
+	
+		std::unique_ptr<Expression> condition;
+		std::unique_ptr<Expression> if_expr;
+		std::unique_ptr<Expression> else_expr;
+	};
+
+	struct Nullco : public Expression {
+		Nullco(
+			const SourceLocation & location,
+			std::unique_ptr<Expression> if_expr,
+			std::unique_ptr<Expression> else_expr) 
+			:	Expression(location),
+				if_expr(std::move(if_expr)),
+				else_expr(std::move(else_expr)) {}
+	
+		std::unique_ptr<Expression> if_expr;
+		std::unique_ptr<Expression> else_expr;
+	};
+
+	struct Elvis : public Expression {
+		Elvis(
+			const SourceLocation & location,
+			std::unique_ptr<Expression> if_expr,
+			std::unique_ptr<Expression> else_expr) 
+			:	Expression(location), 
+				if_expr(std::move(if_expr)),
+				else_expr(std::move(else_expr)) {}
+	
+		std::unique_ptr<Expression> if_expr;
+		std::unique_ptr<Expression> else_expr;
+	};
+
 	struct Primary : public Expression {
 		Primary(const SourceLocation & location) : Expression(location) {}
 		virtual ~Primary() = default;
