@@ -1,0 +1,26 @@
+function main() {
+	var a;
+
+
+	if(!a) {
+
+	}
+
+	if(?a) {
+
+	}
+
+	std::println(?null);
+
+	// if(a ?? 3) {
+
+	// }
+
+	// if(a ?: 3) {
+
+	// }
+
+	// if(a ? a : 3) {
+
+	// }
+}

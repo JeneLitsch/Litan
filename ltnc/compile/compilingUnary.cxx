@@ -1,7 +1,8 @@
 #include "compiling.hxx"
 
 namespace ltn::c::compile {
-	// compiles -foo
+	using UT = ast::Unary::Type;
+	// compiles -
 	ExprCode negate(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		const auto code = expression(expr, info, scope);
 		std::stringstream ss;
@@ -18,15 +19,27 @@ namespace ltn::c::compile {
 		ss << inst::n0t;
 		return ExprCode{ss.str() };
 	}
+
+	// compiles ?
+	ExprCode null_test (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
+		const auto code = expression(expr, info, scope);
+		std::stringstream ss;
+		ss << code.code;
+		ss << inst::null;
+		ss << inst::ueql;
+		return ExprCode{ss.str() };
+	}
 	
 	// compiles Unary
 	ExprCode unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope) {
-		if(expr.type == ast::Unary::Type::NEG) {
-			return negate(*expr.expression, info, scope);
+		const auto & inner = *expr.expression;
+		
+		switch (expr.type) {
+		case UT::NEG: return negate(inner, info, scope);
+		case UT::NOT: return notigate(inner, info, scope);
+		case UT::NUL: return notigate(inner, info, scope);
 		}
-		if(expr.type == ast::Unary::Type::NOT) {
-			return notigate(*expr.expression, info, scope);
-		}
+
 		throw CompilerError{"Unknown unary expression", expr.location};
 	}
 }

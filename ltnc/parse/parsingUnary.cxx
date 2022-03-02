@@ -39,7 +39,8 @@ namespace ltn::c::parse {
 		// left unary
 		const std::array table {
 			std::pair{TT::MINUS, OP::NEG},
-			std::pair{TT::NOT, OP::NOT},
+			std::pair{TT::XMARK, OP::NOT},
+			std::pair{TT::QMARK, OP::NUL},
 		};
 		for(auto [tt, op] : table) {
 			if(lexer.match(tt)) {

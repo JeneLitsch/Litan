@@ -8,3 +8,6 @@ run () {
 	./bin/ltnvm $binFile
 	echo 
 }
+
+run array
+run misc

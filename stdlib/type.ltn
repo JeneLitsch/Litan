@@ -42,7 +42,7 @@ namespace std {
 	}
 
 
-	function is_stringing(value) {
+	function is_string(value) {
 		return typeid(value) == 0x21;
 	}
 

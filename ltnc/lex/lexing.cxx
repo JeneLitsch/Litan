@@ -236,7 +236,11 @@ namespace ltn::c::lex {
 
 		if(match('!')) {
 			if(match('=')) return make(TT::UNEQUAL, "!=");
-			return make(TT::NOT, "!");
+			return make(TT::XMARK, "!");
+		}
+		
+		if(match('?')) {
+			return make(TT::QMARK, "?");
 		}
 
 		if(match('"')) {

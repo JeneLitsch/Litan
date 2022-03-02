@@ -16,7 +16,7 @@ namespace ltn::c::ast {
 	};
 
 	struct Unary : public Expression {
-		enum class Type { NEG, NOT };
+		enum class Type { NEG, NOT, NUL };
 		Unary(
 			Type type,
 			std::unique_ptr<Expression> expression,
