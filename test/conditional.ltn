@@ -17,6 +17,7 @@ namespace test {
 		return test_all_cases("if else", fx, cases);
 	}
 
+
 	function ternary() {
 		var fx = lambda (condition, a, b) {
 			return condition ? a : b;
@@ -30,12 +31,32 @@ namespace test {
 			[[[], 1, 2],    1],
 			[[0, 1, 2],     2],
 		];
-		return test_all_cases("ternary c ? a : b", fx, cases);
+		return test_all_cases("Ternary c ? a : b", fx, cases);
  	}
 	
+
+	function elvis() {
+		var fx = lambda (a, b) {
+			return a ?: b;
+		};
+		var cases = [
+			[[true, 1],     true],
+			[[false, 1],    1],
+			[[-1, 1],       -1],
+			[[null, 1],     1],
+			[["", 1],       ""],
+			[[[], 1],       []],
+			[[42, 1337],    42],
+			[[0, 1337],     1337],
+		];
+		return test_all_cases("Elvis a ?: b", fx, cases);
+	}
+
+
 	function conditional() {
 		return
 			if_else() +
-			ternary();
+			ternary() +
+			elvis();
 	}
 }

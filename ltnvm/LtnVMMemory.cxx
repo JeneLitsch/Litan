@@ -21,6 +21,10 @@ namespace ltn::vm {
 		this->reg.pop();
 	}
 
+	void LtnVM::duplicate() {
+		this->reg.push(this->reg.peek());
+	}
+
 
 	void LtnVM::makevar() {
 		this->stack.make_var();

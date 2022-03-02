@@ -71,6 +71,7 @@ namespace ltn {
 		READ = 0x60,
 		WRITE,
 		SCRAP,
+		DUPLICATE,
 		MAKEVAR,
 		READ_X,
 		WRITE_X,

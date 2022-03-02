@@ -71,6 +71,24 @@ namespace ltn::c::compile {
 		return {ss.str()};
 	}
 
+	ExprCode elvis(const ast::Elvis & expr, CompilerInfo & info, Scope & scope) {
+		const auto jumpmark = make_jump_id("ELVIS", info);
+		const auto jumpmark_else = jumpmark + "_ELSE"; 
+		const auto jumpmark_end = jumpmark + "_END"; 
+		std::ostringstream ss;
+		ss << expression(*expr.if_expr, info, scope).code;
+		ss << inst::duplicate;
+		ss << inst::ifelse(jumpmark_else);
+		ss << inst::jump(jumpmark_end);
+
+		ss << inst::jumpmark(jumpmark_else);
+		ss << inst::scrap;
+		ss << expression(*expr.else_expr, info, scope).code;
+		
+		ss << inst::jumpmark(jumpmark_end);
+		return {ss.str()};
+	}
+
 	// compiles any expression
 	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		if(auto binary = as<ast::Binary>(expr)) {
@@ -90,6 +108,9 @@ namespace ltn::c::compile {
 		}
 		if(auto ternary = as<ast::Ternary>(expr)) {
 			return compile::ternary(*ternary, info, scope);
+		} 
+		if(auto elvis = as<ast::Elvis>(expr)) {
+			return compile::elvis(*elvis, info, scope);
 		} 
 		throw CompilerError{"Unknown Expression"};
 	}

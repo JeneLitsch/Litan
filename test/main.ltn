@@ -21,6 +21,11 @@ function main() {
 
 	var errors = run_tests(tests);
 	interprete_result(errors);
+
+
+	std::println("=== Internal state information ===");
+	std::println(std::debug::state());
+
 	return errors;
 }
 except(e) {

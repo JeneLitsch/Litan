@@ -92,6 +92,7 @@ namespace ltn::a {
 		{"read",          {Inst::READ}},
 		{"write",         {Inst::WRITE}},
 		{"scrap",         {Inst::SCRAP}},
+		{"duplicate",     {Inst::DUPLICATE}},
 		{"makevar",       {Inst::MAKEVAR}},
 		{"read_x",        {Inst::READ_X,       ArgFormat::UINT}},
 		{"write_x",       {Inst::WRITE_X,      ArgFormat::UINT}},

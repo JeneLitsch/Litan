@@ -114,6 +114,7 @@ namespace ltn::vm {
 			read(),
 			write(),
 			scrap(),
+			duplicate(),
 			makevar(),
 			read_x(),
 			write_x(),
