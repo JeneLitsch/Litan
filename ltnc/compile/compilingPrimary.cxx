@@ -117,6 +117,17 @@ namespace ltn::c::compile {
 			}
 			return ExprCode{ ss.str() };
 		}
+
+		ExprCode iife(const ast::Iife & iife, CompilerInfo & info, Scope & outer_scope) {
+			const auto jumpmark = make_jump_id("IIFE", info);
+			Scope inner_scope{&outer_scope};
+			inner_scope.set_return(jumpmark);
+			std::ostringstream ss;
+			ss << compile::statement(*iife.stmt, info, inner_scope).code;
+			ss << inst::null;
+			ss << inst::jumpmark(jumpmark);
+			return {ss.str()};
+		}
 	}
 
 	// compiles an variable read accessc
@@ -126,6 +137,8 @@ namespace ltn::c::compile {
 		ss << inst::read_x(var.address);
 		return ExprCode{ ss.str() };
 	}
+
+	
 
 
 
@@ -171,7 +184,9 @@ namespace ltn::c::compile {
 		if(auto expr_ = as<ast::MemberAccess>(expr)) {
 			return readMemberAccess(*expr_, info, scope);
 		}		
-		
+		if(auto expr_ = as<ast::Iife>(expr)) {
+			return compile::iife(*expr_, info, scope);
+		} 
 		throw CompilerError{"Unknown primary expression", expr.location};
 	}
 }

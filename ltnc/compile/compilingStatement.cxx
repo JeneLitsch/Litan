@@ -33,7 +33,14 @@ namespace ltn::c::compile {
 			else {
 				ss << inst::null;
 			}
-			ss << inst::reTurn;
+
+			// For returns from iife
+			if(const auto returns_to = scope.get_return()) {
+				ss << inst::jump(*returns_to);
+			}
+			else {
+				ss << inst::reTurn;
+			}
 			return {ss.str(), 0};
 		}
 

@@ -17,8 +17,11 @@ namespace ltn::c::compile {
 		Variable insert(const std::string & name, const SourceLocation & location);
 		const ast::Namespace & get_namespace() const;
 		std::uint64_t recSize() const;
+		std::optional<std::string> get_return() const;
+		void set_return(const std::string & return_point);
 	private:
 		std::unordered_map<std::string, Variable> vars;
+		std::optional<std::string> return_point;
 		const Scope * parent;
 		const ast::Namespace & namespaze;
 	};

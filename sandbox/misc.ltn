@@ -1,29 +1,14 @@
 function main() {
-	// std::println(?null);
-	// std::println(?false);
-	// std::println(?true);
+	var b = 21;
+	var a = iife {
+		var x = -iife {
+			return iife {
+				return b * 2;
+			} * 2;
+		};
+		return x;
+	};
 
-	// std::println(true ? 42 : -1);
-	// std::println(false ? 42 : -1);
-
-	// std::println(false ?: 42);
-	// std::println(true ?: 42);
-
-	std::println(null ?? 42);
-	std::println(false ?? 42);
-	std::println(1337 ?? 42);
-	std::println(std::debug::state());
-	
-
-	// if(a ?? 3) {
-
-	// }
-
-	// if(a ?: 3) {
-
-	// }
-
-	// if(a ? a : 3) {
-
-	// }
+	std::println(a);
+	return a;
 }

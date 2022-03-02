@@ -19,6 +19,32 @@ namespace test {
 		};
 	}
 
+	function test_iife(p1) {
+		var x = 2;
+		var y = -1 * iife {
+			var a = --iife{
+				return iife {
+					var foo = p1;
+					return foo;
+				} * x;
+			};
+			return a;
+		};
+		return iife {
+			return y;
+		};
+	}
+
+	function iifes() {
+		var cases = [
+			[[-21],  42],
+			[[1],    -2],
+			[[1337], -2674],
+			[[4],    -8],
+		];
+		return test_all_cases("iife{...}", &test_iife(_), cases);
+	}
+
 	function captures() {
 		var cases = [
 			[[make_capture_lambda(1) , []], 1],
@@ -30,5 +56,9 @@ namespace test {
 		];
 
 		return test_all_cases("Lambda capture", &std::invoke(_,_), cases);
+	}
+
+	function functional() {
+		return captures() + iifes();
 	}
 }

@@ -43,6 +43,22 @@ namespace ltn::c::compile {
 		return this->insert(name, Variable::Qualifier::MUTABLE, location);
 	}
 
+	std::optional<std::string> Scope::get_return() const {
+		if(this->return_point) {
+			return this->return_point;
+		}
+		else if(this->parent) {
+			return this->parent->get_return();
+		}
+		else {
+			return std::nullopt;
+		}
+	}
+
+	void Scope::set_return(const std::string & return_point) {
+		this->return_point = return_point;
+	}
+
 
 	// size of all stacked scopes combined
 	std::uint64_t ltn::c::compile::Scope::recSize() const {

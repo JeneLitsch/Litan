@@ -97,7 +97,8 @@ namespace ltn::c::lex {
 			{"namespace",   TT::NAMESPACE},
 			{"except",      TT::EXCEPT},
 			{"throw",       TT::THROW},
-			{"null",       TT::NVLL},
+			{"null",        TT::NVLL},
+			{"iife",        TT::IIFE},
 		};
 		
 

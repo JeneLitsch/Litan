@@ -235,6 +235,16 @@ namespace ltn::c::parse {
 			}
 			return nullptr; 
 		}
+
+		std::unique_ptr<ast::Expression> iife(lex::Lexer & lexer) {
+			if(lexer.match(TT::IIFE)) {
+				auto body = parse::block(lexer);
+				return std::make_unique<ast::Iife>(
+					lexer.location(),
+					std::move(body));
+			}
+			else return nullptr;
+		}
 	}
 
 	// parses primary expression
@@ -251,6 +261,7 @@ namespace ltn::c::parse {
 		if(auto expr = array(lexer)) return expr;
 		if(auto expr = fxPointer(lexer)) return expr;
 		if(auto expr = lambda(lexer)) return expr;
+		if(auto expr = iife(lexer)) return expr;
 		return identifier(lexer);
 	}
 }

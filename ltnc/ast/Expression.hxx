@@ -4,11 +4,14 @@
 #include "Namespace.hxx"
 namespace ltn::c::ast {
 	struct Assignable;
+	struct Statement;
 
 	struct Expression : public Node {
 		Expression(const SourceLocation & location) : Node(location) {}
 		virtual ~Expression() = default;
 	};
+	
+
 
 	struct Ternary : public Expression {
 		Ternary(
@@ -20,6 +23,7 @@ namespace ltn::c::ast {
 				condition(std::move(condition)),
 				if_expr(std::move(if_expr)),
 				else_expr(std::move(else_expr)) {}
+		virtual ~Ternary() = default;
 	
 		std::unique_ptr<Expression> condition;
 		std::unique_ptr<Expression> if_expr;
@@ -34,6 +38,7 @@ namespace ltn::c::ast {
 			:	Expression(location),
 				if_expr(std::move(if_expr)),
 				else_expr(std::move(else_expr)) {}
+		virtual ~Nullco() = default;
 	
 		std::unique_ptr<Expression> if_expr;
 		std::unique_ptr<Expression> else_expr;
@@ -47,6 +52,7 @@ namespace ltn::c::ast {
 			:	Expression(location), 
 				if_expr(std::move(if_expr)),
 				else_expr(std::move(else_expr)) {}
+		virtual ~Elvis() = default;
 	
 		std::unique_ptr<Expression> if_expr;
 		std::unique_ptr<Expression> else_expr;
@@ -115,6 +121,17 @@ namespace ltn::c::ast {
 				type(type) {}
 		virtual ~Logical() = default;
 		Type type;
+	};
+
+	struct Iife : public Primary {
+		Iife(
+			const SourceLocation & location,
+			std::unique_ptr<Statement> stmt) 
+			:	Primary(location), 
+				stmt(std::move(stmt)) {}
+		virtual ~Iife() = default;
+		
+		std::unique_ptr<Statement> stmt;
 	};
 
 
