@@ -8,6 +8,11 @@ namespace test {
 	}
 
 	function just_throw() { throw; }
+	function iife_throw() { 
+		var x = 42 + 5 * iife {
+			throw;
+		};
+	}
 	function no_throw() { }
 	function throw_42() { throw 42; }
 	function throw_hello() { throw "hello"; }
@@ -31,6 +36,7 @@ namespace test {
 		
 		var cases1 = [
 			[[ &just_throw(),          []               ], true],
+			[[ &iife_throw(),          []               ], true],
 			[[ &no_throw(),            []               ], false],
 			[[ &std::remove_back(_),   [std::array()]   ], true],
 			[[ &std::remove_back(_),   [std::array(42)] ], false],
