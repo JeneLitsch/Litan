@@ -1,0 +1,45 @@
+namespace test {
+	function expressions() {
+		var f1 = lambda {
+			return 8 / 2 / 2;
+		};
+
+		var f2 = lambda {
+			return false ? false ? 44 : 43 : 42;
+		};
+
+		var f3 = lambda {
+			return null ?? 1 == 1 ? 2 * 20 + (1 << 1) : 1337;
+		};
+
+		var f4 = lambda {
+			return null ?? ?null;
+		};
+
+		var f5 = lambda {
+			return -1.0/4.0;
+		};
+
+		var f6 = lambda {
+			return -(-1 + -5 - 5);
+		};
+
+		var f7 = lambda {
+			return null ?? iife {
+				return true ? true ? true ? 42 : 0 : 0 : 0;
+			};
+		};
+
+		var cases = [
+			[f1, 2],
+			[f2, 42],
+			[f3, 42],
+			[f4, false],
+			[f5, -0.25],
+			[f6, 11],
+			[f7, 42],
+		];
+
+		return test_functions("Expressions", cases);
+	}
+}

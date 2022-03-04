@@ -10,6 +10,7 @@ binFile="test/$test.bin.ltn"
 	test/compare.ltn\
 	test/conditional.ltn\
 	test/exception.ltn\
+	test/expressions.ltn\
 	test/functional.ltn\
 	test/loops.ltn\
 	test/main.ltn\
