@@ -6,6 +6,16 @@
 
 namespace ltn::vm {
 
+	
+	namespace {
+		Value eval_3_way(std::partial_ordering order) {
+			if(order == 0) return value::integer(0);
+			if(order <  0) return value::integer(-1);
+			if(order >  0) return value::integer(1);
+			throw except::invalid_operands(); 
+		}
+	}
+	
 	#define FETCH\
 		const auto r = this->reg.pop();\
 		const auto l = this->reg.pop();
@@ -37,16 +47,7 @@ namespace ltn::vm {
 	void LtnVM::comp() {
 		FETCH
 		const auto result = compare(l, r, this->heap);
-		if(result == std::partial_ordering::equivalent) {
-			return this->reg.push(value::integer(0));
-		}
-		if(result == std::partial_ordering::less) {
-			return this->reg.push(value::integer(-1));
-		}
-		if(result == std::partial_ordering::greater) {
-			return this->reg.push(value::integer(1));
-		}
-		throw Exception{Exception::Type::GENERIC_ERROR, "Failed comparison"}; 
+		return this->reg.push(eval_3_way(result));
 	}
 
 	#undef FETCH
