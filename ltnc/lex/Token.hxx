@@ -31,9 +31,15 @@ namespace ltn::c::lex {
 			
 			AND, OR,
 			
-			EQUAL, UNEQUAL, SMALLER, BIGGER, SMALLER_EQUAL, BIGGER_EQUAL,
-			
+			EQUAL,
+			UNEQUAL,
+			SMALLER,
+			BIGGER,
+			SMALLER_EQUAL,
+			BIGGER_EQUAL,
+			SPACE_SHIP,
 		};
+		
 		Type type;
 		std::string str;
 		SourceLocation location;

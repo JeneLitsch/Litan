@@ -52,6 +52,7 @@ namespace ltn::a {
 		{"not",           {Inst::NOT}},
 		{"inc",           {Inst::INC}},
 		{"dec",           {Inst::DEC}},
+		{"comp",          {Inst::COMP}},
 
 		// Values
 		{"newu",          {Inst::NEWU,         ArgFormat::UINT}},

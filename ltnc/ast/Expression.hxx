@@ -96,6 +96,7 @@ namespace ltn::c::ast {
 			MLT, DIV, MOD,
 			BIGGER, SMALLER, BIGGEREQUAL, SMALLEREQUAL,
 			EQUAL, UNEQUEL,
+			SPACE_SHIP,
 			SHIFT_L, SHIFT_R, };
 		SimpleBinary(
 			Type type,

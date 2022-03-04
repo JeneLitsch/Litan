@@ -16,6 +16,7 @@ namespace ltn::c::compile {
 			case ast::SimpleBinary::Type::BIGGEREQUAL: return inst::bgreql;
 			case ast::SimpleBinary::Type::EQUAL: return inst::eql;
 			case ast::SimpleBinary::Type::UNEQUEL: return inst::ueql;
+			case ast::SimpleBinary::Type::SPACE_SHIP: return inst::comp;
 			case ast::SimpleBinary::Type::SHIFT_L: return inst::shift_l;
 			case ast::SimpleBinary::Type::SHIFT_R: return inst::shift_r;
 			}

@@ -222,7 +222,10 @@ namespace ltn::c::lex {
 				return make(TT::SHIFT_L, "<<");
 			}
 			
-			if(match('=')) return make(TT::SMALLER_EQUAL, "<=");
+			if(match('=')) {
+				if(match('>')) return make(TT::SPACE_SHIP, "<=>");
+				return make(TT::SMALLER_EQUAL, "<=");
+			}
 			return make(TT::SMALLER, "<");
 		}
 

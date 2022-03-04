@@ -20,6 +20,7 @@ namespace ltn::c::compile::inst {
 	constexpr std::string_view bgreql = "bgreql\n";
 	constexpr std::string_view eql = "eql\n";
 	constexpr std::string_view ueql = "ueql\n";
+	constexpr std::string_view comp = "comp\n";
 	constexpr std::string_view shift_l = "shift_l\n";
 	constexpr std::string_view shift_r = "shift_r\n";
 

@@ -84,6 +84,7 @@ namespace ltn::c::parse {
 		return binary<ast::SimpleBinary>(lexer, table, shift);
 	}
 
+
 	// Operators == != 
 	std::unique_ptr<ast::Expression> equality(lex::Lexer & lexer) {
 		constexpr std::array table {
@@ -93,11 +94,19 @@ namespace ltn::c::parse {
 		return binary<ast::SimpleBinary>(lexer, table, comparision); 
 	}
 
+	// Operator <=>
+	std::unique_ptr<ast::Expression> spaceship(lex::Lexer & lexer) {
+		constexpr std::array table {
+			std::pair{TT::SPACE_SHIP, OP::SPACE_SHIP},
+		};
+		return binary<ast::SimpleBinary>(lexer, table, equality); 
+	}
+
 	std::unique_ptr<ast::Expression> logical_or(lex::Lexer & lexer) {
 		constexpr std::array table {
 			std::pair{TT::OR, ast::Logical::Type::OR}
 		};
-		return binary<ast::Logical>(lexer, table, equality);
+		return binary<ast::Logical>(lexer, table, spaceship);
 	}
 
 	std::unique_ptr<ast::Expression> logical_and(lex::Lexer & lexer) {

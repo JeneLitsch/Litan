@@ -134,6 +134,27 @@ namespace test {
 		return test_all_cases("BiggerEqual>=", fx, cases);
 	}
 
+	function space_ship() {
+		var cases = [
+			[[-1, 1], -1],
+			[[1, 1], 0],
+			[[1, -1], 1],
+			[["A", "B"], -1],
+			[["C", "B"], 1],
+			[["a", "A"], 1],
+			[["zzz", "zzz"], 0],
+			[[[1,2,3], [1,2,3]], 0],
+			[[[1,2], [1,2,3]], -1],
+			[[[1,2,4], [1,2,3]], 1],
+		];
+
+		var fx = lambda (a, b) {
+			return a <=> b;
+		};
+
+		return test_all_cases("Space ship <=>", fx, cases);
+	}
+
 	function compare() {
 		return
 			eql() + 
@@ -141,6 +162,7 @@ namespace test {
 			smaller() + 
 			bigger() + 
 			smaller_eql() + 
-			bigger_eql();
+			bigger_eql() + 
+			space_ship();
 	}
 }

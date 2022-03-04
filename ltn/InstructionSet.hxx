@@ -33,6 +33,7 @@ namespace ltn {
 		NOT,
 		INC,
 		DEC,
+		COMP,
 		
 		// Primitives
 		NEWI = 0x30,

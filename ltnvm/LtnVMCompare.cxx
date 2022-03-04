@@ -34,6 +34,20 @@ namespace ltn::vm {
 		FETCH
 		return this->reg.push(compare(l, r, this->heap) >= 0);
 	}
+	void LtnVM::comp() {
+		FETCH
+		const auto result = compare(l, r, this->heap);
+		if(result == std::partial_ordering::equivalent) {
+			return this->reg.push(value::integer(0));
+		}
+		if(result == std::partial_ordering::less) {
+			return this->reg.push(value::integer(-1));
+		}
+		if(result == std::partial_ordering::greater) {
+			return this->reg.push(value::integer(1));
+		}
+		throw Exception{Exception::Type::GENERIC_ERROR, "Failed comparison"}; 
+	}
 
 	#undef FETCH
 }
