@@ -27,7 +27,7 @@ namespace test {
 					var foo = p1;
 					return foo;
 				} * x;
-			};
+			} * iife { return 1; };
 			return a;
 		};
 		return iife {

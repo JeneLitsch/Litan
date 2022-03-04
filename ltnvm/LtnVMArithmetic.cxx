@@ -36,30 +36,17 @@ namespace ltn::vm {
 	void LtnVM::add() {
 		FETCH
 		
-		if(is_array(l)) {
-			const auto & arrL = heap.read<Array>(l.u);
-			const auto & arrR = toArray(r, heap);
-			const auto ref = heap.alloc<Array>({arrL.arr + arrR.arr});
+		if(is_array(l) && is_array(r)) {
+			const auto arr_l = toArray(l, heap).get();
+			const auto arr_r = toArray(r, heap).get();
+			const auto ref = heap.alloc<Array>({arr_l + arr_r});
 			return this->reg.push({ref, Value::Type::ARRAY});
 		}
 
-		if(is_string(l)) {
-			const auto & strL = heap.read<String>(l.u).get();
-			const auto strR = convert::to_string(r, heap);
-			const auto ref = heap.alloc<String>({strL + strR});
-			return this->reg.push({ref, Value::Type::STRING});
-		}
-
-		if(is_array(r)) {
-			const auto arrR = heap.read<Array>(r.u);
-			const auto ref = heap.alloc<Array>({std::vector{l} + arrR.arr});
-			return this->reg.push({ref, Value::Type::ARRAY});
-		}
-
-		if(is_string(r)) {
-			const auto strL = convert::to_string(l, heap);
-			const auto & strR = heap.read<String>(r.u).get();
-			const auto ref = heap.alloc<String>({strL + strR});
+		if(is_string(l) && is_string(r)) {
+			const auto str_l = convert::to_string(l, heap);
+			const auto str_r = convert::to_string(r, heap);
+			const auto ref = heap.alloc<String>({str_l + str_r});
 			return this->reg.push({ref, Value::Type::STRING});
 		}
 
