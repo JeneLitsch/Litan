@@ -3,6 +3,6 @@ function main(){
 	for i (1, 1000000) {
 		var x = "A" + "BBBB" + "CCCCCCCC";
 	}
-	std::println(std::to_seconds(clock) + "s");
+	std::println(std::string(std::to_seconds(clock)) + "s");
 	std::println("CCCCCCCCBBBBA");
 }

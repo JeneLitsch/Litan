@@ -5,5 +5,5 @@ function main() {
 		var range = std::whole(array);
 		std::sum(range);
 	}
-	std::println(std::to_seconds(clock) + "s");
+	std::println(std::string(std::to_seconds(clock)) + "s");
 }
