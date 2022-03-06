@@ -116,9 +116,12 @@ namespace ltn::vm {
 				case Inst::OUT: this->out(); break;
 				case Inst::IN_STR: this->in_str(); break;
 				case Inst::IN_LINE: this->in_line(); break;
+				case Inst::IN_BOOL: this->in_bool(); break;
+				case Inst::IN_CHAR: this->in_char(); break;
 				case Inst::IN_INT: this->in_int(); break;
 				case Inst::IN_FLOAT: this->in_float(); break;
 				case Inst::IS_EOF: this->is_eof(); break;
+				case Inst::IS_GOOD: this->is_good(); break;
 
 				case Inst::MIN: this->min(); break;
 				case Inst::MAX: this->max(); break;

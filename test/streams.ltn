@@ -22,6 +22,8 @@ namespace test {
 		var fx = lambda(str) {
 			var iss = std::strin(str);
 			return [
+				std::read_char(iss),
+				std::read_bool(iss),
 				std::read_int(iss),
 				std::read(iss),
 				std::read_float(iss),
@@ -29,8 +31,8 @@ namespace test {
 		};
 
 		var cases = [
-			[["1 true -1.5"], [1, "true", -1.5]],
-			[["42 hello 1337"], [42, "hello", 1337.0]],
+			[["a true 1 true -1.5"], ['a',true, 1, "true", -1.5]],
+			[["a false 42 hello 1337"], ['a', false, 42, "hello", 1337.0]],
 		];
 
 		return test_all_cases("IStream(std::strin())", fx, cases);

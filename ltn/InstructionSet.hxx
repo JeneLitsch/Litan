@@ -94,9 +94,12 @@ namespace ltn {
 		OUT = 0x70,
 		IN_STR,
 		IN_LINE,
+		IN_BOOL,
+		IN_CHAR,
 		IN_INT,
 		IN_FLOAT,
 		IS_EOF,
+		IS_GOOD,
 
 		// Math
 		MIN = 0x80,

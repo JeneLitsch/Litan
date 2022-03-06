@@ -136,9 +136,12 @@ namespace ltn::vm {
 			out(),
 			in_str(),
 			in_line(),
+			in_bool(),
+			in_char(),
 			in_int(),
 			in_float(),
-			is_eof();
+			is_eof(),
+			is_good();
 
 		void
 			min(),

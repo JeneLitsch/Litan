@@ -113,9 +113,12 @@ namespace ltn::a {
 		{"out",           {Inst::OUT}},
 		{"in_str",        {Inst::IN_STR}},
 		{"in_line",       {Inst::IN_LINE}},
+		{"in_bool",       {Inst::IN_BOOL}},
+		{"in_char",       {Inst::IN_CHAR}},
 		{"in_int",        {Inst::IN_INT}},
 		{"in_float",      {Inst::IN_FLOAT}},
 		{"is_eof",        {Inst::IS_EOF}},
+		{"is_good",       {Inst::IS_GOOD}},
 
 		// Math
 		{"min",           {Inst::MIN}},

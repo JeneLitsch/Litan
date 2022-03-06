@@ -49,11 +49,27 @@ namespace ltn::vm {
 	}
 
 
+	void LtnVM::in_bool() {
+		auto & in = get_istream(this->heap, this->reg); 
+		bool value;
+		in >> std::boolalpha >> value >> std::noboolalpha;
+		reg.push(value::boolean(value));
+	}
+
+
+	void LtnVM::in_char() {
+		auto & in = get_istream(this->heap, this->reg); 
+		char value;
+		in >> value;
+		reg.push(value::character(value));
+	}
+
+
 	void LtnVM::in_int() {
 		auto & in = get_istream(this->heap, this->reg); 
 		std::int64_t value;
 		in >> value;
-		reg.push(Value{value});
+		reg.push(value::integer(value));
 	}
 
 
@@ -61,12 +77,18 @@ namespace ltn::vm {
 		auto & in = get_istream(this->heap, this->reg); 
 		stx::float64_t value;
 		in >> value;
-		reg.push(Value{value});
+		reg.push(value::floating(value));
 	}
 
 
 	void LtnVM::is_eof() {
 		auto & in = get_istream(this->heap, this->reg); 
 		reg.push(Value{in.eof()});
+	}
+
+
+	void LtnVM::is_good() {
+		auto & in = get_istream(this->heap, this->reg); 
+		reg.push(value::boolean(static_cast<bool>(in)));
 	}
 }

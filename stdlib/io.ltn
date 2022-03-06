@@ -68,6 +68,24 @@ namespace std {
 		return readln(cin());
 	}
 
+	asm read_bool(stream) {
+		"in_bool"
+		"return"
+	}
+
+	function read_bool() {
+		return read_bool(cin());
+	}
+
+	asm read_char(stream) {
+		"in_char"
+		"return"
+	}
+
+	function read_char() {
+		return read_char(cin());
+	}
+
 	asm read_int(stream) {
 		"in_int"
 		"return"
