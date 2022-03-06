@@ -1,0 +1,64 @@
+namespace test {
+	function strout() {
+		var fx = lambda(array) {
+			var oss = std::strout();
+			std::println(oss, "ABC");
+			for i (0, std::size(array)) {
+				std::print(oss, array[i]);
+			};
+			return std::string(oss);
+		};
+
+		var cases = [
+			[[[1,2,3]], "ABC\n123"],
+			[[['1','2','3']], "ABC\n123"],
+			[[["1","2",3," ",true]], "ABC\n123 true"],
+		];
+
+		return test_all_cases("OStream(std::strout()", fx, cases);
+	}
+
+	function strin() {
+		var fx = lambda(str) {
+			var iss = std::strin(str);
+			return [
+				std::read_int(iss),
+				std::read(iss),
+				std::read_float(iss),
+			];
+		};
+
+		var cases = [
+			[["1 true -1.5"], [1, "true", -1.5]],
+			[["42 hello 1337"], [42, "hello", 1337.0]],
+		];
+
+		return test_all_cases("IStream(std::strin())", fx, cases);
+	}
+
+	function is_eof() {
+		var fx = lambda(str) {
+			var iss = std::strin(str);
+			var counter = 0;
+			while(!std::is_eof(iss)) {
+				std::read(iss);
+				counter += 1;
+			}
+			return counter;
+		};
+
+		var cases = [
+			[["111 111 111"], 3],
+			[[""], 1],
+			[["a"], 1],
+			[["a a a a"], 4],
+			[["1 2 3 4.0 5.5"], 5],
+		];
+
+		return test_all_cases("std::is_eof()", fx, cases);
+	}
+
+	function streams() {
+		return strout() + strin() + is_eof();
+	}
+}

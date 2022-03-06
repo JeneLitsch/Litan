@@ -15,6 +15,7 @@ function main() {
 		&test::queue(),
 		&test::range(),
 		&test::stack(),
+		&test::streams(),
 		&test::struct(),
 		&test::types(),
 	];
