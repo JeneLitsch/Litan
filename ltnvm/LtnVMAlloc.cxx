@@ -35,7 +35,7 @@ namespace ltn::vm {
 
 
 	void LtnVM::newout() {
-		const auto addOut = [&] (auto && out) {
+		const auto add_out = [&] (auto && out) {
 			using T = decltype(out)&&;
 			const auto ptr = this->heap.alloc<OStream>(std::forward<T>(out));
 			this->reg.push({ ptr, Value::Type::OSTREAM });
@@ -44,14 +44,17 @@ namespace ltn::vm {
 
 		const auto variant = this->fetch_byte();
 		switch (variant) {
-			case 0: return addOut(OStream{std::cout});
+			case 0: return add_out(OStream{std::cout});
 			case 1: {
 				const auto ref = this->reg.pop();
 				if(!is_string(ref)) {
 					throw except::invalid_argument();
 				}
 				const auto & path = this->heap.read<String>(ref.u).str;
-				return addOut(OStream{std::make_unique<std::ofstream>(path)});
+				return add_out(OStream{std::make_unique<std::ofstream>(path)});
+			}
+			case 2: {
+				return add_out(OStream{std::make_unique<std::ostringstream>()});
 			}
 		}
 		throw std::runtime_error{"Unknow output variant"};
@@ -59,7 +62,7 @@ namespace ltn::vm {
 
 
 	void LtnVM::newin() {
-		const auto addIn = [&] (auto && in) {
+		const auto add_in = [&] (auto && in) {
 			using T = decltype(in)&&;
 			const auto ptr = this->heap.alloc<IStream>(std::forward<T>(in));
 			this->reg.push({ ptr, Value::Type::ISTREAM });
@@ -68,7 +71,7 @@ namespace ltn::vm {
 
 		const auto variant = this->fetch_byte();
 		switch (variant) {
-			case 0: return addIn(IStream{std::cin});
+			case 0: return add_in(IStream{std::cin});
 			case 1: {
 				const auto ref = this->reg.pop();
 				if(!is_string(ref)) {
@@ -78,7 +81,15 @@ namespace ltn::vm {
 				if(!std::filesystem::exists(path)) {
 					throw except::cannot_open_file(path);
 				}
-				return addIn(IStream{std::make_unique<std::ifstream>(path)});
+				return add_in(IStream{std::make_unique<std::ifstream>(path)});
+			}
+			case 2: {
+				const auto ref = this->reg.pop();
+				if(!is_string(ref)) {
+					throw except::invalid_argument();
+				}
+				const auto & str = this->heap.read<String>(ref.u).str;
+				return add_in(IStream{std::make_unique<std::istringstream>(str)});
 			}
 		}
 		throw std::runtime_error {"Unknow input variant"};

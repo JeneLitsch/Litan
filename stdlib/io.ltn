@@ -10,6 +10,11 @@ namespace std {
 		"return"
 	}
 
+	asm strout() {
+		"newout 2"
+		"return"
+	}
+
 	asm print(stream, value) {
 		"out"
 	}
@@ -37,6 +42,11 @@ namespace std {
 
 	asm fin(path) {
 		"newin 1"
+		"return"
+	}
+
+	asm strin(str) {
+		"newin 2"
 		"return"
 	}
 

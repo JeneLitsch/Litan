@@ -4,8 +4,20 @@ function f2() => std::first_n([], -100)
 	except(e) => null
 
 function main() {
-	var fx = lambda(a) => 2 * a;
-	std::println(f1(1, 1));
-	std::println(f2());
-	std::println(std::invoke(fx, [21]));
+	var iss = std::strin("1 2 3");
+	var a = std::read_int(iss);
+	var b = std::read_int(iss);
+	var c = std::read_int(iss);
+	std::println(a);
+	std::println(b);
+	std::println(c);
+
+	var oss = std::strout();
+	std::println(oss, "Hello");
+	std::println(oss, "World");
+	std::println(oss, "12345");
+	std::println(oss, "Foo");
+	std::println(oss, "Bar");
+
+	std::print(std::string(oss));
 }

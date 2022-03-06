@@ -11,8 +11,16 @@ namespace ltn::vm {
 		OStream(std::ostream & in)
 			: ptr(&in) {}
 
-		OStream(std::unique_ptr<std::ostream> && out) 
-			: storage(std::move(out)), ptr(storage.get()) {}
+		OStream(std::unique_ptr<std::ostream> && out) {
+			this->ptr = out.get();
+			this->storage = std::move(out);
+		}
+
+		OStream(std::unique_ptr<std::ostringstream> && out) {
+			this->ptr = out.get();
+			this->oss = out.get();
+			this->storage = std::move(out);
+		}
 
 		auto & get() {
 			return *ptr;
@@ -26,8 +34,8 @@ namespace ltn::vm {
 			throw std::runtime_error{"Cannot clone OStream."};
 		}
 
-	private:
 		std::unique_ptr<std::ostream> storage;
-		std::ostream * ptr;
+		std::ostream * ptr = nullptr;
+		std::ostringstream * oss = nullptr;
 	};
 }

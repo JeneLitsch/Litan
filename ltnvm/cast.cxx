@@ -95,6 +95,10 @@ namespace ltn::vm::cast {
 		}
 
 		if(is_ostream(value)) {
+			const auto & out = heap.read<OStream>(value.u);
+			if(out.oss) {
+				return out.oss->str();
+			}
 			return "<ostream>";
 		}
 

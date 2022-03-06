@@ -24,8 +24,7 @@ namespace ltn::vm {
 		IStream clone() const {
 			throw std::runtime_error{"Cannot clone IStream."};
 		}
-
-	private:
+		
 		std::unique_ptr<std::istream> storage;
 		std::istream * ptr;
 	};
