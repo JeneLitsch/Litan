@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "ltn/float64_t.hxx"
 
 namespace ltn::c::compile::inst {
 	const std::string comment(std::string msg);
@@ -21,6 +22,8 @@ namespace ltn::c::compile::inst {
 	constexpr std::string_view eql = "eql\n";
 	constexpr std::string_view ueql = "ueql\n";
 	constexpr std::string_view comp = "comp\n";
+	constexpr std::string_view approx = "approx\n";
+	constexpr std::string_view notprox = "approx\n" "not\n";
 	constexpr std::string_view shift_l = "shift_l\n";
 	constexpr std::string_view shift_r = "shift_r\n";
 
@@ -34,7 +37,7 @@ namespace ltn::c::compile::inst {
 
 	const std::string newu(std::uint64_t value);
 	const std::string newi(std::int64_t value);
-	const std::string newf(double value);
+	const std::string newf(stx::float64_t value);
 	const std::string newc(char value);
 	constexpr std::string_view truE = "true\n";
 	constexpr std::string_view falsE = "false\n";

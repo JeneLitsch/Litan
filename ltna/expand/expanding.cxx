@@ -6,6 +6,7 @@
 #include "ltn/Bitcast.hxx"
 #include "ltna/InstructionTable.hxx"
 #include "ltn/reading.hxx"
+#include "ltn/float64_t.hxx"
 namespace ltn::a::expand {
 	namespace {
 
@@ -90,7 +91,7 @@ namespace ltn::a::expand {
 					break;
 
 				case ArgFormat::FLOAT:
-					out << expandArg<double>(ls);
+					out << expandArg<stx::float64_t>(ls);
 					break;
 
 				case ArgFormat::BYTE:

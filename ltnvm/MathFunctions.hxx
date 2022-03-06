@@ -2,21 +2,22 @@
 #include <functional>
 #include <cstdint>
 #include <cmath>
+#include "ltn/float64_t.hxx"
 namespace ltn::vm {
 	struct Round {
-		constexpr inline std::int64_t operator()(const double value) const {
+		constexpr inline std::int64_t operator()(const stx::float64_t value) const {
 			return static_cast<std::int64_t>(std::round(value));
 		}
 	};
 
 	struct Floor {
-		constexpr inline std::int64_t operator()(const double value) const {
+		constexpr inline std::int64_t operator()(const stx::float64_t value) const {
 			return static_cast<std::int64_t>(std::floor(value));
 		}
 	};
 
 	struct Ceil {
-		constexpr inline std::int64_t operator()(const double value) const {
+		constexpr inline std::int64_t operator()(const stx::float64_t value) const {
 			return static_cast<std::int64_t>(std::ceil(value));
 		}
 	};
@@ -34,20 +35,20 @@ namespace ltn::vm {
 	};
 
 	struct Sinus {
-		constexpr inline double operator()(const auto value) const {
-			return std::sin(static_cast<double>(value));
+		constexpr inline stx::float64_t operator()(const auto value) const {
+			return std::sin(static_cast<stx::float64_t>(value));
 		}
 	};
 
 	struct Cosinus {
-		constexpr inline double operator()(const auto value) const {
-			return std::cos(static_cast<double>(value));
+		constexpr inline stx::float64_t operator()(const auto value) const {
+			return std::cos(static_cast<stx::float64_t>(value));
 		}
 	};
 
 	struct Tangents {
-		constexpr inline double operator()(const auto value) const {
-			return std::tan(static_cast<double>(value));
+		constexpr inline stx::float64_t operator()(const auto value) const {
+			return std::tan(static_cast<stx::float64_t>(value));
 		}
 	};
 

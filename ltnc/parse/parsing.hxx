@@ -1,4 +1,5 @@
 #pragma once
+#include "ltn/float64_t.hxx"
 #include "ltnc/ast/Ast.hxx"
 #include "ltnc/lex/Lexer.hxx"
 #include "ltnc/CompilerError.hxx"

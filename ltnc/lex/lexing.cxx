@@ -155,6 +155,12 @@ namespace ltn::c::lex {
 		
 		if(match(',')) return make(TT::COMMA, ",");
 		if(match(';')) return make(TT::SEMICOLON, ";");
+		if(match('~')) {
+			if(match('~')) {
+				return make(TT::TILDEx2, "~~");
+			}
+			throw CompilerError{"invalid token", location}; 
+		}
 		
 		if(match('(')) return make(TT::PAREN_L, "(");
 		if(match(')')) return make(TT::PAREN_R, ")");
@@ -240,6 +246,7 @@ namespace ltn::c::lex {
 
 		if(match('!')) {
 			if(match('=')) return make(TT::UNEQUAL, "!=");
+			if(match('~')) return make(TT::XMARK_TILDE, "!~");
 			return make(TT::XMARK, "!");
 		}
 		

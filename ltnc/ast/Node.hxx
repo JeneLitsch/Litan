@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "ltn/float64_t.hxx"
 #include "ltnc/SourceLocation.hxx"
 namespace ltn::c::ast {
 	struct Node {

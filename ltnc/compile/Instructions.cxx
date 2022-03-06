@@ -55,7 +55,7 @@ namespace ltn::c::compile::inst {
 		return ss.str();
 	}
 
-	const std::string newf(double value) {
+	const std::string newf(stx::float64_t value) {
 		std::stringstream ss;
 		ss << "newf " << value << "\n";
 		return ss.str();

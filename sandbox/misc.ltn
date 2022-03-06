@@ -1,19 +1,7 @@
 function main() {
-	std::println(-1 <=> 1);
-	std::println(1 <=> 1);
-	std::println("A" <=> "B");
-	std::println("C" <=> "B");
-	std::println(3 <=> -3);
-	var b = 21;
-	var a = iife {
-		var x = -iife {
-			return iife {
-				return b * 2;
-			} * 2;
-		};
-		return x;
-	} / -2;
-
-	std::println(a);
-	return a;
+	std::println(1 ~~ 2);
+	std::println(1.000000001 ~~ 1.00000000000001);
+	std::println(1.00001 ~~ 1.0);
+	std::println(1 ~~ 1);
+	std::println(2 ~~ 1);
 }

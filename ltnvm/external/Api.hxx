@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "ltn/float64_t.hxx"
 #include "ltnvm/memory/Value.hxx"
 #include "ltnvm/memory/Heap.hxx"
 #include "ltnvm/TypeCheck.hxx"
@@ -36,7 +37,7 @@ namespace ltn::vm::ext {
 
 		void return_bool(bool value);
 		void return_int(std::int64_t value);
-		void return_float(double value);
+		void return_float(stx::float64_t value);
 		void return_string(std::string value);
 
 		virtual ~Api();

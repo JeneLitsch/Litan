@@ -13,7 +13,7 @@ void ltn::vm::ext::Api::return_int(std::int64_t value) {
 	this->return_value = Value{value};
 }
 
-void ltn::vm::ext::Api::return_float(double value) {
+void ltn::vm::ext::Api::return_float(stx::float64_t value) {
 	this->return_value = Value{value};
 }
 

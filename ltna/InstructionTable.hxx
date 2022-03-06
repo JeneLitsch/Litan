@@ -53,6 +53,7 @@ namespace ltn::a {
 		{"inc",           {Inst::INC}},
 		{"dec",           {Inst::DEC}},
 		{"comp",          {Inst::COMP}},
+		{"approx",        {Inst::APPROX}},
 
 		// Values
 		{"newu",          {Inst::NEWU,         ArgFormat::UINT}},
