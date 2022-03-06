@@ -108,6 +108,17 @@ namespace ltn::vm {
 			return;
 		}
 
+		if(is_range(ref)) {
+			const auto & range = heap.read<Range>(ref.u);
+			const auto & array = heap.read<Array>(range.array).get();
+			const auto index = to_index(key);
+			if(index < 0 || index >= range.end - range.begin) {
+				throw except::out_of_range();
+			} 
+			this->reg.push(array[range.begin + index]);
+			return;
+		}
+
 		if(is_string(ref)) {
 			const auto & str = heap.read<String>(ref.u).get();
 			const auto index = to_index(key);
