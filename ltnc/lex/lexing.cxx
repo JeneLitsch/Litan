@@ -219,6 +219,7 @@ namespace ltn::c::lex {
 		
 		if(match('=')) {
 			if(match('=')) return make(TT::EQUAL, "==");
+			if(match('>')) return make(TT::DRARROW, "=>");
 			return make(TT::ASSIGN, "=");
 		}
 

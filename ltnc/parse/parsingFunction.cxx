@@ -77,6 +77,16 @@ namespace ltn::c::parse {
 		}
 
 
+		std::unique_ptr<ast::Statement> body(lex::Lexer & lexer) {
+			if(lexer.match(TT::DRARROW)) {
+				auto expr = expression(lexer);
+				return std::make_unique<ast::Return>(std::move(expr), lexer.location());
+			}
+			else {
+				return statement(lexer);
+			}
+		}
+
 		std::unique_ptr<ast::Except> except(lex::Lexer & lexer) {
 			if(lexer.match(TT::EXCEPT)) {
 				auto params = parameter_list(lexer);
@@ -85,7 +95,7 @@ namespace ltn::c::parse {
 						"Except only takes one error parameter",
 						lexer.location()};
 				}
-				auto body = parse::statement(lexer);
+				auto body = parse::body(lexer);
 				return std::make_unique<ast::Except>(
 					params[0],
 					std::move(body),
@@ -119,7 +129,7 @@ namespace ltn::c::parse {
 		const ast::Namespace & namespaze) {
 
 		if(lexer.match(TT::FUNCTION)) {
-			auto fx = functional_node<ast::Function>(lexer, namespaze, statement);
+			auto fx = functional_node<ast::Function>(lexer, namespaze, parse::body);
 			fx->except = except(lexer);
 			return fx;
 		}
@@ -133,7 +143,7 @@ namespace ltn::c::parse {
 		if(lexer.match(TT::LAMBDA)) {
 			auto captures = parse::captures(lexer);
 			const auto parameters = optional_parameters(lexer);
-			auto body = statement(lexer); 
+			auto body = parse::body(lexer); 
 			auto fx = std::make_unique<ast::Function>(
 				"lambda",
 				ast::Namespace{},

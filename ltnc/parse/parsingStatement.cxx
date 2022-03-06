@@ -6,7 +6,7 @@ namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 	}
-
+	
 	// Maches ; or throws
 	void semicolon(lex::Lexer & lexer) {
 		if(!lexer.match(TT::SEMICOLON)) {
@@ -16,7 +16,7 @@ namespace ltn::c::parse {
 	}
 
 	// Enforces ; after statement
-	std::unique_ptr<ast::Statement> semicolon(lex::Lexer & lexer, auto fx) {
+	inline auto semicolon(lex::Lexer & lexer, auto fx) -> decltype(fx(lexer)) {
 		auto stmt = fx(lexer);
 		if(!stmt) return nullptr;
 		semicolon(lexer);

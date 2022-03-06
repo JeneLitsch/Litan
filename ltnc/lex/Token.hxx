@@ -40,6 +40,8 @@ namespace ltn::c::lex {
 			SPACE_SHIP,
 			TILDEx2,
 			XMARK_TILDE,
+
+			DRARROW,
 		};
 		
 		Type type;
