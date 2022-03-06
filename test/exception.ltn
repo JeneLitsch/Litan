@@ -33,6 +33,8 @@ namespace test {
 		except(e) {
 			return 42;
 		};
+
+		var range = lambda (size) { std::first_n([1,2,3,4], size); };
 		
 		var cases1 = [
 			[[ &just_throw(),          []               ], true],
@@ -42,6 +44,10 @@ namespace test {
 			[[ &std::remove_back(_),   [std::array(42)] ], false],
 			[[ throws,                 [1,2] ],            true],
 			[[ catches,                [1,2] ],            false],
+			[[ range,                  [6]],               true],
+			[[ range,                  [-3]],              true],
+			[[ range,                  [3]],               false],
+			[[ range,                  [0]],               false],
 		];
 
 		var cases2 = [

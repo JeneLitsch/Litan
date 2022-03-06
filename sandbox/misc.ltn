@@ -1,7 +1,2 @@
 function main() {
-	std::println(1 ~~ 2);
-	std::println(1.000000001 ~~ 1.00000000000001);
-	std::println(1.00001 ~~ 1.0);
-	std::println(1 ~~ 1);
-	std::println(2 ~~ 1);
 }

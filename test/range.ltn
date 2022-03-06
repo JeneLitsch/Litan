@@ -8,7 +8,7 @@ namespace test {
 			[[std::first_n(array, 3), 0], 0],
 			[[std::first_n(array, 4), 0], 0],
 			[[std::first_n(array, 3), 2], 2],
-			[[std::first_n(array, 4), 2], 2],
+			[[std::first_n(array, 4), 3], 3],
 			[[std::last_n(array, 3), 0], 3],
 			[[std::last_n(array, 4), 0], 2],
 			[[std::whole(array), 0], 0],

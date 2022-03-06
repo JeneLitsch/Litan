@@ -107,6 +107,13 @@ namespace ltn::vm {
 		if(!is_array(array)) throw except::invalid_argument();
 		if(!is_int(begin)) throw except::invalid_argument();
 		if(!is_int(end))   throw except::invalid_argument();
+
+		const auto size = end.i - begin.i;
+		
+		const auto & arr = this->heap.read<Array>(array.u).get();
+		if(size < 0 || size > static_cast<std::int64_t>(arr.size())) {
+			throw except::out_of_range();
+		}
 		
 		const auto range = this->heap.alloc<Range>({array.u, begin.i, end.i});
 		this->reg.push(Value{range, Value::Type::RANGE});
