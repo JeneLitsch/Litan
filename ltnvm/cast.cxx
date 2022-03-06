@@ -2,6 +2,7 @@
 #include "TypeCheck.hxx"
 #include "Exception.hxx"
 #include "convert.hxx"
+#include "ltn/float64_t.hxx"
 
 namespace ltn::vm::cast {
 	namespace {
@@ -164,10 +165,10 @@ namespace ltn::vm::cast {
 
 
 
-	double to_float(Value value, Heap & heap) {
+	stx::float64_t to_float(Value value, Heap & heap) {
 		if(is_string(value)) {
 			const auto & str = heap.read<String>(value.u);
-			return parse_value<double>(str.str); 
+			return parse_value<stx::float64_t>(str.str); 
 		}
 		
 		if (isClock(value)) {

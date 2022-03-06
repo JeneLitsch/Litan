@@ -47,17 +47,17 @@ namespace ltn::vm::convert {
 	}
 
 
-	double to_float(const Value value) {
+	stx::float64_t to_float(const Value value) {
 		if(is_bool(value)) {
-			return static_cast<double>(value.b);
+			return static_cast<stx::float64_t>(value.b);
 		}
 
 		if(is_char(value)) {
-			return static_cast<double>(value.c);
+			return static_cast<stx::float64_t>(value.c);
 		}
 
 		if(is_int(value)) {
-			return static_cast<double>(value.i);
+			return static_cast<stx::float64_t>(value.i);
 		}
 
 		if(is_float(value)) {

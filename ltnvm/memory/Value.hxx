@@ -1,4 +1,5 @@
 #pragma once
+#include "ltn/float64_t.hxx"
 #include <cstdint>
 
 namespace ltn::vm {
@@ -29,7 +30,7 @@ namespace ltn::vm {
 		constexpr Value(char value) 
 			: c(value), type(Type::CHAR) {}
 		
-		constexpr Value(double value)
+		constexpr Value(stx::float64_t value)
 			: f(value), type(Type::FLOAT) {}
 
 		constexpr Value(bool value)
@@ -38,7 +39,7 @@ namespace ltn::vm {
 		union {
 			std::uint64_t u;
 			std::int64_t i;
-			double f;
+			stx::float64_t f;
 			bool b;
 			char c;
 		};
@@ -47,12 +48,16 @@ namespace ltn::vm {
 	namespace value {
 		constexpr inline Value null {0, Value::Type::NVLL };
 
+		constexpr inline Value boolean(bool b) {
+			return Value{b, Value::Type::BOOL};
+		}
+
 		constexpr inline Value integer(auto i) {
 			return Value{static_cast<std::int64_t>(i)};
 		}
 
 		constexpr inline Value floating(auto i) {
-			return Value{static_cast<double>(i)};
+			return Value{static_cast<stx::float64_t>(i)};
 		}
 
 		constexpr inline Value character(auto i) {

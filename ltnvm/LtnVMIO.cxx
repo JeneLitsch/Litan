@@ -59,7 +59,7 @@ namespace ltn::vm {
 
 	void LtnVM::in_float() {
 		auto & in = get_istream(this->heap, this->reg); 
-		double value;
+		stx::float64_t value;
 		in >> value;
 		reg.push(Value{value});
 	}

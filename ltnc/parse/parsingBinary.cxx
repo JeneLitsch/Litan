@@ -90,6 +90,8 @@ namespace ltn::c::parse {
 		constexpr std::array table {
 			std::pair{TT::EQUAL, OP::EQUAL},
 			std::pair{TT::UNEQUAL, OP::UNEQUEL},
+			std::pair{TT::TILDEx2, OP::APPROX},
+			std::pair{TT::XMARK_TILDE, OP::NOTPROX},
 		};
 		return binary<ast::SimpleBinary>(lexer, table, comparision); 
 	}

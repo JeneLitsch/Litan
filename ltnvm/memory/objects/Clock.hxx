@@ -1,6 +1,7 @@
 #pragma once
 #include <chrono>
 #include <string_view>
+#include "ltn/float64_t.hxx"
 namespace ltn::vm {
 	class Clock {
 	public:
@@ -8,7 +9,7 @@ namespace ltn::vm {
 		
 		Clock();
 
-		double getSeconds() const;
+		stx::float64_t getSeconds() const;
 
 		auto clone() const {
 			return *this;

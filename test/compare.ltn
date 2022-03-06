@@ -139,6 +139,9 @@ namespace test {
 			[[-1, 1], -1],
 			[[1, 1], 0],
 			[[1, -1], 1],
+			[['A', 'A'], 0],
+			[['A', 'Z'], -1],
+			[['Z', 'A'], 1],
 			[["A", "B"], -1],
 			[["C", "B"], 1],
 			[["a", "A"], 1],
@@ -155,6 +158,55 @@ namespace test {
 		return test_all_cases("Space ship <=>", fx, cases);
 	}
 
+	function approx() {
+		var cases = [
+			[[-1, 1], false],
+			[[1, 1], true],
+			[[1.0000000001, 1], true],
+			[['A', 'B'], false],
+			[['A', 'A'], true],
+			[["A", "B"], false],
+			[["C", "B"], false],
+			[["A", "A"], true],
+			[["ABC", "ABC"], true],
+			[["AB", "ABC"], false],
+			[[[1,2,3], [1,2,3]], true],
+			[[[1,2], [1,2,3]], false],
+			[[[1,2,4], [1,2,3]], false],
+		];
+
+		var fx = lambda (a, b) {
+			return a ~~ b;
+		};
+
+		return test_all_cases("Approx ~~", fx, cases);
+	}
+
+	function not_approx() {
+		var cases = [
+			[[-1, 1], true],
+			[[1, 1], false],
+			[[1.0000000001, 1], false],
+			[['A', 'B'], true],
+			[['A', 'A'], false],
+			[["A", "B"], true],
+			[["C", "B"], true],
+			[["A", "A"], false],
+			[["ABC", "ABC"], false],
+			[["AB", "ABC"], true],
+			[[[1,2,3], [1,2,3]], false],
+			[[[1,2], [1,2,3]], true],
+			[[[1,2,4], [1,2,3]], true],
+			[[[1,2,4], [1,2,3]], true],
+		];
+
+		var fx = lambda (a, b) {
+			return a !~ b;
+		};
+
+		return test_all_cases("Not Approx !~", fx, cases);
+	}
+
 	function compare() {
 		return
 			eql() + 
@@ -163,6 +215,8 @@ namespace test {
 			bigger() + 
 			smaller_eql() + 
 			bigger_eql() + 
-			space_ship();
+			space_ship() + 
+			approx() +
+			not_approx();
 	}
 }

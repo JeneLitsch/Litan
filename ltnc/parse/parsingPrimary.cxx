@@ -61,7 +61,7 @@ namespace ltn::c::parse {
 		std::unique_ptr<ast::Float> floating(lex::Lexer & lexer) {
 			if(auto token = lexer.match(TT::FLOAT)) {
 				std::stringstream ss{token->str};
-				const double value = read<double>(ss);
+				const stx::float64_t value = read<stx::float64_t>(ss);
 				return std::make_unique<ast::Float>(value, lexer.location()); 
 			}
 			return nullptr;

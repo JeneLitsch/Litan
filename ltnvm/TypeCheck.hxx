@@ -5,6 +5,14 @@ namespace ltn::vm {
 		return val.type == Value::Type::NVLL;
 	}
 
+	constexpr inline bool is_bool(const Value & val) {
+		return val.type == Value::Type::BOOL;
+	}
+
+	constexpr inline bool is_char(const Value & val) {
+		return val.type == Value::Type::CHAR;
+	}
+
 	constexpr inline bool is_int(const Value & val) {
 		return val.type == Value::Type::INT;
 	}
@@ -13,14 +21,14 @@ namespace ltn::vm {
 		return val.type == Value::Type::FLOAT;
 	}
 
-	constexpr inline bool is_char(const Value & val) {
-		return val.type == Value::Type::CHAR;
+	constexpr inline bool is_integral(const Value & val) {
+		return is_bool(val) || is_char(val) || is_int(val);
 	}
 
-	constexpr inline bool is_bool(const Value & val) {
-		return val.type == Value::Type::BOOL;
+	constexpr inline bool is_numeric(const Value & val) {
+		return is_integral(val) || is_float(val);
 	}
-
+	
 	constexpr inline bool is_addr(const Value & val) {
 		return val.type == Value::Type::ADDR;
 	}

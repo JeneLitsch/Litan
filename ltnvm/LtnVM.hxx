@@ -76,7 +76,8 @@ namespace ltn::vm {
 			n0t(),
 			inc(),
 			dec(),
-			comp();
+			comp(),
+			approx();
 
 		void
 			newi(),

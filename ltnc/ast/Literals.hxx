@@ -24,10 +24,10 @@ namespace ltn::c::ast {
 
 	struct Float : public Literal {
 	public:
-		Float(double value, const SourceLocation & location)
+		Float(stx::float64_t value, const SourceLocation & location)
 			:	Literal(location), value(value) {}
 		virtual ~Float() = default;
-		double value;
+		stx::float64_t value;
 	};
 
 	struct Bool : public Literal {
