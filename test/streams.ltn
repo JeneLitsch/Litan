@@ -31,8 +31,10 @@ namespace test {
 		};
 
 		var cases = [
-			[["a true 1 true -1.5"], ['a',true, 1, "true", -1.5]],
+			[["a true 1 true -1.5"], ['a', true, 1, "true", -1.5]],
 			[["a false 42 hello 1337"], ['a', false, 42, "hello", 1337.0]],
+			[["a 1 42 hello 1337"], ['a', true, 42, "hello", 1337.0]],
+			[["a 0 42 hello 1337"], ['a', false, 42, "hello", 1337.0]],
 		];
 
 		return test_all_cases("IStream(std::strin())", fx, cases);
@@ -60,7 +62,28 @@ namespace test {
 		return test_all_cases("std::is_eof()", fx, cases);
 	}
 
+	function is_good() {
+		var fx = lambda(str) {
+			var iss = std::strin(str);
+			std::read_int(iss);
+			std::read_int(iss);
+			std::read_int(iss);
+			return std::is_good(iss);
+		};
+
+		var cases = [
+			[["1 2"],         false],
+			[["1 2 3 4"],     true],
+			[["1 2 3"],       true],
+			[["1 2 hello"],   false],
+			[["foo bar baz"], false],
+			[[""],            false],
+		];
+
+		return test_all_cases("std::good", fx, cases);
+	}
+
 	function streams() {
-		return strout() + strin() + is_eof();
+		return strout() + strin() + is_eof() + is_good();
 	}
 }

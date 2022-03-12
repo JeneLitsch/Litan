@@ -59,6 +59,15 @@ namespace std {
 		return read(cin());
 	}
 
+	asm read_str(stream) {
+		"in_str"
+		"return"
+	}
+
+	function read_str() {
+		return read(cin());
+	}
+
 	asm readln(stream) {
 		"in_line"
 		"return"
@@ -106,6 +115,11 @@ namespace std {
 
 	asm is_eof(stream) {
 		"is_eof"
+		"return"
+	}
+
+	asm is_good(stream) {
+		"is_good"
 		"return"
 	}
 

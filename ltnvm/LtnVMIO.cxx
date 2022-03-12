@@ -50,9 +50,24 @@ namespace ltn::vm {
 
 
 	void LtnVM::in_bool() {
-		auto & in = get_istream(this->heap, this->reg); 
+		auto & in = get_istream(this->heap, this->reg);
 		bool value;
-		in >> std::boolalpha >> value >> std::noboolalpha;
+		in >> std::ws;
+
+		if(in.peek() == '0') {
+			value = false;
+			in.ignore();
+		}
+		
+		else if(in.peek() == '1') {
+			value = true;
+			in.ignore();
+		}
+		
+		else  {
+			in >> std::boolalpha >> value >> std::noboolalpha;
+		}
+
 		reg.push(value::boolean(value));
 	}
 
