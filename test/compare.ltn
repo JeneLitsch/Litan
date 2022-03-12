@@ -9,9 +9,7 @@ namespace test {
 			[["123", "123"], true],
 		];
 
-		var fx = lambda (a, b) {
-			return a == b;
-		};
+		var fx = lambda (a, b) => a == b;
 
 		return test_all_cases("Equal==", fx, cases);
 	}
@@ -27,9 +25,7 @@ namespace test {
 			[["123", "123"], false],
 		];
 
-		var fx = lambda (a, b) {
-			return a != b;
-		};
+		var fx = lambda (a, b) => a != b;
 
 		return test_all_cases("Unequal!=", fx, cases);
 	}
@@ -50,9 +46,7 @@ namespace test {
 			[[std::cin(), std::cout()], true],
 		];
 
-		var fx = lambda (a, b) {
-			return a < b;
-		};
+		var fx = lambda (a, b) => a < b;
 
 		return test_all_cases("Smaller<", fx, cases);
 	}
@@ -73,9 +67,7 @@ namespace test {
 			[[std::cin(), std::cout()], false],
 		];
 
-		var fx = lambda (a, b) {
-			return a > b;
-		};
+		var fx = lambda(a, b) => a > b;
 
 		return test_all_cases("Bigger>", fx, cases);
 	}
@@ -100,9 +92,7 @@ namespace test {
 			[[std::cin(), std::cout()], true],
 		];
 
-		var fx = lambda (a, b) {
-			return a <= b;
-		};
+		var fx = lambda (a, b) => a <= b;
 
 		return test_all_cases("SmallerEqual<=", fx, cases);
 	}
@@ -127,9 +117,7 @@ namespace test {
 			[[std::cin(), std::cout()], false],
 		];
 
-		var fx = lambda (a, b) {
-			return a >= b;
-		};
+		var fx = lambda (a, b) => a >= b;
 
 		return test_all_cases("BiggerEqual>=", fx, cases);
 	}
@@ -151,9 +139,7 @@ namespace test {
 			[[[1,2,4], [1,2,3]], 1],
 		];
 
-		var fx = lambda (a, b) {
-			return a <=> b;
-		};
+		var fx = lambda (a, b) => a <=> b;
 
 		return test_all_cases("Space ship <=>", fx, cases);
 	}
@@ -175,9 +161,7 @@ namespace test {
 			[[[1,2,4], [1,2,3]], false],
 		];
 
-		var fx = lambda (a, b) {
-			return a ~~ b;
-		};
+		var fx = lambda (a, b) => a~~b;
 
 		return test_all_cases("Approx ~~", fx, cases);
 	}
