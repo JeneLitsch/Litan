@@ -140,6 +140,7 @@ namespace ltn::vm {
 			in_char(),
 			in_int(),
 			in_float(),
+			in_all(),
 			is_eof(),
 			is_good();
 

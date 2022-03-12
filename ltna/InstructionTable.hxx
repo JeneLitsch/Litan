@@ -117,6 +117,7 @@ namespace ltn::a {
 		{"in_char",       {Inst::IN_CHAR}},
 		{"in_int",        {Inst::IN_INT}},
 		{"in_float",      {Inst::IN_FLOAT}},
+		{"in_all",        {Inst::IN_ALL}},
 		{"is_eof",        {Inst::IS_EOF}},
 		{"is_good",       {Inst::IS_GOOD}},
 

@@ -83,7 +83,26 @@ namespace test {
 		return test_all_cases("std::good", fx, cases);
 	}
 
+	function read_all() {
+		var cases = [
+			[[std::fin("test/files/1.txt")], "hello world"],
+			[[std::strin("hello world 123")], "hello world 123"],
+		];
+
+		return test_all_cases("std::read_all", &std::read_all(_), cases);
+	}
+
+	function readln () {
+		var cases = [
+			[[std::fin("test/files/1.txt")], "hello world"],
+			[[std::strin("hello world 123")], "hello world 123"],
+			[[std::strin("hello world\n 123")], "hello world"],
+		];
+
+		return test_all_cases("std::readln", &std::readln(_), cases);
+	}
+
 	function streams() {
-		return strout() + strin() + is_eof() + is_good();
+		return strout() + strin() + is_eof() + is_good() + read_all() + readln();
 	}
 }

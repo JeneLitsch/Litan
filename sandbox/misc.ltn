@@ -20,4 +20,6 @@ function main() {
 	std::println(oss, "Bar");
 
 	std::print(std::string(oss));
+
+	std::println(std::read_all(std::fin("sandbox/misc.ltn")));
 }

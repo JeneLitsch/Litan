@@ -120,6 +120,7 @@ namespace ltn::vm {
 				case Inst::IN_CHAR: this->in_char(); break;
 				case Inst::IN_INT: this->in_int(); break;
 				case Inst::IN_FLOAT: this->in_float(); break;
+				case Inst::IN_ALL: this->in_all(); break;
 				case Inst::IS_EOF: this->is_eof(); break;
 				case Inst::IS_GOOD: this->is_good(); break;
 

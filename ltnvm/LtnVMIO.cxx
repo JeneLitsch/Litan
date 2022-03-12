@@ -95,6 +95,13 @@ namespace ltn::vm {
 		reg.push(value::floating(value));
 	}
 
+	void LtnVM::in_all() {
+		auto & in = get_istream(this->heap, this->reg);
+		std::ostringstream oss;
+		oss << in.rdbuf();
+		const auto ref = heap.alloc<String>({oss.str()});
+		reg.push(value::string(ref));
+	}
 
 	void LtnVM::is_eof() {
 		auto & in = get_istream(this->heap, this->reg); 

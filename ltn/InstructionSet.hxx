@@ -98,6 +98,7 @@ namespace ltn {
 		IN_CHAR,
 		IN_INT,
 		IN_FLOAT,
+		IN_ALL,
 		IS_EOF,
 		IS_GOOD,
 

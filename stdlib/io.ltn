@@ -113,6 +113,15 @@ namespace std {
 		return read_float(cin());
 	}
 
+	asm read_all(stream) {
+		"in_all"
+		"return"
+	}
+
+	function read_all() {
+		return read_all(cin());
+	}
+
 	asm is_eof(stream) {
 		"is_eof"
 		"return"
