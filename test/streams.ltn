@@ -26,15 +26,16 @@ namespace test {
 				std::read_bool(iss),
 				std::read_int(iss),
 				std::read(iss),
+				std::read_str(iss),
 				std::read_float(iss),
 			];
 		};
 
 		var cases = [
-			[["a true 1 true -1.5"], ['a', true, 1, "true", -1.5]],
-			[["a false 42 hello 1337"], ['a', false, 42, "hello", 1337.0]],
-			[["a 1 42 hello 1337"], ['a', true, 42, "hello", 1337.0]],
-			[["a 0 42 hello 1337"], ['a', false, 42, "hello", 1337.0]],
+			[["a true 1 true a -1.5"],    ['a', true, 1, "true", "a", -1.5]],
+			[["a false 42 hello a 1337"], ['a', false, 42, "hello", "a", 1337.0]],
+			[["a 1 42 hello a 1337"],     ['a', true, 42, "hello", "a", 1337.0]],
+			[["a 0 42 hello a 1337"],     ['a', false, 42, "hello", "a", 1337.0]],
 		];
 
 		return test_all_cases("IStream(std::strin())", fx, cases);
