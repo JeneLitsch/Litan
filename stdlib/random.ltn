@@ -2,6 +2,8 @@ namespace std {
 	namespace random {
 		asm mersenne() {
 			"newrng 0"
+			"duplicate"
+			"random 0"
 			"return"
 		}
 		

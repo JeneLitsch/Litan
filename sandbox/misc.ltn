@@ -1,8 +1,6 @@
 function main() {
 	var rng = std::random::mersenne();
-	std::random::seed(rng, 42);
 	var x = std::random::rand(rng);
-	std::random::seed(rng);
 	var y = std::random::rand(rng);
 	std::println(x);
 	std::println(y);
