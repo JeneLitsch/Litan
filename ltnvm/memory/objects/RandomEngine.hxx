@@ -4,6 +4,7 @@
 namespace ltn::vm {
 	struct RandomEngine {
 		constexpr static std::string_view typeName = "RandomEngine";
+		using result_type = std::uint64_t;
 		std::variant<std::mt19937_64> engine;
 
 		RandomEngine clone() const {
@@ -16,9 +17,21 @@ namespace ltn::vm {
 			}, engine);
 		}
 
-		std::uint64_t get() {
+		std::uint64_t operator()() {
 			return std::visit([](auto & rng) {
 				return rng();
+			}, engine);
+		}
+
+		auto min() {
+			return std::visit([](auto & rng) {
+				return rng.min();
+			}, engine);
+		}
+
+		auto max() {
+			return std::visit([](auto & rng) {
+				return rng.max();
 			}, engine);
 		}
 	};

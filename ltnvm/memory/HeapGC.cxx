@@ -37,6 +37,8 @@ namespace ltn::vm {
 		if(is_queue(value))   return this->mark_deque(value);
 
 		if(is_map(value))     return this->mark_map(value);
+		
+		if(is_rng(value))     return this->mark_default(value);
 	}
 
 	void Heap::mark_array(const Value & ref) {

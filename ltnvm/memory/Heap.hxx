@@ -125,6 +125,7 @@ namespace ltn::vm {
 		void mark_default(const Value & value);
 		void mark_deque(const Value & value);
 		void mark_map(const Value & value);
+		void mark_rng(const Value & value);
 		void sweep();
 
 		HeapObject & get(std::uint64_t addr);

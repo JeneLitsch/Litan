@@ -1,7 +1,6 @@
 function main() {
 	var rng = std::random::mersenne();
-	var x = std::random::rand(rng);
-	var y = std::random::rand(rng);
-	std::println(x);
-	std::println(y);
+	for i (0, 10) {
+		std::println(std::random::rand_int(rng, 0, 5));
+	}
 }

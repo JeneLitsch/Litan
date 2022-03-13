@@ -19,5 +19,15 @@ namespace std {
 			"random 10"
 			"return"
 		}
+
+		asm rand_int(rng, min, max) {
+			"random 11"
+			"return"
+		}
+
+		asm rand_float(rng, min, max) {
+			"random 12"
+			"return"
+		}
 	}
 }
