@@ -1,6 +1,6 @@
 function main() {
 	var rng = std::random::mersenne();
-	for i (0, 10) {
-		std::println(std::random::rand_int(rng, 0, 5));
-	}
+	for i (0, 10) std::println(std::random::rand_int(rng, 0, 5));
+	for i (0, 10) std::println(std::random::rand_float(rng, 0, 5));
+	for i (0, 10) std::println(std::random::decision(rng, 0.5));
 }

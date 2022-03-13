@@ -29,5 +29,7 @@ namespace std {
 			"random 12"
 			"return"
 		}
+
+		function decision(rng, p) => rand_float(rng, 0, 1) < p
 	}
 }
