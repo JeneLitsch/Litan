@@ -5,7 +5,7 @@ namespace std {
 			"return"
 		}
 		
-		asm init(rng) {
+		asm seed(rng) {
 			"random 0"
 		}
 
