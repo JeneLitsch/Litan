@@ -95,7 +95,6 @@ namespace ltn::vm {
 			iF(),
 			invoke(),
 			external(),
-			algorithm(),
 			capture(),
 			parameters();
 		
@@ -110,7 +109,8 @@ namespace ltn::vm {
 			newrange(),
 			newstack(),
 			newqueue(),
-			newmap();
+			newmap(),
+			newrng();
 
 		void
 			read(),
@@ -192,6 +192,10 @@ namespace ltn::vm {
 		void
 			member_read(),
 			member_write();
+
+		void 
+			algorithm(),
+			random();
 
 		void out_value(const Value & value);
 

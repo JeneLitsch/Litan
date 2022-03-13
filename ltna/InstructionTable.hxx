@@ -76,6 +76,7 @@ namespace ltn::a {
 		{"newstack",      {Inst::NEWSTACK}},
 		{"newqueue",      {Inst::NEWQUEUE}},
 		{"newmap",        {Inst::NEWMAP}},
+		{"newrng",        {Inst::NEWRNG,       ArgFormat::BYTE}},
 
 		// Control flow
 		{"jump",          {Inst::JUMP,         ArgFormat::JUMP}},
@@ -87,7 +88,6 @@ namespace ltn::a {
 		// Functional
 		{"invoke",        {Inst::INVOKE}},
 		{"external",      {Inst::EXTERNAL}},
-		{"algorithm",     {Inst::ALGORITHM,    ArgFormat::BYTE}},
 		{"capture",       {Inst::CAPTURE}},
 
 		// Memory
@@ -167,5 +167,9 @@ namespace ltn::a {
 
 		{"member_read",   {Inst::MEMBER_READ,  ArgFormat::UINT}},
 		{"member_write",  {Inst::MEMBER_WRITE, ArgFormat::UINT}},
+
+		// Build-ins
+		{"algorithm",     {Inst::ALGORITHM,    ArgFormat::BYTE}},
+		{"random",        {Inst::RANDOM,       ArgFormat::BYTE}},
 	};
 }

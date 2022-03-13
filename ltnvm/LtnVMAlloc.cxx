@@ -158,4 +158,18 @@ namespace ltn::vm {
 		const auto ref = this->heap.alloc<FxPointer>({address, params, {}});
 		this->reg.push(Value{ref, Value::Type::FX_PTR});
 	}
+
+	void LtnVM::newrng(){
+		const auto type = this->fetch_byte();
+		switch (type) {
+		case 0x00: {
+			const auto rng = RandomEngine{std::mt19937_64{}};
+			const auto ref = this->heap.alloc<RandomEngine>(rng);
+			this->reg.push(value::rng(ref));
+			return;
+		}
+		
+		default: throw std::runtime_error {"Unknown RandonEngine type"};
+		}
+	}
 }

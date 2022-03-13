@@ -1,25 +1,9 @@
-function f1(a, b) => 40 + a + b 
-
-function f2() => std::first_n([], -100)
-	except(e) => null
-
 function main() {
-	var iss = std::strin("1 2 3");
-	var a = std::read_int(iss);
-	var b = std::read_int(iss);
-	var c = std::read_int(iss);
-	std::println(a);
-	std::println(b);
-	std::println(c);
-
-	var oss = std::strout();
-	std::println(oss, "Hello");
-	std::println(oss, "World");
-	std::println(oss, "12345");
-	std::println(oss, "Foo");
-	std::println(oss, "Bar");
-
-	std::print(std::string(oss));
-
-	std::println(std::read_all(std::fin("sandbox/misc.ltn")));
+	var rng = std::random::mersenne();
+	std::random::seed(rng, 42);
+	var x = std::random::rand(rng);
+	std::random::init(rng);
+	var y = std::random::rand(rng);
+	std::println(x);
+	std::println(y);
 }

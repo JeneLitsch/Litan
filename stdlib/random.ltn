@@ -1,0 +1,21 @@
+namespace std {
+	namespace random {
+		asm mersenne() {
+			"newrng 0"
+			"return"
+		}
+		
+		asm init(rng) {
+			"random 0"
+		}
+
+		asm seed(rng, seed) {
+			"random 1"
+		}
+
+		asm rand(rng) {
+			"random 10"
+			"return"
+		}
+	}
+}

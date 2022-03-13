@@ -81,6 +81,10 @@ namespace ltn::vm {
 		return val.type == Value::Type::MAP;
 	}
 
+	constexpr inline bool is_rng(const Value & val) {
+		return val.type == Value::Type::RNG;
+	}
+
 
 
 	constexpr inline bool isObject(const Value & val) {

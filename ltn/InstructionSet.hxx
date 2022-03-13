@@ -53,7 +53,6 @@ namespace ltn {
 		IF,
 		INVOKE,
 		EXTERNAL,
-		ALGORITHM,
 		CAPTURE,
 		PARAMETERS,
 
@@ -69,6 +68,7 @@ namespace ltn {
 		NEWSTACK,
 		NEWQUEUE,
 		NEWMAP,
+		NEWRNG,
 
 		// Stack reading
 		READ = 0x60,
@@ -147,6 +147,10 @@ namespace ltn {
 
 		// Structs
 		MEMBER_READ = 0xd0,
-		MEMBER_WRITE,		
+		MEMBER_WRITE,
+
+		// Build-ins
+		ALGORITHM,
+		RANDOM,
 	};
 }

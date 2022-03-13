@@ -79,7 +79,6 @@ namespace ltn::vm {
 				case Inst::IF: this->iF(); break;
 				case Inst::INVOKE: this->invoke(); break;
 				case Inst::EXTERNAL: this->external(); break;
-				case Inst::ALGORITHM: this->algorithm(); break;
 				case Inst::CAPTURE: this->capture(); break;
 				case Inst::PARAMETERS: this->parameters(); break;
 					
@@ -94,6 +93,7 @@ namespace ltn::vm {
 				case Inst::NEWSTACK: this->newstack(); break;
 				case Inst::NEWQUEUE: this->newqueue(); break;
 				case Inst::NEWMAP: this->newmap(); break;
+				case Inst::NEWRNG: this->newrng(); break;
 				
 				case Inst::READ: this->read(); break;
 				case Inst::WRITE: this->write(); break;
@@ -167,7 +167,8 @@ namespace ltn::vm {
 				case Inst::MEMBER_READ: this->member_read(); break;
 				case Inst::MEMBER_WRITE: this->member_write(); break;
 
-
+				case Inst::ALGORITHM: this->algorithm(); break;
+				case Inst::RANDOM: this->random(); break;
 				default: {
 					std::stringstream ss;
 					ss << "Illegal Instruction: " << std::hex << int(inst) << std::dec;

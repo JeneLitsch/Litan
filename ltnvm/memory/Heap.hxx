@@ -19,6 +19,7 @@
 #include "objects/Range.hxx"
 #include "objects/Deque.hxx"
 #include "objects/Map.hxx"
+#include "objects/RandomEngine.hxx"
 namespace ltn::vm {
 	struct HeapObject {
 		using Data = std::variant<
@@ -28,7 +29,8 @@ namespace ltn::vm {
 			FxPointer,
 			Clock,
 			Struct, Range,
-			Deque, Map>;
+			Deque, Map,
+			RandomEngine>;
  		Data obj;
 		
 		bool marked = false;

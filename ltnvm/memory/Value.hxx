@@ -14,9 +14,10 @@ namespace ltn::vm {
 			CLOCK = 0x50,
 			STRUCT = 0x60, RANGE,
 			QUEUE = 0x70, STACK, MAP,
+			RNG = 0x80,
 
 			OBJ_FIRST = ARRAY,
-			OBJ_LAST = MAP
+			OBJ_LAST = RNG,
 		};
 		constexpr Value()
 			: u(0), type(Type::NVLL) {}
@@ -70,6 +71,10 @@ namespace ltn::vm {
 
 		constexpr inline Value array(std::uint64_t addr) {
 			return Value{addr, Value::Type::ARRAY};
+		}
+
+		constexpr inline Value rng(std::uint64_t addr) {
+			return Value{addr, Value::Type::RNG};
 		}
 	}
 }
