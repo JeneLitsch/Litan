@@ -1,5 +1,6 @@
 #include "LtnVM.hxx"
 #include "TypeCheck.hxx"
+#include "convert.hxx"
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -162,8 +163,18 @@ namespace ltn::vm {
 	void LtnVM::newrng(){
 		const auto type = this->fetch_byte();
 		switch (type) {
-		case 0x00: {
-			const auto rng = RandomEngine{std::mt19937_64{}};
+		case 0x00: { 
+			const auto seed = std::random_device{}();
+			const auto rng = RandomEngine{std::mt19937_64{seed}};
+			const auto ref = this->heap.alloc<RandomEngine>(rng);
+			this->reg.push(value::rng(ref));
+			return;
+		}
+
+		case 0x01: { 
+			const auto signed_seed = convert::to_int(reg.pop());
+			const auto seed = static_cast<std::uint64_t>(signed_seed);
+			const auto rng = RandomEngine{std::mt19937_64{seed}};
 			const auto ref = this->heap.alloc<RandomEngine>(rng);
 			this->reg.push(value::rng(ref));
 			return;

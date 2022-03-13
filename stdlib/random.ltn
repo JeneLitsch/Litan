@@ -1,20 +1,15 @@
 namespace std {
 	namespace random {
 		asm mersenne() {
-			"newrng 0"
-			"duplicate"
-			"random 0"
+			"newrng 00"
+			"return"
+		}
+
+		asm mersenne(seed) {
+			"newrng 01"
 			"return"
 		}
 		
-		asm seed(rng) {
-			"random 0"
-		}
-
-		asm seed(rng, seed) {
-			"random 1"
-		}
-
 		asm rand(rng) {
 			"random 10"
 			"return"
