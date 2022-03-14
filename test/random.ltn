@@ -1,0 +1,54 @@
+namespace test {
+
+	function is_between(value, min, max)
+		=> value >= min && value <= max
+	
+
+	function test_rng(rng, rng_name) {
+		var test_int = lambda[rng](min, max)
+			=> is_between(std::random::rand_int(rng, min, max), min, max);
+
+		var test_float = lambda[rng](min, max)
+			=> is_between(std::random::rand_float(rng, min, max), min, max);
+
+		var test_decision = lambda[rng](p)
+			=> std::random::decision(rng, p);
+		
+		var cases_i_f = [
+			[[-5, 5],       true],
+			[[-5, 5],       true],
+			[[5, -5],       false],
+			[[0,  0],       true],
+			[[false, true], true],
+			[[-3, 1000],    true],
+			[[-3, -1],      true],
+		];
+
+		var cases_b = [
+			[[0.0], false],
+			[[0.0], false],
+			[[0.0], false],
+			[[0.0], false],
+			[[0.0], false],
+			[[1.0], true],
+			[[1.0], true],
+			[[1.0], true],
+			[[1.0], true],
+			[[1.0], true],
+		];
+		
+		return
+			test_all_cases(rng_name + ": rand_int",   test_int,      cases_i_f) + 
+			test_all_cases(rng_name + ": rand_float", test_float,    cases_i_f) +
+			test_all_cases(rng_name + ": rand_float", test_decision, cases_b);
+	}
+
+
+	function test_mt() 
+		=> test_rng(std::random::mersenne(), "Mersenne twister")
+
+
+	function random() {
+		return test_mt();
+	}
+}

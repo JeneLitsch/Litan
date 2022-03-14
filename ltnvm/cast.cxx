@@ -146,6 +146,10 @@ namespace ltn::vm::cast {
 			return ss.str();
 		}
 
+		if(is_rng(value)) {
+			return "<RandomEngine>";
+		}
+
 		return convert::to_string(value, heap);
 	}
 

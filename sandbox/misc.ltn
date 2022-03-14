@@ -1,7 +1,8 @@
 function main() {
 	var rng1 = std::random::mersenne(42);
 	var rng2 = std::random::split(rng1);
+	var rng3 = std::clone(rng1);
 	for i (0, 10) std::println(std::random::rand_int(rng1, 0, 5));
-	for i (0, 10) std::println(std::random::rand_float(rng1, 0, 5));
-	for i (0, 10) std::println(std::random::decision(rng1, 0.5));
+	for i (0, 10) std::println(std::random::rand_float(rng2, 0, 5));
+	for i (0, 10) std::println(std::random::decision(rng3, 0.5));
 }

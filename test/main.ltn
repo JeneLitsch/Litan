@@ -13,6 +13,7 @@ function main() {
 		&test::math(),
 		&test::namespacing(),
 		&test::queue(),
+		&test::random(),
 		&test::range(),
 		&test::stack(),
 		&test::streams(),

@@ -17,6 +17,7 @@ binFile="test/$test.bin.ltn"
 	test/math.ltn\
 	test/namespace.ltn\
 	test/queue.ltn\
+	test/random.ltn\
 	test/range.ltn\
 	test/stack.ltn\
 	test/streams.ltn\

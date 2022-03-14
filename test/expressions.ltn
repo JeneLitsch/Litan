@@ -7,6 +7,8 @@ namespace test {
 		var f5 = lambda => -1.0 / 4.0;
 		var f6 = lambda => -(-1 + -5 - 5);
 		var f7 = lambda => null ?? iife { return true ? true ? 42 : 0 : 0; };
+		var f8 = lambda => 1 <= 0 && 0 <= 2;
+		var f9 = lambda => (1 <= 0 && 0) <= 2;
 
 		var cases = [
 			[f1, 2],
@@ -16,6 +18,8 @@ namespace test {
 			[f5, -0.25],
 			[f6, 11],
 			[f7, 42],
+			[f8, false],
+			[f9, true],
 		];
 
 		return test_functions("Expressions", cases);
