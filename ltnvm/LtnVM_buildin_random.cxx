@@ -14,19 +14,12 @@ namespace ltn::vm {
 		}
 
 
-		void init_seed(Register & reg, Heap & heap) {
+		void split(Register & reg, Heap & heap) {
 			auto & rng = get_rng(reg.pop(), heap);
-			std::random_device rng_dev;
-			rng.seed(rng_dev());
+			const auto ref = heap.alloc<RandomEngine>(rng.split());
+			reg.push(value::rng(ref));
 		}
-
-
-		void seed(Register & reg, Heap & heap) {
-			const auto seed = convert::to_int(reg.pop());
-			auto & rng = get_rng(reg.pop(), heap);
-			rng.seed(seed);
-		}
-
+		
 
 		void rand(Register & reg, Heap & heap) {
 			auto & rng = get_rng(reg.pop(), heap);
@@ -57,8 +50,7 @@ namespace ltn::vm {
 	void LtnVM::random() {
 		const auto func = this->fetch_byte();
 		switch (func) {
-		case 0x00: return init_seed(this->reg, this->heap);
-		case 0x01: return seed(this->reg, this->heap);
+		case 0x00: return split(this->reg, this->heap);
 		case 0x10: return rand(this->reg, this->heap);
 		case 0x11: return rand_int(this->reg, this->heap);
 		case 0x12: return rand_float(this->reg, this->heap);

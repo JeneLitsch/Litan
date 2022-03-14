@@ -26,5 +26,10 @@ namespace std {
 		}
 
 		function decision(rng, p) => rand_float(rng, 0, 1) < p
+
+		asm split(rng) {
+			"random 00"
+			"return"
+		}
 	}
 }

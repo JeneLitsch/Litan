@@ -2,6 +2,7 @@
 #include <variant>
 #include <random>
 namespace ltn::vm {
+
 	struct RandomEngine {
 		constexpr static std::string_view typeName = "RandomEngine";
 		using result_type = std::uint64_t;
@@ -34,5 +35,7 @@ namespace ltn::vm {
 				return rng.max();
 			}, engine);
 		}
+
+		RandomEngine split();
 	};
 }

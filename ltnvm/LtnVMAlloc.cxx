@@ -180,7 +180,7 @@ namespace ltn::vm {
 			return;
 		}
 		
-		default: throw std::runtime_error {"Unknown RandonEngine type"};
+		default: throw std::runtime_error{"Unknown RandonEngine type"};
 		}
 	}
 }
