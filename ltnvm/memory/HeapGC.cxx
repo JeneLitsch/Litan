@@ -20,15 +20,15 @@ namespace ltn::vm {
 	}
 
 	void Heap::mark(const Value & value) {
-		if(is_array(value))     return this->mark_array(value);
-		if(is_string(value))     return this->mark_default(value);
+		if(is_array(value))   return this->mark_array(value);
+		if(is_string(value))  return this->mark_default(value);
 		
 		if(is_istream(value)) return this->mark_default(value);
 		if(is_ostream(value)) return this->mark_default(value);
 		
 		if(is_fxptr(value))   return this->mark_fxptr(value);
 
-		if(isClock(value))   return this->mark_default(value);
+		if(isClock(value))    return this->mark_default(value);
 		
 		if(is_struct(value))  return this->mark_struct(value);
 		if(is_range(value))   return this->mark_range(value);
