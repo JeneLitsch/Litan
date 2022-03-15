@@ -1,23 +1,26 @@
 
 namespace std {
-	asm cout() {
-		"newout 0"
-		"return"
-	}
+	build_in cout()               io_cout
+	build_in fout(path)           io_fout
+	build_in strout()             io_strout
 
-	asm fout(path) {
-		"newout 1"
-		"return"
-	}
-
-	asm strout() {
-		"newout 2"
-		"return"
-	}
-
-	asm print(stream, value) {
-		"out"
-	}
+	build_in cin()                io_cin
+	build_in fin(path)            io_fin
+	build_in strin(str)           io_strin
+	
+	build_in print(stream, value) io_print
+	
+	build_in read(stream)         io_read
+	build_in read_str(stream)     io_read_str
+	build_in readln(stream)       io_readln
+	build_in read_bool(stream)    io_read_bool
+	build_in read_char(stream)    io_read_char
+	build_in read_int(stream)     io_read_int
+	build_in read_float(stream)   io_read_float
+	build_in read_all(stream)     io_read_all
+	
+	build_in is_eof(stream)       io_is_eof
+	build_in is_good(stream)      io_is_good
 
 	function print(value) {
 		print(cout(), value);
@@ -35,101 +38,45 @@ namespace std {
 	}
 
 
-	asm cin() {
-		"newin 0"
-		"return"
-	}
-
-	asm fin(path) {
-		"newin 1"
-		"return"
-	}
-
-	asm strin(str) {
-		"newin 2"
-		"return"
-	}
-
-	asm read(stream) {
-		"in_str"
-		"return"
-	}
 
 	function read() {
 		return read(cin());
 	}
 
-	asm read_str(stream) {
-		"in_str"
-		"return"
-	}
 
 	function read_str() {
 		return read(cin());
 	}
 
-	asm readln(stream) {
-		"in_line"
-		"return"
-	}
 
 	function readln() {
 		return readln(cin());
 	}
 
-	asm read_bool(stream) {
-		"in_bool"
-		"return"
-	}
 
 	function read_bool() {
 		return read_bool(cin());
 	}
 
-	asm read_char(stream) {
-		"in_char"
-		"return"
-	}
 
 	function read_char() {
 		return read_char(cin());
 	}
 
-	asm read_int(stream) {
-		"in_int"
-		"return"
-	}
 
 	function read_int() {
 		return read_int(cin());
 	}
 
-	asm read_float(stream) {
-		"in_float"
-		"return"
-	}
 
 	function read_float() {
 		return read_float(cin());
 	}
 
-	asm read_all(stream) {
-		"in_all"
-		"return"
-	}
 
 	function read_all() {
 		return read_all(cin());
 	}
 
-	asm is_eof(stream) {
-		"is_eof"
-		"return"
-	}
-
-	asm is_good(stream) {
-		"is_good"
-		"return"
-	}
 
 }

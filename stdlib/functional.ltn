@@ -1,17 +1,5 @@
 namespace std {
-	asm invoke(fx, params) {
-		"invoke"
-		"return"
-	}
-
-	asm invoke(fx) {
-		"newarr 0"
-		"invoke"
-		"return"
-	}
-
-	asm external(id) {
-		"external"
-		"return"
-	}
+	build_in invoke(fx, params) functional_invoke_2
+	build_in invoke(fx)         functional_invoke_1
+	build_in external(id)       functional_external
 }

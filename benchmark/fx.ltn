@@ -3,7 +3,7 @@ function f(a, b, c) {
 }
 
 function main() {
-	var clock = std::clock();
+	var clock = std::chrono::clock();
 	for i (0, 5000000) f(1, 2, 3);
-	std::println(std::string(std::to_seconds(clock)) + "s");
+	std::println(std::string(std::chrono::to_seconds(clock)) + "s");
 }

@@ -1,8 +1,5 @@
 namespace std {
 	namespace debug {
-		asm state() {
-			"state"
-			"return"
-		}
+		build_in state() debug_state
 	}
 }

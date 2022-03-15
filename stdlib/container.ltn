@@ -1,101 +1,23 @@
 namespace std {
-	asm queue() {
-		"newqueue"
-		"return"
-	}
-
-	asm stack() {
-		"newstack"
-		"return"
-	}
-
-	asm map() {
-		"newmap"
-		"return"
-	}
-
-	asm array() {
-		"newarr 0"
-		"return"
-	}
-
-	asm push(container, elem) {
-		"push"
-	}
-
-	asm pop(container) {
-		"pop"
-		"return"
-	}
-
-	asm peek(container) {
-		"peek"
-		"return"
-	}
-
-	asm contains(map, key) {
-		"contains"
-		"return"
-	}
-
-	asm size(collection) {
-		"size"
-		"return"
-	}
-
-	asm empty(collection) {
-		"size"
-		"newi 0"
-		"eql"
-		"return"
-	}
-
-	asm at(collection, i) {
-		"at"
-		"return"
-	}
-	
-	asm front(collection) {
-		"front"
-		"return" }
-	
-	asm back(collection) {
-		"back"
-		"return"
-	}
-
-	asm begin(collection) {
-		"begin"
-		"return"
-	}
-
-	asm end(collection) {
-		"end"
-		"return"
-	}
-
-	asm insert_back(collection, element) {
-		"insert 2"
-	}
-
-
-	asm insert_front(collection, element) {
-		"insert 0"
-	}
-
-	asm insert(collection, index, element) {
-		"insert 1"
-	}
-
-	asm remove_back(collection) {
-		"remove 2"
-	}
-
-	asm remove_front(collection) {
-		"remove 0"
-	}
-	
-	asm remove(collection, index) {
-		"remove 1"
-	}
+	build_in queue()                            queue
+	build_in stack()                            stack
+	build_in map()                              map
+	build_in array()                            array
+	build_in push(container, elem)              container_push
+	build_in pop(container)                     container_pop
+	build_in peek(container)                    container_peek
+	build_in contains(map, key)                 container_contains
+	build_in size(collection)                   container_size
+	build_in empty(collection)                  container_empty
+	build_in at(collection, i)                  container_at
+	build_in front(collection)                  container_front
+	build_in back(collection)                   container_back
+	build_in begin(collection)                  container_begin
+	build_in end(collection)                    container_end
+	build_in insert_back(collection, element)   container_insert_back
+	build_in insert_front(collection, element)  container_insert_front
+	build_in insert(collection, index, element) container_insert
+	build_in remove_back(collection)            container_remove_back
+	build_in remove_front(collection)           container_remove_front
+	build_in remove(collection, index)          container_remove
 }
