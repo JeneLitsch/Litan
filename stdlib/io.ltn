@@ -22,21 +22,23 @@ namespace std {
 	build_in is_eof(stream)       io_is_eof
 	build_in is_good(stream)      io_is_good
 
+
 	function print(value) {
 		print(cout(), value);
 	}
+
 
 	function println(stream, value) {
 		print(stream, value);
 		print(stream, "\n");
 	}
 
+
 	function println(value) {
 		var stream = cout();
 		print(stream, value);
 		print(stream, "\n");
 	}
-
 
 
 	function read() {

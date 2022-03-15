@@ -8,7 +8,10 @@
 #include "build_in/debug.hxx"
 #include "build_in/functional.hxx"
 #include "build_in/io.hxx"
+#include "build_in/math.hxx"
 #include "build_in/newobj.hxx"
+#include "build_in/random.hxx"
+#include "build_in/type.hxx"
 
 namespace ltn::c::compile {
 	using Table = std::unordered_map<
@@ -41,6 +44,8 @@ namespace ltn::c::compile {
 		{"stack",                    stack},
 		{"map",                      map},
 		{"array",                    array},
+		{"range",                    range},
+		{"struct",                   struc1},
 
 		{"container_push",           container_push},
 		{"container_pop",            container_pop},
@@ -83,6 +88,34 @@ namespace ltn::c::compile {
 		{"io_read_all",              io_read_all},
 		{"io_is_eof",                io_is_eof},
 		{"io_is_good",               io_is_good},
+		
+		{"math_min",                 math_min},
+		{"math_max",                 math_max},
+		{"math_clamp",               math_clamp},
+		{"math_round",               math_round},
+		{"math_floor",               math_floor},
+		{"math_ceil",                math_ceil},
+		{"math_abs",                 math_abs},
+		{"math_hypot",               math_hypot},
+		{"math_sqrt",                math_sqrt},
+		{"math_log",                 math_log},
+		{"math_ld",                  math_ld},
+		{"math_lg",                  math_lg},
+		{"math_ln",                  math_ln},
+		{"math_pow",                 math_pow},
+		{"math_sin",                 math_sin},
+		{"math_cos",                 math_cos},
+		{"math_tan",                 math_tan},
+
+		{"random_mersenne_0",        random_mersenne_0},
+		{"random_mersenne_1",        random_mersenne_1},
+		{"random_rand",              random_rand},
+		{"random_rand_int",          random_rand_int},
+		{"random_rand_float",        random_rand_float},
+		{"random_split",             random_split},
+
+		{"type_clone",               type_clone},
+		{"type_typeid",              type_typeid},
 	};
 	
 	std::span<const std::string_view> resolve_build_in(const std::string_view & key) {

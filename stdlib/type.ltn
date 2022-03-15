@@ -1,10 +1,7 @@
 namespace std {
-	
-	asm struct() {
-		"newstruct"
-		"return"
-	}
-
+	build_in struct()      struct
+	build_in typeid(value) type_typeid
+	build_in clone(ref)    type_clone
 
 	function pair(first, second) {
 		var pair = struct();
@@ -13,13 +10,7 @@ namespace std {
 		return pair;
 	}
 
-	asm null_v() {}
-
-
-	asm typeid(value) {
-		"typeid"
-		"return"
-	}
+	function null_v() {}
 
 
 	function is_bool(value) {
@@ -71,10 +62,4 @@ namespace std {
 	function is_struct(value) {
 		return typeid(value) == 0x60;
 	}
-
-
-	asm clone(ref) {
-		"clone"
-		"return"
-	} 
 }

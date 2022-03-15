@@ -22,4 +22,14 @@ namespace ltn::c::compile {
 		"newarr 0"sv,
 		"return"sv,
 	};
+
+	constexpr auto range = std::array{
+		"newrange"sv,
+		"return"sv,
+	};
+
+	constexpr auto struc1 = std::array{
+		"newstruct"sv,
+		"return"sv,
+	};
 }

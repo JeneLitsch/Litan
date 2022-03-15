@@ -1,5 +1,4 @@
 namespace std {
-
 	function whole(array) {
 		return range(array, 0, std::size(array));
 	}

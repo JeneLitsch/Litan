@@ -1,93 +1,19 @@
 namespace std {
-	asm min(a, b) {
-		"min"
-		"return"
-	}
-
-	
-	asm max(a, b) {
-		"max"
-		"return"
-	}
-	
-	asm clamp(x, min, max) {
-		"makevar"
-		"write_0"
-		"max"
-		"read_0"
-		"min"
-		"return"
-	}
-
-	asm round(a) {
-		"round"
-		"return"
-	}
-	
-	asm floor(b) {
-		"floor"
-		"return"
-	}
-	
-	asm ceil(b) {
-		"ceil"
-		"return"
-	}
-
-	asm abs(b) {
-		"abs"
-		"return"
-	}
-	
-	asm hypot(a, b) {
-		"hypot"
-		"return"
-	}
-	
-	asm sqrt(a) {
-		"sqrt"
-		"return"
-	}
-	
-	asm log(x, b) {
-		"log"
-		"return"
-	}
-	
-	asm ld(x) {
-		"newf 2"
-		"log"
-		"return"
-	}
-	
-	asm lg(x) {
-		"newf 10"
-		"log"
-		"return"
-	}
-
-	asm ln(x) {
-		"ln"
-		"return"
-	}
-	
-	asm pow(b, e) {
-		"pow"
-		"return"
-	}
-
-	asm sin(b) {
-		"sin"
-		"return"
-	}
-	
-	asm cos(b) {
-		"cos"
-		"return"
-	}
-	
-	asm tan(b) {
-		"tan"
-		"return"
-	}
+	build_in min(a, b)          math_min
+	build_in max(a, b)          math_max
+	build_in clamp(x, min, max) math_clamp
+	build_in round(a)           math_round
+	build_in floor(b)           math_floor
+	build_in ceil(b)            math_ceil
+	build_in abs(b)             math_abs
+	build_in hypot(a, b)        math_hypot
+	build_in sqrt(a)            math_sqrt
+	build_in log(x, b)          math_log
+	build_in ld(x)              math_ld
+	build_in lg(x)              math_lg
+	build_in ln(x)              math_ln
+	build_in pow(b, e)          math_pow
+	build_in sin(b)             math_sin
+	build_in cos(b)             math_cos
+	build_in tan(b)             math_tan
 }
