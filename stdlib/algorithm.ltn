@@ -27,53 +27,13 @@ namespace std {
 	}
 
 
-	asm sort_ascn(range) {
-		"algorithm 00"
-	}
-
-
-	asm sort_desc(range) {
-		"algorithm 01"
-	}
-
-
-	asm is_sorted_ascn(range) {
-		"algorithm 02"
-		"return"
-	}
-
-
-	asm is_sorted_desc(range) {
-		"algorithm 03"
-		"return"
-	}
-
-
-	asm find(range, key) {
-		"swap 0 1"
-		"algorithm 10"
-		"return"
-	}
-
-
-	asm copy_front(range, target) {
-		"swap 0 1"
-		"algorithm 20"
-	}
-
-
-	asm copy_back(range, target) {
-		"swap 0 1"
-		"algorithm 22"
-	}
-
-
-	asm fill(range, target) {
-		"swap 0 1"
-		"algorithm 30"
-	}
-
-	asm reverse(range) {
-		"algorithm 40"
-	}
+	build_in sort_ascn(range)       algorithm_sort_ascn
+	build_in sort_desc(range)       algorithm_sort_desc
+	build_in is_sorted_ascn(range)  algorithm_is_sorted_ascn
+	build_in is_sorted_desc(range)  algorithm_is_sorted_desc
+	build_in find(range, key)       algorithm_find
+	build_in copy_front(range, key) algorithm_copy_front
+	build_in copy_back(range, key)  algorithm_copy_back
+	build_in fill(range, target)    algorithm_fill
+	build_in reverse(range)         algorithm_reverse
 }

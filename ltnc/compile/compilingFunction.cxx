@@ -1,5 +1,6 @@
 #include "compiling.hxx"
 #include <iostream>
+#include "build_in.hxx"
 
 namespace ltn::c::compile {
 	namespace {
@@ -86,6 +87,25 @@ namespace ltn::c::compile {
 			ss << "\n";
 			return ss.str();
 		}
+
+		// compiles asm_function
+		std::string build_in_function(const ast::BuildIn & fx, CompilerInfo & info) {
+			std::stringstream ss;
+			const auto & signature = info.fx_table.resolve(
+				fx.name,
+				fx.namespaze,
+				fx.parameters.size());
+			
+			ss << inst::jumpmark(signature->id);
+			const auto instructions = resolve_build_in(fx.key);
+			for(const auto & inst : instructions) {
+				ss << inst << "\n";
+			}
+			ss << inst::null;
+			ss << inst::reTurn;
+			ss << "\n";
+			return ss.str();
+		}
 	}
 
 	// compiles functional node
@@ -97,6 +117,9 @@ namespace ltn::c::compile {
 		}
 		if(auto fx = as<const ast::Asm>(functional)) {
 			return asm_function(*fx, info);
+		}
+		if(auto fx = as<const ast::BuildIn>(functional)) {
+			return build_in_function(*fx, info);
 		}
 		throw CompilerError{
 			"Unknown functional declaration",

@@ -65,4 +65,17 @@ namespace ltn::c::ast {
 		virtual ~Asm() = default;
 		std::vector<std::string> instructions;		
 	};
+
+	struct BuildIn : public Functional {
+		BuildIn(
+			const std::string & name,
+			Namespace namespaze,
+			Parameters parameters,
+			const std::string & key,
+			const SourceLocation & location)
+			:	Functional(name, namespaze, parameters, location),
+				key(key) {}
+		virtual ~BuildIn() = default;
+		std::string key;		
+	};
 }

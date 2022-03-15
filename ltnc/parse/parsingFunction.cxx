@@ -57,7 +57,7 @@ namespace ltn::c::parse {
 			return captures;
 		}
 
-		ast::Parameters instructions(lex::Lexer & lexer) {
+		std::vector<std::string> instructions(lex::Lexer & lexer) {
 			if(!lexer.match(TT::BRACE_L)) {
 				throw ltn::c::CompilerError{"missing {", lexer.location()};
 			}
@@ -76,6 +76,18 @@ namespace ltn::c::parse {
 				}
 			} 
 			return insts;
+		}
+
+		
+		std::string build_in_key(lex::Lexer & lexer) {
+			if(auto str = lexer.match(TT::INDENTIFIER)) {
+				return str->str;
+			}
+			else {
+				throw CompilerError{
+					"Expected instruction between \"...\"",
+					lexer.location() };
+			}
 		}
 
 
@@ -141,7 +153,16 @@ namespace ltn::c::parse {
 			return fx;
 		}
 		if(lexer.match(TT::ASM)) {
-			return functional_node<ast::Asm>(lexer, namespaze, instructions);
+			return functional_node<ast::Asm>(
+				lexer,
+				namespaze,
+				instructions);
+		}
+		if(lexer.match(TT::BUILD_IN)) {
+			return functional_node<ast::BuildIn>(
+				lexer,
+				namespaze,
+				build_in_key);
 		}
 		return nullptr;
 	}

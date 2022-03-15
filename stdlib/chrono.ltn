@@ -1,31 +1,33 @@
 namespace std {
-	asm clock() {
-		"newclock"
-		"return"
-	}
+	namespace chrono {
+		asm clock() {
+			"newclock"
+			"return"
+		}
 
-	asm to_seconds(clock) {
-		"cast_float"
-		"return"
-	}
+		asm to_seconds(clock) {
+			"cast_float"
+			"return"
+		}
 
-	asm to_milliseconds(clock) {
-		"cast_float"
-		"newf 1000.0"
-		"mlt"
-		"return"
-	}
+		asm to_milliseconds(clock) {
+			"cast_float"
+			"newf 1000.0"
+			"mlt"
+			"return"
+		}
 
-	function wait(seconds) {
-		var clock = clock();
-		return wait(seconds, clock);
-	}
+		function wait(seconds) {
+			var clock = clock();
+			return wait(seconds, clock);
+		}
 
-	function wait(seconds, clock) {
-		var start = to_seconds(clock);
-		var current = start;
-		while(current - start <= seconds) {
-			current = to_seconds(clock);
+		function wait(seconds, clock) {
+			var start = to_seconds(clock);
+			var current = start;
+			while(current - start <= seconds) {
+				current = to_seconds(clock);
+			}
 		}
 	}
 }

@@ -1,11 +1,3 @@
-function fx() => null
 
-namespace foo {
-	function fx() => null
-}
-
-function main() {
-	fx()
-	foo::fx()
-}
+function main() {}
 

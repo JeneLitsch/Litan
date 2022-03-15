@@ -99,6 +99,7 @@ namespace ltn::c::lex {
 			{"throw",       TT::THROW},
 			{"null",        TT::NVLL},
 			{"iife",        TT::IIFE},
+			{"build_in",    TT::BUILD_IN},
 		};
 		
 

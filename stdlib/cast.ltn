@@ -1,31 +1,8 @@
 namespace std {
-	asm bool(x) {
-		"cast_bool"
-		"return"
-	}
-	
-	asm char(x) {
-		"cast_char"
-		"return"
-	}
-
-	asm int(x) {
-		"cast_int"
-		"return"
-	}
-
-	asm float(x) {
-		"cast_float"
-		"return"
-	}
-
-	asm string(x) {
-		"cast_string"
-		"return"
-	}
-
-	asm array(x) {
-		"cast_array"
-		"return"
-	}
+	build_in bool(x)   cast_bool
+	build_in char(x)   cast_char
+	build_in int(x)    cast_int
+	build_in float(x)  cast_float
+	build_in string(x) cast_string
+	build_in array(x)  cast_array
 }

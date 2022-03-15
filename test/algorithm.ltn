@@ -70,6 +70,55 @@ namespace test {
 		return test_all_cases("std::is_sorted_ascn", &std::is_sorted_ascn(_), cases);
 	}
 
+	function find() {
+		var cases = [
+			[[[1, 2, 3], 1], 0], 
+			[[[1, 2, 3], 2], 1], 
+			[[[1, 2, 3], 3], 2], 
+			[[[1, 2, 3], 42], -1], 
+			[[[1, 2, 3], -1337], -1], 
+		];
+		return test_all_cases("std::find", &std::find(_,_), cases);
+	}
+
+	function copy_front() {
+		var fx = lambda(a, b) {
+			var c = std::clone(a);
+			std::copy_front(b, c);
+			return c;
+		}; 
+		var cases = [
+			[[[1,2,3], [4, 5, 6]], [4,5,6,1,2,3]],
+		];
+		return test_all_cases("std::copy_front", fx, cases);
+	}
+
+	function copy_back() {
+		var fx = lambda(a, b) {
+			var c = std::clone(a);
+			std::copy_back(b, c);
+			return c;
+		};
+		var cases = [
+			[[[1,2,3], [4, 5, 6]], [1,2,3,4,5,6]],
+		];
+		return test_all_cases("std::copy_back", fx, cases);
+	}
+
+	function fill() {
+		var fx = lambda(arr, val) {
+			var a = std::clone(arr);
+			std::fill(a, val);
+			return a;
+		};
+		var cases = [
+			[[[1,2,3], 42], [42,42,42]],
+			[[[1,2,3,4], 42], [42,42,42,42]],
+			[[[], 42], []],
+		];
+		return test_all_cases("std::fill", fx, cases);
+	}
+
 
 	function algorithm() {
 		return 
@@ -77,6 +126,10 @@ namespace test {
 			sort_desc() +
 			is_sorted_desc() +
 			is_sorted_ascn() +
-			reverse();
+			reverse() +
+			find() +
+			copy_front() +
+			copy_back() +
+			fill();
 	}
 }
