@@ -41,7 +41,7 @@ namespace ltn::vm {
 			return Value{fx(value.b)};
 		}
 		if(is_char(value)) {
-			return Value{fx(value.b)};
+			return Value{fx(value.c)};
 		}
 		throw except::invalid_argument();
 	}

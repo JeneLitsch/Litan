@@ -12,7 +12,6 @@ namespace ltn::c::ast {
 	};
 
 	struct Integer : public Literal {
-	public:
 		Integer(std::bitset<64> value, const SourceLocation & location)
 			:	Integer(static_cast<std::int64_t>(value.to_ullong()), location) {}
 
@@ -23,7 +22,6 @@ namespace ltn::c::ast {
 	};
 
 	struct Float : public Literal {
-	public:
 		Float(stx::float64_t value, const SourceLocation & location)
 			:	Literal(location), value(value) {}
 		virtual ~Float() = default;
@@ -31,7 +29,6 @@ namespace ltn::c::ast {
 	};
 
 	struct Bool : public Literal {
-	public:
 		Bool(bool value, const SourceLocation & location)
 			:	Literal(location), value(value) {}
 		virtual ~Bool() = default;
@@ -39,14 +36,12 @@ namespace ltn::c::ast {
 	};
 
 	struct Null : public Literal {
-	public:
 		Null(const SourceLocation & location)
 			:	Literal(location) {}
 		virtual ~Null() = default;
 	};
 
 	struct Char : public Literal {
-	public:
 		Char(std::uint8_t value, const SourceLocation & location)
 			:	Literal(location), value(value) {}
 		virtual ~Char() = default;
@@ -54,7 +49,6 @@ namespace ltn::c::ast {
 	};
 
 	struct String : public Literal {
-	public:
 		String(const std::string & value, const SourceLocation & location)
 			:	Literal(location), value(value) {}
 		virtual ~String() = default;
@@ -62,14 +56,9 @@ namespace ltn::c::ast {
 	};
 
 	struct Array : public Literal {
-	public:
-		Array(
-			std::vector<std::unique_ptr<Expression>> && initial_elements,
-			const SourceLocation & location)
-			:	Literal(location),
-			initial_elements(std::move(initial_elements)) {}
+		Array(const SourceLocation & location) : Literal(location) {}
 		virtual ~Array() = default;
-		std::vector<std::unique_ptr<Expression>> initial_elements;
+		std::vector<std::unique_ptr<Expression>> elements;
 	};
 
 	struct Lambda : public Literal {

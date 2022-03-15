@@ -2,6 +2,9 @@ namespace test {
 	function add() {
 		var cases = [
 			[[1, 2], 3],
+			[[0x10, 0x10], 32],
+			[[0xff, -0xff], 0],
+			[[0b10, 0b10], 4],
 			[[1, -2], -1],
 			[[true, true], 2],
 			[[true, 1.9], 2.9],

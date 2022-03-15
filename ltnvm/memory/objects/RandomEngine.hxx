@@ -14,7 +14,7 @@ namespace ltn::vm {
 
 		void seed(std::int64_t seed) {
 			std::visit([seed](auto & rng) {
-				rng.seed(seed);
+				rng.seed(static_cast<std::uint64_t>(seed));
 			}, engine);
 		}
 
