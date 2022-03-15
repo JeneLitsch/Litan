@@ -28,7 +28,7 @@ namespace ltn::vm {
 		
 		if(is_fxptr(value))   return this->mark_fxptr(value);
 
-		if(isClock(value))    return this->mark_default(value);
+		if(is_clock(value))    return this->mark_default(value);
 		
 		if(is_struct(value))  return this->mark_struct(value);
 		if(is_range(value))   return this->mark_range(value);

@@ -114,7 +114,7 @@ namespace ltn::vm::cast {
 			return  ss.str();
 		}
 
-		if(isClock(value)) {
+		if(is_clock(value)) {
 			const auto & clock = heap.read<Clock>(value.u);
 			std::ostringstream ss;
 			ss << "<clock: " << clock.getSeconds() << "s>";
@@ -179,7 +179,7 @@ namespace ltn::vm::cast {
 			return parse_value<stx::float64_t>(str.str); 
 		}
 		
-		if (isClock(value)) {
+		if (is_clock(value)) {
 			const auto & clock = heap.read<Clock>(value.u);
 			return clock.getSeconds();
 		}
