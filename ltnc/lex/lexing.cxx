@@ -93,7 +93,6 @@ namespace ltn::c::lex {
 			{"return",      TT::RETURN},
 			{"true",        TT::TRUE},
 			{"false",       TT::FALSE},
-			{"asm",         TT::ASM},
 			{"namespace",   TT::NAMESPACE},
 			{"except",      TT::EXCEPT},
 			{"throw",       TT::THROW},
@@ -217,6 +216,7 @@ namespace ltn::c::lex {
 			throw CompilerError{"\"|\" is not a valid token.", location};
 		}
 		if(match('_')) return make(TT::UNDERSCORE, "_");
+		if(match('@')) return make(TT::AT, "@");
 		
 		if(match('=')) {
 			if(match('=')) return make(TT::EQUAL, "==");

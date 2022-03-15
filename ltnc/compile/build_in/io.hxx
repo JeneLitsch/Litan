@@ -2,7 +2,7 @@
 #include <array>
 #include <string_view>
 using namespace std::string_view_literals;
-namespace ltn::c::compile {
+namespace ltn::c::compile::build_in {
 	constexpr auto io_cout = std::array{
 		"newout 0"sv,
 		"return"sv,

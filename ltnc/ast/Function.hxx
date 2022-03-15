@@ -53,19 +53,6 @@ namespace ltn::c::ast {
 		std::unique_ptr<Except> except;
 	};
 
-	struct Asm : public Functional {
-		Asm(
-			const std::string & name,
-			Namespace namespaze,
-			Parameters parameters,
-			const std::vector<std::string> & instructions,
-			const SourceLocation & location)
-			:	Functional(name, namespaze, parameters, location),
-				instructions(instructions) {}
-		virtual ~Asm() = default;
-		std::vector<std::string> instructions;		
-	};
-
 	struct BuildIn : public Functional {
 		BuildIn(
 			const std::string & name,

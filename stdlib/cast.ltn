@@ -1,8 +1,8 @@
 namespace std {
-	build_in bool(x)   cast_bool
-	build_in char(x)   cast_char
-	build_in int(x)    cast_int
-	build_in float(x)  cast_float
-	build_in string(x) cast_string
-	build_in array(x)  cast_array
+	build_in bool(x)   @ cast_bool
+	build_in char(x)   @ cast_char
+	build_in int(x)    @ cast_int
+	build_in float(x)  @ cast_float
+	build_in string(x) @ cast_string
+	build_in array(x)  @ cast_array
 }

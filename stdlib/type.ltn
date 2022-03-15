@@ -1,7 +1,7 @@
 namespace std {
-	build_in struct()      struct
-	build_in typeid(value) type_typeid
-	build_in clone(ref)    type_clone
+	build_in struct()      @ struct
+	build_in typeid(value) @ type_typeid
+	build_in clone(ref)    @ type_clone
 
 	function pair(first, second) {
 		var pair = struct();

@@ -16,7 +16,6 @@ namespace ltn::c::lex {
 			WHILE,
 			RETURN,
 			FOR,
-			ASM,
 			NAMESPACE,
 			EXCEPT,
 			THROW,
@@ -48,6 +47,7 @@ namespace ltn::c::lex {
 			XMARK,
 			QMARK,
 			ASSIGN,
+			AT,
 			
 			PLUS,
 			MINUS,

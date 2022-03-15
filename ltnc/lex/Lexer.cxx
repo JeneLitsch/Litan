@@ -46,7 +46,7 @@ namespace ltn::c::lex {
 			TT::SEMICOLON,
 			TT::NAMESPACE,
 			TT::FUNCTION,
-			TT::ASM,
+			TT::BUILD_IN,
 			TT::VAR,
 			TT::FOR,
 			TT::WHILE,

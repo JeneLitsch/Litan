@@ -15,8 +15,5 @@ namespace std {
 	}
 
 
-	asm range(array, begin, end) {
-		"newrange"
-		"return"
-	}
+	build_in range(array, begin, end) @ range
 }

@@ -27,13 +27,13 @@ namespace std {
 	}
 
 
-	build_in sort_ascn(range)       algorithm_sort_ascn
-	build_in sort_desc(range)       algorithm_sort_desc
-	build_in is_sorted_ascn(range)  algorithm_is_sorted_ascn
-	build_in is_sorted_desc(range)  algorithm_is_sorted_desc
-	build_in find(range, key)       algorithm_find
-	build_in copy_front(range, key) algorithm_copy_front
-	build_in copy_back(range, key)  algorithm_copy_back
-	build_in fill(range, target)    algorithm_fill
-	build_in reverse(range)         algorithm_reverse
+	build_in sort_ascn(range)       @ algorithm_sort_ascn
+	build_in sort_desc(range)       @ algorithm_sort_desc
+	build_in is_sorted_ascn(range)  @ algorithm_is_sorted_ascn
+	build_in is_sorted_desc(range)  @ algorithm_is_sorted_desc
+	build_in find(range, key)       @ algorithm_find
+	build_in copy_front(range, key) @ algorithm_copy_front
+	build_in copy_back(range, key)  @ algorithm_copy_back
+	build_in fill(range, target)    @ algorithm_fill
+	build_in reverse(range)         @ algorithm_reverse
 }

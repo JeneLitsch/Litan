@@ -71,24 +71,6 @@ namespace ltn::c::compile {
 		}
 
 		// compiles asm_function
-		std::string asm_function(const ast::Asm & fx, CompilerInfo & info) {
-			std::stringstream ss;
-			const auto & signature = info.fx_table.resolve(
-				fx.name,
-				fx.namespaze,
-				fx.parameters.size());
-			
-			ss << inst::jumpmark(signature->id);
-			for(const auto & inst : fx.instructions) {
-				ss << inst << "\n";
-			}
-			ss << inst::null;
-			ss << inst::reTurn;
-			ss << "\n";
-			return ss.str();
-		}
-
-		// compiles asm_function
 		std::string build_in_function(const ast::BuildIn & fx, CompilerInfo & info) {
 			std::stringstream ss;
 			const auto & signature = info.fx_table.resolve(
@@ -114,9 +96,6 @@ namespace ltn::c::compile {
 		CompilerInfo & info) {
 		if(auto fx = as<const ast::Function>(functional)) {
 			return function(*fx, info);
-		}
-		if(auto fx = as<const ast::Asm>(functional)) {
-			return asm_function(*fx, info);
 		}
 		if(auto fx = as<const ast::BuildIn>(functional)) {
 			return build_in_function(*fx, info);
