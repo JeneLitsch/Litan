@@ -1,5 +1,5 @@
 #include "LtnVM.hxx"
-#include "TypeCheck.hxx"
+#include "type_check.hxx"
 #include <sstream>
 namespace ltn::vm {
 	namespace {

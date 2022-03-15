@@ -100,9 +100,9 @@ namespace ltn::vm {
 	void LtnVM::insert() {
 		const auto type = this->fetch_byte();
 		switch (type) {
-		case 0: return insert_front(reg, heap); 
-		case 1: return insertIndex(reg, heap);
-		case 2: return insert_back(reg, heap);
+		case 0: return insert_front(this->reg, this->heap); 
+		case 1: return insertIndex( this->reg, this->heap);
+		case 2: return insert_back( this->reg, this->heap);
 		default: throw except::invalid_argument();
 		}
 	}

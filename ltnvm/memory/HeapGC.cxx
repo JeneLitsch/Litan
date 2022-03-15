@@ -1,5 +1,5 @@
 #include "Heap.hxx"
-#include "ltnvm/TypeCheck.hxx"
+#include "ltnvm/type_check.hxx"
 namespace ltn::vm {
 	void Heap::collect_garbage(const Stack & stack, const Register & reg) {
 		mark(stack.get_container());

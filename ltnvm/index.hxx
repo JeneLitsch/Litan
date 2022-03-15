@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include "TypeCheck.hxx"
+#include "type_check.hxx"
 #include "memory/Register.hxx"
 
 namespace ltn::vm {

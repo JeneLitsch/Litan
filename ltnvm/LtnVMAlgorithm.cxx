@@ -56,26 +56,34 @@ namespace ltn::vm {
 
 
 		// Algorithms
-		void sort_desc(auto begin, auto end, Heap & heap) {
+		void sort_desc(Register & reg, Heap & heap) {
+			const auto ref = reg.pop();
+			const auto [begin, end] = to_cpp_range(ref, heap);
 			const auto comp = bigger(heap);
 			std::sort(begin, end, comp);
 		}
 
 
-		void sort_ascn(auto begin, auto end, Heap & heap) {
+		void sort_ascn(Register & reg, Heap & heap) {
+			const auto ref = reg.pop();
+			const auto [begin, end] = to_cpp_range(ref, heap);
 			const auto comp = smaller(heap);
 			std::sort(begin, end, comp);
 		}
 
 
-		inline void is_sorted_ascn(auto begin, auto end, Register & reg, Heap & heap) {
+		inline void is_sorted_ascn(Register & reg, Heap & heap) {
+			const auto ref = reg.pop();
+			const auto [begin, end] = to_cpp_range(ref, heap);
 			const auto comp = smaller(heap);
 			const bool result = std::is_sorted(begin, end, comp);
 			reg.push(result);
 		}
 
 
-		inline void is_sorted_desc(auto begin, auto end, Register & reg, Heap & heap) {
+		inline void is_sorted_desc(Register & reg, Heap & heap) {
+			const auto ref = reg.pop();
+			const auto [begin, end] = to_cpp_range(ref, heap);
 			const auto comp = bigger(heap);
 			const bool result = std::is_sorted(begin, end, comp);
 			reg.push(result);
@@ -83,7 +91,9 @@ namespace ltn::vm {
 		}
 
 
-		void find(auto begin, auto end, Register & reg, Heap & heap) {
+		void find(Register & reg, Heap & heap) {
+			const auto ref = reg.pop();
+			const auto [begin, end] = to_cpp_range(ref, heap);
 			const auto key = reg.pop();
 			const auto pred = predicate(heap, key);
 			const auto found = std::find_if(begin, end, pred);
@@ -97,7 +107,9 @@ namespace ltn::vm {
 		}
 
 
-		void copy_front(auto begin, auto end, Register & reg, Heap & heap) {
+		void copy_front(Register & reg, Heap & heap) {
+			const auto ref = reg.pop();
+			const auto [begin, end] = to_cpp_range(ref, heap);
 			const auto refArr = pop_array_ref(reg);
 			auto & array = heap.read<Array>(refArr).get();
 			auto beginArr = array.begin();
@@ -106,7 +118,9 @@ namespace ltn::vm {
 		}
 
 
-		void copy_back(auto begin, auto end, Register & reg, Heap & heap) {
+		void copy_back(Register & reg, Heap & heap) {
+			const auto ref = reg.pop();
+			const auto [begin, end] = to_cpp_range(ref, heap);
 			const auto refArr = pop_array_ref(reg);
 			auto & array = heap.read<Array>(refArr).get();
 			auto inserter = std::back_inserter(array);
@@ -114,31 +128,32 @@ namespace ltn::vm {
 		}
 
 		
-		inline void fill(auto begin, auto end, Register & reg) {
+		inline void fill(Register & reg, Heap & heap) {
+			const auto ref = reg.pop();
+			const auto [begin, end] = to_cpp_range(ref, heap);
 			const auto value = reg.pop();
 			std::fill(begin, end, value);
+		}
+
+		inline void reverse(Register & reg, Heap & heap) {
+			const auto ref = reg.pop();
+			const auto [begin, end] = to_cpp_range(ref, heap);
+			std::reverse(begin, end);
 		}
 	}
 
 	void LtnVM::algorithm() {
-		const auto ref = this->reg.pop();
 		const auto type = this->fetch_byte();
-		const auto [begin, end] = to_cpp_range(ref, this->heap);
-
 		switch (type) {
-		case 0x00: return sort_ascn(begin, end, this->heap);
-		case 0x01: return sort_desc(begin, end, this->heap);
-		case 0x02: return is_sorted_ascn(begin, end, this->reg, this->heap);
-		case 0x03: return is_sorted_desc(begin, end, this->reg, this->heap);
-		
-		case 0x10: return find(begin, end, this->reg, this->heap);
-		
-		case 0x20: return copy_front(begin, end, this->reg, this->heap);
-		case 0x22: return copy_back(begin, end, this->reg, this->heap);
-
-		case 0x30: return fill(begin, end, this->reg);
-		
-		case 0x40: return std::reverse(begin, end);
+		case 0x00: return sort_ascn(     this->reg, this->heap);
+		case 0x01: return sort_desc(     this->reg, this->heap);
+		case 0x02: return is_sorted_ascn(this->reg, this->heap);
+		case 0x03: return is_sorted_desc(this->reg, this->heap);
+		case 0x10: return find(          this->reg, this->heap);
+		case 0x20: return copy_front(    this->reg, this->heap);
+		case 0x22: return copy_back(     this->reg, this->heap);
+		case 0x30: return fill(          this->reg, this->heap);
+		case 0x40: return reverse(       this->reg, this->heap);
 		
 		default: {
 			throw std::runtime_error{"Invalid algorithm type"};

@@ -22,17 +22,12 @@ namespace std {
 	build_in is_eof(stream)       @ io_is_eof
 	build_in is_good(stream)      @ io_is_good
 
-
-	function print(value) {
-		print(cout(), value);
-	}
-
+	function print(value) => print(cout(), value)
 
 	function println(stream, value) {
 		print(stream, value);
 		print(stream, "\n");
 	}
-
 
 	function println(value) {
 		var stream = cout();
@@ -40,45 +35,13 @@ namespace std {
 		print(stream, "\n");
 	}
 
-
-	function read() {
-		return read(cin());
-	}
-
-
-	function read_str() {
-		return read(cin());
-	}
-
-
-	function readln() {
-		return readln(cin());
-	}
-
-
-	function read_bool() {
-		return read_bool(cin());
-	}
-
-
-	function read_char() {
-		return read_char(cin());
-	}
-
-
-	function read_int() {
-		return read_int(cin());
-	}
-
-
-	function read_float() {
-		return read_float(cin());
-	}
-
-
-	function read_all() {
-		return read_all(cin());
-	}
-
+	function read()       => read(cin())
+	function read_str()   => read(cin())
+	function readln()     => readln(cin())
+	function read_bool()  => read_bool(cin())
+	function read_char()  => read_char(cin())
+	function read_int()   => read_int(cin())
+	function read_float() => read_float(cin())
+	function read_all()   => read_all(cin())
 
 }

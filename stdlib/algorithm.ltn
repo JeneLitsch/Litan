@@ -6,7 +6,6 @@ namespace std {
 		}
 	}
 
-
 	// starts at "start" and adds (+=) all elements in range
 	function sum(range, start) {
 		var value = start;
@@ -18,14 +17,7 @@ namespace std {
 
 
 	// starts at 0 and adds (+=) all elements in range
-	function sum(range) {
-		var value = 0;
-		for i (std::begin(range), std::end(range)) {
-			value += std::array(range)[i];
-		}
-		return value;
-	}
-
+	function sum(range) => sum(range, 0)
 
 	build_in sort_ascn(range)       @ algorithm_sort_ascn
 	build_in sort_desc(range)       @ algorithm_sort_desc

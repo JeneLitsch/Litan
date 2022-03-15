@@ -1,5 +1,5 @@
 #include "convert.hxx"
-#include "TypeCheck.hxx"
+#include "type_check.hxx"
 #include "Exception.hxx"
 
 namespace ltn::vm::convert {

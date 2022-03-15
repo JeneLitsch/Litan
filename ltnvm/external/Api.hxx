@@ -3,7 +3,7 @@
 #include "ltn/float64_t.hxx"
 #include "ltnvm/memory/Value.hxx"
 #include "ltnvm/memory/Heap.hxx"
-#include "ltnvm/TypeCheck.hxx"
+#include "ltnvm/type_check.hxx"
 
 namespace ltn::vm::ext {
 	class Api {

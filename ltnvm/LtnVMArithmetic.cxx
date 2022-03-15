@@ -1,6 +1,6 @@
 #include "LtnVM.hxx"
 #include <cmath>
-#include "TypeCheck.hxx"
+#include "type_check.hxx"
 #include <sstream>
 #include "Operations.hxx"
 #include "calcBinary.hxx"

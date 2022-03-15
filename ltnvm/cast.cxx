@@ -1,5 +1,5 @@
 #include "cast.hxx"
-#include "TypeCheck.hxx"
+#include "type_check.hxx"
 #include "Exception.hxx"
 #include "convert.hxx"
 #include "ltn/float64_t.hxx"
