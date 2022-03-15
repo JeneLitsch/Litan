@@ -1,15 +1,12 @@
 namespace test {
 
-	function is_between(value, min, max)
-		=> value >= min && value <= max
-	
 
 	function test_rng(rng, rng_name) {
 		var test_int = lambda[rng](min, max)
-			=> is_between(std::random::rand_int(rng, min, max), min, max);
+			=> std::is_between(std::random::rand_int(rng, min, max), min, max);
 
 		var test_float = lambda[rng](min, max)
-			=> is_between(std::random::rand_float(rng, min, max), min, max);
+			=> std::is_between(std::random::rand_float(rng, min, max), min, max);
 
 		var test_decision = lambda[rng](p)
 			=> std::random::decision(rng, p);

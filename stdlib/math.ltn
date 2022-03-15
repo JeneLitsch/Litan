@@ -16,4 +16,6 @@ namespace std {
 	build_in sin(b)             @ math_sin
 	build_in cos(b)             @ math_cos
 	build_in tan(b)             @ math_tan
+
+	function is_between(value, min, max) => value >= min && value <= max
 }
