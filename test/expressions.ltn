@@ -5,9 +5,10 @@ namespace test {
 		s2.x = 42;
 		s2.y = std::struct();
 		s2.y.a = 1337;
-		s2.y.b = [1,2,3];
+		s2.y.b = [1,2,-1];
 		s.a = 1;
 		s.b = [s2];
+		s.b[0].y.b[2] = 3;
 		return s;
 	}
 
