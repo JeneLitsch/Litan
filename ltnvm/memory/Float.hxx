@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include "ltn/Bitcast.hxx"
+#include "ltn/bitcast.hxx"
 #include "ltn/float64_t.hxx"
 
 namespace ltn::vm {

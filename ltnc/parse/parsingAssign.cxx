@@ -4,56 +4,84 @@
 namespace ltn::c::parse {
 	namespace {
 		using TT = lex::Token::Type;
-		using MT = ast::Modify::Type;
+		using Op = ast::Modify::Type;
+
+
+
+		constexpr auto op_table = std::array{
+			std::pair{TT::ASSIGN_ADD,     Op::ADD},
+			std::pair{TT::ASSIGN_SUB,     Op::SUB},
+			std::pair{TT::ASSIGN_MLT,     Op::MLT},
+			std::pair{TT::ASSIGN_DIV,     Op::DIV},
+			std::pair{TT::ASSIGN_MOD,     Op::MOD},
+			std::pair{TT::ASSIGN_SHIFT_L, Op::SHIFT_L},
+			std::pair{TT::ASSIGN_SHIFT_R, Op::SHIFT_R},
+		};
+
+
 
 		template<class To, class From>
-		std::unique_ptr<To> unique_cast_if(std::unique_ptr<From> & from) {
-			if(auto ptr_to = dynamic_cast<To*>(from.get())) {
-				from.release();
-				return std::unique_ptr<To>(ptr_to);
-			}
-			return nullptr;
+		std::unique_ptr<To> static_unique_cast(std::unique_ptr<From> && from) {
+			return std::unique_ptr<To>(static_cast<To*>(from.release()));
 		}
-	}
-	
-	std::unique_ptr<ast::Expression> assign(lex::Lexer & lexer) {
-		auto expr = expression(lexer);
-		// try parsing assigment
-		if(auto r = assign_r(lexer)) {
-			// ensure left side is assingable
-			if(auto l = unique_cast_if<ast::Assignable>(expr)) {
-				return std::make_unique<ast::Assign>(
-					std::move(l),
-					std::move(r),
-					lexer.location());
-			}
-			throw CompilerError{
-				"Left side of an assignment must be an assignable expression",
-				lexer.location()};
+
+
+
+		bool is_assingable(auto & from) {
+			return dynamic_cast<const ast::Assignable * const>(&from);
 		}
-		auto modify_table = std::array{
-			std::pair{MT::ADD,     TT::ASSIGN_ADD},
-			std::pair{MT::SUB,     TT::ASSIGN_SUB},
-			std::pair{MT::MLT,     TT::ASSIGN_MLT},
-			std::pair{MT::DIV,     TT::ASSIGN_DIV},
-			std::pair{MT::MOD,     TT::ASSIGN_MOD},
-			std::pair{MT::SHIFT_L, TT::ASSIGN_SHIFT_L},
-			std::pair{MT::SHIFT_R, TT::ASSIGN_SHIFT_R},
-		};
-		for(auto [mt, tt] : modify_table) {
-			if(lexer.match(tt)) {
-				if(auto l = unique_cast_if<ast::Assignable>(expr)) {
-					auto r = expression(lexer);
-					return std::make_unique<ast::Modify>(
-						mt, std::move(l), std::move(r), lexer.location());
-				}
+
+
+
+		void guard_assingable(auto & expr, auto location) {
+			if(!is_assingable(expr)) {
 				throw CompilerError{
 					"Left side of an assignment must be an assignable expression",
-					lexer.location()};
+					location};
 			}
 		}
-		return expr;
+
+
+
+		ast::expr_ptr modify(lex::Lexer & lexer, ast::expr_ptr && expr,	Op op) {
+			guard_assingable(*expr, lexer.location());
+			auto l = static_unique_cast<ast::Assignable>(std::move(expr));
+			auto r = expression(lexer);
+			return std::make_unique<ast::Modify>(
+				op,
+				std::move(l),
+				std::move(r),
+				lexer.location());
+		}
+
+
+
+		ast::expr_ptr assignment(lex::Lexer & lexer, auto && expr, auto && r) {
+			guard_assingable(*expr, lexer.location());
+			return std::make_unique<ast::Assign>(
+				static_unique_cast<ast::Assignable>(std::move(expr)),
+				std::move(r),
+				lexer.location());
+		}
 	}
+
+
+
+	ast::expr_ptr assign(lex::Lexer & lexer) {
+		auto l = expression(lexer);
+
+		if(auto r = assign_r(lexer)) {
+			return assignment(lexer, std::move(l), std::move(r));
+		}
+		
+		if(const auto op = match_op(lexer, op_table)) {
+			return modify(lexer, std::move(l), *op);
+		}
+		
+		return l;
+	}
+
+
 
 	// Tries parsing assignment after and including =
 	std::unique_ptr<ast::Expression> assign_r(lex::Lexer & lexer) {

@@ -55,4 +55,15 @@ namespace ltn::c::parse {
 			return nullptr;
 		}
 	}
+
+	auto match_op(
+		lex::Lexer & lexer,
+		const auto & op_table) -> std::optional<decltype(op_table.front().second)> {
+		for(const auto & [tt, op] : op_table) {
+			if(lexer.match(tt)) {
+				return op;
+			}
+		}
+		return std::nullopt;
+	}
 }

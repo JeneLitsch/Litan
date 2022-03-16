@@ -10,4 +10,5 @@ namespace ltn::c::ast {
 	struct Program {
 		std::vector<std::unique_ptr<Functional>> functions;
 	};
+	using expr_ptr = std::unique_ptr<Expression>;
 }

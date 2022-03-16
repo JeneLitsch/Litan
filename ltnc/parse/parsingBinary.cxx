@@ -7,16 +7,6 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 		using OP = ltn::c::ast::SimpleBinary::Type;
 
-		auto parse_op(
-			lex::Lexer & lexer,
-			const auto & op_table) -> std::optional<decltype(op_table.front().second)> {
-			for(const auto & [tt, op] : op_table) {
-				if(lexer.match(tt)) {
-					return op;
-				}
-			}
-			return std::nullopt;
-		}
 
 		template<class ExprType>
 		std::unique_ptr<ast::Expression> binary(
@@ -25,7 +15,7 @@ namespace ltn::c::parse {
 			auto presedence_down) {
 			
 			auto l = presedence_down(lexer);
-			while (auto op = parse_op(lexer, op_table)) {
+			while (auto op = match_op(lexer, op_table)) {
 				auto && r = presedence_down(lexer);
 				auto expr = std::make_unique<ExprType>(
 					*op,

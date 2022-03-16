@@ -3,7 +3,7 @@
 #include <iostream>
 #include <array>
 #include <ranges>
-#include "ltn/Bitcast.hxx"
+#include "ltn/bitcast.hxx"
 #include "ltna/InstructionTable.hxx"
 #include "ltn/reading.hxx"
 #include "ltn/float64_t.hxx"
