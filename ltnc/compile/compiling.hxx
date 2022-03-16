@@ -44,6 +44,7 @@ namespace ltn::c::compile {
 	ExprCode assignable(const ast::Assignable & expr, CompilerInfo & info, Scope & scope);
 	ExprCode addr(const ast::Var & expr, Scope & scope);
 	ExprCode read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope);
+	ExprCode read_member_access(const ast::Member & access, CompilerInfo & info, Scope & scope);
 
 	// utils
 	std::string make_jump_id(const std::string_view name, CompilerInfo & info);

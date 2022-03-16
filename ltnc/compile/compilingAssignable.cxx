@@ -30,17 +30,10 @@ namespace ltn::c::compile {
 			return ExprCode{ss.str() };
 		}
 
-		ExprCode write_member(const ast::MemberAccess & expr, CompilerInfo & info, Scope & scope) {
+		ExprCode write_member(const ast::Member & expr, CompilerInfo & info, Scope & scope) {
 			std::stringstream ss;
 			ss << expression(*expr.expr, info, scope).code;
-			const auto & path = expr.memberpath;
-			for(std::size_t i = 0; i < path.size() - 1; i++) {
-				const auto & name = path[i];
-				const auto id = info.memberTable.get_id(name);
-				ss << inst::member_read(id);
-			}
-			const auto & name = path.back();
-			const auto id = info.memberTable.get_id(name);
+			const auto id = info.memberTable.get_id(expr.name);
 			ss << inst::member_write(id);
 
 			return ExprCode{ss.str() };
@@ -55,7 +48,7 @@ namespace ltn::c::compile {
 		if(auto expr_ = as<ast::Index>(expr)) {
 			return write_index(*expr_, info, scope);
 		}
-		if(auto expr_ = as<ast::MemberAccess>(expr)) {
+		if(auto expr_ = as<ast::Member>(expr)) {
 			return write_member(*expr_, info, scope);
 		}
 		throw std::runtime_error{"Unknow assingable type"};

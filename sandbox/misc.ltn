@@ -1,15 +1,19 @@
 function make_test_struct() {
 	var s = std::struct();
+	var s1 = std::struct();
 	var s2 = std::struct();
 	s2.x = 42;
-	s.a = 1;
-	s.b = [s2];
+	s1.a = 1;
+	s1.b = [s2];
+	s.base = s1;
 	return s;
 }
 
 
 
 function main() {
-	return make_test_struct().b[0].x;
+	var s = make_test_struct();
+	s.base.b[0].x = 1337;
+	return s.base.b[0].x;
 }
 

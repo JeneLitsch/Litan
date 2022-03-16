@@ -59,16 +59,16 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> r;
 	};
 
-	struct MemberAccess : public Assignable {
-		MemberAccess(
+	struct Member : public Assignable {
+		Member(
 			std::unique_ptr<Expression> expr,
-			std::vector<std::string> && memberpath,
+			const std::string & name,
 			const SourceLocation & location)
 			:	Assignable(location),
 				expr(std::move(expr)),
-				memberpath(std::move(memberpath)){};
-		virtual ~MemberAccess() = default;
+				name(std::move(name)){};
+		virtual ~Member() = default;
 		std::unique_ptr<Expression> expr;
-		std::vector<std::string> memberpath;
+		std::string name;
 	};
 }

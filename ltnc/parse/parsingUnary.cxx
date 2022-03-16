@@ -7,11 +7,10 @@ namespace ltn::c::parse {
 		using OP = ltn::c::ast::Unary::Type;
 
 
-		std::vector<std::string> memberpath(lex::Lexer & lexer) {
-			std::vector<std::string> path;
-			while(lexer.match(TT::DOT)) {
+		std::optional<std::string> member(lex::Lexer & lexer) {
+			if(lexer.match(TT::DOT)) {
 				if(auto member = lexer.match(TT::INDENTIFIER)) {
-					path.push_back(member->str);
+					return member->str;
 				}
 				else {
 					throw CompilerError{
@@ -19,7 +18,7 @@ namespace ltn::c::parse {
 						lexer.location()};
 				}
 			}
-			return path;
+			return std::nullopt;
 		}
 
 
@@ -36,24 +35,13 @@ namespace ltn::c::parse {
 				return postfix(lexer, std::move(full));
 			}
 
-			auto path = parse::memberpath(lexer);
-<<<<<<< HEAD
-			if(path.empty()) {
-				return l;
-			}
-			else {
-				return std::make_unique<ast::MemberAccess>(
+			auto name = parse::member(lexer);
+			if(name) {
+				auto access = std::make_unique<ast::Member>(
 					std::move(l),
-					std::move(path),
-					lexer.location());
-=======
-			if(!path.empty()) {
-				auto access = std::make_unique<ast::MemberAccess>(
-					std::move(l),
-					std::move(path),
+					*name,
 					lexer.location());
 				return postfix(lexer, std::move(access));
->>>>>>> edbc2b1a2a187cd16f1648cdeace215c824741ac
 			}
 
 			return l;

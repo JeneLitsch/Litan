@@ -105,18 +105,6 @@ namespace ltn::c::compile {
 			return ExprCode{ss.str() };
 		}
 
-		ExprCode readMemberAccess(
-			const ast::MemberAccess & access,
-			CompilerInfo & info,
-			Scope & scope) {
-			std::stringstream ss;
-			ss << expression(*access.expr, info, scope).code;
-			for(const auto & member : access.memberpath) {
-				const auto id = info.memberTable.get_id(member);
-				ss << inst::member_read(id);
-			}
-			return ExprCode{ ss.str() };
-		}
 
 		ExprCode iife(const ast::Iife & iife, CompilerInfo & info, Scope & outer_scope) {
 			const auto jumpmark = make_jump_id("IIFE", info);
@@ -130,6 +118,7 @@ namespace ltn::c::compile {
 		}
 	}
 
+
 	// compiles an variable read accessc
 	ExprCode read_variable(const ast::Var & expr, CompilerInfo &, Scope & scope) {
 		const auto var = scope.resolve(expr.name, expr.location);
@@ -139,8 +128,17 @@ namespace ltn::c::compile {
 	}
 
 	
+	ExprCode read_member_access(
+		const ast::Member & access,
+		CompilerInfo & info,
+		Scope & scope) {
 
-
+		std::stringstream ss;
+		ss << expression(*access.expr, info, scope).code;
+		const auto id = info.memberTable.get_id(access.name);
+		ss << inst::member_read(id);
+		return ExprCode{ ss.str() };
+	}
 
 
 	// compiles Primary expression
@@ -181,8 +179,8 @@ namespace ltn::c::compile {
 		if(auto expr_ = as<ast::FxPointer>(expr)) {
 			return fxPointer(*expr_, info, scope);
 		}
-		if(auto expr_ = as<ast::MemberAccess>(expr)) {
-			return readMemberAccess(*expr_, info, scope);
+		if(auto expr_ = as<ast::Member>(expr)) {
+			return read_member_access(*expr_, info, scope);
 		}		
 		if(auto expr_ = as<ast::Iife>(expr)) {
 			return compile::iife(*expr_, info, scope);
