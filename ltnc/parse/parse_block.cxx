@@ -1,4 +1,4 @@
-#include "parsing.hxx"
+#include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
 
 namespace ltn::c::parse {
@@ -9,7 +9,7 @@ namespace ltn::c::parse {
 	// Block statement between { ... }
 	ast::stmt_ptr block(lex::Lexer & lexer) {
 		if(!lexer.match(TT::BRACE_L)) return nullptr;
-		std::vector<std::unique_ptr<ast::Statement>> statements;
+		std::vector<ast::stmt_ptr> statements;
 		while(!lexer.match(TT::BRACE_R)) {
 			if(lexer.match(TT::___EOF___)) {
 				throw CompilerError{"missing closing }", lexer.location()}; 

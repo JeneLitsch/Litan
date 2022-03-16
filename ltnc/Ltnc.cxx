@@ -1,12 +1,12 @@
 #include "Ltnc.hxx"
 #include <vector>
 #include "lex/Lexer.hxx"
-#include "parse/parsing.hxx"
+#include "parse/parse.hxx"
 #include <string_view>
 using namespace std::string_view_literals;
 
 const std::span<const std::string_view> ltn::c::Ltnc::stdlib() const {
-	constexpr static std::array stdFiles {
+	constexpr static std::array std_files {
 		"algorithm.ltn"sv,
 		"cast.ltn"sv,
 		"chrono.ltn"sv,
@@ -20,7 +20,7 @@ const std::span<const std::string_view> ltn::c::Ltnc::stdlib() const {
 		"type.ltn"sv,
 		"utils.ltn"sv,
 	};
-	return stdFiles;
+	return std_files;
 }
 
 void ltn::c::Ltnc::compile(std::istream & in, const std::string & sourcename) {

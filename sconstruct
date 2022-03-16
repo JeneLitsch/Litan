@@ -27,6 +27,7 @@ ltnc = [
 	"ltnc/lex",
 	"ltnc/parse",
 	"ltnc/compile",
+	"ltnc/compile/build_in",
 	"ltnc/optimize",
 	"ltnc/type",
 ]

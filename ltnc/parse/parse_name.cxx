@@ -1,4 +1,4 @@
-#include "parsing.hxx"
+#include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
 
 namespace ltn::c::parse {

@@ -10,8 +10,12 @@ function make_test_struct() {
 }
 
 
+function fx() {}
+
+
 
 function main() {
+	std::println(fx());
 	var s = make_test_struct();
 	s.base.b[0].x = 1337;
 	return s.base.b[0].x;

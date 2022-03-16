@@ -1,17 +1,17 @@
 #include "build_in.hxx"
 #include <unordered_map>
 #include "ltnc/CompilerError.hxx"
-#include "build_in/algorithm.hxx"
-#include "build_in/cast.hxx"
-#include "build_in/chrono.hxx"
-#include "build_in/container.hxx"
-#include "build_in/debug.hxx"
-#include "build_in/functional.hxx"
-#include "build_in/io.hxx"
-#include "build_in/math.hxx"
-#include "build_in/newobj.hxx"
-#include "build_in/random.hxx"
-#include "build_in/type.hxx"
+#include "./algorithm.hxx"
+#include "./cast.hxx"
+#include "./chrono.hxx"
+#include "./container.hxx"
+#include "./debug.hxx"
+#include "./functional.hxx"
+#include "./io.hxx"
+#include "./math.hxx"
+#include "./newobj.hxx"
+#include "./random.hxx"
+#include "./type.hxx"
 
 namespace ltn::c::compile {
 	using Table = std::unordered_map<

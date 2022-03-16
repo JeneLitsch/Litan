@@ -123,6 +123,6 @@ namespace ltn::c::compile {
 			ss << inst::scrap;
 			return { ss.str(), 0 };
 		}
-		return { "...STMT\n" , 0 };
+		throw CompilerError{"Unknown statement"};
 	}
 }
