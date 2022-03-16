@@ -15,7 +15,6 @@ namespace ltn::c::parse {
 
 
 
-		// Literals
 		std::unique_ptr<ast::Expression> paren(lex::Lexer & lexer) {
 			if(lexer.match(TT::PAREN_L)) {
 				auto expr = expression(lexer);
@@ -39,9 +38,20 @@ namespace ltn::c::parse {
 			}
 			return nullptr;
 		}
-		constexpr auto integerDec = integer<std::int64_t,    TT::INTEGER,     std::dec>;
-		constexpr auto integerHex = integer<std::int64_t,    TT::INTEGER_HEX, std::hex>;
-		constexpr auto integerBin = integer<std::bitset<64>, TT::INTEGER_BIN, std::dec>;
+		constexpr auto integer_dec = integer<
+			std::int64_t,
+			TT::INTEGER,
+			std::dec>;
+		
+		constexpr auto integer_hex = integer<
+			std::int64_t,
+			TT::INTEGER_HEX,
+			std::hex>;
+		
+		constexpr auto integer_bin = integer<
+			std::bitset<64>,
+			TT::INTEGER_BIN,
+			std::dec>;
 
 
 
@@ -66,8 +76,9 @@ namespace ltn::c::parse {
 
 		std::unique_ptr<ast::Float> floating(lex::Lexer & lexer) {
 			if(auto token = lexer.match(TT::FLOAT)) {
-				std::stringstream ss{token->str};
-				const stx::float64_t value = read<stx::float64_t>(ss);
+				std::istringstream iss{token->str};
+				stx::float64_t value;
+				iss >> value;
 				return std::make_unique<ast::Float>(value, lexer.location()); 
 			}
 			return nullptr;
@@ -100,15 +111,17 @@ namespace ltn::c::parse {
 					throw expected("]", lexer);
 				}
 				array->elements.push_back(expression(lexer));
+				// Last comma is optional
+				// A missing last comma is not an error if ] follows
 				const bool comma = !!lexer.match(TT::COMMA);
 				if(lexer.match(TT::BRACKET_R)) {
-					break;
+					return array;
 				}
+				// Only throw on missings commas in case of an unclosed array
 				if(!comma) {
 					throw expected(",", lexer);
 				}
 			}
-			return array;
 		}
 
 
@@ -210,7 +223,6 @@ namespace ltn::c::parse {
 				namespaze,
 				std::move(parameters),
 				lexer.location());
-			return nullptr;
 		}
 
 
@@ -268,7 +280,7 @@ namespace ltn::c::parse {
 
 
 
-		std::unique_ptr<ast::FxPointer> fxPointer(lex::Lexer & lexer) {
+		std::unique_ptr<ast::FxPointer> fx_pointer(lex::Lexer & lexer) {
 			if(lexer.match(TT::AMPERSAND)) {
 				const auto [name, namespaze] = symbol(lexer);
 				if(lexer.match(TT::PAREN_L)) {
@@ -296,9 +308,9 @@ namespace ltn::c::parse {
 
 	// parses primary expression
 	std::unique_ptr<ast::Expression> primary(lex::Lexer & lexer) {
-		if(auto expr = integerDec(lexer)) return expr;
-		if(auto expr = integerBin(lexer)) return expr;
-		if(auto expr = integerHex(lexer)) return expr;
+		if(auto expr = integer_dec(lexer)) return expr;
+		if(auto expr = integer_bin(lexer)) return expr;
+		if(auto expr = integer_hex(lexer)) return expr;
 		if(auto expr = character(lexer)) return expr;
 		if(auto expr = floating(lexer)) return expr;
 		if(auto expr = boolean(lexer)) return expr;
@@ -306,7 +318,7 @@ namespace ltn::c::parse {
 		if(auto expr = paren(lexer)) return expr;
 		if(auto expr = string(lexer)) return expr;
 		if(auto expr = array(lexer)) return expr;
-		if(auto expr = fxPointer(lexer)) return expr;
+		if(auto expr = fx_pointer(lexer)) return expr;
 		if(auto expr = lambda(lexer)) return expr;
 		if(auto expr = iife(lexer)) return expr;
 		return identifier(lexer);
