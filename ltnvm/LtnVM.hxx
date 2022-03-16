@@ -119,8 +119,7 @@ namespace ltn::vm {
 			duplicate(),
 			makevar(),
 			read_x(),
-			write_x(),
-			swap();
+			write_x();
 		
 		void
 			read_0(),

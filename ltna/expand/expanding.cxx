@@ -98,10 +98,6 @@ namespace ltn::a::expand {
 					out << expand_bytes(1, ls);
 					break;
 
-				case ArgFormat::BYTEx2:
-					out << expand_bytes(2, ls);
-					break;
-
 				case ArgFormat::UINT_BYTExX:
 					const auto size = read<std::uint64_t>(ls);
 					const auto bytes = to_bytes(size);

@@ -13,7 +13,7 @@ namespace ltn::a {
 		JUMP, JUMP_UINT,
 		INT,
 		FLOAT,
-		BYTE, BYTEx2, UINT_BYTExX,
+		BYTE, UINT_BYTExX,
 	};
 	
 	struct InstructionData {
@@ -98,7 +98,6 @@ namespace ltn::a {
 		{"makevar",       {Inst::MAKEVAR}},
 		{"read_x",        {Inst::READ_X,       ArgFormat::UINT}},
 		{"write_x",       {Inst::WRITE_X,      ArgFormat::UINT}},
-		{"swap",          {Inst::SWAP,         ArgFormat::BYTEx2}},
 
 		{"read_0",        {Inst::READ_0}},
 		{"read_1",        {Inst::READ_1}},

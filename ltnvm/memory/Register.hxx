@@ -36,13 +36,6 @@ namespace ltn::vm {
 			this->stack.push_back(value);
 		}
 
-		void swap(std::uint64_t first, std::uint64_t second) {
-			const auto size = this->size();
-			const auto i1 = size - first - 1; 
-			const auto i2 = size - second - 1; 
-			std::swap(stack[i1], stack[i2]);
-		}
-
 		const std::vector<Value> & get_container() const;
 
 		void reset();

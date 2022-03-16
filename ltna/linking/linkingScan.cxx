@@ -14,7 +14,6 @@ namespace ltn::a::linking {
 		case ArgFormat::INT:       return 8;
 		case ArgFormat::FLOAT:     return 8;
 		case ArgFormat::BYTE:      return 1;
-		case ArgFormat::BYTEx2:    return 2;
 		}
 		throw std::logic_error{"Missing args size in switch-case"};
 	}

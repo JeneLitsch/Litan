@@ -22,23 +22,19 @@ namespace ltn::c::compile::build_in {
 	};
 
 	constexpr auto algorithm_find = std::array{
-		"swap 0 1"sv,
 		"algorithm 10"sv,
 		"return"sv,
 	};
 
 	constexpr auto algorithm_copy_front = std::array{
-		"swap 0 1"sv,
 		"algorithm 20"sv,
 	};
 
 	constexpr auto algorithm_copy_back = std::array{
-		"swap 0 1"sv,
 		"algorithm 22"sv,
 	};
 
 	constexpr auto algorithm_fill = std::array{
-		"swap 0 1"sv,
 		"algorithm 30"sv,
 	};
 

@@ -92,9 +92,9 @@ namespace ltn::vm {
 
 
 		void find(Register & reg, Heap & heap) {
+			const auto key = reg.pop();
 			const auto ref = reg.pop();
 			const auto [begin, end] = to_cpp_range(ref, heap);
-			const auto key = reg.pop();
 			const auto pred = predicate(heap, key);
 			const auto found = std::find_if(begin, end, pred);
 			if(found == end) {
@@ -108,9 +108,8 @@ namespace ltn::vm {
 
 
 		void copy_front(Register & reg, Heap & heap) {
-			const auto ref = reg.pop();
-			const auto [begin, end] = to_cpp_range(ref, heap);
 			const auto refArr = pop_array_ref(reg);
+			const auto [begin, end] = to_cpp_range(reg.pop(), heap);
 			auto & array = heap.read<Array>(refArr).get();
 			auto beginArr = array.begin();
 			auto inserter = std::insert_iterator(array, beginArr);
@@ -119,9 +118,8 @@ namespace ltn::vm {
 
 
 		void copy_back(Register & reg, Heap & heap) {
-			const auto ref = reg.pop();
-			const auto [begin, end] = to_cpp_range(ref, heap);
 			const auto refArr = pop_array_ref(reg);
+			const auto [begin, end] = to_cpp_range(reg.pop(), heap);
 			auto & array = heap.read<Array>(refArr).get();
 			auto inserter = std::back_inserter(array);
 			std::copy(begin, end, inserter);
@@ -129,9 +127,8 @@ namespace ltn::vm {
 
 		
 		inline void fill(Register & reg, Heap & heap) {
-			const auto ref = reg.pop();
-			const auto [begin, end] = to_cpp_range(ref, heap);
 			const auto value = reg.pop();
+			const auto [begin, end] = to_cpp_range(reg.pop(), heap);
 			std::fill(begin, end, value);
 		}
 
