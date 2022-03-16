@@ -243,20 +243,7 @@ namespace ltn::c::parse {
 
 
 
-		std::vector<std::string> memberpath(lex::Lexer & lexer) {
-			std::vector<std::string> path;
-			while(lexer.match(TT::DOT)) {
-				if(auto member = lexer.match(TT::INDENTIFIER)) {
-					path.push_back(member->str);
-				}
-				else {
-					throw CompilerError{
-						"Expected identifier for member access",
-						lexer.location()};
-				}
-			}
-			return path;
-		}
+
 
 
 
@@ -266,16 +253,7 @@ namespace ltn::c::parse {
 				return call(name, namespaze, lexer);
 			}
 			auto var = parse::var(name, namespaze, lexer);
-			auto path = parse::memberpath(lexer);
-			if(path.empty()) {
-				return var;
-			}
-			else {
-				return std::make_unique<ast::MemberAccess>(
-					std::move(var),
-					std::move(path),
-					lexer.location());
-			}
+			return var;
 		}
 
 

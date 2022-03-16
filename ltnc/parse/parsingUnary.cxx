@@ -6,6 +6,23 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 		using OP = ltn::c::ast::Unary::Type;
 
+
+		std::vector<std::string> memberpath(lex::Lexer & lexer) {
+			std::vector<std::string> path;
+			while(lexer.match(TT::DOT)) {
+				if(auto member = lexer.match(TT::INDENTIFIER)) {
+					path.push_back(member->str);
+				}
+				else {
+					throw CompilerError{
+						"Expected identifier for member access",
+						lexer.location()};
+				}
+			}
+			return path;
+		}
+
+
 		// recursive right sided unary -> [i]
 		std::unique_ptr<ast::Expression> postfix(
 			lex::Lexer & lexer,
@@ -18,6 +35,18 @@ namespace ltn::c::parse {
 					index->location);
 				return postfix(lexer, std::move(full));
 			}
+
+			auto path = parse::memberpath(lexer);
+			if(path.empty()) {
+				return l;
+			}
+			else {
+				return std::make_unique<ast::MemberAccess>(
+					std::move(l),
+					std::move(path),
+					lexer.location());
+			}
+
 			return l;
 		}
 	}

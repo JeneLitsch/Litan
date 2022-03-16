@@ -1,9 +1,8 @@
 function fx() {
-	return [1,2,3];
+	std::struct().a = 42;
 }
 
 function main() {
-	std::println((fx() + [4,5,6])[5]);
-	std::println(std::struct().a);
+	std::println(fx());
 }
 

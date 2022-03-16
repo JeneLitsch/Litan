@@ -32,7 +32,7 @@ namespace ltn::c::compile {
 
 		ExprCode write_member(const ast::MemberAccess & expr, CompilerInfo & info, Scope & scope) {
 			std::stringstream ss;
-			ss << read_variable(*expr.var, info, scope).code;
+			ss << expression(*expr.expr, info, scope).code;
 			const auto & path = expr.memberpath;
 			for(std::size_t i = 0; i < path.size() - 1; i++) {
 				const auto & name = path[i];

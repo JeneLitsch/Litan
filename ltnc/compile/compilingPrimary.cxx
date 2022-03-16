@@ -110,7 +110,7 @@ namespace ltn::c::compile {
 			CompilerInfo & info,
 			Scope & scope) {
 			std::stringstream ss;
-			ss << read_variable(*access.var, info, scope).code;
+			ss << expression(*access.expr, info, scope).code;
 			for(const auto & member : access.memberpath) {
 				const auto id = info.memberTable.get_id(member);
 				ss << inst::member_read(id);
