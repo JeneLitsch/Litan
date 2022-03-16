@@ -1,4 +1,18 @@
 namespace test {
+	function s() {
+		var s = std::struct();
+		var s2 = std::struct();
+		s2.x = 42;
+		s2.y = std::struct();
+		s2.y.a = 1337;
+		s2.y.b = [1,2,3];
+		s.a = 1;
+		s.b = [s2];
+		return s;
+	}
+
+
+
 	function expressions() {
 		var f1  = lambda => 8 / 2 / 2;
 		var f2  = lambda => false ? false ? 44 : 43 : 42;
@@ -13,6 +27,9 @@ namespace test {
 		var f11 = lambda => 1 * 2 * 3 * 4;
 		var f12 = lambda => 1 + 2*2 + 3 - 12 * 2;
 		var f13 = lambda => 1 * -2 * 3 * 4;
+		var f14 = lambda => s().b[0].x;
+		var f15 = lambda => s().b[0].y.a;
+		var f16 = lambda => s().b[0].y.b[2];
 
 		var cases = [
 			[f1, 2],
@@ -28,6 +45,9 @@ namespace test {
 			[f11, 24],
 			[f12, -16],
 			[f13, -24],
+			[f14, 42],
+			[f15, 1337],
+			[f16, 3],
 		];
 
 		return test_functions("Expressions", cases);

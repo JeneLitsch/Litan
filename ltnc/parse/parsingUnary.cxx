@@ -37,6 +37,7 @@ namespace ltn::c::parse {
 			}
 
 			auto path = parse::memberpath(lexer);
+<<<<<<< HEAD
 			if(path.empty()) {
 				return l;
 			}
@@ -45,6 +46,14 @@ namespace ltn::c::parse {
 					std::move(l),
 					std::move(path),
 					lexer.location());
+=======
+			if(!path.empty()) {
+				auto access = std::make_unique<ast::MemberAccess>(
+					std::move(l),
+					std::move(path),
+					lexer.location());
+				return postfix(lexer, std::move(access));
+>>>>>>> edbc2b1a2a187cd16f1648cdeace215c824741ac
 			}
 
 			return l;

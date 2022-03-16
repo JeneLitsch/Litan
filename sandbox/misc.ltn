@@ -1,8 +1,15 @@
-function fx() {
-	std::struct().a = 42;
+function make_test_struct() {
+	var s = std::struct();
+	var s2 = std::struct();
+	s2.x = 42;
+	s.a = 1;
+	s.b = [s2];
+	return s;
 }
 
+
+
 function main() {
-	std::println(fx());
+	return make_test_struct().b[0].x;
 }
 
