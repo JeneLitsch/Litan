@@ -46,7 +46,7 @@ namespace ltn::c::parse {
 	constexpr auto new_const = initialize_variable<ast::NewConst, TT::CONST>;
 
 	// parses return statement -> return ...
-	std::unique_ptr<ast::Statement> retrn(lex::Lexer & lexer) {
+	ast::stmt_ptr retrn(lex::Lexer & lexer) {
 		if(lexer.match(TT::RETURN)) {
 			if(lexer.match(TT::SEMICOLON)) {
 				return std::make_unique<ast::Return>(nullptr, lexer.location());
@@ -59,7 +59,7 @@ namespace ltn::c::parse {
 	}
 
 
-	std::unique_ptr<ast::Throw> thr0w(lex::Lexer & lexer) {
+	ast::stmt_ptr thr0w(lex::Lexer & lexer) {
 		if(lexer.match(TT::THROW)) {
 			std::unique_ptr<ast::Expression> expr = nullptr;
 			if(!lexer.match(TT::SEMICOLON)) {
@@ -74,7 +74,7 @@ namespace ltn::c::parse {
 	}
 
 
-	std::unique_ptr<ast::Statement> statement(lex::Lexer & lexer) {
+	ast::stmt_ptr statement(lex::Lexer & lexer) {
 		while(lexer.match(TT::SEMICOLON));
 		if(auto stmt = block(lexer)) return stmt;
 		if(auto stmt = if_else(lexer)) return stmt;

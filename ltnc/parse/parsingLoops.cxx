@@ -7,7 +7,7 @@ namespace ltn::c::parse {
 	}
 
 	// parses while loop -> while(...)
-	std::unique_ptr<ast::While> while_loop(lex::Lexer & lexer) {
+	ast::stmt_ptr while_loop(lex::Lexer & lexer) {
 		if(lexer.match(TT::WHILE)) {
 			auto expr = condition(lexer);
 			auto body = statement(lexer);
@@ -20,7 +20,7 @@ namespace ltn::c::parse {
 	}
 
 	// parses while loop -> for i (a, b)
-	std::unique_ptr<ast::For> for_loop(lex::Lexer & lexer) {
+	ast::stmt_ptr for_loop(lex::Lexer & lexer) {
 		if(lexer.match(TT::FOR)) {
 			auto var_name = variable_name(lexer);
 			auto var = std::make_unique<ast::NewVar>(

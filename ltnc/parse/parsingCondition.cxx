@@ -7,7 +7,7 @@ namespace ltn::c::parse {
 	}
 
 	// expression in (...) for e.g. if, while...
-	std::unique_ptr<ast::Expression> condition(lex::Lexer & lexer) {
+	ast::expr_ptr condition(lex::Lexer & lexer) {
 		if(!lexer.match(TT::PAREN_L)) {
 			throw CompilerError{"expected (", lexer.location()};
 		}

@@ -6,6 +6,8 @@ namespace ltn::c::ast {
 	struct Assignable;
 	struct Statement;
 
+
+
 	struct Expression : public Node {
 		Expression(const SourceLocation & location) : Node(location) {}
 		virtual ~Expression() = default;
@@ -30,6 +32,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> else_expr;
 	};
 
+
+
 	struct Nullco : public Expression {
 		Nullco(
 			const SourceLocation & location,
@@ -43,6 +47,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> if_expr;
 		std::unique_ptr<Expression> else_expr;
 	};
+
+
 
 	struct Elvis : public Expression {
 		Elvis(
@@ -63,6 +69,8 @@ namespace ltn::c::ast {
 		virtual ~Primary() = default;
 	};
 
+
+
 	struct Unary : public Expression {
 		enum class Type { NEG, NOT, NUL };
 		Unary(
@@ -77,6 +85,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> expression;
 	};
 
+
+
 	struct Binary : public Expression {
 		Binary(
 			std::unique_ptr<Expression> l,
@@ -89,6 +99,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> l;
 		std::unique_ptr<Expression> r;
 	};
+
+
 
 	struct SimpleBinary : public Binary {
 		enum class Type {
@@ -109,6 +121,8 @@ namespace ltn::c::ast {
 		Type type;
 	};
 
+
+
 	struct Logical : public Binary {
 		enum class Type {
 			AND, OR,
@@ -124,6 +138,8 @@ namespace ltn::c::ast {
 		Type type;
 	};
 
+
+
 	struct Iife : public Primary {
 		Iife(
 			const SourceLocation & location,
@@ -134,6 +150,7 @@ namespace ltn::c::ast {
 		
 		std::unique_ptr<Statement> stmt;
 	};
+
 
 
 	struct Call : public Primary {
@@ -152,6 +169,7 @@ namespace ltn::c::ast {
 		Namespace namespaze;
 		std::vector<std::unique_ptr<Expression>> parameters;
 	};
+
 
 
 	struct FxPointer : public Primary {

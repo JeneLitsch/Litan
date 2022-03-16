@@ -74,7 +74,7 @@ namespace ltn::c::parse {
 		}
 
 
-		std::unique_ptr<ast::Statement> body(lex::Lexer & lexer) {
+		ast::stmt_ptr body(lex::Lexer & lexer) {
 			if(lexer.match(TT::DRARROW)) {
 				auto expr = expression(lexer);
 				const auto & location = lexer.location();
@@ -123,7 +123,7 @@ namespace ltn::c::parse {
 
 
 	// parses and returns a functional node
-	std::unique_ptr<ast::Functional> functional(
+	ast::func_ptr functional(
 		lex::Lexer & lexer,
 		const ast::Namespace & namespaze) {
 
@@ -144,7 +144,7 @@ namespace ltn::c::parse {
 		return nullptr;
 	}
 
-	std::unique_ptr<ast::Lambda> lambda(lex::Lexer & lexer) {
+	ast::expr_ptr lambda(lex::Lexer & lexer) {
 		if(lexer.match(TT::LAMBDA)) {
 			auto captures = parse::captures(lexer);
 			const auto parameters = optional_parameters(lexer);

@@ -8,7 +8,7 @@ namespace ltn::c::parse {
 
 
 	// parses else branch and returns it if it's existing  
-	std::unique_ptr<ast::Statement> else_branch(lex::Lexer & lexer) {
+	ast::stmt_ptr else_branch(lex::Lexer & lexer) {
 		if(lexer.match(TT::ELSE)) {
 			if(lexer.match(TT::PAREN_L)) {
 				throw CompilerError{"else must not have a condition", lexer.location()};
@@ -20,7 +20,7 @@ namespace ltn::c::parse {
 
 
 	// parses if-else statement  
-	std::unique_ptr<ast::IfElse> if_else(lex::Lexer & lexer) {
+	ast::stmt_ptr if_else(lex::Lexer & lexer) {
 		if(lexer.match(TT::IF)) {
 			auto expr = condition(lexer); 
 			auto ifBody = statement(lexer); 

@@ -84,7 +84,7 @@ namespace ltn::c::parse {
 
 
 	// Tries parsing assignment after and including =
-	std::unique_ptr<ast::Expression> assign_r(lex::Lexer & lexer) {
+	ast::expr_ptr assign_r(lex::Lexer & lexer) {
 		if(lexer.match(TT::ASSIGN)) {
 			return expression(lexer);
 		}

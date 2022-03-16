@@ -9,7 +9,7 @@ namespace ltn::c::parse {
 
 
 		template<class ExprType>
-		std::unique_ptr<ast::Expression> binary(
+		ast::expr_ptr binary(
 			lex::Lexer & lexer,
 			const auto & op_table,
 			auto presedence_down) {
@@ -31,7 +31,7 @@ namespace ltn::c::parse {
 
 
 	// Operators * / %
-	std::unique_ptr<ast::Expression> factor(lex::Lexer & lexer) {
+	ast::expr_ptr factor(lex::Lexer & lexer) {
 		constexpr std::array table {
 			std::pair{TT::STAR, OP::MLT},
 			std::pair{TT::SLASH, OP::DIV},
@@ -41,7 +41,7 @@ namespace ltn::c::parse {
 	}
 
 	// Operators + -
-	std::unique_ptr<ast::Expression> term(lex::Lexer & lexer) {
+	ast::expr_ptr term(lex::Lexer & lexer) {
 		constexpr std::array table {
 			std::pair{TT::PLUS,          OP::ADD},
 			std::pair{TT::MINUS,         OP::SUB},
@@ -50,7 +50,7 @@ namespace ltn::c::parse {
 	}
 
 	// Operators << >>
-	std::unique_ptr<ast::Expression> shift(lex::Lexer & lexer) {
+	ast::expr_ptr shift(lex::Lexer & lexer) {
 		constexpr std::array table {
 			std::pair{TT::SHIFT_L,       OP::SHIFT_L},
 			std::pair{TT::SHIFT_R,       OP::SHIFT_R},
@@ -59,7 +59,7 @@ namespace ltn::c::parse {
 	}
 
 	// Operators < <= => >
-	std::unique_ptr<ast::Expression> comparision(lex::Lexer & lexer) {
+	ast::expr_ptr comparision(lex::Lexer & lexer) {
 		constexpr std::array table {
 			std::pair{TT::SMALLER,       OP::SMALLER},
 			std::pair{TT::SMALLER_EQUAL, OP::SMALLEREQUAL},
@@ -71,7 +71,7 @@ namespace ltn::c::parse {
 
 
 	// Operators == != 
-	std::unique_ptr<ast::Expression> equality(lex::Lexer & lexer) {
+	ast::expr_ptr equality(lex::Lexer & lexer) {
 		constexpr std::array table {
 			std::pair{TT::EQUAL,         OP::EQUAL},
 			std::pair{TT::UNEQUAL,       OP::UNEQUEL},
@@ -82,21 +82,21 @@ namespace ltn::c::parse {
 	}
 
 	// Operator <=>
-	std::unique_ptr<ast::Expression> spaceship(lex::Lexer & lexer) {
+	ast::expr_ptr spaceship(lex::Lexer & lexer) {
 		constexpr std::array table {
 			std::pair{TT::SPACE_SHIP,    OP::SPACE_SHIP},
 		};
 		return binary<ast::SimpleBinary>(lexer, table, equality); 
 	}
 
-	std::unique_ptr<ast::Expression> logical_or(lex::Lexer & lexer) {
+	ast::expr_ptr logical_or(lex::Lexer & lexer) {
 		constexpr std::array table {
 			std::pair{TT::OR, ast::Logical::Type::OR}
 		};
 		return binary<ast::Logical>(lexer, table, spaceship);
 	}
 
-	std::unique_ptr<ast::Expression> logical_and(lex::Lexer & lexer) {
+	ast::expr_ptr logical_and(lex::Lexer & lexer) {
 		constexpr std::array table {
 			std::pair{TT::AND, ast::Logical::Type::AND}
 		};

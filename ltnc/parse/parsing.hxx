@@ -14,30 +14,29 @@ namespace ltn::c::parse {
 		lex::Lexer & lexer,
 		const ast::Namespace & namespaze);
 
-	std::unique_ptr<ast::Lambda> lambda(lex::Lexer & lexer);
+	ast::expr_ptr lambda(lex::Lexer & lexer);
 
 	// Statements
-	std::unique_ptr<ast::Statement> statement(lex::Lexer & lexer);
-	std::unique_ptr<ast::Block> block(lex::Lexer & lexer);
-	std::unique_ptr<ast::IfElse> if_else(lex::Lexer & lexer);
-	std::unique_ptr<ast::While> while_loop(lex::Lexer & lexer);
-	std::unique_ptr<ast::For> for_loop(lex::Lexer & lexer);
+	ast::stmt_ptr statement(lex::Lexer & lexer);
+	ast::stmt_ptr block(lex::Lexer & lexer);
+	ast::stmt_ptr if_else(lex::Lexer & lexer);
+	ast::stmt_ptr while_loop(lex::Lexer & lexer);
+	ast::stmt_ptr for_loop(lex::Lexer & lexer);
 	
 	// Expressions
-	std::unique_ptr<ast::Expression> expression(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> condition(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> unary(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> index(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> primary(lex::Lexer & lexer);
-
-	std::unique_ptr<ast::Expression> assign(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> assign_r(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> factor(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> term(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> comparision(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> equality(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> logical_or(lex::Lexer & lexer);
-	std::unique_ptr<ast::Expression> logical_and(lex::Lexer & lexer);
+	ast::expr_ptr expression(lex::Lexer & lexer);
+	ast::expr_ptr condition(lex::Lexer & lexer);
+	ast::expr_ptr unary(lex::Lexer & lexer);
+	ast::expr_ptr index(lex::Lexer & lexer);
+	ast::expr_ptr primary(lex::Lexer & lexer);
+	ast::expr_ptr assign(lex::Lexer & lexer);
+	ast::expr_ptr assign_r(lex::Lexer & lexer);
+	ast::expr_ptr factor(lex::Lexer & lexer);
+	ast::expr_ptr term(lex::Lexer & lexer);
+	ast::expr_ptr comparision(lex::Lexer & lexer);
+	ast::expr_ptr equality(lex::Lexer & lexer);
+	ast::expr_ptr logical_or(lex::Lexer & lexer);
+	ast::expr_ptr logical_and(lex::Lexer & lexer);
 
 	// Utils
 	std::string variable_name(lex::Lexer & lexer);

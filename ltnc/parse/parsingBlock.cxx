@@ -7,7 +7,7 @@ namespace ltn::c::parse {
 	}
 
 	// Block statement between { ... }
-	std::unique_ptr<ast::Block> block(lex::Lexer & lexer) {
+	ast::stmt_ptr block(lex::Lexer & lexer) {
 		if(!lexer.match(TT::BRACE_L)) return nullptr;
 		std::vector<std::unique_ptr<ast::Statement>> statements;
 		while(!lexer.match(TT::BRACE_R)) {

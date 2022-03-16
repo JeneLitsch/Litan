@@ -4,7 +4,6 @@
 namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
-		using Functionals = std::vector<std::unique_ptr<ast::Functional>>;
 
 		CompilerError anonymous_namespace(const lex::Lexer & lexer) {
 			return CompilerError {
@@ -65,8 +64,8 @@ namespace ltn::c::parse {
 		}
 	}
 
-	std::vector<std::unique_ptr<ast::Functional>> source(lex::Lexer & lexer) {
-		Functionals functions;
+	std::vector<ast::func_ptr> source(lex::Lexer & lexer) {
+		std::vector<ast::func_ptr> functions;
 		ast::Namespace namespaze;
 		while(!lexer.match(TT::___EOF___)) {
 			// try {

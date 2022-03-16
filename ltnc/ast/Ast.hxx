@@ -11,4 +11,6 @@ namespace ltn::c::ast {
 		std::vector<std::unique_ptr<Functional>> functions;
 	};
 	using expr_ptr = std::unique_ptr<Expression>;
+	using stmt_ptr = std::unique_ptr<Statement>;
+	using func_ptr = std::unique_ptr<Functional>;
 }
