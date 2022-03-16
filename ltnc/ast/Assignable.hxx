@@ -61,14 +61,14 @@ namespace ltn::c::ast {
 
 	struct MemberAccess : public Assignable {
 		MemberAccess(
-			std::unique_ptr<Var> var,
+			std::unique_ptr<Expression> expr,
 			std::vector<std::string> && memberpath,
 			const SourceLocation & location)
 			:	Assignable(location),
-				var(std::move(var)),
+				expr(std::move(expr)),
 				memberpath(std::move(memberpath)){};
 		virtual ~MemberAccess() = default;
-		std::unique_ptr<Var> var;
+		std::unique_ptr<Expression> expr;
 		std::vector<std::string> memberpath;
 	};
 }
