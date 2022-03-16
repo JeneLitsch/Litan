@@ -37,14 +37,12 @@ namespace ltn::c::parse {
 			}
 
 			auto path = parse::memberpath(lexer);
-			if(path.empty()) {
-				return l;
-			}
-			else {
-				return std::make_unique<ast::MemberAccess>(
+			if(!path.empty()) {
+				auto access = std::make_unique<ast::MemberAccess>(
 					std::move(l),
 					std::move(path),
 					lexer.location());
+				return postfix(lexer, std::move(access));
 			}
 
 			return l;
