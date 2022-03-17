@@ -44,7 +44,6 @@ namespace ltn::c::parse {
 		std::map<std::string, std::int64_t> values(lex::Lexer & lexer) {
 			std::map<std::string, std::int64_t> values;
 			std::int64_t value = 0;
-			std::cout << "Enum\n";
 			while(auto value_name = lexer.match(TT::INDENTIFIER)) {
 				if(values.contains(value_name->str)) {
 					throw CompilerError{"Redefinition of enum value"};
@@ -54,7 +53,6 @@ namespace ltn::c::parse {
 				}
 				values.insert({value_name->str, value});
 				semicolon(lexer);
-				std::cout << "\t" << value_name->str << " : " << value << "\n"; 
 				++value;
 			}
 			return values;

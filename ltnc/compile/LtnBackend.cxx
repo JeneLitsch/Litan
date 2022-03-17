@@ -57,9 +57,7 @@ namespace ltn::c::compile {
 				make_fxid(info, *fx)});
 		}
 
-		std::cerr << "Enum count: " << program.enums.size();
 		for(const auto & e : program.enums) {
-			std::cerr << "Enum: " << e->name;
 			info.enum_table.insert({
 				e->name,
 				e->namespaze,
