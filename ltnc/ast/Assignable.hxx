@@ -7,6 +7,8 @@ namespace ltn::c::ast {
 		Assignable(const SourceLocation & location) : Primary(location) {}
 	};
 
+
+
 	struct Index : public Assignable {
 		Index(
 			std::unique_ptr<Expression> expression,
@@ -20,6 +22,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> index;
 	};
 
+
+
 	struct Var : public Assignable {
 	public:
 		Var(const std::string & name,
@@ -29,6 +33,8 @@ namespace ltn::c::ast {
 		virtual ~Var() = default;
 		std::string name;
 	};
+
+
 
 	struct Assign : public Expression {
 	public:
@@ -41,6 +47,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Assignable> l;
 		std::unique_ptr<Expression> r;
 	};
+
+
 
 	struct Modify : public Expression {
 		enum class Type { ADD, SUB, MLT, DIV, MOD, SHIFT_L, SHIFT_R };
@@ -58,6 +66,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Assignable> l;
 		std::unique_ptr<Expression> r;
 	};
+
+
 
 	struct Member : public Assignable {
 		Member(

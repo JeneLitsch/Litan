@@ -99,6 +99,7 @@ namespace ltn::c::lex {
 			{"null",        TT::NVLL},
 			{"iife",        TT::IIFE},
 			{"build_in",    TT::BUILD_IN},
+			{"enum",        TT::ENUM},
 		};
 		
 

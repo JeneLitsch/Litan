@@ -241,11 +241,7 @@ namespace ltn::c::parse {
 			}
 		}
 
-
-
-
-
-
+		
 
 		ast::expr_ptr identifier(lex::Lexer & lexer) {
 			const auto [name, namespaze] = symbol(lexer);
@@ -284,11 +280,19 @@ namespace ltn::c::parse {
 		}
 	}
 
-	// parses primary expression
-	ast::expr_ptr primary(lex::Lexer & lexer) {
+
+
+	ast::expr_ptr integral(lex::Lexer & lexer) {
 		if(auto expr = integer_dec(lexer)) return expr;
 		if(auto expr = integer_bin(lexer)) return expr;
 		if(auto expr = integer_hex(lexer)) return expr;
+		else return nullptr;
+	}
+
+
+	// parses primary expression
+	ast::expr_ptr primary(lex::Lexer & lexer) {
+		if(auto expr = integral(lexer)) return expr;
 		if(auto expr = character(lexer)) return expr;
 		if(auto expr = floating(lexer)) return expr;
 		if(auto expr = boolean(lexer)) return expr;

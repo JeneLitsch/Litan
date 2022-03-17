@@ -6,10 +6,14 @@ namespace ltn::c::ast {
 	struct Functional;
 	struct Var;
 	
+
+
 	struct Literal : public Primary {
 		Literal(const SourceLocation & location) : Primary(location) {}
 		virtual ~Literal() = default;
 	};
+
+
 
 	struct Integer : public Literal {
 		Integer(std::bitset<64> value, const SourceLocation & location)
@@ -21,12 +25,16 @@ namespace ltn::c::ast {
 		std::int64_t value;
 	};
 
+
+
 	struct Float : public Literal {
 		Float(stx::float64_t value, const SourceLocation & location)
 			:	Literal(location), value(value) {}
 		virtual ~Float() = default;
 		stx::float64_t value;
 	};
+
+
 
 	struct Bool : public Literal {
 		Bool(bool value, const SourceLocation & location)
@@ -35,11 +43,15 @@ namespace ltn::c::ast {
 		bool value;
 	};
 
+
+
 	struct Null : public Literal {
 		Null(const SourceLocation & location)
 			:	Literal(location) {}
 		virtual ~Null() = default;
 	};
+
+
 
 	struct Char : public Literal {
 		Char(std::uint8_t value, const SourceLocation & location)
@@ -48,6 +60,8 @@ namespace ltn::c::ast {
 		std::uint8_t value;
 	};
 
+
+
 	struct String : public Literal {
 		String(const std::string & value, const SourceLocation & location)
 			:	Literal(location), value(value) {}
@@ -55,11 +69,15 @@ namespace ltn::c::ast {
 		std::string value;
 	};
 
+
+
 	struct Array : public Literal {
 		Array(const SourceLocation & location) : Literal(location) {}
 		virtual ~Array() = default;
 		std::vector<std::unique_ptr<Expression>> elements;
 	};
+
+
 
 	struct Lambda : public Literal {
 		Lambda(

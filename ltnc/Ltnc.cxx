@@ -26,7 +26,7 @@ void ltn::c::Ltnc::compile(std::istream & in, const std::string & sourcename) {
 	lex::Lexer lexer{in, sourcename, reporter};
 	try {
 		auto source = parse::source(lexer);
-		for(auto && fx : source) {
+		for(auto && fx : source->functions) {
 			this->program.functions.push_back(std::move(fx));
 		}
 	}

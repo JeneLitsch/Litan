@@ -6,7 +6,7 @@ namespace ltn::vm {
 	struct Value {
 		// DO NOT TOUCH/CHANGE THE VALUES !!!
 		enum class Type : std::uint32_t {
-			NVLL = 0x00, ADDR,
+			NVLL = 0x00, ENUM,
 			BOOL = 0x10, INT, FLOAT, CHAR,
 			ARRAY = 0x20, STRING,
 			ISTREAM = 0x30, OSTREAM,

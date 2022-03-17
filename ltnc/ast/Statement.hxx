@@ -3,10 +3,13 @@
 #include "Expression.hxx"
 #include <vector>
 namespace ltn::c::ast {
+
 	struct Statement : public Node {
 		Statement(const SourceLocation & location) : Node(location) {}
 		virtual ~Statement() = default;
 	};
+
+
 
 	struct Throw : public Statement {
 		Throw(
@@ -18,6 +21,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> expr;
 	};
 
+
+
 	struct Block : public Statement {
 		Block(
 			std::vector<std::unique_ptr<Statement>> statements,
@@ -27,6 +32,8 @@ namespace ltn::c::ast {
 		virtual ~Block() = default;
 		std::vector<std::unique_ptr<Statement>> statements;
 	};
+
+
 
 	struct NewVar : public Statement {
 		NewVar(
@@ -41,6 +48,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> right; 
 	};
 
+
+
 	struct NewConst : public Statement {
 		NewConst(
 			const std::string & name,
@@ -53,6 +62,8 @@ namespace ltn::c::ast {
 		std::string name;
 		std::unique_ptr<Expression> right; 
 	};
+
+
 
 	struct IfElse : public Statement {
 		IfElse(
@@ -71,6 +82,7 @@ namespace ltn::c::ast {
 	};
 
 
+
 	struct While : public Statement {
 		While(
 			std::unique_ptr<Expression> condition,
@@ -84,6 +96,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> condition;
 		std::unique_ptr<Statement> body;
 	};
+
+
 
 	struct For : public Statement {
 		For(
@@ -105,6 +119,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Statement> body;
 	};
 
+
+
 	struct StatementExpression : public Statement {
 		StatementExpression(
 			std::unique_ptr<Expression> expression,
@@ -114,6 +130,8 @@ namespace ltn::c::ast {
 		virtual ~StatementExpression() = default;
 		std::unique_ptr<Expression> expression;
 	};
+
+
 
 	struct Return : public Statement {
 		Return(

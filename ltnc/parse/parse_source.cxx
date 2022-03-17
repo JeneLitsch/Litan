@@ -5,11 +5,14 @@ namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 
+
 		CompilerError anonymous_namespace(const lex::Lexer & lexer) {
 			return CompilerError {
 				"Expected namespace name. Anonymous not supported",
 				lexer.location()};
 		}
+
+
 
 		CompilerError unknown_declaration(const lex::Lexer & lexer) {
 			return CompilerError(
@@ -18,11 +21,15 @@ namespace ltn::c::parse {
 				lexer.location());
 		}
 
+
+
 		CompilerError unclosed_namespace(const lex::Lexer & lexer) {
 			return CompilerError {
 				"Unclosed namespace. Expected }",
 				lexer.location()};
 		}
+
+
 
 		CompilerError missing_brace_l(const lex::Lexer & lexer) {
 			return CompilerError {
@@ -30,11 +37,15 @@ namespace ltn::c::parse {
 				lexer.location()};
 		}
 
+
+
 		CompilerError extra_brace_r(const lex::Lexer & lexer) {
 			return CompilerError {
 				"Extra }",
 				lexer.location()};
 		}
+
+
 
 		// parses: namespace foo { ...
 		std::optional<std::string> open_namespace(lex::Lexer & lexer) {
@@ -50,6 +61,8 @@ namespace ltn::c::parse {
 			return {};
 		}
 
+
+
 		// }
 		bool close_namespace(
 			lex::Lexer & lexer,
@@ -64,8 +77,9 @@ namespace ltn::c::parse {
 		}
 	}
 
-	std::vector<ast::func_ptr> source(lex::Lexer & lexer) {
-		std::vector<ast::func_ptr> functions;
+	ast::prog_ptr source(lex::Lexer & lexer) {
+		auto program = std::make_unique<ast::Program>();
+		auto & functions = program->functions;
 		ast::Namespace namespaze;
 		while(!lexer.match(TT::___EOF___)) {
 			// try {
@@ -78,11 +92,14 @@ namespace ltn::c::parse {
 			else if(auto fx = parse::functional(lexer, namespaze)) {
 				functions.push_back(std::move(fx));
 			}
+			else if(auto enym = parse::enumeration(lexer)) {
+				
+			}			
 			else throw unknown_declaration(lexer);
 		}
 		if(!namespaze.empty()) {
 			throw unclosed_namespace(lexer);
 		}
-		return functions; 
+		return program; 
 	}
 }

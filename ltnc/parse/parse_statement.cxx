@@ -7,20 +7,11 @@ namespace ltn::c::parse {
 		using TT = ltn::c::lex::Token::Type;
 	}
 	
-	// Maches ; or throws
 	void semicolon(lex::Lexer & lexer) {
 		if(!lexer.match(TT::SEMICOLON)) {
 			throw CompilerError{"missing ;", lexer.location()};
 		}
 		while(lexer.match(TT::SEMICOLON));
-	}
-
-	// Enforces ; after statement
-	inline auto semicolon(lex::Lexer & lexer, auto fx) -> decltype(fx(lexer)) {
-		auto stmt = fx(lexer);
-		if(!stmt) return nullptr;
-		semicolon(lexer);
-		return stmt;
 	}
 
 	// parses Statement consiting of an Expression

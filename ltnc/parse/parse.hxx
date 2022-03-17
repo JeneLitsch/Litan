@@ -7,12 +7,11 @@
 namespace ltn::c::parse {
 
 	// Sources
-	std::vector<std::unique_ptr<ast::Functional>> source(lex::Lexer & lexer);
+	ast::prog_ptr source(lex::Lexer & lexer);
 	
 	// Funcionals
-	std::unique_ptr<ast::Functional> functional(
-		lex::Lexer & lexer,
-		const ast::Namespace & namespaze);
+	ast::func_ptr functional(lex::Lexer & lexer, const ast::Namespace & namespaze);
+	ast::enum_ptr enumeration(lex::Lexer & lexer);
 
 	ast::expr_ptr lambda(lex::Lexer & lexer);
 
@@ -37,6 +36,7 @@ namespace ltn::c::parse {
 	ast::expr_ptr equality(lex::Lexer & lexer);
 	ast::expr_ptr logical_or(lex::Lexer & lexer);
 	ast::expr_ptr logical_and(lex::Lexer & lexer);
+	ast::expr_ptr integral(lex::Lexer & lexer);
 
 	// Utils
 	std::string variable_name(lex::Lexer & lexer);
@@ -65,4 +65,7 @@ namespace ltn::c::parse {
 		}
 		return std::nullopt;
 	}
+
+	// Maches ; or throws
+	inline void semicolon(lex::Lexer & lexer);
 }

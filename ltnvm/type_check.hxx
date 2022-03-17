@@ -5,6 +5,10 @@ namespace ltn::vm {
 		return val.type == Value::Type::NVLL;
 	}
 
+	constexpr inline bool is_enum(const Value & val) {
+		return val.type == Value::Type::ENUM;
+	}
+
 	constexpr inline bool is_bool(const Value & val) {
 		return val.type == Value::Type::BOOL;
 	}
@@ -29,10 +33,6 @@ namespace ltn::vm {
 		return is_integral(val) || is_float(val);
 	}
 	
-	constexpr inline bool is_addr(const Value & val) {
-		return val.type == Value::Type::ADDR;
-	}
-
 	constexpr inline bool is_string(const Value & val) {
 		return val.type == Value::Type::STRING;
 	}

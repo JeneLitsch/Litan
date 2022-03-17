@@ -10,6 +10,8 @@ namespace ltn::c::ast {
 	struct Statement;
 	using Parameters = std::vector<std::string>;
 
+
+
 	struct Except : public Node {
 		Except(
 			const std::string & errorname,
@@ -22,6 +24,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Statement> body;
 		std::string errorname;
 	};
+
+
 
 	struct Functional : public Declaration {
 		Functional(
@@ -39,6 +43,8 @@ namespace ltn::c::ast {
 		Parameters parameters;
 	};
 
+
+
 	struct Function : public Functional {
 		Function(
 			const std::string & name,
@@ -52,6 +58,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Statement> body;
 		std::unique_ptr<Except> except;
 	};
+
+
 
 	struct BuildIn : public Functional {
 		BuildIn(

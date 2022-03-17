@@ -21,6 +21,7 @@ namespace ltn::c::lex {
 			THROW,
 			IIFE,
 			BUILD_IN,
+			ENUM,
 			
 			INTEGER,
 			INTEGER_HEX,
