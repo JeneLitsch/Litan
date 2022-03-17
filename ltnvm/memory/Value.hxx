@@ -19,24 +19,26 @@ namespace ltn::vm {
 			OBJ_FIRST = ARRAY,
 			OBJ_LAST = RNG,
 		};
+
 		constexpr Value()
-			: u(0), type(Type::NVLL) {}
+			: type(Type::NVLL), u(0) {}
 
 		constexpr Value(std::uint64_t value, Type type) 
-			: u(value), type(type) {}
+			: type(type), u(value) {}
 		
 		constexpr Value(std::int64_t value) 
-			: i(value), type(Type::INT) {}
+			: type(Type::INT), i(value) {}
 
 		constexpr Value(char value) 
-			: c(value), type(Type::CHAR) {}
+			: type(Type::CHAR), c(value) {}
 		
 		constexpr Value(stx::float64_t value)
-			: f(value), type(Type::FLOAT) {}
+			: type(Type::FLOAT), f(value) {}
 
 		constexpr Value(bool value)
-			: b(value), type(Type::BOOL) {}
+			: type(Type::BOOL), b(value) {}
 
+		Type type;
 		union {
 			std::uint64_t u;
 			std::int64_t i;
@@ -44,7 +46,6 @@ namespace ltn::vm {
 			bool b;
 			char c;
 		};
-		Type type;
 	};
 	namespace value {
 		constexpr inline Value null {0, Value::Type::NVLL };

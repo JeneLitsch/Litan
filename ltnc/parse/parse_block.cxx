@@ -17,8 +17,7 @@ namespace ltn::c::parse {
 			if(lexer.match(TT::ELSE)) {
 				throw CompilerError{"Unexpected else", lexer.location()}; 
 			}
-			auto stmt = statement(lexer);
-			if(stmt) statements.push_back(std::move(stmt));
+			statements.push_back(statement(lexer));
 		}
 		return std::make_unique<ast::Block>(
 			std::move(statements),

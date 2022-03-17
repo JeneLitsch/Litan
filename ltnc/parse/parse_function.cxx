@@ -9,31 +9,42 @@ namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 
+
+
 		// Returns a array of all parameters
-		ast::Parameters parameter_list(lex::Lexer & lexer) {
-			if(!lexer.match(TT::PAREN_L)) {
-				throw ltn::c::CompilerError{"missing (", lexer.location()};
-			}
+		ast::Parameters basic_parameters(lex::Lexer & lexer) {
 			
+			if(lexer.match(TT::PAREN_R)) {
+				return {};
+			}
+
 			ast::Parameters parameters{};
-			if(!lexer.match(TT::PAREN_R)) {
-				while(true) {
-					parameters.push_back(parse::parameter_name(lexer));
-					if(lexer.match(TT::PAREN_R)) break;
-					if(!lexer.match(TT::COMMA)) {
-						throw CompilerError{
-							"expected comma between parameters",
-							lexer.location()};
-					}
+			while(true) {
+				parameters.push_back(parse::parameter_name(lexer));
+				if(lexer.match(TT::PAREN_R)) break;
+				if(!lexer.match(TT::COMMA)) {
+					throw CompilerError{
+						"expected comma between parameters",
+						lexer.location()};
 				}
-			} 
+			}
 			return parameters;
 		}
 
+
+
 		ast::Parameters optional_parameters(lex::Lexer & lexer) {
-			if(lexer.check(TT::PAREN_L)) return parameter_list(lexer);
+			if(lexer.match(TT::PAREN_L)) return basic_parameters(lexer);
 			return {};
 		}
+
+
+		ast::Parameters mandatory_parameters(lex::Lexer & lexer) {
+			if(lexer.match(TT::PAREN_L)) return basic_parameters(lexer);
+			throw ltn::c::CompilerError{"missing (", lexer.location()};
+		}
+
+
 
 		// Returns a array of all parameters
 		std::vector<std::unique_ptr<ast::Var>> captures(lex::Lexer & lexer) {
@@ -57,6 +68,8 @@ namespace ltn::c::parse {
 			return captures;
 		}
 
+
+
 		std::string build_in_key(lex::Lexer & lexer) {
 			if(!lexer.match(TT::AT)) {
 				throw CompilerError{
@@ -74,6 +87,7 @@ namespace ltn::c::parse {
 		}
 
 
+
 		ast::stmt_ptr body(lex::Lexer & lexer) {
 			if(lexer.match(TT::DRARROW)) {
 				auto expr = expression(lexer);
@@ -85,9 +99,11 @@ namespace ltn::c::parse {
 			}
 		}
 
+
+
 		std::unique_ptr<ast::Except> except(lex::Lexer & lexer) {
 			if(lexer.match(TT::EXCEPT)) {
-				auto params = parameter_list(lexer);
+				auto params = mandatory_parameters(lexer);
 				if(params.size() != 1) {
 					throw CompilerError{
 						"Except only takes one error parameter",
@@ -103,6 +119,7 @@ namespace ltn::c::parse {
 		}
 
 
+
 		// parses and returns a function node
 		template<class FunctionalNode>
 		std::unique_ptr<FunctionalNode> functional_node(
@@ -110,7 +127,7 @@ namespace ltn::c::parse {
 			const ast::Namespace & namespaze,
 			auto parse_body) {
 			const auto name = function_name(lexer);
-			const auto parameters = parameter_list(lexer);
+			const auto parameters = mandatory_parameters(lexer);
 			auto body = parse_body(lexer);
 			return std::make_unique<FunctionalNode>(
 				name,
@@ -120,6 +137,7 @@ namespace ltn::c::parse {
 				lexer.location());
 		}
 	}
+
 
 
 	// parses and returns a functional node
@@ -143,6 +161,8 @@ namespace ltn::c::parse {
 		}
 		return nullptr;
 	}
+
+
 
 	ast::expr_ptr lambda(lex::Lexer & lexer) {
 		if(lexer.match(TT::LAMBDA)) {

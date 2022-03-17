@@ -24,8 +24,12 @@ namespace ltn::c::parse {
 	}
 
 	// parses Statement consiting of an Expression
-	auto expr(lex::Lexer & lexer) {
-		return std::make_unique<ast::StatementExpression>(assign(lexer), lexer.location());
+	auto just_an_expr(lex::Lexer & lexer) {
+		auto expr = assign(lexer);
+		semicolon(lexer);
+		return std::make_unique<ast::StatementExpression>(
+			std::move(expr),
+			lexer.location());
 	}
 
 	template<class AstNodeType, TT tt>
@@ -34,6 +38,7 @@ namespace ltn::c::parse {
 		if(lexer.match(tt)) {
 			auto name = parse::variable_name(lexer);
 			auto && r = parse::assign_r(lexer);
+			semicolon(lexer);
 			return std::make_unique<AstNodeType>(
 				name,
 				std::move(r),
@@ -76,14 +81,14 @@ namespace ltn::c::parse {
 
 	ast::stmt_ptr statement(lex::Lexer & lexer) {
 		while(lexer.match(TT::SEMICOLON));
-		if(auto stmt = block(lexer)) return stmt;
-		if(auto stmt = if_else(lexer)) return stmt;
-		if(auto stmt = while_loop(lexer)) return stmt;
-		if(auto stmt = for_loop(lexer)) return stmt;
-		if(auto stmt = semicolon(lexer, new_variable)) return stmt;
-		if(auto stmt = semicolon(lexer, new_const)) return stmt;
-		if(auto stmt = thr0w(lexer)) return stmt;
-		if(auto stmt = retrn(lexer)) return stmt;
-		return semicolon(lexer, expr);
+		if(auto stmt = block(lexer))        return stmt;
+		if(auto stmt = if_else(lexer))      return stmt;
+		if(auto stmt = while_loop(lexer))   return stmt;
+		if(auto stmt = for_loop(lexer))     return stmt;
+		if(auto stmt = new_variable(lexer)) return stmt;
+		if(auto stmt = new_const(lexer))    return stmt;
+		if(auto stmt = thr0w(lexer))        return stmt;
+		if(auto stmt = retrn(lexer))        return stmt;
+		return just_an_expr(lexer);
 	}
 }

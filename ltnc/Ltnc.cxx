@@ -18,7 +18,6 @@ const std::span<const std::string_view> ltn::c::Ltnc::stdlib() const {
 		"random.ltn"sv,
 		"range.ltn"sv,
 		"type.ltn"sv,
-		"utils.ltn"sv,
 	};
 	return std_files;
 }

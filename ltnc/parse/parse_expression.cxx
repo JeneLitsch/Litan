@@ -42,14 +42,17 @@ namespace ltn::c::parse {
 		ast::expr_ptr conditionals(lex::Lexer & lexer) {
 			auto l = logical_and(lexer);
 			if(lexer.match(TT::QMARK)) {
+				// c ?? b
 				if(lexer.match(TT::QMARK)) {
 					return nullco(lexer, std::move(l));
 				}
 
+				// c ?: b
 				if(lexer.match(TT::COLON)) {
 					return elvis(lexer, std::move(l));
 				}
 				
+				// c ? a : b
 				return ternary(lexer, std::move(l));
 			}
 			return l;
