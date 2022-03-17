@@ -35,6 +35,7 @@ ltnc = [
 	"ltnc/parse",
 	"ltnc/compile",
 	"ltnc/compile/build_in",
+	"ltnc/compile/utils",
 	"ltnc/optimize",
 	"ltnc/type",
 ]

@@ -63,10 +63,11 @@ namespace ltn::c::parse {
 
 
 
-	ast::enum_ptr enumeration(lex::Lexer & lexer) {
+	ast::enum_ptr enumeration(lex::Lexer & lexer, const ast::Namespace & namespaze) {
 		if(lexer.match(TT::ENUM)) {
 			auto enym = std::make_unique<ast::Enum>(lexer.location());
 			enym->name = parse::name(lexer);
+			enym->namespaze = namespaze;
 			parse::open(lexer);
 			enym->values = parse::values(lexer);
 			parse::close(lexer);

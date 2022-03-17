@@ -13,6 +13,7 @@ namespace ltn::c::ast {
 	using enum_ptr = std::unique_ptr<Enum>;
 	struct Program {
 		std::vector<func_ptr> functions;
+		std::vector<enum_ptr> enums;
 	};
 	using prog_ptr = std::unique_ptr<Program>;
 }

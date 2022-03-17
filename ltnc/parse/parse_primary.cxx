@@ -227,18 +227,22 @@ namespace ltn::c::parse {
 
 
 
-		auto var(
-			const auto & name,
+		auto var(const auto & name, const auto & lexer) {
+			return std::make_unique<ast::Var>(name, lexer.location());
+		}
+
+
+
+		ast::expr_ptr enum_value(
+			const auto & enum_name,
 			const auto & namespaze,
-			const auto & lexer) {
-			if(namespaze.empty()) {
-				return std::make_unique<ast::Var>(name, lexer.location());
-			}
-			else {
-				throw CompilerError{
-					"cannot address variable with namespace in front",
-					lexer.location()};
-			}
+			lex::Lexer & lexer) {
+			auto value_name = parse::variable_name(lexer);
+			return std::make_unique<ast::EnumValue>(
+				enum_name,
+				value_name,
+				namespaze,
+				lexer.location());
 		}
 
 		
@@ -246,10 +250,17 @@ namespace ltn::c::parse {
 		ast::expr_ptr identifier(lex::Lexer & lexer) {
 			const auto [name, namespaze] = symbol(lexer);
 			if(lexer.match(TT::PAREN_L)) {
-				return call(name, namespaze, lexer);
+				return parse::call(name, namespaze, lexer);
 			}
-			auto var = parse::var(name, namespaze, lexer);
-			return var;
+			if(lexer.match(TT::AT)) {
+				return enum_value(name, namespaze, lexer);
+			}
+			if(namespaze.empty()) {
+				return parse::var(name, lexer);
+			}
+			throw CompilerError{
+				"cannot address variable with namespace in front",
+				lexer.location()};
 		}
 
 

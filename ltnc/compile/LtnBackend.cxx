@@ -1,5 +1,6 @@
 #include "LtnBackend.hxx"
 #include "compiling.hxx"
+#include <iostream>
 
 namespace ltn::c::compile {
 	namespace {
@@ -33,22 +34,36 @@ namespace ltn::c::compile {
 	void LtnBackend::compile(
 		std::ostream & out,
 		const Config & config,
-		const std::vector<std::unique_ptr<ast::Functional>> & functions,
+		const ast::Program & program,
 		Reporter & reporter) {
+		
+		EnumTable enum_table;
+		FxTable fx_table;
+		MemberTable member_table;
 		
 		compile::CompilerInfo info {
 			config,
-			this->fx_table,
-			this->memberTable,
+			fx_table,
+			enum_table,
+			member_table,
 			this->jump_mark_counter,
 			reporter};
 		
-		for(const auto & fx : functions) {
+		for(const auto & fx : program.functions) {
 			info.fx_table.insert({
 				fx->name,
 				fx->namespaze,
 				fx->parameters.size(),
 				make_fxid(info, *fx)});
+		}
+
+		std::cerr << "Enum count: " << program.enums.size();
+		for(const auto & e : program.enums) {
+			std::cerr << "Enum: " << e->name;
+			info.enum_table.insert({
+				e->name,
+				e->namespaze,
+				e.get()});
 		}
 
 		try {
@@ -58,7 +73,7 @@ namespace ltn::c::compile {
 			reporter.push(error);
 		}
 
-		for(const auto & function : functions) {
+		for(const auto & function : program.functions) {
 			try {
 				out << compile::functional(*function, info); 
 			}

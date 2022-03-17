@@ -174,6 +174,25 @@ namespace ltn::c::ast {
 
 
 
+	struct EnumValue : public Primary {
+	public:
+		EnumValue(
+			const std::string & enum_name,
+			const std::string & value_name,
+			const Namespace & namespaze,
+			const SourceLocation & location)
+			:	Primary(location),
+				enum_name(enum_name),
+				value_name(value_name),
+				namespaze(namespaze) {}
+		virtual ~EnumValue() = default;
+		std::string enum_name;
+		std::string value_name;
+		Namespace namespaze;
+	};
+
+
+
 	struct FxPointer : public Primary {
 	public:
 		FxPointer(

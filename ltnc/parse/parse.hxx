@@ -11,7 +11,7 @@ namespace ltn::c::parse {
 	
 	// Funcionals
 	ast::func_ptr functional(lex::Lexer & lexer, const ast::Namespace & namespaze);
-	ast::enum_ptr enumeration(lex::Lexer & lexer);
+	ast::enum_ptr enumeration(lex::Lexer & lexer, const ast::Namespace & namespaze);
 
 	ast::expr_ptr lambda(lex::Lexer & lexer);
 
@@ -43,17 +43,7 @@ namespace ltn::c::parse {
 	std::string function_name(lex::Lexer & lexer);
 	std::string parameter_name(lex::Lexer & lexer);
 
-	auto attempt(auto fx, auto & errors, lex::Lexer & lexer)
-		-> decltype(fx(lexer)) {
-		try {
-			return fx(lexer);
-		}
-		catch(const CompilerError & error) {
-			errors.push(error);
-			lexer.sync();
-			return nullptr;
-		}
-	}
+
 
 	auto match_op(
 		lex::Lexer & lexer,
@@ -66,6 +56,8 @@ namespace ltn::c::parse {
 		return std::nullopt;
 	}
 
+
+
 	// Maches ; or throws
-	inline void semicolon(lex::Lexer & lexer);
+	void semicolon(lex::Lexer & lexer);
 }

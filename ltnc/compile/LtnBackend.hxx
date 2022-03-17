@@ -1,6 +1,7 @@
 #pragma once
 #include "ltnc/Backend.hxx"
-#include "FxTable.hxx"
+#include "utils/FxTable.hxx"
+#include "utils/EnumTable.hxx"
 #include "MemberTable.hxx"
 #include <sstream>
 namespace ltn::c::compile {
@@ -9,12 +10,11 @@ namespace ltn::c::compile {
 		virtual void compile(
 			std::ostream & out,
 			const Config & config,
-			const std::vector<std::unique_ptr<ast::Functional>> & source,
+			const ast::Program & program,
 			Reporter & reporter) override;
 		virtual ~LtnBackend() = default;
 	private:
-		FxTable fx_table;
-		MemberTable memberTable;
+
 		std::size_t jump_mark_counter = 0;
 	};
 	

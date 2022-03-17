@@ -77,9 +77,12 @@ namespace ltn::c::parse {
 		}
 	}
 
+
+
 	ast::prog_ptr source(lex::Lexer & lexer) {
 		auto program = std::make_unique<ast::Program>();
 		auto & functions = program->functions;
+		auto & enums = program->enums;
 		ast::Namespace namespaze;
 		while(!lexer.match(TT::___EOF___)) {
 			// try {
@@ -92,8 +95,8 @@ namespace ltn::c::parse {
 			else if(auto fx = parse::functional(lexer, namespaze)) {
 				functions.push_back(std::move(fx));
 			}
-			else if(auto enym = parse::enumeration(lexer)) {
-				
+			else if(auto enym = parse::enumeration(lexer, namespaze)) {
+				enums.push_back(std::move(enym));
 			}			
 			else throw unknown_declaration(lexer);
 		}

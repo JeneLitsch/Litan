@@ -1,5 +1,6 @@
 #pragma once
 #include "Node.hxx"
+#include "Namespace.hxx"
 #include <map>
 
 namespace ltn::c::ast {
@@ -14,6 +15,7 @@ namespace ltn::c::ast {
 		Enum(const SourceLocation & location) : Declaration(location) {}
 		virtual ~Enum() = default;
 		std::string name;
+		Namespace namespaze;
 		std::map<std::string, std::int64_t> values;
 	};
 }

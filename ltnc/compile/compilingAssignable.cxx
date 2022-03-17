@@ -33,7 +33,7 @@ namespace ltn::c::compile {
 		ExprCode write_member(const ast::Member & expr, CompilerInfo & info, Scope & scope) {
 			std::stringstream ss;
 			ss << expression(*expr.expr, info, scope).code;
-			const auto id = info.memberTable.get_id(expr.name);
+			const auto id = info.member_table.get_id(expr.name);
 			ss << inst::member_write(id);
 
 			return ExprCode{ss.str() };

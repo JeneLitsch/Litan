@@ -29,6 +29,10 @@ void ltn::c::Ltnc::compile(std::istream & in, const std::string & sourcename) {
 		for(auto && fx : source->functions) {
 			this->program.functions.push_back(std::move(fx));
 		}
+
+		for(auto && e : source->enums) {
+			this->program.enums.push_back(std::move(e));
+		}
 	}
 	catch(const CompilerError & error) {
 		this->reporter.push(error);
@@ -38,7 +42,7 @@ void ltn::c::Ltnc::compile(std::istream & in, const std::string & sourcename) {
 void ltn::c::Ltnc::yield(std::ostream & out) {
 	std::ostringstream ss;
 	try {
-		this->backend->compile(ss, this->config, this->program.functions, reporter);
+		this->backend->compile(ss, this->config, this->program, reporter);
 	}
 	catch(const CompilerError & error) {
 		this->reporter.push(error);

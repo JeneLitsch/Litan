@@ -3,7 +3,6 @@
 #include <span>
 #include "utils.hxx"
 #include "Scope.hxx"
-#include "FxTable.hxx"
 #include "MemberTable.hxx"
 #include "Instructions.hxx"
 #include "StmtCode.hxx"
@@ -12,12 +11,15 @@
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
 #include "ltnc/ast/Ast.hxx"
+#include "utils/FxTable.hxx"
+#include "utils/EnumTable.hxx"
 
 namespace ltn::c::compile {
 	struct CompilerInfo {
 		const Config & config;
 		FxTable & fx_table;
-		MemberTable & memberTable;
+		EnumTable & enum_table;
+		MemberTable & member_table;
 		std::uint64_t & jump_mark_counter; 
 		Reporter & reporter;
 	};

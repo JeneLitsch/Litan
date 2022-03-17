@@ -10,23 +10,52 @@ namespace ltn::c::compile {
 			return CompilerError { ss.str(), node.location };
 		}
 
-		// Literals
+
+
+		CompilerError undefined_enum(
+			const ast::EnumValue & node) {
+			std::stringstream ss;
+			ss << "Enum " << node.enum_name << " is not defined";
+			return CompilerError { ss.str(), node.location };
+		}
+
+
+		
+		CompilerError undefined_enum(
+			const ast::EnumValue & node,
+			std::string_view value_name) {
+			std::stringstream ss;
+			ss
+				<< "Enum value "
+				<< value_name
+				<< " is not defined in Enum "
+				<< node.enum_name;
+			return CompilerError { ss.str(), node.location };
+		}
+
+
 
 		// compiles int literal
 		ExprCode integer(const ast::Integer & expr) {
 			return ExprCode{inst::newi(expr.value) };
 		}
 
+
+
 		// compiles float literal
 		ExprCode floating(const ast::Float & expr) {
 			return ExprCode{ inst::newf(expr.value) };
 		}
+
+
 
 		// compiles bool literal
 		ExprCode boolean(const ast::Bool & expr) {
 			const auto inst = (expr.value ? inst::truE : inst::falsE);
 			return ExprCode{ std::string(inst) };
 		}
+
+
 
 		// compiles null literal
 		ExprCode null(const ast::Null &) {
@@ -39,10 +68,14 @@ namespace ltn::c::compile {
 			return ExprCode{ inst::newc(expr.value) };
 		}
 
+
+
 		// compiles string literal
 		ExprCode string(const ast::String & expr) {
 			return ExprCode{ inst::newstr(expr.value) };
 		}
+
+
 
 		// compiles array literal
 		ExprCode array(const ast::Array & array, CompilerInfo & info, Scope & scope) {
@@ -76,6 +109,8 @@ namespace ltn::c::compile {
 			return ExprCode{ ss.str() };
 		}
 
+
+
 		ExprCode fxPointer(
 			const ast::FxPointer & ptr,
 			CompilerInfo & info,
@@ -94,6 +129,8 @@ namespace ltn::c::compile {
 			return ExprCode{ss.str() };
 		}
 
+
+
 		// compiles index read operation
 		ExprCode index(const ast::Index & index, CompilerInfo & info, Scope & scope) {
 			const auto arr = expression(*index.expression, info, scope);
@@ -104,6 +141,7 @@ namespace ltn::c::compile {
 				<< inst::at;
 			return ExprCode{ss.str() };
 		}
+
 
 
 		ExprCode iife(const ast::Iife & iife, CompilerInfo & info, Scope & outer_scope) {
@@ -119,6 +157,7 @@ namespace ltn::c::compile {
 	}
 
 
+
 	// compiles an variable read accessc
 	ExprCode read_variable(const ast::Var & expr, CompilerInfo &, Scope & scope) {
 		const auto var = scope.resolve(expr.name, expr.location);
@@ -128,6 +167,7 @@ namespace ltn::c::compile {
 	}
 
 	
+
 	ExprCode read_member_access(
 		const ast::Member & access,
 		CompilerInfo & info,
@@ -135,10 +175,38 @@ namespace ltn::c::compile {
 
 		std::stringstream ss;
 		ss << expression(*access.expr, info, scope).code;
-		const auto id = info.memberTable.get_id(access.name);
+		const auto id = info.member_table.get_id(access.name);
 		ss << inst::member_read(id);
 		return ExprCode{ ss.str() };
 	}
+
+
+
+	ExprCode enum_value(
+		const ast::EnumValue & enum_value,
+		CompilerInfo & info,
+		Scope & scope) {
+		const auto enym = info.enum_table.resolve(
+			enum_value.enum_name,
+			scope.get_namespace(),
+			enum_value.namespaze);
+		
+		if(!enym) {
+			throw undefined_enum(enum_value);
+		}
+
+		const auto & values = enym->enumeration->values;
+		const auto & value_name = enum_value.value_name;
+
+		if(values.contains(value_name)) {
+			const auto value = values.at(value_name);
+			return {inst::newi(value)};
+		}
+		else {
+			throw undefined_enum(enum_value, value_name);
+		}
+	}
+
 
 
 	// compiles Primary expression
@@ -184,6 +252,9 @@ namespace ltn::c::compile {
 		}		
 		if(auto expr_ = as<ast::Iife>(expr)) {
 			return compile::iife(*expr_, info, scope);
+		}
+		if(auto expr_ = as<ast::EnumValue>(expr)) {
+			return compile::enum_value(*expr_, info, scope);
 		} 
 		throw CompilerError{"Unknown primary expression", expr.location};
 	}
