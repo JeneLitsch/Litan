@@ -2,7 +2,7 @@
 #include "ltnc/Backend.hxx"
 #include "utils/FxTable.hxx"
 #include "utils/EnumTable.hxx"
-#include "MemberTable.hxx"
+#include "utils/MemberTable.hxx"
 #include <sstream>
 namespace ltn::c::compile {
 	class LtnBackend : public Backend {
@@ -15,7 +15,6 @@ namespace ltn::c::compile {
 		virtual ~LtnBackend() = default;
 	private:
 
-		std::size_t jump_mark_counter = 0;
 	};
 	
 }

@@ -1,18 +1,18 @@
 #pragma once
 #include <sstream>
 #include <span>
-#include "utils.hxx"
-#include "Scope.hxx"
-#include "MemberTable.hxx"
-#include "Instructions.hxx"
-#include "StmtCode.hxx"
-#include "ExprCode.hxx"
 #include "ltnc/Config.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
 #include "ltnc/ast/Ast.hxx"
 #include "utils/FxTable.hxx"
 #include "utils/EnumTable.hxx"
+#include "utils/MemberTable.hxx"
+#include "utils/Instructions.hxx"
+#include "utils/StmtCode.hxx"
+#include "utils/ExprCode.hxx"
+#include "utils/casts.hxx"
+#include "utils/Scope.hxx"
 
 namespace ltn::c::compile {
 	struct CompilerInfo {

@@ -40,13 +40,14 @@ namespace ltn::c::compile {
 		EnumTable enum_table;
 		FxTable fx_table;
 		MemberTable member_table;
+		std::size_t jump_mark_counter = 0;
 		
 		compile::CompilerInfo info {
 			config,
 			fx_table,
 			enum_table,
 			member_table,
-			this->jump_mark_counter,
+			jump_mark_counter,
 			reporter};
 		
 		for(const auto & fx : program.functions) {
