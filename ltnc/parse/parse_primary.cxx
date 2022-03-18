@@ -234,13 +234,11 @@ namespace ltn::c::parse {
 
 
 		ast::expr_ptr enum_value(
-			const auto & enum_name,
+			const auto & name,
 			const auto & namespaze,
 			lex::Lexer & lexer) {
-			auto value_name = parse::variable_name(lexer);
-			return std::make_unique<ast::EnumValue>(
-				enum_name,
-				value_name,
+			return std::make_unique<ast::GlobalValue>(
+				name,
 				namespaze,
 				lexer.location());
 		}
@@ -252,15 +250,10 @@ namespace ltn::c::parse {
 			if(lexer.match(TT::PAREN_L)) {
 				return parse::call(name, namespaze, lexer);
 			}
-			if(lexer.match(TT::AT)) {
-				return enum_value(name, namespaze, lexer);
-			}
 			if(namespaze.empty()) {
 				return parse::var(name, lexer);
 			}
-			throw CompilerError{
-				"cannot address variable with namespace in front",
-				lexer.location()};
+			return enum_value(name, namespaze, lexer);
 		}
 
 

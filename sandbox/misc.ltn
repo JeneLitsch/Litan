@@ -8,5 +8,5 @@ namespace foo {
 }
 
 function main() {
-	return foo::bar@C;
+	return foo::bar::C;
 }

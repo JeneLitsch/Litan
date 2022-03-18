@@ -13,23 +13,9 @@ namespace ltn::c::compile {
 
 
 		CompilerError undefined_enum(
-			const ast::EnumValue & node) {
+			const ast::GlobalValue & node) {
 			std::stringstream ss;
-			ss << "Enum " << node.enum_name << " is not defined";
-			return CompilerError { ss.str(), node.location };
-		}
-
-
-		
-		CompilerError undefined_enum(
-			const ast::EnumValue & node,
-			std::string_view value_name) {
-			std::stringstream ss;
-			ss
-				<< "Enum value "
-				<< value_name
-				<< " is not defined in Enum "
-				<< node.enum_name;
+			ss << "Global value " << node.name << " is not defined";
 			return CompilerError { ss.str(), node.location };
 		}
 
@@ -182,20 +168,18 @@ namespace ltn::c::compile {
 
 
 
-	ExprCode enum_value(
-		const ast::EnumValue & enum_value,
+	ExprCode global_value(
+		const ast::GlobalValue & global_value,
 		CompilerInfo & info,
 		Scope & scope) {
 
-		auto ns = enum_value.namespaze;
-		ns.push_back(enum_value.enum_name);
 		const auto enym = info.global_table.resolve(
-			enum_value.value_name,
+			global_value.name,
 			scope.get_namespace(),
-			ns);
+			global_value.namespaze);
 		
 		if(!enym) {
-			throw undefined_enum(enum_value);
+			throw undefined_enum(global_value);
 		}
 
 		return compile::expression(*enym->literal, info, scope);
@@ -247,8 +231,8 @@ namespace ltn::c::compile {
 		if(auto expr_ = as<ast::Iife>(expr)) {
 			return compile::iife(*expr_, info, scope);
 		}
-		if(auto expr_ = as<ast::EnumValue>(expr)) {
-			return compile::enum_value(*expr_, info, scope);
+		if(auto expr_ = as<ast::GlobalValue>(expr)) {
+			return compile::global_value(*expr_, info, scope);
 		} 
 		throw CompilerError{"Unknown primary expression", expr.location};
 	}

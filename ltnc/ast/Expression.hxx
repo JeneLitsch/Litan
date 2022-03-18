@@ -174,20 +174,17 @@ namespace ltn::c::ast {
 
 
 
-	struct EnumValue : public Primary {
+	struct GlobalValue : public Primary {
 	public:
-		EnumValue(
-			const std::string & enum_name,
-			const std::string & value_name,
+		GlobalValue(
+			const std::string & name,
 			const Namespace & namespaze,
 			const SourceLocation & location)
 			:	Primary(location),
-				enum_name(enum_name),
-				value_name(value_name),
+				name(name),
 				namespaze(namespaze) {}
-		virtual ~EnumValue() = default;
-		std::string enum_name;
-		std::string value_name;
+		virtual ~GlobalValue() = default;
+		std::string name;
 		Namespace namespaze;
 	};
 
