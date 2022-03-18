@@ -8,14 +8,11 @@ namespace ltn::c::parse {
 		using OP = ltn::c::ast::SimpleBinary::Type;
 
 
-		template<class ExprType>
-		ast::expr_ptr binary(
-			lex::Lexer & lexer,
-			const auto & op_table,
-			const auto & presedence_down) {
+		template<class ExprType, typename op_table, auto presedence_down>
+		ast::expr_ptr binary(lex::Lexer & lexer) {
 			
 			auto l = presedence_down(lexer);
-			while (auto op = match_op(lexer, op_table)) {
+			while (auto op = match_op(lexer, op_table::data)) {
 				auto && r = presedence_down(lexer);
 				auto expr = std::make_unique<ExprType>(
 					*op,
@@ -26,94 +23,109 @@ namespace ltn::c::parse {
 			}				
 			return l;
 		}
+
+		template<typename op_table, auto presedence_down>
+		constexpr auto regular = binary<ast::SimpleBinary, op_table, presedence_down>;
+
+		template<typename op_table, auto presedence_down>
+		constexpr auto logical = binary<ast::Logical, op_table, presedence_down>;
+	}
+
+	namespace {
+		struct term_table {
+			static const inline auto data = std::array {
+				std::pair{TT::PLUS,          OP::ADD},
+				std::pair{TT::MINUS,         OP::SUB},
+			};
+		};
+
+
+
+		struct factor_table {
+			static const inline auto data = std::array {
+				std::pair{TT::STAR, OP::MLT},
+				std::pair{TT::SLASH, OP::DIV},
+				std::pair{TT::PERCENT, OP::MOD},
+			};
+		};
+
+
+
+		struct shift_table {
+			static const inline auto data = std::array {
+				std::pair{TT::SHIFT_L,       OP::SHIFT_L},
+				std::pair{TT::SHIFT_R,       OP::SHIFT_R},
+			};
+		};
+
+
+
+		struct comparision_table {
+			static const inline auto data = std::array {
+				std::pair{TT::SMALLER,       OP::SMALLER},
+				std::pair{TT::SMALLER_EQUAL, OP::SMALLEREQUAL},
+				std::pair{TT::BIGGER,        OP::BIGGER},
+				std::pair{TT::BIGGER_EQUAL,  OP::BIGGEREQUAL},
+			};
+		};
+
+
+		struct equality_table {
+			static const inline auto data = std::array {
+				std::pair{TT::EQUAL,         OP::EQUAL},
+				std::pair{TT::UNEQUAL,       OP::UNEQUEL},
+				std::pair{TT::TILDEx2,       OP::APPROX},
+				std::pair{TT::XMARK_TILDE,   OP::NOTPROX},
+			};
+		};
+
+
+		struct spaceship_table {
+			static const inline auto data = std::array {
+				std::pair{TT::SPACE_SHIP,    OP::SPACE_SHIP},
+			};
+		};
+
+
+		struct log_or_table {
+			static const inline auto data = std::array {
+				std::pair{TT::OR, ast::Logical::Type::OR}
+			};
+		};
+
+
+		struct log_and_table {
+			static const inline auto data = std::array {
+				std::pair{TT::AND, ast::Logical::Type::AND}
+			};
+		};
+
+
+
+
+
+		template<auto presedence_down>
+		ast::expr_ptr binary_base(lex::Lexer & lexer) {
+			static constexpr auto factor      = regular<factor_table,      presedence_down>;
+			static constexpr auto term        = regular<term_table,        factor>;
+			static constexpr auto shift       = regular<shift_table,       term>;
+			static constexpr auto comparision = regular<comparision_table, shift>;
+			static constexpr auto equality    = regular<equality_table,    comparision>;
+			static constexpr auto spaceship   = regular<spaceship_table,   equality>;
+			static constexpr auto logical_or  = logical<log_or_table,      spaceship>;
+			static constexpr auto logical_and = logical<log_and_table,     logical_or>;
+			return logical_and(lexer);
+		}
 	}
 
 
 
-	// Operators * / %
-	ast::expr_ptr factor(lex::Lexer & lexer) {
-		static constexpr std::array table {
-			std::pair{TT::STAR, OP::MLT},
-			std::pair{TT::SLASH, OP::DIV},
-			std::pair{TT::PERCENT, OP::MOD},
-		};
-		return binary<ast::SimpleBinary>(lexer, table, unary);
+	ast::expr_ptr binary(lex::Lexer & lexer) {
+		return binary_base<parse::unary>(lexer);
 	}
 
-
-
-	// Operators + -
-	ast::expr_ptr term(lex::Lexer & lexer) {
-		static constexpr std::array table {
-			std::pair{TT::PLUS,          OP::ADD},
-			std::pair{TT::MINUS,         OP::SUB},
-		};
-		return binary<ast::SimpleBinary>(lexer, table, factor);
-	}
-
-
-
-	// Operators << >>
-	ast::expr_ptr shift(lex::Lexer & lexer) {
-		static constexpr std::array table {
-			std::pair{TT::SHIFT_L,       OP::SHIFT_L},
-			std::pair{TT::SHIFT_R,       OP::SHIFT_R},
-		};
-		return binary<ast::SimpleBinary>(lexer, table, term); 
-	}
-
-
-
-	// Operators < <= => >
-	ast::expr_ptr comparision(lex::Lexer & lexer) {
-		static constexpr std::array table {
-			std::pair{TT::SMALLER,       OP::SMALLER},
-			std::pair{TT::SMALLER_EQUAL, OP::SMALLEREQUAL},
-			std::pair{TT::BIGGER,        OP::BIGGER},
-			std::pair{TT::BIGGER_EQUAL,  OP::BIGGEREQUAL},
-		};
-		return binary<ast::SimpleBinary>(lexer, table, shift);
-	}
-
-
-
-	// Operators == != 
-	ast::expr_ptr equality(lex::Lexer & lexer) {
-		static constexpr std::array table {
-			std::pair{TT::EQUAL,         OP::EQUAL},
-			std::pair{TT::UNEQUAL,       OP::UNEQUEL},
-			std::pair{TT::TILDEx2,       OP::APPROX},
-			std::pair{TT::XMARK_TILDE,   OP::NOTPROX},
-		};
-		return binary<ast::SimpleBinary>(lexer, table, comparision); 
-	}
-
-
-
-	// Operator <=>
-	ast::expr_ptr spaceship(lex::Lexer & lexer) {
-		static constexpr std::array table {
-			std::pair{TT::SPACE_SHIP,    OP::SPACE_SHIP},
-		};
-		return binary<ast::SimpleBinary>(lexer, table, equality); 
-	}
-
-
-
-	ast::expr_ptr logical_or(lex::Lexer & lexer) {
-		static constexpr std::array table {
-			std::pair{TT::OR, ast::Logical::Type::OR}
-		};
-		return binary<ast::Logical>(lexer, table, spaceship);
-	}
-
-
-
-	ast::expr_ptr logical_and(lex::Lexer & lexer) {
-		static constexpr std::array table {
-			std::pair{TT::AND, ast::Logical::Type::AND}
-		};
-		return binary<ast::Logical>(lexer, table, logical_or);
+	ast::expr_ptr static_binary(lex::Lexer & lexer) {
+		return binary_base<parse::static_unary>(lexer);
 	}
 }
 

@@ -1,6 +1,8 @@
+function f() => 0
 
+define i = 42;
+define a = lambda[i] => i;
 
 function main() {
-	var a = 42;
-	std::println(array);
+	std::println(std::invoke(a));
 }

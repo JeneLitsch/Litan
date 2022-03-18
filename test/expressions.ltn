@@ -31,6 +31,8 @@ namespace test {
 		var f14 = lambda => s().b[0].x;
 		var f15 = lambda => s().b[0].y.a;
 		var f16 = lambda => s().b[0].y.b[2];
+		var f17 = lambda => !!!!!!!true;
+		var f18 = lambda => !!!!!!!!true;
 
 		var cases = [
 			[f1, 2],
@@ -49,6 +51,8 @@ namespace test {
 			[f14, 42],
 			[f15, 1337],
 			[f16, 3],
+			[f17, false],
+			[f18, true],
 		];
 
 		return test_functions("Expressions", cases);

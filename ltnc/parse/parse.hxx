@@ -24,21 +24,22 @@ namespace ltn::c::parse {
 	ast::stmt_ptr for_loop(lex::Lexer & lexer);
 	
 	// Expressions
-	ast::expr_ptr expression(lex::Lexer & lexer);
-	ast::expr_ptr condition(lex::Lexer & lexer);
-	ast::expr_ptr unary(lex::Lexer & lexer);
-	ast::expr_ptr index(lex::Lexer & lexer);
-	ast::expr_ptr primary(lex::Lexer & lexer);
 	ast::expr_ptr assign(lex::Lexer & lexer);
 	ast::expr_ptr assign_r(lex::Lexer & lexer);
-	ast::expr_ptr factor(lex::Lexer & lexer);
-	ast::expr_ptr term(lex::Lexer & lexer);
-	ast::expr_ptr comparision(lex::Lexer & lexer);
-	ast::expr_ptr equality(lex::Lexer & lexer);
-	ast::expr_ptr logical_or(lex::Lexer & lexer);
-	ast::expr_ptr logical_and(lex::Lexer & lexer);
-	ast::litr_ptr literal(lex::Lexer & lexer);
+
+	ast::expr_ptr expression(lex::Lexer & lexer);
+	ast::expr_ptr condition(lex::Lexer & lexer);
+	ast::expr_ptr binary(lex::Lexer & lexer);
+	ast::expr_ptr unary(lex::Lexer & lexer);
+	ast::expr_ptr primary(lex::Lexer & lexer);
 	ast::litr_ptr integral(lex::Lexer & lexer);
+
+	ast::expr_ptr static_expression(lex::Lexer & lexer);
+	ast::expr_ptr static_condition(lex::Lexer & lexer);
+	ast::expr_ptr static_binary(lex::Lexer & lexer);
+	ast::expr_ptr static_unary(lex::Lexer & lexer);
+	ast::expr_ptr static_primary(lex::Lexer & lexer);
+	ast::litr_ptr static_integral(lex::Lexer & lexer);
 
 	// Utils
 	std::string variable_name(lex::Lexer & lexer);

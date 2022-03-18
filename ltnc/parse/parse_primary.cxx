@@ -14,10 +14,10 @@ namespace ltn::c::parse {
 		}
 
 
-
-		ast::expr_ptr paren(lex::Lexer & lexer) {
+		template<auto top_presedence>
+		ast::expr_ptr paren_base(lex::Lexer & lexer) {
 			if(lexer.match(TT::PAREN_L)) {
-				auto expr = expression(lexer);
+				auto expr = top_presedence(lexer);
 				if(!lexer.match(TT::PAREN_R)) {
 					throw expected("(", lexer);
 				}
@@ -25,6 +25,9 @@ namespace ltn::c::parse {
 			}
 			return nullptr;
 		}
+
+		constexpr auto paren = paren_base<expression>;
+		constexpr auto static_paren = paren_base<static_expression>;
 
 
 
@@ -104,13 +107,14 @@ namespace ltn::c::parse {
 
 
 
+		template<auto element>
 		ast::litr_ptr filled_array(lex::Lexer & lexer) {
 			auto array = std::make_unique<ast::Array>(lexer.location());
 			while(true) {
 				if(lexer.match(TT::___EOF___)) {
 					throw expected("]", lexer);
 				}
-				array->elements.push_back(expression(lexer));
+				array->elements.push_back(element(lexer));
 				// Last comma is optional
 				// A missing last comma is not an error if ] follows
 				const bool comma = !!lexer.match(TT::COMMA);
@@ -125,18 +129,23 @@ namespace ltn::c::parse {
 		}
 
 
-
-		ast::litr_ptr array(lex::Lexer & lexer) {
+		template<auto element>
+		ast::litr_ptr array_base(lex::Lexer & lexer) {
 			if(lexer.match(TT::BRACKET_L)) {
 				if(lexer.match(TT::BRACKET_R)) {
 					return empty_array(lexer);
 				}
 				else {
-					return filled_array(lexer);
+					return filled_array<element>(lexer);
 				}
 			}
 			return nullptr;
 		}
+
+
+
+		constexpr auto array = array_base<parse::expression>;
+		constexpr auto static_array = array_base<parse::static_expression>;
 
 
 
@@ -233,7 +242,7 @@ namespace ltn::c::parse {
 
 
 
-		ast::expr_ptr enum_value(
+		ast::expr_ptr global_value(
 			const auto & name,
 			const auto & namespaze,
 			lex::Lexer & lexer) {
@@ -253,7 +262,17 @@ namespace ltn::c::parse {
 			if(namespaze.empty()) {
 				return parse::var(name, lexer);
 			}
-			return enum_value(name, namespaze, lexer);
+			return global_value(name, namespaze, lexer);
+		}
+
+
+
+		ast::expr_ptr static_identifier(lex::Lexer & lexer) {
+			const auto [name, namespaze] = symbol(lexer);
+			if(lexer.match(TT::PAREN_L)) {
+				throw CompilerError{"Function calls are not allowed in static expression", lexer.location()};
+			}
+			return global_value(name, namespaze, lexer);
 		}
 
 
@@ -269,6 +288,15 @@ namespace ltn::c::parse {
 				throw expected("(", lexer);
 			}
 			return nullptr; 
+		}
+
+
+
+		ast::expr_ptr static_iife(lex::Lexer & lexer) {
+			if(lexer.match(TT::IIFE)) {
+				throw CompilerError{"IIFEs are not allowed in static expression", lexer.location()};
+			}
+			else return nullptr;
 		}
 
 
@@ -295,7 +323,38 @@ namespace ltn::c::parse {
 
 
 
-	ast::litr_ptr literal(lex::Lexer & lexer) {
+
+
+
+	// parses primary expression
+	ast::expr_ptr static_primary(lex::Lexer & lexer) {
+		static constexpr auto static_integral = integral;
+		static constexpr auto static_character = character;
+		static constexpr auto static_floating = floating;
+		static constexpr auto static_boolean = boolean;
+		static constexpr auto static_null = null;
+		static constexpr auto static_string = string;
+		static constexpr auto static_fx_pointer = fx_pointer;
+		static constexpr auto static_lambda = lambda;
+		
+		if(auto expr = static_integral(lexer)) return expr;
+		if(auto expr = static_character(lexer)) return expr;
+		if(auto expr = static_floating(lexer)) return expr;
+		if(auto expr = static_boolean(lexer)) return expr;
+		if(auto expr = static_null(lexer)) return expr;
+		if(auto expr = static_string(lexer)) return expr;
+		if(auto expr = static_array(lexer)) return expr;
+		if(auto expr = static_paren(lexer)) return expr;
+		if(auto expr = static_fx_pointer(lexer)) return expr;
+		if(auto expr = static_lambda(lexer)) return expr;
+		if(auto expr = static_iife(lexer)) return expr;
+		return static_identifier(lexer);
+	}
+
+
+
+	// parses primary expression
+	ast::expr_ptr primary(lex::Lexer & lexer) {
 		if(auto expr = integral(lexer)) return expr;
 		if(auto expr = character(lexer)) return expr;
 		if(auto expr = floating(lexer)) return expr;
@@ -303,13 +362,6 @@ namespace ltn::c::parse {
 		if(auto expr = null(lexer)) return expr;
 		if(auto expr = string(lexer)) return expr;
 		if(auto expr = array(lexer)) return expr;
-		else return nullptr;
-	}
-
-
-	// parses primary expression
-	ast::expr_ptr primary(lex::Lexer & lexer) {
-		if(auto expr = literal(lexer)) return expr;
 		if(auto expr = paren(lexer)) return expr;
 		if(auto expr = fx_pointer(lexer)) return expr;
 		if(auto expr = lambda(lexer)) return expr;

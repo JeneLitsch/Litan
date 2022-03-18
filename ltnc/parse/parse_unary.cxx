@@ -22,17 +22,37 @@ namespace ltn::c::parse {
 		}
 
 
+
+		// index operator
+		template<auto expression_fx>
+		std::unique_ptr<ast::Expression> index(lex::Lexer & lexer) {
+			if(lexer.match(TT::BRACKET_L)) {
+				auto index = expression_fx(lexer);
+				if(lexer.match(TT::BRACKET_R)) {
+					return index;
+				}
+				throw CompilerError{"Missing ]", lexer.location()};
+			}
+			return nullptr;
+		}
+
+
+
 		// recursive right sided unary -> [i]
+		template<auto expression_fx>
 		std::unique_ptr<ast::Expression> postfix(
 			lex::Lexer & lexer,
 			std::unique_ptr<ast::Expression> l) {
+
+			static constexpr auto postfix_fx = postfix<expression_fx>;
+			static constexpr auto index_fx = index<expression_fx>;
 			
-			if(auto index = parse::index(lexer)) {
+			if(auto index = index_fx(lexer)) {
 				auto full = std::make_unique<ast::Index>(
 					std::move(l),
 					std::move(index),
 					index->location);
-				return postfix(lexer, std::move(full));
+				return postfix_fx(lexer, std::move(full));
 			}
 
 			auto name = parse::member(lexer);
@@ -41,40 +61,43 @@ namespace ltn::c::parse {
 					std::move(l),
 					*name,
 					lexer.location());
-				return postfix(lexer, std::move(access));
+				return postfix_fx(lexer, std::move(access));
 			}
 
 			return l;
 		}
 	}
 
-	// index operator
-	std::unique_ptr<ast::Expression> index(lex::Lexer & lexer) {
-		if(lexer.match(TT::BRACKET_L)) {
-			auto index = expression(lexer);
-			if(lexer.match(TT::BRACKET_R)) {
-				return index;
-			}
-			throw CompilerError{"Missing ]", lexer.location()};
-		}
-		return nullptr;
-	}
+
 
 	// Operators - ! [i]
-	std::unique_ptr<ast::Expression> unary(lex::Lexer & lexer) {
+	template<auto primary_fx, auto expr_fx>
+	std::unique_ptr<ast::Expression> prefix(lex::Lexer & lexer) {
+		static constexpr auto unary_fx = prefix<primary_fx, expr_fx>;
 		// left unary
 		const std::array table {
 			std::pair{TT::MINUS, OP::NEG},
 			std::pair{TT::XMARK, OP::NOT},
 			std::pair{TT::QMARK, OP::NUL},
 		};
-		for(auto [tt, op] : table) {
-			if(lexer.match(tt)) {
-				auto && r = unary(lexer);
-				return std::make_unique<ast::Unary>(op, std::move(r), lexer.location());
-			}
+		
+		if(auto op = match_op(lexer, table)) {
+			auto && r = unary_fx(lexer);
+			return std::make_unique<ast::Unary>(*op, std::move(r), lexer.location());
 		}
 		// right unary
-		return postfix(lexer, parse::primary(lexer));
+		return postfix<expr_fx>(lexer, primary_fx(lexer));
+	}
+
+
+
+	std::unique_ptr<ast::Expression> unary(lex::Lexer & lexer) {
+		return prefix<parse::primary, parse::expression>(lexer);
+	}
+
+
+
+	std::unique_ptr<ast::Expression> static_unary(lex::Lexer & lexer) {
+		return prefix<parse::static_primary, parse::static_expression>(lexer);
 	}
 }

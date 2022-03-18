@@ -6,13 +6,15 @@ namespace test {
 		X : 42;
 	}
 
+
+
 	namespace bar {
 		enum foo {
 			A : 1337;
 		}
 
 		define A = 1234;
-
+		
 		define i = 42;
 		define f = 13.37;
 		define c = 'x';
@@ -22,19 +24,26 @@ namespace test {
 	}
 
 
+
 	namespace baz {
-		function g() => 7
 		define a = 1;
 		define b = 2;
 		define c = 3;
 		define d = 4;
 		define f = d + 2;
-		define g = g();
-		define array = [a, b, c, d, d + 1, f, g];
+		define g = null ?? 7;
+		define h = false ? 7 : 8;
+		define array = [a, b, c, d, d + 1, f, g, h];
 	}
 	
+
+
 	define i = -1;
+	define b0 = false;
+	define b1 = true;
 	
+
+
 	function globals() {
 		var A = -1;
 		var a = 12345678;
@@ -53,7 +62,9 @@ namespace test {
 			[[bar::s], "Hello World"],
 			[[bar::n], null],
 			[[bar::a], [42, 13.37, 'x']],
-			[[baz::array], [1,2,3,4,5,6,7]],
+			[[baz::array], [1,2,3,4,5,6,7,8]],
+			[[b0], false],
+			[[b1], true],
 		];
 		return test_all_cases("Enum", fx, cases); 
 	}
