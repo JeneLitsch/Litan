@@ -75,8 +75,33 @@ namespace ltn::c::compile {
 
 
 
+		ExprCode read_local_variable(const Variable & var) {
+			std::stringstream ss;
+			ss << inst::read_x(var.address);
+			return ExprCode{ ss.str() };
+		}
+
+
+
 		// compiles function call fx(...)
-		ExprCode callFx(const ast::Call & call, CompilerInfo & info, Scope & scope) {
+		ExprCode call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
+			std::stringstream ss;
+			for(const auto & param : call.parameters) {
+				ss << compile::expression(*param, info, scope).code;
+			}
+
+			if(call.namespaze.empty()) {
+				try {
+					const auto var = scope.resolve(call.name, call.location);
+					ss << read_local_variable(var).code;
+					ss << inst::newarr(call.parameters.size());
+					ss << inst::invoke;
+					return { ss.str() };
+				}
+				catch(...){}
+			}
+
+
 			// resolve function
 			const auto fx = info.fx_table.resolve(
 				call.name,
@@ -84,15 +109,13 @@ namespace ltn::c::compile {
 				call.namespaze,
 				call.parameters.size());
 			
-			if(!fx) {
-				throw undefined_function(call.name, call);
+			if(fx) {
+				ss << inst::call(fx->id);
+				return { ss.str() };
 			}
-			std::stringstream ss;
-			for(const auto & param : call.parameters) {
-				ss << compile::expression(*param, info, scope).code;
-			}
-			ss << inst::call(fx->id);
-			return ExprCode{ ss.str() };
+
+
+			throw undefined_function(call.name, call);
 		}
 
 
@@ -151,13 +174,14 @@ namespace ltn::c::compile {
 
 
 
+
+
+
 	// compiles an variable read accessc
 	ExprCode read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
 		try {
 			const auto var = scope.resolve(expr.name, expr.location);
-			std::stringstream ss;
-			ss << inst::read_x(var.address);
-			return ExprCode{ ss.str() };
+			return read_local_variable(var);
 		}
 		catch(const CompilerError & error) {
 			const auto & name = expr.name;
@@ -231,7 +255,7 @@ namespace ltn::c::compile {
 			return array(*expr_, info, scope);
 		}
 		if(auto expr_ = as<ast::Call>(expr)) {
-			return callFx(*expr_, info, scope);
+			return call(*expr_, info, scope);
 		}
 		if(auto expr_ = as<ast::Var>(expr)) {
 			return read_variable(*expr_, info, scope);

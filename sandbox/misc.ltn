@@ -1,9 +1,12 @@
-function f() => 0
+function fx() => 0
 
 define i = 42;
 define a = lambda[i] => i;
 define out = &std::println(_);
 
+
+
 function main() {
-	std::invoke(out, [std::invoke(a)]);
+	var fx = lambda[i] => i;
+	std::println(fx());
 }
