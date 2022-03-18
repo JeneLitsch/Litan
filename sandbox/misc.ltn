@@ -2,7 +2,8 @@ function f() => 0
 
 define i = 42;
 define a = lambda[i] => i;
+define out = &std::println(_);
 
 function main() {
-	std::println(std::invoke(a));
+	std::invoke(out, [std::invoke(a)]);
 }
