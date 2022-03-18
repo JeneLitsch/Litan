@@ -12,7 +12,6 @@ namespace ltn::c::ast {
 	using glob_ptr = std::unique_ptr<Global>;
 	using stmt_ptr = std::unique_ptr<Statement>;
 	using func_ptr = std::unique_ptr<Functional>;
-	using enum_ptr = std::unique_ptr<Enum>;
 	struct Program {
 		std::vector<func_ptr> functions;
 		std::vector<glob_ptr> globals;

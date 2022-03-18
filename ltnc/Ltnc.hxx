@@ -17,7 +17,6 @@ namespace ltn::c {
 		void yield(std::ostream & out);
 	private:
 		Config config;
-		std::size_t line = 1;
 		std::unique_ptr<Backend> backend;
 		ast::Program program;
 		Reporter reporter;

@@ -3,7 +3,10 @@
 #include "lex/Lexer.hxx"
 #include "parse/parse.hxx"
 #include <string_view>
+
 using namespace std::string_view_literals;
+
+
 
 const std::span<const std::string_view> ltn::c::Ltnc::stdlib() const {
 	constexpr static std::array std_files {
@@ -22,6 +25,8 @@ const std::span<const std::string_view> ltn::c::Ltnc::stdlib() const {
 	return std_files;
 }
 
+
+
 void ltn::c::Ltnc::compile(std::istream & in, const std::string & sourcename) {
 	lex::Lexer lexer{in, sourcename, reporter};
 	try {
@@ -38,6 +43,8 @@ void ltn::c::Ltnc::compile(std::istream & in, const std::string & sourcename) {
 		this->reporter.push(error);
 	}
 }
+
+
 
 void ltn::c::Ltnc::yield(std::ostream & out) {
 	std::ostringstream ss;

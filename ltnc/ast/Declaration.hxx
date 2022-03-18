@@ -15,16 +15,6 @@ namespace ltn::c::ast {
 
 
 
-	struct Enum : public Declaration {
-		Enum(const SourceLocation & location) : Declaration(location) {}
-		virtual ~Enum() = default;
-		std::string name;
-		Namespace namespaze;
-		std::map<std::string, std::int64_t> values;
-	};
-
-
-
 	struct Global : public Declaration {
 		Global(const SourceLocation & location) : Declaration(location) {}
 		virtual ~Global() = default;
