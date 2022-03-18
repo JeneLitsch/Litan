@@ -11,9 +11,13 @@ namespace test {
 			A : 1337;
 		}
 
-		define X = 42;
-		define Y = 1337;
-		define Z = 2022;
+		define A = 1234;
+
+		define i = 42;
+		define f = 13.37;
+		define c = 'x';
+		define s = "Hello World";
+		define n = null;
 	}
 
 	
@@ -27,9 +31,12 @@ namespace test {
 			[[foo::C], 3],
 			[[foo::X], 42],
 			[[bar::foo::A], 1337],
-			[[bar::X], 42],
-			[[bar::Y], 1337],
-			[[bar::Z], 2022],
+			[[bar::i], 42],
+			[[bar::f], 13.37],
+			[[bar::c], 'x'],
+			[[bar::s], "Hello World"],
+			[[bar::n], null],
+			[[bar::A], 1234],
 		];
 		return test_all_cases("Enum", fx, cases); 
 	}
