@@ -1,0 +1,27 @@
+namespace test {
+	enum foo {
+		A : 1;
+		B;
+		C;
+		X : 42;
+	}
+
+	namespace bar {
+		enum foo {
+			A : 1337;
+		}
+	}
+
+	
+	function enums() {
+		var fx = lambda(x) => x;
+		var cases = [
+			[[foo::A], 1],
+			[[foo::B], 2],
+			[[foo::C], 3],
+			[[foo::X], 42],
+			[[bar::foo::A], 1337],
+		];
+		return test_all_cases("Enum", fx, cases); 
+	}
+}
