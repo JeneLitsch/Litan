@@ -1,0 +1,5 @@
+namespace std {
+	namespace num {
+		define pi = 3.14159265359; 
+	}
+}
