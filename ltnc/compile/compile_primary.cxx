@@ -144,6 +144,13 @@ namespace ltn::c::compile {
 
 
 
+	ExprCode constant_value(const GlobalSignature & global, CompilerInfo & info) {
+		Scope s{global.namespaze};
+		return expression(*global.constant, info, s);
+	}
+
+
+
 	// compiles an variable read accessc
 	ExprCode read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
 		try {
@@ -156,11 +163,10 @@ namespace ltn::c::compile {
 			const auto & name = expr.name;
 			const auto & namespaze = scope.get_namespace();
 			if(auto global = info.global_table.resolve(name, namespaze)) {
-				return expression(*global->constant, info, scope);
+				return constant_value(*global, info);
 			}
 			throw error;
 		}
-
 	}
 
 	
@@ -193,7 +199,7 @@ namespace ltn::c::compile {
 			throw undefined_enum(global_value);
 		}
 
-		return compile::expression(*enym->constant, info, scope);
+		return constant_value(*enym, info);
 	}
 
 

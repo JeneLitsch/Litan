@@ -18,8 +18,11 @@ namespace test {
 		define c = 'x';
 		define s = "Hello World";
 		define n = null;
+		define a = [i, f, c];
 	}
 
+	
+	define i = 1;
 	
 	function globals() {
 		var A = -1;
@@ -32,11 +35,12 @@ namespace test {
 			[[foo::X], 42],
 			[[bar::foo::A], 1337],
 			[[bar::i], 42],
+			[[i], 1],
 			[[bar::f], 13.37],
 			[[bar::c], 'x'],
 			[[bar::s], "Hello World"],
 			[[bar::n], null],
-			[[bar::A], 1234],
+			[[bar::a], [42, 13.37, 'x']],
 		];
 		return test_all_cases("Enum", fx, cases); 
 	}
