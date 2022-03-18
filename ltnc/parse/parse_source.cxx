@@ -95,19 +95,9 @@ namespace ltn::c::parse {
 			else if(auto fx = parse::functional(lexer, namespaze)) {
 				functions.push_back(std::move(fx));
 			}
-			else if(auto enym = parse::enumeration(lexer, namespaze)) {
-				for(const auto & [key, val] : enym->values) {
-					const auto & loc = enym->location;
-					auto ns = enym->namespaze;
-					ns.push_back(enym->name);
-					for(const auto & x : ns) {
-						std::cout << x << "::";
-					}
-					std::cout << key << "\n";
-					auto global = std::make_unique<ast::Global>(loc);
-					global->name = key;
-					global->literal = std::make_unique<ast::Integer>(val, loc);
-					global->namespaze = ns;
+			else if(lexer.match(TT::ENUM)) {
+				auto g = parse::enumeration(lexer, namespaze);
+				for(auto & global : g) {
 					globals.push_back(std::move(global));
 				}
 			}			

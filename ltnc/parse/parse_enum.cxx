@@ -60,17 +60,25 @@ namespace ltn::c::parse {
 	}
 
 
-
-	ast::enum_ptr enumeration(lex::Lexer & lexer, const ast::Namespace & namespaze) {
-		if(lexer.match(TT::ENUM)) {
-			auto enym = std::make_unique<ast::Enum>(lexer.location());
-			enym->name = parse::name(lexer);
-			enym->namespaze = namespaze;
-			parse::open(lexer);
-			enym->values = parse::values(lexer);
-			parse::close(lexer);
-			return enym;
+	std::vector<ast::glob_ptr> enumeration(lex::Lexer & lexer,ast::Namespace namespaze) {
+		std::vector<ast::glob_ptr> globals;
+		
+		const auto enum_name = parse::name(lexer);
+		namespaze.push_back(enum_name);
+		open(lexer);
+		
+		const auto values = parse::values(lexer);
+		for(const auto & [key, value] : values) {
+			const auto loc = lexer.location();
+			auto global = std::make_unique<ast::Global>(loc);
+			global->literal = std::make_unique<ast::Integer>(value, loc);
+			global->name = key;
+			global->namespaze = namespaze;
+			globals.push_back(std::move(global));
 		}
-		return nullptr;
+		
+		close(lexer);
+
+		return globals;
 	}
 }
