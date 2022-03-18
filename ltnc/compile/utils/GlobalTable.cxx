@@ -7,7 +7,10 @@ namespace ltn::c::compile {
 
 	CompilerError multiple_definitions(const GlobalSignature & fx) {
 		std::stringstream msg;
-		msg << "Enum ";
+		msg << "Global constant ";
+		for(const auto & step : fx.namespaze) {
+			msg << step << "::";
+		}
 		msg << fx.name;
 		msg	<< " already exists";
 		return CompilerError{ msg.str(), {} };

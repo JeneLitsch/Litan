@@ -5,8 +5,12 @@ namespace foo {
 		B : 2;
 		C;
 	}
+	define a = 666;
 }
 
+define a = 42;
+
 function main() {
-	return foo::bar::C;
+	// var a = 1337;
+	return foo::a;
 }

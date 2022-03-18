@@ -145,11 +145,22 @@ namespace ltn::c::compile {
 
 
 	// compiles an variable read accessc
-	ExprCode read_variable(const ast::Var & expr, CompilerInfo &, Scope & scope) {
-		const auto var = scope.resolve(expr.name, expr.location);
-		std::stringstream ss;
-		ss << inst::read_x(var.address);
-		return ExprCode{ ss.str() };
+	ExprCode read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
+		try {
+			const auto var = scope.resolve(expr.name, expr.location);
+			std::stringstream ss;
+			ss << inst::read_x(var.address);
+			return ExprCode{ ss.str() };
+		}
+		catch(const CompilerError & error) {
+			const auto & name = expr.name;
+			const auto & namespaze = scope.get_namespace();
+			if(auto global = info.global_table.resolve(name, namespaze)) {
+				return expression(*global->constant, info, scope);
+			}
+			throw error;
+		}
+
 	}
 
 	

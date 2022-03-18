@@ -95,6 +95,9 @@ namespace ltn::c::parse {
 			else if(auto fx = parse::functional(lexer, namespaze)) {
 				functions.push_back(std::move(fx));
 			}
+			else if(auto global = parse::definition(lexer, namespaze)) {
+				globals.push_back(std::move(global));
+			}
 			else if(lexer.match(TT::ENUM)) {
 				auto g = parse::enumeration(lexer, namespaze);
 				for(auto & global : g) {

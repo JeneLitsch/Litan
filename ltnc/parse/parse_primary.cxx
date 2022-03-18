@@ -29,7 +29,7 @@ namespace ltn::c::parse {
 
 
 		template<class TempType, TT tt, auto base>
-		ast::expr_ptr integer(lex::Lexer & lexer) {
+		ast::litr_ptr integer(lex::Lexer & lexer) {
 			if(auto token = lexer.match(tt)) {
 				std::stringstream iss{token->str};
 				TempType value;
@@ -55,7 +55,7 @@ namespace ltn::c::parse {
 
 
 
-		ast::expr_ptr character(lex::Lexer & lexer) {
+		ast::litr_ptr character(lex::Lexer & lexer) {
 			if(auto t = lexer.match(TT::CHAR)) {
 				const char chr = t->str.front();
 				return std::make_unique<ast::Char>(chr, lexer.location()); 
@@ -65,7 +65,7 @@ namespace ltn::c::parse {
 
 
 
-		ast::expr_ptr null(lex::Lexer & lexer) {
+		ast::litr_ptr null(lex::Lexer & lexer) {
 			if(auto t = lexer.match(TT::NVLL)) {
 				return std::make_unique<ast::Null>(lexer.location()); 
 			}
@@ -74,7 +74,7 @@ namespace ltn::c::parse {
 
 
 
-		ast::expr_ptr floating(lex::Lexer & lexer) {
+		ast::litr_ptr floating(lex::Lexer & lexer) {
 			if(auto token = lexer.match(TT::FLOAT)) {
 				std::istringstream iss{token->str};
 				stx::float64_t value;
@@ -86,7 +86,7 @@ namespace ltn::c::parse {
 
 
 
-		ast::expr_ptr boolean(lex::Lexer & lexer) {
+		ast::litr_ptr boolean(lex::Lexer & lexer) {
 			if(auto token = lexer.match(TT::TRUE)) {
 				return std::make_unique<ast::Bool>(true, lexer.location()); 
 			}
@@ -98,13 +98,13 @@ namespace ltn::c::parse {
 
 
 
-		ast::expr_ptr empty_array(lex::Lexer & lexer) {
+		ast::litr_ptr empty_array(lex::Lexer & lexer) {
 			return std::make_unique<ast::Array>(lexer.location());
 		}
 
 
 
-		ast::expr_ptr filled_array(lex::Lexer & lexer) {
+		ast::litr_ptr filled_array(lex::Lexer & lexer) {
 			auto array = std::make_unique<ast::Array>(lexer.location());
 			while(true) {
 				if(lexer.match(TT::___EOF___)) {
@@ -126,7 +126,7 @@ namespace ltn::c::parse {
 
 
 
-		ast::expr_ptr array(lex::Lexer & lexer) {
+		ast::litr_ptr array(lex::Lexer & lexer) {
 			if(lexer.match(TT::BRACKET_L)) {
 				if(lexer.match(TT::BRACKET_R)) {
 					return empty_array(lexer);
@@ -140,7 +140,7 @@ namespace ltn::c::parse {
 
 
 
-		ast::expr_ptr string(lex::Lexer & lexer) {
+		ast::litr_ptr string(lex::Lexer & lexer) {
 			if(auto token = lexer.match(TT::STRING)) {
 				return std::make_unique<ast::String>(
 					token->str,
@@ -286,7 +286,7 @@ namespace ltn::c::parse {
 
 
 
-	ast::expr_ptr integral(lex::Lexer & lexer) {
+	ast::litr_ptr integral(lex::Lexer & lexer) {
 		if(auto expr = integer_dec(lexer)) return expr;
 		if(auto expr = integer_bin(lexer)) return expr;
 		if(auto expr = integer_hex(lexer)) return expr;
@@ -294,16 +294,23 @@ namespace ltn::c::parse {
 	}
 
 
-	// parses primary expression
-	ast::expr_ptr primary(lex::Lexer & lexer) {
+
+	ast::litr_ptr literal(lex::Lexer & lexer) {
 		if(auto expr = integral(lexer)) return expr;
 		if(auto expr = character(lexer)) return expr;
 		if(auto expr = floating(lexer)) return expr;
 		if(auto expr = boolean(lexer)) return expr;
 		if(auto expr = null(lexer)) return expr;
-		if(auto expr = paren(lexer)) return expr;
 		if(auto expr = string(lexer)) return expr;
 		if(auto expr = array(lexer)) return expr;
+		else return nullptr;
+	}
+
+
+	// parses primary expression
+	ast::expr_ptr primary(lex::Lexer & lexer) {
+		if(auto expr = literal(lexer)) return expr;
+		if(auto expr = paren(lexer)) return expr;
 		if(auto expr = fx_pointer(lexer)) return expr;
 		if(auto expr = lambda(lexer)) return expr;
 		if(auto expr = iife(lexer)) return expr;

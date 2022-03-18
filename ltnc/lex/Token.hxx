@@ -22,6 +22,7 @@ namespace ltn::c::lex {
 			IIFE,
 			BUILD_IN,
 			ENUM,
+			DEFINE,
 			
 			INTEGER,
 			INTEGER_HEX,
