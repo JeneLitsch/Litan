@@ -186,7 +186,7 @@ namespace ltn::c::compile {
 		const ast::EnumValue & enum_value,
 		CompilerInfo & info,
 		Scope & scope) {
-		const auto enym = info.enum_table.resolve(
+		const auto enym = info.global_table.resolve(
 			enum_value.enum_name,
 			scope.get_namespace(),
 			enum_value.namespaze);

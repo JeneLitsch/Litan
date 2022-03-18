@@ -1,7 +1,7 @@
 #pragma once
 #include "ltnc/Backend.hxx"
 #include "utils/FxTable.hxx"
-#include "utils/EnumTable.hxx"
+#include "utils/GlobalTable.hxx"
 #include "utils/MemberTable.hxx"
 #include <sstream>
 namespace ltn::c::compile {

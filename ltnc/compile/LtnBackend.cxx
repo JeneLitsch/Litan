@@ -37,7 +37,7 @@ namespace ltn::c::compile {
 		const ast::Program & program,
 		Reporter & reporter) {
 		
-		EnumTable enum_table;
+		GlobalTable global_table;
 		FxTable fx_table;
 		MemberTable member_table;
 		std::size_t jump_mark_counter = 0;
@@ -45,7 +45,7 @@ namespace ltn::c::compile {
 		compile::CompilerInfo info {
 			config,
 			fx_table,
-			enum_table,
+			global_table,
 			member_table,
 			jump_mark_counter,
 			reporter};
@@ -59,7 +59,7 @@ namespace ltn::c::compile {
 		}
 
 		for(const auto & e : program.enums) {
-			info.enum_table.insert({
+			info.global_table.insert({
 				e->name,
 				e->namespaze,
 				e.get()});

@@ -1,4 +1,4 @@
-#include "EnumTable.hxx"
+#include "GlobalTable.hxx"
 #include "ltnc/CompilerError.hxx"
 #include <sstream>
 #include <iostream>
@@ -81,7 +81,7 @@ namespace ltn::c::compile {
 
 
 	// returns function if defined or nultptr otherwise
-	const EnumSignature * EnumTable::resolve(
+	const EnumSignature * GlobalTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & from,
 		const ast::Namespace & to) {
@@ -90,7 +90,7 @@ namespace ltn::c::compile {
 
 
 
-	const EnumSignature * EnumTable::resolve(
+	const EnumSignature * GlobalTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & full) {
 		for(const auto & e : this->enums) {
@@ -106,7 +106,7 @@ namespace ltn::c::compile {
 
 
 	// defines new function
-	void EnumTable::insert(const EnumSignature & e) {
+	void GlobalTable::insert(const EnumSignature & e) {
 		// Prevent redefinition
 		if(this->resolve(e.name, e.namespaze)) {
 			throw multiple_definitions(e);

@@ -3,7 +3,7 @@
 #include <vector>
 namespace ltn::c::compile {
 	// Holds and resolves functions at compile time
-	class EnumTable {
+	class GlobalTable {
 	public:
 		const EnumSignature * resolve(
 			const std::string_view name,

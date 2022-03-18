@@ -6,7 +6,7 @@
 #include "ltnc/Reporter.hxx"
 #include "ltnc/ast/Ast.hxx"
 #include "utils/FxTable.hxx"
-#include "utils/EnumTable.hxx"
+#include "utils/GlobalTable.hxx"
 #include "utils/MemberTable.hxx"
 #include "utils/Instructions.hxx"
 #include "utils/StmtCode.hxx"
@@ -18,7 +18,7 @@ namespace ltn::c::compile {
 	struct CompilerInfo {
 		const Config & config;
 		FxTable & fx_table;
-		EnumTable & enum_table;
+		GlobalTable & global_table;
 		MemberTable & member_table;
 		std::uint64_t & jump_mark_counter; 
 		Reporter & reporter;
