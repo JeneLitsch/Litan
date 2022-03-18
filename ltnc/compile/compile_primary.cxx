@@ -83,17 +83,25 @@ namespace ltn::c::compile {
 
 
 
+		ExprCode call_parameters(const auto & parameters, CompilerInfo & info, Scope & scope) {
+			std::stringstream ss;
+			for(const auto & param : parameters) {
+				ss << compile::expression(*param, info, scope).code;
+			}
+			return {ss.str()};
+		}
+
+
+
 		// compiles function call fx(...)
 		ExprCode call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
 			std::stringstream ss;
-			for(const auto & param : call.parameters) {
-				ss << compile::expression(*param, info, scope).code;
-			}
 
 			if(call.namespaze.empty()) {
 				try {
 					const auto var = scope.resolve(call.name, call.location);
 					ss << read_local_variable(var).code;
+					ss << call_parameters(call.parameters, info, scope).code;
 					ss << inst::newarr(call.parameters.size());
 					ss << inst::invoke;
 					return { ss.str() };
@@ -110,6 +118,7 @@ namespace ltn::c::compile {
 				call.parameters.size());
 			
 			if(fx) {
+				ss << call_parameters(call.parameters, info, scope).code;
 				ss << inst::call(fx->id);
 				return { ss.str() };
 			}
