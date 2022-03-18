@@ -5,7 +5,7 @@ namespace ltn::c::compile {
 	struct GlobalSignature {
 		std::string name;
 		ast::Namespace namespaze;
-		ast::Literal * literal;
+		ast::ConstExpr * constant;
 	};
 
 }

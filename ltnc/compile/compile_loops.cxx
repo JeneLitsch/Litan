@@ -1,4 +1,4 @@
-#include "compiling.hxx"
+#include "compile.hxx"
 
 namespace ltn::c::compile {
 	StmtCode while_loop(const ast::While & stmt, CompilerInfo & info, Scope & scope) {

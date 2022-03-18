@@ -1,4 +1,4 @@
-#include "compiling.hxx"
+#include "compile.hxx"
 #include <string_view>
 namespace ltn::c::compile {
 	namespace {
@@ -22,7 +22,7 @@ namespace ltn::c::compile {
 
 
 		// compiles int literal
-		ExprCode integer(const ast::Integer & expr) {
+		ExprCode integer(const auto & expr) {
 			return ExprCode{inst::newi(expr.value) };
 		}
 
@@ -182,7 +182,7 @@ namespace ltn::c::compile {
 			throw undefined_enum(global_value);
 		}
 
-		return compile::expression(*enym->literal, info, scope);
+		return compile::expression(*enym->constant, info, scope);
 	}
 
 
@@ -190,6 +190,9 @@ namespace ltn::c::compile {
 	// compiles Primary expression
 	ExprCode primary(const ast::Primary & expr, CompilerInfo & info, Scope & scope) {
 		if(auto expr_ = as<ast::Integer>(expr)) {
+			return integer(*expr_);
+		}
+		if(auto expr_ = as<ast::Enum>(expr)) {
 			return integer(*expr_);
 		} 
 		if(auto expr_ = as<ast::Float>(expr)) {

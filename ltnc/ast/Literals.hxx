@@ -8,8 +8,24 @@ namespace ltn::c::ast {
 	
 
 
-	struct Literal : public Primary {
-		Literal(const SourceLocation & location) : Primary(location) {}
+	struct ConstExpr : public Primary {
+		ConstExpr(const SourceLocation & location) : Primary(location) {}
+		virtual ~ConstExpr() = default;
+	};
+
+
+
+	struct Enum : public ConstExpr {
+		Enum(std::int64_t value, const SourceLocation & location)
+			:	ConstExpr(location), value(value) {}
+		virtual ~Enum() = default;
+		std::int64_t value;
+	};
+
+
+
+	struct Literal : public ConstExpr {
+		Literal(const SourceLocation & location) : ConstExpr(location) {}
 		virtual ~Literal() = default;
 	};
 

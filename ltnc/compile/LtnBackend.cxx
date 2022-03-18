@@ -1,5 +1,5 @@
 #include "LtnBackend.hxx"
-#include "compiling.hxx"
+#include "compile.hxx"
 #include <iostream>
 
 namespace ltn::c::compile {
