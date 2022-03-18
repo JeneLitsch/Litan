@@ -6,6 +6,7 @@ function main() {
 		&test::bool(),
 		&test::compare(),
 		&test::conditional(),
+		&test::globals(),
 		&test::exception(),
 		&test::expressions(),
 		&test::functional(),

@@ -12,6 +12,7 @@ binFile="test/$test.bin.ltn"
 	test/exception.ltn\
 	test/expressions.ltn\
 	test/functional.ltn\
+	test/globals.ltn\
 	test/loops.ltn\
 	test/main.ltn\
 	test/math.ltn\

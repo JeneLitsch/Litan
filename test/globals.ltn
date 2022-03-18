@@ -10,17 +10,26 @@ namespace test {
 		enum foo {
 			A : 1337;
 		}
+
+		define X = 42;
+		define Y = 1337;
+		define Z = 2022;
 	}
 
 	
-	function enums() {
+	function globals() {
+		var A = -1;
 		var fx = lambda(x) => x;
 		var cases = [
+			[[A], -1],
 			[[foo::A], 1],
 			[[foo::B], 2],
 			[[foo::C], 3],
 			[[foo::X], 42],
 			[[bar::foo::A], 1337],
+			[[bar::X], 42],
+			[[bar::Y], 1337],
+			[[bar::Z], 2022],
 		];
 		return test_all_cases("Enum", fx, cases); 
 	}
