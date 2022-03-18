@@ -21,11 +21,21 @@ namespace test {
 		define a = [i, f, c];
 	}
 
+
+	namespace baz {
+		define a = 1;
+		define b = 2;
+		define c = 3;
+		define d = 4;
+		define f = d + 2;
+		define array = [a, b, c, d, d + 1, f];
+	}
 	
-	define i = 1;
+	define i = -1;
 	
 	function globals() {
 		var A = -1;
+		var a = 12345678;
 		var fx = lambda(x) => x;
 		var cases = [
 			[[A], -1],
@@ -35,12 +45,13 @@ namespace test {
 			[[foo::X], 42],
 			[[bar::foo::A], 1337],
 			[[bar::i], 42],
-			[[i], 1],
+			[[i], -1],
 			[[bar::f], 13.37],
 			[[bar::c], 'x'],
 			[[bar::s], "Hello World"],
 			[[bar::n], null],
 			[[bar::a], [42, 13.37, 'x']],
+			[[baz::array], [1,2,3,4,5,6]],
 		];
 		return test_all_cases("Enum", fx, cases); 
 	}

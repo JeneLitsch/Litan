@@ -1,28 +1,6 @@
 
-namespace foo {
-	enum bar {
-		A : 1;
-		B : 2;
-		C;
-	}
-}
-
-define i1 = 42;
-define i2 = 0x2a;
-define i3 = 0b100;
-define b0 = false;
-define b1 = true;
-define f = 13.37;
-define c = ';';
-define s = "Hello World";
 
 function main() {
-	std::println(i1);
-	std::println(i2);
-	std::println(i3);
-	std::println(b0);
-	std::println(b1);
-	std::println(f);
-	std::println(c);
-	std::println(s);
+	var a = 42;
+	std::println(array);
 }

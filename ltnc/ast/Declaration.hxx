@@ -4,7 +4,7 @@
 #include <map>
 
 namespace ltn::c::ast {
-	struct ConstExpr;
+	struct Expression;
 
 
 
@@ -20,6 +20,6 @@ namespace ltn::c::ast {
 		virtual ~Global() = default;
 		std::string name;
 		Namespace namespaze;
-		std::unique_ptr<ast::ConstExpr> literal;
+		std::unique_ptr<ast::Expression> expr;
 	};
 }

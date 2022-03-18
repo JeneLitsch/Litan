@@ -27,7 +27,7 @@ namespace ltn::c::parse {
 			global->name = parse::name(lexer);
 			global->namespaze = namespaze;
 			equal_sign(lexer);
-			global->literal = parse::literal(lexer);
+			global->expr = parse::expression(lexer);
 			semicolon(lexer);
 			return global;
 		}

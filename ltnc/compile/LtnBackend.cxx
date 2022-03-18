@@ -62,7 +62,7 @@ namespace ltn::c::compile {
 			info.global_table.insert({
 			global->name,
 			global->namespaze,
-			global->literal.get()});
+			global->expr.get()});
 		}
 
 		try {

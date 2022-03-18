@@ -71,7 +71,7 @@ namespace ltn::c::parse {
 		for(const auto & [key, value] : values) {
 			const auto loc = lexer.location();
 			auto global = std::make_unique<ast::Global>(loc);
-			global->literal = std::make_unique<ast::Enum>(value, loc);
+			global->expr = std::make_unique<ast::Enum>(value, loc);
 			global->name = key;
 			global->namespaze = namespaze;
 			globals.push_back(std::move(global));
