@@ -23,12 +23,14 @@ namespace test {
 
 
 	namespace baz {
+		function g() => 7
 		define a = 1;
 		define b = 2;
 		define c = 3;
 		define d = 4;
 		define f = d + 2;
-		define array = [a, b, c, d, d + 1, f];
+		define g = g();
+		define array = [a, b, c, d, d + 1, f, g];
 	}
 	
 	define i = -1;
@@ -51,7 +53,7 @@ namespace test {
 			[[bar::s], "Hello World"],
 			[[bar::n], null],
 			[[bar::a], [42, 13.37, 'x']],
-			[[baz::array], [1,2,3,4,5,6]],
+			[[baz::array], [1,2,3,4,5,6,7]],
 		];
 		return test_all_cases("Enum", fx, cases); 
 	}
