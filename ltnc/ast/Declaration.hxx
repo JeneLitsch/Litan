@@ -4,6 +4,10 @@
 #include <map>
 
 namespace ltn::c::ast {
+	struct Literal;
+
+
+
 	struct Declaration : public Node {
 		Declaration(const SourceLocation & location) : Node(location) {}
 		virtual ~Declaration() = default;
@@ -17,5 +21,15 @@ namespace ltn::c::ast {
 		std::string name;
 		Namespace namespaze;
 		std::map<std::string, std::int64_t> values;
+	};
+
+
+
+	struct Global : public Declaration {
+		Global(const SourceLocation & location) : Declaration(location) {}
+		virtual ~Global() = default;
+		std::string name;
+		Namespace namespaze;
+		std::unique_ptr<ast::Literal> literal;
 	};
 }

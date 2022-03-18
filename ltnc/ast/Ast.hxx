@@ -8,12 +8,14 @@
 
 namespace ltn::c::ast {
 	using expr_ptr = std::unique_ptr<Expression>;
+	using litr_ptr = std::unique_ptr<Literal>;
+	using glob_ptr = std::unique_ptr<Global>;
 	using stmt_ptr = std::unique_ptr<Statement>;
 	using func_ptr = std::unique_ptr<Functional>;
 	using enum_ptr = std::unique_ptr<Enum>;
 	struct Program {
 		std::vector<func_ptr> functions;
-		std::vector<enum_ptr> enums;
+		std::vector<glob_ptr> globals;
 	};
 	using prog_ptr = std::unique_ptr<Program>;
 }

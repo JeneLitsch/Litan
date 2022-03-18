@@ -30,8 +30,8 @@ void ltn::c::Ltnc::compile(std::istream & in, const std::string & sourcename) {
 			this->program.functions.push_back(std::move(fx));
 		}
 
-		for(auto && e : source->enums) {
-			this->program.enums.push_back(std::move(e));
+		for(auto && e : source->globals) {
+			this->program.globals.push_back(std::move(e));
 		}
 	}
 	catch(const CompilerError & error) {

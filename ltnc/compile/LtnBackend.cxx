@@ -58,11 +58,11 @@ namespace ltn::c::compile {
 				make_fxid(info, *fx)});
 		}
 
-		for(const auto & e : program.enums) {
+		for(const auto & global : program.globals) {
 			info.global_table.insert({
-				e->name,
-				e->namespaze,
-				e.get()});
+			global->name,
+			global->namespaze,
+			global->literal.get()});
 		}
 
 		try {

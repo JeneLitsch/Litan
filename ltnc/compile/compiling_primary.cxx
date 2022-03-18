@@ -186,25 +186,19 @@ namespace ltn::c::compile {
 		const ast::EnumValue & enum_value,
 		CompilerInfo & info,
 		Scope & scope) {
+
+		auto ns = enum_value.namespaze;
+		ns.push_back(enum_value.enum_name);
 		const auto enym = info.global_table.resolve(
-			enum_value.enum_name,
+			enum_value.value_name,
 			scope.get_namespace(),
-			enum_value.namespaze);
+			ns);
 		
 		if(!enym) {
 			throw undefined_enum(enum_value);
 		}
 
-		const auto & values = enym->enumeration->values;
-		const auto & value_name = enum_value.value_name;
-
-		if(values.contains(value_name)) {
-			const auto value = values.at(value_name);
-			return {inst::newi(value)};
-		}
-		else {
-			throw undefined_enum(enum_value, value_name);
-		}
+		return compile::expression(*enym->literal, info, scope);
 	}
 
 

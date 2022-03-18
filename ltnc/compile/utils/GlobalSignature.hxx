@@ -2,10 +2,10 @@
 #include <string>
 #include "ltnc/ast/Ast.hxx"
 namespace ltn::c::compile {
-	struct EnumSignature {
+	struct GlobalSignature {
 		std::string name;
 		ast::Namespace namespaze;
-		ast::Enum * enumeration;
+		ast::Literal * literal;
 	};
 
 }

@@ -5,7 +5,7 @@
 #include "ltn/printing.hxx"
 namespace ltn::c::compile {
 
-	CompilerError multiple_definitions(const EnumSignature & fx) {
+	CompilerError multiple_definitions(const GlobalSignature & fx) {
 		std::stringstream msg;
 		msg << "Enum ";
 		msg << fx.name;
@@ -30,8 +30,8 @@ namespace ltn::c::compile {
 
 
 
-		const EnumSignature * resolve_rec(
-			const std::vector<EnumSignature> & functions,
+		const GlobalSignature * resolve_rec(
+			const std::vector<GlobalSignature> & functions,
 			const ast::Namespace & from,
 			const ast::Namespace & to,
 			const std::string_view name) {
@@ -57,8 +57,8 @@ namespace ltn::c::compile {
 
 
 
-		const EnumSignature * resolve(
-			const std::vector<EnumSignature> & enums,
+		const GlobalSignature * resolve(
+			const std::vector<GlobalSignature> & enums,
 			const ast::Namespace & from,
 			const ast::Namespace & to,
 			const std::string_view name) {
@@ -81,7 +81,7 @@ namespace ltn::c::compile {
 
 
 	// returns function if defined or nultptr otherwise
-	const EnumSignature * GlobalTable::resolve(
+	const GlobalSignature * GlobalTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & from,
 		const ast::Namespace & to) {
@@ -90,7 +90,7 @@ namespace ltn::c::compile {
 
 
 
-	const EnumSignature * GlobalTable::resolve(
+	const GlobalSignature * GlobalTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & full) {
 		for(const auto & e : this->enums) {
@@ -106,7 +106,7 @@ namespace ltn::c::compile {
 
 
 	// defines new function
-	void GlobalTable::insert(const EnumSignature & e) {
+	void GlobalTable::insert(const GlobalSignature & e) {
 		// Prevent redefinition
 		if(this->resolve(e.name, e.namespaze)) {
 			throw multiple_definitions(e);
