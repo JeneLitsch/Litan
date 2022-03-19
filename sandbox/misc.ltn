@@ -5,9 +5,16 @@ define a = lambda[i] => i;
 define out = &std::println(_);
 
 
-
 function main() {
-	var fx = lambda[i](a) => a * i;
+	var a = 42;
+	var fx = lambda[i, a](x) => a - x * i;
 	std::println(fx(1));
 	std::println(fx(2));
+	std::println(fx(3));
+	std::println(fx(4));
+	std::println(::a());
+	std::println(a);
+}
+except(e) {
+	std::println(e);
 }

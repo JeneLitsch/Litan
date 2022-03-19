@@ -83,6 +83,13 @@ namespace ltn::c::compile {
 
 
 
+		ExprCode read_global_variable(const GlobalSignature & global, CompilerInfo & info) {
+			Scope s{global.namespaze};
+			return expression(*global.constant, info, s);
+		}
+
+
+
 		ExprCode call_parameters(const auto & parameters, CompilerInfo & info, Scope & scope) {
 			std::stringstream ss;
 			for(const auto & param : parameters) {
@@ -92,24 +99,43 @@ namespace ltn::c::compile {
 		}
 
 
-
-		// compiles function call fx(...)
-		ExprCode call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
+		ExprCode invoke_lambda(
+			const ast::Call & call,
+			CompilerInfo & info,
+			Scope & scope) {
+			
 			std::stringstream ss;
+			ss << call_parameters(call.parameters, info, scope).code;
+			ss << inst::newarr(call.parameters.size());
+			ss << inst::invoke;
+			return ExprCode{ ss.str() };
+		}
 
+
+		std::optional<ExprCode> invoke_local(
+			const ast::Call & call,
+			CompilerInfo & info,
+			Scope & scope) {
+			
 			if(call.namespaze.empty()) {
 				try {
 					const auto var = scope.resolve(call.name, call.location);
+					std::stringstream ss;
 					ss << read_local_variable(var).code;
-					ss << call_parameters(call.parameters, info, scope).code;
-					ss << inst::newarr(call.parameters.size());
-					ss << inst::invoke;
-					return { ss.str() };
+					ss << invoke_lambda(call, info, scope).code;
+					return ExprCode{ ss.str() };
 				}
 				catch(...){}
 			}
+			return std::nullopt;
+		}
 
 
+
+		std::optional<ExprCode> call_function(
+			const ast::Call & call,
+			CompilerInfo & info,
+			Scope & scope) {
 			// resolve function
 			const auto fx = info.fx_table.resolve(
 				call.name,
@@ -118,12 +144,39 @@ namespace ltn::c::compile {
 				call.parameters.size());
 			
 			if(fx) {
+				std::stringstream ss;
 				ss << call_parameters(call.parameters, info, scope).code;
 				ss << inst::call(fx->id);
-				return { ss.str() };
+				return ExprCode{ ss.str() };
 			}
+			return std::nullopt;
+		}
 
 
+
+		std::optional<ExprCode> invoke_global(
+			const ast::Call & call,
+			CompilerInfo & info,
+			Scope & scope) {
+
+			const auto & name = call.name;
+			const auto & namespaze = scope.get_namespace();
+			if(auto global = info.global_table.resolve(name, namespaze)) {
+				std::stringstream ss;
+				ss << read_global_variable(*global, info).code;
+				ss << invoke_lambda(call, info, scope).code;
+				return ExprCode{ ss.str() };
+			}
+			return std::nullopt;
+		}
+
+
+
+		// compiles function call fx(...)
+		ExprCode call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
+			if(const auto code = invoke_local(call, info, scope)) return *code;
+			if(const auto code = call_function(call, info, scope)) return *code;
+			if(const auto code = invoke_global(call, info, scope)) return *code;
 			throw undefined_function(call.name, call);
 		}
 
@@ -176,16 +229,6 @@ namespace ltn::c::compile {
 
 
 
-	ExprCode constant_value(const GlobalSignature & global, CompilerInfo & info) {
-		Scope s{global.namespaze};
-		return expression(*global.constant, info, s);
-	}
-
-
-
-
-
-
 	// compiles an variable read accessc
 	ExprCode read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
 		try {
@@ -196,7 +239,7 @@ namespace ltn::c::compile {
 			const auto & name = expr.name;
 			const auto & namespaze = scope.get_namespace();
 			if(auto global = info.global_table.resolve(name, namespaze)) {
-				return constant_value(*global, info);
+				return read_global_variable(*global, info);
 			}
 			throw error;
 		}
@@ -232,7 +275,7 @@ namespace ltn::c::compile {
 			throw undefined_enum(global_value);
 		}
 
-		return constant_value(*enym, info);
+		return read_global_variable(*enym, info);
 	}
 
 
