@@ -102,8 +102,6 @@ namespace ltn::c::parse {
 
 
 
-
-
 		template<auto presedence_down>
 		ast::expr_ptr binary_base(lex::Lexer & lexer) {
 			static constexpr auto factor      = regular<factor_table,      presedence_down>;
@@ -123,6 +121,8 @@ namespace ltn::c::parse {
 	ast::expr_ptr binary(lex::Lexer & lexer) {
 		return binary_base<parse::unary>(lexer);
 	}
+
+	
 
 	ast::expr_ptr static_binary(lex::Lexer & lexer) {
 		return binary_base<parse::static_unary>(lexer);
