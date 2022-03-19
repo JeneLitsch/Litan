@@ -1,11 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
-#include "ltnc/Ltnc.hxx"
-#include "ltnc/CompilerError.hxx"
+#include "ltnc_core/Ltnc.hxx"
+#include "ltnc_core/CompilerError.hxx"
 #include "Args.hxx"
 #include "ltnc/compile/LtnBackend.hxx"
-#include "ltnc/ast/Namespace.hxx"
+#include "ltnc_core/ast/Namespace.hxx"
 #include <string_view>
 
 

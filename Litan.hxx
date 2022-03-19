@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ltnc/Ltnc.hxx"
+#include "ltnc_core/Ltnc.hxx"
 #include "ltna/Ltna.hxx"
 #include "ltnvm/LtnVM.hxx"
 #include "ltnc/compile/LtnBackend.hxx"

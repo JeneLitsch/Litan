@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include "ltn/float64_t.hxx"
-#include "ltnc/SourceLocation.hxx"
+#include "ltnc_core/SourceLocation.hxx"
 namespace ltn::c::ast {
 	struct Node {
 		Node(const SourceLocation & location)

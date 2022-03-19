@@ -1,6 +1,6 @@
 #include "lexing.hxx"
 #include <unordered_map>
-#include "ltnc/CompilerError.hxx"
+#include "ltnc_core/CompilerError.hxx"
 #include "WS.hxx"
 #include <sstream>
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "ltnc/SourceLocation.hxx"
+#include "ltnc_core/SourceLocation.hxx"
 namespace ltn::c::lex {
 	struct Token {
 		enum class Type {

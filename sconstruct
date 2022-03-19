@@ -28,16 +28,19 @@ env = Environment(
 	CXXCOMSTR = "[Compiling] $TARGET",
 	LINKCOMSTR = "[Linking] $TARGET")
 
+
+ltnc_core = [
+	"ltnc_core",
+	"ltnc_core/ast",
+	"ltnc_core/lex",
+	"ltnc_core/parse",
+]
+
 ltnc = [
 	"ltnc",
-	"ltnc/ast",
-	"ltnc/lex",
-	"ltnc/parse",
 	"ltnc/compile",
 	"ltnc/compile/build_in",
 	"ltnc/compile/utils",
-	"ltnc/optimize",
-	"ltnc/type",
 ]
 ltncCli = [
 	"ltnc/cli",
@@ -68,7 +71,7 @@ ltnCli = [
 	"ltn/cli"
 ]
 
-env.Program('bin/ltnc', glob(ltnc + ltncCli))
+env.Program('bin/ltnc', glob(ltnc_core + ltnc + ltncCli))
 env.Program('bin/ltna', glob(ltna + ltnaCli))
 env.Program('bin/ltnvm', glob(ltnvm + ltnvmCli))
-env.Program('bin/ltn', glob(ltnc + ltna + ltnvm + ltnCli))
+env.Program('bin/ltn', glob(ltnc_core + ltnc + ltna + ltnvm + ltnCli))

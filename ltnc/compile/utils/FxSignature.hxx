@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "ltnc/ast/Namespace.hxx"
+#include "ltnc_core/ast/Namespace.hxx"
 namespace ltn::c::compile {
 	struct FxSignature {
 		std::string name;

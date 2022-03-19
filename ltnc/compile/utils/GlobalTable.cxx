@@ -1,5 +1,5 @@
 #include "GlobalTable.hxx"
-#include "ltnc/CompilerError.hxx"
+#include "ltnc_core/CompilerError.hxx"
 #include <sstream>
 #include <iostream>
 #include "ltn/printing.hxx"

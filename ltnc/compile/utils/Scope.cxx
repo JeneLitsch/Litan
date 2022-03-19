@@ -1,5 +1,5 @@
 #include "Scope.hxx"
-#include "ltnc/CompilerError.hxx"
+#include "ltnc_core/CompilerError.hxx"
 
 namespace ltn::c::compile {
 	Scope::Scope(const ast::Namespace & namespaze) 

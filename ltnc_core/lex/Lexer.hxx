@@ -4,8 +4,8 @@
 #include <span>
 #include <vector>
 #include "Token.hxx"
-#include "ltnc/SourceLocation.hxx"
-#include "ltnc/Reporter.hxx"
+#include "ltnc_core/SourceLocation.hxx"
+#include "ltnc_core/Reporter.hxx"
 namespace ltn::c::lex {
 
 	class Lexer {

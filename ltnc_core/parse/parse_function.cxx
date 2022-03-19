@@ -1,5 +1,5 @@
 #include "parse.hxx"
-#include "ltnc/CompilerError.hxx"
+#include "ltnc_core/CompilerError.hxx"
 #include <iostream>
 
 // The following functions are for parsing the head of function

@@ -1,5 +1,5 @@
 #include "parse.hxx"
-#include "ltnc/CompilerError.hxx"
+#include "ltnc_core/CompilerError.hxx"
 #include <iostream>
 namespace ltn::c::parse {
 	namespace {

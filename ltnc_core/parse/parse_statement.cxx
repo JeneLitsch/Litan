@@ -1,6 +1,6 @@
 #include "parse.hxx"
-#include "ltnc/lex/lexing.hxx"
-#include "ltnc/CompilerError.hxx"
+#include "ltnc_core/lex/lexing.hxx"
+#include "ltnc_core/CompilerError.hxx"
 
 namespace ltn::c::parse {
 	namespace {

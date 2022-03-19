@@ -1,6 +1,6 @@
 #pragma once
 #include <ostream>
-#include "ltnc/ast/Ast.hxx"
+#include "ast/Ast.hxx"
 #include "Config.hxx"
 #include "Reporter.hxx"
 namespace ltn::c {

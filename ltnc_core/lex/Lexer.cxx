@@ -1,7 +1,7 @@
 #include "Lexer.hxx"
 #include "lexing.hxx"
 #include <set>
-#include "ltnc/CompilerError.hxx"
+#include "ltnc_core/CompilerError.hxx"
 
 namespace ltn::c::lex {
 	using TT = Token::Type;

@@ -3,7 +3,7 @@
 #include <ostream>
 #include <string>
 #include <vector>
-#include "ltnc/SourceLocation.hxx"
+#include "SourceLocation.hxx"
 
 namespace ltn::c {
 	// Buffers errors

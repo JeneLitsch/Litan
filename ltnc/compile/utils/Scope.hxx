@@ -2,9 +2,9 @@
 #include <string>
 #include <cstdint>
 #include <unordered_map>
-#include "ltnc/ast/Namespace.hxx"
+#include "ltnc_core/SourceLocation.hxx"
+#include "ltnc_core/ast/Namespace.hxx"
 #include "Variable.hxx"
-#include "ltnc/SourceLocation.hxx"
 namespace ltn::c::compile {
 
 

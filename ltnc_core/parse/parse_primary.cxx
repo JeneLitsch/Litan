@@ -1,5 +1,5 @@
 #include "parse.hxx"
-#include "ltnc/CompilerError.hxx"
+#include "ltnc_core/CompilerError.hxx"
 #include <sstream>
 #include <bitset>
 #include "ltn/reading.hxx"

@@ -1,10 +1,10 @@
 #pragma once
 #include <sstream>
 #include <span>
-#include "ltnc/Config.hxx"
-#include "ltnc/CompilerError.hxx"
-#include "ltnc/Reporter.hxx"
-#include "ltnc/ast/Ast.hxx"
+#include "ltnc_core/Config.hxx"
+#include "ltnc_core/CompilerError.hxx"
+#include "ltnc_core/Reporter.hxx"
+#include "ltnc_core/ast/Ast.hxx"
 #include "utils/FxTable.hxx"
 #include "utils/GlobalTable.hxx"
 #include "utils/MemberTable.hxx"

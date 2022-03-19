@@ -1,5 +1,5 @@
 #include "Args.hxx"
-#include "ltnc/CompilerError.hxx"
+#include "ltnc_core/CompilerError.hxx"
 ltn::c::Args::Args(const char ** argv, std::size_t argc) {
 	std::span<const char*> args(argv, argc);
 	bool first = true;

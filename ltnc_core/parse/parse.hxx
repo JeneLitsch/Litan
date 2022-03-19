@@ -1,9 +1,9 @@
 #pragma once
 #include "ltn/float64_t.hxx"
-#include "ltnc/ast/Ast.hxx"
-#include "ltnc/lex/Lexer.hxx"
-#include "ltnc/CompilerError.hxx"
-#include "ltnc/Reporter.hxx"
+#include "ltnc_core/ast/Ast.hxx"
+#include "ltnc_core/lex/Lexer.hxx"
+#include "ltnc_core/CompilerError.hxx"
+#include "ltnc_core/Reporter.hxx"
 namespace ltn::c::parse {
 
 	// Sources
