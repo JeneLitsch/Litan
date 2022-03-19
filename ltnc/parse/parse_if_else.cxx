@@ -7,6 +7,7 @@ namespace ltn::c::parse {
 	}
 
 
+
 	// parses else branch and returns it if it's existing  
 	ast::stmt_ptr else_branch(lex::Lexer & lexer) {
 		if(lexer.match(TT::ELSE)) {
@@ -17,6 +18,7 @@ namespace ltn::c::parse {
 		}
 		return nullptr;
 	}
+
 
 
 	// parses if-else statement  

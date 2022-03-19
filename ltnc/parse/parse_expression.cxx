@@ -14,6 +14,7 @@ namespace ltn::c::parse {
 		}
 
 
+
 		template<auto expr_fx>
 		ast::expr_ptr elvis(lex::Lexer & lexer, ast::expr_ptr l) {
 			auto else_expr = expr_fx(lexer);
@@ -22,6 +23,7 @@ namespace ltn::c::parse {
 				std::move(l),
 				std::move(else_expr));
 		}
+
 
 
 		template<auto expr_fx>
@@ -37,6 +39,7 @@ namespace ltn::c::parse {
 				std::move(c),
 				std::move(r));
 		}
+
 
 
 		template<auto expr_fx, auto presedence_down>
@@ -58,9 +61,16 @@ namespace ltn::c::parse {
 			}
 			return l;
 		}
-		constexpr auto conditionals = conditionals_base<expression, binary>;
-		constexpr auto static_conditionals = conditionals_base<static_expression, static_binary>;
+		
+		constexpr auto conditionals = conditionals_base<
+			expression,
+			binary>;
+		
+		constexpr auto static_conditionals = conditionals_base<
+			static_expression,
+			static_binary>;
 	}
+
 
 
 	// generic expression

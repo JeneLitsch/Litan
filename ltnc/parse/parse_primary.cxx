@@ -14,6 +14,7 @@ namespace ltn::c::parse {
 		}
 
 
+
 		template<auto top_presedence>
 		ast::expr_ptr paren_base(lex::Lexer & lexer) {
 			if(lexer.match(TT::PAREN_L)) {
@@ -141,9 +142,6 @@ namespace ltn::c::parse {
 			}
 			return nullptr;
 		}
-
-
-
 		constexpr auto array = array_base<parse::expression>;
 		constexpr auto static_array = array_base<parse::static_expression>;
 
@@ -320,9 +318,6 @@ namespace ltn::c::parse {
 		if(auto expr = integer_hex(lexer)) return expr;
 		else return nullptr;
 	}
-
-
-
 
 
 

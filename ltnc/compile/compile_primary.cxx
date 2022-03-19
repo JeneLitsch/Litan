@@ -112,6 +112,7 @@ namespace ltn::c::compile {
 		}
 
 
+
 		std::optional<ExprCode> invoke_local(
 			const ast::Call & call,
 			CompilerInfo & info,

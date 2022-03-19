@@ -12,6 +12,7 @@ namespace ltn::c::parse {
 		}
 
 
+
 		std::string equal_sign(lex::Lexer & lexer) {
 			if(auto t = lexer.match(TT::ASSIGN)) {
 				return t->str;
@@ -19,6 +20,7 @@ namespace ltn::c::parse {
 			throw CompilerError{"Expected =", lexer.location()};
 		}
 	}
+
 
 
 	ast::glob_ptr definition(lex::Lexer & lexer, const ast::Namespace & namespaze) {

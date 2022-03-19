@@ -12,6 +12,8 @@ namespace ltn::c::compile {
 			return inst::parameters(fx.parameters.size());
 		}
 
+
+
 		std::string body(
 			const auto & fx,
 			CompilerInfo & info,
@@ -26,6 +28,8 @@ namespace ltn::c::compile {
 			}
 			return ss.str();
 		}
+
+
 
 		std::string except(	
 			const ast::Except & except,
@@ -70,6 +74,8 @@ namespace ltn::c::compile {
 			return ss.str();
 		}
 
+
+
 		// compiles asm_function
 		std::string build_in_function(const ast::BuildIn & fx, CompilerInfo & info) {
 			std::stringstream ss;
@@ -90,6 +96,8 @@ namespace ltn::c::compile {
 		}
 	}
 
+
+
 	// compiles functional node
 	std::string functional(
 		const ast::Functional & functional,
@@ -104,6 +112,8 @@ namespace ltn::c::compile {
 			"Unknown functional declaration",
 			functional.location};
 	}
+
+
 
 	ExprCode lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & outer_scope) {
 		const auto id = make_jump_id("LAMBDA", info);
