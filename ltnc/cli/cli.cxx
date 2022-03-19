@@ -43,6 +43,9 @@ int main(int argc, char const *argv[]){
 		if(!std::filesystem::exists(target)) {
 			throw ltn::c::CompilerError{"Cannot open " + target.string(), {}};
 		}
+		if(args.is_set("-o")) {
+			compiler.optimize();
+		}
 		compiler.yield(ofile);
 		std::cout << "Done!" << "\n";
 	}

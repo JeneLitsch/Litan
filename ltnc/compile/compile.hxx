@@ -1,6 +1,7 @@
 #pragma once
 #include <sstream>
 #include <span>
+#include "ltn/casts.hxx"
 #include "ltnc_core/Config.hxx"
 #include "ltnc_core/CompilerError.hxx"
 #include "ltnc_core/Reporter.hxx"
@@ -11,7 +12,6 @@
 #include "utils/Instructions.hxx"
 #include "utils/StmtCode.hxx"
 #include "utils/ExprCode.hxx"
-#include "utils/casts.hxx"
 #include "utils/Scope.hxx"
 
 namespace ltn::c::compile {

@@ -1,20 +1,5 @@
-function fx() => 0
-
-define i = 42;
-define a = lambda[i] => i;
-define out = &std::println(_);
-
+define a = -1;
 
 function main() {
-	var a = 42;
-	var fx = lambda[i, a](x) => a - x * i;
-	std::println(fx(1));
-	std::println(fx(2));
-	std::println(fx(3));
-	std::println(fx(4));
-	std::println(::a());
-	std::println(a);
-}
-except(e) {
-	std::println(e);
+	return a;
 }

@@ -18,6 +18,7 @@ namespace ltn::c::compile {
 		std::string_view,
 		std::span<const std::string_view>>;
 
+
 	const Table table{
 		{"cast_bool",                build_in::cast_bool},
 		{"cast_char",                build_in::cast_char},

@@ -11,7 +11,9 @@ ltn::c::Args::Args(const char ** argv, std::size_t argc) {
 			if(arg.starts_with("-")) {
 				this->flags.insert(std::string(arg));
 			}
-			this->files.push_back(arg);
+			else {
+				this->files.push_back(arg);
+			}
 		}
 	}
 	if(this->files.size() < 2) {
