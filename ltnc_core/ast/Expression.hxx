@@ -34,38 +34,6 @@ namespace ltn::c::ast {
 
 
 
-	struct Nullco : public Expression {
-		Nullco(
-			const SourceLocation & location,
-			std::unique_ptr<Expression> if_expr,
-			std::unique_ptr<Expression> else_expr) 
-			:	Expression(location),
-				if_expr(std::move(if_expr)),
-				else_expr(std::move(else_expr)) {}
-		virtual ~Nullco() = default;
-	
-		std::unique_ptr<Expression> if_expr;
-		std::unique_ptr<Expression> else_expr;
-	};
-
-
-
-	struct Elvis : public Expression {
-		Elvis(
-			const SourceLocation & location,
-			std::unique_ptr<Expression> if_expr,
-			std::unique_ptr<Expression> else_expr) 
-			:	Expression(location), 
-				if_expr(std::move(if_expr)),
-				else_expr(std::move(else_expr)) {}
-		virtual ~Elvis() = default;
-	
-		std::unique_ptr<Expression> if_expr;
-		std::unique_ptr<Expression> else_expr;
-	};
-
-
-
 	struct Primary : public Expression {
 		Primary(const SourceLocation & location) : Expression(location) {}
 		virtual ~Primary() = default;
@@ -90,54 +58,29 @@ namespace ltn::c::ast {
 
 
 	struct Binary : public Expression {
-		Binary(
-			std::unique_ptr<Expression> l,
-			std::unique_ptr<Expression> r,
-			const SourceLocation & location)
-			:	Expression(location),
-				l(std::move(l)),
-				r(std::move(r)) {}
-		virtual ~Binary() = default;
-		std::unique_ptr<Expression> l;
-		std::unique_ptr<Expression> r;
-	};
-
-
-
-	struct SimpleBinary : public Binary {
 		enum class Type {
 			ADD, SUB,
 			MLT, DIV, MOD,
 			BIGGER, SMALLER, BIGGEREQUAL, SMALLEREQUAL,
 			EQUAL, UNEQUEL,
 			SPACE_SHIP, APPROX, NOTPROX,
-			SHIFT_L, SHIFT_R, };
-		SimpleBinary(
-			Type type,
-			std::unique_ptr<Expression> l,
-			std::unique_ptr<Expression> r,
-			const SourceLocation & location)
-			:	Binary(std::move(l), std::move(r), location),
-				type(type) {}
-		virtual ~SimpleBinary() = default;
-		Type type;
-	};
-
-
-
-	struct Logical : public Binary {
-		enum class Type {
+			SHIFT_L, SHIFT_R,
 			AND, OR,
+			NULLCO, ELVIS,
 		};
-		Logical(
+		Binary(
 			Type type,
 			std::unique_ptr<Expression> l,
 			std::unique_ptr<Expression> r,
 			const SourceLocation & location)
-			:	Binary(std::move(l), std::move(r), location),
-				type(type) {}
-		virtual ~Logical() = default;
+			:	Expression(location),
+				type(type),
+				l(std::move(l)),
+				r(std::move(r)) {}
+		virtual ~Binary() = default;
 		Type type;
+		std::unique_ptr<Expression> l;
+		std::unique_ptr<Expression> r;
 	};
 
 

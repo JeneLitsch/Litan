@@ -7,10 +7,11 @@ namespace ltn::c::parse {
 		template<auto expr_fx>
 		ast::expr_ptr nullco(lex::Lexer & lexer, ast::expr_ptr l) {
 			auto else_expr = expr_fx(lexer);
-			return std::make_unique<ast::Nullco>(
-				lexer.location(),
+			return std::make_unique<ast::Binary>(
+				ast::Binary::Type::NULLCO,
 				std::move(l),
-				std::move(else_expr));
+				std::move(else_expr),
+				lexer.location());
 		}
 
 
@@ -18,10 +19,11 @@ namespace ltn::c::parse {
 		template<auto expr_fx>
 		ast::expr_ptr elvis(lex::Lexer & lexer, ast::expr_ptr l) {
 			auto else_expr = expr_fx(lexer);
-			return std::make_unique<ast::Elvis>(
-				lexer.location(),
+			return std::make_unique<ast::Binary>(
+				ast::Binary::Type::ELVIS,
 				std::move(l),
-				std::move(else_expr));
+				std::move(else_expr),
+				lexer.location());
 		}
 
 

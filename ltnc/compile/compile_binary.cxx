@@ -2,30 +2,24 @@
 
 namespace ltn::c::compile {
 	namespace {
-		// map binary operator types to instructions
-		std::string_view get_binary_instruction(ast::SimpleBinary::Type op) {
-			switch (op) {
-			case ast::SimpleBinary::Type::ADD: return inst::add;
-			case ast::SimpleBinary::Type::SUB: return inst::sub;
-			case ast::SimpleBinary::Type::MLT: return inst::mlt;
-			case ast::SimpleBinary::Type::DIV: return inst::div;
-			case ast::SimpleBinary::Type::MOD: return inst::mod;
-			case ast::SimpleBinary::Type::SMALLER: return inst::sml;
-			case ast::SimpleBinary::Type::BIGGER: return inst::bgr;
-			case ast::SimpleBinary::Type::SMALLEREQUAL: return inst::smleql;
-			case ast::SimpleBinary::Type::BIGGEREQUAL: return inst::bgreql;
-			case ast::SimpleBinary::Type::EQUAL: return inst::eql;
-			case ast::SimpleBinary::Type::UNEQUEL: return inst::ueql;
-			case ast::SimpleBinary::Type::SPACE_SHIP: return inst::comp;
-			case ast::SimpleBinary::Type::APPROX: return inst::approx;
-			case ast::SimpleBinary::Type::NOTPROX: return inst::notprox;
-			case ast::SimpleBinary::Type::SHIFT_L: return inst::shift_l;
-			case ast::SimpleBinary::Type::SHIFT_R: return inst::shift_r;
-			}
-			throw CompilerError{"Invalid binary operation", {}};
+		using OP = ltn::c::ast::Binary::Type;
+		
+		
+		
+		ExprCode bin(
+			const auto & l,
+			const auto & r,
+			const std::string_view inst) {
+			std::ostringstream ss;
+			ss << l.code;
+			ss << r.code;
+			ss << inst;
+			return { ss.str() };
 		}
 
-		ExprCode logical_and(const auto & l, const auto & r, CompilerInfo & info) {
+
+
+		ExprCode log_and(const auto & l, const auto & r, CompilerInfo & info) {
 			const auto id = make_jump_id("AND", info);
 			const auto end = id + "_END";
 			const auto falsE = id + "_FALSE";
@@ -44,7 +38,9 @@ namespace ltn::c::compile {
 			return { ss.str() };
 		}
 
-		ExprCode logical_or(const auto & l, const auto & r, CompilerInfo & info) {
+
+
+		ExprCode log_or(const auto & l, const auto & r, CompilerInfo & info) {
 			const auto id = make_jump_id("OR", info);
 			const auto end = id + "_END";
 			const auto truE = id + "_TRUE";
@@ -64,29 +60,77 @@ namespace ltn::c::compile {
 			
 			return { ss.str() };
 		}
+
+
+
+		ExprCode elvis(const auto & l, const auto & r, CompilerInfo & info) {
+			const auto jumpmark = make_jump_id("ELVIS", info);
+			const auto jumpmark_else = jumpmark + "_ELSE"; 
+			const auto jumpmark_end = jumpmark + "_END"; 
+			std::ostringstream ss;
+			ss << l.code;
+			ss << inst::duplicate;
+			ss << inst::ifelse(jumpmark_else);
+			ss << inst::jump(jumpmark_end);
+
+			ss << inst::jumpmark(jumpmark_else);
+			ss << inst::scrap;
+			ss << r.code;
+			
+			ss << inst::jumpmark(jumpmark_end);
+			return {ss.str()};
+		}
+
+
+		ExprCode nullco(const auto & l, const auto & r, CompilerInfo & info) {
+			const auto jumpmark = make_jump_id("NULLCO", info);
+			const auto jumpmark_else = jumpmark + "_ELSE"; 
+			const auto jumpmark_end = jumpmark + "_END"; 
+			std::ostringstream ss;
+			ss << l.code;
+			ss << inst::duplicate;
+			ss << inst::null;
+			ss << inst::ueql;
+			ss << inst::ifelse(jumpmark_else);
+			ss << inst::jump(jumpmark_end);
+
+			ss << inst::jumpmark(jumpmark_else);
+			ss << inst::scrap;
+			ss << r.code;
+			
+			ss << inst::jumpmark(jumpmark_end);
+			return {ss.str()};
+		}
+
 	}
 
 	// compiles a binary operation
 	ExprCode binary(const ast::Binary & binary, CompilerInfo & info, Scope & scope) {
 		const auto l = compile::expression(*binary.l, info, scope);
 		const auto r = compile::expression(*binary.r, info, scope);
-
-		if(auto bin = as<const ast::SimpleBinary>(binary)) {
-			std::stringstream ss;
-			ss << l.code;
-			ss << r.code;
-			ss << get_binary_instruction(bin->type);
-			return { ss.str() };
+		switch (binary.type) {
+			case OP::ADD:          return bin(l, r, inst::add);
+			case OP::SUB:          return bin(l, r, inst::sub);
+			case OP::MLT:          return bin(l, r, inst::mlt);
+			case OP::DIV:          return bin(l, r, inst::div);
+			case OP::MOD:          return bin(l, r, inst::mod);
+			case OP::SMALLER:      return bin(l, r, inst::sml);
+			case OP::BIGGER:       return bin(l, r, inst::bgr);
+			case OP::SMALLEREQUAL: return bin(l, r, inst::smleql);
+			case OP::BIGGEREQUAL:  return bin(l, r, inst::bgreql);
+			case OP::EQUAL:        return bin(l, r, inst::eql);
+			case OP::UNEQUEL:      return bin(l, r, inst::ueql);
+			case OP::SPACE_SHIP:   return bin(l, r, inst::comp);
+			case OP::APPROX:       return bin(l, r, inst::approx);
+			case OP::NOTPROX:      return bin(l, r, inst::notprox);
+			case OP::SHIFT_L:      return bin(l, r, inst::shift_l);
+			case OP::SHIFT_R:      return bin(l, r, inst::shift_r);
+			case OP::AND:          return log_and(l, r, info);
+			case OP::OR:           return log_or(l, r, info);
+			case OP::ELVIS:        return elvis(l, r, info);
+			case OP::NULLCO:       return nullco(l, r, info);
 		}
-		if(auto logical = as<ast::Logical>(binary)) {
-			if(logical->type == ast::Logical::Type::AND) {
-				return logical_and(l, r, info);
-			}
-			if(logical->type == ast::Logical::Type::OR) {
-				return logical_or(l, r, info);
-			}
-		}
-		throw CompilerError{"Unknown binary Expr", {}};
+		throw CompilerError{"Invalid binary operation", {}};
 	}
 	
 }

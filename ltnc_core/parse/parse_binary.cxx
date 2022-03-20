@@ -5,16 +5,16 @@
 namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
-		using OP = ltn::c::ast::SimpleBinary::Type;
+		using OP = ltn::c::ast::Binary::Type;
 
 
-		template<class ExprType, typename op_table, auto presedence_down>
+		template<typename op_table, auto presedence_down>
 		ast::expr_ptr binary(lex::Lexer & lexer) {
 			
 			auto l = presedence_down(lexer);
 			while (auto op = match_op(lexer, op_table::data)) {
 				auto && r = presedence_down(lexer);
-				auto expr = std::make_unique<ExprType>(
+				auto expr = std::make_unique<ast::Binary>(
 					*op,
 					std::move(l),
 					std::move(r),
@@ -24,11 +24,6 @@ namespace ltn::c::parse {
 			return l;
 		}
 
-		template<typename op_table, auto presedence_down>
-		constexpr auto regular = binary<ast::SimpleBinary, op_table, presedence_down>;
-
-		template<typename op_table, auto presedence_down>
-		constexpr auto logical = binary<ast::Logical, op_table, presedence_down>;
 	}
 
 	namespace {
@@ -89,14 +84,14 @@ namespace ltn::c::parse {
 
 		struct log_or_table {
 			static const inline auto data = std::array {
-				std::pair{TT::OR, ast::Logical::Type::OR}
+				std::pair{TT::OR, OP::OR}
 			};
 		};
 
 
 		struct log_and_table {
 			static const inline auto data = std::array {
-				std::pair{TT::AND, ast::Logical::Type::AND}
+				std::pair{TT::AND, OP::AND}
 			};
 		};
 
@@ -104,14 +99,14 @@ namespace ltn::c::parse {
 
 		template<auto presedence_down>
 		ast::expr_ptr binary_base(lex::Lexer & lexer) {
-			static constexpr auto factor      = regular<factor_table,      presedence_down>;
-			static constexpr auto term        = regular<term_table,        factor>;
-			static constexpr auto shift       = regular<shift_table,       term>;
-			static constexpr auto comparision = regular<comparision_table, shift>;
-			static constexpr auto equality    = regular<equality_table,    comparision>;
-			static constexpr auto spaceship   = regular<spaceship_table,   equality>;
-			static constexpr auto logical_or  = logical<log_or_table,      spaceship>;
-			static constexpr auto logical_and = logical<log_and_table,     logical_or>;
+			static constexpr auto factor      = binary<factor_table,      presedence_down>;
+			static constexpr auto term        = binary<term_table,        factor>;
+			static constexpr auto shift       = binary<shift_table,       term>;
+			static constexpr auto comparision = binary<comparision_table, shift>;
+			static constexpr auto equality    = binary<equality_table,    comparision>;
+			static constexpr auto spaceship   = binary<spaceship_table,   equality>;
+			static constexpr auto logical_or  = binary<log_or_table,      spaceship>;
+			static constexpr auto logical_and = binary<log_and_table,     logical_or>;
 			return logical_and(lexer);
 		}
 	}

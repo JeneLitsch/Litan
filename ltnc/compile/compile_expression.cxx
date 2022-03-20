@@ -72,44 +72,7 @@ namespace ltn::c::compile {
 	}
 
 
-	ExprCode elvis(const ast::Elvis & expr, CompilerInfo & info, Scope & scope) {
-		const auto jumpmark = make_jump_id("ELVIS", info);
-		const auto jumpmark_else = jumpmark + "_ELSE"; 
-		const auto jumpmark_end = jumpmark + "_END"; 
-		std::ostringstream ss;
-		ss << expression(*expr.if_expr, info, scope).code;
-		ss << inst::duplicate;
-		ss << inst::ifelse(jumpmark_else);
-		ss << inst::jump(jumpmark_end);
 
-		ss << inst::jumpmark(jumpmark_else);
-		ss << inst::scrap;
-		ss << expression(*expr.else_expr, info, scope).code;
-		
-		ss << inst::jumpmark(jumpmark_end);
-		return {ss.str()};
-	}
-
-
-	ExprCode nullco(const ast::Nullco & expr, CompilerInfo & info, Scope & scope) {
-		const auto jumpmark = make_jump_id("NULLCO", info);
-		const auto jumpmark_else = jumpmark + "_ELSE"; 
-		const auto jumpmark_end = jumpmark + "_END"; 
-		std::ostringstream ss;
-		ss << expression(*expr.if_expr, info, scope).code;
-		ss << inst::duplicate;
-		ss << inst::null;
-		ss << inst::ueql;
-		ss << inst::ifelse(jumpmark_else);
-		ss << inst::jump(jumpmark_end);
-
-		ss << inst::jumpmark(jumpmark_else);
-		ss << inst::scrap;
-		ss << expression(*expr.else_expr, info, scope).code;
-		
-		ss << inst::jumpmark(jumpmark_end);
-		return {ss.str()};
-	}
 
 
 
@@ -134,13 +97,6 @@ namespace ltn::c::compile {
 		if(auto ternary = as<ast::Ternary>(expr)) {
 			return compile::ternary(*ternary, info, scope);
 		} 
-		if(auto elvis = as<ast::Elvis>(expr)) {
-			return compile::elvis(*elvis, info, scope);
-		} 
-		if(auto nullco = as<ast::Nullco>(expr)) {
-			return compile::nullco(*nullco, info, scope);
-		} 
-
 		throw CompilerError{"Unknown Expression"};
 	}
 }

@@ -1,5 +1,5 @@
-define a = -1;
+define a = --1;
 
 function main() {
-	return a;
+	return true || true;
 }
