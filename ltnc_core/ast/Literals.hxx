@@ -8,30 +8,24 @@ namespace ltn::c::ast {
 	
 
 
-	struct ConstExpr : public Primary {
-		ConstExpr(const SourceLocation & location) : Primary(location) {}
-		virtual ~ConstExpr() = default;
-	};
-
-
-
-	struct Enum : public ConstExpr {
+	struct Enum final : public Primary {
 		Enum(std::int64_t value, const SourceLocation & location)
-			:	ConstExpr(location), value(value) {}
+			:	Primary(location), value(value) {}
 		virtual ~Enum() = default;
 		std::int64_t value;
 	};
 
 
 
-	struct Literal : public ConstExpr {
-		Literal(const SourceLocation & location) : ConstExpr(location) {}
+	struct Literal : public Primary {
+		Literal(const SourceLocation & location)
+			:	Primary(location) {}
 		virtual ~Literal() = default;
 	};
 
 
 
-	struct Integer : public Literal {
+	struct Integer final : public Literal {
 		Integer(std::bitset<64> value, const SourceLocation & location)
 			:	Integer(static_cast<std::int64_t>(value.to_ullong()), location) {}
 
@@ -43,7 +37,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Float : public Literal {
+	struct Float final : public Literal {
 		Float(stx::float64_t value, const SourceLocation & location)
 			:	Literal(location), value(value) {}
 		virtual ~Float() = default;
@@ -52,7 +46,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Bool : public Literal {
+	struct Bool final : public Literal {
 		Bool(bool value, const SourceLocation & location)
 			:	Literal(location), value(value) {}
 		virtual ~Bool() = default;
@@ -61,7 +55,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Null : public Literal {
+	struct Null final : public Literal {
 		Null(const SourceLocation & location)
 			:	Literal(location) {}
 		virtual ~Null() = default;
@@ -69,7 +63,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Char : public Literal {
+	struct Char final : public Literal {
 		Char(std::uint8_t value, const SourceLocation & location)
 			:	Literal(location), value(value) {}
 		virtual ~Char() = default;
@@ -78,7 +72,7 @@ namespace ltn::c::ast {
 
 
 
-	struct String : public Literal {
+	struct String final : public Literal {
 		String(const std::string & value, const SourceLocation & location)
 			:	Literal(location), value(value) {}
 		virtual ~String() = default;
@@ -87,7 +81,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Array : public Literal {
+	struct Array final: public Literal {
 		Array(const SourceLocation & location) : Literal(location) {}
 		virtual ~Array() = default;
 		std::vector<std::unique_ptr<Expression>> elements;
@@ -95,7 +89,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Lambda : public Literal {
+	struct Lambda final : public Literal {
 		Lambda(
 			std::unique_ptr<Functional> fx,
 			std::vector<std::unique_ptr<Var>> captures,

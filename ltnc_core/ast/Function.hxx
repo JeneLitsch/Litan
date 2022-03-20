@@ -12,7 +12,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Except : public Node {
+	struct Except final : public Node {
 		Except(
 			const std::string & errorname,
 			std::unique_ptr<Statement> && body,
@@ -45,7 +45,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Function : public Functional {
+	struct Function final : public Functional {
 		Function(
 			const std::string & name,
 			Namespace namespaze,
@@ -61,7 +61,7 @@ namespace ltn::c::ast {
 
 
 
-	struct BuildIn : public Functional {
+	struct BuildIn final : public Functional {
 		BuildIn(
 			const std::string & name,
 			Namespace namespaze,

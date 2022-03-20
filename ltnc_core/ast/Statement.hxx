@@ -11,7 +11,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Throw : public Statement {
+	struct Throw final : public Statement {
 		Throw(
 			std::unique_ptr<Expression> expr,
 			const SourceLocation & location) 
@@ -23,7 +23,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Block : public Statement {
+	struct Block final : public Statement {
 		Block(
 			std::vector<std::unique_ptr<Statement>> statements,
 			const SourceLocation & location) 
@@ -35,7 +35,7 @@ namespace ltn::c::ast {
 
 
 
-	struct NewVar : public Statement {
+	struct NewVar final : public Statement {
 		NewVar(
 			const std::string & name,
 			std::unique_ptr<Expression> right,
@@ -50,7 +50,7 @@ namespace ltn::c::ast {
 
 
 
-	struct NewConst : public Statement {
+	struct NewConst final : public Statement {
 		NewConst(
 			const std::string & name,
 			std::unique_ptr<Expression> right,
@@ -65,7 +65,7 @@ namespace ltn::c::ast {
 
 
 
-	struct IfElse : public Statement {
+	struct IfElse final : public Statement {
 		IfElse(
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Statement> if_branch,
@@ -83,7 +83,7 @@ namespace ltn::c::ast {
 
 
 
-	struct While : public Statement {
+	struct While final : public Statement {
 		While(
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Statement> body,
@@ -99,7 +99,7 @@ namespace ltn::c::ast {
 
 
 
-	struct For : public Statement {
+	struct For final : public Statement {
 		For(
 			std::unique_ptr<NewVar> var,
 			std::unique_ptr<Expression> from,
@@ -121,7 +121,7 @@ namespace ltn::c::ast {
 
 
 
-	struct StatementExpression : public Statement {
+	struct StatementExpression final : public Statement {
 		StatementExpression(
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location)
@@ -133,7 +133,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Return : public Statement {
+	struct Return final : public Statement {
 		Return(
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location)

@@ -15,7 +15,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Global : public Declaration {
+	struct Global final : public Declaration {
 		Global(const SourceLocation & location) : Declaration(location) {}
 		virtual ~Global() = default;
 		std::string name;

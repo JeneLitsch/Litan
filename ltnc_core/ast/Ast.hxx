@@ -2,6 +2,7 @@
 #include "Node.hxx"
 #include "Function.hxx"
 #include "Expression.hxx"
+#include "Primary.hxx"
 #include "Statement.hxx"
 #include "Literals.hxx"
 #include "Assignable.hxx"

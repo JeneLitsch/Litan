@@ -9,7 +9,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Index : public Assignable {
+	struct Index final : public Assignable {
 		Index(
 			std::unique_ptr<Expression> expression,
 			std::unique_ptr<Expression> index,
@@ -24,7 +24,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Var : public Assignable {
+	struct Var final : public Assignable {
 	public:
 		Var(const std::string & name,
 			const SourceLocation & location)
@@ -36,7 +36,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Assign : public Expression {
+	struct Assign final : public Expression {
 	public:
 		Assign(
 			std::unique_ptr<Assignable> l,
@@ -50,7 +50,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Modify : public Expression {
+	struct Modify final : public Expression {
 		enum class Type { ADD, SUB, MLT, DIV, MOD, SHIFT_L, SHIFT_R };
 		Modify(
 			Type type,
@@ -69,7 +69,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Member : public Assignable {
+	struct Member final : public Assignable {
 		Member(
 			std::unique_ptr<Expression> expr,
 			const std::string & name,

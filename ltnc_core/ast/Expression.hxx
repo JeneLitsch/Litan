@@ -34,10 +34,6 @@ namespace ltn::c::ast {
 
 
 
-	struct Primary : public Expression {
-		Primary(const SourceLocation & location) : Expression(location) {}
-		virtual ~Primary() = default;
-	};
 
 
 
@@ -81,72 +77,5 @@ namespace ltn::c::ast {
 		Type type;
 		std::unique_ptr<Expression> l;
 		std::unique_ptr<Expression> r;
-	};
-
-
-
-	struct Iife : public Primary {
-		Iife(
-			const SourceLocation & location,
-			std::unique_ptr<Statement> stmt) 
-			:	Primary(location), 
-				stmt(std::move(stmt)) {}
-		virtual ~Iife() = default;
-		
-		std::unique_ptr<Statement> stmt;
-	};
-
-
-
-	struct Call : public Primary {
-	public:
-		Call(
-			const std::string & name,
-			const Namespace & namespaze,
-			std::vector<std::unique_ptr<Expression>> parameters,
-			const SourceLocation & location)
-			:	Primary(location),
-				name(name),
-				namespaze(namespaze),
-				parameters(std::move(parameters)) {}
-		virtual ~Call() = default;
-		std::string name;
-		Namespace namespaze;
-		std::vector<std::unique_ptr<Expression>> parameters;
-	};
-
-
-
-	struct GlobalValue : public Primary {
-	public:
-		GlobalValue(
-			const std::string & name,
-			const Namespace & namespaze,
-			const SourceLocation & location)
-			:	Primary(location),
-				name(name),
-				namespaze(namespaze) {}
-		virtual ~GlobalValue() = default;
-		std::string name;
-		Namespace namespaze;
-	};
-
-
-
-	struct FxPointer : public Primary {
-	public:
-		FxPointer(
-			const std::string & name,
-			const Namespace & namespaze,
-			const std::size_t placeholders,
-			const SourceLocation & location)
-			:	Primary(location),
-				name(name),
-				namespaze(namespaze),
-				placeholders(std::move(placeholders)) {}
-		virtual ~FxPointer() = default;
-		std::string name;
-		Namespace namespaze;
-		std::size_t placeholders;
 	};
 }

@@ -8,5 +8,10 @@ namespace ltn::c::ast {
 			:	location(location) {}
 		virtual ~Node() = default;
 		SourceLocation location;
+		
+		Node(const Node &) = delete;
+		Node(Node &&) = delete;
+		Node & operator=(const Node &) = delete;
+		Node & operator=(Node &&) = delete;
 	};
 }
