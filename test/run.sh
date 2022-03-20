@@ -2,7 +2,7 @@ echo "Testing \"$1\""
 asmFile="test/$test.asm.ltn"
 binFile="test/$test.bin.ltn"
 
-./bin/ltnc 	$asmFile ./stdlib\
+./bin/ltnc -o $asmFile ./stdlib\
 	test/algorithm.ltn\
 	test/arith.ltn\
 	test/array.ltn\

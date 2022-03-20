@@ -6,14 +6,14 @@ namespace ltn::c::optimize {
 	}
 	
 	
-	ast::expr_ptr unary(std::unique_ptr<ast::Unary> unary) {
-		auto & inner = unary->expression;
+	ast::expr_ptr unary(std::unique_ptr<ast::Unary> expr) {
+		auto & inner = expr->expression;
 		inner = expression(std::move(inner));
-		if(check_unique<ast::Integer>(inner) && is_negation(*unary)) {
+		if(check_unique<ast::Integer>(inner) && is_negation(*expr)) {
 			auto integer = unique_cast<ast::Integer>(std::move(inner));
 			integer->value = -integer->value;
 			return integer;
 		}
-		return unary;
+		return expr;
 	}
 }
