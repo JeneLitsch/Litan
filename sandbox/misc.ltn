@@ -1,4 +1,4 @@
-define b = (1 ? 42 : 1337) + 1;
+define b = (false ? 42 : 1337) + 1;
 
 function main() {
 	return b;

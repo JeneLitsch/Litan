@@ -9,22 +9,22 @@ namespace ltn::c::optimize {
 
 		if(auto * litr = as<ast::Bool>(*expr.condition)) {
 			if(litr->value) return std::move(expr.if_expr);
-			else std::move(expr.else_expr);
+			else return std::move(expr.else_expr);
 		}
 
 		if(auto * litr = as<ast::Char>(*expr.condition)) {
 			if(litr->value) return std::move(expr.if_expr);
-			else std::move(expr.else_expr);
+			else return std::move(expr.else_expr);
 		}
 
 		if(auto * litr = as<ast::Integer>(*expr.condition)) {
 			if(litr->value) return std::move(expr.if_expr);
-			else std::move(expr.else_expr);
+			else return std::move(expr.else_expr);
 		}
 
 		if(auto * litr = as<ast::Float>(*expr.condition)) {
 			if(litr->value) return std::move(expr.if_expr);
-			else std::move(expr.else_expr);
+			else return std::move(expr.else_expr);
 		}
 
 		if(auto * litr = as<ast::String>(*expr.condition)) {
