@@ -1,42 +1,27 @@
 #pragma once
 #include "ltnc_core/ast/Ast.hxx"
-#include "../utils/concepts.hxx"
+#include "to_node_type.hxx"
 namespace ltn::c::optimize {
-
-
-	template<literal_type T>
-	struct promoted_t {
-		using Type = T;
-	};
-	template<>
-	struct promoted_t<ast::Bool> {
-		using Type = ast::Integer;
-	};
-	template<>
-	struct promoted_t<ast::Char> {
-		using Type = ast::Integer;
-	};
-	template<literal_type T>
-	using promoted = typename promoted_t<T>::Type;
 
 
 
 	struct Negation {
-		template<literal_type Litr>
-		auto operator()(Litr & litr) const {
-			using T = promoted<Litr>;
-			return std::make_unique<T>(eval(litr), litr.location);
+		template<ast::literal_type Litr>
+		auto operator()(const Litr & litr) const {
+			auto result = eval(litr);
+			using Node = typename node<decltype(result)>::type;
+			return std::make_unique<Node>(result, litr.location);
 		}
 
-		auto eval(literal_type auto & litr) const {
-			return -litr.value;
+		auto eval(const ast::literal_type auto & litr) const {
+			return -litr.value + std::int64_t(0);
 		}
 	};
 
 
 
 	struct Truthyness {
-		auto eval(literal_type auto & litr) const {
+		auto eval(ast::literal_type auto & litr) const {
 			return static_cast<bool>(litr.value);
 		}
 
@@ -53,11 +38,11 @@ namespace ltn::c::optimize {
 
 
 	struct Notigation : Truthyness {
-		auto eval(literal_type auto & litr) const {
+		auto eval(ast::literal_type auto & litr) const {
 			return !Truthyness::eval(litr);
 		}
 
-		auto operator()(literal_type auto & litr) const {
+		auto operator()(ast::literal_type auto & litr) const {
 			return std::make_unique<ast::Bool>(eval(litr), litr.location);
 		}
 	};
@@ -65,7 +50,7 @@ namespace ltn::c::optimize {
 
 	
 	struct NullTest {
-		auto eval(literal_type auto &) const {
+		auto eval(ast::literal_type auto &) const {
 			return true;
 		}
 	
@@ -73,7 +58,7 @@ namespace ltn::c::optimize {
 			return false;
 		}
 
-		auto operator()(literal_type auto & litr) const {
+		auto operator()(ast::literal_type auto & litr) const {
 			return std::make_unique<ast::Bool>(eval(litr), litr.location);
 		}
 	};

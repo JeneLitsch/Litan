@@ -1,4 +1,4 @@
-define b = !"1, 2, 3" + 1;
+define b = 1.4 / 2;
 
 function main() {
 	return b;

@@ -13,7 +13,7 @@ namespace ltn::c::optimize {
 
 		
 
-		template<typename Operator, literal_type Litr>
+		template<typename Operator, ast::literal_type Litr>
 		ast::expr_ptr eval(ast::Expression & inner) {
 			static constexpr Operator op;
 			if(auto * litr = as<Litr>(inner)) {
