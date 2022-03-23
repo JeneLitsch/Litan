@@ -20,7 +20,13 @@ namespace ltn {
 
 
 	template<typename To, typename From>
+	bool dynamic_check(const From & from) {
+		return dynamic_cast<const To*>(&from);
+	}
+
+
+	template<typename To, typename From>
 	bool check_unique(const std::unique_ptr<From> & from) {
-		return dynamic_cast<const To*>(from.get());
+		return dynamic_check<To>(*from);
 	}
 }
