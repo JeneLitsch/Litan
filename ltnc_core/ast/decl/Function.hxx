@@ -3,8 +3,7 @@
 #include <tuple>
 #include <vector>
 #include "Declaration.hxx"
-#include "Statement.hxx"
-#include "Namespace.hxx"
+#include "../Namespace.hxx"
 
 namespace ltn::c::ast {
 	struct Statement;

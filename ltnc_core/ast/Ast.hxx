@@ -1,11 +1,10 @@
 #pragma once
-#include "Node.hxx"
-#include "Function.hxx"
-#include "Expression.hxx"
-#include "Primary.hxx"
-#include "Statement.hxx"
-#include "Literals.hxx"
-#include "Assignable.hxx"
+#include "decl/Function.hxx"
+#include "stmt/Statement.hxx"
+#include "expr/Expression.hxx"
+#include "expr/Primary.hxx"
+#include "expr/Literals.hxx"
+#include "expr/Assignable.hxx"
 
 namespace ltn::c::ast {
 	using expr_ptr = std::unique_ptr<Expression>;

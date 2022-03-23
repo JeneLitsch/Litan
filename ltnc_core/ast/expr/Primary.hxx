@@ -1,7 +1,6 @@
 #pragma once
 #include "Expression.hxx"
 #include <vector>
-#include "Namespace.hxx"
 namespace ltn::c::ast {
 	struct Assignable;
 	struct Statement;

@@ -1,6 +1,6 @@
 #pragma once
-#include "Node.hxx"
-#include "Namespace.hxx"
+#include "../Node.hxx"
+#include "../Namespace.hxx"
 #include <map>
 
 namespace ltn::c::ast {

@@ -1,7 +1,7 @@
 #pragma once
-#include "Node.hxx"
 #include <vector>
-#include "Namespace.hxx"
+#include "../Node.hxx"
+#include "../Namespace.hxx"
 namespace ltn::c::ast {
 	struct Assignable;
 	struct Statement;

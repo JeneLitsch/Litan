@@ -1,9 +1,8 @@
 #pragma once
-#include "Node.hxx"
-#include "Expression.hxx"
+#include "../Node.hxx"
 #include <vector>
 namespace ltn::c::ast {
-
+	struct Expression;
 	struct Statement : public Node {
 		Statement(const SourceLocation & location) : Node(location) {}
 		virtual ~Statement() = default;
