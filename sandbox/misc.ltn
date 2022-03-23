@@ -1,4 +1,4 @@
-define b = -true;
+define b = !"1, 2, 3" + 1;
 
 function main() {
 	return b;
