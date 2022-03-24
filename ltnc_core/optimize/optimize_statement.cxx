@@ -3,7 +3,9 @@
 namespace ltn::c::optimize {
 	namespace {
 		ast::stmt_ptr unary_statement(auto & stmt) {
-			stmt.expression = expression(std::move(stmt.expression));
+			if(stmt.expression) {
+				stmt.expression = expression(std::move(stmt.expression));
+			}
 			return nullptr;
 		} 
 
