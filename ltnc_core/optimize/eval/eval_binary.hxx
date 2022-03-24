@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include <cmath>
 #include "ltnc_core/ast/Ast.hxx"
 #include "to_node_type.hxx"
 namespace ltn::c::optimize {
@@ -17,8 +18,21 @@ namespace ltn::c::optimize {
 		}
 	};
 
+
+	struct modolus {
+		auto operator()(std::integral auto l, std::integral auto r) const {
+			return l % r;
+		}
+
+		auto operator()(std::floating_point auto l, std::floating_point auto r) const {
+			return std::fmod(l, r);
+		}
+	};
+
+
 	struct Addition    : Arithmetic<std::plus<void>> {};
 	struct Subtraction : Arithmetic<std::minus<void>> {};
 	struct Multiply    : Arithmetic<std::multiplies<void>> {};
 	struct Divide      : Arithmetic<std::divides<void>> {};
+	struct Modulo      : Arithmetic<modolus> {};
 }

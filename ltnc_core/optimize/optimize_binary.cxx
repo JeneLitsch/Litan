@@ -11,6 +11,7 @@ namespace ltn::c::optimize {
 		constexpr auto is_sub = is_op_type<ast::Binary::Type::SUB>;
 		constexpr auto is_mlt = is_op_type<ast::Binary::Type::MLT>;
 		constexpr auto is_div = is_op_type<ast::Binary::Type::DIV>;
+		constexpr auto is_mod = is_op_type<ast::Binary::Type::MOD>;
 	}
 
 
@@ -69,21 +70,25 @@ namespace ltn::c::optimize {
 		l = expression(std::move(l));
 		r = expression(std::move(r));
 		
-		if (is_add(binary)) {
+		if(is_add(binary)) {
 			if(auto expr = eval_arith<Addition>(*l, *r)) return expr;
 			if(auto expr = eval<Addition, ast::String,  ast::String>(*l, *r))  return expr;
 		}
 
-		if (is_sub(binary)) {
+		if(is_sub(binary)) {
 			if(auto expr = eval_arith<Subtraction>(*l, *r)) return expr;
 		}
 
-		if (is_mlt(binary)) {
+		if(is_mlt(binary)) {
 			if(auto expr = eval_arith<Multiply>(*l, *r)) return expr;
 		}
 
-		if (is_div(binary)) {
+		if(is_div(binary)) {
 			if(auto expr = eval_arith<Divide>(*l, *r)) return expr;
+		}
+
+		if(is_mod(binary)) {
+			if(auto expr = eval_arith<Modulo>(*l, *r)) return expr;
 		}
 
 		return nullptr;
