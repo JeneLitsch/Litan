@@ -12,12 +12,12 @@ namespace ltn::c::ast {
 
 	struct Throw final : public Statement {
 		Throw(
-			std::unique_ptr<Expression> expr,
+			std::unique_ptr<Expression> expression,
 			const SourceLocation & location) 
 			:	Statement(location),
-				expr(std::move(expr)) {}
+				expression(std::move(expression)) {}
 		virtual ~Throw() = default;
-		std::unique_ptr<Expression> expr;
+		std::unique_ptr<Expression> expression;
 	};
 
 
@@ -37,14 +37,14 @@ namespace ltn::c::ast {
 	struct NewVar final : public Statement {
 		NewVar(
 			const std::string & name,
-			std::unique_ptr<Expression> right,
+			std::unique_ptr<Expression> expression,
 			const SourceLocation & location)
 			:	Statement(location),
 				name(name),
-				right(std::move(right)) {}
+				expression(std::move(expression)) {}
 		virtual ~NewVar() = default;
 		std::string name;
-		std::unique_ptr<Expression> right; 
+		std::unique_ptr<Expression> expression; 
 	};
 
 
@@ -52,14 +52,14 @@ namespace ltn::c::ast {
 	struct NewConst final : public Statement {
 		NewConst(
 			const std::string & name,
-			std::unique_ptr<Expression> right,
+			std::unique_ptr<Expression> expression,
 			const SourceLocation & location)
 			:	Statement(location),
 				name(name),
-				right(std::move(right)) {}
+				expression(std::move(expression)) {}
 		virtual ~NewConst() = default;
 		std::string name;
-		std::unique_ptr<Expression> right; 
+		std::unique_ptr<Expression> expression; 
 	};
 
 

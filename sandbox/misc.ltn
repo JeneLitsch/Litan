@@ -1,5 +1,17 @@
 define b = (0.0 ? 42 : 1337) + 1;
 
+function f() => (0.0 ? 42 : 1337) + 1
+
 function main() {
-	return b;
+	if(1 + 1) {
+		var a = (0.0 ? 42 : 1337) + 1;
+		return a;
+	}
+	while(0) {
+		var a = (0.0 ? 42 : 1337) + 1;
+	}
+	for i (0, 10) {
+		var a = (0.0 ? 42 : 1337) + 1;
+	}
+	throw (0.0 ? 42 : 1337) + 1;
 }

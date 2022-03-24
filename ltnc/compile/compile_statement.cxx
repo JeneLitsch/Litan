@@ -54,8 +54,8 @@ namespace ltn::c::compile {
 			const auto var = scope.insert(
 				new_variable.name, qualifier, new_variable.location);
 			std::stringstream ss;
-			if(new_variable.right) {
-				const auto expr = compile::expression(*new_variable.right, info, scope);
+			if(new_variable.expression) {
+				const auto expr = compile::expression(*new_variable.expression, info, scope);
 				ss << expr.code;
 			}
 			else {
@@ -79,8 +79,8 @@ namespace ltn::c::compile {
 
 	StmtCode thr0w(const ast::Throw & thr0w, CompilerInfo & info, Scope & scope) {
 		std::ostringstream ss;
-		if(thr0w.expr) {
-			ss << compile::expression(*thr0w.expr, info, scope).code;
+		if(thr0w.expression) {
+			ss << compile::expression(*thr0w.expression, info, scope).code;
 		}
 		else {
 			ss << inst::null;
