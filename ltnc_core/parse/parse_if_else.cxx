@@ -16,7 +16,7 @@ namespace ltn::c::parse {
 			}
 			return statement(lexer);
 		}
-		return nullptr;
+		return std::make_unique<ast::DoNothing>(lexer.location());
 	}
 
 

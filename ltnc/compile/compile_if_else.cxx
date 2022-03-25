@@ -9,6 +9,12 @@ namespace ltn::c::compile {
 		return ss.str();
 	}
 
+
+	bool has_else_branch(const ast::IfElse & stmt) {
+		return stmt.else_branch && (!as<ast::DoNothing>(*stmt.else_branch));
+	}
+
+
 	StmtCode if_else(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope) {
 		// Separate scopes for branches
 		Scope if_scope{&scope};
@@ -20,7 +26,7 @@ namespace ltn::c::compile {
 		const auto if_branch = statement(*stmt.if_branch, info, if_scope);
 		
 		// with else
-		if(stmt.else_branch) {
+		if(has_else_branch(stmt)) {
 			const auto else_branch = statement(*stmt.else_branch, info, else_scope);
 			const auto idElse = make_jump_id("IF_ELSE", info);
 			std::stringstream ss;

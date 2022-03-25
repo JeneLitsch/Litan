@@ -19,17 +19,17 @@ namespace ltn::c::ast {
 		Ternary(
 			const SourceLocation & location,
 			std::unique_ptr<Expression> condition,
-			std::unique_ptr<Expression> if_expr,
-			std::unique_ptr<Expression> else_expr) 
+			std::unique_ptr<Expression> if_branch,
+			std::unique_ptr<Expression> else_branch) 
 			:	Expression(location),
 				condition(std::move(condition)),
-				if_expr(std::move(if_expr)),
-				else_expr(std::move(else_expr)) {}
+				if_branch(std::move(if_branch)),
+				else_branch(std::move(else_branch)) {}
 		virtual ~Ternary() = default;
 	
 		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Expression> if_expr;
-		std::unique_ptr<Expression> else_expr;
+		std::unique_ptr<Expression> if_branch;
+		std::unique_ptr<Expression> else_branch;
 	};
 
 

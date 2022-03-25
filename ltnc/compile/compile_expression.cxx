@@ -59,11 +59,11 @@ namespace ltn::c::compile {
 		ss << expression(*expr.condition, info, scope).code;
 		ss << inst::ifelse(jumpmark_else);
 
-		ss << expression(*expr.if_expr, info, scope).code;
+		ss << expression(*expr.if_branch, info, scope).code;
 		ss << inst::jump(jumpmark_end);
 
 		ss << inst::jumpmark(jumpmark_else);
-		ss << expression(*expr.else_expr, info, scope).code;
+		ss << expression(*expr.else_branch, info, scope).code;
 		ss << inst::jump(jumpmark_end);
 
 		ss << inst::jumpmark(jumpmark_end);

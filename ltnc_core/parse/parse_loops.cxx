@@ -27,7 +27,7 @@ namespace ltn::c::parse {
 	ast::stmt_ptr for_loop(lex::Lexer & lexer) {
 		if(lexer.match(TT::FOR)) {
 			auto var_name = variable_name(lexer);
-			auto var = std::make_unique<ast::NewVar>(
+			auto var = std::make_unique<ast::NewConst>(
 				var_name,
 				nullptr,
 				lexer.location());

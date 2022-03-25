@@ -44,6 +44,8 @@ namespace ltn::c::compile {
 			return {ss.str(), 0};
 		}
 
+
+
 		// compiles variable creation -> var foo ...;
 		StmtCode new_variable_like(
 			const auto & new_variable,
@@ -67,14 +69,17 @@ namespace ltn::c::compile {
 	}
 	
 
+
 	StmtCode new_const(const ast::NewConst & stmt, CompilerInfo & info, Scope & scope) {
 		return new_variable_like(stmt, info, scope, Variable::Qualifier::CONST);
 	}
 	
 
+
 	StmtCode new_variable(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope) {
 		return new_variable_like(stmt, info, scope, Variable::Qualifier::MUTABLE);
 	}
+
 
 
 	StmtCode thr0w(const ast::Throw & thr0w, CompilerInfo & info, Scope & scope) {
@@ -88,6 +93,7 @@ namespace ltn::c::compile {
 		ss << inst::thr0w;
 		return {ss.str(), 0};
 	}
+
 
 
 	// compiles statement
@@ -122,6 +128,9 @@ namespace ltn::c::compile {
 			ss << code.code;
 			ss << inst::scrap;
 			return { ss.str(), 0 };
+		}
+		if(as<ast::DoNothing>(stmt)) {
+			return StmtCode{"", 0};
 		}
 		throw CompilerError{"Unknown statement"};
 	}

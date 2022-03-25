@@ -9,6 +9,13 @@ namespace ltn::c::ast {
 	};
 
 
+	
+	struct DoNothing : public Statement {
+		DoNothing(const SourceLocation & location) : Statement(location) {}
+		virtual ~DoNothing() = default;
+	};
+
+
 
 	struct Throw final : public Statement {
 		Throw(
@@ -100,7 +107,7 @@ namespace ltn::c::ast {
 
 	struct For final : public Statement {
 		For(
-			std::unique_ptr<NewVar> var,
+			std::unique_ptr<NewConst> var,
 			std::unique_ptr<Expression> from,
 			std::unique_ptr<Expression> to,
 			std::unique_ptr<Statement> body,
@@ -112,7 +119,7 @@ namespace ltn::c::ast {
 				body(std::move(body)) {}
 
 		virtual ~For() = default;
-		std::unique_ptr<NewVar> var;
+		std::unique_ptr<NewConst> var;
 		std::unique_ptr<Expression> from;
 		std::unique_ptr<Expression> to;
 		std::unique_ptr<Statement> body;

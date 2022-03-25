@@ -1,5 +1,6 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
+#include "eval/eval_conditional.hxx"
 namespace ltn::c::optimize {
 	namespace {
 		ast::stmt_ptr unary_statement(auto & stmt) {
@@ -25,6 +26,14 @@ namespace ltn::c::optimize {
 			if(stmt.else_branch) {
 				stmt.else_branch = statement(std::move(stmt.else_branch));
 			}
+
+			if(auto expr = pre_decide<ast::Bool>(stmt))    return expr;
+			if(auto expr = pre_decide<ast::Char>(stmt))    return expr;
+			if(auto expr = pre_decide<ast::Integer>(stmt)) return expr;
+			if(auto expr = pre_decide<ast::Float>(stmt))   return expr;
+			if(auto expr = pre_decide<ast::Float>(stmt))   return expr;
+			if(auto expr = pre_decide<ast::String>(stmt))  return expr;
+			if(auto expr = pre_decide<ast::Array>(stmt))   return expr;
 			return nullptr;
 		}
 
@@ -45,6 +54,7 @@ namespace ltn::c::optimize {
 			return nullptr;
 		}
 	}
+
 
 
 	ast::stmt_ptr statement(ast::Statement & stmt) {

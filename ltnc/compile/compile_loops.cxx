@@ -29,7 +29,7 @@ namespace ltn::c::compile {
 		Scope loop_scope{&scope};
 
 		// compile parts
-		const auto var = new_variable(*stmt.var, info, loop_scope);
+		const auto var = new_const(*stmt.var, info, loop_scope);
 		const auto from = expression(*stmt.from, info, loop_scope);
 		const auto to = expression(*stmt.to, info, loop_scope);
 		const auto body = statement(*stmt.body, info, loop_scope);
