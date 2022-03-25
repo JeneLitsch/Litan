@@ -107,6 +107,9 @@ namespace ltn::c::compile {
 		if(auto loop = as<ast::While>(stmt)) {
 			return compile::while_loop(*loop, info, scope);
 		}
+		if(auto loop = as<ast::InfiniteLoop>(stmt)) {
+			return compile::infinite_loop(*loop, info, scope);
+		}
 		if(auto loop = as<ast::For>(stmt)) {
 			return compile::for_loop(*loop, info, scope);
 		}

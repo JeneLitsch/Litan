@@ -1,8 +1,8 @@
 #include "ltn/casts.hxx"
 namespace ltn::c::optimize {
-	template<typename Condition, typename Parent>
-	auto pick_branch(Condition & condition, Parent & parent) {
-		if(static_cast<bool>(condition.value)) {
+	template<typename Parent>
+	auto pick_branch(bool is_true, Parent & parent) {
+		if(is_true) {
 			return std::move(parent.if_branch);
 		}
 		else {
@@ -11,23 +11,40 @@ namespace ltn::c::optimize {
 	}
 
 
-	template<typename Parent>
-	auto pick_branch(ast::String &, Parent & parent) {
-		return std::move(parent.if_branch);
+	template<typename Condition>
+	auto truthy(Condition & condition) {
+		return static_cast<bool>(condition.value);
 	}
 
 
 
-	template<typename Parent>
-	auto pick_branch(ast::Array &, Parent & parent) {
-		return std::move(parent.if_branch);
+	template<>
+	inline auto truthy<ast::String>(ast::String &) {
+		return true;
 	}
 
 
 
-	template<typename Parent>
-	auto pick_branch(ast::Null &, Parent & parent) {
-		return std::move(parent.if_branch);
+	template<>
+	inline auto truthy<ast::Array>(ast::Array &) {
+		return true;
+	}
+
+
+
+	template<>
+	inline auto truthy<ast::Null>(ast::Null &) {
+		return false;
+	}
+
+
+
+	template<typename Condition>
+	bool is_truthy(ast::Expression & condition) {
+		if(auto * c = as<Condition>(condition)) {
+			return truthy<Condition>(*c);
+		}
+		return false;
 	}
 
 
@@ -35,8 +52,12 @@ namespace ltn::c::optimize {
 	template<typename Condition, typename Parent>
 	auto pre_decide(Parent & parent) -> decltype(parent.if_branch) {
 		if(auto * condition = as<Condition>(*parent.condition)) {
-			return pick_branch(*condition, parent);
+			bool is_always_true = truthy<Condition>(*condition);
+			return pick_branch(is_always_true, parent);
 		}
 		return nullptr;
 	} 
+
+
+	
 }

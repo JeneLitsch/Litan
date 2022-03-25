@@ -3,7 +3,7 @@ run () {
 	ltnFile="sandbox/$1.ltn"
 	asmFile="sandbox/$1.asm.ltn"
 	binFile="sandbox/$1.bin.ltn"
-	./bin/ltnc  $asmFile ./stdlib $ltnFile
+	./bin/ltnc  $asmFile ./stdlib $ltnFile -o
 	./bin/ltna 	$binFile  $asmFile
 	./bin/ltnvm $binFile
 	echo 

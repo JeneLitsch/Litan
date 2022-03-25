@@ -33,6 +33,7 @@ namespace ltn::c::compile {
 	// Statement
 	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode if_else(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope);
+	StmtCode infinite_loop(const ast::InfiniteLoop & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode while_loop(const ast::While & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope);
 	StmtCode new_variable(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope);

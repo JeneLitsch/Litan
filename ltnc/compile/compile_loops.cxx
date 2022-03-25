@@ -24,6 +24,26 @@ namespace ltn::c::compile {
 	}
 
 
+
+	StmtCode infinite_loop(const ast::InfiniteLoop & stmt, CompilerInfo & info, Scope & scope) {
+		// outer scope of loop 
+		Scope loop_scope{&scope}; 
+		
+		// compile parts
+		const auto body = statement(*stmt.body, info, loop_scope);
+		const auto jump = make_jump_id("INFINETE_LOOP", info);
+
+		// generate asm code
+		std::stringstream ss;
+		ss 	<< inst::jumpmark(jump)
+			<< body.code
+			<< inst::jump(jump);
+
+		return {ss.str(), body.var_count};
+	}
+
+
+
 	StmtCode for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		Scope loop_scope{&scope};

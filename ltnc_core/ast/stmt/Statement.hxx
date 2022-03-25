@@ -104,6 +104,18 @@ namespace ltn::c::ast {
 	};
 
 
+	struct InfiniteLoop final : public Statement {
+		InfiniteLoop(
+			std::unique_ptr<Statement> body,
+			const SourceLocation & location)
+			:	Statement(location),
+				body(std::move(body)) {}
+
+		virtual ~InfiniteLoop() = default;
+		std::unique_ptr<Statement> body;
+	};
+
+
 
 	struct For final : public Statement {
 		For(
