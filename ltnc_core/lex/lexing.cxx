@@ -175,6 +175,9 @@ namespace ltn::c::lex {
 			if(match('=')) {
 				return make(TT::ASSIGN_SUB, "-=");
 			}
+			if(match('>')) {
+				return make(TT::RARROW, "->");
+			}
 			return make(TT::MINUS, "-");
 		}
 		if(match('+')) {

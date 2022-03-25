@@ -2,7 +2,7 @@ namespace test {
 	function queue_push_pop_peek() {
 		var fx = lambda(values) {
 			var queue = std::queue();
-			for i (0, std::size(values)) {
+			for (i : 0 -> std::size(values)) {
 				std::push(queue, values[i]);
 			}
 			var q0 = std::pop(queue);
@@ -22,7 +22,7 @@ namespace test {
 	function queue_size() {
 		var fx = lambda(size) {
 			var queue = std::queue();
-			for i (0, size) {
+			for (i : 0 -> size) {
 				std::push(queue, 42);
 			}
 			return std::size(queue);

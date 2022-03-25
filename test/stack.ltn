@@ -2,7 +2,7 @@ namespace test {
 	function stack_push_pop_peek() {
 		var fx = lambda(values) {
 			var stack = std::stack();
-			for i (0, std::size(values)) {
+			for (i : 0 -> std::size(values)) {
 				std::push(stack, values[i]);
 			}
 			var q0 = std::pop(stack);
@@ -22,7 +22,7 @@ namespace test {
 	function stack_size() {
 		var fx = lambda(size) {
 			var stack = std::stack();
-			for i (0, size) {
+			for (i : 0 -> size) {
 				std::push(stack, 42);
 			}
 			return std::size(stack);

@@ -34,7 +34,7 @@ namespace test {
 			var arr = std::clone(array);
 			var sum1 = 0;
 			var sum2 = 0;
-			for i (0, std::size(arr)) {
+			for (i : 0 -> std::size(arr)) {
 				sum1 += arr[i];
 				arr[i] = 0;
 				sum2 += arr[i];

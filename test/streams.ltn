@@ -3,7 +3,7 @@ namespace test {
 		var fx = lambda(array) {
 			var oss = std::strout();
 			std::println(oss, "ABC");
-			for i (0, std::size(array)) {
+			for (i : 0 -> std::size(array)) {
 				std::print(oss, array[i]);
 			};
 			return std::string(oss);

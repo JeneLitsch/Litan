@@ -2,7 +2,7 @@ namespace test {
 	function for_alt1() {
 		var fx = lambda(begin, end) {
 			var sum = 0;
-			for i (begin, end) {
+			for (i : begin -> end) {
 				sum += i;
 			}
 			return sum;

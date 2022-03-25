@@ -1,5 +1,7 @@
 define a = 41;
 
 function main() {
-	return 1 + a; 
+	for (i : 0 -> 10) {
+
+	}
 }

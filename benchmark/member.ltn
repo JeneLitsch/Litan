@@ -2,7 +2,7 @@ function main() {
 	var clock = std::chrono::clock();
 	var foo = std::struct();
 	foo.a = 0;
-	for i (0, 1000000) {
+	for (i : 0 -> 1000000) {
 		foo.b = 1;
 		foo.b = null;
 		foo.a += 1;

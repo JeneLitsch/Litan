@@ -79,6 +79,7 @@ namespace ltn::c::lex {
 			TILDEx2,
 			XMARK_TILDE,
 
+			RARROW,
 			DRARROW,
 		};
 		
