@@ -2,6 +2,9 @@
 #include "ltn/casts.hxx"
 namespace ltn::c::optimize {
 	ast::expr_ptr expression(ast::Expression & expr) {
+		if(auto e = as<ast::Primary>(expr)) {
+			return primary(*e);
+		}
 		if(auto e = as<ast::Unary>(expr)) {
 			return unary(*e);
 		}
