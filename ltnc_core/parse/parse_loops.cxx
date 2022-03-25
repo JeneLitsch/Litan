@@ -26,33 +26,47 @@ namespace ltn::c::parse {
 	// parses while loop -> for i (a, b)
 	ast::stmt_ptr for_loop(lex::Lexer & lexer) {
 		if(lexer.match(TT::FOR)) {
-			if(lexer.match(TT::PAREN_L)) {
-				auto var_name = variable_name(lexer);
-				auto var = std::make_unique<ast::NewConst>(
-					var_name,
-					nullptr,
-					lexer.location());
-				if(!lexer.match(TT::COLON)) {
-					throw CompilerError{"Expected :", lexer.location()};
-				}
-				auto from = expression(lexer);
-				if(lexer.match(TT::RARROW)) {
-					auto to = expression(lexer);
-					if(lexer.match(TT::PAREN_R)) {
-						auto body = statement(lexer);
-						return std::make_unique<ast::For>(
-							std::move(var),
-							std::move(from),
-							std::move(to),
-							std::move(body),
-							lexer.location()
-						);
-					}
-					throw CompilerError{"Expected )", lexer.location()};
-				}
-				throw CompilerError{"Expected ,", lexer.location()};
+			if(!lexer.match(TT::PAREN_L)) {
+				throw CompilerError{"Expected (", lexer.location()};
 			}
-			throw CompilerError{"Expected (", lexer.location()};
+
+			auto var_name = variable_name(lexer);
+			auto var = std::make_unique<ast::NewConst>(
+				var_name,
+				nullptr,
+				lexer.location());
+
+			if(!lexer.match(TT::COLON)) {
+				throw CompilerError{"Expected :", lexer.location()};
+			}
+
+			auto from = expression(lexer);
+			
+			if(!lexer.match(TT::RARROW)) {
+				throw CompilerError{"Expected ->", lexer.location()};
+			}
+
+			auto to = expression(lexer);
+
+			ast::expr_ptr step;
+			if(lexer.match(TT::COLON)) {
+				step = expression(lexer);
+			}
+		
+			if(!lexer.match(TT::PAREN_R)) {
+				throw CompilerError{"Expected )", lexer.location()};
+			}
+
+			auto body = statement(lexer);
+
+			return std::make_unique<ast::For>(
+				std::move(var),
+				std::move(from),
+				std::move(to),
+				std::move(step),
+				std::move(body),
+				lexer.location()
+			);
 		}
 		return nullptr;
 	}

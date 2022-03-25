@@ -122,18 +122,21 @@ namespace ltn::c::ast {
 			std::unique_ptr<NewConst> var,
 			std::unique_ptr<Expression> from,
 			std::unique_ptr<Expression> to,
+			std::unique_ptr<Expression> step,
 			std::unique_ptr<Statement> body,
 			const SourceLocation & location)
 			:	Statement(location),
 				var(std::move(var)),
 				from(std::move(from)),
 				to(std::move(to)),
+				step(std::move(step)),
 				body(std::move(body)) {}
 
 		virtual ~For() = default;
 		std::unique_ptr<NewConst> var;
 		std::unique_ptr<Expression> from;
 		std::unique_ptr<Expression> to;
+		std::unique_ptr<Expression> step;
 		std::unique_ptr<Statement> body;
 	};
 

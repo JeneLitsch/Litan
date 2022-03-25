@@ -77,7 +77,13 @@ namespace ltn::c::compile {
 
 		// Increments
 		ss << inst::read_x(iVar.address);
-		ss << inst::inc;
+		if(stmt.step) {
+			ss << expression(*stmt.step, info, loop_scope).code;
+			ss << inst::add;
+		}
+		else {
+			ss << inst::inc;
+		}
 		ss << inst::write_x(iVar.address);
 
 		// End of loop
