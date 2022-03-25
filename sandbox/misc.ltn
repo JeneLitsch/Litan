@@ -1,5 +1,5 @@
+define a = 41;
+
 function main() {
-	while(true) {
-		std::println("Hello " + "World");
-	}
+	return 1 + a; 
 }

@@ -1,6 +1,10 @@
 #pragma once
 #include "ltnc_core/ast/Ast.hxx"
 namespace ltn::c::optimize {
+	struct OptimizerInfo {
+		
+	};
+
 	ast::expr_ptr primary(ast::Primary & primary);
 	ast::expr_ptr unary(ast::Unary & unary);
 	ast::expr_ptr binary(ast::Binary & binary);
