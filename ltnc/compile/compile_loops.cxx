@@ -62,14 +62,38 @@ namespace ltn::c::compile {
 		std::stringstream ss;
 		
 		// Init
-		ss << from.code;
+		if(stmt.reverse) {
+			ss << to.code;
+		}
+		else {
+			ss << from.code;
+		}
 		ss << inst::write_x(iVar.address);
 
 		// Condition
 		ss << inst::jumpmark(begin);
 		ss << inst::read_x(iVar.address);
-		ss << to.code;
-		ss << inst::sml;
+		
+		if(stmt.reverse && stmt.closed) {
+			ss << from.code;
+			ss << inst::bgreql;
+		}
+		
+		else if(stmt.reverse) {
+			ss << from.code;
+			ss << inst::bgr;
+		}
+
+		else if(stmt.closed) {
+			ss << to.code;
+			ss << inst::smleql;
+		}
+		
+		else {
+			ss << to.code;
+			ss << inst::sml;
+		}
+
 		ss << inst::ifelse(end);
 
 		// body
@@ -79,10 +103,20 @@ namespace ltn::c::compile {
 		ss << inst::read_x(iVar.address);
 		if(stmt.step) {
 			ss << expression(*stmt.step, info, loop_scope).code;
-			ss << inst::add;
+			if(stmt.reverse) {
+				ss << inst::sub;
+			}
+			else {
+				ss << inst::add;
+			}
 		}
 		else {
-			ss << inst::inc;
+			if(stmt.reverse) {
+				ss << inst::dec;
+			}
+			else {
+				ss << inst::inc;
+			}
 		}
 		ss << inst::write_x(iVar.address);
 

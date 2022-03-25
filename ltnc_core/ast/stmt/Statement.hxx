@@ -138,6 +138,9 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> to;
 		std::unique_ptr<Expression> step;
 		std::unique_ptr<Statement> body;
+
+		bool reverse = false;
+		bool closed = false;
 	};
 
 

@@ -52,6 +52,22 @@ namespace ltn::c::parse {
 			if(lexer.match(TT::COLON)) {
 				step = expression(lexer);
 			}
+
+			bool reverse = false;
+			bool closed = false;
+			if(lexer.match(TT::COLON)) {
+				while(auto t = lexer.match(TT::INDENTIFIER)) {
+					if(t->str == "reverse") {
+						reverse = true;
+					}
+					else if(t->str == "closed") {
+						closed = true;
+					}
+					else {
+						throw CompilerError{"Unknown loop tag: " + t->str, lexer.location()};
+					}
+				}
+			}
 		
 			if(!lexer.match(TT::PAREN_R)) {
 				throw CompilerError{"Expected )", lexer.location()};
@@ -59,7 +75,7 @@ namespace ltn::c::parse {
 
 			auto body = statement(lexer);
 
-			return std::make_unique<ast::For>(
+			auto loop = std::make_unique<ast::For>(
 				std::move(var),
 				std::move(from),
 				std::move(to),
@@ -67,6 +83,11 @@ namespace ltn::c::parse {
 				std::move(body),
 				lexer.location()
 			);
+
+			loop->reverse = reverse;
+			loop->closed = closed;
+
+			return loop;
 		}
 		return nullptr;
 	}
