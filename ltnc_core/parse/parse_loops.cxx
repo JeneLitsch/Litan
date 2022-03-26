@@ -55,17 +55,15 @@ namespace ltn::c::parse {
 
 			bool reverse = false;
 			bool closed = false;
-			if(lexer.match(TT::COLON)) {
-				while(auto t = lexer.match(TT::INDENTIFIER)) {
-					if(t->str == "reverse") {
-						reverse = true;
-					}
-					else if(t->str == "closed") {
-						closed = true;
-					}
-					else {
-						throw CompilerError{"Unknown loop tag: " + t->str, lexer.location()};
-					}
+			while(auto t = lexer.match(TT::INDENTIFIER)) {
+				if(t->str == "reverse") {
+					reverse = true;
+				}
+				else if(t->str == "closed") {
+					closed = true;
+				}
+				else {
+					throw CompilerError{"Unknown loop tag: " + t->str, lexer.location()};
 				}
 			}
 		
