@@ -74,15 +74,15 @@ namespace ltn::vm {
 		const auto from = this->reg.pop(); 
 		const auto i = this->reg.pop();
 
-		const auto from_is_less = compare(from, to, this->heap) < 0;
+		const auto from_is_less = num_compare(from, to) < 0;
 		const auto min = from_is_less ? from : to;
 		const auto max = from_is_less ? to : from;
 
 		const bool is_in_range = 
-			compare(i, min, this->heap) >= 0 &&
-			compare(i, max, this->heap) <= 0;
+			num_compare(i, min) <= 0 ||
+			num_compare(i, max) > 0;
 		
-		this->reg.push(value::boolean(!is_in_range));
+		this->reg.push(value::boolean(is_in_range));
 	}
 
 	#undef FETCH

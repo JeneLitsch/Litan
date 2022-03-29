@@ -49,6 +49,18 @@ namespace ltn::vm {
 		}
 	}
 
+	
+	
+	std::partial_ordering num_compare(const Value l, const Value r) {
+		if(is_bool(l))  COMPARE_R(l.b);
+		if(is_char(l))  COMPARE_R(l.c);
+		if(is_int(l))   COMPARE_R(l.i);
+		if(is_float(l)) COMPARE_R(l.f);
+		throw Exception{ Exception::Type::GENERIC_ERROR, "Invalid comparison"};
+	}
+
+	
+	
 	std::partial_ordering compare(const Value l, const Value r, Heap & heap) {
 		const auto result = compare_impl(l, r, heap);
 		if(result == std::partial_ordering::unordered) {

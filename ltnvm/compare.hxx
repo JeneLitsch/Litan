@@ -5,4 +5,5 @@
 namespace ltn::vm {
 	class Heap;
 	std::partial_ordering compare(const Value l, const Value r, Heap & heap);
+	std::partial_ordering num_compare(const Value l, const Value r);
 }
