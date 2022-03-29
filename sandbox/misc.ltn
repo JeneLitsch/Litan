@@ -1,27 +1,29 @@
 define a = 41;
 
 function main() {
-	for (i : 0 -> 10 reverse closed)  {
+	var arr = [1, 2, 3];
+	for (i : 0 -> std::size(arr))  {
+		var x = arr[i];
+		std::println(x);
+	}
+	std::println("");
+
+	for (i : 0 -> 10 {-})  {
 		std::println(i);
 	}
 	std::println("");
 
-	for (i : 0 -> 10 : 2)  {
+	for (i : 0 -> 10 : 2 {+})  {
 		std::println(i);
 	}
 	std::println("");
 
-	for (i : 0 -> 10 : 2 reverse)  {
+	for (i : 0 => 10 : 2)  {
 		std::println(i);
 	}
 	std::println("");
 
-	for (i : 0 -> 10 : 2 closed)  {
-		std::println(i);
-	}
-	std::println("");
-
-	for (i : 0 -> 10 : 2 reverse closed)  {
+	for (i : 0 => 10 : 2 {-})  {
 		std::println(i);
 	}
 	std::println("");

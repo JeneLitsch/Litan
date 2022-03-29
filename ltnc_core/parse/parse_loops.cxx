@@ -23,6 +23,29 @@ namespace ltn::c::parse {
 
 
 
+	bool is_reversed(lex::Lexer & lexer) {
+		bool reversed = false;
+		if(lexer.match(TT::BRACE_L)) {
+			
+			if(lexer.match(TT::PLUS)) {
+				reversed = false;
+			}
+			else if(lexer.match(TT::MINUS)) {
+				reversed = true;		
+			}
+			else {
+				throw CompilerError{"Expected {+} or {-}", lexer.location()};
+			}
+			
+			if(!lexer.match(TT::BRACE_R)) {
+				throw CompilerError{"Expected }", lexer.location()};
+			}
+		}
+		return reversed;
+	}
+
+
+
 	// parses while loop -> for i (a, b)
 	ast::stmt_ptr for_loop(lex::Lexer & lexer) {
 		if(lexer.match(TT::FOR)) {
@@ -42,8 +65,15 @@ namespace ltn::c::parse {
 
 			auto from = expression(lexer);
 			
-			if(!lexer.match(TT::RARROW)) {
-				throw CompilerError{"Expected ->", lexer.location()};
+			bool closed;
+			if(lexer.match(TT::RARROW)) {
+				closed = false;
+			}
+			else if(lexer.match(TT::DRARROW)) {
+				closed = true;
+			}
+			else {
+				throw CompilerError{"Expected -> or =>", lexer.location()};
 			}
 
 			auto to = expression(lexer);
@@ -53,19 +83,7 @@ namespace ltn::c::parse {
 				step = expression(lexer);
 			}
 
-			bool reverse = false;
-			bool closed = false;
-			while(auto t = lexer.match(TT::INDENTIFIER)) {
-				if(t->str == "reverse") {
-					reverse = true;
-				}
-				else if(t->str == "closed") {
-					closed = true;
-				}
-				else {
-					throw CompilerError{"Unknown loop tag: " + t->str, lexer.location()};
-				}
-			}
+			bool reverse = is_reversed(lexer);
 		
 			if(!lexer.match(TT::PAREN_R)) {
 				throw CompilerError{"Expected )", lexer.location()};

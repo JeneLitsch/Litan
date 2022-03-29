@@ -52,45 +52,50 @@ namespace ltn::c::compile {
 		const auto var = new_const(*stmt.var, info, loop_scope);
 		const auto from = expression(*stmt.from, info, loop_scope);
 		const auto to = expression(*stmt.to, info, loop_scope);
-		const auto body = statement(*stmt.body, info, loop_scope);
-		const auto begin = make_jump_id("FOR_BEGIN", info);
-		const auto end = make_jump_id("FOR_END", info);
+		const auto loop_id = make_jump_id("FOR", info);
+		const auto begin = loop_id + "_BEGIN";
+		const auto end = loop_id + "_END";
 
 		// get address of index var
-		const auto iVar = loop_scope.resolve(stmt.var->name, stmt.location);
+		const auto i_var    = loop_scope.resolve(stmt.var->name, stmt.location).address;
+		const auto from_var = loop_scope.insert("__FROM__" + loop_id, stmt.location).address;
+		const auto to_var   = loop_scope.insert("__TO__" + loop_id, stmt.location).address;
+		const auto body = statement(*stmt.body, info, loop_scope);
 				
 		std::stringstream ss;
 		
 		// Init
 		if(stmt.reverse) {
+			ss << from.code;
 			ss << to.code;
 		}
 		else {
+			ss << to.code;
 			ss << from.code;
 		}
-		ss << inst::write_x(iVar.address);
+		ss << inst::duplicate;
+		ss << inst::write_x(i_var);
+		ss << inst::write_x(from_var);
+		ss << inst::write_x(to_var);
 
 		// Condition
 		ss << inst::jumpmark(begin);
-		ss << inst::read_x(iVar.address);
+		ss << inst::read_x(i_var);
+		ss << inst::read_x(to_var);
 		
 		if(stmt.reverse && stmt.closed) {
-			ss << from.code;
 			ss << inst::bgreql;
 		}
 		
 		else if(stmt.reverse) {
-			ss << from.code;
 			ss << inst::bgr;
 		}
 
 		else if(stmt.closed) {
-			ss << to.code;
 			ss << inst::smleql;
 		}
 		
 		else {
-			ss << to.code;
 			ss << inst::sml;
 		}
 
@@ -100,7 +105,7 @@ namespace ltn::c::compile {
 		ss << body.code;
 
 		// Increments
-		ss << inst::read_x(iVar.address);
+		ss << inst::read_x(i_var);
 		if(stmt.step) {
 			ss << expression(*stmt.step, info, loop_scope).code;
 			if(stmt.reverse) {
@@ -118,13 +123,13 @@ namespace ltn::c::compile {
 				ss << inst::inc;
 			}
 		}
-		ss << inst::write_x(iVar.address);
+		ss << inst::write_x(i_var);
 
 		// End of loop
 		ss << inst::jump(begin);
 		ss << inst::jumpmark(end);
 
-		return StmtCode{ss.str(), body.var_count + 1};
+		return StmtCode{ss.str(), body.var_count + 3};
 	}
 
 }
