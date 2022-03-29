@@ -94,6 +94,7 @@ namespace ltn::vm {
 			reTurn(),
 			iF(),
 			invoke(),
+			between(),
 			external(),
 			capture(),
 			parameters();

@@ -62,8 +62,10 @@ namespace ltn::vm {
 				case Inst::NOT: this->n0t(); break;
 				case Inst::INC: this->inc(); break;
 				case Inst::DEC: this->dec(); break;
+				
 				case Inst::COMP: this->comp(); break;
 				case Inst::APPROX: this->approx(); break;
+				case Inst::BETWEEN: this->between(); break;
 
 				case Inst::NEWI: this->newi(); break;
 				case Inst::NEWF: this->newf(); break;

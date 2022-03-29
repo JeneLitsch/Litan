@@ -65,14 +65,8 @@ namespace ltn::c::compile {
 		std::stringstream ss;
 		
 		// Init
-		if(stmt.reverse) {
-			ss << from.code;
-			ss << to.code;
-		}
-		else {
-			ss << to.code;
-			ss << from.code;
-		}
+		ss << to.code;
+		ss << from.code;
 		ss << inst::duplicate;
 		ss << inst::write_x(i_var);
 		ss << inst::write_x(from_var);
@@ -80,25 +74,10 @@ namespace ltn::c::compile {
 
 		// Condition
 		ss << inst::jumpmark(begin);
-		ss << inst::read_x(i_var);
 		ss << inst::read_x(to_var);
-		
-		if(stmt.reverse && stmt.closed) {
-			ss << inst::bgreql;
-		}
-		
-		else if(stmt.reverse) {
-			ss << inst::bgr;
-		}
-
-		else if(stmt.closed) {
-			ss << inst::smleql;
-		}
-		
-		else {
-			ss << inst::sml;
-		}
-
+		ss << inst::read_x(from_var);
+		ss << inst::read_x(i_var);
+		ss << inst::between;
 		ss << inst::ifelse(end);
 
 		// body
@@ -108,20 +87,10 @@ namespace ltn::c::compile {
 		ss << inst::read_x(i_var);
 		if(stmt.step) {
 			ss << expression(*stmt.step, info, loop_scope).code;
-			if(stmt.reverse) {
-				ss << inst::sub;
-			}
-			else {
-				ss << inst::add;
-			}
+			ss << inst::add;
 		}
 		else {
-			if(stmt.reverse) {
-				ss << inst::dec;
-			}
-			else {
-				ss << inst::inc;
-			}
+			ss << inst::inc;
 		}
 		ss << inst::write_x(i_var);
 

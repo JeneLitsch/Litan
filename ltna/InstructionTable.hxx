@@ -52,8 +52,11 @@ namespace ltn::a {
 		{"not",           {Inst::NOT}},
 		{"inc",           {Inst::INC}},
 		{"dec",           {Inst::DEC}},
+
+		// Special comparison
 		{"comp",          {Inst::COMP}},
 		{"approx",        {Inst::APPROX}},
+		{"between",       {Inst::BETWEEN}},
 
 		// Values
 		{"newu",          {Inst::NEWU,         ArgFormat::UINT}},

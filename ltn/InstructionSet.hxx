@@ -36,6 +36,7 @@ namespace ltn {
 
 		COMP = 0x28,
 		APPROX,
+		BETWEEN,
 
 		// Primitives
 		NEWI = 0x30,

@@ -34,6 +34,7 @@ namespace ltn::c::compile::inst {
 
 	constexpr std::string_view capture = "capture\n";
 	constexpr std::string_view invoke = "invoke\n";
+	constexpr std::string_view between = "between\n";
 	const std::string read_captured(std::uint64_t index);
 
 	const std::string newu(std::uint64_t value);
