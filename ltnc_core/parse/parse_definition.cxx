@@ -25,9 +25,11 @@ namespace ltn::c::parse {
 
 	ast::glob_ptr definition(lex::Lexer & lexer, const ast::Namespace & namespaze) {
 		if(lexer.match(TT::DEFINE)) {
-			auto global = std::make_unique<ast::Global>(lexer.location());
-			global->name = parse::name(lexer);
-			global->namespaze = namespaze;
+			const auto name = parse::name(lexer);
+			auto global = std::make_unique<ast::Global>(
+				lexer.location(),
+				name,
+				namespaze);
 			equal_sign(lexer);
 			global->expr = parse::static_expression(lexer);
 			semicolon(lexer);

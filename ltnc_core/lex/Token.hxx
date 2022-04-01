@@ -23,6 +23,7 @@ namespace ltn::c::lex {
 			BUILD_IN,
 			ENUM,
 			DEFINE,
+			PRESET,
 			
 			INTEGER,
 			INTEGER_HEX,

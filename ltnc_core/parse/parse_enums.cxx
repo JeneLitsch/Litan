@@ -4,31 +4,6 @@ namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 	
-		std::string name(lex::Lexer & lexer) {
-			if(auto t = lexer.match(TT::INDENTIFIER)) {
-				return t->str;
-			}
-			throw CompilerError{"Expected enum name", lexer.location()};
-		}
-
-
-
-		void open(lex::Lexer & lexer) {
-			if(!lexer.match(TT::BRACE_L)) {
-				throw CompilerError{"Expected {", lexer.location()};
-			}
-		}
-
-
-		
-		void close(lex::Lexer & lexer) {
-			if(!lexer.match(TT::BRACE_R)) {
-				throw CompilerError{"Expected }", lexer.location()};
-			}
-		}
-
-
-
 		std::optional<std::int64_t> explicit_value(lex::Lexer & lexer) {
 			if(lexer.match(TT::COLON)) {
 				if(auto expr = integral(lexer)) {
@@ -63,21 +38,19 @@ namespace ltn::c::parse {
 	std::vector<ast::glob_ptr> enumeration(lex::Lexer & lexer,ast::Namespace namespaze) {
 		std::vector<ast::glob_ptr> globals;
 		
-		const auto enum_name = parse::name(lexer);
+		const auto enum_name = parse::enum_name(lexer);
 		namespaze.push_back(enum_name);
-		open(lexer);
+		brace_l(lexer);
 		
 		const auto values = parse::values(lexer);
 		for(const auto & [key, value] : values) {
 			const auto loc = lexer.location();
-			auto global = std::make_unique<ast::Global>(loc);
+			auto global = std::make_unique<ast::Global>(loc, key, namespaze);
 			global->expr = std::make_unique<ast::Enum>(value, loc);
-			global->name = key;
-			global->namespaze = namespaze;
 			globals.push_back(std::move(global));
 		}
 		
-		close(lexer);
+		brace_r(lexer);
 
 		return globals;
 	}

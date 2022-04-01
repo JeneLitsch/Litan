@@ -34,6 +34,7 @@ ltnc_core = [
 	"ltnc_core/ast",
 	"ltnc_core/lex",
 	"ltnc_core/parse",
+	"ltnc_core/unfold",
 	"ltnc_core/optimize",
 ]
 

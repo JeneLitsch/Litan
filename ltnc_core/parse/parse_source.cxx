@@ -83,6 +83,7 @@ namespace ltn::c::parse {
 		auto program = std::make_unique<ast::Program>();
 		auto & functions = program->functions;
 		auto & globals = program->globals;
+		auto & presets = program->presets;
 		ast::Namespace namespaze;
 		while(!lexer.match(TT::___EOF___)) {
 			// try {
@@ -97,6 +98,9 @@ namespace ltn::c::parse {
 			}
 			else if(auto global = parse::definition(lexer, namespaze)) {
 				globals.push_back(std::move(global));
+			}
+			else if(auto preset = parse::preset(lexer, namespaze)) {
+				presets.push_back(std::move(preset));
 			}
 			else if(lexer.match(TT::ENUM)) {
 				auto g = parse::enumeration(lexer, namespaze);

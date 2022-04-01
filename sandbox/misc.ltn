@@ -1,35 +1,10 @@
-define a = 41;
-
-function foo() => std::println("Hello World")
+preset car {
+	var color;
+	var brand;
+}
 
 function main() {
-	for (i : 10 -> 0 : -7)  {
-		std::println(i);
-	}
-
-	var arr = [1, 2, 3];
-	for (i : 0 -> std::size(arr))  {
-		std::println(i);
-	}
-	std::println("");
-
-	for (i : 10 -> 0 : -1)  {
-		std::println(i);
-	}
-	std::println("");
-
-	for (i : 0 -> 10 : 2)  {
-		std::println(i);
-	}
-	std::println("");
-
-	for (i : 10 -> 0 : -2)  {
-		std::println(i);
-	}
-	std::println("");
-
-	for (i : 0 -> 10 : 2)  {
-		std::println(i);
-	}
-	std::println("");
+	var c = car("red", "BMW");
+	std::println("Color: " + std::string(c.color));
+	std::println("Brand: " + std::string(c.brand));
 }

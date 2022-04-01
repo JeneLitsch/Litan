@@ -32,13 +32,10 @@ namespace ltn::c::ast {
 			Namespace namespaze,
 			Parameters parameters,
 			const SourceLocation & location)
-			:	Declaration(location),
-				name(name),
-				namespaze(namespaze),
+			:	Declaration(location, name, namespaze),
 				parameters(parameters) {}
 		virtual ~Functional() = default;
-		std::string name;
-		Namespace namespaze;
+
 		Parameters parameters;
 	};
 

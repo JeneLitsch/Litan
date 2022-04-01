@@ -14,6 +14,18 @@ namespace ltn::c::parse {
 		throw ltn::c::CompilerError{errMsg, lexer.location()};
 	}
 
+	std::string preset_name(lex::Lexer & lexer) {
+		return indentifier(lexer, "invalid preset name");
+	}
+
+	std::string enum_name(lex::Lexer & lexer) {
+		return indentifier(lexer, "invalid preset name");
+	}
+
+	std::string definition(lex::Lexer & lexer) {
+		return indentifier(lexer, "invalid definition name");
+	}
+
 	std::string variable_name(lex::Lexer & lexer) {
 		return indentifier(lexer, "invalid variable name");
 	}

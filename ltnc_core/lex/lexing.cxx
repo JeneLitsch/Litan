@@ -101,6 +101,7 @@ namespace ltn::c::lex {
 			{"build_in",    TT::BUILD_IN},
 			{"enum",        TT::ENUM},
 			{"define",      TT::DEFINE},
+			{"preset",      TT::PRESET},
 		};
 		
 

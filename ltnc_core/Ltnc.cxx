@@ -2,6 +2,7 @@
 #include <vector>
 #include "lex/Lexer.hxx"
 #include "parse/parse.hxx"
+#include "unfold/unfold.hxx"
 #include "optimize/optimize.hxx"
 #include <string_view>
 
@@ -32,6 +33,7 @@ namespace ltn::c {
 		lex::Lexer lexer{in, sourcename, reporter};
 		try {
 			auto source = parse::source(lexer);
+			unfold::program(*source);
 			for(auto && fx : source->functions) {
 				this->program.functions.push_back(std::move(fx));
 			}

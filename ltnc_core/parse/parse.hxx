@@ -13,6 +13,7 @@ namespace ltn::c::parse {
 	ast::func_ptr functional(lex::Lexer & lexer, const ast::Namespace & namespaze);
 	std::vector<ast::glob_ptr> enumeration(lex::Lexer & lexer, ast::Namespace namespaze);
 	ast::glob_ptr definition(lex::Lexer & lexer, const ast::Namespace & namespaze);
+	ast::prst_ptr preset(lex::Lexer & lexer, const ast::Namespace & namespaze);
 
 	ast::expr_ptr lambda(lex::Lexer & lexer);
 
@@ -42,9 +43,14 @@ namespace ltn::c::parse {
 	ast::litr_ptr static_integral(lex::Lexer & lexer);
 
 	// Utils
+	std::string preset_name(lex::Lexer & lexer);
+	std::string enum_name(lex::Lexer & lexer);
+	std::string definition_name(lex::Lexer & lexer);
 	std::string variable_name(lex::Lexer & lexer);
 	std::string function_name(lex::Lexer & lexer);
 	std::string parameter_name(lex::Lexer & lexer);
+	void brace_l(lex::Lexer & lexer);
+	void brace_r(lex::Lexer & lexer);
 
 
 
@@ -58,7 +64,6 @@ namespace ltn::c::parse {
 		}
 		return std::nullopt;
 	}
-
 
 
 	// Maches ; or throws
