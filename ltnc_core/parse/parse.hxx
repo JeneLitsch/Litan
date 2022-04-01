@@ -7,7 +7,7 @@
 namespace ltn::c::parse {
 
 	// Sources
-	ast::prog_ptr source(lex::Lexer & lexer);
+	ast::srce_ptr source(lex::Lexer & lexer);
 	
 	// Funcionals
 	ast::func_ptr functional(lex::Lexer & lexer, const ast::Namespace & namespaze);

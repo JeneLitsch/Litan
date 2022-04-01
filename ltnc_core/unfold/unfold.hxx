@@ -6,6 +6,6 @@
 #include "ltnc_core/Reporter.hxx"
 
 namespace ltn::c::unfold {
-	void program(ast::Program & program);
+	void program(ast::Source & source);
 	ast::func_ptr preset(ast::prst_ptr preset);
 }

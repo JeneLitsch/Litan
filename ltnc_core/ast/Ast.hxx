@@ -13,12 +13,19 @@ namespace ltn::c::ast {
 	using prst_ptr = std::unique_ptr<Preset>;
 	using stmt_ptr = std::unique_ptr<Statement>;
 	using func_ptr = std::unique_ptr<Functional>;
+	
 	struct Program {
+		std::vector<func_ptr> functions;
+		std::vector<glob_ptr> globals;
+	};
+	using prog_ptr = std::unique_ptr<Program>;
+	
+	struct Source {
 		std::vector<func_ptr> functions;
 		std::vector<glob_ptr> globals;
 		std::vector<prst_ptr> presets;
 	};
-	using prog_ptr = std::unique_ptr<Program>;
+	using srce_ptr = std::unique_ptr<Source>;
 
 	template<typename T>
 	concept literal_type = std::is_base_of<ast::Literal, T>::value;

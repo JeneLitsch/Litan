@@ -79,11 +79,11 @@ namespace ltn::c::parse {
 
 
 
-	ast::prog_ptr source(lex::Lexer & lexer) {
-		auto program = std::make_unique<ast::Program>();
-		auto & functions = program->functions;
-		auto & globals = program->globals;
-		auto & presets = program->presets;
+	ast::srce_ptr source(lex::Lexer & lexer) {
+		auto source = std::make_unique<ast::Source>();
+		auto & functions = source->functions;
+		auto & globals = source->globals;
+		auto & presets = source->presets;
 		ast::Namespace namespaze;
 		while(!lexer.match(TT::___EOF___)) {
 			// try {
@@ -113,6 +113,6 @@ namespace ltn::c::parse {
 		if(!namespaze.empty()) {
 			throw unclosed_namespace(lexer);
 		}
-		return program; 
+		return source; 
 	}
 }

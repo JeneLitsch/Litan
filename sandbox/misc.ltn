@@ -1,10 +1,12 @@
-preset car {
-	var color;
-	var brand;
+namespace race_game {
+	preset car {
+		var color;
+		var brand;
+	}
 }
 
 function main() {
-	var c = car("red", "BMW");
+	var c = race_game::car("red", "BMW");
 	std::println("Color: " + std::string(c.color));
 	std::println("Brand: " + std::string(c.brand));
 }

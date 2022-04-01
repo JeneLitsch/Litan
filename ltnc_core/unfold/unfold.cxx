@@ -1,11 +1,11 @@
 #include "unfold.hxx"
 
 namespace ltn::c::unfold {
-	void program(ast::Program & program) {
-		for(auto & preset : program.presets) {
+	void program(ast::Source & source) {
+		for(auto & preset : source.presets) {
 			auto ctor = unfold::preset(std::move(preset));
-			program.functions.push_back(std::move(ctor));
+			source.functions.push_back(std::move(ctor));
 		}
-		program.presets.clear();
+		source.presets.clear();
 	}
 }
