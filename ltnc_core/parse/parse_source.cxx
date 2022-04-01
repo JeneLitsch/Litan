@@ -84,6 +84,7 @@ namespace ltn::c::parse {
 		auto & functions = source->functions;
 		auto & globals = source->globals;
 		auto & presets = source->presets;
+		auto & enums = source->enums;
 		ast::Namespace namespaze;
 		while(!lexer.match(TT::___EOF___)) {
 			// try {
@@ -103,10 +104,8 @@ namespace ltn::c::parse {
 				presets.push_back(std::move(preset));
 			}
 			else if(lexer.match(TT::ENUM)) {
-				auto g = parse::enumeration(lexer, namespaze);
-				for(auto & global : g) {
-					globals.push_back(std::move(global));
-				}
+				auto e = parse::enumeration(lexer, namespaze);
+				enums.push_back(std::move(e));
 			}			
 			else throw unknown_declaration(lexer);
 		}

@@ -7,16 +7,6 @@ namespace ltn::c::ast {
 	struct Var;
 	
 
-
-	struct Enum final : public Primary {
-		Enum(std::int64_t value, const SourceLocation & location)
-			:	Primary(location), value(value) {}
-		virtual ~Enum() = default;
-		std::int64_t value;
-	};
-
-
-
 	struct Literal : public Primary {
 		Literal(const SourceLocation & location)
 			:	Primary(location) {}

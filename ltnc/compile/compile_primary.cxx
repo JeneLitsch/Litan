@@ -286,9 +286,6 @@ namespace ltn::c::compile {
 		if(auto expr_ = as<ast::Integer>(expr)) {
 			return integer(*expr_);
 		}
-		if(auto expr_ = as<ast::Enum>(expr)) {
-			return integer(*expr_);
-		} 
 		if(auto expr_ = as<ast::Float>(expr)) {
 			return floating(*expr_);
 		} 

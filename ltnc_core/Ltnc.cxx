@@ -33,12 +33,12 @@ namespace ltn::c {
 		lex::Lexer lexer{in, sourcename, reporter};
 		try {
 			auto source = parse::source(lexer);
-			unfold::program(*source);
-			for(auto && fx : source->functions) {
+			auto t_unit = unfold::source(std::move(source));
+			for(auto && fx : t_unit->functions) {
 				this->program.functions.push_back(std::move(fx));
 			}
 
-			for(auto && e : source->globals) {
+			for(auto && e : t_unit->globals) {
 				this->program.globals.push_back(std::move(e));
 			}
 		}

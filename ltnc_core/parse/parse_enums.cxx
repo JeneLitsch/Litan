@@ -35,23 +35,27 @@ namespace ltn::c::parse {
 	}
 
 
-	std::vector<ast::glob_ptr> enumeration(lex::Lexer & lexer,ast::Namespace namespaze) {
-		std::vector<ast::glob_ptr> globals;
+	ast::enum_ptr enumeration(lex::Lexer & lexer, ast::Namespace namespaze) {
 		
 		const auto enum_name = parse::enum_name(lexer);
-		namespaze.push_back(enum_name);
+		auto enumeration = std::make_unique<ast::Enumeration>(
+			lexer.location(),
+			enum_name,
+			namespaze);
+
 		brace_l(lexer);
 		
 		const auto values = parse::values(lexer);
 		for(const auto & [key, value] : values) {
 			const auto loc = lexer.location();
-			auto global = std::make_unique<ast::Global>(loc, key, namespaze);
-			global->expr = std::make_unique<ast::Enum>(value, loc);
-			globals.push_back(std::move(global));
+			auto integer = std::make_unique<ast::Integer>(value, loc);
+			enumeration->labels.push_back({
+				key,
+				std::move(integer)});
 		}
 		
 		brace_r(lexer);
 
-		return globals;
+		return enumeration;
 	}
 }

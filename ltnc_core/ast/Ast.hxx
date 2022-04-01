@@ -13,18 +13,22 @@ namespace ltn::c::ast {
 	using prst_ptr = std::unique_ptr<Preset>;
 	using stmt_ptr = std::unique_ptr<Statement>;
 	using func_ptr = std::unique_ptr<Functional>;
+	using enum_ptr = std::unique_ptr<Enumeration>;
 	
 	struct Program {
 		std::vector<func_ptr> functions;
 		std::vector<glob_ptr> globals;
 	};
-	using prog_ptr = std::unique_ptr<Program>;
-	
+
 	struct Source {
 		std::vector<func_ptr> functions;
 		std::vector<glob_ptr> globals;
 		std::vector<prst_ptr> presets;
+		std::vector<enum_ptr> enums;
 	};
+
+
+	using prog_ptr = std::unique_ptr<Program>;
 	using srce_ptr = std::unique_ptr<Source>;
 
 	template<typename T>

@@ -11,7 +11,7 @@ namespace ltn::c::parse {
 	
 	// Funcionals
 	ast::func_ptr functional(lex::Lexer & lexer, const ast::Namespace & namespaze);
-	std::vector<ast::glob_ptr> enumeration(lex::Lexer & lexer, ast::Namespace namespaze);
+	ast::enum_ptr enumeration(lex::Lexer & lexer, ast::Namespace namespaze);
 	ast::glob_ptr definition(lex::Lexer & lexer, const ast::Namespace & namespaze);
 	ast::prst_ptr preset(lex::Lexer & lexer, const ast::Namespace & namespaze);
 

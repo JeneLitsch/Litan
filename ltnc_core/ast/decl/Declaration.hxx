@@ -5,6 +5,7 @@
 
 namespace ltn::c::ast {
 	struct Expression;
+	struct Integer;
 
 
 
@@ -45,5 +46,22 @@ namespace ltn::c::ast {
 				member_names(member_names) {}
 		virtual ~Preset() = default;
 		std::vector<std::string> member_names;
+	};
+
+
+	
+	struct Enumeration final : public Declaration {
+		struct Label {
+			std::string name;
+			std::unique_ptr<ast::Integer> value;
+		};
+		
+		Enumeration(
+			const SourceLocation & location,
+			const std::string & name,
+			const Namespace & namespaze)
+			:	Declaration(location, name, namespaze) {}
+		virtual ~Enumeration() = default;
+		std::vector<Label> labels;
 	};
 }
