@@ -5,8 +5,25 @@ namespace race_game {
 	}
 }
 
+function print(color) {
+	std::fg_color(std::cout(), color);
+	std::println("Hello World");
+	std::reset_color();
+}
+
+function print() {
+	std::reset_color();
+	std::println("Hello World");
+}
+
 function main() {
-	var c = race_game::car("red", "BMW");
-	std::println("Color: " + std::string(c.color));
-	std::println("Brand: " + std::string(c.brand));
+	print(std::color::BLACK);
+	print(std::color::BOLD_RED);
+	print(std::color::GREEN);
+	print(std::color::YELLOW);
+	print(std::color::BLUE);
+	print(std::color::MAGENTA);
+	print(std::color::CYAN);
+	print(std::color::WHITE);
+	print();
 }

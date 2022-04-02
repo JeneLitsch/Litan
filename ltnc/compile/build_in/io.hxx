@@ -23,6 +23,21 @@ namespace ltn::c::compile::build_in {
 	};
 
 
+	constexpr auto io_fg_color = std::array{
+		"stylize 0"sv,
+	};
+
+
+	constexpr auto io_bg_color = std::array{
+		"stylize 1"sv,
+	};
+
+
+	constexpr auto io_reset_color = std::array{
+		"stylize 2"sv,
+	};
+
+
 	constexpr auto io_cin = std::array{
 		"newin 0"sv,
 		"return"sv,

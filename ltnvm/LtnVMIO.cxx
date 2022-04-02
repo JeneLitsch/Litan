@@ -16,6 +16,52 @@ namespace ltn::vm {
 	}
 
 
+	void LtnVM::stylize() {
+		const auto func = this->fetch_byte();
+			switch (func) {
+
+			case 0: {
+				const auto color = this->reg.pop();
+				const auto ref = this->reg.pop();
+				if(is_ostream(ref) && is_int(color)) {
+					auto & out = this->heap.read<OStream>(ref.u).get();
+					out	<< "\u001b[3" << color.i % 8; 
+					if(color.i >= 8) out << ";1";
+					out << "m";
+				}
+				else throw except::invalid_argument();
+			} break;
+
+			case 1: {
+				const auto color = this->reg.pop();
+				const auto ref = this->reg.pop();
+				if(is_ostream(ref) && is_int(color)) {
+					auto & out = this->heap.read<OStream>(ref.u).get();
+					out	<< "\u001b[4" << color.i % 8;
+					if(color.i >= 8) out << ";1";
+					out << "m";
+				}
+				else throw except::invalid_argument();
+			} break;
+
+
+			case 2: {
+				const auto ref = this->reg.pop();
+				if(is_ostream(ref)) {
+					auto & out = this->heap.read<OStream>(ref.u).get();
+					out	<< "\u001b[0m";
+				}
+				else throw except::invalid_argument();
+			} break;
+
+			default:
+				throw except::invalid_argument();
+				break;
+		}
+	}
+
+
+
 	namespace {
 		using VT = Value::Type;
 

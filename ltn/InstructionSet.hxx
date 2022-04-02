@@ -92,6 +92,7 @@ namespace ltn {
 
 		// IO
 		OUT = 0x70,
+		STYLIZE,
 		IN_STR,
 		IN_LINE,
 		IN_BOOL,

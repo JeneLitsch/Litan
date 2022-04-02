@@ -115,6 +115,7 @@ namespace ltn::vm {
 				case Inst::WRITE_3: this->write_3(); break;
 
 				case Inst::OUT: this->out(); break;
+				case Inst::STYLIZE: this->stylize(); break;
 				case Inst::IN_STR: this->in_str(); break;
 				case Inst::IN_LINE: this->in_line(); break;
 				case Inst::IN_BOOL: this->in_bool(); break;

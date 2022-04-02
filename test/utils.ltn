@@ -1,13 +1,20 @@
 function test_single_case(fx, params, expected) {
 	var r = std::invoke(fx, params);
 	var correct = (r == expected);
-
-	if(correct) std::print("ok: ");
-	else std::print("[ERROR] ");
+	std::reset_color();
+	if(correct) {
+		std::fg_color(std::color::GREEN);
+		std::print("ok: ");
+	}
+	else {
+		std::fg_color(std::color::BOLD_RED);
+		std::print("[ERROR] ");
+	}
 	std::print(std::string(params) + " -> " + std::string(expected));
 	if(!correct) { 
 		std::print(" got " + std::string(r));
 	}
+	std::reset_color();
 	std::println("");
 	return std::int(!correct);
 }

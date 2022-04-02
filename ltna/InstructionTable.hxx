@@ -113,6 +113,7 @@ namespace ltn::a {
 
 		// Io
 		{"out",           {Inst::OUT}},
+		{"stylize",       {Inst::STYLIZE,      ArgFormat::BYTE}},
 		{"in_str",        {Inst::IN_STR}},
 		{"in_line",       {Inst::IN_LINE}},
 		{"in_bool",       {Inst::IN_BOOL}},
