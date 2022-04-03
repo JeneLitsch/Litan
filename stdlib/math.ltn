@@ -1,21 +1,22 @@
 namespace std {
-	build_in min(a, b)          @ math_min
-	build_in max(a, b)          @ math_max
-	build_in clamp(x, min, max) @ math_clamp
-	build_in round(a)           @ math_round
-	build_in floor(b)           @ math_floor
-	build_in ceil(b)            @ math_ceil
-	build_in abs(b)             @ math_abs
-	build_in hypot(a, b)        @ math_hypot
-	build_in sqrt(a)            @ math_sqrt
-	build_in log(x, b)          @ math_log
-	build_in ld(x)              @ math_ld
-	build_in lg(x)              @ math_lg
-	build_in ln(x)              @ math_ln
-	build_in pow(b, e)          @ math_pow
-	build_in sin(b)             @ math_sin
-	build_in cos(b)             @ math_cos
-	build_in tan(b)             @ math_tan
+	build_in min(a, b) const          @ math_min
+	build_in max(a, b) const          @ math_max
+	build_in clamp(x, min, max) const @ math_clamp
+	build_in round(a) const           @ math_round
+	build_in floor(b) const           @ math_floor
+	build_in ceil(b) const            @ math_ceil
+	build_in abs(b) const             @ math_abs
+	build_in hypot(a, b) const        @ math_hypot
+	build_in sqrt(a) const            @ math_sqrt
+	build_in log(x, b) const          @ math_log
+	build_in ld(x) const              @ math_ld
+	build_in lg(x) const              @ math_lg
+	build_in ln(x) const              @ math_ln
+	build_in pow(b, e) const          @ math_pow
+	build_in sin(b) const             @ math_sin
+	build_in cos(b) const             @ math_cos
+	build_in tan(b) const             @ math_tan
 
-	function is_between(value, min, max) => value >= min && value <= max
+	function is_between(value, min, max) const
+		=> value >= min && value <= max
 }

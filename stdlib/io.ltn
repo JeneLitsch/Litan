@@ -49,8 +49,8 @@ namespace std {
 	build_in read_float(stream)      @ io_read_float
 	build_in read_all(stream)        @ io_read_all
 	
-	build_in is_eof(stream)          @ io_is_eof
-	build_in is_good(stream)         @ io_is_good
+	build_in is_eof(stream) const    @ io_is_eof
+	build_in is_good(stream) const   @ io_is_good
 
 	function print(value) => print(cout(), value)
 

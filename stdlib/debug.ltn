@@ -1,5 +1,5 @@
 namespace std {
 	namespace debug {
-		build_in state() @ debug_state
+		build_in state() const @ debug_state
 	}
 }

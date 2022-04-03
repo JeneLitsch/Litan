@@ -1,28 +1,26 @@
 namespace std {
-	build_in struct()      @ struct
-	build_in typeid(value) @ type_typeid
-	build_in clone(ref)    @ type_clone
+	build_in struct() const       @ struct
+	build_in typeid(value) const  @ type_typeid
+	build_in clone(ref) const     @ type_clone
 
-	function pair(first, second) {
-		var pair = struct();
-		pair.first = first;
-		pair.second = second;
-		return pair;
+	preset pair {
+		var first;
+		var second;
 	}
 
-	function null_v()          => null
+	function null_v() const       => null
 
-	function is_bool(value)       => typeid(value) == 0x10
-	function is_int(value)        => typeid(value) == 0x11
-	function is_float(value)      => typeid(value) == 0x12
-	function is_array(value)      => typeid(value) == 0x20
-	function is_string(value)     => typeid(value) == 0x21
-	function is_istream(value)    => typeid(value) == 0x30
-	function is_ostream(value)    => typeid(value) == 0x31
-	function is_functional(value) =>
+	function is_bool(value) const       => typeid(value) == 0x10
+	function is_int(value) const        => typeid(value) == 0x11
+	function is_float(value) const      => typeid(value) == 0x12
+	function is_array(value) const      => typeid(value) == 0x20
+	function is_string(value) const     => typeid(value) == 0x21
+	function is_istream(value) const    => typeid(value) == 0x30
+	function is_ostream(value) const    => typeid(value) == 0x31
+	function is_functional(value) const =>
 		typeid(value) == 0x40 ||
 		typeid(value) == 0x41
 	
-	function is_clock(value)      => typeid(value) == 0x50
-	function is_struct(value)     => typeid(value) == 0x60
+	function is_clock(value) const      => typeid(value) == 0x50
+	function is_struct(value) const     => typeid(value) == 0x60
 }

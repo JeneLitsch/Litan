@@ -4,6 +4,7 @@ namespace test {
 		return s.a + s.b - s.c;
 	}
 
+
 	function abc(a, b, c) {
 		var s = std::struct();
 		s.a = a;
@@ -11,6 +12,8 @@ namespace test {
 		s.c = c;
 		return s;
 	}
+
+
 
 	function struct_read_write() {
 		var cases = [
@@ -21,9 +24,13 @@ namespace test {
 		return test_all_cases("Struct: read and write", &combine(_,_,_), cases); 
 	}
 
+
+
 	function has_a(s) {
 		return std::bool(s.a);
 	}
+
+
 
 	function with_a() {
 		var s = std::struct();
@@ -31,10 +38,14 @@ namespace test {
 		return s;
 	}
 
+
+
 	function without_a() {
 		return std::struct();
 	}
 
+	
+	
 	function struct_null() {
 		var cases = [
 			[[with_a()], true],
@@ -43,9 +54,25 @@ namespace test {
 		return test_all_cases("Struct: null", &has_a(_), cases); 
 	}
 
+
+
+	function pair() {
+		var fx = lambda(p) => p.first - p.second;
+		var cases = [
+			[[std::pair(1, 2)], -1],
+			[[std::pair(1, -1)], 2],
+			[[std::pair(43, 1)], 42],
+		];
+		return test_all_cases("Pair: std::pair", fx, cases); 
+		
+	}
+
+
+
 	function struct() {
 		return
 			struct_read_write() +
-			struct_null();
+			struct_null() +
+			pair();
 	}
 }
