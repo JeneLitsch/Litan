@@ -56,7 +56,8 @@ namespace ltn::c::compile {
 				fx->namespaze,
 				fx->parameters.size(),
 				make_fxid(info, *fx),
-				fx->c0nst});
+				fx->c0nst,
+				fx->pr1vate});
 		}
 
 		for(const auto & global : program.globals) {

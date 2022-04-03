@@ -8,6 +8,7 @@ namespace ltn::c::compile {
 		std::size_t parameters;
 		std::string id;
 		bool c0nst = false;
+		bool pr1vate = false;
 	};
 
 }

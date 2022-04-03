@@ -55,10 +55,13 @@ namespace ltn::c::compile {
 		std::string function(const ast::Function & fx, CompilerInfo & info) {
 			Scope scope{fx.namespaze, fx.c0nst};
 			std::stringstream ss;
-			const auto & signature = info.fx_table.resolve(
+			
+			const auto * signature = info.fx_table.resolve(
 				fx.name,
 				fx.namespaze,
+				{},
 				fx.parameters.size());
+
 			ss << inst::jumpmark(signature->id);
 			ss << parameters(fx, scope);
 			if(fx.except) {
@@ -79,7 +82,7 @@ namespace ltn::c::compile {
 		// compiles asm_function
 		std::string build_in_function(const ast::BuildIn & fx, CompilerInfo & info) {
 			std::stringstream ss;
-			const auto & signature = info.fx_table.resolve(
+			const auto * signature = info.fx_table.resolve(
 				fx.name,
 				fx.namespaze,
 				fx.parameters.size());

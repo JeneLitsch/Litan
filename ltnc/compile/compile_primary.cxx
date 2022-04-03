@@ -100,6 +100,38 @@ namespace ltn::c::compile {
 
 
 
+		namespace {
+			bool is_inner_namespace(
+				const ast::Namespace & call_ns,
+				const ast::Namespace & fx_ns) {
+				if(fx_ns.size() > call_ns.size()) return false;
+				for(std::size_t i = 0; i < fx_ns.size(); i++) {
+					if(call_ns[i] != fx_ns[i]) {
+						return false;
+					}
+				}
+				return true;
+			}
+
+
+			void guard_private(
+				const FxSignature * fx_sig,
+				const ast::Namespace & call_ns,
+				const SourceLocation & loc) {
+				if(
+					fx_sig &&
+					fx_sig->pr1vate &&
+					!is_inner_namespace(call_ns, fx_sig->namespaze)) {
+					throw CompilerError{
+						"Function is not visible in current scope",
+						loc
+					};
+				}
+			}
+		}
+
+
+
 		// compiles function call fx(...)
 		ExprCode call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
 			// resolve function
@@ -109,15 +141,18 @@ namespace ltn::c::compile {
 				call.namespaze,
 				call.parameters.size());
 			
+			if(!fx) {
+				throw undefined_function(call.name, call);
+			}
+
+			guard_private(fx, scope.get_namespace(), call.location);
+			
 			if(scope.is_const() && !fx->c0nst) {
 				throw CompilerError {
 					"Cannot call non-const function from a const functions",
 					call.location};
 			}
 
-			if(!fx) {
-				throw undefined_function(call.name, call);
-			}
 			std::stringstream ss;
 			ss << call_parameters(call.parameters, info, scope).code;
 			ss << inst::call(fx->id);
@@ -136,9 +171,13 @@ namespace ltn::c::compile {
 				scope.get_namespace(),
 				ptr.namespaze,
 				ptr.placeholders);
+
 			if(!fx) {
 				throw undefined_function(ptr.name, ptr);
 			}
+	
+			guard_private(fx, scope.get_namespace(), ptr.location);
+
 			std::stringstream ss;
 			ss << inst::newfx(fx->id, ptr.placeholders);
 			return ExprCode{ss.str() };

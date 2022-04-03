@@ -82,26 +82,21 @@ namespace ltn::c::compile {
 		const ast::Namespace & from,
 		const ast::Namespace & to,
 		const std::size_t parameters) {
-		return ltn::c::compile::resolve(this->functions, from, to, name, parameters);
+		return compile::resolve(this->functions, from, to, name, parameters);
 	}
 
 	const FxSignature * FxTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & full,
 		const std::size_t parameters) {
-		for(const auto & fx : this->functions) {
-			if(
-				fx.name == name &&
-				fx.parameters == parameters &&
-				fx.namespaze == full) {
-				return &fx;
-			}
-		}
-		return nullptr;
+		return compile::resolve(this->functions, {}, full, name, parameters); 
 	}
 
 	// defines new function
 	void FxTable::insert(const FxSignature & fx) {
+		if(fx.pr1vate && fx.namespaze.empty()) {
+			throw CompilerError{"Private functions cannot be declared in global namespace", {}};
+		}
 		// Prevent redefinition
 		if(this->resolve(fx.name, fx.namespaze, fx.parameters)) {
 			throw multiple_definitions(fx);
