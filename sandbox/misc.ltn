@@ -12,7 +12,7 @@ function print(color) {
 }
 
 function print() {
-	std::io::set_reset_color();
+	std::io::reset_color();
 	std::println("Hello World");
 }
 
