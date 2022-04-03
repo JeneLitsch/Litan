@@ -6,13 +6,13 @@ namespace race_game {
 }
 
 function print(color) {
-	std::io::fg_color(std::cout(), color);
+	std::io::set_fg_color(std::cout(), color);
 	std::println("Hello World");
 	std::io::reset_color();
 }
 
 function print() {
-	std::io::reset_color();
+	std::io::set_reset_color();
 	std::println("Hello World");
 }
 

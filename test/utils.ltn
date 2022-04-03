@@ -3,11 +3,11 @@ function test_single_case(fx, params, expected) {
 	var correct = (r == expected);
 	std::io::reset_color();
 	if(correct) {
-		std::io::fg_color(std::io::color::GREEN);
+		std::io::set_fg_color(std::io::color::GREEN);
 		std::print("ok: ");
 	}
 	else {
-		std::io::fg_color(std::io::color::BOLD_RED);
+		std::io::set_fg_color(std::io::color::BOLD_RED);
 		std::print("[ERROR] ");
 	}
 	std::print(std::string(params) + " -> " + std::string(expected));
