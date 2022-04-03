@@ -99,44 +99,9 @@ namespace ltn::c::compile {
 		}
 
 
-		ExprCode invoke_lambda(
-			const ast::Call & call,
-			CompilerInfo & info,
-			Scope & scope) {
-			
-			std::stringstream ss;
-			ss << call_parameters(call.parameters, info, scope).code;
-			ss << inst::newarr(call.parameters.size());
-			ss << inst::invoke;
-			return ExprCode{ ss.str() };
-		}
 
-
-
-		std::optional<ExprCode> invoke_local(
-			const ast::Call & call,
-			CompilerInfo & info,
-			Scope & scope) {
-			
-			if(call.namespaze.empty()) {
-				try {
-					const auto var = scope.resolve(call.name, call.location);
-					std::stringstream ss;
-					ss << read_local_variable(var).code;
-					ss << invoke_lambda(call, info, scope).code;
-					return ExprCode{ ss.str() };
-				}
-				catch(...){}
-			}
-			return std::nullopt;
-		}
-
-
-
-		std::optional<ExprCode> call_function(
-			const ast::Call & call,
-			CompilerInfo & info,
-			Scope & scope) {
+		// compiles function call fx(...)
+		ExprCode call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
 			// resolve function
 			const auto fx = info.fx_table.resolve(
 				call.name,
@@ -144,41 +109,13 @@ namespace ltn::c::compile {
 				call.namespaze,
 				call.parameters.size());
 			
-			if(fx) {
-				std::stringstream ss;
-				ss << call_parameters(call.parameters, info, scope).code;
-				ss << inst::call(fx->id);
-				return ExprCode{ ss.str() };
+			if(!fx) {
+				throw undefined_function(call.name, call);
 			}
-			return std::nullopt;
-		}
-
-
-
-		std::optional<ExprCode> invoke_global(
-			const ast::Call & call,
-			CompilerInfo & info,
-			Scope & scope) {
-
-			const auto & name = call.name;
-			const auto & namespaze = scope.get_namespace();
-			if(auto global = info.global_table.resolve(name, namespaze)) {
-				std::stringstream ss;
-				ss << read_global_variable(*global, info).code;
-				ss << invoke_lambda(call, info, scope).code;
-				return ExprCode{ ss.str() };
-			}
-			return std::nullopt;
-		}
-
-
-
-		// compiles function call fx(...)
-		ExprCode call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
-			if(const auto code = invoke_local(call, info, scope)) return *code;
-			if(const auto code = call_function(call, info, scope)) return *code;
-			if(const auto code = invoke_global(call, info, scope)) return *code;
-			throw undefined_function(call.name, call);
+			std::stringstream ss;
+			ss << call_parameters(call.parameters, info, scope).code;
+			ss << inst::call(fx->id);
+			return ExprCode{ ss.str() };
 		}
 
 
