@@ -7,6 +7,7 @@ namespace ltn::c::compile {
 		ast::Namespace namespaze;
 		std::size_t parameters;
 		std::string id;
+		bool c0nst = false;
 	};
 
 }

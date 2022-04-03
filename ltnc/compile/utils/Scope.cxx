@@ -2,10 +2,8 @@
 #include "ltnc_core/CompilerError.hxx"
 
 namespace ltn::c::compile {
-	Scope::Scope(const ast::Namespace & namespaze) 
-		: parent(nullptr), namespaze(namespaze) {
-
-	}
+	Scope::Scope(const ast::Namespace & namespaze, bool c0nst) 
+		: parent(nullptr), namespaze(namespaze), c0nst(c0nst) {}
 
 	Scope::Scope(const Scope * parent) 
 		: parent(parent), namespaze(parent->namespaze) {}
@@ -42,6 +40,20 @@ namespace ltn::c::compile {
 	Variable Scope::insert(const std::string & name, const SourceLocation & location) {
 		return this->insert(name, Variable::Qualifier::MUTABLE, location);
 	}
+
+
+	bool Scope::is_const() const {
+		if(this->c0nst) {
+			return true;
+		}
+		else if(this->parent) {
+			return this->parent->is_const();
+		}
+		else {
+			return false;
+		}
+	}
+
 
 	std::optional<std::string> Scope::get_return() const {
 		if(this->return_point) {

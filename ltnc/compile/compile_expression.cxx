@@ -3,12 +3,14 @@
 namespace ltn::c::compile {
 	namespace {
 		using MT = ast::Modify::Type;
-		
+
+
 		// =
 		ExprCode assign(
 			const ast::Assign & expr,
 			CompilerInfo & info,
 			Scope & scope) {
+			guard_const(expr, scope);
 			const auto l = compile::assignable(*expr.l, info, scope);
 			const auto r = compile::expression(*expr.r, info, scope);
 			std::stringstream ss;
@@ -23,8 +25,9 @@ namespace ltn::c::compile {
 			const ast::Modify & expr,
 			CompilerInfo & info,
 			Scope & scope) {
-			const auto lW = compile::assignable(*expr.l, info, scope);
-			const auto lR = compile::expression(*expr.l, info, scope);
+			guard_const(expr, scope);
+			const auto l_write = compile::assignable(*expr.l, info, scope);
+			const auto l_read = compile::expression(*expr.l, info, scope);
 			const auto r = compile::expression(*expr.r, info, scope);
 			const auto op = [&] {
 				switch (expr.type) {
@@ -41,10 +44,10 @@ namespace ltn::c::compile {
 					expr.location};
 			}();
 			std::stringstream ss;
-			ss << lR.code;
+			ss << l_read.code;
 			ss << r.code;
 			ss << op;
-			ss << lW.code;			
+			ss << l_write.code;			
 			ss << inst::null;
 			return ExprCode{ss.str() };
 		}
@@ -98,5 +101,14 @@ namespace ltn::c::compile {
 			return compile::ternary(*ternary, info, scope);
 		} 
 		throw CompilerError{"Unknown Expression"};
+	}
+
+
+	void guard_const(const ast::Node & node, const Scope & scope) {
+		if(scope.is_const()) {
+			throw CompilerError{
+				"Cannot modify or reassign variable in const function",
+				node.location};
+		}
 	}
 }

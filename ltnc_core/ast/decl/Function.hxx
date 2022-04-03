@@ -37,6 +37,8 @@ namespace ltn::c::ast {
 		virtual ~Functional() = default;
 
 		Parameters parameters;
+		bool c0nst = false;
+		bool pr1vate = false;
 	};
 
 

@@ -51,4 +51,6 @@ namespace ltn::c::compile {
 
 	// utils
 	std::string make_jump_id(const std::string_view name, CompilerInfo & info);
+
+	void guard_const(const ast::Node & node, const Scope & scope);
 }	

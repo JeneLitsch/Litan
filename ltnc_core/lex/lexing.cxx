@@ -87,7 +87,6 @@ namespace ltn::c::lex {
 			{"for",         TT::FOR},
 			{"return",      TT::RETURN},
 			{"var",         TT::VAR},
-			{"const",       TT::CONST},
 			{"if",          TT::IF},
 			{"else",        TT::ELSE},
 			{"return",      TT::RETURN},

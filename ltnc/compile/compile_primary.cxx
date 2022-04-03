@@ -84,7 +84,7 @@ namespace ltn::c::compile {
 
 
 		ExprCode read_global_variable(const GlobalSignature & global, CompilerInfo & info) {
-			Scope s{global.namespaze};
+			Scope s{global.namespaze, false};
 			return expression(*global.constant, info, s);
 		}
 
@@ -109,6 +109,12 @@ namespace ltn::c::compile {
 				call.namespaze,
 				call.parameters.size());
 			
+			if(scope.is_const() && !fx->c0nst) {
+				throw CompilerError {
+					"Cannot call non-const function from a const functions",
+					call.location};
+			}
+
 			if(!fx) {
 				throw undefined_function(call.name, call);
 			}

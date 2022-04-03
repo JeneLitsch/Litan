@@ -37,7 +37,7 @@ namespace ltn::c::compile {
 			CompilerInfo & info,
 			const auto & namespaze) {
 			
-			Scope scope{namespaze};
+			Scope scope{namespaze, false};
 			scope.insert(except.errorname, except.location);
 			// std::cout << "ERR " << except.errorname << ":" << var.address << ":" << scope.recSize() << std::endl;
 			std::ostringstream ss;
@@ -53,7 +53,7 @@ namespace ltn::c::compile {
 
 		// compiles Litan function
 		std::string function(const ast::Function & fx, CompilerInfo & info) {
-			Scope scope{fx.namespaze};
+			Scope scope{fx.namespaze, fx.c0nst};
 			std::stringstream ss;
 			const auto & signature = info.fx_table.resolve(
 				fx.name,
@@ -125,7 +125,7 @@ namespace ltn::c::compile {
 		ss << inst::jump(skip);
 		
 		if(auto f = as<const ast::Function>(fx)) {
-			Scope inner_scope{outer_scope.get_namespace()};
+			Scope inner_scope{outer_scope.get_namespace(), fx.c0nst};
 			ss << inst::jumpmark(id);
 			for(const auto & capture : lm.captures) {
 				const auto var = inner_scope.insert(capture->name, fx.location);

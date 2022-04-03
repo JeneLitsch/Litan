@@ -128,13 +128,32 @@ namespace ltn::c::parse {
 			auto parse_body) {
 			const auto name = function_name(lexer);
 			const auto parameters = mandatory_parameters(lexer);
+			bool c0nst = false;
+			bool pr1vate = false;
+			while(auto t = lexer.match(TT::INDENTIFIER)) {
+				if(t->str == "const") {
+					c0nst = true;
+				}
+				else if(t->str == "private") {
+					pr1vate = true;
+				}
+				else {
+					throw CompilerError{
+						"Unknown function qualifier: " + t->str,
+						t->location
+					};
+				}
+			}			
 			auto body = parse_body(lexer);
-			return std::make_unique<FunctionalNode>(
+			auto fx = std::make_unique<FunctionalNode>(
 				name,
 				namespaze,
 				parameters,
 				std::move(body),
 				lexer.location());
+			fx->c0nst = c0nst;
+			fx->pr1vate = pr1vate;
+			return fx;
 		}
 	}
 
@@ -150,7 +169,7 @@ namespace ltn::c::parse {
 				lexer,
 				namespaze,
 				parse::body);
-			fx->except = parse::except(lexer);
+			if(!fx->c0nst) fx->except = parse::except(lexer);
 			return fx;
 		}
 		if(lexer.match(TT::BUILD_IN)) {

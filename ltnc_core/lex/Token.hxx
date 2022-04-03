@@ -10,7 +10,6 @@ namespace ltn::c::lex {
 			FUNCTION,
 			LAMBDA,
 			VAR,
-			CONST,
 			IF,
 			ELSE,
 			WHILE,
