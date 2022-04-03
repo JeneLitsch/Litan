@@ -1,45 +1,4 @@
-namespace race_game {
-	preset car {
-		var color;
-		var brand;
-	}
-}
-
-
-
-function f_2() const => 42
-
-
-
-function f(a, b) const {
-	return f_2();
-}
-
-
-
-function print(color) {
-	std::io::set_fg_color(std::cout(), color);
-	std::println("Hello World");
-	std::io::reset_color();
-}
-
-
-
-function print() {
-	std::io::reset_color();
-	std::println("Hello World");
-}
-
-
-
-function main() {
-	print(std::io::color::BLACK);
-	print(std::io::color::BOLD_RED);
-	print(std::io::color::GREEN);
-	print(std::io::color::YELLOW);
-	print(std::io::color::BLUE);
-	print(std::io::color::MAGENTA);
-	print(std::io::color::CYAN);
-	print(std::io::color::WHITE);
-	print();
+function main() const {
+	var p = std::pair(1, 2);
+	return p;
 }

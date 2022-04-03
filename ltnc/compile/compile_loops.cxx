@@ -43,7 +43,6 @@ namespace ltn::c::compile {
 	}
 
 
-
 	StmtCode for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		Scope loop_scope{&scope};
@@ -58,8 +57,8 @@ namespace ltn::c::compile {
 
 		// get address of index var
 		const auto i_var    = loop_scope.resolve(stmt.var->name, stmt.location).address;
-		const auto from_var = loop_scope.insert("__FROM__" + loop_id, stmt.location).address;
-		const auto to_var   = loop_scope.insert("__TO__" + loop_id, stmt.location).address;
+		const auto from_var = loop_scope.insert("__FROM_" + loop_id + "__", stmt.location).address;
+		const auto to_var   = loop_scope.insert("__TO_" + loop_id + "__", stmt.location).address;
 		const auto body = statement(*stmt.body, info, loop_scope);
 				
 		std::stringstream ss;

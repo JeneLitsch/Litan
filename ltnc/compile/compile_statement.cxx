@@ -65,7 +65,24 @@ namespace ltn::c::compile {
 			}
 			ss << inst::write_x(var.address);
 			return {ss.str(), 0, true};
-		}		
+		}
+
+
+
+		StmtCode init_member(const ast::InitMember & stmt, CompilerInfo & info, Scope & scope) {
+			const auto obj = scope.resolve("obj", stmt.location);
+			const auto var = scope.resolve(stmt.param, stmt.location);
+			const auto mem = info.member_table.get_id(stmt.member);
+			
+			std::ostringstream oss;
+			
+			oss 
+				<< inst::read_x(var.address)
+				<< inst::read_x(obj.address)
+				<< inst::member_write(mem);
+			
+			return StmtCode{oss.str(), 0, false};
+		}
 	}
 	
 
@@ -93,6 +110,8 @@ namespace ltn::c::compile {
 		ss << inst::thr0w;
 		return {ss.str(), 0};
 	}
+
+
 
 
 
@@ -124,6 +143,9 @@ namespace ltn::c::compile {
 		}
 		if(auto thr0w = as<ast::Throw>(stmt)) {
 			return compile::thr0w(*thr0w, info, scope);
+		}
+		if(auto init = as<ast::InitMember>(stmt)) {
+			return compile::init_member(*init, info, scope);
 		}
 		if(auto exprstmt = as<ast::StatementExpression>(stmt)) {
 			const auto code = expression(*exprstmt->expression, info, scope);

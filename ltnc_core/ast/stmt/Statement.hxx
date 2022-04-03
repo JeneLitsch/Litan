@@ -163,4 +163,19 @@ namespace ltn::c::ast {
 		virtual ~Return() = default;
 		std::unique_ptr<Expression> expression;
 	};
+
+
+	
+	struct InitMember final : public Statement {
+		InitMember(
+			std::string member,
+			std::string param,
+			const SourceLocation & location)
+			:	Statement(location),
+				member(std::move(member)),
+				param(std::move(param)) {}
+		virtual ~InitMember() = default;
+		std::string member;
+		std::string param;
+	};
 }
