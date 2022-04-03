@@ -39,7 +39,6 @@ namespace ltn::c::parse {
 	}
 
 	constexpr auto new_variable = initialize_variable<ast::NewVar, TT::VAR>;
-	constexpr auto new_const = initialize_variable<ast::NewConst, TT::CONST>;
 
 	// parses return statement -> return ...
 	ast::stmt_ptr retrn(lex::Lexer & lexer) {
@@ -77,7 +76,6 @@ namespace ltn::c::parse {
 		if(auto stmt = while_loop(lexer))   return stmt;
 		if(auto stmt = for_loop(lexer))     return stmt;
 		if(auto stmt = new_variable(lexer)) return stmt;
-		if(auto stmt = new_const(lexer))    return stmt;
 		if(auto stmt = thr0w(lexer))        return stmt;
 		if(auto stmt = retrn(lexer))        return stmt;
 		return just_an_expr(lexer);

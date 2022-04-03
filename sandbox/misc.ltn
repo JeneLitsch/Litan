@@ -5,16 +5,28 @@ namespace race_game {
 	}
 }
 
+
+
+// function f(a, b) const {
+// 	return a + b;
+// }
+
+
+
 function print(color) {
 	std::io::set_fg_color(std::cout(), color);
 	std::println("Hello World");
 	std::io::reset_color();
 }
 
+
+
 function print() {
 	std::io::reset_color();
 	std::println("Hello World");
 }
+
+
 
 function main() {
 	print(std::io::color::BLACK);
