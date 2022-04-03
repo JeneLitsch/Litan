@@ -1,25 +1,35 @@
 
 namespace std {
-	enum color {
-		BLACK        : 0x0;
-		RED          : 0x1;
-		GREEN        : 0x2;
-		YELLOW       : 0x3;
-		BLUE         : 0x4;
-		MAGENTA      : 0x5;
-		CYAN         : 0x6;
-		WHITE        : 0x7;
+	namespace io {
+		enum color {
+			BLACK        : 0x0;
+			RED          : 0x1;
+			GREEN        : 0x2;
+			YELLOW       : 0x3;
+			BLUE         : 0x4;
+			MAGENTA      : 0x5;
+			CYAN         : 0x6;
+			WHITE        : 0x7;
 
-		BOLD_BLACK   : 0x8;
-		BOLD_RED     : 0x9;
-		BOLD_GREEN   : 0xa;
-		BOLD_YELLOW  : 0xb;
-		BOLD_BLUE    : 0xc;
-		BOLD_MAGENTA : 0xd;
-		BOLD_CYAN    : 0xe;
-		BOLD_WHITE   : 0xf;
+			BOLD_BLACK   : 0x8;
+			BOLD_RED     : 0x9;
+			BOLD_GREEN   : 0xa;
+			BOLD_YELLOW  : 0xb;
+			BOLD_BLUE    : 0xc;
+			BOLD_MAGENTA : 0xd;
+			BOLD_CYAN    : 0xe;
+			BOLD_WHITE   : 0xf;
+		}
+		
+		build_in fg_color(stream, color) @ io_fg_color
+		build_in bg_color(stream, color) @ io_bg_color
+		build_in reset_color(stream)     @ io_reset_color
+
+		function fg_color(color)         => fg_color(std::cout(), color)
+		function bg_color(color)         => bg_color(std::cout(), color)
+		function reset_color()           => reset_color(std::cout())
 	}
-
+	
 	build_in cout()                  @ io_cout
 	build_in fout(path)              @ io_fout
 	build_in strout()                @ io_strout
@@ -29,13 +39,6 @@ namespace std {
 	build_in strin(str)              @ io_strin
 	
 	build_in print(stream, value)    @ io_print
-	build_in fg_color(stream, color) @ io_fg_color
-	build_in bg_color(stream, color) @ io_bg_color
-	build_in reset_color(stream)     @ io_reset_color
-
-	function fg_color(color)         => fg_color(std::cout(), color)
-	function bg_color(color)         => bg_color(std::cout(), color)
-	function reset_color()           => reset_color(std::cout())
 	
 	build_in read(stream)            @ io_read
 	build_in read_str(stream)        @ io_read_str

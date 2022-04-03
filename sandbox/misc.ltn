@@ -6,24 +6,24 @@ namespace race_game {
 }
 
 function print(color) {
-	std::fg_color(std::cout(), color);
+	std::io::fg_color(std::cout(), color);
 	std::println("Hello World");
-	std::reset_color();
+	std::io::reset_color();
 }
 
 function print() {
-	std::reset_color();
+	std::io::reset_color();
 	std::println("Hello World");
 }
 
 function main() {
-	print(std::color::BLACK);
-	print(std::color::BOLD_RED);
-	print(std::color::GREEN);
-	print(std::color::YELLOW);
-	print(std::color::BLUE);
-	print(std::color::MAGENTA);
-	print(std::color::CYAN);
-	print(std::color::WHITE);
+	print(std::io::color::BLACK);
+	print(std::io::color::BOLD_RED);
+	print(std::io::color::GREEN);
+	print(std::io::color::YELLOW);
+	print(std::io::color::BLUE);
+	print(std::io::color::MAGENTA);
+	print(std::io::color::CYAN);
+	print(std::io::color::WHITE);
 	print();
 }
