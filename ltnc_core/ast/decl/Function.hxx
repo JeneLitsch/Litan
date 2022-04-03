@@ -38,7 +38,6 @@ namespace ltn::c::ast {
 
 		Parameters parameters;
 		bool c0nst = false;
-		bool pr1vate = false;
 	};
 
 

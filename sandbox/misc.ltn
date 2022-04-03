@@ -6,10 +6,12 @@ namespace race_game {
 }
 
 
+
 function f_2() const => 42
 
 
-function f(a, b) private const {
+
+function f(a, b) const {
 	return f_2();
 }
 
