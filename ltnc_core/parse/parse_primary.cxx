@@ -201,7 +201,7 @@ namespace ltn::c::parse {
 		std::pair<std::string, ast::Namespace> symbol(lex::Lexer & lexer) {
 			ast::Namespace namespaze;
 			if(lexer.match(TT::COLONx2)) {
-				namespaze.push_back("::");
+				namespaze.set_absolute();
 			}
 			if(const auto & identifier = lexer.match(TT::INDENTIFIER)) {
 				namespaze.push_back(identifier->str);

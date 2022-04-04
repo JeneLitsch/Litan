@@ -1,22 +1,80 @@
 #include "Namespace.hxx"
 #include <iostream>
+#include <sstream>
 namespace ltn::c::ast {
-
-	namespace {
-		template<class T>
-		std::vector<T> operator+(
-			const std::vector<T> & l,
-			const std::vector<T> & r) {
-			std::vector<T> vec;
-			vec.reserve(l.size() + r.size());
-			vec.insert(std::end(vec), l.begin(), l.end());
-			vec.insert(std::end(vec), r.begin(), r.end());
-			return vec;
-		}
+	bool Namespace::is_absolute() const {
+		return this->absolute;
 	}
 
 
-	bool is_absolute(const Namespace & ns) {
-		return (!ns.empty()) && (ns[0] == "::");
+
+	void Namespace::push_back(const std::string & str) {
+		this->path.push_back(str);
+	}
+
+
+
+	void Namespace::pop_back() {
+		this->path.pop_back();
+	}
+
+
+
+	std::size_t Namespace::size() const {
+		return this->path.size();
+	}
+
+
+
+	bool Namespace::empty() const {
+		return this->size() == 0;
+	}
+
+
+
+	const std::string & Namespace::operator[](std::size_t i) const {
+		return this->path[i];
+	}
+
+
+
+	std::string & Namespace::operator[](std::size_t i) {
+		return this->path[i];
+	}
+
+
+
+	void Namespace::set_absolute()  {
+		this->absolute = true;
+	}
+
+
+
+
+	std::string Namespace::to_string() const {
+		std::ostringstream oss;
+		for(const auto & step : this->path) {
+			oss << step << "::";
+		}
+		return oss.str();
+	}
+
+
+
+	bool operator==(
+		const Namespace & l,
+		const Namespace & r) {
+		return l.path == r.path;
+	} 
+
+
+	ast::Namespace operator+(
+		const ast::Namespace & l,
+		const ast::Namespace & r) {
+		ast::Namespace n;
+		n.path.reserve(l.path.size() + r.path.size());
+		n.path.insert(std::end(n.path), l.path.begin(), l.path.end());
+		n.path.insert(std::end(n.path), r.path.begin(), r.path.end());
+		return n;
 	}
 }

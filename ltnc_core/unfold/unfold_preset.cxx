@@ -5,7 +5,7 @@ namespace ltn::c::unfold {
 		ast::stmt_ptr new_struct(const SourceLocation & loc) {
 			auto call = std::make_unique<ast::Call>(
 				"struct",
-				ast::Namespace{"std"},
+				ast::Namespace{{"std"}},
 				std::vector<ast::expr_ptr>{},
 				loc);
 			

@@ -3,83 +3,17 @@
 #include <sstream>
 #include <iostream>
 #include "ltn/printing.hxx"
+#include "namespace_resolution.hxx"
 namespace ltn::c::compile {
+
 	CompilerError multiple_definitions(const ast::Functional & fx) {
 		std::stringstream msg;
 		msg << "Function ";
+		msg << fx.namespaze.to_string();
 		msg << fx.name << "(";
 		msg << std::size(fx.parameters);
 		msg << ") already exists";
 		return CompilerError{ msg.str(), {} };
-	}
-
-
-
-	namespace {
-		template<class T>
-		std::vector<T> operator+(
-			const std::vector<T> & l,
-			const std::vector<T> & r) {
-			std::vector<T> vec;
-			vec.reserve(l.size() + r.size());
-			vec.insert(std::end(vec), l.begin(), l.end());
-			vec.insert(std::end(vec), r.begin(), r.end());
-			return vec;
-		}
-
-
-
-		const ast::Functional * resolve_rec(
-			const std::vector<const ast::Functional *> & functions,
-			const ast::Namespace & from,
-			const ast::Namespace & to,
-			const std::string_view name,
-			const std::size_t parameters) {
-
-			for(const auto & fx : functions) {
-				const bool names_match = fx->name == name;
-				const bool params_match = std::size(fx->parameters) == parameters;
-				const bool namespaces_match = (from + to) == fx->namespaze;
-				if(names_match && params_match && namespaces_match) {
-					return fx;
-				}
-			}
-			
-			if(from.empty()) {
-				return nullptr;
-			}
-			
-			return resolve_rec(
-				functions,
-				{from.begin(), from.end()-1},
-				to,
-				name,
-				parameters);
-		}
-
-
-
-		const ast::Functional * resolve(
-			const std::vector<const ast::Functional *> & functions,
-			const ast::Namespace & from,
-			const ast::Namespace & to,
-			const std::string_view name,
-			const std::size_t parameters) {
-
-			if(ast::is_absolute(to)) {
-				for(const auto & fx : functions) {
-					const bool names_match = fx->name == name;
-					const bool params_match = std::size(fx->parameters) == parameters;
-					const bool namespaces_match = fx->namespaze == ast::Namespace{to.begin()+1, to.end()};
-					if(names_match && params_match && namespaces_match) {
-						return fx;
-					}
-				}
-				return nullptr;
-			}
-		
-			return resolve_rec(functions, from, to, name, parameters);
-		}
 	}
 
 
