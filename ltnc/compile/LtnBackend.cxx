@@ -8,7 +8,7 @@ namespace ltn::c::compile {
 			CompilerInfo & info,
 			const ast::Functional & fx) {
 			std::stringstream ss;
-			ss << "FX" << info.jump_mark_counter++;
+			ss << "FX" << *stx::unique{};
 			for(const auto & sns : fx.namespaze) {
 				ss << "_" << sns;
 			}
@@ -40,31 +40,20 @@ namespace ltn::c::compile {
 		GlobalTable global_table;
 		FxTable fx_table;
 		MemberTable member_table;
-		std::size_t jump_mark_counter = 0;
 		
 		compile::CompilerInfo info {
 			config,
 			fx_table,
 			global_table,
 			member_table,
-			jump_mark_counter,
 			reporter};
 		
 		for(const auto & fx : program.functions) {
-			info.fx_table.insert({
-				fx->name,
-				fx->namespaze,
-				fx->parameters.size(),
-				make_fxid(info, *fx),
-				fx->c0nst,
-				fx->pr1vate});
+			info.fx_table.insert(*fx);
 		}
 
 		for(const auto & global : program.globals) {
-			info.global_table.insert({
-			global->name,
-			global->namespaze,
-			global->expr.get()});
+			info.global_table.insert(*global);
 		}
 
 		try {

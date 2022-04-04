@@ -1,15 +1,6 @@
 #include "compile.hxx"
 
 namespace ltn::c::compile {
-	
-	// creates a jump label
-	std::string make_jump_id(const std::string_view name, CompilerInfo & info) {
-		std::stringstream ss;
-		ss << name << info.jump_mark_counter++;
-		return ss.str();
-	}
-
-
 	bool has_else_branch(const ast::IfElse & stmt) {
 		return stmt.else_branch && (!as<ast::DoNothing>(*stmt.else_branch));
 	}
@@ -21,14 +12,14 @@ namespace ltn::c::compile {
 		Scope else_scope{&scope};
 
 		// compiles parts
-		const auto idIfEnd = make_jump_id("IF_END", info);
+		const auto idIfEnd = make_jump_id("IF_END");
 		const auto condition = expression(*stmt.condition, info, scope);
 		const auto if_branch = statement(*stmt.if_branch, info, if_scope);
 		
 		// with else
 		if(has_else_branch(stmt)) {
 			const auto else_branch = statement(*stmt.else_branch, info, else_scope);
-			const auto idElse = make_jump_id("IF_ELSE", info);
+			const auto idElse = make_jump_id("IF_ELSE");
 			std::stringstream ss;
 			ss << condition.code;
 			ss << inst::ifelse(idElse);

@@ -119,7 +119,7 @@ namespace ltn::c::compile {
 
 
 	ExprCode lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & outer_scope) {
-		const auto id = make_jump_id("LAMBDA", info);
+		const auto id = make_jump_id("LAMBDA");
 		const auto skip = "SKIP_" + id;
 		const auto & fx = *lm.fx;
 		std::stringstream ss;

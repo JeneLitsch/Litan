@@ -5,6 +5,7 @@ namespace ltn::c::compile {
 		using MT = ast::Modify::Type;
 
 
+
 		// =
 		ExprCode assign(
 			const ast::Assign & expr,
@@ -19,6 +20,8 @@ namespace ltn::c::compile {
 			ss << inst::null;
 			return ExprCode{ss.str() };
 		}
+
+
 
 		// += -= *= /= %=
 		ExprCode modify(
@@ -53,31 +56,6 @@ namespace ltn::c::compile {
 		}
 	}
 
-	ExprCode ternary(const ast::Ternary & expr, CompilerInfo & info, Scope & scope) {
-		const auto jumpmark = make_jump_id("TERNARY", info);
-		const auto jumpmark_else = jumpmark + "_ELSE"; 
-		const auto jumpmark_end = jumpmark + "_END"; 
-		std::ostringstream ss;
-
-		ss << expression(*expr.condition, info, scope).code;
-		ss << inst::ifelse(jumpmark_else);
-
-		ss << expression(*expr.if_branch, info, scope).code;
-		ss << inst::jump(jumpmark_end);
-
-		ss << inst::jumpmark(jumpmark_else);
-		ss << expression(*expr.else_branch, info, scope).code;
-		ss << inst::jump(jumpmark_end);
-
-		ss << inst::jumpmark(jumpmark_end);
-
-		return {ss.str()};
-	}
-
-
-
-
-
 
 
 	// compiles any expression
@@ -102,6 +80,7 @@ namespace ltn::c::compile {
 		} 
 		throw CompilerError{"Unknown Expression"};
 	}
+
 
 
 	void guard_const(const ast::Node & node, const Scope & scope) {

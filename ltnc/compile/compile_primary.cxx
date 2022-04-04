@@ -83,9 +83,9 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode read_global_variable(const GlobalSignature & global, CompilerInfo & info) {
+		ExprCode read_global_variable(const ast::Global & global, CompilerInfo & info) {
 			Scope s{global.namespaze, false};
-			return expression(*global.constant, info, s);
+			return expression(*global.expr, info, s);
 		}
 
 
@@ -115,13 +115,13 @@ namespace ltn::c::compile {
 
 
 			void guard_private(
-				const FxSignature * fx_sig,
+				const ast::Functional * fx,
 				const ast::Namespace & call_ns,
 				const SourceLocation & loc) {
 				if(
-					fx_sig &&
-					fx_sig->pr1vate &&
-					!is_inner_namespace(call_ns, fx_sig->namespaze)) {
+					fx &&
+					fx->pr1vate &&
+					!is_inner_namespace(call_ns, fx->namespaze)) {
 					throw CompilerError{
 						"Function is not visible in current scope",
 						loc
@@ -199,7 +199,7 @@ namespace ltn::c::compile {
 
 
 		ExprCode iife(const ast::Iife & iife, CompilerInfo & info, Scope & outer_scope) {
-			const auto jumpmark = make_jump_id("IIFE", info);
+			const auto jumpmark = make_jump_id("IIFE");
 			Scope inner_scope{&outer_scope};
 			inner_scope.set_return(jumpmark);
 			std::ostringstream ss;

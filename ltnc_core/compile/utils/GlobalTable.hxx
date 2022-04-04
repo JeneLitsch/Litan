@@ -1,21 +1,21 @@
 #pragma once
-#include "GlobalSignature.hxx"
+#include "ltnc_core/ast/Ast.hxx"
 #include <vector>
 namespace ltn::c::compile {
 	// Holds and resolves functions at compile time
 	class GlobalTable {
 	public:
-		const GlobalSignature * resolve(
+		const ast::Global * resolve(
 			const std::string_view name,
 			const ast::Namespace & from,
 			const ast::Namespace & to);
 
-		const GlobalSignature * resolve(
+		const ast::Global * resolve(
 			const std::string_view name,
 			const ast::Namespace & full);
 
-		void insert(const GlobalSignature & fx);
+		void insert(const ast::Global & fx);
 	private:
-		std::vector<GlobalSignature> enums;
+		std::vector<const ast::Global *> enums;
 	};
 }

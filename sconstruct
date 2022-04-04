@@ -36,7 +36,8 @@ ltnc_core = [
 	"ltnc_core/parse",
 	"ltnc_core/unfold",
 	"ltnc_core/optimize",
-	"ltnc_core/utils",
+	"ltnc_core/compile",
+	"ltnc_core/compile/utils",
 ]
 
 ltnc = [

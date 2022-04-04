@@ -1,8 +1,6 @@
 #pragma once
 #include "ltnc_core/Backend.hxx"
-#include "utils/FxTable.hxx"
-#include "utils/GlobalTable.hxx"
-#include "utils/MemberTable.hxx"
+#include "ltnc_core/compile/utils/CompilerInfo.hxx"
 #include <sstream>
 namespace ltn::c::compile {
 	class LtnBackend : public Backend {

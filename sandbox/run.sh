@@ -11,3 +11,4 @@ run () {
 
 run array
 run misc
+run fx_qualifiers

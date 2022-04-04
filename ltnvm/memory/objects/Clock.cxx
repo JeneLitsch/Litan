@@ -5,7 +5,7 @@ ltn::vm::Clock::Clock() {
 
 }
 
-ltn::stx::float64_t ltn::vm::Clock::getSeconds() const {
+stx::float64_t ltn::vm::Clock::getSeconds() const {
 	const auto now = this->clock.now();
 	const std::chrono::duration<stx::float64_t> duration = now - this->start;
 	return duration.count();

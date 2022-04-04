@@ -2,12 +2,30 @@
 
 #include <tuple>
 #include <vector>
+#include <sstream>
+#include "ltn/unique.hxx"
 #include "Declaration.hxx"
 #include "../Namespace.hxx"
 
 namespace ltn::c::ast {
 	struct Statement;
 	using Parameters = std::vector<std::string>;
+
+
+
+	inline std::string mangle(
+		const std::string & name,
+		const Namespace & namespaze,
+		const Parameters & parameters) {
+		std::ostringstream oss;
+		oss << "FX_" << *stx::unique{}; 
+		for(const auto & step : namespaze) {
+			oss << step << "@";
+		}
+		oss << name << "_";
+		oss << std::size(parameters);
+		return oss.str();
+	}
 
 
 
@@ -33,12 +51,15 @@ namespace ltn::c::ast {
 			Parameters parameters,
 			const SourceLocation & location)
 			:	Declaration(location, name, namespaze),
-				parameters(parameters) {}
+				parameters(parameters),
+				id(mangle(name, namespaze, parameters)) {}
 		virtual ~Functional() = default;
 
 		Parameters parameters;
 		bool c0nst = false;
 		bool pr1vate = false;
+
+		std::string id;
 	};
 
 

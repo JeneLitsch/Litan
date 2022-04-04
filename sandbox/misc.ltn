@@ -1,31 +1,4 @@
-// namespace a {
-// namespace b {
-// 	function private() private const => std::pair(1, 2)
-// 	function public() const => private()
-// }
-// }
-
-// namespace a {
-// 	function private() private const => std::pair(1, 2)
-// namespace b {
-// 	function public() const => private()
-// }
-// }
-
-namespace a {
-namespace b {
-	function public() const => c::private()
-namespace c {
-	function private() private const => std::pair(1, 2)
-}
-}
-}
-
-
-
-
-
 function main() const {
-	var p = a::b::public();
+	var p = std::pair(1, 2);
 	return p;
 }

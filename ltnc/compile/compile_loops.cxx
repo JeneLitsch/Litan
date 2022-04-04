@@ -8,8 +8,8 @@ namespace ltn::c::compile {
 		// compile parts
 		const auto condition = expression(*stmt.condition, info, scope);
 		const auto body = statement(*stmt.body, info, loop_scope);
-		const auto begin = make_jump_id("WHILE_BEGIN", info);
-		const auto end = make_jump_id("WHILE_END", info);
+		const auto begin = make_jump_id("WHILE_BEGIN");
+		const auto end = make_jump_id("WHILE_END");
 
 		// generate asm code
 		std::stringstream ss;
@@ -31,7 +31,7 @@ namespace ltn::c::compile {
 		
 		// compile parts
 		const auto body = statement(*stmt.body, info, loop_scope);
-		const auto jump = make_jump_id("INFINETE_LOOP", info);
+		const auto jump = make_jump_id("INFINETE_LOOP");
 
 		// generate asm code
 		std::stringstream ss;
@@ -43,6 +43,7 @@ namespace ltn::c::compile {
 	}
 
 
+
 	StmtCode for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		Scope loop_scope{&scope};
@@ -51,7 +52,8 @@ namespace ltn::c::compile {
 		const auto var = new_const(*stmt.var, info, loop_scope);
 		const auto from = expression(*stmt.from, info, loop_scope);
 		const auto to = expression(*stmt.to, info, loop_scope);
-		const auto loop_id = make_jump_id("FOR", info);
+		
+		const auto loop_id = make_jump_id("FOR");
 		const auto begin = loop_id + "_BEGIN";
 		const auto end = loop_id + "_END";
 
@@ -99,5 +101,4 @@ namespace ltn::c::compile {
 
 		return StmtCode{ss.str(), body.var_count + 3};
 	}
-
 }

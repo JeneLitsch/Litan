@@ -5,7 +5,7 @@
 #include "ltn/printing.hxx"
 namespace ltn::c::compile {
 
-	CompilerError multiple_definitions(const GlobalSignature & fx) {
+	CompilerError multiple_definitions(const ast::Global & fx) {
 		std::stringstream msg;
 		msg << "Global constant ";
 		for(const auto & step : fx.namespaze) {
@@ -33,17 +33,17 @@ namespace ltn::c::compile {
 
 
 
-		const GlobalSignature * resolve_rec(
-			const std::vector<GlobalSignature> & functions,
+		const ast::Global * resolve_rec(
+			const std::vector<const ast::Global *> & globals,
 			const ast::Namespace & from,
 			const ast::Namespace & to,
 			const std::string_view name) {
 
-			for(const auto & fx : functions) {
-				const bool names_match = fx.name == name;
-				const bool namespaces_match = (from + to) == fx.namespaze;
+			for(const auto & e : globals) {
+				const bool names_match = e->name == name;
+				const bool namespaces_match = (from + to) == e->namespaze;
 				if(names_match && namespaces_match) {
-					return &fx;
+					return e;
 				}
 			}
 			
@@ -52,7 +52,7 @@ namespace ltn::c::compile {
 			}
 			
 			return resolve_rec(
-				functions,
+				globals,
 				{from.begin(), from.end()-1},
 				to,
 				name);
@@ -60,31 +60,31 @@ namespace ltn::c::compile {
 
 
 
-		const GlobalSignature * resolve(
-			const std::vector<GlobalSignature> & enums,
+		const ast::Global * resolve(
+			const std::vector<const ast::Global *> & globals,
 			const ast::Namespace & from,
 			const ast::Namespace & to,
 			const std::string_view name) {
 
 			if(ast::is_absolute(to)) {
-				for(const auto & e : enums) {
-					const bool names_match = e.name == name;
-					const bool namespaces_match = e.namespaze == ast::Namespace{to.begin()+1, to.end()};
+				for(const auto & e : globals) {
+					const bool names_match = e->name == name;
+					const bool namespaces_match = e->namespaze == ast::Namespace{to.begin()+1, to.end()};
 					if(names_match && namespaces_match) {
-						return &e;
+						return e;
 					}
 				}
 				return nullptr;
 			}
 		
-			return resolve_rec(enums, from, to, name);
+			return resolve_rec(globals, from, to, name);
 		}
 	}
 
 
 
 	// returns function if defined or nultptr otherwise
-	const GlobalSignature * GlobalTable::resolve(
+	const ast::Global * GlobalTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & from,
 		const ast::Namespace & to) {
@@ -93,14 +93,14 @@ namespace ltn::c::compile {
 
 
 
-	const GlobalSignature * GlobalTable::resolve(
+	const ast::Global * GlobalTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & full) {
 		for(const auto & e : this->enums) {
 			if(
-				e.name == name &&
-				e.namespaze == full) {
-				return &e;
+				e->name == name &&
+				e->namespaze == full) {
+				return e;
 			}
 		}
 		return nullptr;
@@ -109,11 +109,11 @@ namespace ltn::c::compile {
 
 
 	// defines new function
-	void GlobalTable::insert(const GlobalSignature & e) {
+	void GlobalTable::insert(const ast::Global & e) {
 		// Prevent redefinition
 		if(this->resolve(e.name, e.namespaze)) {
 			throw multiple_definitions(e);
 		}
-		this->enums.push_back(e);
+		this->enums.push_back(&e);
 	}
 }

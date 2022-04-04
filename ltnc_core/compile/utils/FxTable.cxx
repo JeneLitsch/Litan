@@ -4,14 +4,16 @@
 #include <iostream>
 #include "ltn/printing.hxx"
 namespace ltn::c::compile {
-	CompilerError multiple_definitions(const FxSignature & fx) {
+	CompilerError multiple_definitions(const ast::Functional & fx) {
 		std::stringstream msg;
 		msg << "Function ";
 		msg << fx.name << "(";
-		msg << fx.parameters;
+		msg << std::size(fx.parameters);
 		msg << ") already exists";
 		return CompilerError{ msg.str(), {} };
 	}
+
+
 
 	namespace {
 		template<class T>
@@ -25,19 +27,21 @@ namespace ltn::c::compile {
 			return vec;
 		}
 
-		const FxSignature * resolve_rec(
-			const std::vector<FxSignature> & functions,
+
+
+		const ast::Functional * resolve_rec(
+			const std::vector<const ast::Functional *> & functions,
 			const ast::Namespace & from,
 			const ast::Namespace & to,
 			const std::string_view name,
 			const std::size_t parameters) {
 
 			for(const auto & fx : functions) {
-				const bool names_match = fx.name == name;
-				const bool params_match = fx.parameters == parameters;
-				const bool namespaces_match = (from + to) == fx.namespaze;
+				const bool names_match = fx->name == name;
+				const bool params_match = std::size(fx->parameters) == parameters;
+				const bool namespaces_match = (from + to) == fx->namespaze;
 				if(names_match && params_match && namespaces_match) {
-					return &fx;
+					return fx;
 				}
 			}
 			
@@ -53,8 +57,10 @@ namespace ltn::c::compile {
 				parameters);
 		}
 
-		const FxSignature * resolve(
-			const std::vector<FxSignature> & functions,
+
+
+		const ast::Functional * resolve(
+			const std::vector<const ast::Functional *> & functions,
 			const ast::Namespace & from,
 			const ast::Namespace & to,
 			const std::string_view name,
@@ -62,11 +68,11 @@ namespace ltn::c::compile {
 
 			if(ast::is_absolute(to)) {
 				for(const auto & fx : functions) {
-					const bool names_match = fx.name == name;
-					const bool params_match = fx.parameters == parameters;
-					const bool namespaces_match = fx.namespaze == ast::Namespace{to.begin()+1, to.end()};
+					const bool names_match = fx->name == name;
+					const bool params_match = std::size(fx->parameters) == parameters;
+					const bool namespaces_match = fx->namespaze == ast::Namespace{to.begin()+1, to.end()};
 					if(names_match && params_match && namespaces_match) {
-						return &fx;
+						return fx;
 					}
 				}
 				return nullptr;
@@ -76,8 +82,10 @@ namespace ltn::c::compile {
 		}
 	}
 
+
+
 	// returns function if defined or nultptr otherwise
-	const FxSignature * FxTable::resolve(
+	const ast::Functional * FxTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & from,
 		const ast::Namespace & to,
@@ -85,22 +93,26 @@ namespace ltn::c::compile {
 		return compile::resolve(this->functions, from, to, name, parameters);
 	}
 
-	const FxSignature * FxTable::resolve(
+
+
+	const ast::Functional * FxTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & full,
 		const std::size_t parameters) {
 		return compile::resolve(this->functions, {}, full, name, parameters); 
 	}
 
+
+
 	// defines new function
-	void FxTable::insert(const FxSignature & fx) {
+	void FxTable::insert(const ast::Functional & fx) {
 		if(fx.pr1vate && fx.namespaze.empty()) {
 			throw CompilerError{"Private functions cannot be declared in global namespace", {}};
 		}
 		// Prevent redefinition
-		if(this->resolve(fx.name, fx.namespaze, fx.parameters)) {
+		if(this->resolve(fx.name, fx.namespaze, std::size(fx.parameters))) {
 			throw multiple_definitions(fx);
 		}
-		this->functions.push_back(fx);
+		this->functions.push_back(&fx);
 	}
 }
