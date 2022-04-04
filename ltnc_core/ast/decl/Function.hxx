@@ -18,10 +18,8 @@ namespace ltn::c::ast {
 		const Namespace & namespaze,
 		const Parameters & parameters) {
 		std::ostringstream oss;
-		oss << "FX_" << *stx::unique{}; 
-		for(const auto & step : namespaze) {
-			oss << step << "@";
-		}
+		oss << "FX" << *stx::unique{} << "_";
+		oss << namespaze.to_string();
 		oss << name << "_";
 		oss << std::size(parameters);
 		return oss.str();
