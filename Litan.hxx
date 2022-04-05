@@ -3,7 +3,7 @@
 #include "ltnc_core/Ltnc.hxx"
 #include "ltna/Ltna.hxx"
 #include "ltnvm/LtnVM.hxx"
-#include "ltnc/compile/LtnBackend.hxx"
+#include "ltnc/LtnBackend.hxx"
 
 namespace ltn {
 	using Ltnc = c::Ltnc;

@@ -16,8 +16,8 @@ namespace ltn::c::compile {
 			const auto r = compile::expression(*expr.r, info, scope);
 			std::stringstream ss;
 			ss << r.code;
+			ss << inst::duplicate;
 			ss << l.code;
-			ss << inst::null;
 			return ExprCode{ss.str() };
 		}
 
@@ -50,8 +50,8 @@ namespace ltn::c::compile {
 			ss << l_read.code;
 			ss << r.code;
 			ss << op;
+			ss << inst::duplicate;
 			ss << l_write.code;			
-			ss << inst::null;
 			return ExprCode{ss.str() };
 		}
 	}
@@ -66,9 +66,51 @@ namespace ltn::c::compile {
 		if(auto unary = as<ast::Unary>(expr)) {
 			return compile::unary(*unary, info, scope);
 		}
-		if(auto primary = as<ast::Primary>(expr)) {
-			return compile::primary(*primary, info, scope);
+		if(auto expr_ = as<ast::Integer>(expr)) {
+			return compile::integer(*expr_);
 		}
+		if(auto expr_ = as<ast::Float>(expr)) {
+			return floating(*expr_);
+		} 
+		if(auto expr_ = as<ast::Bool>(expr)) {
+			return boolean(*expr_);
+		}
+		if(auto expr_ = as<ast::Char>(expr)) {
+			return character(*expr_);
+		}
+		if(auto expr_ = as<ast::Null>(expr)) {
+			return null(*expr_);
+		} 
+		if(auto expr_ = as<ast::String>(expr)) {
+			return string(*expr_);
+		} 
+		if(auto expr_ = as<ast::Array>(expr)) {
+			return array(*expr_, info, scope);
+		}
+		if(auto expr_ = as<ast::Call>(expr)) {
+			return call(*expr_, info, scope);
+		}
+		if(auto expr_ = as<ast::Var>(expr)) {
+			return read_variable(*expr_, info, scope);
+		} 	
+		if(auto expr_ = as<ast::Index>(expr)) {
+			return index(*expr_, info, scope);
+		}	
+		if(auto expr_ = as<ast::Lambda>(expr)) {
+			return lambda(*expr_, info, scope);
+		}	
+		if(auto expr_ = as<ast::FxPointer>(expr)) {
+			return fxPointer(*expr_, info, scope);
+		}
+		if(auto expr_ = as<ast::Member>(expr)) {
+			return read_member_access(*expr_, info, scope);
+		}		
+		if(auto expr_ = as<ast::Iife>(expr)) {
+			return compile::iife(*expr_, info, scope);
+		}
+		if(auto expr_ = as<ast::GlobalValue>(expr)) {
+			return compile::global_value(*expr_, info, scope);
+		} 
 		if(auto assign = as<ast::Assign>(expr)) {
 			return compile::assign(*assign, info, scope);
 		}

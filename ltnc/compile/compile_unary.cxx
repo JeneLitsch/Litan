@@ -11,6 +11,8 @@ namespace ltn::c::compile {
 		return ExprCode{ss.str() };
 	}
 
+
+
 	// compiles !
 	ExprCode notigate (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		const auto code = expression(expr, info, scope);
@@ -19,6 +21,8 @@ namespace ltn::c::compile {
 		ss << inst::n0t;
 		return ExprCode{ss.str() };
 	}
+
+
 
 	// compiles ?
 	ExprCode null_test (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
@@ -30,6 +34,8 @@ namespace ltn::c::compile {
 		return ExprCode{ss.str() };
 	}
 	
+
+
 	// compiles Unary
 	ExprCode unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope) {
 		const auto & inner = *expr.expression;

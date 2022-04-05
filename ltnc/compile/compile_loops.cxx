@@ -8,8 +8,9 @@ namespace ltn::c::compile {
 		// compile parts
 		const auto condition = expression(*stmt.condition, info, scope);
 		const auto body = statement(*stmt.body, info, loop_scope);
-		const auto begin = make_jump_id("WHILE_BEGIN");
-		const auto end = make_jump_id("WHILE_END");
+		const auto id = make_jump_id("WHILE");
+		const auto begin = id + "_BEGIN";
+		const auto end = id + "_END";
 
 		// generate asm code
 		std::stringstream ss;
