@@ -1,15 +1,6 @@
 #include "compile.hxx"
 
 namespace ltn::c::compile {
-	namespace {
-
-
-
-
-	}
-
-
-
 	// compiles any expression
 	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		if(auto binary = as<ast::Binary>(expr)) {

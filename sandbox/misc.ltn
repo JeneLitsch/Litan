@@ -1,6 +1,10 @@
-function main() const {
-	var a = 5;
-	var b = 7;
-	var p = std::pair(1, 2);
-	return p;
+function s() {	
+	std::println("Test");
+	var s = std::struct();
+	s.a = 42;
+	return s;
+}
+
+function main() {
+	s().a *= 4;
 }

@@ -4,18 +4,6 @@
 
 namespace ltn::c::compile {
 	namespace {
-		auto make_fxid(
-			CompilerInfo & info,
-			const ast::Functional & fx) {
-			std::stringstream ss;
-			ss << "FX" << *stx::unique{};
-			for(const auto & sns : fx.namespaze) {
-				ss << "_" << sns;
-			}
-			ss << "_" << fx.name << "_" << fx.parameters.size();
-			return ss.str();
-		}
-
 		void startup_code(std::ostream & out, FxTable & fx_table) {
 			// Jump to main()
 			if(const auto fxmain = fx_table.resolve("main", {}, 0)) {

@@ -13,40 +13,57 @@
 
 namespace ltn::c::compile {
 	// Functional
-	std::string functional(const ast::Functional & fx, CompilerInfo & info);
-	ExprCode lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & scope);
+	std::string functional(const ast::Functional &, CompilerInfo &);
+	ExprCode lambda(const ast::Lambda &, CompilerInfo &, Scope &);
 
 	// Statement
-	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope);
-	StmtCode if_else(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope);
-	StmtCode infinite_loop(const ast::InfiniteLoop & stmt, CompilerInfo & info, Scope & scope);
-	StmtCode while_loop(const ast::While & stmt, CompilerInfo & info, Scope & scope);
-	StmtCode for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope);
-	StmtCode new_variable(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope);
-	StmtCode new_const(const ast::NewConst & stmt, CompilerInfo & info, Scope & scope);
+	StmtCode statement(const ast::Statement &, CompilerInfo &, Scope &);
+	StmtCode block(const ast::Block &, CompilerInfo &, Scope &);
+	StmtCode reTurn(const ast::Return &, CompilerInfo &, Scope &);
+	StmtCode assign(const ast::Assign &, CompilerInfo &, Scope &);
+	StmtCode modify(const ast::Modify &, CompilerInfo &, Scope &);
+	StmtCode thr0w(const ast::Throw &, CompilerInfo &, Scope &);
+	StmtCode init_member(const ast::InitMember &, CompilerInfo &, Scope &);
+	StmtCode if_else(const ast::IfElse &, CompilerInfo &, Scope &);
+	StmtCode infinite_loop(const ast::InfiniteLoop &, CompilerInfo &, Scope &);
+	StmtCode while_loop(const ast::While &, CompilerInfo &, Scope &);
+	StmtCode for_loop(const ast::For &, CompilerInfo &, Scope &);
+	StmtCode new_variable(const ast::NewVar &, CompilerInfo &, Scope &);
+	StmtCode new_const(const ast::NewConst &, CompilerInfo &, Scope &);
 
 	// Expression
-	ExprCode expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope);
-	ExprCode ternary(const ast::Ternary & expr, CompilerInfo & info, Scope & scope);
-	ExprCode binary(const ast::Binary & expr, CompilerInfo & info, Scope & scope);
-	ExprCode unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope);
-	ExprCode integer(const ast::Integer & expr);
-	ExprCode floating(const ast::Float & expr);
-	ExprCode boolean(const ast::Bool & expr);
-	ExprCode character(const ast::Char & expr);
-	ExprCode null(const ast::Null & expr);
-	ExprCode string(const ast::String & expr);
-	ExprCode array(const ast::Array & expr, CompilerInfo & info, Scope & scope);
-	ExprCode call(const ast::Call & expr, CompilerInfo & info, Scope & scope);
-	ExprCode index(const ast::Index & expr, CompilerInfo & info, Scope & scope);
-	ExprCode fxPointer(const ast::FxPointer & expr, CompilerInfo & info, Scope & scope);
-	ExprCode iife(const ast::Iife & expr, CompilerInfo & info, Scope & scope);
-	ExprCode global_value(const ast::GlobalValue & expr, CompilerInfo & info, Scope & scope);
-	ExprCode assignable(const ast::Assignable & expr, CompilerInfo & info, Scope & scope);
-	ExprCode addr(const ast::Var & expr, Scope & scope);
-	ExprCode read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope);
-	ExprCode read_member_access(const ast::Member & access, CompilerInfo & info, Scope & scope);
+	ExprCode expression(const ast::Expression &, CompilerInfo &, Scope &);
+	ExprCode ternary(const ast::Ternary &, CompilerInfo &, Scope &);
+	ExprCode binary(const ast::Binary &, CompilerInfo &, Scope &);
+	ExprCode unary(const ast::Unary &, CompilerInfo &, Scope &);
+	ExprCode integer(const ast::Integer &);
+	ExprCode floating(const ast::Float &);
+	ExprCode boolean(const ast::Bool &);
+	ExprCode character(const ast::Char &);
+	ExprCode null(const ast::Null &);
+	ExprCode string(const ast::String &);
+	ExprCode array(const ast::Array &, CompilerInfo &, Scope &);
+	ExprCode call(const ast::Call &, CompilerInfo &, Scope &);
+	ExprCode index(const ast::Index &, CompilerInfo &, Scope &);
+	ExprCode fxPointer(const ast::FxPointer &, CompilerInfo &, Scope &);
+	ExprCode iife(const ast::Iife &, CompilerInfo &, Scope &);
+	ExprCode index(const ast::Index &, CompilerInfo &, Scope &);
+	ExprCode global_value(const ast::GlobalValue &, CompilerInfo &, Scope &);
+	ExprCode addr(const ast::Var &, Scope &);
+	ExprCode read_variable(const ast::Var & expr, CompilerInfo &, Scope &);
+	ExprCode read_member_access(const ast::Member &, CompilerInfo &, Scope &);
 
 	// utils
-	void guard_const(const ast::Node & node, const Scope & scope);
+	void guard_const(
+		const ast::Node &,
+		const Scope &);
+	
+	void guard_private(
+		const ast::Functional & fx,
+		const ast::Namespace & call_ns,
+		const SourceLocation & loc);
+
+	CompilerError undefined_function(
+		const std::string_view & name,
+		const ast::Node & node);
 }	
