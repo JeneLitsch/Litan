@@ -3,6 +3,7 @@
 #include <vector>
 namespace ltn::c::ast {
 	struct Expression;
+	struct Assignable;
 	struct Statement : public Node {
 		Statement(const SourceLocation & location) : Node(location) {}
 		virtual ~Statement() = default;
@@ -177,5 +178,38 @@ namespace ltn::c::ast {
 		virtual ~InitMember() = default;
 		std::string member;
 		std::string param;
+	};
+
+
+
+	struct Assign final : public Statement {
+	public:
+		Assign(
+			std::unique_ptr<Assignable> l,
+			std::unique_ptr<Expression> r,
+			const SourceLocation & location)
+			:	Statement(location), l(std::move(l)), r(std::move(r)) {}
+		virtual ~Assign() = default;
+		std::unique_ptr<Assignable> l;
+		std::unique_ptr<Expression> r;
+	};
+
+
+
+	struct Modify final : public Statement {
+		enum class Type { ADD, SUB, MLT, DIV, MOD, SHIFT_L, SHIFT_R };
+		Modify(
+			Type type,
+			std::unique_ptr<Assignable> l,
+			std::unique_ptr<Expression> r,
+			const SourceLocation & location)
+			:	Statement(location),
+				type(type),
+				l(std::move(l)),
+				r(std::move(r)) {}
+		virtual ~Modify() = default;
+		Type type;
+		std::unique_ptr<Assignable> l;
+		std::unique_ptr<Expression> r;
 	};
 }

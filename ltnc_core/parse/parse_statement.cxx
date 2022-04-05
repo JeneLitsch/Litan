@@ -14,14 +14,8 @@ namespace ltn::c::parse {
 		while(lexer.match(TT::SEMICOLON));
 	}
 
-	// parses Statement consiting of an Expression
-	auto just_an_expr(lex::Lexer & lexer) {
-		auto expr = assign(lexer);
-		semicolon(lexer);
-		return std::make_unique<ast::StatementExpression>(
-			std::move(expr),
-			lexer.location());
-	}
+
+
 
 	template<class AstNodeType, TT tt>
 	// parses variable creation -> var a ...  
@@ -78,6 +72,8 @@ namespace ltn::c::parse {
 		if(auto stmt = new_variable(lexer)) return stmt;
 		if(auto stmt = thr0w(lexer))        return stmt;
 		if(auto stmt = retrn(lexer))        return stmt;
-		return just_an_expr(lexer);
+		auto stmt =  just_an_expr(lexer);
+		semicolon(lexer);
+		return stmt;
 	}
 }

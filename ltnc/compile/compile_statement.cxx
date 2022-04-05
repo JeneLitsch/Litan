@@ -83,6 +83,55 @@ namespace ltn::c::compile {
 			
 			return StmtCode{oss.str(), 0, false};
 		}
+
+
+				// =
+		StmtCode assign(
+			const ast::Assign & expr,
+			CompilerInfo & info,
+			Scope & scope) {
+			guard_const(expr, scope);
+			const auto l = compile::assignable(*expr.l, info, scope);
+			const auto r = compile::expression(*expr.r, info, scope);
+			std::stringstream ss;
+			ss << r.code;
+			ss << l.code;
+			return StmtCode{ss.str(), 0};
+		}
+
+
+
+		// += -= *= /= %=
+		StmtCode modify(
+			const ast::Modify & expr,
+			CompilerInfo & info,
+			Scope & scope) {
+			using MT = ast::Modify::Type;
+			guard_const(expr, scope);
+			const auto l_write = compile::assignable(*expr.l, info, scope);
+			const auto l_read = compile::expression(*expr.l, info, scope);
+			const auto r = compile::expression(*expr.r, info, scope);
+			const auto op = [&] {
+				switch (expr.type) {
+				case MT::ADD: return inst::add;
+				case MT::SUB: return inst::sub;
+				case MT::MLT: return inst::mlt;
+				case MT::DIV: return inst::div;
+				case MT::MOD: return inst::mod;
+				case MT::SHIFT_L: return inst::shift_l;
+				case MT::SHIFT_R: return inst::shift_r;
+				}
+				throw CompilerError{
+					"Unknow modify operator",
+					expr.location};
+			}();
+			std::stringstream ss;
+			ss << l_read.code;
+			ss << r.code;
+			ss << op;
+			ss << l_write.code;			
+			return StmtCode{ss.str(),0};
+		}
 	}
 	
 
@@ -156,6 +205,12 @@ namespace ltn::c::compile {
 		}
 		if(as<ast::DoNothing>(stmt)) {
 			return StmtCode{"", 0};
+		}
+		if(auto assign = as<ast::Assign>(stmt)) {
+			return compile::assign(*assign, info, scope);
+		}
+		if(auto modify = as<ast::Modify>(stmt)) {
+			return compile::modify(*modify, info, scope);
 		}
 		throw CompilerError{"Unknown statement"};
 	}

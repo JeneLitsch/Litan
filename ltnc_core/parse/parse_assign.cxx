@@ -43,7 +43,7 @@ namespace ltn::c::parse {
 
 
 
-		ast::expr_ptr modify(lex::Lexer & lexer, ast::expr_ptr && expr,	Op op) {
+		ast::stmt_ptr modify(lex::Lexer & lexer, ast::expr_ptr && expr,	Op op) {
 			guard_assingable(*expr, lexer.location());
 			auto l = static_unique_cast<ast::Assignable>(std::move(expr));
 			auto r = expression(lexer);
@@ -56,7 +56,7 @@ namespace ltn::c::parse {
 
 
 
-		ast::expr_ptr assignment(lex::Lexer & lexer, auto && expr, auto && r) {
+		ast::stmt_ptr assignment(lex::Lexer & lexer, auto && expr, auto && r) {
 			guard_assingable(*expr, lexer.location());
 			return std::make_unique<ast::Assign>(
 				static_unique_cast<ast::Assignable>(std::move(expr)),
@@ -70,6 +70,16 @@ namespace ltn::c::parse {
 	ast::expr_ptr assign(lex::Lexer & lexer) {
 		auto l = expression(lexer);
 
+
+		
+		return l;
+	}
+
+
+
+	// parses Statement consiting of an Expression
+	ast::stmt_ptr just_an_expr(lex::Lexer & lexer) {
+		auto l = expression(lexer);
 		if(auto r = assign_r(lexer)) {
 			return assignment(lexer, std::move(l), std::move(r));
 		}
@@ -77,8 +87,9 @@ namespace ltn::c::parse {
 		if(const auto op = match_op(lexer, op_table)) {
 			return modify(lexer, std::move(l), *op);
 		}
-		
-		return l;
+		return std::make_unique<ast::StatementExpression>(
+			std::move(l),
+			lexer.location());
 	}
 
 

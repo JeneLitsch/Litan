@@ -23,6 +23,7 @@ namespace ltn::c::parse {
 	ast::stmt_ptr if_else(lex::Lexer & lexer);
 	ast::stmt_ptr while_loop(lex::Lexer & lexer);
 	ast::stmt_ptr for_loop(lex::Lexer & lexer);
+	ast::stmt_ptr just_an_expr(lex::Lexer & lexer);
 	
 	// Expressions
 	ast::expr_ptr assign(lex::Lexer & lexer);

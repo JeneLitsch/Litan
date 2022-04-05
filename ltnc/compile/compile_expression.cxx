@@ -2,58 +2,10 @@
 
 namespace ltn::c::compile {
 	namespace {
-		using MT = ast::Modify::Type;
 
 
 
-		// =
-		ExprCode assign(
-			const ast::Assign & expr,
-			CompilerInfo & info,
-			Scope & scope) {
-			guard_const(expr, scope);
-			const auto l = compile::assignable(*expr.l, info, scope);
-			const auto r = compile::expression(*expr.r, info, scope);
-			std::stringstream ss;
-			ss << r.code;
-			ss << inst::duplicate;
-			ss << l.code;
-			return ExprCode{ss.str() };
-		}
 
-
-
-		// += -= *= /= %=
-		ExprCode modify(
-			const ast::Modify & expr,
-			CompilerInfo & info,
-			Scope & scope) {
-			guard_const(expr, scope);
-			const auto l_write = compile::assignable(*expr.l, info, scope);
-			const auto l_read = compile::expression(*expr.l, info, scope);
-			const auto r = compile::expression(*expr.r, info, scope);
-			const auto op = [&] {
-				switch (expr.type) {
-				case MT::ADD: return inst::add;
-				case MT::SUB: return inst::sub;
-				case MT::MLT: return inst::mlt;
-				case MT::DIV: return inst::div;
-				case MT::MOD: return inst::mod;
-				case MT::SHIFT_L: return inst::shift_l;
-				case MT::SHIFT_R: return inst::shift_r;
-				}
-				throw CompilerError{
-					"Unknow modify operator",
-					expr.location};
-			}();
-			std::stringstream ss;
-			ss << l_read.code;
-			ss << r.code;
-			ss << op;
-			ss << inst::duplicate;
-			ss << l_write.code;			
-			return ExprCode{ss.str() };
-		}
 	}
 
 
@@ -111,12 +63,7 @@ namespace ltn::c::compile {
 		if(auto expr_ = as<ast::GlobalValue>(expr)) {
 			return compile::global_value(*expr_, info, scope);
 		} 
-		if(auto assign = as<ast::Assign>(expr)) {
-			return compile::assign(*assign, info, scope);
-		}
-		if(auto modify = as<ast::Modify>(expr)) {
-			return compile::modify(*modify, info, scope);
-		}
+
 		if(auto ternary = as<ast::Ternary>(expr)) {
 			return compile::ternary(*ternary, info, scope);
 		} 

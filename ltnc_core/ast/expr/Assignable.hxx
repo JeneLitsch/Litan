@@ -36,39 +36,6 @@ namespace ltn::c::ast {
 
 
 
-	struct Assign final : public Expression {
-	public:
-		Assign(
-			std::unique_ptr<Assignable> l,
-			std::unique_ptr<Expression> r,
-			const SourceLocation & location)
-			:	Expression(location), l(std::move(l)), r(std::move(r)) {}
-		virtual ~Assign() = default;
-		std::unique_ptr<Assignable> l;
-		std::unique_ptr<Expression> r;
-	};
-
-
-
-	struct Modify final : public Expression {
-		enum class Type { ADD, SUB, MLT, DIV, MOD, SHIFT_L, SHIFT_R };
-		Modify(
-			Type type,
-			std::unique_ptr<Assignable> l,
-			std::unique_ptr<Expression> r,
-			const SourceLocation & location)
-			:	Expression(location),
-				type(type),
-				l(std::move(l)),
-				r(std::move(r)) {}
-		virtual ~Modify() = default;
-		Type type;
-		std::unique_ptr<Assignable> l;
-		std::unique_ptr<Expression> r;
-	};
-
-
-
 	struct Member final : public Assignable {
 		Member(
 			std::unique_ptr<Expression> expr,
