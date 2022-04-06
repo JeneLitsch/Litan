@@ -79,6 +79,7 @@ namespace ltn {
 		MAKEVAR,
 		READ_X,
 		WRITE_X,
+		SWAP,
 
 		// Fast stack reading
 		READ_0 = 0x68,

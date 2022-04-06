@@ -50,6 +50,7 @@ namespace test {
 		var cases = [
 			[[with_a()], true],
 			[[without_a()], false],
+			[[abc(1, 2, 3)], true],
 		];
 		return test_all_cases("Struct: null", &has_a(_), cases); 
 	}

@@ -177,10 +177,19 @@ namespace ltn::c::compile {
 		}();
 		std::stringstream ss;
 		ss << l_prepare.code;
+		
+		if(as<ast::Index>(*expr.l) || as<ast::Member>(*expr.l)) {
+			ss << inst::duplicate;
+		}
+
 		ss << l_read.code;
 		ss << r.code;
 		ss << op;
-		ss << l_prepare.code;
+
+		if(as<ast::Index>(*expr.l) || as<ast::Member>(*expr.l)) {
+			ss << "swap\n";
+		}
+
 		ss << l_write.code;			
 		return StmtCode{ss.str(), 1, true};
 	}

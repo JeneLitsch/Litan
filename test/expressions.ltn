@@ -1,14 +1,17 @@
 namespace test {
 	function s() {
 		var s = std::struct();
-		var s2 = std::struct();
+		var s2;
+		s2 = std::struct();
 		s2.x = 42;
 		s2.y = std::struct();
-		s2.y.a = 1337;
+		s2.y.a = 1000;
+		s2.y.a += 337;
 		s2.y.b = [1,2,-1];
 		s.a = 1;
 		s.b = [s2];
 		s.b[0].y.b[2] = 3;
+		s.b[0].y.b[2] *= 2;
 		return s;
 	}
 
@@ -50,7 +53,7 @@ namespace test {
 			[f13, -24],
 			[f14, 42],
 			[f15, 1337],
-			[f16, 3],
+			[f16, 6],
 			[f17, false],
 			[f18, true],
 		];

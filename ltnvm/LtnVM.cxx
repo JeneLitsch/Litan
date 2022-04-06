@@ -104,6 +104,7 @@ namespace ltn::vm {
 				case Inst::MAKEVAR: this->makevar(); break;
 				case Inst::READ_X: this->read_x(); break;
 				case Inst::WRITE_X: this->write_x(); break;
+				case Inst::SWAP: this->swap(); break;
 
 				case Inst::READ_0: this->read_0(); break;
 				case Inst::READ_1: this->read_1(); break;
