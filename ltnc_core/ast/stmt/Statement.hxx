@@ -46,30 +46,17 @@ namespace ltn::c::ast {
 		NewVar(
 			const std::string & name,
 			std::unique_ptr<Expression> expression,
-			const SourceLocation & location)
+			const SourceLocation & location,
+			bool is_const = false)
 			:	Statement(location),
 				name(name),
-				expression(std::move(expression)) {}
+				expression(std::move(expression)),
+				is_const(is_const) {}
 		virtual ~NewVar() = default;
 		std::string name;
-		std::unique_ptr<Expression> expression; 
+		std::unique_ptr<Expression> expression;
+		bool is_const;
 	};
-
-
-
-	struct NewConst final : public Statement {
-		NewConst(
-			const std::string & name,
-			std::unique_ptr<Expression> expression,
-			const SourceLocation & location)
-			:	Statement(location),
-				name(name),
-				expression(std::move(expression)) {}
-		virtual ~NewConst() = default;
-		std::string name;
-		std::unique_ptr<Expression> expression; 
-	};
-
 
 
 	struct IfElse final : public Statement {
@@ -120,7 +107,7 @@ namespace ltn::c::ast {
 
 	struct For final : public Statement {
 		For(
-			std::unique_ptr<NewConst> var,
+			std::unique_ptr<NewVar> var,
 			std::unique_ptr<Expression> from,
 			std::unique_ptr<Expression> to,
 			std::unique_ptr<Expression> step,
@@ -134,7 +121,7 @@ namespace ltn::c::ast {
 				body(std::move(body)) {}
 
 		virtual ~For() = default;
-		std::unique_ptr<NewConst> var;
+		std::unique_ptr<NewVar> var;
 		std::unique_ptr<Expression> from;
 		std::unique_ptr<Expression> to;
 		std::unique_ptr<Expression> step;

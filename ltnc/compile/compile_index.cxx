@@ -6,7 +6,8 @@ namespace ltn::c::compile {
 		const auto arr = expression(*index.expression, info, scope);
 		const auto idx = expression(*index.index, info, scope);
 		std::stringstream ss;
-		ss	<< arr.code
+		ss	
+			<< arr.code
 			<< idx.code
 			<< inst::at;
 		return ExprCode{ss.str() };

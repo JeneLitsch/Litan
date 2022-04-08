@@ -83,9 +83,6 @@ namespace ltn::c::optimize {
 		if(auto s = as<ast::NewVar>(stmt)) {
 			return unary_statement(*s);
 		}
-		if(auto s = as<ast::NewConst>(stmt)) {
-			return unary_statement(*s);
-		}
 		if(auto s = as<ast::Throw>(stmt)) {
 			return unary_statement(*s);
 		}

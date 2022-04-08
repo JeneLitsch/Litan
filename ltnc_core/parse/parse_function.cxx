@@ -189,7 +189,7 @@ namespace ltn::c::parse {
 			const auto parameters = optional_parameters(lexer);
 			auto body = parse::body(lexer); 
 			auto fx = std::make_unique<ast::Function>(
-				"lambda", 
+				"lambda" + std::to_string(*stx::unique{}), 
 				ast::Namespace{},
 				parameters,
 				std::move(body),

@@ -9,7 +9,7 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode prepare_index(const ast::Index & expr, CompilerInfo & info, Scope & scope) {
+		ExprCode read_ref_index(const ast::Index & expr, CompilerInfo & info, Scope & scope) {
 			const auto arr = expression(*expr.expression, info, scope);
 			std::stringstream ss;
 			ss << arr.code;
@@ -18,7 +18,7 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode prepare_member(const ast::Member & expr, CompilerInfo & info, Scope & scope) {
+		ExprCode read_ref_member(const ast::Member & expr, CompilerInfo & info, Scope & scope) {
 			std::stringstream ss;
 			ss << expression(*expr.expr, info, scope).code;
 			return ExprCode{ss.str() };
@@ -27,15 +27,15 @@ namespace ltn::c::compile {
 
 
 		// compile assignable variable
-		ExprCode prepare(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
+		ExprCode read_ref(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
 			if(auto e = as<ast::Var>(expr)) {
 				return {};
 			}
 			if(auto e = as<ast::Index>(expr)) {
-				return prepare_index(*e, info, scope);
+				return read_ref_index(*e, info, scope);
 			}
 			if(auto e = as<ast::Member>(expr)) {
-				return prepare_member(*e, info, scope);
+				return read_ref_member(*e, info, scope);
 			}
 			throw std::runtime_error{"Unknow assingable type"};
 		}
@@ -138,7 +138,7 @@ namespace ltn::c::compile {
 		CompilerInfo & info,
 		Scope & scope) {
 		guard_const(expr, scope);
-		const auto l_prepare = compile::prepare(*expr.l, info, scope);
+		const auto l_prepare = compile::read_ref(*expr.l, info, scope);
 		const auto l_write = compile::write(*expr.l, info, scope);
 		const auto r = compile::expression(*expr.r, info, scope);
 		std::stringstream ss;
@@ -157,7 +157,7 @@ namespace ltn::c::compile {
 		Scope & scope) {
 		using MT = ast::Modify::Type;
 		guard_const(expr, scope);
-		const auto l_prepare = compile::prepare(*expr.l, info, scope);
+		const auto l_prepare = compile::read_ref(*expr.l, info, scope);
 		const auto l_write = compile::write(*expr.l, info, scope);
 		const auto l_read = compile::read(*expr.l, info, scope);
 		const auto r = compile::expression(*expr.r, info, scope);
@@ -187,7 +187,7 @@ namespace ltn::c::compile {
 		ss << op;
 
 		if(as<ast::Index>(*expr.l) || as<ast::Member>(*expr.l)) {
-			ss << "swap\n";
+			ss << inst::swap;
 		}
 
 		ss << l_write.code;			

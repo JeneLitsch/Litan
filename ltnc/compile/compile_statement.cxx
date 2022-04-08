@@ -29,9 +29,6 @@ namespace ltn::c::compile {
 		if(auto new_variable = as<ast::NewVar>(stmt)) {
 			return compile::new_variable(*new_variable, info, scope);
 		}
-		if(auto new_const = as<ast::NewConst>(stmt)) {
-			return compile::new_const(*new_const, info, scope);
-		}
 		if(auto reTurn = as<ast::Return>(stmt)) {
 			return compile::reTurn(*reTurn, info, scope);
 		}

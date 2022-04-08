@@ -1,17 +1,14 @@
 #include "compile.hxx"
 namespace ltn::c::compile {
-	// compiles variable creation -> var foo ...;
-	StmtCode new_variable_like(
-		const auto & new_variable,
-		CompilerInfo & info,
-		Scope & scope,
-		Variable::Qualifier qualifier) {
-		
+
+	StmtCode new_variable(const ast::NewVar & new_var, CompilerInfo & info, Scope & scope) {
+		using VQ = Variable::Qualifier;
+		const auto qualifier = new_var.is_const ? VQ::CONST : VQ::MUTABLE;
 		const auto var = scope.insert(
-			new_variable.name, qualifier, new_variable.location);
+			new_var.name, qualifier, new_var.location);
 		std::stringstream ss;
-		if(new_variable.expression) {
-			const auto expr = compile::expression(*new_variable.expression, info, scope);
+		if(new_var.expression) {
+			const auto expr = compile::expression(*new_var.expression, info, scope);
 			ss << expr.code;
 		}
 		else {
@@ -19,17 +16,5 @@ namespace ltn::c::compile {
 		}
 		ss << inst::write_x(var.address);
 		return {ss.str(), 0, true};
-	}
-	
-
-
-	StmtCode new_const(const ast::NewConst & stmt, CompilerInfo & info, Scope & scope) {
-		return new_variable_like(stmt, info, scope, Variable::Qualifier::CONST);
-	}
-	
-
-
-	StmtCode new_variable(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope) {
-		return new_variable_like(stmt, info, scope, Variable::Qualifier::MUTABLE);
 	}
 }

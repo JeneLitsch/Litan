@@ -7,4 +7,9 @@ function s() {
 
 function main() {
 	s().a *= 4;
+	var a;
+	if(true) {
+		a = 42;
+	}
+	return a;
 }

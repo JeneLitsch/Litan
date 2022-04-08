@@ -29,7 +29,6 @@ namespace ltn::c::compile {
 	StmtCode while_loop(const ast::While &, CompilerInfo &, Scope &);
 	StmtCode for_loop(const ast::For &, CompilerInfo &, Scope &);
 	StmtCode new_variable(const ast::NewVar &, CompilerInfo &, Scope &);
-	StmtCode new_const(const ast::NewConst &, CompilerInfo &, Scope &);
 
 	// Expression
 	ExprCode expression(const ast::Expression &, CompilerInfo &, Scope &);
@@ -66,4 +65,10 @@ namespace ltn::c::compile {
 	CompilerError undefined_function(
 		const std::string_view & name,
 		const ast::Node & node);
+
+	std::string conditional(
+		const std::string & name,
+		const std::string_view condition,
+		const std::string_view if_branch,
+		std::optional<const std::string_view> else_branch);
 }	

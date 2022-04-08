@@ -30,10 +30,11 @@ namespace ltn::c::parse {
 			}
 
 			auto var_name = variable_name(lexer);
-			auto var = std::make_unique<ast::NewConst>(
+			auto var = std::make_unique<ast::NewVar>(
 				var_name,
 				nullptr,
-				lexer.location());
+				lexer.location(),
+				true);
 
 			if(!lexer.match(TT::COLON)) {
 				throw CompilerError{"Expected :", lexer.location()};

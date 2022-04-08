@@ -68,6 +68,7 @@ namespace ltn::c::compile::inst {
 	constexpr std::string_view makevar = "makevar\n";
 	constexpr std::string_view at = "at\n";
 	constexpr std::string_view at_write = "at_write\n";
+	constexpr std::string_view swap = "swap\n";
 	constexpr std::string_view read_0 = "read_0\n";
 	constexpr std::string_view read_1 = "read_1\n";
 	constexpr std::string_view read_2 = "read_2\n";

@@ -49,32 +49,34 @@ namespace ltn::c::compile {
 			return ss.str();
 		}
 
+		namespace {
+			// compiles Litan function
+			std::string function(
+				const ast::Function & fx,
+				CompilerInfo & info,
+				Scope & scope,
+				std::optional<const std::string_view> capture) {
+				
+				std::stringstream ss;
+				
+				ss << inst::jumpmark(fx.id);
+				if(capture) ss << *capture;
+				ss << parameters(fx, scope);
+				if(fx.except) ss << inst::tRy(fx.id);
+				ss << body(fx, info, scope);
+				ss << inst::null;
+				ss << inst::reTurn;
+				if(fx.except) ss << except(*fx.except, fx.id, info, fx.namespaze);
+				ss << "\n";
+				return ss.str();
+			}
+		}
 
 
 		// compiles Litan function
 		std::string function(const ast::Function & fx, CompilerInfo & info) {
 			Scope scope{fx.namespaze, fx.c0nst};
-			std::stringstream ss;
-			
-			const auto * signature = info.fx_table.resolve(
-				fx.name,
-				fx.namespaze,
-				{},
-				fx.parameters.size());
-
-			ss << inst::jumpmark(signature->id);
-			ss << parameters(fx, scope);
-			if(fx.except) {
-				ss << inst::tRy(signature->id);
-			}
-			ss << body(fx, info, scope);
-			ss << inst::null;
-			ss << inst::reTurn;
-			if(fx.except) {
-				ss << except(*fx.except, signature->id, info, fx.namespaze);
-			}
-			ss << "\n";
-			return ss.str();
+			return function(fx, info, scope, std::nullopt);
 		}
 
 
@@ -119,37 +121,29 @@ namespace ltn::c::compile {
 
 
 	ExprCode lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & outer_scope) {
-		const auto id = make_jump_id("LAMBDA");
-		const auto skip = "SKIP_" + id;
 		const auto & fx = *lm.fx;
 		std::stringstream ss;
 		
 		// Skip
-		ss << inst::jump(skip);
+		ss << inst::jump(fx.id + "SKIP");
 		
-		if(auto f = as<const ast::Function>(fx)) {
-			Scope inner_scope{outer_scope.get_namespace(), fx.c0nst};
-			ss << inst::jumpmark(id);
-			for(const auto & capture : lm.captures) {
-				const auto var = inner_scope.insert(capture->name, fx.location);
-				ss << inst::makevar;
-				ss << inst::write_x(var.address);
-			}
-			ss << parameters(fx, inner_scope);
-			if(f->except) {
-				ss << inst::tRy(id);
-			}
-			ss << body(*f, info, inner_scope);
-			ss << inst::null;
-			ss << inst::reTurn;
-			if(f->except) {
-				ss << except(*f->except, id, info, outer_scope.get_namespace());
-			}
+		// load captures
+		Scope inner_scope{outer_scope.get_namespace(), fx.c0nst};
+		std::ostringstream ss_capture;
+		for(const auto & capture : lm.captures) {
+			const auto var = inner_scope.insert(capture->name, fx.location);
+			ss_capture << inst::makevar;
+			ss_capture << inst::write_x(var.address);
 		}
+
+		// compile function
+		ss << function(*lm.fx, info, inner_scope, ss_capture.str());
+
+		// Create function pointer
+		ss << inst::jumpmark(fx.id + "SKIP");
+		ss << inst::newfx(fx.id, fx.parameters.size());
 		
-		// Create pointer
-		ss << inst::jumpmark(skip);
-		ss << inst::newfx(id, fx.parameters.size());
+		// store captures
 		for(const auto & capture : lm.captures) {
 			ss << compile::read_variable(*capture, info, outer_scope).code;
 			ss << inst::capture;

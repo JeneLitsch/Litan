@@ -81,14 +81,14 @@ namespace ltn::c::ast {
 
 	struct Lambda final : public Literal {
 		Lambda(
-			std::unique_ptr<Functional> fx,
+			std::unique_ptr<Function> fx,
 			std::vector<std::unique_ptr<Var>> captures,
 			const SourceLocation & location)
 			:	Literal(location),
 				fx(std::move(fx)),
 				captures(std::move(captures)) {}
 		virtual ~Lambda() = default;
-		std::unique_ptr<Functional> fx;
+		std::unique_ptr<Function> fx;
 		std::vector<std::unique_ptr<Var>> captures;
 	};
 }
