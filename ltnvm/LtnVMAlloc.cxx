@@ -47,12 +47,18 @@ namespace ltn::vm {
 		switch (variant) {
 			case 0: return add_out(OStream{std::cout});
 			case 1: {
+				const auto openmode = convert::to_int(this->reg.pop());
 				const auto ref = this->reg.pop();
 				if(!is_string(ref)) {
 					throw except::invalid_argument();
 				}
 				const auto & path = this->heap.read<String>(ref.u).str;
-				return add_out(OStream{std::make_unique<std::ofstream>(path)});
+
+				const auto flags =
+					openmode ? std::ios::app : std::ios::trunc;
+
+				auto fout = std::make_unique<std::ofstream>(path, flags);
+				return add_out(OStream{std::move(fout)});
 			}
 			case 2: {
 				return add_out(OStream{std::make_unique<std::ostringstream>()});

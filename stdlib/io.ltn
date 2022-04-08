@@ -20,6 +20,11 @@ namespace std {
 			BOLD_CYAN    : 0xe;
 			BOLD_WHITE   : 0xf;
 		}
+
+		enum open_mode {
+			OVERRIDE : 0;
+			APPEND : 1;
+		}
 		
 		build_in set_fg_color(stream, color) @ io_fg_color
 		build_in set_bg_color(stream, color) @ io_bg_color
@@ -31,7 +36,8 @@ namespace std {
 	}
 
 	build_in cout()                  @ io_cout
-	build_in fout(path)              @ io_fout
+	function fout(path) => fout(path, io::open_mode::OVERRIDE)
+	build_in fout(path, open_mode)   @ io_fout
 	build_in strout()                @ io_strout
 
 	build_in cin()                   @ io_cin

@@ -1,15 +1,4 @@
-function s() {	
-	std::println("Test");
-	var s = std::struct();
-	s.a = 42;
-	return s;
-}
-
 function main() {
-	s().a *= 4;
-	var a;
-	if(true) {
-		a = 42;
-	}
-	return a;
+	var fout = std::fout("tmp/out.txt", std::io::open_mode::APPEND);
+	std::println(fout, "Hello World");
 }
