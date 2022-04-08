@@ -29,6 +29,7 @@ namespace std {
 		build_in set_fg_color(stream, color) @ io_fg_color
 		build_in set_bg_color(stream, color) @ io_bg_color
 		build_in reset_color(stream)         @ io_reset_color
+		build_in close(stream)               @ io_close
 
 		function set_fg_color(color)         => set_fg_color(std::cout(), color)
 		function set_bg_color(color)         => set_bg_color(std::cout(), color)

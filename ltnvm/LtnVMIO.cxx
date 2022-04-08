@@ -1,6 +1,7 @@
 #include "LtnVM.hxx"
 #include "type_check.hxx"
 #include "cast.hxx"
+#include <fstream>
 
 namespace ltn::vm {
 	void LtnVM::out() {
@@ -158,5 +159,39 @@ namespace ltn::vm {
 	void LtnVM::is_good() {
 		auto & in = get_istream(this->heap, this->reg); 
 		reg.push(value::boolean(static_cast<bool>(in)));
+	}
+
+	
+	void LtnVM::close_stream() {
+		const auto ref = this->reg.pop();
+		if(is_ostream(ref)) {
+			auto & ostream = this->heap.read<OStream>(ref.u).get();
+			if(auto * out = dynamic_cast<std::ofstream *>(&ostream)) {
+				out->close();
+			}
+			else {
+				throw Exception{
+					Exception::Type::INVALID_ARGUMENT,
+					"Not an ofstream"};
+			}
+		}
+
+		else if(is_istream(ref)) {
+			auto & istream = this->heap.read<IStream>(ref.u).get();
+			if(auto * in = dynamic_cast<std::ifstream *>(&istream)) {
+				in->close();
+			}
+			else {
+				throw Exception{
+					Exception::Type::INVALID_ARGUMENT,
+					"Not an ifstream"};
+			}
+		}
+
+		else {
+			throw Exception{
+				Exception::Type::INVALID_ARGUMENT,
+				"Not a stream"};
+		}
 	}
 }

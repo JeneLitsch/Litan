@@ -135,6 +135,7 @@ namespace ltn::vm {
 
 		void
 			out(),
+			close_stream(),
 			stylize(),
 			in_str(),
 			in_line(),

@@ -92,6 +92,7 @@ namespace ltn::c::compile {
 		{"io_read_all",              build_in::io_read_all},
 		{"io_is_eof",                build_in::io_is_eof},
 		{"io_is_good",               build_in::io_is_good},
+		{"io_close",                 build_in::io_close},
 		
 		{"math_min",                 build_in::math_min},
 		{"math_max",                 build_in::math_max},

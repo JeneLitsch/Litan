@@ -102,4 +102,9 @@ namespace ltn::c::compile::build_in {
 		"is_good"sv,
 		"return"sv,
 	};
+
+	constexpr auto io_close = std::array{
+		"close_stream"sv,
+		"return"sv,
+	};
 }
