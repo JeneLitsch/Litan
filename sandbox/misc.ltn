@@ -1,7 +1,5 @@
-function main() {
-	var fout = std::fout("tmp/out.txt", std::io::open_mode::APPEND);
-	std::println(fout, "Hello World");
-}
-except(e) {
-	std::println(e);
+function main(args) {
+	for(i : 0 -> std::size(args)) {
+		std::println(args[i]);
+	}
 }

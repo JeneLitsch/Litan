@@ -5,7 +5,7 @@ run () {
 	binFile="sandbox/$1.bin.ltn"
 	./bin/ltnc  $asmFile ./stdlib $ltnFile
 	./bin/ltna 	$binFile  $asmFile
-	./bin/ltnvm $binFile
+	./bin/ltnvm $binFile Hello World 123
 	echo 
 }
 

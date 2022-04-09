@@ -17,7 +17,7 @@ namespace ltn::vm {
 			this->pc = 0;
 		}
 
-		void run();
+		void run(const std::vector<std::string> &  = {});
 
 		void register_external(
 			std::int64_t id,

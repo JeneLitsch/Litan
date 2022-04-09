@@ -14,13 +14,6 @@ public:
 	}
 };
 
-void run(const std::vector<std::uint8_t> & bytecode) {
-	ltn::vm::LtnVM vm{std::cout};
-	vm.register_external(42, std::make_unique<Test>());
-	vm.setup(bytecode);
-	vm.run();
-}
-
 int main(int argc, char const *argv[]) {
 	if(argc > 1) {
 		if(std::filesystem::exists(argv[1])) {
@@ -29,8 +22,15 @@ int main(int argc, char const *argv[]) {
 				std::istreambuf_iterator<char>(file),
 				std::istreambuf_iterator<char>()
 			};
+			std::vector<std::string> args;
+			for(std::size_t i = 2; i < argc; ++i) {
+				args.push_back(argv[i]);
+			}
 			try {
-				run(bytecode);
+				ltn::vm::LtnVM vm{std::cout};
+				vm.register_external(42, std::make_unique<Test>());
+				vm.setup(bytecode);
+				vm.run(args);
 				return EXIT_SUCCESS;
 			}
 			catch(const std::runtime_error & error) {

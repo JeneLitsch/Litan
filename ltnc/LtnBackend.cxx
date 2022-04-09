@@ -12,6 +12,13 @@ namespace ltn::c::compile {
 					<< compile::inst::exlt
 					<< "\n";
 			}
+			// Jump to main()
+			else if(const auto fxmain = fx_table.resolve("main", {}, 1)) {
+				out
+					<< compile::inst::call(fxmain->id) 
+					<< compile::inst::exlt
+					<< "\n";
+			}
 			else {
 				throw CompilerError {"main() is undefined", {}};
 			}

@@ -16,11 +16,21 @@ namespace ltn::vm {
 		this->thr0w();
 	}
 
-	void LtnVM::run() {
+	void LtnVM::run(const std::vector<std::string> & args) {
 		this->reg.reset();
 		this->stack.reset();
 		this->heap.reset();
 		this->pc = 0;
+		
+		// load args
+		const auto ref = this->heap.alloc<Array>(Array{});
+		this->reg.push(value::array(ref));
+		for(const auto & arg : args) {
+			const auto str = this->heap.alloc<String>(String{arg});
+			auto & arr = this->heap.read<Array>(ref).get();
+			arr.push_back(value::string(str));
+		}
+
 		RESUME:
 		try {
 			while(true) {
