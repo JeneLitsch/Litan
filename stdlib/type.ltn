@@ -8,6 +8,10 @@ namespace std {
 		var second;
 	}
 
+	preset mono {
+		var value;
+	}
+
 	function null_v() const       => null
 
 	function is_bool(value) const       => typeid(value) == 0x10

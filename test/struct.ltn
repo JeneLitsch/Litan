@@ -70,10 +70,24 @@ namespace test {
 
 
 
+	function mono() {
+		var fx = lambda(m) => m.value * 2;
+		var cases = [
+			[[std::mono(2)], 4],
+			[[std::mono(1)], 2],
+			[[std::mono(42)], 84],
+		];
+		return test_all_cases("Mono: std::mono", fx, cases); 
+		
+	}
+
+
+
 	function struct() {
 		return
 			struct_read_write() +
 			struct_null() +
+			mono();
 			pair();
 	}
 }
