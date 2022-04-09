@@ -23,14 +23,14 @@ int main(int argc, char const *argv[]) {
 		ltn::Ltna assembler;
 		ltn::LtnVm vm;
 		try {
-			std::filesystem::path stdlib = argv[argc-1];
+			std::filesystem::path stdlib = argv[1];
 					
 			for(const auto & stdFile : compiler.stdlib()) {
 				const auto source = stdlib / stdFile; 
 				compile_file(compiler, source);
 			}
 			
-			for(std::int64_t i = 1; i+1 < argc; i++) {
+			for(std::int64_t i = 2; i < argc; i++) {
 				compile_file(compiler, argv[i]);
 			}
 			std::stringstream ss;
