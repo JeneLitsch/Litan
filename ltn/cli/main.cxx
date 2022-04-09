@@ -29,14 +29,21 @@ int main(int argc, char const *argv[]) {
 				const auto source = stdlib / stdFile; 
 				compile_file(compiler, source);
 			}
-			
+			std::vector<std::string> args;
 			for(std::int64_t i = 2; i < argc; i++) {
-				compile_file(compiler, argv[i]);
+				std::string_view arg = argv[i];
+				if(arg.starts_with("%")) {
+					arg.remove_prefix(1);
+					args.push_back(std::string{arg});
+				} 
+				else {
+					compile_file(compiler, arg);
+				}
 			}
 			std::stringstream ss;
 			compiler.yield(ss);
 			vm.setup(assembler.assemble(ss));
-			vm.run();
+			vm.run(args);
 		}
 		catch (const ltn::c::CompilerError & error) {
 			std::cout << error << "\n";

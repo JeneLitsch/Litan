@@ -24,7 +24,11 @@ int main(int argc, char const *argv[]) {
 			};
 			std::vector<std::string> args;
 			for(std::size_t i = 2; i < argc; ++i) {
-				args.push_back(argv[i]);
+				std::string_view arg = argv[i];
+				if(arg.starts_with("%")) {
+					arg.remove_prefix(1);
+				}
+				args.push_back(std::string{arg});
 			}
 			try {
 				ltn::vm::LtnVM vm{std::cout};
