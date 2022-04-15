@@ -28,7 +28,7 @@ namespace ltn::c::compile {
 
 		// compile assignable variable
 		ExprCode read_ref(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
-			if(auto e = as<ast::Var>(expr)) {
+			if(as<ast::Var>(expr)) {
 				return {};
 			}
 			if(auto e = as<ast::Index>(expr)) {
@@ -42,7 +42,7 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode write_var(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
+		ExprCode write_var(const ast::Var & expr, CompilerInfo &, Scope & scope) {
 			const auto var = scope.resolve(expr.name, expr.location);
 			if(is_mutable(var)) {
 				std::stringstream ss;
@@ -64,7 +64,7 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode write_member(const ast::Member & expr, CompilerInfo & info, Scope & scope) {
+		ExprCode write_member(const ast::Member & expr, CompilerInfo & info, Scope &) {
 			std::stringstream ss;
 			const auto id = info.member_table.get_id(expr.name);
 			ss << inst::member_write(id);
@@ -88,7 +88,7 @@ namespace ltn::c::compile {
 		}
 
 
-		ExprCode read_var(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
+		ExprCode read_var(const ast::Var & expr, CompilerInfo &, Scope & scope) {
 			const auto var = scope.resolve(expr.name, expr.location);
 			std::stringstream ss;
 			ss << inst::read_x(var.address);
@@ -107,7 +107,7 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode read_member(const ast::Member & expr, CompilerInfo & info, Scope & scope) {
+		ExprCode read_member(const ast::Member & expr, CompilerInfo & info, Scope &) {
 			std::stringstream ss;
 			const auto id = info.member_table.get_id(expr.name);
 			ss << inst::member_read(id);

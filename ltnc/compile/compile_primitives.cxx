@@ -31,7 +31,7 @@ namespace ltn::c::compile {
 
 	// compiles bool literal
 	ExprCode character(const ast::Char & expr) {
-		return ExprCode{ inst::newc(expr.value) };
+		return ExprCode{ inst::newc(static_cast<char>(expr.value)) };
 	}
 
 

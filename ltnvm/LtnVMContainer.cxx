@@ -104,7 +104,7 @@ namespace ltn::vm {
 			const auto & arr = heap.read<Array>(ref.u).get();
 			const auto index = to_index(key);
 			guard_index(arr, index);
-			this->reg.push(arr[index]);
+			this->reg.push(arr[static_cast<std::size_t>(index)]);
 			return;
 		}
 
@@ -115,7 +115,7 @@ namespace ltn::vm {
 			if(index < 0 || index >= range.end - range.begin) {
 				throw except::out_of_range();
 			} 
-			this->reg.push(array[range.begin + index]);
+			this->reg.push(array[static_cast<std::size_t>(range.begin + index)]);
 			return;
 		}
 
@@ -123,7 +123,7 @@ namespace ltn::vm {
 			const auto & str = heap.read<String>(ref.u).get();
 			const auto index = to_index(key);
 			guard_index(str, index);
-			const auto chr = str[index];
+			const auto chr = str[static_cast<std::size_t>(index)];
 			this->reg.push(value::character(chr));
 			return;
 		}

@@ -1,5 +1,6 @@
 namespace test {
 	enum foo {
+		Y;
 		A : 1;
 		B;
 		C;
@@ -50,6 +51,7 @@ namespace test {
 		var fx = lambda(x) => x;
 		var cases = [
 			[[A], -1],
+			[[foo::Y], 0],
 			[[foo::A], 1],
 			[[foo::B], 2],
 			[[foo::C], 3],

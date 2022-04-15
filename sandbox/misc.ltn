@@ -1,5 +1,9 @@
-function main(args) {
-	for(i : 0 -> std::size(args)) {
-		std::println(args[i]);
-	}
+namespace my_namespace {
+	define foo = "Hello World";
+	define bar = 42;
+}
+
+function main() {
+	std::println(my_namespace::foo);
+	std::println(my_namespace::bar);
 }

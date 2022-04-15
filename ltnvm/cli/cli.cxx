@@ -23,7 +23,7 @@ int main(int argc, char const *argv[]) {
 				std::istreambuf_iterator<char>()
 			};
 			std::vector<std::string> args;
-			for(std::size_t i = 2; i < argc; ++i) {
+			for(std::size_t i = 2; i < static_cast<std::size_t>(argc); ++i) {
 				std::string_view arg = argv[i];
 				if(arg.starts_with("%")) {
 					arg.remove_prefix(1);

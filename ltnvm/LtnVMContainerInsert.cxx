@@ -116,7 +116,7 @@ namespace ltn::vm {
 			auto & arr = heap.read<Array>(ref.u).get();
 			const auto index = to_index(key);
 			guard_index(arr, index);
-			arr[index] = elem;
+			arr[static_cast<std::size_t>(index)] = elem;
 			return;
 		}
 
@@ -124,7 +124,7 @@ namespace ltn::vm {
 			auto & str = heap.read<String>(ref.u).get();
 			const auto index = to_index(key);
 			guard_index(str, index);
-			str[index] = convert::to_char(elem);
+			str[static_cast<std::size_t>(index)] = convert::to_char(elem);
 			return;
 		}
 

@@ -19,7 +19,7 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode log_and(const auto & l, const auto & r, CompilerInfo & info) {
+		ExprCode log_and(const auto & l, const auto & r, CompilerInfo &) {
 			const auto id = make_jump_id("AND");
 			const auto end = id + "_END";
 			const auto falsE = id + "_FALSE";
@@ -40,7 +40,7 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode log_or(const auto & l, const auto & r, CompilerInfo & info) {
+		ExprCode log_or(const auto & l, const auto & r, CompilerInfo &) {
 			const auto id = make_jump_id("OR");
 			const auto end = id + "_END";
 			const auto truE = id + "_TRUE";
@@ -63,7 +63,7 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode elvis(const auto & l, const auto & r, CompilerInfo & info) {
+		ExprCode elvis(const auto & l, const auto & r, CompilerInfo &) {
 			const auto jumpmark = make_jump_id("ELVIS");
 			const auto jumpmark_else = jumpmark + "_ELSE"; 
 			const auto jumpmark_end = jumpmark + "_END"; 
@@ -82,7 +82,7 @@ namespace ltn::c::compile {
 		}
 
 
-		ExprCode nullco(const auto & l, const auto & r, CompilerInfo & info) {
+		ExprCode nullco(const auto & l, const auto & r, CompilerInfo &) {
 			const auto jumpmark = make_jump_id("NULLCO");
 			const auto jumpmark_else = jumpmark + "_ELSE"; 
 			const auto jumpmark_end = jumpmark + "_END"; 
