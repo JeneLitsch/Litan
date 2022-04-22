@@ -1,4 +1,4 @@
-function main() {
+function main(args) {
 	var tests = [
 		&test::algorithm(),
 		&test::arith(),
