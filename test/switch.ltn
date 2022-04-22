@@ -1,70 +1,100 @@
 namespace test {
 
 	function switch_int() {
-		var fx = lambda (x) {
+		var fx_switch = lambda (x) {
 			switch (x) {
 				case 1: return 1;
 				case 2: return 2;
 				case 3: return 3;
 			}
-			return 0;
+			return null;
+		};
+
+		var fx_choose = lambda (x) {
+			return choose (x) {
+				case 1: 1
+				case 2: 2
+				case 3: 3
+			};
 		};
 
 		var cases = [
-			[[-1],0],
+			[[-1],null],
 			[[1],1],
 			[[2],2],
 			[[3],3],
-			[[4],0],
+			[[4],null],
 		];
 
-		return test_all_cases("Switch(Int)", fx, cases);
+		return
+			test_all_cases("Switch(Int)", fx_switch, cases) +
+			test_all_cases("Choose(Int)", fx_choose, cases);
 	}
 
 
 
 	function switch_float() {
-		var fx = lambda (x) {
+		var fx_switch = lambda (x) {
 			switch (x) {
 				case 1.5: return 1 + x;
 				case 2.5: return 2 + x;
 				case 3.5: return 3 + x;
 			}
-			return 0;
+			return null;
+		};
+
+		var fx_choose = lambda (x) {
+			return choose (x) {
+				case 1.5: 1 + x
+				case 2.5: 2 + x
+				case 3.5: 3 + x
+			};
 		};
 
 		var cases = [
-			[[-1],0],
+			[[-1],null],
 			[[1.5], 2.5],
 			[[2.5], 4.5],
 			[[3.5], 6.5],
-			[[4],0],
+			[[4],null],
 		];
 
-		return test_all_cases("Switch(Float)", fx, cases);
+		return
+			test_all_cases("Switch(Float)", fx_switch, cases) +
+			test_all_cases("Choose(Float)", fx_choose, cases);
 	}
 
 
 
 	function switch_mixed() {
-		var fx = lambda (x) {
+		var fx_switch = lambda (x) {
 			switch (x) {
 				case "ABC":   return 1;
 				case [1,2,3]: return 2;
 				case 'A':     return 3;
 			}
-			return 0;
+			return null;
+		};
+
+		var fx_choose = lambda (x) {
+			return choose (x) {
+				case "ABC":   1
+				case [1,2,3]: 2
+				case 'A':     3
+			};
 		};
 
 		var cases = [
-			[[-1],         0],
+			[[-1],         null],
 			[["ABC"],      1],
 			[[[1,2,3]],    2],
 			[['A'],        3],
-			[[std::cout()],0],
+			[[std::cout()],null],
 		];
 
-		return test_all_cases("Switch(mixed)", fx, cases);
+		return 
+			test_all_cases("Switch(mixed)", fx_switch, cases) +
+			test_all_cases("Choose(mixed)", fx_choose, cases);
 	}
 
 
