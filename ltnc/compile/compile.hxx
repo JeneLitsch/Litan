@@ -33,6 +33,7 @@ namespace ltn::c::compile {
 
 	// Expression
 	ExprCode expression(const ast::Expression &, CompilerInfo &, Scope &);
+	ExprCode expr_switch(const ast::ExprSwitch &, CompilerInfo &, Scope &);
 	ExprCode ternary(const ast::Ternary &, CompilerInfo &, Scope &);
 	ExprCode binary(const ast::Binary &, CompilerInfo &, Scope &);
 	ExprCode unary(const ast::Unary &, CompilerInfo &, Scope &);

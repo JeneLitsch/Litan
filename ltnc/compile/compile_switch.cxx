@@ -1,7 +1,7 @@
 #include "compile.hxx"
 namespace ltn::c::compile {
-	// compiles -> return...;
-	StmtCode stmt_switch(const ast::StmtSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
+	template<auto body_fx>
+	auto any_switch(const auto & sw1tch, CompilerInfo & info, Scope & scope, auto default_value) {
 		std::ostringstream oss;
 
 		const auto id = make_jump_id("SWITCH");
@@ -19,15 +19,32 @@ namespace ltn::c::compile {
 			oss << inst::eql;
 			oss << inst::ifelse(id + "_CASE_" + std::to_string(i+1));
 			oss << inst::scrap;
-			oss << compile::statement(*body, info, scope).code;
+			oss << body_fx(*body, info, scope).code;
 			oss << inst::jump(jump_end);
 			++i;
 		}
 
 		oss << inst::jumpmark(id + "_CASE_" + std::to_string(i+0));
 		oss << inst::scrap;
+		oss << default_value;
 		oss << inst::jumpmark(jump_end);
 
-		return StmtCode{oss.str(), 0, false};
+		return oss.str();
+	}
+
+
+
+	// compiles -> return...;
+	StmtCode stmt_switch(const ast::StmtSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
+		return StmtCode {
+			any_switch<compile::statement>(sw1tch, info, scope, ""), 0, false};
+	}
+
+
+
+	// compiles -> return...;
+	ExprCode expr_switch(const ast::ExprSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
+		return ExprCode {
+			any_switch<compile::expression>(sw1tch, info, scope, inst::null)};
 	}
 }

@@ -343,6 +343,7 @@ namespace ltn::c::parse {
 		if(auto expr = static_fx_pointer(lexer)) return expr;
 		if(auto expr = static_lambda(lexer)) return expr;
 		if(auto expr = static_iife(lexer)) return expr;
+		if(auto expr = expr_switch(lexer)) return expr;
 		return static_identifier(lexer);
 	}
 
@@ -361,6 +362,7 @@ namespace ltn::c::parse {
 		if(auto expr = fx_pointer(lexer)) return expr;
 		if(auto expr = lambda(lexer)) return expr;
 		if(auto expr = iife(lexer)) return expr;
+		if(auto expr = expr_switch(lexer)) return expr;
 		return identifier(lexer);
 	}
 }

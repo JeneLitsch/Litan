@@ -54,9 +54,11 @@ namespace ltn::c::compile {
 		if(auto expr_ = as<ast::GlobalValue>(expr)) {
 			return compile::global_value(*expr_, info, scope);
 		} 
-
 		if(auto ternary = as<ast::Ternary>(expr)) {
 			return compile::ternary(*ternary, info, scope);
+		} 
+		if(auto sw1tch = as<ast::ExprSwitch>(expr)) {
+			return compile::expr_switch(*sw1tch, info, scope);
 		} 
 		throw CompilerError{"Unknown Expression"};
 	}

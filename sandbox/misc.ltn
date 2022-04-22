@@ -1,7 +1,7 @@
 function main() {
 	return choose (1) {
-		case 1: 12;
-		case 2: 24;
-		case 3: 48;
-	}
+		case 1: 12
+		case 2: 24
+		case 3: 48
+	};
 }
