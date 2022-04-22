@@ -72,6 +72,7 @@ namespace ltn::c::parse {
 		if(auto stmt = new_variable(lexer)) return stmt;
 		if(auto stmt = thr0w(lexer))        return stmt;
 		if(auto stmt = retrn(lexer))        return stmt;
+		if(auto stmt = stmt_switch(lexer))  return stmt;
 		auto stmt =  just_an_expr(lexer);
 		semicolon(lexer);
 		return stmt;

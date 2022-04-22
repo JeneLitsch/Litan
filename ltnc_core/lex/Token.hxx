@@ -23,6 +23,9 @@ namespace ltn::c::lex {
 			ENUM,
 			DEFINE,
 			PRESET,
+			SWITCH,
+			CHOOSE,
+			CASE,
 			
 			INTEGER,
 			INTEGER_HEX,

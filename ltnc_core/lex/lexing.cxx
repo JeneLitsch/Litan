@@ -101,6 +101,9 @@ namespace ltn::c::lex {
 			{"enum",        TT::ENUM},
 			{"define",      TT::DEFINE},
 			{"preset",      TT::PRESET},
+			{"switch",      TT::SWITCH},
+			{"choose",      TT::CHOOSE},
+			{"case",        TT::CASE},
 		};
 		
 

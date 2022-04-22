@@ -76,4 +76,7 @@ namespace ltn::c::ast {
 		Namespace namespaze;
 		std::size_t placeholders;
 	};
+
+
+	using ExprSwitch = Switch<Primary, Expression>;
 }

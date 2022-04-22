@@ -29,6 +29,7 @@ namespace ltn::c::compile {
 	StmtCode while_loop(const ast::While &, CompilerInfo &, Scope &);
 	StmtCode for_loop(const ast::For &, CompilerInfo &, Scope &);
 	StmtCode new_variable(const ast::NewVar &, CompilerInfo &, Scope &);
+	StmtCode stmt_switch(const ast::StmtSwitch &, CompilerInfo &, Scope &);
 
 	// Expression
 	ExprCode expression(const ast::Expression &, CompilerInfo &, Scope &);

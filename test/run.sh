@@ -23,6 +23,7 @@ binFile="test/$test.bin.ltn"
 	test/stack.ltn\
 	test/streams.ltn\
 	test/struct.ltn\
+	test/switch.ltn\
 	test/types.ltn\
 	test/utils.ltn\
 

@@ -38,6 +38,9 @@ namespace ltn::c::compile {
 		if(auto init = as<ast::InitMember>(stmt)) {
 			return compile::init_member(*init, info, scope);
 		}
+		if(auto sw1tch = as<ast::StmtSwitch>(stmt)) {
+			return compile::stmt_switch(*sw1tch, info, scope);
+		}
 		if(auto exprstmt = as<ast::StatementExpression>(stmt)) {
 			return compile::expr_stmt(*exprstmt, info, scope);
 		}

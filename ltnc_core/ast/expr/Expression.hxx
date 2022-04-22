@@ -78,4 +78,5 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> l;
 		std::unique_ptr<Expression> r;
 	};
+
 }

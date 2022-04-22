@@ -24,6 +24,7 @@ namespace ltn::c::parse {
 	ast::stmt_ptr while_loop(lex::Lexer & lexer);
 	ast::stmt_ptr for_loop(lex::Lexer & lexer);
 	ast::stmt_ptr just_an_expr(lex::Lexer & lexer);
+	ast::stmt_ptr stmt_switch(lex::Lexer & lexer);
 	
 	// Expressions
 	ast::expr_ptr assign(lex::Lexer & lexer);
@@ -42,6 +43,8 @@ namespace ltn::c::parse {
 	ast::expr_ptr static_unary(lex::Lexer & lexer);
 	ast::expr_ptr static_primary(lex::Lexer & lexer);
 	ast::litr_ptr static_integral(lex::Lexer & lexer);
+
+	ast::expr_ptr expr_switch(lex::Lexer & lexer);
 
 	// Utils
 	std::string preset_name(lex::Lexer & lexer);

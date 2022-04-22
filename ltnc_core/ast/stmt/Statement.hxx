@@ -1,5 +1,6 @@
 #pragma once
 #include "../Node.hxx"
+#include "../utils/Switch.hxx"
 #include <vector>
 namespace ltn::c::ast {
 	struct Expression;
@@ -199,4 +200,6 @@ namespace ltn::c::ast {
 		std::unique_ptr<Assignable> l;
 		std::unique_ptr<Expression> r;
 	};
+
+	using StmtSwitch = Switch<Statement, Statement>;
 }
