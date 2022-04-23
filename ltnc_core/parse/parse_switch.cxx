@@ -36,12 +36,21 @@ namespace ltn::c::parse {
 				sw1tch->cases.push_back(std::pair{
 					std::move(case_expr),
 					std::move(case_body)});
+
+				while (lexer.match(TT::SEMICOLON));
 			}
 			
+			if(lexer.match(TT::DEFAULT)) {
+				if(!lexer.match(TT::COLON)) throw CompilerError {
+					"Expected :", lexer.location()
+				};
+				sw1tch->d3fault = body_fx(lexer);
+			}
 
 			if(!lexer.match(TT::BRACE_R)) throw CompilerError {
 				"Expected }", lexer.location()
 			};
+
 
 			return sw1tch;
 		}
@@ -51,12 +60,20 @@ namespace ltn::c::parse {
 
 
 	ast::stmt_ptr stmt_switch(lex::Lexer & lexer) {
-		return any_switch<ast::StmtSwitch, TT::SWITCH, parse::statement>(lexer);
+		auto sw1tch = any_switch<ast::StmtSwitch, TT::SWITCH, parse::statement>(lexer);
+		if(sw1tch && !sw1tch->d3fault) {
+			sw1tch->d3fault = std::make_unique<ast::DoNothing>(lexer.location());
+		}
+		return sw1tch;
 	} 
 
 
 
 	ast::expr_ptr expr_switch(lex::Lexer & lexer) {
-		return any_switch<ast::ExprSwitch, TT::CHOOSE, parse::expression>(lexer);
+		auto sw1tch = any_switch<ast::ExprSwitch, TT::CHOOSE, parse::expression>(lexer);
+		if(sw1tch && !sw1tch->d3fault) {
+			sw1tch->d3fault = std::make_unique<ast::Null>(lexer.location());
+		}
+		return sw1tch;
 	}
 }

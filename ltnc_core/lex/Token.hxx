@@ -26,6 +26,7 @@ namespace ltn::c::lex {
 			SWITCH,
 			CHOOSE,
 			CASE,
+			DEFAULT,
 			
 			INTEGER,
 			INTEGER_HEX,

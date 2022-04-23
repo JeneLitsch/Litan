@@ -13,5 +13,6 @@ namespace ltn::c::ast {
 			std::unique_ptr<Expression>,
 			std::unique_ptr<Case>
 		>> cases;
+		std::unique_ptr<Case> d3fault;
 	};
 }

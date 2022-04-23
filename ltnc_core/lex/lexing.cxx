@@ -104,6 +104,7 @@ namespace ltn::c::lex {
 			{"switch",      TT::SWITCH},
 			{"choose",      TT::CHOOSE},
 			{"case",        TT::CASE},
+			{"default",     TT::DEFAULT},
 		};
 		
 

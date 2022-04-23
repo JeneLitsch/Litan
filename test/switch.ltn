@@ -6,6 +6,7 @@ namespace test {
 				case 1: return 1;
 				case 2: return 2;
 				case 3: return 3;
+				default: return 42;
 			}
 			return null;
 		};
@@ -15,15 +16,16 @@ namespace test {
 				case 1: 1
 				case 2: 2
 				case 3: 3
+				default: 42
 			};
 		};
 
 		var cases = [
-			[[-1],null],
-			[[1],1],
-			[[2],2],
-			[[3],3],
-			[[4],null],
+			[[-1], 42],
+			[[1],  1],
+			[[2],  2],
+			[[3],  3],
+			[[4],  42],
 		];
 
 		return
@@ -52,11 +54,11 @@ namespace test {
 		};
 
 		var cases = [
-			[[-1],null],
+			[[-1],  null],
 			[[1.5], 2.5],
 			[[2.5], 4.5],
 			[[3.5], 6.5],
-			[[4],null],
+			[[4],   null],
 		];
 
 		return
@@ -85,11 +87,11 @@ namespace test {
 		};
 
 		var cases = [
-			[[-1],         null],
-			[["ABC"],      1],
-			[[[1,2,3]],    2],
-			[['A'],        3],
-			[[std::cout()],null],
+			[[-1],          null],
+			[["ABC"],       1],
+			[[[1,2,3]],     2],
+			[['A'],         3],
+			[[std::cout()], null],
 		];
 
 		return 
