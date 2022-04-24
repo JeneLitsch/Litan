@@ -45,6 +45,7 @@ namespace ltn::c::parse {
 					"Expected :", lexer.location()
 				};
 				sw1tch->d3fault = body_fx(lexer);
+				while (lexer.match(TT::SEMICOLON));
 			}
 
 			if(!lexer.match(TT::BRACE_R)) throw CompilerError {

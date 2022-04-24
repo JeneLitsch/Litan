@@ -1,4 +1,30 @@
 namespace test {
+	function type_switch() {
+		var cases = [
+			[[null],                    "null"],
+			[[true],                    "bool"],
+			[[false],                   "bool"],
+			[['A'],                     "char"],
+			[[1],                       "int"],
+			[[3.14],                    "float"],
+			[[[4,2]],                   "array"],
+			[["ABC"],                   "string"],
+			[[std::cin()],              "istream"],
+			[[std::cout()],             "ostream"],
+			[[lambda => 0],             "fxptr"],
+			[[std::external(0)],        "external"],
+			[[std::chrono::clock()],    "clock"],
+			[[std::struct()],           "struct"],
+			[[std::whole([])],          "range"],
+			[[std::queue()],            "queue"],
+			[[std::stack()],            "stack"],
+			[[std::map()],              "map"],
+			[[std::random::mersenne()], "rng"],
+		];
+
+		return test_all_cases("type_switch", &std::typename(_), cases);
+	}
+
 
 
 	function is_type() {
@@ -130,6 +156,6 @@ namespace test {
 
 
 	function types() {
-		return typeid() + is_type();
+		return typeid() + is_type() + type_switch();
 	}
 }
