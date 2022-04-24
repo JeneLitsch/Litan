@@ -1,26 +1,97 @@
 namespace test {
+
+
+	function is_type() {
+		var cases_1 = [
+			[[null,        std::type::nul],     true],
+			[[true,        std::type::bool],    true],
+			[[null,        std::type::bool],    false],
+			[[1,           std::type::int],     true],
+			[[1,           std::type::float],   false],
+			[["A",         std::type::string],  true],
+			[["A",         std::type::array],   false],
+			[[[],          std::type::array],   true],
+			[[std::map(),  std::type::map],     true],
+			[[std::map(),  std::type::queue],   false],
+			[[std::cout(), std::type::ostream], true],
+		];
+
+
+		var cases_2 = [
+			[[null,                    &std::is_null(_)],       true],
+			[[1,                       &std::is_null(_)],       false],
+			[[true,                    &std::is_bool(_)],       true],
+			[[null,                    &std::is_bool(_)],       false],
+			[[1,                       &std::is_int(_)],        true],
+			[[1,                       &std::is_float(_)],      false],
+			[["A",                     &std::is_string(_)],     true],
+			[["A",                     &std::is_array(_)],      false],
+			[[[],                      &std::is_array(_)],      true],
+			[[std::map(),              &std::is_map(_)],        true],
+			[[std::map(),              &std::is_queue(_)],      false],
+			[[std::cout(),             &std::is_ostream(_)],    true],
+			[[std::cout(),             &std::is_queue(_)],      false],
+			[[std::cin(),              &std::is_istream(_)],    true],
+			[[std::strin("ABC"),       &std::is_istream(_)],    true],
+			[[std::queue(),            &std::is_queue(_)],      true],
+			[[std::external(0),        &std::is_external(_)],   true],
+			[[std::external(0),        &std::is_functional(_)], true],
+			[[lambda => null,          &std::is_functional(_)], true],
+			[[lambda => null,          &std::is_fxptr(_)],      true],
+			[[lambda => null,          &std::is_external(_)],   false],
+			[[std::struct(),           &std::is_struct(_)],     true],
+			[[std::pair(1,2),          &std::is_struct(_)],     true],
+			[[std::pair(1,2),          &std::is_null(_)],       false],
+			[[std::pair(1,2),          &std::is_rng(_)],        false],
+			[[std::random::mersenne(), &std::is_rng(_)],        true],
+			[[std::random::mersenne(), &std::is_map(_)],        false],
+			[[std::map(),              &std::is_map(_)],        true],
+			[[std::stack(),            &std::is_map(_)],        false],
+			[[std::stack(),            &std::is_stack(_)],      true],
+			[[std::whole([]),          &std::is_range(_)],      true],
+			[[std::whole([]),          &std::is_array(_)],      false],
+			[[std::whole([]),          &std::is_string(_)],     false],
+		];
+
+		var fx = lambda (value, fx) => std::invoke(fx, [value]);
+
+
+
+		return
+			test_all_cases("std::is_type", &std::is_type(_,_), cases_1) +
+			test_all_cases("std::is_type*", fx, cases_2);
+	}
+
+
+
 	function typeid() {
-		var map = std::map();
-		map[1] = "a"; 
-		map[2] = "b"; 
 		var cases = [
-			[[1],              0x11],
-			[[null],           0x00],
-			[[[]],             0x20],
-			[["test"],         0x21],
-			[[std::cin()],     0x30],
-			[[std::cout()],    0x31],
-			[[&std::struct()], 0x40],
-			[[std::struct()],  0x60],
-			[[std::whole([])], 0x61],
-			[[std::queue()],   0x70],
-			[[std::stack()],   0x71],
-			[[map],            0x72],
+			[[null],                    std::type::nul],
+			[[true],                    std::type::bool],
+			[[false],                   std::type::bool],
+			[['a'],                     std::type::char],
+			[[1],                       std::type::int],
+			[[42.42],                   std::type::float],
+			[[[]],                      std::type::array],
+			[["test"],                  std::type::string],
+			[[std::cin()],              std::type::istream],
+			[[std::cout()],             std::type::ostream],
+			[[&std::struct()],          std::type::fxptr],
+			[[std::external(0)],        std::type::external],
+			[[std::chrono::clock()],    std::type::clock],
+			[[std::struct()],           std::type::struct],
+			[[std::whole([])],          std::type::range],
+			[[std::queue()],            std::type::queue],
+			[[std::stack()],            std::type::stack],
+			[[std::map()],              std::type::map],
+			[[std::random::mersenne()], std::type::rng],
 		];
 		return test_all_cases("std::typeid", &std::typeid(_), cases);
 	}
 	
+
+
 	function types() {
-		return typeid();
+		return typeid() + is_type();
 	}
 }

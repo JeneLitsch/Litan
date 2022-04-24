@@ -1,30 +1,126 @@
 namespace std {
+
+	enum type {
+		nul      : 0x00;
+		bool     : 0x10;
+		char     : 0x13;
+		int      : 0x11;
+		float    : 0x12;
+		array    : 0x20;
+		string   : 0x21;
+		istream  : 0x30;
+		ostream  : 0x31;
+		fxptr    : 0x40;
+		external : 0x41;
+		clock    : 0x50;
+		struct   : 0x60;
+		range    : 0x61;
+		queue    : 0x70;
+		stack    : 0x71;
+		map      : 0x72;
+		rng      : 0x80;
+	}
+
+
+
 	build_in struct() const       @ struct
 	build_in typeid(value) const  @ type_typeid
 	build_in clone(ref) const     @ type_clone
+
+
 
 	preset pair {
 		var first;
 		var second;
 	}
 
+
+
 	preset mono {
 		var value;
 	}
 
-	function null_v() const       => null
 
-	function is_bool(value) const       => typeid(value) == 0x10
-	function is_int(value) const        => typeid(value) == 0x11
-	function is_float(value) const      => typeid(value) == 0x12
-	function is_array(value) const      => typeid(value) == 0x20
-	function is_string(value) const     => typeid(value) == 0x21
-	function is_istream(value) const    => typeid(value) == 0x30
-	function is_ostream(value) const    => typeid(value) == 0x31
-	function is_functional(value) const =>
-		typeid(value) == 0x40 ||
-		typeid(value) == 0x41
+
+	function null_v() const => null
+
+
+
+	function is_type(value, type) const
+		=> typeid(value) == type
+
+
+
+	function is_null(value) const
+		=> is_type(value, type::nul)
+
+
+
+	function is_bool(value) const
+		=> is_type(value, type::bool)
+
+	function is_char(value) const
+		=> is_type(value, type::char)
+
+	function is_int(value) const
+		=> is_type(value, type::int)
+
+	function is_float(value) const
+		=> is_type(value, type::float)
+
+
+
+
+	function is_array(value) const
+		=> is_type(value, type::array)
 	
-	function is_clock(value) const      => typeid(value) == 0x50
-	function is_struct(value) const     => typeid(value) == 0x60
+	function is_string(value) const
+		=> is_type(value, type::string)
+
+
+
+	function is_istream(value) const 
+		=> is_type(value, type::istream)
+	
+	function is_ostream(value) const
+		=> is_type(value, type::ostream)
+
+	
+	
+	function is_fxptr(value) const
+		=> is_type(value, type::fxptr)
+	
+	function is_external(value) const 
+		=> is_type(value, type::external)
+	
+	function is_functional(value) const 
+		=> is_fxptr(value) 
+		|| is_external(value)
+	
+	
+	
+	function is_clock(value) const
+		=> is_type(value, type::clock)
+	
+	function is_struct(value) const
+		=> is_type(value, type::struct)
+	
+	function is_range(value) const
+		=> is_type(value, type::range)
+
+
+
+	function is_queue(value) const
+		=> is_type(value, type::queue)
+
+	function is_stack(value) const
+		=> is_type(value, type::stack)
+
+	function is_map(value) const
+		=> is_type(value, type::map)
+
+
+
+	function is_rng(value) const
+		=> is_type(value, type::rng)
 }
