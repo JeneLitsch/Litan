@@ -20,37 +20,61 @@ namespace test {
 		var cases_2 = [
 			[[null,                    &std::is_null(_)],       true],
 			[[1,                       &std::is_null(_)],       false],
+			[[std::pair(1,2),          &std::is_null(_)],       false],
+
 			[[true,                    &std::is_bool(_)],       true],
 			[[null,                    &std::is_bool(_)],       false],
+
 			[[1,                       &std::is_int(_)],        true],
+			[['A',                     &std::is_int(_)],        false],
+
 			[[1,                       &std::is_float(_)],      false],
+			[[1.0,                     &std::is_float(_)],      true],
+
 			[["A",                     &std::is_string(_)],     true],
+			[[std::whole([]),          &std::is_string(_)],     false],
+			
 			[["A",                     &std::is_array(_)],      false],
 			[[[],                      &std::is_array(_)],      true],
-			[[std::map(),              &std::is_map(_)],        true],
-			[[std::map(),              &std::is_queue(_)],      false],
+			[[std::whole([]),          &std::is_array(_)],      false],
+			
 			[[std::cout(),             &std::is_ostream(_)],    true],
-			[[std::cout(),             &std::is_queue(_)],      false],
+			[[std::strout(),           &std::is_ostream(_)],    true],
+			[[std::strin(""),          &std::is_ostream(_)],    false],
+			
 			[[std::cin(),              &std::is_istream(_)],    true],
 			[[std::strin("ABC"),       &std::is_istream(_)],    true],
-			[[std::queue(),            &std::is_queue(_)],      true],
+			
+			[[lambda => null,          &std::is_fxptr(_)],      true],
+			
 			[[std::external(0),        &std::is_external(_)],   true],
+			[[lambda => null,          &std::is_external(_)],   false],
+			
 			[[std::external(0),        &std::is_functional(_)], true],
 			[[lambda => null,          &std::is_functional(_)], true],
-			[[lambda => null,          &std::is_fxptr(_)],      true],
-			[[lambda => null,          &std::is_external(_)],   false],
+			[[lambda => null,          &std::is_functional(_)], true],
+			
+			
 			[[std::struct(),           &std::is_struct(_)],     true],
 			[[std::pair(1,2),          &std::is_struct(_)],     true],
-			[[std::pair(1,2),          &std::is_null(_)],       false],
+
 			[[std::pair(1,2),          &std::is_rng(_)],        false],
 			[[std::random::mersenne(), &std::is_rng(_)],        true],
+
+			[[std::map(),              &std::is_queue(_)],      false],
+			[[std::queue(),            &std::is_queue(_)],      true],
+			[[std::cout(),             &std::is_queue(_)],      false],
+
+			[[std::map(),              &std::is_map(_)],        true],
 			[[std::random::mersenne(), &std::is_map(_)],        false],
 			[[std::map(),              &std::is_map(_)],        true],
 			[[std::stack(),            &std::is_map(_)],        false],
+
 			[[std::stack(),            &std::is_stack(_)],      true],
+			[["",                      &std::is_stack(_)],      false],
+
 			[[std::whole([]),          &std::is_range(_)],      true],
-			[[std::whole([]),          &std::is_array(_)],      false],
-			[[std::whole([]),          &std::is_string(_)],     false],
+			[[[],                      &std::is_range(_)],      false],
 			
 			[[true,                    &std::is_integral(_)],   true],
 			[['A',                     &std::is_integral(_)],   true],
