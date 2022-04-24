@@ -51,6 +51,20 @@ namespace test {
 			[[std::whole([]),          &std::is_range(_)],      true],
 			[[std::whole([]),          &std::is_array(_)],      false],
 			[[std::whole([]),          &std::is_string(_)],     false],
+			
+			[[true,                    &std::is_integral(_)],   true],
+			[['A',                     &std::is_integral(_)],   true],
+			[[1,                       &std::is_integral(_)],   true],
+			[[1.5,                     &std::is_integral(_)],   false],
+			[["",                      &std::is_integral(_)],   false],
+			[[std::external(0),        &std::is_integral(_)],   false],
+
+			[[true,                    &std::is_numeric(_)],    true],
+			[['A',                     &std::is_numeric(_)],    true],
+			[[1,                       &std::is_numeric(_)],    true],
+			[[1.5,                     &std::is_numeric(_)],    true],
+			[[null,                    &std::is_numeric(_)],    false],
+			[[[],                      &std::is_numeric(_)],    false],
 		];
 
 		var fx = lambda (value, fx) => std::invoke(fx, [value]);

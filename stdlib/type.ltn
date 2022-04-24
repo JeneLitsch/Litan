@@ -68,6 +68,16 @@ namespace std {
 	function is_float(value) const
 		=> is_type(value, type::float)
 
+	function is_integral(value) const
+		=> is_bool(value)
+		|| is_char(value)
+		|| is_int(value)
+
+	function is_numeric(value) const
+		=> is_integral(value)
+		|| is_float(value)
+
+
 
 
 
