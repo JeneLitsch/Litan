@@ -29,6 +29,12 @@ namespace test {
 
 
 
+	function chain_add_a_and_double() {
+		return &add_1(_) &> &double(_);
+	}
+
+
+
 	function expressions() {
 		var f1  = lambda => 8 / 2 / 2;
 		var f2  = lambda => false ? false ? 44 : 43 : 42;
@@ -54,6 +60,7 @@ namespace test {
 		var f22 = lambda => 3 |> &add_1(_) |> &add_1(_) |> &add_1(_);
 		var f23 = lambda => 3 |> &add_1(_) &> &add_1(_) &> &add_1(_);
 		var f24 = lambda => 2 |> &double(_) &> &double(_) |> &double(_);
+		var f25 = lambda => 2 |> chain_add_a_and_double();
 
 		var cases = [
 			[f1, 2],
@@ -80,6 +87,7 @@ namespace test {
 			[f22, 6],
 			[f23, 6],
 			[f24, 16],
+			[f25, 6],
 		];
 
 		return test_functions("Expressions", cases);
