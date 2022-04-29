@@ -16,4 +16,11 @@ function main() {
 	std::println(3 |> f5);
 	std::println(3 |> f1 &> f1 &> f1 &> f1 &> f1);
 	std::println(3 |> f1 |> f1 |> f1 |> f1 |> f1);
+	var x = 3 
+		|> f1
+		|> f1
+		|> f1
+		|> f1
+		|> f1;
+	std::println(x);
 }

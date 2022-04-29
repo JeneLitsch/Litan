@@ -17,6 +17,18 @@ namespace test {
 
 
 
+	function double(x) {
+		return 2 * x;
+	}
+
+
+
+	function add_1(x) {
+		return x + 1;
+	}
+
+
+
 	function expressions() {
 		var f1  = lambda => 8 / 2 / 2;
 		var f2  = lambda => false ? false ? 44 : 43 : 42;
@@ -36,6 +48,12 @@ namespace test {
 		var f16 = lambda => s().b[0].y.b[2];
 		var f17 = lambda => !!!!!!!true;
 		var f18 = lambda => !!!!!!!!true;
+		var f19 = lambda => 3 |> &add_1(_) |> &double(_);
+		var f20 = lambda => 3 |> &add_1(_) &> &double(_);
+		var f21 = lambda => 3 |> &add_1(_) |> &add_1(_) &> &double(_);
+		var f22 = lambda => 3 |> &add_1(_) |> &add_1(_) |> &add_1(_);
+		var f23 = lambda => 3 |> &add_1(_) &> &add_1(_) &> &add_1(_);
+		var f24 = lambda => 2 |> &double(_) &> &double(_) |> &double(_);
 
 		var cases = [
 			[f1, 2],
@@ -56,6 +74,12 @@ namespace test {
 			[f16, 6],
 			[f17, false],
 			[f18, true],
+			[f19, 8],
+			[f20, 8],
+			[f21, 10],
+			[f22, 6],
+			[f23, 6],
+			[f24, 16],
 		];
 
 		return test_functions("Expressions", cases);
