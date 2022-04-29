@@ -2,4 +2,6 @@ namespace std {
 	build_in invoke(fx, params) @ functional_invoke_2
 	build_in invoke(fx)         @ functional_invoke_1
 	build_in external(id)       @ functional_external
+
+	function chain(f1, f2) => f1 &> f2
 }

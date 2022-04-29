@@ -61,6 +61,7 @@ namespace test {
 		var f23 = lambda => 3 |> &add_1(_) &> &add_1(_) &> &add_1(_);
 		var f24 = lambda => 2 |> &double(_) &> &double(_) |> &double(_);
 		var f25 = lambda => 2 |> chain_add_a_and_double();
+		var f26 = lambda => 2 |> std::chain(&add_1(_), &double(_));
 
 		var cases = [
 			[f1, 2],
@@ -88,6 +89,7 @@ namespace test {
 			[f23, 6],
 			[f24, 16],
 			[f25, 6],
+			[f26, 6],
 		];
 
 		return test_functions("Expressions", cases);
