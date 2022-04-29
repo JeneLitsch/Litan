@@ -1,5 +1,7 @@
 namespace test {
 
+
+
 	function switch_int() {
 		var fx_switch = lambda (x) {
 			switch (x) {

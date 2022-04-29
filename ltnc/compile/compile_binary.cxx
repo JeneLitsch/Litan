@@ -19,7 +19,7 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode log_and(const auto & l, const auto & r, CompilerInfo &) {
+		ExprCode log_and(const auto & l, const auto & r) {
 			const auto id = make_jump_id("AND");
 			const auto end = id + "_END";
 			const auto falsE = id + "_FALSE";
@@ -40,7 +40,7 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode log_or(const auto & l, const auto & r, CompilerInfo &) {
+		ExprCode log_or(const auto & l, const auto & r) {
 			const auto id = make_jump_id("OR");
 			const auto end = id + "_END";
 			const auto truE = id + "_TRUE";
@@ -63,7 +63,7 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode elvis(const auto & l, const auto & r, CompilerInfo &) {
+		ExprCode elvis(const auto & l, const auto & r) {
 			const auto jumpmark = make_jump_id("ELVIS");
 			const auto jumpmark_else = jumpmark + "_ELSE"; 
 			const auto jumpmark_end = jumpmark + "_END"; 
@@ -82,7 +82,7 @@ namespace ltn::c::compile {
 		}
 
 
-		ExprCode nullco(const auto & l, const auto & r, CompilerInfo &) {
+		ExprCode nullco(const auto & l, const auto & r) {
 			const auto jumpmark = make_jump_id("NULLCO");
 			const auto jumpmark_else = jumpmark + "_ELSE"; 
 			const auto jumpmark_end = jumpmark + "_END"; 
@@ -100,6 +100,15 @@ namespace ltn::c::compile {
 			
 			ss << inst::jumpmark(jumpmark_end);
 			return {ss.str()};
+		}
+
+
+		ExprCode chain(const auto & l, const auto & r) {
+			std::ostringstream oss;
+			oss << l.code;
+			oss << r.code;
+			oss << inst::call("_op_chain");
+			return ExprCode{oss.str()};
 		}
 
 	}
@@ -125,10 +134,12 @@ namespace ltn::c::compile {
 			case OP::NOTPROX:      return bin(l, r, inst::notprox);
 			case OP::SHIFT_L:      return bin(l, r, inst::shift_l);
 			case OP::SHIFT_R:      return bin(l, r, inst::shift_r);
-			case OP::AND:          return log_and(l, r, info);
-			case OP::OR:           return log_or(l, r, info);
-			case OP::ELVIS:        return elvis(l, r, info);
-			case OP::NULLCO:       return nullco(l, r, info);
+			case OP::AND:          return log_and(l, r);
+			case OP::OR:           return log_or(l, r);
+			case OP::ELVIS:        return elvis(l, r);
+			case OP::NULLCO:       return nullco(l, r);
+			case OP::CHAIN_R:      return bin(l, r, inst::call("_op_chain"));
+			case OP::PIPE_R:       return bin(r, l, inst::call("_op_pipe"));
 		}
 		throw CompilerError{"Invalid binary operation", {}};
 	}

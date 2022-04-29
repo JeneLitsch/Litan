@@ -8,6 +8,13 @@ namespace test {
 	}
 
 
+	define switch_a = 5;
+	define switch_b = choose(switch_a) {
+		case 5: 42;
+		default: 1337;
+	};
+
+
 
 	namespace bar {
 		enum foo {
@@ -67,6 +74,7 @@ namespace test {
 			[[baz::array], [1,2,3,4,5,6,7,8]],
 			[[b0], false],
 			[[b1], true],
+			[[switch_b], 42],
 		];
 		return test_all_cases("Enum", fx, cases); 
 	}

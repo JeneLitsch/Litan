@@ -1,8 +1,19 @@
+function chain(f1, f2) {
+	return lambda [f1, f2] (x)
+		=> std::invoke(f2, [
+			std::invoke(f1, [x])
+		]);
+}
+
 function main() {
-	return choose (121) {
-		case 1: 12
-		case 2: 24
-		case 3: 48
-		default: 42
-	};
+	var f1 = lambda(x) => x + 1;
+	var f2 = lambda(x) => x * 2;
+	var f3 = f1 &> f2;
+	var f4 = f2 &> f1 &> f1;
+	var f5 = f1 &> f1 &> f1 &> f1 &> f1;
+	std::println(3 |> f3);
+	std::println(3 |> f4);
+	std::println(3 |> f5);
+	std::println(3 |> f1 &> f1 &> f1 &> f1 &> f1);
+	std::println(3 |> f1 |> f1 |> f1 |> f1 |> f1);
 }

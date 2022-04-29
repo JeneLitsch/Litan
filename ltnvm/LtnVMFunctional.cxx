@@ -38,14 +38,16 @@ namespace ltn::vm {
 
 			// Call external binding
 			else if(is_external(refFx) || is_int(refFx)) {
-				auto & fxptr = *this->externals.at(refFx.i);
-				if(params.arr.size() == fxptr.get_parameters()) {
-					ext::Api api{this->heap, this->reg, params.arr};
-					fxptr(api);
+				if(this->externals.contains(refFx.i)) {
+					auto & fxptr = *this->externals.at(refFx.i);
+					if(params.arr.size() == fxptr.get_parameters()) {
+						ext::Api api{this->heap, this->reg, params.arr};
+						fxptr(api);
+					}
+					else throw except::invalid_parameters(fxptr.get_parameters(), params.arr.size());
 				}
-				else throw except::invalid_parameters(fxptr.get_parameters(), params.arr.size());
+				else throw except::invalid_argument();
 			}
-
 			// Non callable
 			else throw except::invalid_argument();
 		}

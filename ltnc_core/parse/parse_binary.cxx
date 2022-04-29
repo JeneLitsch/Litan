@@ -6,24 +6,6 @@ namespace ltn::c::parse {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 		using OP = ltn::c::ast::Binary::Type;
-
-
-		template<typename op_table, auto presedence_down>
-		ast::expr_ptr binary(lex::Lexer & lexer) {
-			
-			auto l = presedence_down(lexer);
-			while (auto op = match_op(lexer, op_table::data)) {
-				auto && r = presedence_down(lexer);
-				auto expr = std::make_unique<ast::Binary>(
-					*op,
-					std::move(l),
-					std::move(r),
-					lexer.location());
-				l = std::move(expr);
-			}				
-			return l;
-		}
-
 	}
 
 	namespace {
@@ -99,14 +81,14 @@ namespace ltn::c::parse {
 
 		template<auto presedence_down>
 		ast::expr_ptr binary_base(lex::Lexer & lexer) {
-			static constexpr auto factor      = binary<factor_table,      presedence_down>;
-			static constexpr auto term        = binary<term_table,        factor>;
-			static constexpr auto shift       = binary<shift_table,       term>;
-			static constexpr auto comparision = binary<comparision_table, shift>;
-			static constexpr auto equality    = binary<equality_table,    comparision>;
-			static constexpr auto spaceship   = binary<spaceship_table,   equality>;
-			static constexpr auto logical_or  = binary<log_or_table,      spaceship>;
-			static constexpr auto logical_and = binary<log_and_table,     logical_or>;
+			static constexpr auto factor      = generic_binary<factor_table,      presedence_down>;
+			static constexpr auto term        = generic_binary<term_table,        factor>;
+			static constexpr auto shift       = generic_binary<shift_table,       term>;
+			static constexpr auto comparision = generic_binary<comparision_table, shift>;
+			static constexpr auto equality    = generic_binary<equality_table,    comparision>;
+			static constexpr auto spaceship   = generic_binary<spaceship_table,   equality>;
+			static constexpr auto logical_or  = generic_binary<log_or_table,      spaceship>;
+			static constexpr auto logical_and = generic_binary<log_and_table,     logical_or>;
 			return logical_and(lexer);
 		}
 	}

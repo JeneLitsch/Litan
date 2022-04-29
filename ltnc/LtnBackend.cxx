@@ -23,6 +23,43 @@ namespace ltn::c::compile {
 				throw CompilerError {"main() is undefined", {}};
 			}
 		}
+
+
+		void op_chain_code(std::ostream & out) {
+			out << 
+				":_lambda_chain\n"
+				"parameters 3\n"
+				"read_1\n"
+				"read_2\n"
+				"read_0\n"
+				"newarr 1\n"
+				"invoke\n"
+				"newarr 1\n"
+				"invoke\n"
+				"return\n"
+				"\n";
+
+			out << 
+				":_op_chain\n"
+				"parameters 2\n"
+				"newfx _lambda_chain 1\n"
+				"read_0\n"
+				"capture\n"
+				"read_1\n"
+				"capture\n"
+				"return\n"
+				"\n";
+		}
+
+
+		void op_pipe_code(std::ostream & out) {
+			out << 
+				":_op_pipe\n"
+				"newarr 1\n"
+				"invoke\n"
+				"return\n"
+				"\n";
+		}
 	}
 
 	// compiles source
@@ -53,6 +90,8 @@ namespace ltn::c::compile {
 
 		try {
 			startup_code(out, fx_table);
+			op_chain_code(out);
+			op_pipe_code(out);
 		}
 		catch(const CompilerError & error) {
 			reporter.push(error);

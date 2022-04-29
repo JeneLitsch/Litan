@@ -19,6 +19,7 @@ namespace ltn::c::parse {
 
 	// Statements
 	ast::stmt_ptr statement(lex::Lexer & lexer);
+	ast::stmt_ptr stmt_switch(lex::Lexer & lexer);
 	ast::stmt_ptr block(lex::Lexer & lexer);
 	ast::stmt_ptr if_else(lex::Lexer & lexer);
 	ast::stmt_ptr while_loop(lex::Lexer & lexer);
@@ -29,8 +30,11 @@ namespace ltn::c::parse {
 	// Expressions
 	ast::expr_ptr assign(lex::Lexer & lexer);
 	ast::expr_ptr assign_r(lex::Lexer & lexer);
+	ast::expr_ptr expr_switch(lex::Lexer & lexer);
 
 	ast::expr_ptr expression(lex::Lexer & lexer);
+	ast::expr_ptr functional_op(lex::Lexer & lexer);
+	ast::expr_ptr conditional(lex::Lexer & lexer);
 	ast::expr_ptr condition(lex::Lexer & lexer);
 	ast::expr_ptr binary(lex::Lexer & lexer);
 	ast::expr_ptr unary(lex::Lexer & lexer);
@@ -38,13 +42,13 @@ namespace ltn::c::parse {
 	ast::litr_ptr integral(lex::Lexer & lexer);
 
 	ast::expr_ptr static_expression(lex::Lexer & lexer);
+	ast::expr_ptr static_functional_op(lex::Lexer & lexer);
+	ast::expr_ptr static_conditional(lex::Lexer & lexer);
 	ast::expr_ptr static_condition(lex::Lexer & lexer);
 	ast::expr_ptr static_binary(lex::Lexer & lexer);
 	ast::expr_ptr static_unary(lex::Lexer & lexer);
 	ast::expr_ptr static_primary(lex::Lexer & lexer);
 	ast::litr_ptr static_integral(lex::Lexer & lexer);
-
-	ast::expr_ptr expr_switch(lex::Lexer & lexer);
 
 	// Utils
 	std::string preset_name(lex::Lexer & lexer);
@@ -68,6 +72,24 @@ namespace ltn::c::parse {
 		}
 		return std::nullopt;
 	}
+
+
+
+	template<typename op_table, auto presedence_down>
+	ast::expr_ptr generic_binary(lex::Lexer & lexer) {
+		auto l = presedence_down(lexer);
+		while (auto op = match_op(lexer, op_table::data)) {
+			auto && r = presedence_down(lexer);
+			auto expr = std::make_unique<ast::Binary>(
+				*op,
+				std::move(l),
+				std::move(r),
+				lexer.location());
+			l = std::move(expr);
+		}				
+		return l;
+	}
+
 
 
 	// Maches ; or throws

@@ -216,11 +216,17 @@ namespace ltn::c::lex {
 			if(match('&')) {
 				return make(TT::AND, "&&");
 			}
+			if(match('>')) {
+				return make(TT::CHAIN_R, "&>");
+			}
 			return make(TT::AMPERSAND, "&");
 		}
 		if(match('|')) {
 			if(match('|')) {
 				return make(TT::OR, "||");
+			}
+			if(match('>')) {
+				return make(TT::PIPE_R, "|>");
 			}
 			throw CompilerError{"\"|\" is not a valid token.", location};
 		}
