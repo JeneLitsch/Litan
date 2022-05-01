@@ -47,6 +47,7 @@ namespace ltn::c::compile {
 	ExprCode call(const ast::Call &, CompilerInfo &, Scope &);
 	ExprCode index(const ast::Index &, CompilerInfo &, Scope &);
 	ExprCode fxPointer(const ast::FxPointer &, CompilerInfo &, Scope &);
+	ExprCode invokation(const ast::Invokation &, CompilerInfo &, Scope &);
 	ExprCode iife(const ast::Iife &, CompilerInfo &, Scope &);
 	ExprCode index(const ast::Index &, CompilerInfo &, Scope &);
 	ExprCode global_value(const ast::GlobalValue &, CompilerInfo &, Scope &);

@@ -78,5 +78,20 @@ namespace ltn::c::ast {
 	};
 
 
+	struct Invokation final : public Primary {
+	public:
+		Invokation(
+			std::unique_ptr<Expression> function_ptr,
+			std::vector<std::unique_ptr<Expression>> parameters,
+			const SourceLocation & location)
+			:	Primary(location),
+				function_ptr(std::move(function_ptr)),
+				parameters(std::move(parameters)) {}
+		virtual ~Invokation() = default;
+		std::unique_ptr<Expression> function_ptr;
+		std::vector<std::unique_ptr<Expression>> parameters;
+	};
+
+
 	using ExprSwitch = Switch<Primary, Expression>;
 }

@@ -299,6 +299,42 @@ namespace ltn::c::parse {
 
 
 
+		ast::expr_ptr invokation(lex::Lexer & lexer) {
+			if(lexer.match(TT::RARROW)) {
+
+				auto fx_ptr = expression(lexer);
+
+				if(!lexer.match(TT::COLON)) throw CompilerError {
+					"Expected :",
+					lexer.location()
+				};
+
+				if(!lexer.match(TT::PAREN_L)) throw CompilerError {
+					"Expected (",
+					lexer.location()
+				};
+
+				auto params = parameters(lexer);
+				return std::make_unique<ast::Invokation>(
+					std::move(fx_ptr),
+					std::move(params),
+					lexer.location()
+				);
+			}
+			return nullptr; 
+		}
+
+
+
+		ast::expr_ptr static_invokation(lex::Lexer & lexer) {
+			if(lexer.match(TT::RARROW)) {
+				throw CompilerError{"Cannot invoke function in static expression", lexer.location()};
+			}
+			else return nullptr;
+		}
+
+
+
 		ast::expr_ptr iife(lex::Lexer & lexer) {
 			if(lexer.match(TT::IIFE)) {
 				auto body = parse::block(lexer);
@@ -331,6 +367,7 @@ namespace ltn::c::parse {
 		static constexpr auto static_string = string;
 		static constexpr auto static_fx_pointer = fx_pointer;
 		static constexpr auto static_lambda = lambda;
+		static constexpr auto static_expr_switch = expr_switch;
 		
 		if(auto expr = static_integral(lexer)) return expr;
 		if(auto expr = static_character(lexer)) return expr;
@@ -343,7 +380,8 @@ namespace ltn::c::parse {
 		if(auto expr = static_fx_pointer(lexer)) return expr;
 		if(auto expr = static_lambda(lexer)) return expr;
 		if(auto expr = static_iife(lexer)) return expr;
-		if(auto expr = expr_switch(lexer)) return expr;
+		if(auto expr = static_invokation(lexer)) return expr;
+		if(auto expr = static_expr_switch(lexer)) return expr;
 		return static_identifier(lexer);
 	}
 
@@ -362,6 +400,7 @@ namespace ltn::c::parse {
 		if(auto expr = fx_pointer(lexer)) return expr;
 		if(auto expr = lambda(lexer)) return expr;
 		if(auto expr = iife(lexer)) return expr;
+		if(auto expr = invokation(lexer)) return expr;
 		if(auto expr = expr_switch(lexer)) return expr;
 		return identifier(lexer);
 	}

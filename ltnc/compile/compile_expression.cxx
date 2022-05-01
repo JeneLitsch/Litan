@@ -60,6 +60,9 @@ namespace ltn::c::compile {
 		if(auto sw1tch = as<ast::ExprSwitch>(expr)) {
 			return compile::expr_switch(*sw1tch, info, scope);
 		} 
+		if(auto invoke = as<ast::Invokation>(expr)) {
+			return compile::invokation(*invoke, info, scope);
+		} 
 		throw CompilerError{"Unknown Expression"};
 	}
 
