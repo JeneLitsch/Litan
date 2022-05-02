@@ -7,5 +7,4 @@ function main() {
 	std::println((sub)(1, 2));
 }
 except(error) {
-	std::println(error);
 }
