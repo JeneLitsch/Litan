@@ -23,6 +23,12 @@ namespace test {
 
 
 
+	function make_duplicator() {
+		return lambda (x) => 2*x;
+	}
+
+
+
 	function add_1(x) {
 		return x + 1;
 	}
@@ -62,6 +68,10 @@ namespace test {
 		var f24 = lambda => 2 |> &double(_) &> &double(_) |> &double(_);
 		var f25 = lambda => 2 |> chain_add_a_and_double();
 		var f26 = lambda => 2 |> std::chain(&add_1(_), &double(_));
+		var f27 = lambda => (lambda(a, b) => a + b)(20, 22);
+		var f28 = lambda => (lambda => 42)();
+		var f29 = lambda => (&add_1(_))(41);
+		var f30 = lambda => ((&make_duplicator())())(21);
 
 		var cases = [
 			[f1, 2],
@@ -90,6 +100,10 @@ namespace test {
 			[f24, 16],
 			[f25, 6],
 			[f26, 6],
+			[f27, 42],
+			[f28, 42],
+			[f29, 42],
+			[f30, 42],
 		];
 
 		return test_functions("Expressions", cases);
