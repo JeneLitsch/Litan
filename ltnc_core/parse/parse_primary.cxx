@@ -27,7 +27,7 @@ namespace ltn::c::parse {
 			return nullptr;
 		}
 
-		constexpr auto paren = paren_base<expression>;
+		constexpr auto paren        = paren_base<expression>;
 		constexpr auto static_paren = paren_base<static_expression>;
 
 
@@ -299,33 +299,6 @@ namespace ltn::c::parse {
 
 
 
-		ast::expr_ptr invokation(lex::Lexer & lexer) {
-			if(lexer.match(TT::RARROW)) {
-
-				auto fx_ptr = expression(lexer);
-
-				if(!lexer.match(TT::COLON)) throw CompilerError {
-					"Expected :",
-					lexer.location()
-				};
-
-				if(!lexer.match(TT::PAREN_L)) throw CompilerError {
-					"Expected (",
-					lexer.location()
-				};
-
-				auto params = parameters(lexer);
-				return std::make_unique<ast::Invokation>(
-					std::move(fx_ptr),
-					std::move(params),
-					lexer.location()
-				);
-			}
-			return nullptr; 
-		}
-
-
-
 		ast::expr_ptr static_invokation(lex::Lexer & lexer) {
 			if(lexer.match(TT::RARROW)) {
 				throw CompilerError{"Cannot invoke function in static expression", lexer.location()};
@@ -396,11 +369,21 @@ namespace ltn::c::parse {
 		if(auto expr = null(lexer)) return expr;
 		if(auto expr = string(lexer)) return expr;
 		if(auto expr = array(lexer)) return expr;
-		if(auto expr = paren(lexer)) return expr;
+		if(auto expr = paren(lexer)) {
+			if(lexer.match(TT::PAREN_L)) {
+				auto params = parameters(lexer);
+				return std::make_unique<ast::Invokation>(
+					std::move(std::move(expr)),
+					std::move(params),
+					lexer.location()
+				);
+			}
+			return expr; 
+
+		}
 		if(auto expr = fx_pointer(lexer)) return expr;
 		if(auto expr = lambda(lexer)) return expr;
 		if(auto expr = iife(lexer)) return expr;
-		if(auto expr = invokation(lexer)) return expr;
 		if(auto expr = expr_switch(lexer)) return expr;
 		return identifier(lexer);
 	}

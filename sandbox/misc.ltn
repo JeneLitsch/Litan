@@ -1,5 +1,14 @@
+function make_duplicator() {
+	return lambda (x) => 2*x;
+}
+
 function main() {
 	var add = lambda(a,b) => a + b;
-	var x = ->add:(1, 2);
-	std::println(x);
+	var sub = lambda(a,b) => a - b;
+	std::println((add)(1, 2));
+	std::println((sub)(1, 2));
+	std::println((make_duplicator())(21));
+}
+except(error) {
+	std::println(error);
 }
