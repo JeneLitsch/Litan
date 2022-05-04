@@ -85,9 +85,6 @@ namespace ltn::c::lex {
 
 			RARROW,
 			DRARROW,
-
-			PIPE_R,
-			CHAIN_R,
 		};
 		
 		Type type;

@@ -33,7 +33,6 @@ namespace ltn::c::parse {
 	ast::expr_ptr expr_switch(lex::Lexer & lexer);
 
 	ast::expr_ptr expression(lex::Lexer & lexer);
-	ast::expr_ptr functional_op(lex::Lexer & lexer);
 	ast::expr_ptr conditional(lex::Lexer & lexer);
 	ast::expr_ptr condition(lex::Lexer & lexer);
 	ast::expr_ptr binary(lex::Lexer & lexer);
@@ -42,7 +41,6 @@ namespace ltn::c::parse {
 	ast::litr_ptr integral(lex::Lexer & lexer);
 
 	ast::expr_ptr static_expression(lex::Lexer & lexer);
-	ast::expr_ptr static_functional_op(lex::Lexer & lexer);
 	ast::expr_ptr static_conditional(lex::Lexer & lexer);
 	ast::expr_ptr static_condition(lex::Lexer & lexer);
 	ast::expr_ptr static_binary(lex::Lexer & lexer);

@@ -3,14 +3,14 @@
 namespace ltn::c::parse {
 	// generic expression
 	ast::expr_ptr expression(lex::Lexer & lexer) {
-		return functional_op(lexer);
+		return conditional(lexer);
 	}
 
 
 
 	// generic expression
 	ast::expr_ptr static_expression(lex::Lexer & lexer) {
-		return static_functional_op(lexer);
+		return static_conditional(lexer);
 	}
 }
 

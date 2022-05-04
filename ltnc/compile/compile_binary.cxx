@@ -138,8 +138,6 @@ namespace ltn::c::compile {
 			case OP::OR:           return log_or(l, r);
 			case OP::ELVIS:        return elvis(l, r);
 			case OP::NULLCO:       return nullco(l, r);
-			case OP::CHAIN_R:      return bin(l, r, inst::call("_op_chain"));
-			case OP::PIPE_R:       return bin(r, l, inst::call("_op_pipe"));
 		}
 		throw CompilerError{"Invalid binary operation", {}};
 	}
