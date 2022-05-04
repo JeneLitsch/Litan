@@ -162,7 +162,7 @@ namespace test {
 		return test_all_cases("std::ln", &std::ln(_), cases);
 	}
 
-	function pow() {
+	function std_pow() {
 		var cases = [
 			[[2, 2], 4],
 			[[3, 2], 9],
@@ -209,7 +209,7 @@ namespace test {
 			ld() +
 			lg() +
 			ln() +
-			pow() +
+			std_pow() +
 			sin() +
 			cos() +
 			tan();

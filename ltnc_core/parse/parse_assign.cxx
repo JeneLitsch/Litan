@@ -15,6 +15,7 @@ namespace ltn::c::parse {
 			std::pair{TT::ASSIGN_DIV,     Op::DIV},
 			std::pair{TT::ASSIGN_MOD,     Op::MOD},
 			std::pair{TT::ASSIGN_SHIFT_L, Op::SHIFT_L},
+			std::pair{TT::ASSIGN_POW,     Op::POW},
 			std::pair{TT::ASSIGN_SHIFT_R, Op::SHIFT_R},
 		};
 

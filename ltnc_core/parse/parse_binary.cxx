@@ -18,6 +18,14 @@ namespace ltn::c::parse {
 
 
 
+		struct power_table {
+			static const inline auto data = std::array {
+				std::pair{TT::STARx2,        OP::POW},
+			};
+		};
+
+
+
 		struct factor_table {
 			static const inline auto data = std::array {
 				std::pair{TT::STAR, OP::MLT},
@@ -81,7 +89,8 @@ namespace ltn::c::parse {
 
 		template<auto presedence_down>
 		ast::expr_ptr binary_base(lex::Lexer & lexer) {
-			static constexpr auto factor      = generic_binary<factor_table,      presedence_down>;
+			static constexpr auto power       = generic_binary<power_table,       presedence_down>;
+			static constexpr auto factor      = generic_binary<factor_table,      power>;
 			static constexpr auto term        = generic_binary<term_table,        factor>;
 			static constexpr auto shift       = generic_binary<shift_table,       term>;
 			static constexpr auto comparision = generic_binary<comparision_table, shift>;

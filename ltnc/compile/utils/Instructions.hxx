@@ -15,6 +15,7 @@ namespace ltn::c::compile::inst {
 	constexpr std::string_view mlt = "mlt\n";
 	constexpr std::string_view div = "div\n";
 	constexpr std::string_view mod = "mod\n";
+	constexpr std::string_view pow = "pow\n";
 	constexpr std::string_view sml = "sml\n";
 	constexpr std::string_view bgr = "bgr\n";
 	constexpr std::string_view smleql = "smleql\n";

@@ -56,7 +56,7 @@ namespace ltn::c::ast {
 	struct Binary : public Expression {
 		enum class Type {
 			ADD, SUB,
-			MLT, DIV, MOD,
+			MLT, DIV, MOD, POW,
 			BIGGER, SMALLER, BIGGEREQUAL, SMALLEREQUAL,
 			EQUAL, UNEQUEL,
 			SPACE_SHIP, APPROX, NOTPROX,

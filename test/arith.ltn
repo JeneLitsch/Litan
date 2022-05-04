@@ -29,6 +29,8 @@ namespace test {
 			test_all_cases("Add+=", add_eq, cases);
 	}
 
+	
+
 	function sub() {
 		var cases = [
 			[[1, 2], -1],
@@ -49,6 +51,8 @@ namespace test {
 			test_all_cases("Subtract-", sub, cases) +
 			test_all_cases("Subtract-=", sub_eq, cases);
 	}
+
+
 
 	function mlt() {
 		var cases = [
@@ -72,6 +76,7 @@ namespace test {
 	}
 
 	
+
 	function div() {
 		var cases = [
 			[[1, 2], 0],
@@ -90,6 +95,7 @@ namespace test {
 			test_all_cases("Divide/", div, cases) +
 			test_all_cases("Divide/=", div_eq, cases);
 	}
+
 
 
 	function mod() {
@@ -112,6 +118,28 @@ namespace test {
 			test_all_cases("Modulo%=", mod_eq, cases);
 	}
 
+
+
+	function pow() {
+		var cases = [
+			[[2, 2], 4],
+			[[3, 3], 27],
+			[[9.0, 0.5], 3],
+		];
+		
+		var pow    = lambda (a, b) => a ** b;
+		var pow_eq = lambda (a, b) {
+			a **= b;
+			return a;
+		};
+
+		return
+			test_all_cases("Power**",  pow, cases) +
+			test_all_cases("Power**=", pow_eq, cases);
+	}
+
+
+
 	function shift_l() {
 		var cases = [
 			[[1, 1], 2],
@@ -128,6 +156,8 @@ namespace test {
 			test_all_cases("Shift l<<", shift, cases) +
 			test_all_cases("Shift l<<=", shift_eq, cases);
 	}
+
+
 
 	function shift_r() {
 		var cases = [
@@ -162,9 +192,10 @@ namespace test {
 	}
 
 
+
 	function arith() {
 		return
-			add() + sub() + mlt() + div() + mod() + neg() +
+			add() + sub() + mlt() + div() + mod() + pow() + neg() +
 			shift_l() + shift_r();
 	}
 }

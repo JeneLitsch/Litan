@@ -168,6 +168,7 @@ namespace ltn::c::compile {
 			case MT::MLT:     return inst::mlt;
 			case MT::DIV:     return inst::div;
 			case MT::MOD:     return inst::mod;
+			case MT::POW:     return inst::pow;
 			case MT::SHIFT_L: return inst::shift_l;
 			case MT::SHIFT_R: return inst::shift_r;
 			}

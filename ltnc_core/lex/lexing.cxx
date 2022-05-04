@@ -191,6 +191,12 @@ namespace ltn::c::lex {
 			return make(TT::PLUS, "+");
 		}
 		if(match('*')) {
+			if(match('*')) {
+				if(match('=')) {
+					return make(TT::ASSIGN_POW, "**=");
+				}
+				return make(TT::STARx2, "**");
+			}
 			if(match('=')) {
 				return make(TT::ASSIGN_MLT, "*=");
 			}

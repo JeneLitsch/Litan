@@ -60,6 +60,7 @@ namespace ltn::c::lex {
 			STAR,
 			SLASH,
 			PERCENT,
+			STARx2,
 			SHIFT_L,
 			SHIFT_R,
 			
@@ -68,6 +69,7 @@ namespace ltn::c::lex {
 			ASSIGN_MLT,
 			ASSIGN_DIV,
 			ASSIGN_MOD,
+			ASSIGN_POW,
 			ASSIGN_SHIFT_L,
 			ASSIGN_SHIFT_R,
 			

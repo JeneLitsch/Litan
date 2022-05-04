@@ -123,6 +123,7 @@ namespace ltn::c::compile {
 			case OP::MLT:          return bin(l, r, inst::mlt);
 			case OP::DIV:          return bin(l, r, inst::div);
 			case OP::MOD:          return bin(l, r, inst::mod);
+			case OP::POW:          return bin(l, r, inst::pow);
 			case OP::SMALLER:      return bin(l, r, inst::sml);
 			case OP::BIGGER:       return bin(l, r, inst::bgr);
 			case OP::SMALLEREQUAL: return bin(l, r, inst::smleql);
