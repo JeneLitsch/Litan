@@ -1,7 +1,10 @@
-function make_greeting(name) 
-	=> "Hello " + std::string(name)
-
 function main() {
-	var hello = &make_greeting(_); 
-	std::println((hello)("World"));
+	var map = std::map();
+	
+	map[0] = "foo";
+	map["test"] = "bar";
+
+	std::println(map[0]);
+	std::println(map["test"]);
+	std::println(map[-1]);
 }
