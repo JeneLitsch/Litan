@@ -37,3 +37,6 @@ function main() {
 	std::println((fx)());
 }
 ```
+
+## Note
+- A lambda produces a callable object

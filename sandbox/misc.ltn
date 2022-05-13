@@ -1,15 +1,7 @@
-function fx(x) { 
-	var y = choose(x) {
-		case 42: "The awnser";
-		case 1337: "Leet";
-		default: "Default";
-	};
-	std::println(y);
-}
+function make_greeting(name) 
+	=> "Hello " + std::string(name)
 
 function main() {
-	fx(42);
-	fx(1337);
-	fx("test");
-	fx(null);
+	var hello = &make_greeting(_); 
+	std::println((hello)("World"));
 }

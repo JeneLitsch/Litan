@@ -8,7 +8,7 @@
 
 Underscores `_` are used as placeholders to distinguish overloaded functions. 
 
-### Example
+## Examples
 
 ```javascript
 function foo(a, b, c) {
@@ -35,3 +35,6 @@ Output:
 I have 3 parameters: 1, 2, 3
 I have 2 parameters: 42, 1337
 ```
+
+## Note
+- A function pointer is a callable object
