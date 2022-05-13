@@ -1,33 +1,31 @@
-### Declare a namespace
+# Namespace
+
+## Syntax
 
 ```C++
-namespace <name> {
-...
+namespace /*name*/ {
+	// Stuff goes here
 }
-```
-
-### Use a namespace
-```C++
-namespace::function
 ```
 
 ### Example
-```C++
+```js
 namespace foo {
-    namespace bar {
-        function fx() {
-            return 41;
-        }
-    }
-    function fx() {
-        return bar::fx() + 1;
-    }
+    function fx() => 42
+}
+
+namespace bar {
+    function fx() => 1337
 }
 
 function main() {
-    foo::bar::fx();
-    return foo::fx();
+	std::println(foo::fx());
+	std::println(bar::fx());
 }
-
 ```
-main() returns 42
+
+The output is
+```
+42
+1337
+```

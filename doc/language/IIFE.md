@@ -1,32 +1,46 @@
 # Expression blocks / IIFE
 
-### Syntax
+## Syntax
 ```
 iife {
-	// some code
-	return 42;
+	// some code here
 }
 ```
 
-### Examples
+## Examples
+```js
+function main() {
+	var foo = iife {
+		var a = 1;
+		var b = 2;
+		var c = 3;
+		return a + b + c;
+	};
+	std::println(foo);
+}
 ```
-var foo = {
-	var a = 1;
-	var b = 2;
-	var c = 3;
-	return a + b + c;
-};
-// foo is asigned to 6 in this example
+The output is
 ```
-
-```
-var bar = 21;
-var foo = {
-	var factor = 2;
-	return factor * bar;
-};
-// foo is asigned to 42 in this example
+6
 ```
 
-### Usage
-An IIFE can be used anywhere where an expression is needed.
+
+```js
+function main() {
+	var bar = 21;
+	var foo = iife {
+		var factor = 2;
+		return factor * bar;
+	};
+	std::println(foo);
+}
+```
+The output is
+```
+42
+```
+
+
+## Note
+An IIFE can be used anywhere where an expression is needed.  
+If an IIFE does not return `null` is returned by default. 

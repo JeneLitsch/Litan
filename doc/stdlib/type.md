@@ -10,7 +10,6 @@ Creates a new Struct without members
 ---
 
 ### preset std::mono(value)
-since 2.0  
 **Parameters**  
 * value: a single value of any type
 
@@ -19,20 +18,6 @@ Reference to a new Struct
 
 **Description**  
 Creates a new Struct with a single member called value  
-
----
-
-### std::pair(first, second)
-until 2.0   
-**Parameters**  
-* first: a value of any type
-* second: a value of any type
-
-**Return value**  
-Reference to a new Struct  
-
-**Description**  
-Creates a new Struct with two members called "first" and "second"  
 
 ---
 

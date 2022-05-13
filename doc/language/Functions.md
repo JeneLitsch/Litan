@@ -1,22 +1,23 @@
-# Function
-A Litan function can be declared with one of the following ways.
+# Functions
 
-Statemement block a body  
+A Litan function can be declared in one of the following ways.
+
+Statemement block as function body  
 ```javascript
 function name(param1, ...) {  
     // Some code here  
 }
 ```
 
-Single expression as a body    
+Single expression as function body    
 since 1.2
 ```javascript
 function name(param1, ...) => // Expression goes here  
 ```
 
-The function main() without parameters is the starting point of a Litan program.  
+The function main() with zero or one parameter is the starting point of a Litan program.  
 
-### Examples
+## Examples
 ```javascript
 function hello() {  
     return "Hello World";
@@ -30,6 +31,12 @@ function main() {
 ```
 
 ```javascript
+function main(args) {  
+    std::println(args);
+}
+```
+
+```javascript
 function add(a, b) const {
     return a + b;
 }
@@ -39,12 +46,11 @@ function add(a, b) const {
 function add(a, b) const private => a + b
 ```
   
-# Calls
+## Calls
 `foo(42, "Hello World")` The function foo is called with the parameters `42` and `"Hello World"`
   
 
-# Qualifiers
-since 2.0  
+## Qualifiers
 ### const 
 * No reassingments are allowed inside the function  
 * A const function can only call other const functions  

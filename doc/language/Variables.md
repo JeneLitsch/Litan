@@ -1,29 +1,31 @@
-### Create a variable
+# Variables
 
-`var <name>;` (default assigned to null)  
-`var <name> = <expression>;`  
 
-##### Examples
-`var foo;`  
-`var foo = 42;`  
-`var foo = "Hello World";`  
+## Syntax
 
----
+Create a variable
 
-### Assign a Variable
-`<name> = <expression>;`
-##### Examples
-`foo = 42;`
+```js
+var /*name*/;
+```
 
---- 
+or
 
-### Use a variable
-The name of a variable can used in any expression to read the current value.
+```js
+var /*name*/ = /*expression*/;  
+```
 
---- 
+In the first case the variable is default assigned to `null`.
 
-### const
-A local variable can also be declared `const` which triggers a compiler error on reassignment or modification.  
-`const foo;`  
-`const foo = 42;`  
-`const foo = "Hello World";`  
+## Examples
+
+```js
+function main() {
+	var foo;
+	var bar = 42;
+	var baz = "Hello World";
+	std::println(foo);
+	std::println(bar);
+	std::println(baz);
+}
+```

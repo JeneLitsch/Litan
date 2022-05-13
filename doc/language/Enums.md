@@ -1,6 +1,6 @@
 # Enums
-since 2.0  
-```javascript
+
+```js
 enum my_enum {
 	FOO;
 	BAR : 5;
@@ -8,7 +8,7 @@ enum my_enum {
 }
 ```
 
-```javascript
+```js
 function main() {
 	std::println(my_enum::FOO);
 	std::println(my_enum::BAR);

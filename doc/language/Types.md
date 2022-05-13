@@ -12,6 +12,8 @@ function main() {
 ```
 ---
 
+
+
 ## Bool
 The bool type can be set two states `true` and `false`. 
 A value of type bool can be created by the `true` or `false` keyword.
@@ -26,6 +28,8 @@ function main() {
 ```
 
 ---
+
+
 
 ## Char
 The char type is an 8-Bit integral type used to represent a single character.
@@ -45,6 +49,8 @@ function main() {
 ```
 
 ---
+
+
 
 ## Int
 The int type is used to store a 64-Bit singed integer value.
@@ -89,6 +95,8 @@ function main() {
 ```
 ---
 
+
+
 ## Float
 The float type is used to store a 64-Bit IEEE-754 floating point number.
 A value of type float can be created by a float literal e.g. `0.0`, `-1.0` or `42.0` 
@@ -104,6 +112,8 @@ function main() {
 ```
 
 ---
+
+
 
 ## String
 The string type is used to store an array of char values.
@@ -127,8 +137,9 @@ function main() {
 `\\` for \  
 `\"` for "
 
-
 ---
+
+
 
 ## Array 
 The array type is used store a dynamic array of elements of any type.
@@ -145,15 +156,21 @@ function main() {
 
 ---
 
+
+
 ## Istream
 Istreams are used to read 8-Bit character from a varity of sources e.g. stdin or files. 
 
 ---
 
+
+
 ## Ostream
 Ostreams are used to output 8-Bit characters to a varity of targets e.g. stdin or files. 
 
 --- 
+
+
 
 ## Function pointers
 Function pointers are callable objects created by lambdas or taking the address of a normal function. A function pointer to normal function be create by prefixing the function with `&` and replacing all paramters with `_`. A function pointer can be invoked by wrapping it in () and putting a parameter list afterwards.
@@ -171,10 +188,14 @@ function main() {
 
 ---
 
+
+
 ## External
 Like a function pointer but it is pointing to a externally registerd function
 
 ---
+
+
 
 ## Clock
 A clock tracks the time since its creation. It's created by std::chrono::clock() and be casted to a floating point value representing the elapsed seconds.
@@ -189,30 +210,42 @@ function main() {
 
 ---
 
+
+
 ## Struct
 _ToDo_
 
 ---
+
+
 
 ## Range
 _ToDo_
 
 ---
 
+
+
 ## QUEUE
 _ToDo_
 
 ---
+
+
 
 ## Stack
 _ToDo_
 
 ---
 
+
+
 ## Map
 _ToDo_
 
 ---
+
+
 
 ## RNG
 _ToDo_

@@ -1,5 +1,4 @@
 # Define
-since 2.0  
 Defines are used to declare global constants. Function calls are not allowed in defines.
 
 ```javascript

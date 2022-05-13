@@ -1,18 +1,27 @@
-To create a function pointer to a function the name of function needs to be prefixed with "&" and every parameter needs to be replaced with the placeholder "_". The count of "_" determines the overload choosen for the functions pointer. A function pointer can be called with std::invoke.
+# Function pointers
 
-### Explantion
-`&foo(_,_,_)` creates a function pointer to the foo overload which takes 3 parameter.
-`&foo(_,_)` creates a function pointer to the foo overload which takes 3 parameter.
+## Syntax 
+
+```js
+&/*function name*/(/*placeholders*/)
+```
+
+Underscores `_` are used as placeholders to distinguish overloaded functions. 
 
 ### Example
 
 ```javascript
 function foo(a, b, c) {
-	std::println("I have 3 parameters: " + a + ", " + b + ", " + c);
+	std::println("I have 3 parameters: " 
+		+ std::string(a) + ", "
+		+ std::string(b) + ", " 
+		+ std::string(c));
 }
 
 function foo(a, b) {
-	std::println("I have 2 parameters: " + a + ", " + b);
+	std::println("I have 2 parameters: " 
+		+ std::string(a) + ", " 
+		+ std::string(b));
 }
 
 function main() {
