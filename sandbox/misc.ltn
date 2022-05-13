@@ -1,11 +1,3 @@
-
-
 function main() {
-	var add = lambda(a,b) => a + b;
-	var sub = lambda(a,b) => a - b;
-	std::println((add)(1, 2));
-	std::println((sub)(1, 2));
-}
-except(error) {
-	std::println(error);
+	std::println([1,2,3] + [4,5,6]);
 }
