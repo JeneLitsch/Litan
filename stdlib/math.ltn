@@ -17,6 +17,9 @@ namespace std {
 	build_in cos(b) const             @ math_cos
 	build_in tan(b) const             @ math_tan
 
+	function lerp(a, b, t) 
+		=> a + t * (b-a)
+
 	function is_between(value, min, max) const
 		=> value >= min && value <= max
 

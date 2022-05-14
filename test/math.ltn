@@ -194,6 +194,18 @@ namespace test {
 		return test_all_cases("std::tan", &std::tan(_), cases);
 	}
 
+
+	function lerp() {
+		var cases = [
+			[[0, 10, 0.5], 5],
+			[[0, 3.3, 0.5], 3.3/2],
+			[[0, 42, 0], 0],
+			[[-42, 42, 0.5], 0],
+		];
+		return test_all_cases("std::lerp", &std::lerp(_,_,_), cases);
+	}
+
+
 	function math() {
 		return
 			min() +
@@ -212,6 +224,7 @@ namespace test {
 			std_pow() +
 			sin() +
 			cos() +
-			tan();
+			tan() +
+			lerp();
 	}
 }
