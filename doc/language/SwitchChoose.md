@@ -1,5 +1,5 @@
 # Switch / Choose
-There are two different switch statements. `switch` is used for statement and `choose` is used for expression. 
+There are two different switch statements. `switch` is used for statements and `choose` is used for expressions. 
 
 ## Syntax
 
