@@ -29,3 +29,5 @@
 
 ## Definitions
 - [std::pi](math/pi.md)
+- [std::e](math/e.md)
+- [std::tau](math/tau.md)

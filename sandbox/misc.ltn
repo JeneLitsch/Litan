@@ -1,4 +1,5 @@
 function main() {
 	std::println(std::pi);
-	std::println(std::num::pi);
+	std::println(std::e);
+	std::println(std::tau);
 }
