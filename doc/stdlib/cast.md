@@ -2,6 +2,8 @@
 
 The cast library contains functions which are used to explicitly convert types.
 
+## Functions
+
 - [std::array](cast/array.md)
 - [std::bool](cast/bool.md)
 - [std::char](cast/char.md)

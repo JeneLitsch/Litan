@@ -2,6 +2,8 @@
 
 The algorithm library is a collection of functions which work on ranges.
 
+## Functions
+
 - [std::copy](algorithm/copy.md)
 - [std::fill](algorithm/fill.md)
 - [std::for_each](algorithm/for_each.md)
