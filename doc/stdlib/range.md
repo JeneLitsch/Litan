@@ -1,49 +1,9 @@
-### std::whole(array)
-**Parameters**  
-* array: an Array
+# range.ltn
 
-**Return value**  
-Range
+The range library provides utilities to create and manipulate ranges.
 
-**Description**  
-Creates a range spanning the whole array  
-
----
-
-### std::first_n(array, n)
-**Parameters**  
-* array: an Array
-* n: number of elements as an Int
-
-**Return value**  
-Range
-
-**Description**  
-Creates a range spanning the first n elements of the array  
-
----
-
-### std::last_n(array, n)
-**Parameters**  
-* array: an Array
-* n: number of elements as an Int
-
-**Return value**  
-Range
-
-**Description**  
-Creates a range spanning the last n elements of the array  
-
----
-
-### std::range(array, begin, end)
-**Parameters**  
-* array: an Array
-* begin: begin index as an Int
-* end: index past the last element as an Int
-
-**Return value**  
-Range
-
-**Description**  
-Creates a range spanning from "begin" to "end"  
+# Functions
+- [std::first_n](range/first_n.md)
+- [std::last_n](range/last_n.md)
+- [std::range](range/range.md)
+- [std::whole](range/whole.md)
