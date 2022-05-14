@@ -1,5 +1,3 @@
 function main() {
-	std::println(std::pi);
-	std::println(std::e);
 	std::println(std::tau);
 }
