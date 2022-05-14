@@ -8,7 +8,7 @@
 - [Functions pointers](language/Function-Pointer.md)
 - [Functions](language/Functions.md)
 - [IfElse](language/IfElse.md)
-- [Invokations](language/Invokation.md)
+- [Invocation](language/Invocation.md)
 - [Lambdas](language/Lambdas.md)
 - [Namespace](language/Namespaces.md)
 - Unary Operators
@@ -33,11 +33,12 @@
   - [Operator <=>](language/operators/binary/spaceship.md)
   - [Operator <<](language/operators/binary/l_shift.md)
   - [Operator >>](language/operators/binary/r_shift.md)
+  - [Operator ??](language/operators/binary/nullco.md)
+  - [Operator ?:](language/operators/binary/elvis.md)
 - Other Operators
   - [Operator .](language/operators/dot.md)
   - [Operator []](language/operators/index.md)
-  - [Operator ? :](language/operators/ternary.md)
-  - [Operator ??](language/operators/nullco.md)
+  - [Operator ?:](language/operators/ternary.md)
 - [Presets](language/Presets.md)
 - [Return](language/Return.md)
 - [Switch and Choose](language/SwitchChoose.md)

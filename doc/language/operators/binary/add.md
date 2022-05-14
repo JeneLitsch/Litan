@@ -6,14 +6,16 @@ The + operator performs an addition or concatination depending on the operands.
 ## Numeric + Numeric
 Performs + on two numbers and adds them together.
 Bools and chars are always promoted to at least int.
+If one of the operands is a float then the result is also a float.
 
 
 ## String + String
-Performs + on two strings creates a new concatenated string.
+Performs + on two strings and creates a new concatenated string.
 
 
 ## Array + Array
-Performs + on two arrays creates a new concatenated array.
+Performs + on two arrays and creates a new concatenated array.
+
 
 ## Examples
 ### 1)

@@ -24,3 +24,6 @@
 - [std::sin](math/trig/sin.md)
 - [std::cos](math/trig/cos.md)
 - [std::tan](math/trig/tan.md)
+
+## Definitions
+- [std::pi](math/pi.md)

@@ -19,4 +19,10 @@ namespace std {
 
 	function is_between(value, min, max) const
 		=> value >= min && value <= max
+
+	define pi = 3.14159265359; 
+
+	namespace num {
+		define pi = 3.14159265359; 
+	}
 }

@@ -19,7 +19,6 @@ namespace ltn::c {
 			"functional.ltn"sv,
 			"io.ltn"sv,
 			"math.ltn"sv,
-			"numeric.ltn"sv,
 			"random.ltn"sv,
 			"range.ltn"sv,
 			"type.ltn"sv,

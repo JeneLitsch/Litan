@@ -1,19 +1,11 @@
-# Operator ?:
+# Operator c?a:b
 
-### c?a:b
-Evaluates to a if c is true or to b else.
-
-### a?:b
-Evaluates to a if a is true or to b else.
+Evaluates to `a` if `c` is truthy or to `b` if `c` is false.
 
 
 ## Syntax
 ```js
 /*condition*/ ? /*a*/ : /*b*/
-```
-or
-```js
-/*a*/ ?: /*b*/
 ```
 
 ## Examples
@@ -28,17 +20,4 @@ Output:
 ```
 1
 2
-```
-
-### 2)
-```js
-function main() {
-	std::println(true ?: 42);
-	std::println(false ?: 42);
-}
-```
-Output:
-```
-true
-42
 ```

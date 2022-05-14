@@ -1,4 +1,4 @@
 function main() {
-	std::println(null ?? 42);
-	std::println(false ?? 42);
+	std::println(std::pi);
+	std::println(std::num::pi);
 }

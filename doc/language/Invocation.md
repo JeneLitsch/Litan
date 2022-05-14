@@ -1,4 +1,4 @@
-# Invokation
+# Invocation
 
 ## Syntax
 ```js
