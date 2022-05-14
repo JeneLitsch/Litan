@@ -6,7 +6,7 @@ namespace test {
 			[['B', 0, true], 'C'],
 		];
 		
-		return test_all_cases("Bitwise ~x", &std::bits::set(_,_,_), cases);
+		return test_all_cases("std::bits::set", &std::bits::set(_,_,_), cases);
 	}
 
 	function bits_get() {
@@ -17,7 +17,7 @@ namespace test {
 			[[true, 1], false],
 		];
 		
-		return test_all_cases("Bitwise ~x", &std::bits::get(_,_), cases);
+		return test_all_cases("std::bits::get", &std::bits::get(_,_), cases);
 	}
 
 	function bits() {
