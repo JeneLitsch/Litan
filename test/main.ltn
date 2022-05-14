@@ -4,6 +4,7 @@ function main(args) {
 		&test::arith(),
 		&test::array(),	
 		&test::bool(),
+		&test::bits(),
 		&test::bitwise(),
 		&test::compare(),
 		&test::conditional(),

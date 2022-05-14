@@ -94,8 +94,21 @@ namespace test {
 	}
 
 
+	function bitnot() {
+		var cases = [
+			[[0], -1],
+			[[1], -2],
+			[[-1], 0],
+		];
+		
+		var fx = lambda (x) => ~x;
+
+		return test_all_cases("Bitwise ~x", fx, cases);
+	}
+
+
 
 	function bitwise() {
-		return shift_l() + shift_r() + bitand() + bitor() + bitxor(); 
+		return shift_l() + shift_r() + bitand() + bitor() + bitxor() + bitnot(); 
 	}
 }

@@ -126,6 +126,7 @@ namespace ltn {
 		BITAND = 0x90,
 		BITOR,
 		BITXOR,
+		BITNOT,
 
 		// Collections and containers
 		SIZE = 0xa0,

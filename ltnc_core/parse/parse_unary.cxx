@@ -79,6 +79,7 @@ namespace ltn::c::parse {
 			std::pair{TT::MINUS, OP::NEG},
 			std::pair{TT::XMARK, OP::NOT},
 			std::pair{TT::QMARK, OP::NUL},
+			std::pair{TT::TILDE, OP::BITNOT},
 		};
 		
 		if(auto op = match_op(lexer, table)) {

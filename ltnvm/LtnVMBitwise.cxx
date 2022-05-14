@@ -13,44 +13,39 @@
 namespace ltn::vm {
 	void LtnVM::shift_l() {
 		FETCH
-		if(is_int(l) && is_int(r)) {
-			return this->reg.push(Value{l.i << r.i});
-		}
-		throw except::invalid_operands();
+		const auto value = convert::to_int(l) << convert::to_int(r);
+		return this->reg.push(Value{value});
 	}
 
 	void LtnVM::shift_r() {
 		FETCH
-		if(is_int(l) && is_int(r)) {
-			return this->reg.push(Value{l.i >> r.i});
-		}
-		throw except::invalid_operands();
+		const auto value = convert::to_int(l) >> convert::to_int(r);
+		return this->reg.push(Value{value});
 	}
 
 	void LtnVM::bit_and() {
 		FETCH
-		if(is_int(l) && is_int(r)) {
-			return this->reg.push(Value{l.i & r.i});
-		}
-		throw except::invalid_operands();
+		const auto value = convert::to_int(l) & convert::to_int(r);
+		return this->reg.push(Value{value});
 	}
 
 
 	void LtnVM::bit_or() {
 		FETCH
-		if(is_int(l) && is_int(r)) {
-			return this->reg.push(Value{l.i | r.i});
-		}
-		throw except::invalid_operands();
+		const auto value = convert::to_int(l) | convert::to_int(r);
+		return this->reg.push(Value{value});
 	}
 
 	
 	void LtnVM::bit_xor() {
 		FETCH
-		if(is_int(l) && is_int(r)) {
-			return this->reg.push(Value{l.i ^ r.i});
-		}
-		throw except::invalid_operands();
+		const auto value = convert::to_int(l) ^ convert::to_int(r);
+		return this->reg.push(Value{value});
+	}
+
+	void LtnVM::bit_not() {
+		const auto x = this->reg.pop();
+		return this->reg.push(Value{~convert::to_int(x)});
 	}
 }
 #undef FETCH

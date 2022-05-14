@@ -7,6 +7,7 @@ binFile="test/$test.bin.ltn"
 	test/arith.ltn\
 	test/array.ltn\
 	test/bool.ltn\
+	test/bits.ltn\
 	test/bitwise.ltn\
 	test/compare.ltn\
 	test/conditional.ltn\

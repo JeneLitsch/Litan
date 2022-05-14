@@ -165,7 +165,7 @@ namespace ltn::c::lex {
 			if(match('~')) {
 				return make(TT::TILDEx2, "~~");
 			}
-			throw CompilerError{"invalid token", location}; 
+			return make(TT::TILDE, "~");
 		}
 		
 		if(match('(')) return make(TT::PAREN_L, "(");

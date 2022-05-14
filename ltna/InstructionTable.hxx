@@ -147,6 +147,7 @@ namespace ltn::a {
 		{"bitand",        {Inst::BITAND}},
 		{"bitor",         {Inst::BITOR}},
 		{"bitxor",        {Inst::BITXOR}},
+		{"bitnot",        {Inst::BITNOT}},
 
 		// Array Utils
 		{"size",          {Inst::SIZE}},

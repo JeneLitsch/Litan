@@ -15,6 +15,7 @@
   - [Operator -](language/operators/unary/negate.md)
   - [Operator !](language/operators/unary/not.md)
   - [Operator ?](language/operators/unary/null_test.md)
+  - [Operator ~](language/operators/unary/bitnot.md)
 - Binary Operators
   - [Operator +](language/operators/binary/add.md)
   - [Operator -](language/operators/binary/sub.md)

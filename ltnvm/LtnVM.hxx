@@ -181,7 +181,8 @@ namespace ltn::vm {
 		void
 			bit_or(),
 			bit_and(),
-			bit_xor();
+			bit_xor(),
+			bit_not();
 		
 		void
 			size(),

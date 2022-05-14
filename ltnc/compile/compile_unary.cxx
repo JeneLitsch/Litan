@@ -29,6 +29,15 @@ namespace ltn::c::compile {
 		ss << inst::ueql;
 		return ExprCode{ss.str() };
 	}
+
+
+	ExprCode bit_not (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
+		const auto code = expression(expr, info, scope);
+		std::stringstream ss;
+		ss << code.code;
+		ss << inst::bit_not;
+		return ExprCode{ss.str() };
+	}
 	
 
 
@@ -40,6 +49,7 @@ namespace ltn::c::compile {
 			case UT::NEG: return negate(inner, info, scope);
 			case UT::NOT: return notigate(inner, info, scope);
 			case UT::NUL: return null_test(inner, info, scope);
+			case UT::BITNOT: return bit_not(inner, info, scope);
 		}
 
 		throw CompilerError{"Unknown unary expression", expr.location};

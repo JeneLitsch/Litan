@@ -154,6 +154,7 @@ namespace ltn::vm {
 				case Inst::BITAND: this->bit_and(); break;
 				case Inst::BITOR: this->bit_or(); break;
 				case Inst::BITXOR: this->bit_xor(); break;
+				case Inst::BITNOT: this->bit_not(); break;
 				
 				case Inst::SIZE: this->size(); break;
 				case Inst::AT: this->at(); break;

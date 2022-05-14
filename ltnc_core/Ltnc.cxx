@@ -12,6 +12,7 @@ namespace ltn::c {
 	const std::span<const std::string_view> Ltnc::stdlib() const {
 		constexpr static std::array std_files {
 			"algorithm.ltn"sv,
+			"bits.ltn"sv,
 			"cast.ltn"sv,
 			"chrono.ltn"sv,
 			"container.ltn"sv,

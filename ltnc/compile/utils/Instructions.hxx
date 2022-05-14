@@ -30,6 +30,7 @@ namespace ltn::c::compile::inst {
 	constexpr std::string_view bit_or = "bitor\n";
 	constexpr std::string_view bit_and = "bitand\n";
 	constexpr std::string_view bit_xor = "bitxor\n";
+	constexpr std::string_view bit_not = "bitnot\n";
 
 	constexpr std::string_view neg = "neg\n";
 	constexpr std::string_view n0t = "not\n";

@@ -87,6 +87,7 @@ namespace ltn::c::lex {
 			SMALLER_EQUAL,
 			BIGGER_EQUAL,
 			SPACE_SHIP,
+			TILDE,
 			TILDEx2,
 			XMARK_TILDE,
 
