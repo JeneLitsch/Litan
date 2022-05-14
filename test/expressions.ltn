@@ -55,6 +55,9 @@ namespace test {
 		var f17 = lambda => !!!!!!!true;
 		var f18 = lambda => !!!!!!!!true;
 		var f19 = lambda => 2**3 * 4;
+		var f20 = lambda => 0b101 & 0b111 | 0b010;
+		var f21 = lambda => 0b100 + 1 | 0b111;
+		var f22 = lambda => 0b101 ^ 2 | 0b1000;
 		var f26 = lambda => (std::chain(&add_1(_), &double(_)))(2);
 		var f27 = lambda => (lambda(a, b) => a + b)(20, 22);
 		var f28 = lambda => (lambda => 42)();
@@ -81,6 +84,9 @@ namespace test {
 			[f17, false],
 			[f18, true],
 			[f19, 32],
+			[f20, 7],
+			[f21, 7],
+			[f22, 0b1111],
 			[f26, 6],
 			[f27, 42],
 			[f28, 42],

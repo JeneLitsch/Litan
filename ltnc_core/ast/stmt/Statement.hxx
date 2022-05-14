@@ -185,7 +185,11 @@ namespace ltn::c::ast {
 
 
 	struct Modify final : public Statement {
-		enum class Type { ADD, SUB, MLT, DIV, POW, MOD, SHIFT_L, SHIFT_R };
+		enum class Type { 
+			ADD, SUB, MLT, DIV, POW, MOD,
+			SHIFT_L, SHIFT_R,
+			BITAND, BITOR, BITXOR
+		};
 		Modify(
 			Type type,
 			std::unique_ptr<Assignable> l,

@@ -17,6 +17,9 @@ namespace ltn::c::parse {
 			std::pair{TT::ASSIGN_SHIFT_L, Op::SHIFT_L},
 			std::pair{TT::ASSIGN_POW,     Op::POW},
 			std::pair{TT::ASSIGN_SHIFT_R, Op::SHIFT_R},
+			std::pair{TT::ASSIGN_BIT_XOR, Op::BITXOR},
+			std::pair{TT::ASSIGN_BIT_AND,  Op::BITAND},
+			std::pair{TT::ASSIGN_BIT_OR,   Op::BITOR},
 		};
 
 

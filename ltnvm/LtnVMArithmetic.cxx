@@ -74,22 +74,5 @@ namespace ltn::vm {
 		FETCH
 		this->reg.push(calc<Modulo>(l, r));
 	}
-
-	void LtnVM::shift_l() {
-		FETCH
-		if(is_int(l) && is_int(r)) {
-			return this->reg.push(Value{l.i << r.i});
-		}
-		throw except::invalid_operands();
-	}
-
-	void LtnVM::shift_r() {
-		FETCH
-		if(is_int(l) && is_int(r)) {
-			return this->reg.push(Value{l.i >> r.i});
-		}
-		throw except::invalid_operands();
-	}
-
 }
 #undef FETCH

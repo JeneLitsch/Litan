@@ -27,6 +27,9 @@ namespace ltn::c::compile::inst {
 	constexpr std::string_view notprox = "approx\n" "not\n";
 	constexpr std::string_view shift_l = "shift_l\n";
 	constexpr std::string_view shift_r = "shift_r\n";
+	constexpr std::string_view bit_or = "bitor\n";
+	constexpr std::string_view bit_and = "bitand\n";
+	constexpr std::string_view bit_xor = "bitxor\n";
 
 	constexpr std::string_view neg = "neg\n";
 	constexpr std::string_view n0t = "not\n";

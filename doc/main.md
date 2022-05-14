@@ -33,6 +33,9 @@
   - [Operator <=>](language/operators/binary/spaceship.md)
   - [Operator <<](language/operators/binary/l_shift.md)
   - [Operator >>](language/operators/binary/r_shift.md)
+  - [Operator |](language/operators/binary/bit_or.md)
+  - [Operator &](language/operators/binary/bit_and.md)
+  - [Operator ^](language/operators/binary/bit_xor.md)
   - [Operator ??](language/operators/binary/nullco.md)
   - [Operator ?:](language/operators/binary/elvis.md)
 - Other Operators

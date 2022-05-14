@@ -74,6 +74,9 @@ namespace ltn::c::lex {
 			ASSIGN_POW,
 			ASSIGN_SHIFT_L,
 			ASSIGN_SHIFT_R,
+			ASSIGN_BIT_AND,
+			ASSIGN_BIT_OR,
+			ASSIGN_BIT_XOR,
 			
 			AND, OR,
 			

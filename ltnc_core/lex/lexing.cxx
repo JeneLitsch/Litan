@@ -222,15 +222,24 @@ namespace ltn::c::lex {
 			if(match('&')) {
 				return make(TT::AND, "&&");
 			}
+			if(match('=')) {
+				return make(TT::ASSIGN_BIT_AND, "&=");
+			}
 			return make(TT::AMPERSAND, "&");
 		}
 		if(match('|')) {
 			if(match('|')) {
 				return make(TT::OR, "||");
 			}
+			if(match('=')) {
+				return make(TT::ASSIGN_BIT_OR, "|=");
+			}
 			return make(TT::BIT_OR, "|");
 		}
 		if(match('^')) {
+			if(match('=')) {
+				return make(TT::ASSIGN_BIT_XOR, "^=");
+			}
 			return make(TT::BIT_XOR, "^");
 		}
 		if(match('_')) return make(TT::UNDERSCORE, "_");

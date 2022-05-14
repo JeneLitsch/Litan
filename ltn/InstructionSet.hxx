@@ -16,6 +16,7 @@ namespace ltn {
 		DIV,
 		MOD,
 
+
 		// Comparisons
 		EQL = 0x18,
 		UEQL,
@@ -120,6 +121,11 @@ namespace ltn {
 		SIN,
 		COS,
 		TAN, 
+
+		// Bitwise
+		BITAND = 0x90,
+		BITOR,
+		BITXOR,
 
 		// Collections and containers
 		SIZE = 0xa0,

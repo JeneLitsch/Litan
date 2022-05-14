@@ -177,6 +177,11 @@ namespace ltn::vm {
 			sin(),
 			cos(),
 			tan();
+
+		void
+			bit_or(),
+			bit_and(),
+			bit_xor();
 		
 		void
 			size(),

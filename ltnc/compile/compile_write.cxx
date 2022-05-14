@@ -171,6 +171,9 @@ namespace ltn::c::compile {
 			case MT::POW:     return inst::pow;
 			case MT::SHIFT_L: return inst::shift_l;
 			case MT::SHIFT_R: return inst::shift_r;
+			case MT::BITAND:  return inst::bit_and;
+			case MT::BITOR:   return inst::bit_or;
+			case MT::BITXOR:  return inst::bit_xor;
 			}
 			throw CompilerError{
 				"Unknow modify operator",

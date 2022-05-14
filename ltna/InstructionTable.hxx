@@ -143,6 +143,11 @@ namespace ltn::a {
 		{"cos",           {Inst::COS}},
 		{"tan",           {Inst::TAN}},
 
+		// bitwise
+		{"bitand",        {Inst::BITAND}},
+		{"bitor",         {Inst::BITOR}},
+		{"bitxor",        {Inst::BITXOR}},
+
 		// Array Utils
 		{"size",          {Inst::SIZE}},
 		{"at",            {Inst::AT}},

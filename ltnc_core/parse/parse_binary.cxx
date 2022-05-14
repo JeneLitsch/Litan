@@ -45,6 +45,14 @@ namespace ltn::c::parse {
 
 
 
+		struct spaceship_table {
+			static const inline auto data = std::array {
+				std::pair{TT::SPACE_SHIP,    OP::SPACE_SHIP},
+			};
+		};
+
+
+
 		struct comparision_table {
 			static const inline auto data = std::array {
 				std::pair{TT::SMALLER,       OP::SMALLER},
@@ -53,6 +61,7 @@ namespace ltn::c::parse {
 				std::pair{TT::BIGGER_EQUAL,  OP::BIGGEREQUAL},
 			};
 		};
+
 
 
 		struct equality_table {
@@ -65,11 +74,29 @@ namespace ltn::c::parse {
 		};
 
 
-		struct spaceship_table {
+		
+		struct bitand_table {
 			static const inline auto data = std::array {
-				std::pair{TT::SPACE_SHIP,    OP::SPACE_SHIP},
+				std::pair{TT::AMPERSAND, OP::BIT_AND}
 			};
 		};
+
+
+
+		struct bitxor_table {
+			static const inline auto data = std::array {
+				std::pair{TT::BIT_XOR, OP::BIT_XOR}
+			};
+		};
+
+
+
+		struct bitor_table {
+			static const inline auto data = std::array {
+				std::pair{TT::BIT_OR, OP::BIT_OR}
+			};
+		};
+
 
 
 		struct log_or_table {
@@ -79,12 +106,17 @@ namespace ltn::c::parse {
 		};
 
 
+
 		struct log_and_table {
 			static const inline auto data = std::array {
 				std::pair{TT::AND, OP::AND}
 			};
 		};
 
+
+
+
+		
 
 
 		template<auto presedence_down>
@@ -96,7 +128,12 @@ namespace ltn::c::parse {
 			static constexpr auto spaceship   = generic_binary<spaceship_table,   shift>;
 			static constexpr auto comparision = generic_binary<comparision_table, spaceship>;
 			static constexpr auto equality    = generic_binary<equality_table,    comparision>;
-			static constexpr auto logical_or  = generic_binary<log_or_table,      equality>;
+
+			static constexpr auto bit_and     = generic_binary<bitand_table,      equality>;
+			static constexpr auto bit_xor     = generic_binary<bitxor_table,      bit_and>;
+			static constexpr auto bit_or      = generic_binary<bitor_table,       bit_xor>;
+
+			static constexpr auto logical_or  = generic_binary<log_or_table,      bit_or>;
 			static constexpr auto logical_and = generic_binary<log_and_table,     logical_or>;
 			return logical_and(lexer);
 		}

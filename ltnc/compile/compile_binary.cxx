@@ -135,6 +135,9 @@ namespace ltn::c::compile {
 			case OP::NOTPROX:      return bin(l, r, inst::notprox);
 			case OP::SHIFT_L:      return bin(l, r, inst::shift_l);
 			case OP::SHIFT_R:      return bin(l, r, inst::shift_r);
+			case OP::BIT_AND:      return bin(l, r, inst::bit_and);
+			case OP::BIT_OR:       return bin(l, r, inst::bit_or);
+			case OP::BIT_XOR:      return bin(l, r, inst::bit_xor);
 			case OP::AND:          return log_and(l, r);
 			case OP::OR:           return log_or(l, r);
 			case OP::ELVIS:        return elvis(l, r);

@@ -150,6 +150,10 @@ namespace ltn::vm {
 				case Inst::SIN: this->sin(); break;
 				case Inst::COS: this->cos(); break;
 				case Inst::TAN: this->tan(); break;
+
+				case Inst::BITAND: this->bit_and(); break;
+				case Inst::BITOR: this->bit_or(); break;
+				case Inst::BITXOR: this->bit_xor(); break;
 				
 				case Inst::SIZE: this->size(); break;
 				case Inst::AT: this->at(); break;

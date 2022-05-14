@@ -140,45 +140,6 @@ namespace test {
 
 
 
-	function shift_l() {
-		var cases = [
-			[[1, 1], 2],
-			[[2, 2], 8],
-		];
-		
-		var shift    = lambda (a, b) => a << b;
-		var shift_eq = lambda (a, b) {
-			a <<= b;
-			return a;
-		};
-
-		return
-			test_all_cases("Shift l<<", shift, cases) +
-			test_all_cases("Shift l<<=", shift_eq, cases);
-	}
-
-
-
-	function shift_r() {
-		var cases = [
-			[[1, 1], 0],
-			[[2, 1], 1],
-			[[8, 2], 2],
-		];
-		
-		var shift    = lambda (a, b) => a >> b;
-		var shift_eq = lambda (a, b) {
-			a >>= b;
-			return a;
-		};
-
-		return
-			test_all_cases("Shift l>>", shift, cases) +
-			test_all_cases("Shift l>>=", shift_eq, cases);
-	}
-
-
-
 	function neg() {
 		var cases = [
 			[[1], -1], 
