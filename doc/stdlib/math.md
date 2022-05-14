@@ -8,6 +8,7 @@
 - [std::min](math/min.md)
 - [std::pow](math/pow.md)
 - [std::sqrt](math/sqrt.md)
+- [std::lerp](math/lerp.md)
 
 #### Logarithm
 
