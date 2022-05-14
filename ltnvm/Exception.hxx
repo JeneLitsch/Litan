@@ -36,7 +36,7 @@ namespace ltn::vm {
 
 		inline Exception invalid_parameters(std::size_t expected, std::size_t got) {
 			std::ostringstream ss;
-			ss << "Invalid paramters: Expected " << expected << " got " << got;
+			ss << "Invalid parameters: Expected " << expected << " got " << got;
 			return invalid_argument(ss.str());
 		}
 

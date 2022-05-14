@@ -1,10 +1,7 @@
 function main() {
-	var map = std::map();
-	
-	map[0] = "foo";
-	map["test"] = "bar";
-
-	std::println(map[0]);
-	std::println(map["test"]);
-	std::println(map[-1]);
+	var fx = lambda (a) => 2 * a;
+	("A")(1); 
+}
+except(error) {
+	std::println(error);
 }

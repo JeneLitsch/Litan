@@ -45,3 +45,7 @@ Output:
 ```
 Hello World
 ```
+
+## Exceptions
+- Calling an non callable object throws an exception.  
+- Calling an callable object with the wrong number of parameters throws an exception.
