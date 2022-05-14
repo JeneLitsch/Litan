@@ -228,7 +228,10 @@ namespace ltn::c::lex {
 			if(match('|')) {
 				return make(TT::OR, "||");
 			}
-			throw CompilerError{"\"|\" is not a valid token.", location};
+			return make(TT::BIT_OR, "|");
+		}
+		if(match('^')) {
+			return make(TT::BIT_XOR, "^");
 		}
 		if(match('_')) return make(TT::UNDERSCORE, "_");
 		if(match('@')) return make(TT::AT, "@");

@@ -93,10 +93,10 @@ namespace ltn::c::parse {
 			static constexpr auto factor      = generic_binary<factor_table,      power>;
 			static constexpr auto term        = generic_binary<term_table,        factor>;
 			static constexpr auto shift       = generic_binary<shift_table,       term>;
-			static constexpr auto comparision = generic_binary<comparision_table, shift>;
+			static constexpr auto spaceship   = generic_binary<spaceship_table,   shift>;
+			static constexpr auto comparision = generic_binary<comparision_table, spaceship>;
 			static constexpr auto equality    = generic_binary<equality_table,    comparision>;
-			static constexpr auto spaceship   = generic_binary<spaceship_table,   equality>;
-			static constexpr auto logical_or  = generic_binary<log_or_table,      spaceship>;
+			static constexpr auto logical_or  = generic_binary<log_or_table,      equality>;
 			static constexpr auto logical_and = generic_binary<log_and_table,     logical_or>;
 			return logical_and(lexer);
 		}

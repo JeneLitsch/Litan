@@ -63,6 +63,8 @@ namespace ltn::c::lex {
 			STARx2,
 			SHIFT_L,
 			SHIFT_R,
+			BIT_OR,
+			BIT_XOR,
 			
 			ASSIGN_ADD,
 			ASSIGN_SUB,

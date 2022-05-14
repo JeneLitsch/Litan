@@ -63,6 +63,7 @@ namespace ltn::c::ast {
 			SHIFT_L, SHIFT_R,
 			AND, OR,
 			NULLCO, ELVIS,
+			BIT_OR, BIT_AND, BIT_XOR,
 		};
 		Binary(
 			Type type,
