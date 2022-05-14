@@ -122,6 +122,8 @@ namespace test {
 		return test_all_cases("std::sqrt", &std::sqrt(_), cases);
 	}
 
+
+
 	function log() {
 		var cases = [
 			// [[1000, 10], 3],
