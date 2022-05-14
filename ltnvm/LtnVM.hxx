@@ -17,11 +17,24 @@ namespace ltn::vm {
 			this->pc = 0;
 		}
 
-		void run(const std::vector<std::string> &  = {});
+		Value run(const std::vector<std::string> & args = {});
 
 		void register_external(
 			std::int64_t id,
 			std::unique_ptr<ext::External> && ext);
+
+		Heap & get_heap() {
+			return this->heap;
+		}
+
+		Register & get_register() {
+			return this->reg;
+		}
+
+		Stack & get_stack() {
+			return this->stack;
+		}
+
 	
 	private:
 		inline std::uint8_t fetch_byte() {

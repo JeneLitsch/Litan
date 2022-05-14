@@ -1,4 +1,5 @@
 #include "Litan.hxx"
+#include "ltnvm/cast.hxx"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -43,7 +44,10 @@ int main(int argc, char const *argv[]) {
 			std::stringstream ss;
 			compiler.yield(ss);
 			vm.setup(assembler.assemble(ss));
-			vm.run(args);
+			auto x = vm.run(args);
+			std::cout << "Exit main() with return value: ";
+			std::cout << ltn::vm::cast::to_string(x, vm.get_heap());
+			std::cout << "\n";
 		}
 		catch (const ltn::c::CompilerError & error) {
 			std::cout << error << "\n";

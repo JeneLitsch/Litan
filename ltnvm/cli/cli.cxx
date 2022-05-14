@@ -2,6 +2,7 @@
 #include <filesystem>
 #include "ltnvm/LtnVM.hxx"
 #include "ltnvm/external/External.hxx"
+#include "ltnvm/cast.hxx"
 
 class Test : public ltn::vm::ext::External {
 public:
@@ -34,7 +35,10 @@ int main(int argc, char const *argv[]) {
 				ltn::vm::LtnVM vm{std::cout};
 				vm.register_external(42, std::make_unique<Test>());
 				vm.setup(bytecode);
-				vm.run(args);
+				auto x = vm.run(args);
+				std::cout << "Exit main() with return value: ";
+				std::cout << ltn::vm::cast::to_string(x, vm.get_heap());
+				std::cout << "\n";
 				return EXIT_SUCCESS;
 			}
 			catch(const std::runtime_error & error) {

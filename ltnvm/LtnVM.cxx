@@ -16,7 +16,7 @@ namespace ltn::vm {
 		this->thr0w();
 	}
 
-	void LtnVM::run(const std::vector<std::string> & args) {
+	Value LtnVM::run(const std::vector<std::string> & args) {
 		this->reg.reset();
 		this->stack.reset();
 		this->heap.reset();
@@ -37,16 +37,13 @@ namespace ltn::vm {
 				std::uint8_t inst = this->fetch_byte();
 				switch (static_cast<Inst>(inst)) {
 				case Inst::EXIT: {
-					this->ostream.get() << "Exit main() with return value: ";
-					const auto value = this->reg.pop();
-					this->ostream.get() << cast::to_string(value, this->heap);
-					this->ostream.get() << "\n";
-					return;
+					return this->reg.pop();
+
 				}
 				
 				case Inst::ERROR: {
 					this->ostream.get() << "Terminated after an error occured \n";
-					return;
+					return value::null;
 				}
 
 				case Inst::STATE: this->state(); break;
