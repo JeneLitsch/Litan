@@ -2,11 +2,11 @@
 
 ## std::char(x)
 
-### Parameters:
+**Parameters:** 
 * x: value castable to char
 
-### Return value: 
+**Return value:**  
 Char
 
-### Description:
+**Description:**   
 Casts a numerical type to an 8-bit char.

@@ -1,14 +1,14 @@
 # std::sum
 
 ## std::sum(range, start)
-### Parameters:
+**Parameters:** 
 * range: A range or an array
 * start: Start value to add to
 
-### Return value:  
+**Return value:**   
 The calculated sum  
 
-### Description:  
+**Description:**     
 Adds all elements to start.  
 
 ---
@@ -16,13 +16,13 @@ Adds all elements to start.
 
 
 ## std::sum(range)
-### Parameters:
+**Parameters:** 
 * range: A range or an array
 
-### Return value:  
+**Return value:**   
 The calculated sum  
 
-### Description:  
+**Description:**     
 Starts with 0 and sums all elements in range.  
 
 ---

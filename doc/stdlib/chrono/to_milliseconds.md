@@ -1,11 +1,11 @@
 # std::chrono::to_milliseconds
 
 ## std::chrono::to_milliseconds(clock)
-### Parameters:
+**Parameters:**
 * clock: A Clock
 
-### Return value:  
+**Return value:**  
 Milliseconds as Float
 
-### Description:  
+**Description:**    
 Gets the passed time of the Clock since its creation

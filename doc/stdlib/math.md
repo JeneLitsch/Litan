@@ -1,81 +1,26 @@
-### std::min(a, b)
-Returns the lesser of two values.
-Favors "a" in case of a tie.
+# math.ltn
 
----
+## Functions
 
-### std::max(a, b)
-Returns the greater of two values.
-Favors "b" in case of a tie.
+- [std::abs](math/abs.md)
+- [std::hypot](math/hypot.md)
+- [std::max](math/max.md)
+- [std::min](math/min.md)
+- [std::pow](math/pow.md)
+- [std::sqrt](math/sqrt.md)
 
----
+#### Logarithm
 
-### std::round(a)
-Rounds numeric value to closest integer.
+- [std::ld](math/log/ld.md)
+- [std::ln](math/log/ln.md)
+- [std::log](math/log/log.md)
 
----
+#### Rounding
+- [std::round](math/round/round.md)
+- [std::floor](math/round/floor.md)
+- [std::ceil](math/round/ceil.md)
 
-### std::floor(a)
-Rounds numeric value to closest smaller integer.
-
----
-
-### std::ceil(a)
-Rounds numeric value to closest larger integer.
-
----
-
-### std::hypot(a, b)
-Solves the Pythagorean Theorem (a^2 + b^2 = c^2) for c
-
----
-
-### std::sqrt(a, b)
-Returns square-root of numeric value as float.
-
----
-
-### std::abs(a)
-Returns the positive absolute value of a numeric value "a".
-
----
-
-### std::sin(a)
-Calculates sin() and returns result as float
-
----
-
-### std::cos(a)
-Calculates cos() and returns result as float
-
----
-
-### std::tan(a)
-Calculates tan() and returns result as float
-
----
-
-### std::log(x, b)
-TODO
-
----
-
-### ld(x)
-TODO
-
----
-
-### std::lg(x)
-TODO
-
----
-
-### std::ln(x)
-TODO
-
----
-
-### std::pow(b, x)
-TODO
-
-
+#### Trigonometry
+- [std::sin](math/trig/sin.md)
+- [std::cos](math/trig/cos.md)
+- [std::tan](math/trig/tan.md)

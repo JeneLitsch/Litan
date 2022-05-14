@@ -1,14 +1,14 @@
 # std::copy_*
 
 ## std::copy_front(range, target)
-### Parameters:
+**Parameters:** 
 * range: A range or an array
 * target: An array
 
-### Return value:  
+**Return value:**   
 null  
 
-### Description:  
+**Description:**     
 Copies all elements in range front of target.  
 
 ---
@@ -16,14 +16,14 @@ Copies all elements in range front of target.
 
 
 ## std::copy_back(range, target)
-### Parameters:
+**Parameters:** 
 * range: A range or an array
 * target: An array
 
-### Return value:  
+**Return value:**   
 null  
 
-### Description:  
+**Description:**     
 Copies all elements in range to the back of target.  
 
 ---

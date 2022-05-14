@@ -1,13 +1,13 @@
 # std::bool
 
 ## std::bool(x)
-### Parameters:
+**Parameters:** 
 * x: value castable to Bool
 
-### Return value:  
+**Return value:**   
 Bool  
 
-### Description:  
+**Description:**     
 Decides the truthiness.
 A Bool is returned unchanged.  
 An Int of value 0 is false and everything else is true.  

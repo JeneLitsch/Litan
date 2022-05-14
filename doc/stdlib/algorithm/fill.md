@@ -2,13 +2,13 @@
 
 ## std::fill(range, value)
 
-### Parameters:
+**Parameters:** 
 * range: A range or an array
 * value: An arbitrary value
 
-### Return value:  
+**Return value:**   
 null  
 
-### Description:  
+**Description:**     
 Fills the range with value.
 

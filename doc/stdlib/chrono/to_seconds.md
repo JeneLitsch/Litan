@@ -1,11 +1,11 @@
 # std::chrono::to_*seconds
 
 ## std::chrono::to_seconds(clock)
-### Parameters:
+**Parameters:**
 * clock: A Clock
 
-### Return value:  
+**Return value:**  
 Seconds as Float
 
-### Description:  
+**Description:**    
 Gets the passed time of the Clock since its creation

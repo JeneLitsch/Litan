@@ -1,24 +1,24 @@
 # std::chrono::wait
 
 ## std::chrono::wait(seconds)
-### Parameters:
+**Parameters:**
 - seconds: seconds as Int or Float
 
-### Return value:  
+**Return value:**  
 null
 
-### Description:  
+**Description:**    
 Waits for a given amount of time.
 
 ---
 
 ## std::chrono::wait(seconds, clock)
-### Parameters:
+**Parameters:**
 - seconds: seconds as Int or Float
 - clock: a Clock
 
-### Return value:  
+**Return value:**  
 null
 
-### Description:  
+**Description:**    
 Waits for a given amount of time. Uses passed Clock instead of a default constructed one.

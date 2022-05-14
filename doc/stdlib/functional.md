@@ -1,21 +1,8 @@
-### std::invoke(fx, params)
-**Parameters**
-* fx: A callable type
-* param: An array of parameters
+# functional.ltn
 
-**Return value**  
-Return value of _fx_
+The functional library provides utitlities for working with callable objects.
 
-**Description**  
-Takes a callable function pointer and an array of parameters.
-"std::invoke" calls the function and forwards the return value of the call.
-
-**Example**
-```c++
-std::invoke(&foo(_,_,_), [1,2,3])
-```
-
----
-
-### std::invoke(fx)
-TODO
+## Functions
+- [std::invoke*](functional/invoke.md)
+- [std::chain](functional/chain.md)
+- [std::external](functional/chain.md)

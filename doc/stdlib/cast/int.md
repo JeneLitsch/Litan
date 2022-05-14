@@ -2,13 +2,13 @@
 
 ## std::int(x)
 
-### Parameters:
+**Parameters:** 
 * x: value castable to Int
 
-### Return value:
+**Return value:** 
 Int  
 
-### Description:
+**Description:**   
 An Int is returned unchanged.  
 A Float is returned truncated.  
 A String is parsed to Int. 

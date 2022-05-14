@@ -1,7 +1,8 @@
 namespace std {
+	build_in external(id)         @ functional_external
+	
 	build_in invoke(fx, params)   @ functional_invoke_2
 	build_in invoke(fx)           @ functional_invoke_1
-	build_in external(id)         @ functional_external
 	
 	build_in invoke_0(f)          @ functional_invoke_1
 	function invoke_1(f, a)       => invoke(f, [a])

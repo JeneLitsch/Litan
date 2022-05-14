@@ -1,13 +1,13 @@
 # std::sort_*
 
 ## std::sort_ascn(range)
-### Parameters:
+**Parameters:** 
 * range: A range or an array
 
-### Return value:  
+**Return value:**   
 null  
 
-### Description:  
+**Description:**     
 Sorts all elements in range in ascending order.  
 
 ---
@@ -15,13 +15,13 @@ Sorts all elements in range in ascending order.
 
 
 ## std::sort_desc(range)
-### Parameters:
+**Parameters:** 
 * range: A range or an array
 
-### Return value:  
+**Return value:**   
 null  
 
-### Description:  
+**Description:**     
 Sorts all elements in range in descending order.  
 
 ---

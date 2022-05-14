@@ -1,11 +1,11 @@
 # std::string
 
 ## std::string(x)
-### Parameters:
+**Parameters:** 
 * x: value castable to String
 
-### Return value:  
+**Return value:**   
 String  
 
-### Description:  
+**Description:**     
 Returns string representation of x.

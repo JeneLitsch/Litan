@@ -1,13 +1,13 @@
 # std::array
 
 ## std::array(x)
-### Parameters:
+**Parameters:**
 * x: value castable to Array
 
-### Return value:  
+**Return value:**  
 Array  
 
-### Description:  
+**Description:**     
 Extracts the Array from a Range.  
 An array is returned unchanged.  
 Creates a single element array otherwise.
