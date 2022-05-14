@@ -1,7 +1,4 @@
 function main() {
-	var fx = lambda (a) => 2 * a;
-	("A")(1); 
-}
-except(error) {
-	std::println(error);
+	std::println(null ?? 42);
+	std::println(false ?? 42);
 }
