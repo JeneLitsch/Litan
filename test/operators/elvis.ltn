@@ -1,0 +1,18 @@
+namespace operators {
+    function elvis(sphinx) {
+		var cases = [
+			sphinx::assert_result([true, 1], true),
+			sphinx::assert_result([false, 1], 1),
+			sphinx::assert_result([-1, 1], -1),
+			sphinx::assert_result([null, 1], 1),
+			sphinx::assert_result(["", 1], ""),
+			sphinx::assert_result([[], 1], []),
+			sphinx::assert_result([42, 1337], 42),
+			sphinx::assert_result([0, 1337], 1337),
+		];
+		
+        var fx = lambda (a, b) => a ?: b;
+
+		sphinx::run_test(sphinx, "Operator a ?: b", fx, cases);
+    }
+}

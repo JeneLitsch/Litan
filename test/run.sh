@@ -41,6 +41,7 @@
 	test/operators/bitor.ltn\
 	test/operators/bitxor.ltn\
 	test/operators/div.ltn\
+	test/operators/elvis.ltn\
 	test/operators/eql.ltn\
 	test/operators/greater_eql.ltn\
 	test/operators/greater.ltn\
@@ -49,11 +50,13 @@
 	test/operators/mlt.ltn\
 	test/operators/mod.ltn\
 	test/operators/neg.ltn\
+	test/operators/nullco.ltn\
 	test/operators/not_approx.ltn\
 	test/operators/pow.ltn\
 	test/operators/shift_l.ltn\
 	test/operators/shift_r.ltn\
 	test/operators/space_ship.ltn\
 	test/operators/sub.ltn\
+	test/operators/ternary.ltn\
 	test/operators/uneql.ltn\
 	test/main.ltn

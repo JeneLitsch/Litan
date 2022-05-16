@@ -1,0 +1,17 @@
+namespace operators {
+    function ternary(sphinx) {
+        var cases = [
+            sphinx::assert_result([true, 1, 2], 1),
+            sphinx::assert_result([false, 1, 2], 2),
+			sphinx::assert_result([-1, 1, 2], 1),
+			sphinx::assert_result([null, 1, 2], 2),
+			sphinx::assert_result(["", 1, 2], 1),
+			sphinx::assert_result([[], 1, 2], 1),
+			sphinx::assert_result([0, 1, 2], 2),
+        ];
+
+        var fx = lambda(a, b, c) => a ? b : c;
+
+        sphinx::run_test(sphinx, "Operator a?b:c", fx, cases);
+    }
+}

@@ -29,5 +29,9 @@ function main() {
 	operators::approx(sphinx);
 	operators::not_approx(sphinx);
 
+	operators::ternary(sphinx);
+	operators::elvis(sphinx);
+	operators::nullco(sphinx);
+
 	sphinx::interprete_results(sphinx);
 }
