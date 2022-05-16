@@ -23,9 +23,7 @@ function main() {
 	op::less_eql(sphinx);
 	op::greater(sphinx);
 	op::greater_eql(sphinx);
-
 	op::space_ship(sphinx);
-
 	op::approx(sphinx);
 	op::not_approx(sphinx);
 
@@ -34,7 +32,13 @@ function main() {
 	op::nullco(sphinx);
 
 	op::lognot(sphinx);	
+	op::logand(sphinx);	
+	op::logor(sphinx);	
 	op::nulltest(sphinx);
+
+	stmt::if_else(sphinx);
+	stmt::for_loop(sphinx);
+	stmt::while_loop(sphinx);
 
 	sphinx::interprete_results(sphinx);
 }

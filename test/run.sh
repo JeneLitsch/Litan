@@ -47,7 +47,9 @@
 	test/operators/greater.ltn\
 	test/operators/less_eql.ltn\
 	test/operators/less.ltn\
+	test/operators/logand.ltn\
 	test/operators/lognot.ltn\
+	test/operators/logor.ltn\
 	test/operators/mlt.ltn\
 	test/operators/mod.ltn\
 	test/operators/neg.ltn\
@@ -61,4 +63,7 @@
 	test/operators/sub.ltn\
 	test/operators/ternary.ltn\
 	test/operators/uneql.ltn\
+	test/stmt/for.ltn\
+	test/stmt/if_else.ltn\
+	test/stmt/while.ltn\
 	test/main.ltn
