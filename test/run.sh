@@ -47,10 +47,12 @@
 	test/operators/greater.ltn\
 	test/operators/less_eql.ltn\
 	test/operators/less.ltn\
+	test/operators/lognot.ltn\
 	test/operators/mlt.ltn\
 	test/operators/mod.ltn\
 	test/operators/neg.ltn\
 	test/operators/nullco.ltn\
+	test/operators/nulltest.ltn\
 	test/operators/not_approx.ltn\
 	test/operators/pow.ltn\
 	test/operators/shift_l.ltn\

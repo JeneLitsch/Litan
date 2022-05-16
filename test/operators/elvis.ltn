@@ -1,4 +1,4 @@
-namespace operators {
+namespace op {
     function elvis(sphinx) {
 		var cases = [
 			sphinx::assert_result([true, 1], true),

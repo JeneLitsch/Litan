@@ -1,4 +1,4 @@
-namespace operators {
+namespace op {
 	function shift_l(sphinx) {
 		var cases = [
 			sphinx::assert_result([1, 1], 2),

@@ -1,4 +1,4 @@
-namespace operators {
+namespace op {
     function bitxor(sphinx) {
         var cases = [
 			sphinx::assert_result([0b011, 0b110], 0b101),

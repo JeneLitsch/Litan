@@ -1,0 +1,20 @@
+namespace op {
+    function nulltest(sphinx) {
+		var cases = [
+			sphinx::assert_result([null], false),
+			sphinx::assert_result([std::null_v()], false),
+			sphinx::assert_result([null], false),
+			sphinx::assert_result([null], false),
+			sphinx::assert_result([2], true),
+			sphinx::assert_result([false], true),
+			sphinx::assert_result([-1], true),
+			sphinx::assert_result([-1.5], true),
+			sphinx::assert_result([-0.0], true),
+			sphinx::assert_result(["Hello World"], true),
+		];
+
+		var fx = lambda(x) => ?x;
+
+		sphinx::run_test(sphinx, "Operator ?", fx, cases);
+    }
+}

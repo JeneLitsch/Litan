@@ -1,4 +1,4 @@
-namespace operators {
+namespace op {
 	function neg(sphinx) {
 		var cases = [
 			sphinx::assert_result([1], -1), 

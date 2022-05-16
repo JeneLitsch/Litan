@@ -1,4 +1,4 @@
-namespace operators {
+namespace op {
 	function bitnot(sphinx) {
 		var cases = [
 			sphinx::assert_result([0], -1),

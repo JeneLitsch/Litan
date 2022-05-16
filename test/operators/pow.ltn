@@ -1,4 +1,4 @@
-namespace operators {
+namespace op {
 	function pow(sphinx) {
 		var cases = [
 			sphinx::assert_result([2, 2], 4),

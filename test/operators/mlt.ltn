@@ -1,4 +1,4 @@
-namespace operators {
+namespace op {
 	function mlt(sphinx) {
 		var cases = [
 			sphinx::assert_result([1, 2], 2),

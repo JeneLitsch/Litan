@@ -1,4 +1,4 @@
-namespace operators {
+namespace op {
 	function mod(sphinx) {
 		var cases = [
 			sphinx::assert_result([5, 2], 1),

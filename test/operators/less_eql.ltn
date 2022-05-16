@@ -1,4 +1,4 @@
-namespace operators {
+namespace op {
     function less_eql(sphinx) {
         var cases = [
 			sphinx::assert_result([true, true], true),

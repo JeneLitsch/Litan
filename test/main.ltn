@@ -1,37 +1,40 @@
 function main() {
 	var sphinx = sphinx::init(std::cout());
 
-	operators::add(sphinx);
-	operators::sub(sphinx);
-	operators::mlt(sphinx);
-	operators::div(sphinx);
-	operators::mod(sphinx);
-	operators::pow(sphinx);
-	operators::neg(sphinx);
+	op::add(sphinx);
+	op::sub(sphinx);
+	op::mlt(sphinx);
+	op::div(sphinx);
+	op::mod(sphinx);
+	op::pow(sphinx);
+	op::neg(sphinx);
 
-	operators::shift_l(sphinx);
-	operators::shift_r(sphinx);
+	op::shift_l(sphinx);
+	op::shift_r(sphinx);
 
-	operators::bitor(sphinx);
-	operators::bitand(sphinx);
-	operators::bitxor(sphinx);
-	operators::bitnot(sphinx);
+	op::bitor(sphinx);
+	op::bitand(sphinx);
+	op::bitxor(sphinx);
+	op::bitnot(sphinx);
 
-	operators::eql(sphinx);
-	operators::uneql(sphinx);
-	operators::less(sphinx);
-	operators::less_eql(sphinx);
-	operators::greater(sphinx);
-	operators::greater_eql(sphinx);
+	op::eql(sphinx);
+	op::uneql(sphinx);
+	op::less(sphinx);
+	op::less_eql(sphinx);
+	op::greater(sphinx);
+	op::greater_eql(sphinx);
 
-	operators::space_ship(sphinx);
+	op::space_ship(sphinx);
 
-	operators::approx(sphinx);
-	operators::not_approx(sphinx);
+	op::approx(sphinx);
+	op::not_approx(sphinx);
 
-	operators::ternary(sphinx);
-	operators::elvis(sphinx);
-	operators::nullco(sphinx);
+	op::ternary(sphinx);
+	op::elvis(sphinx);
+	op::nullco(sphinx);
+
+	op::lognot(sphinx);	
+	op::nulltest(sphinx);
 
 	sphinx::interprete_results(sphinx);
 }

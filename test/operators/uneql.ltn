@@ -1,4 +1,4 @@
-namespace operators {
+namespace op {
     function uneql(sphinx) {
         var cases = [
 			sphinx::assert_result(["Hello", "Hello"], false),
