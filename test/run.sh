@@ -40,5 +40,7 @@
 	test/operators/mod.ltn\
 	test/operators/neg.ltn\
 	test/operators/pow.ltn\
+	test/operators/shift_l.ltn\
+	test/operators/shift_r.ltn\
 	test/operators/sub.ltn\
 	test/main.ltn

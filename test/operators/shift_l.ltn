@@ -1,0 +1,17 @@
+namespace operators {
+	function shift_l(sphinx) {
+		var cases = [
+			sphinx::assert_result([1, 1], 2),
+			sphinx::assert_result([2, 2], 8),
+		];
+		
+		var shift    = lambda (a, b) => a << b;
+		var shift_eq = lambda (a, b) {
+			a <<= b;
+			return a;
+		};
+
+		sphinx::run_test(sphinx, "Operator <<", shift, cases);
+		sphinx::run_test(sphinx, "Operator <<=", shift_eq, cases);
+	}
+}

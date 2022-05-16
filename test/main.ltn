@@ -9,5 +9,8 @@ function main() {
 	operators::pow(sphinx);
 	operators::neg(sphinx);
 
+	operators::shift_l(sphinx);
+	operators::shift_r(sphinx);
+
 	sphinx::interprete_results(sphinx);
 }
