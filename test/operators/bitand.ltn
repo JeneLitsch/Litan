@@ -1,0 +1,19 @@
+namespace operators {
+    function bitand(sphinx) {
+		var cases = [
+			sphinx::assert_result([0b011, 0b110], 0b010),
+			sphinx::assert_result([0b001, 0b100], 0b000),
+			sphinx::assert_result([1, true], 1),
+		];
+		
+		var fx    = lambda (a, b) => a & b;
+		var fx_eq = lambda (a, b) {
+			a &= b;
+			return a;
+		};
+
+
+        sphinx::run_test(sphinx, "Operator &",  fx, cases);
+        sphinx::run_test(sphinx, "Operator &=", fx_eq, cases);
+    }
+}

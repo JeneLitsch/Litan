@@ -1,0 +1,17 @@
+namespace operators {
+    function bitor(sphinx) {
+		var cases = [
+			sphinx::assert_result([0b11, 0b1100], 0b1111),
+			sphinx::assert_result([2, true], 3),
+		];
+		
+		var fx    = lambda (a, b) => a | b;
+		var fx_eq = lambda (a, b) {
+			a |= b;
+			return a;
+		};
+
+        sphinx::run_test(sphinx, "Operator |",  fx, cases);
+        sphinx::run_test(sphinx, "Operator |=", fx_eq, cases);
+    }
+}

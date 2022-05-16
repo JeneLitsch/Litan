@@ -35,6 +35,10 @@
 ./bin/ltn ./stdlib\
 	test/sphinx/sphinx.ltn\
 	test/operators/add.ltn\
+	test/operators/bitand.ltn\
+	test/operators/bitnot.ltn\
+	test/operators/bitor.ltn\
+	test/operators/bitxor.ltn\
 	test/operators/div.ltn\
 	test/operators/mlt.ltn\
 	test/operators/mod.ltn\

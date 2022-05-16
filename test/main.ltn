@@ -12,5 +12,10 @@ function main() {
 	operators::shift_l(sphinx);
 	operators::shift_r(sphinx);
 
+	operators::bitor(sphinx);
+	operators::bitand(sphinx);
+	operators::bitxor(sphinx);
+	operators::bitnot(sphinx);
+
 	sphinx::interprete_results(sphinx);
 }
