@@ -1,0 +1,20 @@
+namespace operators {
+	function div(sphinx) {
+		var cases = [
+			sphinx::assert_result([1, 2], 0),
+			sphinx::assert_result([1, 2.0], 0.5),
+			sphinx::assert_result([true, 2], 0),
+			sphinx::assert_result([true, 2.0], 0.5),
+			sphinx::assert_fail([1, 0]),
+		];
+		
+		var fx    = lambda(a, b) => a / b;
+		var fx_eq = lambda(a, b) {
+			a /= b;
+			return a;
+		};
+
+		sphinx::run_test(sphinx, "Operator /", fx, cases);
+		sphinx::run_test(sphinx, "Operator /=", fx_eq, cases);
+	}
+}

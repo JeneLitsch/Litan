@@ -1,0 +1,21 @@
+namespace operators {
+	function sub(sphinx) {
+		var cases = [
+			sphinx::assert_result([1, 2], -1),
+			sphinx::assert_result([1, -2], 3),
+			sphinx::assert_result([true, true], 0),
+			sphinx::assert_result([true, false], 1),
+			sphinx::assert_result([false, true], -1),
+			sphinx::assert_result(['C', 2], 'A'),
+		];
+		
+		var fx    = lambda(a, b) => a - b;
+		var fx_eq = lambda(a, b) {
+			a -= b;
+			return a;
+		};
+
+		sphinx::run_test(sphinx, "Operator -", fx, cases);
+		sphinx::run_test(sphinx, "Operator -=", fx_eq, cases);
+	}
+}

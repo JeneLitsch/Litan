@@ -1,0 +1,21 @@
+namespace operators {
+	function mlt(sphinx) {
+		var cases = [
+			sphinx::assert_result([1, 2], 2),
+			sphinx::assert_result([1.5, -2], -3),
+			sphinx::assert_result([true, true], 1),
+			sphinx::assert_result([true, false], 0),
+			sphinx::assert_result([false, true], 0),
+			sphinx::assert_result(['C', 2], 'C' + 'C'),
+		];
+		
+		var fx    = lambda(a, b) => a * b;
+		var fx_eq = lambda(a, b) {
+			a *= b;
+			return a;
+		};
+
+		sphinx::run_test(sphinx, "Operator *", fx, cases);
+		sphinx::run_test(sphinx, "Operator *=", fx_eq, cases);
+	}
+}

@@ -1,40 +1,11 @@
-function main(args) {
-	var tests = [
-		&test::algorithm(),
-		&test::arith(),
-		&test::array(),	
-		&test::bool(),
-		&test::bits(),
-		&test::bitwise(),
-		&test::compare(),
-		&test::conditional(),
-		&test::globals(),
-		&test::exception(),
-		&test::expressions(),
-		&test::functional(),
-		&test::loops(),
-		&test::math(),
-		&test::namespacing(),
-		&test::queue(),
-		&test::random(),
-		&test::range(),
-		&test::stack(),
-		&test::streams(),
-		&test::struct(),
-		&test::types(),
-		&test::sw1tch(),
-	];
+function main() {
+	var sphinx = sphinx::init(std::cout());
 
+	operators::add(sphinx);
+	operators::sub(sphinx);
+	operators::mlt(sphinx);
+	operators::div(sphinx);
+	operators::mod(sphinx);
 
-	var errors = run_tests(tests);
-	interprete_result(errors);
-
-
-	std::println("=== Internal state information ===");
-	std::println(std::debug::state());
-
-	return errors;
-}
-except(e) {
-	std::println(e);
+	sphinx::interprete_results(sphinx);
 }

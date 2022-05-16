@@ -1,0 +1,21 @@
+namespace operators {
+	function mod(sphinx) {
+		var cases = [
+			sphinx::assert_result([5, 2], 1),
+			sphinx::assert_result([1.5, 1.0], 0.5),
+			sphinx::assert_result([-3.5, 7.0], -3.5),
+			sphinx::assert_result([-24.0, -7.0], -3),
+			sphinx::assert_result([-24, -7], -3),
+			sphinx::assert_fail([1, 0]),
+		];
+		
+		var fx    = lambda (a, b) => a % b;
+		var fx_eq = lambda (a, b) {
+			a %= b;
+			return a;
+		};
+
+		sphinx::run_test(sphinx, "Operator %", fx, cases);
+		sphinx::run_test(sphinx, "Operator %=", fx_eq, cases);
+	}
+}

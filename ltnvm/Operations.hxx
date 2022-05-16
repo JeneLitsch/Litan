@@ -21,16 +21,16 @@ namespace ltn::vm {
 
 	struct Division {
 		constexpr auto operator()(const auto l, const auto r) const {
+			if(r == 0) throw except::division_by_zero();
 			using T = decltype(l+r+std::int64_t(1));
-			if(r == 0) throw except::division_by_zero;
 			return static_cast<T>(l) / static_cast<T>(r);
 		}
 	};
 
 	struct Modulo {
 		constexpr auto operator()(const auto l, const auto r) const {
+			if(r == 0) throw except::division_by_zero();
 			using T = decltype(l+r+std::int64_t(1));
-			if(r == 0) throw except::division_by_zero;
 			if constexpr(std::integral<T>) {
 				return static_cast<std::int64_t>(l%r);
 			}

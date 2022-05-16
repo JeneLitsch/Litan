@@ -1,0 +1,31 @@
+namespace operators {
+	function add(sphinx) {
+		var cases = [
+			sphinx::assert_result([1, 2], 3),
+			sphinx::assert_result([0x10, 0x10], 32),
+			sphinx::assert_result([0xff, -0xff], 0),
+			sphinx::assert_result([0b10, 0b10], 4),
+			sphinx::assert_result([1, -2], -1),
+			sphinx::assert_result([true, true], 2),
+			sphinx::assert_result([true, 1.9], 2.9),
+			sphinx::assert_result([-1, -1.9], -2.9),
+			sphinx::assert_result(['A', 2], 'C'),
+			sphinx::assert_result(['A', 2], 67),
+			sphinx::assert_result(['A', 'A'], 65 * 2),
+			sphinx::assert_result(["123", "45"], "12345"),
+			sphinx::assert_result([[1,2,3], [4]], [1,2,3,4]),
+			sphinx::assert_result([[1,2,3], ["4"]], [1,2,3,"4"]),
+			sphinx::assert_result(["4", std::string([1, 2, 3])], "4[1, 2, 3]"),
+		];
+
+		var fx = lambda(a, b) => a + b;
+		
+		var fx_eq = lambda(a, b) {
+			a += b;
+			return a;
+		};
+		
+		sphinx::run_test(sphinx, "Operator +", fx, cases);
+		sphinx::run_test(sphinx, "Operator +=", fx_eq, cases);
+	}
+}
