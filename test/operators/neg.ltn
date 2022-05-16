@@ -1,0 +1,14 @@
+namespace operators {
+	function neg(sphinx) {
+		var cases = [
+			sphinx::assert_result([1], -1), 
+			sphinx::assert_result([-1], 1), 
+			sphinx::assert_result([true], -1), 
+			sphinx::assert_result([3.5], -3.5), 
+		];
+		
+		var fx    = lambda (x) => -x;
+
+		sphinx::run_test(sphinx, "Operator -x", fx, cases);
+	}
+}

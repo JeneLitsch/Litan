@@ -6,6 +6,8 @@ function main() {
 	operators::mlt(sphinx);
 	operators::div(sphinx);
 	operators::mod(sphinx);
+	operators::pow(sphinx);
+	operators::neg(sphinx);
 
 	sphinx::interprete_results(sphinx);
 }

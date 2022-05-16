@@ -38,5 +38,7 @@
 	test/operators/div.ltn\
 	test/operators/mlt.ltn\
 	test/operators/mod.ltn\
+	test/operators/neg.ltn\
+	test/operators/pow.ltn\
 	test/operators/sub.ltn\
 	test/main.ltn
