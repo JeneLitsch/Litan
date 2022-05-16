@@ -1,0 +1,26 @@
+namespace operators {
+    function less_eql(sphinx) {
+        var cases = [
+			sphinx::assert_result([true, true], true),
+			sphinx::assert_result([true, false], false),
+			sphinx::assert_result(['A', 'A'], true),
+			sphinx::assert_result(['Z', 'Z'], true),
+			sphinx::assert_result([1, 2], true),
+			sphinx::assert_result([1, 1], true),
+			sphinx::assert_result([42, -2.0], false),
+			sphinx::assert_result([-42, -2.0], true),
+			sphinx::assert_result(['A', 'C'], true),
+			sphinx::assert_result(['Z', 'Y'], false),
+			sphinx::assert_result(["ABC", "AB"], false),
+			sphinx::assert_result(["ABC", "BC"], true),
+			sphinx::assert_result(["ABCD", "ZBC"], true),
+			sphinx::assert_result(["ZBCD", "AZBC"], false),
+			sphinx::assert_result([std::cout(), std::cout()], true),
+			sphinx::assert_result([std::cin(), std::cout()], true),
+		];
+
+		var fx = lambda (a, b) => a <= b;
+
+		sphinx::run_test(sphinx, "Operator <=", fx, cases);
+    }
+}

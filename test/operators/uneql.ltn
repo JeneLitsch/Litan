@@ -1,0 +1,16 @@
+namespace operators {
+    function uneql(sphinx) {
+        var cases = [
+			sphinx::assert_result(["Hello", "Hello"], false),
+			sphinx::assert_result(["Hello", "World"], true),
+			sphinx::assert_result([0, false], false),
+			sphinx::assert_result([std::null_v(), true], true),
+			sphinx::assert_result([std::cout(), std::cout()], false),
+			sphinx::assert_result(["123", "123"], false),
+		];
+
+		var fx = lambda (a, b) => a != b;
+
+		sphinx::run_test(sphinx, "Operator !=", fx, cases);
+    }
+}

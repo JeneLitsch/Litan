@@ -17,5 +17,17 @@ function main() {
 	operators::bitxor(sphinx);
 	operators::bitnot(sphinx);
 
+	operators::eql(sphinx);
+	operators::uneql(sphinx);
+	operators::less(sphinx);
+	operators::less_eql(sphinx);
+	operators::greater(sphinx);
+	operators::greater_eql(sphinx);
+
+	operators::space_ship(sphinx);
+
+	operators::approx(sphinx);
+	operators::not_approx(sphinx);
+
 	sphinx::interprete_results(sphinx);
 }

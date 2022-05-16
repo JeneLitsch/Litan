@@ -1,0 +1,23 @@
+namespace operators {
+    function approx(sphinx) {
+        var cases = [
+			sphinx::assert_result([-1, 1], false),
+			sphinx::assert_result([1, 1], true),
+			sphinx::assert_result([1.0000000001, 1], true),
+			sphinx::assert_result(['A', 'B'], false),
+			sphinx::assert_result(['A', 'A'], true),
+			sphinx::assert_result(["A", "B"], false),
+			sphinx::assert_result(["C", "B"], false),
+			sphinx::assert_result(["A", "A"], true),
+			sphinx::assert_result(["ABC", "ABC"], true),
+			sphinx::assert_result(["AB", "ABC"], false),
+			sphinx::assert_result([[1,2,3], [1,2,3]], true),
+			sphinx::assert_result([[1,2], [1,2,3]], false),
+			sphinx::assert_result([[1,2,4], [1,2,3]], false),
+		];
+
+		var fx = lambda (a, b) => a~~b;
+
+		sphinx::run_test(sphinx, "Operator ~~", fx, cases);
+    }
+}

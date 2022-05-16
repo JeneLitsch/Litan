@@ -35,16 +35,25 @@
 ./bin/ltn ./stdlib\
 	test/sphinx/sphinx.ltn\
 	test/operators/add.ltn\
+	test/operators/approx.ltn\
 	test/operators/bitand.ltn\
 	test/operators/bitnot.ltn\
 	test/operators/bitor.ltn\
 	test/operators/bitxor.ltn\
 	test/operators/div.ltn\
+	test/operators/eql.ltn\
+	test/operators/greater_eql.ltn\
+	test/operators/greater.ltn\
+	test/operators/less_eql.ltn\
+	test/operators/less.ltn\
 	test/operators/mlt.ltn\
 	test/operators/mod.ltn\
 	test/operators/neg.ltn\
+	test/operators/not_approx.ltn\
 	test/operators/pow.ltn\
 	test/operators/shift_l.ltn\
 	test/operators/shift_r.ltn\
+	test/operators/space_ship.ltn\
 	test/operators/sub.ltn\
+	test/operators/uneql.ltn\
 	test/main.ltn
