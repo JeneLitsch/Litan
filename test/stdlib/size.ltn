@@ -1,0 +1,65 @@
+namespace stdlib {
+	function size(sphinx) {
+		var array = [0,1,2,3,4,5];
+
+		var queue = iife {
+			var q = std::queue();
+			std::push(q, 1);
+			std::push(q, true);
+			std::push(q, 42);
+			std::push(q, 42);
+			std::pop(q);
+			return q;
+		};
+
+		var stack = iife {
+			var s = std::stack();
+			std::push(s, 1);
+			std::push(s, true);
+			std::push(s, 42);
+			std::push(s, 42);
+			std::pop(s);
+			return s;
+		};
+
+		var map = iife {
+			var m = std::map();
+			m["A"] = 4;
+			m[4] = 4;
+			return m;
+		};
+
+		var cases = [
+			sphinx::assert_result([[1,2,3]], 3),
+			sphinx::assert_result([[1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f',16]], 16),
+			sphinx::assert_result([[1,2,3] + [4,5]], 5),
+			sphinx::assert_result([std::array()], 0),
+			sphinx::assert_result([std::array(42)], 1),
+			sphinx::assert_result(["ABC"], 3),
+			sphinx::assert_result([std::first_n([1,2,3,4], 3)], 3),
+			sphinx::assert_result([lambda(a,b,c) {}], 3),
+			sphinx::assert_result([std::queue()], 0),
+			sphinx::assert_result([queue], 3),
+			sphinx::assert_result([map], 2),
+			sphinx::assert_result([stack], 3),
+			sphinx::assert_result([std::stack()], 0),
+			sphinx::assert_result([std::map()], 0),
+			sphinx::assert_result([1], 0),
+			sphinx::assert_result([2.0], 0),
+			sphinx::assert_result([null], 0),
+			sphinx::assert_result(['A'], 0),
+			sphinx::assert_result([std::cout()], 0),
+			sphinx::assert_result([std::strout()], 0),
+			sphinx::assert_result([std::cin()], 0),
+			sphinx::assert_result([std::strin("")], 0),
+			sphinx::assert_result([std::first_n(array, 3)], 3),
+			sphinx::assert_result([std::first_n(array, 4)], 4),
+			sphinx::assert_result([std::first_n(array, 0)], 0),
+			sphinx::assert_result([std::last_n(array, 3)], 3),
+			sphinx::assert_result([std::last_n(array, 4)], 4),
+			sphinx::assert_result([std::last_n(array, 0)], 0),
+			sphinx::assert_result([std::whole(array)], 6),
+		];
+		sphinx::run_test(sphinx, "std::size", &std::size(_), cases);
+	}
+}

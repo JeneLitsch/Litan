@@ -1,0 +1,54 @@
+namespace stdlib {
+	function test_rng(sphinx, rng, rng_name) {
+		var test_int = lambda[rng](min, max) {
+			var value = std::random::rand_int(rng, min, max);
+			return std::is_between(value, min, max);
+		};
+
+		var test_float = lambda[rng](min, max) {
+			var value = std::random::rand_float(rng, min, max);
+			return std::is_between(value, min, max);
+		};
+
+		var test_decision = lambda[rng](p)
+			=> std::random::decision(rng, p);
+		
+		var cases_i_f = [
+			sphinx::assert_result([-5, 5],       true),
+			sphinx::assert_result([-5, 5],       true),
+			sphinx::assert_result([5, -5],       false),
+			sphinx::assert_result([0,  0],       true),
+			sphinx::assert_result([false, true], true),
+			sphinx::assert_result([-3, 1000],    true),
+			sphinx::assert_result([-3, -1],      true),
+		];
+
+		var cases_b = [
+			sphinx::assert_result([0.0], false),
+			sphinx::assert_result([1.0], true),
+		];
+		
+		sphinx::run_test(
+			sphinx,
+			rng_name + ": std::random::rand_int",
+			test_int,
+			cases_i_f);
+		
+		sphinx::run_test(
+			sphinx,
+			rng_name + ": std::random::rand_float",
+			test_float,
+			cases_i_f);
+		
+		sphinx::run_test(
+			sphinx,
+			rng_name + ": std::random::decision",
+			test_decision,
+			cases_b);
+	}
+
+
+	function random(sphinx) {
+		test_rng(sphinx, std::random::mersenne(), "Mersenne twister");
+	}
+}

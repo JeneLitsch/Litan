@@ -1,0 +1,14 @@
+namespace core {
+	function thr0w(sphinx) {
+		var fx = lambda(x) {
+			if(x > 5) throw;
+		};
+
+		var cases = [
+			sphinx::assert_fail([10]),
+			sphinx::assert_success([5]),
+		];
+
+		sphinx::run_test(sphinx, "throw", fx, cases);
+	}
+}

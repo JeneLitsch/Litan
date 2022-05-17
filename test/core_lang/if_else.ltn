@@ -1,4 +1,4 @@
-namespace stmt {
+namespace core {
     function if_else(sphinx) {
         var fx = lambda (condition, a, b) {
 			if(condition) {

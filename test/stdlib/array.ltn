@@ -1,0 +1,112 @@
+namespace stdlib {
+
+
+
+	function array_front(sphinx) {
+		var cases = [
+			sphinx::assert_result([[1,2,3]], 1),
+			sphinx::assert_result([[-1, 1,2,3]], -1),
+		];
+		sphinx::run_test(sphinx, "Array(front)", &std::front(_), cases);
+	}
+
+
+	function array_back(sphinx) {
+		var cases = [
+			sphinx::assert_result([[1,2,3]], 3),
+			sphinx::assert_result([[-1, 1,2,3, 666]], 666),
+		];
+		sphinx::run_test(sphinx, "Array(back)", &std::back(_), cases);
+	}
+
+
+	function array_index_clone(sphinx) {
+		var fx = lambda(array) {
+			var arr = std::clone(array);
+			var sum1 = 0;
+			var sum2 = 0;
+			for (i : 0 -> std::size(arr)) {
+				sum1 += arr[i];
+				arr[i] = 0;
+				sum2 += arr[i];
+			}
+			return sum1 + sum2;
+		};
+
+		var cases = [
+			sphinx::assert_result([[1,2,3]], 6),
+			sphinx::assert_result([[80, -40, 2]], 42),
+			sphinx::assert_result([[-1, -2, -3, 1, 2, 3, 666]], 666),
+		];
+		sphinx::run_test(sphinx, "Array([], clone)", fx, cases);
+	}
+
+
+	function array_functions(sphinx) {
+		var insert1 = lambda {
+			var array = std::array();
+			std::insert_front(array, -1);
+			std::insert_front(array, -2);
+			std::insert_front(array, -3);
+			std::insert_back(array, 1);
+			std::insert_back(array, 2);
+			std::insert_back(array, 3);
+			std::insert(array, 3, 0);
+			return array;
+		};
+
+		var remove1 = lambda {
+			var array = [1,2,3,4,5,6,7];
+			std::remove(array, 3);
+			std::remove_back(array);
+			std::remove_back(array);
+			std::remove_front(array);
+			std::remove_front(array);
+			return array;
+		};
+
+		var push_pop = lambda {
+			var array = [];
+			std::push(array, 1);
+			std::push(array, 2);
+			std::push(array, 3);
+			std::pop(array);
+			return array;
+		};
+		
+		var tests = [
+			sphinx::assert_result([insert1], [-3,-2,-1, 0, 1, 2, 3]),
+			sphinx::assert_result([remove1], [3,5]),
+			sphinx::assert_result([push_pop], [1,2]),
+		];
+		
+		var fx = lambda(fx) => (fx)();
+		
+		sphinx::run_test(sphinx, "Array(insert, remove, push, pop)", fx, tests);
+	}
+
+
+	function array_cast(sphinx) {
+		var cases = [
+			sphinx::assert_result([1], [1]),
+			sphinx::assert_result([[42]], [42]),
+			sphinx::assert_result(["Hello World"], ["Hello World"]),
+			sphinx::assert_result([[]], []),
+			sphinx::assert_result([std::cout()], [std::cout()]),
+			sphinx::assert_result([std::cin()], [std::cin()]),
+			sphinx::assert_result([null], [std::null_v()]),
+			sphinx::assert_result(['A'], ['A']),
+			sphinx::assert_result([-3.5], [-3.5]),
+		];
+		sphinx::run_test(sphinx, "Array(std::array)", &std::array(_), cases);
+	}
+
+
+	function array(sphinx) {
+		array_front(sphinx);
+		array_back(sphinx);
+		array_index_clone(sphinx);
+		array_cast(sphinx);
+		array_functions(sphinx);
+	}
+}

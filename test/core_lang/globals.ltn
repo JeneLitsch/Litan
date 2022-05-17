@@ -1,0 +1,81 @@
+namespace core {
+	enum foo {
+		Y;
+		A : 1;
+		B;
+		C;
+		X : 42;
+	}
+
+
+	define switch_a = 5;
+	define switch_b = choose(switch_a) {
+		case 5: 42;
+		default: 1337;
+	};
+
+
+
+	namespace bar {
+		enum foo {
+			A : 1337;
+		}
+
+		define A = 1234;
+		
+		define i = 42;
+		define f = 13.37;
+		define c = 'x';
+		define s = "Hello World";
+		define n = null;
+		define a = [i, f, c];
+	}
+
+
+
+	namespace baz {
+		define a = 1;
+		define b = 2;
+		define c = 3;
+		define d = 4;
+		define f = d + 2;
+		define g = null ?? 7;
+		define h = false ? 7 : 8;
+		define array = [a, b, c, d, d + 1, f, g, h];
+	}
+	
+
+
+	define i = -1;
+	define b0 = false;
+	define b1 = true;
+	
+
+
+	function globals(sphinx) {
+		var A = -1;
+		var a = 12345678;
+		var fx = lambda(x) => x;
+		var cases = [
+			sphinx::assert_result([A], -1),
+			sphinx::assert_result([foo::Y], 0),
+			sphinx::assert_result([foo::A], 1),
+			sphinx::assert_result([foo::B], 2),
+			sphinx::assert_result([foo::C], 3),
+			sphinx::assert_result([foo::X], 42),
+			sphinx::assert_result([bar::foo::A], 1337),
+			sphinx::assert_result([bar::i], 42),
+			sphinx::assert_result([i], -1),
+			sphinx::assert_result([bar::f], 13.37),
+			sphinx::assert_result([bar::c], 'x'),
+			sphinx::assert_result([bar::s], "Hello World"),
+			sphinx::assert_result([bar::n], null),
+			sphinx::assert_result([bar::a], [42, 13.37, 'x']),
+			sphinx::assert_result([baz::array], [1,2,3,4,5,6,7,8]),
+			sphinx::assert_result([b0], false),
+			sphinx::assert_result([b1], true),
+			sphinx::assert_result([switch_b], 42),
+		];
+		sphinx::run_test(sphinx, "Globals", fx, cases); 
+	}
+}

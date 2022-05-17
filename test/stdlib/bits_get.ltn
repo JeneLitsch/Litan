@@ -1,0 +1,12 @@
+namespace stdlib {
+	function bits_get(sphinx) {
+		var cases = [
+			sphinx::assert_result([0b101, 1], false),
+			sphinx::assert_result([0b101, 0], true),
+			sphinx::assert_result([true, 0], true),
+			sphinx::assert_result([true, 1], false),
+		];
+		
+		sphinx::run_test(sphinx, "std::bits::get", &std::bits::get(_,_), cases);
+	}
+}

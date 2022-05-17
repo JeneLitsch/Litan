@@ -1,5 +1,109 @@
+namespace test {
+	function s() {
+		var s = std::struct();
+		var s2;
+		s2 = std::struct();
+		s2.x = 42;
+		s2.y = std::struct();
+		s2.y.a = 1000;
+		s2.y.a += 337;
+		s2.y.b = [1,2,-1];
+		s.a = 1;
+		s.b = [s2];
+		s.b[0].y.b[2] = 3;
+		s.b[0].y.b[2] *= 2;
+		return s;
+	}
+
+
+
+	function double(x) {
+		return 2 * x;
+	}
+
+
+
+	function make_duplicator() {
+		return lambda (x) => 2*x;
+	}
+
+
+
+	function add_1(x) {
+		return x + 1;
+	}
+
+
+
+	function expressions(sphinx) {
+		var f1  = lambda => 8 / 2 / 2;
+		var f2  = lambda => false ? false ? 44 : 43 : 42;
+		var f3  = lambda => null ?? 1 == 1 ? 2 * 20 + (1 << 1) : 1337;
+		var f4  = lambda => null ?? ?null;
+		var f5  = lambda => -1.0 / 4.0;
+		var f6  = lambda => -(-1 + -5 - 5);
+		var f7  = lambda => null ?? iife { return true ? true ? 42 : 0 : 0; };
+		var f8  = lambda => 1 <= 0 && 0 <= 2;
+		var f9  = lambda => (1 <= 0 && 0) <= 2;
+		var f10 = lambda => 1 + 2 + 3 - 12 * 2;
+		var f11 = lambda => 1 * 2 * 3 * 4;
+		var f12 = lambda => 1 + 2*2 + 3 - 12 * 2;
+		var f13 = lambda => 1 * -2 * 3 * 4;
+		var f14 = lambda => s().b[0].x;
+		var f15 = lambda => s().b[0].y.a;
+		var f16 = lambda => s().b[0].y.b[2];
+		var f17 = lambda => !!!!!!!true;
+		var f18 = lambda => !!!!!!!!true;
+		var f19 = lambda => 2**3 * 4;
+		var f20 = lambda => 0b101 & 0b111 | 0b010;
+		var f21 = lambda => 0b100 + 1 | 0b111;
+		var f22 = lambda => 0b101 ^ 2 | 0b1000;
+		var f26 = lambda => (std::chain(&add_1(_), &double(_)))(2);
+		var f27 = lambda => (lambda(a, b) => a + b)(20, 22);
+		var f28 = lambda => (lambda => 42)();
+		var f29 = lambda => (&add_1(_))(41);
+		var f30 = lambda => ((&make_duplicator())())(21);
+
+		var cases = [
+			sphinx::assert_result([f1], 2),
+			sphinx::assert_result([f2], 42),
+			sphinx::assert_result([f3], 42),
+			sphinx::assert_result([f4], false),
+			sphinx::assert_result([f5], -0.25),
+			sphinx::assert_result([f6], 11),
+			sphinx::assert_result([f7], 42),
+			sphinx::assert_result([f8], false),
+			sphinx::assert_result([f9], true),
+			sphinx::assert_result([f10], -18),
+			sphinx::assert_result([f11], 24),
+			sphinx::assert_result([f12], -16),
+			sphinx::assert_result([f13], -24),
+			sphinx::assert_result([f14], 42),
+			sphinx::assert_result([f15], 1337),
+			sphinx::assert_result([f16], 6),
+			sphinx::assert_result([f17], false),
+			sphinx::assert_result([f18], true),
+			sphinx::assert_result([f19], 32),
+			sphinx::assert_result([f20], 7),
+			sphinx::assert_result([f21], 7),
+			sphinx::assert_result([f22], 0b1111),
+			sphinx::assert_result([f26], 6),
+			sphinx::assert_result([f27], 42),
+			sphinx::assert_result([f28], 42),
+			sphinx::assert_result([f29], 42),
+			sphinx::assert_result([f30], 42),
+		];
+
+		sphinx::run_test(sphinx, "Expressions", lambda(fx) => (fx)(), cases);
+	}
+}
+
+
+
 function main() {
 	var sphinx = sphinx::init(std::cout());
+
+
 
 	op::add(sphinx);
 	op::sub(sphinx);
@@ -36,9 +140,72 @@ function main() {
 	op::logor(sphinx);	
 	op::nulltest(sphinx);
 
-	stmt::if_else(sphinx);
-	stmt::for_loop(sphinx);
-	stmt::while_loop(sphinx);
+	op::index(sphinx);
+
+	core::if_else(sphinx);
+	core::for_loop(sphinx);
+	core::switch_(sphinx);
+	core::while_loop(sphinx);
+	core::globals(sphinx);
+	core::iifes(sphinx);
+	core::thr0w(sphinx);
+	core::namespacing(sphinx);
+
+	stdlib::sort_ascn(sphinx);
+	stdlib::sort_desc(sphinx);
+	stdlib::is_sorted_desc(sphinx);
+	stdlib::is_sorted_ascn(sphinx);
+	stdlib::reverse(sphinx);
+	stdlib::find(sphinx);
+	stdlib::copy_front(sphinx);
+	stdlib::copy_back(sphinx);
+	stdlib::fill(sphinx);
+
+	stdlib::array(sphinx);
+	stdlib::size(sphinx);
+
+	stdlib::bits_get(sphinx);
+	stdlib::bits_set(sphinx);
+	
+	stdlib::typeid(sphinx);
+	stdlib::typename(sphinx);
+	stdlib::is_type_x(sphinx);
+	stdlib::is_type(sphinx);
+	
+	stdlib::random(sphinx);
+
+	stdlib::min(sphinx);
+	stdlib::max(sphinx);
+	stdlib::clamp(sphinx);
+	stdlib::round(sphinx);
+	stdlib::floor(sphinx);
+	stdlib::ceil(sphinx);
+	stdlib::abs(sphinx);
+	stdlib::hypot(sphinx);
+	stdlib::sqrt(sphinx);
+	stdlib::log(sphinx);
+	stdlib::ld(sphinx);
+	stdlib::lg(sphinx);
+	stdlib::ln(sphinx);
+	stdlib::std_pow(sphinx);
+	stdlib::sin(sphinx);
+	stdlib::cos(sphinx);
+	stdlib::tan(sphinx);
+	stdlib::lerp(sphinx);
+
+	stdlib::captures(sphinx);
+	stdlib::invoke_0(sphinx);
+	stdlib::invoke_1(sphinx);
+	stdlib::invoke_2(sphinx);
+	stdlib::invoke_3(sphinx);
+
+	test::expressions(sphinx);
+	test::strout(sphinx);
+	test::strin(sphinx);
+	test::is_eof(sphinx);
+	test::is_good(sphinx);
+	test::read_all(sphinx);
+	test::readln(sphinx);
 
 	sphinx::interprete_results(sphinx);
 }

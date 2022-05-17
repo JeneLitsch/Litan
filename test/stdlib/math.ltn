@@ -1,0 +1,209 @@
+namespace stdlib {
+	function min(sphinx) {
+		var cases = [
+			sphinx::assert_result([3, 4], 3),
+			sphinx::assert_result(['A', 'B'], 'A'),
+			sphinx::assert_result(['Z', 'B'], 'B'),
+			sphinx::assert_result([true, false], false),
+			sphinx::assert_result([false, true], false),
+			sphinx::assert_result(["ABC", "BC"], "ABC"),
+			sphinx::assert_result([-1, -2], -2),
+			sphinx::assert_result([-3, -2], -3),
+			sphinx::assert_result([-3, true], -3),
+			sphinx::assert_result([3, true], true),
+		];
+		sphinx::run_test(sphinx, "std::min", &std::min(_,_), cases);
+	}
+
+	function max(sphinx) {
+		var cases = [
+			sphinx::assert_result([3, 4], 4),
+			sphinx::assert_result(['A', 'B'], 'B'),
+			sphinx::assert_result(['Z', 'B'], 'Z'),
+			sphinx::assert_result([true, false], true),
+			sphinx::assert_result([false, true], true),
+			sphinx::assert_result(["ABC", "BC"], "BC"),
+			sphinx::assert_result([-1, -2], -1),
+			sphinx::assert_result([-3, -2], -2),
+			sphinx::assert_result([-3, true], true),
+			sphinx::assert_result([3, true], 3),
+		];
+		sphinx::run_test(sphinx, "std::max", &std::max(_,_), cases);
+	}
+
+	function clamp(sphinx) {
+		var cases = [
+			sphinx::assert_result([1, 0, 2], 1),
+			sphinx::assert_result([4, 0, 2], 2),
+			sphinx::assert_result([4, 0, true], 1),
+			sphinx::assert_result(["D", "A", "C"], "C"),
+			sphinx::assert_result(['A', 'B', 'D'], 'B'),
+			sphinx::assert_result([-1, -2, 3], -1),
+			sphinx::assert_result([-41, -2, 3], -2),
+		];
+		sphinx::run_test(sphinx, "std::clamp", &std::clamp(_,_,_), cases);
+	}
+
+	function round(sphinx) {
+		var cases = [
+			sphinx::assert_result([1.1], 1.0),
+			sphinx::assert_result([1.5], 2.0),
+			sphinx::assert_result([-1.5], -2.0),
+			sphinx::assert_result([-1.1], -1.0),
+			sphinx::assert_result([-0.0], 0.0),
+			sphinx::assert_result([true], true),
+			sphinx::assert_result([false], false),
+			sphinx::assert_result(['A'], 'A'),
+		];
+		sphinx::run_test(sphinx, "std::round", &std::round(_), cases);
+	}
+
+	function floor(sphinx) {
+		var cases = [
+			sphinx::assert_result([1.1], 1.0),
+			sphinx::assert_result([1.5], 1.0),
+			sphinx::assert_result([-1.5], -2.0),
+			sphinx::assert_result([-1.1], -2.0),
+			sphinx::assert_result([-0.0], 0.0),
+			sphinx::assert_result([true], true),
+			sphinx::assert_result([false], false),
+			sphinx::assert_result(['A'], 'A'),
+		];
+		sphinx::run_test(sphinx, "std::floor", &std::floor(_), cases);
+	}
+
+	function ceil(sphinx) {
+		var cases = [
+			sphinx::assert_result([1.1], 2.0),
+			sphinx::assert_result([1.5], 2.0),
+			sphinx::assert_result([-1.5], -1.0),
+			sphinx::assert_result([-1.1], -1.0),
+			sphinx::assert_result([-0.0], 0.0),
+			sphinx::assert_result([true], true),
+			sphinx::assert_result([false], false),
+			sphinx::assert_result(['A'], 'A'),
+		];
+		sphinx::run_test(sphinx, "std::ceil", &std::ceil(_), cases);
+	}
+
+	function abs(sphinx) {
+		var cases = [
+			sphinx::assert_result([1.1], 1.1),
+			sphinx::assert_result([1.5], 1.5),
+			sphinx::assert_result([-1.5], 1.5),
+			sphinx::assert_result([-42], 42),
+			sphinx::assert_result(['A'], 'A'),
+			sphinx::assert_result(['A'], 'A'),
+			sphinx::assert_result([-1.1], 1.1),
+			sphinx::assert_result([-0.0], 0.0),
+			sphinx::assert_result([true], true),
+			sphinx::assert_result([false], false),
+		];
+		sphinx::run_test(sphinx, "std::abs", &std::abs(_), cases);
+	}
+
+	function hypot(sphinx) {
+		var cases = [
+			sphinx::assert_result([3 ,4], 5),
+			sphinx::assert_result([-3 ,-4], 5),
+		];
+		sphinx::run_test(sphinx, "std::hypot", &std::hypot(_,_), cases);
+	}
+
+	function sqrt(sphinx) {
+		var cases = [
+			sphinx::assert_result([256], 16),
+			sphinx::assert_result([16], 4),
+			sphinx::assert_result([9], 3),
+			sphinx::assert_result([4], 2),
+			sphinx::assert_result([true], true),
+			sphinx::assert_result([0], 0),
+		];
+		sphinx::run_test(sphinx, "std::sqrt", &std::sqrt(_), cases);
+	}
+
+
+
+	function log(sphinx) {
+		var cases = [
+			sphinx::assert_result([64, 4], 3),
+			sphinx::assert_result([256, 2], 8),
+		];
+		sphinx::run_test(sphinx, "std::log", &std::log(_,_), cases);
+	}
+
+	function ld(sphinx) {
+		var cases = [
+			sphinx::assert_result([1], 0),
+			sphinx::assert_result([2], 1),
+			sphinx::assert_result([4], 2),
+			sphinx::assert_result([8], 3),
+			sphinx::assert_result([16], 4),
+			sphinx::assert_result([32], 5),
+			sphinx::assert_result([1024], 10),
+		];
+		sphinx::run_test(sphinx, "std::ld", &std::ld(_), cases);
+	}
+
+	function lg(sphinx) {
+		var cases = [
+			sphinx::assert_result([1], 0),
+			sphinx::assert_result([10], 1),
+			sphinx::assert_result([100], 2),
+			// [[1000], 3],
+			// [[1000000], 6],
+		];
+		sphinx::run_test(sphinx, "std::lg", &std::lg(_), cases);
+	}
+
+	function ln(sphinx) {
+		var cases = [
+			sphinx::assert_result([1], 0),
+		];
+		sphinx::run_test(sphinx, "std::ln", &std::ln(_), cases);
+	}
+
+	function std_pow(sphinx) {
+		var cases = [
+			sphinx::assert_result([2, 2], 4),
+			sphinx::assert_result([3, 2], 9),
+			sphinx::assert_result([4, 3], 64),
+			sphinx::assert_result([10, 4], 10000),
+			sphinx::assert_result([3, 4], 81),
+		];
+		sphinx::run_test(sphinx, "std::pow", &std::pow(_,_), cases);
+	}
+
+	function sin(sphinx) {
+		var cases = [
+			sphinx::assert_result([0], 0),
+		];
+		sphinx::run_test(sphinx, "std::sin", &std::sin(_), cases);
+	}
+
+	function cos(sphinx) {
+		var cases = [
+			sphinx::assert_result([0], 1),
+		];
+		sphinx::run_test(sphinx, "std::cos", &std::cos(_), cases);
+	}
+
+	function tan(sphinx) {
+		var cases = [
+			sphinx::assert_result([0], 0),
+		];
+		sphinx::run_test(sphinx, "std::tan", &std::tan(_), cases);
+	}
+
+
+	function lerp(sphinx) {
+		var cases = [
+			sphinx::assert_result([0, 10, 0.5], 5),
+			sphinx::assert_result([0, 3.3, 0.5], 3.3/2),
+			sphinx::assert_result([0, 42, 0], 0),
+			sphinx::assert_result([-42, 42, 0.5], 0),
+			sphinx::assert_result([-42, 42, 0.0], -42),
+		];
+		sphinx::run_test(sphinx, "std::lerp", &std::lerp(_,_,_), cases);
+	}
+}

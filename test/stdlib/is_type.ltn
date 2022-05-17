@@ -1,0 +1,19 @@
+namespace stdlib {
+	function is_type(sphinx) {
+		var cases = [
+			sphinx::assert_result([null,        std::type::nul],     true),
+			sphinx::assert_result([true,        std::type::bool],    true),
+			sphinx::assert_result([null,        std::type::bool],    false),
+			sphinx::assert_result([1,           std::type::int],     true),
+			sphinx::assert_result([1,           std::type::float],   false),
+			sphinx::assert_result(["A",         std::type::string],  true),
+			sphinx::assert_result(["A",         std::type::array],   false),
+			sphinx::assert_result([[],          std::type::array],   true),
+			sphinx::assert_result([std::map(),  std::type::map],     true),
+			sphinx::assert_result([std::map(),  std::type::queue],   false),
+			sphinx::assert_result([std::cout(), std::type::ostream], true),
+		];
+
+		sphinx::run_test(sphinx, "std::is_type", &std::is_type(_,_), cases);	
+	}
+}

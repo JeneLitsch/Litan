@@ -1,0 +1,108 @@
+namespace test {
+	function strout(sphinx) {
+		var fx = lambda(array) {
+			var oss = std::strout();
+			std::println(oss, "ABC");
+			for (i : 0 -> std::size(array)) {
+				std::print(oss, array[i]);
+			};
+			return std::string(oss);
+		};
+
+		var cases = [
+			sphinx::assert_result([[1,2,3]], "ABC\n123"),
+			sphinx::assert_result([['1','2','3']], "ABC\n123"),
+			sphinx::assert_result([["1","2",3," ",true]], "ABC\n123 true"),
+			sphinx::assert_result([[std::random::mersenne()]], "ABC\n<RandomEngine>"),
+			sphinx::assert_result([[std::map()]], "ABC\n{}"),
+		];
+
+		sphinx::run_test(sphinx, "OStream(std::strout()", fx, cases);
+	}
+
+	function strin(sphinx) {
+		var fx = lambda(str) {
+			var iss = std::strin(str);
+			return [
+				std::read_char(iss),
+				std::read_bool(iss),
+				std::read_int(iss),
+				std::read(iss),
+				std::read_str(iss),
+				std::read_float(iss),
+			];
+		};
+
+		var cases = [
+			sphinx::assert_result(["a true 1 true a -1.5"],    ['a', true, 1, "true", "a", -1.5]),
+			sphinx::assert_result(["a false 42 hello a 1337"], ['a', false, 42, "hello", "a", 1337.0]),
+			sphinx::assert_result(["a 1 42 hello a 1337"],     ['a', true, 42, "hello", "a", 1337.0]),
+			sphinx::assert_result(["a 0 42 hello a 1337"],     ['a', false, 42, "hello", "a", 1337.0]),
+		];
+
+		sphinx::run_test(sphinx, "IStream(std::strin())", fx, cases);
+	}
+
+	function is_eof(sphinx) {
+		var fx = lambda(str) {
+			var iss = std::strin(str);
+			var counter = 0;
+			while(!std::is_eof(iss)) {
+				std::read(iss);
+				counter += 1;
+			}
+			return counter;
+		};
+
+		var cases = [
+			sphinx::assert_result(["111 111 111"], 3),
+			sphinx::assert_result([""], 1),
+			sphinx::assert_result(["a"], 1),
+			sphinx::assert_result(["a a a a"], 4),
+			sphinx::assert_result(["1 2 3 4.0 5.5"], 5),
+		];
+
+		sphinx::run_test(sphinx, "std::is_eof()", fx, cases);
+	}
+
+	function is_good(sphinx) {
+		var fx = lambda(str) {
+			var iss = std::strin(str);
+			std::read_int(iss);
+			std::read_int(iss);
+			std::read_int(iss);
+			return std::is_good(iss);
+		};
+
+		var cases = [
+			sphinx::assert_result(["1 2"],         false),
+			sphinx::assert_result(["1 2 3 4"],     true),
+			sphinx::assert_result(["1 2 3"],       true),
+			sphinx::assert_result(["1 2 hello"],   false),
+			sphinx::assert_result(["foo bar baz"], false),
+			sphinx::assert_result([""],            false),
+		];
+
+		sphinx::run_test(sphinx, "std::good", fx, cases);
+	}
+
+	function read_all(sphinx) {
+		var cases = [
+			sphinx::assert_result([std::fin("test/files/1.txt")], "hello world"),
+			sphinx::assert_result([std::strin("hello world 123")], "hello world 123"),
+		];
+
+		sphinx::run_test(sphinx, "std::read_all", &std::read_all(_), cases);
+	}
+
+	function readln (sphinx) {
+		var cases = [
+			sphinx::assert_result([std::fin("test/files/1.txt")], "hello world"),
+			sphinx::assert_result([std::strin("hello world 123")], "hello world 123"),
+			sphinx::assert_result([std::strin("hello world\n 123")], "hello world"),
+		];
+
+		sphinx::run_test(sphinx, "std::readln", &std::readln(_), cases);
+	}
+
+}

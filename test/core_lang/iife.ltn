@@ -1,0 +1,27 @@
+namespace core {
+	function test_iife(p1) private {
+		var x = 2;
+		var y = -1 * iife {
+			var a = --iife{
+				return iife {
+					var foo = p1;
+					return foo;
+				} * x;
+			} * iife { return 1; };
+			return a;
+		};
+		return iife {
+			return y;
+		};
+	}
+
+	function iifes(sphinx) {
+		var cases = [
+			sphinx::assert_result([-21],  42),
+			sphinx::assert_result([1],    -2),
+			sphinx::assert_result([1337], -2674),
+			sphinx::assert_result([4],    -8),
+		];
+		sphinx::run_test(sphinx, "iife{...}", &test_iife(_), cases);
+	}
+}

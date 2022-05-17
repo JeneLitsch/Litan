@@ -6,6 +6,11 @@ namespace op {
 			sphinx::assert_result([true, 2], 0),
 			sphinx::assert_result([true, 2.0], 0.5),
 			sphinx::assert_fail([1, 0]),
+			sphinx::assert_fail([null, null]),
+			sphinx::assert_fail([std::cout(), std::cout()]),
+			sphinx::assert_fail([std::cout(), std::queue()]),
+			sphinx::assert_fail([std::cin(), std::chrono::clock()]),
+			sphinx::assert_fail([std::struct(), lambda{}]),
 		];
 		
 		var fx    = lambda(a, b) => a / b;

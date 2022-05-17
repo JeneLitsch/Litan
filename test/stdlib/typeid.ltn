@@ -1,0 +1,26 @@
+namespace stdlib {
+	function typeid(sphinx) {
+		var cases = [
+			sphinx::assert_result([null],                    std::type::nul),
+			sphinx::assert_result([true],                    std::type::bool),
+			sphinx::assert_result([false],                   std::type::bool),
+			sphinx::assert_result(['a'],                     std::type::char),
+			sphinx::assert_result([1],                       std::type::int),
+			sphinx::assert_result([42.42],                   std::type::float),
+			sphinx::assert_result([[]],                      std::type::array),
+			sphinx::assert_result(["test"],                  std::type::string),
+			sphinx::assert_result([std::cin()],              std::type::istream),
+			sphinx::assert_result([std::cout()],             std::type::ostream),
+			sphinx::assert_result([&std::struct()],          std::type::fxptr),
+			sphinx::assert_result([std::external(0)],        std::type::external),
+			sphinx::assert_result([std::chrono::clock()],    std::type::clock),
+			sphinx::assert_result([std::struct()],           std::type::struct),
+			sphinx::assert_result([std::whole([])],          std::type::range),
+			sphinx::assert_result([std::queue()],            std::type::queue),
+			sphinx::assert_result([std::stack()],            std::type::stack),
+			sphinx::assert_result([std::map()],              std::type::map),
+			sphinx::assert_result([std::random::mersenne()], std::type::rng),
+		];
+		sphinx::run_test(sphinx, "std::typeid", &std::typeid(_), cases);
+	}
+}

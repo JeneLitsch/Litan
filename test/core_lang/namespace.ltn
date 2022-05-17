@@ -1,0 +1,57 @@
+function fx() {
+	return 1;
+}
+
+namespace foo {
+	function fx() {
+		return 3;
+	}
+
+	namespace bar {
+		function fx() {
+			return 6;
+		}
+	}
+}
+
+namespace bar {
+	function fx() {
+		return 7;
+	}
+}
+
+namespace core {
+	namespace foo {
+		namespace bar {
+			function fx() {
+				return 5;
+			}
+		}
+
+		function fx() {
+			return 4;
+		}
+	}
+
+	function fx() {
+		return 2;
+	}
+}
+
+namespace core {
+	function namespacing(sphinx) {
+		var cases = [
+			sphinx::assert_result([::fx()], 1), 
+			sphinx::assert_result([fx()], 2), 
+			sphinx::assert_result([::core::fx()], 2), 
+			sphinx::assert_result([::foo::fx()], 3),
+			sphinx::assert_result([foo::fx()], 4),
+			sphinx::assert_result([core::foo::fx()], 4),
+			sphinx::assert_result([foo::bar::fx()], 5),
+			sphinx::assert_result([::core::foo::bar::fx()], 5),
+			sphinx::assert_result([::foo::bar::fx()], 6),
+		];
+
+		sphinx::run_test(sphinx, "namespace", lambda(x) => x, cases);
+	}
+}

@@ -1,4 +1,4 @@
-namespace stmt {
+namespace core {
     function for_loop(sphinx) {
         var fx = lambda(begin, end, step) {
 			var sum = 0;
