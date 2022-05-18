@@ -1,3 +1,5 @@
+#pragma once
+inline const char * std_bits = R"###(
 namespace std {
 	namespace bits {
 		function get(value, index)
@@ -10,3 +12,4 @@ namespace std {
 
 	}
 }
+)###";

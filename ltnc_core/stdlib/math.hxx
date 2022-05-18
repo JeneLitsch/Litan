@@ -1,3 +1,5 @@
+#pragma once
+inline const char * std_math = R"###(
 namespace std {
 	build_in min(a, b) const
 		@ math_min
@@ -108,3 +110,4 @@ namespace std {
 		define pi = 3.14159265359; 
 	}
 }
+)###";

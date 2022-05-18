@@ -1,3 +1,5 @@
+#pragma once
+inline const char * std_random = R"###(
 namespace std {
 	namespace random {
 		build_in mersenne()                @ random_mersenne_0
@@ -10,3 +12,4 @@ namespace std {
 		function decision(rng, p) => rand_float(rng, 0, 1) < p
 	}
 }
+)###";

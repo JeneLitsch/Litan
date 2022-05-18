@@ -1,3 +1,5 @@
+#pragma once
+inline const char * std_type = R"###(
 namespace std {
 
 	enum type {
@@ -158,3 +160,4 @@ namespace std {
 	function is_rng(value) const
 		=> is_type(value, type::rng)
 }
+)###";

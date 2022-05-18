@@ -3,7 +3,7 @@ run () {
 	ltnFile="sandbox/$1.ltn"
 	asmFile="sandbox/$1.asm.ltn"
 	binFile="sandbox/$1.bin.ltn"
-	./bin/ltnc  $asmFile ./stdlib $ltnFile
+	./bin/ltnc  $asmFile $ltnFile
 	./bin/ltna 	$binFile $asmFile
 	./bin/ltnvm $binFile %Hello %%World 123
 	echo 
@@ -14,7 +14,7 @@ run_direct () {
 	ltnFile="sandbox/$1.ltn"
 	asmFile="sandbox/$1.asm.ltn"
 	binFile="sandbox/$1.bin.ltn"
-	./bin/ltn ./stdlib $ltnFile %Hello %World %123
+	./bin/ltn $ltnFile %Hello %World %123
 	echo 
 }
 

@@ -1,3 +1,5 @@
+#pragma once
+inline const char * std_functional = R"###(
 namespace std {
 	build_in external(id)         @ functional_external
 	
@@ -13,3 +15,4 @@ namespace std {
 		=> lambda [f1, f2] (x) 
 			=> (f2)((f1)(x))
 }
+)###";

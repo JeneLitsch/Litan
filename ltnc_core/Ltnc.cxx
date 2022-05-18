@@ -5,26 +5,40 @@
 #include "unfold/unfold.hxx"
 #include "optimize/optimize.hxx"
 #include <string_view>
+#include "stdlib/algorithm.hxx"
+#include "stdlib/bits.hxx"
+#include "stdlib/cast.hxx"
+#include "stdlib/chrono.hxx"
+#include "stdlib/container.hxx"
+#include "stdlib/debug.hxx"
+#include "stdlib/functional.hxx"
+#include "stdlib/io.hxx"
+#include "stdlib/math.hxx"
+#include "stdlib/random.hxx"
+#include "stdlib/range.hxx"
+#include "stdlib/type.hxx"
 
 using namespace std::string_view_literals;
 
 namespace ltn::c {
-	const std::span<const std::string_view> Ltnc::stdlib() const {
-		constexpr static std::array std_files {
-			"algorithm.ltn"sv,
-			"bits.ltn"sv,
-			"cast.ltn"sv,
-			"chrono.ltn"sv,
-			"container.ltn"sv,
-			"debug.ltn"sv,
-			"functional.ltn"sv,
-			"io.ltn"sv,
-			"math.ltn"sv,
-			"random.ltn"sv,
-			"range.ltn"sv,
-			"type.ltn"sv,
+	Ltnc::Ltnc(std::unique_ptr<Backend> backend) : backend(std::move(backend)) {
+		auto compile_std = [this](auto code) {
+			std::istringstream iss{code};
+			this->compile(iss, "");
 		};
-		return std_files;
+
+		compile_std(std_algorithm);
+		compile_std(std_bits);
+		compile_std(std_cast);
+		compile_std(std_chrono);
+		compile_std(std_container);
+		compile_std(std_debug);
+		compile_std(std_functional);
+		compile_std(std_io);
+		compile_std(std_math);
+		compile_std(std_random);
+		compile_std(std_range);
+		compile_std(std_type);
 	}
 
 

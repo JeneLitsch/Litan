@@ -1,3 +1,5 @@
+#pragma once
+inline const char * std_range = R"###(
 namespace std {
 	function whole(array) const {
 		return range(array, 0, std::size(array));
@@ -17,3 +19,4 @@ namespace std {
 
 	build_in range(array, begin, end) const @ range
 }
+)###";

@@ -1,3 +1,5 @@
+#pragma once
+inline const char * std_cast = R"###(
 namespace std {
 	build_in bool(x) const   @ cast_bool
 	build_in char(x) const   @ cast_char
@@ -6,3 +8,4 @@ namespace std {
 	build_in string(x) const @ cast_string
 	build_in array(x) const  @ cast_array
 }
+)###";

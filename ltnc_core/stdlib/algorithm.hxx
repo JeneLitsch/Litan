@@ -1,3 +1,5 @@
+#pragma once
+inline const char * std_algorithm = R"###(
 namespace std {
 	// executes "fx" for each element in range
 	function for_each(range, fx) {
@@ -29,3 +31,4 @@ namespace std {
 	build_in fill(range, target)         @ algorithm_fill
 	build_in reverse(range)              @ algorithm_reverse
 }
+)###";

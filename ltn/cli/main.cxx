@@ -19,19 +19,13 @@ void compile_file(ltn::c::Ltnc & ltnc, const std::filesystem::path & filepath) {
 }
 
 int main(int argc, char const *argv[]) {
-	if(argc > 2) {
+	if(argc > 1) {
 		ltn::Ltnc compiler{std::make_unique<ltn::LtnBackend>()};
 		ltn::Ltna assembler;
 		ltn::LtnVm vm;
 		try {
-			std::filesystem::path stdlib = argv[1];
-					
-			for(const auto & stdFile : compiler.stdlib()) {
-				const auto source = stdlib / stdFile; 
-				compile_file(compiler, source);
-			}
 			std::vector<std::string> args;
-			for(std::int64_t i = 2; i < argc; i++) {
+			for(std::int64_t i = 1; i < argc; i++) {
 				std::string_view arg = argv[i];
 				if(arg.starts_with("%")) {
 					arg.remove_prefix(1);

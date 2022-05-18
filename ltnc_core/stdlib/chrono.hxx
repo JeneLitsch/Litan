@@ -1,3 +1,5 @@
+#pragma once
+inline const char * std_chrono = R"###(
 namespace std {
 	namespace chrono {
 		build_in clock()                @ chrono_clock
@@ -18,3 +20,4 @@ namespace std {
 		}
 	}
 }
+)###";

@@ -22,11 +22,7 @@ ltn::c::Args::Args(const char ** argv, std::size_t argc) {
 }
 
 const std::span<const std::filesystem::path> ltn::c::Args::get_sources() const {
-	return { this->files.begin() + 2, this->files.end() };
-}
-
-const std::filesystem::path & ltn::c::Args::get_stdlib() const {
-	return this->files[1];
+	return { this->files.begin() + 1, this->files.end() };
 }
 
 const std::filesystem::path & ltn::c::Args::get_target() const {

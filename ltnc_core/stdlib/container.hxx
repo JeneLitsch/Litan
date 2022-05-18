@@ -1,3 +1,5 @@
+#pragma once
+inline const char * std_container = R"###(
 namespace std {
 	build_in queue() const                      @ queue
 	build_in stack() const                      @ stack
@@ -22,3 +24,4 @@ namespace std {
 	build_in remove_front(collection)           @ container_remove_front
 	build_in remove(collection, index)          @ container_remove
 }
+)###";

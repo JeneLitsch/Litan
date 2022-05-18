@@ -28,11 +28,6 @@ int main(int argc, char const *argv[]){
 		const ltn::c::Args args{argv, static_cast<std::size_t>(argc)};
 		ltn::c::Ltnc compiler{std::make_unique<ltn::c::compile::LtnBackend>()};
 		
-		for(const auto & stdFile : compiler.stdlib()) {
-			const auto source = args.get_stdlib() / stdFile; 
-			compile_file(compiler, source);
-		}
-
 		for(const auto & source : args.get_sources()) {
 			compile_file(compiler, source);
 		}
