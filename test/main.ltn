@@ -172,6 +172,14 @@ function main() {
 	stdlib::typename(sphinx);
 	stdlib::is_type_x(sphinx);
 	stdlib::is_type(sphinx);
+	stdlib::is_null(sphinx);
+	stdlib::is_bool(sphinx);
+	stdlib::is_int(sphinx);
+	stdlib::is_float(sphinx);
+	stdlib::is_string(sphinx);
+	stdlib::is_array(sphinx);
+	stdlib::is_istream(sphinx);
+	stdlib::is_ostream(sphinx);
 	
 	stdlib::random(sphinx);
 

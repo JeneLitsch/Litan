@@ -1,62 +1,145 @@
 namespace stdlib {
+	function is_null(sphinx) {
+		sphinx::run_test(sphinx, "std::is_null", &std::is_null(_), [
+			sphinx::assert_true([null]),
+			sphinx::assert_false([1,]),
+			sphinx::assert_false([std::pair(1,2)]),
+		]);
+	}
+
+
+
+	function is_bool(sphinx) {
+		sphinx::run_test(sphinx, "std::is_bool", &std::is_bool(_), [
+			sphinx::assert_true([true]),
+			sphinx::assert_false([null]),
+		]);
+	}
+
+
+
+	function is_int(sphinx) {
+		sphinx::run_test(sphinx, "std::is_int", &std::is_int(_), [
+			sphinx::assert_true([1]),
+			sphinx::assert_false(['A']),
+		]);
+	}
+
+
+
+	function is_float(sphinx) {
+		sphinx::run_test(sphinx, "std::is_float", &std::is_float(_), [
+			sphinx::assert_false([1]),
+			sphinx::assert_true([1.0]),
+		]);
+	}
+
+
+
+	function is_string(sphinx) {
+		sphinx::run_test(sphinx, "std::is_string", &std::is_string(_), [
+			sphinx::assert_true(["A"]),
+			sphinx::assert_false([std::whole([])]),
+		]);
+	}
+
+
+
+	function is_array(sphinx) {
+		sphinx::run_test(sphinx, "std::is_array", &std::is_array(_), [
+			sphinx::assert_false(["A"]),
+			sphinx::assert_true([[]]),
+			sphinx::assert_false([std::whole([])]),
+		]);
+	}
+
+
+
+	function is_ostream(sphinx) {
+		sphinx::run_test(sphinx, "std::is_ostream", &std::is_ostream(_), [
+			sphinx::assert_true([std::cout()]),
+			sphinx::assert_true([std::strout()]),
+			sphinx::assert_false([std::strin("")]),
+		]);	
+	}
+
+
+
+	function is_istream(sphinx) {
+		sphinx::run_test(sphinx, "std::is_istream", &std::is_istream(_), [
+			sphinx::assert_true([std::cin()]),
+			sphinx::assert_true([std::strin("ABC")]),
+		]);	
+	}
+	
+
+
+
 	function is_type_x(sphinx) {
-		var cases = [
-			sphinx::assert_result([null,                    &std::is_null(_)],       true),
-			sphinx::assert_result([1,                       &std::is_null(_)],       false),
-			sphinx::assert_result([std::pair(1,2),          &std::is_null(_)],       false),
-			sphinx::assert_result([true,                    &std::is_bool(_)],       true),
-			sphinx::assert_result([null,                    &std::is_bool(_)],       false),
-			sphinx::assert_result([1,                       &std::is_int(_)],        true),
-			sphinx::assert_result(['A',                     &std::is_int(_)],        false),
-			sphinx::assert_result([1,                       &std::is_float(_)],      false),
-			sphinx::assert_result([1.0,                     &std::is_float(_)],      true),
-			sphinx::assert_result(["A",                     &std::is_string(_)],     true),
-			sphinx::assert_result([std::whole([]),          &std::is_string(_)],     false),
-			sphinx::assert_result(["A",                     &std::is_array(_)],      false),
-			sphinx::assert_result([[],                      &std::is_array(_)],      true),
-			sphinx::assert_result([std::whole([]),          &std::is_array(_)],      false),
-			sphinx::assert_result([std::cout(),             &std::is_ostream(_)],    true),
-			sphinx::assert_result([std::strout(),           &std::is_ostream(_)],    true),
-			sphinx::assert_result([std::strin(""),          &std::is_ostream(_)],    false),
-			sphinx::assert_result([std::cin(),              &std::is_istream(_)],    true),
-			sphinx::assert_result([std::strin("ABC"),       &std::is_istream(_)],    true),
-			sphinx::assert_result([lambda => null,          &std::is_fxptr(_)],      true),
-			sphinx::assert_result([std::external(0),        &std::is_external(_)],   true),
-			sphinx::assert_result([lambda => null,          &std::is_external(_)],   false),
-			sphinx::assert_result([std::external(0),        &std::is_functional(_)], true),
-			sphinx::assert_result([lambda => null,          &std::is_functional(_)], true),
-			sphinx::assert_result([lambda => null,          &std::is_functional(_)], true),
-			sphinx::assert_result([std::struct(),           &std::is_struct(_)],     true),
-			sphinx::assert_result([std::pair(1,2),          &std::is_struct(_)],     true),
-			sphinx::assert_result([std::pair(1,2),          &std::is_rng(_)],        false),
-			sphinx::assert_result([std::random::mersenne(), &std::is_rng(_)],        true),
-			sphinx::assert_result([std::map(),              &std::is_queue(_)],      false),
-			sphinx::assert_result([std::queue(),            &std::is_queue(_)],      true),
-			sphinx::assert_result([std::cout(),             &std::is_queue(_)],      false),
-			sphinx::assert_result([std::map(),              &std::is_map(_)],        true),
-			sphinx::assert_result([std::random::mersenne(), &std::is_map(_)],        false),
-			sphinx::assert_result([std::map(),              &std::is_map(_)],        true),
-			sphinx::assert_result([std::stack(),            &std::is_map(_)],        false),
-			sphinx::assert_result([std::stack(),            &std::is_stack(_)],      true),
-			sphinx::assert_result(["",                      &std::is_stack(_)],      false),
-			sphinx::assert_result([std::whole([]),          &std::is_range(_)],      true),
-			sphinx::assert_result([[],                      &std::is_range(_)],      false),
-			sphinx::assert_result([true,                    &std::is_integral(_)],   true),
-			sphinx::assert_result(['A',                     &std::is_integral(_)],   true),
-			sphinx::assert_result([1,                       &std::is_integral(_)],   true),
-			sphinx::assert_result([1.5,                     &std::is_integral(_)],   false),
-			sphinx::assert_result(["",                      &std::is_integral(_)],   false),
-			sphinx::assert_result([std::external(0),        &std::is_integral(_)],   false),
-			sphinx::assert_result([true,                    &std::is_numeric(_)],    true),
-			sphinx::assert_result(['A',                     &std::is_numeric(_)],    true),
-			sphinx::assert_result([1,                       &std::is_numeric(_)],    true),
-			sphinx::assert_result([1.5,                     &std::is_numeric(_)],    true),
-			sphinx::assert_result([null,                    &std::is_numeric(_)],    false),
-			sphinx::assert_result([[],                      &std::is_numeric(_)],    false),
-		];
+		sphinx::run_test(sphinx, "std::is_fxptr", &std::is_fxptr(_), [
+			sphinx::assert_true([lambda => null]),
+		]);	
 
-		var fx = lambda (value, fx) => std::invoke(fx, [value]);
+		sphinx::run_test(sphinx, "std::is_external", &std::is_external(_), [
+			sphinx::assert_true([std::external(0)]),
+			sphinx::assert_false([lambda => null]),
+		]);	
 
-		sphinx::run_test(sphinx, "std::is_type*", fx, cases);	
+		sphinx::run_test(sphinx, "std::is_functional", &std::is_functional(_), [
+			sphinx::assert_true([std::external(0)]),
+			sphinx::assert_true([lambda => null]),
+			sphinx::assert_true([lambda => null]),
+		]);	
+
+		sphinx::run_test(sphinx, "std::is_struct", &std::is_struct(_), [
+			sphinx::assert_true([std::struct()]),
+			sphinx::assert_true([std::pair(1,2)]),
+		]);	
+
+		sphinx::run_test(sphinx, "std::is_rng", &std::is_rng(_), [
+			sphinx::assert_false([std::pair(1,2)]),
+			sphinx::assert_true([std::random::mersenne()]),
+		]);	
+
+		sphinx::run_test(sphinx, "std::is_queue", &std::is_queue(_), [
+			sphinx::assert_false([std::map()]),
+			sphinx::assert_true([std::queue()]),
+			sphinx::assert_false([std::cout()]),
+		]);	
+
+		sphinx::run_test(sphinx, "std::is_map", &std::is_map(_), [
+			sphinx::assert_true([std::map()]),
+			sphinx::assert_false([std::random::mersenne()]),
+			sphinx::assert_true([std::map()]),
+			sphinx::assert_false([std::stack()]),
+		]);	
+
+		sphinx::run_test(sphinx, "std::is_stack", &std::is_stack(_), [
+			sphinx::assert_true([std::stack()]),
+			sphinx::assert_false([""]),
+		]);
+
+		sphinx::run_test(sphinx, "std::is_range", &std::is_range(_), [
+			sphinx::assert_true([std::whole([])]),
+			sphinx::assert_false([[]]),
+		]);
+
+		sphinx::run_test(sphinx, "std::is_integral", &std::is_integral(_), [
+			sphinx::assert_true([true ]),
+			sphinx::assert_true(['A']),
+			sphinx::assert_true([1]),
+			sphinx::assert_false([1.5]),
+			sphinx::assert_false([""]),
+			sphinx::assert_false([std::external(0)]),
+		]);
+
+		sphinx::run_test(sphinx, "std::is_numeric", &std::is_numeric(_), [
+			sphinx::assert_true([true]),
+			sphinx::assert_true(['A']),
+			sphinx::assert_true([1]),
+			sphinx::assert_true([1.5]),
+			sphinx::assert_false([null]),
+			sphinx::assert_false([[]]),
+		]);
 	}
 }
