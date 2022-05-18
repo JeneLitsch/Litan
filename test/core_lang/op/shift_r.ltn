@@ -4,6 +4,8 @@ namespace op {
 			sphinx::assert_result([1, 1], 0),
 			sphinx::assert_result([2, 1], 1),
 			sphinx::assert_result([8, 2], 2),
+			sphinx::assert_fail([0.0, 2]),
+			sphinx::assert_success(['A', 2]),
 		];
 		
 		var shift    = lambda (a, b) => a >> b;

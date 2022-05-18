@@ -9,6 +9,8 @@ namespace op {
 			sphinx::assert_result([[], 1], []),
 			sphinx::assert_result([42, 1337], 42),
 			sphinx::assert_result([0, 1337], 1337),
+			sphinx::assert_result([std::cout(), 1337], std::cout()),
+			sphinx::assert_result([0.0, 1337], 1337),
 		];
 		
         var fx = lambda (a, b) => a ?: b;

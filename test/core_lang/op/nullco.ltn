@@ -1,12 +1,13 @@
 namespace op {
     function nullco(sphinx) {
 		var cases = [
-			sphinx::assert_result([true, 1],            true),
-			sphinx::assert_result([false, 1],           false),
-			sphinx::assert_result([null, 42],           42),
-			sphinx::assert_result([std::cout(), 42],    std::cout()),
-			sphinx::assert_result(["Hello", 42],        "Hello"),
-			sphinx::assert_result([-15.0, 42],          -15.0),
+			sphinx::assert_result([true, 1], true),
+			sphinx::assert_result([false, 1], false),
+			sphinx::assert_result([null, 42], 42),
+			sphinx::assert_result([null, null], null),
+			sphinx::assert_result([std::cout(), 42], std::cout()),
+			sphinx::assert_result(["Hello", 42], "Hello"),
+			sphinx::assert_result([-15.0, 42], -15.0),
 			sphinx::assert_result([std::null_v(), 3.5], 3.5),
 		];
         var fx = lambda(a, b) => a ?? b;

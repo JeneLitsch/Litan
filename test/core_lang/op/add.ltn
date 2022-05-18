@@ -21,6 +21,7 @@ namespace op {
 			sphinx::assert_fail([std::cout(), std::queue()]),
 			sphinx::assert_fail([std::cin(), std::chrono::clock()]),
 			sphinx::assert_fail([std::struct(), lambda{}]),
+			sphinx::assert_fail([[], 4]),
 		];
 
 		var fx = lambda(a, b) => a + b;

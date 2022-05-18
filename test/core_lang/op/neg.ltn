@@ -5,6 +5,8 @@ namespace op {
 			sphinx::assert_result([-1], 1), 
 			sphinx::assert_result([true], -1), 
 			sphinx::assert_result([3.5], -3.5), 
+			sphinx::assert_fail(["a"]),
+			sphinx::assert_fail([[]]),
 		];
 		
 		var fx    = lambda (x) => -x;

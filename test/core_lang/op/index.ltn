@@ -1,6 +1,12 @@
 namespace op {
 	function index(sphinx) {
 		var array = [0,1,2,3,4,5];
+		
+		var map = std::map();
+		map[1] = "A";
+		map[2] = "B";
+		map[-1] = 42;
+		
 		var fx = lambda(range, index) {
 			return range[index];
 		};
@@ -17,10 +23,15 @@ namespace op {
 			sphinx::assert_result([std::whole(array), 3], 3),
 			sphinx::assert_result([std::whole(array), 4], 4),
 			sphinx::assert_result([std::whole(array), 5], 5),
-			sphinx::assert_fail([true, 1]),
-			sphinx::assert_fail([true, 1]),
 			sphinx::assert_result(["ABC", 2], 'C'),
+			sphinx::assert_result([map, 1], "A"),
+			sphinx::assert_result([map, 2], "B"),
+			sphinx::assert_result([map, 13], null),
+			sphinx::assert_result([map, -1], 42),
+			sphinx::assert_fail([true, 1]),
+			sphinx::assert_fail([true, 1]),
 			sphinx::assert_fail(["ABC", 5]),
+			sphinx::assert_fail(["ABC", -1]),
 			sphinx::assert_fail(["ABC", -1]),
 		];
 		sphinx::run_test(sphinx, "Operator []", fx, cases);

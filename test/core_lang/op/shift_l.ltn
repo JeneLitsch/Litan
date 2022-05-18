@@ -3,6 +3,7 @@ namespace op {
 		var cases = [
 			sphinx::assert_result([1, 1], 2),
 			sphinx::assert_result([2, 2], 8),
+			sphinx::assert_result([true, 2], 4),
 		];
 		
 		var shift    = lambda (a, b) => a << b;

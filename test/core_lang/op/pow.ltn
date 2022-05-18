@@ -6,6 +6,14 @@ namespace op {
 			sphinx::assert_result([9.0, 0.5], 3),
 			sphinx::assert_result([1337, 0], 1),
 			sphinx::assert_result([1337, 1], 1337),
+			sphinx::assert_result([2, -1], 0.5),
+			sphinx::assert_fail(["a", 0]),
+			sphinx::assert_fail([[], 0]),
+			sphinx::assert_fail([std::queue(), 0]),
+			sphinx::assert_result([true, 0], true),
+			sphinx::assert_result([true, 1], true),
+			sphinx::assert_result([true, 2], true),
+			sphinx::assert_result([0, 0], 1),
 		];
 		
 		var fx    = lambda (a, b) => a ** b;
