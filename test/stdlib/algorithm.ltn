@@ -118,9 +118,4 @@ namespace stdlib {
 		];
 		sphinx::run_test(sphinx, "std::fill", fx, cases);
 	}
-
-
-	function algorithm() {
-
-	}
 }

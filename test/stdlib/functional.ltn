@@ -1,43 +1,4 @@
 namespace stdlib {
-	function make_capture_lambda(a) {
-		return lambda [a] () {
-			return a;
-		};
-	}
-
-	function make_capture_lambda(a, b) {
-		return lambda [a, b] () {
-			return a + b;
-		};
-	}
-
-	function make_capture_lambda() {
-		var a = 1;
-		var b = 2;
-		return lambda [a, b] (c, d) {
-			return a - b + c - d;
-		};
-	}
-
-
-
-
-
-	function captures(sphinx) {
-		var cases = [
-			sphinx::assert_result([make_capture_lambda(1) , []], 1),
-			sphinx::assert_result([make_capture_lambda(42), []], 42),
-			sphinx::assert_result([make_capture_lambda(21, 21), []], 42),
-			sphinx::assert_result([make_capture_lambda(1000, 337), []], 1337),
-			sphinx::assert_result([make_capture_lambda(), [3, 4]], -2),
-			sphinx::assert_result([make_capture_lambda(), [3, 1]], 1),
-		];
-
-		sphinx::run_test(sphinx, "Lambda capture", &std::invoke(_,_), cases);
-	}
-
-
-	
 	function invoke_0(sphinx) {
 		var cases = [
 			sphinx::assert_result([lambda => 42], 42),

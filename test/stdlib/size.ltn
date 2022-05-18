@@ -2,32 +2,23 @@ namespace stdlib {
 	function size(sphinx) {
 		var array = [0,1,2,3,4,5];
 
-		var queue = iife {
-			var q = std::queue();
-			std::push(q, 1);
-			std::push(q, true);
-			std::push(q, 42);
-			std::push(q, 42);
-			std::pop(q);
-			return q;
-		};
+		var queue = std::queue();
+		std::push(queue, 1);
+		std::push(queue, true);
+		std::push(queue, 42);
+		std::push(queue, 42);
+		std::pop(queue);
 
-		var stack = iife {
-			var s = std::stack();
-			std::push(s, 1);
-			std::push(s, true);
-			std::push(s, 42);
-			std::push(s, 42);
-			std::pop(s);
-			return s;
-		};
+		var stack = std::stack();
+		std::push(stack, 1);
+		std::push(stack, true);
+		std::push(stack, 42);
+		std::push(stack, 42);
+		std::pop(stack);
 
-		var map = iife {
-			var m = std::map();
-			m["A"] = 4;
-			m[4] = 4;
-			return m;
-		};
+		var map = std::map();
+		map["A"] = 4;
+		map[4] = 4;
 
 		var cases = [
 			sphinx::assert_result([[1,2,3]], 3),

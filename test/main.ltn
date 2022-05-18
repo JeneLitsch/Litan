@@ -150,6 +150,7 @@ function main() {
 	core::iifes(sphinx);
 	core::thr0w(sphinx);
 	core::namespacing(sphinx);
+	core::captures(sphinx);
 
 	stdlib::sort_ascn(sphinx);
 	stdlib::sort_desc(sphinx);
@@ -193,7 +194,6 @@ function main() {
 	stdlib::tan(sphinx);
 	stdlib::lerp(sphinx);
 
-	stdlib::captures(sphinx);
 	stdlib::invoke_0(sphinx);
 	stdlib::invoke_1(sphinx);
 	stdlib::invoke_2(sphinx);

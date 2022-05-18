@@ -31,7 +31,10 @@ namespace ltn::vm {
 			const auto max = convert::to_int(reg.pop());
 			const auto min = convert::to_int(reg.pop());
 			auto & rng = get_rng(reg.pop(), heap);
-			std::uniform_int_distribution<std::int64_t> dist{min, max};
+			std::uniform_int_distribution<std::int64_t> dist{
+				std::min(min, max),
+				std::max(min, max)
+			};
 			const auto x = dist(rng);
 			reg.push(value::integer(x));
 		}
@@ -40,7 +43,10 @@ namespace ltn::vm {
 			const auto max = convert::to_float(reg.pop());
 			const auto min = convert::to_float(reg.pop());
 			auto & rng = get_rng(reg.pop(), heap);
-			std::uniform_real_distribution<stx::float64_t> dist{min, max};
+			std::uniform_real_distribution<stx::float64_t> dist{
+				std::min(min, max),
+				std::max(min, max)
+			};
 			const auto x = dist(rng);
 			reg.push(value::floating(x));
 		}
