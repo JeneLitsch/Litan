@@ -6,6 +6,7 @@
 #include "ltnc_core/CompilerError.hxx"
 #include "ltnc_core/ast/Namespace.hxx"
 #include "ltnc/LtnBackend.hxx"
+#include "ltn/version.hxx"
 #include "Args.hxx"
 
 
@@ -24,6 +25,11 @@ void compile_file(ltn::c::Ltnc & ltnc, const std::filesystem::path & filepath) {
 }
 
 int main(int argc, char const *argv[]){
+	if(argc > 1) {
+		if(ltn::print_version(argv[1])) {
+			return 0;
+		}
+	}
 	try {
 		const ltn::c::Args args{argv, static_cast<std::size_t>(argc)};
 		ltn::c::Ltnc compiler{std::make_unique<ltn::c::compile::LtnBackend>()};

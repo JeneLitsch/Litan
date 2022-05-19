@@ -1,5 +1,6 @@
 #include "Litan.hxx"
 #include "ltnvm/cast.hxx"
+#include "ltn/version.hxx"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -20,6 +21,9 @@ void compile_file(ltn::c::Ltnc & ltnc, const std::filesystem::path & filepath) {
 
 int main(int argc, char const *argv[]) {
 	if(argc > 1) {
+		if(ltn::print_version(argv[1])) {
+			return 0;
+		}
 		ltn::Ltnc compiler{std::make_unique<ltn::LtnBackend>()};
 		ltn::Ltna assembler;
 		ltn::LtnVm vm;

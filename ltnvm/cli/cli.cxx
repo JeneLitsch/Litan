@@ -3,6 +3,7 @@
 #include "ltnvm/LtnVM.hxx"
 #include "ltnvm/external/External.hxx"
 #include "ltnvm/cast.hxx"
+#include "ltn/version.hxx"
 
 class Test : public ltn::vm::ext::External {
 public:
@@ -17,7 +18,10 @@ public:
 
 int main(int argc, char const *argv[]) {
 	if(argc > 1) {
-		if(std::filesystem::exists(argv[1])) {
+		if(ltn::print_version(argv[1])) {
+			return 0;
+		}
+		else if(std::filesystem::exists(argv[1])) {
 			std::ifstream file(argv[1], std::ios::binary);
 			std::vector<std::uint8_t> bytecode{
 				std::istreambuf_iterator<char>(file),
@@ -46,7 +50,9 @@ int main(int argc, char const *argv[]) {
 				return EXIT_FAILURE;
 			}
 		}
-		std::cout << "[VM-Error] Cannot open: " << argv[1] << "\n";
+		else {
+			std::cout << "[VM-Error] Cannot open: " << argv[1] << "\n";
+		}
 	}
 	std::cout << "[VM-Error] Needs a file to run\n";
 	return EXIT_FAILURE;
