@@ -1,9 +1,9 @@
-#include "LtnVM.hxx"
+#include "instructions.hxx"
 #include "compare.hxx"
 #include <algorithm>
 #include <numeric>
 
-namespace ltn::vm {
+namespace ltn::vm::inst {
 	namespace {
 		auto to_cpp_range(const Value ref, Heap & heap) {
 			if(is_array(ref)) {
@@ -139,18 +139,18 @@ namespace ltn::vm {
 		}
 	}
 
-	void LtnVM::algorithm() {
-		const auto type = this->fetch_byte();
+	void algorithm(VmCore & core) {
+		const auto type = core.fetch_byte();
 		switch (type) {
-		case 0x00: return sort_ascn(     this->core.reg, this->core.heap);
-		case 0x01: return sort_desc(     this->core.reg, this->core.heap);
-		case 0x02: return is_sorted_ascn(this->core.reg, this->core.heap);
-		case 0x03: return is_sorted_desc(this->core.reg, this->core.heap);
-		case 0x10: return find(          this->core.reg, this->core.heap);
-		case 0x20: return copy_front(    this->core.reg, this->core.heap);
-		case 0x22: return copy_back(     this->core.reg, this->core.heap);
-		case 0x30: return fill(          this->core.reg, this->core.heap);
-		case 0x40: return reverse(       this->core.reg, this->core.heap);
+		case 0x00: return sort_ascn(     core.reg, core.heap);
+		case 0x01: return sort_desc(     core.reg, core.heap);
+		case 0x02: return is_sorted_ascn(core.reg, core.heap);
+		case 0x03: return is_sorted_desc(core.reg, core.heap);
+		case 0x10: return find(          core.reg, core.heap);
+		case 0x20: return copy_front(    core.reg, core.heap);
+		case 0x22: return copy_back(     core.reg, core.heap);
+		case 0x30: return fill(          core.reg, core.heap);
+		case 0x40: return reverse(       core.reg, core.heap);
 		
 		default: {
 			throw std::runtime_error{"Invalid algorithm type"};

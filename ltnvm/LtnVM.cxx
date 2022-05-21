@@ -2,6 +2,8 @@
 #include "ltn/InstructionSet.hxx"
 #include <sstream>
 #include "cast.hxx"
+#include "instructions.hxx"
+
 namespace ltn::vm {
 
 	void LtnVM::register_external(
@@ -13,7 +15,7 @@ namespace ltn::vm {
 	void LtnVM::error(const std::string & msg) {
 		const auto ref = this->core.heap.alloc<String>({msg});
 		this->core.reg.push(value::string(ref));
-		this->thr0w();
+		inst::thr0w(core);
 	}
 
 	Value LtnVM::run(const std::vector<std::string> & args) {
@@ -34,7 +36,7 @@ namespace ltn::vm {
 		RESUME:
 		try {
 			while(true) {
-				std::uint8_t inst = this->fetch_byte();
+				std::uint8_t inst = this->core.fetch_byte();
 				switch (static_cast<Inst>(inst)) {
 				case Inst::EXIT: {
 					return this->core.reg.pop();
@@ -45,145 +47,145 @@ namespace ltn::vm {
 					return value::null;
 				}
 
-				case Inst::STATE: this->state(); break;
-				case Inst::TRY: this->tRy(); break;
-				case Inst::THROW: this->thr0w(); break;
+				case Inst::STATE: inst::state(core); break;
+				case Inst::TRY: inst::tRy(core); break;
+				case Inst::THROW: inst::thr0w(core); break;
 				
-				case Inst::ADD: this->add(); break;
-				case Inst::SUB: this->sub(); break;
-				case Inst::MLT: this->mlt(); break;
-				case Inst::DIV: this->div(); break;
-				case Inst::MOD: this->mod(); break;
+				case Inst::ADD: inst::add(core); break;
+				case Inst::SUB: inst::sub(core); break;
+				case Inst::MLT: inst::mlt(core); break;
+				case Inst::DIV: inst::div(core); break;
+				case Inst::MOD: inst::mod(core); break;
 
-				case Inst::EQL: this->eql(); break;
-				case Inst::UEQL: this->ueql(); break;
-				case Inst::SML: this->sml(); break;
-				case Inst::BGR: this->bgr(); break;
-				case Inst::SMLEQL: this->smleql(); break;
-				case Inst::BGREQL: this->bgreql(); break;
-				case Inst::SHIFT_L: this->shift_l(); break;
-				case Inst::SHIFT_R: this->shift_r(); break;
+				case Inst::EQL: inst::eql(core); break;
+				case Inst::UEQL: inst::ueql(core); break;
+				case Inst::SML: inst::sml(core); break;
+				case Inst::BGR: inst::bgr(core); break;
+				case Inst::SMLEQL: inst::smleql(core); break;
+				case Inst::BGREQL: inst::bgreql(core); break;
+				case Inst::SHIFT_L: inst::shift_l(core); break;
+				case Inst::SHIFT_R: inst::shift_r(core); break;
 				
-				case Inst::NEG: this->neg(); break;
-				case Inst::NOT: this->n0t(); break;
-				case Inst::INC: this->inc(); break;
-				case Inst::DEC: this->dec(); break;
+				case Inst::NEG: inst::neg(core); break;
+				case Inst::NOT: inst::n0t(core); break;
+				case Inst::INC: inst::inc(core); break;
+				case Inst::DEC: inst::dec(core); break;
 				
-				case Inst::COMP: this->comp(); break;
-				case Inst::APPROX: this->approx(); break;
-				case Inst::BETWEEN: this->between(); break;
+				case Inst::COMP: inst::comp(core); break;
+				case Inst::APPROX: inst::approx(core); break;
+				case Inst::BETWEEN: inst::between(core); break;
 
-				case Inst::NEWI: this->newi(); break;
-				case Inst::NEWF: this->newf(); break;
-				case Inst::NEWU: this->newu(); break;
-				case Inst::NEWC: this->newc(); break;
-				case Inst::TRUE: this->truE(); break;
-				case Inst::FALSE: this->falsE(); break;
-				case Inst::NVLL: this->null(); break;
+				case Inst::NEWI: inst::newi(core); break;
+				case Inst::NEWF: inst::newf(core); break;
+				case Inst::NEWU: inst::newu(core); break;
+				case Inst::NEWC: inst::newc(core); break;
+				case Inst::TRUE: inst::truE(core); break;
+				case Inst::FALSE: inst::falsE(core); break;
+				case Inst::NVLL: inst::null(core); break;
 
-				case Inst::JUMP: this->jump(); break;
-				case Inst::CALL: this->call(); break;
-				case Inst::RETURN: this->reTurn(); break;
-				case Inst::IF: this->iF(); break;
-				case Inst::INVOKE: this->invoke(); break;
-				case Inst::EXTERNAL: this->external(); break;
-				case Inst::CAPTURE: this->capture(); break;
-				case Inst::PARAMETERS: this->parameters(); break;
+				case Inst::JUMP: inst::jump(core); break;
+				case Inst::CALL: inst::call(core); break;
+				case Inst::RETURN: inst::reTurn(core); break;
+				case Inst::IF: inst::iF(core); break;
+				case Inst::INVOKE: inst::invoke(core); break;
+				case Inst::EXTERNAL: inst::external(core); break;
+				case Inst::CAPTURE: inst::capture(core); break;
+				case Inst::PARAMETERS: inst::parameters(core); break;
 					
-				case Inst::NEWARR: this->newarr(); break;
-				case Inst::NEWSTR: this->newstr(); break;
-				case Inst::NEWOUT: this->newout(); break;
-				case Inst::NEWIN: this->newin(); break;
-				case Inst::NEWFX: this->newfx(); break;
-				case Inst::NEWCLOCK: this->newclock(); break;
-				case Inst::NEWSTRUCT: this->newstruct(); break;
-				case Inst::NEWRANGE: this->newrange(); break;
-				case Inst::NEWSTACK: this->newstack(); break;
-				case Inst::NEWQUEUE: this->newqueue(); break;
-				case Inst::NEWMAP: this->newmap(); break;
-				case Inst::NEWRNG: this->newrng(); break;
+				case Inst::NEWARR: inst::newarr(core); break;
+				case Inst::NEWSTR: inst::newstr(core); break;
+				case Inst::NEWOUT: inst::newout(core); break;
+				case Inst::NEWIN: inst::newin(core); break;
+				case Inst::NEWFX: inst::newfx(core); break;
+				case Inst::NEWCLOCK: inst::newclock(core); break;
+				case Inst::NEWSTRUCT: inst::newstruct(core); break;
+				case Inst::NEWRANGE: inst::newrange(core); break;
+				case Inst::NEWSTACK: inst::newstack(core); break;
+				case Inst::NEWQUEUE: inst::newqueue(core); break;
+				case Inst::NEWMAP: inst::newmap(core); break;
+				case Inst::NEWRNG: inst::newrng(core); break;
 				
-				case Inst::READ: this->read(); break;
-				case Inst::WRITE: this->write(); break;
-				case Inst::SCRAP: this->scrap(); break;
-				case Inst::DUPLICATE: this->duplicate(); break;
-				case Inst::MAKEVAR: this->makevar(); break;
-				case Inst::READ_X: this->read_x(); break;
-				case Inst::WRITE_X: this->write_x(); break;
-				case Inst::SWAP: this->swap(); break;
+				case Inst::READ: inst::read(core); break;
+				case Inst::WRITE: inst::write(core); break;
+				case Inst::SCRAP: inst::scrap(core); break;
+				case Inst::DUPLICATE: inst::duplicate(core); break;
+				case Inst::MAKEVAR: inst::makevar(core); break;
+				case Inst::READ_X: inst::read_x(core); break;
+				case Inst::WRITE_X: inst::write_x(core); break;
+				case Inst::SWAP: inst::swap(core); break;
 
-				case Inst::READ_0: this->read_0(); break;
-				case Inst::READ_1: this->read_1(); break;
-				case Inst::READ_2: this->read_2(); break;
-				case Inst::READ_3: this->read_3(); break;
-				case Inst::WRITE_0: this->write_0(); break;
-				case Inst::WRITE_1: this->write_1(); break;
-				case Inst::WRITE_2: this->write_2(); break;
-				case Inst::WRITE_3: this->write_3(); break;
+				case Inst::READ_0: inst::read_0(core); break;
+				case Inst::READ_1: inst::read_1(core); break;
+				case Inst::READ_2: inst::read_2(core); break;
+				case Inst::READ_3: inst::read_3(core); break;
+				case Inst::WRITE_0: inst::write_0(core); break;
+				case Inst::WRITE_1: inst::write_1(core); break;
+				case Inst::WRITE_2: inst::write_2(core); break;
+				case Inst::WRITE_3: inst::write_3(core); break;
 
-				case Inst::OUT: this->out(); break;
-				case Inst::STYLIZE: this->stylize(); break;
-				case Inst::CLOSE_STREAM: this->close_stream(); break;
-				case Inst::IN_STR: this->in_str(); break;
-				case Inst::IN_LINE: this->in_line(); break;
-				case Inst::IN_BOOL: this->in_bool(); break;
-				case Inst::IN_CHAR: this->in_char(); break;
-				case Inst::IN_INT: this->in_int(); break;
-				case Inst::IN_FLOAT: this->in_float(); break;
-				case Inst::IN_ALL: this->in_all(); break;
-				case Inst::IS_EOF: this->is_eof(); break;
-				case Inst::IS_GOOD: this->is_good(); break;
+				case Inst::OUT: inst::out(core); break;
+				case Inst::STYLIZE: inst::stylize(core); break;
+				case Inst::CLOSE_STREAM: inst::close_stream(core); break;
+				case Inst::IN_STR: inst::in_str(core); break;
+				case Inst::IN_LINE: inst::in_line(core); break;
+				case Inst::IN_BOOL: inst::in_bool(core); break;
+				case Inst::IN_CHAR: inst::in_char(core); break;
+				case Inst::IN_INT: inst::in_int(core); break;
+				case Inst::IN_FLOAT: inst::in_float(core); break;
+				case Inst::IN_ALL: inst::in_all(core); break;
+				case Inst::IS_EOF: inst::is_eof(core); break;
+				case Inst::IS_GOOD: inst::is_good(core); break;
 
-				case Inst::MIN: this->min(); break;
-				case Inst::MAX: this->max(); break;
-				case Inst::ROUND: this->round(); break;
-				case Inst::FLOOR: this->floor(); break;
-				case Inst::CEIL: this->ceil(); break;
-				case Inst::ABS: this->abs(); break;
-				case Inst::HYPOT: this->hypot(); break;
-				case Inst::SQRT: this->sqrt(); break;
-				case Inst::LOG: this->log(); break;
-				case Inst::LN: this->ln(); break;
-				case Inst::POW: this->pow(); break;
+				case Inst::MIN: inst::min(core); break;
+				case Inst::MAX: inst::max(core); break;
+				case Inst::ROUND: inst::round(core); break;
+				case Inst::FLOOR: inst::floor(core); break;
+				case Inst::CEIL: inst::ceil(core); break;
+				case Inst::ABS: inst::abs(core); break;
+				case Inst::HYPOT: inst::hypot(core); break;
+				case Inst::SQRT: inst::sqrt(core); break;
+				case Inst::LOG: inst::log(core); break;
+				case Inst::LN: inst::ln(core); break;
+				case Inst::POW: inst::pow(core); break;
 				
-				case Inst::SIN: this->sin(); break;
-				case Inst::COS: this->cos(); break;
-				case Inst::TAN: this->tan(); break;
+				case Inst::SIN: inst::sin(core); break;
+				case Inst::COS: inst::cos(core); break;
+				case Inst::TAN: inst::tan(core); break;
 
-				case Inst::BITAND: this->bit_and(); break;
-				case Inst::BITOR: this->bit_or(); break;
-				case Inst::BITXOR: this->bit_xor(); break;
-				case Inst::BITNOT: this->bit_not(); break;
+				case Inst::BITAND: inst::bit_and(core); break;
+				case Inst::BITOR: inst::bit_or(core); break;
+				case Inst::BITXOR: inst::bit_xor(core); break;
+				case Inst::BITNOT: inst::bit_not(core); break;
 				
-				case Inst::SIZE: this->size(); break;
-				case Inst::AT: this->at(); break;
-				case Inst::AT_WRITE: this->at_write(); break;
-				case Inst::FRONT: this->front(); break;
-				case Inst::BACK: this->back(); break;
-				case Inst::INSERT: this->insert(); break;
-				case Inst::REMOVE: this->remove(); break;
-				case Inst::BEGIN: this->begin(); break;
-				case Inst::END: this->end(); break;
-				case Inst::PUSH: this->push(); break;
-				case Inst::POP: this->pop(); break;
-				case Inst::PEEK: this->peek(); break;
-				case Inst::CONTAINS: this->contains(); break;
+				case Inst::SIZE: inst::size(core); break;
+				case Inst::AT: inst::at(core); break;
+				case Inst::AT_WRITE: inst::at_write(core); break;
+				case Inst::FRONT: inst::front(core); break;
+				case Inst::BACK: inst::back(core); break;
+				case Inst::INSERT: inst::insert(core); break;
+				case Inst::REMOVE: inst::remove(core); break;
+				case Inst::BEGIN: inst::begin(core); break;
+				case Inst::END: inst::end(core); break;
+				case Inst::PUSH: inst::push(core); break;
+				case Inst::POP: inst::pop(core); break;
+				case Inst::PEEK: inst::peek(core); break;
+				case Inst::CONTAINS: inst::contains(core); break;
 
-				case Inst::CAST_BOOL: this->cast_bool(); break;
-				case Inst::CAST_CHAR: this->cast_char(); break;
-				case Inst::CAST_INT: this->cast_int(); break;
-				case Inst::CAST_FLOAT: this->cast_float(); break;
-				case Inst::CAST_STRING: this->cast_string(); break;
-				case Inst::CAST_ARRAY: this->cast_array(); break;
+				case Inst::CAST_BOOL: inst::cast_bool(core); break;
+				case Inst::CAST_CHAR: inst::cast_char(core); break;
+				case Inst::CAST_INT: inst::cast_int(core); break;
+				case Inst::CAST_FLOAT: inst::cast_float(core); break;
+				case Inst::CAST_STRING: inst::cast_string(core); break;
+				case Inst::CAST_ARRAY: inst::cast_array(core); break;
 
-				case Inst::TYPEID: this->type_id(); break;
-				case Inst::CLONE: this->clone(); break;
+				case Inst::TYPEID: inst::type_id(core); break;
+				case Inst::CLONE: inst::clone(core); break;
 
-				case Inst::MEMBER_READ: this->member_read(); break;
-				case Inst::MEMBER_WRITE: this->member_write(); break;
+				case Inst::MEMBER_READ: inst::member_read(core); break;
+				case Inst::MEMBER_WRITE: inst::member_write(core); break;
 
-				case Inst::ALGORITHM: this->algorithm(); break;
-				case Inst::RANDOM: this->random(); break;
+				case Inst::ALGORITHM: inst::algorithm(core); break;
+				case Inst::RANDOM: inst::random(core); break;
 				default: {
 					std::stringstream ss;
 					ss << "Illegal Instruction: " << std::hex << int(inst) << std::dec;

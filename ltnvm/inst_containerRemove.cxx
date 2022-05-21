@@ -1,7 +1,7 @@
-#include "LtnVM.hxx"
+#include "instructions.hxx"
 #include "index.hxx"
 
-namespace ltn::vm {
+namespace ltn::vm::inst {
 	namespace {
 		void guardEmpty(const auto & collection) {
 			if(collection.empty()) throw except::empty_collection();
@@ -36,31 +36,31 @@ namespace ltn::vm {
 		}
 	}  
 
-	void LtnVM::remove() {
-		const auto type = this->fetch_byte();
+	void remove(VmCore & core) {
+		const auto type = core.fetch_byte();
 
 		switch (type) {
 		case 0: {
-			const auto ref = this->core.reg.pop();
-			if(is_string(ref)) return removeFirst<String>(ref, this->core.heap);
-			if(is_array(ref)) return removeFirst<Array>(ref, this->core.heap);
+			const auto ref = core.reg.pop();
+			if(is_string(ref)) return removeFirst<String>(ref, core.heap);
+			if(is_array(ref)) return removeFirst<Array>(ref, core.heap);
 			throw except::invalid_argument();
 		} break;
 
 		case 1: {
-			const auto key = this->core.reg.pop();
-			const auto ref = this->core.reg.pop();
-			if(is_map(ref)) return removeM(ref, this->core.heap, key);
+			const auto key = core.reg.pop();
+			const auto ref = core.reg.pop();
+			if(is_map(ref)) return removeM(ref, core.heap, key);
 			const auto index = to_index(key);
-			if(is_string(ref)) return removeI<String>(ref, this->core.heap, index);
-			if(is_array(ref)) return removeI<Array>(ref, this->core.heap, index);
+			if(is_string(ref)) return removeI<String>(ref, core.heap, index);
+			if(is_array(ref)) return removeI<Array>(ref, core.heap, index);
 			throw except::invalid_argument();
 		} break;
 
 		case 2: {
-			const auto ref = this->core.reg.pop();
-			if(is_string(ref)) return removeLast<String>(ref, this->core.heap);
-			if(is_array(ref)) return removeLast<Array>(ref, this->core.heap);
+			const auto ref = core.reg.pop();
+			if(is_string(ref)) return removeLast<String>(ref, core.heap);
+			if(is_array(ref)) return removeLast<Array>(ref, core.heap);
 			throw except::invalid_argument();
 		} break;
 

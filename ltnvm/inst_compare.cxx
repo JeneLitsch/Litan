@@ -1,11 +1,11 @@
-#include "LtnVM.hxx"
+#include "instructions.hxx"
 #include "type_check.hxx"
 #include "calcBinary.hxx"
 #include "Operations.hxx"
 #include "compare.hxx"
 #include "convert.hxx"
 
-namespace ltn::vm {
+namespace ltn::vm::inst {
 
 	
 	namespace {
@@ -18,40 +18,40 @@ namespace ltn::vm {
 	}
 	
 	#define FETCH\
-		const auto r = this->core.reg.pop();\
-		const auto l = this->core.reg.pop();
+		const auto r = core.reg.pop();\
+		const auto l = core.reg.pop();
 
-	void LtnVM::eql() {
+	void eql(VmCore & core) {
 		FETCH
-		return this->core.reg.push(compare(l, r, this->core.heap) == 0);
+		return core.reg.push(compare(l, r, core.heap) == 0);
 	}
-	void LtnVM::ueql() {
+	void ueql(VmCore & core) {
 		FETCH
-		return this->core.reg.push(compare(l, r, this->core.heap) != 0);
+		return core.reg.push(compare(l, r, core.heap) != 0);
 	}
-	void LtnVM::sml() {
+	void sml(VmCore & core) {
 		FETCH
-		return this->core.reg.push(compare(l, r, this->core.heap) < 0);
+		return core.reg.push(compare(l, r, core.heap) < 0);
 	}
-	void LtnVM::bgr() {
+	void bgr(VmCore & core) {
 		FETCH
-		return this->core.reg.push(compare(l, r, this->core.heap) > 0);
+		return core.reg.push(compare(l, r, core.heap) > 0);
 	}
-	void LtnVM::smleql() {
+	void smleql(VmCore & core) {
 		FETCH
-		return this->core.reg.push(compare(l, r, this->core.heap) <= 0);
+		return core.reg.push(compare(l, r, core.heap) <= 0);
 	}
-	void LtnVM::bgreql() {
+	void bgreql(VmCore & core) {
 		FETCH
-		return this->core.reg.push(compare(l, r, this->core.heap) >= 0);
+		return core.reg.push(compare(l, r, core.heap) >= 0);
 	}
-	void LtnVM::comp() {
+	void comp(VmCore & core) {
 		FETCH
-		const auto result = compare(l, r, this->core.heap);
-		return this->core.reg.push(eval_3_way(result));
+		const auto result = compare(l, r, core.heap);
+		return core.reg.push(eval_3_way(result));
 	}
 
-	void LtnVM::approx() {
+	void approx(VmCore & core) {
 		static constexpr stx::float64_t max = std::numeric_limits<stx::float64_t>::max();
 		static constexpr stx::float64_t eps = std::numeric_limits<stx::float64_t>::epsilon();
 		FETCH
@@ -61,18 +61,18 @@ namespace ltn::vm {
 			const stx::float64_t diff = std::abs(l_float - r_float);
 			const stx::float64_t norm = std::min((l_float + r_float), max);
 			const bool is_sameish = diff < (norm * eps);
-			return this->core.reg.push(value::boolean(is_sameish)); 
+			return core.reg.push(value::boolean(is_sameish)); 
 		}
 		else {
-			const bool is_sameish = compare(l, r, this->core.heap) == 0;
-			return this->core.reg.push(value::boolean(is_sameish)); 
+			const bool is_sameish = compare(l, r, core.heap) == 0;
+			return core.reg.push(value::boolean(is_sameish)); 
 		}
 	}
 
-	void LtnVM::between() {
-		const auto to = this->core.reg.pop(); 
-		const auto from = this->core.reg.pop(); 
-		const auto i = this->core.reg.pop();
+	void between(VmCore & core) {
+		const auto to = core.reg.pop(); 
+		const auto from = core.reg.pop(); 
+		const auto i = core.reg.pop();
 
 		const auto from_is_less = num_compare(from, to) < 0;
 		const auto min = from_is_less ? from : to;
@@ -82,7 +82,7 @@ namespace ltn::vm {
 			num_compare(i, min) <= 0 ||
 			num_compare(i, max) > 0;
 		
-		this->core.reg.push(value::boolean(is_in_range));
+		core.reg.push(value::boolean(is_in_range));
 	}
 
 	#undef FETCH

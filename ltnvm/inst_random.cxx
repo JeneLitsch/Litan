@@ -1,8 +1,8 @@
-#include "LtnVM.hxx"
+#include "instructions.hxx"
 #include <random>
 #include "convert.hxx"
 
-namespace ltn::vm {
+namespace ltn::vm::inst {
 	namespace {
 		RandomEngine & get_rng(const Value ref, Heap & heap) {
 			if(is_rng(ref)) {
@@ -53,13 +53,13 @@ namespace ltn::vm {
 
 	}
 	
-	void LtnVM::random() {
-		const auto func = this->fetch_byte();
+	void random(VmCore & core) {
+		const auto func = core.fetch_byte();
 		switch (func) {
-		case 0x00: return split(this->core.reg, this->core.heap);
-		case 0x10: return rand(this->core.reg, this->core.heap);
-		case 0x11: return rand_int(this->core.reg, this->core.heap);
-		case 0x12: return rand_float(this->core.reg, this->core.heap);
+		case 0x00: return split(core.reg, core.heap);
+		case 0x10: return rand(core.reg, core.heap);
+		case 0x11: return rand_int(core.reg, core.heap);
+		case 0x12: return rand_float(core.reg, core.heap);
 		
 		default: throw std::runtime_error{"Invalid random func code"};
 		}

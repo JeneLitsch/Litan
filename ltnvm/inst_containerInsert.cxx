@@ -1,8 +1,8 @@
-#include "LtnVM.hxx"
+#include "instructions.hxx"
 #include "index.hxx"
 #include "convert.hxx"
 
-namespace ltn::vm {
+namespace ltn::vm::inst {
 	namespace {
 		using array = std::vector<Value>;
 		using string = std::string;
@@ -97,23 +97,23 @@ namespace ltn::vm {
 	}
 	
 
-	void LtnVM::insert() {
-		const auto type = this->fetch_byte();
+	void insert(VmCore & core) {
+		const auto type = core.fetch_byte();
 		switch (type) {
-		case 0: return insert_front(this->core.reg, this->core.heap); 
-		case 1: return insertIndex( this->core.reg, this->core.heap);
-		case 2: return insert_back( this->core.reg, this->core.heap);
+		case 0: return insert_front(core.reg, core.heap); 
+		case 1: return insertIndex( core.reg, core.heap);
+		case 2: return insert_back( core.reg, core.heap);
 		default: throw except::invalid_argument();
 		}
 	}
 
-	void LtnVM::at_write() {
-		const auto key = this->core.reg.pop();
-		const auto ref = this->core.reg.pop();
-		const auto elem = this->core.reg.pop();
+	void at_write(VmCore & core) {
+		const auto key = core.reg.pop();
+		const auto ref = core.reg.pop();
+		const auto elem = core.reg.pop();
 		
 		if(is_array(ref)) {
-			auto & arr = this->core.heap.read<Array>(ref.u).get();
+			auto & arr = core.heap.read<Array>(ref.u).get();
 			const auto index = to_index(key);
 			guard_index(arr, index);
 			arr[static_cast<std::size_t>(index)] = elem;
@@ -121,7 +121,7 @@ namespace ltn::vm {
 		}
 
 		if(is_string(ref)) {
-			auto & str = this->core.heap.read<String>(ref.u).get();
+			auto & str = core.heap.read<String>(ref.u).get();
 			const auto index = to_index(key);
 			guard_index(str, index);
 			str[static_cast<std::size_t>(index)] = convert::to_char(elem);
@@ -129,7 +129,7 @@ namespace ltn::vm {
 		}
 
 		if(is_map(ref)) {
-			push_m(ref, this->core.heap, elem, key);
+			push_m(ref, core.heap, elem, key);
 			return;
 		}
 

@@ -1,6 +1,6 @@
-#include "LtnVM.hxx"
+#include "instructions.hxx"
 
-namespace ltn::vm {
+namespace ltn::vm::inst {
 	namespace {
 		inline Struct & get_struct(const Value ref, Heap & heap) {
 			if(is_struct(ref)) {
@@ -31,23 +31,23 @@ namespace ltn::vm {
 		}
 	}
 
-	void LtnVM::member_read() {
-		const auto id = this->fetch_uint();
-		const auto ref = this->core.reg.pop();
-		auto & s = get_struct(ref, this->core.heap);
+	void member_read(VmCore & core) {
+		const auto id = core.fetch_uint();
+		const auto ref = core.reg.pop();
+		auto & s = get_struct(ref, core.heap);
 		if(const auto * const member = get_member(s, id)) {
-			this->core.reg.push(*member);
+			core.reg.push(*member);
 		}
 		else {
-			this->core.reg.push(value::null);
+			core.reg.push(value::null);
 		}
 	}
 	
-	void LtnVM::member_write() {
-		const auto id = this->fetch_uint();
-		const auto ref = this->core.reg.pop();
-		const auto value = this->core.reg.pop();
-		auto & s = get_struct(ref, this->core.heap);
+	void member_write(VmCore & core) {
+		const auto id = core.fetch_uint();
+		const auto ref = core.reg.pop();
+		const auto value = core.reg.pop();
+		auto & s = get_struct(ref, core.heap);
 		if(auto * const member = get_member(s, id)) {
 			if(is_null(value)) {
 				delete_member(s, id);
