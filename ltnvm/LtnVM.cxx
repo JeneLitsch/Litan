@@ -5,7 +5,152 @@
 #include "instructions.hxx"
 
 namespace ltn::vm {
+	using InstFx = void(*)(VmCore&);
 
+	constexpr void add_instruction(auto & table, auto op_code, auto fx) {
+		table[static_cast<std::size_t>(op_code)] = fx;
+	}
+
+	void illegal_instruction(VmCore & core) {
+		std::stringstream ss;
+		ss << "Illegal Instruction";
+		throw std::runtime_error{ss.str()};
+	}
+
+
+
+	constexpr auto make_instruction_table() {
+		std::array<InstFx, 256> table;
+		std::fill(std::begin(table), std::end(table), illegal_instruction);
+		add_instruction(table, Inst::EXIT, inst::exit);
+		add_instruction(table, Inst::ERROR, inst::error);
+		add_instruction(table, Inst::STATE, inst::state);
+		add_instruction(table, Inst::TRY, inst::tRy);
+		add_instruction(table, Inst::THROW, inst::thr0w);
+		add_instruction(table, Inst::ADD, inst::add);
+		add_instruction(table, Inst::SUB, inst::sub);
+		add_instruction(table, Inst::MLT, inst::mlt);
+		add_instruction(table, Inst::DIV, inst::div);
+		add_instruction(table, Inst::MOD, inst::mod);
+		add_instruction(table, Inst::EQL, inst::eql);
+		add_instruction(table, Inst::UEQL, inst::ueql);
+		add_instruction(table, Inst::SML, inst::sml);
+		add_instruction(table, Inst::BGR, inst::bgr);
+		add_instruction(table, Inst::SMLEQL, inst::smleql);
+		add_instruction(table, Inst::BGREQL, inst::bgreql);
+		add_instruction(table, Inst::SHIFT_L, inst::shift_l);
+		add_instruction(table, Inst::SHIFT_R, inst::shift_r);
+		add_instruction(table, Inst::NEG, inst::neg);
+		add_instruction(table, Inst::NOT, inst::n0t);
+		add_instruction(table, Inst::INC, inst::inc);
+		add_instruction(table, Inst::DEC, inst::dec);
+		add_instruction(table, Inst::COMP, inst::comp);
+		add_instruction(table, Inst::APPROX, inst::approx);
+		add_instruction(table, Inst::BETWEEN, inst::between);
+		add_instruction(table, Inst::NEWI, inst::newi);
+		add_instruction(table, Inst::NEWF, inst::newf);
+		add_instruction(table, Inst::NEWU, inst::newu);
+		add_instruction(table, Inst::NEWC, inst::newc);
+		add_instruction(table, Inst::TRUE, inst::truE);
+		add_instruction(table, Inst::FALSE, inst::falsE);
+		add_instruction(table, Inst::NVLL, inst::null);
+		add_instruction(table, Inst::JUMP, inst::jump);
+		add_instruction(table, Inst::CALL, inst::call);
+		add_instruction(table, Inst::RETURN, inst::reTurn);
+		add_instruction(table, Inst::IF, inst::iF);
+		add_instruction(table, Inst::INVOKE, inst::invoke);
+		add_instruction(table, Inst::EXTERNAL, inst::external);
+		add_instruction(table, Inst::CAPTURE, inst::capture);
+		add_instruction(table, Inst::PARAMETERS, inst::parameters);
+		add_instruction(table, Inst::NEWARR, inst::newarr);
+		add_instruction(table, Inst::NEWSTR, inst::newstr);
+		add_instruction(table, Inst::NEWOUT, inst::newout);
+		add_instruction(table, Inst::NEWIN, inst::newin);
+		add_instruction(table, Inst::NEWFX, inst::newfx);
+		add_instruction(table, Inst::NEWCLOCK, inst::newclock);
+		add_instruction(table, Inst::NEWSTRUCT, inst::newstruct);
+		add_instruction(table, Inst::NEWRANGE, inst::newrange);
+		add_instruction(table, Inst::NEWSTACK, inst::newstack);
+		add_instruction(table, Inst::NEWQUEUE, inst::newqueue);
+		add_instruction(table, Inst::NEWMAP, inst::newmap);
+		add_instruction(table, Inst::NEWRNG, inst::newrng);
+		add_instruction(table, Inst::READ, inst::read);
+		add_instruction(table, Inst::WRITE, inst::write);
+		add_instruction(table, Inst::SCRAP, inst::scrap);
+		add_instruction(table, Inst::DUPLICATE, inst::duplicate);
+		add_instruction(table, Inst::MAKEVAR, inst::makevar);
+		add_instruction(table, Inst::READ_X, inst::read_x);
+		add_instruction(table, Inst::WRITE_X, inst::write_x);
+		add_instruction(table, Inst::SWAP, inst::swap);
+		add_instruction(table, Inst::READ_0, inst::read_0);
+		add_instruction(table, Inst::READ_1, inst::read_1);
+		add_instruction(table, Inst::READ_2, inst::read_2);
+		add_instruction(table, Inst::READ_3, inst::read_3);
+		add_instruction(table, Inst::WRITE_0, inst::write_0);
+		add_instruction(table, Inst::WRITE_1, inst::write_1);
+		add_instruction(table, Inst::WRITE_2, inst::write_2);
+		add_instruction(table, Inst::WRITE_3, inst::write_3);
+		add_instruction(table, Inst::OUT, inst::out);
+		add_instruction(table, Inst::STYLIZE, inst::stylize);
+		add_instruction(table, Inst::CLOSE_STREAM, inst::close_stream);
+		add_instruction(table, Inst::IN_STR, inst::in_str);
+		add_instruction(table, Inst::IN_LINE, inst::in_line);
+		add_instruction(table, Inst::IN_BOOL, inst::in_bool);
+		add_instruction(table, Inst::IN_CHAR, inst::in_char);
+		add_instruction(table, Inst::IN_INT, inst::in_int);
+		add_instruction(table, Inst::IN_FLOAT, inst::in_float);
+		add_instruction(table, Inst::IN_ALL, inst::in_all);
+		add_instruction(table, Inst::IS_EOF, inst::is_eof);
+		add_instruction(table, Inst::IS_GOOD, inst::is_good);
+		add_instruction(table, Inst::MIN, inst::min);
+		add_instruction(table, Inst::MAX, inst::max);
+		add_instruction(table, Inst::ROUND, inst::round);
+		add_instruction(table, Inst::FLOOR, inst::floor);
+		add_instruction(table, Inst::CEIL, inst::ceil);
+		add_instruction(table, Inst::ABS, inst::abs);
+		add_instruction(table, Inst::HYPOT, inst::hypot);
+		add_instruction(table, Inst::SQRT, inst::sqrt);
+		add_instruction(table, Inst::LOG, inst::log);
+		add_instruction(table, Inst::LN, inst::ln);
+		add_instruction(table, Inst::POW, inst::pow);
+		add_instruction(table, Inst::SIN, inst::sin);
+		add_instruction(table, Inst::COS, inst::cos);
+		add_instruction(table, Inst::TAN, inst::tan);
+		add_instruction(table, Inst::BITAND, inst::bit_and);
+		add_instruction(table, Inst::BITOR, inst::bit_or);
+		add_instruction(table, Inst::BITXOR, inst::bit_xor);
+		add_instruction(table, Inst::BITNOT, inst::bit_not);
+		add_instruction(table, Inst::SIZE, inst::size);
+		add_instruction(table, Inst::AT, inst::at);
+		add_instruction(table, Inst::AT_WRITE, inst::at_write);
+		add_instruction(table, Inst::FRONT, inst::front);
+		add_instruction(table, Inst::BACK, inst::back);
+		add_instruction(table, Inst::INSERT, inst::insert);
+		add_instruction(table, Inst::REMOVE, inst::remove);
+		add_instruction(table, Inst::BEGIN, inst::begin);
+		add_instruction(table, Inst::END, inst::end);
+		add_instruction(table, Inst::PUSH, inst::push);
+		add_instruction(table, Inst::POP, inst::pop);
+		add_instruction(table, Inst::PEEK, inst::peek);
+		add_instruction(table, Inst::CONTAINS, inst::contains);
+		add_instruction(table, Inst::CAST_BOOL, inst::cast_bool);
+		add_instruction(table, Inst::CAST_CHAR, inst::cast_char);
+		add_instruction(table, Inst::CAST_INT, inst::cast_int);
+		add_instruction(table, Inst::CAST_FLOAT, inst::cast_float);
+		add_instruction(table, Inst::CAST_STRING, inst::cast_string);
+		add_instruction(table, Inst::CAST_ARRAY, inst::cast_array);
+		add_instruction(table, Inst::TYPEID, inst::type_id);
+		add_instruction(table, Inst::CLONE, inst::clone);
+		add_instruction(table, Inst::MEMBER_READ, inst::member_read);
+		add_instruction(table, Inst::MEMBER_WRITE, inst::member_write);
+		add_instruction(table, Inst::ALGORITHM, inst::algorithm);
+		add_instruction(table, Inst::RANDOM, inst::random);
+
+		return table;
+	}
+
+	const auto instructions_table = make_instruction_table();
+ 
 	void LtnVM::register_external(
 		std::int64_t id,
 		std::unique_ptr<ext::External> && ext) {
@@ -37,167 +182,17 @@ namespace ltn::vm {
 		try {
 			while(true) {
 				std::uint8_t inst = this->core.fetch_byte();
-				switch (static_cast<Inst>(inst)) {
-				case Inst::EXIT: {
-					return this->core.reg.pop();
-
-				}
-				
-				case Inst::ERROR: {
-					return value::null;
-				}
-
-				case Inst::STATE: inst::state(core); break;
-				case Inst::TRY: inst::tRy(core); break;
-				case Inst::THROW: inst::thr0w(core); break;
-				
-				case Inst::ADD: inst::add(core); break;
-				case Inst::SUB: inst::sub(core); break;
-				case Inst::MLT: inst::mlt(core); break;
-				case Inst::DIV: inst::div(core); break;
-				case Inst::MOD: inst::mod(core); break;
-
-				case Inst::EQL: inst::eql(core); break;
-				case Inst::UEQL: inst::ueql(core); break;
-				case Inst::SML: inst::sml(core); break;
-				case Inst::BGR: inst::bgr(core); break;
-				case Inst::SMLEQL: inst::smleql(core); break;
-				case Inst::BGREQL: inst::bgreql(core); break;
-				case Inst::SHIFT_L: inst::shift_l(core); break;
-				case Inst::SHIFT_R: inst::shift_r(core); break;
-				
-				case Inst::NEG: inst::neg(core); break;
-				case Inst::NOT: inst::n0t(core); break;
-				case Inst::INC: inst::inc(core); break;
-				case Inst::DEC: inst::dec(core); break;
-				
-				case Inst::COMP: inst::comp(core); break;
-				case Inst::APPROX: inst::approx(core); break;
-				case Inst::BETWEEN: inst::between(core); break;
-
-				case Inst::NEWI: inst::newi(core); break;
-				case Inst::NEWF: inst::newf(core); break;
-				case Inst::NEWU: inst::newu(core); break;
-				case Inst::NEWC: inst::newc(core); break;
-				case Inst::TRUE: inst::truE(core); break;
-				case Inst::FALSE: inst::falsE(core); break;
-				case Inst::NVLL: inst::null(core); break;
-
-				case Inst::JUMP: inst::jump(core); break;
-				case Inst::CALL: inst::call(core); break;
-				case Inst::RETURN: inst::reTurn(core); break;
-				case Inst::IF: inst::iF(core); break;
-				case Inst::INVOKE: inst::invoke(core); break;
-				case Inst::EXTERNAL: inst::external(core); break;
-				case Inst::CAPTURE: inst::capture(core); break;
-				case Inst::PARAMETERS: inst::parameters(core); break;
-					
-				case Inst::NEWARR: inst::newarr(core); break;
-				case Inst::NEWSTR: inst::newstr(core); break;
-				case Inst::NEWOUT: inst::newout(core); break;
-				case Inst::NEWIN: inst::newin(core); break;
-				case Inst::NEWFX: inst::newfx(core); break;
-				case Inst::NEWCLOCK: inst::newclock(core); break;
-				case Inst::NEWSTRUCT: inst::newstruct(core); break;
-				case Inst::NEWRANGE: inst::newrange(core); break;
-				case Inst::NEWSTACK: inst::newstack(core); break;
-				case Inst::NEWQUEUE: inst::newqueue(core); break;
-				case Inst::NEWMAP: inst::newmap(core); break;
-				case Inst::NEWRNG: inst::newrng(core); break;
-				
-				case Inst::READ: inst::read(core); break;
-				case Inst::WRITE: inst::write(core); break;
-				case Inst::SCRAP: inst::scrap(core); break;
-				case Inst::DUPLICATE: inst::duplicate(core); break;
-				case Inst::MAKEVAR: inst::makevar(core); break;
-				case Inst::READ_X: inst::read_x(core); break;
-				case Inst::WRITE_X: inst::write_x(core); break;
-				case Inst::SWAP: inst::swap(core); break;
-
-				case Inst::READ_0: inst::read_0(core); break;
-				case Inst::READ_1: inst::read_1(core); break;
-				case Inst::READ_2: inst::read_2(core); break;
-				case Inst::READ_3: inst::read_3(core); break;
-				case Inst::WRITE_0: inst::write_0(core); break;
-				case Inst::WRITE_1: inst::write_1(core); break;
-				case Inst::WRITE_2: inst::write_2(core); break;
-				case Inst::WRITE_3: inst::write_3(core); break;
-
-				case Inst::OUT: inst::out(core); break;
-				case Inst::STYLIZE: inst::stylize(core); break;
-				case Inst::CLOSE_STREAM: inst::close_stream(core); break;
-				case Inst::IN_STR: inst::in_str(core); break;
-				case Inst::IN_LINE: inst::in_line(core); break;
-				case Inst::IN_BOOL: inst::in_bool(core); break;
-				case Inst::IN_CHAR: inst::in_char(core); break;
-				case Inst::IN_INT: inst::in_int(core); break;
-				case Inst::IN_FLOAT: inst::in_float(core); break;
-				case Inst::IN_ALL: inst::in_all(core); break;
-				case Inst::IS_EOF: inst::is_eof(core); break;
-				case Inst::IS_GOOD: inst::is_good(core); break;
-
-				case Inst::MIN: inst::min(core); break;
-				case Inst::MAX: inst::max(core); break;
-				case Inst::ROUND: inst::round(core); break;
-				case Inst::FLOOR: inst::floor(core); break;
-				case Inst::CEIL: inst::ceil(core); break;
-				case Inst::ABS: inst::abs(core); break;
-				case Inst::HYPOT: inst::hypot(core); break;
-				case Inst::SQRT: inst::sqrt(core); break;
-				case Inst::LOG: inst::log(core); break;
-				case Inst::LN: inst::ln(core); break;
-				case Inst::POW: inst::pow(core); break;
-				
-				case Inst::SIN: inst::sin(core); break;
-				case Inst::COS: inst::cos(core); break;
-				case Inst::TAN: inst::tan(core); break;
-
-				case Inst::BITAND: inst::bit_and(core); break;
-				case Inst::BITOR: inst::bit_or(core); break;
-				case Inst::BITXOR: inst::bit_xor(core); break;
-				case Inst::BITNOT: inst::bit_not(core); break;
-				
-				case Inst::SIZE: inst::size(core); break;
-				case Inst::AT: inst::at(core); break;
-				case Inst::AT_WRITE: inst::at_write(core); break;
-				case Inst::FRONT: inst::front(core); break;
-				case Inst::BACK: inst::back(core); break;
-				case Inst::INSERT: inst::insert(core); break;
-				case Inst::REMOVE: inst::remove(core); break;
-				case Inst::BEGIN: inst::begin(core); break;
-				case Inst::END: inst::end(core); break;
-				case Inst::PUSH: inst::push(core); break;
-				case Inst::POP: inst::pop(core); break;
-				case Inst::PEEK: inst::peek(core); break;
-				case Inst::CONTAINS: inst::contains(core); break;
-
-				case Inst::CAST_BOOL: inst::cast_bool(core); break;
-				case Inst::CAST_CHAR: inst::cast_char(core); break;
-				case Inst::CAST_INT: inst::cast_int(core); break;
-				case Inst::CAST_FLOAT: inst::cast_float(core); break;
-				case Inst::CAST_STRING: inst::cast_string(core); break;
-				case Inst::CAST_ARRAY: inst::cast_array(core); break;
-
-				case Inst::TYPEID: inst::type_id(core); break;
-				case Inst::CLONE: inst::clone(core); break;
-
-				case Inst::MEMBER_READ: inst::member_read(core); break;
-				case Inst::MEMBER_WRITE: inst::member_write(core); break;
-
-				case Inst::ALGORITHM: inst::algorithm(core); break;
-				case Inst::RANDOM: inst::random(core); break;
-				default: {
-					std::stringstream ss;
-					ss << "Illegal Instruction: " << std::hex << int(inst) << std::dec;
-					throw std::runtime_error{ss.str()};
-				} break;				
-				}
+				instructions_table[inst](core);
 			}
 
 		}
 		catch(const Exception & error) {
 			this->error(error.msg);
 			goto RESUME;
+		}
+
+		catch(const Value & value) {
+			return value;
 		}
 	}
 }

@@ -4,6 +4,8 @@
 
 namespace ltn::vm::inst {
 	void
+		exit(VmCore & core),
+		error(VmCore & core),
 		state(VmCore & core),
 		tRy(VmCore & core),
 		thr0w(VmCore & core);
