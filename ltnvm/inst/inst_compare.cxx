@@ -1,9 +1,9 @@
 #include "instructions.hxx"
-#include "type_check.hxx"
-#include "calcBinary.hxx"
-#include "Operations.hxx"
-#include "compare.hxx"
-#include "convert.hxx"
+#include "ltnvm/type_check.hxx"
+#include "ltnvm/calcBinary.hxx"
+#include "ltnvm/Operations.hxx"
+#include "ltnvm/compare.hxx"
+#include "ltnvm/convert.hxx"
 
 namespace ltn::vm::inst {
 

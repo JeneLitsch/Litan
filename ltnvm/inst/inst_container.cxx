@@ -1,7 +1,7 @@
 #include "instructions.hxx"
 #include <stdexcept>
-#include "convert.hxx"
-#include "index.hxx"
+#include "ltnvm/convert.hxx"
+#include "ltnvm/index.hxx"
 namespace ltn::vm::inst {
 	
 	void push(VmCore & core) {

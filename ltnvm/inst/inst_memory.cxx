@@ -1,6 +1,6 @@
 #include "instructions.hxx"
-#include "type_check.hxx"
-#include "index.hxx"
+#include "ltnvm/type_check.hxx"
+#include "ltnvm/index.hxx"
 
 namespace ltn::vm::inst {
 	void read(VmCore & core) {

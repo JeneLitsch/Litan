@@ -1,6 +1,6 @@
 #include "instructions.hxx"
-#include "type_check.hxx"
-#include "cast.hxx"
+#include "ltnvm/type_check.hxx"
+#include "ltnvm/cast.hxx"
 #include <fstream>
 
 namespace ltn::vm::inst {

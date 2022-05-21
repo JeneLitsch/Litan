@@ -1,7 +1,7 @@
 #include "instructions.hxx"
-#include "type_check.hxx"
-#include "convert.hxx"
-#include "index.hxx"
+#include "ltnvm/type_check.hxx"
+#include "ltnvm/convert.hxx"
+#include "ltnvm/index.hxx"
 
 namespace ltn::vm::inst {
 	namespace {

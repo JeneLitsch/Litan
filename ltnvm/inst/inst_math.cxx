@@ -1,8 +1,8 @@
 #include "instructions.hxx"
-#include "type_check.hxx"
+#include "ltnvm/type_check.hxx"
 #include <cmath>
-#include "MathFunctions.hxx"
-#include "convert.hxx"
+#include "ltnvm/MathFunctions.hxx"
+#include "ltnvm/convert.hxx"
 
 namespace ltn::vm::inst {
 	#define FETCH\

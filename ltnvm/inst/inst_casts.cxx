@@ -1,6 +1,6 @@
 #include "instructions.hxx"
-#include "type_check.hxx"
-#include "cast.hxx"
+#include "ltnvm/type_check.hxx"
+#include "ltnvm/cast.hxx"
 #include <sstream>
 
 namespace ltn::vm::inst {
@@ -10,6 +10,8 @@ namespace ltn::vm::inst {
 		core.reg.push(value::character(c));
 	}
 
+
+
 	void cast_int(VmCore & core) {
 		const auto value = core.reg.pop();
 		const auto i = cast::to_int(value, core.heap);
@@ -17,11 +19,13 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void cast_float(VmCore & core) {
 		const auto value = core.reg.pop();
 		const auto f = cast::to_float(value, core.heap);
 		core.reg.push(value::floating(f));
 	}
+
 
 
 	void cast_string(VmCore & core) {
@@ -37,11 +41,13 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void cast_bool(VmCore & core) {
 		const auto value = core.reg.pop();
 		const auto b = cast::to_bool(value);
 		core.reg.push(Value(b));
 	}
+
 
 
 	void cast_array(VmCore & core) {

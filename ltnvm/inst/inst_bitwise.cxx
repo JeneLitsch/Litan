@@ -1,10 +1,10 @@
 #include "instructions.hxx"
 #include <cmath>
-#include "type_check.hxx"
+#include "ltnvm/type_check.hxx"
 #include <sstream>
-#include "Operations.hxx"
-#include "calcBinary.hxx"
-#include "convert.hxx"
+#include "ltnvm/Operations.hxx"
+#include "ltnvm/calcBinary.hxx"
+#include "ltnvm/convert.hxx"
 
 #define FETCH\
 	const auto r = core.reg.pop();\

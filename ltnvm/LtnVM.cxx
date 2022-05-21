@@ -2,7 +2,7 @@
 #include "ltn/InstructionSet.hxx"
 #include <sstream>
 #include "cast.hxx"
-#include "instructions.hxx"
+#include "inst/instructions.hxx"
 
 namespace ltn::vm {
 	using InstFx = void(*)(VmCore&);

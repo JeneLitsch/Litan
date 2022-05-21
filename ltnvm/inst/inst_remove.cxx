@@ -1,5 +1,5 @@
 #include "instructions.hxx"
-#include "index.hxx"
+#include "ltnvm/index.hxx"
 
 namespace ltn::vm::inst {
 	namespace {
@@ -7,22 +7,28 @@ namespace ltn::vm::inst {
 			if(collection.empty()) throw except::empty_collection();
 		}
 
+
+
 		template<typename Collection>
-		void removeLast(const Value ref, Heap & heap) {
+		void remove_last(const Value ref, Heap & heap) {
 			auto & collection = heap.read<Collection>(ref.u).get(); 
 			guardEmpty(collection);
 			collection.pop_back();
 		}
 
+
+
 		template<typename Collection>
-		void removeFirst(const Value ref, Heap & heap) {
+		void remove_first(const Value ref, Heap & heap) {
 			auto & collection = heap.read<Collection>(ref.u).get(); 
 			guardEmpty(collection);
 			collection.erase(collection.begin());
 		}
 
+
+
 		template<typename Collection>
-		void removeI(const Value ref, Heap & heap, std::int64_t i, std::int64_t size = 1) {
+		void remove_index(const Value ref, Heap & heap, std::int64_t i, std::int64_t size = 1) {
 			auto & collection = heap.read<Collection>(ref.u).get();
 			guard_index(collection, i);
 			const auto begin = collection.begin() + i;
@@ -30,7 +36,9 @@ namespace ltn::vm::inst {
 			collection.erase(begin, end);
 		}
 
-		void removeM(const Value ref, Heap & heap, const Value key) {
+
+
+		void remove_m(const Value ref, Heap & heap, const Value key) {
 			auto & map = heap.read<Map>(ref.u).get(); 
 			map.erase(key);
 		}
@@ -42,25 +50,25 @@ namespace ltn::vm::inst {
 		switch (type) {
 		case 0: {
 			const auto ref = core.reg.pop();
-			if(is_string(ref)) return removeFirst<String>(ref, core.heap);
-			if(is_array(ref)) return removeFirst<Array>(ref, core.heap);
+			if(is_string(ref)) return remove_first<String>(ref, core.heap);
+			if(is_array(ref)) return remove_first<Array>(ref, core.heap);
 			throw except::invalid_argument();
 		} break;
 
 		case 1: {
 			const auto key = core.reg.pop();
 			const auto ref = core.reg.pop();
-			if(is_map(ref)) return removeM(ref, core.heap, key);
+			if(is_map(ref)) return remove_m(ref, core.heap, key);
 			const auto index = to_index(key);
-			if(is_string(ref)) return removeI<String>(ref, core.heap, index);
-			if(is_array(ref)) return removeI<Array>(ref, core.heap, index);
+			if(is_string(ref)) return remove_index<String>(ref, core.heap, index);
+			if(is_array(ref)) return remove_index<Array>(ref, core.heap, index);
 			throw except::invalid_argument();
 		} break;
 
 		case 2: {
 			const auto ref = core.reg.pop();
-			if(is_string(ref)) return removeLast<String>(ref, core.heap);
-			if(is_array(ref)) return removeLast<Array>(ref, core.heap);
+			if(is_string(ref)) return remove_last<String>(ref, core.heap);
+			if(is_array(ref)) return remove_last<Array>(ref, core.heap);
 			throw except::invalid_argument();
 		} break;
 

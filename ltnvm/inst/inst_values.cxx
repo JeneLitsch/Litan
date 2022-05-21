@@ -1,5 +1,5 @@
 #include "instructions.hxx"
-#include "type_check.hxx"
+#include "ltnvm/type_check.hxx"
 #include <iostream>
 #include <string>
 

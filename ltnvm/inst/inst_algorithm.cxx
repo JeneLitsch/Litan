@@ -1,5 +1,5 @@
 #include "instructions.hxx"
-#include "compare.hxx"
+#include "ltnvm/compare.hxx"
 #include <algorithm>
 #include <numeric>
 
@@ -24,11 +24,13 @@ namespace ltn::vm::inst {
 		}
 
 
+
 		std::uint64_t pop_array_ref(Register & reg) {
 			const auto ref = reg.pop();
 			if(!is_array(ref)) throw except::invalid_argument();
 			return ref.u;
 		}
+
 
 
 		// Functions to pass to alogrithm
@@ -39,11 +41,13 @@ namespace ltn::vm::inst {
 		}
 
 
+
 		auto bigger(Heap & heap) {
 			return [&heap] (const Value l, const Value r) {
 				return compare(l, r, heap) > 0;
 			};
 		}
+
 
 
 		auto predicate(Heap & heap, const Value key) {
@@ -64,12 +68,14 @@ namespace ltn::vm::inst {
 		}
 
 
+
 		void sort_ascn(Register & reg, Heap & heap) {
 			const auto ref = reg.pop();
 			const auto [begin, end] = to_cpp_range(ref, heap);
 			const auto comp = smaller(heap);
 			std::sort(begin, end, comp);
 		}
+
 
 
 		inline void is_sorted_ascn(Register & reg, Heap & heap) {
@@ -81,6 +87,7 @@ namespace ltn::vm::inst {
 		}
 
 
+
 		inline void is_sorted_desc(Register & reg, Heap & heap) {
 			const auto ref = reg.pop();
 			const auto [begin, end] = to_cpp_range(ref, heap);
@@ -89,6 +96,7 @@ namespace ltn::vm::inst {
 			reg.push(result);
 
 		}
+
 
 
 		void find(Register & reg, Heap & heap) {
@@ -107,6 +115,7 @@ namespace ltn::vm::inst {
 		}
 
 
+
 		void copy_front(Register & reg, Heap & heap) {
 			const auto refArr = pop_array_ref(reg);
 			const auto [begin, end] = to_cpp_range(reg.pop(), heap);
@@ -117,6 +126,7 @@ namespace ltn::vm::inst {
 		}
 
 
+
 		void copy_back(Register & reg, Heap & heap) {
 			const auto refArr = pop_array_ref(reg);
 			const auto [begin, end] = to_cpp_range(reg.pop(), heap);
@@ -125,12 +135,15 @@ namespace ltn::vm::inst {
 			std::copy(begin, end, inserter);
 		}
 
+
 		
 		inline void fill(Register & reg, Heap & heap) {
 			const auto value = reg.pop();
 			const auto [begin, end] = to_cpp_range(reg.pop(), heap);
 			std::fill(begin, end, value);
 		}
+
+
 
 		inline void reverse(Register & reg, Heap & heap) {
 			const auto ref = reg.pop();

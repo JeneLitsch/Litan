@@ -1,8 +1,8 @@
 #include "instructions.hxx"
-#include "type_check.hxx"
+#include "ltnvm/type_check.hxx"
 #include <iostream>
 #include <sstream>
-#include "convert.hxx"
+#include "ltnvm/convert.hxx"
 
 namespace ltn::vm::inst {
 	namespace {

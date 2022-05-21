@@ -1,6 +1,6 @@
 #include "instructions.hxx"
-#include "type_check.hxx"
-#include "convert.hxx"
+#include "ltnvm/type_check.hxx"
+#include "ltnvm/convert.hxx"
 #include <iostream>
 #include <fstream>
 #include <filesystem>

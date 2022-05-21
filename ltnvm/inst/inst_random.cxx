@@ -1,6 +1,6 @@
 #include "instructions.hxx"
 #include <random>
-#include "convert.hxx"
+#include "ltnvm/convert.hxx"
 
 namespace ltn::vm::inst {
 	namespace {
