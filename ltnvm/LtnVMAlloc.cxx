@@ -15,12 +15,12 @@ namespace ltn::vm {
 	} 
 
 	void LtnVM::newarr(){
-		const auto ptr = this->heap.alloc<Array>({});
-		auto & arr = this->heap.read<Array>(ptr).get(); 
+		const auto ptr = this->core.heap.alloc<Array>({});
+		auto & arr = this->core.heap.read<Array>(ptr).get(); 
 		const auto size = this->fetch_uint();
-		pushAll(arr, this->reg, size);
-		this->reg.push({ ptr, Value::Type::ARRAY });
-		this->heap.collect_garbage(this->stack, this->reg);
+		pushAll(arr, this->core.reg, size);
+		this->core.reg.push({ ptr, Value::Type::ARRAY });
+		this->core.heap.collect_garbage(this->core.stack, this->core.reg);
 	}
 
 
@@ -28,31 +28,31 @@ namespace ltn::vm {
 		const auto size = this->fetch_uint();
 		const auto cstr = this->fetch_str();
 		std::string str(cstr, cstr + size); 
-		const auto ptr = this->heap.alloc<String>({std::move(str)});
-		this->reg.push({ ptr, Value::Type::STRING });
-		this->pc += size;
-		this->heap.collect_garbage(this->stack, this->reg);
+		const auto ptr = this->core.heap.alloc<String>({std::move(str)});
+		this->core.reg.push({ ptr, Value::Type::STRING });
+		this->core.pc += size;
+		this->core.heap.collect_garbage(this->core.stack, this->core.reg);
 	}
 
 
 	void LtnVM::newout() {
 		const auto add_out = [&] (auto && out) {
 			using T = decltype(out)&&;
-			const auto ptr = this->heap.alloc<OStream>(std::forward<T>(out));
-			this->reg.push({ ptr, Value::Type::OSTREAM });
-			this->heap.collect_garbage(this->stack, this->reg);
+			const auto ptr = this->core.heap.alloc<OStream>(std::forward<T>(out));
+			this->core.reg.push({ ptr, Value::Type::OSTREAM });
+			this->core.heap.collect_garbage(this->core.stack, this->core.reg);
 		};
 
 		const auto variant = this->fetch_byte();
 		switch (variant) {
 			case 0: return add_out(OStream{std::cout});
 			case 1: {
-				const auto openmode = convert::to_int(this->reg.pop());
-				const auto ref = this->reg.pop();
+				const auto openmode = convert::to_int(this->core.reg.pop());
+				const auto ref = this->core.reg.pop();
 				if(!is_string(ref)) {
 					throw except::invalid_argument();
 				}
-				const auto & path = this->heap.read<String>(ref.u).str;
+				const auto & path = this->core.heap.read<String>(ref.u).str;
 
 				const auto flags =
 					openmode ? std::ios::app : std::ios::trunc;
@@ -71,31 +71,31 @@ namespace ltn::vm {
 	void LtnVM::newin() {
 		const auto add_in = [&] (auto && in) {
 			using T = decltype(in)&&;
-			const auto ptr = this->heap.alloc<IStream>(std::forward<T>(in));
-			this->reg.push({ ptr, Value::Type::ISTREAM });
-			this->heap.collect_garbage(this->stack, this->reg);
+			const auto ptr = this->core.heap.alloc<IStream>(std::forward<T>(in));
+			this->core.reg.push({ ptr, Value::Type::ISTREAM });
+			this->core.heap.collect_garbage(this->core.stack, this->core.reg);
 		};
 
 		const auto variant = this->fetch_byte();
 		switch (variant) {
 			case 0: return add_in(IStream{std::cin});
 			case 1: {
-				const auto ref = this->reg.pop();
+				const auto ref = this->core.reg.pop();
 				if(!is_string(ref)) {
 					throw except::invalid_argument();
 				}
-				const auto & path = this->heap.read<String>(ref.u).str;
+				const auto & path = this->core.heap.read<String>(ref.u).str;
 				if(!std::filesystem::exists(path)) {
 					throw except::cannot_open_file(path);
 				}
 				return add_in(IStream{std::make_unique<std::ifstream>(path)});
 			}
 			case 2: {
-				const auto ref = this->reg.pop();
+				const auto ref = this->core.reg.pop();
 				if(!is_string(ref)) {
 					throw except::invalid_argument();
 				}
-				const auto & str = this->heap.read<String>(ref.u).str;
+				const auto & str = this->core.heap.read<String>(ref.u).str;
 				return add_in(IStream{std::make_unique<std::istringstream>(str)});
 			}
 		}
@@ -104,23 +104,23 @@ namespace ltn::vm {
 
 
 	void LtnVM::newclock() {
-		const auto ptr = this->heap.alloc<Clock>({});
-		this->reg.push({ ptr, Value::Type::CLOCK });
-		this->heap.collect_garbage(this->stack, this->reg);
+		const auto ptr = this->core.heap.alloc<Clock>({});
+		this->core.reg.push({ ptr, Value::Type::CLOCK });
+		this->core.heap.collect_garbage(this->core.stack, this->core.reg);
 	}
 
 
 	void LtnVM::newstruct() {
-		const auto ptr = this->heap.alloc<Struct>({});
-		this->reg.push({ ptr, Value::Type::STRUCT });
-		this->heap.collect_garbage(this->stack, this->reg);
+		const auto ptr = this->core.heap.alloc<Struct>({});
+		this->core.reg.push({ ptr, Value::Type::STRUCT });
+		this->core.heap.collect_garbage(this->core.stack, this->core.reg);
 	}
 
 
 	void LtnVM::newrange() {
-		const auto end = this->reg.pop();
-		const auto begin = this->reg.pop();
-		const auto array = this->reg.pop();
+		const auto end = this->core.reg.pop();
+		const auto begin = this->core.reg.pop();
+		const auto array = this->core.reg.pop();
 		
 		if(!is_array(array)) throw except::invalid_argument();
 		if(!is_int(begin)) throw except::invalid_argument();
@@ -128,42 +128,42 @@ namespace ltn::vm {
 
 		const auto size = end.i - begin.i;
 		
-		const auto & arr = this->heap.read<Array>(array.u).get();
+		const auto & arr = this->core.heap.read<Array>(array.u).get();
 		if(size < 0 || size > static_cast<std::int64_t>(arr.size())) {
 			throw except::out_of_range();
 		}
 		
-		const auto range = this->heap.alloc<Range>({array.u, begin.i, end.i});
-		this->reg.push(Value{range, Value::Type::RANGE});
+		const auto range = this->core.heap.alloc<Range>({array.u, begin.i, end.i});
+		this->core.reg.push(Value{range, Value::Type::RANGE});
 	}
 
 
 	void LtnVM::newstack() {
-		const auto ref = this->heap.alloc<Deque>({});
-		this->reg.push({ ref, Value::Type::STACK });
-		this->heap.collect_garbage(this->stack, this->reg);
+		const auto ref = this->core.heap.alloc<Deque>({});
+		this->core.reg.push({ ref, Value::Type::STACK });
+		this->core.heap.collect_garbage(this->core.stack, this->core.reg);
 	}
 
 
 	void LtnVM::newqueue() {
-		const auto ref = this->heap.alloc<Deque>({});
-		this->reg.push({ ref, Value::Type::QUEUE });
-		this->heap.collect_garbage(this->stack, this->reg);
+		const auto ref = this->core.heap.alloc<Deque>({});
+		this->core.reg.push({ ref, Value::Type::QUEUE });
+		this->core.heap.collect_garbage(this->core.stack, this->core.reg);
 	}
 
 
 	void LtnVM::newmap() {
-		const auto ref = this->heap.alloc<Map>(Map{this->heap});
-		this->reg.push({ ref, Value::Type::MAP });
-		this->heap.collect_garbage(this->stack, this->reg);
+		const auto ref = this->core.heap.alloc<Map>(Map{this->core.heap});
+		this->core.reg.push({ ref, Value::Type::MAP });
+		this->core.heap.collect_garbage(this->core.stack, this->core.reg);
 	}
 
 
 	void LtnVM::newfx(){
 		const auto address = this->fetch_uint(); 
 		const auto params = this->fetch_uint();
-		const auto ref = this->heap.alloc<FxPointer>({address, params, {}});
-		this->reg.push(Value{ref, Value::Type::FX_PTR});
+		const auto ref = this->core.heap.alloc<FxPointer>({address, params, {}});
+		this->core.reg.push(Value{ref, Value::Type::FX_PTR});
 	}
 
 	void LtnVM::newrng(){
@@ -172,17 +172,17 @@ namespace ltn::vm {
 		case 0x00: { 
 			const auto seed = std::random_device{}();
 			const auto rng = RandomEngine{std::mt19937_64{seed}};
-			const auto ref = this->heap.alloc<RandomEngine>(rng);
-			this->reg.push(value::rng(ref));
+			const auto ref = this->core.heap.alloc<RandomEngine>(rng);
+			this->core.reg.push(value::rng(ref));
 			return;
 		}
 
 		case 0x01: { 
-			const auto signed_seed = convert::to_int(reg.pop());
+			const auto signed_seed = convert::to_int(this->core.reg.pop());
 			const auto seed = static_cast<std::uint64_t>(signed_seed);
 			const auto rng = RandomEngine{std::mt19937_64{seed}};
-			const auto ref = this->heap.alloc<RandomEngine>(rng);
-			this->reg.push(value::rng(ref));
+			const auto ref = this->core.heap.alloc<RandomEngine>(rng);
+			this->core.reg.push(value::rng(ref));
 			return;
 		}
 		

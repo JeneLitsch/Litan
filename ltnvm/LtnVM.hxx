@@ -11,10 +11,10 @@ namespace ltn::vm {
 	class LtnVM {
 	public:
 
-		LtnVM(std::ostream & ostream = std::cout) : ostream(ostream) {}
+		LtnVM() {}
 		void setup(std::vector<std::uint8_t> code) {
-			this->byteCode = code;
-			this->pc = 0;
+			this->core.byte_code = code;
+			this->core.pc = 0;
 		}
 
 		Value run(const std::vector<std::string> & args = {});
@@ -24,21 +24,21 @@ namespace ltn::vm {
 			std::unique_ptr<ext::External> && ext);
 
 		Heap & get_heap() {
-			return this->heap;
+			return this->core.heap;
 		}
 
 		Register & get_register() {
-			return this->reg;
+			return this->core.reg;
 		}
 
 		Stack & get_stack() {
-			return this->stack;
+			return this->core.stack;
 		}
 
 	
 	private:
 		inline std::uint8_t fetch_byte() {
-			return byteCode[this->pc++];
+			return this->core.byte_code[this->core.pc++];
 		}
 	
 
@@ -46,14 +46,14 @@ namespace ltn::vm {
 			std::uint64_t value = 0;
 			for(auto i = 0; i < 8; i++) {
 				value <<= 8;
-				value |= static_cast<std::uint64_t>(byteCode[this->pc++]);
+				value |= static_cast<std::uint64_t>(this->core.byte_code[this->core.pc++]);
 			}
 			return value;
 		}
 
 			
 		inline const std::uint8_t * fetch_str() {
-			return this->byteCode.data() + this->pc;
+			return this->core.byte_code.data() + this->core.pc;
 		}
 
 
@@ -219,23 +219,17 @@ namespace ltn::vm {
 			algorithm(),
 			random();
 
-		void out_value(const Value & value);
+		struct VmCore {
+			// Runtime
+			Stack stack;
+			Register reg;
+			Heap heap;
+			std::uint64_t pc;
 
-		// Runtime
-		Stack stack;
-		Register reg;
-		Heap heap;
-		std::uint64_t pc;
+			// Persistent
+			std::vector<std::uint8_t> byte_code;
+			std::unordered_map<std::int64_t, std::unique_ptr<ext::External>> externals;
+		} core;
 
-		// Persistent
-		std::vector<std::uint8_t> byteCode;
-		std::reference_wrapper<std::ostream> ostream;
-		std::unordered_map<std::int64_t, std::unique_ptr<ext::External>> externals;
-		
-		struct ExceptHandler {
-			std::uint64_t addr;
-			std::uint64_t depth;
-		};
-		std::vector<ExceptHandler> exceptHandlers;
 	};
 }

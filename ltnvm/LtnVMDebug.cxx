@@ -26,32 +26,32 @@ namespace ltn::vm {
 
 	void LtnVM::tRy() {
 		const auto addr = this->fetch_uint();
-		const auto regSize = this->reg.size();
-		this->stack.set_except_handler(addr);
-		this->stack.set_regsize(regSize);
+		const auto regSize = this->core.reg.size();
+		this->core.stack.set_except_handler(addr);
+		this->core.stack.set_regsize(regSize);
 	}
 
 
 	void LtnVM::thr0w() {
-		const auto except = this->reg.pop();
-		this->pc = unwind(this->stack);
-		const auto regSize = this->stack.get_regsize();
-		this->reg.resize(regSize);
-		clearTopFrame(stack);		
-		this->reg.push(except);
+		const auto except = this->core.reg.pop();
+		this->core.pc = unwind(this->core.stack);
+		const auto regSize = this->core.stack.get_regsize();
+		this->core.reg.resize(regSize);
+		clearTopFrame(this->core.stack);		
+		this->core.reg.push(except);
 		
 	}
 
 
 	void LtnVM::state() {
-		const auto regSize = this->reg.size();
-		const auto stackSize = this->stack.size();
-		const auto heapSize = this->heap.size();
+		const auto regSize = this->core.reg.size();
+		const auto stackSize = this->core.stack.size();
+		const auto heapSize = this->core.heap.size();
 		std::stringstream ss;
 		ss << "register size: " << regSize << "\n";
 		ss << "stack size: " << stackSize << "\n";
 		ss << "heap size: " << heapSize << "\n";
-		const auto refToString = this->heap.alloc<String>({ss.str()});
-		this->reg.push(Value{refToString, Value::Type::STRING});
+		const auto refToString = this->core.heap.alloc<String>({ss.str()});
+		this->core.reg.push(Value{refToString, Value::Type::STRING});
 	}
 }

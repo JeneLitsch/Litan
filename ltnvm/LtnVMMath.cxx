@@ -6,8 +6,8 @@
 
 namespace ltn::vm {
 	#define FETCH\
-		const auto r = this->reg.pop();\
-		const auto l = this->reg.pop();
+		const auto r = this->core.reg.pop();\
+		const auto l = this->core.reg.pop();
 
 
 	bool less(const Value & l, const Value & r) {
@@ -49,49 +49,49 @@ namespace ltn::vm {
 
 	void LtnVM::min() {
 		FETCH
-		const auto less = compare(l, r, this->heap) < 0;
-		this->reg.push(less ? l : r);
+		const auto less = compare(l, r, this->core.heap) < 0;
+		this->core.reg.push(less ? l : r);
 	}
 
 
 	void LtnVM::max() {
 		FETCH
-		const auto more = compare(l, r, this->heap) > 0;
-		this->reg.push(more ? l : r);
+		const auto more = compare(l, r, this->core.heap) > 0;
+		this->core.reg.push(more ? l : r);
 	}
 
 
 	void LtnVM::round() {
-		this->reg.push(rounding<Round>(this->reg.pop()));
+		this->core.reg.push(rounding<Round>(this->core.reg.pop()));
 	}
 
 
 	void LtnVM::floor() {
-		this->reg.push(rounding<Floor>(this->reg.pop()));
+		this->core.reg.push(rounding<Floor>(this->core.reg.pop()));
 	}
 
 
 	void LtnVM::ceil() {
-		this->reg.push(rounding<Ceil>(this->reg.pop()));
+		this->core.reg.push(rounding<Ceil>(this->core.reg.pop()));
 	}
 
 
 	void LtnVM::abs() {
-		this->reg.push(function<Absolute>(this->reg.pop()));
+		this->core.reg.push(function<Absolute>(this->core.reg.pop()));
 	}
 
 
 	void LtnVM::hypot() {
 		FETCH
-		this->reg.push(std::hypot(
+		this->core.reg.push(std::hypot(
 			convert::to_float(l),
 			convert::to_float(r)));
 	}
 
 
 	void LtnVM::sqrt() {
-		const auto value = this->reg.pop();
-		this->reg.push(std::sqrt(convert::to_float(value)));
+		const auto value = this->core.reg.pop();
+		this->core.reg.push(std::sqrt(convert::to_float(value)));
 	}
 
 
@@ -100,13 +100,13 @@ namespace ltn::vm {
 		const auto result 
 			= std::log(convert::to_float(l))
 			/ std::log(convert::to_float(r));
-		this->reg.push(result);
+		this->core.reg.push(result);
 	}
 
 
 	void LtnVM::ln() {
-		const auto value = this->reg.pop();
-		this->reg.push(std::log(convert::to_float(value)));
+		const auto value = this->core.reg.pop();
+		this->core.reg.push(std::log(convert::to_float(value)));
 	}
 
 
@@ -114,22 +114,22 @@ namespace ltn::vm {
 		FETCH
 		const auto b = convert::to_float(l);
 		const auto e = convert::to_float(r);
-		this->reg.push(std::pow(b, e));
+		this->core.reg.push(std::pow(b, e));
 	}
 	
 
 	void LtnVM::sin() {
-		this->reg.push(function<Sinus>(this->reg.pop()));
+		this->core.reg.push(function<Sinus>(this->core.reg.pop()));
 	}
 
 
 	void LtnVM::cos() {
-		this->reg.push(function<Cosinus>(this->reg.pop()));
+		this->core.reg.push(function<Cosinus>(this->core.reg.pop()));
 	}
 
 
 	void LtnVM::tan() {
-		this->reg.push(function<Tangents>(this->reg.pop()));
+		this->core.reg.push(function<Tangents>(this->core.reg.pop()));
 	}
 	
 

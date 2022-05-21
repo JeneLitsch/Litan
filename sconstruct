@@ -16,11 +16,15 @@ def glob(dirs):
 		files.append(Glob(dir + "/*.cxx"))
 	return files
 
+incl = [
+	".",
+]
+
 env = Environment(
 	CXX = "clang++-12",
 	# CXX = "g++-10",
 	CXXFLAGS = flags,
-	CPPPATH = ["."],
+	CPPPATH = incl,
 	CPPDEFINES = [],
 	LIBS = [],
 	LIBPATH = ".",

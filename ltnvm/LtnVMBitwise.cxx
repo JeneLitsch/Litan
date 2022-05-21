@@ -7,45 +7,45 @@
 #include "convert.hxx"
 
 #define FETCH\
-	const auto r = this->reg.pop();\
-	const auto l = this->reg.pop();
+	const auto r = this->core.reg.pop();\
+	const auto l = this->core.reg.pop();
 
 namespace ltn::vm {
 	void LtnVM::shift_l() {
 		FETCH
 		const auto value = convert::to_int(l) << convert::to_int(r);
-		return this->reg.push(Value{value});
+		return this->core.reg.push(Value{value});
 	}
 
 	void LtnVM::shift_r() {
 		FETCH
 		const auto value = convert::to_int(l) >> convert::to_int(r);
-		return this->reg.push(Value{value});
+		return this->core.reg.push(Value{value});
 	}
 
 	void LtnVM::bit_and() {
 		FETCH
 		const auto value = convert::to_int(l) & convert::to_int(r);
-		return this->reg.push(Value{value});
+		return this->core.reg.push(Value{value});
 	}
 
 
 	void LtnVM::bit_or() {
 		FETCH
 		const auto value = convert::to_int(l) | convert::to_int(r);
-		return this->reg.push(Value{value});
+		return this->core.reg.push(Value{value});
 	}
 
 	
 	void LtnVM::bit_xor() {
 		FETCH
 		const auto value = convert::to_int(l) ^ convert::to_int(r);
-		return this->reg.push(Value{value});
+		return this->core.reg.push(Value{value});
 	}
 
 	void LtnVM::bit_not() {
-		const auto x = this->reg.pop();
-		return this->reg.push(Value{~convert::to_int(x)});
+		const auto x = this->core.reg.pop();
+		return this->core.reg.push(Value{~convert::to_int(x)});
 	}
 }
 #undef FETCH

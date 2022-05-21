@@ -100,20 +100,20 @@ namespace ltn::vm {
 	void LtnVM::insert() {
 		const auto type = this->fetch_byte();
 		switch (type) {
-		case 0: return insert_front(this->reg, this->heap); 
-		case 1: return insertIndex( this->reg, this->heap);
-		case 2: return insert_back( this->reg, this->heap);
+		case 0: return insert_front(this->core.reg, this->core.heap); 
+		case 1: return insertIndex( this->core.reg, this->core.heap);
+		case 2: return insert_back( this->core.reg, this->core.heap);
 		default: throw except::invalid_argument();
 		}
 	}
 
 	void LtnVM::at_write() {
-		const auto key = this->reg.pop();
-		const auto ref = this->reg.pop();
-		const auto elem = this->reg.pop();
+		const auto key = this->core.reg.pop();
+		const auto ref = this->core.reg.pop();
+		const auto elem = this->core.reg.pop();
 		
 		if(is_array(ref)) {
-			auto & arr = heap.read<Array>(ref.u).get();
+			auto & arr = this->core.heap.read<Array>(ref.u).get();
 			const auto index = to_index(key);
 			guard_index(arr, index);
 			arr[static_cast<std::size_t>(index)] = elem;
@@ -121,7 +121,7 @@ namespace ltn::vm {
 		}
 
 		if(is_string(ref)) {
-			auto & str = heap.read<String>(ref.u).get();
+			auto & str = this->core.heap.read<String>(ref.u).get();
 			const auto index = to_index(key);
 			guard_index(str, index);
 			str[static_cast<std::size_t>(index)] = convert::to_char(elem);
@@ -129,7 +129,7 @@ namespace ltn::vm {
 		}
 
 		if(is_map(ref)) {
-			push_m(ref, this->heap, elem, key);
+			push_m(ref, this->core.heap, elem, key);
 			return;
 		}
 

@@ -11,15 +11,15 @@ namespace ltn::vm {
 	}
 
 	void LtnVM::begin() {
-		const auto ref = this->reg.pop();
+		const auto ref = this->core.reg.pop();
 		if(is_array(ref)) {
-			this->reg.push(iterator(0));
+			this->core.reg.push(iterator(0));
 			return;
 		}
 
 		if(is_range(ref)) {
-			const auto & range = this->heap.read<Range>(ref.u);
-			this->reg.push(iterator(range.begin));
+			const auto & range = this->core.heap.read<Range>(ref.u);
+			this->core.reg.push(iterator(range.begin));
 			return;
 		}
 
@@ -28,16 +28,16 @@ namespace ltn::vm {
 
 
 	void LtnVM::end() {
-		const auto ref = this->reg.pop();
+		const auto ref = this->core.reg.pop();
 		if(is_array(ref)) {
-			const auto & array = this->heap.read<Array>(ref.u);
-			this->reg.push(iterator(array.arr.size()));
+			const auto & array = this->core.heap.read<Array>(ref.u);
+			this->core.reg.push(iterator(array.arr.size()));
 			return;
 		}
 
 		if(is_range(ref)) {
-			const auto & range = this->heap.read<Range>(ref.u);
-			this->reg.push(iterator(range.end));
+			const auto & range = this->core.heap.read<Range>(ref.u);
+			this->core.reg.push(iterator(range.end));
 			return;
 		}
 

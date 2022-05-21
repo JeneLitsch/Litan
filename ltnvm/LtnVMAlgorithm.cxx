@@ -142,15 +142,15 @@ namespace ltn::vm {
 	void LtnVM::algorithm() {
 		const auto type = this->fetch_byte();
 		switch (type) {
-		case 0x00: return sort_ascn(     this->reg, this->heap);
-		case 0x01: return sort_desc(     this->reg, this->heap);
-		case 0x02: return is_sorted_ascn(this->reg, this->heap);
-		case 0x03: return is_sorted_desc(this->reg, this->heap);
-		case 0x10: return find(          this->reg, this->heap);
-		case 0x20: return copy_front(    this->reg, this->heap);
-		case 0x22: return copy_back(     this->reg, this->heap);
-		case 0x30: return fill(          this->reg, this->heap);
-		case 0x40: return reverse(       this->reg, this->heap);
+		case 0x00: return sort_ascn(     this->core.reg, this->core.heap);
+		case 0x01: return sort_desc(     this->core.reg, this->core.heap);
+		case 0x02: return is_sorted_ascn(this->core.reg, this->core.heap);
+		case 0x03: return is_sorted_desc(this->core.reg, this->core.heap);
+		case 0x10: return find(          this->core.reg, this->core.heap);
+		case 0x20: return copy_front(    this->core.reg, this->core.heap);
+		case 0x22: return copy_back(     this->core.reg, this->core.heap);
+		case 0x30: return fill(          this->core.reg, this->core.heap);
+		case 0x40: return reverse(       this->core.reg, this->core.heap);
 		
 		default: {
 			throw std::runtime_error{"Invalid algorithm type"};

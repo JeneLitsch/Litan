@@ -33,21 +33,21 @@ namespace ltn::vm {
 
 	void LtnVM::member_read() {
 		const auto id = this->fetch_uint();
-		const auto ref = this->reg.pop();
-		auto & s = get_struct(ref, this->heap);
+		const auto ref = this->core.reg.pop();
+		auto & s = get_struct(ref, this->core.heap);
 		if(const auto * const member = get_member(s, id)) {
-			this->reg.push(*member);
+			this->core.reg.push(*member);
 		}
 		else {
-			this->reg.push(value::null);
+			this->core.reg.push(value::null);
 		}
 	}
 	
 	void LtnVM::member_write() {
 		const auto id = this->fetch_uint();
-		const auto ref = this->reg.pop();
-		const auto value = this->reg.pop();
-		auto & s = get_struct(ref, this->heap);
+		const auto ref = this->core.reg.pop();
+		const auto value = this->core.reg.pop();
+		auto & s = get_struct(ref, this->core.heap);
 		if(auto * const member = get_member(s, id)) {
 			if(is_null(value)) {
 				delete_member(s, id);

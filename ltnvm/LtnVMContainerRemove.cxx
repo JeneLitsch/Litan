@@ -41,26 +41,26 @@ namespace ltn::vm {
 
 		switch (type) {
 		case 0: {
-			const auto ref = this->reg.pop();
-			if(is_string(ref)) return removeFirst<String>(ref, this->heap);
-			if(is_array(ref)) return removeFirst<Array>(ref, this->heap);
+			const auto ref = this->core.reg.pop();
+			if(is_string(ref)) return removeFirst<String>(ref, this->core.heap);
+			if(is_array(ref)) return removeFirst<Array>(ref, this->core.heap);
 			throw except::invalid_argument();
 		} break;
 
 		case 1: {
-			const auto key = this->reg.pop();
-			const auto ref = this->reg.pop();
-			if(is_map(ref)) return removeM(ref, this->heap, key);
+			const auto key = this->core.reg.pop();
+			const auto ref = this->core.reg.pop();
+			if(is_map(ref)) return removeM(ref, this->core.heap, key);
 			const auto index = to_index(key);
-			if(is_string(ref)) return removeI<String>(ref, this->heap, index);
-			if(is_array(ref)) return removeI<Array>(ref, this->heap, index);
+			if(is_string(ref)) return removeI<String>(ref, this->core.heap, index);
+			if(is_array(ref)) return removeI<Array>(ref, this->core.heap, index);
 			throw except::invalid_argument();
 		} break;
 
 		case 2: {
-			const auto ref = this->reg.pop();
-			if(is_string(ref)) return removeLast<String>(ref, this->heap);
-			if(is_array(ref)) return removeLast<Array>(ref, this->heap);
+			const auto ref = this->core.reg.pop();
+			if(is_string(ref)) return removeLast<String>(ref, this->core.heap);
+			if(is_array(ref)) return removeLast<Array>(ref, this->core.heap);
 			throw except::invalid_argument();
 		} break;
 

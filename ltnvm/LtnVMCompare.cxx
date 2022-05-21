@@ -18,37 +18,37 @@ namespace ltn::vm {
 	}
 	
 	#define FETCH\
-		const auto r = this->reg.pop();\
-		const auto l = this->reg.pop();
+		const auto r = this->core.reg.pop();\
+		const auto l = this->core.reg.pop();
 
 	void LtnVM::eql() {
 		FETCH
-		return this->reg.push(compare(l, r, this->heap) == 0);
+		return this->core.reg.push(compare(l, r, this->core.heap) == 0);
 	}
 	void LtnVM::ueql() {
 		FETCH
-		return this->reg.push(compare(l, r, this->heap) != 0);
+		return this->core.reg.push(compare(l, r, this->core.heap) != 0);
 	}
 	void LtnVM::sml() {
 		FETCH
-		return this->reg.push(compare(l, r, this->heap) < 0);
+		return this->core.reg.push(compare(l, r, this->core.heap) < 0);
 	}
 	void LtnVM::bgr() {
 		FETCH
-		return this->reg.push(compare(l, r, this->heap) > 0);
+		return this->core.reg.push(compare(l, r, this->core.heap) > 0);
 	}
 	void LtnVM::smleql() {
 		FETCH
-		return this->reg.push(compare(l, r, this->heap) <= 0);
+		return this->core.reg.push(compare(l, r, this->core.heap) <= 0);
 	}
 	void LtnVM::bgreql() {
 		FETCH
-		return this->reg.push(compare(l, r, this->heap) >= 0);
+		return this->core.reg.push(compare(l, r, this->core.heap) >= 0);
 	}
 	void LtnVM::comp() {
 		FETCH
-		const auto result = compare(l, r, this->heap);
-		return this->reg.push(eval_3_way(result));
+		const auto result = compare(l, r, this->core.heap);
+		return this->core.reg.push(eval_3_way(result));
 	}
 
 	void LtnVM::approx() {
@@ -61,18 +61,18 @@ namespace ltn::vm {
 			const stx::float64_t diff = std::abs(l_float - r_float);
 			const stx::float64_t norm = std::min((l_float + r_float), max);
 			const bool is_sameish = diff < (norm * eps);
-			return this->reg.push(value::boolean(is_sameish)); 
+			return this->core.reg.push(value::boolean(is_sameish)); 
 		}
 		else {
-			const bool is_sameish = compare(l, r, this->heap) == 0;
-			return this->reg.push(value::boolean(is_sameish)); 
+			const bool is_sameish = compare(l, r, this->core.heap) == 0;
+			return this->core.reg.push(value::boolean(is_sameish)); 
 		}
 	}
 
 	void LtnVM::between() {
-		const auto to = this->reg.pop(); 
-		const auto from = this->reg.pop(); 
-		const auto i = this->reg.pop();
+		const auto to = this->core.reg.pop(); 
+		const auto from = this->core.reg.pop(); 
+		const auto i = this->core.reg.pop();
 
 		const auto from_is_less = num_compare(from, to) < 0;
 		const auto min = from_is_less ? from : to;
@@ -82,7 +82,7 @@ namespace ltn::vm {
 			num_compare(i, min) <= 0 ||
 			num_compare(i, max) > 0;
 		
-		this->reg.push(value::boolean(is_in_range));
+		this->core.reg.push(value::boolean(is_in_range));
 	}
 
 	#undef FETCH

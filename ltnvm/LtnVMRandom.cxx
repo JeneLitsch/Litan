@@ -56,10 +56,10 @@ namespace ltn::vm {
 	void LtnVM::random() {
 		const auto func = this->fetch_byte();
 		switch (func) {
-		case 0x00: return split(this->reg, this->heap);
-		case 0x10: return rand(this->reg, this->heap);
-		case 0x11: return rand_int(this->reg, this->heap);
-		case 0x12: return rand_float(this->reg, this->heap);
+		case 0x00: return split(this->core.reg, this->core.heap);
+		case 0x10: return rand(this->core.reg, this->core.heap);
+		case 0x11: return rand_int(this->core.reg, this->core.heap);
+		case 0x12: return rand_float(this->core.reg, this->core.heap);
 		
 		default: throw std::runtime_error{"Invalid random func code"};
 		}

@@ -36,7 +36,7 @@ int main(int argc, char const *argv[]) {
 				args.push_back(std::string{arg});
 			}
 			try {
-				ltn::vm::LtnVM vm{std::cout};
+				ltn::vm::LtnVM vm;
 				vm.register_external(42, std::make_unique<Test>());
 				vm.setup(bytecode);
 				auto x = vm.run(args);

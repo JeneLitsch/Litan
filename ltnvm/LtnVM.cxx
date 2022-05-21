@@ -7,27 +7,27 @@ namespace ltn::vm {
 	void LtnVM::register_external(
 		std::int64_t id,
 		std::unique_ptr<ext::External> && ext) {
-		this->externals.emplace(id, std::move(ext));
+		this->core.externals.emplace(id, std::move(ext));
 	}
 
 	void LtnVM::error(const std::string & msg) {
-		const auto ref = this->heap.alloc<String>({msg});
-		this->reg.push(value::string(ref));
+		const auto ref = this->core.heap.alloc<String>({msg});
+		this->core.reg.push(value::string(ref));
 		this->thr0w();
 	}
 
 	Value LtnVM::run(const std::vector<std::string> & args) {
-		this->reg.reset();
-		this->stack.reset();
-		this->heap.reset();
-		this->pc = 0;
+		this->core.reg.reset();
+		this->core.stack.reset();
+		this->core.heap.reset();
+		this->core.pc = 0;
 		
 		// load args
-		const auto ref = this->heap.alloc<Array>(Array{});
-		this->reg.push(value::array(ref));
+		const auto ref = this->core.heap.alloc<Array>(Array{});
+		this->core.reg.push(value::array(ref));
 		for(const auto & arg : args) {
-			const auto str = this->heap.alloc<String>(String{arg});
-			auto & arr = this->heap.read<Array>(ref).get();
+			const auto str = this->core.heap.alloc<String>(String{arg});
+			auto & arr = this->core.heap.read<Array>(ref).get();
 			arr.push_back(value::string(str));
 		}
 
@@ -37,12 +37,11 @@ namespace ltn::vm {
 				std::uint8_t inst = this->fetch_byte();
 				switch (static_cast<Inst>(inst)) {
 				case Inst::EXIT: {
-					return this->reg.pop();
+					return this->core.reg.pop();
 
 				}
 				
 				case Inst::ERROR: {
-					this->ostream.get() << "Terminated after an error occured \n";
 					return value::null;
 				}
 

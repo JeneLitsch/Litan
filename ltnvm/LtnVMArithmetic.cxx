@@ -7,8 +7,8 @@
 #include "convert.hxx"
 
 #define FETCH\
-	const auto r = this->reg.pop();\
-	const auto l = this->reg.pop();
+	const auto r = this->core.reg.pop();\
+	const auto l = this->core.reg.pop();
 
 namespace ltn::vm {
 	namespace {
@@ -37,42 +37,42 @@ namespace ltn::vm {
 		FETCH
 		
 		if(is_array(l) && is_array(r)) {
-			const auto arr_l = toArray(l, heap).get();
-			const auto arr_r = toArray(r, heap).get();
-			const auto ref = heap.alloc<Array>({arr_l + arr_r});
-			return this->reg.push({ref, Value::Type::ARRAY});
+			const auto arr_l = toArray(l, this->core.heap).get();
+			const auto arr_r = toArray(r, this->core.heap).get();
+			const auto ref = this->core.heap.alloc<Array>({arr_l + arr_r});
+			return this->core.reg.push({ref, Value::Type::ARRAY});
 		}
 
 		if(is_string(l) && is_string(r)) {
-			const auto str_l = convert::to_string(l, heap);
-			const auto str_r = convert::to_string(r, heap);
-			const auto ref = heap.alloc<String>({str_l + str_r});
-			return this->reg.push({ref, Value::Type::STRING});
+			const auto str_l = convert::to_string(l, this->core.heap);
+			const auto str_r = convert::to_string(r, this->core.heap);
+			const auto ref = this->core.heap.alloc<String>({str_l + str_r});
+			return this->core.reg.push({ref, Value::Type::STRING});
 		}
 
-		this->reg.push(calc<Addition>(l, r));
+		this->core.reg.push(calc<Addition>(l, r));
 	}
 
 
 
 	void LtnVM::sub() {
 		FETCH
-		this->reg.push(calc<Subtraction>(l, r));
+		this->core.reg.push(calc<Subtraction>(l, r));
 	}
 
 	void LtnVM::mlt() {
 		FETCH
-		this->reg.push(calc<Multiplication>(l, r));
+		this->core.reg.push(calc<Multiplication>(l, r));
 	}
 
 	void LtnVM::div() {
 		FETCH
-		this->reg.push(calc<Division>(l, r));
+		this->core.reg.push(calc<Division>(l, r));
 	}
 
 	void LtnVM::mod() {
 		FETCH
-		this->reg.push(calc<Modulo>(l, r));
+		this->core.reg.push(calc<Modulo>(l, r));
 	}
 }
 #undef FETCH
