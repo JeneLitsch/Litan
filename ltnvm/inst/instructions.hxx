@@ -9,6 +9,7 @@ namespace ltn::vm::inst {
 	void state(VmCore & core);
 	void tRy(VmCore & core);
 	void thr0w(VmCore & core);
+	void build_in(VmCore & core);
 
 	void add(VmCore & core);
 	void sub(VmCore & core);

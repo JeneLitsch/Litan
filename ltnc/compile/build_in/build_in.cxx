@@ -12,12 +12,17 @@
 #include "./newobj.hxx"
 #include "./random.hxx"
 #include "./type.hxx"
+using namespace std::string_view_literals;
 
 namespace ltn::c::compile {
 	using Table = std::unordered_map<
 		std::string_view,
 		std::span<const std::string_view>>;
 
+	constexpr auto hello_world = std::array {
+		"build_in 0"sv,
+		"return"sv
+	};
 
 	const Table table{
 		{"cast_bool",                build_in::cast_bool},
@@ -121,6 +126,7 @@ namespace ltn::c::compile {
 
 		{"type_clone",               build_in::type_clone},
 		{"type_typeid",              build_in::type_typeid},
+		{"hello_world",              hello_world},
 	};
 	
 	std::span<const std::string_view> resolve_build_in(const std::string_view & key) {

@@ -9,7 +9,7 @@ namespace ltn::a {
 	
 	enum struct ArgFormat {
 		NONE,
-		UINT, UINTx2,
+		UINT, UINTx2, UINT16,
 		JUMP, JUMP_UINT,
 		INT,
 		FLOAT,
@@ -31,6 +31,7 @@ namespace ltn::a {
 		{"state",         {Inst::STATE}},
 		{"try",           {Inst::TRY,        ArgFormat::JUMP}},
 		{"throw",         {Inst::THROW}},
+		{"build_in",      {Inst::BUILD_IN,   ArgFormat::UINT16}},
 
 		// Binary operations
 		{"add",           {Inst::ADD}},
@@ -178,9 +179,5 @@ namespace ltn::a {
 
 		{"member_read",   {Inst::MEMBER_READ,  ArgFormat::UINT}},
 		{"member_write",  {Inst::MEMBER_WRITE, ArgFormat::UINT}},
-
-		// Build-ins
-		{"algorithm",     {Inst::ALGORITHM,    ArgFormat::BYTE}},
-		{"random",        {Inst::RANDOM,       ArgFormat::BYTE}},
 	};
 }

@@ -9,6 +9,7 @@ namespace ltn::a::linking {
 		case ArgFormat::NONE:        return 0;
 		case ArgFormat::UINT:        return 8;
 		case ArgFormat::UINTx2:      return 16;
+		case ArgFormat::UINT16:      return 2;
 		case ArgFormat::JUMP:        return 8;
 		case ArgFormat::JUMP_UINT:   return 16;
 		case ArgFormat::INT:         return 8;

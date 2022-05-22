@@ -27,26 +27,33 @@ namespace ltn::vm {
 		add_instruction(table, Inst::STATE, inst::state);
 		add_instruction(table, Inst::TRY, inst::tRy);
 		add_instruction(table, Inst::THROW, inst::thr0w);
+		add_instruction(table, Inst::BUILD_IN, inst::build_in);
+		
 		add_instruction(table, Inst::ADD, inst::add);
 		add_instruction(table, Inst::SUB, inst::sub);
 		add_instruction(table, Inst::MLT, inst::mlt);
 		add_instruction(table, Inst::DIV, inst::div);
 		add_instruction(table, Inst::MOD, inst::mod);
+
 		add_instruction(table, Inst::EQL, inst::eql);
 		add_instruction(table, Inst::UEQL, inst::ueql);
 		add_instruction(table, Inst::SML, inst::sml);
 		add_instruction(table, Inst::BGR, inst::bgr);
 		add_instruction(table, Inst::SMLEQL, inst::smleql);
 		add_instruction(table, Inst::BGREQL, inst::bgreql);
+
 		add_instruction(table, Inst::SHIFT_L, inst::shift_l);
 		add_instruction(table, Inst::SHIFT_R, inst::shift_r);
+
 		add_instruction(table, Inst::NEG, inst::neg);
 		add_instruction(table, Inst::NOT, inst::n0t);
 		add_instruction(table, Inst::INC, inst::inc);
 		add_instruction(table, Inst::DEC, inst::dec);
+
 		add_instruction(table, Inst::COMP, inst::comp);
 		add_instruction(table, Inst::APPROX, inst::approx);
 		add_instruction(table, Inst::BETWEEN, inst::between);
+
 		add_instruction(table, Inst::NEWI, inst::newi);
 		add_instruction(table, Inst::NEWF, inst::newf);
 		add_instruction(table, Inst::NEWU, inst::newu);
@@ -54,14 +61,17 @@ namespace ltn::vm {
 		add_instruction(table, Inst::TRUE, inst::truE);
 		add_instruction(table, Inst::FALSE, inst::falsE);
 		add_instruction(table, Inst::NVLL, inst::null);
+
 		add_instruction(table, Inst::JUMP, inst::jump);
 		add_instruction(table, Inst::CALL, inst::call);
 		add_instruction(table, Inst::RETURN, inst::reTurn);
 		add_instruction(table, Inst::IF, inst::iF);
 		add_instruction(table, Inst::INVOKE, inst::invoke);
+
 		add_instruction(table, Inst::EXTERNAL, inst::external);
 		add_instruction(table, Inst::CAPTURE, inst::capture);
 		add_instruction(table, Inst::PARAMETERS, inst::parameters);
+
 		add_instruction(table, Inst::NEWARR, inst::newarr);
 		add_instruction(table, Inst::NEWSTR, inst::newstr);
 		add_instruction(table, Inst::NEWOUT, inst::newout);
@@ -74,6 +84,7 @@ namespace ltn::vm {
 		add_instruction(table, Inst::NEWQUEUE, inst::newqueue);
 		add_instruction(table, Inst::NEWMAP, inst::newmap);
 		add_instruction(table, Inst::NEWRNG, inst::newrng);
+
 		add_instruction(table, Inst::READ, inst::read);
 		add_instruction(table, Inst::WRITE, inst::write);
 		add_instruction(table, Inst::SCRAP, inst::scrap);
@@ -90,6 +101,7 @@ namespace ltn::vm {
 		add_instruction(table, Inst::WRITE_1, inst::write_1);
 		add_instruction(table, Inst::WRITE_2, inst::write_2);
 		add_instruction(table, Inst::WRITE_3, inst::write_3);
+
 		add_instruction(table, Inst::OUT, inst::out);
 		add_instruction(table, Inst::STYLIZE, inst::stylize);
 		add_instruction(table, Inst::CLOSE_STREAM, inst::close_stream);
@@ -102,6 +114,7 @@ namespace ltn::vm {
 		add_instruction(table, Inst::IN_ALL, inst::in_all);
 		add_instruction(table, Inst::IS_EOF, inst::is_eof);
 		add_instruction(table, Inst::IS_GOOD, inst::is_good);
+
 		add_instruction(table, Inst::MIN, inst::min);
 		add_instruction(table, Inst::MAX, inst::max);
 		add_instruction(table, Inst::ROUND, inst::round);
@@ -116,10 +129,12 @@ namespace ltn::vm {
 		add_instruction(table, Inst::SIN, inst::sin);
 		add_instruction(table, Inst::COS, inst::cos);
 		add_instruction(table, Inst::TAN, inst::tan);
+
 		add_instruction(table, Inst::BITAND, inst::bit_and);
 		add_instruction(table, Inst::BITOR, inst::bit_or);
 		add_instruction(table, Inst::BITXOR, inst::bit_xor);
 		add_instruction(table, Inst::BITNOT, inst::bit_not);
+		
 		add_instruction(table, Inst::SIZE, inst::size);
 		add_instruction(table, Inst::AT, inst::at);
 		add_instruction(table, Inst::AT_WRITE, inst::at_write);
@@ -133,18 +148,19 @@ namespace ltn::vm {
 		add_instruction(table, Inst::POP, inst::pop);
 		add_instruction(table, Inst::PEEK, inst::peek);
 		add_instruction(table, Inst::CONTAINS, inst::contains);
+
 		add_instruction(table, Inst::CAST_BOOL, inst::cast_bool);
 		add_instruction(table, Inst::CAST_CHAR, inst::cast_char);
 		add_instruction(table, Inst::CAST_INT, inst::cast_int);
 		add_instruction(table, Inst::CAST_FLOAT, inst::cast_float);
 		add_instruction(table, Inst::CAST_STRING, inst::cast_string);
 		add_instruction(table, Inst::CAST_ARRAY, inst::cast_array);
+
 		add_instruction(table, Inst::TYPEID, inst::type_id);
 		add_instruction(table, Inst::CLONE, inst::clone);
+
 		add_instruction(table, Inst::MEMBER_READ, inst::member_read);
 		add_instruction(table, Inst::MEMBER_WRITE, inst::member_write);
-		add_instruction(table, Inst::ALGORITHM, inst::algorithm);
-		add_instruction(table, Inst::RANDOM, inst::random);
 
 		return table;
 	}

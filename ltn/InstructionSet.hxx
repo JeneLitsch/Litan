@@ -8,6 +8,8 @@ namespace ltn {
 		STATE,
 		TRY,
 		THROW,
+		BUILD_IN,
+		
 		
 		// Binary arithmetic
 		ADD = 0x10,
@@ -158,9 +160,5 @@ namespace ltn {
 		// Structs
 		MEMBER_READ = 0xd0,
 		MEMBER_WRITE,
-
-		// Build-ins
-		ALGORITHM,
-		RANDOM,
 	};
 }

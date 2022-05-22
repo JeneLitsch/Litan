@@ -67,6 +67,7 @@ ltnaCli = [
 
 ltnvm = [
 	"ltnvm",
+	"ltnvm/build_in",
 	"ltnvm/external",
 	"ltnvm/inst",
 	"ltnvm/memory",

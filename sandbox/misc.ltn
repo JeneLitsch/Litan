@@ -1,3 +1,6 @@
+build_in hello_world() @hello_world
+
 function main() {
-	std::println(~0b0);
+	hello_world();
+	return 4;
 }

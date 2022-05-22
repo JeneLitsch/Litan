@@ -9,10 +9,6 @@
 #include "ltn/float64_t.hxx"
 namespace ltn::a::expand {
 	namespace {
-
-		template<typename T>
-		concept not_usigned_integral = !std::is_unsigned<T>::value;
-		
 		auto to_bytes(std::unsigned_integral auto value) {
 			constexpr static auto SIZE = sizeof(value) / sizeof(std::uint8_t);
 			std::array<std::uint8_t, SIZE> bytes;
@@ -24,9 +20,20 @@ namespace ltn::a::expand {
 			return bytes;
 		}
 		
-		auto to_bytes(not_usigned_integral auto value) {
+
+
+		auto to_bytes(std::signed_integral auto value) {
+			using T = std::make_unsigned_t<decltype(value)>;
+			return to_bytes(bitcast<T>(value));
+		}
+
+
+
+		auto to_bytes(std::floating_point auto value) {
 			return to_bytes(bitcast<std::uint64_t>(value));
 		}
+
+
 
 		template<typename Value>
 		std::string expandArg(std::istream & line) {
@@ -78,6 +85,10 @@ namespace ltn::a::expand {
 				case ArgFormat::UINT:   [[fallthrough]];
 				case ArgFormat::JUMP:
 					out << expandArg<std::uint64_t>(ls);
+					break;
+
+				case ArgFormat::UINT16: 
+					out << expandArg<std::uint16_t>(ls >> std::hex);
 					break;
 
 				case ArgFormat::UINTx2: [[fallthrough]];
