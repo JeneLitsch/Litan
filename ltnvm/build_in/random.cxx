@@ -13,20 +13,20 @@ namespace ltn::vm::build_in {
 	}
 
 
-	void split(VmCore & core) {
+	Value split(VmCore & core) {
 		auto & rng = get_rng(core.reg.pop(), core.heap);
 		const auto ref = core.heap.alloc<RandomEngine>(rng.split());
-		core.reg.push(value::rng(ref));
+		return value::rng(ref);
 	}
 	
 
-	void rand(VmCore & core) {
+	Value rand(VmCore & core) {
 		auto & rng = get_rng(core.reg.pop(), core.heap);
 		const auto x = rng();
-		core.reg.push(value::integer(x));
+		return value::integer(x);
 	}
 
-	void rand_int(VmCore & core) {
+	Value rand_int(VmCore & core) {
 		const auto max = convert::to_int(core.reg.pop());
 		const auto min = convert::to_int(core.reg.pop());
 		auto & rng = get_rng(core.reg.pop(), core.heap);
@@ -35,10 +35,10 @@ namespace ltn::vm::build_in {
 			std::max(min, max)
 		};
 		const auto x = dist(rng);
-		core.reg.push(value::integer(x));
+		return value::integer(x);
 	}
 
-	void rand_float(VmCore & core) {
+	Value rand_float(VmCore & core) {
 		const auto max = convert::to_float(core.reg.pop());
 		const auto min = convert::to_float(core.reg.pop());
 		auto & rng = get_rng(core.reg.pop(), core.heap);
@@ -47,6 +47,6 @@ namespace ltn::vm::build_in {
 			std::max(min, max)
 		};
 		const auto x = dist(rng);
-		core.reg.push(value::floating(x));
+		return value::floating(x);
 	}
 }

@@ -100,10 +100,8 @@ namespace test {
 
 
 
-function main() {
+function main(args) {
 	var sphinx = sphinx::init(std::cout());
-
-
 
 	op::add(sphinx);
 	op::sub(sphinx);
@@ -216,4 +214,6 @@ function main() {
 	test::readln(sphinx);
 
 	sphinx::interprete_results(sphinx);
+
+	std::println(std::debug::state());
 }

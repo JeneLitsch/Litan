@@ -60,93 +60,97 @@ namespace ltn::vm::build_in {
 
 
 	// Algorithms
-	void sort_desc(VmCore & core) {
+	Value sort_desc(VmCore & core) {
 		const auto ref = core.reg.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = bigger(core.heap);
 		std::sort(begin, end, comp);
+		return value::null;
 	}
 
 
 
-	void sort_ascn(VmCore & core) {
+	Value sort_ascn(VmCore & core) {
 		const auto ref = core.reg.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = smaller(core.heap);
 		std::sort(begin, end, comp);
+		return value::null;
 	}
 
 
 
-	void is_sorted_ascn(VmCore & core) {
+	Value is_sorted_ascn(VmCore & core) {
 		const auto ref = core.reg.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = smaller(core.heap);
-		const bool result = std::is_sorted(begin, end, comp);
-		core.reg.push(result);
+		return std::is_sorted(begin, end, comp);
 	}
 
 
 
-	void is_sorted_desc(VmCore & core) {
+	Value is_sorted_desc(VmCore & core) {
 		const auto ref = core.reg.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = bigger(core.heap);
-		const bool result = std::is_sorted(begin, end, comp);
-		core.reg.push(result);
+		return std::is_sorted(begin, end, comp);
 	}
 
 
 
-	void find(VmCore & core) {
+	Value find(VmCore & core) {
 		const auto key = core.reg.pop();
 		const auto ref = core.reg.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto pred = predicate(core.heap, key);
 		const auto found = std::find_if(begin, end, pred);
 		if(found == end) {
-			core.reg.push(value::integer(-1));
+			return value::integer(-1);
 		}
 		else {
 			const auto dist = std::distance(begin, found); 
-			core.reg.push(value::integer(dist));
+			return value::integer(dist);
 		}
 	}
 
 
 
-	void copy_front(VmCore & core) {
+	Value copy_front(VmCore & core) {
 		const auto refArr = pop_array_ref(core.reg);
 		const auto [begin, end] = to_cpp_range(core.reg.pop(), core.heap);
 		auto & array = core.heap.read<Array>(refArr).get();
 		auto beginArr = array.begin();
 		auto inserter = std::insert_iterator(array, beginArr);
 		std::copy(begin, end, inserter);
+		return value::null;
 	}
 
 
 
-	void copy_back(VmCore & core) {
+	Value copy_back(VmCore & core) {
 		const auto refArr = pop_array_ref(core.reg);
 		const auto [begin, end] = to_cpp_range(core.reg.pop(), core.heap);
 		auto & array = core.heap.read<Array>(refArr).get();
 		auto inserter = std::back_inserter(array);
 		std::copy(begin, end, inserter);
+		return value::null;
 	}
 
 
 	
-	void fill(VmCore & core) {
+	Value fill(VmCore & core) {
 		const auto value = core.reg.pop();
 		const auto [begin, end] = to_cpp_range(core.reg.pop(), core.heap);
 		std::fill(begin, end, value);
+		return value::null;
 	}
 
 
 
-	void reverse(VmCore & core) {
+	Value reverse(VmCore & core) {
 		const auto ref = core.reg.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		std::reverse(begin, end);
+		return value::null;
 	}
 }

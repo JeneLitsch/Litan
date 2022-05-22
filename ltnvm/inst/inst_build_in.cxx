@@ -4,9 +4,9 @@
 
 namespace ltn::vm::inst {
 	static constexpr auto make_build_in_table() {
-		std::array<void(*)(VmCore &), 256> table;
+		std::array<Value(*)(VmCore &), 256> table;
 		
-		std::fill(std::begin(table), std::end(table), [] (auto &) {
+		std::fill(std::begin(table), std::end(table), [] (auto &) -> Value {
 			std::stringstream ss;
 			ss << "Illegal Build In Function";
 			throw std::runtime_error{ss.str()};
@@ -38,6 +38,7 @@ namespace ltn::vm::inst {
 		const std::uint16_t byte0 = static_cast<std::uint16_t>(core.fetch_byte());
 		const std::uint16_t byte1 = static_cast<std::uint16_t>(core.fetch_byte());
 		const std::uint16_t code = (byte0 << 8) + byte1;
-		build_in_table[code](core);
+		const Value result = build_in_table[code](core);
+		core.reg.push(result);
 	}
 }
