@@ -182,7 +182,7 @@ namespace ltn::vm::inst {
 			return;
 		}
 
-		core.reg.push(static_cast<std::int64_t>(0));
+		throw except::invalid_argument();
 	}
 
 

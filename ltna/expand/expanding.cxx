@@ -91,7 +91,6 @@ namespace ltn::a::expand {
 					out << expandArg<std::uint16_t>(ls >> std::hex);
 					break;
 
-				case ArgFormat::UINTx2: [[fallthrough]];
 				case ArgFormat::JUMP_UINT:
 					out << expandArg<std::uint64_t>(ls);
 					out << expandArg<std::uint64_t>(ls);

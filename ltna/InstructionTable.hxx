@@ -9,7 +9,7 @@ namespace ltn::a {
 	
 	enum struct ArgFormat {
 		NONE,
-		UINT, UINTx2, UINT16,
+		UINT, UINT16,
 		JUMP, JUMP_UINT,
 		INT,
 		FLOAT,

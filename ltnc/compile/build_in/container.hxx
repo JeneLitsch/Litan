@@ -29,8 +29,7 @@ namespace ltn::c::compile::build_in {
 
 	constexpr auto container_empty = std::array{
 		"size"sv,
-		"newi 0"sv,
-		"eql"sv,
+		"not"sv,
 		"return"sv,
 	};
 

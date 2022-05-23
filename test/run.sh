@@ -50,6 +50,7 @@ stdlib_tests=(
 	"test/stdlib/algorithm.ltn" 
 	"test/stdlib/bits_get.ltn" 
 	"test/stdlib/bits_set.ltn" 
+	"test/stdlib/empty.ltn" 
 	"test/stdlib/functional.ltn" 
 	"test/stdlib/is_type_x.ltn" 
 	"test/stdlib/is_type.ltn" 

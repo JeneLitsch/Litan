@@ -1,6 +1,5 @@
 #include "instructions.hxx"
-#include "ltnvm/type_check.hxx"
-#include <sstream>
+
 namespace ltn::vm::inst {
 	namespace {
 		inline void load_rarameters_into_register(Register & reg, const auto & params) {
@@ -50,26 +49,6 @@ namespace ltn::vm::inst {
 			}
 			// Non callable
 			else throw except::invalid_argument();
-		}
-		else throw except::invalid_argument();
-	}
-
-	void external(VmCore & core) {
-		const auto value = core.reg.pop();
-		if(is_int(value)) {
-			core.reg.push({value.u, Value::Type::EXTERNAL});
-		}
-		else throw except::invalid_cast("External");
-	}
-
-
-
-	void capture(VmCore & core) {
-		const auto var = core.reg.pop();
-		const auto fxptr = core.reg.peek();
-		if(is_fxptr(fxptr)) {
-			auto & lambda = core.heap.read<FxPointer>(fxptr.u);
-			lambda.captured.push_back(var);
 		}
 		else throw except::invalid_argument();
 	}
