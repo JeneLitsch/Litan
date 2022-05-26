@@ -12,7 +12,7 @@ int main(int argc, char const *argv[]) {
 	std::ifstream ifile(args.get_source());
 	std::ofstream ofile(args.get_target(), std::ios::binary);
 	ltn::a::Ltna ltna;
-	auto bytecode = ltna.assemble(ifile);
+	auto bytecode = ltna.process(ifile);
 	for(auto byte : bytecode) {
 		ofile << byte;
 	}

@@ -20,8 +20,7 @@ namespace ltn::c::compile::inst {
 
 	const std::string byte(std::uint8_t byte) {
 		std::stringstream ss;
-		ss 	<< "byte "
-			<< std::hex << static_cast<unsigned>(byte) << "\n";
+		ss 	<< "byte " << static_cast<unsigned>(byte) << "\n";
 		return ss.str(); 
 	}
 
@@ -63,8 +62,7 @@ namespace ltn::c::compile::inst {
 
 	const std::string newc(char byte) {
 		std::stringstream ss;
-		ss 	<< "newc "
-			<< std::hex << static_cast<unsigned>(byte) << "\n";
+		ss 	<< "newc " << static_cast<unsigned>(byte) << "\n";
 		return ss.str(); 
 	}
 
@@ -82,7 +80,7 @@ namespace ltn::c::compile::inst {
 
 	const std::string ch4r(char chr) {
 		std::stringstream ss;
-		ss << "char " << std::hex << static_cast<int>(chr) << "\n";
+		ss << "char " << static_cast<int>(chr) << "\n";
 		return ss.str();
 	}
 
@@ -106,8 +104,7 @@ namespace ltn::c::compile::inst {
 		const std::string_view & fxName,
 		std::size_t params) {
 		std::stringstream ss;
-		ss 	<< "newfx " << fxName << " "
-			<< std::hex << static_cast<int>(params) << "\n";
+		ss 	<< "newfx " << fxName << " " << static_cast<int>(params) << "\n";
 		return ss.str();
 	}
 
@@ -124,7 +121,7 @@ namespace ltn::c::compile::inst {
 		ss << "newstr ";
 		ss << size << " ";
 		for(std::size_t i = 0; i < size; i++) {
-			ss << std::hex << int(str.front()) << " ";
+			ss << int(str.front()) << " ";
 			str.remove_prefix(1);
 		}
 		ss << "\n";
@@ -164,7 +161,7 @@ namespace ltn::c::compile::inst {
 		std::stringstream ss;
 		ss << "char_8 ";
 		for(std::size_t i = 0; i < 8; i++) {
-			ss << std::hex << int(str.front()) << " ";
+			ss << int(str.front()) << " ";
 			str.remove_prefix(1);
 		}
 		ss << "\n";
@@ -175,7 +172,7 @@ namespace ltn::c::compile::inst {
 		std::stringstream ss;
 		ss << "char_4 ";
 		for(std::size_t i = 0; i < 4; i++) {
-			ss << std::hex << int(str.front()) << " ";
+			ss << int(str.front()) << " ";
 			str.remove_prefix(1);
 		}
 		ss << "\n";

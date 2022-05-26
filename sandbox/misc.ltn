@@ -1,6 +1,7 @@
-build_in hello_world() @hello_world
-
 function main() {
-	hello_world();
+	var arr = [1,2,3];
+	arr[0] = 1;
+	// var map = std::map();
+	// map["AAA"] = 0;
 	return 4;
 }

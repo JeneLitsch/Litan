@@ -6,7 +6,7 @@
 namespace ltn::a {
 	class Ltna {
 	public:
-		std::vector<std::uint8_t> assemble(std::istream & in) const;
+		std::vector<std::uint8_t> process(std::istream & in) const;
 	private:
 
 	};

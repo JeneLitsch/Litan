@@ -2,24 +2,20 @@
 #include <sstream>
 #include <fstream>
 #include "Ltna.hxx"
-#include "linking/linking.hxx"
-#include "expand/expanding.hxx"
-#include "assemble/assemble.hxx"
+#include "assemble.hxx"
+#include "parse.hxx"
+#include "scan.hxx"
 
-std::vector<std::uint8_t> ltn::a::Ltna::assemble(std::istream & in) const {
+std::vector<std::uint8_t> ltn::a::Ltna::process(std::istream & in) const {
 	const std::string code = [&] {
 		std::stringstream ss;
 		ss << in.rdbuf();
 		return ss.str();
 	}();
 
-	std::stringstream scanStream(code);
-	const auto table = linking::scan(scanStream);
-	
-	std::stringstream source(code);
-	std::stringstream patched;
-	std::stringstream expanded;
-	linking::patch(source, patched, table);
-	expand::expand(patched, expanded);
-	return assemble::assemble(expanded);
+	std::stringstream iss(code);
+	const auto instructions = parse(iss);
+	const auto jump_table = scan(instructions);
+	const auto bytecode = assemble(instructions, jump_table);
+	return bytecode;
 }

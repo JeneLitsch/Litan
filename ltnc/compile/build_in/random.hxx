@@ -14,22 +14,22 @@ namespace ltn::c::compile::build_in {
 	};
 	
 	constexpr auto random_split = std::array{
-		"build_in 10"sv,
+		"build_in 16"sv,
 		"return"sv,
 	};
 
 	constexpr auto random_rand = std::array{
-		"build_in 11"sv,
+		"build_in 17"sv,
 		"return"sv,
 	};
 
 	constexpr auto random_rand_int = std::array{
-		"build_in 12"sv,
+		"build_in 18"sv,
 		"return"sv,
 	};
 
 	constexpr auto random_rand_float = std::array{
-		"build_in 13"sv,
+		"build_in 19"sv,
 		"return"sv,
 	};
 }

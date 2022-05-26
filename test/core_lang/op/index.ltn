@@ -3,6 +3,7 @@ namespace op {
 		var array = [0,1,2,3,4,5];
 		
 		var map = std::map();
+		std::println("XXX");
 		map[1] = "A";
 		map[2] = "B";
 		map[-1] = 42;

@@ -41,7 +41,7 @@ int main(int argc, char const *argv[]) {
 			}
 			std::stringstream ss;
 			compiler.yield(ss);
-			vm.setup(assembler.assemble(ss));
+			vm.setup(assembler.process(ss));
 			auto x = vm.run(args);
 			std::cout << "Exit main() with return value: ";
 			std::cout << ltn::vm::cast::to_string(x, vm.get_heap());
