@@ -162,6 +162,7 @@ function main(args) {
 
 	stdlib::array(sphinx);
 	stdlib::size(sphinx);
+	stdlib::empty(sphinx);
 
 	stdlib::bits_get(sphinx);
 	stdlib::bits_set(sphinx);
