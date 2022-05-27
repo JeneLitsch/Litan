@@ -8,14 +8,6 @@
 #include "opcodes.hxx"
 
 namespace ltn::inst {
-	template<OpCode OPCODE, typename Args = args::None>
-	struct Base {
-		inline constexpr static auto opcode = OPCODE;
-		Args args;
-	};
-
-
-
 	struct Label {
 		args::Target args;
 		inline constexpr static auto name = ":";
@@ -343,11 +335,13 @@ namespace ltn::inst {
 		inline constexpr static auto name = "invoke";
 		args::None args;
 	};
+	
 	struct External {
 		inline constexpr static auto opcode = OpCode::EXTERNAL;
 		inline constexpr static auto name = "external";
 		args::None args;
 	};
+
 	struct Capture {
 		inline constexpr static auto opcode = OpCode::CAPTURE;
 		inline constexpr static auto name = "capture";
@@ -458,225 +452,333 @@ namespace ltn::inst {
 
 
 
-	struct Out     : Base<OpCode::OUT> {
+	struct Out {
+		inline constexpr static auto opcode = OpCode::OUT;
 		inline constexpr static auto name = "out";
+		args::None args;
 	};
 
-	struct Stylize : Base<OpCode::STYLIZE, args::Byte> {
+	struct Stylize {
+		inline constexpr static auto opcode = OpCode::STYLIZE;
 		inline constexpr static auto name = "stylize";
+		args::Byte args;
 	};
 
-	struct CloseStream : Base<OpCode::CLOSE_STREAM, args::Byte> {
+	struct CloseStream {
+		inline constexpr static auto opcode = OpCode::CLOSE_STREAM;
 		inline constexpr static auto name = "close_stream";
+		args::Byte args;
 	};
 
-	struct InStr   : Base<OpCode::IN_STR> {
+	struct InStr {
+		inline constexpr static auto opcode = OpCode::IN_STR;
 		inline constexpr static auto name = "in_str";
+		args::None args;
 	};
 
-	struct InLine  : Base<OpCode::IN_LINE> {
+	struct InLine {
+		inline constexpr static auto opcode = OpCode::IN_LINE;
 		inline constexpr static auto name = "in_line";
+		args::None args;
 	};
 
-	struct InBool  : Base<OpCode::IN_BOOL> {
+	struct InBool {
+		inline constexpr static auto opcode = OpCode::IN_BOOL;
 		inline constexpr static auto name = "in_bool";
+		args::None args;
 	};
 
-	struct InChar  : Base<OpCode::IN_CHAR> {
+	struct InChar {
+		inline constexpr static auto opcode = OpCode::IN_CHAR;
 		inline constexpr static auto name = "in_char";
+		args::None args;
 	};
 
-	struct InInt   : Base<OpCode::IN_INT> {
+	struct InInt {
+		inline constexpr static auto opcode = OpCode::IN_INT;
 		inline constexpr static auto name = "in_int";
+		args::None args;
 	};
 
-	struct InFloat : Base<OpCode::IN_FLOAT> {
+	struct InFloat {
+		inline constexpr static auto opcode = OpCode::IN_FLOAT;
 		inline constexpr static auto name = "in_float";
+		args::None args;
 	};
 
-	struct InAll   : Base<OpCode::IN_ALL> {
+	struct InAll {
+		inline constexpr static auto opcode = OpCode::IN_ALL;
 		inline constexpr static auto name = "in_all";
+		args::None args;
 	};
 
-	struct IsEof   : Base<OpCode::IS_EOF> {
+	struct IsEof {
+		inline constexpr static auto opcode = OpCode::IS_EOF;
 		inline constexpr static auto name = "is_eof";
+		args::None args;
 	};
 
-	struct IsGood  : Base<OpCode::IS_GOOD> {
+	struct IsGood {
+		inline constexpr static auto opcode = OpCode::IS_GOOD;
 		inline constexpr static auto name = "is_good";
+		args::None args;
 	};
 
 
 
-	struct Min     : Base<OpCode::MIN> {
+	struct Min {
+		inline constexpr static auto opcode = OpCode::MIN;
 		inline constexpr static auto name = "min";
+		args::None args;
 	};
 
-	struct Max     : Base<OpCode::MAX> {
+	struct Max {
+		inline constexpr static auto opcode = OpCode::MAX;
 		inline constexpr static auto name = "max";
+		args::None args;
 	};
 
-	struct Round   : Base<OpCode::ROUND> {
+	struct Round {
+		inline constexpr static auto opcode = OpCode::ROUND;
 		inline constexpr static auto name = "round";
+		args::None args;
 	};
 
-	struct Floor   : Base<OpCode::FLOOR> {
+	struct Floor {
+		inline constexpr static auto opcode = OpCode::FLOOR;
 		inline constexpr static auto name = "floor";
+		args::None args;
 	};
 
-	struct Ceil    : Base<OpCode::CEIL> {
+	struct Ceil {
+		inline constexpr static auto opcode = OpCode::CEIL;
 		inline constexpr static auto name = "ceil";
+		args::None args;
 	};
 
-	struct Abs     : Base<OpCode::ABS> {
+	struct Abs {
+		inline constexpr static auto opcode = OpCode::ABS;
 		inline constexpr static auto name = "abs";
+		args::None args;
 	};
 
-	struct Hypot   : Base<OpCode::HYPOT> {
+	struct Hypot {
+		inline constexpr static auto opcode = OpCode::HYPOT;
 		inline constexpr static auto name = "hypot";
+		args::None args;
 	};
 
-	struct Sqrt    : Base<OpCode::SQRT> {
+	struct Sqrt {
+		inline constexpr static auto opcode = OpCode::SQRT;
 		inline constexpr static auto name = "sqrt";
+		args::None args;
 	};
 
-	struct Log     : Base<OpCode::LOG> {
+	struct Log {
+		inline constexpr static auto opcode = OpCode::LOG;
 		inline constexpr static auto name = "log";
+		args::None args;
 	};
 
-	struct Ln      : Base<OpCode::LN> {
+	struct Ln {
+		inline constexpr static auto opcode = OpCode::LN;
 		inline constexpr static auto name = "ln";
+		args::None args;
 	};
 
-	struct Pow     : Base<OpCode::POW> {
+	struct Pow {
+		inline constexpr static auto opcode = OpCode::POW;
 		inline constexpr static auto name = "pow";
+		args::None args;
 	};
 
-	struct Sin     : Base<OpCode::SIN> {
+	struct Sin {
+		inline constexpr static auto opcode = OpCode::SIN;
 		inline constexpr static auto name = "sin";
+		args::None args;
 	};
-	struct Cos     : Base<OpCode::COS> {
+
+	struct Cos {
+		inline constexpr static auto opcode = OpCode::COS;
 		inline constexpr static auto name = "cos";
+		args::None args;
 	};
-	struct Tan     : Base<OpCode::TAN> {
+	
+	struct Tan {
+		inline constexpr static auto opcode = OpCode::TAN;
 		inline constexpr static auto name = "tan";
+		args::None args;
 	};
 
 
 
-	struct Bitand  : Base<OpCode::BITAND> {
+	struct Bitand {
+		inline constexpr static auto opcode = OpCode::BITAND;
 		inline constexpr static auto name = "bitand";
+		args::None args;
 	};
 
-	struct Bitor   : Base<OpCode::BITOR> {
+	struct Bitor {
+		inline constexpr static auto opcode = OpCode::BITOR;
 		inline constexpr static auto name = "bitor";
+		args::None args;
 	};
 	
-	struct Bitxor  : Base<OpCode::BITXOR> {
+	struct Bitxor {
+		inline constexpr static auto opcode = OpCode::BITXOR;
 		inline constexpr static auto name = "bitxor";
+		args::None args;
 	};
 
-	struct Bitnot  : Base<OpCode::BITNOT> {
+	struct Bitnot {
+		inline constexpr static auto opcode = OpCode::BITNOT;
 		inline constexpr static auto name = "bitnot";
+		args::None args;
 	};
 
 
-	struct Size    : Base<OpCode::SIZE> {
+	struct Size {
+		inline constexpr static auto opcode = OpCode::SIZE;
 		inline constexpr static auto name = "size";
+		args::None args;
 	};
 
-	struct At      : Base<OpCode::AT> {
+	struct At {
+		inline constexpr static auto opcode = OpCode::AT;
 		inline constexpr static auto name = "at";
+		args::None args;
 	};
 
-	struct AtWrite : Base<OpCode::AT_WRITE> {
+	struct AtWrite {
+		inline constexpr static auto opcode = OpCode::AT_WRITE;
 		inline constexpr static auto name = "at_write";
+		args::None args;
 	};
 
-	struct Front   : Base<OpCode::FRONT> {
+	struct Front {
+		inline constexpr static auto opcode = OpCode::FRONT;
 		inline constexpr static auto name = "front";
+		args::None args;
 	};
 
-	struct Back    : Base<OpCode::BACK> {
+	struct Back {
+		inline constexpr static auto opcode = OpCode::BACK;
 		inline constexpr static auto name = "back";
+		args::None args;
 	};
 
-	struct Insert  : Base<OpCode::INSERT, args::Byte> {
+	struct Insert {
+		inline constexpr static auto opcode = OpCode::INSERT;
 		inline constexpr static auto name = "insert";
+		args::Byte args;
 	};
 
-	struct Remove  : Base<OpCode::REMOVE, args::Byte> {
+	struct Remove {
+		inline constexpr static auto opcode = OpCode::REMOVE;
 		inline constexpr static auto name = "remove";
+		args::Byte args;
 	};
 
-	struct Begin   : Base<OpCode::BEGIN> {
+	struct Begin    {
+		inline constexpr static auto opcode = OpCode::BEGIN;
 		inline constexpr static auto name = "begin";
+		args::None args;
 	};
 
-	struct End     : Base<OpCode::END> {
+	struct End {
+		inline constexpr static auto opcode = OpCode::END;
 		inline constexpr static auto name = "end";
+		args::None args;
 	};
 
-	struct Push    : Base<OpCode::PUSH> {
+	struct Push {
+		inline constexpr static auto opcode = OpCode::PUSH;
 		inline constexpr static auto name = "push";
+		args::None args;
 	};
 
-	struct Pop     : Base<OpCode::POP> {
+	struct Pop {
+		inline constexpr static auto opcode = OpCode::POP;
 		inline constexpr static auto name = "pop";
+		args::None args;
 	};
 
-	struct Peek    : Base<OpCode::PEEK> {
+	struct Peek     {
+		inline constexpr static auto opcode = OpCode::PEEK;
 		inline constexpr static auto name = "peek";
+		args::None args;
 	};
 
-	struct Contains: Base<OpCode::CONTAINS> {
+	struct Contains {
+		inline constexpr static auto opcode = OpCode::CONTAINS;
 		inline constexpr static auto name = "contains";
+		args::None args;
 	};
 	
 
 
-	struct CastBool   : Base<OpCode::CAST_BOOL> {
+	struct CastBool {
+		inline constexpr static auto opcode = OpCode::CAST_BOOL;
 		inline constexpr static auto name = "cast_bool";
+		args::None args;
 	};
 
-	struct CastChar   : Base<OpCode::CAST_CHAR> {
+	struct CastChar {
+		inline constexpr static auto opcode = OpCode::CAST_CHAR;
 		inline constexpr static auto name = "cast_char";
+		args::None args;
 	};
 
-	struct CastInt    : Base<OpCode::CAST_INT> {
+	struct CastInt {
+		inline constexpr static auto opcode = OpCode::CAST_INT;
 		inline constexpr static auto name = "cast_int";
+		args::None args;
 	};
 
-	struct CastFloat  : Base<OpCode::CAST_FLOAT> {
+	struct CastFloat {
+		inline constexpr static auto opcode = OpCode::CAST_FLOAT;
 		inline constexpr static auto name = "cast_float";
+		args::None args;
 	};
 
-	struct CastString : Base<OpCode::CAST_STRING> {
+	struct CastString {
+		inline constexpr static auto opcode = OpCode::CAST_STRING;
 		inline constexpr static auto name = "cast_string";
+		args::None args;
 	};
 
-	struct CastArray  : Base<OpCode::CAST_ARRAY> {
+	struct CastArray {
+		inline constexpr static auto opcode = OpCode::CAST_ARRAY;
 		inline constexpr static auto name = "cast_array";
+		args::None args;
 	};
 
 
 
-	struct TypeId     : Base<OpCode::TYPEID> {
+	struct TypeId {
+		inline constexpr static auto opcode = OpCode::TYPEID;
 		inline constexpr static auto name = "typeid";
+		args::None args;
 	};
 
-	struct Clone      : Base<OpCode::CLONE> {
+	struct Clone {
+		inline constexpr static auto opcode = OpCode::CLONE;
 		inline constexpr static auto name = "clone";
+		args::None args;
 	};
 	
 
 
-	struct MemberRead  : Base<OpCode::MEMBER_READ, args::Uint64> {
+	struct MemberRead {
+		inline constexpr static auto opcode = OpCode::MEMBER_READ;
 		inline constexpr static auto name = "member_read";
+		args::Uint64 args;
 	};
 
-	struct MemberWrite : Base<OpCode::MEMBER_WRITE, args::Uint64> {
+	struct MemberWrite {
+		inline constexpr static auto opcode = OpCode::MEMBER_WRITE;
 		inline constexpr static auto name = "member_write";
+		args::Uint64 args;
 	};
 
 
