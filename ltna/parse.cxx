@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iostream>
 #include "stdxx/array.hxx"
+#include "stdxx/constexpr_table.hxx"
 
 namespace ltn::a {
 	namespace {
@@ -62,35 +63,21 @@ namespace ltn::a {
 
 
 
-		using Entry = std::pair<
-			std::string_view,
-			inst::Instruction(*)(std::istream &)>;
-
-		template<typename InstT>
-		constexpr Entry entry { InstT::name, parse_args<InstT> };
-
-		template<typename T>
-		constexpr std::array<Entry, 1> iterate_variant() {
-			return std::array{ entry<T> };
-		}
-
-		template<typename T, typename T2, typename ... Ts>
-		constexpr std::array<Entry, sizeof...(Ts) + 2> iterate_variant() {
-			return iterate_variant<T2, Ts...>() + entry<T>;
-		}
-
-		template<typename> struct make_table;
-		template<typename ... Ts>
-		struct make_table<std::variant<Ts...>> {
-			constexpr static auto run() {
-				return iterate_variant<Ts...>();
-			}
+		struct EntryMaker {
+			using return_type = std::pair<
+				std::string_view,
+				inst::Instruction(*)(std::istream &)>;
+			template<typename InstT>
+			static constexpr return_type create() {
+				return { 
+					InstT::name,
+					parse_args<InstT> };
+			};
 		};
 
-		const auto constexpr_table = make_table<inst::Instruction>::run();
-		const auto table = std::unordered_map(
-			std::begin(constexpr_table),
-			std::end(constexpr_table));
+
+
+		const auto table = stx::constexpr_unordered_map<EntryMaker, inst::Instruction>();
 	}
 	
 
