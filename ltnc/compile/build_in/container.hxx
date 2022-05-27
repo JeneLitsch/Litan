@@ -1,85 +1,85 @@
 #pragma once
 #include <array>
-#include <string_view>
-using namespace std::string_view_literals;
+#include "ltn/InstructionSet.hxx"
+using namespace ltn::inst;
 namespace ltn::c::compile::build_in {
-	constexpr auto container_push = std::array{
-		"push"sv,
-	};
+	const auto container_push = std::to_array<Instruction>({
+		Push{},
+	});
 
-	constexpr auto container_pop = std::array{
-		"pop"sv,
-		"return"sv,
-	};
+	const auto container_pop = std::to_array<Instruction>({
+		Pop{},
+		Return{},
+	});
 
-	constexpr auto container_peek = std::array{
-		"peek"sv,
-		"return"sv,
-	};
+	const auto container_peek = std::to_array<Instruction>({
+		Peek{},
+		Return{},
+	});
 
-	constexpr auto container_contains = std::array{
-		"contains"sv,
-		"return"sv,
-	};
+	const auto container_contains = std::to_array<Instruction>({
+		Contains{},
+		Return{},
+	});
 
-	constexpr auto container_size = std::array{
-		"size"sv,
-		"return"sv,
-	};
+	const auto container_size = std::to_array<Instruction>({
+		Size{},
+		Return{},
+	});
 
-	constexpr auto container_empty = std::array{
-		"size"sv,
-		"not"sv,
-		"return"sv,
-	};
+	const auto container_empty = std::to_array<Instruction>({
+		Size{},
+		Not{},
+		Return{},
+	});
 
-	constexpr auto container_at = std::array{
-		"at"sv,
-		"return"sv,
-	};
+	const auto container_at = std::to_array<Instruction>({
+		At{},
+		Return{},
+	});
 	
-	constexpr auto container_front = std::array{
-		"front"sv,
-		"return"sv,
-	};
+	const auto container_front = std::to_array<Instruction>({
+		Front{},
+		Return{},
+	});
 	
-	constexpr auto container_back = std::array{
-		"back"sv,
-		"return"sv,
-	};
+	const auto container_back = std::to_array<Instruction>({
+		Back{},
+		Return{},
+	});
 
-	constexpr auto container_begin = std::array{
-		"begin"sv,
-		"return"sv,
-	};
+	const auto container_begin = std::to_array<Instruction>({
+		Begin{},
+		Return{},
+	});
 
-	constexpr auto container_end = std::array{
-		"end"sv,
-		"return"sv,
-	};
+	const auto container_end = std::to_array<Instruction>({
+		End{},
+		Return{},
+	});
 
-	constexpr auto container_insert_back = std::array{
-		"insert 2"sv,
-	};
+	const auto container_insert_back = std::to_array<Instruction>({
+		Insert{2},
+	});
 
 
-	constexpr auto container_insert_front = std::array{
-		"insert 0"sv,
-	};
+	const auto container_insert_front = std::to_array<Instruction>({
+		Insert{0},
+	});
 
-	constexpr auto container_insert = std::array{
-		"insert 1"sv,
-	};
+	const auto container_insert = std::to_array<Instruction>({
+		Insert{1},
+	});
 
-	constexpr auto container_remove_back = std::array{
-		"remove 2"sv,
-	};
+	const auto container_remove_back = std::to_array<Instruction>({
+		Remove{2},
+	});
 
-	constexpr auto container_remove_front = std::array{
-		"remove 0"sv,
-	};
+	const auto container_remove_front = std::to_array<Instruction>({
+		Remove{0},
+	});
 	
-	constexpr auto container_remove = std::array{
-		"remove 1"sv,
-	};
+	const auto container_remove = std::to_array<Instruction>({
+		Remove{1},
+	});
 }

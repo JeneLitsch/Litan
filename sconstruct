@@ -47,6 +47,7 @@ ltnc_core = [
 
 ltnc = [
 	"ltnc",
+	"ltnc/print",
 	"ltnc/compile",
 	"ltnc/compile/build_in",
 	"ltnc/compile/utils",

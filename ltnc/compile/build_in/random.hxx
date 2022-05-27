@@ -1,35 +1,35 @@
 #pragma once
 #include <array>
-#include <string_view>
-using namespace std::string_view_literals;
+#include "ltn/InstructionSet.hxx"
+using namespace ltn::inst;
 namespace ltn::c::compile::build_in {
-	constexpr auto random_mersenne_0 = std::array{
-		"newrng 00"sv,
-		"return"sv,
-	};
+	const auto random_mersenne_0 = std::to_array<Instruction>({
+		Newrng{00}, 
+		Return{},
+	});
 
-	constexpr auto random_mersenne_1 = std::array{
-		"newrng 01"sv,
-		"return"sv,
-	};
+	const auto random_mersenne_1 = std::to_array<Instruction>({
+		Newrng{01}, 
+		Return{},
+	});
 	
-	constexpr auto random_split = std::array{
-		"build_in 16"sv,
-		"return"sv,
-	};
+	const auto random_split = std::to_array<Instruction>({
+		BuildIn{0x10}, 
+		Return{},
+	});
 
-	constexpr auto random_rand = std::array{
-		"build_in 17"sv,
-		"return"sv,
-	};
+	const auto random_rand = std::to_array<Instruction>({
+		BuildIn{0x11}, 
+		Return{},
+	});
 
-	constexpr auto random_rand_int = std::array{
-		"build_in 18"sv,
-		"return"sv,
-	};
+	const auto random_rand_int = std::to_array<Instruction>({
+		BuildIn{0x12}, 
+		Return{},
+	});
 
-	constexpr auto random_rand_float = std::array{
-		"build_in 19"sv,
-		"return"sv,
-	};
+	const auto random_rand_float = std::to_array<Instruction>({
+		BuildIn{0x13}, 
+		Return{},
+	});
 }

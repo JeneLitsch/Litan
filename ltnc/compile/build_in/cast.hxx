@@ -1,35 +1,36 @@
 #pragma once
 #include <array>
-#include <string_view>
-using namespace std::string_view_literals;
+#include "ltn/InstructionSet.hxx"
+using namespace ltn::inst;
+
 namespace ltn::c::compile::build_in {
-	constexpr auto cast_bool = std::array{
-		"cast_bool"sv,
-		"return"sv,
-	};
+	const auto cast_bool = std::to_array<Instruction>({
+		CastBool{},
+		Return{},
+	});
 	
-	constexpr auto cast_char = std::array{
-		"cast_char"sv,
-		"return"sv,
-	};
+	const auto cast_char = std::to_array<Instruction>({
+		CastChar{},
+		Return{},
+	});
 	
-	constexpr auto cast_int = std::array{
-		"cast_int"sv,
-		"return"sv,
-	};
+	const auto cast_int = std::to_array<Instruction>({
+		CastInt{},
+		Return{},
+	});
 	
-	constexpr auto cast_float = std::array{
-		"cast_float"sv,
-		"return"sv,
-	};
+	const auto cast_float = std::to_array<Instruction>({
+		CastFloat{},
+		Return{},
+	});
 	
-	constexpr auto cast_string = std::array{
-		"cast_string"sv,
-		"return"sv,
-	};
+	const auto cast_string = std::to_array<Instruction>({
+		CastString{},
+		Return{},
+	});
 	
-	constexpr auto cast_array = std::array{
-		"cast_array"sv,
-		"return"sv,
-	};
+	const auto cast_array = std::to_array<Instruction>({
+		CastArray{},
+		Return{},
+	});
 }

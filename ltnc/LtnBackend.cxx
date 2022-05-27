@@ -1,23 +1,27 @@
 #include "LtnBackend.hxx"
 #include "compile/compile.hxx"
 #include <iostream>
+#include "ltn/InstructionSet.hxx"
+#include "print/print.hxx"
 
 namespace ltn::c::compile {
 	namespace {
 		void startup_code(std::ostream & out, FxTable & fx_table) {
 			// Jump to main()
 			if(const auto fxmain = fx_table.resolve("main", {}, 0)) {
-				out
-					<< compile::inst::call(fxmain->id) 
-					<< compile::inst::exlt
-					<< "\n";
+				const auto code = std::to_array<ltn::inst::Instruction>({
+					ltn::inst::Call{fxmain->id},
+					ltn::inst::Exit{}
+				});
+				out << print(code);
 			}
 			// Jump to main()
 			else if(const auto fxmain = fx_table.resolve("main", {}, 1)) {
-				out
-					<< compile::inst::call(fxmain->id) 
-					<< compile::inst::exlt
-					<< "\n";
+				const auto code = std::to_array<ltn::inst::Instruction>({
+					ltn::inst::Call{fxmain->id},
+					ltn::inst::Exit{}
+				});
+				out << print(code);
 			}
 			else {
 				throw CompilerError {"main() is undefined", {}};
@@ -53,12 +57,14 @@ namespace ltn::c::compile {
 
 
 		void op_pipe_code(std::ostream & out) {
-			out << 
-				":_op_pipe\n"
-				"newarr 1\n"
-				"invoke\n"
-				"return\n"
-				"\n";
+			static const auto code = std::to_array<ltn::inst::Instruction>({
+				ltn::inst::Label{"_op_pipe"},
+				ltn::inst::Newarr{1},
+				ltn::inst::Invoke{},
+				ltn::inst::Return{},
+			});
+
+			out << print(code);
 		}
 	}
 

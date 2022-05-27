@@ -1,6 +1,7 @@
 #include "compile.hxx"
 #include <iostream>
 #include "build_in/build_in.hxx"
+#include "ltnc/print/print.hxx"
 
 namespace ltn::c::compile {
 	namespace {
@@ -90,10 +91,7 @@ namespace ltn::c::compile {
 				fx.parameters.size());
 			
 			ss << inst::jumpmark(signature->id);
-			const auto instructions = resolve_build_in(fx.key);
-			for(const auto & inst : instructions) {
-				ss << inst << "\n";
-			}
+			ss << print(resolve_build_in(fx.key)) << "\n";
 			ss << inst::null;
 			ss << inst::reTurn;
 			ss << "\n";

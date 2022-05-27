@@ -1,22 +1,22 @@
 #pragma once
 #include <array>
-#include <string_view>
-using namespace std::string_view_literals;
+#include "ltn/InstructionSet.hxx"
+using namespace ltn::inst;
 namespace ltn::c::compile::build_in {
-	constexpr auto chrono_clock = std::array{
-		"newclock"sv,
-		"return"sv,
-	};
+	const auto chrono_clock = std::to_array<Instruction>({
+		Newclock{},
+		Return{},
+	});
 
-	constexpr auto chrono_to_seconds = std::array{
-		"cast_float"sv,
-		"return"sv,
-	};
+	const auto chrono_to_seconds = std::to_array<Instruction>({
+		CastFloat{},
+		Return{},
+	});
 
-	constexpr auto chrono_to_milliseconds = std::array{
-		"cast_float"sv,
-		"newf 1000.0"sv,
-		"mlt"sv,
-		"return"sv,
-	};
+	const auto chrono_to_milliseconds = std::to_array<Instruction>({
+		CastFloat{},
+		Newf{1000.0},
+		Mlt{},
+		Return{},
+	});
 }

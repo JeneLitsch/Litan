@@ -3,7 +3,8 @@
 #include <string>
 #include <vector>
 #include <span>
+#include "ltn/InstructionSet.hxx"
 
 namespace ltn::c::compile {
-	std::span<const std::string_view> resolve_build_in(const std::string_view & key);
+	std::span<const ltn::inst::Instruction> resolve_build_in(const std::string_view & key);
 }

@@ -1,21 +1,21 @@
 #pragma once
 #include <array>
-#include <string_view>
-using namespace std::string_view_literals;
+#include "ltn/InstructionSet.hxx"
+using namespace ltn::inst;
 namespace ltn::c::compile::build_in {
-	constexpr auto functional_invoke_2 = std::array{
-		"invoke"sv,
-		"return"sv,
-	};
+	const auto functional_invoke_2 = std::to_array<Instruction>({
+		Invoke{},
+		Return{},
+	});
 
-	constexpr auto functional_invoke_1 = std::array{
-		"newarr 0"sv,
-		"invoke"sv,
-		"return"sv,
-	};
+	const auto functional_invoke_1 = std::to_array<Instruction>({
+		Newarr{0},
+		Invoke{},
+		Return{},
+	});
 
-	constexpr auto functional_external = std::array{
-		"external"sv,
-		"return"sv,
-	};
+	const auto functional_external = std::to_array<Instruction>({
+		External{},
+		Return{},
+	});
 }

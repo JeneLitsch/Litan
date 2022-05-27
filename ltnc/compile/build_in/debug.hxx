@@ -1,10 +1,10 @@
 #pragma once
 #include <array>
-#include <string_view>
-using namespace std::string_view_literals;
+#include "ltn/InstructionSet.hxx"
+using namespace ltn::inst;
 namespace ltn::c::compile::build_in {
-	constexpr auto debug_state = std::array{
-		"state"sv,
-		"return"sv,
-	};
+	const auto debug_state = std::to_array<Instruction>({
+		State{},
+		Return{},
+	});
 }

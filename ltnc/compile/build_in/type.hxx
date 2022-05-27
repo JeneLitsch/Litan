@@ -1,15 +1,15 @@
 #pragma once
 #include <array>
-#include <string_view>
-using namespace std::string_view_literals;
+#include "ltn/InstructionSet.hxx"
+using namespace ltn::inst;
 namespace ltn::c::compile::build_in {
-	constexpr auto type_typeid = std::array{
-		"typeid"sv,
-		"return"sv,
-	};
+	const auto type_typeid = std::to_array<Instruction>({
+		TypeId{}, 
+		Return{},
+	});
 
-	constexpr auto type_clone = std::array{
-		"clone"sv,
-		"return"sv,
-	};
+	const auto type_clone = std::to_array<Instruction>({
+		Clone{}, 
+		Return{},
+	});
 }

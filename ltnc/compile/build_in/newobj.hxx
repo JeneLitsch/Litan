@@ -3,33 +3,33 @@
 #include <string_view>
 using namespace std::string_view_literals;
 namespace ltn::c::compile::build_in {
-	constexpr auto queue = std::array{
-		"newqueue"sv,
-		"return"sv,
-	};
+	const auto queue = std::to_array<Instruction>({
+		Newqueue{}, 
+		Return{},
+	});
 
-	constexpr auto stack = std::array{
-		"newstack"sv,
-		"return"sv,
-	};
+	const auto stack = std::to_array<Instruction>({
+		Newstack{}, 
+		Return{},
+	});
 
-	constexpr auto map = std::array{
-		"newmap"sv,
-		"return"sv,
-	};
+	const auto map = std::to_array<Instruction>({
+		Newmap{}, 
+		Return{},
+	});
 
-	constexpr auto array = std::array{
-		"newarr 0"sv,
-		"return"sv,
-	};
+	const auto array = std::to_array<Instruction>({
+		Newarr{0}, 
+		Return{},
+	});
 
-	constexpr auto range = std::array{
-		"newrange"sv,
-		"return"sv,
-	};
+	const auto range = std::to_array<Instruction>({
+		Newrange{}, 
+		Return{},
+	});
 
-	constexpr auto struc1 = std::array{
-		"newstruct"sv,
-		"return"sv,
-	};
+	const auto struc1 = std::to_array<Instruction>({
+		Newstruct{}, 
+		Return{},
+	});
 }

@@ -17,12 +17,7 @@ using namespace std::string_view_literals;
 namespace ltn::c::compile {
 	using Table = std::unordered_map<
 		std::string_view,
-		std::span<const std::string_view>>;
-
-	constexpr auto hello_world = std::array {
-		"build_in 0"sv,
-		"return"sv
-	};
+		std::span<const Instruction>>;
 
 	const Table table{
 		{"cast_bool",                build_in::cast_bool},
@@ -126,10 +121,9 @@ namespace ltn::c::compile {
 
 		{"type_clone",               build_in::type_clone},
 		{"type_typeid",              build_in::type_typeid},
-		{"hello_world",              hello_world},
 	};
 	
-	std::span<const std::string_view> resolve_build_in(const std::string_view & key) {
+	std::span<const Instruction> resolve_build_in(const std::string_view & key) {
 		if(!table.contains(key)) {
 			throw CompilerError{"Unknown build in: " + std::string(key)};
 		}
