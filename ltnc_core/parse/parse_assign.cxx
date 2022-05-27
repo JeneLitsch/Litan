@@ -1,5 +1,6 @@
 #include "parse.hxx"
 #include "ltnc_core/CompilerError.hxx"
+#include "stdxx/memory.hxx"
 
 namespace ltn::c::parse {
 	namespace {
@@ -24,13 +25,6 @@ namespace ltn::c::parse {
 
 
 
-		template<class To, class From>
-		std::unique_ptr<To> static_unique_cast(std::unique_ptr<From> && from) {
-			return std::unique_ptr<To>(static_cast<To*>(from.release()));
-		}
-
-
-
 		bool is_assingable(auto & from) {
 			return dynamic_cast<const ast::Assignable * const>(&from);
 		}
@@ -49,7 +43,7 @@ namespace ltn::c::parse {
 
 		ast::stmt_ptr modify(lex::Lexer & lexer, ast::expr_ptr && expr,	Op op) {
 			guard_assingable(*expr, lexer.location());
-			auto l = static_unique_cast<ast::Assignable>(std::move(expr));
+			auto l = stx::static_unique_cast<ast::Assignable>(std::move(expr));
 			auto r = expression(lexer);
 			return std::make_unique<ast::Modify>(
 				op,
@@ -63,7 +57,7 @@ namespace ltn::c::parse {
 		ast::stmt_ptr assignment(lex::Lexer & lexer, auto && expr, auto && r) {
 			guard_assingable(*expr, lexer.location());
 			return std::make_unique<ast::Assign>(
-				static_unique_cast<ast::Assignable>(std::move(expr)),
+				stx::static_unique_cast<ast::Assignable>(std::move(expr)),
 				std::move(r),
 				lexer.location());
 		}

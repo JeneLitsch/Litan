@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <sstream>
 #include <iostream>
-#include "ltn/array.hxx"
+#include "stdxx/array.hxx"
 
 namespace ltn::a {
 	namespace {
@@ -76,7 +76,7 @@ namespace ltn::a {
 
 		template<typename T, typename T2, typename ... Ts>
 		constexpr std::array<Entry, sizeof...(Ts) + 2> iterate_variant() {
-			return appended(iterate_variant<T2, Ts...>(), entry<T>);
+			return iterate_variant<T2, Ts...>() + entry<T>;
 		}
 
 		template<typename> struct make_table;

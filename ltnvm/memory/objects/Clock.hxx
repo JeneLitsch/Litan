@@ -1,7 +1,7 @@
 #pragma once
 #include <chrono>
 #include <string_view>
-#include "ltn/float64_t.hxx"
+#include "stdxx/float64_t.hxx"
 namespace ltn::vm {
 	class Clock {
 	public:

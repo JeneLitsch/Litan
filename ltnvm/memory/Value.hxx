@@ -1,5 +1,5 @@
 #pragma once
-#include "ltn/float64_t.hxx"
+#include "stdxx/float64_t.hxx"
 #include <cstdint>
 
 namespace ltn::vm {

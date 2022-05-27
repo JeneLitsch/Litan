@@ -18,6 +18,7 @@ def glob(dirs):
 
 incl = [
 	".",
+	"libs/stdxx",
 ]
 
 env = Environment(

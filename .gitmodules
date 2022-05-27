@@ -1,3 +1,6 @@
 [submodule "test/sphinx"]
 	path = test/sphinx
 	url = https://github.com/JeneLitsch/Sphinx.git
+[submodule "libs/stdxx"]
+	path = libs/stdxx
+	url = git@github.com:JeneLitsch/stdxx.git

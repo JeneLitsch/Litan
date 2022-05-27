@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "ltn/float64_t.hxx"
+#include "stdxx/float64_t.hxx"
 #include "ltnvm/memory/Value.hxx"
 #include "ltnvm/memory/Heap.hxx"
 #include "ltnvm/type_check.hxx"

@@ -1,7 +1,7 @@
 #pragma once
 #include "memory/Value.hxx"
 #include "memory/Heap.hxx"
-#include "ltn/float64_t.hxx"
+#include "stdxx/float64_t.hxx"
 
 // Implicit type conversions
 namespace ltn::vm{

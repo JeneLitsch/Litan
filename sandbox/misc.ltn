@@ -1,7 +1,12 @@
+function fib(n) => choose(n) {
+	case 0: 0
+	case 1: 1
+	default: fib(n - 1) + fib(n - 2)
+}
+
 function main() {
-	var arr = [1,2,3];
-	arr[0] = 1;
-	// var map = std::map();
-	// map["AAA"] = 0;
-	return 4;
+	var clock = std::chrono::clock();
+	var value = fib(35);
+	std::println(value);
+	std::println(std::float(clock));
 }

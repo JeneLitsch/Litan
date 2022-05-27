@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "ltn/float64_t.hxx"
+#include "stdxx/float64_t.hxx"
 
 namespace ltn::c::compile::inst {
 	const std::string comment(std::string msg);

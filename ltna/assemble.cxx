@@ -1,5 +1,5 @@
 #include "assemble.hxx"
-#include "ltn/bitcast.hxx"
+#include "stdxx/casting.hxx"
 
 namespace ltn::a {
 	namespace {
@@ -16,10 +16,10 @@ namespace ltn::a {
 		}
 		auto to_bytes(std::signed_integral auto value) {
 			using T = std::make_unsigned_t<decltype(value)>;
-			return to_bytes(bitcast<T>(value));
+			return to_bytes(stx::bitcast<T>(value));
 		}
 		auto to_bytes(std::floating_point auto value) {
-			return to_bytes(bitcast<std::uint64_t>(value));
+			return to_bytes(stx::bitcast<std::uint64_t>(value));
 		}
 		
 

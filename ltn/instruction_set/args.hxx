@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
-#include "ltn/float64_t.hxx"
+#include "stdxx/float64_t.hxx"
 
 namespace ltn::inst::args {
 	struct None {

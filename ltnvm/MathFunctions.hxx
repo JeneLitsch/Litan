@@ -2,7 +2,7 @@
 #include <functional>
 #include <cstdint>
 #include <cmath>
-#include "ltn/float64_t.hxx"
+#include "stdxx/float64_t.hxx"
 namespace ltn::vm {
 	struct Round {
 		constexpr inline std::int64_t operator()(const stx::float64_t value) const {

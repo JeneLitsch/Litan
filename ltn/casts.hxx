@@ -12,12 +12,6 @@ namespace ltn {
 		return dynamic_cast<const To*>(&from);
 	}
 
-	template<typename To, typename From>
-	std::unique_ptr<To> unique_cast(std::unique_ptr<From> from) {
-		auto * ptr = from.release();
-		return std::unique_ptr<To>(static_cast<To*>(ptr));
-	}
-
 
 	template<typename To, typename From>
 	bool dynamic_check(const From & from) {

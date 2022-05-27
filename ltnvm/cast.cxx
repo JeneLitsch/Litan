@@ -2,7 +2,7 @@
 #include "type_check.hxx"
 #include "Exception.hxx"
 #include "convert.hxx"
-#include "ltn/float64_t.hxx"
+#include "stdxx/float64_t.hxx"
 
 namespace ltn::vm::cast {
 	namespace {

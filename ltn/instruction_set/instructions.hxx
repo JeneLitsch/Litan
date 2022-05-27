@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <variant>
-#include "ltn/float64_t.hxx"
+#include "stdxx/float64_t.hxx"
 #include "args.hxx"
 #include "opcodes.hxx"
 
