@@ -1,6 +1,6 @@
 #include "assemble.hxx"
 #include "stdxx/casting.hxx"
-
+#include <iostream>
 namespace ltn::a {
 	namespace {
 		using namespace inst::args;
@@ -51,7 +51,8 @@ namespace ltn::a {
 			std::vector<std::uint8_t> & bytecode,
 			const Jump & args,
 			const AddressTable & jump_table) {
-			const auto bytes = to_bytes(jump_table.at(args.name));
+			const auto addr = jump_table.at(args.name);
+			const auto bytes = to_bytes(addr);
 			for(const auto byte : bytes) {
 				bytecode.push_back(byte);
 			}

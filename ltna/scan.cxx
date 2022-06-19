@@ -2,7 +2,7 @@
 #include <stdexcept>
 namespace ltn::a {
 	AddressTable scan(const std::vector<inst::Instruction> & instructions) {
-		std::size_t position;
+		std::size_t position = 0;
 		AddressTable table;
 		for(const auto & inst : instructions) {
 			auto get_size = [] (auto & inst) {
