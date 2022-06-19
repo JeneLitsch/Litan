@@ -4,10 +4,5 @@
 #include <istream>
 
 namespace ltn::a {
-	class Ltna {
-	public:
-		std::vector<std::uint8_t> process(std::istream & in) const;
-	private:
-
-	};
+	std::vector<std::uint8_t> to_bytecode(std::istream & in);
 }

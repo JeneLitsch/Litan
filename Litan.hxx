@@ -7,7 +7,6 @@
 
 namespace ltn {
 	using Ltnc = c::Ltnc;
-	using Ltna = a::Ltna;
 	using LtnVm = vm::LtnVM;
 
 	using LtnBackend = c::compile::LtnBackend;
