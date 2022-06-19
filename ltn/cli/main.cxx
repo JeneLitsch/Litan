@@ -25,7 +25,6 @@ int main(int argc, char const *argv[]) {
 			return 0;
 		}
 		ltn::Ltnc compiler{std::make_unique<ltn::LtnBackend>()};
-		ltn::Ltna assembler;
 		ltn::LtnVm vm;
 		try {
 			std::vector<std::string> args;
@@ -41,7 +40,7 @@ int main(int argc, char const *argv[]) {
 			}
 			std::stringstream ss;
 			compiler.yield(ss);
-			vm.setup(assembler.process(ss));
+			vm.setup(ltn::a::to_bytecode(ss));
 			auto x = vm.run(args);
 			std::cout << "Exit main() with return value: ";
 			std::cout << ltn::vm::cast::to_string(x, vm.get_heap());

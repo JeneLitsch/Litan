@@ -1,13 +1,21 @@
 flags = [
-	"-std=c++2a", "-O3",
+	"-std=c++2a",
+	"-O3",
+	"-W",
 	"-Wall",
 	"-Wextra",
+	"-pedantic",
+	"-Wpedantic",
+	"-pedantic-errors",
+	"-Wunused",
+	"-Wwrite-strings",
 	"-Wconversion",
 	"-Wunreachable-code",
 	"-Wuninitialized",
-	"-pedantic-errors",
 	"-Wold-style-cast",
-	"-Wno-error=unused-variable"
+	"-Walloca",
+	"-Wparentheses",
+	"-Wno-unknown-pragmas"
 ]
 
 def glob(dirs):

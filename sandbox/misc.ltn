@@ -5,8 +5,5 @@ function fib(n) {
 }
 
 function main() {
-	var clock = std::chrono::clock();
-	var value = fib(35);
-	std::println(value);
-	std::println(std::float(clock));
+	std::invoke(42, ["A", "B"]);
 }
