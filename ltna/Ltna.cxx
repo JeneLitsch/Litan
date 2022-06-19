@@ -7,7 +7,7 @@
 #include "scan.hxx"
 
 namespace ltn::a {
-	std::vector<std::uint8_t> to_bytecode(std::istream & in) {
+	std::vector<std::uint8_t> assemble(std::istream & in) {
 		const std::string code = [&] {
 			std::stringstream ss;
 			ss << in.rdbuf();
@@ -15,7 +15,12 @@ namespace ltn::a {
 		}();
 
 		std::stringstream iss(code);
-		const auto instructions = parse(iss);
+		return assemble(parse(iss));
+	}
+
+
+
+	std::vector<std::uint8_t> assemble(const std::vector<inst::Instruction> & instructions) {		
 		const auto jump_table = scan(instructions);
 		const auto bytecode = assemble(instructions, jump_table);
 		return bytecode;
