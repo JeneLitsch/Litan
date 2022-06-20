@@ -22,7 +22,7 @@ namespace ltn::c::compile {
 				name,
 				condition.code,
 				if_branch.code,
-				else_branch.code);
+				&else_branch.code);
 
 			const auto total_var_count = std::max(
 				if_branch.var_count,
@@ -35,7 +35,7 @@ namespace ltn::c::compile {
 				name,
 				condition.code,
 				if_branch.code,
-				std::nullopt);
+				nullptr);
 
 			return {code, if_branch.var_count};
 		}

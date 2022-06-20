@@ -6,33 +6,33 @@
 namespace ltn::c::compile {
 	namespace {
 
-		std::string parameters(const ast::Functional & fx, Scope & scope) {
+		ltn::inst::Instruction parameters(const ast::Functional & fx, Scope & scope) {
 			for(const auto & param : fx.parameters) {
 				scope.insert(param, fx.location);
 			}
-			return inst::parameters(fx.parameters.size());
+			return ltn::inst::Params{ static_cast<std::uint8_t>(fx.parameters.size()) };
 		}
 
 
 
-		std::string body(
+		InstructionBuffer body(
 			const auto & fx,
 			CompilerInfo & info,
 			Scope & scope) {
-			std::stringstream ss;
+			InstructionBuffer buf;
 			if(fx.body) {
 				const auto body = compile::statement(*fx.body, info, scope);
 				for(std::size_t i = 0; i < body.var_count; i++) {
-					ss << inst::makevar;
+					buf << ltn::inst::Makevar{};
 				}
-				ss << body.code;
+				buf << body.code;
 			}
-			return ss.str();
+			return buf;
 		}
 
 
 
-		std::string except(	
+		InstructionBuffer except(	
 			const ast::Except & except,
 			const std::string & fxid,
 			CompilerInfo & info,
@@ -41,68 +41,69 @@ namespace ltn::c::compile {
 			Scope scope{namespaze, false};
 			scope.insert(except.errorname, except.location);
 			// std::cout << "ERR " << except.errorname << ":" << var.address << ":" << scope.recSize() << std::endl;
-			std::ostringstream ss;
-			ss << inst::jumpmark_except(fxid);
-			ss << inst::parameters(1);
-			ss << body(except, info, scope);
-			ss << inst::null;
-			ss << inst::reTurn;
-			return ss.str();
+			InstructionBuffer buf;
+			buf << ltn::inst::Label{inst::jumpmark_except(fxid)};
+			buf << ltn::inst::Params{1};
+			buf << body(except, info, scope);
+			buf << ltn::inst::Null{};
+			buf << ltn::inst::Return{};
+			return buf;
 		}
 
 		namespace {
 			// compiles Litan function
-			std::string function(
+			InstructionBuffer function(
 				const ast::Function & fx,
 				CompilerInfo & info,
 				Scope & scope,
-				std::optional<const std::string_view> capture) {
+				InstructionBuffer capture) {
 				
-				std::stringstream ss;
+				InstructionBuffer buf;
 				
-				ss << inst::jumpmark(fx.id);
-				if(capture) ss << *capture;
-				ss << parameters(fx, scope);
-				if(fx.except) ss << inst::tRy(fx.id);
-				ss << body(fx, info, scope);
-				ss << inst::null;
-				ss << inst::reTurn;
-				if(fx.except) ss << except(*fx.except, fx.id, info, fx.namespaze);
-				ss << "\n";
-				return ss.str();
+				buf << ltn::inst::Label{fx.id};
+				buf << capture;
+				buf << parameters(fx, scope);
+				if(fx.except) buf << ltn::inst::Try{inst::jumpmark_except(fx.id)};
+				buf << body(fx, info, scope);
+				buf << ltn::inst::Null{};
+				buf << ltn::inst::Return{};
+				if(fx.except) buf << except(*fx.except, fx.id, info, fx.namespaze);
+				
+				return buf;
 			}
 		}
 
 
 		// compiles Litan function
-		std::string function(const ast::Function & fx, CompilerInfo & info) {
+		InstructionBuffer function(const ast::Function & fx, CompilerInfo & info) {
 			Scope scope{fx.namespaze, fx.c0nst};
-			return function(fx, info, scope, std::nullopt);
+			return function(fx, info, scope, {});
 		}
 
 
 
 		// compiles asm_function
-		std::string build_in_function(const ast::BuildIn & fx, CompilerInfo & info) {
-			std::stringstream ss;
+		InstructionBuffer build_in_function(const ast::BuildIn & fx, CompilerInfo & info) {
+			InstructionBuffer buf;
 			const auto * signature = info.fx_table.resolve(
 				fx.name,
 				fx.namespaze,
 				fx.parameters.size());
 			
-			ss << inst::jumpmark(signature->id);
-			ss << print(resolve_build_in(fx.key)) << "\n";
-			ss << inst::null;
-			ss << inst::reTurn;
-			ss << "\n";
-			return ss.str();
+			buf << ltn::inst::Label{signature->id};
+			const auto body = resolve_build_in(fx.key); 
+			buf << body;
+			buf << ltn::inst::Null{};
+			buf << ltn::inst::Return{};
+			
+			return buf;
 		}
 	}
 
 
 
 	// compiles functional node
-	std::string functional(
+	InstructionBuffer functional(
 		const ast::Functional & functional,
 		CompilerInfo & info) {
 		if(auto fx = as<const ast::Function>(functional)) {
@@ -120,34 +121,34 @@ namespace ltn::c::compile {
 
 	ExprCode lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & outer_scope) {
 		const auto & fx = *lm.fx;
-		std::stringstream ss;
+		InstructionBuffer buf;
 		
 		// Skip
-		ss << inst::jump(fx.id + "SKIP");
+		buf << ltn::inst::Jump{fx.id + "SKIP"};
 		
 		// load captures
 		Scope inner_scope{outer_scope.get_namespace(), fx.c0nst};
-		std::ostringstream ss_capture;
+		InstructionBuffer capture_buf;
 		for(const auto & capture : lm.captures) {
 			const auto var = inner_scope.insert(capture->name, fx.location);
-			ss_capture << inst::makevar;
-			ss_capture << inst::write_x(var.address);
+			capture_buf << ltn::inst::Makevar{};
+			capture_buf << ltn::inst::Writex{var.address};
 		}
 
 		// compile function
-		ss << function(*lm.fx, info, inner_scope, ss_capture.str());
+		buf << function(*lm.fx, info, inner_scope, capture_buf);
 
 		// Create function pointer
-		ss << inst::jumpmark(fx.id + "SKIP");
-		ss << inst::newfx(fx.id, fx.parameters.size());
+		buf << ltn::inst::Label{fx.id + "SKIP"};
+		buf << ltn::inst::Newfx{fx.id, fx.parameters.size()};
 		
 		// store captures
 		for(const auto & capture : lm.captures) {
-			ss << compile::read_variable(*capture, info, outer_scope).code;
-			ss << inst::capture;
+			buf << compile::read_variable(*capture, info, outer_scope).code;
+			buf << ltn::inst::Capture{};
 		}
 
-		return { ss.str() };
+		return { buf };
 	}
 
 }

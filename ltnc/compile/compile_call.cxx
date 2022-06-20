@@ -32,13 +32,14 @@ namespace ltn::c::compile {
 				call.location};
 		}
 
-		std::stringstream ss;
+		InstructionBuffer buf;
 
 		for(const auto & param : call.parameters) {
-			ss << compile::expression(*param, info, scope).code;
+			buf << compile::expression(*param, info, scope).code;
 		}
 
-		ss << inst::call(fx->id);
-		return ExprCode{ ss.str() };
+		buf << ltn::inst::Call{fx->id};
+		
+		return ExprCode{ buf };
 	}
 }

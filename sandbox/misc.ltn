@@ -4,6 +4,15 @@ function fib(n) {
 	return fib(n - 1) + fib(n-2);
 }
 
+function f(a, b) {
+	throw 42;
+	return 42;
+}
+
+
 function main() {
-	std::invoke(42, ["A", "B"]);
+	return f(1,2);
+}
+except(e) {
+	std::println("XXX");
 }

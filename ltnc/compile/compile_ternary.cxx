@@ -10,7 +10,7 @@ namespace ltn::c::compile {
 			name,
 			condition,
 			if_branch,
-			else_branch);
+			&else_branch);
 		
 		return ExprCode{code};
 	}

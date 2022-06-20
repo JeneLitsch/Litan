@@ -198,6 +198,7 @@ namespace ltn::vm {
 		try {
 			while(true) {
 				std::uint8_t inst = this->core.fetch_byte();
+				// std::cout << std::hex << int(inst) << std::dec << " | " << core.pc << std::endl;
 				instructions_table[inst](core);
 			}
 

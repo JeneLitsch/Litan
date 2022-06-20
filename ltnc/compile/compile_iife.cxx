@@ -5,10 +5,10 @@ namespace ltn::c::compile {
 		const auto jumpmark = make_jump_id("IIFE");
 		Scope inner_scope{&outer_scope};
 		inner_scope.set_return(jumpmark);
-		std::ostringstream ss;
-		ss << compile::statement(*iife.stmt, info, inner_scope).code;
-		ss << inst::null;
-		ss << inst::jumpmark(jumpmark);
-		return {ss.str()};
+		InstructionBuffer buf;
+		buf << compile::statement(*iife.stmt, info, inner_scope).code;
+		buf << ltn::inst::Null{};
+		buf << ltn::inst::Label{jumpmark};
+		return { buf };
 	}
 }

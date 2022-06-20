@@ -3,11 +3,11 @@
 namespace ltn::c::compile {
 	// compiles array literal
 	ExprCode array(const ast::Array & array, CompilerInfo & info, Scope & scope) {
-		std::stringstream ss;
+		InstructionBuffer buf;
 		for(const auto & elem : array.elements) {
-			ss << expression(*elem, info, scope).code;
+			buf << expression(*elem, info, scope).code;
 		}
-		ss << inst::newarr(array.elements.size());
-		return ExprCode{ ss.str() };
+		buf << ltn::inst::Newarr{array.elements.size()};
+		return ExprCode{ buf };
 	}
 }

@@ -12,42 +12,43 @@ namespace ltn::c::compile {
 		}
 	}
 
-	std::string conditional(
+	InstructionBuffer conditional(
 		const std::string & name,
-		const std::string_view condition,
-		const std::string_view if_branch,
-		std::optional<const std::string_view> else_branch) {
+		const InstructionBuffer & condition,
+		const InstructionBuffer & if_branch,
+		const InstructionBuffer * else_branch) {
 
 		if(else_branch) {
 			const auto to_else = jump_else(name); 
 			const auto to_end = jump_end(name);
 			
-			std::ostringstream ss;
-			ss << condition;
-			ss << inst::ifelse(to_else);
+			InstructionBuffer buf;
+			buf << condition;
+			buf << ltn::inst::Ifelse{to_else};
 
-			ss << if_branch;
-			ss << inst::jump(to_end);
+			buf << if_branch;
+			buf << ltn::inst::Jump{to_end};
 
-			ss << inst::jumpmark(to_else);
-			ss << *else_branch;
+			buf << ltn::inst::Label{to_else};
+			buf << *else_branch;
 
-			ss << inst::jumpmark(to_end);
+			buf << ltn::inst::Label{to_end};
 
-			return ss.str();
+			return buf;
 		}
 
 		else {
 			const auto to_else = jump_else(name); 
 
-			std::ostringstream ss;
-			ss << condition;
-			ss << inst::ifelse(to_else);
+			InstructionBuffer buf;
+			
+			buf << condition;
+			buf << ltn::inst::Ifelse{to_else};
 
-			ss << if_branch;
-			ss << inst::jumpmark(to_else);
+			buf << if_branch;
+			buf << ltn::inst::Label{to_else};
 
-			return ss.str();
+			return buf;
 		}
 	}
 }

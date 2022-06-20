@@ -73,6 +73,12 @@ namespace ltn::c {
 			ss << InstT::name << " " << print_args(inst.args) << "\n";
 			return ss.str();
 		}
+
+		std::string print_instruction(const inst::Label & inst) {
+			std::ostringstream ss;
+			ss << ":" << print_args(inst.args) << "\n";
+			return ss.str();
+		}
 	}
 
 

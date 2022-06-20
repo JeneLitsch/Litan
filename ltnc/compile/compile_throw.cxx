@@ -1,14 +1,14 @@
 #include "compile.hxx"
 namespace ltn::c::compile {
 	StmtCode thr0w(const ast::Throw & thr0w, CompilerInfo & info, Scope & scope) {
-		std::ostringstream ss;
+		InstructionBuffer buf;
 		if(thr0w.expression) {
-			ss << compile::expression(*thr0w.expression, info, scope).code;
+			buf << compile::expression(*thr0w.expression, info, scope).code;
 		}
 		else {
-			ss << inst::null;
+			buf << ltn::inst::Null{};
 		}
-		ss << inst::thr0w;
-		return {ss.str(), 0};
+		buf << ltn::inst::Throw{};
+		return { buf, 0 };
 	}
 }

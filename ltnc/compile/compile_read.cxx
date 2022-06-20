@@ -12,9 +12,9 @@ namespace ltn::c::compile {
 
 
 		ExprCode read_local_variable(const Variable & var) {
-			std::stringstream ss;
-			ss << inst::read_x(var.address);
-			return ExprCode{ ss.str() };
+			InstructionBuffer buf;
+			buf << ltn::inst::Readx { var.address };
+			return ExprCode{ buf };
 		}
 
 
@@ -48,7 +48,7 @@ namespace ltn::c::compile {
 		if(
 			fx.pr1vate &&
 			!is_inner_namespace(call_ns, fx.namespaze)) {
-			throw CompilerError{
+			throw CompilerError {
 				"Function is not visible in current scope",
 				loc
 			};
@@ -79,11 +79,11 @@ namespace ltn::c::compile {
 		CompilerInfo & info,
 		Scope & scope) {
 
-		std::stringstream ss;
-		ss << expression(*access.expr, info, scope).code;
+		InstructionBuffer buf;
+		buf << expression(*access.expr, info, scope).code;
 		const auto id = info.member_table.get_id(access.name);
-		ss << inst::member_read(id);
-		return ExprCode{ ss.str() };
+		buf << ltn::inst::MemberRead{id};
+		return ExprCode{ buf };
 	}
 
 

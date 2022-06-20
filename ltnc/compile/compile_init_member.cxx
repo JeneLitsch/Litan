@@ -5,13 +5,13 @@ namespace ltn::c::compile {
 		const auto var = scope.resolve(stmt.param, stmt.location);
 		const auto mem = info.member_table.get_id(stmt.member);
 		
-		std::ostringstream oss;
+		InstructionBuffer buf;
 		
-		oss 
-			<< inst::read_x(var.address)
-			<< inst::read_x(obj.address)
-			<< inst::member_write(mem);
+		buf 
+			<< ltn::inst::Readx{var.address}
+			<< ltn::inst::Readx{obj.address}
+			<< ltn::inst::MemberWrite{mem};
 		
-		return StmtCode{oss.str(), 0, false};
+		return StmtCode{buf, 0, false};
 	}
 }

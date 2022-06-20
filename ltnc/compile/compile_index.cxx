@@ -5,11 +5,11 @@ namespace ltn::c::compile {
 	ExprCode index(const ast::Index & index, CompilerInfo & info, Scope & scope) {
 		const auto arr = expression(*index.expression, info, scope);
 		const auto idx = expression(*index.index, info, scope);
-		std::stringstream ss;
-		ss	
+		InstructionBuffer buf;
+		buf	
 			<< arr.code
 			<< idx.code
-			<< inst::at;
-		return ExprCode{ss.str() };
+			<< ltn::inst::At{};
+		return ExprCode{ buf };
 	}
 }

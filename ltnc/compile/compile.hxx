@@ -13,7 +13,7 @@
 
 namespace ltn::c::compile {
 	// Functional
-	std::string functional(const ast::Functional &, CompilerInfo &);
+	InstructionBuffer functional(const ast::Functional &, CompilerInfo &);
 	ExprCode lambda(const ast::Lambda &, CompilerInfo &, Scope &);
 
 	// Statement
@@ -69,9 +69,9 @@ namespace ltn::c::compile {
 		const std::string_view & name,
 		const ast::Node & node);
 
-	std::string conditional(
+	InstructionBuffer conditional(
 		const std::string & name,
-		const std::string_view condition,
-		const std::string_view if_branch,
-		std::optional<const std::string_view> else_branch);
+		const InstructionBuffer & condition,
+		const InstructionBuffer & if_branch,
+		const InstructionBuffer * else_branch);
 }	

@@ -2,10 +2,10 @@
 namespace ltn::c::compile {
 	StmtCode expr_stmt(const ast::StatementExpression & stmt, CompilerInfo & info, Scope & scope) {
 		const auto code = expression(*stmt.expression, info, scope);
-		std::stringstream ss;
-		ss << code.code;
-		ss << inst::scrap;
-		return { ss.str(), 0 };
+		InstructionBuffer buf;
+		buf << code.code;
+		buf << ltn::inst::Scrap{};
+		return { buf, 0 };
 	}
 
 
@@ -45,7 +45,7 @@ namespace ltn::c::compile {
 			return compile::expr_stmt(*exprstmt, info, scope);
 		}
 		if(as<ast::DoNothing>(stmt)) {
-			return StmtCode{"", 0};
+			return StmtCode{{}, 0};
 		}
 		if(auto assign = as<ast::Assign>(stmt)) {
 			return compile::assign(*assign, info, scope);

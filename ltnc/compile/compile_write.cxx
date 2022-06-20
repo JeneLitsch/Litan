@@ -11,17 +11,17 @@ namespace ltn::c::compile {
 
 		ExprCode read_ref_index(const ast::Index & expr, CompilerInfo & info, Scope & scope) {
 			const auto arr = expression(*expr.expression, info, scope);
-			std::stringstream ss;
-			ss << arr.code;
-			return ExprCode{ss.str() };
+			InstructionBuffer buf;
+			buf << arr.code;
+			return ExprCode{ buf };
 		}
 
 
 
 		ExprCode read_ref_member(const ast::Member & expr, CompilerInfo & info, Scope & scope) {
-			std::stringstream ss;
-			ss << expression(*expr.expr, info, scope).code;
-			return ExprCode{ss.str() };
+			InstructionBuffer buf;
+			buf << expression(*expr.expr, info, scope).code;
+			return ExprCode{ buf };
 		}
 
 
@@ -45,9 +45,9 @@ namespace ltn::c::compile {
 		ExprCode write_var(const ast::Var & expr, CompilerInfo &, Scope & scope) {
 			const auto var = scope.resolve(expr.name, expr.location);
 			if(is_mutable(var)) {
-				std::stringstream ss;
-				ss << inst::write_x(var.address);
-				return ExprCode{ss.str() };
+				InstructionBuffer buf;
+				buf << ltn::inst::Writex{var.address};
+				return ExprCode{ buf };
 			}
 			else throw not_mutable(expr.location);
 		}
@@ -56,19 +56,19 @@ namespace ltn::c::compile {
 
 		ExprCode write_index(const ast::Index & expr, CompilerInfo & info, Scope & scope) {
 			const auto idx = expression(*expr.index, info, scope);
-			std::ostringstream ss;
-			ss << idx.code;
-			ss << inst::at_write;
-			return ExprCode{ss.str() };
+			InstructionBuffer buf;
+			buf << idx.code;
+			buf << ltn::inst::AtWrite{};
+			return ExprCode{ buf };
 		}
 
 
 
 		ExprCode write_member(const ast::Member & expr, CompilerInfo & info, Scope &) {
-			std::stringstream ss;
+			InstructionBuffer buf;
 			const auto id = info.member_table.get_id(expr.name);
-			ss << inst::member_write(id);
-			return ExprCode{ss.str() };
+			buf << ltn::inst::MemberWrite{ id };
+			return ExprCode{ buf };
 		}
 
 		
@@ -90,28 +90,28 @@ namespace ltn::c::compile {
 
 		ExprCode read_var(const ast::Var & expr, CompilerInfo &, Scope & scope) {
 			const auto var = scope.resolve(expr.name, expr.location);
-			std::stringstream ss;
-			ss << inst::read_x(var.address);
-			return ExprCode{ss.str() };
+			InstructionBuffer buf;
+			buf << ltn::inst::Readx{var.address};
+			return ExprCode{ buf };
 		}
 
 
 
 		ExprCode read_index(const ast::Index & expr, CompilerInfo & info, Scope & scope) {
 			const auto idx = expression(*expr.index, info, scope);
-			std::ostringstream ss;
-			ss << idx.code;
-			ss << inst::at;
-			return ExprCode{ss.str() };
+			InstructionBuffer buf;
+			buf << idx.code;
+			buf << ltn::inst::At{};
+			return ExprCode{ buf };
 		}
 
 
 
 		ExprCode read_member(const ast::Member & expr, CompilerInfo & info, Scope &) {
-			std::stringstream ss;
+			InstructionBuffer buf;
 			const auto id = info.member_table.get_id(expr.name);
-			ss << inst::member_read(id);
-			return ExprCode{ss.str() };
+			buf << ltn::inst::MemberRead{id};
+			return ExprCode{ buf };
 		}
 
 		
@@ -141,11 +141,11 @@ namespace ltn::c::compile {
 		const auto l_prepare = compile::read_ref(*expr.l, info, scope);
 		const auto l_write = compile::write(*expr.l, info, scope);
 		const auto r = compile::expression(*expr.r, info, scope);
-		std::stringstream ss;
-		ss << r.code;
-		ss << l_prepare.code;
-		ss << l_write.code;
-		return StmtCode{ss.str(), 0};
+		InstructionBuffer buf;
+		buf << r.code;
+		buf << l_prepare.code;
+		buf << l_write.code;
+		return StmtCode{ buf, 0 };
 	}
 
 
@@ -161,40 +161,40 @@ namespace ltn::c::compile {
 		const auto l_write = compile::write(*expr.l, info, scope);
 		const auto l_read = compile::read(*expr.l, info, scope);
 		const auto r = compile::expression(*expr.r, info, scope);
-		const auto op = [&] {
+		const auto op = [&] () -> ltn::inst::Instruction {
 			switch (expr.type) {
-			case MT::ADD:     return inst::add;
-			case MT::SUB:     return inst::sub;
-			case MT::MLT:     return inst::mlt;
-			case MT::DIV:     return inst::div;
-			case MT::MOD:     return inst::mod;
-			case MT::POW:     return inst::pow;
-			case MT::SHIFT_L: return inst::shift_l;
-			case MT::SHIFT_R: return inst::shift_r;
-			case MT::BITAND:  return inst::bit_and;
-			case MT::BITOR:   return inst::bit_or;
-			case MT::BITXOR:  return inst::bit_xor;
+			case MT::ADD:     return ltn::inst::Add{};
+			case MT::SUB:     return ltn::inst::Sub{};
+			case MT::MLT:     return ltn::inst::Mlt{};
+			case MT::DIV:     return ltn::inst::Div{};
+			case MT::MOD:     return ltn::inst::Mod{};
+			case MT::POW:     return ltn::inst::Pow{};
+			case MT::SHIFT_L: return ltn::inst::ShiftL{};
+			case MT::SHIFT_R: return ltn::inst::ShiftR{};
+			case MT::BITAND:  return ltn::inst::Bitand{};
+			case MT::BITOR:   return ltn::inst::Bitor{};
+			case MT::BITXOR:  return ltn::inst::Bitxor{};
 			}
 			throw CompilerError{
 				"Unknow modify operator",
 				expr.location};
 		}();
-		std::stringstream ss;
-		ss << l_prepare.code;
+		InstructionBuffer buf;
+		buf << l_prepare.code;
 		
 		if(as<ast::Index>(*expr.l) || as<ast::Member>(*expr.l)) {
-			ss << inst::duplicate;
+			buf << ltn::inst::Duplicate{};
 		}
 
-		ss << l_read.code;
-		ss << r.code;
-		ss << op;
+		buf << l_read.code;
+		buf << r.code;
+		buf << op;
 
 		if(as<ast::Index>(*expr.l) || as<ast::Member>(*expr.l)) {
-			ss << inst::swap;
+			buf << ltn::inst::Swap{};
 		}
 
-		ss << l_write.code;			
-		return StmtCode{ss.str(), 1, true};
+		buf << l_write.code;			
+		return StmtCode{ buf, 1, true };
 	}
 }

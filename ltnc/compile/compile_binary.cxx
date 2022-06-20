@@ -9,106 +9,107 @@ namespace ltn::c::compile {
 		ExprCode bin(
 			const auto & l,
 			const auto & r,
-			const std::string_view inst) {
-			std::ostringstream ss;
-			ss << l.code;
-			ss << r.code;
-			ss << inst;
-			return { ss.str() };
+			const auto ... inst) {
+			InstructionBuffer buf;
+			buf << l.code;
+			buf << r.code;
+			(buf << ... << inst);
+			return { buf };
 		}
 
 
 
-		ExprCode log_and(const auto & l, const auto & r) {
+		ExprCode log_and(const ExprCode & l, const ExprCode & r) {
 			const auto id = make_jump_id("AND");
 			const auto end = id + "_END";
 			const auto falsE = id + "_FALSE";
-			std::stringstream ss;
-			ss << l.code;
+			InstructionBuffer buf;
+			buf << l.code;
 			
-			ss << inst::ifelse(falsE);
-			ss << r.code;
-			ss << inst::jump(end);
+			buf << ltn::inst::Ifelse{falsE};
+			buf << r.code;
+			buf << ltn::inst::Jump{end};
 
-			ss << inst::jumpmark(falsE);
-			ss << inst::falsE;
+			buf << ltn::inst::Label{falsE};
+			buf << ltn::inst::False{};
 
-			ss << inst::jumpmark(end);
+			buf << ltn::inst::Label{end};
 			
-			return { ss.str() };
+			return { buf };
 		}
 
 
 
-		ExprCode log_or(const auto & l, const auto & r) {
+		ExprCode log_or(const ExprCode & l, const ExprCode & r) {
 			const auto id = make_jump_id("OR");
 			const auto end = id + "_END";
 			const auto truE = id + "_TRUE";
-			std::stringstream ss;
+			InstructionBuffer buf;
 			
-			ss << l.code;
-			ss << inst::n0t;
-			ss << inst::ifelse(truE);
-			ss << r.code;
-			ss << inst::jump(end);
+			buf << l.code;
+			buf << ltn::inst::Not{};
+			buf << ltn::inst::Ifelse{truE};
+			buf << r.code;
+			buf << ltn::inst::Jump{end};
 
-			ss << inst::jumpmark(truE);
-			ss << inst::truE;
+			buf << ltn::inst::Label{truE};
+			buf << ltn::inst::True{};
 
-			ss << inst::jumpmark(end);
+			buf << ltn::inst::Label{end};
 			
-			
-			return { ss.str() };
+			return { buf };
 		}
 
 
 
-		ExprCode elvis(const auto & l, const auto & r) {
+		ExprCode elvis(const ExprCode & l, const ExprCode & r) {
 			const auto jumpmark = make_jump_id("ELVIS");
 			const auto jumpmark_else = jumpmark + "_ELSE"; 
 			const auto jumpmark_end = jumpmark + "_END"; 
-			std::ostringstream ss;
-			ss << l.code;
-			ss << inst::duplicate;
-			ss << inst::ifelse(jumpmark_else);
-			ss << inst::jump(jumpmark_end);
-
-			ss << inst::jumpmark(jumpmark_else);
-			ss << inst::scrap;
-			ss << r.code;
+			InstructionBuffer buf;
 			
-			ss << inst::jumpmark(jumpmark_end);
-			return {ss.str()};
+			buf << l.code;
+			buf << ltn::inst::Duplicate{};
+			buf << ltn::inst::Ifelse{jumpmark_else};
+			buf << ltn::inst::Jump{jumpmark_end};
+
+			buf << ltn::inst::Label{jumpmark_else};
+			buf << ltn::inst::Scrap{};
+			buf << r.code;
+			
+			buf << ltn::inst::Label{jumpmark_end};
+			
+			return { buf };
 		}
 
 
-		ExprCode nullco(const auto & l, const auto & r) {
+		ExprCode nullco(const ExprCode & l, const ExprCode & r) {
 			const auto jumpmark = make_jump_id("NULLCO");
 			const auto jumpmark_else = jumpmark + "_ELSE"; 
 			const auto jumpmark_end = jumpmark + "_END"; 
-			std::ostringstream ss;
-			ss << l.code;
-			ss << inst::duplicate;
-			ss << inst::null;
-			ss << inst::ueql;
-			ss << inst::ifelse(jumpmark_else);
-			ss << inst::jump(jumpmark_end);
+			InstructionBuffer buf;
+			buf << l.code;
+			buf << ltn::inst::Duplicate{};
+			buf << ltn::inst::Null{};
+			buf << ltn::inst::Ueql{};
+			buf << ltn::inst::Ifelse{jumpmark_else};
+			buf << ltn::inst::Jump{jumpmark_end};
 
-			ss << inst::jumpmark(jumpmark_else);
-			ss << inst::scrap;
-			ss << r.code;
+			buf << ltn::inst::Label{jumpmark_else};
+			buf << ltn::inst::Scrap{};
+			buf << r.code;
 			
-			ss << inst::jumpmark(jumpmark_end);
-			return {ss.str()};
+			buf << ltn::inst::Label{jumpmark_end};
+			return { buf };
 		}
 
 
 		ExprCode chain(const auto & l, const auto & r) {
-			std::ostringstream oss;
-			oss << l.code;
-			oss << r.code;
-			oss << inst::call("_op_chain");
-			return ExprCode{oss.str()};
+			InstructionBuffer buf;
+			buf << l.code;
+			buf << r.code;
+			buf << ltn::inst::Call{"_op_chain"};
+			return ExprCode{ buf };
 		}
 
 	}
@@ -118,26 +119,26 @@ namespace ltn::c::compile {
 		const auto l = compile::expression(*binary.l, info, scope);
 		const auto r = compile::expression(*binary.r, info, scope);
 		switch (binary.type) {
-			case OP::ADD:          return bin(l, r, inst::add);
-			case OP::SUB:          return bin(l, r, inst::sub);
-			case OP::MLT:          return bin(l, r, inst::mlt);
-			case OP::DIV:          return bin(l, r, inst::div);
-			case OP::MOD:          return bin(l, r, inst::mod);
-			case OP::POW:          return bin(l, r, inst::pow);
-			case OP::SMALLER:      return bin(l, r, inst::sml);
-			case OP::BIGGER:       return bin(l, r, inst::bgr);
-			case OP::SMALLEREQUAL: return bin(l, r, inst::smleql);
-			case OP::BIGGEREQUAL:  return bin(l, r, inst::bgreql);
-			case OP::EQUAL:        return bin(l, r, inst::eql);
-			case OP::UNEQUEL:      return bin(l, r, inst::ueql);
-			case OP::SPACE_SHIP:   return bin(l, r, inst::comp);
-			case OP::APPROX:       return bin(l, r, inst::approx);
-			case OP::NOTPROX:      return bin(l, r, inst::notprox);
-			case OP::SHIFT_L:      return bin(l, r, inst::shift_l);
-			case OP::SHIFT_R:      return bin(l, r, inst::shift_r);
-			case OP::BIT_AND:      return bin(l, r, inst::bit_and);
-			case OP::BIT_OR:       return bin(l, r, inst::bit_or);
-			case OP::BIT_XOR:      return bin(l, r, inst::bit_xor);
+			case OP::ADD:          return bin(l, r, ltn::inst::Add{});
+			case OP::SUB:          return bin(l, r, ltn::inst::Sub{});
+			case OP::MLT:          return bin(l, r, ltn::inst::Mlt{});
+			case OP::DIV:          return bin(l, r, ltn::inst::Div{});
+			case OP::MOD:          return bin(l, r, ltn::inst::Mod{});
+			case OP::POW:          return bin(l, r, ltn::inst::Pow{});
+			case OP::SMALLER:      return bin(l, r, ltn::inst::Sml{});
+			case OP::BIGGER:       return bin(l, r, ltn::inst::Bgr{});
+			case OP::SMALLEREQUAL: return bin(l, r, ltn::inst::Smleql{});
+			case OP::BIGGEREQUAL:  return bin(l, r, ltn::inst::Bgreql{});
+			case OP::EQUAL:        return bin(l, r, ltn::inst::Eql{});
+			case OP::UNEQUEL:      return bin(l, r, ltn::inst::Ueql{});
+			case OP::SPACE_SHIP:   return bin(l, r, ltn::inst::Comp{});
+			case OP::APPROX:       return bin(l, r, ltn::inst::Approx{});
+			case OP::NOTPROX:      return bin(l, r, ltn::inst::Approx{}, ltn::inst::Not{});
+			case OP::SHIFT_L:      return bin(l, r, ltn::inst::ShiftL{});
+			case OP::SHIFT_R:      return bin(l, r, ltn::inst::ShiftR{});
+			case OP::BIT_AND:      return bin(l, r, ltn::inst::Bitand{});
+			case OP::BIT_OR:       return bin(l, r, ltn::inst::Bitor{});
+			case OP::BIT_XOR:      return bin(l, r, ltn::inst::Bitxor{});
 			case OP::AND:          return log_and(l, r);
 			case OP::OR:           return log_or(l, r);
 			case OP::ELVIS:        return elvis(l, r);

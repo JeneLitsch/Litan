@@ -29,16 +29,16 @@ namespace ltn::c::compile {
 		const auto end = jump_end(name);
 
 		// generate asm code
-		std::stringstream ss;
-		ss 
-			<< inst::jumpmark(begin)
+		InstructionBuffer buf;
+		buf 
+			<< ltn::inst::Label{begin}
 			<< condition.code
-			<< inst::ifelse(end)
+			<< ltn::inst::Ifelse{end}
 			<< body.code
-			<< inst::jump(begin)
-			<< inst::jumpmark(end);
+			<< ltn::inst::Jump{begin}
+			<< ltn::inst::Label{end};
 
-		return {ss.str(), body.var_count};
+		return { buf, body.var_count };
 	}
 
 
@@ -52,13 +52,13 @@ namespace ltn::c::compile {
 		const auto jump = make_jump_id("INFINETE_LOOP");
 
 		// generate asm code
-		std::stringstream ss;
-		ss
-			<< inst::jumpmark(jump)
+		InstructionBuffer buf;
+		buf
+			<< ltn::inst::Label{jump}
 			<< body.code
-			<< inst::jump(jump);
+			<< ltn::inst::Jump{jump};
 
-		return {ss.str(), body.var_count};
+		return { buf, body.var_count};
 	}
 
 
@@ -80,46 +80,46 @@ namespace ltn::c::compile {
 
 		const auto body = statement(*stmt.body, info, loop_scope);
 				
-		std::stringstream ss;
+		InstructionBuffer buf;
 		
 		// Init
-		ss
+		buf
 			<< to.code
 			<< from.code
-			<< inst::duplicate
-			<< inst::write_x(i_var.address)
-			<< inst::write_x(from_var.address)
-			<< inst::write_x(to_var.address);
+			<< ltn::inst::Duplicate{}
+			<< ltn::inst::Writex{i_var.address}
+			<< ltn::inst::Writex{from_var.address}
+			<< ltn::inst::Writex{to_var.address};
 
 		// Condition
-		ss
-			<< inst::jumpmark(begin)
-			<< inst::read_x(to_var.address)
-			<< inst::read_x(from_var.address)
-			<< inst::read_x(i_var.address)
-			<< inst::between
-			<< inst::ifelse(end);
+		buf
+			<< ltn::inst::Label{begin}
+			<< ltn::inst::Readx{to_var.address}
+			<< ltn::inst::Readx{from_var.address}
+			<< ltn::inst::Readx{i_var.address}
+			<< ltn::inst::Between{}
+			<< ltn::inst::Ifelse{end};
 
 		// body
-		ss << body.code;
+		buf << body.code;
 
 		// Increments
-		ss << inst::read_x(i_var.address);
+		buf << ltn::inst::Readx{ i_var.address };
 		if(auto & step = stmt.step) {
-			ss
+			buf
 				<< expression(*step, info, loop_scope).code
-				<< inst::add;
+				<< ltn::inst::Add{};
 		}
 		else {
-			ss << inst::inc;
+			buf << ltn::inst::Inc{};
 		}
-		ss << inst::write_x(i_var.address);
+		buf << ltn::inst::Writex{ i_var.address };
 
 		// End of loop
-		ss
-			<< inst::jump(begin)
-			<< inst::jumpmark(end);
+		buf
+			<< ltn::inst::Jump{ begin }
+			<< ltn::inst::Label{ end };
 
-		return StmtCode{ss.str(), body.var_count + 3};
+		return StmtCode{ buf, body.var_count + 3 };
 	}
 }

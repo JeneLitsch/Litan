@@ -6,17 +6,17 @@ namespace ltn::c::compile {
 		CompilerInfo & info,
 		Scope & scope) {
 
-		std::ostringstream oss;
+		InstructionBuffer buf;
 
-		oss << expression(*invoke.function_ptr, info, scope).code;
+		buf << expression(*invoke.function_ptr, info, scope).code;
 
 		for(const auto & param : invoke.parameters) {
-			oss << expression(*param, info, scope).code;
+			buf << expression(*param, info, scope).code;
 		}
 
-		oss << inst::newarr(invoke.parameters.size());
-		oss << inst::invoke;
+		buf << ltn::inst::Newarr{invoke.parameters.size()};
+		buf << ltn::inst::Invoke{};
 		
-		return ExprCode{ oss.str() };
+		return { buf };
 	}
 }

@@ -105,7 +105,7 @@ namespace ltn::c::compile {
 
 		for(const auto & function : program.functions) {
 			try {
-				out << compile::functional(*function, info); 
+				out << print(compile::functional(*function, info).get()); 
 			}
 			catch(const CompilerError & error) {
 				reporter.push(error);

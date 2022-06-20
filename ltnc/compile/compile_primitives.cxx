@@ -3,41 +3,58 @@
 namespace ltn::c::compile {
 	// compiles int literal
 	ExprCode integer(const ast::Integer & expr) {
-		return ExprCode{inst::newi(expr.value) };
+		InstructionBuffer buf;
+		buf << ltn::inst::Newi{expr.value};
+		return { buf };
 	}
 
 
 
 	// compiles float literal
 	ExprCode floating(const ast::Float & expr) {
-		return ExprCode{ inst::newf(expr.value) };
+		InstructionBuffer buf;
+		buf << ltn::inst::Newf{expr.value};
+		return { buf };
 	}
 
 
 
 	// compiles bool literal
 	ExprCode boolean(const ast::Bool & expr) {
-		const auto inst = (expr.value ? inst::truE : inst::falsE);
-		return ExprCode{ std::string(inst) };
+		InstructionBuffer buf;
+		if(expr.value) {
+			buf << ltn::inst::True{};
+		}
+		else {
+			buf << ltn::inst::False{};
+		}
+		return ExprCode{ buf };
 	}
 
 
 
 	// compiles null literal
 	ExprCode null(const ast::Null &) {
-		return ExprCode{ std::string(inst::null) };
+		InstructionBuffer buf;
+		buf << ltn::inst::Null{};
+		return ExprCode{ buf };
 	}
 
 
 	// compiles bool literal
 	ExprCode character(const ast::Char & expr) {
-		return ExprCode{ inst::newc(static_cast<char>(expr.value)) };
+		InstructionBuffer buf;
+		buf << ltn::inst::Newc{static_cast<std::uint8_t>(expr.value)};
+		return ExprCode{ buf };
 	}
 
 
 
 	// compiles string literal
 	ExprCode string(const ast::String & expr) {
-		return ExprCode{ inst::newstr(expr.value) };
+		InstructionBuffer buf;
+		std::vector<std::uint8_t> bytes {std::begin(expr.value), std::end(expr.value)};
+		buf << ltn::inst::Newstr{ bytes.size(), bytes };
+		return ExprCode{ buf };
 	}
 }

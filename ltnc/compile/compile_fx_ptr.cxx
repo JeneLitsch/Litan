@@ -18,8 +18,8 @@ namespace ltn::c::compile {
 
 		guard_private(*fx, scope.get_namespace(), ptr.location);
 
-		std::stringstream ss;
-		ss << inst::newfx(fx->id, ptr.placeholders);
-		return ExprCode{ss.str() };
+		InstructionBuffer buf;
+		buf << ltn::inst::Newfx{fx->id, ptr.placeholders};
+		return { buf };
 	}
 }

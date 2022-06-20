@@ -4,39 +4,39 @@ namespace ltn::c::compile {
 
 	ExprCode negate(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		const auto code = expression(expr, info, scope);
-		std::stringstream ss;
-		ss << code.code;
-		ss << inst::neg;
-		return ExprCode{ss.str() };
+		InstructionBuffer buf;
+		buf << code.code;
+		buf << ltn::inst::Neg{};
+		return ExprCode{ buf };
 	}
 
 
 
 	ExprCode notigate (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		const auto code = expression(expr, info, scope);
-		std::stringstream ss;
-		ss << code.code;
-		ss << inst::n0t;
-		return ExprCode{ss.str() };
+		InstructionBuffer buf;
+		buf << code.code;
+		buf << ltn::inst::Not{};
+		return ExprCode{ buf };
 	}
 
 
 	ExprCode null_test (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		const auto code = expression(expr, info, scope);
-		std::stringstream ss;
-		ss << code.code;
-		ss << inst::null;
-		ss << inst::ueql;
-		return ExprCode{ss.str() };
+		InstructionBuffer buf;
+		buf << code.code;
+		buf << ltn::inst::Null{};
+		buf << ltn::inst::Ueql{};
+		return ExprCode{ buf };
 	}
 
 
 	ExprCode bit_not (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		const auto code = expression(expr, info, scope);
-		std::stringstream ss;
-		ss << code.code;
-		ss << inst::bit_not;
-		return ExprCode{ss.str() };
+		InstructionBuffer buf;
+		buf << code.code;
+		buf << ltn::inst::Bitnot{};
+		return ExprCode{ buf };
 	}
 	
 

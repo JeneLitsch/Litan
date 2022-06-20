@@ -2,22 +2,22 @@
 namespace ltn::c::compile {
 	// compiles -> return...;
 	StmtCode reTurn(const ast::Return & ret, CompilerInfo & info, Scope & scope) {
-		std::stringstream ss;
+		InstructionBuffer buf;
 		if(ret.expression) {
 			auto code = compile::expression(*ret.expression, info, scope);
-			ss << code.code;
+			buf << code.code;
 		}
 		else {
-			ss << inst::null;
+			buf << ltn::inst::Null{};
 		}
 
 		// For returns from iife
 		if(const auto returns_to = scope.get_return()) {
-			ss << inst::jump(*returns_to);
+			buf << ltn::inst::Jump{*returns_to};
 		}
 		else {
-			ss << inst::reTurn;
+			buf << ltn::inst::Return{};
 		}
-		return {ss.str(), 0};
+		return { buf, 0 };
 	}
 }
