@@ -9,7 +9,6 @@
 #include "ltnc_core/compile/utils/CompilerInfo.hxx"
 #include "utils/StmtCode.hxx"
 #include "utils/ExprCode.hxx"
-#include "utils/Instructions.hxx"
 
 namespace ltn::c::compile {
 	// Functional

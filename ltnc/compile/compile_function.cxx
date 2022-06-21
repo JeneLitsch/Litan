@@ -14,6 +14,12 @@ namespace ltn::c::compile {
 		}
 
 
+		const std::string jumpmark_except(const std::string_view name) {
+			std::stringstream ss;
+			ss << ":" << name << "_EXCEPT\n";
+			return ss.str(); 
+		}
+
 
 		InstructionBuffer body(
 			const auto & fx,
@@ -42,7 +48,7 @@ namespace ltn::c::compile {
 			scope.insert(except.errorname, except.location);
 			// std::cout << "ERR " << except.errorname << ":" << var.address << ":" << scope.recSize() << std::endl;
 			InstructionBuffer buf;
-			buf << ltn::inst::Label{inst::jumpmark_except(fxid)};
+			buf << ltn::inst::Label{jumpmark_except(fxid)};
 			buf << ltn::inst::Params{1};
 			buf << body(except, info, scope);
 			buf << ltn::inst::Null{};
@@ -63,7 +69,7 @@ namespace ltn::c::compile {
 				buf << ltn::inst::Label{fx.id};
 				buf << capture;
 				buf << parameters(fx, scope);
-				if(fx.except) buf << ltn::inst::Try{inst::jumpmark_except(fx.id)};
+				if(fx.except) buf << ltn::inst::Try{jumpmark_except(fx.id)};
 				buf << body(fx, info, scope);
 				buf << ltn::inst::Null{};
 				buf << ltn::inst::Return{};
