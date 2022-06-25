@@ -34,7 +34,6 @@ namespace ltn::c::compile {
 
 
 
-	// compiles -> return...;
 	StmtCode stmt_switch(const ast::StmtSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
 		return StmtCode {
 			any_switch<compile::statement>(sw1tch, info, scope), 0, false};
@@ -42,7 +41,6 @@ namespace ltn::c::compile {
 
 
 
-	// compiles -> return...;
 	ExprCode expr_switch(const ast::ExprSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
 		return ExprCode { 
 			any_switch<compile::expression>(sw1tch, info, scope)};

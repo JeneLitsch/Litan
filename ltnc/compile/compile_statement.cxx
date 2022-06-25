@@ -9,7 +9,7 @@ namespace ltn::c::compile {
 	}
 
 
-	// compiles statement
+
 	StmtCode statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope) {
 		if(auto block = as<ast::Block>(stmt)) {
 			return compile::block(*block, info, scope);

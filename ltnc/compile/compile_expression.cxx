@@ -62,7 +62,7 @@ namespace ltn::c::compile {
 		} 
 		if(auto invoke = as<ast::Invokation>(expr)) {
 			return compile::invokation(*invoke, info, scope);
-		} 
+		}
 		throw CompilerError{"Unknown Expression"};
 	}
 

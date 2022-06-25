@@ -73,7 +73,6 @@ namespace ltn::c::compile {
 
 		
 
-		// compile assignable variable
 		ExprCode write(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
 			if(auto e = as<ast::Var>(expr)) {
 				return write_var(*e, info, scope);
@@ -86,6 +85,7 @@ namespace ltn::c::compile {
 			}
 			throw std::runtime_error{"Unknow assingable type"};
 		}
+
 
 
 		ExprCode read_var(const ast::Var & expr, CompilerInfo &, Scope & scope) {
@@ -150,7 +150,6 @@ namespace ltn::c::compile {
 
 
 
-	// += -= *= /= %=
 	StmtCode modify(
 		const ast::Modify & expr,
 		CompilerInfo & info,

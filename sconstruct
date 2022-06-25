@@ -59,6 +59,7 @@ ltnc = [
 	"ltnc/compile",
 	"ltnc/compile/build_in",
 	"ltnc/compile/utils",
+	"ltnc/peephole",
 ]
 ltncCli = [
 	"ltnc/cli",

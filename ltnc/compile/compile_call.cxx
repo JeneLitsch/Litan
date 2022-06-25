@@ -13,7 +13,6 @@ namespace ltn::c::compile {
 
 	// compiles function call fx(...)
 	ExprCode call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
-		// resolve function
 		const auto fx = info.fx_table.resolve(
 			call.name,
 			scope.get_namespace(),

@@ -7,7 +7,7 @@ namespace ltn::c::compile {
 		for(const auto & elem : array.elements) {
 			buf << expression(*elem, info, scope).code;
 		}
-		buf << ltn::inst::Newarr{array.elements.size()};
+		buf << ltn::inst::Newarr { array.elements.size() };
 		return ExprCode{ buf };
 	}
 }

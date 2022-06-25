@@ -62,6 +62,7 @@ namespace ltn::c::compile {
 	}
 
 
+
 	StmtCode for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		Scope loop_scope{&scope};

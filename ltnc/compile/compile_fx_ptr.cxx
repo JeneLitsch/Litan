@@ -19,7 +19,9 @@ namespace ltn::c::compile {
 		guard_private(*fx, scope.get_namespace(), ptr.location);
 
 		InstructionBuffer buf;
+		
 		buf << ltn::inst::Newfx{fx->id, ptr.placeholders};
+
 		return { buf };
 	}
 }
