@@ -4,6 +4,7 @@
 #include <vector>
 #include <variant>
 #include "stdxx/float64_t.hxx"
+#include "stdxx/string_literal.hxx"
 #include "args.hxx"
 #include "opcodes.hxx"
 
@@ -13,6 +14,13 @@ namespace ltn::inst {
 		inline constexpr static auto name = ":";
 	};
 
+
+	template<OpCode OPCODE, stx::string_literal NAME, typename Args>
+	struct InstBase {
+		inline constexpr static auto opcode = OPCODE;
+		inline constexpr static auto name = NAME;
+		Args args;
+	};
 
 
 	struct Exit {
@@ -84,7 +92,7 @@ namespace ltn::inst {
 	};
 
 
-	
+
 	struct Eql {
 		inline constexpr static auto opcode = OpCode::EQL;
 		inline constexpr static auto name = "eql";
@@ -782,151 +790,26 @@ namespace ltn::inst {
 	};
 
 
+	
+	struct Instruction {
+		struct InstType {
+			OpCode opcode;
+			std::string_view name;
+		};
 
-	using Instruction = std::variant<
-		Label,
-		
-		Exit,
-		Error,
-		State,
-		Try,
-		Throw,
-		BuildIn,
-		
-		Add,
-		Sub,
-		Mlt,
-		Div,
-		Mod,
-		
-		Eql,
-		Ueql,
-		Sml,
-		Bgr,
-		Smleql,
-		Bgreql,
-		
-		ShiftL,
-		ShiftR,
-		
-		Neg,
-		Not,
-		Inc,
-		Dec,
-		
-		Comp,
-		Approx,
-		Between, 
-		
-		Newu,
-		Newi,
-		Newf,
-		Newc,
-		True,
-		False,
-		Null,
-		
-		Newarr,
-		Newstr,
-		Newout,
-		Newin,
-		Newfx,
-		Newclock,
-		Newstruct,
-		Newrange,
-		Newstack,
-		Newqueue,
-		Newmap,
-		Newrng,
-		
-		Jump,
-		Call,
-		Params,
-		Return,
-		Ifelse,
-		
-		Invoke,
-		External,
-		Capture,
-		
-		Read,
-		Write,
-		Scrap,
-		Duplicate,
-		Makevar,
-		Readx,
-		Writex,
-		Swap,
-		
-		Read0,
-		Read1,
-		Read2,
-		Read3,
-		
-		Write0,
-		Write1,
-		Write2,
-		Write3,
-		
-		Out,
-		Stylize,
-		CloseStream,
-		InStr,
-		InLine,
-		InBool,
-		InChar,
-		InInt,
-		InFloat,
-		InAll,
-		IsEof,
-		IsGood,
-		
-		Min,
-		Max,
-		Round,
-		Floor,
-		Ceil,
-		Abs,
-		Hypot,
-		Sqrt,
-		Log,
-		Ln,
-		Pow,
+		struct LabelType {
 
-		Sin,
-		Cos,
-		Tan,
-		
-		Bitand,
-		Bitor,
-		Bitxor,
-		Bitnot,
-		
-		Size,
-		At,
-		AtWrite,
-		Front,
-		Back,
-		Insert,
-		Remove,
-		Begin,
-		End,
-		Push,
-		Pop,
-		Peek,
-		Contains,
-		
-		CastChar,
-		CastBool,
-		CastInt,
-		CastFloat,
-		CastString,
-		CastArray,
-		
-		TypeId,
-		Clone,
-		
-		MemberRead,
-		MemberWrite
-	>;
+		};
+
+		Instruction(const Label & label) :
+			type(LabelType{}),
+			args(label.args) {}
+
+		Instruction(const auto & i) :
+			type(InstType{i.opcode, i.name}),
+			args(i.args) {}
+
+		std::variant<InstType, LabelType> type;
+		args::Args args;
+	};
 }

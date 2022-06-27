@@ -70,25 +70,34 @@ namespace ltn::c {
 		template<typename InstT>
 		std::string print_instruction(const InstT & inst) {
 			std::ostringstream ss;
-			ss << InstT::name << " " << print_args(inst.args) << "\n";
+			ss << inst.name << " ";
 			return ss.str();
 		}
 
-		std::string print_instruction(const inst::Label & inst) {
+		std::string print_instruction(const inst::Instruction::LabelType & inst) {
 			std::ostringstream ss;
-			ss << ":" << print_args(inst.args) << "\n";
+			ss << ":";
 			return ss.str();
 		}
 	}
 
 
+
+
+	
+
 	std::string print(const std::span<const inst::Instruction> & instructions) {
 		std::ostringstream ss;
 		for(const auto & inst : instructions) {
-			auto visitor = [] (auto & inst) {
+			ss << std::visit([] (auto & inst) {
 				return print_instruction(inst);
-			};
-			ss << std::visit(visitor, inst);
+			}, inst.type);
+
+			ss << std::visit([] (auto & inst) {
+				return print_args(inst);
+			}, inst.args);
+
+			ss << "\n";
 		}
 		return ss.str();
 	}

@@ -6,15 +6,15 @@ namespace ltn::a {
 		std::size_t position = 0;
 		AddressTable table;
 		for(const auto & inst : instructions) {
-			auto get_size = [] (auto & inst) {
-				return inst::args::size(inst.args);
+			auto get_size = [] (auto & args) {
+				return inst::args::size(args);
 			};
-			position += std::visit(get_size, inst);
-			if(auto label = std::get_if<inst::Label>(&inst)) {
-				if(table.contains(label->args.name)) throw std::runtime_error {
-					"Redefinition of label " + label->args.name
+			position += std::visit(get_size, inst.args);
+			if(auto label = std::get_if<inst::args::Target>(&inst.args)) {
+				if(table.contains(label->name)) throw std::runtime_error {
+					"Redefinition of label " + label->name
 				};
-				table.insert({label->args.name, position});
+				table.insert({label->name, position});
 			}
 		}
 		return table;

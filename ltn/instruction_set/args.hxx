@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <variant>
 #include "stdxx/float64_t.hxx"
 
 namespace ltn::inst::args {
@@ -54,6 +55,18 @@ namespace ltn::inst::args {
 		std::uint64_t value;
 		std::vector<std::uint8_t> bytes;
 	};
+
+	using Args = std::variant<
+		args::None,
+		args::Uint64,
+		args::Uint16,
+		args::Jump,
+		args::Target,
+		args::Jump_Uint64,
+		args::Int64,
+		args::Float,
+		args::Byte,
+		args::Uint64_BytexX>;
 
 	inline std::size_t size(const auto & args) {
 		return args.size;
