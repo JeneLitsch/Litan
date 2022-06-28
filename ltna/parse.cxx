@@ -3,7 +3,6 @@
 #include <sstream>
 #include <iostream>
 #include "stdxx/array.hxx"
-#include "stdxx/constexpr_table.hxx"
 
 namespace ltn::a {
 	namespace {
@@ -228,9 +227,7 @@ namespace ltn::a {
 			std::string name;
 			iss >> name;
 			if(!name.empty() && name[0] == ':') {
-				instructions.push_back(inst::Label{
-					inst::args::Target{name.substr(1)}}
-				);
+				instructions.push_back(inst::Label{name.substr(1)});
 			}
 			else if(!name.empty()) {
 				instructions.push_back(table.at(name)(iss));

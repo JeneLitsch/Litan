@@ -16,6 +16,8 @@ namespace ltn::inst::args {
 	};
 
 	struct Uint16 {
+		Uint16() : Uint16{0} {}
+		Uint16(auto v) : value{static_cast<std::uint16_t>(v)} {}
 		constexpr inline static std::size_t size = 3;
 		std::uint16_t value;
 	};

@@ -9,127 +9,65 @@
 #include "opcodes.hxx"
 
 namespace ltn::inst {
-	struct Label {
+	struct InstCore {
+		virtual ~InstCore() = default;
+	};
+
+
+
+	struct Label : InstCore {
+		Label(const std::string & str = "") : InstCore{}, args{str} {} 
 		args::Target args;
 		inline constexpr static auto name = ":";
 	};
 
 
+
+	struct NormalInst : InstCore {
+		virtual const char * get_name() const = 0;
+		virtual OpCode get_opcode() const = 0;
+	};
+
+
+
 	template<OpCode OPCODE, stx::string_literal NAME, typename Args>
-	struct InstBase {
+	struct GenericInst : NormalInst {
 		inline constexpr static auto opcode = OPCODE;
 		inline constexpr static auto name = NAME;
+
+		GenericInst(auto ... x) : args{x...} {}
+
+		virtual const char * get_name() const override {
+			return name.c_str();
+		}
+
+		virtual OpCode get_opcode() const override {
+			return opcode;
+		}
+
 		Args args;
 	};
 
 
-	struct Exit {
-		inline constexpr static auto opcode = OpCode::EXIT;
-		inline constexpr static auto name = "exit";
-		args::None args;
-	};
-
-	struct Error {
-		inline constexpr static auto opcode = OpCode::ERROR;
-		inline constexpr static auto name = "error";
-		args::None args;
-	};
-
-	struct State {
-		inline constexpr static auto opcode = OpCode::STATE;
-		inline constexpr static auto name = "state";
-		args::None args;
-	};
-
-	struct Try {
-		inline constexpr static auto opcode = OpCode::TRY;
-		inline constexpr static auto name = "try";
-		args::Jump args;
-	};
-
-	struct Throw {
-		inline constexpr static auto opcode = OpCode::THROW;
-		inline constexpr static auto name = "throw";
-		args::None args;
-	};
-
-	struct BuildIn {
-		inline constexpr static auto opcode = OpCode::BUILD_IN;
-		inline constexpr static auto name = "build_in";
-		args::Uint16 args;
-	};
+	using Exit = GenericInst<OpCode::EXIT, "exit", args::None>;
+	using Error = GenericInst<OpCode::ERROR, "error", args::None>;
+	using State = GenericInst<OpCode::STATE, "state", args::None>;
+	using Try = GenericInst<OpCode::TRY, "try", args::Jump>;
+	using Throw = GenericInst<OpCode::THROW, "throw", args::None>;
+	using BuildIn = GenericInst<OpCode::BUILD_IN, "build_in", args::Uint16>;
 	
+	using Add = GenericInst<OpCode::ADD, "add", args::None>;
+	using Sub = GenericInst<OpCode::SUB, "sub", args::None>;
+	using Mlt = GenericInst<OpCode::MLT, "mlt", args::None>;
+	using Div = GenericInst<OpCode::DIV, "div", args::None>;
+	using Mod = GenericInst<OpCode::MOD, "mod", args::None>;
 
-
-	struct Add {
-		inline constexpr static auto opcode = OpCode::ADD;
-		inline constexpr static auto name = "add";
-		args::None args;
-	};
-
-	struct Sub {
-		inline constexpr static auto opcode = OpCode::SUB;
-		inline constexpr static auto name = "sub";
-		args::None args;
-	};
-
-	struct Mlt {
-		inline constexpr static auto opcode = OpCode::MLT;
-		inline constexpr static auto name = "mlt";
-		args::None args;
-	};
-
-	struct Div {
-		inline constexpr static auto opcode = OpCode::DIV;
-		inline constexpr static auto name = "div";
-		args::None args;
-	};
-
-	struct Mod {
-		inline constexpr static auto opcode = OpCode::MOD;
-		inline constexpr static auto name = "mod";
-		args::None args;
-	};
-
-
-
-	struct Eql {
-		inline constexpr static auto opcode = OpCode::EQL;
-		inline constexpr static auto name = "eql";
-		args::None args;
-	};
-
-	struct Ueql {
-		inline constexpr static auto opcode = OpCode::UEQL;
-		inline constexpr static auto name = "ueql";
-		args::None args;
-	};
-
-	struct Sml {
-		inline constexpr static auto opcode = OpCode::SML;
-		inline constexpr static auto name = "sml";
-		args::None args;
-	};
-
-	struct Bgr {
-		inline constexpr static auto opcode = OpCode::BGR;
-		inline constexpr static auto name = "bgr";
-		args::None args;
-	};
-
-	struct Smleql {
-		inline constexpr static auto opcode = OpCode::SMLEQL;
-		inline constexpr static auto name = "smleql";
-		args::None args;
-	};
-
-	struct Bgreql {
-		inline constexpr static auto opcode = OpCode::BGREQL;
-		inline constexpr static auto name = "bgreql";
-		args::None args;
-	};
-
-
+	using Eql = GenericInst<OpCode::EQL, "eql", args::None>;
+	using Ueql = GenericInst<OpCode::UEQL, "ueql", args::None>;
+	using Sml = GenericInst<OpCode::SML, "sml", args::None>;
+	using Bgr = GenericInst<OpCode::BGR, "bgr", args::None>;
+	using Smleql = GenericInst<OpCode::SMLEQL, "smleql", args::None>;
+	using Bgreql = GenericInst<OpCode::BGREQL, "bgreql", args::None>;
 
 	struct ShiftL {
 		inline constexpr static auto opcode = OpCode::SHIFT_L;

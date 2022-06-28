@@ -4,7 +4,7 @@
 using namespace ltn::inst;
 namespace ltn::c::compile::build_in {
 	const auto algorithm_sort_ascn = std::to_array<Instruction>({
-		BuildIn{0x00},
+		BuildIn{ args::Uint16{0x00} },
 		Return{},
 	});
 
