@@ -11,6 +11,7 @@ function f(a, b) {
 
 
 function main() {
+	std::io::close(std::cout());
 	return f(1,2);
 }
 except(e) {

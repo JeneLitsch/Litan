@@ -11,6 +11,8 @@ namespace ltn::inst::args {
 	};
 
 	struct Uint64 {
+		Uint64() : Uint64{0} {}
+		Uint64(auto v) : value{static_cast<std::uint64_t>(v)} {}
 		constexpr inline static std::size_t size = 9;
 		std::uint64_t value;
 	};
@@ -49,6 +51,8 @@ namespace ltn::inst::args {
 	};
 
 	struct Byte {
+		Byte() : Byte{0} {}
+		Byte(auto v) : value{static_cast<std::uint8_t>(v)} {}
 		constexpr inline static std::size_t size = 2;
 		std::uint8_t value;
 	};
