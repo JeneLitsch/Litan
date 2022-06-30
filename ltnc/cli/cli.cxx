@@ -2,27 +2,13 @@
 #include <fstream>
 #include <filesystem>
 #include <string_view>
-#include "ltnc_core/Ltnc.hxx"
-#include "ltnc_core/CompilerError.hxx"
-#include "ltnc_core/ast/Namespace.hxx"
-#include "ltnc/LtnBackend.hxx"
+#include "ltnc/Ltnc.hxx"
+#include "ltnc/CompilerError.hxx"
+#include "ltnc/ast/Namespace.hxx"
 #include "ltn/version.hxx"
 #include "Args.hxx"
 
 
-void compile_file(ltn::c::Ltnc & ltnc, const std::filesystem::path & filepath) {
-	std::cout << "[Compiling] " << filepath << "\n";
-	try {
-		if(!std::filesystem::exists(filepath)) {
-			throw ltn::c::CompilerError{"Cannot open " + filepath.string(), {}};
-		}
-		std::ifstream ifile(filepath);
-		ltnc.compile(ifile, filepath);
-	}
-	catch(const ltn::c::CompilerError & error) {
-		std::cout << error << "\n";
-	}
-}
 
 int main(int argc, char const *argv[]){
 	if(argc > 1) {
@@ -32,10 +18,13 @@ int main(int argc, char const *argv[]){
 	}
 	try {
 		const ltn::c::Args args{argv, static_cast<std::size_t>(argc)};
-		ltn::c::Ltnc compiler{std::make_unique<ltn::c::compile::LtnBackend>()};
+
+		std::vector<ltn::c::Source> sources;
+		ltn::c::Reporter reporter;
+		ltn::c::Config config;
 		
-		for(const auto & source : args.get_sources()) {
-			compile_file(compiler, source);
+		for(const auto & source_path : args.get_sources()) {
+			sources.push_back(ltn::c::Source::make<std::fstream>(source_path, source_path));
 		}
 
 		const auto & target = args.get_target();
@@ -44,10 +33,12 @@ int main(int argc, char const *argv[]){
 		if(!std::filesystem::exists(target)) {
 			throw ltn::c::CompilerError{"Cannot open " + target.string(), {}};
 		}
+		auto program = ltn::c::to_ast(std::move(sources), config, reporter);
 		if(args.is_set("-o")) {
-			compiler.optimize();
+			ltn::c::optimize::optimize(program);
 		}
-		compiler.yield(ofile);
+		ofile << ltn::c::to_asm(program, config, reporter);
+		reporter.may_throw();
 		std::cout << "Done!" << "\n";
 	}
 	catch(const ltn::c::CompilerError & error) {

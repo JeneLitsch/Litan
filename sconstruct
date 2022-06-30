@@ -42,17 +42,6 @@ env = Environment(
 	LINKCOMSTR = "[Linking] $TARGET")
 
 
-ltnc_core = [
-	"ltnc_core",
-	"ltnc_core/ast",
-	"ltnc_core/lex",
-	"ltnc_core/parse",
-	"ltnc_core/unfold",
-	"ltnc_core/optimize",
-	"ltnc_core/compile",
-	"ltnc_core/compile/utils",
-]
-
 ltnc = [
 	"ltnc",
 	"ltnc/print",
@@ -60,6 +49,11 @@ ltnc = [
 	"ltnc/compile/build_in",
 	"ltnc/compile/utils",
 	"ltnc/peephole",
+	"ltnc/ast",
+	"ltnc/lex",
+	"ltnc/parse",
+	"ltnc/unfold",
+	"ltnc/optimize",
 ]
 ltncCli = [
 	"ltnc/cli",
@@ -92,7 +86,7 @@ ltnCli = [
 	"ltn/cli"
 ]
 
-env.Program('bin/ltnc', glob(ltnc_core + ltnc + ltncCli))
+env.Program('bin/ltnc', glob(ltnc + ltncCli))
 env.Program('bin/ltna', glob(ltna + ltnaCli))
 env.Program('bin/ltnvm', glob(ltnvm + ltnvmCli))
-env.Program('bin/ltn', glob(ltnc_core + ltnc + ltna + ltnvm + ltnCli))
+env.Program('bin/ltn', glob(ltnc + ltna + ltnvm + ltnCli))

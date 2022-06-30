@@ -1,6 +1,6 @@
 #include "build_in.hxx"
 #include <unordered_map>
-#include "ltnc_core/CompilerError.hxx"
+#include "ltnc/CompilerError.hxx"
 #include "./algorithm.hxx"
 #include "./cast.hxx"
 #include "./chrono.hxx"

@@ -19,6 +19,6 @@ run_direct () {
 }
 
 
-run array
-run misc
-run fx_qualifiers
+run_direct array
+run_direct misc
+run_direct fx_qualifiers

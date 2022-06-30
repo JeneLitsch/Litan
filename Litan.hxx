@@ -1,16 +1,12 @@
 #pragma once
 
-#include "ltnc_core/Ltnc.hxx"
+#include "ltnc/Ltnc.hxx"
 #include "ltna/Ltna.hxx"
 #include "ltnvm/LtnVM.hxx"
-#include "ltnc/LtnBackend.hxx"
 
 namespace ltn {
-	using Ltnc = c::Ltnc;
 	using LtnVm = vm::LtnVM;
 
-	using LtnBackend = c::compile::LtnBackend;
-	
 	using Value = vm::Value;
 	using External = vm::ext::External;
 	using Api = vm::ext::Api;

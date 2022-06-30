@@ -2,11 +2,11 @@
 #include <sstream>
 #include <span>
 #include "ltn/casts.hxx"
-#include "ltnc_core/Config.hxx"
-#include "ltnc_core/CompilerError.hxx"
-#include "ltnc_core/Reporter.hxx"
-#include "ltnc_core/ast/Ast.hxx"
-#include "ltnc_core/compile/utils/CompilerInfo.hxx"
+#include "ltnc/Config.hxx"
+#include "ltnc/CompilerError.hxx"
+#include "ltnc/Reporter.hxx"
+#include "ltnc/ast/Ast.hxx"
+#include "ltnc/compile/utils/CompilerInfo.hxx"
 #include "utils/StmtCode.hxx"
 #include "utils/ExprCode.hxx"
 

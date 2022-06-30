@@ -36,6 +36,7 @@ namespace ltn::inst {
 		inline constexpr static auto name = NAME;
 
 		GenericInst(auto ... x) : args{x...} {}
+		GenericInst(auto x) : args{x} {}
 
 		virtual const char * get_name() const override {
 			return name.c_str();
