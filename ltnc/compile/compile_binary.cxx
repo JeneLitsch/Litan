@@ -1,6 +1,6 @@
 #include "compile.hxx"
 
-namespace ltn::c::compile {
+namespace ltn::c {
 	namespace {
 		using OP = ltn::c::ast::Binary::Type;
 		
@@ -117,9 +117,9 @@ namespace ltn::c::compile {
 
 
 	// compiles a binary operation
-	ExprCode binary(const ast::Binary & binary, CompilerInfo & info, Scope & scope) {
-		const auto l = compile::expression(*binary.l, info, scope);
-		const auto r = compile::expression(*binary.r, info, scope);
+	ExprCode compile_binary(const ast::Binary & binary, CompilerInfo & info, Scope & scope) {
+		const auto l = compile_expression(*binary.l, info, scope);
+		const auto r = compile_expression(*binary.r, info, scope);
 		switch (binary.type) {
 			case OP::ADD:          return bin(l, r, ltn::inst::Add{});
 			case OP::SUB:          return bin(l, r, ltn::inst::Sub{});

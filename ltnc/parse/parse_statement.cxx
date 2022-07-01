@@ -2,7 +2,7 @@
 #include "ltnc/lex/lexing.hxx"
 #include "ltnc/CompilerError.hxx"
 
-namespace ltn::c::parse {
+namespace ltn::c {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 	}
@@ -19,10 +19,10 @@ namespace ltn::c::parse {
 
 	template<class AstNodeType, TT tt>
 	// parses variable creation -> var a ...  
-	std::unique_ptr<AstNodeType> initialize_variable(lex::Lexer & lexer) {
+	std::unique_ptr<AstNodeType> parse_initialize_variable(lex::Lexer & lexer) {
 		if(lexer.match(tt)) {
-			auto name = parse::variable_name(lexer);
-			auto && r = parse::assign_r(lexer);
+			auto name = parse_variable_name(lexer);
+			auto && r = parse_assign_r(lexer);
 			semicolon(lexer);
 			return std::make_unique<AstNodeType>(
 				name,
@@ -32,15 +32,15 @@ namespace ltn::c::parse {
 		return nullptr;
 	}
 
-	constexpr auto new_variable = initialize_variable<ast::NewVar, TT::VAR>;
+	constexpr auto parse_new_variable = parse_initialize_variable<ast::NewVar, TT::VAR>;
 
 	// parses return statement -> return ...
-	ast::stmt_ptr retrn(lex::Lexer & lexer) {
+	ast::stmt_ptr parse_return(lex::Lexer & lexer) {
 		if(lexer.match(TT::RETURN)) {
 			if(lexer.match(TT::SEMICOLON)) {
 				return std::make_unique<ast::Return>(nullptr, lexer.location());
 			}
-			auto expr = expression(lexer);
+			auto expr = parse_expression(lexer);
 			semicolon(lexer);
 			return std::make_unique<ast::Return>(std::move(expr), lexer.location());
 		}
@@ -48,11 +48,11 @@ namespace ltn::c::parse {
 	}
 
 
-	ast::stmt_ptr thr0w(lex::Lexer & lexer) {
+	ast::stmt_ptr parse_throw(lex::Lexer & lexer) {
 		if(lexer.match(TT::THROW)) {
 			std::unique_ptr<ast::Expression> expr = nullptr;
 			if(!lexer.match(TT::SEMICOLON)) {
-				expr = parse::expression(lexer);
+				expr = parse_expression(lexer);
 				semicolon(lexer);
 			}
 			return std::make_unique<ast::Throw>(
@@ -63,17 +63,17 @@ namespace ltn::c::parse {
 	}
 
 
-	ast::stmt_ptr statement(lex::Lexer & lexer) {
+	ast::stmt_ptr parse_statement(lex::Lexer & lexer) {
 		while(lexer.match(TT::SEMICOLON));
-		if(auto stmt = block(lexer))        return stmt;
-		if(auto stmt = if_else(lexer))      return stmt;
-		if(auto stmt = while_loop(lexer))   return stmt;
-		if(auto stmt = for_loop(lexer))     return stmt;
-		if(auto stmt = new_variable(lexer)) return stmt;
-		if(auto stmt = thr0w(lexer))        return stmt;
-		if(auto stmt = retrn(lexer))        return stmt;
-		if(auto stmt = stmt_switch(lexer))  return stmt;
-		auto stmt =  just_an_expr(lexer);
+		if(auto stmt = parse_block(lexer))        return stmt;
+		if(auto stmt = parse_if_else(lexer))      return stmt;
+		if(auto stmt = parse_while_loop(lexer))   return stmt;
+		if(auto stmt = parse_for_loop(lexer))     return stmt;
+		if(auto stmt = parse_new_variable(lexer)) return stmt;
+		if(auto stmt = parse_throw(lexer))        return stmt;
+		if(auto stmt = parse_return(lexer))        return stmt;
+		if(auto stmt = parse_stmt_switch(lexer))  return stmt;
+		auto stmt =  parse_just_an_expr(lexer);
 		semicolon(lexer);
 		return stmt;
 	}

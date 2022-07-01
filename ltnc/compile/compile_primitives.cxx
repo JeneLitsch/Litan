@@ -1,8 +1,8 @@
 #include "compile.hxx"
 #include <string_view>
-namespace ltn::c::compile {
+namespace ltn::c {
 	// compiles int literal
-	ExprCode integer(const ast::Integer & expr) {
+	ExprCode compile_integer(const ast::Integer & expr) {
 		InstructionBuffer buf;
 		buf << ltn::inst::Newi{expr.value};
 		return { buf };
@@ -11,7 +11,7 @@ namespace ltn::c::compile {
 
 
 	// compiles float literal
-	ExprCode floating(const ast::Float & expr) {
+	ExprCode compile_floating(const ast::Float & expr) {
 		InstructionBuffer buf;
 		buf << ltn::inst::Newf{expr.value};
 		return { buf };
@@ -20,7 +20,7 @@ namespace ltn::c::compile {
 
 
 	// compiles bool literal
-	ExprCode boolean(const ast::Bool & expr) {
+	ExprCode compile_boolean(const ast::Bool & expr) {
 		InstructionBuffer buf;
 		if(expr.value) {
 			buf << ltn::inst::True{};
@@ -34,7 +34,7 @@ namespace ltn::c::compile {
 
 
 	// compiles null literal
-	ExprCode null(const ast::Null &) {
+	ExprCode compile_null(const ast::Null &) {
 		InstructionBuffer buf;
 		buf << ltn::inst::Null{};
 		return ExprCode{ buf };
@@ -42,7 +42,7 @@ namespace ltn::c::compile {
 
 
 	// compiles bool literal
-	ExprCode character(const ast::Char & expr) {
+	ExprCode compile_character(const ast::Char & expr) {
 		InstructionBuffer buf;
 		buf << ltn::inst::Newc{static_cast<std::uint8_t>(expr.value)};
 		return ExprCode{ buf };
@@ -51,10 +51,10 @@ namespace ltn::c::compile {
 
 
 	// compiles string literal
-	ExprCode string(const ast::String & expr) {
+	ExprCode compile_string(const ast::String & expr) {
 		InstructionBuffer buf;
 		std::vector<std::uint8_t> bytes {std::begin(expr.value), std::end(expr.value)};
-		buf << ltn::inst::Newstr{ bytes.size(), bytes };
+		buf << ltn::inst::Newstr{ bytes };
 		return ExprCode{ buf };
 	}
 }

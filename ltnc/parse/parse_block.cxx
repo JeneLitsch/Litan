@@ -1,13 +1,13 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
 
-namespace ltn::c::parse {
+namespace ltn::c {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 	}
 
 	// Block statement between { ... }
-	ast::stmt_ptr block(lex::Lexer & lexer) {
+	ast::stmt_ptr parse_block(lex::Lexer & lexer) {
 		if(!lexer.match(TT::BRACE_L)) return nullptr;
 		std::vector<ast::stmt_ptr> statements;
 		while(!lexer.match(TT::BRACE_R)) {
@@ -17,7 +17,7 @@ namespace ltn::c::parse {
 			if(lexer.match(TT::ELSE)) {
 				throw CompilerError{"Unexpected else", lexer.location()}; 
 			}
-			statements.push_back(statement(lexer));
+			statements.push_back(parse_statement(lexer));
 		}
 		return std::make_unique<ast::Block>(
 			std::move(statements),

@@ -32,9 +32,9 @@ int main(int argc, char const *argv[]) {
 				}
 			}
 
-			auto program = ltn::c::to_ast(std::move(sources), config, reporter);
+			auto program = ltn::c::parse(std::move(sources), config, reporter);
 
-			std::stringstream ss { ltn::c::to_asm(program, config, reporter) };
+			std::stringstream ss { ltn::c::compile(program, config, reporter) };
 			reporter.may_throw();
 			vm.setup(ltn::a::assemble(ss));
 			auto x = vm.run(args);

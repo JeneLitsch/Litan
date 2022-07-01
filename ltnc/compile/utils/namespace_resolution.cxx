@@ -1,6 +1,6 @@
 #include "namespace_resolution.hxx"
 
-namespace ltn::c::compile {
+namespace ltn::c {
 
 	namespace {
 		bool match(

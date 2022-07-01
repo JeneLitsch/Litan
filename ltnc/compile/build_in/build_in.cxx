@@ -14,7 +14,7 @@
 #include "./type.hxx"
 using namespace std::string_view_literals;
 
-namespace ltn::c::compile {
+namespace ltn::c {
 	using Table = std::unordered_map<
 		std::string_view,
 		std::span<const Instruction>>;

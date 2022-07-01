@@ -45,8 +45,9 @@ namespace ltn::a {
 		}
 
 		void parse_args(Uint64_BytexX & args, std::istream & in) {
-			in >> args.value;
-			for(std::size_t i = 0; i < args.value; ++i) {
+			std::size_t count;
+			in >> count;
+			for(std::size_t i = 0; i < count; ++i) {
 				std::uint16_t value;
 				in >> value;
 				args.bytes.push_back(static_cast<std::uint8_t>(value));

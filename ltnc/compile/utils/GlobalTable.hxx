@@ -1,7 +1,7 @@
 #pragma once
 #include "ltnc/ast/Ast.hxx"
 #include <vector>
-namespace ltn::c::compile {
+namespace ltn::c {
 	// Holds and resolves functions at compile time
 	class GlobalTable {
 	public:

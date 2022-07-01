@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace ltn::c::compile {
+namespace ltn::c {
 	// Tracks, stores and resolves local variables  
 	struct Variable {
 		enum class Qualifier {

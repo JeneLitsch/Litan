@@ -1,11 +1,11 @@
 #include "parse.hxx"
 #include <sstream>
-namespace ltn::c::parse {
+namespace ltn::c {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 
 		template<auto expr_fx>
-		ast::expr_ptr nullco(lex::Lexer & lexer, ast::expr_ptr l) {
+		ast::expr_ptr parse_nullco(lex::Lexer & lexer, ast::expr_ptr l) {
 			auto else_expr = expr_fx(lexer);
 			return std::make_unique<ast::Binary>(
 				ast::Binary::Type::NULLCO,
@@ -17,7 +17,7 @@ namespace ltn::c::parse {
 
 
 		template<auto expr_fx>
-		ast::expr_ptr elvis(lex::Lexer & lexer, ast::expr_ptr l) {
+		ast::expr_ptr parse_elvis(lex::Lexer & lexer, ast::expr_ptr l) {
 			auto else_expr = expr_fx(lexer);
 			return std::make_unique<ast::Binary>(
 				ast::Binary::Type::ELVIS,
@@ -29,7 +29,7 @@ namespace ltn::c::parse {
 
 
 		template<auto expr_fx>
-		ast::expr_ptr ternary(lex::Lexer & lexer, ast::expr_ptr l) {
+		ast::expr_ptr parse_ternary(lex::Lexer & lexer, ast::expr_ptr l) {
 			auto c = expr_fx(lexer);
 			if(!lexer.match(TT::COLON)) {
 				throw CompilerError{"Expected :", lexer.location()};
@@ -45,21 +45,21 @@ namespace ltn::c::parse {
 
 
 		template<auto expr_fx, auto presedence_down>
-		ast::expr_ptr conditional_base(lex::Lexer & lexer) {
+		ast::expr_ptr parse_conditional_base(lex::Lexer & lexer) {
 			auto l = presedence_down(lexer);
 			if(lexer.match(TT::QMARK)) {
 				// c ?? b
 				if(lexer.match(TT::QMARK)) {
-					return nullco<expr_fx>(lexer, std::move(l));
+					return parse_nullco<expr_fx>(lexer, std::move(l));
 				}
 
 				// c ?: b
 				if(lexer.match(TT::COLON)) {
-					return elvis<expr_fx>(lexer, std::move(l));
+					return parse_elvis<expr_fx>(lexer, std::move(l));
 				}
 				
 				// c ? a : b
-				return ternary<expr_fx>(lexer, std::move(l));
+				return parse_ternary<expr_fx>(lexer, std::move(l));
 			}
 			return l;
 		}
@@ -67,14 +67,14 @@ namespace ltn::c::parse {
 
 
 
-	ast::expr_ptr conditional(lex::Lexer & lexer) {
-		return conditional_base<expression, binary>(lexer);
+	ast::expr_ptr parse_conditional(lex::Lexer & lexer) {
+		return parse_conditional_base<parse_expression, parse_binary>(lexer);
 	}
 
 
 
-	ast::expr_ptr static_conditional(lex::Lexer & lexer) {
-		return conditional_base<static_expression, static_binary>(lexer);
+	ast::expr_ptr parse_static_conditional(lex::Lexer & lexer) {
+		return parse_conditional_base<parse_static_expression, parse_static_binary>(lexer);
 	}
 }
 

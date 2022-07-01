@@ -4,7 +4,7 @@
 #include <iostream>
 #include "ltn/printing.hxx"
 #include "namespace_resolution.hxx"
-namespace ltn::c::compile {
+namespace ltn::c {
 
 	CompilerError multiple_definitions(const ast::Functional & fx) {
 		std::stringstream msg;
@@ -24,7 +24,7 @@ namespace ltn::c::compile {
 		const ast::Namespace & from,
 		const ast::Namespace & to,
 		const std::size_t parameters) {
-		return compile::resolve(this->functions, from, to, name, parameters);
+		return ltn::c::resolve(this->functions, from, to, name, parameters);
 	}
 
 
@@ -33,7 +33,7 @@ namespace ltn::c::compile {
 		const std::string_view name,
 		const ast::Namespace & full,
 		const std::size_t parameters) {
-		return compile::resolve(this->functions, {}, full, name, parameters); 
+		return ltn::c::resolve(this->functions, {}, full, name, parameters); 
 	}
 
 

@@ -33,11 +33,11 @@ int main(int argc, char const *argv[]){
 		if(!std::filesystem::exists(target)) {
 			throw ltn::c::CompilerError{"Cannot open " + target.string(), {}};
 		}
-		auto program = ltn::c::to_ast(std::move(sources), config, reporter);
+		auto program = ltn::c::parse(std::move(sources), config, reporter);
 		if(args.is_set("-o")) {
 			ltn::c::optimize::optimize(program);
 		}
-		ofile << ltn::c::to_asm(program, config, reporter);
+		ofile << ltn::c::compile(program, config, reporter);
 		reporter.may_throw();
 		std::cout << "Done!" << "\n";
 	}

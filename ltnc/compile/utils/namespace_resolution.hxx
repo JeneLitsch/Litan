@@ -1,6 +1,6 @@
 #pragma once
 #include "ltnc/ast/Ast.hxx"
-namespace ltn::c::compile {
+namespace ltn::c {
 	const ast::Functional * resolve(
 		const std::vector<const ast::Functional *> & functions,
 		const ast::Namespace & from,

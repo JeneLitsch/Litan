@@ -1,10 +1,10 @@
 #include "compile.hxx"
 #include <string_view>
-namespace ltn::c::compile {
+namespace ltn::c {
 	// compiles index read operation
-	ExprCode index(const ast::Index & index, CompilerInfo & info, Scope & scope) {
-		const auto arr = expression(*index.expression, info, scope);
-		const auto idx = expression(*index.index, info, scope);
+	ExprCode compile_index(const ast::Index & index, CompilerInfo & info, Scope & scope) {
+		const auto arr = compile_expression(*index.expression, info, scope);
+		const auto idx = compile_expression(*index.index, info, scope);
 		
 		InstructionBuffer buf;
 		

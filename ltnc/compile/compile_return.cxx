@@ -1,10 +1,10 @@
 #include "compile.hxx"
-namespace ltn::c::compile {
+namespace ltn::c {
 	// compiles -> return...;
-	StmtCode reTurn(const ast::Return & ret, CompilerInfo & info, Scope & scope) {
+	StmtCode compile_reTurn(const ast::Return & ret, CompilerInfo & info, Scope & scope) {
 		InstructionBuffer buf;
 		if(ret.expression) {
-			auto code = compile::expression(*ret.expression, info, scope);
+			auto code = compile_expression(*ret.expression, info, scope);
 			buf << code.code;
 		}
 		else {

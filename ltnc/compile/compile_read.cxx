@@ -1,6 +1,6 @@
 #include "compile.hxx"
 #include <string_view>
-namespace ltn::c::compile {
+namespace ltn::c {
 	namespace {
 		CompilerError undefined_enum(
 			const ast::GlobalValue & node) {
@@ -11,7 +11,7 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode read_local_variable(const Variable & var) {
+		ExprCode compile_read_local_variable(const Variable & var) {
 			InstructionBuffer buf;
 			buf << ltn::inst::Readx { var.address };
 			return ExprCode{ buf };
@@ -19,9 +19,9 @@ namespace ltn::c::compile {
 
 
 
-		ExprCode read_global_variable(const ast::Global & global, CompilerInfo & info) {
+		ExprCode compile_read_global_variable(const ast::Global & global, CompilerInfo & info) {
 			Scope s{global.namespaze, false};
-			return expression(*global.expr, info, s);
+			return compile_expression(*global.expr, info, s);
 		}
 
 
@@ -58,29 +58,29 @@ namespace ltn::c::compile {
 
 
 	// compiles an variable read accessc
-	ExprCode read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
+	ExprCode compile_read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
 		try {
 			const auto var = scope.resolve(expr.name, expr.location);
-			return read_local_variable(var);
+			return compile_read_local_variable(var);
 		}
 		catch(const CompilerError & error) {
 			const auto & name = expr.name;
 			const auto & namespaze = scope.get_namespace();
 			if(auto global = info.global_table.resolve(name, namespaze)) {
-				return read_global_variable(*global, info);
+				return compile_read_global_variable(*global, info);
 			}
 			throw error;
 		}
 	}
 
 	
-	ExprCode read_member_access(
+	ExprCode compile_read_member_access(
 		const ast::Member & access,
 		CompilerInfo & info,
 		Scope & scope) {
 
 		InstructionBuffer buf;
-		buf << expression(*access.expr, info, scope).code;
+		buf << compile_expression(*access.expr, info, scope).code;
 		const auto id = info.member_table.get_id(access.name);
 		buf << ltn::inst::MemberRead{id};
 		return ExprCode{ buf };
@@ -88,7 +88,7 @@ namespace ltn::c::compile {
 
 
 
-	ExprCode global_value(
+	ExprCode compile_global_value(
 		const ast::GlobalValue & global_value,
 		CompilerInfo & info,
 		Scope & scope) {
@@ -102,6 +102,6 @@ namespace ltn::c::compile {
 			throw undefined_enum(global_value);
 		}
 
-		return read_global_variable(*enym, info);
+		return compile_read_global_variable(*enym, info);
 	}
 }

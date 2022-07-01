@@ -1,6 +1,6 @@
 #include "compile.hxx"
 #include <sstream>
-namespace ltn::c::compile {
+namespace ltn::c {
 	namespace {
 		std::string jump_else(const std::string & id) {
 			return id + "_ELSE";
@@ -13,7 +13,7 @@ namespace ltn::c::compile {
 
 
 
-	InstructionBuffer conditional(
+	InstructionBuffer compile_conditional(
 		const std::string & name,
 		const InstructionBuffer & condition,
 		const InstructionBuffer & if_branch,

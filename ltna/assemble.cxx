@@ -103,7 +103,8 @@ namespace ltn::a {
 			std::vector<std::uint8_t> & bytecode,
 			const Uint64_BytexX & args,
 			const AddressTable &) {
-			const auto bytes = to_bytes(args.value);
+			const std::uint64_t count = args.bytes.size();
+			const auto bytes = to_bytes(count);
 			for(const auto byte : bytes) {
 				bytecode.push_back(byte);
 			}

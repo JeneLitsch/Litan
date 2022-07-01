@@ -2,7 +2,7 @@
 #include "ltnc/CompilerError.hxx"
 #include <sstream>
 
-namespace ltn::c::parse {
+namespace ltn::c {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 		using OP = ltn::c::ast::Binary::Type;
@@ -141,14 +141,14 @@ namespace ltn::c::parse {
 
 
 
-	ast::expr_ptr binary(lex::Lexer & lexer) {
-		return binary_base<parse::unary>(lexer);
+	ast::expr_ptr parse_binary(lex::Lexer & lexer) {
+		return binary_base<parse_unary>(lexer);
 	}
 
 	
 
-	ast::expr_ptr static_binary(lex::Lexer & lexer) {
-		return binary_base<parse::static_unary>(lexer);
+	ast::expr_ptr parse_static_binary(lex::Lexer & lexer) {
+		return binary_base<parse_static_unary>(lexer);
 	}
 }
 

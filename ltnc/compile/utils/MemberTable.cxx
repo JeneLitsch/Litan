@@ -1,6 +1,6 @@
 #include "MemberTable.hxx"
 
-namespace ltn::c::compile {
+namespace ltn::c {
 	std::uint64_t MemberTable::get_id(const std::string & str) {
 		if(this->table.contains(str)) {
 			return this->table.at(str);

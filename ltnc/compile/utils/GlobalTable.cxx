@@ -5,7 +5,7 @@
 #include "ltn/printing.hxx"
 #include "namespace_resolution.hxx"
 
-namespace ltn::c::compile {
+namespace ltn::c {
 	namespace {
 		CompilerError multiple_definitions(const ast::Global & fx) {
 			std::stringstream msg;
@@ -24,7 +24,7 @@ namespace ltn::c::compile {
 		const std::string_view name,
 		const ast::Namespace & from,
 		const ast::Namespace & to) {
-		return ltn::c::compile::resolve(this->enums, from, to, name);
+		return ltn::c::resolve(this->enums, from, to, name);
 	}
 
 

@@ -6,12 +6,12 @@
 #include "Source.hxx"
 
 namespace ltn::c {
-	ast::Program to_ast(
+	ast::Program parse(
 		std::vector<Source> sources,
 		const Config & config,
 		Reporter & reporter);
 
-	std::string to_asm(
+	std::string compile(
 		const ast::Program & program,
 		const Config & config,
 		Reporter & reporter);

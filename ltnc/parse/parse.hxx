@@ -4,57 +4,57 @@
 #include "ltnc/lex/Lexer.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
-namespace ltn::c::parse {
+namespace ltn::c {
 
 	// Sources
-	ast::srce_ptr source(lex::Lexer & lexer);
+	ast::srce_ptr parse_source(lex::Lexer & lexer);
 	
 	// Funcionals
-	ast::func_ptr functional(lex::Lexer & lexer, const ast::Namespace & namespaze);
-	ast::enum_ptr enumeration(lex::Lexer & lexer, ast::Namespace namespaze);
-	ast::glob_ptr definition(lex::Lexer & lexer, const ast::Namespace & namespaze);
-	ast::prst_ptr preset(lex::Lexer & lexer, const ast::Namespace & namespaze);
+	ast::func_ptr parse_functional(lex::Lexer & lexer, const ast::Namespace & namespaze);
+	ast::enum_ptr parse_enumeration(lex::Lexer & lexer, ast::Namespace namespaze);
+	ast::glob_ptr parse_definition(lex::Lexer & lexer, const ast::Namespace & namespaze);
+	ast::prst_ptr parse_preset(lex::Lexer & lexer, const ast::Namespace & namespaze);
 
-	ast::expr_ptr lambda(lex::Lexer & lexer);
+	ast::expr_ptr parse_lambda(lex::Lexer & lexer);
 
 	// Statements
-	ast::stmt_ptr statement(lex::Lexer & lexer);
-	ast::stmt_ptr stmt_switch(lex::Lexer & lexer);
-	ast::stmt_ptr block(lex::Lexer & lexer);
-	ast::stmt_ptr if_else(lex::Lexer & lexer);
-	ast::stmt_ptr while_loop(lex::Lexer & lexer);
-	ast::stmt_ptr for_loop(lex::Lexer & lexer);
-	ast::stmt_ptr just_an_expr(lex::Lexer & lexer);
-	ast::stmt_ptr stmt_switch(lex::Lexer & lexer);
+	ast::stmt_ptr parse_statement(lex::Lexer & lexer);
+	ast::stmt_ptr parse_stmt_switch(lex::Lexer & lexer);
+	ast::stmt_ptr parse_block(lex::Lexer & lexer);
+	ast::stmt_ptr parse_if_else(lex::Lexer & lexer);
+	ast::stmt_ptr parse_while_loop(lex::Lexer & lexer);
+	ast::stmt_ptr parse_for_loop(lex::Lexer & lexer);
+	ast::stmt_ptr parse_just_an_expr(lex::Lexer & lexer);
+	ast::stmt_ptr parse_stmt_switch(lex::Lexer & lexer);
 	
 	// Expressions
-	ast::expr_ptr assign(lex::Lexer & lexer);
-	ast::expr_ptr assign_r(lex::Lexer & lexer);
-	ast::expr_ptr expr_switch(lex::Lexer & lexer);
+	ast::expr_ptr parse_assign(lex::Lexer & lexer);
+	ast::expr_ptr parse_assign_r(lex::Lexer & lexer);
+	ast::expr_ptr parse_expr_switch(lex::Lexer & lexer);
 
-	ast::expr_ptr expression(lex::Lexer & lexer);
-	ast::expr_ptr conditional(lex::Lexer & lexer);
-	ast::expr_ptr condition(lex::Lexer & lexer);
-	ast::expr_ptr binary(lex::Lexer & lexer);
-	ast::expr_ptr unary(lex::Lexer & lexer);
-	ast::expr_ptr primary(lex::Lexer & lexer);
-	ast::litr_ptr integral(lex::Lexer & lexer);
+	ast::expr_ptr parse_expression(lex::Lexer & lexer);
+	ast::expr_ptr parse_conditional(lex::Lexer & lexer);
+	ast::expr_ptr parse_condition(lex::Lexer & lexer);
+	ast::expr_ptr parse_binary(lex::Lexer & lexer);
+	ast::expr_ptr parse_unary(lex::Lexer & lexer);
+	ast::expr_ptr parse_primary(lex::Lexer & lexer);
+	ast::litr_ptr parse_integral(lex::Lexer & lexer);
 
-	ast::expr_ptr static_expression(lex::Lexer & lexer);
-	ast::expr_ptr static_conditional(lex::Lexer & lexer);
-	ast::expr_ptr static_condition(lex::Lexer & lexer);
-	ast::expr_ptr static_binary(lex::Lexer & lexer);
-	ast::expr_ptr static_unary(lex::Lexer & lexer);
-	ast::expr_ptr static_primary(lex::Lexer & lexer);
-	ast::litr_ptr static_integral(lex::Lexer & lexer);
+	ast::expr_ptr parse_static_expression(lex::Lexer & lexer);
+	ast::expr_ptr parse_static_conditional(lex::Lexer & lexer);
+	ast::expr_ptr parse_static_condition(lex::Lexer & lexer);
+	ast::expr_ptr parse_static_binary(lex::Lexer & lexer);
+	ast::expr_ptr parse_static_unary(lex::Lexer & lexer);
+	ast::expr_ptr parse_static_primary(lex::Lexer & lexer);
+	ast::litr_ptr parse_static_integral(lex::Lexer & lexer);
 
 	// Utils
-	std::string preset_name(lex::Lexer & lexer);
-	std::string enum_name(lex::Lexer & lexer);
-	std::string definition_name(lex::Lexer & lexer);
-	std::string variable_name(lex::Lexer & lexer);
-	std::string function_name(lex::Lexer & lexer);
-	std::string parameter_name(lex::Lexer & lexer);
+	std::string parse_preset_name(lex::Lexer & lexer);
+	std::string parse_enum_name(lex::Lexer & lexer);
+	std::string parse_definition_name(lex::Lexer & lexer);
+	std::string parse_variable_name(lex::Lexer & lexer);
+	std::string parse_function_name(lex::Lexer & lexer);
+	std::string parse_parameter_name(lex::Lexer & lexer);
 	void brace_l(lex::Lexer & lexer);
 	void brace_r(lex::Lexer & lexer);
 

@@ -1,7 +1,7 @@
 #include "Scope.hxx"
 #include "ltnc/CompilerError.hxx"
 
-namespace ltn::c::compile {
+namespace ltn::c {
 	Scope::Scope(const ast::Namespace & namespaze, bool c0nst) 
 		: parent(nullptr), namespaze(namespaze), c0nst(c0nst) {}
 
@@ -73,7 +73,7 @@ namespace ltn::c::compile {
 
 
 	// size of all stacked scopes combined
-	std::uint64_t ltn::c::compile::Scope::recSize() const {
+	std::uint64_t ltn::c::Scope::recSize() const {
 		if(this->parent) {
 			return this->vars.size() + parent->recSize();
 		}
@@ -81,7 +81,7 @@ namespace ltn::c::compile {
 	}
 
 
-	const ltn::c::ast::Namespace & ltn::c::compile::Scope::get_namespace() const {
+	const ltn::c::ast::Namespace & ltn::c::Scope::get_namespace() const {
 		return this->namespaze;
 	}
 

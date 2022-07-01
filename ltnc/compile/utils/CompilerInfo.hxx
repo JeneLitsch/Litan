@@ -13,7 +13,7 @@
 #include "MemberTable.hxx"
 #include "Scope.hxx"
 
-namespace ltn::c::compile {
+namespace ltn::c {
 	struct CompilerInfo {
 		const Config & config;
 		FxTable & fx_table;

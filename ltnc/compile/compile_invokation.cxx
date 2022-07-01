@@ -1,17 +1,17 @@
 #include "compile.hxx"
 #include <string_view>
-namespace ltn::c::compile {
-	ExprCode invokation(
+namespace ltn::c {
+	ExprCode compile_invokation(
 		const ast::Invokation & invoke,
 		CompilerInfo & info,
 		Scope & scope) {
 
 		InstructionBuffer buf;
 
-		buf << expression(*invoke.function_ptr, info, scope).code;
+		buf << compile_expression(*invoke.function_ptr, info, scope).code;
 
 		for(const auto & param : invoke.parameters) {
-			buf << expression(*param, info, scope).code;
+			buf << compile_expression(*param, info, scope).code;
 		}
 
 		buf << ltn::inst::Newarr{invoke.parameters.size()};

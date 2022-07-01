@@ -2,7 +2,7 @@
 #include <string>
 #include "InstructionBuffer.hxx"
 
-namespace ltn::c::compile {
+namespace ltn::c {
 	struct ExprCode {
 		InstructionBuffer code;
 	};

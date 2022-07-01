@@ -2,7 +2,7 @@
 #include <array>
 #include "ltn/InstructionSet.hxx"
 using namespace ltn::inst;
-namespace ltn::c::compile::build_in {
+namespace ltn::c::build_in {
 	const auto container_push = std::to_array<Instruction>({
 		Push{},
 	});

@@ -3,7 +3,7 @@
 #include "build_in/build_in.hxx"
 #include "ltnc/print/print.hxx"
 
-namespace ltn::c::compile {
+namespace ltn::c {
 	namespace {
 
 		ltn::inst::Instruction parameters(const ast::Functional & fx, Scope & scope) {
@@ -21,13 +21,13 @@ namespace ltn::c::compile {
 		}
 
 
-		InstructionBuffer body(
+		InstructionBuffer compile_body(
 			const auto & fx,
 			CompilerInfo & info,
 			Scope & scope) {
 			InstructionBuffer buf;
 			if(fx.body) {
-				const auto body = compile::statement(*fx.body, info, scope);
+				const auto body = compile_statement(*fx.body, info, scope);
 				for(std::size_t i = 0; i < body.var_count; i++) {
 					buf << ltn::inst::Makevar{};
 				}
@@ -38,7 +38,7 @@ namespace ltn::c::compile {
 
 
 
-		InstructionBuffer except(	
+		InstructionBuffer compile_except(	
 			const ast::Except & except,
 			const std::string & fxid,
 			CompilerInfo & info,
@@ -50,7 +50,7 @@ namespace ltn::c::compile {
 			InstructionBuffer buf;
 			buf << ltn::inst::Label{jumpmark_except(fxid)};
 			buf << ltn::inst::Params{1};
-			buf << body(except, info, scope);
+			buf << compile_body(except, info, scope);
 			buf << ltn::inst::Null{};
 			buf << ltn::inst::Return{};
 			return buf;
@@ -60,7 +60,7 @@ namespace ltn::c::compile {
 
 		namespace {
 			// compiles Litan function
-			InstructionBuffer function(
+			InstructionBuffer compile_function(
 				const ast::Function & fx,
 				CompilerInfo & info,
 				Scope & scope,
@@ -72,10 +72,10 @@ namespace ltn::c::compile {
 				buf << capture;
 				buf << parameters(fx, scope);
 				if(fx.except) buf << ltn::inst::Try{jumpmark_except(fx.id)};
-				buf << body(fx, info, scope);
+				buf << compile_body(fx, info, scope);
 				buf << ltn::inst::Null{};
 				buf << ltn::inst::Return{};
-				if(fx.except) buf << except(*fx.except, fx.id, info, fx.namespaze);
+				if(fx.except) buf << compile_except(*fx.except, fx.id, info, fx.namespaze);
 				
 				return buf;
 			}
@@ -83,15 +83,15 @@ namespace ltn::c::compile {
 
 
 		// compiles Litan function
-		InstructionBuffer function(const ast::Function & fx, CompilerInfo & info) {
+		InstructionBuffer compile_function(const ast::Function & fx, CompilerInfo & info) {
 			Scope scope{fx.namespaze, fx.c0nst};
-			return function(fx, info, scope, {});
+			return compile_function(fx, info, scope, {});
 		}
 
 
 
 		// compiles asm_function
-		InstructionBuffer build_in_function(const ast::BuildIn & fx, CompilerInfo & info) {
+		InstructionBuffer compile_build_in_function(const ast::BuildIn & fx, CompilerInfo & info) {
 			InstructionBuffer buf;
 			const auto * signature = info.fx_table.resolve(
 				fx.name,
@@ -111,14 +111,14 @@ namespace ltn::c::compile {
 
 
 	// compiles functional node
-	InstructionBuffer functional(
+	InstructionBuffer compile_functional(
 		const ast::Functional & functional,
 		CompilerInfo & info) {
 		if(auto fx = as<const ast::Function>(functional)) {
-			return function(*fx, info);
+			return compile_function(*fx, info);
 		}
 		if(auto fx = as<const ast::BuildIn>(functional)) {
-			return build_in_function(*fx, info);
+			return compile_build_in_function(*fx, info);
 		}
 		throw CompilerError{
 			"Unknown functional declaration",
@@ -127,7 +127,7 @@ namespace ltn::c::compile {
 
 
 
-	ExprCode lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & outer_scope) {
+	ExprCode compile_lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & outer_scope) {
 		const auto & fx = *lm.fx;
 		InstructionBuffer buf;
 		
@@ -144,7 +144,7 @@ namespace ltn::c::compile {
 		}
 
 		// compile function
-		buf << function(*lm.fx, info, inner_scope, capture_buf);
+		buf << compile_function(*lm.fx, info, inner_scope, capture_buf);
 
 		// Create function pointer
 		buf << ltn::inst::Label{fx.id + "SKIP"};
@@ -152,7 +152,7 @@ namespace ltn::c::compile {
 		
 		// store captures
 		for(const auto & capture : lm.captures) {
-			buf << compile::read_variable(*capture, info, outer_scope).code;
+			buf << compile_read_variable(*capture, info, outer_scope).code;
 			buf << ltn::inst::Capture{};
 		}
 

@@ -2,7 +2,7 @@
 #include <array>
 #include <string_view>
 using namespace std::string_view_literals;
-namespace ltn::c::compile::build_in {
+namespace ltn::c::build_in {
 	const auto math_min = std::to_array<Instruction>({
 		Min{},
 		Return{},

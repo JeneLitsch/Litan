@@ -1,7 +1,7 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
 #include <iostream>
-namespace ltn::c::parse {
+namespace ltn::c {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 
@@ -79,7 +79,7 @@ namespace ltn::c::parse {
 
 
 
-	ast::srce_ptr source(lex::Lexer & lexer) {
+	ast::srce_ptr parse_source(lex::Lexer & lexer) {
 		auto source = std::make_unique<ast::Source>();
 		auto & functions = source->functions;
 		auto & globals = source->globals;
@@ -94,17 +94,17 @@ namespace ltn::c::parse {
 			else if(close_namespace(lexer, namespaze)) {
 				namespaze.pop_back();
 			}
-			else if(auto fx = parse::functional(lexer, namespaze)) {
+			else if(auto fx = parse_functional(lexer, namespaze)) {
 				functions.push_back(std::move(fx));
 			}
-			else if(auto global = parse::definition(lexer, namespaze)) {
+			else if(auto global = parse_definition(lexer, namespaze)) {
 				globals.push_back(std::move(global));
 			}
-			else if(auto preset = parse::preset(lexer, namespaze)) {
+			else if(auto preset = parse_preset(lexer, namespaze)) {
 				presets.push_back(std::move(preset));
 			}
 			else if(lexer.match(TT::ENUM)) {
-				auto e = parse::enumeration(lexer, namespaze);
+				auto e = parse_enumeration(lexer, namespaze);
 				enums.push_back(std::move(e));
 			}			
 			else throw unknown_declaration(lexer);

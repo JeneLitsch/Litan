@@ -1,6 +1,6 @@
 #include "compile.hxx"
 
-namespace ltn::c::compile {
+namespace ltn::c {
 	std::string jump_begin(const std::string & name) {
 		return name + "_BEGIN";
 	}
@@ -17,13 +17,13 @@ namespace ltn::c::compile {
 		return name + "_TO";
 	}
 
-	StmtCode while_loop(const ast::While & stmt, CompilerInfo & info, Scope & scope) {
+	StmtCode compile_while_loop(const ast::While & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		Scope loop_scope{&scope}; 
 		
 		// compile parts
-		const auto condition = expression(*stmt.condition, info, scope);
-		const auto body = statement(*stmt.body, info, loop_scope);
+		const auto condition = compile_expression(*stmt.condition, info, scope);
+		const auto body = compile_statement(*stmt.body, info, loop_scope);
 		const auto name = make_jump_id("WHILE");
 		const auto begin = jump_begin(name);
 		const auto end = jump_end(name);
@@ -43,12 +43,12 @@ namespace ltn::c::compile {
 
 
 
-	StmtCode infinite_loop(const ast::InfiniteLoop & stmt, CompilerInfo & info, Scope & scope) {
+	StmtCode compile_infinite_loop(const ast::InfiniteLoop & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		Scope loop_scope{&scope}; 
 		
 		// compile parts
-		const auto body = statement(*stmt.body, info, loop_scope);
+		const auto body = compile_statement(*stmt.body, info, loop_scope);
 		const auto jump = make_jump_id("INFINETE_LOOP");
 
 		// generate asm code
@@ -63,13 +63,13 @@ namespace ltn::c::compile {
 
 
 
-	StmtCode for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
+	StmtCode compile_for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		Scope loop_scope{&scope};
 
-		const auto var = new_variable(*stmt.var, info, loop_scope);
-		const auto from = expression(*stmt.from, info, loop_scope);
-		const auto to = expression(*stmt.to, info, loop_scope);
+		const auto var = compile_new_variable(*stmt.var, info, loop_scope);
+		const auto from = compile_expression(*stmt.from, info, loop_scope);
+		const auto to = compile_expression(*stmt.to, info, loop_scope);
 		
 		const auto name = make_jump_id("FOR");
 		const auto begin = jump_begin(name);
@@ -79,7 +79,7 @@ namespace ltn::c::compile {
 		const auto from_var = loop_scope.insert(var_from(name), stmt.location);
 		const auto to_var   = loop_scope.insert(var_to(name), stmt.location);
 
-		const auto body = statement(*stmt.body, info, loop_scope);
+		const auto body = compile_statement(*stmt.body, info, loop_scope);
 				
 		InstructionBuffer buf;
 		
@@ -108,7 +108,7 @@ namespace ltn::c::compile {
 		buf << ltn::inst::Readx{ i_var.address };
 		if(auto & step = stmt.step) {
 			buf
-				<< expression(*step, info, loop_scope).code
+				<< compile_expression(*step, info, loop_scope).code
 				<< ltn::inst::Add{};
 		}
 		else {

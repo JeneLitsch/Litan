@@ -1,7 +1,7 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
 
-namespace ltn::c::parse {
+namespace ltn::c {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 	}
@@ -9,10 +9,10 @@ namespace ltn::c::parse {
 
 
 	// parses while loop -> while(...)
-	ast::stmt_ptr while_loop(lex::Lexer & lexer) {
+	ast::stmt_ptr parse_while_loop(lex::Lexer & lexer) {
 		if(lexer.match(TT::WHILE)) {
-			auto expr = condition(lexer);
-			auto body = statement(lexer);
+			auto expr = parse_condition(lexer);
+			auto body = parse_statement(lexer);
 			return std::make_unique<ast::While>(
 				std::move(expr),
 				std::move(body),
@@ -23,13 +23,13 @@ namespace ltn::c::parse {
 
 
 	// parses while loop -> for i (a, b)
-	ast::stmt_ptr for_loop(lex::Lexer & lexer) {
+	ast::stmt_ptr parse_for_loop(lex::Lexer & lexer) {
 		if(lexer.match(TT::FOR)) {
 			if(!lexer.match(TT::PAREN_L)) {
 				throw CompilerError{"Expected (", lexer.location()};
 			}
 
-			auto var_name = variable_name(lexer);
+			auto var_name = parse_variable_name(lexer);
 			auto var = std::make_unique<ast::NewVar>(
 				var_name,
 				nullptr,
@@ -40,24 +40,24 @@ namespace ltn::c::parse {
 				throw CompilerError{"Expected :", lexer.location()};
 			}
 
-			auto from = expression(lexer);
+			auto from = parse_expression(lexer);
 			
 			if(!lexer.match(TT::RARROW)) {
 				throw CompilerError{"Expected ->", lexer.location()};
 			}
 
-			auto to = expression(lexer);
+			auto to = parse_expression(lexer);
 
 			ast::expr_ptr step;
 			if(lexer.match(TT::COLON)) {
-				step = expression(lexer);
+				step = parse_expression(lexer);
 			}
 
 			if(!lexer.match(TT::PAREN_R)) {
 				throw CompilerError{"Expected )", lexer.location()};
 			}
 
-			auto body = statement(lexer);
+			auto body = parse_statement(lexer);
 
 			auto loop = std::make_unique<ast::For>(
 				std::move(var),

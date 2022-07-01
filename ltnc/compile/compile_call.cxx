@@ -1,6 +1,6 @@
 #include "compile.hxx"
 #include <string_view>
-namespace ltn::c::compile {
+namespace ltn::c {
 	CompilerError undefined_function(
 		const std::string_view & name,
 		const ast::Node & node) {
@@ -12,7 +12,7 @@ namespace ltn::c::compile {
 
 
 	// compiles function call fx(...)
-	ExprCode call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
+	ExprCode compile_call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
 		const auto fx = info.fx_table.resolve(
 			call.name,
 			scope.get_namespace(),
@@ -34,7 +34,7 @@ namespace ltn::c::compile {
 		InstructionBuffer buf;
 
 		for(const auto & param : call.parameters) {
-			buf << compile::expression(*param, info, scope).code;
+			buf << compile_expression(*param, info, scope).code;
 		}
 
 		buf << ltn::inst::Call{fx->id};

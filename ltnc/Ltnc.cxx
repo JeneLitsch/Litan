@@ -24,19 +24,19 @@ namespace ltn::c {
 
 
 
-	ast::Program to_ast(
+	ast::Program parse(
 		std::vector<Source> sources,
 		const Config & config,
 		Reporter & reporter) {
 		ast::Program program;
 		
-		auto compile = [&program, &reporter] (
+		auto parse = [&program, &reporter] (
 			std::istream & in,
 			const std::string & sourcename) {
 			
 			lex::Lexer lexer{in, sourcename, reporter};
 			try {
-				auto source = parse::source(lexer);
+				auto source = parse_source(lexer);
 				auto t_unit = unfold::source(std::move(source));
 				for(auto && fx : t_unit->functions) {
 					program.functions.push_back(std::move(fx));
@@ -51,26 +51,26 @@ namespace ltn::c {
 			}
 		};
 		
-		auto compile_std = [&compile](auto code) {
+		auto parse_std = [&parse](auto code) {
 			std::istringstream iss{code};
-			compile(iss, "");
+			parse(iss, "");
 		};
 
-		compile_std(std_algorithm);
-		compile_std(std_bits);
-		compile_std(std_cast);
-		compile_std(std_chrono);
-		compile_std(std_container);
-		compile_std(std_debug);
-		compile_std(std_functional);
-		compile_std(std_io);
-		compile_std(std_math);
-		compile_std(std_random);
-		compile_std(std_range);
-		compile_std(std_type);
+		parse_std(std_algorithm);
+		parse_std(std_bits);
+		parse_std(std_cast);
+		parse_std(std_chrono);
+		parse_std(std_container);
+		parse_std(std_debug);
+		parse_std(std_functional);
+		parse_std(std_io);
+		parse_std(std_math);
+		parse_std(std_random);
+		parse_std(std_range);
+		parse_std(std_type);
 
 		for(auto & source : sources) {
-			compile(source.stream(), source.name());
+			parse(source.stream(), source.name());
 		}
 
 		return program;
@@ -85,7 +85,7 @@ namespace ltn::c {
 
 namespace ltn::c {
 	namespace {
-		void startup_code(std::ostream & out, compile::FxTable & fx_table) {
+		void startup_code(std::ostream & out, FxTable & fx_table) {
 			// Jump to main()
 			if(const auto fxmain = fx_table.resolve("main", {}, 0)) {
 				const auto code = std::to_array<ltn::inst::Instruction>({
@@ -148,16 +148,16 @@ namespace ltn::c {
 	}
 
 	// compiles source
-	std::string to_asm(
+	std::string compile(
 		const ast::Program & program,
 		const Config & config,
 		Reporter & reporter) {
 		
 		std::stringstream out;
-		compile::GlobalTable global_table;
-		compile::FxTable fx_table;
-		compile::MemberTable member_table;
-		compile::CompilerInfo info {
+		GlobalTable global_table;
+		FxTable fx_table;
+		MemberTable member_table;
+		CompilerInfo info {
 			config,
 			fx_table,
 			global_table,
@@ -183,7 +183,7 @@ namespace ltn::c {
 
 		for(const auto & function : program.functions) {
 			try {
-				out << print(compile::functional(*function, info).get()); 
+				out << print(compile_functional(*function, info).get()); 
 			}
 			catch(const CompilerError & error) {
 				reporter.push(error);

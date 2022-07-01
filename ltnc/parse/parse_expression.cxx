@@ -1,16 +1,16 @@
 #include "parse.hxx"
 #include <sstream>
-namespace ltn::c::parse {
+namespace ltn::c {
 	// generic expression
-	ast::expr_ptr expression(lex::Lexer & lexer) {
-		return conditional(lexer);
+	ast::expr_ptr parse_expression(lex::Lexer & lexer) {
+		return parse_conditional(lexer);
 	}
 
 
 
 	// generic expression
-	ast::expr_ptr static_expression(lex::Lexer & lexer) {
-		return static_conditional(lexer);
+	ast::expr_ptr parse_static_expression(lex::Lexer & lexer) {
+		return parse_static_conditional(lexer);
 	}
 }
 

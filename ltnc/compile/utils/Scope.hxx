@@ -5,7 +5,7 @@
 #include "ltnc/SourceLocation.hxx"
 #include "ltnc/ast/Namespace.hxx"
 #include "Variable.hxx"
-namespace ltn::c::compile {
+namespace ltn::c {
 
 
 	class Scope {

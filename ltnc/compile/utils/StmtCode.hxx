@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "InstructionBuffer.hxx"
-namespace ltn::c::compile {
+namespace ltn::c {
 	struct StmtCode {
 	public:
 		StmtCode(

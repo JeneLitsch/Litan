@@ -1,10 +1,10 @@
 #include "parse.hxx"
 
-namespace ltn::c::parse {
+namespace ltn::c {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 	
-		std::string name(lex::Lexer & lexer) {
+		std::string parse_name(lex::Lexer & lexer) {
 			if(auto t = lexer.match(TT::INDENTIFIER)) {
 				return t->str;
 			}
@@ -13,7 +13,7 @@ namespace ltn::c::parse {
 
 
 
-		std::string equal_sign(lex::Lexer & lexer) {
+		std::string parse_equal_sign(lex::Lexer & lexer) {
 			if(auto t = lexer.match(TT::ASSIGN)) {
 				return t->str;
 			}
@@ -23,15 +23,15 @@ namespace ltn::c::parse {
 
 
 
-	ast::glob_ptr definition(lex::Lexer & lexer, const ast::Namespace & namespaze) {
+	ast::glob_ptr parse_definition(lex::Lexer & lexer, const ast::Namespace & namespaze) {
 		if(lexer.match(TT::DEFINE)) {
-			const auto name = parse::name(lexer);
+			const auto name = parse_name(lexer);
 			auto global = std::make_unique<ast::Global>(
 				lexer.location(),
 				name,
 				namespaze);
-			equal_sign(lexer);
-			global->expr = parse::static_expression(lexer);
+			parse_equal_sign(lexer);
+			global->expr = parse_static_expression(lexer);
 			semicolon(lexer);
 			return global;
 		}

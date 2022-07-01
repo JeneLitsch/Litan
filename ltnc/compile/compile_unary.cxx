@@ -1,9 +1,9 @@
 #include "compile.hxx"
 
-namespace ltn::c::compile {
+namespace ltn::c {
 
-	ExprCode negate(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
-		const auto code = expression(expr, info, scope);
+	ExprCode compile_negate(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
+		const auto code = compile_expression(expr, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
 		buf << ltn::inst::Neg{};
@@ -12,8 +12,8 @@ namespace ltn::c::compile {
 
 
 
-	ExprCode notigate (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
-		const auto code = expression(expr, info, scope);
+	ExprCode compile_notigate (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
+		const auto code = compile_expression(expr, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
 		buf << ltn::inst::Not{};
@@ -21,8 +21,8 @@ namespace ltn::c::compile {
 	}
 
 
-	ExprCode null_test (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
-		const auto code = expression(expr, info, scope);
+	ExprCode compile_null_test (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
+		const auto code = compile_expression(expr, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
 		buf << ltn::inst::Null{};
@@ -31,8 +31,8 @@ namespace ltn::c::compile {
 	}
 
 
-	ExprCode bit_not (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
-		const auto code = expression(expr, info, scope);
+	ExprCode compile_bit_not (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
+		const auto code = compile_expression(expr, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
 		buf << ltn::inst::Bitnot{};
@@ -41,15 +41,15 @@ namespace ltn::c::compile {
 	
 
 
-	ExprCode unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope) {
+	ExprCode compile_unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope) {
 		using UT = ast::Unary::Type;
 		const auto & inner = *expr.expression;
 		
 		switch (expr.type) {
-			case UT::NEG: return negate(inner, info, scope);
-			case UT::NOT: return notigate(inner, info, scope);
-			case UT::NUL: return null_test(inner, info, scope);
-			case UT::BITNOT: return bit_not(inner, info, scope);
+			case UT::NEG: return compile_negate(inner, info, scope);
+			case UT::NOT: return compile_notigate(inner, info, scope);
+			case UT::NUL: return compile_null_test(inner, info, scope);
+			case UT::BITNOT: return compile_bit_not(inner, info, scope);
 		}
 
 		throw CompilerError{"Unknown unary expression", expr.location};

@@ -1,6 +1,6 @@
 #include "CompilerInfo.hxx"
 
-namespace ltn::c::compile {
+namespace ltn::c {
 
 	// creates a jump label
 	std::string make_jump_id(const std::string_view name) {

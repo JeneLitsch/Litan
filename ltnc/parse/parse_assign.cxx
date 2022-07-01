@@ -2,7 +2,7 @@
 #include "ltnc/CompilerError.hxx"
 #include "stdxx/memory.hxx"
 
-namespace ltn::c::parse {
+namespace ltn::c {
 	namespace {
 		using TT = lex::Token::Type;
 		using Op = ast::Modify::Type;
@@ -44,7 +44,7 @@ namespace ltn::c::parse {
 		ast::stmt_ptr modify(lex::Lexer & lexer, ast::expr_ptr && expr,	Op op) {
 			guard_assingable(*expr, lexer.location());
 			auto l = stx::static_unique_cast<ast::Assignable>(std::move(expr));
-			auto r = expression(lexer);
+			auto r = parse_expression(lexer);
 			return std::make_unique<ast::Modify>(
 				op,
 				std::move(l),
@@ -66,19 +66,16 @@ namespace ltn::c::parse {
 
 
 	ast::expr_ptr assign(lex::Lexer & lexer) {
-		auto l = expression(lexer);
-
-
-		
+		auto l = parse_expression(lexer);
 		return l;
 	}
 
 
 
 	// parses Statement consiting of an Expression
-	ast::stmt_ptr just_an_expr(lex::Lexer & lexer) {
-		auto l = expression(lexer);
-		if(auto r = assign_r(lexer)) {
+	ast::stmt_ptr parse_just_an_expr(lex::Lexer & lexer) {
+		auto l = parse_expression(lexer);
+		if(auto r = parse_assign_r(lexer)) {
 			return assignment(lexer, std::move(l), std::move(r));
 		}
 		
@@ -93,9 +90,9 @@ namespace ltn::c::parse {
 
 
 	// Tries parsing assignment after and including =
-	ast::expr_ptr assign_r(lex::Lexer & lexer) {
+	ast::expr_ptr parse_assign_r(lex::Lexer & lexer) {
 		if(lexer.match(TT::ASSIGN)) {
-			return expression(lexer);
+			return parse_expression(lexer);
 		}
 		return nullptr;
 	}

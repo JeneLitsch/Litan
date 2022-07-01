@@ -2,7 +2,7 @@
 #include <array>
 #include "ltn/InstructionSet.hxx"
 using namespace ltn::inst;
-namespace ltn::c::compile::build_in {
+namespace ltn::c::build_in {
 	const auto algorithm_sort_ascn = std::to_array<Instruction>({
 		BuildIn{ args::Uint16{0x00} },
 		Return{},

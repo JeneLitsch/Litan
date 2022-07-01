@@ -5,6 +5,6 @@
 #include <span>
 #include "ltn/InstructionSet.hxx"
 
-namespace ltn::c::compile {
+namespace ltn::c {
 	std::span<const ltn::inst::Instruction> resolve_build_in(const std::string_view & key);
 }

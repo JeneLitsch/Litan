@@ -58,7 +58,7 @@ namespace ltn::c {
 
 		std::string print_args(const Uint64_BytexX & args) {
 			std::ostringstream ss;
-			ss << args.value << " ";
+			ss << args.bytes.size() << " ";
 			for(const char byte : args.bytes) {
 				ss << static_cast<std::uint16_t>(byte) << " ";
 			}

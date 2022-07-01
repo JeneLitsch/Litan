@@ -58,7 +58,6 @@ namespace ltn::inst::args {
 	};
 
 	struct Uint64_BytexX {
-		std::uint64_t value;
 		std::vector<std::uint8_t> bytes;
 	};
 
@@ -79,6 +78,6 @@ namespace ltn::inst::args {
 	}
 
 	inline std::size_t size(const Uint64_BytexX & args) {
-		return 9 + args.value;
+		return 9 + args.bytes.size();
 	}
 }

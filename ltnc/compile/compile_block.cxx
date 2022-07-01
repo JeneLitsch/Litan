@@ -1,7 +1,7 @@
 #include "compile.hxx"
-namespace ltn::c::compile {
+namespace ltn::c {
 	// compiles -> code block {...}
-	StmtCode block(const ast::Block & block, CompilerInfo & info, Scope & parent) {
+	StmtCode compile_block(const ast::Block & block, CompilerInfo & info, Scope & parent) {
 		Scope scope(&parent);
 		InstructionBuffer buf;
 		std::size_t locals = 0;
@@ -9,7 +9,7 @@ namespace ltn::c::compile {
 		for(const auto & stmt : block.statements) {
 			try {
 				if(stmt) {
-					const auto compiled = compile::statement(*stmt, info, scope); 
+					const auto compiled = compile_statement(*stmt, info, scope); 
 					buf << compiled.code;
 					locals = std::max(locals, compiled.var_count);
 					newAllocs += compiled.direct_allocation;

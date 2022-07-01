@@ -1,20 +1,20 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
 
-namespace ltn::c::parse {
+namespace ltn::c {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;
 	}
 
 	template<typename NodeT, TT START_TOKEN, auto body_fx>
-	std::unique_ptr<NodeT> any_switch(lex::Lexer & lexer) {
+	std::unique_ptr<NodeT> parse_any_switch(lex::Lexer & lexer) {
 		if(lexer.match(START_TOKEN)) {
 			if(!lexer.match(TT::PAREN_L)) throw CompilerError {
 				"Expected (", lexer.location()
 			};
 
 			auto sw1tch = std::make_unique<NodeT>(lexer.location());
-			sw1tch->condition = parse::expression(lexer);
+			sw1tch->condition = parse_expression(lexer);
 
 			if(!lexer.match(TT::PAREN_R)) throw CompilerError {
 				"Expected )", lexer.location()
@@ -25,7 +25,7 @@ namespace ltn::c::parse {
 			};
 
 			while (lexer.match(TT::CASE)) {
-				auto case_expr = parse::static_expression(lexer);
+				auto case_expr = parse_static_expression(lexer);
 				
 				if(!lexer.match(TT::COLON)) throw CompilerError {
 					"Expected :", lexer.location()
@@ -60,8 +60,8 @@ namespace ltn::c::parse {
 
 
 
-	ast::stmt_ptr stmt_switch(lex::Lexer & lexer) {
-		auto sw1tch = any_switch<ast::StmtSwitch, TT::SWITCH, parse::statement>(lexer);
+	ast::stmt_ptr parse_stmt_switch(lex::Lexer & lexer) {
+		auto sw1tch = parse_any_switch<ast::StmtSwitch, TT::SWITCH, parse_statement>(lexer);
 		if(sw1tch && !sw1tch->d3fault) {
 			sw1tch->d3fault = std::make_unique<ast::DoNothing>(lexer.location());
 		}
@@ -70,8 +70,8 @@ namespace ltn::c::parse {
 
 
 
-	ast::expr_ptr expr_switch(lex::Lexer & lexer) {
-		auto sw1tch = any_switch<ast::ExprSwitch, TT::CHOOSE, parse::expression>(lexer);
+	ast::expr_ptr parse_expr_switch(lex::Lexer & lexer) {
+		auto sw1tch = parse_any_switch<ast::ExprSwitch, TT::CHOOSE, parse_expression>(lexer);
 		if(sw1tch && !sw1tch->d3fault) {
 			sw1tch->d3fault = std::make_unique<ast::Null>(lexer.location());
 		}
