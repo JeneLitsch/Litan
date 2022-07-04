@@ -80,4 +80,14 @@ namespace ltn::inst::args {
 	inline std::size_t size(const Uint64_BytexX & args) {
 		return 9 + args.bytes.size();
 	}
+
+	inline auto operator==(const None &, const None &) {
+		return true;
+	}
+
+	template<typename T>
+	inline auto operator==(const T & l, const T & r) {
+		return l.value == r.value;
+	}
+
 }

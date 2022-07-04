@@ -56,6 +56,8 @@ namespace ltn::inst {
 		}
 
 		Args args;
+
+		using ArgsT = Args;
 	};
 
 
