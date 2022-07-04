@@ -3,7 +3,7 @@
 #include <cmath>
 #include "ltnc/ast/Ast.hxx"
 #include "to_node_type.hxx"
-namespace ltn::c::optimize {
+namespace ltn::c {
 	template<typename Op>
 	struct Arithmetic {
 		template<ast::literal_type L, ast::literal_type R>

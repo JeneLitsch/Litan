@@ -1,7 +1,7 @@
 #include "unfold.hxx"
 
-namespace ltn::c::unfold {
-	std::vector<ast::glob_ptr> enumeration(ast::enum_ptr e) {
+namespace ltn::c {
+	std::vector<ast::glob_ptr> unfold_enumeration(ast::enum_ptr e) {
 		auto namespaze = e->namespaze;
 		namespaze.push_back(e->name);
 

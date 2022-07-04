@@ -67,14 +67,13 @@ namespace ltn::c {
 
 
 
-		template<typename InstT>
-		std::string print_instruction(const InstT & inst) {
+		std::string print_instruction(const inst::ExecInst & inst) {
 			std::ostringstream ss;
-			ss << inst.name << " ";
+			ss << inst.get_name() << " ";
 			return ss.str();
 		}
 
-		std::string print_instruction(const inst::Instruction::LabelType & inst) {
+		std::string print_instruction(const inst::Label & inst) {
 			std::ostringstream ss;
 			ss << ":";
 			return ss.str();
@@ -89,13 +88,17 @@ namespace ltn::c {
 	std::string print(const std::span<const inst::Instruction> & instructions) {
 		std::ostringstream ss;
 		for(const auto & inst : instructions) {
-			ss << std::visit([] (auto & inst) {
-				return print_instruction(inst);
-			}, inst.type);
+			if(const auto * executable = inst.as<inst::ExecInst>()) {
+				ss << print_instruction(*executable);
+			}
+			else if(const auto * label = inst.as<inst::Label>()) {
+				ss << print_instruction(*label);
+			}
 
-			ss << std::visit([] (auto & inst) {
-				return print_args(inst);
-			}, inst.args);
+			const auto args = inst.args();
+			ss << std::visit([] (const auto & args) {
+				return print_args(args);
+			}, args);
 
 			ss << "\n";
 		}

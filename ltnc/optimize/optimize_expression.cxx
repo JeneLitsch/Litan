@@ -1,26 +1,26 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
-namespace ltn::c::optimize {
-	ast::expr_ptr expression(ast::Expression & expr) {
+namespace ltn::c {
+	ast::expr_ptr optimize_expression(ast::Expression & expr) {
 		if(auto e = as<ast::Primary>(expr)) {
-			return primary(*e);
+			return optimize_primary(*e);
 		}
 		if(auto e = as<ast::Unary>(expr)) {
-			return unary(*e);
+			return optimize_unary(*e);
 		}
 		if(auto e = as<ast::Binary>(expr)) {
-			return binary(*e);
+			return optimize_binary(*e);
 		}
 		if(auto e = as<ast::Ternary>(expr)) {
-			return ternary(*e);
+			return optimize_ternary(*e);
 		}
 		return nullptr;
 	}
 
 
 
-	ast::expr_ptr expression(ast::expr_ptr expr) {
-		if(auto e = expression(*expr)) {
+	ast::expr_ptr optimize_expression(ast::expr_ptr expr) {
+		if(auto e = optimize_expression(*expr)) {
 			return e;
 		}
 		return expr;

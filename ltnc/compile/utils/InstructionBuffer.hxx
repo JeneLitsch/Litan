@@ -23,6 +23,10 @@ namespace ltn::c {
 		const std::vector<ltn::inst::Instruction> & get() const {
 			return array;
 		}
+
+		void clear() {
+			this->array.clear();
+		}
 	private:
 		std::vector<ltn::inst::Instruction> array;
 	};

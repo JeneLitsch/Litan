@@ -1,7 +1,7 @@
 #pragma once
 #include "ltnc/ast/Ast.hxx"
 #include "to_node_type.hxx"
-namespace ltn::c::optimize {
+namespace ltn::c {
 
 
 

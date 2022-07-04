@@ -117,13 +117,13 @@ namespace ltn::a {
 
 		void assemble_opcode(
 			std::vector<std::uint8_t> & bytecode,
-			const auto & inst,
+			const inst::ExecInst & inst,
 			const AddressTable &) {
-			bytecode.push_back(static_cast<std::uint8_t>(inst.opcode));
+			bytecode.push_back(static_cast<std::uint8_t>(inst.get_opcode()));
 		}
 		void assemble_opcode(
 			std::vector<std::uint8_t> &,
-			const inst::Instruction::LabelType &,
+			const inst::Label &,
 			const AddressTable &) {}
 	}
 
@@ -136,13 +136,17 @@ namespace ltn::a {
 		std::vector<std::uint8_t> bytecode;
 
 		for(const auto & inst : instructions) {
-			std::visit([&jump_table, &bytecode] (auto & inst) {
-				return assemble_opcode(bytecode, inst, jump_table);
-			}, inst.type);
+			if(auto executable = inst.as<inst::ExecInst>()) {
+				assemble_opcode(bytecode, *executable, jump_table);
+			}
+			else if(auto label = inst.as<inst::Label>()) {
+				assemble_opcode(bytecode, *label, jump_table);
+			}
 
-			std::visit([&jump_table, &bytecode] (auto & inst) {
-				return assemble_args(bytecode, inst, jump_table);
-			}, inst.args);
+			const auto args = inst.args();
+			std::visit([&jump_table, &bytecode] (auto & args) {
+				return assemble_args(bytecode, args, jump_table);
+			}, args);
 		}
 
 		return bytecode;

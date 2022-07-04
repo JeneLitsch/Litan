@@ -69,6 +69,6 @@ misc=(
 
 # ./bin/ltn ${core_tests[*]} ${stdlib_tests[*]} ${misc[*]}
 
-./bin/ltnc  tmp/asm ${core_tests[*]} ${stdlib_tests[*]} ${misc[*]}
+./bin/ltnc -o tmp/asm ${core_tests[*]} ${stdlib_tests[*]} ${misc[*]}
 ./bin/ltna 	tmp/bin tmp/asm
 ./bin/ltnvm tmp/bin %Hello %%World 123

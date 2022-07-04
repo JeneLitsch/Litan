@@ -1,6 +1,6 @@
 #pragma once
 #include "ltnc/ast/Ast.hxx"
-namespace ltn::c::optimize {
+namespace ltn::c {
 	template<typename T>
 	struct node {
 	};

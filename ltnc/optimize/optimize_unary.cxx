@@ -1,8 +1,9 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
 #include "eval/eval_unary.hxx"
-namespace ltn::c::optimize {
+namespace ltn::c {
 	namespace {
+		
 		template<ast::Unary::Type op>
 		bool is_op_type(const ast::Unary & unary) {
 			return unary.type == op;
@@ -26,9 +27,9 @@ namespace ltn::c::optimize {
 
 	
 	
-	ast::expr_ptr unary(ast::Unary & unary) {
+	ast::expr_ptr optimize_unary(ast::Unary & unary) {
 		auto & inner = unary.expression;
-		inner = expression(std::move(inner));
+		inner = optimize_expression(std::move(inner));
 		if(is_neg(unary)) {
 			if(auto expr = eval<Negation, ast::Bool>(*inner))    return expr;
 			if(auto expr = eval<Negation, ast::Char>(*inner))    return expr;

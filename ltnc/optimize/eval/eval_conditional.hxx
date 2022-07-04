@@ -1,5 +1,5 @@
 #include "ltn/casts.hxx"
-namespace ltn::c::optimize {
+namespace ltn::c {
 	template<typename Parent>
 	auto pick_branch(bool is_true, Parent & parent) {
 		if(is_true) {

@@ -21,9 +21,6 @@
 using namespace std::string_view_literals;
 
 namespace ltn::c {
-
-
-
 	ast::Program parse(
 		std::vector<Source> sources,
 		const Config & config,
@@ -37,7 +34,7 @@ namespace ltn::c {
 			lex::Lexer lexer{in, sourcename, reporter};
 			try {
 				auto source = parse_source(lexer);
-				auto t_unit = unfold::source(std::move(source));
+				auto t_unit = unfold_source(std::move(source));
 				for(auto && fx : t_unit->functions) {
 					program.functions.push_back(std::move(fx));
 				}
@@ -80,80 +77,38 @@ namespace ltn::c {
 
 #include "compile/compile.hxx"
 #include <iostream>
-#include "ltn/InstructionSet.hxx"
 #include "print/print.hxx"
 
 namespace ltn::c {
 	namespace {
-		void startup_code(std::ostream & out, FxTable & fx_table) {
+		InstructionBuffer startup_code(FxTable & fx_table) {
 			// Jump to main()
 			if(const auto fxmain = fx_table.resolve("main", {}, 0)) {
-				const auto code = std::to_array<ltn::inst::Instruction>({
-					ltn::inst::Call{fxmain->id},
-					ltn::inst::Exit{}
-				});
-				out << print(code);
+				InstructionBuffer buf;
+				buf << ltn::inst::Call{fxmain->id};
+				buf << ltn::inst::Exit{};
+				return buf;
 			}
 			// Jump to main()
 			else if(const auto fxmain = fx_table.resolve("main", {}, 1)) {
-				const auto code = std::to_array<ltn::inst::Instruction>({
-					ltn::inst::Call{fxmain->id},
-					ltn::inst::Exit{}
-				});
-				out << print(code);
+				InstructionBuffer buf;
+				buf << ltn::inst::Call{fxmain->id};
+				buf << ltn::inst::Exit{};
+				return buf;
 			}
 			else {
 				throw CompilerError {"main() is undefined", {}};
 			}
 		}
-
-
-		void op_chain_code(std::ostream & out) {
-			out << 
-				":_lambda_chain\n"
-				"parameters 3\n"
-				"read_1\n"
-				"read_2\n"
-				"read_0\n"
-				"newarr 1\n"
-				"invoke\n"
-				"newarr 1\n"
-				"invoke\n"
-				"return\n"
-				"\n";
-
-			out << 
-				":_op_chain\n"
-				"parameters 2\n"
-				"newfx _lambda_chain 1\n"
-				"read_0\n"
-				"capture\n"
-				"read_1\n"
-				"capture\n"
-				"return\n"
-				"\n";
-		}
-
-
-		void op_pipe_code(std::ostream & out) {
-			static const auto code = std::to_array<ltn::inst::Instruction>({
-				ltn::inst::Label{"_op_pipe"},
-				ltn::inst::Newarr{1},
-				ltn::inst::Invoke{},
-				ltn::inst::Return{},
-			});
-
-			out << print(code);
-		}
 	}
 
 	// compiles source
-	std::string compile(
+	std::vector<ltn::inst::Instruction> compile(
 		const ast::Program & program,
 		const Config & config,
 		Reporter & reporter) {
 		
-		std::stringstream out;
+		InstructionBuffer buf;
 		GlobalTable global_table;
 		FxTable fx_table;
 		MemberTable member_table;
@@ -173,9 +128,7 @@ namespace ltn::c {
 		}
 
 		try {
-			startup_code(out, fx_table);
-			op_chain_code(out);
-			op_pipe_code(out);
+			buf << startup_code(fx_table);
 		}
 		catch(const CompilerError & error) {
 			reporter.push(error);
@@ -183,13 +136,13 @@ namespace ltn::c {
 
 		for(const auto & function : program.functions) {
 			try {
-				out << print(compile_functional(*function, info).get()); 
+				buf << compile_functional(*function, info); 
 			}
 			catch(const CompilerError & error) {
 				reporter.push(error);
 			}
 		}
 
-		return out.str();
+		return buf.get();
 	}
 }

@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <memory>
 #include <variant>
 #include "stdxx/float64_t.hxx"
 #include "stdxx/string_literal.hxx"
@@ -11,6 +12,7 @@
 namespace ltn::inst {
 	struct InstCore {
 		virtual ~InstCore() = default;
+		virtual args::Args get_args() const = 0;
 	};
 
 
@@ -19,11 +21,14 @@ namespace ltn::inst {
 		Label(const std::string & str = "") : InstCore{}, args{str} {} 
 		args::Target args;
 		inline constexpr static auto name = ":";
+		virtual args::Args get_args() const override {
+			return args;
+		}
 	};
 
 
 
-	struct NormalInst : InstCore {
+	struct ExecInst : InstCore {
 		virtual const char * get_name() const = 0;
 		virtual OpCode get_opcode() const = 0;
 	};
@@ -31,7 +36,7 @@ namespace ltn::inst {
 
 
 	template<OpCode OPCODE, stx::string_literal NAME, typename Args>
-	struct GenericInst : NormalInst {
+	struct GenericInst : ExecInst {
 		inline constexpr static auto opcode = OPCODE;
 		inline constexpr static auto name = NAME;
 
@@ -44,6 +49,10 @@ namespace ltn::inst {
 
 		virtual OpCode get_opcode() const override {
 			return opcode;
+		}
+
+		virtual args::Args get_args() const override {
+			return args;
 		}
 
 		Args args;
@@ -194,25 +203,21 @@ namespace ltn::inst {
 	using MemberRead = GenericInst<OpCode::MEMBER_READ, "member_read", args::Uint64>;
 	using MemberWrite = GenericInst<OpCode::MEMBER_WRITE, "member_write", args::Uint64>;
 
-	struct Instruction {
-		struct InstType {
-			OpCode opcode;
-			std::string_view name;
-		};
+	class Instruction {
+	public:
+		template<typename T>
+		Instruction(const T & i) : ptr{std::make_unique<T>(i)} {}
 
-		struct LabelType {
+		template<typename T> 
+		const T * as() const {
+			return dynamic_cast<const T *>(ptr.get());
+		}
 
-		};
+		args::Args args() const {
+			return ptr->get_args();
+		}
 
-		Instruction(const Label & label) :
-			type(LabelType{}),
-			args(label.args) {}
-
-		Instruction(const auto & i) :
-			type(InstType{i.get_opcode(), i.get_name()}),
-			args(i.args) {}
-
-		std::variant<InstType, LabelType> type;
-		args::Args args;
+	private:
+		std::shared_ptr<InstCore> ptr;
 	};
 }

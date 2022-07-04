@@ -1,6 +1,6 @@
 #include "unfold.hxx"
 
-namespace ltn::c::unfold {
+namespace ltn::c {
 	namespace {
 		ast::stmt_ptr new_struct(const SourceLocation & loc) {
 			auto call = std::make_unique<ast::Call>(
@@ -25,7 +25,7 @@ namespace ltn::c::unfold {
 
 
 
-	ast::func_ptr preset(ast::prst_ptr preset) {
+	ast::func_ptr unfold_preset(ast::prst_ptr preset) {
 		std::vector<ast::stmt_ptr> statements;
 		ast::Parameters parameters;
 		statements.push_back(new_struct(preset->location));

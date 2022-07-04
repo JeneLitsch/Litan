@@ -35,9 +35,13 @@ int main(int argc, char const *argv[]){
 		}
 		auto program = ltn::c::parse(std::move(sources), config, reporter);
 		if(args.is_set("-o")) {
-			ltn::c::optimize::optimize(program);
+			ltn::c::optimize(program);
 		}
-		ofile << ltn::c::compile(program, config, reporter);
+		auto instuctions = ltn::c::compile(program, config, reporter);
+		if(args.is_set("-o")) {
+			instuctions = ltn::c::peephole(instuctions);
+		}
+		ofile << ltn::c::print(instuctions);
 		reporter.may_throw();
 		std::cout << "Done!" << "\n";
 	}

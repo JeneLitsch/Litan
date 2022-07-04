@@ -1,7 +1,7 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
 #include "eval/eval_binary.hxx"
-namespace ltn::c::optimize {
+namespace ltn::c {
 	namespace {
 		template<ast::Binary::Type op>
 		bool is_op_type(const ast::Binary & binary) {
@@ -64,11 +64,11 @@ namespace ltn::c::optimize {
 
 
 
-	ast::expr_ptr binary(ast::Binary & binary) {
+	ast::expr_ptr optimize_binary(ast::Binary & binary) {
 		auto & l = binary.l;
 		auto & r = binary.r;
-		l = expression(std::move(l));
-		r = expression(std::move(r));
+		l = optimize_expression(std::move(l));
+		r = optimize_expression(std::move(r));
 		
 		if(is_add(binary)) {
 			if(auto expr = eval_arith<Addition>(*l, *r)) return expr;

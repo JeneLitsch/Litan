@@ -2,7 +2,7 @@
 
 #include "ltn/InstructionSet.hxx"
 
-namespace ltn::c::peephole {
-	std::vector<ltn::inst::Instruction> optimize(
+namespace ltn::c {
+	std::vector<ltn::inst::Instruction> peephole(
 		const std::vector<ltn::inst::Instruction> & input);
 }

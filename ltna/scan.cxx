@@ -9,12 +9,13 @@ namespace ltn::a {
 			auto get_size = [] (auto & args) {
 				return inst::args::size(args);
 			};
-			position += std::visit(get_size, inst.args);
-			if(auto label = std::get_if<inst::args::Target>(&inst.args)) {
-				if(table.contains(label->name)) throw std::runtime_error {
-					"Redefinition of label " + label->name
+			const auto args = inst.args();
+			position += std::visit(get_size, args);
+			if(auto label = inst.as<inst::Label>()) {
+				if(table.contains(label->args.name)) throw std::runtime_error {
+					"Redefinition of label " + std::string(label->args.name)
 				};
-				table.insert({label->name, position});
+				table.insert({label->args.name, position});
 			}
 		}
 		return table;

@@ -1,30 +1,30 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
 #include "eval/eval_conditional.hxx"
-namespace ltn::c::optimize {
+namespace ltn::c {
 	namespace {
-		ast::stmt_ptr unary_statement(auto & stmt) {
+		ast::stmt_ptr optimize_unary_statement(auto & stmt) {
 			if(stmt.expression) {
-				stmt.expression = expression(std::move(stmt.expression));
+				stmt.expression = optimize_expression(std::move(stmt.expression));
 			}
 			return nullptr;
 		} 
 
 
-		ast::stmt_ptr block(ast::Block & block) {
+		ast::stmt_ptr optimize_block(ast::Block & block) {
 			for(auto & stmt : block.statements) {
-				stmt = statement(std::move(stmt));
+				stmt = optimize_statement(std::move(stmt));
 			}
 			return nullptr;
 		}
 
 
 
-		ast::stmt_ptr if_else(ast::IfElse & stmt) {
-			stmt.condition = expression(std::move(stmt.condition));
-			stmt.if_branch = statement(std::move(stmt.if_branch));
+		ast::stmt_ptr optimize_if_else(ast::IfElse & stmt) {
+			stmt.condition = optimize_expression(std::move(stmt.condition));
+			stmt.if_branch = optimize_statement(std::move(stmt.if_branch));
 			if(stmt.else_branch) {
-				stmt.else_branch = statement(std::move(stmt.else_branch));
+				stmt.else_branch = optimize_statement(std::move(stmt.else_branch));
 			}
 
 			if(auto expr = pre_decide<ast::Null>(stmt))    return expr;
@@ -46,9 +46,9 @@ namespace ltn::c::optimize {
 
 
 
-		ast::stmt_ptr while_loop(ast::While & stmt) {
-			stmt.condition = expression(std::move(stmt.condition));
-			stmt.body = statement(std::move(stmt.body));
+		ast::stmt_ptr optimize_while_loop(ast::While & stmt) {
+			stmt.condition = optimize_expression(std::move(stmt.condition));
+			stmt.body = optimize_statement(std::move(stmt.body));
 
 			if(is_truthy<ast::Null>(*stmt.condition))    return to_infinite(stmt);
 			if(is_truthy<ast::Bool>(*stmt.condition))    return to_infinite(stmt);
@@ -63,48 +63,48 @@ namespace ltn::c::optimize {
 
 		
 		
-		ast::stmt_ptr for_loop(ast::For & stmt) {
-			stmt.from = expression(std::move(stmt.from));
-			stmt.to = expression(std::move(stmt.to));
-			stmt.body = statement(std::move(stmt.body));
+		ast::stmt_ptr optimize_for_loop(ast::For & stmt) {
+			stmt.from = optimize_expression(std::move(stmt.from));
+			stmt.to = optimize_expression(std::move(stmt.to));
+			stmt.body = optimize_statement(std::move(stmt.body));
 			return nullptr;
 		}
 	}
 
 
 
-	ast::stmt_ptr statement(ast::Statement & stmt) {
+	ast::stmt_ptr optimize_statement(ast::Statement & stmt) {
 		if(auto s = as<ast::StatementExpression>(stmt)) {
-			return unary_statement(*s);
+			return optimize_unary_statement(*s);
 		}
 		if(auto s = as<ast::Return>(stmt)) {
-			return unary_statement(*s);
+			return optimize_unary_statement(*s);
 		}
 		if(auto s = as<ast::NewVar>(stmt)) {
-			return unary_statement(*s);
+			return optimize_unary_statement(*s);
 		}
 		if(auto s = as<ast::Throw>(stmt)) {
-			return unary_statement(*s);
+			return optimize_unary_statement(*s);
 		}
 		if(auto s = as<ast::Block>(stmt)) {
-			return block(*s);
+			return optimize_block(*s);
 		}
 		if(auto s = as<ast::IfElse>(stmt)) {
-			return if_else(*s);
+			return optimize_if_else(*s);
 		}
 		if(auto s = as<ast::While>(stmt)) {
-			return while_loop(*s);
+			return optimize_while_loop(*s);
 		}
 		if(auto s = as<ast::For>(stmt)) {
-			return for_loop(*s);
+			return optimize_for_loop(*s);
 		}
 		return nullptr;
 	}
 
 
 
-	ast::stmt_ptr statement(ast::stmt_ptr stmt) {
-		if(auto s = statement(*stmt)) {
+	ast::stmt_ptr optimize_statement(ast::stmt_ptr stmt) {
+		if(auto s = optimize_statement(*stmt)) {
 			return s;
 		}
 		return stmt;

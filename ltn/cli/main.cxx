@@ -34,9 +34,9 @@ int main(int argc, char const *argv[]) {
 
 			auto program = ltn::c::parse(std::move(sources), config, reporter);
 
-			std::stringstream ss { ltn::c::compile(program, config, reporter) };
+			const auto instructions = ltn::c::compile(program, config, reporter);
 			reporter.may_throw();
-			vm.setup(ltn::a::assemble(ss));
+			vm.setup(ltn::a::assemble(instructions));
 			auto x = vm.run(args);
 			std::cout << "Exit main() with return value: ";
 			std::cout << ltn::vm::cast::to_string(x, vm.get_heap());
