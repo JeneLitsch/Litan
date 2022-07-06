@@ -166,7 +166,22 @@ namespace ltn::vm {
 	}
 
 	const auto instructions_table = make_instruction_table();
- 
+
+
+	void LtnVM::setup(std::vector<std::uint8_t> code) {
+		if(code.size() < 2) {
+			throw std::runtime_error{"Not an executable program"};
+		}
+		if(!is_compatible(code[0])) {
+			throw std::runtime_error{"Incompatible bytecode version"};
+		}
+		this->core.byte_code = std::vector<std::uint8_t>{
+			std::begin(code) + 1,
+			std::end(code)
+		};
+		this->core.pc = 0;
+	}
+
 	void LtnVM::register_external(
 		std::int64_t id,
 		std::unique_ptr<ext::External> && ext) {

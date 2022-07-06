@@ -3,17 +3,14 @@
 #include <functional>
 #include "Exception.hxx"
 #include "VmCore.hxx"
+#include "ltn/version.hxx"
 
 namespace ltn::vm {
 	class LtnVM {
 	public:
 
 		LtnVM() {}
-		void setup(std::vector<std::uint8_t> code) {
-			this->core.byte_code = code;
-			this->core.pc = 0;
-		}
-
+		void setup(std::vector<std::uint8_t> code);
 		Value run(const std::vector<std::string> & args = {});
 
 		void register_external(

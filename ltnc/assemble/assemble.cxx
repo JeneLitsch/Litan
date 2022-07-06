@@ -1,6 +1,8 @@
 #include "assemble.hxx"
 #include "stdxx/casting.hxx"
 #include <iostream>
+#include "ltn/version.hxx"
+
 namespace ltn::c {
 	namespace {
 		using namespace ltn::inst::args;
@@ -134,6 +136,7 @@ namespace ltn::c {
 		const AddressTable & jump_table) {
 		
 		std::vector<std::uint8_t> bytecode;
+		bytecode.push_back(ltn::major_version);
 
 		for(const auto & inst : instructions) {
 			if(auto executable = inst.as<inst::ExecInst>()) {
