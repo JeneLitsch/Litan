@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ltnc/Ltnc.hxx"
-#include "ltna/Ltna.hxx"
 #include "ltnvm/LtnVM.hxx"
 
 namespace ltn {

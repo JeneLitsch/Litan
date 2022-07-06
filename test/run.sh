@@ -1,6 +1,5 @@
 op_tests=( 
 	"test/core_lang/op/add.ltn" 
-	"test/core_lang/op/approx.ltn" 
 	"test/core_lang/op/bitand.ltn" 
 	"test/core_lang/op/bitnot.ltn" 
 	"test/core_lang/op/bitor.ltn" 
@@ -21,7 +20,6 @@ op_tests=(
 	"test/core_lang/op/neg.ltn" 
 	"test/core_lang/op/nullco.ltn" 
 	"test/core_lang/op/nulltest.ltn" 
-	"test/core_lang/op/not_approx.ltn" 
 	"test/core_lang/op/pow.ltn" 
 	"test/core_lang/op/shift_l.ltn" 
 	"test/core_lang/op/shift_r.ltn" 
@@ -69,6 +67,5 @@ misc=(
 
 # ./bin/ltn ${core_tests[*]} ${stdlib_tests[*]} ${misc[*]}
 
-./bin/ltnc -o tmp/asm ${core_tests[*]} ${stdlib_tests[*]} ${misc[*]}
-./bin/ltna 	tmp/bin tmp/asm
+./bin/ltnc -o --asm tmp/bin ${core_tests[*]} ${stdlib_tests[*]} ${misc[*]}
 ./bin/ltnvm tmp/bin %Hello %%World 123

@@ -18,4 +18,7 @@ namespace ltn::c {
 		const ast::Program & program,
 		const Config & config,
 		Reporter & reporter);
+
+	std::vector<std::uint8_t> assemble(std::istream & in);
+	std::vector<std::uint8_t> assemble(const std::vector<inst::Instruction> & instructions);
 }

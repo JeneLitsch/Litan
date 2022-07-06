@@ -90,7 +90,6 @@ namespace ltn::inst {
 	using Dec = GenericInst<OpCode::DEC, "dec", args::None>;
 
 	using Comp = GenericInst<OpCode::COMP, "comp", args::None>;
-	using Approx = GenericInst<OpCode::APPROX, "approx", args::None>;
 	using Between = GenericInst<OpCode::BETWEEN, "between", args::None>;
 
 	using Newu = GenericInst<OpCode::NEWU, "newu", args::Uint64>;

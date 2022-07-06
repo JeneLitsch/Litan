@@ -68,8 +68,6 @@ namespace ltn::c {
 			static const inline auto data = std::array {
 				std::pair{TT::EQUAL,         OP::EQUAL},
 				std::pair{TT::UNEQUAL,       OP::UNEQUEL},
-				std::pair{TT::TILDEx2,       OP::APPROX},
-				std::pair{TT::XMARK_TILDE,   OP::NOTPROX},
 			};
 		};
 

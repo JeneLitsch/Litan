@@ -54,21 +54,12 @@ ltnc = [
 	"ltnc/parse",
 	"ltnc/unfold",
 	"ltnc/optimize",
+	"ltnc/assemble",
 ]
 ltncCli = [
 	"ltnc/cli",
 ]
 
-
-ltna = [
-	"ltna",
-	"ltna/linking",
-	"ltna/expand",
-	"ltna/assemble",
-]
-ltnaCli = [
-	"ltna/cli",
-]
 
 ltnvm = [
 	"ltnvm",
@@ -87,6 +78,5 @@ ltnCli = [
 ]
 
 env.Program('bin/ltnc', glob(ltnc + ltncCli))
-env.Program('bin/ltna', glob(ltna + ltnaCli))
 env.Program('bin/ltnvm', glob(ltnvm + ltnvmCli))
-env.Program('bin/ltn', glob(ltnc + ltna + ltnvm + ltnCli))
+env.Program('bin/ltn', glob(ltnc + ltnvm + ltnCli))

@@ -41,7 +41,14 @@ int main(int argc, char const *argv[]){
 		if(args.is_set("-o")) {
 			instuctions = ltn::c::peephole(instuctions);
 		}
-		ofile << ltn::c::print(instuctions);
+		auto bytecode = ltn::c::assemble(instuctions);
+		for(auto byte : bytecode) {
+			ofile << byte;
+		}
+		if(args.is_set("--asm")) {
+			std::ofstream asm_file{std::filesystem::path{args.get_target()}.replace_extension(".asm")};
+			asm_file << ltn::c::print(instuctions);
+		}
 		reporter.may_throw();
 		std::cout << "Done!" << "\n";
 	}

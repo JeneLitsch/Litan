@@ -1,9 +1,9 @@
 #include "assemble.hxx"
 #include "stdxx/casting.hxx"
 #include <iostream>
-namespace ltn::a {
+namespace ltn::c {
 	namespace {
-		using namespace inst::args;
+		using namespace ltn::inst::args;
 		auto to_bytes(std::unsigned_integral auto value) {
 			constexpr static auto SIZE = sizeof(value) / sizeof(std::uint8_t);
 			std::array<std::uint8_t, SIZE> bytes;

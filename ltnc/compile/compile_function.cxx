@@ -16,7 +16,7 @@ namespace ltn::c {
 
 		const std::string jumpmark_except(const std::string_view name) {
 			std::stringstream ss;
-			ss << ":" << name << "_EXCEPT\n";
+			ss << name << "_EXCEPT\n";
 			return ss.str(); 
 		}
 

@@ -134,8 +134,6 @@ namespace ltn::c {
 			case OP::EQUAL:        return bin(l, r, ltn::inst::Eql{});
 			case OP::UNEQUEL:      return bin(l, r, ltn::inst::Ueql{});
 			case OP::SPACE_SHIP:   return bin(l, r, ltn::inst::Comp{});
-			case OP::APPROX:       return bin(l, r, ltn::inst::Approx{});
-			case OP::NOTPROX:      return bin(l, r, ltn::inst::Approx{}, ltn::inst::Not{});
 			case OP::SHIFT_L:      return bin(l, r, ltn::inst::ShiftL{});
 			case OP::SHIFT_R:      return bin(l, r, ltn::inst::ShiftR{});
 			case OP::BIT_AND:      return bin(l, r, ltn::inst::Bitand{});

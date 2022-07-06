@@ -86,6 +86,10 @@ namespace ltn::c {
 			Pattern{}
 				.search(inst::Newi{1}, inst::Sub{})
 				.replace(inst::Dec{}),
+
+			Pattern{}
+				.search(inst::Return{}, inst::Null{}, inst::Return{})
+				.replace(inst::Return{}),
 		};
 
 		InstructionBuffer transform(std::span<const ltn::inst::Instruction> & span) {

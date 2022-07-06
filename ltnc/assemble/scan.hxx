@@ -4,7 +4,7 @@
 #include <cstdint>
 #include "ltn/InstructionSet.hxx"
 
-namespace ltn::a {
+namespace ltn::c {
 	using AddressTable = std::unordered_map<std::string, std::uint64_t>;
 
 	AddressTable scan(const std::vector<inst::Instruction> & instructions);

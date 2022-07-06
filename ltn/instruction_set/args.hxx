@@ -8,6 +8,8 @@
 namespace ltn::inst::args {
 	struct None {
 		constexpr inline static std::size_t size = 1;
+
+		bool operator==(const None &) const = default;
 	};
 
 	struct Uint64 {
@@ -15,6 +17,8 @@ namespace ltn::inst::args {
 		Uint64(auto v) : value{static_cast<std::uint64_t>(v)} {}
 		constexpr inline static std::size_t size = 9;
 		std::uint64_t value;
+
+		bool operator==(const Uint64 &) const = default;
 	};
 
 	struct Uint16 {
@@ -27,27 +31,37 @@ namespace ltn::inst::args {
 	struct Jump {
 		constexpr inline static std::size_t size = 9;
 		std::string name;
+
+		bool operator==(const Jump &) const = default;
 	};
 
 	struct Target {
 		constexpr inline static std::size_t size = 0;
 		std::string name;
+
+		bool operator==(const Target &) const = default;
 	};
 
 	struct Jump_Uint64 {
 		constexpr inline static std::size_t size = 17;
 		std::string name;
 		std::uint64_t value;
+
+		bool operator==(const Jump_Uint64 &) const = default;
 	};
 
 	struct Int64 {
 		constexpr inline static std::size_t size = 9;
 		std::int64_t value;
+
+		bool operator==(const Int64 &) const = default;
 	};
 
 	struct Float {
 		constexpr inline static std::size_t size = 9;
 		stx::float64_t value;
+		
+		bool operator==(const Float &) const = default;
 	};
 
 	struct Byte {
@@ -55,10 +69,14 @@ namespace ltn::inst::args {
 		Byte(auto v) : value{static_cast<std::uint8_t>(v)} {}
 		constexpr inline static std::size_t size = 2;
 		std::uint8_t value;
+	
+		bool operator==(const Byte &) const = default;
 	};
 
 	struct Uint64_BytexX {
 		std::vector<std::uint8_t> bytes;
+
+		bool operator==(const Uint64_BytexX &) const = default;
 	};
 
 	using Args = std::variant<
@@ -80,14 +98,4 @@ namespace ltn::inst::args {
 	inline std::size_t size(const Uint64_BytexX & args) {
 		return 9 + args.bytes.size();
 	}
-
-	inline auto operator==(const None &, const None &) {
-		return true;
-	}
-
-	template<typename T>
-	inline auto operator==(const T & l, const T & r) {
-		return l.value == r.value;
-	}
-
 }

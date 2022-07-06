@@ -126,8 +126,6 @@ function main(args) {
 	op::greater(sphinx);
 	op::greater_eql(sphinx);
 	op::space_ship(sphinx);
-	op::approx(sphinx);
-	op::not_approx(sphinx);
 
 	op::ternary(sphinx);
 	op::elvis(sphinx);

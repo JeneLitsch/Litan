@@ -1,3 +1,0 @@
-function main() {
-	std::println(std::array(4));
-}

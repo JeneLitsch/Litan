@@ -4,7 +4,7 @@
 #include <iostream>
 #include "stdxx/array.hxx"
 
-namespace ltn::a {
+namespace ltn::c {
 	namespace {
 		using namespace inst::args;
 		void parse_args(None &, std::istream & in) {}
@@ -102,7 +102,6 @@ namespace ltn::a {
 			create_entry<ltn::inst::Dec>(),
 			
 			create_entry<ltn::inst::Comp>(),
-			create_entry<ltn::inst::Approx>(),
 			create_entry<ltn::inst::Between>(), 
 			
 			create_entry<ltn::inst::Newu>(),

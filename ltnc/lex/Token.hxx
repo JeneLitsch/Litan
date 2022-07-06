@@ -88,8 +88,6 @@ namespace ltn::c::lex {
 			BIGGER_EQUAL,
 			SPACE_SHIP,
 			TILDE,
-			TILDEx2,
-			XMARK_TILDE,
 
 			RARROW,
 			DRARROW,

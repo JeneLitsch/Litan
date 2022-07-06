@@ -1,7 +1,7 @@
 #include "scan.hxx"
 #include <stdexcept>
 
-namespace ltn::a {
+namespace ltn::c {
 	AddressTable scan(const std::vector<inst::Instruction> & instructions) {
 		std::size_t position = 0;
 		AddressTable table;

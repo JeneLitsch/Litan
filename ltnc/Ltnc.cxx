@@ -4,6 +4,7 @@
 #include "parse/parse.hxx"
 #include "unfold/unfold.hxx"
 #include "optimize/optimize.hxx"
+#include "assemble/assemble.hxx"
 #include <string_view>
 #include "stdlib/algorithm.hxx"
 #include "stdlib/bits.hxx"
@@ -144,5 +145,12 @@ namespace ltn::c {
 		}
 
 		return buf.get();
+	}
+
+
+	std::vector<std::uint8_t> assemble(const std::vector<inst::Instruction> & instructions) {		
+		const auto jump_table = scan(instructions);
+		const auto bytecode = assemble(instructions, jump_table);
+		return bytecode;
 	}
 }
