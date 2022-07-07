@@ -18,13 +18,15 @@
 #include "stdlib/random.hxx"
 #include "stdlib/range.hxx"
 #include "stdlib/type.hxx"
+#include "compile/compile.hxx"
+#include <iostream>
+#include "print/print.hxx"
 
 using namespace std::string_view_literals;
 
 namespace ltn::c {
 	ast::Program parse(
 		std::vector<Source> sources,
-		const Config & config,
 		Reporter & reporter) {
 		ast::Program program;
 		
@@ -76,9 +78,7 @@ namespace ltn::c {
 }
 
 
-#include "compile/compile.hxx"
-#include <iostream>
-#include "print/print.hxx"
+
 
 namespace ltn::c {
 	namespace {
@@ -106,7 +106,6 @@ namespace ltn::c {
 	// compiles source
 	std::vector<ltn::inst::Instruction> compile(
 		const ast::Program & program,
-		const Config & config,
 		Reporter & reporter) {
 		
 		InstructionBuffer buf;
@@ -114,7 +113,6 @@ namespace ltn::c {
 		FxTable fx_table;
 		MemberTable member_table;
 		CompilerInfo info {
-			config,
 			fx_table,
 			global_table,
 			member_table,

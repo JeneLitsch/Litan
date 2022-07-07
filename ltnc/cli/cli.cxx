@@ -21,7 +21,6 @@ int main(int argc, char const *argv[]){
 
 		std::vector<ltn::c::Source> sources;
 		ltn::c::Reporter reporter;
-		ltn::c::Config config;
 		
 		for(const auto & source_path : args.get_sources()) {
 			sources.push_back(ltn::c::Source::make<std::fstream>(source_path, source_path));
@@ -33,11 +32,11 @@ int main(int argc, char const *argv[]){
 		if(!std::filesystem::exists(target)) {
 			throw ltn::c::CompilerError{"Cannot open " + target.string(), {}};
 		}
-		auto program = ltn::c::parse(std::move(sources), config, reporter);
+		auto program = ltn::c::parse(std::move(sources), reporter);
 		if(args.is_set("-o")) {
 			ltn::c::optimize(program);
 		}
-		auto instuctions = ltn::c::compile(program, config, reporter);
+		auto instuctions = ltn::c::compile(program, reporter);
 		if(args.is_set("-o")) {
 			instuctions = ltn::c::peephole(instuctions);
 		}

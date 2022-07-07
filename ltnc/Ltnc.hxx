@@ -1,5 +1,4 @@
 #pragma once
-#include "Config.hxx"
 #include "CompilerError.hxx"
 #include "Reporter.hxx"
 #include "Source.hxx"
@@ -11,12 +10,10 @@
 namespace ltn::c {
 	ast::Program parse(
 		std::vector<Source> sources,
-		const Config & config,
 		Reporter & reporter);
 
 	std::vector<ltn::inst::Instruction> compile(
 		const ast::Program & program,
-		const Config & config,
 		Reporter & reporter);
 
 	std::vector<std::uint8_t> assemble(std::istream & in);

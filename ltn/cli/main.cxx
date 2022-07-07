@@ -12,7 +12,6 @@ int main(int argc, char const *argv[]) {
 			return 0;
 		}
 		ltn::c::Reporter reporter;
-		ltn::c::Config config;
 		ltn::LtnVm vm;
 		try {
 
@@ -32,9 +31,8 @@ int main(int argc, char const *argv[]) {
 				}
 			}
 
-			auto program = ltn::c::parse(std::move(sources), config, reporter);
-
-			const auto instructions = ltn::c::compile(program, config, reporter);
+			auto program = ltn::c::parse(std::move(sources), reporter);
+			const auto instructions = ltn::c::compile(program, reporter);
 			reporter.may_throw();
 			vm.setup(ltn::c::assemble(instructions));
 			auto x = vm.run(args);

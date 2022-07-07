@@ -4,7 +4,6 @@
 #include <atomic>
 #include "ltn/casts.hxx"
 #include "ltn/unique.hxx"
-#include "ltnc/Config.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
 #include "ltnc/ast/Ast.hxx"
@@ -15,7 +14,6 @@
 
 namespace ltn::c {
 	struct CompilerInfo {
-		const Config & config;
 		FxTable & fx_table;
 		GlobalTable & global_table;
 		MemberTable & member_table;

@@ -2,7 +2,6 @@
 #include <sstream>
 #include <span>
 #include "ltn/casts.hxx"
-#include "ltnc/Config.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
 #include "ltnc/ast/Ast.hxx"
