@@ -13,6 +13,11 @@ namespace ltn::c {
 			this->errors.push_back(error.what());
 		}
 
+		Reporter & operator<<(const auto & error) {
+			this->push(error);
+			return *this;
+		} 
+
 		void may_throw() const;
 	private:
 		std::vector<std::string> errors;

@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include "ltn/args.hxx"
 
 
 int main(int argc, char const *argv[]) {
@@ -14,28 +15,25 @@ int main(int argc, char const *argv[]) {
 		ltn::c::Reporter reporter;
 		ltn::LtnVm vm;
 		try {
+			stx::args::optional_list source_files {"-i"};
+			stx::args::optional_list main_args {"--args"};
+
+			stx::args::args{source_files, main_args}(argc, argv);
 
 			std::vector<std::string> args;
 			std::vector<ltn::c::Source> sources;
-			for(std::int64_t i = 1; i < argc; i++) {
-				std::string_view arg = argv[i];
-				if(arg.starts_with("%")) {
-					arg.remove_prefix(1);
-					args.push_back(std::string{arg});
-				} 
-				else {
-					sources.push_back(ltn::c::Source::make<std::ifstream>(
-						std::string{arg},
-						std::string{arg}
-					));
-				}
+			for(const auto & source_file : source_files.get()) {
+				sources.push_back(ltn::c::Source::make<std::ifstream>(
+					std::string{source_file},
+					std::string{source_file}
+				));
 			}
 
 			auto program = ltn::c::parse(std::move(sources), reporter);
 			const auto instructions = ltn::c::compile(program, reporter);
 			reporter.may_throw();
 			vm.setup(ltn::c::assemble(instructions));
-			auto x = vm.run(args);
+			auto x = vm.run(main_args.get());
 			std::cout << "Exit main() with return value: ";
 			std::cout << ltn::vm::cast::to_string(x, vm.get_heap());
 			std::cout << "\n";

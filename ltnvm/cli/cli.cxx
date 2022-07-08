@@ -4,56 +4,50 @@
 #include "ltnvm/external/External.hxx"
 #include "ltnvm/cast.hxx"
 #include "ltn/version.hxx"
+#include "ltn/args.hxx"
 
-class Test : public ltn::vm::ext::External {
-public:
-	Test() : External(2) {}
-	virtual void operator()(ltn::vm::ext::Api & api) override {
-		const auto a = api.parameter<std::string>(0); 
-		const auto b = api.parameter<std::string>(1); 
-		std::cout << a << "|" << b << "\n";
-		api.return_string("Hello World");
+
+std::vector<std::uint8_t> read_bytecode(const std::filesystem::path & path) {
+	std::ifstream file(path, std::ios::binary);
+	if(!file) {
+		std::ostringstream oss;
+		oss << "Cannot open " << path; 
+		throw std::runtime_error { oss.str() }; 
 	}
-};
+	return std::vector<std::uint8_t> {
+		std::istreambuf_iterator<char>(file),
+		std::istreambuf_iterator<char>()
+	};
+}
+
 
 int main(int argc, char const *argv[]) {
-	if(argc > 1) {
-		if(ltn::print_version(argv[1])) {
-			return 0;
-		}
-		else if(std::filesystem::exists(argv[1])) {
-			std::ifstream file(argv[1], std::ios::binary);
-			std::vector<std::uint8_t> bytecode{
-				std::istreambuf_iterator<char>(file),
-				std::istreambuf_iterator<char>()
-			};
-			std::vector<std::string> args;
-			for(std::size_t i = 2; i < static_cast<std::size_t>(argc); ++i) {
-				std::string_view arg = argv[i];
-				if(arg.starts_with("%")) {
-					arg.remove_prefix(1);
-				}
-				args.push_back(std::string{arg});
-			}
-			try {
-				ltn::vm::LtnVM vm;
-				vm.register_external(42, std::make_unique<Test>());
-				vm.setup(bytecode);
-				auto x = vm.run(args);
-				std::cout << "Exit main() with return value: ";
-				std::cout << ltn::vm::cast::to_string(x, vm.get_heap());
-				std::cout << "\n";
-				return EXIT_SUCCESS;
-			}
-			catch(const std::runtime_error & error) {
-				std::cout << "[VM-Error] " << error.what() << "\n";
-				return EXIT_FAILURE;
-			}
-		}
-		else {
-			std::cout << "[VM-Error] Cannot open: " << argv[1] << "\n";
-		}
+	if(argc <= 1) {
+		std::cerr << "[VM-Error] Needs a file to run\n";
+		return EXIT_FAILURE;
 	}
-	std::cout << "[VM-Error] Needs a file to run\n";
-	return EXIT_FAILURE;
+
+	if(ltn::print_version(argv[1])) return EXIT_SUCCESS;
+
+	try {
+		stx::args::mandatory binary_file;
+		stx::args::optional_list main_args { "--args" };
+		stx::args::args { binary_file, main_args } (argc, argv);
+
+		const auto bytecode = read_bytecode(binary_file.get());
+
+		ltn::vm::LtnVM vm;
+		vm.setup(bytecode);
+		auto x = vm.run(main_args.get());
+		std::cout
+			<< "Exit main() with return value: "
+			<< ltn::vm::cast::to_string(x, vm.get_heap())
+			<< "\n";
+		
+		return EXIT_SUCCESS;
+	}
+	catch(const std::runtime_error & error) {
+		std::cout << "[VM-Error] " << error.what() << "\n";
+		return EXIT_FAILURE;
+	}
 }

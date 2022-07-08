@@ -96,13 +96,20 @@ namespace test {
 
 		sphinx::run_test(sphinx, "Expressions", lambda(fx) => (fx)(), cases);
 	}
-}
 
+	function args(sphinx, args) {
+		var cases = [
+			sphinx::assert_result([args, ["Hello", "World", "123"]], true),
+		];
+		sphinx::run_test(sphinx, "Args", lambda(a, b) => a == b, cases);
+	}
+}
 
 
 function main(args) {
 	var sphinx = sphinx::init(std::cout());
 
+	test::args(sphinx, args);
 	op::add(sphinx);
 	op::sub(sphinx);
 	op::mlt(sphinx);

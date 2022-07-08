@@ -22,6 +22,10 @@ namespace ltn::c {
 		std::istream & stream() {
 			return *in;
 		}
+
+		operator bool() const {
+			return static_cast<bool>(*this->in);
+		}
 	private:
 		std::unique_ptr<std::istream> in;
 		std::string source_name;
