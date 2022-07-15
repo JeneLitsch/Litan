@@ -2,7 +2,6 @@
 #include "ltnc/CompilerError.hxx"
 #include <sstream>
 #include <bitset>
-#include "ltn/reading.hxx"
 namespace ltn::c {
 	namespace {
 		using TT = ltn::c::lex::Token::Type;

@@ -2,6 +2,7 @@
 #include "ltnvm/type_check.hxx"
 #include <iostream>
 #include <string>
+#include "stdxx/casting.hxx"
 
 namespace ltn::vm::inst {
 	void newi(VmCore & core){
@@ -10,7 +11,8 @@ namespace ltn::vm::inst {
 
 
 	void newf(VmCore & core){
-		core.reg.push(Value{core.fetch_uint(), Value::Type::FLOAT});
+		const std::uint64_t raw = core.fetch_uint();
+		core.reg.push(value::floating(stx::bitcast<stx::float64_t>(raw)));
 	}
 
 

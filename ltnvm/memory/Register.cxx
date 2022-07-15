@@ -1,5 +1,4 @@
 #include "Register.hxx"
-#include "Float.hxx"
 
 const std::vector<ltn::vm::Value> & ltn::vm::Register::get_container() const {
 	return this->stack;

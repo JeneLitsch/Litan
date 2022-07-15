@@ -11,6 +11,7 @@ namespace ltn {
 		return false;
 	}
 
+
 	inline constexpr std::uint8_t major_version = 3;
 
 	inline bool is_compatible(std::uint8_t version) {

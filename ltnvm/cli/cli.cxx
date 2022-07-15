@@ -5,6 +5,7 @@
 #include "ltnvm/cast.hxx"
 #include "ltn/version.hxx"
 #include "ltn/args.hxx"
+#include "stdxx/args.hxx"
 
 
 std::vector<std::uint8_t> read_bytecode(const std::filesystem::path & path) {
@@ -22,19 +23,37 @@ std::vector<std::uint8_t> read_bytecode(const std::filesystem::path & path) {
 
 
 int main(int argc, char const *argv[]) {
-	if(argc <= 1) {
-		std::cerr << "[VM-Error] Needs a file to run\n";
-		return EXIT_FAILURE;
+	stx::args args {argc, argv};
+
+	stx::option_description desc {
+		"Litan Virtual Machine [ltnvm] " + std::string{ltn::version},
+		"The Litan VM executes an previous compiled Litan bytecode file."
+	};
+
+	auto & exec = desc.add<stx::option_string>(
+		{"--exe"},
+		"Executable Bytecode",
+		"Path to an executable Litan bytecode file");
+
+	auto & flag_version = ltn::args::version(desc);
+	auto & flag_help    = ltn::args::help(desc);
+	auto & main_args    = ltn::args::main_args(desc);
+
+	args.parse_options(desc);
+
+	if(flag_version.is_set()) {
+		std::cout << "Litan: " << ltn::version << "\n";
+		return EXIT_SUCCESS;
+	}
+	if(flag_help.is_set()) {
+		std::cout << desc.describe(); 
+		return EXIT_SUCCESS;
 	}
 
-	if(ltn::print_version(argv[1])) return EXIT_SUCCESS;
+	exec.mandatory();
 
 	try {
-		stx::args::mandatory binary_file;
-		stx::args::optional_list main_args { "--args" };
-		stx::args::args { binary_file, main_args } (argc, argv);
-
-		const auto bytecode = read_bytecode(binary_file.get());
+		const auto bytecode = read_bytecode(exec.get());
 
 		ltn::vm::LtnVM vm;
 		vm.setup(bytecode);

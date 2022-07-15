@@ -2,7 +2,6 @@
 #include "ltnc/CompilerError.hxx"
 #include <sstream>
 #include <iostream>
-#include "ltn/printing.hxx"
 #include "namespace_resolution.hxx"
 
 namespace ltn::c {

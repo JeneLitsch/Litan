@@ -8,6 +8,7 @@
 #include "ltn/version.hxx"
 #include "Args.hxx"
 #include "ltn/args.hxx"
+#include "stdxx/args.hxx"
 
 std::vector<ltn::c::Source> read_sources(const auto & filepaths, ltn::c::Reporter & reporter) {
 	std::vector<ltn::c::Source> sources;
@@ -53,42 +54,82 @@ std::ofstream open_target(
 
 
 void output_asm(const std::filesystem::path & target, const auto & instructions) {
-	const auto asm_path = std::filesystem::path{target} .replace_extension(".asm");
-	std::ofstream asm_file { asm_path };
+	std::ofstream asm_file { target };
 	asm_file << ltn::c::print(instructions);
 }
 
 
 
 int main(int argc, char const *argv[]){
-	if(argc > 1) {
-		if(ltn::print_version(argv[1])) {
-			return 0;
-		}
+	stx::args args { argc, argv };
+
+	stx::option_description desc {
+		"Litan Compiler [ltnc] " + std::string(ltn::version),
+		"The Litan Compiler takes a number of Litan files and compiles them to an executable bytecode file for ltnvm." };
+
+	auto & flag_o = desc.add<stx::option_flag>(
+		{"-o"},
+		"Optimization",
+		"If this flag is set the compiler applies optimizations to the code");
+
+	auto & flag_asm = desc.add<stx::option_string>(
+		{"--asm"},
+		"File for assembly output",
+		"Use this option to generate human readable assembly code for debugging. The assembly code will be stored in sepcified file"
+	);
+
+	auto & flag_version = ltn::args::version(desc);
+	auto & flag_help    = ltn::args::help(desc);
+
+	auto & flag_exe = desc.add<stx::option_string>(
+		{"--exe"},
+		"Executable Bytecode",
+		"Specifies the output file for executable bytecode."
+	);
+
+	auto & flag_source = desc.add<stx::option_string_list>(
+		{"--src"},
+		"Source",
+		"Specifies a list of source files to compile."
+	);
+
+	args.parse_options(desc);
+
+	if(flag_version.is_set()) {
+		std::cout << "Litan: " << ltn::version << "\n";
+		return EXIT_SUCCESS;
 	}
+	if(flag_help.is_set()) {
+		std::cout << desc.describe(); 
+		return EXIT_SUCCESS;
+	}
+
+	flag_source.mandatory();
+
 	try {
-		stx::args::options options{std::array{"-o", "--asm"}};
-		stx::args::mandatory target;
-		stx::args::optional_list source_files{"-i"};
-
-		stx::args::args{ options, target, source_files } (argc, argv);
-
 		ltn::c::Reporter reporter;
 
-		auto sources = read_sources(source_files.get(), reporter);
-		auto ofile = open_target(target.get(), reporter);
+		auto sources = read_sources(flag_source.get(), reporter);
 		
 		auto program = ltn::c::parse(std::move(sources), reporter);
-		if(options.is_set("-o")) ltn::c::optimize(program);
+		if(flag_o.is_set()) ltn::c::optimize(program);
 		auto instructions = ltn::c::compile(program, reporter);
-		if(options.is_set("-o")) instructions = ltn::c::peephole(instructions);
+		if(flag_o.is_set()) instructions = ltn::c::peephole(instructions);
 		auto bytecode = ltn::c::assemble(instructions);
 
 		reporter.may_throw();
-		for(auto byte : bytecode) {
-			ofile << byte;
+
+		if(flag_exe.is_set()) {
+			auto ofile = open_target(flag_exe.get(), reporter);
+			for(auto byte : bytecode) {
+				ofile << byte;
+			}
 		}
-		if(options.is_set("--asm")) output_asm(target.get(), instructions);
+		
+		if(flag_asm.is_set()) {
+			output_asm(flag_asm.get(), instructions);
+		}
+		
 		std::cout << "Done!" << "\n";
 		return EXIT_SUCCESS;
 	}

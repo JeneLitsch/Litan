@@ -1,5 +1,4 @@
 #include "Stack.hxx"
-#include "Float.hxx"
 
 
 namespace ltn::vm {
