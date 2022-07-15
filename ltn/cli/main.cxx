@@ -22,6 +22,11 @@ int main(int argc, char const *argv[]) {
 		"Specifies a list of source files to interpret."
 	);
 
+	auto & flag_o = desc.add<stx::option_flag>(
+		{"-o"},
+		"Optimization",
+		"If this flag is set the compiler applies optimizations to the code");
+
 	auto & flag_version = ltn::args::version(desc);
 	auto & flag_help    = ltn::args::help(desc);
 	auto & main_args    = ltn::args::main_args(desc);
@@ -52,8 +57,13 @@ int main(int argc, char const *argv[]) {
 		}
 
 		auto program = ltn::c::parse(std::move(sources), reporter);
-		const auto instructions = ltn::c::compile(program, reporter);
+		if(flag_o.is_set()) ltn::c::optimize(program);
+		auto instructions = ltn::c::compile(program, reporter);
+		if(flag_o.is_set()) instructions = ltn::c::peephole(instructions);
+		auto bytecode = ltn::c::assemble(instructions);
+
 		reporter.may_throw();
+
 		vm.setup(ltn::c::assemble(instructions));
 		auto x = vm.run(main_args.get());
 		std::cout << "Exit main() with return value: ";
