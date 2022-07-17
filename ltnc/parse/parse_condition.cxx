@@ -7,7 +7,7 @@ namespace ltn::c {
 	}
 
 	// expression in (...) for e.g. if, while...
-	ast::expr_ptr parse_condition(lex::Lexer & lexer) {
+	ast::expr_ptr parse_condition(LexBuffer & lexer) {
 		if(!lexer.match(TT::PAREN_L)) {
 			throw CompilerError{"expected (", lexer.location()};
 		}

@@ -7,7 +7,7 @@ namespace ltn::c {
 		using OP = ltn::c::ast::Unary::Type;
 
 
-		std::optional<std::string> parse_member(lex::Lexer & lexer) {
+		std::optional<std::string> parse_member(LexBuffer & lexer) {
 			if(lexer.match(TT::DOT)) {
 				if(auto member = lexer.match(TT::INDENTIFIER)) {
 					return member->str;
@@ -25,7 +25,7 @@ namespace ltn::c {
 
 		// index operator
 		template<auto expression_fx>
-		std::unique_ptr<ast::Expression> parse_index(lex::Lexer & lexer) {
+		std::unique_ptr<ast::Expression> parse_index(LexBuffer & lexer) {
 			if(lexer.match(TT::BRACKET_L)) {
 				auto index = expression_fx(lexer);
 				if(lexer.match(TT::BRACKET_R)) {
@@ -41,7 +41,7 @@ namespace ltn::c {
 		// recursive right sided unary -> [i]
 		template<auto expression_fx>
 		std::unique_ptr<ast::Expression> parse_postfix(
-			lex::Lexer & lexer,
+			LexBuffer & lexer,
 			std::unique_ptr<ast::Expression> l) {
 
 			static constexpr auto postfix_fx = parse_postfix<expression_fx>;
@@ -72,7 +72,7 @@ namespace ltn::c {
 
 	// Operators - ! [i]
 	template<auto primary_fx, auto expr_fx>
-	std::unique_ptr<ast::Expression> parse_prefix(lex::Lexer & lexer) {
+	std::unique_ptr<ast::Expression> parse_prefix(LexBuffer & lexer) {
 		static constexpr auto unary_fx = parse_prefix<primary_fx, expr_fx>;
 		// left unary
 		const std::array table {
@@ -92,13 +92,13 @@ namespace ltn::c {
 
 
 
-	std::unique_ptr<ast::Expression> parse_unary(lex::Lexer & lexer) {
+	std::unique_ptr<ast::Expression> parse_unary(LexBuffer & lexer) {
 		return parse_prefix<parse_primary, parse_expression>(lexer);
 	}
 
 
 
-	std::unique_ptr<ast::Expression> parse_static_unary(lex::Lexer & lexer) {
+	std::unique_ptr<ast::Expression> parse_static_unary(LexBuffer & lexer) {
 		return parse_prefix<parse_static_primary, parse_static_expression>(lexer);
 	}
 }

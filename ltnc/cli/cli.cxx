@@ -110,8 +110,8 @@ int main(int argc, char const *argv[]){
 		ltn::c::Reporter reporter;
 
 		auto sources = read_sources(flag_source.get(), reporter);
-		
-		auto program = ltn::c::parse(std::move(sources), reporter);
+		auto lexer = ltn::c::tokenize(std::move(sources), reporter);
+		auto program = ltn::c::parse(lexer, reporter);
 		if(flag_o.is_set()) ltn::c::optimize(program);
 		auto instructions = ltn::c::compile(program, reporter);
 		if(flag_o.is_set()) instructions = ltn::c::peephole(instructions);

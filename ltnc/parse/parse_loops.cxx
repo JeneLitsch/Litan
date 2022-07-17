@@ -9,7 +9,7 @@ namespace ltn::c {
 
 
 	// parses while loop -> while(...)
-	ast::stmt_ptr parse_while_loop(lex::Lexer & lexer) {
+	ast::stmt_ptr parse_while_loop(LexBuffer & lexer) {
 		if(lexer.match(TT::WHILE)) {
 			auto expr = parse_condition(lexer);
 			auto body = parse_statement(lexer);
@@ -23,7 +23,7 @@ namespace ltn::c {
 
 
 	// parses while loop -> for i (a, b)
-	ast::stmt_ptr parse_for_loop(lex::Lexer & lexer) {
+	ast::stmt_ptr parse_for_loop(LexBuffer & lexer) {
 		if(lexer.match(TT::FOR)) {
 			if(!lexer.match(TT::PAREN_L)) {
 				throw CompilerError{"Expected (", lexer.location()};

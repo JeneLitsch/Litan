@@ -7,7 +7,7 @@ namespace ltn::c {
 		using TT = ltn::c::lex::Token::Type;
 	}
 	
-	void semicolon(lex::Lexer & lexer) {
+	void semicolon(LexBuffer & lexer) {
 		if(!lexer.match(TT::SEMICOLON)) {
 			throw CompilerError{"missing ;", lexer.location()};
 		}
@@ -19,7 +19,7 @@ namespace ltn::c {
 
 	template<class AstNodeType, TT tt>
 	// parses variable creation -> var a ...  
-	std::unique_ptr<AstNodeType> parse_initialize_variable(lex::Lexer & lexer) {
+	std::unique_ptr<AstNodeType> parse_initialize_variable(LexBuffer & lexer) {
 		if(lexer.match(tt)) {
 			auto name = parse_variable_name(lexer);
 			auto && r = parse_assign_r(lexer);
@@ -35,7 +35,7 @@ namespace ltn::c {
 	constexpr auto parse_new_variable = parse_initialize_variable<ast::NewVar, TT::VAR>;
 
 	// parses return statement -> return ...
-	ast::stmt_ptr parse_return(lex::Lexer & lexer) {
+	ast::stmt_ptr parse_return(LexBuffer & lexer) {
 		if(lexer.match(TT::RETURN)) {
 			if(lexer.match(TT::SEMICOLON)) {
 				return std::make_unique<ast::Return>(nullptr, lexer.location());
@@ -48,7 +48,7 @@ namespace ltn::c {
 	}
 
 
-	ast::stmt_ptr parse_throw(lex::Lexer & lexer) {
+	ast::stmt_ptr parse_throw(LexBuffer & lexer) {
 		if(lexer.match(TT::THROW)) {
 			std::unique_ptr<ast::Expression> expr = nullptr;
 			if(!lexer.match(TT::SEMICOLON)) {
@@ -63,7 +63,7 @@ namespace ltn::c {
 	}
 
 
-	ast::stmt_ptr parse_statement(lex::Lexer & lexer) {
+	ast::stmt_ptr parse_statement(LexBuffer & lexer) {
 		while(lexer.match(TT::SEMICOLON));
 		if(auto stmt = parse_block(lexer))        return stmt;
 		if(auto stmt = parse_if_else(lexer))      return stmt;

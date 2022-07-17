@@ -8,14 +8,14 @@ namespace ltn::c {
 
 
 
-		CompilerError expected(std::string token, const lex::Lexer & lexer) {
+		CompilerError expected(std::string token, const LexBuffer & lexer) {
 			return {"Expected " + token, lexer.location()};
 		}
 
 
 
 		template<auto top_presedence>
-		ast::expr_ptr parse_paren_base(lex::Lexer & lexer) {
+		ast::expr_ptr parse_paren_base(LexBuffer & lexer) {
 			if(lexer.match(TT::PAREN_L)) {
 				auto expr = top_presedence(lexer);
 				if(!lexer.match(TT::PAREN_R)) {
@@ -32,7 +32,7 @@ namespace ltn::c {
 
 
 		template<class TempType, TT tt, auto base>
-		ast::litr_ptr parse_integer(lex::Lexer & lexer) {
+		ast::litr_ptr parse_integer(LexBuffer & lexer) {
 			if(auto token = lexer.match(tt)) {
 				std::stringstream iss{token->str};
 				TempType value;
@@ -58,7 +58,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_character(lex::Lexer & lexer) {
+		ast::litr_ptr parse_character(LexBuffer & lexer) {
 			if(auto t = lexer.match(TT::CHAR)) {
 				const char chr = t->str.front();
 				return std::make_unique<ast::Char>(chr, lexer.location()); 
@@ -68,7 +68,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_null(lex::Lexer & lexer) {
+		ast::litr_ptr parse_null(LexBuffer & lexer) {
 			if(auto t = lexer.match(TT::NVLL)) {
 				return std::make_unique<ast::Null>(lexer.location()); 
 			}
@@ -77,7 +77,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_floating(lex::Lexer & lexer) {
+		ast::litr_ptr parse_floating(LexBuffer & lexer) {
 			if(auto token = lexer.match(TT::FLOAT)) {
 				std::istringstream iss{token->str};
 				stx::float64_t value;
@@ -89,7 +89,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_boolean(lex::Lexer & lexer) {
+		ast::litr_ptr parse_boolean(LexBuffer & lexer) {
 			if(auto token = lexer.match(TT::TRUE)) {
 				return std::make_unique<ast::Bool>(true, lexer.location()); 
 			}
@@ -101,14 +101,14 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_empty_array(lex::Lexer & lexer) {
+		ast::litr_ptr parse_empty_array(LexBuffer & lexer) {
 			return std::make_unique<ast::Array>(lexer.location());
 		}
 
 
 
 		template<auto element>
-		ast::litr_ptr parse_filled_array(lex::Lexer & lexer) {
+		ast::litr_ptr parse_filled_array(LexBuffer & lexer) {
 			auto array = std::make_unique<ast::Array>(lexer.location());
 			while(true) {
 				if(lexer.match(TT::___EOF___)) {
@@ -130,7 +130,7 @@ namespace ltn::c {
 
 
 		template<auto element>
-		ast::litr_ptr parse_array_base(lex::Lexer & lexer) {
+		ast::litr_ptr parse_array_base(LexBuffer & lexer) {
 			if(lexer.match(TT::BRACKET_L)) {
 				if(lexer.match(TT::BRACKET_R)) {
 					return parse_empty_array(lexer);
@@ -146,7 +146,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_string(lex::Lexer & lexer) {
+		ast::litr_ptr parse_string(LexBuffer & lexer) {
 			if(auto token = lexer.match(TT::STRING)) {
 				return std::make_unique<ast::String>(
 					token->str,
@@ -157,7 +157,7 @@ namespace ltn::c {
 
 
 
-		auto parse_parameters(lex::Lexer & lexer, auto fxParam) {
+		auto parse_parameters(LexBuffer & lexer, auto fxParam) {
 			if(lexer.match(TT::PAREN_R)) {
 				 return;
 			}
@@ -174,7 +174,7 @@ namespace ltn::c {
 
 
 
-		auto parse_parameters(lex::Lexer & lexer) {
+		auto parse_parameters(LexBuffer & lexer) {
 			std::vector<std::unique_ptr<ast::Expression>> parameters;
 			parse_parameters(lexer, [&] {
 				parameters.push_back(parse_expression(lexer));
@@ -184,7 +184,7 @@ namespace ltn::c {
 
 
 
-		auto parse_placeholder(lex::Lexer & lexer) {
+		auto parse_placeholder(LexBuffer & lexer) {
 			std::size_t parameters = 0;
 			parse_parameters(lexer, [&] {
 				if (!lexer.match(TT::UNDERSCORE)) {
@@ -197,7 +197,7 @@ namespace ltn::c {
 
 
 
-		std::pair<std::string, ast::Namespace> parse_symbol(lex::Lexer & lexer) {
+		std::pair<std::string, ast::Namespace> parse_symbol(LexBuffer & lexer) {
 			ast::Namespace namespaze;
 			if(lexer.match(TT::COLONx2)) {
 				namespaze.set_absolute();
@@ -222,7 +222,7 @@ namespace ltn::c {
 		ast::expr_ptr parse_call(
 			const auto & name,
 			const auto & namespaze,
-			lex::Lexer & lexer) {
+			LexBuffer & lexer) {
 			auto parameters = parse_parameters(lexer);
 			return std::make_unique<ast::Call>(
 				name,
@@ -242,7 +242,7 @@ namespace ltn::c {
 		ast::expr_ptr parse_global_value(
 			const auto & name,
 			const auto & namespaze,
-			lex::Lexer & lexer) {
+			LexBuffer & lexer) {
 			return std::make_unique<ast::GlobalValue>(
 				name,
 				namespaze,
@@ -251,7 +251,7 @@ namespace ltn::c {
 
 		
 
-		ast::expr_ptr parse_identifier(lex::Lexer & lexer) {
+		ast::expr_ptr parse_identifier(LexBuffer & lexer) {
 			const auto [name, namespaze] = parse_symbol(lexer);
 			if(lexer.match(TT::PAREN_L)) {
 				return parse_call(name, namespaze, lexer);
@@ -264,7 +264,7 @@ namespace ltn::c {
 
 
 
-		ast::expr_ptr parse_static_identifier(lex::Lexer & lexer) {
+		ast::expr_ptr parse_static_identifier(LexBuffer & lexer) {
 			const auto [name, namespaze] = parse_symbol(lexer);
 			if(lexer.match(TT::PAREN_L)) {
 				throw CompilerError{"Function calls are not allowed in static expression", lexer.location()};
@@ -274,7 +274,7 @@ namespace ltn::c {
 
 
 
-		ast::expr_ptr parse_fx_pointer(lex::Lexer & lexer) {
+		ast::expr_ptr parse_fx_pointer(LexBuffer & lexer) {
 			if(lexer.match(TT::AMPERSAND)) {
 				const auto [name, namespaze] = parse_symbol(lexer);
 				if(lexer.match(TT::PAREN_L)) {
@@ -289,7 +289,7 @@ namespace ltn::c {
 
 
 
-		ast::expr_ptr parse_static_iife(lex::Lexer & lexer) {
+		ast::expr_ptr parse_static_iife(LexBuffer & lexer) {
 			if(lexer.match(TT::IIFE)) {
 				throw CompilerError{"IIFEs are not allowed in static expression", lexer.location()};
 			}
@@ -298,7 +298,7 @@ namespace ltn::c {
 
 
 
-		ast::expr_ptr parse_static_invokation(lex::Lexer & lexer) {
+		ast::expr_ptr parse_static_invokation(LexBuffer & lexer) {
 			if(lexer.match(TT::RARROW)) {
 				throw CompilerError{"Cannot invoke function in static expression", lexer.location()};
 			}
@@ -307,7 +307,7 @@ namespace ltn::c {
 
 
 
-		ast::expr_ptr parse_iife(lex::Lexer & lexer) {
+		ast::expr_ptr parse_iife(LexBuffer & lexer) {
 			if(lexer.match(TT::IIFE)) {
 				auto body = parse_block(lexer);
 				return std::make_unique<ast::Iife>(
@@ -320,7 +320,7 @@ namespace ltn::c {
 
 
 
-	ast::litr_ptr parse_integral(lex::Lexer & lexer) {
+	ast::litr_ptr parse_integral(LexBuffer & lexer) {
 		if(auto expr = parse_integer_dec(lexer)) return expr;
 		if(auto expr = parse_integer_bin(lexer)) return expr;
 		if(auto expr = parse_integer_hex(lexer)) return expr;
@@ -330,7 +330,7 @@ namespace ltn::c {
 
 
 	// parses primary expression
-	ast::expr_ptr parse_static_primary(lex::Lexer & lexer) {
+	ast::expr_ptr parse_static_primary(LexBuffer & lexer) {
 		static constexpr auto parse_static_integral = parse_integral;
 		static constexpr auto parse_static_character = parse_character;
 		static constexpr auto parse_static_floating = parse_floating;
@@ -360,7 +360,7 @@ namespace ltn::c {
 
 
 	// parses primary expression
-	ast::expr_ptr parse_primary(lex::Lexer & lexer) {
+	ast::expr_ptr parse_primary(LexBuffer & lexer) {
 		if(auto expr = parse_integral(lexer)) return expr;
 		if(auto expr = parse_character(lexer)) return expr;
 		if(auto expr = parse_floating(lexer)) return expr;

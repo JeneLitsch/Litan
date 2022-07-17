@@ -6,7 +6,7 @@ namespace ltn::c {
 	}
 
 
-	ast::prst_ptr parse_preset(lex::Lexer & lexer, const ast::Namespace & namespaze) {
+	ast::prst_ptr parse_preset(LexBuffer & lexer, const ast::Namespace & namespaze) {
 		if(auto start = lexer.match(TT::PRESET)) {
 			const auto name = parse_preset_name(lexer);
 			std::vector<std::string> member_names;

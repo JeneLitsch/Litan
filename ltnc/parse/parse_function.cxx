@@ -12,7 +12,7 @@ namespace ltn::c {
 
 
 		// Returns a array of all parameters
-		ast::Parameters parse_basic_parameters(lex::Lexer & lexer) {
+		ast::Parameters parse_basic_parameters(LexBuffer & lexer) {
 			
 			if(lexer.match(TT::PAREN_R)) {
 				return {};
@@ -33,13 +33,13 @@ namespace ltn::c {
 
 
 
-		ast::Parameters parse_optional_parameters(lex::Lexer & lexer) {
+		ast::Parameters parse_optional_parameters(LexBuffer & lexer) {
 			if(lexer.match(TT::PAREN_L)) return parse_basic_parameters(lexer);
 			return {};
 		}
 
 
-		ast::Parameters parse_mandatory_parameters(lex::Lexer & lexer) {
+		ast::Parameters parse_mandatory_parameters(LexBuffer & lexer) {
 			if(lexer.match(TT::PAREN_L)) return parse_basic_parameters(lexer);
 			throw ltn::c::CompilerError{"missing (", lexer.location()};
 		}
@@ -47,7 +47,7 @@ namespace ltn::c {
 
 
 		// Returns a array of all parameters
-		std::vector<std::unique_ptr<ast::Var>> parse_captures(lex::Lexer & lexer) {
+		std::vector<std::unique_ptr<ast::Var>> parse_captures(LexBuffer & lexer) {
 			if(!lexer.match(TT::BRACKET_L)) return {};
 
 			std::vector<std::unique_ptr<ast::Var>> captures{};
@@ -70,7 +70,7 @@ namespace ltn::c {
 
 
 
-		std::string parse_build_in_key(lex::Lexer & lexer) {
+		std::string parse_build_in_key(LexBuffer & lexer) {
 			if(!lexer.match(TT::AT)) {
 				throw CompilerError{
 					"Expected @ before build_in key",
@@ -88,7 +88,7 @@ namespace ltn::c {
 
 
 
-		ast::stmt_ptr parse_body(lex::Lexer & lexer) {
+		ast::stmt_ptr parse_body(LexBuffer & lexer) {
 			if(lexer.match(TT::DRARROW)) {
 				auto expr = parse_expression(lexer);
 				const auto & location = lexer.location();
@@ -101,7 +101,7 @@ namespace ltn::c {
 
 
 
-		std::unique_ptr<ast::Except> parse_except(lex::Lexer & lexer) {
+		std::unique_ptr<ast::Except> parse_except(LexBuffer & lexer) {
 			if(lexer.match(TT::EXCEPT)) {
 				auto params = parse_mandatory_parameters(lexer);
 				if(params.size() != 1) {
@@ -123,7 +123,7 @@ namespace ltn::c {
 		// parses and returns a function node
 		template<class FunctionalNode>
 		std::unique_ptr<FunctionalNode> functional_node(
-			lex::Lexer & lexer,
+			LexBuffer & lexer,
 			const ast::Namespace & namespaze,
 			auto parse_body) {
 			const auto name = parse_function_name(lexer);
@@ -161,7 +161,7 @@ namespace ltn::c {
 
 	// parses and returns a functional node
 	ast::func_ptr parse_functional(
-		lex::Lexer & lexer,
+		LexBuffer & lexer,
 		const ast::Namespace & namespaze) {
 
 		if(lexer.match(TT::FUNCTION)) {
@@ -183,7 +183,7 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_lambda(lex::Lexer & lexer) {
+	ast::expr_ptr parse_lambda(LexBuffer & lexer) {
 		if(lexer.match(TT::LAMBDA)) {
 			auto captures = parse_captures(lexer);
 			const auto parameters = parse_optional_parameters(lexer);

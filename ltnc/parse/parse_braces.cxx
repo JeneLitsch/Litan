@@ -7,7 +7,7 @@ namespace ltn::c {
 	}
 
 
-	void brace_l(lex::Lexer & lexer) {
+	void brace_l(LexBuffer & lexer) {
 		if(!lexer.match(TT::BRACE_L)) {
 			throw CompilerError{"Expected {", lexer.location()};
 		}
@@ -15,7 +15,7 @@ namespace ltn::c {
 
 
 
-	void brace_r(lex::Lexer & lexer) {
+	void brace_r(LexBuffer & lexer) {
 		if(!lexer.match(TT::BRACE_R)) {
 			throw CompilerError{"Expected }", lexer.location()};
 		}

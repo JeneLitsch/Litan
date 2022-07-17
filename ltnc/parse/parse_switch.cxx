@@ -7,7 +7,7 @@ namespace ltn::c {
 	}
 
 	template<typename NodeT, TT START_TOKEN, auto body_fx>
-	std::unique_ptr<NodeT> parse_any_switch(lex::Lexer & lexer) {
+	std::unique_ptr<NodeT> parse_any_switch(LexBuffer & lexer) {
 		if(lexer.match(START_TOKEN)) {
 			if(!lexer.match(TT::PAREN_L)) throw CompilerError {
 				"Expected (", lexer.location()
@@ -60,7 +60,7 @@ namespace ltn::c {
 
 
 
-	ast::stmt_ptr parse_stmt_switch(lex::Lexer & lexer) {
+	ast::stmt_ptr parse_stmt_switch(LexBuffer & lexer) {
 		auto sw1tch = parse_any_switch<ast::StmtSwitch, TT::SWITCH, parse_statement>(lexer);
 		if(sw1tch && !sw1tch->d3fault) {
 			sw1tch->d3fault = std::make_unique<ast::DoNothing>(lexer.location());
@@ -70,7 +70,7 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_expr_switch(lex::Lexer & lexer) {
+	ast::expr_ptr parse_expr_switch(LexBuffer & lexer) {
 		auto sw1tch = parse_any_switch<ast::ExprSwitch, TT::CHOOSE, parse_expression>(lexer);
 		if(sw1tch && !sw1tch->d3fault) {
 			sw1tch->d3fault = std::make_unique<ast::Null>(lexer.location());

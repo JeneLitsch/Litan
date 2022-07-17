@@ -6,7 +6,7 @@ namespace ltn::c {
 		using TT = ltn::c::lex::Token::Type;
 
 
-		CompilerError anonymous_namespace(const lex::Lexer & lexer) {
+		CompilerError anonymous_namespace(const LexBuffer & lexer) {
 			return CompilerError {
 				"Expected namespace name. Anonymous not supported",
 				lexer.location()};
@@ -14,7 +14,7 @@ namespace ltn::c {
 
 
 
-		CompilerError unknown_declaration(const lex::Lexer & lexer) {
+		CompilerError unknown_declaration(const LexBuffer & lexer) {
 			return CompilerError(
 				"Unknown declaration."
 				"Exprected function, namespace or asm-function.",
@@ -23,7 +23,7 @@ namespace ltn::c {
 
 
 
-		CompilerError unclosed_namespace(const lex::Lexer & lexer) {
+		CompilerError unclosed_namespace(const LexBuffer & lexer) {
 			return CompilerError {
 				"Unclosed namespace. Expected }",
 				lexer.location()};
@@ -31,7 +31,7 @@ namespace ltn::c {
 
 
 
-		CompilerError missing_brace_l(const lex::Lexer & lexer) {
+		CompilerError missing_brace_l(const LexBuffer & lexer) {
 			return CompilerError {
 				"Expected {",
 				lexer.location()};
@@ -39,7 +39,7 @@ namespace ltn::c {
 
 
 
-		CompilerError extra_brace_r(const lex::Lexer & lexer) {
+		CompilerError extra_brace_r(const LexBuffer & lexer) {
 			return CompilerError {
 				"Extra }",
 				lexer.location()};
@@ -48,7 +48,7 @@ namespace ltn::c {
 
 
 		// parses: namespace foo { ...
-		std::optional<std::string> open_namespace(lex::Lexer & lexer) {
+		std::optional<std::string> open_namespace(LexBuffer & lexer) {
 			if(lexer.match(TT::NAMESPACE)) {
 				if(auto name = lexer.match(TT::INDENTIFIER)) {
 					if(lexer.match(TT::BRACE_L)) {
@@ -65,7 +65,7 @@ namespace ltn::c {
 
 		// }
 		bool close_namespace(
-			lex::Lexer & lexer,
+			LexBuffer & lexer,
 			ast::Namespace & namespaze) {
 			if(lexer.match(TT::BRACE_R)) {
 				if(namespaze.empty()) {
@@ -79,7 +79,7 @@ namespace ltn::c {
 
 
 
-	ast::srce_ptr parse_source(lex::Lexer & lexer) {
+	ast::srce_ptr parse_source(LexBuffer & lexer) {
 		auto source = std::make_unique<ast::Source>();
 		auto & functions = source->functions;
 		auto & globals = source->globals;

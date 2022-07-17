@@ -6,10 +6,15 @@
 #include "optimize/optimize.hxx"
 #include "print/print.hxx"
 #include "peephole/peephole.hxx"
+#include "ltnc/lex/LexBuffer.hxx"
 
 namespace ltn::c {
-	ast::Program parse(
+	LexBuffer tokenize(
 		std::vector<Source> sources,
+		Reporter & reporter);
+
+	ast::Program parse(
+		LexBuffer & lexer,
 		Reporter & reporter);
 
 	std::vector<ltn::inst::Instruction> compile(

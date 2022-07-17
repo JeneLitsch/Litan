@@ -1,23 +1,12 @@
 #include "Ltnc.hxx"
 #include <vector>
-#include "lex/Lexer.hxx"
+#include "lex/LexBuffer.hxx"
 #include "parse/parse.hxx"
 #include "unfold/unfold.hxx"
 #include "optimize/optimize.hxx"
 #include "assemble/assemble.hxx"
 #include <string_view>
-#include "stdlib/algorithm.hxx"
-#include "stdlib/bits.hxx"
-#include "stdlib/cast.hxx"
-#include "stdlib/chrono.hxx"
-#include "stdlib/container.hxx"
-#include "stdlib/debug.hxx"
-#include "stdlib/functional.hxx"
-#include "stdlib/io.hxx"
-#include "stdlib/math.hxx"
-#include "stdlib/random.hxx"
-#include "stdlib/range.hxx"
-#include "stdlib/type.hxx"
+
 #include "compile/compile.hxx"
 #include <iostream>
 #include "print/print.hxx"
@@ -26,54 +15,18 @@ using namespace std::string_view_literals;
 
 namespace ltn::c {
 	ast::Program parse(
+		LexBuffer & lexer,
+		Reporter & reporter) {
+		
+		auto source = parse_source(lexer);
+		return std::move(*unfold_source(std::move(source)));
+	}
+
+	LexBuffer tokenize(
 		std::vector<Source> sources,
 		Reporter & reporter) {
-		ast::Program program;
-		
-		auto parse = [&program, &reporter] (
-			std::istream & in,
-			const std::string & sourcename) {
-			
-			lex::Lexer lexer{in, sourcename, reporter};
-			try {
-				auto source = parse_source(lexer);
-				auto t_unit = unfold_source(std::move(source));
-				for(auto && fx : t_unit->functions) {
-					program.functions.push_back(std::move(fx));
-				}
 
-				for(auto && e : t_unit->globals) {
-					program.globals.push_back(std::move(e));
-				}
-			}
-			catch(const CompilerError & error) {
-				reporter.push(error);
-			}
-		};
-		
-		auto parse_std = [&parse](auto code) {
-			std::istringstream iss{code};
-			parse(iss, "");
-		};
-
-		parse_std(std_algorithm);
-		parse_std(std_bits);
-		parse_std(std_cast);
-		parse_std(std_chrono);
-		parse_std(std_container);
-		parse_std(std_debug);
-		parse_std(std_functional);
-		parse_std(std_io);
-		parse_std(std_math);
-		parse_std(std_random);
-		parse_std(std_range);
-		parse_std(std_type);
-
-		for(auto & source : sources) {
-			parse(source.stream(), source.name());
-		}
-
-		return program;
+		return lex_sources(std::move(sources), reporter);
 	}
 }
 

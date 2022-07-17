@@ -118,7 +118,7 @@ namespace ltn::c {
 
 
 		template<auto presedence_down>
-		ast::expr_ptr binary_base(lex::Lexer & lexer) {
+		ast::expr_ptr binary_base(LexBuffer & lexer) {
 			static constexpr auto power       = generic_binary<power_table,       presedence_down>;
 			static constexpr auto factor      = generic_binary<factor_table,      power>;
 			static constexpr auto term        = generic_binary<term_table,        factor>;
@@ -139,13 +139,13 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_binary(lex::Lexer & lexer) {
+	ast::expr_ptr parse_binary(LexBuffer & lexer) {
 		return binary_base<parse_unary>(lexer);
 	}
 
 	
 
-	ast::expr_ptr parse_static_binary(lex::Lexer & lexer) {
+	ast::expr_ptr parse_static_binary(LexBuffer & lexer) {
 		return binary_base<parse_static_unary>(lexer);
 	}
 }
