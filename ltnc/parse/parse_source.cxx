@@ -86,36 +86,44 @@ namespace ltn::c {
 		auto & presets = source->presets;
 		auto & enums = source->enums;
 		ast::Namespace namespaze;
+		Reporter reporter;
 		while(!match(TT::___EOF___, tokens)) {
-			if(auto ns = open_namespace(tokens)) {
-				namespaze.push_back(*ns);
+			try {
+				if(auto ns = open_namespace(tokens)) {
+					namespaze.push_back(*ns);
+				}
+				else if(close_namespace(tokens, namespaze)) {
+					namespaze.pop_back();
+				}
+				else if(auto fx = parse_functional(tokens, namespaze)) {
+					functions.push_back(std::move(fx));
+				}
+				else if(auto global = parse_definition(tokens, namespaze)) {
+					globals.push_back(std::move(global));
+				}
+				else if(auto preset = parse_preset(tokens, namespaze)) {
+					presets.push_back(std::move(preset));
+				}
+				else if(match(TT::ENUM, tokens)) {
+					auto e = parse_enumeration(tokens, namespaze);
+					enums.push_back(std::move(e));
+				}			
+				else if(match(TT::___EOSRC___, tokens)) {
+					throw unclosed_namespace(tokens);	
+				}
+				else throw unknown_declaration(tokens);
+			
+				if(namespaze.empty()) match(TT::___EOSRC___, tokens);
 			}
-			else if(close_namespace(tokens, namespaze)) {
-				namespaze.pop_back();
+			catch(const CompilerError & error) {
+				reporter << error;
+				tokens.sync();
 			}
-			else if(auto fx = parse_functional(tokens, namespaze)) {
-				functions.push_back(std::move(fx));
-			}
-			else if(auto global = parse_definition(tokens, namespaze)) {
-				globals.push_back(std::move(global));
-			}
-			else if(auto preset = parse_preset(tokens, namespaze)) {
-				presets.push_back(std::move(preset));
-			}
-			else if(match(TT::ENUM, tokens)) {
-				auto e = parse_enumeration(tokens, namespaze);
-				enums.push_back(std::move(e));
-			}			
-			else if(match(TT::___EOSRC___, tokens)) {
-				throw unclosed_namespace(tokens);	
-			}
-			else throw unknown_declaration(tokens);
-		
-			if(namespaze.empty()) match(TT::___EOSRC___, tokens);
 		}
 		if(!namespaze.empty()) {
 			throw unclosed_namespace(tokens);
 		}
+		reporter.may_throw();
 		return source; 
 	}
 }
