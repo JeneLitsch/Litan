@@ -4,7 +4,7 @@
 
 namespace ltn::c {
 	namespace {
-		using TT = lex::Token::Type;
+		using TT = Token::Type;
 		using Op = ast::Modify::Type;
 
 

@@ -1,7 +1,21 @@
 #pragma once
+
 #include <string>
+#include <optional>
+#include <iostream>
+#include <span>
+#include <queue>
+
+#include "stdxx/array.hxx"
+#include "stdxx/queue.hxx"
+#include "stdxx/oop.hxx"
+
 #include "ltnc/SourceLocation.hxx"
-namespace ltn::c::lex {
+#include "ltnc/Reporter.hxx"
+#include "ltnc/Source.hxx"
+#include "ltnc/SourceLocation.hxx"
+
+namespace ltn::c {
 	struct Token {
 		enum class Type {
 			___EOF___,
@@ -102,4 +116,11 @@ namespace ltn::c::lex {
 		SourceLocation location;
 		static const Token end;
 	};
+
+	using Tokens = stx::closed_queue<Token>;
+
+
+	std::optional<Token> match(Token::Type type, Tokens & tokens);
+	void sync(Tokens & tokens);
+	const SourceLocation & location(const Tokens & tokens);
 }

@@ -3,7 +3,7 @@
 
 namespace ltn::c {
 	namespace {
-		using TT = ltn::c::lex::Token::Type;
+		using TT = Token::Type;
 	}
 
 	template<typename NodeT, TT START_TOKEN, auto body_fx>

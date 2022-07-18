@@ -3,7 +3,7 @@
 #include <iostream>
 namespace ltn::c {
 	namespace {
-		using TT = ltn::c::lex::Token::Type;
+		using TT = Token::Type;
 
 
 		CompilerError anonymous_namespace(const Tokens & tokens) {

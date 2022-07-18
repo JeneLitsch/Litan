@@ -3,6 +3,19 @@
 #include "ltnc/CompilerError.hxx"
 #include "WS.hxx"
 #include <sstream>
+#include "ltnc/stdlib/algorithm.hxx"
+#include "ltnc/stdlib/bits.hxx"
+#include "ltnc/stdlib/cast.hxx"
+#include "ltnc/stdlib/chrono.hxx"
+#include "ltnc/stdlib/container.hxx"
+#include "ltnc/stdlib/debug.hxx"
+#include "ltnc/stdlib/functional.hxx"
+#include "ltnc/stdlib/io.hxx"
+#include "ltnc/stdlib/math.hxx"
+#include "ltnc/stdlib/random.hxx"
+#include "ltnc/stdlib/range.hxx"
+#include "ltnc/stdlib/type.hxx"
+
 
 namespace ltn::c::lex {
 	namespace {
@@ -336,6 +349,56 @@ namespace ltn::c::lex {
 		}
 
 		throw CompilerError{"invalid token", location};
+	}
+
+
+		namespace {
+		std::vector<Token> lex_source(std::istream & in, std::string sourcename, Reporter & reporter) {
+			SourceLocation loc{1, sourcename};
+			std::vector<Token> tokens;
+			while (true) {
+				try {
+					Token t = lex::token(in, loc);
+					if(t.type == TT::___EOF___)  break;
+					tokens += t;
+				}
+				catch(const CompilerError & error) {
+					reporter.push(error);
+					in.ignore();
+				}
+			}
+			tokens += Token{TT::___EOSRC___, "___EOSRC___", loc};
+			return tokens;
+		}
+	}
+	
+
+	Tokens lex_sources(std::vector<Source> sources, Reporter & reporter) {
+		std::vector<Token> tokens;
+
+		std::istringstream stdlib { std::string()
+			+ std_algorithm
+			+ std_bits
+			+ std_cast
+			+ std_chrono
+			+ std_container
+			+ std_debug
+			+ std_functional
+			+ std_io
+			+ std_math
+			+ std_random
+			+ std_range
+			+ std_type
+		};
+
+		tokens += lex_source(stdlib, "stdlib", reporter);
+
+		for(auto & source : sources) {
+			tokens += lex_source(source.stream(), source.name(), reporter);
+		}
+		
+		tokens += Token::end;
+		return Tokens{ std::move(tokens) };
 	}
 }
 

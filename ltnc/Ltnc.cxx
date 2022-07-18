@@ -1,6 +1,5 @@
 #include "Ltnc.hxx"
 #include <vector>
-#include "lex/Tokens.hxx"
 #include "parse/parse.hxx"
 #include "unfold/unfold.hxx"
 #include "optimize/optimize.hxx"
@@ -26,7 +25,7 @@ namespace ltn::c {
 		std::vector<Source> sources,
 		Reporter & reporter) {
 
-		return lex_sources(std::move(sources), reporter);
+		return lex::lex_sources(std::move(sources), reporter);
 	}
 }
 

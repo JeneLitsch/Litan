@@ -2,7 +2,7 @@
 
 namespace ltn::c {
 	namespace {
-		using TT = ltn::c::lex::Token::Type;
+		using TT = Token::Type;
 	
 		std::string parse_name(Tokens & tokens) {
 			if(auto t = match(TT::INDENTIFIER, tokens)) {

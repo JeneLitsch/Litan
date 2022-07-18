@@ -6,7 +6,8 @@
 #include "optimize/optimize.hxx"
 #include "print/print.hxx"
 #include "peephole/peephole.hxx"
-#include "ltnc/lex/Tokens.hxx"
+#include "ltnc/tokens/Token.hxx"
+#include "ltnc/lex/lexing.hxx"
 
 namespace ltn::c {
 	Tokens tokenize(

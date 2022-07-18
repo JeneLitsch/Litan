@@ -55,6 +55,7 @@ ltnc = [
 	"ltnc/unfold",
 	"ltnc/optimize",
 	"ltnc/assemble",
+	"ltnc/tokens",
 ]
 ltncCli = [
 	"ltnc/cli",

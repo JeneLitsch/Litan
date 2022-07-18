@@ -2,7 +2,7 @@
 #include <sstream>
 namespace ltn::c {
 	namespace {
-		using TT = ltn::c::lex::Token::Type;
+		using TT = Token::Type;
 
 		template<auto expr_fx>
 		ast::expr_ptr parse_nullco(Tokens & tokens, ast::expr_ptr l) {

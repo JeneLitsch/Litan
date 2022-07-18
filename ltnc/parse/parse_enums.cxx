@@ -2,7 +2,7 @@
 
 namespace ltn::c {
 	namespace {
-		using TT = ltn::c::lex::Token::Type;
+		using TT = Token::Type;
 	
 		std::optional<std::int64_t> explicit_value(Tokens & tokens) {
 			if(match(TT::COLON, tokens)) {
