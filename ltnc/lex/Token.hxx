@@ -4,7 +4,11 @@
 namespace ltn::c::lex {
 	struct Token {
 		enum class Type {
-			___EOF___, COLON, COLONx2,
+			___EOF___,
+			___EOSRC___,
+			
+			COLON,
+			COLONx2,
 			
 			INDENTIFIER,
 			FUNCTION,

@@ -7,49 +7,49 @@ namespace ltn::c {
 	}
 
 	template<typename NodeT, TT START_TOKEN, auto body_fx>
-	std::unique_ptr<NodeT> parse_any_switch(LexBuffer & lexer) {
-		if(lexer.match(START_TOKEN)) {
-			if(!lexer.match(TT::PAREN_L)) throw CompilerError {
-				"Expected (", lexer.location()
+	std::unique_ptr<NodeT> parse_any_switch(Tokens & tokens) {
+		if(match(START_TOKEN, tokens)) {
+			if(!match(TT::PAREN_L, tokens)) throw CompilerError {
+				"Expected (", tokens.location()
 			};
 
-			auto sw1tch = std::make_unique<NodeT>(lexer.location());
-			sw1tch->condition = parse_expression(lexer);
+			auto sw1tch = std::make_unique<NodeT>(tokens.location());
+			sw1tch->condition = parse_expression(tokens);
 
-			if(!lexer.match(TT::PAREN_R)) throw CompilerError {
-				"Expected )", lexer.location()
+			if(!match(TT::PAREN_R, tokens)) throw CompilerError {
+				"Expected )", tokens.location()
 			};
 
-			if(!lexer.match(TT::BRACE_L)) throw CompilerError {
-				"Expected {", lexer.location()
+			if(!match(TT::BRACE_L, tokens)) throw CompilerError {
+				"Expected {", tokens.location()
 			};
 
-			while (lexer.match(TT::CASE)) {
-				auto case_expr = parse_static_expression(lexer);
+			while (match(TT::CASE, tokens)) {
+				auto case_expr = parse_static_expression(tokens);
 				
-				if(!lexer.match(TT::COLON)) throw CompilerError {
-					"Expected :", lexer.location()
+				if(!match(TT::COLON, tokens)) throw CompilerError {
+					"Expected :", tokens.location()
 				};
 
-				auto case_body = body_fx(lexer);
+				auto case_body = body_fx(tokens);
 
 				sw1tch->cases.push_back(std::pair{
 					std::move(case_expr),
 					std::move(case_body)});
 
-				while (lexer.match(TT::SEMICOLON));
+				while (match(TT::SEMICOLON, tokens));
 			}
 			
-			if(lexer.match(TT::DEFAULT)) {
-				if(!lexer.match(TT::COLON)) throw CompilerError {
-					"Expected :", lexer.location()
+			if(match(TT::DEFAULT, tokens)) {
+				if(!match(TT::COLON, tokens)) throw CompilerError {
+					"Expected :", tokens.location()
 				};
-				sw1tch->d3fault = body_fx(lexer);
-				while (lexer.match(TT::SEMICOLON));
+				sw1tch->d3fault = body_fx(tokens);
+				while (match(TT::SEMICOLON, tokens));
 			}
 
-			if(!lexer.match(TT::BRACE_R)) throw CompilerError {
-				"Expected }", lexer.location()
+			if(!match(TT::BRACE_R, tokens)) throw CompilerError {
+				"Expected }", tokens.location()
 			};
 
 
@@ -60,20 +60,20 @@ namespace ltn::c {
 
 
 
-	ast::stmt_ptr parse_stmt_switch(LexBuffer & lexer) {
-		auto sw1tch = parse_any_switch<ast::StmtSwitch, TT::SWITCH, parse_statement>(lexer);
+	ast::stmt_ptr parse_stmt_switch(Tokens & tokens) {
+		auto sw1tch = parse_any_switch<ast::StmtSwitch, TT::SWITCH, parse_statement>(tokens);
 		if(sw1tch && !sw1tch->d3fault) {
-			sw1tch->d3fault = std::make_unique<ast::DoNothing>(lexer.location());
+			sw1tch->d3fault = std::make_unique<ast::DoNothing>(tokens.location());
 		}
 		return sw1tch;
 	} 
 
 
 
-	ast::expr_ptr parse_expr_switch(LexBuffer & lexer) {
-		auto sw1tch = parse_any_switch<ast::ExprSwitch, TT::CHOOSE, parse_expression>(lexer);
+	ast::expr_ptr parse_expr_switch(Tokens & tokens) {
+		auto sw1tch = parse_any_switch<ast::ExprSwitch, TT::CHOOSE, parse_expression>(tokens);
 		if(sw1tch && !sw1tch->d3fault) {
-			sw1tch->d3fault = std::make_unique<ast::Null>(lexer.location());
+			sw1tch->d3fault = std::make_unique<ast::Null>(tokens.location());
 		}
 		return sw1tch;
 	}

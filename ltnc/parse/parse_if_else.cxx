@@ -9,29 +9,29 @@ namespace ltn::c {
 
 
 	// parses else branch and returns it if it's existing  
-	ast::stmt_ptr parse_else_branch(LexBuffer & lexer) {
-		if(lexer.match(TT::ELSE)) {
-			if(lexer.match(TT::PAREN_L)) {
-				throw CompilerError{"else must not have a condition", lexer.location()};
+	ast::stmt_ptr parse_else_branch(Tokens & tokens) {
+		if(match(TT::ELSE, tokens)) {
+			if(match(TT::PAREN_L, tokens)) {
+				throw CompilerError{"else must not have a condition", tokens.location()};
 			}
-			return parse_statement(lexer);
+			return parse_statement(tokens);
 		}
-		return std::make_unique<ast::DoNothing>(lexer.location());
+		return std::make_unique<ast::DoNothing>(tokens.location());
 	}
 
 
 
 	// parses if-else statement  
-	ast::stmt_ptr parse_if_else(LexBuffer & lexer) {
-		if(lexer.match(TT::IF)) {
-			auto expr = parse_condition(lexer); 
-			auto ifBody = parse_statement(lexer); 
-			auto elseBody = parse_else_branch(lexer); 
+	ast::stmt_ptr parse_if_else(Tokens & tokens) {
+		if(match(TT::IF, tokens)) {
+			auto expr = parse_condition(tokens); 
+			auto ifBody = parse_statement(tokens); 
+			auto elseBody = parse_else_branch(tokens); 
 			return std::make_unique<ast::IfElse>(
 				std::move(expr),
 				std::move(ifBody),
 				std::move(elseBody),
-				lexer.location());
+				tokens.location());
 		}
 		return nullptr;
 	}

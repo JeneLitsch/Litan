@@ -12,20 +12,20 @@ namespace ltn::c {
 
 
 		// Returns a array of all parameters
-		ast::Parameters parse_basic_parameters(LexBuffer & lexer) {
+		ast::Parameters parse_basic_parameters(Tokens & tokens) {
 			
-			if(lexer.match(TT::PAREN_R)) {
+			if(match(TT::PAREN_R, tokens)) {
 				return {};
 			}
 
 			ast::Parameters parameters{};
 			while(true) {
-				parameters.push_back(parse_parameter_name(lexer));
-				if(lexer.match(TT::PAREN_R)) break;
-				if(!lexer.match(TT::COMMA)) {
+				parameters.push_back(parse_parameter_name(tokens));
+				if(match(TT::PAREN_R, tokens)) break;
+				if(!match(TT::COMMA, tokens)) {
 					throw CompilerError{
 						"expected comma between parameters",
-						lexer.location()};
+						tokens.location()};
 				}
 			}
 			return parameters;
@@ -33,35 +33,35 @@ namespace ltn::c {
 
 
 
-		ast::Parameters parse_optional_parameters(LexBuffer & lexer) {
-			if(lexer.match(TT::PAREN_L)) return parse_basic_parameters(lexer);
+		ast::Parameters parse_optional_parameters(Tokens & tokens) {
+			if(match(TT::PAREN_L, tokens)) return parse_basic_parameters(tokens);
 			return {};
 		}
 
 
-		ast::Parameters parse_mandatory_parameters(LexBuffer & lexer) {
-			if(lexer.match(TT::PAREN_L)) return parse_basic_parameters(lexer);
-			throw ltn::c::CompilerError{"missing (", lexer.location()};
+		ast::Parameters parse_mandatory_parameters(Tokens & tokens) {
+			if(match(TT::PAREN_L, tokens)) return parse_basic_parameters(tokens);
+			throw ltn::c::CompilerError{"missing (", tokens.location()};
 		}
 
 
 
 		// Returns a array of all parameters
-		std::vector<std::unique_ptr<ast::Var>> parse_captures(LexBuffer & lexer) {
-			if(!lexer.match(TT::BRACKET_L)) return {};
+		std::vector<std::unique_ptr<ast::Var>> parse_captures(Tokens & tokens) {
+			if(!match(TT::BRACKET_L, tokens)) return {};
 
 			std::vector<std::unique_ptr<ast::Var>> captures{};
-			if(!lexer.match(TT::BRACKET_R)) {
+			if(!match(TT::BRACKET_R, tokens)) {
 				while(true) {
-					const auto name = parse_variable_name(lexer);
-					const auto & location = lexer.location();
+					const auto name = parse_variable_name(tokens);
+					const auto & location = tokens.location();
 					auto var = std::make_unique<ast::Var>(name, location);
 					captures.push_back(std::move(var));
-					if(lexer.match(TT::BRACKET_R)) break;
-					if(!lexer.match(TT::COMMA)) {
+					if(match(TT::BRACKET_R, tokens)) break;
+					if(!match(TT::COMMA, tokens)) {
 						throw CompilerError{
 							"expected comma between captures",
-							lexer.location()};
+							tokens.location()};
 					}
 				}
 			} 
@@ -70,50 +70,50 @@ namespace ltn::c {
 
 
 
-		std::string parse_build_in_key(LexBuffer & lexer) {
-			if(!lexer.match(TT::AT)) {
+		std::string parse_build_in_key(Tokens & tokens) {
+			if(!match(TT::AT, tokens)) {
 				throw CompilerError{
 					"Expected @ before build_in key",
-					lexer.location() };
+					tokens.location() };
 			}
-			if(auto str = lexer.match(TT::INDENTIFIER)) {
+			if(auto str = match(TT::INDENTIFIER, tokens)) {
 				return str->str;
 			}
 			else {
 				throw CompilerError{
 					"Expected build_in key after @",
-					lexer.location() };
+					tokens.location() };
 			}
 		}
 
 
 
-		ast::stmt_ptr parse_body(LexBuffer & lexer) {
-			if(lexer.match(TT::DRARROW)) {
-				auto expr = parse_expression(lexer);
-				const auto & location = lexer.location();
+		ast::stmt_ptr parse_body(Tokens & tokens) {
+			if(match(TT::DRARROW, tokens)) {
+				auto expr = parse_expression(tokens);
+				const auto & location = tokens.location();
 				return std::make_unique<ast::Return>(std::move(expr), location);
 			}
 			else {
-				return parse_statement(lexer);
+				return parse_statement(tokens);
 			}
 		}
 
 
 
-		std::unique_ptr<ast::Except> parse_except(LexBuffer & lexer) {
-			if(lexer.match(TT::EXCEPT)) {
-				auto params = parse_mandatory_parameters(lexer);
+		std::unique_ptr<ast::Except> parse_except(Tokens & tokens) {
+			if(match(TT::EXCEPT, tokens)) {
+				auto params = parse_mandatory_parameters(tokens);
 				if(params.size() != 1) {
 					throw CompilerError{
 						"Except only takes one error parameter",
-						lexer.location()};
+						tokens.location()};
 				}
-				auto body = parse_body(lexer);
+				auto body = parse_body(tokens);
 				return std::make_unique<ast::Except>(
 					params[0],
 					std::move(body),
-					lexer.location());
+					tokens.location());
 			}
 			else return nullptr;
 		}
@@ -123,14 +123,14 @@ namespace ltn::c {
 		// parses and returns a function node
 		template<class FunctionalNode>
 		std::unique_ptr<FunctionalNode> functional_node(
-			LexBuffer & lexer,
+			Tokens & tokens,
 			const ast::Namespace & namespaze,
 			auto parse_body) {
-			const auto name = parse_function_name(lexer);
-			const auto parameters = parse_mandatory_parameters(lexer);
+			const auto name = parse_function_name(tokens);
+			const auto parameters = parse_mandatory_parameters(tokens);
 			bool c0nst = false;
 			bool pr1vate = false;
-			while(auto t = lexer.match(TT::INDENTIFIER)) {
+			while(auto t = match(TT::INDENTIFIER, tokens)) {
 				if(t->str == "const") {
 					c0nst = true;
 				}
@@ -144,13 +144,13 @@ namespace ltn::c {
 					};
 				}
 			}			
-			auto body = parse_body(lexer);
+			auto body = parse_body(tokens);
 			auto fx = std::make_unique<FunctionalNode>(
 				name,
 				namespaze,
 				parameters,
 				std::move(body),
-				lexer.location());
+				tokens.location());
 			fx->c0nst = c0nst;
 			fx->pr1vate = pr1vate;
 			return fx;
@@ -161,20 +161,20 @@ namespace ltn::c {
 
 	// parses and returns a functional node
 	ast::func_ptr parse_functional(
-		LexBuffer & lexer,
+		Tokens & tokens,
 		const ast::Namespace & namespaze) {
 
-		if(lexer.match(TT::FUNCTION)) {
+		if(match(TT::FUNCTION, tokens)) {
 			auto fx = functional_node<ast::Function>(
-				lexer,
+				tokens,
 				namespaze,
 				parse_body);
-			if(!fx->c0nst) fx->except = parse_except(lexer);
+			if(!fx->c0nst) fx->except = parse_except(tokens);
 			return fx;
 		}
-		if(lexer.match(TT::BUILD_IN)) {
+		if(match(TT::BUILD_IN, tokens)) {
 			return functional_node<ast::BuildIn>(
-				lexer,
+				tokens,
 				namespaze,
 				parse_build_in_key);
 		}
@@ -183,22 +183,22 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_lambda(LexBuffer & lexer) {
-		if(lexer.match(TT::LAMBDA)) {
-			auto captures = parse_captures(lexer);
-			const auto parameters = parse_optional_parameters(lexer);
-			auto body = parse_body(lexer); 
+	ast::expr_ptr parse_lambda(Tokens & tokens) {
+		if(match(TT::LAMBDA, tokens)) {
+			auto captures = parse_captures(tokens);
+			const auto parameters = parse_optional_parameters(tokens);
+			auto body = parse_body(tokens); 
 			auto fx = std::make_unique<ast::Function>(
 				"lambda" + std::to_string(*stx::unique{}), 
 				ast::Namespace{},
 				parameters,
 				std::move(body),
-				lexer.location());
-			fx->except = parse_except(lexer);
+				tokens.location());
+			fx->except = parse_except(tokens);
 			return std::make_unique<ast::Lambda>(
 				std::move(fx),
 				std::move(captures),
-				lexer.location()); 
+				tokens.location()); 
 		}
 		return nullptr;
 	}

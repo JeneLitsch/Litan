@@ -41,58 +41,58 @@ namespace ltn::c {
 
 
 
-		ast::stmt_ptr modify(LexBuffer & lexer, ast::expr_ptr && expr,	Op op) {
-			guard_assingable(*expr, lexer.location());
+		ast::stmt_ptr modify(Tokens & tokens, ast::expr_ptr && expr,	Op op) {
+			guard_assingable(*expr, tokens.location());
 			auto l = stx::static_unique_cast<ast::Assignable>(std::move(expr));
-			auto r = parse_expression(lexer);
+			auto r = parse_expression(tokens);
 			return std::make_unique<ast::Modify>(
 				op,
 				std::move(l),
 				std::move(r),
-				lexer.location());
+				tokens.location());
 		}
 
 
 
-		ast::stmt_ptr assignment(LexBuffer & lexer, auto && expr, auto && r) {
-			guard_assingable(*expr, lexer.location());
+		ast::stmt_ptr assignment(Tokens & tokens, auto && expr, auto && r) {
+			guard_assingable(*expr, tokens.location());
 			return std::make_unique<ast::Assign>(
 				stx::static_unique_cast<ast::Assignable>(std::move(expr)),
 				std::move(r),
-				lexer.location());
+				tokens.location());
 		}
 	}
 
 
 
-	ast::expr_ptr assign(LexBuffer & lexer) {
-		auto l = parse_expression(lexer);
+	ast::expr_ptr assign(Tokens & tokens) {
+		auto l = parse_expression(tokens);
 		return l;
 	}
 
 
 
 	// parses Statement consiting of an Expression
-	ast::stmt_ptr parse_just_an_expr(LexBuffer & lexer) {
-		auto l = parse_expression(lexer);
-		if(auto r = parse_assign_r(lexer)) {
-			return assignment(lexer, std::move(l), std::move(r));
+	ast::stmt_ptr parse_just_an_expr(Tokens & tokens) {
+		auto l = parse_expression(tokens);
+		if(auto r = parse_assign_r(tokens)) {
+			return assignment(tokens, std::move(l), std::move(r));
 		}
 		
-		if(const auto op = match_op(lexer, op_table)) {
-			return modify(lexer, std::move(l), *op);
+		if(const auto op = match_op(tokens, op_table)) {
+			return modify(tokens, std::move(l), *op);
 		}
 		return std::make_unique<ast::StatementExpression>(
 			std::move(l),
-			lexer.location());
+			tokens.location());
 	}
 
 
 
 	// Tries parsing assignment after and including =
-	ast::expr_ptr parse_assign_r(LexBuffer & lexer) {
-		if(lexer.match(TT::ASSIGN)) {
-			return parse_expression(lexer);
+	ast::expr_ptr parse_assign_r(Tokens & tokens) {
+		if(match(TT::ASSIGN, tokens)) {
+			return parse_expression(tokens);
 		}
 		return nullptr;
 	}

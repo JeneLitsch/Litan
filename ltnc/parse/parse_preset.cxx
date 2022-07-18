@@ -6,17 +6,17 @@ namespace ltn::c {
 	}
 
 
-	ast::prst_ptr parse_preset(LexBuffer & lexer, const ast::Namespace & namespaze) {
-		if(auto start = lexer.match(TT::PRESET)) {
-			const auto name = parse_preset_name(lexer);
+	ast::prst_ptr parse_preset(Tokens & tokens, const ast::Namespace & namespaze) {
+		if(auto start = match(TT::PRESET, tokens)) {
+			const auto name = parse_preset_name(tokens);
 			std::vector<std::string> member_names;
-			brace_l(lexer);
-			while(lexer.match(TT::VAR)) {
-				const auto name = parse_variable_name(lexer);
+			brace_l(tokens);
+			while(match(TT::VAR, tokens)) {
+				const auto name = parse_variable_name(tokens);
 				member_names.push_back(name);
-				semicolon(lexer);
+				semicolon(tokens);
 			}
-			brace_r(lexer);
+			brace_r(tokens);
 			return std::make_unique<ast::Preset>(
 				start->location,
 				name,

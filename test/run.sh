@@ -65,7 +65,13 @@ misc=(
 	"test/sphinx/sphinx.ltn" 
 )
 
+bin_file="tmp/bin"
+asm_file="tmp/asm"
+
+rm $bin_file
+rm $asm_file
+
 # ./bin/ltn --src ${core_tests[*]} ${stdlib_tests[*]} ${misc[*]} --args Hello World 123
 
-./bin/ltnc -o --asm tmp/asm --exe tmp/bin --src ${core_tests[*]} ${stdlib_tests[*]} ${misc[*]}
-./bin/ltnvm --exe tmp/bin --args Hello World 123
+./bin/ltnc -o --asm $asm_file --exe $bin_file --src ${core_tests[*]} ${stdlib_tests[*]} ${misc[*]}
+./bin/ltnvm --exe $bin_file --args Hello World 123

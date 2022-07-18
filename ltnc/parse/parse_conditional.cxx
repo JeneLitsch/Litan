@@ -5,38 +5,38 @@ namespace ltn::c {
 		using TT = ltn::c::lex::Token::Type;
 
 		template<auto expr_fx>
-		ast::expr_ptr parse_nullco(LexBuffer & lexer, ast::expr_ptr l) {
-			auto else_expr = expr_fx(lexer);
+		ast::expr_ptr parse_nullco(Tokens & tokens, ast::expr_ptr l) {
+			auto else_expr = expr_fx(tokens);
 			return std::make_unique<ast::Binary>(
 				ast::Binary::Type::NULLCO,
 				std::move(l),
 				std::move(else_expr),
-				lexer.location());
+				tokens.location());
 		}
 
 
 
 		template<auto expr_fx>
-		ast::expr_ptr parse_elvis(LexBuffer & lexer, ast::expr_ptr l) {
-			auto else_expr = expr_fx(lexer);
+		ast::expr_ptr parse_elvis(Tokens & tokens, ast::expr_ptr l) {
+			auto else_expr = expr_fx(tokens);
 			return std::make_unique<ast::Binary>(
 				ast::Binary::Type::ELVIS,
 				std::move(l),
 				std::move(else_expr),
-				lexer.location());
+				tokens.location());
 		}
 
 
 
 		template<auto expr_fx>
-		ast::expr_ptr parse_ternary(LexBuffer & lexer, ast::expr_ptr l) {
-			auto c = expr_fx(lexer);
-			if(!lexer.match(TT::COLON)) {
-				throw CompilerError{"Expected :", lexer.location()};
+		ast::expr_ptr parse_ternary(Tokens & tokens, ast::expr_ptr l) {
+			auto c = expr_fx(tokens);
+			if(!match(TT::COLON, tokens)) {
+				throw CompilerError{"Expected :", tokens.location()};
 			}
-			auto r = expr_fx(lexer);
+			auto r = expr_fx(tokens);
 			return std::make_unique<ast::Ternary>(
-				lexer.location(),
+				tokens.location(),
 				std::move(l),
 				std::move(c),
 				std::move(r));
@@ -45,21 +45,21 @@ namespace ltn::c {
 
 
 		template<auto expr_fx, auto presedence_down>
-		ast::expr_ptr parse_conditional_base(LexBuffer & lexer) {
-			auto l = presedence_down(lexer);
-			if(lexer.match(TT::QMARK)) {
+		ast::expr_ptr parse_conditional_base(Tokens & tokens) {
+			auto l = presedence_down(tokens);
+			if(match(TT::QMARK, tokens)) {
 				// c ?? b
-				if(lexer.match(TT::QMARK)) {
-					return parse_nullco<expr_fx>(lexer, std::move(l));
+				if(match(TT::QMARK, tokens)) {
+					return parse_nullco<expr_fx>(tokens, std::move(l));
 				}
 
 				// c ?: b
-				if(lexer.match(TT::COLON)) {
-					return parse_elvis<expr_fx>(lexer, std::move(l));
+				if(match(TT::COLON, tokens)) {
+					return parse_elvis<expr_fx>(tokens, std::move(l));
 				}
 				
 				// c ? a : b
-				return parse_ternary<expr_fx>(lexer, std::move(l));
+				return parse_ternary<expr_fx>(tokens, std::move(l));
 			}
 			return l;
 		}
@@ -67,14 +67,14 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_conditional(LexBuffer & lexer) {
-		return parse_conditional_base<parse_expression, parse_binary>(lexer);
+	ast::expr_ptr parse_conditional(Tokens & tokens) {
+		return parse_conditional_base<parse_expression, parse_binary>(tokens);
 	}
 
 
 
-	ast::expr_ptr parse_static_conditional(LexBuffer & lexer) {
-		return parse_conditional_base<parse_static_expression, parse_static_binary>(lexer);
+	ast::expr_ptr parse_static_conditional(Tokens & tokens) {
+		return parse_conditional_base<parse_static_expression, parse_static_binary>(tokens);
 	}
 }
 

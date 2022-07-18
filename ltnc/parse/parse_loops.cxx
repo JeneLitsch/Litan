@@ -9,55 +9,55 @@ namespace ltn::c {
 
 
 	// parses while loop -> while(...)
-	ast::stmt_ptr parse_while_loop(LexBuffer & lexer) {
-		if(lexer.match(TT::WHILE)) {
-			auto expr = parse_condition(lexer);
-			auto body = parse_statement(lexer);
+	ast::stmt_ptr parse_while_loop(Tokens & tokens) {
+		if(match(TT::WHILE, tokens)) {
+			auto expr = parse_condition(tokens);
+			auto body = parse_statement(tokens);
 			return std::make_unique<ast::While>(
 				std::move(expr),
 				std::move(body),
-				lexer.location());
+				tokens.location());
 		}
 		return nullptr;
 	}
 
 
 	// parses while loop -> for i (a, b)
-	ast::stmt_ptr parse_for_loop(LexBuffer & lexer) {
-		if(lexer.match(TT::FOR)) {
-			if(!lexer.match(TT::PAREN_L)) {
-				throw CompilerError{"Expected (", lexer.location()};
+	ast::stmt_ptr parse_for_loop(Tokens & tokens) {
+		if(match(TT::FOR, tokens)) {
+			if(!match(TT::PAREN_L, tokens)) {
+				throw CompilerError{"Expected (", tokens.location()};
 			}
 
-			auto var_name = parse_variable_name(lexer);
+			auto var_name = parse_variable_name(tokens);
 			auto var = std::make_unique<ast::NewVar>(
 				var_name,
 				nullptr,
-				lexer.location(),
+				tokens.location(),
 				true);
 
-			if(!lexer.match(TT::COLON)) {
-				throw CompilerError{"Expected :", lexer.location()};
+			if(!match(TT::COLON, tokens)) {
+				throw CompilerError{"Expected :", tokens.location()};
 			}
 
-			auto from = parse_expression(lexer);
+			auto from = parse_expression(tokens);
 			
-			if(!lexer.match(TT::RARROW)) {
-				throw CompilerError{"Expected ->", lexer.location()};
+			if(!match(TT::RARROW, tokens)) {
+				throw CompilerError{"Expected ->", tokens.location()};
 			}
 
-			auto to = parse_expression(lexer);
+			auto to = parse_expression(tokens);
 
 			ast::expr_ptr step;
-			if(lexer.match(TT::COLON)) {
-				step = parse_expression(lexer);
+			if(match(TT::COLON, tokens)) {
+				step = parse_expression(tokens);
 			}
 
-			if(!lexer.match(TT::PAREN_R)) {
-				throw CompilerError{"Expected )", lexer.location()};
+			if(!match(TT::PAREN_R, tokens)) {
+				throw CompilerError{"Expected )", tokens.location()};
 			}
 
-			auto body = parse_statement(lexer);
+			auto body = parse_statement(tokens);
 
 			auto loop = std::make_unique<ast::For>(
 				std::move(var),
@@ -65,7 +65,7 @@ namespace ltn::c {
 				std::move(to),
 				std::move(step),
 				std::move(body),
-				lexer.location()
+				tokens.location()
 			);
 			return loop;
 		}

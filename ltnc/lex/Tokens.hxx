@@ -11,9 +11,9 @@
 
 namespace ltn::c {
 
-	class LexBuffer : stx::non_moveable, stx::non_copyable {
+	class Tokens : stx::non_moveable, stx::non_copyable {
 	public:
-		LexBuffer(std::vector<lex::Token> tokens);
+		Tokens(std::vector<lex::Token> tokens);
 		std::optional<lex::Token> match(lex::Token::Type type);
 		bool check(lex::Token::Type type);
 		void sync();
@@ -34,5 +34,7 @@ namespace ltn::c {
 		std::vector<lex::Token>::iterator current;
 	};
 
-	LexBuffer lex_sources(std::vector<Source> sources, Reporter & reporter);
+	Tokens lex_sources(std::vector<Source> sources, Reporter & reporter);
+
+	std::optional<lex::Token> match(lex::Token::Type type, Tokens & tokens);	
 }

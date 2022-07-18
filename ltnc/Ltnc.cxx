@@ -1,6 +1,6 @@
 #include "Ltnc.hxx"
 #include <vector>
-#include "lex/LexBuffer.hxx"
+#include "lex/Tokens.hxx"
 #include "parse/parse.hxx"
 #include "unfold/unfold.hxx"
 #include "optimize/optimize.hxx"
@@ -15,14 +15,14 @@ using namespace std::string_view_literals;
 
 namespace ltn::c {
 	ast::Program parse(
-		LexBuffer & lexer,
+		Tokens & tokens,
 		Reporter & reporter) {
 		
-		auto source = parse_source(lexer);
+		auto source = parse_source(tokens);
 		return std::move(*unfold_source(std::move(source)));
 	}
 
-	LexBuffer tokenize(
+	Tokens tokenize(
 		std::vector<Source> sources,
 		Reporter & reporter) {
 

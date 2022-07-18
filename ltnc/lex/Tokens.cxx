@@ -1,4 +1,4 @@
-#include "LexBuffer.hxx"
+#include "Tokens.hxx"
 #include "lexing.hxx"
 #include <set>
 #include <sstream>
@@ -28,7 +28,7 @@ namespace ltn::c {
 			while (true) {
 				try {
 					Token t = lex::token(in, loc);
-					if(t.type == TT::___EOF___) break;
+					if(t.type == TT::___EOF___)  break;
 					tokens += t;
 				}
 				catch(const CompilerError & error) {
@@ -36,12 +36,13 @@ namespace ltn::c {
 					in.ignore();
 				}
 			}
+			tokens += Token{TT::___EOSRC___, "___EOSRC___", SourceLocation{}};
 			return tokens;
 		}
 	}
 	
 
-	LexBuffer lex_sources(std::vector<Source> sources, Reporter & reporter) {
+	Tokens lex_sources(std::vector<Source> sources, Reporter & reporter) {
 		std::vector<Token> tokens;
 
 		std::istringstream stdlib { std::string()
@@ -66,14 +67,14 @@ namespace ltn::c {
 		}
 		
 		tokens += Token::end;
-		return LexBuffer{ std::move(tokens) };
+		return Tokens{ std::move(tokens) };
 	}
 
-	LexBuffer::LexBuffer(std::vector<Token> tokens) : tokens(std::move(tokens)) {
+	Tokens::Tokens(std::vector<Token> tokens) : tokens(std::move(tokens)) {
 		this->current = this->tokens.begin();
 	}
 
-	std::optional<Token> LexBuffer::match(Token::Type type) {
+	std::optional<Token> Tokens::match(Token::Type type) {
 		if(this->current->type == type) {
 			Token t = *this->current; 
 			std::advance(this->current, 1);
@@ -85,12 +86,12 @@ namespace ltn::c {
 	}
 
 	
-	bool LexBuffer::check(Token::Type type) {
+	bool Tokens::check(Token::Type type) {
 		return this->current->type == type;
 	}
 
 
-	void LexBuffer::sync() {
+	void Tokens::sync() {
 		const static std::set<TT> stops {
 			TT::___EOF___,
 			TT::SEMICOLON,
@@ -117,6 +118,10 @@ namespace ltn::c {
 			std::advance(this->current, 1);
 		}
 		this->match(TT::SEMICOLON);
+	}
+
+	std::optional<lex::Token> match(lex::Token::Type type, Tokens & tokens) {
+		return tokens.match(type);
 	}
 }
 

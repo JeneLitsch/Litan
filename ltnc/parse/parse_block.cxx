@@ -7,20 +7,20 @@ namespace ltn::c {
 	}
 
 	// Block statement between { ... }
-	ast::stmt_ptr parse_block(LexBuffer & lexer) {
-		if(!lexer.match(TT::BRACE_L)) return nullptr;
+	ast::stmt_ptr parse_block(Tokens & tokens) {
+		if(!match(TT::BRACE_L, tokens)) return nullptr;
 		std::vector<ast::stmt_ptr> statements;
-		while(!lexer.match(TT::BRACE_R)) {
-			if(lexer.match(TT::___EOF___)) {
-				throw CompilerError{"missing closing }", lexer.location()}; 
+		while(!match(TT::BRACE_R, tokens)) {
+			if(match(TT::___EOF___, tokens)) {
+				throw CompilerError{"missing closing }", tokens.location()}; 
 			}
-			if(lexer.match(TT::ELSE)) {
-				throw CompilerError{"Unexpected else", lexer.location()}; 
+			if(match(TT::ELSE, tokens)) {
+				throw CompilerError{"Unexpected else", tokens.location()}; 
 			}
-			statements.push_back(parse_statement(lexer));
+			statements.push_back(parse_statement(tokens));
 		}
 		return std::make_unique<ast::Block>(
 			std::move(statements),
-			lexer.location());
+			tokens.location());
 	}
 }

@@ -7,17 +7,17 @@ namespace ltn::c {
 	}
 
 
-	void brace_l(LexBuffer & lexer) {
-		if(!lexer.match(TT::BRACE_L)) {
-			throw CompilerError{"Expected {", lexer.location()};
+	void brace_l(Tokens & tokens) {
+		if(!match(TT::BRACE_L, tokens)) {
+			throw CompilerError{"Expected {", tokens.location()};
 		}
 	}
 
 
 
-	void brace_r(LexBuffer & lexer) {
-		if(!lexer.match(TT::BRACE_R)) {
-			throw CompilerError{"Expected }", lexer.location()};
+	void brace_r(Tokens & tokens) {
+		if(!match(TT::BRACE_R, tokens)) {
+			throw CompilerError{"Expected }", tokens.location()};
 		}
 	}
 }
