@@ -11,7 +11,7 @@ namespace ltn::c {
 				ast::Binary::Type::NULLCO,
 				std::move(l),
 				std::move(else_expr),
-				tokens.location());
+				location(tokens));
 		}
 
 
@@ -23,7 +23,7 @@ namespace ltn::c {
 				ast::Binary::Type::ELVIS,
 				std::move(l),
 				std::move(else_expr),
-				tokens.location());
+				location(tokens));
 		}
 
 
@@ -32,11 +32,11 @@ namespace ltn::c {
 		ast::expr_ptr parse_ternary(Tokens & tokens, ast::expr_ptr l) {
 			auto c = expr_fx(tokens);
 			if(!match(TT::COLON, tokens)) {
-				throw CompilerError{"Expected :", tokens.location()};
+				throw CompilerError{"Expected :", location(tokens)};
 			}
 			auto r = expr_fx(tokens);
 			return std::make_unique<ast::Ternary>(
-				tokens.location(),
+				location(tokens),
 				std::move(l),
 				std::move(c),
 				std::move(r));

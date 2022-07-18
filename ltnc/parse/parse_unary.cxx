@@ -15,7 +15,7 @@ namespace ltn::c {
 				else {
 					throw CompilerError{
 						"Expected identifier for member access",
-						tokens.location()};
+						location(tokens)};
 				}
 			}
 			return std::nullopt;
@@ -31,7 +31,7 @@ namespace ltn::c {
 				if(match(TT::BRACKET_R, tokens)) {
 					return index;
 				}
-				throw CompilerError{"Missing ]", tokens.location()};
+				throw CompilerError{"Missing ]", location(tokens)};
 			}
 			return nullptr;
 		}
@@ -60,7 +60,7 @@ namespace ltn::c {
 				auto access = std::make_unique<ast::Member>(
 					std::move(l),
 					*name,
-					tokens.location());
+					location(tokens));
 				return postfix_fx(tokens, std::move(access));
 			}
 
@@ -84,7 +84,7 @@ namespace ltn::c {
 		
 		if(auto op = match_op(tokens, table)) {
 			auto && r = unary_fx(tokens);
-			return std::make_unique<ast::Unary>(*op, std::move(r), tokens.location());
+			return std::make_unique<ast::Unary>(*op, std::move(r), location(tokens));
 		}
 		// right unary
 		return parse_postfix<expr_fx>(tokens, primary_fx(tokens));

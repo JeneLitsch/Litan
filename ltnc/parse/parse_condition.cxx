@@ -9,11 +9,11 @@ namespace ltn::c {
 	// expression in (...) for e.g. if, while...
 	ast::expr_ptr parse_condition(Tokens & tokens) {
 		if(!match(TT::PAREN_L, tokens)) {
-			throw CompilerError{"expected (", tokens.location()};
+			throw CompilerError{"expected (", location(tokens)};
 		}
 		auto expr = parse_expression(tokens);
 		if(!match(TT::PAREN_R, tokens)) {
-			throw CompilerError{"expected )", tokens.location()};
+			throw CompilerError{"expected )", location(tokens)};
 		}
 		return expr;
 	}

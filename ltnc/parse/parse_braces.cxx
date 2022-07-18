@@ -9,7 +9,7 @@ namespace ltn::c {
 
 	void brace_l(Tokens & tokens) {
 		if(!match(TT::BRACE_L, tokens)) {
-			throw CompilerError{"Expected {", tokens.location()};
+			throw CompilerError{"Expected {", location(tokens)};
 		}
 	}
 
@@ -17,7 +17,7 @@ namespace ltn::c {
 
 	void brace_r(Tokens & tokens) {
 		if(!match(TT::BRACE_R, tokens)) {
-			throw CompilerError{"Expected }", tokens.location()};
+			throw CompilerError{"Expected }", location(tokens)};
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace ltn::c {
 				if(auto expr = parse_integral(tokens)) {
 					return static_cast<ast::Integer&>(*expr).value;
 				}
-				throw CompilerError{"Expected integer litaral", tokens.location()};
+				throw CompilerError{"Expected integer litaral", location(tokens)};
 			}
 			return std::nullopt;
 		}
@@ -39,7 +39,7 @@ namespace ltn::c {
 		
 		const auto enum_name = parse_enum_name(tokens);
 		auto enumeration = std::make_unique<ast::Enumeration>(
-			tokens.location(),
+			location(tokens),
 			enum_name,
 			namespaze);
 
@@ -47,7 +47,7 @@ namespace ltn::c {
 		
 		const auto values = parse_values(tokens);
 		for(const auto & [key, value] : values) {
-			const auto loc = tokens.location();
+			const auto loc = location(tokens);
 			auto integer = std::make_unique<ast::Integer>(value, loc);
 			enumeration->labels.push_back({
 				key,

@@ -42,24 +42,24 @@ namespace ltn::c {
 
 
 		ast::stmt_ptr modify(Tokens & tokens, ast::expr_ptr && expr,	Op op) {
-			guard_assingable(*expr, tokens.location());
+			guard_assingable(*expr, location(tokens));
 			auto l = stx::static_unique_cast<ast::Assignable>(std::move(expr));
 			auto r = parse_expression(tokens);
 			return std::make_unique<ast::Modify>(
 				op,
 				std::move(l),
 				std::move(r),
-				tokens.location());
+				location(tokens));
 		}
 
 
 
 		ast::stmt_ptr assignment(Tokens & tokens, auto && expr, auto && r) {
-			guard_assingable(*expr, tokens.location());
+			guard_assingable(*expr, location(tokens));
 			return std::make_unique<ast::Assign>(
 				stx::static_unique_cast<ast::Assignable>(std::move(expr)),
 				std::move(r),
-				tokens.location());
+				location(tokens));
 		}
 	}
 
@@ -84,7 +84,7 @@ namespace ltn::c {
 		}
 		return std::make_unique<ast::StatementExpression>(
 			std::move(l),
-			tokens.location());
+			location(tokens));
 	}
 
 

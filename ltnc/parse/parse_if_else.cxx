@@ -12,11 +12,11 @@ namespace ltn::c {
 	ast::stmt_ptr parse_else_branch(Tokens & tokens) {
 		if(match(TT::ELSE, tokens)) {
 			if(match(TT::PAREN_L, tokens)) {
-				throw CompilerError{"else must not have a condition", tokens.location()};
+				throw CompilerError{"else must not have a condition", location(tokens)};
 			}
 			return parse_statement(tokens);
 		}
-		return std::make_unique<ast::DoNothing>(tokens.location());
+		return std::make_unique<ast::DoNothing>(location(tokens));
 	}
 
 
@@ -31,7 +31,7 @@ namespace ltn::c {
 				std::move(expr),
 				std::move(ifBody),
 				std::move(elseBody),
-				tokens.location());
+				location(tokens));
 		}
 		return nullptr;
 	}

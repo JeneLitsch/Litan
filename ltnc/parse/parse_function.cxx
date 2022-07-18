@@ -25,7 +25,7 @@ namespace ltn::c {
 				if(!match(TT::COMMA, tokens)) {
 					throw CompilerError{
 						"expected comma between parameters",
-						tokens.location()};
+						location(tokens)};
 				}
 			}
 			return parameters;
@@ -41,7 +41,7 @@ namespace ltn::c {
 
 		ast::Parameters parse_mandatory_parameters(Tokens & tokens) {
 			if(match(TT::PAREN_L, tokens)) return parse_basic_parameters(tokens);
-			throw ltn::c::CompilerError{"missing (", tokens.location()};
+			throw ltn::c::CompilerError{"missing (", location(tokens)};
 		}
 
 
@@ -54,14 +54,14 @@ namespace ltn::c {
 			if(!match(TT::BRACKET_R, tokens)) {
 				while(true) {
 					const auto name = parse_variable_name(tokens);
-					const auto & location = tokens.location();
-					auto var = std::make_unique<ast::Var>(name, location);
+					const auto & loc = location(tokens);
+					auto var = std::make_unique<ast::Var>(name, loc);
 					captures.push_back(std::move(var));
 					if(match(TT::BRACKET_R, tokens)) break;
 					if(!match(TT::COMMA, tokens)) {
 						throw CompilerError{
 							"expected comma between captures",
-							tokens.location()};
+							location(tokens)};
 					}
 				}
 			} 
@@ -74,7 +74,7 @@ namespace ltn::c {
 			if(!match(TT::AT, tokens)) {
 				throw CompilerError{
 					"Expected @ before build_in key",
-					tokens.location() };
+					location(tokens) };
 			}
 			if(auto str = match(TT::INDENTIFIER, tokens)) {
 				return str->str;
@@ -82,7 +82,7 @@ namespace ltn::c {
 			else {
 				throw CompilerError{
 					"Expected build_in key after @",
-					tokens.location() };
+					location(tokens) };
 			}
 		}
 
@@ -91,8 +91,8 @@ namespace ltn::c {
 		ast::stmt_ptr parse_body(Tokens & tokens) {
 			if(match(TT::DRARROW, tokens)) {
 				auto expr = parse_expression(tokens);
-				const auto & location = tokens.location();
-				return std::make_unique<ast::Return>(std::move(expr), location);
+				const auto & loc = location(tokens);
+				return std::make_unique<ast::Return>(std::move(expr), loc);
 			}
 			else {
 				return parse_statement(tokens);
@@ -107,13 +107,13 @@ namespace ltn::c {
 				if(params.size() != 1) {
 					throw CompilerError{
 						"Except only takes one error parameter",
-						tokens.location()};
+						location(tokens)};
 				}
 				auto body = parse_body(tokens);
 				return std::make_unique<ast::Except>(
 					params[0],
 					std::move(body),
-					tokens.location());
+					location(tokens));
 			}
 			else return nullptr;
 		}
@@ -150,7 +150,7 @@ namespace ltn::c {
 				namespaze,
 				parameters,
 				std::move(body),
-				tokens.location());
+				location(tokens));
 			fx->c0nst = c0nst;
 			fx->pr1vate = pr1vate;
 			return fx;
@@ -193,12 +193,12 @@ namespace ltn::c {
 				ast::Namespace{},
 				parameters,
 				std::move(body),
-				tokens.location());
+				location(tokens));
 			fx->except = parse_except(tokens);
 			return std::make_unique<ast::Lambda>(
 				std::move(fx),
 				std::move(captures),
-				tokens.location()); 
+				location(tokens)); 
 		}
 		return nullptr;
 	}

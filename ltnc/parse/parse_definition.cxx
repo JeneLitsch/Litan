@@ -8,7 +8,7 @@ namespace ltn::c {
 			if(auto t = match(TT::INDENTIFIER, tokens)) {
 				return t->str;
 			}
-			throw CompilerError{"Expected definition name", tokens.location()};
+			throw CompilerError{"Expected definition name", location(tokens)};
 		}
 
 
@@ -17,7 +17,7 @@ namespace ltn::c {
 			if(auto t = match(TT::ASSIGN, tokens)) {
 				return t->str;
 			}
-			throw CompilerError{"Expected =", tokens.location()};
+			throw CompilerError{"Expected =", location(tokens)};
 		}
 	}
 
@@ -27,7 +27,7 @@ namespace ltn::c {
 		if(match(TT::DEFINE, tokens)) {
 			const auto name = parse_name(tokens);
 			auto global = std::make_unique<ast::Global>(
-				tokens.location(),
+				location(tokens),
 				name,
 				namespaze);
 			parse_equal_sign(tokens);

@@ -9,7 +9,7 @@ namespace ltn::c {
 
 
 		CompilerError expected(std::string token, const Tokens & tokens) {
-			return {"Expected " + token, tokens.location()};
+			return {"Expected " + token, location(tokens)};
 		}
 
 
@@ -37,7 +37,7 @@ namespace ltn::c {
 				std::stringstream iss{token->str};
 				TempType value;
 				iss >> base >> value;
-				return std::make_unique<ast::Integer>(value, tokens.location()); 
+				return std::make_unique<ast::Integer>(value, location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -61,7 +61,7 @@ namespace ltn::c {
 		ast::litr_ptr parse_character(Tokens & tokens) {
 			if(auto t = match(TT::CHAR, tokens)) {
 				const char chr = t->str.front();
-				return std::make_unique<ast::Char>(chr, tokens.location()); 
+				return std::make_unique<ast::Char>(chr, location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -70,7 +70,7 @@ namespace ltn::c {
 
 		ast::litr_ptr parse_null(Tokens & tokens) {
 			if(auto t = match(TT::NVLL, tokens)) {
-				return std::make_unique<ast::Null>(tokens.location()); 
+				return std::make_unique<ast::Null>(location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -82,7 +82,7 @@ namespace ltn::c {
 				std::istringstream iss{token->str};
 				stx::float64_t value;
 				iss >> value;
-				return std::make_unique<ast::Float>(value, tokens.location()); 
+				return std::make_unique<ast::Float>(value, location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -91,10 +91,10 @@ namespace ltn::c {
 
 		ast::litr_ptr parse_boolean(Tokens & tokens) {
 			if(auto token = match(TT::TRUE, tokens)) {
-				return std::make_unique<ast::Bool>(true, tokens.location()); 
+				return std::make_unique<ast::Bool>(true, location(tokens)); 
 			}
 			if(auto token = match(TT::FALSE, tokens)) {
-				return std::make_unique<ast::Bool>(false, tokens.location()); 
+				return std::make_unique<ast::Bool>(false, location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -102,14 +102,14 @@ namespace ltn::c {
 
 
 		ast::litr_ptr parse_empty_array(Tokens & tokens) {
-			return std::make_unique<ast::Array>(tokens.location());
+			return std::make_unique<ast::Array>(location(tokens));
 		}
 
 
 
 		template<auto element>
 		ast::litr_ptr parse_filled_array(Tokens & tokens) {
-			auto array = std::make_unique<ast::Array>(tokens.location());
+			auto array = std::make_unique<ast::Array>(location(tokens));
 			while(true) {
 				if(match(TT::___EOF___, tokens)) {
 					throw expected("]", tokens);
@@ -150,7 +150,7 @@ namespace ltn::c {
 			if(auto token = match(TT::STRING, tokens)) {
 				return std::make_unique<ast::String>(
 					token->str,
-					tokens.location()); 
+					location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -228,13 +228,13 @@ namespace ltn::c {
 				name,
 				namespaze,
 				std::move(parameters),
-				tokens.location());
+				location(tokens));
 		}
 
 
 
 		auto parse_var(const auto & name, const auto & tokens) {
-			return std::make_unique<ast::Var>(name, tokens.location());
+			return std::make_unique<ast::Var>(name, location(tokens));
 		}
 
 
@@ -246,7 +246,7 @@ namespace ltn::c {
 			return std::make_unique<ast::GlobalValue>(
 				name,
 				namespaze,
-				tokens.location());
+				location(tokens));
 		}
 
 		
@@ -267,7 +267,7 @@ namespace ltn::c {
 		ast::expr_ptr parse_static_identifier(Tokens & tokens) {
 			const auto [name, namespaze] = parse_symbol(tokens);
 			if(match(TT::PAREN_L, tokens)) {
-				throw CompilerError{"Function calls are not allowed in static expression", tokens.location()};
+				throw CompilerError{"Function calls are not allowed in static expression", location(tokens)};
 			}
 			return parse_global_value(name, namespaze, tokens);
 		}
@@ -280,7 +280,7 @@ namespace ltn::c {
 				if(match(TT::PAREN_L, tokens)) {
 					const auto placeholders = parse_placeholder(tokens);
 					return std::make_unique<ast::FxPointer>(
-						name, namespaze, placeholders, tokens.location());
+						name, namespaze, placeholders, location(tokens));
 				}
 				throw expected("(", tokens);
 			}
@@ -291,7 +291,7 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_static_iife(Tokens & tokens) {
 			if(match(TT::IIFE, tokens)) {
-				throw CompilerError{"IIFEs are not allowed in static expression", tokens.location()};
+				throw CompilerError{"IIFEs are not allowed in static expression", location(tokens)};
 			}
 			else return nullptr;
 		}
@@ -300,7 +300,7 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_static_invokation(Tokens & tokens) {
 			if(match(TT::RARROW, tokens)) {
-				throw CompilerError{"Cannot invoke function in static expression", tokens.location()};
+				throw CompilerError{"Cannot invoke function in static expression", location(tokens)};
 			}
 			else return nullptr;
 		}
@@ -311,7 +311,7 @@ namespace ltn::c {
 			if(match(TT::IIFE, tokens)) {
 				auto body = parse_block(tokens);
 				return std::make_unique<ast::Iife>(
-					tokens.location(),
+					location(tokens),
 					std::move(body));
 			}
 			else return nullptr;
@@ -374,7 +374,7 @@ namespace ltn::c {
 				return std::make_unique<ast::Invokation>(
 					std::move(std::move(expr)),
 					std::move(params),
-					tokens.location()
+					location(tokens)
 				);
 			}
 			return expr; 

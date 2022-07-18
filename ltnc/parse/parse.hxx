@@ -64,7 +64,7 @@ namespace ltn::c {
 		Tokens & tokens,
 		const auto & op_table) -> std::optional<decltype(op_table.front().second)> {
 		for(const auto & [tt, op] : op_table) {
-			if(tokens.match(tt)) {
+			if(match(tt, tokens)) {
 				return op;
 			}
 		}
@@ -82,7 +82,7 @@ namespace ltn::c {
 				*op,
 				std::move(l),
 				std::move(r),
-				tokens.location());
+				location(tokens));
 			l = std::move(expr);
 		}				
 		return l;

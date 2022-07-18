@@ -11,7 +11,7 @@ namespace ltn::c {
 		if(auto token = match(TT::INDENTIFIER, tokens)) {
 			return token->str;
 		}
-		throw ltn::c::CompilerError{errMsg, tokens.location()};
+		throw ltn::c::CompilerError{errMsg, location(tokens)};
 	}
 
 	std::string parse_preset_name(Tokens & tokens) {

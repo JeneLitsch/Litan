@@ -9,7 +9,7 @@ namespace ltn::c {
 	
 	void semicolon(Tokens & tokens) {
 		if(!match(TT::SEMICOLON, tokens)) {
-			throw CompilerError{"missing ;", tokens.location()};
+			throw CompilerError{"missing ;", location(tokens)};
 		}
 		while(match(TT::SEMICOLON, tokens));
 	}
@@ -27,7 +27,7 @@ namespace ltn::c {
 			return std::make_unique<AstNodeType>(
 				name,
 				std::move(r),
-				tokens.location());
+				location(tokens));
 		}
 		return nullptr;
 	}
@@ -38,11 +38,11 @@ namespace ltn::c {
 	ast::stmt_ptr parse_return(Tokens & tokens) {
 		if(match(TT::RETURN, tokens)) {
 			if(match(TT::SEMICOLON, tokens)) {
-				return std::make_unique<ast::Return>(nullptr, tokens.location());
+				return std::make_unique<ast::Return>(nullptr, location(tokens));
 			}
 			auto expr = parse_expression(tokens);
 			semicolon(tokens);
-			return std::make_unique<ast::Return>(std::move(expr), tokens.location());
+			return std::make_unique<ast::Return>(std::move(expr), location(tokens));
 		}
 		return nullptr;
 	}
@@ -57,7 +57,7 @@ namespace ltn::c {
 			}
 			return std::make_unique<ast::Throw>(
 				std::move(expr),
-				tokens.location());
+				location(tokens));
 		}
 		else return nullptr;
 	}

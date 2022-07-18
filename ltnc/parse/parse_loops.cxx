@@ -16,7 +16,7 @@ namespace ltn::c {
 			return std::make_unique<ast::While>(
 				std::move(expr),
 				std::move(body),
-				tokens.location());
+				location(tokens));
 		}
 		return nullptr;
 	}
@@ -26,24 +26,24 @@ namespace ltn::c {
 	ast::stmt_ptr parse_for_loop(Tokens & tokens) {
 		if(match(TT::FOR, tokens)) {
 			if(!match(TT::PAREN_L, tokens)) {
-				throw CompilerError{"Expected (", tokens.location()};
+				throw CompilerError{"Expected (", location(tokens)};
 			}
 
 			auto var_name = parse_variable_name(tokens);
 			auto var = std::make_unique<ast::NewVar>(
 				var_name,
 				nullptr,
-				tokens.location(),
+				location(tokens),
 				true);
 
 			if(!match(TT::COLON, tokens)) {
-				throw CompilerError{"Expected :", tokens.location()};
+				throw CompilerError{"Expected :", location(tokens)};
 			}
 
 			auto from = parse_expression(tokens);
 			
 			if(!match(TT::RARROW, tokens)) {
-				throw CompilerError{"Expected ->", tokens.location()};
+				throw CompilerError{"Expected ->", location(tokens)};
 			}
 
 			auto to = parse_expression(tokens);
@@ -54,7 +54,7 @@ namespace ltn::c {
 			}
 
 			if(!match(TT::PAREN_R, tokens)) {
-				throw CompilerError{"Expected )", tokens.location()};
+				throw CompilerError{"Expected )", location(tokens)};
 			}
 
 			auto body = parse_statement(tokens);
@@ -65,7 +65,7 @@ namespace ltn::c {
 				std::move(to),
 				std::move(step),
 				std::move(body),
-				tokens.location()
+				location(tokens)
 			);
 			return loop;
 		}

@@ -36,7 +36,7 @@ namespace ltn::c {
 					in.ignore();
 				}
 			}
-			tokens += Token{TT::___EOSRC___, "___EOSRC___", SourceLocation{}};
+			tokens += Token{TT::___EOSRC___, "___EOSRC___", loc};
 			return tokens;
 		}
 	}
@@ -70,28 +70,15 @@ namespace ltn::c {
 		return Tokens{ std::move(tokens) };
 	}
 
-	Tokens::Tokens(std::vector<Token> tokens) : tokens(std::move(tokens)) {
-		this->current = this->tokens.begin();
+	std::optional<lex::Token> match(lex::Token::Type type, Tokens & tokens) {
+		if(tokens.empty()) return std::nullopt;
+		const Token t = tokens.front(); 
+		if(t.type != type) return std::nullopt;
+		tokens.pop();
+		return t;
 	}
 
-	std::optional<Token> Tokens::match(Token::Type type) {
-		if(this->current->type == type) {
-			Token t = *this->current; 
-			std::advance(this->current, 1);
-			return t;
-		}
-		else {
-			return {};
-		}
-	}
-
-	
-	bool Tokens::check(Token::Type type) {
-		return this->current->type == type;
-	}
-
-
-	void Tokens::sync() {
+	void sync(Tokens & tokens) {
 		const static std::set<TT> stops {
 			TT::___EOF___,
 			TT::SEMICOLON,
@@ -106,22 +93,23 @@ namespace ltn::c {
 			TT::BRACE_R,
 		};
 		
-		if(this->current == this->tokens.end()) {
-			std::advance(this->current, -1);
-			return;
-		}
+		// if(tokens.empty()) {
+		// 	tokens.unpop();
+		// 	return;
+		// }
 		// std::cout << this->current->str << std::endl;
-		if(this->current->type == TT::___EOF___) return;
-		std::advance(this->current, 1);
-		while(!stops.contains(this->current->type)) {
+		if(tokens.front().type == TT::___EOF___) return;
+		tokens.pop();
+		while(!stops.contains(tokens.front().type)) {
 			// std::cout << this->current->str << "\n";
-			std::advance(this->current, 1);
+			tokens.pop();
 		}
-		this->match(TT::SEMICOLON);
+		match(TT::SEMICOLON, tokens);
 	}
 
-	std::optional<lex::Token> match(lex::Token::Type type, Tokens & tokens) {
-		return tokens.match(type);
+	const SourceLocation & location(const Tokens & tokens) {
+		const static SourceLocation fallback {0, ""};
+		return (tokens.empty()) ? fallback : tokens.front().location;
 	}
 }
 

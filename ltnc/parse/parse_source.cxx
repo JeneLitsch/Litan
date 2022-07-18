@@ -9,7 +9,7 @@ namespace ltn::c {
 		CompilerError anonymous_namespace(const Tokens & tokens) {
 			return CompilerError {
 				"Expected namespace name. Anonymous not supported",
-				tokens.location()};
+				location(tokens)};
 		}
 
 
@@ -18,7 +18,7 @@ namespace ltn::c {
 			return CompilerError(
 				"Unknown declaration."
 				"Exprected function, namespace or asm-function.",
-				tokens.location());
+				location(tokens));
 		}
 
 
@@ -26,7 +26,7 @@ namespace ltn::c {
 		CompilerError unclosed_namespace(const Tokens & tokens) {
 			return CompilerError {
 				"Unclosed namespace. Expected }",
-				tokens.location()};
+				location(tokens)};
 		}
 
 
@@ -34,7 +34,7 @@ namespace ltn::c {
 		CompilerError missing_brace_l(const Tokens & tokens) {
 			return CompilerError {
 				"Expected {",
-				tokens.location()};
+				location(tokens)};
 		}
 
 
@@ -42,7 +42,7 @@ namespace ltn::c {
 		CompilerError extra_brace_r(const Tokens & tokens) {
 			return CompilerError {
 				"Extra }",
-				tokens.location()};
+				location(tokens)};
 		}
 
 
@@ -117,7 +117,7 @@ namespace ltn::c {
 			}
 			catch(const CompilerError & error) {
 				reporter << error;
-				tokens.sync();
+				sync(tokens);
 			}
 		}
 		if(!namespaze.empty()) {

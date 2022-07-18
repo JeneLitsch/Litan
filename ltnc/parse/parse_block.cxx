@@ -12,15 +12,15 @@ namespace ltn::c {
 		std::vector<ast::stmt_ptr> statements;
 		while(!match(TT::BRACE_R, tokens)) {
 			if(match(TT::___EOF___, tokens)) {
-				throw CompilerError{"missing closing }", tokens.location()}; 
+				throw CompilerError{"missing closing }", location(tokens)}; 
 			}
 			if(match(TT::ELSE, tokens)) {
-				throw CompilerError{"Unexpected else", tokens.location()}; 
+				throw CompilerError{"Unexpected else", location(tokens)}; 
 			}
 			statements.push_back(parse_statement(tokens));
 		}
 		return std::make_unique<ast::Block>(
 			std::move(statements),
-			tokens.location());
+			location(tokens));
 	}
 }
