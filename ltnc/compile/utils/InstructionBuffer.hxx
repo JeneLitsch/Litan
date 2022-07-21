@@ -1,5 +1,5 @@
 #pragma once
-#include "ltn/InstructionSet.hxx"
+#include "ltnc/inst/instructions.hxx"
 #include "stdxx/array.hxx"
 
 namespace ltn::c {

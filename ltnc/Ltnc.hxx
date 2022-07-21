@@ -2,7 +2,7 @@
 #include "CompilerError.hxx"
 #include "Reporter.hxx"
 #include "Source.hxx"
-#include "ltn/InstructionSet.hxx"
+#include "ltnc/inst/instructions.hxx"
 #include "optimize/optimize.hxx"
 #include "print/print.hxx"
 #include "peephole/peephole.hxx"

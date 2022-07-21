@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ltn/InstructionSet.hxx"
+#include "ltnc/inst/instructions.hxx"
 
 namespace ltn::c {
 	std::vector<ltn::inst::Instruction> peephole(

@@ -1,5 +1,5 @@
 #pragma once
-#include "ltn/InstructionSet.hxx"
+#include "ltnc/inst/instructions.hxx"
 #include "scan.hxx"
 namespace ltn::c {
 	std::vector<std::uint8_t> assemble(

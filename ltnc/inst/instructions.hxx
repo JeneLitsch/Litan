@@ -7,7 +7,7 @@
 #include "stdxx/float64_t.hxx"
 #include "stdxx/string_literal.hxx"
 #include "args.hxx"
-#include "opcodes.hxx"
+#include "ltn/opcodes.hxx"
 
 namespace ltn::inst {
 	struct InstCore {

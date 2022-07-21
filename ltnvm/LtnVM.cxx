@@ -1,5 +1,5 @@
 #include "LtnVM.hxx"
-#include "ltn/InstructionSet.hxx"
+#include "ltn/opcodes.hxx"
 #include <sstream>
 #include "cast.hxx"
 #include "inst/instructions.hxx"

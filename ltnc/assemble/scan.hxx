@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include <cstdint>
-#include "ltn/InstructionSet.hxx"
+#include "ltnc/inst/instructions.hxx"
 
 namespace ltn::c {
 	using AddressTable = std::unordered_map<std::string, std::uint64_t>;

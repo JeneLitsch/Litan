@@ -1,6 +1,6 @@
 #pragma once
 #include <array>
-#include "ltn/InstructionSet.hxx"
+#include "ltnc/inst/instructions.hxx"
 using namespace ltn::inst;
 namespace ltn::c::build_in {
 	const auto algorithm_sort_ascn = std::to_array<Instruction>({
