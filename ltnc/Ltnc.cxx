@@ -33,28 +33,6 @@ namespace ltn::c {
 
 
 namespace ltn::c {
-	namespace {
-		InstructionBuffer startup_code(FxTable & fx_table) {
-			// Jump to main()
-			if(const auto fxmain = fx_table.resolve("main", {}, 1)) {
-				InstructionBuffer buf;
-				buf << ltn::inst::Call{fxmain->id};
-				buf << ltn::inst::Exit{};
-				return buf;
-			}
-			// Jump to main()
-			else if(const auto fxmain = fx_table.resolve("main", {}, 0)) {
-				InstructionBuffer buf;
-				buf << ltn::inst::Call{fxmain->id};
-				buf << ltn::inst::Exit{};
-				return buf;
-			}
-			else {
-				throw CompilerError {"main() is undefined", {}};
-			}
-		}
-	}
-
 	// compiles source
 	Instructions compile(
 		const ast::Program & program,
@@ -76,13 +54,6 @@ namespace ltn::c {
 
 		for(const auto & global : program.globals) {
 			info.global_table.insert(*global);
-		}
-
-		try {
-			buf << startup_code(fx_table);
-		}
-		catch(const CompilerError & error) {
-			reporter.push(error);
 		}
 
 		for(const auto & function : program.functions) {

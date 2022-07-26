@@ -219,10 +219,15 @@ namespace ltn::vm {
 			arr.push_back(value::string(str));
 		}
 
-		if(!main.empty()) {
-			core.pc = core.mains.at(main);
-			core.stack.push_frame(std::size(core.byte_code) - 1);
-		} 
+		const auto main_fx = [&] () -> std::string {
+			if(!main.empty()) return main;
+			return core.mains.contains("main(1)") ? "main(1)" : "main(0)";
+		} ();
+		if(!core.mains.contains(main_fx)) throw std::runtime_error {
+			"Program does not contain function " + main_fx
+		};
+		core.pc = core.mains.at(main_fx);
+		core.stack.push_frame(std::size(core.byte_code) - 1);
 
 		RESUME:
 		try {
