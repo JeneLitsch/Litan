@@ -1,11 +1,10 @@
-# std::log
-## std::log(x, b)
+# std::lg
+## std::lg(x, b)
 **Parameters:**  
 - x: Numeric value
-- x: Base
 
 **Return value:**  
 Numeric value
 
 **Descriptions:**  
-Returns the logrithm to the base b of x.
+Returns the decimal logarithm for x

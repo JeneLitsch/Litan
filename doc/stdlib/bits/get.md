@@ -9,4 +9,4 @@
 A boolean representing an single bit
 
 **Description:**
-Return if the bit of number at position index is set.
+Returns the bit of number at position index.
