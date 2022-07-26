@@ -22,7 +22,7 @@ namespace ltn::c {
 		ExprCode log_and(const ExprCode & l, const ExprCode & r) {
 			const auto id = make_jump_id("AND");
 			const auto end = id + "_END";
-			const auto falsE = id + "_FALSE";
+			const auto falsE = id + "FALSE";
 			InstructionBuffer buf;
 			buf << l.code;
 			

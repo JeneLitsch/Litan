@@ -16,7 +16,13 @@ namespace ltn::c {
 
 		const std::string jumpmark_except(const std::string_view name) {
 			std::stringstream ss;
-			ss << name << "_EXCEPT";
+			ss << "_" << name << "_EXCEPT";
+			return ss.str(); 
+		}
+
+		const std::string jumpmark_skip(const std::string_view name) {
+			std::stringstream ss;
+			ss << "_" << name << "_SKIP";
 			return ss.str(); 
 		}
 
@@ -132,7 +138,7 @@ namespace ltn::c {
 		InstructionBuffer buf;
 		
 		// Skip
-		buf << ltn::inst::Jump{fx.id + "SKIP"};
+		buf << ltn::inst::Jump{jumpmark_skip(fx.id)};
 		
 		// load captures
 		Scope inner_scope{outer_scope.get_namespace(), fx.c0nst};
@@ -147,7 +153,7 @@ namespace ltn::c {
 		buf << compile_function(*lm.fx, info, inner_scope, capture_buf);
 
 		// Create function pointer
-		buf << ltn::inst::Label{fx.id + "SKIP"};
+		buf << ltn::inst::Label{jumpmark_skip(fx.id)};
 		buf << ltn::inst::Newfx{fx.id, fx.parameters.size()};
 		
 		// store captures

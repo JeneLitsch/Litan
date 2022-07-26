@@ -107,13 +107,15 @@ namespace ltn::c {
 
 
 	std::vector<std::uint8_t> assemble(
-		const Instructions& instructions) {		
+		const Instructions & instructions) {		
 		const auto jump_table = scan(instructions.insts);
 
 		std::unordered_map<std::string, std::uint64_t> fx_table;
 
 		for(const auto & fx_id : instructions.init_functions) {
-			fx_table[fx_id] = jump_table.at(fx_id);
+			if(jump_table.contains(fx_id)) {
+				fx_table[fx_id] = jump_table.at(fx_id);
+			}
 		}
 
 		const auto bytecode = assemble(instructions.insts, jump_table, fx_table);
