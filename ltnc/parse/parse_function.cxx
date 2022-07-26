@@ -139,7 +139,13 @@ namespace ltn::c {
 					pr1vate = true;
 				}
 				else if(t->str == "init") {
-					init = true;
+					if(std::size(parameters) == 0 || std::size(parameters) == 1) {
+						init = true;
+					}
+					else throw CompilerError {
+						"An init function must have 0 or 1 parameter(s)",
+						t->location
+					};
 				}
 				else {
 					throw CompilerError{
