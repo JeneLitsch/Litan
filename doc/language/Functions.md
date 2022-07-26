@@ -59,4 +59,4 @@ function add(a, b) const private => a + b
 * A private function cannot be called from an ouitside namespace  
 
 ### init
-* An init function can be called from the outside. It's address is added to fx table. Init functions can be used as alternative main functions. An init function must have either 0 or 1 paramter. 
+* An init function can be called from the outside. It's address is added to fx table. Init functions can be used as alternative main functions. An init function must have either 0 or 1 paramter. `main()` and `main(args)` are declared init by default. 

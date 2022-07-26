@@ -229,4 +229,5 @@ except(e) {
 
 function test(args) init {
 	std::println("Hello World");
+	return std::float("1") + 2;
 }

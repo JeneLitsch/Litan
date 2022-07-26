@@ -9,5 +9,7 @@ function f() {
 }
 ```
 
+A return statement without expression `return;` is equivalent to `return null;`
+
 If a function ends without an explicit return statement null is returned by default.
 

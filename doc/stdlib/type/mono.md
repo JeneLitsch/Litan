@@ -8,4 +8,4 @@
 Reference to a new Struct  
 
 **Description**  
-Creates a new Struct with a single member called value  
+Creates a new struct with a single member called value
