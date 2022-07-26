@@ -114,7 +114,7 @@ int main(int argc, char const *argv[]){
 		auto program = ltn::c::parse(tokens, reporter);
 		if(flag_o.is_set()) ltn::c::optimize(program);
 		auto instructions = ltn::c::compile(program, reporter);
-		if(flag_o.is_set()) instructions = ltn::c::peephole(instructions);
+		if(flag_o.is_set()) instructions.insts = ltn::c::peephole(instructions.insts);
 		auto bytecode = ltn::c::assemble(instructions);
 
 		reporter.may_throw();
@@ -127,7 +127,7 @@ int main(int argc, char const *argv[]){
 		}
 		
 		if(flag_asm.is_set()) {
-			output_asm(flag_asm.get(), instructions);
+			output_asm(flag_asm.get(), instructions.insts);
 		}
 		
 		std::cout << "Done!" << "\n";

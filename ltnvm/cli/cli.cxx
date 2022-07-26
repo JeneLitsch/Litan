@@ -38,6 +38,7 @@ int main(int argc, char const *argv[]) {
 	auto & flag_version = ltn::args::version(desc);
 	auto & flag_help    = ltn::args::help(desc);
 	auto & main_args    = ltn::args::main_args(desc);
+	auto & main_init    = ltn::args::main_init(desc);
 
 	args.parse_options(desc);
 
@@ -56,8 +57,9 @@ int main(int argc, char const *argv[]) {
 		const auto bytecode = read_bytecode(exec.get());
 
 		ltn::vm::LtnVM vm;
+		const auto main_function = main_init.is_set() ? main_init.get() : "";
 		vm.setup(bytecode);
-		auto x = vm.run(main_args.get());
+		auto x = vm.run(main_args.get(), main_function);
 		std::cout
 			<< "Exit main() with return value: "
 			<< ltn::vm::cast::to_string(x, vm.get_heap())

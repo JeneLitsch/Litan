@@ -3,6 +3,8 @@
 #include <sstream>
 #include "cast.hxx"
 #include "inst/instructions.hxx"
+#include "ltn/version.hxx"
+#include "ltn/header.hxx"
 
 namespace ltn::vm {
 	using InstFx = void(*)(VmCore&);
@@ -167,19 +169,30 @@ namespace ltn::vm {
 
 	const auto instructions_table = make_instruction_table();
 
-
 	void LtnVM::setup(std::vector<std::uint8_t> code) {
+		static constexpr auto get_uint8 = [] (auto & it) {
+			return *(it++);
+		};
+
+
+
 		if(code.size() < 2) {
 			throw std::runtime_error{"Not an executable program"};
 		}
-		if(!is_compatible(code[0])) {
+
+		auto it = std::begin(code);
+		const std::uint8_t version = ltn::read_version(it);
+		if(!is_compatible(version)) {
 			throw std::runtime_error{"Incompatible bytecode version"};
 		}
-		this->core.byte_code = std::vector<std::uint8_t>{
-			std::begin(code) + 1,
-			std::end(code)
-		};
+
+		this->core.mains = read_fx_table(it);
+
+		this->core.byte_code = std::vector<std::uint8_t>{ it, std::end(code) };
 		this->core.pc = 0;
+		this->core.reg.reset();
+		this->core.stack.reset();
+		this->core.heap.reset();
 	}
 
 	void LtnVM::register_external(
@@ -194,11 +207,8 @@ namespace ltn::vm {
 		inst::thr0w(core);
 	}
 
-	Value LtnVM::run(const std::vector<std::string> & args) {
-		this->core.reg.reset();
-		this->core.stack.reset();
-		this->core.heap.reset();
-		this->core.pc = 0;
+	Value LtnVM::run(const std::vector<std::string> & args, const std::string & main) {
+
 		
 		// load args
 		const auto ref = this->core.heap.alloc<Array>(Array{});
@@ -209,15 +219,20 @@ namespace ltn::vm {
 			arr.push_back(value::string(str));
 		}
 
+		if(!main.empty()) {
+			core.pc = core.mains.at(main);
+			core.stack.push_frame(std::size(core.byte_code) - 1);
+		} 
+
 		RESUME:
 		try {
 			while(true) {
-				std::uint8_t inst = this->core.fetch_byte();
-				// std::cout << std::hex << int(inst) << std::dec << " | " << core.pc << std::endl;
+				const std::uint8_t inst = this->core.fetch_byte();
 				instructions_table[inst](core);
 			}
 
 		}
+
 		catch(const Exception & error) {
 			this->error(error.msg);
 			goto RESUME;

@@ -1,5 +1,6 @@
 #include "assemble.hxx"
 #include "stdxx/casting.hxx"
+#include "stdxx/array.hxx"
 #include <iostream>
 #include "ltn/version.hxx"
 
@@ -133,10 +134,19 @@ namespace ltn::c {
 
 	std::vector<std::uint8_t> assemble(
 		const std::vector<inst::Instruction> & instructions,
-		const AddressTable & jump_table) {
+		const AddressTable & jump_table,
+		const std::unordered_map<std::string, std::uint64_t> & fx_table) {
 		
 		std::vector<std::uint8_t> bytecode;
 		bytecode.push_back(ltn::major_version);
+		
+
+		bytecode += to_bytes(std::size_t(std::size(fx_table)));
+		for (const auto & [name, addr] : fx_table) {
+			bytecode += to_bytes(std::uint64_t(std::size(name)));
+			bytecode += std::vector<std::uint8_t> {std::begin(name), std::end(name)};
+			bytecode += to_bytes(std::uint64_t(addr));
+		}
 
 		for(const auto & inst : instructions) {
 			if(auto executable = inst.as<inst::ExecInst>()) {
@@ -151,6 +161,8 @@ namespace ltn::c {
 				return assemble_args(bytecode, args, jump_table);
 			}, args);
 		}
+
+		bytecode += static_cast<std::uint8_t>(ltn::OpCode::EXIT);
 
 		return bytecode;
 	}

@@ -8,8 +8,14 @@
 #include "peephole/peephole.hxx"
 #include "ltnc/tokens/Token.hxx"
 #include "ltnc/lex/lexing.hxx"
+#include <set>
 
 namespace ltn::c {
+	struct Instructions {
+		std::vector<ltn::inst::Instruction> insts;
+		std::set<std::string> init_functions;
+	};
+
 	Tokens tokenize(
 		std::vector<Source> sources,
 		Reporter & reporter);
@@ -18,10 +24,10 @@ namespace ltn::c {
 		Tokens & tokens,
 		Reporter & reporter);
 
-	std::vector<ltn::inst::Instruction> compile(
+	Instructions compile(
 		const ast::Program & program,
 		Reporter & reporter);
 
 	std::vector<std::uint8_t> assemble(
-		const std::vector<inst::Instruction> & instructions);
+		const Instructions& instructions);
 }

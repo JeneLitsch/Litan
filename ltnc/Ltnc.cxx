@@ -56,7 +56,7 @@ namespace ltn::c {
 	}
 
 	// compiles source
-	std::vector<ltn::inst::Instruction> compile(
+	Instructions compile(
 		const ast::Program & program,
 		Reporter & reporter) {
 		
@@ -94,13 +94,29 @@ namespace ltn::c {
 			}
 		}
 
-		return buf.get();
+		std::set<std::string> init_functions;
+		for(const auto & fx : program.functions) {
+			if(fx->init) init_functions.insert(fx->id);
+		}
+
+		return {
+			buf.get(),
+			init_functions,
+		};
 	}
 
 
-	std::vector<std::uint8_t> assemble(const std::vector<inst::Instruction> & instructions) {		
-		const auto jump_table = scan(instructions);
-		const auto bytecode = assemble(instructions, jump_table);
+	std::vector<std::uint8_t> assemble(
+		const Instructions& instructions) {		
+		const auto jump_table = scan(instructions.insts);
+
+		std::unordered_map<std::string, std::uint64_t> fx_table;
+
+		for(const auto & fx_id : instructions.init_functions) {
+			fx_table[fx_id] = jump_table.at(fx_id);
+		}
+
+		const auto bytecode = assemble(instructions.insts, jump_table, fx_table);
 		return bytecode;
 	}
 }

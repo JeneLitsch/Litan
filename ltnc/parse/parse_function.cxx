@@ -130,12 +130,16 @@ namespace ltn::c {
 			const auto parameters = parse_mandatory_parameters(tokens);
 			bool c0nst = false;
 			bool pr1vate = false;
+			bool init = false;
 			while(auto t = match(TT::INDENTIFIER, tokens)) {
 				if(t->str == "const") {
 					c0nst = true;
 				}
 				else if(t->str == "private") {
 					pr1vate = true;
+				}
+				else if(t->str == "init") {
+					init = true;
 				}
 				else {
 					throw CompilerError{
@@ -153,6 +157,7 @@ namespace ltn::c {
 				location(tokens));
 			fx->c0nst = c0nst;
 			fx->pr1vate = pr1vate;
+			fx->init = init;
 			return fx;
 		}
 	}

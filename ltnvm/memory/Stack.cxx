@@ -18,7 +18,7 @@ namespace ltn::vm {
 
 	std::uint64_t Stack::pop_frame() {
 		this->depth_counter--;
-		const std::uint64_t jumpBack 		= this->stack[this->frame_pointer + 0].u;
+		const std::uint64_t jumpBack 		 = this->stack[this->frame_pointer + 0].u;
 		const std::uint64_t oldframe_pointer = this->stack[this->frame_pointer + 1].u;
 		this->stack.resize(this->frame_pointer);
 		this->frame_pointer = oldframe_pointer;

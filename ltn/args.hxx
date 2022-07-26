@@ -29,4 +29,12 @@ namespace ltn::args {
 			"A list of strings passed to the main function of the Litan program."
 		);
 	}
+
+	auto & main_init(stx::option_description & desc) {
+		return desc.add<stx::option_string>(
+			{"--main"},
+			"Main functions",
+			"The id of the main function which will be called."
+		);
+	}
 }

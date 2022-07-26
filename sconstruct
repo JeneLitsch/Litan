@@ -83,6 +83,11 @@ ltn = [
 
 ]
 
-env.Program('bin/ltnc',  glob(ltn + ltnc          + ltncCli))
-env.Program('bin/ltnvm', glob(ltn + ltnvm         + ltnvmCli))
-env.Program('bin/ltn',   glob(ltn + ltnc  + ltnvm + ltnCli))
+ltninfo = [
+	"ltninfo"
+]
+
+env.Program('bin/ltnc',    glob(ltn + ltnc          + ltncCli))
+env.Program('bin/ltnvm',   glob(ltn + ltnvm         + ltnvmCli))
+env.Program('bin/ltn',     glob(ltn + ltnc  + ltnvm + ltnCli))
+env.Program('bin/ltninfo', glob(ltn + ltninfo))

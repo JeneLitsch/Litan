@@ -16,6 +16,7 @@ namespace ltn::vm {
 		// Persistent
 		std::vector<std::uint8_t> byte_code;
 		std::unordered_map<std::int64_t, std::unique_ptr<ext::External>> externals;
+		std::unordered_map<std::string, std::uint64_t> mains;
 	
 		
 		inline std::uint8_t fetch_byte() {

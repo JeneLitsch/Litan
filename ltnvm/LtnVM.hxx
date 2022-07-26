@@ -3,7 +3,6 @@
 #include <functional>
 #include "Exception.hxx"
 #include "VmCore.hxx"
-#include "ltn/version.hxx"
 
 namespace ltn::vm {
 	class LtnVM {
@@ -11,7 +10,7 @@ namespace ltn::vm {
 
 		LtnVM() {}
 		void setup(std::vector<std::uint8_t> code);
-		Value run(const std::vector<std::string> & args = {});
+		Value run(const std::vector<std::string> & args = {}, const std::string & main = "");
 
 		void register_external(
 			std::int64_t id,

@@ -226,3 +226,7 @@ function main(args) {
 except(e) {
 	std::println(e);
 }
+
+function test(args) init {
+	std::println("Hello World");
+}

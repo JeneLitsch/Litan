@@ -30,6 +30,7 @@ int main(int argc, char const *argv[]) {
 	auto & flag_version = ltn::args::version(desc);
 	auto & flag_help    = ltn::args::help(desc);
 	auto & main_args    = ltn::args::main_args(desc);
+	auto & main_init    = ltn::args::main_init(desc);
 
 	args.parse_options(desc);
 
@@ -60,13 +61,14 @@ int main(int argc, char const *argv[]) {
 		auto program = ltn::c::parse(lexer, reporter);
 		if(flag_o.is_set()) ltn::c::optimize(program);
 		auto instructions = ltn::c::compile(program, reporter);
-		if(flag_o.is_set()) instructions = ltn::c::peephole(instructions);
+		if(flag_o.is_set()) instructions.insts = ltn::c::peephole(instructions.insts);
 		auto bytecode = ltn::c::assemble(instructions);
+		const auto main_function = main_init.is_set() ? main_init.get() : "";
 
 		reporter.may_throw();
 
-		vm.setup(ltn::c::assemble(instructions));
-		auto x = vm.run(main_args.get());
+		vm.setup(bytecode);
+		auto x = vm.run(main_args.get(), main_function);
 		std::cout << "Exit main() with return value: ";
 		std::cout << ltn::vm::cast::to_string(x, vm.get_heap());
 		std::cout << "\n";
@@ -81,5 +83,4 @@ int main(int argc, char const *argv[]) {
 	}
 
 	return EXIT_SUCCESS;
-
 }
