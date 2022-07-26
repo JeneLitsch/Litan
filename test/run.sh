@@ -44,8 +44,9 @@ core_tests=(
 
 
 stdlib_tests=(
-	"test/stdlib/array.ltn" 
 	"test/stdlib/algorithm.ltn" 
+	"test/stdlib/arity.ltn" 
+	"test/stdlib/array.ltn" 
 	"test/stdlib/bits_get.ltn" 
 	"test/stdlib/bits_set.ltn" 
 	"test/stdlib/empty.ltn" 

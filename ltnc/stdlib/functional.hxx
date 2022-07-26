@@ -1,6 +1,8 @@
 #pragma once
 inline const char * std_functional = R"###(
 namespace std {
+	build_in arity(id)            @ functional_arity
+
 	build_in external(id)         @ functional_external
 	
 	build_in invoke(fx, params)   @ functional_invoke_2

@@ -71,6 +71,7 @@ namespace ltn::c {
 		{"functional_invoke_1",      build_in::functional_invoke_1},
 		{"functional_invoke_2",      build_in::functional_invoke_2},
 		{"functional_external",      build_in::functional_external},
+		{"functional_arity",         build_in::functional_arity},
 
 		{"io_cout",                  build_in::io_cout},
 		{"io_fout",                  build_in::io_fout},

@@ -18,4 +18,9 @@ namespace ltn::c::build_in {
 		External{},
 		Return{},
 	});
+
+	const auto functional_arity = std::to_array<Instruction>({
+		BuildIn{0x20}, 
+		Return{},
+	});
 }

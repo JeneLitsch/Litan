@@ -210,6 +210,7 @@ function main(args) {
 	stdlib::invoke_1(sphinx);
 	stdlib::invoke_2(sphinx);
 	stdlib::invoke_3(sphinx);
+	stdlib::arity(sphinx);
 
 	test::expressions(sphinx);
 	test::strout(sphinx);

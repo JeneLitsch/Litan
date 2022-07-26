@@ -1,0 +1,10 @@
+namespace stdlib {
+	function arity(sphinx) {
+		var cases = [
+			sphinx::assert_result([lambda(a,b,c) {}], 3),
+			sphinx::assert_result([&arity(_)], 1),
+			sphinx::assert_result([lambda{}], 0),
+		];
+		sphinx::run_test(sphinx, "std::arity", &std::arity(_), cases);
+	}
+}

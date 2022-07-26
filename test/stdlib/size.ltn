@@ -28,7 +28,6 @@ namespace stdlib {
 			sphinx::assert_result([std::array(42)], 1),
 			sphinx::assert_result(["ABC"], 3),
 			sphinx::assert_result([std::first_n([1,2,3,4], 3)], 3),
-			sphinx::assert_result([lambda(a,b,c) {}], 3),
 			sphinx::assert_result([std::queue()], 0),
 			sphinx::assert_result([queue], 3),
 			sphinx::assert_result([map], 2),

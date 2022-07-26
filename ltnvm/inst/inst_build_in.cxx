@@ -1,6 +1,7 @@
 #include "instructions.hxx"
 #include "ltnvm/build_in/algorithm.hxx"
 #include "ltnvm/build_in/random.hxx"
+#include "ltnvm/build_in/functional.hxx"
 
 namespace ltn::vm::inst {
 	static constexpr auto make_build_in_table() {
@@ -28,6 +29,9 @@ namespace ltn::vm::inst {
 		table[0x11] = build_in::rand;
 		table[0x12] = build_in::rand_int;
 		table[0x13] = build_in::rand_float;
+
+		//functional
+		table[0x20] = build_in::arity;
 		
 		return table;
 	}
