@@ -36,14 +36,14 @@ namespace ltn::c {
 	namespace {
 		InstructionBuffer startup_code(FxTable & fx_table) {
 			// Jump to main()
-			if(const auto fxmain = fx_table.resolve("main", {}, 0)) {
+			if(const auto fxmain = fx_table.resolve("main", {}, 1)) {
 				InstructionBuffer buf;
 				buf << ltn::inst::Call{fxmain->id};
 				buf << ltn::inst::Exit{};
 				return buf;
 			}
 			// Jump to main()
-			else if(const auto fxmain = fx_table.resolve("main", {}, 1)) {
+			else if(const auto fxmain = fx_table.resolve("main", {}, 0)) {
 				InstructionBuffer buf;
 				buf << ltn::inst::Call{fxmain->id};
 				buf << ltn::inst::Exit{};
@@ -95,6 +95,8 @@ namespace ltn::c {
 		}
 
 		std::set<std::string> init_functions;
+		init_functions.insert("main(0)");
+		init_functions.insert("main(1)");
 		for(const auto & fx : program.functions) {
 			if(fx->init) init_functions.insert(fx->id);
 		}
