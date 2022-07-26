@@ -228,6 +228,8 @@ except(e) {
 }
 
 function test(args) init {
+	var map = std::map();
+	map["A"] = 42;
 	std::println("Hello World");
-	return std::float("1") + 2;
+	return std::at("A23", 0);
 }
