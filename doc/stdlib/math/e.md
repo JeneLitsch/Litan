@@ -5,7 +5,7 @@ Global defintion of e / Euler's number
 ### 1)
 ```js
 function main() {
-	std::println(std::tau);
+	std::println(std::e);
 }
 ```
 Possible output:

@@ -8,4 +8,4 @@
 Float
 
 **Descriptions:**  
-Calculates the cubic-root of numeric value as float.
+Calculates the cubic-root of a numeric value as float.
