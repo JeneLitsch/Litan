@@ -1,127 +1,174 @@
 #include "build_in.hxx"
 #include <unordered_map>
 #include "ltnc/CompilerError.hxx"
-#include "./algorithm.hxx"
-#include "./cast.hxx"
-#include "./chrono.hxx"
-#include "./container.hxx"
-#include "./debug.hxx"
-#include "./functional.hxx"
-#include "./io.hxx"
-#include "./math.hxx"
-#include "./newobj.hxx"
-#include "./random.hxx"
-#include "./type.hxx"
 using namespace std::string_view_literals;
 
 namespace ltn::c {
+	using namespace ltn::inst;
+	
 	using Table = std::unordered_map<
 		std::string_view,
 		std::span<const Instruction>>;
 
+	template<typename Inst, auto ... args>
+	const std::array<Instruction, 2> single_return {
+		Inst{args...}, 
+		Return{},
+	};
+
+	template<typename Inst, auto ... args>
+	const std::array<Instruction, 1> single {
+		Inst{args...}, 
+	};
+
+	template<std::size_t CODE>
+	const std::array<Instruction, 2> vm_build_in = single_return<BuildIn, CODE>;
+
+	namespace build_in {
+		const auto container_empty = std::to_array<Instruction>({
+			Size{},
+			Not{},
+			Return{},
+		});
+
+		const auto chrono_to_milliseconds = std::to_array<Instruction>({
+			CastFloat{},
+			Newf{1000.0},
+			Mlt{},
+			Return{},
+		});
+
+		const auto functional_invoke_1 = std::to_array<Instruction>({
+			Newarr{0},
+			Invoke{},
+			Return{},
+		});
+
+		const auto math_clamp = std::to_array<Instruction>({
+			Makevar{},
+			Write0{},
+			Max{},
+			Read0{},
+			Min{},
+			Return{},
+		});
+
+		const auto math_ld = std::to_array<Instruction>({
+			Newf{2.0},
+			Log{},
+			Return{},
+		});
+		
+		const auto math_lg = std::to_array<Instruction>({
+			Newf{10.0},
+			Log{},
+			Return{},
+		});
+	}
+
 	const Table table{
-		{"cast_bool",                build_in::cast_bool},
-		{"cast_char",                build_in::cast_char},
-		{"cast_int",                 build_in::cast_int},
-		{"cast_float",               build_in::cast_float},
-		{"cast_string",              build_in::cast_string},
-		{"cast_array",               build_in::cast_array},
+		{"cast_bool",                single_return<CastBool>},
+		{"cast_char",                single_return<CastChar>},
+		{"cast_int",                 single_return<CastInt>},
+		{"cast_float",               single_return<CastFloat>},
+		{"cast_string",              single_return<CastString>},
+		{"cast_array",               single_return<CastArray>},
 
-		{"algorithm_sort_ascn",      build_in::algorithm_sort_ascn},
-		{"algorithm_sort_desc",      build_in::algorithm_sort_desc},
-		{"algorithm_is_sorted_ascn", build_in::algorithm_is_sorted_ascn},
-		{"algorithm_is_sorted_desc", build_in::algorithm_is_sorted_desc},
-		{"algorithm_find",           build_in::algorithm_find},
-		{"algorithm_copy_front",     build_in::algorithm_copy_front},
-		{"algorithm_copy_back",      build_in::algorithm_copy_back},
-		{"algorithm_fill",           build_in::algorithm_fill},
-		{"algorithm_reverse",        build_in::algorithm_reverse},
+		{"algorithm_sort_ascn",      vm_build_in<0x00>},
+		{"algorithm_sort_desc",      vm_build_in<0x01>},
+		{"algorithm_is_sorted_ascn", vm_build_in<0x02>},
+		{"algorithm_is_sorted_desc", vm_build_in<0x03>},
+		{"algorithm_find",           vm_build_in<0x04>},
+		{"algorithm_copy_front",     vm_build_in<0x05>},
+		{"algorithm_copy_back",      vm_build_in<0x06>},
+		{"algorithm_fill",           vm_build_in<0x07>},
+		{"algorithm_reverse",        vm_build_in<0x08>},
 
-		{"chrono_clock",             build_in::chrono_clock},
-		{"chrono_to_seconds",        build_in::chrono_to_seconds},
+		{"chrono_clock",             single_return<Newclock>},
+		{"chrono_to_seconds",        single_return<CastFloat>},
 		{"chrono_to_milliseconds",   build_in::chrono_to_milliseconds},
 
-		{"queue",                    build_in::queue},
-		{"stack",                    build_in::stack},
-		{"map",                      build_in::map},
-		{"array",                    build_in::array},
-		{"range",                    build_in::range},
-		{"struct",                   build_in::struc1},
+		{"queue",                    single_return<Newqueue>},
+		{"stack",                    single_return<Newstack>},
+		{"map",                      single_return<Newmap>},
+		{"array",                    single_return<Newarr, 0>},
+		{"range",                    single_return<Newrange>},
+		{"struct",                   single_return<Newstruct>},
 
-		{"container_push",           build_in::container_push},
-		{"container_pop",            build_in::container_pop},
-		{"container_peek",           build_in::container_peek},
-		{"container_contains",       build_in::container_contains},
-		{"container_size",           build_in::container_size},
+		{"container_push",           single<Push>},
+		{"container_pop",            single_return<Pop>},
+		{"container_peek",           single_return<Peek>},
+		{"container_contains",       single_return<Contains>},
+		{"container_size",           single_return<Size>},
 		{"container_empty",          build_in::container_empty},
-		{"container_at",             build_in::container_at},
-		{"container_front",          build_in::container_front},
-		{"container_back",           build_in::container_back},
-		{"container_begin",          build_in::container_begin},
-		{"container_end",            build_in::container_end},
-		{"container_insert_back",    build_in::container_insert_back},
-		{"container_insert_front",   build_in::container_insert_front},
-		{"container_insert",         build_in::container_insert},
-		{"container_remove_back",    build_in::container_remove_back},
-		{"container_remove_front",   build_in::container_remove_front},
-		{"container_remove",         build_in::container_remove},
+		{"container_at",             single_return<At>},
+		{"container_front",          single_return<Front>},
+		{"container_back",           single_return<Back>},
+		{"container_begin",          single_return<Begin>},
+		{"container_end",            single_return<End>},
+		{"container_insert_back",    single<Insert, 0x02>},
+		{"container_insert_front",   single<Insert, 0x00>},
+		{"container_insert",         single<Insert, 0x01>},
+		{"container_remove_back",    single<Remove, 0x02>},
+		{"container_remove_front",   single<Remove, 0x00>},
+		{"container_remove",         single<Remove, 0x01>},
 
-		{"debug_state",              build_in::debug_state},
+		{"debug_state",              single_return<State>},
 
 		{"functional_invoke_1",      build_in::functional_invoke_1},
-		{"functional_invoke_2",      build_in::functional_invoke_2},
-		{"functional_external",      build_in::functional_external},
-		{"functional_arity",         build_in::functional_arity},
+		{"functional_invoke_2",      single_return<Invoke>},
+		{"functional_external",      single_return<External>},
+		{"functional_arity",         vm_build_in<0x20>},
 
-		{"io_cout",                  build_in::io_cout},
-		{"io_fout",                  build_in::io_fout},
-		{"io_strout",                build_in::io_strout},
-		{"io_fg_color",              build_in::io_fg_color},
-		{"io_bg_color",              build_in::io_bg_color},
-		{"io_reset_color",           build_in::io_reset_color},
-		{"io_print",                 build_in::io_print},
-		{"io_cin",                   build_in::io_cin},
-		{"io_fin",                   build_in::io_fin},
-		{"io_strin",                 build_in::io_strin},
-		{"io_read",                  build_in::io_read},
-		{"io_read_str",              build_in::io_read_str},
-		{"io_readln",                build_in::io_readln},
-		{"io_read_bool",             build_in::io_read_bool},
-		{"io_read_char",             build_in::io_read_char},
-		{"io_read_int",              build_in::io_read_int},
-		{"io_read_float",            build_in::io_read_float},
-		{"io_read_all",              build_in::io_read_all},
-		{"io_is_eof",                build_in::io_is_eof},
-		{"io_is_good",               build_in::io_is_good},
-		{"io_close",                 build_in::io_close},
+		{"io_cout",                  single_return<Newout, 0x00>},
+		{"io_fout",                  single_return<Newout, 0x01>},
+		{"io_strout",                single_return<Newout, 0x02>},
+		{"io_fg_color",              single<Stylize, 0x00>},
+		{"io_bg_color",              single<Stylize, 0x01>},
+		{"io_reset_color",           single<Stylize, 0x02>},
+		{"io_print",                 single<Out>},
+		{"io_cin",                   single_return<Newin, 0x00>},
+		{"io_fin",                   single_return<Newin, 0x01>},
+		{"io_strin",                 single_return<Newin, 0x02>},
+		{"io_read",                  single_return<InStr>},
+		{"io_read_str",              single_return<InStr>},
+		{"io_readln",                single_return<InLine>},
+		{"io_read_bool",             single_return<InBool>},
+		{"io_read_char",             single_return<InChar>},
+		{"io_read_int",              single_return<InInt>},
+		{"io_read_float",            single_return<InFloat>},
+		{"io_read_all",              single_return<InAll>},
+		{"io_is_eof",                single_return<IsEof>},
+		{"io_is_good",               single_return<IsGood>},
+		{"io_close",                 single_return<CloseStream>},
 		
-		{"math_min",                 build_in::math_min},
-		{"math_max",                 build_in::math_max},
+		{"math_min",                 single_return<Min>},
+		{"math_max",                 single_return<Max>},
 		{"math_clamp",               build_in::math_clamp},
-		{"math_round",               build_in::math_round},
-		{"math_floor",               build_in::math_floor},
-		{"math_ceil",                build_in::math_ceil},
-		{"math_abs",                 build_in::math_abs},
-		{"math_hypot",               build_in::math_hypot},
-		{"math_sqrt",                build_in::math_sqrt},
-		{"math_log",                 build_in::math_log},
+		{"math_round",               single_return<Round>},
+		{"math_floor",               single_return<Floor>},
+		{"math_ceil",                single_return<Ceil>},
+		{"math_abs",                 single_return<Abs>},
+		{"math_hypot",               single_return<Hypot>},
+		{"math_sqrt",                single_return<Sqrt>},
+		{"math_log",                 single_return<Log>},
 		{"math_ld",                  build_in::math_ld},
 		{"math_lg",                  build_in::math_lg},
-		{"math_ln",                  build_in::math_ln},
-		{"math_pow",                 build_in::math_pow},
-		{"math_sin",                 build_in::math_sin},
-		{"math_cos",                 build_in::math_cos},
-		{"math_tan",                 build_in::math_tan},
+		{"math_ln",                  single_return<Ln>},
+		{"math_pow",                 single_return<Pow>},
+		{"math_sin",                 single_return<Sin>},
+		{"math_cos",                 single_return<Cos>},
+		{"math_tan",                 single_return<Tan>},
 
-		{"random_mersenne_0",        build_in::random_mersenne_0},
-		{"random_mersenne_1",        build_in::random_mersenne_1},
-		{"random_rand",              build_in::random_rand},
-		{"random_rand_int",          build_in::random_rand_int},
-		{"random_rand_float",        build_in::random_rand_float},
-		{"random_split",             build_in::random_split},
+		{"random_mersenne_0",        single_return<Newrng, 0x00>},
+		{"random_mersenne_1",        single_return<Newrng, 0x01>},
+		{"random_split",             vm_build_in<0x10>},
+		{"random_rand",              vm_build_in<0x11>},
+		{"random_rand_int",          vm_build_in<0x12>},
+		{"random_rand_float",        vm_build_in<0x13>},
 
-		{"type_clone",               build_in::type_clone},
-		{"type_typeid",              build_in::type_typeid},
+		{"type_clone",               single_return<Clone>},
+		{"type_typeid",              single_return<TypeId>},
 	};
 	
 	std::span<const Instruction> resolve_build_in(const std::string_view & key) {
