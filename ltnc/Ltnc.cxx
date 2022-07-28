@@ -58,6 +58,11 @@ namespace ltn::c {
 			info.definition_table.insert(*definition);
 		}
 
+		for(const auto & global : program.globals) {
+			std::cout << "XXX\n";
+			info.global_table.insert(*global);
+		}
+
 		for(const auto & function : program.functions) {
 			try {
 				buf << compile_functional(*function, info); 

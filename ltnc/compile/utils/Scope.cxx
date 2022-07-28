@@ -26,19 +26,14 @@ namespace ltn::c {
 	// Variables in outer scope can not be hidden
 	Variable Scope::insert(
 		const std::string & name,
-		Variable::Qualifier qualifier,
 		const SourceLocation & location) {
 		if(this->vars.contains(name)) {
 			throw CompilerError{"Redefintion of variable " + name, location};
 		}
 		const auto addr = recSize();
-		const Variable var{addr, qualifier}; 
+		const Variable var{addr}; 
 		this->vars.insert({name, var});
 		return var;
-	}
-
-	Variable Scope::insert(const std::string & name, const SourceLocation & location) {
-		return this->insert(name, Variable::Qualifier::MUTABLE, location);
 	}
 
 

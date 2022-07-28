@@ -26,7 +26,8 @@ namespace ltn::c::ast {
 
 	struct Var final : public Assignable {
 	public:
-		Var(const std::string & name,
+		Var(
+			const std::string & name,
 			const SourceLocation & location)
 			:	Assignable(location),
 				name(name) {}
@@ -38,12 +39,16 @@ namespace ltn::c::ast {
 
 	struct GlobalVar final : public Assignable {
 	public:
-		GlobalVar(const std::string & name,
-			const SourceLocation & location)
-			:	Assignable(location),
-				name(name) {}
+		GlobalVar(
+			const Namespace & namespaze,
+			const std::string & name,
+			const SourceLocation & location) :
+				Assignable(location),
+				name { name },
+				namespaze { namespaze } {}
 		virtual ~GlobalVar() = default;
 		std::string name;
+		Namespace namespaze;
 	};
 
 

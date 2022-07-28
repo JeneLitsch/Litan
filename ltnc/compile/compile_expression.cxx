@@ -49,7 +49,7 @@ namespace ltn::c {
 			return compile_read_member_access(*expr_, info, scope);
 		}	
 		if(auto expr_ = as<ast::GlobalVar>(expr)) {
-			return compile_read_global(*expr_, info);
+			return compile_read_global(*expr_, info, scope);
 		}		
 		if(auto expr_ = as<ast::Iife>(expr)) {
 			return compile_iife(*expr_, info, scope);

@@ -6,6 +6,7 @@ namespace ltn::c {
 
 		t_unit->functions = std::move(source->functions);
 		t_unit->definitions = std::move(source->definitions);
+		t_unit->globals = std::move(source->globals);
 
 		for(auto & preset : source->presets) {
 			auto ctor = unfold_preset(std::move(preset));

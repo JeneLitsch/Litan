@@ -39,6 +39,5 @@ namespace ltn::c {
 
 			return {code, if_branch.var_count};
 		}
-
 	}
 }

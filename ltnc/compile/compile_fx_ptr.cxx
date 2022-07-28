@@ -12,9 +12,7 @@ namespace ltn::c {
 			ptr.namespaze,
 			ptr.placeholders);
 
-		if(!fx) {
-			throw undefined_function(ptr.name, ptr);
-		}
+		if(!fx) throw undefined_function(ptr.name, ptr);
 
 		guard_private(*fx, scope.get_namespace(), ptr.location);
 

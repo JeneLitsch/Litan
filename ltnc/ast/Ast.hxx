@@ -19,6 +19,7 @@ namespace ltn::c::ast {
 	struct Program {
 		std::vector<func_ptr> functions;
 		std::vector<defn_ptr> definitions;
+		std::vector<glob_ptr> globals;
 	};
 
 	struct Source {

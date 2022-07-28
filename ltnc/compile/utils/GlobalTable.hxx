@@ -2,12 +2,22 @@
 #include <unordered_map>
 #include <cstdint>
 #include <string>
+#include "ltnc/ast/Ast.hxx"
 
 namespace ltn::c {
 	class GlobalTable {
 	public:
-		std::uint64_t get_id(const std::string & str);
+		const ast::Global * resolve(
+			const std::string_view name,
+			const ast::Namespace & from,
+			const ast::Namespace & to);
+
+		const ast::Global * resolve(
+			const std::string_view name,
+			const ast::Namespace & full);
+
+		void insert(const ast::Global & fx);
 	private:
-		std::unordered_map<std::string, std::uint64_t> table;
+		std::vector<const ast::Global *> enums;
 	};
 }

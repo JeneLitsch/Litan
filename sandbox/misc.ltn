@@ -1,10 +1,20 @@
 global foo;
 
+namespace foo {
+	global bar;
+}
+
 function f() {
 	global foo = 3.1;
+	global foo::bar::baz = 1.9;
 }
 
 function main(args) {
 	f();
-	return std::int(global foo);
+	global foo += global foo::bar;
+	std::println(global foo);
+	return global foo;
+}
+except(error) {
+	std::println(error);
 }

@@ -40,9 +40,13 @@ namespace ltn::c::ast {
 		Global(
 			const SourceLocation & location,
 			const std::string & name,
-			const Namespace & namespaze)
-			:	Declaration(location, name, namespaze) {}
+			const Namespace & namespaze) :
+				Declaration(location, name, namespaze),
+				id(++counter) {}
 		virtual ~Global() = default;
+		std::uint64_t id;
+	private:
+		static inline std::uint64_t counter = 0;
 	};
 
 

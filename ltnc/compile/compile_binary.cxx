@@ -83,6 +83,7 @@ namespace ltn::c {
 		}
 
 
+
 		ExprCode nullco(const ExprCode & l, const ExprCode & r) {
 			const auto jumpmark = make_jump_id("NULLCO");
 			const auto jumpmark_else = jumpmark + "_ELSE"; 
@@ -102,6 +103,7 @@ namespace ltn::c {
 			buf << ltn::inst::Label{jumpmark_end};
 			return { buf };
 		}
+
 
 
 		ExprCode chain(const auto & l, const auto & r) {

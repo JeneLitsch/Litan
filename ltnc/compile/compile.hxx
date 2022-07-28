@@ -52,7 +52,8 @@ namespace ltn::c {
 	ExprCode compile_addr(const ast::Var &, Scope &);
 	ExprCode compile_read_variable(const ast::Var & expr, CompilerInfo &, Scope &);
 	ExprCode compile_read_member_access(const ast::Member &, CompilerInfo &, Scope &);
-	ExprCode compile_read_global(const ast::GlobalVar & definition, CompilerInfo & info);
+	ExprCode compile_read_global(const ast::GlobalVar & global, CompilerInfo & info, Scope &);
+	ExprCode compile_write_global(const ast::GlobalVar & global, CompilerInfo & info, Scope &);
 
 
 	// utils

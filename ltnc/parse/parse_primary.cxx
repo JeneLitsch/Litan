@@ -321,28 +321,16 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_global(Tokens & tokens) {
 			if(auto t = match(TT::GLOBAL, tokens)) {
-				// if(!match(TT::SMALLER, tokens)) throw CompilerError {
-				// 	"Expected < after global",
-				// 	t->location
-				// };
-
-				const auto name = match(TT::INDENTIFIER, tokens); 
-				if(!name) throw CompilerError {
-					"Expected global variable inside global<...>",
-					t->location
-				};
-
-				// if(!match(TT::BIGGER, tokens)) throw CompilerError {
-				// 	"Expected > after global variable name",
-				// 	t->location
-				// };
-
+				const auto [name, namespaze] = parse_symbol(tokens);
 				return std::make_unique<ast::GlobalVar>(
-					name->str,
-					name->location);
+					namespaze,
+					name,
+					t->location);
 			}
 			else return nullptr; 
 		}
+
+
 
 		ast::expr_ptr parse_static_global(Tokens & tokens) {
 			if(auto t = match(TT::GLOBAL, tokens)) {
