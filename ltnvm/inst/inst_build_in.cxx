@@ -2,6 +2,7 @@
 #include "ltnvm/build_in/algorithm.hxx"
 #include "ltnvm/build_in/random.hxx"
 #include "ltnvm/build_in/functional.hxx"
+#include "ltnvm/build_in/io.hxx"
 
 namespace ltn::vm::inst {
 	static constexpr auto make_build_in_table() {
@@ -32,6 +33,11 @@ namespace ltn::vm::inst {
 
 		//functional
 		table[0x20] = build_in::arity;
+
+		//io
+		table[0x30] = build_in::reset_color;
+		table[0x31] = build_in::set_fg_color;
+		table[0x32] = build_in::set_bg_color;
 		
 		return table;
 	}

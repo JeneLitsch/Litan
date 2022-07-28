@@ -87,7 +87,6 @@ namespace ltn::vm::inst {
 
 	void out(VmCore & core);
 	void close_stream(VmCore & core);
-	void stylize(VmCore & core);
 	void in_str(VmCore & core);
 	void in_line(VmCore & core);
 	void in_bool(VmCore & core);
@@ -132,6 +131,7 @@ namespace ltn::vm::inst {
 	void pop(VmCore & core);
 	void peek(VmCore & core);
 	void contains(VmCore & core);
+	void empty(VmCore & core);
 	
 	void cast_bool(VmCore & core);
 	void cast_char(VmCore & core);

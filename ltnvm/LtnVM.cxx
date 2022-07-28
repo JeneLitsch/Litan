@@ -105,7 +105,6 @@ namespace ltn::vm {
 		add_instruction(table, OpCode::WRITE_3, inst::write_3);
 
 		add_instruction(table, OpCode::OUT, inst::out);
-		add_instruction(table, OpCode::STYLIZE, inst::stylize);
 		add_instruction(table, OpCode::CLOSE_STREAM, inst::close_stream);
 		add_instruction(table, OpCode::IN_STR, inst::in_str);
 		add_instruction(table, OpCode::IN_LINE, inst::in_line);
@@ -150,6 +149,7 @@ namespace ltn::vm {
 		add_instruction(table, OpCode::POP, inst::pop);
 		add_instruction(table, OpCode::PEEK, inst::peek);
 		add_instruction(table, OpCode::CONTAINS, inst::contains);
+		add_instruction(table, OpCode::EMPTY, inst::empty);
 
 		add_instruction(table, OpCode::CAST_BOOL, inst::cast_bool);
 		add_instruction(table, OpCode::CAST_CHAR, inst::cast_char);

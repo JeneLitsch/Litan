@@ -17,52 +17,6 @@ namespace ltn::vm::inst {
 	}
 
 
-	void stylize(VmCore & core) {
-		const auto func = core.fetch_byte();
-			switch (func) {
-
-			case 0: {
-				const auto color = core.reg.pop();
-				const auto ref = core.reg.pop();
-				if(is_ostream(ref) && is_int(color)) {
-					auto & out = core.heap.read<OStream>(ref.u).get();
-					out	<< "\u001b[3" << color.i % 8; 
-					if(color.i >= 8) out << ";1";
-					out << "m";
-				}
-				else throw except::invalid_argument();
-			} break;
-
-			case 1: {
-				const auto color = core.reg.pop();
-				const auto ref = core.reg.pop();
-				if(is_ostream(ref) && is_int(color)) {
-					auto & out = core.heap.read<OStream>(ref.u).get();
-					out	<< "\u001b[4" << color.i % 8;
-					if(color.i >= 8) out << ";1";
-					out << "m";
-				}
-				else throw except::invalid_argument();
-			} break;
-
-
-			case 2: {
-				const auto ref = core.reg.pop();
-				if(is_ostream(ref)) {
-					auto & out = core.heap.read<OStream>(ref.u).get();
-					out	<< "\u001b[0m";
-				}
-				else throw except::invalid_argument();
-			} break;
-
-			default:
-				throw except::invalid_argument();
-				break;
-		}
-	}
-
-
-
 	namespace {
 		using VT = Value::Type;
 

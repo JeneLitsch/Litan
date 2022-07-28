@@ -5,7 +5,7 @@ using namespace std::string_view_literals;
 
 namespace ltn::c {
 	using namespace ltn::inst;
-	
+
 	using Table = std::unordered_map<
 		std::string_view,
 		std::span<const Instruction>>;
@@ -25,12 +25,6 @@ namespace ltn::c {
 	const std::array<Instruction, 2> vm_build_in = single_return<BuildIn, CODE>;
 
 	namespace build_in {
-		const auto container_empty = std::to_array<Instruction>({
-			Size{},
-			Not{},
-			Return{},
-		});
-
 		const auto chrono_to_milliseconds = std::to_array<Instruction>({
 			CastFloat{},
 			Newf{1000.0},
@@ -100,7 +94,7 @@ namespace ltn::c {
 		{"container_peek",           single_return<Peek>},
 		{"container_contains",       single_return<Contains>},
 		{"container_size",           single_return<Size>},
-		{"container_empty",          build_in::container_empty},
+		{"container_empty",          single_return<Empty>},
 		{"container_at",             single_return<At>},
 		{"container_front",          single_return<Front>},
 		{"container_back",           single_return<Back>},
@@ -123,9 +117,9 @@ namespace ltn::c {
 		{"io_cout",                  single_return<Newout, 0x00>},
 		{"io_fout",                  single_return<Newout, 0x01>},
 		{"io_strout",                single_return<Newout, 0x02>},
-		{"io_fg_color",              single<Stylize, 0x00>},
-		{"io_bg_color",              single<Stylize, 0x01>},
-		{"io_reset_color",           single<Stylize, 0x02>},
+		{"io_reset_color",           vm_build_in<0x30>},
+		{"io_fg_color",              vm_build_in<0x31>},
+		{"io_bg_color",              vm_build_in<0x32>},
 		{"io_print",                 single<Out>},
 		{"io_cin",                   single_return<Newin, 0x00>},
 		{"io_fin",                   single_return<Newin, 0x01>},

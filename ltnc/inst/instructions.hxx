@@ -144,7 +144,6 @@ namespace ltn::inst {
 	using Write3 = GenericInst<OpCode::WRITE_3, "write_3", args::None>;
 
 	using Out = GenericInst<OpCode::OUT, "out", args::None>;
-	using Stylize = GenericInst<OpCode::STYLIZE, "stylize", args::Byte>;
 	using CloseStream = GenericInst<OpCode::CLOSE_STREAM, "close_stream", args::None>;
 	using InStr = GenericInst<OpCode::IN_STR, "in_str", args::None>;
 	using InLine = GenericInst<OpCode::IN_LINE, "in_line", args::None>;
@@ -190,6 +189,7 @@ namespace ltn::inst {
 	using Pop = GenericInst<OpCode::POP, "pop", args::None>;
 	using Peek = GenericInst<OpCode::PEEK, "peek", args::None>;
 	using Contains = GenericInst<OpCode::CONTAINS, "contains", args::None>;
+	using Empty = GenericInst<OpCode::EMPTY, "empty", args::None>;
 
 	using CastBool = GenericInst<OpCode::CAST_BOOL, "cast_bool", args::None>;
 	using CastChar = GenericInst<OpCode::CAST_CHAR, "cast_char", args::None>;

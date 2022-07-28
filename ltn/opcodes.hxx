@@ -96,7 +96,6 @@ namespace ltn {
 
 		// IO
 		OUT = 0x70,
-		STYLIZE,
 		CLOSE_STREAM,
 		IN_STR,
 		IN_LINE,
@@ -144,6 +143,7 @@ namespace ltn {
 		POP,
 		PEEK,
 		CONTAINS,
+		EMPTY,
 
 		// Cast
 		CAST_BOOL = 0xb0,

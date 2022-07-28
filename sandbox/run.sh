@@ -19,4 +19,4 @@ run_direct () {
 
 
 run misc
-run_direct misc
+# run_direct misc
