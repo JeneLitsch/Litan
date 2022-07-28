@@ -105,7 +105,7 @@ namespace ltn::vm {
 		}
 
 
-		void collect_garbage(const Stack & stack, const Register & reg);
+		void collect_garbage(const Stack & stack, const Register & reg, const std::vector<Value> & globals);
 
 
 		void reset();

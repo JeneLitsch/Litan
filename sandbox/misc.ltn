@@ -8,8 +8,8 @@ namespace foo {
 function get_x() => global x
 
 function set_globals() {
-	global x = 1;
-	global foo::x = 2;
+	global x = "Hello";
+	global foo::x = "World";
 }
 
 function main(args) {

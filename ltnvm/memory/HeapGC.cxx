@@ -1,9 +1,10 @@
 #include "Heap.hxx"
 #include "ltnvm/type_check.hxx"
 namespace ltn::vm {
-	void Heap::collect_garbage(const Stack & stack, const Register & reg) {
+	void Heap::collect_garbage(const Stack & stack, const Register & reg, const std::vector<Value> & globals) {
 		mark(stack.get_container());
 		mark(reg.get_container());
+		mark(globals);
 		sweep();
 	}
 
