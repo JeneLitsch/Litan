@@ -59,7 +59,6 @@ namespace ltn::c {
 		}
 
 		for(const auto & global : program.globals) {
-			std::cout << "XXX\n";
 			info.global_table.insert(*global);
 		}
 

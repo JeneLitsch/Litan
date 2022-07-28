@@ -1,20 +1,20 @@
-global foo;
+global x;
 
 namespace foo {
-	global bar;
+	global x;
+	function get_x() => global x
 }
 
-function f() {
-	global foo = 3.1;
-	global foo::bar::baz = 1.9;
+function get_x() => global x
+
+function set_globals() {
+	global x = 1;
+	global foo::x = 2;
 }
 
 function main(args) {
-	f();
-	global foo += global foo::bar;
-	std::println(global foo);
-	return global foo;
-}
-except(error) {
-	std::println(error);
+	set_globals();
+	std::println(get_x());
+	std::println(foo::get_x());
+	std::println(global x + global foo::x);
 }
