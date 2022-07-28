@@ -15,7 +15,7 @@ namespace ltn::c {
 	ast::stmt_ptr optimize_statement(ast::Statement & stmt);
 	ast::stmt_ptr optimize_statement(ast::stmt_ptr stmt);
 
-	void optimize_global(ast::Global & global);
+	void optimize_definition(ast::Definition & definition);
 	void optimize_function(ast::Function & function);
 
 

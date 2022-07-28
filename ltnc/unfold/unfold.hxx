@@ -8,5 +8,5 @@
 namespace ltn::c {
 	ast::prog_ptr unfold_source(ast::srce_ptr source);
 	ast::func_ptr unfold_preset(ast::prst_ptr preset);
-	std::vector<ast::glob_ptr> unfold_enumeration(ast::enum_ptr e);
+	std::vector<ast::defn_ptr> unfold_enumeration(ast::enum_ptr e);
 }

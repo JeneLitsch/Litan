@@ -75,6 +75,23 @@ namespace ltn::c {
 			}
 			return false;
 		}
+
+		
+		
+		ast::glob_ptr parse_global_decl(
+			Tokens & tokens,
+			ast::Namespace & namespaze) {
+			
+			const auto name = match(TT::INDENTIFIER, tokens);
+
+			if(!name) throw CompilerError {
+				"Expected name after global declaration",
+			};
+
+			semicolon(tokens);
+
+			return std::make_unique<ast::Global>(name->location, name->str, namespaze);
+		} 
 	}
 
 
@@ -82,9 +99,10 @@ namespace ltn::c {
 	ast::srce_ptr parse_source(Tokens & tokens) {
 		auto source = std::make_unique<ast::Source>();
 		auto & functions = source->functions;
-		auto & globals = source->globals;
+		auto & definitions = source->definitions;
 		auto & presets = source->presets;
 		auto & enums = source->enums;
+		auto & globals = source->globals;
 		ast::Namespace namespaze;
 		Reporter reporter;
 		while(!match(TT::___EOF___, tokens)) {
@@ -98,15 +116,17 @@ namespace ltn::c {
 				else if(auto fx = parse_functional(tokens, namespaze)) {
 					functions.push_back(std::move(fx));
 				}
-				else if(auto global = parse_definition(tokens, namespaze)) {
-					globals.push_back(std::move(global));
+				else if(auto definition = parse_definition(tokens, namespaze)) {
+					definitions.push_back(std::move(definition));
 				}
 				else if(auto preset = parse_preset(tokens, namespaze)) {
 					presets.push_back(std::move(preset));
 				}
 				else if(match(TT::ENUM, tokens)) {
-					auto e = parse_enumeration(tokens, namespaze);
-					enums.push_back(std::move(e));
+					enums.push_back(parse_enumeration(tokens, namespaze));
+				}
+				else if(match(TT::GLOBAL, tokens)) {
+					globals.push_back(parse_global_decl(tokens, namespaze));
 				}			
 				else if(match(TT::___EOSRC___, tokens)) {
 					throw unclosed_namespace(tokens);	

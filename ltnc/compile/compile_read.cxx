@@ -3,9 +3,9 @@
 namespace ltn::c {
 	namespace {
 		CompilerError undefined_enum(
-			const ast::GlobalValue & node) {
+			const ast::DefinitionValue & node) {
 			std::stringstream ss;
-			ss << "Global value " << node.name << " is not defined";
+			ss << "Definition value " << node.name << " is not defined";
 			return CompilerError { ss.str(), node.location };
 		}
 
@@ -19,9 +19,9 @@ namespace ltn::c {
 
 
 
-		ExprCode compile_read_global_variable(const ast::Global & global, CompilerInfo & info) {
-			Scope s{global.namespaze, false};
-			return compile_expression(*global.expr, info, s);
+		ExprCode compile_read_definition(const ast::Definition & definition, CompilerInfo & info) {
+			Scope s{definition.namespaze, false};
+			return compile_expression(*definition.expr, info, s);
 		}
 
 
@@ -66,8 +66,8 @@ namespace ltn::c {
 		catch(const CompilerError & error) {
 			const auto & name = expr.name;
 			const auto & namespaze = scope.get_namespace();
-			if(auto global = info.global_table.resolve(name, namespaze)) {
-				return compile_read_global_variable(*global, info);
+			if(auto definition = info.definition_table.resolve(name, namespaze)) {
+				return compile_read_definition(*definition, info);
 			}
 			throw error;
 		}
@@ -88,20 +88,20 @@ namespace ltn::c {
 
 
 
-	ExprCode compile_global_value(
-		const ast::GlobalValue & global_value,
+	ExprCode compile_definition_value(
+		const ast::DefinitionValue & definition_value,
 		CompilerInfo & info,
 		Scope & scope) {
 
-		const auto enym = info.global_table.resolve(
-			global_value.name,
+		const auto enym = info.definition_table.resolve(
+			definition_value.name,
 			scope.get_namespace(),
-			global_value.namespaze);
+			definition_value.namespaze);
 		
 		if(!enym) {
-			throw undefined_enum(global_value);
+			throw undefined_enum(definition_value);
 		}
 
-		return compile_read_global_variable(*enym, info);
+		return compile_read_definition(*enym, info);
 	}
 }

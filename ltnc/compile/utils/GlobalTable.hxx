@@ -1,21 +1,13 @@
 #pragma once
-#include "ltnc/ast/Ast.hxx"
-#include <vector>
+#include <unordered_map>
+#include <cstdint>
+#include <string>
+
 namespace ltn::c {
-	// Holds and resolves functions at compile time
 	class GlobalTable {
 	public:
-		const ast::Global * resolve(
-			const std::string_view name,
-			const ast::Namespace & from,
-			const ast::Namespace & to);
-
-		const ast::Global * resolve(
-			const std::string_view name,
-			const ast::Namespace & full);
-
-		void insert(const ast::Global & fx);
+		std::uint64_t get_id(const std::string & str);
 	private:
-		std::vector<const ast::Global *> enums;
+		std::unordered_map<std::string, std::uint64_t> table;
 	};
 }

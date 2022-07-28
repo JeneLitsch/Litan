@@ -160,5 +160,7 @@ namespace ltn {
 		// Structs
 		MEMBER_READ = 0xd0,
 		MEMBER_WRITE,
+		GLOBAL_READ,
+		GLOBAL_WRITE,
 	};
 }

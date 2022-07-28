@@ -1,9 +1,10 @@
 global foo;
 
 function f() {
-	global<foo> = 3.1;
+	global foo = 3.1;
 }
 
 function main(args) {
-	return std::int(global<foo>);
+	f();
+	return std::int(global foo);
 }

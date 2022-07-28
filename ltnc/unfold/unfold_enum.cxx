@@ -1,19 +1,19 @@
 #include "unfold.hxx"
 
 namespace ltn::c {
-	std::vector<ast::glob_ptr> unfold_enumeration(ast::enum_ptr e) {
+	std::vector<ast::defn_ptr> unfold_enumeration(ast::enum_ptr e) {
 		auto namespaze = e->namespaze;
 		namespaze.push_back(e->name);
 
-		std::vector<ast::glob_ptr> globals;
+		std::vector<ast::defn_ptr> defintions;
 		for(auto & [name, value] : e->labels) {
-			auto global = std::make_unique<ast::Global>(
+			auto defintion = std::make_unique<ast::Definition>(
 				value->location,
 				name,
 				namespaze); 
-			global->expr = std::move(value);
-			globals.push_back(std::move(global));
+			defintion->expr = std::move(value);
+			defintions.push_back(std::move(defintion));
 		}
-		return globals;
+		return defintions;
 	}
 }

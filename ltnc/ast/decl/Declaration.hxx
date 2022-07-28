@@ -24,6 +24,18 @@ namespace ltn::c::ast {
 
 
 
+	struct Definition final : public Declaration {
+		Definition(
+			const SourceLocation & location,
+			const std::string & name,
+			const Namespace & namespaze)
+			:	Declaration(location, name, namespaze) {}
+		virtual ~Definition() = default;
+		std::unique_ptr<ast::Expression> expr;
+	};
+
+
+
 	struct Global final : public Declaration {
 		Global(
 			const SourceLocation & location,
@@ -31,7 +43,6 @@ namespace ltn::c::ast {
 			const Namespace & namespaze)
 			:	Declaration(location, name, namespaze) {}
 		virtual ~Global() = default;
-		std::unique_ptr<ast::Expression> expr;
 	};
 
 

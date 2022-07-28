@@ -239,11 +239,11 @@ namespace ltn::c {
 
 
 
-		ast::expr_ptr parse_global_value(
+		ast::expr_ptr parse_defintion_value(
 			const auto & name,
 			const auto & namespaze,
 			Tokens & tokens) {
-			return std::make_unique<ast::GlobalValue>(
+			return std::make_unique<ast::DefinitionValue>(
 				name,
 				namespaze,
 				location(tokens));
@@ -259,7 +259,7 @@ namespace ltn::c {
 			if(namespaze.empty()) {
 				return parse_var(name, tokens);
 			}
-			return parse_global_value(name, namespaze, tokens);
+			return parse_defintion_value(name, namespaze, tokens);
 		}
 
 
@@ -269,7 +269,7 @@ namespace ltn::c {
 			if(match(TT::PAREN_L, tokens)) {
 				throw CompilerError{"Function calls are not allowed in static expression", location(tokens)};
 			}
-			return parse_global_value(name, namespaze, tokens);
+			return parse_defintion_value(name, namespaze, tokens);
 		}
 
 
@@ -316,6 +316,43 @@ namespace ltn::c {
 			}
 			else return nullptr;
 		}
+
+
+
+		ast::expr_ptr parse_global(Tokens & tokens) {
+			if(auto t = match(TT::GLOBAL, tokens)) {
+				// if(!match(TT::SMALLER, tokens)) throw CompilerError {
+				// 	"Expected < after global",
+				// 	t->location
+				// };
+
+				const auto name = match(TT::INDENTIFIER, tokens); 
+				if(!name) throw CompilerError {
+					"Expected global variable inside global<...>",
+					t->location
+				};
+
+				// if(!match(TT::BIGGER, tokens)) throw CompilerError {
+				// 	"Expected > after global variable name",
+				// 	t->location
+				// };
+
+				return std::make_unique<ast::GlobalVar>(
+					name->str,
+					name->location);
+			}
+			else return nullptr; 
+		}
+
+		ast::expr_ptr parse_static_global(Tokens & tokens) {
+			if(auto t = match(TT::GLOBAL, tokens)) {
+				throw CompilerError {
+					"Definition variables are not allowed in static expressions",
+					t->location
+				};
+			}
+			else return nullptr;
+		}
 	}
 
 
@@ -354,6 +391,7 @@ namespace ltn::c {
 		if(auto expr = parse_static_iife(tokens)) return expr;
 		if(auto expr = parse_static_invokation(tokens)) return expr;
 		if(auto expr = parse_static_expr_switch(tokens)) return expr;
+		if(auto expr = parse_static_global(tokens)) return expr;
 		return parse_static_identifier(tokens);
 	}
 
@@ -384,6 +422,7 @@ namespace ltn::c {
 		if(auto expr = parse_lambda(tokens)) return expr;
 		if(auto expr = parse_iife(tokens)) return expr;
 		if(auto expr = parse_expr_switch(tokens)) return expr;
+		if(auto expr = parse_global(tokens)) return expr;
 		return parse_identifier(tokens);
 	}
 }

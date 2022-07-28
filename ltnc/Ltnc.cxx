@@ -39,21 +39,23 @@ namespace ltn::c {
 		Reporter & reporter) {
 		
 		InstructionBuffer buf;
-		GlobalTable global_table;
+		DefinitionTable definition_table;
 		FxTable fx_table;
 		MemberTable member_table;
+		GlobalTable global_table;
 		CompilerInfo info {
 			fx_table,
-			global_table,
+			definition_table,
 			member_table,
+			global_table,
 			reporter};
 
 		for(const auto & fx : program.functions) {
 			info.fx_table.insert(*fx);
 		}
 
-		for(const auto & global : program.globals) {
-			info.global_table.insert(*global);
+		for(const auto & definition : program.definitions) {
+			info.definition_table.insert(*definition);
 		}
 
 		for(const auto & function : program.functions) {

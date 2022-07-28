@@ -1,8 +1,8 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
 namespace ltn::c {
-	void optimize_global(ast::Global & global) {
-		global.expr = optimize_expression(std::move(global.expr));
+	void optimize_definition(ast::Definition & definition) {
+		definition.expr = optimize_expression(std::move(definition.expr));
 	}
 	
 	void optimize_function(ast::Function & function) {

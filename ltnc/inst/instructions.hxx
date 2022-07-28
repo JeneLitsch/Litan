@@ -203,6 +203,8 @@ namespace ltn::inst {
 
 	using MemberRead = GenericInst<OpCode::MEMBER_READ, "member_read", args::Uint64>;
 	using MemberWrite = GenericInst<OpCode::MEMBER_WRITE, "member_write", args::Uint64>;
+	using GlobalRead = GenericInst<OpCode::GLOBAL_READ, "global_read", args::Uint64>;
+	using GlobalWrite = GenericInst<OpCode::GLOBAL_WRITE, "global_write", args::Uint64>;
 
 	class Instruction {
 	public:

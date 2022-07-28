@@ -5,7 +5,7 @@ namespace ltn::c {
 		auto t_unit = std::make_unique<ast::Program>();
 
 		t_unit->functions = std::move(source->functions);
-		t_unit->globals = std::move(source->globals);
+		t_unit->definitions = std::move(source->definitions);
 
 		for(auto & preset : source->presets) {
 			auto ctor = unfold_preset(std::move(preset));
@@ -13,9 +13,9 @@ namespace ltn::c {
 		}
 
 		for(auto & enym : source->enums) {
-			auto globals = unfold_enumeration(std::move(enym));
-			for(auto & global : globals) {
-				t_unit->globals.push_back(std::move(global));
+			auto definitions = unfold_enumeration(std::move(enym));
+			for(auto & definition : definitions) {
+				t_unit->definitions.push_back(std::move(definition));
 			}
 		}
 

@@ -8,8 +8,8 @@ namespace ltn::c {
 		const std::string_view name,
 		const std::size_t parameters);
 
-	const ast::Global * resolve(
-		const std::vector<const ast::Global *> & globals,
+	const ast::Definition * resolve(
+		const std::vector<const ast::Definition *> & definitions,
 		const ast::Namespace & from,
 		const ast::Namespace & to,
 		const std::string_view name);

@@ -12,7 +12,7 @@ namespace ltn::c {
 	// Funcionals
 	ast::func_ptr parse_functional(Tokens & tokens, const ast::Namespace & namespaze);
 	ast::enum_ptr parse_enumeration(Tokens & tokens, ast::Namespace namespaze);
-	ast::glob_ptr parse_definition(Tokens & tokens, const ast::Namespace & namespaze);
+	ast::defn_ptr parse_definition(Tokens & tokens, const ast::Namespace & namespaze);
 	ast::prst_ptr parse_preset(Tokens & tokens, const ast::Namespace & namespaze);
 
 	ast::expr_ptr parse_lambda(Tokens & tokens);

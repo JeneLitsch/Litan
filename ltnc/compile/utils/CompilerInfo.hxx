@@ -8,15 +8,17 @@
 #include "ltnc/Reporter.hxx"
 #include "ltnc/ast/Ast.hxx"
 #include "FxTable.hxx"
-#include "GlobalTable.hxx"
+#include "DefinitionTable.hxx"
 #include "MemberTable.hxx"
+#include "GlobalTable.hxx"
 #include "Scope.hxx"
 
 namespace ltn::c {
 	struct CompilerInfo {
 		FxTable & fx_table;
-		GlobalTable & global_table;
+		DefinitionTable & definition_table;
 		MemberTable & member_table;
+		GlobalTable & global_table;
 		Reporter & reporter;
 	};
 

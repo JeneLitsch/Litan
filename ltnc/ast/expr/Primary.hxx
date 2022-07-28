@@ -44,16 +44,16 @@ namespace ltn::c::ast {
 
 
 
-	struct GlobalValue final : public Primary {
+	struct DefinitionValue final : public Primary {
 	public:
-		GlobalValue(
+		DefinitionValue(
 			const std::string & name,
 			const Namespace & namespaze,
 			const SourceLocation & location)
 			:	Primary(location),
 				name(name),
 				namespaze(namespaze) {}
-		virtual ~GlobalValue() = default;
+		virtual ~DefinitionValue() = default;
 		std::string name;
 		Namespace namespaze;
 	};

@@ -36,6 +36,18 @@ namespace ltn::c::ast {
 
 
 
+	struct GlobalVar final : public Assignable {
+	public:
+		GlobalVar(const std::string & name,
+			const SourceLocation & location)
+			:	Assignable(location),
+				name(name) {}
+		virtual ~GlobalVar() = default;
+		std::string name;
+	};
+
+
+
 	struct Member final : public Assignable {
 		Member(
 			std::unique_ptr<Expression> expr,

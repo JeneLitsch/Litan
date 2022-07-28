@@ -45,6 +45,7 @@ namespace ltn::c {
 			CHOOSE,
 			CASE,
 			DEFAULT,
+			GLOBAL,
 			
 			INTEGER,
 			INTEGER_HEX,

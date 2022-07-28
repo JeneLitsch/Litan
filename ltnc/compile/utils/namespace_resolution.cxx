@@ -18,13 +18,13 @@ namespace ltn::c {
 
 
 		bool match(
-			const ast::Global & global,
+			const ast::Definition & definition,
 			const ast::Namespace & full,
 			const std::string_view name) {
 
 			return
-				global.name == name &&
-				global.namespaze == full;
+				definition.name == name &&
+				definition.namespaze == full;
 		}
 	}
 
@@ -97,12 +97,12 @@ namespace ltn::c {
 
 
 
-	const ast::Global * resolve(
-		const std::vector<const ast::Global *> & globals,
+	const ast::Definition * resolve(
+		const std::vector<const ast::Definition *> & definition,
 		const ast::Namespace & from,
 		const ast::Namespace & to,
 		const std::string_view name) {
 
-		return resolve_x(globals, from, to, name);
+		return resolve_x(definition, from, to, name);
 	}
 }

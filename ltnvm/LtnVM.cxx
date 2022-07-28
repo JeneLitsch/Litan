@@ -164,6 +164,9 @@ namespace ltn::vm {
 		add_instruction(table, OpCode::MEMBER_READ, inst::member_read);
 		add_instruction(table, OpCode::MEMBER_WRITE, inst::member_write);
 
+		add_instruction(table, OpCode::GLOBAL_READ, inst::global_read);
+		add_instruction(table, OpCode::GLOBAL_WRITE, inst::global_write);
+
 		return table;
 	}
 

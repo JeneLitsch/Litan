@@ -26,6 +26,13 @@ namespace ltn::c {
 
 
 
+		ExprCode compile_read_ref_global(const ast::GlobalVar & expr, CompilerInfo & info, Scope & scope) {
+			InstructionBuffer buf;
+			return ExprCode{ buf };
+		}
+
+
+
 		// compile assignable variable
 		ExprCode compile_read_ref(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
 			if(as<ast::Var>(expr)) {
@@ -36,6 +43,9 @@ namespace ltn::c {
 			}
 			if(auto e = as<ast::Member>(expr)) {
 				return compile_read_ref_member(*e, info, scope);
+			}
+			if(auto e = as<ast::GlobalVar>(expr)) {
+				return compile_read_ref_global(*e, info, scope);
 			}
 			throw std::runtime_error{"Unknow assingable type"};
 		}
@@ -71,6 +81,15 @@ namespace ltn::c {
 			return ExprCode{ buf };
 		}
 
+
+		
+		ExprCode compile_write_global(const ast::GlobalVar & expr, CompilerInfo & info, Scope &) {
+			InstructionBuffer buf;
+			const auto id = info.member_table.get_id(expr.name);
+			buf << ltn::inst::GlobalWrite{ id };
+			return ExprCode{ buf };
+		}
+
 		
 
 		ExprCode compile_write(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
@@ -83,7 +102,10 @@ namespace ltn::c {
 			if(auto e = as<ast::Member>(expr)) {
 				return compile_write_member(*e, info, scope);
 			}
-			throw std::runtime_error{"Unknow assingable type"};
+			if(auto e = as<ast::GlobalVar>(expr)) {
+				return compile_write_global(*e, info, scope);
+			}
+			throw std::runtime_error{"Unknown assingable type"};
 		}
 
 
@@ -127,7 +149,10 @@ namespace ltn::c {
 			if(auto e = as<ast::Member>(expr)) {
 				return compile_read_member(*e, info, scope);
 			}
-			throw std::runtime_error{"Unknow assingable type"};
+			if(auto e = as<ast::GlobalVar>(expr)) {
+				return compile_read_global(*e, info);
+			}
+			throw std::runtime_error{"Unknown assingable type"};
 		}
 	}
 

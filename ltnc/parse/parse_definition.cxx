@@ -23,17 +23,17 @@ namespace ltn::c {
 
 
 
-	ast::glob_ptr parse_definition(Tokens & tokens, const ast::Namespace & namespaze) {
+	ast::defn_ptr parse_definition(Tokens & tokens, const ast::Namespace & namespaze) {
 		if(match(TT::DEFINE, tokens)) {
 			const auto name = parse_name(tokens);
-			auto global = std::make_unique<ast::Global>(
+			auto definition = std::make_unique<ast::Definition>(
 				location(tokens),
 				name,
 				namespaze);
 			parse_equal_sign(tokens);
-			global->expr = parse_static_expression(tokens);
+			definition->expr = parse_static_expression(tokens);
 			semicolon(tokens);
-			return global;
+			return definition;
 		}
 		return nullptr;
 	}
