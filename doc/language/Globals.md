@@ -9,6 +9,13 @@ A global variable can be declared at namespace level with the following syntax.
 global /* name */;
 ```
 
+A start/default value can also be assigned to global value.
+```js 
+global /* name */ = /*expression*/;
+```
+
+If no default is set. The global variable will be `null` until assigned otherwise.
+
 ## Usage
 
 To use a global variable inside a function it must preceded by the keyword global.
