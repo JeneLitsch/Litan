@@ -257,6 +257,8 @@ namespace ltn::vm {
 		this->core.reg.reset();
 		this->core.stack.reset();
 		this->core.heap.reset();
+
+		core_loop(core);
 	}
 
 

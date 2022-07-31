@@ -50,7 +50,6 @@ namespace ltn::c {
 			global_table,
 			reporter};
 
-		buf << inst::Exit{};
 
 		for(const auto & fx : program.functions) {
 			info.fx_table.insert(*fx);
@@ -62,7 +61,20 @@ namespace ltn::c {
 
 		for(const auto & global : program.globals) {
 			info.global_table.insert(*global);
+			if(global->expr) {
+				Scope scope{global->namespaze, false};
+				const ast::GlobalVar global_var {
+					global->namespaze,
+					global->name,
+					global->location
+				};
+				buf << compile_expression(*global->expr, info, scope).code;
+				buf << compile_write_global(global_var, info, scope).code;
+			}
 		}
+
+		buf << inst::Null{};
+		buf << inst::Exit{};
 
 		for(const auto & function : program.functions) {
 			try {

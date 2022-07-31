@@ -1,6 +1,8 @@
-global x;
+global x = 1337;
 global str;
 global arr;
+global value_str = "ABC";
+global value_int = 42;
 
 namespace foo {
 	global x;
@@ -27,19 +29,21 @@ namespace bar {
 namespace core {
 	function globals(sphinx) {
 		sphinx::run_test(sphinx, "Globals default", lambda(fx) => (fx)(), [
-			sphinx::assert_result([lambda() => global x           ], null),
+			sphinx::assert_result([lambda() => global x           ], 1337),
 			sphinx::assert_result([lambda() => global foo::x      ], null),
 			sphinx::assert_result([lambda() => global foo::bar::x ], null),
 			sphinx::assert_result([lambda() => global bar::x      ], null),
-			sphinx::assert_result([&foo::bar::get_x()             ], null),
+			sphinx::assert_result([&foo::bar::get_x()             ], 1337),
 			sphinx::assert_result([&foo::bar::get_foo_x()         ], null),
 			sphinx::assert_result([&foo::bar::get_foo_bar_x()     ], null),
 			sphinx::assert_result([&foo::bar::get_bar_x()         ], null),
-			sphinx::assert_result([&foo::get_x()                  ], null),
+			sphinx::assert_result([&foo::get_x()                  ], 1337),
 			sphinx::assert_result([&foo::get_foo_x()              ], null),
 			sphinx::assert_result([&foo::get_foo_bar_x()          ], null),
 			sphinx::assert_result([&foo::get_bar_x()              ], null),
 			sphinx::assert_result([lambda() => global str         ], null),
+			sphinx::assert_result([lambda() => global value_int   ], 42),
+			sphinx::assert_result([lambda() => global value_str   ], "ABC"),
 		]);
 
 		global x = 1;

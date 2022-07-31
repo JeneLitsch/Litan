@@ -45,6 +45,7 @@ namespace ltn::c::ast {
 				id(++counter) {}
 		virtual ~Global() = default;
 		std::uint64_t id;
+		std::unique_ptr<ast::Expression> expr;
 	private:
 		static inline std::uint64_t counter = 0;
 	};

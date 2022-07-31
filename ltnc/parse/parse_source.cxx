@@ -88,9 +88,17 @@ namespace ltn::c {
 				"Expected name after global declaration",
 			};
 
-			semicolon(tokens);
+			auto global = std::make_unique<ast::Global>(
+				name->location,
+				name->str,
+				namespaze);
 
-			return std::make_unique<ast::Global>(name->location, name->str, namespaze);
+			if(match(TT::ASSIGN, tokens)) {
+				global->expr = parse_expression(tokens);
+			}
+
+			semicolon(tokens);
+			return global;
 		} 
 	}
 
