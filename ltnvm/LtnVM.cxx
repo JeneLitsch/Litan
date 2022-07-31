@@ -204,50 +204,61 @@ namespace ltn::vm {
 		this->core.externals.emplace(id, std::move(ext));
 	}
 
-	void LtnVM::error(const std::string & msg) {
-		const auto ref = this->core.heap.alloc<String>({msg});
-		this->core.reg.push(value::string(ref));
+	void error(VmCore & core, const std::string & msg) {
+		const auto ref = core.heap.alloc<String>({msg});
+		core.reg.push(value::string(ref));
 		inst::thr0w(core);
 	}
 
-	Value LtnVM::run(const std::vector<std::string> & args, const std::string & main) {
+	namespace {
+		Value core_loop(VmCore & core) {
+			RESUME:
+			try {
+				while(true) {
+					const std::uint8_t inst = core.fetch_byte();
+					instructions_table[inst](core);
+				}
 
-		
-		// load args
-		const auto ref = this->core.heap.alloc<Array>(Array{});
-		this->core.reg.push(value::array(ref));
-		for(const auto & arg : args) {
-			const auto str = this->core.heap.alloc<String>(String{arg});
-			auto & arr = this->core.heap.read<Array>(ref).get();
-			arr.push_back(value::string(str));
-		}
-
-		const auto main_fx = [&] () -> std::string {
-			if(!main.empty()) return main;
-			return core.mains.contains("main(1)") ? "main(1)" : "main(0)";
-		} ();
-		if(!core.mains.contains(main_fx)) throw std::runtime_error {
-			"Program does not contain function " + main_fx
-		};
-		core.pc = core.mains.at(main_fx);
-		core.stack.push_frame(std::size(core.byte_code) - 1);
-
-		RESUME:
-		try {
-			while(true) {
-				const std::uint8_t inst = this->core.fetch_byte();
-				instructions_table[inst](core);
 			}
 
+			catch(const Exception & err) {
+				error(core, err.msg);
+				goto RESUME;
+			}
+
+			catch(const Value & value) {
+				return value;
+			}
 		}
 
-		catch(const Exception & error) {
-			this->error(error.msg);
-			goto RESUME;
+
+
+		void load_main_args(VmCore & core, const std::vector<std::string> & args) {
+			const auto ref = core.heap.alloc<Array>(Array{});
+			core.reg.push(value::array(ref));
+			for(const auto & arg : args) {
+				const auto str = core.heap.alloc<String>(String{arg});
+				auto & arr = core.heap.read<Array>(ref).get();
+				arr.push_back(value::string(str));
+			}
 		}
 
-		catch(const Value & value) {
-			return value;
+		void jump_to_init(VmCore & core, const std::string & main) {
+			const auto main_fx = [&] () -> std::string {
+				if(!main.empty()) return main;
+				return core.mains.contains("main(1)") ? "main(1)" : "main(0)";
+			} ();
+			if(!core.mains.contains(main_fx)) throw std::runtime_error {
+				"Program does not contain function " + main_fx
+			};
+			core.pc = core.mains.at(main_fx);
+			core.stack.push_frame(std::size(core.byte_code) - 1);
 		}
+	}
+
+	Value LtnVM::run(const std::vector<std::string> & args, const std::string & main) {
+		load_main_args(core, args);
+		jump_to_init(core, main);
+		return core_loop(this->core);
 	}
 }

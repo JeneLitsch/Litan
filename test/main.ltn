@@ -224,6 +224,7 @@ function main(args) {
 	sphinx::interprete_results(sphinx);
 
 	std::println(std::debug::state());
+	return "Hello World!";
 }
 except(e) {
 	std::println(e);

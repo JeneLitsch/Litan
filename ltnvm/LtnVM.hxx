@@ -30,7 +30,6 @@ namespace ltn::vm {
 
 	
 	private:
-		void error(const std::string & msg);
 		VmCore core;
 	};
 }

@@ -1,4 +1,6 @@
 global x;
+global str;
+global arr;
 
 namespace foo {
 	global x;
@@ -37,12 +39,15 @@ namespace core {
 			sphinx::assert_result([&foo::get_foo_x()              ], null),
 			sphinx::assert_result([&foo::get_foo_bar_x()          ], null),
 			sphinx::assert_result([&foo::get_bar_x()              ], null),
+			sphinx::assert_result([lambda() => global str         ], null),
 		]);
 
 		global x = 1;
 		global foo::x = 2;
 		global foo::bar::x = 3;
 		global bar::x = 4;
+		global str = "Hello World!";
+		global arr = [1,2,3];
 
 		sphinx::run_test(sphinx, "Globals init", lambda(fx) => (fx)(), [
 			sphinx::assert_result([lambda() => global x           ], 1),
@@ -57,6 +62,8 @@ namespace core {
 			sphinx::assert_result([&foo::get_foo_x()              ], 2),
 			sphinx::assert_result([&foo::get_foo_bar_x()          ], 3),
 			sphinx::assert_result([&foo::get_bar_x()              ], 4),
+			sphinx::assert_result([lambda() => global str         ], "Hello World!"),
+			sphinx::assert_result([lambda() => global arr         ], [1,2,3]),
 		]);
 
 		global x *= 10;
@@ -83,6 +90,7 @@ namespace core {
 		global foo::x += 1.5;
 		global foo::bar::x += 1.5;
 		global bar::x += 1.5;
+		global arr += [4] + [5];
 
 		sphinx::run_test(sphinx, "Globals modify add", lambda(fx) => (fx)(), [
 			sphinx::assert_result([lambda() => global x           ], 11.5),
@@ -97,6 +105,7 @@ namespace core {
 			sphinx::assert_result([&foo::get_foo_x()              ], 21.5),
 			sphinx::assert_result([&foo::get_foo_bar_x()          ], 31.5),
 			sphinx::assert_result([&foo::get_bar_x()              ], 41.5),
+			sphinx::assert_result([lambda() => global arr         ], [1,2,3,4,5]),
 		]);
 	}
 }
