@@ -33,6 +33,40 @@ namespace ltn::c {
 
 
 namespace ltn::c {
+	namespace {
+		InstructionBuffer static_init(auto & info, auto & globals) {
+			// Use empty global_table to prohibit the usage of other global variables.
+			// Functions or defines can be used though.
+			GlobalTable global_table;
+			CompilerInfo read_info {
+				.fx_table         = info.fx_table,
+				.definition_table = info.definition_table,
+				.member_table     = info.member_table,
+				.global_table     = global_table,
+				.reporter         = info.reporter
+			};
+
+			auto & write_info = info;
+
+			InstructionBuffer buf;
+			for(const auto & global : globals) {
+				if(global->expr) {
+					Scope scope{global->namespaze, false};
+					const ast::GlobalVar global_var {
+						global->namespaze,
+						global->name,
+						global->location
+					};
+					buf << compile_expression(*global->expr, read_info, scope).code;
+					buf << compile_write_global(global_var, write_info, scope).code;
+				}
+			}
+			buf << inst::Null{};
+			buf << inst::Exit{};
+			return buf;
+		}
+	}
+
 	// compiles source
 	Instructions compile(
 		const ast::Program & program,
@@ -44,11 +78,13 @@ namespace ltn::c {
 		MemberTable member_table;
 		GlobalTable global_table;
 		CompilerInfo info {
-			fx_table,
-			definition_table,
-			member_table,
-			global_table,
-			reporter};
+			.fx_table = fx_table,
+			.definition_table = definition_table,
+			.member_table = member_table,
+			.global_table = global_table,
+			.reporter = reporter
+		};
+
 
 
 		for(const auto & fx : program.functions) {
@@ -61,20 +97,11 @@ namespace ltn::c {
 
 		for(const auto & global : program.globals) {
 			info.global_table.insert(*global);
-			if(global->expr) {
-				Scope scope{global->namespaze, false};
-				const ast::GlobalVar global_var {
-					global->namespaze,
-					global->name,
-					global->location
-				};
-				buf << compile_expression(*global->expr, info, scope).code;
-				buf << compile_write_global(global_var, info, scope).code;
-			}
 		}
 
-		buf << inst::Null{};
-		buf << inst::Exit{};
+
+
+		buf << static_init(info, program.globals);		
 
 		for(const auto & function : program.functions) {
 			try {

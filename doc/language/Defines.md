@@ -1,5 +1,5 @@
 # Define
-Defines are used to declare global constants. Function calls are not allowed in defines.
+Defines are used to declare global constants. Function calls are not allowed in defines. Global variables cannot be used.
 
 ```javascript
 namespace my_namespace {

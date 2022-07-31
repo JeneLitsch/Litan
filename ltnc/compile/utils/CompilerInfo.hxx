@@ -12,6 +12,7 @@
 #include "MemberTable.hxx"
 #include "GlobalTable.hxx"
 #include "Scope.hxx"
+#include "stdxx/oop.hxx"
 
 namespace ltn::c {
 	struct CompilerInfo {

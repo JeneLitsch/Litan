@@ -335,7 +335,7 @@ namespace ltn::c {
 		ast::expr_ptr parse_static_global(Tokens & tokens) {
 			if(auto t = match(TT::GLOBAL, tokens)) {
 				throw CompilerError {
-					"Definition variables are not allowed in static expressions",
+					"Global variables are not allowed in static expressions",
 					t->location
 				};
 			}

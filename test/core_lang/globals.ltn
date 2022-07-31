@@ -1,8 +1,11 @@
 global x = 1337;
 global str;
 global arr;
-global value_str = "ABC";
-global value_int = 42;
+define define_xxx = "ABC";
+global value_str = define_xxx;
+global value_int = x2(21);
+
+function x2(x) => x * 2
 
 namespace foo {
 	global x;
