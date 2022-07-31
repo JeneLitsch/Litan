@@ -258,6 +258,7 @@ namespace ltn::vm {
 		this->core.stack.reset();
 		this->core.heap.reset();
 
+		// init static variables 
 		core_loop(core);
 	}
 
