@@ -50,6 +50,8 @@ namespace ltn::c {
 			global_table,
 			reporter};
 
+		buf << inst::Exit{};
+
 		for(const auto & fx : program.functions) {
 			info.fx_table.insert(*fx);
 		}
@@ -77,6 +79,8 @@ namespace ltn::c {
 		for(const auto & fx : program.functions) {
 			if(fx->init) init_functions.insert(fx->id);
 		}
+
+		buf << inst::Exit{};
 
 		return {
 			buf.get(),

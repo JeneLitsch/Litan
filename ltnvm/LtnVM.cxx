@@ -5,13 +5,14 @@
 #include "inst/instructions.hxx"
 #include "ltn/version.hxx"
 #include "ltn/header.hxx"
+#include "stdxx/iife.hxx"
 
 namespace ltn::vm {
-	using InstFx = void(*)(VmCore&);
-
 	constexpr void add_instruction(auto & table, auto op_code, auto fx) {
 		table[static_cast<std::size_t>(op_code)] = fx;
 	}
+
+
 
 	void illegal_instruction(VmCore & core) {
 		std::stringstream ss;
@@ -21,7 +22,8 @@ namespace ltn::vm {
 
 
 
-	constexpr auto make_instruction_table() {
+	constexpr auto instructions_table = stx::iife([] () {
+		using InstFx = void(*)(VmCore&);
 		std::array<InstFx, 256> table;
 		std::fill(std::begin(table), std::end(table), illegal_instruction);
 		add_instruction(table, OpCode::EXIT, inst::exit);
@@ -168,35 +170,9 @@ namespace ltn::vm {
 		add_instruction(table, OpCode::GLOBAL_WRITE, inst::global_write);
 
 		return table;
-	}
-
-	const auto instructions_table = make_instruction_table();
-
-	void LtnVM::setup(std::vector<std::uint8_t> code) {
-		static constexpr auto get_uint8 = [] (auto & it) {
-			return *(it++);
-		};
+	});
 
 
-
-		if(code.size() < 2) {
-			throw std::runtime_error{"Not an executable program"};
-		}
-
-		auto it = std::begin(code);
-		const std::uint8_t version = ltn::read_version(it);
-		if(!is_compatible(version)) {
-			throw std::runtime_error{"Incompatible bytecode version"};
-		}
-
-		this->core.mains = read_fx_table(it);
-
-		this->core.byte_code = std::vector<std::uint8_t>{ it, std::end(code) };
-		this->core.pc = 0;
-		this->core.reg.reset();
-		this->core.stack.reset();
-		this->core.heap.reset();
-	}
 
 	void LtnVM::register_external(
 		std::int64_t id,
@@ -204,13 +180,17 @@ namespace ltn::vm {
 		this->core.externals.emplace(id, std::move(ext));
 	}
 
-	void error(VmCore & core, const std::string & msg) {
-		const auto ref = core.heap.alloc<String>({msg});
-		core.reg.push(value::string(ref));
-		inst::thr0w(core);
-	}
+
 
 	namespace {
+		void error(VmCore & core, const std::string & msg) {
+			const auto ref = core.heap.alloc<String>({msg});
+			core.reg.push(value::string(ref));
+			inst::thr0w(core);
+		}
+
+
+
 		Value core_loop(VmCore & core) {
 			RESUME:
 			try {
@@ -218,7 +198,6 @@ namespace ltn::vm {
 					const std::uint8_t inst = core.fetch_byte();
 					instructions_table[inst](core);
 				}
-
 			}
 
 			catch(const Exception & err) {
@@ -243,6 +222,8 @@ namespace ltn::vm {
 			}
 		}
 
+
+
 		void jump_to_init(VmCore & core, const std::string & main) {
 			const auto main_fx = [&] () -> std::string {
 				if(!main.empty()) return main;
@@ -255,6 +236,30 @@ namespace ltn::vm {
 			core.stack.push_frame(std::size(core.byte_code) - 1);
 		}
 	}
+
+
+
+	void LtnVM::setup(std::vector<std::uint8_t> code) {
+		if(code.size() < 2) {
+			throw std::runtime_error{"Not an executable program"};
+		}
+
+		auto it = std::begin(code);
+		const std::uint8_t version = ltn::read_version(it);
+		if(!is_compatible(version)) {
+			throw std::runtime_error{"Incompatible bytecode version"};
+		}
+
+		this->core.mains = read_fx_table(it);
+
+		this->core.byte_code = std::vector<std::uint8_t>{ it, std::end(code) };
+		this->core.pc = 0;
+		this->core.reg.reset();
+		this->core.stack.reset();
+		this->core.heap.reset();
+	}
+
+
 
 	Value LtnVM::run(const std::vector<std::string> & args, const std::string & main) {
 		load_main_args(core, args);

@@ -162,8 +162,6 @@ namespace ltn::c {
 			}, args);
 		}
 
-		bytecode += static_cast<std::uint8_t>(ltn::OpCode::EXIT);
-
 		return bytecode;
 	}
 }
