@@ -1,81 +1,102 @@
-namespace core {
-	enum foo {
-		Y;
-		A : 1;
-		B;
-		C;
-		X : 42;
-	}
+global x;
 
-
-	define switch_a = 5;
-	define switch_b = choose(switch_a) {
-		case 5: 42;
-		default: 1337;
-	};
-
-
-
+namespace foo {
+	global x;
 	namespace bar {
-		enum foo {
-			A : 1337;
-		}
+		global x;
 
-		define A = 1234;
-		
-		define i = 42;
-		define f = 13.37;
-		define c = 'x';
-		define s = "Hello World";
-		define n = null;
-		define a = [i, f, c];
+		function get_x()         => global ::x 
+		function get_foo_x()     => global ::foo::x
+		function get_foo_bar_x() => global x
+		function get_bar_x()     => global ::bar::x
 	}
 
+	function get_x()         => global ::x 
+	function get_foo_x()     => global x
+	function get_foo_bar_x() => global bar::x
+	function get_bar_x()     => global ::bar::x
+}
+
+namespace bar {
+	global x;
+}
 
 
-	namespace baz {
-		define a = 1;
-		define b = 2;
-		define c = 3;
-		define d = 4;
-		define f = d + 2;
-		define g = null ?? 7;
-		define h = false ? 7 : 8;
-		define array = [a, b, c, d, d + 1, f, g, h];
-	}
-	
-
-
-	define i = -1;
-	define b0 = false;
-	define b1 = true;
-	
-
-
+namespace core {
 	function globals(sphinx) {
-		var A = -1;
-		var a = 12345678;
-		var fx = lambda(x) => x;
-		var cases = [
-			sphinx::assert_result([A], -1),
-			sphinx::assert_result([foo::Y], 0),
-			sphinx::assert_result([foo::A], 1),
-			sphinx::assert_result([foo::B], 2),
-			sphinx::assert_result([foo::C], 3),
-			sphinx::assert_result([foo::X], 42),
-			sphinx::assert_result([bar::foo::A], 1337),
-			sphinx::assert_result([bar::i], 42),
-			sphinx::assert_result([i], -1),
-			sphinx::assert_result([bar::f], 13.37),
-			sphinx::assert_result([bar::c], 'x'),
-			sphinx::assert_result([bar::s], "Hello World"),
-			sphinx::assert_result([bar::n], null),
-			sphinx::assert_result([bar::a], [42, 13.37, 'x']),
-			sphinx::assert_result([baz::array], [1,2,3,4,5,6,7,8]),
-			sphinx::assert_result([b0], false),
-			sphinx::assert_result([b1], true),
-			sphinx::assert_result([switch_b], 42),
-		];
-		sphinx::run_test(sphinx, "Globals", fx, cases); 
+		sphinx::run_test(sphinx, "Globals default", lambda(fx) => (fx)(), [
+			sphinx::assert_result([lambda() => global x           ], null),
+			sphinx::assert_result([lambda() => global foo::x      ], null),
+			sphinx::assert_result([lambda() => global foo::bar::x ], null),
+			sphinx::assert_result([lambda() => global bar::x      ], null),
+			sphinx::assert_result([&foo::bar::get_x()             ], null),
+			sphinx::assert_result([&foo::bar::get_foo_x()         ], null),
+			sphinx::assert_result([&foo::bar::get_foo_bar_x()     ], null),
+			sphinx::assert_result([&foo::bar::get_bar_x()         ], null),
+			sphinx::assert_result([&foo::get_x()                  ], null),
+			sphinx::assert_result([&foo::get_foo_x()              ], null),
+			sphinx::assert_result([&foo::get_foo_bar_x()          ], null),
+			sphinx::assert_result([&foo::get_bar_x()              ], null),
+		]);
+
+		global x = 1;
+		global foo::x = 2;
+		global foo::bar::x = 3;
+		global bar::x = 4;
+
+		sphinx::run_test(sphinx, "Globals init", lambda(fx) => (fx)(), [
+			sphinx::assert_result([lambda() => global x           ], 1),
+			sphinx::assert_result([lambda() => global foo::x      ], 2),
+			sphinx::assert_result([lambda() => global foo::bar::x ], 3),
+			sphinx::assert_result([lambda() => global bar::x      ], 4),
+			sphinx::assert_result([&foo::bar::get_x()             ], 1),
+			sphinx::assert_result([&foo::bar::get_foo_x()         ], 2),
+			sphinx::assert_result([&foo::bar::get_foo_bar_x()     ], 3),
+			sphinx::assert_result([&foo::bar::get_bar_x()         ], 4),
+			sphinx::assert_result([&foo::get_x()                  ], 1),
+			sphinx::assert_result([&foo::get_foo_x()              ], 2),
+			sphinx::assert_result([&foo::get_foo_bar_x()          ], 3),
+			sphinx::assert_result([&foo::get_bar_x()              ], 4),
+		]);
+
+		global x *= 10;
+		global foo::x *= 10;
+		global foo::bar::x *= 10;
+		global bar::x *= 10;
+
+		sphinx::run_test(sphinx, "Globals x10", lambda(fx) => (fx)(), [
+			sphinx::assert_result([lambda() => global x           ], 10),
+			sphinx::assert_result([lambda() => global foo::x      ], 20),
+			sphinx::assert_result([lambda() => global foo::bar::x ], 30),
+			sphinx::assert_result([lambda() => global bar::x      ], 40),
+			sphinx::assert_result([&foo::bar::get_x()             ], 10),
+			sphinx::assert_result([&foo::bar::get_foo_x()         ], 20),
+			sphinx::assert_result([&foo::bar::get_foo_bar_x()     ], 30),
+			sphinx::assert_result([&foo::bar::get_bar_x()         ], 40),
+			sphinx::assert_result([&foo::get_x()                  ], 10),
+			sphinx::assert_result([&foo::get_foo_x()              ], 20),
+			sphinx::assert_result([&foo::get_foo_bar_x()          ], 30),
+			sphinx::assert_result([&foo::get_bar_x()              ], 40),
+		]);
+
+		global x += 1.5;
+		global foo::x += 1.5;
+		global foo::bar::x += 1.5;
+		global bar::x += 1.5;
+
+		sphinx::run_test(sphinx, "Globals modify add", lambda(fx) => (fx)(), [
+			sphinx::assert_result([lambda() => global x           ], 11.5),
+			sphinx::assert_result([lambda() => global foo::x      ], 21.5),
+			sphinx::assert_result([lambda() => global foo::bar::x ], 31.5),
+			sphinx::assert_result([lambda() => global bar::x      ], 41.5),
+			sphinx::assert_result([&foo::bar::get_x()             ], 11.5),
+			sphinx::assert_result([&foo::bar::get_foo_x()         ], 21.5),
+			sphinx::assert_result([&foo::bar::get_foo_bar_x()     ], 31.5),
+			sphinx::assert_result([&foo::bar::get_bar_x()         ], 41.5),
+			sphinx::assert_result([&foo::get_x()                  ], 11.5),
+			sphinx::assert_result([&foo::get_foo_x()              ], 21.5),
+			sphinx::assert_result([&foo::get_foo_bar_x()          ], 31.5),
+			sphinx::assert_result([&foo::get_bar_x()              ], 41.5),
+		]);
 	}
 }

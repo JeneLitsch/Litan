@@ -149,6 +149,7 @@ function main(args) {
 	core::for_loop(sphinx);
 	core::switch_(sphinx);
 	core::while_loop(sphinx);
+	core::defines(sphinx);
 	core::globals(sphinx);
 	core::iifes(sphinx);
 	core::thr0w(sphinx);

@@ -31,6 +31,7 @@ op_tests=(
 
 core_tests=(
 	"test/core_lang/for.ltn" 
+	"test/core_lang/defines.ltn" 
 	"test/core_lang/globals.ltn" 
 	"test/core_lang/if_else.ltn" 
 	"test/core_lang/iife.ltn" 
