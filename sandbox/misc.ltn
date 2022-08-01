@@ -1,16 +1,21 @@
-define pi = 3.14;
-global x;
-
-namespace foo::bar { 
-	namespace baz { 
-		function f(x) {
-			global x = 42;
-			return x;
-		}
+namespace foo {
+    function fx() => 42
+	namespace bar {
+	    function fx() => 1
 	}
 }
 
+namespace bar {
+    function fx() => 1337
+}
+
+namespace foo::bar::baz {
+    function fx() => 2
+}
+
 function main() {
-	std::println(foo::bar::baz::f(pi));
-	std::println(global x);
+	std::println(foo::fx());
+	std::println(bar::fx());
+	std::println(foo::bar::fx());
+	std::println(foo::bar::baz::fx());
 }
