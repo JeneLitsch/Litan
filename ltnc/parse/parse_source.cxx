@@ -47,37 +47,6 @@ namespace ltn::c {
 
 
 
-		// parses: namespace foo { ...
-		std::optional<std::string> open_namespace(Tokens & tokens) {
-			if(match(TT::NAMESPACE, tokens)) {
-				if(auto name = match(TT::INDENTIFIER, tokens)) {
-					if(match(TT::BRACE_L, tokens)) {
-						return name->str;
-					}
-					else throw missing_brace_l(tokens);
-				}
-				else throw anonymous_namespace(tokens);
-			}
-			return {};
-		}
-
-
-
-		// }
-		bool close_namespace(
-			Tokens & tokens,
-			ast::Namespace & namespaze) {
-			if(match(TT::BRACE_R, tokens)) {
-				if(namespaze.empty()) {
-					throw extra_brace_r(tokens);
-				}
-				return true;
-			}
-			return false;
-		}
-
-		
-		
 		ast::glob_ptr parse_global_decl(
 			Tokens & tokens,
 			const ast::Namespace & namespaze) {
@@ -181,7 +150,9 @@ namespace ltn::c {
 				else if(match(TT::___EOSRC___, tokens)) {
 					// Nothing
 				}
-				else throw unknown_declaration(tokens);
+				else {
+					throw unknown_declaration(tokens);
+				}
 			}
 			catch(const CompilerError & error) {
 				reporter << error;
