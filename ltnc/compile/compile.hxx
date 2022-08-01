@@ -48,13 +48,13 @@ namespace ltn::c {
 	ExprCode compile_invokation(const ast::Invokation &, CompilerInfo &, Scope &);
 	ExprCode compile_iife(const ast::Iife &, CompilerInfo &, Scope &);
 	ExprCode compile_index(const ast::Index &, CompilerInfo &, Scope &);
-	ExprCode compile_definition_value(const ast::DefinitionValue &, CompilerInfo &, Scope &);
 	ExprCode compile_addr(const ast::Var &, Scope &);
 	ExprCode compile_read_variable(const ast::Var & expr, CompilerInfo &, Scope &);
 	ExprCode compile_read_member_access(const ast::Member &, CompilerInfo &, Scope &);
-	ExprCode compile_read_global(const ast::GlobalVar & global, CompilerInfo & info, Scope &);
-	ExprCode compile_write_global(const ast::GlobalVar & global, CompilerInfo & info, Scope &);
-
+	ExprCode compile_read_static(const ast::GlobalVar & global, CompilerInfo & info, Scope &);
+	ExprCode compile_write_static(const ast::GlobalVar & global, CompilerInfo & info, Scope &);
+	ExprCode compile_read_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope &);
+	ExprCode compile_write_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope &);
 
 	// utils
 	void guard_const(

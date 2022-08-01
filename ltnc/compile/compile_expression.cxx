@@ -49,13 +49,13 @@ namespace ltn::c {
 			return compile_read_member_access(*expr_, info, scope);
 		}	
 		if(auto expr_ = as<ast::GlobalVar>(expr)) {
-			return compile_read_global(*expr_, info, scope);
+			return compile_read_static(*expr_, info, scope);
 		}		
 		if(auto expr_ = as<ast::Iife>(expr)) {
 			return compile_iife(*expr_, info, scope);
 		}
 		if(auto expr_ = as<ast::DefinitionValue>(expr)) {
-			return compile_definition_value(*expr_, info, scope);
+			return compile_read_static(*expr_, info, scope);
 		} 
 		if(auto ternary = as<ast::Ternary>(expr)) {
 			return compile_ternary(*ternary, info, scope);

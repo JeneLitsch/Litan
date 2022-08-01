@@ -18,7 +18,7 @@ namespace ltn::c {
 
 
 	// returns function if defined or nultptr otherwise
-	const ast::Functional * FxTable::resolve(
+	const ast::Functional * ValidFxTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & from,
 		const ast::Namespace & to,
@@ -28,7 +28,7 @@ namespace ltn::c {
 
 
 
-	const ast::Functional * FxTable::resolve(
+	const ast::Functional * ValidFxTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & full,
 		const std::size_t parameters) {
@@ -38,7 +38,7 @@ namespace ltn::c {
 
 
 	// defines new function
-	void FxTable::insert(const ast::Functional & fx) {
+	void ValidFxTable::insert(const ast::Functional & fx) {
 		if(fx.pr1vate && fx.namespaze.empty()) {
 			throw CompilerError{"Private functions cannot be declared in global namespace", {}};
 		}
@@ -47,5 +47,32 @@ namespace ltn::c {
 			throw multiple_definitions(fx);
 		}
 		this->functions.push_back(&fx);
+	}
+
+
+
+	// returns function if defined or nultptr otherwise
+	const ast::Functional * InvalidFxTable::resolve(
+		const std::string_view name,
+		const ast::Namespace & from,
+		const ast::Namespace & to,
+		const std::size_t parameters) {
+		throw CompilerError { "Cannot use functions inside " + this->inside };
+	}
+
+
+
+	const ast::Functional * InvalidFxTable::resolve(
+		const std::string_view name,
+		const ast::Namespace & full,
+		const std::size_t parameters) {
+		throw CompilerError { "Cannot use functions inside " + this->inside };
+	}
+
+
+
+	// defines new function
+	void InvalidFxTable::insert(const ast::Functional & fx) {
+		throw CompilerError { "Cannot declare functions inside " + this->inside };
 	}
 }

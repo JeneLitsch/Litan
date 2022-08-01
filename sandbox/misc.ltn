@@ -1,20 +1,10 @@
-global x;
-
-namespace foo {
-	global x;
-	function get_x() => global x
-}
-
-function get_x() => global x
-
-function set_globals() {
-	global x = "Hello";
-	global foo::x = "World";
-}
+define x = 21;
+define y = 21 + x;
+global x = (lambda => y)();
 
 function main(args) {
-	set_globals();
-	std::println(get_x());
-	std::println(foo::get_x());
-	std::println(global x + global foo::x);
+	return global x;
+}
+except(e) {
+	std::println(e);
 }

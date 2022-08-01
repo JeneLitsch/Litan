@@ -19,7 +19,7 @@ namespace ltn::c {
 
 
 	// returns function if defined or nultptr otherwise
-	const ast::Global * GlobalTable::resolve(
+	const ast::Global * ValidGlobalTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & from,
 		const ast::Namespace & to) {
@@ -28,7 +28,7 @@ namespace ltn::c {
 
 
 
-	const ast::Global * GlobalTable::resolve(
+	const ast::Global * ValidGlobalTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & full) {
 		for(const auto & e : this->enums) {
@@ -44,11 +44,36 @@ namespace ltn::c {
 
 
 	// defines new function
-	void GlobalTable::insert(const ast::Global & e) {
+	void ValidGlobalTable::insert(const ast::Global & e) {
 		// Prevent redefinition
 		if(this->resolve(e.name, e.namespaze)) {
 			throw multiple_definitions(e);
 		}
 		this->enums.push_back(&e);
+	}
+
+
+
+	// returns function if defined or nultptr otherwise
+	const ast::Global * InvalidGlobalTable::resolve(
+		const std::string_view name,
+		const ast::Namespace & from,
+		const ast::Namespace & to) {
+		throw CompilerError { "Cannot use globals inside " + this->inside };
+	}
+
+
+
+	const ast::Global * InvalidGlobalTable::resolve(
+		const std::string_view name,
+		const ast::Namespace & full) {
+		throw CompilerError { "Cannot use globals inside " + this->inside };
+	}
+
+
+
+	// defines new function
+	void InvalidGlobalTable::insert(const ast::Global & e) {
+		throw CompilerError { "Cannot declare globals inside " + this->inside };
 	}
 }

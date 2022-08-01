@@ -85,23 +85,4 @@ namespace ltn::c {
 		buf << ltn::inst::MemberRead{id};
 		return ExprCode{ buf };
 	}
-
-
-
-	ExprCode compile_definition_value(
-		const ast::DefinitionValue & definition_value,
-		CompilerInfo & info,
-		Scope & scope) {
-
-		const auto enym = info.definition_table.resolve(
-			definition_value.name,
-			scope.get_namespace(),
-			definition_value.namespaze);
-		
-		if(!enym) {
-			throw undefined_enum(definition_value);
-		}
-
-		return compile_read_definition(*enym, info);
-	}
 }

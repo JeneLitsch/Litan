@@ -103,7 +103,7 @@ namespace std {
 
 	define pi  = 3.14159265359; 
 	define e   = 2.71828182846;
-	define tau = 2.0 * pi;
+	define tau = 6.28318530718;
 
 
 	namespace num {

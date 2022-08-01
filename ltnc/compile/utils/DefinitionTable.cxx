@@ -19,7 +19,7 @@ namespace ltn::c {
 
 
 	// returns function if defined or nultptr otherwise
-	const ast::Definition * DefinitionTable::resolve(
+	const ast::Definition * ValidDefinitionTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & from,
 		const ast::Namespace & to) {
@@ -28,7 +28,7 @@ namespace ltn::c {
 
 
 
-	const ast::Definition * DefinitionTable::resolve(
+	const ast::Definition * ValidDefinitionTable::resolve(
 		const std::string_view name,
 		const ast::Namespace & full) {
 		for(const auto & e : this->enums) {
@@ -44,11 +44,36 @@ namespace ltn::c {
 
 
 	// defines new function
-	void DefinitionTable::insert(const ast::Definition & e) {
+	void ValidDefinitionTable::insert(const ast::Definition & e) {
 		// Prevent redefinition
 		if(this->resolve(e.name, e.namespaze)) {
 			throw multiple_definitions(e);
 		}
 		this->enums.push_back(&e);
+	}
+
+
+
+// returns function if defined or nultptr otherwise
+	const ast::Definition * InvalidDefinitionTable::resolve(
+		const std::string_view name,
+		const ast::Namespace & from,
+		const ast::Namespace & to) {
+		throw CompilerError { "Cannot use definitions inside " + this->inside };
+	}
+
+
+
+	const ast::Definition * InvalidDefinitionTable::resolve(
+		const std::string_view name,
+		const ast::Namespace & full) {
+		throw CompilerError { "Cannot use definitions inside " + this->inside };
+	}
+
+
+
+	// defines new function
+	void InvalidDefinitionTable::insert(const ast::Definition & e) {
+		throw CompilerError { "Cannot declare definitions inside " + this->inside };
 	}
 }

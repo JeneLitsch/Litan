@@ -24,30 +24,42 @@ namespace ltn::c::ast {
 
 
 
-	struct Definition final : public Declaration {
+	struct Static : public Declaration {
+		Static(
+			const SourceLocation & location,
+			const std::string & name,
+			const Namespace & namespaze) :
+				Declaration(location, name, namespaze),
+				id(++counter) {}
+		
+		std::uint64_t id;
+	private:
+		static inline std::uint64_t counter = 0;
+	};
+
+
+
+	struct Definition final : public Static {
 		Definition(
 			const SourceLocation & location,
 			const std::string & name,
-			const Namespace & namespaze)
-			:	Declaration(location, name, namespaze) {}
+			const Namespace & namespaze) :
+				Static(location, name, namespaze) {}
 		virtual ~Definition() = default;
 		std::unique_ptr<ast::Expression> expr;
 	};
 
 
 
-	struct Global final : public Declaration {
+	struct Global final : public Static {
 		Global(
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze) :
-				Declaration(location, name, namespaze),
-				id(++counter) {}
+				Static(location, name, namespaze) {}
 		virtual ~Global() = default;
-		std::uint64_t id;
 		std::unique_ptr<ast::Expression> expr;
 	private:
-		static inline std::uint64_t counter = 0;
 	};
 
 

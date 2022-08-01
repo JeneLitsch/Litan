@@ -54,7 +54,7 @@ namespace ltn::c {
 			}
 			
 			if(auto global = as<ast::GlobalVar>(expr)) {
-				return compile_write_global(*global, info, scope);
+				return compile_write_static(*global, info, scope);
 			}
 
 			throw std::runtime_error{"Unknown assingable type"};
@@ -87,7 +87,7 @@ namespace ltn::c {
 			}
 
 			if(auto e = as<ast::GlobalVar>(expr)) {
-				return compile_read_global(*e, info, scope);
+				return compile_read_static(*e, info, scope);
 			}
 
 			throw std::runtime_error{"Unknown assingable type"};

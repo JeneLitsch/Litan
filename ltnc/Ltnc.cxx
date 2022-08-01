@@ -34,24 +34,49 @@ namespace ltn::c {
 
 namespace ltn::c {
 	namespace {
-		InstructionBuffer init_static_construct(auto & read_info, auto & write_info, auto & obj) {
-			InstructionBuffer buf;
-			Scope scope{obj.namespaze, false};
-			const ast::GlobalVar global_var {
-				obj.namespaze,
-				obj.name,
-				obj.location
+		ast::DefinitionValue accessor(const ast::Definition & def) {
+			return ast::DefinitionValue {
+				def.name,
+				def.namespaze,
+				def.location
 			};
-			buf << compile_expression(*obj.expr, read_info, scope).code;
-			buf << compile_write_global(global_var, write_info, scope).code;
+		}
+
+		ast::GlobalVar accessor(const ast::Global & def) {
+			return ast::GlobalVar {
+				def.namespaze,
+				def.name,
+				def.location
+			};
+		}
+
+
+		InstructionBuffer static_init(
+			auto & read_info,
+			auto & write_info,
+			auto & statics) {
+			
+
+
+			InstructionBuffer buf;
+			for(const auto & s : statics) {
+				if(s->expr) {
+					Scope scope{s->namespaze, false};
+					const auto a = accessor(*s);
+					buf << compile_expression(*s->expr, read_info, scope).code;
+					buf << compile_write_static(a, write_info, scope).code;
+				}
+			}
+
 			return buf;
 		}
 
-		InstructionBuffer static_init(auto & info, auto & statics) {
+		
+		InstructionBuffer global_init(auto & info, auto & globals) {
 			// Use empty global_table to prohibit the usage of other global variables.
 			// Functions or defines can be used though.
-			GlobalTable global_table;
-			FxTable fx_table;
+			InvalidGlobalTable global_table { "the default value of another global variable" };
+			InvalidFxTable fx_table { "the initialization of a global variables" };
 			CompilerInfo read_info {
 				.fx_table         = fx_table,
 				.definition_table = info.definition_table,
@@ -62,14 +87,28 @@ namespace ltn::c {
 
 			auto & write_info = info;
 
-			InstructionBuffer buf;
-			for(const auto & s : statics) {
-				if(s->expr) {
-					buf << init_static_construct(read_info, write_info, *s);
-				}
-			}
+			return static_init(read_info, write_info, globals);
+		}
 
-			return buf;
+		
+		
+		InstructionBuffer define_init(auto & info, auto & globals) {
+			// Use empty global_table to prohibit the usage of other global variables.
+			// Functions or defines can be used though.
+			InvalidDefinitionTable def_table { "definitions" };
+			InvalidGlobalTable global_table { "definitions" };
+			InvalidFxTable fx_table { "definitions" };
+			CompilerInfo read_info {
+				.fx_table         = fx_table,
+				.definition_table = def_table,
+				.member_table     = info.member_table,
+				.global_table     = global_table,
+				.reporter         = info.reporter
+			};
+
+			auto & write_info = info;
+
+			return static_init(read_info, write_info, globals);
 		}
 	}
 
@@ -79,10 +118,10 @@ namespace ltn::c {
 		Reporter & reporter) {
 		
 		InstructionBuffer buf;
-		DefinitionTable definition_table;
-		FxTable fx_table;
+		ValidDefinitionTable definition_table;
+		ValidFxTable fx_table;
 		MemberTable member_table;
-		GlobalTable global_table;
+		ValidGlobalTable global_table;
 		CompilerInfo info {
 			.fx_table = fx_table,
 			.definition_table = definition_table,
@@ -108,7 +147,8 @@ namespace ltn::c {
 
 
 		// buf << static_init(info, program.definitions);
-		buf << static_init(info, program.globals);
+		buf << define_init(info, program.definitions);
+		buf << global_init(info, program.globals);
 		buf << inst::Null{};
 		buf << inst::Exit{};
 
