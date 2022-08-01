@@ -10,3 +10,5 @@ function main() {
 	std::println(f(pi));
 	std::println(global x);
 }
+
+namespace A { }

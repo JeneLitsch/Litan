@@ -80,7 +80,7 @@ namespace ltn::c {
 		
 		ast::glob_ptr parse_global_decl(
 			Tokens & tokens,
-			ast::Namespace & namespaze) {
+			const ast::Namespace & namespaze) {
 			
 			const auto name = match(TT::INDENTIFIER, tokens);
 
@@ -99,57 +99,91 @@ namespace ltn::c {
 
 			semicolon(tokens);
 			return global;
-		} 
+		}
+
+
+
+		void parse_namespace(Tokens &, ast::Source &, const ast::Namespace &);
+
+		bool parse_decl(Tokens & tokens, ast::Source & source, const ast::Namespace & ns) {
+			if(match(TT::NAMESPACE, tokens)) {
+				parse_namespace(tokens, source, ns);
+				return true;
+			}
+			else if(auto fx = parse_functional(tokens, ns)) {
+				source.functions.push_back(std::move(fx));
+				return true;
+			}
+			else if(auto definition = parse_definition(tokens, ns)) {
+				source.definitions.push_back(std::move(definition));
+				return true;
+			}
+			else if(auto preset = parse_preset(tokens, ns)) {
+				source.presets.push_back(std::move(preset));
+				return true;
+			}
+			else if(match(TT::ENUM, tokens)) {
+				source.enums.push_back(parse_enumeration(tokens, ns));
+				return true;
+			}
+			else if(match(TT::GLOBAL, tokens)) {
+				source.globals.push_back(parse_global_decl(tokens, ns));
+				return true;
+			}
+			else return false;
+		}
+
+
+
+		void parse_namespace(Tokens & tokens, ast::Source & source, const ast::Namespace & outer) {
+			ast::Namespace namespaze = outer;
+			if(auto t = match(TT::INDENTIFIER, tokens)) {
+				namespaze.push_back(t->str);
+			}
+			else throw anonymous_namespace(tokens);
+
+			if(!match(TT::BRACE_L, tokens)) throw missing_brace_l(tokens);
+
+			while(!match(TT::___EOF___, tokens)) {
+				if(parse_decl(tokens, source, namespaze)) {
+					// Nothing
+				}
+				else if(match(TT::BRACE_R, tokens)) {
+					return;
+				}
+				else if(match(TT::___EOSRC___, tokens)) {
+					throw unclosed_namespace(tokens);
+				}
+				else {
+					throw unknown_declaration(tokens);
+				}
+			}
+		}
 	}
 
 
 
 	ast::srce_ptr parse_source(Tokens & tokens) {
 		auto source = std::make_unique<ast::Source>();
-		auto & functions = source->functions;
-		auto & definitions = source->definitions;
-		auto & presets = source->presets;
-		auto & enums = source->enums;
-		auto & globals = source->globals;
-		ast::Namespace namespaze;
+		const ast::Namespace namespaze;
 		Reporter reporter;
 		while(!match(TT::___EOF___, tokens)) {
 			try {
-				if(auto ns = open_namespace(tokens)) {
-					namespaze.push_back(*ns);
+				if(parse_decl(tokens, *source, namespaze)) {
+					// Nothing
 				}
-				else if(close_namespace(tokens, namespaze)) {
-					namespaze.pop_back();
+				else if(match(TT::BRACE_R, tokens)) {
+					throw extra_brace_r(tokens);
 				}
-				else if(auto fx = parse_functional(tokens, namespaze)) {
-					functions.push_back(std::move(fx));
-				}
-				else if(auto definition = parse_definition(tokens, namespaze)) {
-					definitions.push_back(std::move(definition));
-				}
-				else if(auto preset = parse_preset(tokens, namespaze)) {
-					presets.push_back(std::move(preset));
-				}
-				else if(match(TT::ENUM, tokens)) {
-					enums.push_back(parse_enumeration(tokens, namespaze));
-				}
-				else if(match(TT::GLOBAL, tokens)) {
-					globals.push_back(parse_global_decl(tokens, namespaze));
-				}			
 				else if(match(TT::___EOSRC___, tokens)) {
-					throw unclosed_namespace(tokens);	
+					// Nothing
 				}
 				else throw unknown_declaration(tokens);
-			
-				if(namespaze.empty()) match(TT::___EOSRC___, tokens);
 			}
 			catch(const CompilerError & error) {
 				reporter << error;
 				sync(tokens);
 			}
-		}
-		if(!namespaze.empty()) {
-			throw unclosed_namespace(tokens);
 		}
 		reporter.may_throw();
 		return source; 
