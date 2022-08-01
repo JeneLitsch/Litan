@@ -34,12 +34,26 @@ namespace ltn::c {
 
 namespace ltn::c {
 	namespace {
-		InstructionBuffer static_init(auto & info, auto & globals) {
+		InstructionBuffer init_static_construct(auto & read_info, auto & write_info, auto & obj) {
+			InstructionBuffer buf;
+			Scope scope{obj.namespaze, false};
+			const ast::GlobalVar global_var {
+				obj.namespaze,
+				obj.name,
+				obj.location
+			};
+			buf << compile_expression(*obj.expr, read_info, scope).code;
+			buf << compile_write_global(global_var, write_info, scope).code;
+			return buf;
+		}
+
+		InstructionBuffer static_init(auto & info, auto & statics) {
 			// Use empty global_table to prohibit the usage of other global variables.
 			// Functions or defines can be used though.
 			GlobalTable global_table;
+			FxTable fx_table;
 			CompilerInfo read_info {
-				.fx_table         = info.fx_table,
+				.fx_table         = fx_table,
 				.definition_table = info.definition_table,
 				.member_table     = info.member_table,
 				.global_table     = global_table,
@@ -49,20 +63,12 @@ namespace ltn::c {
 			auto & write_info = info;
 
 			InstructionBuffer buf;
-			for(const auto & global : globals) {
-				if(global->expr) {
-					Scope scope{global->namespaze, false};
-					const ast::GlobalVar global_var {
-						global->namespaze,
-						global->name,
-						global->location
-					};
-					buf << compile_expression(*global->expr, read_info, scope).code;
-					buf << compile_write_global(global_var, write_info, scope).code;
+			for(const auto & s : statics) {
+				if(s->expr) {
+					buf << init_static_construct(read_info, write_info, *s);
 				}
 			}
-			buf << inst::Null{};
-			buf << inst::Exit{};
+
 			return buf;
 		}
 	}
@@ -87,9 +93,6 @@ namespace ltn::c {
 
 
 
-		for(const auto & fx : program.functions) {
-			info.fx_table.insert(*fx);
-		}
 
 		for(const auto & definition : program.definitions) {
 			info.definition_table.insert(*definition);
@@ -99,9 +102,15 @@ namespace ltn::c {
 			info.global_table.insert(*global);
 		}
 
+		for(const auto & fx : program.functions) {
+			info.fx_table.insert(*fx);
+		}
 
 
-		buf << static_init(info, program.globals);		
+		// buf << static_init(info, program.definitions);
+		buf << static_init(info, program.globals);
+		buf << inst::Null{};
+		buf << inst::Exit{};
 
 		for(const auto & function : program.functions) {
 			try {

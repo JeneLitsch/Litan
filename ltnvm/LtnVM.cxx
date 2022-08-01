@@ -23,153 +23,160 @@ namespace ltn::vm {
 
 
 	constexpr auto instructions_table = stx::iife([] () {
-		using InstFx = void(*)(VmCore&);
-		std::array<InstFx, 256> table;
-		std::fill(std::begin(table), std::end(table), illegal_instruction);
-		add_instruction(table, OpCode::EXIT, inst::exit);
-		add_instruction(table, OpCode::ERROR, inst::error);
-		add_instruction(table, OpCode::STATE, inst::state);
-		add_instruction(table, OpCode::TRY, inst::tRy);
-		add_instruction(table, OpCode::THROW, inst::thr0w);
-		add_instruction(table, OpCode::BUILD_IN, inst::build_in);
 		
-		add_instruction(table, OpCode::ADD, inst::add);
-		add_instruction(table, OpCode::SUB, inst::sub);
-		add_instruction(table, OpCode::MLT, inst::mlt);
-		add_instruction(table, OpCode::DIV, inst::div);
-		add_instruction(table, OpCode::MOD, inst::mod);
+		struct InstTableWrapper{
+			using InstFx = void(*)(VmCore&);
+			constexpr InstTableWrapper() {
+				std::fill(std::begin(array), std::end(array), illegal_instruction);
+			}
+			std::array<InstFx, 256> array;
 
-		add_instruction(table, OpCode::EQL, inst::eql);
-		add_instruction(table, OpCode::UEQL, inst::ueql);
-		add_instruction(table, OpCode::SML, inst::sml);
-		add_instruction(table, OpCode::BGR, inst::bgr);
-		add_instruction(table, OpCode::SMLEQL, inst::smleql);
-		add_instruction(table, OpCode::BGREQL, inst::bgreql);
+			constexpr InstFx & operator[](OpCode op_code) {
+				return array[static_cast<std::size_t>(op_code)];
+			}
+		} table;
 
-		add_instruction(table, OpCode::SHIFT_L, inst::shift_l);
-		add_instruction(table, OpCode::SHIFT_R, inst::shift_r);
-
-		add_instruction(table, OpCode::NEG, inst::neg);
-		add_instruction(table, OpCode::NOT, inst::n0t);
-		add_instruction(table, OpCode::INC, inst::inc);
-		add_instruction(table, OpCode::DEC, inst::dec);
-
-		add_instruction(table, OpCode::COMP, inst::comp);
-		add_instruction(table, OpCode::APPROX, inst::approx);
-		add_instruction(table, OpCode::BETWEEN, inst::between);
-
-		add_instruction(table, OpCode::NEWI, inst::newi);
-		add_instruction(table, OpCode::NEWF, inst::newf);
-		add_instruction(table, OpCode::NEWU, inst::newu);
-		add_instruction(table, OpCode::NEWC, inst::newc);
-		add_instruction(table, OpCode::TRUE, inst::truE);
-		add_instruction(table, OpCode::FALSE, inst::falsE);
-		add_instruction(table, OpCode::NVLL, inst::null);
-
-		add_instruction(table, OpCode::JUMP, inst::jump);
-		add_instruction(table, OpCode::CALL, inst::call);
-		add_instruction(table, OpCode::RETURN, inst::reTurn);
-		add_instruction(table, OpCode::IF, inst::iF);
-		add_instruction(table, OpCode::INVOKE, inst::invoke);
-
-		add_instruction(table, OpCode::EXTERNAL, inst::external);
-		add_instruction(table, OpCode::CAPTURE, inst::capture);
-		add_instruction(table, OpCode::PARAMETERS, inst::parameters);
-
-		add_instruction(table, OpCode::NEWARR, inst::newarr);
-		add_instruction(table, OpCode::NEWSTR, inst::newstr);
-		add_instruction(table, OpCode::NEWOUT, inst::newout);
-		add_instruction(table, OpCode::NEWIN, inst::newin);
-		add_instruction(table, OpCode::NEWFX, inst::newfx);
-		add_instruction(table, OpCode::NEWCLOCK, inst::newclock);
-		add_instruction(table, OpCode::NEWSTRUCT, inst::newstruct);
-		add_instruction(table, OpCode::NEWRANGE, inst::newrange);
-		add_instruction(table, OpCode::NEWSTACK, inst::newstack);
-		add_instruction(table, OpCode::NEWQUEUE, inst::newqueue);
-		add_instruction(table, OpCode::NEWMAP, inst::newmap);
-		add_instruction(table, OpCode::NEWRNG, inst::newrng);
-
-		add_instruction(table, OpCode::READ, inst::read);
-		add_instruction(table, OpCode::WRITE, inst::write);
-		add_instruction(table, OpCode::SCRAP, inst::scrap);
-		add_instruction(table, OpCode::DUPLICATE, inst::duplicate);
-		add_instruction(table, OpCode::MAKEVAR, inst::makevar);
-		add_instruction(table, OpCode::READ_X, inst::read_x);
-		add_instruction(table, OpCode::WRITE_X, inst::write_x);
-		add_instruction(table, OpCode::SWAP, inst::swap);
-		add_instruction(table, OpCode::READ_0, inst::read_0);
-		add_instruction(table, OpCode::READ_1, inst::read_1);
-		add_instruction(table, OpCode::READ_2, inst::read_2);
-		add_instruction(table, OpCode::READ_3, inst::read_3);
-		add_instruction(table, OpCode::WRITE_0, inst::write_0);
-		add_instruction(table, OpCode::WRITE_1, inst::write_1);
-		add_instruction(table, OpCode::WRITE_2, inst::write_2);
-		add_instruction(table, OpCode::WRITE_3, inst::write_3);
-
-		add_instruction(table, OpCode::OUT, inst::out);
-		add_instruction(table, OpCode::CLOSE_STREAM, inst::close_stream);
-		add_instruction(table, OpCode::IN_STR, inst::in_str);
-		add_instruction(table, OpCode::IN_LINE, inst::in_line);
-		add_instruction(table, OpCode::IN_BOOL, inst::in_bool);
-		add_instruction(table, OpCode::IN_CHAR, inst::in_char);
-		add_instruction(table, OpCode::IN_INT, inst::in_int);
-		add_instruction(table, OpCode::IN_FLOAT, inst::in_float);
-		add_instruction(table, OpCode::IN_ALL, inst::in_all);
-		add_instruction(table, OpCode::IS_EOF, inst::is_eof);
-		add_instruction(table, OpCode::IS_GOOD, inst::is_good);
-
-		add_instruction(table, OpCode::MIN, inst::min);
-		add_instruction(table, OpCode::MAX, inst::max);
-		add_instruction(table, OpCode::ROUND, inst::round);
-		add_instruction(table, OpCode::FLOOR, inst::floor);
-		add_instruction(table, OpCode::CEIL, inst::ceil);
-		add_instruction(table, OpCode::ABS, inst::abs);
-		add_instruction(table, OpCode::HYPOT, inst::hypot);
-		add_instruction(table, OpCode::SQRT, inst::sqrt);
-		add_instruction(table, OpCode::LOG, inst::log);
-		add_instruction(table, OpCode::LN, inst::ln);
-		add_instruction(table, OpCode::POW, inst::pow);
-		add_instruction(table, OpCode::SIN, inst::sin);
-		add_instruction(table, OpCode::COS, inst::cos);
-		add_instruction(table, OpCode::TAN, inst::tan);
-
-		add_instruction(table, OpCode::BITAND, inst::bit_and);
-		add_instruction(table, OpCode::BITOR, inst::bit_or);
-		add_instruction(table, OpCode::BITXOR, inst::bit_xor);
-		add_instruction(table, OpCode::BITNOT, inst::bit_not);
+		table[OpCode::EXIT] = inst::exit;
+		table[OpCode::ERROR] = inst::error;
+		table[OpCode::STATE] = inst::state;
+		table[OpCode::TRY] = inst::tRy;
+		table[OpCode::THROW] = inst::thr0w;
+		table[OpCode::BUILD_IN] = inst::build_in;
 		
-		add_instruction(table, OpCode::SIZE, inst::size);
-		add_instruction(table, OpCode::AT, inst::at);
-		add_instruction(table, OpCode::AT_WRITE, inst::at_write);
-		add_instruction(table, OpCode::FRONT, inst::front);
-		add_instruction(table, OpCode::BACK, inst::back);
-		add_instruction(table, OpCode::INSERT, inst::insert);
-		add_instruction(table, OpCode::REMOVE, inst::remove);
-		add_instruction(table, OpCode::BEGIN, inst::begin);
-		add_instruction(table, OpCode::END, inst::end);
-		add_instruction(table, OpCode::PUSH, inst::push);
-		add_instruction(table, OpCode::POP, inst::pop);
-		add_instruction(table, OpCode::PEEK, inst::peek);
-		add_instruction(table, OpCode::CONTAINS, inst::contains);
-		add_instruction(table, OpCode::EMPTY, inst::empty);
+		table[OpCode::ADD] = inst::add;
+		table[OpCode::SUB] = inst::sub;
+		table[OpCode::MLT] = inst::mlt;
+		table[OpCode::DIV] = inst::div;
+		table[OpCode::MOD] = inst::mod;
 
-		add_instruction(table, OpCode::CAST_BOOL, inst::cast_bool);
-		add_instruction(table, OpCode::CAST_CHAR, inst::cast_char);
-		add_instruction(table, OpCode::CAST_INT, inst::cast_int);
-		add_instruction(table, OpCode::CAST_FLOAT, inst::cast_float);
-		add_instruction(table, OpCode::CAST_STRING, inst::cast_string);
-		add_instruction(table, OpCode::CAST_ARRAY, inst::cast_array);
+		table[OpCode::EQL] = inst::eql;
+		table[OpCode::UEQL] = inst::ueql;
+		table[OpCode::SML] = inst::sml;
+		table[OpCode::BGR] = inst::bgr;
+		table[OpCode::SMLEQL] = inst::smleql;
+		table[OpCode::BGREQL] = inst::bgreql;
 
-		add_instruction(table, OpCode::TYPEID, inst::type_id);
-		add_instruction(table, OpCode::CLONE, inst::clone);
+		table[OpCode::SHIFT_L] = inst::shift_l;
+		table[OpCode::SHIFT_R] = inst::shift_r;
+		table[OpCode::NEG] = inst::neg;
+		table[OpCode::NOT] = inst::n0t;
+		table[OpCode::INC] = inst::inc;
+		table[OpCode::DEC] = inst::dec;
+		table[OpCode::COMP] = inst::comp;
+		table[OpCode::APPROX] = inst::approx;
+		table[OpCode::BETWEEN] = inst::between;
+		
+		table[OpCode::NEWI] = inst::newi;
+		table[OpCode::NEWF] = inst::newf;
+		table[OpCode::NEWU] = inst::newu;
+		table[OpCode::NEWC] = inst::newc;
+		table[OpCode::TRUE] = inst::truE;
+		table[OpCode::FALSE] = inst::falsE;
+		table[OpCode::NVLL] = inst::null;
 
-		add_instruction(table, OpCode::MEMBER_READ, inst::member_read);
-		add_instruction(table, OpCode::MEMBER_WRITE, inst::member_write);
+		table[OpCode::JUMP] = inst::jump;
+		table[OpCode::CALL] = inst::call;
+		table[OpCode::RETURN] = inst::reTurn;
+		table[OpCode::IF] = inst::iF;
+		table[OpCode::INVOKE] = inst::invoke;
+		table[OpCode::EXTERNAL] = inst::external;
+		table[OpCode::CAPTURE] = inst::capture;
+		table[OpCode::PARAMETERS] = inst::parameters;
 
-		add_instruction(table, OpCode::GLOBAL_READ, inst::global_read);
-		add_instruction(table, OpCode::GLOBAL_WRITE, inst::global_write);
+		table[OpCode::NEWARR] = inst::newarr;
+		table[OpCode::NEWSTR] = inst::newstr;
+		table[OpCode::NEWOUT] = inst::newout;
+		table[OpCode::NEWIN] = inst::newin;
+		table[OpCode::NEWFX] = inst::newfx;
+		table[OpCode::NEWCLOCK] = inst::newclock;
+		table[OpCode::NEWSTRUCT] = inst::newstruct;
+		table[OpCode::NEWRANGE] = inst::newrange;
+		table[OpCode::NEWSTACK] = inst::newstack;
+		table[OpCode::NEWQUEUE] = inst::newqueue;
+		table[OpCode::NEWMAP] = inst::newmap;
+		table[OpCode::NEWRNG] = inst::newrng;
 
-		return table;
+		table[OpCode::READ] = inst::read;
+		table[OpCode::WRITE] = inst::write;
+		table[OpCode::SCRAP] = inst::scrap;
+		table[OpCode::DUPLICATE] = inst::duplicate;
+		table[OpCode::MAKEVAR] = inst::makevar;
+		table[OpCode::READ_X] = inst::read_x;
+		table[OpCode::WRITE_X] = inst::write_x;
+		table[OpCode::SWAP] = inst::swap;
+		table[OpCode::READ_0] = inst::read_0;
+		table[OpCode::READ_1] = inst::read_1;
+		table[OpCode::READ_2] = inst::read_2;
+		table[OpCode::READ_3] = inst::read_3;
+		table[OpCode::WRITE_0] = inst::write_0;
+		table[OpCode::WRITE_1] = inst::write_1;
+		table[OpCode::WRITE_2] = inst::write_2;
+		table[OpCode::WRITE_3] = inst::write_3;
+
+		table[OpCode::OUT] = inst::out;
+		table[OpCode::CLOSE_STREAM] = inst::close_stream;
+		table[OpCode::IN_STR] = inst::in_str;
+		table[OpCode::IN_LINE] = inst::in_line;
+		table[OpCode::IN_BOOL] = inst::in_bool;
+		table[OpCode::IN_CHAR] = inst::in_char;
+		table[OpCode::IN_INT] = inst::in_int;
+		table[OpCode::IN_FLOAT] = inst::in_float;
+		table[OpCode::IN_ALL] = inst::in_all;
+		table[OpCode::IS_EOF] = inst::is_eof;
+		table[OpCode::IS_GOOD] = inst::is_good;
+
+		table[OpCode::MIN] = inst::min;
+		table[OpCode::MAX] = inst::max;
+		table[OpCode::ROUND] = inst::round;
+		table[OpCode::FLOOR] = inst::floor;
+		table[OpCode::CEIL] = inst::ceil;
+		table[OpCode::ABS] = inst::abs;
+		table[OpCode::HYPOT] = inst::hypot;
+		table[OpCode::SQRT] = inst::sqrt;
+		table[OpCode::LOG] = inst::log;
+		table[OpCode::LN] = inst::ln;
+		table[OpCode::POW] = inst::pow;
+		table[OpCode::SIN] = inst::sin;
+		table[OpCode::COS] = inst::cos;
+		table[OpCode::TAN] = inst::tan;
+
+		table[OpCode::BITAND] = inst::bit_and;
+		table[OpCode::BITOR] = inst::bit_or;
+		table[OpCode::BITXOR] = inst::bit_xor;
+		table[OpCode::BITNOT] = inst::bit_not;
+
+		table[OpCode::SIZE] = inst::size;
+		table[OpCode::AT] = inst::at;
+		table[OpCode::AT_WRITE] = inst::at_write;
+		table[OpCode::FRONT] = inst::front;
+		table[OpCode::BACK] = inst::back;
+		table[OpCode::INSERT] = inst::insert;
+		table[OpCode::REMOVE] = inst::remove;
+		table[OpCode::BEGIN] = inst::begin;
+		table[OpCode::END] = inst::end;
+		table[OpCode::PUSH] = inst::push;
+		table[OpCode::POP] = inst::pop;
+		table[OpCode::PEEK] = inst::peek;
+		table[OpCode::CONTAINS] = inst::contains;
+		table[OpCode::EMPTY] = inst::empty;
+
+		table[OpCode::CAST_BOOL] = inst::cast_bool;
+		table[OpCode::CAST_CHAR] = inst::cast_char;
+		table[OpCode::CAST_INT] = inst::cast_int;
+		table[OpCode::CAST_FLOAT] = inst::cast_float;
+		table[OpCode::CAST_STRING] = inst::cast_string;
+		table[OpCode::CAST_ARRAY] = inst::cast_array;
+
+		table[OpCode::TYPEID] = inst::type_id;
+		table[OpCode::CLONE] = inst::clone;
+
+		table[OpCode::MEMBER_READ] = inst::member_read;
+		table[OpCode::MEMBER_WRITE] = inst::member_write;
+
+		table[OpCode::GLOBAL_READ] = inst::static_read;
+		table[OpCode::GLOBAL_WRITE] = inst::static_write;
+
+		return table.array;
 	});
 
 

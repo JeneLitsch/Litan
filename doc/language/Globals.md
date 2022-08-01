@@ -14,7 +14,7 @@ A start/default value can also be assigned to a global value.
 global /* name */ = /*expression*/;
 ```
 
-If no default is set. The global variable will be `null` until assigned otherwise. Inside the expression no other globals can accessed. Functions and defines can be used tough.
+If no default is set. The global variable will be `null` until assigned otherwise. Inside the expression no other globals or can be can accessed. Defines can be used tough.
 
 ## Usage
 

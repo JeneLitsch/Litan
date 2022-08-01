@@ -145,6 +145,6 @@ namespace ltn::vm::inst {
 
 	void member_read(VmCore & core);
 	void member_write(VmCore & core);
-	void global_read(VmCore & core);
-	void global_write(VmCore & core);
+	void static_read(VmCore & core);
+	void static_write(VmCore & core);
 }

@@ -1,0 +1,14 @@
+# Static initialization
+Functions, definitions and global variables are called staticly initialized.
+
+# Order of initialization
+Static language constructs are defined in the following order: defines, globals, functions.
+This means definitions cannot access globals or functions. Globals can only access definitions. And functions can use both.
+
+| Construct   | Can use              | 
+| -           | -                    |
+| Definitions |                      |
+| Globals     | Definitions          |
+| Functions   | Definitions, Globals |
+
+All static constructs are in a valid state by time the main or any init function is called.

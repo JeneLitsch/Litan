@@ -3,11 +3,9 @@ global str;
 global arr;
 define define_xxx = "ABC";
 global value_str = define_xxx;
-global value_int = x2(21);
+global value_int = 21 * 2;
 global value_arr = ["A",2,3,4];
 global fx = lambda () => 1337;
-
-function x2(x) => x * 2
 
 namespace foo {
 	global x;
