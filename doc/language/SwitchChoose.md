@@ -84,7 +84,8 @@ Default
 
 ```
 
-## Note
-If no case matches the default case is executed. The default case is optional.  
-If a switch-statement has no matching case nor a default case then the switch-statement is simply skipped.
-If a choose-expression has no matching case nor a default case then it evaluates to null.
+## Notes
+- If no case matches the default case is executed. The default case is optional.  
+- If a switch-statement has no matching case nor a default case then the switch-statement is simply skipped.
+- If a choose-expression has no matching case nor a default case then it evaluates to null.
+- Functions, local and global variables cannot be used in case expressions.

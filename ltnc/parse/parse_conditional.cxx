@@ -70,11 +70,5 @@ namespace ltn::c {
 	ast::expr_ptr parse_conditional(Tokens & tokens) {
 		return parse_conditional_base<parse_expression, parse_binary>(tokens);
 	}
-
-
-
-	ast::expr_ptr parse_static_conditional(Tokens & tokens) {
-		return parse_conditional_base<parse_static_expression, parse_static_binary>(tokens);
-	}
 }
 

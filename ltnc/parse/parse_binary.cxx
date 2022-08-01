@@ -142,11 +142,5 @@ namespace ltn::c {
 	ast::expr_ptr parse_binary(Tokens & tokens) {
 		return binary_base<parse_unary>(tokens);
 	}
-
-	
-
-	ast::expr_ptr parse_static_binary(Tokens & tokens) {
-		return binary_base<parse_static_unary>(tokens);
-	}
 }
 

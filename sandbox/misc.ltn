@@ -1,9 +1,15 @@
 define x = 21;
-define y = 21 + x;
+define y = 21 + 21;
 global x = (lambda => y)();
 
+function f() => global x
+
 function main(args) {
-	return global x;
+	var foo = 3;
+	global x = 3;
+	return choose(21) {
+		case (lambda => x)(): 42;
+	};
 }
 except(e) {
 	std::println(e);

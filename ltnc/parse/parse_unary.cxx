@@ -95,10 +95,4 @@ namespace ltn::c {
 	std::unique_ptr<ast::Expression> parse_unary(Tokens & tokens) {
 		return parse_prefix<parse_primary, parse_expression>(tokens);
 	}
-
-
-
-	std::unique_ptr<ast::Expression> parse_static_unary(Tokens & tokens) {
-		return parse_prefix<parse_static_primary, parse_static_expression>(tokens);
-	}
 }

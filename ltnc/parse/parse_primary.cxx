@@ -26,8 +26,7 @@ namespace ltn::c {
 			return nullptr;
 		}
 
-		constexpr auto parse_paren        = parse_paren_base<parse_expression>;
-		constexpr auto parse_static_paren = parse_paren_base<parse_static_expression>;
+		constexpr auto parse_paren = parse_paren_base<parse_expression>;
 
 
 
@@ -142,9 +141,6 @@ namespace ltn::c {
 			return nullptr;
 		}
 		constexpr auto parse_array = parse_array_base<parse_expression>;
-		constexpr auto parse_static_array = parse_array_base<parse_static_expression>;
-
-
 
 		ast::litr_ptr parse_string(Tokens & tokens) {
 			if(auto token = match(TT::STRING, tokens)) {
@@ -263,17 +259,6 @@ namespace ltn::c {
 		}
 
 
-
-		ast::expr_ptr parse_static_identifier(Tokens & tokens) {
-			const auto [name, namespaze] = parse_symbol(tokens);
-			if(match(TT::PAREN_L, tokens)) {
-				throw CompilerError{"Function calls are not allowed in static expression", location(tokens)};
-			}
-			return parse_defintion_value(name, namespaze, tokens);
-		}
-
-
-
 		ast::expr_ptr parse_fx_pointer(Tokens & tokens) {
 			if(match(TT::AMPERSAND, tokens)) {
 				const auto [name, namespaze] = parse_symbol(tokens);
@@ -286,25 +271,6 @@ namespace ltn::c {
 			}
 			return nullptr; 
 		}
-
-
-
-		ast::expr_ptr parse_static_iife(Tokens & tokens) {
-			if(match(TT::IIFE, tokens)) {
-				throw CompilerError{"IIFEs are not allowed in static expression", location(tokens)};
-			}
-			else return nullptr;
-		}
-
-
-
-		ast::expr_ptr parse_static_invokation(Tokens & tokens) {
-			if(match(TT::RARROW, tokens)) {
-				throw CompilerError{"Cannot invoke function in static expression", location(tokens)};
-			}
-			else return nullptr;
-		}
-
 
 
 		ast::expr_ptr parse_iife(Tokens & tokens) {
@@ -329,18 +295,6 @@ namespace ltn::c {
 			}
 			else return nullptr; 
 		}
-
-
-
-		ast::expr_ptr parse_static_global(Tokens & tokens) {
-			if(auto t = match(TT::GLOBAL, tokens)) {
-				throw CompilerError {
-					"Global variables are not allowed in static expressions",
-					t->location
-				};
-			}
-			else return nullptr;
-		}
 	}
 
 
@@ -350,37 +304,6 @@ namespace ltn::c {
 		if(auto expr = parse_integer_bin(tokens)) return expr;
 		if(auto expr = parse_integer_hex(tokens)) return expr;
 		else return nullptr;
-	}
-
-
-
-	// parses primary expression
-	ast::expr_ptr parse_static_primary(Tokens & tokens) {
-		static constexpr auto parse_static_integral = parse_integral;
-		static constexpr auto parse_static_character = parse_character;
-		static constexpr auto parse_static_floating = parse_floating;
-		static constexpr auto parse_static_boolean = parse_boolean;
-		static constexpr auto parse_static_null = parse_null;
-		static constexpr auto parse_static_string = parse_string;
-		static constexpr auto parse_static_fx_pointer = parse_fx_pointer;
-		static constexpr auto parse_static_lambda = parse_lambda;
-		static constexpr auto parse_static_expr_switch = parse_expr_switch;
-		
-		if(auto expr = parse_static_integral(tokens)) return expr;
-		if(auto expr = parse_static_character(tokens)) return expr;
-		if(auto expr = parse_static_floating(tokens)) return expr;
-		if(auto expr = parse_static_boolean(tokens)) return expr;
-		if(auto expr = parse_static_null(tokens)) return expr;
-		if(auto expr = parse_static_string(tokens)) return expr;
-		if(auto expr = parse_static_array(tokens)) return expr;
-		if(auto expr = parse_static_paren(tokens)) return expr;
-		if(auto expr = parse_static_fx_pointer(tokens)) return expr;
-		if(auto expr = parse_static_lambda(tokens)) return expr;
-		if(auto expr = parse_static_iife(tokens)) return expr;
-		if(auto expr = parse_static_invokation(tokens)) return expr;
-		if(auto expr = parse_static_expr_switch(tokens)) return expr;
-		if(auto expr = parse_static_global(tokens)) return expr;
-		return parse_static_identifier(tokens);
 	}
 
 

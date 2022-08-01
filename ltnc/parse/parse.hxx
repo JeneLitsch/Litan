@@ -40,14 +40,6 @@ namespace ltn::c {
 	ast::expr_ptr parse_primary(Tokens & tokens);
 	ast::litr_ptr parse_integral(Tokens & tokens);
 
-	ast::expr_ptr parse_static_expression(Tokens & tokens);
-	ast::expr_ptr parse_static_conditional(Tokens & tokens);
-	ast::expr_ptr parse_static_condition(Tokens & tokens);
-	ast::expr_ptr parse_static_binary(Tokens & tokens);
-	ast::expr_ptr parse_static_unary(Tokens & tokens);
-	ast::expr_ptr parse_static_primary(Tokens & tokens);
-	ast::litr_ptr parse_static_integral(Tokens & tokens);
-
 	// Utils
 	std::string parse_preset_name(Tokens & tokens);
 	std::string parse_enum_name(Tokens & tokens);

@@ -31,7 +31,7 @@ namespace ltn::c {
 				name,
 				namespaze);
 			parse_equal_sign(tokens);
-			definition->expr = parse_static_expression(tokens);
+			definition->expr = parse_expression(tokens);
 			semicolon(tokens);
 			return definition;
 		}
