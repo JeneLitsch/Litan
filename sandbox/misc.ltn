@@ -1,16 +1,12 @@
-define x = 21;
-define y = 21 + 21;
-global x = (lambda => y)();
+define pi = 3.14;
+global x;
 
-function f() => global x
-
-function main(args) {
-	var foo = 3;
-	global x = 3;
-	return choose(21) {
-		case (lambda => x)(): 42;
-	};
+function f(x) {
+	global x = 42;
+	return x;
 }
-except(e) {
-	std::println(e);
+
+function main() {
+	std::println(f(pi));
+	std::println(global x);
 }

@@ -19,7 +19,7 @@ namespace ltn::c {
 
 	StmtCode compile_while_loop(const ast::While & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
-		Scope loop_scope{&scope}; 
+		MinorScope loop_scope { &scope }; 
 		
 		// compile parts
 		const auto condition = compile_expression(*stmt.condition, info, scope);
@@ -45,7 +45,7 @@ namespace ltn::c {
 
 	StmtCode compile_infinite_loop(const ast::InfiniteLoop & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
-		Scope loop_scope{&scope}; 
+		MinorScope loop_scope { &scope }; 
 		
 		// compile parts
 		const auto body = compile_statement(*stmt.body, info, loop_scope);
@@ -65,7 +65,7 @@ namespace ltn::c {
 
 	StmtCode compile_for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
-		Scope loop_scope{&scope};
+		MinorScope loop_scope { &scope };
 
 		const auto var = compile_new_variable(*stmt.var, info, loop_scope);
 		const auto from = compile_expression(*stmt.from, info, loop_scope);

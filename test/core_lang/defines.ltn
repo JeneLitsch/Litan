@@ -8,8 +8,7 @@ namespace core {
 	}
 
 
-	define switch_a = 5;
-	define switch_b = choose(switch_a) {
+	define switch_b = choose(5) {
 		case 5: 42;
 		default: 1337;
 	};
@@ -31,7 +30,7 @@ namespace core {
 		define c = 'x';
 		define s = "Hello World";
 		define n = null;
-		define a = [i, f, c];
+		define a = [42, 13.37, 'x'];
 	}
 
 
@@ -41,10 +40,10 @@ namespace core {
 		define b = 2;
 		define c = 3;
 		define d = 4;
-		define f = d + 2;
+		define f = 4 + 2;
 		define g = null ?? 7;
 		define h = false ? 7 : 8;
-		define array = [a, b, c, d, d + 1, f, g, h];
+		define array = [1, 2, 3, 4, 5, 6, 7, 8];
 	}
 	
 

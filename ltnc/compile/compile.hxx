@@ -9,6 +9,10 @@
 #include "utils/StmtCode.hxx"
 #include "utils/ExprCode.hxx"
 
+#include "utils/Scope.hxx"
+#include "utils/MajorScope.hxx"
+#include "utils/MinorScope.hxx"
+
 namespace ltn::c {
 	// Functional
 	InstructionBuffer compile_functional(const ast::Functional &, CompilerInfo &);

@@ -20,7 +20,7 @@ namespace ltn::c {
 
 
 		ExprCode compile_read_definition(const ast::Definition & definition, CompilerInfo & info) {
-			Scope s{definition.namespaze, false};
+			MajorScope s{definition.namespaze, false};
 			return compile_expression(*definition.expr, info, s);
 		}
 

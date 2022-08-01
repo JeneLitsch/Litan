@@ -2,7 +2,7 @@
 namespace ltn::c {
 	// compiles -> code block {...}
 	StmtCode compile_block(const ast::Block & block, CompilerInfo & info, Scope & parent) {
-		Scope scope(&parent);
+		MinorScope scope { &parent };
 		InstructionBuffer buf;
 		std::size_t locals = 0;
 		std::size_t newAllocs = 0;

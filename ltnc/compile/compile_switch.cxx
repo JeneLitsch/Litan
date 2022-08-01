@@ -12,7 +12,7 @@ namespace ltn::c {
 			.reporter = info.reporter
 		};
 
-		Scope case_scope { scope.get_namespace(), true };
+		MajorScope case_scope { scope.get_namespace(), true };
 
 		InstructionBuffer buf;
 

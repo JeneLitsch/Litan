@@ -50,7 +50,7 @@ namespace ltn::c {
 			CompilerInfo & info,
 			const auto & namespaze) {
 			
-			Scope scope{namespaze, false};
+			MajorScope scope{namespaze, false};
 			scope.insert(except.errorname, except.location);
 			// std::cout << "ERR " << except.errorname << ":" << var.address << ":" << scope.recSize() << std::endl;
 			InstructionBuffer buf;
@@ -90,7 +90,7 @@ namespace ltn::c {
 
 		// compiles Litan function
 		InstructionBuffer compile_function(const ast::Function & fx, CompilerInfo & info) {
-			Scope scope{fx.namespaze, fx.c0nst};
+			MajorScope scope { fx.namespaze, fx.c0nst };
 			return compile_function(fx, info, scope, {});
 		}
 
@@ -141,8 +141,12 @@ namespace ltn::c {
 		buf << ltn::inst::Jump{jumpmark_skip(fx.id)};
 		
 		// load captures
-		Scope inner_scope{outer_scope.get_namespace(), fx.c0nst};
+		MajorScope inner_scope {
+			outer_scope.get_namespace(),
+			fx.c0nst };
+		
 		InstructionBuffer capture_buf;
+		
 		for(const auto & capture : lm.captures) {
 			const auto var = inner_scope.insert(capture->name, fx.location);
 			capture_buf << ltn::inst::Makevar{};

@@ -61,7 +61,7 @@ namespace ltn::c {
 			InstructionBuffer buf;
 			for(const auto & s : statics) {
 				if(s->expr) {
-					Scope scope{s->namespaze, false};
+					MajorScope scope { s->namespaze, false };
 					const auto a = accessor(*s);
 					buf << compile_expression(*s->expr, read_info, scope).code;
 					buf << compile_write_static(a, write_info, scope).code;
