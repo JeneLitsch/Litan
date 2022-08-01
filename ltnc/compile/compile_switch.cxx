@@ -2,7 +2,7 @@
 namespace ltn::c {
 	template<auto body_fx>
 	auto any_switch(const auto & sw1tch, CompilerInfo & info, Scope & scope) {
-		InvalidFxTable fx_table {"case"};
+		InvalidFunctionTable fx_table {"case"};
 		InvalidGlobalTable global_table {"case"};
 		CompilerInfo case_info {
 			.fx_table = fx_table,

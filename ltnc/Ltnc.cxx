@@ -76,7 +76,7 @@ namespace ltn::c {
 			// Use empty global_table to prohibit the usage of other global variables.
 			// Functions or defines can be used though.
 			InvalidGlobalTable global_table { "the default value of another global variable" };
-			InvalidFxTable fx_table { "the initialization of a global variables" };
+			InvalidFunctionTable fx_table { "the initialization of a global variables" };
 			CompilerInfo read_info {
 				.fx_table         = fx_table,
 				.definition_table = info.definition_table,
@@ -97,7 +97,7 @@ namespace ltn::c {
 			// Functions or defines can be used though.
 			InvalidDefinitionTable def_table { "definitions" };
 			InvalidGlobalTable global_table { "definitions" };
-			InvalidFxTable fx_table { "definitions" };
+			InvalidFunctionTable fx_table { "definitions" };
 			CompilerInfo read_info {
 				.fx_table         = fx_table,
 				.definition_table = def_table,
@@ -119,7 +119,7 @@ namespace ltn::c {
 		
 		InstructionBuffer buf;
 		ValidDefinitionTable definition_table;
-		ValidFxTable fx_table;
+		ValidFunctionTable fx_table;
 		MemberTable member_table;
 		ValidGlobalTable global_table;
 		CompilerInfo info {
@@ -142,7 +142,7 @@ namespace ltn::c {
 		}
 
 		for(const auto & fx : program.functions) {
-			info.fx_table.insert(*fx);
+			info.fx_table.insert(*fx, std::size(fx->parameters));
 		}
 
 

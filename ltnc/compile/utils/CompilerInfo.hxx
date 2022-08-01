@@ -7,7 +7,7 @@
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
 #include "ltnc/ast/Ast.hxx"
-#include "FxTable.hxx"
+#include "FunctionTable.hxx"
 #include "DefinitionTable.hxx"
 #include "MemberTable.hxx"
 #include "GlobalTable.hxx"
@@ -16,7 +16,7 @@
 
 namespace ltn::c {
 	struct CompilerInfo {
-		FxTable & fx_table;
+		FunctionTable & fx_table;
 		DefinitionTable & definition_table;
 		MemberTable & member_table;
 		GlobalTable & global_table;
