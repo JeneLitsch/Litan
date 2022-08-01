@@ -1,14 +1,16 @@
 define pi = 3.14;
 global x;
 
-function f(x) {
-	global x = 42;
-	return x;
+namespace foo::bar { 
+	namespace baz { 
+		function f(x) {
+			global x = 42;
+			return x;
+		}
+	}
 }
 
 function main() {
-	std::println(f(pi));
+	std::println(foo::bar::baz::f(pi));
 	std::println(global x);
 }
-
-namespace A { }

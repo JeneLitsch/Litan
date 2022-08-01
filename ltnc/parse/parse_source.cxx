@@ -137,10 +137,13 @@ namespace ltn::c {
 
 		void parse_namespace(Tokens & tokens, ast::Source & source, const ast::Namespace & outer) {
 			ast::Namespace namespaze = outer;
-			if(auto t = match(TT::INDENTIFIER, tokens)) {
-				namespaze.push_back(t->str);
-			}
-			else throw anonymous_namespace(tokens);
+			do {
+				if(auto t = match(TT::INDENTIFIER, tokens)) {
+					namespaze.push_back(t->str);
+				}
+				else throw anonymous_namespace(tokens);
+			} while(match(TT::COLONx2, tokens));
+
 
 			if(!match(TT::BRACE_L, tokens)) throw missing_brace_l(tokens);
 
