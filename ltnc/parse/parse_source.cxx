@@ -116,14 +116,14 @@ namespace ltn::c {
 
 			if(!match(TT::BRACE_L, tokens)) throw missing_brace_l(tokens);
 
-			while(!match(TT::___EOF___, tokens)) {
+			while(!tokens.empty()) {
 				if(parse_decl(tokens, source, namespaze)) {
 					// Nothing
 				}
 				else if(match(TT::BRACE_R, tokens)) {
 					return;
 				}
-				else if(match(TT::___EOSRC___, tokens)) {
+				else if(match(TT::___EOF___, tokens)) {
 					throw unclosed_namespace(tokens);
 				}
 				else {
@@ -139,7 +139,7 @@ namespace ltn::c {
 		auto source = std::make_unique<ast::Source>();
 		const ast::Namespace namespaze;
 		Reporter reporter;
-		while(!match(TT::___EOF___, tokens)) {
+		while(!tokens.empty()) {
 			try {
 				if(parse_decl(tokens, *source, namespaze)) {
 					// Nothing
@@ -147,7 +147,7 @@ namespace ltn::c {
 				else if(match(TT::BRACE_R, tokens)) {
 					throw extra_brace_r(tokens);
 				}
-				else if(match(TT::___EOSRC___, tokens)) {
+				else if(match(TT::___EOF___, tokens)) {
 					// Nothing
 				}
 				else {

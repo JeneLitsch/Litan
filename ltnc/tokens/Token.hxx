@@ -19,7 +19,6 @@ namespace ltn::c {
 	struct Token {
 		enum class Type {
 			___EOF___,
-			___EOSRC___,
 			
 			COLON,
 			COLONx2,

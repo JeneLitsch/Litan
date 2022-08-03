@@ -360,7 +360,7 @@ namespace ltn::c::lex {
 			while (true) {
 				try {
 					Token t = lex::token(in, loc);
-					if(t.type == TT::___EOF___)  break;
+					if(t.type == TT::___EOF___) break;
 					tokens += t;
 				}
 				catch(const CompilerError & error) {
@@ -368,7 +368,7 @@ namespace ltn::c::lex {
 					in.ignore();
 				}
 			}
-			tokens += Token{TT::___EOSRC___, "___EOSRC___", loc};
+			tokens += Token{TT::___EOF___, "___EOF___", loc};
 			return tokens;
 		}
 	}
