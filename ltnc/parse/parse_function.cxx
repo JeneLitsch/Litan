@@ -87,11 +87,12 @@ namespace ltn::c {
 		}
 
 
-
+		
 		ast::stmt_ptr parse_body(Tokens & tokens) {
 			if(match(TT::DRARROW, tokens)) {
 				auto expr = parse_expression(tokens);
 				const auto & loc = location(tokens);
+				// match(TT::SEMICOLON, tokens);
 				return std::make_unique<ast::Return>(std::move(expr), loc);
 			}
 			else {

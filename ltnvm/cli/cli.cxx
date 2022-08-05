@@ -42,11 +42,11 @@ int main(int argc, char const *argv[]) {
 
 	args.parse_options(desc);
 
-	if(flag_version.is_set()) {
+	if(flag_version) {
 		std::cout << "Litan: " << ltn::version << "\n";
 		return EXIT_SUCCESS;
 	}
-	if(flag_help.is_set()) {
+	if(flag_help) {
 		std::cout << desc.describe(); 
 		return EXIT_SUCCESS;
 	}
@@ -54,12 +54,12 @@ int main(int argc, char const *argv[]) {
 	exec.mandatory();
 
 	try {
-		const auto bytecode = read_bytecode(exec.get());
+		const auto bytecode = read_bytecode(exec.value());
 
 		ltn::vm::LtnVM vm;
-		const auto main_function = main_init.is_set() ? main_init.get() : "";
+		const auto main_function = main_init.value_or("");
 		vm.setup(bytecode);
-		auto x = vm.run(main_args.get(), main_function);
+		auto x = vm.run(main_args.value_or({}), main_function);
 		std::cout
 			<< "Exit main() with return value: "
 			<< ltn::vm::cast::to_string(x, vm.get_heap())

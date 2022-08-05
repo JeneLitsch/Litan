@@ -23,32 +23,25 @@ namespace ltn::c {
 
 
 	void sync(Tokens & tokens) {
-		const static std::set<TT> stops {
-			TT::___EOF___,
-			TT::SEMICOLON,
-			TT::NAMESPACE,
-			TT::FUNCTION,
-			TT::BUILD_IN,
-			TT::VAR,
-			TT::FOR,
-			TT::WHILE,
-			TT::IF,
-			TT::ELSE,
-			TT::BRACE_R,
-		};
-		
-		// if(tokens.empty()) {
-		// 	tokens.unpop();
-		// 	return;
-		// }
-		// std::cout << this->current->str << std::endl;
-		if(tokens.front().type == TT::___EOF___) return;
 		tokens.pop();
-		while(!stops.contains(tokens.front().type)) {
-			// std::cout << this->current->str << "\n";
+		while(!tokens.empty()) {
+			switch (tokens.front().type) {
+				case TT::___EOF___: return;
+				// case TT::SEMICOLON: return tokens.pop();
+				// case TT::NAMESPACE: return;
+				// case TT::FUNCTION:  return;
+				// case TT::BUILD_IN:  return;
+				// case TT::VAR:       return;
+				// case TT::FOR:       return;
+				// case TT::WHILE:     return;
+				// case TT::IF:        return;
+				// case TT::ELSE:      return;
+				// case TT::RETURN:    return;
+			default: break;
+			}
+			
 			tokens.pop();
 		}
-		match(TT::SEMICOLON, tokens);
 	}
 
 

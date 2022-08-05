@@ -34,11 +34,11 @@ int main(int argc, char const *argv[]) {
 
 	args.parse_options(desc);
 
-	if(flag_version.is_set()) {
+	if(flag_version) {
 		std::cout << "Litan: " << ltn::version << "\n";
 		return EXIT_SUCCESS;
 	}
-	if(flag_help.is_set()) {
+	if(flag_help) {
 		std::cout << desc.describe(); 
 		return EXIT_SUCCESS;
 	}
@@ -50,7 +50,7 @@ int main(int argc, char const *argv[]) {
 	try {
 		std::vector<std::string> args;
 		std::vector<ltn::c::Source> sources;
-		for(const auto & source_file : flag_source.get()) {
+		for(const auto & source_file : flag_source.value_or({})) {
 			sources.push_back(ltn::c::Source::make<std::ifstream>(
 				std::string{source_file},
 				std::string{source_file}
@@ -59,16 +59,16 @@ int main(int argc, char const *argv[]) {
 
 		auto lexer = ltn::c::tokenize(std::move(sources), reporter);
 		auto program = ltn::c::parse(lexer, reporter);
-		if(flag_o.is_set()) ltn::c::optimize(program);
+		if(flag_o) ltn::c::optimize(program);
 		auto instructions = ltn::c::compile(program, reporter);
-		if(flag_o.is_set()) instructions.insts = ltn::c::peephole(instructions.insts);
+		if(flag_o) instructions.insts = ltn::c::peephole(instructions.insts);
 		auto bytecode = ltn::c::assemble(instructions);
-		const auto main_function = main_init.is_set() ? main_init.get() : "";
+		const auto main_function = main_init.value_or("");
 
 		reporter.may_throw();
 
 		vm.setup(bytecode);
-		auto x = vm.run(main_args.get(), main_function);
+		auto x = vm.run(main_args.value_or({}), main_function);
 		std::cout << "Exit main() with return value: ";
 		std::cout << ltn::vm::cast::to_string(x, vm.get_heap());
 		std::cout << "\n";

@@ -10,12 +10,20 @@ namespace bar {
 }
 
 namespace foo::bar::baz {
-    function fx() => 2
+    function fx() => 4
+	function f () {
+		var 
+		if() {}
+	} 
 }
+
 
 function main() {
 	std::println(foo::fx());
 	std::println(bar::fx());
 	std::println(foo::bar::fx());
 	std::println(foo::bar::baz::fx());
+	{
+		var x = 42;
+	}
 }

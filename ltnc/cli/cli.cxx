@@ -95,11 +95,11 @@ int main(int argc, char const *argv[]){
 
 	args.parse_options(desc);
 
-	if(flag_version.is_set()) {
+	if(flag_version) {
 		std::cout << "Litan: " << ltn::version << "\n";
 		return EXIT_SUCCESS;
 	}
-	if(flag_help.is_set()) {
+	if(flag_help) {
 		std::cout << desc.describe(); 
 		return EXIT_SUCCESS;
 	}
@@ -109,25 +109,25 @@ int main(int argc, char const *argv[]){
 	try {
 		ltn::c::Reporter reporter;
 
-		auto sources = read_sources(flag_source.get(), reporter);
+		auto sources = read_sources(flag_source.value(), reporter);
 		auto tokens = ltn::c::tokenize(std::move(sources), reporter);
 		auto program = ltn::c::parse(tokens, reporter);
-		if(flag_o.is_set()) ltn::c::optimize(program);
+		if(flag_o) ltn::c::optimize(program);
 		auto instructions = ltn::c::compile(program, reporter);
-		if(flag_o.is_set()) instructions.insts = ltn::c::peephole(instructions.insts);
+		if(flag_o) instructions.insts = ltn::c::peephole(instructions.insts);
 		auto bytecode = ltn::c::assemble(instructions);
 
 		reporter.may_throw();
 
-		if(flag_exe.is_set()) {
-			auto ofile = open_target(flag_exe.get(), reporter);
+		if(flag_exe) {
+			auto ofile = open_target(flag_exe.value(), reporter);
 			for(auto byte : bytecode) {
 				ofile << byte;
 			}
 		}
 		
-		if(flag_asm.is_set()) {
-			output_asm(flag_asm.get(), instructions.insts);
+		if(flag_asm) {
+			output_asm(flag_asm.value(), instructions.insts);
 		}
 		
 		std::cout << "Done!" << "\n";

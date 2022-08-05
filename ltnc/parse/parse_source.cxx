@@ -1,6 +1,8 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
 #include <iostream>
+#include "stdxx/accu_stack.hxx"
+
 namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
@@ -72,40 +74,8 @@ namespace ltn::c {
 
 
 
-		void parse_namespace(Tokens &, ast::Source &, const ast::Namespace &);
-
-		bool parse_decl(Tokens & tokens, ast::Source & source, const ast::Namespace & ns) {
-			if(match(TT::NAMESPACE, tokens)) {
-				parse_namespace(tokens, source, ns);
-				return true;
-			}
-			else if(auto fx = parse_functional(tokens, ns)) {
-				source.functions.push_back(std::move(fx));
-				return true;
-			}
-			else if(auto definition = parse_definition(tokens, ns)) {
-				source.definitions.push_back(std::move(definition));
-				return true;
-			}
-			else if(auto preset = parse_preset(tokens, ns)) {
-				source.presets.push_back(std::move(preset));
-				return true;
-			}
-			else if(match(TT::ENUM, tokens)) {
-				source.enums.push_back(parse_enumeration(tokens, ns));
-				return true;
-			}
-			else if(match(TT::GLOBAL, tokens)) {
-				source.globals.push_back(parse_global_decl(tokens, ns));
-				return true;
-			}
-			else return false;
-		}
-
-
-
-		void parse_namespace(Tokens & tokens, ast::Source & source, const ast::Namespace & outer) {
-			ast::Namespace namespaze = outer;
+		ast::Namespace inner_namespace(Tokens & tokens) {
+			ast::Namespace namespaze;
 			do {
 				if(auto t = match(TT::INDENTIFIER, tokens)) {
 					namespaze.push_back(t->str);
@@ -113,24 +83,12 @@ namespace ltn::c {
 				else throw anonymous_namespace(tokens);
 			} while(match(TT::COLONx2, tokens));
 
-
-			if(!match(TT::BRACE_L, tokens)) throw missing_brace_l(tokens);
-
-			while(!tokens.empty()) {
-				if(parse_decl(tokens, source, namespaze)) {
-					// Nothing
-				}
-				else if(match(TT::BRACE_R, tokens)) {
-					return;
-				}
-				else if(match(TT::___EOF___, tokens)) {
-					throw unclosed_namespace(tokens);
-				}
-				else {
-					throw unknown_declaration(tokens);
-				}
-			}
+			if(match(TT::BRACE_L, tokens)) return namespaze;
+			else throw missing_brace_l(tokens);
 		}
+
+
+
 	}
 
 
@@ -139,16 +97,44 @@ namespace ltn::c {
 		auto source = std::make_unique<ast::Source>();
 		const ast::Namespace namespaze;
 		Reporter reporter;
+
+		stx::accu_stack<ast::Namespace> namestack;
+
 		while(!tokens.empty()) {
 			try {
-				if(parse_decl(tokens, *source, namespaze)) {
-					// Nothing
+				if(match(TT::NAMESPACE, tokens)) {
+					namestack.push(inner_namespace(tokens));
+				}
+				else if(auto fx = parse_functional(tokens, namestack.top())) {
+					source->functions.push_back(std::move(fx));
+				}
+				else if(auto definition = parse_definition(tokens, namestack.top())) {
+					source->definitions.push_back(std::move(definition));
+				}
+				else if(auto preset = parse_preset(tokens, namestack.top())) {
+					source->presets.push_back(std::move(preset));
+				}
+				else if(match(TT::ENUM, tokens)) {
+					source->enums.push_back(parse_enumeration(tokens, namestack.top()));
+				}
+				else if(match(TT::GLOBAL, tokens)) {
+					source->globals.push_back(parse_global_decl(tokens, namestack.top()));
 				}
 				else if(match(TT::BRACE_R, tokens)) {
-					throw extra_brace_r(tokens);
+					if(namestack.empty()) {
+						throw extra_brace_r(tokens);
+					}
+					else {
+						namestack.pop();
+					}
 				}
 				else if(match(TT::___EOF___, tokens)) {
-					// Nothing
+					if(namestack.empty()) {
+						// Nothing
+					}
+					else {
+						throw unclosed_namespace(tokens);
+					}
 				}
 				else {
 					throw unknown_declaration(tokens);
@@ -159,6 +145,7 @@ namespace ltn::c {
 				sync(tokens);
 			}
 		}
+
 		reporter.may_throw();
 		return source; 
 	}
