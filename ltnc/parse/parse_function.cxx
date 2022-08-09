@@ -139,7 +139,7 @@ namespace ltn::c {
 				else if(t->str == "private") {
 					pr1vate = true;
 				}
-				else if(t->str == "init") {
+				else if(t->str == "extern") {
 					if(std::size(parameters) == 0 || std::size(parameters) == 1) {
 						init = true;
 					}

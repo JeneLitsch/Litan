@@ -230,7 +230,7 @@ except(e) {
 	std::println(e);
 }
 
-function test(args) init {
+function test(args) extern {
 	var map = std::map();
 	map["A"] = 42;
 	std::println("Hello World");
