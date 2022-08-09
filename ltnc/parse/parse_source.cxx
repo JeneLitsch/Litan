@@ -142,7 +142,8 @@ namespace ltn::c {
 			}
 			catch(const CompilerError & error) {
 				reporter << error;
-				sync(tokens);
+				while(tokens.front().type != TT::___EOF___) tokens.pop();
+				namestack = {};
 			}
 		}
 
