@@ -3,7 +3,7 @@
 namespace ltn {
 
 	Variant::Variant()              
-		: data{std::monostate{}} {}
+		: data{NullT{}} {}
 
 	Variant::Variant(bool v)                  
 		: data{v} {}
@@ -26,7 +26,7 @@ namespace ltn {
 
 
 	bool Variant::is_null() const {
-		return this->is<std::monostate>();
+		return this->is<NullT>();
 	}
 
 	bool Variant::is_bool() const {

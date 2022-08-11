@@ -3,11 +3,19 @@
 #include <variant>
 #include <string>
 #include <cstdint>
+#include <ostream>
 #include "stdxx/float64_t.hxx"
+#include "stdxx/array.hxx"
 
 namespace ltn {
 
 	class Variant {
+		struct NullT {
+			friend std::ostream & operator<<(std::ostream & stream, const NullT &) {
+				stream << "null";
+				return stream;
+			}
+		};
 	public:
 		Variant();
 		Variant(bool v);
@@ -31,6 +39,11 @@ namespace ltn {
 		const stx::float64_t & as_float() const;
 		const std::string & as_string() const;
 		const std::vector<Variant> & as_array() const;
+		
+		friend std::ostream & operator<<(std::ostream & stream, const Variant & variant) {
+			std::visit([&] (auto & value) { stream << value; }, variant.data);
+			return stream;
+		}
 
 	private:
 		template<typename T>
@@ -44,7 +57,7 @@ namespace ltn {
 		}
 
 		std::variant<
-			std::monostate,
+			NullT,
 			bool,
 			char,
 			std::int64_t,
@@ -58,4 +71,6 @@ namespace ltn {
 	// T variant_cast(const Variant & variant) {
 
 	// }
+
+
 }

@@ -60,11 +60,7 @@ int main(int argc, char const *argv[]) {
 		const auto main_function = main_init.value_or("");
 		vm.setup(bytecode);
 		auto x = vm.run(main_args.value_or({}), main_function);
-		std::cout
-			<< "Exit main() with return value: "
-			<< ltn::vm::cast::to_string(x, vm.get_heap())
-			<< "\n";
-		
+		std::cout << "Exit main() with return value: " << x << "\n";		
 		return EXIT_SUCCESS;
 	}
 	catch(const std::runtime_error & error) {
