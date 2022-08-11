@@ -80,7 +80,7 @@ ltnCli = [
 ]
 
 ltn = [
-
+	"ltn"
 ]
 
 ltninfo = [

@@ -6,6 +6,7 @@
 #include "ltn/version.hxx"
 #include "ltn/header.hxx"
 #include "stdxx/iife.hxx"
+#include "ltnvm/to_variant.hxx"
 
 namespace ltn::vm {
 	constexpr void add_instruction(auto & table, auto op_code, auto fx) {
@@ -198,7 +199,7 @@ namespace ltn::vm {
 
 
 
-		Value core_loop(VmCore & core) {
+		Variant core_loop(VmCore & core) {
 			RESUME:
 			try {
 				while(true) {
@@ -213,7 +214,7 @@ namespace ltn::vm {
 			}
 
 			catch(const Value & value) {
-				return value;
+				return to_variant(value, core.heap);
 			}
 		}
 
@@ -271,7 +272,7 @@ namespace ltn::vm {
 
 
 
-	Value LtnVM::run(const std::vector<std::string> & args, const std::string & main) {
+	Variant LtnVM::run(const std::vector<std::string> & args, const std::string & main) {
 		load_main_args(core, args);
 		jump_to_init(core, main);
 		return core_loop(this->core);
