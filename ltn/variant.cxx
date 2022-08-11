@@ -56,26 +56,26 @@ namespace ltn {
 
 
 	const bool & Variant::as_bool() const {
-		return *this->get<bool>();
+		return this->get<bool>();
 	}
 
 	const char & Variant::as_char() const {
-		return *this->get<char>();
+		return this->get<char>();
 	}
 
 	const std::int64_t & Variant::as_int() const {
-		return *this->get<std::int64_t>();
+		return this->get<std::int64_t>();
 	}
 
 	const stx::float64_t & Variant::as_float() const {
-		return *this->get<stx::float64_t>();
+		return this->get<stx::float64_t>();
 	}
 
 	const std::string & Variant::as_string() const {
-		return *this->get<std::string>();
+		return this->get<std::string>();
 	}
 
 	const std::vector<Variant> & Variant::as_array() const {
-		return *this->get<std::vector<Variant>>();
+		return this->get<std::vector<Variant>>();
 	}
 }
