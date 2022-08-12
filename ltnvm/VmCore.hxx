@@ -15,10 +15,12 @@ namespace ltn::vm {
 
 		// Persistent
 		std::vector<std::uint8_t> byte_code;
-		std::unordered_map<std::int64_t, std::unique_ptr<ext::External>> externals;
-		std::unordered_map<std::string, std::uint64_t> mains;
 
 		std::vector<Value> static_variables;
+
+		std::unordered_map<std::int64_t, std::unique_ptr<ext::External>> externals;
+		std::unordered_map<std::string, std::uint64_t> function_table;
+		std::unordered_map<std::string, std::uint64_t> static_table;
 		
 		inline std::uint8_t fetch_byte() {
 			return this->byte_code[this->pc++];

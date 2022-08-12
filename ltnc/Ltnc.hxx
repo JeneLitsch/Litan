@@ -9,11 +9,13 @@
 #include "ltnc/tokens/Token.hxx"
 #include "ltnc/lex/lexing.hxx"
 #include <set>
+#include "AddressTable.hxx"
 
 namespace ltn::c {
 	struct Instructions {
 		std::vector<ltn::inst::Instruction> insts;
 		std::set<std::string> init_functions;
+		AddressTable global_table;
 	};
 
 	Tokens tokenize(

@@ -59,6 +59,7 @@ int main(int argc, char const *argv[]) {
 		ltn::vm::LtnVM vm;
 		const auto main_function = main_init.value_or("");
 		vm.setup(bytecode);
+		vm.set_global("foo::test", std::int64_t{42});
 		auto x = vm.run(main_args.value_or({}), main_function);
 		std::cout << "Exit main() with return value: " << x << "\n";		
 		return EXIT_SUCCESS;

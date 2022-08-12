@@ -7,6 +7,7 @@
 #include "ltn/header.hxx"
 #include "stdxx/iife.hxx"
 #include "ltnvm/to_variant.hxx"
+#include "ltnvm/to_value.hxx"
 
 namespace ltn::vm {
 	constexpr void add_instruction(auto & table, auto op_code, auto fx) {
@@ -235,12 +236,12 @@ namespace ltn::vm {
 		void jump_to_init(VmCore & core, const std::string & main) {
 			const auto main_fx = [&] () -> std::string {
 				if(!main.empty()) return main;
-				return core.mains.contains("main(1)") ? "main(1)" : "main(0)";
+				return core.function_table.contains("main(1)") ? "main(1)" : "main(0)";
 			} ();
-			if(!core.mains.contains(main_fx)) throw std::runtime_error {
+			if(!core.function_table.contains(main_fx)) throw std::runtime_error {
 				"Program does not contain function " + main_fx
 			};
-			core.pc = core.mains.at(main_fx);
+			core.pc = core.function_table.at(main_fx);
 			core.stack.push_frame(std::size(core.byte_code) - 1);
 		}
 	}
@@ -258,7 +259,8 @@ namespace ltn::vm {
 			throw std::runtime_error{"Incompatible bytecode version"};
 		}
 
-		this->core.mains = read_fx_table(it);
+		this->core.function_table = read_addr_table(it);
+		this->core.static_table = read_addr_table(it);
 
 		this->core.byte_code = std::vector<std::uint8_t>{ it, std::end(code) };
 		this->core.pc = 0;
@@ -276,5 +278,19 @@ namespace ltn::vm {
 		load_main_args(core, args);
 		jump_to_init(core, main);
 		return core_loop(this->core);
+	}
+
+
+
+	void LtnVM::set_global(
+		const std::string & name,
+		Variant variant) {
+
+		if(!core.static_table.contains(name)) throw std::runtime_error {
+			"Program does not contain global variable " + name
+		};
+
+		const auto addr = core.static_table[name];
+		this->core.static_variables[addr] = to_value(variant, core.heap);
 	}
 }

@@ -161,35 +161,54 @@ namespace ltn::c {
 			}
 		}
 
-		std::set<std::string> init_functions;
-		init_functions.insert("main(0)");
-		init_functions.insert("main(1)");
+		std::set<std::string> extern_functions;
+		extern_functions.insert("main(0)");
+		extern_functions.insert("main(1)");
 		for(const auto & fx : program.functions) {
-			if(fx->init) init_functions.insert(fx->id);
+			if(fx->init) extern_functions.insert(fx->id);
 		}
+
+		AddressTable extern_globals;
+		for(const auto symbol : global_table.get_symbols()) {
+			const auto full_name = symbol->namespaze.to_string() + symbol->name;
+			extern_globals.insert({full_name, symbol->id});
+		}
+
 
 		buf << inst::Exit{};
 
 		return {
 			buf.get(),
-			init_functions,
+			extern_functions,
+			extern_globals
 		};
 	}
 
 
-	std::vector<std::uint8_t> assemble(
-		const Instructions & instructions) {		
-		const auto jump_table = scan(instructions.insts);
-
-		std::unordered_map<std::string, std::uint64_t> fx_table;
-
-		for(const auto & fx_id : instructions.init_functions) {
-			if(jump_table.contains(fx_id)) {
-				fx_table[fx_id] = jump_table.at(fx_id);
+	namespace {
+		AddressTable build_fx_table(
+			const std::set<std::string> & fx_ids,
+			const AddressTable & jump_table) {
+			
+			AddressTable function_table;
+			for(const auto & fx_id : fx_ids) {
+				if(jump_table.contains(fx_id)) {
+					function_table[fx_id] = jump_table.at(fx_id);
+				}
 			}
+			return function_table;
 		}
+	}
 
-		const auto bytecode = assemble(instructions.insts, jump_table, fx_table);
+
+	std::vector<std::uint8_t> assemble(
+		const Instructions & instructions) {
+		
+		const auto jump_table     = scan(instructions.insts);
+		const auto function_table = build_fx_table(instructions.init_functions, jump_table);
+		const auto global_table   = instructions.global_table;
+
+		const auto bytecode = assemble(instructions.insts, jump_table, function_table, global_table);
 		return bytecode;
 	}
 }

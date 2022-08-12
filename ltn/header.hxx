@@ -8,7 +8,7 @@ namespace ltn {
 		return *(it++);
 	}
 
-	std::unordered_map<std::string, std::uint64_t> read_fx_table(auto & it) {
+	std::unordered_map<std::string, std::uint64_t> read_addr_table(auto & it) {
 		static constexpr auto get_uint64 = [] (auto & it) {
 			const auto value 
 				= (static_cast<std::size_t>(*(it + 7)) << 8 * 0)
@@ -23,17 +23,17 @@ namespace ltn {
 			return value;
 		};
 
-		std::unordered_map<std::string, std::uint64_t> fx_table;
+		std::unordered_map<std::string, std::uint64_t> table;
 
-		const std::size_t fx_table_size = get_uint64(it);
-		for(std::size_t i = 0; i < fx_table_size; ++i) {
+		const std::size_t table_size = get_uint64(it);
+		for(std::size_t i = 0; i < table_size; ++i) {
 			const std::size_t name_size = get_uint64(it);
 			const std::string name { it, it + name_size };
 			it += name_size;
 			const std::uint64_t addr = get_uint64(it);
-			fx_table[name] = addr;
+			table[name] = addr;
 		}
 
-		return fx_table;
+		return table;
 	}
 }

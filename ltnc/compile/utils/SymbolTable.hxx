@@ -66,6 +66,11 @@ namespace ltn::c {
 			this->symbols.push_back(&symbol);
 		}
 
+
+		const std::vector<const Symbol *> & get_symbols() {
+			return symbols;
+		}
+
 	private:
 		std::vector<const Symbol *> symbols;
 	};

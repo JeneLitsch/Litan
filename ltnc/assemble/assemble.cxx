@@ -128,6 +128,18 @@ namespace ltn::c {
 			std::vector<std::uint8_t> &,
 			const inst::Label &,
 			const AddressTable &) {}
+
+
+		std::vector<std::uint8_t> sequence_table(const AddressTable & table) {
+			std::vector<std::uint8_t> bytecode;
+			bytecode += to_bytes(std::size_t(std::size(table)));
+			for (const auto & [name, addr] : table) {
+				bytecode += to_bytes(std::uint64_t(std::size(name)));
+				bytecode += std::vector<std::uint8_t> {std::begin(name), std::end(name)};
+				bytecode += to_bytes(std::uint64_t(addr));
+			}
+			return bytecode;
+		}
 	}
 
 
@@ -135,18 +147,14 @@ namespace ltn::c {
 	std::vector<std::uint8_t> assemble(
 		const std::vector<inst::Instruction> & instructions,
 		const AddressTable & jump_table,
-		const std::unordered_map<std::string, std::uint64_t> & fx_table) {
+		const AddressTable & function_table,
+		const AddressTable & static_table) {
 		
 		std::vector<std::uint8_t> bytecode;
 		bytecode.push_back(ltn::major_version);
-		
 
-		bytecode += to_bytes(std::size_t(std::size(fx_table)));
-		for (const auto & [name, addr] : fx_table) {
-			bytecode += to_bytes(std::uint64_t(std::size(name)));
-			bytecode += std::vector<std::uint8_t> {std::begin(name), std::end(name)};
-			bytecode += to_bytes(std::uint64_t(addr));
-		}
+		bytecode += sequence_table(function_table);
+		bytecode += sequence_table(static_table);
 
 		for(const auto & inst : instructions) {
 			if(auto executable = inst.as<inst::ExecInst>()) {
