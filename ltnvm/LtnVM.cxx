@@ -248,7 +248,7 @@ namespace ltn::vm {
 
 
 
-	void LtnVM::setup(std::vector<std::uint8_t> code) {
+	void LtnVM::setup(std::span<const std::uint8_t> code) {
 		if(code.size() < 2) {
 			throw std::runtime_error{"Not an executable program"};
 		}
@@ -262,7 +262,7 @@ namespace ltn::vm {
 		this->core.function_table = read_addr_table(it);
 		this->core.static_table = read_addr_table(it);
 
-		this->core.byte_code = std::vector<std::uint8_t>{ it, std::end(code) };
+		this->core.byte_code = { it, std::end(code) };
 		this->core.pc = 0;
 		this->core.reg.reset();
 		this->core.stack.reset();

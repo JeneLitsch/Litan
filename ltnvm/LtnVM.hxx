@@ -10,7 +10,7 @@ namespace ltn::vm {
 	public:
 		LtnVM() {}
 		
-		void setup(std::vector<std::uint8_t> code);
+		void setup(std::span<const std::uint8_t> code);
 		
 		Variant run(
 			const std::vector<std::string> & args = {},

@@ -14,7 +14,7 @@ namespace ltn::vm {
 		std::uint64_t pc;
 
 		// Persistent
-		std::vector<std::uint8_t> byte_code;
+		std::span<const std::uint8_t> byte_code;
 
 		std::vector<Value> static_variables;
 
