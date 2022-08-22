@@ -1,0 +1,122 @@
+#pragma once
+#include <vector>
+#include <variant>
+#include "stdxx/heaped.hxx"
+#include "ltnc/type/to_string.hxx"
+
+namespace ltn::c::type {
+	class Type;
+
+	struct Any {
+		constexpr static auto type_name = "Any";
+	};
+
+	struct Error {
+		constexpr static auto type_name = "Error";
+	};
+
+	struct Null {
+		constexpr static auto type_name = "Null";
+	};
+
+	struct Bool {
+		constexpr static auto type_name = "Bool";
+	};
+
+	struct Char {
+		constexpr static auto type_name = "Char";
+	};
+
+	struct Int {
+		constexpr static auto type_name = "Int";
+	};
+
+	struct Float {
+		constexpr static auto type_name = "Float";
+	};
+
+	struct String {
+		constexpr static auto type_name = "String";
+	};
+
+	struct Array {
+		constexpr static auto type_name = "Array";
+		stx::heaped<Type> contains;
+	};
+	
+
+
+	class Type {
+		using Variant = std::variant<
+			Any,
+			Error,
+			Null,
+			Bool,
+			Char,
+			Int,
+			Float,
+			String,
+			Array
+		>;
+	public:
+		Type(auto actual_type) : actual_type { actual_type } {} 
+	
+		template<typename T>
+		const T * is() const {
+			return std::get_if<const T *>(&actual_type);
+		} 
+
+		friend bool operator==(const Type &, const Type &);
+	
+		const Variant & operator*() const {
+			return this->actual_type;
+		}
+	private:
+		
+		Variant actual_type;
+	};
+
+
+
+	inline bool operator==(const Any &, const Any &) {
+		return true;
+	}
+
+	inline bool operator==(const Error &, const Error &) {
+		return true;
+	}
+
+	inline bool operator==(const Null &, const Null &) {
+		return true;
+	}
+
+	inline bool operator==(const Bool &, const Bool &) {
+		return true;
+	}
+
+	inline bool operator==(const Char &, const Char &) {
+		return true;
+	}
+
+	inline bool operator==(const Int &, const Int &) {
+		return true;
+	}
+
+	inline bool operator==(const Float &, const Float &) {
+		return true;
+	}
+	
+	inline bool operator==(const String &, const String &) {
+		return true;
+	}
+
+	inline bool operator==(const Array & l, const Array & r) {
+		return *l.contains == *r.contains;
+	}
+
+
+
+	inline bool operator==(const Type & l, const Type & r) {
+		return l.actual_type == r.actual_type;
+	}
+}

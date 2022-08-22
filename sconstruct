@@ -57,6 +57,7 @@ ltnc = [
 	"ltnc/tokens",
 	"ltnc/ast",
 	"ltnc/inst",
+	"ltnc/type",
 ]
 ltncCli = [
 	"ltnc/cli",

@@ -295,6 +295,22 @@ namespace ltn::c {
 			}
 			else return nullptr; 
 		}
+
+
+
+		ast::expr_ptr parse_decltype(Tokens & tokens) {
+			if(auto t = match(TT::DECLTYPE, tokens)) {
+				if(!match(TT::PAREN_L, tokens)) throw CompilerError {
+					"Expected ("
+				};
+				auto expr = parse_expression(tokens);			
+				if(!match(TT::PAREN_R, tokens)) throw CompilerError {
+					"Expected )"
+				};
+				return std::make_unique<ast::DeclType>(std::move(expr), t->location);
+			}
+			return nullptr;
+		}
 	}
 
 
@@ -334,6 +350,7 @@ namespace ltn::c {
 		if(auto expr = parse_iife(tokens)) return expr;
 		if(auto expr = parse_expr_switch(tokens)) return expr;
 		if(auto expr = parse_global(tokens)) return expr;
+		if(auto expr = parse_decltype(tokens)) return expr;
 		return parse_identifier(tokens);
 	}
 }

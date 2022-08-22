@@ -4,5 +4,5 @@ namespace foo {
 
 
 function main() {
-	std::println(global foo::test);
+	std::println(decltype(1.0).name);
 }

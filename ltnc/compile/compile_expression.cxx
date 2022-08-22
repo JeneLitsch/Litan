@@ -1,6 +1,25 @@
 #include "compile.hxx"
 
+
 namespace ltn::c {
+	ExprCode compile_decltype(const ast::DeclType & expr, CompilerInfo & info, Scope & scope) {
+		const auto result = compile_expression(*expr.expression, info, scope);
+		const auto type = result.deduced_type;
+		const auto name = type::to_string(type);
+		const auto bytes = std::vector<std::uint8_t>{std::begin(name), std::end(name)};
+
+		InstructionBuffer buf;
+		buf << inst::Newstruct{};
+		
+		buf << inst::Duplicate{};
+		buf << inst::Newstr{bytes};
+		buf << inst::Swap{};
+		buf << inst::MemberWrite{info.member_table.get_id("name")};
+
+		return {buf};
+	}
+
+
 	// compiles any expression
 	ExprCode compile_expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		if(auto binary = as<ast::Binary>(expr)) {
@@ -65,6 +84,9 @@ namespace ltn::c {
 		} 
 		if(auto invoke = as<ast::Invokation>(expr)) {
 			return compile_invokation(*invoke, info, scope);
+		}
+		if(auto invoke = as<ast::DeclType>(expr)) {
+			return compile_decltype(*invoke, info, scope);
 		}
 		throw CompilerError{"Unknown Expression"};
 	}

@@ -119,6 +119,7 @@ namespace ltn::c::lex {
 			{"case",        TT::CASE},
 			{"default",     TT::DEFAULT},
 			{"global",      TT::GLOBAL},
+			{"decltype",    TT::DECLTYPE},
 		};
 		
 

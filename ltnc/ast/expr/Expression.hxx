@@ -15,6 +15,18 @@ namespace ltn::c::ast {
 	
 
 
+	struct DeclType : public Expression {
+		DeclType(
+			std::unique_ptr<Expression> expression,
+			const SourceLocation & location)
+			:	Expression(location),
+				expression(std::move(expression)) {}
+		virtual ~DeclType() = default;
+		std::unique_ptr<Expression> expression;
+	};
+
+
+
 	struct Ternary : public Expression {
 		Ternary(
 			const SourceLocation & location,
