@@ -8,39 +8,39 @@ namespace ltn::c::type {
 	class Type;
 
 	struct Any {
-		constexpr static auto type_name = "Any";
+		constexpr static auto type_name = "any";
 	};
 
 	struct Error {
-		constexpr static auto type_name = "Error";
+		constexpr static auto type_name = "error";
 	};
 
 	struct Null {
-		constexpr static auto type_name = "Null";
+		constexpr static auto type_name = "null";
 	};
 
 	struct Bool {
-		constexpr static auto type_name = "Bool";
+		constexpr static auto type_name = "bool";
 	};
 
 	struct Char {
-		constexpr static auto type_name = "Char";
+		constexpr static auto type_name = "char";
 	};
 
 	struct Int {
-		constexpr static auto type_name = "Int";
+		constexpr static auto type_name = "int";
 	};
 
 	struct Float {
-		constexpr static auto type_name = "Float";
+		constexpr static auto type_name = "float";
 	};
 
 	struct String {
-		constexpr static auto type_name = "String";
+		constexpr static auto type_name = "string";
 	};
 
 	struct Array {
-		constexpr static auto type_name = "Array";
+		constexpr static auto type_name = "array";
 		stx::heaped<Type> contains;
 	};
 	
