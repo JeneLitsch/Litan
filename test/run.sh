@@ -40,6 +40,7 @@ core_tests=(
 	"test/core_lang/switch.ltn" 
 	"test/core_lang/throw.ltn" 
 	"test/core_lang/while.ltn" 
+	"test/core_lang/decltype.ltn" 
 	${op_tests[*]}
 )
 

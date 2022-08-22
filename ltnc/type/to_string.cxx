@@ -11,7 +11,12 @@ namespace ltn::c::type {
 
 		std::string to_string(const Array & array) {
 			std::ostringstream oss;
-			oss << Array::type_name << "<" << to_string(*array.contains) << ">";
+			if(array.contains) {
+				oss << Array::type_name << "<" << to_string(**array.contains) << ">";
+			}
+			else {
+				oss << Array::type_name << "<>";
+			}
 			return oss.str();
 		}
 	}

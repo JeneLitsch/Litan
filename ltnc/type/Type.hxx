@@ -1,8 +1,10 @@
 #pragma once
 #include <vector>
 #include <variant>
+#include <optional>
 #include "stdxx/heaped.hxx"
 #include "ltnc/type/to_string.hxx"
+#include "ltnc/type/deduction.hxx"
 
 namespace ltn::c::type {
 	class Type;
@@ -41,7 +43,7 @@ namespace ltn::c::type {
 
 	struct Array {
 		constexpr static auto type_name = "array";
-		stx::heaped<Type> contains;
+		std::optional<stx::heaped<Type>> contains;
 	};
 	
 
@@ -111,7 +113,9 @@ namespace ltn::c::type {
 	}
 
 	inline bool operator==(const Array & l, const Array & r) {
-		return *l.contains == *r.contains;
+		if(!l.contains && !r.contains) return true;
+		if(l.contains && r.contains) return **l.contains == **r.contains;
+		return false;
 	}
 
 

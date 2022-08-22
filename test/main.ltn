@@ -221,6 +221,8 @@ function main(args) {
 	test::read_all(sphinx);
 	test::readln(sphinx);
 
+	core::decltype_name(sphinx);
+
 	sphinx::interprete_results(sphinx);
 
 	std::println(std::debug::state());

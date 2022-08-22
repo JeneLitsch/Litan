@@ -1,0 +1,21 @@
+namespace core {
+    function decltype_name(sphinx) {
+		var cases = [
+			sphinx::assert_result([decltype(null)],       "null"),
+			sphinx::assert_result([decltype(true)],       "bool"),
+			sphinx::assert_result([decltype(false)],      "bool"),
+			sphinx::assert_result([decltype('a')],        "char"),
+			sphinx::assert_result([decltype(1)],          "int"),
+			sphinx::assert_result([decltype(1.0)],        "float"),
+			sphinx::assert_result([decltype("abc")],      "string"),
+			sphinx::assert_result([decltype([])],         "array<>"),
+			sphinx::assert_result([decltype([1])],        "array<int>"),
+			sphinx::assert_result([decltype([2.0])],      "array<float>"),
+			sphinx::assert_result([decltype(['a', "b"])], "array<any>"),
+			sphinx::assert_result([decltype(["xyz"])],    "array<string>"),
+			sphinx::assert_result([decltype([1, 2.0])],   "array<any>"),
+		];
+
+		sphinx::run_test(sphinx, "for", lambda(x) => x.name, cases); 
+    }
+}
