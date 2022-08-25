@@ -8,4 +8,7 @@ namespace ltn::c::type {
 
 	Type deduce_add(const Type & l, const Type & r);
 	Type deduce_sub(const Type & l, const Type & r);
+	Type deduce_mlt(const Type & l, const Type & r);
+	Type deduce_div(const Type & l, const Type & r);
+	Type deduce_mod(const Type & l, const Type & r);
 }

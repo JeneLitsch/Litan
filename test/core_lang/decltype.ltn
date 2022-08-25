@@ -194,6 +194,86 @@ namespace core {
 				decltype(1.0 - 1.0),
 				"float"
 			),
+
+			type_check(
+				decltype("A" - "A"),
+				"error"
+			),
+
+			type_check(
+				decltype([] - []),
+				"error"
+			),
+
+			type_check(
+				decltype(1 * 2.0),
+				"float"
+			),
+
+			type_check(
+				decltype(1 * 1),
+				"int"
+			),
+
+			type_check(
+				decltype(true * 1),
+				"int"
+			),
+
+			type_check(
+				decltype(true * true),
+				"int"
+			),
+
+			type_check(
+				decltype(1.0 * 1.0),
+				"float"
+			),
+
+			type_check(
+				decltype("A" * "A"),
+				"error"
+			),
+
+			type_check(
+				decltype([] * []),
+				"error"
+			),
+
+			type_check(
+				decltype(1 / 2.0),
+				"float"
+			),
+
+			type_check(
+				decltype(1 / 1),
+				"int"
+			),
+
+			type_check(
+				decltype(true / 1),
+				"int"
+			),
+
+			type_check(
+				decltype(true / true),
+				"int"
+			),
+
+			type_check(
+				decltype(1.0 / 1.0),
+				"float"
+			),
+
+			type_check(
+				decltype("A" / "A"),
+				"error"
+			),
+
+			type_check(
+				decltype([] / []),
+				"error"
+			),
 		];
 
 		sphinx::run_test(sphinx, "decltype.name", lambda(x) => x, cases); 

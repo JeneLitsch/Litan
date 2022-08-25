@@ -139,8 +139,8 @@ namespace ltn::c {
 		switch (binary.type) {
 			case OP::ADD:          return bin_typed(l, r, type::deduce_add, ltn::inst::Add{});
 			case OP::SUB:          return bin_typed(l, r, type::deduce_sub, ltn::inst::Sub{});
-			case OP::MLT:          return bin(l, r, ltn::inst::Mlt{});
-			case OP::DIV:          return bin(l, r, ltn::inst::Div{});
+			case OP::MLT:          return bin_typed(l, r, type::deduce_mlt, ltn::inst::Mlt{});
+			case OP::DIV:          return bin_typed(l, r, type::deduce_div, ltn::inst::Div{});
 			case OP::MOD:          return bin(l, r, ltn::inst::Mod{});
 			case OP::POW:          return bin(l, r, ltn::inst::Pow{});
 			case OP::SMALLER:      return bin(l, r, ltn::inst::Sml{});
