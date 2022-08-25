@@ -7,146 +7,146 @@ namespace core {
 		var a = 1; 
 		var cases = [
 			type_check(
-				decltype(null),           
+				decltype(null),
 				"null"
 			),
 
 			type_check(
-				decltype(true),           
+				decltype(true),
 				"bool"
 			),
 
 			type_check(
-				decltype(false),          
+				decltype(false),
 				"bool"),
 
 			type_check(
-				decltype('a'),            
+				decltype('a'),
 				"char"
 			),
 
 			type_check(
-				decltype('a' + 1),            
+				decltype('a' + 1),
 				"int"
 			),
 
 			type_check(
-				decltype('a' + 'a'),            
+				decltype('a' + 'a'),
 				"int"
 			),
 
 			type_check(
-				decltype('a' + true + false),            
+				decltype('a' + true + false),
 				"int"
 			),
 
 			type_check(
-				decltype(1),              
+				decltype(1),
 				"int"
 			),
 
 			type_check(
-				decltype(1.0),            
+				decltype(1.0),
 				"float"
 			),
 
 			type_check(
-				decltype("abc"),          
+				decltype("abc"),
 				"string"),
 
 			type_check(
-				decltype([]),             
+				decltype([]),
 				"array<>"
 			),
 
 			type_check(
-				decltype([1]),            
+				decltype([1]),
 				"array<int>"
 			),
 
 			type_check(
-				decltype([2.0]),          
+				decltype([2.0]),
 				"array<float>"
 			),
 
 			type_check(
-				decltype(['a', "b"]),     
+				decltype(['a', "b"]),
 				"array<any>"
 			),
 
 			type_check(
-				decltype(["xyz"]),        
+				decltype(["xyz"]),
 				"array<string>"
 			),
 
 			type_check(
-				decltype([1, 2.0]),       
+				decltype([1, 2.0]),
 				"array<any>"
 			),
 
 			type_check(
-				decltype([[1], [2.0]]),       
+				decltype([[1], [2.0]]),
 				"array<array<any>>"
 			),
 
 			type_check(
-				decltype([[[false]], [[true]]]),       
+				decltype([[[false]], [[true]]]),
 				"array<array<array<bool>>>"
 			),
 
 			type_check(
-				decltype([[[false]], [[true]], [[1]]]),       
+				decltype([[[false]], [[true]], [[1]]]),
 				"array<array<array<any>>>"
 			),
 
 			type_check(
-				decltype(1 + 1),          
+				decltype(1 + 1),
 				"int"
 			),
 
 			type_check(
-				decltype(a + 1),          
+				decltype(a + 1),
 				"any"
 			),
 
 			type_check(
-				decltype("" + 1),          
+				decltype("" + 1),
 				"error"
 			),
 
 			type_check(
-				decltype("" + a),          
+				decltype("" + a),
 				"any"
 			),
 
 			type_check(
-				decltype(2.0 + 1),        
+				decltype(2.0 + 1),
 				"float"
 			),
 			
 
 			type_check(
-				decltype("a"+"b"+"c"),    
+				decltype("a"+"b"+"c"),
 				"string"
 			),
 
 			type_check(
-				decltype([1] + [2]),      
+				decltype([1] + [2]),
 				"array<int>"
 			),
 
 			type_check(
-				decltype([1.0] + [2.0]),  
+				decltype([1.0] + [2.0]),
 				"array<float>"
 			),
 
 			type_check(
-				decltype([1.0] + [2.0]),  
+				decltype([1.0] + [2.0]),
 				"array<float>"
 			),
 
 			type_check(
-				decltype([[1]] + [[1]]),  
+				decltype([[1]] + [[1]]),
 				"array<array<int>>"
 			),
 
@@ -163,6 +163,11 @@ namespace core {
 			type_check(
 				decltype([["hello"]] + [["wo", "rld", "!"]]),
 				"array<array<string>>"
+			),
+
+			type_check(
+				decltype([["hello"]] + ""),
+				"error"
 			),
 
 			type_check(
@@ -271,7 +276,72 @@ namespace core {
 			),
 
 			type_check(
-				decltype([] / []),
+				decltype(1 % 2.0),
+				"float"
+			),
+
+			type_check(
+				decltype(1 % 1),
+				"int"
+			),
+
+			type_check(
+				decltype(true % 1),
+				"int"
+			),
+
+			type_check(
+				decltype(true % true),
+				"int"
+			),
+
+			type_check(
+				decltype(1.0 % 1.0),
+				"float"
+			),
+
+			type_check(
+				decltype("A" % "A"),
+				"error"
+			),
+
+			type_check(
+				decltype([] % []),
+				"error"
+			),
+
+			type_check(
+				decltype(1 ** 2.0),
+				"float"
+			),
+
+			type_check(
+				decltype(1 ** 1),
+				"float"
+			),
+
+			type_check(
+				decltype(true ** 1),
+				"float"
+			),
+
+			type_check(
+				decltype(true ** true),
+				"float"
+			),
+
+			type_check(
+				decltype(1.0 ** 1.0),
+				"float"
+			),
+
+			type_check(
+				decltype("A" ** "A"),
+				"error"
+			),
+
+			type_check(
+				decltype([] ** []),
 				"error"
 			),
 		];

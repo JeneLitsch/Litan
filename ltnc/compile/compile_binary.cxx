@@ -141,8 +141,8 @@ namespace ltn::c {
 			case OP::SUB:          return bin_typed(l, r, type::deduce_sub, ltn::inst::Sub{});
 			case OP::MLT:          return bin_typed(l, r, type::deduce_mlt, ltn::inst::Mlt{});
 			case OP::DIV:          return bin_typed(l, r, type::deduce_div, ltn::inst::Div{});
-			case OP::MOD:          return bin(l, r, ltn::inst::Mod{});
-			case OP::POW:          return bin(l, r, ltn::inst::Pow{});
+			case OP::MOD:          return bin_typed(l, r, type::deduce_mod, ltn::inst::Mod{});
+			case OP::POW:          return bin_typed(l, r, type::deduce_pow, ltn::inst::Pow{});
 			case OP::SMALLER:      return bin(l, r, ltn::inst::Sml{});
 			case OP::BIGGER:       return bin(l, r, ltn::inst::Bgr{});
 			case OP::SMALLEREQUAL: return bin(l, r, ltn::inst::Smleql{});

@@ -24,6 +24,20 @@ namespace ltn::c::type {
 			return Any{};
 		}
 
+
+
+		bool is_integral(const Type & x) {
+			return x.as<Bool>() || x.as<Char>() || x.as<Int>();
+		}
+
+
+
+		bool is_numeric(const Type & x) {
+			return is_integral(x) || x.as<Float>();
+		}
+
+
+
 		Array deduce_array_concat(const Array & l, const Array & r) {
 			return Array{deduce_contained(l, r)};
 		}
@@ -32,28 +46,19 @@ namespace ltn::c::type {
 
 		Type deduce_arith_base(const Type & l, const Type & r) {
 			if(l.as<Bool>()) {
-				if(r.as<Bool>())  return Int{};
-				if(r.as<Char>())  return Int{};
-				if(r.as<Int>())   return Int{};
+				if(is_integral(r)) return Int{};
 				if(r.as<Float>()) return Float{};
 			} 
 			if(l.as<Char>()) {
-				if(r.as<Bool>())  return Int{};
-				if(r.as<Char>())  return Int{};
-				if(r.as<Int>())   return Int{};
+				if(is_integral(r)) return Int{};
 				if(r.as<Float>()) return Float{};
 			}
 			if(l.as<Int>()) {
-				if(r.as<Bool>())  return Int{};
-				if(r.as<Char>())  return Int{};
-				if(r.as<Int>())   return Int{};
+				if(is_integral(r)) return Int{};
 				if(r.as<Float>()) return Float{};
 			}
 			if(l.as<Float>()) {
-				if(r.as<Bool>())  return Float{};
-				if(r.as<Char>())  return Float{};
-				if(r.as<Int>())   return Float{};
-				if(r.as<Float>()) return Float{};
+				if(is_numeric(r)) return Float{};
 			}
 
 			return Error{};
@@ -106,5 +111,14 @@ namespace ltn::c::type {
 
 	Type deduce_mod(const Type & l, const Type & r) {
 		return deduce_arith_base(l, r);
+	}
+
+
+
+	Type deduce_pow(const Type & l, const Type & r) {
+		if(l.as<Any>()) return Any{};
+		if(r.as<Any>()) return Any{};
+		if(is_numeric(l) || is_numeric(r)) return Float{};
+		return Error{};
 	}
 }

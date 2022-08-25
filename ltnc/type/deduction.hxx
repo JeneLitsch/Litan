@@ -11,4 +11,5 @@ namespace ltn::c::type {
 	Type deduce_mlt(const Type & l, const Type & r);
 	Type deduce_div(const Type & l, const Type & r);
 	Type deduce_mod(const Type & l, const Type & r);
+	Type deduce_pow(const Type & l, const Type & r);
 }
