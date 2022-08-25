@@ -5,4 +5,7 @@ namespace ltn::c::type {
 	struct Array;
 
 	Array deduce_array_append(const Array & array, const Type & elem);
+
+	Type deduce_add(const Type & l, const Type & r);
+	Type deduce_sub(const Type & l, const Type & r);
 }

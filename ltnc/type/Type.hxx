@@ -64,11 +64,13 @@ namespace ltn::c::type {
 		Type(auto actual_type) : actual_type { actual_type } {} 
 	
 		template<typename T>
-		const T * is() const {
-			return std::get_if<const T *>(&actual_type);
+		const T * as() const {
+			return std::get_if<T>(&actual_type);
 		} 
 
 		friend bool operator==(const Type &, const Type &);
+		// friend bool operator==(const Type &, const auto &);
+		// friend bool operator==(const auto &, const Type &);
 	
 		const Variant & operator*() const {
 			return this->actual_type;
@@ -123,4 +125,12 @@ namespace ltn::c::type {
 	inline bool operator==(const Type & l, const Type & r) {
 		return l.actual_type == r.actual_type;
 	}
+
+	// inline bool operator==(const auto & l, const Type & r) {
+	// 	return Type{l} == r.actual_type;
+	// }
+
+	// inline bool operator==(const Type & l, const auto & r) {
+	// 	return l.actual_type == Type{r};
+	// }
 }

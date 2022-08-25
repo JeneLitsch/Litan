@@ -17,6 +17,20 @@ namespace ltn::c {
 			return { buf };
 		}
 
+		
+		
+		ExprCode bin_typed(
+			const ExprCode & l,
+			const ExprCode & r,
+			const auto & deduce_type,
+			const auto ... inst) {
+			InstructionBuffer buf;
+			buf << l.code;
+			buf << r.code;
+			(buf << ... << inst);
+			return { buf, deduce_type(l.deduced_type, r.deduced_type) };
+		}
+
 
 
 		ExprCode log_and(const ExprCode & l, const ExprCode & r) {
@@ -123,8 +137,8 @@ namespace ltn::c {
 		const auto l = compile_expression(*binary.l, info, scope);
 		const auto r = compile_expression(*binary.r, info, scope);
 		switch (binary.type) {
-			case OP::ADD:          return bin(l, r, ltn::inst::Add{});
-			case OP::SUB:          return bin(l, r, ltn::inst::Sub{});
+			case OP::ADD:          return bin_typed(l, r, type::deduce_add, ltn::inst::Add{});
+			case OP::SUB:          return bin_typed(l, r, type::deduce_sub, ltn::inst::Sub{});
 			case OP::MLT:          return bin(l, r, ltn::inst::Mlt{});
 			case OP::DIV:          return bin(l, r, ltn::inst::Div{});
 			case OP::MOD:          return bin(l, r, ltn::inst::Mod{});

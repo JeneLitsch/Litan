@@ -1,21 +1,201 @@
 namespace core {
+	function type_check(decl, result) {
+		return sphinx::assert_result([decl.name], result);
+	}
+
     function decltype_name(sphinx) {
+		var a = 1; 
 		var cases = [
-			sphinx::assert_result([decltype(null)],       "null"),
-			sphinx::assert_result([decltype(true)],       "bool"),
-			sphinx::assert_result([decltype(false)],      "bool"),
-			sphinx::assert_result([decltype('a')],        "char"),
-			sphinx::assert_result([decltype(1)],          "int"),
-			sphinx::assert_result([decltype(1.0)],        "float"),
-			sphinx::assert_result([decltype("abc")],      "string"),
-			sphinx::assert_result([decltype([])],         "array<>"),
-			sphinx::assert_result([decltype([1])],        "array<int>"),
-			sphinx::assert_result([decltype([2.0])],      "array<float>"),
-			sphinx::assert_result([decltype(['a', "b"])], "array<any>"),
-			sphinx::assert_result([decltype(["xyz"])],    "array<string>"),
-			sphinx::assert_result([decltype([1, 2.0])],   "array<any>"),
+			type_check(
+				decltype(null),           
+				"null"
+			),
+
+			type_check(
+				decltype(true),           
+				"bool"
+			),
+
+			type_check(
+				decltype(false),          
+				"bool"),
+
+			type_check(
+				decltype('a'),            
+				"char"
+			),
+
+			type_check(
+				decltype('a' + 1),            
+				"int"
+			),
+
+			type_check(
+				decltype('a' + 'a'),            
+				"int"
+			),
+
+			type_check(
+				decltype('a' + true + false),            
+				"int"
+			),
+
+			type_check(
+				decltype(1),              
+				"int"
+			),
+
+			type_check(
+				decltype(1.0),            
+				"float"
+			),
+
+			type_check(
+				decltype("abc"),          
+				"string"),
+
+			type_check(
+				decltype([]),             
+				"array<>"
+			),
+
+			type_check(
+				decltype([1]),            
+				"array<int>"
+			),
+
+			type_check(
+				decltype([2.0]),          
+				"array<float>"
+			),
+
+			type_check(
+				decltype(['a', "b"]),     
+				"array<any>"
+			),
+
+			type_check(
+				decltype(["xyz"]),        
+				"array<string>"
+			),
+
+			type_check(
+				decltype([1, 2.0]),       
+				"array<any>"
+			),
+
+			type_check(
+				decltype([[1], [2.0]]),       
+				"array<array<any>>"
+			),
+
+			type_check(
+				decltype([[[false]], [[true]]]),       
+				"array<array<array<bool>>>"
+			),
+
+			type_check(
+				decltype([[[false]], [[true]], [[1]]]),       
+				"array<array<array<any>>>"
+			),
+
+			type_check(
+				decltype(1 + 1),          
+				"int"
+			),
+
+			type_check(
+				decltype(a + 1),          
+				"any"
+			),
+
+			type_check(
+				decltype("" + 1),          
+				"error"
+			),
+
+			type_check(
+				decltype("" + a),          
+				"any"
+			),
+
+			type_check(
+				decltype(2.0 + 1),        
+				"float"
+			),
+			
+
+			type_check(
+				decltype("a"+"b"+"c"),    
+				"string"
+			),
+
+			type_check(
+				decltype([1] + [2]),      
+				"array<int>"
+			),
+
+			type_check(
+				decltype([1.0] + [2.0]),  
+				"array<float>"
+			),
+
+			type_check(
+				decltype([1.0] + [2.0]),  
+				"array<float>"
+			),
+
+			type_check(
+				decltype([[1]] + [[1]]),  
+				"array<array<int>>"
+			),
+
+			type_check(
+				decltype([[1]] + [[1.0]]),
+				"array<array<any>>"
+			),
+
+			type_check(
+				decltype([["hello"]] + [["world"]]),
+				"array<array<string>>"
+			),
+
+			type_check(
+				decltype([["hello"]] + [["wo", "rld", "!"]]),
+				"array<array<string>>"
+			),
+
+			type_check(
+				decltype([[[1]]] + [[[1.0]]] + [true]),
+				"array<any>"
+			),
+
+			type_check(
+				decltype(1 - 2.0),
+				"float"
+			),
+
+			type_check(
+				decltype(1 - 1),
+				"int"
+			),
+
+			type_check(
+				decltype(true - 1),
+				"int"
+			),
+
+			type_check(
+				decltype(true - true),
+				"int"
+			),
+
+			type_check(
+				decltype(1.0 - 1.0),
+				"float"
+			),
 		];
 
-		sphinx::run_test(sphinx, "for", lambda(x) => x.name, cases); 
+		sphinx::run_test(sphinx, "decltype.name", lambda(x) => x, cases); 
     }
 }
