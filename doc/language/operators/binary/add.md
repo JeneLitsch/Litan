@@ -2,20 +2,14 @@
 
 The + operator performs an addition or concatination depending on the operands.
 
-
-## Numeric + Numeric
-Performs + on two numbers and adds them together.
-Bools and chars are always promoted to at least int.
-If one of the operands is a float then the result is also a float.
-
-
-## String + String
-Performs + on two strings and creates a new concatenated string.
-
-
-## Array + Array
-Performs + on two arrays and creates a new concatenated array.
-
+| L        | R        | Result | Operation     |
+| -------- | -------- | ------ | ------------- |
+| Integral | Integral | Int    | Addition      |
+| Float    | Integral | Float  | Addition      |
+| Integral | Float    | Float  | Addition      |
+| Float    | Float    | Float  | Addition      |
+| String   | String   | String | Concatination |
+| Array    | Array    | Array  | Concatination |
 
 ## Examples
 ### 1)
