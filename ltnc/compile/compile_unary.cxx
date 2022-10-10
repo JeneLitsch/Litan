@@ -7,7 +7,10 @@ namespace ltn::c {
 		InstructionBuffer buf;
 		buf << code.code;
 		buf << ltn::inst::Neg{};
-		return ExprCode{ buf };
+		return ExprCode{ 
+			.code = buf,
+			.deduced_type = type::deduce_neg(code.deduced_type)
+		};
 	}
 
 
@@ -17,7 +20,10 @@ namespace ltn::c {
 		InstructionBuffer buf;
 		buf << code.code;
 		buf << ltn::inst::Not{};
-		return ExprCode{ buf };
+		return ExprCode{
+			.code = buf,
+			.deduced_type = type::deduce_not(code.deduced_type)
+		};
 	}
 
 

@@ -121,4 +121,19 @@ namespace ltn::c::type {
 		if(is_numeric(l) || is_numeric(r)) return Float{};
 		return Error{};
 	}
+
+
+
+	Type deduce_neg(const Type & x) {
+		if(x.as<Any>()) return Any{};
+		if(x.as<Float>()) return Float{};
+		if(is_integral(x)) return Int{};
+		return Error{};
+	}
+
+
+
+	Type deduce_not(const Type & x) {
+		return Bool{};
+	}
 }
