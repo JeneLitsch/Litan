@@ -66,6 +66,11 @@ namespace op {
 				decltype([["a"],["a"],["a"]][1]),
 				"array<string>"
 			),
+
+			type_check(
+				decltype(std::map()[0]),
+				"any"
+			),
 		];
 		sphinx::run_test(sphinx, "Operator [] decltype", lambda(x) => x, cases); 
 	}

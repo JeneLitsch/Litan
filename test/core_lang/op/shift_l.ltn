@@ -1,5 +1,18 @@
 namespace op {
-	function shift_l(sphinx) {
+	function shift_l_type(sphinx) {
+		var any;
+		var cases = [
+			type_check(decltype(1 << 1), "int"),
+			type_check(decltype(any << 1), "int"),
+			type_check(decltype(0.0 << 1), "error"),
+		];
+
+        sphinx::run_test(sphinx, "Operator << type",  lambda(x) => x, cases);
+	}
+
+
+
+	function shift_l_value(sphinx) {
 		var cases = [
 			sphinx::assert_result([1, 1], 2),
 			sphinx::assert_result([2, 2], 8),
@@ -14,5 +27,12 @@ namespace op {
 
 		sphinx::run_test(sphinx, "Operator <<", shift, cases);
 		sphinx::run_test(sphinx, "Operator <<=", shift_eq, cases);
+	}
+
+
+
+	function shift_l(sphinx) {
+		shift_l_value(sphinx);
+		shift_l_type(sphinx);
 	}
 }

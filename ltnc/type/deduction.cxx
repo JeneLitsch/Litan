@@ -118,7 +118,16 @@ namespace ltn::c::type {
 	Type deduce_pow(const Type & l, const Type & r) {
 		if(l.as<Any>()) return Any{};
 		if(r.as<Any>()) return Any{};
-		if(is_numeric(l) || is_numeric(r)) return Float{};
+		if(is_numeric(l) && is_numeric(r)) return Float{};
+		return Error{};
+	}
+
+
+
+	Type deduce_bitwise(const Type & l, const Type & r) {
+		if(l.as<Any>()) return Int{};
+		if(r.as<Any>()) return Int{};
+		if(l.as<Int>() && r.as<Int>()) return Int{};
 		return Error{};
 	}
 
@@ -141,7 +150,7 @@ namespace ltn::c::type {
 
 	namespace {
 		Type deduce_index_map(const Map & map, const Type & key) {
-			if(!map.key || **map.key == key) {
+			if(!map.key || (**map.key).as<Any>() || **map.key == key) {
 				if(map.val) return **map.val;
 				return Any{};
 			}

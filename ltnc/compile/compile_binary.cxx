@@ -150,11 +150,11 @@ namespace ltn::c {
 			case OP::EQUAL:        return bin(l, r, ltn::inst::Eql{});
 			case OP::UNEQUEL:      return bin(l, r, ltn::inst::Ueql{});
 			case OP::SPACE_SHIP:   return bin(l, r, ltn::inst::Comp{});
-			case OP::SHIFT_L:      return bin(l, r, ltn::inst::ShiftL{});
-			case OP::SHIFT_R:      return bin(l, r, ltn::inst::ShiftR{});
-			case OP::BIT_AND:      return bin(l, r, ltn::inst::Bitand{});
-			case OP::BIT_OR:       return bin(l, r, ltn::inst::Bitor{});
-			case OP::BIT_XOR:      return bin(l, r, ltn::inst::Bitxor{});
+			case OP::SHIFT_L:      return bin_typed(l, r, type::deduce_bitwise, ltn::inst::ShiftL{});
+			case OP::SHIFT_R:      return bin_typed(l, r, type::deduce_bitwise, ltn::inst::ShiftR{});
+			case OP::BIT_AND:      return bin_typed(l, r, type::deduce_bitwise, ltn::inst::Bitand{});
+			case OP::BIT_OR:       return bin_typed(l, r, type::deduce_bitwise, ltn::inst::Bitor{});
+			case OP::BIT_XOR:      return bin_typed(l, r, type::deduce_bitwise, ltn::inst::Bitxor{});
 			case OP::AND:          return log_and(l, r);
 			case OP::OR:           return log_or(l, r);
 			case OP::ELVIS:        return elvis(l, r);

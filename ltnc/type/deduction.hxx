@@ -13,6 +13,8 @@ namespace ltn::c::type {
 	Type deduce_mod(const Type & l, const Type & r);
 	Type deduce_pow(const Type & l, const Type & r);
 
+	Type deduce_bitwise(const Type & l, const Type & r);
+
 	Type deduce_neg(const Type & x);
 	Type deduce_not(const Type & x);
 
