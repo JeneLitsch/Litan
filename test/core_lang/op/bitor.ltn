@@ -1,5 +1,5 @@
 namespace op {
-    function bitor(sphinx) {
+	function bitor_value(sphinx) {
 		var cases = [
 			sphinx::assert_result([0b11, 0b1100], 0b1111),
 			sphinx::assert_result([2, true], 3),
@@ -13,5 +13,25 @@ namespace op {
 
         sphinx::run_test(sphinx, "Operator |",  fx, cases);
         sphinx::run_test(sphinx, "Operator |=", fx_eq, cases);
-    }
+	}
+
+
+
+	function bitor_type(sphinx) {
+		var any = "";
+		var cases = [
+			type_check(decltype(1 | 1), "int"),
+			type_check(decltype(any | 1), "int"),
+			type_check(decltype(0.0 | 1), "error"),
+		];
+
+        sphinx::run_test(sphinx, "Operator | type",  lambda(x) => x, cases);
+	}
+
+
+
+    function bitor(sphinx) {
+		bitor_value(sphinx);
+		bitor_type(sphinx);
+	}
 }

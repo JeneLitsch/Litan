@@ -45,6 +45,12 @@ namespace ltn::c::type {
 		constexpr static auto type_name = "array";
 		std::optional<stx::heaped<Type>> contains;
 	};
+
+	struct Map {
+		constexpr static auto type_name = "map";
+		std::optional<stx::heaped<Type>> key;
+		std::optional<stx::heaped<Type>> val;
+	};
 	
 
 
@@ -58,7 +64,8 @@ namespace ltn::c::type {
 			Int,
 			Float,
 			String,
-			Array
+			Array,
+			Map
 		>;
 	public:
 		Type(auto actual_type) : actual_type { actual_type } {} 
@@ -82,55 +89,15 @@ namespace ltn::c::type {
 
 
 
-	inline bool operator==(const Any &, const Any &) {
-		return true;
-	}
-
-	inline bool operator==(const Error &, const Error &) {
-		return true;
-	}
-
-	inline bool operator==(const Null &, const Null &) {
-		return true;
-	}
-
-	inline bool operator==(const Bool &, const Bool &) {
-		return true;
-	}
-
-	inline bool operator==(const Char &, const Char &) {
-		return true;
-	}
-
-	inline bool operator==(const Int &, const Int &) {
-		return true;
-	}
-
-	inline bool operator==(const Float &, const Float &) {
-		return true;
-	}
-	
-	inline bool operator==(const String &, const String &) {
-		return true;
-	}
-
-	inline bool operator==(const Array & l, const Array & r) {
-		if(!l.contains && !r.contains) return true;
-		if(l.contains && r.contains) return **l.contains == **r.contains;
-		return false;
-	}
-
-
-
-	inline bool operator==(const Type & l, const Type & r) {
-		return l.actual_type == r.actual_type;
-	}
-
-	// inline bool operator==(const auto & l, const Type & r) {
-	// 	return Type{l} == r.actual_type;
-	// }
-
-	// inline bool operator==(const Type & l, const auto & r) {
-	// 	return l.actual_type == Type{r};
-	// }
+	bool operator==(const Any &, const Any &);
+	bool operator==(const Error &, const Error &);
+	bool operator==(const Null &, const Null &);
+	bool operator==(const Bool &, const Bool &);
+	bool operator==(const Char &, const Char &);
+	bool operator==(const Int &, const Int &);
+	bool operator==(const Float &, const Float &);
+	bool operator==(const String &, const String &);
+	bool operator==(const Array & l, const Array & r);
+	bool operator==(const Map & l, const Map & r);
+	bool operator==(const Type & l, const Type & r);
 }

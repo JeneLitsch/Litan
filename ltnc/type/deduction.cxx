@@ -118,7 +118,16 @@ namespace ltn::c::type {
 	Type deduce_pow(const Type & l, const Type & r) {
 		if(l.as<Any>()) return Any{};
 		if(r.as<Any>()) return Any{};
-		if(is_numeric(l) || is_numeric(r)) return Float{};
+		if(is_numeric(l) && is_numeric(r)) return Float{};
+		return Error{};
+	}
+
+
+
+	Type deduce_bitwise(const Type & l, const Type & r) {
+		if(l.as<Any>()) return Int{};
+		if(r.as<Any>()) return Int{};
+		if(l.as<Int>() && r.as<Int>()) return Int{};
 		return Error{};
 	}
 
@@ -142,10 +151,37 @@ namespace ltn::c::type {
 	Type deduce_compare(const Type & l, const Type & r) {
 		return Bool{};
 	}
+	
+	namespace {
+		Type deduce_index_map(const Map & map, const Type & key) {
+			if(!map.key || (**map.key).as<Any>() || **map.key == key) {
+				if(map.val) return **map.val;
+				return Any{};
+			}
+			return Error{};
+		}
+
+
+
+		Type deduce_index_array(const Array & array, const Type & key) {
+			if(key.as<Int>() || key.as<Any>()) {
+				if(array.contains) return **array.contains;
+				else return Any{};
+			}
+			return Error{};
+		}
+	}
 
 
 
 	Type deduce_three_way(const Type & l, const Type & r) {
 		return Int{};
+	}
+	
+	Type deduce_index(const Type & container, const Type & key) {
+		if(container.as<Any>()) return Any{};		
+		if(auto map = container.as<Map>()) return deduce_index_map(*map, key);
+		if(auto array = container.as<Array>()) return deduce_index_array(*array, key);
+		return Error{};
 	}
 }

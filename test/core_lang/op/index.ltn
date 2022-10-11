@@ -1,5 +1,5 @@
 namespace op {
-	function index(sphinx) {
+	function index_value(sphinx) {
 		var array = [0,1,2,3,4,5];
 		
 		var map = std::map();
@@ -35,6 +35,49 @@ namespace op {
 			sphinx::assert_fail(["ABC", -1]),
 			sphinx::assert_fail(["ABC", -1]),
 		];
-		sphinx::run_test(sphinx, "Operator []", fx, cases);
+		sphinx::run_test(sphinx, "Operator [] value", fx, cases);
+	}
+
+
+	function index_type(sphinx) {
+		var cases = [
+
+			type_check(
+				decltype([1,2,3][1]),
+				"int"
+			),
+
+			type_check(
+				decltype(["a","a","a"][1]),
+				"string"
+			),
+
+			type_check(
+				decltype(["a","a","a"][[1,2,3][1]]),
+				"string"
+			),
+
+			type_check(
+				decltype([0.0,"a","a"][[1,2,3][1]]),
+				"any"
+			),
+
+			type_check(
+				decltype([["a"],["a"],["a"]][1]),
+				"array<string>"
+			),
+
+			type_check(
+				decltype(std::map()[0]),
+				"any"
+			),
+		];
+		sphinx::run_test(sphinx, "Operator [] decltype", lambda(x) => x, cases); 
+	}
+
+
+	function index(sphinx) {
+		index_value(sphinx);
+		index_type(sphinx);
 	}
 }
