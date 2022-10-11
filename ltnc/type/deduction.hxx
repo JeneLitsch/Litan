@@ -15,4 +15,7 @@ namespace ltn::c::type {
 
 	Type deduce_neg(const Type & x);
 	Type deduce_not(const Type & x);
+
+	Type deduce_compare(const Type & l, const Type & r);
+	Type deduce_three_way(const Type & l, const Type & r);
 }

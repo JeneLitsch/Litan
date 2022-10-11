@@ -369,6 +369,41 @@ namespace core {
 				decltype(-("String")),
 				"error"
 			),
+
+			type_check(
+				decltype(1 < "0"),
+				"bool"
+			),
+
+			type_check(
+				decltype(1 <= "0"),
+				"bool"
+			),
+
+			type_check(
+				decltype(1 > "0"),
+				"bool"
+			),
+
+			type_check(
+				decltype(1 >= "0"),
+				"bool"
+			),
+
+			type_check(
+				decltype(1 == "0"),
+				"bool"
+			),
+
+			type_check(
+				decltype(1 != "0"),
+				"bool"
+			),
+
+			type_check(
+				decltype(1 <=> "0"),
+				"int"
+			),
 		];
 
 		sphinx::run_test(sphinx, "decltype.name", lambda(x) => x, cases); 

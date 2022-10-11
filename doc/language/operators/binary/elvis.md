@@ -1,6 +1,6 @@
 # Operator a?:b
 
-Evaluates to a if a is truthy or to b if not.
+Evaluates to a if a is truthy or to b if a is not.
 
 ## Syntax
 ```js

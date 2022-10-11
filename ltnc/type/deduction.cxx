@@ -136,4 +136,16 @@ namespace ltn::c::type {
 	Type deduce_not(const Type & x) {
 		return Bool{};
 	}
+
+
+
+	Type deduce_compare(const Type & l, const Type & r) {
+		return Bool{};
+	}
+
+
+
+	Type deduce_three_way(const Type & l, const Type & r) {
+		return Int{};
+	}
 }

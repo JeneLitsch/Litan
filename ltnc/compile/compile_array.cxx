@@ -11,6 +11,9 @@ namespace ltn::c {
 			array_type = type::deduce_array_append(array_type, result.deduced_type);
 		}
 		buf << ltn::inst::Newarr { array.elements.size() };
-		return ExprCode{ buf, array_type };
+		return ExprCode {
+			.code = buf,
+			.deduced_type = array_type 
+		};
 	}
 }
