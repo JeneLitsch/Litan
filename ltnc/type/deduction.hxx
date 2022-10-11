@@ -15,4 +15,6 @@ namespace ltn::c::type {
 
 	Type deduce_neg(const Type & x);
 	Type deduce_not(const Type & x);
+
+	Type deduce_index(const Type & container, const Type & key);
 }

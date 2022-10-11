@@ -13,6 +13,9 @@ namespace ltn::c {
 			<< idx.code
 			<< ltn::inst::At{};
 
-		return ExprCode{ buf };
+		return ExprCode{ 
+			.code = buf,
+			.deduced_type = type::deduce_index(arr.deduced_type, idx.deduced_type)
+		};
 	}
 }

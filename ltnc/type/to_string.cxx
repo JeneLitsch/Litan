@@ -19,6 +19,19 @@ namespace ltn::c::type {
 			}
 			return oss.str();
 		}
+
+
+		
+		std::string to_string(const Map & map) {
+			std::ostringstream oss;
+			if(map.val && map.key) {
+				oss << Map::type_name << "<" << to_string(**map.key) << ", " << to_string(**map.val) << ">";
+			}
+			else {
+				oss << Map::type_name << "<>";
+			}
+			return oss.str();
+		}
 	}
 	
 	std::string to_string(const Type & type) {

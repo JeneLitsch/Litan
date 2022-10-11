@@ -1,7 +1,7 @@
+function type_check(decl, result) {
+	return sphinx::assert_result([result], decl.name);
+}
 namespace core {
-	function type_check(decl, result) {
-		return sphinx::assert_result([decl.name], result);
-	}
 
     function decltype_name(sphinx) {
 		var a = 1; 
@@ -370,6 +370,7 @@ namespace core {
 				"error"
 			),
 		];
+
 
 		sphinx::run_test(sphinx, "decltype.name", lambda(x) => x, cases); 
     }

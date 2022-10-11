@@ -136,4 +136,35 @@ namespace ltn::c::type {
 	Type deduce_not(const Type & x) {
 		return Bool{};
 	}
+
+
+
+	namespace {
+		Type deduce_index_map(const Map & map, const Type & key) {
+			if(!map.key || **map.key == key) {
+				if(map.val) return **map.val;
+				return Any{};
+			}
+			return Error{};
+		}
+
+
+
+		Type deduce_index_array(const Array & array, const Type & key) {
+			if(key.as<Int>() || key.as<Any>()) {
+				if(array.contains) return **array.contains;
+				else return Any{};
+			}
+			return Error{};
+		}
+	}
+
+
+
+	Type deduce_index(const Type & container, const Type & key) {
+		if(container.as<Any>()) return Any{};		
+		if(auto map = container.as<Map>()) return deduce_index_map(*map, key);
+		if(auto array = container.as<Array>()) return deduce_index_array(*array, key);
+		return Error{};
+	}
 }
