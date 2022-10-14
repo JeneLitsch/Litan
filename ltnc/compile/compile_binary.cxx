@@ -87,7 +87,10 @@ namespace ltn::c {
 			
 			buf << ltn::inst::Label{jumpmark_end};
 			
-			return { buf };
+			return {
+				.code = buf,
+				.deduced_type = type::deduce_elvis(l.deduced_type, r.deduced_type)
+			};
 		}
 
 
@@ -109,7 +112,10 @@ namespace ltn::c {
 			buf << r.code;
 			
 			buf << ltn::inst::Label{jumpmark_end};
-			return { buf };
+			return {
+				.code = buf,
+				.deduced_type = type::deduce_nullco(l.deduced_type, r.deduced_type)
+			};
 		}
 	}
 

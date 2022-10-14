@@ -1,5 +1,5 @@
 namespace op {
-    function elvis(sphinx) {
+	function elvis_value(sphinx) {
 		var cases = [
 			sphinx::assert_result([true, 1], true),
 			sphinx::assert_result([false, 1], 1),
@@ -16,5 +16,25 @@ namespace op {
         var fx = lambda (a, b) => a ?: b;
 
 		sphinx::run_test(sphinx, "Operator a ?: b", fx, cases);
+	}
+
+
+	function elvis_type(sphinx) {
+		var cases = [
+			type_check(decltype(1 ?: 1), "int"),
+			type_check(decltype("1" ?: 1), "any"),
+			type_check(decltype("1" ?: "str"), "string"),
+			type_check(decltype(["1"] ?: [1]), "array<any>"),
+			type_check(decltype([[]] ?: [[]]), "array<array<>>"),
+			type_check(decltype([[true]] ?: [[1]]), "array<array<any>>"),
+		];
+
+		sphinx::run_test(sphinx, "Operator ?: type", lambda(x) => x, cases);
+	}
+
+
+    function elvis(sphinx) {
+		elvis_value(sphinx);
+		elvis_type(sphinx);
     }
 }
