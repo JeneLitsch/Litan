@@ -208,4 +208,10 @@ namespace ltn::c::type {
 	Type deduce_nullco(const Type & l, const Type & r) {
 		return largest_common_type(l, r);
 	}
+
+
+
+	Type deduce_ternary(const Type &, const Type & l, const Type & r) {
+		return largest_common_type(l, r);
+	}
 }
