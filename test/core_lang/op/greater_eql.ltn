@@ -1,5 +1,5 @@
 namespace op {
-    function greater_eql(sphinx) {
+    function greater_eql_value(sphinx) {
         var cases = [
 			sphinx::assert_result([true, true], true),
 			sphinx::assert_result([true, false], true),
@@ -22,4 +22,21 @@ namespace op {
 
 		sphinx::run_test(sphinx, "Operator >=", fx, cases);
     }
+
+
+
+    function greater_eql_type(sphinx) {
+		var cases = [
+			type_check(decltype(1 >= "0"), "bool"),
+		];
+
+		sphinx::run_test(sphinx, "Operator >= type", lambda(x) => x, cases);
+	}
+
+
+
+    function greater_eql(sphinx) {
+		greater_eql_type(sphinx);
+		greater_eql_value(sphinx);
+	}
 }

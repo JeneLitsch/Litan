@@ -5,21 +5,7 @@ namespace ltn::c {
 		using OP = ltn::c::ast::Binary::Type;
 		
 		
-		
 		ExprCode bin(
-			const auto & l,
-			const auto & r,
-			const auto ... inst) {
-			InstructionBuffer buf;
-			buf << l.code;
-			buf << r.code;
-			(buf << ... << inst);
-			return { buf };
-		}
-
-		
-		
-		ExprCode bin_typed(
 			const ExprCode & l,
 			const ExprCode & r,
 			const auto & deduce_type,
@@ -137,24 +123,24 @@ namespace ltn::c {
 		const auto l = compile_expression(*binary.l, info, scope);
 		const auto r = compile_expression(*binary.r, info, scope);
 		switch (binary.type) {
-			case OP::ADD:          return bin_typed(l, r, type::deduce_add, ltn::inst::Add{});
-			case OP::SUB:          return bin_typed(l, r, type::deduce_sub, ltn::inst::Sub{});
-			case OP::MLT:          return bin_typed(l, r, type::deduce_mlt, ltn::inst::Mlt{});
-			case OP::DIV:          return bin_typed(l, r, type::deduce_div, ltn::inst::Div{});
-			case OP::MOD:          return bin_typed(l, r, type::deduce_mod, ltn::inst::Mod{});
-			case OP::POW:          return bin_typed(l, r, type::deduce_pow, ltn::inst::Pow{});
-			case OP::SMALLER:      return bin_typed(l, r, type::deduce_compare, ltn::inst::Sml{});
-			case OP::BIGGER:       return bin_typed(l, r, type::deduce_compare, ltn::inst::Bgr{});
-			case OP::SMALLEREQUAL: return bin_typed(l, r, type::deduce_compare, ltn::inst::Smleql{});
-			case OP::BIGGEREQUAL:  return bin_typed(l, r, type::deduce_compare, ltn::inst::Bgreql{});
-			case OP::EQUAL:        return bin_typed(l, r, type::deduce_compare, ltn::inst::Eql{});
-			case OP::UNEQUEL:      return bin_typed(l, r, type::deduce_compare, ltn::inst::Ueql{});
-			case OP::SPACE_SHIP:   return bin_typed(l, r, type::deduce_three_way, ltn::inst::Comp{});
-			case OP::SHIFT_L:      return bin_typed(l, r, type::deduce_bitwise, ltn::inst::ShiftL{});
-			case OP::SHIFT_R:      return bin_typed(l, r, type::deduce_bitwise, ltn::inst::ShiftR{});
-			case OP::BIT_AND:      return bin_typed(l, r, type::deduce_bitwise, ltn::inst::Bitand{});
-			case OP::BIT_OR:       return bin_typed(l, r, type::deduce_bitwise, ltn::inst::Bitor{});
-			case OP::BIT_XOR:      return bin_typed(l, r, type::deduce_bitwise, ltn::inst::Bitxor{});
+			case OP::ADD:          return bin(l, r, type::deduce_add,       ltn::inst::Add{});
+			case OP::SUB:          return bin(l, r, type::deduce_sub,       ltn::inst::Sub{});
+			case OP::MLT:          return bin(l, r, type::deduce_mlt,       ltn::inst::Mlt{});
+			case OP::DIV:          return bin(l, r, type::deduce_div,       ltn::inst::Div{});
+			case OP::MOD:          return bin(l, r, type::deduce_mod,       ltn::inst::Mod{});
+			case OP::POW:          return bin(l, r, type::deduce_pow,       ltn::inst::Pow{});
+			case OP::SMALLER:      return bin(l, r, type::deduce_compare,   ltn::inst::Sml{});
+			case OP::BIGGER:       return bin(l, r, type::deduce_compare,   ltn::inst::Bgr{});
+			case OP::SMALLEREQUAL: return bin(l, r, type::deduce_compare,   ltn::inst::Smleql{});
+			case OP::BIGGEREQUAL:  return bin(l, r, type::deduce_compare,   ltn::inst::Bgreql{});
+			case OP::EQUAL:        return bin(l, r, type::deduce_compare,   ltn::inst::Eql{});
+			case OP::UNEQUEL:      return bin(l, r, type::deduce_compare,   ltn::inst::Ueql{});
+			case OP::SPACE_SHIP:   return bin(l, r, type::deduce_three_way, ltn::inst::Comp{});
+			case OP::SHIFT_L:      return bin(l, r, type::deduce_bitwise,   ltn::inst::ShiftL{});
+			case OP::SHIFT_R:      return bin(l, r, type::deduce_bitwise,   ltn::inst::ShiftR{});
+			case OP::BIT_AND:      return bin(l, r, type::deduce_bitwise,   ltn::inst::Bitand{});
+			case OP::BIT_OR:       return bin(l, r, type::deduce_bitwise,   ltn::inst::Bitor{});
+			case OP::BIT_XOR:      return bin(l, r, type::deduce_bitwise,   ltn::inst::Bitxor{});
 			case OP::AND:          return log_and(l, r);
 			case OP::OR:           return log_or(l, r);
 			case OP::ELVIS:        return elvis(l, r);

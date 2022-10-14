@@ -1,5 +1,36 @@
 namespace op {
-	function add(sphinx) {
+	function add_type(sphinx) {
+		var any = "";
+		var a = 1; 
+		var cases = [
+			type_check(decltype(1 + 1),   "int"),
+			type_check(decltype(any + 1), "any"),
+			type_check(decltype(0.0 + 1), "float"),
+			type_check(decltype("Hello" + "World"), "string"),
+			type_check(decltype(1 + 1), "int"),
+			type_check(decltype(a + 1), "any"),
+			type_check(decltype("" + 1), "error"),
+			type_check(decltype("" + a), "any"),
+			type_check(decltype(2.0 + 1), "float"),
+			type_check(decltype("a"+"b"+"c"), "string"),
+			type_check(decltype([1] + [2]), "array<int>"),
+			type_check(decltype([1.0] + [2.0]), "array<float>"),
+			type_check(decltype([1.0] + [2.0]), "array<float>"),
+			type_check(decltype([[1]] + [[1]]), "array<array<int>>"),
+			type_check(decltype([[1]] + [[1.0]]), "array<array<any>>"),
+			type_check(decltype([["hello"]] + [["world"]]), "array<array<string>>"),
+			type_check(decltype([["hello"]] + [["wo", "rld", "!"]]), "array<array<string>>"),
+			type_check(decltype([["hello"]] + ""), "error"),
+			type_check(decltype([[[1]]] + [[[1.0]]] + [true]), "array<any>"),
+			type_check(decltype('a' + 1), "int"),
+			type_check(decltype('a' + 'a'), "int"),
+			type_check(decltype('a' + true + false), "int"),
+		];
+
+        sphinx::run_test(sphinx, "Operator + type",  lambda(x) => x, cases);
+	}
+
+	function add_value(sphinx) {
 		var cases = [
 			sphinx::assert_result([1, 2], 3),
 			sphinx::assert_result([0x10, 0x10], 32),
@@ -33,5 +64,12 @@ namespace op {
 		
 		sphinx::run_test(sphinx, "Operator +", fx, cases);
 		sphinx::run_test(sphinx, "Operator +=", fx_eq, cases);
+	}
+
+	
+	
+	function add(sphinx) {
+		add_value(sphinx);
+		add_type(sphinx);
 	}
 }

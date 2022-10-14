@@ -1,5 +1,5 @@
 namespace op {
-    function greater(sphinx) {
+    function greater_value(sphinx) {
         var cases = [
 			sphinx::assert_result([1, 2], false),
 			sphinx::assert_result([42, -2.0], true),
@@ -18,4 +18,21 @@ namespace op {
 
 		sphinx::run_test(sphinx, "Operator >", fx, cases);
     }
+
+
+
+    function greater_type(sphinx) {
+		var cases = [
+			type_check(decltype(1 > "0"), "bool"),
+		];
+
+		sphinx::run_test(sphinx, "Operator > type", lambda(x) => x, cases);
+	}
+
+
+
+    function greater(sphinx) {
+		greater_type(sphinx);
+		greater_value(sphinx);
+	}
 }

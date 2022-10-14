@@ -1,5 +1,5 @@
 namespace op {
-    function less(sphinx) {
+    function less_value(sphinx) {
         var cases = [
 			sphinx::assert_result([1, 2], true),
 			sphinx::assert_result([42, -2.0], false),
@@ -18,4 +18,21 @@ namespace op {
 
 		sphinx::run_test(sphinx, "Operator <", fx, cases);
     }
+
+
+
+	function less_type(sphinx) {
+		var cases = [
+			type_check(decltype(1 > "0"), "bool"),
+		];
+
+		sphinx::run_test(sphinx, "Operator < type", lambda(x) => x, cases);
+	}
+
+
+
+	function less(sphinx) {
+		less_value(sphinx);
+		less_type(sphinx);
+	}
 }

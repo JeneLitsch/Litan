@@ -1,5 +1,5 @@
 namespace op {
-	function pow(sphinx) {
+	function pow_value(sphinx) {
 		var cases = [
 			sphinx::assert_result([2, 2], 4),
 			sphinx::assert_result([3, 3], 27),
@@ -24,5 +24,28 @@ namespace op {
 
 		sphinx::run_test(sphinx, "Operator **", fx, cases);
 		sphinx::run_test(sphinx, "Operator **=", fx_eq, cases);
+	}
+
+
+
+	function pow_type(sphinx) {
+		var cases = [
+			type_check(decltype(1 ** 2.0), "float"),
+			type_check(decltype(1 ** 1), "float"),
+			type_check(decltype(true ** 1), "float"	),
+			type_check(decltype(true ** true), "float"),
+			type_check(decltype(1.0 ** 1.0), "float"),
+			type_check(decltype("A" ** "A"), "error"),
+			type_check(decltype([] ** []), "error"),
+		];
+
+		sphinx::run_test(sphinx, "Operator ** type", lambda(x) => x, cases);
+	}
+
+
+
+	function pow(sphinx) {
+		pow_value(sphinx);
+		pow_type(sphinx);
 	}
 }

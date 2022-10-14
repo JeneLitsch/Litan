@@ -1,5 +1,5 @@
 namespace op {
-    function space_ship(sphinx) {
+    function space_ship_value(sphinx) {
         var cases = [
 			sphinx::assert_result([-1, 1], -1),
 			sphinx::assert_result([1, 1], 0),
@@ -20,4 +20,23 @@ namespace op {
 
 		sphinx::run_test(sphinx, "Space ship <=>", fx, cases);
     }
+
+    
+	
+	function space_ship_type(sphinx) {
+		var cases = [
+			type_check(decltype(0.1 <=> 1.1), "int"),
+			type_check(decltype(1 <=> 1), "int"),
+			type_check(decltype(1 <=> "0"), "int"),
+		];
+
+		sphinx::run_test(sphinx, "Operator <=> type", lambda(x) => x, cases);
+	}
+
+
+    
+	function space_ship(sphinx) {
+		space_ship_value(sphinx);
+		space_ship_type(sphinx);
+	}
 }

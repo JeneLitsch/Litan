@@ -1,5 +1,5 @@
 namespace op {
-	function mod(sphinx) {
+	function mod_value(sphinx) {
 		var cases = [
 			sphinx::assert_result([5, 2], 1),
 			sphinx::assert_result([1.5, 1.0], 0.5),
@@ -22,5 +22,28 @@ namespace op {
 
 		sphinx::run_test(sphinx, "Operator %", fx, cases);
 		sphinx::run_test(sphinx, "Operator %=", fx_eq, cases);
+	}
+
+
+
+	function mod_type(sphinx) {
+		var cases = [
+			type_check(decltype(1 % 2.0), "float"),
+			type_check(decltype(1 % 1), "int"),
+			type_check(decltype(true % 1), "int"),
+			type_check(decltype(true % true), "int"),
+			type_check(decltype(1.0 % 1.0), "float"),
+			type_check(decltype("A" % "A"), "error"),
+			type_check(decltype([] % []), "error"),
+		];
+
+		sphinx::run_test(sphinx, "Operator % type", lambda(x) => x, cases);
+	}
+
+
+
+	function mod(sphinx) {
+		mod_value(sphinx);
+		mod_type(sphinx);
 	}
 }
