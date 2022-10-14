@@ -28,6 +28,7 @@ namespace ltn::c {
 			
 			buf << ltn::inst::Ifelse{falsE};
 			buf << r.code;
+			buf << ltn::inst::CastBool{};
 			buf << ltn::inst::Jump{end};
 
 			buf << ltn::inst::Label{falsE};
@@ -35,7 +36,10 @@ namespace ltn::c {
 
 			buf << ltn::inst::Label{end};
 			
-			return { buf };
+			return {
+				.code = buf,
+				.deduced_type = type::deduce_log_and(l.deduced_type,r.deduced_type)
+			};
 		}
 
 
@@ -50,6 +54,7 @@ namespace ltn::c {
 			buf << ltn::inst::Not{};
 			buf << ltn::inst::Ifelse{truE};
 			buf << r.code;
+			buf << ltn::inst::CastBool{};
 			buf << ltn::inst::Jump{end};
 
 			buf << ltn::inst::Label{truE};
@@ -57,7 +62,10 @@ namespace ltn::c {
 
 			buf << ltn::inst::Label{end};
 			
-			return { buf };
+			return { 
+				.code = buf,
+				.deduced_type = type::deduce_log_or(l.deduced_type, r.deduced_type)
+			};
 		}
 
 
@@ -103,17 +111,6 @@ namespace ltn::c {
 			buf << ltn::inst::Label{jumpmark_end};
 			return { buf };
 		}
-
-
-
-		ExprCode chain(const auto & l, const auto & r) {
-			InstructionBuffer buf;
-			buf << l.code;
-			buf << r.code;
-			buf << ltn::inst::Call{"_op_chain"};
-			return ExprCode{ buf };
-		}
-
 	}
 
 

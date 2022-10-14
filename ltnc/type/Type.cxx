@@ -3,8 +3,9 @@
 namespace ltn::c::type {
     namespace {
         bool compare_contained(const auto & l, const auto & r) {
+            if(!l && !r) return true;
             if(l && r) return **l == **r;
-            return true;
+            return false;
         }
     }
 

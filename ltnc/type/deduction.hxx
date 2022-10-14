@@ -21,4 +21,10 @@ namespace ltn::c::type {
 	Type deduce_compare(const Type & l, const Type & r);
 	Type deduce_three_way(const Type & l, const Type & r);
 	Type deduce_index(const Type & container, const Type & key);
+
+	Type deduce_log_or(const Type & l, const Type & r);
+	Type deduce_log_and(const Type & l, const Type & r);
+
+	Type deduce_elvis(const Type & l, const Type & r);
+	Type deduce_nullco(const Type & l, const Type & r);
 }

@@ -4,23 +4,24 @@
 
 namespace ltn::c::type {
 	namespace {
-		Type deduce_contained(const Array & l, const Array & r) {
-			if(!l.contains && !r.contains) return Any{};
-			
-			if(!l.contains) return **r.contains;
-			if(!r.contains) return **l.contains;
 
-			if(**l.contains == **r.contains) return **l.contains;
+		Type largest_common_type(const Type & l, const Type & r);
 
-			if((**l.contains).as<Array>() && (**r.contains).as<Array>()) {
-				std::cout << type::to_string(l) << " + ";
-				std::cout << type::to_string(r) << "\n";
-				return Array{deduce_contained(
-					*(**l.contains).as<Array>(),
-					*(**r.contains).as<Array>())
-				};
-			}
-			
+
+
+		Type largest_common_type(const Array & l, const Array & r) {
+			if(!l.contains && !r.contains) return Array{};
+			if(!l.contains || !r.contains) return Array{Any{}};
+			return Array{largest_common_type(**l.contains, **r.contains)};
+		}
+
+
+
+		Type largest_common_type(const Type & l, const Type & r) {
+			if(l == r) return l;
+			auto l_arr = l.as<Array>(); 
+			auto r_arr = r.as<Array>(); 
+			if(l_arr && r_arr) return largest_common_type(*l_arr, *r_arr);
 			return Any{};
 		}
 
@@ -34,12 +35,6 @@ namespace ltn::c::type {
 
 		bool is_numeric(const Type & x) {
 			return is_integral(x) || x.as<Float>();
-		}
-
-
-
-		Array deduce_array_concat(const Array & l, const Array & r) {
-			return Array{deduce_contained(l, r)};
 		}
 
 
@@ -68,7 +63,8 @@ namespace ltn::c::type {
 
 
 	Array deduce_array_append(const Array & array, const Type & elem) {
-		return Array{deduce_contained(array, Array{elem})};
+		if(!array.contains) return Array{elem};
+		return Array{ largest_common_type(**array.contains, elem) };
 	}
 
 
@@ -79,7 +75,7 @@ namespace ltn::c::type {
 		
 		const auto l_arr = l.as<Array>();
 		const auto r_arr = r.as<Array>();
-		if(l_arr && r_arr) return deduce_array_concat(*l_arr, *r_arr);
+		if(l_arr && r_arr) return largest_common_type(*l_arr, *r_arr);
 
 		const auto l_str = l.as<String>();
 		const auto r_str = r.as<String>();
@@ -152,6 +148,8 @@ namespace ltn::c::type {
 		return Bool{};
 	}
 	
+
+
 	namespace {
 		Type deduce_index_map(const Map & map, const Type & key) {
 			if(!map.key || (**map.key).as<Any>() || **map.key == key) {
@@ -178,10 +176,36 @@ namespace ltn::c::type {
 		return Int{};
 	}
 	
+
+
 	Type deduce_index(const Type & container, const Type & key) {
 		if(container.as<Any>()) return Any{};		
 		if(auto map = container.as<Map>()) return deduce_index_map(*map, key);
 		if(auto array = container.as<Array>()) return deduce_index_array(*array, key);
 		return Error{};
+	}
+
+
+
+	Type deduce_log_or(const Type &, const Type &) {
+		return Bool{};
+	}
+
+
+
+	Type deduce_log_and(const Type &, const Type &) {
+		return Bool{};
+	}
+
+
+
+	Type deduce_elvis(const Type & l, const Type & r) {
+		return largest_common_type(l, r);
+	}
+
+
+
+	Type deduce_nullco(const Type & l, const Type & r) {
+		return largest_common_type(l, r);
 	}
 }
