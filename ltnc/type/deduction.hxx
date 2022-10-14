@@ -29,4 +29,6 @@ namespace ltn::c::type {
 	Type deduce_nullco(const Type & l, const Type & r);
 
 	Type deduce_ternary(const Type & condition, const Type & l, const Type & r);
+
+	Type deduce_choose(const Type & current, const Type & next);
 }

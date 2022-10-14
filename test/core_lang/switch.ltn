@@ -1,5 +1,5 @@
 namespace core {
-	function switch_(sphinx) {
+	function switch_value(sphinx) {
 		var fx_switch = lambda (x) {
 			switch (x) {
 				case "ABC":   return 1;
@@ -50,5 +50,40 @@ namespace core {
 
 		sphinx::run_test(sphinx, "switch", fx_switch, cases);
 		sphinx::run_test(sphinx, "choose", fx_choose, cases);
+	}
+
+
+
+	function switch_type(sphinx) {
+		var x = "";
+		var cases = [
+			type_check(
+				decltype(choose (x) {
+					case "A": 1;
+					case "B": 2;
+					default: 3;}), 
+				"int"
+			),
+			type_check(
+				decltype(choose (x) {
+					case "A": 1;
+					case "B": 2;
+				}), 
+				"any"
+			),
+			type_check(
+				decltype(choose (x) {}), 
+				"null"
+			),
+		];
+
+        sphinx::run_test(sphinx, "Operator & type",  lambda(x) => x, cases);
+	}
+
+
+
+	function switch_(sphinx) {
+		switch_value(sphinx);
+		switch_type(sphinx);
 	}
 }
