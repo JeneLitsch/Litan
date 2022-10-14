@@ -4,6 +4,7 @@ op_tests=(
 	"test/core_lang/op_arith_mlt.ltn" 
 	"test/core_lang/op_arith_div.ltn" 
 	"test/core_lang/op_arith_mod.ltn"
+	"test/core_lang/op_arith_neg.ltn" 
 
 	"test/core_lang/op_bit_and.ltn" 
 	"test/core_lang/op_bit_not.ltn" 
@@ -24,7 +25,6 @@ op_tests=(
 	
 	"test/core_lang/op/elvis.ltn" 
 	"test/core_lang/op/index.ltn" 
-	"test/core_lang/op/neg.ltn" 
 	"test/core_lang/op/nullco.ltn" 
 	"test/core_lang/op/nulltest.ltn" 
 	"test/core_lang/op/pow.ltn" 
