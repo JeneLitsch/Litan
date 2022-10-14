@@ -33,7 +33,6 @@ namespace ltn::c::lex {
 
 		// peeks at "in" and returns true if chars matches
 		bool check(std::istream & in, char chr, std::size_t & line) {
-			in >> WS{line};
 			if(is_at_end(in)) return false;
 			return in.peek() == chr;
 		}

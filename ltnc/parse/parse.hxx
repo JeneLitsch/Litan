@@ -4,6 +4,8 @@
 #include "ltnc/tokens/Token.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
+#include "ltnc/type/Type.hxx"
+
 namespace ltn::c {
 
 	// Sources
@@ -84,4 +86,8 @@ namespace ltn::c {
 
 	// Maches ; or throws
 	void semicolon(Tokens & tokens);
+
+
+
+	type::Type parse_type(Tokens & tokens);
 }

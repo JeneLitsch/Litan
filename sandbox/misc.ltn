@@ -4,5 +4,8 @@ namespace foo {
 
 
 function main() {
-	std::println(decltype(1.0).name);
+	var a : int = 1;
+	var b : array<int> = a;
+	var c : map<int, array<int>> = a;
+	var d : map<int, array<array<int>>> = a;
 }

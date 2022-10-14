@@ -17,14 +17,16 @@ namespace ltn::c {
 
 
 
-	template<class AstNodeType, TT tt>
-	// parses variable creation -> var a ...  
-	std::unique_ptr<AstNodeType> parse_initialize_variable(Tokens & tokens) {
-		if(match(tt, tokens)) {
+	std::unique_ptr<ast::NewVar> parse_new_variable(Tokens & tokens) {
+		if(match(TT::VAR, tokens)) {
 			auto name = parse_variable_name(tokens);
+			if(match(TT::COLON, tokens)) {
+				auto type = parse_type(tokens);
+				std::cout << to_string(type) << "\n";
+			}
 			auto && r = parse_assign_r(tokens);
 			semicolon(tokens);
-			return std::make_unique<AstNodeType>(
+			return std::make_unique<ast::NewVar>(
 				name,
 				std::move(r),
 				location(tokens));
@@ -32,7 +34,6 @@ namespace ltn::c {
 		return nullptr;
 	}
 
-	constexpr auto parse_new_variable = parse_initialize_variable<ast::NewVar, TT::VAR>;
 
 	// parses return statement -> return ...
 	ast::stmt_ptr parse_return(Tokens & tokens) {
