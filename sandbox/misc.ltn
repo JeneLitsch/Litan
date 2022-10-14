@@ -3,24 +3,27 @@ namespace foo {
 }
 
 
-function fx1() -> array<int> {}
+function fx1(a : int, b : map<int,int>) -> array<int> {}
 
-function main() {
+function main(args : array<string>) {
 	var a : int = 1;
 	var b : array<int> = a;
 	var c : map<int, array<int>> = a;
 	var d : map<int, array<array<int>>> = a;
 	var e = a;
 
+	std::println(decltype(args).name);
+	
 	std::println(decltype(a).name);
 	std::println(decltype(b).name);
 	std::println(decltype(c).name);
 	std::println(decltype(d).name);
 	std::println(decltype(e).name);
 
-	std::println(decltype(fx1()).name);
+	std::println(decltype(fx1(2,1)).name);
 	std::println(decltype(lambda() -> float => 3.14).name);
+	std::println(decltype(lambda(x:int, y:string) -> int => x).name);
 	std::println(decltype((lambda() -> float => 3.14)()).name);
-	std::println(decltype(&fx1()).name);
-	std::println(decltype((&fx1())()).name);
+	std::println(decltype(&fx1(_,_)).name);
+	std::println(decltype((&fx1(_,_))()).name);
 }

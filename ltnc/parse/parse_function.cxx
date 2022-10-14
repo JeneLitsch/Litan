@@ -20,7 +20,12 @@ namespace ltn::c {
 
 			ast::Parameters parameters{};
 			while(true) {
-				parameters.push_back(parse_parameter_name(tokens));
+				auto name = parse_parameter_name(tokens);
+				auto type = match(TT::COLON, tokens) ? parse_type(tokens) : type::Any{};
+				parameters.push_back(ast::Parameter{
+					.name = name,
+					.type = type,
+				});
 				if(match(TT::PAREN_R, tokens)) break;
 				if(!match(TT::COMMA, tokens)) {
 					throw CompilerError{
@@ -112,7 +117,7 @@ namespace ltn::c {
 				}
 				auto body = parse_body(tokens);
 				return std::make_unique<ast::Except>(
-					params[0],
+					params[0].name,
 					std::move(body),
 					location(tokens));
 			}

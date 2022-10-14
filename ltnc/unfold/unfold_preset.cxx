@@ -39,7 +39,7 @@ namespace ltn::c {
 				preset->location);
 
 			statements.push_back(std::move(init_member));
-			parameters.push_back(var_name);
+			parameters.push_back({var_name});
 		}
 
 		statements.push_back(return_struct(preset->location));

@@ -10,7 +10,11 @@
 
 namespace ltn::c::ast {
 	struct Statement;
-	using Parameters = std::vector<std::string>;
+	struct Parameter {
+		std::string name;
+		type::Type type = type::Any{};
+	};
+	using Parameters = std::vector<Parameter>;
 
 
 

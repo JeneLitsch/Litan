@@ -8,7 +8,7 @@ namespace ltn::c {
 
 		ltn::inst::Instruction parameters(const ast::Functional & fx, Scope & scope) {
 			for(const auto & param : fx.parameters) {
-				scope.insert(param, fx.location);
+				scope.insert(param.name, fx.location, param.type);
 			}
 			return ltn::inst::Params{ static_cast<std::uint8_t>(fx.parameters.size()) };
 		}
@@ -166,13 +166,18 @@ namespace ltn::c {
 			buf << ltn::inst::Capture{};
 		}
 
+
+		std::vector<type::Type> parameter_types;
+		for(const auto & parameter : fx.parameters) {
+			parameter_types.push_back(parameter.type);
+		}
+
 		return {
 			.code = buf,
 			.deduced_type = type::FxPtr {
 				.return_type = fx.return_type,
-				.parameter_types = {}
+				.parameter_types = parameter_types, 
 			}
 		};
 	}
-
 }

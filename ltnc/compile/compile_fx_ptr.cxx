@@ -20,11 +20,16 @@ namespace ltn::c {
 		
 		buf << ltn::inst::Newfx{fx->id, ptr.placeholders};
 
+		std::vector<type::Type> parameter_types;
+		for(const auto & parameter : fx->parameters) {
+			parameter_types.push_back(parameter.type);
+		}
+
 		return { 
 			.code = buf,
 			.deduced_type = type::FxPtr{
 				.return_type = fx->return_type,
-				.parameter_types = {}
+				.parameter_types = parameter_types,
 			},
 		};
 	}

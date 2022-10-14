@@ -55,7 +55,7 @@ namespace ltn::c::type {
 	struct FxPtr {
 		constexpr static auto type_name = "fx_ptr";
 		std::optional<stx::heaped<Type>> return_type;
-		std::vector<stx::heaped<Type>> parameter_types;
+		std::vector<Type> parameter_types;
 	};
 
 

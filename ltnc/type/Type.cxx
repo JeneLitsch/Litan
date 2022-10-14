@@ -12,7 +12,7 @@ namespace ltn::c::type {
 		bool compare_parameters(const auto & l, const auto & r) {
 			if(l.size() != r.size()) return false;
 			for(std::size_t i = 0; i < l.size(); ++i) {
-				if(*l[i] != *r[i]) return false;
+				if(l[i] != r[i]) return false;
 			}
 			return true;
 		}
