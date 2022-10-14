@@ -1,6 +1,7 @@
 #pragma once
 #include "../Node.hxx"
 #include "../utils/Switch.hxx"
+#include "ltnc/type/Type.hxx"
 #include <vector>
 namespace ltn::c::ast {
 	struct Expression;
@@ -48,15 +49,15 @@ namespace ltn::c::ast {
 			const std::string & name,
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location,
-			bool is_const = false)
+			const type::Type & type = type::Any{})
 			:	Statement(location),
 				name(name),
 				expression(std::move(expression)),
-				is_const(is_const) {}
+				type{type} {}
 		virtual ~NewVar() = default;
 		std::string name;
 		std::unique_ptr<Expression> expression;
-		bool is_const;
+		type::Type type;
 	};
 
 

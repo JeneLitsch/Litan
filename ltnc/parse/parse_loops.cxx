@@ -16,7 +16,8 @@ namespace ltn::c {
 			return std::make_unique<ast::While>(
 				std::move(expr),
 				std::move(body),
-				location(tokens));
+				location(tokens)
+			);
 		}
 		return nullptr;
 	}
@@ -33,8 +34,8 @@ namespace ltn::c {
 			auto var = std::make_unique<ast::NewVar>(
 				var_name,
 				nullptr,
-				location(tokens),
-				true);
+				location(tokens)
+			);
 
 			if(!match(TT::COLON, tokens)) {
 				throw CompilerError{"Expected :", location(tokens)};

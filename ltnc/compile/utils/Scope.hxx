@@ -15,7 +15,7 @@ namespace ltn::c {
 		virtual const ast::Namespace & get_namespace() const = 0;
 		virtual std::optional<std::string> get_return() const = 0;
 
-		Variable insert(const std::string & name, const SourceLocation & location);
+		Variable insert(const std::string & name, const SourceLocation & location, const type::Type & type = type::Any{});
 		void set_return(const std::string & return_point);
 	protected:
 		std::unordered_map<std::string, Variable> vars;

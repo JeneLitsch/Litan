@@ -2,7 +2,7 @@
 namespace ltn::c {
 
 	StmtCode compile_new_variable(const ast::NewVar & new_var, CompilerInfo & info, Scope & scope) {
-		const auto var = scope.insert(new_var.name, new_var.location);
+		const auto var = scope.insert(new_var.name, new_var.location, new_var.type);
 		InstructionBuffer buf;
 		if(new_var.expression) {
 			buf << compile_expression(*new_var.expression, info, scope).code;

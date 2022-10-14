@@ -8,4 +8,11 @@ function main() {
 	var b : array<int> = a;
 	var c : map<int, array<int>> = a;
 	var d : map<int, array<array<int>>> = a;
+	var e = a;
+
+	std::println(decltype(a).name);
+	std::println(decltype(b).name);
+	std::println(decltype(c).name);
+	std::println(decltype(d).name);
+	std::println(decltype(e).name);
 }

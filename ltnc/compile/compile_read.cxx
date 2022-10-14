@@ -14,7 +14,10 @@ namespace ltn::c {
 		ExprCode compile_read_local_variable(const Variable & var) {
 			InstructionBuffer buf;
 			buf << ltn::inst::Readx { var.address };
-			return ExprCode{ buf };
+			return ExprCode{ 
+				.code = buf,
+				.deduced_type = var.type
+			};
 		}
 
 
