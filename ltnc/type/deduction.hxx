@@ -15,15 +15,11 @@ namespace ltn::c::type {
 
 	Type deduce_bitwise(const Type & l, const Type & r);
 
-	Type deduce_neg(const Type & x);
-	Type deduce_not(const Type & x);
-
 	Type deduce_compare(const Type & l, const Type & r);
 	Type deduce_three_way(const Type & l, const Type & r);
 	Type deduce_index(const Type & container, const Type & key);
 
-	Type deduce_log_or(const Type & l, const Type & r);
-	Type deduce_log_and(const Type & l, const Type & r);
+	Type deduce_logic(const Type & l, const Type & r);
 
 	Type deduce_elvis(const Type & l, const Type & r);
 	Type deduce_nullco(const Type & l, const Type & r);
@@ -31,4 +27,9 @@ namespace ltn::c::type {
 	Type deduce_ternary(const Type & condition, const Type & l, const Type & r);
 
 	Type deduce_choose(const Type & current, const Type & next);
+
+	Type deduce_neg(const Type & x);
+	Type deduce_not(const Type & x);
+	Type deduce_bitnot(const Type & x);
+	Type deduce_nulltest(const Type & x);
 }

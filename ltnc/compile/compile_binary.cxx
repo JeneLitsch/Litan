@@ -38,7 +38,7 @@ namespace ltn::c {
 			
 			return {
 				.code = buf,
-				.deduced_type = type::deduce_log_and(l.deduced_type,r.deduced_type)
+				.deduced_type = type::deduce_logic(l.deduced_type,r.deduced_type)
 			};
 		}
 
@@ -64,7 +64,7 @@ namespace ltn::c {
 			
 			return { 
 				.code = buf,
-				.deduced_type = type::deduce_log_or(l.deduced_type, r.deduced_type)
+				.deduced_type = type::deduce_logic(l.deduced_type, r.deduced_type)
 			};
 		}
 

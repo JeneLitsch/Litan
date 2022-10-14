@@ -22,7 +22,7 @@ namespace ltn::c {
 		buf << ltn::inst::Not{};
 		return ExprCode{
 			.code = buf,
-			.deduced_type = type::deduce_not(code.deduced_type)
+			.deduced_type = type::deduce_not(code.deduced_type),
 		};
 	}
 
@@ -33,7 +33,10 @@ namespace ltn::c {
 		buf << code.code;
 		buf << ltn::inst::Null{};
 		buf << ltn::inst::Ueql{};
-		return ExprCode{ buf };
+		return ExprCode{ 
+			.code = buf,
+			.deduced_type = type::deduce_nulltest(code.deduced_type),
+		};
 	}
 
 
@@ -42,7 +45,10 @@ namespace ltn::c {
 		InstructionBuffer buf;
 		buf << code.code;
 		buf << ltn::inst::Bitnot{};
-		return ExprCode{ buf };
+		return ExprCode{
+			.code = buf,
+			.deduced_type = type::deduce_bitnot(code.deduced_type),
+		};
 	}
 	
 

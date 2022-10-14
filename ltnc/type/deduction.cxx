@@ -129,18 +129,6 @@ namespace ltn::c::type {
 
 
 
-	Type deduce_neg(const Type & x) {
-		if(x.as<Any>()) return Any{};
-		if(x.as<Float>()) return Float{};
-		if(is_integral(x)) return Int{};
-		return Error{};
-	}
-
-
-
-	Type deduce_not(const Type & x) {
-		return Bool{};
-	}
 
 
 
@@ -187,13 +175,7 @@ namespace ltn::c::type {
 
 
 
-	Type deduce_log_or(const Type &, const Type &) {
-		return Bool{};
-	}
-
-
-
-	Type deduce_log_and(const Type &, const Type &) {
+	Type deduce_logic(const Type &, const Type &) {
 		return Bool{};
 	}
 
@@ -219,5 +201,34 @@ namespace ltn::c::type {
 
 	Type deduce_choose(const Type & current, const Type & next) {
 		return largest_common_type(current, next);
+	}
+
+
+
+	Type deduce_neg(const Type & x) {
+		if(x.as<Any>()) return Any{};
+		if(x.as<Float>()) return Float{};
+		if(is_integral(x)) return Int{};
+		return Error{};
+	}
+
+
+
+	Type deduce_not(const Type & x) {
+		return Bool{};
+	}
+
+	
+	
+	Type deduce_bitnot(const Type & x) {
+		if(x.as<Any>()) return Int{};
+		if(is_integral(x)) return Int{};
+		return Error{};
+	}
+	
+	
+	
+	Type deduce_nulltest(const Type & x) {
+		return Bool{};
 	}
 }

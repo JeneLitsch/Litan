@@ -1,5 +1,5 @@
 namespace op {
-	function bitnot(sphinx) {
+	function bitnot_value(sphinx) {
 		var cases = [
 			sphinx::assert_result([0], -1),
 			sphinx::assert_result([1], -2),
@@ -9,5 +9,27 @@ namespace op {
 		var fx = lambda (x) => ~x;
 
 		sphinx::run_test(sphinx, "Operator ~", fx, cases);
+	}
+
+
+
+	function bitnot_type(sphinx) {
+		var any;
+		var cases = [
+			type_check(decltype(!1), "bool"),
+			type_check(decltype(!any), "bool"),
+			type_check(decltype(!0.0), "bool"),
+			type_check(decltype(!""), "bool"),
+			type_check(decltype(![""]), "bool"),
+		];
+
+        sphinx::run_test(sphinx, "Operator !",  lambda(x) => x, cases);
+	}
+
+
+
+	function bitnot(sphinx) {
+		bitnot_value(sphinx);
+		bitnot_type(sphinx);
 	}
 }
