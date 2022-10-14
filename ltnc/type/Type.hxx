@@ -52,6 +52,12 @@ namespace ltn::c::type {
 		std::optional<stx::heaped<Type>> val;
 	};
 	
+	struct FxPtr {
+		constexpr static auto type_name = "fx_ptr";
+		std::optional<stx::heaped<Type>> return_type;
+		std::vector<stx::heaped<Type>> parameter_types;
+	};
+
 
 
 	class Type {
@@ -65,7 +71,8 @@ namespace ltn::c::type {
 			Float,
 			String,
 			Array,
-			Map
+			Map,
+			FxPtr
 		>;
 	public:
 		Type(auto actual_type) : actual_type { actual_type } {} 
@@ -99,5 +106,6 @@ namespace ltn::c::type {
 	bool operator==(const String &, const String &);
 	bool operator==(const Array & l, const Array & r);
 	bool operator==(const Map & l, const Map & r);
+	bool operator==(const FxPtr & l, const FxPtr & r);
 	bool operator==(const Type & l, const Type & r);
 }

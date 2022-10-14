@@ -121,6 +121,12 @@ namespace ltn::c {
 
 
 
+		type::Type parse_return_type(Tokens & tokens) {
+			return match(TT::RARROW, tokens) ? parse_type(tokens) : type::Any{};
+		}
+
+
+
 		// parses and returns a function node
 		template<class FunctionalNode>
 		std::unique_ptr<FunctionalNode> functional_node(
@@ -129,6 +135,7 @@ namespace ltn::c {
 			auto parse_body) {
 			const auto name = parse_function_name(tokens);
 			const auto parameters = parse_mandatory_parameters(tokens);
+			const auto return_type = parse_return_type(tokens);
 			bool c0nst = false;
 			bool pr1vate = false;
 			bool init = false;
@@ -161,6 +168,7 @@ namespace ltn::c {
 				namespaze,
 				parameters,
 				std::move(body),
+				return_type,
 				location(tokens));
 			fx->c0nst = c0nst;
 			fx->pr1vate = pr1vate;
@@ -199,12 +207,14 @@ namespace ltn::c {
 		if(match(TT::LAMBDA, tokens)) {
 			auto captures = parse_captures(tokens);
 			const auto parameters = parse_optional_parameters(tokens);
+			const auto return_type = parse_return_type(tokens);
 			auto body = parse_body(tokens); 
 			auto fx = std::make_unique<ast::Function>(
 				"lambda" + std::to_string(*stx::unique{}), 
 				ast::Namespace{},
 				parameters,
 				std::move(body),
+				return_type,
 				location(tokens));
 			fx->except = parse_except(tokens);
 			return std::make_unique<ast::Lambda>(

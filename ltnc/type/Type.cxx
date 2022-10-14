@@ -7,6 +7,15 @@ namespace ltn::c::type {
             if(l && r) return **l == **r;
             return false;
         }
+
+
+		bool compare_parameters(const auto & l, const auto & r) {
+			if(l.size() != r.size()) return false;
+			for(std::size_t i = 0; i < l.size(); ++i) {
+				if(*l[i] != *r[i]) return false;
+			}
+			return true;
+		}
     }
 
 	bool operator==(const Any &, const Any &) {
@@ -47,6 +56,11 @@ namespace ltn::c::type {
 
 	bool operator==(const Map & l, const Map & r) {
 		return compare_contained(l.key, r.key) && compare_contained(l.val, r.val);
+	}
+
+	bool operator==(const FxPtr & l, const FxPtr & r) {
+		return compare_contained(l.return_type, r.return_type) 
+			&& compare_parameters(l.parameter_types, r.parameter_types);
 	}
 
 	bool operator==(const Type & l, const Type & r) {

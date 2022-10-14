@@ -3,6 +3,8 @@ namespace foo {
 }
 
 
+function fx1() -> array<int> {}
+
 function main() {
 	var a : int = 1;
 	var b : array<int> = a;
@@ -15,4 +17,10 @@ function main() {
 	std::println(decltype(c).name);
 	std::println(decltype(d).name);
 	std::println(decltype(e).name);
+
+	std::println(decltype(fx1()).name);
+	std::println(decltype(lambda() -> float => 3.14).name);
+	std::println(decltype((lambda() -> float => 3.14)()).name);
+	std::println(decltype(&fx1()).name);
+	std::println(decltype((&fx1())()).name);
 }

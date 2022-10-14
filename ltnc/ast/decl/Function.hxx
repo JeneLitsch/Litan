@@ -6,6 +6,7 @@
 #include "ltn/unique.hxx"
 #include "Declaration.hxx"
 #include "../Namespace.hxx"
+#include "ltnc/type/Type.hxx"
 
 namespace ltn::c::ast {
 	struct Statement;
@@ -46,10 +47,12 @@ namespace ltn::c::ast {
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
+			const type::Type & return_type,
 			const SourceLocation & location)
 			:	Declaration(location, name, namespaze),
 				parameters(parameters),
-				id(mangle(name, namespaze, parameters)) {}
+				id(mangle(name, namespaze, parameters)),
+				return_type{return_type} {}
 		virtual ~Functional() = default;
 
 		Parameters parameters;
@@ -58,6 +61,7 @@ namespace ltn::c::ast {
 		bool init = false;
 
 		std::string id;
+		type::Type return_type;
 	};
 
 
@@ -68,8 +72,18 @@ namespace ltn::c::ast {
 			Namespace namespaze,
 			Parameters parameters,
 			std::unique_ptr<Statement> && body,
+			const type::Type & return_type,
 			const SourceLocation & location)
-			:	Functional(name, namespaze, parameters, location),
+			:	Functional{name, namespaze, parameters, return_type, location},
+				body(std::move(body)) {}
+
+		Function(
+			const std::string & name,
+			Namespace namespaze,
+			Parameters parameters,
+			std::unique_ptr<Statement> && body,
+			const SourceLocation & location)
+			:	Functional{name, namespaze, parameters, type::Any{}, location},
 				body(std::move(body)) {}
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
@@ -84,8 +98,9 @@ namespace ltn::c::ast {
 			Namespace namespaze,
 			Parameters parameters,
 			const std::string & key,
+			const type::Type & return_type,
 			const SourceLocation & location)
-			:	Functional(name, namespaze, parameters, location),
+			:	Functional{name, namespaze, parameters, return_type, location},
 				key(key) {}
 		virtual ~BuildIn() = default;
 		std::string key;		

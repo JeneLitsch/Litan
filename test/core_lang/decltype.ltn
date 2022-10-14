@@ -3,18 +3,25 @@ function type_check(decl, result) {
 }
 namespace core {
 
+	function fx_returns_int() -> int => 1
+
     function decltype_name(sphinx) {
+		var a : int = 1;
+		var b : array<int> = a;
+		var c : map<int, array<int>> = a;
+		var d : map<int, array<array<int>>> = a;
+		var e = a;
+
 		var cases = [
-			type_check(
-				decltype(null),
-				"null"
-			),
+			type_check(decltype(a), "int"),
+			type_check(decltype(b), "array<int>"),
+			type_check(decltype(c), "map<int, array<int>>"),
+			type_check(decltype(d), "map<int, array<array<int>>>"),
+			type_check(decltype(e), "any"),
+			
 
-			type_check(
-				decltype(true),
-				"bool"
-			),
-
+			type_check(decltype(null), "null"),
+			type_check(decltype(true), "bool"),
 			type_check(
 				decltype(false),
 				"bool"),

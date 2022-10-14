@@ -39,6 +39,9 @@ namespace ltn::c {
 
 		buf << ltn::inst::Call{fx->id};
 		
-		return ExprCode{ buf };
+		return ExprCode{
+			.code = buf,
+			.deduced_type = fx->return_type,
+		};
 	}
 }

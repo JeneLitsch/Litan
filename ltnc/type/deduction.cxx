@@ -231,4 +231,12 @@ namespace ltn::c::type {
 	Type deduce_nulltest(const Type & x) {
 		return Bool{};
 	}
+
+
+
+	Type deduce_invokation(const Type & fx_ptr) {
+		if(auto fx = fx_ptr.as<FxPtr>()) return **fx->return_type;
+		if(fx_ptr.as<Any>()) return Any{};
+		return Error{};
+	}
 }

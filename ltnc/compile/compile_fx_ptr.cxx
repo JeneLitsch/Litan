@@ -20,6 +20,12 @@ namespace ltn::c {
 		
 		buf << ltn::inst::Newfx{fx->id, ptr.placeholders};
 
-		return { buf };
+		return { 
+			.code = buf,
+			.deduced_type = type::FxPtr{
+				.return_type = fx->return_type,
+				.parameter_types = {}
+			},
+		};
 	}
 }

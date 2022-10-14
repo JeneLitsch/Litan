@@ -8,7 +8,9 @@ namespace ltn::c {
 
 		InstructionBuffer buf;
 
-		buf << compile_expression(*invoke.function_ptr, info, scope).code;
+		auto fx_ptr = compile_expression(*invoke.function_ptr, info, scope);
+
+		buf << fx_ptr.code;
 
 		for(const auto & param : invoke.parameters) {
 			buf << compile_expression(*param, info, scope).code;
@@ -17,6 +19,9 @@ namespace ltn::c {
 		buf << ltn::inst::Newarr{invoke.parameters.size()};
 		buf << ltn::inst::Invoke{};
 		
-		return { buf };
+		return {
+			.code = buf,
+			.deduced_type = type::deduce_invokation(fx_ptr.deduced_type),
+		};
 	}
 }

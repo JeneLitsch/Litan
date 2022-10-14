@@ -32,6 +32,27 @@ namespace ltn::c::type {
 			}
 			return oss.str();
 		}
+
+
+
+		std::string to_string(const FxPtr & fx_ptr) {
+			std::ostringstream oss;
+			oss << FxPtr::type_name << "<";
+			if(fx_ptr.return_type) oss << to_string(**fx_ptr.return_type);
+			oss << "(";
+			if(fx_ptr.parameter_types.empty()) {
+				oss << "...";
+			}
+			else {
+				for(std::size_t i = 0; i < fx_ptr.parameter_types.size(); ++i) {
+					if(i != 0) oss << ", ";
+					oss << to_string(*fx_ptr.parameter_types[i]);
+				}
+			}
+			oss << ")";
+			oss << ">";
+			return oss.str();
+		}
 	}
 	
 	std::string to_string(const Type & type) {

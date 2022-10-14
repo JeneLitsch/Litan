@@ -166,7 +166,13 @@ namespace ltn::c {
 			buf << ltn::inst::Capture{};
 		}
 
-		return { buf };
+		return {
+			.code = buf,
+			.deduced_type = type::FxPtr {
+				.return_type = fx.return_type,
+				.parameter_types = {}
+			}
+		};
 	}
 
 }
