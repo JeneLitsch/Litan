@@ -120,4 +120,16 @@ namespace ltn::c {
 		brace_tracker.finalize();
 		return type;
 	}
+
+
+
+	type::Type parse_var_type(Tokens & tokens) {
+		return match(TT::COLON, tokens) ? parse_type(tokens) : type::Any{};
+	}
+
+
+
+	type::Type parse_return_type(Tokens & tokens) {
+		return match(TT::RARROW, tokens) ? parse_type(tokens) : type::Any{};
+	}
 }

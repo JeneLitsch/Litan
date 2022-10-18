@@ -5,7 +5,10 @@ namespace ltn::c {
 	ExprCode compile_integer(const ast::Integer & expr) {
 		InstructionBuffer buf;
 		buf << ltn::inst::Newi{expr.value};
-		return { buf, type::Int{} };
+		return {
+			.code = buf,
+			.deduced_type = type::Int{}
+		};
 	}
 
 
@@ -14,7 +17,10 @@ namespace ltn::c {
 	ExprCode compile_floating(const ast::Float & expr) {
 		InstructionBuffer buf;
 		buf << ltn::inst::Newf{expr.value};
-		return { buf, type::Float{} };
+		return { 
+			.code = buf,
+			.deduced_type = type::Float{},
+		};
 	}
 
 
@@ -28,7 +34,10 @@ namespace ltn::c {
 		else {
 			buf << ltn::inst::False{};
 		}
-		return ExprCode{ buf, type::Bool{} };
+		return ExprCode{ 
+			.code = buf,
+			.deduced_type = type::Bool{}
+		};
 	}
 
 
@@ -37,7 +46,10 @@ namespace ltn::c {
 	ExprCode compile_null(const ast::Null &) {
 		InstructionBuffer buf;
 		buf << ltn::inst::Null{};
-		return ExprCode{ buf, type::Null{} };
+		return ExprCode{ 
+			.code = buf,
+			.deduced_type = type::Null{}
+		};
 	}
 
 
@@ -45,7 +57,10 @@ namespace ltn::c {
 	ExprCode compile_character(const ast::Char & expr) {
 		InstructionBuffer buf;
 		buf << ltn::inst::Newc{static_cast<std::uint8_t>(expr.value)};
-		return ExprCode{ buf, type::Char{} };
+		return ExprCode{
+			.code = buf,
+			.deduced_type = type::Char{}
+		};
 	}
 
 
@@ -55,6 +70,9 @@ namespace ltn::c {
 		InstructionBuffer buf;
 		std::vector<std::uint8_t> bytes {std::begin(expr.value), std::end(expr.value)};
 		buf << ltn::inst::Newstr{ bytes };
-		return ExprCode{ buf, type::String{} };
+		return ExprCode{
+			.code = buf,
+			.deduced_type = type::String{}
+		};
 	}
 }

@@ -21,7 +21,7 @@ namespace ltn::c {
 			ast::Parameters parameters{};
 			while(true) {
 				auto name = parse_parameter_name(tokens);
-				auto type = match(TT::COLON, tokens) ? parse_type(tokens) : type::Any{};
+				auto type = parse_var_type(tokens);
 				parameters.push_back(ast::Parameter{
 					.name = name,
 					.type = type,
@@ -122,12 +122,6 @@ namespace ltn::c {
 					location(tokens));
 			}
 			else return nullptr;
-		}
-
-
-
-		type::Type parse_return_type(Tokens & tokens) {
-			return match(TT::RARROW, tokens) ? parse_type(tokens) : type::Any{};
 		}
 
 

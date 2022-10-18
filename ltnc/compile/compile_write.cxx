@@ -1,18 +1,28 @@
 #include "compile.hxx"
+#include "ltnc/type/check.hxx"
+#include <iostream>
+
 namespace ltn::c {
 	namespace {
 
 		// compile assignable variable
 		ExprCode compile_read_ref(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
-			if(as<ast::Var>(expr)) {
-				return {};
+			if(auto var = as<ast::Var>(expr)) {
+				const auto & local = scope.resolve(var->name, var->location);
+				return {
+					.code = {},
+					.deduced_type = local.type,
+				};
 			}
 			
-			if(auto e = as<ast::Index>(expr)) {
-				const auto arr = compile_expression(*e->expression, info, scope);
+			if(auto index = as<ast::Index>(expr)) {
+				const auto arr = compile_expression(*index->expression, info, scope);
 				InstructionBuffer buf;
 				buf << arr.code;
-				return ExprCode{ buf };
+				return ExprCode{ 
+					.code = buf,
+					.deduced_type = arr.deduced_type,
+				};
 			}
 			
 			if(auto e = as<ast::Member>(expr)) {
@@ -30,12 +40,12 @@ namespace ltn::c {
 
 
 
-		ExprCode compile_write(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
+		InstructionBuffer compile_write(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
 			if(auto e = as<ast::Var>(expr)) {
 				const auto var = scope.resolve(e->name, expr.location);
 				InstructionBuffer buf;
 				buf << ltn::inst::Writex{var.address};
-				return ExprCode{ buf };
+				return buf;
 			}
 			
 			if(auto e = as<ast::Index>(expr)) {
@@ -43,18 +53,18 @@ namespace ltn::c {
 				InstructionBuffer buf;
 				buf << idx.code;
 				buf << ltn::inst::AtWrite{};
-				return ExprCode{ buf };
+				return buf;
 			}
 			
 			if(auto e = as<ast::Member>(expr)) {
 				InstructionBuffer buf;
 				const auto id = info.member_table.get_id(e->name);
 				buf << ltn::inst::MemberWrite{ id };
-				return ExprCode{ buf };
+				return buf;
 			}
 			
 			if(auto global = as<ast::GlobalVar>(expr)) {
-				return compile_write_static(*global, info, scope);
+				return compile_write_static(*global, info, scope).code;
 			}
 
 			throw std::runtime_error{"Unknown assingable type"};
@@ -63,12 +73,12 @@ namespace ltn::c {
 		
 
 		// compile assignable variable
-		ExprCode compile_read(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
+		InstructionBuffer compile_read(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
 			if(auto e = as<ast::Var>(expr)) {
 				const auto var = scope.resolve(e->name, e->location);
 				InstructionBuffer buf;
 				buf << ltn::inst::Readx{var.address};
-				return ExprCode{ buf };
+				return buf;
 			}
 			
 			if(auto e = as<ast::Index>(expr)) {
@@ -76,18 +86,18 @@ namespace ltn::c {
 				InstructionBuffer buf;
 				buf << idx.code;
 				buf << ltn::inst::At{};
-				return ExprCode{ buf };
+				return buf;
 			}
 
 			if(auto e = as<ast::Member>(expr)) {
 				InstructionBuffer buf;
 				const auto id = info.member_table.get_id(e->name);
 				buf << ltn::inst::MemberRead{id};
-				return ExprCode{ buf };
+				return buf;
 			}
 
 			if(auto e = as<ast::GlobalVar>(expr)) {
-				return compile_read_static(*e, info, scope);
+				return compile_read_static(*e, info, scope).code;
 			}
 
 			throw std::runtime_error{"Unknown assingable type"};
@@ -104,12 +114,32 @@ namespace ltn::c {
 		const auto l_prepare = compile_read_ref(*expr.l, info, scope);
 		const auto l_write = compile_write(*expr.l, info, scope);
 		const auto r = compile_expression(*expr.r, info, scope);
-		InstructionBuffer buf;
-		buf << r.code;
-		buf << l_prepare.code;
-		buf << l_write.code;
-		return StmtCode{ buf, 0 };
+
+		if(type::is_convertible(r.deduced_type, l_prepare.deduced_type)) {
+			InstructionBuffer buf;
+			buf << r.code;
+			buf << l_prepare.code;
+			buf << l_write;
+			return StmtCode{ 
+				.code = buf,
+				.var_count = 0,
+				.direct_allocation = false,
+			};
+		}
+		else throw cannot_assign(r.deduced_type, l_prepare.deduced_type);
 	}
+
+
+
+	CompilerError cannot_assign(
+		const type::Type & from,
+		const type::Type & to) {
+
+		std::ostringstream oss;
+		oss << "Cannot assign " << from << " to "<< to;
+		return CompilerError{oss.str()};
+	}
+
 
 
 
@@ -148,7 +178,7 @@ namespace ltn::c {
 			buf << ltn::inst::Duplicate{};
 		}
 
-		buf << l_read.code;
+		buf << l_read;
 		buf << r.code;
 		buf << op;
 
@@ -156,7 +186,7 @@ namespace ltn::c {
 			buf << ltn::inst::Swap{};
 		}
 
-		buf << l_write.code;			
+		buf << l_write;			
 		return StmtCode{ buf, 1, true };
 	}
 }

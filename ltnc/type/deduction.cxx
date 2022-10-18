@@ -1,5 +1,6 @@
 #include "ltnc/type/deduction.hxx"
 #include "ltnc/type/Type.hxx"
+#include "ltnc/type/check.hxx"
 #include <iostream>
 
 namespace ltn::c::type {
@@ -27,28 +28,8 @@ namespace ltn::c::type {
 
 
 
-		bool is_integral(const Type & x) {
-			return x.as<Bool>() || x.as<Char>() || x.as<Int>();
-		}
-
-
-
-		bool is_numeric(const Type & x) {
-			return is_integral(x) || x.as<Float>();
-		}
-
-
-
 		Type deduce_arith_base(const Type & l, const Type & r) {
-			if(l.as<Bool>()) {
-				if(is_integral(r)) return Int{};
-				if(r.as<Float>()) return Float{};
-			} 
-			if(l.as<Char>()) {
-				if(is_integral(r)) return Int{};
-				if(r.as<Float>()) return Float{};
-			}
-			if(l.as<Int>()) {
+			if(is_integral(l)) {
 				if(is_integral(r)) return Int{};
 				if(r.as<Float>()) return Float{};
 			}
@@ -121,9 +102,9 @@ namespace ltn::c::type {
 
 
 	Type deduce_bitwise(const Type & l, const Type & r) {
-		if(l.as<Any>()) return Int{};
-		if(r.as<Any>()) return Int{};
-		if(l.as<Int>() && r.as<Int>()) return Int{};
+		if(is_any(l)) return Int{};
+		if(is_any(r)) return Int{};
+		if(is_int(l) && is_int(r)) return Int{};
 		return Error{};
 	}
 

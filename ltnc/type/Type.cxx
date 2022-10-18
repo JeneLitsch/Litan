@@ -66,4 +66,9 @@ namespace ltn::c::type {
 	bool operator==(const Type & l, const Type & r) {
 		return l.actual_type == r.actual_type;
 	}
+
+	std::ostream & operator<<(std::ostream & out, const Type & type) {
+		out << to_string(type);
+		return out;
+	}
 }

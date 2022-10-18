@@ -2,10 +2,12 @@
 #include "../Node.hxx"
 #include "../Namespace.hxx"
 #include <map>
+#include "ltnc/type/Type.hxx"
 
 namespace ltn::c::ast {
 	struct Expression;
 	struct Integer;
+
 
 
 
@@ -65,15 +67,20 @@ namespace ltn::c::ast {
 
 
 	struct Preset final : public Declaration {
+		struct Member {
+			std::string name;
+			type::Type type;
+		};
+
 		Preset(
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const std::vector<std::string> & member_names)
+			const std::vector<Member> & members)
 			:	Declaration(location, name, namespaze),
-				member_names(member_names) {}
+				members(members) {}
 		virtual ~Preset() = default;
-		std::vector<std::string> member_names;
+		std::vector<Member> members;
 	};
 
 

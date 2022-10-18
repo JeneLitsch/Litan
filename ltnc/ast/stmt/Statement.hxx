@@ -160,13 +160,16 @@ namespace ltn::c::ast {
 		InitMember(
 			std::string member,
 			std::string param,
+			type::Type type,
 			const SourceLocation & location)
 			:	Statement(location),
 				member(std::move(member)),
-				param(std::move(param)) {}
+				param(std::move(param)),
+				type{type} {}
 		virtual ~InitMember() = default;
 		std::string member;
 		std::string param;
+		type::Type type;
 	};
 
 

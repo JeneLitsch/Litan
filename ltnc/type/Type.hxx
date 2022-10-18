@@ -108,4 +108,6 @@ namespace ltn::c::type {
 	bool operator==(const Map & l, const Map & r);
 	bool operator==(const FxPtr & l, const FxPtr & r);
 	bool operator==(const Type & l, const Type & r);
+
+	std::ostream & operator<<(std::ostream & out, const Type & type);
 }

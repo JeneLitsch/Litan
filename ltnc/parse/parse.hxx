@@ -90,4 +90,6 @@ namespace ltn::c {
 
 
 	type::Type parse_type(Tokens & tokens);
+	type::Type parse_var_type(Tokens & tokens);
+	type::Type parse_return_type(Tokens & tokens);
 }

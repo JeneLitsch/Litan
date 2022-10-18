@@ -30,16 +30,21 @@ namespace ltn::c {
 		ast::Parameters parameters;
 		statements.push_back(new_struct(preset->location));
 
-		for(const auto & member_name : preset->member_names) {
-			const auto var_name = "__" + member_name + "__";
+		for(const auto & member : preset->members) {
+			const auto var_name = "__" + member.name + "__";
 			
 			auto init_member = std::make_unique<ast::InitMember>(
-				member_name,
+				member.name,
 				var_name,
-				preset->location);
+				member.type,
+				preset->location
+			);
 
 			statements.push_back(std::move(init_member));
-			parameters.push_back({var_name});
+			parameters.push_back(ast::Parameter{
+				.name = var_name,
+				.type = member.type,
+			});
 		}
 
 		statements.push_back(return_struct(preset->location));
