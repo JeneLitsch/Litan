@@ -32,9 +32,3 @@
 // 	std::println(decltype(&fx1(_,_)).name);
 // 	std::println(decltype((&fx1(_,_))()).name);
 // }
-
-
-function main() {
-	var a : float = 1.0;
-	var b : int = 1;
-}

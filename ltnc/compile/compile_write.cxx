@@ -1,6 +1,7 @@
 #include "compile.hxx"
 #include "ltnc/type/check.hxx"
 #include <iostream>
+#include "conversion.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -115,31 +116,21 @@ namespace ltn::c {
 		const auto l_write = compile_write(*expr.l, info, scope);
 		const auto r = compile_expression(*expr.r, info, scope);
 
-		if(type::is_convertible(r.deduced_type, l_prepare.deduced_type)) {
-			InstructionBuffer buf;
-			buf << r.code;
-			buf << l_prepare.code;
-			buf << l_write;
-			return StmtCode{ 
-				.code = buf,
-				.var_count = 0,
-				.direct_allocation = false,
-			};
-		}
-		else throw cannot_assign(r.deduced_type, l_prepare.deduced_type);
+		InstructionBuffer buf;
+		buf << r.code;
+		buf << l_prepare.code;
+		buf << conversion_on_assign(
+			r.deduced_type,
+			l_prepare.deduced_type,
+			expr.location
+		);
+		buf << l_write;
+		return StmtCode{ 
+			.code = buf,
+			.var_count = 0,
+			.direct_allocation = false,
+		};
 	}
-
-
-
-	CompilerError cannot_assign(
-		const type::Type & from,
-		const type::Type & to) {
-
-		std::ostringstream oss;
-		oss << "Cannot assign " << from << " to "<< to;
-		return CompilerError{oss.str()};
-	}
-
 
 
 
@@ -186,7 +177,59 @@ namespace ltn::c {
 			buf << ltn::inst::Swap{};
 		}
 
+		buf << conversion_on_modify(
+			r.deduced_type,
+			l_prepare.deduced_type,
+			expr.location
+		);
 		buf << l_write;			
-		return StmtCode{ buf, 1, true };
+		return StmtCode{
+			.code = buf,
+			.var_count = 1,
+			.direct_allocation = true,
+		};
+	}
+
+
+
+	namespace {
+		ExprCode compile_new_variable_right(
+			const ast::NewVar & new_var,
+			CompilerInfo & info,
+			Scope & scope) {
+			
+			if(new_var.expression) {
+				return compile_expression(*new_var.expression, info, scope);
+			}
+			else {
+				InstructionBuffer buf;
+				buf << ltn::inst::Null{};
+				return ExprCode {
+					.code = buf,
+					.deduced_type = type::Null{}, 
+				};
+			}
+		}
+	}
+
+
+
+	StmtCode compile_new_variable(const ast::NewVar & new_var, CompilerInfo & info, Scope & scope) {
+		const auto var = scope.insert(new_var.name, new_var.location, new_var.type);
+		const auto r = compile_new_variable_right(new_var, info, scope);
+		
+		InstructionBuffer buf;
+		buf << r.code;
+		buf << conversion_on_assign(
+			r.deduced_type,
+			new_var.type,
+			new_var.location
+		);
+		buf << ltn::inst::Writex{var.address};
+		return { 
+			.code = buf,
+			.var_count = 0,
+			.direct_allocation = true,
+		};
 	}
 }

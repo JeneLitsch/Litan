@@ -37,20 +37,45 @@ namespace ltn::c::type {
 	}
 
 
-
-	bool is_integral(const Type & x) {
-		return is_bool(x) || is_char(x) || is_int(x);
+	bool is_subint(const Type & x) {
+		return is_bool(x) || is_char(x);
 	}
 
-
+	bool is_integral(const Type & x) {
+		return is_subint(x) || is_int(x);
+	}
 
 	bool is_numeric(const Type & x) {
 		return is_integral(x) || is_float(x);
 	}
 
+	
+	
+	bool is_string(const Type & x) {
+		return x.as<String>();
+	}
 
-	bool is_convertible(const Type & from, const Type & to) {
-		if(is_any(to)) return true;
-		return from == to;
+
+
+	bool is_array(const Type & x) {
+		return x.as<Array>();
+	}
+
+
+
+	bool is_empty_array(const Type & x) {
+		return is_array(x) && (!x.as<Array>()->contains);
+	}
+
+
+
+	bool is_subtype_array(const Type & from, const Type & to) {	
+		if(is_array(to), is_empty_array(from)) return true;
+		if(is_array(to), is_array(from)) {
+			return is_subtype_array(
+				**from.as<Array>()->contains,
+				**to.as<Array>()->contains);
+			}
+		return false;
 	}
 }

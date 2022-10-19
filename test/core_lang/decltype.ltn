@@ -7,9 +7,9 @@ namespace core {
 
     function decltype_name(sphinx) {
 		var a : int = 1;
-		var b : array<int> = a;
-		var c : map<int, array<int>> = a;
-		var d : map<int, array<array<int>>> = a;
+		var b : array<int> = [];
+		var c : map<int, array<int>> = [];
+		var d : map<int, array<array<int>>> = [];
 		var e = a;
 
 		var cases = [

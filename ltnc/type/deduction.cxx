@@ -12,7 +12,8 @@ namespace ltn::c::type {
 
 		Type largest_common_type(const Array & l, const Array & r) {
 			if(!l.contains && !r.contains) return Array{};
-			if(!l.contains || !r.contains) return Array{Any{}};
+			if(!l.contains) return Array{**r.contains};
+			if(!r.contains) return Array{**l.contains};
 			return Array{largest_common_type(**l.contains, **r.contains)};
 		}
 

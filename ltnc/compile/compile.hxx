@@ -79,8 +79,4 @@ namespace ltn::c {
 		const InstructionBuffer & condition,
 		const InstructionBuffer & if_branch,
 		const InstructionBuffer * else_branch);
-
-	CompilerError cannot_assign(
-		const type::Type & from,
-		const type::Type & to);
 }	

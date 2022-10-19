@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include "ltnvm/convert.hxx"
+#include "ltnvm/cast.hxx"
 
 namespace ltn::vm::inst {
 	namespace {
@@ -12,7 +13,7 @@ namespace ltn::vm::inst {
 		}
 
 
-		std::uint64_t unwind(Stack & stack) {
+		std::optional<std::uint64_t> unwind(Stack & stack) {
 			while(stack.depth()) {
 				const auto handler = stack.get_except_handler();
 				if(handler != 0) {
@@ -20,7 +21,7 @@ namespace ltn::vm::inst {
 				}
 				stack.pop_frame();
 			}
-			throw std::runtime_error{"Unhandled Exception"};
+			return std::nullopt;
 		}
 	}
 
@@ -34,7 +35,12 @@ namespace ltn::vm::inst {
 
 	void thr0w(VmCore & core) {
 		const auto except = core.reg.pop();
-		core.pc = unwind(core.stack);
+		if(auto addr = unwind(core.stack)) {
+			core.pc = *addr;
+		}
+		else {
+			throw std::runtime_error{"Unhandled Exception: " + cast::to_string(except, core.heap)};
+		}
 		const auto regSize = core.stack.get_regsize();
 		core.reg.resize(regSize);
 		clearTopFrame(core.stack);		
