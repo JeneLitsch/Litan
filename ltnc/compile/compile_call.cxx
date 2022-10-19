@@ -1,5 +1,7 @@
 #include "compile.hxx"
 #include <string_view>
+#include "conversion.hxx"
+
 namespace ltn::c {
 	CompilerError undefined_function(
 		const std::string_view & name,
@@ -17,7 +19,7 @@ namespace ltn::c {
 			call.name,
 			scope.get_namespace(),
 			call.namespaze,
-			call.parameters.size());
+			call.arguments.size());
 		
 		if(!fx) {
 			throw undefined_function(call.name, call);
@@ -33,8 +35,13 @@ namespace ltn::c {
 
 		InstructionBuffer buf;
 
-		for(const auto & param : call.parameters) {
-			buf << compile_expression(*param, info, scope).code;
+		for(std::size_t i = 0; i < call.arguments.size(); ++i) {
+			auto & arg_expr = call.arguments[i];
+			auto & parameter = fx->parameters[i];
+			auto arg = compile_expression(*arg_expr, info, scope);
+
+			buf << arg.code;
+			buf << conversion_on_pass(arg.deduced_type, parameter.type, { call.location, i });
 		}
 
 		buf << ltn::inst::Call{fx->id};

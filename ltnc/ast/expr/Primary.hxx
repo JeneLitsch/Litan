@@ -30,16 +30,16 @@ namespace ltn::c::ast {
 		Call(
 			const std::string & name,
 			const Namespace & namespaze,
-			std::vector<std::unique_ptr<Expression>> parameters,
+			std::vector<std::unique_ptr<Expression>> arguments,
 			const SourceLocation & location)
 			:	Primary(location),
 				name(name),
 				namespaze(namespaze),
-				parameters(std::move(parameters)) {}
+				arguments(std::move(arguments)) {}
 		virtual ~Call() = default;
 		std::string name;
 		Namespace namespaze;
-		std::vector<std::unique_ptr<Expression>> parameters;
+		std::vector<std::unique_ptr<Expression>> arguments;
 	};
 
 

@@ -4,7 +4,7 @@
 namespace ltn::c {
 	ast::expr_ptr optimize_primary(ast::Primary & primary) {
 		if(auto call = as<ast::Call>(primary)) {
-			for(auto & parameter : call->parameters) {
+			for(auto & parameter : call->arguments) {
 				parameter = optimize_expression(std::move(parameter));
 			}
 		}

@@ -13,4 +13,9 @@ namespace ltn::c {
 		const type::Type & from,
 		const type::Type & to,
 		const SourceLocation & location);
+
+	InstructionBuffer conversion_on_pass(
+		const type::Type & from,
+		const type::Type & to,
+		const ArgumentLocation & location);
 }
