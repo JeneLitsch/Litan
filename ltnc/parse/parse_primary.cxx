@@ -275,10 +275,13 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_iife(Tokens & tokens) {
 			if(match(TT::IIFE, tokens)) {
+				auto return_type = parse_return_type(tokens);
 				auto body = parse_block(tokens);
 				return std::make_unique<ast::Iife>(
 					location(tokens),
-					std::move(body));
+					std::move(body),
+					return_type
+				);
 			}
 			else return nullptr;
 		}

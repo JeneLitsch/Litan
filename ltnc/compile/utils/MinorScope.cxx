@@ -50,8 +50,15 @@ namespace ltn::c {
 	}
 
 
+
+	void MinorScope::override_return_type(type::Type return_type) {
+		this->return_type = return_type;
+	}
+
+
 	
 	const type::Type & MinorScope::get_return_type() const {
+		if(this->return_type) return *this->return_type;
 		return this->parent->get_return_type();
 	}
 }

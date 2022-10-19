@@ -1,5 +1,6 @@
 #include "compile.hxx"
 #include "conversion.hxx"
+#include <iostream>
 
 namespace ltn::c {
 	// compiles -> return...;

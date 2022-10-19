@@ -15,12 +15,15 @@ namespace ltn::c::ast {
 	struct Iife final : public Primary {
 		Iife(
 			const SourceLocation & location,
-			std::unique_ptr<Statement> stmt) 
+			std::unique_ptr<Statement> stmt,
+			type::Type return_type) 
 			:	Primary(location), 
-				stmt(std::move(stmt)) {}
+				stmt(std::move(stmt)),
+				return_type{return_type} {}
 		virtual ~Iife() = default;
 		
 		std::unique_ptr<Statement> stmt;
+		type::Type return_type;
 	};
 
 

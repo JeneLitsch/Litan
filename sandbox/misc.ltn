@@ -39,5 +39,9 @@ function to_char(i : int, x : int) -> char {
 
 function main() {
 	var fx : fx_ptr<char(int, int)> = &to_char(_,_);
-	// std::println(a);
+	var i : int = iife -> int {
+		return 42;
+	};
+	std::println(fx);
+	std::println(i);
 }
