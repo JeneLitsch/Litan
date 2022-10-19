@@ -11,6 +11,7 @@ namespace ltn::c {
 		virtual bool is_const() const override;
 		virtual const ast::Namespace & get_namespace() const override;
 		virtual std::optional<std::string> get_return() const override;
+		virtual const type::Type & get_return_type() const override;
 
 	private:
 		const Scope * parent;

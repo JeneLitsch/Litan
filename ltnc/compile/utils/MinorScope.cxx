@@ -48,4 +48,10 @@ namespace ltn::c {
 			return std::nullopt;
 		}
 	}
+
+
+	
+	const type::Type & MinorScope::get_return_type() const {
+		return this->parent->get_return_type();
+	}
 }

@@ -64,4 +64,18 @@ namespace ltn::c {
 			throw CompilerError{oss.str(), location.source_location};
 		});
 	}
+
+
+
+	InstructionBuffer conversion_on_return(
+		const type::Type & from,
+		const type::Type & to,
+		const SourceLocation & location) {
+		
+		return conversion_on_copy(from, to, [&] {
+			std::ostringstream oss;
+			oss << "Cannot return " << from << " as "<< to;
+			throw CompilerError{oss.str(), location};
+		});
+	}
 }

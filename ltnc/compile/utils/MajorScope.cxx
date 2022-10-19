@@ -3,10 +3,11 @@
 
 namespace ltn::c {
 
-	MajorScope::MajorScope(const ast::Namespace & namespaze, bool c0nst) :
-		namespaze { namespaze },
-		c0nst { c0nst }
-		{}
+	MajorScope::MajorScope(
+		const ast::Namespace & namespaze,
+		bool c0nst,
+		const type::Type & return_type) 
+	: namespaze { namespaze }, c0nst { c0nst }, return_type{return_type} {}
 
 
 
@@ -43,5 +44,9 @@ namespace ltn::c {
 
 	std::optional<std::string> MajorScope::get_return() const {
 		return this->return_point;
+	}
+
+	const type::Type & MajorScope::get_return_type() const  {
+		return this->return_type;
 	}
 }

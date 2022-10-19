@@ -33,13 +33,11 @@
 // 	std::println(decltype((&fx1(_,_))()).name);
 // }
 
-function to_char(x, i : int) -> char {
-	std::println(decltype(i).name);
-	std::println(decltype(x).name);
+function to_char(i : int) -> char {
 	return std::char(i);
 }
 
 function main() {
-	var a : char = to_char(true, 1);
+	var a : char = to_char(65);
 	std::println(a);
 }

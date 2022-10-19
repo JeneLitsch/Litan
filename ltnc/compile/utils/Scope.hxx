@@ -14,6 +14,7 @@ namespace ltn::c {
 		virtual bool is_const() const = 0;
 		virtual const ast::Namespace & get_namespace() const = 0;
 		virtual std::optional<std::string> get_return() const = 0;
+		virtual const type::Type & get_return_type() const = 0;
 
 		Variable insert(const std::string & name, const SourceLocation & location, const type::Type & type = type::Any{});
 		void set_return(const std::string & return_point);

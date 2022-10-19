@@ -88,9 +88,10 @@ namespace ltn::c {
 		}
 
 
+
 		// compiles Litan function
 		InstructionBuffer compile_function(const ast::Function & fx, CompilerInfo & info) {
-			MajorScope scope { fx.namespaze, fx.c0nst };
+			MajorScope scope { fx.namespaze, fx.c0nst, fx.return_type };
 			return compile_function(fx, info, scope, {});
 		}
 
