@@ -43,8 +43,15 @@ namespace ltn::c {
 		};
 
 
+		void open_brace(Tokens & tokens, BraceTracker & brace_tracker) {
+			if(!match(TT::SMALLER, tokens)) throw CompilerError{"Expected <"};
+			brace_tracker.open();
+		}
 
-		void closed(Tokens & tokens, BraceTracker & brace_tracker) {
+
+
+
+		void close_brace(Tokens & tokens, BraceTracker & brace_tracker) {
 			if(match(TT::BIGGER, tokens)) {
 				brace_tracker.found_closed(1);
 			}
@@ -61,34 +68,42 @@ namespace ltn::c {
 
 
 		type::Array parse_type_array(Tokens & tokens, BraceTracker & brace_tracker) {
-			if(match(TT::SMALLER, tokens)) {
-				brace_tracker.open();
-				auto contains = parse_type(tokens, brace_tracker);
-				closed(tokens, brace_tracker);
-				return type::Array{contains};
-			}
-			else {
-				throw CompilerError{"Expected < after array type name"};
-			}
+			open_brace(tokens, brace_tracker);
+			auto contains = parse_type(tokens, brace_tracker);
+			close_brace(tokens, brace_tracker);
+			return type::Array{contains};
 		}
 
 
 
 		type::Map parse_type_map(Tokens & tokens, BraceTracker & brace_tracker) {
-			if(match(TT::SMALLER, tokens)) {
-				brace_tracker.open();
-				auto key = parse_type(tokens, brace_tracker);
-				if(!match(TT::COMMA, tokens)) throw CompilerError{"Expected , between key type"};
-				auto val = parse_type(tokens, brace_tracker);
-				closed(tokens, brace_tracker);
-				return type::Map{
-					.key = key,
-					.val = val,
-				};
-			}
-			else {
-				throw CompilerError{"Expected < after array type name"};
-			}
+			open_brace(tokens, brace_tracker);
+			auto key = parse_type(tokens, brace_tracker);
+			if(!match(TT::COMMA, tokens)) throw CompilerError{"Expected , between key type"};
+			auto val = parse_type(tokens, brace_tracker);
+			close_brace(tokens, brace_tracker);
+			return type::Map{
+				.key = key,
+				.val = val,
+			};
+		}
+
+
+
+		type::Type parse_fxptr(Tokens & tokens, BraceTracker & brace_tracker) {
+			open_brace(tokens, brace_tracker);
+			auto return_type = parse_type(tokens, brace_tracker);
+			if(!match(TT::PAREN_L, tokens)) throw CompilerError{"Expected ("};
+			std::vector<type::Type> parameter_types;
+			do {
+				parameter_types.push_back(parse_type(tokens, brace_tracker));
+			} while(match(TT::COMMA, tokens));
+			if(!match(TT::PAREN_R, tokens)) throw CompilerError{"Expected )"};
+			close_brace(tokens, brace_tracker);
+			return type::FxPtr {
+				.return_type = return_type,
+				.parameter_types = parameter_types
+			};
 		}
 
 
@@ -104,6 +119,7 @@ namespace ltn::c {
 				if(type_name->str == "string") return type::String{}; 
 				if(type_name->str == "array") return parse_type_array(tokens, brace_tracker); 
 				if(type_name->str == "map") return parse_type_map(tokens, brace_tracker);
+				if(type_name->str == "fx_ptr") return parse_fxptr(tokens, brace_tracker);
 				throw CompilerError{"Unknown type name " + type_name->str};
 			}
 			else {
