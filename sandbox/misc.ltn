@@ -41,18 +41,12 @@ function to_char(i : int, x : int) -> char {
 }
 
 function main() {
-	var fx : fx_ptr<char(int, int)> = &to_char(_,_);
-	var i : int = iife -> int {
-		return 42;
-	};
-	std::println(fx);
-	std::println(i);
-	std::println(global a);
-	std::println(b);
+	var i1 : int  = 1;
+	var i2 : int  = 1;
 
-	var x : int = global a;
+	var f1 : float = 1.0;
+	var f2 : float = 1.0;
 
-	global a = 1;
-	
-	std::println(global a);
+	var i : int   = i1 + i2;
+	var f : float = f1 + f2;
 }

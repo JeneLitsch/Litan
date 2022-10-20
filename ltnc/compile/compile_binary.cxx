@@ -1,20 +1,216 @@
 #include "compile.hxx"
+#include "ltnc/type/check.hxx"
+#include <iostream>
+#include "stdxx/fx_ptr.hxx"
 
 namespace ltn::c {
 	namespace {
 		using OP = ltn::c::ast::Binary::Type;
-		
-		
+
+
+		struct BinOp {
+			stx::fx_ptr<type::Type(const type::Type &, const type::Type &)> deduce;
+			inst::Instruction for_any;
+			inst::Instruction for_int;
+			inst::Instruction for_float;
+		};
+
+
+
+		const BinOp add {
+			.deduce    = type::deduce_add,
+			.for_any   = inst::Add{},
+			.for_int   = inst::Add{},
+			.for_float = inst::Add{},
+		};
+
+
+
+		const BinOp sub {
+			.deduce    = type::deduce_sub,
+			.for_any   = inst::Sub{},
+			.for_int   = inst::Sub{},
+			.for_float = inst::Sub{},
+		};
+
+
+
+		const BinOp mlt {
+			.deduce    = type::deduce_mlt,
+			.for_any   = inst::Mlt{},
+			.for_int   = inst::Mlt{},
+			.for_float = inst::Mlt{},
+		};
+
+
+
+		const BinOp div {
+			.deduce    = type::deduce_div,
+			.for_any   = inst::Div{},
+			.for_int   = inst::Div{},
+			.for_float = inst::Div{},
+		};
+
+
+
+		const BinOp mod {
+			.deduce    = type::deduce_mod,
+			.for_any   = inst::Mod{},
+			.for_int   = inst::Mod{},
+			.for_float = inst::Mod{},
+		};
+
+
+
+		const BinOp pow {
+			.deduce    = type::deduce_pow,
+			.for_any   = inst::Pow{},
+			.for_int   = inst::Pow{},
+			.for_float = inst::Pow{},
+		};
+
+
+
+		const BinOp lss {
+			.deduce    = type::deduce_compare,
+			.for_any   = inst::Sml{},
+			.for_int   = inst::Sml{},
+			.for_float = inst::Sml{},
+		};
+
+
+
+		const BinOp gtr {
+			.deduce    = type::deduce_compare,
+			.for_any   = inst::Bgr{},
+			.for_int   = inst::Bgr{},
+			.for_float = inst::Bgr{},
+		};
+
+
+
+		const BinOp lss_eql {
+			.deduce    = type::deduce_compare,
+			.for_any   = inst::Smleql{},
+			.for_int   = inst::Smleql{},
+			.for_float = inst::Smleql{},
+		};
+
+
+
+		const BinOp gtr_eql {
+			.deduce    = type::deduce_compare,
+			.for_any   = inst::Bgreql{},
+			.for_int   = inst::Bgreql{},
+			.for_float = inst::Bgreql{},
+		};
+
+
+
+		const BinOp eql {
+			.deduce    = type::deduce_compare,
+			.for_any   = inst::Eql{},
+			.for_int   = inst::Eql{},
+			.for_float = inst::Eql{},
+		};
+
+
+
+		const BinOp ueql {
+			.deduce    = type::deduce_compare,
+			.for_any   = inst::Ueql{},
+			.for_int   = inst::Ueql{},
+			.for_float = inst::Ueql{},
+		};
+
+
+
+		const BinOp comp3 {
+			.deduce    = type::deduce_three_way,
+			.for_any   = inst::Comp{},
+			.for_int   = inst::Comp{},
+			.for_float = inst::Comp{},
+		};
+
+
+
+		const BinOp bit_or {
+			.deduce    = type::deduce_bitwise,
+			.for_any   = inst::Bitor{},
+			.for_int   = inst::Bitor{},
+			.for_float = inst::Bitor{},
+		};
+
+
+
+		const BinOp bit_and {
+			.deduce    = type::deduce_bitwise,
+			.for_any   = inst::Bitand{},
+			.for_int   = inst::Bitand{},
+			.for_float = inst::Bitand{},
+		};
+
+
+
+		const BinOp bit_xor {
+			.deduce    = type::deduce_bitwise,
+			.for_any   = inst::Bitxor{},
+			.for_int   = inst::Bitxor{},
+			.for_float = inst::Bitxor{},
+		};
+
+
+
+		const BinOp shift_l {
+			.deduce    = type::deduce_bitwise,
+			.for_any   = inst::ShiftL{},
+			.for_int   = inst::ShiftL{},
+			.for_float = inst::ShiftL{},
+		};
+
+
+
+		const BinOp shift_r {
+			.deduce    = type::deduce_bitwise,
+			.for_any   = inst::ShiftR{},
+			.for_int   = inst::ShiftR{},
+			.for_float = inst::ShiftR{},
+		};
+
+
+
+		inst::Instruction pick_instruction(
+			const type::Type & l,
+			const type::Type & r,
+			const BinOp & op) {
+			if(l == r) {
+				if(type::is_int(l)) {
+					std::cout << "int X int\n";
+					return op.for_int;
+				}  
+				if(type::is_float(l)) { 
+					std::cout << "float X float\n";
+					return op.for_float;
+				}
+			}
+			return op.for_any;
+		}
+
+
+
 		ExprResult bin(
 			const ExprResult & l,
 			const ExprResult & r,
-			const auto & deduce_type,
-			const auto ... inst) {
+			const BinOp & op) {
 			InstructionBuffer buf;
+			const auto type = op.deduce(l.deduced_type, r.deduced_type);
 			buf << l.code;
 			buf << r.code;
-			(buf << ... << inst);
-			return { buf, deduce_type(l.deduced_type, r.deduced_type) };
+			buf << pick_instruction(l.deduced_type, r.deduced_type, op);
+			return { 
+				.code = buf,
+				.deduced_type = type,
+			};
 		}
 
 
@@ -126,24 +322,24 @@ namespace ltn::c {
 		const auto l = compile_expression(*binary.l, info, scope);
 		const auto r = compile_expression(*binary.r, info, scope);
 		switch (binary.type) {
-			case OP::ADD:          return bin(l, r, type::deduce_add,       ltn::inst::Add{});
-			case OP::SUB:          return bin(l, r, type::deduce_sub,       ltn::inst::Sub{});
-			case OP::MLT:          return bin(l, r, type::deduce_mlt,       ltn::inst::Mlt{});
-			case OP::DIV:          return bin(l, r, type::deduce_div,       ltn::inst::Div{});
-			case OP::MOD:          return bin(l, r, type::deduce_mod,       ltn::inst::Mod{});
-			case OP::POW:          return bin(l, r, type::deduce_pow,       ltn::inst::Pow{});
-			case OP::SMALLER:      return bin(l, r, type::deduce_compare,   ltn::inst::Sml{});
-			case OP::BIGGER:       return bin(l, r, type::deduce_compare,   ltn::inst::Bgr{});
-			case OP::SMALLEREQUAL: return bin(l, r, type::deduce_compare,   ltn::inst::Smleql{});
-			case OP::BIGGEREQUAL:  return bin(l, r, type::deduce_compare,   ltn::inst::Bgreql{});
-			case OP::EQUAL:        return bin(l, r, type::deduce_compare,   ltn::inst::Eql{});
-			case OP::UNEQUEL:      return bin(l, r, type::deduce_compare,   ltn::inst::Ueql{});
-			case OP::SPACE_SHIP:   return bin(l, r, type::deduce_three_way, ltn::inst::Comp{});
-			case OP::SHIFT_L:      return bin(l, r, type::deduce_bitwise,   ltn::inst::ShiftL{});
-			case OP::SHIFT_R:      return bin(l, r, type::deduce_bitwise,   ltn::inst::ShiftR{});
-			case OP::BIT_AND:      return bin(l, r, type::deduce_bitwise,   ltn::inst::Bitand{});
-			case OP::BIT_OR:       return bin(l, r, type::deduce_bitwise,   ltn::inst::Bitor{});
-			case OP::BIT_XOR:      return bin(l, r, type::deduce_bitwise,   ltn::inst::Bitxor{});
+			case OP::ADD:          return bin(l, r, add);
+			case OP::SUB:          return bin(l, r, sub);
+			case OP::MLT:          return bin(l, r, mlt);
+			case OP::DIV:          return bin(l, r, div);
+			case OP::MOD:          return bin(l, r, mod);
+			case OP::POW:          return bin(l, r, pow);
+			case OP::SMALLER:      return bin(l, r, lss);
+			case OP::BIGGER:       return bin(l, r, gtr);
+			case OP::SMALLEREQUAL: return bin(l, r, lss_eql);
+			case OP::BIGGEREQUAL:  return bin(l, r, gtr_eql);
+			case OP::EQUAL:        return bin(l, r, eql);
+			case OP::UNEQUEL:      return bin(l, r, ueql);
+			case OP::SPACE_SHIP:   return bin(l, r, comp3);
+			case OP::SHIFT_L:      return bin(l, r, shift_l);
+			case OP::SHIFT_R:      return bin(l, r, shift_r);
+			case OP::BIT_AND:      return bin(l, r, bit_and);
+			case OP::BIT_OR:       return bin(l, r, bit_or);
+			case OP::BIT_XOR:      return bin(l, r, bit_xor);
 			case OP::AND:          return log_and(l, r);
 			case OP::OR:           return log_or(l, r);
 			case OP::ELVIS:        return elvis(l, r);
