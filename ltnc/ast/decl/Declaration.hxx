@@ -30,11 +30,13 @@ namespace ltn::c::ast {
 		Static(
 			const SourceLocation & location,
 			const std::string & name,
-			const Namespace & namespaze) :
+			const Namespace & namespaze,
+			const type::Type & type) :
 				Declaration(location, name, namespaze),
-				id(++counter) {}
+				id(++counter), type{type} {}
 		
 		std::uint64_t id;
+		type::Type type;
 	private:
 		static inline std::uint64_t counter = 0;
 	};
@@ -45,8 +47,9 @@ namespace ltn::c::ast {
 		Definition(
 			const SourceLocation & location,
 			const std::string & name,
-			const Namespace & namespaze) :
-				Static(location, name, namespaze) {}
+			const Namespace & namespaze,
+			const type::Type & type) :
+				Static{location, name, namespaze, type} {}
 		virtual ~Definition() = default;
 		std::unique_ptr<ast::Expression> expr;
 	};
@@ -57,11 +60,11 @@ namespace ltn::c::ast {
 		Global(
 			const SourceLocation & location,
 			const std::string & name,
-			const Namespace & namespaze) :
-				Static(location, name, namespaze) {}
+			const Namespace & namespaze,
+			const type::Type & type) :
+				Static{location, name, namespaze,type} {}
 		virtual ~Global() = default;
 		std::unique_ptr<ast::Expression> expr;
-	private:
 	};
 
 

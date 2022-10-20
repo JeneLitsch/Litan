@@ -7,7 +7,7 @@ namespace ltn::c {
 	namespace {
 
 		// compile assignable variable
-		ExprCode compile_read_ref(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
+		ExprResult compile_read_ref(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
 			if(auto var = as<ast::Var>(expr)) {
 				const auto & local = scope.resolve(var->name, var->location);
 				return {
@@ -20,7 +20,7 @@ namespace ltn::c {
 				const auto arr = compile_expression(*index->expression, info, scope);
 				InstructionBuffer buf;
 				buf << arr.code;
-				return ExprCode{ 
+				return ExprResult{ 
 					.code = buf,
 					.deduced_type = arr.deduced_type,
 				};
@@ -29,11 +29,16 @@ namespace ltn::c {
 			if(auto e = as<ast::Member>(expr)) {
 				InstructionBuffer buf;
 				buf << compile_expression(*e->expr, info, scope).code;
-				return ExprCode{ buf };
+				return ExprResult{ buf };
 			}
 
-			if(as<ast::GlobalVar>(expr)) {
-				return {};
+			if(auto g = as<ast::GlobalVar>(expr)) {
+				auto global = info.global_table.resolve(g->name, scope.get_namespace(), g->namespaze);
+				if(!global) throw CompilerError{""};
+				return {
+					.code = {},
+					.deduced_type = global->type,
+				};
 			}
 			
 			throw std::runtime_error{"Unknow assingable type"};
@@ -107,7 +112,7 @@ namespace ltn::c {
 
 
 
-	StmtCode compile_assign(
+	StmtResult compile_assign(
 		const ast::Assign & expr,
 		CompilerInfo & info,
 		Scope & scope) {
@@ -125,7 +130,7 @@ namespace ltn::c {
 			expr.location
 		);
 		buf << l_write;
-		return StmtCode{ 
+		return StmtResult{ 
 			.code = buf,
 			.var_count = 0,
 			.direct_allocation = false,
@@ -134,7 +139,7 @@ namespace ltn::c {
 
 
 
-	StmtCode compile_modify(
+	StmtResult compile_modify(
 		const ast::Modify & expr,
 		CompilerInfo & info,
 		Scope & scope) {
@@ -183,7 +188,7 @@ namespace ltn::c {
 			expr.location
 		);
 		buf << l_write;			
-		return StmtCode{
+		return StmtResult{
 			.code = buf,
 			.var_count = 1,
 			.direct_allocation = true,
@@ -193,7 +198,7 @@ namespace ltn::c {
 
 
 	namespace {
-		ExprCode compile_new_variable_right(
+		ExprResult compile_new_variable_right(
 			const ast::NewVar & new_var,
 			CompilerInfo & info,
 			Scope & scope) {
@@ -204,7 +209,7 @@ namespace ltn::c {
 			else {
 				InstructionBuffer buf;
 				buf << ltn::inst::Null{};
-				return ExprCode {
+				return ExprResult {
 					.code = buf,
 					.deduced_type = type::Null{}, 
 				};
@@ -214,7 +219,7 @@ namespace ltn::c {
 
 
 
-	StmtCode compile_new_variable(const ast::NewVar & new_var, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_new_variable(const ast::NewVar & new_var, CompilerInfo & info, Scope & scope) {
 		const auto var = scope.insert(new_var.name, new_var.location, new_var.type);
 		const auto r = compile_new_variable_right(new_var, info, scope);
 		

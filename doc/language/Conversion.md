@@ -2,7 +2,7 @@
 
 ## Any
 
-Any type can be used as a value of type any. 
+All types can be used as a value of type any. 
 
 ## Integral
 

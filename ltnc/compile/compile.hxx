@@ -6,8 +6,8 @@
 #include "ltnc/Reporter.hxx"
 #include "ltnc/ast/Ast.hxx"
 #include "ltnc/compile/utils/CompilerInfo.hxx"
-#include "utils/StmtCode.hxx"
-#include "utils/ExprCode.hxx"
+#include "utils/StmtResult.hxx"
+#include "utils/ExprResult.hxx"
 
 #include "utils/Scope.hxx"
 #include "utils/MajorScope.hxx"
@@ -16,49 +16,49 @@
 namespace ltn::c {
 	// Functional
 	InstructionBuffer compile_functional(const ast::Functional &, CompilerInfo &);
-	ExprCode compile_lambda(const ast::Lambda &, CompilerInfo &, Scope &);
+	ExprResult compile_lambda(const ast::Lambda &, CompilerInfo &, Scope &);
 
 	// Statement
-	StmtCode compile_statement(const ast::Statement &, CompilerInfo &, Scope &);
-	StmtCode compile_block(const ast::Block &, CompilerInfo &, Scope &);
-	StmtCode compile_reTurn(const ast::Return &, CompilerInfo &, Scope &);
-	StmtCode compile_assign(const ast::Assign &, CompilerInfo &, Scope &);
-	StmtCode compile_modify(const ast::Modify &, CompilerInfo &, Scope &);
-	StmtCode compile_thr0w(const ast::Throw &, CompilerInfo &, Scope &);
-	StmtCode compile_init_member(const ast::InitMember &, CompilerInfo &, Scope &);
-	StmtCode compile_if_else(const ast::IfElse &, CompilerInfo &, Scope &);
-	StmtCode compile_infinite_loop(const ast::InfiniteLoop &, CompilerInfo &, Scope &);
-	StmtCode compile_while_loop(const ast::While &, CompilerInfo &, Scope &);
-	StmtCode compile_for_loop(const ast::For &, CompilerInfo &, Scope &);
-	StmtCode compile_new_variable(const ast::NewVar &, CompilerInfo &, Scope &);
-	StmtCode compile_stmt_switch(const ast::StmtSwitch &, CompilerInfo &, Scope &);
+	StmtResult compile_statement(const ast::Statement &, CompilerInfo &, Scope &);
+	StmtResult compile_block(const ast::Block &, CompilerInfo &, Scope &);
+	StmtResult compile_reTurn(const ast::Return &, CompilerInfo &, Scope &);
+	StmtResult compile_assign(const ast::Assign &, CompilerInfo &, Scope &);
+	StmtResult compile_modify(const ast::Modify &, CompilerInfo &, Scope &);
+	StmtResult compile_thr0w(const ast::Throw &, CompilerInfo &, Scope &);
+	StmtResult compile_init_member(const ast::InitMember &, CompilerInfo &, Scope &);
+	StmtResult compile_if_else(const ast::IfElse &, CompilerInfo &, Scope &);
+	StmtResult compile_infinite_loop(const ast::InfiniteLoop &, CompilerInfo &, Scope &);
+	StmtResult compile_while_loop(const ast::While &, CompilerInfo &, Scope &);
+	StmtResult compile_for_loop(const ast::For &, CompilerInfo &, Scope &);
+	StmtResult compile_new_variable(const ast::NewVar &, CompilerInfo &, Scope &);
+	StmtResult compile_stmt_switch(const ast::StmtSwitch &, CompilerInfo &, Scope &);
 
 	// Expression
-	ExprCode compile_expression(const ast::Expression &, CompilerInfo &, Scope &);
-	ExprCode compile_expr_switch(const ast::ExprSwitch &, CompilerInfo &, Scope &);
-	ExprCode compile_ternary(const ast::Ternary &, CompilerInfo &, Scope &);
-	ExprCode compile_binary(const ast::Binary &, CompilerInfo &, Scope &);
-	ExprCode compile_unary(const ast::Unary &, CompilerInfo &, Scope &);
-	ExprCode compile_integer(const ast::Integer &);
-	ExprCode compile_floating(const ast::Float &);
-	ExprCode compile_boolean(const ast::Bool &);
-	ExprCode compile_character(const ast::Char &);
-	ExprCode compile_null(const ast::Null &);
-	ExprCode compile_string(const ast::String &);
-	ExprCode compile_array(const ast::Array &, CompilerInfo &, Scope &);
-	ExprCode compile_call(const ast::Call &, CompilerInfo &, Scope &);
-	ExprCode compile_index(const ast::Index &, CompilerInfo &, Scope &);
-	ExprCode compile_fxPointer(const ast::FxPointer &, CompilerInfo &, Scope &);
-	ExprCode compile_invokation(const ast::Invokation &, CompilerInfo &, Scope &);
-	ExprCode compile_iife(const ast::Iife &, CompilerInfo &, Scope &);
-	ExprCode compile_index(const ast::Index &, CompilerInfo &, Scope &);
-	ExprCode compile_addr(const ast::Var &, Scope &);
-	ExprCode compile_read_variable(const ast::Var & expr, CompilerInfo &, Scope &);
-	ExprCode compile_read_member_access(const ast::Member &, CompilerInfo &, Scope &);
-	ExprCode compile_read_static(const ast::GlobalVar & global, CompilerInfo & info, Scope &);
-	ExprCode compile_write_static(const ast::GlobalVar & global, CompilerInfo & info, Scope &);
-	ExprCode compile_read_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope &);
-	ExprCode compile_write_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope &);
+	ExprResult compile_expression(const ast::Expression &, CompilerInfo &, Scope &);
+	ExprResult compile_expr_switch(const ast::ExprSwitch &, CompilerInfo &, Scope &);
+	ExprResult compile_ternary(const ast::Ternary &, CompilerInfo &, Scope &);
+	ExprResult compile_binary(const ast::Binary &, CompilerInfo &, Scope &);
+	ExprResult compile_unary(const ast::Unary &, CompilerInfo &, Scope &);
+	ExprResult compile_integer(const ast::Integer &);
+	ExprResult compile_floating(const ast::Float &);
+	ExprResult compile_boolean(const ast::Bool &);
+	ExprResult compile_character(const ast::Char &);
+	ExprResult compile_null(const ast::Null &);
+	ExprResult compile_string(const ast::String &);
+	ExprResult compile_array(const ast::Array &, CompilerInfo &, Scope &);
+	ExprResult compile_call(const ast::Call &, CompilerInfo &, Scope &);
+	ExprResult compile_index(const ast::Index &, CompilerInfo &, Scope &);
+	ExprResult compile_fxPointer(const ast::FxPointer &, CompilerInfo &, Scope &);
+	ExprResult compile_invokation(const ast::Invokation &, CompilerInfo &, Scope &);
+	ExprResult compile_iife(const ast::Iife &, CompilerInfo &, Scope &);
+	ExprResult compile_index(const ast::Index &, CompilerInfo &, Scope &);
+	ExprResult compile_addr(const ast::Var &, Scope &);
+	ExprResult compile_read_variable(const ast::Var & expr, CompilerInfo &, Scope &);
+	ExprResult compile_read_member_access(const ast::Member &, CompilerInfo &, Scope &);
+	ExprResult compile_read_static(const ast::GlobalVar & global, CompilerInfo & info, Scope &);
+	ExprResult compile_write_static(const ast::GlobalVar & global, CompilerInfo & info, Scope &);
+	ExprResult compile_read_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope &);
+	ExprResult compile_write_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope &);
 
 	// utils
 	void guard_const(

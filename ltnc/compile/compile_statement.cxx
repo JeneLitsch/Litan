@@ -1,6 +1,6 @@
 #include "compile.hxx"
 namespace ltn::c {
-	StmtCode compile_expr_stmt(const ast::StatementExpression & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_expr_stmt(const ast::StatementExpression & stmt, CompilerInfo & info, Scope & scope) {
 		const auto code = compile_expression(*stmt.expression, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
@@ -10,7 +10,7 @@ namespace ltn::c {
 
 
 
-	StmtCode compile_statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope) {
 		if(auto block = as<ast::Block>(stmt)) {
 			return compile_block(*block, info, scope);
 		}
@@ -45,7 +45,7 @@ namespace ltn::c {
 			return compile_expr_stmt(*exprstmt, info, scope);
 		}
 		if(as<ast::DoNothing>(stmt)) {
-			return StmtCode{{}, 0};
+			return StmtResult{{}, 0};
 		}
 		if(auto assign = as<ast::Assign>(stmt)) {
 			return compile_assign(*assign, info, scope);

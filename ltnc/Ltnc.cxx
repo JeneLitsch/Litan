@@ -44,9 +44,9 @@ namespace ltn::c {
 
 		ast::GlobalVar accessor(const ast::Global & def) {
 			return ast::GlobalVar {
+				def.location,
 				def.namespaze,
-				def.name,
-				def.location
+				def.name
 			};
 		}
 

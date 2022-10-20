@@ -1,7 +1,7 @@
 #include "compile.hxx"
 namespace ltn::c {
 	// compiles -> code block {...}
-	StmtCode compile_block(const ast::Block & block, CompilerInfo & info, Scope & parent) {
+	StmtResult compile_block(const ast::Block & block, CompilerInfo & info, Scope & parent) {
 		MinorScope scope { &parent };
 		InstructionBuffer buf;
 		std::size_t locals = 0;

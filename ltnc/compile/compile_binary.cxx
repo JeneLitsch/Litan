@@ -5,9 +5,9 @@ namespace ltn::c {
 		using OP = ltn::c::ast::Binary::Type;
 		
 		
-		ExprCode bin(
-			const ExprCode & l,
-			const ExprCode & r,
+		ExprResult bin(
+			const ExprResult & l,
+			const ExprResult & r,
 			const auto & deduce_type,
 			const auto ... inst) {
 			InstructionBuffer buf;
@@ -19,7 +19,7 @@ namespace ltn::c {
 
 
 
-		ExprCode log_and(const ExprCode & l, const ExprCode & r) {
+		ExprResult log_and(const ExprResult & l, const ExprResult & r) {
 			const auto id = make_jump_id("AND");
 			const auto end = id + "_END";
 			const auto falsE = id + "FALSE";
@@ -44,7 +44,7 @@ namespace ltn::c {
 
 
 
-		ExprCode log_or(const ExprCode & l, const ExprCode & r) {
+		ExprResult log_or(const ExprResult & l, const ExprResult & r) {
 			const auto id = make_jump_id("OR");
 			const auto end = id + "_END";
 			const auto truE = id + "_TRUE";
@@ -70,7 +70,7 @@ namespace ltn::c {
 
 
 
-		ExprCode elvis(const ExprCode & l, const ExprCode & r) {
+		ExprResult elvis(const ExprResult & l, const ExprResult & r) {
 			const auto jumpmark = make_jump_id("ELVIS");
 			const auto jumpmark_else = jumpmark + "_ELSE"; 
 			const auto jumpmark_end = jumpmark + "_END"; 
@@ -95,7 +95,7 @@ namespace ltn::c {
 
 
 
-		ExprCode nullco(const ExprCode & l, const ExprCode & r) {
+		ExprResult nullco(const ExprResult & l, const ExprResult & r) {
 			const auto jumpmark = make_jump_id("NULLCO");
 			const auto jumpmark_else = jumpmark + "_ELSE"; 
 			const auto jumpmark_end = jumpmark + "_END"; 
@@ -122,7 +122,7 @@ namespace ltn::c {
 
 
 	// compiles a binary operation
-	ExprCode compile_binary(const ast::Binary & binary, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_binary(const ast::Binary & binary, CompilerInfo & info, Scope & scope) {
 		const auto l = compile_expression(*binary.l, info, scope);
 		const auto r = compile_expression(*binary.r, info, scope);
 		switch (binary.type) {

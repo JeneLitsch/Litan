@@ -292,9 +292,10 @@ namespace ltn::c {
 			if(auto t = match(TT::GLOBAL, tokens)) {
 				const auto [name, namespaze] = parse_symbol(tokens);
 				return std::make_unique<ast::GlobalVar>(
+					t->location,
 					namespaze,
-					name,
-					t->location);
+					name
+				);
 			}
 			else return nullptr; 
 		}

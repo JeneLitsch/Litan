@@ -17,7 +17,7 @@ namespace ltn::c {
 		return name + "_TO";
 	}
 
-	StmtCode compile_while_loop(const ast::While & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_while_loop(const ast::While & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		MinorScope loop_scope { &scope }; 
 		
@@ -43,7 +43,7 @@ namespace ltn::c {
 
 
 
-	StmtCode compile_infinite_loop(const ast::InfiniteLoop & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_infinite_loop(const ast::InfiniteLoop & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		MinorScope loop_scope { &scope }; 
 		
@@ -63,7 +63,7 @@ namespace ltn::c {
 
 
 
-	StmtCode compile_for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		MinorScope loop_scope { &scope };
 
@@ -121,6 +121,6 @@ namespace ltn::c {
 			<< ltn::inst::Jump{ begin }
 			<< ltn::inst::Label{ end };
 
-		return StmtCode{ buf, body.var_count + 3 };
+		return StmtResult{ buf, body.var_count + 3 };
 	}
 }

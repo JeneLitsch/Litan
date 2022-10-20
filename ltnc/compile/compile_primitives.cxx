@@ -2,7 +2,7 @@
 #include <string_view>
 namespace ltn::c {
 	// compiles int literal
-	ExprCode compile_integer(const ast::Integer & expr) {
+	ExprResult compile_integer(const ast::Integer & expr) {
 		InstructionBuffer buf;
 		buf << ltn::inst::Newi{expr.value};
 		return {
@@ -14,7 +14,7 @@ namespace ltn::c {
 
 
 	// compiles float literal
-	ExprCode compile_floating(const ast::Float & expr) {
+	ExprResult compile_floating(const ast::Float & expr) {
 		InstructionBuffer buf;
 		buf << ltn::inst::Newf{expr.value};
 		return { 
@@ -26,7 +26,7 @@ namespace ltn::c {
 
 
 	// compiles bool literal
-	ExprCode compile_boolean(const ast::Bool & expr) {
+	ExprResult compile_boolean(const ast::Bool & expr) {
 		InstructionBuffer buf;
 		if(expr.value) {
 			buf << ltn::inst::True{};
@@ -34,7 +34,7 @@ namespace ltn::c {
 		else {
 			buf << ltn::inst::False{};
 		}
-		return ExprCode{ 
+		return ExprResult{ 
 			.code = buf,
 			.deduced_type = type::Bool{}
 		};
@@ -43,10 +43,10 @@ namespace ltn::c {
 
 
 	// compiles null literal
-	ExprCode compile_null(const ast::Null &) {
+	ExprResult compile_null(const ast::Null &) {
 		InstructionBuffer buf;
 		buf << ltn::inst::Null{};
-		return ExprCode{ 
+		return ExprResult{ 
 			.code = buf,
 			.deduced_type = type::Null{}
 		};
@@ -54,10 +54,10 @@ namespace ltn::c {
 
 
 	// compiles bool literal
-	ExprCode compile_character(const ast::Char & expr) {
+	ExprResult compile_character(const ast::Char & expr) {
 		InstructionBuffer buf;
 		buf << ltn::inst::Newc{static_cast<std::uint8_t>(expr.value)};
-		return ExprCode{
+		return ExprResult{
 			.code = buf,
 			.deduced_type = type::Char{}
 		};
@@ -66,11 +66,11 @@ namespace ltn::c {
 
 
 	// compiles string literal
-	ExprCode compile_string(const ast::String & expr) {
+	ExprResult compile_string(const ast::String & expr) {
 		InstructionBuffer buf;
 		std::vector<std::uint8_t> bytes {std::begin(expr.value), std::end(expr.value)};
 		buf << ltn::inst::Newstr{ bytes };
-		return ExprCode{
+		return ExprResult{
 			.code = buf,
 			.deduced_type = type::String{}
 		};

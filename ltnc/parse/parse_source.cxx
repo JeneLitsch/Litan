@@ -58,11 +58,15 @@ namespace ltn::c {
 			if(!name) throw CompilerError {
 				"Expected name after global declaration",
 			};
+			
+			const auto type = parse_var_type(tokens);
 
 			auto global = std::make_unique<ast::Global>(
 				name->location,
 				name->str,
-				namespaze);
+				namespaze,
+				type
+			);
 
 			if(match(TT::ASSIGN, tokens)) {
 				global->expr = parse_expression(tokens);

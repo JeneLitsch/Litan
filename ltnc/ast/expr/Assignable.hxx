@@ -40,9 +40,9 @@ namespace ltn::c::ast {
 	struct GlobalVar final : public Assignable {
 	public:
 		GlobalVar(
+			const SourceLocation & location,
 			const Namespace & namespaze,
-			const std::string & name,
-			const SourceLocation & location) :
+			const std::string & name) :
 				Assignable(location),
 				name { name },
 				namespaze { namespaze } {}

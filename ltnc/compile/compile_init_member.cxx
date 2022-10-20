@@ -1,6 +1,6 @@
 #include "compile.hxx"
 namespace ltn::c {
-	StmtCode compile_init_member(const ast::InitMember & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_init_member(const ast::InitMember & stmt, CompilerInfo & info, Scope & scope) {
 		const auto obj = scope.resolve("obj", stmt.location);
 		const auto var = scope.resolve(stmt.param, stmt.location);
 		const auto mem = info.member_table.get_id(stmt.member);
@@ -12,6 +12,6 @@ namespace ltn::c {
 			<< ltn::inst::Readx{obj.address}
 			<< ltn::inst::MemberWrite{mem};
 		
-		return StmtCode{buf, 0, false};
+		return StmtResult{buf, 0, false};
 	}
 }

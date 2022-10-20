@@ -11,10 +11,10 @@ namespace ltn::c {
 
 
 
-		ExprCode compile_read_local_variable(const Variable & var) {
+		ExprResult compile_read_local_variable(const Variable & var) {
 			InstructionBuffer buf;
 			buf << ltn::inst::Readx { var.address };
-			return ExprCode{ 
+			return ExprResult{ 
 				.code = buf,
 				.deduced_type = var.type
 			};
@@ -22,7 +22,7 @@ namespace ltn::c {
 
 
 
-		ExprCode compile_read_definition(const ast::Definition & definition, CompilerInfo & info) {
+		ExprResult compile_read_definition(const ast::Definition & definition, CompilerInfo & info) {
 			MajorScope s{definition.namespaze, false};
 			return compile_expression(*definition.expr, info, s);
 		}
@@ -61,7 +61,7 @@ namespace ltn::c {
 
 
 	// compiles an variable read accessc
-	ExprCode compile_read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
 		try {
 			const auto var = scope.resolve(expr.name, expr.location);
 			return compile_read_local_variable(var);
@@ -77,7 +77,7 @@ namespace ltn::c {
 	}
 
 	
-	ExprCode compile_read_member_access(
+	ExprResult compile_read_member_access(
 		const ast::Member & access,
 		CompilerInfo & info,
 		Scope & scope) {
@@ -86,6 +86,6 @@ namespace ltn::c {
 		buf << compile_expression(*access.expr, info, scope).code;
 		const auto id = info.member_table.get_id(access.name);
 		buf << ltn::inst::MemberRead{id};
-		return ExprCode{ buf };
+		return ExprResult{ buf };
 	}
 }

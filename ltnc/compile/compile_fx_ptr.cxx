@@ -1,7 +1,7 @@
 #include "compile.hxx"
 #include <string_view>
 namespace ltn::c {
-	ExprCode compile_fxPointer(
+	ExprResult compile_fxPointer(
 		const ast::FxPointer & ptr,
 		CompilerInfo & info,
 		Scope & scope) {

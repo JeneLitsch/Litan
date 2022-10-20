@@ -6,7 +6,7 @@ namespace ltn::c {
 	}
 
 
-	StmtCode compile_if_else(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_if_else(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope) {
 		MinorScope if_scope{&scope};
 
 		const auto name = make_jump_id("IF");

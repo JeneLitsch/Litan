@@ -20,45 +20,50 @@ namespace ltn::c {
 			return CompilerError { oss.str(), def.location };
 		}
 
-		std::uint64_t resolve_address(const auto & statik, auto & table, Scope & scope) {
+		auto & resolve_static(const auto & statik, auto & table, Scope & scope) {
 			const auto static_var = table.resolve(
 				statik.name,
 				scope.get_namespace(),
 				statik.namespaze);
 
 			if(!static_var) throw undefined(statik);
-			return static_var->id;
+			return *static_var;
 		}
 	}
 
-	ExprCode compile_read_static(const ast::GlobalVar & global, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_read_static(const ast::GlobalVar & global_var, CompilerInfo & info, Scope & scope) {
+		auto & global = resolve_static(global_var, info.global_table, scope);
 		InstructionBuffer buf;
-		buf << ltn::inst::GlobalRead { resolve_address(global, info.global_table, scope) };
-		return ExprCode{ buf };
+		buf << ltn::inst::GlobalRead { global.id };
+		return ExprResult{ 
+			.code = buf,
+			.deduced_type = global.type
+		};
 	}
 
 
 
-	ExprCode compile_write_static(const ast::GlobalVar & global, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_write_static(const ast::GlobalVar & global_var, CompilerInfo & info, Scope & scope) {
+		auto & global = resolve_static(global_var, info.global_table, scope);
 		InstructionBuffer buf;
-		buf << ltn::inst::GlobalWrite{ resolve_address(global, info.global_table, scope) };
-		return ExprCode{ buf };
+		buf << ltn::inst::GlobalWrite{ global.id };
+		return ExprResult{ buf };
 	}
 
 
 
-	ExprCode compile_read_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_read_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope & scope) {
 		InstructionBuffer buf;
-		buf << ltn::inst::GlobalRead { resolve_address(def, info.definition_table, scope) };
-		return ExprCode{ buf };
+		buf << ltn::inst::GlobalRead { resolve_static(def, info.definition_table, scope).id };
+		return ExprResult{ buf };
 	}
 
 
 
-	ExprCode compile_write_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_write_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope & scope) {
 		InstructionBuffer buf;
-		buf << ltn::inst::GlobalWrite{ resolve_address(def, info.definition_table, scope) };
-		return ExprCode{ buf };
+		buf << ltn::inst::GlobalWrite{ resolve_static(def, info.definition_table, scope).id };
+		return ExprResult{ buf };
 	}
 
 

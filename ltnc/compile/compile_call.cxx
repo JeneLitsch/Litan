@@ -14,7 +14,7 @@ namespace ltn::c {
 
 
 	// compiles function call fx(...)
-	ExprCode compile_call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
 		const auto fx = info.fx_table.resolve(
 			call.name,
 			scope.get_namespace(),
@@ -46,7 +46,7 @@ namespace ltn::c {
 
 		buf << ltn::inst::Call{fx->id};
 		
-		return ExprCode{
+		return ExprResult{
 			.code = buf,
 			.deduced_type = fx->return_type,
 		};

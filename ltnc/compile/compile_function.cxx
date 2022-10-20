@@ -134,7 +134,7 @@ namespace ltn::c {
 
 
 
-	ExprCode compile_lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & outer_scope) {
+	ExprResult compile_lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & outer_scope) {
 		const auto & fx = *lm.fx;
 		InstructionBuffer buf;
 		

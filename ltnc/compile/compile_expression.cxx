@@ -2,7 +2,7 @@
 
 
 namespace ltn::c {
-	ExprCode compile_decltype(const ast::DeclType & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_decltype(const ast::DeclType & expr, CompilerInfo & info, Scope & scope) {
 		const auto result = compile_expression(*expr.expression, info, scope);
 		const auto type = result.deduced_type;
 		const auto name = type::to_string(type);
@@ -21,7 +21,7 @@ namespace ltn::c {
 
 
 	// compiles any expression
-	ExprCode compile_expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		if(auto binary = as<ast::Binary>(expr)) {
 			return compile_binary(*binary, info, scope);
 		}

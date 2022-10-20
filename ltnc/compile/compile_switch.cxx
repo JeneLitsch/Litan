@@ -20,7 +20,7 @@ namespace ltn::c {
 			true
 		};
 
-		std::vector<std::pair<ExprCode, BodyExpr>> cases;
+		std::vector<std::pair<ExprResult, BodyExpr>> cases;
 
 		for(const auto & [expr, body] : sw1tch.cases) {
 			cases.push_back({
@@ -72,7 +72,7 @@ namespace ltn::c {
 
 
 
-	StmtCode compile_stmt_switch(const ast::StmtSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt_switch(const ast::StmtSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
 		const auto condition = compile_expression(*sw1tch.condition, info, scope);
 		const auto cases = compile_cases(compile_statement, sw1tch, info, scope);
 		const auto def4ault = compile_statement(*sw1tch.d3fault, info, scope);
@@ -86,7 +86,7 @@ namespace ltn::c {
 
 
 
-	ExprCode compile_expr_switch(const ast::ExprSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr_switch(const ast::ExprSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
 		const auto condition = compile_expression(*sw1tch.condition, info, scope);
 		const auto cases = compile_cases(compile_expression, sw1tch, info, scope);
 		const auto def4ault = compile_expression(*sw1tch.d3fault, info, scope);

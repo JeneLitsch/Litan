@@ -33,6 +33,9 @@
 // 	std::println(decltype((&fx1(_,_))()).name);
 // }
 
+global a : int = 1;
+define b : int = 1;
+
 function to_char(i : int, x : int) -> char {
 	return 'A';
 }
@@ -44,4 +47,12 @@ function main() {
 	};
 	std::println(fx);
 	std::println(i);
+	std::println(global a);
+	std::println(b);
+
+	var x : int = global a;
+
+	global a = 1;
+	
+	std::println(global a);
 }

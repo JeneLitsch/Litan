@@ -4,7 +4,7 @@
 
 namespace ltn::c {
 	// compiles -> return...;
-	StmtCode compile_reTurn(const ast::Return & ret, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_reTurn(const ast::Return & ret, CompilerInfo & info, Scope & scope) {
 		InstructionBuffer buf;
 		if(ret.expression) {
 			auto code = compile_expression(*ret.expression, info, scope);

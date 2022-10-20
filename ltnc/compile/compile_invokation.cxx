@@ -1,7 +1,7 @@
 #include "compile.hxx"
 #include <string_view>
 namespace ltn::c {
-	ExprCode compile_invokation(
+	ExprResult compile_invokation(
 		const ast::Invokation & invoke,
 		CompilerInfo & info,
 		Scope & scope) {

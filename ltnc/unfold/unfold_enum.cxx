@@ -10,7 +10,9 @@ namespace ltn::c {
 			auto defintion = std::make_unique<ast::Definition>(
 				value->location,
 				name,
-				namespaze); 
+				namespaze,
+				type::Int{}
+			); 
 			defintion->expr = std::move(value);
 			defintions.push_back(std::move(defintion));
 		}

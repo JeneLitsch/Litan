@@ -2,12 +2,12 @@
 
 namespace ltn::c {
 
-	ExprCode compile_negate(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_negate(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		const auto code = compile_expression(expr, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
 		buf << ltn::inst::Neg{};
-		return ExprCode{ 
+		return ExprResult{ 
 			.code = buf,
 			.deduced_type = type::deduce_neg(code.deduced_type)
 		};
@@ -15,37 +15,37 @@ namespace ltn::c {
 
 
 
-	ExprCode compile_notigate (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_notigate (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		const auto code = compile_expression(expr, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
 		buf << ltn::inst::Not{};
-		return ExprCode{
+		return ExprResult{
 			.code = buf,
 			.deduced_type = type::deduce_not(code.deduced_type),
 		};
 	}
 
 
-	ExprCode compile_null_test (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_null_test (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		const auto code = compile_expression(expr, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
 		buf << ltn::inst::Null{};
 		buf << ltn::inst::Ueql{};
-		return ExprCode{ 
+		return ExprResult{ 
 			.code = buf,
 			.deduced_type = type::deduce_nulltest(code.deduced_type),
 		};
 	}
 
 
-	ExprCode compile_bit_not (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_bit_not (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
 		const auto code = compile_expression(expr, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
 		buf << ltn::inst::Bitnot{};
-		return ExprCode{
+		return ExprResult{
 			.code = buf,
 			.deduced_type = type::deduce_bitnot(code.deduced_type),
 		};
@@ -53,7 +53,7 @@ namespace ltn::c {
 	
 
 
-	ExprCode compile_unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_unary(const ast::Unary & expr, CompilerInfo & info, Scope & scope) {
 		using UT = ast::Unary::Type;
 		const auto & inner = *expr.expression;
 		
