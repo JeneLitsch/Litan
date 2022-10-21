@@ -47,6 +47,22 @@ namespace ltn::c::ast {
 
 
 
+	struct StaticCast final : public Primary {
+	public:
+		StaticCast(
+			const type::Type & type,
+			std::unique_ptr<Expression> expr,
+			const SourceLocation & location)
+			:	Primary(location),
+				type{type},
+				expr{std::move(expr)} {}
+		virtual ~StaticCast() = default;
+		type::Type type;
+		std::unique_ptr<Expression> expr;
+	};
+
+
+
 	struct DefinitionValue final : public Primary {
 	public:
 		DefinitionValue(

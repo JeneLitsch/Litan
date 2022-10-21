@@ -5,6 +5,7 @@
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
 #include "ltnc/type/Type.hxx"
+#include "ltnc/parse/BraceTracker.hxx"
 
 namespace ltn::c {
 
@@ -33,6 +34,8 @@ namespace ltn::c {
 	ast::expr_ptr parse_assign(Tokens & tokens);
 	ast::expr_ptr parse_assign_r(Tokens & tokens);
 	ast::expr_ptr parse_expr_switch(Tokens & tokens);
+
+	ast::expr_ptr parse_static_cast(Tokens & tokens);
 
 	ast::expr_ptr parse_expression(Tokens & tokens);
 	ast::expr_ptr parse_conditional(Tokens & tokens);
@@ -90,6 +93,7 @@ namespace ltn::c {
 
 
 	type::Type parse_type(Tokens & tokens);
+	type::Type parse_type(Tokens & tokens, BraceTracker & brace_tracker);
 	type::Type parse_var_type(Tokens & tokens);
 	type::Type parse_return_type(Tokens & tokens);
 }

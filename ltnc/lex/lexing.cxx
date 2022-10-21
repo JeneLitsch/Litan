@@ -119,6 +119,7 @@ namespace ltn::c::lex {
 			{"default",     TT::DEFAULT},
 			{"global",      TT::GLOBAL},
 			{"decltype",    TT::DECLTYPE},
+			{"static_cast", TT::STATIC_CAST},
 		};
 		
 

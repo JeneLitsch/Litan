@@ -49,4 +49,6 @@ function main() {
 
 	var i : int   = i1 + i2;
 	var f : float = f1 + f2;
+
+	var x : int = static_cast<int>(f); 
 }
