@@ -88,6 +88,9 @@ namespace ltn::c {
 		if(auto invoke = as<ast::DeclType>(expr)) {
 			return compile_decltype(*invoke, info, scope);
 		}
+		if(auto cast = as<ast::StaticCast>(expr)) {
+			return compile_static_cast(*cast, info, scope);
+		}
 		throw CompilerError{"Unknown Expression"};
 	}
 

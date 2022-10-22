@@ -50,5 +50,7 @@ function main() {
 	var i : int   = i1 + i2;
 	var f : float = f1 + f2;
 
-	var x : int = static_cast<int>(f); 
+	var x = static_cast<char>(65.5); 
+	std::println(x);
+	std::println(std::typename(x));
 }

@@ -53,12 +53,13 @@ namespace ltn::c {
 	ExprResult compile_iife(const ast::Iife &, CompilerInfo &, Scope &);
 	ExprResult compile_index(const ast::Index &, CompilerInfo &, Scope &);
 	ExprResult compile_addr(const ast::Var &, Scope &);
-	ExprResult compile_read_variable(const ast::Var & expr, CompilerInfo &, Scope &);
+	ExprResult compile_read_variable(const ast::Var &, CompilerInfo &, Scope &);
 	ExprResult compile_read_member_access(const ast::Member &, CompilerInfo &, Scope &);
-	ExprResult compile_read_static(const ast::GlobalVar & global, CompilerInfo & info, Scope &);
-	ExprResult compile_write_static(const ast::GlobalVar & global, CompilerInfo & info, Scope &);
-	ExprResult compile_read_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope &);
-	ExprResult compile_write_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope &);
+	ExprResult compile_read_static(const ast::GlobalVar &, CompilerInfo &, Scope &);
+	ExprResult compile_write_static(const ast::GlobalVar &, CompilerInfo &, Scope &);
+	ExprResult compile_read_static(const ast::DefinitionValue &, CompilerInfo &, Scope &);
+	ExprResult compile_write_static(const ast::DefinitionValue &, CompilerInfo &, Scope &);
+	ExprResult compile_static_cast(const ast::StaticCast &, CompilerInfo &, Scope &);
 
 	// utils
 	void guard_const(
