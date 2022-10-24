@@ -133,6 +133,7 @@ namespace ltn::vm::inst {
 	void contains(VmCore & core);
 	void empty(VmCore & core);
 	
+	void cast(VmCore & core);
 	void cast_bool(VmCore & core);
 	void cast_char(VmCore & core);
 	void cast_int(VmCore & core);

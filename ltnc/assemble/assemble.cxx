@@ -115,6 +115,15 @@ namespace ltn::c {
 				bytecode.push_back(byte);
 			}
 		}
+		void assemble_args(
+			std::vector<std::uint8_t> & bytecode,
+			const BytexX_0 & args,
+			const AddressTable &) {
+			for(const auto byte : args.bytes) {
+				bytecode.push_back(byte);
+			}
+			bytecode.push_back(0); // Add null terminator
+		}
 
 
 

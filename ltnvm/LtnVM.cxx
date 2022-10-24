@@ -162,6 +162,7 @@ namespace ltn::vm {
 		table[OpCode::CONTAINS] = inst::contains;
 		table[OpCode::EMPTY] = inst::empty;
 
+		table[OpCode::CAST] = inst::cast;
 		table[OpCode::CAST_BOOL] = inst::cast_bool;
 		table[OpCode::CAST_CHAR] = inst::cast_char;
 		table[OpCode::CAST_INT] = inst::cast_int;

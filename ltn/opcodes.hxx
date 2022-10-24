@@ -146,7 +146,8 @@ namespace ltn {
 		EMPTY,
 
 		// Cast
-		CAST_BOOL = 0xb0,
+		CAST = 0xb0,
+		CAST_BOOL,
 		CAST_CHAR,
 		CAST_INT,
 		CAST_FLOAT,

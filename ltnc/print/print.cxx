@@ -65,6 +65,15 @@ namespace ltn::c {
 			return ss.str();
 		}
 
+		std::string print_args(const BytexX_0 & args) {
+			std::ostringstream ss;
+			ss << args.bytes.size() << " ";
+			for(const char byte : args.bytes) {
+				ss << static_cast<std::uint16_t>(byte) << " ";
+			}
+			return ss.str();
+		}
+
 
 
 		std::string print_instruction(const inst::ExecInst & inst) {

@@ -191,6 +191,7 @@ namespace ltn::inst {
 	using Contains = GenericInst<OpCode::CONTAINS, "contains", args::None>;
 	using Empty = GenericInst<OpCode::EMPTY, "empty", args::None>;
 
+	using Cast = GenericInst<OpCode::CAST, "cast", args::BytexX_0>;
 	using CastBool = GenericInst<OpCode::CAST_BOOL, "cast_bool", args::None>;
 	using CastChar = GenericInst<OpCode::CAST_CHAR, "cast_char", args::None>;
 	using CastInt = GenericInst<OpCode::CAST_INT, "cast_int", args::None>;

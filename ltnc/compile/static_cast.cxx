@@ -1,4 +1,6 @@
 #include <sstream>
+#include "stdxx/array.hxx"
+#include "ltn/CastType.hxx"
 #include "ltnc/compile/static_cast.hxx"
 #include "ltnc/type/check.hxx"
 #include "ltnc/CompilerError.hxx"
@@ -57,6 +59,27 @@ namespace ltn::c {
 			if(type::is_numeric(from)) return { inst::CastFloat{} };
 			throw cannot_cast(from, to, location);
 		}
+
+
+
+		std::vector<std::uint8_t> to_type_code(
+			const type::Type & from,
+			const type::Type & to,
+			const SourceLocation & location) {
+			
+			if(type::is_bool(to))  return { ltn::type_code::BOOL };
+			if(type::is_char(to))  return { ltn::type_code::CHAR };
+			if(type::is_int(to))   return { ltn::type_code::INT };
+			if(type::is_float(to)) return { ltn::type_code::FLOAT };
+			if(type::is_array(to)) {
+				const auto & to_contained = **to.as<type::Array>()->contains;
+				const auto & from_contained = **from.as<type::Array>()->contains;
+				std::vector<std::uint8_t> type_code;
+				type_code += ltn::type_code::ARRAY;
+				type_code += to_type_code(from_contained, to_contained, location);
+				return type_code; 
+			} 
+		}
 	}
 
 
@@ -70,6 +93,6 @@ namespace ltn::c {
 		if(type::is_char(to))  return cast_to_char(from, to, location);
 		if(type::is_int(to))   return cast_to_int(from, to, location);
 		if(type::is_float(to)) return cast_to_float(from, to, location);
-		throw cannot_cast(from, to, location);
+		return { inst::Cast{ to_type_code(from, to, location) }};
 	}
 }

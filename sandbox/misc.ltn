@@ -33,24 +33,38 @@
 // 	std::println(decltype((&fx1(_,_))()).name);
 // }
 
-global a : int = 1;
-define b : int = 1;
+// global a : int = 1;
+// define b : int = 1;
 
-function to_char(i : int, x : int) -> char {
-	return 'A';
-}
+// function to_char(i : int, x : int) -> char {
+// 	return 'A';
+// }
+
+// function main() {
+// 	var i1 : int  = 1;
+// 	var i2 : int  = 1;
+
+// 	var f1 : float = 1.0;
+// 	var f2 : float = 1.0;
+
+// 	var i : int   = i1 + i2;
+// 	var f : float = f1 + f2;
+
+// 	var x = static_cast<char>(65.5); 
+// 	std::println(x);
+// 	std::println(std::typename(x));
+// }
 
 function main() {
-	var i1 : int  = 1;
-	var i2 : int  = 1;
+	var bool_array : array<bool>   = [true, false, true];
+	var int_array : array<int>     = static_cast<array<int>>(bool_array);
+	var float_array : array<float> = static_cast<array<float>>(bool_array);
+	std::println(bool_array);
+	std::println(int_array);
+	std::println(float_array);
 
-	var f1 : float = 1.0;
-	var f2 : float = 1.0;
-
-	var i : int   = i1 + i2;
-	var f : float = f1 + f2;
-
-	var x = static_cast<char>(65.5); 
-	std::println(x);
-	std::println(std::typename(x));
+	var aab : array<array<bool>>   = [[true, false, true], [true, false, true]];
+	var aai : array<array<int>>    = static_cast<array<array<int>>>(aab);
+	std::println(aab);
+	std::println(aai);
 }

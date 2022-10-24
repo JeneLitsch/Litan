@@ -79,6 +79,13 @@ namespace ltn::inst::args {
 		bool operator==(const Uint64_BytexX &) const = default;
 	};
 
+
+	struct BytexX_0 {
+		std::vector<std::uint8_t> bytes;
+
+		bool operator==(const BytexX_0 &) const = default;
+	};
+
 	using Args = std::variant<
 		args::None,
 		args::Uint64,
@@ -89,7 +96,8 @@ namespace ltn::inst::args {
 		args::Int64,
 		args::Float,
 		args::Byte,
-		args::Uint64_BytexX>;
+		args::Uint64_BytexX,
+		args::BytexX_0>;
 
 	inline std::size_t size(const auto & args) {
 		return args.size;
@@ -97,5 +105,9 @@ namespace ltn::inst::args {
 
 	inline std::size_t size(const Uint64_BytexX & args) {
 		return 9 + args.bytes.size();
+	}
+
+	inline std::size_t size(const BytexX_0 & args) {
+		return args.bytes.size();
 	}
 }

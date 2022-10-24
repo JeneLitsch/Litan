@@ -1,9 +1,58 @@
 #include "instructions.hxx"
 #include "ltnvm/type_check.hxx"
 #include "ltnvm/cast.hxx"
+#include "ltn/CastType.hxx"
 #include <sstream>
 
 namespace ltn::vm::inst {
+	namespace {
+		Value smart_cast(const std::uint8_t * type, const Value & value, VmCore & core);
+
+
+
+		Value smart_cast_array(const std::uint8_t * subtype, const Value & value, VmCore & core) {
+			if(!is_array(value)) throw Exception{
+				.type = Exception::Type::INVALID_ARGUMENT,
+				.msg = "Value not castable to array"
+			};
+			const auto & old_array = core.heap.read<Array>(value.u);
+			Array new_array;
+			for(const auto & elem : old_array.get()) {
+				new_array.arr.push_back(smart_cast(subtype, elem, core));
+			}
+			const auto addr = core.heap.alloc(std::move(new_array));
+			return value::array(addr);
+		}
+
+
+
+		Value smart_cast(const std::uint8_t * type, const Value & value, VmCore & core) {
+			std::cout << *type << "\n";
+			switch (*type) {
+			case type_code::BOOL:   return cast::to_bool(value);
+			case type_code::CHAR:   return cast::to_char(value);
+			case type_code::INT:    return cast::to_int(value, core.heap);
+			case type_code::FLOAT:  return cast::to_float(value, core.heap);
+			case type_code::ARRAY:  return smart_cast_array(type+1, value, core);
+			}
+			throw Exception{
+				.type = Exception::Type::GENERIC_ERROR,
+				.msg = "Invalid type cast"
+			};
+		}
+	}
+
+
+
+	void cast(VmCore & core) {
+		const auto value = core.reg.pop();
+		const std::uint8_t * type = &core.byte_code[core.pc];
+		core.reg.push(smart_cast(type, value, core));
+		while (core.byte_code[core.pc++]); // Resume after \0 terminator
+	}
+
+
+
 	void cast_char(VmCore & core) {
 		const auto value = core.reg.pop();
 		const auto c = cast::to_char(value);
