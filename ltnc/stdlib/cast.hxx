@@ -7,5 +7,8 @@ namespace std {
 	build_in float(x) const  @ cast_float
 	build_in string(x) const @ cast_string
 	build_in array(x) const  @ cast_array
+
+	build_in to_string(x) const @ to_string
+	build_in str(x) const @ to_string
 }
 )###";

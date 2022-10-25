@@ -163,6 +163,12 @@ namespace ltn::c {
 
 		{"type_clone",               single_return<Clone>},
 		{"type_typeid",              single_return<TypeId>},
+
+		{"to_string",                vm_build_in<0x40>},
+		{"parse_bool",               vm_build_in<0x41>},
+		{"parse_char",               vm_build_in<0x42>},
+		{"parse_int",                vm_build_in<0x43>},
+		{"parse_float",              vm_build_in<0x44>},
 	};
 	
 	std::span<const Instruction> resolve_build_in(const std::string_view & key) {

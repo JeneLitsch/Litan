@@ -55,25 +55,31 @@
 // 	std::println(std::typename(x));
 // }
 
+// function main() {
+// 	var bool_array : array<bool>   = [true, false, true];
+// 	var int_array : array<int>     = static_cast<array<int>>(bool_array);
+// 	var float_array : array<float> = static_cast<array<float>>(bool_array);
+// 	std::println(bool_array);
+// 	std::println(int_array);
+// 	std::println(float_array);
+
+// 	var aab : array<array<bool>>   = [[true, false, true], [true, false, true]];
+// 	var aai : array<array<int>>    = static_cast<array<array<int>>>(aab);
+// 	std::println(aab);
+// 	std::println(aai);
+
+// 	std::println(static_cast<int>(1.4));
+// 	std::println(static_cast<bool>(1.4));
+// 	std::println(static_cast<string>(1.4) + " float");
+// 	std::println(static_cast<array<bool>>("Hello World"));
+// 	std::println(static_cast<array<char>>("Hello World"));
+// 	std::println(static_cast<array<int>>("Hello World"));
+// 	std::println(static_cast<array<float>>("Hello World"));
+// 	// std::println(static_cast<array<string>>("Hello World"));
+// }
+
+
 function main() {
-	var bool_array : array<bool>   = [true, false, true];
-	var int_array : array<int>     = static_cast<array<int>>(bool_array);
-	var float_array : array<float> = static_cast<array<float>>(bool_array);
-	std::println(bool_array);
-	std::println(int_array);
-	std::println(float_array);
-
-	var aab : array<array<bool>>   = [[true, false, true], [true, false, true]];
-	var aai : array<array<int>>    = static_cast<array<array<int>>>(aab);
-	std::println(aab);
-	std::println(aai);
-
-	std::println(static_cast<int>(1.4));
-	std::println(static_cast<bool>(1.4));
-	std::println(static_cast<string>(1.4) + " float");
-	std::println(static_cast<array<bool>>("Hello World"));
-	std::println(static_cast<array<char>>("Hello World"));
-	std::println(static_cast<array<int>>("Hello World"));
-	std::println(static_cast<array<float>>("Hello World"));
-	// std::println(static_cast<array<string>>("Hello World"));
+	std::println(std::to_string([1,2,3]) + "abc");
+	std::println(std::str([1,2,3]) + "abc");
 }
