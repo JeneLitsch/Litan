@@ -18,11 +18,12 @@ namespace ltn::c {
 			
 			if(auto index = as<ast::Index>(expr)) {
 				const auto arr = compile_expression(*index->expression, info, scope);
+				const auto idx = compile_expression(*index->index, info, scope);
 				InstructionBuffer buf;
 				buf << arr.code;
 				return ExprResult{ 
 					.code = buf,
-					.deduced_type = arr.deduced_type,
+					.deduced_type = type::deduce_index(arr.deduced_type, idx.deduced_type)
 				};
 			}
 			

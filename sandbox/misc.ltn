@@ -80,6 +80,12 @@
 
 
 function main() {
-	std::println(std::to_string([1,2,3]) + "abc");
-	std::println(std::str([1,2,3]) + "abc");
+	var str1 : string = "Hello World";
+	var arr : array<int> = static_cast<array<int>>(str1);
+	var str2 : string = static_cast<string>(arr);
+
+
+	std::println(str1);
+	std::println(arr);
+	std::println(str2);
 }

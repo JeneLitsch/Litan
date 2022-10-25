@@ -81,8 +81,20 @@ namespace ltn::c {
 			const type::Type & from,
 			const type::Type & to,
 			const SourceLocation & location) {
+
+			if(type::is_array(from)) {
+				const auto & from_contained = from.as<type::Array>()->contains;
+				
+				if(!from_contained) return {
+					type_code::STRING
+				};
+
+				if(type::is_numeric(**from_contained)) return {
+					type_code::STRING
+				};
+			}
 			
-			return { type_code::STRING };
+			throw cannot_cast(from, to, location);
 		}
 
 

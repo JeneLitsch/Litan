@@ -42,9 +42,28 @@ namespace ltn::vm::inst {
 
 
 		Value smart_cast_string(const Value & value, VmCore & core) {
-			const auto new_string = cast::to_string(value, core.heap);
-			const auto addr = core.heap.alloc(String{new_string});
-			return value::string(addr);
+			if(is_string(value)) {
+				const auto new_string = cast::to_string(value, core.heap);
+				const auto addr = core.heap.alloc(String{new_string});
+				return value::string(addr);
+			}
+
+			if(is_array(value)) {
+				std::string new_string;
+				const auto old_array = core.heap.read<Array>(value.u);
+
+				for(const auto & elem : old_array.get()) {
+					new_string.push_back(cast::to_char(elem));
+				}
+
+				const auto addr = core.heap.alloc(String{new_string});
+				return value::string(addr);
+			}
+			
+			throw Exception{
+				.type = Exception::Type::INVALID_ARGUMENT,
+				.msg = "Value not castable to string"
+			};
 		}
 
 
