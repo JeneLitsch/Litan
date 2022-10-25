@@ -6,7 +6,7 @@ namespace test {
 			for (i : 0 -> std::size(array)) {
 				std::print(oss, array[i]);
 			};
-			return std::string(oss);
+			return std::str(oss);
 		};
 
 		var cases = [

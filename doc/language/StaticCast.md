@@ -24,7 +24,7 @@ Any numeric type can be casted to float. The casting rules for bool and char are
 
 ## string
 
-Any type can be casted to a string representation.
+TODO
 
 ## array
 

@@ -1,6 +1,7 @@
 #include "instructions.hxx"
 #include "ltnvm/type_check.hxx"
 #include "ltnvm/cast.hxx"
+#include "ltnvm/stringify.hxx"
 #include <fstream>
 
 namespace ltn::vm::inst {
@@ -9,7 +10,7 @@ namespace ltn::vm::inst {
 		const auto ref = core.reg.pop();
 		if(is_ostream(ref)) {
 			auto & ostream = core.heap.read<OStream>(ref.u).get();
-			ostream << cast::to_string(value, core.heap); 
+			ostream << stringify(value, core.heap); 
 		}
 		else {
 			throw except::not_output();

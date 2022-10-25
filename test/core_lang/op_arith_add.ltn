@@ -46,7 +46,7 @@ namespace op {
 			sphinx::assert_result(["123", "45"], "12345"),
 			sphinx::assert_result([[1,2,3], [4]], [1,2,3,4]),
 			sphinx::assert_result([[1,2,3], ["4"]], [1,2,3,"4"]),
-			sphinx::assert_result(["4", std::string([1, 2, 3])], "4[1, 2, 3]"),
+			sphinx::assert_result(["4", std::str([1, 2, 3])], "4[1, 2, 3]"),
 			sphinx::assert_fail([null, null]),
 			sphinx::assert_fail([std::cout(), std::cout()]),
 			sphinx::assert_fail([std::cout(), std::queue()]),
