@@ -1,6 +1,6 @@
 #include <sstream>
 #include "stdxx/array.hxx"
-#include "ltn/CastType.hxx"
+#include "ltn/type_code.hxx"
 #include "ltnc/compile/static_cast.hxx"
 #include "ltnc/type/check.hxx"
 #include "ltnc/CompilerError.hxx"

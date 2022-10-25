@@ -1,7 +1,7 @@
 #include "instructions.hxx"
 #include "ltnvm/type_check.hxx"
 #include "ltnvm/cast.hxx"
-#include "ltn/CastType.hxx"
+#include "ltn/type_code.hxx"
 #include <sstream>
 
 namespace ltn::vm::inst {

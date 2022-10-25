@@ -2,7 +2,7 @@
 #include "../compile/utils/InstructionBuffer.hxx"
 #include <iostream>
 #include <functional>
-#include "ltn/CastType.hxx"
+#include "ltn/type_code.hxx"
 
 namespace ltn::c {
 	namespace {
