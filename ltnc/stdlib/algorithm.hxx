@@ -2,17 +2,17 @@
 inline const char * std_algorithm = R"###(
 namespace std {
 	// executes "fx" for each element in range
-	function for_each(range, fx) {
-		for (i : std::begin(range) -> std::end(range)) {
-			std::invoke(fx, [std::array(range)[i]]);
+	function for_each(array, fx) {
+		for (i : 0 -> std::size(array)) {
+			std::invoke(fx, array[i]);
 		}
 	}
 
 	// starts at "start" and adds (+=) all elements in range
-	function sum(range, start) {
+	function sum(array, start) {
 		var value = start;
-		for (i : std::begin(range) -> std::end(range)) {
-			value += std::array(range)[i];
+		for (i : 0 -> std::size(array)) {
+			value += array[i];
 		}
 		return value;
 	}

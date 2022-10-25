@@ -65,16 +65,6 @@ namespace ltn::vm {
 			return ss.str();
 		}
 
-		if(is_range(value)) {
-			const auto & range = heap.read<Range>(value.u);
-			const auto & array = heap.read<Array>(range.array).get();
-			auto begin = std::begin(array) + range.begin;
-			auto end = std::begin(array) + range.end;
-			std::stringstream ss;
-			print_all(begin, end, ss, heap);
-			return ss.str();
-		}
-
 		if(is_ostream(value)) {
 			const auto & out = heap.read<OStream>(value.u);
 			if(out.oss) {

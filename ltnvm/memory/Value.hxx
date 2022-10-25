@@ -12,7 +12,7 @@ namespace ltn::vm {
 			ISTREAM = 0x30, OSTREAM,
 			FX_PTR = 0x40, EXTERNAL,
 			CLOCK = 0x50,
-			STRUCT = 0x60, RANGE,
+			STRUCT = 0x60,
 			QUEUE = 0x70, STACK, MAP,
 			RNG = 0x80,
 

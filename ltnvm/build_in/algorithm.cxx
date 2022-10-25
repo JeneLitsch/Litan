@@ -13,13 +13,6 @@ namespace ltn::vm::build_in {
 			return std::make_pair(begin, end);
 		}
 
-		if(is_range(ref)) {
-			auto & range = heap.read<Range>(ref.u);
-			auto & array = heap.read<Array>(range.array);
-			const auto begin = array.arr.begin() + range.begin;
-			const auto end = array.arr.begin() + range.end;
-			return std::make_pair(begin, end);
-		}
 		throw except::invalid_argument();
 	}
 

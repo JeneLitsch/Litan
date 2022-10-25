@@ -65,10 +65,6 @@ namespace ltn::vm {
 		return val.type == Value::Type::STRUCT;
 	}
 
-	constexpr inline bool is_range(const Value & val) {
-		return val.type == Value::Type::RANGE;
-	}
-
 	constexpr inline bool is_stack(const Value & val) {
 		return val.type == Value::Type::STACK;
 	}

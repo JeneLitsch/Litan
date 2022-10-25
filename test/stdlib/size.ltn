@@ -25,9 +25,8 @@ namespace stdlib {
 			sphinx::assert_result([[1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f',16]], 16),
 			sphinx::assert_result([[1,2,3] + [4,5]], 5),
 			sphinx::assert_result([std::array()], 0),
-			sphinx::assert_result([std::array(42)], 1),
+			sphinx::assert_result([[42]], 1),
 			sphinx::assert_result(["ABC"], 3),
-			sphinx::assert_result([std::first_n([1,2,3,4], 3)], 3),
 			sphinx::assert_result([std::queue()], 0),
 			sphinx::assert_result([queue], 3),
 			sphinx::assert_result([map], 2),
@@ -42,13 +41,6 @@ namespace stdlib {
 			sphinx::assert_fail([std::strout()]),
 			sphinx::assert_fail([std::cin()]),
 			sphinx::assert_fail([std::strin("")]),
-			sphinx::assert_result([std::first_n(array, 3)], 3),
-			sphinx::assert_result([std::first_n(array, 4)], 4),
-			sphinx::assert_result([std::first_n(array, 0)], 0),
-			sphinx::assert_result([std::last_n(array, 3)], 3),
-			sphinx::assert_result([std::last_n(array, 4)], 4),
-			sphinx::assert_result([std::last_n(array, 0)], 0),
-			sphinx::assert_result([std::whole(array)], 6),
 		];
 		sphinx::run_test(sphinx, "std::size", &std::size(_), cases);
 	}

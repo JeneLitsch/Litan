@@ -32,7 +32,6 @@ namespace ltn::vm {
 		if(is_clock(value))    return this->mark_default(value);
 		
 		if(is_struct(value))  return this->mark_struct(value);
-		if(is_range(value))   return this->mark_range(value);
 
 		if(is_stack(value))   return this->mark_deque(value);
 		if(is_queue(value))   return this->mark_deque(value);
@@ -73,16 +72,6 @@ namespace ltn::vm {
 	}
 
 
-	void Heap::mark_range(const Value & value) {
-		auto & obj = get(value.u);
-		if(!obj.marked) {
-			auto & range = this->read<Range>(value.u);
-			obj.marked = true;
-			this->mark(Value{range.array, Value::Type::ARRAY});
-		}
-	}
-
-	
 	void Heap::mark_deque(const Value & value) {
 		auto & obj = get(value.u);
 		if(!obj.marked) {

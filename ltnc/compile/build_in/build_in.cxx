@@ -85,7 +85,6 @@ namespace ltn::c {
 		{"stack",                    single_return<Newstack>},
 		{"map",                      single_return<Newmap>},
 		{"array",                    single_return<Newarr, 0>},
-		{"range",                    single_return<Newrange>},
 		{"struct",                   single_return<Newstruct>},
 
 		{"container_push",           single<Push>},
@@ -97,8 +96,6 @@ namespace ltn::c {
 		{"container_at",             single_return<At>},
 		{"container_front",          single_return<Front>},
 		{"container_back",           single_return<Back>},
-		{"container_begin",          single_return<Begin>},
-		{"container_end",            single_return<End>},
 		{"container_insert_back",    single<Insert, 0x02>},
 		{"container_insert_front",   single<Insert, 0x00>},
 		{"container_insert",         single<Insert, 0x01>},

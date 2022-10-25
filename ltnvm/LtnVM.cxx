@@ -92,7 +92,6 @@ namespace ltn::vm {
 		table[OpCode::NEWFX] = inst::newfx;
 		table[OpCode::NEWCLOCK] = inst::newclock;
 		table[OpCode::NEWSTRUCT] = inst::newstruct;
-		table[OpCode::NEWRANGE] = inst::newrange;
 		table[OpCode::NEWSTACK] = inst::newstack;
 		table[OpCode::NEWQUEUE] = inst::newqueue;
 		table[OpCode::NEWMAP] = inst::newmap;
@@ -154,8 +153,6 @@ namespace ltn::vm {
 		table[OpCode::BACK] = inst::back;
 		table[OpCode::INSERT] = inst::insert;
 		table[OpCode::REMOVE] = inst::remove;
-		table[OpCode::BEGIN] = inst::begin;
-		table[OpCode::END] = inst::end;
 		table[OpCode::PUSH] = inst::push;
 		table[OpCode::POP] = inst::pop;
 		table[OpCode::PEEK] = inst::peek;

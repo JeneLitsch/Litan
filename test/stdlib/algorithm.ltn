@@ -1,8 +1,8 @@
 namespace stdlib {
 	function range_test(fx) {
-		return lambda [fx] (range) {
-			std::invoke(fx, [range]);
-			return std::array(range);
+		return lambda [fx] (array) {
+			std::invoke(fx, [array]);
+			return array;
 		};
 	}
 
@@ -11,9 +11,6 @@ namespace stdlib {
 		var fx = range_test(&std::sort_ascn(_));
 		var cases = [
 			sphinx::assert_result([[3, 2, 1]], [1, 2, 3]),
-			sphinx::assert_result([std::first_n([3, 2, 1],2)], [2, 3, 1]),
-			sphinx::assert_result([std::last_n([3, 2, 1],2)], [3, 1, 2]),
-			sphinx::assert_result([std::whole([3, 2, 1])], [1, 2, 3]),
 			sphinx::assert_result([['C', 'A', 'B']], ['A', 'B', 'C']),
 			sphinx::assert_result([[]], []),
 		];
@@ -25,9 +22,6 @@ namespace stdlib {
 		var fx = range_test(&std::sort_desc(_));
 		var cases = [
 			sphinx::assert_result([[1, 2, 3]], [3, 2, 1]),
-			sphinx::assert_result([std::first_n([1, 2, 3],2)], [2, 1, 3]),
-			sphinx::assert_result([std::last_n([1, 2, 3],2)], [1, 3, 2]),
-			sphinx::assert_result([std::whole([1, 2, 3])], [3, 2, 1]),
 			sphinx::assert_result([['A', 'B', 'C']], ['C', 'B', 'A']),
 			sphinx::assert_result([[]], []),
 		];

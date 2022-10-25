@@ -61,7 +61,6 @@ namespace ltn::vm::inst {
 	void newfx(VmCore & core);
 	void newclock(VmCore & core);
 	void newstruct(VmCore & core);
-	void newrange(VmCore & core);
 	void newstack(VmCore & core);
 	void newqueue(VmCore & core);
 	void newmap(VmCore & core);
@@ -125,8 +124,6 @@ namespace ltn::vm::inst {
 	void back(VmCore & core);
 	void insert(VmCore & core);
 	void remove(VmCore & core);
-	void begin(VmCore & core);
-	void end(VmCore & core);
 	void push(VmCore & core);
 	void pop(VmCore & core);
 	void peek(VmCore & core);

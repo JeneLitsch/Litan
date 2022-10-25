@@ -15,7 +15,6 @@ namespace stdlib {
 			sphinx::assert_result([std::external(0)],        "external"),
 			sphinx::assert_result([std::chrono::clock()],    "clock"),
 			sphinx::assert_result([std::struct()],           "struct"),
-			sphinx::assert_result([std::whole([])],          "range"),
 			sphinx::assert_result([std::queue()],            "queue"),
 			sphinx::assert_result([std::stack()],            "stack"),
 			sphinx::assert_result([std::map()],              "map"),

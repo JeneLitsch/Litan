@@ -86,27 +86,11 @@ namespace stdlib {
 	}
 
 
-	function array_cast(sphinx) {
-		var cases = [
-			sphinx::assert_result([1], [1]),
-			sphinx::assert_result([[42]], [42]),
-			sphinx::assert_result(["Hello World"], ["Hello World"]),
-			sphinx::assert_result([[]], []),
-			sphinx::assert_result([std::cout()], [std::cout()]),
-			sphinx::assert_result([std::cin()], [std::cin()]),
-			sphinx::assert_result([null], [std::null_v()]),
-			sphinx::assert_result(['A'], ['A']),
-			sphinx::assert_result([-3.5], [-3.5]),
-		];
-		sphinx::run_test(sphinx, "Array(std::array)", &std::array(_), cases);
-	}
-
 
 	function array(sphinx) {
 		array_front(sphinx);
 		array_back(sphinx);
 		array_index_clone(sphinx);
-		array_cast(sphinx);
 		array_functions(sphinx);
 	}
 }

@@ -13,11 +13,6 @@ namespace ltn::vm::inst {
 				return static_cast<std::int64_t>(str.str.size());
 			}
 
-			if(is_range(ref)) {
-				const auto & range = heap.read<Range>(ref.u);
-				return range.end - range.begin;
-			}
-
 			if(is_queue(ref) || is_stack(ref)) {
 				const auto & deq = heap.read<Deque>(ref.u).get();
 				return static_cast<std::int64_t>(deq.size());

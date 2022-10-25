@@ -16,10 +16,10 @@
 #include "objects/FxPointer.hxx"
 #include "objects/Clock.hxx"
 #include "objects/Struct.hxx"
-#include "objects/Range.hxx"
 #include "objects/Deque.hxx"
 #include "objects/Map.hxx"
 #include "objects/RandomEngine.hxx"
+
 namespace ltn::vm {
 	struct HeapObject {
 		using Data = std::variant<
@@ -28,7 +28,7 @@ namespace ltn::vm {
 			IStream, OStream,
 			FxPointer,
 			Clock,
-			Struct, Range,
+			Struct,
 			Deque, Map,
 			RandomEngine>;
  		Data obj;
@@ -121,7 +121,6 @@ namespace ltn::vm {
 		void mark_array(const Value & value);
 		void mark_fxptr(const Value & value);
 		void mark_struct(const Value & value);
-		void mark_range(const Value & value);
 		void mark_default(const Value & value);
 		void mark_deque(const Value & value);
 		void mark_map(const Value & value);

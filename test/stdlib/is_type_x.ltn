@@ -39,7 +39,6 @@ namespace stdlib {
 	function is_string(sphinx) {
 		sphinx::run_test(sphinx, "std::is_string", &std::is_string(_), [
 			sphinx::assert_true(["A"]),
-			sphinx::assert_false([std::whole([])]),
 		]);
 	}
 
@@ -49,7 +48,6 @@ namespace stdlib {
 		sphinx::run_test(sphinx, "std::is_array", &std::is_array(_), [
 			sphinx::assert_false(["A"]),
 			sphinx::assert_true([[]]),
-			sphinx::assert_false([std::whole([])]),
 		]);
 	}
 
@@ -117,11 +115,6 @@ namespace stdlib {
 		sphinx::run_test(sphinx, "std::is_stack", &std::is_stack(_), [
 			sphinx::assert_true([std::stack()]),
 			sphinx::assert_false([""]),
-		]);
-
-		sphinx::run_test(sphinx, "std::is_range", &std::is_range(_), [
-			sphinx::assert_true([std::whole([])]),
-			sphinx::assert_false([[]]),
 		]);
 
 		sphinx::run_test(sphinx, "std::is_integral", &std::is_integral(_), [

@@ -14,17 +14,6 @@ namespace ltn::vm::inst {
 			return;
 		}
 
-		if(is_range(ref)) {
-			const auto & range = core.heap.read<Range>(ref.u);
-			const auto & array = core.heap.read<Array>(range.array).get();
-			const auto index = to_index(key);
-			if(index < 0 || index >= range.end - range.begin) {
-				throw except::out_of_range();
-			} 
-			core.reg.push(array[static_cast<std::size_t>(range.begin + index)]);
-			return;
-		}
-
 		if(is_string(ref)) {
 			const auto & str = core.heap.read<String>(ref.u).get();
 			const auto index = to_index(key);

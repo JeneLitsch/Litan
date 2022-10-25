@@ -12,18 +12,6 @@ namespace op {
 			return range[index];
 		};
 		var cases = [
-			sphinx::assert_result([std::first_n(array, 3), 0], 0),
-			sphinx::assert_result([std::first_n(array, 4), 0], 0),
-			sphinx::assert_result([std::first_n(array, 3), 2], 2),
-			sphinx::assert_result([std::first_n(array, 4), 3], 3),
-			sphinx::assert_result([std::last_n(array, 3), 0], 3),
-			sphinx::assert_result([std::last_n(array, 4), 0], 2),
-			sphinx::assert_result([std::whole(array), 0], 0),
-			sphinx::assert_result([std::whole(array), 1], 1),
-			sphinx::assert_result([std::whole(array), 2], 2),
-			sphinx::assert_result([std::whole(array), 3], 3),
-			sphinx::assert_result([std::whole(array), 4], 4),
-			sphinx::assert_result([std::whole(array), 5], 5),
 			sphinx::assert_result(["ABC", 2], 'C'),
 			sphinx::assert_result([map, 1], "A"),
 			sphinx::assert_result([map, 2], "B"),

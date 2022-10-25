@@ -117,27 +117,6 @@ namespace ltn::vm::inst {
 	}
 
 
-	void newrange(VmCore & core) {
-		const auto end = core.reg.pop();
-		const auto begin = core.reg.pop();
-		const auto array = core.reg.pop();
-		
-		if(!is_array(array)) throw except::invalid_argument();
-		if(!is_int(begin)) throw except::invalid_argument();
-		if(!is_int(end))   throw except::invalid_argument();
-
-		const auto size = end.i - begin.i;
-		
-		const auto & arr = core.heap.read<Array>(array.u).get();
-		if(size < 0 || size > static_cast<std::int64_t>(arr.size())) {
-			throw except::out_of_range();
-		}
-		
-		const auto range = core.heap.alloc<Range>({array.u, begin.i, end.i});
-		core.reg.push(Value{range, Value::Type::RANGE});
-	}
-
-
 	void newstack(VmCore & core) {
 		const auto ref = core.heap.alloc<Deque>({});
 		core.reg.push({ ref, Value::Type::STACK });

@@ -15,8 +15,6 @@ namespace std {
 	build_in at(collection, i) const            @ container_at
 	build_in front(collection) const            @ container_front
 	build_in back(collection) const             @ container_back
-	build_in begin(collection) const            @ container_begin
-	build_in end(collection) const              @ container_end
 	build_in insert_back(collection, element)   @ container_insert_back
 	build_in insert_front(collection, element)  @ container_insert_front
 	build_in insert(collection, index, element) @ container_insert

@@ -107,7 +107,6 @@ namespace ltn::inst {
 	using Newfx = GenericInst<OpCode::NEWFX, "newfx", args::Jump_Uint64>;
 	using Newclock = GenericInst<OpCode::NEWCLOCK, "newclock", args::None>;
 	using Newstruct = GenericInst<OpCode::NEWSTRUCT, "newstruct", args::None>;
-	using Newrange = GenericInst<OpCode::NEWRANGE, "newrange", args::None>;
 	using Newstack = GenericInst<OpCode::NEWSTACK, "newstack", args::None>;
 	using Newqueue = GenericInst<OpCode::NEWQUEUE, "newqueue", args::None>;
 	using Newmap = GenericInst<OpCode::NEWMAP, "newmap", args::None>;
@@ -183,8 +182,6 @@ namespace ltn::inst {
 
 	using Insert = GenericInst<OpCode::INSERT, "insert", args::Byte>;
 	using Remove = GenericInst<OpCode::REMOVE, "remove", args::Byte>;
-	using Begin = GenericInst<OpCode::BEGIN, "begin", args::None>;
-	using End = GenericInst<OpCode::END, "end", args::None>;
 	using Push = GenericInst<OpCode::PUSH, "push", args::None>;
 	using Pop = GenericInst<OpCode::POP, "pop", args::None>;
 	using Peek = GenericInst<OpCode::PEEK, "peek", args::None>;
