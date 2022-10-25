@@ -71,4 +71,9 @@ function main() {
 	std::println(static_cast<int>(1.4));
 	std::println(static_cast<bool>(1.4));
 	std::println(static_cast<string>(1.4) + " float");
+	std::println(static_cast<array<bool>>("Hello World"));
+	std::println(static_cast<array<char>>("Hello World"));
+	std::println(static_cast<array<int>>("Hello World"));
+	std::println(static_cast<array<float>>("Hello World"));
+	// std::println(static_cast<array<string>>("Hello World"));
 }

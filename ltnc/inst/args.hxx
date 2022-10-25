@@ -81,7 +81,6 @@ namespace ltn::inst::args {
 		bool operator==(const Uint64_BytexX &) const = default;
 	};
 
-
 	struct BytexX_0 {
 		std::vector<std::uint8_t> bytes;
 

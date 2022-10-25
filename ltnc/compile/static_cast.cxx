@@ -86,7 +86,7 @@ namespace ltn::c {
 			const auto & to_array = *to.as<type::Array>();
 			const auto & to_contained = **to_array.contains;
 			
-			if(from.as<type::Array>()) {
+			if(type::is_array(from)) {
 				// Allows casting empty array to any other array type
 				const auto & from_contained 
 					= from.as<type::Array>()->contains
@@ -97,6 +97,14 @@ namespace ltn::c {
 				type_code += ltn::type_code::ARRAY;
 				type_code += to_type_code(from_contained, to_contained, location);
 				return type_code; 
+			}
+			if(type::is_string(from)) {
+				if(type::is_numeric(to_contained)) {
+					std::vector<std::uint8_t> type_code;
+					type_code += ltn::type_code::ARRAY;
+					type_code += to_type_code(type::Char{}, to_contained, location);
+					return type_code; 
+				}
 			}
 			throw cannot_cast(from, to, location);
 		}

@@ -11,17 +11,32 @@ namespace ltn::vm::inst {
 
 
 		Value smart_cast_array(const std::uint8_t * subtype, const Value & value, VmCore & core) {
-			if(!is_array(value)) throw Exception{
+			if(is_array(value)) {
+				const auto & old_array = core.heap.read<Array>(value.u);
+				Array new_array;
+				for(const auto & elem : old_array.get()) {
+					new_array.arr.push_back(smart_cast(subtype, elem, core));
+				}
+				const auto addr = core.heap.alloc(std::move(new_array));
+				return value::array(addr);
+			}
+
+
+			if(is_string(value)) {
+				const auto & old_string = core.heap.read<String>(value.u);
+				Array new_array;
+				for(const auto c : old_string.get()) {
+					new_array.arr.push_back(smart_cast(subtype, value::character(c), core));
+				}
+				const auto addr = core.heap.alloc(std::move(new_array));
+				return value::array(addr);		
+			}
+						
+
+			throw Exception{
 				.type = Exception::Type::INVALID_ARGUMENT,
 				.msg = "Value not castable to array"
 			};
-			const auto & old_array = core.heap.read<Array>(value.u);
-			Array new_array;
-			for(const auto & elem : old_array.get()) {
-				new_array.arr.push_back(smart_cast(subtype, elem, core));
-			}
-			const auto addr = core.heap.alloc(std::move(new_array));
-			return value::array(addr);
 		}
 
 
@@ -35,7 +50,7 @@ namespace ltn::vm::inst {
 
 
 		Value smart_cast(const std::uint8_t * type, const Value & value, VmCore & core) {
-			std::cout << *type << "\n";
+			// std::cout << *type << "\n";
 			switch (*type) {
 			case type_code::BOOL:    return cast::to_bool(value);
 			case type_code::CHAR:    return cast::to_char(value);
