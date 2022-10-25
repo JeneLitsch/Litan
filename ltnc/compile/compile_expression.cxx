@@ -91,6 +91,9 @@ namespace ltn::c {
 		if(auto cast = as<ast::StaticCast>(expr)) {
 			return compile_static_cast(*cast, info, scope);
 		}
+		if(auto cast = as<ast::DynamicCast>(expr)) {
+			return compile_dynamic_cast(*cast, info, scope);
+		}
 		throw CompilerError{"Unknown Expression"};
 	}
 

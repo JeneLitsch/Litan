@@ -165,6 +165,7 @@ namespace ltn::vm {
 		table[OpCode::CAST_INT] = inst::cast_int;
 		table[OpCode::CAST_FLOAT] = inst::cast_float;
 		table[OpCode::CAST_STRING] = inst::cast_string;
+		table[OpCode::SAFE_CAST] = inst::safe_cast;
 
 		table[OpCode::TYPEID] = inst::type_id;
 		table[OpCode::CLONE] = inst::clone;

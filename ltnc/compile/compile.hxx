@@ -60,6 +60,7 @@ namespace ltn::c {
 	ExprResult compile_read_static(const ast::DefinitionValue &, CompilerInfo &, Scope &);
 	ExprResult compile_write_static(const ast::DefinitionValue &, CompilerInfo &, Scope &);
 	ExprResult compile_static_cast(const ast::StaticCast &, CompilerInfo &, Scope &);
+	ExprResult compile_dynamic_cast(const ast::DynamicCast &, CompilerInfo &, Scope &);
 
 	// utils
 	void guard_const(

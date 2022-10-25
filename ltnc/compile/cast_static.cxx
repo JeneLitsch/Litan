@@ -1,33 +1,13 @@
 #include <sstream>
 #include "stdxx/array.hxx"
 #include "ltn/type_code.hxx"
-#include "ltnc/compile/static_cast.hxx"
+#include "ltnc/compile/cast_static.hxx"
+#include "ltnc/compile/cast_utils.hxx"
 #include "ltnc/type/check.hxx"
 #include "ltnc/CompilerError.hxx"
 
 namespace ltn::c {
 	namespace {
-		CompilerError cannot_cast(
-			const type::Type & from,
-			const type::Type & to,
-			const SourceLocation & location) {
-			
-			std::ostringstream oss;
-			oss << "Cannot static_cast " << from << " to " << to;
-			return CompilerError{oss.str(), location};
-		}
-	
-
-
-		std::vector<std::uint8_t> to_array_of(const std::vector<std::uint8_t> & subtype_code) {
-			std::vector<std::uint8_t> type_code;
-			type_code += ltn::type_code::ARRAY;
-			type_code += subtype_code;
-			return type_code; 
-		}
-
-
-
 		std::vector<std::uint8_t> to_type_code(
 			const type::Type &,
 			const type::Type &,
@@ -35,18 +15,18 @@ namespace ltn::c {
 
 
 
-		std::vector<std::uint8_t> cast_to_bool(
+		std::vector<std::uint8_t> cast_to(
 			const type::Type &,
-			const type::Type &,
+			const type::Bool &,
 			const SourceLocation &) {
 			return { type_code::BOOL };
 		}
 
 
 
-		std::vector<std::uint8_t> cast_to_char(
+		std::vector<std::uint8_t> cast_to(
 			const type::Type & from,
-			const type::Type & to,
+			const type::Char & to,
 			const SourceLocation & location) {
 			
 			if(type::is_numeric(from)) return { type_code::CHAR };
@@ -55,9 +35,9 @@ namespace ltn::c {
 
 
 
-		std::vector<std::uint8_t> cast_to_int(
+		std::vector<std::uint8_t> cast_to(
 			const type::Type & from,
-			const type::Type & to,
+			const type::Int & to,
 			const SourceLocation & location) {
 			
 			if(type::is_numeric(from)) return { type_code::INT };
@@ -66,9 +46,9 @@ namespace ltn::c {
 
 
 
-		std::vector<std::uint8_t> cast_to_float(
+		std::vector<std::uint8_t> cast_to(
 			const type::Type & from,
-			const type::Type & to,
+			const type::Float & to,
 			const SourceLocation & location) {
 			
 			if(type::is_numeric(from)) return { type_code::FLOAT };
@@ -77,9 +57,9 @@ namespace ltn::c {
 
 
 
-		std::vector<std::uint8_t> cast_to_string(
+		std::vector<std::uint8_t> cast_to(
 			const type::Type & from,
-			const type::Type & to,
+			const type::String & to,
 			const SourceLocation & location) {
 
 			if(type::is_array(from)) {
@@ -99,29 +79,31 @@ namespace ltn::c {
 
 
 
-		std::vector<std::uint8_t> cast_to_array(
+		std::vector<std::uint8_t> cast_to(
 			const type::Type & from,
-			const type::Type & to,
+			const type::Array & to,
 			const SourceLocation & location) {
-			
-			const auto & to_array = *to.as<type::Array>();
-			const auto & to_contained = **to_array.contains;
 			
 			if(type::is_array(from)) {
 				// Allows casting empty array to any other array type
-				const auto & from_contained 
-					= from.as<type::Array>()->contains
-					? **from.as<type::Array>()->contains
-					: to_contained;
-
-				return to_array_of(to_type_code(from_contained, to_contained, location)); 
+				const auto & from_contained = *from.as<type::Array>()->contains.value_or(*to.contains);
+				return to_array_of(to_type_code(from_contained, **to.contains, location)); 
 			}
 			if(type::is_string(from)) {
-				if(type::is_numeric(to_contained)) {
+				if(type::is_numeric(**to.contains)) {
 					// Cast string like an array<char>
-					return to_array_of(to_type_code(type::Char{}, to_contained, location)); 
+					return to_array_of(to_type_code(type::Char{}, **to.contains, location)); 
 				}
 			}
+			throw cannot_cast(from, to, location);
+		}
+
+
+
+		std::vector<std::uint8_t> cast_to(
+			const auto & from,
+			const auto & to,
+			const SourceLocation & location) {
 			throw cannot_cast(from, to, location);
 		}
 
@@ -132,13 +114,9 @@ namespace ltn::c {
 			const type::Type & to,
 			const SourceLocation & location) {
 			
-			if(type::is_bool(to))   return cast_to_bool(from, to, location);
-			if(type::is_char(to))   return cast_to_char(from, to, location);
-			if(type::is_int(to))    return cast_to_int(from, to, location);
-			if(type::is_float(to))  return cast_to_float(from, to, location);
-			if(type::is_string(to)) return cast_to_string(from, to, location);
-			if(type::is_array(to))  return cast_to_array(from, to, location);
-			throw cannot_cast(from, to, location);
+			return to.visit([&] (auto & type) { 
+				return cast_to(from, type, location);
+			});
 		}
 	}
 

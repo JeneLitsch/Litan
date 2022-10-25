@@ -149,6 +149,7 @@ namespace ltn {
 		CAST_INT,
 		CAST_FLOAT,
 		CAST_STRING,
+		SAFE_CAST,
 
 		// Type utils
 		TYPEID = 0xc0,

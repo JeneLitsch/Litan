@@ -17,10 +17,8 @@ namespace ltn::vm::inst {
 				for(const auto & elem : old_array.get()) {
 					new_array.arr.push_back(smart_cast(subtype, elem, core));
 				}
-				const auto addr = core.heap.alloc(std::move(new_array));
-				return value::array(addr);
+				return value::array(core.heap.alloc(std::move(new_array)));
 			}
-
 
 			if(is_string(value)) {
 				const auto & old_string = core.heap.read<String>(value.u);
@@ -28,10 +26,8 @@ namespace ltn::vm::inst {
 				for(const auto c : old_string.get()) {
 					new_array.arr.push_back(smart_cast(subtype, value::character(c), core));
 				}
-				const auto addr = core.heap.alloc(std::move(new_array));
-				return value::array(addr);		
-			}
-						
+				return value::array(core.heap.alloc(std::move(new_array)));		
+			}		
 
 			throw Exception{
 				.type = Exception::Type::INVALID_ARGUMENT,
@@ -44,8 +40,7 @@ namespace ltn::vm::inst {
 		Value smart_cast_string(const Value & value, VmCore & core) {
 			if(is_string(value)) {
 				const auto new_string = cast::to_string(value, core.heap);
-				const auto addr = core.heap.alloc(String{new_string});
-				return value::string(addr);
+				return value::string(core.heap.alloc(String{new_string}));
 			}
 
 			if(is_array(value)) {
@@ -56,8 +51,7 @@ namespace ltn::vm::inst {
 					new_string.push_back(cast::to_char(elem));
 				}
 
-				const auto addr = core.heap.alloc(String{new_string});
-				return value::string(addr);
+				return value::string(core.heap.alloc(String{new_string}));
 			}
 			
 			throw Exception{
@@ -91,6 +85,20 @@ namespace ltn::vm::inst {
 		const auto value = core.reg.pop();
 		const std::uint8_t * type = &core.byte_code[core.pc];
 		core.reg.push(smart_cast(type, value, core));
+		while (core.byte_code[core.pc++]); // Resume after \0 terminator
+	}
+
+
+
+	void safe_cast(VmCore & core) {
+		const auto value = core.reg.pop();
+		const std::uint8_t * type = &core.byte_code[core.pc];
+		try {
+			core.reg.push(smart_cast(type, value, core));
+		}
+		catch(const Exception & exception) {
+			core.reg.push(value::null);
+		}
 		while (core.byte_code[core.pc++]); // Resume after \0 terminator
 	}
 

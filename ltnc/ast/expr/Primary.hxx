@@ -63,6 +63,22 @@ namespace ltn::c::ast {
 
 
 
+	struct DynamicCast final : public Primary {
+	public:
+		DynamicCast(
+			const type::Type & type,
+			std::unique_ptr<Expression> expr,
+			const SourceLocation & location)
+			:	Primary(location),
+				type{type},
+				expr{std::move(expr)} {}
+		virtual ~DynamicCast() = default;
+		type::Type type;
+		std::unique_ptr<Expression> expr;
+	};
+
+
+
 	struct DefinitionValue final : public Primary {
 	public:
 		DefinitionValue(

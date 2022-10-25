@@ -82,6 +82,14 @@ namespace ltn::c::type {
 			return std::get_if<T>(&actual_type);
 		} 
 
+		auto visit(const auto & visitor) {
+			return std::visit(visitor, this->actual_type);
+		}
+
+		auto visit(const auto & visitor) const {
+			return std::visit(visitor, this->actual_type);
+		}
+
 		friend bool operator==(const Type &, const Type &);
 		// friend bool operator==(const Type &, const auto &);
 		// friend bool operator==(const auto &, const Type &);

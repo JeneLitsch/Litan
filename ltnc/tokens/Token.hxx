@@ -47,6 +47,7 @@ namespace ltn::c {
 			GLOBAL,
 			DECLTYPE,
 			STATIC_CAST,
+			DYNAMIC_CAST,
 			
 			INTEGER,
 			INTEGER_HEX,
