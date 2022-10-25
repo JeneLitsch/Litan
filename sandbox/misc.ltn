@@ -82,8 +82,8 @@
 function main() {
 	var str1 : string = "Hello World";
 	var arr : array<int> = static_cast<array<int>>(str1);
+	std::reverse(arr);
 	var str2 : string = static_cast<string>(arr);
-
 
 	std::println(str1);
 	std::println(arr);

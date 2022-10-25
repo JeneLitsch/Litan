@@ -139,27 +139,4 @@ namespace ltn::vm::inst {
 		const auto b = cast::to_bool(value);
 		core.reg.push(Value(b));
 	}
-
-
-
-	void cast_array(VmCore & core) {
-		const auto ref = core.reg.pop();
-		
-		if(is_array(ref)) {
-			core.reg.push(ref);
-			return;
-		}
-
-		if(is_range(ref)) {
-			const auto & range = core.heap.read<Range>(ref.u);
-			const auto arrRef = value::array(range.array);
-			core.reg.push(arrRef);
-			return;
-		}
-
-		auto && array = cast::to_array(ref);
-		const auto ptr = core.heap.alloc<Array>({std::move(array)});
-		const auto arrRef = value::array(ptr); 
-		core.reg.push(arrRef);
-	}
 }

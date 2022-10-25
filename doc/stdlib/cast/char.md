@@ -9,4 +9,4 @@
 Char
 
 **Description:**   
-Casts a numerical type to an 8-bit char.
+Invokes static_cast&lt;char&gt;

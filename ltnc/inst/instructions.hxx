@@ -197,7 +197,6 @@ namespace ltn::inst {
 	using CastInt = GenericInst<OpCode::CAST_INT, "cast_int", args::None>;
 	using CastFloat = GenericInst<OpCode::CAST_FLOAT, "cast_float", args::None>;
 	using CastString = GenericInst<OpCode::CAST_STRING, "cast_string", args::None>;
-	using CastArray = GenericInst<OpCode::CAST_ARRAY, "cast_array", args::None>;
 
 	using TypeId = GenericInst<OpCode::TYPEID, "typeid", args::None>;
 	using Clone = GenericInst<OpCode::CLONE, "clone", args::None>;

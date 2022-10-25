@@ -9,6 +9,4 @@
 Int  
 
 **Description:**   
-An Int is returned unchanged.  
-A Float is returned truncated.  
-A String is parsed to Int. 
+Invokes static_cast&lt;int&gt;

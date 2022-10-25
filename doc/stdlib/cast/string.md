@@ -8,4 +8,4 @@
 String  
 
 **Description:**     
-Returns string representation of x.
+Invokes static_cast&lt;string&gt;

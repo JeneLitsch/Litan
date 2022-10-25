@@ -66,7 +66,6 @@ namespace ltn::c {
 		{"cast_int",                 single_return<CastInt>},
 		{"cast_float",               single_return<CastFloat>},
 		{"cast_string",              single_return<CastString>},
-		{"cast_array",               single_return<CastArray>},
 
 		{"algorithm_sort_ascn",      vm_build_in<0x00>},
 		{"algorithm_sort_desc",      vm_build_in<0x01>},

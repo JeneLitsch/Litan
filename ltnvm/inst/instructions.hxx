@@ -139,7 +139,6 @@ namespace ltn::vm::inst {
 	void cast_int(VmCore & core);
 	void cast_float(VmCore & core);
 	void cast_string(VmCore & core);
-	void cast_array(VmCore & core);
 
 	void type_id(VmCore & core);
 	void clone(VmCore & core);
