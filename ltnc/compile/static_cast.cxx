@@ -16,6 +16,15 @@ namespace ltn::c {
 			oss << "Cannot static_cast " << from << " to " << to;
 			return CompilerError{oss.str(), location};
 		}
+	
+
+
+		std::vector<std::uint8_t> to_array_of(const std::vector<std::uint8_t> & subtype_code) {
+			std::vector<std::uint8_t> type_code;
+			type_code += ltn::type_code::ARRAY;
+			type_code += subtype_code;
+			return type_code; 
+		}
 
 
 
@@ -93,17 +102,12 @@ namespace ltn::c {
 					? **from.as<type::Array>()->contains
 					: to_contained;
 
-				std::vector<std::uint8_t> type_code;
-				type_code += ltn::type_code::ARRAY;
-				type_code += to_type_code(from_contained, to_contained, location);
-				return type_code; 
+				return to_array_of(to_type_code(from_contained, to_contained, location)); 
 			}
 			if(type::is_string(from)) {
 				if(type::is_numeric(to_contained)) {
-					std::vector<std::uint8_t> type_code;
-					type_code += ltn::type_code::ARRAY;
-					type_code += to_type_code(type::Char{}, to_contained, location);
-					return type_code; 
+					// Cast string like an array<char>
+					return to_array_of(to_type_code(type::Char{}, to_contained, location)); 
 				}
 			}
 			throw cannot_cast(from, to, location);
