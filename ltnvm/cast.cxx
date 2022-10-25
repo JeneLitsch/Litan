@@ -169,22 +169,12 @@ namespace ltn::vm::cast {
 			return static_cast<std::int64_t>(value.f);
 		}
 		
-		if(is_string(value)) {
-			const auto & str = heap.read<String>(value.u);
-			return parse_value<std::int64_t>(str.str); 
-		}
-
 		return convert::to_int(value);
 	}
 
 
 
 	stx::float64_t to_float(Value value, Heap & heap) {
-		if(is_string(value)) {
-			const auto & str = heap.read<String>(value.u);
-			return parse_value<stx::float64_t>(str.str); 
-		}
-		
 		if (is_clock(value)) {
 			const auto & clock = heap.read<Clock>(value.u);
 			return clock.getSeconds();
