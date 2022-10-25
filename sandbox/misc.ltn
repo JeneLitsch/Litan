@@ -67,4 +67,8 @@ function main() {
 	var aai : array<array<int>>    = static_cast<array<array<int>>>(aab);
 	std::println(aab);
 	std::println(aai);
+
+	std::println(static_cast<int>(1.4));
+	std::println(static_cast<bool>(1.4));
+	std::println(static_cast<string>(1.4) + " float");
 }

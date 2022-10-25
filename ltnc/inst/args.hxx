@@ -76,12 +76,16 @@ namespace ltn::inst::args {
 	struct Uint64_BytexX {
 		std::vector<std::uint8_t> bytes;
 
+		Uint64_BytexX(auto & args) : bytes{std::begin(args), std::end(args)} {}
+
 		bool operator==(const Uint64_BytexX &) const = default;
 	};
 
 
 	struct BytexX_0 {
 		std::vector<std::uint8_t> bytes;
+
+		BytexX_0(auto & args) : bytes{std::begin(args), std::end(args)} {}
 
 		bool operator==(const BytexX_0 &) const = default;
 	};

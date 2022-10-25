@@ -26,14 +26,23 @@ namespace ltn::vm::inst {
 
 
 
+		Value smart_cast_string(const Value & value, VmCore & core) {
+			const auto new_string = cast::to_string(value, core.heap);
+			const auto addr = core.heap.alloc(String{new_string});
+			return value::string(addr);
+		}
+
+
+
 		Value smart_cast(const std::uint8_t * type, const Value & value, VmCore & core) {
 			std::cout << *type << "\n";
 			switch (*type) {
-			case type_code::BOOL:   return cast::to_bool(value);
-			case type_code::CHAR:   return cast::to_char(value);
-			case type_code::INT:    return cast::to_int(value, core.heap);
-			case type_code::FLOAT:  return cast::to_float(value, core.heap);
-			case type_code::ARRAY:  return smart_cast_array(type+1, value, core);
+			case type_code::BOOL:    return cast::to_bool(value);
+			case type_code::CHAR:    return cast::to_char(value);
+			case type_code::INT:     return cast::to_int(value, core.heap);
+			case type_code::FLOAT:   return cast::to_float(value, core.heap);
+			case type_code::STRING:  return smart_cast_string(value, core);
+			case type_code::ARRAY:   return smart_cast_array(type+1, value, core);
 			}
 			throw Exception{
 				.type = Exception::Type::GENERIC_ERROR,

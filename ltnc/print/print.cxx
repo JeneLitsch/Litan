@@ -67,10 +67,10 @@ namespace ltn::c {
 
 		std::string print_args(const BytexX_0 & args) {
 			std::ostringstream ss;
-			ss << args.bytes.size() << " ";
 			for(const char byte : args.bytes) {
 				ss << static_cast<std::uint16_t>(byte) << " ";
 			}
+			ss << "\\0";
 			return ss.str();
 		}
 

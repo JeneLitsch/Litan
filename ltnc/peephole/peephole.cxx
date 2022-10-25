@@ -2,6 +2,7 @@
 #include "../compile/utils/InstructionBuffer.hxx"
 #include <iostream>
 #include <functional>
+#include "ltn/CastType.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -86,6 +87,22 @@ namespace ltn::c {
 			Pattern{}
 				.search(inst::Newi{1}, inst::Sub{})
 				.replace(inst::Dec{}),
+
+			Pattern{}
+				.search(inst::Cast{std::vector<std::uint8_t>{'b'}})
+				.replace(inst::CastBool{}),
+
+			Pattern{}
+				.search(inst::Cast{std::vector<std::uint8_t>{'c'}})
+				.replace(inst::CastChar{}),
+
+			Pattern{}
+				.search(inst::Cast{std::vector<std::uint8_t>{'i'}})
+				.replace(inst::CastInt{}),
+
+			Pattern{}
+				.search(inst::Cast{std::vector<std::uint8_t>{'f'}})
+				.replace(inst::CastFloat{}),
 
 			Pattern{}
 				.search(inst::Return{}, inst::Null{}, inst::Return{})
