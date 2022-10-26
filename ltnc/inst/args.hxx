@@ -111,6 +111,6 @@ namespace ltn::inst::args {
 	}
 
 	inline std::size_t size(const BytexX_0 & args) {
-		return args.bytes.size();
+		return args.bytes.size() + 1;
 	}
 }
