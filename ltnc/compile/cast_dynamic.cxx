@@ -93,7 +93,6 @@ namespace ltn::c {
 		if(from == to) return InstructionBuffer{};
 
 		InstructionBuffer buf;
-		buf << inst::Cast{ to_type_code(to, location) };
 		if(type::is_optional(to)) buf << inst::SafeCast{ to_type_code(*to.as<type::Optional>()->contains, location) };
 		else buf << inst::SafeCast{ to_type_code(to, location) };
 		return buf;
