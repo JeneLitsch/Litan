@@ -54,7 +54,7 @@ namespace ltn::vm::inst {
 				return value::string(core.heap.alloc(String{new_string}));
 			}
 			
-			throw Exception{
+			throw Exception {
 				.type = Exception::Type::INVALID_ARGUMENT,
 				.msg = "Value not castable to string"
 			};
@@ -63,7 +63,7 @@ namespace ltn::vm::inst {
 
 
 		Value smart_cast(const std::uint8_t * type, const Value & value, VmCore & core) {
-			// std::cout << *type << "\n";
+			std::cout << *type << "\n";
 			switch (*type) {
 			case type_code::BOOL:    return cast::to_bool(value);
 			case type_code::CHAR:    return cast::to_char(value);

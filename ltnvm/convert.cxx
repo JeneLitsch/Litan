@@ -36,7 +36,7 @@ namespace ltn::vm::convert {
 		}	
 
 		if(is_char(value)) {
-			return value.i;
+			return value.c;
 		}
 
 		if(is_int(value)) {

@@ -5,10 +5,10 @@
 namespace ltn::c {
 	class InstructionBuffer {
 	public:
-		InstructionBuffer(std::vector<ltn::inst::Instruction> array)
+		InstructionBuffer(std::vector<ltn::inst::Instruction> array  = {})
 		: array{array} {};
 
-		InstructionBuffer(std::initializer_list<ltn::inst::Instruction> array = {})
+		InstructionBuffer(std::initializer_list<ltn::inst::Instruction> array)
 		: array{array} {};
 
 		InstructionBuffer & operator<<(const InstructionBuffer & buf) {

@@ -3,6 +3,8 @@
 
 namespace ltn::c::type {
 	
+	bool is_optional(const Type & x);
+
 	bool is_null(const Type & x);
 	bool is_any(const Type & x);
 

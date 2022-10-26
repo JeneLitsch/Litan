@@ -9,6 +9,11 @@
 namespace ltn::c::type {
 	class Type;
 
+	struct Optional {
+		constexpr static auto type_name = "optional";
+		stx::heaped<Type> contains;
+	};
+
 	struct Any {
 		constexpr static auto type_name = "any";
 	};
@@ -62,6 +67,7 @@ namespace ltn::c::type {
 
 	class Type {
 		using Variant = std::variant<
+			Optional,
 			Any,
 			Error,
 			Null,

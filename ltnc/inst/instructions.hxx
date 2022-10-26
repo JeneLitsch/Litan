@@ -207,7 +207,11 @@ namespace ltn::inst {
 	class Instruction {
 	public:
 		template<typename T>
-		Instruction(const T & i) : ptr{std::make_unique<T>(i)} {}
+		Instruction(const T & t) {
+			this->ptr = std::make_shared<T>(t);
+		}
+
+		Instruction(const Instruction & t) = default;
 
 		template<typename T> 
 		const T * as() const {

@@ -2,6 +2,12 @@
 
 namespace ltn::c::type {
 
+	bool is_optional(const Type & x) {
+		return x.as<Optional>();
+	}
+
+
+
 	bool is_null(const Type & x) {
 		return x.as<Null>();
 	}
