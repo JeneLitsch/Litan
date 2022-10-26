@@ -1,14 +1,14 @@
 #pragma once
-#include "ltnc/inst/instructions.hxx"
+#include "ltnc/inst/inst.hxx"
 #include "stdxx/array.hxx"
 
 namespace ltn::c {
 	class InstructionBuffer {
 	public:
-		InstructionBuffer(std::vector<ltn::inst::Instruction> array  = {})
+		InstructionBuffer(std::vector<inst::Inst> array  = {})
 		: array{array} {};
 
-		InstructionBuffer(std::initializer_list<ltn::inst::Instruction> array)
+		InstructionBuffer(std::initializer_list<inst::Inst> array)
 		: array{array} {};
 
 		InstructionBuffer & operator<<(const InstructionBuffer & buf) {
@@ -16,17 +16,17 @@ namespace ltn::c {
 			return *this;
 		}
 
-		InstructionBuffer & operator<<(const std::span<const ltn::inst::Instruction> buf) {
+		InstructionBuffer & operator<<(const std::span<const inst::Inst> buf) {
 			this->array += buf;
 			return *this;
 		}
 
-		InstructionBuffer & operator<<(const ltn::inst::Instruction & inst) {
+		InstructionBuffer & operator<<(const inst::Inst & inst) {
 			this->array += inst;
 			return *this;
 		}
 
-		const std::vector<ltn::inst::Instruction> & get() const {
+		const std::vector<inst::Inst> & get() const {
 			return array;
 		}
 
@@ -34,6 +34,6 @@ namespace ltn::c {
 			this->array.clear();
 		}
 	private:
-		std::vector<ltn::inst::Instruction> array;
+		std::vector<inst::Inst> array;
 	};
 }

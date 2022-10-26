@@ -51,7 +51,7 @@ namespace ltn::c {
 			if(auto e = as<ast::Var>(expr)) {
 				const auto var = scope.resolve(e->name, expr.location);
 				InstructionBuffer buf;
-				buf << ltn::inst::Writex{var.address};
+				buf << inst::write_x(var.address);
 				return buf;
 			}
 			
@@ -59,14 +59,14 @@ namespace ltn::c {
 				const auto idx = compile_expression(*e->index, info, scope);
 				InstructionBuffer buf;
 				buf << idx.code;
-				buf << ltn::inst::AtWrite{};
+				buf << inst::at_write();
 				return buf;
 			}
 			
 			if(auto e = as<ast::Member>(expr)) {
 				InstructionBuffer buf;
 				const auto id = info.member_table.get_id(e->name);
-				buf << ltn::inst::MemberWrite{ id };
+				buf << inst::member_write(id);
 				return buf;
 			}
 			
@@ -84,7 +84,7 @@ namespace ltn::c {
 			if(auto e = as<ast::Var>(expr)) {
 				const auto var = scope.resolve(e->name, e->location);
 				InstructionBuffer buf;
-				buf << ltn::inst::Readx{var.address};
+				buf << inst::read_x(var.address);
 				return buf;
 			}
 			
@@ -92,14 +92,14 @@ namespace ltn::c {
 				const auto idx = compile_expression(*e->index, info, scope);
 				InstructionBuffer buf;
 				buf << idx.code;
-				buf << ltn::inst::At{};
+				buf << inst::at();
 				return buf;
 			}
 
 			if(auto e = as<ast::Member>(expr)) {
 				InstructionBuffer buf;
 				const auto id = info.member_table.get_id(e->name);
-				buf << ltn::inst::MemberRead{id};
+				buf << inst::member_read(id);
 				return buf;
 			}
 
@@ -150,19 +150,19 @@ namespace ltn::c {
 		const auto l_write = compile_write(*expr.l, info, scope);
 		const auto l_read = compile_read(*expr.l, info, scope);
 		const auto r = compile_expression(*expr.r, info, scope);
-		const auto op = [&] () -> ltn::inst::Instruction {
+		const auto op = [&] () -> inst::Inst {
 			switch (expr.type) {
-			case MT::ADD:     return ltn::inst::Add{};
-			case MT::SUB:     return ltn::inst::Sub{};
-			case MT::MLT:     return ltn::inst::Mlt{};
-			case MT::DIV:     return ltn::inst::Div{};
-			case MT::MOD:     return ltn::inst::Mod{};
-			case MT::POW:     return ltn::inst::Pow{};
-			case MT::SHIFT_L: return ltn::inst::ShiftL{};
-			case MT::SHIFT_R: return ltn::inst::ShiftR{};
-			case MT::BITAND:  return ltn::inst::Bitand{};
-			case MT::BITOR:   return ltn::inst::Bitor{};
-			case MT::BITXOR:  return ltn::inst::Bitxor{};
+			case MT::ADD:     return inst::add();
+			case MT::SUB:     return inst::sub();
+			case MT::MLT:     return inst::mlt();
+			case MT::DIV:     return inst::div();
+			case MT::MOD:     return inst::mod();
+			case MT::POW:     return inst::pow();
+			case MT::SHIFT_L: return inst::shift_l();
+			case MT::SHIFT_R: return inst::shift_r();
+			case MT::BITAND:  return inst::bit_and();
+			case MT::BITOR:   return inst::bit_or();
+			case MT::BITXOR:  return inst::bit_xor();
 			}
 			throw CompilerError{
 				"Unknow modify operator",
@@ -172,7 +172,7 @@ namespace ltn::c {
 		buf << l_prepare.code;
 		
 		if(as<ast::Index>(*expr.l) || as<ast::Member>(*expr.l)) {
-			buf << ltn::inst::Duplicate{};
+			buf << inst::duplicate();
 		}
 
 		buf << l_read;
@@ -180,7 +180,7 @@ namespace ltn::c {
 		buf << op;
 
 		if(as<ast::Index>(*expr.l) || as<ast::Member>(*expr.l)) {
-			buf << ltn::inst::Swap{};
+			buf << inst::swap();
 		}
 
 		buf << conversion_on_modify(
@@ -209,7 +209,7 @@ namespace ltn::c {
 			}
 			else {
 				InstructionBuffer buf;
-				buf << ltn::inst::Null{};
+				buf << inst::null();
 				return ExprResult {
 					.code = buf,
 					.deduced_type = type::Null{}, 
@@ -231,7 +231,7 @@ namespace ltn::c {
 			new_var.type,
 			new_var.location
 		);
-		buf << ltn::inst::Writex{var.address};
+		buf << inst::write_x(var.address);
 		return { 
 			.code = buf,
 			.var_count = 0,

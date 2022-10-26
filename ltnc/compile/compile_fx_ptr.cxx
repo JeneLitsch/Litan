@@ -18,7 +18,7 @@ namespace ltn::c {
 
 		InstructionBuffer buf;
 		
-		buf << ltn::inst::Newfx{fx->id, ptr.placeholders};
+		buf << inst::newfx(fx->id, ptr.placeholders);
 
 		std::vector<type::Type> parameter_types;
 		for(const auto & parameter : fx->parameters) {

@@ -4,7 +4,7 @@ namespace ltn::c {
 	// compiles int literal
 	ExprResult compile_integer(const ast::Integer & expr) {
 		InstructionBuffer buf;
-		buf << ltn::inst::Newi{expr.value};
+		buf << inst::newi(expr.value);
 		return {
 			.code = buf,
 			.deduced_type = type::Int{}
@@ -16,7 +16,7 @@ namespace ltn::c {
 	// compiles float literal
 	ExprResult compile_floating(const ast::Float & expr) {
 		InstructionBuffer buf;
-		buf << ltn::inst::Newf{expr.value};
+		buf << inst::newf(expr.value);
 		return { 
 			.code = buf,
 			.deduced_type = type::Float{},
@@ -29,10 +29,10 @@ namespace ltn::c {
 	ExprResult compile_boolean(const ast::Bool & expr) {
 		InstructionBuffer buf;
 		if(expr.value) {
-			buf << ltn::inst::True{};
+			buf << inst::bool_true();
 		}
 		else {
-			buf << ltn::inst::False{};
+			buf << inst::bool_false();
 		}
 		return ExprResult{ 
 			.code = buf,
@@ -45,7 +45,7 @@ namespace ltn::c {
 	// compiles null literal
 	ExprResult compile_null(const ast::Null &) {
 		InstructionBuffer buf;
-		buf << ltn::inst::Null{};
+		buf << inst::null();
 		return ExprResult{ 
 			.code = buf,
 			.deduced_type = type::Null{}
@@ -56,7 +56,7 @@ namespace ltn::c {
 	// compiles bool literal
 	ExprResult compile_character(const ast::Char & expr) {
 		InstructionBuffer buf;
-		buf << ltn::inst::Newc{static_cast<std::uint8_t>(expr.value)};
+		buf << inst::newc(static_cast<std::uint8_t>(expr.value));
 		return ExprResult{
 			.code = buf,
 			.deduced_type = type::Char{}
@@ -69,7 +69,7 @@ namespace ltn::c {
 	ExprResult compile_string(const ast::String & expr) {
 		InstructionBuffer buf;
 		std::vector<std::uint8_t> bytes {std::begin(expr.value), std::end(expr.value)};
-		buf << ltn::inst::Newstr{ bytes };
+		buf << inst::newstr(bytes);
 		return ExprResult{
 			.code = buf,
 			.deduced_type = type::String{}

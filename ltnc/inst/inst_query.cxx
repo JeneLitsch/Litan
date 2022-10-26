@@ -19,30 +19,4 @@ namespace ltn::c::inst {
             return get_inst_size(i);
         }, inst);
     }
-
-	
-
-	template<typename InstT>
-    std::string_view get_inst_name(const InstT & inst) {
-        return inst.name;
-    }
-	
-    std::string_view name(const Inst & inst) {
-        return std::visit([](auto & i) {
-            return get_inst_name(i);
-        }, inst);
-    }
-
-
-
-	template<typename InstT>
-    OpCode get_inst_opcode(const InstT & inst) {
-        return inst.opcode;
-    }
-
-	OpCode opcode(const Inst & inst) {
-        return std::visit([](auto & i) {
-            return get_inst_opcode(i);
-        }, inst);
-    }
 }

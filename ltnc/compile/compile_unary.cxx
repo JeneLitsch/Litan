@@ -6,7 +6,7 @@ namespace ltn::c {
 		const auto code = compile_expression(expr, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
-		buf << ltn::inst::Neg{};
+		buf << inst::neg();
 		return ExprResult{ 
 			.code = buf,
 			.deduced_type = type::deduce_neg(code.deduced_type)
@@ -19,7 +19,7 @@ namespace ltn::c {
 		const auto code = compile_expression(expr, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
-		buf << ltn::inst::Not{};
+		buf << inst::n0t();
 		return ExprResult{
 			.code = buf,
 			.deduced_type = type::deduce_not(code.deduced_type),
@@ -31,8 +31,8 @@ namespace ltn::c {
 		const auto code = compile_expression(expr, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
-		buf << ltn::inst::Null{};
-		buf << ltn::inst::Ueql{};
+		buf << inst::null();
+		buf << inst::ueql();
 		return ExprResult{ 
 			.code = buf,
 			.deduced_type = type::deduce_nulltest(code.deduced_type),
@@ -44,7 +44,7 @@ namespace ltn::c {
 		const auto code = compile_expression(expr, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
-		buf << ltn::inst::Bitnot{};
+		buf << inst::bit_not();
 		return ExprResult{
 			.code = buf,
 			.deduced_type = type::deduce_bitnot(code.deduced_type),

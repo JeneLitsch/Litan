@@ -16,8 +16,8 @@ namespace ltn::c {
 			buf << compile_expression(*param, info, scope).code;
 		}
 
-		buf << ltn::inst::Newarr{invoke.parameters.size()};
-		buf << ltn::inst::Invoke{};
+		buf << inst::newarr(invoke.parameters.size());
+		buf << inst::invoke();
 		
 		return {
 			.code = buf,

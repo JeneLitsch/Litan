@@ -11,7 +11,7 @@ namespace ltn::c {
 		buf	
 			<< arr.code
 			<< idx.code
-			<< ltn::inst::At{};
+			<< inst::at();
 
 		return ExprResult{ 
 			.code = buf,

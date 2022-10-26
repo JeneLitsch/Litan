@@ -80,6 +80,7 @@
 
 
 function main() {
+	(lambda => std::println("test"))();
 	var str1 : string = "Hello World";
 	var arr : array<int> = dynamic_cast<array<int>>(str1);
 	std::reverse(arr);
@@ -89,6 +90,7 @@ function main() {
 	std::println(str1);
 	std::println(arr);
 	std::println(str2);
+
 }
 except(e) {
 }

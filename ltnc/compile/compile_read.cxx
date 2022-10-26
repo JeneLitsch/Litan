@@ -13,7 +13,7 @@ namespace ltn::c {
 
 		ExprResult compile_read_local_variable(const Variable & var) {
 			InstructionBuffer buf;
-			buf << ltn::inst::Readx { var.address };
+			buf << inst::read_x(var.address);
 			return ExprResult{ 
 				.code = buf,
 				.deduced_type = var.type
@@ -85,7 +85,7 @@ namespace ltn::c {
 		InstructionBuffer buf;
 		buf << compile_expression(*access.expr, info, scope).code;
 		const auto id = info.member_table.get_id(access.name);
-		buf << ltn::inst::MemberRead{id};
+		buf << inst::member_read(id);
 		return ExprResult{ buf };
 	}
 }

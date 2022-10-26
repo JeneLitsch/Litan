@@ -6,7 +6,6 @@
 
 namespace ltn::c {
 	namespace {
-		using namespace ltn::inst::args;
 		auto to_bytes(std::unsigned_integral auto value) {
 			constexpr static auto SIZE = sizeof(value) / sizeof(std::uint8_t);
 			std::array<std::uint8_t, SIZE> bytes;
@@ -26,24 +25,19 @@ namespace ltn::c {
 		}
 		
 
-
 		void assemble_args(
 			std::vector<std::uint8_t> &,
-			const None &,
+			const inst::InstLabel &,
+			const AddressTable &) {
+		}
+		void assemble_args(
+			std::vector<std::uint8_t> &,
+			const inst::InstNone &,
 			const AddressTable &) {
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
-			const Uint64 & args,
-			const AddressTable &) {
-			const auto bytes = to_bytes(args.value);
-			for(const auto byte : bytes) {
-				bytecode.push_back(byte);
-			}
-		}
-		void assemble_args(
-			std::vector<std::uint8_t> & bytecode,
-			const Uint16 & args,
+			const inst::InstUint64 & args,
 			const AddressTable &) {
 			const auto bytes = to_bytes(args.value);
 			for(const auto byte : bytes) {
@@ -52,9 +46,18 @@ namespace ltn::c {
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
-			const Jump & args,
+			const inst::InstUint16 & args,
+			const AddressTable &) {
+			const auto bytes = to_bytes(args.value);
+			for(const auto byte : bytes) {
+				bytecode.push_back(byte);
+			}
+		}
+		void assemble_args(
+			std::vector<std::uint8_t> & bytecode,
+			const inst::InstJump & args,
 			const AddressTable & jump_table) {
-			const auto addr = jump_table.at(args.name);
+			const auto addr = jump_table.at(args.label);
 			const auto bytes = to_bytes(addr);
 			for(const auto byte : bytes) {
 				bytecode.push_back(byte);
@@ -62,14 +65,14 @@ namespace ltn::c {
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> &,
-			const Target &,
+			const inst::InstTarget &,
 			const AddressTable &) {
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
-			const Jump_Uint64 & args,
+			const inst::InstJumpUint64 & args,
 			const AddressTable & jump_table) {
-			const auto bytes_jump = to_bytes(jump_table.at(args.name));
+			const auto bytes_jump = to_bytes(jump_table.at(args.label));
 			for(const auto byte : bytes_jump) {
 				bytecode.push_back(byte);
 			}
@@ -80,7 +83,7 @@ namespace ltn::c {
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
-			const Int64 & args,
+			const inst::InstInt64 & args,
 			const AddressTable &) {
 			const auto bytes = to_bytes(args.value);
 			for(const auto byte : bytes) {
@@ -89,7 +92,7 @@ namespace ltn::c {
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
-			const Float & args,
+			const inst::InstFloat & args,
 			const AddressTable &) {
 			const auto bytes = to_bytes(args.value);
 			for(const auto byte : bytes) {
@@ -98,17 +101,16 @@ namespace ltn::c {
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
-			const Byte & args,
+			const inst::InstByte & args,
 			const AddressTable &) {
 			bytecode.push_back(args.value);
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
-			const Uint64_BytexX & args,
+			const inst::InstUint64Bytex & args,
 			const AddressTable &) {
 			const std::uint64_t count = args.bytes.size();
-			const auto bytes = to_bytes(count);
-			for(const auto byte : bytes) {
+			for(const auto byte : to_bytes(count)) {
 				bytecode.push_back(byte);
 			}
 			for(const auto byte : args.bytes) {
@@ -117,7 +119,7 @@ namespace ltn::c {
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
-			const BytexX_0 & args,
+			const inst::InstBytex0 & args,
 			const AddressTable &) {
 			for(const auto byte : args.bytes) {
 				bytecode.push_back(byte);
@@ -129,14 +131,16 @@ namespace ltn::c {
 
 		void assemble_opcode(
 			std::vector<std::uint8_t> & bytecode,
-			const inst::ExecInst & inst,
+			const auto & inst,
 			const AddressTable &) {
-			bytecode.push_back(static_cast<std::uint8_t>(inst.get_opcode()));
+			bytecode.push_back(static_cast<std::uint8_t>(inst.opcode));
 		}
 		void assemble_opcode(
 			std::vector<std::uint8_t> &,
-			const inst::Label &,
-			const AddressTable &) {}
+			const inst::InstLabel &,
+			const AddressTable &) {
+			
+		}
 
 
 		std::vector<std::uint8_t> sequence_table(const AddressTable & table) {
@@ -154,7 +158,7 @@ namespace ltn::c {
 
 
 	std::vector<std::uint8_t> assemble(
-		const std::vector<inst::Instruction> & instructions,
+		const std::vector<inst::Inst> & instructions,
 		const AddressTable & jump_table,
 		const AddressTable & function_table,
 		const AddressTable & static_table) {
@@ -166,17 +170,13 @@ namespace ltn::c {
 		bytecode += sequence_table(static_table);
 
 		for(const auto & inst : instructions) {
-			if(auto executable = inst.as<inst::ExecInst>()) {
-				assemble_opcode(bytecode, *executable, jump_table);
-			}
-			else if(auto label = inst.as<inst::Label>()) {
-				assemble_opcode(bytecode, *label, jump_table);
-			}
+			std::visit([&] (auto & i) {
+				return assemble_opcode(bytecode, i, jump_table);
+			}, inst);
 
-			const auto args = inst.args();
 			std::visit([&jump_table, &bytecode] (auto & args) {
 				return assemble_args(bytecode, args, jump_table);
-			}, args);
+			}, inst);
 		}
 
 		return bytecode;

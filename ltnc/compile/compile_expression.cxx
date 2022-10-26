@@ -9,12 +9,12 @@ namespace ltn::c {
 		const auto bytes = std::vector<std::uint8_t>{std::begin(name), std::end(name)};
 
 		InstructionBuffer buf;
-		buf << inst::Newstruct{};
+		buf << inst::newstruct();
 		
-		buf << inst::Duplicate{};
-		buf << inst::Newstr{bytes};
-		buf << inst::Swap{};
-		buf << inst::MemberWrite{info.member_table.get_id("name")};
+		buf << inst::duplicate();
+		buf << inst::newstr(bytes);
+		buf << inst::swap();
+		buf << inst::member_write(info.member_table.get_id("name"));
 
 		return {buf};
 	}

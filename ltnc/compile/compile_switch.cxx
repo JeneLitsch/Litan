@@ -51,21 +51,21 @@ namespace ltn::c {
 		std::size_t i = 0;
 
 		for(const auto & [expr, body] : cases) {
-			buf << ltn::inst::Label{id + "_CASE_" + std::to_string(i+0)};
-			buf << ltn::inst::Duplicate{};
+			buf << inst::label(id + "_CASE_" + std::to_string(i+0));
+			buf << inst::duplicate();
 			buf << expr.code;
-			buf << ltn::inst::Eql{};
-			buf << ltn::inst::Ifelse{id + "_CASE_" + std::to_string(i+1)};
-			buf << ltn::inst::Scrap{};
+			buf << inst::eql();
+			buf << inst::ifelse(id + "_CASE_" + std::to_string(i+1));
+			buf << inst::scrap();
 			buf << body.code;
-			buf << ltn::inst::Jump{jump_end};
+			buf << inst::jump(jump_end);
 			++i;
 		}
 
-		buf << ltn::inst::Label{id + "_CASE_" + std::to_string(i+0)};
-		buf << ltn::inst::Scrap{};
+		buf << inst::label(id + "_CASE_" + std::to_string(i+0));
+		buf << inst::scrap();
 		buf << def4ult.code;
-		buf << ltn::inst::Label{jump_end};
+		buf << inst::label(jump_end);
 
 		return buf;
 	}

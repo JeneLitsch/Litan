@@ -10,7 +10,7 @@ namespace ltn::c {
 			buf << result.code;
 			array_type = type::deduce_array_append(array_type, result.deduced_type);
 		}
-		buf << ltn::inst::Newarr { array.elements.size() };
+		buf << inst::newarr(array.elements.size());
 		return ExprResult{ 
 			.code = buf,
 			.deduced_type = type::Type{array_type} ,

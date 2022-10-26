@@ -12,17 +12,17 @@ namespace ltn::c {
 			buf << conversion_on_return(code.deduced_type, scope.get_return_type(), ret.location);
 		}
 		else {
-			buf << ltn::inst::Null{};
+			buf << inst::null();
 			buf << conversion_on_return(type::Null{}, scope.get_return_type(), ret.location);
 		}
 
 
 		// For returns from iife
 		if(const auto returns_to = scope.get_return()) {
-			buf << ltn::inst::Jump{*returns_to};
+			buf << inst::jump(*returns_to);
 		}
 		else {
-			buf << ltn::inst::Return{};
+			buf << inst::retvrn();
 		}
 		return { buf, 0 };
 	}

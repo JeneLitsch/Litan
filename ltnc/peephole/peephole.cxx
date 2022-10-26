@@ -2,11 +2,12 @@
 #include "../compile/utils/InstructionBuffer.hxx"
 #include <iostream>
 #include <functional>
+#include <optional>
 #include "ltn/type_code.hxx"
 
 namespace ltn::c {
 	namespace {
-		using InstSpan = std::span<const ltn::inst::Instruction>;
+		using InstSpan = std::span<const inst::Inst>;
 		using Step = std::function<bool(InstSpan)>;
 
 		struct Pattern {
@@ -31,10 +32,8 @@ namespace ltn::c {
 
 			Pattern & search(const auto & first, const auto & ...args) {
 				this->steps.push_back([first] (InstSpan span) -> bool {
-					using T = std::decay_t<decltype(first)>;
 					if(span.empty()) return false;
-					const T * t = span.front().as<T>();
-					return t && t->args == first.args;
+					return span.front() == first;
 				});
 				return search(args...);
 			}
@@ -48,68 +47,68 @@ namespace ltn::c {
 
 		const auto patterns = std::array {
 			Pattern{}
-				.search(inst::Readx{0})
-				.replace(inst::Read0{}),
+				.search(inst::read_x(0))
+				.replace(inst::read_0()),
 
 			Pattern{}
-				.search(inst::Readx{1})
-				.replace(inst::Read1{}),
+				.search(inst::read_x(1))
+				.replace(inst::read_1()),
 
 			Pattern{}
-				.search(inst::Readx{2})
-				.replace(inst::Read2{}),
+				.search(inst::read_x(2))
+				.replace(inst::read_2()),
 
 			Pattern{}
-				.search(inst::Readx{3})
-				.replace(inst::Read3{}),
+				.search(inst::read_x(3))
+				.replace(inst::read_3()),
 
 
 			Pattern{}
-				.search(inst::Writex{0})
-				.replace(inst::Write0{}),
+				.search(inst::write_x(0))
+				.replace(inst::write_0()),
 
 			Pattern{}
-				.search(inst::Writex{1})
-				.replace(inst::Write1{}),
+				.search(inst::write_x(1))
+				.replace(inst::write_1()),
 
 			Pattern{}
-				.search(inst::Writex{2})
-				.replace(inst::Write2{}),
+				.search(inst::write_x(2))
+				.replace(inst::write_2()),
 
 			Pattern{}
-				.search(inst::Writex{3})
-				.replace(inst::Write3{}),
+				.search(inst::write_x(3))
+				.replace(inst::write_3()),
 
 			Pattern{}
-				.search(inst::Newi{1}, inst::Add{})
-				.replace(inst::Inc{}),
+				.search(inst::newi(1), inst::add())
+				.replace(inst::inc()),
 
 			Pattern{}
-				.search(inst::Newi{1}, inst::Sub{})
-				.replace(inst::Dec{}),
+				.search(inst::newi(1), inst::sub())
+				.replace(inst::dec()),
 
 			Pattern{}
-				.search(inst::Cast{std::vector<std::uint8_t>{'b'}})
-				.replace(inst::CastBool{}),
+				.search(inst::cast(std::vector<std::uint8_t>{'b'}))
+				.replace(inst::cast_bool()),
 
 			Pattern{}
-				.search(inst::Cast{std::vector<std::uint8_t>{'c'}})
-				.replace(inst::CastChar{}),
+				.search(inst::cast(std::vector<std::uint8_t>{'c'}))
+				.replace(inst::cast_char()),
 
 			Pattern{}
-				.search(inst::Cast{std::vector<std::uint8_t>{'i'}})
-				.replace(inst::CastInt{}),
+				.search(inst::cast(std::vector<std::uint8_t>{'i'}))
+				.replace(inst::cast_int()),
 
 			Pattern{}
-				.search(inst::Cast{std::vector<std::uint8_t>{'f'}})
-				.replace(inst::CastFloat{}),
+				.search(inst::cast(std::vector<std::uint8_t>{'f'}))
+				.replace(inst::cast_float()),
 
 			Pattern{}
-				.search(inst::Return{}, inst::Null{}, inst::Return{})
-				.replace(inst::Return{}),
+				.search(inst::retvrn(), inst::null(), inst::retvrn())
+				.replace(inst::retvrn()),
 		};
 
-		InstructionBuffer transform(std::span<const ltn::inst::Instruction> & span) {
+		InstructionBuffer transform(std::span<const inst::Inst> & span) {
 			for(const auto & pattern : patterns) {
 				if(auto x = pattern(span)) {
 					span = span.subspan(pattern.steps.size());
@@ -124,10 +123,9 @@ namespace ltn::c {
 		}
 	}
 
-	std::vector<ltn::inst::Instruction> peephole(
-		const std::vector<ltn::inst::Instruction> & input) {
+	std::vector<inst::Inst> peephole(const std::vector<inst::Inst> & input) {
 		InstructionBuffer final_buf;
-		std::span<const ltn::inst::Instruction> span = input;
+		std::span<const inst::Inst> span = input;
 		while (!span.empty()) {
 			final_buf << transform(span);
 		}

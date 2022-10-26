@@ -44,7 +44,7 @@ namespace ltn::c {
 			buf << conversion_on_pass(arg.deduced_type, parameter.type, { call.location, i });
 		}
 
-		buf << ltn::inst::Call{fx->id};
+		buf << inst::call(fx->id);
 		
 		return ExprResult{
 			.code = buf,

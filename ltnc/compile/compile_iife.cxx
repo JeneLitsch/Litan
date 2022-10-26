@@ -8,8 +8,8 @@ namespace ltn::c {
 		inner_scope.set_return(jumpmark);
 		InstructionBuffer buf;
 		buf << compile_statement(*iife.stmt, info, inner_scope).code;
-		buf << ltn::inst::Null{};
-		buf << ltn::inst::Label{jumpmark};
+		buf << inst::null();
+		buf << inst::label(jumpmark);
 		return { 
 			.code = buf,
 			.deduced_type = iife.return_type,

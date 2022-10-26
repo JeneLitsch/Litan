@@ -1,6 +1,12 @@
 #include "inst.hxx"
 
 namespace ltn::c::inst {
+	Inst label(const std::string name) {
+		return InstLabel{
+			.label = name,
+		};
+	}
+
     Inst exit() {
         return InstNone { 
             .name = "exit",
@@ -242,8 +248,8 @@ namespace ltn::c::inst {
 	}
 	Inst newfx(const std::string & label, std::uint64_t arity) {
 		return InstJumpUint64 {
-			.name = "newin",
-			.opcode = OpCode::NEWIN,
+			.name = "newfx",
+			.opcode = OpCode::NEWFX,
 			.label = label,
 			.value = arity,
 		};
@@ -290,14 +296,14 @@ namespace ltn::c::inst {
 
 	Inst jump(const std::string & label) {
 		return InstJump {
-			.name = "",
+			.name = "jump",
 			.opcode = OpCode::JUMP,
 			.label = label,
 		};
 	}
 	Inst call(const std::string & label) {
 		return InstJump {
-			.name = "",
+			.name = "call",
 			.opcode = OpCode::CALL,
 			.label = label,
 		};
@@ -315,7 +321,13 @@ namespace ltn::c::inst {
 			.opcode = OpCode::RETURN,
 		};
 	}
-	Inst ifelse(const std::string & label);
+	Inst ifelse(const std::string & label) {
+		return InstJump {
+			.name = "ifelse",
+			.opcode = OpCode::IF,
+			.label = label,
+		};
+	}
 	
 	Inst invoke() {
 		return InstNone {

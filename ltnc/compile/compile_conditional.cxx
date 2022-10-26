@@ -25,15 +25,15 @@ namespace ltn::c {
 			
 			InstructionBuffer buf;
 			buf << condition;
-			buf << ltn::inst::Ifelse{to_else};
+			buf << inst::ifelse(to_else);
 
 			buf << if_branch;
-			buf << ltn::inst::Jump{to_end};
+			buf << inst::jump(to_end);
 
-			buf << ltn::inst::Label{to_else};
+			buf << inst::label(to_else);
 			buf << *else_branch;
 
-			buf << ltn::inst::Label{to_end};
+			buf << inst::label(to_end);
 
 			return buf;
 		}
@@ -44,10 +44,10 @@ namespace ltn::c {
 			InstructionBuffer buf;
 			
 			buf << condition;
-			buf << ltn::inst::Ifelse{to_else};
+			buf << inst::ifelse(to_else);
 
 			buf << if_branch;
-			buf << ltn::inst::Label{to_else};
+			buf << inst::label(to_else);
 
 			return buf;
 		}

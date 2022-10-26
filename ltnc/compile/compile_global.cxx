@@ -34,7 +34,7 @@ namespace ltn::c {
 	ExprResult compile_read_static(const ast::GlobalVar & global_var, CompilerInfo & info, Scope & scope) {
 		auto & global = resolve_static(global_var, info.global_table, scope);
 		InstructionBuffer buf;
-		buf << ltn::inst::GlobalRead { global.id };
+		buf << inst::global_read(global.id);
 		return ExprResult{ 
 			.code = buf,
 			.deduced_type = global.type
@@ -46,7 +46,7 @@ namespace ltn::c {
 	ExprResult compile_write_static(const ast::GlobalVar & global_var, CompilerInfo & info, Scope & scope) {
 		auto & global = resolve_static(global_var, info.global_table, scope);
 		InstructionBuffer buf;
-		buf << ltn::inst::GlobalWrite{ global.id };
+		buf << inst::global_write(global.id);
 		return ExprResult{ buf };
 	}
 
@@ -54,7 +54,7 @@ namespace ltn::c {
 
 	ExprResult compile_read_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope & scope) {
 		InstructionBuffer buf;
-		buf << ltn::inst::GlobalRead { resolve_static(def, info.definition_table, scope).id };
+		buf << inst::global_read(resolve_static(def, info.definition_table, scope).id);
 		return ExprResult{ buf };
 	}
 
@@ -62,7 +62,7 @@ namespace ltn::c {
 
 	ExprResult compile_write_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope & scope) {
 		InstructionBuffer buf;
-		buf << ltn::inst::GlobalWrite{ resolve_static(def, info.definition_table, scope).id };
+		buf << inst::global_write(resolve_static(def, info.definition_table, scope).id);
 		return ExprResult{ buf };
 	}
 

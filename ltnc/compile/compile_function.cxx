@@ -6,11 +6,11 @@
 namespace ltn::c {
 	namespace {
 
-		ltn::inst::Instruction parameters(const ast::Functional & fx, Scope & scope) {
+		inst::Inst parameters(const ast::Functional & fx, Scope & scope) {
 			for(const auto & param : fx.parameters) {
 				scope.insert(param.name, fx.location, param.type);
 			}
-			return ltn::inst::Params{ static_cast<std::uint8_t>(fx.parameters.size()) };
+			return inst::parameters(static_cast<std::uint8_t>(fx.parameters.size()));
 		}
 
 
@@ -35,7 +35,7 @@ namespace ltn::c {
 			if(fx.body) {
 				const auto body = compile_statement(*fx.body, info, scope);
 				for(std::size_t i = 0; i < body.var_count; i++) {
-					buf << ltn::inst::Makevar{};
+					buf << inst::makevar();
 				}
 				buf << body.code;
 			}
@@ -54,11 +54,11 @@ namespace ltn::c {
 			scope.insert(except.errorname, except.location);
 			// std::cout << "ERR " << except.errorname << ":" << var.address << ":" << scope.recSize() << std::endl;
 			InstructionBuffer buf;
-			buf << ltn::inst::Label{jumpmark_except(fxid)};
-			buf << ltn::inst::Params{1};
+			buf << inst::label(jumpmark_except(fxid));
+			buf << inst::parameters(1);
 			buf << compile_body(except, info, scope);
-			buf << ltn::inst::Null{};
-			buf << ltn::inst::Return{};
+			buf << inst::null();
+			buf << inst::retvrn();
 			return buf;
 		}
 
@@ -74,13 +74,13 @@ namespace ltn::c {
 				
 				InstructionBuffer buf;
 				
-				buf << ltn::inst::Label{fx.id};
+				buf << inst::label(fx.id);
 				buf << capture;
 				buf << parameters(fx, scope);
-				if(fx.except) buf << ltn::inst::Try{jumpmark_except(fx.id)};
+				if(fx.except) buf << inst::trY(jumpmark_except(fx.id));
 				buf << compile_body(fx, info, scope);
-				buf << ltn::inst::Null{};
-				buf << ltn::inst::Return{};
+				buf << inst::null();
+				buf << inst::retvrn();
 				if(fx.except) buf << compile_except(*fx.except, fx.id, info, fx.namespaze);
 				
 				return buf;
@@ -105,11 +105,11 @@ namespace ltn::c {
 				fx.namespaze,
 				fx.parameters.size());
 			
-			buf << ltn::inst::Label{signature->id};
+			buf << inst::label(signature->id);
 			const auto body = resolve_build_in(fx.key); 
 			buf << body;
-			buf << ltn::inst::Null{};
-			buf << ltn::inst::Return{};
+			buf << inst::null();
+			buf << inst::retvrn();
 			
 			return buf;
 		}
@@ -139,7 +139,7 @@ namespace ltn::c {
 		InstructionBuffer buf;
 		
 		// Skip
-		buf << ltn::inst::Jump{jumpmark_skip(fx.id)};
+		buf << inst::jump(jumpmark_skip(fx.id));
 		
 		// load captures
 		MajorScope inner_scope {
@@ -150,21 +150,21 @@ namespace ltn::c {
 		
 		for(const auto & capture : lm.captures) {
 			const auto var = inner_scope.insert(capture->name, fx.location);
-			capture_buf << ltn::inst::Makevar{};
-			capture_buf << ltn::inst::Writex{var.address};
+			capture_buf << inst::makevar();
+			capture_buf << inst::write_x(var.address);
 		}
 
 		// compile function
 		buf << compile_function(*lm.fx, info, inner_scope, capture_buf);
 
 		// Create function pointer
-		buf << ltn::inst::Label{jumpmark_skip(fx.id)};
-		buf << ltn::inst::Newfx{fx.id, fx.parameters.size()};
+		buf << inst::label(jumpmark_skip(fx.id));
+		buf << inst::newfx(fx.id, fx.parameters.size());
 		
 		// store captures
 		for(const auto & capture : lm.captures) {
 			buf << compile_read_variable(*capture, info, outer_scope).code;
-			buf << ltn::inst::Capture{};
+			buf << inst::capture();
 		}
 
 

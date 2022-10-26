@@ -12,10 +12,10 @@ namespace ltn::c {
 
 			if(type::is_any(to))                  return {};
 			if(to == from)                        return {};
-			if(is_bool(to))                       return { inst::CastFloat{} };
-			if(is_char(to)  && is_subint(from))   return { inst::CastChar{}  };
-			if(is_int(to)   && is_integral(from)) return { inst::CastInt{}   };
-			if(is_float(to) && is_numeric(from))  return { inst::CastFloat{} };
+			if(is_bool(to))                       return { inst::cast_float() };
+			if(is_char(to)  && is_subint(from))   return { inst::cast_char()  };
+			if(is_int(to)   && is_integral(from)) return { inst::cast_int()   };
+			if(is_float(to) && is_numeric(from))  return { inst::cast_float() };
 			if(is_subtype_array(from, to))        return {};
 			
 			on_error();

@@ -10,176 +10,176 @@ namespace ltn::c {
 
 		struct BinOp {
 			stx::fx_ptr<type::Type(const type::Type &, const type::Type &)> deduce;
-			inst::Instruction for_any;
-			inst::Instruction for_int;
-			inst::Instruction for_float;
+			inst::Inst for_any;
+			inst::Inst for_int;
+			inst::Inst for_float;
 		};
 
 
 
 		const BinOp add {
 			.deduce    = type::deduce_add,
-			.for_any   = inst::Add{},
-			.for_int   = inst::Add{},
-			.for_float = inst::Add{},
+			.for_any   = inst::add(),
+			.for_int   = inst::add(),
+			.for_float = inst::add(),
 		};
 
 
 
 		const BinOp sub {
 			.deduce    = type::deduce_sub,
-			.for_any   = inst::Sub{},
-			.for_int   = inst::Sub{},
-			.for_float = inst::Sub{},
+			.for_any   = inst::sub(),
+			.for_int   = inst::sub(),
+			.for_float = inst::sub(),
 		};
 
 
 
 		const BinOp mlt {
 			.deduce    = type::deduce_mlt,
-			.for_any   = inst::Mlt{},
-			.for_int   = inst::Mlt{},
-			.for_float = inst::Mlt{},
+			.for_any   = inst::mlt(),
+			.for_int   = inst::mlt(),
+			.for_float = inst::mlt(),
 		};
 
 
 
 		const BinOp div {
 			.deduce    = type::deduce_div,
-			.for_any   = inst::Div{},
-			.for_int   = inst::Div{},
-			.for_float = inst::Div{},
+			.for_any   = inst::div(),
+			.for_int   = inst::div(),
+			.for_float = inst::div(),
 		};
 
 
 
 		const BinOp mod {
 			.deduce    = type::deduce_mod,
-			.for_any   = inst::Mod{},
-			.for_int   = inst::Mod{},
-			.for_float = inst::Mod{},
+			.for_any   = inst::mod(),
+			.for_int   = inst::mod(),
+			.for_float = inst::mod(),
 		};
 
 
 
 		const BinOp pow {
 			.deduce    = type::deduce_pow,
-			.for_any   = inst::Pow{},
-			.for_int   = inst::Pow{},
-			.for_float = inst::Pow{},
+			.for_any   = inst::pow(),
+			.for_int   = inst::pow(),
+			.for_float = inst::pow(),
 		};
 
 
 
 		const BinOp lss {
 			.deduce    = type::deduce_compare,
-			.for_any   = inst::Sml{},
-			.for_int   = inst::Sml{},
-			.for_float = inst::Sml{},
+			.for_any   = inst::lt(),
+			.for_int   = inst::lt(),
+			.for_float = inst::lt(),
 		};
 
 
 
 		const BinOp gtr {
 			.deduce    = type::deduce_compare,
-			.for_any   = inst::Bgr{},
-			.for_int   = inst::Bgr{},
-			.for_float = inst::Bgr{},
+			.for_any   = inst::gt(),
+			.for_int   = inst::gt(),
+			.for_float = inst::gt(),
 		};
 
 
 
 		const BinOp lss_eql {
 			.deduce    = type::deduce_compare,
-			.for_any   = inst::Smleql{},
-			.for_int   = inst::Smleql{},
-			.for_float = inst::Smleql{},
+			.for_any   = inst::lt_eql(),
+			.for_int   = inst::lt_eql(),
+			.for_float = inst::lt_eql(),
 		};
 
 
 
 		const BinOp gtr_eql {
 			.deduce    = type::deduce_compare,
-			.for_any   = inst::Bgreql{},
-			.for_int   = inst::Bgreql{},
-			.for_float = inst::Bgreql{},
+			.for_any   = inst::gt_eql(),
+			.for_int   = inst::gt_eql(),
+			.for_float = inst::gt_eql(),
 		};
 
 
 
 		const BinOp eql {
 			.deduce    = type::deduce_compare,
-			.for_any   = inst::Eql{},
-			.for_int   = inst::Eql{},
-			.for_float = inst::Eql{},
+			.for_any   = inst::eql(),
+			.for_int   = inst::eql(),
+			.for_float = inst::eql(),
 		};
 
 
 
 		const BinOp ueql {
 			.deduce    = type::deduce_compare,
-			.for_any   = inst::Ueql{},
-			.for_int   = inst::Ueql{},
-			.for_float = inst::Ueql{},
+			.for_any   = inst::ueql(),
+			.for_int   = inst::ueql(),
+			.for_float = inst::ueql(),
 		};
 
 
 
 		const BinOp comp3 {
 			.deduce    = type::deduce_three_way,
-			.for_any   = inst::Comp{},
-			.for_int   = inst::Comp{},
-			.for_float = inst::Comp{},
+			.for_any   = inst::comp(),
+			.for_int   = inst::comp(),
+			.for_float = inst::comp(),
 		};
 
 
 
 		const BinOp bit_or {
 			.deduce    = type::deduce_bitwise,
-			.for_any   = inst::Bitor{},
-			.for_int   = inst::Bitor{},
-			.for_float = inst::Bitor{},
+			.for_any   = inst::bit_or(),
+			.for_int   = inst::bit_or(),
+			.for_float = inst::bit_or(),
 		};
 
 
 
 		const BinOp bit_and {
 			.deduce    = type::deduce_bitwise,
-			.for_any   = inst::Bitand{},
-			.for_int   = inst::Bitand{},
-			.for_float = inst::Bitand{},
+			.for_any   = inst::bit_and(),
+			.for_int   = inst::bit_and(),
+			.for_float = inst::bit_and(),
 		};
 
 
 
 		const BinOp bit_xor {
 			.deduce    = type::deduce_bitwise,
-			.for_any   = inst::Bitxor{},
-			.for_int   = inst::Bitxor{},
-			.for_float = inst::Bitxor{},
+			.for_any   = inst::bit_xor(),
+			.for_int   = inst::bit_xor(),
+			.for_float = inst::bit_xor(),
 		};
 
 
 
 		const BinOp shift_l {
 			.deduce    = type::deduce_bitwise,
-			.for_any   = inst::ShiftL{},
-			.for_int   = inst::ShiftL{},
-			.for_float = inst::ShiftL{},
+			.for_any   = inst::shift_l(),
+			.for_int   = inst::shift_l(),
+			.for_float = inst::shift_l(),
 		};
 
 
 
 		const BinOp shift_r {
 			.deduce    = type::deduce_bitwise,
-			.for_any   = inst::ShiftR{},
-			.for_int   = inst::ShiftR{},
-			.for_float = inst::ShiftR{},
+			.for_any   = inst::shift_r(),
+			.for_int   = inst::shift_r(),
+			.for_float = inst::shift_r(),
 		};
 
 
 
-		inst::Instruction pick_instruction(
+		inst::Inst pick_instruction(
 			const type::Type & l,
 			const type::Type & r,
 			const BinOp & op) {
@@ -222,15 +222,15 @@ namespace ltn::c {
 			InstructionBuffer buf;
 			buf << l.code;
 			
-			buf << ltn::inst::Ifelse{falsE};
+			buf << inst::ifelse(falsE);
 			buf << r.code;
-			buf << ltn::inst::CastBool{};
-			buf << ltn::inst::Jump{end};
+			buf << inst::cast_bool();
+			buf << inst::jump(end);
 
-			buf << ltn::inst::Label{falsE};
-			buf << ltn::inst::False{};
+			buf << inst::label(falsE);
+			buf << inst::bool_false();
 
-			buf << ltn::inst::Label{end};
+			buf << inst::label(end);
 			
 			return {
 				.code = buf,
@@ -247,16 +247,16 @@ namespace ltn::c {
 			InstructionBuffer buf;
 			
 			buf << l.code;
-			buf << ltn::inst::Not{};
-			buf << ltn::inst::Ifelse{truE};
+			buf << inst::n0t();
+			buf << inst::ifelse(truE);
 			buf << r.code;
-			buf << ltn::inst::CastBool{};
-			buf << ltn::inst::Jump{end};
+			buf << inst::cast_bool();
+			buf << inst::jump(end);
 
-			buf << ltn::inst::Label{truE};
-			buf << ltn::inst::True{};
+			buf << inst::label(truE);
+			buf << inst::bool_true();
 
-			buf << ltn::inst::Label{end};
+			buf << inst::label(end);
 			
 			return { 
 				.code = buf,
@@ -273,15 +273,15 @@ namespace ltn::c {
 			InstructionBuffer buf;
 			
 			buf << l.code;
-			buf << ltn::inst::Duplicate{};
-			buf << ltn::inst::Ifelse{jumpmark_else};
-			buf << ltn::inst::Jump{jumpmark_end};
+			buf << inst::duplicate();
+			buf << inst::ifelse(jumpmark_else);
+			buf << inst::jump(jumpmark_end);
 
-			buf << ltn::inst::Label{jumpmark_else};
-			buf << ltn::inst::Scrap{};
+			buf << inst::label(jumpmark_else);
+			buf << inst::scrap();
 			buf << r.code;
 			
-			buf << ltn::inst::Label{jumpmark_end};
+			buf << inst::label(jumpmark_end);
 			
 			return {
 				.code = buf,
@@ -297,17 +297,17 @@ namespace ltn::c {
 			const auto jumpmark_end = jumpmark + "_END"; 
 			InstructionBuffer buf;
 			buf << l.code;
-			buf << ltn::inst::Duplicate{};
-			buf << ltn::inst::Null{};
-			buf << ltn::inst::Ueql{};
-			buf << ltn::inst::Ifelse{jumpmark_else};
-			buf << ltn::inst::Jump{jumpmark_end};
+			buf << inst::duplicate();
+			buf << inst::null();
+			buf << inst::ueql();
+			buf << inst::ifelse(jumpmark_else);
+			buf << inst::jump(jumpmark_end);
 
-			buf << ltn::inst::Label{jumpmark_else};
-			buf << ltn::inst::Scrap{};
+			buf << inst::label(jumpmark_else);
+			buf << inst::scrap();
 			buf << r.code;
 			
-			buf << ltn::inst::Label{jumpmark_end};
+			buf << inst::label(jumpmark_end);
 			return {
 				.code = buf,
 				.deduced_type = type::deduce_nullco(l.deduced_type, r.deduced_type)

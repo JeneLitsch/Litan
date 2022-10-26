@@ -31,12 +31,12 @@ namespace ltn::c {
 		// generate asm code
 		InstructionBuffer buf;
 		buf 
-			<< ltn::inst::Label{begin}
+			<< inst::label(begin)
 			<< condition.code
-			<< ltn::inst::Ifelse{end}
+			<< inst::ifelse(end)
 			<< body.code
-			<< ltn::inst::Jump{begin}
-			<< ltn::inst::Label{end};
+			<< inst::jump(begin)
+			<< inst::label(end);
 
 		return { buf, body.var_count };
 	}
@@ -54,9 +54,9 @@ namespace ltn::c {
 		// generate asm code
 		InstructionBuffer buf;
 		buf
-			<< ltn::inst::Label{jump}
+			<< inst::label(jump)
 			<< body.code
-			<< ltn::inst::Jump{jump};
+			<< inst::jump(jump);
 
 		return { buf, body.var_count};
 	}
@@ -87,39 +87,39 @@ namespace ltn::c {
 		buf
 			<< to.code
 			<< from.code
-			<< ltn::inst::Duplicate{}
-			<< ltn::inst::Writex{i_var.address}
-			<< ltn::inst::Writex{from_var.address}
-			<< ltn::inst::Writex{to_var.address};
+			<< inst::duplicate()
+			<< inst::write_x(i_var.address)
+			<< inst::write_x(from_var.address)
+			<< inst::write_x(to_var.address);
 
 		// Condition
 		buf
-			<< ltn::inst::Label{begin}
-			<< ltn::inst::Readx{to_var.address}
-			<< ltn::inst::Readx{from_var.address}
-			<< ltn::inst::Readx{i_var.address}
-			<< ltn::inst::Between{}
-			<< ltn::inst::Ifelse{end};
+			<< inst::label(begin)
+			<< inst::read_x(to_var.address)
+			<< inst::read_x(from_var.address)
+			<< inst::read_x(i_var.address)
+			<< inst::between()
+			<< inst::ifelse(end);
 
 		// body
 		buf << body.code;
 
 		// Increments
-		buf << ltn::inst::Readx{ i_var.address };
+		buf << inst::read_x(i_var.address);
 		if(auto & step = stmt.step) {
 			buf
 				<< compile_expression(*step, info, loop_scope).code
-				<< ltn::inst::Add{};
+				<< inst::add();
 		}
 		else {
-			buf << ltn::inst::Inc{};
+			buf << inst::inc();
 		}
-		buf << ltn::inst::Writex{ i_var.address };
+		buf << inst::write_x(i_var.address);
 
 		// End of loop
 		buf
-			<< ltn::inst::Jump{ begin }
-			<< ltn::inst::Label{ end };
+			<< inst::jump(begin)
+			<< inst::label(end);
 
 		return StmtResult{ buf, body.var_count + 3 };
 	}

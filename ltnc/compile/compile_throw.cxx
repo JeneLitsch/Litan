@@ -6,9 +6,9 @@ namespace ltn::c {
 			buf << compile_expression(*thr0w.expression, info, scope).code;
 		}
 		else {
-			buf << ltn::inst::Null{};
+			buf << inst::null();
 		}
-		buf << ltn::inst::Throw{};
+		buf << inst::thr0w();
 		return { buf, 0 };
 	}
 }

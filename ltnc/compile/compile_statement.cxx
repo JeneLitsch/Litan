@@ -4,7 +4,7 @@ namespace ltn::c {
 		const auto code = compile_expression(*stmt.expression, info, scope);
 		InstructionBuffer buf;
 		buf << code.code;
-		buf << ltn::inst::Scrap{};
+		buf << inst::scrap();
 		return { buf, 0 };
 	}
 

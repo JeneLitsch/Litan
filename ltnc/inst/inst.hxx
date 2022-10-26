@@ -14,6 +14,12 @@ namespace ltn::c::inst {
 		bool operator==(const InstNone &) const = default;
 	};
 
+	struct InstLabel {
+		constexpr inline static std::size_t size = 0;
+		std::string label;
+		bool operator==(const InstLabel &) const = default;
+	};
+
 	struct InstUint64 {
 		constexpr inline static std::size_t size = 9;
 		std::string_view name;
@@ -94,6 +100,7 @@ namespace ltn::c::inst {
 	};
 
     using Inst = std::variant<
+		InstLabel,
         InstNone,
 	    InstUint64,
 	    InstUint16,
@@ -109,9 +116,7 @@ namespace ltn::c::inst {
     
 	std::size_t inst_size(const Inst & inst);
 
-	std::string_view name(const Inst & inst);
-
-	OpCode opcode(const Inst & inst);
+	Inst label(const std::string name);
 
 	Inst exit();
 	Inst error();

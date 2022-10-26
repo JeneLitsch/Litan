@@ -128,7 +128,7 @@ namespace ltn::c {
 		const SourceLocation & location) {
 		if(from == to) return {};
 		InstructionBuffer buf;
-		buf << inst::Cast{ to_type_code(from, to, location) };
+		buf << inst::cast(to_type_code(from, to, location));
 		return buf;
 	}
 }

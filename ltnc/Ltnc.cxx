@@ -149,8 +149,8 @@ namespace ltn::c {
 		// buf << static_init(info, program.definitions);
 		buf << define_init(info, program.definitions);
 		buf << global_init(info, program.globals);
-		buf << inst::Null{};
-		buf << inst::Exit{};
+		buf << inst::null();
+		buf << inst::exit();
 
 		for(const auto & function : program.functions) {
 			try {
@@ -175,7 +175,7 @@ namespace ltn::c {
 		}
 
 
-		buf << inst::Exit{};
+		buf << inst::exit();
 
 		return {
 			buf.get(),

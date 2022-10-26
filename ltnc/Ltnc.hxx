@@ -2,7 +2,7 @@
 #include "CompilerError.hxx"
 #include "Reporter.hxx"
 #include "Source.hxx"
-#include "ltnc/inst/instructions.hxx"
+#include "ltnc/inst/inst.hxx"
 #include "optimize/optimize.hxx"
 #include "print/print.hxx"
 #include "peephole/peephole.hxx"
@@ -13,7 +13,7 @@
 
 namespace ltn::c {
 	struct Instructions {
-		std::vector<ltn::inst::Instruction> insts;
+		std::vector<inst::Inst> insts;
 		std::set<std::string> init_functions;
 		AddressTable global_table;
 	};
