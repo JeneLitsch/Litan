@@ -215,6 +215,15 @@ Return false if x is null and true otherwise.
 | --- | ------ | --------- |
 | Any | Bool   | Null test |
 
+# Deref *
+
+Throws if x is null. Otherwise x is forwarded.
+
+| X                 | Result | *x        |
+| ----------------- | ------ | --------- |
+| optional&lt;T&gt; | T      | derefence |
+| Any               | Any    | derefence |
+
 # Ternary ?:
 
 Returns l if c is truthy and to r if c is not.
