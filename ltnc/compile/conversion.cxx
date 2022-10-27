@@ -17,6 +17,10 @@ namespace ltn::c {
 			if(is_int(to)   && is_integral(from)) return { inst::cast_int()   };
 			if(is_float(to) && is_numeric(from))  return { inst::cast_float() };
 			if(is_subtype_array(from, to))        return {};
+			if(is_optional(to)) {
+				if(is_null(from)) return {};
+				else return conversion_on_copy(from, *to.as<type::Optional>()->contains, on_error);
+			}   
 			
 			on_error();
 			return {};

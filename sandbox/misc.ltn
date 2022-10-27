@@ -80,8 +80,9 @@
 
 
 function main() {
-	var a : ?int = dynamic_cast<int>(1);
-	var b : int = *a;
+	var a : ?int = 'A';
+	var c : ?int = a;
+	var b : int = *c;
 	std::println(b);
 }
 except(e) {
