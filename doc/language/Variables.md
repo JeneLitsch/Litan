@@ -3,27 +3,26 @@
 
 ## Syntax
 
-Create a variable
+The following code listing shows a the structure of a variable declaration.
 
 ```js
-var /*name*/;
+var /*name*/ : /*type*/ = /*expression*/;  
 ```
 
-or
+The type and expression is optional.
 
-```js
-var /*name*/ = /*expression*/;  
-```
+## Defaults
 
-In the first case the variable is default assigned to `null`.
+A variable without type is of type any by default.
+A variable without an initial value, is set to null until assigned otherwise.
 
 ## Examples
 
 ```js
 function main() {
 	var foo;
-	var bar = 42;
-	var baz = "Hello World";
+	var bar : int = 42;
+	var baz : string = "Hello World";
 	std::println(foo);
 	std::println(bar);
 	std::println(baz);

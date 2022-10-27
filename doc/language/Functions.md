@@ -1,21 +1,30 @@
 # Functions
 
-A Litan function can be declared in one of the following ways.
+## Header
 
-Statemement block as function body  
+Every Litan function starts with its header. Every parameter can annotated with type by adding a colon `:` and a typename.
+
+```js
+function name(param1, param1 : /*TYPE*/, ...) /*Qualifiers*/ -> /*Return type*/
+```
+
+
+## Body
+
+After the header follows the function body. There are two different types of bodies. Either a block statement can used as body or a single expression with an arrow `=>` in front. The later is equivalent to a block statement function only containing a single return statement.
+
 ```javascript
 function name(param1, ...) {  
     // Some code here  
 }
 ```
-
-Single expression as function body    
-since 1.2
 ```javascript
 function name(param1, ...) => // Expression goes here  
 ```
 
-The function main() with zero or one parameter is the starting point of a Litan program.  
+## Main-Function
+
+The function main() with zero or one parameter is the default starting point of a Litan program. It's declared as extern automatically.
 
 ## Examples
 ```javascript
@@ -37,7 +46,7 @@ function main(args) {
 ```
 
 ```javascript
-function add(a, b) const {
+function add(a : int, b : int) const -> int {
     return a + b;
 }
 ```

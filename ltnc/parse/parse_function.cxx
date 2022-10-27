@@ -134,7 +134,6 @@ namespace ltn::c {
 			auto parse_body) {
 			const auto name = parse_function_name(tokens);
 			const auto parameters = parse_mandatory_parameters(tokens);
-			const auto return_type = parse_return_type(tokens);
 			bool c0nst = false;
 			bool pr1vate = false;
 			bool init = false;
@@ -161,6 +160,7 @@ namespace ltn::c {
 					};
 				}
 			}			
+			const auto return_type = parse_return_type(tokens);
 			auto body = parse_body(tokens);
 			auto fx = std::make_unique<FunctionalNode>(
 				name,

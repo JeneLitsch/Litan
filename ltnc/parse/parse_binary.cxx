@@ -131,9 +131,9 @@ namespace ltn::c {
 			static constexpr auto bit_xor     = generic_binary<bitxor_table,      bit_and>;
 			static constexpr auto bit_or      = generic_binary<bitor_table,       bit_xor>;
 
-			static constexpr auto logical_or  = generic_binary<log_or_table,      bit_or>;
-			static constexpr auto logical_and = generic_binary<log_and_table,     logical_or>;
-			return logical_and(tokens);
+			static constexpr auto logical_and = generic_binary<log_and_table,     bit_or>;
+			static constexpr auto logical_or  = generic_binary<log_or_table,      logical_and>;
+			return logical_or(tokens);
 		}
 	}
 

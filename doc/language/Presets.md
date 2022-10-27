@@ -4,7 +4,7 @@ Presets are declared at a namespace level and can be used to create structs more
 
 The following example describes a struct "my_struct" with two member variables "foo" and "bar".  
 
-```
+```js
 preset my_struct {
 	var foo;
 	var bar;

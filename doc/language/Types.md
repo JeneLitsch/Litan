@@ -1,8 +1,13 @@
 # Types
 
+## Any
+
+Any represents a non specified type.
+
+---
+
 ## Null
-The null type indicates a non-existing value.
-A value of type null can be created by the `null` keyword.
+The null type indicates a non-existing value. A value of type null can be created by the `null` keyword.
 
 **Example**
 ```js
@@ -10,14 +15,14 @@ function main() {
 	var a = null;
 }
 ```
+
 ---
 
-
-
 ## Bool
+
 The bool type can be set two states `true` and `false`. 
 A value of type bool can be created by the `true` or `false` keyword.
-A boolean value can be implicitly converted or casted to every numeric type where false becomes 0 and true 1.
+A boolean value can be implicitly converted or casted to every numeric type where false becomes 0 and true becomes 1.
 
 **Example**
 ```js
@@ -29,7 +34,10 @@ function main() {
 
 ---
 
+## Optional 
+An optional type optional&lt;T&gt; (short notatation: ?T) either holds a value of type T or null.
 
+---
 
 ## Char
 The char type is an 8-Bit integral type used to represent a single character.
@@ -130,6 +138,7 @@ function main() {
 	std::println(b);
 }
 ```
+
 
 ### Escape sequences
 `\n` for newline  

@@ -30,7 +30,3 @@ else {
 }
 
 ```
-
-## Note
-
-The condition expression must be convertible to true or false e.g. a boolean.

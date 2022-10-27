@@ -1,4 +1,4 @@
-# static_cast<...>
+# General Rules
 
 ## bool
 
@@ -29,3 +29,12 @@ Any numeric array can be casted to a string. The numeric subtype values are inte
 ## array
 
 Differnt array types can be casted to each other, if the contained subtype is castable. For static casts to arrays a string is treated the same as an array&lt;char&gt;
+
+# static_cast&lt;T&gt;
+
+Static casts are checked at compile time. If the cast is invalid a compiler error is thrown. The cast returns a value of type T.
+
+# dynamic_cast&lt;T&gt;
+
+Dynamic casts are checked at run time. If the cast is invalid null is returned.
+The cast returns an value of type optional&lt;T&gt;.

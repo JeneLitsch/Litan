@@ -51,7 +51,7 @@ namespace ltn::c {
 		if(to == from)                       return {};
 
 		std::ostringstream oss;
-		oss << "Cannot assign " << from << " to "<< to;
+		oss << "Cannot modify " << to << " with "<< from;
 		throw CompilerError{oss.str(), location};
 	}
 

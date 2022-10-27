@@ -1,90 +1,15 @@
-// namespace foo {
-// 	global test;
-// }
-
-
-// preset A {
-// 	var a : int;
-// }
-
-
-// function fx1(a : int, b : map<int,int>) -> array<int> {}
-
-// function main(args : array<string>) {
-// 	var a : int = 10.0;
-// 	var b : array<int> = a;
-// 	var c : map<int, array<int>> = a;
-// 	var d : map<int, array<array<int>>> = a;
-// 	var e = a;
-
-// 	std::println(decltype(args).name);
-	
-// 	std::println(decltype(a).name);
-// 	std::println(decltype(b).name);
-// 	std::println(decltype(c).name);
-// 	std::println(decltype(d).name);
-// 	std::println(decltype(e).name);
-
-// 	std::println(decltype(fx1(2,1)).name);
-// 	std::println(decltype(lambda() -> float => 3.14).name);
-// 	std::println(decltype(lambda(x:int, y:string) -> int => x).name);
-// 	std::println(decltype((lambda() -> float => 3.14)()).name);
-// 	std::println(decltype(&fx1(_,_)).name);
-// 	std::println(decltype((&fx1(_,_))()).name);
-// }
-
-// global a : int = 1;
-// define b : int = 1;
-
-// function to_char(i : int, x : int) -> char {
-// 	return 'A';
-// }
-
-// function main() {
-// 	var i1 : int  = 1;
-// 	var i2 : int  = 1;
-
-// 	var f1 : float = 1.0;
-// 	var f2 : float = 1.0;
-
-// 	var i : int   = i1 + i2;
-// 	var f : float = f1 + f2;
-
-// 	var x = static_cast<char>(65.5); 
-// 	std::println(x);
-// 	std::println(std::typename(x));
-// }
-
-// function main() {
-// 	var bool_array : array<bool>   = [true, false, true];
-// 	var int_array : array<int>     = static_cast<array<int>>(bool_array);
-// 	var float_array : array<float> = static_cast<array<float>>(bool_array);
-// 	std::println(bool_array);
-// 	std::println(int_array);
-// 	std::println(float_array);
-
-// 	var aab : array<array<bool>>   = [[true, false, true], [true, false, true]];
-// 	var aai : array<array<int>>    = static_cast<array<array<int>>>(aab);
-// 	std::println(aab);
-// 	std::println(aai);
-
-// 	std::println(static_cast<int>(1.4));
-// 	std::println(static_cast<bool>(1.4));
-// 	std::println(static_cast<string>(1.4) + " float");
-// 	std::println(static_cast<array<bool>>("Hello World"));
-// 	std::println(static_cast<array<char>>("Hello World"));
-// 	std::println(static_cast<array<int>>("Hello World"));
-// 	std::println(static_cast<array<float>>("Hello World"));
-// 	// std::println(static_cast<array<string>>("Hello World"));
-// }
-
-
-function main() {
-	var a : ?int = 'A';
-	var c : ?int = a;
-	var b : int = *c;
-	std::println(b);
+function add(a : int, b : int) const -> int {
+    return a + b;
 }
-except(e) {
-	std::println(e);
+
+function main() extern -> int  {
+	var foo;
+	var bar : int = add(21,21);
+	var baz : string = "Hello World";
+	std::println(foo);
+	std::println(bar);
+	std::println(baz);
+	var x : char = 'A';
+	x += static_cast<char>(1);
+	std::println(x);
 }
