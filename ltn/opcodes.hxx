@@ -36,6 +36,7 @@ namespace ltn {
 		NOT,
 		INC,
 		DEC,
+		DEREF,
 
 		COMP = 0x28,
 		APPROX,

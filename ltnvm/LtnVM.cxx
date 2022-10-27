@@ -64,6 +64,7 @@ namespace ltn::vm {
 		table[OpCode::NOT] = inst::n0t;
 		table[OpCode::INC] = inst::inc;
 		table[OpCode::DEC] = inst::dec;
+		table[OpCode::DEREF] = inst::deref;
 		table[OpCode::COMP] = inst::comp;
 		table[OpCode::APPROX] = inst::approx;
 		table[OpCode::BETWEEN] = inst::between;

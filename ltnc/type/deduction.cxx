@@ -219,6 +219,13 @@ namespace ltn::c::type {
 
 
 
+	Type deduce_deref(const Type & x) {
+		if(is_optional(x)) return *x.as<Optional>()->contains;
+		return x; 
+	}
+
+
+
 	Type deduce_invokation(const Type & fx_ptr) {
 		if(auto fx = fx_ptr.as<FxPtr>()) return **fx->return_type;
 		if(fx_ptr.as<Any>()) return Any{};

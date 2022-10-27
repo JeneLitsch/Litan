@@ -32,6 +32,7 @@ namespace ltn::c::type {
 	Type deduce_not(const Type & x);
 	Type deduce_bitnot(const Type & x);
 	Type deduce_nulltest(const Type & x);
+	Type deduce_deref(const Type & x);
 
 	Type deduce_invokation(const Type & fx_ptr);
 

@@ -35,6 +35,7 @@ namespace ltn::vm::inst {
 	void dec(VmCore & core);
 	void comp(VmCore & core);
 	void approx(VmCore & core);
+	void deref(VmCore & core);
 
 	void newi(VmCore & core);
 	void newf(VmCore & core);

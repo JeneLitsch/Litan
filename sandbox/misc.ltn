@@ -80,14 +80,10 @@
 
 
 function main() {
-	var str1 : string = "Hello World";
-	var arr : array<int> = static_cast<array<int>>(str1);
-	var str2 : ?array<string> = dynamic_cast<array<string>>(arr);
-
-	std::println(str1);
-	std::println(arr);
-	std::println(str2);
-
+	var a : ?int = dynamic_cast<int>(1);
+	var b : int = *a;
+	std::println(b);
 }
 except(e) {
+	std::println(e);
 }

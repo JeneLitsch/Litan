@@ -151,6 +151,12 @@ namespace ltn::c::inst {
             .opcode = OpCode::DEC,
         };
     }
+	Inst deref() {
+		return InstNone {
+            .name = "deref",
+            .opcode = OpCode::DEREF,
+        };
+	}
 
 
 

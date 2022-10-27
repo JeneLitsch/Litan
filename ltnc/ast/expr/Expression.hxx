@@ -50,7 +50,7 @@ namespace ltn::c::ast {
 
 
 	struct Unary : public Expression {
-		enum class Type { NEG, NOT, NUL, BITNOT };
+		enum class Type { NEG, NOT, NUL, BITNOT, DEREF };
 		Unary(
 			Type type,
 			std::unique_ptr<Expression> expression,

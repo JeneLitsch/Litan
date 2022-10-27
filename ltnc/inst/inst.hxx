@@ -145,6 +145,7 @@ namespace ltn::c::inst {
 	Inst n0t();
 	Inst inc();
 	Inst dec();
+	Inst deref();
 
 	Inst comp();
 	Inst between();

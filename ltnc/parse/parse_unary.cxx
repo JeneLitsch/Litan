@@ -80,6 +80,7 @@ namespace ltn::c {
 			std::pair{TT::XMARK, OP::NOT},
 			std::pair{TT::QMARK, OP::NUL},
 			std::pair{TT::TILDE, OP::BITNOT},
+			std::pair{TT::STAR,  OP::DEREF},
 		};
 		
 		if(auto op = match_op(tokens, table)) {
