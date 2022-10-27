@@ -12,7 +12,7 @@ namespace ltn::c {
 		const SourceLocation & location) {
 		
 		std::ostringstream oss;
-		oss << "Cannot static_cast " << from << " to " << to;
+		oss << "Cannot cast " << from << " to " << to;
 		return CompilerError{oss.str(), location};
 	}
 	

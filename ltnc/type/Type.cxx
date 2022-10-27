@@ -22,6 +22,10 @@ namespace ltn::c::type {
 		return true;
 	}
 
+	bool operator==(const Optional & l, const Optional & r) {
+		return *l.contains == *r.contains;
+	}
+
 	bool operator==(const Error &, const Error &) {
 		return true;
 	}

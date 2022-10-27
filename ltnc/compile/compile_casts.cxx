@@ -6,6 +6,7 @@ namespace ltn::c {
 	namespace {
 		ExprResult compile_cast(
 			const auto & actual_cast,
+			const auto & deduce_type,
 			const auto & cast,
 			CompilerInfo & info,
 			Scope & scope) {
@@ -19,7 +20,7 @@ namespace ltn::c {
 
 			return ExprResult {
 				.code = buf,
-				.deduced_type = cast.type,
+				.deduced_type = deduce_type(cast.type),
 			};
 		}
 	}
@@ -30,7 +31,7 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 
-		return compile_cast(cast_static, cast, info, scope);
+		return compile_cast(cast_static, type::deduce_cast_static, cast, info, scope);
 	}
 
 
@@ -40,6 +41,6 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 
-		return compile_cast(cast_dynamic, cast, info, scope);
+		return compile_cast(cast_dynamic, type::deduce_cast_dynamic, cast, info, scope);
 	}
 }

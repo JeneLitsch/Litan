@@ -111,6 +111,7 @@ namespace ltn::c::type {
 
 
 	bool operator==(const Any &, const Any &);
+	bool operator==(const Optional & l, const Optional & r);
 	bool operator==(const Error &, const Error &);
 	bool operator==(const Null &, const Null &);
 	bool operator==(const Bool &, const Bool &);

@@ -92,11 +92,8 @@ namespace ltn::c {
 		const SourceLocation & location) {
 		if(from == to) return InstructionBuffer{};
 
-		InstructionBuffer buf;
-		if(type::is_optional(to)) 
-			buf << inst::safe_cast(to_type_code(*to.as<type::Optional>()->contains, location));
-		else
-			buf << inst::safe_cast(to_type_code(to, location));
-		return buf;
+		return {
+			inst::safe_cast(to_type_code(to, location))
+		};
 	}
 }

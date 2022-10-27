@@ -9,6 +9,14 @@ namespace ltn::c::type {
 			return T::type_name;
 		}
 
+
+		std::string to_string(const Optional & optional) {
+			std::ostringstream oss;
+			oss << Optional::type_name << "<" << to_string(*optional.contains) << ">";
+			return oss.str();
+		}
+
+
 		std::string to_string(const Array & array) {
 			std::ostringstream oss;
 			if(array.contains) {

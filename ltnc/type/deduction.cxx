@@ -170,7 +170,10 @@ namespace ltn::c::type {
 
 
 	Type deduce_nullco(const Type & l, const Type & r) {
-		return largest_common_type(l, r);
+		if(is_optional(l)) {
+			return deduce_nullco(*l.as<Optional>()->contains, r);
+		}
+		else return largest_common_type(l, r);
 	}
 
 
@@ -220,5 +223,17 @@ namespace ltn::c::type {
 		if(auto fx = fx_ptr.as<FxPtr>()) return **fx->return_type;
 		if(fx_ptr.as<Any>()) return Any{};
 		return Error{};
+	}
+
+
+
+	Type deduce_cast_static(const Type & cast_to) {
+		return cast_to;
+	}
+
+
+
+	Type deduce_cast_dynamic(const Type & cast_to) {
+		return type::Optional{cast_to};
 	}
 }

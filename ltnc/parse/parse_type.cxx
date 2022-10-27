@@ -17,6 +17,17 @@ namespace ltn::c {
 
 
 
+		type::Optional parse_type_optional(Tokens & tokens, BraceTracker & brace_tracker) {
+			open_chevron(tokens, brace_tracker);
+			auto contains = parse_type(tokens, brace_tracker);
+			close_chevron(tokens, brace_tracker);
+			return type::Optional{
+				.contains = contains
+			};
+		}
+
+
+
 		type::Map parse_type_map(Tokens & tokens, BraceTracker & brace_tracker) {
 			open_chevron(tokens, brace_tracker);
 			auto key = parse_type(tokens, brace_tracker);
@@ -62,7 +73,11 @@ namespace ltn::c {
 			if(type_name->str == "array") return parse_type_array(tokens, brace_tracker); 
 			if(type_name->str == "map") return parse_type_map(tokens, brace_tracker);
 			if(type_name->str == "fx_ptr") return parse_fxptr(tokens, brace_tracker);
+			if(type_name->str == "optional") return parse_type_optional(tokens, brace_tracker);
 			throw CompilerError{"Unknown type name " + type_name->str};
+		}
+		else if(match(TT::QMARK, tokens)) {
+			return type::Optional{parse_type(tokens, brace_tracker)};
 		}
 		else {
 			throw CompilerError{"Expected type name"};

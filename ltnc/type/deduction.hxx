@@ -34,4 +34,7 @@ namespace ltn::c::type {
 	Type deduce_nulltest(const Type & x);
 
 	Type deduce_invokation(const Type & fx_ptr);
+
+	Type deduce_cast_static(const Type & cast_to);
+	Type deduce_cast_dynamic(const Type & cast_to);
 }
