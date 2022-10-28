@@ -140,64 +140,6 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_modify(
-		const ast::Modify & expr,
-		CompilerInfo & info,
-		Scope & scope) {
-		using MT = ast::Modify::Type;
-		guard_const(expr, scope);
-		const auto l_prepare = compile_read_ref(*expr.l, info, scope);
-		const auto l_write = compile_write(*expr.l, info, scope);
-		const auto l_read = compile_read(*expr.l, info, scope);
-		const auto r = compile_expression(*expr.r, info, scope);
-		const auto op = [&] () -> inst::Inst {
-			switch (expr.type) {
-			case MT::ADD:     return inst::add();
-			case MT::SUB:     return inst::sub();
-			case MT::MLT:     return inst::mlt();
-			case MT::DIV:     return inst::div();
-			case MT::MOD:     return inst::mod();
-			case MT::POW:     return inst::pow();
-			case MT::SHIFT_L: return inst::shift_l();
-			case MT::SHIFT_R: return inst::shift_r();
-			case MT::BITAND:  return inst::bit_and();
-			case MT::BITOR:   return inst::bit_or();
-			case MT::BITXOR:  return inst::bit_xor();
-			}
-			throw CompilerError{
-				"Unknow modify operator",
-				expr.location};
-		}();
-		InstructionBuffer buf;
-		buf << l_prepare.code;
-		
-		if(as<ast::Index>(*expr.l) || as<ast::Member>(*expr.l)) {
-			buf << inst::duplicate();
-		}
-
-		buf << l_read;
-		buf << r.code;
-		buf << op;
-
-		if(as<ast::Index>(*expr.l) || as<ast::Member>(*expr.l)) {
-			buf << inst::swap();
-		}
-
-		buf << conversion_on_modify(
-			r.deduced_type,
-			l_prepare.deduced_type,
-			expr.location
-		);
-		buf << l_write;			
-		return StmtResult{
-			.code = buf,
-			.var_count = 1,
-			.direct_allocation = true,
-		};
-	}
-
-
-
 	namespace {
 		ExprResult compile_new_variable_right(
 			const ast::NewVar & new_var,

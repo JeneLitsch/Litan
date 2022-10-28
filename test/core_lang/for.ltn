@@ -3,7 +3,7 @@ namespace core {
         var fx = lambda(begin, end, step) {
 			var sum = 0;
 			for (i : begin -> end : step) {
-				sum += i;
+				sum = sum + i;
 			}
 			return sum;
 		};

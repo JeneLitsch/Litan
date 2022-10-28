@@ -12,7 +12,7 @@ namespace std {
 	function sum(array, start) {
 		var value = start;
 		for (i : 0 -> std::size(array)) {
-			value += array[i];
+			value = value + array[i];
 		}
 		return value;
 	}

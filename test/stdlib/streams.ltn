@@ -49,7 +49,7 @@ namespace test {
 			var counter = 0;
 			while(!std::is_eof(iss)) {
 				std::read(iss);
-				counter += 1;
+				counter = counter + 1;
 			}
 			return counter;
 		};

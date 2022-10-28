@@ -5,14 +5,9 @@ namespace op {
 			sphinx::assert_result([0b001, 0b100], 0b101),
 		];
 		
-		var bitor    = lambda (a, b) => a ^ b;
-		var bitor_eq = lambda (a, b) {
-			a ^= b;
-			return a;
-		};
+		var bitor = lambda (a, b) => a ^ b;
 
         sphinx::run_test(sphinx, "Operator ^",  bitor,    cases);
-        sphinx::run_test(sphinx, "Operator ^=", bitor_eq, cases);
 	}
 
 

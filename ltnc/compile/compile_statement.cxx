@@ -50,9 +50,6 @@ namespace ltn::c {
 		if(auto assign = as<ast::Assign>(stmt)) {
 			return compile_assign(*assign, info, scope);
 		}
-		if(auto modify = as<ast::Modify>(stmt)) {
-			return compile_modify(*modify, info, scope);
-		}
 		throw CompilerError{"Unknown statement"};
 	}
 }

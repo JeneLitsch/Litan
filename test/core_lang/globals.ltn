@@ -75,10 +75,10 @@ namespace core {
 			sphinx::assert_result([ lambda() => global arr         ], [1,2,3]),
 		]);
 
-		global x *= 10;
-		global foo::x *= 10;
-		global foo::bar::x *= 10;
-		global bar::x *= 10;
+		global x = global x * 10;
+		global foo::x = global foo::x * 10;
+		global foo::bar::x = global foo::bar::x * 10;
+		global bar::x = global bar::x * 10;
 
 		sphinx::run_test(sphinx, "Globals x10", lambda(fx) => (fx)(), [
 			sphinx::assert_result([lambda() => global x           ], 10),
@@ -95,11 +95,11 @@ namespace core {
 			sphinx::assert_result([&foo::get_bar_x()              ], 40),
 		]);
 
-		global x += 1.5;
-		global foo::x += 1.5;
-		global foo::bar::x += 1.5;
-		global bar::x += 1.5;
-		global arr += [4] + [5];
+		global x = global x + 1.5;
+		global foo::x = global foo::x + 1.5;
+		global foo::bar::x = global foo::bar::x + 1.5;
+		global bar::x = global bar::x + 1.5;
+		global arr = global arr + [4] + [5];
 
 		sphinx::run_test(sphinx, "Globals modify add", lambda(fx) => (fx)(), [
 			sphinx::assert_result([ lambda() => global x           ], 11.5),

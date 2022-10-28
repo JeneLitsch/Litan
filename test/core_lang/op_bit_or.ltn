@@ -5,14 +5,9 @@ namespace op {
 			sphinx::assert_result([2, true], 3),
 		];
 		
-		var fx    = lambda (a, b) => a | b;
-		var fx_eq = lambda (a, b) {
-			a |= b;
-			return a;
-		};
+		var fx = lambda (a, b) => a | b;
 
         sphinx::run_test(sphinx, "Operator |",  fx, cases);
-        sphinx::run_test(sphinx, "Operator |=", fx_eq, cases);
 	}
 
 

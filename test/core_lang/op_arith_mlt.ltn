@@ -10,13 +10,7 @@ namespace op {
 		];
 		
 		var fx    = lambda(a, b) => a * b;
-		var fx_eq = lambda(a, b) {
-			a *= b;
-			return a;
-		};
-
 		sphinx::run_test(sphinx, "Operator *", fx, cases);
-		sphinx::run_test(sphinx, "Operator *=", fx_eq, cases);
 	}
 
 

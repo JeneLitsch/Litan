@@ -20,13 +20,8 @@ namespace op {
 		];
 		
 		var shift    = lambda (a, b) => a << b;
-		var shift_eq = lambda (a, b) {
-			a <<= b;
-			return a;
-		};
 
 		sphinx::run_test(sphinx, "Operator <<", shift, cases);
-		sphinx::run_test(sphinx, "Operator <<=", shift_eq, cases);
 	}
 
 

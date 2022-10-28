@@ -186,28 +186,5 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> r;
 	};
 
-
-
-	struct Modify final : public Statement {
-		enum class Type { 
-			ADD, SUB, MLT, DIV, POW, MOD,
-			SHIFT_L, SHIFT_R,
-			BITAND, BITOR, BITXOR
-		};
-		Modify(
-			Type type,
-			std::unique_ptr<Assignable> l,
-			std::unique_ptr<Expression> r,
-			const SourceLocation & location)
-			:	Statement(location),
-				type(type),
-				l(std::move(l)),
-				r(std::move(r)) {}
-		virtual ~Modify() = default;
-		Type type;
-		std::unique_ptr<Assignable> l;
-		std::unique_ptr<Expression> r;
-	};
-
 	using StmtSwitch = Switch<Statement, Statement>;
 }

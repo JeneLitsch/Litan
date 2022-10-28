@@ -23,7 +23,6 @@ namespace ltn::c {
 	StmtResult compile_block(const ast::Block &, CompilerInfo &, Scope &);
 	StmtResult compile_reTurn(const ast::Return &, CompilerInfo &, Scope &);
 	StmtResult compile_assign(const ast::Assign &, CompilerInfo &, Scope &);
-	StmtResult compile_modify(const ast::Modify &, CompilerInfo &, Scope &);
 	StmtResult compile_thr0w(const ast::Throw &, CompilerInfo &, Scope &);
 	StmtResult compile_init_member(const ast::InitMember &, CompilerInfo &, Scope &);
 	StmtResult compile_if_else(const ast::IfElse &, CompilerInfo &, Scope &);

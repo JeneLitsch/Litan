@@ -189,36 +189,21 @@ namespace ltn::c::lex {
 		if(match(']')) return make(TT::BRACKET_R, "]");
 		
 		if(match('-')) {
-			if(match('=')) {
-				return make(TT::ASSIGN_SUB, "-=");
-			}
 			if(match('>')) {
 				return make(TT::RARROW, "->");
 			}
 			return make(TT::MINUS, "-");
 		}
 		if(match('+')) {
-			if(match('=')) {
-				return make(TT::ASSIGN_ADD, "+=");
-			}
 			return make(TT::PLUS, "+");
 		}
 		if(match('*')) {
 			if(match('*')) {
-				if(match('=')) {
-					return make(TT::ASSIGN_POW, "**=");
-				}
 				return make(TT::STARx2, "**");
-			}
-			if(match('=')) {
-				return make(TT::ASSIGN_MLT, "*=");
 			}
 			return make(TT::STAR, "*");
 		}
 		if(match('/')) {
-			if(match('=')) {
-				return make(TT::ASSIGN_DIV, "/=");
-			}
 			if(match('/')) {
 				comment(in);
 				return token(in, location);
@@ -226,17 +211,11 @@ namespace ltn::c::lex {
 			return make(TT::SLASH, "/");
 		}
 		if(match('%')) {
-			if(match('=')) {
-				return make(TT::ASSIGN_MOD, "%=");
-			}
 			return make(TT::PERCENT, "%");
 		}
 		if(match('&')) {
 			if(match('&')) {
 				return make(TT::AND, "&&");
-			}
-			if(match('=')) {
-				return make(TT::ASSIGN_BIT_AND, "&=");
 			}
 			return make(TT::AMPERSAND, "&");
 		}
@@ -244,15 +223,9 @@ namespace ltn::c::lex {
 			if(match('|')) {
 				return make(TT::OR, "||");
 			}
-			if(match('=')) {
-				return make(TT::ASSIGN_BIT_OR, "|=");
-			}
 			return make(TT::BIT_OR, "|");
 		}
 		if(match('^')) {
-			if(match('=')) {
-				return make(TT::ASSIGN_BIT_XOR, "^=");
-			}
 			return make(TT::BIT_XOR, "^");
 		}
 		if(match('_')) return make(TT::UNDERSCORE, "_");
@@ -266,7 +239,6 @@ namespace ltn::c::lex {
 
 		if(match('<')) {
 			if(match('<')) {
-				if(match('=')) return make(TT::ASSIGN_SHIFT_L, "<<=");
 				return make(TT::SHIFT_L, "<<");
 			}
 			
@@ -279,7 +251,6 @@ namespace ltn::c::lex {
 
 		if(match('>')) {
 			if(match('>')) {
-				if(match('=')) return make(TT::ASSIGN_SHIFT_R, ">>=");
 				return make(TT::SHIFT_R, ">>");
 			}
 			if(match('=')) return make(TT::BIGGER_EQUAL, ">=");

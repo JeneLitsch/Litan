@@ -4,8 +4,8 @@ namespace core {
             var i = 0;
 			var value = 0;
             while(i < std::size(arr)) {
-				value += arr[i];
-                i+=1;
+				value = value + arr[i];
+                i=i+1;
 			}
 			return value;
 		};

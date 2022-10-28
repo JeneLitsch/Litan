@@ -87,18 +87,6 @@ namespace ltn::c {
 			BIT_OR,
 			BIT_XOR,
 			
-			ASSIGN_ADD,
-			ASSIGN_SUB,
-			ASSIGN_MLT,
-			ASSIGN_DIV,
-			ASSIGN_MOD,
-			ASSIGN_POW,
-			ASSIGN_SHIFT_L,
-			ASSIGN_SHIFT_R,
-			ASSIGN_BIT_AND,
-			ASSIGN_BIT_OR,
-			ASSIGN_BIT_XOR,
-			
 			AND, OR,
 			
 			EQUAL,
