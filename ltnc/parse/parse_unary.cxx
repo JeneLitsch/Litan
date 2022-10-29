@@ -7,6 +7,7 @@ namespace ltn::c {
 		using OP = ltn::c::ast::Unary::Type;
 
 
+
 		std::optional<std::string> parse_member(Tokens & tokens) {
 			if(match(TT::DOT, tokens)) {
 				if(auto member = match(TT::INDENTIFIER, tokens)) {
@@ -38,6 +39,24 @@ namespace ltn::c {
 
 
 
+		auto parse_parameters(Tokens & tokens) {
+			std::vector<std::unique_ptr<ast::Expression>> parameters;
+			if(match(TT::PAREN_R, tokens)) {
+				 return parameters;
+			}
+			while(true) {
+				parameters.push_back(parse_expression(tokens));
+				if(match(TT::PAREN_R, tokens)) {
+					return parameters;
+				}
+				if(!match(TT::COMMA, tokens)) throw CompilerError {
+					"Expected ,", location(tokens)
+				};
+			}
+		}
+
+
+
 		// recursive right sided unary -> [i]
 		template<auto expression_fx>
 		std::unique_ptr<ast::Expression> parse_postfix(
@@ -62,6 +81,16 @@ namespace ltn::c {
 					*name,
 					location(tokens));
 				return postfix_fx(tokens, std::move(access));
+			}
+
+			if(match(TT::PAREN_L, tokens)) {
+				auto parameters = parse_parameters(tokens);
+				auto call = std::make_unique<ast::Call>(
+					std::move(l),
+					std::move(parameters),
+					location(tokens)
+				);
+				return postfix_fx(tokens, std::move(call));
 			}
 
 			return l;

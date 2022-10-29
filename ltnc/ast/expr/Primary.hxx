@@ -28,25 +28,6 @@ namespace ltn::c::ast {
 
 
 
-	struct Call final : public Primary {
-	public:
-		Call(
-			const std::string & name,
-			const Namespace & namespaze,
-			std::vector<std::unique_ptr<Expression>> arguments,
-			const SourceLocation & location)
-			:	Primary(location),
-				name(name),
-				namespaze(namespaze),
-				arguments(std::move(arguments)) {}
-		virtual ~Call() = default;
-		std::string name;
-		Namespace namespaze;
-		std::vector<std::unique_ptr<Expression>> arguments;
-	};
-
-
-
 	struct StaticCast final : public Primary {
 	public:
 		StaticCast(
@@ -98,16 +79,16 @@ namespace ltn::c::ast {
 	};
 
 
-	struct Invokation final : public Primary {
+	struct Call final : public Primary {
 	public:
-		Invokation(
+		Call(
 			std::unique_ptr<Expression> function_ptr,
 			std::vector<std::unique_ptr<Expression>> parameters,
 			const SourceLocation & location)
 			:	Primary(location),
 				function_ptr(std::move(function_ptr)),
 				parameters(std::move(parameters)) {}
-		virtual ~Invokation() = default;
+		virtual ~Call() = default;
 		std::unique_ptr<Expression> function_ptr;
 		std::vector<std::unique_ptr<Expression>> parameters;
 	};

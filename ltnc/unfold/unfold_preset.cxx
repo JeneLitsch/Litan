@@ -4,8 +4,7 @@ namespace ltn::c {
 	namespace {
 		ast::stmt_ptr new_struct(const SourceLocation & loc) {
 			auto call = std::make_unique<ast::Call>(
-				"struct",
-				ast::Namespace{{"std"}},
+				std::make_unique<ast::Var>("struct", ast::Namespace{{"std"}}, loc),
 				std::vector<ast::expr_ptr>{},
 				loc);
 			

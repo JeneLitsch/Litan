@@ -79,9 +79,6 @@ namespace ltn::c {
 		if(auto sw1tch = as<ast::ExprSwitch>(expr)) {
 			return compile_expr_switch(*sw1tch, info, scope);
 		} 
-		if(auto invoke = as<ast::Invokation>(expr)) {
-			return compile_invokation(*invoke, info, scope);
-		}
 		if(auto invoke = as<ast::DeclType>(expr)) {
 			return compile_decltype(*invoke, info, scope);
 		}

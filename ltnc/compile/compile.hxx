@@ -48,7 +48,6 @@ namespace ltn::c {
 	ExprResult compile_call(const ast::Call &, CompilerInfo &, Scope &);
 	ExprResult compile_index(const ast::Index &, CompilerInfo &, Scope &);
 	ExprResult compile_fxPointer(const ast::FxPointer &, CompilerInfo &, Scope &);
-	ExprResult compile_invokation(const ast::Invokation &, CompilerInfo &, Scope &);
 	ExprResult compile_iife(const ast::Iife &, CompilerInfo &, Scope &);
 	ExprResult compile_index(const ast::Index &, CompilerInfo &, Scope &);
 	ExprResult compile_addr(const ast::Var &, Scope &);

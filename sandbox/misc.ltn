@@ -13,6 +13,9 @@ function main() extern -> int  {
 	std::println(x);
 	var pi = 3;
 	pi = 4;
-	std::println(std::pi);
-	std::println(pi);
+
+	var fx = lambda(x) => 2*x;
+
+	std::println(fx(22));
+	std::map()[0];
 }

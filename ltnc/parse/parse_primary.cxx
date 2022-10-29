@@ -215,25 +215,8 @@ namespace ltn::c {
 
 
 
-		ast::expr_ptr parse_call(
-			const auto & name,
-			const auto & namespaze,
-			Tokens & tokens) {
-			auto parameters = parse_parameters(tokens);
-			return std::make_unique<ast::Call>(
-				name,
-				namespaze,
-				std::move(parameters),
-				location(tokens));
-		}
-
-		
-
 		ast::expr_ptr parse_identifier(Tokens & tokens) {
 			const auto [name, namespaze] = parse_symbol(tokens);
-			if(match(TT::PAREN_L, tokens)) {
-				return parse_call(name, namespaze, tokens);
-			}
 			return std::make_unique<ast::Var>(name, namespaze, location(tokens));
 		}
 
@@ -285,11 +268,11 @@ namespace ltn::c {
 		ast::expr_ptr parse_decltype(Tokens & tokens) {
 			if(auto t = match(TT::DECLTYPE, tokens)) {
 				if(!match(TT::PAREN_L, tokens)) throw CompilerError {
-					"Expected ("
+					"Expected ( after decltype", t->location
 				};
 				auto expr = parse_expression(tokens);			
 				if(!match(TT::PAREN_R, tokens)) throw CompilerError {
-					"Expected )"
+					"Expected ) after decltype", t->location
 				};
 				return std::make_unique<ast::DeclType>(std::move(expr), t->location);
 			}
@@ -317,18 +300,7 @@ namespace ltn::c {
 		if(auto expr = parse_null(tokens)) return expr;
 		if(auto expr = parse_string(tokens)) return expr;
 		if(auto expr = parse_array(tokens)) return expr;
-		if(auto expr = parse_paren(tokens)) {
-			if(match(TT::PAREN_L, tokens)) {
-				auto params = parse_parameters(tokens);
-				return std::make_unique<ast::Invokation>(
-					std::move(std::move(expr)),
-					std::move(params),
-					location(tokens)
-				);
-			}
-			return expr; 
-
-		}
+		if(auto expr = parse_paren(tokens)) return expr; 
 		if(auto expr = parse_fx_pointer(tokens)) return expr;
 		if(auto expr = parse_lambda(tokens)) return expr;
 		if(auto expr = parse_iife(tokens)) return expr;

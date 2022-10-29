@@ -13,42 +13,83 @@ namespace ltn::c {
 
 
 
+	namespace {
+		ExprResult do_call(const ast::Call & call, const ast::Functional & fx, CompilerInfo & info, Scope & scope) {
+
+			guard_private(fx, scope.get_namespace(), call.location);
+			
+			if(scope.is_const() && !fx.c0nst) {
+				throw CompilerError {
+					"Cannot call non-const function from a const functions",
+					call.location};
+			}
+
+			InstructionBuffer buf;
+
+			for(std::size_t i = 0; i < call.parameters.size(); ++i) {
+				auto & arg_expr = call.parameters[i];
+				auto & parameter = fx.parameters[i];
+				auto arg = compile_expression(*arg_expr, info, scope);
+
+				buf << arg.code;
+				buf << conversion_on_pass(arg.deduced_type, parameter.type, { call.location, i });
+			}
+
+			buf << inst::call(fx.id);
+			
+			return ExprResult{
+				.code = buf,
+				.deduced_type = fx.return_type,
+			};
+		}
+
+
+
+		ExprResult do_invoke(const ast::Call & call, CompilerInfo & info, Scope & scope) {
+			InstructionBuffer buf;
+
+			auto fx_ptr = compile_expression(*call.function_ptr, info, scope);
+
+			buf << fx_ptr.code;
+
+			for(const auto & param : call.parameters) {
+				buf << compile_expression(*param, info, scope).code;
+			}
+
+			buf << inst::newarr(call.parameters.size());
+			buf << inst::invoke();
+			
+			return {
+				.code = buf,
+				.deduced_type = type::deduce_invokation(fx_ptr.deduced_type),
+			};
+		}
+	}
+
+
+
 	// compiles function call fx(...)
 	ExprResult compile_call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
-		const auto fx = info.fx_table.resolve(
-			call.name,
-			scope.get_namespace(),
-			call.namespaze,
-			call.arguments.size());
-		
-		if(!fx) {
-			throw undefined_function(call.name, call);
+		if(const auto * var = as<ast::Var>(*call.function_ptr)) {
+			const auto * local = scope.resolve(var->name, var->location);
+			if(local && var->namespaze.empty()) {
+				return do_invoke(call, info, scope);
+			}
+
+			const auto * fx = info.fx_table.resolve(var->name, scope.get_namespace(), var->namespaze, call.parameters.size());
+			if(fx) {
+				return do_call(call, *fx, info, scope);
+			}
+
+			const auto * def = info.definition_table.resolve(var->name, scope.get_namespace(), var->namespaze);
+			if(def) {
+				return do_invoke(call, info, scope);
+			}
+
+			throw undefined_function(var->name, call);
 		}
-
-		guard_private(*fx, scope.get_namespace(), call.location);
-		
-		if(scope.is_const() && !fx->c0nst) {
-			throw CompilerError {
-				"Cannot call non-const function from a const functions",
-				call.location};
+		else {
+			return do_invoke(call, info, scope);
 		}
-
-		InstructionBuffer buf;
-
-		for(std::size_t i = 0; i < call.arguments.size(); ++i) {
-			auto & arg_expr = call.arguments[i];
-			auto & parameter = fx->parameters[i];
-			auto arg = compile_expression(*arg_expr, info, scope);
-
-			buf << arg.code;
-			buf << conversion_on_pass(arg.deduced_type, parameter.type, { call.location, i });
-		}
-
-		buf << inst::call(fx->id);
-		
-		return ExprResult{
-			.code = buf,
-			.deduced_type = fx->return_type,
-		};
 	}
 }
