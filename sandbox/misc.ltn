@@ -2,20 +2,19 @@ function add(a : int, b : int) const -> int {
     return a + b;
 }
 
+function fx(x, y) => 4*x + y
+
+define pi = 3;
+
 function main() extern -> int  {
-	var foo;
-	var bar : int = add(21,21);
-	var baz : string = "Hello World";
-	std::println(foo);
-	std::println(bar);
-	std::println(baz);
-	var x : char = 'A';
-	std::println(x);
-	var pi = 3;
-	pi = 4;
+	var pi = 3.14;
+	std::println(pi);
+	std::println(::pi);
+	std::println(std::pi);
 
 	var fx = lambda(x) => 2*x;
 
-	std::println(fx(22));
+	std::println(::fx(10, 2));
+	std::println(fx(21));
 	std::map()[0];
 }

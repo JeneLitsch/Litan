@@ -27,7 +27,7 @@ namespace ltn::c::ast {
 
 
 	bool Namespace::empty() const {
-		return this->size() == 0;
+		return this->size() == 0 && !this->is_absolute();
 	}
 
 
