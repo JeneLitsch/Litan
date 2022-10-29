@@ -34,8 +34,8 @@ namespace ltn::c {
 
 namespace ltn::c {
 	namespace {
-		ast::DefinitionValue accessor(const ast::Definition & def) {
-			return ast::DefinitionValue {
+		ast::Var accessor(const ast::Definition & def) {
+			return ast::Var {
 				def.name,
 				def.namespaze,
 				def.location

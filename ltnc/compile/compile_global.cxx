@@ -11,7 +11,7 @@ namespace ltn::c {
 			return CompilerError { oss.str(), global.location };
 		}
 
-		auto undefined(const ast::DefinitionValue & def) {
+		auto undefined(const ast::Var & def) {
 			std::ostringstream oss;
 			oss
 				<< "Undefined definition "
@@ -52,15 +52,7 @@ namespace ltn::c {
 
 
 
-	ExprResult compile_read_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope & scope) {
-		InstructionBuffer buf;
-		buf << inst::global_read(resolve_static(def, info.definition_table, scope).id);
-		return ExprResult{ buf };
-	}
-
-
-
-	ExprResult compile_write_static(const ast::DefinitionValue & def, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_write_static(const ast::Var & def, CompilerInfo & info, Scope & scope) {
 		InstructionBuffer buf;
 		buf << inst::global_write(resolve_static(def, info.definition_table, scope).id);
 		return ExprResult{ buf };

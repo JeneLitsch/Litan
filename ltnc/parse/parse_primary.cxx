@@ -227,18 +227,6 @@ namespace ltn::c {
 				location(tokens));
 		}
 
-
-
-		ast::expr_ptr parse_defintion_value(
-			const auto & name,
-			const auto & namespaze,
-			Tokens & tokens) {
-			return std::make_unique<ast::DefinitionValue>(
-				name,
-				namespaze,
-				location(tokens));
-		}
-
 		
 
 		ast::expr_ptr parse_identifier(Tokens & tokens) {

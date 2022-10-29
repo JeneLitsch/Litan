@@ -6,7 +6,6 @@
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/ast/Namespace.hxx"
 #include "ltn/version.hxx"
-#include "Args.hxx"
 #include "ltn/args.hxx"
 #include "stdxx/args.hxx"
 

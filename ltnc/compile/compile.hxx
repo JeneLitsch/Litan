@@ -56,7 +56,7 @@ namespace ltn::c {
 	ExprResult compile_read_member_access(const ast::Member &, CompilerInfo &, Scope &);
 	ExprResult compile_read_static(const ast::GlobalVar &, CompilerInfo &, Scope &);
 	ExprResult compile_write_static(const ast::GlobalVar &, CompilerInfo &, Scope &);
-	ExprResult compile_write_static(const ast::DefinitionValue &, CompilerInfo &, Scope &);
+	ExprResult compile_write_static(const ast::Var &, CompilerInfo &, Scope &);
 	ExprResult compile_static_cast(const ast::StaticCast &, CompilerInfo &, Scope &);
 	ExprResult compile_dynamic_cast(const ast::DynamicCast &, CompilerInfo &, Scope &);
 

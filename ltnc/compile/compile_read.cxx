@@ -2,15 +2,6 @@
 #include <string_view>
 namespace ltn::c {
 	namespace {
-		CompilerError undefined_enum(
-			const ast::DefinitionValue & node) {
-			std::stringstream ss;
-			ss << "Definition value " << node.name << " is not defined";
-			return CompilerError { ss.str(), node.location };
-		}
-
-
-
 		ExprResult compile_read_local_variable(const Variable & var) {
 			InstructionBuffer buf;
 			buf << inst::read_x(var.address);

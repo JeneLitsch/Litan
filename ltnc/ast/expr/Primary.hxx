@@ -79,21 +79,6 @@ namespace ltn::c::ast {
 
 
 
-	struct DefinitionValue final : public Primary {
-	public:
-		DefinitionValue(
-			const std::string & name,
-			const Namespace & namespaze,
-			const SourceLocation & location)
-			:	Primary(location),
-				name(name),
-				namespaze(namespaze) {}
-		virtual ~DefinitionValue() = default;
-		std::string name;
-		Namespace namespaze;
-	};
-
-
 
 	struct FxPointer final : public Primary {
 	public:
