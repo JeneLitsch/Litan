@@ -44,6 +44,7 @@ namespace ltn::c {
 	ast::expr_ptr parse_binary(Tokens & tokens);
 	ast::expr_ptr parse_unary(Tokens & tokens);
 	ast::expr_ptr parse_primary(Tokens & tokens);
+	ast::expr_ptr parse_reflect(Tokens & tokens);
 	ast::litr_ptr parse_integral(Tokens & tokens);
 
 	// Utils
@@ -91,7 +92,7 @@ namespace ltn::c {
 	// Maches ; or throws
 	void semicolon(Tokens & tokens);
 
-
+	std::pair<std::string, ast::Namespace> parse_symbol(Tokens & tokens);
 
 	type::Type parse_type(Tokens & tokens);
 	type::Type parse_type(Tokens & tokens, BraceTracker & brace_tracker);

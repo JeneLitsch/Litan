@@ -193,27 +193,6 @@ namespace ltn::c {
 
 
 
-		std::pair<std::string, ast::Namespace> parse_symbol(Tokens & tokens) {
-			ast::Namespace namespaze;
-			if(match(TT::COLONx2, tokens)) {
-				namespaze.set_absolute();
-			}
-			if(const auto & identifier = match(TT::INDENTIFIER, tokens)) {
-				namespaze.push_back(identifier->str);
-				std::string name = identifier->str;
-				while(match(TT::COLONx2, tokens)) {
-					if(auto i = match(TT::INDENTIFIER, tokens)) {
-						namespaze.push_back(i->str);
-						name = i->str;
-					}
-				}
-				namespaze.pop_back();
-				return {name, namespaze};
-			}
-			throw expected("indentifier", tokens);
-		}
-
-
 
 		ast::expr_ptr parse_identifier(Tokens & tokens) {
 			const auto [name, namespaze] = parse_symbol(tokens);
@@ -282,6 +261,28 @@ namespace ltn::c {
 
 
 
+	std::pair<std::string, ast::Namespace> parse_symbol(Tokens & tokens) {
+		ast::Namespace namespaze;
+		if(match(TT::COLONx2, tokens)) {
+			namespaze.set_absolute();
+		}
+		if(const auto & identifier = match(TT::INDENTIFIER, tokens)) {
+			namespaze.push_back(identifier->str);
+			std::string name = identifier->str;
+			while(match(TT::COLONx2, tokens)) {
+				if(auto i = match(TT::INDENTIFIER, tokens)) {
+					namespaze.push_back(i->str);
+					name = i->str;
+				}
+			}
+			namespaze.pop_back();
+			return {name, namespaze};
+		}
+		throw expected("indentifier", tokens);
+	}
+
+
+
 	ast::litr_ptr parse_integral(Tokens & tokens) {
 		if(auto expr = parse_integer_dec(tokens)) return expr;
 		if(auto expr = parse_integer_bin(tokens)) return expr;
@@ -309,6 +310,7 @@ namespace ltn::c {
 		if(auto expr = parse_decltype(tokens)) return expr;
 		if(auto expr = parse_static_cast(tokens)) return expr;
 		if(auto expr = parse_dynamic_cast(tokens)) return expr;
+		if(auto expr = parse_reflect(tokens)) return expr;
 		return parse_identifier(tokens);
 	}
 }

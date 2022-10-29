@@ -23,6 +23,8 @@ namespace ltn::c {
 		virtual void insert(
 			const Symbol & sym,
 			Args ... args) = 0;
+
+		virtual const std::vector<const Symbol *> & get_symbols() = 0;
 	protected:
 		SymbolTable() = default;
 	};
@@ -39,7 +41,7 @@ namespace ltn::c {
 			const std::string_view name,
 			const ast::Namespace & from,
 			const ast::Namespace & to,
-			Args ... args) {
+			Args ... args) override {
 		
 			return ltn::c::resolve(this->symbols, from, to, name, args...);
 		}
@@ -49,7 +51,7 @@ namespace ltn::c {
 		virtual const Symbol * resolve(
 			const std::string_view name,
 			const ast::Namespace & full,
-			Args ... args) {
+			Args ... args) override {
 
 			return ltn::c::resolve(this->symbols, {}, full, name, args...);
 		}
@@ -58,7 +60,7 @@ namespace ltn::c {
 
 		virtual void insert(
 			const Symbol & symbol,
-			Args ... args) {
+			Args ... args) override {
 			// Prevent redefinition
 			if(this->resolve(symbol.name, symbol.namespaze, args...)) {
 				throw Err::redef(symbol);
@@ -67,7 +69,7 @@ namespace ltn::c {
 		}
 
 
-		const std::vector<const Symbol *> & get_symbols() {
+		virtual const std::vector<const Symbol *> & get_symbols() override {
 			return symbols;
 		}
 
@@ -110,6 +112,11 @@ namespace ltn::c {
 			const Symbol &,
 			Args ...) override {
 			throw Err::decl(this->inside);
+		}
+
+		virtual const std::vector<const Symbol *> & get_symbols() override {
+			static const std::vector<const Symbol *> vec;
+			return vec;
 		}
 
 	private:

@@ -48,6 +48,7 @@ namespace ltn::c {
 			DECLTYPE,
 			STATIC_CAST,
 			DYNAMIC_CAST,
+			REFLECT,
 			
 			INTEGER,
 			INTEGER_HEX,

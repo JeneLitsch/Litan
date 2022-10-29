@@ -1,29 +1,25 @@
-function add(a : int, b : int) const -> int {
-    return a + b;
+namespace refl {
+	function a() {
+		std::println("a()");
+	}
+	function b() {
+		std::println("b()");
+	}
+	function c() {
+		std::println("c()");
+	}
+	function d() {
+		std::println("d()");
+	}
 }
 
-function fx(x, y) => 4*x + y
-
-define pi = 3;
-
-define f = lambda(x : int) => 2*x + 2;
 
 function main() extern -> int {
-	var pi = 3.14;
-	std::println(pi);
-	std::println(::pi);
-	std::println(std::pi);
-
-	var fx = lambda(x) => 2*x;
-
-	std::println((::fx)(10, 2));
-	std::println((::f)(20));
-	std::println(fx(21));
-	std::map()[0];
-
-	var x : auto = [];
-
-	std::println(decltype(x + [] + [[]] + [[1]]).name); 
-
-	// reflect(namespace std);
+	var ns = reflect(namespace refl);
+	std::println("Namespace: " + ns.name);
+	std::println("Functions:" + std::str(std::size(ns.functions)));
+	for(i : 0 -> std::size(ns.functions)) {
+		std::println("  " + std::str(i) + ": " + ns.functions[i].name);
+		ns.functions[i].fx_ptr();
+	}
 }

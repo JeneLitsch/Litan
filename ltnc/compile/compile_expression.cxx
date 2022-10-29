@@ -2,6 +2,7 @@
 
 
 namespace ltn::c {
+	
 	ExprResult compile_decltype(const ast::DeclType & expr, CompilerInfo & info, Scope & scope) {
 		const auto result = compile_expression(*expr.expression, info, scope);
 		const auto type = result.deduced_type;
@@ -87,6 +88,9 @@ namespace ltn::c {
 		}
 		if(auto cast = as<ast::DynamicCast>(expr)) {
 			return compile_dynamic_cast(*cast, info, scope);
+		}
+		if(auto refl = as<ast::Reflect>(expr)) {
+			return compile_reflect(*refl, info, scope);
 		}
 		throw CompilerError{"Unknown Expression"};
 	}

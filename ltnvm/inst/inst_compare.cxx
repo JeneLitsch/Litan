@@ -79,7 +79,7 @@ namespace ltn::vm::inst {
 		const auto max = from_is_less ? to : from;
 
 		const bool is_in_range = 
-			num_compare(i, min) <= 0 ||
+			num_compare(i, min) < 0 ||
 			num_compare(i, max) > 0;
 		
 		core.reg.push(value::boolean(is_in_range));

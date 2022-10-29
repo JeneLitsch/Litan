@@ -121,6 +121,7 @@ namespace ltn::c::lex {
 			{"decltype",     TT::DECLTYPE},
 			{"static_cast",  TT::STATIC_CAST},
 			{"dynamic_cast", TT::DYNAMIC_CAST},
+			{"reflect",      TT::REFLECT},
 		};
 		
 

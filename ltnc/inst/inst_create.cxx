@@ -238,6 +238,9 @@ namespace ltn::c::inst {
 			.bytes = bytes,
 		};
 	}
+	Inst newstr(const std::string & str) {
+		return newstr(std::vector<std::uint8_t>(str.begin(), str.end()));
+	}
 	Inst newout(std::uint8_t type) {
 		return InstByte {
 			.name = "newout",

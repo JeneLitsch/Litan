@@ -15,7 +15,7 @@ namespace ltn::c {
 		virtual const type::Type & get_return_type() const override;
 	
 	private:
-		const ast::Namespace & namespaze;
+		ast::Namespace namespaze;
 		bool c0nst = false;
 		type::Type return_type;
 	};

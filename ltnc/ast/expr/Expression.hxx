@@ -92,4 +92,20 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> r;
 	};
 
+
+
+	struct Reflect : public Expression {
+		struct NamespaceQuery {
+			Namespace namespaze;
+		};
+		using Query = std::variant<NamespaceQuery>;
+
+		Reflect(
+			const Query & query,
+			const SourceLocation & location)
+			:	Expression(location),
+				query{query} {}
+		virtual ~Reflect() = default;
+		Query query;
+	};
 }
