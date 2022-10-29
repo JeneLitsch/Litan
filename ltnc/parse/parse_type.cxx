@@ -94,9 +94,27 @@ namespace ltn::c {
 	}
 
 
+	type::Type parse_parameter_type(Tokens & tokens) {
+		return match(TT::COLON, tokens) ? parse_type(tokens) : type::Any{};
+	}
+
 
 	type::Type parse_var_type(Tokens & tokens) {
 		return match(TT::COLON, tokens) ? parse_type(tokens) : type::Any{};
+	}
+
+
+	std::variant<type::Type, type::Auto> parse_var_type_auto(Tokens & tokens) {
+		if(match(TT::COLON, tokens)) {
+			if(tokens.front().type == TT::INDENTIFIER && tokens.front().str == "auto") {
+				tokens.pop();
+				return type::Auto{};
+			}
+			else {
+				return parse_type(tokens);
+			}
+		}
+		return type::Any{};
 	}
 
 

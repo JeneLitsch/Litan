@@ -49,7 +49,7 @@ namespace ltn::c::ast {
 			const std::string & name,
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location,
-			const type::Type & type = type::Any{})
+			const std::variant<type::Type, type::Auto> & type = type::Any{})
 			:	Statement(location),
 				name(name),
 				expression(std::move(expression)),
@@ -57,7 +57,7 @@ namespace ltn::c::ast {
 		virtual ~NewVar() = default;
 		std::string name;
 		std::unique_ptr<Expression> expression;
-		type::Type type;
+		std::variant<type::Type, type::Auto> type;
 	};
 
 

@@ -21,7 +21,7 @@ namespace ltn::c {
 			ast::Parameters parameters{};
 			while(true) {
 				auto name = parse_parameter_name(tokens);
-				auto type = parse_var_type(tokens);
+				auto type = parse_parameter_type(tokens);
 				parameters.push_back(ast::Parameter{
 					.name = name,
 					.type = type,

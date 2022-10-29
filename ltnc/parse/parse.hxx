@@ -95,6 +95,8 @@ namespace ltn::c {
 
 	type::Type parse_type(Tokens & tokens);
 	type::Type parse_type(Tokens & tokens, BraceTracker & brace_tracker);
+	std::variant<type::Type, type::Auto> parse_var_type_auto(Tokens & tokens);
 	type::Type parse_var_type(Tokens & tokens);
+	type::Type parse_parameter_type(Tokens & tokens);
 	type::Type parse_return_type(Tokens & tokens);
 }

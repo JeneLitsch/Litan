@@ -19,7 +19,7 @@ namespace ltn::c {
 	std::unique_ptr<ast::NewVar> parse_new_variable(Tokens & tokens) {
 		if(match(TT::VAR, tokens)) {
 			auto name = parse_variable_name(tokens);
-			auto type = parse_var_type(tokens);
+			auto type = parse_var_type_auto(tokens);
 			auto && r = parse_assign_r(tokens);
 			semicolon(tokens);
 			return std::make_unique<ast::NewVar>(

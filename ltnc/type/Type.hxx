@@ -64,6 +64,8 @@ namespace ltn::c::type {
 	};
 
 
+	struct Auto{};
+
 
 	class Type {
 		using Variant = std::variant<
