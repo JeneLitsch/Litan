@@ -10,6 +10,8 @@ function main() extern -> int  {
 	std::println(bar);
 	std::println(baz);
 	var x : char = 'A';
-	x += static_cast<char>(1);
 	std::println(x);
+	var pi = 3;
+	std::println(std::pi);
+	std::println(pi);
 }

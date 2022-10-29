@@ -109,15 +109,20 @@ int main(int argc, char const *argv[]){
 	try {
 		ltn::c::Reporter reporter;
 
+
 		auto sources = read_sources(flag_source.value(), reporter);
 		auto tokens = ltn::c::tokenize(std::move(sources), reporter);
 		auto program = ltn::c::parse(tokens, reporter);
 		if(flag_o) ltn::c::optimize(program);
 		auto instructions = ltn::c::compile(program, reporter);
+		if(flag_asm) {
+			output_asm(flag_asm.value(), instructions.insts);
+		}
 		if(flag_o) instructions.insts = ltn::c::peephole(instructions.insts);
-		auto bytecode = ltn::c::assemble(instructions);
-
 		reporter.may_throw();
+		auto bytecode = ltn::c::assemble(instructions);
+		std::cout << "XXX" << std::endl;
+
 
 		if(flag_exe) {
 			auto ofile = open_target(flag_exe.value(), reporter);
@@ -126,9 +131,6 @@ int main(int argc, char const *argv[]){
 			}
 		}
 		
-		if(flag_asm) {
-			output_asm(flag_asm.value(), instructions.insts);
-		}
 		
 		std::cout << "Done!" << "\n";
 		return EXIT_SUCCESS;

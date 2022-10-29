@@ -30,8 +30,8 @@ incl = [
 ]
 
 env = Environment(
-	# CXX = "clang++-12",
-	CXX = "g++-10",
+	CXX = "clang++-12",
+	# CXX = "g++-10",
 	CXXFLAGS = flags,
 	CPPPATH = incl,
 	CPPDEFINES = [],

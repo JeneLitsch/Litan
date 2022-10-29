@@ -185,11 +185,9 @@ namespace ltn::c {
 			const BinOp & op) {
 			if(l == r) {
 				if(type::is_int(l)) {
-					std::cout << "int X int\n";
 					return op.for_int;
 				}  
 				if(type::is_float(l)) { 
-					std::cout << "float X float\n";
 					return op.for_float;
 				}
 			}

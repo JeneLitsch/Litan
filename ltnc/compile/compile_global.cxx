@@ -65,7 +65,4 @@ namespace ltn::c {
 		buf << inst::global_write(resolve_static(def, info.definition_table, scope).id);
 		return ExprResult{ buf };
 	}
-
-
-
 }

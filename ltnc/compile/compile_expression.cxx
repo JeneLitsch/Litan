@@ -73,9 +73,6 @@ namespace ltn::c {
 		if(auto expr_ = as<ast::Iife>(expr)) {
 			return compile_iife(*expr_, info, scope);
 		}
-		if(auto expr_ = as<ast::DefinitionValue>(expr)) {
-			return compile_read_static(*expr_, info, scope);
-		} 
 		if(auto ternary = as<ast::Ternary>(expr)) {
 			return compile_ternary(*ternary, info, scope);
 		} 

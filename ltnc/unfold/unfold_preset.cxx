@@ -18,7 +18,7 @@ namespace ltn::c {
 
 
 		ast::stmt_ptr return_struct(const SourceLocation & loc) {
-			auto obj = std::make_unique<ast::Var>("obj", loc);
+			auto obj = std::make_unique<ast::Var>("obj", ast::Namespace{}, loc);
 			return std::make_unique<ast::Return>(std::move(obj), loc);
 		}
 	}

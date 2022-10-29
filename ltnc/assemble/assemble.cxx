@@ -5,6 +5,13 @@
 #include "ltn/version.hxx"
 
 namespace ltn::c {
+	std::uint64_t resolve_label(const AddressTable & jump_table, const std::string & label) {
+		if(jump_table.contains(label)) return jump_table.at(label);
+		else throw std::runtime_error{"Cannot find label " + label};
+	}
+
+
+	
 	namespace {
 		auto to_bytes(std::unsigned_integral auto value) {
 			constexpr static auto SIZE = sizeof(value) / sizeof(std::uint8_t);
@@ -57,7 +64,7 @@ namespace ltn::c {
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstJump & args,
 			const AddressTable & jump_table) {
-			const auto addr = jump_table.at(args.label);
+			const auto addr = resolve_label(jump_table, args.label);
 			const auto bytes = to_bytes(addr);
 			for(const auto byte : bytes) {
 				bytecode.push_back(byte);
@@ -72,7 +79,7 @@ namespace ltn::c {
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstJumpUint64 & args,
 			const AddressTable & jump_table) {
-			const auto bytes_jump = to_bytes(jump_table.at(args.label));
+			const auto bytes_jump = to_bytes(resolve_label(jump_table, args.label));
 			for(const auto byte : bytes_jump) {
 				bytecode.push_back(byte);
 			}

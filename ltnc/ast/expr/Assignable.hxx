@@ -28,11 +28,15 @@ namespace ltn::c::ast {
 	public:
 		Var(
 			const std::string & name,
+			const Namespace & namespaze,
 			const SourceLocation & location)
 			:	Assignable(location),
-				name(name) {}
+				name{name},
+				namespaze{namespaze} {}
+
 		virtual ~Var() = default;
 		std::string name;
+		Namespace namespaze;
 	};
 
 

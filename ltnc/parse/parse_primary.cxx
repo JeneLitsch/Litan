@@ -229,12 +229,6 @@ namespace ltn::c {
 
 
 
-		auto parse_var(const auto & name, const auto & tokens) {
-			return std::make_unique<ast::Var>(name, location(tokens));
-		}
-
-
-
 		ast::expr_ptr parse_defintion_value(
 			const auto & name,
 			const auto & namespaze,
@@ -252,11 +246,9 @@ namespace ltn::c {
 			if(match(TT::PAREN_L, tokens)) {
 				return parse_call(name, namespaze, tokens);
 			}
-			if(namespaze.empty()) {
-				return parse_var(name, tokens);
-			}
-			return parse_defintion_value(name, namespaze, tokens);
+			return std::make_unique<ast::Var>(name, namespaze, location(tokens));
 		}
+
 
 
 		ast::expr_ptr parse_fx_pointer(Tokens & tokens) {

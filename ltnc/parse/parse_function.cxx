@@ -60,7 +60,7 @@ namespace ltn::c {
 				while(true) {
 					const auto name = parse_variable_name(tokens);
 					const auto & loc = location(tokens);
-					auto var = std::make_unique<ast::Var>(name, loc);
+					auto var = std::make_unique<ast::Var>(name, ast::Namespace{}, loc);
 					captures.push_back(std::move(var));
 					if(match(TT::BRACKET_R, tokens)) break;
 					if(!match(TT::COMMA, tokens)) {

@@ -9,6 +9,9 @@ namespace ltn::c {
 		// compile assignable variable
 		ExprResult compile_read_ref(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
 			if(auto var = as<ast::Var>(expr)) {
+				if(!var->namespaze.empty()) throw CompilerError{
+					"Local variable must not have a namespace", var->location
+				};
 				const auto & local = scope.resolve(var->name, var->location);
 				return {
 					.code = {},
@@ -72,39 +75,6 @@ namespace ltn::c {
 			
 			if(auto global = as<ast::GlobalVar>(expr)) {
 				return compile_write_static(*global, info, scope).code;
-			}
-
-			throw std::runtime_error{"Unknown assingable type"};
-		}
-
-		
-
-		// compile assignable variable
-		InstructionBuffer compile_read(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
-			if(auto e = as<ast::Var>(expr)) {
-				const auto var = scope.resolve(e->name, e->location);
-				InstructionBuffer buf;
-				buf << inst::read_x(var.address);
-				return buf;
-			}
-			
-			if(auto e = as<ast::Index>(expr)) {
-				const auto idx = compile_expression(*e->index, info, scope);
-				InstructionBuffer buf;
-				buf << idx.code;
-				buf << inst::at();
-				return buf;
-			}
-
-			if(auto e = as<ast::Member>(expr)) {
-				InstructionBuffer buf;
-				const auto id = info.member_table.get_id(e->name);
-				buf << inst::member_read(id);
-				return buf;
-			}
-
-			if(auto e = as<ast::GlobalVar>(expr)) {
-				return compile_read_static(*e, info, scope).code;
 			}
 
 			throw std::runtime_error{"Unknown assingable type"};
