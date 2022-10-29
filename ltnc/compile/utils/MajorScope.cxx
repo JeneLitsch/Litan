@@ -11,14 +11,14 @@ namespace ltn::c {
 
 
 
-	Variable MajorScope::resolve(
+	const Variable * MajorScope::resolve(
 		const std::string & name,
 		const SourceLocation & location) const{
 		
 		if(this->vars.contains(name)) {
-			return this->vars.at(name);
+			return &this->vars.at(name);
 		}
-		else throw CompilerError{"Undefined variable " + name, location};
+		return nullptr;
 	}
 
 

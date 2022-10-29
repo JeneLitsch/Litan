@@ -88,7 +88,7 @@ namespace ltn::c {
 			<< to.code
 			<< from.code
 			<< inst::duplicate()
-			<< inst::write_x(i_var.address)
+			<< inst::write_x(i_var->address)
 			<< inst::write_x(from_var.address)
 			<< inst::write_x(to_var.address);
 
@@ -97,7 +97,7 @@ namespace ltn::c {
 			<< inst::label(begin)
 			<< inst::read_x(to_var.address)
 			<< inst::read_x(from_var.address)
-			<< inst::read_x(i_var.address)
+			<< inst::read_x(i_var->address)
 			<< inst::between()
 			<< inst::ifelse(end);
 
@@ -105,7 +105,7 @@ namespace ltn::c {
 		buf << body.code;
 
 		// Increments
-		buf << inst::read_x(i_var.address);
+		buf << inst::read_x(i_var->address);
 		if(auto & step = stmt.step) {
 			buf
 				<< compile_expression(*step, info, loop_scope).code
@@ -114,7 +114,7 @@ namespace ltn::c {
 		else {
 			buf << inst::inc();
 		}
-		buf << inst::write_x(i_var.address);
+		buf << inst::write_x(i_var->address);
 
 		// End of loop
 		buf

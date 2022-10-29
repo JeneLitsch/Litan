@@ -54,7 +54,8 @@ namespace ltn::c {
 		InstructionBuffer static_init(
 			auto & read_info,
 			auto & write_info,
-			auto & statics) {
+			auto & statics,
+			auto & compile_write) {
 			
 
 
@@ -64,7 +65,7 @@ namespace ltn::c {
 					MajorScope scope { s->namespaze, false };
 					const auto a = accessor(*s);
 					buf << compile_expression(*s->expr, read_info, scope).code;
-					buf << compile_write_static(a, write_info, scope).code;
+					buf << compile_write(a, write_info, scope).code;
 				}
 			}
 
@@ -87,7 +88,7 @@ namespace ltn::c {
 
 			auto & write_info = info;
 
-			return static_init(read_info, write_info, globals);
+			return static_init(read_info, write_info, globals, compile_write_global);
 		}
 
 		
@@ -108,7 +109,7 @@ namespace ltn::c {
 
 			auto & write_info = info;
 
-			return static_init(read_info, write_info, globals);
+			return static_init(read_info, write_info, globals, compile_write_define);
 		}
 	}
 
@@ -136,10 +137,12 @@ namespace ltn::c {
 		for(const auto & definition : program.definitions) {
 			info.definition_table.insert(*definition);
 		}
+		buf << define_init(info, program.definitions);
 
 		for(const auto & global : program.globals) {
 			info.global_table.insert(*global);
 		}
+		buf << global_init(info, program.globals);
 
 		for(const auto & fx : program.functions) {
 			info.fx_table.insert(*fx, std::size(fx->parameters));
@@ -147,8 +150,6 @@ namespace ltn::c {
 
 
 		// buf << static_init(info, program.definitions);
-		buf << define_init(info, program.definitions);
-		buf << global_init(info, program.globals);
 		buf << inst::null();
 		buf << inst::exit();
 

@@ -12,6 +12,7 @@ function main() extern -> int  {
 	var x : char = 'A';
 	std::println(x);
 	var pi = 3;
+	pi = 4;
 	std::println(std::pi);
 	std::println(pi);
 }

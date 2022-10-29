@@ -6,7 +6,7 @@ namespace ltn::c {
 	public:
 		MinorScope(const Scope * parent);
 
-		virtual Variable resolve(const std::string & name, const SourceLocation & location) const override;
+		virtual const Variable * resolve(const std::string & name, const SourceLocation & location) const override;
 		virtual std::uint64_t size() const override;
 		virtual bool is_const() const override;
 		virtual const ast::Namespace & get_namespace() const override;

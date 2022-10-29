@@ -9,7 +9,7 @@
 namespace ltn::c {
 	class Scope {
 	public:
-		virtual Variable resolve(const std::string & name, const SourceLocation & location) const = 0;
+		virtual const Variable * resolve(const std::string & name, const SourceLocation & location) const = 0;
 		virtual std::uint64_t size() const = 0;
 		virtual bool is_const() const = 0;
 		virtual const ast::Namespace & get_namespace() const = 0;

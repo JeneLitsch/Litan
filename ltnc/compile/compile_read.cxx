@@ -53,23 +53,25 @@ namespace ltn::c {
 
 	// compiles an variable read accessc
 	ExprResult compile_read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
-		try {
-			if(!expr.namespaze.empty()) throw CompilerError{
-				"Local variable must not have a namespace"
-			};
-			const auto var = scope.resolve(expr.name, expr.location);
-			return compile_read_local_variable(var);
+		const auto & name = expr.name;
+		const auto & namespaze = scope.get_namespace();
+		
+		const auto * var = scope.resolve(expr.name, expr.location);
+		if(var && expr.namespaze.empty()) {
+			return compile_read_local_variable(*var);
 		}
-		catch(const CompilerError & error) {
-			const auto & name = expr.name;
-			const auto & namespaze = scope.get_namespace();
-			if(const auto * definition = info.definition_table.resolve(name, namespaze, expr.namespaze)) {
-				InstructionBuffer buf;
-				buf << inst::global_read(definition->id);
-				return ExprResult{ buf };
-			}
-			throw error;
+		
+		const auto * def = info.definition_table.resolve(name, namespaze, expr.namespaze);
+		if(def) {
+			InstructionBuffer buf;
+			buf << inst::global_read(def->id);
+			return ExprResult{ buf };
 		}
+		
+		throw CompilerError {
+			"Undefined variable " + expr.namespaze.to_string() + name,
+			expr.location
+		};
 	}
 
 	

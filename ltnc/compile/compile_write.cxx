@@ -8,14 +8,19 @@ namespace ltn::c {
 
 		// compile assignable variable
 		ExprResult compile_read_ref(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
-			if(auto var = as<ast::Var>(expr)) {
-				if(!var->namespaze.empty()) throw CompilerError{
-					"Local variable must not have a namespace", var->location
+			if(auto e = as<ast::Var>(expr)) {
+				if(!e->namespaze.empty()) throw CompilerError{
+					"Local variable must not have a namespace",
+					e->location
 				};
-				const auto & local = scope.resolve(var->name, var->location);
+				const auto * var = scope.resolve(e->name, e->location);
+				if(!var) throw CompilerError {
+					"Undefined variable" + e->name,
+					e->location
+				};
 				return {
 					.code = {},
-					.deduced_type = local.type,
+					.deduced_type = var->type,
 				};
 			}
 			
@@ -53,8 +58,12 @@ namespace ltn::c {
 		InstructionBuffer compile_write(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
 			if(auto e = as<ast::Var>(expr)) {
 				const auto var = scope.resolve(e->name, expr.location);
+				if(!var) throw CompilerError {
+					"Undefined variable" + e->name,
+					e->location
+				};
 				InstructionBuffer buf;
-				buf << inst::write_x(var.address);
+				buf << inst::write_x(var->address);
 				return buf;
 			}
 			
@@ -74,7 +83,7 @@ namespace ltn::c {
 			}
 			
 			if(auto global = as<ast::GlobalVar>(expr)) {
-				return compile_write_static(*global, info, scope).code;
+				return compile_write_global(*global, info, scope).code;
 			}
 
 			throw std::runtime_error{"Unknown assingable type"};

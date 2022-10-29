@@ -8,8 +8,8 @@ namespace ltn::c {
 		InstructionBuffer buf;
 		
 		buf 
-			<< inst::read_x(var.address)
-			<< inst::read_x(obj.address)
+			<< inst::read_x(var->address)
+			<< inst::read_x(obj->address)
 			<< inst::member_write(mem);
 		
 		return StmtResult{buf, 0, false};
