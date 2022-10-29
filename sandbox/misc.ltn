@@ -15,6 +15,8 @@ namespace refl {
 	}
 }
 
+function f(a) => a 
+
 
 function main() extern -> int {
 	var ns = reflect(namespace refl);
@@ -27,4 +29,11 @@ function main() extern -> int {
 		std::println("    const: " + std::str(fx.const));
 		ns.functions[i].fx_ptr();
 	}
+
+
+	var fx = reflect(function f(_));
+	std::println(fx.name);
+	std::println(fx.const);
+	std::println(fx.extern);
+	std::println(fx.fx_ptr(42));
 }

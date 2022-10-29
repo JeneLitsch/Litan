@@ -12,8 +12,23 @@ namespace ltn::c {
 			};
 		}
 
+
+		
+		ast::Reflect::Query parse_function_query(Tokens & tokens) {
+			auto [name, namespaze] = parse_symbol(tokens);
+			auto arity = match(TT::PAREN_L, tokens) ? parse_placeholder(tokens) : 0;
+			return ast::Reflect::FunctionQuery {
+				.namespaze = namespaze,
+				.name = name,
+				.arity = arity,
+			};
+		}
+
+
+
 		ast::Reflect::Query parse_query(Tokens & tokens) {
 			if(match(TT::NAMESPACE, tokens)) return parse_namespace_query(tokens);
+			if(match(TT::FUNCTION, tokens)) return parse_function_query(tokens);
 			throw CompilerError {
 				"Expected ) after reflect", tokens.front().location 
 			};

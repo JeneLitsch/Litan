@@ -27,7 +27,8 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer add_function(CompilerInfo & info, const ast::Functional & fx) {
+
+		InstructionBuffer reflect_function(CompilerInfo & info, const ast::Functional & fx) {
 			InstructionBuffer buf;
 			MajorScope scope{ast::Namespace{}, false, type::Any{}};
 			ast::FxPointer fx_ptr {
@@ -49,13 +50,16 @@ namespace ltn::c {
 
 
 
+
+
+
 		InstructionBuffer add_functions(CompilerInfo & info, const ast::Reflect::NamespaceQuery & query) {
 			InstructionBuffer buf;
 			
 			std::size_t count = 0;
 			for(const auto & fx : info.fx_table.get_symbols()) {
 				if(fx->namespaze == query.namespaze) {
-					buf << add_function(info, *fx);
+					buf << reflect_function(info, *fx);
 					++count;
 				}
 			}
@@ -64,6 +68,18 @@ namespace ltn::c {
 			return add_member(info, "functions", buf);
 		}
 
+
+
+
+		ExprResult compile_reflect_query(const ast::Reflect::FunctionQuery & query, CompilerInfo & info, Scope & scope) {
+			InstructionBuffer buf;
+			auto fx = info.fx_table.resolve(query.name, scope.get_namespace(), query.namespaze, query.arity);
+			if(!fx) throw CompilerError {
+				"Undefined function " + query.namespaze.to_string() + query.name + " in reflection."
+			};
+			buf << reflect_function(info, *fx);
+			return {buf};
+		}
 
 
 		ExprResult compile_reflect_query(const ast::Reflect::NamespaceQuery & query, CompilerInfo & info, Scope & scope) {

@@ -88,6 +88,7 @@ namespace ltn::c {
 	}
 
 
+	std::size_t parse_placeholder(Tokens & tokens);
 
 	// Maches ; or throws
 	void semicolon(Tokens & tokens);

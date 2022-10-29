@@ -180,16 +180,7 @@ namespace ltn::c {
 
 
 
-		auto parse_placeholder(Tokens & tokens) {
-			std::size_t parameters = 0;
-			parse_parameters(tokens, [&] {
-				if (!match(TT::UNDERSCORE, tokens)) {
-					throw expected("placeholder _", tokens);
-				}
-				parameters++;
-			});
-			return parameters;
-		}
+
 
 
 
@@ -257,6 +248,19 @@ namespace ltn::c {
 			}
 			return nullptr;
 		}
+	}
+
+
+
+	std::size_t parse_placeholder(Tokens & tokens) {
+		std::size_t parameters = 0;
+		parse_parameters(tokens, [&] {
+			if (!match(TT::UNDERSCORE, tokens)) {
+				throw expected("placeholder _", tokens);
+			}
+			parameters++;
+		});
+		return parameters;
 	}
 
 

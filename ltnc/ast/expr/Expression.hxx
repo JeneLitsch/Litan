@@ -98,7 +98,15 @@ namespace ltn::c::ast {
 		struct NamespaceQuery {
 			Namespace namespaze;
 		};
-		using Query = std::variant<NamespaceQuery>;
+		struct FunctionQuery {
+			Namespace namespaze;
+			std::string name;
+			std::size_t arity;
+		};
+		using Query = std::variant<
+			NamespaceQuery,
+			FunctionQuery
+		>;
 
 		Reflect(
 			const Query & query,

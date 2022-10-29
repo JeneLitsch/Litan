@@ -21,13 +21,27 @@ var result = reflect(namespace foo);
 A struct with all the collected data is returned.
 
 ```
-result
+namespace
 +---name
 +---functions
-    +---[]
-        +---name
-        +---fx_ptr 
-        +---const 
-        +---extern 
-  
+    +---[function...]  
+```
+
+## Function
+
+A function query returns information reagrding a function. For functions with parameters placeholders _ are used.
+
+```js
+var result = reflect(function f1());
+var result = reflect(function f2(_,_));
+```
+
+A struct with all the collected data is returned.
+
+```
+function
++---name
++---fx_ptr 
++---const 
++---extern 
 ```
