@@ -14,6 +14,13 @@ namespace ltn::c {
 		}
 
 
+		InstructionBuffer add_member_bool(CompilerInfo & info, const std::string & name, bool value) {
+			return add_member(info, name, InstructionBuffer{
+				value ? inst::bool_true() : inst::bool_false()
+			});
+		}
+
+
 		InstructionBuffer add_name(CompilerInfo & info, const std::string & str) {
 			return add_member(info, "name", InstructionBuffer{inst::newstr(str)});
 		}
@@ -34,6 +41,8 @@ namespace ltn::c {
 			buf << inst::newstruct();
 			buf << add_name(info, fx.name);
 			buf << add_member(info, "fx_ptr", fx_ptr_code);
+			buf << add_member_bool(info, "const",  fx.c0nst);
+			buf << add_member_bool(info, "extern", fx.init);
 			
 			return buf;
 		}

@@ -2,7 +2,7 @@ namespace refl {
 	function a() {
 		std::println("a()");
 	}
-	function b() {
+	function b() extern {
 		std::println("b()");
 	}
 	function c() {
@@ -10,6 +10,8 @@ namespace refl {
 	}
 	function d() {
 		std::println("d()");
+	}
+	function e() const extern {
 	}
 }
 
@@ -19,7 +21,10 @@ function main() extern -> int {
 	std::println("Namespace: " + ns.name);
 	std::println("Functions:" + std::str(std::size(ns.functions)));
 	for(i : 0 -> std::size(ns.functions)) {
-		std::println("  " + std::str(i) + ": " + ns.functions[i].name);
+		var fx = ns.functions[i];
+		std::println("  " + std::str(i) + ": " + fx.name);
+		std::println("    extern: " + std::str(fx.extern));
+		std::println("    const: " + std::str(fx.const));
 		ns.functions[i].fx_ptr();
 	}
 }

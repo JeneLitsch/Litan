@@ -22,10 +22,12 @@ A struct with all the collected data is returned.
 
 ```
 result
-+-name : string
-+-functions : array of functions
-  +-[...]
-    +-name : string
-    +-fx_ptr : callable  
++---name
++---functions
+    +---[]
+        +---name
+        +---fx_ptr 
+        +---const 
+        +---extern 
   
 ```
