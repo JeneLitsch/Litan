@@ -6,7 +6,9 @@ function fx(x, y) => 4*x + y
 
 define pi = 3;
 
-function main() extern -> int  {
+define f = lambda(x : int) => 2*x + 2;
+
+function main() extern -> int {
 	var pi = 3.14;
 	std::println(pi);
 	std::println(::pi);
@@ -14,7 +16,10 @@ function main() extern -> int  {
 
 	var fx = lambda(x) => 2*x;
 
-	std::println(::fx(10, 2));
+	std::println((::fx)(10, 2));
+	std::println((::f)(20));
 	std::println(fx(21));
 	std::map()[0];
+
+	// reflect(namespace std);
 }
