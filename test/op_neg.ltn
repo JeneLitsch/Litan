@@ -1,0 +1,44 @@
+namespace sphinx::test {
+	function neg_numeric() {
+		assert_equal(-true, 0-1);
+		assert_equal(-0, 0);
+		assert_equal(-4, 0 - 4);
+		assert_equal(--4, 4);
+		assert_equal(-4.0, 0 - 4.0);
+		assert_equal(--4.0, 4.0);
+	}
+
+
+
+	function neg_numeric_type() {
+		assert_equal(decltype(-true).name, "int");
+		assert_equal(decltype(-'A').name, "int");
+		assert_equal(decltype(-3).name, "int");
+		assert_equal(decltype(-3.0).name, "float");
+	}
+
+
+
+	function neg_numeric_typename() {
+		assert_equal(std::typename(-true), "int");
+		assert_equal(std::typename(-'A'), "int");
+		assert_equal(std::typename(-3), "int");
+		assert_equal(std::typename(-3.0), "float");
+	}
+
+
+
+	function neg_except() {
+		assert_except(lambda => -null);
+		assert_success(lambda => -true);
+		assert_success(lambda => -'A');
+		assert_success(lambda => -1);
+		assert_success(lambda => -1.0);
+		assert_except(lambda => -"");
+		assert_except(lambda => -std::map());
+		assert_except(lambda => -std::struct());
+		assert_except(lambda => -std::stack());
+		assert_except(lambda => -std::queue());
+		assert_except(lambda => -std::cout());
+	}
+}

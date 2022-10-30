@@ -1,0 +1,35 @@
+namespace sphinx::test {
+	function bitnot_value() {
+		assert_equal(~0, -1);
+		assert_equal(~1, -2);
+		assert_equal(~-1, 0);
+	}
+
+
+
+	function bitnot_type() {
+		assert_equal(decltype(~1).name, "int");
+		assert_equal(decltype(~true).name, "int");
+		assert_equal(decltype(~'A').name, "int");
+	}
+
+
+
+	function bitnot_typename() {
+		assert_equal(std::typename(~1), "int");
+		assert_equal(std::typename(~true), "int");
+		assert_equal(std::typename(~'A'), "int");
+	}
+
+
+
+	function bitnot_except() {
+		assert_success(lambda => ~true);
+		assert_success(lambda => ~false);
+		assert_success(lambda => ~'A');
+		assert_success(lambda => ~1);
+		assert_except(lambda => ~1.0);
+		assert_except(lambda => ~"");
+		assert_except(lambda => ~[]);
+	}
+}

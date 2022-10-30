@@ -1,0 +1,27 @@
+namespace sphinx::test {
+    function logor() {
+		assert_equal(true || true, true);
+		assert_equal(true || false, true);
+		assert_equal(false || true, true);
+		assert_equal(false || false, false);
+    }
+
+
+
+	function logor_short_circuit() {
+		var test_short = lambda(a, b) {
+			var reached_second = std::mono(false);
+			var second = lambda [reached_second] (b) {
+				reached_second.value = true;
+				return b;
+			};
+			a || second(b);
+			return reached_second.value;
+		};
+
+		assert_false(test_short(true, false));
+		assert_false(test_short(true, true));
+		assert_true(test_short(false, false));
+		assert_true(test_short(false, true));
+    }
+}

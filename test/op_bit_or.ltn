@@ -1,0 +1,35 @@
+namespace sphinx::test {
+	function bitor() {
+		assert_equal(0b011 | 0b110, 0b111);
+		assert_equal(0b001 | 0b100, 0b101);
+		assert_equal(1 | true, 1);
+		assert_equal(1 | false, 1);
+	}
+
+
+
+	function bitor_type() {
+		assert_equal(decltype(1 | 1).name, "int");
+		assert_equal(decltype(0 | 1).name, "int");
+	}
+
+
+
+	function bitor_typename() {
+		assert_equal(std::typename(1 | 1), "int");
+		assert_equal(std::typename(0 | 1), "int");
+	}
+	
+
+
+	function bitor_except() {
+		assert_success(lambda => 1 | 1);
+		assert_except(lambda => 1.0 | 1);
+		assert_except(lambda => "" | "");
+		assert_except(lambda => [] | []);
+		assert_except(lambda => std::struct() | std::struct());
+		assert_except(lambda => std::map() | std::map());
+		assert_except(lambda => std::stack() | std::stack());
+		assert_except(lambda => std::queue() | std::queue());
+	}
+}

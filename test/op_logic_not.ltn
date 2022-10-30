@@ -1,0 +1,13 @@
+namespace sphinx::test {
+    function lognot() {
+		assert_equal(!true, false);
+		assert_equal(!false, true);
+		assert_equal(!null, true);
+		assert_equal(!"Hello World", false);
+		assert_equal(!2, false);
+		assert_equal(!0, true);
+		assert_equal(!-1, false);
+		assert_equal(!-1.5, false);
+		assert_equal(!-0.0, true);
+    }
+}
