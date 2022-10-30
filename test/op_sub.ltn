@@ -1,0 +1,34 @@
+namespace sphinx::test {
+	function sub_numeric() {
+		assert_equal(true - true, 0);
+		assert_equal('B' - 1, 'A');
+		assert_equal('B' - 'B', 0);
+		assert_equal(3 - 4, -1);
+		assert_equal(3 - 0.5, 2.5);
+	}
+
+
+
+	function sub_numeric_type() {
+		assert_equal(decltype(false - true).name, "int");
+		assert_equal(decltype('A' - 'B').name, "int");
+		assert_equal(decltype('A' - 1).name, "int");
+		assert_equal(decltype(3 - 4).name, "int");
+		assert_equal(decltype(3 - 4.0).name, "float");
+	}
+
+
+
+	function sub_numeric_except() {
+		assert_success(lambda => true-true);
+		assert_success(lambda => 'A'-'A');
+		assert_success(lambda => 3-4);
+		assert_except(lambda => 3.0-"");
+		assert_except(lambda => ""-"");
+		assert_except(lambda => []-[]);
+		assert_except(lambda => std::map()-std::map());
+		assert_except(lambda => std::struct()-std::struct());
+		assert_except(lambda => std::queue()-std::queue());
+		assert_except(lambda => std::stack()-std::stack());
+	}
+}
