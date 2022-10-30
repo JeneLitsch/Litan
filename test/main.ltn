@@ -1,11 +1,3 @@
-function is_successful(fx) {
-	fx();
-	return true;
-}
-except(e) {
-	return false;
-}
-
 function main(args) {
 	sphinx::run_tests();
 }

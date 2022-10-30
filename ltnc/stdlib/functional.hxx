@@ -16,5 +16,13 @@ namespace std {
 	function chain(f1, f2)
 		=> lambda [f1, f2] (x) 
 			=> (f2)((f1)(x))
+
+	function is_successful(fx) {
+		fx();
+		return true;
+	}
+	except(e) {
+		return false;
+	}
 }
 )###";

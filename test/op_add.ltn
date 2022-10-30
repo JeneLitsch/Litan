@@ -60,13 +60,13 @@ namespace sphinx::test {
 
 
 	function add_except() {
-		assert_false(is_successful(lambda => "" + []));
-		assert_true(is_successful(lambda => [] + []));
-		assert_false(is_successful(lambda => 1 + []));
-		assert_true(is_successful(lambda => 1 + 2));
-		assert_false(is_successful(lambda => std::cout() + std::cout()));
-		assert_false(is_successful(lambda => std::struct() + std::struct()));
-		assert_false(is_successful(lambda => std::map() + std::map()));
-		assert_false(is_successful(lambda => "" + 1));
+		assert_false(std::is_successful(lambda => "" + []));
+		assert_true( std::is_successful(lambda => [] + []));
+		assert_false(std::is_successful(lambda => 1 + []));
+		assert_true( std::is_successful(lambda => 1 + 2));
+		assert_false(std::is_successful(lambda => std::cout() + std::cout()));
+		assert_false(std::is_successful(lambda => std::struct() + std::struct()));
+		assert_false(std::is_successful(lambda => std::map() + std::map()));
+		assert_false(std::is_successful(lambda => "" + 1));
 	}
 }
