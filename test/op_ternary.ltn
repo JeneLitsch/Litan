@@ -1,0 +1,38 @@
+namespace sphinx::test {
+	function ternary() {
+		assert_equal(true ? 4 : 3, 4);
+		assert_equal(false ? 4 : 3, 3);
+		assert_equal(true ? true : false, true);
+		assert_equal(false ? true : false, false);
+		assert_equal(true ? "Hello" : "World", "Hello");
+		assert_equal(false ? "Hello" : "World", "World");
+	}
+
+
+
+	function ternary_type() {
+		assert_equal(decltype(true ? 4 : 3).name, "int");
+		assert_equal(decltype(false ? 4 : 3).name, "int");
+		assert_equal(decltype(false ? 4.0 : 3).name, "any");
+		assert_equal(decltype(false ? 4.0 : 3.0).name, "float");
+		assert_equal(decltype(false ? "str" : "str").name, "string");
+		assert_equal(decltype(false ? [1] : [2]).name, "array<int>");
+		assert_equal(decltype(false ? [1] : [true]).name, "array<any>");
+		assert_equal(decltype(false ? [1] : []).name, "array<int>");
+		assert_equal(decltype(false ? [[1]] : [[0.0]]).name, "array<array<any>>");
+		assert_equal(decltype(false ? [[1]] : [[]]).name, "array<array<int>>");
+	}
+
+
+
+	function short_cicuit() {
+		var test_short = lambda(condition) {
+			var second = std::mono(false);
+			condition ? null : lambda [second] { second.value = true; }();
+			return second.value;
+		};
+
+		assert_true(test_short(false));
+		assert_false(test_short(true));
+	}
+}

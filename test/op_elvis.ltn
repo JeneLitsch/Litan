@@ -1,0 +1,46 @@
+namespace sphinx::test {
+	function elvis() {
+		assert_equal(true ?: 1, true);
+		assert_equal(false ?: 1, 1);
+		assert_equal(-1 ?: 1, -1);
+		assert_equal(null ?: 1, 1);
+		assert_equal("" ?: 1, "");
+		assert_equal([] ?: 1, []);
+		assert_equal(42 ?: 1337, 42);
+		assert_equal(0 ?: 1337, 1337);
+		assert_equal(std::cout() ?: 1337, std::cout());
+		assert_equal(0.0 ?: 1337, 1337);
+	}
+
+
+
+	function elvis_type() {
+		assert_equal(decltype(1 ?: 1).name, "int");
+		assert_equal(decltype("1" ?: 1).name, "any");
+		assert_equal(decltype("1" ?: "str").name, "string");
+		assert_equal(decltype(["1"] ?: [1]).name, "array<any>");
+		assert_equal(decltype([[]] ?: [[]]).name, "array<array<>>");
+		assert_equal(decltype([[true]] ?: [[1]]).name, "array<array<any>>");
+	}
+
+
+
+	function elvis_short_circuit() {
+		var test_short = lambda(a) {
+			var second = std::mono(false);
+			a ?: lambda [second] () { second.value = true; }();
+			return second.value;
+		};
+
+		assert_true(test_short(false));
+		assert_false(test_short(true));
+    }
+
+
+
+	function elvis_condition_once() {
+		var evals = 0;
+		iife { evals = evals + 1; } ?: null;
+		assert_true(evals == 1);
+    }
+}

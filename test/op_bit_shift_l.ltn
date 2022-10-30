@@ -1,0 +1,26 @@
+namespace sphinx::test {
+	function shift_l() {
+		assert_equal(1 << 1, 2);
+		assert_equal(2 << 2, 8);
+		assert_equal(true << 2, 4);
+	}
+
+
+
+	function shift_l_type() {
+		assert_equal(decltype(1 << 1).name, "int");
+	}
+
+
+
+	function shift_l_typename() {
+		assert_equal(std::typename(1 << 1), "int");
+	}
+
+
+
+	function shift_l_except() {
+		assert_except(lambda => 4 << null);
+		assert_except(lambda => 4.0 << 2);
+	}
+}

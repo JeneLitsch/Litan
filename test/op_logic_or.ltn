@@ -10,13 +10,9 @@ namespace sphinx::test {
 
 	function logor_short_circuit() {
 		var test_short = lambda(a, b) {
-			var reached_second = std::mono(false);
-			var second = lambda [reached_second] (b) {
-				reached_second.value = true;
-				return b;
-			};
-			a || second(b);
-			return reached_second.value;
+			var second = std::mono(false);
+			a || lambda [second] (b) { second.value = true; return b; }(b);
+			return second.value;
 		};
 
 		assert_false(test_short(true, false));

@@ -21,6 +21,8 @@ files=(
 	"test/op_bit_and.ltn"
 	"test/op_bit_or.ltn"
 	"test/op_bit_xor.ltn"
+	"test/op_bit_shift_l.ltn"
+	"test/op_bit_shift_r.ltn"
 	"test/op_logic_not.ltn"
 	"test/op_logic_and.ltn"
 	"test/op_logic_or.ltn"
@@ -32,6 +34,10 @@ files=(
 	"test/op_comp_greater_eql.ltn"
 	"test/op_comp_spaceship.ltn"
 	"test/op_index.ltn"
+	"test/op_ternary.ltn"
+	"test/op_nulltest.ltn"
+	"test/op_elvis.ltn"
+	"test/op_nullco.ltn"
 
 )
 
