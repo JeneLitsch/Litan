@@ -94,10 +94,7 @@ namespace ltn::c::type {
 
 
 	Type deduce_pow(const Type & l, const Type & r) {
-		if(l.as<Any>()) return Any{};
-		if(r.as<Any>()) return Any{};
-		if(is_numeric(l) && is_numeric(r)) return Float{};
-		return Error{};
+		return deduce_arith_base(l, r);
 	}
 
 

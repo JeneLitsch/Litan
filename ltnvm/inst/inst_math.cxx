@@ -3,6 +3,7 @@
 #include <cmath>
 #include "ltnvm/MathFunctions.hxx"
 #include "ltnvm/convert.hxx"
+#include "ltnvm/Operations.hxx"
 
 namespace ltn::vm::inst {
 	#define FETCH\
@@ -110,12 +111,7 @@ namespace ltn::vm::inst {
 	}
 
 
-	void pow(VmCore & core) {
-		FETCH
-		const auto b = convert::to_float(l);
-		const auto e = convert::to_float(r);
-		core.reg.push(std::pow(b, e));
-	}
+
 	
 
 	void sin(VmCore & core) {

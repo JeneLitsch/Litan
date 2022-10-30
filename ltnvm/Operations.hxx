@@ -39,4 +39,14 @@ namespace ltn::vm {
 			}
 		}
 	};
+
+
+	struct Power {
+		constexpr auto operator()(const auto l, const auto r) const 
+			-> decltype(l+r+std::int64_t(1)) {
+			
+			using T = decltype(l+r+std::int64_t(1));
+			return static_cast<T>(std::pow(static_cast<T>(l), static_cast<T>(r)));
+		}
+	};
 }

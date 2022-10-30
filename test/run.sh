@@ -5,6 +5,7 @@ files=(
 	"test/op_mlt.ltn"
 	"test/op_div.ltn"
 	"test/op_mod.ltn"
+	"test/op_pow.ltn"
 	"test/sphinx/sphinx.ltn" 
 )
 

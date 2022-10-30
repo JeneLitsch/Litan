@@ -74,5 +74,10 @@ namespace ltn::vm::inst {
 		FETCH
 		core.reg.push(calc<Modulo>(l, r));
 	}
+
+	void pow(VmCore & core) {
+		FETCH
+		core.reg.push(calc<Power>(l, r));
+	}
 }
 #undef FETCH

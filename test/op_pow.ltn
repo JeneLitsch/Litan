@@ -1,0 +1,46 @@
+namespace sphinx::test {
+	function pow_numeric() {
+		assert_equal(true ** false, 1);
+		assert_equal(3 ** 2, 9);
+		assert_equal(3 ** 3, 27);
+		assert_equal(2 ** 10, 1024);
+		assert_equal(2 ** false, 1);
+		assert_equal(2.0 ** -1, 0.5);
+	}
+
+
+
+	function pow_numeric_type() {
+		assert_equal(decltype(true ** false).name, "int");
+		assert_equal(decltype(4 ** 4).name, "int");
+		assert_equal(decltype(4 ** 4.0).name, "float");
+		assert_equal(decltype(4 ** true).name, "int");
+	}
+
+
+
+	function pow_numeric_typename() {
+		assert_equal(std::typename(true ** true), "int");
+		assert_equal(std::typename('A' ** 'A'), "int");
+		assert_equal(std::typename(1.0 ** 'A'), "float");
+		assert_equal(std::typename(4 ** 4), "int");
+		assert_equal(std::typename(4 ** 4.0), "float");
+	}
+
+
+
+	function pow_except() {
+		assert_success(lambda => 4 ** 4);
+		assert_except(lambda => 4 ** null);
+		assert_except(lambda => 4.0 ** null);
+		assert_success(lambda => 4.0 ** -1);
+		assert_except(lambda => null ** -1);
+		assert_except(lambda => "" ** "");
+		assert_except(lambda => [] ** []);
+		assert_except(lambda => std::map() ** std::map());
+		assert_except(lambda => std::struct() ** std::struct());
+		assert_except(lambda => std::stack() ** std::stack());
+		assert_except(lambda => std::queue() ** std::queue());
+		assert_except(lambda => std::cout() ** std::cout());
+	}
+}
