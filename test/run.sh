@@ -1,6 +1,14 @@
 files=(
 	"test/main.ltn"
 	"test/sphinx/sphinx.ltn" 
+
+	"test/if_else.ltn"
+	"test/switch.ltn"
+	"test/choose.ltn"
+	"test/for.ltn"
+	"test/while.ltn"
+	"test/throw.ltn"
+	"test/lambda.ltn"
 	
 	"test/op_arith_add.ltn"
 	"test/op_arith_sub.ltn"
@@ -25,12 +33,6 @@ files=(
 	"test/op_comp_spaceship.ltn"
 	"test/op_index.ltn"
 
-	"test/if_else.ltn"
-	"test/switch.ltn"
-	"test/choose.ltn"
-	"test/for.ltn"
-	"test/while.ltn"
-	"test/throw.ltn"
 )
 
 bin_file="tmp/bin"

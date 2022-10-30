@@ -23,6 +23,17 @@ namespace sphinx::test {
 
 
 
+	function add_numeric_typename() {
+		assert_equal(std::typename(true + true), "int");
+		assert_equal(std::typename(true + 1),    "int");
+		assert_equal(std::typename('A' + 'A'),   "int");
+		assert_equal(std::typename(21 + 21),     "int");
+		assert_equal(std::typename(21 + 21.0),   "float");
+		assert_equal(std::typename(20.5 + 21.5), "float");
+	}
+
+
+
 	function add_string() {
 		assert_equal("Hello " + "World", "Hello World");
 		assert_equal("" + "", "");
