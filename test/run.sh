@@ -2,6 +2,9 @@ files=(
 	"test/main.ltn"
 	"test/op_add.ltn"
 	"test/op_sub.ltn"
+	"test/op_mlt.ltn"
+	"test/op_div.ltn"
+	"test/op_mod.ltn"
 	"test/sphinx/sphinx.ltn" 
 )
 

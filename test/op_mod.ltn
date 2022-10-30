@@ -1,0 +1,42 @@
+namespace sphinx::test {
+	function mod_numeric() {
+		assert_equal(true % true, 0);
+		assert_equal(false % true, 0);
+		assert_equal(4 % 3, 1);
+		assert_equal(4 % -3, 1);
+		assert_equal(4 % 2, 0);
+		assert_equal(-4 % 3, -1);
+		assert_equal(4.5 % 1, 0.5);
+		assert_equal(4.5 % 1.0, 0.5);
+		assert_equal(4.25 % 0.5, 0.25);
+		assert_equal(5 % 2, 1);
+	}
+
+
+
+	function mod_numeric_type() {
+		assert_equal(decltype(4 % 2).name, "int");
+		assert_equal(decltype(4 % 2.0).name, "float");
+		assert_equal(decltype(4.0 % 2).name, "float");
+		assert_equal(decltype('A' % 2).name, "int");
+		assert_equal(decltype(true % 2).name, "int");
+	}
+
+
+
+	function mod_except() {
+		assert_success(lambda => true % true);
+		assert_except(lambda => true % false);
+		assert_success(lambda => 3 % 4);
+		assert_success(lambda => 3.0 % 4);
+		assert_except(lambda => 3.0 % 0);
+		assert_except(lambda => 0 % 0);
+		assert_except(lambda => "" % "");
+		assert_except(lambda => [] % []);
+		assert_except(lambda => [1] % [1]);
+		assert_except(lambda => std::map() % std::map());
+		assert_except(lambda => std::struct() % std::struct());
+		assert_except(lambda => std::stack() % std::stack());
+		assert_except(lambda => std::queue() % std::queue());
+	}
+}

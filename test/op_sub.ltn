@@ -19,7 +19,7 @@ namespace sphinx::test {
 
 
 
-	function sub_numeric_except() {
+	function sub_except() {
 		assert_success(lambda => true-true);
 		assert_success(lambda => 'A'-'A');
 		assert_success(lambda => 3-4);
