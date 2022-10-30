@@ -27,6 +27,9 @@ files=(
 	"test/if_else.ltn"
 	"test/switch.ltn"
 	"test/choose.ltn"
+	"test/for.ltn"
+	"test/while.ltn"
+	"test/throw.ltn"
 )
 
 bin_file="tmp/bin"

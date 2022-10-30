@@ -1,0 +1,17 @@
+namespace sphinx::test {
+    function while_loop() {
+		var fx = lambda(arr) {
+            var i = 0;
+			var value = 0;
+            while(i < std::size(arr)) {
+				value = value + arr[i];
+                i=i+1;
+			}
+			return value;
+		};
+
+		assert_equal(fx([1,2,3]), 6);
+		assert_equal(fx([10,20,30]), 60);
+		assert_equal(fx([10,20,30, -20]), 40);
+	}
+}

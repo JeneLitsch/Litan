@@ -1,0 +1,9 @@
+namespace sphinx::test {
+	function thr0w() {
+		var throws = lambda(e) { throw e; };
+		var succeeds = lambda() {};
+
+		assert_except(lambda [throws] => throws("Hello"));
+		assert_success(succeeds);
+	}
+}
