@@ -1,0 +1,72 @@
+namespace sphinx::test {
+	function add_numeric() {
+		assert_equal(true + true, 2);
+		assert_equal('A' + 'A', 65 + 65);
+		assert_equal(21 + 21, 42);
+		assert_equal(21 + 21.0, 42.0);
+		assert_equal(-21 + 21, 0);
+		assert_equal(-21 + -21, -42);
+		assert_equal(20.5 + 21.5, 42.0);
+		assert_equal(-20.5 + -21.5, -42.0);
+	}
+
+
+
+	function add_numeric_type() {
+		assert_equal(decltype(true + true).name, "int");
+		assert_equal(decltype(true + 1).name,    "int");
+		assert_equal(decltype('A' + 'A').name,   "int");
+		assert_equal(decltype(21 + 21).name,     "int");
+		assert_equal(decltype(21 + 21.0).name,   "float");
+		assert_equal(decltype(20.5 + 21.5).name, "float");
+	}
+
+
+
+	function add_string() {
+		assert_equal("Hello " + "World", "Hello World");
+		assert_equal("" + "", "");
+	}
+
+
+
+	function add_string_type() {
+		assert_equal(decltype("Hello " + "World").name, "string");
+		assert_equal(decltype("" + "").name, "string");
+	}
+
+
+
+	function add_array() {
+		assert_equal([] + [], []);
+		assert_equal([] + [1], [1]);
+		assert_equal([1] + [], [1]);
+		assert_equal([1] + [1], [1, 1]);
+		assert_equal([[1]] + [2], [[1], 2]);
+		assert_equal([[""]] + [2], [[""], 2]);
+		assert_equal([[""]] + [[2]], [[""], [2]]);
+	}
+
+
+
+	function add_array_type() {
+		assert_equal(decltype([] + []).name, "array<>");
+		assert_equal(decltype([1] + []).name, "array<int>");
+		assert_equal(decltype([1] + [1]).name, "array<int>");
+		assert_equal(decltype([[""]] + [2]).name, "array<any>");
+		assert_equal(decltype([[""]] + [[2]]).name, "array<array<any>>");
+	}
+
+
+
+	function add_except() {
+		assert_false(is_successful(lambda => "" + []));
+		assert_true(is_successful(lambda => [] + []));
+		assert_false(is_successful(lambda => 1 + []));
+		assert_true(is_successful(lambda => 1 + 2));
+		assert_false(is_successful(lambda => std::cout() + std::cout()));
+		assert_false(is_successful(lambda => std::struct() + std::struct()));
+		assert_false(is_successful(lambda => std::map() + std::map()));
+		assert_false(is_successful(lambda => "" + 1));
+	}
+}
