@@ -4,7 +4,7 @@
 namespace ltn::c {
 	namespace {
 
-		InstructionBuffer add_member(CompilerInfo & info, const std::string & name,  const InstructionBuffer & init) {
+		InstructionBuffer add_member(CompilerInfo & info, const std::string & name, const InstructionBuffer & init) {
 			InstructionBuffer buf;
 			buf << inst::duplicate();
 			buf << init;
@@ -21,10 +21,9 @@ namespace ltn::c {
 		}
 
 
-		InstructionBuffer add_name(CompilerInfo & info, const std::string & str) {
-			return add_member(info, "name", InstructionBuffer{inst::newstr(str)});
+		InstructionBuffer add_member_string(CompilerInfo & info,  const std::string & name, const std::string & str) {
+			return add_member(info, name, InstructionBuffer{inst::newstr(str)});
 		}
-
 
 
 
@@ -40,7 +39,7 @@ namespace ltn::c {
 			auto fx_ptr_code = compile_fxPointer(fx_ptr, info, scope).code;
 
 			buf << inst::newstruct();
-			buf << add_name(info, fx.name);
+			buf << add_member_string(info, "name", fx.name);
 			buf << add_member(info, "fx_ptr", fx_ptr_code);
 			buf << add_member_bool(info, "const",  fx.c0nst);
 			buf << add_member_bool(info, "extern", fx.init);
@@ -50,15 +49,12 @@ namespace ltn::c {
 
 
 
-
-
-
-		InstructionBuffer add_functions(CompilerInfo & info, const ast::Reflect::NamespaceQuery & query) {
+		InstructionBuffer reflect_functions(CompilerInfo & info, const ast::Namespace & namespaze) {
 			InstructionBuffer buf;
 			
 			std::size_t count = 0;
 			for(const auto & fx : info.fx_table.get_symbols()) {
-				if(fx->namespaze == query.namespaze) {
+				if(fx->namespaze == namespaze) {
 					buf << reflect_function(info, *fx);
 					++count;
 				}
@@ -68,6 +64,23 @@ namespace ltn::c {
 			return add_member(info, "functions", buf);
 		}
 
+
+
+		InstructionBuffer reflect_globals(CompilerInfo info, const ast::Namespace & namespaze) {
+			InstructionBuffer buf;
+			
+			std::size_t count = 0;
+			for(const auto & global : info.global_table.get_symbols()) {
+				if(global->namespaze == namespaze) {
+					buf << inst::newstruct();
+					buf << add_member_string(info, "name", global->name);
+					++count;
+				}
+			}
+			buf << inst::newarr(count);
+
+			return add_member(info, "globals", buf);
+		}
 
 
 
@@ -85,8 +98,9 @@ namespace ltn::c {
 		ExprResult compile_reflect_query(const ast::Reflect::NamespaceQuery & query, CompilerInfo & info, Scope & scope) {
 			InstructionBuffer buf;
 			buf << inst::newstruct();
-			buf << add_name(info, query.namespaze.to_string());
-			buf << add_functions(info, query);
+			buf << add_member_string(info, "name", query.namespaze.to_string());
+			buf << reflect_functions(info, query.namespaze);
+			buf << reflect_globals(info, query.namespaze);
 			return {buf};
 		}
 	}

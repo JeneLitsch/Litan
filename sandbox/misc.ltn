@@ -13,15 +13,18 @@ namespace refl {
 	}
 	function e() const extern {
 	}
+	global a = 4;
+	global b = 4;
 }
 
 function f(a) => a 
 
+define arr = [1,2,3];
 
 function main() extern -> int {
 	var ns = reflect(namespace refl);
 	std::println("Namespace: " + ns.name);
-	std::println("Functions:" + std::str(std::size(ns.functions)));
+	std::println("Functions: " + std::str(std::size(ns.functions)));
 	for(i : 0 -> std::size(ns.functions)) {
 		var fx = ns.functions[i];
 		std::println("  " + std::str(i) + ": " + fx.name);
@@ -30,10 +33,18 @@ function main() extern -> int {
 		ns.functions[i].fx_ptr();
 	}
 
+	for(i : 0 -> std::size(ns.globals)) {
+		std::println("global " + ns.globals[i].name);
+	}
+
 
 	var fx = reflect(function f(_));
 	std::println(fx.name);
 	std::println(fx.const);
 	std::println(fx.extern);
 	std::println(fx.fx_ptr(42));
+	
+
+	arr[0] = 42;
+	std::println(arr);
 }
