@@ -1,0 +1,18 @@
+namespace sphinx::test {
+    function if_else() {
+        var if_else = lambda (condition) {
+			if(condition) return true;
+			else return false;
+		};
+
+		assert_true(if_else(true));
+		assert_false(if_else(false));
+		assert_false(if_else(0));
+		assert_true(if_else(1));
+		assert_false(if_else(null));
+		assert_true(if_else(""));
+		assert_true(if_else([]));
+		assert_true(if_else(std::struct()));
+		assert_true(if_else(std::map()));
+    }
+}

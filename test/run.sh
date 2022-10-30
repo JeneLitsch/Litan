@@ -1,5 +1,7 @@
 files=(
 	"test/main.ltn"
+	"test/sphinx/sphinx.ltn" 
+	
 	"test/op_arith_add.ltn"
 	"test/op_arith_sub.ltn"
 	"test/op_arith_mlt.ltn"
@@ -14,7 +16,10 @@ files=(
 	"test/op_logic_not.ltn"
 	"test/op_logic_and.ltn"
 	"test/op_logic_or.ltn"
-	"test/sphinx/sphinx.ltn" 
+
+	"test/if_else.ltn"
+	"test/switch.ltn"
+	"test/choose.ltn"
 )
 
 bin_file="tmp/bin"
