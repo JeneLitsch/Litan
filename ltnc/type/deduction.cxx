@@ -129,9 +129,18 @@ namespace ltn::c::type {
 
 
 		Type deduce_index_array(const Array & array, const Type & key) {
-			if(key.as<Int>() || key.as<Any>()) {
+			if(is_numeric(key) || is_any(key)) {
 				if(array.contains) return **array.contains;
 				else return Any{};
+			}
+			return Error{};
+		}
+
+
+
+		Type deduce_index_string(const String & array, const Type & key) {
+			if(is_numeric(key) || is_any(key)) {
+				return Char{};
 			}
 			return Error{};
 		}
@@ -149,6 +158,7 @@ namespace ltn::c::type {
 		if(container.as<Any>()) return Any{};		
 		if(auto map = container.as<Map>()) return deduce_index_map(*map, key);
 		if(auto array = container.as<Array>()) return deduce_index_array(*array, key);
+		if(auto string = container.as<String>()) return deduce_index_string(*string, key);
 		return Error{};
 	}
 

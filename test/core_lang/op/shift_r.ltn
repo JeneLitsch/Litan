@@ -20,7 +20,7 @@ namespace op {
 			sphinx::assert_success(['A', 2]),
 		];
 		
-		var shift    = lambda (a, b) => a >> b;
+		var shift = lambda (a, b) => a >> b;
 
 		sphinx::run_test(sphinx, "Operator >>", shift, cases);
 	}

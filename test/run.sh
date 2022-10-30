@@ -23,6 +23,7 @@ files=(
 	"test/op_comp_greater.ltn"
 	"test/op_comp_greater_eql.ltn"
 	"test/op_comp_spaceship.ltn"
+	"test/op_index.ltn"
 
 	"test/if_else.ltn"
 	"test/switch.ltn"
