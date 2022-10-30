@@ -16,6 +16,13 @@ files=(
 	"test/op_logic_not.ltn"
 	"test/op_logic_and.ltn"
 	"test/op_logic_or.ltn"
+	"test/op_comp_eql.ltn"
+	"test/op_comp_ueql.ltn"
+	"test/op_comp_less.ltn"
+	"test/op_comp_less_eql.ltn"
+	"test/op_comp_greater.ltn"
+	"test/op_comp_greater_eql.ltn"
+	"test/op_comp_spaceship.ltn"
 
 	"test/if_else.ltn"
 	"test/switch.ltn"

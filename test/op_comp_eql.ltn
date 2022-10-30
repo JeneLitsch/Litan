@@ -1,0 +1,23 @@
+namespace sphinx::test {
+    function equal() {
+		assert_true("Hello" == "Hello");
+		assert_false("Hello" == "World");
+		assert_true(0 == false);
+		assert_false(std::null_v() == true);
+		assert_false(null == true);
+		assert_true(std::cout() == std::cout());
+		assert_true("123" == "123");
+	}
+
+
+
+	function equal_type() {
+		assert_equal(decltype(1 == "0").name, "bool");
+	}
+
+
+
+	function equal_typename() {
+		assert_equal(std::typename(1 == "0"), "bool");
+	}
+}

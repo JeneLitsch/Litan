@@ -1,0 +1,23 @@
+namespace sphinx::test {
+    function unequal() {
+		assert_false("Hello" != "Hello");
+		assert_true("Hello" != "World");
+		assert_false(0 != false);
+		assert_true(std::null_v() != true);
+		assert_true(null != true);
+		assert_false(std::cout() != std::cout());
+		assert_false("123" != "123");
+	}
+
+
+
+	function unequal_type() {
+		assert_equal(decltype(1 != "0").name, "bool");
+	}
+
+
+
+	function unequal_typename() {
+		assert_equal(std::typename(1 != "0"), "bool");
+	}
+}

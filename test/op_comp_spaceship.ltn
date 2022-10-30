@@ -1,0 +1,33 @@
+namespace sphinx::test {
+    function space_ship() {
+		assert_equal(-1 <=> 1, -1);
+		assert_equal(1 <=> 1, 0);
+		assert_equal(1 <=> -1, 1);
+		assert_equal('A' <=> 'A', 0);
+		assert_equal('A' <=> 'Z', -1);
+		assert_equal('Z' <=> 'A', 1);
+		assert_equal("A" <=> "B", -1);
+		assert_equal("C" <=> "B", 1);
+		assert_equal("a" <=> "A", 1);
+		assert_equal("zzz" <=> "zzz", 0);
+		assert_equal([1,2,3] <=> [1,2,3], 0);
+		assert_equal([1,2] <=> [1,2,3], -1);
+		assert_equal([1,2,4] <=> [1,2,3], 1);
+    }
+
+    
+	
+	function space_ship_type() {
+		assert_equal(decltype(0.1 <=> 1.1).name, "int");
+		assert_equal(decltype(1 <=> 1).name, "int");
+		assert_equal(decltype(1 <=> "0").name, "int");
+	}
+
+
+
+	function space_ship_typename() {
+		assert_equal(std::typename(0.1 <=> 1.1), "int");
+		assert_equal(std::typename(1 <=> 1), "int");
+		assert_equal(std::typename(1 <=> "0"), "int");
+	}
+}

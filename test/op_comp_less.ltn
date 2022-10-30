@@ -1,0 +1,27 @@
+namespace sphinx::test {
+    function less_value() {
+		assert_equal(1 < 2, true);
+		assert_equal(42 < -2.0, false);
+		assert_equal(-42 < -2.0, true);
+		assert_equal('A' < 'C', true);
+		assert_equal('Z' < 'Y', false);
+		assert_equal("ABC" < "AB", false);
+		assert_equal("ABC" < "BC", true);
+		assert_equal("ABCD" < "ZBC", true);
+		assert_equal("ZBCD" < "AZBC", false);
+		assert_equal(std::cout() < std::cout(), false);
+		assert_equal(std::cin() < std::cout(), true);
+    }
+
+
+
+	function less_type() {
+		assert_equal(decltype(1 > "0").name, "bool");
+	}
+
+
+	
+	function less_typename() {
+		assert_equal(std::typename(1 > "0"), "bool");
+	}
+}
