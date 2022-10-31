@@ -1,0 +1,46 @@
+namespace sphinx::test {
+	function std_size_array() {
+		assert_equal(std::size([]), 0);
+		assert_equal(std::size([1,2,3]), 3);
+	}
+
+
+
+	function std_size_string() {
+		assert_equal(std::size(""), 0);
+		assert_equal(std::size("ABC"), 3);
+	}
+
+
+
+	function std_size_queue() {
+		var q = std::queue();
+		assert_equal(std::size(q), 0);
+		std::push(q, 1); 
+		std::push(q, 2);
+		std::push(q, 3);
+		assert_equal(std::size(q), 3);
+	}
+
+
+
+	function std_size_stack() {
+		var s = std::stack();
+		assert_equal(std::size(s), 0);
+		std::push(s, 1); 
+		std::push(s, 2);
+		std::push(s, 3);
+		assert_equal(std::size(s), 3);
+	}
+
+
+
+	function std_size_map() {
+		var m = std::map();
+		assert_equal(std::size(m), 0);
+		m[0] = 1; 
+		m[1] = 2;
+		m[2] = 3;
+		assert_equal(std::size(m), 3);
+	}
+}

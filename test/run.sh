@@ -2,6 +2,7 @@ files=(
 	"test/main.ltn"
 	"test/sphinx/sphinx.ltn" 
 
+	"test/literals.ltn"
 	"test/if_else.ltn"
 	"test/switch.ltn"
 	"test/choose.ltn"
@@ -39,6 +40,12 @@ files=(
 	"test/op_elvis.ltn"
 	"test/op_nullco.ltn"
 
+	"test/std_arity.ltn"
+	"test/std_empty.ltn"
+	"test/std_size.ltn"
+	"test/std_bits_get.ltn"
+	"test/std_bits_set.ltn"
+	"test/std_is_type.ltn"
 )
 
 bin_file="tmp/bin"

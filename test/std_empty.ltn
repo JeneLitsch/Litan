@@ -1,0 +1,40 @@
+namespace sphinx::test {
+	function std_empty_array() {
+		assert_true(std::empty([]));
+		assert_false(std::empty([1,2,3]));
+	}
+
+
+
+	function std_empty_string() {
+		assert_true(std::empty(""));
+		assert_false(std::empty("ABC"));
+	}
+
+
+
+	function std_empty_queue() {
+		var q = std::queue();
+		assert_true(std::empty(q));
+		std::push(q, 1); 
+		assert_false(std::empty(q));
+	}
+
+
+
+	function std_empty_stack() {
+		var s = std::stack();
+		assert_true(std::empty(s));
+		std::push(s, 1); 
+		assert_false(std::empty(s));
+	}
+
+
+
+	function std_empty_map() {
+		var m = std::map();
+		assert_true(std::empty(m));
+		m[0] = 1; 
+		assert_false(std::empty(m));
+	}
+}

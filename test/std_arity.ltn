@@ -1,0 +1,7 @@
+namespace sphinx::test {
+	function std_arity() {
+		assert_equal(std::arity(lambda(a,b,c) {}), 3);
+		assert_equal(std::arity(&std::arity(_)), 1);
+		assert_equal(std::arity(lambda{}), 0);
+	}
+}

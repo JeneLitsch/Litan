@@ -1,0 +1,8 @@
+namespace sphinx::test {
+	function std_bits_get() {
+		assert_equal(std::bits::get(0b101, 1), false);
+		assert_equal(std::bits::get(0b101, 0), true);
+		assert_equal(std::bits::get(true, 0), true);
+		assert_equal(std::bits::get(true, 1), false);
+	}
+}
