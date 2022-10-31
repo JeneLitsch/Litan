@@ -13,25 +13,25 @@ namespace ltn::vm::build_in {
 
 
 
-	Value parse_bool(VmCore & core) {
+	Value parse_bool(VmCore &) {
 		return value::null;
 	}
 
 
 
-	Value parse_char(VmCore & core) {
+	Value parse_char(VmCore &) {
 		return value::null;
 	}
 
 
 
-	Value parse_int(VmCore & core) {
+	Value parse_int(VmCore &) {
 		return value::null;
 	}
 
 
 
-	Value parse_float(VmCore & core) {
+	Value parse_float(VmCore &) {
 		return value::null;
 	}	
 }

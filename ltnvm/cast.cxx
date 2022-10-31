@@ -28,7 +28,7 @@ namespace ltn::vm::cast {
 		return {value};
 	}
 
-	std::int64_t to_int(Value value, Heap & heap) {
+	std::int64_t to_int(Value value) {
 		if(is_float(value)) {
 			return static_cast<std::int64_t>(value.f);
 		}

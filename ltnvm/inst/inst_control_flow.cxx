@@ -44,12 +44,11 @@ namespace ltn::vm::inst {
 		for(auto it = begin; it != end; it++) {
 			core.stack.make_var(*it);
 		}
-		// std::cout << core.reg.size() << std::endl;
 		core.reg.remove(count);
 	}
 
 
-	void error(VmCore & core) {
+	void error(VmCore &) {
 		throw value::null;
 	}
 

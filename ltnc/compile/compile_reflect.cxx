@@ -95,7 +95,7 @@ namespace ltn::c {
 		}
 
 
-		ExprResult compile_reflect_query(const ast::Reflect::NamespaceQuery & query, CompilerInfo & info, Scope & scope) {
+		ExprResult compile_reflect_query(const ast::Reflect::NamespaceQuery & query, CompilerInfo & info, Scope &) {
 			InstructionBuffer buf;
 			buf << inst::newstruct();
 			buf << add_member_string(info, "name", query.namespaze.to_string());

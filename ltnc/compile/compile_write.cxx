@@ -141,11 +141,9 @@ namespace ltn::c {
 
 		Variable insert_new_var(const ast::NewVar & new_var, Scope & scope, const type::Type & r_type) {
 			if(auto type = std::get_if<type::Type>(&new_var.type)) {
-			return scope.insert(new_var.name, new_var.location, *type);		
+				return scope.insert(new_var.name, new_var.location, *type);		
 			}
-			if(auto aut0 = std::get_if<type::Auto>(&new_var.type)) {
-				return scope.insert(new_var.name, new_var.location, r_type);		
-			}
+			return scope.insert(new_var.name, new_var.location, r_type);		
 		}
 	}
 

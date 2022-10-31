@@ -9,7 +9,7 @@ void print_table(const auto & table) {
 	}
 }
 
-int main(int argc, char const *argv[]) {
+int main(int, char const *argv[]) {
 	std::ifstream file{argv[1]};
 	const std::vector<std::uint8_t> bytecode {
 		std::istreambuf_iterator<char>(file),

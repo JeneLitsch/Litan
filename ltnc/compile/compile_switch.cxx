@@ -34,13 +34,7 @@ namespace ltn::c {
 
 
 
-	auto any_switch(
-		const auto & condition,
-		const auto & cases,
-		const auto & def4ult,
-		CompilerInfo & info,
-		Scope & scope) {
-		
+	auto any_switch(const auto & condition, const auto & cases, const auto & def4ult) {
 		InstructionBuffer buf;
 
 		const auto id = make_jump_id("SWITCH");
@@ -76,7 +70,7 @@ namespace ltn::c {
 		const auto condition = compile_expression(*sw1tch.condition, info, scope);
 		const auto cases = compile_cases(compile_statement, sw1tch, info, scope);
 		const auto def4ault = compile_statement(*sw1tch.d3fault, info, scope);
-		const auto code = any_switch(condition, cases, def4ault, info, scope); 
+		const auto code = any_switch(condition, cases, def4ault); 
 		return {
 			.code = code,
 			.var_count = 0,
@@ -90,7 +84,7 @@ namespace ltn::c {
 		const auto condition = compile_expression(*sw1tch.condition, info, scope);
 		const auto cases = compile_cases(compile_expression, sw1tch, info, scope);
 		const auto def4ault = compile_expression(*sw1tch.d3fault, info, scope);
-		const auto code = any_switch(condition, cases, def4ault, info, scope);
+		const auto code = any_switch(condition, cases, def4ault);
 
 		type::Type deduced_type = def4ault.deduced_type;
 		for(const auto & [expr, body] : cases) {

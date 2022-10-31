@@ -67,7 +67,7 @@ namespace ltn::vm::inst {
 			switch (*type) {
 			case type_code::BOOL:    return cast::to_bool(value);
 			case type_code::CHAR:    return cast::to_char(value);
-			case type_code::INT:     return cast::to_int(value, core.heap);
+			case type_code::INT:     return cast::to_int(value);
 			case type_code::FLOAT:   return cast::to_float(value, core.heap);
 			case type_code::STRING:  return smart_cast_string(value, core);
 			case type_code::ARRAY:   return smart_cast_array(type+1, value, core);
@@ -114,7 +114,7 @@ namespace ltn::vm::inst {
 
 	void cast_int(VmCore & core) {
 		const auto value = core.reg.pop();
-		const auto i = cast::to_int(value, core.heap);
+		const auto i = cast::to_int(value);
 		core.reg.push(value::integer(i));
 	}
 

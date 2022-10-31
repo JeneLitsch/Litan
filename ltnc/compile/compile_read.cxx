@@ -13,13 +13,6 @@ namespace ltn::c {
 
 
 
-		ExprResult compile_read_definition(const ast::Definition & definition, CompilerInfo & info) {
-			MajorScope s{definition.namespaze, false};
-			return compile_expression(*definition.expr, info, s);
-		}
-
-
-
 		bool is_inner_namespace(
 			const ast::Namespace & call_ns,
 			const ast::Namespace & fx_ns) {

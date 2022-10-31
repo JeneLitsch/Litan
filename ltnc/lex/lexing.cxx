@@ -32,7 +32,7 @@ namespace ltn::c::lex {
 		}
 
 		// peeks at "in" and returns true if chars matches
-		bool check(std::istream & in, char chr, std::size_t & line) {
+		bool check(std::istream & in, char chr) {
 			if(is_at_end(in)) return false;
 			return in.peek() == chr;
 		}
@@ -67,8 +67,8 @@ namespace ltn::c::lex {
 		}
 
 		// returns true and consumes if the next char matches 
-		bool match(std::istream & in, char chr, std::size_t & line) {
-			const bool b = check(in, chr, line);
+		bool match(std::istream & in, char chr) {
+			const bool b = check(in, chr);
 			if(b) consume(in);
 			return b;
 		}
@@ -165,7 +165,7 @@ namespace ltn::c::lex {
 	
 	Token token(std::istream & in, SourceLocation & location) {
 		const auto match = [&] (auto chr) {
-			return ltn::c::lex::match(in, chr, location.line);
+			return ltn::c::lex::match(in, chr);
 		};
 
 		const auto make = [&location] (auto type, const auto &str) {

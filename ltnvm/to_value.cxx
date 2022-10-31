@@ -30,7 +30,7 @@ namespace ltn::vm {
 		if(variant.is_array()) {
 			const auto addr = heap.alloc<Array>(Array{});
 			auto & array = heap.read<Array>(addr).get();
-			for(const auto elem : variant.as_array()) {
+			for(const auto & elem : variant.as_array()) {
 				array.push_back(to_value(elem, heap));
 			}
 			return value::string(addr);

@@ -2,7 +2,7 @@
 
 namespace ltn::c::inst {
     template<typename InstT>
-    std::size_t get_inst_size(const InstT & inst) {
+    std::size_t get_inst_size(const InstT &) {
         return InstT::size;
     }
 

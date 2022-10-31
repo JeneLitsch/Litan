@@ -111,7 +111,7 @@ namespace ltn::c::type {
 
 
 
-	Type deduce_compare(const Type & l, const Type & r) {
+	Type deduce_compare(const Type &, const Type &) {
 		return Bool{};
 	}
 	
@@ -138,7 +138,7 @@ namespace ltn::c::type {
 
 
 
-		Type deduce_index_string(const String & array, const Type & key) {
+		Type deduce_index_string(const String &, const Type & key) {
 			if(is_numeric(key) || is_any(key)) {
 				return Char{};
 			}
@@ -148,7 +148,7 @@ namespace ltn::c::type {
 
 
 
-	Type deduce_three_way(const Type & l, const Type & r) {
+	Type deduce_three_way(const Type &, const Type &) {
 		return Int{};
 	}
 	
@@ -206,7 +206,7 @@ namespace ltn::c::type {
 
 
 
-	Type deduce_not(const Type & x) {
+	Type deduce_not(const Type &) {
 		return Bool{};
 	}
 
@@ -220,7 +220,7 @@ namespace ltn::c::type {
 	
 	
 	
-	Type deduce_nulltest(const Type & x) {
+	Type deduce_nulltest(const Type &) {
 		return Bool{};
 	}
 

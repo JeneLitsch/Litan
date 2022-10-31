@@ -28,8 +28,9 @@ namespace ltn {
 		const std::size_t table_size = get_uint64(it);
 		for(std::size_t i = 0; i < table_size; ++i) {
 			const std::size_t name_size = get_uint64(it);
-			const std::string name { it, it + name_size };
-			it += name_size;
+			auto next = it + static_cast<long>(name_size);
+			const std::string name { it, next };
+			it = next;
 			const std::uint64_t addr = get_uint64(it);
 			table[name] = addr;
 		}

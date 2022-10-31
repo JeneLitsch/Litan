@@ -48,9 +48,9 @@ namespace ltn::vm::inst {
 	static const auto build_in_table = make_build_in_table();
 
 	void build_in(VmCore & core) {
-		const std::uint16_t byte0 = static_cast<std::uint16_t>(core.fetch_byte());
-		const std::uint16_t byte1 = static_cast<std::uint16_t>(core.fetch_byte());
-		const std::uint16_t code = (byte0 << 8) + byte1;
+		const auto byte0 = static_cast<std::uint32_t>(core.fetch_byte());
+		const auto byte1 = static_cast<std::uint32_t>(core.fetch_byte());
+		const auto code = (byte0 << 8) + byte1;
 		const Value result = build_in_table[code](core);
 		core.reg.push(result);
 	}

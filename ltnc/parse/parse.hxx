@@ -10,7 +10,7 @@
 namespace ltn::c {
 
 	// Sources
-	ast::srce_ptr parse_source(Tokens & tokens);
+	ast::srce_ptr parse_source(Tokens & tokens, Reporter & reporter);
 	
 	// Funcionals
 	ast::func_ptr parse_functional(Tokens & tokens, const ast::Namespace & namespaze);

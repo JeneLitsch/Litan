@@ -17,7 +17,7 @@ namespace ltn::c {
 		Tokens & tokens,
 		Reporter & reporter) {
 		
-		auto source = parse_source(tokens);
+		auto source = parse_source(tokens, reporter);
 		return std::move(*unfold_source(std::move(source)));
 	}
 

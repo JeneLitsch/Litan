@@ -13,7 +13,7 @@ namespace ltn::c {
 
 	const Variable * MajorScope::resolve(
 		const std::string & name,
-		const SourceLocation & location) const{
+		const SourceLocation &) const{
 		
 		if(this->vars.contains(name)) {
 			return &this->vars.at(name);

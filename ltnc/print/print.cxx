@@ -62,7 +62,7 @@ namespace ltn::c {
 		std::string print_inst(const inst::InstUint64Bytex & args) {
 			std::ostringstream ss;
 			ss << args.name << " " << args.bytes.size() << " ";
-			for(const char byte : args.bytes) {
+			for(const auto byte : args.bytes) {
 				ss << static_cast<std::uint16_t>(byte) << " ";
 			}
 			return ss.str();
@@ -71,7 +71,7 @@ namespace ltn::c {
 		std::string print_inst(const inst::InstBytex0 & args) {
 			std::ostringstream ss;
 			ss << args.name << " ";
-			for(const char byte : args.bytes) {
+			for(const auto byte : args.bytes) {
 				ss << static_cast<std::uint16_t>(byte) << " ";
 			}
 			ss << "\\0";

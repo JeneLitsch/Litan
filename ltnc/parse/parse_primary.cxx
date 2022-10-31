@@ -170,21 +170,6 @@ namespace ltn::c {
 
 
 
-		auto parse_parameters(Tokens & tokens) {
-			std::vector<std::unique_ptr<ast::Expression>> parameters;
-			parse_parameters(tokens, [&] {
-				parameters.push_back(parse_expression(tokens));
-			});
-			return parameters;
-		}
-
-
-
-
-
-
-
-
 		ast::expr_ptr parse_identifier(Tokens & tokens) {
 			const auto [name, namespaze] = parse_symbol(tokens);
 			return std::make_unique<ast::Var>(name, namespaze, location(tokens));

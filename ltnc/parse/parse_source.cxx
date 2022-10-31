@@ -97,10 +97,9 @@ namespace ltn::c {
 
 
 
-	ast::srce_ptr parse_source(Tokens & tokens) {
+	ast::srce_ptr parse_source(Tokens & tokens, Reporter & reporter) {
 		auto source = std::make_unique<ast::Source>();
 		const ast::Namespace namespaze;
-		Reporter reporter;
 
 		stx::accu_stack<ast::Namespace> namestack;
 
@@ -151,7 +150,6 @@ namespace ltn::c {
 			}
 		}
 
-		reporter.may_throw();
 		return source; 
 	}
 }

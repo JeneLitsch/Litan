@@ -23,8 +23,8 @@ namespace ltn::c {
 
 
 		std::vector<std::uint8_t> cast_to(
-			const type::Char & to,
-			const SourceLocation & location) {
+			const type::Char &,
+			const SourceLocation &) {
 			
 			return { type_code::CHAR };
 		}
@@ -32,8 +32,8 @@ namespace ltn::c {
 
 
 		std::vector<std::uint8_t> cast_to(
-			const type::Int & to,
-			const SourceLocation & location) {
+			const type::Int &,
+			const SourceLocation &) {
 			
 			return { type_code::INT };
 		}
@@ -41,8 +41,8 @@ namespace ltn::c {
 
 
 		std::vector<std::uint8_t> cast_to(
-			const type::Float & to,
-			const SourceLocation & location) {
+			const type::Float &,
+			const SourceLocation &) {
 			
 			return { type_code::FLOAT };
 		}
@@ -50,8 +50,8 @@ namespace ltn::c {
 
 
 		std::vector<std::uint8_t> cast_to(
-			const type::String & to,
-			const SourceLocation & location) {
+			const type::String &,
+			const SourceLocation &) {
 			return { type_code::STRING };
 		}
 

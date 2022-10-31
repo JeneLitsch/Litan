@@ -16,7 +16,7 @@ namespace ltn::vm {
 
 
 
-	void illegal_instruction(VmCore & core) {
+	void illegal_instruction(VmCore &) {
 		std::stringstream ss;
 		ss << "Illegal Instruction";
 		throw std::runtime_error{ss.str()};
