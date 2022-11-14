@@ -51,18 +51,27 @@ namespace ltn::c::type {
 		std::optional<stx::heaped<Type>> contains;
 	};
 
-	struct Map {
-		constexpr static auto type_name = "map";
-		std::optional<stx::heaped<Type>> key;
-		std::optional<stx::heaped<Type>> val;
-	};
-	
 	struct FxPtr {
 		constexpr static auto type_name = "fx_ptr";
 		std::optional<stx::heaped<Type>> return_type;
 		std::vector<Type> parameter_types;
 	};
 
+	struct Queue {
+		constexpr static auto type_name = "queue";
+		stx::heaped<Type> contains;
+	};
+
+	struct Stack {
+		constexpr static auto type_name = "stack";
+		stx::heaped<Type> contains;
+	};
+
+	struct Map {
+		constexpr static auto type_name = "map";
+		std::optional<stx::heaped<Type>> key;
+		std::optional<stx::heaped<Type>> val;
+	};
 
 	struct Auto{};
 
@@ -79,8 +88,10 @@ namespace ltn::c::type {
 			Float,
 			String,
 			Array,
-			Map,
-			FxPtr
+			FxPtr,
+			Queue,
+			Stack,
+			Map
 		>;
 	public:
 		Type(auto actual_type) : actual_type { actual_type } {} 
@@ -122,9 +133,11 @@ namespace ltn::c::type {
 	bool operator==(const Float &, const Float &);
 	bool operator==(const String &, const String &);
 	bool operator==(const Array & l, const Array & r);
-	bool operator==(const Map & l, const Map & r);
 	bool operator==(const FxPtr & l, const FxPtr & r);
 	bool operator==(const Type & l, const Type & r);
+	bool operator==(const Queue & l, const Queue & r);
+	bool operator==(const Stack & l, const Stack & r);
+	bool operator==(const Map & l, const Map & r);
 
 	std::ostream & operator<<(std::ostream & out, const Type & type);
 }

@@ -29,6 +29,19 @@ namespace ltn::c::type {
 		}
 
 
+		std::string to_string(const Queue & queue) {
+			std::ostringstream oss;
+			oss << Queue::type_name << "<" << to_string(*queue.contains) << ">";
+			return oss.str();
+		}
+
+
+		std::string to_string(const Stack & stack) {
+			std::ostringstream oss;
+			oss << Stack::type_name << "<" << to_string(*stack.contains) << ">";
+			return oss.str();
+		}
+
 		
 		std::string to_string(const Map & map) {
 			std::ostringstream oss;

@@ -16,6 +16,22 @@ namespace ltn::c {
 		}
 
 
+		type::Queue parse_type_queue(Tokens & tokens, BraceTracker & brace_tracker) {
+			open_chevron(tokens, brace_tracker);
+			auto contains = parse_type(tokens, brace_tracker);
+			close_chevron(tokens, brace_tracker);
+			return type::Queue{contains};
+		}
+
+
+		type::Stack parse_type_stack(Tokens & tokens, BraceTracker & brace_tracker) {
+			open_chevron(tokens, brace_tracker);
+			auto contains = parse_type(tokens, brace_tracker);
+			close_chevron(tokens, brace_tracker);
+			return type::Stack{contains};
+		}
+
+
 
 		type::Optional parse_type_optional(Tokens & tokens, BraceTracker & brace_tracker) {
 			open_chevron(tokens, brace_tracker);
@@ -62,9 +78,6 @@ namespace ltn::c {
 
 
 	type::Type parse_type(Tokens & tokens, BraceTracker & brace_tracker) {
-		if(auto type_name = match(TT::NVLL, tokens)) {
-			return type::Null{};
-		}
 		if(auto type_name = match(TT::INDENTIFIER, tokens)) {
 			if(type_name->str == "any") return type::Any{};
 			if(type_name->str == "bool") return type::Bool{}; 
@@ -73,10 +86,15 @@ namespace ltn::c {
 			if(type_name->str == "float") return type::Float{}; 
 			if(type_name->str == "string") return type::String{}; 
 			if(type_name->str == "array") return parse_type_array(tokens, brace_tracker); 
+			if(type_name->str == "queue") return parse_type_queue(tokens, brace_tracker); 
+			if(type_name->str == "stack") return parse_type_stack(tokens, brace_tracker); 
 			if(type_name->str == "map") return parse_type_map(tokens, brace_tracker);
 			if(type_name->str == "fx_ptr") return parse_fxptr(tokens, brace_tracker);
 			if(type_name->str == "optional") return parse_type_optional(tokens, brace_tracker);
 			throw CompilerError{"Unknown type name " + type_name->str};
+		}
+		else if(auto type_name = match(TT::NVLL, tokens)) {
+			return type::Null{};
 		}
 		else if(match(TT::QMARK, tokens)) {
 			return type::Optional{parse_type(tokens, brace_tracker)};

@@ -58,9 +58,6 @@ namespace ltn::c::type {
 		return compare_contained(l.contains, r.contains);
 	}
 
-	bool operator==(const Map & l, const Map & r) {
-		return compare_contained(l.key, r.key) && compare_contained(l.val, r.val);
-	}
 
 	bool operator==(const FxPtr & l, const FxPtr & r) {
 		return compare_contained(l.return_type, r.return_type) 
@@ -74,5 +71,17 @@ namespace ltn::c::type {
 	std::ostream & operator<<(std::ostream & out, const Type & type) {
 		out << to_string(type);
 		return out;
+	}
+
+	bool operator==(const Queue & l, const Queue & r) {
+		return compare_contained(l.contains, r.contains);
+	}
+
+	bool operator==(const Stack & l, const Stack & r) {
+		return compare_contained(l.contains, r.contains);
+	}
+
+	bool operator==(const Map & l, const Map & r) {
+		return compare_contained(l.key, r.key) && compare_contained(l.val, r.val);
 	}
 }
