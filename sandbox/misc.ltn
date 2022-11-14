@@ -1,50 +1,10 @@
-namespace refl {
-	function a() {
-		std::println("a()");
-	}
-	function b() extern {
-		std::println("b()");
-	}
-	function c() {
-		std::println("c()");
-	}
-	function d() {
-		std::println("d()");
-	}
-	function e() const extern {
-	}
-	global a = 4;
-	global b = 4;
-}
+function get_fx(y)
+	-> fx_ptr<int(int)> 
+	=> lambda[y](x : int) -> int => x + y
 
-function f(a) => a 
+function f() -> null {}
 
-define arr = [1,2,3];
-
-function main() extern -> int {
-	var ns = reflect(namespace refl);
-	std::println("Namespace: " + ns.name);
-	std::println("Functions: " + std::str(std::size(ns.functions)));
-	for(i : 0 -> std::size(ns.functions)) {
-		var fx = ns.functions[i];
-		std::println("  " + std::str(i) + ": " + fx.name);
-		std::println("    extern: " + std::str(fx.extern));
-		std::println("    const: " + std::str(fx.const));
-		ns.functions[i].fx_ptr();
-	}
-
-	for(i : 0 -> std::size(ns.globals)) {
-		std::println("global " + ns.globals[i].name);
-	}
-
-
-	var fx = reflect(function f(_));
-	std::println(fx.name);
-	std::println(fx.const);
-	std::println(fx.extern);
-	std::println(fx.fx_ptr(42));
-	
-
-	arr[0] = 42;
-	std::println(arr);
+function main() {
+	std::println(get_fx(2)(40));
+	f();
 }

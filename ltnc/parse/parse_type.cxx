@@ -62,8 +62,10 @@ namespace ltn::c {
 
 
 	type::Type parse_type(Tokens & tokens, BraceTracker & brace_tracker) {
+		if(auto type_name = match(TT::NVLL, tokens)) {
+			return type::Null{};
+		}
 		if(auto type_name = match(TT::INDENTIFIER, tokens)) {
-			if(type_name->str == "null") return type::Null{}; 
 			if(type_name->str == "any") return type::Any{};
 			if(type_name->str == "bool") return type::Bool{}; 
 			if(type_name->str == "char") return type::Char{}; 
