@@ -76,9 +76,10 @@ namespace ltn::c::type {
 
 
 	bool is_subtype_array(const Type & from, const Type & to) {	
-		if(is_array(to), is_empty_array(from)) return true;
-		if(is_array(to), is_array(from)) {
-			return is_subtype_array(
+		if(is_array(to) && is_empty_array(from)) return true;
+		if(is_array(to) && is_array(from)) {
+			if(is_any(**to.as<Array>()->contains)) return true;
+			else return is_subtype_array(
 				**from.as<Array>()->contains,
 				**to.as<Array>()->contains);
 			}

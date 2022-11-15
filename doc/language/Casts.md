@@ -32,9 +32,9 @@ Differnt array types can be casted to each other, if the contained subtype is ca
 
 # static_cast&lt;T&gt;
 
-Static casts are checked at compile time. If the cast is invalid a compiler error is thrown. The cast returns a value of type T.
+Static casts are checked at compile time. If the cast is invalid a compiler error is thrown. The cast returns a value of type T. static_cast returns a deep of the object.
 
 # dynamic_cast&lt;T&gt;
 
 Dynamic casts are checked at run time. If the cast is invalid null is returned.
-The cast returns an value of type optional&lt;T&gt;.
+The cast returns an value of type optional&lt;T&gt;. dynamic_cast returns a copy of the object.

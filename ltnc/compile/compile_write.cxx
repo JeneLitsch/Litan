@@ -103,12 +103,12 @@ namespace ltn::c {
 
 		InstructionBuffer buf;
 		buf << r.code;
-		buf << l_prepare.code;
 		buf << conversion_on_assign(
 			r.deduced_type,
 			l_prepare.deduced_type,
 			expr.location
 		);
+		buf << l_prepare.code;
 		buf << l_write;
 		return StmtResult{ 
 			.code = buf,

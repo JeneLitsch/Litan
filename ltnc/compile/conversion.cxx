@@ -20,7 +20,7 @@ namespace ltn::c {
 			if(is_optional(to)) {
 				if(is_null(from)) return {};
 				else return conversion_on_copy(from, *to.as<type::Optional>()->contains, on_error);
-			}   
+			}
 			
 			on_error();
 			return {};

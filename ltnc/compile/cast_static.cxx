@@ -76,6 +76,10 @@ namespace ltn::c {
 					type_code::STRING
 				};
 			}
+
+			if(type::is_string(from)) {
+				return { type_code::STRING };
+			}
 			
 			throw cannot_cast(from, to, location);
 		}
@@ -90,12 +94,7 @@ namespace ltn::c {
 				// Allows casting empty array to any other array type
 				const type::Type & from_contained = stx::iife([&] {
 					auto * arr = from.as<type::Array>();
-					if(arr->contains) {
-						return **arr->contains;
-					}
-					else {
-						return **to.contains;
-					}
+					return arr->contains ? **arr->contains : **to.contains;
 				});
 				auto x = to_array_of(to_type_code(from_contained, **to.contains, location)); 
 				return x;
@@ -137,9 +136,6 @@ namespace ltn::c {
 		const type::Type & from,
 		const type::Type & to,
 		const SourceLocation & location) {
-		if(from == to) return {};
-		InstructionBuffer buf;
-		buf << inst::cast(to_type_code(from, to, location));
-		return buf;
+		return { inst::cast(to_type_code(from, to, location)) };
 	}
 }

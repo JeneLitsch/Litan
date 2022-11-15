@@ -90,10 +90,6 @@ namespace ltn::c {
 		const type::Type & from,
 		const type::Type & to,
 		const SourceLocation & location) {
-		if(from == to) return InstructionBuffer{};
-
-		return {
-			inst::safe_cast(to_type_code(to, location))
-		};
+		return { inst::safe_cast(to_type_code(to, location)) };
 	}
 }

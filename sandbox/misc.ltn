@@ -5,7 +5,6 @@
 // function f() -> null {}
 
 function main() {
-	var x : array<float> = [1.0]; 
-	var y = static_cast<array<int>>(x);
-	var Z = dynamic_cast<array<int>>(x);
+	var x : auto = [0.0];
+	x[0] = 42;
 }
