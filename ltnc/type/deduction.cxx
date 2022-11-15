@@ -248,6 +248,8 @@ namespace ltn::c::type {
 
 
 	Type deduce_cast_dynamic(const Type & cast_to) {
-		return type::Optional{cast_to};
+		return type::Optional{
+			.contains = cast_to
+		};
 	}
 }

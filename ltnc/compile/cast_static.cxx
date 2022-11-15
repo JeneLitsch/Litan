@@ -1,5 +1,7 @@
 #include <sstream>
+#include <iostream>
 #include "stdxx/array.hxx"
+#include "stdxx/iife.hxx"
 #include "ltn/type_code.hxx"
 #include "ltnc/compile/cast_static.hxx"
 #include "ltnc/compile/cast_utils.hxx"
@@ -39,8 +41,9 @@ namespace ltn::c {
 			const type::Type & from,
 			const type::Int & to,
 			const SourceLocation & location) {
-			
-			if(type::is_numeric(from)) return { type_code::INT };
+			if(type::is_numeric(from)) {
+				return {type_code::INT };
+			} 
 			throw cannot_cast(from, to, location);
 		}
 
@@ -83,11 +86,19 @@ namespace ltn::c {
 			const type::Type & from,
 			const type::Array & to,
 			const SourceLocation & location) {
-			
 			if(type::is_array(from)) {
 				// Allows casting empty array to any other array type
-				const auto & from_contained = *from.as<type::Array>()->contains.value_or(*to.contains);
-				return to_array_of(to_type_code(from_contained, **to.contains, location)); 
+				const type::Type & from_contained = stx::iife([&] {
+					auto * arr = from.as<type::Array>();
+					if(arr->contains) {
+						return **arr->contains;
+					}
+					else {
+						return **to.contains;
+					}
+				});
+				auto x = to_array_of(to_type_code(from_contained, **to.contains, location)); 
+				return x;
 			}
 			if(type::is_string(from)) {
 				if(type::is_numeric(**to.contains)) {
@@ -101,7 +112,7 @@ namespace ltn::c {
 
 
 		std::vector<std::uint8_t> cast_to(
-			const auto & from,
+			const type::Type & from,
 			const auto & to,
 			const SourceLocation & location) {
 			throw cannot_cast(from, to, location);

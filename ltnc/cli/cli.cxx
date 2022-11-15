@@ -120,8 +120,6 @@ int main(int argc, char const *argv[]){
 		if(flag_o) instructions.insts = ltn::c::peephole(instructions.insts);
 		reporter.may_throw();
 		auto bytecode = ltn::c::assemble(instructions);
-		std::cout << "XXX" << std::endl;
-
 
 		if(flag_exe) {
 			auto ofile = open_target(flag_exe.value(), reporter);

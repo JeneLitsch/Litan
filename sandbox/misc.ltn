@@ -1,16 +1,11 @@
-function get_fx(y)
-	-> fx_ptr<int(int)> 
-	=> lambda[y](x : int) -> int => x + y
+// function get_fx(y)
+// 	-> fx_ptr<int(int)> 
+// 	=> lambda[y](x : int) -> int => x + y
 
-function f() -> null {}
+// function f() -> null {}
 
 function main() {
-	std::println(get_fx(2)(40));
-	f();
-	var x : optional<stack<int>>;
-	var y : optional<queue<int>>;
-	var z : optional<map<int, int>>;
-	std::println(decltype(x).name);
-	std::println(decltype(y).name);
-	std::println(decltype(z).name);
+	var x : array<float> = [1.0]; 
+	var y = static_cast<array<int>>(x);
+	var Z = dynamic_cast<array<int>>(x);
 }

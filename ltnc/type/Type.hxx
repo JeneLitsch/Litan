@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <variant>
+#include <iostream>
 #include <optional>
 #include "stdxx/heaped.hxx"
 #include "ltnc/type/to_string.hxx"
@@ -110,9 +111,7 @@ namespace ltn::c::type {
 		}
 
 		friend bool operator==(const Type &, const Type &);
-		// friend bool operator==(const Type &, const auto &);
-		// friend bool operator==(const auto &, const Type &);
-	
+
 		const Variant & operator*() const {
 			return this->actual_type;
 		}
@@ -123,6 +122,7 @@ namespace ltn::c::type {
 
 
 
+	bool operator==(const Type & l, const Type & r);
 	bool operator==(const Any &, const Any &);
 	bool operator==(const Optional & l, const Optional & r);
 	bool operator==(const Error &, const Error &);
@@ -134,7 +134,6 @@ namespace ltn::c::type {
 	bool operator==(const String &, const String &);
 	bool operator==(const Array & l, const Array & r);
 	bool operator==(const FxPtr & l, const FxPtr & r);
-	bool operator==(const Type & l, const Type & r);
 	bool operator==(const Queue & l, const Queue & r);
 	bool operator==(const Stack & l, const Stack & r);
 	bool operator==(const Map & l, const Map & r);
