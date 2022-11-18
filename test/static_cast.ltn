@@ -62,11 +62,11 @@ namespace sphinx::test {
 
 
 	function static_cast_type() {
-		assert_equal(decltype(static_cast<bool>(0)).name,  "bool");
-		assert_equal(decltype(static_cast<char>(0)).name,  "char");
-		assert_equal(decltype(static_cast<int>(0)).name,   "int");
-		assert_equal(decltype(static_cast<float>(0)).name, "float");
-		assert_equal(decltype(static_cast<string>("")).name, "string");
+		assert_equal(decltype(static_cast<bool>(0)).name,        "bool");
+		assert_equal(decltype(static_cast<char>(0)).name,        "char");
+		assert_equal(decltype(static_cast<int>(0)).name,         "int");
+		assert_equal(decltype(static_cast<float>(0)).name,       "float");
+		assert_equal(decltype(static_cast<string>("")).name,     "string");
 		assert_equal(decltype(static_cast<array<int>>("")).name, "array<int>");
 	}
 }
