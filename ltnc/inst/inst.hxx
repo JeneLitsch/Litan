@@ -114,8 +114,6 @@ namespace ltn::c::inst {
 	    InstBytex0
     >;
     
-	std::size_t inst_size(const Inst & inst);
-
 	Inst label(const std::string name);
 
 	Inst exit();
