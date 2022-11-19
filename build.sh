@@ -1,0 +1,9 @@
+cmake . -D CMAKE_CXX_COMPILER=clang++ -D param=linux-release -B build -S . 
+cd build
+make -j8
+cd ..
+mkdir bin
+cp build/exeltn bin/ltn
+cp build/exeltnc bin/ltnc
+cp build/exeltnvm bin/ltnvm
+cp build/exeltninfo bin/ltninfo

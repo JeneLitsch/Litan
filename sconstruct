@@ -59,9 +59,6 @@ ltnc = [
 	"ltnc/inst",
 	"ltnc/type",
 ]
-ltncCli = [
-	"ltnc/cli",
-]
 
 
 ltnvm = [
@@ -72,23 +69,14 @@ ltnvm = [
 	"ltnvm/memory",
 	"ltnvm/memory/objects",
 ]
-ltnvmCli = [
-	"ltnvm/cli",
-]
+ltn = ["ltn"]
 
-ltnCli = [
-	"ltn/cli"
-]
+ltninfoCli = ["cli/ltninfo.cxx"]
+ltncCli = ["cli/ltnc.cxx"]
+ltnCli = ["cli/ltn.cxx"]
+ltnvmCli = ["cli/ltnvm.cxx"]
 
-ltn = [
-	"ltn"
-]
-
-ltninfo = [
-	"ltninfo"
-]
-
-env.Program('bin/ltnc',    glob(ltn + ltnc          + ltncCli))
-env.Program('bin/ltnvm',   glob(ltn + ltnvm         + ltnvmCli))
-env.Program('bin/ltn',     glob(ltn + ltnc  + ltnvm + ltnCli))
-env.Program('bin/ltninfo', glob(ltn + ltninfo))
+env.Program('bin/ltnc',    glob(ltn + ltnc         ) + ltncCli)
+env.Program('bin/ltnvm',   glob(ltn + ltnvm        ) + ltnvmCli)
+env.Program('bin/ltn',     glob(ltn + ltnc  + ltnvm) + ltnCli)
+env.Program('bin/ltninfo', glob(ltn) + ltninfoCli)

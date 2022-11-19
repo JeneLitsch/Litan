@@ -4,6 +4,7 @@
 .vscode
 /bin
 /tmp
+/build
 .VSCodeCounter
 *.asm.ltn
 *.bin.ltn
