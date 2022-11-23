@@ -1,5 +1,6 @@
 #include "Ltnc.hxx"
 #include <vector>
+#include <iostream>
 #include "parse/parse.hxx"
 #include "unfold/unfold.hxx"
 #include "optimize/optimize.hxx"
@@ -208,6 +209,11 @@ namespace ltn::c {
 		const auto jump_table     = scan(instructions.insts);
 		const auto function_table = build_fx_table(instructions.init_functions, jump_table);
 		const auto global_table   = instructions.global_table;
+
+		std::cout << "COMPILE\n";
+		for(const auto & [name, x] : jump_table) {
+			std::cout << "\t" << name << "\n";
+		}
 
 		const auto bytecode = assemble(instructions.insts, jump_table, function_table, global_table);
 		return bytecode;
