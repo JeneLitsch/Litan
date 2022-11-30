@@ -45,25 +45,25 @@ namespace std {
 
 
 	function typename(x) => choose(std::typeid(x)) {
-		case std::type::nul:       "null"
-		case std::type::bool:      "bool"
-		case std::type::char:      "char"
-		case std::type::int:       "int"		
-		case std::type::float:     "float"	
-		case std::type::string:    "string"
-		case std::type::array:     "array"
-		case std::type::istream:   "istream"
-		case std::type::ostream:   "ostream"
-		case std::type::fxptr:     "fxptr"
-		case std::type::external:  "external"
-		case std::type::clock:     "clock"
-		case std::type::struct:    "struct"
-		case std::type::range:     "range"
-		case std::type::queue:     "queue"
-		case std::type::stack:     "stack"
-		case std::type::map:       "map"
-		case std::type::rng:       "rng"
-		default:                   "unknown";
+		case std::type::nul       => "null"
+		case std::type::bool      => "bool"
+		case std::type::char      => "char"
+		case std::type::int       => "int"		
+		case std::type::float     => "float"	
+		case std::type::string    => "string"
+		case std::type::array     => "array"
+		case std::type::istream   => "istream"
+		case std::type::ostream   => "ostream"
+		case std::type::fxptr     => "fxptr"
+		case std::type::external  => "external"
+		case std::type::clock     => "clock"
+		case std::type::struct    => "struct"
+		case std::type::range     => "range"
+		case std::type::queue     => "queue"
+		case std::type::stack     => "stack"
+		case std::type::map       => "map"
+		case std::type::rng       => "rng"
+		default                   => "unknown";
 	}
 
 

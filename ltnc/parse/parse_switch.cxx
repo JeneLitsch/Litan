@@ -27,7 +27,7 @@ namespace ltn::c {
 			while (match(TT::CASE, tokens)) {
 				auto case_expr = parse_expression(tokens);
 				
-				if(!match(TT::COLON, tokens)) throw CompilerError {
+				if(!match(TT::DRARROW, tokens)) throw CompilerError {
 					"Expected :", location(tokens)
 				};
 
@@ -41,7 +41,7 @@ namespace ltn::c {
 			}
 			
 			if(match(TT::DEFAULT, tokens)) {
-				if(!match(TT::COLON, tokens)) throw CompilerError {
+				if(!match(TT::DRARROW, tokens)) throw CompilerError {
 					"Expected :", location(tokens)
 				};
 				sw1tch->d3fault = body_fx(tokens);

@@ -91,7 +91,7 @@ namespace ltn::c {
 			if(type_name->str == "map") return parse_type_map(tokens, brace_tracker);
 			if(type_name->str == "fx_ptr") return parse_fxptr(tokens, brace_tracker);
 			if(type_name->str == "optional") return parse_type_optional(tokens, brace_tracker);
-			throw CompilerError{"Unknown type name " + type_name->str};
+			throw CompilerError{"Unknown typename " + type_name->str, type_name->location};
 		}
 		else if(auto type_name = match(TT::NVLL, tokens)) {
 			return type::Null{};
@@ -100,7 +100,7 @@ namespace ltn::c {
 			return type::Optional{parse_type(tokens, brace_tracker)};
 		}
 		else {
-			throw CompilerError{"Expected type name"};
+			throw CompilerError{"Expected typename", tokens.front().location};
 		}
 	}
 	

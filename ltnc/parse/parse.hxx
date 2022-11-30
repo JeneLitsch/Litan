@@ -39,6 +39,7 @@ namespace ltn::c {
 	ast::expr_ptr parse_dynamic_copy(Tokens & tokens);
 
 	ast::expr_ptr parse_expression(Tokens & tokens);
+	// ast::expr_ptr parse_expression_no_cast(Tokens & tokens);
 	ast::expr_ptr parse_conditional(Tokens & tokens);
 	ast::expr_ptr parse_condition(Tokens & tokens);
 	ast::expr_ptr parse_binary(Tokens & tokens);

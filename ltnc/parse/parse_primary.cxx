@@ -21,6 +21,7 @@ namespace ltn::c {
 				if(!match(TT::PAREN_R, tokens)) {
 					throw expected("(", tokens);
 				}
+
 				return expr;
 			}
 			return nullptr;

@@ -1,14 +1,14 @@
 namespace sphinx::test {
 	function switch_int() {
 		var fx = lambda (x) switch(x) {
-			case -3: return 7;
-			case -2: return 8;
-			case -1: return 9;
-			case 0: return 10;
-			case 1: return 11;
-			case 2: return 12;
-			case 3: return 13;
-			case 4: return 14;
+			case -3 => return 7;
+			case -2 => return 8;
+			case -1 => return 9;
+			case 0 => return 10;
+			case 1 => return 11;
+			case 2 => return 12;
+			case 3 => return 13;
+			case 4 => return 14;
 		};
 
 		assert_equal(fx(-3), 7);
@@ -20,9 +20,9 @@ namespace sphinx::test {
 	
 	function switch_other() {
 		var fx = lambda (x) switch(x) {
-			case 'A': return 1;
-			case "A": return 2;
-			case []:  return 3;
+			case 'A' => return 1;
+			case "A" => return 2;
+			case [] =>  return 3;
 		};
 
 		assert_equal(fx('A'), 1);
@@ -35,8 +35,8 @@ namespace sphinx::test {
 
 	function switch_default() {
 		var fx = lambda (x) switch(x) {
-			case 0: return true;
-			default: return false;
+			case 0 => return true;
+			default => return false;
 		};
 
 		assert_equal(fx(-3), false);
@@ -48,7 +48,7 @@ namespace sphinx::test {
 
 	function switch_default_null() {
 		var fx = lambda (x) switch(x) {
-			case 0: return true;
+			case 0 => return true;
 		};
 
 		assert_equal(fx(-3), null);
