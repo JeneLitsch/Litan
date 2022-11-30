@@ -54,10 +54,11 @@ namespace ltn::c {
 	ExprResult compile_read_variable(const ast::Var &, CompilerInfo &, Scope &);
 	ExprResult compile_read_member_access(const ast::Member &, CompilerInfo &, Scope &);
 	ExprResult compile_read_global(const ast::GlobalVar &, CompilerInfo &, Scope &);
-	ExprResult compile_write_global(const ast::GlobalVar &, CompilerInfo &, Scope &);
-	ExprResult compile_write_define(const ast::Var &, CompilerInfo &, Scope &);
 	ExprResult compile_typed_unary(const ast::TypedUnary &, CompilerInfo &, Scope &);
 	ExprResult compile_reflect(const ast::Reflect &, CompilerInfo &, Scope &);
+
+	ExprResult compile_write_define(const ast::Var &, CompilerInfo &, Scope &);
+	ExprResult compile_write_global(const ast::GlobalVar &, CompilerInfo &, Scope &);
 
 	// utils
 	void guard_const(

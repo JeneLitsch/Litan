@@ -21,75 +21,83 @@ namespace ltn::c {
 	}
 
 
+
+	struct ExprVisitor {
+		ExprResult operator()(const ast::Lambda & e) {
+			return compile_lambda(e, info, scope);
+		}
+		ExprResult operator()(const ast::DeclType & e) {
+			return compile_decltype(e, info, scope);
+		}
+		ExprResult operator()(const ast::ExprSwitch & e) {
+			return compile_expr_switch(e, info, scope);
+		}
+		ExprResult operator()(const ast::Ternary & e) {
+			return compile_ternary(e, info, scope);
+		}
+		ExprResult operator()(const ast::Binary & e) {
+			return compile_binary(e, info, scope);
+		}
+		ExprResult operator()(const ast::Unary & e) {
+			return compile_unary(e, info, scope);
+		}
+		ExprResult operator()(const ast::Integer & e) {
+			return compile_integer(e);
+		}
+		ExprResult operator()(const ast::Float & e) {
+			return compile_floating(e);
+		}
+		ExprResult operator()(const ast::Bool & e) {
+			return compile_boolean(e);
+		}
+		ExprResult operator()(const ast::Char & e) {
+			return compile_character(e);
+		}
+		ExprResult operator()(const ast::Null & e) {
+			return compile_null(e);
+		}
+		ExprResult operator()(const ast::String & e) {
+			return compile_string(e);
+		}
+		ExprResult operator()(const ast::Array & e) {
+			return compile_array(e, info, scope);
+		}
+		ExprResult operator()(const ast::Call & e) {
+			return compile_call(e, info, scope);
+		}
+		ExprResult operator()(const ast::Index & e) {
+			return compile_index(e, info, scope);
+		}
+		ExprResult operator()(const ast::FxPointer & e) {
+			return compile_fxPointer(e, info, scope);
+		}
+		ExprResult operator()(const ast::Iife & e) {
+			return compile_iife(e, info, scope);
+		}
+		ExprResult operator()(const ast::Var & e) {
+			return compile_read_variable(e, info, scope);
+		}
+		ExprResult operator()(const ast::Member & e) {
+			return compile_read_member_access(e, info, scope);
+		}
+		ExprResult operator()(const ast::GlobalVar & e) {
+			return compile_read_global(e, info, scope);
+		}
+		ExprResult operator()(const ast::TypedUnary & e) {
+			return compile_typed_unary(e, info, scope);
+		}
+		ExprResult operator()(const ast::Reflect & e) {
+			return compile_reflect(e, info, scope);
+		}
+		CompilerInfo & info;
+		Scope & scope;
+	};
+
+
+
 	// compiles any expression
 	ExprResult compile_expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
-		if(auto binary = as<ast::Binary>(expr)) {
-			return compile_binary(*binary, info, scope);
-		}
-		if(auto unary = as<ast::Unary>(expr)) {
-			return compile_unary(*unary, info, scope);
-		}
-		if(auto expr_ = as<ast::Integer>(expr)) {
-			return compile_integer(*expr_);
-		}
-		if(auto expr_ = as<ast::Float>(expr)) {
-			return compile_floating(*expr_);
-		} 
-		if(auto expr_ = as<ast::Bool>(expr)) {
-			return compile_boolean(*expr_);
-		}
-		if(auto expr_ = as<ast::Char>(expr)) {
-			return compile_character(*expr_);
-		}
-		if(auto expr_ = as<ast::Null>(expr)) {
-			return compile_null(*expr_);
-		} 
-		if(auto expr_ = as<ast::String>(expr)) {
-			return compile_string(*expr_);
-		} 
-		if(auto expr_ = as<ast::Array>(expr)) {
-			return compile_array(*expr_, info, scope);
-		}
-		if(auto expr_ = as<ast::Call>(expr)) {
-			return compile_call(*expr_, info, scope);
-		}
-		if(auto expr_ = as<ast::Var>(expr)) {
-			return compile_read_variable(*expr_, info, scope);
-		} 	
-		if(auto expr_ = as<ast::Index>(expr)) {
-			return compile_index(*expr_, info, scope);
-		}	
-		if(auto expr_ = as<ast::Lambda>(expr)) {
-			return compile_lambda(*expr_, info, scope);
-		}	
-		if(auto expr_ = as<ast::FxPointer>(expr)) {
-			return compile_fxPointer(*expr_, info, scope);
-		}
-		if(auto expr_ = as<ast::Member>(expr)) {
-			return compile_read_member_access(*expr_, info, scope);
-		}	
-		if(auto expr_ = as<ast::GlobalVar>(expr)) {
-			return compile_read_global(*expr_, info, scope);
-		}		
-		if(auto expr_ = as<ast::Iife>(expr)) {
-			return compile_iife(*expr_, info, scope);
-		}
-		if(auto ternary = as<ast::Ternary>(expr)) {
-			return compile_ternary(*ternary, info, scope);
-		} 
-		if(auto sw1tch = as<ast::ExprSwitch>(expr)) {
-			return compile_expr_switch(*sw1tch, info, scope);
-		} 
-		if(auto invoke = as<ast::DeclType>(expr)) {
-			return compile_decltype(*invoke, info, scope);
-		}
-		if(auto typed_unary = as<ast::TypedUnary>(expr)) {
-			return compile_typed_unary(*typed_unary, info, scope);
-		}
-		if(auto refl = as<ast::Reflect>(expr)) {
-			return compile_reflect(*refl, info, scope);
-		}
-		throw CompilerError{"Unknown Expression"};
+		return ast::visit_expression(expr, ExprVisitor{info, scope});
 	}
 
 
