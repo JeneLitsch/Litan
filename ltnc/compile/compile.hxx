@@ -38,12 +38,12 @@ namespace ltn::c {
 	ExprResult compile_expr(const ast::Ternary &, CompilerInfo &, Scope &);
 	ExprResult compile_expr(const ast::Binary &, CompilerInfo &, Scope &);
 	ExprResult compile_expr(const ast::Unary &, CompilerInfo &, Scope &);
-	ExprResult compile_integer(const ast::Integer &);
-	ExprResult compile_floating(const ast::Float &);
-	ExprResult compile_boolean(const ast::Bool &);
-	ExprResult compile_character(const ast::Char &);
-	ExprResult compile_null(const ast::Null &);
-	ExprResult compile_string(const ast::String &);
+	ExprResult compile_expr(const ast::Integer &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Float &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Bool &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Char &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Null &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::String &, CompilerInfo &, Scope &);
 	ExprResult compile_expr(const ast::Array &, CompilerInfo &, Scope &);
 	ExprResult compile_expr(const ast::Call &, CompilerInfo &, Scope &);
 	ExprResult compile_expr(const ast::Index &, CompilerInfo &, Scope &);

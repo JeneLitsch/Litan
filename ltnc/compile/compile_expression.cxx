@@ -22,37 +22,11 @@ namespace ltn::c {
 
 
 
-	struct ExprVisitor {
-		ExprResult operator()(const auto & e) {
-			return compile_expr(e, info, scope);
-		}
-		ExprResult operator()(const ast::Integer & e) {
-			return compile_integer(e);
-		}
-		ExprResult operator()(const ast::Float & e) {
-			return compile_floating(e);
-		}
-		ExprResult operator()(const ast::Bool & e) {
-			return compile_boolean(e);
-		}
-		ExprResult operator()(const ast::Char & e) {
-			return compile_character(e);
-		}
-		ExprResult operator()(const ast::Null & e) {
-			return compile_null(e);
-		}
-		ExprResult operator()(const ast::String & e) {
-			return compile_string(e);
-		}
-		CompilerInfo & info;
-		Scope & scope;
-	};
-
-
-
 	// compiles any expression
 	ExprResult compile_expression(const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
-		return ast::visit_expression(expr, ExprVisitor{info, scope});
+		return ast::visit_expression(expr, [&](const auto & e) {
+			return compile_expr(e, info, scope);
+		});
 	}
 
 

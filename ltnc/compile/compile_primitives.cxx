@@ -2,7 +2,7 @@
 #include <string_view>
 namespace ltn::c {
 	// compiles int literal
-	ExprResult compile_integer(const ast::Integer & expr) {
+	ExprResult compile_expr(const ast::Integer & expr, CompilerInfo &, Scope &) {
 		InstructionBuffer buf;
 		buf << inst::newi(expr.value);
 		return {
@@ -14,7 +14,7 @@ namespace ltn::c {
 
 
 	// compiles float literal
-	ExprResult compile_floating(const ast::Float & expr) {
+	ExprResult compile_expr(const ast::Float & expr, CompilerInfo &, Scope &) {
 		InstructionBuffer buf;
 		buf << inst::newf(expr.value);
 		return { 
@@ -26,7 +26,7 @@ namespace ltn::c {
 
 
 	// compiles bool literal
-	ExprResult compile_boolean(const ast::Bool & expr) {
+	ExprResult compile_expr(const ast::Bool & expr, CompilerInfo &, Scope &) {
 		InstructionBuffer buf;
 		if(expr.value) {
 			buf << inst::bool_true();
@@ -43,7 +43,7 @@ namespace ltn::c {
 
 
 	// compiles null literal
-	ExprResult compile_null(const ast::Null &) {
+	ExprResult compile_expr(const ast::Null &, CompilerInfo &, Scope &) {
 		InstructionBuffer buf;
 		buf << inst::null();
 		return ExprResult{ 
@@ -54,7 +54,7 @@ namespace ltn::c {
 
 
 	// compiles bool literal
-	ExprResult compile_character(const ast::Char & expr) {
+	ExprResult compile_expr(const ast::Char & expr, CompilerInfo &, Scope &) {
 		InstructionBuffer buf;
 		buf << inst::newc(static_cast<std::uint8_t>(expr.value));
 		return ExprResult{
@@ -66,7 +66,7 @@ namespace ltn::c {
 
 
 	// compiles string literal
-	ExprResult compile_string(const ast::String & expr) {
+	ExprResult compile_expr(const ast::String & expr, CompilerInfo &, Scope &) {
 		InstructionBuffer buf;
 		std::vector<std::uint8_t> bytes {std::begin(expr.value), std::end(expr.value)};
 		buf << inst::newstr(bytes);
