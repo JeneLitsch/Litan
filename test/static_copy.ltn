@@ -1,21 +1,21 @@
 namespace sphinx::test {
 	function static_copy_bool() {
-		assert_equal(std::str(static_copy<bool>(1)), "true");
-		assert_equal(std::str(static_copy<bool>(0)), "false");
-		assert_equal(std::str(static_copy<bool>(100)), "true");
-		assert_equal(std::str(static_copy<bool>(-1)), "true");
-		assert_equal(std::str(static_copy<bool>(null)), "false");
-		assert_equal(std::str(static_copy<bool>("")), "true");
-		assert_equal(std::str(static_copy<bool>('A')), "true");
-		assert_equal(std::str(static_copy<bool>([])), "true");
+		assert_equal_strict(static_copy<bool>(1),    true);
+		assert_equal_strict(static_copy<bool>(0),    false);
+		assert_equal_strict(static_copy<bool>(100),  true);
+		assert_equal_strict(static_copy<bool>(-1),   true);
+		assert_equal_strict(static_copy<bool>(null), false);
+		assert_equal_strict(static_copy<bool>(""),   true);
+		assert_equal_strict(static_copy<bool>('A'),  true);
+		assert_equal_strict(static_copy<bool>([]),   true);
 	}
 
 	
 	
 	function static_copy_array() {
-		assert_equal(static_copy<array<int>>([1.5, 2.5, 3.5]), [1,2,3]);
-		assert_equal(static_copy<array<int>>("ABC"), [65, 66, 67]);
-		assert_equal(static_copy<array<bool>>([0.0, 1.5, 0.1]), [false,true,true]);
+		assert_equal_strict(static_copy<array<int>>([1.5, 2.5, 3.5]), [1,2,3]);
+		assert_equal_strict(static_copy<array<int>>("ABC"), [65, 66, 67]);
+		assert_equal_strict(static_copy<array<bool>>([0.0, 1.5, 0.1]), [false,true,true]);
 	}
 
 

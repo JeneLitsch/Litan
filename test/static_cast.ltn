@@ -1,13 +1,28 @@
 namespace sphinx::test {
 	function static_cast_bool() {
-		assert_equal(std::str(1 : bool),  "true");
-		assert_equal(std::str(0 : bool),  "false");
+		assert_equal_strict(true : bool,  true);
+		assert_equal_strict(false : bool, false);
+		assert_equal_strict(1 : bool,     true);
+		assert_equal_strict(0 : bool,     false);
+		assert_equal_strict(2 + 2 : bool, true);
+		assert_equal_strict(1.0 : bool,   true);
+		assert_equal_strict(0.0 : bool,   false);
+		assert_equal_strict(null : bool,  false);
+		assert_equal_strict("" : bool,    true);
+		assert_equal_strict([] : bool,    true);
 	}
 
 
 
 	function static_cast_bool_type() {
-		assert_equal(decltype(1 : bool).name,  "bool");
-		assert_equal(decltype(0 : bool).name,  "bool");
+		assert_equal(decltype(true : bool).name,  "bool");
+		assert_equal(decltype(false : bool).name, "bool");
+		assert_equal(decltype(1 : bool).name,     "bool");
+		assert_equal(decltype(0 : bool).name,     "bool");
+		assert_equal(decltype(1.0 : bool).name,   "bool");
+		assert_equal(decltype(0.0 : bool).name,   "bool");
+		assert_equal(decltype(null : bool).name,  "bool");
+		assert_equal(decltype("" : bool).name,    "bool");
+		assert_equal(decltype([] : bool).name,    "bool");
 	}
 }
