@@ -11,6 +11,7 @@ files=(
 	"test/throw.ltn"
 	"test/lambda.ltn"
 
+	"test/static_cast.ltn"
 	"test/static_copy.ltn"
 	
 	"test/op_arith_add.ltn"

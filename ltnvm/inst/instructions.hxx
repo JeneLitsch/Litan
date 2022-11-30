@@ -130,14 +130,17 @@ namespace ltn::vm::inst {
 	void peek(VmCore & core);
 	void contains(VmCore & core);
 	void empty(VmCore & core);
-	
-	void copy(VmCore & core);
+
+	void cast(VmCore & core);
+	void safe_cast(VmCore & core);
+
 	void cast_bool(VmCore & core);
 	void cast_char(VmCore & core);
 	void cast_int(VmCore & core);
 	void cast_float(VmCore & core);
 	void cast_string(VmCore & core);
 
+	void copy(VmCore & core);
 	void safe_copy(VmCore & core);
 
 	void type_id(VmCore & core);

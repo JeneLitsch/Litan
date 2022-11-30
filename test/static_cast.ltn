@@ -1,0 +1,13 @@
+namespace sphinx::test {
+	function static_cast_bool() {
+		assert_equal(std::str(1 : bool),  "true");
+		assert_equal(std::str(0 : bool),  "false");
+	}
+
+
+
+	function static_cast_bool_type() {
+		assert_equal(decltype(1 : bool).name,  "bool");
+		assert_equal(decltype(0 : bool).name,  "bool");
+	}
+}

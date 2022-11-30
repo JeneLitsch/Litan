@@ -160,12 +160,14 @@ namespace ltn::vm {
 		table[OpCode::CONTAINS] = inst::contains;
 		table[OpCode::EMPTY] = inst::empty;
 
-		table[OpCode::COPY] = inst::copy;
+		table[OpCode::CAST] = inst::cast;
+		table[OpCode::SAFE_CAST] = inst::safe_cast;
 		table[OpCode::CAST_BOOL] = inst::cast_bool;
 		table[OpCode::CAST_CHAR] = inst::cast_char;
 		table[OpCode::CAST_INT] = inst::cast_int;
 		table[OpCode::CAST_FLOAT] = inst::cast_float;
 		table[OpCode::CAST_STRING] = inst::cast_string;
+		table[OpCode::COPY] = inst::copy;
 		table[OpCode::SAFE_COPY] = inst::safe_copy;
 
 		table[OpCode::TYPEID] = inst::type_id;

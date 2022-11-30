@@ -80,6 +80,27 @@ namespace ltn::vm::inst {
 	}
 
 
+	void cast(VmCore & core) {
+		const auto value = core.reg.pop();
+		const std::uint8_t * type = &core.byte_code[core.pc];
+		core.reg.push(smart_copy(type, value, core));
+		while (core.byte_code[core.pc++]); // Resume after \0 terminator
+	}
+
+
+
+	void safe_cast(VmCore & core) {
+		const auto value = core.reg.pop();
+		const std::uint8_t * type = &core.byte_code[core.pc];
+		try {
+			core.reg.push(smart_copy(type, value, core));
+		}
+		catch(const Exception & exception) {
+			core.reg.push(value::null);
+		}
+		while (core.byte_code[core.pc++]); // Resume after \0 terminator
+	}
+
 
 	void copy(VmCore & core) {
 		const auto value = core.reg.pop();

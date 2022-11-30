@@ -713,13 +713,21 @@ namespace ltn::c::inst {
 		};
 	}
 
-	Inst copy(std::vector<std::uint8_t> code) {
+	Inst cast(std::vector<std::uint8_t> code) {
 		return InstBytex0 {
-			.name = "copy",
-			.opcode = OpCode::COPY,
+			.name = "cast",
+			.opcode = OpCode::CAST,
 			.bytes = code,
 		};
 	}
+	Inst safe_cast(std::vector<std::uint8_t> code) {
+		return InstBytex0 {
+			.name = "safe_cast",
+			.opcode = OpCode::SAFE_CAST,
+			.bytes = code,
+		};
+	}
+
 	Inst cast_bool() {
 		return InstNone {
 			.name = "cast_bool",
@@ -748,6 +756,13 @@ namespace ltn::c::inst {
 		return InstNone {
 			.name = "cast_string",
 			.opcode = OpCode::CAST_STRING,
+		};
+	}
+	Inst copy(std::vector<std::uint8_t> code) {
+		return InstBytex0 {
+			.name = "copy",
+			.opcode = OpCode::COPY,
+			.bytes = code,
 		};
 	}
 	Inst safe_copy(std::vector<std::uint8_t> code) {

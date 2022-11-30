@@ -8,4 +8,6 @@ function main() {
 	var x : auto = [0.0];
 	x[0] = 42 : float;
 	x[0] = 42 ~ float;
+	// x[0] = 42 ! float;
+	// x[0] = 42 ? float;
 }
