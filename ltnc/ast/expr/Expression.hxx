@@ -116,4 +116,27 @@ namespace ltn::c::ast {
 		virtual ~Reflect() = default;
 		Query query;
 	};
+
+
+
+	struct TypedUnary final : public Expression {
+	public:
+		enum class Op {
+			STATIC_CAST,
+			STATIC_COPY, DYNAMIC_COPY
+		};
+		TypedUnary(
+			Op op,
+			const type::Type & type,
+			std::unique_ptr<Expression> expr,
+			const SourceLocation & location)
+			:	Expression{location},
+				op{op},
+				type{type},
+				expr{std::move(expr)} {}
+		virtual ~TypedUnary() = default;
+		Op op;
+		type::Type type;
+		std::unique_ptr<Expression> expr;
+	};
 }

@@ -28,39 +28,6 @@ namespace ltn::c::ast {
 
 
 
-	struct StaticCopy final : public Primary {
-	public:
-		StaticCopy(
-			const type::Type & type,
-			std::unique_ptr<Expression> expr,
-			const SourceLocation & location)
-			:	Primary(location),
-				type{type},
-				expr{std::move(expr)} {}
-		virtual ~StaticCopy() = default;
-		type::Type type;
-		std::unique_ptr<Expression> expr;
-	};
-
-
-
-	struct DynamicCopy final : public Primary {
-	public:
-		DynamicCopy(
-			const type::Type & type,
-			std::unique_ptr<Expression> expr,
-			const SourceLocation & location)
-			:	Primary(location),
-				type{type},
-				expr{std::move(expr)} {}
-		virtual ~DynamicCopy() = default;
-		type::Type type;
-		std::unique_ptr<Expression> expr;
-	};
-
-
-
-
 	struct FxPointer final : public Primary {
 	public:
 		FxPointer(
@@ -77,6 +44,7 @@ namespace ltn::c::ast {
 		Namespace namespaze;
 		std::size_t placeholders;
 	};
+
 
 
 	struct Call final : public Primary {

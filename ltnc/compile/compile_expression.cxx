@@ -83,11 +83,8 @@ namespace ltn::c {
 		if(auto invoke = as<ast::DeclType>(expr)) {
 			return compile_decltype(*invoke, info, scope);
 		}
-		if(auto cast = as<ast::StaticCopy>(expr)) {
-			return compile_static_copy(*cast, info, scope);
-		}
-		if(auto cast = as<ast::DynamicCopy>(expr)) {
-			return compile_dynamic_copy(*cast, info, scope);
+		if(auto typed_unary = as<ast::TypedUnary>(expr)) {
+			return compile_typed_unary(*typed_unary, info, scope);
 		}
 		if(auto refl = as<ast::Reflect>(expr)) {
 			return compile_reflect(*refl, info, scope);

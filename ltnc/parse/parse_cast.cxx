@@ -2,10 +2,11 @@
 
 namespace ltn::c {
 	using TT = Token::Type;
+	using Op = ast::TypedUnary::Op;
 
 	namespace {
-		template<typename Node, TT tt>
-		ast::expr_ptr parse_cast(Tokens & tokens) {
+		template<Op op, TT tt>
+		ast::expr_ptr parse_copy(Tokens & tokens) {
 			if(auto t = match(tt, tokens)) {
 				BraceTracker brace_tracker;
 				open_chevron(tokens, brace_tracker);
@@ -19,7 +20,8 @@ namespace ltn::c {
 				if(!match(TT::PAREN_R, tokens)) throw CompilerError{
 					"Expected ) after static_cast<...>"
 				};
-				return std::make_unique<Node>(
+				return std::make_unique<ast::TypedUnary>(
+					op,
 					type,
 					std::move(expr),
 					t->location
@@ -30,13 +32,13 @@ namespace ltn::c {
 	}
 
 
-	ast::expr_ptr parse_static_cast(Tokens & tokens) {
-		return parse_cast<ast::StaticCopy, TT::STATIC_COPY>(tokens);
+	ast::expr_ptr parse_static_copy(Tokens & tokens) {
+		return parse_copy<Op::STATIC_COPY, TT::STATIC_COPY>(tokens);
 	}
 
 
 
-	ast::expr_ptr parse_dynamic_cast(Tokens & tokens) {
-		return parse_cast<ast::DynamicCopy, TT::DYNAMIC_COPY>(tokens);
+	ast::expr_ptr parse_dynamic_copy(Tokens & tokens) {
+		return parse_copy<Op::DYNAMIC_COPY, TT::DYNAMIC_COPY>(tokens);
 	}
 }

@@ -297,8 +297,8 @@ namespace ltn::c {
 		if(auto expr = parse_expr_switch(tokens)) return expr;
 		if(auto expr = parse_global(tokens)) return expr;
 		if(auto expr = parse_decltype(tokens)) return expr;
-		if(auto expr = parse_static_cast(tokens)) return expr;
-		if(auto expr = parse_dynamic_cast(tokens)) return expr;
+		if(auto expr = parse_static_copy(tokens)) return expr;
+		if(auto expr = parse_dynamic_copy(tokens)) return expr;
 		if(auto expr = parse_reflect(tokens)) return expr;
 		return parse_identifier(tokens);
 	}

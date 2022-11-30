@@ -8,7 +8,6 @@ target_sources(libltnc PRIVATE
 	compile_binary.cxx
 	compile_block.cxx
 	compile_call.cxx
-	compile_casts.cxx
 	compile_conditional.cxx
 	compile_expression.cxx
 	compile_function.cxx
@@ -28,6 +27,7 @@ target_sources(libltnc PRIVATE
 	compile_switch.cxx
 	compile_ternary.cxx
 	compile_throw.cxx
+	compile_typed_unary.cxx
 	compile_unary.cxx
 	compile_write.cxx
 	conversion.cxx

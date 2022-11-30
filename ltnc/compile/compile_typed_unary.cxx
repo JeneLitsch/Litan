@@ -27,7 +27,7 @@ namespace ltn::c {
 
 
 	ExprResult compile_static_copy(
-		const ast::StaticCopy & copy,
+		const ast::TypedUnary & copy,
 		CompilerInfo & info,
 		Scope & scope) {
 
@@ -37,10 +37,28 @@ namespace ltn::c {
 
 
 	ExprResult compile_dynamic_copy(
-		const ast::DynamicCopy & copy,
+		const ast::TypedUnary & copy,
 		CompilerInfo & info,
 		Scope & scope) {
 
 		return compile_copy(copy_dynamic, type::deduce_cast_dynamic, copy, info, scope);
+	}
+
+
+
+	ExprResult compile_typed_unary(
+		const ast::TypedUnary & expr,
+		CompilerInfo & info,
+		Scope & scope) {
+
+		switch (expr.op) {
+		case ast::TypedUnary::Op::STATIC_COPY:
+			return compile_static_copy(expr, info, scope);
+		case ast::TypedUnary::Op::DYNAMIC_COPY:
+			return compile_dynamic_copy(expr, info, scope);
+		default:
+			break;
+		}
+
 	}
 }
