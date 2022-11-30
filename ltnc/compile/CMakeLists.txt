@@ -18,7 +18,6 @@ target_sources(libltnc PRIVATE
 	compile_iife.cxx
 	compile_index.cxx
 	compile_init_member.cxx
-	compile_invokation.cxx
 	compile_loops.cxx
 	compile_primitives.cxx
 	compile_read.cxx

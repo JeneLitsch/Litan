@@ -8,10 +8,11 @@ namespace ltn::c {
 
 	StmtResult compile_if_else(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope) {
 		MinorScope if_scope{&scope};
-
-		const auto name = make_jump_id("IF");
+		
 		const auto condition = compile_expression(*stmt.condition, info, scope);
 		const auto if_branch = compile_statement(*stmt.if_branch, info, if_scope);
+		
+		const auto name = make_jump_id("IF");
 
 		if(has_else_branch(stmt)) {
 			MinorScope else_scope{&scope};
