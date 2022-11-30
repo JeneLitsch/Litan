@@ -134,7 +134,7 @@ namespace ltn::c {
 
 
 
-	ExprResult compile_lambda(const ast::Lambda & lm, CompilerInfo & info, Scope & outer_scope) {
+	ExprResult compile_expr(const ast::Lambda & lm, CompilerInfo & info, Scope & outer_scope) {
 		const auto & fx = *lm.fx;
 		InstructionBuffer buf;
 		
@@ -163,7 +163,7 @@ namespace ltn::c {
 		
 		// store captures
 		for(const auto & capture : lm.captures) {
-			buf << compile_read_variable(*capture, info, outer_scope).code;
+			buf << compile_expression(*capture, info, outer_scope).code;
 			buf << inst::capture();
 		}
 

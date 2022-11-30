@@ -16,7 +16,6 @@
 namespace ltn::c {
 	// Functional
 	InstructionBuffer compile_functional(const ast::Functional &, CompilerInfo &);
-	ExprResult compile_lambda(const ast::Lambda &, CompilerInfo &, Scope &);
 
 	// Statement
 	StmtResult compile_statement(const ast::Statement &, CompilerInfo &, Scope &);
@@ -34,29 +33,29 @@ namespace ltn::c {
 
 	// Expression
 	ExprResult compile_expression(const ast::Expression &, CompilerInfo &, Scope &);
-	ExprResult compile_expr_switch(const ast::ExprSwitch &, CompilerInfo &, Scope &);
-	ExprResult compile_ternary(const ast::Ternary &, CompilerInfo &, Scope &);
-	ExprResult compile_binary(const ast::Binary &, CompilerInfo &, Scope &);
-	ExprResult compile_unary(const ast::Unary &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Lambda &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::ExprSwitch &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Ternary &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Binary &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Unary &, CompilerInfo &, Scope &);
 	ExprResult compile_integer(const ast::Integer &);
 	ExprResult compile_floating(const ast::Float &);
 	ExprResult compile_boolean(const ast::Bool &);
 	ExprResult compile_character(const ast::Char &);
 	ExprResult compile_null(const ast::Null &);
 	ExprResult compile_string(const ast::String &);
-	ExprResult compile_array(const ast::Array &, CompilerInfo &, Scope &);
-	ExprResult compile_call(const ast::Call &, CompilerInfo &, Scope &);
-	ExprResult compile_index(const ast::Index &, CompilerInfo &, Scope &);
-	ExprResult compile_fxPointer(const ast::FxPointer &, CompilerInfo &, Scope &);
-	ExprResult compile_iife(const ast::Iife &, CompilerInfo &, Scope &);
-	ExprResult compile_index(const ast::Index &, CompilerInfo &, Scope &);
-	ExprResult compile_addr(const ast::Var &, Scope &);
-	ExprResult compile_read_variable(const ast::Var &, CompilerInfo &, Scope &);
-	ExprResult compile_read_member_access(const ast::Member &, CompilerInfo &, Scope &);
-	ExprResult compile_read_global(const ast::GlobalVar &, CompilerInfo &, Scope &);
-	ExprResult compile_typed_unary(const ast::TypedUnary &, CompilerInfo &, Scope &);
-	ExprResult compile_reflect(const ast::Reflect &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Array &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Call &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Index &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::FxPointer &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Iife &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Var &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Member &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::GlobalVar &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::TypedUnary &, CompilerInfo &, Scope &);
+	ExprResult compile_expr(const ast::Reflect &, CompilerInfo &, Scope &);
 
+	ExprResult compile_addr(const ast::Var &, Scope &);
 	ExprResult compile_write_define(const ast::Var &, CompilerInfo &, Scope &);
 	ExprResult compile_write_global(const ast::GlobalVar &, CompilerInfo &, Scope &);
 

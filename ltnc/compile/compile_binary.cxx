@@ -316,7 +316,7 @@ namespace ltn::c {
 
 
 	// compiles a binary operation
-	ExprResult compile_binary(const ast::Binary & binary, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(const ast::Binary & binary, CompilerInfo & info, Scope & scope) {
 		const auto l = compile_expression(*binary.l, info, scope);
 		const auto r = compile_expression(*binary.r, info, scope);
 		switch (binary.type) {

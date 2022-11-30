@@ -3,7 +3,7 @@
 
 namespace ltn::c {
 	
-	ExprResult compile_decltype(const ast::DeclType & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(const ast::DeclType & expr, CompilerInfo & info, Scope & scope) {
 		const auto result = compile_expression(*expr.expression, info, scope);
 		const auto type = result.deduced_type;
 		const auto name = type::to_string(type);
@@ -23,23 +23,8 @@ namespace ltn::c {
 
 
 	struct ExprVisitor {
-		ExprResult operator()(const ast::Lambda & e) {
-			return compile_lambda(e, info, scope);
-		}
-		ExprResult operator()(const ast::DeclType & e) {
-			return compile_decltype(e, info, scope);
-		}
-		ExprResult operator()(const ast::ExprSwitch & e) {
-			return compile_expr_switch(e, info, scope);
-		}
-		ExprResult operator()(const ast::Ternary & e) {
-			return compile_ternary(e, info, scope);
-		}
-		ExprResult operator()(const ast::Binary & e) {
-			return compile_binary(e, info, scope);
-		}
-		ExprResult operator()(const ast::Unary & e) {
-			return compile_unary(e, info, scope);
+		ExprResult operator()(const auto & e) {
+			return compile_expr(e, info, scope);
 		}
 		ExprResult operator()(const ast::Integer & e) {
 			return compile_integer(e);
@@ -58,36 +43,6 @@ namespace ltn::c {
 		}
 		ExprResult operator()(const ast::String & e) {
 			return compile_string(e);
-		}
-		ExprResult operator()(const ast::Array & e) {
-			return compile_array(e, info, scope);
-		}
-		ExprResult operator()(const ast::Call & e) {
-			return compile_call(e, info, scope);
-		}
-		ExprResult operator()(const ast::Index & e) {
-			return compile_index(e, info, scope);
-		}
-		ExprResult operator()(const ast::FxPointer & e) {
-			return compile_fxPointer(e, info, scope);
-		}
-		ExprResult operator()(const ast::Iife & e) {
-			return compile_iife(e, info, scope);
-		}
-		ExprResult operator()(const ast::Var & e) {
-			return compile_read_variable(e, info, scope);
-		}
-		ExprResult operator()(const ast::Member & e) {
-			return compile_read_member_access(e, info, scope);
-		}
-		ExprResult operator()(const ast::GlobalVar & e) {
-			return compile_read_global(e, info, scope);
-		}
-		ExprResult operator()(const ast::TypedUnary & e) {
-			return compile_typed_unary(e, info, scope);
-		}
-		ExprResult operator()(const ast::Reflect & e) {
-			return compile_reflect(e, info, scope);
 		}
 		CompilerInfo & info;
 		Scope & scope;

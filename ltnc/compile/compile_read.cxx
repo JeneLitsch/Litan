@@ -45,7 +45,7 @@ namespace ltn::c {
 
 
 	// compiles an variable read accessc
-	ExprResult compile_read_variable(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
 		const auto & name = expr.name;
 		const auto & namespaze = scope.get_namespace();
 		
@@ -68,7 +68,7 @@ namespace ltn::c {
 	}
 
 	
-	ExprResult compile_read_member_access(
+	ExprResult compile_expr(
 		const ast::Member & access,
 		CompilerInfo & info,
 		Scope & scope) {

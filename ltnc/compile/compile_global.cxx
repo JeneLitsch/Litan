@@ -31,7 +31,7 @@ namespace ltn::c {
 		}
 	}
 
-	ExprResult compile_read_global(const ast::GlobalVar & global_var, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(const ast::GlobalVar & global_var, CompilerInfo & info, Scope & scope) {
 		auto & global = resolve_static(global_var, info.global_table, scope);
 		InstructionBuffer buf;
 		buf << inst::global_read(global.id);

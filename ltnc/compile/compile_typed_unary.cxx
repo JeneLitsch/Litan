@@ -29,7 +29,7 @@ namespace ltn::c {
 
 
 
-	ExprResult compile_typed_unary(
+	ExprResult compile_expr(
 		const ast::TypedUnary & expr,
 		CompilerInfo & info,
 		Scope & scope) {

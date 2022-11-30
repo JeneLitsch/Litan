@@ -80,7 +80,7 @@ namespace ltn::c {
 
 
 
-	ExprResult compile_expr_switch(const ast::ExprSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(const ast::ExprSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
 		const auto condition = compile_expression(*sw1tch.condition, info, scope);
 		const auto cases = compile_cases(compile_expression, sw1tch, info, scope);
 		const auto def4ault = compile_expression(*sw1tch.d3fault, info, scope);

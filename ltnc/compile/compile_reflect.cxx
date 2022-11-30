@@ -36,7 +36,7 @@ namespace ltn::c {
 				fx.parameters.size(),
 				SourceLocation{}
 			};
-			auto fx_ptr_code = compile_fxPointer(fx_ptr, info, scope).code;
+			auto fx_ptr_code = compile_expression(fx_ptr, info, scope).code;
 
 			buf << inst::newstruct();
 			buf << add_member_string(info, "name", fx.name);
@@ -108,7 +108,7 @@ namespace ltn::c {
 
 
 	// compiles array literal
-	ExprResult compile_reflect(const ast::Reflect & refl, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(const ast::Reflect & refl, CompilerInfo & info, Scope & scope) {
 		return std::visit([&] (const auto & query) {
 			return compile_reflect_query(query, info, scope);
 		}, refl.query);

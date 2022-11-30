@@ -69,7 +69,7 @@ namespace ltn::c {
 
 
 	// compiles function call fx(...)
-	ExprResult compile_call(const ast::Call & call, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(const ast::Call & call, CompilerInfo & info, Scope & scope) {
 		if(const auto * var = as<ast::Var>(*call.function_ptr)) {
 			const auto * local = scope.resolve(var->name, var->location);
 			if(local && var->namespaze.empty()) {
