@@ -1,6 +1,7 @@
 #include "cast_static.hxx"
 #include "ltn/type_code.hxx"
 #include "ltnc/type/check.hxx"
+#include "ltnc/compile/cast_utils.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -12,6 +13,12 @@ namespace ltn::c {
 			if(type::is_bool(to)) {
 				return { type_code::BOOL };
 			}
+
+			if(type::is_numeric(from) && type::is_int(to)) {
+				return { type_code::INT };
+			}
+
+			throw cannot_cast(from, to, location);
 		}
 	}
 

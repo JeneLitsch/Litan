@@ -25,4 +25,11 @@ namespace sphinx::test {
 		assert_equal(decltype("" : bool).name,    "bool");
 		assert_equal(decltype([] : bool).name,    "bool");
 	}
+
+
+
+	function static_cast_int() {
+		assert_equal_strict(true : int, 1);
+		assert_equal_strict(false : int, 0);
+	}
 }
