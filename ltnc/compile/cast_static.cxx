@@ -132,10 +132,10 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer cast_static(
+	InstructionBuffer copy_static(
 		const type::Type & from,
 		const type::Type & to,
 		const SourceLocation & location) {
-		return { inst::cast(to_type_code(from, to, location)) };
+		return { inst::copy(to_type_code(from, to, location)) };
 	}
 }

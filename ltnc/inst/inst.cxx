@@ -713,10 +713,10 @@ namespace ltn::c::inst {
 		};
 	}
 
-	Inst cast(std::vector<std::uint8_t> code) {
+	Inst copy(std::vector<std::uint8_t> code) {
 		return InstBytex0 {
-			.name = "cast",
-			.opcode = OpCode::CAST,
+			.name = "copy",
+			.opcode = OpCode::COPY,
 			.bytes = code,
 		};
 	}
@@ -750,10 +750,10 @@ namespace ltn::c::inst {
 			.opcode = OpCode::CAST_STRING,
 		};
 	}
-	Inst safe_cast(std::vector<std::uint8_t> code) {
+	Inst safe_copy(std::vector<std::uint8_t> code) {
 		return InstBytex0 {
-			.name = "safe_cast",
-			.opcode = OpCode::SAFE_CAST,
+			.name = "safe_copy",
+			.opcode = OpCode::SAFE_COPY,
 			.bytes = code,
 		};
 	}

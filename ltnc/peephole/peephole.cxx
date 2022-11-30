@@ -88,19 +88,19 @@ namespace ltn::c {
 				.replace(inst::dec()),
 
 			Pattern{}
-				.search(inst::cast(std::vector<std::uint8_t>{'b'}))
+				.search(inst::copy(std::vector<std::uint8_t>{'b'}))
 				.replace(inst::cast_bool()),
 
 			Pattern{}
-				.search(inst::cast(std::vector<std::uint8_t>{'c'}))
+				.search(inst::copy(std::vector<std::uint8_t>{'c'}))
 				.replace(inst::cast_char()),
 
 			Pattern{}
-				.search(inst::cast(std::vector<std::uint8_t>{'i'}))
+				.search(inst::copy(std::vector<std::uint8_t>{'i'}))
 				.replace(inst::cast_int()),
 
 			Pattern{}
-				.search(inst::cast(std::vector<std::uint8_t>{'f'}))
+				.search(inst::copy(std::vector<std::uint8_t>{'f'}))
 				.replace(inst::cast_float()),
 
 			Pattern{}

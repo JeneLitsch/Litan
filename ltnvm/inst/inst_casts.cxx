@@ -6,16 +6,16 @@
 
 namespace ltn::vm::inst {
 	namespace {
-		Value smart_cast(const std::uint8_t * type, const Value & value, VmCore & core);
+		Value smart_copy(const std::uint8_t * type, const Value & value, VmCore & core);
 
 
 
-		Value smart_cast_array(const std::uint8_t * subtype, const Value & value, VmCore & core) {
+		Value smart_copy_array(const std::uint8_t * subtype, const Value & value, VmCore & core) {
 			if(is_array(value)) {
 				const auto & old_array = core.heap.read<Array>(value.u);
 				Array new_array;
 				for(const auto & elem : old_array.get()) {
-					new_array.arr.push_back(smart_cast(subtype, elem, core));
+					new_array.arr.push_back(smart_copy(subtype, elem, core));
 				}
 				return value::array(core.heap.alloc(std::move(new_array)));
 			}
@@ -24,7 +24,7 @@ namespace ltn::vm::inst {
 				const auto & old_string = core.heap.read<String>(value.u);
 				Array new_array;
 				for(const auto c : old_string.get()) {
-					new_array.arr.push_back(smart_cast(subtype, value::character(c), core));
+					new_array.arr.push_back(smart_copy(subtype, value::character(c), core));
 				}
 				return value::array(core.heap.alloc(std::move(new_array)));		
 			}		
@@ -37,7 +37,7 @@ namespace ltn::vm::inst {
 
 
 
-		Value smart_cast_string(const Value & value, VmCore & core) {
+		Value smart_copy_string(const Value & value, VmCore & core) {
 			if(is_string(value)) {
 				const auto new_string = cast::to_string(value, core.heap);
 				return value::string(core.heap.alloc(String{new_string}));
@@ -62,15 +62,15 @@ namespace ltn::vm::inst {
 
 
 
-		Value smart_cast(const std::uint8_t * type, const Value & value, VmCore & core) {
+		Value smart_copy(const std::uint8_t * type, const Value & value, VmCore & core) {
 			// std::cout << *type << "\n";
 			switch (*type) {
 			case type_code::BOOL:    return cast::to_bool(value);
 			case type_code::CHAR:    return cast::to_char(value);
 			case type_code::INT:     return cast::to_int(value);
 			case type_code::FLOAT:   return cast::to_float(value, core.heap);
-			case type_code::STRING:  return smart_cast_string(value, core);
-			case type_code::ARRAY:   return smart_cast_array(type+1, value, core);
+			case type_code::STRING:  return smart_copy_string(value, core);
+			case type_code::ARRAY:   return smart_copy_array(type+1, value, core);
 			}
 			throw Exception{
 				.type = Exception::Type::GENERIC_ERROR,
@@ -81,20 +81,20 @@ namespace ltn::vm::inst {
 
 
 
-	void cast(VmCore & core) {
+	void copy(VmCore & core) {
 		const auto value = core.reg.pop();
 		const std::uint8_t * type = &core.byte_code[core.pc];
-		core.reg.push(smart_cast(type, value, core));
+		core.reg.push(smart_copy(type, value, core));
 		while (core.byte_code[core.pc++]); // Resume after \0 terminator
 	}
 
 
 
-	void safe_cast(VmCore & core) {
+	void safe_copy(VmCore & core) {
 		const auto value = core.reg.pop();
 		const std::uint8_t * type = &core.byte_code[core.pc];
 		try {
-			core.reg.push(smart_cast(type, value, core));
+			core.reg.push(smart_copy(type, value, core));
 		}
 		catch(const Exception & exception) {
 			core.reg.push(value::null);

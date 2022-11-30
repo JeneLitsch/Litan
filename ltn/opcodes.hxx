@@ -144,13 +144,13 @@ namespace ltn {
 		EMPTY,
 
 		// Cast
-		CAST = 0xb0,
+		COPY = 0xb0,
 		CAST_BOOL,
 		CAST_CHAR,
 		CAST_INT,
 		CAST_FLOAT,
 		CAST_STRING,
-		SAFE_CAST,
+		SAFE_COPY,
 
 		// Type utils
 		TYPEID = 0xc0,

@@ -86,10 +86,10 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer cast_dynamic(
+	InstructionBuffer copy_dynamic(
 		const type::Type & from,
 		const type::Type & to,
 		const SourceLocation & location) {
-		return { inst::safe_cast(to_type_code(to, location)) };
+		return { inst::safe_copy(to_type_code(to, location)) };
 	}
 }

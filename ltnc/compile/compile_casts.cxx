@@ -31,7 +31,7 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 
-		return compile_copy(cast_static, type::deduce_cast_static, copy, info, scope);
+		return compile_copy(copy_static, type::deduce_cast_static, copy, info, scope);
 	}
 
 
@@ -41,6 +41,6 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 
-		return compile_copy(cast_dynamic, type::deduce_cast_dynamic, copy, info, scope);
+		return compile_copy(copy_dynamic, type::deduce_cast_dynamic, copy, info, scope);
 	}
 }
