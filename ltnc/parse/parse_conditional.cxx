@@ -41,34 +41,27 @@ namespace ltn::c {
 				std::move(c),
 				std::move(r));
 		}
-
-
-
-		template<auto expr_fx, auto presedence_down>
-		ast::expr_ptr parse_conditional_base(Tokens & tokens) {
-			auto l = presedence_down(tokens);
-			if(match(TT::QMARK, tokens)) {
-				// c ?? b
-				if(match(TT::QMARK, tokens)) {
-					return parse_nullco<expr_fx>(tokens, std::move(l));
-				}
-
-				// c ?: b
-				if(match(TT::COLON, tokens)) {
-					return parse_elvis<expr_fx>(tokens, std::move(l));
-				}
-				
-				// c ? a : b
-				return parse_ternary<expr_fx>(tokens, std::move(l));
-			}
-			return l;
-		}
 	}
 
 
 
 	ast::expr_ptr parse_conditional(Tokens & tokens) {
-		return parse_conditional_base<parse_expression, parse_binary>(tokens);
+		auto l = parse_binary(tokens);
+		if(match(TT::QMARK, tokens)) {
+			// c ?? b
+			if(match(TT::QMARK, tokens)) {
+				return parse_nullco<parse_expression>(tokens, std::move(l));
+			}
+
+			// c ?: b
+			if(match(TT::COLON, tokens)) {
+				return parse_elvis<parse_expression>(tokens, std::move(l));
+			}
+			
+			// c ? a : b
+			return parse_ternary<parse_expression_no_cast>(tokens, std::move(l));
+		}
+		return l;
 	}
 }
 

@@ -41,13 +41,13 @@ namespace ltn::c {
 				throw CompilerError{"Expected :", location(tokens)};
 			}
 
-			auto from = parse_expression(tokens);
+			auto from = parse_expression_no_cast(tokens);
 			
 			if(!match(TT::RARROW, tokens)) {
 				throw CompilerError{"Expected ->", location(tokens)};
 			}
 
-			auto to = parse_expression(tokens);
+			auto to = parse_expression_no_cast(tokens);
 
 			ast::expr_ptr step;
 			if(match(TT::COLON, tokens)) {

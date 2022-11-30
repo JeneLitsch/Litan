@@ -1,7 +1,7 @@
 #include <sstream>
 #include "stdxx/array.hxx"
 #include "ltn/type_code.hxx"
-#include "ltnc/compile/cast_dynamic.hxx"
+#include "ltnc/compile/copy_dynamic.hxx"
 #include "ltnc/compile/cast_utils.hxx"
 #include "ltnc/type/check.hxx"
 #include "ltnc/CompilerError.hxx"

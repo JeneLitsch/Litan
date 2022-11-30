@@ -3,7 +3,7 @@
 #include "stdxx/array.hxx"
 #include "stdxx/iife.hxx"
 #include "ltn/type_code.hxx"
-#include "ltnc/compile/cast_static.hxx"
+#include "ltnc/compile/copy_static.hxx"
 #include "ltnc/compile/cast_utils.hxx"
 #include "ltnc/type/check.hxx"
 #include "ltnc/CompilerError.hxx"

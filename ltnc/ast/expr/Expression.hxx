@@ -122,7 +122,7 @@ namespace ltn::c::ast {
 	struct TypedUnary final : public Expression {
 	public:
 		enum class Op {
-			STATIC_CAST,
+			STATIC_CAST, DYNAMIC_CAST,
 			STATIC_COPY, DYNAMIC_COPY
 		};
 		TypedUnary(
