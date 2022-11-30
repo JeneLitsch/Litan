@@ -31,12 +31,12 @@ namespace ltn::c {
 
 
 	ast::expr_ptr parse_static_cast(Tokens & tokens) {
-		return parse_cast<ast::StaticCast, TT::STATIC_CAST>(tokens);
+		return parse_cast<ast::StaticCopy, TT::STATIC_COPY>(tokens);
 	}
 
 
 
 	ast::expr_ptr parse_dynamic_cast(Tokens & tokens) {
-		return parse_cast<ast::DynamicCast, TT::DYNAMIC_CAST>(tokens);
+		return parse_cast<ast::DynamicCopy, TT::DYNAMIC_COPY>(tokens);
 	}
 }

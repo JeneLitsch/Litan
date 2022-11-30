@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.0)
 project(Litan)
 set(CMAKE_CXX_STANDARD 20)
 
-if(LINUX)
 add_compile_options( 
 	-O3 
 	-W 
@@ -22,7 +21,6 @@ add_compile_options(
 	-Wparentheses 
 	-Wno-unknown-pragmas 
 )
-endif()
 include_directories("./")
 include_directories("./libs/stdxx")
 add_subdirectory(ltn)

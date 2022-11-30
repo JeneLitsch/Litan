@@ -119,8 +119,8 @@ namespace ltn::c::lex {
 			{"default",      TT::DEFAULT},
 			{"global",       TT::GLOBAL},
 			{"decltype",     TT::DECLTYPE},
-			{"static_cast",  TT::STATIC_CAST},
-			{"dynamic_cast", TT::DYNAMIC_CAST},
+			{"static_copy",  TT::STATIC_COPY},
+			{"dynamic_copy", TT::DYNAMIC_COPY},
 			{"reflect",      TT::REFLECT},
 		};
 		

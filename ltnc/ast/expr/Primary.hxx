@@ -28,32 +28,32 @@ namespace ltn::c::ast {
 
 
 
-	struct StaticCast final : public Primary {
+	struct StaticCopy final : public Primary {
 	public:
-		StaticCast(
+		StaticCopy(
 			const type::Type & type,
 			std::unique_ptr<Expression> expr,
 			const SourceLocation & location)
 			:	Primary(location),
 				type{type},
 				expr{std::move(expr)} {}
-		virtual ~StaticCast() = default;
+		virtual ~StaticCopy() = default;
 		type::Type type;
 		std::unique_ptr<Expression> expr;
 	};
 
 
 
-	struct DynamicCast final : public Primary {
+	struct DynamicCopy final : public Primary {
 	public:
-		DynamicCast(
+		DynamicCopy(
 			const type::Type & type,
 			std::unique_ptr<Expression> expr,
 			const SourceLocation & location)
 			:	Primary(location),
 				type{type},
 				expr{std::move(expr)} {}
-		virtual ~DynamicCast() = default;
+		virtual ~DynamicCopy() = default;
 		type::Type type;
 		std::unique_ptr<Expression> expr;
 	};

@@ -4,15 +4,15 @@
 
 namespace ltn::c {
 	namespace {
-		ExprResult compile_cast(
-			const auto & actual_cast,
+		ExprResult compile_copy(
+			const auto & actual_copy,
 			const auto & deduce_type,
-			const auto & cast,
+			const auto & copy,
 			CompilerInfo & info,
 			Scope & scope) {
 			
-			const auto inner = compile_expression(*cast.expr, info, scope);
-			const auto outer = actual_cast(inner.deduced_type, cast.type, cast.location);
+			const auto inner = compile_expression(*copy.expr, info, scope);
+			const auto outer = actual_copy(inner.deduced_type, copy.type, copy.location);
 
 			InstructionBuffer buf;
 			buf << inner.code;
@@ -20,27 +20,27 @@ namespace ltn::c {
 
 			return ExprResult {
 				.code = buf,
-				.deduced_type = deduce_type(cast.type),
+				.deduced_type = deduce_type(copy.type),
 			};
 		}
 	}
 
 
-	ExprResult compile_static_cast(
-		const ast::StaticCast & cast,
+	ExprResult compile_static_copy(
+		const ast::StaticCopy & copy,
 		CompilerInfo & info,
 		Scope & scope) {
 
-		return compile_cast(cast_static, type::deduce_cast_static, cast, info, scope);
+		return compile_copy(cast_static, type::deduce_cast_static, copy, info, scope);
 	}
 
 
 
-	ExprResult compile_dynamic_cast(
-		const ast::DynamicCast & cast,
+	ExprResult compile_dynamic_copy(
+		const ast::DynamicCopy & copy,
 		CompilerInfo & info,
 		Scope & scope) {
 
-		return compile_cast(cast_dynamic, type::deduce_cast_dynamic, cast, info, scope);
+		return compile_copy(cast_dynamic, type::deduce_cast_dynamic, copy, info, scope);
 	}
 }

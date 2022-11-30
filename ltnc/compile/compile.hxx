@@ -56,8 +56,8 @@ namespace ltn::c {
 	ExprResult compile_read_global(const ast::GlobalVar &, CompilerInfo &, Scope &);
 	ExprResult compile_write_global(const ast::GlobalVar &, CompilerInfo &, Scope &);
 	ExprResult compile_write_define(const ast::Var &, CompilerInfo &, Scope &);
-	ExprResult compile_static_cast(const ast::StaticCast &, CompilerInfo &, Scope &);
-	ExprResult compile_dynamic_cast(const ast::DynamicCast &, CompilerInfo &, Scope &);
+	ExprResult compile_static_copy(const ast::StaticCopy &, CompilerInfo &, Scope &);
+	ExprResult compile_dynamic_copy(const ast::DynamicCopy &, CompilerInfo &, Scope &);
 	ExprResult compile_reflect(const ast::Reflect &, CompilerInfo &, Scope &);
 
 	// utils

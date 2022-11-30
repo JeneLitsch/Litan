@@ -46,8 +46,8 @@ namespace ltn::c {
 			DEFAULT,
 			GLOBAL,
 			DECLTYPE,
-			STATIC_CAST,
-			DYNAMIC_CAST,
+			STATIC_COPY,
+			DYNAMIC_COPY,
 			REFLECT,
 			
 			INTEGER,
