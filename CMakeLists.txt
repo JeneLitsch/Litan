@@ -43,5 +43,6 @@ if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
 	add_executable(exeltninfo cli/ltninfo.cxx)
 	
 else()
-	
+	add_library(litan Litan.cxx)
+	target_link_libraries(litan libltn libltnc libltnvm)
 endif()

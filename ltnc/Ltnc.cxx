@@ -1,5 +1,6 @@
 #include "Ltnc.hxx"
 #include <vector>
+#include <iostream>
 #include "parse/parse.hxx"
 #include "unfold/unfold.hxx"
 #include "optimize/optimize.hxx"

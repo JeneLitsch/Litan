@@ -149,7 +149,7 @@ namespace ltn::c {
 						init = true;
 					}
 					else throw CompilerError {
-						"An init function must have 0 or 1 parameter(s)",
+						"An extern function must have 0 or 1 parameter(s)",
 						t->location
 					};
 				}
