@@ -92,7 +92,7 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_assign(
+	StmtResult compile_stmt(
 		const ast::Assign & expr,
 		CompilerInfo & info,
 		Scope & scope) {
@@ -149,7 +149,7 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_new_variable(const ast::NewVar & new_var, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt(const ast::NewVar & new_var, CompilerInfo & info, Scope & scope) {
 		const auto r = compile_new_variable_right(new_var, info, scope);
 		
 		InstructionBuffer buf;

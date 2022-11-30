@@ -19,17 +19,17 @@ namespace ltn::c {
 
 	// Statement
 	StmtResult compile_statement(const ast::Statement &, CompilerInfo &, Scope &);
-	StmtResult compile_block(const ast::Block &, CompilerInfo &, Scope &);
-	StmtResult compile_reTurn(const ast::Return &, CompilerInfo &, Scope &);
-	StmtResult compile_assign(const ast::Assign &, CompilerInfo &, Scope &);
-	StmtResult compile_thr0w(const ast::Throw &, CompilerInfo &, Scope &);
-	StmtResult compile_init_member(const ast::InitMember &, CompilerInfo &, Scope &);
-	StmtResult compile_if_else(const ast::IfElse &, CompilerInfo &, Scope &);
-	StmtResult compile_infinite_loop(const ast::InfiniteLoop &, CompilerInfo &, Scope &);
-	StmtResult compile_while_loop(const ast::While &, CompilerInfo &, Scope &);
-	StmtResult compile_for_loop(const ast::For &, CompilerInfo &, Scope &);
-	StmtResult compile_new_variable(const ast::NewVar &, CompilerInfo &, Scope &);
-	StmtResult compile_stmt_switch(const ast::StmtSwitch &, CompilerInfo &, Scope &);
+	StmtResult compile_stmt(const ast::Block &, CompilerInfo &, Scope &);
+	StmtResult compile_stmt(const ast::Return &, CompilerInfo &, Scope &);
+	StmtResult compile_stmt(const ast::Assign &, CompilerInfo &, Scope &);
+	StmtResult compile_stmt(const ast::Throw &, CompilerInfo &, Scope &);
+	StmtResult compile_stmt(const ast::InitMember &, CompilerInfo &, Scope &);
+	StmtResult compile_stmt(const ast::IfElse &, CompilerInfo &, Scope &);
+	StmtResult compile_stmt(const ast::InfiniteLoop &, CompilerInfo &, Scope &);
+	StmtResult compile_stmt(const ast::While &, CompilerInfo &, Scope &);
+	StmtResult compile_stmt(const ast::For &, CompilerInfo &, Scope &);
+	StmtResult compile_stmt(const ast::NewVar &, CompilerInfo &, Scope &);
+	StmtResult compile_stmt(const ast::StmtSwitch &, CompilerInfo &, Scope &);
 
 	// Expression
 	ExprResult compile_expression(const ast::Expression &, CompilerInfo &, Scope &);

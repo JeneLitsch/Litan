@@ -1,8 +1,10 @@
 #pragma once
+#include <vector>
 #include "../Node.hxx"
 #include "../utils/Switch.hxx"
 #include "ltnc/type/Type.hxx"
-#include <vector>
+#include "ltn/casts.hxx"
+
 namespace ltn::c::ast {
 	struct Expression;
 	struct Assignable;
@@ -187,4 +189,49 @@ namespace ltn::c::ast {
 	};
 
 	using StmtSwitch = Switch<Statement, Statement>;
+
+
+
+	auto visit_statement(const ast::Statement & stmt, auto && fx) {
+		if(auto s = as<ast::Block>(stmt)) {
+			return fx(*s);
+		}
+		if(auto s = as<ast::IfElse>(stmt)) {
+			return fx(*s);
+		}
+		if(auto s = as<ast::While>(stmt)) {
+			return fx(*s);
+		}
+		if(auto s = as<ast::InfiniteLoop>(stmt)) {
+			return fx(*s);
+		}
+		if(auto s = as<ast::For>(stmt)) {
+			return fx(*s);
+		}
+		if(auto s = as<ast::NewVar>(stmt)) {
+			return fx(*s);
+		}
+		if(auto s = as<ast::Return>(stmt)) {
+			return fx(*s);
+		}
+		if(auto s = as<ast::Throw>(stmt)) {
+			return fx(*s);
+		}
+		if(auto s = as<ast::InitMember>(stmt)) {
+			return fx(*s);
+		}
+		if(auto s = as<ast::StmtSwitch>(stmt)) {
+			return fx(*s);
+		}
+		if(auto s = as<ast::StatementExpression>(stmt)) {
+			return fx(*s);
+		}
+		if(auto s = as<ast::DoNothing>(stmt)) {
+			return fx(*s);
+		}
+		if(auto s = as<ast::Assign>(stmt)) {
+			return fx(*s);
+		}
+		throw std::runtime_error{"Unknown statement"};
+	}
 }

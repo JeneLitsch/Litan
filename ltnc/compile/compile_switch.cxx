@@ -66,7 +66,7 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_stmt_switch(const ast::StmtSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt(const ast::StmtSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
 		const auto condition = compile_expression(*sw1tch.condition, info, scope);
 		const auto cases = compile_cases(compile_statement, sw1tch, info, scope);
 		const auto def4ault = compile_statement(*sw1tch.d3fault, info, scope);

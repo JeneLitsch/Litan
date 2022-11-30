@@ -17,7 +17,7 @@ namespace ltn::c {
 		return name + "_TO";
 	}
 
-	StmtResult compile_while_loop(const ast::While & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt(const ast::While & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		MinorScope loop_scope { &scope }; 
 		
@@ -43,7 +43,7 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_infinite_loop(const ast::InfiniteLoop & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt(const ast::InfiniteLoop & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		MinorScope loop_scope { &scope }; 
 		
@@ -63,11 +63,11 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_for_loop(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
 		// outer scope of loop 
 		MinorScope loop_scope { &scope };
 
-		const auto var = compile_new_variable(*stmt.var, info, loop_scope);
+		const auto var = compile_statement(*stmt.var, info, loop_scope);
 		const auto from = compile_expression(*stmt.from, info, loop_scope);
 		const auto to = compile_expression(*stmt.to, info, loop_scope);
 		
