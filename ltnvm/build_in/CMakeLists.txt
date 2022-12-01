@@ -4,6 +4,7 @@ target_sources(libltnvm PRIVATE
 	algorithm.cxx
 	functional.cxx
 	io.cxx
+	math.cxx
 	random.cxx
 	string.cxx
 )

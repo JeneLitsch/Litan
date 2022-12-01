@@ -36,15 +36,6 @@ namespace ltn::c {
 			inst::retvrn(),
 		});
 
-		const auto math_clamp = std::to_array<inst::Inst>({
-			inst::makevar(),
-			inst::write_0(),
-			inst::max(),
-			inst::read_0(),
-			inst::min(),
-			inst::retvrn(),
-		});
-
 		const auto math_ld = std::to_array<inst::Inst>({
 			inst::newf(2.0),
 			inst::log(),
@@ -132,7 +123,7 @@ namespace ltn::c {
 		
 		{"math_min",                 single_return<inst::min>},
 		{"math_max",                 single_return<inst::max>},
-		{"math_clamp",               build_in::math_clamp},
+		{"math_clamp",               vm_build_in<0x50>},
 		{"math_round",               single_return<inst::round>},
 		{"math_floor",               single_return<inst::floor>},
 		{"math_ceil",                single_return<inst::ceil>},

@@ -1,5 +1,5 @@
 namespace sphinx::test {
-	function is_type() {
+	function std_is_type() {
 		assert_equal(std::is_type(null,        std::type::nul),     true);
 		assert_equal(std::is_type(true,        std::type::bool),    true);
 		assert_equal(std::is_type(null,        std::type::bool),    false);
@@ -15,7 +15,7 @@ namespace sphinx::test {
 
 
 
-	function is_null() {
+	function std_is_null() {
 		assert_true(std::is_null(null));
 		assert_false(std::is_null(1));
 		assert_false(std::is_null(std::pair(1,2)));
@@ -23,41 +23,41 @@ namespace sphinx::test {
 
 
 
-	function is_bool() {
+	function std_is_bool() {
 		assert_true(std::is_bool(true));
 		assert_false(std::is_bool(null));
 	}
 
 
 
-	function is_int() {
+	function std_is_int() {
 		assert_true(std::is_int(1));
 		assert_false(std::is_int('A'));
 	}
 
 
 
-	function is_float() {
+	function std_is_float() {
 		assert_false(std::is_float(1));
 		assert_true(std::is_float(1.0));
 	}
 
 
 
-	function is_string() {
+	function std_is_string() {
 		assert_true(std::is_string("A"));
 	}
 
 
 
-	function is_array() {
+	function std_is_array() {
 		assert_false(std::is_array("A"));
 		assert_true(std::is_array([]));
 	}
 
 
 
-	function is_ostream() {
+	function std_is_ostream() {
 		assert_true(std::is_ostream(std::cout()));
 		assert_true(std::is_ostream(std::strout()));
 		assert_false(std::is_ostream(std::strin("")));
@@ -65,7 +65,7 @@ namespace sphinx::test {
 
 
 
-	function is_istream() {
+	function std_is_istream() {
 		assert_true(std::is_istream(std::cin()));
 		assert_true(std::is_istream(std::strin("ABC")));
 	}

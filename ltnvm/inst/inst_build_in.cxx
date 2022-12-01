@@ -3,6 +3,7 @@
 #include "ltnvm/build_in/random.hxx"
 #include "ltnvm/build_in/functional.hxx"
 #include "ltnvm/build_in/io.hxx"
+#include "ltnvm/build_in/math.hxx"
 #include "ltnvm/build_in/string.hxx"
 
 namespace ltn::vm::inst {
@@ -41,6 +42,9 @@ namespace ltn::vm::inst {
 		table[0x32] = build_in::set_bg_color;
 
 		table[0x40] = build_in::to_string;
+
+		// Math
+		table[0x50] = build_in::clamp;
 		
 		return table;
 	}
