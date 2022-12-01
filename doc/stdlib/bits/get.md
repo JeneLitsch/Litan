@@ -1,6 +1,6 @@
 # std::bits::get
 
-## std::bits::get(number, index)
+## std::bits::get(number : int, index : int) -> bool
 **Parameters:**
 - number: a single integral value
 - index: an integer index
