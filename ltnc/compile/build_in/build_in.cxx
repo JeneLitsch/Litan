@@ -1,6 +1,7 @@
 #include "build_in.hxx"
 #include <unordered_map>
 #include "ltnc/CompilerError.hxx"
+#include "ltn/fxcodes.hxx"
 using namespace std::string_view_literals;
 
 namespace ltn::c {
@@ -19,8 +20,8 @@ namespace ltn::c {
 		inst_fx(args...), 
 	};
 
-	template<std::size_t CODE>
-	const std::array<inst::Inst, 2> vm_build_in = single_return<inst::build_in, CODE>;
+	template<ltn::FxCode CODE>
+	const std::array<inst::Inst, 2> vm_build_in = single_return<inst::build_in, static_cast<std::size_t>(CODE)>;
 
 	namespace build_in {
 		const auto chrono_to_milliseconds = std::to_array<inst::Inst>({
@@ -56,15 +57,15 @@ namespace ltn::c {
 		{"cast_float",               single_return<inst::cast_float>},
 		{"cast_string",              single_return<inst::cast_string>},
 
-		{"algorithm_sort_ascn",      vm_build_in<0x00>},
-		{"algorithm_sort_desc",      vm_build_in<0x01>},
-		{"algorithm_is_sorted_ascn", vm_build_in<0x02>},
-		{"algorithm_is_sorted_desc", vm_build_in<0x03>},
-		{"algorithm_find",           vm_build_in<0x04>},
-		{"algorithm_copy_front",     vm_build_in<0x05>},
-		{"algorithm_copy_back",      vm_build_in<0x06>},
-		{"algorithm_fill",           vm_build_in<0x07>},
-		{"algorithm_reverse",        vm_build_in<0x08>},
+		{"algorithm_sort_ascn",      vm_build_in<FxCode::SORT_ASCN>},
+		{"algorithm_sort_desc",      vm_build_in<FxCode::SORT_DESC>},
+		{"algorithm_is_sorted_ascn", vm_build_in<FxCode::IS_SORTED_ASCN>},
+		{"algorithm_is_sorted_desc", vm_build_in<FxCode::IS_SORTED_DESC>},
+		{"algorithm_find",           vm_build_in<FxCode::FIND>},
+		{"algorithm_copy_front",     vm_build_in<FxCode::COPY_FRONT>},
+		{"algorithm_copy_back",      vm_build_in<FxCode::COPY_BACK>},
+		{"algorithm_fill",           vm_build_in<FxCode::FILL>},
+		{"algorithm_reverse",        vm_build_in<FxCode::REVERSE>},
 
 		{"chrono_clock",             single_return<inst::newclock>},
 		{"chrono_to_seconds",        single_return<inst::cast_float>},
@@ -97,14 +98,14 @@ namespace ltn::c {
 		{"functional_invoke_1",      build_in::functional_invoke_1},
 		{"functional_invoke_2",      single_return<inst::invoke>},
 		{"functional_external",      single_return<inst::external>},
-		{"functional_arity",         vm_build_in<0x20>},
+		{"functional_arity",         vm_build_in<FxCode::ARITY>},
 
 		{"io_cout",                  single_return<inst::newout, 0x00>},
 		{"io_fout",                  single_return<inst::newout, 0x01>},
 		{"io_strout",                single_return<inst::newout, 0x02>},
-		{"io_reset_color",           vm_build_in<0x30>},
-		{"io_fg_color",              vm_build_in<0x31>},
-		{"io_bg_color",              vm_build_in<0x32>},
+		{"io_reset_color",           vm_build_in<FxCode::RESET_COLOR>},
+		{"io_fg_color",              vm_build_in<FxCode::SET_FG_COLOR>},
+		{"io_bg_color",              vm_build_in<FxCode::SET_BG_COLOR>},
 		{"io_print",                 single<inst::out>},
 		{"io_cin",                   single_return<inst::newin, 0x00>},
 		{"io_fin",                   single_return<inst::newin, 0x01>},
@@ -123,7 +124,7 @@ namespace ltn::c {
 		
 		{"math_min",                 single_return<inst::min>},
 		{"math_max",                 single_return<inst::max>},
-		{"math_clamp",               vm_build_in<0x50>},
+		{"math_clamp",               vm_build_in<FxCode::CLAMP>},
 		{"math_round",               single_return<inst::round>},
 		{"math_floor",               single_return<inst::floor>},
 		{"math_ceil",                single_return<inst::ceil>},
@@ -141,19 +142,19 @@ namespace ltn::c {
 
 		{"random_mersenne_0",        single_return<inst::newrng, 0x00>},
 		{"random_mersenne_1",        single_return<inst::newrng, 0x01>},
-		{"random_split",             vm_build_in<0x10>},
-		{"random_rand",              vm_build_in<0x11>},
-		{"random_rand_int",          vm_build_in<0x12>},
-		{"random_rand_float",        vm_build_in<0x13>},
+		{"random_split",             vm_build_in<FxCode::SPLIT>},
+		{"random_rand",              vm_build_in<FxCode::RAND>},
+		{"random_rand_int",          vm_build_in<FxCode::RAND_INT>},
+		{"random_rand_float",        vm_build_in<FxCode::RAND_FLOAT>},
 
 		{"type_clone",               single_return<inst::clone>},
 		{"type_typeid",              single_return<inst::type_id>},
 
-		{"to_string",                vm_build_in<0x40>},
-		{"parse_bool",               vm_build_in<0x41>},
-		{"parse_char",               vm_build_in<0x42>},
-		{"parse_int",                vm_build_in<0x43>},
-		{"parse_float",              vm_build_in<0x44>},
+		{"to_string",                vm_build_in<FxCode::TO_STRING>},
+		// {"parse_bool",               vm_build_in<0x41>},
+		// {"parse_char",               vm_build_in<0x42>},
+		// {"parse_int",                vm_build_in<0x43>},
+		// {"parse_float",              vm_build_in<0x44>},
 	};
 	
 	std::span<const inst::Inst> resolve_build_in(const std::string_view & key) {

@@ -1,4 +1,5 @@
 #include "instructions.hxx"
+#include "ltn/fxcodes.hxx"
 #include "ltnvm/build_in/algorithm.hxx"
 #include "ltnvm/build_in/random.hxx"
 #include "ltnvm/build_in/functional.hxx"
@@ -8,48 +9,62 @@
 
 namespace ltn::vm::inst {
 	static constexpr auto make_build_in_table() {
-		std::array<Value(*)(VmCore &), 256> table;
+		struct TableWrapper{
+			using Fx = Value(*)(VmCore&);
+			constexpr TableWrapper() {
+				std::fill(std::begin(array), std::end(array), [] (auto &) -> Value {
+					std::stringstream ss;
+					ss << "Illegal Build In Function";
+					throw std::runtime_error{ss.str()};
+				});
+			}
+			std::array<Fx, 256> array;
+
+			constexpr Fx & operator[](FxCode op_code) {
+				return array[static_cast<std::size_t>(op_code)];
+			}
+
+			constexpr Fx & operator[](std::size_t op_code) {
+				return array[static_cast<std::size_t>(op_code)];
+			}
+		} table;
 		
-		std::fill(std::begin(table), std::end(table), [] (auto &) -> Value {
-			std::stringstream ss;
-			ss << "Illegal Build In Function";
-			throw std::runtime_error{ss.str()};
-		});
+
 
 		// algorithm
-		table[0x00] = build_in::sort_ascn;
-		table[0x01] = build_in::sort_desc;
-		table[0x02] = build_in::is_sorted_ascn;
-		table[0x03] = build_in::is_sorted_desc;
-		table[0x04] = build_in::find;
-		table[0x05] = build_in::copy_front;
-		table[0x06] = build_in::copy_back;
-		table[0x07] = build_in::fill;
-		table[0x08] = build_in::reverse;
+		table[FxCode::SORT_ASCN]      = build_in::sort_ascn;
+		table[FxCode::SORT_DESC]      = build_in::sort_desc;
+		table[FxCode::IS_SORTED_ASCN] = build_in::is_sorted_ascn;
+		table[FxCode::IS_SORTED_DESC] = build_in::is_sorted_desc;
+		table[FxCode::FIND]           = build_in::find;
+		table[FxCode::COPY_FRONT]     = build_in::copy_front;
+		table[FxCode::COPY_BACK]      = build_in::copy_back;
+		table[FxCode::FILL]           = build_in::fill;
+		table[FxCode::REVERSE]        = build_in::reverse;
 		
 		// random
-		table[0x10] = build_in::split;
-		table[0x11] = build_in::rand;
-		table[0x12] = build_in::rand_int;
-		table[0x13] = build_in::rand_float;
+		table[FxCode::SPLIT] = build_in::split;
+		table[FxCode::RAND] = build_in::rand;
+		table[FxCode::RAND_INT] = build_in::rand_int;
+		table[FxCode::RAND_FLOAT] = build_in::rand_float;
 
 		//functional
-		table[0x20] = build_in::arity;
+		table[FxCode::ARITY] = build_in::arity;
 
 		//io
-		table[0x30] = build_in::reset_color;
-		table[0x31] = build_in::set_fg_color;
-		table[0x32] = build_in::set_bg_color;
+		table[FxCode::RESET_COLOR] = build_in::reset_color;
+		table[FxCode::SET_FG_COLOR] = build_in::set_fg_color;
+		table[FxCode::SET_BG_COLOR] = build_in::set_bg_color;
 
-		table[0x40] = build_in::to_string;
+		table[FxCode::TO_STRING] = build_in::to_string;
 
 		// Math
-		table[0x50] = build_in::clamp;
+		table[FxCode::CLAMP] = build_in::clamp;
 		
 		return table;
 	}
 
-	static const auto build_in_table = make_build_in_table();
+	static constexpr auto build_in_table = make_build_in_table().array;
 
 	void build_in(VmCore & core) {
 		const auto byte0 = static_cast<std::uint32_t>(core.fetch_byte());
