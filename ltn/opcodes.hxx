@@ -17,6 +17,7 @@ namespace ltn {
 		MLT,
 		DIV,
 		MOD,
+		POW,
 
 
 		// Comparisons
@@ -114,7 +115,6 @@ namespace ltn {
 		SQRT,
 		LOG,
 		LN,
-		POW,
 		SIN,
 		COS,
 		TAN, 

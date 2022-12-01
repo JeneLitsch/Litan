@@ -50,6 +50,7 @@ namespace ltn::vm {
 		table[OpCode::MLT] = inst::mlt;
 		table[OpCode::DIV] = inst::div;
 		table[OpCode::MOD] = inst::mod;
+		table[OpCode::POW] = inst::pow;
 
 		table[OpCode::EQL] = inst::eql;
 		table[OpCode::UEQL] = inst::ueql;
@@ -133,7 +134,6 @@ namespace ltn::vm {
 		table[OpCode::SQRT] = inst::sqrt;
 		table[OpCode::LOG] = inst::log;
 		table[OpCode::LN] = inst::ln;
-		table[OpCode::POW] = inst::pow;
 		table[OpCode::SIN] = inst::sin;
 		table[OpCode::COS] = inst::cos;
 		table[OpCode::TAN] = inst::tan;
