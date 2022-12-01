@@ -43,13 +43,13 @@ files=(
 	"test/op_elvis.ltn"
 	"test/op_nullco.ltn"
 
-	"test/std_arity.ltn"
-	"test/std_empty.ltn"
-	"test/std_size.ltn"
-	"test/std_bits_get.ltn"
-	"test/std_bits_set.ltn"
-	"test/std_is_type.ltn"
-	"test/std_clamp.ltn"
+	"test/std/arity.ltn"
+	"test/std/empty.ltn"
+	"test/std/size.ltn"
+	"test/std/bits_get.ltn"
+	"test/std/bits_set.ltn"
+	"test/std/is_type.ltn"
+	"test/std/clamp.ltn"
 )
 
 bin_file="tmp/bin"
