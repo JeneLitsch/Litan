@@ -5,7 +5,7 @@
 #include <sstream>
 #include "ltn/unique.hxx"
 #include "Declaration.hxx"
-#include "../Namespace.hxx"
+#include "Namespace.hxx"
 #include "ltnc/type/Type.hxx"
 
 namespace ltn::c::ast {

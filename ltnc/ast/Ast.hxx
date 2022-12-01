@@ -1,7 +1,7 @@
 #pragma once
-#include "decl/Function.hxx"
-#include "stmt/Statement.hxx"
-#include "expr/Expression.hxx"
+#include "Function.hxx"
+#include "Statement.hxx"
+#include "Expression.hxx"
 
 namespace ltn::c::ast {
 	using expr_ptr = std::unique_ptr<Expression>;

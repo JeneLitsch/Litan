@@ -2,8 +2,8 @@
 #include <vector>
 #include <bitset>
 #include "ltn/casts.hxx"
-#include "../Node.hxx"
-#include "../Namespace.hxx"
+#include "Node.hxx"
+#include "Namespace.hxx"
 
 
 namespace ltn::c::ast {

@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
-#include "../Node.hxx"
-#include "../utils/Switch.hxx"
+#include "Node.hxx"
+#include "Switch.hxx"
 #include "ltnc/type/Type.hxx"
 #include "ltn/casts.hxx"
 
