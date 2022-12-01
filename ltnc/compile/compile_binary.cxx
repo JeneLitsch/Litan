@@ -5,9 +5,6 @@
 
 namespace ltn::c {
 	namespace {
-		using OP = ltn::c::ast::Binary::Type;
-
-
 		struct BinOp {
 			stx::fx_ptr<type::Type(const type::Type &, const type::Type &)> deduce;
 			inst::Inst for_any;
@@ -317,6 +314,7 @@ namespace ltn::c {
 
 	// compiles a binary operation
 	ExprResult compile_expr(const ast::Binary & binary, CompilerInfo & info, Scope & scope) {
+		using OP = ltn::c::ast::Binary::Type;
 		const auto l = compile_expression(*binary.l, info, scope);
 		const auto r = compile_expression(*binary.r, info, scope);
 		switch (binary.type) {
