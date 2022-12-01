@@ -1,0 +1,7 @@
+namespace sphinx::test {
+	function std_sin() {
+		assert_equal_strict(std::sin(false), 0.0);
+		assert_equal_strict(std::sin(0), 0.0);
+		assert_equal_strict(std::sin(0.0), 0.0);
+	}
+}

@@ -124,14 +124,10 @@ namespace ltn::vm {
 		table[OpCode::IS_EOF] = inst::is_eof;
 		table[OpCode::IS_GOOD] = inst::is_good;
 
-		table[OpCode::ABS] = inst::abs;
 		table[OpCode::HYPOT] = inst::hypot;
 		table[OpCode::SQRT] = inst::sqrt;
 		table[OpCode::LOG] = inst::log;
 		table[OpCode::LN] = inst::ln;
-		table[OpCode::SIN] = inst::sin;
-		table[OpCode::COS] = inst::cos;
-		table[OpCode::TAN] = inst::tan;
 
 		table[OpCode::BITAND] = inst::bit_and;
 		table[OpCode::BITOR] = inst::bit_or;

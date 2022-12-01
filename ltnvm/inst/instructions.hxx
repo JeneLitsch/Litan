@@ -94,16 +94,11 @@ namespace ltn::vm::inst {
 	void is_eof(VmCore & core);
 	void is_good(VmCore & core);
 
-	void abs(VmCore & core);
 	void hypot(VmCore & core);
 	void sqrt(VmCore & core);
 	void log(VmCore & core);
 	void ln(VmCore & core);
 	void pow(VmCore & core);
-	
-	void sin(VmCore & core);
-	void cos(VmCore & core);
-	void tan(VmCore & core);
 
 	void bit_or(VmCore & core);
 	void bit_and(VmCore & core);

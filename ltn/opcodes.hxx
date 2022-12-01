@@ -105,14 +105,10 @@ namespace ltn {
 		IS_GOOD,
 
 		// Math
-		ABS = 0x80,
-		HYPOT,
+		HYPOT = 0x80,
 		SQRT,
 		LOG,
 		LN,
-		SIN,
-		COS,
-		TAN, 
 
 		// Bitwise
 		BITAND = 0x90,

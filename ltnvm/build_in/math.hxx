@@ -9,4 +9,10 @@ namespace ltn::vm::build_in {
 	Value round(VmCore & core);
 	Value floor(VmCore & core);
 	Value ceil(VmCore & core);
+
+	Value abs(VmCore & core);
+
+	Value sin(VmCore & core);
+	Value cos(VmCore & core);
+	Value tan(VmCore & core);
 }

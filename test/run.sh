@@ -55,6 +55,10 @@ files=(
 	"test/std/round.ltn"
 	"test/std/floor.ltn"
 	"test/std/ceil.ltn"
+	"test/std/abs.ltn"
+	"test/std/sin.ltn"
+	"test/std/cos.ltn"
+	"test/std/tan.ltn"
 )
 
 bin_file="tmp/bin"

@@ -1,0 +1,7 @@
+namespace sphinx::test {
+	function std_cos() {
+		assert_equal_strict(std::cos(false), 1.0);
+		assert_equal_strict(std::cos(0), 1.0);
+		assert_equal_strict(std::cos(0.0), 1.0);
+	}
+}

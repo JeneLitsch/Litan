@@ -208,14 +208,10 @@ namespace ltn::c::inst {
 	Inst is_eof();
 	Inst is_good();
 
-	Inst abs();
 	Inst hypot();
 	Inst sqrt();
 	Inst log();
 	Inst ln();
-	Inst sin();
-	Inst cos();
-	Inst tan();
 
 	Inst bit_and();
 	Inst bit_or();

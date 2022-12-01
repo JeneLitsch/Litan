@@ -510,12 +510,6 @@ namespace ltn::c::inst {
 			.opcode = OpCode::IS_GOOD,
 		};
 	}
-	Inst abs() {
-		return InstNone {
-			.name = "abs",
-			.opcode = OpCode::ABS,
-		};
-	}
 	Inst hypot() {
 		return InstNone {
 			.name = "hypot",
@@ -544,24 +538,6 @@ namespace ltn::c::inst {
 		return InstNone {
 			.name = "pow",
 			.opcode = OpCode::POW,
-		};
-	}
-	Inst sin() {
-		return InstNone {
-			.name = "sin",
-			.opcode = OpCode::SIN,
-		};
-	}
-	Inst cos() {
-		return InstNone {
-			.name = "cos",
-			.opcode = OpCode::COS,
-		};
-	}
-	Inst tan() {
-		return InstNone {
-			.name = "tan",
-			.opcode = OpCode::TAN,
 		};
 	}
 	Inst bit_and() {

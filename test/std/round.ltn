@@ -1,5 +1,7 @@
 namespace sphinx::test {
 	function std_round() {
+		assert_equal_strict(std::round(true), 1);
+		assert_equal_strict(std::round('A'), 65);
 		assert_equal_strict(std::round(3), 3);
 		assert_equal_strict(std::round(4.1), 4);
 		assert_equal_strict(std::round(4.8), 5);

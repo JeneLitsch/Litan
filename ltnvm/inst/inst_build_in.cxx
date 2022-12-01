@@ -28,15 +28,15 @@ namespace ltn::vm::inst {
 
 
 		// algorithm
-		table[FxCode::SORT_ASCN]      = build_in::sort_ascn;
-		table[FxCode::SORT_DESC]      = build_in::sort_desc;
+		table[FxCode::SORT_ASCN] = build_in::sort_ascn;
+		table[FxCode::SORT_DESC] = build_in::sort_desc;
 		table[FxCode::IS_SORTED_ASCN] = build_in::is_sorted_ascn;
 		table[FxCode::IS_SORTED_DESC] = build_in::is_sorted_desc;
-		table[FxCode::FIND]           = build_in::find;
-		table[FxCode::COPY_FRONT]     = build_in::copy_front;
-		table[FxCode::COPY_BACK]      = build_in::copy_back;
-		table[FxCode::FILL]           = build_in::fill;
-		table[FxCode::REVERSE]        = build_in::reverse;
+		table[FxCode::FIND] = build_in::find;
+		table[FxCode::COPY_FRONT] = build_in::copy_front;
+		table[FxCode::COPY_BACK] = build_in::copy_back;
+		table[FxCode::FILL] = build_in::fill;
+		table[FxCode::REVERSE] = build_in::reverse;
 		
 		// random
 		table[FxCode::SPLIT] = build_in::split;
@@ -61,6 +61,10 @@ namespace ltn::vm::inst {
 		table[FxCode::ROUND] = build_in::round;
 		table[FxCode::FLOOR] = build_in::floor;
 		table[FxCode::CEIL] = build_in::ceil;
+		table[FxCode::ABS] = build_in::abs;
+		table[FxCode::SIN] = build_in::sin;
+		table[FxCode::COS] = build_in::cos;
+		table[FxCode::TAN] = build_in::tan;
 		
 		return table.array;
 	}

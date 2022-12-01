@@ -1,0 +1,7 @@
+namespace sphinx::test {
+	function std_tan() {
+		assert_equal_strict(std::tan(false), 0.0);
+		assert_equal_strict(std::tan(0), 0.0);
+		assert_equal_strict(std::tan(0.0), 0.0);
+	}
+}

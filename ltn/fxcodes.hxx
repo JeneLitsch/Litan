@@ -36,5 +36,9 @@ namespace ltn {
 		ROUND,
 		FLOOR,
 		CEIL,
+		ABS,
+		SIN,
+		COS,
+		TAN,
 	};
 }

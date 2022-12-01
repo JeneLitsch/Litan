@@ -1,5 +1,7 @@
 namespace sphinx::test {
 	function std_ceil() {
+		assert_equal_strict(std::ceil(true), 1);
+		assert_equal_strict(std::ceil('A'), 65);
 		assert_equal_strict(std::ceil(3), 3);
 		assert_equal_strict(std::ceil(4.1), 5);
 		assert_equal_strict(std::ceil(4.8), 5);

@@ -1,5 +1,7 @@
 namespace sphinx::test {
 	function std_floor() {
+		assert_equal_strict(std::floor(true), 1);
+		assert_equal_strict(std::floor('A'), 65);
 		assert_equal_strict(std::floor(3), 3);
 		assert_equal_strict(std::floor(4.1), 4);
 		assert_equal_strict(std::floor(4.8), 4);

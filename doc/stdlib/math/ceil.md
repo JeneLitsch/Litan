@@ -8,4 +8,4 @@
 Integral value
 
 **Descriptions:**  
-Rounds numeric value to closest larger integer.
+Rounds numeric value to closest greater integer.

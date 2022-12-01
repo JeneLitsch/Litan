@@ -11,41 +11,6 @@ namespace ltn::vm::inst {
 		const auto l = core.reg.pop();
 
 
-	bool less(const Value & l, const Value & r) {
-		return convert::to_float(l) <= convert::to_float(r);
-	}
-
-
-
-
-
-	template<class Fx>
-	Value function(const Value & value) {
-		constexpr Fx fx{};
-		if(is_float(value)) {
-			return Value{fx(value.f)};
-		}
-		if(is_int(value)) {
-			return Value{fx(value.i)};
-		}
-		if(is_bool(value)) {
-			return Value{fx(value.b)};
-		}
-		if(is_char(value)) {
-			return Value{fx(value.c)};
-		}
-		throw except::invalid_argument();
-	}
-
-
-
-
-
-
-	void abs(VmCore & core) {
-		core.reg.push(function<Absolute>(core.reg.pop()));
-	}
-
 
 	void hypot(VmCore & core) {
 		FETCH
@@ -79,19 +44,7 @@ namespace ltn::vm::inst {
 
 	
 
-	void sin(VmCore & core) {
-		core.reg.push(function<Sinus>(core.reg.pop()));
-	}
 
-
-	void cos(VmCore & core) {
-		core.reg.push(function<Cosinus>(core.reg.pop()));
-	}
-
-
-	void tan(VmCore & core) {
-		core.reg.push(function<Tangents>(core.reg.pop()));
-	}
 	
 
 	#undef FETCH
