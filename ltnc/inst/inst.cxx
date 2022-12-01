@@ -510,18 +510,6 @@ namespace ltn::c::inst {
 			.opcode = OpCode::IS_GOOD,
 		};
 	}
-	Inst min() {
-		return InstNone {
-			.name = "min",
-			.opcode = OpCode::MIN,
-		};
-	}
-	Inst max() {
-		return InstNone {
-			.name = "max",
-			.opcode = OpCode::MAX,
-		};
-	}
 	Inst round() {
 		return InstNone {
 			.name = "round",

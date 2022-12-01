@@ -49,6 +49,8 @@ files=(
 	"test/std/bits_get.ltn"
 	"test/std/bits_set.ltn"
 	"test/std/is_type.ltn"
+	"test/std/min.ltn"
+	"test/std/max.ltn"
 	"test/std/clamp.ltn"
 )
 

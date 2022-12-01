@@ -1,0 +1,26 @@
+namespace sphinx::test {
+	function std_min_bool() {
+		assert_equal_strict(std::min(true, false), false);
+		assert_equal_strict(std::min(false, true), false);
+	}
+
+
+	function std_min_char() {
+		assert_equal_strict(std::min('A', 'X'), 'A');
+		assert_equal_strict(std::min('X', 'A'), 'A');
+	}
+
+
+
+	function std_min_int() {
+		assert_equal_strict(std::min(-10, 10), -10);
+		assert_equal_strict(std::min(10, -10), -10);
+	}
+
+
+
+	function std_min_float() {
+		assert_equal_strict(std::min(-10.0, 10.0), -10.0);
+		assert_equal_strict(std::min(10.0, -10.0), -10.0);
+	}
+}

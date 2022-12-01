@@ -105,9 +105,7 @@ namespace ltn {
 		IS_GOOD,
 
 		// Math
-		MIN = 0x80,
-		MAX,
-		ROUND,
+		ROUND = 0x80,
 		FLOOR,
 		CEIL,
 		ABS,

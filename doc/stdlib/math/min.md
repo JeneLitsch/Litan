@@ -1,4 +1,5 @@
 # std::min
+
 ## std::min(a, b)
 
 **Parameters:**  

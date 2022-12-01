@@ -48,19 +48,6 @@ namespace ltn::vm::inst {
 	}
 
 
-	void min(VmCore & core) {
-		FETCH
-		const auto less = compare(l, r, core.heap) < 0;
-		core.reg.push(less ? l : r);
-	}
-
-
-	void max(VmCore & core) {
-		FETCH
-		const auto more = compare(l, r, core.heap) > 0;
-		core.reg.push(more ? l : r);
-	}
-
 
 	void round(VmCore & core) {
 		core.reg.push(rounding<Round>(core.reg.pop()));

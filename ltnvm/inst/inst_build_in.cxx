@@ -23,10 +23,6 @@ namespace ltn::vm::inst {
 			constexpr Fx & operator[](FxCode op_code) {
 				return array[static_cast<std::size_t>(op_code)];
 			}
-
-			constexpr Fx & operator[](std::size_t op_code) {
-				return array[static_cast<std::size_t>(op_code)];
-			}
 		} table;
 		
 
@@ -59,12 +55,14 @@ namespace ltn::vm::inst {
 		table[FxCode::TO_STRING] = build_in::to_string;
 
 		// Math
+		table[FxCode::MIN] = build_in::min;
+		table[FxCode::MAX] = build_in::max;
 		table[FxCode::CLAMP] = build_in::clamp;
 		
-		return table;
+		return table.array;
 	}
 
-	static constexpr auto build_in_table = make_build_in_table().array;
+	static const auto build_in_table = make_build_in_table();
 
 	void build_in(VmCore & core) {
 		const auto byte0 = static_cast<std::uint32_t>(core.fetch_byte());

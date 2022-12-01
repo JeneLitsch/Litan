@@ -1,6 +1,7 @@
 # std::max
 
 ## std::max(a, b)
+
 **Parameters:**  
 - a: Any value
 - b: Any value

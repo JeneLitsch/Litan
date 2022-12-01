@@ -1,0 +1,27 @@
+namespace sphinx::test {
+	function std_max_bool() {
+		assert_equal_strict(std::max(true, false), true);
+		assert_equal_strict(std::max(false, true), true);
+	}
+
+
+
+	function std_max_char() {
+		assert_equal_strict(std::max('A', 'X'), 'X');
+		assert_equal_strict(std::max('X', 'A'), 'X');
+	}
+
+
+
+	function std_max_int() {
+		assert_equal_strict(std::max(-10, 10), 10);
+		assert_equal_strict(std::max(10, -10), 10);
+	}
+
+
+
+	function std_max_float() {
+		assert_equal_strict(std::max(-10.0, 10.0), 10.0);
+		assert_equal_strict(std::max(10.0, -10.0), 10.0);
+	}
+}

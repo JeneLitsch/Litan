@@ -30,6 +30,8 @@ namespace ltn {
 		TO_STRING = 0x40,
 
 		// Math
-		CLAMP = 0x50,
+		MIN = 0x50,
+		MAX,
+		CLAMP,
 	};
 }

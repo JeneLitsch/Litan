@@ -207,8 +207,6 @@ namespace ltn::c::inst {
 	Inst is_eof();
 	Inst is_good();
 
-	Inst min();
-	Inst max();
 	Inst round();
 	Inst floor();
 	Inst ceil();

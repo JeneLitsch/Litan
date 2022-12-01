@@ -71,8 +71,7 @@ namespace std {
 
 
 
-	build_in pow(b, e) const
-		@ math_pow
+	function pow(b, e) const => b**e
 
 
 

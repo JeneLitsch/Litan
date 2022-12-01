@@ -124,8 +124,6 @@ namespace ltn::vm {
 		table[OpCode::IS_EOF] = inst::is_eof;
 		table[OpCode::IS_GOOD] = inst::is_good;
 
-		table[OpCode::MIN] = inst::min;
-		table[OpCode::MAX] = inst::max;
 		table[OpCode::ROUND] = inst::round;
 		table[OpCode::FLOOR] = inst::floor;
 		table[OpCode::CEIL] = inst::ceil;

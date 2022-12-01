@@ -122,8 +122,8 @@ namespace ltn::c {
 		{"io_is_good",               single_return<inst::is_good>},
 		{"io_close",                 single_return<inst::close_stream>},
 		
-		{"math_min",                 single_return<inst::min>},
-		{"math_max",                 single_return<inst::max>},
+		{"math_min",                 vm_build_in<FxCode::MIN>},
+		{"math_max",                 vm_build_in<FxCode::MAX>},
 		{"math_clamp",               vm_build_in<FxCode::CLAMP>},
 		{"math_round",               single_return<inst::round>},
 		{"math_floor",               single_return<inst::floor>},
