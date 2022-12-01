@@ -44,7 +44,7 @@ namespace std {
 
 
 
-	function typename(x) => choose(std::typeid(x)) {
+	function typename(x) const -> string => choose(std::typeid(x)) {
 		case std::type::nul       => "null"
 		case std::type::bool      => "bool"
 		case std::type::char      => "char"
@@ -68,38 +68,38 @@ namespace std {
 
 
 
-	function null_v() const => null
+	function null_v() const -> null => null
 
 
 
-	function is_type(value, type) const
+	function is_type(value, type) const -> bool
 		=> typeid(value) == type
 
 
 
-	function is_null(value) const
+	function is_null(value) const -> bool
 		=> is_type(value, type::nul)
 
 
 
-	function is_bool(value) const
+	function is_bool(value) const -> bool
 		=> is_type(value, type::bool)
 
-	function is_char(value) const
+	function is_char(value) const -> bool
 		=> is_type(value, type::char)
 
-	function is_int(value) const
+	function is_int(value) const -> bool
 		=> is_type(value, type::int)
 
-	function is_float(value) const
+	function is_float(value) const -> bool
 		=> is_type(value, type::float)
 
-	function is_integral(value) const
+	function is_integral(value) const -> bool
 		=> is_bool(value)
 		|| is_char(value)
 		|| is_int(value)
 
-	function is_numeric(value) const
+	function is_numeric(value) const -> bool
 		=> is_integral(value)
 		|| is_float(value)
 
@@ -107,57 +107,57 @@ namespace std {
 
 
 
-	function is_array(value) const
+	function is_array(value) const -> bool
 		=> is_type(value, type::array)
 	
-	function is_string(value) const
+	function is_string(value) const -> bool
 		=> is_type(value, type::string)
 
 
 
-	function is_istream(value) const 
+	function is_istream(value) const -> bool
 		=> is_type(value, type::istream)
 	
-	function is_ostream(value) const
+	function is_ostream(value) const -> bool
 		=> is_type(value, type::ostream)
 
 	
 	
-	function is_fxptr(value) const
+	function is_fxptr(value) const -> bool
 		=> is_type(value, type::fxptr)
 	
-	function is_external(value) const 
+	function is_external(value) const-> bool
 		=> is_type(value, type::external)
 	
-	function is_functional(value) const 
+	function is_functional(value) const -> bool
 		=> is_fxptr(value) 
 		|| is_external(value)
 	
 	
 	
-	function is_clock(value) const
+	function is_clock(value) const -> bool
 		=> is_type(value, type::clock)
 	
-	function is_struct(value) const
+	function is_struct(value) const -> bool
 		=> is_type(value, type::struct)
 	
-	function is_range(value) const
+	function is_range(value) const -> bool
 		=> is_type(value, type::range)
 
 
 
-	function is_queue(value) const
+	function is_queue(value) const -> bool
 		=> is_type(value, type::queue)
 
-	function is_stack(value) const
+	function is_stack(value) const -> bool
 		=> is_type(value, type::stack)
 
-	function is_map(value) const
+	function is_map(value) const -> bool
 		=> is_type(value, type::map)
 
 
 
-	function is_rng(value) const
+	function is_rng(value) const -> bool
 		=> is_type(value, type::rng)
 }
 )###";
