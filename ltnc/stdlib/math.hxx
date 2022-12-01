@@ -16,17 +16,17 @@ namespace std {
 
 
 
-	build_in round(a) const
+	build_in round(a:float) const -> int
 		@ math_round
 
 
 
-	build_in floor(b) const
+	build_in floor(b:float) const -> int
 		@ math_floor
 
 
 
-	build_in ceil(b) const
+	build_in ceil(b:float) const -> int
 		@ math_ceil
 
 
@@ -36,37 +36,37 @@ namespace std {
 
 
 
-	build_in hypot(a, b) const
+	build_in hypot(a:float, b:float) const -> float
 		@ math_hypot
 
 
 
-	build_in sqrt(a) const
+	build_in sqrt(a:float) const -> float
 		@ math_sqrt
 
 
 
-	function cbrt(a) const 
+	function cbrt(a:float) const -> float 
 		=> a ** (1.0/3.0) 
 	
 
 
-	build_in log(x, b) const
+	build_in log(x:float, b:float) const -> float
 		@ math_log
 
 
 
-	build_in ld(x) const
+	build_in ld(x:float) const -> float
 		@ math_ld
 
 
 
-	build_in lg(x) const
+	build_in lg(x:float) const -> float
 		@ math_lg
 
 
 
-	build_in ln(x) const
+	build_in ln(x:float) const -> float
 		@ math_ln
 
 
@@ -75,22 +75,22 @@ namespace std {
 
 
 
-	build_in sin(b) const
+	build_in sin(b:float) const -> float
 		@ math_sin
 
 
 
-	build_in cos(b) const
+	build_in cos(b:float) const -> float
 		@ math_cos
 
 
 
-	build_in tan(b) const
+	build_in tan(b:float) const -> float
 		@ math_tan
 
 
 
-	function lerp(a, b, t) const 
+	function lerp(a:float, b:float, t:float) const -> float 
 		=> a + t * (b-a)
 
 

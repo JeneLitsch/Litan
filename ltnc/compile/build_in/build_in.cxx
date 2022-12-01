@@ -30,12 +30,6 @@ namespace ltn::c {
 			inst::mlt(),
 			inst::retvrn(),
 		});
-
-		const auto functional_invoke_1 = std::to_array<inst::Inst>({
-			inst::newarr(0),
-			inst::invoke(),
-			inst::retvrn(),
-		});
 	}
 
 	const Table table{
@@ -83,7 +77,6 @@ namespace ltn::c {
 
 		{"debug_state",              single_return<inst::state>},
 
-		{"functional_invoke_1",      build_in::functional_invoke_1},
 		{"functional_invoke_2",      single_return<inst::invoke>},
 		{"functional_external",      single_return<inst::external>},
 		{"functional_arity",         vm_build_in<FxCode::ARITY>},

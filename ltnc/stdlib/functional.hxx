@@ -6,7 +6,6 @@ namespace std {
 	build_in external(id)         @ functional_external
 	
 	build_in invoke(fx, params)   @ functional_invoke_2
-	build_in invoke(fx)           @ functional_invoke_1
 	
 	function chain(f1, f2)
 		=> lambda [f1, f2] (x) 
