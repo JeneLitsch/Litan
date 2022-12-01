@@ -148,7 +148,6 @@ namespace ltn::c::inst {
 	Inst comp();
 	Inst between();
 
-	Inst newu(std::uint64_t u64);
 	Inst newi(std::int64_t i64);
 	Inst newf(stx::float64_t f64);
 	Inst newc(std::uint8_t f64);
@@ -179,12 +178,9 @@ namespace ltn::c::inst {
 	Inst external();
 	Inst capture();
 
-	Inst read();
-	Inst write();
 	Inst scrap();
 	Inst duplicate();
 	Inst makevar();
-
 	Inst read_x(std::uint64_t u64);
 	Inst write_x(std::uint64_t u64);
 	Inst swap();

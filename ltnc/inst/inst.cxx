@@ -175,13 +175,6 @@ namespace ltn::c::inst {
 
 
 
-	Inst newu(std::uint64_t u64) {
-		return InstUint64 {
-			.name = "newu",
-			.opcode = OpCode::NEWU,
-			.value = u64,
-		};
-	}
 	Inst newi(std::int64_t i64) {
 		return InstInt64 {
 			.name = "newi",
@@ -354,18 +347,6 @@ namespace ltn::c::inst {
 		return InstNone {
 			.name = "capture",
 			.opcode = OpCode::CAPTURE,
-		};
-	}
-	Inst read() {
-		return InstNone {
-			.name = "read",
-			.opcode = OpCode::READ,
-		};
-	}
-	Inst write() {
-		return InstNone {
-			.name = "write",
-			.opcode = OpCode::WRITE,
 		};
 	}
 	Inst scrap() {

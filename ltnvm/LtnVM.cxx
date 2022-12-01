@@ -66,12 +66,10 @@ namespace ltn::vm {
 		table[OpCode::DEC] = inst::dec;
 		table[OpCode::DEREF] = inst::deref;
 		table[OpCode::COMP] = inst::comp;
-		table[OpCode::APPROX] = inst::approx;
 		table[OpCode::BETWEEN] = inst::between;
 		
 		table[OpCode::NEWI] = inst::newi;
 		table[OpCode::NEWF] = inst::newf;
-		table[OpCode::NEWU] = inst::newu;
 		table[OpCode::NEWC] = inst::newc;
 		table[OpCode::TRUE] = inst::truE;
 		table[OpCode::FALSE] = inst::falsE;
@@ -98,8 +96,6 @@ namespace ltn::vm {
 		table[OpCode::NEWMAP] = inst::newmap;
 		table[OpCode::NEWRNG] = inst::newrng;
 
-		table[OpCode::READ] = inst::read;
-		table[OpCode::WRITE] = inst::write;
 		table[OpCode::SCRAP] = inst::scrap;
 		table[OpCode::DUPLICATE] = inst::duplicate;
 		table[OpCode::MAKEVAR] = inst::makevar;

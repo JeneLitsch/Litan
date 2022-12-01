@@ -34,7 +34,6 @@ namespace ltn::vm::inst {
 	void inc(VmCore & core);
 	void dec(VmCore & core);
 	void comp(VmCore & core);
-	void approx(VmCore & core);
 	void deref(VmCore & core);
 
 	void newi(VmCore & core);
@@ -67,8 +66,6 @@ namespace ltn::vm::inst {
 	void newmap(VmCore & core);
 	void newrng(VmCore & core);
 
-	void read(VmCore & core);
-	void write(VmCore & core);
 	void scrap(VmCore & core);
 	void duplicate(VmCore & core);
 	void makevar(VmCore & core);

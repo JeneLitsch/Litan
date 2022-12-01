@@ -39,13 +39,11 @@ namespace ltn {
 		DEREF,
 
 		COMP = 0x28,
-		APPROX,
 		BETWEEN,
 
 		// Primitives
 		NEWI = 0x30,
 		NEWF,
-		NEWU,
 		NEWC,
 		TRUE,
 		FALSE,
@@ -74,17 +72,15 @@ namespace ltn {
 		NEWMAP,
 		NEWRNG,
 
-		// Stack reading
-		READ = 0x60,
-		WRITE,
-		SCRAP,
+		// Stack read/write
+		SCRAP = 0x60,
 		DUPLICATE,
 		MAKEVAR,
 		READ_X,
 		WRITE_X,
 		SWAP,
 
-		// Fast stack reading
+		// Fast stack read/write
 		READ_0 = 0x68,
 		READ_1,
 		READ_2,

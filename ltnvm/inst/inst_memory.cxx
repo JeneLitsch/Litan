@@ -3,20 +3,6 @@
 #include "ltnvm/index.hxx"
 
 namespace ltn::vm::inst {
-	void read(VmCore & core) {
-		const auto addr = core.reg.pop();
-		const auto value = core.stack.read(addr.u);
-		core.reg.push(value);
-	}
-
-
-	void write(VmCore & core) {
-		const auto addr = core.reg.pop();
-		const auto value = core.reg.pop();
-		core.stack.write(addr.u, value);
-	}
-
-
 	void scrap(VmCore & core) {
 		core.reg.pop();
 	}

@@ -51,24 +51,6 @@ namespace ltn::vm::inst {
 		return core.reg.push(eval_3_way(result));
 	}
 
-	void approx(VmCore & core) {
-		static constexpr stx::float64_t max = std::numeric_limits<stx::float64_t>::max();
-		static constexpr stx::float64_t eps = std::numeric_limits<stx::float64_t>::epsilon();
-		FETCH
-		if(is_numeric(l) || is_numeric(r)) {
-			const stx::float64_t r_float = convert::to_float(r);
-			const stx::float64_t l_float = convert::to_float(l);
-			const stx::float64_t diff = std::abs(l_float - r_float);
-			const stx::float64_t norm = std::min((l_float + r_float), max);
-			const bool is_sameish = diff < (norm * eps);
-			return core.reg.push(value::boolean(is_sameish)); 
-		}
-		else {
-			const bool is_sameish = compare(l, r, core.heap) == 0;
-			return core.reg.push(value::boolean(is_sameish)); 
-		}
-	}
-
 	void between(VmCore & core) {
 		const auto to = core.reg.pop(); 
 		const auto from = core.reg.pop(); 
