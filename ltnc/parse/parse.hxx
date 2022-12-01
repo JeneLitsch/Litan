@@ -1,5 +1,6 @@
 #pragma once
 #include "stdxx/float64_t.hxx"
+#include "stdxx/memory.hxx"
 #include "ltnc/ast/Ast.hxx"
 #include "ltnc/tokens/Token.hxx"
 #include "ltnc/CompilerError.hxx"
@@ -78,7 +79,7 @@ namespace ltn::c {
 		auto l = presedence_down(tokens);
 		while (auto op = match_op(tokens, op_table::data)) {
 			auto && r = presedence_down(tokens);
-			auto expr = std::make_unique<ast::Binary>(
+			auto expr = stx::make_unique<ast::Binary>(
 				*op,
 				std::move(l),
 				std::move(r),

@@ -10,7 +10,7 @@ namespace ltn::c {
 		auto operator()(const Litr & litr) const {
 			auto result = eval(litr);
 			using Node = typename node<decltype(result)>::type;
-			return std::make_unique<Node>(result, litr.location);
+			return stx::make_unique<Node>(result, litr.location);
 		}
 
 		auto eval(const ast::literal_type auto & litr) const {
@@ -43,7 +43,7 @@ namespace ltn::c {
 		}
 
 		auto operator()(ast::literal_type auto & litr) const {
-			return std::make_unique<ast::Bool>(eval(litr), litr.location);
+			return stx::make_unique<ast::Bool>(eval(litr), litr.location);
 		}
 	};
 
@@ -59,7 +59,7 @@ namespace ltn::c {
 		}
 
 		auto operator()(ast::literal_type auto & litr) const {
-			return std::make_unique<ast::Bool>(eval(litr), litr.location);
+			return stx::make_unique<ast::Bool>(eval(litr), litr.location);
 		}
 	};
 }

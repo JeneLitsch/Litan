@@ -7,7 +7,7 @@ namespace ltn::c {
 		template<auto expr_fx>
 		ast::expr_ptr parse_nullco(Tokens & tokens, ast::expr_ptr l) {
 			auto else_expr = expr_fx(tokens);
-			return std::make_unique<ast::Binary>(
+			return stx::make_unique<ast::Binary>(
 				ast::Binary::Type::NULLCO,
 				std::move(l),
 				std::move(else_expr),
@@ -19,7 +19,7 @@ namespace ltn::c {
 		template<auto expr_fx>
 		ast::expr_ptr parse_elvis(Tokens & tokens, ast::expr_ptr l) {
 			auto else_expr = expr_fx(tokens);
-			return std::make_unique<ast::Binary>(
+			return stx::make_unique<ast::Binary>(
 				ast::Binary::Type::ELVIS,
 				std::move(l),
 				std::move(else_expr),
@@ -35,7 +35,7 @@ namespace ltn::c {
 				throw CompilerError{"Expected :", location(tokens)};
 			}
 			auto r = expr_fx(tokens);
-			return std::make_unique<ast::Ternary>(
+			return stx::make_unique<ast::Ternary>(
 				location(tokens),
 				std::move(l),
 				std::move(c),

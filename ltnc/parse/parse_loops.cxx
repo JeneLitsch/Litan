@@ -13,7 +13,7 @@ namespace ltn::c {
 		if(match(TT::WHILE, tokens)) {
 			auto expr = parse_condition(tokens);
 			auto body = parse_statement(tokens);
-			return std::make_unique<ast::While>(
+			return stx::make_unique<ast::While>(
 				std::move(expr),
 				std::move(body),
 				location(tokens)
@@ -31,7 +31,7 @@ namespace ltn::c {
 			}
 
 			auto var_name = parse_variable_name(tokens);
-			auto var = std::make_unique<ast::NewVar>(
+			auto var = stx::make_unique<ast::NewVar>(
 				var_name,
 				nullptr,
 				location(tokens)
@@ -60,7 +60,7 @@ namespace ltn::c {
 
 			auto body = parse_statement(tokens);
 
-			auto loop = std::make_unique<ast::For>(
+			auto loop = stx::make_unique<ast::For>(
 				std::move(var),
 				std::move(from),
 				std::move(to),

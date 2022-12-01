@@ -21,7 +21,7 @@ namespace ltn::c {
 				semicolon(tokens);
 			}
 			brace_r(tokens);
-			return std::make_unique<ast::Preset>(
+			return stx::make_unique<ast::Preset>(
 				start->location,
 				name,
 				namespaze,

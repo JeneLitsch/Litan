@@ -37,7 +37,7 @@ namespace ltn::c {
 				std::stringstream iss{token->str};
 				TempType value;
 				iss >> base >> value;
-				return std::make_unique<ast::Integer>(value, location(tokens)); 
+				return stx::make_unique<ast::Integer>(value, location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -61,7 +61,7 @@ namespace ltn::c {
 		ast::litr_ptr parse_character(Tokens & tokens) {
 			if(auto t = match(TT::CHAR, tokens)) {
 				const char chr = t->str.front();
-				return std::make_unique<ast::Char>(chr, location(tokens)); 
+				return stx::make_unique<ast::Char>(static_cast<std::uint8_t>(chr), location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -70,7 +70,7 @@ namespace ltn::c {
 
 		ast::litr_ptr parse_null(Tokens & tokens) {
 			if(auto t = match(TT::NVLL, tokens)) {
-				return std::make_unique<ast::Null>(location(tokens)); 
+				return stx::make_unique<ast::Null>(location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -82,7 +82,7 @@ namespace ltn::c {
 				std::istringstream iss{token->str};
 				stx::float64_t value;
 				iss >> value;
-				return std::make_unique<ast::Float>(value, location(tokens)); 
+				return stx::make_unique<ast::Float>(value, location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -91,10 +91,10 @@ namespace ltn::c {
 
 		ast::litr_ptr parse_boolean(Tokens & tokens) {
 			if(auto token = match(TT::TRUE, tokens)) {
-				return std::make_unique<ast::Bool>(true, location(tokens)); 
+				return stx::make_unique<ast::Bool>(true, location(tokens)); 
 			}
 			if(auto token = match(TT::FALSE, tokens)) {
-				return std::make_unique<ast::Bool>(false, location(tokens)); 
+				return stx::make_unique<ast::Bool>(false, location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -102,14 +102,14 @@ namespace ltn::c {
 
 
 		ast::litr_ptr parse_empty_array(Tokens & tokens) {
-			return std::make_unique<ast::Array>(location(tokens));
+			return stx::make_unique<ast::Array>(location(tokens));
 		}
 
 
 
 		template<auto element>
 		ast::litr_ptr parse_filled_array(Tokens & tokens) {
-			auto array = std::make_unique<ast::Array>(location(tokens));
+			auto array = stx::make_unique<ast::Array>(location(tokens));
 			while(true) {
 				if(match(TT::___EOF___, tokens)) {
 					throw expected("]", tokens);
@@ -145,7 +145,7 @@ namespace ltn::c {
 
 		ast::litr_ptr parse_string(Tokens & tokens) {
 			if(auto token = match(TT::STRING, tokens)) {
-				return std::make_unique<ast::String>(
+				return stx::make_unique<ast::String>(
 					token->str,
 					location(tokens)); 
 			}
@@ -173,7 +173,7 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_identifier(Tokens & tokens) {
 			const auto [name, namespaze] = parse_symbol(tokens);
-			return std::make_unique<ast::Var>(name, namespaze, location(tokens));
+			return stx::make_unique<ast::Var>(name, namespaze, location(tokens));
 		}
 
 
@@ -183,7 +183,7 @@ namespace ltn::c {
 				const auto [name, namespaze] = parse_symbol(tokens);
 				if(match(TT::PAREN_L, tokens)) {
 					const auto placeholders = parse_placeholder(tokens);
-					return std::make_unique<ast::FxPointer>(
+					return stx::make_unique<ast::FxPointer>(
 						name, namespaze, placeholders, location(tokens));
 				}
 				throw expected("(", tokens);
@@ -196,7 +196,7 @@ namespace ltn::c {
 			if(match(TT::IIFE, tokens)) {
 				auto return_type = parse_return_type(tokens);
 				auto body = parse_block(tokens);
-				return std::make_unique<ast::Iife>(
+				return stx::make_unique<ast::Iife>(
 					location(tokens),
 					std::move(body),
 					return_type
@@ -210,7 +210,7 @@ namespace ltn::c {
 		ast::expr_ptr parse_global(Tokens & tokens) {
 			if(auto t = match(TT::GLOBAL, tokens)) {
 				const auto [name, namespaze] = parse_symbol(tokens);
-				return std::make_unique<ast::GlobalVar>(
+				return stx::make_unique<ast::GlobalVar>(
 					t->location,
 					namespaze,
 					name
@@ -230,7 +230,7 @@ namespace ltn::c {
 				if(!match(TT::PAREN_R, tokens)) throw CompilerError {
 					"Expected ) after decltype", t->location
 				};
-				return std::make_unique<ast::DeclType>(std::move(expr), t->location);
+				return stx::make_unique<ast::DeclType>(std::move(expr), t->location);
 			}
 			return nullptr;
 		}

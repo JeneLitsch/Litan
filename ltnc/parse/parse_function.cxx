@@ -60,7 +60,7 @@ namespace ltn::c {
 				while(true) {
 					const auto name = parse_variable_name(tokens);
 					const auto & loc = location(tokens);
-					auto var = std::make_unique<ast::Var>(name, ast::Namespace{}, loc);
+					auto var = stx::make_unique<ast::Var>(name, ast::Namespace{}, loc);
 					captures.push_back(std::move(var));
 					if(match(TT::BRACKET_R, tokens)) break;
 					if(!match(TT::COMMA, tokens)) {
@@ -98,7 +98,7 @@ namespace ltn::c {
 				auto expr = parse_expression(tokens);
 				const auto & loc = location(tokens);
 				// match(TT::SEMICOLON, tokens);
-				return std::make_unique<ast::Return>(std::move(expr), loc);
+				return stx::make_unique<ast::Return>(std::move(expr), loc);
 			}
 			else {
 				return parse_statement(tokens);
@@ -116,7 +116,7 @@ namespace ltn::c {
 						location(tokens)};
 				}
 				auto body = parse_body(tokens);
-				return std::make_unique<ast::Except>(
+				return stx::make_unique<ast::Except>(
 					params[0].name,
 					std::move(body),
 					location(tokens));
@@ -162,7 +162,7 @@ namespace ltn::c {
 			}			
 			const auto return_type = parse_return_type(tokens);
 			auto body = parse_body(tokens);
-			auto fx = std::make_unique<FunctionalNode>(
+			auto fx = stx::make_unique<FunctionalNode>(
 				name,
 				namespaze,
 				parameters,
@@ -208,7 +208,7 @@ namespace ltn::c {
 			const auto parameters = parse_optional_parameters(tokens);
 			const auto return_type = parse_return_type(tokens);
 			auto body = parse_body(tokens); 
-			auto fx = std::make_unique<ast::Function>(
+			auto fx = stx::make_unique<ast::Function>(
 				"lambda" + std::to_string(*stx::unique{}), 
 				ast::Namespace{},
 				parameters,
@@ -216,7 +216,7 @@ namespace ltn::c {
 				return_type,
 				location(tokens));
 			fx->except = parse_except(tokens);
-			return std::make_unique<ast::Lambda>(
+			return stx::make_unique<ast::Lambda>(
 				std::move(fx),
 				std::move(captures),
 				location(tokens)); 

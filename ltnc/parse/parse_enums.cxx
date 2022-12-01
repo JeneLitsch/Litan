@@ -38,7 +38,7 @@ namespace ltn::c {
 	ast::enum_ptr parse_enumeration(Tokens & tokens, ast::Namespace namespaze) {
 		
 		const auto enum_name = parse_enum_name(tokens);
-		auto enumeration = std::make_unique<ast::Enumeration>(
+		auto enumeration = stx::make_unique<ast::Enumeration>(
 			location(tokens),
 			enum_name,
 			namespaze);
@@ -48,7 +48,7 @@ namespace ltn::c {
 		const auto values = parse_values(tokens);
 		for(const auto & [key, value] : values) {
 			const auto loc = location(tokens);
-			auto integer = std::make_unique<ast::Integer>(value, loc);
+			auto integer = stx::make_unique<ast::Integer>(value, loc);
 			enumeration->labels.push_back({
 				key,
 				std::move(integer)});

@@ -61,7 +61,7 @@ namespace ltn::c {
 			
 			const auto type = parse_var_type(tokens);
 
-			auto global = std::make_unique<ast::Global>(
+			auto global = stx::make_unique<ast::Global>(
 				name->location,
 				name->str,
 				namespaze,
@@ -98,7 +98,7 @@ namespace ltn::c {
 
 
 	ast::srce_ptr parse_source(Tokens & tokens, Reporter & reporter) {
-		auto source = std::make_unique<ast::Source>();
+		auto source = stx::make_unique<ast::Source>();
 		const ast::Namespace namespaze;
 
 		stx::accu_stack<ast::Namespace> namestack;

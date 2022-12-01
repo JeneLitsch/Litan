@@ -7,7 +7,7 @@ namespace ltn::c {
 
 		std::vector<ast::defn_ptr> defintions;
 		for(auto & [name, value] : e->labels) {
-			auto defintion = std::make_unique<ast::Definition>(
+			auto defintion = stx::make_unique<ast::Definition>(
 				value->location,
 				name,
 				namespaze,

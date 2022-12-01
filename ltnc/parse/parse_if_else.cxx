@@ -16,7 +16,7 @@ namespace ltn::c {
 			}
 			return parse_statement(tokens);
 		}
-		return std::make_unique<ast::DoNothing>(location(tokens));
+		return stx::make_unique<ast::DoNothing>(location(tokens));
 	}
 
 
@@ -27,7 +27,7 @@ namespace ltn::c {
 			auto expr = parse_condition(tokens); 
 			auto ifBody = parse_statement(tokens); 
 			auto elseBody = parse_else_branch(tokens); 
-			return std::make_unique<ast::IfElse>(
+			return stx::make_unique<ast::IfElse>(
 				std::move(expr),
 				std::move(ifBody),
 				std::move(elseBody),

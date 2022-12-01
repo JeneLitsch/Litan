@@ -19,7 +19,7 @@ namespace ltn::c {
 			}
 			statements.push_back(parse_statement(tokens));
 		}
-		return std::make_unique<ast::Block>(
+		return stx::make_unique<ast::Block>(
 			std::move(statements),
 			location(tokens));
 	}

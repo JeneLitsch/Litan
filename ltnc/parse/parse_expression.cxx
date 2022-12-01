@@ -8,7 +8,7 @@ namespace ltn::c {
 		auto expr = parse_expression_no_cast(tokens);
 		if(auto colon = match(TT::COLON, tokens)) {
 			auto type = parse_type(tokens);
-			return std::make_unique<ast::TypedUnary>(
+			return stx::make_unique<ast::TypedUnary>(
 				ast::TypedUnary::Op::STATIC_CAST,
 				type,
 				std::move(expr),
@@ -17,7 +17,7 @@ namespace ltn::c {
 		}
 		if(auto tilde = match(TT::TILDE, tokens)) {
 			auto type = parse_type(tokens);
-			return std::make_unique<ast::TypedUnary>(
+			return stx::make_unique<ast::TypedUnary>(
 				ast::TypedUnary::Op::DYNAMIC_CAST,
 				type,
 				std::move(expr),

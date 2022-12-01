@@ -2,7 +2,7 @@
 
 namespace ltn::c {
 	ast::prog_ptr unfold_source(ast::srce_ptr source) {
-		auto t_unit = std::make_unique<ast::Program>();
+		auto t_unit = stx::make_unique<ast::Program>();
 
 		t_unit->functions = std::move(source->functions);
 		t_unit->definitions = std::move(source->definitions);

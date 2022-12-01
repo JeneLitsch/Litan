@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include <memory>
+#include "stdxx/memory.hxx"
 
 namespace ltn::c::ast {
 	struct Expression;

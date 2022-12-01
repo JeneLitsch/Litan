@@ -27,7 +27,7 @@ namespace ltn::c {
 		if(match(TT::DEFINE, tokens)) {
 			const auto name = parse_name(tokens);
 			const auto type = parse_var_type(tokens);
-			auto definition = std::make_unique<ast::Definition>(
+			auto definition = stx::make_unique<ast::Definition>(
 				location(tokens),
 				name,
 				namespaze,

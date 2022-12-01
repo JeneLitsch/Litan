@@ -67,7 +67,7 @@ namespace ltn::c {
 			static constexpr auto index_fx = parse_index<expression_fx>;
 			
 			if(auto index = index_fx(tokens)) {
-				auto full = std::make_unique<ast::Index>(
+				auto full = stx::make_unique<ast::Index>(
 					std::move(l),
 					std::move(index),
 					index->location);
@@ -76,7 +76,7 @@ namespace ltn::c {
 
 			auto name = parse_member(tokens);
 			if(name) {
-				auto access = std::make_unique<ast::Member>(
+				auto access = stx::make_unique<ast::Member>(
 					std::move(l),
 					*name,
 					location(tokens));
@@ -85,7 +85,7 @@ namespace ltn::c {
 
 			if(match(TT::PAREN_L, tokens)) {
 				auto parameters = parse_parameters(tokens);
-				auto call = std::make_unique<ast::Call>(
+				auto call = stx::make_unique<ast::Call>(
 					std::move(l),
 					std::move(parameters),
 					location(tokens)
@@ -114,7 +114,7 @@ namespace ltn::c {
 		
 		if(auto op = match_op(tokens, table)) {
 			auto && r = unary_fx(tokens);
-			return std::make_unique<ast::Unary>(*op, std::move(r), location(tokens));
+			return stx::make_unique<ast::Unary>(*op, std::move(r), location(tokens));
 		}
 		// right unary
 		return parse_postfix<expr_fx>(tokens, primary_fx(tokens));

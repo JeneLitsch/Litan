@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
-#include <memory>
+#include "stdxx/memory.hxx"
 #include <variant>
 #include "stdxx/float64_t.hxx"
 #include "stdxx/string_literal.hxx"

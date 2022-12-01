@@ -3,12 +3,12 @@
 namespace ltn::c {
 	namespace {
 		ast::stmt_ptr new_struct(const SourceLocation & loc) {
-			auto call = std::make_unique<ast::Call>(
-				std::make_unique<ast::Var>("struct", ast::Namespace{{"std"}}, loc),
+			auto call = stx::make_unique<ast::Call>(
+				stx::make_unique<ast::Var>("struct", ast::Namespace{{"std"}}, loc),
 				std::vector<ast::expr_ptr>{},
 				loc);
 			
-			return std::make_unique<ast::NewVar>(
+			return stx::make_unique<ast::NewVar>(
 				"obj",
 				std::move(call),
 				loc);
@@ -17,8 +17,8 @@ namespace ltn::c {
 
 
 		ast::stmt_ptr return_struct(const SourceLocation & loc) {
-			auto obj = std::make_unique<ast::Var>("obj", ast::Namespace{}, loc);
-			return std::make_unique<ast::Return>(std::move(obj), loc);
+			auto obj = stx::make_unique<ast::Var>("obj", ast::Namespace{}, loc);
+			return stx::make_unique<ast::Return>(std::move(obj), loc);
 		}
 	}
 
@@ -32,7 +32,7 @@ namespace ltn::c {
 		for(const auto & member : preset->members) {
 			const auto var_name = "__" + member.name + "__";
 			
-			auto init_member = std::make_unique<ast::InitMember>(
+			auto init_member = stx::make_unique<ast::InitMember>(
 				member.name,
 				var_name,
 				member.type,
@@ -48,11 +48,11 @@ namespace ltn::c {
 
 		statements.push_back(return_struct(preset->location));
 		
-		auto block = std::make_unique<ast::Block>(
+		auto block = stx::make_unique<ast::Block>(
 			std::move(statements),
 			preset->location);
 
-		auto ctor = std::make_unique<ast::Function>(
+		auto ctor = stx::make_unique<ast::Function>(
 			preset->name,
 			preset->namespaze,
 			parameters,

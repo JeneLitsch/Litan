@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include <istream>
-#include <memory>
 #include <fstream>
+#include "stdxx/memory.hxx"
 
 namespace ltn::c {
 	class Source {
@@ -13,7 +13,7 @@ namespace ltn::c {
 
 		template<typename InStream>
 		static Source make(const std::string & name, auto ... args) {
-			return Source { name, std::make_unique<InStream>(args...) };
+			return Source { name, stx::make_unique<InStream>(args...) };
 		}
 
 		const std::string & name() const {

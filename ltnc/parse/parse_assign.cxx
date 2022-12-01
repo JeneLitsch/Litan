@@ -24,7 +24,7 @@ namespace ltn::c {
 
 		ast::stmt_ptr assignment(Tokens & tokens, auto && expr, auto && r) {
 			guard_assingable(*expr, location(tokens));
-			return std::make_unique<ast::Assign>(
+			return stx::make_unique<ast::Assign>(
 				stx::static_unique_cast<ast::Assignable>(std::move(expr)),
 				std::move(r),
 				location(tokens));
@@ -46,7 +46,7 @@ namespace ltn::c {
 		if(auto r = parse_assign_r(tokens)) {
 			return assignment(tokens, std::move(l), std::move(r));
 		}
-		return std::make_unique<ast::StatementExpression>(
+		return stx::make_unique<ast::StatementExpression>(
 			std::move(l),
 			location(tokens));
 	}

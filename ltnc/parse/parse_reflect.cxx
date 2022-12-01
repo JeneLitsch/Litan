@@ -48,7 +48,7 @@ namespace ltn::c {
 				"Expected ) after reflect", ref->location 
 			};
 
-			return std::make_unique<ast::Reflect>(query, ref->location);
+			return stx::make_unique<ast::Reflect>(query, ref->location);
 		}
 		else return nullptr;
 	}

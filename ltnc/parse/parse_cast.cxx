@@ -20,7 +20,7 @@ namespace ltn::c {
 				if(!match(TT::PAREN_R, tokens)) throw CompilerError{
 					"Expected ) after static_cast<...>"
 				};
-				return std::make_unique<ast::TypedUnary>(
+				return stx::make_unique<ast::TypedUnary>(
 					op,
 					type,
 					std::move(expr),

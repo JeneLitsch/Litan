@@ -1,5 +1,5 @@
 #pragma once
-#include <memory>
+#include "stdxx/memory.hxx"
 #include "stdxx/float64_t.hxx"
 #include "ltnc/SourceLocation.hxx"
 namespace ltn::c::ast {
