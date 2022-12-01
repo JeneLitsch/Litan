@@ -1,0 +1,6 @@
+namespace sphinx::test {
+	function std_log() {
+		assert_equal_strict(std::log(100,10), 2.0);
+		assert_equal_strict(std::log(16, 2), 4.0);
+	}
+}

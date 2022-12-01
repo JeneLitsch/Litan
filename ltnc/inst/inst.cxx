@@ -510,30 +510,6 @@ namespace ltn::c::inst {
 			.opcode = OpCode::IS_GOOD,
 		};
 	}
-	Inst hypot() {
-		return InstNone {
-			.name = "hypot",
-			.opcode = OpCode::HYPOT,
-		};
-	}
-	Inst sqrt() {
-		return InstNone {
-			.name = "sqrt",
-			.opcode = OpCode::SQRT,
-		};
-	}
-	Inst log() {
-		return InstNone {
-			.name = "log",
-			.opcode = OpCode::LOG,
-		};
-	}
-	Inst ln() {
-		return InstNone {
-			.name = "ln",
-			.opcode = OpCode::LN,
-		};
-	}
 	Inst pow() {
 		return InstNone {
 			.name = "pow",

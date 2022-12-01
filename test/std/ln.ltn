@@ -1,0 +1,5 @@
+namespace sphinx::test {
+	function std_ln() {
+		assert_equal_strict(std::ln(1), 0.0);
+	}
+}

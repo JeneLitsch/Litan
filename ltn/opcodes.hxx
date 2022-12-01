@@ -104,12 +104,6 @@ namespace ltn {
 		IS_EOF,
 		IS_GOOD,
 
-		// Math
-		HYPOT = 0x80,
-		SQRT,
-		LOG,
-		LN,
-
 		// Bitwise
 		BITAND = 0x90,
 		BITOR,

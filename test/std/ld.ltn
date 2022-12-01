@@ -1,0 +1,7 @@
+namespace sphinx::test {
+	function std_ld() {
+		assert_equal_strict(std::ld(1), 0.0);
+		assert_equal_strict(std::ld(2), 1.0);
+		assert_equal_strict(std::ld(16), 4.0);
+	}
+}

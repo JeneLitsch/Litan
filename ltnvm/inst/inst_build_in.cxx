@@ -65,6 +65,12 @@ namespace ltn::vm::inst {
 		table[FxCode::SIN] = build_in::sin;
 		table[FxCode::COS] = build_in::cos;
 		table[FxCode::TAN] = build_in::tan;
+		table[FxCode::SQRT] = build_in::sqrt;
+		table[FxCode::HYPOT] = build_in::hypot;
+		table[FxCode::LOG] = build_in::log;
+		table[FxCode::LN] = build_in::ln;
+		table[FxCode::LD] = build_in::ld;
+		table[FxCode::LG] = build_in::lg;
 		
 		return table.array;
 	}

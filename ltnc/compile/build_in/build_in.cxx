@@ -36,18 +36,6 @@ namespace ltn::c {
 			inst::invoke(),
 			inst::retvrn(),
 		});
-
-		const auto math_ld = std::to_array<inst::Inst>({
-			inst::newf(2.0),
-			inst::log(),
-			inst::retvrn(),
-		});
-		
-		const auto math_lg = std::to_array<inst::Inst>({
-			inst::newf(10.0),
-			inst::log(),
-			inst::retvrn(),
-		});
 	}
 
 	const Table table{
@@ -129,12 +117,12 @@ namespace ltn::c {
 		{"math_floor",               vm_build_in<FxCode::FLOOR>},
 		{"math_ceil",                vm_build_in<FxCode::CEIL>},
 		{"math_abs",                 vm_build_in<FxCode::ABS>},
-		{"math_hypot",               single_return<inst::hypot>},
-		{"math_sqrt",                single_return<inst::sqrt>},
-		{"math_log",                 single_return<inst::log>},
-		{"math_ld",                  build_in::math_ld},
-		{"math_lg",                  build_in::math_lg},
-		{"math_ln",                  single_return<inst::ln>},
+		{"math_hypot",               vm_build_in<FxCode::HYPOT>},
+		{"math_sqrt",                vm_build_in<FxCode::SQRT>},
+		{"math_log",                 vm_build_in<FxCode::LOG>},
+		{"math_ld",                  vm_build_in<FxCode::LD>},
+		{"math_lg",                  vm_build_in<FxCode::LG>},
+		{"math_ln",                  vm_build_in<FxCode::LN>},
 		{"math_pow",                 single_return<inst::pow>},
 		{"math_sin",                 vm_build_in<FxCode::SIN>},
 		{"math_cos",                 vm_build_in<FxCode::COS>},

@@ -112,4 +112,51 @@ namespace ltn::vm::build_in {
 	Value tan(VmCore & core) {
 		return function<Tangents>(core.reg.pop());
 	}
+
+
+
+	Value sqrt(VmCore & core) {
+		const auto value = core.reg.pop();
+		return std::sqrt(convert::to_float(value));
+	}
+	
+
+
+	Value hypot(VmCore & core) {
+		const auto r = core.reg.pop();
+		const auto l = core.reg.pop();
+		return std::hypot(
+			convert::to_float(l),
+			convert::to_float(r));
+	}
+
+
+
+	Value log(VmCore & core){
+		const auto r = core.reg.pop();
+		const auto l = core.reg.pop();
+		return std::log(convert::to_float(l))
+			/ std::log(convert::to_float(r));
+	}
+	
+
+	
+	Value ln(VmCore & core) {
+		const auto value = core.reg.pop();
+		return std::log(convert::to_float(value));
+	}
+
+
+
+	Value ld(VmCore & core) {
+		core.reg.push(value::floating(2));
+		return log(core);
+	}
+
+
+
+	Value lg(VmCore & core) {
+		core.reg.push(value::floating(10));
+		return log(core);
+	}
 }

@@ -40,5 +40,11 @@ namespace ltn {
 		SIN,
 		COS,
 		TAN,
+		SQRT,
+		HYPOT,
+		LOG,
+		LN,
+		LD,
+		LG,
 	};
 }

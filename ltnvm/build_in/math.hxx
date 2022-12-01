@@ -15,4 +15,12 @@ namespace ltn::vm::build_in {
 	Value sin(VmCore & core);
 	Value cos(VmCore & core);
 	Value tan(VmCore & core);
+
+	Value sqrt(VmCore & core);
+	Value hypot(VmCore & core);
+
+	Value log(VmCore & core);
+	Value ln(VmCore & core);
+	Value ld(VmCore & core);
+	Value lg(VmCore & core);
 }

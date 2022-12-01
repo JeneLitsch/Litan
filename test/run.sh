@@ -59,6 +59,12 @@ files=(
 	"test/std/sin.ltn"
 	"test/std/cos.ltn"
 	"test/std/tan.ltn"
+	"test/std/sqrt.ltn"
+	"test/std/hypot.ltn"
+	"test/std/log.ltn"
+	"test/std/ln.ltn"
+	"test/std/ld.ltn"
+	"test/std/lg.ltn"
 )
 
 bin_file="tmp/bin"
