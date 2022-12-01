@@ -1,6 +1,6 @@
 # std::abs
 
-## std::abs(x)
+## std::abs(x) const
 **Parameter:**
 - x: Numeric value
 

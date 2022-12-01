@@ -1,11 +1,6 @@
 # std::tan
 
-### std::tan(x)
-**Parameters:**  
-- a: Numeric value
-
-**Return value:**  
-Float
+### std::tan(x:float) const -> float
 
 **Descriptions:**  
 Calculates the tagent of x.

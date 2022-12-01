@@ -1,11 +1,6 @@
 # std::floor
 
-## std::floor(a)
-**Parameter:**
-- a: Numeric value
-
-**Return value:**  
-Integral value
+## std::floor(x:float) const -> int
 
 **Descriptions:**  
 Rounds numeric value to closest lesser integer.

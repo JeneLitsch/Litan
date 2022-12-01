@@ -1,10 +1,6 @@
 # std::ln
-## std::ld(x)
-**Parameters:**  
-- x: Numeric value
 
-**Return value:**  
-Numeric value
+## std::ld(x:float) const -> float
 
 **Descriptions:**  
 Returns the natural logrithm of x 

@@ -1,8 +1,10 @@
 # std::log
-## std::log(x, b)
+
+## std::log(x:float, b:float) const -> float
+
 **Parameters:**  
 - x: Numeric value
-- x: Base
+- b: Base
 
 **Return value:**  
 Numeric value
