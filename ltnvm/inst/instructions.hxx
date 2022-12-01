@@ -94,11 +94,6 @@ namespace ltn::vm::inst {
 	void is_eof(VmCore & core);
 	void is_good(VmCore & core);
 
-	void min(VmCore & core);
-	void max(VmCore & core);
-	void round(VmCore & core);
-	void floor(VmCore & core);
-	void ceil(VmCore & core);
 	void abs(VmCore & core);
 	void hypot(VmCore & core);
 	void sqrt(VmCore & core);

@@ -128,6 +128,7 @@ namespace ltn::c::inst {
 	Inst mlt();
 	Inst div();
 	Inst mod();
+	Inst pow();
 
 	Inst eql();
 	Inst ueql();
@@ -207,15 +208,11 @@ namespace ltn::c::inst {
 	Inst is_eof();
 	Inst is_good();
 
-	Inst round();
-	Inst floor();
-	Inst ceil();
 	Inst abs();
 	Inst hypot();
 	Inst sqrt();
 	Inst log();
 	Inst ln();
-	Inst pow();
 	Inst sin();
 	Inst cos();
 	Inst tan();

@@ -510,24 +510,6 @@ namespace ltn::c::inst {
 			.opcode = OpCode::IS_GOOD,
 		};
 	}
-	Inst round() {
-		return InstNone {
-			.name = "round",
-			.opcode = OpCode::ROUND,
-		};
-	}
-	Inst floor() {
-		return InstNone {
-			.name = "floor",
-			.opcode = OpCode::FLOOR,
-		};
-	}
-	Inst ceil() {
-		return InstNone {
-			.name = "ceil",
-			.opcode = OpCode::CEIL,
-		};
-	}
 	Inst abs() {
 		return InstNone {
 			.name = "abs",

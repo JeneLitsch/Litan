@@ -58,6 +58,9 @@ namespace ltn::vm::inst {
 		table[FxCode::MIN] = build_in::min;
 		table[FxCode::MAX] = build_in::max;
 		table[FxCode::CLAMP] = build_in::clamp;
+		table[FxCode::ROUND] = build_in::round;
+		table[FxCode::FLOOR] = build_in::floor;
+		table[FxCode::CEIL] = build_in::ceil;
 		
 		return table.array;
 	}

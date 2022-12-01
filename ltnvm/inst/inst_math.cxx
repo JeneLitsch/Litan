@@ -16,17 +16,7 @@ namespace ltn::vm::inst {
 	}
 
 
-	template<class Fx>
-	Value rounding(const Value & value) {
-		constexpr Fx fx{};
-		if(is_float(value)) {
-			return Value{fx(value.f)};
-		}
-		if(is_int(value) || is_bool(value) || is_char(value)) {
-			return value;
-		}
-		throw except::invalid_argument();
-	}
+
 
 
 	template<class Fx>
@@ -49,19 +39,7 @@ namespace ltn::vm::inst {
 
 
 
-	void round(VmCore & core) {
-		core.reg.push(rounding<Round>(core.reg.pop()));
-	}
 
-
-	void floor(VmCore & core) {
-		core.reg.push(rounding<Floor>(core.reg.pop()));
-	}
-
-
-	void ceil(VmCore & core) {
-		core.reg.push(rounding<Ceil>(core.reg.pop()));
-	}
 
 
 	void abs(VmCore & core) {

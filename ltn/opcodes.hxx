@@ -105,10 +105,7 @@ namespace ltn {
 		IS_GOOD,
 
 		// Math
-		ROUND = 0x80,
-		FLOOR,
-		CEIL,
-		ABS,
+		ABS = 0x80,
 		HYPOT,
 		SQRT,
 		LOG,

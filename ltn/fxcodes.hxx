@@ -33,5 +33,8 @@ namespace ltn {
 		MIN = 0x50,
 		MAX,
 		CLAMP,
+		ROUND,
+		FLOOR,
+		CEIL,
 	};
 }
