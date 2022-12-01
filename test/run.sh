@@ -49,6 +49,7 @@ files=(
 	"test/std_bits_get.ltn"
 	"test/std_bits_set.ltn"
 	"test/std_is_type.ltn"
+	"test/std_clamp.ltn"
 )
 
 bin_file="tmp/bin"

@@ -1,0 +1,39 @@
+namespace sphinx::test {
+	function clamp_char() {
+		assert_equal_strict(std::clamp('G', 'D', 'H'), 'G');
+		assert_equal_strict(std::clamp('A', 'D', 'H'), 'D');
+		assert_equal_strict(std::clamp('X', 'D', 'H'), 'H');
+	}
+
+
+
+	function clamp_int() {
+		assert_equal_strict(std::clamp(5,0,10), 5);
+		assert_equal_strict(std::clamp(15,0,10), 10);
+		assert_equal_strict(std::clamp(-15,0,10), 0);
+	}
+
+	
+
+	function clamp_float() {
+		assert_equal_strict(std::clamp(5.0,   0.0, 10.0), 5.0);
+		assert_equal_strict(std::clamp(15.0,  0.0, 10.0), 10.0);
+		assert_equal_strict(std::clamp(-15.0, 0.0, 10.0), 0.0);
+	}
+
+
+	
+	function clamp_array() {
+		assert_equal_strict(std::clamp([25], [20], [30]), [25]);
+		assert_equal_strict(std::clamp([10], [20], [30]), [20]);
+		assert_equal_strict(std::clamp([50], [20], [30]), [30]);
+	}
+
+
+
+	function clamp_string() {
+		assert_equal_strict(std::clamp("G", "D", "H"), "G");
+		assert_equal_strict(std::clamp("A", "D", "H"), "D");
+		assert_equal_strict(std::clamp("X", "D", "H"), "H");
+	}
+}
