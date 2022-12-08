@@ -1,14 +1,23 @@
-// function get_fx(y)
-// 	-> fx_ptr<int(int)> 
-// 	=> lambda[y](x : int) -> int => x + y
+function<T> f() -> T {
+	return 42 : T;
+}
 
-// function f() -> null {}
+function<T> f(a : T) -> T {
+	return 42 : T;
+}
+
+function<T,U> f(a : T, b : U) -> T {
+	return 42 : T;
+}
+
+
+function<T> test(a : T) -> T => a
+
 
 function main() {
-	var x : int = 0 : int;
-	// var x : auto = [0.0];
-	// x[0] = 42 : int;
-	// x[0] = 42 ~ float;
-	// x[0] = 42 ! float;
-	// x[0] = 42 ? float;
+	var map : auto = std::map(<int>, <string>);
+	std::println(decltype(map).name);
+	f(<int>);
+	f(<int>, <int>, 1, 2);
+	&f(<int>);
 }

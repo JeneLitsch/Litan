@@ -10,7 +10,7 @@ namespace ltn::c {
 
 		type::Array parse_type_array(Tokens & tokens, BraceTracker & brace_tracker) {
 			open_chevron(tokens, brace_tracker);
-			auto contains = parse_type(tokens, brace_tracker);
+			auto contains = parse_type(tokens, brace_tracker).type;
 			close_chevron(tokens, brace_tracker);
 			return type::Array{contains};
 		}
@@ -18,7 +18,7 @@ namespace ltn::c {
 
 		type::Queue parse_type_queue(Tokens & tokens, BraceTracker & brace_tracker) {
 			open_chevron(tokens, brace_tracker);
-			auto contains = parse_type(tokens, brace_tracker);
+			auto contains = parse_type(tokens, brace_tracker).type;
 			close_chevron(tokens, brace_tracker);
 			return type::Queue{contains};
 		}
@@ -26,7 +26,7 @@ namespace ltn::c {
 
 		type::Stack parse_type_stack(Tokens & tokens, BraceTracker & brace_tracker) {
 			open_chevron(tokens, brace_tracker);
-			auto contains = parse_type(tokens, brace_tracker);
+			auto contains = parse_type(tokens, brace_tracker).type;
 			close_chevron(tokens, brace_tracker);
 			return type::Stack{contains};
 		}
@@ -35,7 +35,7 @@ namespace ltn::c {
 
 		type::Optional parse_type_optional(Tokens & tokens, BraceTracker & brace_tracker) {
 			open_chevron(tokens, brace_tracker);
-			auto contains = parse_type(tokens, brace_tracker);
+			auto contains = parse_type(tokens, brace_tracker).type;
 			close_chevron(tokens, brace_tracker);
 			return type::Optional{
 				.contains = contains
@@ -46,9 +46,9 @@ namespace ltn::c {
 
 		type::Map parse_type_map(Tokens & tokens, BraceTracker & brace_tracker) {
 			open_chevron(tokens, brace_tracker);
-			auto key = parse_type(tokens, brace_tracker);
+			auto key = parse_type(tokens, brace_tracker).type;
 			if(!match(TT::COMMA, tokens)) throw CompilerError{"Expected , between key type"};
-			auto val = parse_type(tokens, brace_tracker);
+			auto val = parse_type(tokens, brace_tracker).type;
 			close_chevron(tokens, brace_tracker);
 			return type::Map{
 				.key = key,
@@ -60,11 +60,11 @@ namespace ltn::c {
 
 		type::Type parse_fxptr(Tokens & tokens, BraceTracker & brace_tracker) {
 			open_chevron(tokens, brace_tracker);
-			auto return_type = parse_type(tokens, brace_tracker);
+			auto return_type = parse_type(tokens, brace_tracker).type;
 			if(!match(TT::PAREN_L, tokens)) throw CompilerError{"Expected ("};
 			std::vector<type::Type> parameter_types;
 			do {
-				parameter_types.push_back(parse_type(tokens, brace_tracker));
+				parameter_types.push_back(parse_type(tokens, brace_tracker).type);
 			} while(match(TT::COMMA, tokens));
 			if(!match(TT::PAREN_R, tokens)) throw CompilerError{"Expected )"};
 			close_chevron(tokens, brace_tracker);
@@ -73,40 +73,44 @@ namespace ltn::c {
 				.parameter_types = parameter_types
 			};
 		}
+
+
+		bool is_auto(const Token & token) {
+			return token.type == TT::INDENTIFIER
+				&& token.str == "auto";
+		}
 	}
 
 
 
-	type::Type parse_type(Tokens & tokens, BraceTracker & brace_tracker) {
+	type::IncompleteType parse_type(Tokens & tokens, BraceTracker & brace_tracker) {
 		if(auto type_name = match(TT::INDENTIFIER, tokens)) {
-			if(type_name->str == "any") return type::Any{};
-			if(type_name->str == "bool") return type::Bool{}; 
-			if(type_name->str == "char") return type::Char{}; 
-			if(type_name->str == "int") return type::Int{}; 
-			if(type_name->str == "float") return type::Float{}; 
-			if(type_name->str == "string") return type::String{}; 
-			if(type_name->str == "array") return parse_type_array(tokens, brace_tracker); 
-			if(type_name->str == "queue") return parse_type_queue(tokens, brace_tracker); 
-			if(type_name->str == "stack") return parse_type_stack(tokens, brace_tracker); 
-			if(type_name->str == "map") return parse_type_map(tokens, brace_tracker);
-			if(type_name->str == "fx_ptr") return parse_fxptr(tokens, brace_tracker);
-			if(type_name->str == "optional") return parse_type_optional(tokens, brace_tracker);
-			throw CompilerError{"Unknown typename " + type_name->str, type_name->location};
+			if(type_name->str == "any") return type::IncompleteType{type::Any{}};
+			if(type_name->str == "bool") return type::IncompleteType{type::Bool{}}; 
+			if(type_name->str == "char") return type::IncompleteType{type::Char{}}; 
+			if(type_name->str == "int") return type::IncompleteType{type::Int{}}; 
+			if(type_name->str == "float") return type::IncompleteType{type::Float{}}; 
+			if(type_name->str == "string") return type::IncompleteType{type::String{}}; 
+			if(type_name->str == "array") return type::IncompleteType{parse_type_array(tokens, brace_tracker)}; 
+			if(type_name->str == "queue") return type::IncompleteType{parse_type_queue(tokens, brace_tracker)}; 
+			if(type_name->str == "stack") return type::IncompleteType{parse_type_stack(tokens, brace_tracker)}; 
+			if(type_name->str == "map") return type::IncompleteType{parse_type_map(tokens, brace_tracker)};
+			if(type_name->str == "fx_ptr") return type::IncompleteType{parse_fxptr(tokens, brace_tracker)};
+			if(type_name->str == "optional") return type::IncompleteType{parse_type_optional(tokens, brace_tracker)};
+			return type::IncompleteType{type::Other{.type_name = type_name->str}};
 		}
-		else if(auto type_name = match(TT::NVLL, tokens)) {
-			return type::Null{};
+		if(auto type_name = match(TT::NVLL, tokens)) {
+			return type::IncompleteType{type::Null{}};
 		}
-		else if(match(TT::QMARK, tokens)) {
-			return type::Optional{parse_type(tokens, brace_tracker)};
+		if(match(TT::QMARK, tokens)) {
+			return type::IncompleteType{type::Optional{parse_type(tokens, brace_tracker).type}};
 		}
-		else {
-			throw CompilerError{"Expected typename", tokens.front().location};
-		}
+		throw CompilerError{"Expected typename", tokens.front().location};
 	}
 	
 
 
-	type::Type parse_type(Tokens & tokens) {
+	type::IncompleteType parse_type(Tokens & tokens) {
 		BraceTracker brace_tracker;
 		auto type = parse_type(tokens, brace_tracker);
 		brace_tracker.finalize();
@@ -114,19 +118,25 @@ namespace ltn::c {
 	}
 
 
-	type::Type parse_parameter_type(Tokens & tokens) {
-		return match(TT::COLON, tokens) ? parse_type(tokens) : type::Any{};
+	type::IncompleteType parse_parameter_type(Tokens & tokens) {
+		return match(TT::COLON, tokens)
+			? parse_type(tokens)
+			: type::IncompleteType{type::Any{}};
 	}
 
 
-	type::Type parse_var_type(Tokens & tokens) {
-		return match(TT::COLON, tokens) ? parse_type(tokens) : type::Any{};
+	type::IncompleteType parse_var_type(Tokens & tokens) {
+		return match(TT::COLON, tokens)
+			? parse_type(tokens)
+			: type::IncompleteType{type::Any{}};
 	}
 
 
-	std::variant<type::Type, type::Auto> parse_var_type_auto(Tokens & tokens) {
+	std::variant<type::IncompleteType, type::Auto>
+		parse_var_type_auto(Tokens & tokens) {
+		
 		if(match(TT::COLON, tokens)) {
-			if(tokens.front().type == TT::INDENTIFIER && tokens.front().str == "auto") {
+			if(is_auto(tokens.front())) {
 				tokens.pop();
 				return type::Auto{};
 			}
@@ -134,12 +144,14 @@ namespace ltn::c {
 				return parse_type(tokens);
 			}
 		}
-		return type::Any{};
+		return type::IncompleteType{type::Any{}};
 	}
 
 
 
-	type::Type parse_return_type(Tokens & tokens) {
-		return match(TT::RARROW, tokens) ? parse_type(tokens) : type::Any{};
+	type::IncompleteType parse_return_type(Tokens & tokens) {
+		return match(TT::RARROW, tokens)
+			? parse_type(tokens)
+			: type::IncompleteType{type::Any{}};
 	}
 }

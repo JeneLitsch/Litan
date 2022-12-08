@@ -10,6 +10,11 @@ namespace ltn::c::type {
 		}
 
 
+		std::string to_string(const Other & other) {
+			return other.type_name;
+		}
+
+
 		std::string to_string(const Optional & optional) {
 			std::ostringstream oss;
 			oss << Optional::type_name << "<" << to_string(*optional.contains) << ">";

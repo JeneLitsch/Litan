@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
-
+#include "Type.hxx"
 namespace ltn::c::type {
-	class Type;
 	std::string to_string(const Type & type);
 }

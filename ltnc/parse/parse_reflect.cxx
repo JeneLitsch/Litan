@@ -29,6 +29,7 @@ namespace ltn::c {
 		ast::Reflect::Query parse_query(Tokens & tokens) {
 			if(match(TT::NAMESPACE, tokens)) return parse_namespace_query(tokens);
 			if(match(TT::FUNCTION, tokens)) return parse_function_query(tokens);
+			
 			throw CompilerError {
 				"Expected ) after reflect", tokens.front().location 
 			};

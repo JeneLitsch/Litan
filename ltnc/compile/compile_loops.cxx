@@ -17,7 +17,11 @@ namespace ltn::c {
 		return name + "_TO";
 	}
 
-	StmtResult compile_stmt(const ast::While & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt(
+		const ast::While & stmt,
+		CompilerInfo & info,
+		Scope & scope) {
+
 		// outer scope of loop 
 		MinorScope loop_scope { &scope }; 
 		
@@ -43,7 +47,11 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_stmt(const ast::InfiniteLoop & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt(
+		const ast::InfiniteLoop & stmt,
+		CompilerInfo & info,
+		Scope & scope) {
+
 		// outer scope of loop 
 		MinorScope loop_scope { &scope }; 
 		
@@ -63,7 +71,11 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_stmt(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt(
+		const ast::For & stmt,
+		CompilerInfo & info,
+		Scope & scope) {
+		
 		// outer scope of loop 
 		MinorScope loop_scope { &scope };
 

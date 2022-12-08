@@ -6,7 +6,10 @@ namespace ltn::c {
 	}
 
 
-	StmtResult compile_stmt(const ast::IfElse & stmt, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt(
+		const ast::IfElse & stmt,
+		CompilerInfo & info,
+		Scope & scope) {
 		MinorScope if_scope{&scope};
 		
 		const auto condition = compile_expression(*stmt.condition, info, scope);

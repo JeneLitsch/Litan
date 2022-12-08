@@ -51,7 +51,7 @@ namespace ltn::c::ast {
 			const std::string & name,
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location,
-			const std::variant<type::Type, type::Auto> & type = type::Any{})
+			const std::variant<type::IncompleteType, type::Auto> & type = type::IncompleteType{type::Any{}})
 			:	Statement(location),
 				name(name),
 				expression(std::move(expression)),
@@ -59,7 +59,7 @@ namespace ltn::c::ast {
 		virtual ~NewVar() = default;
 		std::string name;
 		std::unique_ptr<Expression> expression;
-		std::variant<type::Type, type::Auto> type;
+		std::variant<type::IncompleteType, type::Auto> type;
 	};
 
 
@@ -162,7 +162,7 @@ namespace ltn::c::ast {
 		InitMember(
 			std::string member,
 			std::string param,
-			type::Type type,
+			type::IncompleteType type,
 			const SourceLocation & location)
 			:	Statement(location),
 				member(std::move(member)),
@@ -171,7 +171,7 @@ namespace ltn::c::ast {
 		virtual ~InitMember() = default;
 		std::string member;
 		std::string param;
-		type::Type type;
+		type::IncompleteType type;
 	};
 
 
@@ -193,45 +193,19 @@ namespace ltn::c::ast {
 
 
 	auto visit_statement(const ast::Statement & stmt, auto && fx) {
-		if(auto s = as<ast::Block>(stmt)) {
-			return fx(*s);
-		}
-		if(auto s = as<ast::IfElse>(stmt)) {
-			return fx(*s);
-		}
-		if(auto s = as<ast::While>(stmt)) {
-			return fx(*s);
-		}
-		if(auto s = as<ast::InfiniteLoop>(stmt)) {
-			return fx(*s);
-		}
-		if(auto s = as<ast::For>(stmt)) {
-			return fx(*s);
-		}
-		if(auto s = as<ast::NewVar>(stmt)) {
-			return fx(*s);
-		}
-		if(auto s = as<ast::Return>(stmt)) {
-			return fx(*s);
-		}
-		if(auto s = as<ast::Throw>(stmt)) {
-			return fx(*s);
-		}
-		if(auto s = as<ast::InitMember>(stmt)) {
-			return fx(*s);
-		}
-		if(auto s = as<ast::StmtSwitch>(stmt)) {
-			return fx(*s);
-		}
-		if(auto s = as<ast::StatementExpression>(stmt)) {
-			return fx(*s);
-		}
-		if(auto s = as<ast::DoNothing>(stmt)) {
-			return fx(*s);
-		}
-		if(auto s = as<ast::Assign>(stmt)) {
-			return fx(*s);
-		}
+		if(auto s = as<ast::Block>(stmt)) return fx(*s);
+		if(auto s = as<ast::IfElse>(stmt)) return fx(*s);
+		if(auto s = as<ast::While>(stmt)) return fx(*s);
+		if(auto s = as<ast::InfiniteLoop>(stmt)) return fx(*s);
+		if(auto s = as<ast::For>(stmt)) return fx(*s);
+		if(auto s = as<ast::NewVar>(stmt)) return fx(*s);
+		if(auto s = as<ast::Return>(stmt)) return fx(*s);
+		if(auto s = as<ast::Throw>(stmt)) return fx(*s);
+		if(auto s = as<ast::InitMember>(stmt)) return fx(*s);
+		if(auto s = as<ast::StmtSwitch>(stmt)) return fx(*s);
+		if(auto s = as<ast::StatementExpression>(stmt)) return fx(*s);
+		if(auto s = as<ast::DoNothing>(stmt)) return fx(*s);
+		if(auto s = as<ast::Assign>(stmt)) return fx(*s);
 		throw std::runtime_error{"Unknown statement"};
 	}
 }

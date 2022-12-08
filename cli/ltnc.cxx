@@ -108,17 +108,20 @@ int main(int argc, char const *argv[]){
 	try {
 		ltn::c::Reporter reporter;
 
+		auto a = ltn::c::inst::newi(1);
+		auto b = ltn::c::inst::newi(1);
+
 
 		auto sources = read_sources(flag_source.value(), reporter);
 		auto tokens = ltn::c::tokenize(std::move(sources), reporter);
 		auto program = ltn::c::parse(tokens, reporter);
 		if(flag_o) ltn::c::optimize(program);
 		auto instructions = ltn::c::compile(program, reporter);
+		if(flag_o) instructions.insts = ltn::c::peephole(instructions.insts);
+		reporter.may_throw();
 		if(flag_asm) {
 			output_asm(flag_asm.value(), instructions.insts);
 		}
-		if(flag_o) instructions.insts = ltn::c::peephole(instructions.insts);
-		reporter.may_throw();
 		auto bytecode = ltn::c::assemble(instructions);
 
 		if(flag_exe) {

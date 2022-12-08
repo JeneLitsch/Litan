@@ -78,13 +78,16 @@ namespace ltn::c {
 			// Use empty global_table to prohibit the usage of other global variables.
 			// Functions or defines can be used though.
 			InvalidGlobalTable global_table { "the default value of another global variable" };
-			InvalidFunctionTable fx_table { "the initialization of a global variables" };
+			InvalidFunctionTable fx_table { "the initialization of a global variable" };
+			InvalidFunctionTemplateTable fx_template_table { "the initialization of a global variable" };
 			CompilerInfo read_info {
-				.fx_table         = fx_table,
-				.definition_table = info.definition_table,
-				.member_table     = info.member_table,
-				.global_table     = global_table,
-				.reporter         = info.reporter
+				.fx_table          = fx_table,
+				.fx_template_table = fx_template_table,
+				.fx_queue		   = info.fx_queue,
+				.definition_table  = info.definition_table,
+				.member_table      = info.member_table,
+				.global_table      = global_table,
+				.reporter          = info.reporter
 			};
 
 			auto & write_info = info;
@@ -100,19 +103,48 @@ namespace ltn::c {
 			InvalidDefinitionTable def_table { "definitions" };
 			InvalidGlobalTable global_table { "definitions" };
 			InvalidFunctionTable fx_table { "definitions" };
+			InvalidFunctionTemplateTable fx_template_table { "definitions" };
 			CompilerInfo read_info {
-				.fx_table         = fx_table,
-				.definition_table = def_table,
-				.member_table     = info.member_table,
-				.global_table     = global_table,
-				.reporter         = info.reporter
+				.fx_table          = fx_table,
+				.fx_template_table = fx_template_table,
+				.fx_queue		   = info.fx_queue,
+				.definition_table  = def_table,
+				.member_table      = info.member_table,
+				.global_table      = global_table,
+				.reporter          = info.reporter
 			};
 
 			auto & write_info = info;
 
 			return static_init(read_info, write_info, globals, compile_write_define);
 		}
+
+
+		std::vector<stx::reference<const ast::Functional>> find_extern_funtions(
+			const ast::Program & program) {
+			std::vector<stx::reference<const ast::Functional>> externs;
+			for(const auto & fx : program.functions) {
+				if(fx->init) {
+					externs.push_back(*fx);
+				}
+				if(fx->name == "main" && (fx->parameters.size() == 0 || fx->parameters.size() == 1)) {
+					externs.push_back(*fx);
+				}
+			}
+			return externs;
+		}
+
+
+
+		InstructionBuffer compile_staged(const StagedFx & staged, CompilerInfo & info) {
+			return compile_functional(*staged.fx, info); 
+		}
+
+		InstructionBuffer compile_staged(const StagedTemplateFx & staged, CompilerInfo & info) {
+			return compile_function_template(staged.tmpl, info, staged.arguments); 
+		}
 	}
+	
 
 	// compiles source
 	Instructions compile(
@@ -120,16 +152,20 @@ namespace ltn::c {
 		Reporter & reporter) {
 		
 		InstructionBuffer buf;
-		ValidDefinitionTable definition_table;
 		ValidFunctionTable fx_table;
+		FunctionQueue fx_queue;
+		ValidFunctionTemplateTable fx_template_table;
+		ValidDefinitionTable definition_table;
 		MemberTable member_table;
 		ValidGlobalTable global_table;
 		CompilerInfo info {
 			.fx_table = fx_table,
+			.fx_template_table = fx_template_table,
+			.fx_queue = fx_queue,
 			.definition_table = definition_table,
 			.member_table = member_table,
 			.global_table = global_table,
-			.reporter = reporter
+			.reporter = reporter,
 		};
 
 
@@ -145,6 +181,12 @@ namespace ltn::c {
 		}
 		buf << global_init(info, program.globals);
 
+		for(const auto & fx_tmpl : program.function_templates) {
+			const auto function_arity = std::size(fx_tmpl->fx->parameters);
+			const auto template_arity = std::size(fx_tmpl->template_parameters);
+			info.fx_template_table.insert(*fx_tmpl, function_arity, template_arity);
+		}
+
 		for(const auto & fx : program.functions) {
 			info.fx_table.insert(*fx, std::size(fx->parameters));
 		}
@@ -153,10 +195,18 @@ namespace ltn::c {
 		// buf << static_init(info, program.definitions);
 		buf << inst::null();
 		buf << inst::exit();
+		
+		auto externs = find_extern_funtions(program);
 
-		for(const auto & function : program.functions) {
+		for(const auto & function : externs) {
+			fx_queue.stage_function(function);
+		}
+
+		while(auto staged = fx_queue.fetch_function()) {
 			try {
-				buf << compile_functional(*function, info); 
+				buf << std::visit([&] (auto & s) {
+					return compile_staged(s, info); },
+				*staged);
 			}
 			catch(const CompilerError & error) {
 				reporter.push(error);

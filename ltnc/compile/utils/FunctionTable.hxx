@@ -5,7 +5,7 @@
 #include "SymbolTable.hxx"
 
 namespace ltn::c {
-	struct FunctionsErrors {
+	struct FunctionErrors {
 		static CompilerError redef(const ast::Functional & def) {
 			std::stringstream msg;
 			msg << "Function ";
@@ -33,8 +33,8 @@ namespace ltn::c {
 		= SymbolTable<ast::Functional, std::size_t>;
 	
 	using ValidFunctionTable
-		= ValidSymbolTable<ast::Functional, FunctionsErrors, std::size_t>;
+		= ValidSymbolTable<ast::Functional, FunctionErrors, std::size_t>;
 	
 	using InvalidFunctionTable
-		= InvalidSymbolTable<ast::Functional, FunctionsErrors, std::size_t>;
+		= InvalidSymbolTable<ast::Functional, FunctionErrors, std::size_t>;
 }

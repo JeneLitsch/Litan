@@ -68,8 +68,7 @@ namespace ltn::c {
 	// compiles string literal
 	ExprResult compile_expr(const ast::String & expr, CompilerInfo &, Scope &) {
 		InstructionBuffer buf;
-		std::vector<std::uint8_t> bytes {std::begin(expr.value), std::end(expr.value)};
-		buf << inst::newstr(bytes);
+		buf << inst::newstr(expr.value);
 		return ExprResult{
 			.code = buf,
 			.deduced_type = type::String{}

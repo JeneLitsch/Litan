@@ -4,16 +4,21 @@
 
 namespace ltn::c {
 	// compiles -> return...;
-	StmtResult compile_stmt(const ast::Return & ret, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt(
+		const ast::Return & ret,
+		CompilerInfo & info,
+		Scope & scope) {
+		
 		InstructionBuffer buf;
+		const auto return_type = scope.get_return_type();
 		if(ret.expression) {
 			auto code = compile_expression(*ret.expression, info, scope);
 			buf << code.code;
-			buf << conversion_on_return(code.deduced_type, scope.get_return_type(), ret.location);
+			buf << conversion_on_return(code.deduced_type, return_type, ret.location);
 		}
 		else {
 			buf << inst::null();
-			buf << conversion_on_return(type::Null{}, scope.get_return_type(), ret.location);
+			buf << conversion_on_return(type::Null{}, return_type, ret.location);
 		}
 
 

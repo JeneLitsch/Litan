@@ -1,6 +1,6 @@
 #include "compile.hxx"
 #include "ltnc/type/check.hxx"
-#include "stdxx/fx_ptr.hxx"
+#include "stdxx/functional.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -49,7 +49,11 @@ namespace ltn::c {
 
 
 
-		ExprResult compile_null_test (const ast::Expression & expr, CompilerInfo & info, Scope & scope) {
+		ExprResult compile_null_test(
+			const ast::Expression & expr,
+			CompilerInfo & info,
+			Scope & scope) {
+			
 			const auto code = compile_expression(expr, info, scope);
 			InstructionBuffer buf;
 			buf << code.code;
@@ -92,7 +96,11 @@ namespace ltn::c {
 	}
 
 
-	ExprResult compile_expr(const ast::Unary & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(
+		const ast::Unary & expr,
+		CompilerInfo & info,
+		Scope & scope) {
+		
 		using Op = ast::Unary::Type;
 		const auto & inner = *expr.expression;
 		const auto x = compile_expression(inner, info, scope);

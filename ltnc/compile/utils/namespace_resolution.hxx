@@ -19,4 +19,12 @@ namespace ltn::c {
 		const ast::Namespace & from,
 		const ast::Namespace & to,
 		const std::string_view name);
+
+	const ast::FunctionTemplate * resolve(
+		const std::vector<const ast::FunctionTemplate *> & functions,
+		const ast::Namespace & from,
+		const ast::Namespace & to,
+		const std::string_view name,
+		const std::size_t function_parameters,
+		const std::size_t template_parameters);
 }

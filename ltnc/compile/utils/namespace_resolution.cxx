@@ -38,6 +38,22 @@ namespace ltn::c {
 				global.name == name &&
 				global.namespaze == full;
 		}
+
+
+
+		bool match(
+			const ast::FunctionTemplate & fx,
+			const ast::Namespace & full,
+			const std::string_view name,
+			const std::size_t function_parameters,
+			const std::size_t template_parameters) {
+
+			return
+				fx.fx->name == name &&
+				fx.fx->namespaze == full &&
+				std::size(fx.fx->parameters) == function_parameters &&
+				std::size(fx.template_parameters) == template_parameters;
+		}
 	}
 
 
@@ -126,5 +142,18 @@ namespace ltn::c {
 		const ast::Namespace & to,
 		const std::string_view name) {
 		return resolve_x(globals, from, to, name);
+	}
+
+
+
+	const ast::FunctionTemplate * resolve(
+		const std::vector<const ast::FunctionTemplate *> & functions,
+		const ast::Namespace & from,
+		const ast::Namespace & to,
+		const std::string_view name,
+		const std::size_t function_parameters,
+		const std::size_t template_parameters) {
+
+		return resolve_x(functions, from, to, name, function_parameters, template_parameters);
 	}
 }

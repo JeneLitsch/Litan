@@ -10,6 +10,7 @@ files=(
 	"test/while.ltn"
 	"test/throw.ltn"
 	"test/lambda.ltn"
+	"test/template.ltn"
 
 	"test/static_cast.ltn"
 	"test/static_copy.ltn"

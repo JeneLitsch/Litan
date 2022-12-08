@@ -31,12 +31,19 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::Type & type) :
+			const type::IncompleteType & type) :
 				Declaration(location, name, namespaze),
 				id(++counter), type{type} {}
 		
 		std::uint64_t id;
-		type::Type type;
+		type::IncompleteType type;
+		const std::string & get_resolve_name() const {
+			return this->name;
+		}
+
+		const Namespace & get_resolve_namespace() const {
+			return this->namespaze;
+		}
 	private:
 		static inline std::uint64_t counter = 0;
 	};
@@ -48,7 +55,7 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::Type & type) :
+			const type::IncompleteType & type) :
 				Static{location, name, namespaze, type} {}
 		virtual ~Definition() = default;
 		std::unique_ptr<ast::Expression> expr;
@@ -61,7 +68,7 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::Type & type) :
+			const type::IncompleteType & type) :
 				Static{location, name, namespaze,type} {}
 		virtual ~Global() = default;
 		std::unique_ptr<ast::Expression> expr;
@@ -72,7 +79,7 @@ namespace ltn::c::ast {
 	struct Preset final : public Declaration {
 		struct Member {
 			std::string name;
-			type::Type type;
+			type::IncompleteType type;
 		};
 
 		Preset(
@@ -84,6 +91,14 @@ namespace ltn::c::ast {
 				members(members) {}
 		virtual ~Preset() = default;
 		std::vector<Member> members;
+
+		const std::string & get_resolve_name() const {
+			return this->name;
+		}
+
+		const Namespace & get_resolve_namespace() const {
+			return this->namespaze;
+		}
 	};
 
 

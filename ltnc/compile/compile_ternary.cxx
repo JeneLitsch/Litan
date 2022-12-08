@@ -1,6 +1,10 @@
 #include "compile.hxx"
 namespace ltn::c {
-	ExprResult compile_expr(const ast::Ternary & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(
+		const ast::Ternary & expr,
+		CompilerInfo & info,
+		Scope & scope) {
+		
 		const auto name        = make_jump_id("TERNARY");
 		const auto condition   = compile_expression(*expr.condition, info, scope);
 		const auto if_branch   = compile_expression(*expr.if_branch, info, scope);

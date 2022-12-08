@@ -60,8 +60,8 @@ namespace ltn::c {
 
 		ast::litr_ptr parse_character(Tokens & tokens) {
 			if(auto t = match(TT::CHAR, tokens)) {
-				const char chr = t->str.front();
-				return stx::make_unique<ast::Char>(static_cast<std::uint8_t>(chr), location(tokens)); 
+				const char chr = static_cast<std::uint8_t>(t->str.front());
+				return stx::make_unique<ast::Char>(chr, location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -154,13 +154,17 @@ namespace ltn::c {
 
 
 
-		auto parse_parameters(Tokens & tokens, auto fxParam) {
-			if(match(TT::PAREN_R, tokens)) {
+		auto parse_parameters(
+			Tokens & tokens,
+			auto fxParam,
+			TT close = TT::PAREN_R) {
+			
+			if(match(close, tokens)) {
 				 return;
 			}
 			while(true) {
 				fxParam();
-				if(match(TT::PAREN_R, tokens)) {
+				if(match(close, tokens)) {
 					return;
 				}
 				if(!match(TT::COMMA, tokens)) {
@@ -180,11 +184,19 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_fx_pointer(Tokens & tokens) {
 			if(match(TT::AMPERSAND, tokens)) {
-				const auto [name, namespaze] = parse_symbol(tokens);
+				std::string name;
+				ast::Namespace namespaze;
+				std::tie(name, namespaze) = parse_symbol(tokens);
 				if(match(TT::PAREN_L, tokens)) {
-					const auto placeholders = parse_placeholder(tokens);
-					return stx::make_unique<ast::FxPointer>(
-						name, namespaze, placeholders, location(tokens));
+					const auto [template_args, done] = parse_template_args(tokens);
+					const std::size_t placeholders = done ? 0 : parse_placeholder(tokens);
+					auto fx_ptr = stx::make_unique<ast::FxPointer>(
+						name,
+						namespaze,
+						placeholders,
+						location(tokens));
+					fx_ptr->template_arguements = std::move(template_args);
+					return fx_ptr;
 				}
 				throw expected("(", tokens);
 			}
@@ -230,7 +242,10 @@ namespace ltn::c {
 				if(!match(TT::PAREN_R, tokens)) throw CompilerError {
 					"Expected ) after decltype", t->location
 				};
-				return stx::make_unique<ast::DeclType>(std::move(expr), t->location);
+				return stx::make_unique<ast::DeclType>(
+					std::move(expr),
+					t->location
+				);
 			}
 			return nullptr;
 		}

@@ -1,71 +1,81 @@
 #include "Type.hxx"
+#include "to_string.hxx"
+#include <tuple>
 
 namespace ltn::c::type {
     namespace {
-        bool compare_contained(const auto & l, const auto & r) {
-            if(!l && !r) return true;
-            if(l && r) return **l == **r;
-            return false;
+        std::strong_ordering compare_contained(const auto & l, const auto & r) {
+            if(!l && !r) return std::strong_ordering::equal;
+            if(l && r) return **l <=> **r;
+			if(l) return std::strong_ordering::greater;
+			if(r) return std::strong_ordering::less;
         }
 
 
-		bool compare_parameters(const auto & l, const auto & r) {
-			if(l.size() != r.size()) return false;
+		std::strong_ordering compare_parameters(const auto & l, const auto & r) {
+			if(l.size() < r.size()) return std::strong_ordering::less;
+			if(l.size() > r.size()) return std::strong_ordering::greater;
 			for(std::size_t i = 0; i < l.size(); ++i) {
-				if(l[i] != r[i]) return false;
+				if(*l[i] < *r[i]) return std::strong_ordering::less;
+				if(*l[i] > *r[i]) return std::strong_ordering::greater;
 			}
-			return true;
+			return std::strong_ordering::equal;
 		}
     }
 
-	bool operator==(const Any &, const Any &) {
-		return true;
+	std::strong_ordering operator<=>(const Any &, const Any &) {
+		return std::strong_ordering::equal;
 	}
 
-	bool operator==(const Optional & l, const Optional & r) {
-		return *l.contains == *r.contains;
+	std::strong_ordering operator<=>(const Other & l, const Other & r) {
+		return l.type_name <=> r.type_name;
 	}
 
-	bool operator==(const Error &, const Error &) {
-		return true;
+	std::strong_ordering operator<=>(const Optional & l, const Optional & r) {
+		return *l.contains <=> *r.contains;
 	}
 
-	bool operator==(const Null &, const Null &) {
-		return true;
+	std::strong_ordering operator<=>(const Error &, const Error &) {
+		return std::strong_ordering::equal;
 	}
 
-	bool operator==(const Bool &, const Bool &) {
-		return true;
+	std::strong_ordering operator<=>(const Null &, const Null &) {
+		return std::strong_ordering::equal;
 	}
 
-	bool operator==(const Char &, const Char &) {
-		return true;
+	std::strong_ordering operator<=>(const Bool &, const Bool &) {
+		return std::strong_ordering::equal;
 	}
 
-	bool operator==(const Int &, const Int &) {
-		return true;
+	std::strong_ordering operator<=>(const Char &, const Char &) {
+		return std::strong_ordering::equal;
 	}
 
-	bool operator==(const Float &, const Float &) {
-		return true;
+	std::strong_ordering operator<=>(const Int &, const Int &) {
+		return std::strong_ordering::equal;
+	}
+
+	std::strong_ordering operator<=>(const Float &, const Float &) {
+		return std::strong_ordering::equal;
 	}
 	
-	bool operator==(const String &, const String &) {
-		return true;
+	std::strong_ordering operator<=>(const String &, const String &) {
+		return std::strong_ordering::equal;
 	}
 
-	bool operator==(const Array & l, const Array & r) {
+	std::strong_ordering operator<=>(const Array & l, const Array & r) {
 		return compare_contained(l.contains, r.contains);
 	}
 
 
-	bool operator==(const FxPtr & l, const FxPtr & r) {
-		return compare_contained(l.return_type, r.return_type) 
-			&& compare_parameters(l.parameter_types, r.parameter_types);
+	std::strong_ordering operator<=>(const FxPtr & l, const FxPtr & r) {
+		const auto order = compare_contained(l.return_type, r.return_type);
+		if(order == 0) return compare_parameters(l.parameter_types, r.parameter_types);
+		return order;
 	}
 
-	bool operator==(const Type & l, const Type & r) {
-		return l.actual_type == r.actual_type;
+	std::strong_ordering operator<=>(const Type & l, const Type & r) {
+		return (*l) <=> (*r);
 	}
 
 	std::ostream & operator<<(std::ostream & out, const Type & type) {
@@ -73,15 +83,17 @@ namespace ltn::c::type {
 		return out;
 	}
 
-	bool operator==(const Queue & l, const Queue & r) {
+	std::strong_ordering operator<=>(const Queue & l, const Queue & r) {
 		return compare_contained(l.contains, r.contains);
 	}
 
-	bool operator==(const Stack & l, const Stack & r) {
+	std::strong_ordering operator<=>(const Stack & l, const Stack & r) {
 		return compare_contained(l.contains, r.contains);
 	}
 
-	bool operator==(const Map & l, const Map & r) {
-		return compare_contained(l.key, r.key) && compare_contained(l.val, r.val);
+	std::strong_ordering operator<=>(const Map & l, const Map & r) {
+		const auto order = compare_contained(l.key, r.key);
+		if(order == 0) return compare_contained(l.val, r.val);
+		return order;
 	}
 }

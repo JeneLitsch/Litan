@@ -1,4 +1,5 @@
 #include "compile.hxx"
+#include "stdxx/functional.hxx"
 #include <string_view>
 #include "conversion.hxx"
 
@@ -14,7 +15,12 @@ namespace ltn::c {
 
 
 	namespace {
-		ExprResult do_call(const ast::Call & call, const ast::Functional & fx, CompilerInfo & info, Scope & scope) {
+		ExprResult do_call(
+			const ast::Call & call,
+			const ast::Functional & fx,
+			CompilerInfo & info,
+			Scope & scope,
+			const std::optional<std::string> id_override = std::nullopt) {
 
 			guard_private(fx, scope.get_namespace(), call.location);
 			
@@ -31,15 +37,20 @@ namespace ltn::c {
 				auto & parameter = fx.parameters[i];
 				auto arg = compile_expression(*arg_expr, info, scope);
 
+				const auto expr_type = arg.deduced_type;
+				const auto param_type = instantiate_type(parameter.type, scope);
+
 				buf << arg.code;
-				buf << conversion_on_pass(arg.deduced_type, parameter.type, { call.location, i });
+				buf << conversion_on_pass(expr_type, param_type, {call.location,i});
 			}
 
-			buf << inst::call(fx.id);
+			buf << inst::call(id_override.value_or(fx.id));
+
+			const auto return_type = instantiate_type(fx.return_type, scope);
 			
 			return ExprResult{
 				.code = buf,
-				.deduced_type = fx.return_type,
+				.deduced_type = return_type,
 			};
 		}
 
@@ -58,11 +69,44 @@ namespace ltn::c {
 
 			buf << inst::newarr(call.parameters.size());
 			buf << inst::invoke();
+
+			const auto type = type::deduce_invokation(fx_ptr.deduced_type);
 			
 			return {
 				.code = buf,
-				.deduced_type = type::deduce_invokation(fx_ptr.deduced_type),
+				.deduced_type = type,
 			};
+		}
+
+
+
+		ExprResult do_call_template(
+			const ast::Call & call,
+			const ast::Var & var,
+			CompilerInfo & info,
+			Scope & scope) {
+			
+			const auto tmpl = get_template(
+				var.name,
+				var.namespaze,
+				call.parameters.size(),
+				call.template_args.size(),
+				var.location,
+				info,
+				scope
+			);
+			const auto arguments = stx::fx::mapped(instantiate_type)(
+				call.template_args,
+				scope
+			);
+			info.fx_queue.stage_template(*tmpl, arguments);
+			const auto id = make_template_id(*tmpl->fx, arguments);
+			MinorScope inner_scope(&scope);
+			add_template_args(
+				inner_scope,
+				tmpl->template_parameters,
+				call.template_args);
+			return do_call(call, *tmpl->fx, info, inner_scope, id);
 		}
 	}
 
@@ -70,26 +114,40 @@ namespace ltn::c {
 
 	// compiles function call fx(...)
 	ExprResult compile_expr(const ast::Call & call, CompilerInfo & info, Scope & scope) {
-		if(const auto * var = as<ast::Var>(*call.function_ptr)) {
-			const auto * local = scope.resolve(var->name, var->location);
-			if(local && var->namespaze.empty()) {
-				return do_invoke(call, info, scope);
+		const auto * var = as<ast::Var>(*call.function_ptr);
+		if(var) {
+			if(!call.template_args.empty()) {
+				return do_call_template(call, *var, info, scope);
+			}
+			if(var->namespaze.empty()) {
+				const auto * local = scope.resolve(var->name, var->location);
+				if(local) {
+					return do_invoke(call, info, scope);
+				}
 			}
 
-			const auto * fx = info.fx_table.resolve(var->name, scope.get_namespace(), var->namespaze, call.parameters.size());
+			const auto * fx = info.fx_table.resolve(
+				var->name,
+				scope.get_namespace(),
+				var->namespaze,
+				call.parameters.size());
+
 			if(fx) {
+				info.fx_queue.stage_function(*fx);
 				return do_call(call, *fx, info, scope);
 			}
 
-			const auto * def = info.definition_table.resolve(var->name, scope.get_namespace(), var->namespaze);
+			const auto * def = info.definition_table.resolve(
+				var->name,
+				scope.get_namespace(),
+				var->namespaze);
 			if(def) {
 				return do_invoke(call, info, scope);
 			}
 
 			throw undefined_function(var->name, call);
 		}
-		else {
-			return do_invoke(call, info, scope);
-		}
+
+		return do_invoke(call, info, scope);
 	}
 }

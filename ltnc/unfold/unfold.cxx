@@ -5,6 +5,7 @@ namespace ltn::c {
 		auto t_unit = stx::make_unique<ast::Program>();
 
 		t_unit->functions = std::move(source->functions);
+		t_unit->function_templates = std::move(source->function_templates);
 		t_unit->definitions = std::move(source->definitions);
 		t_unit->globals = std::move(source->globals);
 

@@ -62,7 +62,7 @@ namespace ltn::c {
 			const Symbol & symbol,
 			Args ... args) override {
 			// Prevent redefinition
-			if(this->resolve(symbol.name, symbol.namespaze, args...)) {
+			if(this->resolve(symbol.get_resolve_name(), symbol.get_resolve_namespace(), args...)) {
 				throw Err::redef(symbol);
 			}
 			this->symbols.push_back(&symbol);

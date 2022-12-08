@@ -4,7 +4,11 @@
 namespace ltn::c {
 	namespace {
 
-		InstructionBuffer add_member(CompilerInfo & info, const std::string & name, const InstructionBuffer & init) {
+		InstructionBuffer add_member(
+			CompilerInfo & info,
+			const std::string & name,
+			const InstructionBuffer & init) {
+	
 			InstructionBuffer buf;
 			buf << inst::duplicate();
 			buf << init;
@@ -14,22 +18,33 @@ namespace ltn::c {
 		}
 
 
-		InstructionBuffer add_member_bool(CompilerInfo & info, const std::string & name, bool value) {
+		InstructionBuffer add_member_bool(
+			CompilerInfo & info,
+			const std::string & name,
+			bool value) {
+			
 			return add_member(info, name, InstructionBuffer{
 				value ? inst::bool_true() : inst::bool_false()
 			});
 		}
 
 
-		InstructionBuffer add_member_string(CompilerInfo & info,  const std::string & name, const std::string & str) {
+		InstructionBuffer add_member_string(
+			CompilerInfo & info,
+			const std::string & name,
+			const std::string & str) {
+			
 			return add_member(info, name, InstructionBuffer{inst::newstr(str)});
 		}
 
 
 
-		InstructionBuffer reflect_function(CompilerInfo & info, const ast::Functional & fx) {
+		InstructionBuffer reflect_function(
+			CompilerInfo & info,
+			const ast::Functional & fx) {
+
 			InstructionBuffer buf;
-			MajorScope scope{ast::Namespace{}, false, type::Any{}};
+			MajorScope scope{ast::Namespace{}, false};
 			ast::FxPointer fx_ptr {
 				fx.name,
 				fx.namespaze,
@@ -49,7 +64,10 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer reflect_functions(CompilerInfo & info, const ast::Namespace & namespaze) {
+		InstructionBuffer reflect_functions(
+			CompilerInfo & info,
+			const ast::Namespace & namespaze) {
+
 			InstructionBuffer buf;
 			
 			std::size_t count = 0;
@@ -66,7 +84,10 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer reflect_globals(CompilerInfo info, const ast::Namespace & namespaze) {
+		InstructionBuffer reflect_globals(
+			CompilerInfo & info,
+			const ast::Namespace & namespaze) {
+			
 			InstructionBuffer buf;
 			
 			std::size_t count = 0;
@@ -84,18 +105,27 @@ namespace ltn::c {
 
 
 
-		ExprResult compile_reflect_query(const ast::Reflect::FunctionQuery & query, CompilerInfo & info, Scope & scope) {
+		ExprResult compile_reflect_query(
+			const ast::Reflect::FunctionQuery & query,
+			CompilerInfo & info,
+			Scope & scope) {
+
 			InstructionBuffer buf;
 			auto fx = info.fx_table.resolve(query.name, scope.get_namespace(), query.namespaze, query.arity);
 			if(!fx) throw CompilerError {
 				"Undefined function " + query.namespaze.to_string() + query.name + " in reflection."
 			};
+			info.fx_queue.stage_function(*fx);
 			buf << reflect_function(info, *fx);
 			return {buf};
 		}
 
 
-		ExprResult compile_reflect_query(const ast::Reflect::NamespaceQuery & query, CompilerInfo & info, Scope &) {
+		ExprResult compile_reflect_query(
+			const ast::Reflect::NamespaceQuery & query,
+			CompilerInfo & info,
+			Scope &) {
+
 			InstructionBuffer buf;
 			buf << inst::newstruct();
 			buf << add_member_string(info, "name", query.namespaze.to_string());
@@ -108,7 +138,11 @@ namespace ltn::c {
 
 
 	// compiles array literal
-	ExprResult compile_expr(const ast::Reflect & refl, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(
+		const ast::Reflect & refl,
+		CompilerInfo & info,
+		Scope & scope) {
+			
 		return std::visit([&] (const auto & query) {
 			return compile_reflect_query(query, info, scope);
 		}, refl.query);

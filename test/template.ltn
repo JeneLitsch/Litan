@@ -1,0 +1,84 @@
+namespace sphinx::test {
+	namespace foo {
+		function<T> f() -> T => 13.37 : T
+	}
+
+	function<T> f() -> T => 13.37 : T
+	function<T> f(a : float) -> T => a : T
+	function<T> f(a : float, b : float) -> T => a + b : T
+	function<T1, T2> f(x : T1) -> T2 => f(<T2>, x) : T2
+
+
+
+	function template_call() {
+		assert_equal_strict(f(<int>), 13);
+		assert_equal_strict(f(<float>), 13.37);
+		
+		assert_equal_strict(f(<int>, 42.42), 42);
+		assert_equal_strict(f(<float>, 42.42), 42.42);
+
+		assert_equal_strict(f(<int>, 21.21, 21.21), 42);
+		assert_equal_strict(f(<float>, 21.21, 21.21), 42.42);
+
+		assert_equal_strict(f(<float>, <float>, 1.23), 1.23);
+		assert_equal_strict(f(<float>, <int>, 1.23), 1);
+		assert_equal_strict(f(<int>, <float>, 1), 1.0);
+	}
+
+
+
+	function template_call_with_namespace() {
+		assert_equal_strict(foo::f(<int>), 13);
+		assert_equal_strict(foo::f(<float>), 13.37);
+	}
+
+
+
+	function template_fx_ptr() {
+		assert_equal(decltype(&f(<int>)).name, "fx_ptr<int()>");
+		assert_equal(decltype(&f(<float>)).name, "fx_ptr<float()>");
+
+		assert_equal(decltype(&f(<int>, _)).name, "fx_ptr<int(float)>");
+		assert_equal(decltype(&f(<float>, _)).name, "fx_ptr<float(float)>");
+
+		assert_equal(decltype(&f(<int>, _,_)).name, "fx_ptr<int(float, float)>");
+		assert_equal(decltype(&f(<float>, _,_)).name, "fx_ptr<float(float, float)>");
+
+		assert_equal(decltype(&f(<float>, <float>, _)).name, "fx_ptr<float(float)>");
+		assert_equal(decltype(&f(<float>, <int>, _)).name, "fx_ptr<int(float)>");
+		assert_equal(decltype(&f(<int>, <float>, _)).name, "fx_ptr<float(int)>");
+	}
+
+
+
+	function template_fx_ptr_with_namespace() {
+		assert_equal(decltype(&foo::f(<int>)).name, "fx_ptr<int()>");
+		assert_equal(decltype(&foo::f(<float>)).name, "fx_ptr<float()>");
+	}
+
+
+
+	function template_invoke() {
+		assert_equal_strict(&f(<int>)(), 13);
+		assert_equal_strict(&f(<float>)(), 13.37);
+		
+		assert_equal_strict(&f(<int>,_)(42.42), 42);
+		assert_equal_strict(&f(<float>,_)(42.42), 42.42);
+
+		assert_equal_strict(&f(<int>,_,_)(21.21, 21.21), 42);
+		assert_equal_strict(&f(<float>,_,_)(21.21, 21.21), 42.42);
+
+		assert_equal_strict(&f(<float>,<float>,_)(1.23), 1.23);
+		assert_equal_strict(&f(<float>,<int>,_)(1.23), 1);
+		assert_equal_strict(&f(<int>,<float>,_)(1), 1.0);
+	}
+
+
+
+	function template_invoke_with_namespace() {
+		assert_equal_strict(&foo::f(<int>)(), 13);
+		assert_equal_strict(&foo::f(<float>)(), 13.37);
+	}
+}
+
+

@@ -4,6 +4,12 @@
 namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
+		CompilerError unexpected_else_condition(const Tokens & tokens) {
+			return CompilerError{
+				"else must not have a condition",
+				location(tokens)
+			};
+		}
 	}
 
 
@@ -11,8 +17,9 @@ namespace ltn::c {
 	// parses else branch and returns it if it's existing  
 	ast::stmt_ptr parse_else_branch(Tokens & tokens) {
 		if(match(TT::ELSE, tokens)) {
+			// CHANGE LATER
 			if(match(TT::PAREN_L, tokens)) {
-				throw CompilerError{"else must not have a condition", location(tokens)};
+				throw unexpected_else_condition(tokens);
 			}
 			return parse_statement(tokens);
 		}

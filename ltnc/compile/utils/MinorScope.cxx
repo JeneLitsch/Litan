@@ -19,6 +19,15 @@ namespace ltn::c {
 
 
 
+	const type::Type * MinorScope::resolve_type(const std::string & name) const {
+		if(this->type_map.contains(name)) {
+			return &this->type_map.at(name);
+		}
+		return this->parent->resolve_type(name);
+	}
+
+
+
 	bool MinorScope::is_const() const {
 		return this->parent->is_const();
 	}

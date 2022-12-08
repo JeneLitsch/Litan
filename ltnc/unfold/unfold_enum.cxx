@@ -11,7 +11,7 @@ namespace ltn::c {
 				value->location,
 				name,
 				namespaze,
-				type::Int{}
+				type::IncompleteType{type::Int{}}
 			); 
 			defintion->expr = std::move(value);
 			defintions.push_back(std::move(defintion));

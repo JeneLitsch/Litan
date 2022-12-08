@@ -2,7 +2,11 @@
 #include <string_view>
 namespace ltn::c {
 	// compiles index read operation
-	ExprResult compile_expr(const ast::Index & index, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(
+		const ast::Index & index,
+		CompilerInfo & info,
+		Scope & scope) {
+
 		const auto arr = compile_expression(*index.expression, info, scope);
 		const auto idx = compile_expression(*index.index, info, scope);
 		
@@ -13,9 +17,11 @@ namespace ltn::c {
 			<< idx.code
 			<< inst::at();
 
+		const auto type = type::deduce_index(arr.deduced_type, idx.deduced_type);
+
 		return ExprResult{ 
 			.code = buf,
-			.deduced_type = type::deduce_index(arr.deduced_type, idx.deduced_type)
+			.deduced_type = type,
 		};
 	}
 }

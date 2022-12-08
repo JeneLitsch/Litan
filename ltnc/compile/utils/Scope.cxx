@@ -25,10 +25,8 @@ namespace ltn::c {
 	}
 
 
-
-
-
-
-
+	void Scope::add_type(const std::string & name, const type::Type & type) {
+		this->type_map.insert({name, type});
+	}
 }
 

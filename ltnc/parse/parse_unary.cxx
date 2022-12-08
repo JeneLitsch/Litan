@@ -39,7 +39,7 @@ namespace ltn::c {
 
 
 
-		auto parse_parameters(Tokens & tokens) {
+		auto parse_arguments(Tokens & tokens) {
 			std::vector<std::unique_ptr<ast::Expression>> parameters;
 			if(match(TT::PAREN_R, tokens)) {
 				 return parameters;
@@ -54,6 +54,8 @@ namespace ltn::c {
 				};
 			}
 		}
+
+
 
 
 
@@ -83,18 +85,52 @@ namespace ltn::c {
 				return postfix_fx(tokens, std::move(access));
 			}
 
-			if(match(TT::PAREN_L, tokens)) {
-				auto parameters = parse_parameters(tokens);
+			if(auto begin = match(TT::PAREN_L, tokens)) {
+
+				auto [template_args, done] = parse_template_args(tokens); 
+				std::vector<ast::expr_ptr> function_args; 
+				if(!done) {
+					function_args = parse_arguments(tokens);
+				}
+				
 				auto call = stx::make_unique<ast::Call>(
 					std::move(l),
-					std::move(parameters),
+					std::move(function_args),
 					location(tokens)
 				);
+				call->template_args = template_args;
 				return postfix_fx(tokens, std::move(call));
 			}
 
 			return l;
 		}
+	}
+
+
+
+	std::tuple<std::vector<type::IncompleteType>, bool>
+	parse_template_args(Tokens & tokens){
+		std::vector<type::IncompleteType> template_args;
+		bool done = false;
+
+		while(auto token = match(TT::SMALLER, tokens)) {
+			BraceTracker brace_tracker;
+			brace_tracker.open();
+			template_args.push_back(parse_type(tokens, brace_tracker));
+			close_chevron(tokens, brace_tracker);
+			brace_tracker.finalize();
+			if(match(TT::PAREN_R, tokens)) {
+				done = true;
+				break;
+			}
+			if(match(TT::COMMA, tokens)) {
+				if(match(TT::PAREN_R, tokens)) throw CompilerError{
+					"Unexpected )", location(tokens)
+				};
+			}
+		}
+	
+		return {std::move(template_args), done};
 	}
 
 

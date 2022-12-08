@@ -13,8 +13,9 @@ namespace ltn::c {
 			CompilerInfo & info,
 			Scope & scope) {
 			
+			const auto type = instantiate_type(copy.type, scope);
 			const auto inner = compile_expression(*copy.expr, info, scope);
-			const auto outer = actual_copy(inner.deduced_type, copy.type, copy.location);
+			const auto outer = actual_copy(inner.deduced_type, type, copy.location);
 
 			InstructionBuffer buf;
 			buf << inner.code;
@@ -22,7 +23,7 @@ namespace ltn::c {
 
 			return ExprResult {
 				.code = buf,
-				.deduced_type = deduce_type(copy.type),
+				.deduced_type = deduce_type(type),
 			};
 		}
 	}

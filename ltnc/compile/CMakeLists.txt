@@ -30,7 +30,9 @@ target_sources(libltnc PRIVATE
 	compile_typed_unary.cxx
 	compile_unary.cxx
 	compile_write.cxx
+	compile.cxx
 	conversion.cxx
+	instantiate_type.cxx
 )
 
 add_subdirectory(build_in)

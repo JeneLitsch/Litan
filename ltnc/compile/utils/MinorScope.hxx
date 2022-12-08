@@ -12,6 +12,8 @@ namespace ltn::c {
 		virtual const ast::Namespace & get_namespace() const override;
 		virtual std::optional<std::string> get_return() const override;
 		virtual const type::Type & get_return_type() const override;
+		virtual const type::Type * resolve_type(const std::string & name) const override;
+
 
 		void override_return_type(type::Type return_type);
 

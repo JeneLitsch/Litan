@@ -1,14 +1,22 @@
 #include "compile.hxx"
-
+#include "stdxx/functional.hxx"
 
 namespace ltn::c {
-	auto compile_cases(auto body_fx, const auto & sw1tch, CompilerInfo & info, Scope & scope) {
+	auto compile_cases(
+		auto && body_fx,
+		const auto & sw1tch,
+		CompilerInfo & info,
+		Scope & scope) {
+		
 		using BodyExpr = decltype(body_fx(sw1tch, info, scope));
 
 		InvalidFunctionTable fx_table {"case"};
+		InvalidFunctionTemplateTable fx_template_table {"case"};
 		InvalidGlobalTable global_table {"case"};
 		CompilerInfo case_info {
 			.fx_table = fx_table,
+			.fx_template_table = fx_template_table,
+			.fx_queue		   = info.fx_queue,
 			.definition_table = info.definition_table, 
 			.member_table = info.member_table, 
 			.global_table = global_table,
@@ -34,7 +42,11 @@ namespace ltn::c {
 
 
 
-	auto any_switch(const auto & condition, const auto & cases, const auto & def4ult) {
+	auto any_switch(
+		const auto & condition,
+		const auto & cases,
+		const auto & def4ult) {
+		
 		InstructionBuffer buf;
 
 		const auto id = make_jump_id("SWITCH");
@@ -66,7 +78,11 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_stmt(const ast::StmtSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt(
+		const ast::StmtSwitch & sw1tch,
+		CompilerInfo & info,
+		Scope & scope) {
+		
 		const auto condition = compile_expression(*sw1tch.condition, info, scope);
 		const auto cases = compile_cases(compile_statement, sw1tch, info, scope);
 		const auto def4ault = compile_statement(*sw1tch.d3fault, info, scope);
@@ -80,7 +96,11 @@ namespace ltn::c {
 
 
 
-	ExprResult compile_expr(const ast::ExprSwitch & sw1tch, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(
+		const ast::ExprSwitch & sw1tch,
+		CompilerInfo & info,
+		Scope & scope) {
+		
 		const auto condition = compile_expression(*sw1tch.condition, info, scope);
 		const auto cases = compile_cases(compile_expression, sw1tch, info, scope);
 		const auto def4ault = compile_expression(*sw1tch.d3fault, info, scope);

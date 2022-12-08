@@ -1,7 +1,7 @@
 #include "compile.hxx"
 #include "ltnc/type/check.hxx"
 #include <iostream>
-#include "stdxx/fx_ptr.hxx"
+#include "stdxx/functional.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -227,9 +227,11 @@ namespace ltn::c {
 
 			buf << inst::label(end);
 			
+			const auto type = type::deduce_logic(l.deduced_type,r.deduced_type);
+
 			return {
 				.code = buf,
-				.deduced_type = type::deduce_logic(l.deduced_type,r.deduced_type)
+				.deduced_type = type,
 			};
 		}
 
@@ -252,10 +254,12 @@ namespace ltn::c {
 			buf << inst::bool_true();
 
 			buf << inst::label(end);
+
+			const auto type = type::deduce_logic(l.deduced_type, r.deduced_type);
 			
 			return { 
 				.code = buf,
-				.deduced_type = type::deduce_logic(l.deduced_type, r.deduced_type)
+				.deduced_type = type, 
 			};
 		}
 
@@ -278,9 +282,11 @@ namespace ltn::c {
 			
 			buf << inst::label(jumpmark_end);
 			
+			const auto type = type::deduce_elvis(l.deduced_type, r.deduced_type);
+			
 			return {
 				.code = buf,
-				.deduced_type = type::deduce_elvis(l.deduced_type, r.deduced_type)
+				.deduced_type = type,
 			};
 		}
 
@@ -303,9 +309,12 @@ namespace ltn::c {
 			buf << r.code;
 			
 			buf << inst::label(jumpmark_end);
+
+			const auto type = type::deduce_nullco(l.deduced_type, r.deduced_type);
+
 			return {
 				.code = buf,
-				.deduced_type = type::deduce_nullco(l.deduced_type, r.deduced_type)
+				.deduced_type = type, 
 			};
 		}
 	}
@@ -313,7 +322,11 @@ namespace ltn::c {
 
 
 	// compiles a binary operation
-	ExprResult compile_expr(const ast::Binary & binary, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(
+		const ast::Binary & binary,
+		CompilerInfo & info,
+		Scope & scope) {
+		
 		using OP = ltn::c::ast::Binary::Type;
 		const auto l = compile_expression(*binary.l, info, scope);
 		const auto r = compile_expression(*binary.r, info, scope);

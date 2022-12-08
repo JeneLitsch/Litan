@@ -12,7 +12,7 @@ namespace ltn::c::ast {
 	struct Statement;
 	struct Parameter {
 		std::string name;
-		type::Type type = type::Any{};
+		type::IncompleteType type = type::IncompleteType{type::Any{}};
 	};
 	using Parameters = std::vector<Parameter>;
 
@@ -51,7 +51,7 @@ namespace ltn::c::ast {
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
-			const type::Type & return_type,
+			const type::IncompleteType & return_type,
 			const SourceLocation & location)
 			:	Declaration(location, name, namespaze),
 				parameters(parameters),
@@ -65,7 +65,15 @@ namespace ltn::c::ast {
 		bool init = false;
 
 		std::string id;
-		type::Type return_type;
+		type::IncompleteType return_type;
+
+		const std::string & get_resolve_name() const {
+			return this->name;
+		}
+
+		const Namespace & get_resolve_namespace() const {
+			return this->namespaze;
+		}
 	};
 
 
@@ -76,7 +84,7 @@ namespace ltn::c::ast {
 			Namespace namespaze,
 			Parameters parameters,
 			std::unique_ptr<Statement> && body,
-			const type::Type & return_type,
+			const type::IncompleteType & return_type,
 			const SourceLocation & location)
 			:	Functional{name, namespaze, parameters, return_type, location},
 				body(std::move(body)) {}
@@ -87,11 +95,35 @@ namespace ltn::c::ast {
 			Parameters parameters,
 			std::unique_ptr<Statement> && body,
 			const SourceLocation & location)
-			:	Functional{name, namespaze, parameters, type::Any{}, location},
+			:	Functional{name, namespaze, parameters, type::IncompleteType{type::Any{}}, location},
 				body(std::move(body)) {}
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
 		std::unique_ptr<Except> except;
+	};
+
+
+
+	struct FunctionTemplate : public Node {
+		FunctionTemplate(
+			std::unique_ptr<Functional> fx,
+			std::vector<std::string> template_parameters,
+			const SourceLocation & location)
+			:	Node(location),
+				fx{std::move(fx)},
+				template_parameters{std::move(template_parameters)} {}
+		virtual ~FunctionTemplate() = default;
+		
+		std::unique_ptr<Functional> fx;
+		std::vector<std::string> template_parameters;
+
+		const std::string & get_resolve_name() const {
+			return this->fx->get_resolve_name();
+		}
+
+		const Namespace & get_resolve_namespace() const {
+			return this->fx->get_resolve_namespace();
+		}
 	};
 
 
@@ -102,7 +134,7 @@ namespace ltn::c::ast {
 			Namespace namespaze,
 			Parameters parameters,
 			const std::string & key,
-			const type::Type & return_type,
+			const type::IncompleteType & return_type,
 			const SourceLocation & location)
 			:	Functional{name, namespaze, parameters, return_type, location},
 				key(key) {}

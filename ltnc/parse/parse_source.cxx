@@ -96,6 +96,15 @@ namespace ltn::c {
 	}
 
 
+	void add_to_source(ast::func_ptr && fx, ast::Source & source) {
+		source.functions.push_back(std::move(fx));
+	}
+
+
+	void add_to_source(ast::ftmp_ptr && fx, ast::Source & source) {
+		source.function_templates.push_back(std::move(fx));
+	}
+
 
 	ast::srce_ptr parse_source(Tokens & tokens, Reporter & reporter) {
 		auto source = stx::make_unique<ast::Source>();
@@ -109,7 +118,9 @@ namespace ltn::c {
 					namestack.push(inner_namespace(tokens));
 				}
 				else if(auto fx = parse_functional(tokens, namestack.top())) {
-					source->functions.push_back(std::move(fx));
+					std::visit([&] (auto & node) {
+						add_to_source(std::move(node), *source);
+					}, *fx);
 				}
 				else if(auto definition = parse_definition(tokens, namestack.top())) {
 					source->definitions.push_back(std::move(definition));

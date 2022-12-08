@@ -7,7 +7,11 @@ namespace ltn::c {
 	namespace {
 
 		// compile assignable variable
-		ExprResult compile_read_ref(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
+		ExprResult compile_read_ref(
+			const ast::Assignable & expr,
+			CompilerInfo & info,
+			Scope & scope) {
+			
 			if(auto e = as<ast::Var>(expr)) {
 				if(!e->namespaze.empty()) throw CompilerError{
 					"Local variable must not have a namespace",
@@ -29,9 +33,10 @@ namespace ltn::c {
 				const auto idx = compile_expression(*index->index, info, scope);
 				InstructionBuffer buf;
 				buf << arr.code;
+				const auto type = type::deduce_index(arr.deduced_type, idx.deduced_type);
 				return ExprResult{ 
 					.code = buf,
-					.deduced_type = type::deduce_index(arr.deduced_type, idx.deduced_type)
+					.deduced_type = type
 				};
 			}
 			
@@ -42,11 +47,18 @@ namespace ltn::c {
 			}
 
 			if(auto g = as<ast::GlobalVar>(expr)) {
-				auto global = info.global_table.resolve(g->name, scope.get_namespace(), g->namespaze);
-				if(!global) throw CompilerError{""};
+				auto global = info.global_table.resolve(
+					g->name,
+					scope.get_namespace(),
+					g->namespaze
+				);
+				if(!global) throw CompilerError{
+					"Undefined global" + g->name,
+					g->location
+				};
 				return {
 					.code = {},
-					.deduced_type = global->type,
+					.deduced_type = instantiate_type(global->type, scope),
 				};
 			}
 			
@@ -55,7 +67,11 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer compile_write(const ast::Assignable & expr, CompilerInfo & info, Scope & scope) {
+		InstructionBuffer compile_write(
+			const ast::Assignable & expr,
+			CompilerInfo & info,
+			Scope & scope) {
+			
 			if(auto e = as<ast::Var>(expr)) {
 				const auto var = scope.resolve(e->name, expr.location);
 				if(!var) throw CompilerError {
@@ -139,9 +155,15 @@ namespace ltn::c {
 		}
 
 
-		Variable insert_new_var(const ast::NewVar & new_var, Scope & scope, const type::Type & r_type) {
-			if(auto type = std::get_if<type::Type>(&new_var.type)) {
-				return scope.insert(new_var.name, new_var.location, *type);		
+		Variable insert_new_var(
+			const ast::NewVar & new_var,
+			Scope & scope,
+			const type::Type & r_type) {
+
+			auto imcomplete = std::get_if<type::IncompleteType>(&new_var.type);
+			if(imcomplete) {
+				const auto type = instantiate_type(*imcomplete, scope);
+				return scope.insert(new_var.name, new_var.location, type);		
 			}
 			return scope.insert(new_var.name, new_var.location, r_type);		
 		}
@@ -149,7 +171,11 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_stmt(const ast::NewVar & new_var, CompilerInfo & info, Scope & scope) {
+	StmtResult compile_stmt(
+		const ast::NewVar & new_var,
+		CompilerInfo & info,
+		Scope & scope) {
+		
 		const auto r = compile_new_variable_right(new_var, info, scope);
 		
 		InstructionBuffer buf;

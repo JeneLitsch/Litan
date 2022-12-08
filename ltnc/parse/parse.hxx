@@ -14,7 +14,7 @@ namespace ltn::c {
 	ast::srce_ptr parse_source(Tokens & tokens, Reporter & reporter);
 	
 	// Funcionals
-	ast::func_ptr parse_functional(Tokens & tokens, const ast::Namespace & namespaze);
+	std::optional<std::variant<ast::func_ptr, ast::ftmp_ptr>> parse_functional(Tokens & tokens, const ast::Namespace & namespaze);
 	ast::enum_ptr parse_enumeration(Tokens & tokens, ast::Namespace namespaze);
 	ast::defn_ptr parse_definition(Tokens & tokens, const ast::Namespace & namespaze);
 	ast::prst_ptr parse_preset(Tokens & tokens, const ast::Namespace & namespaze);
@@ -59,6 +59,7 @@ namespace ltn::c {
 	void brace_l(Tokens & tokens);
 	void brace_r(Tokens & tokens);
 
+	std::tuple<std::vector<type::IncompleteType>, bool> parse_template_args(Tokens & tokens);
 
 
 	auto match_op(
@@ -97,10 +98,10 @@ namespace ltn::c {
 
 	std::pair<std::string, ast::Namespace> parse_symbol(Tokens & tokens);
 
-	type::Type parse_type(Tokens & tokens);
-	type::Type parse_type(Tokens & tokens, BraceTracker & brace_tracker);
-	std::variant<type::Type, type::Auto> parse_var_type_auto(Tokens & tokens);
-	type::Type parse_var_type(Tokens & tokens);
-	type::Type parse_parameter_type(Tokens & tokens);
-	type::Type parse_return_type(Tokens & tokens);
+	type::IncompleteType parse_type(Tokens & tokens);
+	type::IncompleteType parse_type(Tokens & tokens, BraceTracker & brace_tracker);
+	std::variant<type::IncompleteType, type::Auto> parse_var_type_auto(Tokens & tokens);
+	type::IncompleteType parse_var_type(Tokens & tokens);
+	type::IncompleteType parse_parameter_type(Tokens & tokens);
+	type::IncompleteType parse_return_type(Tokens & tokens);
 }

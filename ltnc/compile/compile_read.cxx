@@ -45,7 +45,11 @@ namespace ltn::c {
 
 
 	// compiles an variable read accessc
-	ExprResult compile_expr(const ast::Var & expr, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(
+		const ast::Var & expr,
+		CompilerInfo & info,
+		Scope & scope) {
+
 		const auto & name = expr.name;
 		const auto & namespaze = scope.get_namespace();
 		
@@ -54,7 +58,11 @@ namespace ltn::c {
 			return compile_read_local_variable(*var);
 		}
 		
-		const auto * def = info.definition_table.resolve(name, namespaze, expr.namespaze);
+		const auto * def = info.definition_table.resolve(
+			name,
+			namespaze,
+			expr.namespaze);
+		
 		if(def) {
 			InstructionBuffer buf;
 			buf << inst::global_read(def->id);

@@ -134,19 +134,19 @@ namespace ltn::c {
 			auto parse_body) {
 			const auto name = parse_function_name(tokens);
 			const auto parameters = parse_mandatory_parameters(tokens);
-			bool c0nst = false;
-			bool pr1vate = false;
-			bool init = false;
+			bool is_const = false;
+			bool is_private = false;
+			bool is_extern = false;
 			while(auto t = match(TT::INDENTIFIER, tokens)) {
 				if(t->str == "const") {
-					c0nst = true;
+					is_const = true;
 				}
 				else if(t->str == "private") {
-					pr1vate = true;
+					is_private = true;
 				}
 				else if(t->str == "extern") {
 					if(std::size(parameters) == 0 || std::size(parameters) == 1) {
-						init = true;
+						is_extern = true;
 					}
 					else throw CompilerError {
 						"An extern function must have 0 or 1 parameter(s)",
@@ -169,35 +169,72 @@ namespace ltn::c {
 				std::move(body),
 				return_type,
 				location(tokens));
-			fx->c0nst = c0nst;
-			fx->pr1vate = pr1vate;
-			fx->init = init;
+			fx->c0nst = is_const;
+			fx->pr1vate = is_private;
+			fx->init = is_extern;
 			return fx;
+		}
+
+
+		std::vector<std::string> parse_template_parameters(Tokens & tokens) {
+			std::vector<std::string> template_parameters;
+			if(auto begin = match(TT::SMALLER, tokens)) {
+				do {
+					auto t = match(TT::INDENTIFIER, tokens);
+					if (!t) throw CompilerError{
+						"Expected template parameter",
+						begin->location
+					};
+					template_parameters.push_back(t->str);
+				} while(match(TT::COMMA, tokens));
+				if (!match(TT::BIGGER, tokens)) throw CompilerError{
+					"Expected > after template parameters",
+					begin->location
+				};
+			}
+			return template_parameters;
 		}
 	}
 
 
 
 	// parses and returns a functional node
-	ast::func_ptr parse_functional(
+	std::optional<std::variant<ast::func_ptr, ast::ftmp_ptr>> parse_functional(
 		Tokens & tokens,
 		const ast::Namespace & namespaze) {
 
-		if(match(TT::FUNCTION, tokens)) {
+		if(auto function = match(TT::FUNCTION, tokens)) {
+			const auto template_parameters = parse_template_parameters(tokens);
 			auto fx = functional_node<ast::Function>(
 				tokens,
 				namespaze,
 				parse_body);
 			if(!fx->c0nst) fx->except = parse_except(tokens);
-			return fx;
+			if(template_parameters.empty()) {
+				return fx;
+			}
+			return stx::make_unique<ast::FunctionTemplate>(
+				std::move(fx),
+				std::move(template_parameters),
+				function->location
+			);
 		}
-		if(match(TT::BUILD_IN, tokens)) {
-			return functional_node<ast::BuildIn>(
+		if(auto function = match(TT::BUILD_IN, tokens)) {
+			const auto template_parameters = parse_template_parameters(tokens);
+			auto fx = functional_node<ast::BuildIn>(
 				tokens,
 				namespaze,
 				parse_build_in_key);
+			if(template_parameters.empty()) {
+				return fx;
+			}
+			return stx::make_unique<ast::FunctionTemplate>(
+				std::move(fx),
+				std::move(template_parameters),
+				function->location
+			);
 		}
-		return nullptr;
+		return std::nullopt;
 	}
 
 
