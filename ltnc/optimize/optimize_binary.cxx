@@ -3,26 +3,26 @@
 #include "eval/eval_binary.hxx"
 namespace ltn::c {
 	namespace {
-		template<ast::Binary::Type op>
-		bool is_op_type(const ast::Binary & binary) {
+		template<sst::Binary::Type op>
+		bool is_op_type(const sst::Binary & binary) {
 			return binary.type == op;
 		}
-		constexpr auto is_add = is_op_type<ast::Binary::Type::ADD>;
-		constexpr auto is_sub = is_op_type<ast::Binary::Type::SUB>;
-		constexpr auto is_mlt = is_op_type<ast::Binary::Type::MLT>;
-		constexpr auto is_div = is_op_type<ast::Binary::Type::DIV>;
-		constexpr auto is_mod = is_op_type<ast::Binary::Type::MOD>;
+		constexpr auto is_add = is_op_type<sst::Binary::Type::ADD>;
+		constexpr auto is_sub = is_op_type<sst::Binary::Type::SUB>;
+		constexpr auto is_mlt = is_op_type<sst::Binary::Type::MLT>;
+		constexpr auto is_div = is_op_type<sst::Binary::Type::DIV>;
+		constexpr auto is_mod = is_op_type<sst::Binary::Type::MOD>;
 	}
 
 
 
 	template<
 		typename Operator,
-		ast::literal_type LitrL,
-		ast::literal_type LitrR>
-	ast::expr_ptr eval(
-		const ast::Expression & expr_l,
-		const ast::Expression & expr_r) {
+		sst::literal_type LitrL,
+		sst::literal_type LitrR>
+	sst::expr_ptr eval(
+		const sst::Expression & expr_l,
+		const sst::Expression & expr_r) {
 		
 		static constexpr Operator op;
 		auto * l = as<LitrL>(expr_l);
@@ -35,36 +35,36 @@ namespace ltn::c {
 
 
 	template<typename Op>
-	ast::expr_ptr eval_arith(
-		const ast::Expression & l,
-		const ast::Expression & r) {
+	sst::expr_ptr eval_arith(
+		const sst::Expression & l,
+		const sst::Expression & r) {
 		
-		if(auto expr = eval<Op, ast::Bool,    ast::Bool>(l, r))    return expr;
-		if(auto expr = eval<Op, ast::Bool,    ast::Char>(l, r))    return expr;
-		if(auto expr = eval<Op, ast::Bool,    ast::Integer>(l, r)) return expr;
-		if(auto expr = eval<Op, ast::Bool,    ast::Float>(l, r))   return expr;
+		if(auto expr = eval<Op, sst::Bool,    sst::Bool>(l, r))    return expr;
+		if(auto expr = eval<Op, sst::Bool,    sst::Char>(l, r))    return expr;
+		if(auto expr = eval<Op, sst::Bool,    sst::Integer>(l, r)) return expr;
+		if(auto expr = eval<Op, sst::Bool,    sst::Float>(l, r))   return expr;
 
-		if(auto expr = eval<Op, ast::Char,    ast::Bool>(l, r))    return expr;
-		if(auto expr = eval<Op, ast::Char,    ast::Char>(l, r))    return expr;
-		if(auto expr = eval<Op, ast::Char,    ast::Integer>(l, r)) return expr;
-		if(auto expr = eval<Op, ast::Char,    ast::Float>(l, r))   return expr;
+		if(auto expr = eval<Op, sst::Char,    sst::Bool>(l, r))    return expr;
+		if(auto expr = eval<Op, sst::Char,    sst::Char>(l, r))    return expr;
+		if(auto expr = eval<Op, sst::Char,    sst::Integer>(l, r)) return expr;
+		if(auto expr = eval<Op, sst::Char,    sst::Float>(l, r))   return expr;
 
-		if(auto expr = eval<Op, ast::Integer, ast::Bool>(l, r))    return expr;
-		if(auto expr = eval<Op, ast::Integer, ast::Char>(l, r))    return expr;
-		if(auto expr = eval<Op, ast::Integer, ast::Integer>(l, r)) return expr;
-		if(auto expr = eval<Op, ast::Integer, ast::Float>(l, r))   return expr;
+		if(auto expr = eval<Op, sst::Integer, sst::Bool>(l, r))    return expr;
+		if(auto expr = eval<Op, sst::Integer, sst::Char>(l, r))    return expr;
+		if(auto expr = eval<Op, sst::Integer, sst::Integer>(l, r)) return expr;
+		if(auto expr = eval<Op, sst::Integer, sst::Float>(l, r))   return expr;
 
-		if(auto expr = eval<Op, ast::Float,   ast::Bool>(l, r))    return expr;
-		if(auto expr = eval<Op, ast::Float,   ast::Char>(l, r))    return expr;
-		if(auto expr = eval<Op, ast::Float,   ast::Integer>(l, r)) return expr;
-		if(auto expr = eval<Op, ast::Float,   ast::Float>(l, r))   return expr;
+		if(auto expr = eval<Op, sst::Float,   sst::Bool>(l, r))    return expr;
+		if(auto expr = eval<Op, sst::Float,   sst::Char>(l, r))    return expr;
+		if(auto expr = eval<Op, sst::Float,   sst::Integer>(l, r)) return expr;
+		if(auto expr = eval<Op, sst::Float,   sst::Float>(l, r))   return expr;
 
 		return nullptr;
 	}
 
 
 
-	ast::expr_ptr optimize_binary(ast::Binary & binary) {
+	sst::expr_ptr optimize_binary(sst::Binary & binary) {
 		auto & l = binary.l;
 		auto & r = binary.r;
 		l = optimize_expression(std::move(l));
@@ -72,7 +72,7 @@ namespace ltn::c {
 		
 		if(is_add(binary)) {
 			if(auto expr = eval_arith<Addition>(*l, *r)) return expr;
-			if(auto expr = eval<Addition, ast::String,  ast::String>(*l, *r))  return expr;
+			if(auto expr = eval<Addition, sst::String,  sst::String>(*l, *r))  return expr;
 		}
 
 		if(is_sub(binary)) {

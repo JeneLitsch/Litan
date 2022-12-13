@@ -7,16 +7,16 @@ namespace ltn::c {
 
 	template<std::integral T>
 	struct node<T> {
-		using type = ast::Integer;
+		using type = sst::Integer;
 	};
 
 	template<std::floating_point T>
 	struct node<T> {
-		using type = ast::Float;
+		using type = sst::Float;
 	};
 
 	template<>
 	struct node<const std::string> {
-		using type = ast::String;
+		using type = sst::String;
 	};
 }

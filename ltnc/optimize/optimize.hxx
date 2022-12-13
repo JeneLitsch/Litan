@@ -1,24 +1,24 @@
 #pragma once
-#include "ltnc/ast/Ast.hxx"
+#include "ltnc/sst/SST.hxx"
 namespace ltn::c {
 	struct OptimizerInfo {
 		
 	};
 
-	ast::expr_ptr optimize_primary(ast::Primary & primary);
-	ast::expr_ptr optimize_unary(ast::Unary & unary);
-	ast::expr_ptr optimize_binary(ast::Binary & binary);
-	ast::expr_ptr optimize_ternary(ast::Ternary & ternary);
-	ast::expr_ptr optimize_expression(ast::Expression & expr);
-	ast::expr_ptr optimize_expression(ast::expr_ptr expr);
+	sst::expr_ptr optimize_primary(sst::Primary & primary);
+	sst::expr_ptr optimize_unary(sst::Unary & unary);
+	sst::expr_ptr optimize_binary(sst::Binary & binary);
+	sst::expr_ptr optimize_ternary(sst::Ternary & ternary);
+	sst::expr_ptr optimize_expression(sst::Expression & expr);
+	sst::expr_ptr optimize_expression(sst::expr_ptr expr);
 
-	ast::stmt_ptr optimize_statement(ast::Statement & stmt);
-	ast::stmt_ptr optimize_statement(ast::stmt_ptr stmt);
+	sst::stmt_ptr optimize_statement(sst::Statement & stmt);
+	sst::stmt_ptr optimize_statement(sst::stmt_ptr stmt);
 
-	void optimize_definition(ast::Definition & definition);
-	void optimize_function(ast::Function & function);
+	void optimize_definition(sst::Definition & definition);
+	void optimize_function(sst::Function & function);
 
 
-	void optimize(ast::Source & program);
+	void optimize(sst::Program & program);
 
 }

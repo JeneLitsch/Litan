@@ -19,28 +19,28 @@ namespace ltn::c {
 
 
 	template<>
-	inline auto truthy<ast::String>(ast::String &) {
+	inline auto truthy<sst::String>(sst::String &) {
 		return true;
 	}
 
 
 
 	template<>
-	inline auto truthy<ast::Array>(ast::Array &) {
+	inline auto truthy<sst::Array>(sst::Array &) {
 		return true;
 	}
 
 
 
 	template<>
-	inline auto truthy<ast::Null>(ast::Null &) {
+	inline auto truthy<sst::Null>(sst::Null &) {
 		return false;
 	}
 
 
 
 	template<typename Condition>
-	bool is_truthy(ast::Expression & condition) {
+	bool is_truthy(sst::Expression & condition) {
 		if(auto * c = as<Condition>(condition)) {
 			return truthy<Condition>(*c);
 		}

@@ -115,8 +115,8 @@ int main(int argc, char const *argv[]){
 		auto sources = read_sources(flag_source.value(), reporter);
 		auto tokens = ltn::c::tokenize(std::move(sources), reporter);
 		auto source = ltn::c::parse(tokens, reporter);
-		if(flag_o) ltn::c::optimize(source);
 		auto program = ltn::c::analyze(source, reporter);
+		if(flag_o) ltn::c::optimize(program);
 		auto instructions = ltn::c::compile(program, reporter);
 		if(flag_o) instructions.insts = ltn::c::peephole(instructions.insts);
 		reporter.may_throw();

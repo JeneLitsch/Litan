@@ -20,7 +20,7 @@ preset A {
 
 
 function main() {
-	var a = A(42);
+	var a = A(40 + 2);
 	std::println(a.x);
 	var map : auto = std::map(<int>, <string>);
 	std::println(decltype(map).name);

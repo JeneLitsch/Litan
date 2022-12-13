@@ -2,8 +2,8 @@
 #include "ltn/casts.hxx"
 #include "eval/eval_unary.hxx"
 namespace ltn::c {
-	ast::expr_ptr optimize_primary(ast::Primary & primary) {
-		if(auto call = as<ast::Call>(primary)) {
+	sst::expr_ptr optimize_primary(sst::Primary & primary) {
+		if(auto call = as<sst::Call>(primary)) {
 			for(auto & parameter : call->parameters) {
 				parameter = optimize_expression(std::move(parameter));
 			}

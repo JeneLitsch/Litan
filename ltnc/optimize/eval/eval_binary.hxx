@@ -6,7 +6,7 @@
 namespace ltn::c {
 	template<typename Op>
 	struct Arithmetic {
-		template<ast::literal_type L, ast::literal_type R>
+		template<sst::literal_type L, sst::literal_type R>
 		auto operator()(const L & l, const R & r) const {
 			static constexpr Op op;
 			using Promoted = decltype(l.value + r.value);

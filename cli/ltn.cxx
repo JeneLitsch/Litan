@@ -59,8 +59,8 @@ int main(int argc, char const *argv[]) {
 
 		auto lexer = ltn::c::tokenize(std::move(sources), reporter);
 		auto source = ltn::c::parse(lexer, reporter);
-		if(flag_o) ltn::c::optimize(source);
 		auto program = ltn::c::analyze(source, reporter);
+		if(flag_o) ltn::c::optimize(program);
 		auto instructions = ltn::c::compile(program, reporter);
 		if(flag_o) instructions.insts = ltn::c::peephole(instructions.insts);
 		auto bytecode = ltn::c::assemble(instructions);
