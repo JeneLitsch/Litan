@@ -1,7 +1,7 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
 namespace ltn::c {
-	void optimize(ast::Program & program) {
+	void optimize(ast::Source & program) {
 		for(const auto & def : program.definitions) {
 			optimize_definition(*def);
 		}

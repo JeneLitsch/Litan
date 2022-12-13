@@ -27,8 +27,10 @@ namespace ltn::c {
 	sst::func_ptr analyze_functional(const ast::Functional &, CompilerInfo &);
 	sst::ftmp_ptr analyze_function_template(const ast::FunctionTemplate &, CompilerInfo &);
 	
-	std::unique_ptr<sst::Global> analyze_global(const ast::Global &, CompilerInfo &);
-	std::unique_ptr<sst::Definition> analyze_definition(const ast::Definition &, CompilerInfo &);
+	sst::glob_ptr analyze_global(const ast::Global &, CompilerInfo &);
+	sst::defn_ptr analyze_definition(const ast::Definition &, CompilerInfo &);
+	sst::func_ptr analyze_preset(const ast::Preset &);
+	std::vector<sst::defn_ptr> analyze_enumeration(const ast::Enumeration &);
 
 	sst::stmt_ptr analyze_statement(const ast::Statement &, CompilerInfo &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::Block &, CompilerInfo &, Scope &);

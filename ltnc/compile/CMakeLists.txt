@@ -3,7 +3,9 @@ cmake_minimum_required(VERSION 3.13)
 target_sources(libltnc PRIVATE 
 	analyze_expression.cxx	
 	analyze_function.cxx	
-	analyze_statement.cxx	
+	analyze_statement.cxx
+	analyze_enum.cxx
+	analyze_preset.cxx
 	analyze.cxx	
 	cast_static.cxx
 	copy_dynamic.cxx

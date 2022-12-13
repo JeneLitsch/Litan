@@ -22,18 +22,7 @@ namespace ltn::c::sst {
 		std::vector<glob_ptr> globals;
 	};
 
-	struct Source {
-		std::vector<func_ptr> functions;
-		std::vector<ftmp_ptr> function_templates;
-		std::vector<defn_ptr> definitions;
-		std::vector<glob_ptr> globals;
-		std::vector<prst_ptr> presets;
-		std::vector<enum_ptr> enums;
-	};
-
-
 	using prog_ptr = std::unique_ptr<Program>;
-	using srce_ptr = std::unique_ptr<Source>;
 
 	template<typename T>
 	concept literal_type = std::is_base_of<sst::Literal, T>::value;

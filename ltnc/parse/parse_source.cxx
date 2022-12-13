@@ -106,8 +106,8 @@ namespace ltn::c {
 	}
 
 
-	ast::srce_ptr parse_source(Tokens & tokens, Reporter & reporter) {
-		auto source = stx::make_unique<ast::Source>();
+	ast::Source parse_source(Tokens & tokens, Reporter & reporter) {
+		ast::Source source;
 		const Namespace namespaze;
 
 		stx::accu_stack<Namespace> namestack;
@@ -119,20 +119,20 @@ namespace ltn::c {
 				}
 				else if(auto fx = parse_functional(tokens, namestack.top())) {
 					std::visit([&] (auto & node) {
-						add_to_source(std::move(node), *source);
+						add_to_source(std::move(node), source);
 					}, *fx);
 				}
 				else if(auto definition = parse_definition(tokens, namestack.top())) {
-					source->definitions.push_back(std::move(definition));
+					source.definitions.push_back(std::move(definition));
 				}
 				else if(auto preset = parse_preset(tokens, namestack.top())) {
-					source->presets.push_back(std::move(preset));
+					source.presets.push_back(std::move(preset));
 				}
 				else if(match(TT::ENUM, tokens)) {
-					source->enums.push_back(parse_enumeration(tokens, namestack.top()));
+					source.enums.push_back(parse_enumeration(tokens, namestack.top()));
 				}
 				else if(match(TT::GLOBAL, tokens)) {
-					source->globals.push_back(parse_global_decl(tokens, namestack.top()));
+					source.globals.push_back(parse_global_decl(tokens, namestack.top()));
 				}
 				else if(match(TT::BRACE_R, tokens)) {
 					if(namestack.empty()) {

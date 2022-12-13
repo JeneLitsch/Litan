@@ -14,9 +14,14 @@ function<T,U> f(a : T, b : U) -> T {
 function<T> test(a : T) -> T => a
 
 global a = 4;
+preset A {
+	var x;
+}
 
 
 function main() {
+	var a = A(42);
+	std::println(a.x);
 	var map : auto = std::map(<int>, <string>);
 	std::println(decltype(map).name);
 	var std_fx = reflect(namespace std).functions;

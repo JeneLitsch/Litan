@@ -10,6 +10,8 @@
 #include "ltnc/lex/lexing.hxx"
 #include <set>
 #include "AddressTable.hxx"
+#include "ltnc/ast/Ast.hxx"
+#include "ltnc/sst/SST.hxx"
 
 namespace ltn::c {
 	struct Instructions {
@@ -22,12 +24,16 @@ namespace ltn::c {
 		std::vector<Source> sources,
 		Reporter & reporter);
 
-	ast::Program parse(
+	ast::Source parse(
 		Tokens & tokens,
 		Reporter & reporter);
 
+	sst::Program analyze(
+		const ast::Source & source,
+		Reporter & reporter);
+
 	Instructions compile(
-		const ast::Program & program,
+		const sst::Program & program,
 		Reporter & reporter);
 
 	std::vector<std::uint8_t> assemble(

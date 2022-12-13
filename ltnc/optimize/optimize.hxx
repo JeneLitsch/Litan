@@ -19,6 +19,6 @@ namespace ltn::c {
 	void optimize_function(ast::Function & function);
 
 
-	void optimize(ast::Program & program);
+	void optimize(ast::Source & program);
 
 }

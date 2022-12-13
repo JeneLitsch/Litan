@@ -2,7 +2,6 @@
 #include <vector>
 #include <iostream>
 #include "parse/parse.hxx"
-#include "unfold/unfold.hxx"
 #include "optimize/optimize.hxx"
 #include "assemble/assemble.hxx"
 #include <string_view>
@@ -14,12 +13,11 @@
 using namespace std::string_view_literals;
 
 namespace ltn::c {
-	ast::Program parse(
+	ast::Source parse(
 		Tokens & tokens,
 		Reporter & reporter) {
 		
-		auto source = parse_source(tokens, reporter);
-		return std::move(*unfold_source(std::move(source)));
+		return parse_source(tokens, reporter);
 	}
 
 	Tokens tokenize(
@@ -144,11 +142,64 @@ namespace ltn::c {
 			return compile_function_template(staged.tmpl, info, staged.arguments); 
 		}
 	}
-	
+
+
+	sst::Program analyze(
+		const ast::Source & source,
+		Reporter & reporter) {
+		
+		sst::Program program;
+		ValidFunctionTable fx_table;
+		FunctionQueue fx_queue;
+		ValidFunctionTemplateTable fx_template_table;
+		ValidDefinitionTable definition_table;
+		MemberTable member_table;
+		ValidGlobalTable global_table;
+		CompilerInfo info {
+			.fx_table = fx_table,
+			.fx_template_table = fx_template_table,
+			.fx_queue = fx_queue,
+			.definition_table = definition_table,
+			.member_table = member_table,
+			.global_table = global_table,
+			.reporter = reporter,
+		};
+
+
+		for(auto & preset : source.presets) {
+			auto ctor = analyze_preset(*preset);
+			program.functions.push_back(std::move(ctor));
+		}
+
+		for(auto & enym : source.enums) {
+			auto definitions = analyze_enumeration(*enym);
+			for(auto & definition : definitions) {
+				program.definitions.push_back(std::move(definition));
+			}
+		}
+
+		for(const auto & definition : source.definitions) {
+			program.definitions.push_back(analyze_definition(*definition, info));
+		}
+
+		for(const auto & global : source.globals) {
+			program.globals.push_back(analyze_global(*global, info));
+		}
+
+		for(const auto & fx_tmpl : source.function_templates) {
+			program.function_templates.push_back(analyze_function_template(*fx_tmpl, info));
+		}
+
+		for(const auto & fx : source.functions) {
+			program.functions.push_back(analyze_functional(*fx, info));
+		}
+
+		return program;
+	}
 
 	// compiles source
 	Instructions compile(
-		const ast::Program & program,
+		const sst::Program & program,
 		Reporter & reporter) {
 		
 		InstructionBuffer buf;
@@ -168,43 +219,24 @@ namespace ltn::c {
 			.reporter = reporter,
 		};
 
-		sst::Program sst;
+
 		for(const auto & definition : program.definitions) {
-			sst.definitions.push_back(analyze_definition(*definition, info));
-		}
-
-		for(const auto & global : program.globals) {
-			sst.globals.push_back(analyze_global(*global, info));
-		}
-
-		for(const auto & fx_tmpl : program.function_templates) {
-			sst.function_templates.push_back(analyze_function_template(*fx_tmpl, info));
-		}
-
-		for(const auto & fx : program.functions) {
-			sst.functions.push_back(analyze_functional(*fx, info));
-		}
-
-
-
-
-		for(const auto & definition : sst.definitions) {
 			info.definition_table.insert(*definition);
 		}
-		buf << define_init(info, sst.definitions);
+		buf << define_init(info, program.definitions);
 
-		for(const auto & global : sst.globals) {
+		for(const auto & global : program.globals) {
 			info.global_table.insert(*global);
 		}
-		buf << global_init(info, sst.globals);
+		buf << global_init(info, program.globals);
 
-		for(const auto & fx_tmpl : sst.function_templates) {
+		for(const auto & fx_tmpl : program.function_templates) {
 			const auto function_arity = std::size(fx_tmpl->fx->parameters);
 			const auto template_arity = std::size(fx_tmpl->template_parameters);
 			info.fx_template_table.insert(*fx_tmpl, function_arity, template_arity);
 		}
 
-		for(const auto & fx : sst.functions) {
+		for(const auto & fx : program.functions) {
 			info.fx_table.insert(*fx, std::size(fx->parameters));
 		}
 
@@ -213,7 +245,7 @@ namespace ltn::c {
 		buf << inst::null();
 		buf << inst::exit();
 		
-		auto externs = find_extern_funtions(sst);
+		auto externs = find_extern_funtions(program);
 
 		for(const auto & function : externs) {
 			fx_queue.stage_function(function);
@@ -233,7 +265,7 @@ namespace ltn::c {
 		std::set<std::string> extern_functions;
 		extern_functions.insert("main(0)");
 		extern_functions.insert("main(1)");
-		for(const auto & fx : sst.functions) {
+		for(const auto & fx : program.functions) {
 			if(fx->init) extern_functions.insert(fx->id);
 		}
 
