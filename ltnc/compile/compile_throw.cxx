@@ -1,7 +1,7 @@
 #include "compile.hxx"
 namespace ltn::c {
 	StmtResult compile_stmt(
-		const ast::Throw & thr0w,
+		const sst::Throw & thr0w,
 		CompilerInfo & info,
 		Scope & scope) {
 		

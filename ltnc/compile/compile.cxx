@@ -21,7 +21,7 @@ namespace ltn::c {
 	}
 
 
-	stx::reference<const ast::FunctionTemplate> get_template(
+	stx::reference<const sst::FunctionTemplate> get_template(
 		const std::string & name,
 		const Namespace & namespaze,
 		const std::size_t function_arity,
@@ -50,7 +50,7 @@ namespace ltn::c {
 
 
 	std::string make_template_id(
-		const ast::Functional & fx,
+		const sst::Functional & fx,
 		const std::vector<type::Type> & arguments) {
 		
 		std::ostringstream oss;

@@ -3,7 +3,7 @@
 namespace ltn::c {
 	// compiles index read operation
 	ExprResult compile_expr(
-		const ast::Index & index,
+		const sst::Index & index,
 		CompilerInfo & info,
 		Scope & scope) {
 

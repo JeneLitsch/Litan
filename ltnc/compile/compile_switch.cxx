@@ -79,7 +79,7 @@ namespace ltn::c {
 
 
 	StmtResult compile_stmt(
-		const ast::StmtSwitch & sw1tch,
+		const sst::StmtSwitch & sw1tch,
 		CompilerInfo & info,
 		Scope & scope) {
 		
@@ -97,7 +97,7 @@ namespace ltn::c {
 
 
 	ExprResult compile_expr(
-		const ast::ExprSwitch & sw1tch,
+		const sst::ExprSwitch & sw1tch,
 		CompilerInfo & info,
 		Scope & scope) {
 		

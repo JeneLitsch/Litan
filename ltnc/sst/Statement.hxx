@@ -111,7 +111,7 @@ namespace ltn::c::sst {
 
 	struct For final : public Statement {
 		For(
-			std::unique_ptr<Statement> var,
+			std::unique_ptr<NewVar> var,
 			std::unique_ptr<Expression> from,
 			std::unique_ptr<Expression> to,
 			std::unique_ptr<Expression> step,
@@ -125,7 +125,7 @@ namespace ltn::c::sst {
 				body(std::move(body)) {}
 
 		virtual ~For() = default;
-		std::unique_ptr<Statement> var;
+		std::unique_ptr<NewVar> var;
 		std::unique_ptr<Expression> from;
 		std::unique_ptr<Expression> to;
 		std::unique_ptr<Expression> step;

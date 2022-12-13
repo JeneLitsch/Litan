@@ -37,7 +37,9 @@ namespace ltn::c {
 				std::move(sst_case)
 			});
 		}
-		expr_switch->d3fault = analyze_expression(*expr.d3fault, info, scope);
+		if(expr.d3fault) {
+			expr_switch->d3fault = analyze_expression(*expr.d3fault, info, scope);
+		}
 		return expr_switch;
 	}
 
@@ -147,11 +149,13 @@ namespace ltn::c {
 		for(const auto & param : expr.parameters) {
 			parameters.push_back(analyze_expression(*param, info, scope));
 		}
-		auto arr = stx::make_unique<sst::Call>(
+		auto call = stx::make_unique<sst::Call>(
 			std::move(function_ptr),
 			std::move(parameters),
 			expr.location
 		);
+		call->template_args = expr.template_args;
+		return call;
 	}
 
 

@@ -5,7 +5,7 @@
 namespace ltn::c {
 	// compiles -> return...;
 	StmtResult compile_stmt(
-		const ast::Return & ret,
+		const sst::Return & ret,
 		CompilerInfo & info,
 		Scope & scope) {
 		

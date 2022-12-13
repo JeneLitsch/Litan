@@ -50,7 +50,7 @@ namespace ltn::c {
 
 
 		ExprResult compile_null_test(
-			const ast::Expression & expr,
+			const sst::Expression & expr,
 			CompilerInfo & info,
 			Scope & scope) {
 			
@@ -97,11 +97,11 @@ namespace ltn::c {
 
 
 	ExprResult compile_expr(
-		const ast::Unary & expr,
+		const sst::Unary & expr,
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		using Op = ast::Unary::Type;
+		using Op = sst::Unary::Type;
 		const auto & inner = *expr.expression;
 		const auto x = compile_expression(inner, info, scope);
 		

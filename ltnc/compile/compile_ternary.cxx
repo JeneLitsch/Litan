@@ -1,7 +1,7 @@
 #include "compile.hxx"
 namespace ltn::c {
 	ExprResult compile_expr(
-		const ast::Ternary & expr,
+		const sst::Ternary & expr,
 		CompilerInfo & info,
 		Scope & scope) {
 		

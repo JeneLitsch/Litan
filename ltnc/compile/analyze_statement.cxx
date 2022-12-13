@@ -95,10 +95,10 @@ namespace ltn::c  {
 
 
 	sst::stmt_ptr analyze_stmt(const ast::For & stmt, CompilerInfo & info, Scope & scope) {
-		auto var = analyze_statement(*stmt.var, info, scope);
+		auto var = analyze_stmt(*stmt.var, info, scope);
 		auto from = analyze_expression(*stmt.from, info, scope);
 		auto to = analyze_expression(*stmt.to, info, scope);
-		auto step = analyze_expression(*stmt.step, info, scope);
+		auto step = stmt.step ? analyze_expression(*stmt.step, info, scope) : nullptr;
 		auto body = analyze_statement(*stmt.body, info, scope);
 		return stx::make_unique<sst::For>(
 			std::move(var),
@@ -112,7 +112,7 @@ namespace ltn::c  {
 
 
 
-	sst::stmt_ptr analyze_stmt(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope) {
+	std::unique_ptr<sst::NewVar> analyze_stmt(const ast::NewVar & stmt, CompilerInfo & info, Scope & scope) {
 		if(stmt.expression) {
 			auto expr = analyze_expression(*stmt.expression, info, scope);
 			return std::make_unique<sst::NewVar>(stmt.name, std::move(expr), stmt.location, stmt.type);
@@ -156,7 +156,7 @@ namespace ltn::c  {
 
 	
 	sst::stmt_ptr analyze_statement(const ast::Statement & stmt, CompilerInfo & info, Scope & scope) {
-		return ast::visit_statement(stmt, [&] (const auto & s) {
+		return ast::visit_statement(stmt, [&] (const auto & s) -> sst::stmt_ptr {
 			return analyze_stmt(s, info, scope);
 		});
 	}

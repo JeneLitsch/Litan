@@ -29,7 +29,7 @@ namespace ltn::c {
 
 
 	void guard_private(
-		const ast::Functional & fx,
+		const sst::Functional & fx,
 		const Namespace & call_ns,
 		const SourceLocation & loc) {
 		if(
@@ -46,7 +46,7 @@ namespace ltn::c {
 
 	// compiles an variable read accessc
 	ExprResult compile_expr(
-		const ast::Var & expr,
+		const sst::Var & expr,
 		CompilerInfo & info,
 		Scope & scope) {
 
@@ -77,7 +77,7 @@ namespace ltn::c {
 
 	
 	ExprResult compile_expr(
-		const ast::Member & access,
+		const sst::Member & access,
 		CompilerInfo & info,
 		Scope & scope) {
 

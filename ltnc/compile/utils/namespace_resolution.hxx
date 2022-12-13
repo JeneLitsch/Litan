@@ -1,27 +1,27 @@
 #pragma once
-#include "ltnc/ast/Ast.hxx"
+#include "ltnc/sst/SST.hxx"
 namespace ltn::c {
-	const ast::Functional * resolve(
-		const std::vector<const ast::Functional *> & functions,
+	const sst::Functional * resolve(
+		const std::vector<const sst::Functional *> & functions,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name,
 		const std::size_t parameters);
 
-	const ast::Definition * resolve(
-		const std::vector<const ast::Definition *> & definitions,
+	const sst::Definition * resolve(
+		const std::vector<const sst::Definition *> & definitions,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name);
 
-	const ast::Global * resolve(
-		const std::vector<const ast::Global *> & globals,
+	const sst::Global * resolve(
+		const std::vector<const sst::Global *> & globals,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name);
 
-	const ast::FunctionTemplate * resolve(
-		const std::vector<const ast::FunctionTemplate *> & functions,
+	const sst::FunctionTemplate * resolve(
+		const std::vector<const sst::FunctionTemplate *> & functions,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name,

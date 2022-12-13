@@ -13,11 +13,18 @@ function<T,U> f(a : T, b : U) -> T {
 
 function<T> test(a : T) -> T => a
 
+global a = 4;
+
 
 function main() {
 	var map : auto = std::map(<int>, <string>);
 	std::println(decltype(map).name);
+	var std_fx = reflect(namespace std).functions;
+	for(i : 1 -> std::size(std_fx)) {
+		// std::println(std_fx[i].name);
+	}
+	std::println(global a);
 	f(<int>);
 	f(<int>, <int>, 1, 2);
-	&f(<int>);
+	&f(<int>)();
 }

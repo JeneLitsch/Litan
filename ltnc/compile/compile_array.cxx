@@ -2,7 +2,7 @@
 #include <string_view>
 namespace ltn::c {
 	// compiles array literal
-	ExprResult compile_expr(const ast::Array & array, CompilerInfo & info, Scope & scope) {
+	ExprResult compile_expr(const sst::Array & array, CompilerInfo & info, Scope & scope) {
 		InstructionBuffer buf;
 		type::Array array_type;
 		for(const auto & elem : array.elements) {

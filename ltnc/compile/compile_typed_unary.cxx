@@ -31,16 +31,16 @@ namespace ltn::c {
 
 
 	ExprResult compile_expr(
-		const ast::TypedUnary & expr,
+		const sst::TypedUnary & expr,
 		CompilerInfo & info,
 		Scope & scope) {
 
 		switch (expr.op) {
-		case ast::TypedUnary::Op::STATIC_COPY:
+		case sst::TypedUnary::Op::STATIC_COPY:
 			return actual(copy_static, type::deduce_copy_static, expr, info, scope);
-		case ast::TypedUnary::Op::DYNAMIC_COPY:
+		case sst::TypedUnary::Op::DYNAMIC_COPY:
 			return actual(copy_dynamic, type::deduce_copy_dynamic, expr, info, scope);
-		case ast::TypedUnary::Op::STATIC_CAST:
+		case sst::TypedUnary::Op::STATIC_CAST:
 			return actual(cast_static, type::deduce_cast_static, expr, info, scope);
 		// case ast::TypedUnary::Op::DYNAMIC_CAST:
 			// return compile_cast_copy(cast_dynamic, type::deduce_cast_dynamic, copy, info, scope);

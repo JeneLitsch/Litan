@@ -8,11 +8,11 @@ namespace ltn::c {
 
 		// compile assignable variable
 		ExprResult compile_read_ref(
-			const ast::Assignable & expr,
+			const sst::Assignable & expr,
 			CompilerInfo & info,
 			Scope & scope) {
 			
-			if(auto e = as<ast::Var>(expr)) {
+			if(auto e = as<sst::Var>(expr)) {
 				if(!e->namespaze.empty()) throw CompilerError{
 					"Local variable must not have a namespace",
 					e->location
@@ -28,7 +28,7 @@ namespace ltn::c {
 				};
 			}
 			
-			if(auto index = as<ast::Index>(expr)) {
+			if(auto index = as<sst::Index>(expr)) {
 				const auto arr = compile_expression(*index->expression, info, scope);
 				const auto idx = compile_expression(*index->index, info, scope);
 				InstructionBuffer buf;
@@ -40,13 +40,13 @@ namespace ltn::c {
 				};
 			}
 			
-			if(auto e = as<ast::Member>(expr)) {
+			if(auto e = as<sst::Member>(expr)) {
 				InstructionBuffer buf;
 				buf << compile_expression(*e->expr, info, scope).code;
 				return ExprResult{ buf };
 			}
 
-			if(auto g = as<ast::GlobalVar>(expr)) {
+			if(auto g = as<sst::GlobalVar>(expr)) {
 				auto global = info.global_table.resolve(
 					g->name,
 					scope.get_namespace(),
@@ -68,11 +68,11 @@ namespace ltn::c {
 
 
 		InstructionBuffer compile_write(
-			const ast::Assignable & expr,
+			const sst::Assignable & expr,
 			CompilerInfo & info,
 			Scope & scope) {
 			
-			if(auto e = as<ast::Var>(expr)) {
+			if(auto e = as<sst::Var>(expr)) {
 				const auto var = scope.resolve(e->name, expr.location);
 				if(!var) throw CompilerError {
 					"Undefined variable" + e->name,
@@ -83,7 +83,7 @@ namespace ltn::c {
 				return buf;
 			}
 			
-			if(auto e = as<ast::Index>(expr)) {
+			if(auto e = as<sst::Index>(expr)) {
 				const auto idx = compile_expression(*e->index, info, scope);
 				InstructionBuffer buf;
 				buf << idx.code;
@@ -91,14 +91,14 @@ namespace ltn::c {
 				return buf;
 			}
 			
-			if(auto e = as<ast::Member>(expr)) {
+			if(auto e = as<sst::Member>(expr)) {
 				InstructionBuffer buf;
 				const auto id = info.member_table.get_id(e->name);
 				buf << inst::member_write(id);
 				return buf;
 			}
 			
-			if(auto global = as<ast::GlobalVar>(expr)) {
+			if(auto global = as<sst::GlobalVar>(expr)) {
 				return compile_write_global(*global, info, scope).code;
 			}
 
@@ -109,12 +109,12 @@ namespace ltn::c {
 
 
 	StmtResult compile_stmt(
-		const ast::Assign & expr,
+		const sst::Assign & expr,
 		CompilerInfo & info,
 		Scope & scope) {
 		guard_const(expr, scope);
-		const auto l_prepare = compile_read_ref(*expr.l, info, scope);
-		const auto l_write = compile_write(*expr.l, info, scope);
+		const auto l_prepare = compile_read_ref(static_cast<sst::Assignable&>(*expr.l), info, scope);
+		const auto l_write = compile_write(static_cast<sst::Assignable&>(*expr.l), info, scope);
 		const auto r = compile_expression(*expr.r, info, scope);
 
 		InstructionBuffer buf;
@@ -137,7 +137,7 @@ namespace ltn::c {
 
 	namespace {
 		ExprResult compile_new_variable_right(
-			const ast::NewVar & new_var,
+			const sst::NewVar & new_var,
 			CompilerInfo & info,
 			Scope & scope) {
 			
@@ -156,7 +156,7 @@ namespace ltn::c {
 
 
 		Variable insert_new_var(
-			const ast::NewVar & new_var,
+			const sst::NewVar & new_var,
 			Scope & scope,
 			const type::Type & r_type) {
 
@@ -172,7 +172,7 @@ namespace ltn::c {
 
 
 	StmtResult compile_stmt(
-		const ast::NewVar & new_var,
+		const sst::NewVar & new_var,
 		CompilerInfo & info,
 		Scope & scope) {
 		

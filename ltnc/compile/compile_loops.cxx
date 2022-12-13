@@ -18,7 +18,7 @@ namespace ltn::c {
 	}
 
 	StmtResult compile_stmt(
-		const ast::While & stmt,
+		const sst::While & stmt,
 		CompilerInfo & info,
 		Scope & scope) {
 
@@ -48,7 +48,7 @@ namespace ltn::c {
 
 
 	StmtResult compile_stmt(
-		const ast::InfiniteLoop & stmt,
+		const sst::InfiniteLoop & stmt,
 		CompilerInfo & info,
 		Scope & scope) {
 
@@ -72,7 +72,7 @@ namespace ltn::c {
 
 
 	StmtResult compile_stmt(
-		const ast::For & stmt,
+		const sst::For & stmt,
 		CompilerInfo & info,
 		Scope & scope) {
 		

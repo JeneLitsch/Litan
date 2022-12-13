@@ -6,7 +6,7 @@
 namespace ltn::c {
 	namespace {
 		std::vector<type::Type> instantiate_parameters(
-			const ast::Parameters & parameters,
+			const sst::Parameters & parameters,
 			Scope & scope) {
 			std::vector<type::Type> parameter_types;
 			for(const auto & parameter : parameters) {
@@ -19,7 +19,7 @@ namespace ltn::c {
 
 
 		auto resolve_fx_ptr_normal(
-			const ast::FxPointer & fx_ptr,
+			const sst::FxPointer & fx_ptr,
 			Scope & scope,
 			CompilerInfo & info) {
 
@@ -39,7 +39,7 @@ namespace ltn::c {
 
 
 		auto resolve_fx_ptr_template(
-			const ast::FxPointer & fx_ptr,
+			const sst::FxPointer & fx_ptr,
 			Scope & scope,
 			CompilerInfo & info) {
 			const auto tmpl = get_template(
@@ -76,14 +76,14 @@ namespace ltn::c {
 
 
 
-		bool refers_to_template(const ast::FxPointer & fx_ptr) {
+		bool refers_to_template(const sst::FxPointer & fx_ptr) {
 			return !fx_ptr.template_arguements.empty();
 		}
 
 
 
 		auto resolve_fx_ptr(
-			const ast::FxPointer & fx_ptr,
+			const sst::FxPointer & fx_ptr,
 			Scope & scope,
 			CompilerInfo & info) {
 			if(refers_to_template(fx_ptr)) {
@@ -97,7 +97,7 @@ namespace ltn::c {
 
 
 	ExprResult compile_expr(
-		const ast::FxPointer & fx_ptr,
+		const sst::FxPointer & fx_ptr,
 		CompilerInfo & info,
 		Scope & scope) {
 

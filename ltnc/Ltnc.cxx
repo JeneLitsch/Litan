@@ -35,16 +35,16 @@ namespace ltn::c {
 
 namespace ltn::c {
 	namespace {
-		ast::Var accessor(const ast::Definition & def) {
-			return ast::Var {
+		sst::Var accessor(const sst::Definition & def) {
+			return sst::Var {
 				def.name,
 				def.namespaze,
 				def.location
 			};
 		}
 
-		ast::GlobalVar accessor(const ast::Global & def) {
-			return ast::GlobalVar {
+		sst::GlobalVar accessor(const sst::Global & def) {
+			return sst::GlobalVar {
 				def.location,
 				def.namespaze,
 				def.name
@@ -120,9 +120,9 @@ namespace ltn::c {
 		}
 
 
-		std::vector<stx::reference<const ast::Functional>> find_extern_funtions(
-			const ast::Program & program) {
-			std::vector<stx::reference<const ast::Functional>> externs;
+		std::vector<stx::reference<const sst::Functional>> find_extern_funtions(
+			const sst::Program & program) {
+			std::vector<stx::reference<const sst::Functional>> externs;
 			for(const auto & fx : program.functions) {
 				if(fx->init) {
 					externs.push_back(*fx);
@@ -168,26 +168,43 @@ namespace ltn::c {
 			.reporter = reporter,
 		};
 
-
-
-
+		sst::Program sst;
 		for(const auto & definition : program.definitions) {
-			info.definition_table.insert(*definition);
+			sst.definitions.push_back(analyze_definition(*definition, info));
 		}
-		buf << define_init(info, program.definitions);
 
 		for(const auto & global : program.globals) {
-			info.global_table.insert(*global);
+			sst.globals.push_back(analyze_global(*global, info));
 		}
-		buf << global_init(info, program.globals);
 
 		for(const auto & fx_tmpl : program.function_templates) {
+			sst.function_templates.push_back(analyze_function_template(*fx_tmpl, info));
+		}
+
+		for(const auto & fx : program.functions) {
+			sst.functions.push_back(analyze_functional(*fx, info));
+		}
+
+
+
+
+		for(const auto & definition : sst.definitions) {
+			info.definition_table.insert(*definition);
+		}
+		buf << define_init(info, sst.definitions);
+
+		for(const auto & global : sst.globals) {
+			info.global_table.insert(*global);
+		}
+		buf << global_init(info, sst.globals);
+
+		for(const auto & fx_tmpl : sst.function_templates) {
 			const auto function_arity = std::size(fx_tmpl->fx->parameters);
 			const auto template_arity = std::size(fx_tmpl->template_parameters);
 			info.fx_template_table.insert(*fx_tmpl, function_arity, template_arity);
 		}
 
-		for(const auto & fx : program.functions) {
+		for(const auto & fx : sst.functions) {
 			info.fx_table.insert(*fx, std::size(fx->parameters));
 		}
 
@@ -196,7 +213,7 @@ namespace ltn::c {
 		buf << inst::null();
 		buf << inst::exit();
 		
-		auto externs = find_extern_funtions(program);
+		auto externs = find_extern_funtions(sst);
 
 		for(const auto & function : externs) {
 			fx_queue.stage_function(function);
@@ -216,7 +233,7 @@ namespace ltn::c {
 		std::set<std::string> extern_functions;
 		extern_functions.insert("main(0)");
 		extern_functions.insert("main(1)");
-		for(const auto & fx : program.functions) {
+		for(const auto & fx : sst.functions) {
 			if(fx->init) extern_functions.insert(fx->id);
 		}
 

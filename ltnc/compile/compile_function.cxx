@@ -6,7 +6,7 @@
 namespace ltn::c {
 	namespace {
 
-		inst::Inst parameters(const ast::Functional & fx, Scope & scope) {
+		inst::Inst parameters(const sst::Functional & fx, Scope & scope) {
 			for(const auto & param : fx.parameters) {
 				const auto type = instantiate_type(param.type, scope);
 				scope.insert(param.name, fx.location, type);
@@ -48,7 +48,7 @@ namespace ltn::c {
 
 
 		InstructionBuffer compile_except(	
-			const ast::Except & except,
+			const sst::Except & except,
 			const std::string & fxid,
 			CompilerInfo & info,
 			const auto & namespaze) {
@@ -66,7 +66,7 @@ namespace ltn::c {
 
 		// compiles Litan function
 		InstructionBuffer compile_function(
-			const ast::Function & fx,
+			const sst::Function & fx,
 			CompilerInfo & info,
 			Scope & scope,
 			InstructionBuffer capture,
@@ -95,7 +95,7 @@ namespace ltn::c {
 
 		// compiles asm_function
 		InstructionBuffer compile_build_in_function(
-			const ast::BuildIn & fx,
+			const sst::BuildIn & fx,
 			CompilerInfo & info,
 			Scope & scope,
 			std::optional<std::string> override_id) {
@@ -120,15 +120,15 @@ namespace ltn::c {
 
 	// compiles functional node
 	InstructionBuffer compile_functional(
-		const ast::Functional & functional,
+		const sst::Functional & functional,
 		CompilerInfo & info,
 		Scope & scope,
 		std::optional<std::string> override_id) {
 
-		if(auto fx = as<const ast::Function>(functional)) {
+		if(auto fx = as<const sst::Function>(functional)) {
 			return compile_function(*fx, info, scope, {}, override_id);
 		}
-		if(auto fx = as<const ast::BuildIn>(functional)) {
+		if(auto fx = as<const sst::BuildIn>(functional)) {
 			return compile_build_in_function(*fx, info, scope, override_id);
 		}
 		throw CompilerError{
@@ -139,7 +139,7 @@ namespace ltn::c {
 
 	// compiles functional node
 	InstructionBuffer compile_functional(
-		const ast::Functional & functional,
+		const sst::Functional & functional,
 		CompilerInfo & info) {
 
 		FunctionScope scope {
@@ -153,7 +153,7 @@ namespace ltn::c {
 
 
 	InstructionBuffer compile_function_template(
-		const ast::FunctionTemplate & tmpl,
+		const sst::FunctionTemplate & tmpl,
 		CompilerInfo & info,
 		const std::vector<type::Type> & arguments) {
 
@@ -171,7 +171,7 @@ namespace ltn::c {
 
 
 	ExprResult compile_expr(
-		const ast::Lambda & lm,
+		const sst::Lambda & lm,
 		CompilerInfo & info,
 		Scope & outer_scope) {
 		

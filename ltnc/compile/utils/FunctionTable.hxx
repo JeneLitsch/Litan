@@ -1,12 +1,13 @@
 #pragma once
 #include "ltnc/ast/Ast.hxx"
+#include "ltnc/sst/SST.hxx"
 #include <vector>
 #include "stdxx/oop.hxx"
 #include "SymbolTable.hxx"
 
 namespace ltn::c {
 	struct FunctionErrors {
-		static CompilerError redef(const ast::Functional & def) {
+		static CompilerError redef(const sst::Functional & def) {
 			std::stringstream msg;
 			msg << "Function ";
 			msg << def.namespaze.to_string();
@@ -30,11 +31,11 @@ namespace ltn::c {
 	};
 
 	using FunctionTable
-		= SymbolTable<ast::Functional, std::size_t>;
+		= SymbolTable<sst::Functional, std::size_t>;
 	
 	using ValidFunctionTable
-		= ValidSymbolTable<ast::Functional, FunctionErrors, std::size_t>;
+		= ValidSymbolTable<sst::Functional, FunctionErrors, std::size_t>;
 	
 	using InvalidFunctionTable
-		= InvalidSymbolTable<ast::Functional, FunctionErrors, std::size_t>;
+		= InvalidSymbolTable<sst::Functional, FunctionErrors, std::size_t>;
 }

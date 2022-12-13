@@ -4,7 +4,7 @@
 namespace ltn::c {
 	
 	ExprResult compile_expr(
-		const ast::DeclType & expr,
+		const sst::DeclType & expr,
 		CompilerInfo & info,
 		Scope & scope) {
 		
@@ -27,18 +27,18 @@ namespace ltn::c {
 
 	// compiles any expression
 	ExprResult compile_expression(
-		const ast::Expression & expr,
+		const sst::Expression & expr,
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		return ast::visit_expression(expr, [&](const auto & e) {
+		return sst::visit_expression(expr, [&](const auto & e) {
 			return compile_expr(e, info, scope);
 		});
 	}
 
 
 
-	void guard_const(const ast::Node & node, const Scope & scope) {
+	void guard_const(const sst::Node & node, const Scope & scope) {
 		if(scope.is_const()) {
 			throw CompilerError{
 				"Cannot modify or reassign variable in const function",

@@ -1,13 +1,13 @@
 #include "compile.hxx"
 
 namespace ltn::c {
-	bool has_else_branch(const ast::IfElse & stmt) {
+	bool has_else_branch(const sst::IfElse & stmt) {
 		return stmt.else_branch && (!as<ast::DoNothing>(*stmt.else_branch));
 	}
 
 
 	StmtResult compile_stmt(
-		const ast::IfElse & stmt,
+		const sst::IfElse & stmt,
 		CompilerInfo & info,
 		Scope & scope) {
 		MinorScope if_scope{&scope};

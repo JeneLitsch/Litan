@@ -2,7 +2,7 @@
 #include <sstream>
 namespace ltn::c {
 	namespace {
-		auto undefined(const ast::GlobalVar & global) {
+		auto undefined(const sst::GlobalVar & global) {
 			std::ostringstream oss;
 			oss
 				<< "Undefined global variable "
@@ -11,7 +11,7 @@ namespace ltn::c {
 			return CompilerError { oss.str(), global.location };
 		}
 
-		auto undefined(const ast::Var & def) {
+		auto undefined(const sst::Var & def) {
 			std::ostringstream oss;
 			oss
 				<< "Undefined definition "
@@ -32,7 +32,7 @@ namespace ltn::c {
 	}
 
 	ExprResult compile_expr(
-		const ast::GlobalVar & global_var,
+		const sst::GlobalVar & global_var,
 		CompilerInfo & info,
 		Scope & scope) {
 		
@@ -51,7 +51,7 @@ namespace ltn::c {
 
 
 	ExprResult compile_write_global(
-		const ast::GlobalVar & global_var,
+		const sst::GlobalVar & global_var,
 		CompilerInfo & info,
 		Scope & scope) {
 
@@ -70,7 +70,7 @@ namespace ltn::c {
 
 
 	ExprResult compile_write_define(
-		const ast::Var & def,
+		const sst::Var & def,
 		CompilerInfo & info,
 		Scope & scope) {
 

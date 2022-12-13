@@ -41,11 +41,11 @@ namespace ltn::c {
 
 		InstructionBuffer reflect_function(
 			CompilerInfo & info,
-			const ast::Functional & fx) {
+			const sst::Functional & fx) {
 
 			InstructionBuffer buf;
 			MajorScope scope{Namespace{}, false};
-			ast::FxPointer fx_ptr {
+			sst::FxPointer fx_ptr {
 				fx.name,
 				fx.namespaze,
 				fx.parameters.size(),
@@ -139,7 +139,7 @@ namespace ltn::c {
 
 	// compiles array literal
 	ExprResult compile_expr(
-		const ast::Reflect & refl,
+		const sst::Reflect & refl,
 		CompilerInfo & info,
 		Scope & scope) {
 			

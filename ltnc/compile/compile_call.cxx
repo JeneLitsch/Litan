@@ -6,7 +6,7 @@
 namespace ltn::c {
 	CompilerError undefined_function(
 		const std::string_view & name,
-		const ast::Node & node) {
+		const sst::Node & node) {
 		std::stringstream ss;
 		ss << "Function " << name << " is not defined";
 		return CompilerError { ss.str(), node.location };
@@ -16,8 +16,8 @@ namespace ltn::c {
 
 	namespace {
 		ExprResult do_call(
-			const ast::Call & call,
-			const ast::Functional & fx,
+			const sst::Call & call,
+			const sst::Functional & fx,
 			CompilerInfo & info,
 			Scope & scope,
 			const std::optional<std::string> id_override = std::nullopt) {
@@ -56,7 +56,7 @@ namespace ltn::c {
 
 
 
-		ExprResult do_invoke(const ast::Call & call, CompilerInfo & info, Scope & scope) {
+		ExprResult do_invoke(const sst::Call & call, CompilerInfo & info, Scope & scope) {
 			InstructionBuffer buf;
 
 			auto fx_ptr = compile_expression(*call.function_ptr, info, scope);
@@ -81,8 +81,8 @@ namespace ltn::c {
 
 
 		ExprResult do_call_template(
-			const ast::Call & call,
-			const ast::Var & var,
+			const sst::Call & call,
+			const sst::Var & var,
 			CompilerInfo & info,
 			Scope & scope) {
 			
@@ -113,8 +113,8 @@ namespace ltn::c {
 
 
 	// compiles function call fx(...)
-	ExprResult compile_expr(const ast::Call & call, CompilerInfo & info, Scope & scope) {
-		const auto * var = as<ast::Var>(*call.function_ptr);
+	ExprResult compile_expr(const sst::Call & call, CompilerInfo & info, Scope & scope) {
+		const auto * var = as<sst::Var>(*call.function_ptr);
 		if(var) {
 			if(!call.template_args.empty()) {
 				return do_call_template(call, *var, info, scope);

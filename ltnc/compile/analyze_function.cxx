@@ -24,7 +24,7 @@ namespace ltn::c {
 	
 	std::unique_ptr<sst::Function> analyze_function(const ast::Function & fx, CompilerInfo & info, Scope & scope) {
 		auto body = analyze_statement(*fx.body, info, scope);
-		auto except = analyze_except(*fx.except, info, scope);
+		auto except = fx.except ? analyze_except(*fx.except, info, scope) : nullptr;
 		auto parameters = analyze_parameters(fx.parameters, info, scope);
 		auto sst_fx = stx::make_unique<sst::Function>(
 			fx.name,
@@ -41,5 +41,48 @@ namespace ltn::c {
 		sst_fx->init = fx.init;
 
 		return sst_fx;
+	}
+
+
+	std::unique_ptr<sst::BuildIn> analyze_buildin(const ast::BuildIn & fx, CompilerInfo & info, Scope & scope) {
+		auto parameters = analyze_parameters(fx.parameters, info, scope);
+		auto sst_fx = stx::make_unique<sst::BuildIn>(
+			fx.name,
+			fx.namespaze,
+			parameters,
+			fx.key,
+			fx.return_type,
+			fx.location
+		);
+
+		sst_fx->c0nst = fx.c0nst;
+		sst_fx->pr1vate = fx.pr1vate;
+		sst_fx->init = fx.init;
+
+		return sst_fx;
+	}
+
+
+	sst::func_ptr analyze_functional(const ast::Functional & node, CompilerInfo & info) {
+		MajorScope scope{{}, node.c0nst};
+		if(auto fx = as<ast::Function>(node)) {
+			return analyze_function(*fx, info, scope);
+		}
+		if(auto bi = as<ast::BuildIn>(node)) {
+			return analyze_buildin(*bi, info, scope);
+		}
+		throw std::runtime_error {
+			"Cannot analyze unknown functional node"
+		};
+	}
+
+
+	sst::ftmp_ptr analyze_function_template(const ast::FunctionTemplate & node, CompilerInfo & info) {
+		auto fx = analyze_functional(*node.fx, info);
+		return stx::make_unique<sst::FunctionTemplate>(
+			std::move(fx),
+			node.template_parameters,
+			node.location
+		);
 	}
 }

@@ -2,7 +2,7 @@
 #include <string_view>
 namespace ltn::c {
 	ExprResult compile_expr(
-		const ast::Iife & iife,
+		const sst::Iife & iife,
 		CompilerInfo & info,
 		Scope & outer_scope) {
 
