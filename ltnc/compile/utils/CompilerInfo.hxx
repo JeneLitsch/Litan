@@ -6,7 +6,7 @@
 #include "ltn/unique.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
-#include "ltnc/ast/Ast.hxx"
+#include "ltnc/ast/AST.hxx"
 #include "FunctionTable.hxx"
 #include "FunctionTemplateTable.hxx"
 #include "DefinitionTable.hxx"

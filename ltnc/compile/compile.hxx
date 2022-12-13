@@ -4,7 +4,7 @@
 #include "ltn/casts.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
-#include "ltnc/ast/Ast.hxx"
+#include "ltnc/ast/AST.hxx"
 #include "ltnc/sst/SST.hxx"
 #include "ltnc/compile/utils/CompilerInfo.hxx"
 #include "utils/StmtResult.hxx"

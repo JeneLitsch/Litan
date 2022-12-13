@@ -22,8 +22,6 @@ namespace ltn::c::sst {
 		std::vector<glob_ptr> globals;
 	};
 
-	using prog_ptr = std::unique_ptr<Program>;
-
 	template<typename T>
 	concept literal_type = std::is_base_of<sst::Literal, T>::value;
 }

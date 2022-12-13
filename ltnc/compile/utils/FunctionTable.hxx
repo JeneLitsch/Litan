@@ -1,5 +1,5 @@
 #pragma once
-#include "ltnc/ast/Ast.hxx"
+#include "ltnc/ast/AST.hxx"
 #include "ltnc/sst/SST.hxx"
 #include <vector>
 #include "stdxx/oop.hxx"

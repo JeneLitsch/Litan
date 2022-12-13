@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <cstdint>
 #include <string>
-#include "ltnc/ast/Ast.hxx"
+#include "ltnc/ast/AST.hxx"
 #include "stdxx/oop.hxx"
 
 namespace ltn::c {

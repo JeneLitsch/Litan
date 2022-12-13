@@ -1,5 +1,5 @@
 #pragma once
-#include "ltnc/ast/Ast.hxx"
+#include "ltnc/ast/AST.hxx"
 namespace ltn::c {
 	template<typename T>
 	struct node {

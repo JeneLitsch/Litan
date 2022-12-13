@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 #include <cmath>
-#include "ltnc/ast/Ast.hxx"
+#include "ltnc/ast/AST.hxx"
 #include "to_node_type.hxx"
 namespace ltn::c {
 	template<typename Op>

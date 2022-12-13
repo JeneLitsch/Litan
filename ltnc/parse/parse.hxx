@@ -1,7 +1,7 @@
 #pragma once
 #include "stdxx/float64_t.hxx"
 #include "stdxx/memory.hxx"
-#include "ltnc/ast/Ast.hxx"
+#include "ltnc/ast/AST.hxx"
 #include "ltnc/tokens/Token.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"

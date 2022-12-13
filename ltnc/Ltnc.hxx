@@ -10,7 +10,7 @@
 #include "ltnc/lex/lexing.hxx"
 #include <set>
 #include "AddressTable.hxx"
-#include "ltnc/ast/Ast.hxx"
+#include "ltnc/ast/AST.hxx"
 #include "ltnc/sst/SST.hxx"
 
 namespace ltn::c {
