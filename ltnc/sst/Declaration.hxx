@@ -73,48 +73,4 @@ namespace ltn::c::sst {
 		virtual ~Global() = default;
 		std::unique_ptr<sst::Expression> expr;
 	};
-
-
-
-	struct Preset final : public Declaration {
-		struct Member {
-			std::string name;
-			type::IncompleteType type;
-		};
-
-		Preset(
-			const SourceLocation & location,
-			const std::string & name,
-			const Namespace & namespaze,
-			const std::vector<Member> & members)
-			:	Declaration(location, name, namespaze),
-				members(members) {}
-		virtual ~Preset() = default;
-		std::vector<Member> members;
-
-		const std::string & get_resolve_name() const {
-			return this->name;
-		}
-
-		const Namespace & get_resolve_namespace() const {
-			return this->namespaze;
-		}
-	};
-
-
-	
-	struct Enumeration final : public Declaration {
-		struct Label {
-			std::string name;
-			std::unique_ptr<sst::Integer> value;
-		};
-		
-		Enumeration(
-			const SourceLocation & location,
-			const std::string & name,
-			const Namespace & namespaze)
-			:	Declaration(location, name, namespaze) {}
-		virtual ~Enumeration() = default;
-		std::vector<Label> labels;
-	};
 }
