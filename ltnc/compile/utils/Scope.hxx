@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <unordered_map>
 #include "ltnc/SourceLocation.hxx"
-#include "ltnc/ast/Namespace.hxx"
+#include "ltnc/Namespace.hxx"
 #include "Variable.hxx"
 
 namespace ltn::c {
@@ -12,7 +12,7 @@ namespace ltn::c {
 		virtual const Variable * resolve(const std::string & name, const SourceLocation & location) const = 0;
 		virtual std::uint64_t size() const = 0;
 		virtual bool is_const() const = 0;
-		virtual const ast::Namespace & get_namespace() const = 0;
+		virtual const Namespace & get_namespace() const = 0;
 		virtual std::optional<std::string> get_return() const = 0;
 		virtual const type::Type & get_return_type() const = 0;
 		virtual const type::Type * resolve_type(const std::string & name) const = 0;

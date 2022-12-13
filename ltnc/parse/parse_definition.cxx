@@ -23,7 +23,7 @@ namespace ltn::c {
 
 
 
-	ast::defn_ptr parse_definition(Tokens & tokens, const ast::Namespace & namespaze) {
+	ast::defn_ptr parse_definition(Tokens & tokens, const Namespace & namespaze) {
 		if(match(TT::DEFINE, tokens)) {
 			const auto name = parse_name(tokens);
 			const auto type = parse_var_type(tokens);

@@ -1,7 +1,7 @@
-#include "Namespace.hxx"
+#include "ltnc/Namespace.hxx"
 #include <iostream>
 #include <sstream>
-namespace ltn::c::ast {
+namespace ltn::c {
 	bool Namespace::is_absolute() const {
 		return this->absolute;
 	}
@@ -68,10 +68,10 @@ namespace ltn::c::ast {
 	} 
 
 
-	ast::Namespace operator+(
-		const ast::Namespace & l,
-		const ast::Namespace & r) {
-		ast::Namespace n;
+	Namespace operator+(
+		const Namespace & l,
+		const Namespace & r) {
+		Namespace n;
 		n.path.reserve(l.path.size() + r.path.size());
 		n.path.insert(std::end(n.path), l.path.begin(), l.path.end());
 		n.path.insert(std::end(n.path), r.path.begin(), r.path.end());

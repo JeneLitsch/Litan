@@ -23,7 +23,7 @@ namespace ltn::c {
 
 	stx::reference<const ast::FunctionTemplate> get_template(
 		const std::string & name,
-		const ast::Namespace & namespaze,
+		const Namespace & namespaze,
 		const std::size_t function_arity,
 		const std::size_t template_arity,
 		const SourceLocation & location,

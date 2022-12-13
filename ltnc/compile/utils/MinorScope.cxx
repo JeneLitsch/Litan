@@ -34,7 +34,7 @@ namespace ltn::c {
 
 
 
-	const ast::Namespace & MinorScope::get_namespace() const {
+	const Namespace & MinorScope::get_namespace() const {
 		return this->parent->get_namespace();
 	}
 	

@@ -6,7 +6,7 @@ namespace ltn::c {
 	}
 
 
-	ast::prst_ptr parse_preset(Tokens & tokens, const ast::Namespace & namespaze) {
+	ast::prst_ptr parse_preset(Tokens & tokens, const Namespace & namespaze) {
 		if(auto start = match(TT::PRESET, tokens)) {
 			const auto name = parse_preset_name(tokens);
 			std::vector<ast::Preset::Member> members;

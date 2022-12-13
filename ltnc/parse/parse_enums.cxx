@@ -35,7 +35,7 @@ namespace ltn::c {
 	}
 
 
-	ast::enum_ptr parse_enumeration(Tokens & tokens, ast::Namespace namespaze) {
+	ast::enum_ptr parse_enumeration(Tokens & tokens, Namespace namespaze) {
 		
 		const auto enum_name = parse_enum_name(tokens);
 		auto enumeration = stx::make_unique<ast::Enumeration>(

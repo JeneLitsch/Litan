@@ -5,6 +5,7 @@
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
 #include "ltnc/ast/Ast.hxx"
+#include "ltnc/sst/SST.hxx"
 #include "ltnc/compile/utils/CompilerInfo.hxx"
 #include "utils/StmtResult.hxx"
 #include "utils/ExprResult.hxx"
@@ -21,6 +22,45 @@
 #include "instantiate_type.hxx"
 
 namespace ltn::c {
+
+	std::unique_ptr<sst::Function> analyze_function(const ast::Function &, CompilerInfo &, Scope &);
+
+	sst::stmt_ptr analyze_statement(const ast::Statement &, CompilerInfo &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::Block &, CompilerInfo &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::Return &, CompilerInfo &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::Assign &, CompilerInfo &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::Throw &, CompilerInfo &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::InitMember &, CompilerInfo &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::IfElse &, CompilerInfo &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::InfiniteLoop &, CompilerInfo &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::While &, CompilerInfo &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::For &, CompilerInfo &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::NewVar &, CompilerInfo &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::StmtSwitch &, CompilerInfo &, Scope &);
+
+	sst::expr_ptr analyze_expression(const ast::Expression &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Lambda &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::ExprSwitch &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Ternary &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Binary &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Unary &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Integer &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Float &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Bool &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Char &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Null &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::String &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Array &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Call &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Index &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::FxPointer &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Iife &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Var &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Member &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::GlobalVar &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::TypedUnary &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Reflect &, CompilerInfo &, Scope &);
+
 	// Functional
 	InstructionBuffer compile_functional(const ast::Functional &, CompilerInfo &);
 	InstructionBuffer compile_function_template(const ast::FunctionTemplate &, CompilerInfo &, const std::vector<type::Type> & arguments);
@@ -62,7 +102,8 @@ namespace ltn::c {
 	ExprResult compile_expr(const ast::GlobalVar &, CompilerInfo &, Scope &);
 	ExprResult compile_expr(const ast::TypedUnary &, CompilerInfo &, Scope &);
 	ExprResult compile_expr(const ast::Reflect &, CompilerInfo &, Scope &);
-
+	ExprResult compile_expr(const ast::DeclType &, CompilerInfo &, Scope &);
+	
 	ExprResult compile_addr(const ast::Var &, Scope &);
 	ExprResult compile_write_define(const ast::Var &, CompilerInfo &, Scope &);
 	ExprResult compile_write_global(const ast::GlobalVar &, CompilerInfo &, Scope &);
@@ -79,7 +120,7 @@ namespace ltn::c {
 	
 	void guard_private(
 		const ast::Functional & fx,
-		const ast::Namespace & call_ns,
+		const Namespace & call_ns,
 		const SourceLocation & loc);
 
 	CompilerError undefined_function(
@@ -104,7 +145,7 @@ namespace ltn::c {
 
 	stx::reference<const ast::FunctionTemplate> get_template(
 		const std::string & name,
-		const ast::Namespace & namespaze,
+		const Namespace & namespaze,
 		const std::size_t function_arity,
 		const std::size_t template_arity,
 		const SourceLocation & location,

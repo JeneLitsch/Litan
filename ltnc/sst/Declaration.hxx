@@ -4,7 +4,7 @@
 #include <map>
 #include "ltnc/type/Type.hxx"
 
-namespace ltn::c::ast {
+namespace ltn::c::sst {
 	struct Expression;
 	struct Integer;
 
@@ -58,7 +58,7 @@ namespace ltn::c::ast {
 			const type::IncompleteType & type) :
 				Static{location, name, namespaze, type} {}
 		virtual ~Definition() = default;
-		std::unique_ptr<ast::Expression> expr;
+		std::unique_ptr<sst::Expression> expr;
 	};
 
 
@@ -71,7 +71,7 @@ namespace ltn::c::ast {
 			const type::IncompleteType & type) :
 				Static{location, name, namespaze,type} {}
 		virtual ~Global() = default;
-		std::unique_ptr<ast::Expression> expr;
+		std::unique_ptr<sst::Expression> expr;
 	};
 
 
@@ -106,7 +106,7 @@ namespace ltn::c::ast {
 	struct Enumeration final : public Declaration {
 		struct Label {
 			std::string name;
-			std::unique_ptr<ast::Integer> value;
+			std::unique_ptr<sst::Integer> value;
 		};
 		
 		Enumeration(

@@ -8,7 +8,7 @@
 #include "ltnc/Namespace.hxx"
 #include "ltnc/type/Type.hxx"
 
-namespace ltn::c::ast {
+namespace ltn::c::sst {
 	struct Statement;
 	struct Parameter {
 		std::string name;

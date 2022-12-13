@@ -14,8 +14,8 @@ namespace ltn::c {
 
 
 		bool is_inner_namespace(
-			const ast::Namespace & call_ns,
-			const ast::Namespace & fx_ns) {
+			const Namespace & call_ns,
+			const Namespace & fx_ns) {
 			if(fx_ns.size() > call_ns.size()) return false;
 			for(std::size_t i = 0; i < fx_ns.size(); i++) {
 				if(call_ns[i] != fx_ns[i]) {
@@ -30,7 +30,7 @@ namespace ltn::c {
 
 	void guard_private(
 		const ast::Functional & fx,
-		const ast::Namespace & call_ns,
+		const Namespace & call_ns,
 		const SourceLocation & loc) {
 		if(
 			fx.pr1vate &&

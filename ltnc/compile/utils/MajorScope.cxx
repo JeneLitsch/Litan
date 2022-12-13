@@ -5,7 +5,7 @@
 namespace ltn::c {
 
 	MajorScope::MajorScope(
-		const ast::Namespace & namespaze,
+		const Namespace & namespaze,
 		bool c0nst) 
 	: namespaze { namespaze }, c0nst { c0nst }, return_type{type::Any{}} {}
 
@@ -36,7 +36,7 @@ namespace ltn::c {
 
 
 
-	const ast::Namespace & MajorScope::get_namespace() const {
+	const Namespace & MajorScope::get_namespace() const {
 		return this->namespaze;
 	}
 

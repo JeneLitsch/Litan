@@ -51,7 +51,7 @@ namespace ltn::c {
 
 		ast::glob_ptr parse_global_decl(
 			Tokens & tokens,
-			const ast::Namespace & namespaze) {
+			const Namespace & namespaze) {
 			
 			const auto name = match(TT::INDENTIFIER, tokens);
 
@@ -78,8 +78,8 @@ namespace ltn::c {
 
 
 
-		ast::Namespace inner_namespace(Tokens & tokens) {
-			ast::Namespace namespaze;
+		Namespace inner_namespace(Tokens & tokens) {
+			Namespace namespaze;
 			do {
 				if(auto t = match(TT::INDENTIFIER, tokens)) {
 					namespaze.push_back(t->str);
@@ -108,9 +108,9 @@ namespace ltn::c {
 
 	ast::srce_ptr parse_source(Tokens & tokens, Reporter & reporter) {
 		auto source = stx::make_unique<ast::Source>();
-		const ast::Namespace namespaze;
+		const Namespace namespaze;
 
-		stx::accu_stack<ast::Namespace> namestack;
+		stx::accu_stack<Namespace> namestack;
 
 		while(!tokens.empty()) {
 			try {

@@ -4,7 +4,7 @@
 namespace ltn::c {
 
 	FunctionScope::FunctionScope(
-		const ast::Namespace & namespaze,
+		const Namespace & namespaze,
 		bool c0nst) 
 	: MajorScope { namespaze, c0nst} {}
 }

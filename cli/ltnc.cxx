@@ -4,7 +4,7 @@
 #include <string_view>
 #include "ltnc/Ltnc.hxx"
 #include "ltnc/CompilerError.hxx"
-#include "ltnc/ast/Namespace.hxx"
+#include "ltnc/Namespace.hxx"
 #include "ltn/version.hxx"
 #include "ltn/args.hxx"
 #include "stdxx/args.hxx"

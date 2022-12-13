@@ -11,13 +11,13 @@ namespace ltn::c {
 	public:
 		virtual const Symbol * resolve(
 			const std::string_view name,
-			const ast::Namespace & from,
-			const ast::Namespace & to,
+			const Namespace & from,
+			const Namespace & to,
 			Args ... args) = 0;
 
 		virtual const Symbol * resolve(
 			const std::string_view name,
-			const ast::Namespace & full,
+			const Namespace & full,
 			Args ... args) = 0;
 
 		virtual void insert(
@@ -39,8 +39,8 @@ namespace ltn::c {
 		ValidSymbolTable() = default;
 		virtual const Symbol * resolve(
 			const std::string_view name,
-			const ast::Namespace & from,
-			const ast::Namespace & to,
+			const Namespace & from,
+			const Namespace & to,
 			Args ... args) override {
 		
 			return ltn::c::resolve(this->symbols, from, to, name, args...);
@@ -50,7 +50,7 @@ namespace ltn::c {
 
 		virtual const Symbol * resolve(
 			const std::string_view name,
-			const ast::Namespace & full,
+			const Namespace & full,
 			Args ... args) override {
 
 			return ltn::c::resolve(this->symbols, {}, full, name, args...);
@@ -91,8 +91,8 @@ namespace ltn::c {
 
 		virtual const Symbol * resolve(
 			const std::string_view,
-			const ast::Namespace &,
-			const ast::Namespace &,
+			const Namespace &,
+			const Namespace &,
 			Args ...) override {
 			throw Err::use(this->inside);
 		}
@@ -101,7 +101,7 @@ namespace ltn::c {
 
 		virtual const Symbol * resolve(
 			const std::string_view,
-			const ast::Namespace &,
+			const Namespace &,
 			Args ...) override {
 			throw Err::use(this->inside);
 		}

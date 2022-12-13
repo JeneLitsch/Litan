@@ -14,10 +14,10 @@ namespace ltn::c {
 	ast::srce_ptr parse_source(Tokens & tokens, Reporter & reporter);
 	
 	// Funcionals
-	std::optional<std::variant<ast::func_ptr, ast::ftmp_ptr>> parse_functional(Tokens & tokens, const ast::Namespace & namespaze);
-	ast::enum_ptr parse_enumeration(Tokens & tokens, ast::Namespace namespaze);
-	ast::defn_ptr parse_definition(Tokens & tokens, const ast::Namespace & namespaze);
-	ast::prst_ptr parse_preset(Tokens & tokens, const ast::Namespace & namespaze);
+	std::optional<std::variant<ast::func_ptr, ast::ftmp_ptr>> parse_functional(Tokens & tokens, const Namespace & namespaze);
+	ast::enum_ptr parse_enumeration(Tokens & tokens, Namespace namespaze);
+	ast::defn_ptr parse_definition(Tokens & tokens, const Namespace & namespaze);
+	ast::prst_ptr parse_preset(Tokens & tokens, const Namespace & namespaze);
 
 	ast::expr_ptr parse_lambda(Tokens & tokens);
 
@@ -96,7 +96,7 @@ namespace ltn::c {
 	// Maches ; or throws
 	void semicolon(Tokens & tokens);
 
-	std::pair<std::string, ast::Namespace> parse_symbol(Tokens & tokens);
+	std::pair<std::string, Namespace> parse_symbol(Tokens & tokens);
 
 	type::IncompleteType parse_type(Tokens & tokens);
 	type::IncompleteType parse_type(Tokens & tokens, BraceTracker & brace_tracker);

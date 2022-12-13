@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-namespace ltn::c::ast {
+namespace ltn::c {
 	class Namespace {
 	public:
 		Namespace(const std::vector<std::string> & path) : path(path) {}  
@@ -24,9 +24,9 @@ namespace ltn::c::ast {
 
 
 
-		friend ast::Namespace operator+(
-			const ast::Namespace & l,
-			const ast::Namespace & r);
+		friend Namespace operator+(
+			const Namespace & l,
+			const Namespace & r);
 
 
 		auto begin()        { return this->path.begin(); }
@@ -49,7 +49,7 @@ namespace ltn::c::ast {
 
 
 
-	ast::Namespace operator+(
-		const ast::Namespace & l,
-		const ast::Namespace & r);
+	Namespace operator+(
+		const Namespace & l,
+		const Namespace & r);
 }

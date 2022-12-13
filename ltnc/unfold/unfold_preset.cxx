@@ -4,7 +4,7 @@ namespace ltn::c {
 	namespace {
 		ast::stmt_ptr new_struct(const SourceLocation & loc) {
 			auto call = stx::make_unique<ast::Call>(
-				stx::make_unique<ast::Var>("struct", ast::Namespace{{"std"}}, loc),
+				stx::make_unique<ast::Var>("struct", Namespace{{"std"}}, loc),
 				std::vector<ast::expr_ptr>{},
 				loc);
 			
@@ -17,7 +17,7 @@ namespace ltn::c {
 
 
 		ast::stmt_ptr return_struct(const SourceLocation & loc) {
-			auto obj = stx::make_unique<ast::Var>("obj", ast::Namespace{}, loc);
+			auto obj = stx::make_unique<ast::Var>("obj", Namespace{}, loc);
 			return stx::make_unique<ast::Return>(std::move(obj), loc);
 		}
 	}

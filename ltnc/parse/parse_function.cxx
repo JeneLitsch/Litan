@@ -60,7 +60,7 @@ namespace ltn::c {
 				while(true) {
 					const auto name = parse_variable_name(tokens);
 					const auto & loc = location(tokens);
-					auto var = stx::make_unique<ast::Var>(name, ast::Namespace{}, loc);
+					auto var = stx::make_unique<ast::Var>(name, Namespace{}, loc);
 					captures.push_back(std::move(var));
 					if(match(TT::BRACKET_R, tokens)) break;
 					if(!match(TT::COMMA, tokens)) {
@@ -130,7 +130,7 @@ namespace ltn::c {
 		template<class FunctionalNode>
 		std::unique_ptr<FunctionalNode> functional_node(
 			Tokens & tokens,
-			const ast::Namespace & namespaze,
+			const Namespace & namespaze,
 			auto parse_body) {
 			const auto name = parse_function_name(tokens);
 			const auto parameters = parse_mandatory_parameters(tokens);
@@ -201,7 +201,7 @@ namespace ltn::c {
 	// parses and returns a functional node
 	std::optional<std::variant<ast::func_ptr, ast::ftmp_ptr>> parse_functional(
 		Tokens & tokens,
-		const ast::Namespace & namespaze) {
+		const Namespace & namespaze) {
 
 		if(auto function = match(TT::FUNCTION, tokens)) {
 			const auto template_parameters = parse_template_parameters(tokens);
@@ -247,7 +247,7 @@ namespace ltn::c {
 			auto body = parse_body(tokens); 
 			auto fx = stx::make_unique<ast::Function>(
 				"lambda" + std::to_string(*stx::unique{}), 
-				ast::Namespace{},
+				Namespace{},
 				parameters,
 				std::move(body),
 				return_type,

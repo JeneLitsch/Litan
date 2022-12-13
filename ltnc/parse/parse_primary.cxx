@@ -185,7 +185,7 @@ namespace ltn::c {
 		ast::expr_ptr parse_fx_pointer(Tokens & tokens) {
 			if(match(TT::AMPERSAND, tokens)) {
 				std::string name;
-				ast::Namespace namespaze;
+				Namespace namespaze;
 				std::tie(name, namespaze) = parse_symbol(tokens);
 				if(match(TT::PAREN_L, tokens)) {
 					const auto [template_args, done] = parse_template_args(tokens);
@@ -266,8 +266,8 @@ namespace ltn::c {
 
 
 
-	std::pair<std::string, ast::Namespace> parse_symbol(Tokens & tokens) {
-		ast::Namespace namespaze;
+	std::pair<std::string, Namespace> parse_symbol(Tokens & tokens) {
+		Namespace namespaze;
 		if(match(TT::COLONx2, tokens)) {
 			namespaze.set_absolute();
 		}

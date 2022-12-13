@@ -44,7 +44,7 @@ namespace ltn::c {
 			const ast::Functional & fx) {
 
 			InstructionBuffer buf;
-			MajorScope scope{ast::Namespace{}, false};
+			MajorScope scope{Namespace{}, false};
 			ast::FxPointer fx_ptr {
 				fx.name,
 				fx.namespaze,
@@ -66,7 +66,7 @@ namespace ltn::c {
 
 		InstructionBuffer reflect_functions(
 			CompilerInfo & info,
-			const ast::Namespace & namespaze) {
+			const Namespace & namespaze) {
 
 			InstructionBuffer buf;
 			
@@ -86,7 +86,7 @@ namespace ltn::c {
 
 		InstructionBuffer reflect_globals(
 			CompilerInfo & info,
-			const ast::Namespace & namespaze) {
+			const Namespace & namespaze) {
 			
 			InstructionBuffer buf;
 			
@@ -106,7 +106,7 @@ namespace ltn::c {
 
 
 		ExprResult compile_reflect_query(
-			const ast::Reflect::FunctionQuery & query,
+			const FunctionQuery & query,
 			CompilerInfo & info,
 			Scope & scope) {
 
@@ -122,7 +122,7 @@ namespace ltn::c {
 
 
 		ExprResult compile_reflect_query(
-			const ast::Reflect::NamespaceQuery & query,
+			const NamespaceQuery & query,
 			CompilerInfo & info,
 			Scope &) {
 

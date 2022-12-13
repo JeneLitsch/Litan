@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 add_library(libltnc
 	CompilerError.cxx
 	Ltnc.cxx
+	Namespace.cxx
 	Reporter.cxx
 )
 
@@ -15,6 +16,7 @@ add_subdirectory(optimize)
 add_subdirectory(parse)
 add_subdirectory(peephole)
 add_subdirectory(print)
+add_subdirectory(sst)
 add_subdirectory(tokens)
 add_subdirectory(type)
 add_subdirectory(unfold)

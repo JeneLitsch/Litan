@@ -7,7 +7,7 @@
 #include "ltnc/ReflectQuery.hxx"
 
 
-namespace ltn::c::ast {
+namespace ltn::c::sst {
 	struct Assignable;
 	struct Statement;
 
@@ -361,29 +361,29 @@ namespace ltn::c::ast {
 
 
 
-	auto visit_expression(const ast::Expression & expr, auto && fx) {
-		if(auto e = as<ast::Binary>(expr)) return fx(*e);
-		if(auto e = as<ast::Unary>(expr)) return fx(*e);
-		if(auto e = as<ast::Integer>(expr)) return fx(*e);
-		if(auto e = as<ast::Float>(expr)) return fx(*e);
-		if(auto e = as<ast::Bool>(expr)) return fx(*e);
-		if(auto e = as<ast::Char>(expr)) return fx(*e);
-		if(auto e = as<ast::Null>(expr)) return fx(*e);
-		if(auto e = as<ast::String>(expr)) return fx(*e);
-		if(auto e = as<ast::Array>(expr)) return fx(*e);
-		if(auto e = as<ast::Call>(expr)) return fx(*e);
-		if(auto e = as<ast::Var>(expr)) return fx(*e);
-		if(auto e = as<ast::Index>(expr)) return fx(*e);
-		if(auto e = as<ast::Lambda>(expr)) return fx(*e);
-		if(auto e = as<ast::FxPointer>(expr)) return fx(*e);
-		if(auto e = as<ast::Member>(expr)) return fx(*e);
-		if(auto e = as<ast::GlobalVar>(expr)) return fx(*e);
-		if(auto e = as<ast::Iife>(expr)) return fx(*e);
-		if(auto e = as<ast::Ternary>(expr)) return fx(*e);
-		if(auto e = as<ast::ExprSwitch>(expr)) return fx(*e);
-		if(auto e = as<ast::DeclType>(expr)) return fx(*e);
-		if(auto e = as<ast::TypedUnary>(expr)) return fx(*e);
-		if(auto e = as<ast::Reflect>(expr)) return fx(*e);
+	auto visit_expression(const sst::Expression & expr, auto && fx) {
+		if(auto e = as<sst::Binary>(expr)) return fx(*e);
+		if(auto e = as<sst::Unary>(expr)) return fx(*e);
+		if(auto e = as<sst::Integer>(expr)) return fx(*e);
+		if(auto e = as<sst::Float>(expr)) return fx(*e);
+		if(auto e = as<sst::Bool>(expr)) return fx(*e);
+		if(auto e = as<sst::Char>(expr)) return fx(*e);
+		if(auto e = as<sst::Null>(expr)) return fx(*e);
+		if(auto e = as<sst::String>(expr)) return fx(*e);
+		if(auto e = as<sst::Array>(expr)) return fx(*e);
+		if(auto e = as<sst::Call>(expr)) return fx(*e);
+		if(auto e = as<sst::Var>(expr)) return fx(*e);
+		if(auto e = as<sst::Index>(expr)) return fx(*e);
+		if(auto e = as<sst::Lambda>(expr)) return fx(*e);
+		if(auto e = as<sst::FxPointer>(expr)) return fx(*e);
+		if(auto e = as<sst::Member>(expr)) return fx(*e);
+		if(auto e = as<sst::GlobalVar>(expr)) return fx(*e);
+		if(auto e = as<sst::Iife>(expr)) return fx(*e);
+		if(auto e = as<sst::Ternary>(expr)) return fx(*e);
+		if(auto e = as<sst::ExprSwitch>(expr)) return fx(*e);
+		if(auto e = as<sst::DeclType>(expr)) return fx(*e);
+		if(auto e = as<sst::TypedUnary>(expr)) return fx(*e);
+		if(auto e = as<sst::Reflect>(expr)) return fx(*e);
 		throw std::runtime_error{"Unknown Expression"};
 	}
 }

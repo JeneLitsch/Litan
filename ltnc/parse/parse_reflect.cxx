@@ -4,20 +4,20 @@
 namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
-		ast::Reflect::Query parse_namespace_query(Tokens & tokens) {
+		ReflectQuery parse_namespace_query(Tokens & tokens) {
 			auto [name, namespaze] = parse_symbol(tokens);
 			namespaze.push_back(name);
-			return ast::Reflect::NamespaceQuery {
+			return NamespaceQuery {
 				.namespaze = namespaze
 			};
 		}
 
 
 		
-		ast::Reflect::Query parse_function_query(Tokens & tokens) {
+		ReflectQuery parse_function_query(Tokens & tokens) {
 			auto [name, namespaze] = parse_symbol(tokens);
 			auto arity = match(TT::PAREN_L, tokens) ? parse_placeholder(tokens) : 0;
-			return ast::Reflect::FunctionQuery {
+			return FunctionQuery {
 				.namespaze = namespaze,
 				.name = name,
 				.arity = arity,
@@ -26,7 +26,7 @@ namespace ltn::c {
 
 
 
-		ast::Reflect::Query parse_query(Tokens & tokens) {
+		ReflectQuery parse_query(Tokens & tokens) {
 			if(match(TT::NAMESPACE, tokens)) return parse_namespace_query(tokens);
 			if(match(TT::FUNCTION, tokens)) return parse_function_query(tokens);
 			
