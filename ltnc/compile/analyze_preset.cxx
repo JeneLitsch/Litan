@@ -8,8 +8,8 @@ namespace ltn::c {
 				std::vector<sst::expr_ptr>{},
 				loc);
 			
-			return stx::make_unique<sst::NewVar>(
-				"obj",
+			return std::make_unique<sst::NewVar>(
+				"obj"
 				std::move(call),
 				loc);
 		}
@@ -24,23 +24,28 @@ namespace ltn::c {
 
 
 
-	sst::func_ptr analyze_preset(const ast::Preset & preset) {
+	sst::func_ptr analyze_preset(
+		const ast::Preset & preset,
+		CompilerInfo & info,
+		Scope & scope) {
 		std::vector<sst::stmt_ptr> statements;
 		sst::Parameters parameters;
 		statements.push_back(new_struct(preset.location));
 
 		for(const auto & member : preset.members) {
 			const auto var_name = "__" + member.name + "__";
-			
-			auto init_member = stx::make_unique<sst::InitMember>(
-				member.name,
-				var_name,
-				member.type,
-				preset.location
+			const auto var = scope.insert(var_name, preset.location, member.type);
+
+			auto init_member = std::make_unique<sst::InitMember>(
+				0, false,
+				0,
+				info.member_table.get_id(var_name),
+				var.address,
+				member.type
 			);
 
 			statements.push_back(std::move(init_member));
-			parameters.push_back(sst::Parameter{
+			parameters.push_back(sst::Parameter {
 				.name = var_name,
 				.type = member.type,
 			});

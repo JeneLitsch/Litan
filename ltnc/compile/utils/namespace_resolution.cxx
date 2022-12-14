@@ -4,7 +4,7 @@ namespace ltn::c {
 
 	namespace {
 		bool match(
-			const sst::Functional & fx,
+			const ast::Functional & fx,
 			const Namespace & full,
 			const std::string_view name,
 			const std::size_t parameters) {
@@ -18,7 +18,7 @@ namespace ltn::c {
 
 
 		bool match(
-			const sst::Definition & definition,
+			const ast::Definition & definition,
 			const Namespace & full,
 			const std::string_view name) {
 
@@ -30,7 +30,7 @@ namespace ltn::c {
 
 		
 		bool match(
-			const sst::Global & global,
+			const ast::Global & global,
 			const Namespace & full,
 			const std::string_view name) {
 
@@ -42,7 +42,7 @@ namespace ltn::c {
 
 
 		bool match(
-			const sst::FunctionTemplate & fx,
+			const ast::FunctionTemplate & fx,
 			const Namespace & full,
 			const std::string_view name,
 			const std::size_t function_parameters,
@@ -113,8 +113,8 @@ namespace ltn::c {
 
 
 
-	const sst::Functional * resolve(
-		const std::vector<const sst::Functional *> & functions,
+	const ast::Functional * resolve(
+		const std::vector<const ast::Functional *> & functions,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name,
@@ -125,8 +125,8 @@ namespace ltn::c {
 
 
 
-	const sst::Definition * resolve(
-		const std::vector<const sst::Definition *> & definition,
+	const ast::Definition * resolve(
+		const std::vector<const ast::Definition *> & definition,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name) {
@@ -136,8 +136,8 @@ namespace ltn::c {
 
 
 
-	const sst::Global * resolve(
-		const std::vector<const sst::Global *> & globals,
+	const ast::Global * resolve(
+		const std::vector<const ast::Global *> & globals,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name) {
@@ -146,8 +146,8 @@ namespace ltn::c {
 
 
 
-	const sst::FunctionTemplate * resolve(
-		const std::vector<const sst::FunctionTemplate *> & functions,
+	const ast::FunctionTemplate * resolve(
+		const std::vector<const ast::FunctionTemplate *> & functions,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name,

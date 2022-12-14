@@ -1,21 +1,13 @@
 #include "compile.hxx"
 namespace ltn::c {
-	StmtResult compile_stmt(
-		const sst::InitMember & stmt,
-		CompilerInfo & info,
-		Scope & scope) {
-
-		const auto obj = scope.resolve("obj", stmt.location);
-		const auto var = scope.resolve(stmt.param, stmt.location);
-		const auto mem = info.member_table.get_id(stmt.member);
-		
+	InstructionBuffer compile_stmt(const sst::InitMember & stmt) {
 		InstructionBuffer buf;
 		
 		buf 
-			<< inst::read_x(var->address)
-			<< inst::read_x(obj->address)
-			<< inst::member_write(mem);
+			<< inst::read_x(stmt.param_addr)
+			<< inst::read_x(stmt.object_addr)
+			<< inst::member_write(stmt.member_addr);
 		
-		return StmtResult{buf, 0, false};
+		return buf;
 	}
 }

@@ -15,6 +15,7 @@ namespace ltn::c::sst {
 		std::size_t local_vars;
 		bool direct_allocation;
 	};
+	using stmt_ptr = std::unique_ptr<Statement>;
 
 
 	
@@ -55,16 +56,16 @@ namespace ltn::c::sst {
 	struct NewVar final : public Statement {
 		NewVar(
 			std::size_t local_vars, bool direct_allocation,
-			const std::string & name,
+			std::size_t addr,
 			std::unique_ptr<Expression> expression,
 			const std::variant<type::IncompleteType, type::Auto> & type = type::IncompleteType{type::Any{}})
 			:	
 				Statement{local_vars, direct_allocation},
-				name(name),
+				addr{addr},
 				expression(std::move(expression)),
 				type{type} {}
 		virtual ~NewVar() = default;
-		std::string name;
+		std::size_t addr;
 		std::unique_ptr<Expression> expression;
 		std::variant<type::IncompleteType, type::Auto> type;
 	};
@@ -124,7 +125,7 @@ namespace ltn::c::sst {
 		For(
 			std::size_t local_vars, bool direct_allocation,
 			std::string label,
-			std::unique_ptr<NewVar> var,
+			std::size_t index_addr,
 			std::unique_ptr<Expression> from,
 			std::unique_ptr<Expression> to,
 			std::unique_ptr<Expression> step,
@@ -132,7 +133,7 @@ namespace ltn::c::sst {
 			:	
 				Statement{local_vars, direct_allocation},
 				label{label},
-				var(std::move(var)),
+				index_addr{index_addr},
 				from(std::move(from)),
 				to(std::move(to)),
 				step(std::move(step)),
@@ -140,7 +141,7 @@ namespace ltn::c::sst {
 
 		virtual ~For() = default;
 		std::string label;
-		std::unique_ptr<NewVar> var;
+		std::size_t index_addr;
 		std::unique_ptr<Expression> from;
 		std::unique_ptr<Expression> to;
 		std::unique_ptr<Expression> step;
@@ -181,17 +182,20 @@ namespace ltn::c::sst {
 	struct InitMember final : public Statement {
 		InitMember(
 			std::size_t local_vars, bool direct_allocation,
-			std::string member,
-			std::string param,
+			std::size_t object_addr,
+			std::size_t member_addr,
+			std::size_t param_addr,
 			type::IncompleteType type)
 			:	
 				Statement{local_vars, direct_allocation},
-				member(std::move(member)),
-				param(std::move(param)),
+				object_addr(object_addr),
+				member_addr(member_addr),
+				param_addr(param_addr),
 				type{type} {}
 		virtual ~InitMember() = default;
-		std::string member;
-		std::string param;
+		std::size_t object_addr;
+		std::size_t member_addr;
+		std::size_t param_addr;
 		type::IncompleteType type;
 	};
 

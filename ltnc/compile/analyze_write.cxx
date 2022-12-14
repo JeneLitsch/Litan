@@ -5,101 +5,45 @@
 
 namespace ltn::c {
 	namespace {
-
-		// compile assignable variable
-		sst::expr_ptr analyze_read_ref(
+		sst::expr_ptr analyze_write(
 			const ast::Assignable & expr,
 			CompilerInfo & info,
 			Scope & scope) {
 			
-			if(auto e = as<sst::Var>(expr)) {
-				if(!e->namespaze.empty()) throw CompilerError{
-					"Local variable must not have a namespace",
-					e->location
-				};
-				const auto * var = scope.resolve(e->name, e->location);
-				if(!var) throw CompilerError {
-					"Undefined variable" + e->name,
-					e->location
-				};
-				return {
-					.code = {},
-					.deduced_type = var->type,
-				};
-			}
-			
-			if(auto index = as<sst::Index>(expr)) {
-				const auto arr = analyze_expression(*index->expression, info, scope);
-				const auto idx = analyze_expression(*index->index, info, scope);
-				InstructionBuffer buf;
-				buf << arr.code;
-				const auto type = type::deduce_index(arr.deduced_type, idx.deduced_type);
-				return sst::expr_ptr{ 
-					.code = buf,
-					.deduced_type = type
-				};
-			}
-			
-			if(auto e = as<sst::Member>(expr)) {
-				InstructionBuffer buf;
-				buf << analyze_expression(*e->expr, info, scope).code;
-				return sst::expr_ptr{ buf };
-			}
-
-			if(auto g = as<sst::GlobalVar>(expr)) {
-				auto global = info.global_table.resolve(
-					g->name,
-					scope.get_namespace(),
-					g->namespaze
-				);
-				if(!global) throw CompilerError{
-					"Undefined global" + g->name,
-					g->location
-				};
-				return {
-					.code = {},
-					.deduced_type = instantiate_type(global->type, scope),
-				};
-			}
-			
-			throw std::runtime_error{"Unknow assingable type"};
-		}
-
-
-
-		InstructionBuffer analyze_write(
-			const ast::Assignable & expr,
-			CompilerInfo & info,
-			Scope & scope) {
-			
-			if(auto e = as<sst::Var>(expr)) {
+			if(auto e = as<ast::Var>(expr)) {
 				const auto var = scope.resolve(e->name, expr.location);
 				if(!var) throw CompilerError {
 					"Undefined variable" + e->name,
 					e->location
 				};
-				InstructionBuffer buf;
-				buf << inst::write_x(var->address);
-				return buf;
+				return std::make_unique<sst::Var>(var->address, var->type);
 			}
 			
-			if(auto e = as<sst::Index>(expr)) {
-				const auto idx = analyze_expression(*e->index, info, scope);
-				InstructionBuffer buf;
-				buf << idx.code;
-				buf << inst::at_write();
-				return buf;
+			if(auto e = as<ast::Index>(expr)) {
+				const auto container = analyze_expression(*e->expression, info, scope);
+				const auto index = analyze_expression(*e->index, info, scope);
+				return std::make_unique<sst::Index>(
+					std::move(container),
+					std::move(index),
+					type::deduce_index(container->type, index->type)
+				);
 			}
 			
-			if(auto e = as<sst::Member>(expr)) {
-				InstructionBuffer buf;
+			if(auto e = as<ast::Member>(expr)) {
 				const auto id = info.member_table.get_id(e->name);
-				buf << inst::member_write(id);
-				return buf;
+				auto obj = analyze_expression(*e->expr, info, scope);
+				return std::make_unique<sst::Member>(
+					std::move(obj),
+					id,
+					type::Any{} 
+				);
 			}
 			
-			if(auto global = as<sst::GlobalVar>(expr)) {
-				return analyze_write_global(*global, info, scope).code;
+			if(auto global = as<ast::GlobalVar>(expr)) {
+				auto glob = info.global_table.resolve(
+					global->name, scope.get_namespace(), global->namespaze 
+				);
+				return std::make_unique<sst::GlobalVar>(glob->type, glob->id);
 			}
 
 			throw std::runtime_error{"Unknown assingable type"};
@@ -113,24 +57,10 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		guard_const(expr, scope);
-		const auto l_prepare = analyze_read_ref(static_cast<sst::Assignable&>(*expr.l), info, scope);
-		const auto l_write = analyze_write(static_cast<sst::Assignable&>(*expr.l), info, scope);
+		const auto l = analyze_write(static_cast<ast::Assignable&>(*expr.l), info, scope);
 		const auto r = analyze_expression(*expr.r, info, scope);
 
-		InstructionBuffer buf;
-		buf << r.code;
-		buf << conversion_on_assign(
-			r.deduced_type,
-			l_prepare.deduced_type,
-			expr.location
-		);
-		buf << l_prepare.code;
-		buf << l_write;
-		return sst::stmt_ptr { 
-			.code = buf,
-			.var_count = 0,
-			.direct_allocation = false,
-		};
+		return std::make_unique<sst::Assign>(0, false, std::move(l), std::move(r));
 	}
 
 
@@ -145,12 +75,7 @@ namespace ltn::c {
 				return analyze_expression(*new_var.expression, info, scope);
 			}
 			else {
-				InstructionBuffer buf;
-				buf << inst::null();
-				return sst::expr_ptr {
-					.code = buf,
-					.deduced_type = type::Null{}, 
-				};
+				return std::make_unique<sst::Null>(type::Null{});
 			}
 		}
 
@@ -171,28 +96,13 @@ namespace ltn::c {
 
 
 
-	sst::stmt_ptr analyze_stmt(
+	std::unique_ptr<sst::NewVar> analyze_stmt(
 		const ast::NewVar & new_var,
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		const auto r = analyze_new_variable_right(new_var, info, scope);
-		
-		InstructionBuffer buf;
-		buf << r.code;
-
-		const auto var = insert_new_var(new_var, scope, r.deduced_type);		
-		
-		buf << conversion_on_assign(
-			r.deduced_type,
-			var.type,
-			new_var.location
-		);
-		buf << inst::write_x(var.address);
-		return { 
-			.code = buf,
-			.var_count = 0,
-			.direct_allocation = true,
-		};
+		const auto r = analyze_new_variable_right(new_var, info, scope);		
+		const auto var = insert_new_var(new_var, scope, r->type);		
+		return std::make_unique<sst::NewVar>(0, true, var.address, std::move(r), var.type);
 	}
 }

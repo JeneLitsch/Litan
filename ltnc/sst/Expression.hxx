@@ -18,6 +18,7 @@ namespace ltn::c::sst {
 		virtual ~Expression() = default;
 		type::Type type;
 	};
+	using expr_ptr = std::unique_ptr<Expression>;
 	
 
 
@@ -279,29 +280,25 @@ namespace ltn::c::sst {
 	public:
 		GlobalVar(
 			const type::Type & type,
-			const Namespace & namespaze,
-			const std::string & name) :
+			std::size_t addr) :
 				Assignable(type),
-				name { name },
-				namespaze { namespaze } {}
+				addr { addr } {}
 		virtual ~GlobalVar() = default;
-		std::string name;
-		Namespace namespaze;
+		std::size_t addr;
 	};
 
 
 
 	struct Member final : public Assignable {
 		Member(
-			std::unique_ptr<Expression> expr,
-			const std::string & name,
-			const type::Type & type)
+			const type::Type & type,
+			std::size_t addr)
 			:	Assignable(type),
 				expr(std::move(expr)),
-				name(std::move(name)){};
+				addr { addr } {};
 		virtual ~Member() = default;
 		std::unique_ptr<Expression> expr;
-		std::string name;
+		std::size_t addr;
 	};
 
 

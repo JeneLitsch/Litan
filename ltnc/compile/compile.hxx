@@ -25,7 +25,7 @@ namespace ltn::c {
 
 	std::unique_ptr<sst::Function> analyze_function(const ast::Function &, CompilerInfo &, Scope &);
 	sst::func_ptr analyze_functional(const ast::Functional &, CompilerInfo &);
-	sst::ftmp_ptr analyze_function_template(const ast::FunctionTemplate &, CompilerInfo &);
+	sst::func_ptr analyze_function_template(const ast::FunctionTemplate &, CompilerInfo &, const std::vector<type::Type> & arguments);
 	
 	sst::glob_ptr analyze_global(const ast::Global &, CompilerInfo &);
 	sst::defn_ptr analyze_definition(const ast::Definition &, CompilerInfo &);
@@ -122,7 +122,7 @@ namespace ltn::c {
 
 	// utils
 	void guard_const(
-		const sst::Node &,
+		const ast::Node &,
 		const Scope &);
 	
 	void guard_private(

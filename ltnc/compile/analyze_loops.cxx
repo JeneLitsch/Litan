@@ -79,6 +79,7 @@ namespace ltn::c {
 		return std::make_unique<sst::For>(
 			body->local_vars + 3, false,
 			label,
+			i_var->address,
 			std::move(var),
 			std::move(from),
 			std::move(to),

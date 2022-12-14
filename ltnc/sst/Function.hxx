@@ -98,7 +98,7 @@ namespace ltn::c::sst {
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
 		std::unique_ptr<Except> except;
-		std::vector<sst::stmt_ptr> capture;
+		std::vector<std::unique_ptr<Statement>> capture;
 	};
 
 

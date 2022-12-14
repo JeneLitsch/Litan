@@ -35,14 +35,8 @@ namespace ltn::c {
 			Scope & scope) {
 
 			InstructionBuffer buf;
-			if(fx.body) {
-				const auto body = analyze_statement(*fx.body, info, scope);
-				for(std::size_t i = 0; i < body.var_count; i++) {
-					buf << inst::makevar();
-				}
-				buf << body.code;
-			}
-			return buf;
+			auto body = analyze_statement(*fx.body, info, scope);
+			return body;
 		}
 
 

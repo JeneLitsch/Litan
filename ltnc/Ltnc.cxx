@@ -34,19 +34,11 @@ namespace ltn::c {
 namespace ltn::c {
 	namespace {
 		sst::Var accessor(const sst::Definition & def) {
-			return sst::Var {
-				def.name,
-				def.namespaze,
-				def.location
-			};
+			return sst::Var { def.id, def.type };
 		}
 
 		sst::GlobalVar accessor(const sst::Global & def) {
-			return sst::GlobalVar {
-				def.location,
-				def.namespaze,
-				def.name
-			};
+			return sst::GlobalVar { def.type, def.id };
 		}
 
 
@@ -118,10 +110,10 @@ namespace ltn::c {
 		}
 
 
-		std::vector<stx::reference<const sst::Functional>> find_extern_funtions(
-			const sst::Program & program) {
-			std::vector<stx::reference<const sst::Functional>> externs;
-			for(const auto & fx : program.functions) {
+		std::vector<stx::reference<const ast::Functional>> find_extern_funtions(
+			const ast::Source & source) {
+			std::vector<stx::reference<const ast::Functional>> externs;
+			for(const auto & fx : source.functions) {
 				if(fx->init) {
 					externs.push_back(*fx);
 				}
@@ -134,12 +126,14 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer compile_staged(const StagedFx & staged, CompilerInfo & info) {
-			return compile_functional(*staged.fx, info); 
+		auto analyze_staged(const StagedFx & staged, CompilerInfo & info) {
+			info.fx_table.insert(*staged.fx, staged.fx->parameters.size());
+			return analyze_functional(*staged.fx, info); 
 		}
 
-		InstructionBuffer compile_staged(const StagedTemplateFx & staged, CompilerInfo & info) {
-			return compile_function_template(staged.tmpl, info, staged.arguments); 
+		auto analyze_staged(const StagedTemplateFx & staged, CompilerInfo & info) {
+			info.fx_table.insert(*staged.tmpl->fx, staged.tmpl->fx->parameters.size());
+			return analyze_function_template(staged.tmpl, info, staged.arguments); 
 		}
 	}
 
@@ -186,12 +180,22 @@ namespace ltn::c {
 			program.globals.push_back(analyze_global(*global, info));
 		}
 
-		for(const auto & fx_tmpl : source.function_templates) {
-			program.function_templates.push_back(analyze_function_template(*fx_tmpl, info));
+		auto externs = find_extern_funtions(source);
+
+		for(const auto & function : externs) {
+			fx_queue.stage_function(function);
 		}
 
-		for(const auto & fx : source.functions) {
-			program.functions.push_back(analyze_functional(*fx, info));
+		while(auto staged = fx_queue.fetch_function()) {
+			try {
+				auto fx = std::visit([&] (auto & s) {
+					return analyze_staged(s, info);
+					}, *staged
+				);
+			}
+			catch(const CompilerError & error) {
+				reporter.push(error);
+			}
 		}
 
 		return program;
@@ -220,47 +224,18 @@ namespace ltn::c {
 		};
 
 
-		for(const auto & definition : program.definitions) {
-			info.definition_table.insert(*definition);
-		}
 		buf << define_init(info, program.definitions);
-
-		for(const auto & global : program.globals) {
-			info.global_table.insert(*global);
-		}
 		buf << global_init(info, program.globals);
-
-		for(const auto & fx_tmpl : program.function_templates) {
-			const auto function_arity = std::size(fx_tmpl->fx->parameters);
-			const auto template_arity = std::size(fx_tmpl->template_parameters);
-			info.fx_template_table.insert(*fx_tmpl, function_arity, template_arity);
-		}
-
-		for(const auto & fx : program.functions) {
-			info.fx_table.insert(*fx, std::size(fx->parameters));
-		}
 
 
 		// buf << static_init(info, program.definitions);
 		buf << inst::null();
 		buf << inst::exit();
 		
-		auto externs = find_extern_funtions(program);
-
-		for(const auto & function : externs) {
-			fx_queue.stage_function(function);
+		for(const auto & function : program.functions) {
+			buf << compile_functional(*function);
 		}
 
-		while(auto staged = fx_queue.fetch_function()) {
-			try {
-				buf << std::visit([&] (auto & s) {
-					return compile_staged(s, info); },
-				*staged);
-			}
-			catch(const CompilerError & error) {
-				reporter.push(error);
-			}
-		}
 
 		std::set<std::string> extern_functions;
 		extern_functions.insert("main(0)");

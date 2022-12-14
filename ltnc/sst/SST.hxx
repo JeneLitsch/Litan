@@ -4,11 +4,9 @@
 #include "Expression.hxx"
 
 namespace ltn::c::sst {
-	using expr_ptr = std::unique_ptr<Expression>;
 	using litr_ptr = std::unique_ptr<Literal>;
 	using defn_ptr = std::unique_ptr<Definition>;
 	using glob_ptr = std::unique_ptr<Global>;
-	using stmt_ptr = std::unique_ptr<Statement>;
 	using func_ptr = std::unique_ptr<Functional>;
 	using ftmp_ptr = std::unique_ptr<FunctionTemplate>;
 	

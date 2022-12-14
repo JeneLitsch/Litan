@@ -72,4 +72,64 @@ namespace ltn::c {
 		oss << "(" << fx.parameters.size() << ")";
 		return oss.str();
 	}
+
+
+
+
+	sst::glob_ptr analyze_global(const ast::Global & global, CompilerInfo & info) {
+		// Use empty global_table to prohibit the usage of other global variables.
+		// Functions or defines can be used though.
+		InvalidGlobalTable global_table { "the default value of another global variable" };
+		InvalidFunctionTable fx_table { "the initialization of a global variable" };
+		InvalidFunctionTemplateTable fx_template_table { "the initialization of a global variable" };
+		CompilerInfo read_info {
+			.fx_table          = fx_table,
+			.fx_template_table = fx_template_table,
+			.fx_queue		   = info.fx_queue,
+			.definition_table  = info.definition_table,
+			.member_table      = info.member_table,
+			.global_table      = global_table,
+			.reporter          = info.reporter
+		};
+		MajorScope scope { global.namespaze, false };
+
+		auto & write_info = info;
+
+		MajorScope scope { global.namespaze, false };
+		auto sst_def = std::make_unique<sst::Global>(
+			
+		);
+		if(global.expr) {
+			sst_def->expr = analyze_expression(*global.expr, read_info, scope);
+		}
+		return sst_def;
+	}
+
+
+
+	sst::defn_ptr analyze_definition(const ast::Definition & def, CompilerInfo & info) {
+		// Use empty global_table to prohibit the usage of other global variables.
+		// Functions or defines can be used though.
+		InvalidDefinitionTable def_table { "definitions" };
+		InvalidGlobalTable global_table { "definitions" };
+		InvalidFunctionTable fx_table { "definitions" };
+		InvalidFunctionTemplateTable fx_template_table { "definitions" };
+		CompilerInfo read_info {
+			.fx_table          = fx_table,
+			.fx_template_table = fx_template_table,
+			.fx_queue		   = info.fx_queue,
+			.definition_table  = def_table,
+			.member_table      = info.member_table,
+			.global_table      = global_table,
+			.reporter          = info.reporter
+		};
+		MajorScope scope { def.namespaze, false };
+		auto sst_def = std::make_unique<sst::Definition>(
+
+		);
+		if(def.expr) {
+			sst_def->expr = analyze_expression(*def.expr, read_info, scope);
+		}
+		return sst_def;
+	}
 }

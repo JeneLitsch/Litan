@@ -1,70 +1,18 @@
 #include "compile.hxx"
 #include <sstream>
 namespace ltn::c {
-	namespace {
-		auto undefined(const sst::GlobalVar & global) {
-			std::ostringstream oss;
-			oss
-				<< "Undefined global variable "
-				<< global.namespaze.to_string() << global.name;
-
-			return CompilerError { oss.str(), global.location };
-		}
-
-		auto undefined(const sst::Var & def) {
-			std::ostringstream oss;
-			oss
-				<< "Undefined definition "
-				<< def.namespaze.to_string() << def.name;
-
-			return CompilerError { oss.str(), def.location };
-		}
-
-		auto & resolve_static(const auto & statik, auto & table, Scope & scope) {
-			const auto static_var = table.resolve(
-				statik.name,
-				scope.get_namespace(),
-				statik.namespaze);
-
-			if(!static_var) throw undefined(statik);
-			return *static_var;
-		}
-	}
-
-	InstructionBuffer compile_expr(
-		const sst::GlobalVar & global_var,
-		CompilerInfo & info,
-		Scope & scope) {
-		
-		auto & global = resolve_static(global_var, info.global_table, scope);
-		const auto type = instantiate_type(global.type, scope);
-
+	InstructionBuffer compile_expr(const sst::GlobalVar & read) {		
 		InstructionBuffer buf;
-		buf << inst::global_read(global.id);
-		
-		return InstructionBuffer{ 
-			.code = buf,
-			.deduced_type = instantiate_type(global.type, scope),
-		};
+		buf << inst::global_read(read.addr);
+		return buf;
 	}
 
 
 
-	InstructionBuffer compile_write_global(
-		const sst::GlobalVar & global_var,
-		CompilerInfo & info,
-		Scope & scope) {
-
-		const auto & global = resolve_static(global_var, info.global_table, scope);
-		const auto type = instantiate_type(global.type, scope);
-		
+	InstructionBuffer compile_write_global(const sst::GlobalVar & write) {
 		InstructionBuffer buf;
-		buf << inst::global_write(global.id);
-
-		return InstructionBuffer{ 
-			.code = buf,
-			.deduced_type = type	
-		};
+		buf << inst::global_write(write.addr);
+		return buf;
 	}
 
 
@@ -75,15 +23,7 @@ namespace ltn::c {
 		Scope & scope) {
 
 		InstructionBuffer buf;
-
-		const auto & statik = resolve_static(def, info.definition_table, scope);
-		const auto type = instantiate_type(statik.type, scope);
-		
-		buf << inst::global_write(statik.id);
-
-		return InstructionBuffer{ 
-			.code = buf,
-			.deduced_type = type,
-		};
+		buf << inst::global_write(def.addr);
+		return buf;
 	}
 }

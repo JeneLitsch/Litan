@@ -60,21 +60,19 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_stmt(const sst::For & stmt) {
+	InstructionBuffer compile_stmt(const sst::For & loop) {
 		
 		// outer scope of loop 
-		const auto var = compile_statement(*stmt.var);
-		const auto from = compile_expression(*stmt.from);
-		const auto to = compile_expression(*stmt.to);
+		const auto from = compile_expression(*loop.from);
+		const auto to = compile_expression(*loop.to);
 		
-		const auto begin = jump_begin(stmt.label);
-		const auto end = jump_end(stmt.label);
+		const auto begin = jump_begin(loop.label);
+		const auto end = jump_end(loop.label);
 
-		const auto i_var    = loop_scope.resolve(stmt.var->name);
-		const auto from_var = loop_scope.insert(var_from(stmt.label));
-		const auto to_var   = loop_scope.insert(var_to(stmt.label));
+		const auto from_var = loop.index_addr + 1;
+		const auto to_var   = loop.index_addr + 2;
 
-		const auto body = compile_statement(*stmt.body);
+		const auto body = compile_statement(*loop.body);
 				
 		InstructionBuffer buf;
 		
@@ -83,16 +81,16 @@ namespace ltn::c {
 			<< to
 			<< from
 			<< inst::duplicate()
-			<< inst::write_x(i_var->address)
-			<< inst::write_x(from_var.address)
-			<< inst::write_x(to_var.address);
+			<< inst::write_x(loop.index_addr)
+			<< inst::write_x(from_var)
+			<< inst::write_x(to_var);
 
 		// Condition
 		buf
 			<< inst::label(begin)
-			<< inst::read_x(to_var.address)
-			<< inst::read_x(from_var.address)
-			<< inst::read_x(i_var->address)
+			<< inst::read_x(to_var)
+			<< inst::read_x(from_var)
+			<< inst::read_x(loop.index_addr)
 			<< inst::between()
 			<< inst::ifelse(end);
 
@@ -100,8 +98,8 @@ namespace ltn::c {
 		buf << body;
 
 		// Increments
-		buf << inst::read_x(i_var->address);
-		if(auto & step = stmt.step) {
+		buf << inst::read_x(loop.index_addr);
+		if(auto & step = loop.step) {
 			buf
 				<< compile_expression(*step)
 				<< inst::add();
@@ -109,7 +107,7 @@ namespace ltn::c {
 		else {
 			buf << inst::inc();
 		}
-		buf << inst::write_x(i_var->address);
+		buf << inst::write_x(loop.index_addr);
 
 		// End of loop
 		buf
