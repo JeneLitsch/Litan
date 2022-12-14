@@ -6,28 +6,28 @@
 namespace ltn::c {
 	// compiles function call fx(...)
 	InstructionBuffer compile_expr(const sst::Invoke & invoke) {
-			InstructionBuffer buf;
+		InstructionBuffer buf;
 
-			buf << compile_expression(*invoke.function_ptr);
+		buf << compile_expression(*invoke.function_ptr);
 
-			for(const auto & param : invoke.parameters) {
-				buf << compile_expression(*param);
-			}
+		for(const auto & param : invoke.parameters) {
+			buf << compile_expression(*param);
+		}
 
-			buf << inst::newarr(invoke.parameters.size());
-			buf << inst::invoke();
+		buf << inst::newarr(invoke.parameters.size());
+		buf << inst::invoke();
 
-			return buf;
+		return buf;
 	}
 
 
 
 	InstructionBuffer compile_expr(const sst::Call & call) {
-			InstructionBuffer buf;
-			for(std::size_t i = 0; i < call.parameters.size(); ++i) {
-				buf << compile_expression(*call.parameters[i]);
-			}
-			buf << inst::call(call.id);		
-			return buf;
+		InstructionBuffer buf;
+		for(std::size_t i = 0; i < call.parameters.size(); ++i) {
+			buf << compile_expression(*call.parameters[i]);
+		}
+		buf << inst::call(call.id);		
+		return buf;
 	}
 }

@@ -156,14 +156,18 @@ namespace ltn::c {
 			ctors.push_back(std::move(ctor));
 		}
 
-
+		for(const auto & fx_tmpl : source.function_templates) {
+			const auto function_arity = std::size(fx_tmpl->fx->parameters);
+			const auto template_arity = std::size(fx_tmpl->template_parameters);
+			info.fx_template_table.insert(*fx_tmpl, function_arity, template_arity);
+		}
 
 		for(const auto & function : source.functions) {
 			info.fx_table.insert(*function, function->parameters.size());
 		}
 
-		for(const auto & function : ctors) {
-			info.fx_table.insert(*function, function->parameters.size());
+		for(const auto & ctor : ctors) {
+			info.fx_table.insert(*ctor, ctor->parameters.size());
 		}
 
 		auto externs = find_extern_funtions(source);

@@ -62,7 +62,7 @@ namespace ltn::c {
 			auto parameters = analyze_parameters(fx.parameters, scope, fx.location);
 			auto body = analyze_statement(*fx.body, info, scope);
 			auto sst_fx = std::make_unique<sst::Function>(
-				fx.id,
+				id,
 				fx.name,
 				fx.namespaze,
 				parameters,
