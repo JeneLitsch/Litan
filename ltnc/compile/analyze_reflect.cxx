@@ -173,6 +173,8 @@ namespace ltn::c {
 					info.fx_queue.stage_function(*fx);
 					sst_query.functions.push_back(sst::Reflect::FunctionQuery {
 						.id = fx->id,
+						.name = fx->name,
+						.full_name = fx->namespaze.to_string() + fx->name,
 						.arity = fx->parameters.size(),
 					});
 				}
@@ -196,6 +198,7 @@ namespace ltn::c {
 			}, refl.query),
 			sst::Reflect::Addr {
 				.name = info.member_table.get_id("name"),
+				.full_name = info.member_table.get_id("full_name"),
 				.fx_ptr = info.member_table.get_id("fx_ptr"),
 				.functions = info.member_table.get_id("functions"),
 			},

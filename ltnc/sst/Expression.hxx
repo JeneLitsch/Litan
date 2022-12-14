@@ -105,6 +105,8 @@ namespace ltn::c::sst {
 	struct Reflect : public Expression {
 		struct FunctionQuery {
 			std::string id;
+			std::string name;
+			std::string full_name;
 			std::size_t arity;
 
 		};
@@ -118,6 +120,7 @@ namespace ltn::c::sst {
 		>;
 		struct Addr {
 			std::size_t name;
+			std::size_t full_name;
 			std::size_t fx_ptr;
 			std::size_t functions;
 		};

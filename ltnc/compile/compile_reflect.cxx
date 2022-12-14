@@ -114,7 +114,12 @@ namespace ltn::c {
 			buf << inst::newstruct();
 			buf << add_member(addr.name, stx::iife([&] {
 				InstructionBuffer buf;
-				buf << inst::newstr(query.id);
+				buf << inst::newstr(query.name);
+				return buf;
+			}));
+			buf << add_member(addr.full_name, stx::iife([&] {
+				InstructionBuffer buf;
+				buf << inst::newstr(query.full_name);
 				return buf;
 			}));
 			buf << add_member(addr.fx_ptr, stx::iife([&] {
