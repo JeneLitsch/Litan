@@ -103,13 +103,35 @@ namespace ltn::c::sst {
 
 
 	struct Reflect : public Expression {
+		struct FunctionQuery {
+			std::string id;
+			std::size_t arity;
+
+		};
+		struct NamespaceQuery {
+			Namespace namespaze;
+			std::vector<FunctionQuery> functions;
+		};
+		using Query = std::variant<
+			NamespaceQuery,
+			FunctionQuery
+		>;
+		struct Addr {
+			std::size_t name;
+			std::size_t fx_ptr;
+			std::size_t functions;
+		};
+
 		Reflect(
-			const ReflectQuery & query,
+			const Query & query,
+			Addr addr,
 			const type::Type & type)
 			:	Expression(type),
-				query{query} {}
+				query{query},
+				addr{addr} {}
 		virtual ~Reflect() = default;
-		ReflectQuery query;
+		Query query;
+		Addr addr;
 	};
 
 
@@ -292,6 +314,7 @@ namespace ltn::c::sst {
 	struct Member final : public Assignable {
 		Member(
 			const type::Type & type,
+			std::unique_ptr<Expression> expr,
 			std::size_t addr)
 			:	Assignable(type),
 				expr(std::move(expr)),
@@ -384,6 +407,7 @@ namespace ltn::c::sst {
 		if(auto e = as<sst::String>(expr)) return fx(*e);
 		if(auto e = as<sst::Array>(expr)) return fx(*e);
 		if(auto e = as<sst::Call>(expr)) return fx(*e);
+		if(auto e = as<sst::Invoke>(expr)) return fx(*e);
 		if(auto e = as<sst::Var>(expr)) return fx(*e);
 		if(auto e = as<sst::Index>(expr)) return fx(*e);
 		if(auto e = as<sst::Lambda>(expr)) return fx(*e);
@@ -396,6 +420,6 @@ namespace ltn::c::sst {
 		if(auto e = as<sst::DeclType>(expr)) return fx(*e);
 		if(auto e = as<sst::TypedUnary>(expr)) return fx(*e);
 		if(auto e = as<sst::Reflect>(expr)) return fx(*e);
-		throw std::runtime_error{"Unknown Expression"};
+		throw std::runtime_error{"Unknown Expression SST"};
 	}
 }

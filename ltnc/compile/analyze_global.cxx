@@ -37,9 +37,8 @@ namespace ltn::c {
 		Scope & scope) {
 		
 		auto & global = resolve_static(global_var, info.global_table, scope);
-		const auto type = instantiate_type(global.type, scope);
 
-		return std::make_unique<sst::GlobalVar>(type, global.id);
+		return std::make_unique<sst::GlobalVar>(global.type, global.id);
 	}
 
 
@@ -51,8 +50,7 @@ namespace ltn::c {
 
 		const auto & global = resolve_static(global_var, info.global_table, scope);
 
-		const auto type = instantiate_type(global.type, scope);		
-		return std::make_unique<sst::GlobalVar>(type, global.id);
+		return std::make_unique<sst::GlobalVar>(global.type, global.id);
 	}
 
 
@@ -65,8 +63,6 @@ namespace ltn::c {
 		InstructionBuffer buf;
 
 		const auto & statik = resolve_static(def, info.definition_table, scope);
-		const auto type = instantiate_type(statik.type, scope);
-
-		return std::make_unique<sst::Var>(statik.id, type);
+		return std::make_unique<sst::Var>(statik.id, statik.type);
 	}
 }

@@ -31,18 +31,28 @@ namespace ltn::c {
 			
 			if(auto e = as<ast::Member>(expr)) {
 				const auto id = info.member_table.get_id(e->name);
+				auto expr = analyze_expression(*e->expr, info, scope);
 				return std::make_unique<sst::Member>(
-					type::Any{}, 
+					type::Any{},
+					std::move(expr), 
 					id
 				);
 			}
 			
 			if(auto global = as<ast::GlobalVar>(expr)) {
 				auto glob = info.global_table.resolve(
-					global->name, scope.get_namespace(), global->namespaze 
+					global->name,
+					scope.get_namespace(),
+					global->namespaze 
 				);
+				if(!glob) {
+					throw CompilerError {
+						"Cannot write to undegined global " + global->name,
+						global->location
+					};
+				}
 				return std::make_unique<sst::GlobalVar>(
-					instantiate_type(glob->type, scope),
+					glob->type,
 					glob->id);
 			}
 

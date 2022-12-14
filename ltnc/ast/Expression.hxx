@@ -384,6 +384,6 @@ namespace ltn::c::ast {
 		if(auto e = as<ast::DeclType>(expr)) return fx(*e);
 		if(auto e = as<ast::TypedUnary>(expr)) return fx(*e);
 		if(auto e = as<ast::Reflect>(expr)) return fx(*e);
-		throw std::runtime_error{"Unknown Expression"};
+		throw std::runtime_error{"Unknown Expression AST"};
 	}
 }

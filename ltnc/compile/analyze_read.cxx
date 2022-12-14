@@ -52,17 +52,17 @@ namespace ltn::c {
 			namespaze,
 			expr.namespaze);
 		
-		if(def) {
-			return std::make_unique<sst::GlobalVar>(
-				instantiate_type(def->type, scope),
-				def->id
-			);
+		if(!def) {
+			throw CompilerError {
+				"Undefined variable " + expr.namespaze.to_string() + name,
+				expr.location
+			};
 		}
 		
-		throw CompilerError {
-			"Undefined variable " + expr.namespaze.to_string() + name,
-			expr.location
-		};
+		return std::make_unique<sst::GlobalVar>(
+			def->type,
+			def->id
+		);
 	}
 
 	
@@ -72,6 +72,7 @@ namespace ltn::c {
 		Scope & scope) {
 
 		const auto id = info.member_table.get_id(access.name);
-		return std::make_unique<sst::Member>(type::Any{}, id);
+		auto expr = analyze_expression(*access.expr, info, scope);
+		return std::make_unique<sst::Member>(type::Any{}, std::move(expr), id);
 	}
 }

@@ -9,14 +9,14 @@ namespace ltn::c {
 		const std::string_view name,
 		const std::size_t parameters);
 
-	const ast::Definition * resolve(
-		const std::vector<const ast::Definition *> & definitions,
+	const sst::Definition * resolve(
+		const std::vector<const sst::Definition *> & definitions,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name);
 
-	const ast::Global * resolve(
-		const std::vector<const ast::Global *> & globals,
+	const sst::Global * resolve(
+		const std::vector<const sst::Global *> & globals,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name);

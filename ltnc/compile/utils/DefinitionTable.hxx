@@ -6,7 +6,7 @@
 
 namespace ltn::c {
 	struct DefinitionErrors {
-		static CompilerError redef(const ast::Definition & def) {
+		static CompilerError redef(const sst::Definition & def) {
 			std::stringstream msg;
 			msg << "Definition ";
 			msg << def.namespaze.to_string();
@@ -30,11 +30,11 @@ namespace ltn::c {
 	};
 
 	using DefinitionTable
-		= SymbolTable<ast::Definition>;
+		= SymbolTable<sst::Definition>;
 	
 	using ValidDefinitionTable
-		= ValidSymbolTable<ast::Definition, DefinitionErrors>;
+		= ValidSymbolTable<sst::Definition, DefinitionErrors>;
 	
 	using InvalidDefinitionTable
-		= InvalidSymbolTable<ast::Definition, DefinitionErrors>;
+		= InvalidSymbolTable<sst::Definition, DefinitionErrors>;
 }

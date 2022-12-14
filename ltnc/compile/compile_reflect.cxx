@@ -1,21 +1,11 @@
 #include "compile.hxx"
+#include "stdxx/iife.hxx"
 #include <string_view>
 #include <iostream>
 namespace ltn::c {
 	// namespace {
 
-	// 	InstructionBuffer add_member(
-	// 		CompilerInfo & info,
-	// 		const std::string & name,
-	// 		const InstructionBuffer & init) {
-	
-	// 		InstructionBuffer buf;
-	// 		buf << inst::duplicate();
-	// 		buf << init;
-	// 		buf << inst::swap();
-	// 		buf << inst::member_write(info.member_table.get_id(name));
-	// 		return buf;
-	// 	}
+
 
 
 	// 	InstructionBuffer add_member_bool(
@@ -104,48 +94,68 @@ namespace ltn::c {
 	// 	}
 
 
+	namespace {
+		InstructionBuffer add_member(const std::size_t addr,
+			const InstructionBuffer & init) {
+	
+			InstructionBuffer buf;
+			buf << inst::duplicate();
+			buf << init;
+			buf << inst::swap();
+			buf << inst::member_write(addr);
+			return buf;
+		}
 
-	// 	InstructionBuffer compile_reflect_query(
-	// 		const FunctionQuery & query,
-	// 		CompilerInfo & info,
-	// 		Scope & scope) {
+		InstructionBuffer compile_reflect_query(
+			const sst::Reflect::Addr & addr,
+			const sst::Reflect::FunctionQuery & query) {
 
-	// 		InstructionBuffer buf;
-	// 		auto fx = info.fx_table.resolve(query.name, scope.get_namespace(), query.namespaze, query.arity);
-	// 		if(!fx) throw CompilerError {
-	// 			"Undefined function " + query.namespaze.to_string() + query.name + " in reflection."
-	// 		};
-	// 		info.fx_queue.stage_function(*fx);
-	// 		buf << reflect_function(info, *fx);
-	// 		return {buf};
-	// 	}
+			InstructionBuffer buf;
+			buf << inst::newstruct();
+			buf << add_member(addr.name, stx::iife([&] {
+				InstructionBuffer buf;
+				buf << inst::newstr(query.id);
+				return buf;
+			}));
+			buf << add_member(addr.fx_ptr, stx::iife([&] {
+				InstructionBuffer buf;
+				buf << inst::newfx(query.id, query.arity);
+				return buf;
+			}));
+			return buf;
+		}
 
 
-	// 	InstructionBuffer compile_reflect_query(
-	// 		const NamespaceQuery & query,
-	// 		CompilerInfo & info,
-	// 		Scope &) {
+		InstructionBuffer compile_reflect_query(
+			const sst::Reflect::Addr & addr,
+			const sst::Reflect::NamespaceQuery & query) {
 
-	// 		InstructionBuffer buf;
-	// 		buf << inst::newstruct();
-	// 		buf << add_member_string(info, "name", query.namespaze.to_string());
-	// 		buf << reflect_functions(info, query.namespaze);
-	// 		buf << reflect_globals(info, query.namespaze);
-	// 		return {buf};
-	// 	}
-	// }
+			InstructionBuffer buf;
+			buf << inst::newstruct();
+			buf << add_member(addr.name, stx::iife([&] {
+				InstructionBuffer buf;
+				buf << inst::newstr(query.namespaze.to_string());
+				return buf;
+			}));
+			buf << add_member(addr.functions, stx::iife([&] {
+				InstructionBuffer buf;
+				for(const auto & fx : query.functions) {
+					buf << compile_reflect_query(addr, fx);
+				}
+				buf << inst::newarr(query.functions.size());
+				return buf;
+			}));
+			return buf;
+		}
+	}
 
 
 
 	// compiles array literal
 	InstructionBuffer compile_expr(const sst::Reflect & refl) {
-			
-		// return std::visit([&] (const auto & query) {
-		// 	return compile_reflect_query(query, info, scope);
-		// }, refl.query);
 
-		InstructionBuffer buf;
-		buf << inst::null();
-		return buf;
+		return std::visit([&] (const auto & query) {
+			return compile_reflect_query(refl.addr, query);
+		}, refl.query);
 	}
 }

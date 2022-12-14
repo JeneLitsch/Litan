@@ -135,6 +135,55 @@ namespace ltn::c {
 	// 	}
 	// }
 
+	namespace {
+		sst::Reflect::FunctionQuery analyze_reflect_query(
+			const FunctionQuery & query,
+			CompilerInfo & info,
+			Scope & scope) {
+
+			const auto * fx = info.fx_table.resolve(
+				query.name,
+				query.namespaze,
+				query.arity
+			);
+
+			if(!fx) {
+				throw undefined_function(query.name, ast::Node{{}});
+			}
+			
+			info.fx_queue.stage_function(*fx);
+
+			sst::Reflect::FunctionQuery sst_query {
+				.id = fx->id,
+				.arity = fx->parameters.size(),
+			};
+
+			return sst_query;
+		}
+
+
+
+		sst::Reflect::NamespaceQuery analyze_reflect_query(
+			const NamespaceQuery & query,
+			CompilerInfo & info,
+			Scope & scope) {
+
+			sst::Reflect::NamespaceQuery sst_query;
+			sst_query.namespaze = query.namespaze;
+			for(const auto & fx : info.fx_table.get_symbols()) {
+				if(fx->namespaze == query.namespaze) {
+					info.fx_queue.stage_function(*fx);
+					sst_query.functions.push_back(sst::Reflect::FunctionQuery {
+						.id = fx->id,
+						.arity = fx->parameters.size(),
+					});
+				}
+			}
+		
+			return sst_query;
+		}
+	}
+
 
 
 	// compiles array literal
@@ -143,6 +192,16 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 			
-		return std::make_unique<sst::Reflect>(refl.query, type::Null{});
+		return std::make_unique<sst::Reflect>(
+			std::visit([&] (const auto & query) -> sst::Reflect::Query {
+				return analyze_reflect_query(query, info, scope);
+			}, refl.query),
+			sst::Reflect::Addr {
+				.name = info.member_table.get_id("name"),
+				.fx_ptr = info.member_table.get_id("fx_ptr"),
+				.functions = info.member_table.get_id("functions"),
+			},
+			type::Null{}
+		);
 	}
 }

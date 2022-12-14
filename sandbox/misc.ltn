@@ -1,3 +1,25 @@
+namespace foo {
+	function f() {}
+	function g() {}
+	function h() {}
+}
+
+global AAA = [];
+
+preset A {}
+
 function main() {
-	std::println("Hello World");
+	// for(i : 0 -> 10000) {
+	// 	// i = i + 1;
+	// 	std::println(std::str(i) + ") Hello World");
+	// }
+	// foo::f();
+	// foo::g();
+	var x = std::struct();
+	// x.a = 3;
+	// std::println(reflect(namespace foo).functions);
+	// global AAA = 42;
+	// std::println(decltype(1).name);
+	std::println(std::pi);
+	std::println(std::empty(global AAA));
 }

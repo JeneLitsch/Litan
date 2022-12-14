@@ -31,16 +31,16 @@ namespace std {
 
 
 
-	// preset pair {
-	// 	var first;
-	// 	var second;
-	// }
+	preset pair {
+		var first;
+		var second;
+	}
 
 
 
-	// preset mono {
-	// 	var value;
-	// }
+	preset mono {
+		var value;
+	}
 
 
 

@@ -43,8 +43,6 @@ namespace ltn::c {
 
 
 		InstructionBuffer static_init(
-			auto & read_info,
-			auto & write_info,
 			auto & statics,
 			auto & compile_write) {
 			
@@ -64,49 +62,14 @@ namespace ltn::c {
 		}
 
 		
-		InstructionBuffer global_init(auto & info, auto & globals) {
-			// Use empty global_table to prohibit the usage of other global variables.
-			// Functions or defines can be used though.
-			InvalidGlobalTable global_table { "the default value of another global variable" };
-			InvalidFunctionTable fx_table { "the initialization of a global variable" };
-			InvalidFunctionTemplateTable fx_template_table { "the initialization of a global variable" };
-			CompilerInfo read_info {
-				.fx_table          = fx_table,
-				.fx_template_table = fx_template_table,
-				.fx_queue		   = info.fx_queue,
-				.definition_table  = info.definition_table,
-				.member_table      = info.member_table,
-				.global_table      = global_table,
-				.reporter          = info.reporter
-			};
-
-			auto & write_info = info;
-
-			return static_init(read_info, write_info, globals, compile_write_global);
+		InstructionBuffer global_init(auto & globals) {
+			return static_init(globals, compile_write_global);
 		}
 
 		
 		
-		InstructionBuffer define_init(auto & info, auto & globals) {
-			// Use empty global_table to prohibit the usage of other global variables.
-			// Functions or defines can be used though.
-			InvalidDefinitionTable def_table { "definitions" };
-			InvalidGlobalTable global_table { "definitions" };
-			InvalidFunctionTable fx_table { "definitions" };
-			InvalidFunctionTemplateTable fx_template_table { "definitions" };
-			CompilerInfo read_info {
-				.fx_table          = fx_table,
-				.fx_template_table = fx_template_table,
-				.fx_queue		   = info.fx_queue,
-				.definition_table  = def_table,
-				.member_table      = info.member_table,
-				.global_table      = global_table,
-				.reporter          = info.reporter
-			};
-
-			auto & write_info = info;
-
-			return static_init(read_info, write_info, globals, compile_write_define);
+		InstructionBuffer define_init(auto & globals) {
+			return static_init(globals, compile_write_define);
 		}
 
 
@@ -127,10 +90,12 @@ namespace ltn::c {
 
 
 		auto analyze_staged(const StagedFx & staged, CompilerInfo & info) {
+			// std::cout << staged.fx->id << "\n";
 			return analyze_functional(*staged.fx, info); 
 		}
 
 		auto analyze_staged(const StagedTemplateFx & staged, CompilerInfo & info) {
+			// std::cout << staged.tmpl->fx->id << "\n";
 			return analyze_function_template(staged.tmpl, info, staged.arguments); 
 		}
 	}
@@ -158,10 +123,6 @@ namespace ltn::c {
 		};
 
 
-		for(auto & preset : source.presets) {
-			auto ctor = analyze_preset(*preset, info);
-			program.functions.push_back(std::move(ctor));
-		}
 
 		for(auto & enym : source.enums) {
 			auto definitions = analyze_enumeration(*enym);
@@ -174,9 +135,28 @@ namespace ltn::c {
 			program.definitions.push_back(analyze_definition(*definition, info));
 		}
 
+		for(const auto & def : program.definitions) {
+			info.definition_table.insert(*def);
+		}
+
+
+
 		for(const auto & global : source.globals) {
 			program.globals.push_back(analyze_global(*global, info));
 		}
+
+		for(const auto & glob : program.globals) {
+			info.global_table.insert(*glob);
+		}
+
+
+
+		for(auto & preset : source.presets) {
+			auto ctor = analyze_preset(*preset, info);
+			program.functions.push_back(std::move(ctor));
+		}
+
+
 
 		for(const auto & function : source.functions) {
 			info.fx_table.insert(*function, function->parameters.size());
@@ -210,25 +190,9 @@ namespace ltn::c {
 		Reporter & reporter) {
 		
 		InstructionBuffer buf;
-		ValidFunctionTable fx_table;
-		FunctionQueue fx_queue;
-		ValidFunctionTemplateTable fx_template_table;
-		ValidDefinitionTable definition_table;
-		MemberTable member_table;
-		ValidGlobalTable global_table;
-		CompilerInfo info {
-			.fx_table = fx_table,
-			.fx_template_table = fx_template_table,
-			.fx_queue = fx_queue,
-			.definition_table = definition_table,
-			.member_table = member_table,
-			.global_table = global_table,
-			.reporter = reporter,
-		};
 
-
-		buf << define_init(info, program.definitions);
-		buf << global_init(info, program.globals);
+		buf << define_init(program.definitions);
+		buf << global_init(program.globals);
 
 
 		// buf << static_init(info, program.definitions);
@@ -248,7 +212,7 @@ namespace ltn::c {
 		}
 
 		AddressTable extern_globals;
-		for(const auto symbol : global_table.get_symbols()) {
+		for(const auto & symbol : program.globals) {
 			const auto full_name = symbol->namespaze.to_string() + symbol->name;
 			extern_globals.insert({full_name, symbol->id});
 		}

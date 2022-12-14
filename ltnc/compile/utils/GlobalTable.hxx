@@ -7,7 +7,7 @@
 
 namespace ltn::c {
 	struct GlobalErrors {
-		static CompilerError redef(const ast::Global & def) {
+		static CompilerError redef(const sst::Global & def) {
 			std::stringstream msg;
 			msg << "Global variable ";
 			msg << def.namespaze.to_string();
@@ -31,11 +31,11 @@ namespace ltn::c {
 	};
 
 	using GlobalTable
-		= SymbolTable<ast::Global>;
+		= SymbolTable<sst::Global>;
 	
 	using ValidGlobalTable
-		= ValidSymbolTable<ast::Global, GlobalErrors>;
+		= ValidSymbolTable<sst::Global, GlobalErrors>;
 	
 	using InvalidGlobalTable
-		= InvalidSymbolTable<ast::Global, GlobalErrors>;
+		= InvalidSymbolTable<sst::Global, GlobalErrors>;
 }

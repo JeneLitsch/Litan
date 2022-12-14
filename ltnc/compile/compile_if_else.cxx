@@ -19,7 +19,7 @@ namespace ltn::c {
 			return compile_conditional(name, condition, if_branch, &else_branch);
 		}
 		else {
-			const auto code = compile_conditional(name, condition, if_branch, nullptr);
+			return compile_conditional(name, condition, if_branch, nullptr);
 		}
 	}
 }

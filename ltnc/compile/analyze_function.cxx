@@ -90,12 +90,6 @@ namespace ltn::c {
 			Scope & scope,
 			std::optional<std::string> override_id) {
 			
-			InstructionBuffer buf;
-			const auto * signature = info.fx_table.resolve(
-				fx.name,
-				fx.namespaze,
-				fx.parameters.size());
-			
 			auto parameters = analyze_parameters(fx.parameters, scope, fx.location);
 			auto sst_fx = std::make_unique<sst::BuildIn>(
 				fx.id,
