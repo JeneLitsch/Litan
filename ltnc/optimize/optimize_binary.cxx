@@ -3,15 +3,15 @@
 #include "eval/eval_binary.hxx"
 namespace ltn::c {
 	namespace {
-		template<sst::Binary::Type op>
+		template<sst::Binary::Op op>
 		bool is_op_type(const sst::Binary & binary) {
-			return binary.type == op;
+			return binary.op == op;
 		}
-		constexpr auto is_add = is_op_type<sst::Binary::Type::ADD>;
-		constexpr auto is_sub = is_op_type<sst::Binary::Type::SUB>;
-		constexpr auto is_mlt = is_op_type<sst::Binary::Type::MLT>;
-		constexpr auto is_div = is_op_type<sst::Binary::Type::DIV>;
-		constexpr auto is_mod = is_op_type<sst::Binary::Type::MOD>;
+		constexpr auto is_add = is_op_type<sst::Binary::Op::ADD>;
+		constexpr auto is_sub = is_op_type<sst::Binary::Op::SUB>;
+		constexpr auto is_mlt = is_op_type<sst::Binary::Op::MLT>;
+		constexpr auto is_div = is_op_type<sst::Binary::Op::DIV>;
+		constexpr auto is_mod = is_op_type<sst::Binary::Op::MOD>;
 	}
 
 

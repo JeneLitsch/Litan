@@ -5,9 +5,9 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		const auto condition   = analyze_expression(*expr.condition, info, scope);
-		const auto if_branch   = analyze_expression(*expr.if_branch, info, scope);
-		const auto else_branch = analyze_expression(*expr.else_branch, info, scope);
+		auto condition   = analyze_expression(*expr.condition, info, scope);
+		auto if_branch   = analyze_expression(*expr.if_branch, info, scope);
+		auto else_branch = analyze_expression(*expr.else_branch, info, scope);
 
 		const auto deduced_type = type::deduce_ternary(
 			condition->type,

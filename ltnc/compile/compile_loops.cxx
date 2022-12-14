@@ -1,20 +1,22 @@
 #include "compile.hxx"
 
 namespace ltn::c {
-	std::string jump_begin(const std::string & name) {
-		return name + "_BEGIN";
-	}
+	namespace {
+		std::string jump_begin(const std::string & name) {
+			return name + "_BEGIN";
+		}
 
-	std::string jump_end(const std::string & name) {
-		return name + "_END";
-	}
+		std::string jump_end(const std::string & name) {
+			return name + "_END";
+		}
 
-	std::string var_from(const std::string & name) {
-		return name + "_FROM";
-	}
+		std::string var_from(const std::string & name) {
+			return name + "_FROM";
+		}
 
-	std::string var_to(const std::string & name) {
-		return name + "_TO";
+		std::string var_to(const std::string & name) {
+			return name + "_TO";
+		}
 	}
 
 	InstructionBuffer compile_stmt(const sst::While & stmt) {

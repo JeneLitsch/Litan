@@ -7,21 +7,15 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 
-		const auto arr = analyze_expression(*index.expression, info, scope);
-		const auto idx = analyze_expression(*index.index, info, scope);
+		auto arr = analyze_expression(*index.expression, info, scope);
+		auto idx = analyze_expression(*index.index, info, scope);
 		
-		InstructionBuffer buf;
-		
-		buf	
-			<< arr.code
-			<< idx.code
-			<< inst::at();
+		const auto type = type::deduce_index(arr->type, idx->type);
 
-		const auto type = type::deduce_index(arr.deduced_type, idx.deduced_type);
-
-		return sst::expr_ptr{ 
-			.code = buf,
-			.deduced_type = type,
-		};
+		return std::make_unique<sst::Index>(
+			std::move(arr),
+			std::move(idx),
+			type
+		);
 	}
 }

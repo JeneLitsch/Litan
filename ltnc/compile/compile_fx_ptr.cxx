@@ -4,10 +4,7 @@
 #include <string_view>
 
 namespace ltn::c {
-	InstructionBuffer compile_expr(
-		const sst::FxPointer & fx_ptr,
-		CompilerInfo & info,
-		Scope & scope) {
+	InstructionBuffer compile_expr(const sst::FxPointer & fx_ptr) {
 
 		InstructionBuffer buf;
 		buf << inst::newfx(fx_ptr.id, fx_ptr.arity);

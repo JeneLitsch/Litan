@@ -28,12 +28,12 @@ namespace ltn::c::sst {
 		Static(
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::IncompleteType & type) :
+			const type::Type & type) :
 				Declaration(name, namespaze),
 				id(++counter), type{type} {}
 		
 		std::uint64_t id;
-		type::IncompleteType type;
+		type::Type type;
 		const std::string & get_resolve_name() const {
 			return this->name;
 		}
@@ -51,7 +51,7 @@ namespace ltn::c::sst {
 		Definition(
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::IncompleteType & type) :
+			const type::Type & type) :
 				Static{name, namespaze, type} {}
 		virtual ~Definition() = default;
 		std::unique_ptr<sst::Expression> expr;
@@ -63,7 +63,7 @@ namespace ltn::c::sst {
 		Global(
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::IncompleteType & type) :
+			const type::Type & type) :
 				Static{name, namespaze,type} {}
 		virtual ~Global() = default;
 		std::unique_ptr<sst::Expression> expr;

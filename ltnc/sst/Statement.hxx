@@ -58,7 +58,7 @@ namespace ltn::c::sst {
 			std::size_t local_vars, bool direct_allocation,
 			std::size_t addr,
 			std::unique_ptr<Expression> expression,
-			const std::variant<type::IncompleteType, type::Auto> & type = type::IncompleteType{type::Any{}})
+			const std::variant<type::Type, type::Auto> & type = type::Any{})
 			:	
 				Statement{local_vars, direct_allocation},
 				addr{addr},
@@ -67,7 +67,7 @@ namespace ltn::c::sst {
 		virtual ~NewVar() = default;
 		std::size_t addr;
 		std::unique_ptr<Expression> expression;
-		std::variant<type::IncompleteType, type::Auto> type;
+		std::variant<type::Type, type::Auto> type;
 	};
 
 
@@ -94,8 +94,7 @@ namespace ltn::c::sst {
 		While(
 			std::size_t local_vars, bool direct_allocation,
 			std::unique_ptr<Expression> condition,
-			std::unique_ptr<Statement> body,
-			const type::Type & type)
+			std::unique_ptr<Statement> body)
 			:	
 				Statement{local_vars, direct_allocation},
 				condition(std::move(condition)),
@@ -185,7 +184,7 @@ namespace ltn::c::sst {
 			std::size_t object_addr,
 			std::size_t member_addr,
 			std::size_t param_addr,
-			type::IncompleteType type)
+			type::Type type)
 			:	
 				Statement{local_vars, direct_allocation},
 				object_addr(object_addr),
@@ -196,7 +195,7 @@ namespace ltn::c::sst {
 		std::size_t object_addr;
 		std::size_t member_addr;
 		std::size_t param_addr;
-		type::IncompleteType type;
+		type::Type type;
 	};
 
 

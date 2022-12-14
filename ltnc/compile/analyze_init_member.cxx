@@ -9,13 +9,12 @@ namespace ltn::c {
 		const auto var = scope.resolve(stmt.param, stmt.location);
 		const auto mem = info.member_table.get_id(stmt.member);
 		
-		InstructionBuffer buf;
-		
-		buf 
-			<< inst::read_x(var->address)
-			<< inst::read_x(obj->address)
-			<< inst::member_write(mem);
-		
-		return sst::stmt_ptr {buf, 0, false};
+		return std::make_unique<sst::InitMember>(
+			std::size_t{0}, false,
+			obj->address,
+			mem,
+			var->address,
+			type::Any{}
+		);
 	}
 }

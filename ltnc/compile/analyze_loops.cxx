@@ -1,20 +1,22 @@
 #include "compile.hxx"
 
 namespace ltn::c {
-	std::string jump_begin(const std::string & name) {
-		return name + "_BEGIN";
-	}
+	namespace {
+		std::string jump_begin(const std::string & name) {
+			return name + "_BEGIN";
+		}
 
-	std::string jump_end(const std::string & name) {
-		return name + "_END";
-	}
+		std::string jump_end(const std::string & name) {
+			return name + "_END";
+		}
 
-	std::string var_from(const std::string & name) {
-		return name + "_FROM";
-	}
+		std::string var_from(const std::string & name) {
+			return name + "_FROM";
+		}
 
-	std::string var_to(const std::string & name) {
-		return name + "_TO";
+		std::string var_to(const std::string & name) {
+			return name + "_TO";
+		}
 	}
 
 	sst::stmt_ptr analyze_stmt(
@@ -26,8 +28,8 @@ namespace ltn::c {
 		MinorScope loop_scope { &scope }; 
 		
 		// compile parts
-		const auto condition = analyze_expression(*stmt.condition, info, scope);
-		const auto body = analyze_statement(*stmt.body, info, loop_scope);
+		auto condition = analyze_expression(*stmt.condition, info, scope);
+		auto body = analyze_statement(*stmt.body, info, loop_scope);
 
 		return std::make_unique<sst::While>(
 			body->local_vars,
@@ -45,7 +47,7 @@ namespace ltn::c {
 		Scope & scope) {
 
 		MinorScope loop_scope { &scope }; 		
-		const auto body = analyze_statement(*stmt.body, info, loop_scope);
+		auto body = analyze_statement(*stmt.body, info, loop_scope);
 		return std::make_unique<sst::InfiniteLoop>(
 			body->local_vars,
 			false,
@@ -74,13 +76,12 @@ namespace ltn::c {
 		const auto from_var = loop_scope.insert(var_from(label), stmt.location);
 		const auto to_var   = loop_scope.insert(var_to(label), stmt.location);
 
-		const auto body = analyze_statement(*stmt.body, info, loop_scope);
+		auto body = analyze_statement(*stmt.body, info, loop_scope);
 				
 		return std::make_unique<sst::For>(
 			body->local_vars + 3, false,
 			label,
 			i_var->address,
-			std::move(var),
 			std::move(from),
 			std::move(to),
 			std::move(step),

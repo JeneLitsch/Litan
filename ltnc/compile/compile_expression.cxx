@@ -15,7 +15,7 @@ namespace ltn::c {
 		buf << inst::duplicate();
 		buf << inst::newstr(name);
 		buf << inst::swap();
-		buf << inst::member_write(expr.store_addr);
+		buf << inst::member_write(expr.name_addr);
 
 		return {buf};
 	}

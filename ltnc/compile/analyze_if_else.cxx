@@ -12,13 +12,13 @@ namespace ltn::c {
 		Scope & scope) {
 		MinorScope if_scope{&scope};
 		
-		const auto condition = analyze_expression(*stmt.condition, info, scope);
-		const auto if_branch = analyze_statement(*stmt.if_branch, info, if_scope);
+		auto condition = analyze_expression(*stmt.condition, info, scope);
+		auto if_branch = analyze_statement(*stmt.if_branch, info, if_scope);
 		
 		if(has_else_branch(stmt)) {
 			MinorScope else_scope{&scope};
 			
-			const auto else_branch = analyze_statement(*stmt.else_branch, info, else_scope);
+			auto else_branch = analyze_statement(*stmt.else_branch, info, else_scope);
 			
 			const auto total_var_count = std::max(
 				if_branch->local_vars,

@@ -4,13 +4,13 @@
 namespace ltn::c {
 	namespace {
 		
-		template<sst::Unary::Type op>
+		template<sst::Unary::Op op>
 		bool is_op_type(const sst::Unary & unary) {
-			return unary.type == op;
+			return unary.op == op;
 		}
-		constexpr auto is_neg = is_op_type<sst::Unary::Type::NEG>;
-		constexpr auto is_not = is_op_type<sst::Unary::Type::NOT>;
-		constexpr auto is_nul = is_op_type<sst::Unary::Type::NUL>;
+		constexpr auto is_neg = is_op_type<sst::Unary::Op::NEG>;
+		constexpr auto is_not = is_op_type<sst::Unary::Op::NOT>;
+		constexpr auto is_nul = is_op_type<sst::Unary::Op::NUL>;
 
 		
 

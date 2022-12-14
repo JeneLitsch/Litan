@@ -25,7 +25,7 @@ namespace ltn::c {
 		Scope & scope) {
 		
 		using Op = ast::Unary::Type;
-		const auto expr = analyze_expression(*unary.expression, info, scope);
+		auto expr = analyze_expression(*unary.expression, info, scope);
 		const auto op = static_cast<sst::Unary::Op>(unary.type);
 		const auto type = deduce_type(op, expr->type);
 		return std::make_unique<sst::Unary>(op, std::move(expr), type);

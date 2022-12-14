@@ -17,10 +17,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_write_define(
-		const sst::Var & def,
-		CompilerInfo & info,
-		Scope & scope) {
+	InstructionBuffer compile_write_define(const sst::Var & def) {
 
 		InstructionBuffer buf;
 		buf << inst::global_write(def.addr);

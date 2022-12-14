@@ -6,13 +6,17 @@
 namespace ltn::c {
 	namespace {
 
-		inst::Inst parameters(const ast::Functional & fx, Scope & scope) {
-			for(const auto & param : fx.parameters) {
-				const auto type = instantiate_type(param.type, scope);
-				scope.insert(param.name, fx.location, type);
+		sst::Parameters analyze_parameters(const ast::Parameters & parameters, Scope & scope, const SourceLocation & loc) {
+			sst::Parameters p;
+			for(const auto & param : parameters) {
+				auto sst_param = sst::Parameter {
+					.name = param.name,
+					.type = instantiate_type(param.type, scope)
+				};
+				scope.insert(sst_param.name, loc, sst_param.type);
+				p.push_back(sst_param);
 			}
-			const auto arity = static_cast<std::uint8_t>(fx.parameters.size());
-			return inst::parameters(arity);
+			return p;
 		}
 
 
@@ -27,18 +31,6 @@ namespace ltn::c {
 			ss << "_" << name << "_SKIP";
 			return ss.str(); 
 		}
-
-
-		sst::stmt_ptr analyze_body(
-			const auto & fx,
-			CompilerInfo & info,
-			Scope & scope) {
-
-			InstructionBuffer buf;
-			auto body = analyze_statement(*fx.body, info, scope);
-			return body;
-		}
-
 
 
 		auto analyze_except(	
@@ -61,17 +53,18 @@ namespace ltn::c {
 			const ast::Function & fx,
 			CompilerInfo & info,
 			Scope & scope,
-			std::vector<sst::stmt_ptr> capture,
+			std::vector<std::unique_ptr<sst::Var>> capture,
 			std::optional<std::string> override_id = std::nullopt) {
 			
 			InstructionBuffer buf;
 
 			const auto id = override_id.value_or(fx.id);
-			auto body = analyze_body(fx, info, scope);
+			auto body = analyze_statement(*fx.body, info, scope);
 			auto sst_fx = std::make_unique<sst::Function>(
+				fx.id,
 				fx.name,
 				fx.namespaze,
-				fx.parameters,
+				analyze_parameters(fx.parameters, scope, fx.location),
 				std::move(body),
 				instantiate_type(fx.return_type, scope)
 			);
@@ -102,16 +95,11 @@ namespace ltn::c {
 				fx.namespaze,
 				fx.parameters.size());
 			
-			buf << inst::label(override_id.value_or(signature->id));
-			const auto body = resolve_build_in(fx.key); 
-			buf << body;
-			buf << inst::null();
-			buf << inst::retvrn();
-			
 			auto sst_fx = std::make_unique<sst::BuildIn>(
+				fx.id,
 				fx.name,
 				fx.namespaze,
-				fx.parameters,
+				analyze_parameters(fx.parameters, scope, fx.location),
 				fx.key,
 				instantiate_type(fx.return_type, scope)
 			);
@@ -189,24 +177,23 @@ namespace ltn::c {
 			outer_scope.get_namespace(),
 			fx.c0nst };
 		
-		std::vector<sst::stmt_ptr> load_captures;
+		std::vector<std::unique_ptr<sst::Var>> load_captures;
 		for(const auto & capture : lm.captures) {
 			const auto var = inner_scope.insert(capture->name, fx.location);
-			load_captures.push_back(std::make_unique<sst::NewVar>(
-				1, false, capture->name,
+			load_captures.push_back(
 				std::make_unique<sst::Var>(
 					var.address, var.type
-				), var.type
-			));
+				)
+			);
 		}
 
 		// compile function
-		auto fx = analyze_function(*lm.fx, info, inner_scope, std::move(load_captures));
+		auto sst_fx = analyze_function(*lm.fx, info, inner_scope, std::move(load_captures));
 
 		// store captures
-		std::vector<sst::expr_ptr> store_captures;
+		std::vector<std::unique_ptr<sst::Var>> store_captures;
 		for(const auto & capture : lm.captures) {
-			store_captures.push_back(analyze_expression(*capture, info, outer_scope));
+			store_captures.push_back(stx::static_unique_cast<sst::Var>(analyze_expr(*capture, info, outer_scope)));
 		}
 
 
@@ -222,10 +209,9 @@ namespace ltn::c {
 		};
 
 		return std::make_unique<sst::Lambda>(
-			return_type,
-			std::move(fx),
+			stx::static_unique_cast<sst::Function>(std::move(sst_fx)),
 			std::move(store_captures),
-			fx.return_type
+			instantiate_type(fx.return_type, outer_scope)
 		);
 	}
 }

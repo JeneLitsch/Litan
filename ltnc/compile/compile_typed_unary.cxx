@@ -10,11 +10,11 @@ namespace ltn::c {
 			const auto & actual_copy,
 			const auto & copy) {
 			
-			const auto inner = compile_expression(*copy.expr, info, scope);
-			const auto outer = actual_copy(inner.deduced_type, type, copy.location);
+			const auto inner = compile_expression(*copy.expr);
+			const auto outer = actual_copy(copy.expr->type, copy.type, {});
 
 			InstructionBuffer buf;
-			buf << inner.code;
+			buf << inner;
 			buf << outer; 
 
 			return buf;
@@ -23,10 +23,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_expr(
-		const sst::TypedUnary & expr,
-		CompilerInfo & info,
-		Scope & scope) {
+	InstructionBuffer compile_expr(const sst::TypedUnary & expr) {
 
 		switch (expr.op) {
 		case sst::TypedUnary::Op::STATIC_COPY: return actual(copy_static, expr);

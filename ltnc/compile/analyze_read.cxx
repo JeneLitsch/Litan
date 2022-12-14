@@ -2,17 +2,6 @@
 #include <string_view>
 namespace ltn::c {
 	namespace {
-		sst::expr_ptr analyze_read_local_variable(const Variable & var) {
-			InstructionBuffer buf;
-			buf << inst::read_x(var.address);
-			return sst::expr_ptr{ 
-				.code = buf,
-				.deduced_type = var.type
-			};
-		}
-
-
-
 		bool is_inner_namespace(
 			const Namespace & call_ns,
 			const Namespace & fx_ns) {
@@ -55,7 +44,7 @@ namespace ltn::c {
 		
 		const auto * var = scope.resolve(expr.name, expr.location);
 		if(var && expr.namespaze.empty()) {
-			return analyze_read_local_variable(*var);
+			return std::make_unique<sst::Var>(var->address, var->type);
 		}
 		
 		const auto * def = info.definition_table.resolve(
@@ -64,9 +53,10 @@ namespace ltn::c {
 			expr.namespaze);
 		
 		if(def) {
-			InstructionBuffer buf;
-			buf << inst::global_read(def->id);
-			return sst::expr_ptr{ buf };
+			return std::make_unique<sst::GlobalVar>(
+				instantiate_type(def->type, scope),
+				def->id
+			);
 		}
 		
 		throw CompilerError {
@@ -81,10 +71,7 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 
-		InstructionBuffer buf;
-		buf << analyze_expression(*access.expr, info, scope).code;
 		const auto id = info.member_table.get_id(access.name);
-		buf << inst::member_read(id);
-		return sst::expr_ptr{ buf };
+		return std::make_unique<sst::Member>(type::Any{}, id);
 	}
 }

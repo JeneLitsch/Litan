@@ -114,11 +114,11 @@ namespace ltn::c {
 		const auto parameter_types
 			= instantiate_parameters(funtional->parameters, inner_scope);
 
-		const auto type = type::FxPtr{
+		const auto type = type::FxPtr {
 			.return_type = return_type,
 			.parameter_types = parameter_types,
 		};
 
-		return std::make_unique<sst::FxPointer>(type, id, funtional->parameters);
+		return std::make_unique<sst::FxPointer>(id, funtional->parameters.size(), type);
 	}
 }

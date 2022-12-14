@@ -14,7 +14,7 @@ namespace ltn::c {
 			const auto val_r = static_cast<Promoted>(r.value);
 			const auto result = op(val_l, val_r);
 			using Node = typename node<decltype(result)>::type;
-			return stx::make_unique<Node>(result, l.location);
+			return stx::make_unique<Node>(result, l.type);
 		}
 	};
 

@@ -21,34 +21,6 @@ namespace ltn::c {
 	}
 
 
-	stx::reference<const sst::FunctionTemplate> get_template(
-		const std::string & name,
-		const Namespace & namespaze,
-		const std::size_t function_arity,
-		const std::size_t template_arity,
-		const SourceLocation & location,
-		CompilerInfo & info,
-		Scope & scope) {
-		const auto * tmpl = info.fx_template_table.resolve(
-			name,
-			scope.get_namespace(),
-			namespaze,
-			function_arity,
-			template_arity
-		);
-		if(!tmpl) {
-			std::ostringstream oss;
-			oss 
-				<< "Cannot find template " 
-				<< namespaze.to_string() << name
-				<< " with " << template_arity << " arguements";
-			throw CompilerError{oss.str(), location};
-		}
-		return *tmpl;
-	}
-
-
-
 	std::string make_template_id(
 		const sst::Functional & fx,
 		const std::vector<type::Type> & arguments) {

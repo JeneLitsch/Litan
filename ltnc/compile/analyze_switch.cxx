@@ -42,56 +42,21 @@ namespace ltn::c {
 
 
 
-	auto any_switch(
-		const auto & condition,
-		const auto & cases,
-		const auto & def4ult) {
-		
-		InstructionBuffer buf;
-
-		const auto id = make_jump_id("SWITCH");
-		const auto jump_end = id + "_END";
-
-		buf << condition.code;
-		
-		std::size_t i = 0;
-
-		for(const auto & [expr, body] : cases) {
-			buf << inst::label(id + "_CASE_" + std::to_string(i+0));
-			buf << inst::duplicate();
-			buf << expr.code;
-			buf << inst::eql();
-			buf << inst::ifelse(id + "_CASE_" + std::to_string(i+1));
-			buf << inst::scrap();
-			buf << body.code;
-			buf << inst::jump(jump_end);
-			++i;
-		}
-
-		buf << inst::label(id + "_CASE_" + std::to_string(i+0));
-		buf << inst::scrap();
-		buf << def4ult.code;
-		buf << inst::label(jump_end);
-
-		return buf;
-	}
-
-
-
 	sst::stmt_ptr analyze_stmt(
 		const ast::StmtSwitch & sw1tch,
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		const auto condition = analyze_expression(*sw1tch.condition, info, scope);
-		const auto cases = analyze_cases(analyze_statement, sw1tch, info, scope);
-		const auto def4ault = analyze_statement(*sw1tch.d3fault, info, scope);
-		const auto code = any_switch(condition, cases, def4ault); 
-		return {
-			.code = code,
-			.var_count = 0,
-			.direct_allocation = false
-		};
+		auto condition = analyze_expression(*sw1tch.condition, info, scope);
+		auto cases = analyze_cases(analyze_statement, sw1tch, info, scope);
+		auto def4ault = analyze_statement(*sw1tch.d3fault, info, scope);
+
+
+		auto sst_sw1tch = std::make_unique<sst::StmtSwitch>(0, false);
+		sst_sw1tch->cases = std::move(cases);
+		sst_sw1tch->condition = std::move(condition);
+		sst_sw1tch->d3fault = std::move(def4ault);
+		return sst_sw1tch;
 	}
 
 
@@ -101,19 +66,19 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		const auto condition = analyze_expression(*sw1tch.condition, info, scope);
-		const auto cases = analyze_cases(analyze_expression, sw1tch, info, scope);
-		const auto def4ault = analyze_expression(*sw1tch.d3fault, info, scope);
-		const auto code = any_switch(condition, cases, def4ault);
+		auto condition = analyze_expression(*sw1tch.condition, info, scope);
+		auto cases = analyze_cases(analyze_expression, sw1tch, info, scope);
+		auto def4ault = analyze_expression(*sw1tch.d3fault, info, scope);
 
-		type::Type deduced_type = def4ault.deduced_type;
+		type::Type deduced_type = def4ault->type;
 		for(const auto & [expr, body] : cases) {
-			deduced_type = type::deduce_choose(deduced_type, body.deduced_type);
+			deduced_type = type::deduce_choose(deduced_type, body->type);
 		}
 
-		return {
-			.code = code,
-			.deduced_type = deduced_type
-		};
+		auto choose = std::make_unique<sst::ExprSwitch>(deduced_type);
+		choose->cases = std::move(cases);
+		choose->condition = std::move(condition);
+		choose->d3fault = std::move(def4ault);
+		return choose;
 	}
 }

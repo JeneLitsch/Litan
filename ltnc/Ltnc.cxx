@@ -55,8 +55,8 @@ namespace ltn::c {
 				if(s->expr) {
 					MajorScope scope { s->namespaze, false };
 					const auto a = accessor(*s);
-					buf << compile_expression(*s->expr, read_info, scope).code;
-					buf << compile_write(a, write_info, scope).code;
+					buf << compile_expression(*s->expr);
+					buf << compile_write(a);
 				}
 			}
 
@@ -127,12 +127,10 @@ namespace ltn::c {
 
 
 		auto analyze_staged(const StagedFx & staged, CompilerInfo & info) {
-			info.fx_table.insert(*staged.fx, staged.fx->parameters.size());
 			return analyze_functional(*staged.fx, info); 
 		}
 
 		auto analyze_staged(const StagedTemplateFx & staged, CompilerInfo & info) {
-			info.fx_table.insert(*staged.tmpl->fx, staged.tmpl->fx->parameters.size());
 			return analyze_function_template(staged.tmpl, info, staged.arguments); 
 		}
 	}
@@ -161,7 +159,7 @@ namespace ltn::c {
 
 
 		for(auto & preset : source.presets) {
-			auto ctor = analyze_preset(*preset);
+			auto ctor = analyze_preset(*preset, info);
 			program.functions.push_back(std::move(ctor));
 		}
 
@@ -180,6 +178,10 @@ namespace ltn::c {
 			program.globals.push_back(analyze_global(*global, info));
 		}
 
+		for(const auto & function : source.functions) {
+			info.fx_table.insert(*function, function->parameters.size());
+		}
+
 		auto externs = find_extern_funtions(source);
 
 		for(const auto & function : externs) {
@@ -192,6 +194,7 @@ namespace ltn::c {
 					return analyze_staged(s, info);
 					}, *staged
 				);
+				program.functions.push_back(std::move(fx));
 			}
 			catch(const CompilerError & error) {
 				reporter.push(error);

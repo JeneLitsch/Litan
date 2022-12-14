@@ -6,25 +6,6 @@
 
 namespace ltn::c {
 	namespace {
-		sst::expr_ptr actual(
-			const auto & actual_copy,
-			const auto & deduce_type,
-			const auto & copy,
-			CompilerInfo & info,
-			Scope & scope) {
-			
-			const auto outer = actual_copy(inner.deduced_type, type, copy.location);
-
-			InstructionBuffer buf;
-			buf << inner.code;
-			buf << outer; 
-
-			return sst::expr_ptr {
-				.code = buf,
-				.deduced_type = deduce_type(type),
-			};
-		}
-
 		type::Type deduce_type(sst::TypedUnary::Op op, const type::Type & target_type) {
 			switch (op) {
 			case sst::TypedUnary::Op::STATIC_COPY: return type::deduce_copy_static(target_type);
@@ -41,7 +22,7 @@ namespace ltn::c {
 		const ast::TypedUnary & tunary,
 		CompilerInfo & info,
 		Scope & scope) {
-		const auto expr = analyze_expression(*tunary.expr, info, scope);
+		auto expr = analyze_expression(*tunary.expr, info, scope);
 		const auto target_type = instantiate_type(tunary.type, scope);
 		const auto op = static_cast<sst::TypedUnary::Op>(tunary.op);
 		const auto type = deduce_type(op, target_type);

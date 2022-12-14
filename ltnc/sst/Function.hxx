@@ -10,9 +10,10 @@
 
 namespace ltn::c::sst {
 	struct Statement;
+	struct Statement;
 	struct Parameter {
 		std::string name;
-		type::IncompleteType type = type::IncompleteType{type::Any{}};
+		type::Type type = type::Type{type::Any{}};
 	};
 	using Parameters = std::vector<Parameter>;
 
@@ -50,10 +51,10 @@ namespace ltn::c::sst {
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
-			const type::IncompleteType & return_type)
+			const type::Type & return_type)
 			:	Declaration(name, namespaze),
 				parameters(parameters),
-				id(mangle(name, namespaze, parameters)),
+				id(id),
 				return_type{return_type} {}
 		virtual ~Functional() = default;
 
@@ -63,7 +64,7 @@ namespace ltn::c::sst {
 		bool init = false;
 
 		std::string id;
-		type::IncompleteType return_type;
+		type::Type return_type;
 
 		const std::string & get_resolve_name() const {
 			return this->name;
@@ -75,7 +76,7 @@ namespace ltn::c::sst {
 	};
 
 
-
+	struct Var;
 	struct Function final : public Functional {
 		Function(
 			const std::string & id,
@@ -83,7 +84,7 @@ namespace ltn::c::sst {
 			Namespace namespaze,
 			Parameters parameters,
 			std::unique_ptr<Statement> && body,
-			const type::IncompleteType & return_type)
+			const type::Type & return_type)
 			:	Functional{id, name, namespaze, parameters, return_type},
 				body(std::move(body)) {}
 
@@ -93,12 +94,12 @@ namespace ltn::c::sst {
 			Namespace namespaze,
 			Parameters parameters,
 			std::unique_ptr<Statement> && body)
-			:	Functional{id, name, namespaze, parameters, type::IncompleteType{type::Any{}}},
+			:	Functional{id, name, namespaze, parameters, type::Any{}},
 				body(std::move(body)) {}
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
 		std::unique_ptr<Except> except;
-		std::vector<std::unique_ptr<Statement>> capture;
+		std::vector<std::unique_ptr<Var>> capture;
 	};
 
 
@@ -132,7 +133,7 @@ namespace ltn::c::sst {
 			Namespace namespaze,
 			Parameters parameters,
 			const std::string & key,
-			const type::IncompleteType & return_type)
+			const type::Type & return_type)
 			:	Functional{id, name, namespaze, parameters, return_type},
 				key(key) {}
 		virtual ~BuildIn() = default;

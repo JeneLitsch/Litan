@@ -5,7 +5,7 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		const auto expr = analyze_expression(*stmt.expression, info, scope);
+		auto expr = analyze_expression(*stmt.expression, info, scope);
 		return std::make_unique<sst::StatementExpression>(0, false, std::move(expr));
 	}
 
@@ -25,7 +25,7 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		return ast::visit_statement(stmt, [&] (const auto & s) {
+		return ast::visit_statement(stmt, [&] (const auto & s) -> sst::stmt_ptr {
 			return analyze_stmt(s, info, scope);
 		});
 	}

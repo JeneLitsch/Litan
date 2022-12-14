@@ -8,10 +8,15 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		const auto result = analyze_expression(*expr.expression, info, scope);
+		auto result = analyze_expression(*expr.expression, info, scope);
 		const auto type = result->type;
+		const auto name_addr = info.member_table.get_id("name");
 
-		return std::make_unique<sst::DeclType>(std::move(result), type);
+		return std::make_unique<sst::DeclType>(
+			name_addr,
+			std::move(result),
+			type
+		);
 	}
 
 
@@ -22,7 +27,7 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		return ast::visit_expression(expr, [&](const auto & e) {
+		return ast::visit_expression(expr, [&](const auto & e) -> sst::expr_ptr {
 			return analyze_expr(e, info, scope);
 		});
 	}

@@ -94,10 +94,10 @@ namespace ltn::c {
 		MajorScope scope { global.namespaze, false };
 
 		auto & write_info = info;
-
-		MajorScope scope { global.namespaze, false };
 		auto sst_def = std::make_unique<sst::Global>(
-			
+			global.name,
+			global.namespaze,
+			instantiate_type(global.type, scope)
 		);
 		if(global.expr) {
 			sst_def->expr = analyze_expression(*global.expr, read_info, scope);
@@ -125,7 +125,9 @@ namespace ltn::c {
 		};
 		MajorScope scope { def.namespaze, false };
 		auto sst_def = std::make_unique<sst::Definition>(
-
+			def.name,
+			def.namespaze,
+			instantiate_type(def.type, scope)
 		);
 		if(def.expr) {
 			sst_def->expr = analyze_expression(*def.expr, read_info, scope);

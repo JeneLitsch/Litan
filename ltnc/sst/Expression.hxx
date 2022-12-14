@@ -24,15 +24,15 @@ namespace ltn::c::sst {
 
 	struct DeclType : public Expression {
 		DeclType(
-			std::size_t store_addr,
+			std::size_t name_addr,
 			std::unique_ptr<Expression> expression,
 			const type::Type & type)
 			:	Expression(type),
-				store_addr{store_addr},
+				name_addr{name_addr},
 				expression(std::move(expression)) {}
 		virtual ~DeclType() = default;
+		std::size_t name_addr;
 		std::unique_ptr<Expression> expression;
-		std::size_t store_addr;
 	};
 
 
@@ -122,7 +122,7 @@ namespace ltn::c::sst {
 		};
 		TypedUnary(
 			Op op,
-			const type::IncompleteType & target_type,
+			const type::Type & target_type,
 			std::unique_ptr<Expression> expr,
 			const type::Type & type)
 			:	Expression{type},
@@ -131,7 +131,7 @@ namespace ltn::c::sst {
 				expr{std::move(expr)} {}
 		virtual ~TypedUnary() = default;
 		Op op;
-		type::IncompleteType target_type;
+		type::Type target_type;
 		std::unique_ptr<Expression> expr;
 	};
 
@@ -308,7 +308,7 @@ namespace ltn::c::sst {
 			const type::Type & type,
 			std::string return_label,
 			std::unique_ptr<Statement> stmt,
-			type::IncompleteType return_type) 
+			type::Type return_type) 
 			:	Primary(type), 
 				return_label{return_label},
 				stmt(std::move(stmt)),
@@ -317,7 +317,7 @@ namespace ltn::c::sst {
 
 		std::string return_label;
 		std::unique_ptr<Statement> stmt;
-		type::IncompleteType return_type;
+		type::Type return_type;
 	};
 
 

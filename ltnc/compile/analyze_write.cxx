@@ -20,8 +20,8 @@ namespace ltn::c {
 			}
 			
 			if(auto e = as<ast::Index>(expr)) {
-				const auto container = analyze_expression(*e->expression, info, scope);
-				const auto index = analyze_expression(*e->index, info, scope);
+				auto container = analyze_expression(*e->expression, info, scope);
+				auto index = analyze_expression(*e->index, info, scope);
 				return std::make_unique<sst::Index>(
 					std::move(container),
 					std::move(index),
@@ -31,11 +31,9 @@ namespace ltn::c {
 			
 			if(auto e = as<ast::Member>(expr)) {
 				const auto id = info.member_table.get_id(e->name);
-				auto obj = analyze_expression(*e->expr, info, scope);
 				return std::make_unique<sst::Member>(
-					std::move(obj),
-					id,
-					type::Any{} 
+					type::Any{}, 
+					id
 				);
 			}
 			
@@ -43,7 +41,9 @@ namespace ltn::c {
 				auto glob = info.global_table.resolve(
 					global->name, scope.get_namespace(), global->namespaze 
 				);
-				return std::make_unique<sst::GlobalVar>(glob->type, glob->id);
+				return std::make_unique<sst::GlobalVar>(
+					instantiate_type(glob->type, scope),
+					glob->id);
 			}
 
 			throw std::runtime_error{"Unknown assingable type"};
@@ -57,8 +57,8 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		guard_const(expr, scope);
-		const auto l = analyze_write(static_cast<ast::Assignable&>(*expr.l), info, scope);
-		const auto r = analyze_expression(*expr.r, info, scope);
+		auto l = analyze_write(static_cast<ast::Assignable&>(*expr.l), info, scope);
+		auto r = analyze_expression(*expr.r, info, scope);
 
 		return std::make_unique<sst::Assign>(0, false, std::move(l), std::move(r));
 	}
@@ -101,7 +101,7 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		const auto r = analyze_new_variable_right(new_var, info, scope);		
+		auto r = analyze_new_variable_right(new_var, info, scope);		
 		const auto var = insert_new_var(new_var, scope, r->type);		
 		return std::make_unique<sst::NewVar>(0, true, var.address, std::move(r), var.type);
 	}

@@ -9,10 +9,10 @@ namespace ltn::c {
 		for(const auto & stmt : block.statements) {
 			try {
 				if(stmt) {
-					const auto analyzed = analyze_statement(*stmt, info, scope); 
+					auto analyzed = analyze_statement(*stmt, info, scope); 
 					locals = std::max(locals, analyzed->local_vars);
-					statments.push_back(std::move(analyzed));
 					newAllocs += analyzed->direct_allocation;
+					statments.push_back(std::move(analyzed));
 				} 
 			}
 			catch(const CompilerError & error) {

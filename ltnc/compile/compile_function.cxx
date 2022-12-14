@@ -23,11 +23,11 @@ namespace ltn::c {
 
 			InstructionBuffer buf;
 			if(fx.body) {
-				const auto body = compile_statement(*fx.body, info, scope);
-				for(std::size_t i = 0; i < body.var_count; i++) {
+				const auto body = compile_statement(*fx.body);
+				for(std::size_t i = 0; i < fx.body->local_vars; i++) {
 					buf << inst::makevar();
 				}
-				buf << body.code;
+				buf << body;
 			}
 			return buf;
 		}
@@ -39,12 +39,10 @@ namespace ltn::c {
 			const std::string & fxid,
 			const auto & namespaze) {
 			
-			MajorScope scope{namespaze, false};
-			scope.insert(except.errorname, except.location);
 			InstructionBuffer buf;
 			buf << inst::label(jumpmark_except(fxid));
 			buf << inst::parameters(1);
-			buf << compile_body(except, info, scope);
+			buf << compile_body(except);
 			buf << inst::null();
 			buf << inst::retvrn();
 			return buf;
@@ -62,7 +60,7 @@ namespace ltn::c {
 			
 			buf << inst::label(id);
 			for(const auto & c : fx.capture) {
-				buf << compile_statement(*c);
+				buf << compile_expression(*c);
 			}
 			buf << inst::parameters(static_cast<std::uint8_t>(fx.parameters.size()));
 			if(fx.except) buf << inst::trY(jumpmark_except(id));

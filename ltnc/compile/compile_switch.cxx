@@ -3,31 +3,10 @@
 
 namespace ltn::c {
 	auto compile_cases(auto && body_fx, const auto & sw1tch) {
-		InvalidFunctionTable fx_table {"case"};
-		InvalidFunctionTemplateTable fx_template_table {"case"};
-		InvalidGlobalTable global_table {"case"};
-		CompilerInfo case_info {
-			.fx_table = fx_table,
-			.fx_template_table = fx_template_table,
-			.fx_queue		   = info.fx_queue,
-			.definition_table = info.definition_table, 
-			.member_table = info.member_table, 
-			.global_table = global_table,
-			.reporter = info.reporter
-		};
-
-		MajorScope case_scope {
-			scope.get_namespace(),
-			true
-		};
-
 		std::vector<std::pair<InstructionBuffer, InstructionBuffer>> cases;
 
 		for(const auto & [expr, body] : sw1tch.cases) {
-			cases.push_back({
-				compile_expression(*expr, case_info, case_scope),
-				body_fx(*body, info, scope)
-			});
+			cases.push_back({compile_expression(*expr), body_fx(*body)});
 		}
 
 		return cases;

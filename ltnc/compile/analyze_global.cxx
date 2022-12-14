@@ -39,7 +39,7 @@ namespace ltn::c {
 		auto & global = resolve_static(global_var, info.global_table, scope);
 		const auto type = instantiate_type(global.type, scope);
 
-		return std::make_unique<sst::GlobalRead>(type, global.id);
+		return std::make_unique<sst::GlobalVar>(type, global.id);
 	}
 
 
@@ -52,7 +52,7 @@ namespace ltn::c {
 		const auto & global = resolve_static(global_var, info.global_table, scope);
 
 		const auto type = instantiate_type(global.type, scope);		
-		return std::make_unique<sst::GlobalWrite>(type, global.id);
+		return std::make_unique<sst::GlobalVar>(type, global.id);
 	}
 
 
@@ -67,6 +67,6 @@ namespace ltn::c {
 		const auto & statik = resolve_static(def, info.definition_table, scope);
 		const auto type = instantiate_type(statik.type, scope);
 
-		return std::make_unique<sst::GlobalWrite>(type, statik.id);
+		return std::make_unique<sst::Var>(statik.id, type);
 	}
 }

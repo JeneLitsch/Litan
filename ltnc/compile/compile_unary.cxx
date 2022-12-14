@@ -4,10 +4,7 @@
 
 namespace ltn::c {
 	namespace {
-		InstructionBuffer compile_null_test(
-			const sst::Expression & expr,
-			CompilerInfo & info,
-			Scope & scope) {
+		InstructionBuffer compile_null_test(const sst::Expression & expr) {
 			
 			InstructionBuffer buf;
 			buf << compile_expression(expr);
@@ -29,10 +26,7 @@ namespace ltn::c {
 	}
 
 
-	InstructionBuffer compile_expr(
-		const sst::Unary & expr,
-		CompilerInfo & info,
-		Scope & scope) {
+	InstructionBuffer compile_expr(const sst::Unary & expr) {
 		
 		using Op = sst::Unary::Op;
 		const auto & inner = *expr.expression;
@@ -41,7 +35,7 @@ namespace ltn::c {
 		switch (expr.op) {
 			case Op::NEG:    return unary(x, inst::neg);
 			case Op::NOT:    return unary(x, inst::n0t);
-			case Op::NUL:    return compile_null_test(inner, info, scope);
+			case Op::NUL:    return compile_null_test(inner);
 			case Op::BITNOT: return unary(x, inst::bit_not);
 			case Op::DEREF:  return unary(x, inst::deref);
 		}

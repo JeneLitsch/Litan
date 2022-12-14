@@ -48,7 +48,7 @@ namespace ltn::c {
 		const auto op = static_cast<sst::Binary::Op>(binary.type);
 		const auto type = deduce_type(op, l->type, r->type);
 
-		return std::make_unique<sst::Binary>(op, std::move(l), std::move(r));
+		return std::make_unique<sst::Binary>(op, std::move(l), std::move(r), type);
 	}
 	
 }

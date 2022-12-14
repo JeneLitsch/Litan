@@ -7,13 +7,12 @@ namespace ltn::c {
 
 		std::vector<sst::defn_ptr> defintions;
 		for(auto & [name, value] : enumeration.labels) {
-			auto defintion = stx::make_unique<sst::Definition>(
-				value->location,
+			auto defintion = std::make_unique<sst::Definition>(
 				name,
 				namespaze,
-				type::IncompleteType{type::Int{}}
+				type::Int{}
 			); 
-			defintion->expr = stx::make_unique<sst::Integer>(value->value, value->location);
+			defintion->expr = std::make_unique<sst::Integer>(value->value, type::Int{});
 			defintions.push_back(std::move(defintion));
 		}
 		return defintions;
