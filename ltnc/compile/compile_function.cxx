@@ -60,7 +60,9 @@ namespace ltn::c {
 			
 			buf << inst::label(id);
 			for(const auto & c : fx.capture) {
-				buf << compile_expression(*c);
+				buf << inst::makevar();
+				buf << inst::write_x(c->addr);
+				// buf << compile_expression(*c);
 			}
 			buf << inst::parameters(static_cast<std::uint8_t>(fx.parameters.size()));
 			if(fx.except) buf << inst::trY(jumpmark_except(id));

@@ -9,7 +9,6 @@ namespace sphinx::test {
 
 
 	function logand_short_circuit() {
-		std::print("DISABLED");
 		// var test_short = lambda(a, b) {
 		// 	var second = std::mono(false);
 		// 	a && lambda [second] (b) { second.value = true; return b; }(b);
