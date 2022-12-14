@@ -123,6 +123,7 @@ namespace ltn::c::sst {
 	struct For final : public Statement {
 		For(
 			std::size_t local_vars, bool direct_allocation,
+			std::string label,
 			std::unique_ptr<NewVar> var,
 			std::unique_ptr<Expression> from,
 			std::unique_ptr<Expression> to,
@@ -130,6 +131,7 @@ namespace ltn::c::sst {
 			std::unique_ptr<Statement> body)
 			:	
 				Statement{local_vars, direct_allocation},
+				label{label},
 				var(std::move(var)),
 				from(std::move(from)),
 				to(std::move(to)),
@@ -137,6 +139,7 @@ namespace ltn::c::sst {
 				body(std::move(body)) {}
 
 		virtual ~For() = default;
+		std::string label;
 		std::unique_ptr<NewVar> var;
 		std::unique_ptr<Expression> from;
 		std::unique_ptr<Expression> to;
@@ -162,12 +165,15 @@ namespace ltn::c::sst {
 	struct Return final : public Statement {
 		Return(
 			std::size_t local_vars, bool direct_allocation,
-			std::unique_ptr<Expression> expression)
+			std::unique_ptr<Expression> expression,
+			std::optional<std::string> overide_label)
 			:	
 				Statement{local_vars, direct_allocation},
-				expression(std::move(expression)) {}
+				expression(std::move(expression)),
+				overide_label{overide_label} {}
 		virtual ~Return() = default;
 		std::unique_ptr<Expression> expression;
+		std::optional<std::string> overide_label;
 	};
 
 

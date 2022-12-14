@@ -13,8 +13,6 @@ namespace ltn::c {
 			CompilerInfo & info,
 			Scope & scope) {
 			
-			const auto type = instantiate_type(copy.type, scope);
-			const auto inner = analyze_expression(*copy.expr, info, scope);
 			const auto outer = actual_copy(inner.deduced_type, type, copy.location);
 
 			InstructionBuffer buf;
@@ -26,27 +24,27 @@ namespace ltn::c {
 				.deduced_type = deduce_type(type),
 			};
 		}
+
+		type::Type deduce_type(sst::TypedUnary::Op op, const type::Type & target_type) {
+			switch (op) {
+			case sst::TypedUnary::Op::STATIC_COPY: return type::deduce_copy_static(target_type);
+			case sst::TypedUnary::Op::DYNAMIC_COPY: return type::deduce_copy_dynamic(target_type);
+			case sst::TypedUnary::Op::STATIC_CAST: return deduce_cast_static(target_type);
+			case sst::TypedUnary::Op::DYNAMIC_CAST: return deduce_cast_dynamic(target_type);
+			}
+		}
 	}
 
 
 
 	sst::expr_ptr analyze_expr(
-		const ast::TypedUnary & expr,
+		const ast::TypedUnary & tunary,
 		CompilerInfo & info,
 		Scope & scope) {
-
-		switch (expr.op) {
-		case sst::TypedUnary::Op::STATIC_COPY:
-			return actual(copy_static, type::deduce_copy_static, expr, info, scope);
-		case sst::TypedUnary::Op::DYNAMIC_COPY:
-			return actual(copy_dynamic, type::deduce_copy_dynamic, expr, info, scope);
-		case sst::TypedUnary::Op::STATIC_CAST:
-			return actual(cast_static, type::deduce_cast_static, expr, info, scope);
-		// case ast::TypedUnary::Op::DYNAMIC_CAST:
-			// return analyze_cast_copy(cast_dynamic, type::deduce_cast_dynamic, copy, info, scope);
-		default:
-			break;
-		}
-
+		const auto expr = analyze_expression(*tunary.expr, info, scope);
+		const auto target_type = instantiate_type(tunary.type, scope);
+		const auto op = static_cast<sst::TypedUnary::Op>(tunary.op);
+		const auto type = deduce_type(op, target_type);
+		return std::make_unique<sst::TypedUnary>(op, target_type, std::move(expr), type);
 	}
 }

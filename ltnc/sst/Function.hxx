@@ -46,6 +46,7 @@ namespace ltn::c::sst {
 
 	struct Functional : public Declaration {
 		Functional(
+			const std::string & id,
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
@@ -77,24 +78,27 @@ namespace ltn::c::sst {
 
 	struct Function final : public Functional {
 		Function(
+			const std::string & id,
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
 			std::unique_ptr<Statement> && body,
 			const type::IncompleteType & return_type)
-			:	Functional{name, namespaze, parameters, return_type},
+			:	Functional{id, name, namespaze, parameters, return_type},
 				body(std::move(body)) {}
 
 		Function(
+			const std::string & id,
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
 			std::unique_ptr<Statement> && body)
-			:	Functional{name, namespaze, parameters, type::IncompleteType{type::Any{}}},
+			:	Functional{id, name, namespaze, parameters, type::IncompleteType{type::Any{}}},
 				body(std::move(body)) {}
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
 		std::unique_ptr<Except> except;
+		std::vector<sst::stmt_ptr> capture;
 	};
 
 
@@ -123,12 +127,13 @@ namespace ltn::c::sst {
 
 	struct BuildIn final : public Functional {
 		BuildIn(
+			const std::string & id,
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
 			const std::string & key,
 			const type::IncompleteType & return_type)
-			:	Functional{name, namespaze, parameters, return_type},
+			:	Functional{id, name, namespaze, parameters, return_type},
 				key(key) {}
 		virtual ~BuildIn() = default;
 		std::string key;		

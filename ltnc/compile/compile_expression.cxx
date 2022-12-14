@@ -3,12 +3,9 @@
 
 namespace ltn::c {
 	
-	InstructionBuffer compile_expr(
-		const sst::DeclType & expr,
-		CompilerInfo & info,
-		Scope & scope) {
+	InstructionBuffer compile_expr(const sst::DeclType & expr) {
 		
-		const auto result = compile_expression(*expr.expression, info, scope);
+		const auto result = compile_expression(*expr.expression);
 		const auto type = expr.type;
 		const auto name = type::to_string(type);
 
@@ -18,7 +15,7 @@ namespace ltn::c {
 		buf << inst::duplicate();
 		buf << inst::newstr(name);
 		buf << inst::swap();
-		buf << inst::member_write(info.member_table.get_id("name"));
+		buf << inst::member_write(expr.store_addr);
 
 		return {buf};
 	}
@@ -26,13 +23,10 @@ namespace ltn::c {
 
 
 	// compiles any expression
-	InstructionBuffer compile_expression(
-		const sst::Expression & expr,
-		CompilerInfo & info,
-		Scope & scope) {
+	InstructionBuffer compile_expression(const sst::Expression & expr) {
 		
 		return sst::visit_expression(expr, [&](const auto & e) {
-			return compile_expr(e, info, scope);
+			return compile_expr(e);
 		});
 	}
 }

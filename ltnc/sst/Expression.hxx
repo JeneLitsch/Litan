@@ -23,12 +23,15 @@ namespace ltn::c::sst {
 
 	struct DeclType : public Expression {
 		DeclType(
+			std::size_t store_addr,
 			std::unique_ptr<Expression> expression,
 			const type::Type & type)
 			:	Expression(type),
+				store_addr{store_addr},
 				expression(std::move(expression)) {}
 		virtual ~DeclType() = default;
 		std::unique_ptr<Expression> expression;
+		std::size_t store_addr;
 	};
 
 
@@ -260,16 +263,14 @@ namespace ltn::c::sst {
 	struct Var final : public Assignable {
 	public:
 		Var(
-			const std::string & name,
-			const Namespace & namespaze,
+			std::size_t addr,
 			const type::Type & type)
 			:	Assignable(type),
-				name{name},
-				namespaze{namespaze} {}
+				addr{addr}
+				{}
 
 		virtual ~Var() = default;
-		std::string name;
-		Namespace namespaze;
+		std::size_t addr;
 	};
 
 
@@ -308,13 +309,16 @@ namespace ltn::c::sst {
 	struct Iife final : public Primary {
 		Iife(
 			const type::Type & type,
+			std::string return_label,
 			std::unique_ptr<Statement> stmt,
 			type::IncompleteType return_type) 
 			:	Primary(type), 
+				return_label{return_label},
 				stmt(std::move(stmt)),
 				return_type{return_type} {}
 		virtual ~Iife() = default;
-		
+
+		std::string return_label;
 		std::unique_ptr<Statement> stmt;
 		type::IncompleteType return_type;
 	};
@@ -324,19 +328,15 @@ namespace ltn::c::sst {
 	struct FxPointer final : public Primary {
 	public:
 		FxPointer(
-			const std::string & name,
-			const Namespace & namespaze,
-			const std::size_t placeholders,
+			std::string id,
+			std::size_t arity,
 			const type::Type & type)
 			:	Primary(type),
-				name(name),
-				namespaze(namespaze),
-				placeholders(std::move(placeholders)) {}
+				id{id},
+				arity{arity} {}
 		virtual ~FxPointer() = default;
-		std::string name;
-		Namespace namespaze;
-		std::size_t placeholders;
-		std::vector<type::IncompleteType> template_arguements;
+		std::string id;
+		std::size_t arity;
 	};
 
 

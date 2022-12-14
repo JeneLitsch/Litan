@@ -6,16 +6,6 @@
 namespace ltn::c {
 	namespace {
 
-		inst::Inst parameters(const sst::Functional & fx, Scope & scope) {
-			for(const auto & param : fx.parameters) {
-				const auto type = instantiate_type(param.type, scope);
-				scope.insert(param.name, fx.location, type);
-			}
-			const auto arity = static_cast<std::uint8_t>(fx.parameters.size());
-			return inst::parameters(arity);
-		}
-
-
 		const std::string jumpmark_except(const std::string_view name) {
 			std::stringstream ss;
 			ss << "_" << name << "_EXCEPT";
@@ -29,10 +19,7 @@ namespace ltn::c {
 		}
 
 
-		InstructionBuffer compile_body(
-			const auto & fx,
-			CompilerInfo & info,
-			Scope & scope) {
+		InstructionBuffer compile_body(const auto & fx) {
 
 			InstructionBuffer buf;
 			if(fx.body) {
@@ -50,7 +37,6 @@ namespace ltn::c {
 		InstructionBuffer compile_except(	
 			const sst::Except & except,
 			const std::string & fxid,
-			CompilerInfo & info,
 			const auto & namespaze) {
 			
 			MajorScope scope{namespaze, false};
@@ -67,8 +53,6 @@ namespace ltn::c {
 		// compiles Litan function
 		InstructionBuffer compile_function(
 			const sst::Function & fx,
-			CompilerInfo & info,
-			Scope & scope,
 			InstructionBuffer capture,
 			std::optional<std::string> override_id = std::nullopt) {
 			
@@ -77,14 +61,16 @@ namespace ltn::c {
 			const auto id = override_id.value_or(fx.id);
 			
 			buf << inst::label(id);
-			buf << capture;
-			buf << parameters(fx, scope);
+			for(const auto & c : fx.capture) {
+				buf << compile_statement(*c);
+			}
+			buf << inst::parameters(static_cast<std::uint8_t>(fx.parameters.size()));
 			if(fx.except) buf << inst::trY(jumpmark_except(id));
-			buf << compile_body(fx, info, scope);
+			buf << compile_body(fx);
 			buf << inst::null();
 			buf << inst::retvrn();
 			if(fx.except) {
-				buf << compile_except(*fx.except, id, info, fx.namespaze);
+				buf << compile_except(*fx.except, id, fx.namespaze);
 			} 
 			
 			return buf;
@@ -96,19 +82,12 @@ namespace ltn::c {
 		// compiles asm_function
 		InstructionBuffer compile_build_in_function(
 			const sst::BuildIn & fx,
-			CompilerInfo & info,
-			Scope & scope,
 			std::optional<std::string> override_id) {
 			
 			InstructionBuffer buf;
-			const auto * signature = info.fx_table.resolve(
-				fx.name,
-				fx.namespaze,
-				fx.parameters.size());
-			
-			buf << inst::label(override_id.value_or(signature->id));
-			const auto body = resolve_build_in(fx.key); 
-			buf << body;
+
+			buf << inst::label(override_id.value_or(fx.id));
+			buf << resolve_build_in(fx.key);
 			buf << inst::null();
 			buf << inst::retvrn();
 			
@@ -121,59 +100,35 @@ namespace ltn::c {
 	// compiles functional node
 	InstructionBuffer compile_functional(
 		const sst::Functional & functional,
-		CompilerInfo & info,
-		Scope & scope,
 		std::optional<std::string> override_id) {
 
 		if(auto fx = as<const sst::Function>(functional)) {
-			return compile_function(*fx, info, scope, {}, override_id);
+			return compile_function(*fx, {}, override_id);
 		}
 		if(auto fx = as<const sst::BuildIn>(functional)) {
-			return compile_build_in_function(*fx, info, scope, override_id);
+			return compile_build_in_function(*fx, override_id);
 		}
-		throw CompilerError{
-			"Unknown functional declaration",
-			functional.location};
+		throw std::runtime_error{"Unknown functional declaration"};
 	}
 
 
 	// compiles functional node
-	InstructionBuffer compile_functional(
-		const sst::Functional & functional,
-		CompilerInfo & info) {
-
-		FunctionScope scope {
-			functional.namespaze,
-			functional.c0nst,
-		};
-		scope.set_return_type(instantiate_type(functional.return_type, scope));
-		return compile_functional(functional, info, scope, std::nullopt);
+	InstructionBuffer compile_functional(const sst::Functional & functional) {
+		return compile_functional(functional, std::nullopt);
 	}
 
 
 
 	InstructionBuffer compile_function_template(
 		const sst::FunctionTemplate & tmpl,
-		CompilerInfo & info,
 		const std::vector<type::Type> & arguments) {
 
-		FunctionScope scope {
-			tmpl.fx->namespaze,
-			tmpl.fx->c0nst,
-		};
-
-		add_template_args(scope, tmpl.template_parameters, arguments);
-		scope.set_return_type(instantiate_type(tmpl.fx->return_type, scope));
-		const auto id = make_template_id(*tmpl.fx, arguments);
-		return compile_functional(*tmpl.fx, info, scope, id);
+		return compile_functional(*tmpl.fx, tmpl.fx->id);
 	}
 
 
 
-	InstructionBuffer compile_expr(
-		const sst::Lambda & lm,
-		CompilerInfo & info,
-		Scope & outer_scope) {
+	InstructionBuffer compile_expr(const sst::Lambda & lm) {
 		
 		const auto & fx = *lm.fx;
 		InstructionBuffer buf;
@@ -181,21 +136,15 @@ namespace ltn::c {
 		// Skip
 		buf << inst::jump(jumpmark_skip(fx.id));
 		
-		// load captures
-		MajorScope inner_scope {
-			outer_scope.get_namespace(),
-			fx.c0nst };
-		
 		InstructionBuffer capture_buf;
 		
 		for(const auto & capture : lm.captures) {
-			const auto var = inner_scope.insert(capture->name, fx.location);
 			capture_buf << inst::makevar();
-			capture_buf << inst::write_x(var.address);
+			capture_buf << inst::write_x(capture->addr);
 		}
 
 		// compile function
-		buf << compile_function(*lm.fx, info, inner_scope, capture_buf);
+		buf << compile_function(*lm.fx, capture_buf);
 
 		// Create function pointer
 		buf << inst::label(jumpmark_skip(fx.id));
@@ -203,23 +152,16 @@ namespace ltn::c {
 		
 		// store captures
 		for(const auto & capture : lm.captures) {
-			buf << compile_expression(*capture, info, outer_scope).code;
+			buf << compile_expression(*capture);
 			buf << inst::capture();
 		}
 
 
 		std::vector<type::Type> parameter_types;
 		for(const auto & parameter : fx.parameters) {
-			const auto type = instantiate_type(parameter.type, inner_scope);
-			parameter_types.push_back(type);
+			parameter_types.push_back(parameter.type);
 		}
 
-		return {
-			.code = buf,
-			.deduced_type = type::FxPtr {
-				.return_type = instantiate_type(fx.return_type, inner_scope),
-				.parameter_types = parameter_types, 
-			}
-		};
+		return buf;
 	}
 }

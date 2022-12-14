@@ -12,23 +12,12 @@ namespace ltn::c {
 		InstructionBuffer buf;
 		const auto return_type = scope.get_return_type();
 		if(ret.expression) {
-			auto code = analyze_expression(*ret.expression, info, scope);
-			buf << code.code;
-			buf << conversion_on_return(code.deduced_type, return_type, ret.location);
+			auto expr = conversion_on_return(analyze_expression(*ret.expression, info, scope), return_type, ret.location);
+			return std::make_unique<sst::Return>(0, false, std::move(expr), scope.get_return());
 		}
 		else {
-			buf << inst::null();
-			buf << conversion_on_return(type::Null{}, return_type, ret.location);
+			auto expr = conversion_on_return(std::make_unique<sst::Null>(type::Null{}), return_type, ret.location);
+			return std::make_unique<sst::Return>(0, false, std::move(expr), scope.get_return());
 		}
-
-
-		// For returns from iife
-		if(const auto returns_to = scope.get_return()) {
-			buf << inst::jump(*returns_to);
-		}
-		else {
-			buf << inst::retvrn();
-		}
-		return { buf, 0 };
 	}
 }

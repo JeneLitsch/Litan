@@ -4,94 +4,27 @@
 
 namespace ltn::c {
 	namespace {
-		struct UnaryOp {
-			stx::fx_ptr<type::Type(const type::Type &)> deduce;
-			inst::Inst for_any;
-			inst::Inst for_int;
-			inst::Inst for_float;
-		};
-
-
-
-		const UnaryOp neg {
-			.deduce = type::deduce_neg,
-			.for_any = inst::neg(),
-			.for_int = inst::neg(),
-			.for_float = inst::neg(),
-		};
-
-
-
-		const UnaryOp n0t {
-			.deduce = type::deduce_not,
-			.for_any = inst::n0t(),
-			.for_int = inst::n0t(),
-			.for_float = inst::n0t(),
-		};
-
-
-
-		const UnaryOp bit_not {
-			.deduce = type::deduce_bitnot,
-			.for_any = inst::bit_not(),
-			.for_int = inst::bit_not(),
-			.for_float = inst::bit_not(),
-		};
-
-
-
-		const UnaryOp deref {
-			.deduce = type::deduce_deref,
-			.for_any = inst::deref(),
-			.for_int = inst::deref(),
-			.for_float = inst::deref(),
-		};
-
-
-
 		InstructionBuffer compile_null_test(
 			const sst::Expression & expr,
 			CompilerInfo & info,
 			Scope & scope) {
 			
-			const auto code = compile_expression(expr, info, scope);
 			InstructionBuffer buf;
-			buf << code.code;
+			buf << compile_expression(expr);
 			buf << inst::null();
 			buf << inst::ueql();
-			return InstructionBuffer{ 
-				.code = buf,
-				.deduced_type = type::deduce_nulltest(code.deduced_type),
-			};
-		}
-
-
-
-		inst::Inst pick_instruction(
-			const type::Type & x,
-			const UnaryOp & op) {
-			if(type::is_int(x)) {
-				return op.for_int;
-			}  
-			if(type::is_float(x)) { 
-				return op.for_float;
-			}
-			return op.for_any;
+			return buf;
 		}
 
 
 
 		InstructionBuffer unary(
 			const InstructionBuffer & x,
-			const UnaryOp & op) {
+			const auto & inst) {
 			InstructionBuffer buf;
-			const auto type = op.deduce(x.deduced_type);
-			buf << x.code;
-			buf << pick_instruction(x.deduced_type, op);
-			return { 
-				.code = buf,
-				.deduced_type = type,
-			};
+			buf << x;
+			buf << inst();
+			return buf;
 		}
 	}
 
@@ -101,18 +34,18 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		using Op = sst::Unary::Type;
+		using Op = sst::Unary::Op;
 		const auto & inner = *expr.expression;
-		const auto x = compile_expression(inner, info, scope);
+		const auto x = compile_expression(inner);
 		
-		switch (expr.type) {
-			case Op::NEG:    return unary(x, neg);
-			case Op::NOT:    return unary(x, n0t);
+		switch (expr.op) {
+			case Op::NEG:    return unary(x, inst::neg);
+			case Op::NOT:    return unary(x, inst::n0t);
 			case Op::NUL:    return compile_null_test(inner, info, scope);
-			case Op::BITNOT: return unary(x, bit_not);
-			case Op::DEREF:  return unary(x, deref);
+			case Op::BITNOT: return unary(x, inst::bit_not);
+			case Op::DEREF:  return unary(x, inst::deref);
 		}
 
-		throw CompilerError{"Unknown unary expression", expr.location};
+		throw std::runtime_error{"Unknown unary expression"};
 	}
 }

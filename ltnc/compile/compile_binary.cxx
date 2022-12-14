@@ -113,14 +113,11 @@ namespace ltn::c {
 
 
 	// compiles a binary operation
-	InstructionBuffer compile_expr(
-		const sst::Binary & binary,
-		CompilerInfo & info,
-		Scope & scope) {
+	InstructionBuffer compile_expr(const sst::Binary & binary) {
 		
 		using OP = ltn::c::sst::Binary::Op;
-		const auto l = compile_expression(*binary.l, info, scope);
-		const auto r = compile_expression(*binary.r, info, scope);
+		const auto l = compile_expression(*binary.l);
+		const auto r = compile_expression(*binary.r);
 		switch (binary.op) {
 			case OP::ADD:          return bin(l, r, inst::add);
 			case OP::SUB:          return bin(l, r, inst::sub);

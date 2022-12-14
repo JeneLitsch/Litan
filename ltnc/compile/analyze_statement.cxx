@@ -5,11 +5,8 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		const auto code = analyze_expression(*stmt.expression, info, scope);
-		InstructionBuffer buf;
-		buf << code.code;
-		buf << inst::scrap();
-		return { buf, 0 };
+		const auto expr = analyze_expression(*stmt.expression, info, scope);
+		return std::make_unique<sst::StatementExpression>(0, false, std::move(expr));
 	}
 
 
@@ -18,7 +15,7 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		return sst::stmt_ptr {{}, 0};
+		return std::make_unique<sst::DoNothing>(0, false);
 	}
 
 
@@ -28,7 +25,7 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		return sst::visit_statement(stmt, [&] (const auto & s) {
+		return ast::visit_statement(stmt, [&] (const auto & s) {
 			return analyze_stmt(s, info, scope);
 		});
 	}

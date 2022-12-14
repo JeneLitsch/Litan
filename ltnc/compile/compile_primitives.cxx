@@ -5,10 +5,7 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Integer & expr, CompilerInfo &, Scope &) {
 		InstructionBuffer buf;
 		buf << inst::newi(expr.value);
-		return {
-			.code = buf,
-			.deduced_type = type::Int{}
-		};
+		return buf;
 	}
 
 
@@ -17,10 +14,8 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Float & expr, CompilerInfo &, Scope &) {
 		InstructionBuffer buf;
 		buf << inst::newf(expr.value);
-		return { 
-			.code = buf,
-			.deduced_type = type::Float{},
-		};
+		return buf;
+
 	}
 
 
@@ -34,10 +29,8 @@ namespace ltn::c {
 		else {
 			buf << inst::bool_false();
 		}
-		return InstructionBuffer{ 
-			.code = buf,
-			.deduced_type = type::Bool{}
-		};
+		return buf;
+
 	}
 
 
@@ -46,10 +39,7 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Null &, CompilerInfo &, Scope &) {
 		InstructionBuffer buf;
 		buf << inst::null();
-		return InstructionBuffer{ 
-			.code = buf,
-			.deduced_type = type::Null{}
-		};
+		return buf;
 	}
 
 
@@ -57,10 +47,7 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Char & expr, CompilerInfo &, Scope &) {
 		InstructionBuffer buf;
 		buf << inst::newc(static_cast<std::uint8_t>(expr.value));
-		return InstructionBuffer{
-			.code = buf,
-			.deduced_type = type::Char{}
-		};
+		return buf;
 	}
 
 
@@ -69,9 +56,6 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::String & expr, CompilerInfo &, Scope &) {
 		InstructionBuffer buf;
 		buf << inst::newstr(expr.value);
-		return InstructionBuffer{
-			.code = buf,
-			.deduced_type = type::String{}
-		};
+		return buf;
 	}
 }

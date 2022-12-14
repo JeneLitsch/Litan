@@ -5,26 +5,21 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		const auto name        = make_jump_id("TERNARY");
 		const auto condition   = analyze_expression(*expr.condition, info, scope);
 		const auto if_branch   = analyze_expression(*expr.if_branch, info, scope);
 		const auto else_branch = analyze_expression(*expr.else_branch, info, scope);
-		
-		const auto code = analyze_conditional(
-			name,
-			condition.code,
-			if_branch.code,
-			&else_branch.code);
-		
+
 		const auto deduced_type = type::deduce_ternary(
-			condition.deduced_type,
-			if_branch.deduced_type,
-			else_branch.deduced_type
+			condition->type,
+			if_branch->type,
+			else_branch->type
 		);
 
-		return {
-			.code = code,
-			.deduced_type = deduced_type
-		};
+		return std::make_unique<sst::Ternary>(
+			deduced_type,
+			std::move(condition),
+			std::move(if_branch),
+			std::move(else_branch)
+		);
 	}
 }

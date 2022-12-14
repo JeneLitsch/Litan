@@ -105,8 +105,6 @@ namespace ltn::c {
 		auto [funtional, id] = resolve_fx_ptr(fx_ptr, inner_scope, info);
 		const auto & namespaze = inner_scope.get_namespace();
 
-		guard_private(*funtional, namespaze, fx_ptr.location);
-
 		InstructionBuffer buf;
 		buf << inst::newfx(id, fx_ptr.placeholders);
 
@@ -116,12 +114,11 @@ namespace ltn::c {
 		const auto parameter_types
 			= instantiate_parameters(funtional->parameters, inner_scope);
 
-		return sst::expr_ptr { 
-			.code = buf,
-			.deduced_type = type::FxPtr{
-				.return_type = return_type,
-				.parameter_types = parameter_types,
-			},
+		const auto type = type::FxPtr{
+			.return_type = return_type,
+			.parameter_types = parameter_types,
 		};
+
+		return std::make_unique<sst::FxPointer>(type, id, funtional->parameters);
 	}
 }

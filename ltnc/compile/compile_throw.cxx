@@ -1,18 +1,9 @@
 #include "compile.hxx"
 namespace ltn::c {
-	StmtResult compile_stmt(
-		const sst::Throw & thr0w,
-		CompilerInfo & info,
-		Scope & scope) {
-		
+	InstructionBuffer compile_stmt(const sst::Throw & thr0w) {
 		InstructionBuffer buf;
-		if(thr0w.expression) {
-			buf << compile_expression(*thr0w.expression, info, scope).code;
-		}
-		else {
-			buf << inst::null();
-		}
+		buf << compile_expression(*thr0w.expression);
 		buf << inst::thr0w();
-		return { buf, 0 };
+		return buf;
 	}
 }

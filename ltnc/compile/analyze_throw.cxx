@@ -5,14 +5,12 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		InstructionBuffer buf;
 		if(thr0w.expression) {
-			buf << analyze_expression(*thr0w.expression, info, scope).code;
+			auto expr = analyze_expression(*thr0w.expression, info, scope);
+			return std::make_unique<sst::Throw>(0, false, std::move(expr));
 		}
 		else {
-			buf << inst::null();
+			return std::make_unique<sst::Throw>(0, false, std::make_unique<sst::Null>(type::Null{}));
 		}
-		buf << inst::thr0w();
-		return { buf, 0 };
 	}
 }

@@ -4,31 +4,22 @@
 
 namespace ltn::c {
 	// compiles -> return...;
-	StmtResult compile_stmt(
-		const sst::Return & ret,
-		CompilerInfo & info,
-		Scope & scope) {
-		
+	InstructionBuffer compile_stmt(const sst::Return & ret) {
 		InstructionBuffer buf;
-		const auto return_type = scope.get_return_type();
 		if(ret.expression) {
-			auto code = compile_expression(*ret.expression, info, scope);
-			buf << code.code;
-			buf << conversion_on_return(code.deduced_type, return_type, ret.location);
+			buf << compile_expression(*ret.expression);
 		}
 		else {
 			buf << inst::null();
-			buf << conversion_on_return(type::Null{}, return_type, ret.location);
 		}
 
-
 		// For returns from iife
-		if(const auto returns_to = scope.get_return()) {
-			buf << inst::jump(*returns_to);
+		if(ret.overide_label) {
+			buf << inst::jump(*ret.overide_label);
 		}
 		else {
 			buf << inst::retvrn();
 		}
-		return { buf, 0 };
+		return buf;
 	}
 }

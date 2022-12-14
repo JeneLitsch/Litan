@@ -69,51 +69,51 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::Reflect &, CompilerInfo &, Scope &);
 
 	// Functional
-	InstructionBuffer compile_functional(const sst::Functional &, CompilerInfo &);
-	InstructionBuffer compile_function_template(const sst::FunctionTemplate &, CompilerInfo &, const std::vector<type::Type> & arguments);
+	InstructionBuffer compile_functional(const sst::Functional &);
+	InstructionBuffer compile_function_template(const sst::FunctionTemplate &, const std::vector<type::Type> & arguments);
 
 	// Statement
-	InstructionBuffer compile_statement(const sst::Statement &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_stmt(const sst::Block &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_stmt(const sst::Return &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_stmt(const sst::Assign &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_stmt(const sst::Throw &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_stmt(const sst::InitMember &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_stmt(const sst::IfElse &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_stmt(const sst::InfiniteLoop &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_stmt(const sst::While &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_stmt(const sst::For &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_stmt(const sst::NewVar &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_stmt(const sst::StmtSwitch &, CompilerInfo &, Scope &);
+	InstructionBuffer compile_statement(const sst::Statement &);
+	InstructionBuffer compile_stmt(const sst::Block &);
+	InstructionBuffer compile_stmt(const sst::Return &);
+	InstructionBuffer compile_stmt(const sst::Assign &);
+	InstructionBuffer compile_stmt(const sst::Throw &);
+	InstructionBuffer compile_stmt(const sst::InitMember &);
+	InstructionBuffer compile_stmt(const sst::IfElse &);
+	InstructionBuffer compile_stmt(const sst::InfiniteLoop &);
+	InstructionBuffer compile_stmt(const sst::While &);
+	InstructionBuffer compile_stmt(const sst::For &);
+	InstructionBuffer compile_stmt(const sst::NewVar &);
+	InstructionBuffer compile_stmt(const sst::StmtSwitch &);
 
 	// Expression
-	InstructionBuffer compile_expression(const sst::Expression &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Lambda &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::ExprSwitch &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Ternary &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Binary &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Unary &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Integer &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Float &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Bool &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Char &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Null &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::String &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Array &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Call &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Index &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::FxPointer &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Iife &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Var &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Member &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::GlobalVar &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::TypedUnary &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::Reflect &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_expr(const sst::DeclType &, CompilerInfo &, Scope &);
+	InstructionBuffer compile_expression(const sst::Expression &);
+	InstructionBuffer compile_expr(const sst::Lambda &);
+	InstructionBuffer compile_expr(const sst::ExprSwitch &);
+	InstructionBuffer compile_expr(const sst::Ternary &);
+	InstructionBuffer compile_expr(const sst::Binary &);
+	InstructionBuffer compile_expr(const sst::Unary &);
+	InstructionBuffer compile_expr(const sst::Integer &);
+	InstructionBuffer compile_expr(const sst::Float &);
+	InstructionBuffer compile_expr(const sst::Bool &);
+	InstructionBuffer compile_expr(const sst::Char &);
+	InstructionBuffer compile_expr(const sst::Null &);
+	InstructionBuffer compile_expr(const sst::String &);
+	InstructionBuffer compile_expr(const sst::Array &);
+	InstructionBuffer compile_expr(const sst::Call &);
+	InstructionBuffer compile_expr(const sst::Index &);
+	InstructionBuffer compile_expr(const sst::FxPointer &);
+	InstructionBuffer compile_expr(const sst::Iife &);
+	InstructionBuffer compile_expr(const sst::Var &);
+	InstructionBuffer compile_expr(const sst::Member &);
+	InstructionBuffer compile_expr(const sst::GlobalVar &);
+	InstructionBuffer compile_expr(const sst::TypedUnary &);
+	InstructionBuffer compile_expr(const sst::Reflect &);
+	InstructionBuffer compile_expr(const sst::DeclType &);
 	
-	InstructionBuffer compile_addr(const sst::Var &, Scope &);
-	InstructionBuffer compile_write_define(const sst::Var &, CompilerInfo &, Scope &);
-	InstructionBuffer compile_write_global(const sst::GlobalVar &, CompilerInfo &, Scope &);
+	InstructionBuffer compile_addr(const sst::Var &);
+	InstructionBuffer compile_write_define(const sst::Var &);
+	InstructionBuffer compile_write_global(const sst::GlobalVar &);
 
 	std::string make_template_id(
 		const ast::Functional & tmpl,
@@ -132,7 +132,7 @@ namespace ltn::c {
 
 	CompilerError undefined_function(
 		const std::string_view & name,
-		const sst::Node & node);
+		const ast::Node & node);
 
 	InstructionBuffer compile_conditional(
 		const std::string & name,

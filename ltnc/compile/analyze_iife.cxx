@@ -6,18 +6,19 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & outer_scope) {
 
-		const auto jumpmark = make_jump_id("IIFE");
+		const auto return_label = make_jump_id("IIFE");
 		MinorScope inner_scope{&outer_scope};
 		const auto return_type = instantiate_type(iife.return_type, inner_scope);
 		inner_scope.override_return_type(return_type);
-		inner_scope.set_return(jumpmark);
-		InstructionBuffer buf;
-		buf << analyze_statement(*iife.stmt, info, inner_scope).code;
-		buf << inst::null();
-		buf << inst::label(jumpmark);
-		return { 
-			.code = buf,
-			.deduced_type = return_type,
-		};
+		inner_scope.set_return(return_label);
+		auto body = analyze_statement(*iife.stmt, info, inner_scope);
+
+
+		return std::make_unique<sst::Iife>(
+			return_type,
+			return_label,
+			std::move(body),
+			return_type
+		);
 	}
 }

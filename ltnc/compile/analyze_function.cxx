@@ -29,7 +29,7 @@ namespace ltn::c {
 		}
 
 
-		InstructionBuffer analyze_body(
+		sst::stmt_ptr analyze_body(
 			const auto & fx,
 			CompilerInfo & info,
 			Scope & scope) {
@@ -47,7 +47,7 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer analyze_except(	
+		auto analyze_except(	
 			const ast::Except & except,
 			const std::string & fxid,
 			CompilerInfo & info,
@@ -55,46 +55,48 @@ namespace ltn::c {
 			
 			MajorScope scope{namespaze, false};
 			scope.insert(except.errorname, except.location);
-			InstructionBuffer buf;
-			buf << inst::label(jumpmark_except(fxid));
-			buf << inst::parameters(1);
-			buf << analyze_body(except, info, scope);
-			buf << inst::null();
-			buf << inst::retvrn();
-			return buf;
+			auto body = analyze_statement(*except.body, info, scope);
+			return std::make_unique<sst::Except>(
+				except.errorname,
+				std::move(body)
+			);
 		}
 
 		// compiles Litan function
-		InstructionBuffer analyze_function(
+		sst::func_ptr analyze_function(
 			const ast::Function & fx,
 			CompilerInfo & info,
 			Scope & scope,
-			InstructionBuffer capture,
+			std::vector<sst::stmt_ptr> capture,
 			std::optional<std::string> override_id = std::nullopt) {
 			
 			InstructionBuffer buf;
 
 			const auto id = override_id.value_or(fx.id);
-			
-			buf << inst::label(id);
-			buf << capture;
-			buf << parameters(fx, scope);
-			if(fx.except) buf << inst::trY(jumpmark_except(id));
-			buf << analyze_body(fx, info, scope);
-			buf << inst::null();
-			buf << inst::retvrn();
+			auto body = analyze_body(fx, info, scope);
+			auto sst_fx = std::make_unique<sst::Function>(
+				fx.name,
+				fx.namespaze,
+				fx.parameters,
+				std::move(body),
+				instantiate_type(fx.return_type, scope)
+			);
+			sst_fx->c0nst = fx.c0nst; 
+			sst_fx->init = fx.init; 
+			sst_fx->pr1vate = fx.pr1vate;
+			sst_fx->capture = std::move(capture);
 			if(fx.except) {
-				buf << analyze_except(*fx.except, id, info, fx.namespaze);
+				sst_fx->except = analyze_except(*fx.except, id, info, fx.namespaze);
 			} 
-			
-			return buf;
+
+			return sst_fx;
 		}
 
 
 
 
 		// compiles asm_function
-		InstructionBuffer analyze_build_in_function(
+		sst::func_ptr analyze_build_in_function(
 			const ast::BuildIn & fx,
 			CompilerInfo & info,
 			Scope & scope,
@@ -112,14 +114,25 @@ namespace ltn::c {
 			buf << inst::null();
 			buf << inst::retvrn();
 			
-			return buf;
+			auto sst_fx = std::make_unique<sst::BuildIn>(
+				fx.name,
+				fx.namespaze,
+				fx.parameters,
+				fx.key,
+				instantiate_type(fx.return_type, scope)
+			);
+			sst_fx->c0nst = fx.c0nst; 
+			sst_fx->init = fx.init; 
+			sst_fx->pr1vate = fx.pr1vate;
+
+			return sst_fx;
 		}
 	}
 
 
 
 	// compiles functional node
-	InstructionBuffer analyze_functional(
+	sst::func_ptr analyze_functional(
 		const ast::Functional & functional,
 		CompilerInfo & info,
 		Scope & scope,
@@ -138,7 +151,7 @@ namespace ltn::c {
 
 
 	// compiles functional node
-	InstructionBuffer analyze_functional(
+	sst::func_ptr analyze_functional(
 		const ast::Functional & functional,
 		CompilerInfo & info) {
 
@@ -152,7 +165,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer analyze_function_template(
+	sst::func_ptr analyze_function_template(
 		const ast::FunctionTemplate & tmpl,
 		CompilerInfo & info,
 		const std::vector<type::Type> & arguments) {
@@ -176,35 +189,30 @@ namespace ltn::c {
 		Scope & outer_scope) {
 		
 		const auto & fx = *lm.fx;
-		InstructionBuffer buf;
-		
-		// Skip
-		buf << inst::jump(jumpmark_skip(fx.id));
 		
 		// load captures
 		MajorScope inner_scope {
 			outer_scope.get_namespace(),
 			fx.c0nst };
 		
-		InstructionBuffer capture_buf;
-		
+		std::vector<sst::stmt_ptr> load_captures;
 		for(const auto & capture : lm.captures) {
 			const auto var = inner_scope.insert(capture->name, fx.location);
-			capture_buf << inst::makevar();
-			capture_buf << inst::write_x(var.address);
+			load_captures.push_back(std::make_unique<sst::NewVar>(
+				1, false, capture->name,
+				std::make_unique<sst::Var>(
+					var.address, var.type
+				), var.type
+			));
 		}
 
 		// compile function
-		buf << analyze_function(*lm.fx, info, inner_scope, capture_buf);
+		auto fx = analyze_function(*lm.fx, info, inner_scope, std::move(load_captures));
 
-		// Create function pointer
-		buf << inst::label(jumpmark_skip(fx.id));
-		buf << inst::newfx(fx.id, fx.parameters.size());
-		
 		// store captures
+		std::vector<sst::expr_ptr> store_captures;
 		for(const auto & capture : lm.captures) {
-			buf << analyze_expression(*capture, info, outer_scope).code;
-			buf << inst::capture();
+			store_captures.push_back(analyze_expression(*capture, info, outer_scope));
 		}
 
 
@@ -214,12 +222,16 @@ namespace ltn::c {
 			parameter_types.push_back(type);
 		}
 
-		return {
-			.code = buf,
-			.deduced_type = type::FxPtr {
-				.return_type = instantiate_type(fx.return_type, inner_scope),
-				.parameter_types = parameter_types, 
-			}
+		const auto return_type = type::FxPtr {
+			.return_type = instantiate_type(fx.return_type, inner_scope),
+			.parameter_types = parameter_types, 
 		};
+
+		return std::make_unique<sst::Lambda>(
+			return_type,
+			std::move(fx),
+			std::move(store_captures),
+			fx.return_type
+		);
 	}
 }
