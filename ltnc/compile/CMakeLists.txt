@@ -1,11 +1,32 @@
 cmake_minimum_required(VERSION 3.13)
 
 target_sources(libltnc PRIVATE 
-	analyze_expression.cxx	
-	analyze_function.cxx	
-	analyze_statement.cxx
 	analyze_enum.cxx
 	analyze_preset.cxx
+	analyze_array.cxx
+	analyze_binary.cxx
+	analyze_block.cxx
+	analyze_call.cxx
+	analyze_expression.cxx
+	analyze_function.cxx
+	analyze_fx_ptr.cxx
+	analyze_global.cxx
+	analyze_if_else.cxx
+	analyze_iife.cxx
+	analyze_index.cxx
+	analyze_init_member.cxx
+	analyze_loops.cxx
+	analyze_primitives.cxx
+	analyze_read.cxx
+	analyze_reflect.cxx
+	analyze_return.cxx
+	analyze_statement.cxx
+	analyze_switch.cxx
+	analyze_ternary.cxx
+	analyze_throw.cxx
+	analyze_typed_unary.cxx
+	analyze_unary.cxx
+	analyze_write.cxx
 	analyze.cxx	
 	cast_static.cxx
 	copy_dynamic.cxx

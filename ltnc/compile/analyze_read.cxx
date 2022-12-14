@@ -2,10 +2,10 @@
 #include <string_view>
 namespace ltn::c {
 	namespace {
-		InstructionBuffer compile_read_local_variable(const Variable & var) {
+		sst::expr_ptr analyze_read_local_variable(const Variable & var) {
 			InstructionBuffer buf;
 			buf << inst::read_x(var.address);
-			return InstructionBuffer{ 
+			return sst::expr_ptr{ 
 				.code = buf,
 				.deduced_type = var.type
 			};
@@ -28,9 +28,25 @@ namespace ltn::c {
 
 
 
+	void guard_private(
+		const ast::Functional & fx,
+		const Namespace & call_ns,
+		const SourceLocation & loc) {
+		if(
+			fx.pr1vate &&
+			!is_inner_namespace(call_ns, fx.namespaze)) {
+			throw CompilerError {
+				"Function is not visible in current scope",
+				loc
+			};
+		}
+	}
+
+
+
 	// compiles an variable read accessc
-	InstructionBuffer compile_expr(
-		const sst::Var & expr,
+	sst::expr_ptr analyze_expr(
+		const ast::Var & expr,
 		CompilerInfo & info,
 		Scope & scope) {
 
@@ -39,7 +55,7 @@ namespace ltn::c {
 		
 		const auto * var = scope.resolve(expr.name, expr.location);
 		if(var && expr.namespaze.empty()) {
-			return compile_read_local_variable(*var);
+			return analyze_read_local_variable(*var);
 		}
 		
 		const auto * def = info.definition_table.resolve(
@@ -50,7 +66,7 @@ namespace ltn::c {
 		if(def) {
 			InstructionBuffer buf;
 			buf << inst::global_read(def->id);
-			return InstructionBuffer{ buf };
+			return sst::expr_ptr{ buf };
 		}
 		
 		throw CompilerError {
@@ -60,15 +76,15 @@ namespace ltn::c {
 	}
 
 	
-	InstructionBuffer compile_expr(
-		const sst::Member & access,
+	sst::expr_ptr analyze_expr(
+		const ast::Member & access,
 		CompilerInfo & info,
 		Scope & scope) {
 
 		InstructionBuffer buf;
-		buf << compile_expression(*access.expr, info, scope).code;
+		buf << analyze_expression(*access.expr, info, scope).code;
 		const auto id = info.member_table.get_id(access.name);
 		buf << inst::member_read(id);
-		return InstructionBuffer{ buf };
+		return sst::expr_ptr{ buf };
 	}
 }

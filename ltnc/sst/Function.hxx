@@ -34,10 +34,8 @@ namespace ltn::c::sst {
 	struct Except final : public Node {
 		Except(
 			const std::string & errorname,
-			std::unique_ptr<Statement> && body,
-			const SourceLocation & location)
-			:	Node(location),
-				body(std::move(body)),
+			std::unique_ptr<Statement> && body)
+			:	body(std::move(body)),
 				errorname(errorname) {}
 		virtual ~Except() = default;
 		std::unique_ptr<Statement> body;
@@ -51,9 +49,8 @@ namespace ltn::c::sst {
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
-			const type::IncompleteType & return_type,
-			const SourceLocation & location)
-			:	Declaration(location, name, namespaze),
+			const type::IncompleteType & return_type)
+			:	Declaration(name, namespaze),
 				parameters(parameters),
 				id(mangle(name, namespaze, parameters)),
 				return_type{return_type} {}
@@ -84,18 +81,16 @@ namespace ltn::c::sst {
 			Namespace namespaze,
 			Parameters parameters,
 			std::unique_ptr<Statement> && body,
-			const type::IncompleteType & return_type,
-			const SourceLocation & location)
-			:	Functional{name, namespaze, parameters, return_type, location},
+			const type::IncompleteType & return_type)
+			:	Functional{name, namespaze, parameters, return_type},
 				body(std::move(body)) {}
 
 		Function(
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
-			std::unique_ptr<Statement> && body,
-			const SourceLocation & location)
-			:	Functional{name, namespaze, parameters, type::IncompleteType{type::Any{}}, location},
+			std::unique_ptr<Statement> && body)
+			:	Functional{name, namespaze, parameters, type::IncompleteType{type::Any{}}},
 				body(std::move(body)) {}
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
@@ -107,10 +102,8 @@ namespace ltn::c::sst {
 	struct FunctionTemplate : public Node {
 		FunctionTemplate(
 			std::unique_ptr<Functional> fx,
-			std::vector<std::string> template_parameters,
-			const SourceLocation & location)
-			:	Node(location),
-				fx{std::move(fx)},
+			std::vector<std::string> template_parameters)
+			:	fx{std::move(fx)},
 				template_parameters{std::move(template_parameters)} {}
 		virtual ~FunctionTemplate() = default;
 		
@@ -134,9 +127,8 @@ namespace ltn::c::sst {
 			Namespace namespaze,
 			Parameters parameters,
 			const std::string & key,
-			const type::IncompleteType & return_type,
-			const SourceLocation & location)
-			:	Functional{name, namespaze, parameters, return_type, location},
+			const type::IncompleteType & return_type)
+			:	Functional{name, namespaze, parameters, return_type},
 				key(key) {}
 		virtual ~BuildIn() = default;
 		std::string key;		

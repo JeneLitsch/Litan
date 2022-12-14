@@ -41,7 +41,7 @@ namespace ltn::c {
 
 		InstructionBuffer reflect_function(
 			CompilerInfo & info,
-			const sst::Functional & fx) {
+			const ast::Functional & fx) {
 
 			InstructionBuffer buf;
 			MajorScope scope{Namespace{}, false};
@@ -51,7 +51,7 @@ namespace ltn::c {
 				fx.parameters.size(),
 				SourceLocation{}
 			};
-			auto fx_ptr_code = compile_expression(fx_ptr, info, scope).code;
+			auto fx_ptr_code = analyze_expression(fx_ptr, info, scope).code;
 
 			buf << inst::newstruct();
 			buf << add_member_string(info, "name", fx.name);
@@ -105,7 +105,7 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer compile_reflect_query(
+		sst::expr_ptr analyze_reflect_query(
 			const FunctionQuery & query,
 			CompilerInfo & info,
 			Scope & scope) {
@@ -121,7 +121,7 @@ namespace ltn::c {
 		}
 
 
-		InstructionBuffer compile_reflect_query(
+		sst::expr_ptr analyze_reflect_query(
 			const NamespaceQuery & query,
 			CompilerInfo & info,
 			Scope &) {
@@ -138,13 +138,13 @@ namespace ltn::c {
 
 
 	// compiles array literal
-	InstructionBuffer compile_expr(
-		const sst::Reflect & refl,
+	sst::expr_ptr analyze_expr(
+		const ast::Reflect & refl,
 		CompilerInfo & info,
 		Scope & scope) {
 			
 		return std::visit([&] (const auto & query) {
-			return compile_reflect_query(query, info, scope);
+			return analyze_reflect_query(query, info, scope);
 		}, refl.query);
 	}
 }

@@ -2,7 +2,7 @@
 #include "stdxx/functional.hxx"
 
 namespace ltn::c {
-	auto compile_cases(
+	auto analyze_cases(
 		auto && body_fx,
 		const auto & sw1tch,
 		CompilerInfo & info,
@@ -28,11 +28,11 @@ namespace ltn::c {
 			true
 		};
 
-		std::vector<std::pair<InstructionBuffer, BodyExpr>> cases;
+		std::vector<std::pair<sst::expr_ptr, BodyExpr>> cases;
 
 		for(const auto & [expr, body] : sw1tch.cases) {
 			cases.push_back({
-				compile_expression(*expr, case_info, case_scope),
+				analyze_expression(*expr, case_info, case_scope),
 				body_fx(*body, info, scope)
 			});
 		}
@@ -78,14 +78,14 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_stmt(
-		const sst::StmtSwitch & sw1tch,
+	sst::stmt_ptr analyze_stmt(
+		const ast::StmtSwitch & sw1tch,
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		const auto condition = compile_expression(*sw1tch.condition, info, scope);
-		const auto cases = compile_cases(compile_statement, sw1tch, info, scope);
-		const auto def4ault = compile_statement(*sw1tch.d3fault, info, scope);
+		const auto condition = analyze_expression(*sw1tch.condition, info, scope);
+		const auto cases = analyze_cases(analyze_statement, sw1tch, info, scope);
+		const auto def4ault = analyze_statement(*sw1tch.d3fault, info, scope);
 		const auto code = any_switch(condition, cases, def4ault); 
 		return {
 			.code = code,
@@ -96,14 +96,14 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_expr(
-		const sst::ExprSwitch & sw1tch,
+	sst::expr_ptr analyze_expr(
+		const ast::ExprSwitch & sw1tch,
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		const auto condition = compile_expression(*sw1tch.condition, info, scope);
-		const auto cases = compile_cases(compile_expression, sw1tch, info, scope);
-		const auto def4ault = compile_expression(*sw1tch.d3fault, info, scope);
+		const auto condition = analyze_expression(*sw1tch.condition, info, scope);
+		const auto cases = analyze_cases(analyze_expression, sw1tch, info, scope);
+		const auto def4ault = analyze_expression(*sw1tch.d3fault, info, scope);
 		const auto code = any_switch(condition, cases, def4ault);
 
 		type::Type deduced_type = def4ault.deduced_type;

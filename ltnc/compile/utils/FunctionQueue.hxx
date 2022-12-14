@@ -3,11 +3,11 @@
 #include <set>
 #include <optional>
 #include "stdxx/reference.hxx"
-#include "ltnc/sst/SST.hxx"
+#include "ltnc/ast/AST.hxx"
 
 namespace ltn::c {
 	struct StagedFx {
-		stx::reference<const sst::Functional> fx;
+		stx::reference<const ast::Functional> fx;
 	};
 	inline auto operator<=>(const StagedFx & l, const StagedFx & r) {
 		return  &*l.fx <=> &*r.fx;
@@ -16,7 +16,7 @@ namespace ltn::c {
 	
 	
 	struct StagedTemplateFx {
-		stx::reference<const sst::FunctionTemplate> tmpl;
+		stx::reference<const ast::FunctionTemplate> tmpl;
 		std::vector<type::Type> arguments;
 	};
 	inline auto operator<=>(const StagedTemplateFx & l, const StagedTemplateFx & r) {
@@ -29,8 +29,8 @@ namespace ltn::c {
 
 	class FunctionQueue {
 	public:
-		void stage_function(stx::reference<const sst::Functional> fx);
-		void stage_template(stx::reference<const sst::FunctionTemplate> tmpl, std::vector<type::Type> arguments);
+		void stage_function(stx::reference<const ast::Functional> fx);
+		void stage_template(stx::reference<const ast::FunctionTemplate> tmpl, std::vector<type::Type> arguments);
 		std::optional<Staged> fetch_function();
 	private:
 		std::queue<Staged> queue;

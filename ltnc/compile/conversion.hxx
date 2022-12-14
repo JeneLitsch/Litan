@@ -2,25 +2,21 @@
 #include "ltnc/SourceLocation.hxx"
 #include "ltnc/compile/utils/InstructionBuffer.hxx"
 #include "ltnc/type/Type.hxx"
+#include "ltnc/sst/SST.hxx"
 
 namespace ltn::c {
-	InstructionBuffer conversion_on_assign(
-		const type::Type & from,
+	sst::expr_ptr conversion_on_assign(
+		sst::expr_ptr from,
 		const type::Type & to,
 		const SourceLocation & location);
 
-	InstructionBuffer conversion_on_modify(
-		const type::Type & from,
-		const type::Type & to,
-		const SourceLocation & location);
-
-	InstructionBuffer conversion_on_pass(
-		const type::Type & from,
+	sst::expr_ptr conversion_on_pass(
+		sst::expr_ptr from,
 		const type::Type & to,
 		const ArgumentLocation & location);
 
-	InstructionBuffer conversion_on_return(
-		const type::Type & from,
+	sst::expr_ptr conversion_on_return(
+		sst::expr_ptr from,
 		const type::Type & to,
 		const SourceLocation & location);
 }

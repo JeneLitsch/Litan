@@ -7,7 +7,7 @@ namespace ltn::c::sst {
 
 	template<typename Base, typename Case>
 	struct Switch : Base {
-		Switch(const SourceLocation & location) : Base(location) {}
+		Switch(const type::Type & type) : Base(type) {}
 		std::unique_ptr<Expression> condition;
 		std::vector<std::pair<
 			std::unique_ptr<Expression>,

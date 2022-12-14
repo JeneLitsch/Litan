@@ -6,7 +6,7 @@
 
 namespace ltn::c {
 	struct FunctionTemplateErrors {
-		static CompilerError redef(const sst::FunctionTemplate & def) {
+		static CompilerError redef(const ast::FunctionTemplate & def) {
 			std::stringstream msg;
 			msg << "Function template";
 			msg << def.get_resolve_namespace().to_string();
@@ -30,11 +30,11 @@ namespace ltn::c {
 	};
 
 	using FunctionTemplateTable
-		= SymbolTable<sst::FunctionTemplate, std::size_t, std::size_t>;
+		= SymbolTable<ast::FunctionTemplate, std::size_t, std::size_t>;
 	
 	using ValidFunctionTemplateTable
-		= ValidSymbolTable<sst::FunctionTemplate, FunctionTemplateErrors, std::size_t, std::size_t>;
+		= ValidSymbolTable<ast::FunctionTemplate, FunctionTemplateErrors, std::size_t, std::size_t>;
 	
 	using InvalidFunctionTemplateTable
-		= InvalidSymbolTable<sst::FunctionTemplate, FunctionTemplateErrors, std::size_t, std::size_t>;
+		= InvalidSymbolTable<ast::FunctionTemplate, FunctionTemplateErrors, std::size_t, std::size_t>;
 }

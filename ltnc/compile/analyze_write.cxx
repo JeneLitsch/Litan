@@ -7,8 +7,8 @@ namespace ltn::c {
 	namespace {
 
 		// compile assignable variable
-		InstructionBuffer compile_read_ref(
-			const sst::Assignable & expr,
+		sst::expr_ptr analyze_read_ref(
+			const ast::Assignable & expr,
 			CompilerInfo & info,
 			Scope & scope) {
 			
@@ -29,12 +29,12 @@ namespace ltn::c {
 			}
 			
 			if(auto index = as<sst::Index>(expr)) {
-				const auto arr = compile_expression(*index->expression, info, scope);
-				const auto idx = compile_expression(*index->index, info, scope);
+				const auto arr = analyze_expression(*index->expression, info, scope);
+				const auto idx = analyze_expression(*index->index, info, scope);
 				InstructionBuffer buf;
 				buf << arr.code;
 				const auto type = type::deduce_index(arr.deduced_type, idx.deduced_type);
-				return InstructionBuffer{ 
+				return sst::expr_ptr{ 
 					.code = buf,
 					.deduced_type = type
 				};
@@ -42,8 +42,8 @@ namespace ltn::c {
 			
 			if(auto e = as<sst::Member>(expr)) {
 				InstructionBuffer buf;
-				buf << compile_expression(*e->expr, info, scope).code;
-				return InstructionBuffer{ buf };
+				buf << analyze_expression(*e->expr, info, scope).code;
+				return sst::expr_ptr{ buf };
 			}
 
 			if(auto g = as<sst::GlobalVar>(expr)) {
@@ -67,8 +67,8 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer compile_write(
-			const sst::Assignable & expr,
+		InstructionBuffer analyze_write(
+			const ast::Assignable & expr,
 			CompilerInfo & info,
 			Scope & scope) {
 			
@@ -84,7 +84,7 @@ namespace ltn::c {
 			}
 			
 			if(auto e = as<sst::Index>(expr)) {
-				const auto idx = compile_expression(*e->index, info, scope);
+				const auto idx = analyze_expression(*e->index, info, scope);
 				InstructionBuffer buf;
 				buf << idx.code;
 				buf << inst::at_write();
@@ -99,7 +99,7 @@ namespace ltn::c {
 			}
 			
 			if(auto global = as<sst::GlobalVar>(expr)) {
-				return compile_write_global(*global, info, scope).code;
+				return analyze_write_global(*global, info, scope).code;
 			}
 
 			throw std::runtime_error{"Unknown assingable type"};
@@ -108,14 +108,14 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_stmt(
-		const sst::Assign & expr,
+	sst::stmt_ptr analyze_stmt(
+		const ast::Assign & expr,
 		CompilerInfo & info,
 		Scope & scope) {
 		guard_const(expr, scope);
-		const auto l_prepare = compile_read_ref(static_cast<sst::Assignable&>(*expr.l), info, scope);
-		const auto l_write = compile_write(static_cast<sst::Assignable&>(*expr.l), info, scope);
-		const auto r = compile_expression(*expr.r, info, scope);
+		const auto l_prepare = analyze_read_ref(static_cast<sst::Assignable&>(*expr.l), info, scope);
+		const auto l_write = analyze_write(static_cast<sst::Assignable&>(*expr.l), info, scope);
+		const auto r = analyze_expression(*expr.r, info, scope);
 
 		InstructionBuffer buf;
 		buf << r.code;
@@ -126,7 +126,7 @@ namespace ltn::c {
 		);
 		buf << l_prepare.code;
 		buf << l_write;
-		return StmtResult{ 
+		return sst::stmt_ptr { 
 			.code = buf,
 			.var_count = 0,
 			.direct_allocation = false,
@@ -136,18 +136,18 @@ namespace ltn::c {
 
 
 	namespace {
-		InstructionBuffer compile_new_variable_right(
-			const sst::NewVar & new_var,
+		sst::expr_ptr analyze_new_variable_right(
+			const ast::NewVar & new_var,
 			CompilerInfo & info,
 			Scope & scope) {
 			
 			if(new_var.expression) {
-				return compile_expression(*new_var.expression, info, scope);
+				return analyze_expression(*new_var.expression, info, scope);
 			}
 			else {
 				InstructionBuffer buf;
 				buf << inst::null();
-				return InstructionBuffer {
+				return sst::expr_ptr {
 					.code = buf,
 					.deduced_type = type::Null{}, 
 				};
@@ -156,7 +156,7 @@ namespace ltn::c {
 
 
 		Variable insert_new_var(
-			const sst::NewVar & new_var,
+			const ast::NewVar & new_var,
 			Scope & scope,
 			const type::Type & r_type) {
 
@@ -171,12 +171,12 @@ namespace ltn::c {
 
 
 
-	StmtResult compile_stmt(
-		const sst::NewVar & new_var,
+	sst::stmt_ptr analyze_stmt(
+		const ast::NewVar & new_var,
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		const auto r = compile_new_variable_right(new_var, info, scope);
+		const auto r = analyze_new_variable_right(new_var, info, scope);
 		
 		InstructionBuffer buf;
 		buf << r.code;

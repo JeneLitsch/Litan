@@ -9,14 +9,18 @@ namespace ltn::c::sst {
 	struct Expression;
 	struct Assignable;
 	struct Statement : public Node {
-		Statement(const SourceLocation & location) : Node(location) {}
+		Statement(std::size_t local_vars, bool direct_allocation)
+		: local_vars{local_vars}, direct_allocation{direct_allocation} {}
 		virtual ~Statement() = default;
+		std::size_t local_vars;
+		bool direct_allocation;
 	};
 
 
 	
 	struct DoNothing : public Statement {
-		DoNothing(const SourceLocation & location) : Statement(location) {}
+		DoNothing(std::size_t local_vars, bool direct_allocation)
+		: Statement{local_vars, direct_allocation} {}
 		virtual ~DoNothing() = default;
 	};
 
@@ -24,9 +28,10 @@ namespace ltn::c::sst {
 
 	struct Throw final : public Statement {
 		Throw(
-			std::unique_ptr<Expression> expression,
-			const SourceLocation & location) 
-			:	Statement(location),
+			std::size_t local_vars, bool direct_allocation,
+			std::unique_ptr<Expression> expression) 
+			: 
+				Statement{local_vars, direct_allocation},
 				expression(std::move(expression)) {}
 		virtual ~Throw() = default;
 		std::unique_ptr<Expression> expression;
@@ -36,9 +41,10 @@ namespace ltn::c::sst {
 
 	struct Block final : public Statement {
 		Block(
-			std::vector<std::unique_ptr<Statement>> statements,
-			const SourceLocation & location) 
-			:	Statement(location),
+			std::size_t local_vars, bool direct_allocation,
+			std::vector<std::unique_ptr<Statement>> statements) 
+			:	
+				Statement{local_vars, direct_allocation},
 				statements(std::move(statements)) {}
 		virtual ~Block() = default;
 		std::vector<std::unique_ptr<Statement>> statements;
@@ -48,11 +54,12 @@ namespace ltn::c::sst {
 
 	struct NewVar final : public Statement {
 		NewVar(
+			std::size_t local_vars, bool direct_allocation,
 			const std::string & name,
 			std::unique_ptr<Expression> expression,
-			const SourceLocation & location,
 			const std::variant<type::IncompleteType, type::Auto> & type = type::IncompleteType{type::Any{}})
-			:	Statement(location),
+			:	
+				Statement{local_vars, direct_allocation},
 				name(name),
 				expression(std::move(expression)),
 				type{type} {}
@@ -65,11 +72,12 @@ namespace ltn::c::sst {
 
 	struct IfElse final : public Statement {
 		IfElse(
+			std::size_t local_vars, bool direct_allocation,
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Statement> if_branch,
-			std::unique_ptr<Statement> else_branch,
-			const SourceLocation & location)
-			:	Statement(location),
+			std::unique_ptr<Statement> else_branch)
+			:	
+				Statement{local_vars, direct_allocation},
 				condition(std::move(condition)),
 				if_branch(std::move(if_branch)),
 				else_branch(std::move(else_branch)) {}
@@ -83,10 +91,12 @@ namespace ltn::c::sst {
 
 	struct While final : public Statement {
 		While(
+			std::size_t local_vars, bool direct_allocation,
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Statement> body,
-			const SourceLocation & location)
-			:	Statement(location),
+			const type::Type & type)
+			:	
+				Statement{local_vars, direct_allocation},
 				condition(std::move(condition)),
 				body(std::move(body)) {}
 
@@ -98,9 +108,10 @@ namespace ltn::c::sst {
 
 	struct InfiniteLoop final : public Statement {
 		InfiniteLoop(
-			std::unique_ptr<Statement> body,
-			const SourceLocation & location)
-			:	Statement(location),
+			std::size_t local_vars, bool direct_allocation,
+			std::unique_ptr<Statement> body)
+			:	
+				Statement{local_vars, direct_allocation},
 				body(std::move(body)) {}
 
 		virtual ~InfiniteLoop() = default;
@@ -111,13 +122,14 @@ namespace ltn::c::sst {
 
 	struct For final : public Statement {
 		For(
+			std::size_t local_vars, bool direct_allocation,
 			std::unique_ptr<NewVar> var,
 			std::unique_ptr<Expression> from,
 			std::unique_ptr<Expression> to,
 			std::unique_ptr<Expression> step,
-			std::unique_ptr<Statement> body,
-			const SourceLocation & location)
-			:	Statement(location),
+			std::unique_ptr<Statement> body)
+			:	
+				Statement{local_vars, direct_allocation},
 				var(std::move(var)),
 				from(std::move(from)),
 				to(std::move(to)),
@@ -136,9 +148,10 @@ namespace ltn::c::sst {
 
 	struct StatementExpression final : public Statement {
 		StatementExpression(
-			std::unique_ptr<Expression> expression,
-			const SourceLocation & location)
-			:	Statement(location),
+			std::size_t local_vars, bool direct_allocation,
+			std::unique_ptr<Expression> expression)
+			:	
+				Statement{local_vars, direct_allocation},
 				expression(std::move(expression)) {}
 		virtual ~StatementExpression() = default;
 		std::unique_ptr<Expression> expression;
@@ -148,9 +161,10 @@ namespace ltn::c::sst {
 
 	struct Return final : public Statement {
 		Return(
-			std::unique_ptr<Expression> expression,
-			const SourceLocation & location)
-			:	Statement(location),
+			std::size_t local_vars, bool direct_allocation,
+			std::unique_ptr<Expression> expression)
+			:	
+				Statement{local_vars, direct_allocation},
 				expression(std::move(expression)) {}
 		virtual ~Return() = default;
 		std::unique_ptr<Expression> expression;
@@ -160,11 +174,12 @@ namespace ltn::c::sst {
 	
 	struct InitMember final : public Statement {
 		InitMember(
+			std::size_t local_vars, bool direct_allocation,
 			std::string member,
 			std::string param,
-			type::IncompleteType type,
-			const SourceLocation & location)
-			:	Statement(location),
+			type::IncompleteType type)
+			:	
+				Statement{local_vars, direct_allocation},
 				member(std::move(member)),
 				param(std::move(param)),
 				type{type} {}
@@ -179,10 +194,10 @@ namespace ltn::c::sst {
 	struct Assign final : public Statement {
 	public:
 		Assign(
+			std::size_t local_vars, bool direct_allocation,
 			std::unique_ptr<Expression> l,
-			std::unique_ptr<Expression> r,
-			const SourceLocation & location)
-			:	Statement(location), l(std::move(l)), r(std::move(r)) {}
+			std::unique_ptr<Expression> r)
+			: Statement{local_vars, direct_allocation}, l(std::move(l)), r(std::move(r)) {}
 		virtual ~Assign() = default;
 		std::unique_ptr<Expression> l;
 		std::unique_ptr<Expression> r;

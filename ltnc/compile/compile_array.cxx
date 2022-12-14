@@ -2,7 +2,7 @@
 #include <string_view>
 namespace ltn::c {
 	// compiles array literal
-	ExprResult compile_expr(const sst::Array & array, CompilerInfo & info, Scope & scope) {
+	InstructionBuffer compile_expr(const sst::Array & array, CompilerInfo & info, Scope & scope) {
 		InstructionBuffer buf;
 		type::Array array_type;
 		for(const auto & elem : array.elements) {
@@ -11,7 +11,7 @@ namespace ltn::c {
 			array_type = type::deduce_array_append(array_type, result.deduced_type);
 		}
 		buf << inst::newarr(array.elements.size());
-		return ExprResult{ 
+		return InstructionBuffer{ 
 			.code = buf,
 			.deduced_type = type::Type{array_type} ,
 		};

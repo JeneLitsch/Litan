@@ -49,17 +49,17 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer compile_null_test(
-			const sst::Expression & expr,
+		sst::expr_ptr analyze_null_test(
+			const ast::Expression & expr,
 			CompilerInfo & info,
 			Scope & scope) {
 			
-			const auto code = compile_expression(expr, info, scope);
+			const auto code = analyze_expression(expr, info, scope);
 			InstructionBuffer buf;
 			buf << code.code;
 			buf << inst::null();
 			buf << inst::ueql();
-			return InstructionBuffer{ 
+			return sst::expr_ptr{ 
 				.code = buf,
 				.deduced_type = type::deduce_nulltest(code.deduced_type),
 			};
@@ -81,8 +81,8 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer unary(
-			const InstructionBuffer & x,
+		sst::expr_ptr unary(
+			const ast::expr_ptr & x,
 			const UnaryOp & op) {
 			InstructionBuffer buf;
 			const auto type = op.deduce(x.deduced_type);
@@ -96,19 +96,19 @@ namespace ltn::c {
 	}
 
 
-	InstructionBuffer compile_expr(
-		const sst::Unary & expr,
+	sst::expr_ptr analyze_expr(
+		const ast::Unary & expr,
 		CompilerInfo & info,
 		Scope & scope) {
 		
 		using Op = sst::Unary::Type;
 		const auto & inner = *expr.expression;
-		const auto x = compile_expression(inner, info, scope);
+		const auto x = analyze_expression(inner, info, scope);
 		
 		switch (expr.type) {
 			case Op::NEG:    return unary(x, neg);
 			case Op::NOT:    return unary(x, n0t);
-			case Op::NUL:    return compile_null_test(inner, info, scope);
+			case Op::NUL:    return analyze_null_test(inner, info, scope);
 			case Op::BITNOT: return unary(x, bit_not);
 			case Op::DEREF:  return unary(x, deref);
 		}

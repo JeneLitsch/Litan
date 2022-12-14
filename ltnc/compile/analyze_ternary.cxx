@@ -1,16 +1,16 @@
 #include "compile.hxx"
 namespace ltn::c {
-	InstructionBuffer compile_expr(
-		const sst::Ternary & expr,
+	sst::expr_ptr analyze_expr(
+		const ast::Ternary & expr,
 		CompilerInfo & info,
 		Scope & scope) {
 		
 		const auto name        = make_jump_id("TERNARY");
-		const auto condition   = compile_expression(*expr.condition, info, scope);
-		const auto if_branch   = compile_expression(*expr.if_branch, info, scope);
-		const auto else_branch = compile_expression(*expr.else_branch, info, scope);
+		const auto condition   = analyze_expression(*expr.condition, info, scope);
+		const auto if_branch   = analyze_expression(*expr.if_branch, info, scope);
+		const auto else_branch = analyze_expression(*expr.else_branch, info, scope);
 		
-		const auto code = compile_conditional(
+		const auto code = analyze_conditional(
 			name,
 			condition.code,
 			if_branch.code,

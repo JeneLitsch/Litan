@@ -2,7 +2,7 @@
 #include <sstream>
 namespace ltn::c {
 	namespace {
-		auto undefined(const sst::GlobalVar & global) {
+		auto undefined(const ast::GlobalVar & global) {
 			std::ostringstream oss;
 			oss
 				<< "Undefined global variable "
@@ -11,7 +11,7 @@ namespace ltn::c {
 			return CompilerError { oss.str(), global.location };
 		}
 
-		auto undefined(const sst::Var & def) {
+		auto undefined(const ast::Var & def) {
 			std::ostringstream oss;
 			oss
 				<< "Undefined definition "
@@ -31,8 +31,8 @@ namespace ltn::c {
 		}
 	}
 
-	InstructionBuffer compile_expr(
-		const sst::GlobalVar & global_var,
+	sst::expr_ptr analyze_expr(
+		const ast::GlobalVar & global_var,
 		CompilerInfo & info,
 		Scope & scope) {
 		
@@ -42,7 +42,7 @@ namespace ltn::c {
 		InstructionBuffer buf;
 		buf << inst::global_read(global.id);
 		
-		return InstructionBuffer{ 
+		return sst::expr_ptr{ 
 			.code = buf,
 			.deduced_type = instantiate_type(global.type, scope),
 		};
@@ -50,8 +50,8 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_write_global(
-		const sst::GlobalVar & global_var,
+	sst::expr_ptr analyze_write_global(
+		const ast::GlobalVar & global_var,
 		CompilerInfo & info,
 		Scope & scope) {
 
@@ -61,7 +61,7 @@ namespace ltn::c {
 		InstructionBuffer buf;
 		buf << inst::global_write(global.id);
 
-		return InstructionBuffer{ 
+		return sst::expr_ptr{ 
 			.code = buf,
 			.deduced_type = type	
 		};
@@ -69,8 +69,8 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_write_define(
-		const sst::Var & def,
+	sst::expr_ptr analyze_write_define(
+		const ast::Var & def,
 		CompilerInfo & info,
 		Scope & scope) {
 
@@ -81,7 +81,7 @@ namespace ltn::c {
 		
 		buf << inst::global_write(statik.id);
 
-		return InstructionBuffer{ 
+		return sst::expr_ptr{ 
 			.code = buf,
 			.deduced_type = type,
 		};

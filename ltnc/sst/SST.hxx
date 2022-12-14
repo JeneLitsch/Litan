@@ -2,7 +2,6 @@
 #include "Function.hxx"
 #include "Statement.hxx"
 #include "Expression.hxx"
-#include "Type.hxx"
 
 namespace ltn::c::sst {
 	using expr_ptr = std::unique_ptr<Expression>;

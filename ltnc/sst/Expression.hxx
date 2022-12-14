@@ -14,8 +14,9 @@ namespace ltn::c::sst {
 
 
 	struct Expression : public Node {
-		Expression(const SourceLocation & location) : Node(location) {}
+		Expression(const type::Type & type) : type{type} {}
 		virtual ~Expression() = default;
+		type::Type type;
 	};
 	
 
@@ -23,8 +24,8 @@ namespace ltn::c::sst {
 	struct DeclType : public Expression {
 		DeclType(
 			std::unique_ptr<Expression> expression,
-			const SourceLocation & location)
-			:	Expression(location),
+			const type::Type & type)
+			:	Expression(type),
 				expression(std::move(expression)) {}
 		virtual ~DeclType() = default;
 		std::unique_ptr<Expression> expression;
@@ -34,11 +35,11 @@ namespace ltn::c::sst {
 
 	struct Ternary : public Expression {
 		Ternary(
-			const SourceLocation & location,
+			const type::Type & type,
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Expression> if_branch,
 			std::unique_ptr<Expression> else_branch) 
-			:	Expression(location),
+			:	Expression(type),
 				condition(std::move(condition)),
 				if_branch(std::move(if_branch)),
 				else_branch(std::move(else_branch)) {}
@@ -53,23 +54,23 @@ namespace ltn::c::sst {
 
 
 	struct Unary : public Expression {
-		enum class Type { NEG, NOT, NUL, BITNOT, DEREF };
+		enum class Op { NEG, NOT, NUL, BITNOT, DEREF };
 		Unary(
-			Type type,
+			Op op,
 			std::unique_ptr<Expression> expression,
-			const SourceLocation & location)
-			:	Expression(location),
-				type(type),
+			const type::Type & type)
+			:	Expression(type),
+				op(op),
 				expression(std::move(expression)) {}
 		virtual ~Unary() = default;
-		Type type;
+		Op op;
 		std::unique_ptr<Expression> expression;
 	};
 
 
 
 	struct Binary : public Expression {
-		enum class Type {
+		enum class Op {
 			ADD, SUB,
 			MLT, DIV, MOD, POW,
 			BIGGER, SMALLER, BIGGEREQUAL, SMALLEREQUAL,
@@ -81,16 +82,16 @@ namespace ltn::c::sst {
 			BIT_OR, BIT_AND, BIT_XOR,
 		};
 		Binary(
-			Type type,
+			Op op,
 			std::unique_ptr<Expression> l,
 			std::unique_ptr<Expression> r,
-			const SourceLocation & location)
-			:	Expression(location),
-				type(type),
+			const type::Type & type)
+			:	Expression(type),
+				op(op),
 				l(std::move(l)),
 				r(std::move(r)) {}
 		virtual ~Binary() = default;
-		Type type;
+		Op op;
 		std::unique_ptr<Expression> l;
 		std::unique_ptr<Expression> r;
 	};
@@ -100,8 +101,8 @@ namespace ltn::c::sst {
 	struct Reflect : public Expression {
 		Reflect(
 			const ReflectQuery & query,
-			const SourceLocation & location)
-			:	Expression(location),
+			const type::Type & type)
+			:	Expression(type),
 				query{query} {}
 		virtual ~Reflect() = default;
 		ReflectQuery query;
@@ -117,16 +118,16 @@ namespace ltn::c::sst {
 		};
 		TypedUnary(
 			Op op,
-			const type::IncompleteType & type,
+			const type::IncompleteType & target_type,
 			std::unique_ptr<Expression> expr,
-			const SourceLocation & location)
-			:	Expression{location},
+			const type::Type & type)
+			:	Expression{type},
 				op{op},
-				type{type},
+				target_type{target_type},
 				expr{std::move(expr)} {}
 		virtual ~TypedUnary() = default;
 		Op op;
-		type::IncompleteType type;
+		type::IncompleteType target_type;
 		std::unique_ptr<Expression> expr;
 	};
 
@@ -137,25 +138,25 @@ namespace ltn::c::sst {
 	struct Statement;
 
 	struct Primary : public Expression {
-		Primary(const SourceLocation & location) : Expression(location) {}
+		Primary(const type::Type & type) : Expression(type) {}
 		virtual ~Primary() = default;
 	};
 	
 
 	struct Literal : public Primary {
-		Literal(const SourceLocation & location)
-			:	Primary(location) {}
+		Literal(const type::Type & type)
+			:	Primary(type) {}
 		virtual ~Literal() = default;
 	};
 
 
 
 	struct Integer final : public Literal {
-		Integer(std::bitset<64> value, const SourceLocation & location)
-			:	Integer(static_cast<std::int64_t>(value.to_ullong()), location) {}
+		Integer(std::bitset<64> value, const type::Type & type)
+			:	Integer(static_cast<std::int64_t>(value.to_ullong()), type) {}
 
-		Integer(std::int64_t value, const SourceLocation & location)
-			:	Literal(location), value(value) {}
+		Integer(std::int64_t value, const type::Type & type)
+			:	Literal(type), value(value) {}
 		virtual ~Integer() = default;
 		std::int64_t value;
 	};
@@ -163,8 +164,8 @@ namespace ltn::c::sst {
 
 
 	struct Float final : public Literal {
-		Float(stx::float64_t value, const SourceLocation & location)
-			:	Literal(location), value(value) {}
+		Float(stx::float64_t value, const type::Type & type)
+			:	Literal(type), value(value) {}
 		virtual ~Float() = default;
 		stx::float64_t value;
 	};
@@ -172,8 +173,8 @@ namespace ltn::c::sst {
 
 
 	struct Bool final : public Literal {
-		Bool(bool value, const SourceLocation & location)
-			:	Literal(location), value(value) {}
+		Bool(bool value, const type::Type & type)
+			:	Literal(type), value(value) {}
 		virtual ~Bool() = default;
 		bool value;
 	};
@@ -181,16 +182,16 @@ namespace ltn::c::sst {
 
 
 	struct Null final : public Literal {
-		Null(const SourceLocation & location)
-			:	Literal(location) {}
+		Null(const type::Type & type)
+			:	Literal(type) {}
 		virtual ~Null() = default;
 	};
 
 
 
 	struct Char final : public Literal {
-		Char(std::uint8_t value, const SourceLocation & location)
-			:	Literal(location), value(value) {}
+		Char(std::uint8_t value, const type::Type & type)
+			:	Literal(type), value(value) {}
 		virtual ~Char() = default;
 		std::uint8_t value;
 	};
@@ -198,8 +199,8 @@ namespace ltn::c::sst {
 
 
 	struct String final : public Literal {
-		String(const std::string & value, const SourceLocation & location)
-			:	Literal(location), value(value) {}
+		String(const std::string & value, const type::Type & type)
+			:	Literal(type), value(value) {}
 		virtual ~String() = default;
 		std::string value;
 	};
@@ -207,7 +208,7 @@ namespace ltn::c::sst {
 
 
 	struct Array final: public Literal {
-		Array(const SourceLocation & location) : Literal(location) {}
+		Array(const type::Type & type) : Literal(type) {}
 		virtual ~Array() = default;
 		std::vector<std::unique_ptr<Expression>> elements;
 	};
@@ -218,8 +219,8 @@ namespace ltn::c::sst {
 		Lambda(
 			std::unique_ptr<Function> fx,
 			std::vector<std::unique_ptr<Var>> captures,
-			const SourceLocation & location)
-			:	Literal(location),
+			const type::Type & type)
+			:	Literal(type),
 				fx(std::move(fx)),
 				captures(std::move(captures)) {}
 		virtual ~Lambda() = default;
@@ -236,7 +237,7 @@ namespace ltn::c::sst {
 	
 	struct Assignable : public Primary {
 		virtual ~Assignable() = default;
-		Assignable(const SourceLocation & location) : Primary(location) {}
+		Assignable(const type::Type & type) : Primary(type) {}
 	};
 
 
@@ -245,8 +246,8 @@ namespace ltn::c::sst {
 		Index(
 			std::unique_ptr<Expression> expression,
 			std::unique_ptr<Expression> index,
-			const SourceLocation & location)
-			:	Assignable(location),
+			const type::Type & type)
+			:	Assignable(type),
 				expression(std::move(expression)),
 				index(std::move(index)) {}
 		virtual ~Index() = default;
@@ -261,8 +262,8 @@ namespace ltn::c::sst {
 		Var(
 			const std::string & name,
 			const Namespace & namespaze,
-			const SourceLocation & location)
-			:	Assignable(location),
+			const type::Type & type)
+			:	Assignable(type),
 				name{name},
 				namespaze{namespaze} {}
 
@@ -276,10 +277,10 @@ namespace ltn::c::sst {
 	struct GlobalVar final : public Assignable {
 	public:
 		GlobalVar(
-			const SourceLocation & location,
+			const type::Type & type,
 			const Namespace & namespaze,
 			const std::string & name) :
-				Assignable(location),
+				Assignable(type),
 				name { name },
 				namespaze { namespaze } {}
 		virtual ~GlobalVar() = default;
@@ -293,8 +294,8 @@ namespace ltn::c::sst {
 		Member(
 			std::unique_ptr<Expression> expr,
 			const std::string & name,
-			const SourceLocation & location)
-			:	Assignable(location),
+			const type::Type & type)
+			:	Assignable(type),
 				expr(std::move(expr)),
 				name(std::move(name)){};
 		virtual ~Member() = default;
@@ -306,10 +307,10 @@ namespace ltn::c::sst {
 
 	struct Iife final : public Primary {
 		Iife(
-			const SourceLocation & location,
+			const type::Type & type,
 			std::unique_ptr<Statement> stmt,
 			type::IncompleteType return_type) 
-			:	Primary(location), 
+			:	Primary(type), 
 				stmt(std::move(stmt)),
 				return_type{return_type} {}
 		virtual ~Iife() = default;
@@ -326,8 +327,8 @@ namespace ltn::c::sst {
 			const std::string & name,
 			const Namespace & namespaze,
 			const std::size_t placeholders,
-			const SourceLocation & location)
-			:	Primary(location),
+			const type::Type & type)
+			:	Primary(type),
 				name(name),
 				namespaze(namespaze),
 				placeholders(std::move(placeholders)) {}
@@ -343,16 +344,30 @@ namespace ltn::c::sst {
 	struct Call final : public Primary {
 	public:
 		Call(
-			std::unique_ptr<Expression> function_ptr,
+			const std::string & id,
 			std::vector<std::unique_ptr<Expression>> parameters,
-			const SourceLocation & location)
-			:	Primary(location),
-				function_ptr(std::move(function_ptr)),
+			const type::Type & type)
+			:	Primary(type),
+				id{id},
 				parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
+		std::string id;
+		std::vector<std::unique_ptr<Expression>> parameters;
+	};
+
+
+	struct Invoke final : public Primary {
+	public:
+		Invoke(
+			std::unique_ptr<Expression> function_ptr,
+			std::vector<std::unique_ptr<Expression>> parameters,
+			const type::Type & type)
+			:	Primary(type),
+				function_ptr(std::move(function_ptr)),
+				parameters(std::move(parameters)) {}
+		virtual ~Invoke() = default;
 		std::unique_ptr<Expression> function_ptr;
 		std::vector<std::unique_ptr<Expression>> parameters;
-		std::vector<type::IncompleteType> template_args;
 	};
 
 

@@ -1,8 +1,8 @@
 #include "compile.hxx"
 #include <string_view>
 namespace ltn::c {
-	InstructionBuffer compile_expr(
-		const sst::Iife & iife,
+	sst::expr_ptr analyze_expr(
+		const ast::Iife & iife,
 		CompilerInfo & info,
 		Scope & outer_scope) {
 
@@ -12,7 +12,7 @@ namespace ltn::c {
 		inner_scope.override_return_type(return_type);
 		inner_scope.set_return(jumpmark);
 		InstructionBuffer buf;
-		buf << compile_statement(*iife.stmt, info, inner_scope).code;
+		buf << analyze_statement(*iife.stmt, info, inner_scope).code;
 		buf << inst::null();
 		buf << inst::label(jumpmark);
 		return { 

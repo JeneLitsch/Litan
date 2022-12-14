@@ -170,7 +170,7 @@ namespace ltn::c {
 
 
 
-	ExprResult compile_expr(
+	InstructionBuffer compile_expr(
 		const sst::Lambda & lm,
 		CompilerInfo & info,
 		Scope & outer_scope) {

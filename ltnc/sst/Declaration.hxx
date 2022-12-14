@@ -13,11 +13,9 @@ namespace ltn::c::sst {
 
 	struct Declaration : public Node {
 		Declaration(
-			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze) 
-			:	Node(location),
-				name(name),
+			:	name(name),
 				namespaze(namespaze) {}
 		virtual ~Declaration() = default;
 		std::string name;
@@ -28,11 +26,10 @@ namespace ltn::c::sst {
 
 	struct Static : public Declaration {
 		Static(
-			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
 			const type::IncompleteType & type) :
-				Declaration(location, name, namespaze),
+				Declaration(name, namespaze),
 				id(++counter), type{type} {}
 		
 		std::uint64_t id;
@@ -52,11 +49,10 @@ namespace ltn::c::sst {
 
 	struct Definition final : public Static {
 		Definition(
-			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
 			const type::IncompleteType & type) :
-				Static{location, name, namespaze, type} {}
+				Static{name, namespaze, type} {}
 		virtual ~Definition() = default;
 		std::unique_ptr<sst::Expression> expr;
 	};
@@ -65,11 +61,10 @@ namespace ltn::c::sst {
 
 	struct Global final : public Static {
 		Global(
-			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
 			const type::IncompleteType & type) :
-				Static{location, name, namespaze,type} {}
+				Static{name, namespaze,type} {}
 		virtual ~Global() = default;
 		std::unique_ptr<sst::Expression> expr;
 	};

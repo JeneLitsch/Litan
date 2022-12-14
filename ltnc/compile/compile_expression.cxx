@@ -3,13 +3,13 @@
 
 namespace ltn::c {
 	
-	ExprResult compile_expr(
+	InstructionBuffer compile_expr(
 		const sst::DeclType & expr,
 		CompilerInfo & info,
 		Scope & scope) {
 		
 		const auto result = compile_expression(*expr.expression, info, scope);
-		const auto type = result.deduced_type;
+		const auto type = expr.type;
 		const auto name = type::to_string(type);
 
 		InstructionBuffer buf;
@@ -26,7 +26,7 @@ namespace ltn::c {
 
 
 	// compiles any expression
-	ExprResult compile_expression(
+	InstructionBuffer compile_expression(
 		const sst::Expression & expr,
 		CompilerInfo & info,
 		Scope & scope) {
@@ -34,15 +34,5 @@ namespace ltn::c {
 		return sst::visit_expression(expr, [&](const auto & e) {
 			return compile_expr(e, info, scope);
 		});
-	}
-
-
-
-	void guard_const(const sst::Node & node, const Scope & scope) {
-		if(scope.is_const()) {
-			throw CompilerError{
-				"Cannot modify or reassign variable in const function",
-				node.location};
-		}
 	}
 }

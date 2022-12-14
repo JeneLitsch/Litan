@@ -1,7 +1,7 @@
 #include "FunctionQueue.hxx"
 
 namespace ltn::c {
-	void FunctionQueue::stage_function(stx::reference<const sst::Functional> fx) {
+	void FunctionQueue::stage_function(stx::reference<const ast::Functional> fx) {
 		StagedFx staged {
 			.fx = fx,
 		};
@@ -12,7 +12,7 @@ namespace ltn::c {
 
 
 	void FunctionQueue::stage_template(
-		stx::reference<const sst::FunctionTemplate> tmpl,
+		stx::reference<const ast::FunctionTemplate> tmpl,
 		std::vector<type::Type> arguments) {
 		
 		StagedTemplateFx staged {
