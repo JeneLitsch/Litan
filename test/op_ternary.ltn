@@ -26,14 +26,13 @@ namespace sphinx::test {
 
 
 	function short_cicuit() {
-		std::print("DISABLED");
-		// var test_short = lambda(condition) {
-		// 	var second = std::mono(false);
-		// 	condition ? null : lambda [second] { second.value = true; }();
-		// 	return second.value;
-		// };
+		var test_short = lambda(condition) {
+			var second = std::mono(false);
+			condition ? null : lambda [second] { second.value = true; }();
+			return second.value;
+		};
 
-		// assert_true(test_short(false));
-		// assert_false(test_short(true));
+		assert_true(test_short(false));
+		assert_false(test_short(true));
 	}
 }

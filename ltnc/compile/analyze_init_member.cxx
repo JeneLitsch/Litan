@@ -5,7 +5,7 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 
-		const auto obj = scope.resolve("obj", stmt.location);
+		const auto obj = scope.resolve("___OBJ___", stmt.location);
 		const auto var = scope.resolve(stmt.param, stmt.location);
 		const auto mem = info.member_table.get_id(stmt.member);
 		

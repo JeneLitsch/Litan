@@ -2,31 +2,31 @@
 
 namespace ltn::c {
 	namespace {
-		sst::stmt_ptr new_struct(const SourceLocation & loc) {
-			auto call = std::make_unique<sst::Call>(
-				"std::struct(0)",
-				std::vector<sst::expr_ptr>{},
-				type::Any{}
+		ast::stmt_ptr new_struct(const SourceLocation & loc) {
+			auto call = std::make_unique<ast::Call>(
+				std::make_unique<ast::Var>("struct", Namespace{{"std"}}, loc),
+				std::vector<ast::expr_ptr>{},
+				loc
 			);
 			
-			return std::make_unique<sst::NewVar>(0, false, 0, std::move(call));
+			return std::make_unique<ast::NewVar>("___OBJ___", std::move(call), loc);
 		}
 
 
 
-		sst::stmt_ptr return_struct(const SourceLocation & loc) {
-			auto obj = std::make_unique<sst::Var>(0, type::Any{});
-			return std::make_unique<sst::Return>(0, false, std::move(obj), std::nullopt);
+		ast::stmt_ptr return_struct(const SourceLocation & loc) {
+			auto obj = std::make_unique<ast::Var>("___OBJ___", Namespace{}, loc);
+			return std::make_unique<ast::Return>(std::move(obj), loc);
 		}
 	}
 
 
 
-	sst::func_ptr analyze_preset(
+	ast::func_ptr generate_ctor(
 		const ast::Preset & preset,
 		CompilerInfo & info) {
-		std::vector<sst::stmt_ptr> statements;
-		sst::Parameters parameters;
+		std::vector<ast::stmt_ptr> statements;
+		ast::Parameters parameters;
 		statements.push_back(new_struct(preset.location));
 
 		FunctionScope scope{preset.namespaze, false};
@@ -36,35 +36,31 @@ namespace ltn::c {
 			const auto type = instantiate_type(member.type, scope);
 			const auto var = scope.insert(var_name, preset.location, type);
 
-			auto init_member = std::make_unique<sst::InitMember>(
-				0, false,
-				0,
-				info.member_table.get_id(var_name),
-				var.address,
-				instantiate_type(member.type, scope)
+			auto init_member = std::make_unique<ast::InitMember>(
+				member.name,
+				var_name,
+				member.type,
+				preset.location
 			);
 
 			statements.push_back(std::move(init_member));
-			parameters.push_back(sst::Parameter {
+			parameters.push_back(ast::Parameter {
 				.name = var_name,
-				.type = instantiate_type(member.type, scope),
+				.type = member.type,
 			});
 		}
 
 		statements.push_back(return_struct(preset.location));
 		
-		auto block = std::make_unique<sst::Block>(
-			1, false,
-			std::move(statements)
-		);
+		auto block = std::make_unique<ast::Block>(std::move(statements), preset.location);
 
-		auto ctor = std::make_unique<sst::Function>(
-			sst::mangle(preset.name, preset.namespaze, parameters),
+		auto ctor = std::make_unique<ast::Function>(
 			preset.name,
 			preset.namespaze,
 			parameters,
 			std::move(block),
-			type::Any{}
+			type::IncompleteType{type::Any{}},
+			preset.location
 		);
 
 		ctor->c0nst = true;

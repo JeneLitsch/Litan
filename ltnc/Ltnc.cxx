@@ -150,15 +150,19 @@ namespace ltn::c {
 		}
 
 
-
+		std::vector<ast::func_ptr> ctors;
 		for(auto & preset : source.presets) {
-			auto ctor = analyze_preset(*preset, info);
-			program.functions.push_back(std::move(ctor));
+			auto ctor = generate_ctor(*preset, info);
+			ctors.push_back(std::move(ctor));
 		}
 
 
 
 		for(const auto & function : source.functions) {
+			info.fx_table.insert(*function, function->parameters.size());
+		}
+
+		for(const auto & function : ctors) {
 			info.fx_table.insert(*function, function->parameters.size());
 		}
 

@@ -22,6 +22,7 @@
 #include "instantiate_type.hxx"
 
 namespace ltn::c {
+	ast::func_ptr generate_ctor(const ast::Preset &, CompilerInfo &);
 
 	std::unique_ptr<sst::Function> analyze_function(const ast::Function &, CompilerInfo &, Scope &);
 	sst::func_ptr analyze_functional(const ast::Functional &, CompilerInfo &);
@@ -29,7 +30,6 @@ namespace ltn::c {
 	
 	sst::glob_ptr analyze_global(const ast::Global &, CompilerInfo &);
 	sst::defn_ptr analyze_definition(const ast::Definition &, CompilerInfo &);
-	sst::func_ptr analyze_preset(const ast::Preset &, CompilerInfo &);
 	std::vector<sst::defn_ptr> analyze_enumeration(const ast::Enumeration &);
 
 	sst::stmt_ptr analyze_statement(const ast::Statement &, CompilerInfo &, Scope &);
