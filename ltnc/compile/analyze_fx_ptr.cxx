@@ -103,7 +103,6 @@ namespace ltn::c {
 
 		MinorScope inner_scope{&scope};
 		auto [funtional, id] = resolve_fx_ptr(fx_ptr, inner_scope, info);
-		const auto & namespaze = inner_scope.get_namespace();
 
 		InstructionBuffer buf;
 		buf << inst::newfx(id, fx_ptr.placeholders);

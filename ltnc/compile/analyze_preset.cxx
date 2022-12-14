@@ -22,9 +22,7 @@ namespace ltn::c {
 
 
 
-	ast::func_ptr generate_ctor(
-		const ast::Preset & preset,
-		CompilerInfo & info) {
+	ast::func_ptr generate_ctor(const ast::Preset & preset) {
 		std::vector<ast::stmt_ptr> statements;
 		ast::Parameters parameters;
 		statements.push_back(new_struct(preset.location));

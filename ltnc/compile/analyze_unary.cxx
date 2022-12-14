@@ -24,7 +24,6 @@ namespace ltn::c {
 		CompilerInfo & info,
 		Scope & scope) {
 		
-		using Op = ast::Unary::Type;
 		auto expr = analyze_expression(*unary.expression, info, scope);
 		const auto op = static_cast<sst::Unary::Op>(unary.type);
 		const auto type = deduce_type(op, expr->type);

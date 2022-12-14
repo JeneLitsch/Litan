@@ -20,22 +20,9 @@ namespace ltn::c {
 		}
 
 
-		const std::string jumpmark_except(const std::string_view name) {
-			std::stringstream ss;
-			ss << "_" << name << "_EXCEPT";
-			return ss.str(); 
-		}
-
-		const std::string jumpmark_skip(const std::string_view name) {
-			std::stringstream ss;
-			ss << "_" << name << "_SKIP";
-			return ss.str(); 
-		}
-
 
 		auto analyze_except(	
 			const ast::Except & except,
-			const std::string & fxid,
 			CompilerInfo & info,
 			const auto & namespaze) {
 			
@@ -74,7 +61,7 @@ namespace ltn::c {
 			sst_fx->pr1vate = fx.pr1vate;
 			sst_fx->capture = std::move(capture);
 			if(fx.except) {
-				sst_fx->except = analyze_except(*fx.except, id, info, fx.namespaze);
+				sst_fx->except = analyze_except(*fx.except, info, fx.namespaze);
 			} 
 
 			return sst_fx;
@@ -86,13 +73,12 @@ namespace ltn::c {
 		// compiles asm_function
 		sst::func_ptr analyze_build_in_function(
 			const ast::BuildIn & fx,
-			CompilerInfo & info,
 			Scope & scope,
 			std::optional<std::string> override_id) {
 			
 			auto parameters = analyze_parameters(fx.parameters, scope, fx.location);
 			auto sst_fx = std::make_unique<sst::BuildIn>(
-				fx.id,
+				override_id.value_or(fx.id),
 				fx.name,
 				fx.namespaze,
 				parameters,
@@ -120,7 +106,7 @@ namespace ltn::c {
 			return analyze_function(*fx, info, scope, {}, override_id);
 		}
 		if(auto fx = as<const ast::BuildIn>(functional)) {
-			return analyze_build_in_function(*fx, info, scope, override_id);
+			return analyze_build_in_function(*fx, scope, override_id);
 		}
 		throw CompilerError{
 			"Unknown functional declaration",

@@ -9,8 +9,8 @@ namespace ltn::c {
 
 
 	type::Any instantiate(
-		const type::Any & incomplete,
-		const Scope & scope) {
+		const type::Any &,
+		const Scope &) {
 		return type::Any{};
 	}
 
@@ -39,59 +39,63 @@ namespace ltn::c {
 
 
 	type::Error instantiate(
-		const type::Error & incomplete,
-		const Scope & scope) {
+		const type::Error &,
+		const Scope &) {
 		return type::Error{};
 	}
 
 
 
 	type::Null instantiate(
-		const type::Null & incomplete,
-		const Scope & scope) {
+		const type::Null &,
+		const Scope &) {
 		return type::Null{};
 	}
 
 
 
 	type::Bool instantiate(
-		const type::Bool & incomplete,
-		const Scope & scope) {
+		const type::Bool &,
+		const Scope &) {
 		return type::Bool{};
 	}
 
 
 
 	type::Char instantiate(
-		const type::Char & incomplete,
-		const Scope & scope) {
+		const type::Char &,
+		const Scope &) {
 		return type::Char{};
 	}
 
 
 
-	type::Int instantiate(const type::Int & incomplete,
-		const Scope & scope) {
+	type::Int instantiate(
+		const type::Int &,
+		const Scope &) {
 		return type::Int{};
 	}
 
 
 
-	type::Float instantiate(const type::Float & incomplete,
-		const Scope & scope) {
+	type::Float instantiate(
+		const type::Float &,
+		const Scope &) {
 		return type::Float{};
 	}
 
 
 
-	type::String instantiate(const type::String & incomplete,
-		const Scope & scope) {
+	type::String instantiate(
+		const type::String &,
+		const Scope &) {
 		return type::String{};
 	}
 
 
 
-	type::Array instantiate(const type::Array & incomplete,
+	type::Array instantiate(
+		const type::Array & incomplete,
 		const Scope & scope) {
 		return type::Array{
 			.contains = instantiate_type(**incomplete.contains, scope)

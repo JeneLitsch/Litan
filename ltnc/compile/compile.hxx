@@ -22,7 +22,7 @@
 #include "instantiate_type.hxx"
 
 namespace ltn::c {
-	ast::func_ptr generate_ctor(const ast::Preset &, CompilerInfo &);
+	ast::func_ptr generate_ctor(const ast::Preset &);
 
 	std::unique_ptr<sst::Function> analyze_function(const ast::Function &, CompilerInfo &, Scope &);
 	sst::func_ptr analyze_functional(const ast::Functional &, CompilerInfo &);

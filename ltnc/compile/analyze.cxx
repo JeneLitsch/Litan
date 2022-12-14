@@ -93,7 +93,6 @@ namespace ltn::c {
 		};
 		MajorScope scope { global.namespaze, false };
 
-		auto & write_info = info;
 		auto sst_def = std::make_unique<sst::Global>(
 			global.name,
 			global.namespaze,

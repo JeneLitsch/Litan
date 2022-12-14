@@ -9,14 +9,6 @@ namespace ltn::c {
 		std::string jump_end(const std::string & name) {
 			return name + "_END";
 		}
-
-		std::string var_from(const std::string & name) {
-			return name + "_FROM";
-		}
-
-		std::string var_to(const std::string & name) {
-			return name + "_TO";
-		}
 	}
 
 	InstructionBuffer compile_stmt(const sst::While & stmt) {

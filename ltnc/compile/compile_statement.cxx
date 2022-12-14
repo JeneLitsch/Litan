@@ -10,7 +10,7 @@ namespace ltn::c {
 	}
 
 
-	InstructionBuffer compile_stmt(const sst::DoNothing & stmt) {
+	InstructionBuffer compile_stmt(const sst::DoNothing &) {
 		return {};
 	}
 

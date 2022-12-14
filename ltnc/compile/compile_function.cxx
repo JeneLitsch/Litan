@@ -36,8 +36,7 @@ namespace ltn::c {
 
 		InstructionBuffer compile_except(	
 			const sst::Except & except,
-			const std::string & fxid,
-			const auto & namespaze) {
+			const std::string & fxid) {
 			
 			InstructionBuffer buf;
 			buf << inst::label(jumpmark_except(fxid));
@@ -51,7 +50,6 @@ namespace ltn::c {
 		// compiles Litan function
 		InstructionBuffer compile_function(
 			const sst::Function & fx,
-			InstructionBuffer capture,
 			std::optional<std::string> override_id = std::nullopt) {
 			
 			InstructionBuffer buf;
@@ -70,7 +68,7 @@ namespace ltn::c {
 			buf << inst::null();
 			buf << inst::retvrn();
 			if(fx.except) {
-				buf << compile_except(*fx.except, id, fx.namespaze);
+				buf << compile_except(*fx.except, id);
 			} 
 			
 			return buf;
@@ -103,7 +101,7 @@ namespace ltn::c {
 		std::optional<std::string> override_id) {
 
 		if(auto fx = as<const sst::Function>(functional)) {
-			return compile_function(*fx, {}, override_id);
+			return compile_function(*fx, override_id);
 		}
 		if(auto fx = as<const sst::BuildIn>(functional)) {
 			return compile_build_in_function(*fx, override_id);
@@ -120,8 +118,7 @@ namespace ltn::c {
 
 
 	InstructionBuffer compile_function_template(
-		const sst::FunctionTemplate & tmpl,
-		const std::vector<type::Type> & arguments) {
+		const sst::FunctionTemplate & tmpl) {
 
 		return compile_functional(*tmpl.fx, tmpl.fx->id);
 	}
@@ -138,13 +135,8 @@ namespace ltn::c {
 		
 		InstructionBuffer capture_buf;
 		
-		for(const auto & capture : lm.captures) {
-			capture_buf << inst::makevar();
-			capture_buf << inst::write_x(capture->addr);
-		}
-
 		// compile function
-		buf << compile_function(*lm.fx, capture_buf);
+		buf << compile_function(*lm.fx);
 
 		// Create function pointer
 		buf << inst::label(jumpmark_skip(fx.id));

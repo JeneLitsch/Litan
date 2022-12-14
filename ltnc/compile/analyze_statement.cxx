@@ -11,9 +11,9 @@ namespace ltn::c {
 
 
 	sst::stmt_ptr analyze_stmt(
-		const ast::DoNothing & stmt,
-		CompilerInfo & info,
-		Scope & scope) {
+		const ast::DoNothing &,
+		CompilerInfo &,
+		Scope &) {
 		
 		return std::make_unique<sst::DoNothing>(0, false);
 	}

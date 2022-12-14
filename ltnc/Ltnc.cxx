@@ -152,7 +152,7 @@ namespace ltn::c {
 
 		std::vector<ast::func_ptr> ctors;
 		for(auto & preset : source.presets) {
-			auto ctor = generate_ctor(*preset, info);
+			auto ctor = generate_ctor(*preset);
 			ctors.push_back(std::move(ctor));
 		}
 
@@ -195,7 +195,7 @@ namespace ltn::c {
 	// compiles source
 	Instructions compile(
 		const sst::Program & program,
-		Reporter & reporter) {
+		Reporter &) {
 		
 		InstructionBuffer buf;
 

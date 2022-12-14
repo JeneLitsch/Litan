@@ -138,8 +138,7 @@ namespace ltn::c {
 	namespace {
 		sst::Reflect::FunctionQuery analyze_reflect_query(
 			const FunctionQuery & query,
-			CompilerInfo & info,
-			Scope & scope) {
+			CompilerInfo & info) {
 
 			const auto * fx = info.fx_table.resolve(
 				query.name,
@@ -165,8 +164,7 @@ namespace ltn::c {
 
 		sst::Reflect::NamespaceQuery analyze_reflect_query(
 			const NamespaceQuery & query,
-			CompilerInfo & info,
-			Scope & scope) {
+			CompilerInfo & info) {
 
 			sst::Reflect::NamespaceQuery sst_query;
 			sst_query.namespaze = query.namespaze;
@@ -190,11 +188,11 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(
 		const ast::Reflect & refl,
 		CompilerInfo & info,
-		Scope & scope) {
+		Scope &) {
 			
 		return std::make_unique<sst::Reflect>(
 			std::visit([&] (const auto & query) -> sst::Reflect::Query {
-				return analyze_reflect_query(query, info, scope);
+				return analyze_reflect_query(query, info);
 			}, refl.query),
 			sst::Reflect::Addr {
 				.name = info.member_table.get_id("name"),
