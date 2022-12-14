@@ -59,12 +59,13 @@ namespace ltn::c {
 			InstructionBuffer buf;
 
 			const auto id = override_id.value_or(fx.id);
+			auto parameters = analyze_parameters(fx.parameters, scope, fx.location);
 			auto body = analyze_statement(*fx.body, info, scope);
 			auto sst_fx = std::make_unique<sst::Function>(
 				fx.id,
 				fx.name,
 				fx.namespaze,
-				analyze_parameters(fx.parameters, scope, fx.location),
+				parameters,
 				std::move(body),
 				instantiate_type(fx.return_type, scope)
 			);
@@ -95,11 +96,12 @@ namespace ltn::c {
 				fx.namespaze,
 				fx.parameters.size());
 			
+			auto parameters = analyze_parameters(fx.parameters, scope, fx.location);
 			auto sst_fx = std::make_unique<sst::BuildIn>(
 				fx.id,
 				fx.name,
 				fx.namespaze,
-				analyze_parameters(fx.parameters, scope, fx.location),
+				parameters,
 				fx.key,
 				instantiate_type(fx.return_type, scope)
 			);
