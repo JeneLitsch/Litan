@@ -108,21 +108,41 @@ namespace ltn::c::sst {
 			std::string name;
 			std::string full_name;
 			std::size_t arity;
-
+			bool c0nst; 
+			bool pr1vate; 
+			bool ext3rn; 
 		};
 		struct NamespaceQuery {
 			Namespace namespaze;
 			std::vector<FunctionQuery> functions;
 		};
+		struct LineQuery {
+			std::uint64_t line;
+		};
+		struct FileQuery {
+			std::string name;
+		};
+		struct LocationQuery {
+			FileQuery file;
+			LineQuery line;
+		};
 		using Query = std::variant<
 			NamespaceQuery,
-			FunctionQuery
+			FunctionQuery,
+			FileQuery,
+			LineQuery,
+			LocationQuery
 		>;
 		struct Addr {
 			std::size_t name;
-			std::size_t full_name;
-			std::size_t fx_ptr;
-			std::size_t functions;
+			std::uint64_t full_name;
+			std::uint64_t fx_ptr;
+			std::uint64_t functions;
+			std::uint64_t c0nst; 
+			std::uint64_t pr1vate; 
+			std::uint64_t ext3rn; 
+			std::uint64_t file; 
+			std::uint64_t line; 
 		};
 
 		Reflect(

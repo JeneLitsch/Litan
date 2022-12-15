@@ -1,0 +1,35 @@
+namespace sphinx::test {
+
+	function reflect_line() {
+		var refl = reflect(line);
+		assert_equal_strict(reflect(line), 5);
+		assert_equal_strict(reflect(line), 6);
+		assert_equal_strict(reflect(line), 7);
+		assert_equal_strict(refl, 4);
+		var refl2 = reflect(
+			line
+		);
+		assert_equal_strict(refl2, 9);
+	}
+
+
+
+	function reflect_file() {
+		var refl = reflect(file);
+		assert_equal_strict(refl.name, "reflect_location.ltn");
+	}
+
+
+
+	function reflect_location() {
+		var refl1 = reflect(location);
+		assert_equal_strict(refl1.file.name, "reflect_location.ltn");
+		assert_equal_strict(refl1.line, 25);
+
+		var refl2 = reflect(
+			location
+		);
+		assert_equal_strict(refl2.file.name, "reflect_location.ltn");
+		assert_equal_strict(refl2.line, 29);
+	}
+}
