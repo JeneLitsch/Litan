@@ -1,12 +1,30 @@
 # Litan
 
 Litan is a gradual typed programming language with a C-like syntax.
+The Compiler and Bytecode-VM can be used as standalones or C++-Library to add scripts to any application.
 
 ## Hello World
 
 ```js
 function main() {
     std::println("Hello World");
+}
+```
+
+## Lamdas and Higher-Order-Functions
+
+Litan has fully-featured lambda expressions and supports higher-order-functions.
+
+```js
+function use_lambda(fx) {
+	return fx(1, 2);
+}
+
+function make_lambda(c) 
+	=> lambda[c](a, b) => (a + b + c)
+
+function main() {
+	std::println(use_lambda(make_lambda(3))); // 6
 }
 ```
 
@@ -49,7 +67,7 @@ function main() {
 
 ## Structs
 
-Litan uses structs whose members can added or remove dynamically.
+Litan uses structs whose members can added or removed dynamically.
 
 ```js
 function main() {

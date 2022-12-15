@@ -1,5 +1,10 @@
-function f(x : string) -> int => x // Compiler Error: Cannot return string as int
+function use_lambda(fx) {
+	return fx(1, 2);
+}
+
+function make_lambda(c) 
+	=> lambda[c](a, b) => (a + b + c)
 
 function main() {
-	f(4); // Compiler Error: Cannot pass int as string
+	std::println(use_lambda(make_lambda(3))); // 6
 }
