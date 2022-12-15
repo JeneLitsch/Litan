@@ -68,8 +68,7 @@ namespace ltn::c {
 		Scope & scope) {
 		guard_const(expr, scope);
 		auto l = analyze_write(static_cast<ast::Assignable&>(*expr.l), info, scope);
-		auto r = analyze_expression(*expr.r, info, scope);
-
+		auto r = conversion_on_assign(analyze_expression(*expr.r, info, scope), l->type, expr.location);
 		return std::make_unique<sst::Assign>(0, false, std::move(l), std::move(r));
 	}
 
@@ -110,9 +109,10 @@ namespace ltn::c {
 		const ast::NewVar & new_var,
 		CompilerInfo & info,
 		Scope & scope) {
-		
-		auto r = analyze_new_variable_right(new_var, info, scope);		
-		const auto var = insert_new_var(new_var, scope, r->type);		
+
+		auto expr = analyze_new_variable_right(new_var, info, scope);
+		const auto var = insert_new_var(new_var, scope, expr->type);		
+		auto r = conversion_on_assign(std::move(expr), var.type, new_var.location);
 		return std::make_unique<sst::NewVar>(0, true, var.address, std::move(r), var.type);
 	}
 }

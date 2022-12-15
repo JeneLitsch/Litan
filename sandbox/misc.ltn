@@ -1,11 +1,4 @@
-preset A {
-	var a;
-}
 function main() {
-std::struct();
-var x = A(42);
-	var a = 1;
-	var b = 2;
-	std::println(x.a);
-	return (lambda[a](c) => c)(4);
+	var a : string = 4;
+	return a;
 }
