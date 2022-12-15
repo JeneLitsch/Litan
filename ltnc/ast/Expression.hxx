@@ -110,11 +110,16 @@ namespace ltn::c::ast {
 		};
 		struct FileQuery {};
 		struct LineQuery {};
+		struct LocationQuery {
+			FileQuery file;
+			LineQuery line;
+		};
 		using Query = std::variant<
 			NamespaceQuery,
 			FunctionQuery,
 			FileQuery,
-			LineQuery
+			LineQuery,
+			LocationQuery
 		>;
 		Reflect(
 			const Query & query,

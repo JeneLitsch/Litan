@@ -18,7 +18,7 @@ var line = reflect(line);
 
 Returns the current line.
 
-Note: If the expression is split over mutiple lines, the line containing the `reflect` keyword is used for the line number.
+Note 1: If the expression is split over mutiple lines, the line containing the `reflect` keyword is used for the line number.
 
 
 ```js
@@ -39,6 +39,23 @@ Returns info about the current file.
 file
 +---name
 ```
+
+## Location
+
+```js
+var file = reflect(location);
+```
+
+Returns combined info about the file and the current line.
+
+```
+location
++---line
++---file
+    +---name
+```
+
+Note 2: Note 1 (Line) applies to Location too.
 
 ## Namespace
 

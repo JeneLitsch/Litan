@@ -18,4 +18,18 @@ namespace sphinx::test {
 		var refl = reflect(file);
 		assert_equal_strict(refl.name, "reflect_location.ltn");
 	}
+
+
+
+	function reflect_location() {
+		var refl1 = reflect(location);
+		assert_equal_strict(refl1.file.name, "reflect_location.ltn");
+		assert_equal_strict(refl1.line, 25);
+
+		var refl2 = reflect(
+			location
+		);
+		assert_equal_strict(refl2.file.name, "reflect_location.ltn");
+		assert_equal_strict(refl2.line, 29);
+	}
 }

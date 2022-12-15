@@ -38,12 +38,19 @@ namespace ltn::c {
 
 
 
+		ast::Reflect::Query parse_location_query(Tokens &) {
+			return ast::Reflect::LocationQuery{};
+		}
+
+
+
 		ast::Reflect::Query parse_query(Tokens & tokens) {
 			if(match(TT::NAMESPACE, tokens)) return parse_namespace_query(tokens);
-			if(match(TT::FUNCTION, tokens)) return parse_function_query(tokens);
+			if(match(TT::FUNCTION, tokens))  return parse_function_query(tokens);
 			if(auto t = match(TT::INDENTIFIER, tokens)) {
-				if(t->str == "line") return parse_line_query(tokens);
-				if(t->str == "file") return parse_file_query(tokens);
+				if(t->str == "line")     return parse_line_query(tokens);
+				if(t->str == "file")     return parse_file_query(tokens);
+				if(t->str == "location") return parse_location_query(tokens);
 			}
 			
 			throw CompilerError {

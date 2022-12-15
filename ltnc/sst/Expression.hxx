@@ -122,11 +122,16 @@ namespace ltn::c::sst {
 		struct FileQuery {
 			std::string name;
 		};
+		struct LocationQuery {
+			FileQuery file;
+			LineQuery line;
+		};
 		using Query = std::variant<
 			NamespaceQuery,
 			FunctionQuery,
 			FileQuery,
-			LineQuery
+			LineQuery,
+			LocationQuery
 		>;
 		struct Addr {
 			std::size_t name;
@@ -136,6 +141,8 @@ namespace ltn::c::sst {
 			std::uint64_t c0nst; 
 			std::uint64_t pr1vate; 
 			std::uint64_t ext3rn; 
+			std::uint64_t file; 
+			std::uint64_t line; 
 		};
 
 		Reflect(

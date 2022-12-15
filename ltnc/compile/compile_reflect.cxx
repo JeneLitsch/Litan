@@ -90,6 +90,18 @@ namespace ltn::c {
 			});
 			return buf;
 		}
+
+
+		InstructionBuffer compile_reflect_query(
+			const sst::Reflect::Addr & addr,
+			const sst::Reflect::LocationQuery & query) {
+
+			InstructionBuffer buf;
+			buf << inst::newstruct();
+			buf << add_member(addr.line, compile_reflect_query(addr, query.line));
+			buf << add_member(addr.file, compile_reflect_query(addr, query.file));
+			return buf;
+		}
 	}
 
 
