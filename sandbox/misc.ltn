@@ -1,4 +1,3 @@
 function main() {
 	var a : string = 4;
-	return a;
 }
