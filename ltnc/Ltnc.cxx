@@ -7,6 +7,7 @@
 #include <string_view>
 
 #include "compile/compile.hxx"
+#include "analyze/analyze.hxx"
 #include <iostream>
 #include "print/print.hxx"
 

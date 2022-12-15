@@ -1,5 +1,5 @@
 #include "peephole.hxx"
-#include "../compile/utils/InstructionBuffer.hxx"
+#include "../compile/InstructionBuffer.hxx"
 #include <iostream>
 #include <functional>
 #include <optional>

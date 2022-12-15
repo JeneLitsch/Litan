@@ -2,7 +2,6 @@
 #include "ltnc/SourceLocation.hxx"
 #include "ltnc/type/Type.hxx"
 #include "ltnc/CompilerError.hxx"
-#include "ltnc/compile/utils/ExprResult.hxx"
 
 namespace ltn::c {
 	CompilerError cannot_cast(

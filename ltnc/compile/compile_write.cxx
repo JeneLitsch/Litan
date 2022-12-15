@@ -1,7 +1,6 @@
 #include "compile.hxx"
 #include "ltnc/type/check.hxx"
 #include <iostream>
-#include "conversion.hxx"
 
 namespace ltn::c {
 	namespace {

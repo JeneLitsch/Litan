@@ -3,10 +3,12 @@ cmake_minimum_required(VERSION 3.13)
 add_library(libltnc
 	CompilerError.cxx
 	Ltnc.cxx
+	make_jump_id.cxx
 	Namespace.cxx
 	Reporter.cxx
 )
 
+add_subdirectory(analyze)
 add_subdirectory(assemble)
 add_subdirectory(ast)
 add_subdirectory(compile)
