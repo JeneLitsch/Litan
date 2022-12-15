@@ -2,6 +2,7 @@
 #include <vector>
 #include <bitset>
 #include "ltn/casts.hxx"
+#include "Switch.hxx"
 #include "Node.hxx"
 #include "ltnc/Namespace.hxx"
 #include "ltnc/ReflectQuery.hxx"
@@ -10,6 +11,7 @@
 namespace ltn::c::ast {
 	struct Assignable;
 	struct Statement;
+	struct Function;
 
 
 
