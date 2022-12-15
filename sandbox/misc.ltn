@@ -1,3 +1,5 @@
+function f(x : string) -> int => x // Compiler Error: Cannot return string as int
+
 function main() {
-	var a : string = 4;
+	f(4); // Compiler Error: Cannot pass int as string
 }

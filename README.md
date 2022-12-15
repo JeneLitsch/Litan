@@ -26,6 +26,15 @@ function main() {
 }
 ```
 
+```js
+function f(x : string) -> int 
+	=> x // Compiler Error: Cannot return string as int
+
+function main() {
+	f(4); // Compiler Error: Cannot pass int as string
+}
+```
+
 ## Reflections
 
 Reflections allow you to gather infos about your programm at compile-time.
