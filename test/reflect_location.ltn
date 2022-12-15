@@ -6,6 +6,10 @@ namespace sphinx::test {
 		assert_equal_strict(reflect(line), 6);
 		assert_equal_strict(reflect(line), 7);
 		assert_equal_strict(refl, 4);
+		var refl2 = reflect(
+			line
+		);
+		assert_equal_strict(refl2, 9);
 	}
 
 

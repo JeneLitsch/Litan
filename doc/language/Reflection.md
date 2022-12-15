@@ -18,6 +18,15 @@ var line = reflect(line);
 
 Returns the current line.
 
+Note: If the expression is split over mutiple lines, the line containing the `reflect` keyword is used for the line number.
+
+
+```js
+var line = reflect(
+	line
+);
+```
+
 ## File
 
 ```js
