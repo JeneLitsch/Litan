@@ -43,4 +43,7 @@ function
 +---name
 +---full_name
 +---fx_ptr
++---const
++---private
++---extern
 ```

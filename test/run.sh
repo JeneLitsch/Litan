@@ -11,6 +11,7 @@ files=(
 	"test/throw.ltn"
 	"test/lambda.ltn"
 	"test/template.ltn"
+	"test/reflect.ltn"
 
 	"test/static_cast.ltn"
 	"test/static_copy.ltn"
@@ -38,11 +39,11 @@ files=(
 	"test/op_comp_greater.ltn"
 	"test/op_comp_greater_eql.ltn"
 	"test/op_comp_spaceship.ltn"
-	"test/op_index.ltn"
-	"test/op_ternary.ltn"
-	"test/op_nulltest.ltn"
 	"test/op_elvis.ltn"
+	"test/op_index.ltn"
 	"test/op_nullco.ltn"
+	"test/op_nulltest.ltn"
+	"test/op_ternary.ltn"
 
 	"test/std/arity.ltn"
 	"test/std/empty.ltn"

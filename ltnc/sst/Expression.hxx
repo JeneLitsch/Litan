@@ -108,7 +108,9 @@ namespace ltn::c::sst {
 			std::string name;
 			std::string full_name;
 			std::size_t arity;
-
+			bool c0nst; 
+			bool pr1vate; 
+			bool ext3rn; 
 		};
 		struct NamespaceQuery {
 			Namespace namespaze;
@@ -120,9 +122,12 @@ namespace ltn::c::sst {
 		>;
 		struct Addr {
 			std::size_t name;
-			std::size_t full_name;
-			std::size_t fx_ptr;
-			std::size_t functions;
+			std::uint64_t full_name;
+			std::uint64_t fx_ptr;
+			std::uint64_t functions;
+			std::uint64_t c0nst; 
+			std::uint64_t pr1vate; 
+			std::uint64_t ext3rn; 
 		};
 
 		Reflect(

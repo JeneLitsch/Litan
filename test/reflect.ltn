@@ -1,0 +1,123 @@
+namespace local_reflect {
+	function a() {}
+	function b() const {}
+	function c() extern {}
+	function d() private {}
+	function e() const private extern {}
+}
+
+namespace sphinx::test {
+	function reflect_namespace_name() {
+		var refl = reflect(namespace local_reflect);
+		assert_equal_strict(refl.name, "local_reflect::");
+	}
+
+
+
+	function reflect_namespace_function_count() {
+		var refl = reflect(namespace local_reflect);
+		assert_equal_strict(std::size(refl.functions), 5);
+	}
+
+
+
+	function reflect_namespace_function_name() {
+		var refl = reflect(namespace local_reflect);
+		assert_equal_strict(refl.functions[0].name, "a");
+		assert_equal_strict(refl.functions[1].name, "b");
+		assert_equal_strict(refl.functions[2].name, "c");
+		assert_equal_strict(refl.functions[3].name, "d");
+		assert_equal_strict(refl.functions[4].name, "e");
+	}
+
+
+
+	function reflect_namespace_function_fullname() {
+		var refl = reflect(namespace local_reflect);
+		assert_equal_strict(refl.functions[0].full_name, "local_reflect::a");
+		assert_equal_strict(refl.functions[1].full_name, "local_reflect::b");
+		assert_equal_strict(refl.functions[2].full_name, "local_reflect::c");
+		assert_equal_strict(refl.functions[3].full_name, "local_reflect::d");
+		assert_equal_strict(refl.functions[4].full_name, "local_reflect::e");
+	}
+
+
+
+	function reflect_function_name() {
+		var refl_a = reflect(function local_reflect::a);
+		var refl_b = reflect(function local_reflect::b);
+		var refl_c = reflect(function local_reflect::c);
+		var refl_d = reflect(function local_reflect::d);
+		var refl_e = reflect(function local_reflect::e);
+
+		assert_equal_strict(refl_a.name, "a");
+		assert_equal_strict(refl_b.name, "b");
+		assert_equal_strict(refl_c.name, "c");
+		assert_equal_strict(refl_d.name, "d");
+		assert_equal_strict(refl_e.name, "e");
+	}
+
+
+	
+	function reflect_function_full_name() {
+		var refl_a = reflect(function local_reflect::a);
+		var refl_b = reflect(function local_reflect::b);
+		var refl_c = reflect(function local_reflect::c);
+		var refl_d = reflect(function local_reflect::d);
+		var refl_e = reflect(function local_reflect::e);
+
+		assert_equal_strict(refl_a.full_name, "local_reflect::a");
+		assert_equal_strict(refl_b.full_name, "local_reflect::b");
+		assert_equal_strict(refl_c.full_name, "local_reflect::c");
+		assert_equal_strict(refl_d.full_name, "local_reflect::d");
+		assert_equal_strict(refl_e.full_name, "local_reflect::e");
+	}
+
+
+
+	function reflect_function_const() {
+		var refl_a = reflect(function local_reflect::a);
+		var refl_b = reflect(function local_reflect::b);
+		var refl_c = reflect(function local_reflect::c);
+		var refl_d = reflect(function local_reflect::d);
+		var refl_e = reflect(function local_reflect::e);
+
+		assert_equal_strict(refl_a.const, false);
+		assert_equal_strict(refl_b.const, true);
+		assert_equal_strict(refl_c.const, false);
+		assert_equal_strict(refl_d.const, false);
+		assert_equal_strict(refl_e.const, true);
+	}
+
+
+
+	function reflect_function_extern() {
+		var refl_a = reflect(function local_reflect::a);
+		var refl_b = reflect(function local_reflect::b);
+		var refl_c = reflect(function local_reflect::c);
+		var refl_d = reflect(function local_reflect::d);
+		var refl_e = reflect(function local_reflect::e);
+
+		assert_equal_strict(refl_a.extern, false);
+		assert_equal_strict(refl_b.extern, false);
+		assert_equal_strict(refl_c.extern, true);
+		assert_equal_strict(refl_d.extern, false);
+		assert_equal_strict(refl_e.extern, true);
+	}
+
+
+	
+	function reflect_function_private() {
+		var refl_a = reflect(function local_reflect::a);
+		var refl_b = reflect(function local_reflect::b);
+		var refl_c = reflect(function local_reflect::c);
+		var refl_d = reflect(function local_reflect::d);
+		var refl_e = reflect(function local_reflect::e);
+
+		assert_equal_strict(refl_a.private, false);
+		assert_equal_strict(refl_b.private, false);
+		assert_equal_strict(refl_c.private, false);
+		assert_equal_strict(refl_d.private, true);
+		assert_equal_strict(refl_e.private, true);
+	}
+}
