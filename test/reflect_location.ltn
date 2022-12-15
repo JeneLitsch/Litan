@@ -1,0 +1,17 @@
+namespace sphinx::test {
+
+	function reflect_line() {
+		var refl = reflect(line);
+		assert_equal_strict(reflect(line), 5);
+		assert_equal_strict(reflect(line), 6);
+		assert_equal_strict(reflect(line), 7);
+		assert_equal_strict(refl, 4);
+	}
+
+
+
+	function reflect_file() {
+		var refl = reflect(file);
+		assert_equal_strict(refl.name, "reflect_location.ltn");
+	}
+}

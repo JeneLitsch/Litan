@@ -31,8 +31,10 @@ namespace ltn::c {
 
 
 		sst::Reflect::FunctionQuery analyze_reflect_query(
-			const FunctionQuery & query,
-			CompilerInfo & info) {
+			const ast::Reflect & refl,
+			const ast::Reflect::FunctionQuery & query,
+			CompilerInfo & info,
+			Scope & scope) {
 
 			const auto * fx = info.fx_table.resolve(
 				query.name,
@@ -51,8 +53,10 @@ namespace ltn::c {
 
 
 		sst::Reflect::NamespaceQuery analyze_reflect_query(
-			const NamespaceQuery & query,
-			CompilerInfo & info) {
+			const ast::Reflect & refl,
+			const ast::Reflect::NamespaceQuery & query,
+			CompilerInfo & info,
+			Scope & scope) {
 
 			sst::Reflect::NamespaceQuery sst_query;
 			sst_query.namespaze = query.namespaze;
@@ -65,6 +69,32 @@ namespace ltn::c {
 		
 			return sst_query;
 		}
+
+
+
+		sst::Reflect::LineQuery analyze_reflect_query(
+			const ast::Reflect & refl,
+			const ast::Reflect::LineQuery & query,
+			CompilerInfo & info,
+			Scope & scope) {
+
+			return sst::Reflect::LineQuery {
+				.line = refl.location.line 
+			};
+		}
+
+
+
+		auto analyze_reflect_query(
+			const ast::Reflect & refl,
+			const ast::Reflect::FileQuery & query,
+			CompilerInfo & info,
+			Scope & scope) {
+
+			return sst::Reflect::FileQuery {
+				.name = refl.location.sourcename 
+			};
+		}
 	}
 
 
@@ -73,11 +103,11 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(
 		const ast::Reflect & refl,
 		CompilerInfo & info,
-		Scope &) {
+		Scope & scope) {
 			
 		return std::make_unique<sst::Reflect>(
 			std::visit([&] (const auto & query) -> sst::Reflect::Query {
-				return analyze_reflect_query(query, info);
+				return analyze_reflect_query(refl, query, info, scope);
 			}, refl.query),
 			make_member_addrs(info.member_table),		
 			type::Null{}

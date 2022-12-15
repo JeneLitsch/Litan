@@ -11,7 +11,9 @@ files=(
 	"test/throw.ltn"
 	"test/lambda.ltn"
 	"test/template.ltn"
-	"test/reflect.ltn"
+	"test/reflect_location.ltn"
+	"test/reflect_function.ltn"
+	"test/reflect_namespace.ltn"
 
 	"test/static_cast.ltn"
 	"test/static_copy.ltn"

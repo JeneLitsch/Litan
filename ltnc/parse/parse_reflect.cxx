@@ -4,20 +4,20 @@
 namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
-		ReflectQuery parse_namespace_query(Tokens & tokens) {
+		ast::Reflect::Query parse_namespace_query(Tokens & tokens) {
 			auto [name, namespaze] = parse_symbol(tokens);
 			namespaze.push_back(name);
-			return NamespaceQuery {
+			return ast::Reflect::NamespaceQuery {
 				.namespaze = namespaze
 			};
 		}
 
 
 		
-		ReflectQuery parse_function_query(Tokens & tokens) {
+		ast::Reflect::Query parse_function_query(Tokens & tokens) {
 			auto [name, namespaze] = parse_symbol(tokens);
 			auto arity = match(TT::PAREN_L, tokens) ? parse_placeholder(tokens) : 0;
-			return FunctionQuery {
+			return ast::Reflect::FunctionQuery {
 				.namespaze = namespaze,
 				.name = name,
 				.arity = arity,
@@ -26,12 +26,28 @@ namespace ltn::c {
 
 
 
-		ReflectQuery parse_query(Tokens & tokens) {
+		ast::Reflect::Query parse_line_query(Tokens &) {
+			return ast::Reflect::LineQuery{};
+		}
+
+
+
+		ast::Reflect::Query parse_file_query(Tokens &) {
+			return ast::Reflect::FileQuery{};
+		}
+
+
+
+		ast::Reflect::Query parse_query(Tokens & tokens) {
 			if(match(TT::NAMESPACE, tokens)) return parse_namespace_query(tokens);
 			if(match(TT::FUNCTION, tokens)) return parse_function_query(tokens);
+			if(auto t = match(TT::INDENTIFIER, tokens)) {
+				if(t->str == "line") return parse_line_query(tokens);
+				if(t->str == "file") return parse_file_query(tokens);
+			}
 			
 			throw CompilerError {
-				"Expected ) after reflect", tokens.front().location 
+				"Unknown reflection query", tokens.front().location 
 			};
 		}
 	}

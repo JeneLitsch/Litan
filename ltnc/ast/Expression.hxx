@@ -100,13 +100,29 @@ namespace ltn::c::ast {
 
 
 	struct Reflect : public Expression {
+		struct NamespaceQuery {
+			Namespace namespaze;
+		};
+		struct FunctionQuery {
+			Namespace namespaze;
+			std::string name;
+			std::size_t arity;
+		};
+		struct FileQuery {};
+		struct LineQuery {};
+		using Query = std::variant<
+			NamespaceQuery,
+			FunctionQuery,
+			FileQuery,
+			LineQuery
+		>;
 		Reflect(
-			const ReflectQuery & query,
+			const Query & query,
 			const SourceLocation & location)
 			:	Expression(location),
 				query{query} {}
 		virtual ~Reflect() = default;
-		ReflectQuery query;
+		Query query;
 	};
 
 

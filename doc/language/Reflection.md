@@ -10,6 +10,27 @@ The reflection query is an expression.
 reflect(/* query goes here */);
 ```
 
+## Line
+
+```js
+var line = reflect(line);
+```
+
+Returns the current line.
+
+## File
+
+```js
+var file = reflect(file);
+```
+
+Returns info about the current file.
+
+```
+file
++---name
+```
+
 ## Namespace
 
 A namespace querry returns the name of the namespace and inspects members of the said namespace.

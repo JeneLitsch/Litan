@@ -1,0 +1,49 @@
+namespace namespace2 {
+	function a() {}
+	function b() const {}
+	function c() extern {}
+	function d() private {}
+	function e() const private extern {}
+}
+
+
+function get_line_reflect() => reflect(line)
+function get_file_reflect() => reflect(file)
+
+
+namespace sphinx::test {
+
+	function reflect_namespace_name() {
+		var refl = reflect(namespace namespace2);
+		assert_equal_strict(refl.name, "namespace2::");
+	}
+
+
+
+	function reflect_namespace_function_count() {
+		var refl = reflect(namespace namespace2);
+		assert_equal_strict(std::size(refl.functions), 5);
+	}
+
+
+
+	function reflect_namespace_function_name() {
+		var refl = reflect(namespace namespace2);
+		assert_equal_strict(refl.functions[0].name, "a");
+		assert_equal_strict(refl.functions[1].name, "b");
+		assert_equal_strict(refl.functions[2].name, "c");
+		assert_equal_strict(refl.functions[3].name, "d");
+		assert_equal_strict(refl.functions[4].name, "e");
+	}
+
+
+
+	function reflect_namespace_function_fullname() {
+		var refl = reflect(namespace namespace2);
+		assert_equal_strict(refl.functions[0].full_name, "namespace2::a");
+		assert_equal_strict(refl.functions[1].full_name, "namespace2::b");
+		assert_equal_strict(refl.functions[2].full_name, "namespace2::c");
+		assert_equal_strict(refl.functions[3].full_name, "namespace2::d");
+		assert_equal_strict(refl.functions[4].full_name, "namespace2::e");
+	}
+}

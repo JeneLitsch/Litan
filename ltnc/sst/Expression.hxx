@@ -116,9 +116,17 @@ namespace ltn::c::sst {
 			Namespace namespaze;
 			std::vector<FunctionQuery> functions;
 		};
+		struct LineQuery {
+			std::uint64_t line;
+		};
+		struct FileQuery {
+			std::string name;
+		};
 		using Query = std::variant<
 			NamespaceQuery,
-			FunctionQuery
+			FunctionQuery,
+			FileQuery,
+			LineQuery
 		>;
 		struct Addr {
 			std::size_t name;
