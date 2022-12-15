@@ -1,12 +1,12 @@
 # Litan
 
-Litan is gradual typed programming language with a C-like syntax.
+Litan is a gradual typed programming language with a C-like syntax.
 
 ## Hello World
 
 ```js
 function main() {
-	std::println("Hello World");
+    std::println("Hello World");
 }
 ```
 
@@ -16,13 +16,13 @@ Litan allows optional type annotations. The compiler can help you catch type rel
 
 ```js
 function main() {
-	var a : int = 4; // Ok!
+    var a : int = 4; // Ok!
 }
 ```
 
 ```js
 function main() {
-	var a : string = 4; // Compiler error
+    var a : string = 4; // Compiler error
 }
 ```
 
@@ -32,7 +32,7 @@ Reflections allow you to gather infos about your programm at compile-time.
 
 ```js
 function main() {
-	std::println("Line: " + std::str(reflect(line))); // Line 2
+    std::println("Line: " + std::str(reflect(line))); // Line 2
 }
 ```
 
@@ -44,11 +44,11 @@ Litan uses structs whose members can added or remove dynamically.
 
 ```js
 function main() {
-	var object = std::struct();
-	object.foo = 42;
-	object.bar = 1337;
-	std::println(object.foo);
-	std::println(object.bar);
+    var object = std::struct();
+    object.foo = 42;
+    object.bar = 1337;
+    std::println(object.foo);
+    std::println(object.bar);
 }
 ```
 
@@ -58,13 +58,13 @@ Presets are predefined structs. The compiler generates a constructor functions f
 
 ```js 
 preset MyPreset {
-	var foo;
-	var bar;
+    var foo;
+    var bar;
 }
 
 function main() {
-	var object = MyPreset(42, 1337);
-	std::println(object.foo);
-	std::println(object.bar);
+    var object = MyPreset(42, 1337);
+    std::println(object.foo);
+    std::println(object.bar);
 }
 ```
