@@ -41,7 +41,6 @@ A struct with all the collected data is returned.
 ```
 function
 +---name
-+---fx_ptr 
-+---const 
-+---extern 
++---full_name
++---fx_ptr
 ```
