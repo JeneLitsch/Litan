@@ -1,0 +1,43 @@
+namespace sphinx::test {
+	function std_split_empty() {
+		var str : string = "";
+		var splitted : auto = std::split(str, ",");
+		assert_equal_strict(splitted, []);
+	}
+
+	function std_split_none_found() {
+		var str : string = "hello world";
+		var splitted : auto = std::split(str, ",");
+		assert_equal_strict(splitted, [str]);
+	}
+
+	function std_split_normal() {
+		var str : string = "hello world";
+		var splitted : auto = std::split(str, " ");
+		assert_equal_strict(splitted, ["hello", "world"]);
+	}
+
+	function std_split_empty_delim() {
+		var str : string = "hello world";
+		var splitted : auto = std::split(str, "");
+		assert_equal_strict(splitted, []);
+	}
+
+	function std_split_self() {
+		var str : string = "hello world";
+		var splitted : auto = std::split(str, str);
+		assert_equal_strict(splitted, ["",""]);
+	}
+
+	function std_split_long_delim() {
+		var str : string = "hello world";
+		var splitted : auto = std::split(str, "hello world hello world");
+		assert_equal_strict(splitted, ["hello world"]);
+	}
+
+	function std_split_same_letter() {
+		var str : string = "aaa";
+		var splitted : auto = std::split(str, "a");
+		assert_equal_strict(splitted, ["","","",""]);
+	}
+}

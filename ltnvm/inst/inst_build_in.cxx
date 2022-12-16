@@ -53,6 +53,8 @@ namespace ltn::vm::inst {
 		table[FxCode::SET_BG_COLOR] = build_in::set_bg_color;
 
 		table[FxCode::TO_STRING] = build_in::to_string;
+		table[FxCode::SPLIT_STRING] = build_in::split_string;
+		table[FxCode::JOIN_STRING] = build_in::join_string;
 
 		// Math
 		table[FxCode::MIN] = build_in::min;

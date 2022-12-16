@@ -1,0 +1,18 @@
+namespace sphinx::test {
+	function std_join_empty() {
+		assert_equal_strict(std::join([], "ABC"), "");
+	}
+
+	function std_join_single() {
+		assert_equal_strict(std::join(["xxx"], "ABC"), "xxx");
+	}
+
+	function std_join_with_joiner() {
+		assert_equal_strict(std::join(["xxx", "yyy"], "ABC"), "xxxABCyyy");
+		assert_equal_strict(std::join(["", ""], "ABC"), "ABC");
+	}
+
+	function std_join_empty_joiner() {
+		assert_equal_strict(std::join(["xxx", "yyy"], ""), "xxxyyy");
+	}
+}

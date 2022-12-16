@@ -132,10 +132,8 @@ namespace ltn::c {
 		{"type_typeid",              single_return<inst::type_id>},
 
 		{"to_string",                vm_build_in<FxCode::TO_STRING>},
-		// {"parse_bool",               vm_build_in<0x41>},
-		// {"parse_char",               vm_build_in<0x42>},
-		// {"parse_int",                vm_build_in<0x43>},
-		// {"parse_float",              vm_build_in<0x44>},
+		{"split_string",             vm_build_in<FxCode::SPLIT_STRING>},
+		{"join_string",              vm_build_in<FxCode::JOIN_STRING>},
 	};
 	
 	std::span<const inst::Inst> resolve_build_in(const std::string_view & key) {

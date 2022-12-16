@@ -7,10 +7,6 @@ namespace namespace2 {
 }
 
 
-function get_line_reflect() => reflect(line)
-function get_file_reflect() => reflect(file)
-
-
 namespace sphinx::test {
 
 	function reflect_namespace_name() {

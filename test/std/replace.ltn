@@ -1,0 +1,13 @@
+namespace sphinx::test {
+	function std_replace_empty() {
+		assert_equal_strict(std::replace("", "", ""), "");
+		assert_equal_strict(std::replace("AAA", "", ""), "AAA");
+		assert_equal_strict(std::replace("AAA", "A", ""), "");
+		assert_equal_strict(std::replace("AAA", "A", "A"), "AAA");
+	}
+
+	function std_replace_common_case() {
+		assert_equal_strict(std::replace("ABABAB", "A", "X"), "XBXBXB");
+		assert_equal_strict(std::replace("Hello World", "Hello", "Hi"), "Hi World");
+	}
+}

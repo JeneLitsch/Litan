@@ -15,6 +15,7 @@
 #include "ltnc/stdlib/random.hxx"
 #include "ltnc/stdlib/range.hxx"
 #include "ltnc/stdlib/type.hxx"
+#include "ltnc/stdlib/string.hxx"
 
 
 namespace ltn::c::lex {
@@ -363,6 +364,7 @@ namespace ltn::c::lex {
 			+ std_math
 			+ std_random
 			+ std_range
+			+ std_string
 			+ std_type
 		};
 

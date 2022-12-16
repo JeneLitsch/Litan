@@ -28,6 +28,8 @@ namespace ltn {
 		SET_BG_COLOR,
 
 		TO_STRING = 0x40,
+		SPLIT_STRING,
+		JOIN_STRING,
 
 		// Math
 		MIN = 0x50,
