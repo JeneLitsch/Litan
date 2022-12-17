@@ -126,12 +126,20 @@ namespace ltn::c::sst {
 			FileQuery file;
 			LineQuery line;
 		};
+		struct TypeQuery {
+			type::Type type;
+		};
+		struct ExprQuery {
+			TypeQuery type_query;
+		};
 		using Query = std::variant<
 			NamespaceQuery,
 			FunctionQuery,
 			FileQuery,
 			LineQuery,
-			LocationQuery
+			LocationQuery,
+			ExprQuery,
+			TypeQuery
 		>;
 		struct Addr {
 			std::size_t name;
@@ -143,14 +151,15 @@ namespace ltn::c::sst {
 			std::uint64_t ext3rn; 
 			std::uint64_t file; 
 			std::uint64_t line; 
+			std::uint64_t type; 
 		};
 
 		Reflect(
-			const Query & query,
+			Query query,
 			Addr addr,
 			const type::Type & type)
 			:	Expression(type),
-				query{query},
+				query{std::move(query)},
 				addr{addr} {}
 		virtual ~Reflect() = default;
 		Query query;

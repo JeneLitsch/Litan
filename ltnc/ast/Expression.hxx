@@ -114,18 +114,26 @@ namespace ltn::c::ast {
 			FileQuery file;
 			LineQuery line;
 		};
+		struct ExprQuery {
+			std::unique_ptr<Expression> expr;
+		};
+		struct TypeQuery {
+			type::IncompleteType type;
+		};
 		using Query = std::variant<
 			NamespaceQuery,
 			FunctionQuery,
 			FileQuery,
 			LineQuery,
-			LocationQuery
+			LocationQuery,
+			ExprQuery,
+			TypeQuery
 		>;
 		Reflect(
-			const Query & query,
+			Query query,
 			const SourceLocation & location)
 			:	Expression(location),
-				query{query} {}
+				query{std::move(query)} {}
 		virtual ~Reflect() = default;
 		Query query;
 	};

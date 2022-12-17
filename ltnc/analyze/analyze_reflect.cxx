@@ -27,6 +27,7 @@ namespace ltn::c {
 				.ext3rn    = member_table.get_id("extern"),
 				.line      = member_table.get_id("line"),
 				.file      = member_table.get_id("file"),
+				.type      = member_table.get_id("type"),
 			};
 		}
 
@@ -109,6 +110,34 @@ namespace ltn::c {
 			return sst::Reflect::LocationQuery {
 				.line = analyze_reflect_query(refl, query.line, info, scope), 
 				.file = analyze_reflect_query(refl, query.file, info, scope), 
+			};
+		}
+
+
+		auto analyze_reflect_query(
+			const ast::Reflect & refl,
+			const ast::Reflect::ExprQuery & query,
+			CompilerInfo & info,
+			Scope & scope) {
+			
+			const auto expr = analyze_expression(*query.expr, info, scope);
+
+			return sst::Reflect::ExprQuery {
+				.type_query = sst::Reflect::TypeQuery{
+					.type = expr->type
+				}
+			};
+		}
+
+
+		auto analyze_reflect_query(
+			const ast::Reflect & refl,
+			const ast::Reflect::TypeQuery & query,
+			CompilerInfo & info,
+			Scope & scope) {
+
+			return sst::Reflect::TypeQuery {
+				.type = instantiate_type(query.type, scope)
 			};
 		}
 	}

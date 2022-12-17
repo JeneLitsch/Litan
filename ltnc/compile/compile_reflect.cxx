@@ -102,6 +102,30 @@ namespace ltn::c {
 			buf << add_member(addr.file, compile_reflect_query(addr, query.file));
 			return buf;
 		}
+
+
+		InstructionBuffer compile_reflect_query(
+			const sst::Reflect::Addr & addr,
+			const sst::Reflect::TypeQuery & query) {
+
+			InstructionBuffer buf;
+			buf << inst::newstruct();
+			buf << add_member(addr.name, {
+				inst::newstr(type::to_string(query.type))
+			});
+			return buf;
+		}
+
+
+		InstructionBuffer compile_reflect_query(
+			const sst::Reflect::Addr & addr,
+			const sst::Reflect::ExprQuery & query) {
+
+			InstructionBuffer buf;
+			buf << inst::newstruct();
+			buf << add_member(addr.type, compile_reflect_query(addr, query.type_query));
+			return buf;
+		}
 	}
 
 

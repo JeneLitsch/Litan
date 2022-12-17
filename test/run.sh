@@ -14,6 +14,7 @@ files=(
 	"test/reflect_location.ltn"
 	"test/reflect_function.ltn"
 	"test/reflect_namespace.ltn"
+	"test/reflect_expr.ltn"
 
 	"test/static_cast.ltn"
 	"test/static_copy.ltn"

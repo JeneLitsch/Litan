@@ -1,0 +1,17 @@
+function<T> reflect_template_type() {
+	return reflect(type T);
+}
+
+namespace sphinx::test {
+	function reflect_expr() {
+		assert_equal_strict(reflect(expr 20 + 22.0).type.name, "float");
+		assert_equal_strict(reflect(expr [1] + [22.0]).type.name, "array<any>");
+	}
+
+
+	function reflect_type() {
+		assert_equal_strict(reflect(type int).name, "int");
+		assert_equal_strict(reflect(type array<string>).name, "array<string>");
+		assert_equal_strict(reflect_template_type(<int>).name, "int");
+	}
+}

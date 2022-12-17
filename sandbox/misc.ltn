@@ -1,10 +1,11 @@
-function use_lambda(fx) {
-	return fx(1, 2);
-}
-
-function make_lambda(c) 
-	=> lambda[c](a, b) => (a + b + c)
-
 function main() {
-	std::println(use_lambda(make_lambda(3))); // 6
+	var refl_int = reflect(type int);
+	var refl_str = reflect(type string);
+	var refl_arr_float = reflect(type array<float>);
+	std::println(refl_int.name); 
+	std::println(refl_str.name); 
+	std::println(refl_arr_float.name); 
+
+	var refl_expr = reflect(expr 6 + 5.0);
+	std::println(refl_expr.type.name);
 }

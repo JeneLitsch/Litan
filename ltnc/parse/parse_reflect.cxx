@@ -43,6 +43,22 @@ namespace ltn::c {
 		}
 
 
+		
+		ast::Reflect::Query parse_expr_query(Tokens & tokens) {
+			return ast::Reflect::ExprQuery{
+				.expr = parse_expression(tokens)
+			};
+		}
+
+
+
+		ast::Reflect::Query parse_type_query(Tokens & tokens) {
+			return ast::Reflect::TypeQuery{
+				.type = parse_type(tokens)
+			};
+		}
+
+
 
 		ast::Reflect::Query parse_query(Tokens & tokens) {
 			if(match(TT::NAMESPACE, tokens)) return parse_namespace_query(tokens);
@@ -51,6 +67,8 @@ namespace ltn::c {
 				if(t->str == "line")     return parse_line_query(tokens);
 				if(t->str == "file")     return parse_file_query(tokens);
 				if(t->str == "location") return parse_location_query(tokens);
+				if(t->str == "type")     return parse_type_query(tokens);
+				if(t->str == "expr")     return parse_expr_query(tokens);
 			}
 			
 			throw CompilerError {
@@ -72,7 +90,7 @@ namespace ltn::c {
 				"Expected ) after reflect", ref->location 
 			};
 
-			return stx::make_unique<ast::Reflect>(query, ref->location);
+			return stx::make_unique<ast::Reflect>(std::move(query), ref->location);
 		}
 		else return nullptr;
 	}
