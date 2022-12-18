@@ -117,14 +117,6 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_function_template(
-		const sst::FunctionTemplate & tmpl) {
-
-		return compile_functional(*tmpl.fx, tmpl.fx->id);
-	}
-
-
-
 	InstructionBuffer compile_expr(const sst::Lambda & lm) {
 		
 		const auto & fx = *lm.fx;

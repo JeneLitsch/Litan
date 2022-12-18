@@ -104,28 +104,6 @@ namespace ltn::c::sst {
 
 
 
-	struct FunctionTemplate : public Node {
-		FunctionTemplate(
-			std::unique_ptr<Functional> fx,
-			std::vector<std::string> template_parameters)
-			:	fx{std::move(fx)},
-				template_parameters{std::move(template_parameters)} {}
-		virtual ~FunctionTemplate() = default;
-		
-		std::unique_ptr<Functional> fx;
-		std::vector<std::string> template_parameters;
-
-		const std::string & get_resolve_name() const {
-			return this->fx->get_resolve_name();
-		}
-
-		const Namespace & get_resolve_namespace() const {
-			return this->fx->get_resolve_namespace();
-		}
-	};
-
-
-
 	struct BuildIn final : public Functional {
 		BuildIn(
 			const std::string & id,

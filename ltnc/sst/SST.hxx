@@ -8,11 +8,9 @@ namespace ltn::c::sst {
 	using defn_ptr = std::unique_ptr<Definition>;
 	using glob_ptr = std::unique_ptr<Global>;
 	using func_ptr = std::unique_ptr<Functional>;
-	using ftmp_ptr = std::unique_ptr<FunctionTemplate>;
 	
 	struct Program {
 		std::vector<func_ptr> functions;
-		std::vector<ftmp_ptr> function_templates;
 		std::vector<defn_ptr> definitions;
 		std::vector<glob_ptr> globals;
 	};

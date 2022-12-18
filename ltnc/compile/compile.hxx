@@ -17,7 +17,6 @@
 namespace ltn::c {
 	// Functional
 	InstructionBuffer compile_functional(const sst::Functional &);
-	InstructionBuffer compile_function_template(const sst::FunctionTemplate &, const std::vector<type::Type> & arguments);
 
 	// Statement
 	InstructionBuffer compile_statement(const sst::Statement &);
