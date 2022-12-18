@@ -13,15 +13,15 @@ namespace ltn::c {
 
 	sst::stmt_ptr analyze_stmt(
 		const ast::While & stmt,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 
 		// outer scope of loop 
 		MinorScope loop_scope { &scope }; 
 		
 		// compile parts
-		auto condition = analyze_expression(*stmt.condition, info, scope);
-		auto body = analyze_statement(*stmt.body, info, loop_scope);
+		auto condition = analyze_expression(*stmt.condition, context, scope);
+		auto body = analyze_statement(*stmt.body, context, loop_scope);
 
 		return std::make_unique<sst::While>(
 			body->local_vars,
@@ -35,11 +35,11 @@ namespace ltn::c {
 
 	sst::stmt_ptr analyze_stmt(
 		const ast::InfiniteLoop & stmt,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 
 		MinorScope loop_scope { &scope }; 		
-		auto body = analyze_statement(*stmt.body, info, loop_scope);
+		auto body = analyze_statement(*stmt.body, context, loop_scope);
 		return std::make_unique<sst::InfiniteLoop>(
 			body->local_vars,
 			false,
@@ -51,17 +51,17 @@ namespace ltn::c {
 
 	sst::stmt_ptr analyze_stmt(
 		const ast::For & stmt,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 		
 		// outer scope of loop 
 		MinorScope loop_scope { &scope };
 
-		auto var = analyze_statement(*stmt.var, info, loop_scope);
-		auto from = analyze_expression(*stmt.from, info, loop_scope);
-		auto to = analyze_expression(*stmt.to, info, loop_scope);
+		auto var = analyze_statement(*stmt.var, context, loop_scope);
+		auto from = analyze_expression(*stmt.from, context, loop_scope);
+		auto to = analyze_expression(*stmt.to, context, loop_scope);
 		auto step = stmt.step
-			? analyze_expression(*stmt.step, info, scope)
+			? analyze_expression(*stmt.step, context, scope)
 			: std::make_unique<sst::Integer>(1, type::Int{});
 		
 		const auto label = make_jump_id("FOR");
@@ -70,7 +70,7 @@ namespace ltn::c {
 		loop_scope.insert(var_from(label), stmt.location);
 		loop_scope.insert(var_to(label), stmt.location);
 
-		auto body = analyze_statement(*stmt.body, info, loop_scope);
+		auto body = analyze_statement(*stmt.body, context, loop_scope);
 				
 		return std::make_unique<sst::For>(
 			body->local_vars + 3, false,

@@ -3,7 +3,7 @@
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(
 		const ast::Iife & iife,
-		CompilerInfo & info,
+		Context & context,
 		Scope & outer_scope) {
 
 		const auto return_label = make_jump_id("IIFE");
@@ -11,7 +11,7 @@ namespace ltn::c {
 		const auto return_type = instantiate_type(iife.return_type, inner_scope);
 		inner_scope.override_return_type(return_type);
 		inner_scope.set_return(return_label);
-		auto body = analyze_statement(*iife.stmt, info, inner_scope);
+		auto body = analyze_statement(*iife.stmt, context, inner_scope);
 
 
 		return std::make_unique<sst::Iife>(

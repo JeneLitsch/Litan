@@ -27,9 +27,9 @@ namespace ltn::c {
 		const std::size_t function_arity,
 		const std::size_t template_arity,
 		const SourceLocation & location,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
-		const auto * tmpl = info.fx_template_table.resolve(
+		const auto * tmpl = context.fx_template_table.resolve(
 			name,
 			scope.get_namespace(),
 			namespaze,
@@ -76,20 +76,20 @@ namespace ltn::c {
 
 
 
-	sst::glob_ptr analyze_global(const ast::Global & global, CompilerInfo & info) {
+	sst::glob_ptr analyze_global(const ast::Global & global, Context & context) {
 		// Use empty global_table to prohibit the usage of other global variables.
 		// Functions or defines can be used though.
 		InvalidGlobalTable global_table { "the default value of another global variable" };
 		InvalidFunctionTable fx_table { "the initialization of a global variable" };
 		InvalidFunctionTemplateTable fx_template_table { "the initialization of a global variable" };
-		CompilerInfo read_info {
+		Context read_context {
 			.fx_table          = fx_table,
 			.fx_template_table = fx_template_table,
-			.fx_queue		   = info.fx_queue,
-			.definition_table  = info.definition_table,
-			.member_table      = info.member_table,
+			.fx_queue		   = context.fx_queue,
+			.definition_table  = context.definition_table,
+			.member_table      = context.member_table,
 			.global_table      = global_table,
-			.reporter          = info.reporter
+			.reporter          = context.reporter
 		};
 		MajorScope scope { global.namespaze, false };
 
@@ -99,28 +99,28 @@ namespace ltn::c {
 			instantiate_type(global.type, scope)
 		);
 		if(global.expr) {
-			sst_def->expr = analyze_expression(*global.expr, read_info, scope);
+			sst_def->expr = analyze_expression(*global.expr, read_context, scope);
 		}
 		return sst_def;
 	}
 
 
 
-	sst::defn_ptr analyze_definition(const ast::Definition & def, CompilerInfo & info) {
+	sst::defn_ptr analyze_definition(const ast::Definition & def, Context & context) {
 		// Use empty global_table to prohibit the usage of other global variables.
 		// Functions or defines can be used though.
 		InvalidDefinitionTable def_table { "definitions" };
 		InvalidGlobalTable global_table { "definitions" };
 		InvalidFunctionTable fx_table { "definitions" };
 		InvalidFunctionTemplateTable fx_template_table { "definitions" };
-		CompilerInfo read_info {
+		Context read_context {
 			.fx_table          = fx_table,
 			.fx_template_table = fx_template_table,
-			.fx_queue		   = info.fx_queue,
+			.fx_queue		   = context.fx_queue,
 			.definition_table  = def_table,
-			.member_table      = info.member_table,
+			.member_table      = context.member_table,
 			.global_table      = global_table,
-			.reporter          = info.reporter
+			.reporter          = context.reporter
 		};
 		MajorScope scope { def.namespaze, false };
 		auto sst_def = std::make_unique<sst::Definition>(
@@ -129,7 +129,7 @@ namespace ltn::c {
 			instantiate_type(def.type, scope)
 		);
 		if(def.expr) {
-			sst_def->expr = analyze_expression(*def.expr, read_info, scope);
+			sst_def->expr = analyze_expression(*def.expr, read_context, scope);
 		}
 		return sst_def;
 	}

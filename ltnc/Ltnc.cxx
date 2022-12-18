@@ -64,14 +64,14 @@ namespace ltn::c {
 
 
 
-		auto analyze_staged(const StagedFx & staged, CompilerInfo & info) {
+		auto analyze_staged(const StagedFx & staged, Context & context) {
 			// std::cout << staged.fx->id << "\n";
-			return analyze_functional(*staged.fx, info); 
+			return analyze_functional(*staged.fx, context); 
 		}
 
-		auto analyze_staged(const StagedTemplateFx & staged, CompilerInfo & info) {
+		auto analyze_staged(const StagedTemplateFx & staged, Context & context) {
 			// std::cout << staged.tmpl->fx->id << "\n";
-			return analyze_function_template(staged.tmpl, info, staged.arguments); 
+			return analyze_function_template(staged.tmpl, context, staged.arguments); 
 		}
 	}
 
@@ -87,7 +87,7 @@ namespace ltn::c {
 		ValidDefinitionTable definition_table;
 		MemberTable member_table;
 		ValidGlobalTable global_table;
-		CompilerInfo info {
+		Context context {
 			.fx_table = fx_table,
 			.fx_template_table = fx_template_table,
 			.fx_queue = fx_queue,
@@ -107,21 +107,21 @@ namespace ltn::c {
 		}
 
 		for(const auto & definition : source.definitions) {
-			program.definitions.push_back(analyze_definition(*definition, info));
+			program.definitions.push_back(analyze_definition(*definition, context));
 		}
 
 		for(const auto & def : program.definitions) {
-			info.definition_table.insert(*def);
+			context.definition_table.insert(*def);
 		}
 
 
 
 		for(const auto & global : source.globals) {
-			program.globals.push_back(analyze_global(*global, info));
+			program.globals.push_back(analyze_global(*global, context));
 		}
 
 		for(const auto & glob : program.globals) {
-			info.global_table.insert(*glob);
+			context.global_table.insert(*glob);
 		}
 
 
@@ -134,15 +134,15 @@ namespace ltn::c {
 		for(const auto & fx_tmpl : source.function_templates) {
 			const auto function_arity = std::size(fx_tmpl->fx->parameters);
 			const auto template_arity = std::size(fx_tmpl->template_parameters);
-			info.fx_template_table.insert(*fx_tmpl, function_arity, template_arity);
+			context.fx_template_table.insert(*fx_tmpl, function_arity, template_arity);
 		}
 
 		for(const auto & function : source.functions) {
-			info.fx_table.insert(*function, function->parameters.size());
+			context.fx_table.insert(*function, function->parameters.size());
 		}
 
 		for(const auto & ctor : ctors) {
-			info.fx_table.insert(*ctor, ctor->parameters.size());
+			context.fx_table.insert(*ctor, ctor->parameters.size());
 		}
 
 		auto externs = find_extern_funtions(source);
@@ -154,7 +154,7 @@ namespace ltn::c {
 		while(auto staged = fx_queue.fetch_function()) {
 			try {
 				auto fx = std::visit([&] (auto & s) {
-					return analyze_staged(s, info);
+					return analyze_staged(s, context);
 					}, *staged
 				);
 				program.functions.push_back(std::move(fx));
@@ -178,7 +178,7 @@ namespace ltn::c {
 		buf << static_init(program.globals);
 
 
-		// buf << static_init(info, program.definitions);
+		// buf << static_init(context, program.definitions);
 		buf << inst::null();
 		buf << inst::exit();
 		

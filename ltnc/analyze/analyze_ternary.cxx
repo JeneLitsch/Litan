@@ -2,12 +2,12 @@
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(
 		const ast::Ternary & expr,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 		
-		auto condition   = analyze_expression(*expr.condition, info, scope);
-		auto if_branch   = analyze_expression(*expr.if_branch, info, scope);
-		auto else_branch = analyze_expression(*expr.else_branch, info, scope);
+		auto condition   = analyze_expression(*expr.condition, context, scope);
+		auto if_branch   = analyze_expression(*expr.if_branch, context, scope);
+		auto else_branch = analyze_expression(*expr.else_branch, context, scope);
 
 		const auto deduced_type = type::deduce_ternary(
 			condition->type,

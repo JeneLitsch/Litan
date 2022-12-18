@@ -36,7 +36,7 @@ namespace ltn::c {
 	// compiles an variable read accessc
 	sst::expr_ptr analyze_expr(
 		const ast::Var & expr,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 
 		const auto & name = expr.name;
@@ -47,7 +47,7 @@ namespace ltn::c {
 			return std::make_unique<sst::Var>(var->address, var->type);
 		}
 		
-		const auto * def = info.definition_table.resolve(
+		const auto * def = context.definition_table.resolve(
 			name,
 			namespaze,
 			expr.namespaze);
@@ -68,11 +68,11 @@ namespace ltn::c {
 	
 	sst::expr_ptr analyze_expr(
 		const ast::Member & access,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 
-		const auto id = info.member_table.get_id(access.name);
-		auto expr = analyze_expression(*access.expr, info, scope);
+		const auto id = context.member_table.get_id(access.name);
+		auto expr = analyze_expression(*access.expr, context, scope);
 		return std::make_unique<sst::Member>(type::Any{}, std::move(expr), id);
 	}
 }

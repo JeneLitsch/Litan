@@ -4,22 +4,22 @@
 
 namespace ltn::c {
 	namespace {
-		std::string to_str(const std::string & msg, const SourceLocation & info) {
+		std::string to_str(const std::string & msg, const SourceLocation & context) {
 			std::stringstream ss;
 			ss 	<< "[Litan Compiler Error] ";
-			if(!info.sourcename.empty()) {
-				ss << "\"" << info.sourcename << "\"" << " "; 
+			if(!context.sourcename.empty()) {
+				ss << "\"" << context.sourcename << "\"" << " "; 
 			}
-			if(info.line) {
-				ss	<< "line:" << info.line << " "; 
+			if(context.line) {
+				ss	<< "line:" << context.line << " "; 
 			}
 			ss	<< msg;
 			return ss.str();
 		}
 	}
 
-	CompilerError::CompilerError(const std::string & msg, const SourceLocation & info)
-		:	std::runtime_error(to_str(msg, info)) {}
+	CompilerError::CompilerError(const std::string & msg, const SourceLocation & context)
+		:	std::runtime_error(to_str(msg, context)) {}
 
 
 	CompilerError::CompilerError(const std::string & msg)

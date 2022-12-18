@@ -40,11 +40,11 @@ namespace ltn::c {
 	// compiles a binary operation
 	sst::expr_ptr analyze_expr(
 		const ast::Binary & binary,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 		
-		auto l = analyze_expression(*binary.l, info, scope);
-		auto r = analyze_expression(*binary.r, info, scope);
+		auto l = analyze_expression(*binary.l, context, scope);
+		auto r = analyze_expression(*binary.r, context, scope);
 		const auto op = static_cast<sst::Binary::Op>(binary.type);
 		const auto type = deduce_type(op, l->type, r->type);
 

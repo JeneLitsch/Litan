@@ -36,10 +36,10 @@ namespace ltn::c {
 		sst::Reflect::FunctionQuery analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::FunctionQuery & query,
-			CompilerInfo & info,
+			Context & context,
 			Scope & scope) {
 
-			const auto * fx = info.fx_table.resolve(
+			const auto * fx = context.fx_table.resolve(
 				query.name,
 				query.namespaze,
 				query.arity
@@ -49,7 +49,7 @@ namespace ltn::c {
 				throw undefined_function(query.name, ast::Node{{}});
 			}
 			
-			info.fx_queue.stage_function(*fx);
+			context.fx_queue.stage_function(*fx);
 			return fx_to_query(*fx);
 		}
 
@@ -58,14 +58,14 @@ namespace ltn::c {
 		sst::Reflect::NamespaceQuery analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::NamespaceQuery & query,
-			CompilerInfo & info,
+			Context & context,
 			Scope & scope) {
 
 			sst::Reflect::NamespaceQuery sst_query;
 			sst_query.namespaze = query.namespaze;
-			for(const auto & fx : info.fx_table.get_symbols()) {
+			for(const auto & fx : context.fx_table.get_symbols()) {
 				if(fx->namespaze == query.namespaze) {
-					info.fx_queue.stage_function(*fx);
+					context.fx_queue.stage_function(*fx);
 					sst_query.functions.push_back(fx_to_query(*fx));
 				}
 			}
@@ -78,7 +78,7 @@ namespace ltn::c {
 		sst::Reflect::LineQuery analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::LineQuery & query,
-			CompilerInfo & info,
+			Context & context,
 			Scope & scope) {
 
 			return sst::Reflect::LineQuery {
@@ -91,7 +91,7 @@ namespace ltn::c {
 		auto analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::FileQuery & query,
-			CompilerInfo & info,
+			Context & context,
 			Scope & scope) {
 
 			return sst::Reflect::FileQuery {
@@ -104,12 +104,12 @@ namespace ltn::c {
 		auto analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::LocationQuery & query,
-			CompilerInfo & info,
+			Context & context,
 			Scope & scope) {
 
 			return sst::Reflect::LocationQuery {
-				.line = analyze_reflect_query(refl, query.line, info, scope), 
-				.file = analyze_reflect_query(refl, query.file, info, scope), 
+				.line = analyze_reflect_query(refl, query.line, context, scope), 
+				.file = analyze_reflect_query(refl, query.file, context, scope), 
 			};
 		}
 
@@ -117,10 +117,10 @@ namespace ltn::c {
 		auto analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::ExprQuery & query,
-			CompilerInfo & info,
+			Context & context,
 			Scope & scope) {
 			
-			const auto expr = analyze_expression(*query.expr, info, scope);
+			const auto expr = analyze_expression(*query.expr, context, scope);
 
 			return sst::Reflect::ExprQuery {
 				.type_query = sst::Reflect::TypeQuery{
@@ -133,7 +133,7 @@ namespace ltn::c {
 		auto analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::TypeQuery & query,
-			CompilerInfo & info,
+			Context & context,
 			Scope & scope) {
 
 			return sst::Reflect::TypeQuery {
@@ -146,17 +146,17 @@ namespace ltn::c {
 
 	sst::expr_ptr analyze_expr(
 		const ast::DeclType & expr,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 		
-		auto result = analyze_expression(*expr.expression, info, scope);
+		auto result = analyze_expression(*expr.expression, context, scope);
 		const auto type = result->type;
 
 		return std::make_unique<sst::Reflect>(
 			sst::Reflect::TypeQuery {
 				.type = type
 			},
-			make_member_addrs(info.member_table),
+			make_member_addrs(context.member_table),
 			type::Any{}
 		);
 	}
@@ -166,14 +166,14 @@ namespace ltn::c {
 	// compiles array literal
 	sst::expr_ptr analyze_expr(
 		const ast::Reflect & refl,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 			
 		return std::make_unique<sst::Reflect>(
 			std::visit([&] (const auto & query) -> sst::Reflect::Query {
-				return analyze_reflect_query(refl, query, info, scope);
+				return analyze_reflect_query(refl, query, context, scope);
 			}, refl.query),
-			make_member_addrs(info.member_table),		
+			make_member_addrs(context.member_table),		
 			type::Any{}
 		);
 	}

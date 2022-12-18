@@ -22,12 +22,12 @@ namespace ltn::c {
 
 		auto analyze_except(	
 			const ast::Except & except,
-			CompilerInfo & info,
+			Context & context,
 			const auto & namespaze) {
 			
 			MajorScope scope{namespaze, false};
 			scope.insert(except.errorname, except.location);
-			auto body = analyze_statement(*except.body, info, scope);
+			auto body = analyze_statement(*except.body, context, scope);
 			return std::make_unique<sst::Except>(
 				except.errorname,
 				std::move(body)
@@ -37,14 +37,14 @@ namespace ltn::c {
 		// compiles Litan function
 		sst::func_ptr analyze_function(
 			const ast::Function & fx,
-			CompilerInfo & info,
+			Context & context,
 			Scope & scope,
 			std::vector<std::unique_ptr<sst::Var>> capture,
 			std::optional<std::string> override_id = std::nullopt) {
 
 			const auto id = override_id.value_or(fx.id);
 			auto parameters = analyze_parameters(fx.parameters, scope, fx.location);
-			auto body = analyze_statement(*fx.body, info, scope);
+			auto body = analyze_statement(*fx.body, context, scope);
 			auto sst_fx = std::make_unique<sst::Function>(
 				id,
 				fx.name,
@@ -58,7 +58,7 @@ namespace ltn::c {
 			sst_fx->pr1vate = fx.pr1vate;
 			sst_fx->capture = std::move(capture);
 			if(fx.except) {
-				sst_fx->except = analyze_except(*fx.except, info, fx.namespaze);
+				sst_fx->except = analyze_except(*fx.except, context, fx.namespaze);
 			} 
 
 			return sst_fx;
@@ -95,12 +95,12 @@ namespace ltn::c {
 	// compiles functional node
 	sst::func_ptr analyze_functional(
 		const ast::Functional & functional,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope,
 		std::optional<std::string> override_id) {
 
 		if(auto fx = as<const ast::Function>(functional)) {
-			return analyze_function(*fx, info, scope, {}, override_id);
+			return analyze_function(*fx, context, scope, {}, override_id);
 		}
 		if(auto fx = as<const ast::BuildIn>(functional)) {
 			return analyze_build_in_function(*fx, scope, override_id);
@@ -114,21 +114,21 @@ namespace ltn::c {
 	// compiles functional node
 	sst::func_ptr analyze_functional(
 		const ast::Functional & functional,
-		CompilerInfo & info) {
+		Context & context) {
 
 		FunctionScope scope {
 			functional.namespaze,
 			functional.c0nst,
 		};
 		scope.set_return_type(instantiate_type(functional.return_type, scope));
-		return analyze_functional(functional, info, scope, std::nullopt);
+		return analyze_functional(functional, context, scope, std::nullopt);
 	}
 
 
 
 	sst::func_ptr analyze_function_template(
 		const ast::FunctionTemplate & tmpl,
-		CompilerInfo & info,
+		Context & context,
 		const std::vector<type::Type> & arguments) {
 
 		FunctionScope scope {
@@ -139,14 +139,14 @@ namespace ltn::c {
 		add_template_args(scope, tmpl.template_parameters, arguments);
 		scope.set_return_type(instantiate_type(tmpl.fx->return_type, scope));
 		const auto id = make_template_id(*tmpl.fx, arguments);
-		return analyze_functional(*tmpl.fx, info, scope, id);
+		return analyze_functional(*tmpl.fx, context, scope, id);
 	}
 
 
 
 	sst::expr_ptr analyze_expr(
 		const ast::Lambda & lm,
-		CompilerInfo & info,
+		Context & context,
 		Scope & outer_scope) {
 		
 		const auto & fx = *lm.fx;
@@ -167,12 +167,12 @@ namespace ltn::c {
 		}
 
 		// compile function
-		auto sst_fx = analyze_function(*lm.fx, info, inner_scope, std::move(load_captures));
+		auto sst_fx = analyze_function(*lm.fx, context, inner_scope, std::move(load_captures));
 
 		// store captures
 		std::vector<std::unique_ptr<sst::Var>> store_captures;
 		for(const auto & capture : lm.captures) {
-			store_captures.push_back(stx::static_unique_cast<sst::Var>(analyze_expr(*capture, info, outer_scope)));
+			store_captures.push_back(stx::static_unique_cast<sst::Var>(analyze_expr(*capture, context, outer_scope)));
 		}
 
 

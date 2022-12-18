@@ -8,17 +8,17 @@ namespace ltn::c {
 
 	sst::stmt_ptr analyze_stmt(
 		const ast::IfElse & stmt,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 		MinorScope if_scope{&scope};
 		
-		auto condition = analyze_expression(*stmt.condition, info, scope);
-		auto if_branch = analyze_statement(*stmt.if_branch, info, if_scope);
+		auto condition = analyze_expression(*stmt.condition, context, scope);
+		auto if_branch = analyze_statement(*stmt.if_branch, context, if_scope);
 		
 		if(has_else_branch(stmt)) {
 			MinorScope else_scope{&scope};
 			
-			auto else_branch = analyze_statement(*stmt.else_branch, info, else_scope);
+			auto else_branch = analyze_statement(*stmt.else_branch, context, else_scope);
 			
 			const auto total_var_count = std::max(
 				if_branch->local_vars,

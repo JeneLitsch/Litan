@@ -21,9 +21,9 @@ namespace ltn::c {
 		auto resolve_fx_ptr_normal(
 			const ast::FxPointer & fx_ptr,
 			Scope & scope,
-			CompilerInfo & info) {
+			Context & context) {
 
-			const auto fx = info.fx_table.resolve(
+			const auto fx = context.fx_table.resolve(
 				fx_ptr.name,
 				scope.get_namespace(),
 				fx_ptr.namespaze,
@@ -31,7 +31,7 @@ namespace ltn::c {
 
 			if(!fx) throw undefined_function(fx_ptr.name, fx_ptr);
 
-			info.fx_queue.stage_function(*fx);
+			context.fx_queue.stage_function(*fx);
 
 			return std::tuple{fx, fx->id};
 		}
@@ -41,14 +41,14 @@ namespace ltn::c {
 		auto resolve_fx_ptr_template(
 			const ast::FxPointer & fx_ptr,
 			Scope & scope,
-			CompilerInfo & info) {
+			Context & context) {
 			const auto tmpl = get_template(
 				fx_ptr.name,
 				fx_ptr.namespaze,
 				fx_ptr.placeholders,
 				fx_ptr.template_arguements.size(),
 				fx_ptr.location,
-				info,
+				context,
 				scope
 			);
 
@@ -57,7 +57,7 @@ namespace ltn::c {
 				scope
 			);
 
-			info.fx_queue.stage_template(*tmpl, arguments);
+			context.fx_queue.stage_template(*tmpl, arguments);
 			
 			add_template_args(
 				scope,
@@ -85,12 +85,12 @@ namespace ltn::c {
 		auto resolve_fx_ptr(
 			const ast::FxPointer & fx_ptr,
 			Scope & scope,
-			CompilerInfo & info) {
+			Context & context) {
 			if(refers_to_template(fx_ptr)) {
-				return resolve_fx_ptr_template(fx_ptr, scope, info);
+				return resolve_fx_ptr_template(fx_ptr, scope, context);
 			}
 			else {
-				return resolve_fx_ptr_normal(fx_ptr, scope, info);
+				return resolve_fx_ptr_normal(fx_ptr, scope, context);
 			}
 		}
 	}
@@ -98,11 +98,11 @@ namespace ltn::c {
 
 	sst::expr_ptr analyze_expr(
 		const ast::FxPointer & fx_ptr,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 
 		MinorScope inner_scope{&scope};
-		auto [funtional, id] = resolve_fx_ptr(fx_ptr, inner_scope, info);
+		auto [funtional, id] = resolve_fx_ptr(fx_ptr, inner_scope, context);
 
 		const auto return_type 
 			= instantiate_type(funtional->return_type, inner_scope);

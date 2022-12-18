@@ -8,7 +8,7 @@
 namespace ltn::c {
 	class CompilerError : public std::runtime_error {
 	public:
-		CompilerError(const std::string & msg, const SourceLocation & info);
+		CompilerError(const std::string & msg, const SourceLocation & context);
 		explicit CompilerError(const std::string & msg);
 	private:
 	};

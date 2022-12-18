@@ -5,22 +5,22 @@ namespace ltn::c {
 	auto analyze_cases(
 		auto && body_fx,
 		const auto & sw1tch,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 		
-		using BodyExpr = decltype(body_fx(sw1tch, info, scope));
+		using BodyExpr = decltype(body_fx(sw1tch, context, scope));
 
 		InvalidFunctionTable fx_table {"case"};
 		InvalidFunctionTemplateTable fx_template_table {"case"};
 		InvalidGlobalTable global_table {"case"};
-		CompilerInfo case_info {
+		Context case_context {
 			.fx_table = fx_table,
 			.fx_template_table = fx_template_table,
-			.fx_queue		   = info.fx_queue,
-			.definition_table = info.definition_table, 
-			.member_table = info.member_table, 
+			.fx_queue		   = context.fx_queue,
+			.definition_table = context.definition_table, 
+			.member_table = context.member_table, 
 			.global_table = global_table,
-			.reporter = info.reporter
+			.reporter = context.reporter
 		};
 
 		MajorScope case_scope {
@@ -32,8 +32,8 @@ namespace ltn::c {
 
 		for(const auto & [expr, body] : sw1tch.cases) {
 			cases.push_back({
-				analyze_expression(*expr, case_info, case_scope),
-				body_fx(*body, info, scope)
+				analyze_expression(*expr, case_context, case_scope),
+				body_fx(*body, context, scope)
 			});
 		}
 
@@ -44,12 +44,12 @@ namespace ltn::c {
 
 	sst::stmt_ptr analyze_stmt(
 		const ast::StmtSwitch & sw1tch,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 		
-		auto condition = analyze_expression(*sw1tch.condition, info, scope);
-		auto cases = analyze_cases(analyze_statement, sw1tch, info, scope);
-		auto def4ault = analyze_statement(*sw1tch.d3fault, info, scope);
+		auto condition = analyze_expression(*sw1tch.condition, context, scope);
+		auto cases = analyze_cases(analyze_statement, sw1tch, context, scope);
+		auto def4ault = analyze_statement(*sw1tch.d3fault, context, scope);
 
 
 		auto sst_sw1tch = std::make_unique<sst::StmtSwitch>(0, false);
@@ -63,12 +63,12 @@ namespace ltn::c {
 
 	sst::expr_ptr analyze_expr(
 		const ast::ExprSwitch & sw1tch,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 		
-		auto condition = analyze_expression(*sw1tch.condition, info, scope);
-		auto cases = analyze_cases(analyze_expression, sw1tch, info, scope);
-		auto def4ault = analyze_expression(*sw1tch.d3fault, info, scope);
+		auto condition = analyze_expression(*sw1tch.condition, context, scope);
+		auto cases = analyze_cases(analyze_expression, sw1tch, context, scope);
+		auto def4ault = analyze_expression(*sw1tch.d3fault, context, scope);
 
 		type::Type deduced_type = def4ault->type;
 		for(const auto & [expr, body] : cases) {

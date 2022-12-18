@@ -20,9 +20,9 @@ namespace ltn::c {
 
 	sst::expr_ptr analyze_expr(
 		const ast::TypedUnary & tunary,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
-		auto expr = analyze_expression(*tunary.expr, info, scope);
+		auto expr = analyze_expression(*tunary.expr, context, scope);
 		const auto target_type = instantiate_type(tunary.type, scope);
 		const auto op = static_cast<sst::TypedUnary::Op>(tunary.op);
 		const auto type = deduce_type(op, target_type);

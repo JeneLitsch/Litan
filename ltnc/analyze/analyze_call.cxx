@@ -18,7 +18,7 @@ namespace ltn::c {
 		sst::expr_ptr do_call(
 			const ast::Call & call,
 			const ast::Functional & fx,
-			CompilerInfo & info,
+			Context & context,
 			Scope & scope,
 			const std::optional<std::string> id_override = std::nullopt) {
 
@@ -34,7 +34,7 @@ namespace ltn::c {
 			for(std::size_t i = 0; i < call.parameters.size(); ++i) {
 				auto & arg_expr = call.parameters[i];
 				auto & parameter = fx.parameters[i];
-				auto arg = analyze_expression(*arg_expr, info, scope);
+				auto arg = analyze_expression(*arg_expr, context, scope);
 				const auto expr_type = arg->type;
 				const auto param_type = instantiate_type(parameter.type, scope);
 				arguments.push_back(conversion_on_pass(std::move(arg), param_type, {call.location,i}));
@@ -47,12 +47,12 @@ namespace ltn::c {
 
 
 
-		sst::expr_ptr do_invoke(const ast::Call & call, CompilerInfo & info, Scope & scope) {
-			auto expr = analyze_expression(*call.function_ptr, info, scope);
+		sst::expr_ptr do_invoke(const ast::Call & call, Context & context, Scope & scope) {
+			auto expr = analyze_expression(*call.function_ptr, context, scope);
 
 			std::vector<sst::expr_ptr> arguments;
 			for(const auto & param : call.parameters) {
-				arguments.push_back(analyze_expression(*param, info, scope));
+				arguments.push_back(analyze_expression(*param, context, scope));
 			}
 
 			const auto type = type::deduce_invokation(expr->type);
@@ -68,7 +68,7 @@ namespace ltn::c {
 		sst::expr_ptr do_call_template(
 			const ast::Call & call,
 			const ast::Var & var,
-			CompilerInfo & info,
+			Context & context,
 			Scope & scope) {
 			
 			const auto tmpl = get_template(
@@ -77,62 +77,62 @@ namespace ltn::c {
 				call.parameters.size(),
 				call.template_args.size(),
 				var.location,
-				info,
+				context,
 				scope
 			);
 			const auto arguments = stx::fx::mapped(instantiate_type)(
 				call.template_args,
 				scope
 			);
-			info.fx_queue.stage_template(*tmpl, arguments);
+			context.fx_queue.stage_template(*tmpl, arguments);
 			const auto id = make_template_id(*tmpl->fx, arguments);
 			MinorScope inner_scope(&scope);
 			add_template_args(
 				inner_scope,
 				tmpl->template_parameters,
 				call.template_args);
-			return do_call(call, *tmpl->fx, info, inner_scope, id);
+			return do_call(call, *tmpl->fx, context, inner_scope, id);
 		}
 	}
 
 
 
 	// compiles function call fx(...)
-	sst::expr_ptr analyze_expr(const ast::Call & call, CompilerInfo & info, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::Call & call, Context & context, Scope & scope) {
 		const auto * var = as<ast::Var>(*call.function_ptr);
 		if(var) {
 			if(!call.template_args.empty()) {
-				return do_call_template(call, *var, info, scope);
+				return do_call_template(call, *var, context, scope);
 			}
 			if(var->namespaze.empty()) {
 				const auto * local = scope.resolve(var->name, var->location);
 				if(local) {
-					return do_invoke(call, info, scope);
+					return do_invoke(call, context, scope);
 				}
 			}
 
-			const auto * fx = info.fx_table.resolve(
+			const auto * fx = context.fx_table.resolve(
 				var->name,
 				scope.get_namespace(),
 				var->namespaze,
 				call.parameters.size());
 
 			if(fx) {
-				info.fx_queue.stage_function(*fx);
-				return do_call(call, *fx, info, scope);
+				context.fx_queue.stage_function(*fx);
+				return do_call(call, *fx, context, scope);
 			}
 
-			const auto * def = info.definition_table.resolve(
+			const auto * def = context.definition_table.resolve(
 				var->name,
 				scope.get_namespace(),
 				var->namespaze);
 			if(def) {
-				return do_invoke(call, info, scope);
+				return do_invoke(call, context, scope);
 			}
 
 			throw undefined_function(var->name, call);
 		}
 
-		return do_invoke(call, info, scope);
+		return do_invoke(call, context, scope);
 	}
 }

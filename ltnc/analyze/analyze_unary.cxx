@@ -21,10 +21,10 @@ namespace ltn::c {
 
 	sst::expr_ptr analyze_expr(
 		const ast::Unary & unary,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 		
-		auto expr = analyze_expression(*unary.expression, info, scope);
+		auto expr = analyze_expression(*unary.expression, context, scope);
 		const auto op = static_cast<sst::Unary::Op>(unary.type);
 		const auto type = deduce_type(op, expr->type);
 		return std::make_unique<sst::Unary>(op, std::move(expr), type);

@@ -4,11 +4,11 @@ namespace ltn::c {
 	// compiles index read operation
 	sst::expr_ptr analyze_expr(
 		const ast::Index & index,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 
-		auto arr = analyze_expression(*index.expression, info, scope);
-		auto idx = analyze_expression(*index.index, info, scope);
+		auto arr = analyze_expression(*index.expression, context, scope);
+		auto idx = analyze_expression(*index.index, context, scope);
 		
 		const auto type = type::deduce_index(arr->type, idx->type);
 

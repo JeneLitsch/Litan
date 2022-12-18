@@ -33,10 +33,10 @@ namespace ltn::c {
 
 	sst::expr_ptr analyze_expr(
 		const ast::GlobalVar & global_var,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 		
-		auto & global = resolve_static(global_var, info.global_table, scope);
+		auto & global = resolve_static(global_var, context.global_table, scope);
 
 		return std::make_unique<sst::GlobalVar>(global.type, global.id);
 	}
@@ -45,10 +45,10 @@ namespace ltn::c {
 
 	sst::expr_ptr analyze_write_global(
 		const ast::GlobalVar & global_var,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 
-		const auto & global = resolve_static(global_var, info.global_table, scope);
+		const auto & global = resolve_static(global_var, context.global_table, scope);
 		return std::make_unique<sst::GlobalVar>(global.type, global.id);
 	}
 
@@ -56,10 +56,10 @@ namespace ltn::c {
 
 	sst::expr_ptr analyze_write_define(
 		const ast::Var & def,
-		CompilerInfo & info,
+		Context & context,
 		Scope & scope) {
 
-		const auto & statik = resolve_static(def, info.definition_table, scope);
+		const auto & statik = resolve_static(def, context.definition_table, scope);
 		return std::make_unique<sst::Var>(statik.id, statik.type);
 	}
 }

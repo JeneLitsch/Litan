@@ -17,7 +17,7 @@
 #include "FunctionQueue.hxx"
 
 namespace ltn::c {
-	struct CompilerInfo {
+	struct Context {
 		FunctionTable & fx_table;
 		FunctionTemplateTable & fx_template_table;
 		FunctionQueue & fx_queue;
