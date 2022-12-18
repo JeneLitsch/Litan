@@ -1,6 +1,16 @@
 namespace sphinx::test {
 	global g;
 
+	function new_local_default() {
+		var x;
+		assert_equal_strict(x, null);
+	}
+
+	function new_local() {
+		var x = 42;
+		assert_equal_strict(x, 42);
+	}
+
 	function assign_local() {
 		var x = 4;
 		x = 42;

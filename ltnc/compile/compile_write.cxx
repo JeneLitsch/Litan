@@ -44,25 +44,9 @@ namespace ltn::c {
 
 
 
-	namespace {
-		InstructionBuffer compile_new_variable_right(const sst::NewVar & new_var) {
-			
-			if(new_var.expression) {
-				return compile_expression(*new_var.expression);
-			}
-			else {
-				InstructionBuffer buf;
-				buf << inst::null();
-				return buf;
-			}
-		}
-	}
-
-
-
 	InstructionBuffer compile_stmt(const sst::NewVar & new_var) {
 		InstructionBuffer buf;
-		buf <<  compile_new_variable_right(new_var);
+		buf << compile_expression(*new_var.expression);
 		buf << inst::write_x(new_var.addr);
 		return buf;
 	}
