@@ -34,43 +34,17 @@ namespace ltn::c {
 
 namespace ltn::c {
 	namespace {
-		sst::Var accessor(const sst::Definition & def) {
-			return sst::Var { def.id, def.type };
-		}
-
-		sst::GlobalVar accessor(const sst::Global & def) {
-			return sst::GlobalVar { def.type, def.id };
-		}
-
-
-		InstructionBuffer static_init(
-			auto & statics,
-			auto & compile_write) {
-			
-
+		InstructionBuffer static_init(auto & statics) {
 
 			InstructionBuffer buf;
 			for(const auto & s : statics) {
 				if(s->expr) {
-					MajorScope scope { s->namespaze, false };
-					const auto a = accessor(*s);
 					buf << compile_expression(*s->expr);
-					buf << compile_write(a);
+					buf << inst::global_write(s->id);
 				}
 			}
 
 			return buf;
-		}
-
-		
-		InstructionBuffer global_init(auto & globals) {
-			return static_init(globals, compile_write_global);
-		}
-
-		
-		
-		InstructionBuffer define_init(auto & globals) {
-			return static_init(globals, compile_write_define);
 		}
 
 
@@ -200,8 +174,8 @@ namespace ltn::c {
 		
 		InstructionBuffer buf;
 
-		buf << define_init(program.definitions);
-		buf << global_init(program.globals);
+		buf << static_init(program.definitions);
+		buf << static_init(program.globals);
 
 
 		// buf << static_init(info, program.definitions);
