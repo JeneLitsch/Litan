@@ -1,0 +1,28 @@
+namespace sphinx::test {
+	global g;
+
+	function assign_local() {
+		var x = 4;
+		x = 42;
+		assert_equal_strict(x, 42);
+	}
+
+	function assign_index() {
+		var x = [0,0,0];
+		x[0] = 1;
+		x[1] = 2;
+		x[2] = 3;
+		assert_equal_strict(x, [1,2,3]);
+	}
+
+	function assign_member() {
+		var x = std::struct();
+		x.a = 42;
+		assert_equal_strict(x.a, 42);
+	}
+
+	function assign_global() {
+		global g = 42;
+		assert_equal_strict(global g, 42);
+	}
+}

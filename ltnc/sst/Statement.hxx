@@ -200,17 +200,69 @@ namespace ltn::c::sst {
 
 
 
-	struct Assign final : public Statement {
-	public:
-		Assign(
-			std::size_t local_vars, bool direct_allocation,
-			std::unique_ptr<Expression> l,
+	struct AssignGlobal final : public Statement {
+		AssignGlobal(
+			std::size_t local_vars,
+			bool direct_allocation,
+			std::uint64_t addr,
 			std::unique_ptr<Expression> r)
-			: Statement{local_vars, direct_allocation}, l(std::move(l)), r(std::move(r)) {}
-		virtual ~Assign() = default;
-		std::unique_ptr<Expression> l;
+			: Statement{local_vars, direct_allocation}, addr{addr}, r(std::move(r)) {}
+		virtual ~AssignGlobal() = default;
+		std::uint64_t addr;
 		std::unique_ptr<Expression> r;
 	};
+
+
+
+	struct AssignMember final : public Statement {
+		AssignMember(
+			std::size_t local_vars,
+			bool direct_allocation,
+			std::unique_ptr<Expression> object,
+			std::uint64_t addr,
+			std::unique_ptr<Expression> r)
+			: Statement{local_vars, direct_allocation},
+			  object{std::move(object)},
+			  addr{addr},
+			  r(std::move(r)) {}
+		virtual ~AssignMember() = default;
+		std::unique_ptr<Expression> object;
+		std::uint64_t addr;
+		std::unique_ptr<Expression> r;
+	};
+
+
+
+	struct AssignLocal final : public Statement {
+		AssignLocal(
+			std::size_t local_vars,
+			bool direct_allocation,
+			std::uint64_t addr,
+			std::unique_ptr<Expression> r)
+			: Statement{local_vars, direct_allocation}, addr{addr}, r(std::move(r)) {}
+		virtual ~AssignLocal() = default;
+		std::uint64_t addr;
+		std::unique_ptr<Expression> r;
+	};
+
+
+	struct AssignIndex final : public Statement {
+		AssignIndex(
+			std::size_t local_vars,
+			bool direct_allocation,
+			std::unique_ptr<Expression> range,
+			std::unique_ptr<Expression> index,
+			std::unique_ptr<Expression> r)
+			: Statement{local_vars, direct_allocation},
+			  range{std::move(range)},
+			  index{std::move(index)},
+			  r(std::move(r)) {}
+		virtual ~AssignIndex() = default;
+		std::unique_ptr<Expression> range;
+		std::unique_ptr<Expression> index;
+		std::unique_ptr<Expression> r;
+	};
+
 
 	using StmtSwitch = Switch<Statement, Statement>;
 
@@ -229,7 +281,10 @@ namespace ltn::c::sst {
 		if(auto s = as<sst::StmtSwitch>(stmt)) return fx(*s);
 		if(auto s = as<sst::StatementExpression>(stmt)) return fx(*s);
 		if(auto s = as<sst::DoNothing>(stmt)) return fx(*s);
-		if(auto s = as<sst::Assign>(stmt)) return fx(*s);
-		throw std::runtime_error{"Unknown statement"};
+		if(auto s = as<sst::AssignLocal>(stmt)) return fx(*s);
+		if(auto s = as<sst::AssignIndex>(stmt)) return fx(*s);
+		if(auto s = as<sst::AssignMember>(stmt)) return fx(*s);
+		if(auto s = as<sst::AssignGlobal>(stmt)) return fx(*s);
+		throw std::runtime_error{"Unknown SST statement"};
 	}
 }

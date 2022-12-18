@@ -3,78 +3,42 @@
 #include <iostream>
 
 namespace ltn::c {
-	namespace {
-
-		// compile assignable variable
-		InstructionBuffer compile_read_ref(const sst::Assignable & expr) {
-			
-			if(auto e = as<sst::Var>(expr)) {
-				return {};
-			}
-			
-			if(auto index = as<sst::Index>(expr)) {
-				InstructionBuffer buf;
-				buf << compile_expression(*index->expression);
-				return buf;
-			}
-			
-			if(auto e = as<sst::Member>(expr)) {
-				InstructionBuffer buf;
-				buf << compile_expression(*e->expr);
-				return InstructionBuffer{ buf };
-			}
-
-			if(auto g = as<sst::GlobalVar>(expr)) {
-				return {};
-			}
-			
-			throw std::runtime_error{"Unknow assingable type"};
-		}
-
-
-
-		InstructionBuffer compile_write(const sst::Assignable & expr) {
-			
-			if(auto e = as<sst::Var>(expr)) {
-				InstructionBuffer buf;
-				buf << inst::write_x(e->addr);
-				return buf;
-			}
-			
-			if(auto e = as<sst::Index>(expr)) {
-				const auto idx = compile_expression(*e->index);
-				InstructionBuffer buf;
-				buf << idx;
-				buf << inst::at_write();
-				return buf;
-			}
-			
-			if(auto e = as<sst::Member>(expr)) {
-				InstructionBuffer buf;
-				buf << inst::member_write(e->addr);
-				return buf;
-			}
-			
-			if(auto global = as<sst::GlobalVar>(expr)) {
-				return compile_write_global(*global);
-			}
-
-			throw std::runtime_error{"Unknown assingable type"};
-		}
+	InstructionBuffer compile_stmt(const sst::AssignLocal & stmt) {
+		const auto r = compile_expression(*stmt.r);
+		InstructionBuffer buf;
+		buf << r;
+		buf << inst::write_x(stmt.addr);
+		return buf;
 	}
 
 
 
+	InstructionBuffer compile_stmt(const sst::AssignIndex & stmt) {
+		InstructionBuffer buf;
+		buf << compile_expression(*stmt.r);
+		buf << compile_expression(*stmt.range);
+		buf << compile_expression(*stmt.index);
+		buf << inst::at_write();
+		return buf;
+	}
 
-	InstructionBuffer compile_stmt(const sst::Assign & expr) {
-		const auto l_prepare = compile_read_ref(static_cast<sst::Assignable&>(*expr.l));
-		const auto l_write = compile_write(static_cast<sst::Assignable&>(*expr.l));
-		const auto r = compile_expression(*expr.r);
 
+
+	InstructionBuffer compile_stmt(const sst::AssignMember & stmt) {
+		InstructionBuffer buf;
+		buf << compile_expression(*stmt.r);
+		buf << compile_expression(*stmt.object);
+		buf << inst::member_write(stmt.addr);
+		return buf;
+	}
+
+
+
+	InstructionBuffer compile_stmt(const sst::AssignGlobal & stmt) {
+		const auto r = compile_expression(*stmt.r);
 		InstructionBuffer buf;
 		buf << r;
-		buf << l_prepare;
-		buf << l_write;
+		buf << inst::global_write(stmt.addr);
 		return buf;
 	}
 

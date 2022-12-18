@@ -22,7 +22,10 @@ namespace ltn::c {
 	InstructionBuffer compile_statement(const sst::Statement &);
 	InstructionBuffer compile_stmt(const sst::Block &);
 	InstructionBuffer compile_stmt(const sst::Return &);
-	InstructionBuffer compile_stmt(const sst::Assign &);
+	InstructionBuffer compile_stmt(const sst::AssignLocal &);
+	InstructionBuffer compile_stmt(const sst::AssignIndex &);
+	InstructionBuffer compile_stmt(const sst::AssignMember &);
+	InstructionBuffer compile_stmt(const sst::AssignGlobal &);
 	InstructionBuffer compile_stmt(const sst::Throw &);
 	InstructionBuffer compile_stmt(const sst::InitMember &);
 	InstructionBuffer compile_stmt(const sst::IfElse &);

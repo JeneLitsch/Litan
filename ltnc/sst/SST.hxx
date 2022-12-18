@@ -14,7 +14,6 @@ namespace ltn::c::sst {
 		std::vector<defn_ptr> definitions;
 		std::vector<glob_ptr> globals;
 	};
-
 	template<typename T>
 	concept literal_type = std::is_base_of<sst::Literal, T>::value;
 }

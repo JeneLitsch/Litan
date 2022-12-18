@@ -206,6 +206,6 @@ namespace ltn::c::ast {
 		if(auto s = as<ast::StatementExpression>(stmt)) return fx(*s);
 		if(auto s = as<ast::DoNothing>(stmt)) return fx(*s);
 		if(auto s = as<ast::Assign>(stmt)) return fx(*s);
-		throw std::runtime_error{"Unknown statement"};
+		throw std::runtime_error{"Unknown AST statement"};
 	}
 }
