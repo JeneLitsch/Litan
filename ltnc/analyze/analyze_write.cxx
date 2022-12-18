@@ -61,6 +61,15 @@ namespace ltn::c {
 	}
 
 
+	void guard_const(const ast::Node & node, const Scope & scope) {
+		if(scope.is_const()) {
+			throw CompilerError{
+				"Cannot modify or reassign variable in const function",
+				node.location};
+		}
+	}
+
+
 
 	sst::stmt_ptr analyze_stmt(
 		const ast::Assign & expr,

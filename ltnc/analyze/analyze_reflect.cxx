@@ -144,6 +144,25 @@ namespace ltn::c {
 
 
 
+	sst::expr_ptr analyze_expr(
+		const ast::DeclType & expr,
+		CompilerInfo & info,
+		Scope & scope) {
+		
+		auto result = analyze_expression(*expr.expression, info, scope);
+		const auto type = result->type;
+
+		return std::make_unique<sst::Reflect>(
+			sst::Reflect::TypeQuery {
+				.type = type
+			},
+			make_member_addrs(info.member_table),
+			type::Any{}
+		);
+	}
+
+
+
 	// compiles array literal
 	sst::expr_ptr analyze_expr(
 		const ast::Reflect & refl,
@@ -155,7 +174,7 @@ namespace ltn::c {
 				return analyze_reflect_query(refl, query, info, scope);
 			}, refl.query),
 			make_member_addrs(info.member_table),		
-			type::Null{}
+			type::Any{}
 		);
 	}
 }

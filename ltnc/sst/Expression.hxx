@@ -22,21 +22,6 @@ namespace ltn::c::sst {
 	
 
 
-	struct DeclType : public Expression {
-		DeclType(
-			std::size_t name_addr,
-			std::unique_ptr<Expression> expression,
-			const type::Type & type)
-			:	Expression(type),
-				name_addr{name_addr},
-				expression(std::move(expression)) {}
-		virtual ~DeclType() = default;
-		std::size_t name_addr;
-		std::unique_ptr<Expression> expression;
-	};
-
-
-
 	struct Ternary : public Expression {
 		Ternary(
 			const type::Type & type,
@@ -449,7 +434,6 @@ namespace ltn::c::sst {
 		if(auto e = as<sst::Iife>(expr)) return fx(*e);
 		if(auto e = as<sst::Ternary>(expr)) return fx(*e);
 		if(auto e = as<sst::ExprSwitch>(expr)) return fx(*e);
-		if(auto e = as<sst::DeclType>(expr)) return fx(*e);
 		if(auto e = as<sst::TypedUnary>(expr)) return fx(*e);
 		if(auto e = as<sst::Reflect>(expr)) return fx(*e);
 		throw std::runtime_error{"Unknown Expression SST"};

@@ -66,6 +66,7 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::GlobalVar &, CompilerInfo &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::TypedUnary &, CompilerInfo &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Reflect &, CompilerInfo &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::DeclType &, CompilerInfo &, Scope &);
 
 	std::string make_template_id(
 		const ast::Functional & tmpl,
