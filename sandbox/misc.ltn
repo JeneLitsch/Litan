@@ -1,11 +1,5 @@
 function main() {
-	var refl_int = reflect(type int);
-	var refl_str = reflect(type string);
-	var refl_arr_float = reflect(type array<float>);
-	std::println(refl_int.name); 
-	std::println(refl_str.name); 
-	std::println(refl_arr_float.name); 
-
-	var refl_expr = reflect(expr 6 + 5.0);
-	std::println(refl_expr.type.name);
+	for(i : 0 -> 10) {
+	
+	}
 }

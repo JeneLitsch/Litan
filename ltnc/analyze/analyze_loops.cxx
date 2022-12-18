@@ -60,7 +60,9 @@ namespace ltn::c {
 		auto var = analyze_statement(*stmt.var, info, loop_scope);
 		auto from = analyze_expression(*stmt.from, info, loop_scope);
 		auto to = analyze_expression(*stmt.to, info, loop_scope);
-		auto step = stmt.step ? analyze_expression(*stmt.step, info, scope) : nullptr;
+		auto step = stmt.step
+			? analyze_expression(*stmt.step, info, scope)
+			: std::make_unique<sst::Integer>(1, type::Int{});
 		
 		const auto label = make_jump_id("FOR");
 

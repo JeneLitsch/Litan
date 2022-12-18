@@ -89,19 +89,15 @@ namespace ltn::c {
 			<< inst::ifelse(end);
 
 		// body
-		buf << body;
+		buf
+			<< body;
 
 		// Increments
-		buf << inst::read_x(loop.index_addr);
-		if(auto & step = loop.step) {
-			buf
-				<< compile_expression(*step)
-				<< inst::add();
-		}
-		else {
-			buf << inst::inc();
-		}
-		buf << inst::write_x(loop.index_addr);
+		buf 
+			<< inst::read_x(loop.index_addr)
+			<< compile_expression(*loop.step)
+			<< inst::add()
+			<< inst::write_x(loop.index_addr);
 
 		// End of loop
 		buf
