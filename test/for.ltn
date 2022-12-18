@@ -17,6 +17,16 @@ namespace sphinx::test {
 			}
 			return skipped;
 		}
+
+
+
+		function for_sum(begin, end) {
+			var sum = 0;
+			for (i : begin -> end) {
+				sum = sum + i;
+			}
+			return sum;
+		}
 	}
 
 
@@ -24,6 +34,8 @@ namespace sphinx::test {
     function for_loop() {
 		assert_equal(utils::for_sum(0, 0, 1), 0);
 		assert_equal(utils::for_sum(1, 3, 1), 3);
+		assert_equal(utils::for_sum(0, 0), 0);
+		assert_equal(utils::for_sum(1, 3), 3);
 		assert_equal(utils::for_sum(3, 1, -1), 5);
 		assert_equal(utils::for_sum(0, 10, 2), 20);
 		assert_equal(utils::for_sum(10, 0, -2), 30);
