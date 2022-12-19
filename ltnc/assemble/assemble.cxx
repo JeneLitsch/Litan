@@ -161,4 +161,31 @@ namespace ltn::c {
 
 		return bytecode;
 	}
+
+	namespace {
+		AddressTable build_fx_table(
+			const std::set<std::string> & fx_ids,
+			const AddressTable & jump_table) {
+			
+			AddressTable function_table;
+			for(const auto & fx_id : fx_ids) {
+				if(jump_table.contains(fx_id)) {
+					function_table[fx_id] = jump_table.at(fx_id);
+				}
+			}
+			return function_table;
+		}
+	}
+
+
+	std::vector<std::uint8_t> assemble(
+		const Instructions & instructions) {
+		
+		const auto jump_table     = scan(instructions.insts);
+		const auto function_table = build_fx_table(instructions.init_functions, jump_table);
+		const auto global_table   = instructions.global_table;
+
+		const auto bytecode = assemble(instructions.insts, jump_table, function_table, global_table);
+		return bytecode;
+	}
 }

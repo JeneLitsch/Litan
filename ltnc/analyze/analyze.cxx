@@ -75,62 +75,127 @@ namespace ltn::c {
 
 
 
-
-	sst::glob_ptr analyze_global(const ast::Global & global, Context & context) {
-		// Use empty global_table to prohibit the usage of other global variables.
-		// Functions or defines can be used though.
-		InvalidGlobalTable global_table { "the default value of another global variable" };
-		InvalidFunctionTable fx_table { "the initialization of a global variable" };
-		InvalidFunctionTemplateTable fx_template_table { "the initialization of a global variable" };
-		Context read_context {
-			.fx_table          = fx_table,
-			.fx_template_table = fx_template_table,
-			.fx_queue		   = context.fx_queue,
-			.definition_table  = context.definition_table,
-			.member_table      = context.member_table,
-			.global_table      = global_table,
-			.reporter          = context.reporter
-		};
-		MajorScope scope { global.namespaze, false };
-
-		auto sst_def = std::make_unique<sst::Global>(
-			global.name,
-			global.namespaze,
-			instantiate_type(global.type, scope)
-		);
-		if(global.expr) {
-			sst_def->expr = analyze_expression(*global.expr, read_context, scope);
+	namespace {
+		std::vector<stx::reference<const ast::Functional>> find_extern_funtions(
+			const ast::Program & source) {
+			std::vector<stx::reference<const ast::Functional>> externs;
+			for(const auto & fx : source.functions) {
+				if(fx->init) {
+					externs.push_back(*fx);
+				}
+				if(fx->name == "main" && (fx->parameters.size() == 0 || fx->parameters.size() == 1)) {
+					externs.push_back(*fx);
+				}
+			}
+			return externs;
 		}
-		return sst_def;
+
+
+
+		auto analyze_staged(const StagedFx & staged, Context & context) {
+			// std::cout << staged.fx->id << "\n";
+			return analyze_functional(*staged.fx, context); 
+		}
+
+
+
+		auto analyze_staged(const StagedTemplateFx & staged, Context & context) {
+			// std::cout << staged.tmpl->fx->id << "\n";
+			return analyze_function_template(staged.tmpl, context, staged.arguments); 
+		}
 	}
 
 
 
-	sst::defn_ptr analyze_definition(const ast::Definition & def, Context & context) {
-		// Use empty global_table to prohibit the usage of other global variables.
-		// Functions or defines can be used though.
-		InvalidDefinitionTable def_table { "definitions" };
-		InvalidGlobalTable global_table { "definitions" };
-		InvalidFunctionTable fx_table { "definitions" };
-		InvalidFunctionTemplateTable fx_template_table { "definitions" };
-		Context read_context {
-			.fx_table          = fx_table,
+	sst::Program analyze(
+		const ast::Program & source,
+		Reporter & reporter) {
+		
+		sst::Program program;
+		ValidFunctionTable fx_table;
+		FunctionQueue fx_queue;
+		ValidFunctionTemplateTable fx_template_table;
+		ValidDefinitionTable definition_table;
+		MemberTable member_table;
+		ValidGlobalTable global_table;
+		Context context {
+			.fx_table = fx_table,
 			.fx_template_table = fx_template_table,
-			.fx_queue		   = context.fx_queue,
-			.definition_table  = def_table,
-			.member_table      = context.member_table,
-			.global_table      = global_table,
-			.reporter          = context.reporter
+			.fx_queue = fx_queue,
+			.definition_table = definition_table,
+			.member_table = member_table,
+			.global_table = global_table,
+			.reporter = reporter,
 		};
-		MajorScope scope { def.namespaze, false };
-		auto sst_def = std::make_unique<sst::Definition>(
-			def.name,
-			def.namespaze,
-			instantiate_type(def.type, scope)
-		);
-		if(def.expr) {
-			sst_def->expr = analyze_expression(*def.expr, read_context, scope);
+
+
+
+		for(auto & enym : source.enums) {
+			auto definitions = analyze_enumeration(*enym);
+			for(auto & definition : definitions) {
+				program.definitions.push_back(std::move(definition));
+			}
 		}
-		return sst_def;
+
+		for(const auto & definition : source.definitions) {
+			program.definitions.push_back(analyze_definition(*definition, context));
+		}
+
+		for(const auto & def : program.definitions) {
+			context.definition_table.insert(*def);
+		}
+
+
+
+		for(const auto & global : source.globals) {
+			program.globals.push_back(analyze_global(*global, context));
+		}
+
+		for(const auto & glob : program.globals) {
+			context.global_table.insert(*glob);
+		}
+
+
+		std::vector<ast::func_ptr> ctors;
+		for(auto & preset : source.presets) {
+			auto ctor = generate_ctor(*preset);
+			ctors.push_back(std::move(ctor));
+		}
+
+		for(const auto & fx_tmpl : source.function_templates) {
+			const auto function_arity = std::size(fx_tmpl->fx->parameters);
+			const auto template_arity = std::size(fx_tmpl->template_parameters);
+			context.fx_template_table.insert(*fx_tmpl, function_arity, template_arity);
+		}
+
+		for(const auto & function : source.functions) {
+			context.fx_table.insert(*function, function->parameters.size());
+		}
+
+		for(const auto & ctor : ctors) {
+			context.fx_table.insert(*ctor, ctor->parameters.size());
+		}
+
+		auto externs = find_extern_funtions(source);
+
+		for(const auto & function : externs) {
+			fx_queue.stage_function(function);
+		}
+
+		while(auto staged = fx_queue.fetch_function()) {
+			try {
+				auto fx = std::visit([&] (auto & s) {
+					return analyze_staged(s, context);
+					}, *staged
+				);
+				program.functions.push_back(std::move(fx));
+			}
+			catch(const CompilerError & error) {
+				reporter.push(error);
+			}
+		}
+
+		return program;
 	}
+
 }

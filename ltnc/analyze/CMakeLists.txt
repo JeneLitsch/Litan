@@ -7,6 +7,7 @@ target_sources(libltnc PRIVATE
 	analyze_binary.cxx
 	analyze_block.cxx
 	analyze_call.cxx
+	analyze_definition.cxx
 	analyze_expression.cxx
 	analyze_function.cxx
 	analyze_fx_ptr.cxx

@@ -4,6 +4,7 @@
 #include "ltnc/tokens/Token.hxx"
 #include "ltnc/SourceLocation.hxx"
 #include "ltnc/source/Source.hxx"
+#include "ltnc/Reporter.hxx"
 
 namespace ltn::c::lex {
 	// Returns next token read from "in"
@@ -12,4 +13,10 @@ namespace ltn::c::lex {
 		const std::vector<std::unique_ptr<Source>> & sources,
  		Reporter & reporter
 	);
+}
+
+namespace ltn::c {
+	Tokens tokenize(
+		const std::vector<std::unique_ptr<Source>> & sources,
+		Reporter & reporter);
 }

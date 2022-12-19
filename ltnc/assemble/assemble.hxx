@@ -1,6 +1,6 @@
 #pragma once
 #include "ltnc/inst/inst.hxx"
-#include "ltnc/AddressTable.hxx"
+#include "ltnc/Instructions.hxx"
 #include "scan.hxx"
 
 namespace ltn::c {
@@ -9,4 +9,7 @@ namespace ltn::c {
 		const AddressTable & jump_table,
 		const AddressTable & fx_table,
 		const AddressTable & static_table);
+
+	std::vector<std::uint8_t> assemble(
+		const Instructions & instructions);
 }

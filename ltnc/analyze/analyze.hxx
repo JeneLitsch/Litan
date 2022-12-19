@@ -21,6 +21,8 @@
 #include "instantiate_type.hxx"
 
 namespace ltn::c {
+	sst::Program analyze(const ast::Program & program, Reporter & reporter);
+
 	ast::func_ptr generate_ctor(const ast::Preset &);
 
 	std::unique_ptr<sst::Function> analyze_function(const ast::Function &, Context &, Scope &);

@@ -385,5 +385,17 @@ namespace ltn::c::lex {
 		tokens += Token::end;
 		return Tokens{ std::move(tokens) };
 	}
+
+}
+
+
+namespace ltn::c {
+
+	Tokens tokenize(
+		const std::vector<std::unique_ptr<Source>> & sources,
+		Reporter & reporter) {
+
+		return lex::lex_sources(sources, reporter);
+	}
 }
 

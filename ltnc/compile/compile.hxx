@@ -13,8 +13,11 @@
 #include "ltnc/type/deduction.hxx"
 
 #include "InstructionBuffer.hxx"
+#include "ltnc/Instructions.hxx"
 
 namespace ltn::c {
+	Instructions compile(const sst::Program & program, Reporter & reporter);
+
 	// Functional
 	InstructionBuffer compile_functional(const sst::Functional &);
 
