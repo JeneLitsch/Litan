@@ -133,36 +133,7 @@ namespace ltn::c {
 			}
 			return bytecode;
 		}
-	}
 
-
-
-	std::vector<std::uint8_t> assemble(
-		const std::vector<inst::Inst> & instructions,
-		const AddressTable & jump_table,
-		const AddressTable & function_table,
-		const AddressTable & static_table) {
-		
-		std::vector<std::uint8_t> bytecode;
-		bytecode.push_back(ltn::major_version);
-
-		bytecode += sequence_table(function_table);
-		bytecode += sequence_table(static_table);
-
-		for(const auto & inst : instructions) {
-			std::visit([&] (auto & i) {
-				return assemble_opcode(bytecode, i, jump_table);
-			}, inst);
-
-			std::visit([&jump_table, &bytecode] (auto & i) {
-				return assemble_args(bytecode, i, jump_table);
-			}, inst);
-		}
-
-		return bytecode;
-	}
-
-	namespace {
 		AddressTable build_fx_table(
 			const std::set<std::string> & fx_ids,
 			const AddressTable & jump_table) {
@@ -178,14 +149,32 @@ namespace ltn::c {
 	}
 
 
+
 	std::vector<std::uint8_t> assemble(
 		const Instructions & instructions) {
 		
 		const auto jump_table     = scan(instructions.insts);
 		const auto function_table = build_fx_table(instructions.init_functions, jump_table);
-		const auto global_table   = instructions.global_table;
+		const auto & static_table = instructions.global_table;
 
-		const auto bytecode = assemble(instructions.insts, jump_table, function_table, global_table);
+		std::vector<std::uint8_t> bytecode;
+		bytecode.push_back(ltn::major_version);
+
+		bytecode += sequence_table(function_table);
+		bytecode += sequence_table(static_table);
+
+		for(const auto & inst : instructions.insts) {
+			std::visit([&] (auto & i) {
+				return assemble_opcode(bytecode, i, jump_table);
+			}, inst);
+
+			std::visit([&jump_table, &bytecode] (auto & i) {
+				return assemble_args(bytecode, i, jump_table);
+			}, inst);
+		}
+
 		return bytecode;
 	}
+
+
 }
