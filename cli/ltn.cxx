@@ -49,11 +49,10 @@ int main(int argc, char const *argv[]) {
 	ltn::LtnVm vm;
 	try {
 		std::vector<std::string> args;
-		std::vector<ltn::c::Source> sources;
+		std::vector<std::unique_ptr<ltn::c::Source>> sources;
 		for(const auto & source_file : flag_source.value_or({})) {
-			sources.push_back(ltn::c::Source::make<std::ifstream>(
-				std::string{source_file},
-				std::string{source_file}
+			sources.push_back(std::make_unique<ltn::c::FileSource>(
+				std::filesystem::path{source_file}
 			));
 		}
 

@@ -349,7 +349,10 @@ namespace ltn::c::lex {
 	}
 	
 
-	Tokens lex_sources(std::vector<Source> sources, Reporter & reporter) {
+	Tokens lex_sources(
+		const std::vector<std::unique_ptr<Source>> & sources,
+		Reporter & reporter) {
+		
 		std::vector<Token> tokens;
 
 		std::istringstream stdlib { std::string()
@@ -371,7 +374,8 @@ namespace ltn::c::lex {
 		tokens += lex_source(stdlib, "stdlib", reporter);
 
 		for(auto & source : sources) {
-			tokens += lex_source(source.stream(), source.name(), reporter);
+			auto stream = source->make_istream();
+			tokens += lex_source(*stream, source->get_name(), reporter);
 		}
 		
 		tokens += Token::end;

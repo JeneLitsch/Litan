@@ -1,7 +1,9 @@
 #pragma once
 #include "CompilerError.hxx"
 #include "Reporter.hxx"
-#include "Source.hxx"
+#include "source/Source.hxx"
+#include "source/FileSource.hxx"
+#include "source/StringSource.hxx"
 #include "ltnc/inst/inst.hxx"
 #include "optimize/optimize.hxx"
 #include "print/print.hxx"
@@ -21,7 +23,7 @@ namespace ltn::c {
 	};
 
 	Tokens tokenize(
-		std::vector<Source> sources,
+		std::vector<std::unique_ptr<Source>> sources,
 		Reporter & reporter);
 
 	ast::Source parse(

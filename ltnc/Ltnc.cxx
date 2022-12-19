@@ -22,10 +22,10 @@ namespace ltn::c {
 	}
 
 	Tokens tokenize(
-		std::vector<Source> sources,
+		std::vector<std::unique_ptr<Source>> sources,
 		Reporter & reporter) {
 
-		return lex::lex_sources(std::move(sources), reporter);
+		return lex::lex_sources(sources, reporter);
 	}
 }
 

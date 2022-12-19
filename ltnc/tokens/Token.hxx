@@ -12,7 +12,6 @@
 
 #include "ltnc/SourceLocation.hxx"
 #include "ltnc/Reporter.hxx"
-#include "ltnc/Source.hxx"
 #include "ltnc/SourceLocation.hxx"
 
 namespace ltn::c {

@@ -8,10 +8,10 @@ namespace ltn::c {
 	namespace {
 		type::Type deduce_type(sst::TypedUnary::Op op, const type::Type & target_type) {
 			switch (op) {
-			case sst::TypedUnary::Op::STATIC_COPY: return type::deduce_copy_static(target_type);
+			case sst::TypedUnary::Op::STATIC_COPY:  return type::deduce_copy_static(target_type);
 			case sst::TypedUnary::Op::DYNAMIC_COPY: return type::deduce_copy_dynamic(target_type);
-			case sst::TypedUnary::Op::STATIC_CAST: return deduce_cast_static(target_type);
-			case sst::TypedUnary::Op::DYNAMIC_CAST: return deduce_cast_dynamic(target_type);
+			case sst::TypedUnary::Op::STATIC_CAST:  return type::deduce_cast_static(target_type);
+			case sst::TypedUnary::Op::DYNAMIC_CAST: return type::deduce_cast_dynamic(target_type);
 			}
 		}
 	}
