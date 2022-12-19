@@ -16,9 +16,9 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze) 
-			:	Node(location),
-				name(name),
-				namespaze(namespaze) {}
+			: Node(location)
+			, name(name)
+			, namespaze(namespaze) {}
 		virtual ~Declaration() = default;
 		std::string name;
 		Namespace namespaze;
@@ -31,9 +31,10 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::IncompleteType & type) :
-				Declaration(location, name, namespaze),
-				id(++counter), type{type} {}
+			const type::IncompleteType & type)
+			: Declaration(location, name, namespaze)
+			, id(++counter)
+			, type{type} {}
 		
 		std::uint64_t id;
 		type::IncompleteType type;
@@ -55,8 +56,8 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::IncompleteType & type) :
-				Static{location, name, namespaze, type} {}
+			const type::IncompleteType & type)
+			: Static{location, name, namespaze, type} {}
 		virtual ~Definition() = default;
 		std::unique_ptr<ast::Expression> expr;
 	};
@@ -68,8 +69,8 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::IncompleteType & type) :
-				Static{location, name, namespaze,type} {}
+			const type::IncompleteType & type)
+			: Static{location, name, namespaze,type} {}
 		virtual ~Global() = default;
 		std::unique_ptr<ast::Expression> expr;
 	};
@@ -87,8 +88,8 @@ namespace ltn::c::ast {
 			const std::string & name,
 			const Namespace & namespaze,
 			const std::vector<Member> & members)
-			:	Declaration(location, name, namespaze),
-				members(members) {}
+			: Declaration(location, name, namespaze)
+			, members(members) {}
 		virtual ~Preset() = default;
 		std::vector<Member> members;
 
@@ -113,7 +114,7 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze)
-			:	Declaration(location, name, namespaze) {}
+			: Declaration(location, name, namespaze) {}
 		virtual ~Enumeration() = default;
 		std::vector<Label> labels;
 	};

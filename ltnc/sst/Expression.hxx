@@ -14,7 +14,8 @@ namespace ltn::c::sst {
 
 
 	struct Expression : public Node {
-		Expression(const type::Type & type) : type{type} {}
+		Expression(const type::Type & type)
+			: type{type} {}
 		virtual ~Expression() = default;
 		type::Type type;
 	};
@@ -28,10 +29,10 @@ namespace ltn::c::sst {
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Expression> if_branch,
 			std::unique_ptr<Expression> else_branch) 
-			:	Expression(type),
-				condition(std::move(condition)),
-				if_branch(std::move(if_branch)),
-				else_branch(std::move(else_branch)) {}
+			: Expression(type)
+			, condition(std::move(condition))
+			, if_branch(std::move(if_branch))
+			, else_branch(std::move(else_branch)) {}
 		virtual ~Ternary() = default;
 	
 		std::unique_ptr<Expression> condition;
@@ -48,9 +49,9 @@ namespace ltn::c::sst {
 			Op op,
 			std::unique_ptr<Expression> expression,
 			const type::Type & type)
-			:	Expression(type),
-				op(op),
-				expression(std::move(expression)) {}
+			: Expression(type)
+			, op(op)
+			, expression(std::move(expression)) {}
 		virtual ~Unary() = default;
 		Op op;
 		std::unique_ptr<Expression> expression;
@@ -75,10 +76,10 @@ namespace ltn::c::sst {
 			std::unique_ptr<Expression> l,
 			std::unique_ptr<Expression> r,
 			const type::Type & type)
-			:	Expression(type),
-				op(op),
-				l(std::move(l)),
-				r(std::move(r)) {}
+			: Expression(type)
+			, op(op)
+			, l(std::move(l))
+			, r(std::move(r)) {}
 		virtual ~Binary() = default;
 		Op op;
 		std::unique_ptr<Expression> l;
@@ -143,9 +144,9 @@ namespace ltn::c::sst {
 			Query query,
 			Addr addr,
 			const type::Type & type)
-			:	Expression(type),
-				query{std::move(query)},
-				addr{addr} {}
+			: Expression(type)
+			, query{std::move(query)}
+			, addr{addr} {}
 		virtual ~Reflect() = default;
 		Query query;
 		Addr addr;
@@ -164,10 +165,10 @@ namespace ltn::c::sst {
 			const type::Type & target_type,
 			std::unique_ptr<Expression> expr,
 			const type::Type & type)
-			:	Expression{type},
-				op{op},
-				target_type{target_type},
-				expr{std::move(expr)} {}
+			: Expression{type}
+			, op{op}
+			, target_type{target_type}
+			, expr{std::move(expr)} {}
 		virtual ~TypedUnary() = default;
 		Op op;
 		type::Type target_type;
@@ -181,14 +182,15 @@ namespace ltn::c::sst {
 	struct Statement;
 
 	struct Primary : public Expression {
-		Primary(const type::Type & type) : Expression(type) {}
+		Primary(const type::Type & type)
+			: Expression(type) {}
 		virtual ~Primary() = default;
 	};
 	
 
 	struct Literal : public Primary {
 		Literal(const type::Type & type)
-			:	Primary(type) {}
+			: Primary(type) {}
 		virtual ~Literal() = default;
 	};
 
@@ -196,10 +198,11 @@ namespace ltn::c::sst {
 
 	struct Integer final : public Literal {
 		Integer(std::bitset<64> value, const type::Type & type)
-			:	Integer(static_cast<std::int64_t>(value.to_ullong()), type) {}
+			: Integer(static_cast<std::int64_t>(value.to_ullong()), type) {}
 
 		Integer(std::int64_t value, const type::Type & type)
-			:	Literal(type), value(value) {}
+			: Literal(type)
+			, value(value) {}
 		virtual ~Integer() = default;
 		std::int64_t value;
 	};
@@ -208,7 +211,8 @@ namespace ltn::c::sst {
 
 	struct Float final : public Literal {
 		Float(stx::float64_t value, const type::Type & type)
-			:	Literal(type), value(value) {}
+			: Literal(type)
+			, value(value) {}
 		virtual ~Float() = default;
 		stx::float64_t value;
 	};
@@ -217,7 +221,8 @@ namespace ltn::c::sst {
 
 	struct Bool final : public Literal {
 		Bool(bool value, const type::Type & type)
-			:	Literal(type), value(value) {}
+			: Literal(type)
+			, value(value) {}
 		virtual ~Bool() = default;
 		bool value;
 	};
@@ -226,7 +231,7 @@ namespace ltn::c::sst {
 
 	struct Null final : public Literal {
 		Null(const type::Type & type)
-			:	Literal(type) {}
+			: Literal(type) {}
 		virtual ~Null() = default;
 	};
 
@@ -234,7 +239,8 @@ namespace ltn::c::sst {
 
 	struct Char final : public Literal {
 		Char(std::uint8_t value, const type::Type & type)
-			:	Literal(type), value(value) {}
+			: Literal(type)
+			, value(value) {}
 		virtual ~Char() = default;
 		std::uint8_t value;
 	};
@@ -243,7 +249,8 @@ namespace ltn::c::sst {
 
 	struct String final : public Literal {
 		String(const std::string & value, const type::Type & type)
-			:	Literal(type), value(value) {}
+			: Literal(type)
+			, value(value) {}
 		virtual ~String() = default;
 		std::string value;
 	};
@@ -263,9 +270,9 @@ namespace ltn::c::sst {
 			std::unique_ptr<Function> fx,
 			std::vector<std::unique_ptr<Var>> captures,
 			const type::Type & type)
-			:	Literal(type),
-				fx(std::move(fx)),
-				captures(std::move(captures)) {}
+			: Literal(type)
+			, fx(std::move(fx))
+			, captures(std::move(captures)) {}
 		virtual ~Lambda() = default;
 		std::unique_ptr<Function> fx;
 		std::vector<std::unique_ptr<Var>> captures;
@@ -290,9 +297,9 @@ namespace ltn::c::sst {
 			std::unique_ptr<Expression> expression,
 			std::unique_ptr<Expression> index,
 			const type::Type & type)
-			:	Assignable(type),
-				expression(std::move(expression)),
-				index(std::move(index)) {}
+			: Assignable(type)
+			, expression(std::move(expression))
+			, index(std::move(index)) {}
 		virtual ~Index() = default;
 		std::unique_ptr<Expression> expression;
 		std::unique_ptr<Expression> index;
@@ -305,9 +312,8 @@ namespace ltn::c::sst {
 		Var(
 			std::size_t addr,
 			const type::Type & type)
-			:	Assignable(type),
-				addr{addr}
-				{}
+			: Assignable(type)
+			, addr{addr} {}
 
 		virtual ~Var() = default;
 		std::size_t addr;
@@ -319,9 +325,9 @@ namespace ltn::c::sst {
 	public:
 		GlobalVar(
 			const type::Type & type,
-			std::size_t addr) :
-				Assignable(type),
-				addr { addr } {}
+			std::size_t addr)
+			: Assignable(type)
+			, addr { addr } {}
 		virtual ~GlobalVar() = default;
 		std::size_t addr;
 	};
@@ -333,9 +339,9 @@ namespace ltn::c::sst {
 			const type::Type & type,
 			std::unique_ptr<Expression> expr,
 			std::size_t addr)
-			:	Assignable(type),
-				expr(std::move(expr)),
-				addr { addr } {};
+			: Assignable(type)
+			, expr(std::move(expr))
+			, addr { addr } {};
 		virtual ~Member() = default;
 		std::unique_ptr<Expression> expr;
 		std::size_t addr;
@@ -349,10 +355,10 @@ namespace ltn::c::sst {
 			std::string return_label,
 			std::unique_ptr<Statement> stmt,
 			type::Type return_type) 
-			:	Primary(type), 
-				return_label{return_label},
-				stmt(std::move(stmt)),
-				return_type{return_type} {}
+			: Primary(type)
+			, return_label{return_label}
+			, stmt(std::move(stmt))
+			, return_type{return_type} {}
 		virtual ~Iife() = default;
 
 		std::string return_label;
@@ -368,9 +374,9 @@ namespace ltn::c::sst {
 			std::string id,
 			std::size_t arity,
 			const type::Type & type)
-			:	Primary(type),
-				id{id},
-				arity{arity} {}
+			: Primary(type)
+			, id{id}
+			, arity{arity} {}
 		virtual ~FxPointer() = default;
 		std::string id;
 		std::size_t arity;
@@ -384,9 +390,9 @@ namespace ltn::c::sst {
 			const std::string & id,
 			std::vector<std::unique_ptr<Expression>> parameters,
 			const type::Type & type)
-			:	Primary(type),
-				id{id},
-				parameters(std::move(parameters)) {}
+			: Primary(type)
+			, id{id}
+			, parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
 		std::string id;
 		std::vector<std::unique_ptr<Expression>> parameters;
@@ -399,9 +405,9 @@ namespace ltn::c::sst {
 			std::unique_ptr<Expression> function_ptr,
 			std::vector<std::unique_ptr<Expression>> parameters,
 			const type::Type & type)
-			:	Primary(type),
-				function_ptr(std::move(function_ptr)),
-				parameters(std::move(parameters)) {}
+			: Primary(type)
+			, function_ptr(std::move(function_ptr))
+			, parameters(std::move(parameters)) {}
 		virtual ~Invoke() = default;
 		std::unique_ptr<Expression> function_ptr;
 		std::vector<std::unique_ptr<Expression>> parameters;

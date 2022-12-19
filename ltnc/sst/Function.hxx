@@ -36,8 +36,8 @@ namespace ltn::c::sst {
 		Except(
 			const std::string & errorname,
 			std::unique_ptr<Statement> && body)
-			:	body(std::move(body)),
-				errorname(errorname) {}
+			: body(std::move(body))
+			, errorname(errorname) {}
 		virtual ~Except() = default;
 		std::unique_ptr<Statement> body;
 		std::string errorname;
@@ -52,10 +52,10 @@ namespace ltn::c::sst {
 			Namespace namespaze,
 			Parameters parameters,
 			const type::Type & return_type)
-			:	Declaration(name, namespaze),
-				parameters(parameters),
-				id(id),
-				return_type{return_type} {}
+			: Declaration(name, namespaze)
+			, parameters(parameters)
+			, id(id)
+			, return_type{return_type} {}
 		virtual ~Functional() = default;
 
 		Parameters parameters;
@@ -85,8 +85,8 @@ namespace ltn::c::sst {
 			Parameters parameters,
 			std::unique_ptr<Statement> && body,
 			const type::Type & return_type)
-			:	Functional{id, name, namespaze, parameters, return_type},
-				body(std::move(body)) {}
+			: Functional{id, name, namespaze, parameters, return_type}
+			, body(std::move(body)) {}
 
 		Function(
 			const std::string & id,
@@ -94,8 +94,8 @@ namespace ltn::c::sst {
 			Namespace namespaze,
 			Parameters parameters,
 			std::unique_ptr<Statement> && body)
-			:	Functional{id, name, namespaze, parameters, type::Any{}},
-				body(std::move(body)) {}
+			: Functional{id, name, namespaze, parameters, type::Any{}}
+			, body(std::move(body)) {}
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
 		std::unique_ptr<Except> except;
@@ -112,8 +112,8 @@ namespace ltn::c::sst {
 			Parameters parameters,
 			const std::string & key,
 			const type::Type & return_type)
-			:	Functional{id, name, namespaze, parameters, return_type},
-				key(key) {}
+			: Functional{id, name, namespaze, parameters, return_type}
+			, key(key) {}
 		virtual ~BuildIn() = default;
 		std::string key;		
 	};

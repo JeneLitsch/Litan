@@ -26,8 +26,8 @@ namespace ltn::c::ast {
 		Throw(
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location) 
-			:	Statement(location),
-				expression(std::move(expression)) {}
+			: Statement(location)
+			, expression(std::move(expression)) {}
 		virtual ~Throw() = default;
 		std::unique_ptr<Expression> expression;
 	};
@@ -38,8 +38,8 @@ namespace ltn::c::ast {
 		Block(
 			std::vector<std::unique_ptr<Statement>> statements,
 			const SourceLocation & location) 
-			:	Statement(location),
-				statements(std::move(statements)) {}
+			: Statement(location)
+			, statements(std::move(statements)) {}
 		virtual ~Block() = default;
 		std::vector<std::unique_ptr<Statement>> statements;
 	};
@@ -52,10 +52,10 @@ namespace ltn::c::ast {
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location,
 			const std::variant<type::IncompleteType, type::Auto> & type = type::IncompleteType{type::Any{}})
-			:	Statement(location),
-				name(name),
-				expression(std::move(expression)),
-				type{type} {}
+			: Statement(location)
+			, name(name)
+			, expression(std::move(expression))
+			, type{type} {}
 		virtual ~NewVar() = default;
 		std::string name;
 		std::unique_ptr<Expression> expression;
@@ -69,10 +69,10 @@ namespace ltn::c::ast {
 			std::unique_ptr<Statement> if_branch,
 			std::unique_ptr<Statement> else_branch,
 			const SourceLocation & location)
-			:	Statement(location),
-				condition(std::move(condition)),
-				if_branch(std::move(if_branch)),
-				else_branch(std::move(else_branch)) {}
+			: Statement(location)
+			, condition(std::move(condition))
+			, if_branch(std::move(if_branch))
+			, else_branch(std::move(else_branch)) {}
 		virtual ~IfElse() = default;
 		std::unique_ptr<Expression> condition;
 		std::unique_ptr<Statement> if_branch;
@@ -86,9 +86,9 @@ namespace ltn::c::ast {
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Statement> body,
 			const SourceLocation & location)
-			:	Statement(location),
-				condition(std::move(condition)),
-				body(std::move(body)) {}
+			: Statement(location)
+			, condition(std::move(condition))
+			, body(std::move(body)) {}
 
 		virtual ~While() = default;
 		std::unique_ptr<Expression> condition;
@@ -100,8 +100,8 @@ namespace ltn::c::ast {
 		InfiniteLoop(
 			std::unique_ptr<Statement> body,
 			const SourceLocation & location)
-			:	Statement(location),
-				body(std::move(body)) {}
+			: Statement(location)
+			, body(std::move(body)) {}
 
 		virtual ~InfiniteLoop() = default;
 		std::unique_ptr<Statement> body;
@@ -117,12 +117,12 @@ namespace ltn::c::ast {
 			std::unique_ptr<Expression> step,
 			std::unique_ptr<Statement> body,
 			const SourceLocation & location)
-			:	Statement(location),
-				var(std::move(var)),
-				from(std::move(from)),
-				to(std::move(to)),
-				step(std::move(step)),
-				body(std::move(body)) {}
+			: Statement(location)
+			, var(std::move(var))
+			, from(std::move(from))
+			, to(std::move(to))
+			, step(std::move(step))
+			, body(std::move(body)) {}
 
 		virtual ~For() = default;
 		std::unique_ptr<NewVar> var;
@@ -138,8 +138,8 @@ namespace ltn::c::ast {
 		StatementExpression(
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location)
-			:	Statement(location),
-				expression(std::move(expression)) {}
+			: Statement(location)
+			, expression(std::move(expression)) {}
 		virtual ~StatementExpression() = default;
 		std::unique_ptr<Expression> expression;
 	};
@@ -150,8 +150,8 @@ namespace ltn::c::ast {
 		Return(
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location)
-			:	Statement(location),
-				expression(std::move(expression)) {}
+			: Statement(location)
+			, expression(std::move(expression)) {}
 		virtual ~Return() = default;
 		std::unique_ptr<Expression> expression;
 	};
@@ -164,10 +164,10 @@ namespace ltn::c::ast {
 			std::string param,
 			type::IncompleteType type,
 			const SourceLocation & location)
-			:	Statement(location),
-				member(std::move(member)),
-				param(std::move(param)),
-				type{type} {}
+			: Statement(location)
+			, member(std::move(member))
+			, param(std::move(param))
+			, type{type} {}
 		virtual ~InitMember() = default;
 		std::string member;
 		std::string param;
@@ -182,7 +182,9 @@ namespace ltn::c::ast {
 			std::unique_ptr<Assignable> l,
 			std::unique_ptr<Expression> r,
 			const SourceLocation & location)
-			:	Statement(location), l(std::move(l)), r(std::move(r)) {}
+			: Statement(location)
+			, l(std::move(l))
+			, r(std::move(r)) {}
 		virtual ~Assign() = default;
 		std::unique_ptr<Assignable> l;
 		std::unique_ptr<Expression> r;

@@ -9,8 +9,11 @@ namespace ltn::c::sst {
 	struct Expression;
 	struct Assignable;
 	struct Statement : public Node {
-		Statement(std::size_t local_vars, bool direct_allocation)
-		: local_vars{local_vars}, direct_allocation{direct_allocation} {}
+		Statement(
+			std::size_t local_vars,
+			bool direct_allocation)
+			: local_vars{local_vars}
+			, direct_allocation{direct_allocation} {}
 		virtual ~Statement() = default;
 		std::size_t local_vars;
 		bool direct_allocation;
@@ -31,9 +34,8 @@ namespace ltn::c::sst {
 		Throw(
 			std::size_t local_vars, bool direct_allocation,
 			std::unique_ptr<Expression> expression) 
-			: 
-				Statement{local_vars, direct_allocation},
-				expression(std::move(expression)) {}
+			: Statement{local_vars, direct_allocation}
+			, expression(std::move(expression)) {}
 		virtual ~Throw() = default;
 		std::unique_ptr<Expression> expression;
 	};
@@ -44,9 +46,8 @@ namespace ltn::c::sst {
 		Block(
 			std::size_t local_vars, bool direct_allocation,
 			std::vector<std::unique_ptr<Statement>> statements) 
-			:	
-				Statement{local_vars, direct_allocation},
-				statements(std::move(statements)) {}
+			: Statement{local_vars, direct_allocation}
+			, statements(std::move(statements)) {}
 		virtual ~Block() = default;
 		std::vector<std::unique_ptr<Statement>> statements;
 	};
@@ -59,11 +60,10 @@ namespace ltn::c::sst {
 			std::size_t addr,
 			std::unique_ptr<Expression> expression,
 			const std::variant<type::Type, type::Auto> & type = type::Any{})
-			:	
-				Statement{local_vars, direct_allocation},
-				addr{addr},
-				expression(std::move(expression)),
-				type{type} {}
+			: Statement{local_vars, direct_allocation}
+			, addr{addr}
+			, expression(std::move(expression))
+			, type{type} {}
 		virtual ~NewVar() = default;
 		std::size_t addr;
 		std::unique_ptr<Expression> expression;
@@ -77,11 +77,10 @@ namespace ltn::c::sst {
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Statement> if_branch,
 			std::unique_ptr<Statement> else_branch)
-			:	
-				Statement{local_vars, direct_allocation},
-				condition(std::move(condition)),
-				if_branch(std::move(if_branch)),
-				else_branch(std::move(else_branch)) {}
+			: Statement{local_vars, direct_allocation}
+			, condition(std::move(condition))
+			, if_branch(std::move(if_branch))
+			, else_branch(std::move(else_branch)) {}
 		virtual ~IfElse() = default;
 		std::unique_ptr<Expression> condition;
 		std::unique_ptr<Statement> if_branch;
@@ -95,10 +94,9 @@ namespace ltn::c::sst {
 			std::size_t local_vars, bool direct_allocation,
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Statement> body)
-			:	
-				Statement{local_vars, direct_allocation},
-				condition(std::move(condition)),
-				body(std::move(body)) {}
+			: Statement{local_vars, direct_allocation}
+			, condition(std::move(condition))
+			, body(std::move(body)) {}
 
 		virtual ~While() = default;
 		std::unique_ptr<Expression> condition;
@@ -110,9 +108,8 @@ namespace ltn::c::sst {
 		InfiniteLoop(
 			std::size_t local_vars, bool direct_allocation,
 			std::unique_ptr<Statement> body)
-			:	
-				Statement{local_vars, direct_allocation},
-				body(std::move(body)) {}
+			: Statement{local_vars, direct_allocation}
+			, body(std::move(body)) {}
 
 		virtual ~InfiniteLoop() = default;
 		std::unique_ptr<Statement> body;
@@ -129,14 +126,13 @@ namespace ltn::c::sst {
 			std::unique_ptr<Expression> to,
 			std::unique_ptr<Expression> step,
 			std::unique_ptr<Statement> body)
-			:	
-				Statement{local_vars, direct_allocation},
-				label{label},
-				index_addr{index_addr},
-				from(std::move(from)),
-				to(std::move(to)),
-				step(std::move(step)),
-				body(std::move(body)) {}
+			: Statement{local_vars, direct_allocation}
+			, label{label}
+			, index_addr{index_addr}
+			, from(std::move(from))
+			, to(std::move(to))
+			, step(std::move(step))
+			, body(std::move(body)) {}
 
 		virtual ~For() = default;
 		std::string label;
@@ -153,9 +149,8 @@ namespace ltn::c::sst {
 		StatementExpression(
 			std::size_t local_vars, bool direct_allocation,
 			std::unique_ptr<Expression> expression)
-			:	
-				Statement{local_vars, direct_allocation},
-				expression(std::move(expression)) {}
+			: Statement{local_vars, direct_allocation}
+			, expression(std::move(expression)) {}
 		virtual ~StatementExpression() = default;
 		std::unique_ptr<Expression> expression;
 	};
@@ -167,10 +162,9 @@ namespace ltn::c::sst {
 			std::size_t local_vars, bool direct_allocation,
 			std::unique_ptr<Expression> expression,
 			std::optional<std::string> overide_label)
-			:	
-				Statement{local_vars, direct_allocation},
-				expression(std::move(expression)),
-				overide_label{overide_label} {}
+			: Statement{local_vars, direct_allocation}
+			, expression(std::move(expression))
+			, overide_label{overide_label} {}
 		virtual ~Return() = default;
 		std::unique_ptr<Expression> expression;
 		std::optional<std::string> overide_label;
@@ -185,12 +179,11 @@ namespace ltn::c::sst {
 			std::size_t member_addr,
 			std::size_t param_addr,
 			type::Type type)
-			:	
-				Statement{local_vars, direct_allocation},
-				object_addr(object_addr),
-				member_addr(member_addr),
-				param_addr(param_addr),
-				type{type} {}
+			: Statement{local_vars, direct_allocation}
+			, object_addr(object_addr)
+			, member_addr(member_addr)
+			, param_addr(param_addr)
+			, type{type} {}
 		virtual ~InitMember() = default;
 		std::size_t object_addr;
 		std::size_t member_addr;
@@ -206,7 +199,9 @@ namespace ltn::c::sst {
 			bool direct_allocation,
 			std::uint64_t addr,
 			std::unique_ptr<Expression> r)
-			: Statement{local_vars, direct_allocation}, addr{addr}, r(std::move(r)) {}
+			: Statement{local_vars, direct_allocation}
+			, addr{addr}
+			, r(std::move(r)) {}
 		virtual ~AssignGlobal() = default;
 		std::uint64_t addr;
 		std::unique_ptr<Expression> r;
@@ -221,10 +216,10 @@ namespace ltn::c::sst {
 			std::unique_ptr<Expression> object,
 			std::uint64_t addr,
 			std::unique_ptr<Expression> r)
-			: Statement{local_vars, direct_allocation},
-			  object{std::move(object)},
-			  addr{addr},
-			  r(std::move(r)) {}
+			: Statement{local_vars, direct_allocation}
+			, object{std::move(object)}
+			, addr{addr}
+			, r(std::move(r)) {}
 		virtual ~AssignMember() = default;
 		std::unique_ptr<Expression> object;
 		std::uint64_t addr;
@@ -239,7 +234,9 @@ namespace ltn::c::sst {
 			bool direct_allocation,
 			std::uint64_t addr,
 			std::unique_ptr<Expression> r)
-			: Statement{local_vars, direct_allocation}, addr{addr}, r(std::move(r)) {}
+			: Statement{local_vars, direct_allocation}
+			, addr{addr}
+			, r(std::move(r)) {}
 		virtual ~AssignLocal() = default;
 		std::uint64_t addr;
 		std::unique_ptr<Expression> r;
@@ -253,10 +250,10 @@ namespace ltn::c::sst {
 			std::unique_ptr<Expression> range,
 			std::unique_ptr<Expression> index,
 			std::unique_ptr<Expression> r)
-			: Statement{local_vars, direct_allocation},
-			  range{std::move(range)},
-			  index{std::move(index)},
-			  r(std::move(r)) {}
+			: Statement{local_vars, direct_allocation}
+			, range{std::move(range)}
+			, index{std::move(index)}
+			, r(std::move(r)) {}
 		virtual ~AssignIndex() = default;
 		std::unique_ptr<Expression> range;
 		std::unique_ptr<Expression> index;

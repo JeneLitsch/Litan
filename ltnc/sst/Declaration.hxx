@@ -15,8 +15,8 @@ namespace ltn::c::sst {
 		Declaration(
 			const std::string & name,
 			const Namespace & namespaze) 
-			:	name(name),
-				namespaze(namespaze) {}
+			: name(name)
+			, namespaze(namespaze) {}
 		virtual ~Declaration() = default;
 		std::string name;
 		Namespace namespaze;
@@ -28,9 +28,10 @@ namespace ltn::c::sst {
 		Static(
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::Type & type) :
-				Declaration(name, namespaze),
-				id(++counter), type{type} {}
+			const type::Type & type)
+			: Declaration(name, namespaze)
+			, id(++counter)
+			, type{type} {}
 		
 		std::uint64_t id;
 		type::Type type;
@@ -51,8 +52,8 @@ namespace ltn::c::sst {
 		Definition(
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::Type & type) :
-				Static{name, namespaze, type} {}
+			const type::Type & type)
+			: Static{name, namespaze, type} {}
 		virtual ~Definition() = default;
 		std::unique_ptr<sst::Expression> expr;
 	};
@@ -63,8 +64,8 @@ namespace ltn::c::sst {
 		Global(
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::Type & type) :
-				Static{name, namespaze,type} {}
+			const type::Type & type)
+			: Static{name, namespaze,type} {}
 		virtual ~Global() = default;
 		std::unique_ptr<sst::Expression> expr;
 	};

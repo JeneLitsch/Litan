@@ -26,8 +26,8 @@ namespace ltn::c::ast {
 		DeclType(
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location)
-			:	Expression(location),
-				expression(std::move(expression)) {}
+			: Expression(location)
+			, expression(std::move(expression)) {}
 		virtual ~DeclType() = default;
 		std::unique_ptr<Expression> expression;
 	};
@@ -40,10 +40,10 @@ namespace ltn::c::ast {
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Expression> if_branch,
 			std::unique_ptr<Expression> else_branch) 
-			:	Expression(location),
-				condition(std::move(condition)),
-				if_branch(std::move(if_branch)),
-				else_branch(std::move(else_branch)) {}
+			: Expression(location)
+			, condition(std::move(condition))
+			, if_branch(std::move(if_branch))
+			, else_branch(std::move(else_branch)) {}
 		virtual ~Ternary() = default;
 	
 		std::unique_ptr<Expression> condition;
@@ -60,9 +60,9 @@ namespace ltn::c::ast {
 			Type type,
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location)
-			:	Expression(location),
-				type(type),
-				expression(std::move(expression)) {}
+			: Expression(location)
+			, type(type)
+			, expression(std::move(expression)) {}
 		virtual ~Unary() = default;
 		Type type;
 		std::unique_ptr<Expression> expression;
@@ -87,10 +87,10 @@ namespace ltn::c::ast {
 			std::unique_ptr<Expression> l,
 			std::unique_ptr<Expression> r,
 			const SourceLocation & location)
-			:	Expression(location),
-				type(type),
-				l(std::move(l)),
-				r(std::move(r)) {}
+			: Expression(location)
+			, type(type)
+			, l(std::move(l))
+			, r(std::move(r)) {}
 		virtual ~Binary() = default;
 		Type type;
 		std::unique_ptr<Expression> l;
@@ -132,8 +132,8 @@ namespace ltn::c::ast {
 		Reflect(
 			Query query,
 			const SourceLocation & location)
-			:	Expression(location),
-				query{std::move(query)} {}
+			: Expression(location)
+			, query{std::move(query)} {}
 		virtual ~Reflect() = default;
 		Query query;
 	};
@@ -151,10 +151,10 @@ namespace ltn::c::ast {
 			const type::IncompleteType & type,
 			std::unique_ptr<Expression> expr,
 			const SourceLocation & location)
-			:	Expression{location},
-				op{op},
-				type{type},
-				expr{std::move(expr)} {}
+			: Expression{location}
+			, op{op}
+			, type{type}
+			, expr{std::move(expr)} {}
 		virtual ~TypedUnary() = default;
 		Op op;
 		type::IncompleteType type;
@@ -175,7 +175,7 @@ namespace ltn::c::ast {
 
 	struct Literal : public Primary {
 		Literal(const SourceLocation & location)
-			:	Primary(location) {}
+			: Primary(location) {}
 		virtual ~Literal() = default;
 	};
 
@@ -183,10 +183,10 @@ namespace ltn::c::ast {
 
 	struct Integer final : public Literal {
 		Integer(std::bitset<64> value, const SourceLocation & location)
-			:	Integer(static_cast<std::int64_t>(value.to_ullong()), location) {}
+			: Integer(static_cast<std::int64_t>(value.to_ullong()), location) {}
 
 		Integer(std::int64_t value, const SourceLocation & location)
-			:	Literal(location), value(value) {}
+			: Literal(location), value(value) {}
 		virtual ~Integer() = default;
 		std::int64_t value;
 	};
@@ -195,7 +195,7 @@ namespace ltn::c::ast {
 
 	struct Float final : public Literal {
 		Float(stx::float64_t value, const SourceLocation & location)
-			:	Literal(location), value(value) {}
+			: Literal(location), value(value) {}
 		virtual ~Float() = default;
 		stx::float64_t value;
 	};
@@ -204,7 +204,7 @@ namespace ltn::c::ast {
 
 	struct Bool final : public Literal {
 		Bool(bool value, const SourceLocation & location)
-			:	Literal(location), value(value) {}
+			: Literal(location), value(value) {}
 		virtual ~Bool() = default;
 		bool value;
 	};
@@ -213,7 +213,7 @@ namespace ltn::c::ast {
 
 	struct Null final : public Literal {
 		Null(const SourceLocation & location)
-			:	Literal(location) {}
+			: Literal(location) {}
 		virtual ~Null() = default;
 	};
 
@@ -221,7 +221,7 @@ namespace ltn::c::ast {
 
 	struct Char final : public Literal {
 		Char(std::uint8_t value, const SourceLocation & location)
-			:	Literal(location), value(value) {}
+			: Literal(location), value(value) {}
 		virtual ~Char() = default;
 		std::uint8_t value;
 	};
@@ -230,7 +230,7 @@ namespace ltn::c::ast {
 
 	struct String final : public Literal {
 		String(const std::string & value, const SourceLocation & location)
-			:	Literal(location), value(value) {}
+			: Literal(location), value(value) {}
 		virtual ~String() = default;
 		std::string value;
 	};
@@ -250,9 +250,9 @@ namespace ltn::c::ast {
 			std::unique_ptr<Function> fx,
 			std::vector<std::unique_ptr<Var>> captures,
 			const SourceLocation & location)
-			:	Literal(location),
-				fx(std::move(fx)),
-				captures(std::move(captures)) {}
+			: Literal(location)
+			, fx(std::move(fx))
+			, captures(std::move(captures)) {}
 		virtual ~Lambda() = default;
 		std::unique_ptr<Function> fx;
 		std::vector<std::unique_ptr<Var>> captures;
@@ -267,7 +267,8 @@ namespace ltn::c::ast {
 	
 	struct Assignable : public Primary {
 		virtual ~Assignable() = default;
-		Assignable(const SourceLocation & location) : Primary(location) {}
+		Assignable(const SourceLocation & location)
+			: Primary(location) {}
 	};
 
 
@@ -277,9 +278,9 @@ namespace ltn::c::ast {
 			std::unique_ptr<Expression> expression,
 			std::unique_ptr<Expression> index,
 			const SourceLocation & location)
-			:	Assignable(location),
-				expression(std::move(expression)),
-				index(std::move(index)) {}
+			: Assignable(location)
+			, expression(std::move(expression))
+			, index(std::move(index)) {}
 		virtual ~Index() = default;
 		std::unique_ptr<Expression> expression;
 		std::unique_ptr<Expression> index;
@@ -293,9 +294,9 @@ namespace ltn::c::ast {
 			const std::string & name,
 			const Namespace & namespaze,
 			const SourceLocation & location)
-			:	Assignable(location),
-				name{name},
-				namespaze{namespaze} {}
+			: Assignable(location)
+			, name{name}
+			, namespaze{namespaze} {}
 
 		virtual ~Var() = default;
 		std::string name;
@@ -309,10 +310,10 @@ namespace ltn::c::ast {
 		GlobalVar(
 			const SourceLocation & location,
 			const Namespace & namespaze,
-			const std::string & name) :
-				Assignable(location),
-				name { name },
-				namespaze { namespaze } {}
+			const std::string & name)
+			: Assignable(location)
+			, name { name }
+			, namespaze { namespaze } {}
 		virtual ~GlobalVar() = default;
 		std::string name;
 		Namespace namespaze;
@@ -325,9 +326,9 @@ namespace ltn::c::ast {
 			std::unique_ptr<Expression> expr,
 			const std::string & name,
 			const SourceLocation & location)
-			:	Assignable(location),
-				expr(std::move(expr)),
-				name(std::move(name)){};
+			: Assignable(location)
+			, expr(std::move(expr))
+			, name(std::move(name)){};
 		virtual ~Member() = default;
 		std::unique_ptr<Expression> expr;
 		std::string name;
@@ -340,9 +341,9 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			std::unique_ptr<Statement> stmt,
 			type::IncompleteType return_type) 
-			:	Primary(location), 
-				stmt(std::move(stmt)),
-				return_type{return_type} {}
+			: Primary(location)
+			, stmt(std::move(stmt))
+			, return_type{return_type} {}
 		virtual ~Iife() = default;
 		
 		std::unique_ptr<Statement> stmt;
@@ -358,10 +359,10 @@ namespace ltn::c::ast {
 			const Namespace & namespaze,
 			const std::size_t placeholders,
 			const SourceLocation & location)
-			:	Primary(location),
-				name(name),
-				namespaze(namespaze),
-				placeholders(std::move(placeholders)) {}
+			: Primary(location)
+			, name(name)
+			, namespaze(namespaze)
+			, placeholders(std::move(placeholders)) {}
 		virtual ~FxPointer() = default;
 		std::string name;
 		Namespace namespaze;
@@ -377,9 +378,9 @@ namespace ltn::c::ast {
 			std::unique_ptr<Expression> function_ptr,
 			std::vector<std::unique_ptr<Expression>> parameters,
 			const SourceLocation & location)
-			:	Primary(location),
-				function_ptr(std::move(function_ptr)),
-				parameters(std::move(parameters)) {}
+			: Primary(location)
+			, function_ptr(std::move(function_ptr))
+			, parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
 		std::unique_ptr<Expression> function_ptr;
 		std::vector<std::unique_ptr<Expression>> parameters;

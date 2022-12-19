@@ -9,7 +9,8 @@ namespace ltn::c {
 	public:
 		virtual std::unique_ptr<std::istream> make_istream() const = 0;
 		virtual std::string get_name() const = 0; 
-		virtual std::string get_full_name() const = 0; 
+		virtual std::string get_full_name() const = 0;
+		virtual ~Source() = default;
 	private:
 	};
 }

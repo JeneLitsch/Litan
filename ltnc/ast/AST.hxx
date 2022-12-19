@@ -22,7 +22,4 @@ namespace ltn::c::ast {
 		std::vector<prst_ptr> presets;
 		std::vector<enum_ptr> enums;
 	};
-
-	template<typename T>
-	concept literal_type = std::is_base_of<ast::Literal, T>::value;
 }
