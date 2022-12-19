@@ -11,7 +11,7 @@
 namespace ltn::c {
 
 	// Sources
-	ast::Source parse_source(Tokens & tokens, Reporter & reporter);
+	ast::Program parse_source(Tokens & tokens, Reporter & reporter);
 	
 	// Funcionals
 	std::optional<std::variant<ast::func_ptr, ast::ftmp_ptr>> parse_functional(Tokens & tokens, const Namespace & namespaze);

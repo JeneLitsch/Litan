@@ -14,7 +14,7 @@
 using namespace std::string_view_literals;
 
 namespace ltn::c {
-	ast::Source parse(
+	ast::Program parse(
 		Tokens & tokens,
 		Reporter & reporter) {
 		
@@ -49,7 +49,7 @@ namespace ltn::c {
 
 
 		std::vector<stx::reference<const ast::Functional>> find_extern_funtions(
-			const ast::Source & source) {
+			const ast::Program & source) {
 			std::vector<stx::reference<const ast::Functional>> externs;
 			for(const auto & fx : source.functions) {
 				if(fx->init) {
@@ -77,7 +77,7 @@ namespace ltn::c {
 
 
 	sst::Program analyze(
-		const ast::Source & source,
+		const ast::Program & source,
 		Reporter & reporter) {
 		
 		sst::Program program;

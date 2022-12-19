@@ -26,12 +26,12 @@ namespace ltn::c {
 		std::vector<std::unique_ptr<Source>> sources,
 		Reporter & reporter);
 
-	ast::Source parse(
+	ast::Program parse(
 		Tokens & tokens,
 		Reporter & reporter);
 
 	sst::Program analyze(
-		const ast::Source & source,
+		const ast::Program & source,
 		Reporter & reporter);
 
 	Instructions compile(

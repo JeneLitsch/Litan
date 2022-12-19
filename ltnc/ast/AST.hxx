@@ -14,7 +14,7 @@ namespace ltn::c::ast {
 	using ftmp_ptr = std::unique_ptr<FunctionTemplate>;
 	using enum_ptr = std::unique_ptr<Enumeration>;
 	
-	struct Source {
+	struct Program {
 		std::vector<func_ptr> functions;
 		std::vector<ftmp_ptr> function_templates;
 		std::vector<defn_ptr> definitions;
