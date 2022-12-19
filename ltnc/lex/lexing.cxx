@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include "ltnc/CompilerError.hxx"
 #include "WS.hxx"
+#include "ltnc/source/StringSource.hxx"
 #include <sstream>
 #include "ltnc/stdlib/algorithm.hxx"
 #include "ltnc/stdlib/bits.hxx"
@@ -355,23 +356,26 @@ namespace ltn::c::lex {
 		
 		std::vector<Token> tokens;
 
-		std::istringstream stdlib { std::string()
-			+ std_algorithm
-			+ std_bits
-			+ std_cast
-			+ std_chrono
-			+ std_container
-			+ std_debug
-			+ std_functional
-			+ std_io
-			+ std_math
-			+ std_random
-			+ std_range
-			+ std_string
-			+ std_type
+		std::vector<StringSource> stdlib = {
+			StringSource{"std_algorithm", std_algorithm},
+			StringSource{"std_bits", std_bits},
+			StringSource{"std_cast", std_cast},
+			StringSource{"std_chrono", std_chrono},
+			StringSource{"std_container", std_container},
+			StringSource{"std_debug", std_debug},
+			StringSource{"std_functional", std_functional},
+			StringSource{"std_io", std_io},
+			StringSource{"std_math", std_math},
+			StringSource{"std_random", std_random},
+			StringSource{"std_range", std_range},
+			StringSource{"std_string", std_string},
+			StringSource{"std_type", std_type},
 		};
 
-		tokens += lex_source(stdlib, "stdlib", reporter);
+		for(auto & source : stdlib) {
+			auto stream = source.make_istream();
+			tokens += lex_source(*stream, source.get_name(), reporter);
+		}
 
 		for(auto & source : sources) {
 			auto stream = source->make_istream();

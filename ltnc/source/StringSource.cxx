@@ -3,12 +3,10 @@
 
 namespace ltn::c {
 	StringSource::StringSource(
-		const std::string & code,
-		const std::string & name)
+		const std::string & name,
+		const std::string & code)
 		: code {code}
-		, name {name} {
-
-	}
+		, name {name} {}
 
 
 
