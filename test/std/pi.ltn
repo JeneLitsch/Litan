@@ -1,0 +1,6 @@
+namespace sphinx::test {
+	function std_pi() {
+		assert_true(std::pi >= 3.14);
+		assert_true(std::pi < 3.15);
+	}
+}
