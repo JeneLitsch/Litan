@@ -154,7 +154,8 @@ namespace ltn::c {
 		// load captures
 		MajorScope inner_scope {
 			outer_scope.get_namespace(),
-			fx.c0nst };
+			fx.c0nst
+		};
 		
 		std::vector<std::unique_ptr<sst::Var>> load_captures;
 		for(const auto & capture : lm.captures) {
@@ -167,7 +168,7 @@ namespace ltn::c {
 		}
 
 		// compile function
-		auto sst_fx = analyze_function(*lm.fx, context, inner_scope, std::move(load_captures));
+		auto sst_fx = analyze_function(*lm.fx, context, inner_scope, std::move(load_captures), make_jump_id("LAMBDA"));
 
 		// store captures
 		std::vector<std::unique_ptr<sst::Var>> store_captures;
