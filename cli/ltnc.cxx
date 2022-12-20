@@ -108,11 +108,6 @@ int main(int argc, char const *argv[]){
 
 	try {
 		ltn::c::Reporter reporter;
-
-		auto a = ltn::c::inst::newi(1);
-		auto b = ltn::c::inst::newi(1);
-
-
 		auto sources = read_sources(flag_source.value(), reporter);
 		auto tokens = ltn::c::tokenize(std::move(sources), reporter);
 		auto source = ltn::c::parse(tokens, reporter);

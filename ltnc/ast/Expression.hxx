@@ -5,7 +5,6 @@
 #include "Switch.hxx"
 #include "Node.hxx"
 #include "ltnc/Namespace.hxx"
-#include "ltnc/ReflectQuery.hxx"
 
 
 namespace ltn::c::ast {

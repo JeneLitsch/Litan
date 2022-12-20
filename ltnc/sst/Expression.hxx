@@ -4,7 +4,6 @@
 #include "ltn/casts.hxx"
 #include "Node.hxx"
 #include "ltnc/Namespace.hxx"
-#include "ltnc/ReflectQuery.hxx"
 
 
 namespace ltn::c::sst {
