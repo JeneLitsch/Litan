@@ -1,6 +1,7 @@
 #include "analyze.hxx"
 #include <iostream>
 #include "ltnc/print/print.hxx"
+#include "labels.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -156,24 +157,27 @@ namespace ltn::c {
 			outer_scope.get_namespace(),
 			fx.c0nst
 		};
+
+		inner_scope.inherit_types_from(outer_scope);
 		
 		std::vector<std::unique_ptr<sst::Var>> load_captures;
 		for(const auto & capture : lm.captures) {
 			const auto var = inner_scope.insert(capture->name, fx.location);
-			load_captures.push_back(
-				std::make_unique<sst::Var>(
-					var.address, var.type
-				)
-			);
+			auto expr = std::make_unique<sst::Var>(var.address, var.type);
+			load_captures.push_back(std::move(expr));
 		}
 
+		const auto id = unique_lambda_label();
+
 		// compile function
-		auto sst_fx = analyze_function(*lm.fx, context, inner_scope, std::move(load_captures), make_jump_id("LAMBDA"));
+		auto sst_fx = analyze_function(*lm.fx, context, inner_scope, std::move(load_captures), id);
 
 		// store captures
 		std::vector<std::unique_ptr<sst::Var>> store_captures;
 		for(const auto & capture : lm.captures) {
-			store_captures.push_back(stx::static_unique_cast<sst::Var>(analyze_expr(*capture, context, outer_scope)));
+			auto expr = analyze_expr(*capture, context, outer_scope);
+			auto var = stx::static_unique_cast<sst::Var>(std::move(expr));
+			store_captures.push_back(std::move(var));
 		}
 
 

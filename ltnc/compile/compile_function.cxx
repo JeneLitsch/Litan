@@ -14,7 +14,7 @@ namespace ltn::c {
 
 		const std::string jumpmark_skip(const std::string_view name) {
 			std::stringstream ss;
-			ss << "_" << name << "_SKIP";
+			ss << name << "_SKIP";
 			return ss.str(); 
 		}
 

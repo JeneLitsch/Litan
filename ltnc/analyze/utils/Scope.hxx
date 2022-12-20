@@ -20,6 +20,7 @@ namespace ltn::c {
 		Variable insert(const std::string & name, const SourceLocation & location, const type::Type & type = type::Any{});
 		void set_return(const std::string & return_point);
 		void add_type(const std::string & name, const type::Type & type);
+		void inherit_types_from(const Scope & scope);
 	protected:
 		std::unordered_map<std::string, Variable> vars;
 		std::optional<std::string> return_point;

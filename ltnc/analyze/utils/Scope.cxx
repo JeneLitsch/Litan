@@ -28,5 +28,13 @@ namespace ltn::c {
 	void Scope::add_type(const std::string & name, const type::Type & type) {
 		this->type_map.insert({name, type});
 	}
+
+
+
+	void Scope::inherit_types_from(const Scope & scope) {
+		for(const auto & [key, val] : scope.type_map) {
+			this->type_map.insert({key, val});
+		}
+	}
 }
 
