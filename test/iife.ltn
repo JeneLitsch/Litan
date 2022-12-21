@@ -1,0 +1,26 @@
+namespace sphinx::test {
+	function iife_simple() {
+		assert_equal_strict(iife { return 42; }, 42);
+	}
+
+
+
+	function iife_outer_var() {
+		var a = 42;
+		assert_equal_strict(iife { return a; }, a);
+	}
+
+
+
+	function iife_no_scope_leak() {
+		var x = 42;
+		var a;
+		var b;
+		iife {
+			a = 42;
+			var b = 42;
+		};
+		assert_equal_strict(a, x);
+		assert_equal_strict(b, null);
+	}
+}

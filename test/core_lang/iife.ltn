@@ -15,7 +15,7 @@ namespace core {
 		};
 	}
 
-	function iifes(sphinx) {
+	function iifes() {
 		var cases = [
 			sphinx::assert_result([-21],  42),
 			sphinx::assert_result([1],    -2),
