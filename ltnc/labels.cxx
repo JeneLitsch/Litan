@@ -24,7 +24,8 @@ namespace ltn::c {
 
 
 
-	Label make_lambda_label() {
+	Label make_lambda_label(
+		const ast::Lambda & lambda) {
 		std::ostringstream oss;
 		oss << "LAMBDA" << unique_number();
 		return internal(oss.str());

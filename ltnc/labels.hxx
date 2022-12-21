@@ -4,9 +4,11 @@
 #include "ltnc/type/Type.hxx"
 #include "ltnc/Label.hxx"
 #include "ltnc/ast/AST.hxx"
+#include "ltnc/sst/SST.hxx"
 
 namespace ltn::c {
-	Label make_lambda_label();
+	Label make_lambda_label(
+		const ast::Lambda & lambda);
 
 	Label make_function_label(
 		const ast::Functional & fx);

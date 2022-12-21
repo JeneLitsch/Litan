@@ -149,11 +149,11 @@ namespace ltn::c {
 
 
 	sst::expr_ptr analyze_expr(
-		const ast::Lambda & lm,
+		const ast::Lambda & lambda,
 		Context & context,
 		Scope & outer_scope) {
 		
-		const auto & fx = *lm.fx;
+		const auto & fx = *lambda.fx;
 		
 		// load captures
 		MajorScope inner_scope {
@@ -164,20 +164,20 @@ namespace ltn::c {
 		inner_scope.inherit_types_from(outer_scope);
 		
 		std::vector<std::unique_ptr<sst::Var>> load_captures;
-		for(const auto & capture : lm.captures) {
+		for(const auto & capture : lambda.captures) {
 			const auto var = inner_scope.insert(capture->name, fx.location);
 			auto expr = std::make_unique<sst::Var>(var.address, var.type);
 			load_captures.push_back(std::move(expr));
 		}
 
-		const auto label = make_lambda_label();
+		const auto label = make_lambda_label(lambda);
 
 		// compile function
-		auto sst_fx = analyze_function(*lm.fx, context, inner_scope, std::move(load_captures), label);
+		auto sst_fx = analyze_function(*lambda.fx, context, inner_scope, std::move(load_captures), label);
 
 		// store captures
 		std::vector<std::unique_ptr<sst::Var>> store_captures;
-		for(const auto & capture : lm.captures) {
+		for(const auto & capture : lambda.captures) {
 			auto expr = analyze_expr(*capture, context, outer_scope);
 			auto var = stx::static_unique_cast<sst::Var>(std::move(expr));
 			store_captures.push_back(std::move(var));
