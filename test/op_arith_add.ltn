@@ -13,12 +13,12 @@ namespace sphinx::test {
 
 
 	function add_numeric_type() {
-		assert_equal(decltype(true + true).name, "int");
-		assert_equal(decltype(true + 1).name,    "int");
-		assert_equal(decltype('A' + 'A').name,   "int");
-		assert_equal(decltype(21 + 21).name,     "int");
-		assert_equal(decltype(21 + 21.0).name,   "float");
-		assert_equal(decltype(20.5 + 21.5).name, "float");
+		assert_equal(reflect(expr true + true).type.name, "int");
+		assert_equal(reflect(expr true + 1).type.name,    "int");
+		assert_equal(reflect(expr 'A' + 'A').type.name,   "int");
+		assert_equal(reflect(expr 21 + 21).type.name,     "int");
+		assert_equal(reflect(expr 21 + 21.0).type.name,   "float");
+		assert_equal(reflect(expr 20.5 + 21.5).type.name, "float");
 	}
 
 
@@ -42,8 +42,8 @@ namespace sphinx::test {
 
 
 	function add_string_type() {
-		assert_equal(decltype("Hello " + "World").name, "string");
-		assert_equal(decltype("" + "").name, "string");
+		assert_equal(reflect(expr "Hello " + "World").type.name, "string");
+		assert_equal(reflect(expr "" + "").type.name, "string");
 	}
 
 
@@ -61,11 +61,11 @@ namespace sphinx::test {
 
 
 	function add_array_type() {
-		assert_equal(decltype([] + []).name, "array<>");
-		assert_equal(decltype([1] + []).name, "array<int>");
-		assert_equal(decltype([1] + [1]).name, "array<int>");
-		assert_equal(decltype([[""]] + [2]).name, "array<any>");
-		assert_equal(decltype([[""]] + [[2]]).name, "array<array<any>>");
+		assert_equal(reflect(expr [] + []).type.name, "array<>");
+		assert_equal(reflect(expr [1] + []).type.name, "array<int>");
+		assert_equal(reflect(expr [1] + [1]).type.name, "array<int>");
+		assert_equal(reflect(expr [[""]] + [2]).type.name, "array<any>");
+		assert_equal(reflect(expr [[""]] + [[2]]).type.name, "array<array<any>>");
 	}
 
 

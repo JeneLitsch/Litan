@@ -10,11 +10,11 @@ namespace sphinx::test {
 
 
 	function sub_numeric_type() {
-		assert_equal(decltype(false - true).name, "int");
-		assert_equal(decltype('A' - 'B').name, "int");
-		assert_equal(decltype('A' - 1).name, "int");
-		assert_equal(decltype(3 - 4).name, "int");
-		assert_equal(decltype(3 - 4.0).name, "float");
+		assert_equal(reflect(expr false - true).type.name, "int");
+		assert_equal(reflect(expr 'A' - 'B').type.name, "int");
+		assert_equal(reflect(expr 'A' - 1).type.name, "int");
+		assert_equal(reflect(expr 3 - 4).type.name, "int");
+		assert_equal(reflect(expr 3 - 4.0).type.name, "float");
 	}
 
 

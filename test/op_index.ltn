@@ -102,9 +102,9 @@ namespace sphinx::test {
 	function index_string_type() {
 		var str : string = "ABC";
 
-		assert_equal(decltype(str[0]).name, "char");
-		assert_equal(decltype(str[1]).name, "char");
-		assert_equal(decltype(str[2]).name, "char");
+		assert_equal(reflect(expr str[0]).type.name, "char");
+		assert_equal(reflect(expr str[1]).type.name, "char");
+		assert_equal(reflect(expr str[2]).type.name, "char");
 	}
 
 

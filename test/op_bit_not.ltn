@@ -8,9 +8,9 @@ namespace sphinx::test {
 
 
 	function bitnot_type() {
-		assert_equal(decltype(~1).name, "int");
-		assert_equal(decltype(~true).name, "int");
-		assert_equal(decltype(~'A').name, "int");
+		assert_equal(reflect(expr ~1).type.name, "int");
+		assert_equal(reflect(expr ~true).type.name, "int");
+		assert_equal(reflect(expr ~'A').type.name, "int");
 	}
 
 

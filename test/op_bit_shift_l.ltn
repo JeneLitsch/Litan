@@ -8,7 +8,7 @@ namespace sphinx::test {
 
 
 	function shift_l_type() {
-		assert_equal(decltype(1 << 1).name, "int");
+		assert_equal(reflect(expr 1 << 1).type.name, "int");
 	}
 
 

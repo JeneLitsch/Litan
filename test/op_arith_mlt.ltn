@@ -13,15 +13,15 @@ namespace sphinx::test {
 
 
 	function mlt_numeric_type() {
-		assert_equal(decltype(true * true).name, "int");
-		assert_equal(decltype(true * 1).name, "int");
-		assert_equal(decltype(1 * false).name, "int");
-		assert_equal(decltype('A' * 'A').name, "int");
-		assert_equal(decltype('A' * 2).name, "int");
-		assert_equal(decltype(1 * 1).name, "int");
-		assert_equal(decltype(1.0 * 1).name, "float");
-		assert_equal(decltype(1 * 1.0).name, "float");
-		assert_equal(decltype(1.0 * 1.0).name, "float");
+		assert_equal(reflect(expr true * true).type.name, "int");
+		assert_equal(reflect(expr true * 1).type.name, "int");
+		assert_equal(reflect(expr 1 * false).type.name, "int");
+		assert_equal(reflect(expr 'A' * 'A').type.name, "int");
+		assert_equal(reflect(expr 'A' * 2).type.name, "int");
+		assert_equal(reflect(expr 1 * 1).type.name, "int");
+		assert_equal(reflect(expr 1.0 * 1).type.name, "float");
+		assert_equal(reflect(expr 1 * 1.0).type.name, "float");
+		assert_equal(reflect(expr 1.0 * 1.0).type.name, "float");
 	}
 
 

@@ -15,12 +15,12 @@ namespace sphinx::test {
 
 
 	function nullco_type() {
-		assert_equal(decltype(1 ?? 1).name, "int");
-		assert_equal(decltype("1" ?? 1).name, "any");
-		assert_equal(decltype("1" ?? "str").name, "string");
-		assert_equal(decltype(["1"] ?? [1]).name, "array<any>");
-		assert_equal(decltype([[]] ?? [[]]).name, "array<array<>>");
-		assert_equal(decltype([[true]] ?? [[1]]).name, "array<array<any>>");
+		assert_equal(reflect(expr 1 ?? 1).type.name, "int");
+		assert_equal(reflect(expr "1" ?? 1).type.name, "any");
+		assert_equal(reflect(expr "1" ?? "str").type.name, "string");
+		assert_equal(reflect(expr ["1"] ?? [1]).type.name, "array<any>");
+		assert_equal(reflect(expr [[]] ?? [[]]).type.name, "array<array<>>");
+		assert_equal(reflect(expr [[true]] ?? [[1]]).type.name, "array<array<any>>");
 	}
 
 

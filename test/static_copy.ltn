@@ -62,11 +62,11 @@ namespace sphinx::test {
 
 
 	function static_copy_type() {
-		assert_equal(decltype(static_copy<bool>(0)).name,        "bool");
-		assert_equal(decltype(static_copy<char>(0)).name,        "char");
-		assert_equal(decltype(static_copy<int>(0)).name,         "int");
-		assert_equal(decltype(static_copy<float>(0)).name,       "float");
-		assert_equal(decltype(static_copy<string>("")).name,     "string");
-		assert_equal(decltype(static_copy<array<int>>("")).name, "array<int>");
+		assert_equal(reflect(expr static_copy<bool>(0)).type.name,        "bool");
+		assert_equal(reflect(expr static_copy<char>(0)).type.name,        "char");
+		assert_equal(reflect(expr static_copy<int>(0)).type.name,         "int");
+		assert_equal(reflect(expr static_copy<float>(0)).type.name,       "float");
+		assert_equal(reflect(expr static_copy<string>("")).type.name,     "string");
+		assert_equal(reflect(expr static_copy<array<int>>("")).type.name, "array<int>");
 	}
 }

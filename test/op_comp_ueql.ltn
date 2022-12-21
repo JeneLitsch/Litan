@@ -12,7 +12,7 @@ namespace sphinx::test {
 
 
 	function unequal_type() {
-		assert_equal(decltype(1 != "0").name, "bool");
+		assert_equal(reflect(expr 1 != "0").type.name, "bool");
 	}
 
 

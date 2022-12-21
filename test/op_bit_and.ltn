@@ -9,8 +9,8 @@ namespace sphinx::test {
 
 
 	function bitand_type() {
-		assert_equal(decltype(1 & 1).name, "int");
-		assert_equal(decltype(0 & 1).name, "int");
+		assert_equal(reflect(expr 1 & 1).type.name, "int");
+		assert_equal(reflect(expr 0 & 1).type.name, "int");
 	}
 
 

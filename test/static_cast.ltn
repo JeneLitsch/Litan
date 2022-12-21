@@ -15,15 +15,15 @@ namespace sphinx::test {
 
 
 	function static_cast_bool_type() {
-		assert_equal(decltype(true : bool).name,  "bool");
-		assert_equal(decltype(false : bool).name, "bool");
-		assert_equal(decltype(1 : bool).name,     "bool");
-		assert_equal(decltype(0 : bool).name,     "bool");
-		assert_equal(decltype(1.0 : bool).name,   "bool");
-		assert_equal(decltype(0.0 : bool).name,   "bool");
-		assert_equal(decltype(null : bool).name,  "bool");
-		assert_equal(decltype("" : bool).name,    "bool");
-		assert_equal(decltype([] : bool).name,    "bool");
+		assert_equal(reflect(expr true : bool).type.name,  "bool");
+		assert_equal(reflect(expr false : bool).type.name, "bool");
+		assert_equal(reflect(expr 1 : bool).type.name,     "bool");
+		assert_equal(reflect(expr 0 : bool).type.name,     "bool");
+		assert_equal(reflect(expr 1.0 : bool).type.name,   "bool");
+		assert_equal(reflect(expr 0.0 : bool).type.name,   "bool");
+		assert_equal(reflect(expr null : bool).type.name,  "bool");
+		assert_equal(reflect(expr "" : bool).type.name,    "bool");
+		assert_equal(reflect(expr [] : bool).type.name,    "bool");
 	}
 
 
@@ -37,9 +37,9 @@ namespace sphinx::test {
 
 
 	function static_cast_char_type() {
-		assert_equal(decltype('A' : char).name,  "char");
-		assert_equal(decltype(65 : char).name,   "char");
-		assert_equal(decltype(65.1 : char).name, "char");
+		assert_equal(reflect(expr 'A' : char).type.name,  "char");
+		assert_equal(reflect(expr 65 : char).type.name,   "char");
+		assert_equal(reflect(expr 65.1 : char).type.name, "char");
 	}
 
 
@@ -55,11 +55,11 @@ namespace sphinx::test {
 
 
 	function static_cast_int_type() {
-		assert_equal_strict(decltype(true : int).name,  "int");
-		assert_equal_strict(decltype(false : int).name, "int");
-		assert_equal_strict(decltype('A' : int).name,   "int");
-		assert_equal_strict(decltype(42 : int).name,    "int");
-		assert_equal_strict(decltype(42.42 : int).name, "int");
+		assert_equal_strict(reflect(expr true : int).type.name,  "int");
+		assert_equal_strict(reflect(expr false : int).type.name, "int");
+		assert_equal_strict(reflect(expr 'A' : int).type.name,   "int");
+		assert_equal_strict(reflect(expr 42 : int).type.name,    "int");
+		assert_equal_strict(reflect(expr 42.42 : int).type.name, "int");
 	}
 
 
@@ -75,10 +75,10 @@ namespace sphinx::test {
 
 
 	function static_cast_float_type() {
-		assert_equal_strict(decltype(true : float).name,  "float");
-		assert_equal_strict(decltype(false : float).name, "float");
-		assert_equal_strict(decltype('A' : float).name,   "float");
-		assert_equal_strict(decltype(42 : float).name,    "float");
-		assert_equal_strict(decltype(42.42 : float).name, "float");
+		assert_equal_strict(reflect(expr true : float).type.name,  "float");
+		assert_equal_strict(reflect(expr false : float).type.name, "float");
+		assert_equal_strict(reflect(expr 'A' : float).type.name,   "float");
+		assert_equal_strict(reflect(expr 42 : float).type.name,    "float");
+		assert_equal_strict(reflect(expr 42.42 : float).type.name, "float");
 	}
 }

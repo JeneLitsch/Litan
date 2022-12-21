@@ -1,13 +1,13 @@
 namespace sphinx::test {
 	function literal_type() {
-		assert_equal(decltype(null).name, "null");
-		assert_equal(decltype(true).name, "bool");
-		assert_equal(decltype('A').name, "char");
-		assert_equal(decltype(1).name, "int");
-		assert_equal(decltype(1.0).name, "float");
-		assert_equal(decltype([]).name, "array<>");
-		assert_equal(decltype("").name, "string");
-		assert_equal(decltype([1, 2]).name, "array<int>");
+		assert_equal(reflect(expr null).type.name, "null");
+		assert_equal(reflect(expr true).type.name, "bool");
+		assert_equal(reflect(expr 'A').type.name, "char");
+		assert_equal(reflect(expr 1).type.name, "int");
+		assert_equal(reflect(expr 1.0).type.name, "float");
+		assert_equal(reflect(expr []).type.name, "array<>");
+		assert_equal(reflect(expr "").type.name, "string");
+		assert_equal(reflect(expr [1, 2]).type.name, "array<int>");
 	}
 
 

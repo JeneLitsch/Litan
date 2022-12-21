@@ -11,10 +11,10 @@ namespace sphinx::test {
 
 
 	function neg_numeric_type() {
-		assert_equal(decltype(-true).name, "int");
-		assert_equal(decltype(-'A').name, "int");
-		assert_equal(decltype(-3).name, "int");
-		assert_equal(decltype(-3.0).name, "float");
+		assert_equal(reflect(expr -true).type.name, "int");
+		assert_equal(reflect(expr -'A').type.name, "int");
+		assert_equal(reflect(expr -3).type.name, "int");
+		assert_equal(reflect(expr -3.0).type.name, "float");
 	}
 
 
