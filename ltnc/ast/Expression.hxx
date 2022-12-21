@@ -21,18 +21,6 @@ namespace ltn::c::ast {
 	
 
 
-	struct DeclType : public Expression {
-		DeclType(
-			std::unique_ptr<Expression> expression,
-			const SourceLocation & location)
-			: Expression(location)
-			, expression(std::move(expression)) {}
-		virtual ~DeclType() = default;
-		std::unique_ptr<Expression> expression;
-	};
-
-
-
 	struct Ternary : public Expression {
 		Ternary(
 			const SourceLocation & location,
@@ -412,7 +400,6 @@ namespace ltn::c::ast {
 		if(auto e = as<ast::Iife>(expr)) return fx(*e);
 		if(auto e = as<ast::Ternary>(expr)) return fx(*e);
 		if(auto e = as<ast::ExprSwitch>(expr)) return fx(*e);
-		if(auto e = as<ast::DeclType>(expr)) return fx(*e);
 		if(auto e = as<ast::TypedUnary>(expr)) return fx(*e);
 		if(auto e = as<ast::Reflect>(expr)) return fx(*e);
 		throw std::runtime_error{"Unknown Expression AST"};

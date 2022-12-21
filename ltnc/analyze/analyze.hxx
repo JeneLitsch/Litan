@@ -69,7 +69,6 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::GlobalVar &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::TypedUnary &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Reflect &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::DeclType &, Context &, Scope &);
 
 	// utils
 	void guard_const(

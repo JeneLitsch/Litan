@@ -120,7 +120,6 @@ namespace ltn::c::lex {
 			{"case",         TT::CASE},
 			{"default",      TT::DEFAULT},
 			{"global",       TT::GLOBAL},
-			{"decltype",     TT::DECLTYPE},
 			{"static_copy",  TT::STATIC_COPY},
 			{"dynamic_copy", TT::DYNAMIC_COPY},
 			{"reflect",      TT::REFLECT},

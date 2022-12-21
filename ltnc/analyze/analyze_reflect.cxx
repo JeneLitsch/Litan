@@ -144,25 +144,6 @@ namespace ltn::c {
 
 
 
-	sst::expr_ptr analyze_expr(
-		const ast::DeclType & expr,
-		Context & context,
-		Scope & scope) {
-		
-		auto result = analyze_expression(*expr.expression, context, scope);
-		const auto type = result->type;
-
-		return std::make_unique<sst::Reflect>(
-			sst::Reflect::TypeQuery {
-				.type = type
-			},
-			make_member_addrs(context.member_table),
-			type::Any{}
-		);
-	}
-
-
-
 	// compiles array literal
 	sst::expr_ptr analyze_expr(
 		const ast::Reflect & refl,
