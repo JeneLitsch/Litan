@@ -5,7 +5,7 @@ namespace ltn::c {
 	namespace {
 		sst::Reflect::FunctionQuery fx_to_query(const ast::Functional & fx) {
 			return sst::Reflect::FunctionQuery {
-				.id        = fx.id,
+				.id        = make_function_label(fx).to_string(),
 				.name      = fx.name,
 				.full_name = fx.namespaze.to_string() + fx.name,
 				.arity     = fx.parameters.size(),

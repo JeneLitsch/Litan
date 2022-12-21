@@ -3,11 +3,13 @@ namespace sphinx::test {
 		function<T> f() -> T => 13.37 : T
 	}
 
+
+
 	function<T> f() -> T => 13.37 : T
 	function<T> f(a : float) -> T => a : T
 	function<T> f(a : float, b : float) -> T => a + b : T
 	function<T1, T2> f(x : T1) -> T2 => f(<T2>, x) : T2
-	function<T> lm() => (lambda[]() => reflect(type array<T>).name)()
+	function<T> lm() => (lambda[]() => reflect(type T).name)()
 
 
 
@@ -84,9 +86,8 @@ namespace sphinx::test {
 
 
 	function template_lambda_scope() {
-		assert_equal_strict(lm(<int>), "array<int>");
-		assert_equal_strict(lm(<array<int>>), "array<array<int>>");
-
+		assert_equal_strict(lm(<int>), "int");
+		assert_equal_strict(lm(<array<int>>), "array<int>");
 	}
 }
 

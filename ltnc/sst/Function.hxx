@@ -4,9 +4,10 @@
 #include <vector>
 #include <sstream>
 #include "ltn/unique.hxx"
-#include "Declaration.hxx"
+#include "ltnc/Label.hxx"
 #include "ltnc/Namespace.hxx"
 #include "ltnc/type/Type.hxx"
+#include "Declaration.hxx"
 
 namespace ltn::c::sst {
 	struct Statement;
@@ -47,14 +48,14 @@ namespace ltn::c::sst {
 
 	struct Functional : public Declaration {
 		Functional(
-			const std::string & id,
+			const Label & label,
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
 			const type::Type & return_type)
 			: Declaration(name, namespaze)
 			, parameters(parameters)
-			, id(id)
+			, label{label}
 			, return_type{return_type} {}
 		virtual ~Functional() = default;
 
@@ -63,7 +64,7 @@ namespace ltn::c::sst {
 		bool pr1vate = false;
 		bool init = false;
 
-		std::string id;
+		Label label;
 		type::Type return_type;
 
 		const std::string & get_resolve_name() const {
@@ -79,22 +80,22 @@ namespace ltn::c::sst {
 	struct Var;
 	struct Function final : public Functional {
 		Function(
-			const std::string & id,
+			const Label & label,
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
 			std::unique_ptr<Statement> && body,
 			const type::Type & return_type)
-			: Functional{id, name, namespaze, parameters, return_type}
+			: Functional{label, name, namespaze, parameters, return_type}
 			, body(std::move(body)) {}
 
 		Function(
-			const std::string & id,
+			const Label & label,
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
 			std::unique_ptr<Statement> && body)
-			: Functional{id, name, namespaze, parameters, type::Any{}}
+			: Functional{label, name, namespaze, parameters, type::Any{}}
 			, body(std::move(body)) {}
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
@@ -106,13 +107,13 @@ namespace ltn::c::sst {
 
 	struct BuildIn final : public Functional {
 		BuildIn(
-			const std::string & id,
+			const Label & label,
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
 			const std::string & key,
 			const type::Type & return_type)
-			: Functional{id, name, namespaze, parameters, return_type}
+			: Functional{label, name, namespaze, parameters, return_type}
 			, key(key) {}
 		virtual ~BuildIn() = default;
 		std::string key;		

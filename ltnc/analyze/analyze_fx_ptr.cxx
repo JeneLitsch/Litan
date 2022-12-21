@@ -27,13 +27,20 @@ namespace ltn::c {
 				fx_ptr.name,
 				scope.get_namespace(),
 				fx_ptr.namespaze,
-				fx_ptr.placeholders);
+				fx_ptr.placeholders
+			);
 
 			if(!fx) throw undefined_function(fx_ptr.name, fx_ptr);
 
 			context.fx_queue.stage_function(*fx);
 
-			return std::tuple{fx, fx->id};
+			const auto label = make_function_label(
+				fx->namespaze,
+				fx->name,
+				fx->parameters.size()
+			);
+
+			return std::tuple{fx, label};
 		}
 
 
@@ -64,14 +71,19 @@ namespace ltn::c {
 				tmpl->template_parameters,
 				fx_ptr.template_arguements);
 
-			const auto id = make_template_id(*tmpl->fx, arguments);
+			const auto fx_label = make_function_label(
+				tmpl->fx->namespaze,
+				tmpl->fx->name,
+				tmpl->fx->parameters.size()
+			);
+			const auto tmpl_label = derive_template(fx_label, arguments);
 			const auto * fx = &*tmpl->fx;
 
 			if(fx->parameters.size() != fx_ptr.placeholders) {
 				throw undefined_function(fx->name, fx_ptr);
 			}
 
-			return std::tuple{fx,id};
+			return std::tuple{fx,tmpl_label};
 		}
 
 
@@ -102,7 +114,7 @@ namespace ltn::c {
 		Scope & scope) {
 
 		MinorScope inner_scope{&scope};
-		auto [funtional, id] = resolve_fx_ptr(fx_ptr, inner_scope, context);
+		auto [funtional, label] = resolve_fx_ptr(fx_ptr, inner_scope, context);
 
 		const auto return_type 
 			= instantiate_type(funtional->return_type, inner_scope);
@@ -115,6 +127,6 @@ namespace ltn::c {
 			.parameter_types = parameter_types,
 		};
 
-		return std::make_unique<sst::FxPointer>(id, funtional->parameters.size(), type);
+		return std::make_unique<sst::FxPointer>(label.to_string(), funtional->parameters.size(), type);
 	}
 }

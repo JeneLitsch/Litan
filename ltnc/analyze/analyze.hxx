@@ -8,6 +8,7 @@
 #include "ltnc/sst/SST.hxx"
 #include "utils/Context.hxx"
 #include "ltnc/make_jump_id.hxx"
+#include "ltnc/labels.hxx"
 
 #include "ltnc/type/Type.hxx"
 #include "ltnc/type/to_string.hxx"
@@ -69,11 +70,6 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::TypedUnary &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Reflect &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::DeclType &, Context &, Scope &);
-
-	std::string make_template_id(
-		const ast::Functional & tmpl,
-		const std::vector<type::Type> & arguments
-	);
 
 	// utils
 	void guard_const(

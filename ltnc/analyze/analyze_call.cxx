@@ -20,7 +20,7 @@ namespace ltn::c {
 			const ast::Functional & fx,
 			Context & context,
 			Scope & scope,
-			const std::optional<std::string> id_override = std::nullopt) {
+			const std::optional<Label> id_override = std::nullopt) {
 
 			guard_private(fx, scope.get_namespace(), call.location);
 			
@@ -41,8 +41,13 @@ namespace ltn::c {
 			}
 
 			const auto return_type = instantiate_type(fx.return_type, scope);
-			const auto id = id_override.value_or(fx.id);
-			return std::make_unique<sst::Call>(id, std::move(arguments), return_type);
+			const auto fx_label = make_function_label(
+				fx.namespaze,
+				fx.name,
+				fx.parameters.size()
+			);
+			const auto label = id_override.value_or(fx_label);
+			return std::make_unique<sst::Call>(label.to_string(), std::move(arguments), return_type);
 		}
 
 
@@ -85,13 +90,13 @@ namespace ltn::c {
 				scope
 			);
 			context.fx_queue.stage_template(*tmpl, arguments);
-			const auto id = make_template_id(*tmpl->fx, arguments);
+			const auto label = make_template_label(tmpl, arguments);
 			MinorScope inner_scope(&scope);
 			add_template_args(
 				inner_scope,
 				tmpl->template_parameters,
 				call.template_args);
-			return do_call(call, *tmpl->fx, context, inner_scope, id);
+			return do_call(call, *tmpl->fx, context, inner_scope, label);
 		}
 	}
 

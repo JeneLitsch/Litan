@@ -31,7 +31,6 @@ target_sources(libltnc PRIVATE
 	analyze.cxx	
 	conversion.cxx
 	instantiate_type.cxx
-	labels.cxx
 )
 
 add_subdirectory(utils)

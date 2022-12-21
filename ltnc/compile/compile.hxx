@@ -5,6 +5,7 @@
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
 #include "ltnc/make_jump_id.hxx"
+#include "ltnc/labels.hxx"
 #include "ltnc/ast/AST.hxx"
 #include "ltnc/sst/SST.hxx"
 

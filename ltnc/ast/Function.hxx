@@ -55,7 +55,6 @@ namespace ltn::c::ast {
 			const SourceLocation & location)
 			: Declaration(location, name, namespaze)
 			, parameters(parameters)
-			, id(mangle(name, namespaze, parameters))
 			, return_type{return_type} {}
 		virtual ~Functional() = default;
 
@@ -64,7 +63,6 @@ namespace ltn::c::ast {
 		bool pr1vate = false;
 		bool init = false;
 
-		std::string id;
 		type::IncompleteType return_type;
 
 		const std::string & get_resolve_name() const {

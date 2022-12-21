@@ -1,7 +1,6 @@
 #include "analyze.hxx"
 #include <iostream>
 #include "ltnc/print/print.hxx"
-#include "labels.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -41,13 +40,15 @@ namespace ltn::c {
 			Context & context,
 			Scope & scope,
 			std::vector<std::unique_ptr<sst::Var>> capture,
-			std::optional<std::string> override_id = std::nullopt) {
+			std::optional<Label> override_label = std::nullopt) {
 
-			const auto id = override_id.value_or(fx.id);
+			const auto label = override_label.value_or(
+				make_function_label(fx.namespaze, fx.name, fx.parameters.size())
+			);
 			auto parameters = analyze_parameters(fx.parameters, scope, fx.location);
 			auto body = analyze_statement(*fx.body, context, scope);
 			auto sst_fx = std::make_unique<sst::Function>(
-				id,
+				label,
 				fx.name,
 				fx.namespaze,
 				parameters,
@@ -72,11 +73,13 @@ namespace ltn::c {
 		sst::func_ptr analyze_build_in_function(
 			const ast::BuildIn & fx,
 			Scope & scope,
-			std::optional<std::string> override_id) {
-			
+			std::optional<Label> override_label) {
+			const auto label = override_label.value_or(
+				make_function_label(fx.namespaze, fx.name, fx.parameters.size())
+			);
 			auto parameters = analyze_parameters(fx.parameters, scope, fx.location);
 			auto sst_fx = std::make_unique<sst::BuildIn>(
-				override_id.value_or(fx.id),
+				label,
 				fx.name,
 				fx.namespaze,
 				parameters,
@@ -98,13 +101,13 @@ namespace ltn::c {
 		const ast::Functional & functional,
 		Context & context,
 		Scope & scope,
-		std::optional<std::string> override_id) {
+		std::optional<Label> override_label) {
 
 		if(auto fx = as<const ast::Function>(functional)) {
-			return analyze_function(*fx, context, scope, {}, override_id);
+			return analyze_function(*fx, context, scope, {}, override_label);
 		}
 		if(auto fx = as<const ast::BuildIn>(functional)) {
-			return analyze_build_in_function(*fx, scope, override_id);
+			return analyze_build_in_function(*fx, scope, override_label);
 		}
 		throw CompilerError{
 			"Unknown functional declaration",
@@ -139,8 +142,8 @@ namespace ltn::c {
 
 		add_template_args(scope, tmpl.template_parameters, arguments);
 		scope.set_return_type(instantiate_type(tmpl.fx->return_type, scope));
-		const auto id = make_template_id(*tmpl.fx, arguments);
-		return analyze_functional(*tmpl.fx, context, scope, id);
+		const auto label = make_template_label(tmpl, arguments);
+		return analyze_functional(*tmpl.fx, context, scope, label);
 	}
 
 
@@ -167,10 +170,10 @@ namespace ltn::c {
 			load_captures.push_back(std::move(expr));
 		}
 
-		const auto id = unique_lambda_label();
+		const auto label = make_lambda_label();
 
 		// compile function
-		auto sst_fx = analyze_function(*lm.fx, context, inner_scope, std::move(load_captures), id);
+		auto sst_fx = analyze_function(*lm.fx, context, inner_scope, std::move(load_captures), label);
 
 		// store captures
 		std::vector<std::unique_ptr<sst::Var>> store_captures;

@@ -59,7 +59,6 @@ namespace ltn::c {
 			buf << inst::label(end);
 
 			return buf;
-
 		}
 
 
