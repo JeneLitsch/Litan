@@ -4,6 +4,7 @@
 #include "ltn/casts.hxx"
 #include "Node.hxx"
 #include "ltnc/Namespace.hxx"
+#include "ltnc/Label.hxx"
 
 
 namespace ltn::c::sst {
@@ -370,14 +371,14 @@ namespace ltn::c::sst {
 	struct FxPointer final : public Primary {
 	public:
 		FxPointer(
-			std::string id,
+			const Label & label,
 			std::size_t arity,
 			const type::Type & type)
 			: Primary(type)
-			, id{id}
+			, label{label}
 			, arity{arity} {}
 		virtual ~FxPointer() = default;
-		std::string id;
+		Label label;
 		std::size_t arity;
 	};
 
@@ -386,14 +387,14 @@ namespace ltn::c::sst {
 	struct Call final : public Primary {
 	public:
 		Call(
-			const std::string & id,
+			const Label & label,
 			std::vector<std::unique_ptr<Expression>> parameters,
 			const type::Type & type)
 			: Primary(type)
-			, id{id}
+			, label{label}
 			, parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
-		std::string id;
+		Label label;
 		std::vector<std::unique_ptr<Expression>> parameters;
 	};
 

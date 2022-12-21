@@ -7,6 +7,12 @@
 #include "ltnc/sst/SST.hxx"
 
 namespace ltn::c {
+	Label make_internal_label(
+		const std::string & name);
+
+	Label make_external_label(
+		const std::string & name);
+
 	Label make_lambda_label(
 		const ast::Lambda & lambda);
 

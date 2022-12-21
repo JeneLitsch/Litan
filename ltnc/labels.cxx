@@ -11,15 +11,18 @@ namespace ltn::c {
 
 
 
-		Label internal(const std::string & name) {
-			return Label { Label::UseCase::INTERNAL, name };
-		}
+	}
 
 
 
-		Label external(const std::string & name) {
-			return Label { Label::UseCase::EXTERNAL, name };
-		}
+	Label make_internal_label(const std::string & name) {
+		return Label { Label::UseCase::INTERNAL, name };
+	}
+
+
+
+	Label make_external_label(const std::string & name) {
+		return Label { Label::UseCase::EXTERNAL, name };
 	}
 
 
@@ -28,7 +31,7 @@ namespace ltn::c {
 		const ast::Lambda & lambda) {
 		std::ostringstream oss;
 		oss << "LAMBDA" << unique_number();
-		return internal(oss.str());
+		return make_internal_label(oss.str());
 	}
 
 
@@ -40,7 +43,7 @@ namespace ltn::c {
 
 		std::ostringstream oss;
 		oss << namespaze.to_string() << name << "(" << arity << ")";
-		return external(oss.str());
+		return make_external_label(oss.str());
 	}
 
 
@@ -65,13 +68,13 @@ namespace ltn::c {
 
 
 	Label derive_skip(const Label & label) {
-		return internal(label.get_name() + "_SKIP");
+		return make_internal_label(label.get_name() + "_SKIP");
 	}
 
 
 
 	Label derive_except(const Label & label) {
-		return internal(label.get_name() + "_EXCEPT");
+		return make_internal_label(label.get_name() + "_EXCEPT");
 	}
 
 
@@ -81,6 +84,6 @@ namespace ltn::c {
 		for(const auto & arg : args) {
 			oss << "_" << type::to_string(arg);
 		}
-		return internal(oss.str());
+		return make_internal_label(oss.str());
 	}
 }

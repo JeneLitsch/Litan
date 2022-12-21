@@ -26,7 +26,7 @@ namespace ltn::c {
 		for(std::size_t i = 0; i < call.parameters.size(); ++i) {
 			buf << compile_expression(*call.parameters[i]);
 		}
-		buf << inst::call(call.id);		
+		buf << inst::call(call.label.to_string());		
 		return buf;
 	}
 }

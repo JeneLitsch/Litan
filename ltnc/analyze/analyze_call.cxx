@@ -47,7 +47,7 @@ namespace ltn::c {
 				fx.parameters.size()
 			);
 			const auto label = id_override.value_or(fx_label);
-			return std::make_unique<sst::Call>(label.to_string(), std::move(arguments), return_type);
+			return std::make_unique<sst::Call>(label, std::move(arguments), return_type);
 		}
 
 
