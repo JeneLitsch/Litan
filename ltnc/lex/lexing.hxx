@@ -17,6 +17,6 @@ namespace ltn::c::lex {
 
 namespace ltn::c {
 	Tokens tokenize(
-		const std::vector<std::unique_ptr<Source>> & sources,
+		const std::vector<Source> & sources,
 		Reporter & reporter);
 }

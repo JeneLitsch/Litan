@@ -350,12 +350,12 @@ namespace ltn::c::lex {
 	
 
 	Tokens lex_sources(
-		const std::vector<std::unique_ptr<Source>> & sources,
+		const std::vector<Source> & sources,
 		Reporter & reporter) {
 		
 		std::vector<Token> tokens;
 
-		std::vector<StringSource> stdlib = {
+		std::vector<Source> stdlib = {
 			StringSource{"std_algorithm", std_algorithm},
 			StringSource{"std_bits", std_bits},
 			StringSource{"std_cast", std_cast},
@@ -377,8 +377,8 @@ namespace ltn::c::lex {
 		}
 
 		for(auto & source : sources) {
-			auto stream = source->make_istream();
-			tokens += lex_source(*stream, source->get_name(), reporter);
+			auto stream = source.make_istream();
+			tokens += lex_source(*stream, source.get_name(), reporter);
 		}
 		
 		tokens += Token::end;
@@ -391,7 +391,7 @@ namespace ltn::c::lex {
 namespace ltn::c {
 
 	Tokens tokenize(
-		const std::vector<std::unique_ptr<Source>> & sources,
+		const std::vector<Source> & sources,
 		Reporter & reporter) {
 
 		return lex::lex_sources(sources, reporter);

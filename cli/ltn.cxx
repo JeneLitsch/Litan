@@ -49,11 +49,11 @@ int main(int argc, char const *argv[]) {
 	ltn::LtnVm vm;
 	try {
 		std::vector<std::string> args;
-		std::vector<std::unique_ptr<ltn::c::Source>> sources;
+		std::vector<ltn::c::Source> sources;
 		for(const auto & source_file : flag_source.value_or({})) {
-			sources.push_back(std::make_unique<ltn::c::FileSource>(
+			sources.push_back(ltn::c::FileSource{
 				std::filesystem::path{source_file}
-			));
+			});
 		}
 
 		auto lexer = ltn::c::tokenize(std::move(sources), reporter);

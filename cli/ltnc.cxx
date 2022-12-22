@@ -9,12 +9,12 @@
 #include "ltn/args.hxx"
 #include "stdxx/args.hxx"
 
-std::vector<std::unique_ptr<ltn::c::Source>> read_sources(const auto & filepaths, ltn::c::Reporter & reporter) {
-	std::vector<std::unique_ptr<ltn::c::Source>> sources;
+std::vector<ltn::c::Source> read_sources(const auto & filepaths, ltn::c::Reporter & reporter) {
+	std::vector<ltn::c::Source> sources;
 	for(const auto & source_path : filepaths) {
 		const auto path = std::filesystem::path{source_path};
 		if(std::filesystem::exists(path)) {
-			sources.push_back(std::make_unique<ltn::c::FileSource>(path));
+			sources.push_back(ltn::c::FileSource{path});
 		}
 		else {
 			std::ostringstream oss;
