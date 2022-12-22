@@ -6,7 +6,13 @@
 namespace ltn::c {
 	namespace {
 		auto default_any() {
-			return std::make_unique<sst::Null>(type::Any{}); 
+			return std::make_unique<sst::Null>(type::Null{}); 
+		}
+
+
+
+		auto default_optional() {
+			return std::make_unique<sst::Null>(type::Null{}); 
 		}
 
 
@@ -46,6 +52,7 @@ namespace ltn::c {
 			const type::Type & type,
 			const SourceLocation & location) {
 			if(type::is_any(type)) return default_any();
+			if(type::is_optional(type)) return default_optional();
 			if(type::is_bool(type)) return default_bool(); 
 			if(type::is_int(type)) return default_int(); 
 			if(type::is_float(type)) return default_float();

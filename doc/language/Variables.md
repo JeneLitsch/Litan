@@ -19,14 +19,15 @@ If a new variable is initialized with an expression the type of the expression i
 
 If a new variable is explicitly declared with a type but no expression is assigned. The compiler generates a default value. If a type has not default a compiler error is thrown. 
 
-| type   | default value |
-| ------ | ------------- |
-| any    | null          |
-| bool   | false         |
-| int    | 0             |
-| float  | 0.0           |
-| string | ""            |
-| array  | []            |
+| type              | default value |
+| ----------------- | ------------- |
+| any               | null          |
+| optional&lt;T&gt; | null          |
+| bool              | false         |
+| int               | 0             |
+| float             | 0.0           |
+| string            | ""            |
+| array             | []            |
 
 An explicitly annotated type is always prioritized over deduction.
 
