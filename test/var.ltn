@@ -23,4 +23,51 @@ namespace sphinx::test {
 		var a : int = 4;
 		assert_equal_strict(reflect(expr a).type.name, "int");
 	}
+
+
+
+	function var_default_any() {
+		var x;
+		assert_equal_strict(x, null);
+	}
+
+
+	
+	function var_default_bool() {
+		var x : bool;
+		assert_equal_strict(x, false);
+		assert_equal_strict(reflect(expr x).type.name, "bool");
+	}
+
+
+
+	function var_default_int() {
+		var x : int;
+		assert_equal_strict(x, 0);
+		assert_equal_strict(reflect(expr x).type.name, "int");
+	}
+
+
+	
+	function var_default_float() {
+		var x : float;
+		assert_equal_strict(x, 0.0);
+		assert_equal_strict(reflect(expr x).type.name, "float");
+	}
+
+
+
+	function var_default_string() {
+		var x : string;
+		assert_equal_strict(x, "");
+		assert_equal_strict(reflect(expr x).type.name, "string");
+	}
+
+
+
+	function var_default_array() {
+		var x : array<int>;
+		assert_equal_strict(x, []);
+		assert_equal_strict(reflect(expr x).type.name, "array<int>");
+	}
 }
