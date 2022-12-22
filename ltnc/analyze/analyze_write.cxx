@@ -55,7 +55,10 @@ namespace ltn::c {
 					glob->type,
 					glob->id);
 			}
-
+			throw CompilerError {
+				"Left side is not assignable",
+				expr.location
+			};
 		}
 	}
 
@@ -152,9 +155,7 @@ namespace ltn::c {
 		Scope & scope) {
 		
 		auto expr = analyze_new_variable_right(new_var, context, scope);
-		std::cout << "EXPR: " << to_string(expr->type) << "\n";
 		const auto var = insert_new_var(new_var, scope, expr->type);		
-		std::cout << "Var: " << to_string(var.type) << "\n";
 		auto r = conversion_on_assign(std::move(expr), var.type, new_var.location);
 		return std::make_unique<sst::NewVar>(0, true, var.address, std::move(r), var.type);
 	}
