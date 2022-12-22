@@ -9,9 +9,9 @@ namespace ltn::c {
 				.name      = fx.name,
 				.full_name = fx.namespaze.to_string() + fx.name,
 				.arity     = fx.parameters.size(),
-				.c0nst     = fx.c0nst,
-				.pr1vate   = fx.pr1vate,
-				.ext3rn    = fx.init,
+				.c0nst     = fx.is_const,
+				.pr1vate   = fx.is_private,
+				.ext3rn    = fx.is_extern,
 			};
 		}
 

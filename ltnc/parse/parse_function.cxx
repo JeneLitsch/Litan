@@ -169,9 +169,9 @@ namespace ltn::c {
 				std::move(body),
 				return_type,
 				location(tokens));
-			fx->c0nst = is_const;
-			fx->pr1vate = is_private;
-			fx->init = is_extern;
+			fx->is_const = is_const;
+			fx->is_private = is_private;
+			fx->is_extern = is_extern;
 			return fx;
 		}
 
@@ -209,7 +209,7 @@ namespace ltn::c {
 				tokens,
 				namespaze,
 				parse_body);
-			if(!fx->c0nst) fx->except = parse_except(tokens);
+			if(!fx->is_const) fx->except = parse_except(tokens);
 			if(template_parameters.empty()) {
 				return fx;
 			}

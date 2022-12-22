@@ -55,9 +55,9 @@ namespace ltn::c {
 				std::move(body),
 				instantiate_type(fx.return_type, scope)
 			);
-			sst_fx->c0nst = fx.c0nst; 
-			sst_fx->init = fx.init; 
-			sst_fx->pr1vate = fx.pr1vate;
+			sst_fx->is_const = fx.is_const; 
+			sst_fx->is_extern = fx.is_extern; 
+			sst_fx->is_private = fx.is_private;
 			sst_fx->capture = std::move(capture);
 			if(fx.except) {
 				sst_fx->except = analyze_except(*fx.except, context, fx.namespaze);
@@ -86,9 +86,9 @@ namespace ltn::c {
 				fx.key,
 				instantiate_type(fx.return_type, scope)
 			);
-			sst_fx->c0nst = fx.c0nst; 
-			sst_fx->init = fx.init; 
-			sst_fx->pr1vate = fx.pr1vate;
+			sst_fx->is_const = fx.is_const; 
+			sst_fx->is_extern = fx.is_extern; 
+			sst_fx->is_private = fx.is_private;
 
 			return sst_fx;
 		}
@@ -122,7 +122,7 @@ namespace ltn::c {
 
 		FunctionScope scope {
 			functional.namespaze,
-			functional.c0nst,
+			functional.is_const,
 		};
 		scope.set_return_type(instantiate_type(functional.return_type, scope));
 		return analyze_functional(functional, context, scope, std::nullopt);
@@ -137,7 +137,7 @@ namespace ltn::c {
 
 		FunctionScope scope {
 			tmpl.fx->namespaze,
-			tmpl.fx->c0nst,
+			tmpl.fx->is_const,
 		};
 
 		add_template_args(scope, tmpl.template_parameters, arguments);
@@ -158,7 +158,7 @@ namespace ltn::c {
 		// load captures
 		MajorScope inner_scope {
 			outer_scope.get_namespace(),
-			fx.c0nst
+			fx.is_const
 		};
 
 		inner_scope.inherit_types_from(outer_scope);

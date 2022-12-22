@@ -80,7 +80,7 @@ namespace ltn::c {
 			const ast::Program & source) {
 			std::vector<stx::reference<const ast::Functional>> externs;
 			for(const auto & fx : source.functions) {
-				if(fx->init) {
+				if(fx->is_extern) {
 					externs.push_back(*fx);
 				}
 				if(fx->name == "main" && (fx->parameters.size() == 0 || fx->parameters.size() == 1)) {

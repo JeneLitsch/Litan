@@ -22,7 +22,7 @@ namespace ltn::c {
 		const Namespace & call_ns,
 		const SourceLocation & loc) {
 		if(
-			fx.pr1vate &&
+			fx.is_private &&
 			!is_inner_namespace(call_ns, fx.namespaze)) {
 			throw CompilerError {
 				"Function is not visible in current scope",
