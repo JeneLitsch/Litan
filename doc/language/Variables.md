@@ -28,7 +28,7 @@ If a new variable is explicitly declared with a type but no expression is assign
 | string | ""            |
 | array  | []            |
 
-
+An explicitly annotated type is always prioritized over deduction.
 
 ## Examples
 
