@@ -100,7 +100,7 @@ namespace ltn::c {
 
 	type::IncompleteType parse_type(Tokens & tokens);
 	type::IncompleteType parse_type(Tokens & tokens, BraceTracker & brace_tracker);
-	std::variant<type::IncompleteType, type::Auto> parse_var_type_auto(Tokens & tokens);
+	std::optional<type::IncompleteType> parse_var_type_auto(Tokens & tokens);
 	type::IncompleteType parse_var_type(Tokens & tokens);
 	type::IncompleteType parse_parameter_type(Tokens & tokens);
 	type::IncompleteType parse_return_type(Tokens & tokens);

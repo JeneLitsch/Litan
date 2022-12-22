@@ -73,9 +73,8 @@ namespace ltn::c {
 			if(new_var.expression) {
 				return analyze_expression(*new_var.expression, context, scope);
 			}
-			auto imcomplete = std::get_if<type::IncompleteType>(&new_var.type);
-			if(imcomplete) {
-				const auto type = instantiate_type(*imcomplete, scope);
+			if(new_var.type) {
+				const auto type = instantiate_type(*new_var.type, scope);
 				return generate_default_value(type, new_var.location);
 			}
 			return std::make_unique<sst::Null>(type::Any{});
@@ -87,9 +86,8 @@ namespace ltn::c {
 			Scope & scope,
 			const type::Type & r_type) {
 
-			auto imcomplete = std::get_if<type::IncompleteType>(&new_var.type);
-			if(imcomplete) {
-				const auto type = instantiate_type(*imcomplete, scope);
+			if(new_var.type) {
+				const auto type = instantiate_type(*new_var.type, scope);
 				return scope.insert(new_var.name, new_var.location, type);		
 			}
 			return scope.insert(new_var.name, new_var.location, r_type);		
