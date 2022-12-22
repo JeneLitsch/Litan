@@ -1,0 +1,26 @@
+namespace sphinx::test {
+	function var_type_none() {
+		var a;
+		assert_equal_strict(reflect(expr a).type.name, "any");
+	}
+
+
+	function var_type_implicit() {
+		var a = 4;
+		assert_equal_strict(reflect(expr a).type.name, "int");
+	}
+
+
+	
+	function var_type_auto() {
+		var a : auto = 4;
+		assert_equal_strict(reflect(expr a).type.name, "int");
+	}
+
+
+	
+	function var_type_explicit() {
+		var a : int = 4;
+		assert_equal_strict(reflect(expr a).type.name, "int");
+	}
+}

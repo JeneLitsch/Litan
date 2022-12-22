@@ -144,7 +144,7 @@ namespace ltn::c {
 				return parse_type(tokens);
 			}
 		}
-		return type::IncompleteType{type::Any{}};
+		return type::Auto{};
 	}
 
 
