@@ -3,7 +3,7 @@
 #include <istream>
 #include <iostream>
 
-namespace ltn::c::lex {
+namespace ltn::c {
 	// std::ws with newline counting
 	struct WS {	std::size_t & line; };
 

@@ -19,7 +19,7 @@
 #include "ltnc/stdlib/string.hxx"
 
 
-namespace ltn::c::lex {
+namespace ltn::c {
 	namespace {
 		using TT = Token::Type; 
 
@@ -69,7 +69,7 @@ namespace ltn::c::lex {
 		}
 
 		// returns true and consumes if the next char matches 
-		bool match(std::istream & in, char chr) {
+		bool match_char(std::istream & in, char chr) {
 			const bool b = check(in, chr);
 			if(b) consume(in);
 			return b;
@@ -165,8 +165,8 @@ namespace ltn::c::lex {
 	}
 	
 	Token token(std::istream & in, SourceLocation & location) {
-		const auto match = [&] (auto chr) {
-			return ltn::c::lex::match(in, chr);
+		const auto match = [&] (char chr) {
+			return ltn::c::match_char(in, chr);
 		};
 
 		const auto make = [&location] (auto type, const auto &str) {
@@ -334,7 +334,7 @@ namespace ltn::c::lex {
 			std::vector<Token> tokens;
 			while (true) {
 				try {
-					Token t = lex::token(in, loc);
+					Token t = token(in, loc);
 					if(t.type == TT::___EOF___) break;
 					tokens += t;
 				}
@@ -385,16 +385,13 @@ namespace ltn::c::lex {
 		return Tokens{ std::move(tokens) };
 	}
 
-}
 
 
-namespace ltn::c {
-
-	Tokens tokenize(
+	Tokens lex(
 		const std::vector<Source> & sources,
 		Reporter & reporter) {
 
-		return lex::lex_sources(sources, reporter);
+		return lex_sources(sources, reporter);
 	}
 }
 
