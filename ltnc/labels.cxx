@@ -39,12 +39,24 @@ namespace ltn::c {
 	Label make_function_label(
 		const Namespace & namespaze,
 		const std::string & name,
-		std::uint64_t arity) {
+		const ast::Parameters & parameters) {
 
 		std::ostringstream oss;
-		oss << namespaze.to_string() << name << "(" << arity << ")";
+		oss << namespaze.to_string() << name << "(";
+		bool first = true;
+		for(const auto p : parameters) {
+			if(first) {
+				first = false;
+			}
+			else {
+				oss << ",";
+			}
+			oss << to_string(p.type.type);
+		}		
+		oss << ")";
 		return make_external_label(oss.str());
 	}
+
 
 
 
@@ -52,7 +64,7 @@ namespace ltn::c {
 		return make_function_label(
 			fx.get_resolve_namespace(),
 			fx.get_resolve_name(),
-			fx.parameters.size()
+			fx.parameters
 		);
 	}
 

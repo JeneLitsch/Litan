@@ -219,7 +219,9 @@ namespace ltn::vm {
 		void jump_to_init(VmCore & core, const std::string & main) {
 			const auto main_fx = [&] () -> std::string {
 				if(!main.empty()) return main;
-				return core.function_table.contains("main(1)") ? "main(1)" : "main(0)";
+				return core.function_table.contains("main(array<string>)") 
+					? "main(array<string>)"
+					: "main()";
 			} ();
 			if(!core.function_table.contains(main_fx)) throw std::runtime_error {
 				"Program does not contain function " + main_fx

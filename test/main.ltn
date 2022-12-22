@@ -1,4 +1,4 @@
-function main(args) {
+function main(args : array<string>) {
 	sphinx::run_tests();
 }
 except(e) {

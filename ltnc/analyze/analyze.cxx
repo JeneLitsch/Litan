@@ -169,11 +169,18 @@ namespace ltn::c {
 		}
 
 		for(const auto & function : source.functions) {
-			context.fx_table.insert(*function, function->parameters.size());
+			MajorScope scope{function->namespaze, false};
+			auto i_types = stx::fx::mapped
+				([&] (const auto &arg) { return arg.type; })
+				(function->parameters);
+			auto c_type = stx::fx::mapped(instantiate_type)(i_types, scope);
+			context.fx_table.insert(*function, c_type);
 		}
 
 		for(const auto & ctor : ctors) {
-			context.fx_table.insert(*ctor, ctor->parameters.size());
+			std::vector<type::Type> types;
+			types.resize(ctor->parameters.size(), type::Any{});
+			context.fx_table.insert(*ctor, types);
 		}
 
 		auto externs = find_extern_funtions(source);

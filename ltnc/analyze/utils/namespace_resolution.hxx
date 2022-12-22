@@ -7,7 +7,7 @@ namespace ltn::c {
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name,
-		const std::size_t parameters);
+		const std::vector<type::Type> & arguments);
 
 	const sst::Definition * resolve(
 		const std::vector<const sst::Definition *> & definitions,

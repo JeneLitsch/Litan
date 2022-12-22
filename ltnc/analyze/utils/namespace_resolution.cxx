@@ -7,12 +7,12 @@ namespace ltn::c {
 			const ast::Functional & fx,
 			const Namespace & full,
 			const std::string_view name,
-			const std::size_t parameters) {
+			const std::vector<type::Type> & arguments) {
 
 			return
 				fx.name == name &&
 				fx.namespaze == full &&
-				std::size(fx.parameters) == parameters;
+				std::size(fx.parameters) == arguments.size();
 		}
 
 
@@ -118,9 +118,9 @@ namespace ltn::c {
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name,
-		const std::size_t parameters) {
+		const std::vector<type::Type> & arguments) {
 
-		return resolve_x(functions, from, to, name, parameters);
+		return resolve_x(functions, from, to, name, arguments);
 	}
 
 

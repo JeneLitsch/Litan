@@ -23,22 +23,21 @@ namespace ltn::c {
 			Scope & scope,
 			Context & context) {
 
+			std::vector<type::Type> types;
+			types.resize(fx_ptr.placeholders, type::Any{});
+
 			const auto fx = context.fx_table.resolve(
 				fx_ptr.name,
 				scope.get_namespace(),
 				fx_ptr.namespaze,
-				fx_ptr.placeholders
+				types			
 			);
 
 			if(!fx) throw undefined_function(fx_ptr.name, fx_ptr);
 
 			context.fx_queue.stage_function(*fx);
 
-			const auto label = make_function_label(
-				fx->namespaze,
-				fx->name,
-				fx->parameters.size()
-			);
+			const auto label = make_function_label(*fx);
 
 			return std::tuple{fx, label};
 		}
@@ -71,11 +70,7 @@ namespace ltn::c {
 				tmpl->template_parameters,
 				fx_ptr.template_arguements);
 
-			const auto fx_label = make_function_label(
-				tmpl->fx->namespaze,
-				tmpl->fx->name,
-				tmpl->fx->parameters.size()
-			);
+			const auto fx_label = make_function_label(*tmpl->fx);
 			const auto tmpl_label = derive_template(fx_label, arguments);
 			const auto * fx = &*tmpl->fx;
 

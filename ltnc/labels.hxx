@@ -22,7 +22,12 @@ namespace ltn::c {
 	Label make_function_label(
 		const Namespace & namespaze,
 		const std::string & name,
-		std::uint64_t arity);
+		const ast::Parameters & parameters);
+
+	// Label make_function_label(
+	// 	const Namespace & namespaze,
+	// 	const std::string & name,
+	// 	const std::vector<type::Type> & parameters);
 
 	Label make_template_label(
 		const ast::FunctionTemplate & tmpl,

@@ -39,10 +39,13 @@ namespace ltn::c {
 			Context & context,
 			Scope & scope) {
 
+			std::vector<type::Type> types;
+			types.resize(query.arity, type::Any{});
+
 			const auto * fx = context.fx_table.resolve(
 				query.name,
 				query.namespaze,
-				query.arity
+				types
 			);
 
 			if(!fx) {

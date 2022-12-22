@@ -40,10 +40,10 @@ namespace ltn::c {
 
 
 		std::set<std::string> extern_functions;
-		extern_functions.insert("main(0)");
-		extern_functions.insert("main(1)");
+		extern_functions.insert("main()");
+		extern_functions.insert("main(array<string>)");
 		for(const auto & fx : program.functions) {
-			if(fx->is_extern) extern_functions.insert(fx->label.to_string());
+			if(fx->is_extern) {} extern_functions.insert(fx->label.to_string());
 		}
 
 		AddressTable extern_globals;
