@@ -10,8 +10,8 @@ namespace sphinx::test {
 
 
 
-		function for_skip(begin, end, step) {
-			var skipped : bool = true;
+		function for_skip(begin, end, step) -> bool {
+			var skipped = true;
 			for (i : begin -> end : step) {
 				skipped = false;
 			}

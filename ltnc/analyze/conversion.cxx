@@ -11,7 +11,7 @@ namespace ltn::c {
 
 			if(type::is_any(to)) return from;
 			if(to == from->type) return from;
-			if(is_bool(to))   return std::make_unique<sst::TypedUnary>(sst::TypedUnary::Op::STATIC_CAST, to, std::move(from), to);
+			// if(is_bool(to))   return std::make_unique<sst::TypedUnary>(sst::TypedUnary::Op::STATIC_CAST, to, std::move(from), to);
 			if(is_char(to))   return std::make_unique<sst::TypedUnary>(sst::TypedUnary::Op::STATIC_CAST, to, std::move(from), to);
 			if(is_int(to))    return std::make_unique<sst::TypedUnary>(sst::TypedUnary::Op::STATIC_CAST, to, std::move(from), to);
 			if(is_float(to))  return std::make_unique<sst::TypedUnary>(sst::TypedUnary::Op::STATIC_CAST, to, std::move(from), to);
@@ -33,7 +33,7 @@ namespace ltn::c {
 		const type::Type & to) {
 		if(type::is_any(to))                  return true;
 		if(to == from)                        return true;
-		if(is_bool(to))                       return true;
+		// if(is_bool(to))                       return true;
 		if(is_char(to)  && is_subint(from))   return true;
 		if(is_int(to)   && is_integral(from)) return true;
 		if(is_float(to) && is_numeric(from))  return true;

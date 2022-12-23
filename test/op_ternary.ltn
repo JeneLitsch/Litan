@@ -26,7 +26,7 @@ namespace sphinx::test {
 
 
 	function short_cicuit() {
-		var test_short = lambda(condition) {
+		var test_short = lambda(condition) -> bool {
 			var second = std::mono(false);
 			condition ? null : lambda [second] { second.value = true; }();
 			return second.value;

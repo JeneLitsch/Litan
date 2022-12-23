@@ -9,7 +9,7 @@ namespace sphinx::test {
 
 
 	function logor_short_circuit() {
-		var test_short = lambda(a, b) {
+		var test_short = lambda(a, b) -> bool {
 			var second = std::mono(false);
 			a || lambda [second] (b) { second.value = true; return b; }(b);
 			return second.value;
