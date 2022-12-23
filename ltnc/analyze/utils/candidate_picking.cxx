@@ -56,6 +56,11 @@ namespace ltn::c {
 			return matches;
 		}
 
+		constexpr auto qualify = [](const auto & candidates)
+			-> std::remove_reference_t<decltype(candidates[0])> {
+			if(candidates.size() == 1) return candidates[0];
+			else return nullptr;
+		};
 	}
 
 
@@ -64,15 +69,40 @@ namespace ltn::c {
 		const std::vector<const ast::Functional *> & candidates,
 		const std::vector<type::Type> & arguments) {
 
-		constexpr auto qualify = [](const auto & matches) -> const ast::Functional * {
-			if(matches.size() == 1) return matches[0];
-			else return nullptr;	
-		};
-		
 		const auto exact = pick_exact(candidates, arguments);
 		if(!exact.empty()) return qualify(exact);
 		const auto any_fallback = pick_any(candidates);
 		return qualify(any_fallback);
 
+	}
+
+
+
+	const ast::Functional * pick_candidate_exact(
+		const std::vector<const ast::Functional *> & candidates,
+		const std::vector<type::Type> & arguments) {
+		const auto exact = pick_exact(candidates, arguments);
+		if(!exact.empty()) return qualify(exact);
+	}
+
+
+
+	const sst::Definition * pick_candidate(
+		const std::vector<const sst::Definition *> & candidates) {
+		return qualify(candidates);
+	}
+
+
+
+	const sst::Global * pick_candidate(
+		const std::vector<const sst::Global *> & candidates) {
+		return qualify(candidates);
+	}
+
+
+
+	const ast::FunctionTemplate * pick_candidate(
+		const std::vector<const ast::FunctionTemplate *> & candidates) {
+		return qualify(candidates);
 	}
 }

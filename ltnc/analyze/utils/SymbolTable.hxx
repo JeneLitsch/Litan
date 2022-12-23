@@ -13,18 +13,18 @@ namespace ltn::c {
 			const std::string_view name,
 			const Namespace & from,
 			const Namespace & to,
-			Args ... args) = 0;
+			Args ... args) const = 0;
 
 		virtual const Symbol * resolve(
 			const std::string_view name,
 			const Namespace & full,
-			Args ... args) = 0;
+			Args ... args) const = 0;
 
 		virtual void insert(
 			const Symbol & sym,
 			Args ... args) = 0;
 
-		virtual const std::vector<const Symbol *> & get_symbols() = 0;
+		virtual const std::vector<const Symbol *> & get_symbols() const = 0;
 	protected:
 		SymbolTable() = default;
 	};
@@ -41,7 +41,7 @@ namespace ltn::c {
 			const std::string_view name,
 			const Namespace & from,
 			const Namespace & to,
-			Args ... args) override {
+			Args ... args) const override {
 		
 			return ltn::c::resolve(this->symbols, from, to, name, args...);
 		}
@@ -51,7 +51,7 @@ namespace ltn::c {
 		virtual const Symbol * resolve(
 			const std::string_view name,
 			const Namespace & full,
-			Args ... args) override {
+			Args ... args) const override {
 
 			return ltn::c::resolve(this->symbols, {}, full, name, args...);
 		}
@@ -62,18 +62,27 @@ namespace ltn::c {
 			const Symbol & symbol,
 			Args ... args) override {
 			// Prevent redefinition
-			if(this->resolve(symbol.get_resolve_name(), symbol.get_resolve_namespace(), args...)) {
+			if(this->resolve_exact(symbol.get_resolve_name(), symbol.get_resolve_namespace(), args...)) {
 				throw Err::redef(symbol);
 			}
 			this->symbols.push_back(&symbol);
 		}
 
 
-		virtual const std::vector<const Symbol *> & get_symbols() override {
+		virtual const std::vector<const Symbol *> & get_symbols() const override {
 			return symbols;
 		}
 
 	private:
+		const Symbol * resolve_exact(
+			const std::string_view name,
+			const Namespace & full,
+			Args ... args) const {
+
+			return ltn::c::resolve_exact(this->symbols, {}, full, name, args...);
+		}
+
+
 		std::vector<const Symbol *> symbols;
 	};
 
@@ -93,7 +102,7 @@ namespace ltn::c {
 			const std::string_view,
 			const Namespace &,
 			const Namespace &,
-			Args ...) override {
+			Args ...) const override {
 			throw Err::use(this->inside);
 		}
 
@@ -102,7 +111,7 @@ namespace ltn::c {
 		virtual const Symbol * resolve(
 			const std::string_view,
 			const Namespace &,
-			Args ...) override {
+			Args ...) const override {
 			throw Err::use(this->inside);
 		}
 
@@ -114,7 +123,7 @@ namespace ltn::c {
 			throw Err::decl(this->inside);
 		}
 
-		virtual const std::vector<const Symbol *> & get_symbols() override {
+		virtual const std::vector<const Symbol *> & get_symbols() const override {
 			static const std::vector<const Symbol *> vec;
 			return vec;
 		}

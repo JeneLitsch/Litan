@@ -116,10 +116,6 @@ namespace ltn::c {
 			resolve_rec(candidates, decls, from, to, name, additional...);
 			return candidates;
 		}
-
-
-
-
 	}
 
 
@@ -159,6 +155,54 @@ namespace ltn::c {
 
 
 	const ast::FunctionTemplate * resolve(
+		const std::vector<const ast::FunctionTemplate *> & functions,
+		const Namespace & from,
+		const Namespace & to,
+		const std::string_view name,
+		const std::size_t function_parameters,
+		const std::size_t template_parameters) {
+		
+		const auto candidates = resolve_candidates(functions, from, to, name, function_parameters, template_parameters);
+		return pick_candidate(candidates);
+	}
+
+
+
+	const ast::Functional * resolve_exact(
+		const std::vector<const ast::Functional *> & functions,
+		const Namespace & from,
+		const Namespace & to,
+		const std::string_view name,
+		const std::vector<type::Type> & arguments) {
+		
+		const auto candidates = resolve_candidates(functions, from, to, name, arguments);
+		return pick_candidate_exact(candidates, arguments);
+	}
+
+
+
+	const sst::Definition * resolve_exact(
+		const std::vector<const sst::Definition *> & definition,
+		const Namespace & from,
+		const Namespace & to,
+		const std::string_view name) {
+
+		return pick_candidate(resolve_candidates(definition, from, to, name));
+	}
+
+
+
+	const sst::Global * resolve_exact(
+		const std::vector<const sst::Global *> & globals,
+		const Namespace & from,
+		const Namespace & to,
+		const std::string_view name) {
+		return pick_candidate(resolve_candidates(globals, from, to, name));
+	}
+
+
+
+	const ast::FunctionTemplate * resolve_exact(
 		const std::vector<const ast::FunctionTemplate *> & functions,
 		const Namespace & from,
 		const Namespace & to,
