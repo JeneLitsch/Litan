@@ -81,4 +81,20 @@ namespace sphinx::test {
 		assert_equal_strict(reflect(expr 42 : float).type.name,    "float");
 		assert_equal_strict(reflect(expr 42.42 : float).type.name, "float");
 	}
+
+
+
+	function static_cast_array() {
+		assert_equal_strict([] : array<int>, []);
+		assert_equal_strict([] : array<float>, []);
+		assert_equal_strict([] : array<string>, []);
+	}
+
+
+
+	function static_cast_array_type() {
+		assert_equal_strict(reflect(expr [] : array<int>).type.name, "array<int>");
+		assert_equal_strict(reflect(expr [] : array<float>).type.name, "array<float>");
+		assert_equal_strict(reflect(expr [] : array<string>).type.name, "array<string>");
+	}
 }
