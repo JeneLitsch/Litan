@@ -3,11 +3,19 @@ global a : int = 0;
 function f(i : int) => "int"
 function f(f : float) => "float"
 function f(f : string) => "string"
+function f(f : bool) => "bool"
 function f(f : any) => "any"
+function f(f : null) => "null"
+function f(f : array<int>) => "array<int>"
+function f(f : array<string>) => "array<string>"
 
 function main(args : array<string>) {
+	var b = (lambda() -> bool => true);
+	std::println(reflect(expr b).type.name);
 	std::println(f(0));
 	std::println(f(0.0));
 	std::println(f(""));
+	std::println(f(true));
 	std::println(f(null));
+	// std::println(f([]));
 }

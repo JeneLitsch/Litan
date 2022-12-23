@@ -18,4 +18,8 @@ namespace ltn::c {
 		sst::expr_ptr from,
 		const type::Type & to,
 		const SourceLocation & location);
+
+	bool is_convertible(
+		const type::Type & from,
+		const type::Type & to);
 }

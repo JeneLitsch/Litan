@@ -1,10 +1,11 @@
 namespace sphinx::test {
     function if_else() {
-        var if_else = lambda (condition) {
+        var if_else = lambda (condition) -> bool {
 			if(condition) return true;
 			else return false;
 		};
-
+		if_else(true);
+		std::println("XXX");
 		assert_true(if_else(true));
 		assert_false(if_else(false));
 		assert_false(if_else(0));

@@ -1,4 +1,5 @@
 #include "candidate_picking.hxx"
+#include "ltnc/analyze/conversion.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -8,6 +9,21 @@ namespace ltn::c {
 			
 			for(std::size_t i = 0; i < arguments.size(); ++i) {
 				if(candidate.parameters[i].type.type != arguments[i]) {
+					return false;
+				}
+			}
+			
+			return true;
+		}
+
+
+
+		bool match_partial(
+			const ast::Functional & candidate,
+			const std::vector<type::Type> & arguments) {
+			
+			for(std::size_t i = 0; i < arguments.size(); ++i) {
+				if(!is_convertible(arguments[i], candidate.parameters[i].type.type)) {
 					return false;
 				}
 			}
@@ -44,6 +60,19 @@ namespace ltn::c {
 
 
 
+		auto pick_partial(
+			const std::vector<const ast::Functional *> & candidates,
+			const std::vector<type::Type> & arguments) {
+			std::vector<const ast::Functional *> matches;
+			for(const auto & candidate : candidates) {
+				if(match_partial(*candidate, arguments) && !match_any(*candidate)) {
+					matches.push_back(candidate);
+				}
+			}
+			return matches;
+		}
+
+
 
 		auto pick_any(
 			const std::vector<const ast::Functional *> & candidates) {
@@ -71,6 +100,8 @@ namespace ltn::c {
 
 		const auto exact = pick_exact(candidates, arguments);
 		if(!exact.empty()) return qualify(exact);
+		const auto partial = pick_partial(candidates, arguments);
+		if(!partial.empty()) return qualify(partial);
 		const auto any_fallback = pick_any(candidates);
 		return qualify(any_fallback);
 

@@ -190,7 +190,7 @@ namespace ltn::c {
 			parameter_types.push_back(type);
 		}
 
-		const auto return_type = type::FxPtr {
+		const auto type = type::FxPtr {
 			.return_type = instantiate_type(fx.return_type, inner_scope),
 			.parameter_types = parameter_types, 
 		};
@@ -198,7 +198,7 @@ namespace ltn::c {
 		return std::make_unique<sst::Lambda>(
 			stx::static_unique_cast<sst::Function>(std::move(sst_fx)),
 			std::move(store_captures),
-			instantiate_type(fx.return_type, outer_scope)
+			type
 		);
 	}
 }
