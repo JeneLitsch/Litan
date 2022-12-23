@@ -93,7 +93,7 @@ namespace ltn::c::ast {
 		struct FunctionQuery {
 			Namespace namespaze;
 			std::string name;
-			std::size_t arity;
+			std::vector<type::IncompleteType> function_args;
 		};
 		struct FileQuery {};
 		struct LineQuery {};
@@ -344,17 +344,17 @@ namespace ltn::c::ast {
 		FxPointer(
 			const std::string & name,
 			const Namespace & namespaze,
-			const std::size_t placeholders,
+			std::vector<type::IncompleteType> function_types,
 			const SourceLocation & location)
 			: Primary(location)
 			, name(name)
 			, namespaze(namespaze)
-			, placeholders(std::move(placeholders)) {}
+			, function_types(std::move(function_types)) {}
 		virtual ~FxPointer() = default;
 		std::string name;
 		Namespace namespaze;
-		std::size_t placeholders;
-		std::vector<type::IncompleteType> template_arguements;
+		std::vector<type::IncompleteType> function_types;
+		std::vector<type::IncompleteType> template_args;
 	};
 
 

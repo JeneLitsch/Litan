@@ -3,6 +3,7 @@ files=(
 	"test/sphinx/sphinx.ltn" 
 
 	"test/var.ltn"
+	"test/function_overloading.ltn"
 	"test/assign.ltn"
 	"test/literals.ltn"
 	"test/if_else.ltn"

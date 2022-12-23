@@ -23,14 +23,11 @@ namespace ltn::c {
 			Scope & scope,
 			Context & context) {
 
-			std::vector<type::Type> types;
-			types.resize(fx_ptr.placeholders, type::Any{});
-
 			const auto fx = context.fx_table.resolve(
 				fx_ptr.name,
 				scope.get_namespace(),
 				fx_ptr.namespaze,
-				types			
+				stx::fx::mapped(instantiate_type)(fx_ptr.function_types, scope)		
 			);
 
 			if(!fx) throw undefined_function(fx_ptr.name, fx_ptr);
@@ -51,30 +48,30 @@ namespace ltn::c {
 			const auto tmpl = get_template(
 				fx_ptr.name,
 				fx_ptr.namespaze,
-				fx_ptr.placeholders,
-				fx_ptr.template_arguements.size(),
+				fx_ptr.function_types.size(),
+				fx_ptr.template_args.size(),
 				fx_ptr.location,
 				context,
 				scope
 			);
 
-			const auto arguments = stx::fx::mapped(instantiate_type)(
-				fx_ptr.template_arguements,
+			const auto template_args = stx::fx::mapped(instantiate_type)(
+				fx_ptr.template_args,
 				scope
 			);
 
-			context.fx_queue.stage_template(*tmpl, arguments);
+			context.fx_queue.stage_template(*tmpl, template_args);
 			
 			add_template_args(
 				scope,
 				tmpl->template_parameters,
-				fx_ptr.template_arguements);
+				fx_ptr.template_args);
 
 			const auto fx_label = make_function_label(*tmpl->fx);
-			const auto tmpl_label = derive_template(fx_label, arguments);
+			const auto tmpl_label = derive_template(fx_label, template_args);
 			const auto * fx = &*tmpl->fx;
 
-			if(fx->parameters.size() != fx_ptr.placeholders) {
+			if(fx->parameters.size() != fx_ptr.function_types.size()) {
 				throw undefined_function(fx->name, fx_ptr);
 			}
 
@@ -84,7 +81,7 @@ namespace ltn::c {
 
 
 		bool refers_to_template(const ast::FxPointer & fx_ptr) {
-			return !fx_ptr.template_arguements.empty();
+			return !fx_ptr.template_args.empty();
 		}
 
 

@@ -17,10 +17,12 @@ namespace ltn::c {
 		ast::Reflect::Query parse_function_query(Tokens & tokens) {
 			auto [name, namespaze] = parse_symbol(tokens);
 			auto arity = match(TT::PAREN_L, tokens) ? parse_placeholder(tokens) : 0;
+			std::vector<type::IncompleteType> function_args;
+			function_args.resize(arity, type::IncompleteType{type::Any{}});
 			return ast::Reflect::FunctionQuery {
 				.namespaze = namespaze,
 				.name = name,
-				.arity = arity,
+				.function_args = function_args,
 			};
 		}
 

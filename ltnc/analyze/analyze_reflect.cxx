@@ -1,4 +1,5 @@
 #include "analyze.hxx"
+#include "stdxx/functional.hxx"
 #include <string_view>
 #include <iostream>
 namespace ltn::c {
@@ -39,13 +40,10 @@ namespace ltn::c {
 			Context & context,
 			Scope & scope) {
 
-			std::vector<type::Type> types;
-			types.resize(query.arity, type::Any{});
-
 			const auto * fx = context.fx_table.resolve(
 				query.name,
 				query.namespaze,
-				types
+				stx::fx::mapped(instantiate_type)(query.function_args, scope)
 			);
 
 			if(!fx) {

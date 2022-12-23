@@ -190,12 +190,14 @@ namespace ltn::c {
 				if(match(TT::PAREN_L, tokens)) {
 					const auto [template_args, done] = parse_template_args(tokens);
 					const std::size_t placeholders = done ? 0 : parse_placeholder(tokens);
+					std::vector<type::IncompleteType> function_args;
+					function_args.resize(placeholders, type::IncompleteType{type::Any{}});
 					auto fx_ptr = stx::make_unique<ast::FxPointer>(
 						name,
 						namespaze,
-						placeholders,
+						std::move(function_args),
 						location(tokens));
-					fx_ptr->template_arguements = std::move(template_args);
+					fx_ptr->template_args = std::move(template_args);
 					return fx_ptr;
 				}
 				throw expected("(", tokens);

@@ -1,0 +1,12 @@
+namespace sphinx::test {
+	// namespace local {
+	// 	function f(a : int) => "int"
+	// 	function f(a : float) => "int"
+	// }
+
+
+	// function function_overload_call() {
+	// 	assert_equal_strict(f(1), "int");
+	// 	assert_equal_strict(f(1.0), "float");
+	// }
+}
