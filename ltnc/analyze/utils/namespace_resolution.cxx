@@ -1,4 +1,6 @@
 #include "namespace_resolution.hxx"
+#include "ltnc/type/check.hxx"
+#include "candidate_picking.hxx"
 
 namespace ltn::c {
 
@@ -54,61 +56,70 @@ namespace ltn::c {
 				std::size(fx.fx->parameters) == function_parameters &&
 				std::size(fx.template_parameters) == template_parameters;
 		}
-	}
 
 
 
-	template<typename DeclNode>
-	const DeclNode * resolve_rec(
-		const std::vector<const DeclNode *> & functions,
-		const Namespace & from,
-		const Namespace & to,
-		const std::string_view name,
-		const auto & ... additional) {
+		template<typename DeclNode>
+		void resolve_rec(
+			std::vector<const DeclNode *> & candidates,
+			const std::vector<const DeclNode *> & declarations,
+			const Namespace & from,
+			const Namespace & to,
+			const std::string_view name,
+			const auto & ... additional) {
 
-		for(const auto & fx : functions) {
-			if(match(*fx, from + to, name, additional...)) {
-				return fx;
-			}
-		}
-		
-		if(from.empty()) {
-			return nullptr;
-		}
-		
-
-		Namespace outer = from;
-		outer.pop_back();
-
-
-		return resolve_rec(
-			functions,
-			outer,
-			to,
-			name,
-			additional...);
-	}
-
-
-
-	template<typename DeclNode>
-	const DeclNode * resolve_x(
-		const std::vector<const DeclNode *> & decls,
-		const Namespace & from,
-		const Namespace & to,
-		const std::string_view name,
-		const auto & ... additional) {
-
-		if(to.is_absolute()) {
-			for(const auto & d : decls) {
-				if(match(*d, to, name, additional...)) {
-					return d;
+			for(const auto & fx : declarations) {
+				if(match(*fx, from + to, name, additional...)) {
+					candidates.push_back(fx);
 				}
 			}
-			return nullptr;
+
+			if(!candidates.empty()) {
+				return;
+			}
+			
+			if(!from.empty()) {
+				Namespace outer = from;
+				outer.pop_back();
+
+				return resolve_rec(
+					candidates,
+					declarations,
+					outer,
+					to,
+					name,
+					additional...);
+			}
 		}
-	
-		return resolve_rec(decls, from, to, name, additional...);
+
+
+
+		template<typename DeclNode>
+		std::vector<const DeclNode *> resolve_candidates(
+			const std::vector<const DeclNode *> & decls,
+			const Namespace & from,
+			const Namespace & to,
+			const std::string_view name,
+			const auto & ... additional) {
+
+			std::vector<const DeclNode *> candidates;
+
+			if(to.is_absolute()) {
+				for(const auto & d : decls) {
+					if(match(*d, to, name, additional...)) {
+						candidates.push_back(d);
+					}
+				}
+				return candidates;
+			}
+		
+			resolve_rec(candidates, decls, from, to, name, additional...);
+			return candidates;
+		}
+
+
+
+
 	}
 
 
@@ -119,8 +130,9 @@ namespace ltn::c {
 		const Namespace & to,
 		const std::string_view name,
 		const std::vector<type::Type> & arguments) {
-
-		return resolve_x(functions, from, to, name, arguments);
+		
+		const auto candidates = resolve_candidates(functions, from, to, name, arguments);
+		return pick_candidate(candidates, arguments);
 	}
 
 
@@ -131,7 +143,7 @@ namespace ltn::c {
 		const Namespace & to,
 		const std::string_view name) {
 
-		return resolve_x(definition, from, to, name);
+		return pick_candidate(resolve_candidates(definition, from, to, name));
 	}
 
 
@@ -141,7 +153,7 @@ namespace ltn::c {
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name) {
-		return resolve_x(globals, from, to, name);
+		return pick_candidate(resolve_candidates(globals, from, to, name));
 	}
 
 
@@ -153,7 +165,8 @@ namespace ltn::c {
 		const std::string_view name,
 		const std::size_t function_parameters,
 		const std::size_t template_parameters) {
-
-		return resolve_x(functions, from, to, name, function_parameters, template_parameters);
+		
+		const auto candidates = resolve_candidates(functions, from, to, name, function_parameters, template_parameters);
+		return pick_candidate(candidates);
 	}
 }

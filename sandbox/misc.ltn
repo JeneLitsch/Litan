@@ -1,3 +1,13 @@
 global a : int = 0;
 
-function main(args) {}
+function f(i : int) => "int"
+function f(f : float) => "float"
+function f(f : string) => "string"
+function f(f : any) => "any"
+
+function main(args : array<string>) {
+	std::println(f(0));
+	std::println(f(0.0));
+	std::println(f(""));
+	std::println(f(null));
+}
