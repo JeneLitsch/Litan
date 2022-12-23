@@ -1,40 +1,40 @@
 namespace sphinx::test {
 	function std_empty_array() {
-		assert_true(std::empty([]));
-		assert_false(std::empty([1,2,3]));
+		assert_true(std::empty([]) : bool);
+		assert_false(std::empty([1,2,3]) : bool);
 	}
 
 
 
 	function std_empty_string() {
-		assert_true(std::empty(""));
-		assert_false(std::empty("ABC"));
+		assert_true(std::empty("") : bool);
+		assert_false(std::empty("ABC") : bool);
 	}
 
 
 
 	function std_empty_queue() {
 		var q = std::queue();
-		assert_true(std::empty(q));
+		assert_true(std::empty(q) : bool);
 		std::push(q, 1); 
-		assert_false(std::empty(q));
+		assert_false(std::empty(q) : bool);
 	}
 
 
 
 	function std_empty_stack() {
 		var s = std::stack();
-		assert_true(std::empty(s));
+		assert_true(std::empty(s) : bool);
 		std::push(s, 1); 
-		assert_false(std::empty(s));
+		assert_false(std::empty(s) : bool);
 	}
 
 
 
 	function std_empty_map() {
 		var m = std::map();
-		assert_true(std::empty(m));
+		assert_true(std::empty(m) : bool);
 		m[0] = 1; 
-		assert_false(std::empty(m));
+		assert_false(std::empty(m) : bool);
 	}
 }
