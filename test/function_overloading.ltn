@@ -3,14 +3,20 @@ namespace sphinx::test {
 		function f(a : int) => "int"
 		function f(a : float) => "float"
 		function f(a : any) => "any"
+		function f(a : bool) => "bool"
+		function f(a : array<int>) => "array<int>"
 	}
+
 
 
 	function function_overload_call() {
 		assert_equal_strict(local::f(1), "int");
 		assert_equal_strict(local::f(1.0), "float");
 		assert_equal_strict(local::f(""), "any");
-		assert_equal_strict(local::f([]), "any");
+		assert_equal_strict(local::f([]), "array<int>");
+		assert_equal_strict(local::f([0.0]), "any");
+		assert_equal_strict(local::f(true), "bool");
+		assert_equal_strict(local::f(false), "bool");
 		assert_equal_strict(local::f(null), "any");
 	}
 }

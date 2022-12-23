@@ -20,7 +20,7 @@ namespace sphinx::test {
 
 
 
-		function for_sum(begin : int, end ) {
+		function for_sum(begin : int, end : int) -> any {
 			var sum : any = 0;
 			for (i : begin -> end) {
 				sum = sum + i;

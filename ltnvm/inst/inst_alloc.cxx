@@ -12,11 +12,11 @@ namespace ltn::vm::inst {
 		const auto value = reg.pop();
 		pushAll(array, reg, size -1);
 		array.push_back(value);
-	} 
+	}
 
 	void newarr(VmCore & core){
 		const auto ptr = core.heap.alloc<Array>({});
-		auto & arr = core.heap.read<Array>(ptr).get(); 
+		auto & arr = core.heap.read<Array>(ptr).get();
 		const auto size = core.fetch_uint();
 		pushAll(arr, core.reg, size);
 		core.reg.push({ ptr, Value::Type::ARRAY });
@@ -27,7 +27,7 @@ namespace ltn::vm::inst {
 	void newstr(VmCore & core) {
 		const auto size = core.fetch_uint();
 		const auto cstr = core.fetch_str();
-		std::string str(cstr, cstr + size); 
+		std::string str(cstr, cstr + size);
 		const auto ptr = core.heap.alloc<String>({std::move(str)});
 		core.reg.push({ ptr, Value::Type::STRING });
 		core.pc += size;
@@ -139,7 +139,7 @@ namespace ltn::vm::inst {
 
 
 	void newfx(VmCore & core){
-		const auto address = core.fetch_uint(); 
+		const auto address = core.fetch_uint();
 		const auto params = core.fetch_uint();
 		const auto ref = core.heap.alloc<FxPointer>({address, params, {}});
 		core.reg.push(Value{ref, Value::Type::FX_PTR});
@@ -148,7 +148,7 @@ namespace ltn::vm::inst {
 	void newrng(VmCore & core){
 		const auto type = core.fetch_byte();
 		switch (type) {
-		case 0x00: { 
+		case 0x00: {
 			const auto seed = std::random_device{}();
 			const auto rng = RandomEngine{std::mt19937_64{seed}};
 			const auto ref = core.heap.alloc<RandomEngine>(rng);
@@ -156,7 +156,7 @@ namespace ltn::vm::inst {
 			return;
 		}
 
-		case 0x01: { 
+		case 0x01: {
 			const auto signed_seed = convert::to_int(core.reg.pop());
 			const auto seed = static_cast<std::uint64_t>(signed_seed);
 			const auto rng = RandomEngine{std::mt19937_64{seed}};
@@ -164,7 +164,7 @@ namespace ltn::vm::inst {
 			core.reg.push(value::rng(ref));
 			return;
 		}
-		
+
 		default: throw std::runtime_error{"Unknown RandonEngine type"};
 		}
 	}
