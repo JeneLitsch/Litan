@@ -117,11 +117,107 @@ namespace ltn::c {
 
 
 
+		sst::expr_ptr try_template(
+			const ast::Call & call,
+			const ast::Var & var,
+			std::vector<sst::expr_ptr> & function_args,
+			Context & context,
+			Scope & scope) {
+			
+			if(!call.template_args.empty()) {
+				return do_call_template(call, var, std::move(function_args), context, scope);
+			}
+
+			return nullptr;
+		}
 
 
 
+		sst::expr_ptr try_local(
+			const ast::Call & call,
+			const ast::Var & var,
+			std::vector<sst::expr_ptr> & function_args,
+			Context & context,
+			Scope & scope) {
+			
+			if(var.namespaze.empty()) {
+				const auto * local = scope.resolve(var.name, var.location);
+				if(local) {
+					return do_invoke(call, std::move(function_args), context, scope);
+				}
+			}
+
+			return nullptr;
+		}
 
 
+
+		sst::expr_ptr try_function(
+			const ast::Call & call,
+			const ast::Var & var,
+			std::vector<sst::expr_ptr> & function_args,
+			Context & context,
+			Scope & scope) {
+			
+			const auto * fx = context.fx_table.resolve(
+				var.name,
+				scope.get_namespace(),
+				var.namespaze,
+				call.parameters.size());
+
+			if(fx) {
+				context.fx_queue.stage_function(*fx);
+				return do_call(call, *fx, std::move(function_args), context, scope);
+			}
+			return nullptr;
+		}
+
+
+		sst::expr_ptr try_overload(
+			const ast::Call & call,
+			const ast::Var & var,
+			std::vector<sst::expr_ptr> & function_args,
+			Context & context,
+			Scope & scope) {
+
+			const auto * overload = context.overload_table.resolve(
+				var.name,
+				scope.get_namespace(),
+				var.namespaze,
+				call.parameters.size());
+
+			if(overload) {
+				auto * ofx = qualify_overload(
+					*overload,
+					context.fx_table,
+					function_args,
+					scope
+				);
+				if(ofx) {
+					context.fx_queue.stage_function(*ofx);
+					return do_call(call, *ofx, std::move(function_args), context, scope);
+				}
+			}
+			return nullptr;
+		}
+
+
+
+		sst::expr_ptr try_definition(
+			const ast::Call & call,
+			const ast::Var & var,
+			std::vector<sst::expr_ptr> & function_args,
+			Context & context,
+			Scope & scope) {
+			const auto * def = context.definition_table.resolve(
+				var.name,
+				scope.get_namespace(),
+				var.namespaze);
+			if(def) {
+				return do_invoke(call, std::move(function_args), context, scope);
+			}
+			return nullptr;
+		}
 	}
 
 
@@ -137,55 +233,29 @@ namespace ltn::c {
 			arguments.push_back(analyze_expression(*param, context, scope));
 		}
 		const auto * var = as<ast::Var>(*call.function_ptr);
+		
 		if(var) {
-			if(!call.template_args.empty()) {
-				return do_call_template(call, *var, std::move(arguments), context, scope);
-			}
-			if(var->namespaze.empty()) {
-				const auto * local = scope.resolve(var->name, var->location);
-				if(local) {
-					return do_invoke(call, std::move(arguments), context, scope);
-				}
+
+			if(auto expr = try_template(call, *var, arguments, context, scope)) {
+				return expr;
 			}
 
-			const auto * fx = context.fx_table.resolve(
-				var->name,
-				scope.get_namespace(),
-				var->namespaze,
-				call.parameters.size());
-
-			if(fx) {
-				context.fx_queue.stage_function(*fx);
-				return do_call(call, *fx, std::move(arguments), context, scope);
+			if(auto expr = try_local(call, *var, arguments, context, scope)) {
+				return expr;
 			}
 
-			const auto * overload = context.overload_table.resolve(
-				var->name,
-				scope.get_namespace(),
-				var->namespaze,
-				call.parameters.size());
-
-			if(overload) {
-				auto * ofx = qualify_overload(
-					*overload,
-					context.fx_table,
-					arguments,
-					scope
-				);
-				if(ofx) {
-					context.fx_queue.stage_function(*ofx);
-					return do_call(call, *ofx, std::move(arguments), context, scope);
-				}
+			if(auto expr = try_function(call, *var, arguments, context, scope)) {
+				return expr;
 			}
 
-			const auto * def = context.definition_table.resolve(
-				var->name,
-				scope.get_namespace(),
-				var->namespaze);
-			if(def) {
-				return do_invoke(call, std::move(arguments), context, scope);
+			if(auto expr = try_overload(call, *var, arguments, context, scope)) {
+				return expr;
 			}
 
+			if(auto expr = try_definition(call, *var, arguments, context, scope)) {
+				return expr;
+			}
+				
 			throw undefined_function(var->name, call);
 		}
 
