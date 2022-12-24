@@ -13,10 +13,12 @@ namespace ltn::c::ast {
 	using func_ptr = std::unique_ptr<Functional>;
 	using ftmp_ptr = std::unique_ptr<FunctionTemplate>;
 	using enum_ptr = std::unique_ptr<Enumeration>;
+	using over_ptr = std::unique_ptr<Overload>;
 	
 	struct Program {
 		std::vector<func_ptr> functions;
 		std::vector<ftmp_ptr> function_templates;
+		std::vector<over_ptr> overloads;
 		std::vector<defn_ptr> definitions;
 		std::vector<glob_ptr> globals;
 		std::vector<prst_ptr> presets;

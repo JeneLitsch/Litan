@@ -2,12 +2,20 @@
 #include "ltnc/sst/SST.hxx"
 #include "ltnc/ast/AST.hxx"
 namespace ltn::c {
+
 	const ast::Functional * resolve(
 		const std::vector<const ast::Functional *> & functions,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name,
-		const std::size_t parameters);
+		const std::size_t arity);
+
+	const ast::Overload * resolve(
+		const std::vector<const ast::Overload *> & overloads,
+		const Namespace & from,
+		const Namespace & to,
+		const std::string_view name,
+		const std::size_t arity);
 
 	const sst::Definition * resolve(
 		const std::vector<const sst::Definition *> & definitions,

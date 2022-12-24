@@ -141,5 +141,13 @@ namespace ltn::c::ast {
 
 		std::uint64_t arity;
 		std::vector<Element> elements;
+
+		const std::string & get_resolve_name() const {
+			return this->name;
+		}
+
+		const Namespace & get_resolve_namespace() const {
+			return this->namespaze;
+		}
 	};
 }

@@ -1,5 +1,5 @@
-function f_int(x : int) -> int => 0
-function f_float(x : float) -> float => 0
+function f_int(x : int) -> string => "int"
+function f_float(x : float) -> string => "float"
 
 overload f(_) { 
 	f_int;
@@ -7,6 +7,6 @@ overload f(_) {
 }
 
 function main() {
-	// std::println(f(9));
-	// std::println(f(float));
+	std::println(f(9));
+	std::println(f(0.0));
 }

@@ -13,14 +13,16 @@ namespace ltn::c {
 		InvalidFunctionTable fx_table {"case"};
 		InvalidFunctionTemplateTable fx_template_table {"case"};
 		InvalidGlobalTable global_table {"case"};
+		InvalidOverloadTable overload_table { "case" };
 		Context case_context {
 			.fx_table = fx_table,
 			.fx_template_table = fx_template_table,
 			.fx_queue		   = context.fx_queue,
-			.definition_table = context.definition_table, 
-			.member_table = context.member_table, 
-			.global_table = global_table,
-			.reporter = context.reporter
+			.overload_table    = overload_table,
+			.definition_table  = context.definition_table, 
+			.member_table      = context.member_table, 
+			.global_table      = global_table,
+			.reporter          = context.reporter
 		};
 
 		MajorScope case_scope {

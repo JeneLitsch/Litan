@@ -39,11 +39,13 @@ namespace ltn::c {
 		// Functions or defines can be used though.
 		InvalidGlobalTable global_table { "the default value of another global variable" };
 		InvalidFunctionTable fx_table { "the initialization of a global variable" };
+		InvalidOverloadTable overload_table { "the initialization of a global variable" };
 		InvalidFunctionTemplateTable fx_template_table { "the initialization of a global variable" };
 		Context read_context {
 			.fx_table          = fx_table,
 			.fx_template_table = fx_template_table,
 			.fx_queue		   = context.fx_queue,
+			.overload_table    = overload_table,
 			.definition_table  = context.definition_table,
 			.member_table      = context.member_table,
 			.global_table      = global_table,

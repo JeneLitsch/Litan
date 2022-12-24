@@ -113,6 +113,7 @@ namespace ltn::c {
 		
 		sst::Program program;
 		ValidFunctionTable fx_table;
+		ValidOverloadTable overload_table;
 		FunctionQueue fx_queue;
 		ValidFunctionTemplateTable fx_template_table;
 		ValidDefinitionTable definition_table;
@@ -122,6 +123,7 @@ namespace ltn::c {
 			.fx_table = fx_table,
 			.fx_template_table = fx_template_table,
 			.fx_queue = fx_queue,
+			.overload_table = overload_table,
 			.definition_table = definition_table,
 			.member_table = member_table,
 			.global_table = global_table,
@@ -174,6 +176,10 @@ namespace ltn::c {
 
 		for(const auto & ctor : ctors) {
 			context.fx_table.insert(*ctor, ctor->parameters.size());
+		}
+
+		for(const auto & overload : source.overloads) {
+			context.overload_table.insert(*overload, overload->arity);
 		}
 
 		auto externs = find_extern_funtions(source);

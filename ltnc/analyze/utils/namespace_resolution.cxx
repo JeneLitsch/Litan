@@ -7,12 +7,26 @@ namespace ltn::c {
 			const ast::Functional & fx,
 			const Namespace & full,
 			const std::string_view name,
-			const std::size_t parameters) {
+			const std::size_t arity) {
 
 			return
 				fx.name == name &&
 				fx.namespaze == full &&
-				std::size(fx.parameters) == parameters;
+				std::size(fx.parameters) == arity;
+		}
+
+
+
+		bool match(
+			const ast::Overload & overload,
+			const Namespace & full,
+			const std::string_view name,
+			const std::size_t arity) {
+
+			return
+				overload.name == name &&
+				overload.namespaze == full &&
+				overload.arity == arity;
 		}
 
 
@@ -118,9 +132,21 @@ namespace ltn::c {
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name,
-		const std::size_t parameters) {
+		const std::size_t arity) {
 
-		return resolve_x(functions, from, to, name, parameters);
+		return resolve_x(functions, from, to, name, arity);
+	}
+
+
+	
+	const ast::Overload * resolve(
+		const std::vector<const ast::Overload *> & overloads,
+		const Namespace & from,
+		const Namespace & to,
+		const std::string_view name,
+		const std::size_t arity) {
+
+		return resolve_x(overloads, from, to, name, arity);
 	}
 
 

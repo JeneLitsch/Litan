@@ -106,7 +106,6 @@ namespace ltn::c {
 
 
 
-
 	ast::Program parse(Tokens & tokens, Reporter & reporter) {
 		ast::Program source;
 
@@ -129,7 +128,7 @@ namespace ltn::c {
 					source.presets.push_back(std::move(preset));
 				}
 				else if(auto overload = parse_overload(tokens, namestack.top())) {
-					std::cout << overload->namespaze.to_string() << overload->name << "\n";
+					source.overloads.push_back(std::move(overload));
 				}
 				else if(match(TT::ENUM, tokens)) {
 					source.enums.push_back(parse_enumeration(tokens, namestack.top()));
