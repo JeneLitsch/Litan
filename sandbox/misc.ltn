@@ -1,8 +1,12 @@
-global a : int = 0;
+function f_int(x : int) -> int => 0
+function f_float(x : float) -> float => 0
+
+overload f(_) { 
+	f_int   : exact;
+	f_float : loose;
+}
 
 function main() {
-	var a : array<int> = [];
-	a[0] = 0.0;
-	global a = 0.05;
-	for(i : 0 -> 10) {}
+	std::println(f(9));
+	std::println(f(float));
 }

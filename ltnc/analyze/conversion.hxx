@@ -4,6 +4,10 @@
 #include "ltnc/sst/SST.hxx"
 
 namespace ltn::c {
+	bool is_convertible(
+		const type::Type & from,
+		const type::Type & to);
+
 	sst::expr_ptr conversion_on_assign(
 		sst::expr_ptr from,
 		const type::Type & to,
