@@ -112,7 +112,8 @@ namespace ltn::c {
 				std::move(function_args),
 				context,
 				inner_scope,
-				label);
+				label
+			);
 		}
 
 
@@ -124,11 +125,14 @@ namespace ltn::c {
 			Context & context,
 			Scope & scope) {
 			
-			if(!call.template_args.empty()) {
-				return do_call_template(call, var, std::move(function_args), context, scope);
-			}
-
-			return nullptr;
+			if(call.template_args.empty()) return nullptr;
+			return do_call_template(
+				call,
+				var,
+				std::move(function_args),
+				context,
+				scope
+			);
 		}
 
 
@@ -140,14 +144,15 @@ namespace ltn::c {
 			Context & context,
 			Scope & scope) {
 			
-			if(var.namespaze.empty()) {
-				const auto * local = scope.resolve(var.name, var.location);
-				if(local) {
-					return do_invoke(call, std::move(function_args), context, scope);
-				}
-			}
-
-			return nullptr;
+			if(!var.namespaze.empty()) return nullptr;
+			const auto * local = scope.resolve(var.name, var.location);
+			if(!local) return nullptr;
+			return do_invoke(
+				call,
+				std::move(function_args),
+				context,
+				scope
+			);
 		}
 
 
@@ -164,13 +169,19 @@ namespace ltn::c {
 				scope.get_namespace(),
 				var.namespaze,
 				call.parameters.size());
+			
+			if(!fx) return nullptr;
 
-			if(fx) {
-				context.fx_queue.stage_function(*fx);
-				return do_call(call, *fx, std::move(function_args), context, scope);
-			}
-			return nullptr;
+			context.fx_queue.stage_function(*fx);
+			return do_call(
+				call,
+				*fx,
+				std::move(function_args),
+				context,
+				scope
+			);
 		}
+
 
 
 		sst::expr_ptr try_overload(
@@ -186,19 +197,25 @@ namespace ltn::c {
 				var.namespaze,
 				call.parameters.size());
 
-			if(overload) {
-				auto * ofx = qualify_overload(
-					*overload,
-					context.fx_table,
-					function_args,
-					scope
-				);
-				if(ofx) {
-					context.fx_queue.stage_function(*ofx);
-					return do_call(call, *ofx, std::move(function_args), context, scope);
-				}
-			}
-			return nullptr;
+			if(!overload) return nullptr;
+
+			auto * fx = qualify_overload(
+				*overload,
+				context.fx_table,
+				function_args,
+				scope
+			);
+
+			if(!fx) return nullptr;
+
+			context.fx_queue.stage_function(*fx);
+			return do_call(
+				call,
+				*fx,
+				std::move(function_args),
+				context,
+				scope
+			);
 		}
 
 
@@ -209,12 +226,28 @@ namespace ltn::c {
 			std::vector<sst::expr_ptr> & function_args,
 			Context & context,
 			Scope & scope) {
+			
 			const auto * def = context.definition_table.resolve(
 				var.name,
 				scope.get_namespace(),
 				var.namespaze);
-			if(def) {
-				return do_invoke(call, std::move(function_args), context, scope);
+			
+			if(!def) return nullptr;
+
+			return do_invoke(
+				call,
+				std::move(function_args),
+				context,
+				scope
+			);
+		}
+
+
+
+		auto try_all(const auto & fxs, auto && ... args) 
+			-> decltype(fxs[0](args...)) {
+			for(const auto & r : fxs) {
+				if(auto result = r(args...)) return result;
 			}
 			return nullptr;
 		}
@@ -232,29 +265,19 @@ namespace ltn::c {
 		for(const auto & param : call.parameters) {
 			arguments.push_back(analyze_expression(*param, context, scope));
 		}
-		const auto * var = as<ast::Var>(*call.function_ptr);
 		
-		if(var) {
+		if(const auto * var = as<ast::Var>(*call.function_ptr)) {
 
-			if(auto expr = try_template(call, *var, arguments, context, scope)) {
-				return expr;
-			}
+			static constexpr auto steps = std::to_array({
+				try_template,
+				try_local,
+				try_function,
+				try_overload,
+				try_definition
+			});
 
-			if(auto expr = try_local(call, *var, arguments, context, scope)) {
-				return expr;
-			}
-
-			if(auto expr = try_function(call, *var, arguments, context, scope)) {
-				return expr;
-			}
-
-			if(auto expr = try_overload(call, *var, arguments, context, scope)) {
-				return expr;
-			}
-
-			if(auto expr = try_definition(call, *var, arguments, context, scope)) {
-				return expr;
-			}
+			auto expr = try_all(steps, call, *var, arguments, context, scope);
+			if(expr) return expr;
 				
 			throw undefined_function(var->name, call);
 		}

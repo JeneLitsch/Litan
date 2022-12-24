@@ -1,13 +1,19 @@
-function f_int(x : int) -> string => "int"
-function f_float(x : float) -> string => "float"
+namespace foo {
+	function f_int(x : int) -> string => "int"
+	function f_float(x : float) -> string => "float"
 
-overload f(_) { 
-	f_int;
-	f_float;
+	overload f(_) { 
+		f_int;
+		f_float;
+	}
 }
 
+
+define d = lambda(a) => null;
+
 function main() {
-	std::println(f(9));
-	std::println(f(0.0));
-	std::println(f(""));
+	std::println(d(4));
+	std::println(foo::f(9));
+	std::println(foo::f(0.0));
+	// std::println(f(""));
 }

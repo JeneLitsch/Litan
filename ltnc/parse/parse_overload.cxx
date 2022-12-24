@@ -26,7 +26,7 @@ namespace ltn::c {
 		const Namespace & namespaze) {
 		
 		if(auto begin = match(TT::OVERLOAD, tokens)) {
-			const auto [name, namespaze] = parse_symbol(tokens);
+			const auto name = parse_overload_name(tokens);
 			if(!match(TT::PAREN_L, tokens)) throw CompilerError{
 				"Expected (",
 				begin->location

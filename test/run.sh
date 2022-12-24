@@ -18,6 +18,7 @@ files=(
 	"test/reflect_namespace.ltn"
 	"test/reflect_expr.ltn"
 	"test/iife.ltn"
+	"test/overload.ltn"
 
 	"test/static_cast.ltn"
 	"test/static_copy.ltn"

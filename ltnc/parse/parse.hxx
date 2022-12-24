@@ -57,6 +57,7 @@ namespace ltn::c {
 	std::string parse_variable_name(Tokens & tokens);
 	std::string parse_function_name(Tokens & tokens);
 	std::string parse_parameter_name(Tokens & tokens);
+	std::string parse_overload_name(Tokens & tokens);
 	void brace_l(Tokens & tokens);
 	void brace_r(Tokens & tokens);
 

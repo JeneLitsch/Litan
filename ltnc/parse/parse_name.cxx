@@ -37,4 +37,8 @@ namespace ltn::c {
 	std::string parse_function_name(Tokens & tokens) {
 		return parse_indentifier(tokens, "invalid function name");
 	}
+
+	std::string parse_overload_name(Tokens & tokens) {
+		return parse_indentifier(tokens, "invalid overload name");
+	}
 }
