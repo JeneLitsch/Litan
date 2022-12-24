@@ -47,6 +47,7 @@ namespace ltn::c {
 			STATIC_COPY,
 			DYNAMIC_COPY,
 			REFLECT,
+			OVERLOAD,
 			
 			INTEGER,
 			INTEGER_HEX,

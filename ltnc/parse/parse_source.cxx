@@ -93,22 +93,22 @@ namespace ltn::c {
 
 
 
+		void add_to_source(ast::func_ptr && fx, ast::Program & source) {
+			source.functions.push_back(std::move(fx));
+		}
+
+
+
+		void add_to_source(ast::ftmp_ptr && fx, ast::Program & source) {
+			source.function_templates.push_back(std::move(fx));
+		}
 	}
 
 
-	void add_to_source(ast::func_ptr && fx, ast::Program & source) {
-		source.functions.push_back(std::move(fx));
-	}
-
-
-	void add_to_source(ast::ftmp_ptr && fx, ast::Program & source) {
-		source.function_templates.push_back(std::move(fx));
-	}
 
 
 	ast::Program parse(Tokens & tokens, Reporter & reporter) {
 		ast::Program source;
-		const Namespace namespaze;
 
 		stx::accu_stack<Namespace> namestack;
 
@@ -127,6 +127,9 @@ namespace ltn::c {
 				}
 				else if(auto preset = parse_preset(tokens, namestack.top())) {
 					source.presets.push_back(std::move(preset));
+				}
+				else if(auto overload = parse_overload(tokens, namestack.top())) {
+					std::cout << overload->namespaze.to_string() << overload->name << "\n";
 				}
 				else if(match(TT::ENUM, tokens)) {
 					source.enums.push_back(parse_enumeration(tokens, namestack.top()));

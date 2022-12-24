@@ -123,6 +123,7 @@ namespace ltn::c {
 			{"static_copy",  TT::STATIC_COPY},
 			{"dynamic_copy", TT::DYNAMIC_COPY},
 			{"reflect",      TT::REFLECT},
+			{"overload",     TT::OVERLOAD},
 		};
 		
 

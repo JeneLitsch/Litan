@@ -2,11 +2,11 @@ function f_int(x : int) -> int => 0
 function f_float(x : float) -> float => 0
 
 overload f(_) { 
-	f_int   : exact;
-	f_float : loose;
+	f_int;
+	f_float;
 }
 
 function main() {
-	std::println(f(9));
-	std::println(f(float));
+	// std::println(f(9));
+	// std::println(f(float));
 }

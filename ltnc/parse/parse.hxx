@@ -18,6 +18,7 @@ namespace ltn::c {
 	ast::enum_ptr parse_enumeration(Tokens & tokens, Namespace namespaze);
 	ast::defn_ptr parse_definition(Tokens & tokens, const Namespace & namespaze);
 	ast::prst_ptr parse_preset(Tokens & tokens, const Namespace & namespaze);
+	std::unique_ptr<ast::Overload> parse_overload(Tokens & tokens, const Namespace & namespaze);
 
 	ast::expr_ptr parse_lambda(Tokens & tokens);
 

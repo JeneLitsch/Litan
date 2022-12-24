@@ -118,4 +118,28 @@ namespace ltn::c::ast {
 		virtual ~Enumeration() = default;
 		std::vector<Label> labels;
 	};
+
+
+
+	struct Overload final : public Declaration {
+		struct Element {
+			Namespace namespaze;
+			std::string name;
+		};
+
+
+		Overload(
+			const SourceLocation & location,
+			const std::string & name,
+			const Namespace & namespaze,
+			std::uint64_t arity,
+			std::vector<Element> elements)
+			: Declaration{location, name, namespaze }
+			, arity {arity}
+			, elements {std::move(elements)} {}
+		
+
+		std::uint64_t arity;
+		std::vector<Element> elements;
+	};
 }
