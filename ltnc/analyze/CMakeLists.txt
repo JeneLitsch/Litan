@@ -32,6 +32,7 @@ target_sources(libltnc PRIVATE
 	analyze.cxx	
 	conversion.cxx
 	instantiate_type.cxx
+	qualify_overload.cxx
 )
 
 add_subdirectory(utils)

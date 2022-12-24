@@ -9,4 +9,5 @@ overload f(_) {
 function main() {
 	std::println(f(9));
 	std::println(f(0.0));
+	std::println(f(""));
 }
