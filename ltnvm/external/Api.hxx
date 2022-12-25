@@ -35,10 +35,10 @@ namespace ltn::vm::ext {
 			}
 		}
 
-		void return_bool(bool value);
-		void return_int(std::int64_t value);
-		void return_float(stx::float64_t value);
-		void return_string(std::string value);
+		void return_value(bool value);
+		void return_value(std::int64_t value);
+		void return_value(stx::float64_t value);
+		void return_value(std::string value);
 
 		virtual ~Api();
 
@@ -52,6 +52,6 @@ namespace ltn::vm::ext {
 		Heap & heap;
 		Register & reg;
 		std::vector<Value> params;
-		Value return_value;
+		Value returned_value;
 	};
 }
