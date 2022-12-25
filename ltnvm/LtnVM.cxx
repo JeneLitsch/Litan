@@ -168,8 +168,8 @@ namespace ltn::vm {
 
 	void LtnVM::register_external(
 		std::int64_t id,
-		std::unique_ptr<ext::External> && ext) {
-		this->core.externals.emplace(id, std::move(ext));
+		std::unique_ptr<ext::External> ext) {
+		this->core.externals.emplace(id, Callable::legacy(std::move(ext)));
 	}
 
 

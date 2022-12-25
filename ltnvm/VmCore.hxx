@@ -4,6 +4,7 @@
 #include "memory/Stack.hxx"
 #include "memory/Register.hxx"
 #include "external/External.hxx"
+#include "Callable.hxx"
 
 namespace ltn::vm {
 	struct VmCore {
@@ -18,7 +19,7 @@ namespace ltn::vm {
 
 		std::vector<Value> static_variables;
 
-		std::unordered_map<std::int64_t, std::unique_ptr<ext::External>> externals;
+		std::unordered_map<std::int64_t, Callable> externals;
 		std::unordered_map<std::string, std::uint64_t> function_table;
 		std::unordered_map<std::string, std::uint64_t> static_table;
 		

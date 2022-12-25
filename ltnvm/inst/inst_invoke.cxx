@@ -38,12 +38,12 @@ namespace ltn::vm::inst {
 			// Call external binding
 			else if(is_external(refFx) || is_int(refFx)) {
 				if(core.externals.contains(refFx.i)) {
-					auto & fxptr = *core.externals.at(refFx.i);
-					if(params.arr.size() == fxptr.get_parameters()) {
+					auto & fxptr = core.externals.at(refFx.i);
+					if(params.arr.size() == fxptr.arity()) {
 						ext::Api api{core.heap, core.reg, params.arr};
 						fxptr(api);
 					}
-					else throw except::invalid_parameters(fxptr.get_parameters(), params.arr.size());
+					else throw except::invalid_parameters(fxptr.arity(), params.arr.size());
 				}
 				else throw except::invalid_argument();
 			}
