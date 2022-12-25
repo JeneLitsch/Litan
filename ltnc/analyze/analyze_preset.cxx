@@ -61,7 +61,7 @@ namespace ltn::c {
 			preset.location
 		);
 
-		ctor->c0nst = true;
+		ctor->is_const = true;
 
 		return ctor;
 	}

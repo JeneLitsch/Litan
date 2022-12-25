@@ -24,7 +24,7 @@ namespace ltn::c {
 
 			guard_private(fx, scope.get_namespace(), call.location);
 			
-			if(scope.is_const() && !fx.c0nst) {
+			if(scope.is_const() && !fx.is_const) {
 				throw CompilerError {
 					"Cannot call non-const function from a const functions",
 					call.location};

@@ -1,6 +1,6 @@
 namespace sphinx::test {
     function while_loop() {
-		var fx = lambda(arr) {
+		var fx = lambda(arr : array<int>) {
             var i = 0;
 			var value = 0;
             while(i < std::size(arr)) {

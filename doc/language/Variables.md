@@ -13,16 +13,32 @@ The type and expression is optional.
 
 ## Defaults
 
-A variable without type is of type any by default.
-A variable without an initial value, is set to null until assigned otherwise.
+A new variable with neither a type nor initialition by an expression is declared as any and set to null.
+
+If a new variable is initialized with an expression the type of the expression is used to declare the variable.
+
+If a new variable is explicitly declared with a type but no expression is assigned. The compiler generates a default value. If a type has not default a compiler error is thrown. 
+
+| type              | default value |
+| ----------------- | ------------- |
+| any               | null          |
+| optional&lt;T&gt; | null          |
+| bool              | false         |
+| int               | 0             |
+| float             | 0.0           |
+| string            | ""            |
+| array             | []            |
+
+An explicitly annotated type is always prioritized over deduction.
 
 ## Examples
 
 ```js
 function main() {
-	var foo;
-	var bar : int = 42;
-	var baz : string = "Hello World";
+	var foo; // any null
+	var bar : int = 42; // int 42
+	var baz : string = "Hello World"; // string "Hello World"
+	var qux = 42; // int 42
 	std::println(foo);
 	std::println(bar);
 	std::println(baz);

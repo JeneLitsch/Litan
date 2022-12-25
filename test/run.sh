@@ -2,6 +2,7 @@ files=(
 	"test/main.ltn"
 	"test/sphinx/sphinx.ltn" 
 
+	"test/var.ltn"
 	"test/assign.ltn"
 	"test/literals.ltn"
 	"test/if_else.ltn"

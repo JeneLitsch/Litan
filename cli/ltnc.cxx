@@ -109,7 +109,7 @@ int main(int argc, char const *argv[]){
 	try {
 		ltn::c::Reporter reporter;
 		auto sources = read_sources(flag_source.value(), reporter);
-		auto tokens = ltn::c::tokenize(std::move(sources), reporter);
+		auto tokens = ltn::c::lex(sources, reporter);
 		auto source = ltn::c::parse(tokens, reporter);
 		auto program = ltn::c::analyze(source, reporter);
 		if(flag_o) ltn::c::optimize(program);

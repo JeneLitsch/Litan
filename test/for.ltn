@@ -1,7 +1,7 @@
 namespace sphinx::test {
 	namespace utils {
         function for_sum(begin, end, step) {
-			var sum = 0;
+			var sum : any = 0;
 			for (i : begin -> end : step) {
 				sum = sum + i;
 			}
@@ -20,8 +20,8 @@ namespace sphinx::test {
 
 
 
-		function for_sum(begin, end) {
-			var sum = 0;
+		function for_sum(begin : int, end ) {
+			var sum : any = 0;
 			for (i : begin -> end) {
 				sum = sum + i;
 			}

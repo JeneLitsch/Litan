@@ -132,19 +132,17 @@ namespace ltn::c {
 	}
 
 
-	std::variant<type::IncompleteType, type::Auto>
-		parse_var_type_auto(Tokens & tokens) {
-		
+	std::optional<type::IncompleteType>	parse_var_type_auto(Tokens & tokens) {
 		if(match(TT::COLON, tokens)) {
 			if(is_auto(tokens.front())) {
 				tokens.pop();
-				return type::Auto{};
+				return std::nullopt;
 			}
 			else {
 				return parse_type(tokens);
 			}
 		}
-		return type::IncompleteType{type::Any{}};
+		return std::nullopt;
 	}
 
 

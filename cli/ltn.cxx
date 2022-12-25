@@ -56,7 +56,7 @@ int main(int argc, char const *argv[]) {
 			});
 		}
 
-		auto lexer = ltn::c::tokenize(std::move(sources), reporter);
+		auto lexer = ltn::c::lex(sources, reporter);
 		auto source = ltn::c::parse(lexer, reporter);
 		auto program = ltn::c::analyze(source, reporter);
 		if(flag_o) ltn::c::optimize(program);

@@ -51,7 +51,7 @@ namespace ltn::c::ast {
 			const std::string & name,
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location,
-			const std::variant<type::IncompleteType, type::Auto> & type = type::IncompleteType{type::Any{}})
+			const std::optional<type::IncompleteType> & type = type::IncompleteType{type::Any{}})
 			: Statement(location)
 			, name(name)
 			, expression(std::move(expression))
@@ -59,7 +59,7 @@ namespace ltn::c::ast {
 		virtual ~NewVar() = default;
 		std::string name;
 		std::unique_ptr<Expression> expression;
-		std::variant<type::IncompleteType, type::Auto> type;
+		std::optional<type::IncompleteType> type;
 	};
 
 

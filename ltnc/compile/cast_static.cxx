@@ -26,6 +26,10 @@ namespace ltn::c {
 				return { type_code::FLOAT };
 			}
 
+			if(type::is_empty_array(from) && type::is_array(to)) {
+				return { type_code::ARRAY };
+			}
+
 			throw cannot_cast(from, to, location);
 		}
 	}

@@ -59,9 +59,9 @@ namespace ltn::c::ast {
 		virtual ~Functional() = default;
 
 		Parameters parameters;
-		bool c0nst = false;
-		bool pr1vate = false;
-		bool init = false;
+		bool is_const = false;
+		bool is_private = false;
+		bool is_extern = false;
 
 		type::IncompleteType return_type;
 
