@@ -3,8 +3,7 @@
 #include "memory/Heap.hxx"
 #include "memory/Stack.hxx"
 #include "memory/Register.hxx"
-#include "external/External.hxx"
-#include "Callable.hxx"
+#include "external/Callable.hxx"
 
 namespace ltn::vm {
 	struct VmCore {

@@ -1,17 +1,17 @@
 #pragma once
 #include <memory>
 #include <functional>
-#include "memory/Value.hxx"
-#include "memory/Register.hxx"
-#include "memory/Heap.hxx"
-#include "external/Api.hxx"
-#include "external/External.hxx"
+#include "ltnvm/memory/Value.hxx"
+#include "ltnvm/memory/Register.hxx"
+#include "ltnvm/memory/Heap.hxx"
+#include "ltnvm/external/Api.hxx"
 
 namespace ltn::vm {
-	class Callable {
+	class Callable final {
 		struct CallableConcept {
 			virtual void call(ext::Api & api) const = 0;
 			virtual std::size_t get_arity() const = 0;
+			virtual std::unique_ptr<CallableConcept> clone() const = 0;
 			virtual ~CallableConcept() = default;
 		};
 
@@ -42,36 +42,30 @@ namespace ltn::vm {
 				return sizeof...(Args);
 			}
 
+
+			virtual std::unique_ptr<CallableConcept> clone() const override { 
+				return std::make_unique<CallableModel<R, Args...>>(*this);
+			}
+
+
 			std::function<R(Args...)> fx;
 		};
 
-
-		struct CallableModelLegacy : CallableConcept {
-			CallableModelLegacy(std::unique_ptr<ext::External> fx)
-				: fx {std::move(fx)} {}
-			
-			virtual void call(ext::Api & api) const override {
-				(*fx)(api);
-			}
-
-			virtual std::size_t get_arity() const override {
-				return fx->get_parameters();
-			}
-
-			std::unique_ptr<ext::External> fx;
-		};
 	public:
-		static Callable legacy(std::unique_ptr<ext::External> fx) {
-			return Callable{std::make_unique<CallableModelLegacy>(
-				std::move(fx)
-			)};
+		Callable(const Callable & other) {
+			this->callable_object = other.callable_object->clone();
 		}
-
+		Callable & operator=(const Callable & other) {
+			this->callable_object = other.callable_object->clone();
+			return *this;
+		}
+		Callable(Callable &&) = default;
+		Callable & operator=(Callable &&) = default;
+		~Callable() = default;
 
 		static Callable modern(auto fx) {
 			return Callable{std::function{fx}};
 		}
-
 
 		void operator()(ext::Api & api) {
 			this->callable_object->call(api);

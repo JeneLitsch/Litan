@@ -166,14 +166,6 @@ namespace ltn::vm {
 
 
 
-	void LtnVM::register_external(
-		std::int64_t id,
-		std::unique_ptr<ext::External> ext) {
-		this->core.externals.emplace(id, Callable::legacy(std::move(ext)));
-	}
-
-
-
 	namespace {
 		void error(VmCore & core, const std::string & msg) {
 			const auto ref = core.heap.alloc<String>({msg});

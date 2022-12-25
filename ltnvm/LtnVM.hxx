@@ -16,14 +16,7 @@ namespace ltn::vm {
 			const std::vector<std::string> & args = {},
 			const std::string & main = "");
 
-		void register_external(
-			std::int64_t id,
-			std::unique_ptr<ext::External> ext);
-
-		void register_function(
-			std::int64_t id,
-			auto fx) {
-			
+		void register_function(std::int64_t id, auto fx) {
 			core.externals.emplace(id, Callable::modern(fx));
 		}
 
