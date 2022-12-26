@@ -4,12 +4,13 @@
 #include "ltnvm/memory/Value.hxx"
 #include "ltnvm/memory/Register.hxx"
 #include "ltnvm/memory/Heap.hxx"
-#include "ltnvm/external/Api.hxx"
+#include "ltnvm/external/Parameters.hxx"
+#include "ltnvm/external/ReturnValue.hxx"
 
 namespace ltn::vm {
 	class Callable final {
 		struct CallableConcept {
-			virtual void call(ext::Api & api) const = 0;
+			virtual void call(ext::Parameters & parameters, ext::ReturnValue & return_value) const = 0;
 			virtual std::size_t get_arity() const = 0;
 			virtual std::unique_ptr<CallableConcept> clone() const = 0;
 			virtual ~CallableConcept() = default;
@@ -20,20 +21,26 @@ namespace ltn::vm {
 			CallableModel(std::function<R(Args...)> fx)
 				: fx {std::move(fx)} {}
 			
-			virtual void call(ext::Api & api) const override {
-				static constexpr auto ARITY = sizeof...(Args);
-				do_call(api, std::make_index_sequence<ARITY>());
+			virtual void call(
+				ext::Parameters & parameters,
+				ext::ReturnValue & return_value) const override {
+				
+				do_call(parameters, return_value, INDICES);
 			}
 
 
 			template<std::size_t ... INDICES>
-			void do_call(ext::Api & api, std::index_sequence<INDICES...>) const {
+			void do_call(
+				ext::Parameters & parameters,
+				ext::ReturnValue & return_value,
+				std::index_sequence<INDICES...>) const {
+				
 				if constexpr (std::same_as<R, void>) {
-					fx((api.parameter<Args>(INDICES))...);
+					fx((parameters.get<Args>(INDICES))...);
 				}
 				else {
-					R result = fx((api.parameter<Args>(INDICES))...);
-					api.return_value(result);
+					R result = fx((parameters.get<Args>(INDICES))...);
+					return_value.set(result);
 				}
 			}
 
@@ -49,26 +56,32 @@ namespace ltn::vm {
 
 
 			std::function<R(Args...)> fx;
+			static constexpr auto ARITY = sizeof...(Args);
+			static constexpr auto INDICES = std::make_index_sequence<ARITY>();
 		};
 
 	public:
+		Callable(auto fx) : Callable{std::function{fx}} {}
+
 		Callable(const Callable & other) {
 			this->callable_object = other.callable_object->clone();
 		}
+
 		Callable & operator=(const Callable & other) {
 			this->callable_object = other.callable_object->clone();
 			return *this;
 		}
+
 		Callable(Callable &&) = default;
+
 		Callable & operator=(Callable &&) = default;
+		
 		~Callable() = default;
 
-		static Callable modern(auto fx) {
-			return Callable{std::function{fx}};
-		}
-
-		void operator()(ext::Api & api) {
-			this->callable_object->call(api);
+		void operator()(
+			ext::Parameters & parameters,
+			ext::ReturnValue & return_value) {
+			this->callable_object->call(parameters, return_value);
 		}
 
 		std::size_t arity() const {

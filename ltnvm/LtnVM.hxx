@@ -17,7 +17,7 @@ namespace ltn::vm {
 			const std::string & main = "");
 
 		void register_function(std::int64_t id, auto fx) {
-			core.externals.emplace(id, Callable::modern(fx));
+			core.externals.emplace(id, Callable{fx});
 		}
 
 		void set_global(

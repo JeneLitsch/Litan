@@ -4,7 +4,7 @@
 #include "ltnvm/LtnVM.hxx"
 
 namespace ltn {
-	using LtnVm = vm::LtnVM;
+	using LtnVM = vm::LtnVM;
 
 	using Value = vm::Value;
 

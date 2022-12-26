@@ -6,12 +6,12 @@
 #include "ltnvm/type_check.hxx"
 
 namespace ltn::vm::ext {
-	class Api {
+	class Parameters {
 	public:
-		Api(Heap & heap, Register & reg, const std::vector<Value> & params);
+		Parameters(Heap & heap, Register & reg, const std::vector<Value> & params);
 
 		template<class T>
-		T parameter(std::size_t idx) const {
+		T get(std::size_t idx) const {
 			const Value & value = this->get_value(idx);
 
 			if constexpr(std::same_as<T, bool>) {
@@ -35,12 +35,7 @@ namespace ltn::vm::ext {
 			}
 		}
 
-		void return_value(bool value);
-		void return_value(std::int64_t value);
-		void return_value(stx::float64_t value);
-		void return_value(std::string value);
-
-		virtual ~Api();
+		virtual ~Parameters();
 
 	private:
 		const Value & get_value(std::size_t idx) const {
@@ -52,6 +47,5 @@ namespace ltn::vm::ext {
 		Heap & heap;
 		Register & reg;
 		std::vector<Value> params;
-		Value returned_value;
 	};
 }
