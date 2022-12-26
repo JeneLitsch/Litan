@@ -18,7 +18,7 @@ namespace ltn::vm {
 
 		std::vector<Value> static_variables;
 
-		std::unordered_map<std::int64_t, Callable> externals;
+		std::unordered_map<std::int64_t, ext::Callable> externals;
 		std::unordered_map<std::string, std::uint64_t> function_table;
 		std::unordered_map<std::string, std::uint64_t> static_table;
 		

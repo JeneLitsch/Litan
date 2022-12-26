@@ -41,8 +41,8 @@ namespace ltn::vm::inst {
 					auto & fxptr = core.externals.at(refFx.i);
 					if(params.arr.size() == fxptr.arity()) {
 						ext::Parameters parameters{core.heap, core.reg, params.arr};
-						ext::ReturnValue return_value{core.heap, core.reg};
-						fxptr(parameters, return_value);
+						auto result = fxptr(parameters, core.heap);
+						core.reg.push(result);
 					}
 					else throw except::invalid_parameters(fxptr.arity(), params.arr.size());
 				}
