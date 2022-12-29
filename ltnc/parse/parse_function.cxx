@@ -75,7 +75,7 @@ namespace ltn::c {
 
 
 
-		std::string parse_build_in_key(Tokens & tokens) {
+		std::string parse_build_in_key(Tokens & tokens, std::uint64_t arity) {
 			if(!match(TT::AT, tokens)) {
 				throw CompilerError{
 					"Expected @ before build_in key",
@@ -93,8 +93,34 @@ namespace ltn::c {
 
 
 		
-		ast::stmt_ptr parse_body(Tokens & tokens) {
-			if(match(TT::DRARROW, tokens)) {
+		ast::stmt_ptr parse_body(Tokens & tokens, std::uint64_t arity) {
+			if(match(TT::ASSIGN, tokens)) {
+				if(auto t = match(TT::INDENTIFIER, tokens)) {
+					if(t->str == "dynamic") {
+						if(auto i = match(TT::INTEGER_HEX, tokens)) {
+							std::stringstream iss{i->str};
+							std::uint64_t addr;
+							iss >> std::hex >> addr;
+							auto expr = std::make_unique<ast::ForwardDynamicCall>(
+								addr, arity, t->location
+							);
+							return stx::make_unique<ast::Return>(std::move(expr), t->location);
+
+						}
+						else throw CompilerError {
+							"Unknown function type " + t->str
+						};
+
+					}
+					else throw CompilerError {
+						"Unknown function type " + t->str
+					};
+				}
+				else throw CompilerError {
+					"Expected function type after ="
+				};
+			}
+			else if(match(TT::DRARROW, tokens)) {
 				auto expr = parse_expression(tokens);
 				const auto & loc = location(tokens);
 				// match(TT::SEMICOLON, tokens);
@@ -115,7 +141,7 @@ namespace ltn::c {
 						"Except only takes one error parameter",
 						location(tokens)};
 				}
-				auto body = parse_body(tokens);
+				auto body = parse_body(tokens, 1);
 				return stx::make_unique<ast::Except>(
 					params[0].name,
 					std::move(body),
@@ -161,7 +187,7 @@ namespace ltn::c {
 				}
 			}			
 			const auto return_type = parse_return_type(tokens);
-			auto body = parse_body(tokens);
+			auto body = parse_body(tokens, std::size(parameters));
 			auto fx = stx::make_unique<FunctionalNode>(
 				name,
 				namespaze,
@@ -244,7 +270,7 @@ namespace ltn::c {
 			auto captures = parse_captures(tokens);
 			const auto parameters = parse_optional_parameters(tokens);
 			const auto return_type = parse_return_type(tokens);
-			auto body = parse_body(tokens); 
+			auto body = parse_body(tokens, std::size(parameters)); 
 			auto fx = stx::make_unique<ast::Function>(
 				"lambda" + std::to_string(*stx::unique{}), 
 				Namespace{},

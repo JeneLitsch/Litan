@@ -18,6 +18,21 @@ namespace ltn::c::ast {
 		Expression(const SourceLocation & location) : Node(location) {}
 		virtual ~Expression() = default;
 	};
+
+
+
+	struct ForwardDynamicCall : public Expression {
+		ForwardDynamicCall(
+			std::uint64_t addr,
+			std::uint64_t arity,
+			const SourceLocation & location)
+			: Expression(location)
+			, addr{addr}
+			, arity{arity} {}
+		virtual ~ForwardDynamicCall() = default;
+		std::uint64_t addr;
+		std::uint64_t arity;
+	};
 	
 
 
@@ -402,6 +417,7 @@ namespace ltn::c::ast {
 		if(auto e = as<ast::ExprSwitch>(expr)) return fx(*e);
 		if(auto e = as<ast::TypedUnary>(expr)) return fx(*e);
 		if(auto e = as<ast::Reflect>(expr)) return fx(*e);
+		if(auto e = as<ast::ForwardDynamicCall>(expr)) return fx(*e);
 		throw std::runtime_error{"Unknown Expression AST"};
 	}
 }

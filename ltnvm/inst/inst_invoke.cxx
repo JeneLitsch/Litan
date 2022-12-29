@@ -2,7 +2,7 @@
 
 namespace ltn::vm::inst {
 	namespace {
-		inline void load_rarameters_into_register(Register & reg, const auto & params) {
+		inline void load_parameters_into_register(Register & reg, const auto & params) {
 			for(const auto param : params) {
 				reg.push(param);
 			}
@@ -27,7 +27,7 @@ namespace ltn::vm::inst {
 			if(is_fxptr(refFx)) {
 				const auto & fxptr = core.heap.read<FxPointer>(refFx.u);
 				if(params.arr.size() == fxptr.get_parameters()) {
-					load_rarameters_into_register(core.reg, params.arr);
+					load_parameters_into_register(core.reg, params.arr);
 					load_captures_into_register(core.reg, fxptr.captured);
 					core.stack.push_frame(core.pc);
 					core.pc = fxptr.address;

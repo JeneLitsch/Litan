@@ -162,6 +162,7 @@ namespace ltn::c {
 
 		bytecode += sequence_table(function_table);
 		bytecode += sequence_table(static_table);
+		bytecode += sequence_table({});
 
 		for(const auto & inst : instructions.insts) {
 			std::visit([&] (auto & i) {

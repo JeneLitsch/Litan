@@ -34,7 +34,6 @@ namespace ltn::c {
 			);
 		}
 
-		// compiles Litan function
 		sst::func_ptr analyze_function(
 			const ast::Function & fx,
 			Context & context,
@@ -69,15 +68,17 @@ namespace ltn::c {
 
 
 
-		// compiles asm_function
 		sst::func_ptr analyze_build_in_function(
 			const ast::BuildIn & fx,
 			Scope & scope,
 			std::optional<Label> override_label) {
+
 			const auto label = override_label.value_or(
 				make_function_label(fx.namespaze, fx.name, fx.parameters.size())
 			);
+
 			auto parameters = analyze_parameters(fx.parameters, scope, fx.location);
+
 			auto sst_fx = std::make_unique<sst::BuildIn>(
 				label,
 				fx.name,
@@ -86,8 +87,9 @@ namespace ltn::c {
 				fx.key,
 				instantiate_type(fx.return_type, scope)
 			);
-			sst_fx->is_const = fx.is_const; 
-			sst_fx->is_extern = fx.is_extern; 
+
+			sst_fx->is_const   = fx.is_const; 
+			sst_fx->is_extern  = fx.is_extern; 
 			sst_fx->is_private = fx.is_private;
 
 			return sst_fx;

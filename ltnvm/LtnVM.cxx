@@ -236,6 +236,7 @@ namespace ltn::vm {
 
 		this->core.function_table = read_addr_table(it);
 		this->core.static_table = read_addr_table(it);
+		this->core.dynamic_link_table = read_addr_table(it);
 
 		this->core.byte_code = { it, std::end(code) };
 		this->core.pc = 0;

@@ -22,6 +22,9 @@ namespace ltn::c::ast {
 
 
 
+
+
+
 	struct Throw final : public Statement {
 		Throw(
 			std::unique_ptr<Expression> expression,
