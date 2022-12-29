@@ -92,33 +92,48 @@ namespace ltn::c {
 		}
 
 
+
+		ast::stmt_ptr parse_dynamic_body(Tokens & tokens, std::uint64_t arity) {
+			if(!match(TT::PAREN_L, tokens)) throw CompilerError {
+				"Expected ("
+			};
+			auto i = match(TT::INTEGER_HEX, tokens);
+			if(!i)  throw CompilerError {
+				"Unsupported dynamic link code " + i->str, i->location
+			};
+			if(!match(TT::PAREN_R, tokens)) throw CompilerError {
+				"Expected )"
+			};
+			std::stringstream iss{i->str};
+			std::uint64_t addr;
+			iss >> std::hex >> addr;
+			auto expr = std::make_unique<ast::ForwardDynamicCall>(
+				addr, arity, i->location
+			);
+			return stx::make_unique<ast::Return>(std::move(expr), i->location);
+		}
+
+
+
+		ast::stmt_ptr parse_special_body(Tokens & tokens, std::uint64_t arity) {
+			if(auto t = match(TT::INDENTIFIER, tokens)) {
+				if(t->str == "dynamic") {
+					return parse_dynamic_body(tokens, arity);
+				}
+				else throw CompilerError {
+					"Unknown function type " + t->str
+				};
+			}
+			else throw CompilerError {
+				"Expected function type after ="
+			};
+		}
+
+
 		
 		ast::stmt_ptr parse_body(Tokens & tokens, std::uint64_t arity) {
 			if(match(TT::ASSIGN, tokens)) {
-				if(auto t = match(TT::INDENTIFIER, tokens)) {
-					if(t->str == "dynamic") {
-						if(auto i = match(TT::INTEGER_HEX, tokens)) {
-							std::stringstream iss{i->str};
-							std::uint64_t addr;
-							iss >> std::hex >> addr;
-							auto expr = std::make_unique<ast::ForwardDynamicCall>(
-								addr, arity, t->location
-							);
-							return stx::make_unique<ast::Return>(std::move(expr), t->location);
-
-						}
-						else throw CompilerError {
-							"Unknown function type " + t->str
-						};
-
-					}
-					else throw CompilerError {
-						"Unknown function type " + t->str
-					};
-				}
-				else throw CompilerError {
-					"Expected function type after ="
-				};
+				return parse_special_body(tokens, arity);
 			}
 			else if(match(TT::DRARROW, tokens)) {
 				auto expr = parse_expression(tokens);
