@@ -21,12 +21,12 @@ namespace sphinx::test {
 		
 		assert_equal_strict(
 			reflect(expr fx_ptr1).type.name,
-			"fx_ptr<int()>"
+			"()->int"
 		);
 		
 		assert_equal_strict(
 			reflect(expr fx_ptr2).type.name,
-			"fx_ptr<any(float)>"
+			"(float)->any"
 		);
 	}
 
@@ -35,14 +35,14 @@ namespace sphinx::test {
 	function fx_ptr_type_parse() {
 		assert_equal_strict(
 			reflect(type (float)->float).name,
-			"fx_ptr<float(float)>");
+			"(float)->float");
 		
 		assert_equal_strict(
 			reflect(type ()->float).name,
-			"fx_ptr<float()>");
+			"()->float");
 		
 		assert_equal_strict(
 			reflect(type (int, int)->float).name,
-			"fx_ptr<float(int, int)>");
+			"(int, int)->float");
 	}
 }

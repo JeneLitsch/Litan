@@ -70,19 +70,6 @@ namespace ltn::c {
 
 
 
-		type::Type parse_fxptr(Tokens & tokens, BraceTracker & brace_tracker) {
-			open_chevron(tokens, brace_tracker);
-			auto return_type = parse_type(tokens, brace_tracker).type;
-			if(!match(TT::PAREN_L, tokens)) throw CompilerError{"Expected ("};
-			auto parameter_types = parse_fx_ptr_parameters(tokens, brace_tracker);
-			close_chevron(tokens, brace_tracker);
-			return type::FxPtr {
-				.return_type = return_type,
-				.parameter_types = parameter_types
-			};
-		}
-
-
 		type::Type parse_fx_ptr_fancy(Tokens & tokens, const Token & start, BraceTracker & brace_tracker ) {
 			auto parameter_types = parse_fx_ptr_parameters(tokens, brace_tracker);
 			if(!match(TT::RARROW, tokens)) throw CompilerError {
@@ -116,7 +103,6 @@ namespace ltn::c {
 			if(type_name->str == "queue") return type::IncompleteType{parse_type_queue(tokens, brace_tracker)}; 
 			if(type_name->str == "stack") return type::IncompleteType{parse_type_stack(tokens, brace_tracker)}; 
 			if(type_name->str == "map") return type::IncompleteType{parse_type_map(tokens, brace_tracker)};
-			if(type_name->str == "fx_ptr") return type::IncompleteType{parse_fxptr(tokens, brace_tracker)};
 			if(type_name->str == "optional") return type::IncompleteType{parse_type_optional(tokens, brace_tracker)};
 			return type::IncompleteType{type::Other{.type_name = type_name->str}};
 		}
