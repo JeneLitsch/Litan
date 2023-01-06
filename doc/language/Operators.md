@@ -47,6 +47,8 @@
 | Float    | Integral | Float  | Multiplication |
 | Integral | Float    | Float  | Multiplication |
 | Float    | Float    | Float  | Multiplication |
+| String   | Integral | String | Repetition     |
+| Integral | String   | String | Repetition     |
 
 | L        | R        | Result | l / r            |
 | -------- | -------- | ------ | ---------------- |
@@ -61,7 +63,6 @@
 | Float    | Integral | Float  | fmod   |
 | Integral | Float    | Float  | fmod   |
 | Float    | Float    | Float  | fmod   |
-
 
 | L       | R       | Result | l ** r |
 | ------- | ------- | ------ | ------ |

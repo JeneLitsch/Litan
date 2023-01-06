@@ -77,6 +77,8 @@ namespace ltn::c::type {
 
 
 	Type deduce_mlt(const Type & l, const Type & r) {
+		if(is_integral(l) && is_string(r)) return String{};
+		if(is_string(l) && is_integral(r)) return String{};
 		return deduce_arith_base(l, r);
 	}
 	
@@ -84,7 +86,6 @@ namespace ltn::c::type {
 	
 	Type deduce_div(const Type & l, const Type & r) {
 		return deduce_arith_base(l, r);
-
 	}
 
 

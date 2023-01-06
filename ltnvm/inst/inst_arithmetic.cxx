@@ -5,6 +5,7 @@
 #include "ltnvm/Operations.hxx"
 #include "ltnvm/calcBinary.hxx"
 #include "ltnvm/convert.hxx"
+#include "ltnvm/cast.hxx"
 
 #define FETCH\
 	const auto r = core.reg.pop();\
@@ -30,6 +31,30 @@ namespace ltn::vm::inst {
 			}
 			return {{value}};
 		}
+
+
+
+		std::string repeat(const std::string & str, const std::integral auto count) {
+			std::ostringstream oss;
+			for(std::int64_t i = 0; i < count; ++i) {
+				oss << str;
+			}
+			return oss.str();
+		}
+
+
+
+		Value string_repetition(
+			const Value & str_ref,
+			const Value & repetitions,
+			Heap & heap) {
+			
+			const auto & str = heap.read<String>(str_ref.u).get();
+			const auto & count = cast::to_int(repetitions);
+			auto repeated = repeat(str, count);
+			const auto ptr = heap.alloc<String>({std::move(repeated)}); 
+			return value::string(ptr);
+		}
 	}
 
 
@@ -41,14 +66,14 @@ namespace ltn::vm::inst {
 			const auto arr_l = toArray(l, core.heap).get();
 			const auto arr_r = toArray(r, core.heap).get();
 			const auto ref = core.heap.alloc<Array>({arr_l + arr_r});
-			return core.reg.push({ref, Value::Type::ARRAY});
+			return core.reg.push(value::array(ref));
 		}
 
 		if(is_string(l) && is_string(r)) {
 			const auto str_l = convert::to_string(l, core.heap);
 			const auto str_r = convert::to_string(r, core.heap);
 			const auto ref = core.heap.alloc<String>({str_l + str_r});
-			return core.reg.push({ref, Value::Type::STRING});
+			return core.reg.push(value::string(ref));
 		}
 
 		core.reg.push(calc<Addition>(l, r));
@@ -65,6 +90,15 @@ namespace ltn::vm::inst {
 
 	void mlt(VmCore & core) {
 		FETCH
+
+		if(is_string(l) && is_integral(r)) {
+			return core.reg.push(string_repetition(l, r, core.heap));
+		}
+
+		if(is_integral(l) && is_string(r)) {
+			return core.reg.push(string_repetition(r, l, core.heap));
+		}
+
 		core.reg.push(calc<Multiplication>(l, r));
 	}
 

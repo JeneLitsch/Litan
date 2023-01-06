@@ -1,6 +1,10 @@
 #include "check.hxx"
 
 namespace ltn::c::type {
+	bool is_error(const Type & x) {
+		return x.as<Error>();
+	}
+
 
 	bool is_optional(const Type & x) {
 		return x.as<Optional>();
