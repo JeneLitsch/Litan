@@ -58,19 +58,40 @@ namespace ltn::c {
 
 
 
-		type::Type parse_fxptr(Tokens & tokens, BraceTracker & brace_tracker) {
-			open_chevron(tokens, brace_tracker);
-			auto return_type = parse_type(tokens, brace_tracker).type;
-			if(!match(TT::PAREN_L, tokens)) throw CompilerError{"Expected ("};
+		auto parse_fx_ptr_parameters(Tokens & tokens, BraceTracker & brace_tracker) {
 			std::vector<type::Type> parameter_types;
+			if(match(TT::PAREN_R, tokens)) return parameter_types;
 			do {
 				parameter_types.push_back(parse_type(tokens, brace_tracker).type);
 			} while(match(TT::COMMA, tokens));
 			if(!match(TT::PAREN_R, tokens)) throw CompilerError{"Expected )"};
+			return parameter_types;
+		}
+
+
+
+		type::Type parse_fxptr(Tokens & tokens, BraceTracker & brace_tracker) {
+			open_chevron(tokens, brace_tracker);
+			auto return_type = parse_type(tokens, brace_tracker).type;
+			if(!match(TT::PAREN_L, tokens)) throw CompilerError{"Expected ("};
+			auto parameter_types = parse_fx_ptr_parameters(tokens, brace_tracker);
 			close_chevron(tokens, brace_tracker);
 			return type::FxPtr {
 				.return_type = return_type,
 				.parameter_types = parameter_types
+			};
+		}
+
+
+		type::Type parse_fx_ptr_fancy(Tokens & tokens, const Token & start, BraceTracker & brace_tracker ) {
+			auto parameter_types = parse_fx_ptr_parameters(tokens, brace_tracker);
+			if(!match(TT::RARROW, tokens)) throw CompilerError {
+				"Expected ->", start.location 
+			};
+			const auto return_type = parse_type(tokens).type;
+			return type::FxPtr{
+				.return_type = return_type,
+				.parameter_types = parameter_types,
 			};
 		}
 
@@ -101,6 +122,9 @@ namespace ltn::c {
 		}
 		if(auto type_name = match(TT::NVLL, tokens)) {
 			return type::IncompleteType{type::Null{}};
+		}
+		if(auto start = match(TT::PAREN_L, tokens)) {
+			return type::IncompleteType{parse_fx_ptr_fancy(tokens, *start, brace_tracker)};
 		}
 		if(match(TT::QMARK, tokens)) {
 			return type::IncompleteType{type::Optional{parse_type(tokens, brace_tracker).type}};

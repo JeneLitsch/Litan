@@ -63,12 +63,13 @@ function main() {
 ## Int
 The int type is used to store a 64-Bit singed integer value.
 A value of type int can be created by a int literal e.g. `0`, `-1` or `42` 
+The typename for integer is `int`.
 
 **Example**
 ```js
 function main() {
 	var a = 42;
-	var b = 1337;
+	var b : int = 1337;
 	std::println(a);
 	std::println(b);
 }
@@ -82,7 +83,7 @@ Any integer literal prefixed with 0b is interpreted as binary notation e.g. `0b1
 ```js
 function main() {
 	var a = 0b101010;
-	var b = 0b10100111001;
+	var b : int = 0b10100111001;
 	std::println(a);
 	std::println(b);
 }
@@ -108,12 +109,13 @@ function main() {
 ## Float
 The float type is used to store a 64-Bit IEEE-754 floating point number.
 A value of type float can be created by a float literal e.g. `0.0`, `-1.0` or `42.0` 
+The typename for a floating point number is `float`.
 
 **Example**
 ```js
 function main() {
 	var a = 42.0;
-	var b = 1337.0;
+	var b : float = 1337.0;
 	std::println(a);
 	std::println(b);
 }
@@ -182,7 +184,7 @@ Ostreams are used to output 8-Bit characters to a varity of targets e.g. stdin o
 
 
 ## Function pointers
-Function pointers are callable objects created by lambdas or taking the address of a normal function. A function pointer to normal function be create by prefixing the function with `&` and replacing all paramters with `_`. A function pointer can be invoked by wrapping it in () and putting a parameter list afterwards.
+Function pointers are callable objects created by lambdas or taking the address of a normal function. A function pointer to a regular function can be create by prefixing the function with `&` and replacing all paramters with `_`.
 
 **Example**
 ```js
@@ -190,8 +192,8 @@ function main() {
 	var str = "Hello World";
 	var fx_ref    = &std::println(_);
 	var fx_lambda = lambda(x) => std::println(x);
-	(fx_ref)(str);
-	(fx_lambda)(str);
+	fx_ref(str);
+	fx_lambda(str);
 }
 ```
 
