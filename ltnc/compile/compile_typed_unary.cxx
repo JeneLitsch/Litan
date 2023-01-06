@@ -33,6 +33,5 @@ namespace ltn::c {
 		default:
 			break;
 		}
-
 	}
 }

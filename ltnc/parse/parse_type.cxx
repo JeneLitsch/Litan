@@ -4,9 +4,7 @@
 namespace ltn::c {
 
 	namespace {
-
 		using TT = Token::Type;
-
 
 		type::Array parse_type_array(Tokens & tokens, BraceTracker & brace_tracker) {
 			open_chevron(tokens, brace_tracker);
@@ -83,6 +81,7 @@ namespace ltn::c {
 		}
 
 
+
 		bool is_auto(const Token & token) {
 			return token.type == TT::INDENTIFIER
 				&& token.str == "auto";
@@ -128,6 +127,7 @@ namespace ltn::c {
 	}
 
 
+
 	type::IncompleteType parse_parameter_type(Tokens & tokens) {
 		return match(TT::COLON, tokens)
 			? parse_type(tokens)
@@ -135,11 +135,13 @@ namespace ltn::c {
 	}
 
 
+
 	type::IncompleteType parse_var_type(Tokens & tokens) {
 		return match(TT::COLON, tokens)
 			? parse_type(tokens)
 			: type::IncompleteType{type::Any{}};
 	}
+
 
 
 	std::optional<type::IncompleteType>	parse_var_type_auto(Tokens & tokens) {

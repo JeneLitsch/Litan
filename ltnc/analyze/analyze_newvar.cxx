@@ -65,6 +65,7 @@ namespace ltn::c {
 		}
 
 
+
 		sst::expr_ptr analyze_new_variable_right(
 			const ast::NewVar & new_var,
 			Context & context,
@@ -79,6 +80,7 @@ namespace ltn::c {
 			}
 			return std::make_unique<sst::Null>(type::Any{});
 		}
+
 
 
 		Variable insert_new_var(

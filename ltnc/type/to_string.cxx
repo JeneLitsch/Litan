@@ -10,9 +10,11 @@ namespace ltn::c::type {
 		}
 
 
+
 		std::string to_string(const Other & other) {
 			return other.type_name;
 		}
+
 
 
 		std::string to_string(const Optional & optional) {
@@ -20,6 +22,7 @@ namespace ltn::c::type {
 			oss << Optional::type_name << "<" << to_string(*optional.contains) << ">";
 			return oss.str();
 		}
+
 
 
 		std::string to_string(const Array & array) {
@@ -34,6 +37,7 @@ namespace ltn::c::type {
 		}
 
 
+
 		std::string to_string(const Queue & queue) {
 			std::ostringstream oss;
 			oss << Queue::type_name << "<" << to_string(*queue.contains) << ">";
@@ -41,11 +45,13 @@ namespace ltn::c::type {
 		}
 
 
+
 		std::string to_string(const Stack & stack) {
 			std::ostringstream oss;
 			oss << Stack::type_name << "<" << to_string(*stack.contains) << ">";
 			return oss.str();
 		}
+
 
 		
 		std::string to_string(const Map & map) {
@@ -74,6 +80,8 @@ namespace ltn::c::type {
 			return oss.str();
 		}
 	}
+	
+
 	
 	std::string to_string(const Type & type) {
 		return std::visit([] (const auto & t) { return to_string(t); }, *type);

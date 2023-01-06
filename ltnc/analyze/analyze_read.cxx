@@ -33,7 +33,6 @@ namespace ltn::c {
 
 
 
-	// compiles an variable read accessc
 	sst::expr_ptr analyze_expr(
 		const ast::Var & expr,
 		Context & context,
@@ -65,6 +64,7 @@ namespace ltn::c {
 		);
 	}
 
+	
 	
 	sst::expr_ptr analyze_expr(
 		const ast::Member & access,

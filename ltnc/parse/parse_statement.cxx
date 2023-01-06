@@ -34,7 +34,6 @@ namespace ltn::c {
 
 
 
-	// parses return statement -> return ...
 	ast::stmt_ptr parse_return(Tokens & tokens) {
 		if(match(TT::RETURN, tokens)) {
 			if(match(TT::SEMICOLON, tokens)) {

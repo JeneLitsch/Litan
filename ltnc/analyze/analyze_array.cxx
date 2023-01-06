@@ -1,7 +1,6 @@
 #include "analyze.hxx"
 #include <string_view>
 namespace ltn::c {
-	// compiles array literal
 	sst::expr_ptr analyze_expr(const ast::Array & array, Context & context, Scope & scope) {
 		type::Array type;
 		std::vector<sst::expr_ptr> elements;

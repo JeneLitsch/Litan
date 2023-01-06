@@ -12,11 +12,14 @@ namespace ltn::c {
 			return ss.str(); 
 		}
 
+
+
 		const std::string jumpmark_skip(const std::string_view name) {
 			std::stringstream ss;
 			ss << name << "_SKIP";
 			return ss.str(); 
 		}
+
 
 
 		InstructionBuffer compile_body(const auto & fx) {
@@ -47,7 +50,8 @@ namespace ltn::c {
 			return buf;
 		}
 
-		// compiles Litan function
+
+
 		InstructionBuffer compile_function(
 			const sst::Function & fx,
 			std::optional<Label> override_label = std::nullopt) {
@@ -77,8 +81,6 @@ namespace ltn::c {
 
 
 
-
-		// compiles asm_function
 		InstructionBuffer compile_build_in_function(
 			const sst::BuildIn & fx,
 			std::optional<Label> override_label) {
@@ -98,7 +100,6 @@ namespace ltn::c {
 
 
 
-	// compiles functional node
 	InstructionBuffer compile_functional(
 		const sst::Functional & functional,
 		std::optional<Label> override_label) {
@@ -113,7 +114,7 @@ namespace ltn::c {
 	}
 
 
-	// compiles functional node
+
 	InstructionBuffer compile_functional(const sst::Functional & functional) {
 		return compile_functional(functional, std::nullopt);
 	}

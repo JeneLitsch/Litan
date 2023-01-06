@@ -9,19 +9,27 @@ namespace ltn::c {
 		std::string_view,
 		std::span<const inst::Inst>>;
 
+
+
 	template<auto inst_fx, auto ... args>
 	const std::array<inst::Inst, 2> single_return {
 		inst_fx(args...), 
 		inst::retvrn(),
 	};
 
+
+
 	template<auto inst_fx, auto ... args>
 	const std::array<inst::Inst, 1> single {
 		inst_fx(args...), 
 	};
 
+
+
 	template<ltn::FxCode CODE>
 	const std::array<inst::Inst, 2> vm_build_in = single_return<inst::build_in, static_cast<std::size_t>(CODE)>;
+
+
 
 	namespace build_in {
 		const auto chrono_to_milliseconds = std::to_array<inst::Inst>({
@@ -31,6 +39,8 @@ namespace ltn::c {
 			inst::retvrn(),
 		});
 	}
+
+
 
 	const Table table{
 		{"cast_bool",                single_return<inst::cast_bool>},
@@ -136,6 +146,8 @@ namespace ltn::c {
 		{"join_string",              vm_build_in<FxCode::JOIN_STRING>},
 	};
 	
+
+
 	std::span<const inst::Inst> resolve_build_in(const std::string_view & key) {
 		if(!table.contains(key)) {
 			throw CompilerError{"Unknown build in: " + std::string(key)};

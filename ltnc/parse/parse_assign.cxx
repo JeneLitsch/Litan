@@ -40,7 +40,6 @@ namespace ltn::c {
 
 
 
-	// parses Statement consiting of an Expression
 	ast::stmt_ptr parse_just_an_expr(Tokens & tokens) {
 		auto l = parse_expression(tokens);
 		if(auto r = parse_assign_r(tokens)) {
@@ -53,7 +52,6 @@ namespace ltn::c {
 
 
 
-	// Tries parsing assignment after and including =
 	ast::expr_ptr parse_assign_r(Tokens & tokens) {
 		if(match(TT::ASSIGN, tokens)) {
 			return parse_expression(tokens);

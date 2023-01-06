@@ -90,10 +90,8 @@ namespace ltn::c {
 			if(match(TT::BRACE_L, tokens)) return namespaze;
 			else throw missing_brace_l(tokens);
 		}
-
-
-
 	}
+
 
 
 	void add_to_source(ast::func_ptr && fx, ast::Program & source) {
@@ -101,9 +99,11 @@ namespace ltn::c {
 	}
 
 
+
 	void add_to_source(ast::ftmp_ptr && fx, ast::Program & source) {
 		source.function_templates.push_back(std::move(fx));
 	}
+
 
 
 	ast::Program parse(Tokens & tokens, Reporter & reporter) {

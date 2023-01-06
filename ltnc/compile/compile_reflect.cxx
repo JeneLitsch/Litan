@@ -16,6 +16,8 @@ namespace ltn::c {
 			return buf;
 		}
 
+
+
 		InstructionBuffer compile_reflect_query(
 			const sst::Reflect::Addr & addr,
 			const sst::Reflect::FunctionQuery & query) {
@@ -46,6 +48,7 @@ namespace ltn::c {
 		}
 
 
+
 		InstructionBuffer compile_reflect_query(
 			const sst::Reflect::Addr & addr,
 			const sst::Reflect::NamespaceQuery & query) {
@@ -67,6 +70,7 @@ namespace ltn::c {
 		}
 
 
+
 		InstructionBuffer compile_reflect_query(
 			const sst::Reflect::Addr & addr,
 			const sst::Reflect::LineQuery & query) {
@@ -75,6 +79,7 @@ namespace ltn::c {
 			buf << inst::newi(static_cast<std::int64_t>(query.line));
 			return buf;
 		}
+
 
 
 		InstructionBuffer compile_reflect_query(
@@ -92,6 +97,7 @@ namespace ltn::c {
 		}
 
 
+
 		InstructionBuffer compile_reflect_query(
 			const sst::Reflect::Addr & addr,
 			const sst::Reflect::LocationQuery & query) {
@@ -102,6 +108,7 @@ namespace ltn::c {
 			buf << add_member(addr.file, compile_reflect_query(addr, query.file));
 			return buf;
 		}
+
 
 
 		InstructionBuffer compile_reflect_query(
@@ -115,6 +122,7 @@ namespace ltn::c {
 			});
 			return buf;
 		}
+
 
 
 		InstructionBuffer compile_reflect_query(

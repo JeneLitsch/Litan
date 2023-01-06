@@ -110,9 +110,6 @@ namespace ltn::c::type {
 
 
 
-
-
-
 	Type deduce_compare(const Type &, const Type &) {
 		return Bool{};
 	}

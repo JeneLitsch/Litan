@@ -45,12 +45,10 @@ namespace ltn::c {
 			std::int64_t,
 			TT::INTEGER,
 			std::dec>;
-		
 		constexpr auto parse_integer_hex = parse_integer<
 			std::int64_t,
 			TT::INTEGER_HEX,
 			std::hex>;
-		
 		constexpr auto parse_integer_bin = parse_integer<
 			std::bitset<64>,
 			TT::INTEGER_BIN,
@@ -129,6 +127,7 @@ namespace ltn::c {
 		}
 
 
+
 		template<auto element>
 		ast::litr_ptr parse_array_base(Tokens & tokens) {
 			if(match(TT::BRACKET_L, tokens)) {
@@ -142,6 +141,8 @@ namespace ltn::c {
 			return nullptr;
 		}
 		constexpr auto parse_array = parse_array_base<parse_expression>;
+
+
 
 		ast::litr_ptr parse_string(Tokens & tokens) {
 			if(auto token = match(TT::STRING, tokens)) {
@@ -202,6 +203,7 @@ namespace ltn::c {
 			}
 			return nullptr; 
 		}
+
 
 
 		ast::expr_ptr parse_iife(Tokens & tokens) {

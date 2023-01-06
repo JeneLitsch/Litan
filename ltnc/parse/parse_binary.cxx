@@ -113,10 +113,6 @@ namespace ltn::c {
 
 
 
-
-		
-
-
 		template<auto presedence_down>
 		ast::expr_ptr binary_base(Tokens & tokens) {
 			static constexpr auto power       = generic_binary<power_table,       presedence_down>;

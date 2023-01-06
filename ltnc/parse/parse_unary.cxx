@@ -24,7 +24,6 @@ namespace ltn::c {
 
 
 
-		// index operator
 		template<auto expression_fx>
 		std::unique_ptr<ast::Expression> parse_index(Tokens & tokens) {
 			if(match(TT::BRACKET_L, tokens)) {
@@ -57,9 +56,6 @@ namespace ltn::c {
 
 
 
-
-
-		// recursive right sided unary -> [i]
 		template<auto expression_fx>
 		std::unique_ptr<ast::Expression> parse_postfix(
 			Tokens & tokens,
@@ -135,7 +131,6 @@ namespace ltn::c {
 
 
 
-	// Operators - ! [i]
 	template<auto primary_fx, auto expr_fx>
 	std::unique_ptr<ast::Expression> parse_prefix(Tokens & tokens) {
 		static constexpr auto unary_fx = parse_prefix<primary_fx, expr_fx>;
@@ -152,7 +147,6 @@ namespace ltn::c {
 			auto && r = unary_fx(tokens);
 			return stx::make_unique<ast::Unary>(*op, std::move(r), location(tokens));
 		}
-		// right unary
 		return parse_postfix<expr_fx>(tokens, primary_fx(tokens));
 	}
 

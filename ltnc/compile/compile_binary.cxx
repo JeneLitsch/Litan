@@ -81,7 +81,6 @@ namespace ltn::c {
 			buf << inst::label(jumpmark_end);
 			
 			return buf;
-
 		}
 
 

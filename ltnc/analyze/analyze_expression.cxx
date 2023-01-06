@@ -12,8 +12,4 @@ namespace ltn::c {
 			return analyze_expr(e, context, scope);
 		});
 	}
-
-
-
-
 }

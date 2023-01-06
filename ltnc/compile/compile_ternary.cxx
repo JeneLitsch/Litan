@@ -1,7 +1,6 @@
 #include "compile.hxx"
 namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Ternary & expr) {
-		
 		const auto name        = make_jump_id("TERNARY");
 		const auto condition   = compile_expression(*expr.condition);
 		const auto if_branch   = compile_expression(*expr.if_branch);

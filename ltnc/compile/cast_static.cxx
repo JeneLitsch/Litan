@@ -34,6 +34,8 @@ namespace ltn::c {
 		}
 	}
 
+
+
 	InstructionBuffer cast_static(	
 		const type::Type & from,
 		const type::Type & to,

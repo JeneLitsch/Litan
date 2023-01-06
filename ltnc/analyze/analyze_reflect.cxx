@@ -16,6 +16,7 @@ namespace ltn::c {
 		}
 
 
+
 		sst::Reflect::Addr make_member_addrs(MemberTable & member_table) {
 			return sst::Reflect::Addr {
 				.name      = member_table.get_id("name"),
@@ -114,6 +115,7 @@ namespace ltn::c {
 		}
 
 
+
 		auto analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::ExprQuery & query,
@@ -128,6 +130,7 @@ namespace ltn::c {
 				}
 			};
 		}
+
 
 
 		auto analyze_reflect_query(

@@ -35,6 +35,7 @@ namespace ltn::c {
 	}
 
 
+
 	ast::enum_ptr parse_enumeration(Tokens & tokens, Namespace namespaze) {
 		
 		const auto enum_name = parse_enum_name(tokens);

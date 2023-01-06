@@ -78,6 +78,7 @@ namespace ltn::c {
 	}
 
 
+
 	Label derive_template(const Label & label, const std::vector<type::Type> & args) {
 		std::ostringstream oss;
 		oss << label.get_name();

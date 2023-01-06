@@ -44,6 +44,7 @@ namespace ltn::c {
 		}
 
 
+
 		ast::Parameters parse_mandatory_parameters(Tokens & tokens) {
 			if(match(TT::PAREN_L, tokens)) return parse_basic_parameters(tokens);
 			throw ltn::c::CompilerError{"missing (", location(tokens)};
@@ -51,7 +52,6 @@ namespace ltn::c {
 
 
 
-		// Returns a array of all parameters
 		std::vector<std::unique_ptr<ast::Var>> parse_captures(Tokens & tokens) {
 			if(!match(TT::BRACKET_L, tokens)) return {};
 
@@ -97,7 +97,6 @@ namespace ltn::c {
 			if(match(TT::DRARROW, tokens)) {
 				auto expr = parse_expression(tokens);
 				const auto & loc = location(tokens);
-				// match(TT::SEMICOLON, tokens);
 				return stx::make_unique<ast::Return>(std::move(expr), loc);
 			}
 			else {
@@ -126,7 +125,6 @@ namespace ltn::c {
 
 
 
-		// parses and returns a function node
 		template<class FunctionalNode>
 		std::unique_ptr<FunctionalNode> functional_node(
 			Tokens & tokens,
@@ -174,6 +172,7 @@ namespace ltn::c {
 			fx->is_extern = is_extern;
 			return fx;
 		}
+
 
 
 		std::vector<std::string> parse_template_parameters(Tokens & tokens) {
