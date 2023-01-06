@@ -9,17 +9,9 @@ function pad(string : string, chunk : int) -> string {
 
 
 
-function long_empty(size : int) -> string {
-	var str = "";
-	for(i : 0 -> size) str = str + " ";
-	return str;
-}
-
-
-
 function encrypt(plain : string, rows : int) -> string {
 	var size = std::size(plain);
-	var cipher = long_empty(size);
+	var cipher = " " * size;
 	var columns = size / rows;
 	for(i : 0 -> size) {
 		var row = i / columns;
