@@ -20,5 +20,7 @@ namespace sphinx::test {
 		assert_equal_strict(reflect(expr *null).type.name, "null");
 		var opt : ?int;
 		assert_equal_strict(reflect(expr *opt).type.name, "int");
+		var opt_opt : ??int;
+		assert_equal_strict(reflect(expr *opt_opt).type.name, "int");
 	}
 }

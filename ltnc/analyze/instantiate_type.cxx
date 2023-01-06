@@ -32,9 +32,9 @@ namespace ltn::c {
 	type::Optional instantiate(
 		const type::Optional & incomplete,
 		const Scope & scope) {
-		const auto & inner = **incomplete.contains;
-		if(is_optional(inner)) throw CompilerError{
-			"Nested optional is not allowed"
+		const auto & inner = *incomplete.contains;
+		if(is_optional(inner)) return type::Optional {
+			.contains = instantiate_type(*inner.as<type::Optional>()->contains, scope)
 		};
 		return type::Optional{
 			.contains = instantiate_type(inner, scope)
