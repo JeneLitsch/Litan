@@ -48,9 +48,12 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void error(VmCore &) {
 		throw value::null;
 	}
+
+
 
 	void exit(VmCore & core) {
 		throw core.reg.pop();

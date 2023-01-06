@@ -7,14 +7,18 @@ namespace ltn::vm::inst {
 		core.reg.pop();
 	}
 
+
+
 	void duplicate(VmCore & core) {
 		core.reg.push(core.reg.peek());
 	}
 
 
+
 	void makevar(VmCore & core) {
 		core.stack.make_var();
 	}
+
 
 
 	void read_x(VmCore & core) {
@@ -24,11 +28,13 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void write_x(VmCore & core) {
 		const auto addr = core.fetch_uint();
 		const auto value = core.reg.pop();
 		core.stack.write(addr, value);
 	}
+
 
 
 	void swap(VmCore & core) {
@@ -37,6 +43,7 @@ namespace ltn::vm::inst {
 		core.reg.push(a);
 		core.reg.push(b);
 	}
+
 
 
 	void read_0(VmCore & core) { core.reg.push(core.stack.read(0)); }

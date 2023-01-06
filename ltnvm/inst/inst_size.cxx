@@ -27,10 +27,14 @@ namespace ltn::vm::inst {
 		}
 	}
 
+
+
 	void size(VmCore & core) {
 		const auto ref = core.reg.pop();
 		core.reg.push(size(ref, core.heap));
 	}
+
+
 
 	void empty(VmCore & core) {
 		const auto ref = core.reg.pop();

@@ -13,6 +13,7 @@ namespace ltn::vm::inst {
 		}
 
 
+
 		std::optional<std::uint64_t> unwind(Stack & stack) {
 			while(stack.depth()) {
 				const auto handler = stack.get_except_handler();
@@ -25,12 +26,15 @@ namespace ltn::vm::inst {
 		}
 	}
 
+
+
 	void tRy(VmCore & core) {
 		const auto addr = core.fetch_uint();
 		const auto regSize = core.reg.size();
 		core.stack.set_except_handler(addr);
 		core.stack.set_regsize(regSize);
 	}
+
 
 
 	void thr0w(VmCore & core) {
@@ -47,6 +51,7 @@ namespace ltn::vm::inst {
 		core.reg.push(except);
 		
 	}
+
 
 
 	void state(VmCore & core) {

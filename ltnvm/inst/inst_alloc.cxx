@@ -14,6 +14,8 @@ namespace ltn::vm::inst {
 		array.push_back(value);
 	} 
 
+
+
 	void newarr(VmCore & core){
 		const auto ptr = core.heap.alloc<Array>({});
 		auto & arr = core.heap.read<Array>(ptr).get(); 
@@ -22,6 +24,7 @@ namespace ltn::vm::inst {
 		core.reg.push({ ptr, Value::Type::ARRAY });
 		core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
 	}
+
 
 
 	void newstr(VmCore & core) {
@@ -33,6 +36,7 @@ namespace ltn::vm::inst {
 		core.pc += size;
 		core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
 	}
+
 
 
 	void newout(VmCore & core) {
@@ -66,6 +70,7 @@ namespace ltn::vm::inst {
 		}
 		throw std::runtime_error{"Unknow output variant"};
 	}
+
 
 
 	void newin(VmCore & core) {
@@ -103,11 +108,13 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void newclock(VmCore & core) {
 		const auto ptr = core.heap.alloc<Clock>({});
 		core.reg.push({ ptr, Value::Type::CLOCK });
 		core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
 	}
+
 
 
 	void newstruct(VmCore & core) {
@@ -117,6 +124,7 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void newstack(VmCore & core) {
 		const auto ref = core.heap.alloc<Deque>({});
 		core.reg.push({ ref, Value::Type::STACK });
@@ -124,11 +132,13 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void newqueue(VmCore & core) {
 		const auto ref = core.heap.alloc<Deque>({});
 		core.reg.push({ ref, Value::Type::QUEUE });
 		core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
 	}
+
 
 
 	void newmap(VmCore & core) {
@@ -144,6 +154,8 @@ namespace ltn::vm::inst {
 		const auto ref = core.heap.alloc<FxPointer>({address, params, {}});
 		core.reg.push(Value{ref, Value::Type::FX_PTR});
 	}
+
+
 
 	void newrng(VmCore & core){
 		const auto type = core.fetch_byte();

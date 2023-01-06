@@ -9,12 +9,16 @@ namespace ltn::vm::inst {
 		}
 	}
 	
+
+	
 	void static_read(VmCore & core) {
 		const auto id = core.fetch_uint();
 		reserve_static(core.static_variables, id);
 		core.reg.push(core.static_variables[id]);
 		// std::cout << "GLOBAL READ\n";
 	}
+
+
 
 	void static_write(VmCore & core) {
 		const auto id = core.fetch_uint();

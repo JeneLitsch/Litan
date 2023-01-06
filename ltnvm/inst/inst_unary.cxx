@@ -22,10 +22,15 @@ namespace ltn::vm::inst {
 		}
 		throw except::invalid_argument();
 	}
+
+
+
 	void n0t(VmCore & core) {
 		FETCH
 		return core.reg.push(!convert::to_bool(x));
 	}
+
+
 
 	void inc(VmCore & core) {
 		FETCH
@@ -40,6 +45,9 @@ namespace ltn::vm::inst {
 		}
 		throw except::invalid_argument();
 	}
+	
+	
+	
 	void dec(VmCore & core) {
 		FETCH
 		if(is_char(x)) {

@@ -31,6 +31,8 @@ namespace ltn::vm::inst {
 		}
 	}
 
+
+
 	void member_read(VmCore & core) {
 		const auto id = core.fetch_uint();
 		const auto ref = core.reg.pop();
@@ -42,6 +44,8 @@ namespace ltn::vm::inst {
 			core.reg.push(value::null);
 		}
 	}
+	
+
 	
 	void member_write(VmCore & core) {
 		const auto id = core.fetch_uint();

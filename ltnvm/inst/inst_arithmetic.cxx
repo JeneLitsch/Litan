@@ -33,6 +33,7 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void add(VmCore & core) {
 		FETCH
 		
@@ -60,20 +61,28 @@ namespace ltn::vm::inst {
 		core.reg.push(calc<Subtraction>(l, r));
 	}
 
+
+
 	void mlt(VmCore & core) {
 		FETCH
 		core.reg.push(calc<Multiplication>(l, r));
 	}
+
+
 
 	void div(VmCore & core) {
 		FETCH
 		core.reg.push(calc<Division>(l, r));
 	}
 
+
+
 	void mod(VmCore & core) {
 		FETCH
 		core.reg.push(calc<Modulo>(l, r));
 	}
+
+
 
 	void pow(VmCore & core) {
 		FETCH

@@ -128,6 +128,7 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void cast(VmCore & core) {
 		const auto value = core.reg.pop();
 		const std::uint8_t * type = &core.byte_code[core.pc];
@@ -143,6 +144,7 @@ namespace ltn::vm::inst {
 		core.reg.push(smart_cast(type, value, core));
 		resume_after_0_terminator(core);
 	}
+
 
 
 	void copy(VmCore & core) {

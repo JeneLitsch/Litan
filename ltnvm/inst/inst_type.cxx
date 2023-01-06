@@ -9,6 +9,8 @@ namespace ltn::vm::inst {
 		core.reg.push(Value{static_cast<std::int64_t>(value.type)});
 	}
 
+
+
 	void clone(VmCore & core) {
 		const auto ref = core.reg.pop();
 		if(isObject(ref)) {

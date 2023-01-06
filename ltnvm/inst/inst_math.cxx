@@ -9,16 +9,5 @@ namespace ltn::vm::inst {
 	#define FETCH\
 		const auto r = core.reg.pop();\
 		const auto l = core.reg.pop();
-
-
-
-
-
-
-	
-
-
-	
-
 	#undef FETCH
 }

@@ -30,6 +30,7 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void pop(VmCore & core) {
 		const auto ref = core.reg.pop();
 
@@ -61,6 +62,7 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void peek(VmCore & core) {
 		const auto ref = core.reg.pop();
 
@@ -82,6 +84,7 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void contains(VmCore & core) {
 		const auto key = core.reg.pop();
 		const auto ref = core.reg.pop();
@@ -94,6 +97,7 @@ namespace ltn::vm::inst {
 
 		throw except::invalid_argument();
 	}
+
 
 
 	void front(VmCore & core) {
@@ -114,6 +118,7 @@ namespace ltn::vm::inst {
 
 		throw except::invalid_argument();
 	}
+
 
 	
 	void back(VmCore & core) {

@@ -42,6 +42,7 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void in_line(VmCore & core) {
 		auto & in = get_istream(core.heap, core.reg); 
 		std::string value;
@@ -49,6 +50,7 @@ namespace ltn::vm::inst {
 		const auto addr = core.heap.alloc<String>({value});
 		core.reg.push(Value{addr, VT::STRING});
 	}
+
 
 
 	void in_bool(VmCore & core) {
@@ -74,12 +76,14 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void in_char(VmCore & core) {
 		auto & in = get_istream(core.heap, core.reg); 
 		char value;
 		in >> value;
 		core.reg.push(value::character(value));
 	}
+
 
 
 	void in_int(VmCore & core) {
@@ -90,12 +94,15 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void in_float(VmCore & core) {
 		auto & in = get_istream(core.heap, core.reg); 
 		stx::float64_t value;
 		in >> value;
 		core.reg.push(value::floating(value));
 	}
+
+
 
 	void in_all(VmCore & core) {
 		auto & in = get_istream(core.heap, core.reg);
@@ -105,16 +112,20 @@ namespace ltn::vm::inst {
 		core.reg.push(value::string(ref));
 	}
 
+
+
 	void is_eof(VmCore & core) {
 		auto & in = get_istream(core.heap, core.reg); 
 		core.reg.push(Value{in.eof()});
 	}
 
 
+
 	void is_good(VmCore & core) {
 		auto & in = get_istream(core.heap, core.reg); 
 		core.reg.push(value::boolean(static_cast<bool>(in)));
 	}
+
 
 	
 	void close_stream(VmCore & core) {

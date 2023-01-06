@@ -7,21 +7,28 @@ namespace ltn::vm::inst {
 		using array = std::vector<Value>;
 		using string = std::string;
 
-		// Front insertions
+
+
 		void push_f(array & arr, Heap &, const Value elem) {
 			arr.insert(arr.begin(), elem);
 		}
+
+
 
 		void push_f(string & str, Heap & heap, const Value elem) {
 			const auto strL = convert::to_string(elem, heap);
 			str = strL + str;
 		}
 
+
+
 		template<typename Collection>
 		void push_f(const Value ref, Heap & heap, const Value elem) {
 			auto & collection = heap.read<Collection>(ref.u).get();
 			return push_f(collection, heap, elem);
 		}
+
+
 
 		void insert_front(Register & reg, Heap & heap) {
 			const auto elem = reg.pop();
@@ -32,21 +39,27 @@ namespace ltn::vm::inst {
 		}
 
 
-		// Back insertsion
+
 		void push_b(array & arr, Heap &, const Value elem) {
 			arr.push_back(elem);
 		}
+
+
 
 		void push_b(string & str, Heap & heap, const Value elem) {
 			const auto & strR = convert::to_string(elem, heap);
 			str += strR;
 		}
 
+
+
 		template<typename Collection>
 		void push_b(const Value ref, Heap & heap, const Value elem) {
 			auto & collection = heap.read<Collection>(ref.u).get();
 			push_b(collection, heap, elem);
 		}
+
+
 
 		void insert_back(Register & reg, Heap & heap) {
 			const auto elem = reg.pop();
@@ -56,16 +69,20 @@ namespace ltn::vm::inst {
 			throw except::invalid_argument();
 		}
 
-		// Map insertion		
+
+
 		void push_m(const Value ref, Heap & heap, const Value elem, const Value key) {
 			auto & map = heap.read<Map>(ref.u).get();
 			map[key] = elem;
 		}
 
-		// Index insertion
+
+
 		void push_i(array & arr, Heap &, const Value elem, auto i) {
 			arr.insert(arr.begin() + i, elem);
 		}
+
+
 
 		void push_i(string & str, Heap & heap, const Value elem, auto i) {
 			const auto & strX = convert::to_string(elem, heap);
@@ -75,6 +92,8 @@ namespace ltn::vm::inst {
 			str.insert(at, begin, end);
 		}
 
+
+
 		template<typename Collection>
 		void push_i(const Value ref, Heap & heap, const Value elem, auto i) {
 			auto & collection = heap.read<Collection>(ref.u).get(); 
@@ -83,6 +102,8 @@ namespace ltn::vm::inst {
 			}
 			push_i(collection, heap, elem, i);
 		}
+
+
 
 		void insert_index(Register & reg, Heap & heap) {
 			const auto elem = reg.pop();
@@ -95,6 +116,7 @@ namespace ltn::vm::inst {
 			throw except::invalid_argument();
 		}
 	}
+	
 	
 
 	void insert(VmCore & core) {
