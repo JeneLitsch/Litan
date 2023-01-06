@@ -4,7 +4,7 @@
 Subint types hold integer-like values but are smaller than int.  
 Subint types are: 
 - bool
-- char 
+- char
 
 ## Integral
 Integral types hold integer-like values.  

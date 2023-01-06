@@ -1,12 +1,10 @@
-# Types
-
-## Any
+# Any
 
 Any represents a non specified type.
 
----
+<BR>
 
-## Null
+# Null
 The null type indicates a non-existing value. A value of type null can be created by the `null` keyword.
 
 **Example**
@@ -16,11 +14,11 @@ function main() {
 }
 ```
 
----
+<BR>
 
-## Bool
+# Bool
 
-The bool type can be set two states `true` and `false`. 
+The bool type can be set to two states `true` and `false`. 
 A value of type bool can be created by the `true` or `false` keyword.
 A boolean value can be implicitly converted or casted to every numeric type where false becomes 0 and true becomes 1.
 
@@ -32,14 +30,15 @@ function main() {
 }
 ```
 
----
+<BR>
 
-## Optional 
+# Optional 
 An optional type optional&lt;T&gt; (short notatation: ?T) either holds a value of type T or null. Any nested optional types are folded to a single optional (e.g. ??int will become ?int). 
 
----
+<br>
 
-## Char
+# Char
+
 The char type is an 8-Bit integral type used to represent a single character.
 A value of type char can be created by a char literal e.g. `'a'`, `'\n'` or `';'` 
 
@@ -56,11 +55,11 @@ function main() {
 }
 ```
 
----
+<BR>
 
 
 
-## Int
+# Int
 The int type is used to store a 64-Bit singed integer value.
 A value of type int can be created by a int literal e.g. `0`, `-1` or `42` 
 The typename for integer is `int`.
@@ -102,11 +101,11 @@ function main() {
 	std::println(b);
 }
 ```
----
+<BR>
 
 
 
-## Float
+# Float
 The float type is used to store a 64-Bit IEEE-754 floating point number.
 A value of type float can be created by a float literal e.g. `0.0`, `-1.0` or `42.0` 
 The typename for a floating point number is `float`.
@@ -121,11 +120,11 @@ function main() {
 }
 ```
 
----
+<BR>
 
 
 
-## String
+# String
 The string type is used to store an array of char values.
 A new string can be created by using a string literal e.g. `"Hello World"` or `"Test"`.
 
@@ -142,17 +141,17 @@ function main() {
 ```
 
 
-### Escape sequences
+## Escape sequences
 `\n` for newline  
 `\t` for tab  
 `\\` for \  
 `\"` for "
 
----
+<BR>
 
 
 
-## Array 
+# Array 
 The array type is used store a dynamic array of elements of any type.
 A new array can be create by writing a comma separated list between `[` and `]` e.g. `[1, 2, 3,]` or `[42, 42]`. 
 A single trailing comma is allowed.
@@ -165,25 +164,25 @@ function main() {
 }
 ```
 
----
+<BR>
 
 
 
-## Istream
-Istreams are used to read 8-Bit character from a varity of sources e.g. stdin or files. 
+# Istream
+Istreams are used to read 8-Bit characters from a varity of sources e.g. stdin or files. 
 
----
-
-
-
-## Ostream
-Ostreams are used to output 8-Bit characters to a varity of targets e.g. stdin or files. 
-
---- 
+<BR>
 
 
 
-## Function pointers
+# Ostream
+Ostreams are used to output 8-Bit characters to a varity of targets e.g. stdout or files. 
+
+<BR> 
+
+
+
+# Function pointers
 Function pointers are callable objects created by lambdas or taking the address of a normal function. A function pointer to a regular function can be create by prefixing the function with `&` and replacing all paramters with `_`.
 
 **Example**
@@ -197,18 +196,18 @@ function main() {
 }
 ```
 
----
+<BR>
 
 
 
-## External
+# External
 Like a function pointer but it is pointing to a externally registerd function
 
----
+<BR>
 
 
 
-## Clock
+# Clock
 A clock tracks the time since its creation. It's created by std::chrono::clock() and be casted to a floating point value representing the elapsed seconds.
 
 ```js
@@ -219,46 +218,46 @@ function main() {
 }
 ```
 
----
+<BR>
 
 
 
-## Struct
+# Struct
 _ToDo_
 
----
+<BR>
 
 
 
-## Range
+# Range
 _ToDo_
 
----
+<BR>
 
 
 
-## QUEUE
+# QUEUE
 _ToDo_
 
----
+<BR>
 
 
 
-## Stack
+# Stack
 _ToDo_
 
----
+<BR>
 
 
 
-## Map
+# Map
 _ToDo_
 
----
+<BR>
 
 
 
-## RNG
+# RNG
 _ToDo_
 
----
+<BR>
