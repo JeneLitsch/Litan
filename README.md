@@ -17,14 +17,14 @@ Litan has fully-featured lambda expressions and supports higher-order-functions.
 
 ```js
 function use_lambda(fx) {
-	return fx(1, 2);
+    return fx(1, 2);
 }
 
 function make_lambda(c) 
-	=> lambda[c](a, b) => (a + b + c)
+    => lambda[c](a, b) => (a + b + c)
 
 function main() {
-	std::println(use_lambda(make_lambda(3))); // 6
+    std::println(use_lambda(make_lambda(3))); // 6
 }
 ```
 
@@ -46,10 +46,10 @@ function main() {
 
 ```js
 function f(x : string) -> int 
-	=> x // Compiler Error: Cannot return string as int
+    => x // Compiler Error: Cannot return string as int
 
 function main() {
-	f(4); // Compiler Error: Cannot pass int as string
+    f(4); // Compiler Error: Cannot pass int as string
 }
 ```
 
