@@ -128,7 +128,7 @@ namespace ltn::c::sst {
 			TypeQuery
 		>;
 		struct Addr {
-			std::size_t name;
+			std::uint64_t name;
 			std::uint64_t full_name;
 			std::uint64_t fx_ptr;
 			std::uint64_t functions;

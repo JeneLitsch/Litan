@@ -25,8 +25,8 @@ namespace ltn::c {
 				.c0nst     = member_table.get_id("const"),
 				.pr1vate   = member_table.get_id("private"),
 				.ext3rn    = member_table.get_id("extern"),
-				.line      = member_table.get_id("line"),
 				.file      = member_table.get_id("file"),
+				.line      = member_table.get_id("line"),
 				.type      = member_table.get_id("type"),
 			};
 		}
@@ -108,8 +108,8 @@ namespace ltn::c {
 			Scope & scope) {
 
 			return sst::Reflect::LocationQuery {
-				.line = analyze_reflect_query(refl, query.line, context, scope), 
 				.file = analyze_reflect_query(refl, query.file, context, scope), 
+				.line = analyze_reflect_query(refl, query.line, context, scope), 
 			};
 		}
 

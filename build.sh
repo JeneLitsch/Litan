@@ -1,4 +1,4 @@
-cmake . -D CMAKE_CXX_COMPILER=clang++ -D param=linux-release -B build -S . 
+cmake . -D CMAKE_CXX_COMPILER=g++-10 -D param=linux-release -B build -S . 
 cd build
 make -j8
 cd ..
