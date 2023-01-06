@@ -34,7 +34,8 @@ namespace ltn::c {
 			auto var = stx::make_unique<ast::NewVar>(
 				var_name,
 				nullptr,
-				location(tokens)
+				location(tokens),
+				type::IncompleteType{type::Int{}}
 			);
 
 			if(!match(TT::COLON, tokens)) {

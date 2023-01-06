@@ -1,0 +1,54 @@
+function pad(string : string, chunk : int) -> string {
+	while(std::size(string) % chunk) {
+		std::insert_back(string, ".");
+	}
+	return string;
+}
+
+
+
+function long_empty(size : int) -> string {
+	var str = "";
+	for(i : 0 -> size) str = str + " ";
+	return str;
+}
+
+
+
+function encrypt(plain : string, rows : int) -> string {
+	var size = std::size(plain);
+	var cipher = long_empty(size);
+	var columns = size / rows;
+	for(i : 0 -> size) {
+		var row = i / columns;
+		var col = i % columns;
+		cipher[col * rows + row] = plain[i];
+	}
+	return cipher;
+}
+
+
+
+function decrypt(plain : string, rows : int) -> string {
+	return encrypt(plain, std::size(plain) / rows); 
+}
+
+
+
+function main() {
+	var rows = 5;
+	var words = [
+		"helloworld",
+		"loremipsum",
+		"skytale",
+		"crypto"
+	];
+	for(i : 0 -> std::size(words)) {
+		var original = pad(words[i], rows);
+		var encrypted = encrypt(original, rows);
+		var decrypted = decrypt(encrypted , rows);
+		std::println("original:  " + original);
+		std::println("encrypted: " + encrypted);
+		std::println("decrypted: " + decrypted);
+	} 
+}

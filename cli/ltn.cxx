@@ -46,7 +46,7 @@ int main(int argc, char const *argv[]) {
 	flag_source.mandatory();
 	
 	ltn::c::Reporter reporter;
-	ltn::LtnVm vm;
+	ltn::LtnVM vm;
 	try {
 		std::vector<std::string> args;
 		std::vector<ltn::c::Source> sources;

@@ -32,11 +32,13 @@ namespace ltn::c::type {
 		Type deduce_arith_base(const Type & l, const Type & r) {
 			if(is_integral(l)) {
 				if(is_integral(r)) return Int{};
-				if(r.as<Float>()) return Float{};
+				if(is_float(r)) return Float{};
 			}
-			if(l.as<Float>()) {
+			if(is_float(l)) {
 				if(is_numeric(r)) return Float{};
 			}
+
+			if(is_any(l) || is_any(r)) return Any{};
 
 			return Error{};
 		}
