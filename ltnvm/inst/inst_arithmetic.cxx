@@ -45,7 +45,7 @@ namespace ltn::vm::inst {
 
 
 
-		Value string_repetition(
+		Value string_repeat(
 			const Value & str_ref,
 			const Value & repetitions,
 			Heap & heap) {
@@ -87,11 +87,11 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_string(l) && is_integral(r)) {
-			return core.reg.push(string_repetition(l, r, core.heap));
+			return core.reg.push(string_repeat(l, r, core.heap));
 		}
 
 		if(is_integral(l) && is_string(r)) {
-			return core.reg.push(string_repetition(r, l, core.heap));
+			return core.reg.push(string_repeat(r, l, core.heap));
 		}
 
 		core.reg.push(calc<Multiplication>(l, r));
