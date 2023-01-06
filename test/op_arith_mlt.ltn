@@ -60,4 +60,26 @@ namespace sphinx::test {
 		assert_equal_strict(reflect(expr "ABC" * 3).type.name, "string");
 		assert_equal_strict(reflect(expr 3 * "XYZ").type.name, "string");
 	}
+
+
+
+	function mlt_array() {
+		assert_equal_strict([1,2,3] * true, [1,2,3]);
+		assert_equal_strict(true * [1,2,3], [1,2,3]);
+		assert_equal_strict([1,2,3] * false, []);
+		assert_equal_strict(false * [1,2,3], []);
+
+		assert_equal_strict([1,2] * (4 : char), [1,2,1,2,1,2,1,2]);
+		assert_equal_strict((4 : char) * [1,2], [1,2,1,2,1,2,1,2]);
+		
+		assert_equal_strict([1,2,3] * 3, [1,2,3,1,2,3,1,2,3]);
+		assert_equal_strict(3 * [1,2,3], [1,2,3,1,2,3,1,2,3]);
+	}
+
+
+
+	function mlt_array_type() {
+		assert_equal_strict(reflect(expr [1,2,3] * 3).type.name, "array<int>");
+		assert_equal_strict(reflect(expr 3 * [1,2,3]).type.name, "array<int>");
+	}
 }

@@ -49,6 +49,8 @@
 | Float    | Float    | Float  | Multiplication |
 | String   | Integral | String | Repetition     |
 | Integral | String   | String | Repetition     |
+| String   | Array    | Array  | Repetition     |
+| Array    | String   | Array  | Repetition     |
 
 | L        | R        | Result | l / r            |
 | -------- | -------- | ------ | ---------------- |

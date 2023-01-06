@@ -35,6 +35,18 @@ namespace ltn::vm::inst {
 		}
 
 
+
+		std::vector<Value> repeat(const std::vector<Value> & arr, const std::integral auto count) {
+			std::vector<Value>  output;
+			for(std::int64_t i = 0; i < count; ++i) {
+				for(const auto & elem : arr) {
+					output.push_back(elem);
+				}
+			}
+			return output;
+		}
+
+
 		
 		template<typename T>
 		std::uint64_t concat(const Value & l, const Value & r, Heap & heap) {
@@ -46,15 +58,29 @@ namespace ltn::vm::inst {
 
 
 		Value string_repeat(
-			const Value & str_ref,
+			const Value & ref,
 			const Value & repetitions,
 			Heap & heap) {
 			
-			const auto & str = heap.read<String>(str_ref.u).get();
+			const auto & str = heap.read<String>(ref.u).get();
 			const auto & count = cast::to_int(repetitions);
 			auto repeated = repeat(str, count);
 			const auto ptr = heap.alloc<String>({std::move(repeated)}); 
 			return value::string(ptr);
+		}
+
+
+
+		Value array_repeat(
+			const Value & ref,
+			const Value & repetitions,
+			Heap & heap) {
+			
+			const auto & arr = heap.read<Array>(ref.u).get();
+			const auto & count = cast::to_int(repetitions);
+			auto repeated = repeat(arr, count);
+			const auto ptr = heap.alloc<Array>({std::move(repeated)});
+			return value::array(ptr);
 		}
 	}
 
@@ -92,6 +118,14 @@ namespace ltn::vm::inst {
 
 		if(is_integral(l) && is_string(r)) {
 			return core.reg.push(string_repeat(r, l, core.heap));
+		}
+
+		if(is_array(l) && is_integral(r)) {
+			return core.reg.push(array_repeat(l, r, core.heap));
+		}
+
+		if(is_integral(l) && is_array(r)) {
+			return core.reg.push(array_repeat(r, l, core.heap));
 		}
 
 		core.reg.push(calc<Multiplication>(l, r));

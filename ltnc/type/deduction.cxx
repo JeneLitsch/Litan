@@ -77,8 +77,10 @@ namespace ltn::c::type {
 
 
 	Type deduce_mlt(const Type & l, const Type & r) {
-		if(is_integral(l) && is_string(r)) return String{};
-		if(is_string(l) && is_integral(r)) return String{};
+		if(is_integral(l) && is_string(r)) return r;
+		if(is_string(l) && is_integral(r)) return l;
+		if(is_integral(l) && is_array(r)) return r;
+		if(is_array(l) && is_integral(r)) return l;
 		return deduce_arith_base(l, r);
 	}
 	
