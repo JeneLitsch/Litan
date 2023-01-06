@@ -25,14 +25,6 @@ namespace ltn::vm::inst {
 		}
 
 
-		Array toArray(const Value & value, Heap & heap) {
-			if(is_array(value)) {
-				return heap.read<Array>(value.u);
-			}
-			return {{value}};
-		}
-
-
 
 		std::string repeat(const std::string & str, const std::integral auto count) {
 			std::ostringstream oss;
@@ -41,6 +33,15 @@ namespace ltn::vm::inst {
 			}
 			return oss.str();
 		}
+
+
+		
+		template<typename T>
+		std::uint64_t concat(const Value & l, const Value & r, Heap & heap) {
+			const auto obj_l = heap.read<T>(l.u).get();
+			const auto obj_r = heap.read<T>(r.u).get();
+			return heap.alloc<T>({obj_l + obj_r});
+		} 
 
 
 
@@ -63,17 +64,11 @@ namespace ltn::vm::inst {
 		FETCH
 		
 		if(is_array(l) && is_array(r)) {
-			const auto arr_l = toArray(l, core.heap).get();
-			const auto arr_r = toArray(r, core.heap).get();
-			const auto ref = core.heap.alloc<Array>({arr_l + arr_r});
-			return core.reg.push(value::array(ref));
+			return core.reg.push(value::array(concat<Array>(l,r,core.heap)));
 		}
 
 		if(is_string(l) && is_string(r)) {
-			const auto str_l = convert::to_string(l, core.heap);
-			const auto str_r = convert::to_string(r, core.heap);
-			const auto ref = core.heap.alloc<String>({str_l + str_r});
-			return core.reg.push(value::string(ref));
+			return core.reg.push(value::string(concat<String>(l,r,core.heap)));
 		}
 
 		core.reg.push(calc<Addition>(l, r));
