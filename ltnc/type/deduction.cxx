@@ -157,7 +157,7 @@ namespace ltn::c::type {
 
 
 	Type deduce_index(const Type & container, const Type & key) {
-		if(container.as<Any>()) return Any{};		
+		if(is_any(container)) return Any{};		
 		if(auto map = container.as<Map>()) return deduce_index_map(*map, key);
 		if(auto array = container.as<Array>()) return deduce_index_array(*array, key);
 		if(auto string = container.as<String>()) return deduce_index_string(*string, key);

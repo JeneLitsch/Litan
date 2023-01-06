@@ -77,6 +77,54 @@ namespace ltn::vm::inst {
 				.msg = "Invalid type cast"
 			};
 		}
+
+
+
+		bool is_castable(const std::uint8_t * type, const Value & value, VmCore & core);
+
+
+
+		bool is_castable_array(const std::uint8_t * type, const Value & value, VmCore & core) {
+			if(is_array(value)) {
+				auto & arr = core.heap.read<Array>(value.u).get();
+				for(const auto & elem : arr) {
+					if(!is_castable(type, elem, core)) return false;
+				}
+				return true;
+			}
+			return false;
+		}
+
+
+
+		bool is_castable(const std::uint8_t * type, const Value & value, VmCore & core) {
+			// std::cout << *type << "\n";
+			switch (*type) {
+			case type_code::BOOL:    return is_bool(value);
+			case type_code::CHAR:    return is_char(value);
+			case type_code::INT:     return is_int(value);
+			case type_code::FLOAT:   return is_float(value);
+			case type_code::STRING:  return is_string(value);
+			case type_code::ARRAY:   return is_castable_array(type+1, value, core);
+			}
+			throw Exception{
+				.type = Exception::Type::GENERIC_ERROR,
+				.msg = "Invalid type cast"
+			};
+		}
+
+
+
+
+		Value smart_cast(const std::uint8_t * type, const Value & value, VmCore & core) {
+			return is_castable(type, value, core) ? value : value::null;
+		}
+
+
+
+		void resume_after_0_terminator(VmCore & core) {
+			while (core.byte_code[core.pc++]);
+		}
 	}
 
 
@@ -84,7 +132,7 @@ namespace ltn::vm::inst {
 		const auto value = core.reg.pop();
 		const std::uint8_t * type = &core.byte_code[core.pc];
 		core.reg.push(smart_copy(type, value, core));
-		while (core.byte_code[core.pc++]); // Resume after \0 terminator
+		resume_after_0_terminator(core);
 	}
 
 
@@ -92,13 +140,8 @@ namespace ltn::vm::inst {
 	void safe_cast(VmCore & core) {
 		const auto value = core.reg.pop();
 		const std::uint8_t * type = &core.byte_code[core.pc];
-		try {
-			core.reg.push(smart_copy(type, value, core));
-		}
-		catch(const Exception & exception) {
-			core.reg.push(value::null);
-		}
-		while (core.byte_code[core.pc++]); // Resume after \0 terminator
+		core.reg.push(smart_cast(type, value, core));
+		resume_after_0_terminator(core);
 	}
 
 
@@ -106,7 +149,7 @@ namespace ltn::vm::inst {
 		const auto value = core.reg.pop();
 		const std::uint8_t * type = &core.byte_code[core.pc];
 		core.reg.push(smart_copy(type, value, core));
-		while (core.byte_code[core.pc++]); // Resume after \0 terminator
+		resume_after_0_terminator(core);
 	}
 
 
@@ -120,7 +163,7 @@ namespace ltn::vm::inst {
 		catch(const Exception & exception) {
 			core.reg.push(value::null);
 		}
-		while (core.byte_code[core.pc++]); // Resume after \0 terminator
+		resume_after_0_terminator(core);
 	}
 
 

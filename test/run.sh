@@ -20,6 +20,7 @@ files=(
 	"test/iife.ltn"
 
 	"test/static_cast.ltn"
+	"test/dynamic_cast.ltn"
 	"test/static_copy.ltn"
 	
 	"test/op_arith_add.ltn"
