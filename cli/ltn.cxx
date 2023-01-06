@@ -42,15 +42,19 @@ int main(int argc, char const *argv[]) {
 		std::cout << desc.describe(); 
 		return EXIT_SUCCESS;
 	}
-	
-	flag_source.mandatory();
-	
+
+	std::vector<std::string> single_file;
+	if(argc > 1) {
+		single_file.push_back(argv[1]);
+	}
+
 	ltn::c::Reporter reporter;
 	ltn::LtnVM vm;
 	try {
 		std::vector<std::string> args;
 		std::vector<ltn::c::Source> sources;
-		for(const auto & source_file : flag_source.value_or({})) {
+		const auto files = flag_source.value_or(single_file);
+		for(const auto & source_file : files) {
 			sources.push_back(ltn::c::FileSource{
 				std::filesystem::path{source_file}
 			});

@@ -1,3 +1,5 @@
+// Runs the skytale encryption on some example string
+
 function pad(string : string, chunk : int) -> string {
 	while(std::size(string) % chunk) {
 		std::insert_back(string, ".");
