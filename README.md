@@ -95,3 +95,7 @@ function main() {
     std::println(object.bar);
 }
 ```
+
+## Useful Libraries
+
+- [Sphinx](https://github.com/JeneLitsch/Sphinx) (Unit test framework)
