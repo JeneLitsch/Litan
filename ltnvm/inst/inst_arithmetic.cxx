@@ -15,25 +15,13 @@
 
 namespace ltn::vm::inst {
 	namespace {
-		template<class T>
-		std::vector<T> operator+(
-			const std::vector<T> & l,
-			const std::vector<T> & r) {
-			std::vector<T> vec;
-			vec.reserve(l.size() + r.size());
-			vec.insert(std::end(vec), l.begin(), l.end());
-			vec.insert(std::end(vec), r.begin(), r.end());
-			return vec;
-		}
-
-
-
 		template<typename T>
 		std::uint64_t concat(const Value & l, const Value & r, Heap & heap) {
 			const auto obj_l = heap.read<T>(l.u).get();
 			const auto obj_r = heap.read<T>(r.u).get();
 			return heap.alloc<T>({obj_l + obj_r});
 		} 
+
 
 
 		template<typename Container>
