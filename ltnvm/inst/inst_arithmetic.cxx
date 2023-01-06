@@ -1,4 +1,6 @@
 #include "instructions.hxx"
+#include "stdxx/string.hxx"
+#include "stdxx/array.hxx"
 #include <cmath>
 #include "ltnvm/type_check.hxx"
 #include <sstream>
@@ -26,28 +28,6 @@ namespace ltn::vm::inst {
 
 
 
-		std::string repeat(const std::string & str, const std::integral auto count) {
-			std::ostringstream oss;
-			for(std::int64_t i = 0; i < count; ++i) {
-				oss << str;
-			}
-			return oss.str();
-		}
-
-
-
-		std::vector<Value> repeat(const std::vector<Value> & arr, const std::integral auto count) {
-			std::vector<Value>  output;
-			for(std::int64_t i = 0; i < count; ++i) {
-				for(const auto & elem : arr) {
-					output.push_back(elem);
-				}
-			}
-			return output;
-		}
-
-
-		
 		template<typename T>
 		std::uint64_t concat(const Value & l, const Value & r, Heap & heap) {
 			const auto obj_l = heap.read<T>(l.u).get();
@@ -57,14 +37,14 @@ namespace ltn::vm::inst {
 
 
 		template<typename Container>
-		std::int64_t repeat(
+		std::uint64_t repeat(
 			const Value & ref,
 			const Value & repetitions,
 			Heap & heap) {
 			
 			const auto & str = heap.read<Container>(ref.u).get();
 			const auto & count = cast::to_int(repetitions);
-			auto repeated = repeat(str, count);
+			auto repeated = stx::repeat(str, count);
 			const auto ptr = heap.alloc<Container>({std::move(repeated)}); 
 			return ptr;
 		}
