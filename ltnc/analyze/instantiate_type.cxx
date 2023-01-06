@@ -1,6 +1,7 @@
 #include "instantiate_type.hxx"
 #include "stdxx/functional.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "ltnc/type/check.hxx"
 
 namespace ltn::c {
 	type::Type instantiate_type(
@@ -31,8 +32,12 @@ namespace ltn::c {
 	type::Optional instantiate(
 		const type::Optional & incomplete,
 		const Scope & scope) {
+		const auto & inner = **incomplete.contains;
+		if(is_optional(inner)) throw CompilerError{
+			"Nested optional is not allowed"
+		};
 		return type::Optional{
-			.contains = instantiate_type(**incomplete.contains, scope)
+			.contains = instantiate_type(inner, scope)
 		};
 	}
 
