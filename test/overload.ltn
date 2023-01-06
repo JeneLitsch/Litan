@@ -2,19 +2,15 @@ namespace sphinx::test {
 	namespace local {
 		function f_overload_int(x : int) => "int"
 		function f_overload_str(x : string) => "string"
-		function f_overload_any(x : any) => "any"
 
-		overload f_overload(_) {
+		overload f_overload_1(_) {
 			f_overload_int;
 			f_overload_str;
-			// f_overload_any;
 		}
 	}
 
 	function overload_call() {
-		assert_equal_strict(local::f_overload(1), "int");
-		assert_equal_strict(local::f_overload(""), "string");
-		// assert_equal_strict(local::f_overload(1.0), "any");
-		// assert_equal_strict(local::f_overload([]), "any");
+		assert_equal_strict(local::f_overload_1(1), "int");
+		assert_equal_strict(local::f_overload_1(""), "string");
 	}
 }
