@@ -42,6 +42,14 @@ namespace sphinx::test {
 
 
 	function mlt_string() {
+		assert_equal_strict("XYZ" * true, "XYZ");
+		assert_equal_strict(true * "XYZ", "XYZ");
+		assert_equal_strict("XYZ" * false, "");
+		assert_equal_strict(false * "XYZ", "");
+
+		assert_equal_strict("ABC" * (4 : char), "ABCABCABCABC");
+		assert_equal_strict((4 : char) * "XYZ", "XYZXYZXYZXYZ");
+		
 		assert_equal_strict("ABC" * 3, "ABCABCABC");
 		assert_equal_strict(3 * "XYZ", "XYZXYZXYZ");
 	}
