@@ -10,7 +10,7 @@ function newton(
 	iterations : int,
 	start : float) {
 	
-	std::println("=== " + name + " ===");
+	std::println(name);
 	var x = start;
 	std::println("  0) " + std::str(x));
 	for(i : 0 -> iterations) {
@@ -37,9 +37,10 @@ function d_sine(x : float) -> float => std::cos(x)
 
 
 function main() {
-	newton("Quadratic",     &quadratic(_), &d_quadratic(_), 10, 1.0);
-	newton("Cubic 1 -> 0",  &cubic(_),     &d_cubic(_),     10, 1.0);
-	newton("Cubic -1 -> 0", &cubic(_),     &d_cubic(_),     10, -1.0);
-	newton("Sine 1 -> 0",   &sine(_),      &d_sine(_),      10, 1.0);
-	newton("Sine 3 -> pi",  &sine(_),      &d_sine(_),      10, 3.0);
+	newton("Quadratic [1 -> 0]", &quadratic(_), &d_quadratic(_), 10, 1.0);
+	newton("Quadratic [1 -> 0]", &quadratic(_), &d_quadratic(_), 10, -1.0);
+	newton("Cubic [1 -> 0]",     &cubic(_),     &d_cubic(_),     10, 1.0);
+	newton("Cubic [-1 -> 0]",    &cubic(_),     &d_cubic(_),     10, -1.0);
+	newton("Sine [1 -> 0]",      &sine(_),      &d_sine(_),      10, 1.0);
+	newton("Sine [3 -> pi]",     &sine(_),      &d_sine(_),      10, 3.0);
 }
