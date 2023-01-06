@@ -56,31 +56,17 @@ namespace ltn::vm::inst {
 		} 
 
 
-
-		Value string_repeat(
+		template<typename Container>
+		std::int64_t repeat(
 			const Value & ref,
 			const Value & repetitions,
 			Heap & heap) {
 			
-			const auto & str = heap.read<String>(ref.u).get();
+			const auto & str = heap.read<Container>(ref.u).get();
 			const auto & count = cast::to_int(repetitions);
 			auto repeated = repeat(str, count);
-			const auto ptr = heap.alloc<String>({std::move(repeated)}); 
-			return value::string(ptr);
-		}
-
-
-
-		Value array_repeat(
-			const Value & ref,
-			const Value & repetitions,
-			Heap & heap) {
-			
-			const auto & arr = heap.read<Array>(ref.u).get();
-			const auto & count = cast::to_int(repetitions);
-			auto repeated = repeat(arr, count);
-			const auto ptr = heap.alloc<Array>({std::move(repeated)});
-			return value::array(ptr);
+			const auto ptr = heap.alloc<Container>({std::move(repeated)}); 
+			return ptr;
 		}
 	}
 
@@ -113,19 +99,19 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_string(l) && is_integral(r)) {
-			return core.reg.push(string_repeat(l, r, core.heap));
+			return core.reg.push(value::string(repeat<String>(l, r, core.heap)));
 		}
 
 		if(is_integral(l) && is_string(r)) {
-			return core.reg.push(string_repeat(r, l, core.heap));
+			return core.reg.push(value::string(repeat<String>(r, l, core.heap)));
 		}
 
 		if(is_array(l) && is_integral(r)) {
-			return core.reg.push(array_repeat(l, r, core.heap));
+			return core.reg.push(value::array(repeat<Array>(l, r, core.heap)));
 		}
 
 		if(is_integral(l) && is_array(r)) {
-			return core.reg.push(array_repeat(r, l, core.heap));
+			return core.reg.push(value::array(repeat<Array>(r, l, core.heap)));
 		}
 
 		core.reg.push(calc<Multiplication>(l, r));
