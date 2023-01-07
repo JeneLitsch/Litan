@@ -12,6 +12,7 @@ namespace ltn::c {
 			case sst::TypedUnary::Op::DYNAMIC_COPY: return type::deduce_copy_dynamic(target_type);
 			case sst::TypedUnary::Op::STATIC_CAST:  return type::deduce_cast_static(target_type);
 			case sst::TypedUnary::Op::DYNAMIC_CAST: return type::deduce_cast_dynamic(target_type);
+			default: throw std::runtime_error{"Invalid TypedUnary::Op"};
 			}
 		}
 	}

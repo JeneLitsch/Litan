@@ -30,8 +30,7 @@ namespace ltn::c {
 		case sst::TypedUnary::Op::DYNAMIC_COPY: return actual(copy_dynamic, expr);
 		case sst::TypedUnary::Op::STATIC_CAST: return actual(cast_static, expr);
 		case sst::TypedUnary::Op::DYNAMIC_CAST: return actual(cast_dynamic, expr);
-		default:
-			break;
+		default: throw std::runtime_error{"Invalid TypedUnary::Op"};
 		}
 	}
 }

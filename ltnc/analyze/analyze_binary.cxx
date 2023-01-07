@@ -34,6 +34,7 @@ namespace ltn::c {
 				case OP::OR:           return type::deduce_logic(l, r);
 				case OP::ELVIS:        return type::deduce_elvis(l, r);
 				case OP::NULLCO:       return type::deduce_nullco(l, r);
+				default: throw std::runtime_error{"Invalid Binary::Op"};
 			}
 		}
 

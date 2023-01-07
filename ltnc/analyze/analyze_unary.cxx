@@ -14,6 +14,7 @@ namespace ltn::c {
 				case OP::NUL:    return type::deduce_nulltest(x);
 				case OP::BITNOT: return type::deduce_bitnot(x);
 				case OP::DEREF:  return type::deduce_deref(x);
+				default: throw std::runtime_error{"Invalid Unary::Op"};
 			}
 		}
 

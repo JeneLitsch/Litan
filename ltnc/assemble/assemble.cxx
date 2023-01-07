@@ -17,7 +17,7 @@ namespace ltn::c {
 			constexpr static auto SIZE = sizeof(value) / sizeof(std::uint8_t);
 			std::array<std::uint8_t, SIZE> bytes;
 			for(std::uint8_t & byte : bytes) {
-				byte = value & 0xff;
+				byte = static_cast<std::uint8_t>(value & 0xff);
 				value >>= 8;
 			}
 			std::reverse(bytes.begin(), bytes.end());
