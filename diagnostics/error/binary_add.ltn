@@ -1,0 +1,5 @@
+function main() {
+	[] + "";     // Invalid operands
+	1 + [];      // Invalid operands
+	null + null; // Invalid operands
+}
