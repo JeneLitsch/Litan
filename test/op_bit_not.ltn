@@ -24,12 +24,12 @@ namespace sphinx::test {
 
 
 	function bitnot_except() {
-		assert_success(lambda => ~true);
-		assert_success(lambda => ~false);
-		assert_success(lambda => ~'A');
-		assert_success(lambda => ~1);
-		assert_except(lambda => ~1.0);
-		assert_except(lambda => ~"");
-		assert_except(lambda => ~[]);
+		assert_success(lambda => ~(true:any));
+		assert_success(lambda => ~(false:any));
+		assert_success(lambda => ~('A':any));
+		assert_success(lambda => ~(1:any));
+		assert_except(lambda => ~(1.0:any));
+		assert_except(lambda => ~("":any));
+		assert_except(lambda => ~([]:any));
 	}
 }

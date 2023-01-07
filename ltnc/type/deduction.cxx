@@ -107,7 +107,7 @@ namespace ltn::c::type {
 	Type deduce_bitwise(const Type & l, const Type & r) {
 		if(is_any(l)) return Int{};
 		if(is_any(r)) return Int{};
-		if(is_int(l) && is_int(r)) return Int{};
+		if(is_integral(l) && is_integral(r)) return Int{};
 		return Error{};
 	}
 

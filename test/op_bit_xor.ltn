@@ -23,13 +23,13 @@ namespace sphinx::test {
 
 
 	function bitxor_except() {
-		assert_success(lambda => 1 ^ 1);
-		assert_except(lambda => 1.0 ^ 1);
-		assert_except(lambda => "" ^ "");
-		assert_except(lambda => [] ^ []);
-		assert_except(lambda => std::struct() ^ std::struct());
-		assert_except(lambda => std::map() ^ std::map());
-		assert_except(lambda => std::stack() ^ std::stack());
-		assert_except(lambda => std::queue() ^ std::queue());
+		assert_success(lambda => (1:any) ^ (1:any));
+		assert_except(lambda => (1.0:any) ^ (1:any));
+		assert_except(lambda => ("":any) ^ ("":any));
+		assert_except(lambda => ([]:any) ^ ([]:any));
+		assert_except(lambda => (std::struct():any) ^ (std::struct():any));
+		assert_except(lambda => (std::map():any) ^ (std::map():any));
+		assert_except(lambda => (std::stack():any) ^ (std::stack():any));
+		assert_except(lambda => (std::queue():any) ^ (std::queue():any));
 	}
 }

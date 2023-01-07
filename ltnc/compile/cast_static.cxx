@@ -9,7 +9,9 @@ namespace ltn::c {
 			const type::Type & from,
 			const type::Type & to,
 			const SourceLocation & location) {
-			
+
+
+
 			if(type::is_bool(to)) {
 				return { type_code::BOOL };
 			}
@@ -40,6 +42,7 @@ namespace ltn::c {
 		const type::Type & from,
 		const type::Type & to,
 		const SourceLocation & location) {
+		if(type::is_any(to)) return {};
 		return { inst::cast(to_type_code(from, to, location)) };
 	}
 }
