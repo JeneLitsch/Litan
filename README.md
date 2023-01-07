@@ -99,3 +99,29 @@ function main() {
 ## Useful Libraries
 
 - [Sphinx](https://github.com/JeneLitsch/Sphinx) (Unit test framework)
+
+## Build, Use and Install
+
+### Requirements
+
+- CMake 3.13 or newer
+- A modern C++ compiler with C++20 support
+  - Clang++-10 or newer
+  - GCC-10 or newer
+- stdxx library
+
+### Use as Standalone
+
+1. Clone the repository recursively.
+2. Run `./build.sh` to compile the compiler, vm and everything needed. 
+   - Note: Clang++ is choosen by default but this can be changed.
+Just run `./build.sh COMPILER_GOES_HERE` in this case.
+3. Run `./install.sh` to install ltn, ltnc, ltnvm and ltninfo into the /usr/local/bin/ directory.
+
+### Use as library
+
+1. Add litan as a submodule to your project.
+2. Add stdxx as a submodule to your project.
+3. Add the litan subdirectory to your project: e.g. `add_subdirectory(libs/litan)`
+4. Link the library: e.g. `target_link_libraries(my_project litan)`
+5. Include the main header: e.g. `#include "libs/litan/Litan.hxx"`
