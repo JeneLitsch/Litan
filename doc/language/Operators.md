@@ -283,7 +283,7 @@ Obtains the character at the given index.
 
 ## For map
 
-Obtains the value with the matching key.
+Obtains the value with the matching key. If no entry in map matches null is returned. The result type is an optional of the value type of the map. 
 
 <br>
 

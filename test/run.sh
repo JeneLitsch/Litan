@@ -12,6 +12,7 @@ files=(
 	"test/while.ltn"
 	"test/throw.ltn"
 	"test/lambda.ltn"
+	"test/map.ltn"
 	"test/template.ltn"
 	"test/reflect_location.ltn"
 	"test/reflect_function.ltn"

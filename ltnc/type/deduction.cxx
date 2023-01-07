@@ -122,8 +122,7 @@ namespace ltn::c::type {
 	namespace {
 		Type deduce_index_map(const Map & map, const Type & key) {
 			if(!map.key || (**map.key).as<Any>() || **map.key == key) {
-				if(map.val) return **map.val;
-				return Any{};
+				return Optional{map.val ? **map.val : Any{}};
 			}
 			return Error{};
 		}

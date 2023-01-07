@@ -21,12 +21,6 @@ namespace ltn::c {
 			if(is_char(to))   							return make_static_cast(std::move(from), to);
 			if(is_int(to))    							return make_static_cast(std::move(from), to);
 			if(is_float(to))  							return make_static_cast(std::move(from), to);
-			if(is_optional(to)) {
-				if(!is_null(from->type)) {
-					return generate_conversion(std::move(from), *to.as<type::Optional>()->contains);
-				}
-			}
-			
 			return from;
 		}
 	}
