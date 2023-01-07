@@ -58,7 +58,7 @@ namespace ltn::c {
 
 		ast::litr_ptr parse_character(Tokens & tokens) {
 			if(auto t = match(TT::CHAR, tokens)) {
-				const char chr = static_cast<std::uint8_t>(t->str.front());
+				const auto chr = static_cast<std::uint8_t>(t->str.front());
 				return stx::make_unique<ast::Char>(chr, location(tokens)); 
 			}
 			return nullptr;

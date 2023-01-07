@@ -72,7 +72,7 @@ namespace ltn::c {
 
 
 		InstructionBuffer compile_reflect_query(
-			const sst::Reflect::Addr & addr,
+			const sst::Reflect::Addr &,
 			const sst::Reflect::LineQuery & query) {
 
 			InstructionBuffer buf;

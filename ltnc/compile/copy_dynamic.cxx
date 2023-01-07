@@ -87,7 +87,7 @@ namespace ltn::c {
 
 
 	InstructionBuffer copy_dynamic(
-		const type::Type & from,
+		const type::Type &,
 		const type::Type & to,
 		const SourceLocation & location) {
 		return { inst::safe_copy(to_type_code(to, location)) };

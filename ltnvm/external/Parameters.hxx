@@ -8,7 +8,7 @@
 namespace ltn::vm::ext {
 	class Parameters {
 	public:
-		Parameters(Heap & heap, Register & reg, const std::vector<Value> & params);
+		Parameters(Heap & heap, const std::vector<Value> & params);
 
 		template<class T>
 		T get(std::size_t idx) const {
@@ -45,7 +45,6 @@ namespace ltn::vm::ext {
 			return this->params[idx];
 		}
 		Heap & heap;
-		Register & reg;
 		std::vector<Value> params;
 	};
 }

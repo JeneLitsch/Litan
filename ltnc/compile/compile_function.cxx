@@ -5,25 +5,7 @@
 
 namespace ltn::c {
 	namespace {
-
-		const std::string jumpmark_except(const std::string_view name) {
-			std::stringstream ss;
-			ss << "_" << name << "_EXCEPT";
-			return ss.str(); 
-		}
-
-
-
-		const std::string jumpmark_skip(const std::string_view name) {
-			std::stringstream ss;
-			ss << name << "_SKIP";
-			return ss.str(); 
-		}
-
-
-
 		InstructionBuffer compile_body(const auto & fx) {
-
 			InstructionBuffer buf;
 			if(fx.body) {
 				const auto body = compile_statement(*fx.body);

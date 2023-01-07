@@ -9,6 +9,7 @@ namespace ltn::c::type {
             if(l && r) return **l <=> **r;
 			if(l) return std::strong_ordering::greater;
 			if(r) return std::strong_ordering::less;
+			throw std::runtime_error {"Type compare error"};
         }
 
 

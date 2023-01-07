@@ -35,10 +35,10 @@ namespace ltn::c {
 
 
 		sst::Reflect::FunctionQuery analyze_reflect_query(
-			const ast::Reflect & refl,
+			const ast::Reflect &,
 			const ast::Reflect::FunctionQuery & query,
 			Context & context,
-			Scope & scope) {
+			Scope &) {
 
 			const auto * fx = context.fx_table.resolve(
 				query.name,
@@ -57,10 +57,10 @@ namespace ltn::c {
 
 
 		sst::Reflect::NamespaceQuery analyze_reflect_query(
-			const ast::Reflect & refl,
+			const ast::Reflect &,
 			const ast::Reflect::NamespaceQuery & query,
 			Context & context,
-			Scope & scope) {
+			Scope &) {
 
 			sst::Reflect::NamespaceQuery sst_query;
 			sst_query.namespaze = query.namespaze;
@@ -78,9 +78,9 @@ namespace ltn::c {
 
 		sst::Reflect::LineQuery analyze_reflect_query(
 			const ast::Reflect & refl,
-			const ast::Reflect::LineQuery & query,
-			Context & context,
-			Scope & scope) {
+			const ast::Reflect::LineQuery &,
+			Context &,
+			Scope &) {
 
 			return sst::Reflect::LineQuery {
 				.line = refl.location.line 
@@ -91,9 +91,9 @@ namespace ltn::c {
 
 		auto analyze_reflect_query(
 			const ast::Reflect & refl,
-			const ast::Reflect::FileQuery & query,
-			Context & context,
-			Scope & scope) {
+			const ast::Reflect::FileQuery &,
+			Context &,
+			Scope &) {
 
 			return sst::Reflect::FileQuery {
 				.name = refl.location.sourcename 
@@ -117,7 +117,7 @@ namespace ltn::c {
 
 
 		auto analyze_reflect_query(
-			const ast::Reflect & refl,
+			const ast::Reflect &,
 			const ast::Reflect::ExprQuery & query,
 			Context & context,
 			Scope & scope) {
@@ -134,9 +134,9 @@ namespace ltn::c {
 
 
 		auto analyze_reflect_query(
-			const ast::Reflect & refl,
+			const ast::Reflect &,
 			const ast::Reflect::TypeQuery & query,
-			Context & context,
+			Context &,
 			Scope & scope) {
 
 			return sst::Reflect::TypeQuery {

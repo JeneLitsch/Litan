@@ -40,7 +40,7 @@ namespace ltn::vm::inst {
 				if(core.externals.contains(refFx.i)) {
 					auto & fxptr = core.externals.at(refFx.i);
 					if(params.arr.size() == fxptr.arity()) {
-						ext::Parameters parameters{core.heap, core.reg, params.arr};
+						ext::Parameters parameters{core.heap, params.arr};
 						auto result = fxptr(parameters, core.heap);
 						core.reg.push(result);
 					}
