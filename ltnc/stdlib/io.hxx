@@ -48,14 +48,30 @@ namespace std {
 	
 	build_in print(stream, value)    @ io_print
 	
-	build_in read(stream)            @ io_read
-	build_in read_str(stream)        @ io_read_str
-	build_in readln(stream)          @ io_readln
-	build_in read_bool(stream)       @ io_read_bool
-	build_in read_char(stream)       @ io_read_char
-	build_in read_int(stream)        @ io_read_int
-	build_in read_float(stream)      @ io_read_float
-	build_in read_all(stream)        @ io_read_all
+	build_in read(stream) -> string 
+		@ io_read
+
+	build_in read_str(stream) -> string 
+		@ io_read_str
+
+	build_in readln(stream) -> string 
+		@ io_readln
+
+	build_in read_bool(stream) -> bool 
+		@ io_read_bool
+
+	build_in read_char(stream) -> char 
+		@ io_read_char
+
+	build_in read_int(stream) -> int 
+		@ io_read_int
+
+	build_in read_float(stream) -> float 
+		@ io_read_float
+
+	build_in read_all(stream) -> string 
+		@ io_read_all
+
 	
 	build_in is_eof(stream) const    @ io_is_eof
 	build_in is_good(stream) const   @ io_is_good
