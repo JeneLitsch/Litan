@@ -16,6 +16,20 @@ namespace ltn::c {
 				case OP::DEREF:  return type::deduce_deref(x);
 			}
 		}
+
+
+		
+		CompilerError invalid_operands(
+			const type::Type & type,
+			const SourceLocation & location) {
+			std::ostringstream oss;
+			oss 
+				<< "Invalid operands ("
+				<< to_string(type)
+				<< ") for unary expression";
+
+			return CompilerError { oss.str(), location };
+		}
 	}
 
 
@@ -28,6 +42,11 @@ namespace ltn::c {
 		auto expr = analyze_expression(*unary.expression, context, scope);
 		const auto op = static_cast<sst::Unary::Op>(unary.type);
 		const auto type = deduce_type(op, expr->type);
+
+		if(is_error(type)) {
+			throw invalid_operands(expr->type, unary.location);
+		} 
+
 		return std::make_unique<sst::Unary>(op, std::move(expr), type);
 	}
 }
