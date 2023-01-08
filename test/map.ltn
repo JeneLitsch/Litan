@@ -18,9 +18,9 @@ namespace sphinx::test {
 	namespace detail {
 		function<Key, Val> check_map_type() {
 			var map = std::map(<Key>, <Val>);
-			assert_equal_strict(
-				reflect(expr map).type.name,
-				reflect(type map<Key,Val>).name);
+			var gotten = reflect(expr map).type.name;
+			var expected = reflect(type map<Key,Val>).name;
+			assert_equal_strict(gotten, expected);
 		}
 	}
 
