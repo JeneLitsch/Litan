@@ -1,9 +1,5 @@
 #include "analyze.hxx"
 #include "ltnc/type/check.hxx"
-#include "ltnc/compile/cast_static.hxx"
-// #include "ltnc/compile/cast_dynamic.hxx"
-#include "ltnc/compile/copy_static.hxx"
-#include "ltnc/compile/copy_dynamic.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -31,9 +27,6 @@ namespace ltn::c {
 			}
 			return false;
 		}
-
-
-
 
 
 

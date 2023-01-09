@@ -1,12 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
 target_sources(libltnc PRIVATE 
-	cast_static.cxx
-	cast_dynamic.cxx
-	copy_static.cxx
-	copy_dynamic.cxx
-	cast_utils.cxx
-	
 	compile_array.cxx
 	compile_binary.cxx
 	compile_block.cxx
