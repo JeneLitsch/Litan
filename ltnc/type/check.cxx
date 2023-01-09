@@ -78,6 +78,13 @@ namespace ltn::c::type {
 	}
 
 
+	bool is_numeric_array(const type::Type & type) {
+		return is_array(type) 
+			&& !is_empty_array(type)
+			&& is_numeric(**type.as<type::Array>()->contains);
+	}
+
+
 
 	bool is_subtype_array(const Type & from, const Type & to) {	
 		if(is_array(to) && is_empty_array(from)) return true;

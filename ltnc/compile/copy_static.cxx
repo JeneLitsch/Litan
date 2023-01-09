@@ -6,6 +6,7 @@
 #include "ltnc/compile/copy_static.hxx"
 #include "ltnc/compile/cast_utils.hxx"
 #include "ltnc/type/check.hxx"
+#include "ltnc/type/encode.hxx"
 #include "ltnc/CompilerError.hxx"
 
 namespace ltn::c {
@@ -136,6 +137,6 @@ namespace ltn::c {
 		const type::Type & from,
 		const type::Type & to,
 		const SourceLocation & location) {
-		return { inst::copy(to_type_code(from, to, location)) };
+		return { inst::copy(type::encode_type(to)) };
 	}
 }

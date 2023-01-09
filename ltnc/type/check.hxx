@@ -21,5 +21,6 @@ namespace ltn::c::type {
 	bool is_string(const Type & x);
 	bool is_array(const Type & x);
 	bool is_empty_array(const Type & x);
+	bool is_numeric_array(const type::Type & type);
 	bool is_subtype_array(const Type & from, const Type & to);
 }

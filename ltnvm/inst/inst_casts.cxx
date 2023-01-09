@@ -63,7 +63,6 @@ namespace ltn::vm::inst {
 
 
 		Value smart_copy(const std::uint8_t * type, const Value & value, VmCore & core) {
-			// std::cout << *type << "\n";
 			switch (*type) {
 			case type_code::BOOL:    return cast::to_bool(value);
 			case type_code::CHAR:    return cast::to_char(value);

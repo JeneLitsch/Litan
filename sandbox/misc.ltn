@@ -1,4 +1,5 @@
 function main() {
-	var a = 0.5:bool;
-	return a;
+	var a = static_copy<array<int>>(['a', 'a', 'a']);
+	std::println(a);
+	return [1,2,3];
 }

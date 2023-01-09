@@ -7,17 +7,13 @@
 #include <optional>
 #include "stdxx/float64_t.hxx"
 #include "stdxx/array.hxx"
+#include "stdxx/io.hxx"
 
 namespace ltn {
 
 	class Variant {
-		struct NullT {
-			friend std::ostream & operator<<(std::ostream & stream, const NullT &) {
-				stream << "null";
-				return stream;
-			}
-		};
 	public:
+		struct NullT {};
 		Variant();
 		Variant(bool v);
 		Variant(char v);
@@ -41,10 +37,7 @@ namespace ltn {
 		const std::string & as_string() const;
 		const std::vector<Variant> & as_array() const;
 		
-		friend std::ostream & operator<<(std::ostream & stream, const Variant & variant) {
-			std::visit([&] (auto & value) { stream << value; }, variant.data);
-			return stream;
-		}
+		friend std::ostream & operator<<(std::ostream & stream, const Variant & variant);
 
 	private:
 		template<typename T>

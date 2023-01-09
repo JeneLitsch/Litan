@@ -12,7 +12,6 @@ namespace ltn::c {
 		const type::Type & from,
 		const type::Type & to,
 		const SourceLocation & location) {
-		if(type::is_any(to)) return {};
 		return { inst::safe_cast(type::encode_type(to)) };
 	}
 }
