@@ -8,11 +8,15 @@ namespace ltn::vm {
 		sweep();
 	}
 
+
+
 	void Heap::mark(const std::span<const Value> values) {
 		for(const auto & value : values) {
 			this->mark(value);
 		}
 	}
+
+
 
 	void Heap::mark(const std::deque<Value> & values) {
 		for(const auto & value : values) {
@@ -20,16 +24,18 @@ namespace ltn::vm {
 		}
 	}
 
+
+
 	void Heap::mark(const Value & value) {
 		if(is_array(value))   return this->mark_array(value);
-		if(is_string(value))  return this->mark_default(value);
+		if(is_string(value))  return pool_of<String>().gc_mark(value.u);
 		
-		if(is_istream(value)) return this->mark_default(value);
-		if(is_ostream(value)) return this->mark_default(value);
+		if(is_istream(value)) return pool_of<IStream>().gc_mark(value.u);
+		if(is_ostream(value)) return pool_of<OStream>().gc_mark(value.u);
 		
 		if(is_fxptr(value))   return this->mark_fxptr(value);
 
-		if(is_clock(value))    return this->mark_default(value);
+		if(is_clock(value))   return pool_of<Clock>().gc_mark(value.u);
 		
 		if(is_struct(value))  return this->mark_struct(value);
 
@@ -38,33 +44,38 @@ namespace ltn::vm {
 
 		if(is_map(value))     return this->mark_map(value);
 		
-		if(is_rng(value))     return this->mark_default(value);
+		if(is_rng(value))     return pool_of<RandomEngine>().gc_mark(value.u);
 	}
 
+
+
 	void Heap::mark_array(const Value & ref) {
-		auto & obj = this->get(ref.u);
-		if(!obj.marked) {
-			auto & arr = this->read<Array>(ref.u);
-			obj.marked = true;
-			this->mark(arr.arr);
+		auto & pool = pool_of<Array>(); 
+		if(!pool.gc_is_marked(ref.u)) {
+			pool.gc_mark(ref.u);
+			auto & arr = pool.get(ref.u).get();
+			this->mark(arr);
 		}
 	}
 
-	void Heap::mark_fxptr(const Value & value) {
-		auto & obj = get(value.u);
-		if(!obj.marked) {
-			auto & fx = this->read<FxPointer>(value.u);
-			obj.marked = true;
+
+
+	void Heap::mark_fxptr(const Value & ref) {
+		auto & pool = pool_of<FxPointer>(); 
+		if(!pool.gc_is_marked(ref.u)) {
+			pool.gc_mark(ref.u);
+			auto & fx = pool.get(ref.u);
 			this->mark(fx.captured);
 		}
 	}
 
 
-	void Heap::mark_struct(const Value & value) {
-		auto & obj = get(value.u);
-		if(!obj.marked) {
-			auto & s = this->read<Struct>(value.u);
-			obj.marked = true;
+
+	void Heap::mark_struct(const Value & ref) {
+		auto & pool = pool_of<Struct>(); 
+		if(!pool.gc_is_marked(ref.u)) {
+			pool.gc_mark(ref.u);
+			auto & s = pool.get(ref.u);
 			for(const auto & [key, value] : s.members) {
 				this->mark(value);
 			}
@@ -72,21 +83,23 @@ namespace ltn::vm {
 	}
 
 
-	void Heap::mark_deque(const Value & value) {
-		auto & obj = get(value.u);
-		if(!obj.marked) {
-			auto & deque = this->read<Deque>(value.u);
-			obj.marked = true;
-			this->mark(deque.get());
+
+	void Heap::mark_deque(const Value & ref) {
+		auto & pool = pool_of<Deque>(); 
+		if(!pool.gc_is_marked(ref.u)) {
+			pool.gc_mark(ref.u);
+			auto & deq = pool.get(ref.u).get();
+			this->mark(deq);
 		}
 	}
 
 
+
 	void Heap::mark_map(const Value & value) {
-		auto & obj = get(value.u);
-		if(!obj.marked) {
-			auto & map = this->read<Map>(value.u).get();
-			obj.marked = true;
+		auto & pool = pool_of<Map>(); 
+		if(!pool.gc_is_marked(value.u)) {
+			pool.gc_mark(value.u);
+			auto & map = pool.get(value.u).get();
 			for(auto & [key, value] : map) {
 				this->mark(key);
 				this->mark(value);
@@ -95,23 +108,17 @@ namespace ltn::vm {
 	}
 
 
-	void Heap::mark_default(const Value & value) {
-		auto & obj = this->get(value.u);
-		obj.marked = true;
-	}
-
 
 	void Heap::sweep() {
-		std::uint64_t idx = 0;
-		for(auto & obj : this->objects) {
-			if(obj.marked) {
-				obj.marked = false;
-			}
-			else if(!std::get_if<std::monostate>(&obj.obj)) {
-				obj.obj = std::monostate();
-				this->reuse.push(idx);
-			}
-			idx++;
-		}
+		pool_of<String>().gc_sweep();
+		pool_of<Array>().gc_sweep();
+		pool_of<IStream>().gc_sweep();
+		pool_of<OStream>().gc_sweep();
+		pool_of<FxPointer>().gc_sweep();
+		pool_of<Clock>().gc_sweep();
+		pool_of<Struct>().gc_sweep();
+		pool_of<Deque>().gc_sweep();
+		pool_of<Map>().gc_sweep();
+		pool_of<RandomEngine>().gc_sweep();
 	}
 }

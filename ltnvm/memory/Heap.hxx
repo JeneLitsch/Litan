@@ -19,32 +19,9 @@
 #include "objects/Deque.hxx"
 #include "objects/Map.hxx"
 #include "objects/RandomEngine.hxx"
+#include "ObjectPool.hxx"
 
 namespace ltn::vm {
-	struct HeapObject {
-		using Data = std::variant<
-			std::monostate,
-			String, Array,
-			IStream, OStream,
-			FxPointer,
-			Clock,
-			Struct,
-			Deque, Map,
-			RandomEngine>;
- 		Data obj;
-		
-		bool marked = false;
-		
-		static HeapObject clone(std::monostate) {
-			return HeapObject{std::monostate{}};
-		}
-
-		static HeapObject clone(const auto & obj) {
-			return HeapObject{obj.clone()};
-		}
-	};
-
-
 	inline auto access_violation(std::uint64_t at, const std::string_view msg) {
 		std::stringstream ss;
 		ss << "Access Violation at " << at << ": " << msg;
@@ -58,50 +35,20 @@ namespace ltn::vm {
 
 		template<class Obj>
 		std::uint64_t alloc(Obj && obj) {
-			if(reuse.empty()) {
-				const std::uint64_t addr = this->objects.size();
-				this->objects.push_back(HeapObject{std::move(obj)});
-				return addr;
-			}
-			else {
-				std::uint64_t addr = this->reuse.front();
-				this->reuse.pop();
-				this->objects[addr] = HeapObject{std::move(obj)};
-				return addr;
-			}
+			return pool_of<Obj>().alloc(std::move(obj));
 		}
 
 
 		template<class Obj>
-		std::uint64_t alloc(const Obj & obj) {
-			return this->alloc<Obj>(Obj{obj});
+		Obj & read(std::uint64_t id) {
+			return pool_of<Obj>().get(id);
 		}
 
 
 		template<class Obj>
-		Obj & read(std::uint64_t addr) {
-			if(addr > this->objects.size()) {
-				throw access_violation(addr, "");
-			}
-			auto & object = this->objects[addr];
-			if(auto * string = std::get_if<Obj>(&object.obj)) {
-				return *string;
-			}
-			else {
-				std::stringstream ss;
-				ss << "not a" << Obj::typeName;
-				throw access_violation(addr, ss.str());
-			}
-		}
-
-
-		std::uint64_t clone(std::uint64_t ptr) {
-			auto & obj = this->get(ptr);
-			constexpr static auto cloning = [] (const auto & data) {
-				return HeapObject::clone(data);
-			};
-			auto newdata = std::visit(cloning, obj.obj);
-			return this->alloc(newdata);
+		std::uint64_t clone(std::uint64_t id) {
+			auto copy = this->read<Obj>(id).clone();
+			return this->alloc<Obj>(std::move(copy));
 		}
 
 
@@ -109,9 +56,6 @@ namespace ltn::vm {
 
 
 		void reset();
-
-
-		std::size_t size() const;
 
 	private:
 
@@ -121,15 +65,28 @@ namespace ltn::vm {
 		void mark_array(const Value & value);
 		void mark_fxptr(const Value & value);
 		void mark_struct(const Value & value);
-		void mark_default(const Value & value);
 		void mark_deque(const Value & value);
 		void mark_map(const Value & value);
 		void mark_rng(const Value & value);
 		void sweep();
 
-		HeapObject & get(std::uint64_t addr);
+		template<class Obj>
+		inline ObjectPool<Obj> & pool_of() {
+			return std::get<ObjectPool<Obj>>(this->pools);
+		} 
 
-		std::vector<HeapObject> objects;
+		std::tuple<
+			ObjectPool<String>,
+			ObjectPool<Array>,
+			ObjectPool<IStream>,
+			ObjectPool<OStream>,
+			ObjectPool<FxPointer>,
+			ObjectPool<Clock>,
+			ObjectPool<Struct>,
+			ObjectPool<Deque>,
+			ObjectPool<Map>,
+			ObjectPool<RandomEngine>
+		> pools;
 		std::queue<std::uint64_t> reuse;
 	};
 }

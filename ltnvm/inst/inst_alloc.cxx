@@ -162,8 +162,8 @@ namespace ltn::vm::inst {
 		switch (type) {
 		case 0x00: { 
 			const auto seed = std::random_device{}();
-			const auto rng = RandomEngine{std::mt19937_64{seed}};
-			const auto ref = core.heap.alloc<RandomEngine>(rng);
+			auto rng = RandomEngine{std::mt19937_64{seed}};
+			const auto ref = core.heap.alloc<RandomEngine>(std::move(rng));
 			core.reg.push(value::rng(ref));
 			return;
 		}
@@ -171,8 +171,8 @@ namespace ltn::vm::inst {
 		case 0x01: { 
 			const auto signed_seed = convert::to_int(core.reg.pop());
 			const auto seed = static_cast<std::uint64_t>(signed_seed);
-			const auto rng = RandomEngine{std::mt19937_64{seed}};
-			const auto ref = core.heap.alloc<RandomEngine>(rng);
+			auto rng = RandomEngine{std::mt19937_64{seed}};
+			const auto ref = core.heap.alloc<RandomEngine>(std::move(rng));
 			core.reg.push(value::rng(ref));
 			return;
 		}
