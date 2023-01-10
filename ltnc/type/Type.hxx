@@ -8,19 +8,20 @@
 namespace ltn::c::type {
 	class Complete{};
 	
-	template<typename Flavor>
-	class BasicType;
+	class Type;
+
+
 
 	struct Other {
 		std::string type_name;
 	};
 
-	template<typename T>
-	struct BasicOptional {
-		constexpr static auto type_name = "optional";
-		stx::heaped<T> contains;
-	};
 
+
+	struct Optional {
+		constexpr static auto type_name = "optional";
+		stx::heaped<Type> contains;
+	};
 
 
 
@@ -28,91 +29,96 @@ namespace ltn::c::type {
 		constexpr static auto type_name = "any";
 	};
 
+
+
 	struct Error {
 		constexpr static auto type_name = "error";
 	};
+
+
 
 	struct Null {
 		constexpr static auto type_name = "null";
 	};
 
+
+
 	struct Bool {
 		constexpr static auto type_name = "bool";
 	};
+
+
 
 	struct Char {
 		constexpr static auto type_name = "char";
 	};
 
+
+
 	struct Int {
 		constexpr static auto type_name = "int";
 	};
+
+
 
 	struct Float {
 		constexpr static auto type_name = "float";
 	};
 
+
+
 	struct String {
 		constexpr static auto type_name = "string";
 	};
 
-	template<typename T>
-	struct BasicArray {
+
+
+	struct Array {
 		constexpr static auto type_name = "array";
-		std::optional<stx::heaped<T>> contains;
+		std::optional<stx::heaped<Type>> contains;
 	};
 	
 
 
-
-	template<typename T>
-	struct BasicFxPtr {
+	struct FxPtr {
 		constexpr static auto type_name = "fx_ptr";
-		std::optional<stx::heaped<T>> return_type;
-		std::vector<T> parameter_types;
+		std::optional<stx::heaped<Type>> return_type;
+		std::vector<Type> parameter_types;
 	};
 
 
 
-
-	template<typename T>
-	struct BasicQueue {
+	struct Queue {
 		constexpr static auto type_name = "queue";
-		stx::heaped<T> contains;
+		stx::heaped<Type> contains;
 	};
 
 
 
-
-	template<typename T>
-	struct BasicStack {
+	struct Stack {
 		constexpr static auto type_name = "stack";
-		stx::heaped<T> contains;
+		stx::heaped<Type> contains;
 	};
 
 
 
-
-	template<typename T>
-	struct BasicMap {
+	struct Map {
 		constexpr static auto type_name = "map";
-		std::optional<stx::heaped<T>> key;
-		std::optional<stx::heaped<T>> val;
+		std::optional<stx::heaped<Type>> key;
+		std::optional<stx::heaped<Type>> val;
 	};
-
 
 
 
 	struct Auto{};
 
 
-	template<typename Flavor>
-	class BasicType {
 
+	class Type {
 		using Variant = std::variant<
 			Any,
 			Other,
-			BasicOptional<BasicType>,
+			Optional,
 			Error,
 			Null,
 			Bool,
@@ -120,15 +126,15 @@ namespace ltn::c::type {
 			Int,
 			Float,
 			String,
-			BasicArray<BasicType>,
-			BasicFxPtr<BasicType>,
-			BasicQueue<BasicType>,
-			BasicStack<BasicType>,
-			BasicMap<BasicType>
+			Array,
+			FxPtr,
+			Queue,
+			Stack,
+			Map
 		>;
 
 	public:
-		BasicType(auto actual_type) : actual_type { actual_type } {} 
+		Type(auto actual_type) : actual_type { actual_type } {} 
 	
 		template<typename T>
 		const T * as() const {
@@ -150,15 +156,6 @@ namespace ltn::c::type {
 		
 		Variant actual_type;
 	};
-
-	using Type = BasicType<Complete>;
-
-	using Optional = BasicOptional<Type>;
-	using Array = BasicArray<Type>;
-	using FxPtr = BasicFxPtr<Type>;
-	using Queue = BasicQueue<Type>;
-	using Stack = BasicStack<Type>;
-	using Map = BasicMap<Type>;
 
 	struct IncompleteType {
 		Type type;
@@ -185,22 +182,6 @@ namespace ltn::c::type {
 		return (l <=> r) == 0;
 	}
 	
-	// inline bool operator==(const Any & l, const Any & r) { 				return (l <=> r) == 0;}
-	// inline bool operator==(const Other & l, const Other & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Optional & l, const Optional & r) { 	return (l <=> r) == 0;}
-	// inline bool operator==(const Error & l, const Error & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Null & l, const Null & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Bool & l, const Bool & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Char & l, const Char & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Int & l, const Int & r) { 				return (l <=> r) == 0;}
-	// inline bool operator==(const Float & l, const Float & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const String & l, const String & r) { 		return (l <=> r) == 0;}
-	// inline bool operator==(const Array & l, const Array & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const FxPtr & l, const FxPtr & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Queue & l, const Queue & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Stack & l, const Stack & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Map & l, const Map & r) { 				return (l <=> r) == 0;}
-
 
 	std::ostream & operator<<(std::ostream & out, const Type & type);
 }
