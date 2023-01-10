@@ -1,5 +1,16 @@
-function main() {
-	var a = static_copy<array<int>>(['a', 'a', 'a']);
-	std::println(a);
-	return [1,2,3];
-}
+    function main() {
+        var if_else = lambda (condition) {
+			if(condition) return true;
+			else return false;
+		};
+
+		std::println(if_else(true));
+		std::println(if_else(false));
+		std::println(if_else(0));
+		std::println(if_else(1));
+		std::println(if_else(null));
+		std::println(if_else(""));
+		std::println(if_else([]));
+		std::println(if_else(std::struct()));
+		std::println(if_else(std::map()));
+    }

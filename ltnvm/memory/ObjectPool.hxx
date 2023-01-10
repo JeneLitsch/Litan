@@ -3,6 +3,7 @@
 #include <optional>
 #include <cstdint>
 #include <queue>
+#include <stdexcept>
 
 namespace ltn::vm {
 	template<typename T>
@@ -52,6 +53,7 @@ namespace ltn::vm {
 		void gc_sweep() {
 			std::uint64_t id = 0;
 			for(auto & [obj, in_use, marked] : objects) {
+				if(!in_use) continue;
 				if(!marked) {
 					in_use = false;
 					reuse.push(id);
@@ -80,6 +82,6 @@ namespace ltn::vm {
 
 		std::vector<Bundle> objects;
 		std::queue<std::uint64_t> reuse;
-		std::uint64_t next_id;
+		std::uint64_t next_id = 0;
 	};
 }
