@@ -4,5 +4,5 @@ function main() {
 	for (i : 0 -> 10000000) {
 		var y = x;
 	}
-	std::println(std::string(std::chrono::to_seconds(clock)) + "s");
+	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
 }

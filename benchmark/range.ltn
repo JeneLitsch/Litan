@@ -2,8 +2,7 @@ function main() {
 	var clock = std::chrono::clock();
 	var array = [1,2,3,4];
 	for (i : 0 -> 100000) {
-		var range = std::whole(array);
-		std::sum(range);
+		std::sum(array);
 	}
-	std::println(std::string(std::chrono::to_seconds(clock)) + "s");
+	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
 }

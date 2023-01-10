@@ -5,7 +5,7 @@ function main() {
 	for (i : 0 -> 1000000) {
 		foo.b = 1;
 		foo.b = null;
-		foo.a += 1;
+		foo.a = foo.a + 1;
 	}
-	std::println(std::string(std::chrono::to_seconds(clock)) + "s");
+	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
 }
