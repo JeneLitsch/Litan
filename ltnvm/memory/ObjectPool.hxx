@@ -51,8 +51,8 @@ namespace ltn::vm {
 
 
 		void gc_sweep() {
-			std::uint64_t id = 0;
-			for(auto & [obj, in_use, marked] : objects) {
+			for(std::uint64_t id = 0; id < std::size(this->objects); ++id){
+				auto & [obj, in_use, marked] = objects[id];
 				if(!in_use) continue;
 				if(!marked) {
 					in_use = false;
@@ -61,7 +61,6 @@ namespace ltn::vm {
 				else {
 					marked = false;
 				}
-				++id;
 			}
 		}
 

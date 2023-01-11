@@ -88,5 +88,7 @@ namespace ltn::vm {
 			ObjectPool<RandomEngine>
 		> pools;
 		std::queue<std::uint64_t> reuse;
+		std::uint64_t gc_frequency = 10;
+		std::uint64_t gc_counter = 0;
 	};
 }

@@ -20,3 +20,5 @@ run "memory"
 run "fx"
 run "member"
 run "range"
+echo
+echo
