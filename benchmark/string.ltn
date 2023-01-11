@@ -4,6 +4,5 @@ function main(){
 		var x = "A" + "BBBB" + "CCCCCCCC";
 	}
 	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
-	// std::println("CCCCCCCCBBBBA");
 	// std::println(std::debug::state());
 }

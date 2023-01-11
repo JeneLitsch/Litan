@@ -58,7 +58,8 @@ namespace ltn::vm {
 		void reset();
 
 
-		std::uint64_t size() const;
+		std::uint64_t capacity() const;
+		std::uint64_t utilized() const;
 
 	private:
 

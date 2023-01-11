@@ -80,8 +80,13 @@ namespace ltn::vm {
 
 
 		
-		std::uint64_t size() const {
+		std::uint64_t capacity() const {
 			return this->objects.size();
+		}
+
+
+		std::uint64_t utilized() const {
+			return this->objects.size() - reuse.size();
 		}
 	private:
 
