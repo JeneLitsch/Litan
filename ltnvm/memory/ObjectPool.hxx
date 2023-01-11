@@ -77,6 +77,12 @@ namespace ltn::vm {
 		bool gc_is_marked(std::uint64_t id) const {
 			return objects[id].marked;
 		}
+
+
+		
+		std::uint64_t size() const {
+			return this->objects.size();
+		}
 	private:
 
 		std::vector<Bundle> objects;

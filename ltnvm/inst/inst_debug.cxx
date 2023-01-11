@@ -57,11 +57,11 @@ namespace ltn::vm::inst {
 	void state(VmCore & core) {
 		const auto regSize = core.reg.size();
 		const auto stackSize = core.stack.size();
-		// const auto heapSize = core.heap.size();
+		const auto heapSize = core.heap.size();
 		std::stringstream ss;
 		ss << "register size: " << regSize << "\n";
 		ss << "stack size: " << stackSize << "\n";
-		ss << "heap size: ???" << "\n";
+		ss << "heap size: " << heapSize << "\n";
 		const auto refToString = core.heap.alloc<String>({ss.str()});
 		core.reg.push(Value{refToString, Value::Type::STRING});
 	}

@@ -19,5 +19,21 @@ namespace ltn::vm {
 		pool_of<Map>().clear();
 		pool_of<RandomEngine>().clear();
 	}
+
+
+
+	std::uint64_t Heap::size() const {
+		return 
+			+ pool_of<String>().size()
+			+ pool_of<Array>().size()
+			+ pool_of<IStream>().size()
+			+ pool_of<OStream>().size()
+			+ pool_of<FxPointer>().size()
+			+ pool_of<Clock>().size()
+			+ pool_of<Struct>().size()
+			+ pool_of<Deque>().size()
+			+ pool_of<Map>().size()
+			+ pool_of<RandomEngine>().size();
+	}
 }
 

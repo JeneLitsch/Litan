@@ -57,6 +57,9 @@ namespace ltn::vm {
 
 		void reset();
 
+
+		std::uint64_t size() const;
+
 	private:
 
 		void mark(const std::span<const Value> values);
@@ -75,6 +78,11 @@ namespace ltn::vm {
 			return std::get<ObjectPool<Obj>>(this->pools);
 		} 
 
+		template<class Obj>
+		inline const ObjectPool<Obj> & pool_of() const {
+			return std::get<ObjectPool<Obj>>(this->pools);
+		} 
+
 		std::tuple<
 			ObjectPool<String>,
 			ObjectPool<Array>,
@@ -87,6 +95,7 @@ namespace ltn::vm {
 			ObjectPool<Map>,
 			ObjectPool<RandomEngine>
 		> pools;
+
 		std::queue<std::uint64_t> reuse;
 		std::uint64_t gc_frequency = 10;
 		std::uint64_t gc_counter = 0;
