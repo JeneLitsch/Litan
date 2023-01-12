@@ -8,7 +8,6 @@
 #include <queue>
 #include "Stack.hxx"
 #include "Value.hxx"
-#include "Register.hxx"
 #include "objects/Array.hxx"
 #include "objects/String.hxx"
 #include "objects/OStream.hxx"
@@ -52,7 +51,7 @@ namespace ltn::vm {
 		}
 
 
-		void collect_garbage(const Stack & stack, const Register & reg, const std::vector<Value> & globals);
+		void collect_garbage(const Stack & stack, const std::vector<Value> & globals);
 
 
 		void reset();
@@ -63,7 +62,7 @@ namespace ltn::vm {
 
 	private:
 
-		void mark(const std::span<const Value> values);
+		void mark(const std::vector<Value> & values);
 		void mark(const std::deque<Value> & values);
 		void mark(const Value & value);
 		void mark_array(const Value & value);
@@ -71,7 +70,6 @@ namespace ltn::vm {
 		void mark_struct(const Value & value);
 		void mark_deque(const Value & value);
 		void mark_map(const Value & value);
-		void mark_rng(const Value & value);
 		void sweep();
 
 		template<class Obj>

@@ -2,7 +2,6 @@
 #include <memory>
 #include <functional>
 #include "ltnvm/memory/Value.hxx"
-#include "ltnvm/memory/Register.hxx"
 #include "ltnvm/memory/Heap.hxx"
 #include "ltnvm/external/Parameters.hxx"
 #include "ltnvm/external/wrap_return.hxx"

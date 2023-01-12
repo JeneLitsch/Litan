@@ -2,14 +2,12 @@
 #include <unordered_map>
 #include "memory/Heap.hxx"
 #include "memory/Stack.hxx"
-#include "memory/Register.hxx"
 #include "external/Callable.hxx"
 
 namespace ltn::vm {
 	struct VmCore {
 		// Runtime
 		Stack stack;
-		Register reg;
 		Heap heap;
 		std::uint64_t pc;
 

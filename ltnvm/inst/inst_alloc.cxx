@@ -22,7 +22,7 @@ namespace ltn::vm::inst {
 		const auto size = core.fetch_uint();
 		pushAll(arr, core.stack, size);
 		core.stack.push({ ptr, Value::Type::ARRAY });
-		core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
+		core.heap.collect_garbage(core.stack, core.static_variables);
 	}
 
 
@@ -34,7 +34,7 @@ namespace ltn::vm::inst {
 		const auto ptr = core.heap.alloc<String>({std::move(str)});
 		core.stack.push({ ptr, Value::Type::STRING });
 		core.pc += size;
-		core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
+		core.heap.collect_garbage(core.stack, core.static_variables);
 	}
 
 
@@ -44,7 +44,7 @@ namespace ltn::vm::inst {
 			using T = decltype(out)&&;
 			const auto ptr = core.heap.alloc<OStream>(std::forward<T>(out));
 			core.stack.push({ ptr, Value::Type::OSTREAM });
-			core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
+			core.heap.collect_garbage(core.stack, core.static_variables);
 		};
 
 		const auto variant = core.fetch_byte();
@@ -78,7 +78,7 @@ namespace ltn::vm::inst {
 			using T = decltype(in)&&;
 			const auto ptr = core.heap.alloc<IStream>(std::forward<T>(in));
 			core.stack.push({ ptr, Value::Type::ISTREAM });
-			core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
+			core.heap.collect_garbage(core.stack, core.static_variables);
 		};
 
 		const auto variant = core.fetch_byte();
@@ -112,7 +112,7 @@ namespace ltn::vm::inst {
 	void newclock(VmCore & core) {
 		const auto ptr = core.heap.alloc<Clock>({});
 		core.stack.push({ ptr, Value::Type::CLOCK });
-		core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
+		core.heap.collect_garbage(core.stack, core.static_variables);
 	}
 
 
@@ -120,7 +120,7 @@ namespace ltn::vm::inst {
 	void newstruct(VmCore & core) {
 		const auto ptr = core.heap.alloc<Struct>({});
 		core.stack.push({ ptr, Value::Type::STRUCT });
-		core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
+		core.heap.collect_garbage(core.stack, core.static_variables);
 	}
 
 
@@ -128,7 +128,7 @@ namespace ltn::vm::inst {
 	void newstack(VmCore & core) {
 		const auto ref = core.heap.alloc<Deque>({});
 		core.stack.push({ ref, Value::Type::STACK });
-		core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
+		core.heap.collect_garbage(core.stack, core.static_variables);
 	}
 
 
@@ -136,7 +136,7 @@ namespace ltn::vm::inst {
 	void newqueue(VmCore & core) {
 		const auto ref = core.heap.alloc<Deque>({});
 		core.stack.push({ ref, Value::Type::QUEUE });
-		core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
+		core.heap.collect_garbage(core.stack, core.static_variables);
 	}
 
 
@@ -144,7 +144,7 @@ namespace ltn::vm::inst {
 	void newmap(VmCore & core) {
 		const auto ref = core.heap.alloc<Map>(Map{core.heap});
 		core.stack.push({ ref, Value::Type::MAP });
-		core.heap.collect_garbage(core.stack, core.reg, core.static_variables);
+		core.heap.collect_garbage(core.stack, core.static_variables);
 	}
 
 

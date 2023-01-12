@@ -1,7 +1,6 @@
 #pragma once
 #include <cstdint>
 #include "type_check.hxx"
-#include "memory/Register.hxx"
 
 namespace ltn::vm {
 	void guard_index(const auto & collection, auto i) {

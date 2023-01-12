@@ -1,10 +1,9 @@
 #include "Heap.hxx"
 #include "ltnvm/type_check.hxx"
 namespace ltn::vm {
-	void Heap::collect_garbage(const Stack & stack, const Register & reg, const std::vector<Value> & globals) {
+	void Heap::collect_garbage(const Stack & stack, const std::vector<Value> & globals) {
 		if(gc_counter >= gc_frequency) {
 			mark(stack.get_container());
-			mark(reg.get_container());
 			mark(globals);
 			sweep();
 			gc_counter = 0;
@@ -16,7 +15,7 @@ namespace ltn::vm {
 
 
 
-	void Heap::mark(const std::span<const Value> values) {
+	void Heap::mark(const std::vector<Value> & values) {
 		for(const auto & value : values) {
 			this->mark(value);
 		}
