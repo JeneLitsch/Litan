@@ -25,7 +25,6 @@ namespace ltn::c {
 			
 			InstructionBuffer buf;
 			buf << inst::label(label_except.to_string());
-			buf << inst::parameters(1);
 			buf << compile_body(except);
 			buf << inst::null();
 			buf << inst::retvrn();
@@ -44,12 +43,6 @@ namespace ltn::c {
 			const auto except_label = derive_except(label); 
 			
 			buf << inst::label(label.to_string());
-			for(const auto & c : fx.capture) {
-				// buf << inst::makevar();
-				// buf << inst::write_x(c->addr);
-				// buf << compile_expression(*c);
-			}
-			buf << inst::parameters(static_cast<std::uint8_t>(fx.parameters.size()));
 			if(fx.except) buf << inst::trY(except_label.to_string());
 			buf << compile_body(fx);
 			buf << inst::null();

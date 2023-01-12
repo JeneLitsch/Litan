@@ -181,7 +181,6 @@ namespace ltn::c::inst {
 
 	Inst jump(const std::string & label);
 	Inst call(const std::string & label, std::uint8_t arity);
-	Inst parameters(std::uint8_t byte);
 	Inst retvrn();
 	Inst ifelse(const std::string & label);
 	

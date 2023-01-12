@@ -41,17 +41,6 @@ namespace ltn::vm::inst {
 
 
 
-	void parameters(VmCore & core) {
-		const auto count = core.fetch_byte();
-		// auto [begin, end] = core.stack.peek(count);
-		// for(auto it = begin; it != end; it++) {
-		// 	core.stack.make_var(*it);
-		// }
-		// core.stack.remove(count);
-	}
-
-
-
 	void error(VmCore &) {
 		throw value::null;
 	}

@@ -52,7 +52,6 @@ namespace ltn::vm::inst {
 	void between(VmCore & core);
 	void external(VmCore & core);
 	void capture(VmCore & core);
-	void parameters(VmCore & core);
 	
 	void newarr(VmCore & core);
 	void newstr(VmCore & core);

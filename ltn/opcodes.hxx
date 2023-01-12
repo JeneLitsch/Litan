@@ -58,7 +58,6 @@ namespace ltn {
 		INVOKE,
 		EXTERNAL,
 		CAPTURE,
-		PARAMETERS,
 
 		// Allocations
 		NEWARR = 0x50,

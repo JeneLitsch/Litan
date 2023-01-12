@@ -311,13 +311,6 @@ namespace ltn::c::inst {
 			.arity = arity,
 		};
 	}
-	Inst parameters(std::uint8_t byte) {
-		return InstByte {
-			.name = "paramters",
-			.opcode = OpCode::PARAMETERS,
-			.value = byte,
-		};
-	}
 	Inst retvrn() {
 		return InstNone {
 			.name = "return",
