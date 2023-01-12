@@ -14,7 +14,7 @@ namespace ltn::vm::inst {
 			}
 
 			if(is_queue(ref) || is_stack(ref)) {
-				const auto & deq = heap.read<Deque>(ref.u).get();
+				const auto & deq = heap.read<Deque>(ref.u);
 				return static_cast<std::int64_t>(deq.size());
 			}
 

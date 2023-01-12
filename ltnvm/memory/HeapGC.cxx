@@ -93,7 +93,7 @@ namespace ltn::vm {
 		auto & pool = pool_of<Deque>(); 
 		if(!pool.gc_is_marked(ref.u)) {
 			pool.gc_mark(ref.u);
-			auto & deq = pool.get(ref.u).get();
+			auto & deq = pool.get(ref.u);
 			this->mark(deq);
 		}
 	}

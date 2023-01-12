@@ -103,14 +103,14 @@ namespace ltn::vm {
 		}
 
 		if(is_queue(value)) {
-			const auto & deque = heap.read<Deque>(value.u).get();
+			const auto & deque = heap.read<Deque>(value.u);
 			std::ostringstream ss;
 			print_all(std::begin(deque), std::end(deque), ss, heap, '<', '>');
 			return ss.str();
 		}
 
 		if(is_stack(value)) {
-			const auto & deque = heap.read<Deque>(value.u).get();
+			const auto & deque = heap.read<Deque>(value.u);
 			std::ostringstream ss;
 			print_all(std::begin(deque), std::end(deque), ss, heap, '<', '>');
 			return ss.str();

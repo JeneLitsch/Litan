@@ -15,13 +15,13 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_stack(ref)) {
-			auto & container = core.heap.read<Deque>(ref.u).get();
+			auto & container = core.heap.read<Deque>(ref.u);
 			container.push_back(elem);
 			return;
 		}
 
 		if(is_queue(ref)) {
-			auto & container = core.heap.read<Deque>(ref.u).get();
+			auto & container = core.heap.read<Deque>(ref.u);
 			container.push_back(elem);
 			return;
 		}
@@ -43,7 +43,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_stack(ref)) {
-			auto & container = core.heap.read<Deque>(ref.u).get();
+			auto & container = core.heap.read<Deque>(ref.u);
 			const auto elem = container.back();
 			container.pop_back();
 			core.stack.push(elem);
@@ -51,7 +51,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_queue(ref)) {
-			auto & container = core.heap.read<Deque>(ref.u).get();
+			auto & container = core.heap.read<Deque>(ref.u);
 			const auto elem = container.front();
 			container.pop_front();
 			core.stack.push(elem);
@@ -67,14 +67,14 @@ namespace ltn::vm::inst {
 		const auto ref = core.stack.pop();
 
 		if(is_stack(ref)) {
-			auto & container = core.heap.read<Deque>(ref.u).get();
+			auto & container = core.heap.read<Deque>(ref.u);
 			const auto elem = container.back();
 			core.stack.push(elem);
 			return;
 		}
 
 		if(is_queue(ref)) {
-			auto & container = core.heap.read<Deque>(ref.u).get();
+			auto & container = core.heap.read<Deque>(ref.u);
 			const auto elem = container.front();
 			core.stack.push(elem);
 			return;
