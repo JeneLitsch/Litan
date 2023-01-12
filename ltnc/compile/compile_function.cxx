@@ -45,8 +45,8 @@ namespace ltn::c {
 			
 			buf << inst::label(label.to_string());
 			for(const auto & c : fx.capture) {
-				buf << inst::makevar();
-				buf << inst::write_x(c->addr);
+				// buf << inst::makevar();
+				// buf << inst::write_x(c->addr);
 				// buf << compile_expression(*c);
 			}
 			buf << inst::parameters(static_cast<std::uint8_t>(fx.parameters.size()));

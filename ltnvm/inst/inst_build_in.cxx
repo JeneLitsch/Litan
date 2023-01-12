@@ -84,6 +84,6 @@ namespace ltn::vm::inst {
 		const auto byte1 = static_cast<std::uint32_t>(core.fetch_byte());
 		const auto code = (byte0 << 8) + byte1;
 		const Value result = build_in_table[code](core);
-		core.reg.push(result);
+		core.stack.push(result);
 	}
 }

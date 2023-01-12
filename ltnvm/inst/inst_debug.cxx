@@ -9,7 +9,7 @@ namespace ltn::vm::inst {
 	namespace {
 		void clearTopFrame(Stack & stack) {
 			const auto jumpback = stack.pop_frame();
-			stack.push_frame(jumpback);
+			stack.push_frame(jumpback, 1);
 		}
 
 
@@ -30,7 +30,7 @@ namespace ltn::vm::inst {
 
 	void tRy(VmCore & core) {
 		const auto addr = core.fetch_uint();
-		const auto regSize = core.reg.size();
+		const auto regSize = core.stack.size();
 		core.stack.set_except_handler(addr);
 		core.stack.set_regsize(regSize);
 	}
@@ -38,7 +38,7 @@ namespace ltn::vm::inst {
 
 
 	void thr0w(VmCore & core) {
-		const auto except = core.reg.pop();
+		const auto except = core.stack.pop();
 		if(auto addr = unwind(core.stack)) {
 			core.pc = *addr;
 		}
@@ -46,9 +46,9 @@ namespace ltn::vm::inst {
 			throw std::runtime_error{"Unhandled Exception: " + cast::to_string(except, core.heap)};
 		}
 		const auto regSize = core.stack.get_regsize();
-		core.reg.resize(regSize);
+		core.stack.resize(regSize);
 		clearTopFrame(core.stack);		
-		core.reg.push(except);
+		core.stack.push(except);
 		
 	}
 
@@ -56,11 +56,11 @@ namespace ltn::vm::inst {
 
 	void state(VmCore & core) {
 		std::stringstream ss;
-		ss << "register size: " << core.reg.size() << "\n";
+		ss << "register size: " << core.stack.size() << "\n";
 		ss << "stack size: " << core.stack.size() << "\n";
 		ss << "heap capacity: " << core.heap.capacity() << "\n";
 		ss << "heap utilized: " << core.heap.utilized() << "\n";
 		const auto refToString = core.heap.alloc<String>({ss.str()});
-		core.reg.push(Value{refToString, Value::Type::STRING});
+		core.stack.push(Value{refToString, Value::Type::STRING});
 	}
 }

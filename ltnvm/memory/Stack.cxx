@@ -5,20 +5,20 @@ namespace ltn::vm {
 	Stack::Stack() {
 		this->reset();
 	}
-	void Stack::push_frame(std::uint64_t jumpBack) {
+	void Stack::push_frame(std::uint64_t return_addr, std::uint8_t arity) {
 		this->frames.push_back(Frame{
-			.return_jump = jumpBack,
+			.return_addr = return_addr,
 			.prev_frame_pointer = this->frame_pointer,
 			.except_jump = 0,
 			.reg_size = 0,
 		});
-		this->frame_pointer = this->stack.size();
+		this->frame_pointer = this->stack.size() - arity;
 	}
 
 
 	std::uint64_t Stack::pop_frame() {
 		const auto & frame = this->frames.back();
-		const std::uint64_t jumpBack 		 = frame.return_jump;
+		const std::uint64_t jumpBack 		 = frame.return_addr;
 		const std::uint64_t oldframe_pointer = frame.prev_frame_pointer;
 		this->stack.resize(this->frame_pointer);
 		this->frame_pointer = oldframe_pointer;

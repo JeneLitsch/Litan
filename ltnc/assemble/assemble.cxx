@@ -62,6 +62,14 @@ namespace ltn::c {
 			bytecode += to_bytes(addr);
 		}
 		void assemble_args(
+			std::vector<std::uint8_t> & bytecode,
+			const inst::InstCall & args,
+			const AddressTable & jump_table) {
+			const auto addr = resolve_label(jump_table, args.label);
+			bytecode += to_bytes(addr);
+			bytecode += args.arity;
+		}
+		void assemble_args(
 			std::vector<std::uint8_t> &,
 			const inst::InstTarget &,
 			const AddressTable &) {

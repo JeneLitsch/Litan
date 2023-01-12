@@ -35,13 +35,13 @@ namespace ltn::vm::inst {
 
 	void member_read(VmCore & core) {
 		const auto id = core.fetch_uint();
-		const auto ref = core.reg.pop();
+		const auto ref = core.stack.pop();
 		auto & s = get_struct(ref, core.heap);
 		if(const auto * const member = get_member(s, id)) {
-			core.reg.push(*member);
+			core.stack.push(*member);
 		}
 		else {
-			core.reg.push(value::null);
+			core.stack.push(value::null);
 		}
 	}
 	
@@ -49,8 +49,8 @@ namespace ltn::vm::inst {
 	
 	void member_write(VmCore & core) {
 		const auto id = core.fetch_uint();
-		const auto ref = core.reg.pop();
-		const auto value = core.reg.pop();
+		const auto ref = core.stack.pop();
+		const auto value = core.stack.pop();
 		auto & s = get_struct(ref, core.heap);
 		if(auto * const member = get_member(s, id)) {
 			if(is_null(value)) {

@@ -6,7 +6,7 @@ namespace ltn::vm::build_in {
 
 
 	Value to_string(VmCore & core) {
-		const auto input = core.reg.pop();
+		const auto input = core.stack.pop();
 		const auto addr = core.heap.alloc<String>({stringify(input, core.heap)});
 		return value::string(addr);
 	}
@@ -32,8 +32,8 @@ namespace ltn::vm::build_in {
 
 
 	Value split_string(VmCore & core) {
-		const auto val_delim = core.reg.pop();
-		const auto val_string = core.reg.pop();
+		const auto val_delim = core.stack.pop();
+		const auto val_string = core.stack.pop();
 		if(!is_string(val_string) || !is_string(val_delim)) {
 			throw Exception {
 				Exception::Type::INVALID_ARGUMENT,
@@ -58,8 +58,8 @@ namespace ltn::vm::build_in {
 
 
 	Value join_string(VmCore & core) {
-		auto val_joiner = core.reg.pop();
-		auto val_array = core.reg.pop();
+		auto val_joiner = core.stack.pop();
+		auto val_array = core.stack.pop();
 		if(!is_array(val_array) || !is_string(val_joiner)) {
 			throw Exception {
 				Exception::Type::INVALID_ARGUMENT,

@@ -30,14 +30,14 @@ namespace ltn::vm::inst {
 
 
 	void size(VmCore & core) {
-		const auto ref = core.reg.pop();
-		core.reg.push(size(ref, core.heap));
+		const auto ref = core.stack.pop();
+		core.stack.push(size(ref, core.heap));
 	}
 
 
 
 	void empty(VmCore & core) {
-		const auto ref = core.reg.pop();
-		core.reg.push(size(ref, core.heap) == 0);
+		const auto ref = core.stack.pop();
+		core.stack.push(size(ref, core.heap) == 0);
 	}
 }

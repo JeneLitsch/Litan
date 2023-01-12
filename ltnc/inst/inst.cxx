@@ -303,11 +303,12 @@ namespace ltn::c::inst {
 			.label = label,
 		};
 	}
-	Inst call(const std::string & label) {
-		return InstJump {
+	Inst call(const std::string & label, std::uint8_t arity) {
+		return InstCall {
 			.name = "call",
 			.opcode = OpCode::CALL,
 			.label = label,
+			.arity = arity,
 		};
 	}
 	Inst parameters(std::uint8_t byte) {

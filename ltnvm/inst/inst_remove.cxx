@@ -51,15 +51,15 @@ namespace ltn::vm::inst {
 
 		switch (type) {
 		case 0: {
-			const auto ref = core.reg.pop();
+			const auto ref = core.stack.pop();
 			if(is_string(ref)) return remove_first<String>(ref, core.heap);
 			if(is_array(ref)) return remove_first<Array>(ref, core.heap);
 			throw except::invalid_argument();
 		} break;
 
 		case 1: {
-			const auto key = core.reg.pop();
-			const auto ref = core.reg.pop();
+			const auto key = core.stack.pop();
+			const auto ref = core.stack.pop();
 			if(is_map(ref)) return remove_m(ref, core.heap, key);
 			const auto index = to_index(key);
 			if(is_string(ref)) return remove_index<String>(ref, core.heap, index);
@@ -68,7 +68,7 @@ namespace ltn::vm::inst {
 		} break;
 
 		case 2: {
-			const auto ref = core.reg.pop();
+			const auto ref = core.stack.pop();
 			if(is_string(ref)) return remove_last<String>(ref, core.heap);
 			if(is_array(ref)) return remove_last<Array>(ref, core.heap);
 			throw except::invalid_argument();

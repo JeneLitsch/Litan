@@ -129,40 +129,40 @@ namespace ltn::vm::inst {
 
 
 	void cast(VmCore & core) {
-		const auto value = core.reg.pop();
+		const auto value = core.stack.pop();
 		const std::uint8_t * type = &core.byte_code[core.pc];
-		core.reg.push(smart_copy(type, value, core));
+		core.stack.push(smart_copy(type, value, core));
 		resume_after_0_terminator(core);
 	}
 
 
 
 	void safe_cast(VmCore & core) {
-		const auto value = core.reg.pop();
+		const auto value = core.stack.pop();
 		const std::uint8_t * type = &core.byte_code[core.pc];
-		core.reg.push(smart_cast(type, value, core));
+		core.stack.push(smart_cast(type, value, core));
 		resume_after_0_terminator(core);
 	}
 
 
 
 	void copy(VmCore & core) {
-		const auto value = core.reg.pop();
+		const auto value = core.stack.pop();
 		const std::uint8_t * type = &core.byte_code[core.pc];
-		core.reg.push(smart_copy(type, value, core));
+		core.stack.push(smart_copy(type, value, core));
 		resume_after_0_terminator(core);
 	}
 
 
 
 	void safe_copy(VmCore & core) {
-		const auto value = core.reg.pop();
+		const auto value = core.stack.pop();
 		const std::uint8_t * type = &core.byte_code[core.pc];
 		try {
-			core.reg.push(smart_copy(type, value, core));
+			core.stack.push(smart_copy(type, value, core));
 		}
 		catch(const Exception & exception) {
-			core.reg.push(value::null);
+			core.stack.push(value::null);
 		}
 		resume_after_0_terminator(core);
 	}
@@ -170,46 +170,46 @@ namespace ltn::vm::inst {
 
 
 	void cast_char(VmCore & core) {
-		const auto value = core.reg.pop();
+		const auto value = core.stack.pop();
 		const auto c = cast::to_char(value);
-		core.reg.push(value::character(c));
+		core.stack.push(value::character(c));
 	}
 
 
 
 	void cast_int(VmCore & core) {
-		const auto value = core.reg.pop();
+		const auto value = core.stack.pop();
 		const auto i = cast::to_int(value);
-		core.reg.push(value::integer(i));
+		core.stack.push(value::integer(i));
 	}
 
 
 
 	void cast_float(VmCore & core) {
-		const auto value = core.reg.pop();
+		const auto value = core.stack.pop();
 		const auto f = cast::to_float(value, core.heap);
-		core.reg.push(value::floating(f));
+		core.stack.push(value::floating(f));
 	}
 
 
 
 	void cast_string(VmCore & core) {
-		const auto value = core.reg.pop();
+		const auto value = core.stack.pop();
 		if(is_string(value)) {
-			core.reg.push(value);
+			core.stack.push(value);
 		}
 		else {
 			const auto str = cast::to_string(value, core.heap);
 			const auto ref = core.heap.alloc<String>(String{str});
-			core.reg.push(Value{ref, Value::Type::STRING});
+			core.stack.push(Value{ref, Value::Type::STRING});
 		}
 	}
 
 
 
 	void cast_bool(VmCore & core) {
-		const auto value = core.reg.pop();
+		const auto value = core.stack.pop();
 		const auto b = cast::to_bool(value);
-		core.reg.push(Value(b));
+		core.stack.push(Value(b));
 	}
 }

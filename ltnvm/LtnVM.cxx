@@ -169,7 +169,7 @@ namespace ltn::vm {
 	namespace {
 		void error(VmCore & core, const std::string & msg) {
 			const auto ref = core.heap.alloc<String>({msg});
-			core.reg.push(value::string(ref));
+			core.stack.push(value::string(ref));
 			inst::thr0w(core);
 		}
 
@@ -198,7 +198,7 @@ namespace ltn::vm {
 
 		void load_main_args(VmCore & core, const std::vector<std::string> & args) {
 			const auto ref = core.heap.alloc<Array>(Array{});
-			core.reg.push(value::array(ref));
+			core.stack.push(value::array(ref));
 			for(const auto & arg : args) {
 				const auto str = core.heap.alloc<String>(String{arg});
 				auto & arr = core.heap.read<Array>(ref).get();
@@ -217,7 +217,7 @@ namespace ltn::vm {
 				"Program does not contain function " + main_fx
 			};
 			core.pc = core.function_table.at(main_fx);
-			core.stack.push_frame(std::size(core.byte_code) - 1);
+			core.stack.push_frame(std::size(core.byte_code) - 1, 1);
 		}
 	}
 
@@ -239,7 +239,7 @@ namespace ltn::vm {
 
 		this->core.byte_code = { it, std::end(code) };
 		this->core.pc = 0;
-		this->core.reg.reset();
+		this->core.stack.reset();
 		this->core.stack.reset();
 		this->core.heap.reset();
 

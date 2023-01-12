@@ -30,9 +30,9 @@ namespace ltn::vm::inst {
 
 
 
-		void insert_front(Register & reg, Heap & heap) {
-			const auto elem = reg.pop();
-			const auto ref = reg.pop();
+		void insert_front(Stack & stack, Heap & heap) {
+			const auto elem = stack.pop();
+			const auto ref = stack.pop();
 			if(is_string(ref)) return push_f<String>(ref, heap, elem);
 			if(is_array(ref)) return push_f<Array>(ref, heap, elem);
 			throw except::invalid_argument();
@@ -61,9 +61,9 @@ namespace ltn::vm::inst {
 
 
 
-		void insert_back(Register & reg, Heap & heap) {
-			const auto elem = reg.pop();
-			const auto ref = reg.pop();
+		void insert_back(Stack & stack, Heap & heap) {
+			const auto elem = stack.pop();
+			const auto ref = stack.pop();
 			if(is_string(ref)) return push_b<String>(ref, heap, elem);
 			if(is_array(ref)) return push_b<Array>(ref, heap, elem);
 			throw except::invalid_argument();
@@ -105,10 +105,10 @@ namespace ltn::vm::inst {
 
 
 
-		void insert_index(Register & reg, Heap & heap) {
-			const auto elem = reg.pop();
-			const auto key = reg.pop();
-			const auto ref = reg.pop();
+		void insert_index(Stack & stack, Heap & heap) {
+			const auto elem = stack.pop();
+			const auto key = stack.pop();
+			const auto ref = stack.pop();
 			if(is_map(ref)) return push_m(ref, heap, elem, key);
 			const auto index = to_index(key);
 			if(is_string(ref)) return push_i<String>(ref, heap, elem, index);
@@ -122,9 +122,9 @@ namespace ltn::vm::inst {
 	void insert(VmCore & core) {
 		const auto type = core.fetch_byte();
 		switch (type) {
-		case 0: return insert_front(core.reg, core.heap); 
-		case 1: return insert_index( core.reg, core.heap);
-		case 2: return insert_back( core.reg, core.heap);
+		case 0: return insert_front(core.stack, core.heap); 
+		case 1: return insert_index(core.stack, core.heap);
+		case 2: return insert_back(core.stack, core.heap);
 		default: throw except::invalid_argument();
 		}
 	}

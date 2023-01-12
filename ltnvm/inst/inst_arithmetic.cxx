@@ -10,8 +10,8 @@
 #include "ltnvm/cast.hxx"
 
 #define FETCH\
-	const auto r = core.reg.pop();\
-	const auto l = core.reg.pop();
+	const auto r = core.stack.pop();\
+	const auto l = core.stack.pop();
 
 namespace ltn::vm::inst {
 	namespace {
@@ -44,21 +44,21 @@ namespace ltn::vm::inst {
 		FETCH
 		
 		if(is_array(l) && is_array(r)) {
-			return core.reg.push(value::array(concat<Array>(l,r,core.heap)));
+			return core.stack.push(value::array(concat<Array>(l,r,core.heap)));
 		}
 
 		if(is_string(l) && is_string(r)) {
-			return core.reg.push(value::string(concat<String>(l,r,core.heap)));
+			return core.stack.push(value::string(concat<String>(l,r,core.heap)));
 		}
 
-		core.reg.push(calc<Addition>(l, r));
+		core.stack.push(calc<Addition>(l, r));
 	}
 
 
 
 	void sub(VmCore & core) {
 		FETCH
-		core.reg.push(calc<Subtraction>(l, r));
+		core.stack.push(calc<Subtraction>(l, r));
 	}
 
 
@@ -67,43 +67,43 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_string(l) && is_integral(r)) {
-			return core.reg.push(value::string(repeat<String>(l, r, core.heap)));
+			return core.stack.push(value::string(repeat<String>(l, r, core.heap)));
 		}
 
 		if(is_integral(l) && is_string(r)) {
-			return core.reg.push(value::string(repeat<String>(r, l, core.heap)));
+			return core.stack.push(value::string(repeat<String>(r, l, core.heap)));
 		}
 
 		if(is_array(l) && is_integral(r)) {
-			return core.reg.push(value::array(repeat<Array>(l, r, core.heap)));
+			return core.stack.push(value::array(repeat<Array>(l, r, core.heap)));
 		}
 
 		if(is_integral(l) && is_array(r)) {
-			return core.reg.push(value::array(repeat<Array>(r, l, core.heap)));
+			return core.stack.push(value::array(repeat<Array>(r, l, core.heap)));
 		}
 
-		core.reg.push(calc<Multiplication>(l, r));
+		core.stack.push(calc<Multiplication>(l, r));
 	}
 
 
 
 	void div(VmCore & core) {
 		FETCH
-		core.reg.push(calc<Division>(l, r));
+		core.stack.push(calc<Division>(l, r));
 	}
 
 
 
 	void mod(VmCore & core) {
 		FETCH
-		core.reg.push(calc<Modulo>(l, r));
+		core.stack.push(calc<Modulo>(l, r));
 	}
 
 
 
 	void pow(VmCore & core) {
 		FETCH
-		core.reg.push(calc<Power>(l, r));
+		core.stack.push(calc<Power>(l, r));
 	}
 }
 #undef FETCH

@@ -18,8 +18,8 @@ namespace ltn::vm::build_in {
 
 
 
-	static std::uint64_t pop_array_ref(Register & reg) {
-		const auto ref = reg.pop();
+	static std::uint64_t pop_array_ref(Stack & stack) {
+		const auto ref = stack.pop();
 		if(!is_array(ref)) throw except::invalid_argument();
 		return ref.u;
 	}
@@ -54,7 +54,7 @@ namespace ltn::vm::build_in {
 
 	// Algorithms
 	Value sort_desc(VmCore & core) {
-		const auto ref = core.reg.pop();
+		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = bigger(core.heap);
 		std::sort(begin, end, comp);
@@ -64,7 +64,7 @@ namespace ltn::vm::build_in {
 
 
 	Value sort_ascn(VmCore & core) {
-		const auto ref = core.reg.pop();
+		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = smaller(core.heap);
 		std::sort(begin, end, comp);
@@ -74,7 +74,7 @@ namespace ltn::vm::build_in {
 
 
 	Value is_sorted_ascn(VmCore & core) {
-		const auto ref = core.reg.pop();
+		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = smaller(core.heap);
 		return std::is_sorted(begin, end, comp);
@@ -83,7 +83,7 @@ namespace ltn::vm::build_in {
 
 
 	Value is_sorted_desc(VmCore & core) {
-		const auto ref = core.reg.pop();
+		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = bigger(core.heap);
 		return std::is_sorted(begin, end, comp);
@@ -92,8 +92,8 @@ namespace ltn::vm::build_in {
 
 
 	Value find(VmCore & core) {
-		const auto key = core.reg.pop();
-		const auto ref = core.reg.pop();
+		const auto key = core.stack.pop();
+		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto pred = predicate(core.heap, key);
 		const auto found = std::find_if(begin, end, pred);
@@ -109,8 +109,8 @@ namespace ltn::vm::build_in {
 
 
 	Value copy_front(VmCore & core) {
-		const auto refArr = pop_array_ref(core.reg);
-		const auto [begin, end] = to_cpp_range(core.reg.pop(), core.heap);
+		const auto refArr = pop_array_ref(core.stack);
+		const auto [begin, end] = to_cpp_range(core.stack.pop(), core.heap);
 		auto & array = core.heap.read<Array>(refArr).get();
 		auto beginArr = array.begin();
 		auto inserter = std::insert_iterator(array, beginArr);
@@ -121,8 +121,8 @@ namespace ltn::vm::build_in {
 
 
 	Value copy_back(VmCore & core) {
-		const auto refArr = pop_array_ref(core.reg);
-		const auto [begin, end] = to_cpp_range(core.reg.pop(), core.heap);
+		const auto refArr = pop_array_ref(core.stack);
+		const auto [begin, end] = to_cpp_range(core.stack.pop(), core.heap);
 		auto & array = core.heap.read<Array>(refArr).get();
 		auto inserter = std::back_inserter(array);
 		std::copy(begin, end, inserter);
@@ -132,8 +132,8 @@ namespace ltn::vm::build_in {
 
 	
 	Value fill(VmCore & core) {
-		const auto value = core.reg.pop();
-		const auto [begin, end] = to_cpp_range(core.reg.pop(), core.heap);
+		const auto value = core.stack.pop();
+		const auto [begin, end] = to_cpp_range(core.stack.pop(), core.heap);
 		std::fill(begin, end, value);
 		return value::null;
 	}
@@ -141,7 +141,7 @@ namespace ltn::vm::build_in {
 
 
 	Value reverse(VmCore & core) {
-		const auto ref = core.reg.pop();
+		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		std::reverse(begin, end);
 		return value::null;

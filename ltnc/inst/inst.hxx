@@ -44,6 +44,15 @@ namespace ltn::c::inst {
 		bool operator==(const InstJump &) const = default;
 	};
 
+	struct InstCall {
+		constexpr inline static std::size_t size = 10;
+		std::string_view name;
+		OpCode opcode;
+		std::string label;
+		std::uint8_t arity;
+		bool operator==(const InstCall &) const = default;
+	};
+
 	struct InstTarget {
 		constexpr inline static std::size_t size = 0;
 		std::string_view name;
@@ -105,6 +114,7 @@ namespace ltn::c::inst {
 	    InstUint64,
 	    InstUint16,
 	    InstJump,
+	    InstCall,
 	    InstTarget,
 	    InstJumpUint64,
 	    InstInt64,
@@ -170,7 +180,7 @@ namespace ltn::c::inst {
 	Inst newrng(std::uint8_t type);
 
 	Inst jump(const std::string & label);
-	Inst call(const std::string & label);
+	Inst call(const std::string & label, std::uint8_t arity);
 	Inst parameters(std::uint8_t byte);
 	Inst retvrn();
 	Inst ifelse(const std::string & label);

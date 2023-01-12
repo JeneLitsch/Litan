@@ -4,9 +4,9 @@
 
 namespace ltn::vm::inst {
 	void at_write(VmCore & core) {
-		const auto key = core.reg.pop();
-		const auto ref = core.reg.pop();
-		const auto elem = core.reg.pop();
+		const auto key = core.stack.pop();
+		const auto ref = core.stack.pop();
+		const auto elem = core.stack.pop();
 		
 		if(is_array(ref)) {
 			auto & arr = core.heap.read<Array>(ref.u).get();
