@@ -3,7 +3,7 @@
 namespace ltn::vm {
 	void Heap::collect_garbage(const Stack & stack, const std::vector<Value> & globals) {
 		if(gc_counter >= gc_frequency) {
-			mark(stack.get_container());
+			mark(stack.get_values());
 			mark(globals);
 			sweep();
 			gc_counter = 0;

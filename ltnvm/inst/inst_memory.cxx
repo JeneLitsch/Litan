@@ -16,7 +16,7 @@ namespace ltn::vm::inst {
 
 
 	void makevar(VmCore & core) {
-		core.stack.make_var();
+		core.stack.push_null();
 	}
 
 
