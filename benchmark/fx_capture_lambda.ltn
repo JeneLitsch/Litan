@@ -1,0 +1,7 @@
+function main() {
+	var a = 42;
+	var fx_ptr = lambda[a]() => null;
+	var clock = std::chrono::clock();
+	for (i : 0 -> 5000000) fx_ptr();
+	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
+}
