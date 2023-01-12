@@ -8,25 +8,14 @@ namespace ltn::vm {
 	// Implements stack, queue, ...
 	struct Comparator {
 		Heap * heap;
-		bool operator()(const Value l, const Value r) const;
-	};
-	struct Map {
-		constexpr static std::string_view typeName = "map";
-		
-		std::map<Value, Value, Comparator> map;
-
-		Map(Heap & heap) : map(Comparator{&heap}) {}
-		
-		const auto & get() const {
-			return this->map;
-		}
-		
-		auto & get() {
-			return this->map;
-		}
-
-		auto clone() const {
-			return *this;
+		bool operator()(const Value l, const Value r) const {
+			return compare(l, r, *heap) < 0;
 		}
 	};
+
+	using Map = std::map<Value, Value, Comparator>;
+
+	inline Map clone(const Map & map) {
+		return map;
+	}
 }

@@ -9,11 +9,14 @@ namespace ltn::vm {
 		std::size_t get_parameters() const {
 			return this->params;
 		}
-		std::vector<Value> captured;
+		Array captured;
 		constexpr static std::string_view typeName = "FxPointer";
 		
-		auto clone() const {
-			return *this;
-		}
 	};
+
+
+
+	inline FxPointer clone(const FxPointer & fx_ptr) {
+		return fx_ptr;
+	}
 }

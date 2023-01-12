@@ -37,7 +37,7 @@ namespace ltn::vm::inst {
 		auto & in = get_istream(core.heap, core.stack); 
 		std::string value;
 		in >> value;
-		const auto addr = core.heap.alloc<String>({value});
+		const auto addr = core.heap.alloc<String>(std::move(value));
 		core.stack.push(Value{addr, VT::STRING});
 	}
 
@@ -47,7 +47,7 @@ namespace ltn::vm::inst {
 		auto & in = get_istream(core.heap, core.stack); 
 		std::string value;
 		std::getline(in, value);
-		const auto addr = core.heap.alloc<String>({value});
+		const auto addr = core.heap.alloc<String>(std::move(value));
 		core.stack.push(Value{addr, VT::STRING});
 	}
 
@@ -108,7 +108,7 @@ namespace ltn::vm::inst {
 		auto & in = get_istream(core.heap, core.stack);
 		std::ostringstream oss;
 		oss << in.rdbuf();
-		const auto ref = core.heap.alloc<String>({oss.str()});
+		const auto ref = core.heap.alloc<String>(oss.str());
 		core.stack.push(value::string(ref));
 	}
 

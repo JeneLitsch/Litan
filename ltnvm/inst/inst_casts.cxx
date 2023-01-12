@@ -14,19 +14,19 @@ namespace ltn::vm::inst {
 			if(is_array(value)) {
 				const auto & old_array = core.heap.read<Array>(value.u);
 				Array new_array;
-				for(const auto & elem : old_array.get()) {
-					new_array.arr.push_back(smart_copy(subtype, elem, core));
+				for(const auto & elem : old_array) {
+					new_array.push_back(smart_copy(subtype, elem, core));
 				}
-				return value::array(core.heap.alloc(std::move(new_array)));
+				return value::array(core.heap.alloc<Array>(std::move(new_array)));		
 			}
 
 			if(is_string(value)) {
 				const auto & old_string = core.heap.read<String>(value.u);
 				Array new_array;
-				for(const auto c : old_string.get()) {
-					new_array.arr.push_back(smart_copy(subtype, value::character(c), core));
+				for(const auto c : old_string) {
+					new_array.push_back(smart_copy(subtype, value::character(c), core));
 				}
-				return value::array(core.heap.alloc(std::move(new_array)));		
+				return value::array(core.heap.alloc<Array>(std::move(new_array)));		
 			}		
 
 			throw Exception{
@@ -39,19 +39,19 @@ namespace ltn::vm::inst {
 
 		Value smart_copy_string(const Value & value, VmCore & core) {
 			if(is_string(value)) {
-				const auto new_string = cast::to_string(value, core.heap);
-				return value::string(core.heap.alloc(String{new_string}));
+				auto new_string = cast::to_string(value, core.heap);
+				return value::string(core.heap.alloc<String>(std::move(new_string)));
 			}
 
 			if(is_array(value)) {
 				std::string new_string;
 				const auto old_array = core.heap.read<Array>(value.u);
 
-				for(const auto & elem : old_array.get()) {
+				for(const auto & elem : old_array) {
 					new_string.push_back(cast::to_char(elem));
 				}
 
-				return value::string(core.heap.alloc(String{new_string}));
+				return value::string(core.heap.alloc<String>(std::move(new_string)));
 			}
 			
 			throw Exception {
@@ -85,7 +85,7 @@ namespace ltn::vm::inst {
 
 		bool is_castable_array(const std::uint8_t * type, const Value & value, VmCore & core) {
 			if(is_array(value)) {
-				auto & arr = core.heap.read<Array>(value.u).get();
+				auto & arr = core.heap.read<Array>(value.u);
 				for(const auto & elem : arr) {
 					if(!is_castable(type, elem, core)) return false;
 				}
@@ -199,8 +199,8 @@ namespace ltn::vm::inst {
 			core.stack.push(value);
 		}
 		else {
-			const auto str = cast::to_string(value, core.heap);
-			const auto ref = core.heap.alloc<String>(String{str});
+			auto str = cast::to_string(value, core.heap);
+			const auto ref = core.heap.alloc<String>(std::move(str));
 			core.stack.push(Value{ref, Value::Type::STRING});
 		}
 	}

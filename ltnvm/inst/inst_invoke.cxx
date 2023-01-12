@@ -19,7 +19,7 @@ namespace ltn::vm::inst {
 		const auto ref_param = core.stack.pop();
 		const auto refFx = core.stack.pop();
 		if(is_array(ref_param)) {
-			const auto & arguments = core.heap.read<Array>(ref_param.u).get();
+			const auto & arguments = core.heap.read<Array>(ref_param.u);
 
 			// Call functions pointer
 			if(is_fxptr(refFx)) {

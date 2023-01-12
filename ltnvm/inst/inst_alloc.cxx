@@ -18,7 +18,7 @@ namespace ltn::vm::inst {
 
 	void newarr(VmCore & core){
 		const auto ptr = core.heap.alloc<Array>({});
-		auto & arr = core.heap.read<Array>(ptr).get(); 
+		auto & arr = core.heap.read<Array>(ptr); 
 		const auto size = core.fetch_uint();
 		pushAll(arr, core.stack, size);
 		core.stack.push({ ptr, Value::Type::ARRAY });
@@ -56,7 +56,7 @@ namespace ltn::vm::inst {
 				if(!is_string(ref)) {
 					throw except::invalid_argument();
 				}
-				const auto & path = core.heap.read<String>(ref.u).str;
+				const auto & path = core.heap.read<String>(ref.u);
 
 				const auto flags =
 					openmode ? std::ios::app : std::ios::trunc;
@@ -89,7 +89,7 @@ namespace ltn::vm::inst {
 				if(!is_string(ref)) {
 					throw except::invalid_argument();
 				}
-				const auto & path = core.heap.read<String>(ref.u).str;
+				const auto & path = core.heap.read<String>(ref.u);
 				if(!std::filesystem::exists(path)) {
 					throw except::cannot_open_file(path);
 				}
@@ -100,7 +100,7 @@ namespace ltn::vm::inst {
 				if(!is_string(ref)) {
 					throw except::invalid_argument();
 				}
-				const auto & str = core.heap.read<String>(ref.u).str;
+				const auto & str = core.heap.read<String>(ref.u);
 				return add_in(IStream{std::make_unique<std::istringstream>(str)});
 			}
 		}
@@ -142,7 +142,7 @@ namespace ltn::vm::inst {
 
 
 	void newmap(VmCore & core) {
-		const auto ref = core.heap.alloc<Map>(Map{core.heap});
+		const auto ref = core.heap.alloc<Map>(Map{Comparator{&core.heap}});
 		core.stack.push({ ref, Value::Type::MAP });
 		core.heap.collect_garbage(core.stack, core.static_variables);
 	}

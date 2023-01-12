@@ -9,7 +9,7 @@ namespace ltn::vm::inst {
 		const auto ref = core.stack.pop();
 
 		if(is_array(ref)) {
-			auto & container = core.heap.read<Array>(ref.u).get();
+			auto & container = core.heap.read<Array>(ref.u);
 			container.push_back(elem);
 			return;
 		}
@@ -35,7 +35,7 @@ namespace ltn::vm::inst {
 		const auto ref = core.stack.pop();
 
 		if(is_array(ref)) {
-			auto & container = core.heap.read<Array>(ref.u).get();
+			auto & container = core.heap.read<Array>(ref.u);
 			const auto elem = container.back();
 			container.pop_back();
 			core.stack.push(elem);
@@ -90,7 +90,7 @@ namespace ltn::vm::inst {
 		const auto ref = core.stack.pop();
 
 		if(is_map(ref)) {
-			auto & container = core.heap.read<Map>(ref.u).get();
+			auto & container = core.heap.read<Map>(ref.u);
 			core.stack.push(container.contains(key));
 			return;
 		}
@@ -104,13 +104,13 @@ namespace ltn::vm::inst {
 		const auto ref = core.stack.pop();
 		
 		if (is_array(ref)) {
-			const auto & arr = core.heap.read<Array>(ref.u).get();
+			const auto & arr = core.heap.read<Array>(ref.u);
 			core.stack.push(arr.front());
 			return;
 		}
 
 		if (is_string(ref)) {
-			const auto & str = core.heap.read<String>(ref.u).get();
+			const auto & str = core.heap.read<String>(ref.u);
 			const auto chr = str.front(); 
 			core.stack.push(value::character(chr));
 			return;
@@ -125,13 +125,13 @@ namespace ltn::vm::inst {
 		const auto ref = core.stack.pop();
 		
 		if (is_array(ref)) {
-			const auto & arr = core.heap.read<Array>(ref.u).get();
+			const auto & arr = core.heap.read<Array>(ref.u);
 			core.stack.push(arr.back());
 			return;
 		}
 
 		if (is_string(ref)) {
-			const auto & str = core.heap.read<String>(ref.u).get();
+			const auto & str = core.heap.read<String>(ref.u);
 			const auto chr = str.back(); 
 			core.stack.push(value::character(chr));
 			return;

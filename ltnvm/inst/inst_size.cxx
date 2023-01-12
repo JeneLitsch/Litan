@@ -5,12 +5,12 @@ namespace ltn::vm::inst {
 		std::int64_t size(const Value & ref, Heap & heap) {
 			if (is_array(ref)) {
 				const auto & arr = heap.read<Array>(ref.u);
-				return static_cast<std::int64_t>(arr.arr.size());
+				return static_cast<std::int64_t>(arr.size());
 			}
 
 			if(is_string(ref)) {
 				const auto & str = heap.read<String>(ref.u);
-				return static_cast<std::int64_t>(str.str.size());
+				return static_cast<std::int64_t>(str.size());
 			}
 
 			if(is_queue(ref) || is_stack(ref)) {
@@ -19,7 +19,7 @@ namespace ltn::vm::inst {
 			}
 
 			if(is_map(ref)) {
-				const auto & map = heap.read<Map>(ref.u).get();
+				const auto & map = heap.read<Map>(ref.u);
 				return static_cast<std::int64_t>(map.size());
 			}
 

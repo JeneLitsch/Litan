@@ -1,7 +1,7 @@
 #include "Heap.hxx"
 #include "ltnvm/type_check.hxx"
 namespace ltn::vm {
-	void Heap::collect_garbage(const Stack & stack, const std::vector<Value> & globals) {
+	void Heap::collect_garbage(const Stack & stack, const Array & globals) {
 		if(gc_counter >= gc_frequency) {
 			mark(stack.get_values());
 			mark(globals);
@@ -15,7 +15,7 @@ namespace ltn::vm {
 
 
 
-	void Heap::mark(const std::vector<Value> & values) {
+	void Heap::mark(const Array & values) {
 		for(const auto & value : values) {
 			this->mark(value);
 		}
@@ -58,7 +58,7 @@ namespace ltn::vm {
 		auto & pool = pool_of<Array>(); 
 		if(!pool.gc_is_marked(ref.u)) {
 			pool.gc_mark(ref.u);
-			auto & arr = pool.get(ref.u).get();
+			auto & arr = pool.get(ref.u);
 			this->mark(arr);
 		}
 	}
@@ -104,7 +104,7 @@ namespace ltn::vm {
 		auto & pool = pool_of<Map>(); 
 		if(!pool.gc_is_marked(value.u)) {
 			pool.gc_mark(value.u);
-			auto & map = pool.get(value.u).get();
+			auto & map = pool.get(value.u);
 			for(auto & [key, value] : map) {
 				this->mark(key);
 				this->mark(value);

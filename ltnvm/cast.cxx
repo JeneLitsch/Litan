@@ -24,7 +24,7 @@ namespace ltn::vm::cast {
 	}
 
 
-	std::vector<Value> to_array(Value value) {
+	Array to_array(Value value) {
 		return {value};
 	}
 

@@ -59,7 +59,7 @@ namespace ltn::vm {
 
 
 		if(is_array(value)) {
-			const auto & array = heap.read<Array>(value.u).get();
+			const auto & array = heap.read<Array>(value.u);
 			std::stringstream ss;
 			print_all(std::begin(array), std::end(array), ss, heap);
 			return ss.str();
@@ -117,7 +117,7 @@ namespace ltn::vm {
 		}
 
 		if(is_map(value)) {
-			const auto & map = heap.read<Map>(value.u).get();
+			const auto & map = heap.read<Map>(value.u);
 			std::ostringstream ss;
 			print_all(std::begin(map), std::end(map), ss, heap, '{', '}');
 			return ss.str();
@@ -128,7 +128,7 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return heap.read<String>(value.u).get();
+			return heap.read<String>(value.u);
 		}
 
 		throw Exception{

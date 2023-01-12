@@ -40,7 +40,7 @@ namespace ltn::vm::ext {
 				}
 				else {
 					R result = fx((parameters.get<Args>(INDICES))...);
-					return wrap_return(result, heap);
+					return wrap_return(std::move(result), heap);
 				}
 			}
 

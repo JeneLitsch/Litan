@@ -13,7 +13,7 @@ namespace ltn::vm {
 		void setup(std::span<const std::uint8_t> code);
 		
 		Variant run(
-			const std::vector<std::string> & args = {},
+			const std::vector<String> & args = {},
 			const std::string & main = "");
 
 		void register_function(std::int64_t id, auto fx) {

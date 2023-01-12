@@ -11,11 +11,15 @@ namespace ltn::vm {
 
 		stx::float64_t getSeconds() const;
 
-		auto clone() const {
-			return *this;
-		}
 
 	private:
 		std::chrono::steady_clock clock;
 		std::chrono::time_point<std::chrono::steady_clock> start;
-	};}
+	};
+
+
+
+	inline Clock clone(const Clock & clock) {
+		return clock;
+	}
+}

@@ -166,8 +166,8 @@ namespace ltn::vm {
 
 
 	namespace {
-		void error(VmCore & core, const std::string & msg) {
-			const auto ref = core.heap.alloc<String>({msg});
+		void error(VmCore & core, std::string && msg) {
+			const auto ref = core.heap.alloc<String>(std::move(msg));
 			core.stack.push(value::string(ref));
 			inst::thr0w(core);
 		}
@@ -183,8 +183,8 @@ namespace ltn::vm {
 				}
 			}
 
-			catch(const Exception & err) {
-				error(core, err.msg);
+			catch(Exception & err) {
+				error(core, std::move(err.msg));
 				goto RESUME;
 			}
 
@@ -195,12 +195,12 @@ namespace ltn::vm {
 
 
 
-		void load_main_args(VmCore & core, const std::vector<std::string> & args) {
-			const auto ref = core.heap.alloc<Array>(Array{});
+		void load_main_args(VmCore & core, const std::vector<String> & args) {
+			const auto ref = core.heap.alloc<Array>({});
 			core.stack.push(value::array(ref));
 			for(const auto & arg : args) {
-				const auto str = core.heap.alloc<String>(String{arg});
-				auto & arr = core.heap.read<Array>(ref).get();
+				const auto str = core.heap.alloc<String>(std::string(arg));
+				auto & arr = core.heap.read<Array>(ref);
 				arr.push_back(value::string(str));
 			}
 		}
@@ -248,7 +248,7 @@ namespace ltn::vm {
 
 
 
-	Variant LtnVM::run(const std::vector<std::string> & args, const std::string & main) {
+	Variant LtnVM::run(const std::vector<String> & args, const std::string & main) {
 		load_main_args(core, args);
 		jump_to_init(core, main);
 		return core_loop(this->core);

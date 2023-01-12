@@ -13,11 +13,11 @@ namespace ltn::vm::build_in {
 
 
 	namespace {
-		std::vector<std::string> split_impl(
+		std::vector<String> split_impl(
 			const std::string & string,
 			const std::string & delim) {
 			
-			std::vector<std::string> substrs;
+			std::vector<String> substrs;
 			std::size_t last = 0;
 			std::size_t next = string.find(delim, last);
 			while (next != std::string::npos) {
@@ -40,16 +40,16 @@ namespace ltn::vm::build_in {
 				"std::split expected 2 strings."
 			};
 		}
-		const auto & string = core.heap.read<String>(val_string.u).get();
-		const auto & delim = core.heap.read<String>(val_delim.u).get();
+		const auto & string = core.heap.read<String>(val_string.u);
+		const auto & delim = core.heap.read<String>(val_delim.u);
 		const auto segments_ptr = core.heap.alloc<Array>({});
-		auto & segments = core.heap.read<Array>(segments_ptr).get();
+		auto & segments = core.heap.read<Array>(segments_ptr);
 
 		if(delim.empty()) return value::array(segments_ptr);
 		if(string.empty()) return value::array(segments_ptr);
 
 		for(auto && str : split_impl(string, delim)) {
-			segments.push_back(value::string(core.heap.alloc<String>({str})));
+			segments.push_back(value::string(core.heap.alloc<String>(std::move(str))));
 		}
 
 		return value::array(segments_ptr);
@@ -67,8 +67,8 @@ namespace ltn::vm::build_in {
 			};
 		}
 		std::ostringstream joined_string;
-		const auto & array = core.heap.read<Array>(val_array.u).get();
-		const auto & joiner = core.heap.read<String>(val_joiner.u).get();
+		const auto & array = core.heap.read<Array>(val_array.u);
+		const auto & joiner = core.heap.read<String>(val_joiner.u);
 		bool first = true;
 		for(const auto & val_str : array) {
 			if(first) {
@@ -85,9 +85,9 @@ namespace ltn::vm::build_in {
 					};
 				}
 			}
-			joined_string << core.heap.read<String>(val_str.u).get();
+			joined_string << core.heap.read<String>(val_str.u);
 		}
-		return value::string(core.heap.alloc<String>({joined_string.str()}));
+		return value::string(core.heap.alloc<String>(joined_string.str()));
 	}
 
 

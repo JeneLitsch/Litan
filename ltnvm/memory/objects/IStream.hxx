@@ -20,12 +20,14 @@ namespace ltn::vm {
 		const auto & get() const {
 			return *ptr;
 		}
-
-		IStream clone() const {
-			throw std::runtime_error{"Cannot clone IStream."};
-		}
 		
 		std::unique_ptr<std::istream> storage;
 		std::istream * ptr;
 	};
+
+
+
+	inline IStream clone(const IStream &) {
+		throw std::runtime_error{"Cannot clone IStream."};
+	}
 }

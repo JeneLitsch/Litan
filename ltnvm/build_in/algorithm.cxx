@@ -8,8 +8,8 @@ namespace ltn::vm::build_in {
 	static auto to_cpp_range(const Value ref, Heap & heap) {
 		if(is_array(ref)) {
 			auto & array = heap.read<Array>(ref.u);
-			const auto begin = array.arr.begin();
-			const auto end = array.arr.end();
+			const auto begin = array.begin();
+			const auto end = array.end();
 			return std::make_pair(begin, end);
 		}
 
@@ -111,7 +111,7 @@ namespace ltn::vm::build_in {
 	Value copy_front(VmCore & core) {
 		const auto refArr = pop_array_ref(core.stack);
 		const auto [begin, end] = to_cpp_range(core.stack.pop(), core.heap);
-		auto & array = core.heap.read<Array>(refArr).get();
+		auto & array = core.heap.read<Array>(refArr);
 		auto beginArr = array.begin();
 		auto inserter = std::insert_iterator(array, beginArr);
 		std::copy(begin, end, inserter);
@@ -123,7 +123,7 @@ namespace ltn::vm::build_in {
 	Value copy_back(VmCore & core) {
 		const auto refArr = pop_array_ref(core.stack);
 		const auto [begin, end] = to_cpp_range(core.stack.pop(), core.heap);
-		auto & array = core.heap.read<Array>(refArr).get();
+		auto & array = core.heap.read<Array>(refArr);
 		auto inserter = std::back_inserter(array);
 		std::copy(begin, end, inserter);
 		return value::null;

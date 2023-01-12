@@ -9,7 +9,7 @@ namespace ltn::vm::inst {
 		const auto elem = core.stack.pop();
 		
 		if(is_array(ref)) {
-			auto & arr = core.heap.read<Array>(ref.u).get();
+			auto & arr = core.heap.read<Array>(ref.u);
 			const auto index = to_index(key);
 			guard_index(arr, index);
 			arr[static_cast<std::size_t>(index)] = elem;
@@ -17,7 +17,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_string(ref)) {
-			auto & str = core.heap.read<String>(ref.u).get();
+			auto & str = core.heap.read<String>(ref.u);
 			const auto index = to_index(key);
 			guard_index(str, index);
 			str[static_cast<std::size_t>(index)] = convert::to_char(elem);
@@ -25,7 +25,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_map(ref)) {
-			auto & map = core.heap.read<Map>(ref.u).get();
+			auto & map = core.heap.read<Map>(ref.u);
 			map[key] = elem;
 			return;
 		}

@@ -16,8 +16,11 @@ namespace ltn::vm {
 			return this->deq;
 		}
 
-		auto clone() const {
-			return *this;
-		}
 	};
+
+
+
+	inline Deque clone(const Deque & deq) {
+		return deq;
+	}
 }

@@ -14,7 +14,7 @@ namespace ltn::vm {
 		// Persistent
 		std::span<const std::uint8_t> byte_code;
 
-		std::vector<Value> static_variables;
+		Array static_variables;
 
 		std::unordered_map<std::int64_t, ext::Callable> externals;
 		std::unordered_map<std::string, std::uint64_t> function_table;

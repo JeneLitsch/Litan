@@ -46,12 +46,12 @@ namespace ltn::vm {
 
 		template<class Obj>
 		std::uint64_t clone(std::uint64_t id) {
-			auto copy = this->read<Obj>(id).clone();
+			auto copy = ltn::vm::clone(this->read<Obj>(id));
 			return this->alloc<Obj>(std::move(copy));
 		}
 
 
-		void collect_garbage(const Stack & stack, const std::vector<Value> & globals);
+		void collect_garbage(const Stack & stack, const Array & globals);
 
 
 		void reset();
@@ -62,7 +62,7 @@ namespace ltn::vm {
 
 	private:
 
-		void mark(const std::vector<Value> & values);
+		void mark(const Array & values);
 		void mark(const std::deque<Value> & values);
 		void mark(const Value & value);
 		void mark_array(const Value & value);

@@ -30,12 +30,15 @@ namespace ltn::vm {
 			return *ptr;
 		}
 
-		OStream clone() const {
-			throw std::runtime_error{"Cannot clone OStream."};
-		}
 
 		std::unique_ptr<std::ostream> storage;
 		std::ostream * ptr = nullptr;
 		std::ostringstream * oss = nullptr;
 	};
+
+
+
+	inline OStream clone(const OStream &) {
+		throw std::runtime_error{"Cannot clone OStream."};
+	}
 }
