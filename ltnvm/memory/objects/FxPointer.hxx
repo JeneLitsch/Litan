@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <string_view>
+#include <vector>
 #include "ltnvm/memory/Value.hxx"
 namespace ltn::vm {
 	struct FxPointer {
@@ -9,7 +10,7 @@ namespace ltn::vm {
 		std::size_t get_parameters() const {
 			return this->params;
 		}
-		Array captured;
+		std::vector<Value> captured;
 		constexpr static std::string_view typeName = "FxPointer";
 		
 	};
