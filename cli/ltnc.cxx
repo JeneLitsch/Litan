@@ -113,13 +113,13 @@ int main(int argc, char const *argv[]){
 		auto source = ltn::c::parse(tokens, reporter);
 		auto program = ltn::c::analyze(source, reporter);
 		if(flag_o) ltn::c::optimize(program);
-		auto instructions = ltn::c::compile(program, reporter);
-		if(flag_o) instructions.insts = ltn::c::peephole(instructions.insts);
+		auto [instructions, link_info] = ltn::c::compile(program, reporter);
+		if(flag_o) instructions = ltn::c::peephole(instructions);
 		reporter.may_throw();
 		if(flag_asm) {
-			output_asm(flag_asm.value(), instructions.insts);
+			output_asm(flag_asm.value(), instructions);
 		}
-		auto bytecode = ltn::c::assemble(instructions);
+		auto bytecode = ltn::c::assemble(instructions, link_info);
 
 		if(flag_exe) {
 			auto ofile = open_target(flag_exe.value(), reporter);

@@ -159,11 +159,12 @@ namespace ltn::c {
 
 
 	std::vector<std::uint8_t> assemble(
-		const Instructions & instructions) {
+		const std::vector<inst::Inst> & instructions,
+		const LinkInfo & link_info) {
 		
-		const auto jump_table     = scan(instructions.insts);
-		const auto function_table = build_fx_table(instructions.init_functions, jump_table);
-		const auto & static_table = instructions.global_table;
+		const auto jump_table     = scan(instructions);
+		const auto function_table = build_fx_table(link_info.init_functions, jump_table);
+		const auto & static_table = link_info.global_table;
 
 		std::vector<std::uint8_t> bytecode;
 		bytecode.push_back(ltn::major_version);
@@ -171,7 +172,7 @@ namespace ltn::c {
 		bytecode += sequence_table(function_table);
 		bytecode += sequence_table(static_table);
 
-		for(const auto & inst : instructions.insts) {
+		for(const auto & inst : instructions) {
 			std::visit([&] (auto & i) {
 				return assemble_opcode(bytecode, i, jump_table);
 			}, inst);

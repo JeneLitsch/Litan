@@ -17,7 +17,7 @@
 #include "ltnc/Instructions.hxx"
 
 namespace ltn::c {
-	Instructions compile(const sst::Program & program, Reporter & reporter);
+	std::tuple<std::vector<inst::Inst>, LinkInfo> compile(const sst::Program & program, Reporter & reporter);
 
 	// Functional
 	InstructionBuffer compile_functional(const sst::Functional &);

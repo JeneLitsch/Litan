@@ -64,9 +64,9 @@ int main(int argc, char const *argv[]) {
 		auto source = ltn::c::parse(lexer, reporter);
 		auto program = ltn::c::analyze(source, reporter);
 		if(flag_o) ltn::c::optimize(program);
-		auto instructions = ltn::c::compile(program, reporter);
-		if(flag_o) instructions.insts = ltn::c::peephole(instructions.insts);
-		auto bytecode = ltn::c::assemble(instructions);
+		auto [instructions, link_info] = ltn::c::compile(program, reporter);
+		if(flag_o) instructions = ltn::c::peephole(instructions);
+		auto bytecode = ltn::c::assemble(instructions, link_info);
 		const auto main_function = main_init.value_or("");
 
 		reporter.may_throw();

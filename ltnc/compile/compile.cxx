@@ -18,7 +18,7 @@ namespace ltn::c {
 
 
 	// compiles source
-	Instructions compile(
+	std::tuple<std::vector<inst::Inst>, LinkInfo> compile(
 		const sst::Program & program,
 		Reporter &) {
 		
@@ -49,10 +49,6 @@ namespace ltn::c {
 
 		buf << inst::exit();
 
-		return {
-			buf.get(),
-			extern_functions,
-			extern_globals
-		};
+		return { buf.get(), LinkInfo { extern_functions, extern_globals }};
 	}
 }
