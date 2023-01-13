@@ -231,6 +231,13 @@ namespace ltn::c::ast {
 	};
 
 
+	// struct Tuple final: public Literal {
+	// 	Tuple(const SourceLocation & location) : Literal(location) {}
+	// 	virtual ~Tuple() = default;
+	// 	std::vector<std::unique_ptr<Expression>> elements;
+	// };
+
+
 
 	struct Lambda final : public Literal {
 		Lambda(
@@ -390,6 +397,7 @@ namespace ltn::c::ast {
 		if(auto e = as<ast::Null>(expr)) return fx(*e);
 		if(auto e = as<ast::String>(expr)) return fx(*e);
 		if(auto e = as<ast::Array>(expr)) return fx(*e);
+		// if(auto e = as<ast::Tuple>(expr)) return fx(*e);
 		if(auto e = as<ast::Call>(expr)) return fx(*e);
 		if(auto e = as<ast::Var>(expr)) return fx(*e);
 		if(auto e = as<ast::Index>(expr)) return fx(*e);

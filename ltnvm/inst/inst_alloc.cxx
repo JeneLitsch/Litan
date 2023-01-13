@@ -180,4 +180,15 @@ namespace ltn::vm::inst {
 		default: throw std::runtime_error{"Unknown RandonEngine type"};
 		}
 	}
+
+
+
+	void newtuple(VmCore & core){
+		const auto ptr = core.heap.alloc<Array>({});
+		auto & arr = core.heap.read<Array>(ptr); 
+		const auto size = core.fetch_uint();
+		pushAll(arr, core.stack, size);
+		core.stack.push(value::tuple(ptr));
+		core.heap.collect_garbage(core.stack, core.static_variables);
+	}
 }

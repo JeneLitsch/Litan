@@ -95,6 +95,7 @@ namespace ltn::vm {
 		table[OpCode::NEWQUEUE] = inst::newqueue;
 		table[OpCode::NEWMAP] = inst::newmap;
 		table[OpCode::NEWRNG] = inst::newrng;
+		table[OpCode::NEWTUPLE] = inst::newtuple;
 
 		table[OpCode::SCRAP] = inst::scrap;
 		table[OpCode::DUPLICATE] = inst::duplicate;
