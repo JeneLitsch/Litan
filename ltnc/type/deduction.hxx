@@ -15,7 +15,7 @@ namespace ltn::c::type {
 
 	Type deduce_compare(const Type & l, const Type & r);
 	Type deduce_three_way(const Type & l, const Type & r);
-	Type deduce_index(const Type & container, const Type & key);
+	Type deduce_index(const Type & container, const Type & key, std::optional<std::uint64_t> index = std::nullopt);
 
 	Type deduce_logic(const Type & l, const Type & r);
 

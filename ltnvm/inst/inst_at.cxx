@@ -14,6 +14,14 @@ namespace ltn::vm::inst {
 			return;
 		}
 
+		if(is_tuple(ref)) {
+			const auto & arr = core.heap.read<Array>(ref.u);
+			const auto index = to_index(key);
+			guard_index(arr, index);
+			core.stack.push(arr[static_cast<std::size_t>(index)]);
+			return;
+		}
+
 		if(is_string(ref)) {
 			const auto & str = core.heap.read<String>(ref.u);
 			const auto index = to_index(key);

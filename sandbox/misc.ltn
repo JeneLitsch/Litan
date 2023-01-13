@@ -1,4 +1,11 @@
+function f(i : int) -> int => i
+
 function main() {
-	var tuple = (1, 2);
+	var tuple = (f(42), 2.5);
 	std::println(reflect(expr tuple).type.name);
+	std::println(reflect(expr tuple[0]).type.name);
+	std::println(reflect(expr tuple[1]).type.name);
+	std::println(reflect(expr &f(_)).type.name);
+	std::println(tuple[0]);
+	std::println(tuple[1]);
 }

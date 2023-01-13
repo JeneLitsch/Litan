@@ -138,6 +138,16 @@ namespace ltn::c::type {
 		}
 
 
+		
+		Type deduce_index_tuple(const Tuple & tuple, const Type & key, std::optional<std::uint64_t> index) {
+			if(is_numeric(key) || is_any(key)) {
+				if(index) return tuple.contained[*index];
+				return Any{};
+			}
+			return Error{};
+		}
+
+
 
 		Type deduce_index_string(const String &, const Type & key) {
 			if(is_numeric(key) || is_any(key)) {
@@ -155,10 +165,11 @@ namespace ltn::c::type {
 	
 
 
-	Type deduce_index(const Type & container, const Type & key) {
+	Type deduce_index(const Type & container, const Type & key, std::optional<std::uint64_t> index) {
 		if(is_any(container)) return Any{};		
 		if(auto map = container.as<Map>()) return deduce_index_map(*map, key);
 		if(auto array = container.as<Array>()) return deduce_index_array(*array, key);
+		if(auto tuple = container.as<Tuple>()) return deduce_index_tuple(*tuple, key, index);
 		if(auto string = container.as<String>()) return deduce_index_string(*string, key);
 		return Error{};
 	}
