@@ -14,20 +14,26 @@ namespace ltn::c {
 
 
 
-		template<auto top_presedence>
-		ast::expr_ptr parse_paren_base(Tokens & tokens) {
-			if(match(TT::PAREN_L, tokens)) {
-				auto expr = top_presedence(tokens);
-				if(!match(TT::PAREN_R, tokens)) {
-					throw expected("(", tokens);
+		ast::expr_ptr parse_paren(Tokens & tokens) {
+			if(auto start = match(TT::PAREN_L, tokens)) {
+				auto expr = parse_expression(tokens);
+				if(match(TT::PAREN_R, tokens)) {
+					return expr;
 				}
-
-				return expr;
+				else {
+					auto tuple = std::make_unique<ast::Tuple>(start->location);
+					tuple->elements.push_back(std::move(expr));
+					while(match(TT::COMMA, tokens)) {
+						tuple->elements.push_back(parse_expression(tokens));
+					}
+					if(!match(TT::PAREN_R, tokens)) {
+						throw expected("(", tokens);
+					}
+					return tuple;
+				}
 			}
 			return nullptr;
 		}
-
-		constexpr auto parse_paren = parse_paren_base<parse_expression>;
 
 
 

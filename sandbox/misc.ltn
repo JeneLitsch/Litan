@@ -1,9 +1,4 @@
-function f(x) => x
-
 function main() {
-	// var a = 1;
-	std::println("ABC");
-	std::println("XYZ");
-	// var fx = lambda[a] (x) => f(x + a);
-	// return fx(42);
+	var tuple = (1, 2);
+	std::println(reflect(expr tuple).type.name);
 }

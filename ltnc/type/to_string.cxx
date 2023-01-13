@@ -38,6 +38,24 @@ namespace ltn::c::type {
 
 
 
+		std::string to_string(const Tuple & tuple) {
+			std::ostringstream oss;
+			if(tuple.contained.empty()) {
+				oss << Tuple::type_name << "<>";
+			}
+			else {
+				oss << Tuple::type_name << "<";
+				for(std::size_t i = 0; i < tuple.contained.size(); ++i) {
+					if(i != 0) oss << ", ";
+					oss << to_string(tuple.contained[i]);
+				}
+				oss << ">";
+			}
+			return oss.str();
+		}
+
+
+
 		std::string to_string(const Queue & queue) {
 			std::ostringstream oss;
 			oss << Queue::type_name << "<" << to_string(*queue.contains) << ">";

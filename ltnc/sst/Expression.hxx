@@ -264,6 +264,14 @@ namespace ltn::c::sst {
 	};
 
 
+	
+	struct Tuple final: public Literal {
+		Tuple(const type::Type & type) : Literal(type) {}
+		virtual ~Tuple() = default;
+		std::vector<std::unique_ptr<Expression>> elements;
+	};
+
+
 
 	struct Lambda final : public Literal {
 		Lambda(
@@ -429,6 +437,7 @@ namespace ltn::c::sst {
 		if(auto e = as<sst::Null>(expr)) return fx(*e);
 		if(auto e = as<sst::String>(expr)) return fx(*e);
 		if(auto e = as<sst::Array>(expr)) return fx(*e);
+		if(auto e = as<sst::Tuple>(expr)) return fx(*e);
 		if(auto e = as<sst::Call>(expr)) return fx(*e);
 		if(auto e = as<sst::Invoke>(expr)) return fx(*e);
 		if(auto e = as<sst::Var>(expr)) return fx(*e);

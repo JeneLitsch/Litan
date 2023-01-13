@@ -93,6 +93,12 @@ namespace ltn::c::type {
 
 
 
+	std::strong_ordering operator<=>(const Tuple & l, const Tuple & r) {
+		return compare_parameters(l.contained, r.contained);
+	}
+
+
+
 	std::strong_ordering operator<=>(const FxPtr & l, const FxPtr & r) {
 		const auto order = compare_contained(l.return_type, r.return_type);
 		if(order == 0) return compare_parameters(l.parameter_types, r.parameter_types);

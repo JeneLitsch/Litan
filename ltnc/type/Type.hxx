@@ -77,6 +77,13 @@ namespace ltn::c::type {
 		constexpr static auto type_name = "array";
 		std::optional<stx::heaped<Type>> contains;
 	};
+
+
+
+	struct Tuple {
+		constexpr static auto type_name = "tuple";
+		std::vector<Type> contained;
+	};
 	
 
 
@@ -127,6 +134,7 @@ namespace ltn::c::type {
 			Float,
 			String,
 			Array,
+			Tuple,
 			FxPtr,
 			Queue,
 			Stack,
@@ -173,6 +181,7 @@ namespace ltn::c::type {
 	std::strong_ordering operator<=>(const Float &, const Float &);
 	std::strong_ordering operator<=>(const String &, const String &);
 	std::strong_ordering operator<=>(const Array & l, const Array & r);
+	std::strong_ordering operator<=>(const Tuple & l, const Tuple & r);
 	std::strong_ordering operator<=>(const FxPtr & l, const FxPtr & r);
 	std::strong_ordering operator<=>(const Queue & l, const Queue & r);
 	std::strong_ordering operator<=>(const Stack & l, const Stack & r);

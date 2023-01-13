@@ -293,6 +293,13 @@ namespace ltn::c::inst {
 			.value = type,
 		};
 	}
+	Inst newtuple(std::uint64_t size) {
+		return InstUint64 {
+			.name = "newtuple",
+			.opcode = OpCode::NEWTUPLE,
+			.value = size,
+		};
+	}
 
 
 

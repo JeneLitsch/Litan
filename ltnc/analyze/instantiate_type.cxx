@@ -109,6 +109,20 @@ namespace ltn::c {
 
 
 
+	type::Tuple instantiate(
+		const type::Tuple & incomplete,
+		const Scope & scope) {
+		std::vector<type::Type> contained;
+		for(const auto & elem : incomplete.contained) {
+			contained.push_back(instantiate_type(elem, scope));
+		}
+		return type::Tuple{
+			.contained = std::move(contained),
+		};
+	}
+
+
+
 	type::FxPtr instantiate(
 		const type::FxPtr & incomplete,
 		const Scope & scope) {
