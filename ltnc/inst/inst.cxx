@@ -92,25 +92,25 @@ namespace ltn::c::inst {
 	Inst lt() {
         return InstNone {
             .name = "lt",
-            .opcode = OpCode::SML,
+            .opcode = OpCode::LT,
         };
     }
 	Inst gt() {
         return InstNone {
             .name = "gt",
-            .opcode = OpCode::BGR,
+            .opcode = OpCode::GT,
         };
     }
 	Inst lt_eql() {
         return InstNone {
             .name = "lt_eql",
-            .opcode = OpCode::SMLEQL,
+            .opcode = OpCode::LTEQL,
         };
     }
 	Inst gt_eql() {
         return InstNone {
             .name = "gt_eql",
-            .opcode = OpCode::BGREQL,
+            .opcode = OpCode::GTEQL,
         };
     }
 

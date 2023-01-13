@@ -23,10 +23,10 @@ namespace ltn {
 		// Comparisons
 		EQL = 0x18,
 		UEQL,
-		SML,
-		BGR,
-		SMLEQL,
-		BGREQL,
+		LT,
+		GT,
+		LTEQL,
+		GTEQL,
 		
 		// Shift
 		SHIFT_L,

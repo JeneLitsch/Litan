@@ -20,8 +20,8 @@ namespace ltn::vm::inst {
 	 
 	void eql(VmCore & core);
 	void ueql(VmCore & core);
-	void sml(VmCore & core);
-	void bgr(VmCore & core);
+	void lt(VmCore & core);
+	void gt(VmCore & core);
 	void bgreql(VmCore & core);
 	void smleql(VmCore & core);
 	

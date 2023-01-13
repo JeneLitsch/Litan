@@ -39,14 +39,14 @@ namespace ltn::vm::inst {
 
 
 
-	void sml(VmCore & core) {
+	void lt(VmCore & core) {
 		FETCH
 		return core.stack.push(compare(l, r, core.heap) < 0);
 	}
 
 
 
-	void bgr(VmCore & core) {
+	void gt(VmCore & core) {
 		FETCH
 		return core.stack.push(compare(l, r, core.heap) > 0);
 	}

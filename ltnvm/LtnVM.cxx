@@ -54,10 +54,10 @@ namespace ltn::vm {
 
 		table[OpCode::EQL] = inst::eql;
 		table[OpCode::UEQL] = inst::ueql;
-		table[OpCode::SML] = inst::sml;
-		table[OpCode::BGR] = inst::bgr;
-		table[OpCode::SMLEQL] = inst::smleql;
-		table[OpCode::BGREQL] = inst::bgreql;
+		table[OpCode::LT] = inst::lt;
+		table[OpCode::GT] = inst::gt;
+		table[OpCode::LTEQL] = inst::smleql;
+		table[OpCode::GTEQL] = inst::bgreql;
 
 		table[OpCode::SHIFT_L] = inst::shift_l;
 		table[OpCode::SHIFT_R] = inst::shift_r;
