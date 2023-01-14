@@ -1,0 +1,45 @@
+# Int
+The int type is used to store a 64-Bit singed integer value.
+A value of type int can be created by a int literal e.g. `0`, `-1` or `42` 
+
+## Type notation
+
+- `int`
+
+**Example**
+```js
+function main() {
+	var a = 42;
+	var b : int = 1337;
+	std::println(a);
+	std::println(b);
+}
+```
+
+**Binary literals**
+
+Any integer literal prefixed with 0b is interpreted as binary notation e.g. `0b10`
+
+**Example**
+```js
+function main() {
+	var a = 0b101010;
+	var b : int = 0b10100111001;
+	std::println(a);
+	std::println(b);
+}
+```
+
+**Hexadecimal literals**
+
+Any integer literal prefixed with 0x is interpreted as hex notation e.g. `0x2a`
+
+**Example**
+```js
+function main() {
+	var a = 0x2a;
+	var b = 0x539;
+	std::println(a);
+	std::println(b);
+}
+```
