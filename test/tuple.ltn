@@ -1,0 +1,58 @@
+namespace sphinx::test {
+	// function tuple_single_element() {
+	// 	var tuple = (1,);
+	// 	assert_equal_strict(tuple[0], 1);
+	// }
+
+
+
+	function tuple_read_elements() {
+		var tuple = (1, 2.0, "abc");
+		assert_equal_strict(tuple[0], 1);
+		assert_equal_strict(tuple[1], 2.0);
+		assert_equal_strict(tuple[2], "abc");
+	}
+
+
+
+	function tuple_expr_type() {
+		var got = reflect(expr (1, true, true)).type.name;
+		var expected = "tuple<int, bool, bool>";
+		assert_equal_strict(got, expected);
+	}
+
+
+
+	function tuple_var_type() {
+		var tuple = (1, 2.0, "xyz");
+		var got = reflect(expr tuple).type.name;
+		var expected = "tuple<int, float, string>";
+		assert_equal_strict(got, expected);
+	}
+
+
+
+	function tuple_elem_type_direct() {
+		var tuple = (1, 2.0, "xyz");
+		assert_equal_strict(reflect(expr tuple[0]).type.name, "int");
+		assert_equal_strict(reflect(expr tuple[1]).type.name, "float");
+		assert_equal_strict(reflect(expr tuple[2]).type.name, "string");
+	}
+
+
+
+	function tuple_elem_type_indirect() {
+		var tuple = (1, 2.0, "xyz");
+		assert_equal_strict(reflect(expr tuple[0 + 0]).type.name, "any");
+		assert_equal_strict(reflect(expr tuple[1 + 0]).type.name, "any");
+		assert_equal_strict(reflect(expr tuple[2 + 0]).type.name, "any");
+	}
+
+
+
+	// function tuple_size() {
+	// 	assert_equal_strict(std::size((1,)), "any");
+	// 	assert_equal_strict(std::size((1,2)), "any");
+	// 	assert_equal_strict(std::size((1,2,3)), 3);
+	// }
+}

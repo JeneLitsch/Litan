@@ -20,6 +20,7 @@ files=(
 	"test/reflect_expr.ltn"
 	"test/iife.ltn"
 	"test/function_pointers.ltn"
+	"test/tuple.ltn"
 
 	"test/static_cast.ltn"
 	"test/dynamic_cast.ltn"
