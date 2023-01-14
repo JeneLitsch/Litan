@@ -70,11 +70,6 @@ namespace ltn::c {
 			bytecode += args.arity;
 		}
 		void assemble_args(
-			std::vector<std::uint8_t> &,
-			const inst::InstTarget &,
-			const AddressTable &) {
-		}
-		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstJumpUint64 & args,
 			const AddressTable & jump_table) {

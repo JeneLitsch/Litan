@@ -32,14 +32,14 @@ namespace ltn::vm::inst {
 		const auto except = core.stack.pop();
 		if(auto addr = unwind(core.stack)) {
 			core.pc = *addr;
+			const auto jumpback = core.stack.pop_frame();
+			// These 2 were in the wrong order
+			core.stack.push(except);
+			core.stack.push_frame(jumpback, 1);		
 		}
 		else {
 			throw std::runtime_error{"Unhandled Exception: " + cast::to_string(except, core.heap)};
 		}
-		const auto jumpback = core.stack.pop_frame();
-		core.stack.push_frame(jumpback, 1);		
-		core.stack.push(except);
-		
 	}
 
 

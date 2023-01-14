@@ -1,9 +1,10 @@
-function f(x) => x
+function f() {
+	throw 42;
+}
 
 function main() {
-	// var a = 1;
-	std::println("ABC");
-	std::println("XYZ");
-	// var fx = lambda[a] (x) => f(x + a);
-	// return fx(42);
+	f();
+}
+except(e) {
+	std::println(e);
 }

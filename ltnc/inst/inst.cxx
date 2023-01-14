@@ -226,7 +226,7 @@ namespace ltn::c::inst {
 	}
 	Inst newstr(std::vector<std::uint8_t> bytes) {
 		return InstUint64Bytex {
-			.name = "newarr",
+			.name = "newstr",
 			.opcode = OpCode::NEWSTR,
 			.bytes = bytes,
 		};
