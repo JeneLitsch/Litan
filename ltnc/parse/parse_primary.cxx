@@ -15,71 +15,6 @@ namespace ltn::c {
 
 
 
-		std::vector<ast::expr_ptr> parse_list(
-			TT end,
-			std::string end_str,
-			Tokens & tokens,
-			ast::expr_ptr first = nullptr) {
-			
-			std::vector<ast::expr_ptr> elements;
-			if(first) {
-				elements.push_back(std::move(first));
-			}			
-
-			while(true) {
-				if(match(TT::___EOF___, tokens)) {
-					throw expected(end_str, location(tokens));
-				}
-				elements.push_back(parse_expression(tokens));
-				// Last comma is optional
-				// A missing last comma is not an error if ] follows
-				const bool comma = static_cast<bool>(match(TT::COMMA, tokens));
-				if(match(end, tokens)) {
-					return elements;
-				}
-				// Only throw on missings commas in case of an unclosed array
-				if(!comma) throw expected(",", location(tokens));
-			}
-		}
-
-
-
-		std::vector<ast::expr_ptr> vec_from_single_expr(ast::expr_ptr expr) {
-			std::vector<ast::expr_ptr> elements;
-			elements.push_back(std::move(expr));
-			return elements;
-		}
-
-
-
-		ast::expr_ptr parse_paren(Tokens & tokens) {
-			if(auto start = match(TT::PAREN_L, tokens)) {
-				auto expr = parse_expression(tokens);
-				if(match(TT::PAREN_R, tokens)) {
-					return expr;
-				}
-				if(match(TT::COMMA, tokens)) {
-					auto elements = stx::iife([&] {
-						if(match(TT::PAREN_R, tokens)) {
-							return vec_from_single_expr(std::move(expr));
-						}
-						else {
-							return parse_list(TT::PAREN_R, ")", tokens, std::move(expr));
-						}
-					});
-					auto tuple = std::make_unique<ast::Tuple>(start->location);
-					tuple->elements = std::move(elements);
-					return tuple;
-				}
-				else {
-					throw expected("tuple list or )", start->location);
-				}
-			}
-			return nullptr;
-		}
-
-
-
 		template<class TempType, TT tt, auto base>
 		ast::litr_ptr parse_integer(Tokens & tokens) {
 			if(auto token = match(tt, tokens)) {
@@ -312,6 +247,35 @@ namespace ltn::c {
 
 
 
+	std::vector<ast::expr_ptr> parse_list(
+		TT end,
+		std::string end_str,
+		Tokens & tokens,
+		ast::expr_ptr first) {
+			
+		std::vector<ast::expr_ptr> elements;
+		if(first) {
+			elements.push_back(std::move(first));
+		}			
+
+		while(true) {
+			if(match(TT::___EOF___, tokens)) {
+				throw expected(end_str, location(tokens));
+			}
+			elements.push_back(parse_expression(tokens));
+			// Last comma is optional
+			// A missing last comma is not an error if ] follows
+			const bool comma = static_cast<bool>(match(TT::COMMA, tokens));
+			if(match(end, tokens)) {
+				return elements;
+			}
+			// Only throw on missings commas in case of an unclosed array
+			if(!comma) throw expected(",", location(tokens));
+		}
+	}
+
+
+
 	// parses primary expression
 	ast::expr_ptr parse_primary(Tokens & tokens) {
 		if(auto expr = parse_integral(tokens)) return expr;
@@ -321,7 +285,7 @@ namespace ltn::c {
 		if(auto expr = parse_null(tokens)) return expr;
 		if(auto expr = parse_string(tokens)) return expr;
 		if(auto expr = parse_array(tokens)) return expr;
-		if(auto expr = parse_paren(tokens)) return expr; 
+		if(auto expr = parse_parenthesized(tokens)) return expr; 
 		if(auto expr = parse_fx_pointer(tokens)) return expr;
 		if(auto expr = parse_lambda(tokens)) return expr;
 		if(auto expr = parse_iife(tokens)) return expr;

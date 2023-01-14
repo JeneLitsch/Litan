@@ -16,6 +16,7 @@ target_sources(libltnc PRIVATE
 	parse_if_else.cxx
 	parse_loops.cxx
 	parse_name.cxx
+	parse_parenthesized.cxx
 	parse_preset.cxx
 	parse_primary.cxx
 	parse_reflect.cxx

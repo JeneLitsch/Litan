@@ -47,6 +47,7 @@ namespace ltn::c {
 	ast::expr_ptr parse_unary(Tokens & tokens);
 	ast::expr_ptr parse_primary(Tokens & tokens);
 	ast::expr_ptr parse_reflect(Tokens & tokens);
+	ast::expr_ptr parse_parenthesized(Tokens & tokens);
 	ast::litr_ptr parse_integral(Tokens & tokens);
 
 	// Utils
@@ -58,6 +59,12 @@ namespace ltn::c {
 	std::string parse_parameter_name(Tokens & tokens);
 	void brace_l(Tokens & tokens);
 	void brace_r(Tokens & tokens);
+
+	std::vector<ast::expr_ptr> parse_list(
+		Token::Type end,
+		std::string end_str,
+		Tokens & tokens,
+		ast::expr_ptr first = nullptr);
 
 	std::tuple<std::vector<type::IncompleteType>, bool> parse_template_args(Tokens & tokens);
 
