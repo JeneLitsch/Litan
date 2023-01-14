@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 target_sources(libltnc PRIVATE 
 	BraceTracker.cxx
+	parse_array.cxx
 	parse_assign.cxx
 	parse_binary.cxx
 	parse_block.cxx
@@ -25,4 +26,5 @@ target_sources(libltnc PRIVATE
 	parse_switch.cxx
 	parse_type.cxx
 	parse_unary.cxx
+	parse_utils.cxx
 )

@@ -41,12 +41,10 @@ namespace ltn::c {
 			if(match(TT::COMMA, tokens)) {
 				return parse_tuple(std::move(expr), tokens, *start);
 			}
-			else {
-				throw CompilerError{
-					"Expected tuple list or )",
-					start->location};
-				
-			}
+			throw CompilerError{
+				"Expected tuple list or )",
+				start->location
+			};
 		}
 		return nullptr;
 	}
