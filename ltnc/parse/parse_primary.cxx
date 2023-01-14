@@ -1,5 +1,6 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "stdxx/iife.hxx"
 #include <sstream>
 #include <bitset>
 namespace ltn::c {
@@ -8,8 +9,45 @@ namespace ltn::c {
 
 
 
-		CompilerError expected(std::string token, const Tokens & tokens) {
-			return {"Expected " + token, location(tokens)};
+		CompilerError expected(std::string token, const SourceLocation & location) {
+			return {"Expected " + token, location};
+		}
+
+
+
+		std::vector<ast::expr_ptr> parse_list(
+			TT end,
+			std::string end_str,
+			Tokens & tokens,
+			ast::expr_ptr first = nullptr) {
+			
+			std::vector<ast::expr_ptr> elements;
+			if(first) {
+				elements.push_back(std::move(first));
+			}			
+
+			while(true) {
+				if(match(TT::___EOF___, tokens)) {
+					throw expected(end_str, location(tokens));
+				}
+				elements.push_back(parse_expression(tokens));
+				// Last comma is optional
+				// A missing last comma is not an error if ] follows
+				const bool comma = static_cast<bool>(match(TT::COMMA, tokens));
+				if(match(end, tokens)) {
+					return elements;
+				}
+				// Only throw on missings commas in case of an unclosed array
+				if(!comma) throw expected(",", location(tokens));
+			}
+		}
+
+
+
+		std::vector<ast::expr_ptr> vec_from_single_expr(ast::expr_ptr expr) {
+			std::vector<ast::expr_ptr> elements;
+			elements.push_back(std::move(expr));
+			return elements;
 		}
 
 
@@ -20,16 +58,21 @@ namespace ltn::c {
 				if(match(TT::PAREN_R, tokens)) {
 					return expr;
 				}
-				else {
+				if(match(TT::COMMA, tokens)) {
+					auto elements = stx::iife([&] {
+						if(match(TT::PAREN_R, tokens)) {
+							return vec_from_single_expr(std::move(expr));
+						}
+						else {
+							return parse_list(TT::PAREN_R, ")", tokens, std::move(expr));
+						}
+					});
 					auto tuple = std::make_unique<ast::Tuple>(start->location);
-					tuple->elements.push_back(std::move(expr));
-					while(match(TT::COMMA, tokens)) {
-						tuple->elements.push_back(parse_expression(tokens));
-					}
-					if(!match(TT::PAREN_R, tokens)) {
-						throw expected("(", tokens);
-					}
+					tuple->elements = std::move(elements);
 					return tuple;
+				}
+				else {
+					throw expected("tuple list or )", start->location);
 				}
 			}
 			return nullptr;
@@ -111,42 +154,25 @@ namespace ltn::c {
 
 
 
-		template<auto element>
 		ast::litr_ptr parse_filled_array(Tokens & tokens) {
 			auto array = stx::make_unique<ast::Array>(location(tokens));
-			while(true) {
-				if(match(TT::___EOF___, tokens)) {
-					throw expected("]", tokens);
-				}
-				array->elements.push_back(element(tokens));
-				// Last comma is optional
-				// A missing last comma is not an error if ] follows
-				const bool comma = !!match(TT::COMMA, tokens);
-				if(match(TT::BRACKET_R, tokens)) {
-					return array;
-				}
-				// Only throw on missings commas in case of an unclosed array
-				if(!comma) {
-					throw expected(",", tokens);
-				}
-			}
+			array->elements = parse_list(TT::BRACKET_R, "]", tokens);
+			return array;
 		}
 
 
 
-		template<auto element>
-		ast::litr_ptr parse_array_base(Tokens & tokens) {
+		ast::litr_ptr parse_array(Tokens & tokens) {
 			if(match(TT::BRACKET_L, tokens)) {
 				if(match(TT::BRACKET_R, tokens)) {
 					return parse_empty_array(tokens);
 				}
 				else {
-					return parse_filled_array<element>(tokens);
+					return parse_filled_array(tokens);
 				}
 			}
 			return nullptr;
 		}
-		constexpr auto parse_array = parse_array_base<parse_expression>;
 
 
 
@@ -175,7 +201,7 @@ namespace ltn::c {
 					return;
 				}
 				if(!match(TT::COMMA, tokens)) {
-					throw expected(",", tokens);
+					throw expected(",", location(tokens));
 				}
 			}
 		}
@@ -205,7 +231,7 @@ namespace ltn::c {
 					fx_ptr->template_arguements = std::move(template_args);
 					return fx_ptr;
 				}
-				throw expected("(", tokens);
+				throw expected("(", location(tokens));
 			}
 			return nullptr; 
 		}
@@ -246,7 +272,7 @@ namespace ltn::c {
 		std::size_t parameters = 0;
 		parse_parameters(tokens, [&] {
 			if (!match(TT::UNDERSCORE, tokens)) {
-				throw expected("placeholder _", tokens);
+				throw expected("placeholder _", location(tokens));
 			}
 			parameters++;
 		});
@@ -272,7 +298,7 @@ namespace ltn::c {
 			namespaze.pop_back();
 			return {name, namespaze};
 		}
-		throw expected("indentifier", tokens);
+		throw expected("indentifier", location(tokens));
 	}
 
 

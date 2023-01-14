@@ -1,8 +1,8 @@
 namespace sphinx::test {
-	// function tuple_single_element() {
-	// 	var tuple = (1,);
-	// 	assert_equal_strict(tuple[0], 1);
-	// }
+	function tuple_single_element() {
+		var tuple = (1,);
+		assert_equal_strict(tuple[0], 1);
+	}
 
 
 

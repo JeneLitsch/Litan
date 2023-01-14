@@ -17,6 +17,14 @@ function main() {
 }
 ```
 
+Use a trailing comma to create single element tuples. 
+
+```js
+function main() {
+	var tuple = (1,); 
+}
+```
+
 ## Direct deduction
 
 If an integer literal is directly passed to the index operator (tuple[]), the type of the element at the given position will be deduced at compile time. If the compiler cannot deduce the element type, any is deduced instead. 
