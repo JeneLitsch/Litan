@@ -8,6 +8,11 @@ namespace ltn::vm::inst {
 				return static_cast<std::int64_t>(arr.size());
 			}
 
+			if (is_tuple(ref)) {
+				const auto & arr = heap.read<Array>(ref.u);
+				return static_cast<std::int64_t>(arr.size());
+			}
+
 			if(is_string(ref)) {
 				const auto & str = heap.read<String>(ref.u);
 				return static_cast<std::int64_t>(str.size());
