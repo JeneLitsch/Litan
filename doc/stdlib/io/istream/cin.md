@@ -1,6 +1,6 @@
 # std::cin
 
-## std::cin()
+## std::cin() -> istream
 **Return value**  
 IStream
 

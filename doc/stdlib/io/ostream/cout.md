@@ -1,6 +1,6 @@
 # std::cout
 
-## std::cout()
+## std::cout() -> ostream
 **Parameters**  
 
 **Return value**  

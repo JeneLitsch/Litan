@@ -1,6 +1,6 @@
 # std::fin
 
-## std::fin(path)
+## std::fin(path) -> istream
 **Parameters**  
 path: Path to file as a string
 
