@@ -15,7 +15,7 @@ namespace ltn::c {
 
 
 
-		bool is_dynamic_castable(const type::Type & from, const type::Type & to) {
+		bool is_dynamic_castable(const type::Type & to) {
 			if(type::is_any(to))    return true;
 			if(type::is_bool(to))   return true;
 			if(type::is_char(to))   return true;
@@ -23,7 +23,7 @@ namespace ltn::c {
 			if(type::is_float(to))  return true;
 			if(type::is_string(to)) return true;
 			if(type::is_array(to)) {
-				return is_dynamic_castable(from, **to.as<type::Array>()->contains);
+				return is_dynamic_castable(**to.as<type::Array>()->contains);
 			}
 			return false;
 		}
@@ -42,7 +42,7 @@ namespace ltn::c {
 			if(type::is_empty_array(from) && type::is_array(to)) return true;
 			if(type::is_array(from) && type::is_empty_array(to)) return false;
 			if(type::is_array(from) && type::is_array(to)) {
-				return is_dynamic_castable(
+				return is_static_copyable(
 					**from.as<type::Array>()->contains,
 					**to.as<type::Array>()->contains
 				);
@@ -52,7 +52,7 @@ namespace ltn::c {
 
 
 
-		bool is_dynamic_copyable(const type::Type & from, const type::Type & to) {
+		bool is_dynamic_copyable(const type::Type & to) {
 			if(type::is_any(to))    return true;
 			if(type::is_bool(to))   return true;
 			if(type::is_char(to))   return true;
@@ -60,7 +60,7 @@ namespace ltn::c {
 			if(type::is_float(to))  return true;
 			if(type::is_string(to)) return true;
 			if(type::is_array(to)) {
-				return is_dynamic_copyable(from, **to.as<type::Array>()->contains);
+				return is_dynamic_copyable(**to.as<type::Array>()->contains);
 			}
 			return false;
 		}
@@ -84,9 +84,9 @@ namespace ltn::c {
 			using Op = sst::TypedUnary::Op;
 			switch (op) {
 			case Op::STATIC_COPY:  return is_static_copyable(from, to);
-			case Op::DYNAMIC_COPY: return is_dynamic_copyable(from, to);
+			case Op::DYNAMIC_COPY: return is_dynamic_copyable(to);
 			case Op::STATIC_CAST:  return is_static_castable(from, to);
-			case Op::DYNAMIC_CAST: return is_dynamic_castable(from, to);
+			case Op::DYNAMIC_CAST: return is_dynamic_castable(to);
 			default: throw std::runtime_error{"Invalid TypedUnary::Op"};
 			}
 		}
