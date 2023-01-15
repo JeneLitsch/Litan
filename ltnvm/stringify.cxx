@@ -130,7 +130,7 @@ namespace ltn::vm {
 		}
 
 		if(is_rng(value)) {
-			return "<RandomEngine>";
+			return "<RNG>";
 		}
 
 		if(is_string(value)) {
