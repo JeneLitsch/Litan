@@ -50,5 +50,28 @@ namespace sphinx::test {
 
 
 
+	function tuple_assign() {
+		var tuple = (true, 3, 9.0);
+		tuple = (false, 42, 3.14);
+		assert_equal_strict(tuple, (false, 42, 3.14));
+	}
 
+
+
+	function tuple_compare() {
+		assert_false((false,)   == (true,));
+		assert_false((true, 42) == (false, 43));
+		assert_true((true, 42, 3.14) == (true, 42, 3.14));
+		assert_true((true,) == (true,));
+		assert_false((true,true) == (true,));
+	}
+
+
+
+	// function tuple_assign_element() {
+	// 	var tuple = (1,2,3);
+	// 	tuple[0] = 10;
+	// 	tuple[1] = 20;
+	// 	tuple[1] = 30;
+	// }
 }

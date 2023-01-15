@@ -27,7 +27,7 @@ namespace ltn::vm {
 					const auto & strR = heap.read<String>(r.u);
 					return strL <=> strR;
 				}
-				if(is_array(l)) {
+				if(is_array(l) || is_tuple(l)) {
 					const auto & arrL = heap.read<Array>(l.u);
 					const auto & arrR = heap.read<Array>(r.u);
 					if(arrL.size() != arrR.size()) {
