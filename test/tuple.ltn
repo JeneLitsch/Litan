@@ -119,4 +119,38 @@ namespace sphinx::test {
 			"tuple<bool, string, int, int>"
 		);
 	}
+
+
+
+	function tuple_type() {
+		assert_equal_strict(
+			reflect(type tuple<int, string>).name,
+			"tuple<int, string>"
+		);
+
+		assert_equal_strict(
+			reflect(type tuple<int, tuple<string, int>>).name,
+			"tuple<int, tuple<string, int>>"
+		);
+	}
+
+
+	namespace tuple_local {
+		function f_return() -> tuple<int, float> {
+			return (1, 1.0);
+		}
+
+
+		function f_parameter(tuple : tuple<int, float, string>) -> null => null
+
+		function f_both(tuple : tuple<int, float, string>) -> tuple<int, float>
+			=> (tuple[0], tuple[1])	
+	}
+
+
+	function tuple_functions() {
+		var tuple1 = tuple_local::f_return();
+		tuple_local::f_parameter((0, 3.14, "xyz"));
+		var tuple2 = tuple_local::f_both((0, 3.14, "xyz"));
+	}
 }

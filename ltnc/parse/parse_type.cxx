@@ -68,6 +68,20 @@ namespace ltn::c {
 
 
 
+		type::Tuple parse_type_tuple(Tokens & tokens, BraceTracker & brace_tracker) {
+			open_chevron(tokens, brace_tracker);
+			std::vector<type::Type> elements;
+			elements.push_back(parse_type(tokens, brace_tracker).type);
+			while(match(TT::COMMA, tokens)) {
+				elements.push_back(parse_type(tokens, brace_tracker).type);
+			}
+			close_chevron(tokens, brace_tracker);
+			return type::Tuple { 
+				.contained = std::move(elements)
+			};
+		}
+
+
 		type::Type parse_fx_ptr_fancy(Tokens & tokens, const Token & start, BraceTracker & brace_tracker ) {
 			auto parameter_types = parse_fx_ptr_parameters(tokens, brace_tracker);
 			if(!match(TT::RARROW, tokens)) throw CompilerError {
@@ -99,6 +113,7 @@ namespace ltn::c {
 			if(type_name->str == "float") return type::IncompleteType{type::Float{}}; 
 			if(type_name->str == "string") return type::IncompleteType{type::String{}}; 
 			if(type_name->str == "array") return type::IncompleteType{parse_type_array(tokens, brace_tracker)}; 
+			if(type_name->str == "tuple") return type::IncompleteType{parse_type_tuple(tokens, brace_tracker)}; 
 			if(type_name->str == "queue") return type::IncompleteType{parse_type_queue(tokens, brace_tracker)}; 
 			if(type_name->str == "stack") return type::IncompleteType{parse_type_stack(tokens, brace_tracker)}; 
 			if(type_name->str == "map") return type::IncompleteType{parse_type_map(tokens, brace_tracker)};
