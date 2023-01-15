@@ -9,14 +9,14 @@ namespace ltn::c::type {
 
 
 
-		bool if_subtype_is(auto condition, const type::Type & to) {
+		bool is_subtype(auto condition, const type::Type & to) {
 			if(auto arr = to.as<type::Array>()) return condition(**arr->contains);
 			return false;
 		}
 
 
 
-		bool if_subtypes_are(auto condition, const type::Type & from, const type::Type & to) {
+		bool are_subtypes(auto condition, const type::Type & from, const type::Type & to) {
 			auto arr_from = from.as<type::Array>();
 			auto arr_to = to.as<type::Array>();
 			if(arr_from && arr_to) return condition(
@@ -30,10 +30,14 @@ namespace ltn::c::type {
 
 
 	bool is_static_castable(const Type & from, const Type & to) {
-		if(all_types(from)      && is_any(to))     return true;
-		if(all_types(from)      && is_bool(to))    return true;
-		if(is_numeric(from)     && is_numeric(to)) return true;
-		if(is_empty_array(from) && is_array(to))   return true;
+		if(all_types(from)      && is_any(to))         return true;
+		if(all_types(from)      && is_bool(to))        return true;
+		if(is_numeric(from)     && is_numeric(to))     return true;
+		if(is_empty_array(from) && is_array(to))       return true;
+		if(is_array(from)       && is_empty_array(to)) return false;
+		if(is_array(from)       && is_array(to)) {
+			return are_subtypes(std::equal_to<>{}, from, to);
+		}
 		return false;
 	}
 
@@ -47,7 +51,7 @@ namespace ltn::c::type {
 		if(is_int(to))    return true;
 		if(is_float(to))  return true;
 		if(is_string(to)) return true;
-		if(is_array(to))  return if_subtype_is(is_dynamic_castable, to);
+		if(is_array(to))  return is_subtype(is_dynamic_castable, to);
 		return false;
 	}
 
@@ -65,7 +69,7 @@ namespace ltn::c::type {
 		if(is_empty_array(from)   && is_array(to))         return true;
 		if(is_array(from)         && is_empty_array(to))   return false;
 		if(is_array(from)         && is_array(to)) {
-			return if_subtypes_are(is_static_copyable, from, to);
+			return are_subtypes(is_static_copyable, from, to);
 		} 
 		return false;
 	}
@@ -79,7 +83,7 @@ namespace ltn::c::type {
 		if(is_int(to))    return true;
 		if(is_float(to))  return true;
 		if(is_string(to)) return true;
-		if(is_array(to))  return if_subtype_is(is_dynamic_copyable, to);
+		if(is_array(to))  return is_subtype(is_dynamic_copyable, to);
 		return false;
 	}
 }
