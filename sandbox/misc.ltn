@@ -1,7 +1,1 @@
-function main() {
-	var tuple = (1, 2.4, 3); // tuple of type tuple<int, float, int>
-	std::println(tuple[0]);
-	std::println(tuple[1]);
-	std::println(tuple[2]);
-
-}
+function main() => [2 2]

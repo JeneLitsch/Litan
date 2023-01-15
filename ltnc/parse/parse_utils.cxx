@@ -16,7 +16,7 @@ namespace ltn::c {
 
 		while(true) {
 			if(match(TT::___EOF___, tokens)) {
-				throw CompilerError{end_str, first->location};
+				throw CompilerError{end_str, location(tokens)};
 			}
 			elements.push_back(parse_expression(tokens));
 			// Last comma is optional
@@ -26,7 +26,9 @@ namespace ltn::c {
 				return elements;
 			}
 			// Only throw on missings commas in case of an unclosed array
-			if(!comma) throw CompilerError{",", first->location};
+			if(!comma) {
+				throw CompilerError{"Expected ,", location(tokens)};
+			} 
 		}
 	}
 }
