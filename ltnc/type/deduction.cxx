@@ -55,8 +55,8 @@ namespace ltn::c::type {
 
 
 	Type deduce_add(const Type & l, const Type & r) {
-		if(l.as<Any>()) return Any{};
-		if(r.as<Any>()) return Any{};
+		if(is_any(l)) return Any{};
+		if(is_any(r)) return Any{};
 		
 		const auto l_arr = l.as<Array>();
 		const auto r_arr = r.as<Array>();
