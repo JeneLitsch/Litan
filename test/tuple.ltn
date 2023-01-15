@@ -68,6 +68,24 @@ namespace sphinx::test {
 
 
 
+	function tuple_ordering_length() {
+		assert_equal((1,1) <=> (1,1), 0);
+		assert_equal((1) <=> (1,1), -1);
+		assert_equal((1,1,1) <=> (1,1), 1);
+		assert_equal((1, (1,)) <=> (1, (1, 1)), -1);
+	}
+
+
+
+	function tuple_ordering_elements() {
+		assert_equal((1, 2) <=> (1, 1), 1);
+		assert_equal((1, 2) <=> (1, 3), -1);
+		assert_equal((1, 2) <=> (1, 2), 0);
+		assert_equal((1, (1, 2)) <=> (1, (1, 1)), 1);
+	}
+
+
+
 	// function tuple_assign_element() {
 	// 	var tuple = (1,2,3);
 	// 	tuple[0] = 10;
