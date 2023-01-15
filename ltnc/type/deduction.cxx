@@ -1,6 +1,7 @@
 #include "ltnc/type/deduction.hxx"
 #include "ltnc/type/Type.hxx"
 #include "ltnc/type/check.hxx"
+#include "stdxx/array.hxx"
 #include <iostream>
 
 namespace ltn::c::type {
@@ -60,6 +61,12 @@ namespace ltn::c::type {
 		const auto l_arr = l.as<Array>();
 		const auto r_arr = r.as<Array>();
 		if(l_arr && r_arr) return largest_common_type(*l_arr, *r_arr);
+
+		const auto l_tpl = l.as<Tuple>();
+		const auto r_tpl = r.as<Tuple>();
+		if(l_tpl && r_tpl) {
+			return Tuple { l_tpl->contained + r_tpl->contained };
+		} 
 
 		const auto l_str = l.as<String>();
 		const auto r_str = r.as<String>();

@@ -47,6 +47,10 @@ namespace ltn::vm::inst {
 			return core.stack.push(value::array(concat<Array>(l,r,core.heap)));
 		}
 
+		if(is_tuple(l) && is_tuple(r)) {
+			return core.stack.push(value::tuple(concat<Array>(l,r,core.heap)));
+		}
+
 		if(is_string(l) && is_string(r)) {
 			return core.stack.push(value::string(concat<String>(l,r,core.heap)));
 		}

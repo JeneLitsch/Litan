@@ -33,6 +33,8 @@
 | Float    | Float    | Float  | Addition      |
 | String   | String   | String | Concatination |
 | Array    | Array    | Array  | Concatination |
+| Tuple    | Tuple    | Tuple  | Concatination |
+
 
 | L        | R        | Result | l - r       |
 | -------- | -------- | ------ | ----------- |

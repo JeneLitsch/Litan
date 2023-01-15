@@ -93,4 +93,30 @@ namespace sphinx::test {
 		tuple[2] = 30;
 		assert_equal_strict(tuple, (10, 20, 30));
 	}
+
+
+
+	function tuple_add() {
+		assert_equal_strict((1,) + (2,), (1,2));
+		assert_equal_strict((1, "a") + (2,), (1, "a", 2));
+	}
+
+
+	
+	function tuple_add_type() {
+		var t1 = (1, 2);
+		var t2 = (true, "abc");
+		var t3 = t1 + t2;
+		var t4 = t2 + t1;
+		
+		assert_equal_strict(
+			reflect(expr t3).type.name,
+			"tuple<int, int, bool, string>"
+		);
+
+		assert_equal_strict(
+			reflect(expr t4).type.name,
+			"tuple<bool, string, int, int>"
+		);
+	}
 }
