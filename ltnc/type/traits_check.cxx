@@ -1,4 +1,4 @@
-#include "check.hxx"
+#include "traits.hxx"
 
 namespace ltn::c::type {
 	bool is_error(const Type & x) {
@@ -78,10 +78,11 @@ namespace ltn::c::type {
 	}
 
 
-	bool is_numeric_array(const type::Type & type) {
+
+	bool is_numeric_array(const Type & type) {
 		return is_array(type) 
 			&& !is_empty_array(type)
-			&& is_numeric(**type.as<type::Array>()->contains);
+			&& is_numeric(**type.as<Array>()->contains);
 	}
 
 

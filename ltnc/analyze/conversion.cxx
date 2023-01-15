@@ -1,6 +1,6 @@
 #include <sstream>
 #include "conversion.hxx"
-#include "ltnc/type/check.hxx"
+#include "ltnc/type/traits.hxx"
 #include "ltnc/CompilerError.hxx"
 
 namespace ltn::c {

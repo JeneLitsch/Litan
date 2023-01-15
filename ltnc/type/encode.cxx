@@ -1,7 +1,7 @@
 #include "encode.hxx"
 #include "stdxx/array.hxx"
 #include "ltn/type_code.hxx"
-#include "check.hxx"
+#include "traits.hxx"
 #include "to_string.hxx"
 
 namespace ltn::c::type {

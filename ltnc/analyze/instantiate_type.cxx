@@ -1,7 +1,7 @@
 #include "instantiate_type.hxx"
 #include "stdxx/functional.hxx"
 #include "ltnc/CompilerError.hxx"
-#include "ltnc/type/check.hxx"
+#include "ltnc/type/traits.hxx"
 
 namespace ltn::c {
 	type::Type instantiate_type(

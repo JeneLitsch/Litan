@@ -1,5 +1,5 @@
 #include "compile.hxx"
-#include "ltnc/type/check.hxx"
+#include "ltnc/type/traits.hxx"
 #include "stdxx/functional.hxx"
 
 namespace ltn::c {

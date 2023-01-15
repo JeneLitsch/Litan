@@ -1,6 +1,6 @@
 #include "ltnc/type/deduction.hxx"
 #include "ltnc/type/Type.hxx"
-#include "ltnc/type/check.hxx"
+#include "ltnc/type/traits.hxx"
 #include "stdxx/array.hxx"
 #include <iostream>
 

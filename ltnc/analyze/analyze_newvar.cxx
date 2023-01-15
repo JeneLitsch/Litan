@@ -1,5 +1,5 @@
 #include "analyze.hxx"
-#include "ltnc/type/check.hxx"
+#include "ltnc/type/traits.hxx"
 #include <iostream>
 #include "conversion.hxx"
 
