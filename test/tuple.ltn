@@ -135,17 +135,21 @@ namespace sphinx::test {
 	}
 
 
+
 	namespace tuple_local {
-		function f_return() -> tuple<int, float> {
-			return (1, 1.0);
-		}
+		function f_return()
+			-> tuple<int, float>
+			=> (1, 1.0)
 
+		function f_parameter(tuple : tuple<int, float, string>)
+			-> null
+			=> null
 
-		function f_parameter(tuple : tuple<int, float, string>) -> null => null
-
-		function f_both(tuple : tuple<int, float, string>) -> tuple<int, float>
-			=> (tuple[0], tuple[1])	
+		function f_both(tuple : tuple<int, float, string>)
+			-> tuple<int, float>
+			=> (tuple[0], tuple[1])
 	}
+
 
 
 	function tuple_functions() {
