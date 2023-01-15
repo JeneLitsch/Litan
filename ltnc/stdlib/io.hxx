@@ -37,40 +37,76 @@ namespace std {
 		function reset_color()               => reset_color(std::cout())
 	}
 
-	build_in cout()                  @ io_cout
-	function fout(path) => fout(path, io::open_mode::OVERRIDE)
-	build_in fout(path, open_mode)   @ io_fout
-	build_in strout()                @ io_strout
 
-	build_in cin()                   @ io_cin
-	build_in fin(path)               @ io_fin
-	build_in strin(str)              @ io_strin
+
+	build_in cout() 
+		-> ostream
+	 	@ io_cout
 	
-	build_in print(stream, value)    @ io_print
+	build_in fout(path, open_mode)
+		-> ostream
+		@ io_fout
 	
-	build_in read(stream) -> string 
+	build_in strout() 
+		-> ostream
+		@ io_strout
+
+	function fout(path)
+		-> ostream
+		=> fout(path, io::open_mode::OVERRIDE)
+
+
+
+	build_in cin()
+		-> istream
+		@ io_cin
+
+	build_in fin(path)
+		-> istream
+		@ io_fin
+
+	build_in strin(str)
+		-> istream
+		@ io_strin
+
+
+	
+	build_in print(stream, value) 
+		-> null
+		@ io_print
+	
+	build_in read(stream)
+		-> string 
 		@ io_read
 
-	build_in read_str(stream) -> string 
+	build_in read_str(stream)
+		-> string 
 		@ io_read_str
 
-	build_in readln(stream) -> string 
+	build_in readln(stream)
+		-> string 
 		@ io_readln
 
-	build_in read_bool(stream) -> bool 
+	build_in read_bool(stream)
+		-> bool 
 		@ io_read_bool
 
-	build_in read_char(stream) -> char 
+	build_in read_char(stream)
+		-> char 
 		@ io_read_char
 
-	build_in read_int(stream) -> int 
+	build_in read_int(stream)
+		-> int 
 		@ io_read_int
 
-	build_in read_float(stream) -> float 
+	build_in read_float(stream)
+		-> float 
 		@ io_read_float
 
-	build_in read_all(stream) -> string 
+	build_in read_all(stream)
+		-> string 
 		@ io_read_all
+
 
 	
 	build_in is_eof(stream) const    @ io_is_eof

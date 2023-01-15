@@ -117,6 +117,18 @@ namespace ltn::c::type {
 
 
 
+	struct Istream {
+		constexpr static auto type_name = "istream";
+	};
+
+
+
+	struct Ostream {
+		constexpr static auto type_name = "ostream";
+	};
+
+
+
 	struct Auto{};
 
 
@@ -138,7 +150,9 @@ namespace ltn::c::type {
 			FxPtr,
 			Queue,
 			Stack,
-			Map
+			Map,
+			Istream,
+			Ostream
 		>;
 
 	public:
@@ -186,6 +200,8 @@ namespace ltn::c::type {
 	std::strong_ordering operator<=>(const Queue & l, const Queue & r);
 	std::strong_ordering operator<=>(const Stack & l, const Stack & r);
 	std::strong_ordering operator<=>(const Map & l, const Map & r);
+	std::strong_ordering operator<=>(const Istream & l, const Istream & r);
+	std::strong_ordering operator<=>(const Ostream & l, const Ostream & r);
 
 	inline bool operator==(const Type & l, const Type & r) {
 		return (l <=> r) == 0;

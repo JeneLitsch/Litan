@@ -118,6 +118,8 @@ namespace ltn::c {
 			if(type_name->str == "stack") return type::IncompleteType{parse_type_stack(tokens, brace_tracker)}; 
 			if(type_name->str == "map") return type::IncompleteType{parse_type_map(tokens, brace_tracker)};
 			if(type_name->str == "optional") return type::IncompleteType{parse_type_optional(tokens, brace_tracker)};
+			if(type_name->str == "istream") return type::IncompleteType{type::Istream{}};
+			if(type_name->str == "ostream") return type::IncompleteType{type::Ostream{}};
 			return type::IncompleteType{type::Other{.type_name = type_name->str}};
 		}
 		if(auto type_name = match(TT::NVLL, tokens)) {

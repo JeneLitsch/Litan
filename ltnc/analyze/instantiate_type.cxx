@@ -169,6 +169,22 @@ namespace ltn::c {
 
 
 
+	type::Istream instantiate(
+		const type::Istream &,
+		const Scope &) {
+		return type::Istream{};
+	}
+
+
+
+	type::Ostream instantiate(
+		const type::Ostream &,
+		const Scope &) {
+		return type::Ostream{};
+	}
+
+
+
 	type::Type instantiate_type(
 		const type::Type & type,
 		const Scope & scope) {

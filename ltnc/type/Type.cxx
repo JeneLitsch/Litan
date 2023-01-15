@@ -137,4 +137,16 @@ namespace ltn::c::type {
 		if(order == 0) return compare_contained(l.val, r.val);
 		return order;
 	}
+
+
+
+	std::strong_ordering operator<=>(const Istream &, const Istream &) {
+		return std::strong_ordering::equal;
+	}
+
+
+
+	std::strong_ordering operator<=>(const Ostream &, const Ostream &) {
+		return std::strong_ordering::equal;
+	}
 }
