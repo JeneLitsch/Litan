@@ -5,8 +5,7 @@ namespace ltn::c {
 	using Op = ast::TypedUnary::Op;
 
 	namespace {
-		template<Op op, TT tt>
-		ast::expr_ptr parse_copy(Tokens & tokens) {
+		ast::expr_ptr parse_copy(Op op, TT tt, Tokens & tokens) {
 			if(auto t = match(tt, tokens)) {
 				BraceTracker brace_tracker;
 				open_chevron(tokens, brace_tracker);
@@ -34,12 +33,12 @@ namespace ltn::c {
 
 
 	ast::expr_ptr parse_static_copy(Tokens & tokens) {
-		return parse_copy<Op::STATIC_COPY, TT::STATIC_COPY>(tokens);
+		return parse_copy(Op::STATIC_COPY, TT::STATIC_COPY, tokens);
 	}
 
 
 
 	ast::expr_ptr parse_dynamic_copy(Tokens & tokens) {
-		return parse_copy<Op::DYNAMIC_COPY, TT::DYNAMIC_COPY>(tokens);
+		return parse_copy(Op::DYNAMIC_COPY, TT::DYNAMIC_COPY, tokens);
 	}
 }

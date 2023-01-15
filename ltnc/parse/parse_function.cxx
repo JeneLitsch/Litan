@@ -28,9 +28,10 @@ namespace ltn::c {
 				});
 				if(match(TT::PAREN_R, tokens)) break;
 				if(!match(TT::COMMA, tokens)) {
-					throw CompilerError{
+					throw CompilerError {
 						"expected comma between parameters",
-						location(tokens)};
+						location(tokens)
+					};
 				}
 			}
 			return parameters;
@@ -64,9 +65,10 @@ namespace ltn::c {
 					captures.push_back(std::move(var));
 					if(match(TT::BRACKET_R, tokens)) break;
 					if(!match(TT::COMMA, tokens)) {
-						throw CompilerError{
+						throw CompilerError {
 							"expected comma between captures",
-							location(tokens)};
+							location(tokens)
+						};
 					}
 				}
 			} 

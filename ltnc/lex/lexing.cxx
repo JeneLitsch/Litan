@@ -373,19 +373,19 @@ namespace ltn::c {
 		std::vector<Token> tokens;
 
 		std::vector<Source> stdlib = {
-			// StringSource{"std_algorithm", std_algorithm},
-			// StringSource{"std_bits", std_bits},
-			// StringSource{"std_cast", std_cast},
-			// StringSource{"std_chrono", std_chrono},
-			// StringSource{"std_container", std_container},
-			// StringSource{"std_debug", std_debug},
-			// StringSource{"std_functional", std_functional},
-			// StringSource{"std_io", std_io},
-			// StringSource{"std_math", std_math},
-			// StringSource{"std_random", std_random},
-			// StringSource{"std_range", std_range},
-			// StringSource{"std_string", std_string},
-			// StringSource{"std_type", std_type},
+			StringSource{"std_algorithm", std_algorithm},
+			StringSource{"std_bits", std_bits},
+			StringSource{"std_cast", std_cast},
+			StringSource{"std_chrono", std_chrono},
+			StringSource{"std_container", std_container},
+			StringSource{"std_debug", std_debug},
+			StringSource{"std_functional", std_functional},
+			StringSource{"std_io", std_io},
+			StringSource{"std_math", std_math},
+			StringSource{"std_random", std_random},
+			StringSource{"std_range", std_range},
+			StringSource{"std_string", std_string},
+			StringSource{"std_type", std_type},
 		};
 
 		for(auto & source : stdlib) {
