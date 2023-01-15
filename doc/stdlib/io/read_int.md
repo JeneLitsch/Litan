@@ -11,7 +11,7 @@ Reads a Int from stdin.
 
 ---
 
-## std::read_int(stream)
+## std::read_int(stream : istream)
 **Parameters**  
 * stream: an input stream
 

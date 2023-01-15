@@ -71,39 +71,39 @@ namespace std {
 
 
 	
-	build_in print(stream, value) 
+	build_in print(stream : ostream, value) 
 		-> null
 		@ io_print
 	
-	build_in read(stream)
+	build_in read(stream : istream)
 		-> string 
 		@ io_read
 
-	build_in read_str(stream)
+	build_in read_str(stream : istream)
 		-> string 
 		@ io_read_str
 
-	build_in readln(stream)
+	build_in readln(stream : istream)
 		-> string 
 		@ io_readln
 
-	build_in read_bool(stream)
+	build_in read_bool(stream : istream)
 		-> bool 
 		@ io_read_bool
 
-	build_in read_char(stream)
+	build_in read_char(stream : istream)
 		-> char 
 		@ io_read_char
 
-	build_in read_int(stream)
+	build_in read_int(stream : istream)
 		-> int 
 		@ io_read_int
 
-	build_in read_float(stream)
+	build_in read_float(stream : istream)
 		-> float 
 		@ io_read_float
 
-	build_in read_all(stream)
+	build_in read_all(stream : istream)
 		-> string 
 		@ io_read_all
 
@@ -114,7 +114,7 @@ namespace std {
 
 	function print(value) => print(cout(), value)
 
-	function println(stream, value) {
+	function println(stream : ostream, value) {
 		print(stream, value);
 		print(stream, "\n");
 	}

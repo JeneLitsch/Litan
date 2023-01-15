@@ -11,7 +11,7 @@ Reads a single line from stdin.
 
 ---
 
-## std::readln(stream)
+## std::readln(stream : istream)
 **Parameters**  
 * stream: an input stream
 

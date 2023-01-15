@@ -11,7 +11,7 @@ Reads a single "word" from stdin. Reads until next white space.
 
 ---
 
-## std::read(stream), std::read_str(stream)
+## std::read(stream : istream), std::read_str(stream : istream)
 **Parameters**  
 * stream: an input stream
 
