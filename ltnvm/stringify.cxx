@@ -57,11 +57,17 @@ namespace ltn::vm {
 			return ss.str();
 		}
 
-
 		if(is_array(value)) {
 			const auto & array = heap.read<Array>(value.u);
 			std::stringstream ss;
-			print_all(std::begin(array), std::end(array), ss, heap);
+			print_all(std::begin(array), std::end(array), ss, heap, '[', ']');
+			return ss.str();
+		}
+
+		if(is_tuple(value)) {
+			const auto & array = heap.read<Array>(value.u);
+			std::stringstream ss;
+			print_all(std::begin(array), std::end(array), ss, heap, '(', ')');
 			return ss.str();
 		}
 

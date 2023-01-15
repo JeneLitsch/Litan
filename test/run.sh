@@ -79,6 +79,9 @@ files=(
 	"test/std/ln.ltn"
 	"test/std/ld.ltn"
 	"test/std/lg.ltn"
+
+	"test/std/str.ltn"
+
 	"test/std/split.ltn"
 	"test/std/join.ltn"
 	"test/std/replace.ltn"

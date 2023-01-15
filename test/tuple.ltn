@@ -86,10 +86,11 @@ namespace sphinx::test {
 
 
 
-	// function tuple_assign_element() {
-	// 	var tuple = (1,2,3);
-	// 	tuple[0] = 10;
-	// 	tuple[1] = 20;
-	// 	tuple[1] = 30;
-	// }
+	function tuple_assign_element() {
+		var tuple = (1,2,3);
+		tuple[0] = 10;
+		tuple[1] = 20;
+		tuple[2] = 30;
+		assert_equal_strict(tuple, (10, 20, 30));
+	}
 }

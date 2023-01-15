@@ -6,15 +6,7 @@ namespace ltn::vm::inst {
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();
 		
-		if(is_array(ref)) {
-			const auto & arr = core.heap.read<Array>(ref.u);
-			const auto index = to_index(key);
-			guard_index(arr, index);
-			core.stack.push(arr[static_cast<std::size_t>(index)]);
-			return;
-		}
-
-		if(is_tuple(ref)) {
+		if(is_array(ref) || is_tuple(ref)) {
 			const auto & arr = core.heap.read<Array>(ref.u);
 			const auto index = to_index(key);
 			guard_index(arr, index);

@@ -8,7 +8,7 @@ namespace ltn::vm::inst {
 		const auto ref = core.stack.pop();
 		const auto elem = core.stack.pop();
 		
-		if(is_array(ref)) {
+		if(is_array(ref) || is_tuple(ref)) {
 			auto & arr = core.heap.read<Array>(ref.u);
 			const auto index = to_index(key);
 			guard_index(arr, index);
