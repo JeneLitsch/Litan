@@ -68,9 +68,9 @@ namespace ltn::c {
 				type
 			);
 
-			if(match(TT::ASSIGN, tokens)) {
-				global->expr = parse_expression(tokens);
-			}
+			global->expr = match(TT::ASSIGN, tokens)
+				?  parse_expression(tokens)
+				: nullptr;
 
 			semicolon(tokens);
 			return global;

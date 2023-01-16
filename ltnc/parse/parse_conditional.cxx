@@ -11,7 +11,8 @@ namespace ltn::c {
 				ast::Binary::Type::NULLCO,
 				std::move(l),
 				std::move(else_expr),
-				location(tokens));
+				location(tokens)
+			);
 		}
 
 
@@ -23,7 +24,8 @@ namespace ltn::c {
 				ast::Binary::Type::ELVIS,
 				std::move(l),
 				std::move(else_expr),
-				location(tokens));
+				location(tokens)
+			);
 		}
 
 
@@ -39,7 +41,8 @@ namespace ltn::c {
 				location(tokens),
 				std::move(l),
 				std::move(c),
-				std::move(r));
+				std::move(r)
+			);
 		}
 	}
 

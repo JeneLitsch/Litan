@@ -48,8 +48,8 @@ namespace ltn::c {
 	ast::expr_ptr parse_primary(Tokens & tokens);
 	ast::expr_ptr parse_reflect(Tokens & tokens);
 	ast::expr_ptr parse_parenthesized(Tokens & tokens);
-	ast::litr_ptr parse_integral(Tokens & tokens);
-	ast::litr_ptr parse_array(Tokens & tokens);
+	ast::expr_ptr parse_integral(Tokens & tokens);
+	ast::expr_ptr parse_array(Tokens & tokens);
 
 	// Utils
 	std::string parse_preset_name(Tokens & tokens);

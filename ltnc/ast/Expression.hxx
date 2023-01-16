@@ -154,97 +154,93 @@ namespace ltn::c::ast {
 	struct Assignable;
 	struct Statement;
 
-	struct Primary : public Expression {
-		Primary(const SourceLocation & location) : Expression(location) {}
-		virtual ~Primary() = default;
-	};
-	
-
-	struct Literal : public Primary {
-		Literal(const SourceLocation & location)
-			: Primary(location) {}
-		virtual ~Literal() = default;
-	};
-
-
-
-	struct Integer final : public Literal {
+	struct Integer final : public Expression {
 		Integer(std::bitset<64> value, const SourceLocation & location)
 			: Integer(static_cast<std::int64_t>(value.to_ullong()), location) {}
 
 		Integer(std::int64_t value, const SourceLocation & location)
-			: Literal(location), value(value) {}
+			: Expression(location), value(value) {}
 		virtual ~Integer() = default;
 		std::int64_t value;
 	};
 
 
 
-	struct Float final : public Literal {
+	struct Float final : public Expression {
 		Float(stx::float64_t value, const SourceLocation & location)
-			: Literal(location), value(value) {}
+			: Expression(location), value(value) {}
 		virtual ~Float() = default;
 		stx::float64_t value;
 	};
 
 
 
-	struct Bool final : public Literal {
+	struct Bool final : public Expression {
 		Bool(bool value, const SourceLocation & location)
-			: Literal(location), value(value) {}
+			: Expression(location), value(value) {}
 		virtual ~Bool() = default;
 		bool value;
 	};
 
 
 
-	struct Null final : public Literal {
+	struct Null final : public Expression {
 		Null(const SourceLocation & location)
-			: Literal(location) {}
+			: Expression(location) {}
 		virtual ~Null() = default;
 	};
 
 
 
-	struct Char final : public Literal {
+	struct Char final : public Expression {
 		Char(std::uint8_t value, const SourceLocation & location)
-			: Literal(location), value(value) {}
+			: Expression(location), value(value) {}
 		virtual ~Char() = default;
 		std::uint8_t value;
 	};
 
 
 
-	struct String final : public Literal {
+	struct String final : public Expression {
 		String(const std::string & value, const SourceLocation & location)
-			: Literal(location), value(value) {}
+			: Expression(location), value(value) {}
 		virtual ~String() = default;
 		std::string value;
 	};
 
 
 
-	struct Array final: public Literal {
-		Array(const SourceLocation & location) : Literal(location) {}
+	struct Array final: public Expression {
+		Array(
+			const SourceLocation & location,
+			std::vector<std::unique_ptr<Expression>> elements)
+			: Expression(location)
+			, elements{std::move(elements)} {}
+		
 		virtual ~Array() = default;
 		std::vector<std::unique_ptr<Expression>> elements;
 	};
 
 
-	struct Tuple final: public Literal {
-		Tuple(const SourceLocation & location) : Literal(location) {}
+
+	struct Tuple final: public Expression {
+		Tuple(
+			const SourceLocation & location,
+			std::vector<std::unique_ptr<Expression>> elements)
+			: Expression(location)
+			, elements{std::move(elements)} {}
 		virtual ~Tuple() = default;
 		std::vector<std::unique_ptr<Expression>> elements;
 	};
 
 
 
-	struct Lambda final : public Literal {
+	struct Lambda final : public Expression {
 		Lambda(
 			std::unique_ptr<Function> fx,
 			std::vector<std::unique_ptr<Var>> captures,
 			const SourceLocation & location)
-			: Literal(location)
+			: Expression(location)
 			, fx(std::move(fx))
 			, captures(std::move(captures)) {}
 		virtual ~Lambda() = default;
@@ -253,26 +249,13 @@ namespace ltn::c::ast {
 	};
 
 
-
-
-
-
-
 	
-	struct Assignable : public Primary {
-		virtual ~Assignable() = default;
-		Assignable(const SourceLocation & location)
-			: Primary(location) {}
-	};
-
-
-
-	struct Index final : public Assignable {
+	struct Index final : public Expression {
 		Index(
 			std::unique_ptr<Expression> expression,
 			std::unique_ptr<Expression> index,
 			const SourceLocation & location)
-			: Assignable(location)
+			: Expression(location)
 			, expression(std::move(expression))
 			, index(std::move(index)) {}
 		virtual ~Index() = default;
@@ -282,13 +265,12 @@ namespace ltn::c::ast {
 
 
 
-	struct Var final : public Assignable {
-	public:
+	struct Var final : public Expression {
 		Var(
 			const std::string & name,
 			const Namespace & namespaze,
 			const SourceLocation & location)
-			: Assignable(location)
+			: Expression(location)
 			, name{name}
 			, namespaze{namespaze} {}
 
@@ -299,13 +281,12 @@ namespace ltn::c::ast {
 
 
 
-	struct GlobalVar final : public Assignable {
-	public:
+	struct GlobalVar final : public Expression {
 		GlobalVar(
 			const SourceLocation & location,
 			const Namespace & namespaze,
 			const std::string & name)
-			: Assignable(location)
+			: Expression(location)
 			, name { name }
 			, namespaze { namespaze } {}
 		virtual ~GlobalVar() = default;
@@ -315,12 +296,12 @@ namespace ltn::c::ast {
 
 
 
-	struct Member final : public Assignable {
+	struct Member final : public Expression {
 		Member(
 			std::unique_ptr<Expression> expr,
 			const std::string & name,
 			const SourceLocation & location)
-			: Assignable(location)
+			: Expression(location)
 			, expr(std::move(expr))
 			, name(std::move(name)){};
 		virtual ~Member() = default;
@@ -330,12 +311,12 @@ namespace ltn::c::ast {
 
 
 
-	struct Iife final : public Primary {
+	struct Iife final : public Expression {
 		Iife(
 			const SourceLocation & location,
 			std::unique_ptr<Statement> stmt,
 			type::IncompleteType return_type) 
-			: Primary(location)
+			: Expression(location)
 			, stmt(std::move(stmt))
 			, return_type{return_type} {}
 		virtual ~Iife() = default;
@@ -346,14 +327,13 @@ namespace ltn::c::ast {
 
 
 
-	struct FxPointer final : public Primary {
-	public:
+	struct FxPointer final : public Expression {
 		FxPointer(
 			const std::string & name,
 			const Namespace & namespaze,
 			const std::size_t placeholders,
 			const SourceLocation & location)
-			: Primary(location)
+			: Expression(location)
 			, name(name)
 			, namespaze(namespaze)
 			, placeholders(std::move(placeholders)) {}
@@ -366,13 +346,12 @@ namespace ltn::c::ast {
 
 
 
-	struct Call final : public Primary {
-	public:
+	struct Call final : public Expression {
 		Call(
 			std::unique_ptr<Expression> function_ptr,
 			std::vector<std::unique_ptr<Expression>> parameters,
 			const SourceLocation & location)
-			: Primary(location)
+			: Expression(location)
 			, function_ptr(std::move(function_ptr))
 			, parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
@@ -383,7 +362,7 @@ namespace ltn::c::ast {
 
 
 
-	using ExprSwitch = Switch<Primary, Expression>;
+	using ExprSwitch = Switch<Expression>;
 
 
 

@@ -16,7 +16,7 @@ namespace ltn::c {
 
 
 		template<class TempType, TT tt, auto base>
-		ast::litr_ptr parse_integer(Tokens & tokens) {
+		ast::expr_ptr parse_integer(Tokens & tokens) {
 			if(auto token = match(tt, tokens)) {
 				std::stringstream iss{token->str};
 				TempType value;
@@ -40,7 +40,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_character(Tokens & tokens) {
+		ast::expr_ptr parse_character(Tokens & tokens) {
 			if(auto t = match(TT::CHAR, tokens)) {
 				const auto chr = static_cast<std::uint8_t>(t->str.front());
 				return stx::make_unique<ast::Char>(chr, location(tokens)); 
@@ -50,7 +50,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_null(Tokens & tokens) {
+		ast::expr_ptr parse_null(Tokens & tokens) {
 			if(auto t = match(TT::NVLL, tokens)) {
 				return stx::make_unique<ast::Null>(location(tokens)); 
 			}
@@ -59,7 +59,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_floating(Tokens & tokens) {
+		ast::expr_ptr parse_floating(Tokens & tokens) {
 			if(auto token = match(TT::FLOAT, tokens)) {
 				std::istringstream iss{token->str};
 				stx::float64_t value;
@@ -71,7 +71,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_boolean(Tokens & tokens) {
+		ast::expr_ptr parse_boolean(Tokens & tokens) {
 			if(auto token = match(TT::TRUE, tokens)) {
 				return stx::make_unique<ast::Bool>(true, location(tokens)); 
 			}
@@ -83,7 +83,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_string(Tokens & tokens) {
+		ast::expr_ptr parse_string(Tokens & tokens) {
 			if(auto token = match(TT::STRING, tokens)) {
 				return stx::make_unique<ast::String>(
 					token->str,
@@ -210,16 +210,12 @@ namespace ltn::c {
 
 
 
-	ast::litr_ptr parse_integral(Tokens & tokens) {
+	ast::expr_ptr parse_integral(Tokens & tokens) {
 		if(auto expr = parse_integer_dec(tokens)) return expr;
 		if(auto expr = parse_integer_bin(tokens)) return expr;
 		if(auto expr = parse_integer_hex(tokens)) return expr;
 		else return nullptr;
 	}
-
-
-
-
 
 
 

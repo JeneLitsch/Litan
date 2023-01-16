@@ -79,17 +79,19 @@ namespace ltn::c {
 
 		std::string parse_build_in_key(Tokens & tokens) {
 			if(!match(TT::AT, tokens)) {
-				throw CompilerError{
+				throw CompilerError {
 					"Expected @ before build_in key",
-					location(tokens) };
+					location(tokens)
+				};
 			}
 			if(auto str = match(TT::INDENTIFIER, tokens)) {
 				return str->str;
 			}
 			else {
-				throw CompilerError{
+				throw CompilerError {
 					"Expected build_in key after @",
-					location(tokens) };
+					location(tokens)
+				};
 			}
 		}
 
@@ -112,15 +114,17 @@ namespace ltn::c {
 			if(match(TT::EXCEPT, tokens)) {
 				auto params = parse_mandatory_parameters(tokens);
 				if(params.size() != 1) {
-					throw CompilerError{
+					throw CompilerError {
 						"Except only takes one error parameter",
-						location(tokens)};
+						location(tokens)
+					};
 				}
 				auto body = parse_body(tokens);
 				return stx::make_unique<ast::Except>(
 					params[0].name,
 					std::move(body),
-					location(tokens));
+					location(tokens)
+				);
 			}
 			else return nullptr;
 		}
@@ -154,7 +158,7 @@ namespace ltn::c {
 					};
 				}
 				else {
-					throw CompilerError{
+					throw CompilerError {
 						"Unknown function qualifier: " + t->str,
 						t->location
 					};

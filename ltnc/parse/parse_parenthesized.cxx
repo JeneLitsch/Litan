@@ -7,17 +7,22 @@ namespace ltn::c {
 		
 		
 		ast::expr_ptr single_element_tuple(ast::expr_ptr first, const Token & start) {
-			auto tuple = std::make_unique<ast::Tuple>(start.location);
-			tuple->elements.push_back(std::move(first));
-			return tuple;
+			std::vector<ast::expr_ptr> elements;
+			elements.push_back(std::move(first));
+			return std::make_unique<ast::Tuple>(
+				start.location,
+				std::move(elements)
+			);
 		}
 
 
 
 		ast::expr_ptr multi_element_tuple(ast::expr_ptr first, Tokens & tokens, const Token & start) {
-			auto tuple = std::make_unique<ast::Tuple>(start.location);
-			tuple->elements = parse_list(TT::PAREN_R, ")", tokens, std::move(first));
-			return tuple;
+			auto elements = parse_list(TT::PAREN_R, ")", tokens, std::move(first));
+			return std::make_unique<ast::Tuple>(
+				start.location,
+				std::move(elements)
+			);
 		}
 
 

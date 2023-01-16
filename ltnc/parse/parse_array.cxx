@@ -4,22 +4,27 @@ namespace ltn::c {
 	using TT = Token::Type;
 
 	namespace {
-		ast::litr_ptr parse_empty_array(Tokens & tokens) {
-			return stx::make_unique<ast::Array>(location(tokens));
+		ast::expr_ptr parse_empty_array(Tokens & tokens) {
+			return std::make_unique<ast::Array>(
+				location(tokens),
+				std::vector<ast::expr_ptr>{}
+			);
 		}
 
 
 
-		ast::litr_ptr parse_filled_array(Tokens & tokens) {
-			auto array = stx::make_unique<ast::Array>(location(tokens));
-			array->elements = parse_list(TT::BRACKET_R, "]", tokens);
-			return array;
+		ast::expr_ptr parse_filled_array(Tokens & tokens) {
+			auto elements = parse_list(TT::BRACKET_R, "]", tokens);
+			return std::make_unique<ast::Array>(
+				location(tokens),
+				std::move(elements)
+			);
 		}
 	}
 
 
 
-	ast::litr_ptr parse_array(Tokens & tokens) {
+	ast::expr_ptr parse_array(Tokens & tokens) {
 		if(match(TT::BRACKET_L, tokens)) {
 			if(match(TT::BRACKET_R, tokens)) {
 				return parse_empty_array(tokens);

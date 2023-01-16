@@ -21,6 +21,7 @@ namespace ltn::c {
 		}
 		return stx::make_unique<ast::Block>(
 			std::move(statements),
-			location(tokens));
+			location(tokens)
+		);
 	}
 }
