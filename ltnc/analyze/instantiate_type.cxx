@@ -32,9 +32,9 @@ namespace ltn::c {
 	type::Optional instantiate(
 		const type::Optional & incomplete,
 		const Scope & scope) {
-		const auto & inner = *incomplete.contains;
+		const auto & inner = incomplete.contains;
 		if(is_optional(inner)) return type::Optional {
-			.contains = instantiate_type(*inner.as<type::Optional>()->contains, scope)
+			.contains = instantiate_type(inner.as<type::Optional>()->contains, scope)
 		};
 		return type::Optional{
 			.contains = instantiate_type(inner, scope)
@@ -103,7 +103,7 @@ namespace ltn::c {
 		const type::Array & incomplete,
 		const Scope & scope) {
 		return type::Array{
-			.contains = instantiate_type(**incomplete.contains, scope)
+			.contains = instantiate_type(*incomplete.contains, scope)
 		};
 	}
 
@@ -131,7 +131,7 @@ namespace ltn::c {
 			parameters.push_back(instantiate_type(parameter, scope));
 		}
 		return type::FxPtr{
-			.return_type = instantiate_type(**incomplete.return_type, scope),
+			.return_type = instantiate_type(incomplete.return_type, scope),
 			.parameter_types = std::move(parameters),
 		};
 	}
@@ -142,7 +142,7 @@ namespace ltn::c {
 		const type::Queue & incomplete,
 		const Scope & scope) {
 		return type::Queue{
-			.contains = instantiate_type(**incomplete.contains, scope)
+			.contains = instantiate_type(incomplete.contains, scope)
 		};
 	}
 
@@ -152,7 +152,7 @@ namespace ltn::c {
 		const type::Stack & incomplete,
 		const Scope & scope) {
 		return type::Stack{
-			.contains = instantiate_type(**incomplete.contains, scope)
+			.contains = instantiate_type(incomplete.contains, scope)
 		};
 	}
 
@@ -162,8 +162,8 @@ namespace ltn::c {
 		const type::Map & incomplete,
 		const Scope & scope) {
 		return type::Map{
-			.key = instantiate_type(**incomplete.key, scope),
-			.val = instantiate_type(**incomplete.val, scope),
+			.key = instantiate_type(incomplete.key, scope),
+			.val = instantiate_type(incomplete.val, scope),
 		};
 	}
 
@@ -188,8 +188,8 @@ namespace ltn::c {
 	type::Type instantiate_type(
 		const type::Type & type,
 		const Scope & scope) {
-		return type.visit([&] (auto & t) {
-			return type::Type{instantiate(t, scope)};
+		return type::visit(type, [&] (auto & t) -> type::Type {
+			return instantiate(t, scope);
 		});
 	}
 

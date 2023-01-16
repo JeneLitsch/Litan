@@ -13,9 +13,9 @@ namespace ltn::c::type {
 
 		Type largest_common_type(const Array & l, const Array & r) {
 			if(!l.contains && !r.contains) return Array{};
-			if(!l.contains) return Array{**r.contains};
-			if(!r.contains) return Array{**l.contains};
-			return Array{largest_common_type(**l.contains, **r.contains)};
+			if(!l.contains) return Array{*r.contains};
+			if(!r.contains) return Array{*l.contains};
+			return Array{largest_common_type(*l.contains, *r.contains)};
 		}
 
 
@@ -49,7 +49,7 @@ namespace ltn::c::type {
 
 	Array deduce_array_append(const Array & array, const Type & elem) {
 		if(!array.contains) return Array{elem};
-		return Array{ largest_common_type(**array.contains, elem) };
+		return Array{ largest_common_type(*array.contains, elem) };
 	}
 
 
@@ -128,8 +128,8 @@ namespace ltn::c::type {
 
 	namespace {
 		Type deduce_index_map(const Map & map, const Type & key) {
-			if(!map.key || (**map.key).as<Any>() || **map.key == key) {
-				return Optional{map.val ? **map.val : Any{}};
+			if(is_any(map.key) || map.key == key) {
+				return Optional{map.val};
 			}
 			return Error{};
 		}
@@ -138,7 +138,7 @@ namespace ltn::c::type {
 
 		Type deduce_index_array(const Array & array, const Type & key) {
 			if(is_numeric(key) || is_any(key)) {
-				if(array.contains) return **array.contains;
+				if(array.contains) return *array.contains;
 				else return Any{};
 			}
 			return Error{};
@@ -197,7 +197,7 @@ namespace ltn::c::type {
 
 	Type deduce_nullco(const Type & l, const Type & r) {
 		if(is_optional(l)) {
-			return deduce_nullco(*l.as<Optional>()->contains, r);
+			return deduce_nullco(l.as<Optional>()->contains, r);
 		}
 		else return largest_common_type(l, r);
 	}
@@ -246,14 +246,14 @@ namespace ltn::c::type {
 
 
 	Type deduce_deref(const Type & x) {
-		if(is_optional(x)) return *x.as<Optional>()->contains;
+		if(is_optional(x)) return x.as<Optional>()->contains;
 		return x; 
 	}
 
 
 
 	Type deduce_invokation(const Type & fx_ptr) {
-		if(auto fx = fx_ptr.as<FxPtr>()) return **fx->return_type;
+		if(auto fx = fx_ptr.as<FxPtr>()) return fx->return_type;
 		if(fx_ptr.as<Any>()) return Any{};
 		return Error{};
 	}

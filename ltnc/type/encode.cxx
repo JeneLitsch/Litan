@@ -37,7 +37,7 @@ namespace ltn::c::type {
 
 		if(type::is_array(type)) {
 			auto * arr = type.as<type::Array>();
-			return array_of(encode_type(**arr->contains));
+			return array_of(encode_type(*arr->contains));
 		}
 
 		throw std::runtime_error{"Cannot encode type: " + to_string(type)};

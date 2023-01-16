@@ -2,13 +2,57 @@
 #include <vector>
 #include <variant>
 #include <iostream>
+#include <memory>
 #include <optional>
 #include "stdxx/heaped.hxx"
 
 namespace ltn::c::type {
-	class Complete{};
+	class Type {
+		struct Concept {
+			virtual ~Concept() = default;
+			virtual std::unique_ptr<Concept> clone() const = 0;
+		};
+
+
+		template<typename T>
+		struct Model : Concept {
+			Model(T type) : object { std::move(type) } {}
+			T object;
+			virtual std::unique_ptr<Concept> clone() const override {
+				return std::make_unique<Model<T>>(object);
+			}
+		};
+
+	public:
+		template<typename T>
+		Type(T type)
+			: object { std::make_unique<Model<T>>(std::move(type)) } {}
+
+		Type(const Type & other) {
+			this->object = other.object->clone();
+		}
+
+		Type & operator=(const Type & other) {
+			this->object = other.object->clone();
+			return *this;
+		}
+
+		Type(Type &&) = default;
+
+		Type & operator=(Type &&) = default; 
 	
-	class Type;
+		template<typename T>
+		const T * as() const {
+			if(auto t = dynamic_cast<const Model<T> *>(this->object.get())) {
+				return &t->object;
+			}
+			else {
+				return nullptr;
+			}
+		}
+	private:
+		std::unique_ptr<Concept> object;
+	};
 
 
 
@@ -19,8 +63,7 @@ namespace ltn::c::type {
 
 
 	struct Optional {
-		constexpr static auto type_name = "optional";
-		stx::heaped<Type> contains;
+		Type contains;
 	};
 
 
@@ -74,45 +117,39 @@ namespace ltn::c::type {
 
 
 	struct Array {
-		constexpr static auto type_name = "array";
-		std::optional<stx::heaped<Type>> contains;
+		std::optional<Type> contains;
 	};
 
 
 
 	struct Tuple {
-		constexpr static auto type_name = "tuple";
 		std::vector<Type> contained;
 	};
 	
 
 
 	struct FxPtr {
-		constexpr static auto type_name = "fx_ptr";
-		std::optional<stx::heaped<Type>> return_type;
+		Type return_type;
 		std::vector<Type> parameter_types;
 	};
 
 
 
 	struct Queue {
-		constexpr static auto type_name = "queue";
-		stx::heaped<Type> contains;
+		Type contains;
 	};
 
 
 
 	struct Stack {
-		constexpr static auto type_name = "stack";
-		stx::heaped<Type> contains;
+		Type contains;
 	};
 
 
 
 	struct Map {
-		constexpr static auto type_name = "map";
-		std::optional<stx::heaped<Type>> key;
-		std::optional<stx::heaped<Type>> val;
+		Type key;
+		Type val;
 	};
 
 
@@ -133,51 +170,29 @@ namespace ltn::c::type {
 
 
 
-	class Type {
-		using Variant = std::variant<
-			Any,
-			Other,
-			Optional,
-			Error,
-			Null,
-			Bool,
-			Char,
-			Int,
-			Float,
-			String,
-			Array,
-			Tuple,
-			FxPtr,
-			Queue,
-			Stack,
-			Map,
-			Istream,
-			Ostream
-		>;
+	auto visit(const Type & type, const auto & fx) {
+		if(auto t = type.as<Any>())      return fx(*t);
+		if(auto t = type.as<Other>())    return fx(*t);
+		if(auto t = type.as<Optional>()) return fx(*t);
+		if(auto t = type.as<Error>())    return fx(*t);
+		if(auto t = type.as<Null>())     return fx(*t);
+		if(auto t = type.as<Bool>())     return fx(*t);
+		if(auto t = type.as<Char>())     return fx(*t);
+		if(auto t = type.as<Int>())      return fx(*t);
+		if(auto t = type.as<Float>())    return fx(*t);
+		if(auto t = type.as<String>())   return fx(*t);
+		if(auto t = type.as<Array>())    return fx(*t);
+		if(auto t = type.as<Tuple>())    return fx(*t);
+		if(auto t = type.as<FxPtr>())    return fx(*t);
+		if(auto t = type.as<Queue>())    return fx(*t);
+		if(auto t = type.as<Stack>())    return fx(*t);
+		if(auto t = type.as<Map>())      return fx(*t);
+		if(auto t = type.as<Istream>())  return fx(*t);
+		if(auto t = type.as<Ostream>())  return fx(*t);
+		throw std::runtime_error{"Unknown type"};
+	}
 
-	public:
-		Type(auto actual_type) : actual_type { actual_type } {} 
-	
-		template<typename T>
-		const T * as() const {
-			return std::get_if<T>(&actual_type);
-		} 
 
-		auto visit(const auto & visitor) {
-			return std::visit(visitor, this->actual_type);
-		}
-
-		auto visit(const auto & visitor) const {
-			return std::visit(visitor, this->actual_type);
-		}
-
-		const Variant & operator*() const {
-			return this->actual_type;
-		}
-	private:
-		
-		Variant actual_type;
-	};
 
 	struct IncompleteType {
 		Type type;

@@ -40,7 +40,7 @@ namespace ltn::c {
 		if(is_subtype_array(from, to))        return true;
 		if(is_optional(to)) {
 			if(is_null(from)) return true;
-			else return is_convertible(from, *to.as<type::Optional>()->contains);
+			else return is_convertible(from, to.as<type::Optional>()->contains);
 		}
 		
 		return false;

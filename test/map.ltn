@@ -36,9 +36,8 @@ namespace sphinx::test {
 
 	function map_index_type() {
 		var map = std::map(<int>, <int>);
-		var val = map[42];
 		assert_equal_strict(
-			reflect(expr val).type.name,
+			reflect(expr map[42]).type.name,
 			reflect(type ?int).name
 		);
 	}

@@ -10,7 +10,7 @@ namespace ltn::c::type {
 
 
 		bool is_subtype(auto condition, const type::Type & to) {
-			if(auto arr = to.as<type::Array>()) return condition(**arr->contains);
+			if(auto arr = to.as<type::Array>()) return condition(*arr->contains);
 			return false;
 		}
 
@@ -20,8 +20,8 @@ namespace ltn::c::type {
 			auto arr_from = from.as<type::Array>();
 			auto arr_to = to.as<type::Array>();
 			if(arr_from && arr_to) return condition(
-				**arr_from->contains,
-				**arr_to->contains
+				*arr_from->contains,
+				*arr_to->contains
 			);
 			return false;
 		}

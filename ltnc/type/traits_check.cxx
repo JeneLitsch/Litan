@@ -82,7 +82,7 @@ namespace ltn::c::type {
 	bool is_numeric_array(const Type & type) {
 		return is_array(type) 
 			&& !is_empty_array(type)
-			&& is_numeric(**type.as<Array>()->contains);
+			&& is_numeric(*type.as<Array>()->contains);
 	}
 
 
@@ -90,10 +90,10 @@ namespace ltn::c::type {
 	bool is_subtype_array(const Type & from, const Type & to) {	
 		if(is_array(to) && is_empty_array(from)) return true;
 		if(is_array(to) && is_array(from)) {
-			if(is_any(**to.as<Array>()->contains)) return true;
+			if(is_any(*to.as<Array>()->contains)) return true;
 			else return is_subtype_array(
-				**from.as<Array>()->contains,
-				**to.as<Array>()->contains);
+				*from.as<Array>()->contains,
+				*to.as<Array>()->contains);
 			}
 		return false;
 	}
