@@ -46,3 +46,13 @@ null : bool // -> false
 ```c++
 65 : char // -> 'A'
 ```
+
+# Dynamic cast
+
+A dynamic cast is checked at runtime. An optional of the requested type is returned. If the cast is successful it produces a value. If the types don't match null is returned instead.
+
+## Syntax
+
+```c++
+/*expr*/ ~ /*type*/
+```
