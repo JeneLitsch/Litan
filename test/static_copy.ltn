@@ -1,29 +1,29 @@
 namespace sphinx::test {
 	function static_copy_bool() {
-		assert_equal_strict(static_copy<bool>(1),    true);
-		assert_equal_strict(static_copy<bool>(0),    false);
-		assert_equal_strict(static_copy<bool>(100),  true);
-		assert_equal_strict(static_copy<bool>(-1),   true);
-		assert_equal_strict(static_copy<bool>(null), false);
-		assert_equal_strict(static_copy<bool>(""),   true);
-		assert_equal_strict(static_copy<bool>('A'),  true);
-		assert_equal_strict(static_copy<bool>([]),   true);
+		assert_equal_strict(1    :* bool, true);
+		assert_equal_strict(0    :* bool, false);
+		assert_equal_strict(100  :* bool, true);
+		assert_equal_strict(-1   :* bool, true);
+		assert_equal_strict(null :* bool, false);
+		assert_equal_strict(""   :* bool, true);
+		assert_equal_strict('A'  :* bool, true);
+		assert_equal_strict([]   :* bool, true);
 	}
 
 	
 	
 	function static_copy_array() {
-		assert_equal_strict(static_copy<array<int>>([1.5, 2.5, 3.5]), [1,2,3]);
-		assert_equal_strict(static_copy<array<int>>("ABC"), [65, 66, 67]);
-		assert_equal_strict(static_copy<array<bool>>([0.0, 1.5, 0.1]), [false,true,true]);
+		assert_equal_strict([1.5, 2.5, 3.5] :* array<int>,  [1,2,3]);
+		assert_equal_strict("ABC"           :* array<int>,  [65, 66, 67]);
+		assert_equal_strict([0.0, 1.5, 0.1] :* array<bool>, [false,true,true]);
 	}
 
 
 
 	function static_copy_array_copy() {
 		var a : array<array<int>> = [[1,2,3], [4,5,6]];
-		var b : auto = static_copy<array<array<float>>>(a);
-		var c : auto = static_copy<array<array<int>>>(a);
+		var b : auto = a :* array<array<float>>;
+		var c : auto = a :* array<array<float>>;
 
 		b[0][0] = 42;
 		c[0][0] = 1337;
@@ -36,18 +36,18 @@ namespace sphinx::test {
 
 
 	function static_copy_string() {
-		assert_equal(static_copy<string>(['A', 'B', 'C']), "ABC");
-		assert_equal(static_copy<string>([65, 66, 67]), "ABC");
-		assert_equal(static_copy<string>([65.0, 66.0, 67.0]), "ABC");
+		assert_equal(['A', 'B', 'C']    :* string, "ABC");
+		assert_equal([65, 66, 67]       :* string, "ABC");
+		assert_equal([65.0, 66.0, 67.0] :* string, "ABC");
 	}
 
 
 
 	function static_copy_string_copy() {
 		var str : auto = "ABC";
-		var x : auto = static_copy<string>(str);
-		var y : auto = static_copy<string>(str);
-		var z : auto = static_copy<string>(str);
+		var x : auto = str :* string;
+		var y : auto = str :* string;
+		var z : auto = str :* string;
 
 		x[0] = 'X';
 		y[0] = 'Y';
@@ -62,11 +62,11 @@ namespace sphinx::test {
 
 
 	function static_copy_type() {
-		assert_equal(reflect(expr static_copy<bool>(0)).type.name,        "bool");
-		assert_equal(reflect(expr static_copy<char>(0)).type.name,        "char");
-		assert_equal(reflect(expr static_copy<int>(0)).type.name,         "int");
-		assert_equal(reflect(expr static_copy<float>(0)).type.name,       "float");
-		assert_equal(reflect(expr static_copy<string>("")).type.name,     "string");
-		assert_equal(reflect(expr static_copy<array<int>>("")).type.name, "array<int>");
+		assert_equal(reflect(expr 0  :* bool      ).type.name, "bool");
+		assert_equal(reflect(expr 0  :* char      ).type.name, "char");
+		assert_equal(reflect(expr 0  :* int       ).type.name, "int");
+		assert_equal(reflect(expr 0  :* float     ).type.name, "float");
+		assert_equal(reflect(expr "" :* string    ).type.name, "string");
+		assert_equal(reflect(expr "" :* array<int>).type.name, "array<int>");
 	}
 }

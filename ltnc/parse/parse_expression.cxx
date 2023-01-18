@@ -16,10 +16,23 @@ namespace ltn::c {
 				);
 			};
 			if(match(TT::COLON, tokens)) {
-				return make(ast::TypedUnary::Op::STATIC_CAST);
+				if(match(TT::STAR, tokens)) {
+					return make(ast::TypedUnary::Op::STATIC_COPY);
+				}
+				else {
+					return make(ast::TypedUnary::Op::STATIC_CAST);
+				}
 			}
 			if(match(TT::TILDE, tokens)) {
-				return make(ast::TypedUnary::Op::DYNAMIC_CAST);
+				if(match(TT::STAR, tokens)) {
+					return make(ast::TypedUnary::Op::DYNAMIC_COPY);
+				}
+				else {
+					return make(ast::TypedUnary::Op::DYNAMIC_CAST);
+				}
+			}
+			if(match(TT::XMARK, tokens)) {
+				return make(ast::TypedUnary::Op::FORCE_CAST);
 			}
 			return expr;
 		}

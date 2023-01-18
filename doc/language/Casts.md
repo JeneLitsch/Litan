@@ -19,7 +19,7 @@ Any numeric type is truncated or promoted to int.
 
 Any numeric type can be explicity promoted to float.
 
-# Static cast
+# Static Cast
 
 A static cast is check at compile type.
 
@@ -47,7 +47,7 @@ null : bool // -> false
 65 : char // -> 'A'
 ```
 
-# Dynamic cast
+# Dynamic Cast
 
 A dynamic cast is checked at runtime. An optional of the requested type is returned. If the cast is successful it produces a value. If the types don't match null is returned instead.
 
@@ -55,4 +55,14 @@ A dynamic cast is checked at runtime. An optional of the requested type is retur
 
 ```c++
 /*expr*/ ~ /*type*/
+```
+
+# Force Cast
+
+A force cast is checked at runtime. It returns the requested type T or throws.
+
+## Syntax
+
+```c++
+/*expr*/ ! /*type*/
 ```

@@ -8,7 +8,7 @@ namespace ltn::c {
 			switch (op) {
 			case Op::STATIC_CAST:  return type::deduce_cast_static(target_type);
 			case Op::DYNAMIC_CAST: return type::deduce_cast_dynamic(target_type);
-			case Op::FORCE_CAST:   return type::Error{};
+			case Op::FORCE_CAST:   return type::deduce_cast_force(target_type);
 			case Op::STATIC_COPY:  return type::deduce_copy_static(target_type);
 			case Op::DYNAMIC_COPY: return type::deduce_copy_dynamic(target_type);
 			default: throw std::runtime_error{"Invalid TypedUnary::Op"};
@@ -22,7 +22,7 @@ namespace ltn::c {
 			switch (op) {
 			case Op::STATIC_CAST:  return type::is_static_castable(from, to);
 			case Op::DYNAMIC_CAST: return type::is_dynamic_castable(to);
-			case Op::FORCE_CAST:   return false;
+			case Op::FORCE_CAST:   return type::is_force_castable(to);
 			case Op::STATIC_COPY:  return type::is_static_copyable(from, to);
 			case Op::DYNAMIC_COPY: return type::is_dynamic_copyable(to);
 			default: throw std::runtime_error{"Invalid TypedUnary::Op"};

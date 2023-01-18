@@ -25,6 +25,7 @@ files=(
 
 	"test/static_cast.ltn"
 	"test/dynamic_cast.ltn"
+	"test/force_cast.ltn"
 	"test/static_copy.ltn"
 	
 	"test/op_arith_add.ltn"

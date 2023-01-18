@@ -32,12 +32,8 @@ namespace ltn::c {
 	ast::stmt_ptr parse_stmt_switch(Tokens & tokens);
 	
 	// Expressions
-	ast::expr_ptr parse_assign(Tokens & tokens);
 	ast::expr_ptr parse_assign_r(Tokens & tokens);
 	ast::expr_ptr parse_expr_switch(Tokens & tokens);
-
-	ast::expr_ptr parse_static_copy(Tokens & tokens);
-	ast::expr_ptr parse_dynamic_copy(Tokens & tokens);
 
 	ast::expr_ptr parse_expression(Tokens & tokens);
 	ast::expr_ptr parse_expression_no_cast(Tokens & tokens);
@@ -54,7 +50,6 @@ namespace ltn::c {
 	// Utils
 	std::string parse_preset_name(Tokens & tokens);
 	std::string parse_enum_name(Tokens & tokens);
-	std::string parse_definition_name(Tokens & tokens);
 	std::string parse_variable_name(Tokens & tokens);
 	std::string parse_function_name(Tokens & tokens);
 	std::string parse_parameter_name(Tokens & tokens);

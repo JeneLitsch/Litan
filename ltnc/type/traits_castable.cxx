@@ -57,6 +57,12 @@ namespace ltn::c::type {
 
 
 
+	bool is_force_castable(const Type & to) {
+		return is_dynamic_castable(to);
+	}
+
+
+
 	bool is_static_copyable(const Type & from, const Type & to) {
 		if(all_types(from)        && is_bool(to))          return true;
 		if(is_numeric(from)       && is_char(to))          return true;
