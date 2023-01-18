@@ -8,7 +8,7 @@ namespace ltn::c {
 		ast::expr_ptr parse_nullco(Tokens & tokens, ast::expr_ptr l) {
 			auto else_expr = expr_fx(tokens);
 			return stx::make_unique<ast::Binary>(
-				ast::Binary::Type::NULLCO,
+				BinaryOp::NULLCO,
 				std::move(l),
 				std::move(else_expr),
 				location(tokens)
@@ -21,7 +21,7 @@ namespace ltn::c {
 		ast::expr_ptr parse_elvis(Tokens & tokens, ast::expr_ptr l) {
 			auto else_expr = expr_fx(tokens);
 			return stx::make_unique<ast::Binary>(
-				ast::Binary::Type::ELVIS,
+				BinaryOp::ELVIS,
 				std::move(l),
 				std::move(else_expr),
 				location(tokens)

@@ -7,7 +7,7 @@ namespace ltn::c {
 		type::Type deduce_type(
 			sst::Unary::Op op,
 			const type::Type & x) {
-			using OP = sst::Unary::Op;
+			using OP = UnaryOp;
 			switch (op) {
 				case OP::NEG:    return type::deduce_neg(x);
 				case OP::NOT:    return type::deduce_not(x);
@@ -41,7 +41,7 @@ namespace ltn::c {
 		Scope & scope) {
 		
 		auto expr = analyze_expression(*unary.expression, context, scope);
-		const auto op = static_cast<sst::Unary::Op>(unary.type);
+		const auto op = static_cast<sst::Unary::Op>(unary.op);
 		const auto type = deduce_type(op, expr->type);
 
 		if(is_error(type)) {

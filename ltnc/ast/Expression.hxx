@@ -5,6 +5,7 @@
 #include "Switch.hxx"
 #include "Node.hxx"
 #include "ltnc/Namespace.hxx"
+#include "ltnc/Operations.hxx"
 
 
 namespace ltn::c::ast {
@@ -42,44 +43,34 @@ namespace ltn::c::ast {
 
 
 	struct Unary : public Expression {
-		enum class Type { NEG, NOT, NUL, BITNOT, DEREF };
+		using Op = UnaryOp;
 		Unary(
-			Type type,
+			Op op,
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location)
 			: Expression(location)
-			, type(type)
+			, op(op)
 			, expression(std::move(expression)) {}
 		virtual ~Unary() = default;
-		Type type;
+		Op op;
 		std::unique_ptr<Expression> expression;
 	};
 
 
 
 	struct Binary : public Expression {
-		enum class Type {
-			ADD, SUB,
-			MLT, DIV, MOD, POW,
-			BIGGER, SMALLER, BIGGEREQUAL, SMALLEREQUAL,
-			EQUAL, UNEQUEL,
-			SPACE_SHIP,
-			SHIFT_L, SHIFT_R,
-			AND, OR,
-			NULLCO, ELVIS,
-			BIT_OR, BIT_AND, BIT_XOR,
-		};
+		using Op = BinaryOp;
 		Binary(
-			Type type,
+			Op op,
 			std::unique_ptr<Expression> l,
 			std::unique_ptr<Expression> r,
 			const SourceLocation & location)
 			: Expression(location)
-			, type(type)
+			, op(op)
 			, l(std::move(l))
 			, r(std::move(r)) {}
 		virtual ~Binary() = default;
-		Type type;
+		Op op;
 		std::unique_ptr<Expression> l;
 		std::unique_ptr<Expression> r;
 	};
@@ -129,10 +120,7 @@ namespace ltn::c::ast {
 
 	struct TypedUnary final : public Expression {
 	public:
-		enum class Op {
-			STATIC_CAST, DYNAMIC_CAST,
-			STATIC_COPY, DYNAMIC_COPY
-		};
+		using Op = TypedUnaryOp;
 		TypedUnary(
 			Op op,
 			const type::IncompleteType & type,

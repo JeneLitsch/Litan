@@ -4,7 +4,7 @@
 namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
-		using OP = ltn::c::ast::Unary::Type;
+		using OP = UnaryOp;
 
 
 

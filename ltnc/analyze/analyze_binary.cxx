@@ -10,7 +10,7 @@ namespace ltn::c {
 			sst::Binary::Op op,
 			const type::Type & l,
 			const type::Type & r) {
-			using OP = sst::Binary::Op;
+			using OP = BinaryOp;
 			switch (op) {
 				case OP::ADD:          return type::deduce_add(l, r);
 				case OP::SUB:          return type::deduce_sub(l, r);
@@ -63,7 +63,7 @@ namespace ltn::c {
 		
 		auto l = analyze_expression(*binary.l, context, scope);
 		auto r = analyze_expression(*binary.r, context, scope);
-		const auto op = static_cast<sst::Binary::Op>(binary.type);
+		const auto op = binary.op;
 		const auto type = deduce_type(op, l->type, r->type);
 
 		if(is_error(type)) {

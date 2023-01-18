@@ -5,7 +5,7 @@
 namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
-		using OP = ltn::c::ast::Binary::Type;
+		using OP = BinaryOp;
 	}
 
 	namespace {

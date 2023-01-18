@@ -5,6 +5,7 @@
 #include "Node.hxx"
 #include "ltnc/Namespace.hxx"
 #include "ltnc/Label.hxx"
+#include "ltnc/Operations.hxx"
 
 
 namespace ltn::c::sst {
@@ -44,7 +45,7 @@ namespace ltn::c::sst {
 
 
 	struct Unary : public Expression {
-		enum class Op { NEG, NOT, NUL, BITNOT, DEREF };
+		using Op = UnaryOp;
 		Unary(
 			Op op,
 			std::unique_ptr<Expression> expression,
@@ -60,17 +61,7 @@ namespace ltn::c::sst {
 
 
 	struct Binary : public Expression {
-		enum class Op {
-			ADD, SUB,
-			MLT, DIV, MOD, POW,
-			BIGGER, SMALLER, BIGGEREQUAL, SMALLEREQUAL,
-			EQUAL, UNEQUEL,
-			SPACE_SHIP,
-			SHIFT_L, SHIFT_R,
-			AND, OR,
-			NULLCO, ELVIS,
-			BIT_OR, BIT_AND, BIT_XOR,
-		};
+		using Op = BinaryOp;
 		Binary(
 			Op op,
 			std::unique_ptr<Expression> l,
@@ -156,10 +147,7 @@ namespace ltn::c::sst {
 
 	struct TypedUnary final : public Expression {
 	public:
-		enum class Op {
-			STATIC_CAST, DYNAMIC_CAST,
-			STATIC_COPY, DYNAMIC_COPY
-		};
+		using Op = TypedUnaryOp;
 		TypedUnary(
 			Op op,
 			const type::Type & target_type,
