@@ -26,8 +26,9 @@ namespace sphinx::test {
 
 
 	function force_cast_throw() {
-		assert_success(lambda => ("":any) ! string);
-		assert_except(lambda => (4:any) ! string);
-		assert_success(lambda => (4:any) ! float);
+		assert_success(lambda => "" ! string);
+		assert_except(lambda  => 4 ! string);
+		assert_success(lambda => 4 ! float);
+		assert_success(lambda => 4 : any ! float);
 	}
 }

@@ -8,12 +8,12 @@ namespace ltn::c {
 			const auto make = [&] (ast::TypedUnary::Op op) {
 				auto type = parse_type(tokens);
 				const auto loc = expr->location;
-				return stx::make_unique<ast::TypedUnary>(
+				return parse_cast(tokens, stx::make_unique<ast::TypedUnary>(
 					op, 
 					type,
 					std::move(expr),
 					loc
-				);
+				));
 			};
 			if(match(TT::COLON, tokens)) {
 				if(match(TT::STAR, tokens)) {
