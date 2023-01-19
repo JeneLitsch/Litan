@@ -94,4 +94,10 @@ namespace ltn::c::type {
 		if(is_array(to))  return is_subtype(is_dynamic_copyable, to);
 		return false;
 	}
+
+
+
+	bool is_force_copyable(const Type & to) {
+		return is_dynamic_copyable(to);
+	}
 }

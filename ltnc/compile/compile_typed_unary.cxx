@@ -27,11 +27,12 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::TypedUnary & expr) {
 
 		switch (expr.op) {
-		case sst::TypedUnary::Op::STATIC_COPY: return actual(inst::copy, expr);
-		case sst::TypedUnary::Op::DYNAMIC_COPY: return actual(inst::safe_copy, expr);
 		case sst::TypedUnary::Op::STATIC_CAST: return actual(inst::cast, expr);
 		case sst::TypedUnary::Op::DYNAMIC_CAST: return actual(inst::safe_cast, expr);
 		case sst::TypedUnary::Op::FORCE_CAST: return actual(inst::cast, expr);
+		case sst::TypedUnary::Op::STATIC_COPY: return actual(inst::copy, expr);
+		case sst::TypedUnary::Op::DYNAMIC_COPY: return actual(inst::safe_copy, expr);
+		case sst::TypedUnary::Op::FORCE_COPY: return actual(inst::copy, expr);
 		default: throw std::runtime_error{"Invalid TypedUnary::Op"};
 		}
 	}

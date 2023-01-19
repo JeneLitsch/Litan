@@ -39,4 +39,5 @@ namespace ltn::c::type {
 	Type deduce_cast_force(const Type & cast_to);
 	Type deduce_copy_static(const Type & cast_to);
 	Type deduce_copy_dynamic(const Type & cast_to);
+	Type deduce_copy_force(const Type & cast_to);
 }

@@ -11,6 +11,7 @@ namespace ltn::c {
 			case Op::FORCE_CAST:   return type::deduce_cast_force(target_type);
 			case Op::STATIC_COPY:  return type::deduce_copy_static(target_type);
 			case Op::DYNAMIC_COPY: return type::deduce_copy_dynamic(target_type);
+			case Op::FORCE_COPY:   return type::deduce_copy_force(target_type);
 			default: throw std::runtime_error{"Invalid TypedUnary::Op"};
 			}
 		}
@@ -25,6 +26,7 @@ namespace ltn::c {
 			case Op::FORCE_CAST:   return type::is_force_castable(to);
 			case Op::STATIC_COPY:  return type::is_static_copyable(from, to);
 			case Op::DYNAMIC_COPY: return type::is_dynamic_copyable(to);
+			case Op::FORCE_COPY:   return type::is_force_copyable(to);
 			default: throw std::runtime_error{"Invalid TypedUnary::Op"};
 			}
 		}

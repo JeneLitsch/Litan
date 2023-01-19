@@ -291,4 +291,10 @@ namespace ltn::c::type {
 			.contains = cast_to
 		};
 	}
+
+
+
+	Type deduce_copy_force(const Type & cast_to) {
+		return cast_to;
+	}
 }

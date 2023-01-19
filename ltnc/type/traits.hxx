@@ -28,4 +28,5 @@ namespace ltn::c::type {
 	bool is_force_castable(const Type & to);
 	bool is_static_copyable(const Type & from, const Type & to);
 	bool is_dynamic_copyable(const Type & to);
+	bool is_force_copyable(const Type & to);
 }

@@ -32,7 +32,12 @@ namespace ltn::c {
 				}
 			}
 			if(match(TT::XMARK, tokens)) {
-				return make(ast::TypedUnary::Op::FORCE_CAST);
+				if(match(TT::STAR, tokens)) {
+					return make(ast::TypedUnary::Op::FORCE_COPY);
+				}
+				else {
+					return make(ast::TypedUnary::Op::FORCE_CAST);
+				}
 			}
 			return expr;
 		}

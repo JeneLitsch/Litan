@@ -77,3 +77,20 @@ expr ~* Type
 ## Rules
 
 All rules from static copy.
+
+
+# Force Copy
+
+A force copy is checked at runtime. It returns the requested type T or throws.
+
+## Syntax
+
+```
+expr !* Type
+```
+
+## Rules
+
+All rules from static copy.
+
+Equivalent to: `*(expr ~* Type)`
