@@ -17,7 +17,7 @@ namespace ltn::c {
 		const sst::Lambda & expr,
 		unsigned indentation,
 		const lang::Language & lang) {
-
+		return  "/* LAMBDA */";
 	}
 
 
@@ -27,6 +27,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* CHOOSE */";
 	}
 
 
@@ -36,6 +37,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* TERNARY */";
 	}
 
 
@@ -45,6 +47,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* BINARY */";
 	}
 
 
@@ -54,6 +57,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* UNARY */";
 	}
 
 
@@ -63,6 +67,9 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		std::ostringstream oss;
+		oss << expr.value;
+		return oss.str();
 	}
 
 
@@ -71,7 +78,10 @@ namespace ltn::c {
 		const sst::Float & expr,
 		unsigned indentation,
 		const lang::Language & lang) {
-
+		
+		std::ostringstream oss;
+		oss << std::showpoint << expr.value;
+		return oss.str();
 	}
 
 
@@ -81,6 +91,10 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return std::string(expr.value
+			? lang.keyword_true()
+			: lang.keyword_false()
+		);
 	}
 
 
@@ -90,6 +104,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* CHAR */";
 	}
 
 
@@ -99,6 +114,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return std::string(lang.keyword_null());
 	}
 
 
@@ -108,6 +124,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* STRING */";
 	}
 
 
@@ -117,6 +134,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* ARRAY */";
 	}
 
 
@@ -126,15 +144,31 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* TUPLE */";
 	}
 
 
 
 	std::string transpile_expr(
-		const sst::Call & expr,
+		const sst::Call & call,
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		std::ostringstream oss;
+		oss << call.label.mangle() << "(";
+		bool start = true;
+		for(const auto & arg : call.parameters) {
+			if(start) {
+				start = false;
+			}
+			else {
+				oss << lang.call_args_separation();
+			}
+			oss << transpile_expression(*arg, indentation, lang);
+		}
+		oss << ")";
+
+		return oss.str();
 	}
 
 
@@ -144,6 +178,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* INVOKE */";
 	}
 
 
@@ -153,6 +188,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* INDEX */";
 	}
 
 
@@ -162,6 +198,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* FX_PTR */";
 	}
 
 
@@ -171,6 +208,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* IIFE */";
 	}
 
 
@@ -180,6 +218,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* EXPRVAR */";
 	}
 
 
@@ -189,6 +228,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* EXPRMEMBER */";
 	}
 
 
@@ -198,6 +238,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* EXPRGLOBAL */";
 	}
 
 
@@ -207,6 +248,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* TYPED UNARY */";
 	}
 
 
@@ -216,5 +258,6 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 
+		return  "/* REFLECT */";
 	}
 }

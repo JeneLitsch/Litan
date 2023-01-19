@@ -7,12 +7,6 @@ namespace ltn::c::lang {
 		}
 
 
-		void print_full_name(std::ostream & oss, const sst::Functional & fx) {
-			for(const auto & level : fx.namespaze) {
-				oss << level << "_";
-			}
-			oss << fx.name << "_" << fx.parameters.size();
-		}
 
 		void print_parameters(std::ostream & oss, const sst::Functional & fx) {
 			oss << "(";
@@ -32,7 +26,7 @@ namespace ltn::c::lang {
 		std::ostringstream oss;
 		print_type(oss, fx.return_type);
 		oss << " ";
-		print_full_name(oss, fx);
+		oss << fx.label.mangle();
 		print_parameters(oss, fx);
 		oss << "{ ";
 		return oss.str();
@@ -51,8 +45,29 @@ namespace ltn::c::lang {
 	}
 
 
+
 	std::string Cpp::block_end() const {
 		return "}";
+	}
+
+
+
+	std::string Cpp::call_start(const sst::Call & call) const {
+		std::ostringstream oss;
+		oss << call.label.mangle() << "(";
+		return oss.str();
+	}
+
+
+
+	std::string Cpp::call_end(const sst::Call & call) const {
+		return ")";
+	}
+
+
+
+	std::string Cpp::call_args_separation() const {
+		return ",";
 	}
 
 
@@ -61,5 +76,24 @@ namespace ltn::c::lang {
 		std::ostringstream oss;
 		print_type(oss, type);
 		return oss.str();
+	}
+
+
+
+	std::string_view Cpp::keyword_true() const {
+		return "true";
+	}
+
+
+
+	std::string_view Cpp::keyword_false() const {
+		return "false";
+
+	}
+
+
+
+	std::string_view Cpp::keyword_null() const {
+		return "nullptr";
 	}
 };

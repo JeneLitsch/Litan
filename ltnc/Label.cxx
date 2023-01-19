@@ -8,6 +8,29 @@ namespace ltn::c {
 	} 
 
 
+	std::string replace(
+		std::string str,
+		const std::string & find,
+		const std::string & replace) {
+		std::size_t pos = 0;
+		while ((pos = str.find(find, pos)) != std::string::npos) {
+			str.replace(pos, std::size(find), replace);
+			pos += std::size(replace);
+		}
+		return str;
+	}
+
+
+	std::string Label::mangle() const {
+		auto str = this->get_name();
+		str = replace(str, "::", "_");
+		str = replace(str, "(", "_");
+		str = replace(str, ")", "");
+		return "fx_" + str;
+	}
+
+
+
 	std::string Label::to_string() const {
 		switch (this->use_case) {
 			case UseCase::EXTERNAL: return this->get_name();

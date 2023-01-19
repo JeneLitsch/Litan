@@ -10,6 +10,7 @@ namespace ltn::c {
 		Label(UseCase use_case, const std::string & name)
 			: use_case{use_case}, name{name} {}
 		const std::string & get_name() const;
+		std::string mangle() const;
 		std::string to_string() const;
 	private:
 		UseCase use_case;

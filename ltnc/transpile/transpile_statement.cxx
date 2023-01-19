@@ -149,11 +149,13 @@ namespace ltn::c {
 
 
 	std::string transpile_stmt(
-		const sst::StatementExpression &,
+		const sst::StatementExpression & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return lang.indent(indentation) + "// EXPR\n";
-
+		std::ostringstream oss;
+		oss << lang.indent(indentation);
+		oss << transpile_expression(*stmt.expression, indentation, lang) + "\n";
+		return oss.str();
 	}
 
 
