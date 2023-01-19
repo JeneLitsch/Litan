@@ -1,9 +1,17 @@
 namespace sphinx::test {
+	function force_cast_bool() {
+		assert_equal_strict(4.2 ! bool, true);
+		assert_equal_strict("a" ! bool, true);
+	}
+
+
+
 	function force_cast_value() {
 		var str : any = "abc";
 		assert_equal_strict(4.2 ! int, 4);
 		assert_equal_strict(str ! string, "abc");
 	}
+
 
 
 	namespace force_cast_local {
@@ -15,6 +23,7 @@ namespace sphinx::test {
 			);
 		}
 	}
+
 
 
 	function force_cast_type() {

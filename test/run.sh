@@ -23,10 +23,10 @@ files=(
 	"test/tuple.ltn"
 	"test/iostream.ltn"
 
-	"test/static_cast.ltn"
-	"test/dynamic_cast.ltn"
-	"test/force_cast.ltn"
-	"test/static_copy.ltn"
+	"test/cast_static.ltn"
+	"test/cast_dynamic.ltn"
+	"test/cast_force.ltn"
+	"test/copy_static.ltn"
 	
 	"test/op_arith_add.ltn"
 	"test/op_arith_sub.ltn"
