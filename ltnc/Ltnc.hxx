@@ -6,6 +6,7 @@
 #include "compile/compile.hxx"
 #include "peephole/peephole.hxx"
 #include "assemble/assemble.hxx"
+#include "transpile/transpile.hxx"
 #include "print/print.hxx"
 
 #include "source/FileSource.hxx"

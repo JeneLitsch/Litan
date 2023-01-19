@@ -78,6 +78,12 @@ int main(int argc, char const *argv[]){
 		"Use this option to generate human readable assembly code for debugging. The assembly code will be stored in sepcified file"
 	);
 
+	auto & flag_cpp = desc.add<stx::option_string>(
+		{"--cpp"},
+		"File for C++ output",
+		"Transpile to C++"
+	);
+
 	auto & flag_version = ltn::args::version(desc);
 	auto & flag_help    = ltn::args::help(desc);
 
@@ -118,6 +124,10 @@ int main(int argc, char const *argv[]){
 		reporter.may_throw();
 		if(flag_asm) {
 			output_asm(flag_asm.value(), instructions);
+		}
+		if(flag_cpp) {
+			std::ofstream fout(flag_cpp.value());
+			fout << ltn::c::transpile(program, ltn::c::lang::Cpp{});
 		}
 		auto bytecode = ltn::c::assemble(instructions, link_info);
 

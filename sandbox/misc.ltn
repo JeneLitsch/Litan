@@ -1,1 +1,8 @@
-function main() {}
+namespace foo {
+	function bar(x : int) {
+		return x * x;
+	}
+}
+function main() {
+	foo::bar(42);
+}
