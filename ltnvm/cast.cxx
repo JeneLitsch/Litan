@@ -39,6 +39,10 @@ namespace ltn::vm::cast {
 	}
 
 	char to_char(Value value) {
+		if(is_bool(value)) {
+			return static_cast<char>(value.i);
+		}
+
 		if(is_int(value)) {
 			return static_cast<char>(value.i);
 		}

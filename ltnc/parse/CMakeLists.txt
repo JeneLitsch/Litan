@@ -7,7 +7,6 @@ target_sources(libltnc PRIVATE
 	parse_binary.cxx
 	parse_block.cxx
 	parse_braces.cxx
-	parse_cast.cxx
 	parse_condition.cxx
 	parse_conditional.cxx
 	parse_definition.cxx
