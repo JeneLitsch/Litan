@@ -11,7 +11,7 @@ namespace std {
 			return wait(seconds, clock);
 		}
 
-		function wait(seconds, clock) {
+		function wait(seconds, clock) -> null {
 			var start = to_seconds(clock);
 			var current = start;
 			while(current - start <= seconds) {
