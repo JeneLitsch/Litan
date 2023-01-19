@@ -133,8 +133,6 @@ namespace ltn::c {
 			{"case",         TT::CASE},
 			{"default",      TT::DEFAULT},
 			{"global",       TT::GLOBAL},
-			{"static_copy",  TT::STATIC_COPY},
-			{"dynamic_copy", TT::DYNAMIC_COPY},
 			{"reflect",      TT::REFLECT},
 		};
 		

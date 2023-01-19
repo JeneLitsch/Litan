@@ -44,8 +44,6 @@ namespace ltn::c {
 			CASE,
 			DEFAULT,
 			GLOBAL,
-			STATIC_COPY,
-			DYNAMIC_COPY,
 			REFLECT,
 			
 			INTEGER,
