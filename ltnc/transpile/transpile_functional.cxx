@@ -9,7 +9,7 @@ namespace ltn::c {
 			const lang::Language & lang) {
 			
 			std::ostringstream oss;
-			oss << lang.indent(indentation) << "// BODY" << "\n";
+			oss << transpile_statement(stmt, indentation, lang);
 			return oss.str();
 		}
 
@@ -31,7 +31,7 @@ namespace ltn::c {
 		const lang::Language & lang) {
 		
 		std::ostringstream oss;
-		oss << lang.indent(indentation) << lang.fx_start(fx) << "\n";
+		oss << lang.indent(indentation) << lang.fx_begin(fx) << "\n";
 		
 		if(const sst::Function * f = dynamic_cast<const sst::Function *>(&fx)) {
 		 	oss << transpile_body(*f->body, indentation + 1, lang);

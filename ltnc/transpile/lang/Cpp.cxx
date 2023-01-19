@@ -28,7 +28,7 @@ namespace ltn::c::lang {
 
 
 
-	std::string Cpp::fx_start(const sst::Functional & fx) const {
+	std::string Cpp::fx_begin(const sst::Functional & fx) const {
 		std::ostringstream oss;
 		print_type(oss, fx.return_type);
 		oss << " ";
@@ -41,6 +41,17 @@ namespace ltn::c::lang {
 
 
 	std::string Cpp::fx_end(const sst::Functional & fx) const {
+		return "}";
+	}
+
+
+
+	std::string Cpp::block_begin() const {
+		return "{";
+	}
+
+
+	std::string Cpp::block_end() const {
 		return "}";
 	}
 

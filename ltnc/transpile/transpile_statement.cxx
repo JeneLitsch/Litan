@@ -6,7 +6,7 @@ namespace ltn::c {
 		unsigned indentation,
 		const lang::Language & lang) {
 		
-		sst::visit_statement(stmt, [&](const auto & s) {
+		return sst::visit_statement(stmt, [&] (const auto & s) {
 			return transpile_stmt(s, indentation, lang);
 		});
 	}
@@ -14,10 +14,17 @@ namespace ltn::c {
 
 
 	std::string transpile_stmt(
-		const sst::Block & stmt,
+		const sst::Block & block,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// BLOCK";
+		
+		std::ostringstream oss;
+		oss << lang.indent(indentation) << lang.block_begin() << "\n";
+		for(const auto & stmt : block.statements) {
+			oss << transpile_statement(*stmt, indentation+1, lang);
+		}
+		oss << lang.indent(indentation) << lang.block_end() << "\n";
+		return oss.str();
 	}
 
 
@@ -26,7 +33,7 @@ namespace ltn::c {
 		const sst::Return & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// RETURN";
+		return lang.indent(indentation) + "// RETURN\n";
 	}
 
 
@@ -35,7 +42,7 @@ namespace ltn::c {
 		const sst::AssignLocal & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// ASSIGN LOCAL";
+		return lang.indent(indentation) + "// ASSIGN LOCAL\n";
 	}
 
 
@@ -44,7 +51,7 @@ namespace ltn::c {
 		const sst::AssignIndex & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// ASSIGN INDEX";
+		return lang.indent(indentation) + "// ASSIGN INDEX\n";
 
 	}
 
@@ -54,7 +61,7 @@ namespace ltn::c {
 		const sst::AssignMember & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// ASSIGN MEMBER";
+		return lang.indent(indentation) + "// ASSIGN MEMBER\n";
 	}
 
 
@@ -63,7 +70,7 @@ namespace ltn::c {
 		const sst::AssignGlobal & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// ASSIGN GLOBAL";
+		return lang.indent(indentation) + "// ASSIGN GLOBAL\n";
 
 	}
 
@@ -73,7 +80,7 @@ namespace ltn::c {
 		const sst::Throw & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// THROW";
+		return lang.indent(indentation) + "// THROW\n";
 	}
 
 
@@ -82,7 +89,7 @@ namespace ltn::c {
 		const sst::InitMember & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// INIT MEMBER";
+		return lang.indent(indentation) + "// INIT MEMBER\n";
 	}
 
 
@@ -91,7 +98,7 @@ namespace ltn::c {
 		const sst::IfElse & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// IF ELSE";
+		return lang.indent(indentation) + "// IF ELSE\n";
 
 	}
 
@@ -101,7 +108,7 @@ namespace ltn::c {
 		const sst::InfiniteLoop & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// LOOP";
+		return lang.indent(indentation) + "// LOOP\n";
 	}
 
 
@@ -110,7 +117,7 @@ namespace ltn::c {
 		const sst::While & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// WHILE";
+		return lang.indent(indentation) + "// WHILE\n";
 	}
 
 
@@ -119,7 +126,7 @@ namespace ltn::c {
 		const sst::For & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// FOR";
+		return lang.indent(indentation) + "// FOR\n";
 	}
 
 
@@ -128,7 +135,7 @@ namespace ltn::c {
 		const sst::NewVar & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// VAR";
+		return lang.indent(indentation) + "// VAR\n";
 	}
 
 
@@ -137,6 +144,24 @@ namespace ltn::c {
 		const sst::StmtSwitch & stmt,
 		unsigned indentation,
 		const lang::Language & lang) {
-		return "// SWITCH";
+		return lang.indent(indentation) + "// SWITCH\n";
+	}
+
+
+	std::string transpile_stmt(
+		const sst::StatementExpression &,
+		unsigned indentation,
+		const lang::Language & lang) {
+		return lang.indent(indentation) + "// EXPR\n";
+
+	}
+
+
+
+	std::string transpile_stmt(
+		const sst::DoNothing &,
+		unsigned indentation,
+		const lang::Language & lang) {
+		return lang.indent(indentation) + "// NOTHING\n";
 	}
 }

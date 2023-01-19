@@ -26,6 +26,8 @@ namespace ltn::c {
 	std::string transpile_stmt(const sst::For &, unsigned indentation, const lang::Language &);
 	std::string transpile_stmt(const sst::NewVar &, unsigned indentation, const lang::Language &);
 	std::string transpile_stmt(const sst::StmtSwitch &, unsigned indentation, const lang::Language &);
+	std::string transpile_stmt(const sst::StatementExpression &, unsigned indentation, const lang::Language &);
+	std::string transpile_stmt(const sst::DoNothing &, unsigned indentation, const lang::Language &);
 
 	// Expression
 	std::string transpile_expression(const sst::Expression &, unsigned indentation, const lang::Language &);
