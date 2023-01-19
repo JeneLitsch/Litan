@@ -23,9 +23,15 @@ namespace ltn::vm {
 	};
 
 	struct Absolute {
-		inline auto operator()(const auto value) const {
-			using T = decltype(value);
-			return static_cast<decltype(std::int64_t{1} + value)>(std::abs(value));
+		template <typename T>
+		inline auto operator()(const T value) const {
+			using Promoted = decltype(value + std::int64_t(1));
+			if constexpr(std::is_unsigned_v<T>) {
+				return static_cast<Promoted>(value);
+			}
+			else {
+				return static_cast<Promoted>(std::abs(value));
+			}
 		}
 	};
 

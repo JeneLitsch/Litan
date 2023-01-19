@@ -32,12 +32,8 @@ namespace ltn::c {
 	ast::stmt_ptr parse_stmt_switch(Tokens & tokens);
 	
 	// Expressions
-	ast::expr_ptr parse_assign(Tokens & tokens);
 	ast::expr_ptr parse_assign_r(Tokens & tokens);
 	ast::expr_ptr parse_expr_switch(Tokens & tokens);
-
-	ast::expr_ptr parse_static_copy(Tokens & tokens);
-	ast::expr_ptr parse_dynamic_copy(Tokens & tokens);
 
 	ast::expr_ptr parse_expression(Tokens & tokens);
 	ast::expr_ptr parse_expression_no_cast(Tokens & tokens);
@@ -47,17 +43,24 @@ namespace ltn::c {
 	ast::expr_ptr parse_unary(Tokens & tokens);
 	ast::expr_ptr parse_primary(Tokens & tokens);
 	ast::expr_ptr parse_reflect(Tokens & tokens);
-	ast::litr_ptr parse_integral(Tokens & tokens);
+	ast::expr_ptr parse_parenthesized(Tokens & tokens);
+	ast::expr_ptr parse_integral(Tokens & tokens);
+	ast::expr_ptr parse_array(Tokens & tokens);
 
 	// Utils
 	std::string parse_preset_name(Tokens & tokens);
 	std::string parse_enum_name(Tokens & tokens);
-	std::string parse_definition_name(Tokens & tokens);
 	std::string parse_variable_name(Tokens & tokens);
 	std::string parse_function_name(Tokens & tokens);
 	std::string parse_parameter_name(Tokens & tokens);
 	void brace_l(Tokens & tokens);
 	void brace_r(Tokens & tokens);
+
+	std::vector<ast::expr_ptr> parse_list(
+		Token::Type end,
+		std::string end_str,
+		Tokens & tokens,
+		ast::expr_ptr first = nullptr);
 
 	std::tuple<std::vector<type::IncompleteType>, bool> parse_template_args(Tokens & tokens);
 

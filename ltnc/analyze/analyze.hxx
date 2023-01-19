@@ -60,6 +60,7 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::Null &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::String &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Array &, Context &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Tuple &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Call &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Index &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::FxPointer &, Context &, Scope &);

@@ -17,7 +17,7 @@ namespace ltn::c {
 			constexpr static auto SIZE = sizeof(value) / sizeof(std::uint8_t);
 			std::array<std::uint8_t, SIZE> bytes;
 			for(std::uint8_t & byte : bytes) {
-				byte = value & 0xff;
+				byte = static_cast<std::uint8_t>(value & 0xff);
 				value >>= 8;
 			}
 			std::reverse(bytes.begin(), bytes.end());
@@ -62,9 +62,12 @@ namespace ltn::c {
 			bytecode += to_bytes(addr);
 		}
 		void assemble_args(
-			std::vector<std::uint8_t> &,
-			const inst::InstTarget &,
-			const AddressTable &) {
+			std::vector<std::uint8_t> & bytecode,
+			const inst::InstCall & args,
+			const AddressTable & jump_table) {
+			const auto addr = resolve_label(jump_table, args.label);
+			bytecode += to_bytes(addr);
+			bytecode += args.arity;
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
@@ -151,11 +154,12 @@ namespace ltn::c {
 
 
 	std::vector<std::uint8_t> assemble(
-		const Instructions & instructions) {
+		const std::vector<inst::Inst> & instructions,
+		const LinkInfo & link_info) {
 		
-		const auto jump_table     = scan(instructions.insts);
-		const auto function_table = build_fx_table(instructions.init_functions, jump_table);
-		const auto & static_table = instructions.global_table;
+		const auto jump_table     = scan(instructions);
+		const auto function_table = build_fx_table(link_info.init_functions, jump_table);
+		const auto & static_table = link_info.global_table;
 
 		std::vector<std::uint8_t> bytecode;
 		bytecode.push_back(ltn::major_version);
@@ -163,7 +167,7 @@ namespace ltn::c {
 		bytecode += sequence_table(function_table);
 		bytecode += sequence_table(static_table);
 
-		for(const auto & inst : instructions.insts) {
+		for(const auto & inst : instructions) {
 			std::visit([&] (auto & i) {
 				return assemble_opcode(bytecode, i, jump_table);
 			}, inst);

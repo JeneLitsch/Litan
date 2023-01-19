@@ -7,9 +7,13 @@ namespace ltn::c {
 			return ":" + inst.label;
 		}
 
+
+
 		std::string print_inst(const inst::InstNone & inst) {
 			return std::string{inst.name};
 		}
+
+
 
 		std::string print_inst(const inst::InstUint64 & args) {
 			std::ostringstream ss;
@@ -17,11 +21,15 @@ namespace ltn::c {
 			return ss.str();
 		}
 
+
+
 		std::string print_inst(const inst::InstUint16 & args) {
 			std::ostringstream ss;
 			ss << args.name << " " << args.value;
 			return ss.str();
 		}
+
+
 
 		std::string print_inst(const inst::InstJump & args) {
 			std::ostringstream ss;
@@ -29,11 +37,15 @@ namespace ltn::c {
 			return ss.str();
 		}
 
-		std::string print_inst(const inst::InstTarget & args) {
+
+
+		std::string print_inst(const inst::InstCall & args) {
 			std::ostringstream ss;
-			ss << args.name << " " << args.name;
+			ss << args.name << " " << args.label << " " << static_cast<std::uint32_t>(args.arity);
 			return ss.str();
 		}
+
+
 
 		std::string print_inst(const inst::InstJumpUint64 & args) {
 			std::ostringstream ss;
@@ -41,11 +53,15 @@ namespace ltn::c {
 			return ss.str();
 		}
 
+
+
 		std::string print_inst(const inst::InstInt64 & args) {
 			std::ostringstream ss;
 			ss << args.name << " " << args.value;
 			return ss.str();
 		}
+
+
 
 		std::string print_inst(const inst::InstFloat & args) {
 			std::ostringstream ss;
@@ -53,11 +69,15 @@ namespace ltn::c {
 			return ss.str();
 		}
 
+
+
 		std::string print_inst(const inst::InstByte & args) {
 			std::ostringstream ss;
 			ss << args.name << " " << static_cast<std::uint16_t>(args.value);
 			return ss.str();
 		}
+
+
 
 		std::string print_inst(const inst::InstUint64Bytex & args) {
 			std::ostringstream ss;
@@ -67,6 +87,8 @@ namespace ltn::c {
 			}
 			return ss.str();
 		}
+
+
 
 		std::string print_inst(const inst::InstBytex0 & args) {
 			std::ostringstream ss;
@@ -80,9 +102,6 @@ namespace ltn::c {
 	}
 
 
-
-
-	
 
 	std::string print(const std::span<const inst::Inst> & instructions) {
 		std::ostringstream ss;

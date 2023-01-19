@@ -2,25 +2,69 @@
 #include <vector>
 #include <variant>
 #include <iostream>
+#include <memory>
 #include <optional>
 #include "stdxx/heaped.hxx"
 
 namespace ltn::c::type {
-	class Complete{};
+	class Type {
+		struct Concept {
+			virtual ~Concept() = default;
+			virtual std::unique_ptr<Concept> clone() const = 0;
+		};
+
+
+		template<typename T>
+		struct Model : Concept {
+			Model(T type) : object { std::move(type) } {}
+			T object;
+			virtual std::unique_ptr<Concept> clone() const override {
+				return std::make_unique<Model<T>>(object);
+			}
+		};
+
+	public:
+		template<typename T>
+		Type(T type)
+			: object { std::make_unique<Model<T>>(std::move(type)) } {}
+
+		Type(const Type & other) {
+			this->object = other.object->clone();
+		}
+
+		Type & operator=(const Type & other) {
+			this->object = other.object->clone();
+			return *this;
+		}
+
+		Type(Type &&) = default;
+
+		Type & operator=(Type &&) = default; 
 	
-	template<typename Flavor>
-	class BasicType;
+		template<typename T>
+		const T * as() const {
+			if(auto t = dynamic_cast<const Model<T> *>(this->object.get())) {
+				return &t->object;
+			}
+			else {
+				return nullptr;
+			}
+		}
+	private:
+		std::unique_ptr<Concept> object;
+	};
+
+
 
 	struct Other {
 		std::string type_name;
 	};
 
-	template<typename T>
-	struct BasicOptional {
-		constexpr static auto type_name = "optional";
-		stx::heaped<T> contains;
-	};
 
+
+	struct Optional {
+		Type contains;
+	};
 
 
 
@@ -28,137 +72,127 @@ namespace ltn::c::type {
 		constexpr static auto type_name = "any";
 	};
 
+
+
 	struct Error {
 		constexpr static auto type_name = "error";
 	};
+
+
 
 	struct Null {
 		constexpr static auto type_name = "null";
 	};
 
+
+
 	struct Bool {
 		constexpr static auto type_name = "bool";
 	};
+
+
 
 	struct Char {
 		constexpr static auto type_name = "char";
 	};
 
+
+
 	struct Int {
 		constexpr static auto type_name = "int";
 	};
+
+
 
 	struct Float {
 		constexpr static auto type_name = "float";
 	};
 
+
+
 	struct String {
 		constexpr static auto type_name = "string";
 	};
 
-	template<typename T>
-	struct BasicArray {
-		constexpr static auto type_name = "array";
-		std::optional<stx::heaped<T>> contains;
+
+
+	struct Array {
+		std::optional<Type> contains;
+	};
+
+
+
+	struct Tuple {
+		std::vector<Type> contained;
 	};
 	
 
 
-
-	template<typename T>
-	struct BasicFxPtr {
-		constexpr static auto type_name = "fx_ptr";
-		std::optional<stx::heaped<T>> return_type;
-		std::vector<T> parameter_types;
+	struct FxPtr {
+		Type return_type;
+		std::vector<Type> parameter_types;
 	};
 
 
 
-
-	template<typename T>
-	struct BasicQueue {
-		constexpr static auto type_name = "queue";
-		stx::heaped<T> contains;
+	struct Queue {
+		Type contains;
 	};
 
 
 
-
-	template<typename T>
-	struct BasicStack {
-		constexpr static auto type_name = "stack";
-		stx::heaped<T> contains;
+	struct Stack {
+		Type contains;
 	};
 
 
 
-
-	template<typename T>
-	struct BasicMap {
-		constexpr static auto type_name = "map";
-		std::optional<stx::heaped<T>> key;
-		std::optional<stx::heaped<T>> val;
+	struct Map {
+		Type key;
+		Type val;
 	};
 
+
+
+	struct Istream {
+		constexpr static auto type_name = "istream";
+	};
+
+
+
+	struct Ostream {
+		constexpr static auto type_name = "ostream";
+	};
 
 
 
 	struct Auto{};
 
 
-	template<typename Flavor>
-	class BasicType {
 
-		using Variant = std::variant<
-			Any,
-			Other,
-			BasicOptional<BasicType>,
-			Error,
-			Null,
-			Bool,
-			Char,
-			Int,
-			Float,
-			String,
-			BasicArray<BasicType>,
-			BasicFxPtr<BasicType>,
-			BasicQueue<BasicType>,
-			BasicStack<BasicType>,
-			BasicMap<BasicType>
-		>;
+	auto visit(const Type & type, const auto & fx) {
+		if(auto t = type.as<Any>())      return fx(*t);
+		if(auto t = type.as<Other>())    return fx(*t);
+		if(auto t = type.as<Optional>()) return fx(*t);
+		if(auto t = type.as<Error>())    return fx(*t);
+		if(auto t = type.as<Null>())     return fx(*t);
+		if(auto t = type.as<Bool>())     return fx(*t);
+		if(auto t = type.as<Char>())     return fx(*t);
+		if(auto t = type.as<Int>())      return fx(*t);
+		if(auto t = type.as<Float>())    return fx(*t);
+		if(auto t = type.as<String>())   return fx(*t);
+		if(auto t = type.as<Array>())    return fx(*t);
+		if(auto t = type.as<Tuple>())    return fx(*t);
+		if(auto t = type.as<FxPtr>())    return fx(*t);
+		if(auto t = type.as<Queue>())    return fx(*t);
+		if(auto t = type.as<Stack>())    return fx(*t);
+		if(auto t = type.as<Map>())      return fx(*t);
+		if(auto t = type.as<Istream>())  return fx(*t);
+		if(auto t = type.as<Ostream>())  return fx(*t);
+		throw std::runtime_error{"Unknown type"};
+	}
 
-	public:
-		BasicType(auto actual_type) : actual_type { actual_type } {} 
-	
-		template<typename T>
-		const T * as() const {
-			return std::get_if<T>(&actual_type);
-		} 
 
-		auto visit(const auto & visitor) {
-			return std::visit(visitor, this->actual_type);
-		}
-
-		auto visit(const auto & visitor) const {
-			return std::visit(visitor, this->actual_type);
-		}
-
-		const Variant & operator*() const {
-			return this->actual_type;
-		}
-	private:
-		
-		Variant actual_type;
-	};
-
-	using Type = BasicType<Complete>;
-
-	using Optional = BasicOptional<Type>;
-	using Array = BasicArray<Type>;
-	using FxPtr = BasicFxPtr<Type>;
-	using Queue = BasicQueue<Type>;
-	using Stack = BasicStack<Type>;
-	using Map = BasicMap<Type>;
 
 	struct IncompleteType {
 		Type type;
@@ -176,31 +210,18 @@ namespace ltn::c::type {
 	std::strong_ordering operator<=>(const Float &, const Float &);
 	std::strong_ordering operator<=>(const String &, const String &);
 	std::strong_ordering operator<=>(const Array & l, const Array & r);
+	std::strong_ordering operator<=>(const Tuple & l, const Tuple & r);
 	std::strong_ordering operator<=>(const FxPtr & l, const FxPtr & r);
 	std::strong_ordering operator<=>(const Queue & l, const Queue & r);
 	std::strong_ordering operator<=>(const Stack & l, const Stack & r);
 	std::strong_ordering operator<=>(const Map & l, const Map & r);
+	std::strong_ordering operator<=>(const Istream & l, const Istream & r);
+	std::strong_ordering operator<=>(const Ostream & l, const Ostream & r);
 
 	inline bool operator==(const Type & l, const Type & r) {
 		return (l <=> r) == 0;
 	}
 	
-	// inline bool operator==(const Any & l, const Any & r) { 				return (l <=> r) == 0;}
-	// inline bool operator==(const Other & l, const Other & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Optional & l, const Optional & r) { 	return (l <=> r) == 0;}
-	// inline bool operator==(const Error & l, const Error & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Null & l, const Null & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Bool & l, const Bool & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Char & l, const Char & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Int & l, const Int & r) { 				return (l <=> r) == 0;}
-	// inline bool operator==(const Float & l, const Float & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const String & l, const String & r) { 		return (l <=> r) == 0;}
-	// inline bool operator==(const Array & l, const Array & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const FxPtr & l, const FxPtr & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Queue & l, const Queue & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Stack & l, const Stack & r) { 			return (l <=> r) == 0;}
-	// inline bool operator==(const Map & l, const Map & r) { 				return (l <=> r) == 0;}
-
 
 	std::ostream & operator<<(std::ostream & out, const Type & type);
 }

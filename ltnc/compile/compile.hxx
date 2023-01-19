@@ -17,7 +17,7 @@
 #include "ltnc/Instructions.hxx"
 
 namespace ltn::c {
-	Instructions compile(const sst::Program & program, Reporter & reporter);
+	std::tuple<std::vector<inst::Inst>, LinkInfo> compile(const sst::Program & program, Reporter & reporter);
 
 	// Functional
 	InstructionBuffer compile_functional(const sst::Functional &);
@@ -53,6 +53,7 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Null &);
 	InstructionBuffer compile_expr(const sst::String &);
 	InstructionBuffer compile_expr(const sst::Array &);
+	InstructionBuffer compile_expr(const sst::Tuple &);
 	InstructionBuffer compile_expr(const sst::Call &);
 	InstructionBuffer compile_expr(const sst::Invoke &);
 	InstructionBuffer compile_expr(const sst::Index &);

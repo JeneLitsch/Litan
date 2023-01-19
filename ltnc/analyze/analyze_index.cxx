@@ -1,5 +1,7 @@
 #include "analyze.hxx"
 #include <string_view>
+#include "stdxx/iife.hxx"
+
 namespace ltn::c {
 	// compiles index read operation
 	sst::expr_ptr analyze_expr(
@@ -9,9 +11,17 @@ namespace ltn::c {
 
 		auto arr = analyze_expression(*index.expression, context, scope);
 		auto idx = analyze_expression(*index.index, context, scope);
-		
-		const auto type = type::deduce_index(arr->type, idx->type);
 
+		type::Type type = stx::iife([&] {
+			auto integer = dynamic_cast<sst::Integer*>(idx.get());
+			if(integer) {
+				return type::deduce_index(arr->type, idx->type, integer->value);
+			}
+			else {
+				return type::deduce_index(arr->type, idx->type);
+			}
+		});
+		
 		return std::make_unique<sst::Index>(
 			std::move(arr),
 			std::move(idx),

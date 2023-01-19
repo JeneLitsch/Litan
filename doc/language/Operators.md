@@ -2,23 +2,26 @@
 
 # Precedence
 
-|     | Operators    | Description   |
-| --- | ------------ | ------------- |
-| 1   | [] .         | Postfix Unary |
-| 1   | - ! ~ ?      | Prefix Unary  |
-| 2   | **           | Power         |
-| 3   | *  /  %      | Factor        |
-| 4   | + -          | Term          |
-| 5   | << >>        | Bitshift      |
-| 6   | <=>          | Threeway      |
-| 7   | < > <= >=    | Comapare      |
-| 8   | == !=        | Equality      |
-| 9   | &            | Bitwise and   |
-| 9   | ^            | Bitwise xor   |
-| 9   | &vert;       | Bitwise or    |
-| 9   | &&           | Logic and     |
-| 9   | &vert;&vert; | Logic or      |
-| 9   | ?? ?: ? :    | Conditional   |
+|     | Operators        | Description   |
+| --- | ---------------- | ------------- |
+| 1   | [] . (...)       | Postfix Unary |
+| 1   | *(deref) - ! ~ ? | Prefix Unary  |
+| 2   | **               | Power         |
+| 3   | *  /  %          | Factor        |
+| 4   | + -              | Term          |
+| 5   | << >>            | Bitshift      |
+| 6   | <=>              | Threeway      |
+| 7   | < > <= >=        | Comapare      |
+| 8   | == !=            | Equality      |
+| 9   | &                | Bitwise and   |
+| 9   | ^                | Bitwise xor   |
+| 9   | &vert;           | Bitwise or    |
+| 9   | &&               | Logic and     |
+| 9   | &vert;&vert;     | Logic or      |
+| 9   | ?? ?: ? :        | Conditional   |
+| 9   | : ~              | Casts         |
+
+<br>
 
 # Arithmetic + - * / % **
 
@@ -30,6 +33,8 @@
 | Float    | Float    | Float  | Addition      |
 | String   | String   | String | Concatination |
 | Array    | Array    | Array  | Concatination |
+| Tuple    | Tuple    | Tuple  | Concatination |
+
 
 | L        | R        | Result | l - r       |
 | -------- | -------- | ------ | ----------- |
@@ -44,6 +49,10 @@
 | Float    | Integral | Float  | Multiplication |
 | Integral | Float    | Float  | Multiplication |
 | Float    | Float    | Float  | Multiplication |
+| String   | Integral | String | Repetition     |
+| Integral | String   | String | Repetition     |
+| Array    | Integral | Array  | Repetition     |
+| Integral | Array    | Array  | Repetition     |
 
 | L        | R        | Result | l / r            |
 | -------- | -------- | ------ | ---------------- |
@@ -58,7 +67,6 @@
 | Float    | Integral | Float  | fmod   |
 | Integral | Float    | Float  | fmod   |
 | Float    | Float    | Float  | fmod   |
-
 
 | L       | R       | Result | l ** r |
 | ------- | ------- | ------ | ------ |
@@ -88,12 +96,16 @@ function main() {
 }
 ```
 
+<br>
+
 # Arithmetic -
 
 | X        | Result | -x                                   |
 | -------- | ------ | ------------------------------------ |
 | Integral | Int    | Negate / Multiply by -1 / Flips sign |
 | Float    | Float  | Negate / Multiply by -1 / Flips sign |
+
+<br>
 
 # Bitwise & | ^
 
@@ -127,6 +139,8 @@ function main() {
 }
 ```
 
+<br>
+
 # Bitwise ~
 
 | x        | Result | ~x                   |
@@ -138,6 +152,8 @@ function main() {
 	std::println(~0b0); // -1
 }
 ```
+
+<br>
 
 # Comparison <=> == != < > <= >= 
 
@@ -169,6 +185,8 @@ function main() {
 | --- | --- | ------ | ------------- |
 | Any | Any | Bool   | Greater Equal |
 
+<br>
+
 # Bitshift << >>
 
 | L        | R        | Result | l << r        |
@@ -178,6 +196,8 @@ function main() {
 | L        | R        | Result | l >> r         |
 | -------- | -------- | ------ | -------------- |
 | Integral | Integral | Int    | Bitshift right |
+
+<br>
 
 # Logic && || 
 
@@ -191,11 +211,15 @@ All logic operators implement a short circuit mechanism. If the first operand de
 | --- | --- | ------ | ----------------- |
 | Any | Any | Int    | Logical or        |
 
+<br>
+
 # Logic !
 
 | X   | Result | !x          |
 | --- | ------ | ----------- |
 | Any | Bool   | Logical not |
+
+<br>
 
 # Conditional operator ?: ??
 
@@ -207,6 +231,8 @@ All logic operators implement a short circuit mechanism. If the first operand de
 | --- | --- | ------ | ------------------------ |
 | Any | Any | Int    | Null coalescing operator |
 
+<br>
+
 # Check ?
 
 Return false if x is null and true otherwise.
@@ -214,6 +240,8 @@ Return false if x is null and true otherwise.
 | X   | Result | ?x        |
 | --- | ------ | --------- |
 | Any | Bool   | Null test |
+
+<br>
 
 # Deref *
 
@@ -224,6 +252,8 @@ Throws if x is null. Otherwise x is forwarded.
 | optional&lt;T&gt; | T      | derefence |
 | Any               | Any    | derefence |
 
+<br>
+
 # Ternary ?:
 
 Returns l if c is truthy and to r if c is not.
@@ -232,10 +262,47 @@ Returns l if c is truthy and to r if c is not.
 | --- | --- | --- | ------ | ------------------------- |
 | Any | Any | Any | Int    | Binary condition operator |
 
+<br>
+
 # Operator .
  
 TODO
 
+<br>
+
 # Operator []
 
-TODO
+The index operator is used to retrieve or assign elements from collections.
+An index expression is assignable.
+
+## For arrays
+
+Obtains the element at the given index.
+
+## For string
+
+Obtains the character at the given index.
+
+## For map
+
+Obtains the value with the matching key. If no entry in map matches null is returned. The result type is an optional of the value type of the map. 
+
+<br>
+
+# Static cast :
+
+Checked cast at compile time.
+Static cast is save but limited.
+It can be used to cast is some well defined cases:
+- Casts between any primitive types.
+- Cast from any other type to bool. (Truthiness) 
+- Cast from empty and typeless array to typed array.
+
+<br>
+
+# Dyanamic cast ~
+
+Checked cast at runtime.
+The dynamic cast checks if an object is of the requested type.
+If the types match, the reference is returned as an valid optional.
+If the types do not match, a null optional is returned instead. 

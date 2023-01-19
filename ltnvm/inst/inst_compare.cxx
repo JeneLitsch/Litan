@@ -17,44 +17,68 @@ namespace ltn::vm::inst {
 		}
 	}
 	
+
+	
 	#define FETCH\
-		const auto r = core.reg.pop();\
-		const auto l = core.reg.pop();
+		const auto r = core.stack.pop();\
+		const auto l = core.stack.pop();
+
+
 
 	void eql(VmCore & core) {
 		FETCH
-		return core.reg.push(compare(l, r, core.heap) == 0);
+		return core.stack.push(compare(l, r, core.heap) == 0);
 	}
+
+
+
 	void ueql(VmCore & core) {
 		FETCH
-		return core.reg.push(compare(l, r, core.heap) != 0);
+		return core.stack.push(compare(l, r, core.heap) != 0);
 	}
-	void sml(VmCore & core) {
+
+
+
+	void lt(VmCore & core) {
 		FETCH
-		return core.reg.push(compare(l, r, core.heap) < 0);
+		return core.stack.push(compare(l, r, core.heap) < 0);
 	}
-	void bgr(VmCore & core) {
+
+
+
+	void gt(VmCore & core) {
 		FETCH
-		return core.reg.push(compare(l, r, core.heap) > 0);
+		return core.stack.push(compare(l, r, core.heap) > 0);
 	}
+
+
+
 	void smleql(VmCore & core) {
 		FETCH
-		return core.reg.push(compare(l, r, core.heap) <= 0);
+		return core.stack.push(compare(l, r, core.heap) <= 0);
 	}
+
+
+
 	void bgreql(VmCore & core) {
 		FETCH
-		return core.reg.push(compare(l, r, core.heap) >= 0);
+		return core.stack.push(compare(l, r, core.heap) >= 0);
 	}
+
+
+
 	void comp(VmCore & core) {
 		FETCH
 		const auto result = compare(l, r, core.heap);
-		return core.reg.push(eval_3_way(result));
+		return core.stack.push(eval_3_way(result));
 	}
 
+
+
 	void between(VmCore & core) {
-		const auto to = core.reg.pop(); 
-		const auto from = core.reg.pop(); 
-		const auto i = core.reg.pop();
+		const auto to = core.stack.pop(); 
+		const auto from = core.stack.pop(); 
+		const auto i = core.stack.pop();
 
 		const auto from_is_less = num_compare(from, to) < 0;
 		const auto min = from_is_less ? from : to;
@@ -64,7 +88,7 @@ namespace ltn::vm::inst {
 			num_compare(i, min) < 0 ||
 			num_compare(i, max) > 0;
 		
-		core.reg.push(value::boolean(is_in_range));
+		core.stack.push(value::boolean(is_in_range));
 	}
 
 	#undef FETCH

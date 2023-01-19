@@ -3,33 +3,33 @@
 
 namespace ltn::vm::inst {
 	void at(VmCore & core) {
-		const auto key = core.reg.pop();
-		const auto ref = core.reg.pop();
+		const auto key = core.stack.pop();
+		const auto ref = core.stack.pop();
 		
-		if(is_array(ref)) {
-			const auto & arr = core.heap.read<Array>(ref.u).get();
+		if(is_array(ref) || is_tuple(ref)) {
+			const auto & arr = core.heap.read<Array>(ref.u);
 			const auto index = to_index(key);
 			guard_index(arr, index);
-			core.reg.push(arr[static_cast<std::size_t>(index)]);
+			core.stack.push(arr[static_cast<std::size_t>(index)]);
 			return;
 		}
 
 		if(is_string(ref)) {
-			const auto & str = core.heap.read<String>(ref.u).get();
+			const auto & str = core.heap.read<String>(ref.u);
 			const auto index = to_index(key);
 			guard_index(str, index);
 			const auto chr = str[static_cast<std::size_t>(index)];
-			core.reg.push(value::character(chr));
+			core.stack.push(value::character(chr));
 			return;
 		}
 
 		if(is_map(ref)) {
-			const auto & map = core.heap.read<Map>(ref.u).get();
+			const auto & map = core.heap.read<Map>(ref.u);
 			if(map.contains(key)) {
-				core.reg.push(map.at(key));
+				core.stack.push(map.at(key));
 			}
 			else {
-				core.reg.push(value::null);
+				core.stack.push(value::null);
 			}
 			return;
 		}

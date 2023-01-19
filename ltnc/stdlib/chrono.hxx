@@ -6,7 +6,7 @@ namespace std {
 		build_in to_seconds(clock)      @ chrono_to_seconds
 		build_in to_milliseconds(clock) @ chrono_to_milliseconds
 
-		function wait(seconds) {
+		function wait(seconds) -> null {
 			var clock = clock();
 			return wait(seconds, clock);
 		}

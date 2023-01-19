@@ -29,16 +29,16 @@ namespace sphinx::test {
 
 
 	function neg_except() {
-		assert_except(lambda => -null);
-		assert_success(lambda => -true);
-		assert_success(lambda => -'A');
-		assert_success(lambda => -1);
-		assert_success(lambda => -1.0);
-		assert_except(lambda => -"");
-		assert_except(lambda => -std::map());
-		assert_except(lambda => -std::struct());
-		assert_except(lambda => -std::stack());
-		assert_except(lambda => -std::queue());
-		assert_except(lambda => -std::cout());
+		assert_except(lambda =>  -(null:any));
+		assert_success(lambda => -(true:any));
+		assert_success(lambda => -('A':any));
+		assert_success(lambda => -(1:any));
+		assert_success(lambda => -(1.0:any));
+		assert_except(lambda =>  -("":any));
+		assert_except(lambda =>  -(std::map():any));
+		assert_except(lambda =>  -(std::struct():any));
+		assert_except(lambda =>  -(std::stack():any));
+		assert_except(lambda =>  -(std::queue():any));
+		assert_except(lambda =>  -(std::cout():any));
 	}
 }

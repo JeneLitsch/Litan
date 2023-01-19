@@ -5,10 +5,6 @@ namespace ltn::vm {
 		return val.type == Value::Type::NVLL;
 	}
 
-	constexpr inline bool is_enum(const Value & val) {
-		return val.type == Value::Type::ENUM;
-	}
-
 	constexpr inline bool is_bool(const Value & val) {
 		return val.type == Value::Type::BOOL;
 	}
@@ -39,6 +35,10 @@ namespace ltn::vm {
 
 	constexpr inline bool is_array(const Value & val) {
 		return val.type == Value::Type::ARRAY;
+	}
+
+	constexpr inline bool is_tuple(const Value & val) {
+		return val.type == Value::Type::TUPLE;
 	}
 
 	constexpr inline bool is_ostream(const Value & val) {

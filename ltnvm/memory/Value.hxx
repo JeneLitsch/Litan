@@ -6,9 +6,9 @@ namespace ltn::vm {
 	struct Value {
 		// DO NOT TOUCH/CHANGE THE VALUES !!!
 		enum class Type : std::uint32_t {
-			NVLL = 0x00, ENUM,
+			NVLL = 0x00,
 			BOOL = 0x10, INT, FLOAT, CHAR,
-			ARRAY = 0x20, STRING,
+			ARRAY = 0x20, STRING, TUPLE,
 			ISTREAM = 0x30, OSTREAM,
 			FX_PTR = 0x40, EXTERNAL,
 			CLOCK = 0x50,
@@ -16,8 +16,8 @@ namespace ltn::vm {
 			QUEUE = 0x70, STACK, MAP,
 			RNG = 0x80,
 
+			OBJ_LAST,
 			OBJ_FIRST = ARRAY,
-			OBJ_LAST = RNG,
 		};
 
 		constexpr Value()
@@ -76,6 +76,10 @@ namespace ltn::vm {
 
 		constexpr inline Value rng(std::uint64_t addr) {
 			return Value{addr, Value::Type::RNG};
+		}
+
+		constexpr inline Value tuple(std::uint64_t addr) {
+			return Value{addr, Value::Type::TUPLE};
 		}
 	}
 }

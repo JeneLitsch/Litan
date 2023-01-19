@@ -2,21 +2,19 @@
 #include <unordered_map>
 #include "memory/Heap.hxx"
 #include "memory/Stack.hxx"
-#include "memory/Register.hxx"
 #include "external/Callable.hxx"
 
 namespace ltn::vm {
 	struct VmCore {
 		// Runtime
 		Stack stack;
-		Register reg;
 		Heap heap;
 		std::uint64_t pc;
 
 		// Persistent
 		std::span<const std::uint8_t> byte_code;
 
-		std::vector<Value> static_variables;
+		Array static_variables;
 
 		std::unordered_map<std::int64_t, ext::Callable> externals;
 		std::unordered_map<std::string, std::uint64_t> function_table;

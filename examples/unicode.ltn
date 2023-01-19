@@ -1,0 +1,6 @@
+function main() {
+	std::println("Umlaute: äüöÄÜÖ");
+	std::println("Україна");
+	std::println("日本");
+	std::println("La République Française");
+}

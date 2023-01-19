@@ -12,7 +12,7 @@ Returns the entire stream buffer of stdin as a string
 
 ---
 
-## std::read_all(stream)
+## std::read_all(stream : istream)
 since 1.2  
 **Parameters**  
 * stream: an input stream

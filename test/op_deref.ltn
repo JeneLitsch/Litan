@@ -1,0 +1,26 @@
+namespace sphinx::test {
+	function deref_expr() {
+		assert_except(lambda() => *null);
+		assert_success(lambda() => *42);
+	}
+
+
+
+	function deref_optional() {
+		var opt_null : ?int = null;
+		var opt_value : ?int = 42;
+		assert_except(lambda[opt_null]() => *opt_null);
+		assert_success(lambda[opt_value]() => *opt_value);
+	}
+
+
+
+	function deref_type() {
+		assert_equal_strict(reflect(expr *4).type.name, "int");
+		assert_equal_strict(reflect(expr *null).type.name, "null");
+		var opt : ?int;
+		assert_equal_strict(reflect(expr *opt).type.name, "int");
+		var opt_opt : ??int;
+		assert_equal_strict(reflect(expr *opt_opt).type.name, "int");
+	}
+}

@@ -5,6 +5,8 @@ namespace ltn::c {
 		definition.expr = optimize_expression(std::move(definition.expr));
 	}
 	
+
+	
 	void optimize_function(sst::Function & function) {
 		function.body = optimize_statement(std::move(function.body));
 	}

@@ -5,22 +5,7 @@
 
 namespace ltn::c {
 	namespace {
-
-		const std::string jumpmark_except(const std::string_view name) {
-			std::stringstream ss;
-			ss << "_" << name << "_EXCEPT";
-			return ss.str(); 
-		}
-
-		const std::string jumpmark_skip(const std::string_view name) {
-			std::stringstream ss;
-			ss << name << "_SKIP";
-			return ss.str(); 
-		}
-
-
 		InstructionBuffer compile_body(const auto & fx) {
-
 			InstructionBuffer buf;
 			if(fx.body) {
 				const auto body = compile_statement(*fx.body);
@@ -40,14 +25,14 @@ namespace ltn::c {
 			
 			InstructionBuffer buf;
 			buf << inst::label(label_except.to_string());
-			buf << inst::parameters(1);
 			buf << compile_body(except);
 			buf << inst::null();
 			buf << inst::retvrn();
 			return buf;
 		}
 
-		// compiles Litan function
+
+
 		InstructionBuffer compile_function(
 			const sst::Function & fx,
 			std::optional<Label> override_label = std::nullopt) {
@@ -58,12 +43,6 @@ namespace ltn::c {
 			const auto except_label = derive_except(label); 
 			
 			buf << inst::label(label.to_string());
-			for(const auto & c : fx.capture) {
-				buf << inst::makevar();
-				buf << inst::write_x(c->addr);
-				// buf << compile_expression(*c);
-			}
-			buf << inst::parameters(static_cast<std::uint8_t>(fx.parameters.size()));
 			if(fx.except) buf << inst::trY(except_label.to_string());
 			buf << compile_body(fx);
 			buf << inst::null();
@@ -77,8 +56,6 @@ namespace ltn::c {
 
 
 
-
-		// compiles asm_function
 		InstructionBuffer compile_build_in_function(
 			const sst::BuildIn & fx,
 			std::optional<Label> override_label) {
@@ -98,7 +75,6 @@ namespace ltn::c {
 
 
 
-	// compiles functional node
 	InstructionBuffer compile_functional(
 		const sst::Functional & functional,
 		std::optional<Label> override_label) {
@@ -113,7 +89,7 @@ namespace ltn::c {
 	}
 
 
-	// compiles functional node
+
 	InstructionBuffer compile_functional(const sst::Functional & functional) {
 		return compile_functional(functional, std::nullopt);
 	}

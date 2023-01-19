@@ -18,8 +18,11 @@ namespace ltn::c {
 		}
 	}
 
+
+
 	CompilerError::CompilerError(const std::string & msg, const SourceLocation & context)
 		:	std::runtime_error(to_str(msg, context)) {}
+
 
 
 	CompilerError::CompilerError(const std::string & msg)

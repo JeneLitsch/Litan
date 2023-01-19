@@ -21,4 +21,4 @@ for (i : 0 -> 42 : 2) {
 
 ## Note
 
-"i" can be named anything. A new variable with the specified name is created in the scope of the loop.
+"i" can be named anything. A new variable with the specified name is created in the scope of the loop. The type of the index variable is always int.

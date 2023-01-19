@@ -8,9 +8,7 @@ namespace ltn::vm {
 		using result_type = std::uint64_t;
 		std::variant<std::mt19937_64> engine;
 
-		RandomEngine clone() const {
-			return *this;
-		}
+
 
 		void seed(std::int64_t seed) {
 			std::visit([seed](auto & rng) {
@@ -38,4 +36,10 @@ namespace ltn::vm {
 
 		RandomEngine split();
 	};
+
+
+
+	inline RandomEngine clone(const RandomEngine & rng) {
+		return rng;
+	}
 }

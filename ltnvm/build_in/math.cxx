@@ -40,25 +40,25 @@ namespace ltn::vm::build_in {
 
 
 	Value min(VmCore & core) {
-		auto a = core.reg.pop();
-		auto b = core.reg.pop();
+		auto a = core.stack.pop();
+		auto b = core.stack.pop();
 		return compare(a, b, core.heap) <= 0 ? a : b;
 	}
 
 
 
 	Value max(VmCore & core) {
-		auto a = core.reg.pop();
-		auto b = core.reg.pop();
+		auto a = core.stack.pop();
+		auto b = core.stack.pop();
 		return compare(a, b, core.heap) >= 0 ? a : b;
 	}
 
 
 
 	Value clamp(VmCore & core) {
-		auto max = core.reg.pop();
-		auto min = core.reg.pop();
-		auto val = core.reg.pop();
+		auto max = core.stack.pop();
+		auto min = core.stack.pop();
+		auto val = core.stack.pop();
 
 		if(compare(val, min, core.heap) < 0) {
 			return min;
@@ -74,57 +74,57 @@ namespace ltn::vm::build_in {
 
 
 	Value round(VmCore & core) {
-		return rounding<Round>(core.reg.pop());
+		return rounding<Round>(core.stack.pop());
 	}
 
 
 
 	Value floor(VmCore & core) {
-		return rounding<Floor>(core.reg.pop());
+		return rounding<Floor>(core.stack.pop());
 	}
 
 
 
 	Value ceil(VmCore & core) {
-		return rounding<Ceil>(core.reg.pop());
+		return rounding<Ceil>(core.stack.pop());
 	}
 
 
 
 	Value abs(VmCore & core) {
-		return function<Absolute>(core.reg.pop());
+		return function<Absolute>(core.stack.pop());
 	}
 
 
 
 	Value sin(VmCore & core) {
-		return function<Sinus>(core.reg.pop());
+		return function<Sinus>(core.stack.pop());
 	}
 
 
 
 	Value cos(VmCore & core) {
-		return function<Cosinus>(core.reg.pop());
+		return function<Cosinus>(core.stack.pop());
 	}
 
 
 
 	Value tan(VmCore & core) {
-		return function<Tangents>(core.reg.pop());
+		return function<Tangents>(core.stack.pop());
 	}
 
 
 
 	Value sqrt(VmCore & core) {
-		const auto value = core.reg.pop();
+		const auto value = core.stack.pop();
 		return std::sqrt(convert::to_float(value));
 	}
 	
 
 
 	Value hypot(VmCore & core) {
-		const auto r = core.reg.pop();
-		const auto l = core.reg.pop();
+		const auto r = core.stack.pop();
+		const auto l = core.stack.pop();
 		return std::hypot(
 			convert::to_float(l),
 			convert::to_float(r));
@@ -133,8 +133,8 @@ namespace ltn::vm::build_in {
 
 
 	Value log(VmCore & core){
-		const auto r = core.reg.pop();
-		const auto l = core.reg.pop();
+		const auto r = core.stack.pop();
+		const auto l = core.stack.pop();
 		return std::log(convert::to_float(l))
 			/ std::log(convert::to_float(r));
 	}
@@ -142,21 +142,21 @@ namespace ltn::vm::build_in {
 
 	
 	Value ln(VmCore & core) {
-		const auto value = core.reg.pop();
+		const auto value = core.stack.pop();
 		return std::log(convert::to_float(value));
 	}
 
 
 
 	Value ld(VmCore & core) {
-		core.reg.push(value::floating(2));
+		core.stack.push(value::floating(2));
 		return log(core);
 	}
 
 
 
 	Value lg(VmCore & core) {
-		core.reg.push(value::floating(10));
+		core.stack.push(value::floating(10));
 		return log(core);
 	}
 }

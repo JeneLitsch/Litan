@@ -34,6 +34,8 @@ namespace ltn::c {
 			);
 		}
 
+
+
 		sst::func_ptr analyze_function(
 			const ast::Function & fx,
 			Context & context,
@@ -67,7 +69,6 @@ namespace ltn::c {
 
 
 
-
 		sst::func_ptr analyze_build_in_function(
 			const ast::BuildIn & fx,
 			Scope & scope,
@@ -98,7 +99,6 @@ namespace ltn::c {
 
 
 
-	// compiles functional node
 	sst::func_ptr analyze_functional(
 		const ast::Functional & functional,
 		Context & context,
@@ -117,7 +117,7 @@ namespace ltn::c {
 	}
 
 
-	// compiles functional node
+
 	sst::func_ptr analyze_functional(
 		const ast::Functional & functional,
 		Context & context) {

@@ -20,8 +20,8 @@ namespace ltn::vm::inst {
 	 
 	void eql(VmCore & core);
 	void ueql(VmCore & core);
-	void sml(VmCore & core);
-	void bgr(VmCore & core);
+	void lt(VmCore & core);
+	void gt(VmCore & core);
 	void bgreql(VmCore & core);
 	void smleql(VmCore & core);
 	
@@ -52,7 +52,6 @@ namespace ltn::vm::inst {
 	void between(VmCore & core);
 	void external(VmCore & core);
 	void capture(VmCore & core);
-	void parameters(VmCore & core);
 	
 	void newarr(VmCore & core);
 	void newstr(VmCore & core);
@@ -65,6 +64,7 @@ namespace ltn::vm::inst {
 	void newqueue(VmCore & core);
 	void newmap(VmCore & core);
 	void newrng(VmCore & core);
+	void newtuple(VmCore & core);
 
 	void scrap(VmCore & core);
 	void duplicate(VmCore & core);

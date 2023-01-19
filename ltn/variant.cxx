@@ -1,4 +1,5 @@
 #include "variant.hxx"
+#include "stdxx/io.hxx"
 
 namespace ltn {
 
@@ -77,5 +78,57 @@ namespace ltn {
 
 	const std::vector<Variant> & Variant::as_array() const {
 		return this->get<std::vector<Variant>>();
+	}
+
+
+	namespace {
+		void print(std::ostream & stream, const Variant::NullT & value) {
+			stream << "null";
+		}
+
+
+
+		void print(std::ostream & stream, const bool & value) {
+			stream << std::boolalpha << value << std::noboolalpha;
+		}
+
+
+
+		void print(std::ostream & stream, const char & value) {
+			stream << value;
+
+		}
+
+
+
+		void print(std::ostream & stream, const std::int64_t & value) {
+			stream << value;
+
+		}
+
+
+
+		void print(std::ostream & stream, const stx::float64_t & value) {
+			stream << value;
+		}
+
+
+
+		void print(std::ostream & stream, const std::string & value) {
+			stream << value;
+		}
+
+
+
+		void print(std::ostream & stream, const std::vector<Variant> & value) {
+			stream << stx::whole(value);
+		}
+	}
+
+
+
+	std::ostream & operator<<(std::ostream & stream, const Variant & variant) {
+		std::visit([&] (auto & value) { print(stream, value); }, variant.data);
+		return stream;
 	}
 }

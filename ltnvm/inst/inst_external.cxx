@@ -3,9 +3,9 @@
 #include <sstream>
 namespace ltn::vm::inst {
 	void external(VmCore & core) {
-		const auto value = core.reg.pop();
+		const auto value = core.stack.pop();
 		if(is_int(value)) {
-			core.reg.push({value.u, Value::Type::EXTERNAL});
+			core.stack.push({value.u, Value::Type::EXTERNAL});
 		}
 		else throw except::invalid_cast("External");
 	}

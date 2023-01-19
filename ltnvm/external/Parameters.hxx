@@ -8,7 +8,7 @@
 namespace ltn::vm::ext {
 	class Parameters {
 	public:
-		Parameters(Heap & heap, Register & reg, const std::vector<Value> & params);
+		Parameters(Heap & heap, const Array & params);
 
 		template<class T>
 		T get(std::size_t idx) const {
@@ -27,7 +27,7 @@ namespace ltn::vm::ext {
 				throw std::runtime_error{"Parameter not a float"};
 			}
 			else if constexpr(std::same_as<T, std::string>) {
-				if(is_string(value)) return this->heap.read<String>(value.u).str;
+				if(is_string(value)) return this->heap.read<String>(value.u);
 				throw std::runtime_error{"Parameter not a string"};
 			}
 			else {
@@ -45,7 +45,6 @@ namespace ltn::vm::ext {
 			return this->params[idx];
 		}
 		Heap & heap;
-		Register & reg;
-		std::vector<Value> params;
+		Array params;
 	};
 }

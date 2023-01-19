@@ -14,7 +14,7 @@ Reads a single boolean from stdin.
 
 ---
 
-## std::read_bool(stream)
+## std::read_bool(stream : istream)
 since 1.2  
 **Parameters**  
 * stream: an input stream

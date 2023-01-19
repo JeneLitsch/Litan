@@ -15,7 +15,6 @@ namespace ltn::c {
 		InstructionBuffer buf;
 		buf << inst::newf(expr.value);
 		return buf;
-
 	}
 
 
@@ -30,7 +29,6 @@ namespace ltn::c {
 			buf << inst::bool_false();
 		}
 		return buf;
-
 	}
 
 

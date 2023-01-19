@@ -23,59 +23,71 @@ namespace ltn::c {
 	namespace {
 		using TT = Token::Type; 
 
-		// Returns true if stream is empty 
+
+
 		bool is_at_end(std::istream & in) {
 			return in.eof();
 		}
 
-		// return next char from "in"
+
+
 		char consume(std::istream & in) {
 			return static_cast<char>(in.get());
 		}
 
-		// peeks at "in" and returns true if chars matches
+
+
 		bool check(std::istream & in, char chr) {
 			if(is_at_end(in)) return false;
 			return in.peek() == chr;
 		}
 
-		// returns true if next char is a digit
+
+
 		bool check_digit(std::istream & in) {
 			return std::isdigit(in.peek());
 		}
 
-		// returns true if next char is a hex digit
+
+
 		bool check_hex_digit(std::istream & in) {
 			return std::isxdigit(in.peek());
 		}
 
-		// returns true if next char is a hex digit
+
+
 		bool check_bin_digit(std::istream & in) {
 			return in.peek() == '0' || in.peek() == '1';
 		}
 
-		// returns true if next char is a letter
+
+
 		bool check_alpha(std::istream & in) {
 			return std::isalpha(in.peek());
 		}
 
-		// returns true if next char is a letter or digit
+
+
 		bool check_alpha_numeric(std::istream & in) {
 			return std::isalnum(in.peek());
 		}
+
+
 
 		bool check_id_char(std::istream & in) {
 			return check_alpha_numeric(in) || in.peek() == '_';
 		}
 
-		// returns true and consumes if the next char matches 
+
+
 		bool match_char(std::istream & in, char chr) {
 			const bool b = check(in, chr);
 			if(b) consume(in);
 			return b;
 		}
 
-		// fetches from "in" while checkFx returns true
+
+
 		std::string read(std::istream & in, const auto & checkFx) {
 			std::string str;
 			while(checkFx(in)) {
@@ -85,7 +97,8 @@ namespace ltn::c {
 			return str;
 		}
 
-		// ignores rest of line
+
+
 		void comment(std::istream & in) {
 			while(!is_at_end(in) && in.peek() != '\n') {
 				in.ignore();
@@ -93,7 +106,7 @@ namespace ltn::c {
 		}
 
 
-		// Table of keywords
+
 		const std::unordered_map<std::string_view, Token::Type> keywords{
 			{"function",     TT::FUNCTION},
 			{"lambda",       TT::LAMBDA},
@@ -120,11 +133,10 @@ namespace ltn::c {
 			{"case",         TT::CASE},
 			{"default",      TT::DEFAULT},
 			{"global",       TT::GLOBAL},
-			{"static_copy",  TT::STATIC_COPY},
-			{"dynamic_copy", TT::DYNAMIC_COPY},
 			{"reflect",      TT::REFLECT},
 		};
 		
+
 
 		template<char END> 
 		char de_escape(auto chr, const SourceLocation & location) {
@@ -138,7 +150,8 @@ namespace ltn::c {
 			throw CompilerError{"Invalid escape sequence", location};
 		}
 
-		// Reads and deescape string from in
+
+
 		template<char END> 
 		std::string string(std::istream & in, const SourceLocation & location) {
 			std::stringstream ss;
@@ -164,6 +177,8 @@ namespace ltn::c {
 		}
 	}
 	
+
+
 	Token token(std::istream & in, SourceLocation & location) {
 		const auto match = [&] (char chr) {
 			return ltn::c::match_char(in, chr);

@@ -182,18 +182,18 @@ namespace ltn::c::ast {
 	struct Assign final : public Statement {
 	public:
 		Assign(
-			std::unique_ptr<Assignable> l,
+			std::unique_ptr<Expression> l,
 			std::unique_ptr<Expression> r,
 			const SourceLocation & location)
 			: Statement(location)
 			, l(std::move(l))
 			, r(std::move(r)) {}
 		virtual ~Assign() = default;
-		std::unique_ptr<Assignable> l;
+		std::unique_ptr<Expression> l;
 		std::unique_ptr<Expression> r;
 	};
 
-	using StmtSwitch = Switch<Statement, Statement>;
+	using StmtSwitch = Switch<Statement>;
 
 
 

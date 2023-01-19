@@ -93,14 +93,12 @@ namespace ltn::c {
 
 
 		auto analyze_staged(const StagedFx & staged, Context & context) {
-			// std::cout << staged.fx->id << "\n";
 			return analyze_functional(*staged.fx, context); 
 		}
 
 
 
 		auto analyze_staged(const StagedTemplateFx & staged, Context & context) {
-			// std::cout << staged.tmpl->fx->id << "\n";
 			return analyze_function_template(staged.tmpl, context, staged.arguments); 
 		}
 	}

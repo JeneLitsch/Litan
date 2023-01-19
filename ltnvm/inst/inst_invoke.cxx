@@ -2,49 +2,48 @@
 
 namespace ltn::vm::inst {
 	namespace {
-		inline void load_parameters_into_register(Register & reg, const auto & params) {
+		inline void load_arguments_onto_stack(Stack & stack, const auto & params) {
 			for(const auto param : params) {
-				reg.push(param);
+				stack.push(param);
 			}
 		}
 
-		inline void load_captures_into_register(Register & reg, const auto & captured) {
-			const auto begin = captured.rbegin();
-			const auto end = captured.rend();
-			for (auto i = begin; i != end; ++i ) { 
-				reg.push(*i);
+		inline void load_captures_into_register(Stack & stack, const auto & captured) {
+			for(const auto c : captured) {
+				stack.push(c);
 			}
 		}
 	}
 
 	void invoke(VmCore & core) {
-		const auto ref_param = core.reg.pop();
-		const auto refFx = core.reg.pop();
+		const auto ref_param = core.stack.pop();
+		const auto refFx = core.stack.pop();
 		if(is_array(ref_param)) {
-			const auto & params = core.heap.read<Array>(ref_param.u);
+			const auto & arguments = core.heap.read<Array>(ref_param.u);
 
 			// Call functions pointer
 			if(is_fxptr(refFx)) {
 				const auto & fxptr = core.heap.read<FxPointer>(refFx.u);
-				if(params.arr.size() == fxptr.get_parameters()) {
-					load_parameters_into_register(core.reg, params.arr);
-					load_captures_into_register(core.reg, fxptr.captured);
-					core.stack.push_frame(core.pc);
+				const auto arity = arguments.size();
+				if(arity == fxptr.get_parameters()) {
+					core.stack.push_frame(core.pc, static_cast<std::uint8_t>(0));
+					load_captures_into_register(core.stack, fxptr.captured);
+					load_arguments_onto_stack(core.stack, arguments);
 					core.pc = fxptr.address;
 				}
-				else throw except::invalid_parameters(fxptr.get_parameters(), params.arr.size());
+				else throw except::invalid_parameters(fxptr.get_parameters(), arity);
 			}
 
 			// Call external binding
 			else if(is_external(refFx) || is_int(refFx)) {
 				if(core.externals.contains(refFx.i)) {
 					auto & fxptr = core.externals.at(refFx.i);
-					if(params.arr.size() == fxptr.arity()) {
-						ext::Parameters parameters{core.heap, core.reg, params.arr};
+					if(arguments.size() == fxptr.arity()) {
+						ext::Parameters parameters{core.heap, arguments};
 						auto result = fxptr(parameters, core.heap);
-						core.reg.push(result);
+						core.stack.push(result);
 					}
-					else throw except::invalid_parameters(fxptr.arity(), params.arr.size());
+					else throw except::invalid_parameters(fxptr.arity(), arguments.size());
 				}
 				else throw except::invalid_argument();
 			}

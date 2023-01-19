@@ -20,7 +20,7 @@ namespace sphinx::test {
 
 
 	function shift_l_except() {
-		assert_except(lambda => 4 << null);
-		assert_except(lambda => 4.0 << 2);
+		assert_except(lambda => (4:any) << (null:any));
+		assert_except(lambda => (4.0:any) << (2:any));
 	}
 }

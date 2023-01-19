@@ -3,21 +3,9 @@
 #include <string_view>
 #include "ltnvm/memory/Value.hxx"
 namespace ltn::vm {
-	struct Array {
-		constexpr static std::string_view typeName = "Array";
-		
-		std::vector<Value> arr;
+	using Array = std::vector<Value>;
 
-		const auto & get() const {
-			return this->arr;
-		}
-		
-		auto & get() {
-			return this->arr;
-		}
-
-		auto clone() const {
-			return *this;
-		}
-	};
+	inline Array clone(const Array & arr) {
+		return arr;
+	}
 }

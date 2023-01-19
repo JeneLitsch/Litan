@@ -1,6 +1,6 @@
 # std::print
 
-## std::print(stream, value)
+## std::print(stream : ostream, value)
 **Parameters**  
 * stream: stream to print to
 * value: value to be printed

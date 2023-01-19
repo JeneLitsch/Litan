@@ -11,9 +11,11 @@ namespace ltn::vm {
 		
 		Members members;
 	
-		auto clone() const {
-			return *this;
-		}
 	};
 	
+
+
+	inline Struct clone(const Struct & strukt) {
+		return strukt;
+	}
 }

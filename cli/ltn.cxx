@@ -42,15 +42,19 @@ int main(int argc, char const *argv[]) {
 		std::cout << desc.describe(); 
 		return EXIT_SUCCESS;
 	}
-	
-	flag_source.mandatory();
-	
+
+	std::vector<std::string> single_file;
+	if(argc > 1) {
+		single_file.push_back(argv[1]);
+	}
+
 	ltn::c::Reporter reporter;
-	ltn::LtnVm vm;
+	ltn::LtnVM vm;
 	try {
 		std::vector<std::string> args;
 		std::vector<ltn::c::Source> sources;
-		for(const auto & source_file : flag_source.value_or({})) {
+		const auto files = flag_source.value_or(single_file);
+		for(const auto & source_file : files) {
 			sources.push_back(ltn::c::FileSource{
 				std::filesystem::path{source_file}
 			});
@@ -60,9 +64,9 @@ int main(int argc, char const *argv[]) {
 		auto source = ltn::c::parse(lexer, reporter);
 		auto program = ltn::c::analyze(source, reporter);
 		if(flag_o) ltn::c::optimize(program);
-		auto instructions = ltn::c::compile(program, reporter);
-		if(flag_o) instructions.insts = ltn::c::peephole(instructions.insts);
-		auto bytecode = ltn::c::assemble(instructions);
+		auto [instructions, link_info] = ltn::c::compile(program, reporter);
+		if(flag_o) instructions = ltn::c::peephole(instructions);
+		auto bytecode = ltn::c::assemble(instructions, link_info);
 		const auto main_function = main_init.value_or("");
 
 		reporter.may_throw();

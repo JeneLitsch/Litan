@@ -1,17 +1,18 @@
 #include "compile.hxx"
-#include "ltnc/compile/cast_static.hxx"
-// #include "ltnc/compile/cast_dynamic.hxx"
-#include "ltnc/compile/copy_static.hxx"
-#include "ltnc/compile/copy_dynamic.hxx"
+#include "ltnc/type/encode.hxx"
+#include "ltnc/type/traits.hxx"
 
 namespace ltn::c {
 	namespace {
 		InstructionBuffer actual(
-			const auto & actual_copy,
+			const auto & inst,
 			const auto & copy) {
 			
 			const auto inner = compile_expression(*copy.expr);
-			const auto outer = actual_copy(copy.expr->type, copy.type, {});
+			const auto outer 
+				= type::is_any(copy.target_type)
+				? InstructionBuffer{}
+				: InstructionBuffer{inst(type::encode_type(copy.target_type))};
 
 			InstructionBuffer buf;
 			buf << inner;
@@ -26,13 +27,13 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::TypedUnary & expr) {
 
 		switch (expr.op) {
-		case sst::TypedUnary::Op::STATIC_COPY: return actual(copy_static, expr);
-		case sst::TypedUnary::Op::DYNAMIC_COPY: return actual(copy_dynamic, expr);
-		case sst::TypedUnary::Op::STATIC_CAST: return actual(cast_static, expr);
-		// case sst::TypedUnary::Op::DYNAMIC_CAST: return actual(cast_dynamic, type::deduce_cast_static, expr);
-		default:
-			break;
+		case sst::TypedUnary::Op::STATIC_CAST: return actual(inst::cast, expr);
+		case sst::TypedUnary::Op::DYNAMIC_CAST: return actual(inst::safe_cast, expr);
+		case sst::TypedUnary::Op::FORCE_CAST: return actual(inst::cast, expr);
+		case sst::TypedUnary::Op::STATIC_COPY: return actual(inst::copy, expr);
+		case sst::TypedUnary::Op::DYNAMIC_COPY: return actual(inst::safe_copy, expr);
+		case sst::TypedUnary::Op::FORCE_COPY: return actual(inst::copy, expr);
+		default: throw std::runtime_error{"Invalid TypedUnary::Op"};
 		}
-
 	}
 }

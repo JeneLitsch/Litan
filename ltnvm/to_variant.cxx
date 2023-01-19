@@ -24,11 +24,11 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return Variant{heap.read<String>(value.u).get()};
+			return Variant{heap.read<String>(value.u)};
 		}
 
 		if(is_array(value)) {
-			auto & array = heap.read<Array>(value.u).get();
+			auto & array = heap.read<Array>(value.u);
 			std::vector<Variant> vector;
 			for(const auto & elem : array) {
 				vector.push_back(to_variant(elem, heap));

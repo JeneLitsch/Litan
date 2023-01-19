@@ -54,10 +54,10 @@ namespace ltn::vm {
 
 		table[OpCode::EQL] = inst::eql;
 		table[OpCode::UEQL] = inst::ueql;
-		table[OpCode::SML] = inst::sml;
-		table[OpCode::BGR] = inst::bgr;
-		table[OpCode::SMLEQL] = inst::smleql;
-		table[OpCode::BGREQL] = inst::bgreql;
+		table[OpCode::LT] = inst::lt;
+		table[OpCode::GT] = inst::gt;
+		table[OpCode::LTEQL] = inst::smleql;
+		table[OpCode::GTEQL] = inst::bgreql;
 
 		table[OpCode::SHIFT_L] = inst::shift_l;
 		table[OpCode::SHIFT_R] = inst::shift_r;
@@ -83,7 +83,6 @@ namespace ltn::vm {
 		table[OpCode::INVOKE] = inst::invoke;
 		table[OpCode::EXTERNAL] = inst::external;
 		table[OpCode::CAPTURE] = inst::capture;
-		table[OpCode::PARAMETERS] = inst::parameters;
 
 		table[OpCode::NEWARR] = inst::newarr;
 		table[OpCode::NEWSTR] = inst::newstr;
@@ -96,6 +95,7 @@ namespace ltn::vm {
 		table[OpCode::NEWQUEUE] = inst::newqueue;
 		table[OpCode::NEWMAP] = inst::newmap;
 		table[OpCode::NEWRNG] = inst::newrng;
+		table[OpCode::NEWTUPLE] = inst::newtuple;
 
 		table[OpCode::SCRAP] = inst::scrap;
 		table[OpCode::DUPLICATE] = inst::duplicate;
@@ -167,9 +167,9 @@ namespace ltn::vm {
 
 
 	namespace {
-		void error(VmCore & core, const std::string & msg) {
-			const auto ref = core.heap.alloc<String>({msg});
-			core.reg.push(value::string(ref));
+		void error(VmCore & core, std::string && msg) {
+			const auto ref = core.heap.alloc<String>(std::move(msg));
+			core.stack.push(value::string(ref));
 			inst::thr0w(core);
 		}
 
@@ -184,8 +184,8 @@ namespace ltn::vm {
 				}
 			}
 
-			catch(const Exception & err) {
-				error(core, err.msg);
+			catch(Exception & err) {
+				error(core, std::move(err.msg));
 				goto RESUME;
 			}
 
@@ -196,12 +196,12 @@ namespace ltn::vm {
 
 
 
-		void load_main_args(VmCore & core, const std::vector<std::string> & args) {
-			const auto ref = core.heap.alloc<Array>(Array{});
-			core.reg.push(value::array(ref));
+		void load_main_args(VmCore & core, const std::vector<String> & args) {
+			const auto ref = core.heap.alloc<Array>({});
+			core.stack.push(value::array(ref));
 			for(const auto & arg : args) {
-				const auto str = core.heap.alloc<String>(String{arg});
-				auto & arr = core.heap.read<Array>(ref).get();
+				const auto str = core.heap.alloc<String>(std::string(arg));
+				auto & arr = core.heap.read<Array>(ref);
 				arr.push_back(value::string(str));
 			}
 		}
@@ -217,7 +217,7 @@ namespace ltn::vm {
 				"Program does not contain function " + main_fx
 			};
 			core.pc = core.function_table.at(main_fx);
-			core.stack.push_frame(std::size(core.byte_code) - 1);
+			core.stack.push_frame(std::size(core.byte_code) - 1, 1);
 		}
 	}
 
@@ -239,7 +239,7 @@ namespace ltn::vm {
 
 		this->core.byte_code = { it, std::end(code) };
 		this->core.pc = 0;
-		this->core.reg.reset();
+		this->core.stack.reset();
 		this->core.stack.reset();
 		this->core.heap.reset();
 
@@ -249,7 +249,7 @@ namespace ltn::vm {
 
 
 
-	Variant LtnVM::run(const std::vector<std::string> & args, const std::string & main) {
+	Variant LtnVM::run(const std::vector<String> & args, const std::string & main) {
 		load_main_args(core, args);
 		jump_to_init(core, main);
 		return core_loop(this->core);

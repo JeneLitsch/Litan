@@ -1,5 +1,5 @@
 #include "compile.hxx"
-#include "ltnc/type/check.hxx"
+#include "ltnc/type/traits.hxx"
 #include <iostream>
 #include "stdxx/functional.hxx"
 
@@ -81,7 +81,6 @@ namespace ltn::c {
 			buf << inst::label(jumpmark_end);
 			
 			return buf;
-
 		}
 
 

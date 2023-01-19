@@ -12,7 +12,7 @@ Reads a single character from stdin.
 
 ---
 
-## std::read_char(stream)
+## std::read_char(stream : istream)
 since 1.2  
 **Parameters**  
 * stream: an input stream

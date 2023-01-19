@@ -7,6 +7,7 @@ namespace ltn::c {
 	CompilerError undefined_function(
 		const std::string_view & name,
 		const ast::Node & node) {
+			
 		std::stringstream ss;
 		ss << "Function " << name << " is not defined";
 		return CompilerError { ss.str(), node.location };

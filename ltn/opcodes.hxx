@@ -23,10 +23,10 @@ namespace ltn {
 		// Comparisons
 		EQL = 0x18,
 		UEQL,
-		SML,
-		BGR,
-		SMLEQL,
-		BGREQL,
+		LT,
+		GT,
+		LTEQL,
+		GTEQL,
 		
 		// Shift
 		SHIFT_L,
@@ -58,7 +58,6 @@ namespace ltn {
 		INVOKE,
 		EXTERNAL,
 		CAPTURE,
-		PARAMETERS,
 
 		// Allocations
 		NEWARR = 0x50,
@@ -72,6 +71,7 @@ namespace ltn {
 		NEWQUEUE,
 		NEWMAP,
 		NEWRNG,
+		NEWTUPLE,
 
 		// Stack read/write
 		SCRAP = 0x60,

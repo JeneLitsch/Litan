@@ -5,26 +5,12 @@
 #include "stdxx/float64_t.hxx"
 
 namespace ltn::vm::cast {
-	namespace {
-		template<typename To>
-		To parse_value(const std::string & str) {
-			To to;
-			std::stringstream ss{str};
-			ss >> to;
-			if(ss.fail()) {
-				throw except::invalid_argument("Cannot parse string to value");
-			}
-			return to;
-		}
-	}
-
-
 	std::string to_string(Value value, Heap & heap) {
 		return convert::to_string(value, heap);
 	}
 
 
-	std::vector<Value> to_array(Value value) {
+	Array to_array(Value value) {
 		return {value};
 	}
 
@@ -53,6 +39,10 @@ namespace ltn::vm::cast {
 	}
 
 	char to_char(Value value) {
+		if(is_bool(value)) {
+			return static_cast<char>(value.i);
+		}
+
 		if(is_int(value)) {
 			return static_cast<char>(value.i);
 		}

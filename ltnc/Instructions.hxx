@@ -6,8 +6,7 @@
 #include "inst/inst.hxx"
 
 namespace ltn::c {
-	struct Instructions {
-		std::vector<inst::Inst> insts;
+	struct LinkInfo {
 		std::set<std::string> init_functions;
 		AddressTable global_table;
 	};

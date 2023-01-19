@@ -11,7 +11,7 @@ Reads a single floating point number from stdin.
 
 ---
 
-## std::read_float(stream)
+## std::read_float(stream : istream)
 **Parameters**  
 * stream: an input stream
 

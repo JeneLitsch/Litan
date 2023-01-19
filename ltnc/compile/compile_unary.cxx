@@ -1,11 +1,10 @@
 #include "compile.hxx"
-#include "ltnc/type/check.hxx"
+#include "ltnc/type/traits.hxx"
 #include "stdxx/functional.hxx"
 
 namespace ltn::c {
 	namespace {
 		InstructionBuffer compile_null_test(const sst::Expression & expr) {
-			
 			InstructionBuffer buf;
 			buf << compile_expression(expr);
 			buf << inst::null();
@@ -27,8 +26,8 @@ namespace ltn::c {
 
 
 	InstructionBuffer compile_expr(const sst::Unary & expr) {
-		
 		using Op = sst::Unary::Op;
+
 		const auto & inner = *expr.expression;
 		const auto x = compile_expression(inner);
 		

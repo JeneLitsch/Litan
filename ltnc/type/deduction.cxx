@@ -1,6 +1,7 @@
 #include "ltnc/type/deduction.hxx"
 #include "ltnc/type/Type.hxx"
-#include "ltnc/type/check.hxx"
+#include "ltnc/type/traits.hxx"
+#include "stdxx/array.hxx"
 #include <iostream>
 
 namespace ltn::c::type {
@@ -12,9 +13,9 @@ namespace ltn::c::type {
 
 		Type largest_common_type(const Array & l, const Array & r) {
 			if(!l.contains && !r.contains) return Array{};
-			if(!l.contains) return Array{**r.contains};
-			if(!r.contains) return Array{**l.contains};
-			return Array{largest_common_type(**l.contains, **r.contains)};
+			if(!l.contains) return Array{*r.contains};
+			if(!r.contains) return Array{*l.contains};
+			return Array{largest_common_type(*l.contains, *r.contains)};
 		}
 
 
@@ -32,11 +33,13 @@ namespace ltn::c::type {
 		Type deduce_arith_base(const Type & l, const Type & r) {
 			if(is_integral(l)) {
 				if(is_integral(r)) return Int{};
-				if(r.as<Float>()) return Float{};
+				if(is_float(r)) return Float{};
 			}
-			if(l.as<Float>()) {
+			if(is_float(l)) {
 				if(is_numeric(r)) return Float{};
 			}
+
+			if(is_any(l) || is_any(r)) return Any{};
 
 			return Error{};
 		}
@@ -46,18 +49,24 @@ namespace ltn::c::type {
 
 	Array deduce_array_append(const Array & array, const Type & elem) {
 		if(!array.contains) return Array{elem};
-		return Array{ largest_common_type(**array.contains, elem) };
+		return Array{ largest_common_type(*array.contains, elem) };
 	}
 
 
 
 	Type deduce_add(const Type & l, const Type & r) {
-		if(l.as<Any>()) return Any{};
-		if(r.as<Any>()) return Any{};
+		if(is_any(l)) return Any{};
+		if(is_any(r)) return Any{};
 		
 		const auto l_arr = l.as<Array>();
 		const auto r_arr = r.as<Array>();
 		if(l_arr && r_arr) return largest_common_type(*l_arr, *r_arr);
+
+		const auto l_tpl = l.as<Tuple>();
+		const auto r_tpl = r.as<Tuple>();
+		if(l_tpl && r_tpl) {
+			return Tuple { l_tpl->contained + r_tpl->contained };
+		} 
 
 		const auto l_str = l.as<String>();
 		const auto r_str = r.as<String>();
@@ -75,6 +84,10 @@ namespace ltn::c::type {
 
 
 	Type deduce_mlt(const Type & l, const Type & r) {
+		if(is_integral(l) && is_string(r)) return r;
+		if(is_string(l) && is_integral(r)) return l;
+		if(is_integral(l) && is_array(r)) return r;
+		if(is_array(l) && is_integral(r)) return l;
 		return deduce_arith_base(l, r);
 	}
 	
@@ -82,7 +95,6 @@ namespace ltn::c::type {
 	
 	Type deduce_div(const Type & l, const Type & r) {
 		return deduce_arith_base(l, r);
-
 	}
 
 
@@ -102,12 +114,9 @@ namespace ltn::c::type {
 	Type deduce_bitwise(const Type & l, const Type & r) {
 		if(is_any(l)) return Int{};
 		if(is_any(r)) return Int{};
-		if(is_int(l) && is_int(r)) return Int{};
+		if(is_integral(l) && is_integral(r)) return Int{};
 		return Error{};
 	}
-
-
-
 
 
 
@@ -119,9 +128,8 @@ namespace ltn::c::type {
 
 	namespace {
 		Type deduce_index_map(const Map & map, const Type & key) {
-			if(!map.key || (**map.key).as<Any>() || **map.key == key) {
-				if(map.val) return **map.val;
-				return Any{};
+			if(is_any(map.key) || map.key == key) {
+				return Optional{map.val};
 			}
 			return Error{};
 		}
@@ -130,8 +138,18 @@ namespace ltn::c::type {
 
 		Type deduce_index_array(const Array & array, const Type & key) {
 			if(is_numeric(key) || is_any(key)) {
-				if(array.contains) return **array.contains;
+				if(array.contains) return *array.contains;
 				else return Any{};
+			}
+			return Error{};
+		}
+
+
+		
+		Type deduce_index_tuple(const Tuple & tuple, const Type & key, std::optional<std::uint64_t> index) {
+			if(is_numeric(key) || is_any(key)) {
+				if(index) return tuple.contained[*index];
+				return Any{};
 			}
 			return Error{};
 		}
@@ -154,10 +172,11 @@ namespace ltn::c::type {
 	
 
 
-	Type deduce_index(const Type & container, const Type & key) {
-		if(container.as<Any>()) return Any{};		
+	Type deduce_index(const Type & container, const Type & key, std::optional<std::uint64_t> index) {
+		if(is_any(container)) return Any{};		
 		if(auto map = container.as<Map>()) return deduce_index_map(*map, key);
 		if(auto array = container.as<Array>()) return deduce_index_array(*array, key);
+		if(auto tuple = container.as<Tuple>()) return deduce_index_tuple(*tuple, key, index);
 		if(auto string = container.as<String>()) return deduce_index_string(*string, key);
 		return Error{};
 	}
@@ -178,7 +197,7 @@ namespace ltn::c::type {
 
 	Type deduce_nullco(const Type & l, const Type & r) {
 		if(is_optional(l)) {
-			return deduce_nullco(*l.as<Optional>()->contains, r);
+			return deduce_nullco(l.as<Optional>()->contains, r);
 		}
 		else return largest_common_type(l, r);
 	}
@@ -227,14 +246,14 @@ namespace ltn::c::type {
 
 
 	Type deduce_deref(const Type & x) {
-		if(is_optional(x)) return *x.as<Optional>()->contains;
+		if(is_optional(x)) return x.as<Optional>()->contains;
 		return x; 
 	}
 
 
 
 	Type deduce_invokation(const Type & fx_ptr) {
-		if(auto fx = fx_ptr.as<FxPtr>()) return **fx->return_type;
+		if(auto fx = fx_ptr.as<FxPtr>()) return fx->return_type;
 		if(fx_ptr.as<Any>()) return Any{};
 		return Error{};
 	}
@@ -255,6 +274,12 @@ namespace ltn::c::type {
 
 
 
+	Type deduce_cast_force(const Type & cast_to) {
+		return cast_to;
+	}
+
+
+
 	Type deduce_copy_static(const Type & cast_to) {
 		return cast_to;
 	}
@@ -265,5 +290,11 @@ namespace ltn::c::type {
 		return type::Optional{
 			.contains = cast_to
 		};
+	}
+
+
+
+	Type deduce_copy_force(const Type & cast_to) {
+		return cast_to;
 	}
 }

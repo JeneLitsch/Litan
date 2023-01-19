@@ -28,7 +28,7 @@ namespace ltn::c {
 
 
 	Label make_lambda_label(
-		const ast::Lambda & lambda) {
+		const ast::Lambda &) {
 		std::ostringstream oss;
 		oss << "LAMBDA" << unique_number();
 		return make_internal_label(oss.str());
@@ -76,6 +76,7 @@ namespace ltn::c {
 	Label derive_except(const Label & label) {
 		return make_internal_label(label.get_name() + "_EXCEPT");
 	}
+
 
 
 	Label derive_template(const Label & label, const std::vector<type::Type> & args) {

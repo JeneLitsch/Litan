@@ -17,6 +17,8 @@ run () {
 run "array"
 run "string"
 run "memory"
-run "fx"
+run "call"
 run "member"
 run "range"
+echo
+echo

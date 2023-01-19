@@ -1,5 +1,6 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "stdxx/iife.hxx"
 #include <sstream>
 #include <bitset>
 namespace ltn::c {
@@ -8,31 +9,14 @@ namespace ltn::c {
 
 
 
-		CompilerError expected(std::string token, const Tokens & tokens) {
-			return {"Expected " + token, location(tokens)};
+		CompilerError expected(std::string token, const SourceLocation & location) {
+			return {"Expected " + token, location};
 		}
-
-
-
-		template<auto top_presedence>
-		ast::expr_ptr parse_paren_base(Tokens & tokens) {
-			if(match(TT::PAREN_L, tokens)) {
-				auto expr = top_presedence(tokens);
-				if(!match(TT::PAREN_R, tokens)) {
-					throw expected("(", tokens);
-				}
-
-				return expr;
-			}
-			return nullptr;
-		}
-
-		constexpr auto parse_paren = parse_paren_base<parse_expression>;
 
 
 
 		template<class TempType, TT tt, auto base>
-		ast::litr_ptr parse_integer(Tokens & tokens) {
+		ast::expr_ptr parse_integer(Tokens & tokens) {
 			if(auto token = match(tt, tokens)) {
 				std::stringstream iss{token->str};
 				TempType value;
@@ -45,12 +29,10 @@ namespace ltn::c {
 			std::int64_t,
 			TT::INTEGER,
 			std::dec>;
-		
 		constexpr auto parse_integer_hex = parse_integer<
 			std::int64_t,
 			TT::INTEGER_HEX,
 			std::hex>;
-		
 		constexpr auto parse_integer_bin = parse_integer<
 			std::bitset<64>,
 			TT::INTEGER_BIN,
@@ -58,9 +40,9 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_character(Tokens & tokens) {
+		ast::expr_ptr parse_character(Tokens & tokens) {
 			if(auto t = match(TT::CHAR, tokens)) {
-				const char chr = static_cast<std::uint8_t>(t->str.front());
+				const auto chr = static_cast<std::uint8_t>(t->str.front());
 				return stx::make_unique<ast::Char>(chr, location(tokens)); 
 			}
 			return nullptr;
@@ -68,7 +50,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_null(Tokens & tokens) {
+		ast::expr_ptr parse_null(Tokens & tokens) {
 			if(auto t = match(TT::NVLL, tokens)) {
 				return stx::make_unique<ast::Null>(location(tokens)); 
 			}
@@ -77,7 +59,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_floating(Tokens & tokens) {
+		ast::expr_ptr parse_floating(Tokens & tokens) {
 			if(auto token = match(TT::FLOAT, tokens)) {
 				std::istringstream iss{token->str};
 				stx::float64_t value;
@@ -89,7 +71,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_boolean(Tokens & tokens) {
+		ast::expr_ptr parse_boolean(Tokens & tokens) {
 			if(auto token = match(TT::TRUE, tokens)) {
 				return stx::make_unique<ast::Bool>(true, location(tokens)); 
 			}
@@ -101,49 +83,7 @@ namespace ltn::c {
 
 
 
-		ast::litr_ptr parse_empty_array(Tokens & tokens) {
-			return stx::make_unique<ast::Array>(location(tokens));
-		}
-
-
-
-		template<auto element>
-		ast::litr_ptr parse_filled_array(Tokens & tokens) {
-			auto array = stx::make_unique<ast::Array>(location(tokens));
-			while(true) {
-				if(match(TT::___EOF___, tokens)) {
-					throw expected("]", tokens);
-				}
-				array->elements.push_back(element(tokens));
-				// Last comma is optional
-				// A missing last comma is not an error if ] follows
-				const bool comma = !!match(TT::COMMA, tokens);
-				if(match(TT::BRACKET_R, tokens)) {
-					return array;
-				}
-				// Only throw on missings commas in case of an unclosed array
-				if(!comma) {
-					throw expected(",", tokens);
-				}
-			}
-		}
-
-
-		template<auto element>
-		ast::litr_ptr parse_array_base(Tokens & tokens) {
-			if(match(TT::BRACKET_L, tokens)) {
-				if(match(TT::BRACKET_R, tokens)) {
-					return parse_empty_array(tokens);
-				}
-				else {
-					return parse_filled_array<element>(tokens);
-				}
-			}
-			return nullptr;
-		}
-		constexpr auto parse_array = parse_array_base<parse_expression>;
-
-		ast::litr_ptr parse_string(Tokens & tokens) {
+		ast::expr_ptr parse_string(Tokens & tokens) {
 			if(auto token = match(TT::STRING, tokens)) {
 				return stx::make_unique<ast::String>(
 					token->str,
@@ -168,7 +108,7 @@ namespace ltn::c {
 					return;
 				}
 				if(!match(TT::COMMA, tokens)) {
-					throw expected(",", tokens);
+					throw expected(",", location(tokens));
 				}
 			}
 		}
@@ -198,10 +138,11 @@ namespace ltn::c {
 					fx_ptr->template_arguements = std::move(template_args);
 					return fx_ptr;
 				}
-				throw expected("(", tokens);
+				throw expected("(", location(tokens));
 			}
 			return nullptr; 
 		}
+
 
 
 		ast::expr_ptr parse_iife(Tokens & tokens) {
@@ -238,7 +179,7 @@ namespace ltn::c {
 		std::size_t parameters = 0;
 		parse_parameters(tokens, [&] {
 			if (!match(TT::UNDERSCORE, tokens)) {
-				throw expected("placeholder _", tokens);
+				throw expected("placeholder _", location(tokens));
 			}
 			parameters++;
 		});
@@ -264,12 +205,12 @@ namespace ltn::c {
 			namespaze.pop_back();
 			return {name, namespaze};
 		}
-		throw expected("indentifier", tokens);
+		throw expected("indentifier", location(tokens));
 	}
 
 
 
-	ast::litr_ptr parse_integral(Tokens & tokens) {
+	ast::expr_ptr parse_integral(Tokens & tokens) {
 		if(auto expr = parse_integer_dec(tokens)) return expr;
 		if(auto expr = parse_integer_bin(tokens)) return expr;
 		if(auto expr = parse_integer_hex(tokens)) return expr;
@@ -287,14 +228,12 @@ namespace ltn::c {
 		if(auto expr = parse_null(tokens)) return expr;
 		if(auto expr = parse_string(tokens)) return expr;
 		if(auto expr = parse_array(tokens)) return expr;
-		if(auto expr = parse_paren(tokens)) return expr; 
+		if(auto expr = parse_parenthesized(tokens)) return expr; 
 		if(auto expr = parse_fx_pointer(tokens)) return expr;
 		if(auto expr = parse_lambda(tokens)) return expr;
 		if(auto expr = parse_iife(tokens)) return expr;
 		if(auto expr = parse_expr_switch(tokens)) return expr;
 		if(auto expr = parse_global(tokens)) return expr;
-		if(auto expr = parse_static_copy(tokens)) return expr;
-		if(auto expr = parse_dynamic_copy(tokens)) return expr;
 		if(auto expr = parse_reflect(tokens)) return expr;
 		return parse_identifier(tokens);
 	}

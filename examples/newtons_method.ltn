@@ -1,0 +1,46 @@
+// Newton's method is a root finding algorithm.
+// It uses a function f(x) and it's derivative f'(x) to find the point where f(x) is 0
+
+
+
+function newton(
+	name : string,
+	f : (float)->float,
+	d : (float)->float,
+	iterations : int,
+	start : float) {
+	
+	std::println(name);
+	var x = start;
+	std::println("  0) " + std::str(x));
+	for(i : 0 -> iterations) {
+		x = x - f(x) / d(x);
+		std::println("  " + std::str(i+1) + ") " + std::str(x));
+	}
+}
+
+
+
+function quadratic(x : float) -> float => x**2
+function d_quadratic(x : float) -> float => 2*x
+
+
+
+function cubic(x : float) -> float => x**3
+function d_cubic(x : float) -> float => 3*x**2
+
+
+
+function sine(x : float) -> float => std::sin(x)
+function d_sine(x : float) -> float => std::cos(x)
+
+
+
+function main() {
+	newton("Quadratic [1 -> 0]", &quadratic(_), &d_quadratic(_), 10, 1.0);
+	newton("Quadratic [1 -> 0]", &quadratic(_), &d_quadratic(_), 10, -1.0);
+	newton("Cubic [1 -> 0]",     &cubic(_),     &d_cubic(_),     10, 1.0);
+	newton("Cubic [-1 -> 0]",    &cubic(_),     &d_cubic(_),     10, -1.0);
+	newton("Sine [1 -> 0]",      &sine(_),      &d_sine(_),      10, 1.0);
+	newton("Sine [3 -> pi]",     &sine(_),      &d_sine(_),      10, 3.0);
+}

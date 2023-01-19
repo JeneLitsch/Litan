@@ -23,10 +23,11 @@ namespace ltn::c {
 
 	InstructionBuffer compile_expr(const sst::Call & call) {
 		InstructionBuffer buf;
-		for(std::size_t i = 0; i < call.parameters.size(); ++i) {
+		const auto arity = call.parameters.size();
+		for(std::size_t i = 0; i < arity; ++i) {
 			buf << compile_expression(*call.parameters[i]);
 		}
-		buf << inst::call(call.label.to_string());		
+		buf << inst::call(call.label.to_string(), arity);		
 		return buf;
 	}
 }

@@ -1,6 +1,6 @@
 #include <sstream>
 #include "conversion.hxx"
-#include "ltnc/type/check.hxx"
+#include "ltnc/type/traits.hxx"
 #include "ltnc/CompilerError.hxx"
 
 namespace ltn::c {
@@ -15,17 +15,12 @@ namespace ltn::c {
 		}
 
 
+
 		sst::expr_ptr generate_conversion(sst::expr_ptr from, const type::Type & to) {
 			if(is_bool(to))                             return make_static_cast(std::move(from), to);
 			if(is_char(to))   							return make_static_cast(std::move(from), to);
 			if(is_int(to))    							return make_static_cast(std::move(from), to);
 			if(is_float(to))  							return make_static_cast(std::move(from), to);
-			if(is_optional(to)) {
-				if(!is_null(from->type)) {
-					return generate_conversion(std::move(from), *to.as<type::Optional>()->contains);
-				}
-			}
-			
 			return from;
 		}
 	}
@@ -45,7 +40,7 @@ namespace ltn::c {
 		if(is_subtype_array(from, to))        return true;
 		if(is_optional(to)) {
 			if(is_null(from)) return true;
-			else return is_convertible(from, *to.as<type::Optional>()->contains);
+			else return is_convertible(from, to.as<type::Optional>()->contains);
 		}
 		
 		return false;

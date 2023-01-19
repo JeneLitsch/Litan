@@ -11,6 +11,7 @@ namespace ltn::c {
 		} 
 
 
+
 		sst::stmt_ptr optimize_block(sst::Block & block) {
 			for(auto & stmt : block.statements) {
 				stmt = optimize_statement(std::move(stmt));

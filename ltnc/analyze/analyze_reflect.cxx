@@ -16,6 +16,7 @@ namespace ltn::c {
 		}
 
 
+
 		sst::Reflect::Addr make_member_addrs(MemberTable & member_table) {
 			return sst::Reflect::Addr {
 				.name      = member_table.get_id("name"),
@@ -25,8 +26,8 @@ namespace ltn::c {
 				.c0nst     = member_table.get_id("const"),
 				.pr1vate   = member_table.get_id("private"),
 				.ext3rn    = member_table.get_id("extern"),
-				.line      = member_table.get_id("line"),
 				.file      = member_table.get_id("file"),
+				.line      = member_table.get_id("line"),
 				.type      = member_table.get_id("type"),
 			};
 		}
@@ -34,10 +35,10 @@ namespace ltn::c {
 
 
 		sst::Reflect::FunctionQuery analyze_reflect_query(
-			const ast::Reflect & refl,
+			const ast::Reflect &,
 			const ast::Reflect::FunctionQuery & query,
 			Context & context,
-			Scope & scope) {
+			Scope &) {
 
 			const auto * fx = context.fx_table.resolve(
 				query.name,
@@ -56,10 +57,10 @@ namespace ltn::c {
 
 
 		sst::Reflect::NamespaceQuery analyze_reflect_query(
-			const ast::Reflect & refl,
+			const ast::Reflect &,
 			const ast::Reflect::NamespaceQuery & query,
 			Context & context,
-			Scope & scope) {
+			Scope &) {
 
 			sst::Reflect::NamespaceQuery sst_query;
 			sst_query.namespaze = query.namespaze;
@@ -77,9 +78,9 @@ namespace ltn::c {
 
 		sst::Reflect::LineQuery analyze_reflect_query(
 			const ast::Reflect & refl,
-			const ast::Reflect::LineQuery & query,
-			Context & context,
-			Scope & scope) {
+			const ast::Reflect::LineQuery &,
+			Context &,
+			Scope &) {
 
 			return sst::Reflect::LineQuery {
 				.line = refl.location.line 
@@ -90,9 +91,9 @@ namespace ltn::c {
 
 		auto analyze_reflect_query(
 			const ast::Reflect & refl,
-			const ast::Reflect::FileQuery & query,
-			Context & context,
-			Scope & scope) {
+			const ast::Reflect::FileQuery &,
+			Context &,
+			Scope &) {
 
 			return sst::Reflect::FileQuery {
 				.name = refl.location.sourcename 
@@ -108,14 +109,15 @@ namespace ltn::c {
 			Scope & scope) {
 
 			return sst::Reflect::LocationQuery {
-				.line = analyze_reflect_query(refl, query.line, context, scope), 
 				.file = analyze_reflect_query(refl, query.file, context, scope), 
+				.line = analyze_reflect_query(refl, query.line, context, scope), 
 			};
 		}
 
 
+
 		auto analyze_reflect_query(
-			const ast::Reflect & refl,
+			const ast::Reflect &,
 			const ast::Reflect::ExprQuery & query,
 			Context & context,
 			Scope & scope) {
@@ -130,10 +132,11 @@ namespace ltn::c {
 		}
 
 
+
 		auto analyze_reflect_query(
-			const ast::Reflect & refl,
+			const ast::Reflect &,
 			const ast::Reflect::TypeQuery & query,
-			Context & context,
+			Context &,
 			Scope & scope) {
 
 			return sst::Reflect::TypeQuery {

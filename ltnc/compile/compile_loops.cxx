@@ -12,16 +12,12 @@ namespace ltn::c {
 	}
 
 	InstructionBuffer compile_stmt(const sst::While & stmt) {
-
-		// outer scope of loop 
-		// compile parts
 		const auto condition = compile_expression(*stmt.condition);
 		const auto body = compile_statement(*stmt.body);
 		const auto name = make_jump_id("WHILE");
 		const auto begin = jump_begin(name);
 		const auto end = jump_end(name);
 
-		// generate asm code
 		InstructionBuffer buf;
 		buf 
 			<< inst::label(begin)
@@ -37,18 +33,14 @@ namespace ltn::c {
 
 
 	InstructionBuffer compile_stmt(const sst::InfiniteLoop & stmt) {
-
-		// compile parts
 		const auto body = compile_statement(*stmt.body);
 		const auto jump = make_jump_id("INFINETE_LOOP");
 
-		// generate asm code
 		InstructionBuffer buf;
 		buf
 			<< inst::label(jump)
 			<< body
 			<< inst::jump(jump);
-
 		return buf;
 	}
 

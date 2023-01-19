@@ -92,25 +92,25 @@ namespace ltn::c::inst {
 	Inst lt() {
         return InstNone {
             .name = "lt",
-            .opcode = OpCode::SML,
+            .opcode = OpCode::LT,
         };
     }
 	Inst gt() {
         return InstNone {
             .name = "gt",
-            .opcode = OpCode::BGR,
+            .opcode = OpCode::GT,
         };
     }
 	Inst lt_eql() {
         return InstNone {
             .name = "lt_eql",
-            .opcode = OpCode::SMLEQL,
+            .opcode = OpCode::LTEQL,
         };
     }
 	Inst gt_eql() {
         return InstNone {
             .name = "gt_eql",
-            .opcode = OpCode::BGREQL,
+            .opcode = OpCode::GTEQL,
         };
     }
 
@@ -226,7 +226,7 @@ namespace ltn::c::inst {
 	}
 	Inst newstr(std::vector<std::uint8_t> bytes) {
 		return InstUint64Bytex {
-			.name = "newarr",
+			.name = "newstr",
 			.opcode = OpCode::NEWSTR,
 			.bytes = bytes,
 		};
@@ -293,6 +293,13 @@ namespace ltn::c::inst {
 			.value = type,
 		};
 	}
+	Inst newtuple(std::uint64_t size) {
+		return InstUint64 {
+			.name = "newtuple",
+			.opcode = OpCode::NEWTUPLE,
+			.value = size,
+		};
+	}
 
 
 
@@ -303,18 +310,12 @@ namespace ltn::c::inst {
 			.label = label,
 		};
 	}
-	Inst call(const std::string & label) {
-		return InstJump {
+	Inst call(const std::string & label, std::uint8_t arity) {
+		return InstCall {
 			.name = "call",
 			.opcode = OpCode::CALL,
 			.label = label,
-		};
-	}
-	Inst parameters(std::uint8_t byte) {
-		return InstByte {
-			.name = "paramters",
-			.opcode = OpCode::PARAMETERS,
-			.value = byte,
+			.arity = arity,
 		};
 	}
 	Inst retvrn() {

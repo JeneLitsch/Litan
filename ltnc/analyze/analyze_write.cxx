@@ -1,5 +1,5 @@
 #include "analyze.hxx"
-#include "ltnc/type/check.hxx"
+#include "ltnc/type/traits.hxx"
 #include <iostream>
 #include "conversion.hxx"
 
@@ -8,7 +8,8 @@ namespace ltn::c {
 		if(scope.is_const()) {
 			throw CompilerError{
 				"Cannot modify or reassign variable in const function",
-				node.location};
+				node.location
+			};
 		}
 	}
 
@@ -20,7 +21,8 @@ namespace ltn::c {
 		Scope & scope) {
 		guard_const(expr, scope);
 		auto l = analyze_expression(*expr.l, context, scope);
-		auto r = conversion_on_assign(analyze_expression(*expr.r, context, scope), l->type, expr.location);
+		auto r_raw = analyze_expression(*expr.r, context, scope);
+		auto r = conversion_on_assign(std::move(r_raw), l->type, expr.location);
 		if(auto * l_local = dynamic_cast<sst::Var *>(l.get())) {
 			return std::make_unique<sst::AssignLocal>(
 				0, false,

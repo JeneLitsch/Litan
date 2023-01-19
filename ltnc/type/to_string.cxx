@@ -10,52 +10,71 @@ namespace ltn::c::type {
 		}
 
 
+
 		std::string to_string(const Other & other) {
 			return other.type_name;
 		}
 
 
+
 		std::string to_string(const Optional & optional) {
 			std::ostringstream oss;
-			oss << Optional::type_name << "<" << to_string(*optional.contains) << ">";
+			oss << "optional" << "<" << to_string(optional.contains) << ">";
 			return oss.str();
 		}
+
 
 
 		std::string to_string(const Array & array) {
 			std::ostringstream oss;
 			if(array.contains) {
-				oss << Array::type_name << "<" << to_string(**array.contains) << ">";
+				oss << "array" << "<" << to_string(*array.contains) << ">";
 			}
 			else {
-				oss << Array::type_name << "<>";
+				oss << "array" << "<>";
 			}
 			return oss.str();
 		}
+
+
+
+		std::string to_string(const Tuple & tuple) {
+			std::ostringstream oss;
+			if(tuple.contained.empty()) {
+				oss << "tuple" << "<>";
+			}
+			else {
+				oss << "tuple" << "<";
+				for(std::size_t i = 0; i < tuple.contained.size(); ++i) {
+					if(i != 0) oss << ", ";
+					oss << to_string(tuple.contained[i]);
+				}
+				oss << ">";
+			}
+			return oss.str();
+		}
+
 
 
 		std::string to_string(const Queue & queue) {
 			std::ostringstream oss;
-			oss << Queue::type_name << "<" << to_string(*queue.contains) << ">";
+			oss << "queue" << "<" << to_string(queue.contains) << ">";
 			return oss.str();
 		}
+
 
 
 		std::string to_string(const Stack & stack) {
 			std::ostringstream oss;
-			oss << Stack::type_name << "<" << to_string(*stack.contains) << ">";
+			oss << "stack" << "<" << to_string(stack.contains) << ">";
 			return oss.str();
 		}
+
 
 		
 		std::string to_string(const Map & map) {
 			std::ostringstream oss;
-			if(map.val && map.key) {
-				oss << Map::type_name << "<" << to_string(**map.key) << ", " << to_string(**map.val) << ">";
-			}
-			else {
-				oss << Map::type_name << "<>";
-			}
+			oss << "map" << "<" << to_string(map.key) << ", " << to_string(map.val) << ">";
 			return oss.str();
 		}
 
@@ -63,20 +82,21 @@ namespace ltn::c::type {
 
 		std::string to_string(const FxPtr & fx_ptr) {
 			std::ostringstream oss;
-			oss << FxPtr::type_name << "<";
-			if(fx_ptr.return_type) oss << to_string(**fx_ptr.return_type);
 			oss << "(";
 			for(std::size_t i = 0; i < fx_ptr.parameter_types.size(); ++i) {
 				if(i != 0) oss << ", ";
 				oss << to_string(fx_ptr.parameter_types[i]);
 			}
 			oss << ")";
-			oss << ">";
+			oss << "->";
+			oss << to_string(fx_ptr.return_type);
 			return oss.str();
 		}
 	}
 	
+
+	
 	std::string to_string(const Type & type) {
-		return std::visit([] (const auto & t) { return to_string(t); }, *type);
+		return visit(type, [] (const auto & t) { return to_string(t); });
 	}
 }

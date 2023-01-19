@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <string_view>
+#include <vector>
 #include "ltnvm/memory/Value.hxx"
 namespace ltn::vm {
 	struct FxPointer {
@@ -12,8 +13,11 @@ namespace ltn::vm {
 		std::vector<Value> captured;
 		constexpr static std::string_view typeName = "FxPointer";
 		
-		auto clone() const {
-			return *this;
-		}
 	};
+
+
+
+	inline FxPointer clone(const FxPointer & fx_ptr) {
+		return fx_ptr;
+	}
 }

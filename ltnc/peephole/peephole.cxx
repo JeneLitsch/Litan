@@ -45,6 +45,7 @@ namespace ltn::c {
 		};
 
 
+
 		const auto patterns = std::array {
 			Pattern{}
 				.search(inst::read_x(0))
@@ -124,6 +125,8 @@ namespace ltn::c {
 				.replace(inst::retvrn()),
 		};
 
+
+
 		InstructionBuffer transform(std::span<const inst::Inst> & span) {
 			for(const auto & pattern : patterns) {
 				if(auto x = pattern(span)) {
@@ -138,6 +141,8 @@ namespace ltn::c {
 			return buf;
 		}
 	}
+
+
 
 	std::vector<inst::Inst> peephole(const std::vector<inst::Inst> & input) {
 		InstructionBuffer final_buf;

@@ -8,7 +8,6 @@ namespace ltn::c {
 
 
 
-	// parses while loop -> while(...)
 	ast::stmt_ptr parse_while_loop(Tokens & tokens) {
 		if(match(TT::WHILE, tokens)) {
 			auto expr = parse_condition(tokens);
@@ -23,7 +22,7 @@ namespace ltn::c {
 	}
 
 
-	// parses while loop -> for i (a, b)
+
 	ast::stmt_ptr parse_for_loop(Tokens & tokens) {
 		if(match(TT::FOR, tokens)) {
 			if(!match(TT::PAREN_L, tokens)) {
@@ -34,7 +33,8 @@ namespace ltn::c {
 			auto var = stx::make_unique<ast::NewVar>(
 				var_name,
 				nullptr,
-				location(tokens)
+				location(tokens),
+				type::IncompleteType{type::Int{}}
 			);
 
 			if(!match(TT::COLON, tokens)) {

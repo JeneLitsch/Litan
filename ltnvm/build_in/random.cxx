@@ -14,22 +14,22 @@ namespace ltn::vm::build_in {
 
 
 	Value split(VmCore & core) {
-		auto & rng = get_rng(core.reg.pop(), core.heap);
+		auto & rng = get_rng(core.stack.pop(), core.heap);
 		const auto ref = core.heap.alloc<RandomEngine>(rng.split());
 		return value::rng(ref);
 	}
 	
 
 	Value rand(VmCore & core) {
-		auto & rng = get_rng(core.reg.pop(), core.heap);
+		auto & rng = get_rng(core.stack.pop(), core.heap);
 		const auto x = rng();
 		return value::integer(x);
 	}
 
 	Value rand_int(VmCore & core) {
-		const auto max = convert::to_int(core.reg.pop());
-		const auto min = convert::to_int(core.reg.pop());
-		auto & rng = get_rng(core.reg.pop(), core.heap);
+		const auto max = convert::to_int(core.stack.pop());
+		const auto min = convert::to_int(core.stack.pop());
+		auto & rng = get_rng(core.stack.pop(), core.heap);
 		std::uniform_int_distribution<std::int64_t> dist{
 			std::min(min, max),
 			std::max(min, max)
@@ -39,9 +39,9 @@ namespace ltn::vm::build_in {
 	}
 
 	Value rand_float(VmCore & core) {
-		const auto max = convert::to_float(core.reg.pop());
-		const auto min = convert::to_float(core.reg.pop());
-		auto & rng = get_rng(core.reg.pop(), core.heap);
+		const auto max = convert::to_float(core.stack.pop());
+		const auto min = convert::to_float(core.stack.pop());
+		auto & rng = get_rng(core.stack.pop(), core.heap);
 		std::uniform_real_distribution<stx::float64_t> dist{
 			std::min(min, max),
 			std::max(min, max)

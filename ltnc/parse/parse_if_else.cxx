@@ -14,7 +14,6 @@ namespace ltn::c {
 
 
 
-	// parses else branch and returns it if it's existing  
 	ast::stmt_ptr parse_else_branch(Tokens & tokens) {
 		if(match(TT::ELSE, tokens)) {
 			// CHANGE LATER
@@ -28,7 +27,6 @@ namespace ltn::c {
 
 
 
-	// parses if-else statement  
 	ast::stmt_ptr parse_if_else(Tokens & tokens) {
 		if(match(TT::IF, tokens)) {
 			auto expr = parse_condition(tokens); 

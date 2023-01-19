@@ -2,7 +2,6 @@
 #include <memory>
 #include <functional>
 #include "ltnvm/memory/Value.hxx"
-#include "ltnvm/memory/Register.hxx"
 #include "ltnvm/memory/Heap.hxx"
 #include "ltnvm/external/Parameters.hxx"
 #include "ltnvm/external/wrap_return.hxx"
@@ -41,7 +40,7 @@ namespace ltn::vm::ext {
 				}
 				else {
 					R result = fx((parameters.get<Args>(INDICES))...);
-					return wrap_return(result, heap);
+					return wrap_return(std::move(result), heap);
 				}
 			}
 

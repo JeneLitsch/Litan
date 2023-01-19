@@ -5,5 +5,6 @@
 
 namespace ltn::c {
 	std::vector<std::uint8_t> assemble(
-		const Instructions & instructions);
+		const std::vector<inst::Inst> & instructions,
+		const LinkInfo & link_info);
 }

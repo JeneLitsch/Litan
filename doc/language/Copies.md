@@ -30,11 +30,67 @@ Any numeric array can be copied to a string. The numeric subtype values are inte
 
 Differnt array types can be copied to each other, if the contained subtype is copyable. For static copies to arrays a string is treated the same as an array&lt;char&gt;
 
-# static_copy&lt;T&gt;
+# Static Copy
 
-Static copies are checked at compile time. If the copy is invalid a compiler error is thrown. The copy returns a value of type T. static_copy returns a deep of the object.
+Static copies are checked at compile time. If the copy is invalid a compiler error is emitted. The copy returns a value of type T. A deep copy is performed.
 
-# dynamic_copy&lt;T&gt;
+## Syntax
+
+```
+expr :* Type
+```
+
+## Rules
+
+Numerics
+- `Numeric` -> `bool`: Evaluates expr != 0
+- `Numeric` -> `char`: Created with UTF-8/ASCII code of expr
+- `Numeric` -> `int`: Converts expr to int. Floats are truncated.
+- `Numeric` -> `float`: Promotes value to float.  
+
+Arrays
+- `array<T1>` -> `array<T2>`: Valid if T1 and T2 are also statically copyable.
+- `array` -> `array<T>` : Copies empty array as `array<T>`.
+
+Strings
+- `string` -> `string`: Copies string.
+
+Array &lt;-&gt; Strings
+- `string` -> `array<Numeric>`: Copies a string into an array of Unicode chars.
+- `array<Numeric>` -> `string`: Copies an array of Unicode chars into a string.
+- `array` -> `string`: Copies empty array into empty string.
+
+Other
+- `T` -> `bool`: Evaluated truthyness.
+
+# Dynamic Copy
 
 Dynamic copies are checked at run time. If the copy is invalid null is returned.
-The copy returns an value of type optional&lt;T&gt;. dynamic_copy returns a deep copy of the object.
+The copy returns a value of type `optional<T>`. A deep copy is performed.
+
+## Syntax
+
+```
+expr ~* Type
+```
+
+## Rules
+
+All rules from static copy.
+
+
+# Force Copy
+
+A force copy is checked at runtime. It returns the requested type T or throws.
+
+## Syntax
+
+```
+expr !* Type
+```
+
+## Rules
+
+All rules from static copy.
+
+Equivalent to: `*(expr ~* Type)`

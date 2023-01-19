@@ -1,0 +1,48 @@
+namespace sphinx::test {
+	namespace detail {
+		function fx_ptr_test() -> int => 42
+		function fx_ptr_test(a : float) -> any => a
+	}
+
+
+
+	function fx_ptr() {
+		var fx_ptr1 = &detail::fx_ptr_test();
+		var fx_ptr2 = &detail::fx_ptr_test(_);
+		assert_equal_strict(fx_ptr1(), 42);
+		assert_equal_strict(fx_ptr2(1337), 1337);
+	}
+
+
+
+	function fx_ptr_type() {
+		var fx_ptr1 = &detail::fx_ptr_test();
+		var fx_ptr2 = &detail::fx_ptr_test(_);
+		
+		assert_equal_strict(
+			reflect(expr fx_ptr1).type.name,
+			"()->int"
+		);
+		
+		assert_equal_strict(
+			reflect(expr fx_ptr2).type.name,
+			"(float)->any"
+		);
+	}
+
+
+
+	function fx_ptr_type_parse() {
+		assert_equal_strict(
+			reflect(type (float)->float).name,
+			"(float)->float");
+		
+		assert_equal_strict(
+			reflect(type ()->float).name,
+			"()->float");
+		
+		assert_equal_strict(
+			reflect(type (int, int)->float).name,
+			"(int, int)->float");
+	}
+}

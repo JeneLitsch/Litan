@@ -1,6 +1,6 @@
 # std::strout
 
-## std::strout()
+## std::strout() -> ostream
 **Parameters**  
 
 **Return value**  

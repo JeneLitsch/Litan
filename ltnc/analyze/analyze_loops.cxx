@@ -66,7 +66,7 @@ namespace ltn::c {
 		
 		const auto label = make_jump_id("FOR");
 
-		const auto i_var    = loop_scope.resolve(stmt.var->name, stmt.location);
+		const auto i_var = loop_scope.resolve(stmt.var->name, stmt.location);
 		loop_scope.insert(var_from(label), stmt.location);
 		loop_scope.insert(var_to(label), stmt.location);
 

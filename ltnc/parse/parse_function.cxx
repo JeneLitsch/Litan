@@ -28,9 +28,10 @@ namespace ltn::c {
 				});
 				if(match(TT::PAREN_R, tokens)) break;
 				if(!match(TT::COMMA, tokens)) {
-					throw CompilerError{
+					throw CompilerError {
 						"expected comma between parameters",
-						location(tokens)};
+						location(tokens)
+					};
 				}
 			}
 			return parameters;
@@ -44,6 +45,7 @@ namespace ltn::c {
 		}
 
 
+
 		ast::Parameters parse_mandatory_parameters(Tokens & tokens) {
 			if(match(TT::PAREN_L, tokens)) return parse_basic_parameters(tokens);
 			throw ltn::c::CompilerError{"missing (", location(tokens)};
@@ -51,7 +53,6 @@ namespace ltn::c {
 
 
 
-		// Returns a array of all parameters
 		std::vector<std::unique_ptr<ast::Var>> parse_captures(Tokens & tokens) {
 			if(!match(TT::BRACKET_L, tokens)) return {};
 
@@ -64,9 +65,10 @@ namespace ltn::c {
 					captures.push_back(std::move(var));
 					if(match(TT::BRACKET_R, tokens)) break;
 					if(!match(TT::COMMA, tokens)) {
-						throw CompilerError{
+						throw CompilerError {
 							"expected comma between captures",
-							location(tokens)};
+							location(tokens)
+						};
 					}
 				}
 			} 
@@ -77,17 +79,19 @@ namespace ltn::c {
 
 		std::string parse_build_in_key(Tokens & tokens, std::uint64_t arity) {
 			if(!match(TT::AT, tokens)) {
-				throw CompilerError{
+				throw CompilerError {
 					"Expected @ before build_in key",
-					location(tokens) };
+					location(tokens)
+				};
 			}
 			if(auto str = match(TT::INDENTIFIER, tokens)) {
 				return str->str;
 			}
 			else {
-				throw CompilerError{
+				throw CompilerError {
 					"Expected build_in key after @",
-					location(tokens) };
+					location(tokens)
+				};
 			}
 		}
 
@@ -138,7 +142,6 @@ namespace ltn::c {
 			else if(match(TT::DRARROW, tokens)) {
 				auto expr = parse_expression(tokens);
 				const auto & loc = location(tokens);
-				// match(TT::SEMICOLON, tokens);
 				return stx::make_unique<ast::Return>(std::move(expr), loc);
 			}
 			else {
@@ -152,22 +155,23 @@ namespace ltn::c {
 			if(match(TT::EXCEPT, tokens)) {
 				auto params = parse_mandatory_parameters(tokens);
 				if(params.size() != 1) {
-					throw CompilerError{
+					throw CompilerError {
 						"Except only takes one error parameter",
-						location(tokens)};
+						location(tokens)
+					};
 				}
 				auto body = parse_body(tokens, 1);
 				return stx::make_unique<ast::Except>(
 					params[0].name,
 					std::move(body),
-					location(tokens));
+					location(tokens)
+				);
 			}
 			else return nullptr;
 		}
 
 
 
-		// parses and returns a function node
 		template<class FunctionalNode>
 		std::unique_ptr<FunctionalNode> functional_node(
 			Tokens & tokens,
@@ -195,7 +199,7 @@ namespace ltn::c {
 					};
 				}
 				else {
-					throw CompilerError{
+					throw CompilerError {
 						"Unknown function qualifier: " + t->str,
 						t->location
 					};
@@ -215,6 +219,7 @@ namespace ltn::c {
 			fx->is_extern = is_extern;
 			return fx;
 		}
+
 
 
 		std::vector<std::string> parse_template_parameters(Tokens & tokens) {
