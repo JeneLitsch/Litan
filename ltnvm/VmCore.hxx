@@ -9,19 +9,20 @@ namespace ltn::vm {
 		// Runtime
 		Stack stack;
 		Heap heap;
-		std::uint64_t pc;
+		const std::uint8_t * pc;
+		const std::uint8_t * code_begin;
+		const std::uint8_t * code_end;
 
 		// Persistent
-		std::span<const std::uint8_t> byte_code;
 
-		Array static_variables;
+		std::vector<Value> static_variables;
 
 		std::unordered_map<std::int64_t, ext::Callable> externals;
 		std::unordered_map<std::string, std::uint64_t> function_table;
 		std::unordered_map<std::string, std::uint64_t> static_table;
 		
 		inline std::uint8_t fetch_byte() {
-			return this->byte_code[this->pc++];
+			return *this->pc++;
 		}
 	
 
@@ -29,14 +30,14 @@ namespace ltn::vm {
 			std::uint64_t value = 0;
 			for(auto i = 0; i < 8; i++) {
 				value <<= 8;
-				value |= static_cast<std::uint64_t>(this->byte_code[this->pc++]);
+				value |= static_cast<std::uint64_t>(*this->pc++);
 			}
 			return value;
 		}
 
 			
 		inline const std::uint8_t * fetch_str() {
-			return this->byte_code.data() + this->pc;
+			return this->pc;
 		}
 	};
 }

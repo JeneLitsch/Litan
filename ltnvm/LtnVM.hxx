@@ -9,6 +9,10 @@ namespace ltn::vm {
 	class LtnVM {
 	public:
 		LtnVM() {}
+		LtnVM(const LtnVM &) = delete;
+		LtnVM(LtnVM &&) = delete;
+		LtnVM & operator=(const LtnVM &) = delete;
+		LtnVM & operator=(LtnVM &&) = delete;
 		
 		void setup(std::span<const std::uint8_t> code);
 		
@@ -26,5 +30,6 @@ namespace ltn::vm {
 	
 	private:
 		VmCore core;
+		std::span<const std::uint8_t> byte_code;
 	};
 }

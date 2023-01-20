@@ -122,7 +122,7 @@ namespace ltn::vm::inst {
 
 
 		void resume_after_0_terminator(VmCore & core) {
-			while (core.byte_code[core.pc++]);
+			while (*core.pc++);
 		}
 	}
 
@@ -130,7 +130,7 @@ namespace ltn::vm::inst {
 
 	void cast(VmCore & core) {
 		const auto value = core.stack.pop();
-		const std::uint8_t * type = &core.byte_code[core.pc];
+		const std::uint8_t * type = core.pc;
 		core.stack.push(smart_copy(type, value, core));
 		resume_after_0_terminator(core);
 	}
@@ -139,7 +139,7 @@ namespace ltn::vm::inst {
 
 	void safe_cast(VmCore & core) {
 		const auto value = core.stack.pop();
-		const std::uint8_t * type = &core.byte_code[core.pc];
+		const std::uint8_t * type = core.pc;
 		core.stack.push(smart_cast(type, value, core));
 		resume_after_0_terminator(core);
 	}
@@ -148,7 +148,7 @@ namespace ltn::vm::inst {
 
 	void copy(VmCore & core) {
 		const auto value = core.stack.pop();
-		const std::uint8_t * type = &core.byte_code[core.pc];
+		const std::uint8_t * type = core.pc;
 		core.stack.push(smart_copy(type, value, core));
 		resume_after_0_terminator(core);
 	}
@@ -157,7 +157,7 @@ namespace ltn::vm::inst {
 
 	void safe_copy(VmCore & core) {
 		const auto value = core.stack.pop();
-		const std::uint8_t * type = &core.byte_code[core.pc];
+		const std::uint8_t * type = core.pc;
 		try {
 			core.stack.push(smart_copy(type, value, core));
 		}

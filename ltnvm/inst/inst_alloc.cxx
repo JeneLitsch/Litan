@@ -149,9 +149,9 @@ namespace ltn::vm::inst {
 
 
 	void newfx(VmCore & core){
-		const auto address = core.fetch_uint(); 
-		const auto params = core.fetch_uint();
-		const auto ref = core.heap.alloc<FxPointer>({address, params, {}});
+		const auto address = core.code_begin + core.fetch_uint(); 
+		const auto arity = core.fetch_uint();
+		const auto ref = core.heap.alloc<FxPointer>({address, arity, {}});
 		core.stack.push(Value{ref, Value::Type::FX_PTR});
 	}
 

@@ -14,7 +14,7 @@ Converts a given value into string form.
 - tuple: `"(elements, ...)"` 
 - ostream: `"<ostream>"`
 - istream: `"<istream>"`
-- fx_ptr: `"<fx:address,arity>"`
+- fx_ptr: `"<function>"`
 - external: `"<external:id>"`
 - clock: `"<clock:seconds>"`
 - struct: `"<struct>"`

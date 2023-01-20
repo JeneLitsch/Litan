@@ -7,7 +7,7 @@
 
 namespace ltn::vm::inst {
 	namespace {
-		std::optional<std::uint64_t> unwind(Stack & stack) {
+		const std::uint8_t * unwind(Stack & stack) {
 			while(stack.depth()) {
 				const auto handler = stack.get_except_handler();
 				if(handler != 0) {
@@ -15,7 +15,7 @@ namespace ltn::vm::inst {
 				}
 				stack.pop_frame();
 			}
-			return std::nullopt;
+			return nullptr;
 		}
 	}
 
@@ -23,7 +23,7 @@ namespace ltn::vm::inst {
 
 	void tRy(VmCore & core) {
 		const auto addr = core.fetch_uint();
-		core.stack.set_except_handler(addr);
+		core.stack.set_except_handler(core.code_begin + addr);
 	}
 
 
@@ -31,7 +31,7 @@ namespace ltn::vm::inst {
 	void thr0w(VmCore & core) {
 		const auto except = core.stack.pop();
 		if(auto addr = unwind(core.stack)) {
-			core.pc = *addr;
+			core.pc = addr;
 			const auto jumpback = core.stack.pop_frame();
 			// These 2 were in the wrong order
 			core.stack.push(except);
