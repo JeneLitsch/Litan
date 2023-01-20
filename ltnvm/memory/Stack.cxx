@@ -8,7 +8,7 @@ namespace ltn::vm {
 
 
 
-	void Stack::push_frame(std::uint64_t return_addr, std::uint8_t arity) {
+	void Stack::push_frame(const std::uint8_t * return_addr, std::uint8_t arity) {
 		this->frames.push_back(Frame{
 			.return_addr = return_addr,
 			.prev_frame_pointer = this->frame_pointer,
@@ -19,7 +19,7 @@ namespace ltn::vm {
 
 
 
-	std::uint64_t Stack::pop_frame() {
+	const std::uint8_t * Stack::pop_frame() {
 		const auto & frame = this->frames.back();
 		const auto return_addr = frame.return_addr;
 		const auto oldframe_pointer = frame.prev_frame_pointer;
@@ -57,13 +57,13 @@ namespace ltn::vm {
 
 
 
-	std::uint64_t Stack::get_except_handler() const {
+	const std::uint8_t * Stack::get_except_handler() const {
 		return this->frames.back().except_jump;
 	}
 
 
 
-	void Stack::set_except_handler(std::uint64_t addr) {
+	void Stack::set_except_handler(const std::uint8_t * addr) {
 		this->frames.back().except_jump = addr;
 	}
 }

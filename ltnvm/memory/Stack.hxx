@@ -52,11 +52,11 @@ namespace ltn::vm {
 
 		void reset();
 		
-		std::uint64_t pop_frame();
-		void push_frame(std::uint64_t jumpBack, std::uint8_t arity);	
+		const std::uint8_t * pop_frame();
+		void push_frame(const std::uint8_t * jumpBack, std::uint8_t arity);	
 
-		std::uint64_t get_except_handler() const;
-		void set_except_handler(std::uint64_t addr);
+		const std::uint8_t * get_except_handler() const;
+		void set_except_handler(const std::uint8_t * addr);
 		
 		std::uint64_t size() const;
 		std::uint64_t depth() const;
@@ -65,9 +65,9 @@ namespace ltn::vm {
 
 	private:
 		struct Frame {
-			std::uint64_t return_addr;
+			const std::uint8_t * return_addr;
 			std::uint64_t prev_frame_pointer;
-			std::uint64_t except_jump = 0;
+			const std::uint8_t * except_jump = nullptr;
 		};
 
 		std::vector<Value> values;
