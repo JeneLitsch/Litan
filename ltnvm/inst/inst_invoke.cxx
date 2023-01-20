@@ -29,7 +29,7 @@ namespace ltn::vm::inst {
 					core.stack.push_frame(core.pc, static_cast<std::uint8_t>(0));
 					load_captures_into_register(core.stack, fxptr.captured);
 					load_arguments_onto_stack(core.stack, arguments);
-					core.pc = std::data(core.byte_code) + fxptr.address;
+					core.pc = fxptr.ptr;
 				}
 				else throw except::invalid_parameters(fxptr.get_parameters(), arity);
 			}

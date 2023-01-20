@@ -9,7 +9,7 @@
 namespace ltn::vm::inst {
 	void jump(VmCore & core) {
 		const auto addr = core.fetch_uint(); 
-		core.pc = core.byte_code.data() + addr;
+		core.pc = core.code_begin + addr;
 	}
 
 
@@ -18,7 +18,7 @@ namespace ltn::vm::inst {
 		const auto addr = core.fetch_uint(); 
 		const auto arity = core.fetch_byte();
 		core.stack.push_frame(core.pc, arity);
-		core.pc = core.byte_code.data() + addr;
+		core.pc = core.code_begin + addr;
 	}
 
 
@@ -35,7 +35,7 @@ namespace ltn::vm::inst {
 		const auto value = core.stack.pop();
 		const auto elseAddr = core.fetch_uint();
 		if(!convert::to_bool(value)) {
-			core.pc = core.byte_code.data() + elseAddr;
+			core.pc = core.code_begin + elseAddr;
 		}
 	}
 

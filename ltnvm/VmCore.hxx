@@ -10,9 +10,10 @@ namespace ltn::vm {
 		Stack stack;
 		Heap heap;
 		const std::uint8_t * pc;
+		const std::uint8_t * code_begin;
+		const std::uint8_t * code_end;
 
 		// Persistent
-		std::span<const std::uint8_t> byte_code;
 
 		Array static_variables;
 

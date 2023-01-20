@@ -23,7 +23,7 @@ namespace ltn::vm::inst {
 
 	void tRy(VmCore & core) {
 		const auto addr = core.fetch_uint();
-		core.stack.set_except_handler(std::data(core.byte_code) + addr);
+		core.stack.set_except_handler(core.code_begin + addr);
 	}
 
 

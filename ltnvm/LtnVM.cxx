@@ -216,11 +216,8 @@ namespace ltn::vm {
 			if(!core.function_table.contains(main_fx)) throw std::runtime_error {
 				"Program does not contain function " + main_fx
 			};
-			auto start = std::data(core.byte_code);
-			auto size = std::size(core.byte_code);
-			auto last = start + size - 1; 
-			core.pc = start + core.function_table.at(main_fx);
-			core.stack.push_frame(last, 1);
+			core.pc = core.code_begin + core.function_table.at(main_fx);
+			core.stack.push_frame(core.code_end - 1, 1);
 		}
 	}
 
@@ -240,8 +237,10 @@ namespace ltn::vm {
 		this->core.function_table = read_addr_table(it);
 		this->core.static_table = read_addr_table(it);
 
-		this->core.byte_code = { it, std::end(code) };
-		this->core.pc = std::data(this->core.byte_code);
+		this->byte_code = { it, std::end(code) };
+		this->core.code_begin = std::data(this->byte_code);
+		this->core.code_end = this->core.code_begin + std::size(this->byte_code);
+		this->core.pc = this->core.code_begin;
 		this->core.stack.reset();
 		this->core.stack.reset();
 		this->core.heap.reset();
