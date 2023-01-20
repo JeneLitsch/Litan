@@ -15,7 +15,7 @@ namespace ltn::vm {
 
 		// Persistent
 
-		Array static_variables;
+		std::vector<Value> static_variables;
 
 		std::unordered_map<std::int64_t, ext::Callable> externals;
 		std::unordered_map<std::string, std::uint64_t> function_table;
