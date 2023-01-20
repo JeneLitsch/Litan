@@ -21,7 +21,7 @@ namespace ltn::vm {
 			const std::string & main = "");
 
 		void register_function(std::int64_t addr, auto fx) {
-			core.externals.emplace(addr, ext::Callable{fx});
+			core.externals.emplace(addr, ext::Callable{std::move(fx)});
 		}
 
 		void set_global(
