@@ -51,8 +51,8 @@ namespace ltn::vm::inst {
 		void invoke_library(VmCore & core, const Value & ref_fx, const Array & arguments) {
 			const auto & fxptr = core.heap.read<LibraryFx>(ref_fx.u);
 			const auto arity = arguments.size();
-			CoreWrapper wrapper = wrap_core(core.heap, arguments);
-			CApi api = bind_api(wrapper);
+			CoreWrapper wrapper = wrap_core(core.heap, arguments, fxptr.library);
+			ltn_CApi api = bind_api(wrapper);
 			fxptr.fx_ptr(&api);
 			core.stack.push(wrapper.return_value);
 		}

@@ -32,19 +32,20 @@ namespace ltn::vm {
 
 
 	void Heap::mark(const Value & value) {
-		if(is_array(value))      return this->mark_array(value);
-		if(is_string(value))     return pool_of<String>().gc_mark(value.u);
-		if(is_istream(value))    return pool_of<IStream>().gc_mark(value.u);
-		if(is_ostream(value))    return pool_of<OStream>().gc_mark(value.u);
-		if(is_fxptr(value))      return this->mark_fxptr(value);
-		if(is_clock(value))      return pool_of<Clock>().gc_mark(value.u);
-		if(is_struct(value))     return this->mark_struct(value);
-		if(is_stack(value))      return this->mark_deque(value);
-		if(is_queue(value))      return this->mark_deque(value);
-		if(is_map(value))        return this->mark_map(value);
-		if(is_rng(value))        return pool_of<RandomEngine>().gc_mark(value.u);
-		if(is_library(value))    return pool_of<Library>().gc_mark(value.u);
-		if(is_library_fx(value)) return pool_of<LibraryFx>().gc_mark(value.u);
+		if(is_array(value))       return this->mark_array(value);
+		if(is_string(value))      return pool_of<String>().gc_mark(value.u);
+		if(is_istream(value))     return pool_of<IStream>().gc_mark(value.u);
+		if(is_ostream(value))     return pool_of<OStream>().gc_mark(value.u);
+		if(is_fxptr(value))       return this->mark_fxptr(value);
+		if(is_clock(value))       return pool_of<Clock>().gc_mark(value.u);
+		if(is_struct(value))      return this->mark_struct(value);
+		if(is_stack(value))       return this->mark_deque(value);
+		if(is_queue(value))       return this->mark_deque(value);
+		if(is_map(value))         return this->mark_map(value);
+		if(is_rng(value))         return pool_of<RandomEngine>().gc_mark(value.u);
+		if(is_library(value))     return this->mark_library(value);
+		if(is_library_fx(value))  return this->mark_library_fx(value);
+		if(is_library_obj(value)) return this->mark_library_obj(value);
 	}
 
 
@@ -109,6 +110,36 @@ namespace ltn::vm {
 
 
 
+	void Heap::mark_library(const Value & value) {
+		auto & pool = pool_of<Library>();
+		pool.gc_mark(value.u);
+	}
+
+
+
+	void Heap::mark_library_fx(const Value & value) {
+		auto & pool = pool_of<LibraryFx>();
+		if(pool.gc_is_marked(value.u)) {
+			pool.gc_mark(value.u);
+			auto & fx = pool.get(value.u);
+			this->mark(fx.library);
+		}
+
+	}
+
+
+
+	void Heap::mark_library_obj(const Value & value) {
+		auto & pool = pool_of<LibraryObj>();
+		if(pool.gc_is_marked(value.u)) {
+			pool.gc_mark(value.u);
+			auto & obj = pool.get(value.u);
+			this->mark(obj.library);
+		}
+	}
+
+
+
 	void Heap::sweep() {
 		pool_of<String>().gc_sweep();
 		pool_of<Array>().gc_sweep();
@@ -120,5 +151,8 @@ namespace ltn::vm {
 		pool_of<Deque>().gc_sweep();
 		pool_of<Map>().gc_sweep();
 		pool_of<RandomEngine>().gc_sweep();
+		pool_of<Library>().gc_sweep();
+		pool_of<LibraryFx>().gc_sweep();
+		pool_of<LibraryObj>().gc_sweep();
 	}
 }

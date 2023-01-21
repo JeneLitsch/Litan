@@ -71,17 +71,34 @@ namespace ltn::vm {
 		void mark_struct(const Value & value);
 		void mark_deque(const Value & value);
 		void mark_map(const Value & value);
+		void mark_library(const Value & value);
+		void mark_library_fx(const Value & value);
+		void mark_library_obj(const Value & value);
 		void sweep();
 
 		template<class Obj>
 		inline ObjectPool<Obj> & pool_of() {
-			return std::get<ObjectPool<Obj>>(this->pools);
+			if constexpr(std::same_as<Obj, Library>) {
+				return lib_pool;
+			}
+			else {
+				return std::get<ObjectPool<Obj>>(this->pools);
+			}
 		} 
 
 		template<class Obj>
 		inline const ObjectPool<Obj> & pool_of() const {
-			return std::get<ObjectPool<Obj>>(this->pools);
+			if constexpr(std::same_as<Obj, Library>) {
+				return lib_pool;
+			}
+			else {
+				return std::get<ObjectPool<Obj>>(this->pools);
+			}
 		} 
+
+		// Must be destroyed after the other pools
+		// Destruction order is reverse of declarion order
+		ObjectPool<Library> lib_pool;
 
 		std::tuple<
 			ObjectPool<String>,
@@ -94,8 +111,8 @@ namespace ltn::vm {
 			ObjectPool<Deque>,
 			ObjectPool<Map>,
 			ObjectPool<RandomEngine>,
-			ObjectPool<Library>,
-			ObjectPool<LibraryFx>
+			ObjectPool<LibraryFx>,
+			ObjectPool<LibraryObj>
 		> pools;
 
 		std::queue<std::uint64_t> reuse;

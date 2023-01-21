@@ -20,6 +20,7 @@ namespace ltn::vm {
 		pool_of<RandomEngine>().clear();
 		pool_of<Library>().clear();
 		pool_of<LibraryFx>().clear();
+		pool_of<LibraryObj>().clear();
 	}
 
 
@@ -37,7 +38,8 @@ namespace ltn::vm {
 			+ pool_of<Map>().capacity()
 			+ pool_of<RandomEngine>().capacity()
 			+ pool_of<Library>().capacity()
-			+ pool_of<LibraryFx>().capacity();
+			+ pool_of<LibraryFx>().capacity()
+			+ pool_of<LibraryObj>().capacity();
 	}
 
 
@@ -55,7 +57,8 @@ namespace ltn::vm {
 			+ pool_of<Map>().utilized()
 			+ pool_of<RandomEngine>().utilized()
 			+ pool_of<Library>().utilized()
-			+ pool_of<LibraryFx>().utilized();
+			+ pool_of<LibraryFx>().utilized()
+			+ pool_of<LibraryObj>().utilized();
 	}
 }
 

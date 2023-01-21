@@ -30,6 +30,10 @@ namespace ltn::vm::ext {
 				if(is_string(value)) return this->heap.read<String>(value.u);
 				throw std::runtime_error{"Parameter not a string"};
 			}
+			else if constexpr(std::same_as<T, LibraryObj>) {
+				if(is_library_obj(value)) return this->heap.read<LibraryObj>(value.u);
+				throw std::runtime_error{"Parameter not a library object"};
+			}
 			else {
 				throw std::runtime_error{"Unknown parameter type in external"};
 			}

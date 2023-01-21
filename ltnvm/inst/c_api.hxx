@@ -7,9 +7,10 @@ namespace ltn::vm {
 		ext::Parameters params;
 		Heap * heap;
 		Value return_value = value::null;
+		Value library = value::null;
 	};
 
-	CoreWrapper wrap_core(Heap & heap, const Array & args);
+	CoreWrapper wrap_core(Heap & heap, const Array & args, Value library);
 
-	CApi bind_api(CoreWrapper & wrapper);
+	ltn_CApi bind_api(CoreWrapper & wrapper);
 }

@@ -89,6 +89,9 @@ namespace ltn::vm {
 		return val.type == Value::Type::LIBRARY_FX;
 	}
 
+	constexpr inline bool is_library_obj(const Value & val) {
+		return val.type == Value::Type::LIBRARY_OBJ;
+	}
 
 
 	constexpr inline bool isObject(const Value & val) {

@@ -50,13 +50,14 @@ namespace ltn::vm::build_in {
 		}
 		auto fx_ptr 
 			= core.heap.read<Library>(lib.u)
-			. get_if_fx<void, CApi *>(core.heap.read<String>(fx_name.u));
+			. get_if_fx<void, ltn_CApi *>(core.heap.read<String>(fx_name.u));
 		if(!fx_ptr) {
 			throw Exception{Exception::Type::INVALID_MEMBER_ACCESS, ""};
 		}
 		return value::library_fx(core.heap.alloc(LibraryFx {
 			.fx_ptr = fx_ptr,
 			.arity = 0,
+			.library = lib,
 		}));
 	}
 }

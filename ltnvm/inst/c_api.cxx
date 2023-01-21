@@ -24,6 +24,10 @@ namespace ltn::vm {
 			return unwrap(core)->params.get<std::string>(index).c_str();
 		};
 
+		ltn_CObject param_object(std::uint64_t index, void * core) {
+			return unwrap(core)->params.get<LibraryObj>(index).get();
+		};
+
 
 		
 		void return_int(std::int64_t value, void * core) {
@@ -42,31 +46,42 @@ namespace ltn::vm {
 			auto ref = unwrap(core)->heap->alloc(std::string{value});
 			unwrap(core)->return_value = value::string(ref);
 		};
-	}
 
+		void return_object(ltn_CObject value, void * core) {
 
-
-	CoreWrapper wrap_core(Heap & heap, const Array & args) {
-		return CoreWrapper {
-			.params = ext::Parameters { heap, args },
-			.heap = &heap,
-			.return_value = value::null
+			auto ref = unwrap(core)->heap->alloc(LibraryObj{value, unwrap(core)->library});
+			unwrap(core)->return_value = value::library_obj(ref);
 		};
 	}
 
 
 
-	CApi bind_api(CoreWrapper & wrapper) {
-		return CApi {
+	CoreWrapper wrap_core(Heap & heap, const Array & args, Value library) {
+		return CoreWrapper {
+			.params = ext::Parameters { heap, args },
+			.heap = &heap,
+			.return_value = value::null,
+			.library = library,
+		};
+	}
+
+
+
+	ltn_CApi bind_api(CoreWrapper & wrapper) {
+		return ltn_CApi {
 			.core = reinterpret_cast<void*>(&wrapper),
+			
 			.param_int = param_int,
 			.param_bool = param_bool, 
 			.param_float = param_float,
 			.param_string = param_string,
+			.param_object = param_object,
+
 			.return_int = return_int, 
 			.return_bool = return_bool,
 			.return_float = return_float,
 			.return_string = return_string,
+			.return_object = return_object,
 		};
 	}
 }

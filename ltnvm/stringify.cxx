@@ -144,6 +144,10 @@ namespace ltn::vm {
 			return "<library_fx>";
 		}
 
+		if(is_library_obj(value)) {
+			return "<library_obj>";
+		}
+
 		throw Exception{
 			.type = Exception::Type::INVALID_ARGUMENT,
 			.msg = "Cannot stringify"
