@@ -9,6 +9,8 @@ namespace ltn::vm::inst {
 			}
 		}
 
+
+
 		inline void load_captures_into_register(Stack & stack, const auto & captured) {
 			for(const auto c : captured) {
 				stack.push(c);
@@ -43,6 +45,7 @@ namespace ltn::vm::inst {
 			}
 			else throw except::invalid_argument();
 		}
+
 
 
 		void invoke_library(VmCore & core, const Value & ref_fx, const Array & arguments) {
