@@ -7,4 +7,4 @@ cp build/exeltn bin/ltn
 cp build/exeltnc bin/ltnc
 cp build/exeltnvm bin/ltnvm
 cp build/exeltninfo bin/ltninfo
-cp build/libs/api/example/libtest.so bin/libtest.so
+cp build/libs/api/test/libtest.so bin/libtest.so

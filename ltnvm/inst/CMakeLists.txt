@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 target_sources(libltnvm PRIVATE 
+	c_api.cxx
 	inst_alloc.cxx
 	inst_arithmetic.cxx
 	inst_at_write.cxx
