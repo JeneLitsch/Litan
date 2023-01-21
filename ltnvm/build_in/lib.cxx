@@ -1,14 +1,28 @@
 #include "lib.hxx"
 #include "ltnvm/Exception.hxx"
 #include "litan_c_api.h"
+#include <filesystem>
+#include "stdxx/iife.hxx"
 
 namespace ltn::vm::build_in {
+	namespace {
+		std::filesystem::path lib_dir = "/usr/local/bin/ltn_libs";
+	}
+
 	Value lib_open(VmCore & core) {
 		auto name = core.stack.pop();
 		if(!is_string(name)) {
 			throw Exception{Exception::Type::INVALID_ARGUMENT, ""};
 		}
-		stx::dynamic_lib lib { core.heap.read<String>(name.u) };
+		auto lib = stx::iife([&] {
+			const auto & lib_name = core.heap.read<String>(name.u); 
+			if(std::filesystem::exists(lib_name)) {
+				return stx::dynamic_lib { lib_name };
+			}
+			else {
+				return stx::dynamic_lib { lib_dir/lib_name };
+			}
+		});
 		return value::library(core.heap.alloc(std::move(lib)));
 	}
 

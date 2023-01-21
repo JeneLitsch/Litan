@@ -1,9 +1,7 @@
-function powi_3(x) => x * x * x
-
 function main() {
 	var libtest = std::lib::open("bin/libtest.so");
 	var hello_world = std::lib::get_fx(libtest, "hello_world");
 	var print = std::lib::get_fx(libtest, "print");
-	var str = hello_world();
-	print(str + "\n");
+	var str = hello_world() + "\n";
+	print(str);
 }
