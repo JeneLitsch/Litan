@@ -51,15 +51,14 @@ namespace ltn::vm::inst {
 		void invoke_library(VmCore & core, const Value & ref_fx, const Array & arguments) {
 			const auto & fxptr = core.heap.read<LibraryFx>(ref_fx.u);
 			const auto arity = arguments.size();
-			CoreWrapper wrapper {
-				.params = ext::Parameters { core.heap, arguments },
-				.return_value = value::null
-			};
+			CoreWrapper wrapper = wrap_core(core.heap, arguments);
 			CApi api = bind_api(wrapper);
 			fxptr.fx_ptr(&api);
 			core.stack.push(wrapper.return_value);
 		}
 	}
+
+	
 
 	void invoke(VmCore & core) {
 		const auto ref_param = core.stack.pop();

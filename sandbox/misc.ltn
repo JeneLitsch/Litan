@@ -2,7 +2,8 @@ function powi_3(x) => x * x * x
 
 function main() {
 	var libtest = std::lib::open("bin/libtest.so");
-	var powi_3 = std::lib::get_fx(libtest, "powi_3");
-	var result = powi_3(3);
-	std::println(result);
+	var hello_world = std::lib::get_fx(libtest, "hello_world");
+	var print = std::lib::get_fx(libtest, "print");
+	var str = hello_world();
+	print(str + "\n");
 }

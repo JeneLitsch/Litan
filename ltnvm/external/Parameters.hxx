@@ -11,7 +11,7 @@ namespace ltn::vm::ext {
 		Parameters(Heap & heap, const Array & params);
 
 		template<class T>
-		T get(std::size_t idx) const {
+		const T & get(std::size_t idx) const {
 			const Value & value = this->get_value(idx);
 
 			if constexpr(std::same_as<T, bool>) {
