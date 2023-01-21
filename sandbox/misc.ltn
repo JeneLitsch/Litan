@@ -1,5 +1,5 @@
 function main() {
-	var libtest = std::lib::open("bin/libtest.so");
+	var libtest = std::lib::open("libtest.so");
 	var hello_world = std::lib::get_fx(libtest, "hello_world");
 	var print = std::lib::get_fx(libtest, "print");
 	var str = hello_world() + "\n";
