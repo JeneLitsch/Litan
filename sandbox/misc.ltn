@@ -1,1 +1,6 @@
-function main() {}
+function main() {
+	var libtest = std::lib::open("bin/libtest.so");
+	var powi_3 = std::lib::get_fx(libtest, "powi_3");
+	std::println(libtest);
+	std::println(powi_3);
+}

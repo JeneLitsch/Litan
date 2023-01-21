@@ -10,6 +10,8 @@ add_library(libltnvm
 	to_variant.cxx
 )
 
+target_link_libraries(libltnvm ${CMAKE_DL_LIBS})
+
 add_subdirectory(build_in)
 add_subdirectory(external)
 add_subdirectory(inst)

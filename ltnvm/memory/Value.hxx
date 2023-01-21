@@ -14,8 +14,7 @@ namespace ltn::vm {
 			CLOCK = 0x50,
 			STRUCT = 0x60,
 			QUEUE = 0x70, STACK, MAP,
-			RNG = 0x80,
-
+			RNG = 0x80, LIBRARY, LIBRARY_FX,
 			OBJ_LAST,
 			OBJ_FIRST = ARRAY,
 		};
@@ -80,6 +79,14 @@ namespace ltn::vm {
 
 		constexpr inline Value tuple(std::uint64_t addr) {
 			return Value{addr, Value::Type::TUPLE};
+		}
+
+		constexpr inline Value library(std::uint64_t addr) {
+			return Value{addr, Value::Type::LIBRARY};
+		}
+
+		constexpr inline Value library_fx(std::uint64_t addr) {
+			return Value{addr, Value::Type::LIBRARY_FX};
 		}
 	}
 }

@@ -4,3 +4,6 @@
 [submodule "libs/stdxx"]
 	path = libs/stdxx
 	url = https://github.com/JeneLitsch/stdxx.git
+[submodule "libs/api"]
+	path = libs/api
+	url = https://github.com/JeneLitsch/Litan-C-Api.git

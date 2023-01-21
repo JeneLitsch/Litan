@@ -17,6 +17,7 @@
 #include "ltnc/stdlib/range.hxx"
 #include "ltnc/stdlib/type.hxx"
 #include "ltnc/stdlib/string.hxx"
+#include "ltnc/stdlib/lib.hxx"
 
 
 namespace ltn::c {
@@ -384,6 +385,7 @@ namespace ltn::c {
 			StringSource{"std_range", std_range},
 			StringSource{"std_string", std_string},
 			StringSource{"std_type", std_type},
+			StringSource{"std_lib", std_lib},
 		};
 
 		for(auto & source : stdlib) {

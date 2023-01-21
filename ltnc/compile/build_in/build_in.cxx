@@ -144,6 +144,10 @@ namespace ltn::c {
 		{"to_string",                vm_build_in<FxCode::TO_STRING>},
 		{"split_string",             vm_build_in<FxCode::SPLIT_STRING>},
 		{"join_string",              vm_build_in<FxCode::JOIN_STRING>},
+
+		{"lib_open",                 vm_build_in<FxCode::LIB_OPEN>},
+		{"lib_clos",                 vm_build_in<FxCode::LIB_CLOSE>},
+		{"lib_get_fx",               vm_build_in<FxCode::LIB_GET_FX>},
 	};
 	
 

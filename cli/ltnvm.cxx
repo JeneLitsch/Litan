@@ -5,6 +5,7 @@
 #include "ltn/version.hxx"
 #include "ltn/args.hxx"
 #include "stdxx/args.hxx"
+#include "stdxx/dynamic_lib.hxx"
 
 
 std::vector<std::uint8_t> read_bytecode(const std::filesystem::path & path) {

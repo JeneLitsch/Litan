@@ -136,6 +136,14 @@ namespace ltn::vm {
 			return heap.read<String>(value.u);
 		}
 
+		if(is_library(value)) {
+			return "<library>";
+		}
+
+		if(is_library_fx(value)) {
+			return "<library_fx>";
+		}
+
 		throw Exception{
 			.type = Exception::Type::INVALID_ARGUMENT,
 			.msg = "Cannot stringify"

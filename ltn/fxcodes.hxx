@@ -48,5 +48,9 @@ namespace ltn {
 		LN,
 		LD,
 		LG,
+
+		LIB_OPEN = 0x60,
+		LIB_CLOSE,
+		LIB_GET_FX,
 	};
 }

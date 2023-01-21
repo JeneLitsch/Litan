@@ -18,6 +18,7 @@
 #include "objects/Deque.hxx"
 #include "objects/Map.hxx"
 #include "objects/RandomEngine.hxx"
+#include "objects/Library.hxx"
 #include "ObjectPool.hxx"
 
 namespace ltn::vm {
@@ -92,7 +93,9 @@ namespace ltn::vm {
 			ObjectPool<Struct>,
 			ObjectPool<Deque>,
 			ObjectPool<Map>,
-			ObjectPool<RandomEngine>
+			ObjectPool<RandomEngine>,
+			ObjectPool<Library>,
+			ObjectPool<LibraryFx>
 		> pools;
 
 		std::queue<std::uint64_t> reuse;
