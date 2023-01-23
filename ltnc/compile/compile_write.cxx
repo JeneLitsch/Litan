@@ -50,4 +50,15 @@ namespace ltn::c {
 		buf << inst::write_x(new_var.addr);
 		return buf;
 	}
+
+
+	InstructionBuffer compile_stmt(const sst::NewVarUnpack & new_vars) {
+		InstructionBuffer buf;
+		buf << compile_expression(*new_vars.expression);
+		buf << inst::unpack(std::size(new_vars.addrs));
+		for(const auto addr : new_vars.addrs) {
+			buf << inst::write_x(addr);
+		}
+		return buf;
+	}
 }

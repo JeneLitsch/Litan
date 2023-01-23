@@ -30,6 +30,7 @@ namespace ltn::c {
 	ast::stmt_ptr parse_for_loop(Tokens & tokens);
 	ast::stmt_ptr parse_just_an_expr(Tokens & tokens);
 	ast::stmt_ptr parse_stmt_switch(Tokens & tokens);
+	ast::stmt_ptr parse_newvar(Tokens & tokens);
 	
 	// Expressions
 	ast::expr_ptr parse_assign_r(Tokens & tokens);

@@ -356,6 +356,7 @@ namespace ltn::c::inst {
 			.opcode = OpCode::SCRAP,
 		};
 	}
+
 	Inst duplicate() {
 		return InstNone {
 			.name = "duplicate",
@@ -369,8 +370,6 @@ namespace ltn::c::inst {
 		};
 	}
 
-
-
 	Inst read_x(std::uint64_t u64) {
 		return InstUint64 {
 			.name = "read_x",
@@ -378,6 +377,7 @@ namespace ltn::c::inst {
 			.value = u64,
 		};
 	}
+
 	Inst write_x(std::uint64_t u64) {
 		return InstUint64 {
 			.name = "write_x",
@@ -385,10 +385,19 @@ namespace ltn::c::inst {
 			.value = u64,
 		};
 	}
+
 	Inst swap() {
 		return InstNone {
 			.name = "swap",
 			.opcode = OpCode::SWAP,
+		};
+	}
+
+	Inst unpack(std::uint8_t size) {
+		return InstByte {
+			.name = "unpack",
+			.opcode = OpCode::UNPACK,
+			.value = size,
 		};
 	}
 

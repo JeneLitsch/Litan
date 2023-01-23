@@ -66,6 +66,20 @@ namespace ltn::c::ast {
 	};
 
 
+	struct NewVarUnpack final : public Statement {
+		NewVarUnpack(
+			std::vector<std::string> names,
+			std::unique_ptr<Expression> expression,
+			const SourceLocation & location)
+			: Statement(location)
+			, names(names)
+			, expression(std::move(expression)) {}
+		virtual ~NewVarUnpack() = default;
+		std::vector<std::string> names;
+		std::unique_ptr<Expression> expression;
+	};
+
+
 	struct IfElse final : public Statement {
 		IfElse(
 			std::unique_ptr<Expression> condition,
@@ -204,6 +218,7 @@ namespace ltn::c::ast {
 		if(auto s = as<ast::InfiniteLoop>(stmt)) return fx(*s);
 		if(auto s = as<ast::For>(stmt)) return fx(*s);
 		if(auto s = as<ast::NewVar>(stmt)) return fx(*s);
+		if(auto s = as<ast::NewVarUnpack>(stmt)) return fx(*s);
 		if(auto s = as<ast::Return>(stmt)) return fx(*s);
 		if(auto s = as<ast::Throw>(stmt)) return fx(*s);
 		if(auto s = as<ast::InitMember>(stmt)) return fx(*s);

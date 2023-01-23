@@ -45,6 +45,7 @@ namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::While &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::For &, Context &, Scope &);
 	std::unique_ptr<sst::NewVar> analyze_stmt(const ast::NewVar &, Context &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::NewVarUnpack &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::StmtSwitch &, Context &, Scope &);
 
 	sst::expr_ptr analyze_expression(const ast::Expression &, Context &, Scope &);

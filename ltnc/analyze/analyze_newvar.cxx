@@ -2,6 +2,7 @@
 #include "ltnc/type/traits.hxx"
 #include <iostream>
 #include "conversion.hxx"
+#include "ltnc/type/traits.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -106,6 +107,44 @@ namespace ltn::c {
 		auto expr = analyze_new_variable_right(new_var, context, scope);
 		const auto var = insert_new_var(new_var, scope, expr->type);		
 		auto r = conversion_on_assign(std::move(expr), var.type, new_var.location);
-		return std::make_unique<sst::NewVar>(0, true, var.address, std::move(r), var.type);
+		return std::make_unique<sst::NewVar>(
+			0, true,
+			var.address,
+			std::move(r),
+			var.type
+		);
+	}
+
+
+
+	sst::stmt_ptr analyze_stmt(
+		const ast::NewVarUnpack & new_vars,
+		Context & context,
+		Scope & scope) {
+
+		std::vector<std::size_t> addrs;
+		auto expr = analyze_expression(*new_vars.expression, context, scope);
+		for(std::size_t i = 0; i < std::size(new_vars.names); ++i) {
+			if(!type::is_tuple(expr->type)) throw CompilerError {
+				"Can only unpack tuple"
+			};
+			auto type = type::deduce_index(expr->type, type::Int{}, i);
+			if(type::is_error(type)) throw CompilerError {
+				"Cannot unpack tuple element"
+			};
+			const auto var = scope.insert(new_vars.names[i], new_vars.location, std::move(type));
+			addrs.push_back(var.address);
+		}
+
+		if(std::size(addrs) > 255) throw CompilerError {
+			"Cannot bind more than 255 variables in statement",
+			new_vars.location
+		};
+
+		return std::make_unique<sst::NewVarUnpack>(
+			0, addrs.size(),
+			std::move(addrs),
+			std::move(expr)
+		);
 	}
 }

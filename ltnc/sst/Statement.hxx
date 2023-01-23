@@ -11,19 +11,19 @@ namespace ltn::c::sst {
 	struct Statement : public Node {
 		Statement(
 			std::size_t local_vars,
-			bool direct_allocation)
+			std::size_t direct_allocation)
 			: local_vars{local_vars}
 			, direct_allocation{direct_allocation} {}
 		virtual ~Statement() = default;
 		std::size_t local_vars;
-		bool direct_allocation;
+		std::size_t direct_allocation;
 	};
 	using stmt_ptr = std::unique_ptr<Statement>;
 
 
 	
 	struct DoNothing : public Statement {
-		DoNothing(std::size_t local_vars, bool direct_allocation)
+		DoNothing(std::size_t local_vars, std::size_t direct_allocation)
 		: Statement{local_vars, direct_allocation} {}
 		virtual ~DoNothing() = default;
 	};
@@ -32,7 +32,7 @@ namespace ltn::c::sst {
 
 	struct Throw final : public Statement {
 		Throw(
-			std::size_t local_vars, bool direct_allocation,
+			std::size_t local_vars, std::size_t direct_allocation,
 			std::unique_ptr<Expression> expression) 
 			: Statement{local_vars, direct_allocation}
 			, expression(std::move(expression)) {}
@@ -44,7 +44,7 @@ namespace ltn::c::sst {
 
 	struct Block final : public Statement {
 		Block(
-			std::size_t local_vars, bool direct_allocation,
+			std::size_t local_vars, std::size_t direct_allocation,
 			std::vector<std::unique_ptr<Statement>> statements) 
 			: Statement{local_vars, direct_allocation}
 			, statements(std::move(statements)) {}
@@ -56,7 +56,7 @@ namespace ltn::c::sst {
 
 	struct NewVar final : public Statement {
 		NewVar(
-			std::size_t local_vars, bool direct_allocation,
+			std::size_t local_vars, std::size_t direct_allocation,
 			std::size_t addr,
 			std::unique_ptr<Expression> expression,
 			const std::variant<type::Type, type::Auto> & type = type::Any{})
@@ -71,9 +71,25 @@ namespace ltn::c::sst {
 	};
 
 
+
+	struct NewVarUnpack final : public Statement {
+		NewVarUnpack(
+			std::size_t local_vars, std::size_t direct_allocation,
+			std::vector<std::size_t> addrs,
+			std::unique_ptr<Expression> expression)
+			: Statement{local_vars, direct_allocation}
+			, addrs{std::move(addrs)}
+			, expression(std::move(expression)) {}
+		virtual ~NewVarUnpack() = default;
+		std::vector<std::size_t> addrs;
+		std::unique_ptr<Expression> expression;
+	};
+
+
+
 	struct IfElse final : public Statement {
 		IfElse(
-			std::size_t local_vars, bool direct_allocation,
+			std::size_t local_vars, std::size_t direct_allocation,
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Statement> if_branch,
 			std::unique_ptr<Statement> else_branch)
@@ -91,7 +107,7 @@ namespace ltn::c::sst {
 
 	struct While final : public Statement {
 		While(
-			std::size_t local_vars, bool direct_allocation,
+			std::size_t local_vars, std::size_t direct_allocation,
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Statement> body)
 			: Statement{local_vars, direct_allocation}
@@ -106,7 +122,7 @@ namespace ltn::c::sst {
 
 	struct InfiniteLoop final : public Statement {
 		InfiniteLoop(
-			std::size_t local_vars, bool direct_allocation,
+			std::size_t local_vars, std::size_t direct_allocation,
 			std::unique_ptr<Statement> body)
 			: Statement{local_vars, direct_allocation}
 			, body(std::move(body)) {}
@@ -119,7 +135,7 @@ namespace ltn::c::sst {
 
 	struct For final : public Statement {
 		For(
-			std::size_t local_vars, bool direct_allocation,
+			std::size_t local_vars, std::size_t direct_allocation,
 			std::string label,
 			std::size_t index_addr,
 			std::unique_ptr<Expression> from,
@@ -147,7 +163,7 @@ namespace ltn::c::sst {
 
 	struct StatementExpression final : public Statement {
 		StatementExpression(
-			std::size_t local_vars, bool direct_allocation,
+			std::size_t local_vars, std::size_t direct_allocation,
 			std::unique_ptr<Expression> expression)
 			: Statement{local_vars, direct_allocation}
 			, expression(std::move(expression)) {}
@@ -159,7 +175,7 @@ namespace ltn::c::sst {
 
 	struct Return final : public Statement {
 		Return(
-			std::size_t local_vars, bool direct_allocation,
+			std::size_t local_vars, std::size_t direct_allocation,
 			std::unique_ptr<Expression> expression,
 			std::optional<std::string> overide_label)
 			: Statement{local_vars, direct_allocation}
@@ -174,7 +190,7 @@ namespace ltn::c::sst {
 	
 	struct InitMember final : public Statement {
 		InitMember(
-			std::size_t local_vars, bool direct_allocation,
+			std::size_t local_vars, std::size_t direct_allocation,
 			std::size_t object_addr,
 			std::size_t member_addr,
 			std::size_t param_addr,
@@ -196,7 +212,7 @@ namespace ltn::c::sst {
 	struct AssignGlobal final : public Statement {
 		AssignGlobal(
 			std::size_t local_vars,
-			bool direct_allocation,
+			std::size_t direct_allocation,
 			std::uint64_t addr,
 			std::unique_ptr<Expression> r)
 			: Statement{local_vars, direct_allocation}
@@ -212,7 +228,7 @@ namespace ltn::c::sst {
 	struct AssignMember final : public Statement {
 		AssignMember(
 			std::size_t local_vars,
-			bool direct_allocation,
+			std::size_t direct_allocation,
 			std::unique_ptr<Expression> object,
 			std::uint64_t addr,
 			std::unique_ptr<Expression> r)
@@ -231,7 +247,7 @@ namespace ltn::c::sst {
 	struct AssignLocal final : public Statement {
 		AssignLocal(
 			std::size_t local_vars,
-			bool direct_allocation,
+			std::size_t direct_allocation,
 			std::uint64_t addr,
 			std::unique_ptr<Expression> r)
 			: Statement{local_vars, direct_allocation}
@@ -246,7 +262,7 @@ namespace ltn::c::sst {
 	struct AssignIndex final : public Statement {
 		AssignIndex(
 			std::size_t local_vars,
-			bool direct_allocation,
+			std::size_t direct_allocation,
 			std::unique_ptr<Expression> range,
 			std::unique_ptr<Expression> index,
 			std::unique_ptr<Expression> r)
@@ -272,6 +288,7 @@ namespace ltn::c::sst {
 		if(auto s = as<sst::InfiniteLoop>(stmt)) return fx(*s);
 		if(auto s = as<sst::For>(stmt)) return fx(*s);
 		if(auto s = as<sst::NewVar>(stmt)) return fx(*s);
+		if(auto s = as<sst::NewVarUnpack>(stmt)) return fx(*s);
 		if(auto s = as<sst::Return>(stmt)) return fx(*s);
 		if(auto s = as<sst::Throw>(stmt)) return fx(*s);
 		if(auto s = as<sst::InitMember>(stmt)) return fx(*s);

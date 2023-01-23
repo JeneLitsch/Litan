@@ -1,1 +1,5 @@
-function main() {}
+function main() {
+	var t = (1,2,3);
+	std::println(reflect(expr t).type.name);
+	var (a, b) = t;
+}

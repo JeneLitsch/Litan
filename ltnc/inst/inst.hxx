@@ -186,6 +186,7 @@ namespace ltn::c::inst {
 	Inst read_x(std::uint64_t u64);
 	Inst write_x(std::uint64_t u64);
 	Inst swap();
+	Inst unpack(std::uint8_t size);
 
 	Inst read_0();
 	Inst read_1();
