@@ -118,7 +118,7 @@ namespace ltn::c {
 
 
 	sst::stmt_ptr analyze_stmt(
-		const ast::NewVarUnpack & new_vars,
+		const ast::StructuredBinding & new_vars,
 		Context & context,
 		Scope & scope) {
 
@@ -141,7 +141,7 @@ namespace ltn::c {
 			new_vars.location
 		};
 
-		return std::make_unique<sst::NewVarUnpack>(
+		return std::make_unique<sst::StructuredBinding>(
 			0, addrs.size(),
 			std::move(addrs),
 			std::move(expr)

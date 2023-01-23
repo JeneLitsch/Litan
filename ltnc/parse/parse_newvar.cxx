@@ -35,7 +35,7 @@ namespace ltn::c {
 				"Structure bindings must be assigned", start.location
 			};
 			semicolon(tokens);
-			return std::make_unique<ast::NewVarUnpack>(
+			return std::make_unique<ast::StructuredBinding>(
 				std::move(names),
 				std::move(r),
 				start.location

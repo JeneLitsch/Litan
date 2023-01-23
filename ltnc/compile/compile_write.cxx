@@ -52,7 +52,7 @@ namespace ltn::c {
 	}
 
 
-	InstructionBuffer compile_stmt(const sst::NewVarUnpack & new_vars) {
+	InstructionBuffer compile_stmt(const sst::StructuredBinding & new_vars) {
 		InstructionBuffer buf;
 		buf << compile_expression(*new_vars.expression);
 		buf << inst::unpack(std::size(new_vars.addrs));
