@@ -1,6 +1,5 @@
 # Variables
 
-
 ## Syntax
 
 The following code listing shows a the structure of a variable declaration.

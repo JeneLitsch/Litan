@@ -72,6 +72,7 @@ namespace ltn::vm::inst {
 	void read_x(VmCore & core);
 	void write_x(VmCore & core);
 	void swap(VmCore & core);
+	void unpack(VmCore & core);
 	
 	void read_0(VmCore & core);
 	void read_1(VmCore & core);
