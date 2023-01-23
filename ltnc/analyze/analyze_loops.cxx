@@ -73,7 +73,7 @@ namespace ltn::c {
 		auto body = analyze_statement(*stmt.body, context, loop_scope);
 				
 		return std::make_unique<sst::For>(
-			body->local_vars + 3, false,
+			body->local_vars, 3,
 			label,
 			i_var->address,
 			std::move(from),
