@@ -103,6 +103,7 @@ namespace ltn::vm {
 		table[OpCode::READ_X] = inst::read_x;
 		table[OpCode::WRITE_X] = inst::write_x;
 		table[OpCode::SWAP] = inst::swap;
+		table[OpCode::UNPACK] = inst::unpack;
 		table[OpCode::READ_0] = inst::read_0;
 		table[OpCode::READ_1] = inst::read_1;
 		table[OpCode::READ_2] = inst::read_2;

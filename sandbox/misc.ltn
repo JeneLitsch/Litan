@@ -1,5 +1,8 @@
 function main() {
-	var t = (1,2,3);
-	std::println(reflect(expr t).type.name);
+	var t = (1,2.0,3);
 	var (a, b) = t;
+	std::println(a);
+	std::println(b);
+	std::println(reflect(expr a).type.name);
+	std::println(reflect(expr b).type.name);
 }
