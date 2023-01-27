@@ -148,8 +148,9 @@ namespace ltn::c::type {
 		
 		Type deduce_index_tuple(const Tuple & tuple, const Type & key, std::optional<std::uint64_t> index) {
 			if(is_numeric(key) || is_any(key)) {
-				if(index) return tuple.contained[*index];
-				return Any{};
+				if(!index) return Any{};
+				if(*index >= std::size(tuple.contained)) return Error{};
+				return tuple.contained[*index];
 			}
 			return Error{};
 		}

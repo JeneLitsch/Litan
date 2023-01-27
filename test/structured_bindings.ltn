@@ -52,7 +52,7 @@ namespace sphinx::test {
 
 
 	function s_bind_value_ignore_extra_multilevel() {
-		var (i, b, (f, s)) = (1, true, (42.42, "xyz", null));
+		var (i, b, (f, s), n) = (1, true, (42.42, "xyz", null), null, null);
 		assert_equal_strict(i, 1);
 		assert_equal_strict(b, true);
 		assert_equal_strict(f, 42.42);
