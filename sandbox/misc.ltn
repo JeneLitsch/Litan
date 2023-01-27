@@ -1,9 +1,10 @@
 function main() {
-	for(i : 10 -> 10) {}
-	var t = (1,2.0,3);
-	var (a, b) = t;
-	std::println(a);
-	std::println(b);
-	std::println(reflect(expr a).type.name);
-	std::println(reflect(expr b).type.name);
+	// for(i : 10 -> 10) {}
+	// var t = (1,2.0,3);
+	// var (a, b) = t;
+	// std::println(a);
+	// std::println(b);
+	// std::println(reflect(expr a).type.name);
+	// std::println(reflect(expr b).type.name);
+	var (x) = (1,);
 }
