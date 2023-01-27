@@ -4,6 +4,7 @@
 #include "Switch.hxx"
 #include "ltnc/type/Type.hxx"
 #include "ltn/casts.hxx"
+#include "Binding.hxx"
 
 namespace ltn::c::sst {
 	struct Expression;
@@ -57,31 +58,13 @@ namespace ltn::c::sst {
 	struct NewVar final : public Statement {
 		NewVar(
 			std::size_t local_vars, std::size_t direct_allocation,
-			std::size_t addr,
-			std::unique_ptr<Expression> expression,
-			const std::variant<type::Type, type::Auto> & type = type::Any{})
-			: Statement{local_vars, direct_allocation}
-			, addr{addr}
-			, expression(std::move(expression))
-			, type{type} {}
-		virtual ~NewVar() = default;
-		std::size_t addr;
-		std::unique_ptr<Expression> expression;
-		std::variant<type::Type, type::Auto> type;
-	};
-
-
-
-	struct StructuredBinding final : public Statement {
-		StructuredBinding(
-			std::size_t local_vars, std::size_t direct_allocation,
-			std::vector<std::size_t> addrs,
+			std::unique_ptr<Binding> binding,
 			std::unique_ptr<Expression> expression)
 			: Statement{local_vars, direct_allocation}
-			, addrs{std::move(addrs)}
+			, binding{std::move(binding)}
 			, expression(std::move(expression)) {}
-		virtual ~StructuredBinding() = default;
-		std::vector<std::size_t> addrs;
+		virtual ~NewVar() = default;
+		std::unique_ptr<Binding> binding;
 		std::unique_ptr<Expression> expression;
 	};
 
@@ -288,7 +271,6 @@ namespace ltn::c::sst {
 		if(auto s = as<sst::InfiniteLoop>(stmt)) return fx(*s);
 		if(auto s = as<sst::For>(stmt)) return fx(*s);
 		if(auto s = as<sst::NewVar>(stmt)) return fx(*s);
-		if(auto s = as<sst::StructuredBinding>(stmt)) return fx(*s);
 		if(auto s = as<sst::Return>(stmt)) return fx(*s);
 		if(auto s = as<sst::Throw>(stmt)) return fx(*s);
 		if(auto s = as<sst::InitMember>(stmt)) return fx(*s);

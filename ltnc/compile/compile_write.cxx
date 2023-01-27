@@ -44,21 +44,43 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_stmt(const sst::NewVar & new_var) {
-		InstructionBuffer buf;
-		buf << compile_expression(*new_var.expression);
-		buf << inst::write_x(new_var.addr);
-		return buf;
+	namespace {
+		InstructionBuffer compile_binding(const sst::Binding & binding);
+		
+		
+		
+		InstructionBuffer compile_bind(const sst::VarBinding & binding) {
+			InstructionBuffer buf;
+			buf << inst::write_x(binding.addr);
+			return buf;
+		}
+		
+
+
+		InstructionBuffer compile_bind(const sst::BraceBinding & binding) {
+			InstructionBuffer buf;
+			buf << inst::unpack(std::size(binding.sub_bindings));
+			for(const auto & sub : binding.sub_bindings) {
+				buf << compile_binding(*sub);
+			}
+			return buf;
+		}
+
+
+		
+		InstructionBuffer compile_binding(const sst::Binding & binding) {
+			return sst::visit_binding(binding, [&] (const auto & b) {
+				return compile_bind(b);
+			});
+		}
 	}
 
 
-	InstructionBuffer compile_stmt(const sst::StructuredBinding & new_vars) {
+
+	InstructionBuffer compile_stmt(const sst::NewVar & new_var) {
 		InstructionBuffer buf;
-		buf << compile_expression(*new_vars.expression);
-		buf << inst::unpack(std::size(new_vars.addrs));
-		for(const auto addr : new_vars.addrs) {
-			buf << inst::write_x(addr);
-		}
+		buf << compile_expression(*new_var.expression);
+		buf << compile_binding(*new_var.binding);
 		return buf;
 	}
 }

@@ -37,7 +37,6 @@ namespace ltn::c {
 	InstructionBuffer compile_stmt(const sst::While &);
 	InstructionBuffer compile_stmt(const sst::For &);
 	InstructionBuffer compile_stmt(const sst::NewVar &);
-	InstructionBuffer compile_stmt(const sst::StructuredBinding &);
 	InstructionBuffer compile_stmt(const sst::StmtSwitch &);
 
 	// Expression

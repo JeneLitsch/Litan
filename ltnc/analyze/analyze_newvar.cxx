@@ -108,11 +108,70 @@ namespace ltn::c {
 		const auto var = insert_new_var(new_var, scope, expr->type);		
 		auto r = conversion_on_assign(std::move(expr), var.type, new_var.location);
 		return std::make_unique<sst::NewVar>(
-			0, true,
-			var.address,
-			std::move(r),
-			var.type
+			0, 1,
+			std::make_unique<sst::VarBinding>(var.address),
+			std::move(r)
 		);
+	}
+
+
+
+	namespace {
+		sst::bind_ptr analyze_binding(
+			const ast::Binding & binding,
+			Context & context,
+			Scope & scope,
+			const type::Type & from_type);
+
+
+
+		sst::bind_ptr analyze_bind(
+			const ast::BraceBinding & binding,
+			Context & context,
+			Scope & scope,
+			const type::Type & from_type) {
+
+			auto sst_binding = std::make_unique<sst::BraceBinding>();
+			if(!type::is_tuple(from_type)) throw CompilerError {
+				"Can only unpack tuple"
+			};
+
+			for(std::size_t i = 0; i < std::size(binding.sub_bindings); ++i) {
+				auto type = type::deduce_index(from_type, type::Int{}, i);
+				if(type::is_error(type)) throw CompilerError {
+					"Cannot unpack tuple element"
+				};
+				auto sub_binding = analyze_binding(*binding.sub_bindings[i], context, scope, type);
+				sst_binding->sub_bindings.push_back(std::move(sub_binding));
+			}
+
+			return sst_binding;
+		}
+		
+
+		
+		sst::bind_ptr analyze_bind(
+			const ast::VarBinding & binding,
+			Context & context,
+			Scope & scope,
+			const type::Type & from_type) {
+
+			const auto var = scope.insert(binding.name, binding.location, from_type); 
+			return std::make_unique<sst::VarBinding>(var.address);
+		}
+
+
+
+		sst::bind_ptr analyze_binding(
+			const ast::Binding & binding,
+			Context & context,
+			Scope & scope,
+			const type::Type & from_type) {
+
+			return ast::visit_binding(binding, [&] (const auto & b) {
+				return analyze_bind(b, context, scope, from_type);
+			});
+		}
 	}
 
 
@@ -122,28 +181,12 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 
-		std::vector<std::size_t> addrs;
 		auto expr = analyze_expression(*new_vars.expression, context, scope);
-		for(std::size_t i = 0; i < std::size(new_vars.names); ++i) {
-			if(!type::is_tuple(expr->type)) throw CompilerError {
-				"Can only unpack tuple"
-			};
-			auto type = type::deduce_index(expr->type, type::Int{}, i);
-			if(type::is_error(type)) throw CompilerError {
-				"Cannot unpack tuple element"
-			};
-			const auto var = scope.insert(new_vars.names[i], new_vars.location, std::move(type));
-			addrs.push_back(var.address);
-		}
+		auto binding = analyze_binding(*new_vars.binding, context, scope, expr->type);
 
-		if(std::size(addrs) > 255) throw CompilerError {
-			"Cannot bind more than 255 variables in statement",
-			new_vars.location
-		};
-
-		return std::make_unique<sst::StructuredBinding>(
-			0, addrs.size(),
-			std::move(addrs),
+		return std::make_unique<sst::NewVar>(
+			0, binding->alloc_count(),
+			std::move(binding),
 			std::move(expr)
 		);
 	}

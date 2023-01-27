@@ -2,6 +2,7 @@
 #include "Function.hxx"
 #include "Statement.hxx"
 #include "Expression.hxx"
+#include "Binding.hxx"
 
 namespace ltn::c::ast {
 	using expr_ptr = std::unique_ptr<Expression>;
@@ -12,6 +13,7 @@ namespace ltn::c::ast {
 	using func_ptr = std::unique_ptr<Functional>;
 	using ftmp_ptr = std::unique_ptr<FunctionTemplate>;
 	using enum_ptr = std::unique_ptr<Enumeration>;
+	using bind_ptr = std::unique_ptr<Binding>;
 	
 	struct Program {
 		std::vector<func_ptr> functions;

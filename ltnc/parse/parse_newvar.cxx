@@ -22,10 +22,19 @@ namespace ltn::c {
 
 
 		ast::stmt_ptr parse_unpack_newvar(const Token & start, Tokens & tokens) {
-			std::vector<std::string> names;
-			names.push_back(parse_variable_name(tokens));
+			auto binding = std::make_unique<ast::BraceBinding>(start.location);
+			
+			const auto add_var = [&] (const auto & name) {
+				auto var_bind = std::make_unique<ast::VarBinding>(
+					start.location,
+					name
+				);
+				binding->sub_bindings.push_back(std::move(var_bind));
+			};
+
+			add_var(parse_variable_name(tokens));
 			while(match(TT::COMMA, tokens)) {
-				names.push_back(parse_variable_name(tokens));
+				add_var(parse_variable_name(tokens));
 			}
 			if(!match(TT::PAREN_R, tokens)) throw CompilerError {
 				"Expected )", start.location
@@ -36,7 +45,7 @@ namespace ltn::c {
 			};
 			semicolon(tokens);
 			return std::make_unique<ast::StructuredBinding>(
-				std::move(names),
+				std::move(binding),
 				std::move(r),
 				start.location
 			); 

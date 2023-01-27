@@ -4,6 +4,7 @@
 #include "Switch.hxx"
 #include "ltnc/type/Type.hxx"
 #include "ltn/casts.hxx"
+#include "Binding.hxx"
 
 namespace ltn::c::ast {
 	struct Expression;
@@ -19,9 +20,6 @@ namespace ltn::c::ast {
 		DoNothing(const SourceLocation & location) : Statement(location) {}
 		virtual ~DoNothing() = default;
 	};
-
-
-
 
 
 
@@ -66,18 +64,20 @@ namespace ltn::c::ast {
 	};
 
 
+
 	struct StructuredBinding final : public Statement {
 		StructuredBinding(
-			std::vector<std::string> names,
+			std::unique_ptr<Binding> binding,
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location)
 			: Statement(location)
-			, names(names)
+			, binding(std::move(binding))
 			, expression(std::move(expression)) {}
 		virtual ~StructuredBinding() = default;
-		std::vector<std::string> names;
+		std::unique_ptr<Binding> binding;		
 		std::unique_ptr<Expression> expression;
 	};
+
 
 
 	struct IfElse final : public Statement {
@@ -111,6 +111,7 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> condition;
 		std::unique_ptr<Statement> body;
 	};
+
 
 
 	struct InfiniteLoop final : public Statement {

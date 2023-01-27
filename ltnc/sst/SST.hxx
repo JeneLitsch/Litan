@@ -2,11 +2,13 @@
 #include "Function.hxx"
 #include "Statement.hxx"
 #include "Expression.hxx"
+#include "Binding.hxx"
 
 namespace ltn::c::sst {
 	using defn_ptr = std::unique_ptr<Definition>;
 	using glob_ptr = std::unique_ptr<Global>;
 	using func_ptr = std::unique_ptr<Functional>;
+	using bind_ptr = std::unique_ptr<Binding>;
 	
 	struct Program {
 		std::vector<func_ptr> functions;
