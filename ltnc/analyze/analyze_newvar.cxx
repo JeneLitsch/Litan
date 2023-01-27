@@ -99,11 +99,12 @@ namespace ltn::c {
 			Scope & scope,
 			const type::Type & from_type) {
 
-			auto sst_binding = std::make_unique<sst::GroupBinding>();
 			if(!type::is_tuple(from_type)) throw CompilerError {
 				"Can only unpack tuple",
 				binding.location
 			};
+			
+			auto sst_binding = std::make_unique<sst::GroupBinding>();
 			for(std::size_t i = 0; i < std::size(binding.sub_bindings); ++i) {
 				auto type = type::deduce_index(from_type, type::Int{}, i);
 				if(type::is_error(type)) throw CompilerError {
@@ -151,24 +152,15 @@ namespace ltn::c {
 		Scope & scope) {
 
 		auto expr = analyze_new_variable_right(new_var, context, scope);
-		// auto expr =  analyze_expression(*new_vars.expression, context, scope);
+		auto binding = analyze_binding(*new_var.binding, context, scope, expr->type);
 		if(new_var.type) {
 			auto decl_type = instantiate_type(*new_var.type, scope);
-			auto binding = analyze_binding(*new_var.binding, context, scope, expr->type);
 			expr = conversion_on_assign(std::move(expr), decl_type, new_var.location);
-			return std::make_unique<sst::NewVar>(
-				0, binding->alloc_count(),
-				std::move(binding),
-				std::move(expr)
-			);
 		}
-		else {
-			auto binding = analyze_binding(*new_var.binding, context, scope, expr->type);
-			return std::make_unique<sst::NewVar>(
-				0, binding->alloc_count(),
-				std::move(binding),
-				std::move(expr)
-			);
-		}
+		return std::make_unique<sst::NewVar>(
+			0, binding->alloc_count(),
+			std::move(binding),
+			std::move(expr)
+		);
 	}
 }

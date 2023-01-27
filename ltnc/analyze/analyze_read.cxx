@@ -21,9 +21,7 @@ namespace ltn::c {
 		const ast::Functional & fx,
 		const Namespace & call_ns,
 		const SourceLocation & loc) {
-		if(
-			fx.is_private &&
-			!is_inner_namespace(call_ns, fx.namespaze)) {
+		if(fx.is_private && !is_inner_namespace(call_ns, fx.namespaze)) {
 			throw CompilerError {
 				"Function is not visible in current scope",
 				loc

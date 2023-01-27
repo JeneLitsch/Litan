@@ -70,7 +70,12 @@ namespace ltn::c {
 			throw invalid_operands(l->type, r->type, binary.location);
 		} 
 
-		return std::make_unique<sst::Binary>(op, std::move(l), std::move(r), type);
+		return std::make_unique<sst::Binary>(
+			op,
+			std::move(l),
+			std::move(r),
+			type
+		);
 	}
 	
 }

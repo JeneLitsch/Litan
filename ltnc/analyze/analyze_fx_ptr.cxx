@@ -128,6 +128,10 @@ namespace ltn::c {
 			.parameter_types = parameter_types,
 		};
 
-		return std::make_unique<sst::FxPointer>(label, funtional->parameters.size(), type);
+		return std::make_unique<sst::FxPointer>(
+			label,
+			funtional->parameters.size(),
+			type
+		);
 	}
 }

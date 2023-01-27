@@ -23,14 +23,14 @@ namespace ltn::c {
 		auto l = analyze_expression(*expr.l, context, scope);
 		auto r_raw = analyze_expression(*expr.r, context, scope);
 		auto r = conversion_on_assign(std::move(r_raw), l->type, expr.location);
-		if(auto * l_local = dynamic_cast<sst::Var *>(l.get())) {
+		if(auto * l_local = as<sst::Var>(*l)) {
 			return std::make_unique<sst::AssignLocal>(
 				0, false,
 				l_local->addr,
 				std::move(r)
 			);
 		}
-		if(auto * l_index = dynamic_cast<sst::Index *>(l.get())) {
+		if(auto * l_index = as<sst::Index>(*l)) {
 			return std::make_unique<sst::AssignIndex>(
 				0, false,
 				std::move(l_index->expression),
@@ -38,7 +38,7 @@ namespace ltn::c {
 				std::move(r)
 			);
 		}
-		if(auto * l_member = dynamic_cast<sst::Member *>(l.get())) {
+		if(auto * l_member = as<sst::Member>(*l)) {
 			return std::make_unique<sst::AssignMember>(
 				0, false,
 				std::move(l_member->expr),
@@ -46,7 +46,7 @@ namespace ltn::c {
 				std::move(r)
 			);
 		}
-		if(auto * l_global = dynamic_cast<sst::GlobalVar *>(l.get())) {
+		if(auto * l_global = as<sst::GlobalVar>(*l)) {
 			return std::make_unique<sst::AssignGlobal>(
 				0, false,
 				l_global->addr,

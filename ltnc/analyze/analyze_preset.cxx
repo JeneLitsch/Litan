@@ -9,7 +9,11 @@ namespace ltn::c {
 				loc
 			);
 			
-			return std::make_unique<ast::NewVar>(std::make_unique<ast::VarBinding>(loc, "___OBJ___"), std::move(call), loc);
+			return std::make_unique<ast::NewVar>(
+				std::make_unique<ast::VarBinding>(loc, "___OBJ___"),
+				std::move(call),
+				loc
+			);
 		}
 
 
@@ -50,7 +54,10 @@ namespace ltn::c {
 
 		statements.push_back(return_struct(preset.location));
 		
-		auto block = std::make_unique<ast::Block>(std::move(statements), preset.location);
+		auto block = std::make_unique<ast::Block>(
+			std::move(statements),
+			preset.location
+		);
 
 		auto ctor = std::make_unique<ast::Function>(
 			preset.name,

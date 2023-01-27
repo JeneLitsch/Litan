@@ -1,7 +1,9 @@
 #include "analyze.hxx"
 
 namespace ltn::c {
-	sst::defn_ptr analyze_definition(const ast::Definition & def, Context & context) {
+	sst::defn_ptr analyze_definition(
+		const ast::Definition & def,
+		Context & context) {
 		// Use empty global_table to prohibit the usage of other global variables.
 		// Functions or defines can be used though.
 		InvalidDefinitionTable def_table { "definitions" };

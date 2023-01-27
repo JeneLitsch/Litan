@@ -1,7 +1,11 @@
 #include "analyze.hxx"
 #include <string_view>
 namespace ltn::c {
-	sst::expr_ptr analyze_expr(const ast::Array & array, Context & context, Scope & scope) {
+	sst::expr_ptr analyze_expr(
+		const ast::Array & array,
+		Context & context,
+		Scope & scope) {
+			
 		type::Array type;
 		std::vector<sst::expr_ptr> elements;
 		for(const auto & elem : array.elements) {
@@ -16,7 +20,11 @@ namespace ltn::c {
 
 
 
-	sst::expr_ptr analyze_expr(const ast::Tuple & array, Context & context, Scope & scope) {
+	sst::expr_ptr analyze_expr(
+		const ast::Tuple & array,
+		Context & context,
+		Scope & scope) {
+
 		type::Tuple type;
 		std::vector<sst::expr_ptr> elements;
 		for(const auto & elem : array.elements) {

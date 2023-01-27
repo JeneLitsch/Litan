@@ -13,8 +13,7 @@ namespace ltn::c {
 		auto idx = analyze_expression(*index.index, context, scope);
 
 		type::Type type = stx::iife([&] {
-			auto integer = dynamic_cast<sst::Integer*>(idx.get());
-			if(integer) {
+			if(auto integer = as<sst::Integer>(*idx)) {
 				return type::deduce_index(arr->type, idx->type, integer->value);
 			}
 			else {

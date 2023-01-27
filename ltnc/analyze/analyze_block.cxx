@@ -1,7 +1,11 @@
 #include "analyze.hxx"
 namespace ltn::c {
 	// compiles -> code block {...}
-	sst::stmt_ptr  analyze_stmt(const ast::Block & block, Context & context, Scope & parent) {
+	sst::stmt_ptr  analyze_stmt(
+		const ast::Block & block,
+		Context & context,
+		Scope & parent) {
+		
 		MinorScope scope { &parent };
 		std::size_t locals = 0;
 		std::size_t newAllocs = 0;

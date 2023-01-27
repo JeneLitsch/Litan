@@ -5,7 +5,11 @@
 namespace ltn::c {
 	namespace {
 
-		sst::Parameters analyze_parameters(const ast::Parameters & parameters, Scope & scope, const SourceLocation & loc) {
+		sst::Parameters analyze_parameters(
+			const ast::Parameters & parameters,
+			Scope & scope,
+			const SourceLocation & loc) {
+			
 			sst::Parameters p;
 			for(const auto & param : parameters) {
 				auto sst_param = sst::Parameter {

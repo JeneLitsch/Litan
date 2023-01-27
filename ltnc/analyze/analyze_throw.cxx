@@ -10,7 +10,10 @@ namespace ltn::c {
 			return std::make_unique<sst::Throw>(0, false, std::move(expr));
 		}
 		else {
-			return std::make_unique<sst::Throw>(0, false, std::make_unique<sst::Null>(type::Null{}));
+			return std::make_unique<sst::Throw>(
+				0, false,
+				std::make_unique<sst::Null>(type::Null{})
+			);
 		}
 	}
 }

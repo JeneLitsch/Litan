@@ -38,7 +38,11 @@ namespace ltn::c {
 				auto arg = analyze_expression(*arg_expr, context, scope);
 				const auto expr_type = arg->type;
 				const auto param_type = instantiate_type(parameter.type, scope);
-				arguments.push_back(conversion_on_pass(std::move(arg), param_type, {call.location,i}));
+				arguments.push_back(conversion_on_pass(
+					std::move(arg),
+					param_type,
+					{call.location,i}
+				));
 			}
 
 			const auto return_type = instantiate_type(fx.return_type, scope);
@@ -48,12 +52,20 @@ namespace ltn::c {
 				fx.parameters.size()
 			);
 			const auto label = id_override.value_or(fx_label);
-			return std::make_unique<sst::Call>(label, std::move(arguments), return_type);
+			return std::make_unique<sst::Call>(
+				label,
+				std::move(arguments),
+				return_type
+			);
 		}
 
 
 
-		sst::expr_ptr do_invoke(const ast::Call & call, Context & context, Scope & scope) {
+		sst::expr_ptr do_invoke(
+			const ast::Call & call,
+			Context & context,
+			Scope & scope) {
+
 			auto expr = analyze_expression(*call.function_ptr, context, scope);
 
 			std::vector<sst::expr_ptr> arguments;
@@ -104,7 +116,11 @@ namespace ltn::c {
 
 
 	// compiles function call fx(...)
-	sst::expr_ptr analyze_expr(const ast::Call & call, Context & context, Scope & scope) {
+	sst::expr_ptr analyze_expr(
+		const ast::Call & call,
+		Context & context,
+		Scope & scope) {
+	
 		const auto * var = as<ast::Var>(*call.function_ptr);
 		if(var) {
 			if(!call.template_args.empty()) {
