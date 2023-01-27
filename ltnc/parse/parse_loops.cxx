@@ -12,7 +12,7 @@ namespace ltn::c {
 		if(match(TT::WHILE, tokens)) {
 			auto expr = parse_condition(tokens);
 			auto body = parse_statement(tokens);
-			return stx::make_unique<ast::While>(
+			return std::make_unique<ast::While>(
 				std::move(expr),
 				std::move(body),
 				location(tokens)
@@ -30,12 +30,6 @@ namespace ltn::c {
 			}
 
 			auto var_name = parse_variable_name(tokens);
-			auto var = stx::make_unique<ast::NewVar>(
-				var_name,
-				nullptr,
-				location(tokens),
-				type::IncompleteType{type::Int{}}
-			);
 
 			if(!match(TT::COLON, tokens)) {
 				throw CompilerError{"Expected :", location(tokens)};
@@ -60,8 +54,8 @@ namespace ltn::c {
 
 			auto body = parse_statement(tokens);
 
-			auto loop = stx::make_unique<ast::For>(
-				std::move(var),
+			auto loop = std::make_unique<ast::For>(
+				var_name,
 				std::move(from),
 				std::move(to),
 				std::move(step),

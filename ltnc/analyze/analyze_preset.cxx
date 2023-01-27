@@ -9,7 +9,7 @@ namespace ltn::c {
 				loc
 			);
 			
-			return std::make_unique<ast::NewVar>("___OBJ___", std::move(call), loc);
+			return std::make_unique<ast::NewVar>(std::make_unique<ast::VarBinding>(loc, "___OBJ___"), std::move(call), loc);
 		}
 
 

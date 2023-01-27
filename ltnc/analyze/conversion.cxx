@@ -17,10 +17,10 @@ namespace ltn::c {
 
 
 		sst::expr_ptr generate_conversion(sst::expr_ptr from, const type::Type & to) {
-			if(is_bool(to))                             return make_static_cast(std::move(from), to);
-			if(is_char(to))   							return make_static_cast(std::move(from), to);
-			if(is_int(to))    							return make_static_cast(std::move(from), to);
-			if(is_float(to))  							return make_static_cast(std::move(from), to);
+			if(is_bool(to))  return make_static_cast(std::move(from), to);
+			if(is_char(to))  return make_static_cast(std::move(from), to);
+			if(is_int(to))   return make_static_cast(std::move(from), to);
+			if(is_float(to)) return make_static_cast(std::move(from), to);
 			return from;
 		}
 	}
@@ -61,7 +61,6 @@ namespace ltn::c {
 			oss << "Cannot assign " << from->type << " to "<< to;
 			throw CompilerError{oss.str(), location};
 		}
-
 	}
 
 

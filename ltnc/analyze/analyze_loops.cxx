@@ -57,7 +57,6 @@ namespace ltn::c {
 		// outer scope of loop 
 		MinorScope loop_scope { &scope };
 
-		auto var = analyze_statement(*stmt.var, context, loop_scope);
 		auto from = analyze_expression(*stmt.from, context, loop_scope);
 		auto to = analyze_expression(*stmt.to, context, loop_scope);
 		auto step = stmt.step
@@ -66,20 +65,22 @@ namespace ltn::c {
 		
 		const auto label = make_jump_id("FOR");
 
-		const auto i_var = loop_scope.resolve(stmt.var->name, stmt.location);
+		const auto i_var = loop_scope.insert(stmt.index_name, stmt.location, type::Int{});
 		loop_scope.insert(var_from(label), stmt.location);
 		loop_scope.insert(var_to(label), stmt.location);
 
 		auto body = analyze_statement(*stmt.body, context, loop_scope);
 				
-		return std::make_unique<sst::For>(
+		auto loop = std::make_unique<sst::For>(
 			body->local_vars, 3,
 			label,
-			i_var->address,
+			i_var.address,
 			std::move(from),
 			std::move(to),
 			std::move(step),
 			std::move(body)
 		);
+
+		return loop;
 	}
 }

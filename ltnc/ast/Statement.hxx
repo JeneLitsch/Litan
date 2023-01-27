@@ -49,33 +49,18 @@ namespace ltn::c::ast {
 
 	struct NewVar final : public Statement {
 		NewVar(
-			const std::string & name,
+			std::unique_ptr<Binding> binding,
 			std::unique_ptr<Expression> expression,
 			const SourceLocation & location,
 			const std::optional<type::IncompleteType> & type = type::IncompleteType{type::Any{}})
 			: Statement(location)
-			, name(name)
+			, binding(std::move(binding))
 			, expression(std::move(expression))
 			, type{type} {}
 		virtual ~NewVar() = default;
-		std::string name;
-		std::unique_ptr<Expression> expression;
-		std::optional<type::IncompleteType> type;
-	};
-
-
-
-	struct StructuredBinding final : public Statement {
-		StructuredBinding(
-			std::unique_ptr<Binding> binding,
-			std::unique_ptr<Expression> expression,
-			const SourceLocation & location)
-			: Statement(location)
-			, binding(std::move(binding))
-			, expression(std::move(expression)) {}
-		virtual ~StructuredBinding() = default;
 		std::unique_ptr<Binding> binding;		
 		std::unique_ptr<Expression> expression;
+		std::optional<type::IncompleteType> type;
 	};
 
 
@@ -129,21 +114,21 @@ namespace ltn::c::ast {
 
 	struct For final : public Statement {
 		For(
-			std::unique_ptr<NewVar> var,
+			std::string index_name,
 			std::unique_ptr<Expression> from,
 			std::unique_ptr<Expression> to,
 			std::unique_ptr<Expression> step,
 			std::unique_ptr<Statement> body,
 			const SourceLocation & location)
 			: Statement(location)
-			, var(std::move(var))
+			, index_name(std::move(index_name))
 			, from(std::move(from))
 			, to(std::move(to))
 			, step(std::move(step))
 			, body(std::move(body)) {}
 
 		virtual ~For() = default;
-		std::unique_ptr<NewVar> var;
+		std::string index_name;
 		std::unique_ptr<Expression> from;
 		std::unique_ptr<Expression> to;
 		std::unique_ptr<Expression> step;
@@ -219,7 +204,6 @@ namespace ltn::c::ast {
 		if(auto s = as<ast::InfiniteLoop>(stmt)) return fx(*s);
 		if(auto s = as<ast::For>(stmt)) return fx(*s);
 		if(auto s = as<ast::NewVar>(stmt)) return fx(*s);
-		if(auto s = as<ast::StructuredBinding>(stmt)) return fx(*s);
 		if(auto s = as<ast::Return>(stmt)) return fx(*s);
 		if(auto s = as<ast::Throw>(stmt)) return fx(*s);
 		if(auto s = as<ast::InitMember>(stmt)) return fx(*s);
