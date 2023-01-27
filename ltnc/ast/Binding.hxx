@@ -9,8 +9,8 @@ namespace ltn::c::ast {
 
 
 
-	struct BraceBinding : public Binding {
-		BraceBinding(const SourceLocation & location)
+	struct GroupBinding : public Binding {
+		GroupBinding(const SourceLocation & location)
 			: Binding {location} {}
 		
 		std::vector<std::unique_ptr<Binding>> sub_bindings;
@@ -29,7 +29,7 @@ namespace ltn::c::ast {
 
 
 	auto visit_binding(const Binding & binding, auto && fx) {
-		if(auto b = as<BraceBinding>(binding)) return fx(*b);
+		if(auto b = as<GroupBinding>(binding)) return fx(*b);
 		if(auto b = as<VarBinding>(binding)) return fx(*b);
 		throw std::runtime_error{"Unknown AST binding"};
 	}

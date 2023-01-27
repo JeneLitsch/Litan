@@ -126,12 +126,12 @@ namespace ltn::c {
 
 
 		sst::bind_ptr analyze_bind(
-			const ast::BraceBinding & binding,
+			const ast::GroupBinding & binding,
 			Context & context,
 			Scope & scope,
 			const type::Type & from_type) {
 
-			auto sst_binding = std::make_unique<sst::BraceBinding>();
+			auto sst_binding = std::make_unique<sst::GroupBinding>();
 			if(!type::is_tuple(from_type)) throw CompilerError {
 				"Can only unpack tuple"
 			};

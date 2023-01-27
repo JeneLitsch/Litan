@@ -57,7 +57,7 @@ namespace ltn::c {
 		
 
 
-		InstructionBuffer compile_bind(const sst::BraceBinding & binding) {
+		InstructionBuffer compile_bind(const sst::GroupBinding & binding) {
 			InstructionBuffer buf;
 			buf << inst::unpack(std::size(binding.sub_bindings));
 			for(const auto & sub : binding.sub_bindings) {

@@ -13,8 +13,8 @@ namespace ltn::c::sst {
 
 
 
-	struct BraceBinding : public Binding {
-		BraceBinding()
+	struct GroupBinding : public Binding {
+		GroupBinding()
 			: Binding {} {}
 		
 		std::vector<std::unique_ptr<Binding>> sub_bindings;
@@ -48,7 +48,7 @@ namespace ltn::c::sst {
 
 
 	auto visit_binding(const Binding & binding, auto && fx) {
-		if(auto b = as<BraceBinding>(binding)) return fx(*b);
+		if(auto b = as<GroupBinding>(binding)) return fx(*b);
 		if(auto b = as<VarBinding>(binding)) return fx(*b);
 		throw std::runtime_error{"Unknown SST binding"};
 	}
