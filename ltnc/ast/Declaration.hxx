@@ -107,14 +107,16 @@ namespace ltn::c::ast {
 	struct Enumeration final : public Declaration {
 		struct Label {
 			std::string name;
-			std::unique_ptr<ast::Integer> value;
+			std::int64_t value;
 		};
 		
 		Enumeration(
 			const SourceLocation & location,
 			const std::string & name,
-			const Namespace & namespaze)
-			: Declaration(location, name, namespaze) {}
+			const Namespace & namespaze,
+			std::vector<Label> labels)
+			: Declaration(location, name, namespaze)
+			, labels{std::move(labels)} {}
 		virtual ~Enumeration() = default;
 		std::vector<Label> labels;
 	};

@@ -2,8 +2,11 @@
 #include "stdxx/functional.hxx"
 
 namespace ltn::c {
+
+
+
 	auto analyze_cases(
-		auto && body_fx,
+		auto body_fx,
 		const auto & sw1tch,
 		Context & context,
 		Scope & scope) {
@@ -28,16 +31,10 @@ namespace ltn::c {
 			true
 		};
 
-		std::vector<std::pair<sst::expr_ptr, BodyExpr>> cases;
-
-		for(const auto & [expr, body] : sw1tch.cases) {
-			cases.push_back({
-				analyze_expression(*expr, case_context, case_scope),
-				body_fx(*body, context, scope)
-			});
-		}
-
-		return cases;
+		return stx::fx::mapped(stx::fx::paired(
+			[&] (auto & c4se) { return analyze_expression(*c4se, case_context, case_scope); },
+			[&] (auto & body) { return body_fx(*body, context, scope); }
+		)) (sw1tch.cases);
 	}
 
 
@@ -65,7 +62,7 @@ namespace ltn::c {
 		const ast::ExprSwitch & sw1tch,
 		Context & context,
 		Scope & scope) {
-		
+
 		auto condition = analyze_expression(*sw1tch.condition, context, scope);
 		auto cases = analyze_cases(analyze_expression, sw1tch, context, scope);
 		auto def4ault = analyze_expression(*sw1tch.d3fault, context, scope);

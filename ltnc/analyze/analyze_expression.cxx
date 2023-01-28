@@ -25,7 +25,7 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 
-		auto result = ast::visit_expression(expr, [&](const auto & e) -> sst::expr_ptr {
+		auto result = ast::visit_expression(expr, [&](const auto & e) {
 			return analyze_expr(e, context, scope);
 		});
 

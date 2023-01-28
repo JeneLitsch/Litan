@@ -52,8 +52,10 @@ namespace ltn::c::sst {
 		Definition(
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::Type & type)
-			: Static{name, namespaze, type} {}
+			const type::Type & type,
+			std::unique_ptr<sst::Expression> expr)
+			: Static{name, namespaze, type}
+			, expr{std::move(expr)} {}
 		virtual ~Definition() = default;
 		std::unique_ptr<sst::Expression> expr;
 	};
@@ -64,8 +66,10 @@ namespace ltn::c::sst {
 		Global(
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::Type & type)
-			: Static{name, namespaze,type} {}
+			const type::Type & type,
+			std::unique_ptr<sst::Expression> expr)
+			: Static{name, namespaze, type}
+			, expr{std::move(expr)} {}
 		virtual ~Global() = default;
 		std::unique_ptr<sst::Expression> expr;
 	};

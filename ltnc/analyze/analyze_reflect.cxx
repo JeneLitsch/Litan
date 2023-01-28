@@ -46,9 +46,7 @@ namespace ltn::c {
 				query.arity
 			);
 
-			if(!fx) {
-				throw undefined_function(query.name, ast::Node{{}});
-			}
+			if(!fx) throw undefined_function(query.name, ast::Node{{}});
 			
 			context.fx_queue.stage_function(*fx);
 			return fx_to_query(*fx);

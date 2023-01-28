@@ -53,14 +53,14 @@ namespace ltn::c {
 		};
 		MajorScope scope { global.namespaze, false };
 
-		auto sst_def = std::make_unique<sst::Global>(
+		auto type = instantiate_type(global.type, scope);
+		auto expr = global.expr ? analyze_expression(*global.expr, read_context, scope) : nullptr;
+
+		return std::make_unique<sst::Global>(
 			global.name,
 			global.namespaze,
-			instantiate_type(global.type, scope)
+			std::move(type),
+			std::move(expr)
 		);
-		if(global.expr) {
-			sst_def->expr = analyze_expression(*global.expr, read_context, scope);
-		}
-		return sst_def;
 	}
 }

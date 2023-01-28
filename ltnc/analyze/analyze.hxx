@@ -71,6 +71,8 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::TypedUnary &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Reflect &, Context &, Scope &);
 
+	sst::bind_ptr analyze_binding(const ast::Binding &,	Context &, Scope &, const type::Type &);
+
 	// utils
 	void guard_const(
 		const ast::Node &,
