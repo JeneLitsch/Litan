@@ -7,26 +7,16 @@ namespace ltn::c {
 		Scope & parent) {
 		
 		MinorScope scope { &parent };
-		std::size_t locals = 0;
-		std::size_t newAllocs = 0;
+
 		std::vector<sst::stmt_ptr> statments;
 		for(const auto & stmt : block.statements) {
 			try {
-				if(stmt) {
-					auto analyzed = analyze_statement(*stmt, context, scope); 
-					locals = std::max(locals, analyzed->nested_alloc());
-					newAllocs += analyzed->direct_alloc();
-					statments.push_back(std::move(analyzed));
-				} 
+				statments.push_back(analyze_statement(*stmt, context, scope));
 			}
 			catch(const CompilerError & error) {
 				context.reporter.push(error);
 			}
 		}
-		return std::make_unique<sst::Block>(
-			locals + newAllocs,
-			false,
-			std::move(statments)
-		);
+		return std::make_unique<sst::Block>(std::move(statments));
 	}
 }

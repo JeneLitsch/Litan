@@ -10,7 +10,6 @@ namespace ltn::c {
 		const auto mem = context.member_table.get_id(stmt.member);
 		
 		return std::make_unique<sst::InitMember>(
-			std::size_t{0}, false,
 			obj->address,
 			mem,
 			var->address,

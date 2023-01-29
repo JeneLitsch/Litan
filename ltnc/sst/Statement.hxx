@@ -9,79 +9,102 @@
 namespace ltn::c::sst {
 	struct Expression;
 	struct Assignable;
+	
+	
+	
 	class Statement : public Node {
 	public:
-		Statement(
-			std::size_t nested_alloc_count,
-			std::size_t direct_alloc_count)
-			: local_vars_count{nested_alloc_count}
-			, direct_allocation_count{direct_alloc_count} {}
+		Statement() {}
+
 		virtual ~Statement() = default;
 
-		std::size_t nested_alloc() const { return local_vars_count; }
-		std::size_t direct_alloc() const { return direct_allocation_count; }
-	private:
-		std::size_t local_vars_count;
-		std::size_t direct_allocation_count;
+		virtual std::size_t nested_alloc() const = 0;
+		virtual std::size_t direct_alloc() const = 0;
 	};
+
+
+
 	using stmt_ptr = std::unique_ptr<Statement>;
 
 
 	
 	struct DoNothing : public Statement {
-		DoNothing(std::size_t local_vars, std::size_t direct_allocation)
-		: Statement{local_vars, direct_allocation} {}
+		DoNothing() : Statement{} {}
+		
 		virtual ~DoNothing() = default;
+
+		virtual std::size_t nested_alloc() const override { return 0; }
+		virtual std::size_t direct_alloc() const override { return 0; }
 	};
 
 
 
 	struct Throw final : public Statement {
-		Throw(
-			std::size_t local_vars, std::size_t direct_allocation,
-			std::unique_ptr<Expression> expression) 
-			: Statement{local_vars, direct_allocation}
+		Throw(std::unique_ptr<Expression> expression) 
+			: Statement{}
 			, expression(std::move(expression)) {}
 		virtual ~Throw() = default;
 		std::unique_ptr<Expression> expression;
+
+		virtual std::size_t nested_alloc() const override { return 0; }
+		virtual std::size_t direct_alloc() const override { return 0; }
 	};
 
 
 
 	struct Block final : public Statement {
 		Block(
-			std::size_t local_vars, std::size_t direct_allocation,
 			std::vector<std::unique_ptr<Statement>> statements) 
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, statements(std::move(statements)) {}
 		virtual ~Block() = default;
 		std::vector<std::unique_ptr<Statement>> statements;
+
+		virtual std::size_t nested_alloc() const override {
+			std::size_t nested = 0;
+			std::size_t direct = 0;
+			for(const auto & stmt : this->statements) {
+				nested = std::max(nested, stmt->nested_alloc());
+				direct += stmt->direct_alloc();
+			}
+			return nested + direct;
+		}
+		
+		virtual std::size_t direct_alloc() const override {
+			return 0;
+		}
 	};
 
 
 
 	struct NewVar final : public Statement {
 		NewVar(
-			std::size_t local_vars, std::size_t direct_allocation,
 			std::unique_ptr<Binding> binding,
 			std::unique_ptr<Expression> expression)
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, binding{std::move(binding)}
 			, expression(std::move(expression)) {}
 		virtual ~NewVar() = default;
 		std::unique_ptr<Binding> binding;
 		std::unique_ptr<Expression> expression;
+
+		virtual std::size_t nested_alloc() const override {
+			return 0;
+		}
+		
+		virtual std::size_t direct_alloc() const override {
+			return this->binding->alloc_count();
+		}
 	};
 
 
 
 	struct IfElse final : public Statement {
 		IfElse(
-			std::size_t local_vars, std::size_t direct_allocation,
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Statement> if_branch,
 			std::unique_ptr<Statement> else_branch)
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, condition(std::move(condition))
 			, if_branch(std::move(if_branch))
 			, else_branch(std::move(else_branch)) {}
@@ -89,48 +112,72 @@ namespace ltn::c::sst {
 		std::unique_ptr<Expression> condition;
 		std::unique_ptr<Statement> if_branch;
 		std::unique_ptr<Statement> else_branch;
+
+		virtual std::size_t nested_alloc() const override {
+			return this->else_branch
+				? std::max(if_branch->nested_alloc(), else_branch->nested_alloc())
+				: if_branch->nested_alloc();
+		}
+		
+		virtual std::size_t direct_alloc() const override {
+			return 0;
+		}
 	};
 
 
 
 	struct While final : public Statement {
 		While(
-			std::size_t local_vars, std::size_t direct_allocation,
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Statement> body)
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, condition(std::move(condition))
 			, body(std::move(body)) {}
 
 		virtual ~While() = default;
 		std::unique_ptr<Expression> condition;
 		std::unique_ptr<Statement> body;
+
+		virtual std::size_t nested_alloc() const override {
+			return body->nested_alloc();
+		}
+		
+		virtual std::size_t direct_alloc() const override {
+			return 0;
+		}
 	};
+
 
 
 	struct InfiniteLoop final : public Statement {
 		InfiniteLoop(
-			std::size_t local_vars, std::size_t direct_allocation,
 			std::unique_ptr<Statement> body)
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, body(std::move(body)) {}
 
 		virtual ~InfiniteLoop() = default;
 		std::unique_ptr<Statement> body;
+
+		virtual std::size_t nested_alloc() const override {
+			return body->nested_alloc();
+		}
+		
+		virtual std::size_t direct_alloc() const override {
+			return 0;
+		}
 	};
 
 
 
 	struct For final : public Statement {
 		For(
-			std::size_t local_vars, std::size_t direct_allocation,
 			std::string label,
 			std::size_t index_addr,
 			std::unique_ptr<Expression> from,
 			std::unique_ptr<Expression> to,
 			std::unique_ptr<Expression> step,
 			std::unique_ptr<Statement> body)
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, label{label}
 			, index_addr{index_addr}
 			, from(std::move(from))
@@ -145,45 +192,56 @@ namespace ltn::c::sst {
 		std::unique_ptr<Expression> to;
 		std::unique_ptr<Expression> step;
 		std::unique_ptr<Statement> body;
+
+		virtual std::size_t nested_alloc() const override {
+			return body->nested_alloc();
+		}
+		
+		virtual std::size_t direct_alloc() const override {
+			return 3;
+		}
 	};
 
 
 
 	struct StatementExpression final : public Statement {
 		StatementExpression(
-			std::size_t local_vars, std::size_t direct_allocation,
 			std::unique_ptr<Expression> expression)
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, expression(std::move(expression)) {}
 		virtual ~StatementExpression() = default;
 		std::unique_ptr<Expression> expression;
+
+		virtual std::size_t nested_alloc() const override { return 0; }
+		virtual std::size_t direct_alloc() const override { return 0; }
 	};
 
 
 
 	struct Return final : public Statement {
 		Return(
-			std::size_t local_vars, std::size_t direct_allocation,
 			std::unique_ptr<Expression> expression,
 			std::optional<std::string> overide_label)
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, expression(std::move(expression))
 			, overide_label{overide_label} {}
 		virtual ~Return() = default;
 		std::unique_ptr<Expression> expression;
 		std::optional<std::string> overide_label;
+
+		virtual std::size_t nested_alloc() const override { return 0; }
+		virtual std::size_t direct_alloc() const override { return 0; }
 	};
 
 
 	
 	struct InitMember final : public Statement {
 		InitMember(
-			std::size_t local_vars, std::size_t direct_allocation,
 			std::size_t object_addr,
 			std::size_t member_addr,
 			std::size_t param_addr,
 			type::Type type)
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, object_addr(object_addr)
 			, member_addr(member_addr)
 			, param_addr(param_addr)
@@ -193,34 +251,36 @@ namespace ltn::c::sst {
 		std::size_t member_addr;
 		std::size_t param_addr;
 		type::Type type;
+
+		virtual std::size_t nested_alloc() const override { return 0; }
+		virtual std::size_t direct_alloc() const override { return 0; }
 	};
 
 
 
 	struct AssignGlobal final : public Statement {
 		AssignGlobal(
-			std::size_t local_vars,
-			std::size_t direct_allocation,
 			std::uint64_t addr,
 			std::unique_ptr<Expression> r)
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, addr{addr}
 			, r(std::move(r)) {}
 		virtual ~AssignGlobal() = default;
 		std::uint64_t addr;
 		std::unique_ptr<Expression> r;
+
+		virtual std::size_t nested_alloc() const override { return 0; }
+		virtual std::size_t direct_alloc() const override { return 0; }
 	};
 
 
 
 	struct AssignMember final : public Statement {
 		AssignMember(
-			std::size_t local_vars,
-			std::size_t direct_allocation,
 			std::unique_ptr<Expression> object,
 			std::uint64_t addr,
 			std::unique_ptr<Expression> r)
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, object{std::move(object)}
 			, addr{addr}
 			, r(std::move(r)) {}
@@ -228,33 +288,36 @@ namespace ltn::c::sst {
 		std::unique_ptr<Expression> object;
 		std::uint64_t addr;
 		std::unique_ptr<Expression> r;
+
+		virtual std::size_t nested_alloc() const override { return 0; }
+		virtual std::size_t direct_alloc() const override { return 0; }
 	};
 
 
 
 	struct AssignLocal final : public Statement {
 		AssignLocal(
-			std::size_t local_vars,
-			std::size_t direct_allocation,
 			std::uint64_t addr,
 			std::unique_ptr<Expression> r)
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, addr{addr}
 			, r(std::move(r)) {}
 		virtual ~AssignLocal() = default;
 		std::uint64_t addr;
 		std::unique_ptr<Expression> r;
+
+		virtual std::size_t nested_alloc() const override { return 0; }
+		virtual std::size_t direct_alloc() const override { return 0; }
 	};
+
 
 
 	struct AssignIndex final : public Statement {
 		AssignIndex(
-			std::size_t local_vars,
-			std::size_t direct_allocation,
 			std::unique_ptr<Expression> range,
 			std::unique_ptr<Expression> index,
 			std::unique_ptr<Expression> r)
-			: Statement{local_vars, direct_allocation}
+			: Statement{}
 			, range{std::move(range)}
 			, index{std::move(index)}
 			, r(std::move(r)) {}
@@ -262,10 +325,18 @@ namespace ltn::c::sst {
 		std::unique_ptr<Expression> range;
 		std::unique_ptr<Expression> index;
 		std::unique_ptr<Expression> r;
+
+		virtual std::size_t nested_alloc() const override { return 0; }
+		virtual std::size_t direct_alloc() const override { return 0; }
 	};
 
 
-	using StmtSwitch = Switch<Statement, Statement>;
+
+	class StmtSwitch : public Switch<Statement, Statement> {
+	public:
+		virtual std::size_t nested_alloc() const override { return 0; }
+		virtual std::size_t direct_alloc() const override { return 0; }
+	};
 
 
 

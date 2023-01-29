@@ -99,10 +99,6 @@ namespace ltn::c {
 			auto decl_type = instantiate_type(*new_var.type, scope);
 			expr = conversion_on_assign(std::move(expr), decl_type, new_var.location);
 		}
-		return std::make_unique<sst::NewVar>(
-			0, binding->alloc_count(),
-			std::move(binding),
-			std::move(expr)
-		);
+		return std::make_unique<sst::NewVar>(std::move(binding), std::move(expr));
 	}
 }

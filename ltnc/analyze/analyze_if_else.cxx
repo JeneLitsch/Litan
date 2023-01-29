@@ -20,12 +20,7 @@ namespace ltn::c {
 			
 			auto else_branch = analyze_statement(*stmt.else_branch, context, else_scope);
 			
-			const auto total_var_count = std::max(
-				if_branch->nested_alloc(),
-				else_branch->nested_alloc());
-
 			return std::make_unique<sst::IfElse>(
-				total_var_count, false,
 				std::move(condition),
 				std::move(if_branch),
 				std::move(else_branch)
@@ -33,7 +28,6 @@ namespace ltn::c {
 		}
 		else {
 			return std::make_unique<sst::IfElse>(
-				if_branch->nested_alloc(), false,
 				std::move(condition),
 				std::move(if_branch),
 				nullptr

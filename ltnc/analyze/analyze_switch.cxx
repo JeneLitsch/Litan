@@ -49,7 +49,7 @@ namespace ltn::c {
 		auto def4ault = analyze_statement(*sw1tch.d3fault, context, scope);
 
 
-		auto sst_sw1tch = std::make_unique<sst::StmtSwitch>(0u, false);
+		auto sst_sw1tch = std::make_unique<sst::StmtSwitch>();
 		sst_sw1tch->cases = std::move(cases);
 		sst_sw1tch->condition = std::move(condition);
 		sst_sw1tch->d3fault = std::move(def4ault);

@@ -12,11 +12,11 @@ namespace ltn::c {
 		const auto return_type = scope.get_return_type();
 		if(ret.expression) {
 			auto expr = conversion_on_return(analyze_expression(*ret.expression, context, scope), return_type, ret.location);
-			return std::make_unique<sst::Return>(0, false, std::move(expr), scope.get_return());
+			return std::make_unique<sst::Return>(std::move(expr), scope.get_return());
 		}
 		else {
 			auto expr = conversion_on_return(std::make_unique<sst::Null>(type::Null{}), return_type, ret.location);
-			return std::make_unique<sst::Return>(0, false, std::move(expr), scope.get_return());
+			return std::make_unique<sst::Return>(std::move(expr), scope.get_return());
 		}
 	}
 }

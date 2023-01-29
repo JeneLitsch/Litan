@@ -7,11 +7,12 @@ namespace ltn::c {
 		
 		if(thr0w.expression) {
 			auto expr = analyze_expression(*thr0w.expression, context, scope);
-			return std::make_unique<sst::Throw>(0, false, std::move(expr));
+			return std::make_unique<sst::Throw>(
+				std::move(expr)
+			);
 		}
 		else {
 			return std::make_unique<sst::Throw>(
-				0, false,
 				std::make_unique<sst::Null>(type::Null{})
 			);
 		}
