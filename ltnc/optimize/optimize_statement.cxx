@@ -42,8 +42,8 @@ namespace ltn::c {
 
 		sst::stmt_ptr to_infinite(sst::While & stmt) {
 			return std::make_unique<sst::InfiniteLoop>(
-				stmt.local_vars,
-				stmt.direct_allocation,
+				stmt.nested_alloc(),
+				stmt.direct_alloc(),
 				std::move(stmt.body)
 			);
 		}

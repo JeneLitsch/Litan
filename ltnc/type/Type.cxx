@@ -154,4 +154,9 @@ namespace ltn::c::type {
 	std::strong_ordering operator<=>(const Ostream &, const Ostream &) {
 		return std::strong_ordering::equal;
 	}
+
+
+	bool operator==(const Type & l, const Type & r) {
+		return (l <=> r) == 0;
+	}
 }

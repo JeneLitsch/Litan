@@ -10,7 +10,7 @@
 
 namespace ltn::c::ast {
 	struct Assignable;
-	struct Statement;
+	class Statement;
 	struct Function;
 
 
@@ -155,7 +155,7 @@ namespace ltn::c::ast {
 	struct Functional;
 	struct Var;
 	struct Assignable;
-	struct Statement;
+	class Statement;
 
 	struct Integer final : public Expression {
 		Integer(std::bitset<64> value, const SourceLocation & location)

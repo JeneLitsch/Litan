@@ -14,8 +14,8 @@ namespace ltn::c {
 			try {
 				if(stmt) {
 					auto analyzed = analyze_statement(*stmt, context, scope); 
-					locals = std::max(locals, analyzed->local_vars);
-					newAllocs += analyzed->direct_allocation;
+					locals = std::max(locals, analyzed->nested_alloc());
+					newAllocs += analyzed->direct_alloc();
 					statments.push_back(std::move(analyzed));
 				} 
 			}

@@ -10,7 +10,7 @@
 
 namespace ltn::c::sst {
 	struct Assignable;
-	struct Statement;
+	class Statement;
 
 
 
@@ -167,7 +167,7 @@ namespace ltn::c::sst {
 	struct Functional;
 	struct Var;
 	struct Assignable;
-	struct Statement;
+	class Statement;
 
 	struct Primary : public Expression {
 		Primary(const type::Type & type)

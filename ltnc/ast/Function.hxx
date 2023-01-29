@@ -9,7 +9,7 @@
 #include "ltnc/type/Type.hxx"
 
 namespace ltn::c::ast {
-	struct Statement;
+	class Statement;
 	struct Parameter {
 		std::string name;
 		type::IncompleteType type = type::IncompleteType{type::Any{}};

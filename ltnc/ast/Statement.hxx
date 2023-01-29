@@ -9,7 +9,8 @@
 namespace ltn::c::ast {
 	struct Expression;
 	struct Assignable;
-	struct Statement : public Node {
+	class Statement : public Node {
+	public:
 		Statement(const SourceLocation & location) : Node(location) {}
 		virtual ~Statement() = default;
 	};

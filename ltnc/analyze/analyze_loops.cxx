@@ -24,7 +24,7 @@ namespace ltn::c {
 		auto body = analyze_statement(*stmt.body, context, loop_scope);
 
 		return std::make_unique<sst::While>(
-			body->local_vars,
+			body->nested_alloc(),
 			false,
 			std::move(condition),
 			std::move(body)
@@ -41,7 +41,7 @@ namespace ltn::c {
 		MinorScope loop_scope { &scope }; 		
 		auto body = analyze_statement(*stmt.body, context, loop_scope);
 		return std::make_unique<sst::InfiniteLoop>(
-			body->local_vars,
+			body->nested_alloc(),
 			false,
 			std::move(body)
 		);
@@ -72,7 +72,7 @@ namespace ltn::c {
 		auto body = analyze_statement(*stmt.body, context, loop_scope);
 				
 		auto loop = std::make_unique<sst::For>(
-			body->local_vars, 3,
+			body->nested_alloc(), 3,
 			label,
 			i_var.address,
 			std::move(from),

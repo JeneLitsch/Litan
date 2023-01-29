@@ -10,8 +10,8 @@
 #include "Declaration.hxx"
 
 namespace ltn::c::sst {
-	struct Statement;
-	struct Statement;
+	class Statement;
+	class Statement;
 	struct Parameter {
 		std::string name;
 		type::Type type = type::Type{type::Any{}};

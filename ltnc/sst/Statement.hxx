@@ -9,15 +9,20 @@
 namespace ltn::c::sst {
 	struct Expression;
 	struct Assignable;
-	struct Statement : public Node {
+	class Statement : public Node {
+	public:
 		Statement(
-			std::size_t local_vars,
-			std::size_t direct_allocation)
-			: local_vars{local_vars}
-			, direct_allocation{direct_allocation} {}
+			std::size_t nested_alloc_count,
+			std::size_t direct_alloc_count)
+			: local_vars_count{nested_alloc_count}
+			, direct_allocation_count{direct_alloc_count} {}
 		virtual ~Statement() = default;
-		std::size_t local_vars;
-		std::size_t direct_allocation;
+
+		std::size_t nested_alloc() const { return local_vars_count; }
+		std::size_t direct_alloc() const { return direct_allocation_count; }
+	private:
+		std::size_t local_vars_count;
+		std::size_t direct_allocation_count;
 	};
 	using stmt_ptr = std::unique_ptr<Statement>;
 

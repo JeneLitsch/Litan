@@ -8,14 +8,13 @@
 
 namespace ltn::c::type {
 	template<typename T>
-	concept AType = std::same_as<typename T::is_type, std::true_type>;
+	concept A_Type = std::same_as<typename T::is_type, std::true_type>;
 
 	class Type {
 		struct Concept {
 			virtual ~Concept() = default;
 			virtual std::unique_ptr<Concept> clone() const = 0;
 		};
-
 
 		template<typename T>
 		struct Model : Concept {
@@ -27,7 +26,7 @@ namespace ltn::c::type {
 		};
 
 	public:
-		template<AType T>
+		template<A_Type T>
 		Type(T type)
 			: object { std::make_unique<Model<T>>(std::move(type)) } {}
 
@@ -46,12 +45,8 @@ namespace ltn::c::type {
 	
 		template<typename T>
 		const T * as() const {
-			if(auto t = dynamic_cast<const Model<T> *>(this->object.get())) {
-				return &t->object;
-			}
-			else {
-				return nullptr;
-			}
+			auto t = dynamic_cast<const Model<T> *>(this->object.get());
+			return t ? &t->object : nullptr;
 		}
 	private:
 		std::unique_ptr<Concept> object;
@@ -239,10 +234,7 @@ namespace ltn::c::type {
 	std::strong_ordering operator<=>(const Istream & l, const Istream & r);
 	std::strong_ordering operator<=>(const Ostream & l, const Ostream & r);
 
-	inline bool operator==(const Type & l, const Type & r) {
-		return (l <=> r) == 0;
-	}
-	
+	bool operator==(const Type & l, const Type & r);	
 
 	std::ostream & operator<<(std::ostream & out, const Type & type);
 }
