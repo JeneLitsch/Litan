@@ -15,40 +15,52 @@ namespace ltn::c {
 
 
 
+	namespace {
+		sst::bind_ptr generate_binding(sst::expr_ptr l) {
+			if(auto * l_local = as<sst::Var>(*l)) {
+				return std::make_unique<sst::LocalBinding>(
+					l_local->addr
+				);
+			}
+			if(auto * l_index = as<sst::Index>(*l)) {
+				return std::make_unique<sst::IndexBinding>(
+					std::move(l_index->expression),
+					std::move(l_index->index)
+				);
+			}
+			if(auto * l_member = as<sst::Member>(*l)) {
+				return std::make_unique<sst::MemberBinding>(
+					std::move(l_member->expr),
+					l_member->addr
+				);
+			}
+			if(auto * l_global = as<sst::GlobalVar>(*l)) {
+				return std::make_unique<sst::GlobalBinding>(
+					l_global->addr
+				);
+			}
+			return nullptr;
+
+		}
+	}
+
+
+
 	sst::stmt_ptr analyze_stmt(
-		const ast::Assign & expr,
+		const ast::Assign & stmt,
 		Context & context,
 		Scope & scope) {
-		guard_const(expr, scope);
-		auto l = analyze_expression(*expr.l, context, scope);
-		auto r_raw = analyze_expression(*expr.r, context, scope);
-		auto r = conversion_on_assign(std::move(r_raw), l->type, expr.location);
-		if(auto * l_local = as<sst::Var>(*l)) {
-			return std::make_unique<sst::AssignLocal>(
-				l_local->addr,
-				std::move(r)
-			);
+		guard_const(stmt, scope);
+		auto l = analyze_expression(*stmt.l, context, scope);
+		auto r_raw = analyze_expression(*stmt.r, context, scope);
+		auto r = conversion_on_assign(std::move(r_raw), l->type, stmt.location);
+		auto binding = generate_binding(std::move(l));
+		if(!binding) {
+			throw CompilerError {
+				"Left side is not assignable",
+				stmt.location
+			};
 		}
-		if(auto * l_index = as<sst::Index>(*l)) {
-			return std::make_unique<sst::AssignIndex>(
-				std::move(l_index->expression),
-				std::move(l_index->index),
-				std::move(r)
-			);
-		}
-		if(auto * l_member = as<sst::Member>(*l)) {
-			return std::make_unique<sst::AssignMember>(
-				std::move(l_member->expr),
-				l_member->addr,
-				std::move(r)
-			);
-		}
-		if(auto * l_global = as<sst::GlobalVar>(*l)) {
-			return std::make_unique<sst::AssignGlobal>(l_global->addr, std::move(r));
-		}
-		throw CompilerError {
-			"Left side is not assignable",
-			expr.location
-		};
+		return std::make_unique<sst::Assign>(std::move(binding), std::move(r));
 	}
 }

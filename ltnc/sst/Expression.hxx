@@ -15,10 +15,11 @@ namespace ltn::c::sst {
 
 
 	struct Expression : public Node {
-		Expression(const type::Type & type)
-			: type{type} {}
 		virtual ~Expression() = default;
 		type::Type type;
+	protected:
+		Expression(const type::Type & type)
+			: type{type} {}
 	};
 	using expr_ptr = std::unique_ptr<Expression>;
 	

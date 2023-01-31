@@ -18,8 +18,8 @@ namespace ltn::c::ast {
 
 
 
-	struct VarBinding : public Binding {
-		VarBinding(const SourceLocation & location, std::string name)
+	struct NewVarBinding : public Binding {
+		NewVarBinding(const SourceLocation & location, std::string name)
 			: Binding {location}
 			, name{std::move(name)} {}
 		
@@ -30,7 +30,7 @@ namespace ltn::c::ast {
 
 	auto visit_binding(const Binding & binding, auto && fx) {
 		if(auto b = as<GroupBinding>(binding)) return fx(*b);
-		if(auto b = as<VarBinding>(binding)) return fx(*b);
+		if(auto b = as<NewVarBinding>(binding)) return fx(*b);
 		throw std::runtime_error{"Unknown AST binding"};
 	}
 }

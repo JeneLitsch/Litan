@@ -77,14 +77,14 @@ namespace ltn::c::sst {
 
 
 
-	struct NewVar final : public Statement {
-		NewVar(
+	struct Assign final : public Statement {
+		Assign(
 			std::unique_ptr<Binding> binding,
 			std::unique_ptr<Expression> expression)
 			: Statement{}
 			, binding{std::move(binding)}
 			, expression(std::move(expression)) {}
-		virtual ~NewVar() = default;
+		virtual ~Assign() = default;
 		std::unique_ptr<Binding> binding;
 		std::unique_ptr<Expression> expression;
 
@@ -204,20 +204,6 @@ namespace ltn::c::sst {
 
 
 
-	struct StatementExpression final : public Statement {
-		StatementExpression(
-			std::unique_ptr<Expression> expression)
-			: Statement{}
-			, expression(std::move(expression)) {}
-		virtual ~StatementExpression() = default;
-		std::unique_ptr<Expression> expression;
-
-		virtual std::size_t nested_alloc() const override { return 0; }
-		virtual std::size_t direct_alloc() const override { return 0; }
-	};
-
-
-
 	struct Return final : public Statement {
 		Return(
 			std::unique_ptr<Expression> expression,
@@ -258,77 +244,7 @@ namespace ltn::c::sst {
 
 
 
-	struct AssignGlobal final : public Statement {
-		AssignGlobal(
-			std::uint64_t addr,
-			std::unique_ptr<Expression> r)
-			: Statement{}
-			, addr{addr}
-			, r(std::move(r)) {}
-		virtual ~AssignGlobal() = default;
-		std::uint64_t addr;
-		std::unique_ptr<Expression> r;
 
-		virtual std::size_t nested_alloc() const override { return 0; }
-		virtual std::size_t direct_alloc() const override { return 0; }
-	};
-
-
-
-	struct AssignMember final : public Statement {
-		AssignMember(
-			std::unique_ptr<Expression> object,
-			std::uint64_t addr,
-			std::unique_ptr<Expression> r)
-			: Statement{}
-			, object{std::move(object)}
-			, addr{addr}
-			, r(std::move(r)) {}
-		virtual ~AssignMember() = default;
-		std::unique_ptr<Expression> object;
-		std::uint64_t addr;
-		std::unique_ptr<Expression> r;
-
-		virtual std::size_t nested_alloc() const override { return 0; }
-		virtual std::size_t direct_alloc() const override { return 0; }
-	};
-
-
-
-	struct AssignLocal final : public Statement {
-		AssignLocal(
-			std::uint64_t addr,
-			std::unique_ptr<Expression> r)
-			: Statement{}
-			, addr{addr}
-			, r(std::move(r)) {}
-		virtual ~AssignLocal() = default;
-		std::uint64_t addr;
-		std::unique_ptr<Expression> r;
-
-		virtual std::size_t nested_alloc() const override { return 0; }
-		virtual std::size_t direct_alloc() const override { return 0; }
-	};
-
-
-
-	struct AssignIndex final : public Statement {
-		AssignIndex(
-			std::unique_ptr<Expression> range,
-			std::unique_ptr<Expression> index,
-			std::unique_ptr<Expression> r)
-			: Statement{}
-			, range{std::move(range)}
-			, index{std::move(index)}
-			, r(std::move(r)) {}
-		virtual ~AssignIndex() = default;
-		std::unique_ptr<Expression> range;
-		std::unique_ptr<Expression> index;
-		std::unique_ptr<Expression> r;
-
-		virtual std::size_t nested_alloc() const override { return 0; }
-		virtual std::size_t direct_alloc() const override { return 0; }
-	};
 
 
 
@@ -346,17 +262,12 @@ namespace ltn::c::sst {
 		if(auto s = as<sst::While>(stmt)) return fx(*s);
 		if(auto s = as<sst::InfiniteLoop>(stmt)) return fx(*s);
 		if(auto s = as<sst::For>(stmt)) return fx(*s);
-		if(auto s = as<sst::NewVar>(stmt)) return fx(*s);
+		if(auto s = as<sst::Assign>(stmt)) return fx(*s);
 		if(auto s = as<sst::Return>(stmt)) return fx(*s);
 		if(auto s = as<sst::Throw>(stmt)) return fx(*s);
 		if(auto s = as<sst::InitMember>(stmt)) return fx(*s);
 		if(auto s = as<sst::StmtSwitch>(stmt)) return fx(*s);
-		if(auto s = as<sst::StatementExpression>(stmt)) return fx(*s);
 		if(auto s = as<sst::DoNothing>(stmt)) return fx(*s);
-		if(auto s = as<sst::AssignLocal>(stmt)) return fx(*s);
-		if(auto s = as<sst::AssignIndex>(stmt)) return fx(*s);
-		if(auto s = as<sst::AssignMember>(stmt)) return fx(*s);
-		if(auto s = as<sst::AssignGlobal>(stmt)) return fx(*s);
 		throw std::runtime_error{"Unknown SST statement"};
 	}
 }

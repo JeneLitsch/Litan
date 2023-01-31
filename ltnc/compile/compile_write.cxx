@@ -3,53 +3,12 @@
 #include <iostream>
 
 namespace ltn::c {
-	InstructionBuffer compile_stmt(const sst::AssignLocal & stmt) {
-		const auto r = compile_expression(*stmt.r);
-		InstructionBuffer buf;
-		buf << r;
-		buf << inst::write_x(stmt.addr);
-		return buf;
-	}
-
-
-
-	InstructionBuffer compile_stmt(const sst::AssignIndex & stmt) {
-		InstructionBuffer buf;
-		buf << compile_expression(*stmt.r);
-		buf << compile_expression(*stmt.range);
-		buf << compile_expression(*stmt.index);
-		buf << inst::at_write();
-		return buf;
-	}
-
-
-
-	InstructionBuffer compile_stmt(const sst::AssignMember & stmt) {
-		InstructionBuffer buf;
-		buf << compile_expression(*stmt.r);
-		buf << compile_expression(*stmt.object);
-		buf << inst::member_write(stmt.addr);
-		return buf;
-	}
-
-
-
-	InstructionBuffer compile_stmt(const sst::AssignGlobal & stmt) {
-		const auto r = compile_expression(*stmt.r);
-		InstructionBuffer buf;
-		buf << r;
-		buf << inst::global_write(stmt.addr);
-		return buf;
-	}
-
-
-
 	namespace {
 		InstructionBuffer compile_binding(const sst::Binding & binding);
 		
 		
 		
-		InstructionBuffer compile_bind(const sst::VarBinding & binding) {
+		InstructionBuffer compile_bind(const sst::NewVarBinding & binding) {
 			InstructionBuffer buf;
 			buf << inst::write_x(binding.addr);
 			return buf;
@@ -67,6 +26,49 @@ namespace ltn::c {
 		}
 
 
+
+		InstructionBuffer compile_bind(const sst::NoBinding & binding) {
+			InstructionBuffer buf;
+			buf << inst::scrap();
+			return buf;
+		}
+
+
+
+		InstructionBuffer compile_bind(const sst::GlobalBinding & binding) {
+			InstructionBuffer buf;
+			buf << inst::global_write(binding.addr);
+			return buf;
+		}
+
+
+
+		InstructionBuffer compile_bind(const sst::MemberBinding & binding) {
+			InstructionBuffer buf;
+			buf << compile_expression(*binding.object);
+			buf << inst::member_write(binding.addr);
+			return buf;
+		}
+		
+		
+		
+		InstructionBuffer compile_bind(const sst::LocalBinding & binding) {
+			InstructionBuffer buf;
+			buf << inst::write_x(binding.addr);
+			return buf;
+		}
+		
+		
+		
+		InstructionBuffer compile_bind(const sst::IndexBinding & binding) {
+			InstructionBuffer buf;
+			buf << compile_expression(*binding.range);
+			buf << compile_expression(*binding.index);
+			buf << inst::at_write();
+			return buf;
+		}
+
+
 		
 		InstructionBuffer compile_binding(const sst::Binding & binding) {
 			return sst::visit_binding(binding, [&] (const auto & b) {
@@ -77,7 +79,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_stmt(const sst::NewVar & new_var) {
+	InstructionBuffer compile_stmt(const sst::Assign & new_var) {
 		InstructionBuffer buf;
 		buf << compile_expression(*new_var.expression);
 		buf << compile_binding(*new_var.binding);

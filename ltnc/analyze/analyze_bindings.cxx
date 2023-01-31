@@ -31,13 +31,13 @@ namespace ltn::c {
 
 		
 		sst::bind_ptr analyze_bind(
-			const ast::VarBinding & binding,
+			const ast::NewVarBinding & binding,
 			Context & context,
 			Scope & scope,
 			const type::Type & from_type) {
 
 			const auto var = scope.insert(binding.name, binding.location, from_type); 
-			return std::make_unique<sst::VarBinding>(var.address);
+			return std::make_unique<sst::NewVarBinding>(var.address);
 		}
 	}
 

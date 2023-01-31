@@ -9,7 +9,7 @@ namespace ltn::c {
 
 
 			ast::bind_ptr parse_single_binding(const Token & start, Tokens & tokens) { 
-				return std::make_unique<ast::VarBinding>(
+				return std::make_unique<ast::NewVarBinding>(
 					start.location,
 					parse_variable_name(tokens)
 				);

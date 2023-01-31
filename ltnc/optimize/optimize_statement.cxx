@@ -74,13 +74,10 @@ namespace ltn::c {
 
 
 	sst::stmt_ptr optimize_statement(sst::Statement & stmt) {
-		if(auto s = as<sst::StatementExpression>(stmt)) {
-			return optimize_unary_statement(*s);
-		}
 		if(auto s = as<sst::Return>(stmt)) {
 			return optimize_unary_statement(*s);
 		}
-		if(auto s = as<sst::NewVar>(stmt)) {
+		if(auto s = as<sst::Assign>(stmt)) {
 			return optimize_unary_statement(*s);
 		}
 		if(auto s = as<sst::Throw>(stmt)) {
