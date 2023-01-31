@@ -48,7 +48,6 @@ namespace ltn::c {
 		
 
 
-
 		sst::expr_ptr generate_default_value(
 			const type::Type & type,
 			const SourceLocation & location) {
@@ -82,9 +81,6 @@ namespace ltn::c {
 			return std::make_unique<sst::Null>(type::Any{});
 		}
 	}
-
-
-
 
 
 

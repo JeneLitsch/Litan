@@ -39,6 +39,7 @@ namespace ltn::c {
 		}
 
 
+
 		CompilerError invalid_operands(
 			const type::Type & l,
 			const type::Type & r,
@@ -77,5 +78,4 @@ namespace ltn::c {
 			type
 		);
 	}
-	
 }
