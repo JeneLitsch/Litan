@@ -16,23 +16,21 @@ int main(int argc, char const *argv[]) {
 		"The Litan interpreter executes a number of Litan source files directly."
 	};
 
-	auto & flag_source = desc.add<stx::option_string_list>(
-		{"--src"},
-		"Source",
-		"Specifies a list of source files to interpret."
-	);
-
 	auto & flag_o = desc.add<stx::option_flag>(
 		{"-o"},
 		"Optimization",
-		"If this flag is set the compiler applies optimizations to the code");
+		"If this flag is set the compiler applies optimizations to the code"
+	);
 
 	auto & flag_version = ltn::args::version(desc);
 	auto & flag_help    = ltn::args::help(desc);
 	auto & main_args    = ltn::args::main_args(desc);
 	auto & main_init    = ltn::args::main_init(desc);
 
-	args.parse_options(desc);
+	auto rest = desc.parse(args);
+
+	std::vector<std::filesystem::path> files;
+	while(rest) files.push_back((rest++).str_v());
 
 	if(flag_version) {
 		std::cout << "Litan: " << ltn::version << "\n";
@@ -53,11 +51,8 @@ int main(int argc, char const *argv[]) {
 	try {
 		std::vector<std::string> args;
 		std::vector<ltn::c::Source> sources;
-		const auto files = flag_source.value_or(single_file);
-		for(const auto & source_file : files) {
-			sources.push_back(ltn::c::FileSource{
-				std::filesystem::path{source_file}
-			});
+		for(const auto & file : files) {
+			sources.push_back(ltn::c::FileSource{file});
 		}
 
 		auto lexer = ltn::c::lex(sources, reporter);

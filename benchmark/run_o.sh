@@ -1,6 +1,6 @@
 run () {
 	echo "Benchmarking \"$1\""
-	./bin/ltn -o --src benchmark/$1.ltn
+	./bin/ltn -o -- benchmark/$1.ltn
 	echo
 }
 
@@ -10,7 +10,7 @@ run () {
 # 	ltnFile="benchmark/$1.ltn"
 # 	asmFile="benchmark/$1.asm.ltn"
 # 	binFile="benchmark/$1.bin.ltn"
-# 	./bin/ltnc -o --exe $binFile --src $ltnFile 
+# 	./bin/ltnc -o --exe $binFile -- $ltnFile 
 # 	./bin/ltnvm --exe $binFile
 # 	echo 
 # }

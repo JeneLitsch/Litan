@@ -98,5 +98,5 @@ asm_file="tmp/asm"
 rm $bin_file
 rm $asm_file
 
-./bin/ltnc -o --asm $asm_file --exe $bin_file --src ${files[*]}
-./bin/ltnvm --exe $bin_file --args Hello World 123
+./bin/ltnc -o --asm $asm_file --exe $bin_file -- ${files[*]}
+./bin/ltnvm --exe $bin_file --args "Hello World 123"

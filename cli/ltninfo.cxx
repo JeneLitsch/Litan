@@ -1,4 +1,5 @@
 #include "ltn/header.hxx"
+#include "stdxx/args.hxx"
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -9,8 +10,14 @@ void print_table(const auto & table) {
 	}
 }
 
-int main(int, char const *argv[]) {
-	std::ifstream file{argv[1]};
+int main(int argc, char const *argv[]) {
+	stx::args args{argc, argv};
+	auto arg_it = args.iter();
+	if(!arg_it) {
+		std::cout << "No file specified!\n";
+		return EXIT_FAILURE;
+	}
+	std::ifstream file{arg_it.str()};
 	const std::vector<std::uint8_t> bytecode {
 		std::istreambuf_iterator<char>(file),
 		std::istreambuf_iterator<char>()

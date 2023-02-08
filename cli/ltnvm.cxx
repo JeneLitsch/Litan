@@ -39,7 +39,7 @@ int main(int argc, char const *argv[]) {
 	auto & main_args    = ltn::args::main_args(desc);
 	auto & main_init    = ltn::args::main_init(desc);
 
-	args.parse_options(desc);
+	desc.parse(args);
 
 	if(flag_version) {
 		std::cout << "Litan: " << ltn::version << "\n";

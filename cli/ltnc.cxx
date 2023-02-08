@@ -87,13 +87,10 @@ int main(int argc, char const *argv[]){
 		"Specifies the output file for executable bytecode."
 	);
 
-	auto & flag_source = desc.add<stx::option_string_list>(
-		{"--src"},
-		"Source",
-		"Specifies a list of source files to compile."
-	);
+	auto rest = desc.parse(args);
 
-	args.parse_options(desc);
+	std::vector<std::filesystem::path> files;
+	while(rest) files.push_back((rest++).str_v());
 
 	if(flag_version) {
 		std::cout << "Litan: " << ltn::version << "\n";
@@ -104,11 +101,9 @@ int main(int argc, char const *argv[]){
 		return EXIT_SUCCESS;
 	}
 
-	flag_source.mandatory();
-
 	try {
 		ltn::c::Reporter reporter;
-		auto sources = read_sources(flag_source.value(), reporter);
+		auto sources = read_sources(files, reporter);
 		auto tokens = ltn::c::lex(sources, reporter);
 		auto source = ltn::c::parse(tokens, reporter);
 		auto program = ltn::c::analyze(source, reporter);
