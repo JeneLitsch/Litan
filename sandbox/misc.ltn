@@ -10,4 +10,8 @@ function main() {
 		.b = 2,
 		.c = 3,
 	];
+
+	std::println(obj.a);
+	std::println(obj.b);
+	std::println(obj.c);
 }

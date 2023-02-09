@@ -403,6 +403,7 @@ namespace ltn::c::ast {
 		if(auto e = as<ast::TypedUnary>(expr)) return fx(*e);
 		if(auto e = as<ast::Reflect>(expr)) return fx(*e);
 		if(auto e = as<ast::ForwardDynamicCall>(expr)) return fx(*e);
+		if(auto e = as<ast::InitStruct>(expr)) return fx(*e);
 		throw std::runtime_error{"Unknown Expression AST"};
 	}
 }

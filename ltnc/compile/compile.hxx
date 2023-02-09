@@ -60,6 +60,7 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::GlobalVar &);
 	InstructionBuffer compile_expr(const sst::TypedUnary &);
 	InstructionBuffer compile_expr(const sst::Reflect &);
+	InstructionBuffer compile_expr(const sst::InitStruct &);
 	
 	InstructionBuffer compile_conditional(
 		const std::string & name,

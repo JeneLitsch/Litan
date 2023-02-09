@@ -412,6 +412,15 @@ namespace ltn::c::sst {
 
 
 
+	struct InitStruct final : public Expression {
+		InitStruct() : Expression{type::Any{}} {}
+		virtual ~InitStruct() = default;
+		std::vector<std::pair<std::uint64_t, std::unique_ptr<Expression>>> members;
+	};
+
+
+
+
 	using ExprSwitch = Switch<Primary, Expression>;
 
 
@@ -440,6 +449,7 @@ namespace ltn::c::sst {
 		if(auto e = as<sst::ExprSwitch>(expr)) return fx(*e);
 		if(auto e = as<sst::TypedUnary>(expr)) return fx(*e);
 		if(auto e = as<sst::Reflect>(expr)) return fx(*e);
+		if(auto e = as<sst::InitStruct>(expr)) return fx(*e);
 		throw std::runtime_error{"Unknown Expression SST"};
 	}
 }

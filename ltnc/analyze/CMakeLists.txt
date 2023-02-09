@@ -17,6 +17,7 @@ target_sources(libltnc PRIVATE
 	analyze_iife.cxx
 	analyze_index.cxx
 	analyze_init_member.cxx
+	analyze_init.cxx
 	analyze_loops.cxx
 	analyze_newvar.cxx
 	analyze_primitives.cxx
