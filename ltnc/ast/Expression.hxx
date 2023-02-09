@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <utility>
 #include <bitset>
 #include "ltn/casts.hxx"
 #include "Switch.hxx"
@@ -361,6 +362,15 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> function_ptr;
 		std::vector<std::unique_ptr<Expression>> parameters;
 		std::vector<type::IncompleteType> template_args;
+	};
+
+
+
+	struct InitStruct final : public Expression {
+		InitStruct(const SourceLocation & location)
+			: Expression{location} {}
+		virtual ~InitStruct() = default;
+		std::vector<std::pair<std::string, std::unique_ptr<Expression>>> members;
 	};
 
 

@@ -11,6 +11,13 @@ namespace ltn::c {
 	const Token Token::end = Token{Token::Type::___EOF___, "___EOF___", SourceLocation{}};
 
 
+	bool check(Token::Type type, Tokens & tokens) {
+		if(tokens.empty()) return false;
+		const Token t = tokens.front(); 
+		return t.type == type;
+	}
+
+
 
 	std::optional<Token> match(Token::Type type, Tokens & tokens) {
 		if(tokens.empty()) return std::nullopt;
