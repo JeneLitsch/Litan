@@ -39,7 +39,6 @@ namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::Return &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::Assign &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::Throw &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::InitMember &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::IfElse &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::InfiniteLoop &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::While &, Context &, Scope &);

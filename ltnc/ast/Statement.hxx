@@ -207,7 +207,6 @@ namespace ltn::c::ast {
 		if(auto s = as<ast::NewVar>(stmt)) return fx(*s);
 		if(auto s = as<ast::Return>(stmt)) return fx(*s);
 		if(auto s = as<ast::Throw>(stmt)) return fx(*s);
-		if(auto s = as<ast::InitMember>(stmt)) return fx(*s);
 		if(auto s = as<ast::StmtSwitch>(stmt)) return fx(*s);
 		if(auto s = as<ast::StatementExpression>(stmt)) return fx(*s);
 		if(auto s = as<ast::DoNothing>(stmt)) return fx(*s);

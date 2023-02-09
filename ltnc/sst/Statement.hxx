@@ -221,33 +221,6 @@ namespace ltn::c::sst {
 
 
 	
-	struct InitMember final : public Statement {
-		InitMember(
-			std::size_t object_addr,
-			std::size_t member_addr,
-			std::size_t param_addr,
-			type::Type type)
-			: Statement{}
-			, object_addr(object_addr)
-			, member_addr(member_addr)
-			, param_addr(param_addr)
-			, type{type} {}
-		virtual ~InitMember() = default;
-		std::size_t object_addr;
-		std::size_t member_addr;
-		std::size_t param_addr;
-		type::Type type;
-
-		virtual std::size_t nested_alloc() const override { return 0; }
-		virtual std::size_t direct_alloc() const override { return 0; }
-	};
-
-
-
-
-
-
-
 	class StmtSwitch : public Switch<Statement, Statement> {
 	public:
 		virtual std::size_t nested_alloc() const override { return 0; }
@@ -265,7 +238,6 @@ namespace ltn::c::sst {
 		if(auto s = as<sst::Assign>(stmt)) return fx(*s);
 		if(auto s = as<sst::Return>(stmt)) return fx(*s);
 		if(auto s = as<sst::Throw>(stmt)) return fx(*s);
-		if(auto s = as<sst::InitMember>(stmt)) return fx(*s);
 		if(auto s = as<sst::StmtSwitch>(stmt)) return fx(*s);
 		if(auto s = as<sst::DoNothing>(stmt)) return fx(*s);
 		throw std::runtime_error{"Unknown SST statement"};
