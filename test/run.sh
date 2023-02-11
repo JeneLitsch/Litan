@@ -22,6 +22,7 @@ files=(
 	"test/iife.ltn"
 	"test/function_pointers.ltn"
 	"test/tuple.ltn"
+	"test/struct.ltn"
 	"test/iostream.ltn"
 
 	"test/cast_static.ltn"
