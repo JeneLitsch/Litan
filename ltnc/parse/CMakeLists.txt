@@ -26,5 +26,4 @@ target_sources(libltnc PRIVATE
 	parse_switch.cxx
 	parse_type.cxx
 	parse_unary.cxx
-	parse_utils.cxx
 )

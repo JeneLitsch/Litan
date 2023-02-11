@@ -9,9 +9,9 @@ namespace ltn::c {
 		auto sst_init = std::make_unique<sst::InitStruct>();
 
 		for(const auto & [member, expr] : init.members) {
-			sst_init->members.push_back({
-				context.member_table.get_id(member),
-				analyze_expression(*expr, context, scope)
+			sst_init->members.push_back(sst::InitStruct::Member {
+				.addr = context.member_table.get_id(member),
+				.expr = analyze_expression(*expr, context, scope)
 			});
 		}
 

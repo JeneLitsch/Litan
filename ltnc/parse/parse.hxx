@@ -1,4 +1,5 @@
 #pragma once
+#include "stdxx/functional.hxx"
 #include "stdxx/float64_t.hxx"
 #include "stdxx/memory.hxx"
 #include "ltnc/ast/AST.hxx"
@@ -57,43 +58,7 @@ namespace ltn::c {
 	void brace_l(Tokens & tokens);
 	void brace_r(Tokens & tokens);
 
-	std::vector<ast::expr_ptr> parse_list(
-		Token::Type end,
-		std::string end_str,
-		Tokens & tokens,
-		ast::expr_ptr first = nullptr);
-
 	std::tuple<std::vector<type::IncompleteType>, bool> parse_template_args(Tokens & tokens);
-
-
-	auto match_op(
-		Tokens & tokens,
-		const auto & op_table) -> std::optional<decltype(op_table.front().second)> {
-		for(const auto & [tt, op] : op_table) {
-			if(match(tt, tokens)) {
-				return op;
-			}
-		}
-		return std::nullopt;
-	}
-
-
-
-	template<typename op_table, auto presedence_down>
-	ast::expr_ptr generic_binary(Tokens & tokens) {
-		auto l = presedence_down(tokens);
-		while (auto op = match_op(tokens, op_table::data)) {
-			auto && r = presedence_down(tokens);
-			auto expr = stx::make_unique<ast::Binary>(
-				*op,
-				std::move(l),
-				std::move(r),
-				location(tokens));
-			l = std::move(expr);
-		}				
-		return l;
-	}
-
 
 	std::size_t parse_placeholder(Tokens & tokens);
 

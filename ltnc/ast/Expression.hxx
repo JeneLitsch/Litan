@@ -370,7 +370,11 @@ namespace ltn::c::ast {
 		InitStruct(const SourceLocation & location)
 			: Expression{location} {}
 		virtual ~InitStruct() = default;
-		std::vector<std::pair<std::string, std::unique_ptr<Expression>>> members;
+		struct Member {
+			std::string name;
+			std::unique_ptr<Expression> expr;
+		};
+		std::vector<Member> members;
 	};
 
 

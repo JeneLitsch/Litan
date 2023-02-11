@@ -415,7 +415,11 @@ namespace ltn::c::sst {
 	struct InitStruct final : public Expression {
 		InitStruct() : Expression{type::Any{}} {}
 		virtual ~InitStruct() = default;
-		std::vector<std::pair<std::uint64_t, std::unique_ptr<Expression>>> members;
+		struct Member {
+			std::uint64_t addr;
+			std::unique_ptr<Expression> expr;
+		};
+		std::vector<Member> members;
 	};
 
 

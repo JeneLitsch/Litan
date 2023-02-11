@@ -1,4 +1,6 @@
 #include "parse.hxx"
+#include "parse_utils.hxx"
+#include "stdxx/array.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -18,7 +20,8 @@ namespace ltn::c {
 
 
 		ast::expr_ptr multi_element_tuple(ast::expr_ptr first, Tokens & tokens, const Token & start) {
-			auto elements = parse_list(TT::PAREN_R, ")", tokens, std::move(first));
+			auto elements = list_of<ast::expr_ptr>(TT::PAREN_R, ")", tokens, parse_expression);
+			elements.insert(std::begin(elements), std::move(first));
 			return std::make_unique<ast::Tuple>(
 				start.location,
 				std::move(elements)

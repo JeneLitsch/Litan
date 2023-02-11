@@ -1,6 +1,7 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
 #include <sstream>
+#include "parse_utils.hxx"
 namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
