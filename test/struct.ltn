@@ -8,6 +8,13 @@ namespace sphinx::test {
 	
 
 
+	function struct_unknow_member() {
+		var s = std::struct();
+		assert_equal_strict(s.a, null);
+	}
+
+
+
 	function struct_preset() {
 		var s = local_struct::S(1,2.0);
 		assert_equal_strict(s.a, 1);
