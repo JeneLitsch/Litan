@@ -62,4 +62,40 @@ namespace sphinx::test {
 		assert_false(utils::for_skip(0, 10, 1));
 		assert_true(utils::for_skip(0, 0, -1));
 	}
+
+
+
+	function for_ranged_var() {
+		var array = [1,2,3,4,5];
+		var sum = 0;
+		for(number : array) {
+			sum = sum + number;
+		}
+		assert_equal(sum, 15);
+	}
+
+
+
+	function for_ranged_expr() {
+		var sum = 0;
+		for(number : [1,2,3,4,5]) {
+			sum = sum + number;
+		}
+		assert_equal(sum, 15);
+	}
+
+
+
+	function for_ranged_iife() {
+		var sum = 0;
+		for(number : iife { 
+			var array1 = [1,2,3,4,5];
+			var array2 = array1;
+			var array3 = array2;
+			return array3;
+		}) {
+			sum = sum + number;
+		}
+		assert_equal(sum, 15);
+	}
 }

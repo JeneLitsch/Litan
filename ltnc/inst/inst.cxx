@@ -330,8 +330,7 @@ namespace ltn::c::inst {
 			.opcode = OpCode::IF,
 			.label = label,
 		};
-	}
-	
+	}	
 	Inst invoke() {
 		return InstNone {
 			.name = "invoke",
@@ -350,6 +349,16 @@ namespace ltn::c::inst {
 			.opcode = OpCode::CAPTURE,
 		};
 	}
+	Inst for_each(const std::string & label) {
+		return InstJump {
+			.name = "for_each",
+			.opcode = OpCode::FOR_EACH,
+			.label = label,
+		};
+	}
+
+
+
 	Inst scrap() {
 		return InstNone {
 			.name = "scrap",

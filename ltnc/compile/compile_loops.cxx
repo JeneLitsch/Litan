@@ -98,4 +98,22 @@ namespace ltn::c {
 
 		return buf;
 	}
+
+
+
+	InstructionBuffer compile_stmt(const sst::ForEach & stmt) {
+		InstructionBuffer buf;
+		const auto label_body = make_jump_id("FOREACH_BODY");
+		const auto label_head = make_jump_id("FOREACH_HEAD");
+		buf << compile_expression(*stmt.expr);
+		buf << inst::jump(label_head);
+		buf << inst::label(label_body);
+		buf << inst::write_x(stmt.index_addr);
+		buf << compile_statement(*stmt.body);
+		buf << inst::null();
+		buf << inst::exit();
+		buf << inst::label(label_head);
+		buf << inst::for_each(label_body);
+		return buf;
+	}
 }

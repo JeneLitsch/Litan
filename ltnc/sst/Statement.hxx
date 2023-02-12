@@ -204,6 +204,34 @@ namespace ltn::c::sst {
 
 
 
+	struct ForEach final : public Statement {
+		ForEach(
+			std::string label,
+			std::size_t index_addr,
+			std::unique_ptr<Expression> expr,
+			std::unique_ptr<Statement> body)
+			: label(label)
+			, index_addr(index_addr)
+			, expr(std::move(expr))
+			, body(std::move(body)) {}
+
+		virtual ~ForEach() = default;
+		std::string label;
+		std::size_t index_addr;
+		std::unique_ptr<Expression> expr;
+		std::unique_ptr<Statement> body;
+
+		virtual std::size_t nested_alloc() const override {
+			return body->nested_alloc();
+		}
+		
+		virtual std::size_t direct_alloc() const override {
+			return 1;
+		}
+	};
+
+
+
 	struct Return final : public Statement {
 		Return(
 			std::unique_ptr<Expression> expression,
@@ -235,6 +263,7 @@ namespace ltn::c::sst {
 		if(auto s = as<sst::While>(stmt)) return fx(*s);
 		if(auto s = as<sst::InfiniteLoop>(stmt)) return fx(*s);
 		if(auto s = as<sst::For>(stmt)) return fx(*s);
+		if(auto s = as<sst::ForEach>(stmt)) return fx(*s);
 		if(auto s = as<sst::Assign>(stmt)) return fx(*s);
 		if(auto s = as<sst::Return>(stmt)) return fx(*s);
 		if(auto s = as<sst::Throw>(stmt)) return fx(*s);

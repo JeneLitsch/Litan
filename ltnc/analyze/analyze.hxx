@@ -43,6 +43,7 @@ namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::InfiniteLoop &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::While &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::For &, Context &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::ForEach &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::NewVar &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::StmtSwitch &, Context &, Scope &);
 

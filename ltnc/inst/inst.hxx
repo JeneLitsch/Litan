@@ -175,10 +175,10 @@ namespace ltn::c::inst {
 	Inst call(const std::string & label, std::uint8_t arity);
 	Inst retvrn();
 	Inst ifelse(const std::string & label);
-	
 	Inst invoke();
 	Inst external();
 	Inst capture();
+	Inst for_each(const std::string & label);
 
 	Inst scrap();
 	Inst duplicate();

@@ -58,6 +58,7 @@ namespace ltn {
 		INVOKE,
 		EXTERNAL,
 		CAPTURE,
+		FOR_EACH,
 
 		// Allocations
 		NEWARR = 0x50,

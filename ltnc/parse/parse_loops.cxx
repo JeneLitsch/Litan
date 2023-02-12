@@ -24,7 +24,7 @@ namespace ltn::c {
 
 
 	ast::stmt_ptr parse_for_loop(Tokens & tokens) {
-		if(match(TT::FOR, tokens)) {
+		if(auto start = match(TT::FOR, tokens)) {
 			if(!match(TT::PAREN_L, tokens)) {
 				throw CompilerError{"Expected (", location(tokens)};
 			}
@@ -36,6 +36,16 @@ namespace ltn::c {
 			}
 
 			auto from = parse_expression_no_cast(tokens);
+
+			if(match(TT::PAREN_R, tokens)) {
+				auto body = parse_statement(tokens);
+				return std::make_unique<ast::ForEach>(
+					var_name,
+					std::move(from),
+					std::move(body),
+					start->location
+				);
+			}
 			
 			if(!match(TT::RARROW, tokens)) {
 				throw CompilerError{"Expected ->", location(tokens)};
@@ -54,15 +64,14 @@ namespace ltn::c {
 
 			auto body = parse_statement(tokens);
 
-			auto loop = std::make_unique<ast::For>(
+			return std::make_unique<ast::For>(
 				var_name,
 				std::move(from),
 				std::move(to),
 				std::move(step),
 				std::move(body),
-				location(tokens)
+				start->location
 			);
-			return loop;
 		}
 		return nullptr;
 	}

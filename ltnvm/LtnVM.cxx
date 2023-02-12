@@ -83,6 +83,7 @@ namespace ltn::vm {
 		table[OpCode::INVOKE] = inst::invoke;
 		table[OpCode::EXTERNAL] = inst::external;
 		table[OpCode::CAPTURE] = inst::capture;
+		table[OpCode::FOR_EACH] = inst::for_each;
 
 		table[OpCode::NEWARR] = inst::newarr;
 		table[OpCode::NEWSTR] = inst::newstr;

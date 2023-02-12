@@ -31,6 +31,7 @@ namespace ltn::c {
 	InstructionBuffer compile_stmt(const sst::InfiniteLoop &);
 	InstructionBuffer compile_stmt(const sst::While &);
 	InstructionBuffer compile_stmt(const sst::For &);
+	InstructionBuffer compile_stmt(const sst::ForEach &);
 	InstructionBuffer compile_stmt(const sst::Assign &);
 	InstructionBuffer compile_stmt(const sst::StmtSwitch &);
 

@@ -65,7 +65,7 @@ namespace ltn::c {
 
 		auto body = analyze_statement(*stmt.body, context, loop_scope);
 				
-		auto loop = std::make_unique<sst::For>(
+		return std::make_unique<sst::For>(
 			label,
 			i_var.address,
 			std::move(from),
@@ -73,7 +73,26 @@ namespace ltn::c {
 			std::move(step),
 			std::move(body)
 		);
+	}
 
-		return loop;
+
+
+	sst::stmt_ptr analyze_stmt(
+		const ast::ForEach & stmt,
+		Context & context,
+		Scope & scope) {
+		MinorScope loop_scope { &scope };
+		
+		const auto label = make_jump_id("FOREACH");
+		const auto i_var = loop_scope.insert(stmt.index_name, stmt.location, type::Int{});
+		auto expr = analyze_expression(*stmt.expr, context, loop_scope);				
+		auto body = analyze_statement(*stmt.body, context, loop_scope);
+
+		return std::make_unique<sst::ForEach>(
+			label,
+			i_var.address,
+			std::move(expr),
+			std::move(body)
+		);
 	}
 }

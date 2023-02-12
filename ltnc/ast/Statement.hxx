@@ -138,6 +138,25 @@ namespace ltn::c::ast {
 
 
 
+	struct ForEach final : public Statement {
+		ForEach(
+			std::string index_name,
+			std::unique_ptr<Expression> expr,
+			std::unique_ptr<Statement> body,
+			const SourceLocation & location)
+			: Statement(location)
+			, index_name(std::move(index_name))
+			, expr(std::move(expr))
+			, body(std::move(body)) {}
+
+		virtual ~ForEach() = default;
+		std::string index_name;
+		std::unique_ptr<Expression> expr;
+		std::unique_ptr<Statement> body;
+	};
+
+
+
 	struct StatementExpression final : public Statement {
 		StatementExpression(
 			std::unique_ptr<Expression> expression,
@@ -204,6 +223,7 @@ namespace ltn::c::ast {
 		if(auto s = as<ast::While>(stmt)) return fx(*s);
 		if(auto s = as<ast::InfiniteLoop>(stmt)) return fx(*s);
 		if(auto s = as<ast::For>(stmt)) return fx(*s);
+		if(auto s = as<ast::ForEach>(stmt)) return fx(*s);
 		if(auto s = as<ast::NewVar>(stmt)) return fx(*s);
 		if(auto s = as<ast::Return>(stmt)) return fx(*s);
 		if(auto s = as<ast::Throw>(stmt)) return fx(*s);
