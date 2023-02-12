@@ -32,4 +32,6 @@ namespace ltn::vm {
 		VmCore core;
 		std::span<const std::uint8_t> byte_code;
 	};
+
+	Value run_core(VmCore & core);
 }

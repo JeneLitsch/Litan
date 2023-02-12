@@ -176,27 +176,6 @@ namespace ltn::vm {
 
 
 
-		Variant core_loop(VmCore & core) {
-			RESUME:
-			try {
-				while(true) {
-					const std::uint8_t inst = core.fetch_byte();
-					instructions_table[inst](core);
-				}
-			}
-
-			catch(Exception & err) {
-				error(core, std::move(err.msg));
-				goto RESUME;
-			}
-
-			catch(const Value & value) {
-				return to_variant(value, core.heap);
-			}
-		}
-
-
-
 		void load_main_args(VmCore & core, const std::vector<String> & args) {
 			const auto ref = core.heap.alloc<Array>({});
 			core.stack.push(value::array(ref));
@@ -219,6 +198,27 @@ namespace ltn::vm {
 			};
 			core.pc = core.code_begin + core.function_table.at(main_fx);
 			core.stack.push_frame(core.code_end - 1, 1);
+		}
+	}
+
+
+
+	Value run_core(VmCore & core) {
+		RESUME:
+		try {
+			while(true) {
+				const std::uint8_t op_code = core.fetch_byte();
+				instructions_table[op_code](core);
+			}
+		}
+
+		catch(Exception & err) {
+			error(core, std::move(err.msg));
+			goto RESUME;
+		}
+
+		catch(const Value & value) {
+			return value;
 		}
 	}
 
@@ -247,7 +247,7 @@ namespace ltn::vm {
 		this->core.heap.reset();
 
 		// init static variables 
-		core_loop(core);
+		run_core(core);
 	}
 
 
@@ -255,7 +255,7 @@ namespace ltn::vm {
 	Variant LtnVM::run(const std::vector<String> & args, const std::string & main) {
 		load_main_args(core, args);
 		jump_to_init(core, main);
-		return core_loop(this->core);
+		return to_variant(run_core(this->core), core.heap);
 	}
 
 
