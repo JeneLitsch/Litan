@@ -27,6 +27,14 @@ namespace sphinx::test {
 			}
 			return sum;
 		}
+
+
+
+		function ranged_sum(array : array<int>) {
+			var sum = 0;
+			for(elem : array) sum = sum + elem;
+			return sum;
+		}
 	}
 
 
@@ -65,13 +73,10 @@ namespace sphinx::test {
 
 
 
-	function for_ranged_var() {
-		var array = [1,2,3,4,5];
-		var sum = 0;
-		for(number : array) {
-			sum = sum + number;
-		}
-		assert_equal(sum, 15);
+	function for_ranged() {
+		assert_equal(15, utils::ranged_sum([1,2,3,4,5]));
+		assert_equal(9, utils::ranged_sum([3,3,3]));
+		assert_equal(0, utils::ranged_sum([]));
 	}
 
 
