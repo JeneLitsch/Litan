@@ -86,6 +86,16 @@ namespace sphinx::test {
 
 
 
+	function for_ranged_empty() {
+		var sum = 0;
+		for(number : []) {
+			sum = sum + number;
+		}
+		assert_equal(sum, 0);
+	}
+
+
+
 	function for_ranged_iife() {
 		var sum = 0;
 		for(number : iife { 
