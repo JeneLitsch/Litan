@@ -84,13 +84,16 @@ namespace ltn::c {
 		MinorScope loop_scope { &scope };
 		
 		const auto label = make_jump_id("FOREACH");
-		const auto i_var = loop_scope.insert(stmt.index_name, stmt.location, type::Int{});
+		const auto element_var = loop_scope.insert(stmt.index_name, stmt.location, type::Int{});
+		const auto iterator_var = loop_scope.insert("_iterator_" + stmt.index_name, stmt.location, type::Any{});
+		const auto container_var = loop_scope.insert("_container_" + stmt.index_name, stmt.location, type::Any{});
 		auto expr = analyze_expression(*stmt.expr, context, loop_scope);				
 		auto body = analyze_statement(*stmt.body, context, loop_scope);
 
 		return std::make_unique<sst::ForEach>(
-			label,
-			i_var.address,
+			element_var.address,
+			iterator_var.address,
+			container_var.address,
 			std::move(expr),
 			std::move(body)
 		);

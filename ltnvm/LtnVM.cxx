@@ -8,6 +8,7 @@
 #include "stdxx/iife.hxx"
 #include "ltnvm/to_variant.hxx"
 #include "ltnvm/to_value.hxx"
+#include "ltnvm/stringify.hxx"
 
 namespace ltn::vm {
 	constexpr void add_instruction(auto & table, auto op_code, auto fx) {
@@ -83,7 +84,6 @@ namespace ltn::vm {
 		table[OpCode::INVOKE] = inst::invoke;
 		table[OpCode::EXTERNAL] = inst::external;
 		table[OpCode::CAPTURE] = inst::capture;
-		table[OpCode::FOR_EACH] = inst::for_each;
 
 		table[OpCode::NEWARR] = inst::newarr;
 		table[OpCode::NEWSTR] = inst::newstr;
@@ -169,7 +169,7 @@ namespace ltn::vm {
 
 
 	namespace {
-		void error(VmCore & core, std::string && msg) {
+		void error(VmCore & core, std::string msg) {
 			const auto ref = core.heap.alloc<String>(std::move(msg));
 			core.stack.push(value::string(ref));
 			inst::thr0w(core);
@@ -213,8 +213,8 @@ namespace ltn::vm {
 			}
 		}
 
-		catch(Exception & err) {
-			error(core, std::move(err.msg));
+		catch(const Exception & err) {
+			error(core, err.msg);
 			goto RESUME;
 		}
 
@@ -222,6 +222,30 @@ namespace ltn::vm {
 			return value;
 		}
 	}
+
+
+
+	Value main_loop(VmCore & core) {
+		RESUME:
+		try {
+			while(true) {
+				const std::uint8_t op_code = core.fetch_byte();
+				instructions_table[op_code](core);
+			}
+		}
+		catch(const Exception & err) {
+			error(core, err.msg);
+			goto RESUME;
+		}
+
+		catch(const Value & value) {
+			return value;
+		}
+	}
+
+
+
+
 
 
 
@@ -248,7 +272,7 @@ namespace ltn::vm {
 		this->core.heap.reset();
 
 		// init static variables 
-		run_core(core);
+		main_loop(core);
 	}
 
 
@@ -256,7 +280,14 @@ namespace ltn::vm {
 	Variant LtnVM::run(const std::vector<String> & args, const std::string & main) {
 		load_main_args(core, args);
 		jump_to_init(core, main);
-		return to_variant(run_core(this->core), core.heap);
+		try {
+			return to_variant(main_loop(this->core), core.heap);
+		}
+		catch(const Unhandled & err) {
+			throw std::runtime_error { 
+				"Unhandled exception: " + err.exception.msg
+			};
+		}
 	}
 
 

@@ -38,7 +38,11 @@ namespace ltn::vm::inst {
 			core.stack.push_frame(jumpback, 1);		
 		}
 		else {
-			throw std::runtime_error{"Unhandled Exception: " + cast::to_string(except, core.heap)};
+			throw Unhandled {
+				.exception = Exception{
+					.msg = cast::to_string(except, core.heap)
+				}
+			};
 		}
 	}
 

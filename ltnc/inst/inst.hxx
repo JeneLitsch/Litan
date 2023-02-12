@@ -178,7 +178,6 @@ namespace ltn::c::inst {
 	Inst invoke();
 	Inst external();
 	Inst capture();
-	Inst for_each(const std::string & label);
 
 	Inst scrap();
 	Inst duplicate();

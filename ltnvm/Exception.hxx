@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <sstream>
+#include "ltnvm/memory/Value.hxx"
 
 namespace ltn::vm {	
 	struct Exception {
@@ -15,6 +16,14 @@ namespace ltn::vm {
 		Type type = Type::GENERIC_ERROR;
 		std::string msg;
 	};
+
+
+	
+	struct Unhandled {
+		Exception exception;
+	};
+
+
 
 	namespace except {
 		inline Exception invalid_argument(

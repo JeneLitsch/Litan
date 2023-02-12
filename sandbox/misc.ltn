@@ -16,3 +16,6 @@ function main(args) {
 		std::println(arg);
 	}
 }
+except(e) {
+	std::println(e);
+}

@@ -206,18 +206,21 @@ namespace ltn::c::sst {
 
 	struct ForEach final : public Statement {
 		ForEach(
-			std::string label,
-			std::size_t index_addr,
+			std::size_t element_addr,
+			std::size_t container_addr,
+			std::size_t iterator_addr,
 			std::unique_ptr<Expression> expr,
 			std::unique_ptr<Statement> body)
-			: label(label)
-			, index_addr(index_addr)
+			: element_addr(element_addr)
+			, container_addr(container_addr)
+			, iterator_addr(iterator_addr)
 			, expr(std::move(expr))
 			, body(std::move(body)) {}
 
 		virtual ~ForEach() = default;
-		std::string label;
-		std::size_t index_addr;
+		std::size_t element_addr;
+		std::size_t container_addr;
+		std::size_t iterator_addr;
 		std::unique_ptr<Expression> expr;
 		std::unique_ptr<Statement> body;
 
@@ -226,7 +229,7 @@ namespace ltn::c::sst {
 		}
 		
 		virtual std::size_t direct_alloc() const override {
-			return 1;
+			return 3;
 		}
 	};
 

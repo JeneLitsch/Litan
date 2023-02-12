@@ -98,4 +98,15 @@ namespace sphinx::test {
 		}
 		assert_equal(sum, 15);
 	}
+
+
+
+	function for_ranged_except() {
+		for(number : [1,2,3,4,5]) {
+			if(number == 5) throw 42;
+		}
+	}
+	except(e) {
+		assert_equal(e, 42);
+	}
 }
