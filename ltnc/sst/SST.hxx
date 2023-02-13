@@ -1,7 +1,9 @@
 #pragma once
 #include "Function.hxx"
 #include "Statement.hxx"
+#include "Statements.hxx"
 #include "Expression.hxx"
+#include "Expressions.hxx"
 #include "Binding.hxx"
 
 namespace ltn::c::sst {
