@@ -285,7 +285,7 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_lambda(Tokens & tokens) {
+	ast::Expression parse_lambda(Tokens & tokens) {
 		if(match(TT::LAMBDA, tokens)) {
 			auto captures = parse_captures(tokens);
 			const auto parameters = parse_optional_parameters(tokens);
@@ -299,10 +299,11 @@ namespace ltn::c {
 				return_type,
 				location(tokens));
 			fx->except = parse_except(tokens);
-			return stx::make_unique<ast::Lambda>(
-				std::move(fx),
-				std::move(captures),
-				location(tokens)); 
+			return ast::Lambda {
+				.location = location(tokens), 
+				.fx = std::move(fx),
+				.captures = std::move(captures),
+			};
 		}
 		return nullptr;
 	}

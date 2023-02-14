@@ -5,7 +5,7 @@ namespace ltn::c {
 		ast::stmt_ptr new_struct(const SourceLocation & loc) {
 			auto call = std::make_unique<ast::Call>(
 				std::make_unique<ast::Var>("struct", Namespace{{"std"}}, loc),
-				std::vector<ast::expr_ptr>{},
+				std::vector<ast::Expression>{},
 				loc
 			);
 			
@@ -29,14 +29,14 @@ namespace ltn::c {
 	ast::func_ptr generate_ctor(const ast::Preset & preset) {
 		ast::Parameters parameters;
 
-		auto expr = std::make_unique<ast::InitStruct>(preset.location);
+		auto expr = ast::InitStruct{preset.location, {}};
 
 		for(const auto & member : preset.members) {
 			const auto var_name = "__" + member.name + "__";
 
-			expr->members.push_back({
+			expr.members.push_back({
 				member.name,
-				std::make_unique<ast::Var>(var_name, Namespace{}, preset.location)
+				ast::Var(var_name, Namespace{}, preset.location)
 			});
 
 			parameters.push_back(ast::Parameter {

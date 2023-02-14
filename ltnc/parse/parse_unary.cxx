@@ -23,7 +23,7 @@ namespace ltn::c {
 
 
 
-		std::unique_ptr<ast::Expression> parse_index(Tokens & tokens) {
+		ast::Expression parse_index(Tokens & tokens) {
 			auto index = parse_expression(tokens);
 			if(match(TT::BRACKET_R, tokens)) {
 				return index;
@@ -34,7 +34,7 @@ namespace ltn::c {
 
 
 		auto parse_arguments(Tokens & tokens) {
-			std::vector<std::unique_ptr<ast::Expression>> parameters;
+			std::vector<ast::Expression> parameters;
 			if(match(TT::PAREN_R, tokens)) {
 				 return parameters;
 			}
@@ -51,16 +51,17 @@ namespace ltn::c {
 
 
 
-		std::unique_ptr<ast::Expression> parse_postfix(
+		ast::Expression parse_postfix(
 			Tokens & tokens,
-			std::unique_ptr<ast::Expression> l) {
+			ast::Expression l) {
 
 			if(auto start = match(TT::BRACKET_L, tokens)) {
 				auto index = parse_index(tokens);
 				auto full = stx::make_unique<ast::Index>(
 					std::move(l),
 					std::move(index),
-					index->location);
+					location(index)
+				);
 				return parse_postfix(tokens, std::move(full));
 			}
 
@@ -78,7 +79,7 @@ namespace ltn::c {
 				auto [template_args, done] = parse_template_args(tokens); 
 				auto function_args = (!done) 
 					? parse_arguments(tokens)
-					: std::vector<ast::expr_ptr>{};
+					: std::vector<ast::Expression>{};
 
 				auto call = stx::make_unique<ast::Call>(
 					std::move(l),
@@ -119,7 +120,7 @@ namespace ltn::c {
 
 
 
-	std::unique_ptr<ast::Expression> parse_prefix(Tokens & tokens) {
+	ast::Expression parse_prefix(Tokens & tokens) {
 		// left unary
 		const std::array table {
 			std::pair{TT::MINUS, OP::NEG},
@@ -131,14 +132,16 @@ namespace ltn::c {
 		
 		if(auto op = match_op(tokens, table)) {
 			auto && r = parse_prefix(tokens);
-			return stx::make_unique<ast::Unary>(*op, std::move(r), location(tokens));
+			return ast::Unary{
+				*op, std::move(r), location(tokens)
+			};
 		}
 		return parse_postfix(tokens, parse_primary(tokens));
 	}
 
 
 
-	std::unique_ptr<ast::Expression> parse_unary(Tokens & tokens) {
+	ast::Expression parse_unary(Tokens & tokens) {
 		return parse_prefix(tokens);
 	}
 }

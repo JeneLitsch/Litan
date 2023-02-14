@@ -19,7 +19,7 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_assign_r(Tokens & tokens) {
+	std::optional<ast::Expression> parse_assign_r(Tokens & tokens) {
 		using TT = Token::Type;
 		if(match(TT::ASSIGN, tokens)) {
 			return parse_expression(tokens);

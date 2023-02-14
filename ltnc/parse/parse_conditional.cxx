@@ -5,50 +5,50 @@ namespace ltn::c {
 		using TT = Token::Type;
 
 		template<auto expr_fx>
-		ast::expr_ptr parse_nullco(Tokens & tokens, ast::expr_ptr l) {
+		ast::Expression parse_nullco(Tokens & tokens, ast::Expression l) {
 			auto else_expr = expr_fx(tokens);
-			return stx::make_unique<ast::Binary>(
-				BinaryOp::NULLCO,
-				std::move(l),
-				std::move(else_expr),
-				location(tokens)
-			);
+			return ast::Binary {
+				.location = location(tokens),
+				.op = BinaryOp::NULLCO,
+				.l = std::move(l),
+				.r = std::move(else_expr),
+			};
 		}
 
 
 
 		template<auto expr_fx>
-		ast::expr_ptr parse_elvis(Tokens & tokens, ast::expr_ptr l) {
+		ast::Expression parse_elvis(Tokens & tokens, ast::Expression l) {
 			auto else_expr = expr_fx(tokens);
-			return stx::make_unique<ast::Binary>(
-				BinaryOp::ELVIS,
-				std::move(l),
-				std::move(else_expr),
-				location(tokens)
-			);
+			return ast::Binary {
+				.location = location(tokens),
+				.op = BinaryOp::ELVIS,
+				.l = std::move(l),
+				.r = std::move(else_expr),
+			};
 		}
 
 
 
 		template<auto expr_fx>
-		ast::expr_ptr parse_ternary(Tokens & tokens, ast::expr_ptr l) {
+		ast::Expression parse_ternary(Tokens & tokens, ast::Expression l) {
 			auto c = expr_fx(tokens);
 			if(!match(TT::COLON, tokens)) {
 				throw CompilerError{"Expected :", location(tokens)};
 			}
 			auto r = expr_fx(tokens);
-			return stx::make_unique<ast::Ternary>(
-				location(tokens),
-				std::move(l),
-				std::move(c),
-				std::move(r)
-			);
+			return ast::Ternary {
+				.location = location(tokens),
+				.condition = std::move(l),
+				.if_branch = std::move(c),
+				.else_branch = std::move(r),
+			};
 		}
 	}
 
 
 
-	ast::expr_ptr parse_conditional(Tokens & tokens) {
+	ast::Expression parse_conditional(Tokens & tokens) {
 		auto l = parse_binary(tokens);
 		if(match(TT::QMARK, tokens)) {
 			// c ?? b

@@ -11,15 +11,16 @@ namespace ltn::c {
 
 	
 	template<typename op_table, auto presedence_down>
-	ast::expr_ptr generic_binary(Tokens & tokens) {
+	ast::Expression generic_binary(Tokens & tokens) {
 		auto l = presedence_down(tokens);
 		while (auto op = match_op(tokens, op_table::data)) {
 			auto && r = presedence_down(tokens);
-			auto expr = stx::make_unique<ast::Binary>(
-				*op,
-				std::move(l),
-				std::move(r),
-				location(tokens));
+			auto expr = ast::Binary {
+				.location = location(tokens),
+				.op = *op,
+				.l = std::move(l),
+				.r = std::move(r),
+			};
 			l = std::move(expr);
 		}				
 		return l;
@@ -133,7 +134,7 @@ namespace ltn::c {
 
 
 		template<auto presedence_down>
-		ast::expr_ptr binary_base(Tokens & tokens) {
+		ast::Expression binary_base(Tokens & tokens) {
 			static constexpr auto power       = generic_binary<power_table,       presedence_down>;
 			static constexpr auto factor      = generic_binary<factor_table,      power>;
 			static constexpr auto term        = generic_binary<term_table,        factor>;
@@ -154,7 +155,7 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_binary(Tokens & tokens) {
+	ast::Expression parse_binary(Tokens & tokens) {
 		return binary_base<parse_unary>(tokens);
 	}
 }

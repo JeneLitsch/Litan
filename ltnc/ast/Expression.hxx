@@ -14,86 +14,79 @@ namespace ltn::c::ast {
 	class Statement;
 	struct Function;
 
+	struct ExpressionCore;
+	struct Expression {
+		template<typename T>
+		Expression(T && expr) 
+			: core{ std::make_unique<ExpressionCore>(std::move(expr))} {}
 
+		Expression(const std::nullptr_t &) 
+			: core{ nullptr } {}
 
-	struct Expression : public Node {
-		Expression(const SourceLocation & location) : Node(location) {}
-		virtual ~Expression() = default;
+		Expression(Expression &&) = default;
+		Expression & operator=(Expression &&) = default;
+
+		operator bool() const {
+			return static_cast<bool>(core);
+		}
+		
+		std::unique_ptr<ExpressionCore> core;
 	};
 
 
 
-	struct ForwardDynamicCall : public Expression {
+	struct ForwardDynamicCall {
 		ForwardDynamicCall(
 			std::uint64_t addr,
 			std::uint64_t arity,
 			const SourceLocation & location)
-			: Expression(location)
-			, addr{addr}
+			: addr{addr}
 			, arity{arity} {}
 		virtual ~ForwardDynamicCall() = default;
+		SourceLocation location;
 		std::uint64_t addr;
 		std::uint64_t arity;
 	};
 	
 
 
-	struct Ternary : public Expression {
-		Ternary(
-			const SourceLocation & location,
-			std::unique_ptr<Expression> condition,
-			std::unique_ptr<Expression> if_branch,
-			std::unique_ptr<Expression> else_branch) 
-			: Expression(location)
-			, condition(std::move(condition))
-			, if_branch(std::move(if_branch))
-			, else_branch(std::move(else_branch)) {}
-		virtual ~Ternary() = default;
-	
-		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Expression> if_branch;
-		std::unique_ptr<Expression> else_branch;
+	struct Ternary {
+		SourceLocation location;
+		Expression condition;
+		Expression if_branch;
+		Expression else_branch;
 	};
 
 
 
 
-	struct Unary : public Expression {
+	struct Unary {
 		using Op = UnaryOp;
 		Unary(
 			Op op,
-			std::unique_ptr<Expression> expression,
+			Expression expression,
 			const SourceLocation & location)
-			: Expression(location)
-			, op(op)
+			: op(op)
 			, expression(std::move(expression)) {}
 		virtual ~Unary() = default;
+		SourceLocation location;
 		Op op;
-		std::unique_ptr<Expression> expression;
+		Expression expression;
 	};
 
 
 
-	struct Binary : public Expression {
+	struct Binary {
 		using Op = BinaryOp;
-		Binary(
-			Op op,
-			std::unique_ptr<Expression> l,
-			std::unique_ptr<Expression> r,
-			const SourceLocation & location)
-			: Expression(location)
-			, op(op)
-			, l(std::move(l))
-			, r(std::move(r)) {}
-		virtual ~Binary() = default;
+		SourceLocation location;
 		Op op;
-		std::unique_ptr<Expression> l;
-		std::unique_ptr<Expression> r;
+		Expression l;
+		Expression r;
 	};
 
 
 
-	struct Reflect : public Expression {
+	struct Reflect {
 		struct NamespaceQuery {
 			Namespace namespaze;
 		};
@@ -109,7 +102,7 @@ namespace ltn::c::ast {
 			LineQuery line;
 		};
 		struct ExprQuery {
-			std::unique_ptr<Expression> expr;
+			Expression expr;
 		};
 		struct TypeQuery {
 			type::IncompleteType type;
@@ -123,33 +116,18 @@ namespace ltn::c::ast {
 			ExprQuery,
 			TypeQuery
 		>;
-		Reflect(
-			Query query,
-			const SourceLocation & location)
-			: Expression(location)
-			, query{std::move(query)} {}
-		virtual ~Reflect() = default;
+		SourceLocation location;
 		Query query;
 	};
 
 
 
-	struct TypedUnary final : public Expression {
-	public:
+	struct TypedUnary final {
 		using Op = TypedUnaryOp;
-		TypedUnary(
-			Op op,
-			const type::IncompleteType & type,
-			std::unique_ptr<Expression> expr,
-			const SourceLocation & location)
-			: Expression{location}
-			, op{op}
-			, type{type}
-			, expr{std::move(expr)} {}
-		virtual ~TypedUnary() = default;
+		SourceLocation location;
 		Op op;
 		type::IncompleteType type;
-		std::unique_ptr<Expression> expr;
+		Expression expr;
 	};
 
 
@@ -158,190 +136,177 @@ namespace ltn::c::ast {
 	struct Assignable;
 	class Statement;
 
-	struct Integer final : public Expression {
+	struct Integer final {
 		Integer(std::bitset<64> value, const SourceLocation & location)
 			: Integer(static_cast<std::int64_t>(value.to_ullong()), location) {}
 
 		Integer(std::int64_t value, const SourceLocation & location)
-			: Expression(location), value(value) {}
+			: value(value) {}
 		virtual ~Integer() = default;
+		SourceLocation location;
 		std::int64_t value;
 	};
 
 
 
-	struct Float final : public Expression {
+	struct Float final {
 		Float(stx::float64_t value, const SourceLocation & location)
-			: Expression(location), value(value) {}
+			: value(value) {}
 		virtual ~Float() = default;
+		SourceLocation location;
 		stx::float64_t value;
 	};
 
 
 
-	struct Bool final : public Expression {
+	struct Bool final {
 		Bool(bool value, const SourceLocation & location)
-			: Expression(location), value(value) {}
+			: value(value) {}
 		virtual ~Bool() = default;
+		SourceLocation location;
 		bool value;
 	};
 
 
 
-	struct Null final : public Expression {
-		Null(const SourceLocation & location)
-			: Expression(location) {}
+	struct Null final {
+		Null(const SourceLocation & location) {}
 		virtual ~Null() = default;
+		SourceLocation location;
 	};
 
 
 
-	struct Char final : public Expression {
+	struct Char final {
 		Char(std::uint8_t value, const SourceLocation & location)
-			: Expression(location), value(value) {}
+			: value(value) {}
 		virtual ~Char() = default;
+		SourceLocation location;
 		std::uint8_t value;
 	};
 
 
 
-	struct String final : public Expression {
+	struct String final {
 		String(const std::string & value, const SourceLocation & location)
-			: Expression(location), value(value) {}
+			: value(value) {}
 		virtual ~String() = default;
+		SourceLocation location;
 		std::string value;
 	};
 
 
 
-	struct Array final: public Expression {
-		Array(
-			const SourceLocation & location,
-			std::vector<std::unique_ptr<Expression>> elements)
-			: Expression(location)
-			, elements{std::move(elements)} {}
-		
-		virtual ~Array() = default;
-		std::vector<std::unique_ptr<Expression>> elements;
+	struct Array final{
+		SourceLocation location;
+		std::vector<Expression> elements;
 	};
 
 
 
-	struct Tuple final: public Expression {
-		Tuple(
-			const SourceLocation & location,
-			std::vector<std::unique_ptr<Expression>> elements)
-			: Expression(location)
-			, elements{std::move(elements)} {}
-		virtual ~Tuple() = default;
-		std::vector<std::unique_ptr<Expression>> elements;
+	struct Tuple final{
+		SourceLocation location;
+		std::vector<Expression> elements;
 	};
 
 
 
-	struct Lambda final : public Expression {
-		Lambda(
-			std::unique_ptr<Function> fx,
-			std::vector<std::unique_ptr<Var>> captures,
-			const SourceLocation & location)
-			: Expression(location)
-			, fx(std::move(fx))
-			, captures(std::move(captures)) {}
-		virtual ~Lambda() = default;
+	struct Lambda final {
+		SourceLocation location;
 		std::unique_ptr<Function> fx;
 		std::vector<std::unique_ptr<Var>> captures;
 	};
 
 
 	
-	struct Index final : public Expression {
+	struct Index final {
 		Index(
-			std::unique_ptr<Expression> expression,
-			std::unique_ptr<Expression> index,
+			Expression expression,
+			Expression index,
 			const SourceLocation & location)
-			: Expression(location)
-			, expression(std::move(expression))
+			: expression(std::move(expression))
 			, index(std::move(index)) {}
 		virtual ~Index() = default;
-		std::unique_ptr<Expression> expression;
-		std::unique_ptr<Expression> index;
+		SourceLocation location;
+		Expression expression;
+		Expression index;
 	};
 
 
 
-	struct Var final : public Expression {
+	struct Var final {
 		Var(
 			const std::string & name,
 			const Namespace & namespaze,
 			const SourceLocation & location)
-			: Expression(location)
-			, name{name}
+			: name{name}
 			, namespaze{namespaze} {}
 
 		virtual ~Var() = default;
+		SourceLocation location;
 		std::string name;
 		Namespace namespaze;
 	};
 
 
 
-	struct GlobalVar final : public Expression {
+	struct GlobalVar final {
 		GlobalVar(
 			const SourceLocation & location,
 			const Namespace & namespaze,
 			const std::string & name)
-			: Expression(location)
-			, name { name }
+			: name { name }
 			, namespaze { namespaze } {}
 		virtual ~GlobalVar() = default;
+		SourceLocation location;
 		std::string name;
 		Namespace namespaze;
 	};
 
 
 
-	struct Member final : public Expression {
+	struct Member final {
 		Member(
-			std::unique_ptr<Expression> expr,
+			Expression expr,
 			const std::string & name,
 			const SourceLocation & location)
-			: Expression(location)
-			, expr(std::move(expr))
+			: expr(std::move(expr))
 			, name(std::move(name)){};
 		virtual ~Member() = default;
-		std::unique_ptr<Expression> expr;
+		SourceLocation location;
+		Expression expr;
 		std::string name;
 	};
 
 
 
-	struct Iife final : public Expression {
+	struct Iife final {
 		Iife(
 			const SourceLocation & location,
 			std::unique_ptr<Statement> stmt,
 			type::IncompleteType return_type) 
-			: Expression(location)
-			, stmt(std::move(stmt))
+			: stmt(std::move(stmt))
 			, return_type{return_type} {}
 		virtual ~Iife() = default;
 		
+		SourceLocation location;
 		std::unique_ptr<Statement> stmt;
 		type::IncompleteType return_type;
 	};
 
 
 
-	struct FxPointer final : public Expression {
+	struct FxPointer final {
 		FxPointer(
 			const std::string & name,
 			const Namespace & namespaze,
 			const std::size_t placeholders,
 			const SourceLocation & location)
-			: Expression(location)
-			, name(name)
+			: name(name)
 			, namespaze(namespaze)
 			, placeholders(std::move(placeholders)) {}
 		virtual ~FxPointer() = default;
+		SourceLocation location;
 		std::string name;
 		Namespace namespaze;
 		std::size_t placeholders;
@@ -350,64 +315,83 @@ namespace ltn::c::ast {
 
 
 
-	struct Call final : public Expression {
+	struct Call final {
 		Call(
-			std::unique_ptr<Expression> function_ptr,
-			std::vector<std::unique_ptr<Expression>> parameters,
+			Expression function_ptr,
+			std::vector<Expression> parameters,
 			const SourceLocation & location)
-			: Expression(location)
-			, function_ptr(std::move(function_ptr))
+			: function_ptr(std::move(function_ptr))
 			, parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
-		std::unique_ptr<Expression> function_ptr;
-		std::vector<std::unique_ptr<Expression>> parameters;
+		SourceLocation location;
+		Expression function_ptr;
+		std::vector<Expression> parameters;
 		std::vector<type::IncompleteType> template_args;
 	};
 
 
 
-	struct InitStruct final : public Expression {
-		InitStruct(const SourceLocation & location)
-			: Expression{location} {}
-		virtual ~InitStruct() = default;
+	struct InitStruct final {
 		struct Member {
 			std::string name;
-			std::unique_ptr<Expression> expr;
+			Expression expr;
 		};
+		SourceLocation location;
 		std::vector<Member> members;
 	};
 
 
 
-	using ExprSwitch = Switch<Expression>;
+	struct ExprSwitch : Switch<Expression> {
+		SourceLocation location;
+	};
+
+
+
+
+
+	struct ExpressionCore {
+		using Variant = std::variant<
+			Binary,
+			Unary,
+			Integer,
+			Float,
+			Bool,
+			Char,
+			Null,
+			String,
+			Array,
+			Tuple,
+			Call,
+			Var,
+			Index,
+			Lambda,
+			FxPointer,
+			Member,
+			GlobalVar,
+			Iife,
+			Ternary,
+			ExprSwitch,
+			TypedUnary,
+			Reflect,
+			ForwardDynamicCall,
+			InitStruct
+		>;
+		Variant variant;
+		ExpressionCore(auto && expr) : variant(std::move(expr)) {}
+	};
 
 
 
 	auto visit_expression(const ast::Expression & expr, auto && fx) {
-		if(auto e = as<ast::Binary>(expr)) return fx(*e);
-		if(auto e = as<ast::Unary>(expr)) return fx(*e);
-		if(auto e = as<ast::Integer>(expr)) return fx(*e);
-		if(auto e = as<ast::Float>(expr)) return fx(*e);
-		if(auto e = as<ast::Bool>(expr)) return fx(*e);
-		if(auto e = as<ast::Char>(expr)) return fx(*e);
-		if(auto e = as<ast::Null>(expr)) return fx(*e);
-		if(auto e = as<ast::String>(expr)) return fx(*e);
-		if(auto e = as<ast::Array>(expr)) return fx(*e);
-		if(auto e = as<ast::Tuple>(expr)) return fx(*e);
-		if(auto e = as<ast::Call>(expr)) return fx(*e);
-		if(auto e = as<ast::Var>(expr)) return fx(*e);
-		if(auto e = as<ast::Index>(expr)) return fx(*e);
-		if(auto e = as<ast::Lambda>(expr)) return fx(*e);
-		if(auto e = as<ast::FxPointer>(expr)) return fx(*e);
-		if(auto e = as<ast::Member>(expr)) return fx(*e);
-		if(auto e = as<ast::GlobalVar>(expr)) return fx(*e);
-		if(auto e = as<ast::Iife>(expr)) return fx(*e);
-		if(auto e = as<ast::Ternary>(expr)) return fx(*e);
-		if(auto e = as<ast::ExprSwitch>(expr)) return fx(*e);
-		if(auto e = as<ast::TypedUnary>(expr)) return fx(*e);
-		if(auto e = as<ast::Reflect>(expr)) return fx(*e);
-		if(auto e = as<ast::ForwardDynamicCall>(expr)) return fx(*e);
-		if(auto e = as<ast::InitStruct>(expr)) return fx(*e);
-		throw std::runtime_error{"Unknown Expression AST"};
+		return std::visit(fx, expr.core->variant);
+	}
+
+
+
+	auto location(const ast::Expression & expr) {
+		return visit_expression(expr, [] (const auto & e) {
+			return e.location;
+		});
 	}
 }

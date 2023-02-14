@@ -53,7 +53,7 @@ namespace ltn::c {
 
 			auto to = parse_expression_no_cast(tokens);
 
-			ast::expr_ptr step;
+			std::optional<ast::Expression> step;
 			if(match(TT::COLON, tokens)) {
 				step = parse_expression(tokens);
 			}

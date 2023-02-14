@@ -5,10 +5,10 @@ namespace ltn::c {
 	using TT = Token::Type;
 
 	namespace {
-		ast::expr_ptr parse_empty_array(Tokens & tokens) {
+		ast::Expression parse_empty_array(Tokens & tokens) {
 			return std::make_unique<ast::Array>(
 				location(tokens),
-				std::vector<ast::expr_ptr>{}
+				std::vector<ast::Expression>{}
 			);
 		}
 
@@ -31,26 +31,28 @@ namespace ltn::c {
 		}
 
 
-		ast::expr_ptr parse_struct_init(Tokens & tokens) {
-			auto init_struct = std::make_unique<ast::InitStruct>(location(tokens));
-			init_struct->members = list_of<ast::InitStruct::Member>(TT::BRACKET_R, "]", tokens, parse_member);
-			return init_struct;
+		ast::Expression parse_struct_init(Tokens & tokens) {
+			auto members = list_of<ast::InitStruct::Member>(TT::BRACKET_R, "]", tokens, parse_member);
+			return ast::InitStruct {
+				.location = location(tokens),
+				.members = std::move(members),
+			};
 		}
 
 
 
-		ast::expr_ptr parse_filled_array(Tokens & tokens) {
-			auto elements = list_of<ast::expr_ptr>(TT::BRACKET_R, "]", tokens, parse_expression);
-			return std::make_unique<ast::Array>(
-				location(tokens),
-				std::move(elements)
-			);
+		ast::Expression parse_filled_array(Tokens & tokens) {
+			auto elements = list_of<ast::Expression>(TT::BRACKET_R, "]", tokens, parse_expression);
+			return ast::Array {
+				.location = location(tokens),
+				.elements = std::move(elements),
+			};
 		}
 	}
 
 
 
-	ast::expr_ptr parse_array(Tokens & tokens) {
+	ast::Expression parse_array(Tokens & tokens) {
 		if(match(TT::BRACKET_L, tokens)) {
 			if(match(TT::BRACKET_R, tokens)) {
 				return parse_empty_array(tokens);

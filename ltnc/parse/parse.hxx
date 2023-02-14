@@ -20,7 +20,7 @@ namespace ltn::c {
 	ast::defn_ptr parse_definition(Tokens & tokens, const Namespace & namespaze);
 	ast::prst_ptr parse_preset(Tokens & tokens, const Namespace & namespaze);
 
-	ast::expr_ptr parse_lambda(Tokens & tokens);
+	ast::Expression parse_lambda(Tokens & tokens);
 
 	// Statements
 	ast::stmt_ptr parse_statement(Tokens & tokens);
@@ -34,20 +34,20 @@ namespace ltn::c {
 	ast::stmt_ptr parse_newvar(Tokens & tokens);
 	
 	// Expressions
-	ast::expr_ptr parse_assign_r(Tokens & tokens);
-	ast::expr_ptr parse_expr_switch(Tokens & tokens);
+	std::optional<ast::Expression> parse_assign_r(Tokens & tokens);
+	ast::Expression parse_expr_switch(Tokens & tokens);
 
-	ast::expr_ptr parse_expression(Tokens & tokens);
-	ast::expr_ptr parse_expression_no_cast(Tokens & tokens);
-	ast::expr_ptr parse_conditional(Tokens & tokens);
-	ast::expr_ptr parse_condition(Tokens & tokens);
-	ast::expr_ptr parse_binary(Tokens & tokens);
-	ast::expr_ptr parse_unary(Tokens & tokens);
-	ast::expr_ptr parse_primary(Tokens & tokens);
-	ast::expr_ptr parse_reflect(Tokens & tokens);
-	ast::expr_ptr parse_parenthesized(Tokens & tokens);
-	ast::expr_ptr parse_integral(Tokens & tokens);
-	ast::expr_ptr parse_array(Tokens & tokens);
+	ast::Expression parse_expression(Tokens & tokens);
+	ast::Expression parse_expression_no_cast(Tokens & tokens);
+	ast::Expression parse_conditional(Tokens & tokens);
+	ast::Expression parse_condition(Tokens & tokens);
+	ast::Expression parse_binary(Tokens & tokens);
+	ast::Expression parse_unary(Tokens & tokens);
+	ast::Expression parse_primary(Tokens & tokens);
+	ast::Expression parse_reflect(Tokens & tokens);
+	ast::Expression parse_parenthesized(Tokens & tokens);
+	ast::Expression parse_integral(Tokens & tokens);
+	ast::Expression parse_array(Tokens & tokens);
 
 	// Utils
 	std::string parse_preset_name(Tokens & tokens);

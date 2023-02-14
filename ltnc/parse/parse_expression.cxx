@@ -4,16 +4,16 @@ namespace ltn::c {
 	using TT = Token::Type;
 
 	namespace {
-		ast::expr_ptr parse_cast(Tokens & tokens, ast::expr_ptr expr) {
+		ast::Expression parse_cast(Tokens & tokens, ast::Expression expr) {
 			const auto make = [&] (ast::TypedUnary::Op op) {
 				auto type = parse_type(tokens);
-				const auto loc = expr->location;
-				return parse_cast(tokens, stx::make_unique<ast::TypedUnary>(
-					op, 
-					type,
-					std::move(expr),
-					loc
-				));
+				const auto loc = location(expr);
+				return parse_cast(tokens, ast::TypedUnary {
+					.location = loc,
+					.op = op, 
+					.type = type,
+					.expr = std::move(expr),
+				});
 			};
 			if(match(TT::COLON, tokens)) {
 				if(match(TT::STAR, tokens)) {
@@ -45,7 +45,7 @@ namespace ltn::c {
 
 
 	// generic expression
-	ast::expr_ptr parse_expression(Tokens & tokens) {
+	ast::Expression parse_expression(Tokens & tokens) {
 		auto expr = parse_expression_no_cast(tokens);
 		return parse_cast(tokens, std::move(expr));
 
@@ -53,7 +53,7 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_expression_no_cast(Tokens & tokens) {
+	ast::Expression parse_expression_no_cast(Tokens & tokens) {
 		return parse_conditional(tokens);
 	}
 }

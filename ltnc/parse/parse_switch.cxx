@@ -70,11 +70,11 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_expr_switch(Tokens & tokens) {
+	ast::Expression parse_expr_switch(Tokens & tokens) {
 		auto sw1tch = parse_any_switch<ast::ExprSwitch, TT::CHOOSE, parse_expression>(tokens);
 		if(sw1tch && !sw1tch->d3fault) {
-			sw1tch->d3fault = stx::make_unique<ast::Null>(location(tokens));
+			sw1tch->d3fault = stx::make_unique<ast::Expression>(ast::Null{location(tokens)});
 		}
-		return sw1tch;
+		return std::move(*sw1tch);
 	}
 }
