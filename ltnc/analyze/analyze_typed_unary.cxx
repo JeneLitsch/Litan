@@ -55,7 +55,7 @@ namespace ltn::c {
 		const auto op = tunary.op;
 		const auto type = deduce_type(op, target_type);
 		if(!is_castable(op, expr->type, target_type)) {
-			throw cannot_cast(expr->type, target_type, tunary.location);
+			throw cannot_cast(expr->type, target_type, location(tunary));
 		}
 		return std::make_unique<sst::TypedUnary>(op, target_type, std::move(expr), type);
 	}

@@ -7,7 +7,7 @@ namespace ltn::c {
 		ast::expr_ptr parse_cast(Tokens & tokens, ast::expr_ptr expr) {
 			const auto make = [&] (ast::TypedUnary::Op op) {
 				auto type = parse_type(tokens);
-				const auto loc = expr->location;
+				const auto loc = location(*expr);
 				return parse_cast(tokens, stx::make_unique<ast::TypedUnary>(
 					op, 
 					type,

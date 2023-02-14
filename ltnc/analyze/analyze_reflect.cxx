@@ -81,7 +81,7 @@ namespace ltn::c {
 			Scope &) {
 
 			return sst::Reflect::LineQuery {
-				.line = refl.location.line 
+				.line = location(refl).line 
 			};
 		}
 
@@ -94,7 +94,7 @@ namespace ltn::c {
 			Scope &) {
 
 			return sst::Reflect::FileQuery {
-				.name = refl.location.sourcename 
+				.name = location(refl).sourcename 
 			};
 		}
 

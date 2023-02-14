@@ -68,7 +68,7 @@ namespace ltn::c {
 		const auto type = deduce_type(op, l->type, r->type);
 
 		if(is_error(type)) {
-			throw invalid_operands(l->type, r->type, binary.location);
+			throw invalid_operands(l->type, r->type, location(binary));
 		} 
 
 		return std::make_unique<sst::Binary>(

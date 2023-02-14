@@ -5,15 +5,24 @@
 #include "ltnc/type/Type.hxx"
 
 namespace ltn::c::ast {
-	struct Node {
+	class Node {
+	public:
 		Node(const SourceLocation & location)
 			: location(location) {}
 		virtual ~Node() = default;
-		SourceLocation location;
 		
-		Node(const Node &) = delete;
-		Node(Node &&) = delete;
-		Node & operator=(const Node &) = delete;
-		Node & operator=(Node &&) = delete;
+		Node(const Node &) = default;
+		Node(Node &&) = default;
+		Node & operator=(const Node &) = default;
+		Node & operator=(Node &&) = default;
+		
+		inline friend const SourceLocation & location(const Node & node);
+	private:
+		SourceLocation location;
 	};
+
+
+	inline const SourceLocation & location(const Node & node) {
+		return node.location;
+	}
 }

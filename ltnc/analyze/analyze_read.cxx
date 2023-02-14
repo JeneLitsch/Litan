@@ -39,7 +39,7 @@ namespace ltn::c {
 		const auto & name = expr.name;
 		const auto & namespaze = scope.get_namespace();
 		
-		const auto * var = scope.resolve(expr.name, expr.location);
+		const auto * var = scope.resolve(expr.name, location(expr));
 		if(var && expr.namespaze.empty()) {
 			return std::make_unique<sst::Var>(var->address, var->type);
 		}
@@ -52,7 +52,7 @@ namespace ltn::c {
 		if(!def) {
 			throw CompilerError {
 				"Undefined variable " + expr.namespaze.to_string() + name,
-				expr.location
+				location(expr)
 			};
 		}
 		

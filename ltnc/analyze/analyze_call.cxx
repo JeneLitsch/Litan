@@ -10,7 +10,7 @@ namespace ltn::c {
 			
 		std::stringstream ss;
 		ss << "Function " << name << " is not defined";
-		return CompilerError { ss.str(), node.location };
+		return CompilerError { ss.str(), location(node) };
 	}
 
 
@@ -23,12 +23,12 @@ namespace ltn::c {
 			Scope & scope,
 			const std::optional<Label> id_override = std::nullopt) {
 
-			guard_private(fx, scope.get_namespace(), call.location);
+			guard_private(fx, scope.get_namespace(), location(call));
 			
 			if(scope.is_const() && !fx.is_const) {
 				throw CompilerError {
 					"Cannot call non-const function from a const functions",
-					call.location};
+					location(call)};
 			}
 
 			std::vector<sst::expr_ptr> arguments;
@@ -41,7 +41,7 @@ namespace ltn::c {
 				arguments.push_back(conversion_on_pass(
 					std::move(arg),
 					param_type,
-					{call.location,i}
+					{location(call),i}
 				));
 			}
 
@@ -94,7 +94,7 @@ namespace ltn::c {
 				var.namespaze,
 				call.parameters.size(),
 				call.template_args.size(),
-				var.location,
+				location(var),
 				context,
 				scope
 			);
@@ -127,7 +127,7 @@ namespace ltn::c {
 				return do_call_template(call, *var, context, scope);
 			}
 			if(var->namespaze.empty()) {
-				const auto * local = scope.resolve(var->name, var->location);
+				const auto * local = scope.resolve(var->name, location(*var));
 				if(local) {
 					return do_invoke(call, context, scope);
 				}

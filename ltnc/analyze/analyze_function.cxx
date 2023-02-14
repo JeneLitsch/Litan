@@ -30,7 +30,7 @@ namespace ltn::c {
 			const auto & namespaze) {
 			
 			MajorScope scope{namespaze, false};
-			scope.insert(except.errorname, except.location);
+			scope.insert(except.errorname, location(except));
 			auto body = analyze_statement(*except.body, context, scope);
 			return std::make_unique<sst::Except>(
 				except.errorname,
@@ -50,7 +50,7 @@ namespace ltn::c {
 			const auto label = override_label.value_or(
 				make_function_label(fx.namespaze, fx.name, fx.parameters.size())
 			);
-			auto parameters = analyze_parameters(fx.parameters, scope, fx.location);
+			auto parameters = analyze_parameters(fx.parameters, scope, location(fx));
 			auto body = analyze_statement(*fx.body, context, scope);
 			auto sst_fx = std::make_unique<sst::Function>(
 				label,
@@ -82,7 +82,7 @@ namespace ltn::c {
 				make_function_label(fx.namespaze, fx.name, fx.parameters.size())
 			);
 
-			auto parameters = analyze_parameters(fx.parameters, scope, fx.location);
+			auto parameters = analyze_parameters(fx.parameters, scope, location(fx));
 
 			auto sst_fx = std::make_unique<sst::BuildIn>(
 				label,
@@ -115,9 +115,10 @@ namespace ltn::c {
 		if(auto fx = as<const ast::BuildIn>(functional)) {
 			return analyze_build_in_function(*fx, scope, override_label);
 		}
-		throw CompilerError{
+		throw CompilerError {
 			"Unknown functional declaration",
-			functional.location};
+			location(functional)
+		};
 	}
 
 
@@ -171,7 +172,7 @@ namespace ltn::c {
 		
 		std::vector<std::unique_ptr<sst::Var>> load_captures;
 		for(const auto & capture : lambda.captures) {
-			const auto var = inner_scope.insert(capture->name, fx.location);
+			const auto var = inner_scope.insert(capture->name, location(fx));
 			auto expr = std::make_unique<sst::Var>(var.address, var.type);
 			load_captures.push_back(std::move(expr));
 		}

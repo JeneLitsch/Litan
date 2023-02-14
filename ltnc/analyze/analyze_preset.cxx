@@ -29,14 +29,14 @@ namespace ltn::c {
 	ast::func_ptr generate_ctor(const ast::Preset & preset) {
 		ast::Parameters parameters;
 
-		auto expr = std::make_unique<ast::InitStruct>(preset.location);
+		auto expr = std::make_unique<ast::InitStruct>(location(preset));
 
 		for(const auto & member : preset.members) {
 			const auto var_name = "__" + member.name + "__";
 
 			expr->members.push_back({
 				member.name,
-				std::make_unique<ast::Var>(var_name, Namespace{}, preset.location)
+				std::make_unique<ast::Var>(var_name, Namespace{}, location(preset))
 			});
 
 			parameters.push_back(ast::Parameter {
@@ -45,7 +45,7 @@ namespace ltn::c {
 			});
 		}
 
-		auto stmt = std::make_unique<ast::Return>(std::move(expr), preset.location);
+		auto stmt = std::make_unique<ast::Return>(std::move(expr), location(preset));
 
 		auto ctor = std::make_unique<ast::Function>(
 			preset.name,
@@ -53,7 +53,7 @@ namespace ltn::c {
 			parameters,
 			std::move(stmt),
 			type::IncompleteType{type::Any{}},
-			preset.location
+			location(preset)
 		);
 
 		ctor->is_const = true;

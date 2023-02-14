@@ -11,7 +11,7 @@ namespace ltn::c {
 
 			if(!type::is_tuple(from_type)) throw CompilerError {
 				"Can only unpack tuple",
-				binding.location
+				location(binding)
 			};
 			
 			auto sst_binding = std::make_unique<sst::GroupBinding>();
@@ -19,7 +19,7 @@ namespace ltn::c {
 				auto type = type::deduce_index(from_type, type::Int{}, i);
 				if(type::is_error(type)) throw CompilerError {
 					"Cannot unpack tuple element",
-					binding.location
+					location(binding)
 				};
 				auto sub_binding = analyze_binding(*binding.sub_bindings[i], context, scope, type);
 				sst_binding->sub_bindings.push_back(std::move(sub_binding));
@@ -36,7 +36,7 @@ namespace ltn::c {
 			Scope & scope,
 			const type::Type & from_type) {
 
-			const auto var = scope.insert(binding.name, binding.location, from_type); 
+			const auto var = scope.insert(binding.name, location(binding), from_type); 
 			return std::make_unique<sst::NewVarBinding>(var.address);
 		}
 	}

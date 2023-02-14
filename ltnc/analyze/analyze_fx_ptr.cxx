@@ -54,7 +54,7 @@ namespace ltn::c {
 				fx_ptr.namespaze,
 				fx_ptr.placeholders,
 				fx_ptr.template_arguements.size(),
-				fx_ptr.location,
+				location(fx_ptr),
 				context,
 				scope
 			);

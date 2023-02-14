@@ -45,7 +45,7 @@ namespace ltn::c {
 		const auto type = deduce_type(op, expr->type);
 
 		if(is_error(type)) {
-			throw invalid_operands(expr->type, unary.location);
+			throw invalid_operands(expr->type, location(unary));
 		} 
 
 		return std::make_unique<sst::Unary>(op, std::move(expr), type);

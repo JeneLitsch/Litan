@@ -220,8 +220,7 @@ namespace ltn::c::ast {
 			std::vector<std::unique_ptr<Expression>> elements)
 			: Expression(location)
 			, elements{std::move(elements)} {}
-		
-		virtual ~Array() = default;
+
 		std::vector<std::unique_ptr<Expression>> elements;
 	};
 
@@ -380,7 +379,6 @@ namespace ltn::c::ast {
 
 
 	using ExprSwitch = Switch<Expression>;
-
 
 
 	auto visit_expression(const ast::Expression & expr, auto && fx) {

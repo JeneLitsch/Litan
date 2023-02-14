@@ -57,10 +57,12 @@ namespace ltn::c {
 
 			if(auto start = match(TT::BRACKET_L, tokens)) {
 				auto index = parse_index(tokens);
+				auto location = ast::location(*index);
 				auto full = stx::make_unique<ast::Index>(
 					std::move(l),
 					std::move(index),
-					index->location);
+					location
+				);
 				return parse_postfix(tokens, std::move(full));
 			}
 
@@ -69,7 +71,8 @@ namespace ltn::c {
 				auto access = stx::make_unique<ast::Member>(
 					std::move(l),
 					name,
-					location(tokens));
+					location(tokens)
+				);
 				return parse_postfix(tokens, std::move(access));
 			}
 

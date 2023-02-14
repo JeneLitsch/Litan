@@ -8,7 +8,7 @@ namespace ltn::c {
 				<< "Undefined global variable "
 				<< global.namespaze.to_string() << global.name;
 
-			return CompilerError { oss.str(), global.location };
+			return CompilerError { oss.str(), location(global) };
 		}
 
 		auto & resolve_static(const auto & statik, auto & table, Scope & scope) {
