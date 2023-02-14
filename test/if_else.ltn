@@ -15,4 +15,29 @@ namespace sphinx::test {
 		assert_true(if_else(std::struct()));
 		assert_true(if_else(std::map()));
     }
+
+
+
+	function if_else_scope() {
+		var b = true;
+		var x = 1337;
+		if(b) {
+			assert_equal_strict(x, 1337);
+			var x = 0;
+			assert_equal_strict(x, 0);
+			x = 42;
+			assert_equal_strict(x, 42);
+		}
+		else {}
+
+		if(!b) {}
+		else {
+			assert_equal_strict(x, 1337);
+			var x = 0;
+			assert_equal_strict(x, 0);
+			x = 42;
+			assert_equal_strict(x, 42);
+		}
+		assert_equal_strict(x, 1337);
+	}
 }
