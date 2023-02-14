@@ -12,6 +12,18 @@ namespace sphinx::test {
 
 
 
+	function iife_nested() {
+		assert_equal_strict(42, iife {
+			var x = 20;
+			return iife {
+				var y = 22;
+				return x + y;
+			};
+		});
+	}
+
+
+
 	function iife_scope_no_leak() {
 		var x;
 		iife {
