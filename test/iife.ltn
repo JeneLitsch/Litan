@@ -5,6 +5,12 @@ namespace sphinx::test {
 
 
 
+	function iife_default_return() {
+		assert_equal_strict(iife{}, null);
+	}
+
+
+
 	function iife_outer_var() {
 		var a = 42;
 		assert_equal_strict(iife { return a; }, a);
