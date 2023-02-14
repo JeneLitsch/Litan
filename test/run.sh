@@ -4,6 +4,7 @@ files=(
 
 	"test/var.ltn"
 	"test/assign.ltn"
+	"test/block.ltn"
 	"test/structured_bindings.ltn"
 	"test/literals.ltn"
 	"test/if_else.ltn"

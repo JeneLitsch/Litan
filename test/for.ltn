@@ -124,4 +124,38 @@ namespace sphinx::test {
 	except(e) {
 		assert_equal(e, 42);
 	}
+
+
+
+	function for_scope() {
+		var x = 1337;
+		var had_run = false;
+		for(i:0->1) {
+			assert_equal_strict(x, 1337);
+			var x = 0;
+			assert_equal_strict(x, 0);
+			x = 42;
+			assert_equal_strict(x, 42);
+			had_run = true;
+		}
+		assert_equal_strict(x, 1337);
+		assert_true(had_run);
+	}
+
+
+
+	function for_ranged_scope() {
+		var x = 1337;
+		var had_run = false;
+		for(i:[1]) {
+			assert_equal_strict(x, 1337);
+			var x = 0;
+			assert_equal_strict(x, 0);
+			x = 42;
+			assert_equal_strict(x, 42);
+			had_run = true;
+		}
+		assert_equal_strict(x, 1337);
+		assert_true(had_run);
+	}
 }
