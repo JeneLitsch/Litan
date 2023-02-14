@@ -250,7 +250,11 @@ namespace ltn::c::sst {
 			std::size_t nested = 0;
 			std::size_t direct = 0;
 			for(const auto & [c4se,stmt] : this->cases) {
-				nested = std::max({nested, stmt->nested_alloc(), c4se->alloc()});
+				nested = std::max({
+					nested,
+					stmt->nested_alloc(),
+					c4se->alloc()
+				});
 				direct += stmt->direct_alloc();
 			}
 			return nested + direct;
