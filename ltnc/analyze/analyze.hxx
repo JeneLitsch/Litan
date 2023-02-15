@@ -86,7 +86,7 @@ namespace ltn::c {
 
 	CompilerError undefined_function(
 		const std::string_view & name,
-		const ast::Node & node);
+		const SourceLocation & lo);
 
 	void add_template_args(
 		Scope & scope,

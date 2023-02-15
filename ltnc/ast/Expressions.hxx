@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <utility>
+#include <variant>
 #include <bitset>
 #include "ltn/casts.hxx"
 #include "Switch.hxx"
@@ -16,40 +17,39 @@ namespace ltn::c::ast {
 
 
 
-	struct ExprBase : public Node {
-		ExprBase(const SourceLocation & location) : Node(location) {}
-		virtual ~ExprBase() = default;
-	};
 
 
 
-	struct ForwardDynamicCall : public ExprBase {
+
+	struct ForwardDynamicCall {
 		ForwardDynamicCall(
 			std::uint64_t addr,
 			std::uint64_t arity,
 			const SourceLocation & location)
-			: ExprBase(location)
+			: location{location}
 			, addr{addr}
 			, arity{arity} {}
 		virtual ~ForwardDynamicCall() = default;
+		SourceLocation location;
 		std::uint64_t addr;
 		std::uint64_t arity;
 	};
 	
 
 
-	struct Ternary : public ExprBase {
+	struct Ternary {
 		Ternary(
 			const SourceLocation & location,
 			Expression condition,
 			Expression if_branch,
 			Expression else_branch) 
-			: ExprBase(location)
+			: location{location}
 			, condition(std::move(condition))
 			, if_branch(std::move(if_branch))
 			, else_branch(std::move(else_branch)) {}
 		virtual ~Ternary() = default;
 	
+		SourceLocation location;
 		Expression condition;
 		Expression if_branch;
 		Expression else_branch;
@@ -58,34 +58,36 @@ namespace ltn::c::ast {
 
 
 
-	struct Unary : public ExprBase {
+	struct Unary {
 		using Op = UnaryOp;
 		Unary(
 			Op op,
 			Expression expression,
 			const SourceLocation & location)
-			: ExprBase(location)
+			: location{location}
 			, op(op)
 			, expression(std::move(expression)) {}
 		virtual ~Unary() = default;
+		SourceLocation location;
 		Op op;
 		Expression expression;
 	};
 
 
 
-	struct Binary : public ExprBase {
+	struct Binary {
 		using Op = BinaryOp;
 		Binary(
 			Op op,
 			Expression l,
 			Expression r,
 			const SourceLocation & location)
-			: ExprBase(location)
+			: location{location}
 			, op(op)
 			, l(std::move(l))
 			, r(std::move(r)) {}
 		virtual ~Binary() = default;
+		SourceLocation location;
 		Op op;
 		Expression l;
 		Expression r;
@@ -93,7 +95,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Reflect : public ExprBase {
+	struct Reflect {
 		struct NamespaceQuery {
 			Namespace namespaze;
 		};
@@ -126,15 +128,16 @@ namespace ltn::c::ast {
 		Reflect(
 			Query query,
 			const SourceLocation & location)
-			: ExprBase(location)
+			: location{location}
 			, query{std::move(query)} {}
 		virtual ~Reflect() = default;
+		SourceLocation location;
 		Query query;
 	};
 
 
 
-	struct TypedUnary final : public ExprBase {
+	struct TypedUnary final {
 	public:
 		using Op = TypedUnaryOp;
 		TypedUnary(
@@ -142,11 +145,12 @@ namespace ltn::c::ast {
 			const type::IncompleteType & type,
 			Expression expr,
 			const SourceLocation & location)
-			: ExprBase{location}
+			: location{location}
 			, op{op}
 			, type{type}
 			, expr{std::move(expr)} {}
 		virtual ~TypedUnary() = default;
+		SourceLocation location;
 		Op op;
 		type::IncompleteType type;
 		Expression expr;
@@ -158,189 +162,204 @@ namespace ltn::c::ast {
 	struct Assignable;
 	class Statement;
 
-	struct Integer final : public ExprBase {
+	struct Integer final {
 		Integer(std::bitset<64> value, const SourceLocation & location)
 			: Integer(static_cast<std::int64_t>(value.to_ullong()), location) {}
 
 		Integer(std::int64_t value, const SourceLocation & location)
-			: ExprBase(location), value(value) {}
+			: location{location}, value(value) {}
 		virtual ~Integer() = default;
+		SourceLocation location;
 		std::int64_t value;
 	};
 
 
 
-	struct Float final : public ExprBase {
+	struct Float final {
 		Float(stx::float64_t value, const SourceLocation & location)
-			: ExprBase(location), value(value) {}
+			: location{location}, value(value) {}
 		virtual ~Float() = default;
+		SourceLocation location;
 		stx::float64_t value;
 	};
 
 
 
-	struct Bool final : public ExprBase {
+	struct Bool final {
 		Bool(bool value, const SourceLocation & location)
-			: ExprBase(location), value(value) {}
+			: location{location}, value(value) {}
 		virtual ~Bool() = default;
+		SourceLocation location;
 		bool value;
 	};
 
 
 
-	struct Null final : public ExprBase {
+	struct Null final {
 		Null(const SourceLocation & location)
-			: ExprBase(location) {}
+			: location{location} {}
 		virtual ~Null() = default;
+		SourceLocation location;
 	};
 
 
 
-	struct Char final : public ExprBase {
+	struct Char final {
 		Char(std::uint8_t value, const SourceLocation & location)
-			: ExprBase(location), value(value) {}
+			: location{location}, value(value) {}
 		virtual ~Char() = default;
+		SourceLocation location;
 		std::uint8_t value;
 	};
 
 
 
-	struct String final : public ExprBase {
+	struct String final {
 		String(const std::string & value, const SourceLocation & location)
-			: ExprBase(location), value(value) {}
+			: location{location}, value(value) {}
 		virtual ~String() = default;
+		SourceLocation location;
 		std::string value;
 	};
 
 
 
-	struct Array final: public ExprBase {
+	struct Array final{
 		Array(
 			const SourceLocation & location,
 			std::vector<Expression> elements)
-			: ExprBase(location)
+			: location{location}
 			, elements{std::move(elements)} {}
 
+		SourceLocation location;
 		std::vector<Expression> elements;
 	};
 
 
 
-	struct Tuple final: public ExprBase {
+	struct Tuple final{
 		Tuple(
 			const SourceLocation & location,
 			std::vector<Expression> elements)
-			: ExprBase(location)
+			: location{location}
 			, elements{std::move(elements)} {}
 		virtual ~Tuple() = default;
+		SourceLocation location;
 		std::vector<Expression> elements;
 	};
 
 
 
-	struct Lambda final : public ExprBase {
+	struct Lambda final {
 		Lambda(
 			std::unique_ptr<Function> fx,
 			std::vector<std::unique_ptr<Var>> captures,
 			const SourceLocation & location)
-			: ExprBase(location)
+			: location{location}
 			, fx(std::move(fx))
 			, captures(std::move(captures)) {}
 		virtual ~Lambda() = default;
+		SourceLocation location;
 		std::unique_ptr<Function> fx;
 		std::vector<std::unique_ptr<Var>> captures;
 	};
 
 
 	
-	struct Index final : public ExprBase {
+	struct Index final {
 		Index(
 			Expression expression,
 			Expression index,
 			const SourceLocation & location)
-			: ExprBase(location)
+			: location{location}
 			, expression(std::move(expression))
 			, index(std::move(index)) {}
 		virtual ~Index() = default;
+		SourceLocation location;
 		Expression expression;
 		Expression index;
 	};
 
 
 
-	struct Var final : public ExprBase {
+	struct Var final {
 		Var(
 			const std::string & name,
 			const Namespace & namespaze,
 			const SourceLocation & location)
-			: ExprBase(location)
+			: location{location}
 			, name{name}
 			, namespaze{namespaze} {}
 
 		virtual ~Var() = default;
+		SourceLocation location;
 		std::string name;
 		Namespace namespaze;
 	};
 
 
 
-	struct GlobalVar final : public ExprBase {
+	struct GlobalVar final {
 		GlobalVar(
 			const SourceLocation & location,
 			const Namespace & namespaze,
 			const std::string & name)
-			: ExprBase(location)
+			: location{location}
 			, name { name }
 			, namespaze { namespaze } {}
 		virtual ~GlobalVar() = default;
+		SourceLocation location;
 		std::string name;
 		Namespace namespaze;
 	};
 
 
 
-	struct Member final : public ExprBase {
+	struct Member final {
 		Member(
 			Expression expr,
 			const std::string & name,
 			const SourceLocation & location)
-			: ExprBase(location)
+			: location{location}
 			, expr(std::move(expr))
 			, name(std::move(name)){};
 		virtual ~Member() = default;
+		SourceLocation location;
 		Expression expr;
 		std::string name;
 	};
 
 
 
-	struct Iife final : public ExprBase {
+	struct Iife final {
 		Iife(
 			const SourceLocation & location,
 			std::unique_ptr<Statement> stmt,
 			type::IncompleteType return_type) 
-			: ExprBase(location)
+			: location{location}
 			, stmt(std::move(stmt))
 			, return_type{return_type} {}
 		virtual ~Iife() = default;
 		
+		SourceLocation location;
 		std::unique_ptr<Statement> stmt;
 		type::IncompleteType return_type;
 	};
 
 
 
-	struct FxPointer final : public ExprBase {
+	struct FxPointer final {
 		FxPointer(
 			const std::string & name,
 			const Namespace & namespaze,
 			const std::size_t placeholders,
 			const SourceLocation & location)
-			: ExprBase(location)
+			: location{location}
 			, name(name)
 			, namespaze(namespaze)
 			, placeholders(std::move(placeholders)) {}
 		virtual ~FxPointer() = default;
+		SourceLocation location;
 		std::string name;
 		Namespace namespaze;
 		std::size_t placeholders;
@@ -349,15 +368,16 @@ namespace ltn::c::ast {
 
 
 
-	struct Call final : public ExprBase {
+	struct Call final {
 		Call(
 			Expression function_ptr,
 			std::vector<Expression> parameters,
 			const SourceLocation & location)
-			: ExprBase(location)
+			: location{location}
 			, function_ptr(std::move(function_ptr))
 			, parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
+		SourceLocation location;
 		Expression function_ptr;
 		std::vector<Expression> parameters;
 		std::vector<type::IncompleteType> template_args;
@@ -365,10 +385,11 @@ namespace ltn::c::ast {
 
 
 
-	struct InitStruct final : public ExprBase {
+	struct InitStruct final {
 		InitStruct(const SourceLocation & location)
-			: ExprBase{location} {}
+			: location{location} {}
 		virtual ~InitStruct() = default;
+		SourceLocation location;
 		struct Member {
 			std::string name;
 			Expression expr;
@@ -377,9 +398,9 @@ namespace ltn::c::ast {
 	};
 
 
-
-	struct ExprSwitch : public ExprBase {
-		ExprSwitch(const SourceLocation & location) : ExprBase(location) {}
+	struct ExprSwitch {
+		ExprSwitch(const SourceLocation & location) : location{location} {}
+		SourceLocation location;
 		Expression condition;
 		std::vector<std::pair<
 			Expression,
@@ -390,7 +411,8 @@ namespace ltn::c::ast {
 
 
 
-	auto visit_expression(const ast::Expression & expr, auto && fx) {
+
+	decltype(auto) visit_expression(const ast::Expression & expr, auto && fx) {
 		if(!expr) {
 			throw std::runtime_error{"Empty ExprBase AST"};
 		}
@@ -419,5 +441,12 @@ namespace ltn::c::ast {
 		if(auto e = expr.as<ast::ForwardDynamicCall>()) return fx(*e);
 		if(auto e = expr.as<ast::InitStruct>()) return fx(*e);
 		throw std::runtime_error{"Unknown ExprBase AST"};
+	}
+
+
+	inline const SourceLocation & location(const ast::Expression & expr) {
+		return visit_expression(expr, [&] (const auto & e) -> const SourceLocation & {
+			return e.location;
+		});
 	}
 }

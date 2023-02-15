@@ -6,11 +6,11 @@
 namespace ltn::c {
 	CompilerError undefined_function(
 		const std::string_view & name,
-		const ast::Node & node) {
+		const SourceLocation & loc) {
 			
 		std::stringstream ss;
 		ss << "Function " << name << " is not defined";
-		return CompilerError { ss.str(), location(node) };
+		return CompilerError { ss.str(), loc };
 	}
 
 
@@ -23,12 +23,12 @@ namespace ltn::c {
 			Scope & scope,
 			const std::optional<Label> id_override = std::nullopt) {
 
-			guard_private(fx, scope.get_namespace(), location(call));
+			guard_private(fx, scope.get_namespace(), call.location);
 			
 			if(scope.is_const() && !fx.is_const) {
 				throw CompilerError {
 					"Cannot call non-const function from a const functions",
-					location(call)};
+					call.location};
 			}
 
 			std::vector<sst::expr_ptr> arguments;
@@ -41,7 +41,7 @@ namespace ltn::c {
 				arguments.push_back(conversion_on_pass(
 					std::move(arg),
 					param_type,
-					{location(call),i}
+					{call.location,i}
 				));
 			}
 
@@ -94,7 +94,7 @@ namespace ltn::c {
 				var.namespaze,
 				call.parameters.size(),
 				call.template_args.size(),
-				location(var),
+				var.location,
 				context,
 				scope
 			);
@@ -121,7 +121,7 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 	
-		const auto * var = as<ast::Var>(*call.function_ptr);
+		const auto * var = call.function_ptr.as<ast::Var>();
 		if(var) {
 			if(!call.template_args.empty()) {
 				return do_call_template(call, *var, context, scope);
@@ -152,7 +152,7 @@ namespace ltn::c {
 				return do_invoke(call, context, scope);
 			}
 
-			throw undefined_function(var->name, call);
+			throw undefined_function(var->name, call.location);
 		}
 
 		return do_invoke(call, context, scope);
