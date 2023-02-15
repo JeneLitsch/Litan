@@ -22,7 +22,7 @@ namespace ltn::c {
 		MajorScope scope { def.namespaze, false };
 
 		auto type = instantiate_type(def.type, scope);
-		auto expr = def.expr ? analyze_expression(*def.expr, read_context, scope) : nullptr;
+		auto expr = def.expr ? analyze_expression(def.expr, read_context, scope) : nullptr;
 
 		return std::make_unique<sst::Definition>(
 			def.name,

@@ -72,7 +72,7 @@ namespace ltn::c {
 			Scope & scope) {
 			
 			if(new_var.expression) {
-				return analyze_expression(*new_var.expression, context, scope);
+				return analyze_expression(new_var.expression, context, scope);
 			}
 			if(new_var.type) {
 				const auto type = instantiate_type(*new_var.type, scope);

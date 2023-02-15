@@ -9,7 +9,7 @@ namespace ltn::c {
 		type::Array type;
 		std::vector<sst::expr_ptr> elements;
 		for(const auto & elem : array.elements) {
-			auto result = analyze_expression(*elem, context, scope);
+			auto result = analyze_expression(elem, context, scope);
 			type = type::deduce_array_append(type, result->type);
 			elements.push_back(std::move(result));
 		}
@@ -28,7 +28,7 @@ namespace ltn::c {
 		type::Tuple type;
 		std::vector<sst::expr_ptr> elements;
 		for(const auto & elem : array.elements) {
-			auto result = analyze_expression(*elem, context, scope);
+			auto result = analyze_expression(elem, context, scope);
 			type.contained.push_back(result->type);
 			elements.push_back(std::move(result));
 		}

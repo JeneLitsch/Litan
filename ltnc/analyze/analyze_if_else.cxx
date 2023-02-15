@@ -12,7 +12,7 @@ namespace ltn::c {
 		Scope & scope) {
 		MinorScope if_scope{&scope};
 		
-		auto condition = analyze_expression(*stmt.condition, context, scope);
+		auto condition = analyze_expression(stmt.condition, context, scope);
 		auto if_branch = analyze_statement(*stmt.if_branch, context, if_scope);
 		
 		if(has_else_branch(stmt)) {

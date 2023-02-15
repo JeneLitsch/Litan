@@ -24,7 +24,7 @@ namespace ltn::c {
 		if(match(TT::RETURN, tokens)) {
 			if(match(TT::SEMICOLON, tokens)) {
 				return stx::make_unique<ast::Return>(
-					ast::expr_ptr(),
+					ast::Expression(),
 					location(tokens)
 				);
 			}
@@ -42,7 +42,7 @@ namespace ltn::c {
 
 	ast::stmt_ptr parse_throw(Tokens & tokens) {
 		if(match(TT::THROW, tokens)) {
-			ast::expr_ptr expr;
+			ast::Expression expr;
 			if(!match(TT::SEMICOLON, tokens)) {
 				expr = parse_expression(tokens);
 				semicolon(tokens);

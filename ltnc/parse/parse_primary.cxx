@@ -16,14 +16,14 @@ namespace ltn::c {
 
 
 		template<class TempType, TT tt, auto base>
-		ast::expr_ptr parse_integer(Tokens & tokens) {
+		ast::Expression parse_integer(Tokens & tokens) {
 			if(auto token = match(tt, tokens)) {
 				std::stringstream iss{token->str};
 				TempType value;
 				iss >> base >> value;
 				return stx::make_unique<ast::Integer>(value, location(tokens)); 
 			}
-			return ast::expr_ptr();
+			return ast::Expression();
 		}
 		constexpr auto parse_integer_dec = parse_integer<
 			std::int64_t,
@@ -40,56 +40,56 @@ namespace ltn::c {
 
 
 
-		ast::expr_ptr parse_character(Tokens & tokens) {
+		ast::Expression parse_character(Tokens & tokens) {
 			if(auto t = match(TT::CHAR, tokens)) {
 				const auto chr = static_cast<std::uint8_t>(t->str.front());
 				return stx::make_unique<ast::Char>(chr, location(tokens)); 
 			}
-			return ast::expr_ptr();
+			return ast::Expression();
 		}
 
 
 
-		ast::expr_ptr parse_null(Tokens & tokens) {
+		ast::Expression parse_null(Tokens & tokens) {
 			if(auto t = match(TT::NVLL, tokens)) {
 				return stx::make_unique<ast::Null>(location(tokens)); 
 			}
-			return ast::expr_ptr();
+			return ast::Expression();
 		}
 
 
 
-		ast::expr_ptr parse_floating(Tokens & tokens) {
+		ast::Expression parse_floating(Tokens & tokens) {
 			if(auto token = match(TT::FLOAT, tokens)) {
 				std::istringstream iss{token->str};
 				stx::float64_t value;
 				iss >> value;
 				return stx::make_unique<ast::Float>(value, location(tokens)); 
 			}
-			return ast::expr_ptr();
+			return ast::Expression();
 		}
 
 
 
-		ast::expr_ptr parse_boolean(Tokens & tokens) {
+		ast::Expression parse_boolean(Tokens & tokens) {
 			if(auto token = match(TT::TRUE, tokens)) {
 				return stx::make_unique<ast::Bool>(true, location(tokens)); 
 			}
 			if(auto token = match(TT::FALSE, tokens)) {
 				return stx::make_unique<ast::Bool>(false, location(tokens)); 
 			}
-			return ast::expr_ptr();
+			return ast::Expression();
 		}
 
 
 
-		ast::expr_ptr parse_string(Tokens & tokens) {
+		ast::Expression parse_string(Tokens & tokens) {
 			if(auto token = match(TT::STRING, tokens)) {
 				return stx::make_unique<ast::String>(
 					token->str,
 					location(tokens)); 
 			}
-			return ast::expr_ptr();
+			return ast::Expression();
 		}
 
 
@@ -115,14 +115,14 @@ namespace ltn::c {
 
 
 
-		ast::expr_ptr parse_identifier(Tokens & tokens) {
+		ast::Expression parse_identifier(Tokens & tokens) {
 			const auto [name, namespaze] = parse_symbol(tokens);
 			return stx::make_unique<ast::Var>(name, namespaze, location(tokens));
 		}
 
 
 
-		ast::expr_ptr parse_fx_pointer(Tokens & tokens) {
+		ast::Expression parse_fx_pointer(Tokens & tokens) {
 			if(match(TT::AMPERSAND, tokens)) {
 				std::string name;
 				Namespace namespaze;
@@ -136,16 +136,16 @@ namespace ltn::c {
 						placeholders,
 						location(tokens));
 					fx_ptr->template_arguements = std::move(template_args);
-					return ast::expr_ptr(std::move(fx_ptr));
+					return ast::Expression(std::move(fx_ptr));
 				}
 				throw expected("(", location(tokens));
 			}
-			return ast::expr_ptr(); 
+			return ast::Expression(); 
 		}
 
 
 
-		ast::expr_ptr parse_iife(Tokens & tokens) {
+		ast::Expression parse_iife(Tokens & tokens) {
 			if(match(TT::IIFE, tokens)) {
 				auto return_type = parse_return_type(tokens);
 				auto body = parse_block(tokens);
@@ -155,12 +155,12 @@ namespace ltn::c {
 					return_type
 				);
 			}
-			else return ast::expr_ptr();
+			else return ast::Expression();
 		}
 
 
 
-		ast::expr_ptr parse_global(Tokens & tokens) {
+		ast::Expression parse_global(Tokens & tokens) {
 			if(auto t = match(TT::GLOBAL, tokens)) {
 				const auto [name, namespaze] = parse_symbol(tokens);
 				return stx::make_unique<ast::GlobalVar>(
@@ -169,7 +169,7 @@ namespace ltn::c {
 					name
 				);
 			}
-			else return ast::expr_ptr(); 
+			else return ast::Expression(); 
 		}
 	}
 
@@ -210,17 +210,17 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_integral(Tokens & tokens) {
+	ast::Expression parse_integral(Tokens & tokens) {
 		if(auto expr = parse_integer_dec(tokens)) return expr;
 		if(auto expr = parse_integer_bin(tokens)) return expr;
 		if(auto expr = parse_integer_hex(tokens)) return expr;
-		else return ast::expr_ptr();
+		else return ast::Expression();
 	}
 
 
 
 	// parses primary expression
-	ast::expr_ptr parse_primary(Tokens & tokens) {
+	ast::Expression parse_primary(Tokens & tokens) {
 		if(auto expr = parse_integral(tokens)) return expr;
 		if(auto expr = parse_character(tokens)) return expr;
 		if(auto expr = parse_floating(tokens)) return expr;

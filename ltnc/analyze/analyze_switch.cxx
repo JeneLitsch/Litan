@@ -11,8 +11,6 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 		
-		using BodyExpr = decltype(body_fx(sw1tch, context, scope));
-
 		InvalidFunctionTable fx_table {"case"};
 		InvalidFunctionTemplateTable fx_template_table {"case"};
 		InvalidGlobalTable global_table {"case"};
@@ -32,8 +30,8 @@ namespace ltn::c {
 		};
 
 		return stx::fx::mapped(stx::fx::paired(
-			[&] (auto & c4se) { return analyze_expression(*c4se, case_context, case_scope); },
-			[&] (auto & body) { return body_fx(*body, context, scope); }
+			[&] (auto & c4se) { return analyze_expression(c4se, case_context, case_scope); },
+			[&] (auto & body) { return body_fx(body, context, scope); }
 		)) (sw1tch.cases);
 	}
 
@@ -44,8 +42,11 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 		
-		auto condition = analyze_expression(*sw1tch.condition, context, scope);
-		auto cases = analyze_cases(analyze_statement, sw1tch, context, scope);
+		auto condition = analyze_expression(sw1tch.condition, context, scope);
+		auto body_fx = [&] (const auto & s, Context & context, Scope & scope) {
+			return analyze_statement(*s, context, scope);
+		};
+		auto cases = analyze_cases(body_fx, sw1tch, context, scope);
 		auto def4ault = analyze_statement(*sw1tch.d3fault, context, scope);
 
 		auto sst_sw1tch = std::make_unique<sst::StmtSwitch>();
@@ -62,9 +63,9 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 
-		auto condition = analyze_expression(*sw1tch.condition, context, scope);
+		auto condition = analyze_expression(sw1tch.condition, context, scope);
 		auto cases = analyze_cases(analyze_expression, sw1tch, context, scope);
-		auto def4ault = analyze_expression(*sw1tch.d3fault, context, scope);
+		auto def4ault = analyze_expression(sw1tch.d3fault, context, scope);
 
 		type::Type deduced_type = def4ault->type;
 		for(const auto & [expr, body] : cases) {

@@ -70,7 +70,7 @@ namespace ltn::c {
 
 			global->expr = match(TT::ASSIGN, tokens)
 				? parse_expression(tokens)
-				: ast::expr_ptr();
+				: ast::Expression();
 
 			semicolon(tokens);
 			return global;

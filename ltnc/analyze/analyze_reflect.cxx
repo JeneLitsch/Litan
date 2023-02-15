@@ -120,7 +120,7 @@ namespace ltn::c {
 			Context & context,
 			Scope & scope) {
 			
-			const auto expr = analyze_expression(*query.expr, context, scope);
+			const auto expr = analyze_expression(query.expr, context, scope);
 
 			return sst::Reflect::ExprQuery {
 				.type_query = sst::Reflect::TypeQuery{

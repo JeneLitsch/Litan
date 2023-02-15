@@ -78,7 +78,7 @@ namespace ltn::c {
 	}
 
 
-	ast::expr_ptr parse_reflect(Tokens & tokens) {
+	ast::Expression parse_reflect(Tokens & tokens) {
 		if(auto ref = match(TT::REFLECT, tokens)) {
 			if(!match(TT::PAREN_L, tokens)) throw CompilerError {
 				"Expected ( after reflect", ref->location 
@@ -92,6 +92,6 @@ namespace ltn::c {
 
 			return stx::make_unique<ast::Reflect>(std::move(query), ref->location);
 		}
-		else return ast::expr_ptr();
+		else return ast::Expression();
 	}
 }

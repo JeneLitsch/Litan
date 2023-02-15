@@ -5,10 +5,10 @@
 #include "ltnc/type/Type.hxx"
 #include "ltn/casts.hxx"
 #include "Binding.hxx"
-#include "expr_ptr.hxx"
+#include "Expression.hxx"
 
 namespace ltn::c::ast {
-	struct Expression;
+	struct ExprBase;
 	struct Assignable;
 	class Statement : public Node {
 	public:
@@ -27,12 +27,12 @@ namespace ltn::c::ast {
 
 	struct Throw final : public Statement {
 		Throw(
-			expr_ptr expression,
+			Expression expression,
 			const SourceLocation & location) 
 			: Statement(location)
 			, expression(std::move(expression)) {}
 		virtual ~Throw() = default;
-		expr_ptr expression;
+		Expression expression;
 	};
 
 
@@ -52,7 +52,7 @@ namespace ltn::c::ast {
 	struct NewVar final : public Statement {
 		NewVar(
 			std::unique_ptr<Binding> binding,
-			expr_ptr expression,
+			Expression expression,
 			const SourceLocation & location,
 			const std::optional<type::IncompleteType> & type = type::IncompleteType{type::Any{}})
 			: Statement(location)
@@ -61,7 +61,7 @@ namespace ltn::c::ast {
 			, type{type} {}
 		virtual ~NewVar() = default;
 		std::unique_ptr<Binding> binding;		
-		expr_ptr expression;
+		Expression expression;
 		std::optional<type::IncompleteType> type;
 	};
 
@@ -69,7 +69,7 @@ namespace ltn::c::ast {
 
 	struct IfElse final : public Statement {
 		IfElse(
-			expr_ptr condition,
+			Expression condition,
 			std::unique_ptr<Statement> if_branch,
 			std::unique_ptr<Statement> else_branch,
 			const SourceLocation & location)
@@ -78,7 +78,7 @@ namespace ltn::c::ast {
 			, if_branch(std::move(if_branch))
 			, else_branch(std::move(else_branch)) {}
 		virtual ~IfElse() = default;
-		expr_ptr condition;
+		Expression condition;
 		std::unique_ptr<Statement> if_branch;
 		std::unique_ptr<Statement> else_branch;
 	};
@@ -87,7 +87,7 @@ namespace ltn::c::ast {
 
 	struct While final : public Statement {
 		While(
-			expr_ptr condition,
+			Expression condition,
 			std::unique_ptr<Statement> body,
 			const SourceLocation & location)
 			: Statement(location)
@@ -95,7 +95,7 @@ namespace ltn::c::ast {
 			, body(std::move(body)) {}
 
 		virtual ~While() = default;
-		expr_ptr condition;
+		Expression condition;
 		std::unique_ptr<Statement> body;
 	};
 
@@ -117,9 +117,9 @@ namespace ltn::c::ast {
 	struct For final : public Statement {
 		For(
 			std::string index_name,
-			expr_ptr from,
-			expr_ptr to,
-			expr_ptr step,
+			Expression from,
+			Expression to,
+			Expression step,
 			std::unique_ptr<Statement> body,
 			const SourceLocation & location)
 			: Statement(location)
@@ -131,9 +131,9 @@ namespace ltn::c::ast {
 
 		virtual ~For() = default;
 		std::string index_name;
-		expr_ptr from;
-		expr_ptr to;
-		expr_ptr step;
+		Expression from;
+		Expression to;
+		Expression step;
 		std::unique_ptr<Statement> body;
 	};
 
@@ -142,7 +142,7 @@ namespace ltn::c::ast {
 	struct ForEach final : public Statement {
 		ForEach(
 			std::string index_name,
-			expr_ptr expr,
+			Expression expr,
 			std::unique_ptr<Statement> body,
 			const SourceLocation & location)
 			: Statement(location)
@@ -152,7 +152,7 @@ namespace ltn::c::ast {
 
 		virtual ~ForEach() = default;
 		std::string index_name;
-		expr_ptr expr;
+		Expression expr;
 		std::unique_ptr<Statement> body;
 	};
 
@@ -160,24 +160,24 @@ namespace ltn::c::ast {
 
 	struct StatementExpression final : public Statement {
 		StatementExpression(
-			expr_ptr expression,
+			Expression expression,
 			const SourceLocation & location)
 			: Statement(location)
 			, expression(std::move(expression)) {}
 		virtual ~StatementExpression() = default;
-		expr_ptr expression;
+		Expression expression;
 	};
 
 
 
 	struct Return final : public Statement {
 		Return(
-			expr_ptr expression,
+			Expression expression,
 			const SourceLocation & location)
 			: Statement(location)
 			, expression(std::move(expression)) {}
 		virtual ~Return() = default;
-		expr_ptr expression;
+		Expression expression;
 	};
 
 
@@ -203,23 +203,23 @@ namespace ltn::c::ast {
 	struct Assign final : public Statement {
 	public:
 		Assign(
-			expr_ptr l,
-			expr_ptr r,
+			Expression l,
+			Expression r,
 			const SourceLocation & location)
 			: Statement(location)
 			, l(std::move(l))
 			, r(std::move(r)) {}
 		virtual ~Assign() = default;
-		expr_ptr l;
-		expr_ptr r;
+		Expression l;
+		Expression r;
 	};
 
 
 	struct StmtSwitch : Statement {
 		StmtSwitch(const SourceLocation & location) : Statement(location) {}
-		expr_ptr condition;
+		Expression condition;
 		std::vector<std::pair<
-			expr_ptr,
+			Expression,
 			std::unique_ptr<Statement>
 		>> cases;
 		std::unique_ptr<Statement> d3fault;

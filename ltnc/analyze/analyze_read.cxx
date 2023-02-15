@@ -70,7 +70,7 @@ namespace ltn::c {
 		Scope & scope) {
 
 		const auto id = context.member_table.get_id(access.name);
-		auto expr = analyze_expression(*access.expr, context, scope);
+		auto expr = analyze_expression(access.expr, context, scope);
 		return std::make_unique<sst::Member>(type::Any{}, std::move(expr), id);
 	}
 }

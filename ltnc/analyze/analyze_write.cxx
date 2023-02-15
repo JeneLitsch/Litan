@@ -51,8 +51,8 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 		guard_const(stmt, scope);
-		auto l = analyze_expression(*stmt.l, context, scope);
-		auto r_raw = analyze_expression(*stmt.r, context, scope);
+		auto l = analyze_expression(stmt.l, context, scope);
+		auto r_raw = analyze_expression(stmt.r, context, scope);
 		auto r = conversion_on_assign(std::move(r_raw), l->type, location(stmt));
 		auto binding = generate_binding(std::move(l));
 		if(!binding) {

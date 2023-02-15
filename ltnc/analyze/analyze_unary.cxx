@@ -40,7 +40,7 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 		
-		auto expr = analyze_expression(*unary.expression, context, scope);
+		auto expr = analyze_expression(unary.expression, context, scope);
 		const auto op = static_cast<sst::Unary::Op>(unary.op);
 		const auto type = deduce_type(op, expr->type);
 

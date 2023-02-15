@@ -23,7 +23,7 @@ namespace ltn::c {
 
 
 
-		ast::expr_ptr parse_index(Tokens & tokens) {
+		ast::Expression parse_index(Tokens & tokens) {
 			auto index = parse_expression(tokens);
 			if(match(TT::BRACKET_R, tokens)) {
 				return index;
@@ -34,7 +34,7 @@ namespace ltn::c {
 
 
 		auto parse_arguments(Tokens & tokens) {
-			std::vector<ast::expr_ptr> parameters;
+			std::vector<ast::Expression> parameters;
 			if(match(TT::PAREN_R, tokens)) {
 				 return parameters;
 			}
@@ -51,9 +51,9 @@ namespace ltn::c {
 
 
 
-		ast::expr_ptr parse_postfix(
+		ast::Expression parse_postfix(
 			Tokens & tokens,
-			ast::expr_ptr l) {
+			ast::Expression l) {
 
 			if(auto start = match(TT::BRACKET_L, tokens)) {
 				auto index = parse_index(tokens);
@@ -81,7 +81,7 @@ namespace ltn::c {
 				auto [template_args, done] = parse_template_args(tokens); 
 				auto function_args = (!done) 
 					? parse_arguments(tokens)
-					: std::vector<ast::expr_ptr>{};
+					: std::vector<ast::Expression>{};
 
 				auto call = stx::make_unique<ast::Call>(
 					std::move(l),
@@ -122,7 +122,7 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_prefix(Tokens & tokens) {
+	ast::Expression parse_prefix(Tokens & tokens) {
 		// left unary
 		const std::array table {
 			std::pair{TT::MINUS, OP::NEG},
@@ -141,7 +141,7 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_unary(Tokens & tokens) {
+	ast::Expression parse_unary(Tokens & tokens) {
 		return parse_prefix(tokens);
 	}
 }

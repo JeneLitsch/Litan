@@ -5,7 +5,7 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 		
-		auto expr = analyze_expression(*stmt.expression, context, scope);
+		auto expr = analyze_expression(stmt.expression, context, scope);
 		return std::make_unique<sst::Assign>(
 			std::make_unique<sst::NoBinding>(),
 			std::move(expr)

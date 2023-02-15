@@ -5,7 +5,7 @@ namespace ltn::c {
 		using TT = Token::Type;
 
 		template<auto expr_fx>
-		ast::expr_ptr parse_nullco(Tokens & tokens, ast::expr_ptr l) {
+		ast::Expression parse_nullco(Tokens & tokens, ast::Expression l) {
 			auto else_expr = expr_fx(tokens);
 			return stx::make_unique<ast::Binary>(
 				BinaryOp::NULLCO,
@@ -18,7 +18,7 @@ namespace ltn::c {
 
 
 		template<auto expr_fx>
-		ast::expr_ptr parse_elvis(Tokens & tokens, ast::expr_ptr l) {
+		ast::Expression parse_elvis(Tokens & tokens, ast::Expression l) {
 			auto else_expr = expr_fx(tokens);
 			return stx::make_unique<ast::Binary>(
 				BinaryOp::ELVIS,
@@ -31,7 +31,7 @@ namespace ltn::c {
 
 
 		template<auto expr_fx>
-		ast::expr_ptr parse_ternary(Tokens & tokens, ast::expr_ptr l) {
+		ast::Expression parse_ternary(Tokens & tokens, ast::Expression l) {
 			auto c = expr_fx(tokens);
 			if(!match(TT::COLON, tokens)) {
 				throw CompilerError{"Expected :", location(tokens)};
@@ -48,7 +48,7 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_conditional(Tokens & tokens) {
+	ast::Expression parse_conditional(Tokens & tokens) {
 		auto l = parse_binary(tokens);
 		if(match(TT::QMARK, tokens)) {
 			// c ?? b

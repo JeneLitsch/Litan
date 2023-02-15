@@ -33,7 +33,7 @@ namespace ltn::c {
 
 		if(is_error(result->type)) throw CompilerError {
 			"Invalid operands for expression",
-			location(expr)
+			location(*expr)
 		};
 
 		return result;

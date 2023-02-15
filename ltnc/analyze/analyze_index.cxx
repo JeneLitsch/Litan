@@ -9,8 +9,8 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 
-		auto arr = analyze_expression(*index.expression, context, scope);
-		auto idx = analyze_expression(*index.index, context, scope);
+		auto arr = analyze_expression(index.expression, context, scope);
+		auto idx = analyze_expression(index.index, context, scope);
 
 		type::Type type = stx::iife([&] {
 			if(auto integer = as<sst::Integer>(*idx)) {

@@ -11,7 +11,7 @@ namespace ltn::c {
 		
 		const auto return_type = scope.get_return_type();
 		if(ret.expression) {
-			auto expr = conversion_on_return(analyze_expression(*ret.expression, context, scope), return_type, location(ret));
+			auto expr = conversion_on_return(analyze_expression(ret.expression, context, scope), return_type, location(ret));
 			return std::make_unique<sst::Return>(std::move(expr), scope.get_return());
 		}
 		else {

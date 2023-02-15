@@ -11,7 +11,7 @@ namespace ltn::c {
 		for(const auto & [member, expr] : init.members) {
 			sst_init->members.push_back(sst::InitStruct::Member {
 				.addr = context.member_table.get_id(member),
-				.expr = analyze_expression(*expr, context, scope)
+				.expr = analyze_expression(expr, context, scope)
 			});
 		}
 

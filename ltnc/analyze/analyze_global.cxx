@@ -54,7 +54,7 @@ namespace ltn::c {
 		MajorScope scope { global.namespaze, false };
 
 		auto type = instantiate_type(global.type, scope);
-		auto expr = global.expr ? analyze_expression(*global.expr, read_context, scope) : nullptr;
+		auto expr = global.expr ? analyze_expression(global.expr, read_context, scope) : nullptr;
 
 		return std::make_unique<sst::Global>(
 			global.name,

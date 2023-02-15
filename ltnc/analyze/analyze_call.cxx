@@ -35,7 +35,7 @@ namespace ltn::c {
 			for(std::size_t i = 0; i < call.parameters.size(); ++i) {
 				auto & arg_expr = call.parameters[i];
 				auto & parameter = fx.parameters[i];
-				auto arg = analyze_expression(*arg_expr, context, scope);
+				auto arg = analyze_expression(arg_expr, context, scope);
 				const auto expr_type = arg->type;
 				const auto param_type = instantiate_type(parameter.type, scope);
 				arguments.push_back(conversion_on_pass(
@@ -66,11 +66,11 @@ namespace ltn::c {
 			Context & context,
 			Scope & scope) {
 
-			auto expr = analyze_expression(*call.function_ptr, context, scope);
+			auto expr = analyze_expression(call.function_ptr, context, scope);
 
 			std::vector<sst::expr_ptr> arguments;
 			for(const auto & param : call.parameters) {
-				arguments.push_back(analyze_expression(*param, context, scope));
+				arguments.push_back(analyze_expression(param, context, scope));
 			}
 
 			const auto type = type::deduce_invokation(expr->type);

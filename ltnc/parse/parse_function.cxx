@@ -285,7 +285,7 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_lambda(Tokens & tokens) {
+	ast::Expression parse_lambda(Tokens & tokens) {
 		if(match(TT::LAMBDA, tokens)) {
 			auto captures = parse_captures(tokens);
 			const auto parameters = parse_optional_parameters(tokens);
@@ -304,6 +304,6 @@ namespace ltn::c {
 				std::move(captures),
 				location(tokens)); 
 		}
-		return ast::expr_ptr();
+		return ast::Expression();
 	}
 }
