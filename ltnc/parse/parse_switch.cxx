@@ -33,9 +33,9 @@ namespace ltn::c {
 
 				auto case_body = body_fx(tokens);
 
-				sw1tch->cases.push_back(std::pair{
-					std::move(case_expr),
-					std::move(case_body)});
+				sw1tch->cases.push_back({});
+				sw1tch->cases.back().first = std::move(case_expr);
+				sw1tch->cases.back().second = std::move(case_body);
 
 				while (match(TT::SEMICOLON, tokens));
 			}
@@ -75,6 +75,6 @@ namespace ltn::c {
 		if(sw1tch && !sw1tch->d3fault) {
 			sw1tch->d3fault = stx::make_unique<ast::Null>(location(tokens));
 		}
-		return sw1tch;
+		return ast::expr_ptr(std::move(sw1tch));
 	}
 }

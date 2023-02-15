@@ -24,6 +24,6 @@ namespace ltn::c {
 		if(match(TT::ASSIGN, tokens)) {
 			return parse_expression(tokens);
 		}
-		return nullptr;
+		return ast::expr_ptr();
 	}
 }

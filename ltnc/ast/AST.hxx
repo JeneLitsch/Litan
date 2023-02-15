@@ -3,9 +3,9 @@
 #include "Statement.hxx"
 #include "Expression.hxx"
 #include "Binding.hxx"
+#include "expr_ptr.hxx"
 
 namespace ltn::c::ast {
-	using expr_ptr = std::unique_ptr<Expression>;
 	using defn_ptr = std::unique_ptr<Definition>;
 	using glob_ptr = std::unique_ptr<Global>;
 	using prst_ptr = std::unique_ptr<Preset>;

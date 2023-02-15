@@ -92,6 +92,6 @@ namespace ltn::c {
 
 			return stx::make_unique<ast::Reflect>(std::move(query), ref->location);
 		}
-		else return nullptr;
+		else return ast::expr_ptr();
 	}
 }

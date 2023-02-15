@@ -304,6 +304,6 @@ namespace ltn::c {
 				std::move(captures),
 				location(tokens)); 
 		}
-		return nullptr;
+		return ast::expr_ptr();
 	}
 }

@@ -34,7 +34,7 @@ namespace ltn::c {
 		ast::expr_ptr parse_struct_init(Tokens & tokens) {
 			auto init_struct = std::make_unique<ast::InitStruct>(location(tokens));
 			init_struct->members = list_of<ast::InitStruct::Member>(TT::BRACKET_R, "]", tokens, parse_member);
-			return init_struct;
+			return ast::expr_ptr(std::move(init_struct));
 		}
 
 
@@ -62,6 +62,6 @@ namespace ltn::c {
 				return parse_filled_array(tokens);
 			}
 		}
-		return nullptr;
+		return ast::expr_ptr();
 	}
 }

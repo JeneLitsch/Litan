@@ -54,6 +54,6 @@ namespace ltn::c {
 				start->location
 			};
 		}
-		return nullptr;
+		return ast::expr_ptr();
 	}
 }

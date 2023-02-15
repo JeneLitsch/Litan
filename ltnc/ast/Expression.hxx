@@ -7,7 +7,7 @@
 #include "Node.hxx"
 #include "ltnc/Namespace.hxx"
 #include "ltnc/Operations.hxx"
-
+#include "expr_ptr.hxx"
 
 namespace ltn::c::ast {
 	struct Assignable;
@@ -41,18 +41,18 @@ namespace ltn::c::ast {
 	struct Ternary : public Expression {
 		Ternary(
 			const SourceLocation & location,
-			std::unique_ptr<Expression> condition,
-			std::unique_ptr<Expression> if_branch,
-			std::unique_ptr<Expression> else_branch) 
+			expr_ptr condition,
+			expr_ptr if_branch,
+			expr_ptr else_branch) 
 			: Expression(location)
 			, condition(std::move(condition))
 			, if_branch(std::move(if_branch))
 			, else_branch(std::move(else_branch)) {}
 		virtual ~Ternary() = default;
 	
-		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Expression> if_branch;
-		std::unique_ptr<Expression> else_branch;
+		expr_ptr condition;
+		expr_ptr if_branch;
+		expr_ptr else_branch;
 	};
 
 
@@ -62,14 +62,14 @@ namespace ltn::c::ast {
 		using Op = UnaryOp;
 		Unary(
 			Op op,
-			std::unique_ptr<Expression> expression,
+			expr_ptr expression,
 			const SourceLocation & location)
 			: Expression(location)
 			, op(op)
 			, expression(std::move(expression)) {}
 		virtual ~Unary() = default;
 		Op op;
-		std::unique_ptr<Expression> expression;
+		expr_ptr expression;
 	};
 
 
@@ -78,8 +78,8 @@ namespace ltn::c::ast {
 		using Op = BinaryOp;
 		Binary(
 			Op op,
-			std::unique_ptr<Expression> l,
-			std::unique_ptr<Expression> r,
+			expr_ptr l,
+			expr_ptr r,
 			const SourceLocation & location)
 			: Expression(location)
 			, op(op)
@@ -87,8 +87,8 @@ namespace ltn::c::ast {
 			, r(std::move(r)) {}
 		virtual ~Binary() = default;
 		Op op;
-		std::unique_ptr<Expression> l;
-		std::unique_ptr<Expression> r;
+		expr_ptr l;
+		expr_ptr r;
 	};
 
 
@@ -109,7 +109,7 @@ namespace ltn::c::ast {
 			LineQuery line;
 		};
 		struct ExprQuery {
-			std::unique_ptr<Expression> expr;
+			expr_ptr expr;
 		};
 		struct TypeQuery {
 			type::IncompleteType type;
@@ -140,7 +140,7 @@ namespace ltn::c::ast {
 		TypedUnary(
 			Op op,
 			const type::IncompleteType & type,
-			std::unique_ptr<Expression> expr,
+			expr_ptr expr,
 			const SourceLocation & location)
 			: Expression{location}
 			, op{op}
@@ -149,7 +149,7 @@ namespace ltn::c::ast {
 		virtual ~TypedUnary() = default;
 		Op op;
 		type::IncompleteType type;
-		std::unique_ptr<Expression> expr;
+		expr_ptr expr;
 	};
 
 
@@ -217,11 +217,11 @@ namespace ltn::c::ast {
 	struct Array final: public Expression {
 		Array(
 			const SourceLocation & location,
-			std::vector<std::unique_ptr<Expression>> elements)
+			std::vector<expr_ptr> elements)
 			: Expression(location)
 			, elements{std::move(elements)} {}
 
-		std::vector<std::unique_ptr<Expression>> elements;
+		std::vector<expr_ptr> elements;
 	};
 
 
@@ -229,11 +229,11 @@ namespace ltn::c::ast {
 	struct Tuple final: public Expression {
 		Tuple(
 			const SourceLocation & location,
-			std::vector<std::unique_ptr<Expression>> elements)
+			std::vector<expr_ptr> elements)
 			: Expression(location)
 			, elements{std::move(elements)} {}
 		virtual ~Tuple() = default;
-		std::vector<std::unique_ptr<Expression>> elements;
+		std::vector<expr_ptr> elements;
 	};
 
 
@@ -255,15 +255,15 @@ namespace ltn::c::ast {
 	
 	struct Index final : public Expression {
 		Index(
-			std::unique_ptr<Expression> expression,
-			std::unique_ptr<Expression> index,
+			expr_ptr expression,
+			expr_ptr index,
 			const SourceLocation & location)
 			: Expression(location)
 			, expression(std::move(expression))
 			, index(std::move(index)) {}
 		virtual ~Index() = default;
-		std::unique_ptr<Expression> expression;
-		std::unique_ptr<Expression> index;
+		expr_ptr expression;
+		expr_ptr index;
 	};
 
 
@@ -301,14 +301,14 @@ namespace ltn::c::ast {
 
 	struct Member final : public Expression {
 		Member(
-			std::unique_ptr<Expression> expr,
+			expr_ptr expr,
 			const std::string & name,
 			const SourceLocation & location)
 			: Expression(location)
 			, expr(std::move(expr))
 			, name(std::move(name)){};
 		virtual ~Member() = default;
-		std::unique_ptr<Expression> expr;
+		expr_ptr expr;
 		std::string name;
 	};
 
@@ -351,15 +351,15 @@ namespace ltn::c::ast {
 
 	struct Call final : public Expression {
 		Call(
-			std::unique_ptr<Expression> function_ptr,
-			std::vector<std::unique_ptr<Expression>> parameters,
+			expr_ptr function_ptr,
+			std::vector<expr_ptr> parameters,
 			const SourceLocation & location)
 			: Expression(location)
 			, function_ptr(std::move(function_ptr))
 			, parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
-		std::unique_ptr<Expression> function_ptr;
-		std::vector<std::unique_ptr<Expression>> parameters;
+		expr_ptr function_ptr;
+		std::vector<expr_ptr> parameters;
 		std::vector<type::IncompleteType> template_args;
 	};
 
@@ -371,14 +371,23 @@ namespace ltn::c::ast {
 		virtual ~InitStruct() = default;
 		struct Member {
 			std::string name;
-			std::unique_ptr<Expression> expr;
+			expr_ptr expr;
 		};
 		std::vector<Member> members;
 	};
 
 
 
-	using ExprSwitch = Switch<Expression>;
+	struct ExprSwitch : public Expression {
+		ExprSwitch(const SourceLocation & location) : Expression(location) {}
+		expr_ptr condition;
+		std::vector<std::pair<
+			expr_ptr,
+			expr_ptr
+		>> cases;
+		expr_ptr d3fault;
+	};
+
 
 
 	auto visit_expression(const ast::Expression & expr, auto && fx) {

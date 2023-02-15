@@ -1,31 +1,6 @@
 #include "analyze.hxx"
 
 namespace ltn::c {
-	namespace {
-		ast::stmt_ptr new_struct(const SourceLocation & loc) {
-			auto call = std::make_unique<ast::Call>(
-				std::make_unique<ast::Var>("struct", Namespace{{"std"}}, loc),
-				std::vector<ast::expr_ptr>{},
-				loc
-			);
-			
-			return std::make_unique<ast::NewVar>(
-				std::make_unique<ast::NewVarBinding>(loc, "___OBJ___"),
-				std::move(call),
-				loc
-			);
-		}
-
-
-
-		ast::stmt_ptr return_struct(const SourceLocation & loc) {
-			auto obj = std::make_unique<ast::Var>("___OBJ___", Namespace{}, loc);
-			return std::make_unique<ast::Return>(std::move(obj), loc);
-		}
-	}
-
-
-
 	ast::func_ptr generate_ctor(const ast::Preset & preset) {
 		ast::Parameters parameters;
 

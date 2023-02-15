@@ -3,6 +3,7 @@
 #include "ltnc/Namespace.hxx"
 #include <map>
 #include "ltnc/type/Type.hxx"
+#include "expr_ptr.hxx"
 
 namespace ltn::c::ast {
 	struct Expression;
@@ -59,7 +60,7 @@ namespace ltn::c::ast {
 			const type::IncompleteType & type)
 			: Static{location, name, namespaze, type} {}
 		virtual ~Definition() = default;
-		std::unique_ptr<ast::Expression> expr;
+		expr_ptr expr;
 	};
 
 
@@ -72,7 +73,7 @@ namespace ltn::c::ast {
 			const type::IncompleteType & type)
 			: Static{location, name, namespaze,type} {}
 		virtual ~Global() = default;
-		std::unique_ptr<ast::Expression> expr;
+		expr_ptr expr;
 	};
 
 

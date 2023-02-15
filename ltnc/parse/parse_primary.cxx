@@ -23,7 +23,7 @@ namespace ltn::c {
 				iss >> base >> value;
 				return stx::make_unique<ast::Integer>(value, location(tokens)); 
 			}
-			return nullptr;
+			return ast::expr_ptr();
 		}
 		constexpr auto parse_integer_dec = parse_integer<
 			std::int64_t,
@@ -45,7 +45,7 @@ namespace ltn::c {
 				const auto chr = static_cast<std::uint8_t>(t->str.front());
 				return stx::make_unique<ast::Char>(chr, location(tokens)); 
 			}
-			return nullptr;
+			return ast::expr_ptr();
 		}
 
 
@@ -54,7 +54,7 @@ namespace ltn::c {
 			if(auto t = match(TT::NVLL, tokens)) {
 				return stx::make_unique<ast::Null>(location(tokens)); 
 			}
-			return nullptr;
+			return ast::expr_ptr();
 		}
 
 
@@ -66,7 +66,7 @@ namespace ltn::c {
 				iss >> value;
 				return stx::make_unique<ast::Float>(value, location(tokens)); 
 			}
-			return nullptr;
+			return ast::expr_ptr();
 		}
 
 
@@ -78,7 +78,7 @@ namespace ltn::c {
 			if(auto token = match(TT::FALSE, tokens)) {
 				return stx::make_unique<ast::Bool>(false, location(tokens)); 
 			}
-			return nullptr;
+			return ast::expr_ptr();
 		}
 
 
@@ -89,7 +89,7 @@ namespace ltn::c {
 					token->str,
 					location(tokens)); 
 			}
-			return nullptr;
+			return ast::expr_ptr();
 		}
 
 
@@ -136,11 +136,11 @@ namespace ltn::c {
 						placeholders,
 						location(tokens));
 					fx_ptr->template_arguements = std::move(template_args);
-					return fx_ptr;
+					return ast::expr_ptr(std::move(fx_ptr));
 				}
 				throw expected("(", location(tokens));
 			}
-			return nullptr; 
+			return ast::expr_ptr(); 
 		}
 
 
@@ -155,7 +155,7 @@ namespace ltn::c {
 					return_type
 				);
 			}
-			else return nullptr;
+			else return ast::expr_ptr();
 		}
 
 
@@ -169,7 +169,7 @@ namespace ltn::c {
 					name
 				);
 			}
-			else return nullptr; 
+			else return ast::expr_ptr(); 
 		}
 	}
 
@@ -214,7 +214,7 @@ namespace ltn::c {
 		if(auto expr = parse_integer_dec(tokens)) return expr;
 		if(auto expr = parse_integer_bin(tokens)) return expr;
 		if(auto expr = parse_integer_hex(tokens)) return expr;
-		else return nullptr;
+		else return ast::expr_ptr();
 	}
 
 
