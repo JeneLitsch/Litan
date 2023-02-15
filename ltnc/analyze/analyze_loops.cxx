@@ -59,9 +59,9 @@ namespace ltn::c {
 		
 		const auto label = make_jump_id("FOR");
 
-		const auto i_var = loop_scope.insert(stmt.index_name, location(stmt), type::Int{});
-		loop_scope.insert(var_from(label), location(stmt));
-		loop_scope.insert(var_to(label), location(stmt));
+		const auto i_var = loop_scope.insert(stmt.index_name, stmt.location, type::Int{});
+		loop_scope.insert(var_from(label), stmt.location);
+		loop_scope.insert(var_to(label), stmt.location);
 
 		auto body = analyze_statement(*stmt.body, context, loop_scope);
 				
@@ -84,9 +84,9 @@ namespace ltn::c {
 		MinorScope loop_scope { &scope };
 		
 		const auto label = make_jump_id("FOREACH");
-		const auto element_var = loop_scope.insert(stmt.index_name, location(stmt), type::Int{});
-		const auto iterator_var = loop_scope.insert("_iterator_" + stmt.index_name, location(stmt), type::Any{});
-		const auto container_var = loop_scope.insert("_container_" + stmt.index_name, location(stmt), type::Any{});
+		const auto element_var = loop_scope.insert(stmt.index_name, stmt.location, type::Int{});
+		const auto iterator_var = loop_scope.insert("_iterator_" + stmt.index_name, stmt.location, type::Any{});
+		const auto container_var = loop_scope.insert("_container_" + stmt.index_name, stmt.location, type::Any{});
 		auto expr = analyze_expression(stmt.expr, context, loop_scope);				
 		auto body = analyze_statement(*stmt.body, context, loop_scope);
 

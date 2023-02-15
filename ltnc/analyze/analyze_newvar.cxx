@@ -76,7 +76,7 @@ namespace ltn::c {
 			}
 			if(new_var.type) {
 				const auto type = instantiate_type(*new_var.type, scope);
-				return generate_default_value(type, location(new_var));
+				return generate_default_value(type, new_var.location);
 			}
 			return std::make_unique<sst::Null>(type::Any{});
 		}
@@ -93,7 +93,7 @@ namespace ltn::c {
 		auto binding = analyze_binding(*new_var.binding, context, scope, expr->type);
 		if(new_var.type) {
 			auto decl_type = instantiate_type(*new_var.type, scope);
-			expr = conversion_on_assign(std::move(expr), decl_type, location(new_var));
+			expr = conversion_on_assign(std::move(expr), decl_type, new_var.location);
 		}
 		return std::make_unique<sst::Assign>(std::move(binding), std::move(expr));
 	}

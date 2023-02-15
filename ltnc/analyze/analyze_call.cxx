@@ -127,7 +127,7 @@ namespace ltn::c {
 				return do_call_template(call, *var, context, scope);
 			}
 			if(var->namespaze.empty()) {
-				const auto * local = scope.resolve(var->name, location(*var));
+				const auto * local = scope.resolve(var->name, var->location);
 				if(local) {
 					return do_invoke(call, context, scope);
 				}

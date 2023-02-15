@@ -4,7 +4,7 @@ namespace ltn::c {
 	ast::func_ptr generate_ctor(const ast::Preset & preset) {
 		ast::Parameters parameters;
 
-		auto init = ast::InitStruct{location(preset)};
+		auto init = ast::InitStruct(preset.location);
 
 		for(const auto & member : preset.members) {
 			const auto var_name = "__" + member.name + "__";
@@ -20,9 +20,7 @@ namespace ltn::c {
 			});
 		}
 
-		ast::Expression expr{std::move(init)};
-
-		auto stmt = std::make_unique<ast::Return>(std::move(expr), location(preset));
+		auto stmt = std::make_unique<ast::Return>(std::move(init), preset.location);
 
 		auto ctor = std::make_unique<ast::Function>(
 			preset.name,

@@ -8,7 +8,7 @@ namespace ltn::c {
 		if(scope.is_const()) {
 			throw CompilerError{
 				"Cannot modify or reassign variable in const function",
-				location(node)
+				node.location
 			};
 		}
 	}
@@ -51,14 +51,20 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 		guard_const(stmt, scope);
+<<<<<<< HEAD
 		auto l = analyze_expression(stmt.l, context, scope);
 		auto r_raw = analyze_expression(stmt.r, context, scope);
 		auto r = conversion_on_assign(std::move(r_raw), l->type, location(stmt));
+=======
+		auto l = analyze_expression(stmt.l, context, scope);
+		auto r_raw = analyze_expression(stmt.r, context, scope);
+		auto r = conversion_on_assign(std::move(r_raw), l->type, stmt.location);
+>>>>>>> parent of cf0bb51... Made Node::location private
 		auto binding = generate_binding(std::move(l));
 		if(!binding) {
 			throw CompilerError {
 				"Left side is not assignable",
-				location(stmt)
+				stmt.location
 			};
 		}
 		return std::make_unique<sst::Assign>(std::move(binding), std::move(r));
