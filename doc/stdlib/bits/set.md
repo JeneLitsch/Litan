@@ -2,12 +2,12 @@
 
 ## std::bits::set(number : int, index : int, value : bool) -> int
 **Parameters:**
-- number: a single integral value
+- number: an integer
 - index: an integer index
-- value: boolean value
+- value: boolean value for the bit to set.
 
-**Return value**
+**Return value**  
 single int with bit set to value
 
-**Description:**
-Sets the bit at position index. A new and changed int is returned. Number is promoted to int.
+**Description:**  
+Sets the bit at position index. A new and changed int is returned. 
