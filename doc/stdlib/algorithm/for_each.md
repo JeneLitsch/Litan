@@ -3,11 +3,11 @@
 ## std::for_each(range, fx)
 
 **Parameters:**  
-* range: A range or an array
+* range: array or tuple
 * fx: Callable type which takes one parameter.
 
 **Return value:**  
 Always returns null.  
 
 **Description:**   
-Calls fx for every element in range. 
+Calls fx for every element in the passed range. 

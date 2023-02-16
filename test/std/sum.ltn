@@ -19,4 +19,24 @@ namespace sphinx::test {
 		var sum_str = std::sum([], "");
 		assert_equal_strict("", sum_str);
 	}
+
+
+
+	function std_sum_tuple() {
+		var sum_int = std::sum((1,2,3));
+		assert_equal_strict(6, sum_int);
+
+		var sum_mix = std::sum((1,2,3.0));
+		assert_equal_strict(6.0, sum_mix);
+
+		var sum_str = std::sum(("Hello", " ", "World"), "");
+		assert_equal_strict("Hello World", sum_str);
+	}
+
+
+
+	function std_sum_except() {
+		assert_except(lambda() => std::sum(null));
+		assert_except(lambda() => std::sum(1));
+	}
 }

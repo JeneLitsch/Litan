@@ -2,7 +2,7 @@
 
 ## std::sum(range, start)
 **Parameters:** 
-* range: A range or an array
+* range: a tuple or array
 * start: Start value to add to
 
 **Return value:**   
@@ -17,12 +17,12 @@ Adds all elements to start.
 
 ## std::sum(range)
 **Parameters:** 
-* range: A range or an array
+* range: a tuple or array
 
 **Return value:**   
 The calculated sum  
 
 **Description:**     
-Starts with 0 and sums all elements in range.  
+Starts with 0 and sums up all elements in the range.  
 
 ---
