@@ -12,11 +12,15 @@ namespace sphinx::test {
 	function std_for_each_array() {
 		var sum_int = [.value = 0];
 		std::for_each([1,2,3], local::accumulator(sum_int));
-		assert_equal(6, sum_int.value);
+		assert_equal_strict(6, sum_int.value);
+
+		var sum_mix = [.value = 0];
+		std::for_each([1,2,3.0], local::accumulator(sum_mix));
+		assert_equal_strict(6.0, sum_mix.value);
 
 		var sum_str = [.value = ""];
 		std::for_each(["Hello", " ", "World"], local::accumulator(sum_str));
-		assert_equal("Hello World", sum_str.value);
+		assert_equal_strict("Hello World", sum_str.value);
 	}
 
 
@@ -24,6 +28,6 @@ namespace sphinx::test {
 	function std_for_each_array_empty() {
 		var sum_int = [.value = 0];
 		std::for_each([], local::accumulator(sum_int));
-		assert_equal(0, sum_int.value);
+		assert_equal_strict(0, sum_int.value);
 	}
 }

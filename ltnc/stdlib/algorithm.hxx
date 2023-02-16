@@ -7,8 +7,8 @@ namespace std {
 
 	function sum(array, start) {
 		var value = start;
-		for (i : 0 -> std::size(array)) {
-			value = value + array[i];
+		for (elem : array) {
+			value = value + elem;
 		}
 		return value;
 	}
