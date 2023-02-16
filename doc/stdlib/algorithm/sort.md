@@ -9,6 +9,7 @@ null
 
 **Description:**     
 Sorts all elements in range in ascending order.  
+The sorting is done in place. This means the provided range is changed.  
 
 ---
 
@@ -23,5 +24,6 @@ null
 
 **Description:**     
 Sorts all elements in range in descending order.  
+The sorting is done in place. This means the provided range is changed.  
 
 ---
