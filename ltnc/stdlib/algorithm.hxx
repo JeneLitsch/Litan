@@ -42,7 +42,7 @@ namespace std {
 	
 
 
-	build_in find(range, key) const
+	build_in find(range, key) const -> optional<int>
 		@ algorithm_find
 	
 

@@ -98,7 +98,7 @@ namespace ltn::vm::build_in {
 		const auto pred = predicate(core.heap, key);
 		const auto found = std::find_if(begin, end, pred);
 		if(found == end) {
-			return value::integer(-1);
+			return value::null;
 		}
 		else {
 			const auto dist = std::distance(begin, found); 

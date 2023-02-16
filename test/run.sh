@@ -69,6 +69,7 @@ files=(
 	"test/std/sort_desc.ltn"
 	"test/std/is_sorted_ascn.ltn"
 	"test/std/is_sorted_desc.ltn"
+	"test/std/find.ltn"
 
 	"test/std/arity.ltn"
 	"test/std/empty.ltn"
