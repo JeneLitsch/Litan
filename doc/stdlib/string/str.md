@@ -8,8 +8,8 @@
 string  
 
 **Description:**     
-Returns stringified representation of x.
+Returns the stringified representation of x.
 
 Special behavior:
 - A string is just copied.
-- The contained string of ouput string stream is extracted. 
+- The contained string of an ouput string stream is extracted. 
