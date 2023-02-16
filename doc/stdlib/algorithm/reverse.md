@@ -2,10 +2,10 @@
 
 ## std::reverse(range)
 **Parameters:** 
-* range: A range or an array
+* range: an array
 
 **Return value:**   
 null  
 
 **Description:**     
-Reverses the order of all elements in range.
+Reverses the order of all elements in the range.
