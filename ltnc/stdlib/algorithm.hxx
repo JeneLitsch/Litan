@@ -1,7 +1,7 @@
 #pragma once
 inline const char * std_algorithm = R"###(
 namespace std {
-	function for_each(array, fx) {
+	function for_each(array, fx) -> null {
 		for (elem : array) fx(elem);
 	}
 
@@ -47,12 +47,12 @@ namespace std {
 	
 
 
-	build_in fill(range, target)
+	build_in fill(range, target) -> null
 		@ algorithm_fill
 	
 
 
-	build_in reverse(range)
+	build_in reverse(range) -> null
 		@ algorithm_reverse
 }
 )###";
