@@ -20,4 +20,12 @@ namespace sphinx::test {
 		std::sort_desc(array);
 		assert_equal_strict(array, [4,4,3,2,1]);
 	}
+
+
+
+	function std_sort_desc_except() {
+		assert_except(lambda() => std::sort_desc((1,2)));
+		assert_except(lambda() => std::sort_desc(null));
+		assert_except(lambda() => std::sort_desc(1));
+	}
 }

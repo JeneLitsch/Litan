@@ -10,7 +10,16 @@ namespace sphinx::test {
 	}
 
 
+
 	function std_is_sorted_ascn_empty() {
 		assert_equal_strict(std::is_sorted_ascn([]), true);
+	}
+
+
+
+	function std_is_sorted_ascn_except() {
+		assert_except(lambda() => std::is_sorted_ascn((1,2)));
+		assert_except(lambda() => std::is_sorted_ascn(null));
+		assert_except(lambda() => std::is_sorted_ascn(1));
 	}
 }

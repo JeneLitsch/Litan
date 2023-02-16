@@ -30,4 +30,11 @@ namespace sphinx::test {
 		std::for_each([], local::accumulator(sum_int));
 		assert_equal_strict(0, sum_int.value);
 	}
+
+
+
+	function std_for_each_except() {
+		assert_except(lambda() => std::for_each(null, lambda(x) => null));
+		assert_except(lambda() => std::for_each(1, lambda(x) => null));
+	}
 }
