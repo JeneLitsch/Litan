@@ -5,5 +5,5 @@
 **Return value:**  
 Returns a new clock
 
-**Description:**    
+**Description:**  
 Creates a new Clock. 
