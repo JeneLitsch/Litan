@@ -7,8 +7,6 @@ namespace ltn {
 		IS_SORTED_ASCN,
 		IS_SORTED_DESC,
 		FIND,
-		COPY_FRONT,
-		COPY_BACK,
 		FILL,
 		REVERSE,
 

@@ -47,16 +47,6 @@ namespace std {
 	
 
 
-	build_in copy_front(range, key)
-		@ algorithm_copy_front
-	
-
-
-	build_in copy_back(range, key)
-		@ algorithm_copy_back
-	
-
-
 	build_in fill(range, target)
 		@ algorithm_fill
 	

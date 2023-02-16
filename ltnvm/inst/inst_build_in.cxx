@@ -33,8 +33,6 @@ namespace ltn::vm::inst {
 		table[FxCode::IS_SORTED_ASCN] = build_in::is_sorted_ascn;
 		table[FxCode::IS_SORTED_DESC] = build_in::is_sorted_desc;
 		table[FxCode::FIND] = build_in::find;
-		table[FxCode::COPY_FRONT] = build_in::copy_front;
-		table[FxCode::COPY_BACK] = build_in::copy_back;
 		table[FxCode::FILL] = build_in::fill;
 		table[FxCode::REVERSE] = build_in::reverse;
 		

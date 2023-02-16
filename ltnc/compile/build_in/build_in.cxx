@@ -54,8 +54,6 @@ namespace ltn::c {
 		{"algorithm_is_sorted_ascn", vm_build_in<FxCode::IS_SORTED_ASCN>},
 		{"algorithm_is_sorted_desc", vm_build_in<FxCode::IS_SORTED_DESC>},
 		{"algorithm_find",           vm_build_in<FxCode::FIND>},
-		{"algorithm_copy_front",     vm_build_in<FxCode::COPY_FRONT>},
-		{"algorithm_copy_back",      vm_build_in<FxCode::COPY_BACK>},
 		{"algorithm_fill",           vm_build_in<FxCode::FILL>},
 		{"algorithm_reverse",        vm_build_in<FxCode::REVERSE>},
 

@@ -107,29 +107,6 @@ namespace ltn::vm::build_in {
 	}
 
 
-
-	Value copy_front(VmCore & core) {
-		const auto refArr = pop_array_ref(core.stack);
-		const auto [begin, end] = to_cpp_range(core.stack.pop(), core.heap);
-		auto & array = core.heap.read<Array>(refArr);
-		auto beginArr = array.begin();
-		auto inserter = std::insert_iterator(array, beginArr);
-		std::copy(begin, end, inserter);
-		return value::null;
-	}
-
-
-
-	Value copy_back(VmCore & core) {
-		const auto refArr = pop_array_ref(core.stack);
-		const auto [begin, end] = to_cpp_range(core.stack.pop(), core.heap);
-		auto & array = core.heap.read<Array>(refArr);
-		auto inserter = std::back_inserter(array);
-		std::copy(begin, end, inserter);
-		return value::null;
-	}
-
-
 	
 	Value fill(VmCore & core) {
 		const auto value = core.stack.pop();
