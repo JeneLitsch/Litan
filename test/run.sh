@@ -67,6 +67,8 @@ files=(
 	"test/std/sum.ltn"
 	"test/std/sort_ascn.ltn"
 	"test/std/sort_desc.ltn"
+	"test/std/is_sorted_ascn.ltn"
+	"test/std/is_sorted_desc.ltn"
 
 	"test/std/arity.ltn"
 	"test/std/empty.ltn"

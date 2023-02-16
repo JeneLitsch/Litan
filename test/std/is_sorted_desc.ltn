@@ -1,0 +1,17 @@
+namespace sphinx::test {
+	function std_is_sorted_desc() {
+		assert_equal_strict(std::is_sorted_desc([3, 2.0, 1]), true);
+		assert_equal_strict(std::is_sorted_desc([3, 2.0, true, false]), true);
+		assert_equal_strict(std::is_sorted_desc([3, 2.0, false, true]), false);
+		assert_equal_strict(std::is_sorted_desc([3, 2, 1]), true);
+		assert_equal_strict(std::is_sorted_desc([3, 1, 2]), false);
+		assert_equal_strict(std::is_sorted_desc(["C", "B", "A"]), true);
+		assert_equal_strict(std::is_sorted_desc(["Z", "C", "B", "A"]), true);
+		assert_equal_strict(std::is_sorted_desc(["C", "B", "A", "Z"]), false);
+	}
+
+
+	function std_is_sorted_desc_empty() {
+		assert_equal_strict(std::is_sorted_desc([]), true);
+	}
+}
