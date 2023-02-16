@@ -1,0 +1,29 @@
+namespace sphinx::test {
+	namespace local {
+		function accumulator(sum) {
+			return lambda[sum](elem : int) {
+				sum.value = sum.value + elem;
+			};
+		}
+	}
+
+
+	
+	function std_for_each_array() {
+		var sum_int = [.value = 0];
+		std::for_each([1,2,3], local::accumulator(sum_int));
+		assert_equal(6, sum_int.value);
+
+		var sum_str = [.value = ""];
+		std::for_each(["Hello", " ", "World"], local::accumulator(sum_str));
+		assert_equal("Hello World", sum_str.value);
+	}
+
+
+
+	function std_for_each_array_empty() {
+		var sum_int = [.value = 0];
+		std::for_each([], local::accumulator(sum_int));
+		assert_equal(0, sum_int.value);
+	}
+}

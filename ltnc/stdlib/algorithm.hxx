@@ -1,14 +1,10 @@
 #pragma once
 inline const char * std_algorithm = R"###(
 namespace std {
-	// executes "fx" for each element in range
 	function for_each(array, fx) {
-		for (i : 0 -> std::size(array)) {
-			std::invoke(fx, array[i]);
-		}
+		for (elem : array) fx(elem);
 	}
 
-	// starts at "start" and adds (+=) all elements in range
 	function sum(array, start) {
 		var value = start;
 		for (i : 0 -> std::size(array)) {
@@ -18,7 +14,6 @@ namespace std {
 	}
 
 
-	// starts at 0 and adds (+=) all elements in range
 	function sum(range) => sum(range, 0)
 
 	build_in sort_ascn(range)            @ algorithm_sort_ascn

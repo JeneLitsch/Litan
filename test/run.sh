@@ -63,6 +63,8 @@ files=(
 	"test/op_nulltest.ltn"
 	"test/op_ternary.ltn"
 
+	"test/std/for_each.ltn"
+
 	"test/std/arity.ltn"
 	"test/std/empty.ltn"
 	"test/std/size.ltn"

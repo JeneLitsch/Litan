@@ -4,9 +4,9 @@
 
 **Parameters:**  
 * range: A range or an array
-* fx: Callable type (e.g. FxPtr or External) which takes one parameter
+* fx: Callable type which takes one parameter.
 
-### Return value  
+**Return value:**  
 Always returns null.  
 
 **Description:**   
