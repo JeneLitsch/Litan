@@ -6,4 +6,4 @@
 Returns a new clock
 
 **Description:**    
-Creates a new Clock
+Creates a new Clock. 
