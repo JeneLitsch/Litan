@@ -7,10 +7,13 @@
 #include "ltnc/Label.hxx"
 #include "ltnc/Operations.hxx"
 #include "Expression.hxx"
+#include "Switch.hxx"
+#include "Statement.hxx"
 
 
 namespace ltn::c::sst {
 	struct Assignable;
+	struct Function;
 	class Statement;
 
 

@@ -12,7 +12,6 @@
 
 
 namespace ltn::c::ast {
-	struct Assignable;
 	class Statement;
 	struct Function;
 
@@ -227,7 +226,6 @@ namespace ltn::c::ast {
 
 	struct Functional;
 	struct Var;
-	struct Assignable;
 	class Statement;
 
 	struct Integer final : public Expression {

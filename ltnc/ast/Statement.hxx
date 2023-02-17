@@ -9,7 +9,6 @@
 
 namespace ltn::c::ast {
 	struct Expression;
-	struct Assignable;
 
 
 
@@ -258,6 +257,8 @@ namespace ltn::c::ast {
 
 		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
+
+
 
 	struct StmtSwitch : Switch<Statement>  {
 		StmtSwitch(const SourceLocation & location)
