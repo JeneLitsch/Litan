@@ -3,12 +3,37 @@
 #include <vector>
 #include <memory>
 #include <numeric>
+#include "ltn/Visitor.hxx"
 
 namespace ltn::c::sst {
+	struct GroupBinding;
+	struct NewVarBinding;
+	struct NoBinding;
+	struct GlobalBinding;
+	struct MemberBinding;
+	struct LocalBinding;
+	struct IndexBinding;
+
+	
+	
+	using BindVisitor = Visitor<
+		GroupBinding,
+		NewVarBinding,
+		NoBinding,
+		GlobalBinding,
+		MemberBinding,
+		LocalBinding,
+		IndexBinding
+	>;
+
+
+
 	struct Binding : public Node {
 		Binding() : Node {} {}
 
 		virtual std::size_t alloc_count() const = 0;
+	
+		virtual void accept(const BindVisitor &) const = 0;
 	};
 
 
@@ -29,6 +54,8 @@ namespace ltn::c::sst {
 				}
 			);		
 		}
+
+		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -43,6 +70,8 @@ namespace ltn::c::sst {
 		virtual std::size_t alloc_count() const override {
 			return 1;
 		}
+		
+		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -53,6 +82,8 @@ namespace ltn::c::sst {
 		virtual std::size_t alloc_count() const override {
 			return 0;
 		}
+	
+		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -65,6 +96,8 @@ namespace ltn::c::sst {
 		std::uint64_t addr;
 
 		virtual std::size_t alloc_count() const override { return 0; }
+	
+		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -82,6 +115,7 @@ namespace ltn::c::sst {
 
 		virtual std::size_t alloc_count() const override { return 0; }
 
+		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -95,6 +129,8 @@ namespace ltn::c::sst {
 		std::uint64_t addr;
 
 		virtual std::size_t alloc_count() const override { return 0; }
+	
+		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -111,18 +147,47 @@ namespace ltn::c::sst {
 		std::unique_ptr<Expression> index;
 
 		virtual std::size_t alloc_count() const override { return 0; }
+	
+		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
+	};
+
+
+
+	template<typename Callable>
+	class BindVisitorImpl : public BindVisitor {
+		using Ret = decltype(std::declval<const Callable &>()(std::declval<const GroupBinding &>())); 
+	public:
+		BindVisitorImpl(Callable fx) : fx{fx} {}
+
+
+		Ret operator()(const Binding & bind) const {
+			bind.accept(*this);
+			return std::move(ret);
+		}
+	private:
+		Callable fx;
+		mutable Ret ret;
 	};
 
 
 
 	auto visit_binding(const Binding & binding, auto && fx) {
-		if(auto b = as<GroupBinding>(binding))  return fx(*b);
-		if(auto b = as<NewVarBinding>(binding)) return fx(*b);
-		if(auto b = as<NoBinding>(binding))     return fx(*b);
-		if(auto b = as<GlobalBinding>(binding)) return fx(*b);
-		if(auto b = as<MemberBinding>(binding)) return fx(*b);
-		if(auto b = as<LocalBinding>(binding))  return fx(*b);
-		if(auto b = as<IndexBinding>(binding))  return fx(*b);
-		throw std::runtime_error{"Unknown SST binding"};
+		using Callable = std::decay_t<decltype(fx)>;
+		using Ret = std::invoke_result_t<Callable, GroupBinding>;
+		using Base = FunctionVisitor<BindVisitor, Callable, Ret>;
+		
+		struct Visitor : public Base {
+			Visitor(Callable fx) : Base {fx} {} 
+			
+			virtual void visit(const GroupBinding & x)  const override { this->run(x); };
+			virtual void visit(const NewVarBinding & x) const override { this->run(x); };
+			virtual void visit(const NoBinding & x)     const override { this->run(x); };
+			virtual void visit(const GlobalBinding & x) const override { this->run(x); };
+			virtual void visit(const MemberBinding & x) const override { this->run(x); };
+			virtual void visit(const LocalBinding & x)  const override { this->run(x); };
+			virtual void visit(const IndexBinding & x)  const override { this->run(x); };
+		};
+
+		return Visitor{fx}(binding);
 	}
 }

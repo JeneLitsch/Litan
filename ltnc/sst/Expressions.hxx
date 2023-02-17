@@ -41,6 +41,8 @@ namespace ltn::c::sst {
 				else_branch->alloc(),
 			});
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -61,6 +63,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return this->expression->alloc();
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -86,6 +90,8 @@ namespace ltn::c::sst {
 				r->alloc(),
 			});
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -156,6 +162,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -179,6 +187,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return this->expr->alloc();
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -215,6 +225,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -229,6 +241,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -243,6 +257,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -255,6 +271,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -269,6 +287,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -283,6 +303,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -299,6 +321,8 @@ namespace ltn::c::sst {
 			}
 			return count;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -315,6 +339,8 @@ namespace ltn::c::sst {
 			}
 			return count;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -334,6 +360,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -368,6 +396,8 @@ namespace ltn::c::sst {
 				this->index->alloc(),
 			});
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -386,6 +416,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -403,6 +435,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -422,6 +456,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -445,6 +481,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return this->stmt->direct_alloc() + this->stmt->nested_alloc();
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -465,6 +503,8 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -489,6 +529,8 @@ namespace ltn::c::sst {
 			}
 			return count;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -512,6 +554,8 @@ namespace ltn::c::sst {
 			}
 			return std::max(count, function_ptr->alloc());
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -532,6 +576,8 @@ namespace ltn::c::sst {
 			}
 			return count;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -546,35 +592,47 @@ namespace ltn::c::sst {
 			}
 			return count;
 		}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
 
 	auto visit_expression(const sst::Expression & expr, auto && fx) {
-		if(auto e = as<sst::Binary>(expr)) return fx(*e);
-		if(auto e = as<sst::Unary>(expr)) return fx(*e);
-		if(auto e = as<sst::Integer>(expr)) return fx(*e);
-		if(auto e = as<sst::Float>(expr)) return fx(*e);
-		if(auto e = as<sst::Bool>(expr)) return fx(*e);
-		if(auto e = as<sst::Char>(expr)) return fx(*e);
-		if(auto e = as<sst::Null>(expr)) return fx(*e);
-		if(auto e = as<sst::String>(expr)) return fx(*e);
-		if(auto e = as<sst::Array>(expr)) return fx(*e);
-		if(auto e = as<sst::Tuple>(expr)) return fx(*e);
-		if(auto e = as<sst::Call>(expr)) return fx(*e);
-		if(auto e = as<sst::Invoke>(expr)) return fx(*e);
-		if(auto e = as<sst::Var>(expr)) return fx(*e);
-		if(auto e = as<sst::Index>(expr)) return fx(*e);
-		if(auto e = as<sst::Lambda>(expr)) return fx(*e);
-		if(auto e = as<sst::FxPointer>(expr)) return fx(*e);
-		if(auto e = as<sst::Member>(expr)) return fx(*e);
-		if(auto e = as<sst::GlobalVar>(expr)) return fx(*e);
-		if(auto e = as<sst::Iife>(expr)) return fx(*e);
-		if(auto e = as<sst::Ternary>(expr)) return fx(*e);
-		if(auto e = as<sst::ExprSwitch>(expr)) return fx(*e);
-		if(auto e = as<sst::TypedUnary>(expr)) return fx(*e);
-		if(auto e = as<sst::Reflect>(expr)) return fx(*e);
-		if(auto e = as<sst::InitStruct>(expr)) return fx(*e);
-		throw std::runtime_error{"Unknown Expression SST"};
+
+		using Callable = std::decay_t<decltype(fx)>;
+		using Ret = std::invoke_result_t<Callable, Binary>;
+		using Base = FunctionVisitor<ExprVisitor, Callable, Ret>;
+
+		struct Visitor : public Base {
+			Visitor(Callable fx) : Base {fx} {} 
+
+			virtual void visit(const Binary & x) const override { this->run(x); };
+			virtual void visit(const Unary & x) const override { this->run(x); };
+			virtual void visit(const Integer & x) const override { this->run(x); };
+			virtual void visit(const Float & x) const override { this->run(x); };
+			virtual void visit(const Bool & x) const override { this->run(x); };
+			virtual void visit(const Char & x) const override { this->run(x); };
+			virtual void visit(const Null & x) const override { this->run(x); };
+			virtual void visit(const String & x) const override { this->run(x); };
+			virtual void visit(const Array & x) const override { this->run(x); };
+			virtual void visit(const Tuple & x) const override { this->run(x); };
+			virtual void visit(const Call & x) const override { this->run(x); };
+			virtual void visit(const Invoke & x) const override { this->run(x); };
+			virtual void visit(const Var & x) const override { this->run(x); };
+			virtual void visit(const Index & x) const override { this->run(x); };
+			virtual void visit(const Lambda & x) const override { this->run(x); };
+			virtual void visit(const FxPointer & x) const override { this->run(x); };
+			virtual void visit(const Member & x) const override { this->run(x); };
+			virtual void visit(const GlobalVar & x) const override { this->run(x); };
+			virtual void visit(const Iife & x) const override { this->run(x); };
+			virtual void visit(const Ternary & x) const override { this->run(x); };
+			virtual void visit(const ExprSwitch & x) const override { this->run(x); };
+			virtual void visit(const TypedUnary & x) const override { this->run(x); };
+			virtual void visit(const Reflect & x) const override { this->run(x); };
+			virtual void visit(const InitStruct & x) const override { this->run(x); };
+		};
+
+		return Visitor{fx}(expr);
 	}
 }

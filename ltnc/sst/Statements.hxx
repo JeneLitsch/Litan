@@ -24,6 +24,8 @@ namespace ltn::c::sst {
 
 		virtual std::size_t nested_alloc() const override { return 0; }
 		virtual std::size_t direct_alloc() const override { return 0; }
+
+		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -37,6 +39,9 @@ namespace ltn::c::sst {
 
 		virtual std::size_t nested_alloc() const override { return 0; }
 		virtual std::size_t direct_alloc() const override { return this->expression->alloc(); }
+	
+
+		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -62,6 +67,8 @@ namespace ltn::c::sst {
 		virtual std::size_t direct_alloc() const override {
 			return 0;
 		}
+	
+		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -84,6 +91,8 @@ namespace ltn::c::sst {
 		virtual std::size_t direct_alloc() const override {
 			return this->binding->alloc_count() + expression->alloc();
 		}
+	
+		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -111,6 +120,8 @@ namespace ltn::c::sst {
 		virtual std::size_t direct_alloc() const override {
 			return this->condition->alloc();
 		}
+	
+		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -134,6 +145,8 @@ namespace ltn::c::sst {
 		virtual std::size_t direct_alloc() const override {
 			return this->condition->alloc();
 		}
+	
+		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -154,6 +167,8 @@ namespace ltn::c::sst {
 		virtual std::size_t direct_alloc() const override {
 			return 0;
 		}
+	
+		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -189,6 +204,8 @@ namespace ltn::c::sst {
 		virtual std::size_t direct_alloc() const override {
 			return 3 + this->from->alloc() + this->to->alloc() + this->step->alloc();
 		}
+	
+		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -220,6 +237,8 @@ namespace ltn::c::sst {
 		virtual std::size_t direct_alloc() const override {
 			return 3 + this->expr->alloc();
 		}
+	
+		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -237,12 +256,13 @@ namespace ltn::c::sst {
 
 		virtual std::size_t nested_alloc() const override { return 0; }
 		virtual std::size_t direct_alloc() const override { return this->expression->alloc(); }
+	
+		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
 	
-	class StmtSwitch : public Switch<Statement, Statement> {
-	public:
+	struct StmtSwitch : public Switch<Statement, Statement> {
 		virtual std::uint64_t nested_alloc() const override {
 			return 0;
 		}
@@ -259,22 +279,33 @@ namespace ltn::c::sst {
 			}
 			return nested + direct;
 		}
+	
+		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
 
 	auto visit_statement(const sst::Statement & stmt, auto && fx) {
-		if(auto s = as<sst::Block>(stmt)) return fx(*s);
-		if(auto s = as<sst::IfElse>(stmt)) return fx(*s);
-		if(auto s = as<sst::While>(stmt)) return fx(*s);
-		if(auto s = as<sst::InfiniteLoop>(stmt)) return fx(*s);
-		if(auto s = as<sst::For>(stmt)) return fx(*s);
-		if(auto s = as<sst::ForEach>(stmt)) return fx(*s);
-		if(auto s = as<sst::Assign>(stmt)) return fx(*s);
-		if(auto s = as<sst::Return>(stmt)) return fx(*s);
-		if(auto s = as<sst::Throw>(stmt)) return fx(*s);
-		if(auto s = as<sst::StmtSwitch>(stmt)) return fx(*s);
-		if(auto s = as<sst::DoNothing>(stmt)) return fx(*s);
-		throw std::runtime_error{"Unknown SST statement"};
+		using Callable = std::decay_t<decltype(fx)>;
+		using Ret = std::invoke_result_t<Callable, Block>;
+		using Base = FunctionVisitor<StmtVisitor, Callable, Ret>;
+
+		struct Visitor : public Base {
+			Visitor(Callable fx) : Base {fx} {} 
+			
+			virtual void visit(const Block & x) const override { this->run(x); }
+			virtual void visit(const IfElse & x) const override { this->run(x); }
+			virtual void visit(const While & x) const override { this->run(x); }
+			virtual void visit(const InfiniteLoop & x) const override { this->run(x); }
+			virtual void visit(const For & x) const override { this->run(x); }
+			virtual void visit(const ForEach & x) const override { this->run(x); }
+			virtual void visit(const Assign & x) const override { this->run(x); }
+			virtual void visit(const Return & x) const override { this->run(x); }
+			virtual void visit(const Throw & x) const override { this->run(x); }
+			virtual void visit(const StmtSwitch & x) const override { this->run(x); }
+			virtual void visit(const DoNothing & x) const override { this->run(x); }
+		};
+
+		return Visitor{fx}(stmt);
 	}
 }

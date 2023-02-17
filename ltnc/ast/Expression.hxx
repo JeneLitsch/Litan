@@ -44,32 +44,32 @@ namespace ltn::c::ast {
 
 
 
-	struct ExprVisitor : Visitor<
-		ast::Binary,
-		ast::Unary,
-		ast::Integer,
-		ast::Float,
-		ast::Bool,
-		ast::Char,
-		ast::Null,
-		ast::String,
-		ast::Array,
-		ast::Tuple,
-		ast::Call,
-		ast::Var,
-		ast::Index,
-		ast::Lambda,
-		ast::FxPointer,
-		ast::Member,
-		ast::GlobalVar,
-		ast::Iife,
-		ast::Ternary,
-		ast::ExprSwitch,
-		ast::TypedUnary,
-		ast::Reflect,
-		ast::ForwardDynamicCall,
-		ast::InitStruct>
-	{};
+	using ExprVisitor = Visitor<
+		Binary,
+		Unary,
+		Integer,
+		Float,
+		Bool,
+		Char,
+		Null,
+		String,
+		Array,
+		Tuple,
+		Call,
+		Var,
+		Index,
+		Lambda,
+		FxPointer,
+		Member,
+		GlobalVar,
+		Iife,
+		Ternary,
+		ExprSwitch,
+		TypedUnary,
+		Reflect,
+		ForwardDynamicCall,
+		InitStruct
+	>;
 
 
 
@@ -82,7 +82,7 @@ namespace ltn::c::ast {
 
 
 
-	struct ForwardDynamicCall : public Expression {
+	struct ForwardDynamicCall final : public Expression {
 		ForwardDynamicCall(
 			std::uint64_t addr,
 			std::uint64_t arity,
@@ -99,7 +99,7 @@ namespace ltn::c::ast {
 	
 
 
-	struct Ternary : public Expression {
+	struct Ternary final : public Expression {
 		Ternary(
 			const SourceLocation & location,
 			std::unique_ptr<Expression> condition,
@@ -121,7 +121,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Unary : public Expression {
+	struct Unary final : public Expression {
 		using Op = UnaryOp;
 		Unary(
 			Op op,
@@ -139,7 +139,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Binary : public Expression {
+	struct Binary final : public Expression {
 		using Op = BinaryOp;
 		Binary(
 			Op op,
@@ -160,7 +160,7 @@ namespace ltn::c::ast {
 
 
 
-	struct Reflect : public Expression {
+	struct Reflect final : public Expression {
 		struct NamespaceQuery {
 			Namespace namespaze;
 		};
@@ -482,7 +482,7 @@ namespace ltn::c::ast {
 
 
 
-	struct ExprSwitch : Switch<Expression> {
+	struct ExprSwitch final : Switch<Expression> {
 		ExprSwitch(const SourceLocation & location)
 			: Switch<Expression>{location} {}
 
@@ -491,52 +491,43 @@ namespace ltn::c::ast {
 
 
 
-	template<typename Callable>
-	class ExprVisitorImpl : public ExprVisitor {
-		using Ret = decltype(std::declval<const Callable &>()(std::declval<const ast::Binary &>())); 
-	public:
-		ExprVisitorImpl(Callable fx) : fx{fx} {}
-
-		virtual void visit(const ast::Binary & x)             const override { ret = fx(x); };
-		virtual void visit(const ast::Unary & x)              const override { ret = fx(x); };
-		virtual void visit(const ast::Integer & x)            const override { ret = fx(x); };
-		virtual void visit(const ast::Float & x)              const override { ret = fx(x); };
-		virtual void visit(const ast::Bool & x)               const override { ret = fx(x); };
-		virtual void visit(const ast::Char & x)               const override { ret = fx(x); };
-		virtual void visit(const ast::Null & x)               const override { ret = fx(x); };
-		virtual void visit(const ast::String & x)             const override { ret = fx(x); };
-		virtual void visit(const ast::Array & x)              const override { ret = fx(x); };
-		virtual void visit(const ast::Tuple & x)              const override { ret = fx(x); };
-		virtual void visit(const ast::Call & x)               const override { ret = fx(x); };
-		virtual void visit(const ast::Var & x)                const override { ret = fx(x); };
-		virtual void visit(const ast::Index & x)              const override { ret = fx(x); };
-		virtual void visit(const ast::Lambda & x)             const override { ret = fx(x); };
-		virtual void visit(const ast::FxPointer & x)          const override { ret = fx(x); };
-		virtual void visit(const ast::Member & x)             const override { ret = fx(x); };
-		virtual void visit(const ast::GlobalVar & x)          const override { ret = fx(x); };
-		virtual void visit(const ast::Iife & x)               const override { ret = fx(x); };
-		virtual void visit(const ast::Ternary & x)            const override { ret = fx(x); };
-		virtual void visit(const ast::ExprSwitch & x)         const override { ret = fx(x); };
-		virtual void visit(const ast::TypedUnary & x)         const override { ret = fx(x); };
-		virtual void visit(const ast::Reflect & x)            const override { ret = fx(x); };
-		virtual void visit(const ast::ForwardDynamicCall & x) const override { ret = fx(x); };
-		virtual void visit(const ast::InitStruct & x)         const override { ret = fx(x); };
-
-		Ret operator()(const ast::Expression & expr) const {
-			expr.accept(*this);
-			return std::move(ret);
-		}
-	private:
-		Callable fx;
-		mutable Ret ret;
-	};
 
 	
 
+	auto visit_expression(const Expression & expr, auto && fx) {
+		using Callable = std::decay_t<decltype(fx)>;
+		using Ret = std::invoke_result_t<Callable, Binary>;
+		using Base = FunctionVisitor<ExprVisitor, Callable, Ret>;
 
+		struct Visitor : public Base {
+			Visitor(Callable fx) : Base {fx} {} 
 
-	auto visit_expression(const ast::Expression & expr, auto && fx) {
-		const auto visitor = ExprVisitorImpl{fx};
-		return visitor(expr);
+			virtual void visit(const Binary & x)             const override { this->run(x); };
+			virtual void visit(const Unary & x)              const override { this->run(x); };
+			virtual void visit(const Integer & x)            const override { this->run(x); };
+			virtual void visit(const Float & x)              const override { this->run(x); };
+			virtual void visit(const Bool & x)               const override { this->run(x); };
+			virtual void visit(const Char & x)               const override { this->run(x); };
+			virtual void visit(const Null & x)               const override { this->run(x); };
+			virtual void visit(const String & x)             const override { this->run(x); };
+			virtual void visit(const Array & x)              const override { this->run(x); };
+			virtual void visit(const Tuple & x)              const override { this->run(x); };
+			virtual void visit(const Call & x)               const override { this->run(x); };
+			virtual void visit(const Var & x)                const override { this->run(x); };
+			virtual void visit(const Index & x)              const override { this->run(x); };
+			virtual void visit(const Lambda & x)             const override { this->run(x); };
+			virtual void visit(const FxPointer & x)          const override { this->run(x); };
+			virtual void visit(const Member & x)             const override { this->run(x); };
+			virtual void visit(const GlobalVar & x)          const override { this->run(x); };
+			virtual void visit(const Iife & x)               const override { this->run(x); };
+			virtual void visit(const Ternary & x)            const override { this->run(x); };
+			virtual void visit(const ExprSwitch & x)         const override { this->run(x); };
+			virtual void visit(const TypedUnary & x)         const override { this->run(x); };
+			virtual void visit(const Reflect & x)            const override { this->run(x); };
+			virtual void visit(const ForwardDynamicCall & x) const override { this->run(x); };
+			virtual void visit(const InitStruct & x)         const override { this->run(x); };
+		};
+
+		return Visitor{fx}(expr);
 	}
 }

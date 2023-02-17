@@ -56,7 +56,7 @@ namespace ltn::c::ast {
 
 
 	
-	struct DoNothing : public Statement {
+	struct DoNothing final : public Statement {
 		DoNothing(const SourceLocation & location) : Statement(location) {}
 		virtual ~DoNothing() = default;
 
@@ -260,7 +260,7 @@ namespace ltn::c::ast {
 
 
 
-	struct StmtSwitch : Switch<Statement>  {
+	struct StmtSwitch final : Switch<Statement>  {
 		StmtSwitch(const SourceLocation & location)
 			: Switch<Statement>{location} {}
 
@@ -269,39 +269,32 @@ namespace ltn::c::ast {
 
 
 
-	template<typename Callable>
-	class StmtVisitorImpl : public StmtVisitor {
-		using Ret = decltype(std::declval<const Callable &>()(std::declval<const ast::Block &>())); 
-	public:
-		StmtVisitorImpl(Callable fx) : fx{fx} {}
-
-		virtual void visit(const ast::Block & x)                const override { ret = fx(x); };
-		virtual void visit(const ast::IfElse & x)               const override { ret = fx(x); };
-		virtual void visit(const ast::While & x)                const override { ret = fx(x); };
-		virtual void visit(const ast::InfiniteLoop & x)         const override { ret = fx(x); };
-		virtual void visit(const ast::For & x)                  const override { ret = fx(x); };
-		virtual void visit(const ast::ForEach & x)              const override { ret = fx(x); };
-		virtual void visit(const ast::NewVar & x)               const override { ret = fx(x); };
-		virtual void visit(const ast::Return & x)               const override { ret = fx(x); };
-		virtual void visit(const ast::Throw & x)                const override { ret = fx(x); };
-		virtual void visit(const ast::StmtSwitch & x)           const override { ret = fx(x); };
-		virtual void visit(const ast::StatementExpression & x)  const override { ret = fx(x); };
-		virtual void visit(const ast::DoNothing & x)            const override { ret = fx(x); };
-		virtual void visit(const ast::Assign & x)               const override { ret = fx(x); };
-
-		Ret operator()(const ast::Statement & expr) const {
-			expr.accept(*this);
-			return std::move(ret);
-		}
-	private:
-		Callable fx;
-		mutable Ret ret;
-	};
 
 
 
-	auto visit_statement(const ast::Statement & stmt, auto && fx) {
-		const auto visitor = StmtVisitorImpl{fx};
-		return visitor(stmt);
+	auto visit_statement(const Statement & stmt, auto && fx) {
+		using Callable = std::decay_t<decltype(fx)>;
+		using Ret = std::invoke_result_t<Callable, Block>;
+		using Base = FunctionVisitor<StmtVisitor, Callable, Ret>;
+
+		struct Visitor : public Base {
+			Visitor(Callable fx) : Base{fx} {}
+
+			virtual void visit(const Block & x)                const override { this->run(x); };
+			virtual void visit(const IfElse & x)               const override { this->run(x); };
+			virtual void visit(const While & x)                const override { this->run(x); };
+			virtual void visit(const InfiniteLoop & x)         const override { this->run(x); };
+			virtual void visit(const For & x)                  const override { this->run(x); };
+			virtual void visit(const ForEach & x)              const override { this->run(x); };
+			virtual void visit(const NewVar & x)               const override { this->run(x); };
+			virtual void visit(const Return & x)               const override { this->run(x); };
+			virtual void visit(const Throw & x)                const override { this->run(x); };
+			virtual void visit(const StmtSwitch & x)           const override { this->run(x); };
+			virtual void visit(const StatementExpression & x)  const override { this->run(x); };
+			virtual void visit(const DoNothing & x)            const override { this->run(x); };
+			virtual void visit(const Assign & x)               const override { this->run(x); };
+		};
+
+		return Visitor{fx}(stmt);
 	}
 }

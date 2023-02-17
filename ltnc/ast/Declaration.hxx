@@ -10,7 +10,6 @@ namespace ltn::c::ast {
 
 
 
-
 	struct Declaration : public Node {
 		Declaration(
 			const SourceLocation & location,
