@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <utility>
+#include <any>
 #include <bitset>
 #include "ltn/casts.hxx"
 #include "Switch.hxx"
@@ -16,9 +17,68 @@ namespace ltn::c::ast {
 
 
 
+	struct Binary;
+	struct Unary;
+	struct Integer;
+	struct Float;
+	struct Bool;
+	struct Char;
+	struct Null;
+	struct String;
+	struct Array;
+	struct Tuple;
+	struct Call;
+	struct Var;
+	struct Index;
+	struct Lambda;
+	struct FxPointer;
+	struct Member;
+	struct GlobalVar;
+	struct Iife;
+	struct Ternary;
+	struct ExprSwitch;
+	struct TypedUnary;
+	struct Reflect;
+	struct ForwardDynamicCall;
+	struct InitStruct;
+
+
+
+	class ExprVisitor {
+	public:
+		virtual void run(const ast::Binary &) const = 0;
+		virtual void run(const ast::Unary &) const = 0;
+		virtual void run(const ast::Integer &) const = 0;
+		virtual void run(const ast::Float &) const = 0;
+		virtual void run(const ast::Bool &) const = 0;
+		virtual void run(const ast::Char &) const = 0;
+		virtual void run(const ast::Null &) const = 0;
+		virtual void run(const ast::String &) const = 0;
+		virtual void run(const ast::Array &) const = 0;
+		virtual void run(const ast::Tuple &) const = 0;
+		virtual void run(const ast::Call &) const = 0;
+		virtual void run(const ast::Var &) const = 0;
+		virtual void run(const ast::Index &) const = 0;
+		virtual void run(const ast::Lambda &) const = 0;
+		virtual void run(const ast::FxPointer &) const = 0;
+		virtual void run(const ast::Member &) const = 0;
+		virtual void run(const ast::GlobalVar &) const = 0;
+		virtual void run(const ast::Iife &) const = 0;
+		virtual void run(const ast::Ternary &) const = 0;
+		virtual void run(const ast::ExprSwitch &) const = 0;
+		virtual void run(const ast::TypedUnary &) const = 0;
+		virtual void run(const ast::Reflect &) const = 0;
+		virtual void run(const ast::ForwardDynamicCall &) const = 0;
+		virtual void run(const ast::InitStruct &) const = 0;
+	};
+
+
+
 	struct Expression : public Node {
 		Expression(const SourceLocation & location) : Node(location) {}
 		virtual ~Expression() = default;
+
+		virtual void accept(const ExprVisitor & visitor) const = 0;
 	};
 
 
@@ -34,6 +94,8 @@ namespace ltn::c::ast {
 		virtual ~ForwardDynamicCall() = default;
 		std::uint64_t addr;
 		std::uint64_t arity;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 	
 
@@ -53,6 +115,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> condition;
 		std::unique_ptr<Expression> if_branch;
 		std::unique_ptr<Expression> else_branch;
+		
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -70,6 +134,8 @@ namespace ltn::c::ast {
 		virtual ~Unary() = default;
 		Op op;
 		std::unique_ptr<Expression> expression;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -89,6 +155,8 @@ namespace ltn::c::ast {
 		Op op;
 		std::unique_ptr<Expression> l;
 		std::unique_ptr<Expression> r;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -130,6 +198,8 @@ namespace ltn::c::ast {
 			, query{std::move(query)} {}
 		virtual ~Reflect() = default;
 		Query query;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -150,6 +220,8 @@ namespace ltn::c::ast {
 		Op op;
 		type::IncompleteType type;
 		std::unique_ptr<Expression> expr;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -166,6 +238,8 @@ namespace ltn::c::ast {
 			: Expression(location), value(value) {}
 		virtual ~Integer() = default;
 		std::int64_t value;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -175,6 +249,8 @@ namespace ltn::c::ast {
 			: Expression(location), value(value) {}
 		virtual ~Float() = default;
 		stx::float64_t value;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -184,6 +260,8 @@ namespace ltn::c::ast {
 			: Expression(location), value(value) {}
 		virtual ~Bool() = default;
 		bool value;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -192,6 +270,8 @@ namespace ltn::c::ast {
 		Null(const SourceLocation & location)
 			: Expression(location) {}
 		virtual ~Null() = default;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -201,6 +281,8 @@ namespace ltn::c::ast {
 			: Expression(location), value(value) {}
 		virtual ~Char() = default;
 		std::uint8_t value;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -210,6 +292,8 @@ namespace ltn::c::ast {
 			: Expression(location), value(value) {}
 		virtual ~String() = default;
 		std::string value;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -222,6 +306,8 @@ namespace ltn::c::ast {
 			, elements{std::move(elements)} {}
 
 		std::vector<std::unique_ptr<Expression>> elements;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -234,6 +320,8 @@ namespace ltn::c::ast {
 			, elements{std::move(elements)} {}
 		virtual ~Tuple() = default;
 		std::vector<std::unique_ptr<Expression>> elements;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -249,6 +337,8 @@ namespace ltn::c::ast {
 		virtual ~Lambda() = default;
 		std::unique_ptr<Function> fx;
 		std::vector<std::unique_ptr<Var>> captures;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -264,6 +354,8 @@ namespace ltn::c::ast {
 		virtual ~Index() = default;
 		std::unique_ptr<Expression> expression;
 		std::unique_ptr<Expression> index;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -280,6 +372,8 @@ namespace ltn::c::ast {
 		virtual ~Var() = default;
 		std::string name;
 		Namespace namespaze;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -295,6 +389,8 @@ namespace ltn::c::ast {
 		virtual ~GlobalVar() = default;
 		std::string name;
 		Namespace namespaze;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -310,6 +406,8 @@ namespace ltn::c::ast {
 		virtual ~Member() = default;
 		std::unique_ptr<Expression> expr;
 		std::string name;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -326,6 +424,8 @@ namespace ltn::c::ast {
 		
 		std::unique_ptr<Statement> stmt;
 		type::IncompleteType return_type;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -345,6 +445,8 @@ namespace ltn::c::ast {
 		Namespace namespaze;
 		std::size_t placeholders;
 		std::vector<type::IncompleteType> template_arguements;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -361,6 +463,8 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> function_ptr;
 		std::vector<std::unique_ptr<Expression>> parameters;
 		std::vector<type::IncompleteType> template_args;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
@@ -374,38 +478,65 @@ namespace ltn::c::ast {
 			std::unique_ptr<Expression> expr;
 		};
 		std::vector<Member> members;
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
 	};
 
 
 
-	using ExprSwitch = Switch<Expression>;
+	struct ExprSwitch : Switch<Expression> {
+		ExprSwitch(const SourceLocation & location)
+			: Switch<Expression>{location} {}
+
+		virtual void accept(const ExprVisitor & visitor) const override { visitor.run(*this); }
+	};
+
+
+
+	template<typename Callable>
+	class ExprVisitorImpl : public ExprVisitor {
+		using Ret = decltype(std::declval<const Callable &>()(std::declval<const ast::Binary &>())); 
+	public:
+		ExprVisitorImpl(Callable fx) : fx{fx} {}
+
+		virtual void run(const ast::Binary & x)             const override { ret = fx(x); };
+		virtual void run(const ast::Unary & x)              const override { ret = fx(x); };
+		virtual void run(const ast::Integer & x)            const override { ret = fx(x); };
+		virtual void run(const ast::Float & x)              const override { ret = fx(x); };
+		virtual void run(const ast::Bool & x)               const override { ret = fx(x); };
+		virtual void run(const ast::Char & x)               const override { ret = fx(x); };
+		virtual void run(const ast::Null & x)               const override { ret = fx(x); };
+		virtual void run(const ast::String & x)             const override { ret = fx(x); };
+		virtual void run(const ast::Array & x)              const override { ret = fx(x); };
+		virtual void run(const ast::Tuple & x)              const override { ret = fx(x); };
+		virtual void run(const ast::Call & x)               const override { ret = fx(x); };
+		virtual void run(const ast::Var & x)                const override { ret = fx(x); };
+		virtual void run(const ast::Index & x)              const override { ret = fx(x); };
+		virtual void run(const ast::Lambda & x)             const override { ret = fx(x); };
+		virtual void run(const ast::FxPointer & x)          const override { ret = fx(x); };
+		virtual void run(const ast::Member & x)             const override { ret = fx(x); };
+		virtual void run(const ast::GlobalVar & x)          const override { ret = fx(x); };
+		virtual void run(const ast::Iife & x)               const override { ret = fx(x); };
+		virtual void run(const ast::Ternary & x)            const override { ret = fx(x); };
+		virtual void run(const ast::ExprSwitch & x)         const override { ret = fx(x); };
+		virtual void run(const ast::TypedUnary & x)         const override { ret = fx(x); };
+		virtual void run(const ast::Reflect & x)            const override { ret = fx(x); };
+		virtual void run(const ast::ForwardDynamicCall & x) const override { ret = fx(x); };
+		virtual void run(const ast::InitStruct & x)         const override { ret = fx(x); };
+
+		Ret operator()(const ast::Expression & expr) const {
+			expr.accept(*this);
+			return std::move(ret);
+		}
+	private:
+		Callable fx;
+		mutable Ret ret;
+	};
+
 
 
 	auto visit_expression(const ast::Expression & expr, auto && fx) {
-		if(auto e = as<ast::Binary>(expr)) return fx(*e);
-		if(auto e = as<ast::Unary>(expr)) return fx(*e);
-		if(auto e = as<ast::Integer>(expr)) return fx(*e);
-		if(auto e = as<ast::Float>(expr)) return fx(*e);
-		if(auto e = as<ast::Bool>(expr)) return fx(*e);
-		if(auto e = as<ast::Char>(expr)) return fx(*e);
-		if(auto e = as<ast::Null>(expr)) return fx(*e);
-		if(auto e = as<ast::String>(expr)) return fx(*e);
-		if(auto e = as<ast::Array>(expr)) return fx(*e);
-		if(auto e = as<ast::Tuple>(expr)) return fx(*e);
-		if(auto e = as<ast::Call>(expr)) return fx(*e);
-		if(auto e = as<ast::Var>(expr)) return fx(*e);
-		if(auto e = as<ast::Index>(expr)) return fx(*e);
-		if(auto e = as<ast::Lambda>(expr)) return fx(*e);
-		if(auto e = as<ast::FxPointer>(expr)) return fx(*e);
-		if(auto e = as<ast::Member>(expr)) return fx(*e);
-		if(auto e = as<ast::GlobalVar>(expr)) return fx(*e);
-		if(auto e = as<ast::Iife>(expr)) return fx(*e);
-		if(auto e = as<ast::Ternary>(expr)) return fx(*e);
-		if(auto e = as<ast::ExprSwitch>(expr)) return fx(*e);
-		if(auto e = as<ast::TypedUnary>(expr)) return fx(*e);
-		if(auto e = as<ast::Reflect>(expr)) return fx(*e);
-		if(auto e = as<ast::ForwardDynamicCall>(expr)) return fx(*e);
-		if(auto e = as<ast::InitStruct>(expr)) return fx(*e);
-		throw std::runtime_error{"Unknown Expression AST"};
+		const auto visitor = ExprVisitorImpl{fx};
+		return visitor(expr);
 	}
 }
