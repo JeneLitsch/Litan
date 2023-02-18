@@ -1,7 +1,7 @@
 #include "inst.hxx"
 
 namespace ltn::c::inst {
-	Inst label(const std::string name) {
+	Inst label(const std::string & name) {
 		return InstLabel{
 			.label = name,
 		};

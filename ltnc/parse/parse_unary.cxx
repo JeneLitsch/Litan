@@ -88,7 +88,7 @@ namespace ltn::c {
 					std::move(function_args),
 					location(tokens)
 				);
-				call->template_args = template_args;
+				call->template_arguments = template_args;
 				return parse_postfix(tokens, std::move(call));
 			}
 

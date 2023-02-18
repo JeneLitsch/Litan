@@ -4,8 +4,8 @@
 namespace ltn::c {
 	namespace {
 		sst::stmt_ptr optimize_unary_statement(auto & stmt) {
-			if(stmt.expression) {
-				stmt.expression = optimize_expression(std::move(stmt.expression));
+			if(stmt.expr) {
+				stmt.expr = optimize_expression(std::move(stmt.expr));
 			}
 			return nullptr;
 		} 

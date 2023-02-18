@@ -65,9 +65,9 @@ namespace ltn::c::sst {
 
 
 	struct NewVarBinding : public Binding {
-		NewVarBinding(std::uint64_t addr)
+		NewVarBinding(std::uint64_t address)
 			: Binding {}
-			, addr{std::move(addr)} {}
+			, address{std::move(address)} {}
 
 		virtual std::size_t alloc_count() const override {
 			return 1;
@@ -77,7 +77,7 @@ namespace ltn::c::sst {
 			visitor.visit(*this);
 		}
 
-		std::uint64_t addr;
+		std::uint64_t address;
 	};
 
 
@@ -97,9 +97,9 @@ namespace ltn::c::sst {
 
 
 	struct GlobalBinding final : public Binding {
-		GlobalBinding(std::uint64_t addr)
+		GlobalBinding(std::uint64_t address)
 			: Binding{}
-			, addr{addr} {}
+			, address{address} {}
 
 		virtual std::size_t alloc_count() const override { return 0; }
 	
@@ -107,7 +107,7 @@ namespace ltn::c::sst {
 			visitor.visit(*this);
 		}
 
-		std::uint64_t addr;
+		std::uint64_t address;
 	};
 
 
@@ -115,10 +115,10 @@ namespace ltn::c::sst {
 	struct MemberBinding final : public Binding {
 		MemberBinding(
 			std::unique_ptr<Expression> object,
-			std::uint64_t addr)
+			std::uint64_t address)
 			: Binding{}
 			, object{std::move(object)}
-			, addr{addr} {}
+			, address{address} {}
 
 		virtual std::size_t alloc_count() const override { return 0; }
 
@@ -127,16 +127,16 @@ namespace ltn::c::sst {
 		}
 
 		std::unique_ptr<Expression> object;
-		std::uint64_t addr;
+		std::uint64_t address;
 	};
 
 
 
 	struct LocalBinding final : public Binding {
 		LocalBinding(
-			std::uint64_t addr)
+			std::uint64_t address)
 			: Binding{}
-			, addr{addr} {}
+			, address{address} {}
 
 		virtual std::size_t alloc_count() const override { return 0; }
 	
@@ -144,7 +144,7 @@ namespace ltn::c::sst {
 			visitor.visit(*this);
 		}
 
-		std::uint64_t addr;
+		std::uint64_t address;
 	};
 
 

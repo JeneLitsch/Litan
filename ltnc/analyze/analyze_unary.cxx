@@ -27,7 +27,7 @@ namespace ltn::c {
 			oss 
 				<< "Invalid operands ("
 				<< to_string(type)
-				<< ") for unary expression";
+				<< ") for unary expr";
 
 			return CompilerError { oss.str(), location };
 		}
@@ -40,7 +40,7 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 		
-		auto expr = analyze_expression(*unary.expression, context, scope);
+		auto expr = analyze_expression(*unary.expr, context, scope);
 		const auto op = static_cast<sst::Unary::Op>(unary.op);
 		const auto type = deduce_type(op, expr->type);
 

@@ -44,7 +44,7 @@ namespace ltn::c {
 	}
 
 
-	// generic expression
+	// generic expr
 	ast::expr_ptr parse_expression(Tokens & tokens) {
 		auto expr = parse_expression_no_cast(tokens);
 		return parse_cast(tokens, std::move(expr));

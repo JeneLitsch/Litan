@@ -10,7 +10,7 @@ namespace ltn::c {
 		
 		InstructionBuffer compile_bind(const sst::NewVarBinding & binding) {
 			InstructionBuffer buf;
-			buf << inst::write_x(binding.addr);
+			buf << inst::write_x(binding.address);
 			return buf;
 		}
 		
@@ -38,7 +38,7 @@ namespace ltn::c {
 
 		InstructionBuffer compile_bind(const sst::GlobalBinding & binding) {
 			InstructionBuffer buf;
-			buf << inst::global_write(binding.addr);
+			buf << inst::global_write(binding.address);
 			return buf;
 		}
 
@@ -47,7 +47,7 @@ namespace ltn::c {
 		InstructionBuffer compile_bind(const sst::MemberBinding & binding) {
 			InstructionBuffer buf;
 			buf << compile_expression(*binding.object);
-			buf << inst::member_write(binding.addr);
+			buf << inst::member_write(binding.address);
 			return buf;
 		}
 		
@@ -55,7 +55,7 @@ namespace ltn::c {
 		
 		InstructionBuffer compile_bind(const sst::LocalBinding & binding) {
 			InstructionBuffer buf;
-			buf << inst::write_x(binding.addr);
+			buf << inst::write_x(binding.address);
 			return buf;
 		}
 		
@@ -82,7 +82,7 @@ namespace ltn::c {
 
 	InstructionBuffer compile_stmt(const sst::Assign & new_var) {
 		InstructionBuffer buf;
-		buf << compile_expression(*new_var.expression);
+		buf << compile_expression(*new_var.expr);
 		buf << compile_binding(*new_var.binding);
 		return buf;
 	}

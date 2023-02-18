@@ -63,8 +63,8 @@ namespace ltn::vm {
 
 
 
-	void Stack::set_except_handler(const std::uint8_t * addr) {
-		this->frames.back().except_jump = addr;
+	void Stack::set_except_handler(const std::uint8_t * address) {
+		this->frames.back().except_jump = address;
 	}
 }
 

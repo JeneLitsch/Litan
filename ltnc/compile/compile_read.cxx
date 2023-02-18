@@ -3,7 +3,7 @@
 namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Var & expr) {
 		InstructionBuffer buf;
-		buf << inst::read_x(expr.addr);
+		buf << inst::read_x(expr.address);
 		return buf;
 	}
 
@@ -11,7 +11,7 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Member & access) {
 		InstructionBuffer buf;
 		buf << compile_expression(*access.expr);
-		buf << inst::member_read(access.addr);
+		buf << inst::member_read(access.address);
 		return buf;
 	}
 }

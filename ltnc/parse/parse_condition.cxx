@@ -6,7 +6,7 @@ namespace ltn::c {
 		using TT = Token::Type;
 	}
 
-	// expression in (...) for e.g. if, while...
+	// expr in (...) for e.g. if, while...
 	ast::expr_ptr parse_condition(Tokens & tokens) {
 		if(!match(TT::PAREN_L, tokens)) {
 			throw CompilerError{"expected (", location(tokens)};

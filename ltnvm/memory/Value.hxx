@@ -66,20 +66,20 @@ namespace ltn::vm {
 			return Value{static_cast<char>(i)};
 		}
 
-		constexpr inline Value string(std::uint64_t addr) {
-			return Value{addr, Value::Type::STRING};
+		constexpr inline Value string(std::uint64_t address) {
+			return Value{address, Value::Type::STRING};
 		}
 
-		constexpr inline Value array(std::uint64_t addr) {
-			return Value{addr, Value::Type::ARRAY};
+		constexpr inline Value array(std::uint64_t address) {
+			return Value{address, Value::Type::ARRAY};
 		}
 
-		constexpr inline Value rng(std::uint64_t addr) {
-			return Value{addr, Value::Type::RNG};
+		constexpr inline Value rng(std::uint64_t address) {
+			return Value{address, Value::Type::RNG};
 		}
 
-		constexpr inline Value tuple(std::uint64_t addr) {
-			return Value{addr, Value::Type::TUPLE};
+		constexpr inline Value tuple(std::uint64_t address) {
+			return Value{address, Value::Type::TUPLE};
 		}
 	}
 }

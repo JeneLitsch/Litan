@@ -58,15 +58,15 @@ namespace ltn::c {
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstJump & args,
 			const AddressTable & jump_table) {
-			const auto addr = resolve_label(jump_table, args.label);
-			bytecode += to_bytes(addr);
+			const auto address = resolve_label(jump_table, args.label);
+			bytecode += to_bytes(address);
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstCall & args,
 			const AddressTable & jump_table) {
-			const auto addr = resolve_label(jump_table, args.label);
-			bytecode += to_bytes(addr);
+			const auto address = resolve_label(jump_table, args.label);
+			bytecode += to_bytes(address);
 			bytecode += args.arity;
 		}
 		void assemble_args(
@@ -129,10 +129,10 @@ namespace ltn::c {
 		std::vector<std::uint8_t> sequence_table(const AddressTable & table) {
 			std::vector<std::uint8_t> bytecode;
 			bytecode += to_bytes(std::size_t(std::size(table)));
-			for (const auto & [name, addr] : table) {
+			for (const auto & [name, address] : table) {
 				bytecode += to_bytes(std::uint64_t(std::size(name)));
 				bytecode += std::vector<std::uint8_t> {std::begin(name), std::end(name)};
-				bytecode += to_bytes(std::uint64_t(addr));
+				bytecode += to_bytes(std::uint64_t(address));
 			}
 			return bytecode;
 		}

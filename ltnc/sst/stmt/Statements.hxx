@@ -31,18 +31,18 @@ namespace ltn::c::sst {
 
 
 	struct Throw final : public Statement {
-		Throw(std::unique_ptr<Expression> expression) 
+		Throw(std::unique_ptr<Expression> expr) 
 			: Statement{}
-			, expression(std::move(expression)) {}
+			, expr(std::move(expr)) {}
 
 		virtual std::size_t nested_alloc() const override { return 0; }
-		virtual std::size_t direct_alloc() const override { return this->expression->alloc(); }
+		virtual std::size_t direct_alloc() const override { return this->expr->alloc(); }
 
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expr;
 	};
 
 
@@ -79,17 +79,17 @@ namespace ltn::c::sst {
 	struct Assign final : public Statement {
 		Assign(
 			std::unique_ptr<Binding> binding,
-			std::unique_ptr<Expression> expression)
+			std::unique_ptr<Expression> expr)
 			: Statement{}
 			, binding{std::move(binding)}
-			, expression(std::move(expression)) {}
+			, expr(std::move(expr)) {}
 
 		virtual std::size_t nested_alloc() const override {
 			return 0;
 		}
 		
 		virtual std::size_t direct_alloc() const override {
-			return this->binding->alloc_count() + expression->alloc();
+			return this->binding->alloc_count() + expr->alloc();
 		}
 	
 		virtual void accept(const StmtVisitor & visitor) const override {
@@ -97,7 +97,7 @@ namespace ltn::c::sst {
 		}
 
 		std::unique_ptr<Binding> binding;
-		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expr;
 	};
 
 
@@ -256,20 +256,20 @@ namespace ltn::c::sst {
 
 	struct Return final : public Statement {
 		Return(
-			std::unique_ptr<Expression> expression,
+			std::unique_ptr<Expression> expr,
 			std::optional<std::string> overide_label)
 			: Statement{}
-			, expression(std::move(expression))
+			, expr(std::move(expr))
 			, overide_label{overide_label} {}
 
 		virtual std::size_t nested_alloc() const override { return 0; }
-		virtual std::size_t direct_alloc() const override { return this->expression->alloc(); }
+		virtual std::size_t direct_alloc() const override { return this->expr->alloc(); }
 	
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expr;
 		std::optional<std::string> overide_label;
 	};
 

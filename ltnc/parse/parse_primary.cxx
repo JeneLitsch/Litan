@@ -219,7 +219,7 @@ namespace ltn::c {
 
 
 
-	// parses primary expression
+	// parses primary expr
 	ast::expr_ptr parse_primary(Tokens & tokens) {
 		if(auto expr = parse_integral(tokens)) return expr;
 		if(auto expr = parse_character(tokens)) return expr;

@@ -48,7 +48,7 @@ namespace ltn::c {
 			oss 
 				<< "Invalid operands ("
 				<< to_string(l) << " and " << to_string(r)
-				<< ") for binary expression";
+				<< ") for binary expr";
 
 			return CompilerError { oss.str(), location };
 		}

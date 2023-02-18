@@ -3,8 +3,8 @@
 namespace ltn::c {
 	sst::expr_ptr optimize_expression(sst::Expression & expr) {
 		if(auto call = as<sst::Call>(expr)) {
-			for(auto & parameter : call->parameters) {
-				parameter = optimize_expression(std::move(parameter));
+			for(auto & argument : call->arguments) {
+				argument = optimize_expression(std::move(argument));
 			}
 		}
 		if(auto e = as<sst::Unary>(expr)) {

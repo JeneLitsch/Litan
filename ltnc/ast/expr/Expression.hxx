@@ -81,18 +81,18 @@ namespace ltn::c::ast {
 
 	struct ForwardDynamicCall final : public Expression {
 		ForwardDynamicCall(
-			std::uint64_t addr,
+			std::uint64_t address,
 			std::uint64_t arity,
 			const SourceLocation & location)
 			: Expression(location)
-			, addr{addr}
+			, address{address}
 			, arity{arity} {}
 
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
 
-		std::uint64_t addr;
+		std::uint64_t address;
 		std::uint64_t arity;
 	};
 	
@@ -127,18 +127,18 @@ namespace ltn::c::ast {
 		
 		Unary(
 			Op op,
-			std::unique_ptr<Expression> expression,
+			std::unique_ptr<Expression> expr,
 			const SourceLocation & location)
 			: Expression(location)
 			, op(op)
-			, expression(std::move(expression)) {}
+			, expr(std::move(expr)) {}
 
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
 
 		Op op;
-		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expr;
 	};
 
 
@@ -377,18 +377,18 @@ namespace ltn::c::ast {
 	
 	struct Index final : public Expression {
 		Index(
-			std::unique_ptr<Expression> expression,
+			std::unique_ptr<Expression> expr,
 			std::unique_ptr<Expression> index,
 			const SourceLocation & location)
 			: Expression(location)
-			, expression(std::move(expression))
+			, expr(std::move(expr))
 			, index(std::move(index)) {}
 
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expr;
 		std::unique_ptr<Expression> index;
 	};
 
@@ -496,19 +496,19 @@ namespace ltn::c::ast {
 	struct Call final : public Expression {
 		Call(
 			std::unique_ptr<Expression> function_ptr,
-			std::vector<std::unique_ptr<Expression>> parameters,
+			std::vector<std::unique_ptr<Expression>> arguments,
 			const SourceLocation & location)
 			: Expression(location)
 			, function_ptr(std::move(function_ptr))
-			, parameters(std::move(parameters)) {}
+			, arguments(std::move(arguments)) {}
 
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
 
 		std::unique_ptr<Expression> function_ptr;
-		std::vector<std::unique_ptr<Expression>> parameters;
-		std::vector<type::IncompleteType> template_args;
+		std::vector<std::unique_ptr<Expression>> arguments;
+		std::vector<type::IncompleteType> template_arguments;
 	};
 
 

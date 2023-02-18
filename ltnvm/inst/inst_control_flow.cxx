@@ -8,17 +8,17 @@
 
 namespace ltn::vm::inst {
 	void jump(VmCore & core) {
-		const auto addr = core.fetch_uint(); 
-		core.pc = core.code_begin + addr;
+		const auto address = core.fetch_uint(); 
+		core.pc = core.code_begin + address;
 	}
 
 
 
 	void call(VmCore & core) {
-		const auto addr = core.fetch_uint(); 
+		const auto address = core.fetch_uint(); 
 		const auto arity = core.fetch_byte();
 		core.stack.push_frame(core.pc, arity);
-		core.pc = core.code_begin + addr;
+		core.pc = core.code_begin + address;
 	}
 
 

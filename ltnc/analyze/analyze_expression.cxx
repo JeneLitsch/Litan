@@ -13,7 +13,7 @@ namespace ltn::c {
 		}
 
 		return std::make_unique<sst::Invoke>(
-			std::make_unique<sst::Integer>(forward.addr, type::Int{}),
+			std::make_unique<sst::Integer>(forward.address, type::Int{}),
 			std::move(arguments),
 			type::Any{}
 		);
@@ -21,7 +21,7 @@ namespace ltn::c {
 
 
 
-	// compiles any expression
+	// compiles any expr
 	sst::expr_ptr analyze_expression(
 		const ast::Expression & expr,
 		Context & context,
@@ -32,7 +32,7 @@ namespace ltn::c {
 		});
 
 		if(is_error(result->type)) throw CompilerError {
-			"Invalid operands for expression",
+			"Invalid operands for expr",
 			location(expr)
 		};
 

@@ -53,14 +53,14 @@ namespace ltn::c::sst {
 		using Op = UnaryOp;
 		Unary(
 			Op op,
-			std::unique_ptr<Expression> expression,
+			std::unique_ptr<Expression> expr,
 			const type::Type & type)
 			: Expression{type}
 			, op(op)
-			, expression(std::move(expression)) {}
+			, expr(std::move(expr)) {}
 
 		virtual std::uint64_t alloc() const override {
-			return this->expression->alloc();
+			return this->expr->alloc();
 		}
 
 		virtual void accept(const ExprVisitor & visitor) const override {
@@ -68,7 +68,7 @@ namespace ltn::c::sst {
 		}
 
 		Op op;
-		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expr;
 	};
 
 
@@ -165,11 +165,11 @@ namespace ltn::c::sst {
 
 		Reflect(
 			Query query,
-			Addr addr,
+			Addr address,
 			const type::Type & type)
 			: Expression{type}
 			, query{std::move(query)}
-			, addr{addr} {}
+			, address{address} {}
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -180,7 +180,7 @@ namespace ltn::c::sst {
 		}
 
 		Query query;
-		Addr addr;
+		Addr address;
 	};
 
 
@@ -396,16 +396,16 @@ namespace ltn::c::sst {
 
 	struct Index final : public Expression {
 		Index(
-			std::unique_ptr<Expression> expression,
+			std::unique_ptr<Expression> expr,
 			std::unique_ptr<Expression> index,
 			const type::Type & type)
 			: Expression{type}
-			, expression(std::move(expression))
+			, expr(std::move(expr))
 			, index(std::move(index)) {}
 
 		virtual std::uint64_t alloc() const override {
 			return std::max({
-				this->expression->alloc(),
+				this->expr->alloc(),
 				this->index->alloc(),
 			});
 		}
@@ -414,7 +414,7 @@ namespace ltn::c::sst {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expr;
 		std::unique_ptr<Expression> index;
 	};
 
@@ -423,10 +423,10 @@ namespace ltn::c::sst {
 	struct Var final : public Expression {
 	public:
 		Var(
-			std::size_t addr,
+			std::size_t address,
 			const type::Type & type)
 			: Expression{type}
-			, addr{addr} {}
+			, address{address} {}
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -436,7 +436,7 @@ namespace ltn::c::sst {
 			visitor.visit(*this);
 		}
 
-		std::size_t addr;
+		std::size_t address;
 	};
 
 
@@ -445,9 +445,9 @@ namespace ltn::c::sst {
 	public:
 		GlobalVar(
 			const type::Type & type,
-			std::size_t addr)
+			std::size_t address)
 			: Expression{type}
-			, addr { addr } {}
+			, address { address } {}
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -457,7 +457,7 @@ namespace ltn::c::sst {
 			visitor.visit(*this);
 		}
 
-		std::size_t addr;
+		std::size_t address;
 	};
 
 
@@ -466,10 +466,10 @@ namespace ltn::c::sst {
 		Member(
 			const type::Type & type,
 			std::unique_ptr<Expression> expr,
-			std::size_t addr)
+			std::size_t address)
 			: Expression{type}
 			, expr(std::move(expr))
-			, addr { addr } {};
+			, address { address } {};
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -480,7 +480,7 @@ namespace ltn::c::sst {
 		}
 
 		std::unique_ptr<Expression> expr;
-		std::size_t addr;
+		std::size_t address;
 	};
 
 
@@ -512,7 +512,6 @@ namespace ltn::c::sst {
 
 
 	struct FxPointer final : public Expression {
-	public:
 		FxPointer(
 			const Label & label,
 			std::size_t arity,
@@ -536,18 +535,17 @@ namespace ltn::c::sst {
 
 
 	struct Call final : public Expression {
-	public:
 		Call(
 			const Label & label,
-			std::vector<std::unique_ptr<Expression>> parameters,
+			std::vector<std::unique_ptr<Expression>> arguments,
 			const type::Type & type)
 			: Expression{type}
 			, label{label}
-			, parameters(std::move(parameters)) {}
+			, arguments(std::move(arguments)) {}
 
 		virtual std::uint64_t alloc() const override {
 			std::uint64_t count = 0;
-			for(const auto & elem : this->parameters) {
+			for(const auto & elem : this->arguments) {
 				count = std::max(elem->alloc(), count);
 			}
 			return count;
@@ -557,26 +555,29 @@ namespace ltn::c::sst {
 			visitor.visit(*this);
 		}
 
+		std::uint64_t arity() const {
+			return std::size(arguments);
+		}
+
 		Label label;
-		std::vector<std::unique_ptr<Expression>> parameters;
+		std::vector<std::unique_ptr<Expression>> arguments;
 	};
 
 
 
 	struct Invoke final : public Expression {
-	public:
 		Invoke(
 			std::unique_ptr<Expression> function_ptr,
-			std::vector<std::unique_ptr<Expression>> parameters,
+			std::vector<std::unique_ptr<Expression>> arguments,
 			const type::Type & type)
 			: Expression{type}
 			, function_ptr(std::move(function_ptr))
-			, parameters(std::move(parameters)) {}
+			, arguments(std::move(arguments)) {}
 		virtual ~Invoke() = default;
 
 		virtual std::uint64_t alloc() const override {
 			std::uint64_t count = 0;
-			for(const auto & elem : this->parameters) {
+			for(const auto & elem : this->arguments) {
 				count = std::max(elem->alloc(), count);
 			}
 			return std::max(count, function_ptr->alloc());
@@ -586,8 +587,12 @@ namespace ltn::c::sst {
 			visitor.visit(*this);
 		}
 
+		std::uint64_t arity() const {
+			return std::size(arguments);
+		}
+
 		std::unique_ptr<Expression> function_ptr;
-		std::vector<std::unique_ptr<Expression>> parameters;
+		std::vector<std::unique_ptr<Expression>> arguments;
 	};
 
 
@@ -596,7 +601,7 @@ namespace ltn::c::sst {
 		InitStruct() : Expression{type::Any{}} {}
 
 		struct Member {
-			std::uint64_t addr;
+			std::uint64_t address;
 			std::unique_ptr<Expression> expr;
 		};
 

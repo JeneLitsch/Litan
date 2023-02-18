@@ -5,8 +5,8 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 		
-		if(thr0w.expression) {
-			auto expr = analyze_expression(*thr0w.expression, context, scope);
+		if(thr0w.expr) {
+			auto expr = analyze_expression(*thr0w.expr, context, scope);
 			return std::make_unique<sst::Throw>(
 				std::move(expr)
 			);

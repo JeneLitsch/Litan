@@ -5,6 +5,7 @@
 #include <cstdint>
 #include "stdxx/float64_t.hxx"
 #include "ltn/opcodes.hxx"
+#include "ltnc/Label.hxx"
 
 namespace ltn::c::inst {
     struct InstNone {
@@ -115,7 +116,7 @@ namespace ltn::c::inst {
 	    InstBytex0
     >;
     
-	Inst label(const std::string name);
+	Inst label(const std::string & name);
 
 	Inst exit();
 	Inst error();

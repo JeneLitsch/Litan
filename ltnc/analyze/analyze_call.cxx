@@ -32,8 +32,8 @@ namespace ltn::c {
 			}
 
 			std::vector<sst::expr_ptr> arguments;
-			for(std::size_t i = 0; i < call.parameters.size(); ++i) {
-				auto & arg_expr = call.parameters[i];
+			for(std::size_t i = 0; i < call.arguments.size(); ++i) {
+				auto & arg_expr = call.arguments[i];
 				auto & parameter = fx.parameters[i];
 				auto arg = analyze_expression(*arg_expr, context, scope);
 				const auto expr_type = arg->type;
@@ -69,7 +69,7 @@ namespace ltn::c {
 			auto expr = analyze_expression(*call.function_ptr, context, scope);
 
 			std::vector<sst::expr_ptr> arguments;
-			for(const auto & param : call.parameters) {
+			for(const auto & param : call.arguments) {
 				arguments.push_back(analyze_expression(*param, context, scope));
 			}
 
@@ -92,14 +92,14 @@ namespace ltn::c {
 			const auto tmpl = get_template(
 				var.name,
 				var.namespaze,
-				call.parameters.size(),
-				call.template_args.size(),
+				call.arguments.size(),
+				call.template_arguments.size(),
 				location(var),
 				context,
 				scope
 			);
 			const auto arguments = stx::fx::mapped(instantiate_type)(
-				call.template_args,
+				call.template_arguments,
 				scope
 			);
 			context.fx_queue.stage_template(*tmpl, arguments);
@@ -108,7 +108,7 @@ namespace ltn::c {
 			add_template_args(
 				inner_scope,
 				tmpl->template_parameters,
-				call.template_args);
+				call.template_arguments);
 			return do_call(call, *tmpl->fx, context, inner_scope, label);
 		}
 	}
@@ -123,7 +123,7 @@ namespace ltn::c {
 	
 		const auto * var = as<ast::Var>(*call.function_ptr);
 		if(var) {
-			if(!call.template_args.empty()) {
+			if(!call.template_arguments.empty()) {
 				return do_call_template(call, *var, context, scope);
 			}
 			if(var->namespaze.empty()) {
@@ -137,7 +137,7 @@ namespace ltn::c {
 				var->name,
 				scope.get_namespace(),
 				var->namespaze,
-				call.parameters.size());
+				call.arguments.size());
 
 			if(fx) {
 				context.fx_queue.stage_function(*fx);

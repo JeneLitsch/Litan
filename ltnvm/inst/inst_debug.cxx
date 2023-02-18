@@ -22,16 +22,16 @@ namespace ltn::vm::inst {
 
 
 	void tRy(VmCore & core) {
-		const auto addr = core.fetch_uint();
-		core.stack.set_except_handler(core.code_begin + addr);
+		const auto address = core.fetch_uint();
+		core.stack.set_except_handler(core.code_begin + address);
 	}
 
 
 
 	void thr0w(VmCore & core) {
 		const auto except = core.stack.pop();
-		if(auto addr = unwind(core.stack)) {
-			core.pc = addr;
+		if(auto address = unwind(core.stack)) {
+			core.pc = address;
 			const auto jumpback = core.stack.pop_frame();
 			// These 2 were in the wrong order
 			core.stack.push(except);

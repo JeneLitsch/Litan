@@ -300,7 +300,7 @@ namespace ltn::vm {
 			"Program does not contain global variable " + name
 		};
 
-		const auto addr = core.static_table[name];
-		this->core.static_variables[addr] = to_value(variant, core.heap);
+		const auto address = core.static_table[name];
+		this->core.static_variables[address] = to_value(variant, core.heap);
 	}
 }

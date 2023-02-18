@@ -15,9 +15,9 @@ namespace ltn::c {
 		if(this->vars.contains(name)) {
 			throw CompilerError{"Redefintion of variable " + name, location};
 		}
-		const auto addr = size();
+		const auto address = size();
 		const Variable var{
-			.address = addr,
+			.address = address,
 			.type = type,
 		}; 
 		this->vars.insert({name, var});

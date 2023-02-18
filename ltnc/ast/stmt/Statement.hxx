@@ -67,16 +67,16 @@ namespace ltn::c::ast {
 
 	struct Throw final : public Statement {
 		Throw(
-			std::unique_ptr<Expression> expression,
+			std::unique_ptr<Expression> expr,
 			const SourceLocation & location) 
 			: Statement(location)
-			, expression(std::move(expression)) {}
+			, expr(std::move(expr)) {}
 
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expr;
 	};
 
 
@@ -100,12 +100,12 @@ namespace ltn::c::ast {
 	struct NewVar final : public Statement {
 		NewVar(
 			std::unique_ptr<Binding> binding,
-			std::unique_ptr<Expression> expression,
+			std::unique_ptr<Expression> expr,
 			const SourceLocation & location,
 			const std::optional<type::IncompleteType> & type = type::IncompleteType{type::Any{}})
 			: Statement(location)
 			, binding(std::move(binding))
-			, expression(std::move(expression))
+			, expr(std::move(expr))
 			, type{type} {}
 
 		virtual void accept(const StmtVisitor & visitor) const override {
@@ -113,7 +113,7 @@ namespace ltn::c::ast {
 		}
 
 		std::unique_ptr<Binding> binding;		
-		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expr;
 		std::optional<type::IncompleteType> type;
 	};
 
@@ -229,32 +229,32 @@ namespace ltn::c::ast {
 
 	struct StatementExpression final : public Statement {
 		StatementExpression(
-			std::unique_ptr<Expression> expression,
+			std::unique_ptr<Expression> expr,
 			const SourceLocation & location)
 			: Statement(location)
-			, expression(std::move(expression)) {}
+			, expr(std::move(expr)) {}
 
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expr;
 	};
 
 
 
 	struct Return final : public Statement {
 		Return(
-			std::unique_ptr<Expression> expression,
+			std::unique_ptr<Expression> expr,
 			const SourceLocation & location)
 			: Statement(location)
-			, expression(std::move(expression)) {}
+			, expr(std::move(expr)) {}
 
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> expr;
 	};
 
 

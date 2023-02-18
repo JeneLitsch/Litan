@@ -109,10 +109,10 @@ namespace ltn::c {
 				"Expected )"
 			};
 			std::stringstream iss{i->str};
-			std::uint64_t addr;
-			iss >> std::hex >> addr;
+			std::uint64_t address;
+			iss >> std::hex >> address;
 			auto expr = std::make_unique<ast::ForwardDynamicCall>(
-				addr, arity, i->location
+				address, arity, i->location
 			);
 			return stx::make_unique<ast::Return>(std::move(expr), i->location);
 		}

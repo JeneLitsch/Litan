@@ -19,24 +19,24 @@ namespace ltn::c {
 		sst::bind_ptr generate_binding(sst::expr_ptr l) {
 			if(auto * l_local = as<sst::Var>(*l)) {
 				return std::make_unique<sst::LocalBinding>(
-					l_local->addr
+					l_local->address
 				);
 			}
 			if(auto * l_index = as<sst::Index>(*l)) {
 				return std::make_unique<sst::IndexBinding>(
-					std::move(l_index->expression),
+					std::move(l_index->expr),
 					std::move(l_index->index)
 				);
 			}
 			if(auto * l_member = as<sst::Member>(*l)) {
 				return std::make_unique<sst::MemberBinding>(
 					std::move(l_member->expr),
-					l_member->addr
+					l_member->address
 				);
 			}
 			if(auto * l_global = as<sst::GlobalVar>(*l)) {
 				return std::make_unique<sst::GlobalBinding>(
-					l_global->addr
+					l_global->address
 				);
 			}
 			return nullptr;
