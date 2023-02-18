@@ -27,7 +27,8 @@ namespace ltn::c {
 				fx_ptr.name,
 				scope.get_namespace(),
 				fx_ptr.namespaze,
-				fx_ptr.placeholders
+				fx_ptr.placeholders,
+				0
 			);
 
 			if(!fx) throw undefined_function(fx_ptr.name, fx_ptr);
@@ -49,35 +50,37 @@ namespace ltn::c {
 			const ast::FxPointer & fx_ptr,
 			Scope & scope,
 			Context & context) {
-			const auto tmpl = get_template(
+
+			const auto fx = context.fx_table.resolve(
 				fx_ptr.name,
+				scope.get_namespace(),
 				fx_ptr.namespaze,
 				fx_ptr.placeholders,
-				fx_ptr.template_arguments.size(),
-				location(fx_ptr),
-				context,
-				scope
+				fx_ptr.template_arguments.size()
 			);
+
+			if(!fx) {
+				throw undefined_function(fx_ptr.name, fx_ptr);
+			}
 
 			const auto arguments = stx::fx::mapped(instantiate_type)(
 				fx_ptr.template_arguments,
 				scope
 			);
 
-			context.fx_queue.stage_template(*tmpl, arguments);
+			context.fx_queue.stage_template(*fx, arguments);
 			
 			add_template_args(
 				scope,
-				tmpl->template_parameters,
+				fx->template_parameters,
 				fx_ptr.template_arguments);
 
 			const auto fx_label = make_function_label(
-				tmpl->fx->namespaze,
-				tmpl->fx->name,
-				tmpl->fx->parameters.size()
+				fx->namespaze,
+				fx->name,
+				fx->parameters.size()
 			);
 			const auto tmpl_label = derive_template(fx_label, arguments);
-			const auto * fx = &*tmpl->fx;
 
 			if(fx->parameters.size() != fx_ptr.placeholders) {
 				throw undefined_function(fx->name, fx_ptr);

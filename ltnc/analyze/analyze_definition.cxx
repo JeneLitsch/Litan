@@ -9,10 +9,9 @@ namespace ltn::c {
 		InvalidDefinitionTable def_table { "definitions" };
 		InvalidGlobalTable global_table { "definitions" };
 		InvalidFunctionTable fx_table { "definitions" };
-		InvalidFunctionTemplateTable fx_template_table { "definitions" };
+		// InvalidFunctionTemplateTable fx_template_table { "definitions" };
 		Context read_context {
 			.fx_table          = fx_table,
-			.fx_template_table = fx_template_table,
 			.fx_queue		   = context.fx_queue,
 			.definition_table  = def_table,
 			.member_table      = context.member_table,

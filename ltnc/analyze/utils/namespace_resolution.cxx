@@ -4,20 +4,6 @@ namespace ltn::c {
 
 	namespace {
 		bool match(
-			const ast::Functional & fx,
-			const Namespace & full,
-			const std::string_view name,
-			const std::size_t parameters) {
-
-			return
-				fx.name == name &&
-				fx.namespaze == full &&
-				std::size(fx.parameters) == parameters;
-		}
-
-
-
-		bool match(
 			const sst::Definition & definition,
 			const Namespace & full,
 			const std::string_view name) {
@@ -42,16 +28,16 @@ namespace ltn::c {
 
 
 		bool match(
-			const ast::FunctionTemplate & fx,
+			const ast::Functional & fx,
 			const Namespace & full,
 			const std::string_view name,
 			const std::size_t function_parameters,
 			const std::size_t template_parameters) {
 
 			return
-				fx.fx->name == name &&
-				fx.fx->namespaze == full &&
-				std::size(fx.fx->parameters) == function_parameters &&
+				fx.name == name &&
+				fx.namespaze == full &&
+				std::size(fx.parameters) == function_parameters &&
 				std::size(fx.template_parameters) == template_parameters;
 		}
 	}
@@ -113,18 +99,6 @@ namespace ltn::c {
 
 
 
-	const ast::Functional * resolve(
-		const std::vector<const ast::Functional *> & functions,
-		const Namespace & from,
-		const Namespace & to,
-		const std::string_view name,
-		const std::size_t parameters) {
-
-		return resolve_x(functions, from, to, name, parameters);
-	}
-
-
-
 	const sst::Definition * resolve(
 		const std::vector<const sst::Definition *> & definition,
 		const Namespace & from,
@@ -146,8 +120,8 @@ namespace ltn::c {
 
 
 
-	const ast::FunctionTemplate * resolve(
-		const std::vector<const ast::FunctionTemplate *> & functions,
+	const ast::Functional * resolve(
+		const std::vector<const ast::Functional *> & functions,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name,

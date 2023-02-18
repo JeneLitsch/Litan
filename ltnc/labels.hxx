@@ -25,7 +25,7 @@ namespace ltn::c {
 		std::uint64_t arity);
 
 	Label make_template_label(
-		const ast::FunctionTemplate & tmpl,
+		const ast::Functional & tmpl,
 		const std::vector<type::Type> & args);
 
 

@@ -64,6 +64,7 @@ namespace ltn::c::ast {
 		bool is_extern = false;
 
 		type::IncompleteType return_type;
+		std::vector<std::string> template_parameters;
 
 		const std::string & get_resolve_name() const {
 			return this->name;
@@ -98,30 +99,6 @@ namespace ltn::c::ast {
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
 		std::unique_ptr<Except> except;
-	};
-
-
-
-	struct FunctionTemplate : public Node {
-		FunctionTemplate(
-			std::unique_ptr<Functional> fx,
-			std::vector<std::string> template_parameters,
-			const SourceLocation & location)
-			: Node(location)
-			, fx{std::move(fx)}
-			, template_parameters{std::move(template_parameters)} {}
-		virtual ~FunctionTemplate() = default;
-		
-		std::unique_ptr<Functional> fx;
-		std::vector<std::string> template_parameters;
-
-		const std::string & get_resolve_name() const {
-			return this->fx->get_resolve_name();
-		}
-
-		const Namespace & get_resolve_namespace() const {
-			return this->fx->get_resolve_namespace();
-		}
 	};
 
 

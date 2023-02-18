@@ -1,8 +1,24 @@
-function<T> f(x : T) -> T => x
+namespace x {
+	function<T> f() -> T => 13.37 : T
+	function<T> f(a : float) -> T => a : T
+	function<T> f(a : float, b : float) -> T => a + b : T
+	function<T1, T2> f(x : T1) -> T2 => f(<T2>, x) : T2
+	function<T> lm() => (lambda[]() => reflect(type T).name)()
+
+	function do() {
+		f(<int>);
+		f(<float>);
+		f(<int>, 42.42);
+		f(<float>, 42.42);
+		f(<int>, 21.21, 21.21);
+		f(<float>, 21.21, 21.21);
+		f(<float>, <float>, 1.23);
+		f(<float>, <int>, 1.23);
+		f(<int>, <float>, 1);
+	}
+}
+
 
 function main(args) {
-	var map = std::map(<int>, <float>);
-	std::println(reflect(expr map).type.name);
-
-	std::println(f(5, <int>));
+x::do();
 }

@@ -94,18 +94,6 @@ namespace ltn::c {
 
 
 
-	void add_to_source(ast::func_ptr && fx, ast::Program & source) {
-		source.functions.push_back(std::move(fx));
-	}
-
-
-
-	void add_to_source(ast::ftmp_ptr && fx, ast::Program & source) {
-		source.function_templates.push_back(std::move(fx));
-	}
-
-
-
 	ast::Program parse(Tokens & tokens, Reporter & reporter) {
 		ast::Program source;
 		const Namespace namespaze;
@@ -118,9 +106,7 @@ namespace ltn::c {
 					namestack.push(inner_namespace(tokens));
 				}
 				else if(auto fx = parse_functional(tokens, namestack.top())) {
-					std::visit([&] (auto & node) {
-						add_to_source(std::move(node), source);
-					}, *fx);
+					source.functions.push_back(std::move(fx));
 				}
 				else if(auto definition = parse_definition(tokens, namestack.top())) {
 					source.definitions.push_back(std::move(definition));

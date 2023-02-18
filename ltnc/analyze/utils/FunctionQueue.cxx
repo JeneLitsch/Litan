@@ -12,7 +12,7 @@ namespace ltn::c {
 
 
 	void FunctionQueue::stage_template(
-		stx::reference<const ast::FunctionTemplate> tmpl,
+		stx::reference<const ast::Functional> tmpl,
 		std::vector<type::Type> arguments) {
 		
 		StagedTemplateFx staged {

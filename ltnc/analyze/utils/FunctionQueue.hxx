@@ -16,7 +16,7 @@ namespace ltn::c {
 	
 	
 	struct StagedTemplateFx {
-		stx::reference<const ast::FunctionTemplate> tmpl;
+		stx::reference<const ast::Functional> tmpl;
 		std::vector<type::Type> arguments;
 	};
 	inline auto operator<=>(const StagedTemplateFx & l, const StagedTemplateFx & r) {
@@ -30,7 +30,7 @@ namespace ltn::c {
 	class FunctionQueue {
 	public:
 		void stage_function(stx::reference<const ast::Functional> fx);
-		void stage_template(stx::reference<const ast::FunctionTemplate> tmpl, std::vector<type::Type> arguments);
+		void stage_template(stx::reference<const ast::Functional> tmpl, std::vector<type::Type> arguments);
 		std::optional<Staged> fetch_function();
 	private:
 		std::queue<Staged> queue;

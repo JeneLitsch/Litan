@@ -89,27 +89,30 @@ namespace ltn::c {
 			Context & context,
 			Scope & scope) {
 			
-			const auto tmpl = get_template(
+			const auto fx = context.fx_table.resolve(
 				var.name,
+				scope.get_namespace(),
 				var.namespaze,
 				call.arguments.size(),
-				call.template_arguments.size(),
-				location(var),
-				context,
-				scope
+				call.template_arguments.size()
 			);
+
+			if(!fx) {
+				throw undefined_function(var.name, call);
+			}
+
 			const auto arguments = stx::fx::mapped(instantiate_type)(
 				call.template_arguments,
 				scope
 			);
-			context.fx_queue.stage_template(*tmpl, arguments);
-			const auto label = make_template_label(tmpl, arguments);
+			context.fx_queue.stage_template(*fx, arguments);
+			const auto label = make_template_label(*fx, arguments);
 			MinorScope inner_scope(&scope);
 			add_template_args(
 				inner_scope,
-				tmpl->template_parameters,
+				fx->template_parameters,
 				call.template_arguments);
-			return do_call(call, *tmpl->fx, context, inner_scope, label);
+			return do_call(call, *fx, context, inner_scope, label);
 		}
 	}
 
@@ -137,7 +140,9 @@ namespace ltn::c {
 				var->name,
 				scope.get_namespace(),
 				var->namespaze,
-				call.arguments.size());
+				call.arguments.size(),
+				0
+			);
 
 			if(fx) {
 				context.fx_queue.stage_function(*fx);

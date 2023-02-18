@@ -21,33 +21,6 @@ namespace ltn::c {
 	}
 
 
-	stx::reference<const ast::FunctionTemplate> get_template(
-		const std::string & name,
-		const Namespace & namespaze,
-		const std::size_t function_arity,
-		const std::size_t template_arity,
-		const SourceLocation & location,
-		Context & context,
-		Scope & scope) {
-		const auto * tmpl = context.fx_template_table.resolve(
-			name,
-			scope.get_namespace(),
-			namespaze,
-			function_arity,
-			template_arity
-		);
-		if(!tmpl) {
-			std::ostringstream oss;
-			oss 
-				<< "Cannot find template " 
-				<< namespaze.to_string() << name
-				<< " with " << template_arity << " arguements";
-			throw CompilerError{oss.str(), location};
-		}
-		return *tmpl;
-	}
-
-
 
 	std::string make_template_id(
 		const ast::Functional & fx,
@@ -112,13 +85,11 @@ namespace ltn::c {
 		sst::Program program;
 		ValidFunctionTable fx_table;
 		FunctionQueue fx_queue;
-		ValidFunctionTemplateTable fx_template_table;
 		ValidDefinitionTable definition_table;
 		MemberTable member_table;
 		ValidGlobalTable global_table;
 		Context context {
 			.fx_table = fx_table,
-			.fx_template_table = fx_template_table,
 			.fx_queue = fx_queue,
 			.definition_table = definition_table,
 			.member_table = member_table,
@@ -160,18 +131,14 @@ namespace ltn::c {
 			ctors.push_back(std::move(ctor));
 		}
 
-		for(const auto & fx_tmpl : source.function_templates) {
-			const auto function_arity = std::size(fx_tmpl->fx->parameters);
-			const auto template_arity = std::size(fx_tmpl->template_parameters);
-			context.fx_template_table.insert(*fx_tmpl, function_arity, template_arity);
-		}
-
 		for(const auto & function : source.functions) {
-			context.fx_table.insert(*function, function->parameters.size());
+			const auto function_arity = std::size(function->parameters);
+			const auto template_arity = std::size(function->template_parameters);
+			context.fx_table.insert(*function, function_arity, template_arity);
 		}
 
 		for(const auto & ctor : ctors) {
-			context.fx_table.insert(*ctor, ctor->parameters.size());
+			context.fx_table.insert(*ctor, ctor->parameters.size(), 0);
 		}
 
 		auto externs = find_extern_funtions(source);
@@ -182,9 +149,9 @@ namespace ltn::c {
 
 		while(auto staged = fx_queue.fetch_function()) {
 			try {
-				auto fx = std::visit([&] (auto & s) {
-					return analyze_staged(s, context);
-					}, *staged
+				auto fx = std::visit(
+					[&] (auto & s) { return analyze_staged(s, context); },
+					*staged
 				);
 				program.functions.push_back(std::move(fx));
 			}

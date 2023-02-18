@@ -28,7 +28,7 @@ namespace ltn::c {
 
 	std::unique_ptr<sst::Function> analyze_function(const ast::Function &, Context &, Scope &);
 	sst::func_ptr analyze_functional(const ast::Functional &, Context &);
-	sst::func_ptr analyze_function_template(const ast::FunctionTemplate &, Context &, const std::vector<type::Type> & arguments);
+	sst::func_ptr analyze_function_template(const ast::Functional &, Context &, const std::vector<type::Type> & arguments);
 	
 	sst::glob_ptr analyze_global(const ast::Global &, Context &);
 	sst::defn_ptr analyze_definition(const ast::Definition &, Context &);
@@ -97,13 +97,4 @@ namespace ltn::c {
 		Scope & scope,
 		const std::vector<std::string> & template_params,
 		const std::vector<type::Type> & template_args);
-
-	stx::reference<const ast::FunctionTemplate> get_template(
-		const std::string & name,
-		const Namespace & namespaze,
-		const std::size_t function_arity,
-		const std::size_t template_arity,
-		const SourceLocation & location,
-		Context & context,
-		Scope & scope);
 }	

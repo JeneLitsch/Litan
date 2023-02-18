@@ -9,9 +9,9 @@ namespace ltn::c {
 	struct FunctionErrors {
 		static CompilerError redef(const ast::Functional & def) {
 			std::stringstream msg;
-			msg << "Function ";
-			msg << def.namespaze.to_string();
-			msg << def.name;
+			msg << "Function";
+			msg << def.get_resolve_namespace().to_string();
+			msg << def.get_resolve_name();
 			msg	<< " already exists";
 			return CompilerError{ msg.str(), {} };
 		}
@@ -31,11 +31,11 @@ namespace ltn::c {
 	};
 
 	using FunctionTable
-		= SymbolTable<ast::Functional, std::size_t>;
+		= SymbolTable<ast::Functional, std::size_t, std::size_t>;
 	
 	using ValidFunctionTable
-		= ValidSymbolTable<ast::Functional, FunctionErrors, std::size_t>;
+		= ValidSymbolTable<ast::Functional, FunctionErrors, std::size_t, std::size_t>;
 	
 	using InvalidFunctionTable
-		= InvalidSymbolTable<ast::Functional, FunctionErrors, std::size_t>;
+		= InvalidSymbolTable<ast::Functional, FunctionErrors, std::size_t, std::size_t>;
 }

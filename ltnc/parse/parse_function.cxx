@@ -245,7 +245,7 @@ namespace ltn::c {
 
 
 	// parses and returns a functional node
-	std::optional<std::variant<ast::func_ptr, ast::ftmp_ptr>> parse_functional(
+	ast::func_ptr parse_functional(
 		Tokens & tokens,
 		const Namespace & namespaze) {
 
@@ -254,16 +254,13 @@ namespace ltn::c {
 			auto fx = functional_node<ast::Function>(
 				tokens,
 				namespaze,
-				parse_body);
-			if(!fx->is_const) fx->except = parse_except(tokens);
-			if(template_parameters.empty()) {
-				return fx;
-			}
-			return stx::make_unique<ast::FunctionTemplate>(
-				std::move(fx),
-				std::move(template_parameters),
-				function->location
+				parse_body
 			);
+
+			if(!fx->is_const) fx->except = parse_except(tokens);
+
+			fx->template_parameters = std::move(template_parameters);
+			return fx;
 		}
 		if(auto function = match(TT::BUILD_IN, tokens)) {
 			const auto template_parameters = parse_template_parameters(tokens);
@@ -271,16 +268,10 @@ namespace ltn::c {
 				tokens,
 				namespaze,
 				parse_build_in_key);
-			if(template_parameters.empty()) {
-				return fx;
-			}
-			return stx::make_unique<ast::FunctionTemplate>(
-				std::move(fx),
-				std::move(template_parameters),
-				function->location
-			);
+			fx->template_parameters = std::move(template_parameters);
+			return fx;
 		}
-		return std::nullopt;
+		return nullptr;
 	}
 
 

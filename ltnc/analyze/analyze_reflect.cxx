@@ -43,7 +43,8 @@ namespace ltn::c {
 			const auto * fx = context.fx_table.resolve(
 				query.name,
 				query.namespaze,
-				query.arity
+				query.arity,
+				0
 			);
 
 			if(!fx) throw undefined_function(query.name, ast::Node{{}});
@@ -63,7 +64,7 @@ namespace ltn::c {
 			sst::Reflect::NamespaceQuery sst_query;
 			sst_query.namespaze = query.namespaze;
 			for(const auto & fx : context.fx_table.get_symbols()) {
-				if(fx->namespaze == query.namespaze) {
+				if(fx->namespaze == query.namespaze && fx->template_parameters.empty()) {
 					context.fx_queue.stage_function(*fx);
 					sst_query.functions.push_back(fx_to_query(*fx));
 				}
