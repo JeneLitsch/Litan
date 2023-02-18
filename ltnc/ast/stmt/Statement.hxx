@@ -1,10 +1,10 @@
 #pragma once
 #include <vector>
-#include "Node.hxx"
-#include "ltnc/type/Type.hxx"
 #include "ltn/casts.hxx"
 #include "ltn/Visitor.hxx"
-#include "Binding.hxx"
+#include "ltnc/type/Type.hxx"
+#include "ltnc/ast/Node.hxx"
+#include "ltnc/ast/bind/Binding.hxx"
 
 namespace ltn::c::ast {
 	struct Expression;

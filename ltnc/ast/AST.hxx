@@ -1,8 +1,9 @@
 #pragma once
-#include "Function.hxx"
-#include "Statement.hxx"
+#include "ltnc/ast/bind/Binding.hxx"
+#include "ltnc/ast/decl/Declaration.hxx"
+#include "ltnc/ast/decl/Function.hxx"
 #include "ltnc/ast/expr/Expression.hxx"
-#include "Binding.hxx"
+#include "ltnc/ast/stmt/Statement.hxx"
 
 namespace ltn::c::ast {
 	using expr_ptr = std::unique_ptr<Expression>;

@@ -1,9 +1,9 @@
 #pragma once
 #include <cstdint>
 #include <memory>
-#include "ltnc/type/Type.hxx"
 #include "ltn/Visitor.hxx"
-#include "Node.hxx"
+#include "ltnc/sst/Node.hxx"
+#include "ltnc/type/Type.hxx"
 
 namespace ltn::c::sst {
 	struct Binary;

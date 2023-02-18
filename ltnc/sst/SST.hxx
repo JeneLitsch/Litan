@@ -1,10 +1,11 @@
 #pragma once
-#include "Function.hxx"
-#include "Statement.hxx"
-#include "Statements.hxx"
-#include "Expression.hxx"
-#include "Expressions.hxx"
-#include "Binding.hxx"
+#include "bind/Binding.hxx"
+#include "decl/Declaration.hxx"
+#include "decl/Function.hxx"
+#include "expr/Expression.hxx"
+#include "expr/Expressions.hxx"
+#include "stmt/Statement.hxx"
+#include "stmt/Statements.hxx"
 
 namespace ltn::c::sst {
 	using defn_ptr = std::unique_ptr<Definition>;

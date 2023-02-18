@@ -1,12 +1,10 @@
 #pragma once
 #include <vector>
-#include "Node.hxx"
-#include "Switch.hxx"
 #include "ltnc/type/Type.hxx"
 #include "ltn/casts.hxx"
-#include "Binding.hxx"
-#include "Statement.hxx"
-#include "Expression.hxx"
+#include "ltnc/sst/bind/Binding.hxx"
+#include "ltnc/sst/stmt/Statement.hxx"
+#include "ltnc/sst/expr/Expression.hxx"
 
 namespace ltn::c::sst {
 	struct Expression;

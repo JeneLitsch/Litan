@@ -2,13 +2,11 @@
 #include <vector>
 #include <bitset>
 #include "ltn/casts.hxx"
-#include "Node.hxx"
 #include "ltnc/Namespace.hxx"
 #include "ltnc/Label.hxx"
 #include "ltnc/Operations.hxx"
-#include "Expression.hxx"
-#include "Switch.hxx"
-#include "Statement.hxx"
+#include "ltnc/sst/expr/Expression.hxx"
+#include "ltnc/sst/stmt/Statement.hxx"
 
 
 namespace ltn::c::sst {

@@ -4,9 +4,9 @@
 #include <vector>
 #include <sstream>
 #include "ltn/unique.hxx"
-#include "Declaration.hxx"
 #include "ltnc/Namespace.hxx"
 #include "ltnc/type/Type.hxx"
+#include "ltnc/ast/decl/Declaration.hxx"
 
 namespace ltn::c::ast {
 	class Statement;

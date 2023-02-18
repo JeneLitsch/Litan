@@ -1,11 +1,13 @@
 #pragma once
-#include "Node.hxx"
 #include <vector>
 #include <memory>
 #include <numeric>
 #include "ltn/Visitor.hxx"
+#include "ltnc/sst/Node.hxx"
 
 namespace ltn::c::sst {
+	struct Expression;
+	
 	struct GroupBinding;
 	struct NewVarBinding;
 	struct NoBinding;

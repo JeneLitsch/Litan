@@ -1,6 +1,6 @@
 #pragma once
-#include "Node.hxx"
 #include "ltn/Visitor.hxx"
+#include "ltnc/ast/Node.hxx"
 
 namespace ltn::c::ast {
 	struct GroupBinding;

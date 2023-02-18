@@ -1,7 +1,7 @@
 #pragma once
-#include "ltn/Visitor.hxx"
 #include <cstdint>
-#include "Node.hxx"
+#include "ltn/Visitor.hxx"
+#include "ltnc/sst/Node.hxx"
 
 namespace ltn::c::sst {
 	struct Block;

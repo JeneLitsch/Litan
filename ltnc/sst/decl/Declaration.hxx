@@ -1,7 +1,7 @@
 #pragma once
-#include "Node.hxx"
-#include "ltnc/Namespace.hxx"
 #include <map>
+#include "ltnc/Namespace.hxx"
+#include "ltnc/sst/Node.hxx"
 #include "ltnc/type/Type.hxx"
 
 namespace ltn::c::sst {
