@@ -32,7 +32,7 @@ namespace ltn::c {
 		
 		sst::bind_ptr analyze_bind(
 			const ast::NewVarBinding & binding,
-			Context & context,
+			Context &,
 			Scope & scope,
 			const type::Type & from_type) {
 

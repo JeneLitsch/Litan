@@ -77,7 +77,7 @@ namespace ltn::c {
 
 
 
-		std::string parse_build_in_key(Tokens & tokens, std::uint64_t arity) {
+		std::string parse_build_in_key(Tokens & tokens, [[maybe_unused]] std::uint64_t arity) {
 			if(!match(TT::AT, tokens)) {
 				throw CompilerError {
 					"Expected @ before build_in key",

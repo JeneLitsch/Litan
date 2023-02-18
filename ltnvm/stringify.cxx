@@ -84,7 +84,6 @@ namespace ltn::vm {
 		}
 
 		if(is_fxptr(value)) {
-			const auto & fxptr = heap.read<FxPointer>(value.u);
 			std::ostringstream ss;
 			ss << "<function>";
 			return  ss.str();

@@ -27,7 +27,10 @@ namespace ltn::c {
 		for(std::size_t i = 0; i < arity; ++i) {
 			buf << compile_expression(*call.parameters[i]);
 		}
-		buf << inst::call(call.label.to_string(), arity);		
+		buf << inst::call(
+			call.label.to_string(),
+			static_cast<std::uint8_t>(arity)
+		);		
 		return buf;
 	}
 }

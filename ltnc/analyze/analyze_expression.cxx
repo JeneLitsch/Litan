@@ -4,8 +4,8 @@
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(
 		const ast::ForwardDynamicCall & forward,
-		Context & context,
-		Scope & scope) {
+		Context &,
+		Scope &) {
 		
 		std::vector<sst::expr_ptr> arguments;
 		for(std::uint64_t i = 0; i < forward.arity; ++i) {

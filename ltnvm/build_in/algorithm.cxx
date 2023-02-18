@@ -18,15 +18,6 @@ namespace ltn::vm::build_in {
 
 
 
-	static std::uint64_t pop_array_ref(Stack & stack) {
-		const auto ref = stack.pop();
-		if(!is_array(ref)) throw except::invalid_argument();
-		return ref.u;
-	}
-
-
-
-	// Functions to pass to alogrithm
 	auto smaller(Heap & heap) {
 		return [&heap] (const Value l, const Value r) {
 			return compare(l, r, heap) < 0;

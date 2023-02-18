@@ -10,8 +10,6 @@ namespace ltn::c {
 		const auto & sw1tch,
 		Context & context,
 		Scope & scope) {
-		
-		using BodyExpr = decltype(body_fx(sw1tch, context, scope));
 
 		InvalidFunctionTable fx_table {"case"};
 		InvalidFunctionTemplateTable fx_template_table {"case"};

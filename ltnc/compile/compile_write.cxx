@@ -18,7 +18,8 @@ namespace ltn::c {
 
 		InstructionBuffer compile_bind(const sst::GroupBinding & binding) {
 			InstructionBuffer buf;
-			buf << inst::unpack(std::size(binding.sub_bindings));
+			const auto size = std::size(binding.sub_bindings);
+			buf << inst::unpack(static_cast<std::uint8_t>(size));
 			for(const auto & sub : binding.sub_bindings) {
 				buf << compile_binding(*sub);
 			}
@@ -27,7 +28,7 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer compile_bind(const sst::NoBinding & binding) {
+		InstructionBuffer compile_bind(const sst::NoBinding &) {
 			InstructionBuffer buf;
 			buf << inst::scrap();
 			return buf;
