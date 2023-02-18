@@ -2,8 +2,10 @@
 #include "ltn/casts.hxx"
 namespace ltn::c {
 	sst::expr_ptr optimize_expression(sst::Expression & expr) {
-		if(auto e = as<sst::Primary>(expr)) {
-			return optimize_primary(*e);
+		if(auto call = as<sst::Call>(expr)) {
+			for(auto & parameter : call->parameters) {
+				parameter = optimize_expression(std::move(parameter));
+			}
 		}
 		if(auto e = as<sst::Unary>(expr)) {
 			return optimize_unary(*e);

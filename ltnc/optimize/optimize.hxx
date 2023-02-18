@@ -5,7 +5,6 @@ namespace ltn::c {
 		
 	};
 
-	sst::expr_ptr optimize_primary(sst::Primary & primary);
 	sst::expr_ptr optimize_unary(sst::Unary & unary);
 	sst::expr_ptr optimize_binary(sst::Binary & binary);
 	sst::expr_ptr optimize_ternary(sst::Ternary & ternary);

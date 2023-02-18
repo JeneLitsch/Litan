@@ -10,7 +10,7 @@
 
 namespace ltn::c::sst {
 	struct Expression;
-	struct Assignable;
+	struct Expression;
 	
 	
 	using stmt_ptr = std::unique_ptr<Statement>;
@@ -25,7 +25,9 @@ namespace ltn::c::sst {
 		virtual std::size_t nested_alloc() const override { return 0; }
 		virtual std::size_t direct_alloc() const override { return 0; }
 
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -41,7 +43,9 @@ namespace ltn::c::sst {
 		virtual std::size_t direct_alloc() const override { return this->expression->alloc(); }
 	
 
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -68,7 +72,9 @@ namespace ltn::c::sst {
 			return 0;
 		}
 	
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -92,7 +98,9 @@ namespace ltn::c::sst {
 			return this->binding->alloc_count() + expression->alloc();
 		}
 	
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -121,7 +129,9 @@ namespace ltn::c::sst {
 			return this->condition->alloc();
 		}
 	
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -146,7 +156,9 @@ namespace ltn::c::sst {
 			return this->condition->alloc();
 		}
 	
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -168,7 +180,9 @@ namespace ltn::c::sst {
 			return 0;
 		}
 	
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -205,7 +219,9 @@ namespace ltn::c::sst {
 			return 3 + this->from->alloc() + this->to->alloc() + this->step->alloc();
 		}
 	
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -238,7 +254,9 @@ namespace ltn::c::sst {
 			return 3 + this->expr->alloc();
 		}
 	
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -257,7 +275,9 @@ namespace ltn::c::sst {
 		virtual std::size_t nested_alloc() const override { return 0; }
 		virtual std::size_t direct_alloc() const override { return this->expression->alloc(); }
 	
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 

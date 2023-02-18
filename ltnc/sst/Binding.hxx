@@ -55,7 +55,9 @@ namespace ltn::c::sst {
 			);		
 		}
 
-		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const BindVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -71,7 +73,9 @@ namespace ltn::c::sst {
 			return 1;
 		}
 		
-		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const BindVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -83,7 +87,9 @@ namespace ltn::c::sst {
 			return 0;
 		}
 	
-		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const BindVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -97,7 +103,9 @@ namespace ltn::c::sst {
 
 		virtual std::size_t alloc_count() const override { return 0; }
 	
-		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const BindVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -115,7 +123,9 @@ namespace ltn::c::sst {
 
 		virtual std::size_t alloc_count() const override { return 0; }
 
-		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const BindVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -130,7 +140,9 @@ namespace ltn::c::sst {
 
 		virtual std::size_t alloc_count() const override { return 0; }
 	
-		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const BindVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -148,7 +160,9 @@ namespace ltn::c::sst {
 
 		virtual std::size_t alloc_count() const override { return 0; }
 	
-		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const BindVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 

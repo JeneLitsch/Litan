@@ -12,7 +12,9 @@
 
 
 namespace ltn::c::sst {
-	struct Assignable;
+	struct Expression;
+	struct Var;
+	struct Functional;
 	struct Function;
 	class Statement;
 
@@ -24,7 +26,7 @@ namespace ltn::c::sst {
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Expression> if_branch,
 			std::unique_ptr<Expression> else_branch) 
-			: Expression(type)
+			: Expression{type}
 			, condition(std::move(condition))
 			, if_branch(std::move(if_branch))
 			, else_branch(std::move(else_branch)) {}
@@ -42,7 +44,9 @@ namespace ltn::c::sst {
 			});
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -54,7 +58,7 @@ namespace ltn::c::sst {
 			Op op,
 			std::unique_ptr<Expression> expression,
 			const type::Type & type)
-			: Expression(type)
+			: Expression{type}
 			, op(op)
 			, expression(std::move(expression)) {}
 		virtual ~Unary() = default;
@@ -64,7 +68,9 @@ namespace ltn::c::sst {
 			return this->expression->alloc();
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -76,7 +82,7 @@ namespace ltn::c::sst {
 			std::unique_ptr<Expression> l,
 			std::unique_ptr<Expression> r,
 			const type::Type & type)
-			: Expression(type)
+			: Expression{type}
 			, op(op)
 			, l(std::move(l))
 			, r(std::move(r)) {}
@@ -91,7 +97,9 @@ namespace ltn::c::sst {
 			});
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -152,7 +160,7 @@ namespace ltn::c::sst {
 			Query query,
 			Addr addr,
 			const type::Type & type)
-			: Expression(type)
+			: Expression{type}
 			, query{std::move(query)}
 			, addr{addr} {}
 		virtual ~Reflect() = default;
@@ -163,7 +171,9 @@ namespace ltn::c::sst {
 			return 0;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -188,25 +198,16 @@ namespace ltn::c::sst {
 			return this->expr->alloc();
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
-	struct Functional;
-	struct Var;
-	struct Assignable;
-	class Statement;
 
-	struct Primary : public Expression {
-		Primary(const type::Type & type)
-			: Expression(type) {}
-		virtual ~Primary() = default;
-	};
-	
-
-	struct Literal : public Primary {
+	struct Literal : public Expression {
 		Literal(const type::Type & type)
-			: Primary(type) {}
+			: Expression{type} {}
 		virtual ~Literal() = default;
 	};
 
@@ -226,7 +227,9 @@ namespace ltn::c::sst {
 			return 0;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -242,7 +245,9 @@ namespace ltn::c::sst {
 			return 0;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -258,7 +263,9 @@ namespace ltn::c::sst {
 			return 0;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -272,7 +279,9 @@ namespace ltn::c::sst {
 			return 0;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -288,7 +297,9 @@ namespace ltn::c::sst {
 			return 0;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -304,7 +315,9 @@ namespace ltn::c::sst {
 			return 0;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -322,7 +335,9 @@ namespace ltn::c::sst {
 			return count;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -340,7 +355,9 @@ namespace ltn::c::sst {
 			return count;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -361,29 +378,19 @@ namespace ltn::c::sst {
 			return 0;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
 
-
-
-
-
-	
-	struct Assignable : public Primary {
-		virtual ~Assignable() = default;
-		Assignable(const type::Type & type) : Primary(type) {}
-	};
-
-
-
-	struct Index final : public Assignable {
+	struct Index final : public Expression {
 		Index(
 			std::unique_ptr<Expression> expression,
 			std::unique_ptr<Expression> index,
 			const type::Type & type)
-			: Assignable(type)
+			: Expression{type}
 			, expression(std::move(expression))
 			, index(std::move(index)) {}
 		virtual ~Index() = default;
@@ -397,17 +404,19 @@ namespace ltn::c::sst {
 			});
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
 
-	struct Var final : public Assignable {
+	struct Var final : public Expression {
 	public:
 		Var(
 			std::size_t addr,
 			const type::Type & type)
-			: Assignable(type)
+			: Expression{type}
 			, addr{addr} {}
 
 		virtual ~Var() = default;
@@ -417,17 +426,19 @@ namespace ltn::c::sst {
 			return 0;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
 
-	struct GlobalVar final : public Assignable {
+	struct GlobalVar final : public Expression {
 	public:
 		GlobalVar(
 			const type::Type & type,
 			std::size_t addr)
-			: Assignable(type)
+			: Expression{type}
 			, addr { addr } {}
 		virtual ~GlobalVar() = default;
 		std::size_t addr;
@@ -436,17 +447,19 @@ namespace ltn::c::sst {
 			return 0;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
 
-	struct Member final : public Assignable {
+	struct Member final : public Expression {
 		Member(
 			const type::Type & type,
 			std::unique_ptr<Expression> expr,
 			std::size_t addr)
-			: Assignable(type)
+			: Expression{type}
 			, expr(std::move(expr))
 			, addr { addr } {};
 		virtual ~Member() = default;
@@ -457,18 +470,20 @@ namespace ltn::c::sst {
 			return 0;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
 
-	struct Iife final : public Primary {
+	struct Iife final : public Expression {
 		Iife(
 			const type::Type & type,
 			std::string return_label,
 			std::unique_ptr<Statement> stmt,
 			type::Type return_type) 
-			: Primary(type)
+			: Expression{type}
 			, return_label{return_label}
 			, stmt(std::move(stmt))
 			, return_type{return_type} {}
@@ -482,18 +497,20 @@ namespace ltn::c::sst {
 			return this->stmt->direct_alloc() + this->stmt->nested_alloc();
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
 
-	struct FxPointer final : public Primary {
+	struct FxPointer final : public Expression {
 	public:
 		FxPointer(
 			const Label & label,
 			std::size_t arity,
 			const type::Type & type)
-			: Primary(type)
+			: Expression{type}
 			, label{label}
 			, arity{arity} {}
 		virtual ~FxPointer() = default;
@@ -504,18 +521,20 @@ namespace ltn::c::sst {
 			return 0;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
 
-	struct Call final : public Primary {
+	struct Call final : public Expression {
 	public:
 		Call(
 			const Label & label,
 			std::vector<std::unique_ptr<Expression>> parameters,
 			const type::Type & type)
-			: Primary(type)
+			: Expression{type}
 			, label{label}
 			, parameters(std::move(parameters)) {}
 		virtual ~Call() = default;
@@ -530,17 +549,20 @@ namespace ltn::c::sst {
 			return count;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
-	struct Invoke final : public Primary {
+
+	struct Invoke final : public Expression {
 	public:
 		Invoke(
 			std::unique_ptr<Expression> function_ptr,
 			std::vector<std::unique_ptr<Expression>> parameters,
 			const type::Type & type)
-			: Primary(type)
+			: Expression{type}
 			, function_ptr(std::move(function_ptr))
 			, parameters(std::move(parameters)) {}
 		virtual ~Invoke() = default;
@@ -555,7 +577,9 @@ namespace ltn::c::sst {
 			return std::max(count, function_ptr->alloc());
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -577,7 +601,9 @@ namespace ltn::c::sst {
 			return count;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -594,13 +620,17 @@ namespace ltn::c::sst {
 			return count;
 		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 
 		std::unique_ptr<Expression> condition;
+
 		std::vector<std::pair<
 			std::unique_ptr<Expression>,
 			std::unique_ptr<Expression>
 		>> cases;
+
 		std::unique_ptr<Expression> d3fault;
 	};
 
