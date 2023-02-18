@@ -262,10 +262,14 @@ namespace ltn::c::sst {
 
 
 	
-	struct StmtSwitch : public Switch<Statement, Statement> {
+	struct Switch : public Statement {
+		Switch()
+			: Statement{} {}
+
 		virtual std::uint64_t nested_alloc() const override {
 			return 0;
 		}
+
 		virtual std::size_t direct_alloc() const override {
 			std::size_t nested = 0;
 			std::size_t direct = 0;
@@ -280,7 +284,18 @@ namespace ltn::c::sst {
 			return nested + direct;
 		}
 	
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::unique_ptr<Expression> condition;
+		
+		std::vector<std::pair<
+			std::unique_ptr<Expression>,
+			std::unique_ptr<Statement>
+		>> cases;
+		
+		std::unique_ptr<Statement> d3fault;
 	};
 
 
@@ -302,7 +317,7 @@ namespace ltn::c::sst {
 			virtual void visit(const Assign & x) const override { this->run(x); }
 			virtual void visit(const Return & x) const override { this->run(x); }
 			virtual void visit(const Throw & x) const override { this->run(x); }
-			virtual void visit(const StmtSwitch & x) const override { this->run(x); }
+			virtual void visit(const Switch & x) const override { this->run(x); }
 			virtual void visit(const DoNothing & x) const override { this->run(x); }
 		};
 

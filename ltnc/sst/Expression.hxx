@@ -26,7 +26,7 @@ namespace ltn::c::sst {
 	struct GlobalVar;
 	struct Iife;
 	struct Ternary;
-	struct ExprSwitch;
+	struct Choose;
 	struct TypedUnary;
 	struct Reflect;
 	struct InitStruct;
@@ -54,7 +54,7 @@ namespace ltn::c::sst {
 		GlobalVar,
 		Iife,
 		Ternary,
-		ExprSwitch,
+		Choose,
 		TypedUnary,
 		Reflect,
 		InitStruct

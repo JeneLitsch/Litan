@@ -50,7 +50,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_stmt(const sst::StmtSwitch & sw1tch) {
+	InstructionBuffer compile_stmt(const sst::Switch & sw1tch) {
 		
 		const auto condition = compile_expression(*sw1tch.condition);
 		const auto cases = compile_cases(compile_statement, sw1tch);
@@ -60,7 +60,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_expr(const sst::ExprSwitch & sw1tch) {
+	InstructionBuffer compile_expr(const sst::Choose & sw1tch) {
 		
 		const auto condition = compile_expression(*sw1tch.condition);
 		const auto cases = compile_cases(compile_expression, sw1tch);

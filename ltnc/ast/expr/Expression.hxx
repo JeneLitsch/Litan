@@ -4,18 +4,16 @@
 #include <any>
 #include <bitset>
 #include "ltn/casts.hxx"
-#include "Switch.hxx"
-#include "Node.hxx"
+#include "ltn/Visitor.hxx"
 #include "ltnc/Namespace.hxx"
 #include "ltnc/Operations.hxx"
-#include "ltn/Visitor.hxx"
+#include "ltnc/ast/Node.hxx"
 
 
 namespace ltn::c::ast {
 	class Statement;
+	struct Functional;
 	struct Function;
-
-
 
 	struct Binary;
 	struct Unary;
@@ -36,12 +34,11 @@ namespace ltn::c::ast {
 	struct GlobalVar;
 	struct Iife;
 	struct Ternary;
-	struct ExprSwitch;
+	struct Choose;
 	struct TypedUnary;
 	struct Reflect;
 	struct ForwardDynamicCall;
 	struct InitStruct;
-
 
 
 	using ExprVisitor = Visitor<
@@ -64,7 +61,7 @@ namespace ltn::c::ast {
 		GlobalVar,
 		Iife,
 		Ternary,
-		ExprSwitch,
+		Choose,
 		TypedUnary,
 		Reflect,
 		ForwardDynamicCall,
@@ -75,8 +72,8 @@ namespace ltn::c::ast {
 
 	struct Expression : public Node {
 		Expression(const SourceLocation & location) : Node(location) {}
+		
 		virtual ~Expression() = default;
-
 		virtual void accept(const ExprVisitor & visitor) const = 0;
 	};
 
@@ -90,11 +87,13 @@ namespace ltn::c::ast {
 			: Expression(location)
 			, addr{addr}
 			, arity{arity} {}
-		virtual ~ForwardDynamicCall() = default;
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::uint64_t addr;
 		std::uint64_t arity;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 	
 
@@ -109,13 +108,15 @@ namespace ltn::c::ast {
 			, condition(std::move(condition))
 			, if_branch(std::move(if_branch))
 			, else_branch(std::move(else_branch)) {}
-		virtual ~Ternary() = default;
 	
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::unique_ptr<Expression> condition;
 		std::unique_ptr<Expression> if_branch;
 		std::unique_ptr<Expression> else_branch;
 		
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -123,6 +124,7 @@ namespace ltn::c::ast {
 
 	struct Unary final : public Expression {
 		using Op = UnaryOp;
+		
 		Unary(
 			Op op,
 			std::unique_ptr<Expression> expression,
@@ -130,17 +132,20 @@ namespace ltn::c::ast {
 			: Expression(location)
 			, op(op)
 			, expression(std::move(expression)) {}
-		virtual ~Unary() = default;
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		Op op;
 		std::unique_ptr<Expression> expression;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
 
 	struct Binary final : public Expression {
 		using Op = BinaryOp;
+
 		Binary(
 			Op op,
 			std::unique_ptr<Expression> l,
@@ -150,12 +155,14 @@ namespace ltn::c::ast {
 			, op(op)
 			, l(std::move(l))
 			, r(std::move(r)) {}
-		virtual ~Binary() = default;
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		Op op;
 		std::unique_ptr<Expression> l;
 		std::unique_ptr<Expression> r;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -164,23 +171,30 @@ namespace ltn::c::ast {
 		struct NamespaceQuery {
 			Namespace namespaze;
 		};
+		
 		struct FunctionQuery {
 			Namespace namespaze;
 			std::string name;
 			std::size_t arity;
 		};
+		
 		struct FileQuery {};
+		
 		struct LineQuery {};
+		
 		struct LocationQuery {
 			FileQuery file;
 			LineQuery line;
 		};
+		
 		struct ExprQuery {
 			std::unique_ptr<Expression> expr;
 		};
+		
 		struct TypeQuery {
 			type::IncompleteType type;
 		};
+		
 		using Query = std::variant<
 			NamespaceQuery,
 			FunctionQuery,
@@ -190,22 +204,25 @@ namespace ltn::c::ast {
 			ExprQuery,
 			TypeQuery
 		>;
+		
 		Reflect(
 			Query query,
 			const SourceLocation & location)
 			: Expression(location)
 			, query{std::move(query)} {}
-		virtual ~Reflect() = default;
-		Query query;
+		
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		Query query;
 	};
 
 
 
 	struct TypedUnary final : public Expression {
-	public:
 		using Op = TypedUnaryOp;
+
 		TypedUnary(
 			Op op,
 			const type::IncompleteType & type,
@@ -215,18 +232,18 @@ namespace ltn::c::ast {
 			, op{op}
 			, type{type}
 			, expr{std::move(expr)} {}
-		virtual ~TypedUnary() = default;
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		Op op;
 		type::IncompleteType type;
 		std::unique_ptr<Expression> expr;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
-	struct Functional;
-	struct Var;
-	class Statement;
+
 
 	struct Integer final : public Expression {
 		Integer(std::bitset<64> value, const SourceLocation & location)
@@ -234,10 +251,12 @@ namespace ltn::c::ast {
 
 		Integer(std::int64_t value, const SourceLocation & location)
 			: Expression(location), value(value) {}
-		virtual ~Integer() = default;
-		std::int64_t value;
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+		
+		std::int64_t value;
 	};
 
 
@@ -245,10 +264,12 @@ namespace ltn::c::ast {
 	struct Float final : public Expression {
 		Float(stx::float64_t value, const SourceLocation & location)
 			: Expression(location), value(value) {}
-		virtual ~Float() = default;
-		stx::float64_t value;
+		
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		stx::float64_t value;
 	};
 
 
@@ -256,10 +277,12 @@ namespace ltn::c::ast {
 	struct Bool final : public Expression {
 		Bool(bool value, const SourceLocation & location)
 			: Expression(location), value(value) {}
-		virtual ~Bool() = default;
-		bool value;
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		bool value;
 	};
 
 
@@ -267,9 +290,10 @@ namespace ltn::c::ast {
 	struct Null final : public Expression {
 		Null(const SourceLocation & location)
 			: Expression(location) {}
-		virtual ~Null() = default;
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -277,10 +301,12 @@ namespace ltn::c::ast {
 	struct Char final : public Expression {
 		Char(std::uint8_t value, const SourceLocation & location)
 			: Expression(location), value(value) {}
-		virtual ~Char() = default;
-		std::uint8_t value;
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::uint8_t value;
 	};
 
 
@@ -288,10 +314,12 @@ namespace ltn::c::ast {
 	struct String final : public Expression {
 		String(const std::string & value, const SourceLocation & location)
 			: Expression(location), value(value) {}
-		virtual ~String() = default;
-		std::string value;
+		
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		std::string value;
 	};
 
 
@@ -303,9 +331,11 @@ namespace ltn::c::ast {
 			: Expression(location)
 			, elements{std::move(elements)} {}
 
-		std::vector<std::unique_ptr<Expression>> elements;
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		std::vector<std::unique_ptr<Expression>> elements;
 	};
 
 
@@ -316,10 +346,12 @@ namespace ltn::c::ast {
 			std::vector<std::unique_ptr<Expression>> elements)
 			: Expression(location)
 			, elements{std::move(elements)} {}
-		virtual ~Tuple() = default;
-		std::vector<std::unique_ptr<Expression>> elements;
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::vector<std::unique_ptr<Expression>> elements;
 	};
 
 
@@ -332,11 +364,13 @@ namespace ltn::c::ast {
 			: Expression(location)
 			, fx(std::move(fx))
 			, captures(std::move(captures)) {}
-		virtual ~Lambda() = default;
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::unique_ptr<Function> fx;
 		std::vector<std::unique_ptr<Var>> captures;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -349,11 +383,13 @@ namespace ltn::c::ast {
 			: Expression(location)
 			, expression(std::move(expression))
 			, index(std::move(index)) {}
-		virtual ~Index() = default;
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::unique_ptr<Expression> expression;
 		std::unique_ptr<Expression> index;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -367,11 +403,12 @@ namespace ltn::c::ast {
 			, name{name}
 			, namespaze{namespaze} {}
 
-		virtual ~Var() = default;
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::string name;
 		Namespace namespaze;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -384,11 +421,13 @@ namespace ltn::c::ast {
 			: Expression(location)
 			, name { name }
 			, namespaze { namespaze } {}
-		virtual ~GlobalVar() = default;
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::string name;
 		Namespace namespaze;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -400,12 +439,14 @@ namespace ltn::c::ast {
 			const SourceLocation & location)
 			: Expression(location)
 			, expr(std::move(expr))
-			, name(std::move(name)){};
-		virtual ~Member() = default;
+			, name(std::move(name)) {};
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::unique_ptr<Expression> expr;
 		std::string name;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -418,12 +459,13 @@ namespace ltn::c::ast {
 			: Expression(location)
 			, stmt(std::move(stmt))
 			, return_type{return_type} {}
-		virtual ~Iife() = default;
-		
+			
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::unique_ptr<Statement> stmt;
 		type::IncompleteType return_type;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -438,13 +480,15 @@ namespace ltn::c::ast {
 			, name(name)
 			, namespaze(namespaze)
 			, placeholders(std::move(placeholders)) {}
-		virtual ~FxPointer() = default;
+		
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::string name;
 		Namespace namespaze;
 		std::size_t placeholders;
 		std::vector<type::IncompleteType> template_arguements;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -457,42 +501,55 @@ namespace ltn::c::ast {
 			: Expression(location)
 			, function_ptr(std::move(function_ptr))
 			, parameters(std::move(parameters)) {}
-		virtual ~Call() = default;
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::unique_ptr<Expression> function_ptr;
 		std::vector<std::unique_ptr<Expression>> parameters;
 		std::vector<type::IncompleteType> template_args;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
 
 	struct InitStruct final : public Expression {
-		InitStruct(const SourceLocation & location)
-			: Expression{location} {}
-		virtual ~InitStruct() = default;
 		struct Member {
 			std::string name;
 			std::unique_ptr<Expression> expr;
 		};
+
+		InitStruct(const SourceLocation & location)
+			: Expression{location} {}
+		
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::vector<Member> members;
-
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
 
-	struct ExprSwitch final : Switch<Expression> {
-		ExprSwitch(const SourceLocation & location)
-			: Switch<Expression>{location} {}
+	struct Choose final : Expression {
+		Choose(const SourceLocation & location)
+			: Expression{location} {}
 
-		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+		
+		std::unique_ptr<Expression> condition;
+		
+		std::vector<std::pair<
+			std::unique_ptr<Expression>,
+			std::unique_ptr<Expression>
+		>> cases;
+		
+		std::unique_ptr<Expression> d3fault;
 	};
 
 
-
-
-	
 
 	auto visit_expression(const Expression & expr, auto && fx) {
 		using Callable = std::decay_t<decltype(fx)>;
@@ -521,7 +578,7 @@ namespace ltn::c::ast {
 			virtual void visit(const GlobalVar & x)          const override { this->run(x); };
 			virtual void visit(const Iife & x)               const override { this->run(x); };
 			virtual void visit(const Ternary & x)            const override { this->run(x); };
-			virtual void visit(const ExprSwitch & x)         const override { this->run(x); };
+			virtual void visit(const Choose & x)         const override { this->run(x); };
 			virtual void visit(const TypedUnary & x)         const override { this->run(x); };
 			virtual void visit(const Reflect & x)            const override { this->run(x); };
 			virtual void visit(const ForwardDynamicCall & x) const override { this->run(x); };

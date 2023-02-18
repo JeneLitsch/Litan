@@ -40,7 +40,7 @@ namespace ltn::c {
 
 
 	sst::stmt_ptr analyze_stmt(
-		const ast::StmtSwitch & sw1tch,
+		const ast::Switch & sw1tch,
 		Context & context,
 		Scope & scope) {
 		
@@ -48,7 +48,7 @@ namespace ltn::c {
 		auto cases = analyze_cases(analyze_statement, sw1tch, context, scope);
 		auto def4ault = analyze_statement(*sw1tch.d3fault, context, scope);
 
-		auto sst_sw1tch = std::make_unique<sst::StmtSwitch>();
+		auto sst_sw1tch = std::make_unique<sst::Switch>();
 		sst_sw1tch->cases = std::move(cases);
 		sst_sw1tch->condition = std::move(condition);
 		sst_sw1tch->d3fault = std::move(def4ault);
@@ -58,7 +58,7 @@ namespace ltn::c {
 
 
 	sst::expr_ptr analyze_expr(
-		const ast::ExprSwitch & sw1tch,
+		const ast::Choose & sw1tch,
 		Context & context,
 		Scope & scope) {
 
@@ -71,7 +71,7 @@ namespace ltn::c {
 			deduced_type = type::deduce_choose(deduced_type, body->type);
 		}
 
-		auto choose = std::make_unique<sst::ExprSwitch>(deduced_type);
+		auto choose = std::make_unique<sst::Choose>(deduced_type);
 		choose->cases = std::move(cases);
 		choose->condition = std::move(condition);
 		choose->d3fault = std::move(def4ault);

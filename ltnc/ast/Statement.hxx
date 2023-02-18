@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include "Node.hxx"
-#include "Switch.hxx"
 #include "ltnc/type/Type.hxx"
 #include "ltn/casts.hxx"
 #include "ltn/Visitor.hxx"
@@ -21,7 +20,7 @@ namespace ltn::c::ast {
 	struct NewVar;
 	struct Return;
 	struct Throw;
-	struct StmtSwitch;
+	struct Switch;
 	struct StatementExpression;
 	struct DoNothing;
 	struct Assign;
@@ -38,7 +37,7 @@ namespace ltn::c::ast {
 		NewVar,
 		Return,
 		Throw,
-		StmtSwitch,
+		Switch,
 		StatementExpression,
 		DoNothing,
 		Assign
@@ -49,8 +48,8 @@ namespace ltn::c::ast {
 	class Statement : public Node {
 	public:
 		Statement(const SourceLocation & location) : Node(location) {}
-		virtual ~Statement() = default;
 
+		virtual ~Statement() = default;
 		virtual void accept(const StmtVisitor &) const = 0;
 	};
 
@@ -58,9 +57,10 @@ namespace ltn::c::ast {
 	
 	struct DoNothing final : public Statement {
 		DoNothing(const SourceLocation & location) : Statement(location) {}
-		virtual ~DoNothing() = default;
 
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
 
 
@@ -71,10 +71,12 @@ namespace ltn::c::ast {
 			const SourceLocation & location) 
 			: Statement(location)
 			, expression(std::move(expression)) {}
-		virtual ~Throw() = default;
-		std::unique_ptr<Expression> expression;
 
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::unique_ptr<Expression> expression;
 	};
 
 
@@ -85,10 +87,12 @@ namespace ltn::c::ast {
 			const SourceLocation & location) 
 			: Statement(location)
 			, statements(std::move(statements)) {}
-		virtual ~Block() = default;
-		std::vector<std::unique_ptr<Statement>> statements;
 
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::vector<std::unique_ptr<Statement>> statements;
 	};
 
 
@@ -103,12 +107,14 @@ namespace ltn::c::ast {
 			, binding(std::move(binding))
 			, expression(std::move(expression))
 			, type{type} {}
-		virtual ~NewVar() = default;
+
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::unique_ptr<Binding> binding;		
 		std::unique_ptr<Expression> expression;
 		std::optional<type::IncompleteType> type;
-
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -123,12 +129,14 @@ namespace ltn::c::ast {
 			, condition(std::move(condition))
 			, if_branch(std::move(if_branch))
 			, else_branch(std::move(else_branch)) {}
-		virtual ~IfElse() = default;
+
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::unique_ptr<Expression> condition;
 		std::unique_ptr<Statement> if_branch;
 		std::unique_ptr<Statement> else_branch;
-
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -142,11 +150,13 @@ namespace ltn::c::ast {
 			, condition(std::move(condition))
 			, body(std::move(body)) {}
 
-		virtual ~While() = default;
+
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::unique_ptr<Expression> condition;
 		std::unique_ptr<Statement> body;
-
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -158,10 +168,11 @@ namespace ltn::c::ast {
 			: Statement(location)
 			, body(std::move(body)) {}
 
-		virtual ~InfiniteLoop() = default;
-		std::unique_ptr<Statement> body;
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		std::unique_ptr<Statement> body;
 	};
 
 
@@ -181,14 +192,15 @@ namespace ltn::c::ast {
 			, step(std::move(step))
 			, body(std::move(body)) {}
 
-		virtual ~For() = default;
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::string index_name;
 		std::unique_ptr<Expression> from;
 		std::unique_ptr<Expression> to;
 		std::unique_ptr<Expression> step;
 		std::unique_ptr<Statement> body;
-
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -204,12 +216,13 @@ namespace ltn::c::ast {
 			, expr(std::move(expr))
 			, body(std::move(body)) {}
 
-		virtual ~ForEach() = default;
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::string index_name;
 		std::unique_ptr<Expression> expr;
 		std::unique_ptr<Statement> body;
-
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -220,10 +233,12 @@ namespace ltn::c::ast {
 			const SourceLocation & location)
 			: Statement(location)
 			, expression(std::move(expression)) {}
-		virtual ~StatementExpression() = default;
-		std::unique_ptr<Expression> expression;
 
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::unique_ptr<Expression> expression;
 	};
 
 
@@ -234,10 +249,12 @@ namespace ltn::c::ast {
 			const SourceLocation & location)
 			: Statement(location)
 			, expression(std::move(expression)) {}
-		virtual ~Return() = default;
-		std::unique_ptr<Expression> expression;
 
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::unique_ptr<Expression> expression;
 	};
 
 
@@ -251,24 +268,34 @@ namespace ltn::c::ast {
 			: Statement(location)
 			, l(std::move(l))
 			, r(std::move(r)) {}
-		virtual ~Assign() = default;
+
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::unique_ptr<Expression> l;
 		std::unique_ptr<Expression> r;
-
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
 
-	struct StmtSwitch final : Switch<Statement>  {
-		StmtSwitch(const SourceLocation & location)
-			: Switch<Statement>{location} {}
+	struct Switch : Statement {
+		Switch(const SourceLocation & location)
+			: Statement(location) {}
 
-		virtual void accept(const StmtVisitor & visitor) const override { visitor.visit(*this); }
+		std::unique_ptr<Expression> condition;
+
+		std::vector<std::pair<
+			std::unique_ptr<Expression>,
+			std::unique_ptr<Statement>
+		>> cases;
+
+		std::unique_ptr<Statement> d3fault;
+
+		virtual void accept(const StmtVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 	};
-
-
-
 
 
 
@@ -289,7 +316,7 @@ namespace ltn::c::ast {
 			virtual void visit(const NewVar & x)               const override { this->run(x); };
 			virtual void visit(const Return & x)               const override { this->run(x); };
 			virtual void visit(const Throw & x)                const override { this->run(x); };
-			virtual void visit(const StmtSwitch & x)           const override { this->run(x); };
+			virtual void visit(const Switch & x)           const override { this->run(x); };
 			virtual void visit(const StatementExpression & x)  const override { this->run(x); };
 			virtual void visit(const DoNothing & x)            const override { this->run(x); };
 			virtual void visit(const Assign & x)               const override { this->run(x); };

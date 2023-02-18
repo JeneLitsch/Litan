@@ -45,11 +45,11 @@ namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::For &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::ForEach &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::NewVar &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::StmtSwitch &, Context &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::Switch &, Context &, Scope &);
 
 	sst::expr_ptr analyze_expression(const ast::Expression &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Lambda &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::ExprSwitch &, Context &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Choose &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Ternary &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Binary &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Unary &, Context &, Scope &);

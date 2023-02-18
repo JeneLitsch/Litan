@@ -153,24 +153,6 @@ namespace ltn::c::sst {
 
 
 
-	template<typename Callable>
-	class BindVisitorImpl : public BindVisitor {
-		using Ret = decltype(std::declval<const Callable &>()(std::declval<const GroupBinding &>())); 
-	public:
-		BindVisitorImpl(Callable fx) : fx{fx} {}
-
-
-		Ret operator()(const Binding & bind) const {
-			bind.accept(*this);
-			return std::move(ret);
-		}
-	private:
-		Callable fx;
-		mutable Ret ret;
-	};
-
-
-
 	auto visit_binding(const Binding & binding, auto && fx) {
 		using Callable = std::decay_t<decltype(fx)>;
 		using Ret = std::invoke_result_t<Callable, GroupBinding>;

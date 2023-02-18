@@ -27,10 +27,12 @@ namespace ltn::c::ast {
 	struct GroupBinding final : public Binding {
 		GroupBinding(const SourceLocation & location)
 			: Binding {location} {}
+
+		virtual void accept(const BindVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
 		
 		std::vector<std::unique_ptr<Binding>> sub_bindings;
-
-		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
 	};
 
 
@@ -39,10 +41,12 @@ namespace ltn::c::ast {
 		NewVarBinding(const SourceLocation & location, std::string name)
 			: Binding {location}
 			, name{std::move(name)} {}
-		
-		std::string name;
 
-		virtual void accept(const BindVisitor & visitor) const override { visitor.visit(*this); }
+		virtual void accept(const BindVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::string name;
 	};
 
 

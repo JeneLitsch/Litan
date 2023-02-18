@@ -582,9 +582,10 @@ namespace ltn::c::sst {
 
 
 
+	struct Choose final : Expression {
+		Choose(const type::Type & type) 
+			: Expression{type} {}
 
-	struct ExprSwitch : Switch<Primary, Expression> {
-		ExprSwitch(const type::Type & type) : Switch<Primary, Expression>{type} {}
 		virtual std::uint64_t alloc() const override {
 			std::uint64_t count = 0;
 			for(const auto & [c4se, expr] : this->cases) {
@@ -594,6 +595,13 @@ namespace ltn::c::sst {
 		}
 
 		virtual void accept(const ExprVisitor & visitor) const override { visitor.visit(*this); }
+
+		std::unique_ptr<Expression> condition;
+		std::vector<std::pair<
+			std::unique_ptr<Expression>,
+			std::unique_ptr<Expression>
+		>> cases;
+		std::unique_ptr<Expression> d3fault;
 	};
 
 
@@ -627,7 +635,7 @@ namespace ltn::c::sst {
 			virtual void visit(const GlobalVar & x) const override { this->run(x); };
 			virtual void visit(const Iife & x) const override { this->run(x); };
 			virtual void visit(const Ternary & x) const override { this->run(x); };
-			virtual void visit(const ExprSwitch & x) const override { this->run(x); };
+			virtual void visit(const Choose & x) const override { this->run(x); };
 			virtual void visit(const TypedUnary & x) const override { this->run(x); };
 			virtual void visit(const Reflect & x) const override { this->run(x); };
 			virtual void visit(const InitStruct & x) const override { this->run(x); };

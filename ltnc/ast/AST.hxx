@@ -1,7 +1,7 @@
 #pragma once
 #include "Function.hxx"
 #include "Statement.hxx"
-#include "Expression.hxx"
+#include "ltnc/ast/expr/Expression.hxx"
 #include "Binding.hxx"
 
 namespace ltn::c::ast {

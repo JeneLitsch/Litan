@@ -33,12 +33,12 @@ namespace ltn::c {
 	InstructionBuffer compile_stmt(const sst::For &);
 	InstructionBuffer compile_stmt(const sst::ForEach &);
 	InstructionBuffer compile_stmt(const sst::Assign &);
-	InstructionBuffer compile_stmt(const sst::StmtSwitch &);
+	InstructionBuffer compile_stmt(const sst::Switch &);
 
 	// Expression
 	InstructionBuffer compile_expression(const sst::Expression &);
 	InstructionBuffer compile_expr(const sst::Lambda &);
-	InstructionBuffer compile_expr(const sst::ExprSwitch &);
+	InstructionBuffer compile_expr(const sst::Choose &);
 	InstructionBuffer compile_expr(const sst::Ternary &);
 	InstructionBuffer compile_expr(const sst::Binary &);
 	InstructionBuffer compile_expr(const sst::Unary &);
