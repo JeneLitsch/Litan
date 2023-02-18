@@ -1,12 +1,8 @@
+function<T> f(x : T) -> T => x
+
 function main(args) {
-	std::println(iife{
-		var x = 42;
-		var y = 42;
-		var a = 42;
-		var b = 42;
-		var c = 42;
-		var d = 42;
-		var e = 42;
-		return x;
-	});
+	var map = std::map(<int>, <float>);
+	std::println(reflect(expr map).type.name);
+
+	std::println(f(5, <int>));
 }

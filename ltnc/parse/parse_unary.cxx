@@ -34,19 +34,54 @@ namespace ltn::c {
 
 
 		auto parse_arguments(Tokens & tokens) {
-			std::vector<std::unique_ptr<ast::Expression>> parameters;
+			std::vector<ast::expr_ptr> function_arguments;
+			std::vector<type::IncompleteType> template_arguments;
 			if(match(TT::PAREN_R, tokens)) {
-				 return parameters;
+				return std::make_pair(
+					std::move(function_arguments),
+					std::move(template_arguments)
+				);
 			}
 			while(true) {
-				parameters.push_back(parse_expression(tokens));
+				if(match(TT::SMALLER, tokens)) {
+					BraceTracker brace_tracker;
+					brace_tracker.open();
+					template_arguments.push_back(parse_type(tokens, brace_tracker));
+					close_chevron(tokens, brace_tracker);
+					brace_tracker.finalize();
+				}
+				else {
+					function_arguments.push_back(parse_expression(tokens));
+				}
 				if(match(TT::PAREN_R, tokens)) {
-					return parameters;
+					return std::make_pair(
+						std::move(function_arguments),
+						std::move(template_arguments)
+					);
 				}
 				if(!match(TT::COMMA, tokens)) throw CompilerError {
 					"Expected ,", location(tokens)
 				};
 			}
+		}
+
+
+
+		ast::expr_ptr parse_call(
+			Tokens & tokens,
+			std::unique_ptr<ast::Expression> l) {
+			
+			auto [function_args, template_args] = parse_arguments(tokens); 
+
+			auto call = stx::make_unique<ast::Call>(
+				std::move(l),
+				std::move(function_args),
+				location(tokens)
+			);
+			
+			call->template_arguments = template_args;
+
+			return call;
 		}
 
 
@@ -77,18 +112,7 @@ namespace ltn::c {
 			}
 
 			if(auto start = match(TT::PAREN_L, tokens)) {
-
-				auto [template_args, done] = parse_template_args(tokens); 
-				auto function_args = (!done) 
-					? parse_arguments(tokens)
-					: std::vector<ast::expr_ptr>{};
-
-				auto call = stx::make_unique<ast::Call>(
-					std::move(l),
-					std::move(function_args),
-					location(tokens)
-				);
-				call->template_arguments = template_args;
+				auto call = parse_call(tokens, std::move(l));
 				return parse_postfix(tokens, std::move(call));
 			}
 

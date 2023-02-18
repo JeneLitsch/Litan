@@ -488,7 +488,7 @@ namespace ltn::c::ast {
 		std::string name;
 		Namespace namespaze;
 		std::size_t placeholders;
-		std::vector<type::IncompleteType> template_arguements;
+		std::vector<type::IncompleteType> template_arguments;
 	};
 
 

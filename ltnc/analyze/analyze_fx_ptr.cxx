@@ -53,14 +53,14 @@ namespace ltn::c {
 				fx_ptr.name,
 				fx_ptr.namespaze,
 				fx_ptr.placeholders,
-				fx_ptr.template_arguements.size(),
+				fx_ptr.template_arguments.size(),
 				location(fx_ptr),
 				context,
 				scope
 			);
 
 			const auto arguments = stx::fx::mapped(instantiate_type)(
-				fx_ptr.template_arguements,
+				fx_ptr.template_arguments,
 				scope
 			);
 
@@ -69,7 +69,7 @@ namespace ltn::c {
 			add_template_args(
 				scope,
 				tmpl->template_parameters,
-				fx_ptr.template_arguements);
+				fx_ptr.template_arguments);
 
 			const auto fx_label = make_function_label(
 				tmpl->fx->namespaze,
@@ -89,7 +89,7 @@ namespace ltn::c {
 
 
 		bool refers_to_template(const ast::FxPointer & fx_ptr) {
-			return !fx_ptr.template_arguements.empty();
+			return !fx_ptr.template_arguments.empty();
 		}
 
 
