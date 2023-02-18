@@ -43,8 +43,6 @@ namespace ltn::c::sst {
 	struct GroupBinding : public Binding {
 		GroupBinding()
 			: Binding {} {}
-		
-		std::vector<std::unique_ptr<Binding>> sub_bindings;
 
 		virtual std::size_t alloc_count() const override {
 			return std::accumulate(
@@ -60,6 +58,8 @@ namespace ltn::c::sst {
 		virtual void accept(const BindVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::vector<std::unique_ptr<Binding>> sub_bindings;
 	};
 
 
@@ -68,8 +68,6 @@ namespace ltn::c::sst {
 		NewVarBinding(std::uint64_t addr)
 			: Binding {}
 			, addr{std::move(addr)} {}
-		
-		std::uint64_t addr;
 
 		virtual std::size_t alloc_count() const override {
 			return 1;
@@ -78,6 +76,8 @@ namespace ltn::c::sst {
 		virtual void accept(const BindVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::uint64_t addr;
 	};
 
 
@@ -100,14 +100,14 @@ namespace ltn::c::sst {
 		GlobalBinding(std::uint64_t addr)
 			: Binding{}
 			, addr{addr} {}
-		virtual ~GlobalBinding() = default;
-		std::uint64_t addr;
 
 		virtual std::size_t alloc_count() const override { return 0; }
 	
 		virtual void accept(const BindVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::uint64_t addr;
 	};
 
 
@@ -119,15 +119,15 @@ namespace ltn::c::sst {
 			: Binding{}
 			, object{std::move(object)}
 			, addr{addr} {}
-		virtual ~MemberBinding() = default;
-		std::unique_ptr<Expression> object;
-		std::uint64_t addr;
 
 		virtual std::size_t alloc_count() const override { return 0; }
 
 		virtual void accept(const BindVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::unique_ptr<Expression> object;
+		std::uint64_t addr;
 	};
 
 
@@ -137,14 +137,14 @@ namespace ltn::c::sst {
 			std::uint64_t addr)
 			: Binding{}
 			, addr{addr} {}
-		virtual ~LocalBinding() = default;
-		std::uint64_t addr;
 
 		virtual std::size_t alloc_count() const override { return 0; }
 	
 		virtual void accept(const BindVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::uint64_t addr;
 	};
 
 
@@ -156,15 +156,15 @@ namespace ltn::c::sst {
 			: Binding{}
 			, range{std::move(range)}
 			, index{std::move(index)} {}
-		virtual ~IndexBinding() = default;
-		std::unique_ptr<Expression> range;
-		std::unique_ptr<Expression> index;
 
 		virtual std::size_t alloc_count() const override { return 0; }
 	
 		virtual void accept(const BindVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::unique_ptr<Expression> range;
+		std::unique_ptr<Expression> index;
 	};
 
 

@@ -17,7 +17,7 @@ namespace ltn::c::sst {
 			const Namespace & namespaze) 
 			: name(name)
 			, namespaze(namespaze) {}
-		virtual ~Declaration() = default;
+
 		std::string name;
 		Namespace namespaze;
 	};
@@ -33,8 +33,6 @@ namespace ltn::c::sst {
 			, id(++counter)
 			, type{type} {}
 		
-		std::uint64_t id;
-		type::Type type;
 		const std::string & get_resolve_name() const {
 			return this->name;
 		}
@@ -42,6 +40,9 @@ namespace ltn::c::sst {
 		const Namespace & get_resolve_namespace() const {
 			return this->namespaze;
 		}
+
+		std::uint64_t id;
+		type::Type type;
 	private:
 		static inline std::uint64_t counter = 0;
 	};
@@ -56,7 +57,7 @@ namespace ltn::c::sst {
 			std::unique_ptr<sst::Expression> expr)
 			: Static{name, namespaze, type}
 			, expr{std::move(expr)} {}
-		virtual ~Definition() = default;
+			
 		std::unique_ptr<sst::Expression> expr;
 	};
 
@@ -70,7 +71,7 @@ namespace ltn::c::sst {
 			std::unique_ptr<sst::Expression> expr)
 			: Static{name, namespaze, type}
 			, expr{std::move(expr)} {}
-		virtual ~Global() = default;
+
 		std::unique_ptr<sst::Expression> expr;
 	};
 }

@@ -63,14 +63,16 @@ namespace ltn::c::sst {
 
 
 	struct Expression : public Node {
+		Expression(const type::Type & type)
+			: type{type} {}
+			
 		virtual ~Expression() = default;
-		type::Type type;
 
 		virtual std::uint64_t alloc() const = 0;
 		virtual void accept(const ExprVisitor &) const = 0;
-	protected:
-		Expression(const type::Type & type)
-			: type{type} {}
+		
+		type::Type type;
+
 	};
 	using expr_ptr = std::unique_ptr<Expression>;
 }

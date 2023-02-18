@@ -28,11 +28,6 @@ namespace ltn::c::sst {
 			, condition(std::move(condition))
 			, if_branch(std::move(if_branch))
 			, else_branch(std::move(else_branch)) {}
-		virtual ~Ternary() = default;
-	
-		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Expression> if_branch;
-		std::unique_ptr<Expression> else_branch;
 
 		virtual std::uint64_t alloc() const override {
 			return std::max({
@@ -45,6 +40,10 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+	
+		std::unique_ptr<Expression> condition;
+		std::unique_ptr<Expression> if_branch;
+		std::unique_ptr<Expression> else_branch;
 	};
 
 
@@ -59,9 +58,7 @@ namespace ltn::c::sst {
 			: Expression{type}
 			, op(op)
 			, expression(std::move(expression)) {}
-		virtual ~Unary() = default;
-		Op op;
-		std::unique_ptr<Expression> expression;
+
 		virtual std::uint64_t alloc() const override {
 			return this->expression->alloc();
 		}
@@ -69,6 +66,9 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		Op op;
+		std::unique_ptr<Expression> expression;
 	};
 
 
@@ -84,10 +84,7 @@ namespace ltn::c::sst {
 			, op(op)
 			, l(std::move(l))
 			, r(std::move(r)) {}
-		virtual ~Binary() = default;
-		Op op;
-		std::unique_ptr<Expression> l;
-		std::unique_ptr<Expression> r;
+
 		virtual std::uint64_t alloc() const override {
 			return std::max({
 				l->alloc(),
@@ -98,6 +95,10 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		Op op;
+		std::unique_ptr<Expression> l;
+		std::unique_ptr<Expression> r;
 	};
 
 
@@ -112,26 +113,33 @@ namespace ltn::c::sst {
 			bool pr1vate; 
 			bool ext3rn; 
 		};
+
 		struct NamespaceQuery {
 			Namespace namespaze;
 			std::vector<FunctionQuery> functions;
 		};
+
 		struct LineQuery {
 			std::uint64_t line;
 		};
+
 		struct FileQuery {
 			std::string name;
 		};
+
 		struct LocationQuery {
 			FileQuery file;
 			LineQuery line;
 		};
+
 		struct TypeQuery {
 			type::Type type;
 		};
+
 		struct ExprQuery {
 			TypeQuery type_query;
 		};
+
 		using Query = std::variant<
 			NamespaceQuery,
 			FunctionQuery,
@@ -141,6 +149,7 @@ namespace ltn::c::sst {
 			ExprQuery,
 			TypeQuery
 		>;
+
 		struct Addr {
 			std::uint64_t name;
 			std::uint64_t full_name;
@@ -161,9 +170,6 @@ namespace ltn::c::sst {
 			: Expression{type}
 			, query{std::move(query)}
 			, addr{addr} {}
-		virtual ~Reflect() = default;
-		Query query;
-		Addr addr;
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -172,6 +178,9 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		Query query;
+		Addr addr;
 	};
 
 
@@ -179,6 +188,7 @@ namespace ltn::c::sst {
 	struct TypedUnary final : public Expression {
 	public:
 		using Op = TypedUnaryOp;
+		
 		TypedUnary(
 			Op op,
 			const type::Type & target_type,
@@ -188,10 +198,7 @@ namespace ltn::c::sst {
 			, op{op}
 			, target_type{target_type}
 			, expr{std::move(expr)} {}
-		virtual ~TypedUnary() = default;
-		Op op;
-		type::Type target_type;
-		std::unique_ptr<Expression> expr;
+
 		virtual std::uint64_t alloc() const override {
 			return this->expr->alloc();
 		}
@@ -199,6 +206,10 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		Op op;
+		type::Type target_type;
+		std::unique_ptr<Expression> expr;
 	};
 
 
@@ -218,8 +229,6 @@ namespace ltn::c::sst {
 		Integer(std::int64_t value, const type::Type & type)
 			: Literal(type)
 			, value(value) {}
-		virtual ~Integer() = default;
-		std::int64_t value;
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -228,6 +237,8 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::int64_t value;
 	};
 
 
@@ -236,8 +247,6 @@ namespace ltn::c::sst {
 		Float(stx::float64_t value, const type::Type & type)
 			: Literal(type)
 			, value(value) {}
-		virtual ~Float() = default;
-		stx::float64_t value;
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -246,6 +255,8 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		stx::float64_t value;
 	};
 
 
@@ -254,8 +265,6 @@ namespace ltn::c::sst {
 		Bool(bool value, const type::Type & type)
 			: Literal(type)
 			, value(value) {}
-		virtual ~Bool() = default;
-		bool value;
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -264,6 +273,8 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		bool value;
 	};
 
 
@@ -271,7 +282,6 @@ namespace ltn::c::sst {
 	struct Null final : public Literal {
 		Null(const type::Type & type)
 			: Literal(type) {}
-		virtual ~Null() = default;
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -288,8 +298,6 @@ namespace ltn::c::sst {
 		Char(std::uint8_t value, const type::Type & type)
 			: Literal(type)
 			, value(value) {}
-		virtual ~Char() = default;
-		std::uint8_t value;
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -298,6 +306,8 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::uint8_t value;
 	};
 
 
@@ -306,8 +316,6 @@ namespace ltn::c::sst {
 		String(const std::string & value, const type::Type & type)
 			: Literal(type)
 			, value(value) {}
-		virtual ~String() = default;
-		std::string value;
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -316,14 +324,14 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::string value;
 	};
 
 
 
 	struct Array final: public Literal {
 		Array(const type::Type & type) : Literal(type) {}
-		virtual ~Array() = default;
-		std::vector<std::unique_ptr<Expression>> elements;
 
 		virtual std::uint64_t alloc() const override {
 			std::uint64_t count = 0;
@@ -336,6 +344,8 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::vector<std::unique_ptr<Expression>> elements;
 	};
 
 
@@ -343,7 +353,6 @@ namespace ltn::c::sst {
 	struct Tuple final: public Literal {
 		Tuple(const type::Type & type) : Literal(type) {}
 		virtual ~Tuple() = default;
-		std::vector<std::unique_ptr<Expression>> elements;
 
 		virtual std::uint64_t alloc() const override {
 			std::uint64_t count = 0;
@@ -356,6 +365,8 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::vector<std::unique_ptr<Expression>> elements;
 	};
 
 
@@ -368,9 +379,6 @@ namespace ltn::c::sst {
 			: Literal(type)
 			, fx(std::move(fx))
 			, captures(std::move(captures)) {}
-		virtual ~Lambda() = default;
-		std::unique_ptr<Function> fx;
-		std::vector<std::unique_ptr<Var>> captures;
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -379,6 +387,9 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::unique_ptr<Function> fx;
+		std::vector<std::unique_ptr<Var>> captures;
 	};
 
 
@@ -391,9 +402,6 @@ namespace ltn::c::sst {
 			: Expression{type}
 			, expression(std::move(expression))
 			, index(std::move(index)) {}
-		virtual ~Index() = default;
-		std::unique_ptr<Expression> expression;
-		std::unique_ptr<Expression> index;
 
 		virtual std::uint64_t alloc() const override {
 			return std::max({
@@ -405,6 +413,9 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::unique_ptr<Expression> expression;
+		std::unique_ptr<Expression> index;
 	};
 
 
@@ -417,9 +428,6 @@ namespace ltn::c::sst {
 			: Expression{type}
 			, addr{addr} {}
 
-		virtual ~Var() = default;
-		std::size_t addr;
-
 		virtual std::uint64_t alloc() const override {
 			return 0;
 		}
@@ -427,6 +435,8 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::size_t addr;
 	};
 
 
@@ -438,8 +448,6 @@ namespace ltn::c::sst {
 			std::size_t addr)
 			: Expression{type}
 			, addr { addr } {}
-		virtual ~GlobalVar() = default;
-		std::size_t addr;
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -448,6 +456,8 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::size_t addr;
 	};
 
 
@@ -460,9 +470,6 @@ namespace ltn::c::sst {
 			: Expression{type}
 			, expr(std::move(expr))
 			, addr { addr } {};
-		virtual ~Member() = default;
-		std::unique_ptr<Expression> expr;
-		std::size_t addr;
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -471,6 +478,9 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::unique_ptr<Expression> expr;
+		std::size_t addr;
 	};
 
 
@@ -485,11 +495,6 @@ namespace ltn::c::sst {
 			, return_label{return_label}
 			, stmt(std::move(stmt))
 			, return_type{return_type} {}
-		virtual ~Iife() = default;
-
-		std::string return_label;
-		std::unique_ptr<Statement> stmt;
-		type::Type return_type;
 
 		virtual std::uint64_t alloc() const override {
 			return this->stmt->direct_alloc() + this->stmt->nested_alloc();
@@ -498,6 +503,10 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::string return_label;
+		std::unique_ptr<Statement> stmt;
+		type::Type return_type;
 	};
 
 
@@ -511,9 +520,6 @@ namespace ltn::c::sst {
 			: Expression{type}
 			, label{label}
 			, arity{arity} {}
-		virtual ~FxPointer() = default;
-		Label label;
-		std::size_t arity;
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -522,6 +528,9 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		Label label;
+		std::size_t arity;
 	};
 
 
@@ -535,9 +544,6 @@ namespace ltn::c::sst {
 			: Expression{type}
 			, label{label}
 			, parameters(std::move(parameters)) {}
-		virtual ~Call() = default;
-		Label label;
-		std::vector<std::unique_ptr<Expression>> parameters;
 
 		virtual std::uint64_t alloc() const override {
 			std::uint64_t count = 0;
@@ -550,6 +556,9 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		Label label;
+		std::vector<std::unique_ptr<Expression>> parameters;
 	};
 
 
@@ -564,8 +573,6 @@ namespace ltn::c::sst {
 			, function_ptr(std::move(function_ptr))
 			, parameters(std::move(parameters)) {}
 		virtual ~Invoke() = default;
-		std::unique_ptr<Expression> function_ptr;
-		std::vector<std::unique_ptr<Expression>> parameters;
 
 		virtual std::uint64_t alloc() const override {
 			std::uint64_t count = 0;
@@ -578,18 +585,20 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::unique_ptr<Expression> function_ptr;
+		std::vector<std::unique_ptr<Expression>> parameters;
 	};
 
 
 
 	struct InitStruct final : public Expression {
 		InitStruct() : Expression{type::Any{}} {}
-		virtual ~InitStruct() = default;
+
 		struct Member {
 			std::uint64_t addr;
 			std::unique_ptr<Expression> expr;
 		};
-		std::vector<Member> members;
 
 		virtual std::uint64_t alloc() const override {
 			std::uint64_t count = 0;
@@ -602,6 +611,8 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::vector<Member> members;
 	};
 
 

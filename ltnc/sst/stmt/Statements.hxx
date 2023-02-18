@@ -34,16 +34,15 @@ namespace ltn::c::sst {
 		Throw(std::unique_ptr<Expression> expression) 
 			: Statement{}
 			, expression(std::move(expression)) {}
-		virtual ~Throw() = default;
-		std::unique_ptr<Expression> expression;
 
 		virtual std::size_t nested_alloc() const override { return 0; }
 		virtual std::size_t direct_alloc() const override { return this->expression->alloc(); }
-	
 
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::unique_ptr<Expression> expression;
 	};
 
 
@@ -53,8 +52,6 @@ namespace ltn::c::sst {
 			std::vector<std::unique_ptr<Statement>> statements) 
 			: Statement{}
 			, statements(std::move(statements)) {}
-		virtual ~Block() = default;
-		std::vector<std::unique_ptr<Statement>> statements;
 
 		virtual std::size_t nested_alloc() const override {
 			std::size_t nested = 0;
@@ -73,6 +70,8 @@ namespace ltn::c::sst {
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::vector<std::unique_ptr<Statement>> statements;
 	};
 
 
@@ -84,9 +83,6 @@ namespace ltn::c::sst {
 			: Statement{}
 			, binding{std::move(binding)}
 			, expression(std::move(expression)) {}
-		virtual ~Assign() = default;
-		std::unique_ptr<Binding> binding;
-		std::unique_ptr<Expression> expression;
 
 		virtual std::size_t nested_alloc() const override {
 			return 0;
@@ -99,6 +95,9 @@ namespace ltn::c::sst {
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::unique_ptr<Binding> binding;
+		std::unique_ptr<Expression> expression;
 	};
 
 
@@ -112,10 +111,6 @@ namespace ltn::c::sst {
 			, condition(std::move(condition))
 			, if_branch(std::move(if_branch))
 			, else_branch(std::move(else_branch)) {}
-		virtual ~IfElse() = default;
-		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Statement> if_branch;
-		std::unique_ptr<Statement> else_branch;
 
 		virtual std::size_t nested_alloc() const override {
 			return this->else_branch
@@ -130,6 +125,10 @@ namespace ltn::c::sst {
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::unique_ptr<Expression> condition;
+		std::unique_ptr<Statement> if_branch;
+		std::unique_ptr<Statement> else_branch;
 	};
 
 
@@ -142,10 +141,6 @@ namespace ltn::c::sst {
 			, condition(std::move(condition))
 			, body(std::move(body)) {}
 
-		virtual ~While() = default;
-		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Statement> body;
-
 		virtual std::size_t nested_alloc() const override {
 			return body->nested_alloc();
 		}
@@ -157,6 +152,9 @@ namespace ltn::c::sst {
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::unique_ptr<Expression> condition;
+		std::unique_ptr<Statement> body;
 	};
 
 
@@ -166,9 +164,6 @@ namespace ltn::c::sst {
 			std::unique_ptr<Statement> body)
 			: Statement{}
 			, body(std::move(body)) {}
-
-		virtual ~InfiniteLoop() = default;
-		std::unique_ptr<Statement> body;
 
 		virtual std::size_t nested_alloc() const override {
 			return body->nested_alloc();
@@ -181,6 +176,8 @@ namespace ltn::c::sst {
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::unique_ptr<Statement> body;
 	};
 
 
@@ -201,14 +198,6 @@ namespace ltn::c::sst {
 			, step(std::move(step))
 			, body(std::move(body)) {}
 
-		virtual ~For() = default;
-		std::string label;
-		std::size_t index_addr;
-		std::unique_ptr<Expression> from;
-		std::unique_ptr<Expression> to;
-		std::unique_ptr<Expression> step;
-		std::unique_ptr<Statement> body;
-
 		virtual std::size_t nested_alloc() const override {
 			return body->nested_alloc();
 		}
@@ -220,6 +209,13 @@ namespace ltn::c::sst {
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::string label;
+		std::size_t index_addr;
+		std::unique_ptr<Expression> from;
+		std::unique_ptr<Expression> to;
+		std::unique_ptr<Expression> step;
+		std::unique_ptr<Statement> body;
 	};
 
 
@@ -237,13 +233,6 @@ namespace ltn::c::sst {
 			, expr(std::move(expr))
 			, body(std::move(body)) {}
 
-		virtual ~ForEach() = default;
-		std::size_t element_addr;
-		std::size_t container_addr;
-		std::size_t iterator_addr;
-		std::unique_ptr<Expression> expr;
-		std::unique_ptr<Statement> body;
-
 		virtual std::size_t nested_alloc() const override {
 			return body->nested_alloc();
 		}
@@ -255,6 +244,12 @@ namespace ltn::c::sst {
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::size_t element_addr;
+		std::size_t container_addr;
+		std::size_t iterator_addr;
+		std::unique_ptr<Expression> expr;
+		std::unique_ptr<Statement> body;
 	};
 
 
@@ -266,9 +261,6 @@ namespace ltn::c::sst {
 			: Statement{}
 			, expression(std::move(expression))
 			, overide_label{overide_label} {}
-		virtual ~Return() = default;
-		std::unique_ptr<Expression> expression;
-		std::optional<std::string> overide_label;
 
 		virtual std::size_t nested_alloc() const override { return 0; }
 		virtual std::size_t direct_alloc() const override { return this->expression->alloc(); }
@@ -276,6 +268,9 @@ namespace ltn::c::sst {
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
+
+		std::unique_ptr<Expression> expression;
+		std::optional<std::string> overide_label;
 	};
 
 
