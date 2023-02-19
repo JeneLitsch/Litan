@@ -1,12 +1,13 @@
+function<T> f(x : T)  {
+	return lambda[x](y) => x + y;
+}
+
 function main(args) {
-	std::println(iife{
-		var x = 42;
-		var y = 42;
-		var a = 42;
-		var b = 42;
-		var c = 42;
-		var d = 42;
-		var e = 42;
-		return x;
-	});
+	var map = std::map(<int>, <float>)();
+	map[5] = 3;
+	std::println(map);
+
+	var fx = &f(<int>)(_);
+	var a = fx(2)(4);
+	std::println(a);
 }

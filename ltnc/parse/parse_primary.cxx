@@ -128,8 +128,13 @@ namespace ltn::c {
 				Namespace namespaze;
 				std::tie(name, namespaze) = parse_symbol(tokens);
 				if(match(TT::PAREN_L, tokens)) {
-					const auto [template_args, done] = parse_template_args(tokens);
-					const std::size_t placeholders = done ? 0 : parse_placeholder(tokens);
+					auto template_args = parse_template_args(tokens);
+					if(!std::empty(template_args)) {
+						if(!match(TT::PAREN_L, tokens)) throw CompilerError {
+							"Expected (", location(tokens)
+						};
+					} 
+					const std::size_t placeholders = parse_placeholder(tokens);
 					auto fx_ptr = stx::make_unique<ast::FxPointer>(
 						name,
 						namespaze,
