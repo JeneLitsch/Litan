@@ -1,6 +1,7 @@
 #include "analyze.hxx"
 #include <iostream>
 #include "ltnc/print/print.hxx"
+#include "stdxx/functional.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -50,8 +51,11 @@ namespace ltn::c {
 			const auto label = override_label.value_or(
 				make_function_label(fx.namespaze, fx.name, fx.parameters.size())
 			);
+
 			auto parameters = analyze_parameters(fx.parameters, scope, location(fx));
+
 			auto body = analyze_statement(*fx.body, context, scope);
+
 			auto sst_fx = std::make_unique<sst::Function>(
 				label,
 				fx.name,
@@ -60,10 +64,12 @@ namespace ltn::c {
 				std::move(body),
 				instantiate_type(fx.return_type, scope)
 			);
+
 			sst_fx->is_const = fx.is_const; 
 			sst_fx->is_extern = fx.is_extern; 
 			sst_fx->is_private = fx.is_private;
 			sst_fx->capture = std::move(capture);
+
 			if(fx.except) {
 				sst_fx->except = analyze_except(*fx.except, context, fx.namespaze);
 			} 
@@ -142,11 +148,7 @@ namespace ltn::c {
 		Context & context,
 		const std::vector<type::Type> & arguments) {
 
-		FunctionScope scope {
-			tmpl.fx->namespaze,
-			tmpl.fx->is_const,
-		};
-
+		FunctionScope scope { tmpl.fx->namespaze, tmpl.fx->is_const };
 		add_template_args(scope, tmpl.template_parameters, arguments);
 		scope.set_return_type(instantiate_type(tmpl.fx->return_type, scope));
 		const auto label = make_template_label(tmpl, arguments);
@@ -168,34 +170,30 @@ namespace ltn::c {
 			fx.is_const
 		};
 
+		const auto instatiate_param_type = [&] (const auto & param) {
+			return instantiate_type(param.type, inner_scope);
+		};
+
+		const auto analyze_capture_store = [&] (const auto & capture) {
+			auto expr = analyze_expr(*capture, context, outer_scope);
+			return stx::static_unique_cast<sst::Var>(std::move(expr));
+		};
+
+		const auto analyze_capture_load = [&] (const auto & capture) {
+			const auto var = inner_scope.insert(capture->name, location(fx));
+			return std::make_unique<sst::Var>(var.address, var.type);
+		};
+
 		inner_scope.inherit_types_from(outer_scope);
 		
-		std::vector<std::unique_ptr<sst::Var>> load_captures;
-		for(const auto & capture : lambda.captures) {
-			const auto var = inner_scope.insert(capture->name, location(fx));
-			auto expr = std::make_unique<sst::Var>(var.address, var.type);
-			load_captures.push_back(std::move(expr));
-		}
+		auto load_captures = stx::fx::map(analyze_capture_load, lambda.captures);
 
 		const auto label = make_lambda_label(lambda);
 
-		// compile function
 		auto sst_fx = analyze_function(*lambda.fx, context, inner_scope, std::move(load_captures), label);
 
-		// store captures
-		std::vector<std::unique_ptr<sst::Var>> store_captures;
-		for(const auto & capture : lambda.captures) {
-			auto expr = analyze_expr(*capture, context, outer_scope);
-			auto var = stx::static_unique_cast<sst::Var>(std::move(expr));
-			store_captures.push_back(std::move(var));
-		}
-
-
-		std::vector<type::Type> parameter_types;
-		for(const auto & parameter : fx.parameters) {
-			const auto type = instantiate_type(parameter.type, inner_scope);
-			parameter_types.push_back(type);
-		}
+		auto store_captures = stx::fx::map(analyze_capture_store, lambda.captures);
+		auto parameter_types = stx::fx::map(instatiate_param_type, fx.parameters);
 
 		const auto return_type = type::FxPtr {
 			.return_type = instantiate_type(fx.return_type, inner_scope),

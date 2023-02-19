@@ -16,6 +16,28 @@ namespace ltn::c {
 
 
 	namespace {
+		std::vector<sst::expr_ptr> analyze_arguments(
+			const ast::Call & call,
+			const ast::Functional & fx,
+			Context & context,
+			Scope & scope) {
+			
+			std::vector<sst::expr_ptr> arguments;
+			for(std::size_t i = 0; i < call.arguments.size(); ++i) {
+				const ArgumentLocation location = {ast::location(call), i};
+				auto & argument = call.arguments[i];
+				auto & parameter = fx.parameters[i];
+				const auto param_type = instantiate_type(parameter.type, scope);
+				auto arg_raw = analyze_expression(*argument, context, scope);
+				auto arg_full = conversion_on_pass(std::move(arg_raw), param_type, location);
+				arguments.push_back(std::move(arg_full));
+			}
+
+			return arguments;
+		}
+
+
+
 		sst::expr_ptr do_call(
 			const ast::Call & call,
 			const ast::Functional & fx,
@@ -25,37 +47,23 @@ namespace ltn::c {
 
 			guard_private(fx, scope.get_namespace(), location(call));
 			
-			if(scope.is_const() && !fx.is_const) {
-				throw CompilerError {
-					"Cannot call non-const function from a const functions",
-					location(call)};
-			}
+			if(scope.is_const() && !fx.is_const) throw CompilerError {
+				"Cannot call non-const function from a const functions",
+				location(call)
+			};
 
-			std::vector<sst::expr_ptr> arguments;
-			for(std::size_t i = 0; i < call.arguments.size(); ++i) {
-				auto & arg_expr = call.arguments[i];
-				auto & parameter = fx.parameters[i];
-				auto arg = analyze_expression(*arg_expr, context, scope);
-				const auto expr_type = arg->type;
-				const auto param_type = instantiate_type(parameter.type, scope);
-				arguments.push_back(conversion_on_pass(
-					std::move(arg),
-					param_type,
-					{location(call),i}
-				));
-			}
-
-			const auto return_type = instantiate_type(fx.return_type, scope);
-			const auto fx_label = make_function_label(
+			auto arguments = analyze_arguments(call, fx, context, scope);
+			auto return_type = instantiate_type(fx.return_type, scope);
+			auto fx_label = make_function_label(
 				fx.namespaze,
 				fx.name,
 				fx.parameters.size()
 			);
-			const auto label = id_override.value_or(fx_label);
+			auto label = id_override.value_or(std::move(fx_label));
 			return std::make_unique<sst::Call>(
-				label,
+				std::move(label),
 				std::move(arguments),
-				return_type
+				std::move(return_type)
 			);
 		}
 
@@ -83,6 +91,18 @@ namespace ltn::c {
 
 
 
+		sst::expr_ptr do_call_function(
+			const ast::Call & call,
+			const ast::Functional & fx,
+			Context & context,
+			Scope & scope) {
+			
+			context.fx_queue.stage_function(fx);
+			return do_call(call, fx, context, scope);
+		}
+
+
+
 		sst::expr_ptr do_call_template(
 			const ast::Call & call,
 			const ast::Var & var,
@@ -98,17 +118,22 @@ namespace ltn::c {
 				context,
 				scope
 			);
+
 			const auto arguments = stx::fx::mapped(instantiate_type)(
 				call.template_arguments,
 				scope
 			);
+
 			context.fx_queue.stage_template(*tmpl, arguments);
 			const auto label = make_template_label(tmpl, arguments);
 			MinorScope inner_scope(&scope);
+
 			add_template_args(
 				inner_scope,
 				tmpl->template_parameters,
-				call.template_arguments);
+				call.template_arguments
+			);
+			
 			return do_call(call, *tmpl->fx, context, inner_scope, label);
 		}
 	}
@@ -126,6 +151,7 @@ namespace ltn::c {
 			if(!call.template_arguments.empty()) {
 				return do_call_template(call, *var, context, scope);
 			}
+
 			if(var->namespaze.empty()) {
 				const auto * local = scope.resolve(var->name, location(*var));
 				if(local) {
@@ -137,17 +163,19 @@ namespace ltn::c {
 				var->name,
 				scope.get_namespace(),
 				var->namespaze,
-				call.arguments.size());
+				call.arguments.size()
+			);
 
 			if(fx) {
-				context.fx_queue.stage_function(*fx);
-				return do_call(call, *fx, context, scope);
+				return do_call_function(call, *fx, context, scope);
 			}
 
 			const auto * def = context.definition_table.resolve(
 				var->name,
 				scope.get_namespace(),
-				var->namespaze);
+				var->namespaze
+			);
+
 			if(def) {
 				return do_invoke(call, context, scope);
 			}

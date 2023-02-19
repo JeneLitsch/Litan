@@ -51,13 +51,13 @@ namespace ltn::c {
 		sst::expr_ptr generate_default_value(
 			const type::Type & type,
 			const SourceLocation & location) {
-			if(type::is_any(type)) return default_any(type);
+			if(type::is_any(type))      return default_any(type);
 			if(type::is_optional(type)) return default_optional(type);
-			if(type::is_bool(type)) return default_bool(type); 
-			if(type::is_int(type)) return default_int(type); 
-			if(type::is_float(type)) return default_float(type);
-			if(type::is_string(type)) return default_string(type);
-			if(type::is_array(type)) return default_array(type);
+			if(type::is_bool(type))     return default_bool(type); 
+			if(type::is_int(type))      return default_int(type); 
+			if(type::is_float(type))    return default_float(type);
+			if(type::is_string(type))   return default_string(type);
+			if(type::is_array(type))    return default_array(type);
 			throw CompilerError {
 				"Cannot default initialize type " + type::to_string(type),
 				location
