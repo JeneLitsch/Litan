@@ -1,39 +1,52 @@
 #include "analyze.hxx"
 #include <string_view>
 namespace ltn::c {
-	sst::expr_ptr analyze_expr(
-		const ast::Array & array,
-		Context & context,
-		Scope & scope) {
+	namespace {
+		template<typename Node, auto deduce_type>
+		sst::expr_ptr analyze_collection(
+			const auto & ast_collection,
+			Context & context,
+			Scope & scope) {
 			
-		type::Array type;
-		std::vector<sst::expr_ptr> elements;
-		for(const auto & elem : array.elements) {
-			auto result = analyze_expression(*elem, context, scope);
-			type = type::deduce_array_append(type, result->type);
-			elements.push_back(std::move(result));
+			std::vector<type::Type> elem_types;
+			std::vector<sst::expr_ptr> elements;
+			for(const auto & elem : ast_collection.elements) {
+				auto result = analyze_expression(*elem, context, scope);
+				elem_types.push_back(result->type);
+				elements.push_back(std::move(result));
+			}
+			auto full_type = deduce_type(elem_types);
+			auto sst_collection = std::make_unique<Node>(full_type);
+			sst_collection->elements = std::move(elements);
+			return sst_collection;
 		}
-		auto arr = std::make_unique<sst::Array>(type);
-		arr->elements = std::move(elements);
-		return arr;
 	}
 
 
 
 	sst::expr_ptr analyze_expr(
-		const ast::Tuple & array,
+		const ast::Array & array,
 		Context & context,
 		Scope & scope) {
 
-		type::Tuple type;
-		std::vector<sst::expr_ptr> elements;
-		for(const auto & elem : array.elements) {
-			auto result = analyze_expression(*elem, context, scope);
-			type.contained.push_back(result->type);
-			elements.push_back(std::move(result));
-		}
-		auto arr = std::make_unique<sst::Tuple>(type);
-		arr->elements = std::move(elements);
-		return arr;
+		return analyze_collection<sst::Array, type::deduce_array_of>(
+			array,
+			context,
+			scope
+		);
+	}
+
+
+
+	sst::expr_ptr analyze_expr(
+		const ast::Tuple & tuple,
+		Context & context,
+		Scope & scope) {
+
+		return analyze_collection<sst::Tuple, type::deduce_tuple_of>(
+			tuple,
+			context,
+			scope
+		);
 	}
 }

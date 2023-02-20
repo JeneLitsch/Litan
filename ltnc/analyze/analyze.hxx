@@ -20,6 +20,7 @@
 #include "utils/MinorScope.hxx"
 
 #include "instantiate_type.hxx"
+#include "error.hxx"
 
 namespace ltn::c {
 	sst::Program analyze(const ast::Program & program, Reporter & reporter);
@@ -48,6 +49,8 @@ namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::NewVar &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::Switch &, Context &, Scope &);
 
+	std::vector<sst::expr_ptr> analyze_all_expressions(const std::vector<ast::expr_ptr> &, Context &, Scope &);
+
 	sst::expr_ptr analyze_expression(const ast::Expression &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Lambda &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Choose &, Context &, Scope &);
@@ -74,20 +77,6 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::InitStruct &, Context &, Scope &);
 
 	sst::bind_ptr analyze_binding(const ast::Binding &,	Context &, Scope &, const type::Type &);
-
-	// utils
-	void guard_const(
-		const ast::Node &,
-		const Scope &);
-	
-	void guard_private(
-		const ast::Functional & fx,
-		const Namespace & call_ns,
-		const SourceLocation & loc);
-
-	CompilerError undefined_function(
-		const std::string_view & name,
-		const ast::Node & node);
 
 	void add_template_args(
 		Scope & scope,

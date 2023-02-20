@@ -2,6 +2,7 @@
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/type/traits.hxx"
 #include "ltnc/type/to_string.hxx"
+#include "ltnc/analyze/error.hxx"
 
 namespace ltn::c {
 	auto default_any(const type::Type & type) {
@@ -56,9 +57,6 @@ namespace ltn::c {
 		if(type::is_float(type))    return default_float(type);
 		if(type::is_string(type))   return default_string(type);
 		if(type::is_array(type))    return default_array(type);
-		throw CompilerError {
-			"Cannot default initialize type " + type::to_string(type),
-			location
-		};
+		throw cannot_default_init(type, location);
 	}
 }

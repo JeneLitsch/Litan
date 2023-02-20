@@ -37,12 +37,7 @@ namespace ltn::c {
 			template_arity
 		);
 		if(!tmpl) {
-			std::ostringstream oss;
-			oss 
-				<< "Cannot find template " 
-				<< namespaze.to_string() << name
-				<< " with " << template_arity << " arguements";
-			throw CompilerError{oss.str(), location};
+			throw undefined_template(name, location);
 		}
 		return *tmpl;
 	}
@@ -101,6 +96,15 @@ namespace ltn::c {
 		auto analyze_staged(const StagedTemplateFx & staged, Context & context) {
 			return analyze_function_template(staged.tmpl, context, staged.arguments); 
 		}
+	}
+
+
+
+	std::vector<sst::expr_ptr> analyze_all_expressions(const std::vector<ast::expr_ptr> & exprs, Context & context, Scope & scope) {
+		auto analyze_all = stx::fx::mapped([&] (const auto & expr) {
+			return analyze_expression(*expr, context, scope);
+		});
+		return analyze_all(exprs);
 	}
 
 

@@ -489,12 +489,10 @@ namespace ltn::c::sst {
 		Iife(
 			const type::Type & type,
 			std::string return_label,
-			std::unique_ptr<Statement> stmt,
-			type::Type return_type) 
+			std::unique_ptr<Statement> stmt) 
 			: Expression{type}
 			, return_label{return_label}
-			, stmt(std::move(stmt))
-			, return_type{return_type} {}
+			, stmt(std::move(stmt)) {}
 
 		virtual std::uint64_t alloc() const override {
 			return this->stmt->direct_alloc() + this->stmt->nested_alloc();
@@ -506,7 +504,6 @@ namespace ltn::c::sst {
 
 		std::string return_label;
 		std::unique_ptr<Statement> stmt;
-		type::Type return_type;
 	};
 
 

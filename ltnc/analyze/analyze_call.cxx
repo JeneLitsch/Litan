@@ -4,16 +4,6 @@
 #include "conversion.hxx"
 
 namespace ltn::c {
-	CompilerError undefined_function(
-		const std::string_view & name,
-		const ast::Node & node) {
-			
-		std::stringstream ss;
-		ss << "Function " << name << " is not defined";
-		return CompilerError { ss.str(), location(node) };
-	}
-
-
 
 	namespace {
 		std::vector<sst::expr_ptr> analyze_arguments(
@@ -38,6 +28,39 @@ namespace ltn::c {
 
 
 
+		void guard_const(const ast::Call & call, const ast::Functional & fx, const Scope & scope) {
+			if(scope.is_const() && !fx.is_const) {
+				throw const_call_violation(call);
+			}
+		}
+
+
+
+		bool is_inner_namespace(
+			const Namespace & call_ns,
+			const Namespace & fx_ns) {
+			if(fx_ns.size() > call_ns.size()) return false;
+			for(std::size_t i = 0; i < fx_ns.size(); i++) {
+				if(call_ns[i] != fx_ns[i]) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+
+
+		void guard_private(
+			const ast::Functional & fx,
+			const Namespace & call_ns,
+			const ast::Call & call) {
+			if(fx.is_private && !is_inner_namespace(call_ns, fx.namespaze)) {
+				throw private_call_violation(call);
+			}
+		}
+
+
+
 		sst::expr_ptr do_call(
 			const ast::Call & call,
 			const ast::Functional & fx,
@@ -45,21 +68,14 @@ namespace ltn::c {
 			Scope & scope,
 			const std::optional<Label> id_override = std::nullopt) {
 
-			guard_private(fx, scope.get_namespace(), location(call));
-			
-			if(scope.is_const() && !fx.is_const) throw CompilerError {
-				"Cannot call non-const function from a const functions",
-				location(call)
-			};
+			guard_private(fx, scope.get_namespace(), call);
+			guard_const(call, fx, scope);
 
 			auto arguments = analyze_arguments(call, fx, context, scope);
 			auto return_type = instantiate_type(fx.return_type, scope);
-			auto fx_label = make_function_label(
-				fx.namespaze,
-				fx.name,
-				fx.parameters.size()
-			);
+			auto fx_label = make_function_label(fx);
 			auto label = id_override.value_or(std::move(fx_label));
+			
 			return std::make_unique<sst::Call>(
 				std::move(label),
 				std::move(arguments),
@@ -75,13 +91,9 @@ namespace ltn::c {
 			Scope & scope) {
 
 			auto expr = analyze_expression(*call.function_ptr, context, scope);
-
-			std::vector<sst::expr_ptr> arguments;
-			for(const auto & param : call.arguments) {
-				arguments.push_back(analyze_expression(*param, context, scope));
-			}
-
+			auto arguments = analyze_all_expressions(call.arguments, context, scope);
 			const auto type = type::deduce_invokation(expr->type);
+			
 			return std::make_unique<sst::Invoke>(
 				std::move(expr),
 				std::move(arguments),

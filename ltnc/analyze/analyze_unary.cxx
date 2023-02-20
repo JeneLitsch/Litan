@@ -17,20 +17,6 @@ namespace ltn::c {
 				default: throw std::runtime_error{"Invalid Unary::Op"};
 			}
 		}
-
-
-		
-		CompilerError invalid_operands(
-			const type::Type & type,
-			const SourceLocation & location) {
-			std::ostringstream oss;
-			oss 
-				<< "Invalid operands ("
-				<< to_string(type)
-				<< ") for unary expr";
-
-			return CompilerError { oss.str(), location };
-		}
 	}
 
 
@@ -45,7 +31,7 @@ namespace ltn::c {
 		const auto type = deduce_type(op, expr->type);
 
 		if(is_error(type)) {
-			throw invalid_operands(expr->type, location(unary));
+			throw invalid_operands(unary, expr->type);
 		} 
 
 		return std::make_unique<sst::Unary>(op, std::move(expr), type);

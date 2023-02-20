@@ -31,10 +31,7 @@ namespace ltn::c {
 			return analyze_expr(e, context, scope);
 		});
 
-		if(is_error(result->type)) throw CompilerError {
-			"Invalid operands for expr",
-			location(expr)
-		};
+		if(is_error(result->type)) throw invalid_operands(expr);
 
 		return result;
 	}

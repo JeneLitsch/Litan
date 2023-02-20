@@ -2,22 +2,13 @@
 #include <sstream>
 namespace ltn::c {
 	namespace {
-		auto undefined(const ast::GlobalVar & global) {
-			std::ostringstream oss;
-			oss
-				<< "Undefined global variable "
-				<< global.namespaze.to_string() << global.name;
-
-			return CompilerError { oss.str(), location(global) };
-		}
-
 		auto & resolve_static(const auto & statik, auto & table, Scope & scope) {
 			const auto static_var = table.resolve(
 				statik.name,
 				scope.get_namespace(),
 				statik.namespaze);
 
-			if(!static_var) throw undefined(statik);
+			if(!static_var) throw undefined_global(statik);
 			return *static_var;
 		}
 	}

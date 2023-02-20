@@ -6,10 +6,7 @@
 namespace ltn::c {
 	void guard_const(const ast::Node & node, const Scope & scope) {
 		if(scope.is_const()) {
-			throw CompilerError{
-				"Cannot modify or reassign variable in const function",
-				location(node)
-			};
+			throw const_assign_violation(node);
 		}
 	}
 
@@ -56,10 +53,7 @@ namespace ltn::c {
 		auto r = conversion_on_assign(std::move(r_raw), l->type, location(stmt));
 		auto binding = generate_binding(std::move(l));
 		if(!binding) {
-			throw CompilerError {
-				"Left side is not assignable",
-				location(stmt)
-			};
+			throw left_side_not_assignable(stmt);
 		}
 		return std::make_unique<sst::Assign>(std::move(binding), std::move(r));
 	}

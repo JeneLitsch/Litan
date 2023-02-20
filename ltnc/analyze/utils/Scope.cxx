@@ -1,5 +1,6 @@
 #include "Scope.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "ltnc/analyze/error.hxx"
 
 namespace ltn::c {
 	void Scope::set_return(const std::string & return_point) {
@@ -13,7 +14,7 @@ namespace ltn::c {
 		const SourceLocation & location,
 		const type::Type & type) {
 		if(this->vars.contains(name)) {
-			throw CompilerError{"Redefintion of variable " + name, location};
+			throw redefined_variable(name, location);
 		}
 		const auto address = size();
 		const Variable var{

@@ -16,8 +16,7 @@ namespace ltn::c {
 		return std::make_unique<sst::Iife>(
 			return_type,
 			return_label,
-			std::move(body),
-			return_type
+			std::move(body)
 		);
 	}
 }

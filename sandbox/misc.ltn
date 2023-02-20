@@ -1,5 +1,8 @@
-function main(args) {
-	var map = std::map(<int>, <float>)();
-	map[5] = 3;
-	std::println(map);
+function f() {}
+
+
+function main(args) const {
+	var x = 1;
+	// x = 2;
+	f();
 }

@@ -17,20 +17,6 @@ namespace ltn::c {
 
 
 
-	void guard_private(
-		const ast::Functional & fx,
-		const Namespace & call_ns,
-		const SourceLocation & loc) {
-		if(fx.is_private && !is_inner_namespace(call_ns, fx.namespaze)) {
-			throw CompilerError {
-				"Function is not visible in current scope",
-				loc
-			};
-		}
-	}
-
-
-
 	sst::expr_ptr analyze_expr(
 		const ast::Var & expr,
 		Context & context,
@@ -50,10 +36,7 @@ namespace ltn::c {
 			expr.namespaze);
 		
 		if(!def) {
-			throw CompilerError {
-				"Undefined variable " + expr.namespaze.to_string() + name,
-				location(expr)
-			};
+			throw undefined_variable(expr);
 		}
 		
 		return std::make_unique<sst::GlobalVar>(

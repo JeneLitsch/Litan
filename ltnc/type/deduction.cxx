@@ -54,6 +54,25 @@ namespace ltn::c::type {
 
 
 
+	Array deduce_array_of(const std::vector<Type> & elem_types) {
+		Array array{};
+		for(const auto & elem_type : elem_types) {
+			array = type::deduce_array_append(array, elem_type);
+		}
+		return array;
+	}
+
+
+
+	Tuple deduce_tuple_of(const std::vector<Type> & elem_types) {
+		return Tuple {
+			.contained = elem_types
+		};
+	}
+
+
+
+
 	Type deduce_add(const Type & l, const Type & r) {
 		if(is_any(l)) return Any{};
 		if(is_any(r)) return Any{};

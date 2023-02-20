@@ -34,6 +34,7 @@ target_sources(libltnc PRIVATE
 	analyze.cxx	
 	conversion.cxx
 	default_value.cxx
+	error.cxx
 	instantiate_type.cxx
 )
 

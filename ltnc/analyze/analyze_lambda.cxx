@@ -3,7 +3,7 @@
 
 namespace ltn::c {
 	namespace {
-		auto analyze_capture_stores(const auto & captures, Context & context, auto & outer_scope) {
+		auto analyze_captures(const auto & captures, Context & context, auto & outer_scope) {
 			auto fx = [&] (const auto & capture) {
 				auto expr = analyze_expr(*capture, context, outer_scope);
 				return stx::static_unique_cast<sst::Var>(std::move(expr));
@@ -51,17 +51,16 @@ namespace ltn::c {
 		Scope & outer_scope) {
 		
 		auto inner_scope = create_inner_scope(outer_scope, lambda);
+		auto label = make_lambda_label(lambda);
 		
-		const auto label = make_lambda_label(lambda);
-
 		auto sst_fx = analyze_function(*lambda.fx, context, inner_scope, label);
-		auto store_captures = analyze_capture_stores(lambda.captures, context, outer_scope);
+		auto captures = analyze_captures(lambda.captures, context, outer_scope);
 		auto type = deduce_type(lambda, inner_scope);
 
 		return std::make_unique<sst::Lambda>(
 			std::move(sst_fx),
-			std::move(store_captures),
-			type
+			std::move(captures),
+			std::move(type)
 		);
 	}
 }

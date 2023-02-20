@@ -5,16 +5,10 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 		
-		if(thr0w.expr) {
-			auto expr = analyze_expression(*thr0w.expr, context, scope);
-			return std::make_unique<sst::Throw>(
-				std::move(expr)
-			);
-		}
-		else {
-			return std::make_unique<sst::Throw>(
-				std::make_unique<sst::Null>(type::Null{})
-			);
-		}
+		auto expr = thr0w.expr
+			? analyze_expression(*thr0w.expr, context, scope)
+			: std::make_unique<sst::Null>(type::Null{});
+
+		return std::make_unique<sst::Throw>(std::move(expr));
 	}
 }
