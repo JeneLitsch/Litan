@@ -110,7 +110,7 @@ namespace ltn::c {
 		InstructionBuffer capture_buf;
 		
 		// compile function
-		buf << compile_function(*lm.fx);
+		buf << compile_functional(*lm.fx);
 
 		// Create function pointer
 		buf << inst::label(label_skip.to_string());

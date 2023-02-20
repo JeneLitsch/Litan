@@ -373,7 +373,7 @@ namespace ltn::c::sst {
 
 	struct Lambda final : public Literal {
 		Lambda(
-			std::unique_ptr<Function> fx,
+			std::unique_ptr<Functional> fx,
 			std::vector<std::unique_ptr<Var>> captures,
 			const type::Type & type)
 			: Literal(type)
@@ -388,7 +388,7 @@ namespace ltn::c::sst {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Function> fx;
+		std::unique_ptr<Functional> fx;
 		std::vector<std::unique_ptr<Var>> captures;
 	};
 
