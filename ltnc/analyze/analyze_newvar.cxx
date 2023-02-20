@@ -13,7 +13,12 @@ namespace ltn::c {
 			Scope & scope) {
 			
 			if(new_var.expr) {
-				return analyze_expression(*new_var.expr, context, scope);
+				auto expr = analyze_expression(*new_var.expr, context, scope);
+				if(new_var.type) {
+					auto decl_type = instantiate_type(*new_var.type, scope);
+					expr = conversion_on_assign(std::move(expr), decl_type, location(new_var));
+				}
+				return expr;
 			}
 			if(new_var.type) {
 				const auto type = instantiate_type(*new_var.type, scope);
@@ -32,10 +37,6 @@ namespace ltn::c {
 
 		auto expr = analyze_new_variable_right(new_var, context, scope);
 		auto binding = analyze_binding(*new_var.binding, context, scope, expr->type);
-		if(new_var.type) {
-			auto decl_type = instantiate_type(*new_var.type, scope);
-			expr = conversion_on_assign(std::move(expr), decl_type, location(new_var));
-		}
 		return std::make_unique<sst::Assign>(std::move(binding), std::move(expr));
 	}
 }

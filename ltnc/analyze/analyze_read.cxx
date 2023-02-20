@@ -1,22 +1,6 @@
 #include "analyze.hxx"
 #include <string_view>
 namespace ltn::c {
-	namespace {
-		bool is_inner_namespace(
-			const Namespace & call_ns,
-			const Namespace & fx_ns) {
-			if(fx_ns.size() > call_ns.size()) return false;
-			for(std::size_t i = 0; i < fx_ns.size(); i++) {
-				if(call_ns[i] != fx_ns[i]) {
-					return false;
-				}
-			}
-			return true;
-		}
-	}
-
-
-
 	sst::expr_ptr analyze_expr(
 		const ast::Var & expr,
 		Context & context,
