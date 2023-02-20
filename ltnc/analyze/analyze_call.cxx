@@ -192,7 +192,7 @@ namespace ltn::c {
 				return do_invoke(call, context, scope);
 			}
 
-			throw undefined_function(var->name, call);
+			throw undefined_function(*var);
 		}
 
 		return do_invoke(call, context, scope);

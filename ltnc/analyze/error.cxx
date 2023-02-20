@@ -3,11 +3,23 @@
 namespace ltn::c {
 	CompilerError undefined_function(
 		const std::string_view & name,
-		const ast::Node & node) {
-			
+		const SourceLocation & location) {
+				
 		std::stringstream ss;
 		ss << "Function " << name << " is not defined";
-		return CompilerError { ss.str(), location(node) };
+		return CompilerError { ss.str(), location };
+	}
+
+
+
+	CompilerError undefined_function(const ast::Var & node) {
+		return undefined_function(node.name, location(node));
+	}
+
+
+
+	CompilerError undefined_function(const ast::FxPointer & node) {
+		return undefined_function(node.name, location(node));
 	}
 
 

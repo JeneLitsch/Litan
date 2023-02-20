@@ -30,7 +30,7 @@ namespace ltn::c {
 				fx_ptr.placeholders
 			);
 
-			if(!fx) throw undefined_function(fx_ptr.name, fx_ptr);
+			if(!fx) throw undefined_function(fx_ptr);
 
 			context.fx_queue.stage_function(*fx);
 
@@ -80,7 +80,7 @@ namespace ltn::c {
 			const auto * fx = &*tmpl->fx;
 
 			if(fx->parameters.size() != fx_ptr.placeholders) {
-				throw undefined_function(fx->name, fx_ptr);
+				throw undefined_function(fx_ptr);
 			}
 
 			return std::tuple{fx,tmpl_label};

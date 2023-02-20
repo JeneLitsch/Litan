@@ -4,7 +4,9 @@
 #include "ltnc/CompilerError.hxx"
 
 namespace ltn::c {
-	CompilerError undefined_function(const std::string_view & name, const ast::Node & node);
+	CompilerError undefined_function(const std::string_view & name, const SourceLocation & location);
+	CompilerError undefined_function(const ast::Var & node);
+	CompilerError undefined_function(const ast::FxPointer & node);
 	CompilerError undefined_template(const std::string_view & name, const SourceLocation & location);
 
 	CompilerError const_call_violation(const ast::Node & node);
