@@ -26,6 +26,17 @@ namespace ltn::c {
 			}
 			return std::make_unique<sst::Null>(type::Any{});
 		}
+
+
+
+		type::Type deduce_type(const ast::NewVar & new_var, const sst::Expression & expr, Scope & scope) {
+			if(new_var.type) {
+				return instantiate_type(*new_var.type, scope);
+			} 
+			else {
+				return expr.type;
+			}
+		}
 	}
 
 
@@ -36,7 +47,8 @@ namespace ltn::c {
 		Scope & scope) {
 
 		auto expr = analyze_new_variable_right(new_var, context, scope);
-		auto binding = analyze_binding(*new_var.binding, context, scope, expr->type);
+		auto type = deduce_type(new_var, *expr, scope);
+		auto binding = analyze_binding(*new_var.binding, context, scope, type);
 		return std::make_unique<sst::Assign>(std::move(binding), std::move(expr));
 	}
 }
