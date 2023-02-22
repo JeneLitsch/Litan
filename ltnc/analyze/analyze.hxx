@@ -89,11 +89,13 @@ namespace ltn::c {
 		const std::vector<type::Type> & template_args);
 
 	stx::reference<const ast::FunctionTemplate> get_template(
-		const std::string & name,
-		const Namespace & namespaze,
-		const std::size_t function_arity,
-		const std::size_t template_arity,
-		const SourceLocation & location,
+		const ast::FxPointer & fx_ptr,
+		Context & context,
+		Scope & scope);
+
+	stx::reference<const ast::FunctionTemplate> get_template(
+		const ast::Call & call,
+		const ast::Var & var,
 		Context & context,
 		Scope & scope);
 }	

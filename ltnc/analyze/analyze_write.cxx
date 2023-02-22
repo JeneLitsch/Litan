@@ -37,7 +37,6 @@ namespace ltn::c {
 				);
 			}
 			return nullptr;
-
 		}
 	}
 

@@ -46,9 +46,7 @@ namespace ltn::c {
 			Scope & scope,
 			std::optional<Label> override_label) {
 
-			const auto label = override_label.value_or(
-				make_function_label(fx.namespaze, fx.name, fx.parameters.size())
-			);
+			const auto label = override_label.value_or(make_function_label(fx));
 
 			auto parameters = analyze_parameters(fx.parameters, scope, location(fx));
 
@@ -77,9 +75,7 @@ namespace ltn::c {
 		Scope & scope,
 		std::optional<Label> override_label) {
 
-		const auto label = override_label.value_or(
-			make_function_label(fx.namespaze, fx.name, fx.parameters.size())
-		);
+		const auto label = override_label.value_or(make_function_label(fx));
 
 		auto parameters = analyze_parameters(fx.parameters, scope, location(fx));
 

@@ -135,7 +135,7 @@ namespace ltn::c {
 						namespaze,
 						placeholders,
 						location(tokens));
-					fx_ptr->template_arguements = std::move(template_args);
+					fx_ptr->template_arguments = std::move(template_args);
 					return fx_ptr;
 				}
 				throw expected("(", location(tokens));

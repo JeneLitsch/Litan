@@ -41,19 +41,18 @@ namespace ltn::c {
 		const std::string & name,
 		std::uint64_t arity) {
 
-		std::ostringstream oss;
-		oss << namespaze.to_string() << name << "(" << arity << ")";
-		return make_external_label(oss.str());
 	}
 
 
 
 	Label make_function_label(const ast::Functional & fx) {
-		return make_function_label(
-			fx.get_resolve_namespace(),
-			fx.get_resolve_name(),
-			fx.parameters.size()
-		);
+		std::ostringstream oss;
+		oss << fx.get_resolve_namespace().to_string() 
+			<< fx.get_resolve_name() 
+			<< "(" 
+			<< fx.parameters.size()
+			<< ")";
+		return make_external_label(oss.str());
 	}
 
 

@@ -485,10 +485,14 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
+		std::uint64_t arity() const {
+			return this->placeholders;
+		}
+
 		std::string name;
 		Namespace namespaze;
 		std::size_t placeholders;
-		std::vector<type::IncompleteType> template_arguements;
+		std::vector<type::IncompleteType> template_arguments;
 	};
 
 
@@ -504,6 +508,10 @@ namespace ltn::c::ast {
 
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
+		}
+
+		std::uint64_t arity() const {
+			return std::size(this->arguments);
 		}
 
 		std::unique_ptr<Expression> function_ptr;

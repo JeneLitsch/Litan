@@ -19,10 +19,10 @@ namespace ltn::c {
 	Label make_function_label(
 		const ast::Functional & fx);
 	
-	Label make_function_label(
-		const Namespace & namespaze,
-		const std::string & name,
-		std::uint64_t arity);
+	// Label make_function_label(
+	// 	const Namespace & namespaze,
+	// 	const std::string & name,
+	// 	std::uint64_t arity);
 
 	Label make_template_label(
 		const ast::FunctionTemplate & tmpl,

@@ -6,7 +6,8 @@ namespace ltn::c {
 			const auto static_var = table.resolve(
 				statik.name,
 				scope.get_namespace(),
-				statik.namespaze);
+				statik.namespaze
+			);
 
 			if(!static_var) throw undefined_global(statik);
 			return *static_var;

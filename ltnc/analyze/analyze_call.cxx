@@ -121,15 +121,7 @@ namespace ltn::c {
 			Context & context,
 			Scope & scope) {
 			
-			const auto tmpl = get_template(
-				var.name,
-				var.namespaze,
-				call.arguments.size(),
-				call.template_arguments.size(),
-				location(var),
-				context,
-				scope
-			);
+			const auto tmpl = get_template(call, var, context, scope);
 
 			const auto arguments = stx::fx::mapped(instantiate_type)(
 				call.template_arguments,

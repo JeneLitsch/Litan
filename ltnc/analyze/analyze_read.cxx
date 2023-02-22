@@ -5,9 +5,6 @@ namespace ltn::c {
 		const ast::Var & expr,
 		Context & context,
 		Scope & scope) {
-
-		const auto & name = expr.name;
-		const auto & namespaze = scope.get_namespace();
 		
 		const auto * var = scope.resolve(expr.name, location(expr));
 		if(var && expr.namespaze.empty()) {
@@ -15,9 +12,10 @@ namespace ltn::c {
 		}
 		
 		const auto * def = context.definition_table.resolve(
-			name,
-			namespaze,
-			expr.namespaze);
+			expr.name,
+			scope.get_namespace(),
+			expr.namespaze
+		);
 		
 		if(!def) {
 			throw undefined_variable(expr);

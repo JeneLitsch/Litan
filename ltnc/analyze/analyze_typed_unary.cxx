@@ -3,8 +3,8 @@
 
 namespace ltn::c {
 	namespace {
-		type::Type deduce_type(ast::TypedUnary::Op op, const type::Type & target_type) {
-			using Op = ast::TypedUnary::Op;
+		using Op = ast::TypedUnary::Op;
+		type::Type deduce_type(Op op, const type::Type & target_type) {
 			switch (op) {
 			case Op::STATIC_CAST:  return type::deduce_cast_static(target_type);
 			case Op::DYNAMIC_CAST: return type::deduce_cast_dynamic(target_type);
@@ -18,8 +18,7 @@ namespace ltn::c {
 
 
 
-		bool is_castable(ast::TypedUnary::Op op, const type::Type & from, const type::Type & to) {
-			using Op = ast::TypedUnary::Op;
+		bool is_castable(Op op, const type::Type & from, const type::Type & to) {
 			switch (op) {
 			case Op::STATIC_CAST:  return type::is_static_castable(from, to);
 			case Op::DYNAMIC_CAST: return type::is_dynamic_castable(to);
