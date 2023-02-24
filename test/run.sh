@@ -80,6 +80,9 @@ files=(
 	"test/std/algorithm/fill.ltn"
 	"test/std/algorithm/reverse.ltn"
 
+	"test/std/io/read.ltn"
+	"test/std/io/readln.ltn"
+
 	"test/std/math/pi.ltn"
 	"test/std/math/min.ltn"
 	"test/std/math/max.ltn"

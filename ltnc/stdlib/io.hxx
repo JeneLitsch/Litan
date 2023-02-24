@@ -125,9 +125,18 @@ namespace std {
 		print(stream, "\n");
 	}
 
-	function read()       => read(cin())
-	function read_str()   => read(cin())
-	function readln()     => readln(cin())
+	function read() 
+		-> string
+		=> read(cin())
+	
+	function read_str()
+		-> string
+		=> read(cin())
+	
+	function readln()
+		-> string
+		=> readln(cin())
+	
 	function read_bool()  => read_bool(cin())
 	function read_char()  => read_char(cin())
 	function read_int()   => read_int(cin())

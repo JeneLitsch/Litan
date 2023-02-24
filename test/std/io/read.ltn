@@ -1,0 +1,16 @@
+namespace sphinx::test {
+	function std_io_read() {
+		var in = std::strin("ABC XYZ");
+		assert_equal_strict(std::read(in), "ABC");
+		assert_equal_strict(std::read_str(in), "XYZ");
+	}
+
+
+
+	function std_io_read_type() {
+		assert_equal_strict(reflect(expr std::read(std::strin(""))).type.name, "string");
+		assert_equal_strict(reflect(expr std::read_str(std::strin(""))).type.name, "string");
+		assert_equal_strict(reflect(expr std::read()).type.name, "string");
+		assert_equal_strict(reflect(expr std::read_str()).type.name, "string");
+	}
+}
