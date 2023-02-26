@@ -4,10 +4,12 @@
 **Parameters:**  
 
 **Return value:**  
-String  
+optional&lt;string&gt;  
 
 **Description:**  
-Reads a single "word" from stdin. Reads until next white space.  
+Reads a single "word" from stdin.
+Reads until next white space.
+Null is returned if an error occurs or the stream reaches EOF.
 
 ---
 
@@ -16,7 +18,9 @@ Reads a single "word" from stdin. Reads until next white space.
 * stream: an input stream
 
 **Return value:**  
-String  
+optional&lt;string&gt;  
 
 **Description:**  
-Reads a single "word" from passed stream. Reads until next white space.  
+Reads a single "word" from passed stream.
+Reads until next white space.
+Null is returned if an error occurs or the stream reaches EOF.

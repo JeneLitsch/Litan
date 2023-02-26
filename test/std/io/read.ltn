@@ -1,8 +1,9 @@
 namespace sphinx::test {
 	function std_io_read() {
-		var in = std::strin("ABC XYZ");
-		assert_equal_strict(std::read(in), "ABC");
-		assert_equal_strict(std::read_str(in), "XYZ");
+		utils::test_read("", [], null);
+		utils::test_read_str("", [], null);
+		utils::test_read("ABC XYZ", ["ABC", "XYZ"], null);
+		utils::test_read_str("ABC XYZ", ["ABC", "XYZ"], null);
 	}
 
 

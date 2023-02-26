@@ -20,6 +20,14 @@ namespace sphinx::utils {
 
 
 
+	function test_read(
+		input : string,
+		expected : array<any>,
+		rest : optional<string>)
+		=> test_reading(&std::read(_), input, expected, rest)
+
+
+
 	function test_read_bool(
 		input : string,
 		expected : array<any>,
@@ -43,9 +51,18 @@ namespace sphinx::utils {
 		=> test_reading(&std::read_int(_), input, expected, rest)
 
 
+
 	function test_read_float(
 		input : string,
 		expected : array<any>,
 		rest : optional<string>)
 		=> test_reading(&std::read_float(_), input, expected, rest)
+
+
+
+	function test_read_str(
+		input : string,
+		expected : array<any>,
+		rest : optional<string>)
+		=> test_reading(&std::read_str(_), input, expected, rest)
 }

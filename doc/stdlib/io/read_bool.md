@@ -10,7 +10,7 @@ optional&lt;bool&gt;
 Reads a single boolean from stdin.
 0 and false evaluate to false.
 1 and true evaluate to true.
-Null is returned if an error occurs.
+Null is returned if an error occurs or the stream reaches EOF.
 
 ---
 
@@ -25,5 +25,5 @@ optional&lt;bool&gt;
 Reads a single bool from stream.
 0 and false evaluate to false.
 1 and true evaluate to true.
-Null is returned if an error occurs.
+Null is returned if an error occurs or the stream reaches EOF.
 

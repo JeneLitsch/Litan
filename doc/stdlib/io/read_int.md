@@ -8,7 +8,7 @@ optional&lt;Int&gt;
 
 **Description:**  
 Reads an int from stdin.
-Null is returned if an error occurs.
+Null is returned if an error occurs or the stream reaches EOF.
 
 ---
 
@@ -21,4 +21,4 @@ optional&lt;Int&gt;
 
 **Description:**  
 Reads a Int from stream.
-Null is returned if an error occurs.
+Null is returned if an error occurs or the stream reaches EOF.

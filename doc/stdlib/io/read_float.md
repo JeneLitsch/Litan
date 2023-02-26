@@ -8,7 +8,7 @@ optional&lt;float&gt;
 
 **Description:**  
 Reads a single floating point number from stdin.
-Null is returned if an error occurs.
+Null is returned if an error occurs or the stream reaches EOF.
 
 ---
 
@@ -21,4 +21,4 @@ optional&lt;float&gt;
 
 **Description:**  
 Reads a single floating point number from stream.
-Null is returned if an error occurs.
+Null is returned if an error occurs or the stream reaches EOF.
