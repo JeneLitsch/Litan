@@ -152,9 +152,5 @@ namespace std {
 	function read_float() 
 		-> optional<float>
 		=> read_float(cin())
-	
-	function read_all()  
-		-> string 
-		=> read_all(cin())
 }
 )###";
