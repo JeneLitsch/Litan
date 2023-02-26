@@ -1,13 +1,13 @@
 # std::lerp
 
-## std::lerp(a, b, t)
+## std::lerp(a : float, b : float, t : float)
 **Parameters:**
-- a: numeric value
-- b: numeric value
-- t: numeric value
+- a: minimum value
+- b: maximum value
+- t: sample point between 0 and 1
 
 **Return value:**  
-Returns a numeric value
+float
 
 **Description:**  
 Calculates a+t*(b-a).  
