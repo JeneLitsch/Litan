@@ -37,8 +37,14 @@ namespace ltn::vm::inst {
 		auto & in = get_istream(core.heap, core.stack); 
 		std::string value;
 		in >> value;
-		const auto address = core.heap.alloc<String>(std::move(value));
-		core.stack.push(Value{address, VT::STRING});
+		if(in) {
+			auto ref = core.heap.alloc<String>(std::move(value));
+			core.stack.push(value::string(ref));
+		}
+		else {
+			in.clear();
+			core.stack.push(value::null);
+		}
 	}
 
 
@@ -47,8 +53,14 @@ namespace ltn::vm::inst {
 		auto & in = get_istream(core.heap, core.stack); 
 		std::string value;
 		std::getline(in, value);
-		const auto address = core.heap.alloc<String>(std::move(value));
-		core.stack.push(Value{address, VT::STRING});
+		if(in) {
+			auto ref = core.heap.alloc<String>(std::move(value));
+			core.stack.push(value::string(ref));
+		}
+		else {
+			in.clear();
+			core.stack.push(value::null);
+		}
 	}
 
 
@@ -72,7 +84,13 @@ namespace ltn::vm::inst {
 			in >> std::boolalpha >> value >> std::noboolalpha;
 		}
 
-		core.stack.push(value::boolean(value));
+		if(in) {
+			core.stack.push(value::boolean(value));
+		}
+		else {
+			in.clear();
+			core.stack.push(value::null);
+		}
 	}
 
 
@@ -81,7 +99,13 @@ namespace ltn::vm::inst {
 		auto & in = get_istream(core.heap, core.stack); 
 		char value;
 		in >> value;
-		core.stack.push(value::character(value));
+		if(in) {
+			core.stack.push(value::character(value));
+		}
+		else {
+			in.clear();
+			core.stack.push(value::null);
+		}
 	}
 
 
@@ -90,7 +114,13 @@ namespace ltn::vm::inst {
 		auto & in = get_istream(core.heap, core.stack); 
 		std::int64_t value;
 		in >> value;
-		core.stack.push(value::integer(value));
+		if(in) {
+			core.stack.push(value::integer(value));
+		}
+		else {
+			in.clear();
+			core.stack.push(value::null);
+		}
 	}
 
 
@@ -99,7 +129,13 @@ namespace ltn::vm::inst {
 		auto & in = get_istream(core.heap, core.stack); 
 		stx::float64_t value;
 		in >> value;
-		core.stack.push(value::floating(value));
+		if(in) {
+			core.stack.push(value::floating(value));
+		}
+		else {
+			in.clear();
+			core.stack.push(value::null);
+		}
 	}
 
 
@@ -116,7 +152,7 @@ namespace ltn::vm::inst {
 
 	void is_eof(VmCore & core) {
 		auto & in = get_istream(core.heap, core.stack); 
-		core.stack.push(Value{in.eof()});
+		core.stack.push(Value{in.peek() == EOF});
 	}
 
 

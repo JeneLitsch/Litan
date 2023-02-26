@@ -8,9 +8,9 @@ namespace sphinx::test {
 
 
 	function std_io_read_type() {
-		assert_equal_strict(reflect(expr std::read(std::strin(""))).type.name, "string");
-		assert_equal_strict(reflect(expr std::read_str(std::strin(""))).type.name, "string");
-		assert_equal_strict(reflect(expr std::read()).type.name, "string");
-		assert_equal_strict(reflect(expr std::read_str()).type.name, "string");
+		assert_equal_strict(reflect(expr std::read(std::strin(""))).type.name, "optional<string>");
+		assert_equal_strict(reflect(expr std::read_str(std::strin(""))).type.name, "optional<string>");
+		assert_equal_strict(reflect(expr std::read()).type.name, "optional<string>");
+		assert_equal_strict(reflect(expr std::read_str()).type.name, "optional<string>");
 	}
 }

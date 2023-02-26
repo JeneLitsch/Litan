@@ -8,7 +8,7 @@ namespace sphinx::test {
 
 
 	function std_io_readln_type() {
-		assert_equal_strict(reflect(expr std::readln(std::strin(""))).type.name, "string");
-		assert_equal_strict(reflect(expr std::readln()).type.name, "string");
+		assert_equal_strict(reflect(expr std::readln(std::strin(""))).type.name, "optional<string>");
+		assert_equal_strict(reflect(expr std::readln()).type.name, "optional<string>");
 	}
 }

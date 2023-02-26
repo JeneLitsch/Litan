@@ -82,6 +82,9 @@ files=(
 
 	"test/std/io/read.ltn"
 	"test/std/io/readln.ltn"
+	"test/std/io/read_bool.ltn"
+	"test/std/io/read_int.ltn"
+	"test/std/io/utils.ltn"
 
 	"test/std/math/pi.ltn"
 	"test/std/math/min.ltn"

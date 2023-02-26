@@ -1,0 +1,31 @@
+namespace sphinx::test {
+	function std_io_read_int() {
+		utils::test_read_int("0 1", [0, 1], null);
+		utils::test_read_int("42 1337", [42, 1337], null);
+		utils::test_read_int("-3 -42", [-3, -42], null);
+		utils::test_read_int("0000000", [0], null);
+	}
+
+
+
+	function std_io_read_int_invalid() {
+		utils::test_read_int("abc", [null], "abc");
+		utils::test_read_int("1 abc", [1, null], "abc");
+		utils::test_read_int("42hello", [42, null], "hello");
+
+	}
+	
+
+
+	function std_io_read_int_type() {
+		assert_equal_strict(
+			reflect(expr std::read_int(std::strin(""))).type.name,
+			"optional<int>"
+		);
+	
+		assert_equal_strict(
+			reflect(expr std::read_int()).type.name,
+			"optional<int>"
+		);
+	}
+}

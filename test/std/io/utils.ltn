@@ -1,0 +1,36 @@
+namespace sphinx::utils {
+	function test_reading(
+		read_fx,
+		input : string,
+		expected,
+		rest : optional<string>) {
+		
+		var in = std::strin(input);
+		for(value : expected) {
+			assert_false(std::is_eof(in));
+			assert_equal_strict(read_fx(in), value);
+		}
+		if(?rest) {
+			assert_equal_strict(*rest, std::read_all(in));
+		}
+		else {
+			assert_true(std::is_eof(in));
+		}
+	}
+
+
+
+	function test_read_bool(
+		input : string,
+		expected : array<any>,
+		rest : optional<string>)
+		=> test_reading(&std::read_bool(_), input, expected, rest)
+
+
+
+	function test_read_int(
+		input : string,
+		expected : array<any>,
+		rest : optional<string>)
+		=> test_reading(&std::read_int(_), input, expected, rest)
+}
