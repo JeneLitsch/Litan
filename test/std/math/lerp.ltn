@@ -4,4 +4,10 @@ namespace sphinx::test {
 		assert_equal_strict(std::lerp(2.0, 4.0, 0.0), 2.0);
 		assert_equal_strict(std::lerp(2.0, 4.0, 1.0), 4.0);
 	}
+
+
+
+	function std_lerp_type() {
+		assert_equal_strict(reflect(expr std::lerp(0.0, 0.0, 0.0)).type.name, "float");
+	}
 }
