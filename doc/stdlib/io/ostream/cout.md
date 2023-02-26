@@ -1,10 +1,10 @@
 # std::cout
 
 ## std::cout() -> ostream
-**Parameters**  
+**Parameters:**  
 
-**Return value**  
+**Return value:**  
 OStream  
 
-**Description**  
+**Description:**  
 Creates an output stream connected to stdout  

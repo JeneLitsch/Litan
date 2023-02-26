@@ -2,11 +2,11 @@
 
 ## std::random::split(rng)
 since 1.3  
-**Parameters**  
+**Parameters:**  
 * rng: RandomEngine
 
-**Return value**  
+**Return value:**  
 RandomEngine  
 
-**Description**  
+**Description:**  
 Creates a new RandomEngine of the same type as "rng" and uses "rng" to seed the new engine. 

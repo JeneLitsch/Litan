@@ -1,10 +1,10 @@
 # std::strout
 
 ## std::strout() -> ostream
-**Parameters**  
+**Parameters:**  
 
-**Return value**  
+**Return value:**  
 OStream  
 
-**Description**  
+**Description:**  
 Creates an output string stream  

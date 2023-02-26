@@ -1,11 +1,11 @@
 # std::mono
 
 ## preset std::mono(value)
-**Parameters**  
+**Parameters:**  
 * value: a single value of any type
 
-**Return value**  
+**Return value:**  
 Reference to a new Struct  
 
-**Description**  
+**Description:**  
 Creates a new struct with a single member called value

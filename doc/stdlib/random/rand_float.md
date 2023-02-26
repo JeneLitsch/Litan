@@ -2,13 +2,13 @@
 
 ## std::random::rand_float(rng, min, max)
 since 1.3  
-**Parameters**  
+**Parameters:**  
 * rng: RandomEngine
 * min: Float
 * max: Float
 
-**Return value**  
+**Return value:**  
 Float  
 
-**Description**  
+**Description:**  
 Generates a random float between min and max

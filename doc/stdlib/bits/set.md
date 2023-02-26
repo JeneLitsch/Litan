@@ -6,7 +6,7 @@
 - index: an integer index
 - value: boolean value for the bit to set.
 
-**Return value**  
+**Return value:**  
 single int with bit set to value
 
 **Description:**  

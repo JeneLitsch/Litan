@@ -41,4 +41,11 @@ namespace sphinx::utils {
 		expected : array<any>,
 		rest : optional<string>)
 		=> test_reading(&std::read_int(_), input, expected, rest)
+
+
+	function test_read_float(
+		input : string,
+		expected : array<any>,
+		rest : optional<string>)
+		=> test_reading(&std::read_float(_), input, expected, rest)
 }

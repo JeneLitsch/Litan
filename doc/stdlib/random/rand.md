@@ -2,11 +2,11 @@
 
 ## std::random::rand(rng)
 since 1.3  
-**Parameters**  
+**Parameters:**  
 * rng: RandomEngine
 
-**Return value**  
+**Return value:**  
 Int  
 
-**Description**  
+**Description:**  
 Generates a random 64-Bit integer 

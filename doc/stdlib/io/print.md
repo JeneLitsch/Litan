@@ -1,25 +1,25 @@
 # std::print
 
 ## std::print(stream : ostream, value)
-**Parameters**  
+**Parameters:**  
 * stream: stream to print to
 * value: value to be printed
 
-**Return value**  
+**Return value:**  
 null  
 
-**Description**  
+**Description:**  
 Formats and prints value to stream  
 
 ---
 
 ## std::print(value)
-**Parameters**  
+**Parameters:**  
 * value: value to be printed
 
-**Return value**  
+**Return value:**  
 null  
 
-**Description**  
+**Description:**  
 Formats and print value to stdout
 

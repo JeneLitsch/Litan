@@ -2,23 +2,23 @@
 
 ## std::read_all()
 since 1.2  
-**Parameters**  
+**Parameters:**  
 
-**Return value**  
+**Return value:**  
 String  
 
-**Description**  
+**Description:**  
 Returns the entire stream buffer of stdin as a string 
 
 ---
 
 ## std::read_all(stream : istream)
 since 1.2  
-**Parameters**  
+**Parameters:**  
 * stream: an input stream
 
-**Return value**  
+**Return value:**  
 String  
 
-**Description**  
+**Description:**  
 Returns the entire stream buffer as a string 

@@ -1,8 +1,8 @@
 # std::struct
 
 ## std::struct()
-**Return value**  
+**Return value:**  
 Reference to a new Struct  
 
-**Description**  
+**Description:**  
 Creates a new Struct without members

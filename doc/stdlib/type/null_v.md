@@ -1,10 +1,10 @@
 # std::null_v
 
 ## std::null_v()
-**Parameters**  
+**Parameters:**  
 
-**Return value**  
+**Return value:**  
 null  
 
-**Description**  
+**Description:**  
 Returns null  

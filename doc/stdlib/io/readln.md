@@ -1,22 +1,22 @@
 # std::readln
 
 ## std::readln()
-**Parameters**  
+**Parameters:**  
 
-**Return value**  
+**Return value:**  
 String  
 
-**Description**  
+**Description:**  
 Reads a single line from stdin.
 
 ---
 
 ## std::readln(stream : istream)
-**Parameters**  
+**Parameters:**  
 * stream: an input stream
 
-**Return value**  
+**Return value:**  
 String  
 
-**Description**  
+**Description:**  
 Reads a single line from stream.

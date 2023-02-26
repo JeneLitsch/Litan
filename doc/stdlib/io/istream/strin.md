@@ -1,11 +1,11 @@
 # std::strin
 
 ## std::strin(str) -> istream
-**Parameters**  
+**Parameters:**  
 str: String to initialize string stream
 
-**Return value**  
+**Return value:**  
 IStream
 
-**Description**  
+**Description:**  
 Creates a new input stringstream

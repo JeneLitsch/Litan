@@ -1,12 +1,12 @@
 # std::read_bool
 
 ## std::read_bool()
-**Parameters**  
+**Parameters:**  
 
 **Return value:**  
 optional&lt;bool&gt;   
 
-**Description**  
+**Description:**  
 Reads a single boolean from stdin.
 0 and false evaluate to false.
 1 and true evaluate to true.

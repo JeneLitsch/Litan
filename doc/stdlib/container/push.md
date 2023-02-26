@@ -1,14 +1,14 @@
 # std::push
 
 ## std::push(container, elem)
-**Parameters**:  
+**Parameters:**:  
 * container: Queue, Stack or Array
 * elem: A value to push
 
-**Return value**  
+**Return value:**  
 null  
 
-**Description**  
+**Description:**  
 Pushes value onto Stack.  
 Pushed value to the end of the Queue.
 Pushes value to the end of the Array.

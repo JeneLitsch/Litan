@@ -2,13 +2,13 @@
 
 ## std::random::rand_int(rng, min, max)
 since 1.3  
-**Parameters**  
+**Parameters:**  
 * rng: RandomEngine
 * min: Int
 * max: Int
 
-**Return value**  
+**Return value:**  
 Int  
 
-**Description**  
+**Description:**  
 Generates a random integer between min and max

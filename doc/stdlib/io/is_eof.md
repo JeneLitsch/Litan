@@ -1,11 +1,11 @@
 # std::is_eof
 
 ## std::is_eof(stream)
-**Parameters**
+**Parameters:**
 * stream: stream to check
 
-**Return value**  
+**Return value:**  
 Bool  
 
-**Description**  
+**Description:**  
 Returns true if stream passed EOF.  

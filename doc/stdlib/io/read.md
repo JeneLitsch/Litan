@@ -1,22 +1,22 @@
 # std::read
 
 ## std::read(), std::read_str()
-**Parameters**  
+**Parameters:**  
 
-**Return value**  
+**Return value:**  
 String  
 
-**Description**  
+**Description:**  
 Reads a single "word" from stdin. Reads until next white space.  
 
 ---
 
 ## std::read(stream : istream), std::read_str(stream : istream)
-**Parameters**  
+**Parameters:**  
 * stream: an input stream
 
-**Return value**  
+**Return value:**  
 String  
 
-**Description**  
+**Description:**  
 Reads a single "word" from passed stream. Reads until next white space.  

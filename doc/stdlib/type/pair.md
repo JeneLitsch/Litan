@@ -2,12 +2,12 @@
 
 ## preset std::pair(first, second)
 since 2.0  
-**Parameters**  
+**Parameters:**  
 * first: a value of any type
 * second: a value of any type
 
-**Return value**  
+**Return value:**  
 Reference to a new Struct  
 
-**Description**  
+**Description:**  
 Creates a new Struct with two members called "first" and "second" 

@@ -1,12 +1,12 @@
 # std::peek
 
 ## std::peek(container)
-**Parameters**  
+**Parameters:**  
 * container: A Queue or Stack
 
-**Return value**  
+**Return value:**  
 Any Value   
 
-**Description**  
+**Description:**  
 Returns top value of the Stack.  
 Returns front value from Queue.  
