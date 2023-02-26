@@ -4,19 +4,7 @@
 #include "WS.hxx"
 #include "ltnc/source/StringSource.hxx"
 #include <sstream>
-#include "ltnc/stdlib/algorithm.hxx"
-#include "ltnc/stdlib/bits.hxx"
-#include "ltnc/stdlib/cast.hxx"
-#include "ltnc/stdlib/chrono.hxx"
-#include "ltnc/stdlib/container.hxx"
-#include "ltnc/stdlib/debug.hxx"
-#include "ltnc/stdlib/functional.hxx"
-#include "ltnc/stdlib/io.hxx"
-#include "ltnc/stdlib/math.hxx"
-#include "ltnc/stdlib/random.hxx"
-#include "ltnc/stdlib/range.hxx"
-#include "ltnc/stdlib/type.hxx"
-#include "ltnc/stdlib/string.hxx"
+
 
 
 namespace ltn::c {
@@ -370,26 +358,7 @@ namespace ltn::c {
 		
 		std::vector<Token> tokens;
 
-		std::vector<Source> stdlib = {
-			StringSource{"std_algorithm", std_algorithm},
-			StringSource{"std_bits", std_bits},
-			StringSource{"std_cast", std_cast},
-			StringSource{"std_chrono", std_chrono},
-			StringSource{"std_container", std_container},
-			StringSource{"std_debug", std_debug},
-			StringSource{"std_functional", std_functional},
-			StringSource{"std_io", std_io},
-			StringSource{"std_math", std_math},
-			StringSource{"std_random", std_random},
-			StringSource{"std_range", std_range},
-			StringSource{"std_string", std_string},
-			StringSource{"std_type", std_type},
-		};
 
-		for(auto & source : stdlib) {
-			auto stream = source.make_istream();
-			tokens += lex_source(*stream, source.get_name(), reporter);
-		}
 
 		for(auto & source : sources) {
 			auto stream = source.make_istream();
