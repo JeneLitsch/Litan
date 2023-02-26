@@ -52,14 +52,8 @@ int main(int argc, char const *argv[]) {
 	ltn::LtnVM vm;
 	try {
 		std::vector<std::string> args;
-		std::vector<ltn::c::Source> sources;
-		const auto files = flag_source.value_or(single_file);
-		for(const auto & source_file : files) {
-			sources.push_back(ltn::c::FileSource{
-				std::filesystem::path{source_file}
-			});
-		}
 
+		auto sources = ltn::c::read_sources(flag_source.value_or(single_file), reporter);
 		auto lexer = ltn::c::lex(sources, reporter);
 		auto source = ltn::c::parse(lexer, reporter);
 		auto program = ltn::c::analyze(source, reporter);

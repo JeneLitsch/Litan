@@ -9,23 +9,6 @@
 #include "ltn/args.hxx"
 #include "stdxx/args.hxx"
 
-std::vector<ltn::c::Source> read_sources(const auto & filepaths, ltn::c::Reporter & reporter) {
-	std::vector<ltn::c::Source> sources;
-	for(const auto & source_path : filepaths) {
-		const auto path = std::filesystem::path{source_path};
-		if(std::filesystem::exists(path)) {
-			sources.push_back(ltn::c::FileSource{path});
-		}
-		else {
-			std::ostringstream oss;
-			oss << "Cannot open source " << source_path;
-			reporter << ltn::c::CompilerError { oss.str() };
-		}
-	}
-	return sources;
-}
-
-
 
 std::ofstream open_target(
 	const std::filesystem::path & path,
@@ -108,7 +91,7 @@ int main(int argc, char const *argv[]){
 
 	try {
 		ltn::c::Reporter reporter;
-		auto sources = read_sources(flag_source.value(), reporter);
+		auto sources = ltn::c::read_sources(flag_source.value(), reporter);
 		auto tokens = ltn::c::lex(sources, reporter);
 		auto source = ltn::c::parse(tokens, reporter);
 		auto program = ltn::c::analyze(source, reporter);

@@ -131,3 +131,5 @@ rm $asm_file
 
 ./bin/ltnc -o --asm $asm_file --exe $bin_file --src ${files[*]}
 ./bin/ltnvm --exe $bin_file --args Hello World 123
+
+# ./bin/ltn -o --src ${files[*]}
