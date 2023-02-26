@@ -114,6 +114,7 @@ files=(
 	"test/std/math/ld.ltn"
 	"test/std/math/lg.ltn"
 	"test/std/math/pow.ltn"
+	"test/std/math/lerp.ltn"
 
 	"test/std/string/str.ltn"
 	"test/std/string/split.ltn"
