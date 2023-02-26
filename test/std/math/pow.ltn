@@ -1,0 +1,6 @@
+namespace sphinx::test {
+	function std_pow() {
+		assert_equal_strict(std::pow(4, 2), 16);
+		assert_equal_strict(std::pow(4, 0.5), 2.0);
+	}
+}
