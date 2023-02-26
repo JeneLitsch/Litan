@@ -81,6 +81,7 @@ files=(
 	"test/std/algorithm/reverse.ltn"
 
 	"test/std/functional/arity.ltn"
+	"test/std/functional/invoke.ltn"
 
 	"test/std/io/is_eof.ltn"
 	"test/std/io/read.ltn"

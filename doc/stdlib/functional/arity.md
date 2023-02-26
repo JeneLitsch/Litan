@@ -5,7 +5,7 @@
 * fx : A function pointer
 
 **Return value:**  
-Number of parameters.
+int
 
 **Description:**  
 The arity functions returns the number parameters which the function pointer requires.

@@ -6,7 +6,7 @@
 * param: An array of parameters
 
 **Return value:**  
-Return value of _fx_
+any
 
 **Description:**  
 Takes a callable function pointer and an array of parameters.
