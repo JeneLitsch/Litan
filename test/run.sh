@@ -107,6 +107,7 @@ files=(
 	"test/std/math/cos.ltn"
 	"test/std/math/tan.ltn"
 	"test/std/math/sqrt.ltn"
+	"test/std/math/cbrt.ltn"
 	"test/std/math/hypot.ltn"
 	"test/std/math/log.ltn"
 	"test/std/math/ln.ltn"
