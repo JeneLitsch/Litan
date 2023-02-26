@@ -83,6 +83,7 @@ files=(
 	"test/std/functional/arity.ltn"
 	"test/std/functional/invoke.ltn"
 	"test/std/functional/chain.ltn"
+	"test/std/functional/is_successful.ltn"
 
 	"test/std/io/is_eof.ltn"
 	"test/std/io/read.ltn"
