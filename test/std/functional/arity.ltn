@@ -1,0 +1,16 @@
+namespace sphinx::test {
+	function std_fx_arity() {
+		assert_equal_strict(std::arity(lambda() {}), 0);
+		assert_equal_strict(std::arity(lambda(a) {}), 1);
+		assert_equal_strict(std::arity(lambda(a, b) {}), 2);
+
+		assert_equal_strict(std::arity(&std::println(_)), 1);
+		assert_equal_strict(std::arity(&std::println(_,_)), 2);
+	}
+
+
+
+	function std_fx_arity_type() {
+		assert_equal_strict(reflect(expr std::arity(lambda() {})).type.name, "int");
+	}
+}
