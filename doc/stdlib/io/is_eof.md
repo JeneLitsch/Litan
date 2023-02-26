@@ -5,7 +5,7 @@
 * stream: stream to check
 
 **Return value:**  
-Bool  
+bool  
 
 **Description:**  
-Returns true if stream passed EOF.  
+Returns true if stream has no characters left to read.  

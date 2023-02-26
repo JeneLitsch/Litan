@@ -80,6 +80,7 @@ files=(
 	"test/std/algorithm/fill.ltn"
 	"test/std/algorithm/reverse.ltn"
 
+	"test/std/io/is_eof.ltn"
 	"test/std/io/read.ltn"
 	"test/std/io/readln.ltn"
 	"test/std/io/read_bool.ltn"
