@@ -109,8 +109,9 @@ namespace std {
 
 
 	
-	build_in is_eof(stream) const    @ io_is_eof
-	// build_in is_good(stream) const   @ io_is_good
+	build_in is_eof(stream) const
+		-> bool
+		@ io_is_eof
 
 	function print(value) => print(cout(), value)
 
