@@ -1,26 +1,26 @@
 # std::read_char
 
 ## std::read_char()
-since 1.2  
-**Parameters**  
+**Parameters:**  
 
-**Return value**  
-Char  
+**Return value:**  
+optional&lt;char&gt;  
 
-**Description**  
+**Description:**  
 Reads a single character from stdin.
+Null is returned if an error occurs.
 
 ---
 
 ## std::read_char(stream : istream)
-since 1.2  
-**Parameters**  
-* stream: an input stream
+**Parameters:**  
+- stream: an input stream
 
-**Return value**  
-Char  
+**Return value:**  
+optional&lt;char&gt;  
 
-**Description**  
+**Description:**  
 Reads a single character from stream.
+Null is returned if an error occurs.
 
 ---

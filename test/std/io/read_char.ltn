@@ -1,0 +1,20 @@
+namespace sphinx::test {
+	function std_io_read_char() {
+		utils::test_read_char("", [], "");
+		utils::test_read_char("abc", ['a', 'b', 'c'], "");
+	}
+
+
+
+	function std_io_read_char_type() {
+		assert_equal_strict(
+			reflect(expr std::read_char(std::strin(""))).type.name,
+			"optional<char>"
+		);
+	
+		assert_equal_strict(
+			reflect(expr std::read_char()).type.name,
+			"optional<char>"
+		);
+	}
+}

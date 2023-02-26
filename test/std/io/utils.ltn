@@ -28,6 +28,14 @@ namespace sphinx::utils {
 
 
 
+	function test_read_char(
+		input : string,
+		expected : array<any>,
+		rest : optional<string>)
+		=> test_reading(&std::read_char(_), input, expected, rest)
+
+
+
 	function test_read_int(
 		input : string,
 		expected : array<any>,
