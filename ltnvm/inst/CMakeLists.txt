@@ -27,5 +27,6 @@ target_sources(libltnvm PRIVATE
 	inst_struct.cxx
 	inst_type.cxx
 	inst_unary.cxx
+	inst_unpack.cxx
 	inst_values.cxx
 )

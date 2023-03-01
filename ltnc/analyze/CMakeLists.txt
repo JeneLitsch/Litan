@@ -5,6 +5,7 @@ target_sources(libltnc PRIVATE
 	analyze_preset.cxx
 	analyze_array.cxx
 	analyze_binary.cxx
+	analyze_bindings.cxx
 	analyze_block.cxx
 	analyze_call.cxx
 	analyze_definition.cxx
@@ -15,7 +16,8 @@ target_sources(libltnc PRIVATE
 	analyze_if_else.cxx
 	analyze_iife.cxx
 	analyze_index.cxx
-	analyze_init_member.cxx
+	analyze_init.cxx
+	analyze_lambda.cxx
 	analyze_loops.cxx
 	analyze_newvar.cxx
 	analyze_primitives.cxx
@@ -31,6 +33,8 @@ target_sources(libltnc PRIVATE
 	analyze_write.cxx
 	analyze.cxx	
 	conversion.cxx
+	default_value.cxx
+	error.cxx
 	instantiate_type.cxx
 )
 

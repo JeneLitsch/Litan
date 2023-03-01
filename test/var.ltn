@@ -18,6 +18,13 @@ namespace sphinx::test {
 	}
 
 
+
+	function var_type_any_assign() {
+		var a : any = 42;
+		assert_equal_strict(reflect(expr a).type.name, "any");
+	}
+
+
 	
 	function var_type_explicit() {
 		var a : int = 4;

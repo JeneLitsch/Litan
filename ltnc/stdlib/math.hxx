@@ -95,7 +95,7 @@ namespace std {
 
 
 
-	function is_between(value, min, max) const
+	function is_between(value, min, max) const -> bool
 		=> value >= min && value <= max
 
 

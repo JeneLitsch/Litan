@@ -28,7 +28,7 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Unary & expr) {
 		using Op = sst::Unary::Op;
 
-		const auto & inner = *expr.expression;
+		const auto & inner = *expr.expr;
 		const auto x = compile_expression(inner);
 		
 		switch (expr.op) {
@@ -39,6 +39,6 @@ namespace ltn::c {
 			case Op::DEREF:  return unary(x, inst::deref);
 		}
 
-		throw std::runtime_error{"Unknown unary expression"};
+		throw std::runtime_error{"Unknown unary expr"};
 	}
 }

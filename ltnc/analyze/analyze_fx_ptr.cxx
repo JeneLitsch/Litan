@@ -8,12 +8,10 @@ namespace ltn::c {
 		std::vector<type::Type> instantiate_parameters(
 			const ast::Parameters & parameters,
 			Scope & scope) {
-			std::vector<type::Type> parameter_types;
-			for(const auto & parameter : parameters) {
-				const auto type = instantiate_type(parameter.type, scope);
-				parameter_types.push_back(type);
-			}
-			return parameter_types;
+			
+			return stx::fx::map([&] (const auto & parameter) {
+				return instantiate_type(parameter.type, scope);
+			}, parameters);
 		}
 
 
@@ -30,15 +28,11 @@ namespace ltn::c {
 				fx_ptr.placeholders
 			);
 
-			if(!fx) throw undefined_function(fx_ptr.name, fx_ptr);
+			if(!fx) throw undefined_function(fx_ptr);
 
 			context.fx_queue.stage_function(*fx);
 
-			const auto label = make_function_label(
-				fx->namespaze,
-				fx->name,
-				fx->parameters.size()
-			);
+			const auto label = make_function_label(*fx);
 
 			return std::tuple{fx, label};
 		}
@@ -49,18 +43,11 @@ namespace ltn::c {
 			const ast::FxPointer & fx_ptr,
 			Scope & scope,
 			Context & context) {
-			const auto tmpl = get_template(
-				fx_ptr.name,
-				fx_ptr.namespaze,
-				fx_ptr.placeholders,
-				fx_ptr.template_arguements.size(),
-				fx_ptr.location,
-				context,
-				scope
-			);
+
+			const auto tmpl = get_template(fx_ptr, context, scope);
 
 			const auto arguments = stx::fx::mapped(instantiate_type)(
-				fx_ptr.template_arguements,
+				fx_ptr.template_arguments,
 				scope
 			);
 
@@ -69,18 +56,16 @@ namespace ltn::c {
 			add_template_args(
 				scope,
 				tmpl->template_parameters,
-				fx_ptr.template_arguements);
-
-			const auto fx_label = make_function_label(
-				tmpl->fx->namespaze,
-				tmpl->fx->name,
-				tmpl->fx->parameters.size()
+				fx_ptr.template_arguments
 			);
+			
+			const auto * fx = tmpl->fx.get();
+
+			const auto fx_label = make_function_label(*fx);
 			const auto tmpl_label = derive_template(fx_label, arguments);
-			const auto * fx = &*tmpl->fx;
 
 			if(fx->parameters.size() != fx_ptr.placeholders) {
-				throw undefined_function(fx->name, fx_ptr);
+				throw undefined_function(fx_ptr);
 			}
 
 			return std::tuple{fx,tmpl_label};
@@ -89,7 +74,7 @@ namespace ltn::c {
 
 
 		bool refers_to_template(const ast::FxPointer & fx_ptr) {
-			return !fx_ptr.template_arguements.empty();
+			return !fx_ptr.template_arguments.empty();
 		}
 
 
@@ -128,6 +113,10 @@ namespace ltn::c {
 			.parameter_types = parameter_types,
 		};
 
-		return std::make_unique<sst::FxPointer>(label, funtional->parameters.size(), type);
+		return std::make_unique<sst::FxPointer>(
+			label,
+			funtional->parameters.size(),
+			type
+		);
 	}
 }

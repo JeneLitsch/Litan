@@ -31,8 +31,8 @@ namespace ltn {
 			auto next = it + static_cast<long>(name_size);
 			const std::string name { it, next };
 			it = next;
-			const std::uint64_t addr = get_uint64(it);
-			table[name] = addr;
+			const std::uint64_t address = get_uint64(it);
+			table[name] = address;
 		}
 
 		return table;

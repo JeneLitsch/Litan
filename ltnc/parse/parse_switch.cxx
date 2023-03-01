@@ -61,7 +61,7 @@ namespace ltn::c {
 
 
 	ast::stmt_ptr parse_stmt_switch(Tokens & tokens) {
-		auto sw1tch = parse_any_switch<ast::StmtSwitch, TT::SWITCH, parse_statement>(tokens);
+		auto sw1tch = parse_any_switch<ast::Switch, TT::SWITCH, parse_statement>(tokens);
 		if(sw1tch && !sw1tch->d3fault) {
 			sw1tch->d3fault = stx::make_unique<ast::DoNothing>(location(tokens));
 		}
@@ -71,7 +71,7 @@ namespace ltn::c {
 
 
 	ast::expr_ptr parse_expr_switch(Tokens & tokens) {
-		auto sw1tch = parse_any_switch<ast::ExprSwitch, TT::CHOOSE, parse_expression>(tokens);
+		auto sw1tch = parse_any_switch<ast::Choose, TT::CHOOSE, parse_expression>(tokens);
 		if(sw1tch && !sw1tch->d3fault) {
 			sw1tch->d3fault = stx::make_unique<ast::Null>(location(tokens));
 		}

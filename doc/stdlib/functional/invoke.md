@@ -1,13 +1,13 @@
 # std::invoke
 
 ## std::invoke(fx, params)
-**Parameters**
+**Parameters:**
 * fx: A callable type
 * param: An array of parameters
 
-**Return value**  
-Return value of _fx_
+**Return value:**  
+any
 
-**Description**  
+**Description:**  
 Takes a callable function pointer and an array of parameters.
 "std::invoke" calls the function and forwards the return value of the call.

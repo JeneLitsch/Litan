@@ -1,0 +1,52 @@
+namespace sphinx::test {
+	namespace local_struct {
+		preset S {
+			var a;
+			var b;
+		}
+	}
+	
+
+
+	function struct_unknow_member() {
+		var s = std::struct();
+		assert_equal_strict(s.a, null);
+	}
+
+
+
+	function struct_preset() {
+		var s = local_struct::S(1,2.0);
+		assert_equal_strict(s.a, 1);
+		assert_equal_strict(s.b, 2.0);
+	}
+
+
+
+	function struct_manual() {
+		var s = std::struct();
+		s.a = 1;
+		s.b = 2.0;
+		assert_equal_strict(s.a, 1);
+		assert_equal_strict(s.b, 2.0);
+	}
+
+
+
+	function struct_init() {
+		var s = [
+			.a = 1,
+			.b = 2.0,
+			.c = [
+				.x = "Hello",
+				.y = "World",
+				.z = "!",
+			]
+		];
+		assert_equal_strict(s.a, 1);
+		assert_equal_strict(s.b, 2.0);
+		assert_equal_strict(s.c.x, "Hello");
+		assert_equal_strict(s.c.y, "World");
+		assert_equal_strict(s.c.z, "!");
+	}
+}

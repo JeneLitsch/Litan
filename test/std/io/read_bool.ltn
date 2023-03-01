@@ -1,0 +1,52 @@
+namespace sphinx::test {
+	function std_io_read_bool_number() {
+		var in = std::strin("1 0 1");
+		
+		assert_equal_strict(std::read_bool(in), true);
+		assert_false(std::is_eof(in));
+		
+		assert_equal_strict(std::read_bool(in), false);
+		assert_false(std::is_eof(in));
+		
+		assert_equal_strict(std::read_bool(in), true);
+		assert_true(std::is_eof(in));
+	}
+
+
+	
+	function std_io_read_bool_word() {
+		utils::test_read_bool("true false true", [true, false, true], null);
+	}
+
+
+
+
+	function std_io_read_bool_number_invalid() {
+		var in = std::strin("2 33 7");
+		
+		assert_equal_strict(std::read_bool(in), null);
+		assert_false(std::is_eof(in));
+		
+		assert_equal_strict(std::read_bool(in), null);
+		assert_false(std::is_eof(in));
+		
+		assert_equal_strict(std::read_bool(in), null);
+		assert_false(std::is_eof(in));
+
+		assert_equal_strict(std::read_all(in), "2 33 7");
+	}
+
+
+
+	function std_io_read_bool_type() {
+		assert_equal_strict(
+			reflect(expr std::read_bool(std::strin(""))).type.name,
+			"optional<bool>"
+		);
+	
+		assert_equal_strict(
+			reflect(expr std::read_bool()).type.name,
+			"optional<bool>"
+		);
+	}
+}

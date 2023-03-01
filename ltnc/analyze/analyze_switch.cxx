@@ -3,12 +3,10 @@
 
 namespace ltn::c {
 	auto analyze_cases(
-		auto && body_fx,
+		auto body_fx,
 		const auto & sw1tch,
 		Context & context,
 		Scope & scope) {
-		
-		using BodyExpr = decltype(body_fx(sw1tch, context, scope));
 
 		InvalidFunctionTable fx_table {"case"};
 		InvalidFunctionTemplateTable fx_template_table {"case"};
@@ -28,22 +26,16 @@ namespace ltn::c {
 			true
 		};
 
-		std::vector<std::pair<sst::expr_ptr, BodyExpr>> cases;
-
-		for(const auto & [expr, body] : sw1tch.cases) {
-			cases.push_back({
-				analyze_expression(*expr, case_context, case_scope),
-				body_fx(*body, context, scope)
-			});
-		}
-
-		return cases;
+		return stx::fx::mapped(stx::fx::paired(
+			[&] (auto & c4se) { return analyze_expression(*c4se, case_context, case_scope); },
+			[&] (auto & body) { return body_fx(*body, context, scope); }
+		)) (sw1tch.cases);
 	}
 
 
 
 	sst::stmt_ptr analyze_stmt(
-		const ast::StmtSwitch & sw1tch,
+		const ast::Switch & sw1tch,
 		Context & context,
 		Scope & scope) {
 		
@@ -51,8 +43,7 @@ namespace ltn::c {
 		auto cases = analyze_cases(analyze_statement, sw1tch, context, scope);
 		auto def4ault = analyze_statement(*sw1tch.d3fault, context, scope);
 
-
-		auto sst_sw1tch = std::make_unique<sst::StmtSwitch>(0u, false);
+		auto sst_sw1tch = std::make_unique<sst::Switch>();
 		sst_sw1tch->cases = std::move(cases);
 		sst_sw1tch->condition = std::move(condition);
 		sst_sw1tch->d3fault = std::move(def4ault);
@@ -62,10 +53,10 @@ namespace ltn::c {
 
 
 	sst::expr_ptr analyze_expr(
-		const ast::ExprSwitch & sw1tch,
+		const ast::Choose & sw1tch,
 		Context & context,
 		Scope & scope) {
-		
+
 		auto condition = analyze_expression(*sw1tch.condition, context, scope);
 		auto cases = analyze_cases(analyze_expression, sw1tch, context, scope);
 		auto def4ault = analyze_expression(*sw1tch.d3fault, context, scope);
@@ -75,7 +66,7 @@ namespace ltn::c {
 			deduced_type = type::deduce_choose(deduced_type, body->type);
 		}
 
-		auto choose = std::make_unique<sst::ExprSwitch>(deduced_type);
+		auto choose = std::make_unique<sst::Choose>(deduced_type);
 		choose->cases = std::move(cases);
 		choose->condition = std::move(condition);
 		choose->d3fault = std::move(def4ault);

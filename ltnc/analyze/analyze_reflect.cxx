@@ -35,7 +35,7 @@ namespace ltn::c {
 
 
 		sst::Reflect::FunctionQuery analyze_reflect_query(
-			const ast::Reflect &,
+			const ast::Reflect & refl,
 			const ast::Reflect::FunctionQuery & query,
 			Context & context,
 			Scope &) {
@@ -46,9 +46,7 @@ namespace ltn::c {
 				query.arity
 			);
 
-			if(!fx) {
-				throw undefined_function(query.name, ast::Node{{}});
-			}
+			if(!fx) throw undefined_function(query.name, location(refl));
 			
 			context.fx_queue.stage_function(*fx);
 			return fx_to_query(*fx);
@@ -83,7 +81,7 @@ namespace ltn::c {
 			Scope &) {
 
 			return sst::Reflect::LineQuery {
-				.line = refl.location.line 
+				.line = location(refl).line 
 			};
 		}
 
@@ -96,7 +94,7 @@ namespace ltn::c {
 			Scope &) {
 
 			return sst::Reflect::FileQuery {
-				.name = refl.location.sourcename 
+				.name = location(refl).sourcename 
 			};
 		}
 

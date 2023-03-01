@@ -1,0 +1,32 @@
+namespace sphinx::test {
+	function std_io_read_float() {
+		utils::test_read_float("0 1", [0.0, 1.0], null);
+		utils::test_read_float("42 1337", [42.0, 1337.0], null);
+		utils::test_read_float("42.42 13.37", [42.42, 13.37], null);
+		utils::test_read_float("-3 -42",   [-3.0, -42.0], null);
+		utils::test_read_float("0000000",  [0.0], null);
+		utils::test_read_float("0.000000", [0.0], null);
+	}
+
+
+
+	function std_io_read_float_invalid() {
+		utils::test_read_float("abc", [null], "abc");
+		utils::test_read_float("1 abc", [1.0, null], "abc");
+		utils::test_read_float("42hello", [42.0, null], "hello");
+	}
+	
+
+
+	function std_io_read_float_type() {
+		assert_equal_strict(
+			reflect(expr std::read_float(std::strin(""))).type.name,
+			"optional<float>"
+		);
+	
+		assert_equal_strict(
+			reflect(expr std::read_float()).type.name,
+			"optional<float>"
+		);
+	}
+}

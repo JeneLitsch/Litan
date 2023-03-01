@@ -5,8 +5,11 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 		
-		auto expr = analyze_expression(*stmt.expression, context, scope);
-		return std::make_unique<sst::StatementExpression>(0, false, std::move(expr));
+		auto expr = analyze_expression(*stmt.expr, context, scope);
+		return std::make_unique<sst::Assign>(
+			std::make_unique<sst::NoBinding>(),
+			std::move(expr)
+		);
 	}
 
 
@@ -16,12 +19,8 @@ namespace ltn::c {
 		Context &,
 		Scope &) {
 		
-		return std::make_unique<sst::DoNothing>(0, false);
+		return std::make_unique<sst::DoNothing>();
 	}
-
-
-
-
 
 
 

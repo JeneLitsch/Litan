@@ -1,0 +1,25 @@
+namespace sphinx::test {
+	function std_is_sorted_ascn() {
+		assert_equal_strict(std::is_sorted_ascn([1, 2.0, 3]), true);
+		assert_equal_strict(std::is_sorted_ascn([false, true, 2.0, 3]), true);
+		assert_equal_strict(std::is_sorted_ascn([true, false, 2.0, 3]), false);
+		assert_equal_strict(std::is_sorted_ascn([1, 2, 3]), true);
+		assert_equal_strict(std::is_sorted_ascn([3, 1, 2]), false);
+		assert_equal_strict(std::is_sorted_ascn(["A", "B", "C"]), true);
+		assert_equal_strict(std::is_sorted_ascn(["Z", "A", "B", "C"]), false);
+	}
+
+
+
+	function std_is_sorted_ascn_empty() {
+		assert_equal_strict(std::is_sorted_ascn([]), true);
+	}
+
+
+
+	function std_is_sorted_ascn_except() {
+		assert_except(lambda() => std::is_sorted_ascn((1,2)));
+		assert_except(lambda() => std::is_sorted_ascn(null));
+		assert_except(lambda() => std::is_sorted_ascn(1));
+	}
+}

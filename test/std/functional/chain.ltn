@@ -1,0 +1,8 @@
+namespace sphinx::test {
+	function std_fx_chain() {
+		var fx1 = lambda(x) => x + "def";
+		var fx2 = lambda(x) => x + "ghi";
+		var fx = std::chain(fx1, fx2);
+		assert_equal_strict(fx("abc"), "abcdefghi");
+	}
+}

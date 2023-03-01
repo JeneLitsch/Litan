@@ -9,11 +9,11 @@ namespace ltn::c {
 
 		buf << compile_expression(*invoke.function_ptr);
 
-		for(const auto & param : invoke.parameters) {
-			buf << compile_expression(*param);
+		for(const auto & arg : invoke.arguments) {
+			buf << compile_expression(*arg);
 		}
 
-		buf << inst::newarr(invoke.parameters.size());
+		buf << inst::newarr(invoke.arity());
 		buf << inst::invoke();
 
 		return buf;
@@ -23,11 +23,12 @@ namespace ltn::c {
 
 	InstructionBuffer compile_expr(const sst::Call & call) {
 		InstructionBuffer buf;
-		const auto arity = call.parameters.size();
-		for(std::size_t i = 0; i < arity; ++i) {
-			buf << compile_expression(*call.parameters[i]);
+
+		for(const auto & argument : call.arguments) {
+			buf << compile_expression(*argument);
 		}
-		buf << inst::call(call.label.to_string(), arity);		
+
+		buf << inst::call(call.label.to_string(), static_cast<std::uint8_t>(call.arity()));		
 		return buf;
 	}
 }

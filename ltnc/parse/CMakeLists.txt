@@ -16,6 +16,7 @@ target_sources(libltnc PRIVATE
 	parse_if_else.cxx
 	parse_loops.cxx
 	parse_name.cxx
+	parse_newvar.cxx
 	parse_parenthesized.cxx
 	parse_preset.cxx
 	parse_primary.cxx
@@ -25,5 +26,4 @@ target_sources(libltnc PRIVATE
 	parse_switch.cxx
 	parse_type.cxx
 	parse_unary.cxx
-	parse_utils.cxx
 )

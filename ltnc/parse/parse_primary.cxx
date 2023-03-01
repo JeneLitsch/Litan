@@ -135,7 +135,7 @@ namespace ltn::c {
 						namespaze,
 						placeholders,
 						location(tokens));
-					fx_ptr->template_arguements = std::move(template_args);
+					fx_ptr->template_arguments = std::move(template_args);
 					return fx_ptr;
 				}
 				throw expected("(", location(tokens));
@@ -219,7 +219,7 @@ namespace ltn::c {
 
 
 
-	// parses primary expression
+	// parses primary expr
 	ast::expr_ptr parse_primary(Tokens & tokens) {
 		if(auto expr = parse_integral(tokens)) return expr;
 		if(auto expr = parse_character(tokens)) return expr;

@@ -20,8 +20,8 @@ namespace ltn::vm {
 			const std::vector<String> & args = {},
 			const std::string & main = "");
 
-		void register_function(std::int64_t addr, auto fx) {
-			core.externals.emplace(addr, ext::Callable{std::move(fx)});
+		void register_function(std::int64_t address, auto fx) {
+			core.externals.emplace(address, ext::Callable{std::move(fx)});
 		}
 
 		void set_global(
@@ -32,4 +32,6 @@ namespace ltn::vm {
 		VmCore core;
 		std::span<const std::uint8_t> byte_code;
 	};
+
+	Value run_core(VmCore & core);
 }

@@ -14,4 +14,20 @@ namespace sphinx::test {
 		assert_equal(fx([10,20,30]), 60);
 		assert_equal(fx([10,20,30, -20]), 40);
 	}
+
+
+
+	function while_scope() {
+		var run = true;
+		var x = 1337;
+		while(run) {
+			assert_equal_strict(x, 1337);
+			var x = 0;
+			assert_equal_strict(x, 0);
+			x = 42;
+			assert_equal_strict(x, 42);
+			run = false;
+		}
+		assert_equal_strict(x, 1337);
+	}
 }

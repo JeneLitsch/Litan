@@ -6,56 +6,54 @@
 namespace ltn::c {
 	void guard_const(const ast::Node & node, const Scope & scope) {
 		if(scope.is_const()) {
-			throw CompilerError{
-				"Cannot modify or reassign variable in const function",
-				node.location
-			};
+			throw const_assign_violation(node);
+		}
+	}
+
+
+
+	namespace {
+		sst::bind_ptr generate_binding(sst::expr_ptr l) {
+			if(auto * l_local = as<sst::Var>(*l)) {
+				return std::make_unique<sst::LocalBinding>(
+					l_local->address
+				);
+			}
+			if(auto * l_index = as<sst::Index>(*l)) {
+				return std::make_unique<sst::IndexBinding>(
+					std::move(l_index->expr),
+					std::move(l_index->index)
+				);
+			}
+			if(auto * l_member = as<sst::Member>(*l)) {
+				return std::make_unique<sst::MemberBinding>(
+					std::move(l_member->expr),
+					l_member->address
+				);
+			}
+			if(auto * l_global = as<sst::GlobalVar>(*l)) {
+				return std::make_unique<sst::GlobalBinding>(
+					l_global->address
+				);
+			}
+			return nullptr;
 		}
 	}
 
 
 
 	sst::stmt_ptr analyze_stmt(
-		const ast::Assign & expr,
+		const ast::Assign & stmt,
 		Context & context,
 		Scope & scope) {
-		guard_const(expr, scope);
-		auto l = analyze_expression(*expr.l, context, scope);
-		auto r_raw = analyze_expression(*expr.r, context, scope);
-		auto r = conversion_on_assign(std::move(r_raw), l->type, expr.location);
-		if(auto * l_local = dynamic_cast<sst::Var *>(l.get())) {
-			return std::make_unique<sst::AssignLocal>(
-				0, false,
-				l_local->addr,
-				std::move(r)
-			);
+		guard_const(stmt, scope);
+		auto l = analyze_expression(*stmt.l, context, scope);
+		auto r_raw = analyze_expression(*stmt.r, context, scope);
+		auto r = conversion_on_assign(std::move(r_raw), l->type, location(stmt));
+		auto binding = generate_binding(std::move(l));
+		if(!binding) {
+			throw left_side_not_assignable(stmt);
 		}
-		if(auto * l_index = dynamic_cast<sst::Index *>(l.get())) {
-			return std::make_unique<sst::AssignIndex>(
-				0, false,
-				std::move(l_index->expression),
-				std::move(l_index->index),
-				std::move(r)
-			);
-		}
-		if(auto * l_member = dynamic_cast<sst::Member *>(l.get())) {
-			return std::make_unique<sst::AssignMember>(
-				0, false,
-				std::move(l_member->expr),
-				l_member->addr,
-				std::move(r)
-			);
-		}
-		if(auto * l_global = dynamic_cast<sst::GlobalVar *>(l.get())) {
-			return std::make_unique<sst::AssignGlobal>(
-				0, false,
-				l_global->addr,
-				std::move(r)
-			);
-		}
-		throw CompilerError {
-			"Left side is not assignable",
-			expr.location
-		};
+		return std::make_unique<sst::Assign>(std::move(binding), std::move(r));
 	}
 }

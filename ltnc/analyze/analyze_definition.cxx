@@ -1,7 +1,9 @@
 #include "analyze.hxx"
 
 namespace ltn::c {
-	sst::defn_ptr analyze_definition(const ast::Definition & def, Context & context) {
+	sst::defn_ptr analyze_definition(
+		const ast::Definition & def,
+		Context & context) {
 		// Use empty global_table to prohibit the usage of other global variables.
 		// Functions or defines can be used though.
 		InvalidDefinitionTable def_table { "definitions" };
@@ -18,14 +20,15 @@ namespace ltn::c {
 			.reporter          = context.reporter
 		};
 		MajorScope scope { def.namespaze, false };
-		auto sst_def = std::make_unique<sst::Definition>(
+
+		auto type = instantiate_type(def.type, scope);
+		auto expr = def.expr ? analyze_expression(*def.expr, read_context, scope) : nullptr;
+
+		return std::make_unique<sst::Definition>(
 			def.name,
 			def.namespaze,
-			instantiate_type(def.type, scope)
+			std::move(type),
+			std::move(expr)
 		);
-		if(def.expr) {
-			sst_def->expr = analyze_expression(*def.expr, read_context, scope);
-		}
-		return sst_def;
 	}
 }

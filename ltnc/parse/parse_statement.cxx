@@ -16,21 +16,7 @@ namespace ltn::c {
 
 
 
-	std::unique_ptr<ast::NewVar> parse_new_variable(Tokens & tokens) {
-		if(match(TT::VAR, tokens)) {
-			auto name = parse_variable_name(tokens);
-			auto type = parse_var_type_auto(tokens);
-			auto && r = parse_assign_r(tokens);
-			semicolon(tokens);
-			return stx::make_unique<ast::NewVar>(
-				name,
-				std::move(r),
-				location(tokens),
-				type
-			);
-		}
-		return nullptr;
-	}
+
 
 
 
@@ -76,7 +62,7 @@ namespace ltn::c {
 		if(auto stmt = parse_if_else(tokens))      return stmt;
 		if(auto stmt = parse_while_loop(tokens))   return stmt;
 		if(auto stmt = parse_for_loop(tokens))     return stmt;
-		if(auto stmt = parse_new_variable(tokens)) return stmt;
+		if(auto stmt = parse_newvar(tokens))       return stmt;
 		if(auto stmt = parse_throw(tokens))        return stmt;
 		if(auto stmt = parse_return(tokens))       return stmt;
 		if(auto stmt = parse_stmt_switch(tokens))  return stmt;

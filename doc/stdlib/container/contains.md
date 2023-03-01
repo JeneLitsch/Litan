@@ -1,11 +1,11 @@
 # std::contains
 
 ## std::contains(map, key)
-**Parameters**  
+**Parameters:**  
 * map: A Map
 
-**Return value**  
+**Return value:**  
 Bool  
 
-**Description**  
+**Description:**  
 Checks if a given _key_ is in the _map_

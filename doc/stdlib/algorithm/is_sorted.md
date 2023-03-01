@@ -1,11 +1,11 @@
 # std::is_sorted_*
 
-## std::is_sorted_ascn(range)
+## std::is_sorted_ascn(range) const
 **Parameters:** 
 * range: A range or an array
 
 **Return value:**   
-null
+bool
 
 **Description:**     
 Checks if a range or an array is sorted in ascending order.
@@ -14,12 +14,12 @@ Checks if a range or an array is sorted in ascending order.
 
 
 
-## std::is_sorted_desc(range)
+## std::is_sorted_desc(range) const
 **Parameters:** 
 * range: A range or an array
 
 **Return value:**   
-null
+bool
 
 **Description:**     
 Checks if a range or an array is sorted in descending order.

@@ -22,29 +22,46 @@ namespace ltn::c {
 
 
 	stx::reference<const ast::FunctionTemplate> get_template(
-		const std::string & name,
-		const Namespace & namespaze,
-		const std::size_t function_arity,
-		const std::size_t template_arity,
-		const SourceLocation & location,
+		const auto & symbol,
+		const auto & invoke,
 		Context & context,
 		Scope & scope) {
+
 		const auto * tmpl = context.fx_template_table.resolve(
-			name,
+			symbol.name,
 			scope.get_namespace(),
-			namespaze,
-			function_arity,
-			template_arity
+			symbol.namespaze,
+			invoke.arity(),
+			invoke.template_arguments.size()
 		);
-		if(!tmpl) {
-			std::ostringstream oss;
-			oss 
-				<< "Cannot find template " 
-				<< namespaze.to_string() << name
-				<< " with " << template_arity << " arguements";
-			throw CompilerError{oss.str(), location};
+
+		if(tmpl) {
+			return *tmpl;
 		}
-		return *tmpl;
+		else {
+			throw undefined_template(symbol.name, location(invoke));
+		}
+	}
+
+
+
+	stx::reference<const ast::FunctionTemplate> get_template(
+		const ast::FxPointer & fx_ptr,
+		Context & context,
+		Scope & scope) {
+
+		return get_template(fx_ptr, fx_ptr, context, scope);
+	}
+
+
+
+	stx::reference<const ast::FunctionTemplate> get_template(
+		const ast::Call & call,
+		const ast::Var & var,
+		Context & context,
+		Scope & scope) {
+		
+		return get_template(var, call, context, scope);
 	}
 
 
@@ -101,6 +118,15 @@ namespace ltn::c {
 		auto analyze_staged(const StagedTemplateFx & staged, Context & context) {
 			return analyze_function_template(staged.tmpl, context, staged.arguments); 
 		}
+	}
+
+
+
+	std::vector<sst::expr_ptr> analyze_all_expressions(const std::vector<ast::expr_ptr> & exprs, Context & context, Scope & scope) {
+		auto analyze_all = stx::fx::mapped([&] (const auto & expr) {
+			return analyze_expression(*expr, context, scope);
+		});
+		return analyze_all(exprs);
 	}
 
 

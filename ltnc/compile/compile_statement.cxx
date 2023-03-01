@@ -1,16 +1,5 @@
 #include "compile.hxx"
 namespace ltn::c {
-	InstructionBuffer compile_stmt(const sst::StatementExpression & stmt) {
-		
-		const auto code = compile_expression(*stmt.expression);
-		InstructionBuffer buf;
-		buf << code;
-		buf << inst::scrap();
-		return buf;
-	}
-
-
-
 	InstructionBuffer compile_stmt(const sst::DoNothing &) {
 		return {};
 	}

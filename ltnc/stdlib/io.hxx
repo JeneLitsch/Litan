@@ -76,31 +76,31 @@ namespace std {
 		@ io_print
 	
 	build_in read(stream : istream)
-		-> string 
+		-> optional<string> 
 		@ io_read
 
 	build_in read_str(stream : istream)
-		-> string 
+		-> optional<string> 
 		@ io_read_str
 
 	build_in readln(stream : istream)
-		-> string 
+		-> optional<string> 
 		@ io_readln
 
 	build_in read_bool(stream : istream)
-		-> bool 
+		-> optional<bool> 
 		@ io_read_bool
 
 	build_in read_char(stream : istream)
-		-> char 
+		-> optional<char> 
 		@ io_read_char
 
 	build_in read_int(stream : istream)
-		-> int 
+		-> optional<int> 
 		@ io_read_int
 
 	build_in read_float(stream : istream)
-		-> float 
+		-> optional<float> 
 		@ io_read_float
 
 	build_in read_all(stream : istream)
@@ -109,8 +109,9 @@ namespace std {
 
 
 	
-	build_in is_eof(stream) const    @ io_is_eof
-	build_in is_good(stream) const   @ io_is_good
+	build_in is_eof(stream) const
+		-> bool
+		@ io_is_eof
 
 	function print(value) => print(cout(), value)
 
@@ -125,13 +126,32 @@ namespace std {
 		print(stream, "\n");
 	}
 
-	function read()       => read(cin())
-	function read_str()   => read(cin())
-	function readln()     => readln(cin())
-	function read_bool()  => read_bool(cin())
-	function read_char()  => read_char(cin())
-	function read_int()   => read_int(cin())
-	function read_float() => read_float(cin())
-	function read_all()   => read_all(cin())
+	function read() 
+		-> optional<string>
+		=> read(cin())
+	
+	function read_str()
+		-> optional<string>
+		=> read(cin())
+	
+	function readln()
+		-> optional<string>
+		=> readln(cin())
+	
+	function read_bool()  
+		-> optional<bool>
+		=> read_bool(cin())
+
+	function read_char()  
+		-> optional<char>
+		=> read_char(cin())
+	
+	function read_int()   
+		-> optional<int>
+		=> read_int(cin())
+	
+	function read_float() 
+		-> optional<float>
+		=> read_float(cin())
 }
 )###";

@@ -54,6 +54,25 @@ namespace ltn::c::type {
 
 
 
+	Array deduce_array_of(const std::vector<Type> & elem_types) {
+		Array array{};
+		for(const auto & elem_type : elem_types) {
+			array = type::deduce_array_append(array, elem_type);
+		}
+		return array;
+	}
+
+
+
+	Tuple deduce_tuple_of(const std::vector<Type> & elem_types) {
+		return Tuple {
+			.contained = elem_types
+		};
+	}
+
+
+
+
 	Type deduce_add(const Type & l, const Type & r) {
 		if(is_any(l)) return Any{};
 		if(is_any(r)) return Any{};
@@ -148,8 +167,9 @@ namespace ltn::c::type {
 		
 		Type deduce_index_tuple(const Tuple & tuple, const Type & key, std::optional<std::uint64_t> index) {
 			if(is_numeric(key) || is_any(key)) {
-				if(index) return tuple.contained[*index];
-				return Any{};
+				if(!index) return Any{};
+				if(*index >= std::size(tuple.contained)) return Error{};
+				return tuple.contained[*index];
 			}
 			return Error{};
 		}

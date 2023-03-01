@@ -37,20 +37,6 @@ namespace ltn::c {
 				default: throw std::runtime_error{"Invalid Binary::Op"};
 			}
 		}
-
-
-		CompilerError invalid_operands(
-			const type::Type & l,
-			const type::Type & r,
-			const SourceLocation & location) {
-			std::ostringstream oss;
-			oss 
-				<< "Invalid operands ("
-				<< to_string(l) << " and " << to_string(r)
-				<< ") for binary expression";
-
-			return CompilerError { oss.str(), location };
-		}
 	}
 
 
@@ -67,10 +53,14 @@ namespace ltn::c {
 		const auto type = deduce_type(op, l->type, r->type);
 
 		if(is_error(type)) {
-			throw invalid_operands(l->type, r->type, binary.location);
+			throw invalid_operands(binary, l->type, r->type);
 		} 
 
-		return std::make_unique<sst::Binary>(op, std::move(l), std::move(r), type);
+		return std::make_unique<sst::Binary>(
+			op,
+			std::move(l),
+			std::move(r),
+			type
+		);
 	}
-	
 }

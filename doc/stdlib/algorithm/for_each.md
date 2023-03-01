@@ -1,13 +1,13 @@
 # std::for_each
 
-## std::for_each(range, fx)
+## std::for_each(range, fx) -> null
 
-### Parameters
-* range: A range or an array
-* fx: Callable type (e.g. FxPtr or External) which takes one parameter
+**Parameters:**  
+* range: array or tuple
+* fx: Callable type which takes one parameter.
 
-### Return value  
+**Return value:**  
 Always returns null.  
 
-### Description  
-Calls fx for every element in range. 
+**Description:**   
+Calls fx for every element in the passed range. 

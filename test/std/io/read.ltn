@@ -1,0 +1,17 @@
+namespace sphinx::test {
+	function std_io_read() {
+		utils::test_read("", [], null);
+		utils::test_read_str("", [], null);
+		utils::test_read("ABC XYZ", ["ABC", "XYZ"], null);
+		utils::test_read_str("ABC XYZ", ["ABC", "XYZ"], null);
+	}
+
+
+
+	function std_io_read_type() {
+		assert_equal_strict(reflect(expr std::read(std::strin(""))).type.name, "optional<string>");
+		assert_equal_strict(reflect(expr std::read_str(std::strin(""))).type.name, "optional<string>");
+		assert_equal_strict(reflect(expr std::read()).type.name, "optional<string>");
+		assert_equal_strict(reflect(expr std::read_str()).type.name, "optional<string>");
+	}
+}

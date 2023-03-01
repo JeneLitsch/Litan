@@ -20,6 +20,7 @@
 #include "utils/MinorScope.hxx"
 
 #include "instantiate_type.hxx"
+#include "error.hxx"
 
 namespace ltn::c {
 	sst::Program analyze(const ast::Program & program, Reporter & reporter);
@@ -29,6 +30,7 @@ namespace ltn::c {
 	std::unique_ptr<sst::Function> analyze_function(const ast::Function &, Context &, Scope &);
 	sst::func_ptr analyze_functional(const ast::Functional &, Context &);
 	sst::func_ptr analyze_function_template(const ast::FunctionTemplate &, Context &, const std::vector<type::Type> & arguments);
+	sst::func_ptr analyze_function(const ast::Function &, Context &, Scope &, std::optional<Label> override_label = std::nullopt);
 	
 	sst::glob_ptr analyze_global(const ast::Global &, Context &);
 	sst::defn_ptr analyze_definition(const ast::Definition &, Context &);
@@ -39,17 +41,19 @@ namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::Return &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::Assign &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::Throw &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::InitMember &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::IfElse &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::InfiniteLoop &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::While &, Context &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::For &, Context &, Scope &);
-	std::unique_ptr<sst::NewVar> analyze_stmt(const ast::NewVar &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::StmtSwitch &, Context &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::ForEach &, Context &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::NewVar &, Context &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::Switch &, Context &, Scope &);
+
+	std::vector<sst::expr_ptr> analyze_all_expressions(const std::vector<ast::expr_ptr> &, Context &, Scope &);
 
 	sst::expr_ptr analyze_expression(const ast::Expression &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Lambda &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::ExprSwitch &, Context &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Choose &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Ternary &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Binary &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Unary &, Context &, Scope &);
@@ -70,20 +74,9 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::GlobalVar &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::TypedUnary &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Reflect &, Context &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::InitStruct &, Context &, Scope &);
 
-	// utils
-	void guard_const(
-		const ast::Node &,
-		const Scope &);
-	
-	void guard_private(
-		const ast::Functional & fx,
-		const Namespace & call_ns,
-		const SourceLocation & loc);
-
-	CompilerError undefined_function(
-		const std::string_view & name,
-		const ast::Node & node);
+	sst::bind_ptr analyze_binding(const ast::Binding &,	Context &, Scope &, const type::Type &);
 
 	void add_template_args(
 		Scope & scope,
@@ -96,11 +89,13 @@ namespace ltn::c {
 		const std::vector<type::Type> & template_args);
 
 	stx::reference<const ast::FunctionTemplate> get_template(
-		const std::string & name,
-		const Namespace & namespaze,
-		const std::size_t function_arity,
-		const std::size_t template_arity,
-		const SourceLocation & location,
+		const ast::FxPointer & fx_ptr,
+		Context & context,
+		Scope & scope);
+
+	stx::reference<const ast::FunctionTemplate> get_template(
+		const ast::Call & call,
+		const ast::Var & var,
 		Context & context,
 		Scope & scope);
 }	

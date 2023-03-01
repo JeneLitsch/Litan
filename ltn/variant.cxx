@@ -82,7 +82,7 @@ namespace ltn {
 
 
 	namespace {
-		void print(std::ostream & stream, const Variant::NullT & value) {
+		void print(std::ostream & stream, const Variant::NullT &) {
 			stream << "null";
 		}
 

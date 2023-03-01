@@ -1,0 +1,62 @@
+namespace sphinx::test {
+	function std_str_null() {
+		assert_equal_strict(std::str(null), "null");
+	}
+
+
+
+	function std_str_char() {
+		assert_equal_strict(std::str('X'), "X");
+	}
+
+
+	
+	function std_str_int() {
+		assert_equal_strict(std::str(1), "1");
+		assert_equal_strict(std::str(-1), "-1");
+		assert_equal_strict(std::str(42), "42");
+	}
+
+
+
+	function std_str_float() {
+		assert_equal_strict(std::str(1.0), "1");
+		assert_equal_strict(std::str(-1.5), "-1.5");
+		assert_equal_strict(std::str(42.42), "42.42");
+	}
+
+
+
+	function std_str_string() {
+		var str1 = "Hello World";
+		var str2 = std::str(str1);
+		str2[0] = 'X';
+		assert_equal_strict(str1, "Hello World"); // Ensures equality
+		assert_equal_strict(str2, "Xello World"); // Ensures independence
+	}
+
+
+
+	function std_str_array() {
+		assert_equal_strict(std::str([1]), "[1]");
+		assert_equal_strict(std::str([1, 2, 3]), "[1, 2, 3]");
+		assert_equal_strict(std::str([1, 2, [3, 4]]), "[1, 2, [3, 4]]");
+	}
+
+
+
+	function std_str_ostream() {
+		var oss = std::strout();
+		var str = "Hello World";
+		std::print(oss, str);
+		assert_equal_strict(std::str(oss), str);
+	}
+
+
+
+	function std_str_tuple() {
+		assert_equal_strict(std::str((1,)), "(1)");
+		assert_equal_strict(std::str((1, 2, 3)), "(1, 2, 3)");
+		assert_equal_strict(std::str((1, 2, (3, 4))), "(1, 2, (3, 4))");
+	}
+}

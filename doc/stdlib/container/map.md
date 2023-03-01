@@ -2,8 +2,8 @@
 
 ## std::map()
 
-**Return value**:  
+**Return value:**:  
 Reference to a new Map  
 
-**Description**:  
+**Description:**:  
 Creates a new and empty Map

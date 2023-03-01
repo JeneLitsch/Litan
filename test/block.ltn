@@ -1,0 +1,13 @@
+namespace sphinx::test {
+	function block_scope() {
+		var x = 1337;
+		{
+			assert_equal_strict(x, 1337);
+			var x = 0;
+			assert_equal_strict(x, 0);
+			x = 42;
+			assert_equal_strict(x, 42);
+		}
+		assert_equal_strict(x, 1337);
+	}
+}

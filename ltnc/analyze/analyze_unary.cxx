@@ -17,20 +17,6 @@ namespace ltn::c {
 				default: throw std::runtime_error{"Invalid Unary::Op"};
 			}
 		}
-
-
-		
-		CompilerError invalid_operands(
-			const type::Type & type,
-			const SourceLocation & location) {
-			std::ostringstream oss;
-			oss 
-				<< "Invalid operands ("
-				<< to_string(type)
-				<< ") for unary expression";
-
-			return CompilerError { oss.str(), location };
-		}
 	}
 
 
@@ -40,12 +26,12 @@ namespace ltn::c {
 		Context & context,
 		Scope & scope) {
 		
-		auto expr = analyze_expression(*unary.expression, context, scope);
+		auto expr = analyze_expression(*unary.expr, context, scope);
 		const auto op = static_cast<sst::Unary::Op>(unary.op);
 		const auto type = deduce_type(op, expr->type);
 
 		if(is_error(type)) {
-			throw invalid_operands(expr->type, unary.location);
+			throw invalid_operands(unary, expr->type);
 		} 
 
 		return std::make_unique<sst::Unary>(op, std::move(expr), type);

@@ -80,6 +80,7 @@ namespace ltn {
 		READ_X,
 		WRITE_X,
 		SWAP,
+		UNPACK,
 
 		// Fast stack read/write
 		READ_0 = 0x68,

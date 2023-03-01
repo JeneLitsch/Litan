@@ -1,7 +1,7 @@
 #include "inst.hxx"
 
 namespace ltn::c::inst {
-	Inst label(const std::string name) {
+	Inst label(const std::string & name) {
 		return InstLabel{
 			.label = name,
 		};
@@ -330,8 +330,7 @@ namespace ltn::c::inst {
 			.opcode = OpCode::IF,
 			.label = label,
 		};
-	}
-	
+	}	
 	Inst invoke() {
 		return InstNone {
 			.name = "invoke",
@@ -350,12 +349,15 @@ namespace ltn::c::inst {
 			.opcode = OpCode::CAPTURE,
 		};
 	}
+
+
 	Inst scrap() {
 		return InstNone {
 			.name = "scrap",
 			.opcode = OpCode::SCRAP,
 		};
 	}
+
 	Inst duplicate() {
 		return InstNone {
 			.name = "duplicate",
@@ -369,8 +371,6 @@ namespace ltn::c::inst {
 		};
 	}
 
-
-
 	Inst read_x(std::uint64_t u64) {
 		return InstUint64 {
 			.name = "read_x",
@@ -378,6 +378,7 @@ namespace ltn::c::inst {
 			.value = u64,
 		};
 	}
+
 	Inst write_x(std::uint64_t u64) {
 		return InstUint64 {
 			.name = "write_x",
@@ -385,10 +386,19 @@ namespace ltn::c::inst {
 			.value = u64,
 		};
 	}
+
 	Inst swap() {
 		return InstNone {
 			.name = "swap",
 			.opcode = OpCode::SWAP,
+		};
+	}
+
+	Inst unpack(std::uint8_t size) {
+		return InstByte {
+			.name = "unpack",
+			.opcode = OpCode::UNPACK,
+			.value = size,
 		};
 	}
 

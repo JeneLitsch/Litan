@@ -1,4 +1,5 @@
 #include "parse.hxx"
+#include "stdxx/functional.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -39,24 +40,22 @@ namespace ltn::c {
 	ast::enum_ptr parse_enumeration(Tokens & tokens, Namespace namespaze) {
 		
 		const auto enum_name = parse_enum_name(tokens);
-		auto enumeration = stx::make_unique<ast::Enumeration>(
-			location(tokens),
-			enum_name,
-			namespaze);
 
 		brace_l(tokens);
-		
-		const auto values = parse_values(tokens);
-		for(const auto & [key, value] : values) {
-			const auto loc = location(tokens);
-			auto integer = stx::make_unique<ast::Integer>(value, loc);
-			enumeration->labels.push_back({
-				key,
-				std::move(integer)});
-		}
-		
+
+		auto to_labels = stx::fx::mapped([] (const auto & pair) {
+			return ast::Enumeration::Label { pair.first, pair.second };
+		});
+
+		auto labels = to_labels(parse_values(tokens));
+
 		brace_r(tokens);
 
-		return enumeration;
+		return std::make_unique<ast::Enumeration>(
+			location(tokens),
+			enum_name,
+			namespaze,
+			std::move(labels)
+		);
 	}
 }

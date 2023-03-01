@@ -28,7 +28,7 @@ namespace ltn::c {
 	
 	
 	sst::expr_ptr optimize_unary(sst::Unary & unary) {
-		auto & inner = unary.expression;
+		auto & inner = unary.expr;
 		inner = optimize_expression(std::move(inner));
 		if(is_neg(unary)) {
 			if(auto expr = eval<Negation, sst::Bool>(*inner))    return expr;

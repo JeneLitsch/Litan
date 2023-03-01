@@ -1,0 +1,5 @@
+namespace sphinx::test {
+	function std_fx_invoke() {
+		assert_equal_strict(std::invoke(lambda(a,b) => a + b, [40,2]), 42);
+	}
+}

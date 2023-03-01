@@ -5,6 +5,12 @@ namespace sphinx::test {
 
 
 
+	function iife_default_return() {
+		assert_equal_strict(iife{}, null);
+	}
+
+
+
 	function iife_outer_var() {
 		var a = 42;
 		assert_equal_strict(iife { return a; }, a);
@@ -12,15 +18,51 @@ namespace sphinx::test {
 
 
 
-	function iife_no_scope_leak() {
-		var x = 42;
-		var a;
-		var b;
+	function iife_nested() {
+		assert_equal_strict(42, iife {
+			var x = 20;
+			return iife {
+				var y = 22;
+				return x + y;
+			};
+		});
+	}
+
+
+
+	function iife_scope_no_leak() {
+		var x;
 		iife {
-			a = 42;
-			var b = 42;
+			var x = 42;
+			assert_equal_strict(x, 42);
 		};
-		assert_equal_strict(a, x);
-		assert_equal_strict(b, null);
+		assert_equal_strict(x, null);
+	}
+
+
+
+	function iife_scope_no_hoist() {
+		var x = 1337;
+		iife {
+			assert_equal_strict(x, 1337);
+			var x;
+			assert_equal_strict(x, null);
+			x = 42;
+			assert_equal_strict(x, 42);
+		};
+		assert_equal_strict(x, 1337);
+	}
+
+
+
+	function iife_stack_alloc() {
+		assert_equal_strict(6, iife {
+			var b = 2;
+			var c = 3;
+			var d = 4;
+			var e = 5;
+			var f = 6;
+			return f;
+		});
 	}
 }

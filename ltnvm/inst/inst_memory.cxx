@@ -22,17 +22,17 @@ namespace ltn::vm::inst {
 
 
 	void read_x(VmCore & core) {
-		const auto addr = core.fetch_uint();
-		const auto value = core.stack.read(addr);
+		const auto address = core.fetch_uint();
+		const auto value = core.stack.read(address);
 		core.stack.push(value);
 	}
 
 
 
 	void write_x(VmCore & core) {
-		const auto addr = core.fetch_uint();
+		const auto address = core.fetch_uint();
 		const auto value = core.stack.pop();
-		core.stack.write(addr, value);
+		core.stack.write(address, value);
 	}
 
 

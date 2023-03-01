@@ -2,11 +2,11 @@
 
 ## std::bits::get(number : int, index : int) -> bool
 **Parameters:**
-- number: a single integral value
+- number: a single integer
 - index: an integer index
 
-**Return value:**
-A boolean representing an single bit
+**Return value:**  
+bool
 
-**Description:**
-Returns the bit of number at position index.
+**Description:**  
+Returns the bit of number at position index as an boolean.

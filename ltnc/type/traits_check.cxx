@@ -47,13 +47,18 @@ namespace ltn::c::type {
 	}
 
 
+
 	bool is_subint(const Type & x) {
 		return is_bool(x) || is_char(x);
 	}
 
+
+
 	bool is_integral(const Type & x) {
 		return is_subint(x) || is_int(x);
 	}
+
+	
 
 	bool is_numeric(const Type & x) {
 		return is_integral(x) || is_float(x);
@@ -69,6 +74,12 @@ namespace ltn::c::type {
 
 	bool is_array(const Type & x) {
 		return x.as<Array>();
+	}
+
+
+
+	bool is_tuple(const Type & x) {
+		return x.as<Tuple>();
 	}
 
 

@@ -8,6 +8,7 @@
 #include "stdxx/iife.hxx"
 #include "ltnvm/to_variant.hxx"
 #include "ltnvm/to_value.hxx"
+#include "ltnvm/stringify.hxx"
 
 namespace ltn::vm {
 	constexpr void add_instruction(auto & table, auto op_code, auto fx) {
@@ -103,6 +104,7 @@ namespace ltn::vm {
 		table[OpCode::READ_X] = inst::read_x;
 		table[OpCode::WRITE_X] = inst::write_x;
 		table[OpCode::SWAP] = inst::swap;
+		table[OpCode::UNPACK] = inst::unpack;
 		table[OpCode::READ_0] = inst::read_0;
 		table[OpCode::READ_1] = inst::read_1;
 		table[OpCode::READ_2] = inst::read_2;
@@ -167,31 +169,10 @@ namespace ltn::vm {
 
 
 	namespace {
-		void error(VmCore & core, std::string && msg) {
+		void error(VmCore & core, std::string msg) {
 			const auto ref = core.heap.alloc<String>(std::move(msg));
 			core.stack.push(value::string(ref));
 			inst::thr0w(core);
-		}
-
-
-
-		Variant core_loop(VmCore & core) {
-			RESUME:
-			try {
-				while(true) {
-					const std::uint8_t inst = core.fetch_byte();
-					instructions_table[inst](core);
-				}
-			}
-
-			catch(Exception & err) {
-				error(core, std::move(err.msg));
-				goto RESUME;
-			}
-
-			catch(const Value & value) {
-				return to_variant(value, core.heap);
-			}
 		}
 
 
@@ -223,6 +204,51 @@ namespace ltn::vm {
 
 
 
+	Value run_core(VmCore & core) {
+		RESUME:
+		try {
+			while(true) {
+				const std::uint8_t op_code = core.fetch_byte();
+				instructions_table[op_code](core);
+			}
+		}
+
+		catch(const Exception & err) {
+			error(core, err.msg);
+			goto RESUME;
+		}
+
+		catch(const Value & value) {
+			return value;
+		}
+	}
+
+
+
+	Value main_loop(VmCore & core) {
+		RESUME:
+		try {
+			while(true) {
+				const std::uint8_t op_code = core.fetch_byte();
+				instructions_table[op_code](core);
+			}
+		}
+		catch(const Exception & err) {
+			error(core, err.msg);
+			goto RESUME;
+		}
+
+		catch(const Value & value) {
+			return value;
+		}
+	}
+
+
+
+
+
+
+
 	void LtnVM::setup(std::span<const std::uint8_t> code) {
 		if(code.size() < 2) {
 			throw std::runtime_error{"Not an executable program"};
@@ -246,7 +272,7 @@ namespace ltn::vm {
 		this->core.heap.reset();
 
 		// init static variables 
-		core_loop(core);
+		main_loop(core);
 	}
 
 
@@ -254,7 +280,14 @@ namespace ltn::vm {
 	Variant LtnVM::run(const std::vector<String> & args, const std::string & main) {
 		load_main_args(core, args);
 		jump_to_init(core, main);
-		return core_loop(this->core);
+		try {
+			return to_variant(main_loop(this->core), core.heap);
+		}
+		catch(const Unhandled & err) {
+			throw std::runtime_error { 
+				"Unhandled exception: " + err.exception.msg
+			};
+		}
 	}
 
 
@@ -267,7 +300,7 @@ namespace ltn::vm {
 			"Program does not contain global variable " + name
 		};
 
-		const auto addr = core.static_table[name];
-		this->core.static_variables[addr] = to_value(variant, core.heap);
+		const auto address = core.static_table[name];
+		this->core.static_variables[address] = to_value(variant, core.heap);
 	}
 }

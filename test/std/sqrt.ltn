@@ -1,6 +1,0 @@
-namespace sphinx::test {
-	function std_sqrt() {
-		assert_equal_strict(std::sqrt(25), 5.0);
-		assert_equal_strict(std::sqrt(25.0), 5.0);
-	}
-}

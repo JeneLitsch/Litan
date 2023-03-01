@@ -1,0 +1,17 @@
+namespace sphinx::test {
+	function std_find_found() {
+		assert_equal_strict(std::find([1,2,3], 1), 0);
+		assert_equal_strict(std::find([1,2,3], 2), 1);
+		assert_equal_strict(std::find([1,2,3], 3), 2);
+	}
+
+
+	function std_find_not_found() {
+		assert_equal_strict(std::find([1,2,3], 4), null);
+	}
+
+
+	function std_find_empty() {
+		assert_equal_strict(std::find([], 42), null);
+	}
+}

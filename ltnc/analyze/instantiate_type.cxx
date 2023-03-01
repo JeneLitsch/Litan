@@ -2,6 +2,7 @@
 #include "stdxx/functional.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/type/traits.hxx"
+#include "ltnc/analyze/error.hxx"
 
 namespace ltn::c {
 	type::Type instantiate_type(
@@ -22,9 +23,7 @@ namespace ltn::c {
 		const Scope & scope) {
 		auto * type = scope.resolve_type(incomplete.type_name);
 		if(type) return *type;
-		throw CompilerError{
-			"Undeclared type " + incomplete.type_name 
-		};
+		throw undefined_type(incomplete);
 	}
 
 

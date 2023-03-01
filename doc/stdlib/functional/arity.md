@@ -1,11 +1,11 @@
 # std::arity
 
 ## std::arity(fx)
-**Parameters**
+**Parameters:**
 * fx : A function pointer
 
-**Return value**  
-Number of parameters.
+**Return value:**  
+int
 
-**Description**  
+**Description:**  
 The arity functions returns the number parameters which the function pointer requires.

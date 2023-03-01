@@ -11,15 +11,15 @@ namespace ltn::vm {
 
 
 		inline Value read(std::uint64_t offset) const {
-			const std::size_t addr = this->frame_pointer + offset;
-			return this->values[addr];
+			const std::size_t address = this->frame_pointer + offset;
+			return this->values[address];
 		}
 
 
 
 		inline void write(std::uint64_t offset, Value value) {
-			const std::size_t addr = this->frame_pointer + offset;
-			this->values[addr] = value;
+			const std::size_t address = this->frame_pointer + offset;
+			this->values[address] = value;
 		}
 		
 
@@ -56,7 +56,7 @@ namespace ltn::vm {
 		void push_frame(const std::uint8_t * jumpBack, std::uint8_t arity);	
 
 		const std::uint8_t * get_except_handler() const;
-		void set_except_handler(const std::uint8_t * addr);
+		void set_except_handler(const std::uint8_t * address);
 		
 		std::uint64_t size() const;
 		std::uint64_t depth() const;

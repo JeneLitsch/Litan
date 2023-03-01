@@ -7,8 +7,8 @@ namespace ltn::vm::build_in {
 
 	Value to_string(VmCore & core) {
 		const auto input = core.stack.pop();
-		const auto addr = core.heap.alloc<String>({stringify(input, core.heap)});
-		return value::string(addr);
+		const auto address = core.heap.alloc<String>({stringify(input, core.heap)});
+		return value::string(address);
 	}
 
 

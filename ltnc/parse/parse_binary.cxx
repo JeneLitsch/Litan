@@ -1,12 +1,31 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
 #include <sstream>
-
+#include "parse_utils.hxx"
 namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
 		using OP = BinaryOp;
 	}
+
+
+	
+	template<typename op_table, auto presedence_down>
+	ast::expr_ptr generic_binary(Tokens & tokens) {
+		auto l = presedence_down(tokens);
+		while (auto op = match_op(tokens, op_table::data)) {
+			auto && r = presedence_down(tokens);
+			auto expr = stx::make_unique<ast::Binary>(
+				*op,
+				std::move(l),
+				std::move(r),
+				location(tokens));
+			l = std::move(expr);
+		}				
+		return l;
+	}
+
+
 
 	namespace {
 		struct term_table {

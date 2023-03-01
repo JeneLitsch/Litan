@@ -28,7 +28,7 @@ namespace sphinx::test {
 	function nullco_short_circuit() {
 		var test_short = lambda(a) {
 			var second = std::mono(false);
-			a ?? lambda [second] () { second.value = true; }();
+			a ?? iife { second.value = true; };
 			return second.value;
 		};
 

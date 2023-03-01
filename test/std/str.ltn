@@ -1,7 +1,0 @@
-namespace sphinx::test {
-	function std_str_tuple() {
-		assert_equal_strict(std::str((1,)), "(1)");
-		assert_equal_strict(std::str((1, 2, 3)), "(1, 2, 3)");
-		assert_equal_strict(std::str((1, 2, (3, 4))), "(1, 2, (3, 4))");
-	}
-}

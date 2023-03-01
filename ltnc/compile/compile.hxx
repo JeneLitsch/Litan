@@ -26,23 +26,19 @@ namespace ltn::c {
 	InstructionBuffer compile_statement(const sst::Statement &);
 	InstructionBuffer compile_stmt(const sst::Block &);
 	InstructionBuffer compile_stmt(const sst::Return &);
-	InstructionBuffer compile_stmt(const sst::AssignLocal &);
-	InstructionBuffer compile_stmt(const sst::AssignIndex &);
-	InstructionBuffer compile_stmt(const sst::AssignMember &);
-	InstructionBuffer compile_stmt(const sst::AssignGlobal &);
 	InstructionBuffer compile_stmt(const sst::Throw &);
-	InstructionBuffer compile_stmt(const sst::InitMember &);
 	InstructionBuffer compile_stmt(const sst::IfElse &);
 	InstructionBuffer compile_stmt(const sst::InfiniteLoop &);
 	InstructionBuffer compile_stmt(const sst::While &);
 	InstructionBuffer compile_stmt(const sst::For &);
-	InstructionBuffer compile_stmt(const sst::NewVar &);
-	InstructionBuffer compile_stmt(const sst::StmtSwitch &);
+	InstructionBuffer compile_stmt(const sst::ForEach &);
+	InstructionBuffer compile_stmt(const sst::Assign &);
+	InstructionBuffer compile_stmt(const sst::Switch &);
 
 	// Expression
 	InstructionBuffer compile_expression(const sst::Expression &);
 	InstructionBuffer compile_expr(const sst::Lambda &);
-	InstructionBuffer compile_expr(const sst::ExprSwitch &);
+	InstructionBuffer compile_expr(const sst::Choose &);
 	InstructionBuffer compile_expr(const sst::Ternary &);
 	InstructionBuffer compile_expr(const sst::Binary &);
 	InstructionBuffer compile_expr(const sst::Unary &);
@@ -64,6 +60,7 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::GlobalVar &);
 	InstructionBuffer compile_expr(const sst::TypedUnary &);
 	InstructionBuffer compile_expr(const sst::Reflect &);
+	InstructionBuffer compile_expr(const sst::InitStruct &);
 	
 	InstructionBuffer compile_conditional(
 		const std::string & name,

@@ -9,7 +9,7 @@ namespace ltn::c {
 			InstructionBuffer buf;
 			if(fx.body) {
 				const auto body = compile_statement(*fx.body);
-				for(std::size_t i = 0; i < fx.body->local_vars; i++) {
+				for(std::size_t i = 0; i < fx.body->nested_alloc(); i++) {
 					buf << inst::makevar();
 				}
 				buf << body;
@@ -110,7 +110,7 @@ namespace ltn::c {
 		InstructionBuffer capture_buf;
 		
 		// compile function
-		buf << compile_function(*lm.fx);
+		buf << compile_functional(*lm.fx);
 
 		// Create function pointer
 		buf << inst::label(label_skip.to_string());

@@ -108,6 +108,7 @@ namespace ltn::c {
 	using Tokens = stx::closed_queue<Token>;
 
 
+	bool check(Token::Type type, Tokens & tokens);
 	std::optional<Token> match(Token::Type type, Tokens & tokens);
 	void sync(Tokens & tokens);
 	const SourceLocation & location(const Tokens & tokens);

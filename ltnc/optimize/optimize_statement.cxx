@@ -4,8 +4,8 @@
 namespace ltn::c {
 	namespace {
 		sst::stmt_ptr optimize_unary_statement(auto & stmt) {
-			if(stmt.expression) {
-				stmt.expression = optimize_expression(std::move(stmt.expression));
+			if(stmt.expr) {
+				stmt.expr = optimize_expression(std::move(stmt.expr));
 			}
 			return nullptr;
 		} 
@@ -41,11 +41,7 @@ namespace ltn::c {
 
 
 		sst::stmt_ptr to_infinite(sst::While & stmt) {
-			return std::make_unique<sst::InfiniteLoop>(
-				stmt.local_vars,
-				stmt.direct_allocation,
-				std::move(stmt.body)
-			);
+			return std::make_unique<sst::InfiniteLoop>(std::move(stmt.body));
 		}
 
 
@@ -78,13 +74,10 @@ namespace ltn::c {
 
 
 	sst::stmt_ptr optimize_statement(sst::Statement & stmt) {
-		if(auto s = as<sst::StatementExpression>(stmt)) {
-			return optimize_unary_statement(*s);
-		}
 		if(auto s = as<sst::Return>(stmt)) {
 			return optimize_unary_statement(*s);
 		}
-		if(auto s = as<sst::NewVar>(stmt)) {
+		if(auto s = as<sst::Assign>(stmt)) {
 			return optimize_unary_statement(*s);
 		}
 		if(auto s = as<sst::Throw>(stmt)) {

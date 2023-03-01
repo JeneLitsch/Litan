@@ -4,8 +4,8 @@
 #include <vector>
 
 void print_table(const auto & table) {
-	for(const auto & [name, addr] : table) {
-		std::cout << "\t" << name << " : " << addr << "\n";
+	for(const auto & [name, address] : table) {
+		std::cout << "\t" << name << " : " << address << "\n";
 	}
 }
 

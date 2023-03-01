@@ -2,8 +2,16 @@
 
 ## Syntax
 
+Index for loop
+
 ```js
 for (/*loop_variable*/ : /*start_value*/ -> /*end value*/ : /*step size*/) /*single statement*/
+```
+
+Ranged for loop:
+
+```js
+for (/*element*/ : /*array*/) /*single statement*/
 ```
 
 ## Examples
@@ -16,6 +24,13 @@ for (i : 0 -> 42) {
 ```js
 for (i : 0 -> 42 : 2) {
 	std::println(i);
+}
+```
+
+```js
+var array = [1,2,3,4,5];
+for (elem : array) {
+	std::println(elem);
 }
 ```
 

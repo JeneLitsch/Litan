@@ -3,8 +3,8 @@
 
 namespace ltn::c {
 	namespace {
-		type::Type deduce_type(ast::TypedUnary::Op op, const type::Type & target_type) {
-			using Op = ast::TypedUnary::Op;
+		using Op = ast::TypedUnary::Op;
+		type::Type deduce_type(Op op, const type::Type & target_type) {
 			switch (op) {
 			case Op::STATIC_CAST:  return type::deduce_cast_static(target_type);
 			case Op::DYNAMIC_CAST: return type::deduce_cast_dynamic(target_type);
@@ -18,8 +18,7 @@ namespace ltn::c {
 
 
 
-		bool is_castable(ast::TypedUnary::Op op, const type::Type & from, const type::Type & to) {
-			using Op = ast::TypedUnary::Op;
+		bool is_castable(Op op, const type::Type & from, const type::Type & to) {
 			switch (op) {
 			case Op::STATIC_CAST:  return type::is_static_castable(from, to);
 			case Op::DYNAMIC_CAST: return type::is_dynamic_castable(to);
@@ -29,18 +28,6 @@ namespace ltn::c {
 			case Op::FORCE_COPY:   return type::is_force_copyable(to);
 			default: throw std::runtime_error{"Invalid TypedUnary::Op"};
 			}
-		}
-
-
-
-		CompilerError cannot_cast(
-			const type::Type & from,
-			const type::Type & to,
-			const SourceLocation & location) {
-		
-			std::ostringstream oss;
-			oss << "Cannot cast " << from << " to " << to;
-			return CompilerError{oss.str(), location};
 		}
 	}
 
@@ -55,7 +42,7 @@ namespace ltn::c {
 		const auto op = tunary.op;
 		const auto type = deduce_type(op, target_type);
 		if(!is_castable(op, expr->type, target_type)) {
-			throw cannot_cast(expr->type, target_type, tunary.location);
+			throw cannot_cast(location(tunary), expr->type, target_type);
 		}
 		return std::make_unique<sst::TypedUnary>(op, target_type, std::move(expr), type);
 	}

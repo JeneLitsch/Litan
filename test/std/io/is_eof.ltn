@@ -1,0 +1,13 @@
+namespace sphinx::test {
+	function std_io_is_eof() {
+		assert_true(std::is_eof(std::strin("")));
+		assert_false(std::is_eof(std::strin("abc")));
+	}
+
+
+
+	function std_io_is_eof_type() {
+		var type_name = reflect(expr std::is_eof(std::cin())).type.name;
+		assert_equal_strict(type_name, "bool");
+	}
+}

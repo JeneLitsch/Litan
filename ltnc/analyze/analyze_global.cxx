@@ -2,22 +2,14 @@
 #include <sstream>
 namespace ltn::c {
 	namespace {
-		auto undefined(const ast::GlobalVar & global) {
-			std::ostringstream oss;
-			oss
-				<< "Undefined global variable "
-				<< global.namespaze.to_string() << global.name;
-
-			return CompilerError { oss.str(), global.location };
-		}
-
 		auto & resolve_static(const auto & statik, auto & table, Scope & scope) {
 			const auto static_var = table.resolve(
 				statik.name,
 				scope.get_namespace(),
-				statik.namespaze);
+				statik.namespaze
+			);
 
-			if(!static_var) throw undefined(statik);
+			if(!static_var) throw undefined_global(statik);
 			return *static_var;
 		}
 	}
@@ -53,14 +45,14 @@ namespace ltn::c {
 		};
 		MajorScope scope { global.namespaze, false };
 
-		auto sst_def = std::make_unique<sst::Global>(
+		auto type = instantiate_type(global.type, scope);
+		auto expr = global.expr ? analyze_expression(*global.expr, read_context, scope) : nullptr;
+
+		return std::make_unique<sst::Global>(
 			global.name,
 			global.namespaze,
-			instantiate_type(global.type, scope)
+			std::move(type),
+			std::move(expr)
 		);
-		if(global.expr) {
-			sst_def->expr = analyze_expression(*global.expr, read_context, scope);
-		}
-		return sst_def;
 	}
 }

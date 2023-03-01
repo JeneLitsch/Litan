@@ -1,6 +1,7 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
 #include <sstream>
+#include "parse_utils.hxx"
 namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
@@ -56,10 +57,12 @@ namespace ltn::c {
 
 			if(auto start = match(TT::BRACKET_L, tokens)) {
 				auto index = parse_index(tokens);
+				auto location = ast::location(*index);
 				auto full = stx::make_unique<ast::Index>(
 					std::move(l),
 					std::move(index),
-					index->location);
+					location
+				);
 				return parse_postfix(tokens, std::move(full));
 			}
 
@@ -68,7 +71,8 @@ namespace ltn::c {
 				auto access = stx::make_unique<ast::Member>(
 					std::move(l),
 					name,
-					location(tokens));
+					location(tokens)
+				);
 				return parse_postfix(tokens, std::move(access));
 			}
 
@@ -84,7 +88,7 @@ namespace ltn::c {
 					std::move(function_args),
 					location(tokens)
 				);
-				call->template_args = template_args;
+				call->template_arguments = template_args;
 				return parse_postfix(tokens, std::move(call));
 			}
 

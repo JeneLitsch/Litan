@@ -1,0 +1,31 @@
+namespace sphinx::test {
+	function std_sort_desc() {
+		var array = [3,1,2,4];
+		std::sort_desc(array);
+		assert_equal_strict(array, [4,3,2,1]);
+	}
+
+
+
+	function std_sort_desc_empty() {
+		var array = [];
+		std::sort_desc(array);
+		assert_equal_strict(array, []);
+	}
+
+
+
+	function std_sort_desc_duplicates() {
+		var array = [3,1,2,4,4];
+		std::sort_desc(array);
+		assert_equal_strict(array, [4,4,3,2,1]);
+	}
+
+
+
+	function std_sort_desc_except() {
+		assert_except(lambda() => std::sort_desc((1,2)));
+		assert_except(lambda() => std::sort_desc(null));
+		assert_except(lambda() => std::sort_desc(1));
+	}
+}

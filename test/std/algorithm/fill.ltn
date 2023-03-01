@@ -1,0 +1,23 @@
+namespace sphinx::test {
+	function std_fill() {
+		var array = [1,2,3,4];
+		std::fill(array, 0);
+		assert_equal_strict(array, [0] * 4);
+	}
+
+
+	
+	function std_fill_empty() {
+		var array = [];
+		std::fill(array, 0);
+		assert_equal_strict(array, []);
+	}
+
+
+
+	function std_fill_except() {
+		assert_except(lambda() => std::fill((1,2,3), 0));
+		assert_except(lambda() => std::fill(1, 0));
+		assert_except(lambda() => std::fill(null, 0));
+	}
+}

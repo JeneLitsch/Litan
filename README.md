@@ -99,6 +99,7 @@ function main() {
 ## Useful Libraries
 
 - [Sphinx](https://github.com/JeneLitsch/Sphinx) (Unit test framework)
+- [SFML](https://github.com/JeneLitsch/Litan-SFML)
 
 ## Build, Use and Install
 

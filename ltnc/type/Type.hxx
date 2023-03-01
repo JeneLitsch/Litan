@@ -7,12 +7,14 @@
 #include "stdxx/heaped.hxx"
 
 namespace ltn::c::type {
+	template<typename T>
+	concept A_Type = std::same_as<typename T::is_type, std::true_type>;
+
 	class Type {
 		struct Concept {
 			virtual ~Concept() = default;
 			virtual std::unique_ptr<Concept> clone() const = 0;
 		};
-
 
 		template<typename T>
 		struct Model : Concept {
@@ -24,7 +26,7 @@ namespace ltn::c::type {
 		};
 
 	public:
-		template<typename T>
+		template<A_Type T>
 		Type(T type)
 			: object { std::make_unique<Model<T>>(std::move(type)) } {}
 
@@ -43,12 +45,8 @@ namespace ltn::c::type {
 	
 		template<typename T>
 		const T * as() const {
-			if(auto t = dynamic_cast<const Model<T> *>(this->object.get())) {
-				return &t->object;
-			}
-			else {
-				return nullptr;
-			}
+			auto t = dynamic_cast<const Model<T> *>(this->object.get());
+			return t ? &t->object : nullptr;
 		}
 	private:
 		std::unique_ptr<Concept> object;
@@ -57,78 +55,91 @@ namespace ltn::c::type {
 
 
 	struct Other {
+		using is_type = std::true_type;
 		std::string type_name;
 	};
 
 
 
 	struct Optional {
+		using is_type = std::true_type;
 		Type contains;
 	};
 
 
 
 	struct Any {
+		using is_type = std::true_type;
 		constexpr static auto type_name = "any";
 	};
 
 
 
 	struct Error {
+		using is_type = std::true_type;
 		constexpr static auto type_name = "error";
 	};
 
 
 
 	struct Null {
+		using is_type = std::true_type;
 		constexpr static auto type_name = "null";
 	};
 
 
 
 	struct Bool {
+		using is_type = std::true_type;
 		constexpr static auto type_name = "bool";
 	};
 
 
 
 	struct Char {
+		using is_type = std::true_type;
 		constexpr static auto type_name = "char";
 	};
 
 
 
 	struct Int {
+		using is_type = std::true_type;
 		constexpr static auto type_name = "int";
 	};
 
 
 
 	struct Float {
+		using is_type = std::true_type;
 		constexpr static auto type_name = "float";
 	};
 
 
 
 	struct String {
+		using is_type = std::true_type;
 		constexpr static auto type_name = "string";
 	};
 
 
 
 	struct Array {
+		using is_type = std::true_type;
 		std::optional<Type> contains;
 	};
 
 
 
 	struct Tuple {
+		using is_type = std::true_type;
 		std::vector<Type> contained;
 	};
 	
 
 
 	struct FxPtr {
+		using is_type = std::true_type;
 		Type return_type;
 		std::vector<Type> parameter_types;
 	};
@@ -136,18 +147,21 @@ namespace ltn::c::type {
 
 
 	struct Queue {
+		using is_type = std::true_type;
 		Type contains;
 	};
 
 
 
 	struct Stack {
+		using is_type = std::true_type;
 		Type contains;
 	};
 
 
 
 	struct Map {
+		using is_type = std::true_type;
 		Type key;
 		Type val;
 	};
@@ -155,12 +169,14 @@ namespace ltn::c::type {
 
 
 	struct Istream {
+		using is_type = std::true_type;
 		constexpr static auto type_name = "istream";
 	};
 
 
 
 	struct Ostream {
+		using is_type = std::true_type;
 		constexpr static auto type_name = "ostream";
 	};
 
@@ -218,10 +234,7 @@ namespace ltn::c::type {
 	std::strong_ordering operator<=>(const Istream & l, const Istream & r);
 	std::strong_ordering operator<=>(const Ostream & l, const Ostream & r);
 
-	inline bool operator==(const Type & l, const Type & r) {
-		return (l <=> r) == 0;
-	}
-	
+	bool operator==(const Type & l, const Type & r);	
 
 	std::ostream & operator<<(std::ostream & out, const Type & type);
 }

@@ -18,15 +18,6 @@ namespace ltn::vm::build_in {
 
 
 
-	static std::uint64_t pop_array_ref(Stack & stack) {
-		const auto ref = stack.pop();
-		if(!is_array(ref)) throw except::invalid_argument();
-		return ref.u;
-	}
-
-
-
-	// Functions to pass to alogrithm
 	auto smaller(Heap & heap) {
 		return [&heap] (const Value l, const Value r) {
 			return compare(l, r, heap) < 0;
@@ -98,35 +89,12 @@ namespace ltn::vm::build_in {
 		const auto pred = predicate(core.heap, key);
 		const auto found = std::find_if(begin, end, pred);
 		if(found == end) {
-			return value::integer(-1);
+			return value::null;
 		}
 		else {
 			const auto dist = std::distance(begin, found); 
 			return value::integer(dist);
 		}
-	}
-
-
-
-	Value copy_front(VmCore & core) {
-		const auto refArr = pop_array_ref(core.stack);
-		const auto [begin, end] = to_cpp_range(core.stack.pop(), core.heap);
-		auto & array = core.heap.read<Array>(refArr);
-		auto beginArr = array.begin();
-		auto inserter = std::insert_iterator(array, beginArr);
-		std::copy(begin, end, inserter);
-		return value::null;
-	}
-
-
-
-	Value copy_back(VmCore & core) {
-		const auto refArr = pop_array_ref(core.stack);
-		const auto [begin, end] = to_cpp_range(core.stack.pop(), core.heap);
-		auto & array = core.heap.read<Array>(refArr);
-		auto inserter = std::back_inserter(array);
-		std::copy(begin, end, inserter);
-		return value::null;
 	}
 
 

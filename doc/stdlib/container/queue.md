@@ -2,8 +2,8 @@
 
 ## std::queue()
 
-**Return value**:  
+**Return value:**:  
 Reference to a new Queue  
 
-**Description**:  
+**Description:**:  
 Creates a new and empty Queue  

@@ -1,0 +1,56 @@
+namespace sphinx::test {
+	namespace local {
+		function accumulator(sum) {
+			return lambda[sum](elem : int) {
+				sum.value = sum.value + elem;
+			};
+		}
+	}
+
+
+	
+	function std_for_each_array() {
+		var sum_int = [.value = 0];
+		std::for_each([1,2,3], local::accumulator(sum_int));
+		assert_equal_strict(6, sum_int.value);
+
+		var sum_mix = [.value = 0];
+		std::for_each([1,2,3.0], local::accumulator(sum_mix));
+		assert_equal_strict(6.0, sum_mix.value);
+
+		var sum_str = [.value = ""];
+		std::for_each(["Hello", " ", "World"], local::accumulator(sum_str));
+		assert_equal_strict("Hello World", sum_str.value);
+	}
+
+
+
+	function std_for_each_array_empty() {
+		var sum_int = [.value = 0];
+		std::for_each([], local::accumulator(sum_int));
+		assert_equal_strict(0, sum_int.value);
+	}
+
+
+
+	function std_for_each_tuple() {
+		var sum_int = [.value = 0];
+		std::for_each((1,2,3), local::accumulator(sum_int));
+		assert_equal_strict(6, sum_int.value);
+
+		var sum_mix = [.value = 0];
+		std::for_each((1,2,3.0), local::accumulator(sum_mix));
+		assert_equal_strict(6.0, sum_mix.value);
+
+		var sum_str = [.value = ""];
+		std::for_each(("Hello", " ", "World"), local::accumulator(sum_str));
+		assert_equal_strict("Hello World", sum_str.value);
+	}
+
+
+
+	function std_for_each_except() {
+		assert_except(lambda() => std::for_each(null, lambda(x) => null));
+		assert_except(lambda() => std::for_each(1, lambda(x) => null));
+	}
+}

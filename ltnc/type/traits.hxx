@@ -12,6 +12,7 @@ namespace ltn::c::type {
 	bool is_float(const Type & x);
 	bool is_string(const Type & x);
 	bool is_array(const Type & x);
+	bool is_tuple(const Type & x);
 
 	bool is_subint(const Type & x);
 	bool is_integral(const Type & x);

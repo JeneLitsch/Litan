@@ -2,6 +2,7 @@
 #include "conversion.hxx"
 #include "ltnc/type/traits.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "ltnc/analyze/error.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -17,10 +18,10 @@ namespace ltn::c {
 
 
 		sst::expr_ptr generate_conversion(sst::expr_ptr from, const type::Type & to) {
-			if(is_bool(to))                             return make_static_cast(std::move(from), to);
-			if(is_char(to))   							return make_static_cast(std::move(from), to);
-			if(is_int(to))    							return make_static_cast(std::move(from), to);
-			if(is_float(to))  							return make_static_cast(std::move(from), to);
+			if(is_bool(to))  return make_static_cast(std::move(from), to);
+			if(is_char(to))  return make_static_cast(std::move(from), to);
+			if(is_int(to))   return make_static_cast(std::move(from), to);
+			if(is_float(to)) return make_static_cast(std::move(from), to);
 			return from;
 		}
 	}
@@ -57,11 +58,8 @@ namespace ltn::c {
 			return generate_conversion(std::move(from), to);
 		}
 		else {
-			std::ostringstream oss;
-			oss << "Cannot assign " << from->type << " to "<< to;
-			throw CompilerError{oss.str(), location};
+			throw cannot_assign(location, from->type, to);
 		}
-
 	}
 
 
@@ -75,9 +73,7 @@ namespace ltn::c {
 			return generate_conversion(std::move(from), to);
 		}
 		else {
-			std::ostringstream oss;
-			oss << "Cannot pass " << from->type << " as " << to << " for argument " << location.index+1;
-			throw CompilerError{oss.str(), location.source_location};
+			throw cannot_pass(location, from->type, to);
 		}
 		
 	}
@@ -93,9 +89,7 @@ namespace ltn::c {
 			return generate_conversion(std::move(from), to);
 		}
 		else {
-			std::ostringstream oss;
-			oss << "Cannot return " << from->type << " as "<< to;
-			throw CompilerError{oss.str(), location};
+			throw cannot_return(location, from->type, to);
 		}
 		
 	}
