@@ -59,7 +59,8 @@ namespace ltn::c {
 				"Expected name after global declaration",
 			};
 			
-			const auto type = parse_var_type(tokens);
+			const auto type = parse_var_type_auto(tokens);
+
 
 			auto global = stx::make_unique<ast::Global>(
 				name->location,

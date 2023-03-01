@@ -17,7 +17,7 @@ namespace ltn::c {
 	CompilerError redefined_variable(const std::string & name, const SourceLocation & location);
 
 	CompilerError undefined_type(const type::Other & type);
-	CompilerError undefined_global(const ast::GlobalVar & global);
+	CompilerError undefined_global(const ast::Static & global);
 
 	CompilerError cannot_unpack_tuple(const ast::Node & node);
 

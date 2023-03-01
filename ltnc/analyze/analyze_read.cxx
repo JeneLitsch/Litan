@@ -18,10 +18,7 @@ namespace ltn::c {
 		);
 		
 		if(def) {
-			return std::make_unique<sst::GlobalVar>(
-				def->type,
-				def->id
-			);
+			return std::make_unique<sst::GlobalVar>(def->type, def->id);
 		}
 
 		const auto * glob = context.global_table.resolve(
@@ -31,10 +28,7 @@ namespace ltn::c {
 		);
 		
 		if(glob) {
-			return std::make_unique<sst::GlobalVar>(
-				glob->type,
-				glob->id
-			);
+			return std::make_unique<sst::GlobalVar>(glob->type, glob->id);
 		}
 		
 		throw undefined_variable(expr);

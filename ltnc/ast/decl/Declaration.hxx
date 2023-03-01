@@ -30,13 +30,13 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::IncompleteType & type)
+			const std::optional<type::IncompleteType> & type)
 			: Declaration(location, name, namespaze)
 			, id(++counter)
 			, type{type} {}
 		
 		std::uint64_t id;
-		type::IncompleteType type;
+		std::optional<type::IncompleteType> type;
 		const std::string & get_resolve_name() const {
 			return this->name;
 		}
@@ -55,7 +55,7 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::IncompleteType & type)
+			const std::optional<type::IncompleteType> & type)
 			: Static{location, name, namespaze, type} {}
 		virtual ~Definition() = default;
 		std::unique_ptr<ast::Expression> expr;
@@ -68,7 +68,7 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::IncompleteType & type)
+			const std::optional<type::IncompleteType> & type)
 			: Static{location, name, namespaze,type} {}
 		virtual ~Global() = default;
 		std::unique_ptr<ast::Expression> expr;

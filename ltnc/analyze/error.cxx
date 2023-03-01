@@ -88,7 +88,7 @@ namespace ltn::c {
 
 
 
-	CompilerError undefined_global(const ast::GlobalVar & global) {
+	CompilerError undefined_global(const ast::Static & global) {
 		std::ostringstream oss;
 		oss
 			<< "Undefined global variable "

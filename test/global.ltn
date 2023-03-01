@@ -20,6 +20,9 @@ namespace sphinx::test {
 	function global_explicit_type() {
 		assert_equal_strict(reflect(expr global_int).type.name, "int");
 		assert_equal_strict(reflect(expr global_str).type.name, "string");
+	}
+
+	function global_implicit_type() {
 		assert_equal_strict(reflect(expr global_flt).type.name, "float");
 	}
 
