@@ -1,7 +1,26 @@
+function vertex(xy, rgb) => (xy, rgb)
+
+
 function main(args) {
-	// std::println(reflect(expr (false, true) + (1,2) + (3,4)).type.name);
-	while(true) {
-		var a = std::read_all();
-		std::println(a);
-	}
+	var vertecies = [
+		vertex((1.0, 1.0), (255,0,0)),
+		vertex((1.0, -1.0), (0,255,0)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+		vertex((-1.0, -1.0), (0,0,255)),
+	];
+
+	std::println(vertecies);
 }

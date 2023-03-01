@@ -33,22 +33,16 @@ namespace ltn::vm {
 
 	void Heap::mark(const Value & value) {
 		if(is_array(value))   return this->mark_array(value);
+		if(is_tuple(value))   return this->mark_array(value);
 		if(is_string(value))  return pool_of<String>().gc_mark(value.u);
-		
 		if(is_istream(value)) return pool_of<IStream>().gc_mark(value.u);
 		if(is_ostream(value)) return pool_of<OStream>().gc_mark(value.u);
-		
 		if(is_fxptr(value))   return this->mark_fxptr(value);
-
 		if(is_clock(value))   return pool_of<Clock>().gc_mark(value.u);
-		
 		if(is_struct(value))  return this->mark_struct(value);
-
 		if(is_stack(value))   return this->mark_deque(value);
 		if(is_queue(value))   return this->mark_deque(value);
-
 		if(is_map(value))     return this->mark_map(value);
-		
 		if(is_rng(value))     return pool_of<RandomEngine>().gc_mark(value.u);
 	}
 
