@@ -54,4 +54,10 @@ namespace sphinx::test {
 		assert_equal_strict(global_str_init, "");
 		assert_equal_strict(global_flt_init, 0.0);
 	}
+
+	function global_default_init_type() {
+		assert_equal_strict(reflect(expr global_int_init).type.name, "int");
+		assert_equal_strict(reflect(expr global_str_init).type.name, "string");
+		assert_equal_strict(reflect(expr global_flt_init).type.name, "float");
+	}
 }
