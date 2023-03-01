@@ -1,0 +1,38 @@
+namespace sphinx::test {
+	var just_null;
+
+	function global_default_null() {
+		assert_equal_strict(just_null, null);
+	}
+
+
+
+	var global_int : int = 4;
+	var global_str : string = "ABC";
+	var global_flt = 4.2;
+
+	function global_assigned_init() {
+		assert_equal_strict(global_int, 4);
+		assert_equal_strict(global_str, "ABC");
+		assert_equal_strict(global_flt, 4.2);
+	}
+
+	function global_explicit_type() {
+		assert_equal_strict(reflect(expr global_int).type.name, "int");
+		assert_equal_strict(reflect(expr global_str).type.name, "string");
+		assert_equal_strict(reflect(expr global_flt).type.name, "float");
+	}
+
+
+
+	var global_var;
+
+	function global_reassign() {
+		global_var = 4;
+		assert_equal_strict(global_var, 4);
+		global_var = "ABC";
+		assert_equal_strict(global_var, "ABC");
+		global_var = true;
+		assert_equal_strict(global_var, true);
+	}
+}

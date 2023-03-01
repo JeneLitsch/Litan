@@ -3,6 +3,7 @@ files=(
 	"test/sphinx/sphinx.ltn" 
 
 	"test/var.ltn"
+	"test/global.ltn"
 	"test/assign.ltn"
 	"test/block.ltn"
 	"test/structured_bindings.ltn"
