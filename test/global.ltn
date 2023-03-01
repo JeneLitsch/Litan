@@ -5,6 +5,10 @@ namespace sphinx::test {
 		assert_equal_strict(just_null, null);
 	}
 
+	function global_default_null_init() {
+		assert_equal_strict(reflect(expr just_null).type.name, "any");
+	}
+
 
 
 	var global_int : int = 4;
