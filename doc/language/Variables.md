@@ -1,5 +1,7 @@
 # Variables
 
+Variables can be declared inside functions and in global space.
+
 ## Syntax
 
 The following code listing shows a the structure of a variable declaration.
