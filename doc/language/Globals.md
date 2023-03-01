@@ -14,6 +14,11 @@ A start/default value can also be assigned to a global value.
 var /* name */ = /*expression*/;
 ```
 
+A type can be declared too.
+```js 
+var /* name */ : /* type */ = /*expression*/;
+```
+
 If no default is set. The global variable will be `null` until assigned otherwise. Inside the expression no other globals or can be can accessed. Defines can be used tough.
 
 ## Example
