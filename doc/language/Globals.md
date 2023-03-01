@@ -6,12 +6,12 @@ Global variables share state across the whole program. They should be used with 
 
 A global variable can be declared at namespace level with the following syntax.
 ```js 
-global /* name */;
+var /* name */;
 ```
 
 A start/default value can also be assigned to a global value.
 ```js 
-global /* name */ = /*expression*/;
+var /* name */ = /*expression*/;
 ```
 
 If no default is set. The global variable will be `null` until assigned otherwise. Inside the expression no other globals or can be can accessed. Defines can be used tough.
@@ -19,10 +19,10 @@ If no default is set. The global variable will be `null` until assigned otherwis
 ## Example
 
 ```js
-global x;
+var x;
 
 namespace foo {
-	global x;
+	var x;
 	function get_x() => x
 }
 
