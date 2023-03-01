@@ -42,4 +42,16 @@ namespace sphinx::test {
 		global_var = true;
 		assert_equal_strict(global_var, true);
 	}
+
+
+
+	var global_int_init : int;
+	var global_flt_init : float;
+	var global_str_init : string;
+
+	function global_default_init() {
+		assert_equal_strict(global_int_init, 0);
+		assert_equal_strict(global_str_init, "");
+		assert_equal_strict(global_flt_init, 0.0);
+	}
 }

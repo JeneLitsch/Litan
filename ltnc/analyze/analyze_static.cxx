@@ -1,6 +1,7 @@
 #include "analyze.hxx"
 #include <sstream>
 #include "stdxx/iife.hxx"
+#include "ltnc/analyze/default_value.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -25,6 +26,10 @@ namespace ltn::c {
 
 			auto expr = statik.expr ? analyze_expression(*statik.expr, context, scope) : nullptr;
 			auto type = deduce_type(statik, expr, scope);
+
+			if(!expr) {
+				expr = generate_default_value(type, location(statik));
+			}
 
 			return std::make_unique<NodeT>(
 				statik.name,
