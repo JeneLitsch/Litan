@@ -94,7 +94,7 @@ namespace sphinx::test {
 	function for_ranged_empty() {
 		var sum = 0;
 		for(number : []) {
-			sum = sum + number;
+			sum = sum + number ! int;
 		}
 		assert_equal(sum, 0);
 	}
@@ -109,7 +109,7 @@ namespace sphinx::test {
 			var array3 = array2;
 			return array3;
 		}) {
-			sum = sum + number;
+			sum = sum + number ! int;
 		}
 		assert_equal(sum, 15);
 	}
@@ -123,6 +123,14 @@ namespace sphinx::test {
 	}
 	except(e) {
 		assert_equal(e, 42);
+	}
+
+
+
+	function for_ranged_type() {
+		for(x : [1]) assert_equal_strict(reflect(expr x).type.name, "int");
+		for(x : [1.0]) assert_equal_strict(reflect(expr x).type.name, "float");
+		for(x : ["a"]) assert_equal_strict(reflect(expr x).type.name, "string");
 	}
 
 
