@@ -13,6 +13,7 @@ namespace ltn::vm::inst {
 	
 	void static_read(VmCore & core) {
 		const auto id = core.fetch_uint();
+		// std::cout << "GLOBAL_READ:" << id << "\n";
 		reserve_static(core.static_variables, id);
 		core.stack.push(core.static_variables[id]);
 	}
@@ -21,6 +22,7 @@ namespace ltn::vm::inst {
 
 	void static_write(VmCore & core) {
 		const auto id = core.fetch_uint();
+		// std::cout << "GLOBAL_WRITE:" << id << "\n";
 		const auto value = core.stack.pop();
 		reserve_static(core.static_variables, id);
 		core.static_variables[id] = value;

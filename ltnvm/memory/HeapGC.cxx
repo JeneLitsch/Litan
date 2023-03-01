@@ -119,7 +119,7 @@ namespace ltn::vm {
 
 	void Heap::mark_library_fx(const Value & value) {
 		auto & pool = pool_of<LibraryFx>();
-		if(pool.gc_is_marked(value.u)) {
+		if(!pool.gc_is_marked(value.u)) {
 			pool.gc_mark(value.u);
 			auto & fx = pool.get(value.u);
 			this->mark(fx.library);
@@ -131,7 +131,7 @@ namespace ltn::vm {
 
 	void Heap::mark_library_obj(const Value & value) {
 		auto & pool = pool_of<LibraryObj>();
-		if(pool.gc_is_marked(value.u)) {
+		if(!pool.gc_is_marked(value.u)) {
 			pool.gc_mark(value.u);
 			auto & obj = pool.get(value.u);
 			this->mark(obj.library);

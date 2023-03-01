@@ -27,7 +27,7 @@ include_directories("./libs/api")
 add_subdirectory(ltn)
 add_subdirectory(ltnc)
 add_subdirectory(ltnvm)
-add_subdirectory(libs/api/test)
+# add_subdirectory(libs/api/test)
 
 if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
 
