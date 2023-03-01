@@ -120,7 +120,6 @@ namespace ltn::c {
 			{"choose",       TT::CHOOSE},
 			{"case",         TT::CASE},
 			{"default",      TT::DEFAULT},
-			{"global",       TT::GLOBAL},
 			{"reflect",      TT::REFLECT},
 		};
 		

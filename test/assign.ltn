@@ -1,5 +1,5 @@
 namespace sphinx::test {
-	global g;
+	var g;
 
 	function new_local_default() {
 		var x;

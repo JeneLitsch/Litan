@@ -157,20 +157,6 @@ namespace ltn::c {
 			}
 			else return nullptr;
 		}
-
-
-
-		ast::expr_ptr parse_global(Tokens & tokens) {
-			if(auto t = match(TT::GLOBAL, tokens)) {
-				const auto [name, namespaze] = parse_symbol(tokens);
-				return stx::make_unique<ast::GlobalVar>(
-					t->location,
-					namespaze,
-					name
-				);
-			}
-			else return nullptr; 
-		}
 	}
 
 
@@ -233,7 +219,6 @@ namespace ltn::c {
 		if(auto expr = parse_lambda(tokens)) return expr;
 		if(auto expr = parse_iife(tokens)) return expr;
 		if(auto expr = parse_expr_switch(tokens)) return expr;
-		if(auto expr = parse_global(tokens)) return expr;
 		if(auto expr = parse_reflect(tokens)) return expr;
 		return parse_identifier(tokens);
 	}

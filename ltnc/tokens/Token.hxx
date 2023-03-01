@@ -43,7 +43,6 @@ namespace ltn::c {
 			CHOOSE,
 			CASE,
 			DEFAULT,
-			GLOBAL,
 			REFLECT,
 			
 			INTEGER,
