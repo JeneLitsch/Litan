@@ -10,6 +10,7 @@
 #include "ltnc/stdlib/debug.hxx"
 #include "ltnc/stdlib/functional.hxx"
 #include "ltnc/stdlib/io.hxx"
+#include "ltnc/stdlib/lib.hxx"
 #include "ltnc/stdlib/math.hxx"
 #include "ltnc/stdlib/random.hxx"
 #include "ltnc/stdlib/range.hxx"
@@ -31,6 +32,7 @@ namespace ltn::c {
 				StringSource{"std_debug", std_debug},
 				StringSource{"std_functional", std_functional},
 				StringSource{"std_io", std_io},
+				StringSource{"std_lib", std_lib},
 				StringSource{"std_math", std_math},
 				StringSource{"std_random", std_random},
 				StringSource{"std_range", std_range},
