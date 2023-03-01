@@ -15,9 +15,6 @@ namespace ltn::vm {
 			STRUCT = 0x60,
 			QUEUE = 0x70, STACK, MAP,
 			RNG = 0x80,
-
-			OBJ_LAST,
-			OBJ_FIRST = ARRAY,
 		};
 
 		constexpr Value()

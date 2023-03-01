@@ -66,10 +66,15 @@ namespace ltn::vm {
 		void mark(const std::deque<Value> & values);
 		void mark(const Value & value);
 		void mark_array(const Value & value);
+		void mark_string(const Value & value);
+		void mark_istream(const Value & value);
+		void mark_ostream(const Value & value);
 		void mark_fxptr(const Value & value);
 		void mark_struct(const Value & value);
 		void mark_deque(const Value & value);
 		void mark_map(const Value & value);
+		void mark_clock(const Value & value);
+		void mark_rng(const Value & value);
 		void sweep();
 
 		template<class Obj>
