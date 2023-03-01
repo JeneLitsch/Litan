@@ -16,14 +16,6 @@ global /* name */ = /*expression*/;
 
 If no default is set. The global variable will be `null` until assigned otherwise. Inside the expression no other globals or can be can accessed. Defines can be used tough.
 
-## Usage
-
-To use a global variable inside a function it must preceded by the keyword global.
-
-```js
-... global /* name */ ...
-```
-
 ## Example
 
 ```js
