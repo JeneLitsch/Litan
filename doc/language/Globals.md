@@ -31,21 +31,21 @@ global x;
 
 namespace foo {
 	global x;
-	function get_x() => global x
+	function get_x() => x
 }
 
-function get_x() => global x
+function get_x() => x
 
 function set_globals() {
-	global x = 1;
-	global foo::x = 2;
+	x = 1;
+	foo::x = 2;
 }
 
 function main(args) {
 	set_globals();
 	std::println(get_x());
 	std::println(foo::get_x());
-	std::println(global x + global foo::x);
+	std::println(x + foo::x);
 }
 ```
 
