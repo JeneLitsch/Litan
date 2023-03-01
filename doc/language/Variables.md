@@ -30,7 +30,7 @@ If a new variable is explicitly declared with a type but no expression is assign
 | string            | ""            |
 | array             | []            |
 
-An explicitly annotated type is always prioritized over deduction.
+An explicitly annotated type is always prioritized over deduction. A conversion is performed if necessary and possible.
 
 ## Examples
 
