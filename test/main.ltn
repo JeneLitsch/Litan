@@ -1,5 +1,7 @@
 function main(args) {
+	var clock = std::chrono::clock();
 	sphinx::run_tests();
+	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
 }
 except(e) {
 	std::println(e);

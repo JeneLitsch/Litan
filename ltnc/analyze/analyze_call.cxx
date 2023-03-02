@@ -184,6 +184,17 @@ namespace ltn::c {
 				return do_invoke(call, context, scope);
 			}
 
+			const auto * glob = context.global_table.resolve(
+				var->name,
+				scope.get_namespace(),
+				var->namespaze
+			);
+
+			if(glob) {
+				return do_invoke(call, context, scope);
+			}
+
+
 			throw undefined_function(*var);
 		}
 

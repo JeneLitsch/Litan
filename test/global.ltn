@@ -60,4 +60,12 @@ namespace sphinx::test {
 		assert_equal_strict(reflect(expr global_str_init).type.name, "string");
 		assert_equal_strict(reflect(expr global_flt_init).type.name, "float");
 	}
+
+
+
+	var global_lambda = lambda() => 42;
+
+	function global_lambda_call() {
+		assert_equal_strict(global_lambda(), 42);
+	} 
 }
