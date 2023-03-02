@@ -14,9 +14,8 @@ namespace ltn::vm {
 			CLOCK = 0x50,
 			STRUCT = 0x60,
 			QUEUE = 0x70, STACK, MAP,
-			RNG = 0x80, LIBRARY, LIBRARY_FX, LIBRARY_OBJ,
-			OBJ_LAST,
-			OBJ_FIRST = ARRAY,
+			RNG = 0x80, 
+			LIBRARY = 0x90, LIBRARY_FX, LIBRARY_OBJ
 		};
 
 		constexpr Value()

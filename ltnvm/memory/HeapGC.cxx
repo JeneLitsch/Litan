@@ -32,21 +32,29 @@ namespace ltn::vm {
 
 
 	void Heap::mark(const Value & value) {
-		if(is_array(value))       return this->mark_array(value);
-		if(is_tuple(value))       return this->mark_array(value);
-		if(is_string(value))      return pool_of<String>().gc_mark(value.u);
-		if(is_istream(value))     return pool_of<IStream>().gc_mark(value.u);
-		if(is_ostream(value))     return pool_of<OStream>().gc_mark(value.u);
-		if(is_fxptr(value))       return this->mark_fxptr(value);
-		if(is_clock(value))       return pool_of<Clock>().gc_mark(value.u);
-		if(is_struct(value))      return this->mark_struct(value);
-		if(is_stack(value))       return this->mark_deque(value);
-		if(is_queue(value))       return this->mark_deque(value);
-		if(is_map(value))         return this->mark_map(value);
-		if(is_rng(value))         return pool_of<RandomEngine>().gc_mark(value.u);
-		if(is_library(value))     return this->mark_library(value);
-		if(is_library_fx(value))  return this->mark_library_fx(value);
-		if(is_library_obj(value)) return this->mark_library_obj(value);
+		switch (value.type) {
+			case Value::Type::NVLL:        return; // no gc required
+			case Value::Type::BOOL:        return; // no gc required
+			case Value::Type::INT:         return; // no gc required
+			case Value::Type::FLOAT:       return; // no gc required
+			case Value::Type::CHAR:        return; // no gc required
+			case Value::Type::ARRAY:       return this->mark_array(value);
+			case Value::Type::STRING:      return this->mark_string(value);
+			case Value::Type::TUPLE:       return this->mark_array(value);
+			case Value::Type::ISTREAM:     return this->mark_istream(value);
+			case Value::Type::OSTREAM:     return this->mark_ostream(value);
+			case Value::Type::FX_PTR:      return this->mark_fxptr(value);
+			case Value::Type::EXTERNAL:    return; // no gc required
+			case Value::Type::CLOCK:       return this->mark_clock(value);
+			case Value::Type::STRUCT:      return this->mark_struct(value);
+			case Value::Type::QUEUE:       return this->mark_deque(value);
+			case Value::Type::STACK:       return this->mark_deque(value);
+			case Value::Type::MAP:         return this->mark_map(value);
+			case Value::Type::RNG:         return this->mark_rng(value);
+			case Value::Type::LIBRARY:     return this->mark_library(value);
+			case Value::Type::LIBRARY_FX:  return this->mark_library_fx(value);
+			case Value::Type::LIBRARY_OBJ: return this->mark_library_obj(value);
+		}
 	}
 
 
@@ -58,6 +66,24 @@ namespace ltn::vm {
 			auto & arr = pool.get(ref.u);
 			this->mark(arr);
 		}
+	}
+
+
+
+	void Heap::mark_string(const Value & value) {
+		pool_of<String>().gc_mark(value.u);
+	}
+
+
+
+	void Heap::mark_istream(const Value & value) {
+		pool_of<IStream>().gc_mark(value.u);
+	}
+
+
+
+	void Heap::mark_ostream(const Value & value) {
+		pool_of<OStream>().gc_mark(value.u);
 	}
 
 
@@ -107,6 +133,18 @@ namespace ltn::vm {
 				this->mark(value);
 			}
 		}
+	}
+
+
+
+	void Heap::mark_clock(const Value & value) {
+		pool_of<Clock>().gc_mark(value.u);
+	}
+
+
+
+	void Heap::mark_rng(const Value & value) {
+		pool_of<RandomEngine>().gc_mark(value.u);
 	}
 
 

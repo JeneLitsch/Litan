@@ -31,7 +31,6 @@ namespace ltn::c::ast {
 	struct Lambda;
 	struct FxPointer;
 	struct Member;
-	struct GlobalVar;
 	struct Iife;
 	struct Ternary;
 	struct Choose;
@@ -58,7 +57,6 @@ namespace ltn::c::ast {
 		Lambda,
 		FxPointer,
 		Member,
-		GlobalVar,
 		Iife,
 		Ternary,
 		Choose,
@@ -413,25 +411,6 @@ namespace ltn::c::ast {
 
 
 
-	struct GlobalVar final : public Expression {
-		GlobalVar(
-			const SourceLocation & location,
-			const Namespace & namespaze,
-			const std::string & name)
-			: Expression(location)
-			, name { name }
-			, namespaze { namespaze } {}
-
-		virtual void accept(const ExprVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
-
-		std::string name;
-		Namespace namespaze;
-	};
-
-
-
 	struct Member final : public Expression {
 		Member(
 			std::unique_ptr<Expression> expr,
@@ -583,7 +562,6 @@ namespace ltn::c::ast {
 			virtual void visit(const Lambda & x)             const override { this->run(x); };
 			virtual void visit(const FxPointer & x)          const override { this->run(x); };
 			virtual void visit(const Member & x)             const override { this->run(x); };
-			virtual void visit(const GlobalVar & x)          const override { this->run(x); };
 			virtual void visit(const Iife & x)               const override { this->run(x); };
 			virtual void visit(const Ternary & x)            const override { this->run(x); };
 			virtual void visit(const Choose & x)         const override { this->run(x); };

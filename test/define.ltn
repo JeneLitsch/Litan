@@ -1,0 +1,21 @@
+namespace sphinx::test {
+
+	define def_int : int = 4;
+	define def_str : string = "ABC";
+	define def_flt = 4.2;
+
+	function define_assigned_init() {
+		assert_equal_strict(def_int, 4);
+		assert_equal_strict(def_str, "ABC");
+		assert_equal_strict(def_flt, 4.2);
+	}
+
+	function define_explicit_type() {
+		assert_equal_strict(reflect(expr def_int).type.name, "int");
+		assert_equal_strict(reflect(expr def_str).type.name, "string");
+	}
+
+	function define_implicit_type() {
+		assert_equal_strict(reflect(expr def_flt).type.name, "float");
+	}
+}

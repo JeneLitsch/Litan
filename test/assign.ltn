@@ -1,5 +1,5 @@
 namespace sphinx::test {
-	global g;
+	var g;
 
 	function new_local_default() {
 		var x;
@@ -32,7 +32,7 @@ namespace sphinx::test {
 	}
 
 	function assign_global() {
-		global g = 42;
-		assert_equal_strict(global g, 42);
+		g = 42;
+		assert_equal_strict(g, 42);
 	}
 }

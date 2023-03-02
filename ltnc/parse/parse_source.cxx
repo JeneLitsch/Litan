@@ -59,7 +59,8 @@ namespace ltn::c {
 				"Expected name after global declaration",
 			};
 			
-			const auto type = parse_var_type(tokens);
+			const auto type = parse_var_type_auto(tokens);
+
 
 			auto global = stx::make_unique<ast::Global>(
 				name->location,
@@ -131,7 +132,7 @@ namespace ltn::c {
 				else if(match(TT::ENUM, tokens)) {
 					source.enums.push_back(parse_enumeration(tokens, namestack.top()));
 				}
-				else if(match(TT::GLOBAL, tokens)) {
+				else if(match(TT::VAR, tokens)) {
 					source.globals.push_back(parse_global_decl(tokens, namestack.top()));
 				}
 				else if(match(TT::BRACE_R, tokens)) {

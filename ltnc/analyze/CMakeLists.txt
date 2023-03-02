@@ -8,11 +8,10 @@ target_sources(libltnc PRIVATE
 	analyze_bindings.cxx
 	analyze_block.cxx
 	analyze_call.cxx
-	analyze_definition.cxx
 	analyze_expression.cxx
 	analyze_function.cxx
 	analyze_fx_ptr.cxx
-	analyze_global.cxx
+	analyze_static.cxx
 	analyze_if_else.cxx
 	analyze_iife.cxx
 	analyze_index.cxx

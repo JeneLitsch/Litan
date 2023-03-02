@@ -71,7 +71,6 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::Iife &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Var &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Member &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::GlobalVar &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::TypedUnary &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Reflect &, Context &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::InitStruct &, Context &, Scope &);
