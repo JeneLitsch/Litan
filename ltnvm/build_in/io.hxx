@@ -3,6 +3,7 @@
 
 namespace ltn::vm::build_in {
 	Value close_stream(VmCore & core);
+	Value is_eof(VmCore & core);
 
 	Value print(VmCore & core);
 

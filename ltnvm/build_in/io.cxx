@@ -56,6 +56,14 @@ namespace ltn::vm::build_in {
 
 
 
+	Value is_eof(VmCore & core) {
+		auto & in = get_istream(core.heap, core.stack); 
+		return value::boolean(in.peek() == EOF);
+	}
+
+
+
+
 	Value print(VmCore & core) {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
