@@ -83,18 +83,6 @@ namespace ltn::vm::inst {
 	void write_2(VmCore & core);
 	void write_3(VmCore & core);
 
-	void out(VmCore & core);
-	void close_stream(VmCore & core);
-	void in_str(VmCore & core);
-	void in_line(VmCore & core);
-	void in_bool(VmCore & core);
-	void in_char(VmCore & core);
-	void in_int(VmCore & core);
-	void in_float(VmCore & core);
-	void in_all(VmCore & core);
-	void is_eof(VmCore & core);
-	void is_good(VmCore & core);
-
 	void hypot(VmCore & core);
 	void sqrt(VmCore & core);
 	void log(VmCore & core);
