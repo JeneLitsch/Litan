@@ -198,17 +198,6 @@ namespace ltn::c::inst {
 	Inst write_2();
 	Inst write_3();
 
-	Inst out();
-	Inst close_stream();
-	Inst in_str();
-	Inst in_line();
-	Inst in_bool();
-	Inst in_char();
-	Inst in_int();
-	Inst in_float();
-	Inst in_all();
-	Inst is_eof();
-
 	Inst bit_and();
 	Inst bit_or();
 	Inst bit_xor();
