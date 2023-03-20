@@ -24,7 +24,17 @@ namespace ltn {
 		RESET_COLOR = 0x30,
 		SET_FG_COLOR,
 		SET_BG_COLOR,
+		CLOSE_STREAM,
+		PRINT,
+		READ_STR,
+		READ_LINE,
+		READ_BOOL,
+		READ_CHAR,
+		READ_INT,
+		READ_FLOAT,
+		READ_ALL,
 
+		// string
 		TO_STRING = 0x40,
 		SPLIT_STRING,
 		JOIN_STRING,
@@ -46,5 +56,6 @@ namespace ltn {
 		LN,
 		LD,
 		LG,
+		
 	};
 }
