@@ -109,7 +109,6 @@ namespace ltn::c {
 		{"io_read_all",              vm_build_in<FxCode::READ_ALL>},
 		{"io_close",                 vm_build_in<FxCode::CLOSE_STREAM>},
 		{"io_is_eof",                single_return<inst::is_eof>},
-		{"io_is_good",               single_return<inst::is_good>},
 		
 		{"math_min",                 vm_build_in<FxCode::MIN>},
 		{"math_max",                 vm_build_in<FxCode::MAX>},

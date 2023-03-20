@@ -515,12 +515,6 @@ namespace ltn::c::inst {
 			.opcode = OpCode::IS_EOF,
 		};
 	}
-	Inst is_good() {
-		return InstNone {
-			.name = "is_good",
-			.opcode = OpCode::IS_GOOD,
-		};
-	}
 	Inst pow() {
 		return InstNone {
 			.name = "pow",

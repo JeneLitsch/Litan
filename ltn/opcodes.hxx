@@ -103,7 +103,6 @@ namespace ltn {
 		IN_FLOAT,
 		IN_ALL,
 		IS_EOF,
-		IS_GOOD,
 
 		// Bitwise
 		BITAND = 0x90,

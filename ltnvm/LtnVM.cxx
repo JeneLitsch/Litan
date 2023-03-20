@@ -124,7 +124,6 @@ namespace ltn::vm {
 		table[OpCode::IN_FLOAT] = inst::in_float;
 		table[OpCode::IN_ALL] = inst::in_all;
 		table[OpCode::IS_EOF] = inst::is_eof;
-		table[OpCode::IS_GOOD] = inst::is_good;
 
 		table[OpCode::BITAND] = inst::bit_and;
 		table[OpCode::BITOR] = inst::bit_or;

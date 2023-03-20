@@ -208,7 +208,6 @@ namespace ltn::c::inst {
 	Inst in_float();
 	Inst in_all();
 	Inst is_eof();
-	Inst is_good();
 
 	Inst bit_and();
 	Inst bit_or();
