@@ -114,8 +114,6 @@ namespace ltn::vm {
 		table[OpCode::WRITE_2] = inst::write_2;
 		table[OpCode::WRITE_3] = inst::write_3;
 
-		table[OpCode::IS_EOF] = inst::is_eof;
-
 		table[OpCode::BITAND] = inst::bit_and;
 		table[OpCode::BITOR] = inst::bit_or;
 		table[OpCode::BITXOR] = inst::bit_xor;
