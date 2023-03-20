@@ -21,10 +21,21 @@ namespace ltn {
 		ARITY = 0x20,
 
 		//io
-		RESET_COLOR = 0x30,
-		SET_FG_COLOR,
-		SET_BG_COLOR,
+		IO_RESET_COLOR = 0x30,
+		IO_SET_FG_COLOR,
+		IO_SET_BG_COLOR,
+		IO_CLOSE_STREAM,
+		IO_IS_EOF,
+		IO_PRINT,
+		IO_READ_STR,
+		IO_READ_LINE,
+		IO_READ_BOOL,
+		IO_READ_CHAR,
+		IO_READ_INT,
+		IO_READ_FLOAT,
+		IO_READ_ALL,
 
+		// string
 		TO_STRING = 0x40,
 		SPLIT_STRING,
 		JOIN_STRING,
@@ -46,5 +57,6 @@ namespace ltn {
 		LN,
 		LD,
 		LG,
+		
 	};
 }

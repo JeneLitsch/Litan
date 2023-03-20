@@ -114,18 +114,6 @@ namespace ltn::vm {
 		table[OpCode::WRITE_2] = inst::write_2;
 		table[OpCode::WRITE_3] = inst::write_3;
 
-		table[OpCode::OUT] = inst::out;
-		table[OpCode::CLOSE_STREAM] = inst::close_stream;
-		table[OpCode::IN_STR] = inst::in_str;
-		table[OpCode::IN_LINE] = inst::in_line;
-		table[OpCode::IN_BOOL] = inst::in_bool;
-		table[OpCode::IN_CHAR] = inst::in_char;
-		table[OpCode::IN_INT] = inst::in_int;
-		table[OpCode::IN_FLOAT] = inst::in_float;
-		table[OpCode::IN_ALL] = inst::in_all;
-		table[OpCode::IS_EOF] = inst::is_eof;
-		table[OpCode::IS_GOOD] = inst::is_good;
-
 		table[OpCode::BITAND] = inst::bit_and;
 		table[OpCode::BITOR] = inst::bit_or;
 		table[OpCode::BITXOR] = inst::bit_xor;

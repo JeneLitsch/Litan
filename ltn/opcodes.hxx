@@ -92,19 +92,6 @@ namespace ltn {
 		WRITE_2,
 		WRITE_3,
 
-		// IO
-		OUT = 0x70,
-		CLOSE_STREAM,
-		IN_STR,
-		IN_LINE,
-		IN_BOOL,
-		IN_CHAR,
-		IN_INT,
-		IN_FLOAT,
-		IN_ALL,
-		IS_EOF,
-		IS_GOOD,
-
 		// Bitwise
 		BITAND = 0x90,
 		BITOR,
