@@ -56,6 +56,14 @@ namespace ltn::c::type {
 			return array_of(encode_type(*arr->contains));
 		}
 
+		if(type::is_istream(type)) {
+			return { type_code::ISTREAM };
+		}
+
+		if(type::is_ostream(type)) {
+			return { type_code::OSTREAM };
+		}
+
 		throw std::runtime_error{"Cannot encode type: " + to_string(type)};
 	}
 }

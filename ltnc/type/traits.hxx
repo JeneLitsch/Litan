@@ -13,6 +13,8 @@ namespace ltn::c::type {
 	bool is_string(const Type & x);
 	bool is_array(const Type & x);
 	bool is_tuple(const Type & x);
+	bool is_istream(const Type & x);
+	bool is_ostream(const Type & x);
 
 	bool is_subint(const Type & x);
 	bool is_integral(const Type & x);

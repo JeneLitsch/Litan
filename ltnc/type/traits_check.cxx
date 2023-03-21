@@ -84,6 +84,18 @@ namespace ltn::c::type {
 
 
 
+	bool is_istream(const Type & x) {
+		return x.as<Istream>();
+	}
+
+
+
+	bool is_ostream(const Type & x) {
+		return x.as<Ostream>();
+	}
+
+
+
 	bool is_empty_array(const Type & x) {
 		return is_array(x) && (!x.as<Array>()->contains);
 	}
