@@ -1,99 +1,60 @@
 namespace sphinx::test {
 	namespace local {
-		function convert_param_b(x : bool) -> bool 
-			=> x
-		function convert_param_c(x : char) -> char
-			=> x
-		function convert_param_i(x : int) -> int 
-			=> x
-		function convert_param_f(x : float) -> float 
-			=> x
-		function convert_param_s(x : string) -> string 
-			=> x
-		function convert_param_a(x : array<any>) -> array<any> 
-			=> x
-		function convert_param_a_i(x : array<int>) -> array<int> 
-			=> x
-		function convert_param_a_f(x : array<float>) -> array<float> 
-			=> x
-		function convert_param_o(x : optional<any>) -> optional<any>
-			=> x
-		function convert_param_o_i(x : optional<int>) -> optional<int>
-			=> x
-		function convert_param_o_f(x : optional<float>) -> optional<float>
-			=> x
+		function convert_param_b(x : bool) -> bool => x
+		function convert_param_c(x : char) -> char => x
+		function convert_param_i(x : int) -> int => x
+		function convert_param_f(x : float) -> float => x
+		function convert_param_s(x : string) -> string => x
+		function convert_param_a(x : array<any>) -> array<any> => x
+		function convert_param_a_i(x : array<int>) -> array<int> => x
+		function convert_param_a_f(x : array<float>) -> array<float> => x
+		function convert_param_o(x : optional<any>) -> optional<any> => x
+		function convert_param_o_i(x : optional<int>) -> optional<int> => x
+		function convert_param_o_f(x : optional<float>) -> optional<float> => x
 		
 
 
-		function convert_variable_b(x : any) -> bool {
-			var y : bool = x;
+		function<T> convert_variable(x : any) -> T {
+			var y : T = x;
 			return y;
 		}
-		function convert_variable_c(x : any) -> char {
-			var y : char = x;
-			return y; 
-		}
-		function convert_variable_i(x : any) -> int {
-			var y : int = x;
-			return y;  
-		}
-		function convert_variable_f(x : any) -> float {
-			var y : float = x;
-			return y;  
-		}
-		function convert_variable_s(x : any) -> string {
-			var y : string = x;
-			return y;  
-		}
-		function convert_variable_a(x : any) -> array<any> {
-			var y : array<any> = x;
-			return y; 
-		}
-		function convert_variable_a_i(x : any) -> array<int> {
-			var y : array<int> = x;
-			return y; 
-		}
-		function convert_variable_a_f(x : any) -> array<float> {
-			var y : array<float> = x;
-			return y; 
-		}
-		function convert_variable_o(x : any) -> optional<any> {
-			var y : optional<any> = x;
-			return y; 
-		}
-		function convert_variable_o_i(x : any) -> optional<int> {
-			var y : optional<int> = x;
-			return y; 
-		}
-		function convert_variable_o_f(x : any) -> optional<float> {
-			var y : optional<float> = x;
-			return y; 
-		}
+
+		function convert_variable_b(x : any) -> bool
+			=> convert_variable(<any>, x)
+		function convert_variable_c(x : any) -> char
+			=> convert_variable(<char>, x)
+		function convert_variable_i(x : any) -> int
+			=> convert_variable(<int>, x)
+		function convert_variable_f(x : any) -> float
+			=> convert_variable(<float>, x)
+		function convert_variable_s(x : any) -> string
+			=> convert_variable(<string>, x)
+		function convert_variable_a(x : any) -> array<any>
+			=> convert_variable(<array<any>>, x)
+		function convert_variable_a_i(x : any) -> array<int>
+			=> convert_variable(<array<int>>, x)
+		function convert_variable_a_f(x : any) -> array<float>
+			=> convert_variable(<array<float>>, x)
+		function convert_variable_o(x : any) -> optional<any>
+			=> convert_variable(<optional<any>>, x)
+		function convert_variable_o_i(x : any) -> optional<int>
+			=> convert_variable(<optional<int>>, x)
+		function convert_variable_o_f(x : any) -> optional<float>
+			=> convert_variable(<optional<float>>, x)
 
 
 
-		function convert_return_b(x : any) -> bool 
-			=> x
-		function convert_return_c(x : any) -> char
-			=> x
-		function convert_return_i(x : any) -> int 
-			=> x
-		function convert_return_f(x : any) -> float 
-			=> x
-		function convert_return_s(x : any) -> string 
-			=> x
-		function convert_return_a(x : any) -> array<any> 
-			=> x
-		function convert_return_a_i(x : any) -> array<int> 
-			=> x
-		function convert_return_a_f(x : any) -> array<float> 
-			=> x
-		function convert_return_o(x : any) -> optional<any> 
-			=> x
-		function convert_return_o_i(x : any) -> optional<int> 
-			=> x
-		function convert_return_o_f(x : any) -> optional<float> 
-			=> x
+		function convert_return_b(x : any) -> bool => x
+		function convert_return_c(x : any) -> char => x
+		function convert_return_i(x : any) -> int => x
+		function convert_return_f(x : any) -> float => x
+		function convert_return_s(x : any) -> string => x
+		function convert_return_a(x : any) -> array<any> => x
+		function convert_return_a_i(x : any) -> array<int> => x
+		function convert_return_a_f(x : any) -> array<float> => x
+		function convert_return_o(x : any) -> optional<any> => x
+		function convert_return_o_i(x : any) -> optional<int> => x
+		function convert_return_o_f(x : any) -> optional<float> => x
 	}
 
 	
