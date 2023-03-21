@@ -88,6 +88,8 @@ namespace ltn::vm::inst {
 			case type_code::INT:     return is_int(value);
 			case type_code::FLOAT:   return is_float(value);
 			case type_code::STRING:  return is_string(value);
+			case type_code::ISTREAM: return is_istream(value);
+			case type_code::OSTREAM: return is_ostream(value);
 			case type_code::ARRAY: {
 				if(is_array(value)) {
 					auto & arr = core.heap.read<Array>(value.u);

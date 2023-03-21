@@ -11,6 +11,8 @@ namespace sphinx::test {
 		function convert_param_o(x : optional<any>) -> optional<any> => x
 		function convert_param_o_i(x : optional<int>) -> optional<int> => x
 		function convert_param_o_f(x : optional<float>) -> optional<float> => x
+		function convert_param_is(x : istream) -> istream => x
+		function convert_param_os(x : ostream) -> ostream => x
 		
 
 
@@ -116,6 +118,16 @@ namespace sphinx::test {
 
 		assert_except(lambda => local::convert_param_a_f([1] : any));
 		assert_equal_strict(local::convert_param_a_f([1.0] : any), [1.0]);
+	}
+
+
+
+	function conversion_runtime_paramenters_iostream() {
+		assert_success(lambda => local::convert_param_is(std::cin() : any));
+		assert_except(lambda => local::convert_param_os(std::cin() : any));
+
+		assert_except(lambda => local::convert_param_is(std::cout() : any));
+		assert_success(lambda => local::convert_param_os(std::cout() : any));
 	}
 
 
