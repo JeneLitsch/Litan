@@ -1,0 +1,114 @@
+namespace sphinx::test {
+	namespace local {
+		function convert_param_b(x : bool) -> bool => x
+		function convert_param_c(x : char) -> char => x
+		function convert_param_i(x : int) -> int => x
+		function convert_param_f(x : float) -> float => x
+		function convert_param_s(x : string) -> string => x
+		function convert_param_a(x : array<any>) -> array<any> => x
+		function convert_param_a_i(x : array<int>) -> array<int> => x
+		function convert_param_a_f(x : array<float>) -> array<float> => x
+		function convert_param_o(x : optional<any>) -> optional<any> => x
+		function convert_param_o_i(x : optional<int>) -> optional<int> => x
+		function convert_param_o_f(x : optional<float>) -> optional<float> => x
+		function convert_param_is(x : istream) -> istream => x
+		function convert_param_os(x : ostream) -> ostream => x
+	}
+
+	
+
+	function conversion_runtime_paramenters_numeric() {
+		assert_equal_strict(local::convert_param_b(true : any), true);
+		assert_equal_strict(local::convert_param_b('A' : any), true);
+		assert_equal_strict(local::convert_param_b(42 : any), true);
+		assert_equal_strict(local::convert_param_b(13.37 : any), true);
+		assert_equal_strict(local::convert_param_b("ABC" : any), true);
+		assert_equal_strict(local::convert_param_b([1,2,3] : any), true);
+
+		assert_equal_strict(local::convert_param_c(true : any), 1 : char);
+		assert_equal_strict(local::convert_param_c('A' : any), 'A');
+		assert_except(lambda => local::convert_param_c(42 : any));
+		assert_except(lambda => local::convert_param_c(13.37 : any));
+		assert_except(lambda => local::convert_param_c("ABC" : any));
+		assert_except(lambda => local::convert_param_c([1,2,3] : any));
+		
+		assert_equal_strict(local::convert_param_i(true : any), 1);
+		assert_equal_strict(local::convert_param_i('A' : any), 65);
+		assert_equal_strict(local::convert_param_i(42 : any), 42);
+		assert_except(lambda => local::convert_param_i(13.37 : any));
+		assert_except(lambda => local::convert_param_i("ABC" : any));
+		assert_except(lambda => local::convert_param_i([1,2,3] : any));
+		
+		assert_equal_strict(local::convert_param_f(true : any), 1.0);
+		assert_equal_strict(local::convert_param_f('A' : any), 65.0);
+		assert_equal_strict(local::convert_param_f(42 : any), 42.0);
+		assert_equal_strict(local::convert_param_f(13.37 : any), 13.37);
+		assert_except(lambda => local::convert_param_f("ABC" : any));
+		assert_except(lambda => local::convert_param_f([1,2,3] : any));
+	}
+
+
+
+	function conversion_runtime_paramenters_string() {
+		assert_except(lambda => local::convert_param_s(true : any));
+		assert_except(lambda => local::convert_param_s('A' : any));
+		assert_except(lambda => local::convert_param_s(42 : any));
+		assert_except(lambda => local::convert_param_s(13.37 : any));
+		assert_equal_strict(local::convert_param_s("ABC" : any), "ABC");
+		assert_except(lambda => local::convert_param_s([1,2,3] : any));
+	}
+
+
+
+	function conversion_runtime_paramenters_array() {
+		assert_except(lambda => local::convert_param_a(true : any));
+		assert_except(lambda => local::convert_param_a('A' : any));
+		assert_except(lambda => local::convert_param_a(42 : any));
+		assert_except(lambda => local::convert_param_a(13.37 : any));
+		assert_except(lambda => local::convert_param_a("ABC" : any));
+		assert_equal_strict(local::convert_param_a([1] : any), [1]);
+		assert_equal_strict(local::convert_param_a([1.0] : any), [1.0]);
+
+		assert_equal_strict(local::convert_param_a_i([1,2,3] : any), [1,2,3]);
+		assert_except(lambda => local::convert_param_a_i([1.0] : any));
+
+		assert_except(lambda => local::convert_param_a_f([1] : any));
+		assert_equal_strict(local::convert_param_a_f([1.0] : any), [1.0]);
+	}
+
+
+
+	function conversion_runtime_paramenters_iostream() {
+		assert_success(lambda => local::convert_param_is(std::cin() : any));
+		assert_except(lambda => local::convert_param_os(std::cin() : any));
+
+		assert_except(lambda => local::convert_param_is(std::cout() : any));
+		assert_success(lambda => local::convert_param_os(std::cout() : any));
+	}
+
+
+
+	function conversion_runtime_paramenters_optional() {
+		assert_equal_strict(local::convert_param_o(true : any), true);
+		assert_equal_strict(local::convert_param_o('A' : any), 'A');
+		assert_equal_strict(local::convert_param_o(42 : any), 42);
+		assert_equal_strict(local::convert_param_o(13.37 : any), 13.37);
+		assert_equal_strict(local::convert_param_o("ABC" : any), "ABC");
+		assert_equal_strict(local::convert_param_o([1,2,3] : any), [1,2,3]);
+		assert_equal_strict(local::convert_param_o(null : any), null);
+
+		assert_equal_strict(local::convert_param_o_i(true : any), 1);
+		assert_equal_strict(local::convert_param_o_i('A' : any), 65);
+		assert_equal_strict(local::convert_param_o_i(42 : any), 42);
+		assert_except(lambda => local::convert_param_o_i(13.37 : any));
+		assert_except(lambda => local::convert_param_o_i("ABC" : any));
+		assert_except(lambda => local::convert_param_o_i([1,2,3] : any));
+
+		assert_equal_strict(local::convert_param_o_f(true : any), 1.0);
+		assert_equal_strict(local::convert_param_o_f('A' : any), 65.0);
+		assert_equal_strict(local::convert_param_o_f(42 : any), 42.0);
+		assert_equal_strict(local::convert_param_o_f(13.37 : any), 13.37);
+		assert_except(lambda => local::convert_param_o_f("ABC" : any));
+		assert_except(lambda => local::convert_param_o_f([1,2,3] : any));
+	}
+}
