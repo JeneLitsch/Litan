@@ -74,7 +74,7 @@ namespace sphinx::test {
 
 	
 
-	function conversion_paramenters() {
+	function conversion_runtime_paramenters() {
 		assert_equal_strict(local::convert_param_b(true : any), true);
 		assert_equal_strict(local::convert_param_b('A' : any), true);
 		assert_equal_strict(local::convert_param_b(42 : any), true);
@@ -127,7 +127,7 @@ namespace sphinx::test {
 
 
 
-	function conversion_a_issign() {
+	function conversion_runtime_assign() {
 		assert_equal_strict(local::convert_variable_b(true), true);
 		assert_equal_strict(local::convert_variable_b('A'), true);
 		assert_equal_strict(local::convert_variable_b(42), true);
@@ -178,7 +178,7 @@ namespace sphinx::test {
 
 
 
-	function conversion_return() {
+	function conversion_runtime_return() {
 		assert_equal_strict(local::convert_return_b(true), true);
 		assert_equal_strict(local::convert_return_b('A'), true);
 		assert_equal_strict(local::convert_return_b(42), true);

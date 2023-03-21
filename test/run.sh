@@ -28,7 +28,7 @@ files=(
 	"test/struct.ltn"
 	"test/iostream.ltn"
 
-	"test/conversion.ltn"
+	"test/conversion_runtime.ltn"
 	"test/cast_static.ltn"
 	"test/cast_dynamic.ltn"
 	"test/cast_force.ltn"
