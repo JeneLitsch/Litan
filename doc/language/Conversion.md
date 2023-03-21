@@ -15,6 +15,7 @@ The following types are supported:
 - float
 - string
 - array
+- optional
 
 ## Integral
 
