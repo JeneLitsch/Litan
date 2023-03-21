@@ -12,6 +12,8 @@ namespace sphinx::test {
 			=> a
 		function convert_param_a_i(a : array<int>) -> array<int> 
 			=> a
+		function convert_param_a_f(a : array<float>) -> array<float> 
+			=> a
 		
 
 		function convert_variable_b(x : any) -> bool {
@@ -38,6 +40,10 @@ namespace sphinx::test {
 			var y : array<int> = x;
 			return y; 
 		}
+		function convert_variable_a_f(x : any) -> array<float> {
+			var y : array<float> = x;
+			return y; 
+		}
 
 		function convert_return_b(a : any) -> bool 
 			=> a
@@ -50,6 +56,8 @@ namespace sphinx::test {
 		function convert_return_s(a : any) -> string 
 			=> a
 		function convert_return_a_i(a : any) -> array<int> 
+			=> a
+		function convert_return_a_f(a : any) -> array<float> 
 			=> a
 	}
 
@@ -97,6 +105,10 @@ namespace sphinx::test {
 		assert_except(lambda => local::convert_param_a_i(13.37 : any));
 		assert_except(lambda => local::convert_param_a_i("ABC" : any));
 		assert_equal_strict(local::convert_param_a_i([1,2,3] : any), [1,2,3]);
+		assert_except(lambda => local::convert_param_a_i([1.0] : any));
+
+		assert_except(lambda => local::convert_param_a_f([1] : any));
+		assert_equal_strict(local::convert_param_a_f([1.0] : any), [1.0]);
 	}
 
 
@@ -142,7 +154,11 @@ namespace sphinx::test {
 		assert_except(lambda => local::convert_variable_a_i(42));
 		assert_except(lambda => local::convert_variable_a_i(13.37));
 		assert_except(lambda => local::convert_variable_a_i("ABC"));
-		assert_equal_strict(local::convert_variable_a_i([1,2,3]), [1,2,3]);
+		assert_equal_strict(local::convert_variable_a_i([1]), [1]);
+		assert_except(lambda => local::convert_variable_a_i([1.0]));
+
+		assert_equal_strict(local::convert_variable_a_i([1]), [1]);
+		assert_except(lambda => local::convert_variable_a_i([1.0]));
 	}
 
 
@@ -188,7 +204,12 @@ namespace sphinx::test {
 		assert_except(lambda => local::convert_return_a_i(42));
 		assert_except(lambda => local::convert_return_a_i(13.37));
 		assert_except(lambda => local::convert_return_a_i("ABC"));
-		assert_equal_strict(local::convert_return_a_i([1,2,3]), [1,2,3]);
+		assert_equal_strict(local::convert_return_a_i([1]), [1]);
+		assert_except(lambda => local::convert_return_a_i([1.0]));
+
+		assert_except(lambda => local::convert_return_a_f([1]));
+		assert_equal_strict(local::convert_return_a_f([1.0]), [1.0]);
+
 	}
 
 }
