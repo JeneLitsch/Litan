@@ -118,6 +118,7 @@ namespace ltn::vm::inst {
 
 	void copy(VmCore & core);
 	void safe_copy(VmCore & core);
+	void conversion(VmCore & core);
 
 	void type_id(VmCore & core);
 	void clone(VmCore & core);

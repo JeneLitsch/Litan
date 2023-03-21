@@ -1,0 +1,193 @@
+namespace sphinx::test {
+	namespace local {
+		function convert_param_b(a : bool) -> bool 
+			=> a
+		function convert_param_c(a : char) -> char
+			=> a
+		function convert_param_i(a : int) -> int 
+			=> a
+		function convert_param_f(a : float) -> float 
+			=> a
+		function convert_param_s(a : string) -> string 
+			=> a
+		function convert_param_a(a : array<int>) -> array<int> 
+			=> a
+
+		function convert_variable_b(x : any) -> bool {
+			var y : bool = x;
+			return y;
+		}
+		function convert_variable_c(x : any) -> char {
+			var y : char = x;
+			return y; 
+		}
+		function convert_variable_i(x : any) -> int {
+			var y : int = x;
+			return y;  
+		}
+		function convert_variable_f(x : any) -> float {
+			var y : float = x;
+			return y;  
+		}
+		function convert_variable_s(x : any) -> string {
+			var y : string = x;
+			return y;  
+		}
+		function convert_variable_a(x : any) -> array<int> {
+			var y : array<int> = x;
+			return y; 
+		}
+
+		function convert_return_b(a : any) -> bool 
+			=> a
+		function convert_return_c(a : any) -> char
+			=> a
+		function convert_return_i(a : any) -> int 
+			=> a
+		function convert_return_f(a : any) -> float 
+			=> a
+		function convert_return_s(a : any) -> string 
+			=> a
+		function convert_return_a(a : any) -> array<int> 
+			=> a
+	}
+
+	
+
+	function conversion_paramenters() {
+		assert_equal_strict(local::convert_param_b(true : any), true);
+		assert_equal_strict(local::convert_param_c(true : any), 1 : char);
+		assert_equal_strict(local::convert_param_i(true : any), 1);
+		assert_equal_strict(local::convert_param_f(true : any), 1.0);
+		assert_except(lambda => local::convert_param_s(true : any));
+		assert_except(lambda => local::convert_param_a(true : any));
+
+		assert_equal_strict(local::convert_param_b('A' : any), true);
+		assert_equal_strict(local::convert_param_c('A' : any), 'A');
+		assert_equal_strict(local::convert_param_i('A' : any), 65);
+		assert_equal_strict(local::convert_param_f('A' : any), 65.0);
+		assert_except(lambda => local::convert_param_s('A' : any));
+		assert_except(lambda => local::convert_param_a('A' : any));
+
+		assert_equal_strict(local::convert_param_b(42 : any), true);
+		assert_except(lambda => local::convert_param_c(42 : any));
+		assert_equal_strict(local::convert_param_i(42 : any), 42);
+		assert_equal_strict(local::convert_param_f(42 : any), 42.0);
+		assert_except(lambda => local::convert_param_s(42 : any));
+		assert_except(lambda => local::convert_param_a(42 : any));
+
+		assert_equal_strict(local::convert_param_b(13.37 : any), true);
+		assert_except(lambda => local::convert_param_c(13.37 : any));
+		assert_except(lambda => local::convert_param_i(13.37 : any));
+		assert_equal_strict(local::convert_param_f(13.37 : any), 13.37);
+		assert_except(lambda => local::convert_param_s(13.37 : any));
+		assert_except(lambda => local::convert_param_a(13.37 : any));
+
+		assert_equal_strict(local::convert_param_b("ABC" : any), true);
+		assert_except(lambda => local::convert_param_c("ABC" : any));
+		assert_except(lambda => local::convert_param_i("ABC" : any));
+		assert_except(lambda => local::convert_param_f("ABC" : any));
+		assert_equal_strict(local::convert_param_s("ABC" : any), "ABC");
+		assert_except(lambda => local::convert_param_a("ABC" : any));
+
+		assert_equal_strict(local::convert_param_b([1,2,3] : any), true);
+		assert_except(lambda => local::convert_param_c([1,2,3] : any));
+		assert_except(lambda => local::convert_param_i([1,2,3] : any));
+		assert_except(lambda => local::convert_param_f([1,2,3] : any));
+		assert_except(lambda => local::convert_param_s([1,2,3] : any));
+		assert_equal_strict(local::convert_param_a([1,2,3] : any), [1,2,3]);
+	}
+
+
+
+	function conversion_assign() {
+		assert_equal_strict(local::convert_variable_b(true), true);
+		assert_equal_strict(local::convert_variable_b('A'), true);
+		assert_equal_strict(local::convert_variable_b(42), true);
+		assert_equal_strict(local::convert_variable_b(13.37), true);
+		assert_equal_strict(local::convert_variable_b("ABC"), true);
+		assert_equal_strict(local::convert_variable_b([1,2,3]), true);
+
+		assert_equal_strict(local::convert_variable_c(true), true : char);
+		assert_equal_strict(local::convert_variable_c('A'), 'A');
+		assert_except(lambda => local::convert_variable_c(42));
+		assert_except(lambda => local::convert_variable_c(13.37));
+		assert_except(lambda => local::convert_variable_c("ABC"));
+		assert_except(lambda => local::convert_variable_c([1,2,3]));
+
+		assert_equal_strict(local::convert_variable_i(true), 1);
+		assert_equal_strict(local::convert_variable_i('A'), 65);
+		assert_equal_strict(local::convert_variable_i(42), 42);
+		assert_except(lambda => local::convert_variable_i(13.37));
+		assert_except(lambda => local::convert_variable_i("ABC"));
+		assert_except(lambda => local::convert_variable_i([1,2,3]));
+
+		assert_equal_strict(local::convert_variable_f(true), 1.0);
+		assert_equal_strict(local::convert_variable_f('A'), 65.0);
+		assert_equal_strict(local::convert_variable_f(42), 42.0);
+		assert_equal_strict(local::convert_variable_f(13.37), 13.37);
+		assert_except(lambda => local::convert_variable_f("ABC"));
+		assert_except(lambda => local::convert_variable_f([1,2,3]));
+
+		assert_except(lambda => local::convert_variable_s(true));
+		assert_except(lambda => local::convert_variable_s('A'));
+		assert_except(lambda => local::convert_variable_s(42));
+		assert_except(lambda => local::convert_variable_s(13.37));
+		assert_equal_strict(local::convert_variable_s("ABC"), "ABC");
+		assert_except(lambda => local::convert_variable_s([1,2,3]));
+
+		assert_except(lambda => local::convert_variable_a(true));
+		assert_except(lambda => local::convert_variable_a('A'));
+		assert_except(lambda => local::convert_variable_a(42));
+		assert_except(lambda => local::convert_variable_a(13.37));
+		assert_except(lambda => local::convert_variable_a("ABC"));
+		assert_equal_strict(local::convert_variable_a([1,2,3]), [1,2,3]);
+	}
+
+
+
+	function conversion_return() {
+		assert_equal_strict(local::convert_return_b(true), true);
+		assert_equal_strict(local::convert_return_b('A'), true);
+		assert_equal_strict(local::convert_return_b(42), true);
+		assert_equal_strict(local::convert_return_b(13.37), true);
+		assert_equal_strict(local::convert_return_b("ABC"), true);
+		assert_equal_strict(local::convert_return_b([1,2,3]), true);
+
+		assert_equal_strict(local::convert_return_c(true), true : char);
+		assert_equal_strict(local::convert_return_c('A'), 'A');
+		assert_except(lambda => local::convert_return_c(42));
+		assert_except(lambda => local::convert_return_c(13.37));
+		assert_except(lambda => local::convert_return_c("ABC"));
+		assert_except(lambda => local::convert_return_c([1,2,3]));
+
+		assert_equal_strict(local::convert_return_i(true), 1);
+		assert_equal_strict(local::convert_return_i('A'), 65);
+		assert_equal_strict(local::convert_return_i(42), 42);
+		assert_except(lambda => local::convert_return_i(13.37));
+		assert_except(lambda => local::convert_return_i("ABC"));
+		assert_except(lambda => local::convert_return_i([1,2,3]));
+
+		assert_equal_strict(local::convert_return_f(true), 1.0);
+		assert_equal_strict(local::convert_return_f('A'), 65.0);
+		assert_equal_strict(local::convert_return_f(42), 42.0);
+		assert_equal_strict(local::convert_return_f(13.37), 13.37);
+		assert_except(lambda => local::convert_return_f("ABC"));
+		assert_except(lambda => local::convert_return_f([1,2,3]));
+
+		assert_except(lambda => local::convert_return_s(true));
+		assert_except(lambda => local::convert_return_s('A'));
+		assert_except(lambda => local::convert_return_s(42));
+		assert_except(lambda => local::convert_return_s(13.37));
+		assert_equal_strict(local::convert_return_s("ABC"), "ABC");
+		assert_except(lambda => local::convert_return_s([1,2,3]));
+
+		assert_except(lambda => local::convert_return_a(true));
+		assert_except(lambda => local::convert_return_a('A'));
+		assert_except(lambda => local::convert_return_a(42));
+		assert_except(lambda => local::convert_return_a(13.37));
+		assert_except(lambda => local::convert_return_a("ABC"));
+		assert_equal_strict(local::convert_return_a([1,2,3]), [1,2,3]);
+	}
+
+}

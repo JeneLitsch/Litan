@@ -8,7 +8,18 @@ namespace ltn::c {
 	namespace {
 		sst::expr_ptr make_static_cast(sst::expr_ptr from, const type::Type & type) {
 			return std::make_unique<sst::TypedUnary>(
-				sst::TypedUnary::Op::STATIC_CAST,
+				sst::TypedUnary::Op::CONVERSION,
+				type,
+				std::move(from),
+				type
+			);
+		}
+
+
+
+		sst::expr_ptr make_force_cast(sst::expr_ptr from, const type::Type & type) {
+			return std::make_unique<sst::TypedUnary>(
+				sst::TypedUnary::Op::CONVERSION,
 				type,
 				std::move(from),
 				type
@@ -18,6 +29,7 @@ namespace ltn::c {
 
 
 		sst::expr_ptr generate_conversion(sst::expr_ptr from, const type::Type & to) {
+			if(is_any(from->type)) return make_force_cast(std::move(from), to);
 			if(is_bool(to))  return make_static_cast(std::move(from), to);
 			if(is_char(to))  return make_static_cast(std::move(from), to);
 			if(is_int(to))   return make_static_cast(std::move(from), to);
@@ -33,6 +45,7 @@ namespace ltn::c {
 		const type::Type & to) {
 		
 		if(type::is_any(to))                  return true;
+		if(type::is_any(from))                return true;
 		if(to == from)                        return true;
 		if(is_bool(to))                       return true;
 		if(is_char(to)  && is_subint(from))   return true;

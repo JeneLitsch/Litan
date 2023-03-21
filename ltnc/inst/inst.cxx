@@ -620,6 +620,13 @@ namespace ltn::c::inst {
 			.bytes = code,
 		};
 	}
+	Inst conversion(std::vector<std::uint8_t> code) {
+		return InstBytex0 {
+			.name = "conversion",
+			.opcode = OpCode::CONVERSION,
+			.bytes = code,
+		};
+	}
 
 	Inst type_id() {
 		return InstNone {

@@ -141,6 +141,7 @@ namespace ltn::vm {
 		table[OpCode::CAST_STRING] = inst::cast_string;
 		table[OpCode::COPY] = inst::copy;
 		table[OpCode::SAFE_COPY] = inst::safe_copy;
+		table[OpCode::CONVERSION] = inst::conversion;
 
 		table[OpCode::TYPEID] = inst::type_id;
 		table[OpCode::CLONE] = inst::clone;

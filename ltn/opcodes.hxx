@@ -122,6 +122,7 @@ namespace ltn {
 		CAST_STRING,
 		COPY,
 		SAFE_COPY,
+		CONVERSION,
 
 		// Type utils
 		TYPEID = 0xc0,

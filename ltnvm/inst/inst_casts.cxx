@@ -1,6 +1,7 @@
 #include "instructions.hxx"
 #include "ltnvm/type_check.hxx"
 #include "ltnvm/cast.hxx"
+#include "ltnvm/convert.hxx"
 #include "ltn/type_code.hxx"
 #include <sstream>
 
@@ -79,6 +80,45 @@ namespace ltn::vm::inst {
 
 
 
+		bool is_of_type(const std::uint8_t * type, const Value & value, VmCore & core) {
+			switch (*type) {
+			case type_code::BOOL:    return is_bool(value);
+			case type_code::CHAR:    return is_char(value);
+			case type_code::INT:     return is_int(value);
+			case type_code::FLOAT:   return is_float(value);
+			case type_code::STRING:  return is_string(value);
+			case type_code::ARRAY: {
+				if(is_array(value)) {
+					auto & arr = core.heap.read<Array>(value.u);
+					return std::all_of(std::begin(arr), std::end(arr), [&] (const auto & elem) {
+						return is_of_type(type + 1, elem, core);
+					});
+				}
+			} break;
+			}
+			return false;
+		}
+
+
+
+		Value conversion(const std::uint8_t * type, const Value & value, VmCore & core) {
+			switch (*type) {
+			case type_code::BOOL:    return convert::to_bool(value);
+			case type_code::CHAR:    return convert::to_char(value);
+			case type_code::INT:     return convert::to_int(value);
+			case type_code::FLOAT:   return convert::to_float(value);
+			}
+			if(is_of_type(type, value, core)) {
+				return value;
+			}
+			else throw Exception{
+				.type = Exception::Type::GENERIC_ERROR,
+				.msg = "Invalid type conversion"
+			};
+		}
+
+
+
 		bool is_castable(const std::uint8_t * type, const Value & value, VmCore & core);
 
 
@@ -97,7 +137,6 @@ namespace ltn::vm::inst {
 
 
 		bool is_castable(const std::uint8_t * type, const Value & value, VmCore & core) {
-			// std::cout << *type << "\n";
 			switch (*type) {
 			case type_code::BOOL:    return is_bool(value);
 			case type_code::CHAR:    return is_char(value);
@@ -211,5 +250,14 @@ namespace ltn::vm::inst {
 		const auto value = core.stack.pop();
 		const auto b = cast::to_bool(value);
 		core.stack.push(Value(b));
+	}
+
+
+
+	void conversion(VmCore & core) {
+		const auto value = core.stack.pop();
+		const std::uint8_t * type = core.pc;
+		core.stack.push(conversion(type, value, core));
+		resume_after_0_terminator(core);
 	}
 }

@@ -1,8 +1,20 @@
 # Conversions
 
-## Any
+## To Any
 
 All types can be used as a value of type any. 
+
+## From Any
+
+Values can be automatically converted back from any. The conversion is checked at runtime and throws an exception if invalid.
+
+The following types are supported:
+- bool
+- char
+- int
+- float
+- string
+- array
 
 ## Integral
 

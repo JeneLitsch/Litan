@@ -68,6 +68,10 @@ namespace ltn::vm::convert {
 
 
 	char to_char(const Value value) {
+		if(is_bool(value)) {
+			return value.c;
+		}
+
 		if(is_char(value)) {
 			return value.c;
 		}

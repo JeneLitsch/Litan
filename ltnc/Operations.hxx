@@ -6,6 +6,7 @@ namespace ltn::c {
 
 
 	enum class TypedUnaryOp {
+		CONVERSION,
 		STATIC_CAST, DYNAMIC_CAST, FORCE_CAST,
 		STATIC_COPY, DYNAMIC_COPY, FORCE_COPY,
 	};

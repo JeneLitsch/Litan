@@ -226,6 +226,7 @@ namespace ltn::c::inst {
 	Inst cast_string();
 	Inst copy(std::vector<std::uint8_t> code);
 	Inst safe_copy(std::vector<std::uint8_t> code);
+	Inst conversion(std::vector<std::uint8_t> code);
 
 	Inst type_id();
 	Inst clone();
