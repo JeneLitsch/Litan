@@ -16,6 +16,8 @@ The following types are supported:
 - string
 - array
 - optional
+- istream
+- ostream
 
 ## Integral
 
