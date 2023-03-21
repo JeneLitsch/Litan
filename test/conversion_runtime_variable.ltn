@@ -27,11 +27,15 @@ namespace sphinx::test {
 			=> convert_variable(<optional<int>>, x)
 		function convert_variable_o_f(x : any) -> optional<float>
 			=> convert_variable(<optional<float>>, x)
+		function convert_variable_is(x : any) -> istream
+			=> convert_variable(<istream>, x)
+		function convert_variable_os(x : any) -> ostream
+			=> convert_variable(<ostream>, x)
 	}
 
 	
 
-	function conversion_runtime_assign_numeric() {
+	function conversion_runtime_variable_numeric() {
 		assert_equal_strict(local::convert_variable_b(true), true);
 		assert_equal_strict(local::convert_variable_b('A'), true);
 		assert_equal_strict(local::convert_variable_b(42), true);
@@ -63,7 +67,7 @@ namespace sphinx::test {
 
 
 
-	function conversion_runtime_assign_string() {
+	function conversion_runtime_variable_string() {
 		assert_except(lambda => local::convert_variable_s(true));
 		assert_except(lambda => local::convert_variable_s('A'));
 		assert_except(lambda => local::convert_variable_s(42));
@@ -74,7 +78,7 @@ namespace sphinx::test {
 
 
 
-	function conversion_runtime_assign_array() {
+	function conversion_runtime_variable_array() {
 		assert_except(lambda => local::convert_variable_a(true));
 		assert_except(lambda => local::convert_variable_a('A'));
 		assert_except(lambda => local::convert_variable_a(42));
@@ -90,7 +94,7 @@ namespace sphinx::test {
 
 
 
-	function conversion_runtime_assign_optional() {
+	function conversion_runtime_variable_optional() {
 		assert_equal_strict(local::convert_variable_o(true), true);
 		assert_equal_strict(local::convert_variable_o('A'), 'A');
 		assert_equal_strict(local::convert_variable_o(42), 42);
@@ -114,5 +118,15 @@ namespace sphinx::test {
 		assert_except(lambda => local::convert_variable_o_f("ABC"));
 		assert_except(lambda => local::convert_variable_o_f([1,2,3]));
 		assert_equal_strict(local::convert_variable_o_f(null), null);
+	}
+
+
+
+	function conversion_runtime_variable_iostream() {
+		assert_success(lambda => local::convert_variable_is(std::cin() : any));
+		assert_except(lambda => local::convert_variable_os(std::cin() : any));
+
+		assert_except(lambda => local::convert_variable_is(std::cout() : any));
+		assert_success(lambda => local::convert_variable_os(std::cout() : any));
 	}
 }

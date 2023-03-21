@@ -78,16 +78,6 @@ namespace sphinx::test {
 
 
 
-	function conversion_runtime_paramenters_iostream() {
-		assert_success(lambda => local::convert_param_is(std::cin() : any));
-		assert_except(lambda => local::convert_param_os(std::cin() : any));
-
-		assert_except(lambda => local::convert_param_is(std::cout() : any));
-		assert_success(lambda => local::convert_param_os(std::cout() : any));
-	}
-
-
-
 	function conversion_runtime_paramenters_optional() {
 		assert_equal_strict(local::convert_param_o(true : any), true);
 		assert_equal_strict(local::convert_param_o('A' : any), 'A');
@@ -110,5 +100,15 @@ namespace sphinx::test {
 		assert_equal_strict(local::convert_param_o_f(13.37 : any), 13.37);
 		assert_except(lambda => local::convert_param_o_f("ABC" : any));
 		assert_except(lambda => local::convert_param_o_f([1,2,3] : any));
+	}
+
+
+
+	function conversion_runtime_paramenters_iostream() {
+		assert_success(lambda => local::convert_param_is(std::cin() : any));
+		assert_except(lambda => local::convert_param_os(std::cin() : any));
+
+		assert_except(lambda => local::convert_param_is(std::cout() : any));
+		assert_success(lambda => local::convert_param_os(std::cout() : any));
 	}
 }

@@ -11,6 +11,8 @@ namespace sphinx::test {
 		function convert_return_o(x : any) -> optional<any> => x
 		function convert_return_o_i(x : any) -> optional<int> => x
 		function convert_return_o_f(x : any) -> optional<float> => x
+		function convert_return_is(x : any) -> istream => x
+		function convert_return_os(x : any) -> ostream => x
 	}
 
 
@@ -95,7 +97,16 @@ namespace sphinx::test {
 		assert_equal_strict(local::convert_return_o_f(13.37), 13.37);
 		assert_except(lambda => local::convert_return_o_f("ABC"));
 		assert_except(lambda => local::convert_return_o_f([1,2,3]));
+	}
 
+
+
+	function conversion_runtime_return_iostream() {
+		assert_success(lambda => local::convert_return_is(std::cin() : any));
+		assert_except(lambda => local::convert_return_os(std::cin() : any));
+
+		assert_except(lambda => local::convert_return_is(std::cout() : any));
+		assert_success(lambda => local::convert_return_os(std::cout() : any));
 	}
 
 }
