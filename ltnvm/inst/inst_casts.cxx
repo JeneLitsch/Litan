@@ -80,8 +80,9 @@ namespace ltn::vm::inst {
 
 
 
-		bool is_of_type(const std::uint8_t * type, const Value & value, VmCore & core) {
+		bool is_reinterpretable(const std::uint8_t * type, const Value & value, VmCore & core) {
 			switch (*type) {
+			case type_code::ANY:     return true;
 			case type_code::BOOL:    return is_bool(value);
 			case type_code::CHAR:    return is_char(value);
 			case type_code::INT:     return is_int(value);
@@ -91,7 +92,7 @@ namespace ltn::vm::inst {
 				if(is_array(value)) {
 					auto & arr = core.heap.read<Array>(value.u);
 					return std::all_of(std::begin(arr), std::end(arr), [&] (const auto & elem) {
-						return is_of_type(type + 1, elem, core);
+						return is_reinterpretable(type + 1, elem, core);
 					});
 				}
 			} break;
@@ -108,7 +109,7 @@ namespace ltn::vm::inst {
 			case type_code::INT:     return convert::to_int(value);
 			case type_code::FLOAT:   return convert::to_float(value);
 			}
-			if(is_of_type(type, value, core)) {
+			if(is_reinterpretable(type, value, core)) {
 				return value;
 			}
 			else throw Exception{

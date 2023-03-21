@@ -2,6 +2,7 @@
 #include <cstdint>
 
 namespace ltn::type_code {
+	inline constexpr std::uint8_t ANY    = 'x';
 	inline constexpr std::uint8_t BOOL   = 'b';
 	inline constexpr std::uint8_t CHAR   = 'c';
 	inline constexpr std::uint8_t INT    = 'i';

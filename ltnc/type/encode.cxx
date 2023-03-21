@@ -15,6 +15,10 @@ namespace ltn::c::type {
 	}
 
 	std::vector<std::uint8_t> encode_type(const Type & type) {
+		if(type::is_any(type)) {
+			return { type_code::ANY };
+		}
+		
 		if(type::is_bool(type)) {
 			return { type_code::BOOL };
 		}
