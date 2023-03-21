@@ -12,11 +12,23 @@ namespace ltn::c::type {
 			type_code += subtype_code;
 			return type_code; 
 		}	
+
+		std::vector<std::uint8_t> optional_of(const std::vector<std::uint8_t> & subtype_code) {
+			std::vector<std::uint8_t> type_code;
+			type_code += ltn::type_code::OPTIONAL;
+			type_code += subtype_code;
+			return type_code; 
+		}
 	}
 
 	std::vector<std::uint8_t> encode_type(const Type & type) {
 		if(type::is_any(type)) {
 			return { type_code::ANY };
+		}
+
+		if(type::is_optional(type)) {
+			auto * opt = type.as<type::Optional>();
+			return optional_of(encode_type(opt->contains));
 		}
 		
 		if(type::is_bool(type)) {

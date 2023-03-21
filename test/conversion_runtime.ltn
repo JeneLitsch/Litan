@@ -1,21 +1,23 @@
 namespace sphinx::test {
 	namespace local {
-		function convert_param_b(a : bool) -> bool 
-			=> a
-		function convert_param_c(a : char) -> char
-			=> a
-		function convert_param_i(a : int) -> int 
-			=> a
-		function convert_param_f(a : float) -> float 
-			=> a
-		function convert_param_s(a : string) -> string 
-			=> a
-		function convert_param_a(a : array<any>) -> array<any> 
-			=> a
-		function convert_param_a_i(a : array<int>) -> array<int> 
-			=> a
-		function convert_param_a_f(a : array<float>) -> array<float> 
-			=> a
+		function convert_param_b(x : bool) -> bool 
+			=> x
+		function convert_param_c(x : char) -> char
+			=> x
+		function convert_param_i(x : int) -> int 
+			=> x
+		function convert_param_f(x : float) -> float 
+			=> x
+		function convert_param_s(x : string) -> string 
+			=> x
+		function convert_param_a(x : array<any>) -> array<any> 
+			=> x
+		function convert_param_a_i(x : array<int>) -> array<int> 
+			=> x
+		function convert_param_a_f(x : array<float>) -> array<float> 
+			=> x
+		function convert_param_o(x : optional<any>) -> optional<any>
+			=> x
 		
 
 
@@ -51,25 +53,31 @@ namespace sphinx::test {
 			var y : array<float> = x;
 			return y; 
 		}
+		function convert_variable_o(x : any) -> optional<any> {
+			var y : optional<any> = x;
+			return y; 
+		}
 
 
 
-		function convert_return_b(a : any) -> bool 
-			=> a
-		function convert_return_c(a : any) -> char
-			=> a
-		function convert_return_i(a : any) -> int 
-			=> a
-		function convert_return_f(a : any) -> float 
-			=> a
-		function convert_return_s(a : any) -> string 
-			=> a
-		function convert_return_a(a : any) -> array<any> 
-			=> a
-		function convert_return_a_i(a : any) -> array<int> 
-			=> a
-		function convert_return_a_f(a : any) -> array<float> 
-			=> a
+		function convert_return_b(x : any) -> bool 
+			=> x
+		function convert_return_c(x : any) -> char
+			=> x
+		function convert_return_i(x : any) -> int 
+			=> x
+		function convert_return_f(x : any) -> float 
+			=> x
+		function convert_return_s(x : any) -> string 
+			=> x
+		function convert_return_a(x : any) -> array<any> 
+			=> x
+		function convert_return_a_i(x : any) -> array<int> 
+			=> x
+		function convert_return_a_f(x : any) -> array<float> 
+			=> x
+		function convert_return_o(x : any) -> optional<any> 
+			=> x
 	}
 
 	
@@ -123,6 +131,14 @@ namespace sphinx::test {
 
 		assert_except(lambda => local::convert_param_a_f([1] : any));
 		assert_equal_strict(local::convert_param_a_f([1.0] : any), [1.0]);
+
+		assert_equal_strict(local::convert_param_o(true : any), true);
+		assert_equal_strict(local::convert_param_o('A' : any), 'A');
+		assert_equal_strict(local::convert_param_o(42 : any), 42);
+		assert_equal_strict(local::convert_param_o(13.37 : any), 13.37);
+		assert_equal_strict(local::convert_param_o("ABC" : any), "ABC");
+		assert_equal_strict(local::convert_param_o([1,2,3] : any), [1,2,3]);
+		assert_equal_strict(local::convert_param_o(null : any), null);
 	}
 
 
@@ -174,6 +190,13 @@ namespace sphinx::test {
 
 		assert_equal_strict(local::convert_variable_a_i([1]), [1]);
 		assert_except(lambda => local::convert_variable_a_i([1.0]));
+
+		assert_equal_strict(local::convert_variable_o(true), true);
+		assert_equal_strict(local::convert_variable_o('A'), 'A');
+		assert_equal_strict(local::convert_variable_o(42), 42);
+		assert_equal_strict(local::convert_variable_o(13.37), 13.37);
+		assert_equal_strict(local::convert_variable_o("ABC"), "ABC");
+		assert_equal_strict(local::convert_variable_o([1,2,3]), [1,2,3]);
 	}
 
 
@@ -225,6 +248,13 @@ namespace sphinx::test {
 
 		assert_except(lambda => local::convert_return_a_f([1]));
 		assert_equal_strict(local::convert_return_a_f([1.0]), [1.0]);
+
+		assert_equal_strict(local::convert_return_o(true), true);
+		assert_equal_strict(local::convert_return_o('A'), 'A');
+		assert_equal_strict(local::convert_return_o(42), 42);
+		assert_equal_strict(local::convert_return_o(13.37), 13.37);
+		assert_equal_strict(local::convert_return_o("ABC"), "ABC");
+		assert_equal_strict(local::convert_return_o([1,2,3]), [1,2,3]);
 
 	}
 
