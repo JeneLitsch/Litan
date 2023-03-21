@@ -18,6 +18,10 @@ namespace sphinx::test {
 			=> x
 		function convert_param_o(x : optional<any>) -> optional<any>
 			=> x
+		function convert_param_o_i(x : optional<int>) -> optional<int>
+			=> x
+		function convert_param_o_f(x : optional<float>) -> optional<float>
+			=> x
 		
 
 
@@ -57,6 +61,14 @@ namespace sphinx::test {
 			var y : optional<any> = x;
 			return y; 
 		}
+		function convert_variable_o_i(x : any) -> optional<int> {
+			var y : optional<int> = x;
+			return y; 
+		}
+		function convert_variable_o_f(x : any) -> optional<float> {
+			var y : optional<float> = x;
+			return y; 
+		}
 
 
 
@@ -78,11 +90,15 @@ namespace sphinx::test {
 			=> x
 		function convert_return_o(x : any) -> optional<any> 
 			=> x
+		function convert_return_o_i(x : any) -> optional<int> 
+			=> x
+		function convert_return_o_f(x : any) -> optional<float> 
+			=> x
 	}
 
 	
 
-	function conversion_runtime_paramenters() {
+	function conversion_runtime_paramenters_numeric() {
 		assert_equal_strict(local::convert_param_b(true : any), true);
 		assert_equal_strict(local::convert_param_b('A' : any), true);
 		assert_equal_strict(local::convert_param_b(42 : any), true);
@@ -110,14 +126,22 @@ namespace sphinx::test {
 		assert_equal_strict(local::convert_param_f(13.37 : any), 13.37);
 		assert_except(lambda => local::convert_param_f("ABC" : any));
 		assert_except(lambda => local::convert_param_f([1,2,3] : any));
+	}
 
+
+
+	function conversion_runtime_paramenters_string() {
 		assert_except(lambda => local::convert_param_s(true : any));
 		assert_except(lambda => local::convert_param_s('A' : any));
 		assert_except(lambda => local::convert_param_s(42 : any));
 		assert_except(lambda => local::convert_param_s(13.37 : any));
 		assert_equal_strict(local::convert_param_s("ABC" : any), "ABC");
 		assert_except(lambda => local::convert_param_s([1,2,3] : any));
+	}
 
+
+
+	function conversion_runtime_paramenters_array() {
 		assert_except(lambda => local::convert_param_a(true : any));
 		assert_except(lambda => local::convert_param_a('A' : any));
 		assert_except(lambda => local::convert_param_a(42 : any));
@@ -131,7 +155,11 @@ namespace sphinx::test {
 
 		assert_except(lambda => local::convert_param_a_f([1] : any));
 		assert_equal_strict(local::convert_param_a_f([1.0] : any), [1.0]);
+	}
 
+
+
+	function conversion_runtime_paramenters_optional() {
 		assert_equal_strict(local::convert_param_o(true : any), true);
 		assert_equal_strict(local::convert_param_o('A' : any), 'A');
 		assert_equal_strict(local::convert_param_o(42 : any), 42);
@@ -139,11 +167,25 @@ namespace sphinx::test {
 		assert_equal_strict(local::convert_param_o("ABC" : any), "ABC");
 		assert_equal_strict(local::convert_param_o([1,2,3] : any), [1,2,3]);
 		assert_equal_strict(local::convert_param_o(null : any), null);
+
+		assert_equal_strict(local::convert_param_o_i(true : any), 1);
+		assert_equal_strict(local::convert_param_o_i('A' : any), 65);
+		assert_equal_strict(local::convert_param_o_i(42 : any), 42);
+		assert_except(lambda => local::convert_param_o_i(13.37 : any));
+		assert_except(lambda => local::convert_param_o_i("ABC" : any));
+		assert_except(lambda => local::convert_param_o_i([1,2,3] : any));
+
+		assert_equal_strict(local::convert_param_o_f(true : any), 1.0);
+		assert_equal_strict(local::convert_param_o_f('A' : any), 65.0);
+		assert_equal_strict(local::convert_param_o_f(42 : any), 42.0);
+		assert_equal_strict(local::convert_param_o_f(13.37 : any), 13.37);
+		assert_except(lambda => local::convert_param_o_f("ABC" : any));
+		assert_except(lambda => local::convert_param_o_f([1,2,3] : any));
 	}
 
 
 
-	function conversion_runtime_assign() {
+	function conversion_runtime_assign_numeric() {
 		assert_equal_strict(local::convert_variable_b(true), true);
 		assert_equal_strict(local::convert_variable_b('A'), true);
 		assert_equal_strict(local::convert_variable_b(42), true);
@@ -171,14 +213,22 @@ namespace sphinx::test {
 		assert_equal_strict(local::convert_variable_f(13.37), 13.37);
 		assert_except(lambda => local::convert_variable_f("ABC"));
 		assert_except(lambda => local::convert_variable_f([1,2,3]));
+	}
 
+
+
+	function conversion_runtime_assign_string() {
 		assert_except(lambda => local::convert_variable_s(true));
 		assert_except(lambda => local::convert_variable_s('A'));
 		assert_except(lambda => local::convert_variable_s(42));
 		assert_except(lambda => local::convert_variable_s(13.37));
 		assert_equal_strict(local::convert_variable_s("ABC"), "ABC");
 		assert_except(lambda => local::convert_variable_s([1,2,3]));
+	}
 
+
+
+	function conversion_runtime_assign_array() {
 		assert_except(lambda => local::convert_variable_a(true));
 		assert_except(lambda => local::convert_variable_a('A'));
 		assert_except(lambda => local::convert_variable_a(42));
@@ -190,18 +240,39 @@ namespace sphinx::test {
 
 		assert_equal_strict(local::convert_variable_a_i([1]), [1]);
 		assert_except(lambda => local::convert_variable_a_i([1.0]));
+	}
 
+
+
+	function conversion_runtime_assign_optional() {
 		assert_equal_strict(local::convert_variable_o(true), true);
 		assert_equal_strict(local::convert_variable_o('A'), 'A');
 		assert_equal_strict(local::convert_variable_o(42), 42);
 		assert_equal_strict(local::convert_variable_o(13.37), 13.37);
 		assert_equal_strict(local::convert_variable_o("ABC"), "ABC");
 		assert_equal_strict(local::convert_variable_o([1,2,3]), [1,2,3]);
+		assert_equal_strict(local::convert_variable_o(null), null);
+
+		assert_equal_strict(local::convert_variable_o_i(true), 1);
+		assert_equal_strict(local::convert_variable_o_i('A'), 65);
+		assert_equal_strict(local::convert_variable_o_i(42), 42);
+		assert_except(lambda => local::convert_variable_o_i(13.37));
+		assert_except(lambda => local::convert_variable_o_i("ABC"));
+		assert_except(lambda => local::convert_variable_o_i([1,2,3]));
+		assert_equal_strict(local::convert_variable_o_i(null), null);
+
+		assert_equal_strict(local::convert_variable_o_f(true), 1.0);
+		assert_equal_strict(local::convert_variable_o_f('A'), 65.0);
+		assert_equal_strict(local::convert_variable_o_f(42), 42.0);
+		assert_equal_strict(local::convert_variable_o_f(13.37), 13.37);
+		assert_except(lambda => local::convert_variable_o_f("ABC"));
+		assert_except(lambda => local::convert_variable_o_f([1,2,3]));
+		assert_equal_strict(local::convert_variable_o_f(null), null);
 	}
 
 
 
-	function conversion_runtime_return() {
+	function conversion_runtime_return_numeric() {
 		assert_equal_strict(local::convert_return_b(true), true);
 		assert_equal_strict(local::convert_return_b('A'), true);
 		assert_equal_strict(local::convert_return_b(42), true);
@@ -229,14 +300,22 @@ namespace sphinx::test {
 		assert_equal_strict(local::convert_return_f(13.37), 13.37);
 		assert_except(lambda => local::convert_return_f("ABC"));
 		assert_except(lambda => local::convert_return_f([1,2,3]));
+	}
 
+
+
+	function conversion_runtime_return_string() {
 		assert_except(lambda => local::convert_return_s(true));
 		assert_except(lambda => local::convert_return_s('A'));
 		assert_except(lambda => local::convert_return_s(42));
 		assert_except(lambda => local::convert_return_s(13.37));
 		assert_equal_strict(local::convert_return_s("ABC"), "ABC");
 		assert_except(lambda => local::convert_return_s([1,2,3]));
+	}
 
+
+
+	function conversion_runtime_return_array() {
 		assert_except(lambda => local::convert_return_a(true));
 		assert_except(lambda => local::convert_return_a('A'));
 		assert_except(lambda => local::convert_return_a(42));
@@ -248,13 +327,31 @@ namespace sphinx::test {
 
 		assert_except(lambda => local::convert_return_a_f([1]));
 		assert_equal_strict(local::convert_return_a_f([1.0]), [1.0]);
+	}
 
+
+
+	function conversion_runtime_return_optional() {
 		assert_equal_strict(local::convert_return_o(true), true);
 		assert_equal_strict(local::convert_return_o('A'), 'A');
 		assert_equal_strict(local::convert_return_o(42), 42);
 		assert_equal_strict(local::convert_return_o(13.37), 13.37);
 		assert_equal_strict(local::convert_return_o("ABC"), "ABC");
 		assert_equal_strict(local::convert_return_o([1,2,3]), [1,2,3]);
+
+		assert_equal_strict(local::convert_return_o_i(true), 1);
+		assert_equal_strict(local::convert_return_o_i('A'), 65);
+		assert_equal_strict(local::convert_return_o_i(42), 42);
+		assert_except(lambda => local::convert_return_o_i(13.37));
+		assert_except(lambda => local::convert_return_o_i("ABC"));
+		assert_except(lambda => local::convert_return_o_i([1,2,3]));
+
+		assert_equal_strict(local::convert_return_o_f(true), 1.0);
+		assert_equal_strict(local::convert_return_o_f('A'), 65.0);
+		assert_equal_strict(local::convert_return_o_f(42), 42.0);
+		assert_equal_strict(local::convert_return_o_f(13.37), 13.37);
+		assert_except(lambda => local::convert_return_o_f("ABC"));
+		assert_except(lambda => local::convert_return_o_f([1,2,3]));
 
 	}
 
