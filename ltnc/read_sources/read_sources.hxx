@@ -12,4 +12,6 @@ namespace ltn::c {
 	std::vector<ltn::c::Source> read_sources(
 		const std::vector<std::string> & filepaths,
 		ltn::c::Reporter & reporter);
+	
+	void inject_stdlib(std::vector<ltn::c::Source> & sources);
 }

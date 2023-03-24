@@ -22,22 +22,9 @@ namespace ltn::c {
 			const auto & filepaths,
 			ltn::c::Reporter & reporter) {
 
-			std::vector<Source> sources = {
-				StringSource{"std_algorithm", std_algorithm},
-				StringSource{"std_bits", std_bits},
-				StringSource{"std_cast", std_cast},
-				StringSource{"std_chrono", std_chrono},
-				StringSource{"std_container", std_container},
-				StringSource{"std_debug", std_debug},
-				StringSource{"std_functional", std_functional},
-				StringSource{"std_io", std_io},
-				StringSource{"std_math", std_math},
-				StringSource{"std_random", std_random},
-				StringSource{"std_range", std_range},
-				StringSource{"std_string", std_string},
-				StringSource{"std_type", std_type},
-			};
-			
+
+			std::vector<Source> sources;
+			inject_stdlib(sources);
 			for(const auto & source_path : filepaths) {
 				const auto path = std::filesystem::path{source_path};
 				if(std::filesystem::exists(path)) {
@@ -68,5 +55,23 @@ namespace ltn::c {
 		const std::vector<std::string> & filepaths,
 		ltn::c::Reporter & reporter) {
 		return read_source_impl(filepaths, reporter);
+	}
+
+
+
+	void inject_stdlib(std::vector<ltn::c::Source> & sources) {
+		sources.push_back(StringSource{"std_algorithm", std_algorithm});
+		sources.push_back(StringSource{"std_bits", std_bits});
+		sources.push_back(StringSource{"std_cast", std_cast});
+		sources.push_back(StringSource{"std_chrono", std_chrono});
+		sources.push_back(StringSource{"std_container", std_container});
+		sources.push_back(StringSource{"std_debug", std_debug});
+		sources.push_back(StringSource{"std_functional", std_functional});
+		sources.push_back(StringSource{"std_io", std_io});
+		sources.push_back(StringSource{"std_math", std_math});
+		sources.push_back(StringSource{"std_random", std_random});
+		sources.push_back(StringSource{"std_range", std_range});
+		sources.push_back(StringSource{"std_string", std_string});
+		sources.push_back(StringSource{"std_type", std_type});
 	}
 }
