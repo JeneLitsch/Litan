@@ -19,4 +19,14 @@ namespace ltn::vm::ext {
 		auto ptr = heap.alloc<String>(std::move(value));
 		return value::string(ptr);
 	}
+	
+	template <typename T>
+	inline Value wrap_return(const std::vector<T> & vector, Heap & heap) {
+		auto ptr = heap.alloc<Array>({});
+		auto & array = heap.read<Array>(ptr);
+		for(const T & elem : vector) {
+			array.push_back(wrap_return(elem, heap));
+		} 
+		return value::array(ptr);
+	}
 }
