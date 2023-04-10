@@ -12,8 +12,22 @@ namespace ltn::vm::ext {
 
 		template<class T>
 		T get(std::size_t idx) const {
-			const Value & value = this->get_value(idx);
+			return this->get<T>(idx, this->params);
+		}
 
+		virtual ~Parameters();
+
+	private:
+		template<class T>
+		T get(std::size_t idx, const Array & array) const {
+			const Value & value = get_value(idx, array);
+			return convert<T>(value);
+		}
+
+
+
+		template<class T>
+		T convert(const Value & value) const {
 			if constexpr(std::same_as<T, bool>) {
 				if(is_bool(value)) return value.b;
 				throw std::runtime_error{"Parameter not a boolean"};
@@ -30,19 +44,31 @@ namespace ltn::vm::ext {
 				if(is_string(value)) return this->heap.read<String>(value.u);
 				throw std::runtime_error{"Parameter not a string"};
 			}
+			else if constexpr(std::same_as<T, std::vector<typename T::value_type>>) {
+				if(is_array(value)) {
+					auto & input = this->heap.read<Array>(value.u);
+					T output;
+					for(const auto & elem : input) {
+						output.push_back(convert<typename T::value_type>(elem));
+					}
+					return output;
+				} 
+				else {
+					throw std::runtime_error{"Parameter not a string"};
+				}
+			}
 			else {
 				throw std::runtime_error{"Unknown parameter type in external"};
 			}
 		}
 
-		virtual ~Parameters();
 
-	private:
-		const Value & get_value(std::size_t idx) const {
-			if(idx >= params.size()) {
+
+		const Value & get_value(std::size_t idx, const Array & array) const {
+			if(idx >= std::size(array)) {
 				throw std::runtime_error{"Parameter out of range"};
 			}
-			return this->params[idx];
+			return array[idx];
 		}
 		Heap & heap;
 		Array params;
