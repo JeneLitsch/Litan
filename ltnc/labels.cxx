@@ -36,15 +36,6 @@ namespace ltn::c {
 
 
 
-	Label make_function_label(
-		const Namespace & namespaze,
-		const std::string & name,
-		std::uint64_t arity) {
-
-	}
-
-
-
 	Label make_function_label(const ast::Functional & fx) {
 		std::ostringstream oss;
 		oss << fx.get_resolve_namespace().to_string() 

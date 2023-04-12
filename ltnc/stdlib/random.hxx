@@ -22,6 +22,9 @@ namespace std {
 
 		function decision(rng, p) -> bool
 			=> rand_float(rng, 0, 1) < p
+
+		function rand_element(rng, range)
+			=> range[rand_int(rng, 0, size(range) - 1)]
 	}
 }
 )###";
