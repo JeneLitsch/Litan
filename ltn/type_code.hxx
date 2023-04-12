@@ -3,6 +3,7 @@
 
 namespace ltn::type_code {
 	inline constexpr std::uint8_t ANY      = 'x';
+	inline constexpr std::uint8_t NVLL     = 'N';
 	inline constexpr std::uint8_t OPTIONAL = '?';
 	inline constexpr std::uint8_t BOOL     = 'b';
 	inline constexpr std::uint8_t CHAR     = 'c';

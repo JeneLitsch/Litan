@@ -26,6 +26,10 @@ namespace ltn::c::type {
 			return { type_code::ANY };
 		}
 
+		if(type::is_null(type)) {
+			return { type_code::NVLL };
+		}
+
 		if(type::is_optional(type)) {
 			auto * opt = type.as<type::Optional>();
 			return optional_of(encode_type(opt->contains));

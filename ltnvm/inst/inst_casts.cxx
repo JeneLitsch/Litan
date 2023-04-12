@@ -83,6 +83,7 @@ namespace ltn::vm::inst {
 		bool is_reinterpretable(const std::uint8_t * type, const Value & value, VmCore & core) {
 			switch (*type) {
 			case type_code::ANY:     return true;
+			case type_code::NVLL:    return is_null(value);
 			case type_code::BOOL:    return is_bool(value);
 			case type_code::CHAR:    return is_char(value);
 			case type_code::INT:     return is_int(value);
