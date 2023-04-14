@@ -5,7 +5,7 @@
 Index for loop
 
 ```js
-for (/*loop_variable*/ : /*start_value*/ -> /*end value*/ : /*step size*/) /*single statement*/
+for (/*loop_variable*/ : {/*start_value*/, /*end value*/} : /*step size*/) /*single statement*/
 ```
 
 Ranged for loop:
@@ -17,12 +17,12 @@ for (/*element*/ : /*array*/) /*single statement*/
 ## Examples
 
 ```js
-for (i : 0 -> 42) {
+for (i : {0, 42}) {
 	std::println(i);
 }
 ```
 ```js
-for (i : 0 -> 42 : 2) {
+for (i : {0, 42} : 2) {
 	std::println(i);
 }
 ```
