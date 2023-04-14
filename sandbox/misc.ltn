@@ -1,5 +1,9 @@
 function main(args) {
-	var x : any = 4.0;
-	var y : int = x;
-	std::println(y);
+	var obj = [
+		.f = lambda (self, a, b, c) {
+			return self.x + a + b + c;
+		},
+		.x = 1,
+	];
+	// obj->f(1,2,3);
 }
