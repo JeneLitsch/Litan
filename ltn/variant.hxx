@@ -18,6 +18,7 @@ namespace ltn {
 		Variant(bool v);
 		Variant(char v);
 		Variant(std::int64_t v);
+		Variant(std::integral auto v) : Variant{static_cast<std::int64_t>(v)} {}
 		Variant(stx::float64_t v);
 		Variant(const std::string v);
 		Variant(const std::vector<Variant> & v);

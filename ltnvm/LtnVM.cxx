@@ -178,6 +178,14 @@ namespace ltn::vm {
 
 
 
+		void load_variant_args(VmCore & core, const std::vector<Variant> & args) {
+			for(const auto & arg : args) {
+				core.stack.push(to_value(arg, core.heap));
+			}
+		}
+
+
+
 		void jump_to_init(VmCore & core, const std::string & main) {
 			const auto main_fx = [&] () -> std::string {
 				if(!main.empty()) return main;
@@ -269,6 +277,24 @@ namespace ltn::vm {
 	Variant LtnVM::run(const std::vector<String> & args, const std::string & main) {
 		load_main_args(core, args);
 		jump_to_init(core, main);
+		try {
+			return to_variant(main_loop(this->core), core.heap);
+		}
+		catch(const Unhandled & err) {
+			throw std::runtime_error { 
+				"Unhandled exception: " + err.exception.msg
+			};
+		}
+	}
+
+
+
+	Variant LtnVM::run(
+		const std::string & function_label,
+		const std::vector<Variant> & args) {
+
+		load_variant_args(core, args);
+		jump_to_init(core, function_label);
 		try {
 			return to_variant(main_loop(this->core), core.heap);
 		}
