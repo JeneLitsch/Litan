@@ -27,6 +27,7 @@ files=(
 	"test/tuple.ltn"
 	"test/struct.ltn"
 	"test/iostream.ltn"
+	"test/invoke_member.ltn"
 
 	"test/conversion_runtime_parameter.ltn"
 	"test/conversion_runtime_variable.ltn"

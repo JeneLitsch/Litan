@@ -1,0 +1,18 @@
+namespace sphinx::test {
+	function invoke_member() {
+		var obj = [
+			.x = 42,
+			.f = lambda (self) => self.x,
+			.g = lambda (self, arg) => self.x + arg,
+			.h = lambda (self, arg) {
+				self.y = arg;
+			},
+		];
+
+
+		assert_equal_strict(obj->f(), 42);
+		assert_equal_strict(obj->g(100), 142);
+		obj->h(1337);
+		assert_equal_strict(obj.y, 1337);
+	}
+}
