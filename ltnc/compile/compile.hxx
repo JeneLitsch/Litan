@@ -52,6 +52,7 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Tuple &);
 	InstructionBuffer compile_expr(const sst::Call &);
 	InstructionBuffer compile_expr(const sst::Invoke &);
+	InstructionBuffer compile_expr(const sst::InvokeMember &);
 	InstructionBuffer compile_expr(const sst::Index &);
 	InstructionBuffer compile_expr(const sst::FxPointer &);
 	InstructionBuffer compile_expr(const sst::Iife &);

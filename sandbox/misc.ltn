@@ -1,9 +1,14 @@
 function main(args) {
 	var obj = [
-		.f = lambda (self, a, b, c) {
-			return self.x + a + b + c;
-		},
-		.x = 1,
+		.foo = [
+			.f = lambda (self, a, b : int, c) {
+				return self.x + a + b + c;
+			},
+			.x = 4,
+		],
 	];
-	// obj->f(1,2,3);
+	var f = lambda (self, a, b : int, c) {
+		return self.x + a + b + c;
+	};
+	std::println(obj.foo->f(1,2.1 ,3));
 }

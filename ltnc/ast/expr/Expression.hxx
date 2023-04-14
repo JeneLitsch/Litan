@@ -26,6 +26,7 @@ namespace ltn::c::ast {
 	struct Array;
 	struct Tuple;
 	struct Call;
+	struct InvokeMember;
 	struct Var;
 	struct Index;
 	struct Lambda;
@@ -52,6 +53,7 @@ namespace ltn::c::ast {
 		Array,
 		Tuple,
 		Call,
+		InvokeMember,
 		Var,
 		Index,
 		Lambda,
@@ -116,7 +118,6 @@ namespace ltn::c::ast {
 		std::unique_ptr<Expression> else_branch;
 		
 	};
-
 
 
 
@@ -430,6 +431,32 @@ namespace ltn::c::ast {
 
 
 
+	struct InvokeMember final : public Expression {
+		InvokeMember(
+			std::unique_ptr<Expression> object,
+			std::string member_name,
+			std::vector<std::unique_ptr<Expression>> arguments,
+			const SourceLocation & location)
+			: Expression(location)
+			, object(std::move(object))
+			, member_name{std::move(member_name)}
+			, arguments(std::move(arguments)) {}
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::uint64_t arity() const {
+			return std::size(this->arguments);
+		}
+
+		std::unique_ptr<Expression> object;
+		std::string member_name;
+		std::vector<std::unique_ptr<Expression>> arguments;
+	};
+
+
+
 	struct Iife final : public Expression {
 		Iife(
 			const SourceLocation & location,
@@ -557,6 +584,7 @@ namespace ltn::c::ast {
 			virtual void visit(const Array & x)              const override { this->run(x); };
 			virtual void visit(const Tuple & x)              const override { this->run(x); };
 			virtual void visit(const Call & x)               const override { this->run(x); };
+			virtual void visit(const InvokeMember & x)         const override { this->run(x); };
 			virtual void visit(const Var & x)                const override { this->run(x); };
 			virtual void visit(const Index & x)              const override { this->run(x); };
 			virtual void visit(const Lambda & x)             const override { this->run(x); };
@@ -564,7 +592,7 @@ namespace ltn::c::ast {
 			virtual void visit(const Member & x)             const override { this->run(x); };
 			virtual void visit(const Iife & x)               const override { this->run(x); };
 			virtual void visit(const Ternary & x)            const override { this->run(x); };
-			virtual void visit(const Choose & x)         const override { this->run(x); };
+			virtual void visit(const Choose & x)             const override { this->run(x); };
 			virtual void visit(const TypedUnary & x)         const override { this->run(x); };
 			virtual void visit(const Reflect & x)            const override { this->run(x); };
 			virtual void visit(const ForwardDynamicCall & x) const override { this->run(x); };

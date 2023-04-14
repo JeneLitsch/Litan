@@ -594,6 +594,40 @@ namespace ltn::c::sst {
 
 
 
+	struct InvokeMember final : public Expression {
+		InvokeMember(
+			std::unique_ptr<Expression> object,
+			std::uint64_t member_id,
+			std::vector<std::unique_ptr<Expression>> arguments,
+			const type::Type & type)
+			: Expression{type}
+			, object(std::move(object))
+			, member_id{member_id}
+			, arguments(std::move(arguments)) {}
+
+		virtual std::uint64_t alloc() const override {
+			std::uint64_t count = 0;
+			for(const auto & elem : this->arguments) {
+				count = std::max(elem->alloc(), count);
+			}
+			return std::max(count, object->alloc());
+		}
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::uint64_t arity() const {
+			return std::size(arguments) + 1;
+		}
+
+		std::unique_ptr<Expression> object;
+		std::uint64_t member_id;
+		std::vector<std::unique_ptr<Expression>> arguments;
+	};
+
+
+
 	struct InitStruct final : public Expression {
 		InitStruct() : Expression{type::Any{}} {}
 
@@ -668,6 +702,7 @@ namespace ltn::c::sst {
 			virtual void visit(const Tuple & x) const override { this->run(x); };
 			virtual void visit(const Call & x) const override { this->run(x); };
 			virtual void visit(const Invoke & x) const override { this->run(x); };
+			virtual void visit(const InvokeMember & x) const override { this->run(x); };
 			virtual void visit(const Var & x) const override { this->run(x); };
 			virtual void visit(const Index & x) const override { this->run(x); };
 			virtual void visit(const Lambda & x) const override { this->run(x); };

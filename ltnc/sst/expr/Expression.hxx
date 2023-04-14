@@ -18,6 +18,7 @@ namespace ltn::c::sst {
 	struct Tuple;
 	struct Call;
 	struct Invoke;
+	struct InvokeMember;
 	struct Var;
 	struct Index;
 	struct Lambda;
@@ -46,6 +47,7 @@ namespace ltn::c::sst {
 		Tuple,
 		Call,
 		Invoke,
+		InvokeMember,
 		Var,
 		Index,
 		Lambda,

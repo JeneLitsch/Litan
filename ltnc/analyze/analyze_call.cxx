@@ -200,4 +200,24 @@ namespace ltn::c {
 
 		return do_invoke(call, context, scope);
 	}
+
+
+
+	sst::expr_ptr analyze_expr(
+		const ast::InvokeMember & invoke,
+		Context & context,
+		Scope & scope) {
+		
+		auto expr = analyze_expression(*invoke.object, context, scope);
+		auto arguments = analyze_all_expressions(invoke.arguments, context, scope);
+		const auto type = type::deduce_invokation(expr->type);
+		const auto id = context.member_table.get_id(invoke.member_name);
+
+		return std::make_unique<sst::InvokeMember>(
+			std::move(expr),
+			id,
+			std::move(arguments),
+			type
+		);
+	}
 }

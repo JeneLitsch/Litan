@@ -76,6 +76,24 @@ namespace ltn::c {
 				return parse_postfix(tokens, std::move(access));
 			}
 
+
+			if(auto start = match(TT::RARROW, tokens)) {
+				auto name = parse_member(tokens);
+
+				if(!match(TT::PAREN_L, tokens)) throw CompilerError {
+					"Expected ( after member call"
+				};
+
+				auto args = parse_arguments(tokens);
+				auto access = std::make_unique<ast::InvokeMember>(
+					std::move(l),
+					std::move(name),
+					std::move(args),
+					location(tokens)
+				);
+				return parse_postfix(tokens, std::move(access));
+			}
+
 			if(auto start = match(TT::PAREN_L, tokens)) {
 
 				auto [template_args, done] = parse_template_args(tokens); 
