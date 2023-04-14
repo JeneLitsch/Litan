@@ -181,12 +181,12 @@ namespace ltn::vm {
 		void load_variant_args(VmCore & core, const std::vector<Variant> & args) {
 			for(const auto & arg : args) {
 				core.stack.push(to_value(arg, core.heap));
-			}
+			};
 		}
 
 
 
-		void jump_to_init(VmCore & core, const std::string & main) {
+		void jump_to_init(VmCore & core, const std::string & main, std::uint64_t arguments_count) {
 			const auto main_fx = [&] () -> std::string {
 				if(!main.empty()) return main;
 				return core.function_table.contains("main(1)") ? "main(1)" : "main(0)";
@@ -195,7 +195,7 @@ namespace ltn::vm {
 				"Program does not contain function " + main_fx
 			};
 			core.pc = core.code_begin + core.function_table.at(main_fx);
-			core.stack.push_frame(core.code_end - 1, 1);
+			core.stack.push_frame(core.code_end - 1, arguments_count);
 		}
 	}
 
@@ -276,7 +276,7 @@ namespace ltn::vm {
 
 	Variant LtnVM::run(const std::vector<String> & args, const std::string & main) {
 		load_main_args(core, args);
-		jump_to_init(core, main);
+		jump_to_init(core, main, 1);
 		try {
 			return to_variant(main_loop(this->core), core.heap);
 		}
@@ -294,7 +294,7 @@ namespace ltn::vm {
 		const std::vector<Variant> & args) {
 
 		load_variant_args(core, args);
-		jump_to_init(core, function_label);
+		jump_to_init(core, function_label, std::size(args));
 		try {
 			return to_variant(main_loop(this->core), core.heap);
 		}
