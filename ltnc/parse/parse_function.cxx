@@ -190,13 +190,7 @@ namespace ltn::c {
 					is_private = true;
 				}
 				else if(t->str == "extern") {
-					if(std::size(parameters) == 0 || std::size(parameters) == 1) {
-						is_extern = true;
-					}
-					else throw CompilerError {
-						"An extern function must have 0 or 1 parameter(s)",
-						t->location
-					};
+					is_extern = true;
 				}
 				else {
 					throw CompilerError {

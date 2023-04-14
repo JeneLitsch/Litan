@@ -20,6 +20,10 @@ namespace ltn::vm {
 			const std::vector<String> & args = {},
 			const std::string & main = "");
 
+		Variant run(
+			const std::string & function_label,
+			const std::vector<Variant> & args);
+
 		void register_function(std::int64_t address, auto fx) {
 			core.externals.emplace(address, ext::Callable{std::move(fx)});
 		}
