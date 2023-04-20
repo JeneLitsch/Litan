@@ -9,6 +9,12 @@ namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
 
+		struct Qualifiers {
+			bool is_const = false;
+			bool is_extern = false;
+			bool is_private = false;
+		};
+
 
 
 		// Returns a array of all parameters
@@ -172,25 +178,17 @@ namespace ltn::c {
 
 
 
-		template<class FunctionalNode>
-		std::unique_ptr<FunctionalNode> functional_node(
-			Tokens & tokens,
-			const Namespace & namespaze,
-			auto parse_body) {
-			const auto name = parse_function_name(tokens);
-			const auto parameters = parse_mandatory_parameters(tokens);
-			bool is_const = false;
-			bool is_private = false;
-			bool is_extern = false;
+		Qualifiers parse_qualifiers(Tokens & tokens) {
+			Qualifiers q;
 			while(auto t = match(TT::INDENTIFIER, tokens)) {
 				if(t->str == "const") {
-					is_const = true;
+					q.is_const = true;
 				}
 				else if(t->str == "private") {
-					is_private = true;
+					q.is_private = true;
 				}
 				else if(t->str == "extern") {
-					is_extern = true;
+					q.is_extern = true;
 				}
 				else {
 					throw CompilerError {
@@ -198,7 +196,21 @@ namespace ltn::c {
 						t->location
 					};
 				}
-			}			
+			}
+			return q;
+		}
+
+
+
+		template<class FunctionalNode>
+		std::unique_ptr<FunctionalNode> functional_node(
+			Tokens & tokens,
+			const Namespace & namespaze,
+			auto parse_body) {
+			const auto name = parse_function_name(tokens);
+			const auto parameters = parse_mandatory_parameters(tokens);
+
+			Qualifiers qualifiers = parse_qualifiers(tokens); 
 			const auto return_type = parse_return_type(tokens);
 			auto body = parse_body(tokens, std::size(parameters));
 			auto fx = stx::make_unique<FunctionalNode>(
@@ -208,9 +220,9 @@ namespace ltn::c {
 				std::move(body),
 				return_type,
 				location(tokens));
-			fx->is_const = is_const;
-			fx->is_private = is_private;
-			fx->is_extern = is_extern;
+			fx->is_const = qualifiers.is_const;
+			fx->is_private = qualifiers.is_private;
+			fx->is_extern = qualifiers.is_extern;
 			return fx;
 		}
 
@@ -283,6 +295,7 @@ namespace ltn::c {
 		if(match(TT::LAMBDA, tokens)) {
 			auto captures = parse_captures(tokens);
 			const auto parameters = parse_optional_parameters(tokens);
+			Qualifiers qualifiers = parse_qualifiers(tokens);
 			const auto return_type = parse_return_type(tokens);
 			auto body = parse_body(tokens, std::size(parameters)); 
 			auto fx = stx::make_unique<ast::Function>(
@@ -293,6 +306,9 @@ namespace ltn::c {
 				return_type,
 				location(tokens));
 			fx->except = parse_except(tokens);
+			fx->is_const = qualifiers.is_const;
+			if(qualifiers.is_private) throw CompilerError { "Lambda cannot be private", location(tokens)};
+			if(qualifiers.is_extern) throw CompilerError {"Lambda cannot be extern", location(tokens)};
 			return stx::make_unique<ast::Lambda>(
 				std::move(fx),
 				std::move(captures),

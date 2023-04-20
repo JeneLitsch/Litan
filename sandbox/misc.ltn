@@ -1,14 +1,11 @@
 function main(args) {
 	var obj = [
 		.foo = [
-			.f = lambda (self, a, b : int, c) {
+			.f = lambda (self, a, b : int, c) const {
 				return self.x + a + b + c;
 			},
 			.x = 4,
 		],
 	];
-	var f = lambda (self, a, b : int, c) {
-		return self.x + a + b + c;
-	};
 	std::println(obj.foo->f(1,2.1 ,3));
 }
