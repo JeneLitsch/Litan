@@ -30,10 +30,12 @@ namespace ltn::c {
 			const ast::Lambda & lambda) {
 			MajorScope inner_scope {
 				outer_scope.get_namespace(),
-				lambda.fx->is_const
+				lambda.fx->is_const,
 			};
 
+
 			inner_scope.inherit_types_from(outer_scope);
+			inner_scope.set_return_type(instantiate_type(lambda.fx->return_type, inner_scope));
 
 			for(const auto & capture : lambda.captures) {
 				inner_scope.insert(capture->name, location(*lambda.fx));
