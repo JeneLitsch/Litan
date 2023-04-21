@@ -21,6 +21,7 @@ namespace ltn::vm::inst {
 		if(is_ostream(ref)) core.stack.push(Value{core.heap.clone<OStream>(ref.u), ref.type});
 		if(is_istream(ref)) core.stack.push(Value{core.heap.clone<IStream>(ref.u), ref.type});
 		if(is_rng(ref)) core.stack.push(Value{core.heap.clone<RandomEngine>(ref.u), ref.type});
+		if(is_struct(ref)) core.stack.push(Value{core.heap.clone<Struct>(ref.u), ref.type});
 		else throw except::invalid_argument("Cannot clone");
 	}
 }
