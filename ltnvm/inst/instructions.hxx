@@ -50,7 +50,6 @@ namespace ltn::vm::inst {
 	void iF(VmCore & core);
 	void invoke(VmCore & core);
 	void between(VmCore & core);
-	void external(VmCore & core);
 	void capture(VmCore & core);
 	
 	void newarr(VmCore & core);
@@ -80,10 +79,6 @@ namespace ltn::vm::inst {
 	void write_2(VmCore & core);
 	void write_3(VmCore & core);
 
-	void hypot(VmCore & core);
-	void sqrt(VmCore & core);
-	void log(VmCore & core);
-	void ln(VmCore & core);
 	void pow(VmCore & core);
 
 	void bit_or(VmCore & core);

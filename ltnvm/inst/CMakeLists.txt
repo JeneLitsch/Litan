@@ -14,7 +14,6 @@ target_sources(libltnvm PRIVATE
 	inst_control_flow.cxx
 	inst_debug.cxx
 	inst_deref.cxx
-	inst_external.cxx
 	inst_insert.cxx
 	inst_invoke.cxx
 	inst_math.cxx

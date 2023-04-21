@@ -317,12 +317,6 @@ namespace ltn::c::inst {
 			.opcode = OpCode::INVOKE,
 		};
 	}
-	Inst external() {
-		return InstNone {
-			.name = "external",
-			.opcode = OpCode::EXTERNAL,
-		};
-	}
 	Inst capture() {
 		return InstNone {
 			.name = "capture",

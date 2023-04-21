@@ -56,7 +56,6 @@ namespace ltn {
 		RETURN,
 		IF,
 		INVOKE,
-		EXTERNAL,
 		CAPTURE,
 
 		// Allocations

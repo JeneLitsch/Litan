@@ -82,7 +82,6 @@ namespace ltn::vm {
 		table[OpCode::RETURN] = inst::reTurn;
 		table[OpCode::IF] = inst::iF;
 		table[OpCode::INVOKE] = inst::invoke;
-		table[OpCode::EXTERNAL] = inst::external;
 		table[OpCode::CAPTURE] = inst::capture;
 
 		table[OpCode::NEWARR] = inst::newarr;

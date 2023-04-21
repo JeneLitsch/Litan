@@ -174,7 +174,6 @@ namespace ltn::c::inst {
 	Inst retvrn();
 	Inst ifelse(const std::string & label);
 	Inst invoke();
-	Inst external();
 	Inst capture();
 
 	Inst scrap();
