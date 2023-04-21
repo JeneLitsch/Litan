@@ -1,7 +1,9 @@
 #include <fstream>
+#include <filesystem>
 #include "io.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/stringify.hxx"
+#include "ltnvm/convert.hxx"
 
 namespace ltn::vm::build_in {
 	namespace {
@@ -16,6 +18,82 @@ namespace ltn::vm::build_in {
 				throw except::not_input();
 			}
 		}
+
+
+		const auto add_out = [] (VmCore & core, auto && out) {
+			using T = decltype(out)&&;
+			const auto ptr = core.heap.alloc<OStream>(std::forward<T>(out));
+			Value val{ptr, Value::Type::OSTREAM};
+			core.heap.collect_garbage(core.stack, core.static_variables, val);
+			return val;
+		};
+
+
+
+		const auto add_in = [] (VmCore & core, auto && in) {
+			using T = decltype(in)&&;
+			const auto ptr = core.heap.alloc<IStream>(std::forward<T>(in));
+			Value val{ptr, Value::Type::ISTREAM};
+			core.heap.collect_garbage(core.stack, core.static_variables, val);
+			return val;
+		};
+	}
+
+
+
+
+	Value cout(VmCore & core) {
+		return add_out(core, OStream{std::cout});
+	}
+
+
+
+	Value fout(VmCore & core) {
+		const auto openmode = convert::to_int(core.stack.pop());
+		const auto ref = core.stack.pop();
+		if(!is_string(ref)) throw except::invalid_argument();
+		
+		const auto & path = core.heap.read<String>(ref.u);
+
+		const auto flags = openmode ? std::ios::app : std::ios::trunc;
+
+		auto fout = std::make_unique<std::ofstream>(path, flags);
+		return add_out(core, OStream{std::move(fout)});
+	}
+
+
+
+	Value strout(VmCore & core) {
+		return add_out(core, OStream{std::make_unique<std::ostringstream>()});
+	}
+
+
+
+	Value cin(VmCore & core) {
+		return add_in(core, IStream{std::cin});
+	}
+
+
+
+	Value fin(VmCore & core) {
+		const auto ref = core.stack.pop();
+		if(!is_string(ref)) {
+			throw except::invalid_argument();
+		}
+		const auto & path = core.heap.read<String>(ref.u);
+		if(!std::filesystem::exists(path)) {
+			throw except::cannot_open_file(path);
+		}
+		return add_in(core, IStream{std::make_unique<std::ifstream>(path)});
+	}
+
+
+
+	Value strin(VmCore & core) {
+		const auto ref = core.stack.pop();
+		if(!is_string(ref)) throw except::invalid_argument();
+		const auto & str = core.heap.read<String>(ref.u);
+		return add_in(core, IStream{std::make_unique<std::istringstream>(str)});
 	}
 
 

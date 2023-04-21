@@ -2,6 +2,14 @@
 #include "ltnvm/VmCore.hxx"
 
 namespace ltn::vm::build_in {
+	Value cout(VmCore & core);
+	Value fout(VmCore & core);
+	Value strout(VmCore & core);
+
+	Value cin(VmCore & core);
+	Value fin(VmCore & core);
+	Value strin(VmCore & core);
+
 	Value close_stream(VmCore & core);
 	Value is_eof(VmCore & core);
 

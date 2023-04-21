@@ -60,6 +60,13 @@ namespace ltn::vm::inst {
 		table[FxCode::IO_READ_FLOAT] = build_in::read_float;
 		table[FxCode::IO_READ_ALL] = build_in::read_all;
 
+		table[FxCode::IO_COUT] = build_in::cout;
+		table[FxCode::IO_FOUT] = build_in::fout;
+		table[FxCode::IO_STROUT] = build_in::strout;
+		table[FxCode::IO_CIN] = build_in::cin;
+		table[FxCode::IO_FIN] = build_in::fin;
+		table[FxCode::IO_STRIN] = build_in::strin;
+
 		// string
 		table[FxCode::TO_STRING] = build_in::to_string;
 		table[FxCode::SPLIT_STRING] = build_in::split_string;

@@ -51,7 +51,19 @@ namespace ltn::vm {
 		}
 
 
-		void collect_garbage(const Stack & stack, const Array & globals);
+		template<typename ... More>
+		void collect_garbage(const Stack & stack, const Array & globals, More && ...more) {
+			if(gc_counter >= gc_frequency) {
+				((this->mark(more)), ...);
+				mark(stack.get_values());
+				mark(globals);
+				sweep();
+				gc_counter = 0;
+			}
+			else {
+				++gc_counter;
+			}
+		}
 
 
 		void reset();

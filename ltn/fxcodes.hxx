@@ -17,10 +17,10 @@ namespace ltn {
 		RAND_FLOAT,
 
 
-		//functional
+		// functional
 		ARITY = 0x20,
 
-		//io
+		// io
 		IO_RESET_COLOR = 0x30,
 		IO_SET_FG_COLOR,
 		IO_SET_BG_COLOR,
@@ -40,7 +40,7 @@ namespace ltn {
 		SPLIT_STRING,
 		JOIN_STRING,
 
-		// Math
+		// math
 		MIN = 0x50,
 		MAX,
 		CLAMP,
@@ -57,6 +57,14 @@ namespace ltn {
 		LN,
 		LD,
 		LG,
+
+		// io
+		IO_COUT = 0x60,
+		IO_FOUT,
+		IO_STROUT,
+		IO_CIN,
+		IO_FIN,
+		IO_STRIN,
 		
 	};
 }
