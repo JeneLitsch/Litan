@@ -8,4 +8,5 @@ function main(args) {
 		],
 	];
 	std::println(obj.foo->f(1,2.1 ,3));
+	return std::array();
 }

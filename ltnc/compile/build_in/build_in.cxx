@@ -64,7 +64,6 @@ namespace ltn::c {
 		{"queue",                    single_return<inst::newqueue>},
 		{"stack",                    single_return<inst::newstack>},
 		{"map",                      single_return<inst::newmap>},
-		{"array",                    single_return<inst::newarr, 0>},
 		{"struct",                   single_return<inst::newstruct>},
 
 		{"container_push",           single<inst::push>},

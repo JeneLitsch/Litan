@@ -5,7 +5,7 @@ namespace std {
 	build_in stack() const                      @ stack
 	build_in map() const                        @ map
 	build_in<Key, Val> map() const -> map<Key,Val> @ map
-	build_in array() const                      @ array
+	function array() const -> array<any> => []
 	
 	build_in push(container, elem)              @ container_push
 	build_in pop(container)                     @ container_pop
