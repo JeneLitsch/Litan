@@ -273,13 +273,6 @@ namespace ltn::c::inst {
 			.opcode = OpCode::NEWMAP,
 		};
 	}
-	Inst newrng(std::uint8_t type) {
-		return InstByte {
-			.name = "newrng",
-			.opcode = OpCode::NEWRNG,
-			.value = type,
-		};
-	}
 	Inst newtuple(std::uint64_t size) {
 		return InstUint64 {
 			.name = "newtuple",

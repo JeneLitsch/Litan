@@ -167,7 +167,6 @@ namespace ltn::c::inst {
 	Inst newstack();
 	Inst newqueue();
 	Inst newmap();
-	Inst newrng(std::uint8_t type);
 	Inst newtuple(std::uint64_t size);
 
 	Inst jump(const std::string & label);

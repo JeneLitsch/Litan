@@ -68,7 +68,6 @@ namespace ltn {
 		NEWSTACK,
 		NEWQUEUE,
 		NEWMAP,
-		NEWRNG,
 		NEWTUPLE,
 
 		// Stack read/write

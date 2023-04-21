@@ -78,37 +78,12 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void newfx(VmCore & core){
 		const auto address = core.code_begin + core.fetch_uint(); 
 		const auto arity = core.fetch_uint();
 		const auto ref = core.heap.alloc<FxPointer>({address, arity, {}});
 		core.stack.push(Value{ref, Value::Type::FX_PTR});
-	}
-
-
-
-	void newrng(VmCore & core){
-		const auto type = core.fetch_byte();
-		switch (type) {
-		case 0x00: { 
-			const auto seed = std::random_device{}();
-			auto rng = RandomEngine{std::mt19937_64{seed}};
-			const auto ref = core.heap.alloc<RandomEngine>(std::move(rng));
-			core.stack.push(value::rng(ref));
-			return;
-		}
-
-		case 0x01: { 
-			const auto signed_seed = convert::to_int(core.stack.pop());
-			const auto seed = static_cast<std::uint64_t>(signed_seed);
-			auto rng = RandomEngine{std::mt19937_64{seed}};
-			const auto ref = core.heap.alloc<RandomEngine>(std::move(rng));
-			core.stack.push(value::rng(ref));
-			return;
-		}
-		
-		default: throw std::runtime_error{"Unknown RandonEngine type"};
-		}
 	}
 
 

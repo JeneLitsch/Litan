@@ -61,7 +61,6 @@ namespace ltn::vm::inst {
 	void newstack(VmCore & core);
 	void newqueue(VmCore & core);
 	void newmap(VmCore & core);
-	void newrng(VmCore & core);
 	void newtuple(VmCore & core);
 
 	void scrap(VmCore & core);
