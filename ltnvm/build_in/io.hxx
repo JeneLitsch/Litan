@@ -1,7 +1,7 @@
 #pragma once
 #include "ltnvm/VmCore.hxx"
 
-namespace ltn::vm::build_in {
+namespace ltn::vm::build_in::io {
 	Value cout(VmCore & core);
 	Value fout(VmCore & core);
 	Value strout(VmCore & core);

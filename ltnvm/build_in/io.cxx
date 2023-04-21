@@ -5,7 +5,7 @@
 #include "ltnvm/stringify.hxx"
 #include "ltnvm/convert.hxx"
 
-namespace ltn::vm::build_in {
+namespace ltn::vm::build_in::io {
 	namespace {
 		using VT = Value::Type;
 
@@ -19,9 +19,8 @@ namespace ltn::vm::build_in {
 			}
 		}
 
-
-		const auto add_out = [] (VmCore & core, auto && out) {
-			using T = decltype(out)&&;
+		template<typename T>
+		auto add_out (VmCore & core, T && out) {
 			const auto ptr = core.heap.alloc<OStream>(std::forward<T>(out));
 			Value val{ptr, Value::Type::OSTREAM};
 			core.heap.collect_garbage(core.stack, core.static_variables, val);
@@ -30,8 +29,8 @@ namespace ltn::vm::build_in {
 
 
 
-		const auto add_in = [] (VmCore & core, auto && in) {
-			using T = decltype(in)&&;
+		template<typename T>
+		Value add_in (VmCore & core, T && in) {
 			const auto ptr = core.heap.alloc<IStream>(std::forward<T>(in));
 			Value val{ptr, Value::Type::ISTREAM};
 			core.heap.collect_garbage(core.stack, core.static_variables, val);

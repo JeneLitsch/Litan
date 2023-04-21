@@ -1,7 +1,7 @@
 #pragma once
 #include "ltnvm/VmCore.hxx"
 
-namespace ltn::vm::build_in {
+namespace ltn::vm::build_in::random {
 	Value mersenne_0(VmCore & core);
 	Value mersenne_1(VmCore & core);
 

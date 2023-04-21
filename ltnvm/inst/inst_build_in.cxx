@@ -37,37 +37,37 @@ namespace ltn::vm::inst {
 		table[FxCode::REVERSE] = build_in::reverse;
 		
 		// random
-		table[FxCode::RANDOM_SPLIT] = build_in::split;
-		table[FxCode::RANDOM_RAND] = build_in::rand;
-		table[FxCode::RANDOM_RAND_INT] = build_in::rand_int;
-		table[FxCode::RANDOM_RAND_FLOAT] = build_in::rand_float;
-		table[FxCode::RANDOM_MERSENNE_0] = build_in::mersenne_0;
-		table[FxCode::RANDOM_MERSENNE_1] = build_in::mersenne_1;
+		table[FxCode::RANDOM_SPLIT]      = build_in::random::split;
+		table[FxCode::RANDOM_RAND]       = build_in::random::rand;
+		table[FxCode::RANDOM_RAND_INT]   = build_in::random::rand_int;
+		table[FxCode::RANDOM_RAND_FLOAT] = build_in::random::rand_float;
+		table[FxCode::RANDOM_MERSENNE_0] = build_in::random::mersenne_0;
+		table[FxCode::RANDOM_MERSENNE_1] = build_in::random::mersenne_1;
 
 		//functional
 		table[FxCode::ARITY] = build_in::arity;
 
 		//io
-		table[FxCode::IO_RESET_COLOR] = build_in::reset_color;
-		table[FxCode::IO_SET_FG_COLOR] = build_in::set_fg_color;
-		table[FxCode::IO_SET_BG_COLOR] = build_in::set_bg_color;
-		table[FxCode::IO_IS_EOF] = build_in::is_eof;
-		table[FxCode::IO_CLOSE_STREAM] = build_in::close_stream;
-		table[FxCode::IO_PRINT] = build_in::print;
-		table[FxCode::IO_READ_STR] = build_in::read_str;
-		table[FxCode::IO_READ_LINE] = build_in::read_line;
-		table[FxCode::IO_READ_BOOL] = build_in::read_bool;
-		table[FxCode::IO_READ_CHAR] = build_in::read_char;
-		table[FxCode::IO_READ_INT] = build_in::read_int;
-		table[FxCode::IO_READ_FLOAT] = build_in::read_float;
-		table[FxCode::IO_READ_ALL] = build_in::read_all;
+		table[FxCode::IO_RESET_COLOR] = build_in::io::reset_color;
+		table[FxCode::IO_SET_FG_COLOR] = build_in::io::set_fg_color;
+		table[FxCode::IO_SET_BG_COLOR] = build_in::io::set_bg_color;
+		table[FxCode::IO_IS_EOF] = build_in::io::is_eof;
+		table[FxCode::IO_CLOSE_STREAM] = build_in::io::close_stream;
+		table[FxCode::IO_PRINT] = build_in::io::print;
+		table[FxCode::IO_READ_STR] = build_in::io::read_str;
+		table[FxCode::IO_READ_LINE] = build_in::io::read_line;
+		table[FxCode::IO_READ_BOOL] = build_in::io::read_bool;
+		table[FxCode::IO_READ_CHAR] = build_in::io::read_char;
+		table[FxCode::IO_READ_INT] = build_in::io::read_int;
+		table[FxCode::IO_READ_FLOAT] = build_in::io::read_float;
+		table[FxCode::IO_READ_ALL] = build_in::io::read_all;
 
-		table[FxCode::IO_COUT] = build_in::cout;
-		table[FxCode::IO_FOUT] = build_in::fout;
-		table[FxCode::IO_STROUT] = build_in::strout;
-		table[FxCode::IO_CIN] = build_in::cin;
-		table[FxCode::IO_FIN] = build_in::fin;
-		table[FxCode::IO_STRIN] = build_in::strin;
+		table[FxCode::IO_COUT] = build_in::io::cout;
+		table[FxCode::IO_FOUT] = build_in::io::fout;
+		table[FxCode::IO_STROUT] = build_in::io::strout;
+		table[FxCode::IO_CIN] = build_in::io::cin;
+		table[FxCode::IO_FIN] = build_in::io::fin;
+		table[FxCode::IO_STRIN] = build_in::io::strin;
 
 		// string
 		table[FxCode::TO_STRING] = build_in::to_string;

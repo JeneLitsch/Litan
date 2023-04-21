@@ -2,7 +2,7 @@
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/convert.hxx"
 
-namespace ltn::vm::build_in {
+namespace ltn::vm::build_in::random {
 	namespace {
 		RandomEngine & get_rng(const Value ref, Heap & heap) {
 			if(is_rng(ref)) {
