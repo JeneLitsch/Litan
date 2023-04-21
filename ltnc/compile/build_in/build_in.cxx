@@ -43,12 +43,6 @@ namespace ltn::c {
 
 
 	const Table table{
-		{"cast_bool",                single_return<inst::cast_bool>},
-		{"cast_char",                single_return<inst::cast_char>},
-		{"cast_int",                 single_return<inst::cast_int>},
-		{"cast_float",               single_return<inst::cast_float>},
-		{"cast_string",              single_return<inst::cast_string>},
-
 		{"algorithm_sort_ascn",      vm_build_in<FxCode::SORT_ASCN>},
 		{"algorithm_sort_desc",      vm_build_in<FxCode::SORT_DESC>},
 		{"algorithm_is_sorted_ascn", vm_build_in<FxCode::IS_SORTED_ASCN>},
