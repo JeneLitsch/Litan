@@ -5,7 +5,6 @@ namespace ltn {
 		// System
 		EXIT = 0x00,
 		ERROR,
-		STATE,
 		TRY,
 		THROW,
 		BUILD_IN,

@@ -76,8 +76,6 @@ namespace ltn::c {
 		{"container_remove_front",   single<inst::remove, 0x00>},
 		{"container_remove",         single<inst::remove, 0x01>},
 
-		{"debug_state",              single_return<inst::state>},
-
 		{"functional_invoke_2",      single_return<inst::invoke>},
 		{"functional_arity",         vm_build_in<FxCode::ARITY>},
 

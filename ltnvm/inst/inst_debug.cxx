@@ -45,16 +45,4 @@ namespace ltn::vm::inst {
 			};
 		}
 	}
-
-
-
-	void state(VmCore & core) {
-		std::stringstream ss;
-		ss << "register size: " << core.stack.size() << "\n";
-		ss << "stack size: " << core.stack.size() << "\n";
-		ss << "heap capacity: " << core.heap.capacity() << "\n";
-		ss << "heap utilized: " << core.heap.utilized() << "\n";
-		const auto refToString = core.heap.alloc<String>({ss.str()});
-		core.stack.push(Value{refToString, Value::Type::STRING});
-	}
 }
