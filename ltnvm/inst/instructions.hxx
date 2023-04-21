@@ -55,8 +55,6 @@ namespace ltn::vm::inst {
 	
 	void newarr(VmCore & core);
 	void newstr(VmCore & core);
-	void newout(VmCore & core);
-	void newin(VmCore & core);
 	void newfx(VmCore & core);
 	void newclock(VmCore & core);
 	void newstruct(VmCore & core);

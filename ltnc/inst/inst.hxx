@@ -161,8 +161,6 @@ namespace ltn::c::inst {
 	Inst newarr(std::uint64_t size);
 	Inst newstr(std::vector<std::uint8_t> byte);
 	Inst newstr(const std::string & str);
-	Inst newout(std::uint8_t type);
-	Inst newin(std::uint8_t type);
 	Inst newfx(const std::string & label, std::uint64_t arity);
 	Inst newclock();
 	Inst newstruct();

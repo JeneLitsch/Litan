@@ -62,8 +62,6 @@ namespace ltn {
 		// Allocations
 		NEWARR = 0x50,
 		NEWSTR,
-		NEWOUT,
-		NEWIN,
 		NEWFX,
 		NEWCLOCK,
 		NEWSTRUCT,

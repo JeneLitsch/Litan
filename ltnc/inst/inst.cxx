@@ -234,20 +234,7 @@ namespace ltn::c::inst {
 	Inst newstr(const std::string & str) {
 		return newstr(std::vector<std::uint8_t>(str.begin(), str.end()));
 	}
-	Inst newout(std::uint8_t type) {
-		return InstByte {
-			.name = "newout",
-			.opcode = OpCode::NEWOUT,
-			.value = type,
-		};
-	}
-	Inst newin(std::uint8_t type) {
-		return InstByte {
-			.name = "newin",
-			.opcode = OpCode::NEWIN,
-			.value = type,
-		};
-	}
+
 	Inst newfx(const std::string & label, std::uint64_t arity) {
 		return InstJumpUint64 {
 			.name = "newfx",

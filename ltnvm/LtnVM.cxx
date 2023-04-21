@@ -87,8 +87,6 @@ namespace ltn::vm {
 
 		table[OpCode::NEWARR] = inst::newarr;
 		table[OpCode::NEWSTR] = inst::newstr;
-		table[OpCode::NEWOUT] = inst::newout;
-		table[OpCode::NEWIN] = inst::newin;
 		table[OpCode::NEWFX] = inst::newfx;
 		table[OpCode::NEWCLOCK] = inst::newclock;
 		table[OpCode::NEWSTRUCT] = inst::newstruct;
