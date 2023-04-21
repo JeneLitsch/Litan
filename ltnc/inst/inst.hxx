@@ -223,9 +223,6 @@ namespace ltn::c::inst {
 	Inst safe_copy(std::vector<std::uint8_t> code);
 	Inst conversion(std::vector<std::uint8_t> code);
 
-	Inst type_id();
-	Inst clone();
-
 	Inst member_read(std::uint64_t id);
 	Inst member_write(std::uint64_t id);
 	Inst global_read(std::uint64_t id);

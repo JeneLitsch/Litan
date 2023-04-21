@@ -124,8 +124,8 @@ namespace ltn::c {
 		{"random_rand_int",          vm_build_in<FxCode::RANDOM_RAND_INT>},
 		{"random_rand_float",        vm_build_in<FxCode::RANDOM_RAND_FLOAT>},
 
-		{"type_clone",               single_return<inst::clone>},
-		{"type_typeid",              single_return<inst::type_id>},
+		{"type_clone",               vm_build_in<FxCode::TYPE_CLONE>},
+		{"type_typeid",              vm_build_in<FxCode::TYPE_ID>},
 
 		{"to_string",                vm_build_in<FxCode::TO_STRING>},
 		{"split_string",             vm_build_in<FxCode::SPLIT_STRING>},

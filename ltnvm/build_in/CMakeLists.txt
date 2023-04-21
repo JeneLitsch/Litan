@@ -7,4 +7,5 @@ target_sources(libltnvm PRIVATE
 	math.cxx
 	random.cxx
 	string.cxx
+	type.cxx
 )

@@ -69,5 +69,9 @@ namespace ltn {
 		IO_FIN,
 		IO_STRIN,
 		
+		// type
+		TYPE_ID = 0x70,
+		TYPE_CLONE,
+		
 	};
 }

@@ -138,9 +138,6 @@ namespace ltn::vm {
 		table[OpCode::SAFE_COPY] = inst::safe_copy;
 		table[OpCode::CONVERSION] = inst::conversion;
 
-		table[OpCode::TYPEID] = inst::type_id;
-		table[OpCode::CLONE] = inst::clone;
-
 		table[OpCode::MEMBER_READ] = inst::member_read;
 		table[OpCode::MEMBER_WRITE] = inst::member_write;
 

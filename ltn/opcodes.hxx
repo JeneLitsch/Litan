@@ -119,10 +119,6 @@ namespace ltn {
 		SAFE_COPY,
 		CONVERSION,
 
-		// Type utils
-		TYPEID = 0xc0,
-		CLONE,
-
 		// Structs
 		MEMBER_READ = 0xd0,
 		MEMBER_WRITE,

@@ -111,9 +111,6 @@ namespace ltn::vm::inst {
 	void safe_copy(VmCore & core);
 	void conversion(VmCore & core);
 
-	void type_id(VmCore & core);
-	void clone(VmCore & core);
-
 	void member_read(VmCore & core);
 	void member_write(VmCore & core);
 	void static_read(VmCore & core);

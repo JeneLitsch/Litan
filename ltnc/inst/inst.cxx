@@ -596,19 +596,6 @@ namespace ltn::c::inst {
 		};
 	}
 
-	Inst type_id() {
-		return InstNone {
-			.name = "type_id",
-			.opcode = OpCode::TYPEID,
-		};
-	}
-	Inst clone() {
-		return InstNone {
-			.name = "clone",
-			.opcode = OpCode::CLONE,
-		};
-	}
-
 	Inst member_read(std::uint64_t id) {
 		return InstUint64 {
 			.name = "member_read",

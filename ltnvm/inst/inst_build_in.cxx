@@ -6,6 +6,7 @@
 #include "ltnvm/build_in/io.hxx"
 #include "ltnvm/build_in/math.hxx"
 #include "ltnvm/build_in/string.hxx"
+#include "ltnvm/build_in/type.hxx"
 
 namespace ltn::vm::inst {
 	static constexpr auto make_build_in_table() {
@@ -92,6 +93,9 @@ namespace ltn::vm::inst {
 		table[FxCode::LN] = build_in::ln;
 		table[FxCode::LD] = build_in::ld;
 		table[FxCode::LG] = build_in::lg;
+
+		table[FxCode::TYPE_ID] = build_in::type::id;
+		table[FxCode::TYPE_CLONE] = build_in::type::clone;
 		
 		return table.array;
 	}
