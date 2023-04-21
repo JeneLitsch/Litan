@@ -79,7 +79,6 @@ namespace ltn::c {
 		{"debug_state",              single_return<inst::state>},
 
 		{"functional_invoke_2",      single_return<inst::invoke>},
-		{"functional_external",      single_return<inst::external>},
 		{"functional_arity",         vm_build_in<FxCode::ARITY>},
 
 		{"io_cout",                  vm_build_in<FxCode::IO_COUT>},

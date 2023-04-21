@@ -37,7 +37,6 @@ namespace sphinx::test {
 		assert_equal(std::typeid(std::cin()),              std::type::istream);
 		assert_equal(std::typeid(std::cout()),             std::type::ostream);
 		assert_equal(std::typeid(&std::struct()),          std::type::fxptr);
-		assert_equal(std::typeid(std::external(0)),        std::type::external);
 		assert_equal(std::typeid(std::chrono::clock()),    std::type::clock);
 		assert_equal(std::typeid(std::struct()),           std::type::struct);
 		assert_equal(std::typeid(std::queue()),            std::type::queue);

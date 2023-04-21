@@ -4,9 +4,6 @@ namespace std {
 	build_in arity(id) const -> int
 		@ functional_arity
 
-	build_in external(id)
-		@ functional_external
-	
 	build_in invoke(fx, params)
 		@ functional_invoke_2
 	
