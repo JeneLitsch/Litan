@@ -35,7 +35,7 @@ namespace ltn::vm::inst {
 			}
 
 			// Call external binding
-			else if(is_external(refFx) || is_int(refFx)) {
+			else if(is_int(refFx)) {
 				if(core.externals.contains(refFx.i)) {
 					auto & fxptr = core.externals.at(refFx.i);
 					if(arguments.size() == fxptr.arity()) {

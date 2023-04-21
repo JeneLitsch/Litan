@@ -89,12 +89,6 @@ namespace ltn::vm {
 			return  ss.str();
 		}
 
-		if(is_external(value)) {
-			std::ostringstream ss;
-			ss << "<external:" << value.u << ">";
-			return  ss.str();
-		}
-
 		if(is_clock(value)) {
 			const auto & clock = heap.read<Clock>(value.u);
 			std::ostringstream ss;

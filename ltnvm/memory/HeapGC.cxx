@@ -30,7 +30,6 @@ namespace ltn::vm {
 			case Value::Type::ISTREAM:  return this->mark_istream(value);
 			case Value::Type::OSTREAM:  return this->mark_ostream(value);
 			case Value::Type::FX_PTR:   return this->mark_fxptr(value);
-			case Value::Type::EXTERNAL: return; // no gc required
 			case Value::Type::CLOCK:    return this->mark_clock(value);
 			case Value::Type::STRUCT:   return this->mark_struct(value);
 			case Value::Type::QUEUE:    return this->mark_deque(value);

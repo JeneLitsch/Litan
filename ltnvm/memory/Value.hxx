@@ -10,7 +10,7 @@ namespace ltn::vm {
 			BOOL = 0x10, INT, FLOAT, CHAR,
 			ARRAY = 0x20, STRING, TUPLE,
 			ISTREAM = 0x30, OSTREAM,
-			FX_PTR = 0x40, EXTERNAL,
+			FX_PTR = 0x40, 
 			CLOCK = 0x50,
 			STRUCT = 0x60,
 			QUEUE = 0x70, STACK, MAP,
