@@ -172,7 +172,8 @@ namespace ltn::c::inst {
 	Inst call(const std::string & label, std::uint8_t arity);
 	Inst retvrn();
 	Inst ifelse(const std::string & label);
-	Inst invoke();
+	Inst invoke(std::uint8_t arity);
+	Inst invoke_variadic();
 	Inst capture();
 
 	Inst scrap();

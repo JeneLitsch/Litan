@@ -1,4 +1,19 @@
 function main(args) {
-	var rng = std::random::mersenne(42);
-	std::println(std::random::rand_int(rng, 0, 100));
+	// var cap = 420;
+	// var f = lambda [] (x : int, y : int) => x - y;
+	// std::println(f(1,2));
+
+	// var obj = [
+	// 	.f = lambda [cap](self, x) {
+	// 		std::println(self.x);
+	// 		std::println(x);
+	// 		std::println(cap);
+	// 	},
+	// 	.x = 42,
+	// ];
+
+	// obj->f(1337);
+
+	// std::invoke(obj.f, [obj, 1337]);
+	std::println(std::invoke(lambda(a,b) => a + b, [40,2]));
 }

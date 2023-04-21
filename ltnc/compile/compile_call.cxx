@@ -7,14 +7,15 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Invoke & invoke) {
 		InstructionBuffer buf;
 
-		buf << compile_expression(*invoke.function_ptr);
 
 		for(const auto & arg : invoke.arguments) {
 			buf << compile_expression(*arg);
 		}
+		
+		buf << compile_expression(*invoke.function_ptr);
 
-		buf << inst::newarr(invoke.arity());
-		buf << inst::invoke();
+		// buf << inst::newarr();
+		buf << inst::invoke(invoke.arity());
 
 		return buf;
 	}
@@ -40,14 +41,14 @@ namespace ltn::c {
 		buf << compile_expression(*invoke.object);
 		buf << inst::duplicate();
 		buf << inst::member_read(invoke.member_id);
-		buf << inst::swap();
 		
 		for(const auto & arg : invoke.arguments) {
 			buf << compile_expression(*arg);
+			buf << inst::swap();
 		}
 
-		buf << inst::newarr(invoke.arity());
-		buf << inst::invoke();
+		// buf << inst::newarr(invoke.arity());
+		buf << inst::invoke(invoke.arity());
 
 		return buf;
 	}

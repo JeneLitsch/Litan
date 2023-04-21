@@ -55,6 +55,7 @@ namespace ltn {
 		RETURN,
 		IF,
 		INVOKE,
+		INVOKE_VARIADIC,
 		CAPTURE,
 
 		// Allocations

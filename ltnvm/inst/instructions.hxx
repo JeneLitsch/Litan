@@ -48,6 +48,7 @@ namespace ltn::vm::inst {
 	void reTurn(VmCore & core);
 	void iF(VmCore & core);
 	void invoke(VmCore & core);
+	void invoke_variadic(VmCore & core);
 	void between(VmCore & core);
 	void capture(VmCore & core);
 	

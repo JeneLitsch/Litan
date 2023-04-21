@@ -305,10 +305,17 @@ namespace ltn::c::inst {
 			.label = label,
 		};
 	}	
-	Inst invoke() {
-		return InstNone {
+	Inst invoke(std::uint8_t arity) {
+		return InstByte {
 			.name = "invoke",
 			.opcode = OpCode::INVOKE,
+			.value = arity,
+		};
+	}
+	Inst invoke_variadic() {
+		return InstNone {
+			.name = "invoke_variadic",
+			.opcode = OpCode::INVOKE_VARIADIC,
 		};
 	}
 	Inst capture() {
