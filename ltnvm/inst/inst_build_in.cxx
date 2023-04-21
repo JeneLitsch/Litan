@@ -37,10 +37,12 @@ namespace ltn::vm::inst {
 		table[FxCode::REVERSE] = build_in::reverse;
 		
 		// random
-		table[FxCode::SPLIT] = build_in::split;
-		table[FxCode::RAND] = build_in::rand;
-		table[FxCode::RAND_INT] = build_in::rand_int;
-		table[FxCode::RAND_FLOAT] = build_in::rand_float;
+		table[FxCode::RANDOM_SPLIT] = build_in::split;
+		table[FxCode::RANDOM_RAND] = build_in::rand;
+		table[FxCode::RANDOM_RAND_INT] = build_in::rand_int;
+		table[FxCode::RANDOM_RAND_FLOAT] = build_in::rand_float;
+		table[FxCode::RANDOM_MERSENNE_0] = build_in::mersenne_0;
+		table[FxCode::RANDOM_MERSENNE_1] = build_in::mersenne_1;
 
 		//functional
 		table[FxCode::ARITY] = build_in::arity;

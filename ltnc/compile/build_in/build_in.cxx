@@ -126,12 +126,12 @@ namespace ltn::c {
 		{"math_cos",                 vm_build_in<FxCode::COS>},
 		{"math_tan",                 vm_build_in<FxCode::TAN>},
 
-		{"random_mersenne_0",        single_return<inst::newrng, 0x00>},
-		{"random_mersenne_1",        single_return<inst::newrng, 0x01>},
-		{"random_split",             vm_build_in<FxCode::SPLIT>},
-		{"random_rand",              vm_build_in<FxCode::RAND>},
-		{"random_rand_int",          vm_build_in<FxCode::RAND_INT>},
-		{"random_rand_float",        vm_build_in<FxCode::RAND_FLOAT>},
+		{"random_mersenne_0",        vm_build_in<FxCode::RANDOM_MERSENNE_0>},
+		{"random_mersenne_1",        vm_build_in<FxCode::RANDOM_MERSENNE_1>},
+		{"random_split",             vm_build_in<FxCode::RANDOM_SPLIT>},
+		{"random_rand",              vm_build_in<FxCode::RANDOM_RAND>},
+		{"random_rand_int",          vm_build_in<FxCode::RANDOM_RAND_INT>},
+		{"random_rand_float",        vm_build_in<FxCode::RANDOM_RAND_FLOAT>},
 
 		{"type_clone",               single_return<inst::clone>},
 		{"type_typeid",              single_return<inst::type_id>},

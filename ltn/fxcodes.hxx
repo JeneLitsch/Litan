@@ -11,10 +11,12 @@ namespace ltn {
 		REVERSE,
 
 
-		SPLIT = 0x10,
-		RAND,
-		RAND_INT,
-		RAND_FLOAT,
+		RANDOM_SPLIT = 0x10,
+		RANDOM_RAND,
+		RANDOM_RAND_INT,
+		RANDOM_RAND_FLOAT,
+		RANDOM_MERSENNE_0,
+		RANDOM_MERSENNE_1,
 
 
 		// functional
