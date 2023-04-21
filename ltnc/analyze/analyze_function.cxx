@@ -73,11 +73,16 @@ namespace ltn::c {
 		const ast::Function & fx,
 		Context & context,
 		Scope & scope,
-		std::optional<Label> override_label) {
+		std::optional<Label> override_label,
+		const std::vector<std::unique_ptr<ast::Var>> & captures) {
 
 		const auto label = override_label.value_or(make_function_label(fx));
 
 		auto parameters = analyze_parameters(fx.parameters, scope, location(fx));
+
+		for(const auto & capture : captures) {
+			scope.insert(capture->name, location(*capture));
+		}
 
 		auto body = analyze_statement(*fx.body, context, scope);
 
@@ -110,7 +115,7 @@ namespace ltn::c {
 		std::optional<Label> override_label) {
 
 		if(auto fx = as<const ast::Function>(functional)) {
-			return analyze_function(*fx, context, scope, override_label);
+			return analyze_function(*fx, context, scope, override_label, {});
 		}
 		
 		if(auto fx = as<const ast::BuildIn>(functional)) {

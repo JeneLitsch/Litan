@@ -30,7 +30,9 @@ namespace ltn::c {
 	std::unique_ptr<sst::Function> analyze_function(const ast::Function &, Context &, Scope &);
 	sst::func_ptr analyze_functional(const ast::Functional &, Context &);
 	sst::func_ptr analyze_function_template(const ast::FunctionTemplate &, Context &, const std::vector<type::Type> & arguments);
-	sst::func_ptr analyze_function(const ast::Function &, Context &, Scope &, std::optional<Label> override_label = std::nullopt);
+	sst::func_ptr analyze_function(const ast::Function &, Context &, Scope &,
+		std::optional<Label> override_label = std::nullopt,
+		const std::vector<std::unique_ptr<ast::Var>> & captures = {});
 	
 	sst::glob_ptr analyze_global(const ast::Global &, Context &);
 	sst::defn_ptr analyze_definition(const ast::Definition &, Context &);

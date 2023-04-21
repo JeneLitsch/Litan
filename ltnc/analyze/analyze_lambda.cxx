@@ -37,9 +37,7 @@ namespace ltn::c {
 			inner_scope.inherit_types_from(outer_scope);
 			inner_scope.set_return_type(instantiate_type(lambda.fx->return_type, inner_scope));
 
-			for(const auto & capture : lambda.captures) {
-				inner_scope.insert(capture->name, location(*lambda.fx));
-			}
+
 
 			return inner_scope;
 		}
@@ -55,7 +53,7 @@ namespace ltn::c {
 		auto inner_scope = create_inner_scope(outer_scope, lambda);
 		auto label = make_lambda_label(lambda);
 		
-		auto sst_fx = analyze_function(*lambda.fx, context, inner_scope, label);
+		auto sst_fx = analyze_function(*lambda.fx, context, inner_scope, label, lambda.captures);
 		auto captures = analyze_captures(lambda.captures, context, outer_scope);
 		auto type = deduce_type(lambda, inner_scope);
 
