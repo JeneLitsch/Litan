@@ -1,5 +1,6 @@
 #include "functional.hxx"
 #include "ltnvm/Exception.hxx"
+#include "ltnvm/inst/instructions.hxx"
 
 namespace ltn::vm::build_in {
 	Value arity(VmCore & core) {
@@ -10,5 +11,12 @@ namespace ltn::vm::build_in {
 		}
 
 		throw except::invalid_argument("std::arity expected a function pointer");
+	}
+
+
+
+	Value invoke(VmCore & core) {
+		inst::invoke(core);
+		return core.stack.pop();
 	}
 }

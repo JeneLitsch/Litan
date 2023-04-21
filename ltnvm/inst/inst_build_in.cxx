@@ -46,6 +46,7 @@ namespace ltn::vm::inst {
 
 		//functional
 		table[FxCode::ARITY] = build_in::arity;
+		table[FxCode::INVOKE] = build_in::invoke;
 
 		//io
 		table[FxCode::IO_RESET_COLOR] = build_in::io::reset_color;
