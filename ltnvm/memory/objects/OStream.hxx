@@ -36,6 +36,8 @@ namespace ltn::vm {
 		std::unique_ptr<std::ostream> storage;
 		std::ostream * ptr = nullptr;
 		std::ostringstream * oss = nullptr;
+		bool marked = false;
+		bool in_use = false;
 	};
 
 

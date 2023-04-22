@@ -13,19 +13,19 @@ namespace ltn::vm::inst {
 
 		Value smart_copy_array(const std::uint8_t * subtype, const Value & value, VmCore & core) {
 			if(is_array(value)) {
-				const auto & old_array = core.heap.read<Array>(value.u);
+				const auto & old_array = core.heap.read<Array>(value).get();
 				Array new_array;
 				for(const auto & elem : old_array) {
-					new_array.push_back(smart_copy(subtype, elem, core));
+					new_array.get().push_back(smart_copy(subtype, elem, core));
 				}
-				return value::array(core.heap.alloc<Array>(std::move(new_array)));		
+				return value::array(core.heap.alloc(std::move(new_array)));		
 			}
 
 			if(is_string(value)) {
-				const auto & old_string = core.heap.read<String>(value.u);
+				const auto & old_string = core.heap.read<String>(value).get();
 				Array new_array;
 				for(const auto c : old_string) {
-					new_array.push_back(smart_copy(subtype, value::character(c), core));
+					new_array.get().push_back(smart_copy(subtype, value::character(c), core));
 				}
 				return value::array(core.heap.alloc<Array>(std::move(new_array)));		
 			}		
@@ -41,18 +41,18 @@ namespace ltn::vm::inst {
 		Value smart_copy_string(const Value & value, VmCore & core) {
 			if(is_string(value)) {
 				auto new_string = cast::to_string(value, core.heap);
-				return value::string(core.heap.alloc<String>(std::move(new_string)));
+				return value::string(core.heap.alloc(String{std::move(new_string)}));
 			}
 
 			if(is_array(value)) {
 				std::string new_string;
-				const auto old_array = core.heap.read<Array>(value.u);
+				const auto old_array = core.heap.read<Array>(value).get();
 
 				for(const auto & elem : old_array) {
 					new_string.push_back(cast::to_char(elem));
 				}
 
-				return value::string(core.heap.alloc<String>(std::move(new_string)));
+				return value::string(core.heap.alloc(String{std::move(new_string)}));
 			}
 			
 			throw Exception {
@@ -93,7 +93,7 @@ namespace ltn::vm::inst {
 			case type_code::OSTREAM: return is_ostream(value);
 			case type_code::ARRAY: {
 				if(is_array(value)) {
-					auto & arr = core.heap.read<Array>(value.u);
+					auto & arr = core.heap.read<Array>(value).get();
 					return std::all_of(std::begin(arr), std::end(arr), [&] (const auto & elem) {
 						return is_reinterpretable(type + 1, elem, core);
 					});
@@ -134,7 +134,7 @@ namespace ltn::vm::inst {
 
 		bool is_castable_array(const std::uint8_t * type, const Value & value, VmCore & core) {
 			if(is_array(value)) {
-				auto & arr = core.heap.read<Array>(value.u);
+				auto & arr = core.heap.read<Array>(value).get();
 				for(const auto & elem : arr) {
 					if(!is_castable(type, elem, core)) return false;
 				}
@@ -248,7 +248,7 @@ namespace ltn::vm::inst {
 		}
 		else {
 			auto str = cast::to_string(value, core.heap);
-			const auto ref = core.heap.alloc<String>(std::move(str));
+			const auto ref = core.heap.alloc(String{std::move(str)});
 			core.stack.push(Value{ref, Value::Type::STRING});
 		}
 	}

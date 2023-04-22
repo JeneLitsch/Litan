@@ -35,6 +35,8 @@ namespace ltn::vm {
 		}
 
 		RandomEngine split();
+		bool marked = false;
+		bool in_use = false;
 	};
 
 

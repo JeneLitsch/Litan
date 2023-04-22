@@ -13,6 +13,8 @@ namespace ltn::vm {
 		std::vector<Value> captured;
 		constexpr static std::string_view typeName = "FxPointer";
 		
+		bool marked = false;
+		bool in_use = false;
 	};
 
 

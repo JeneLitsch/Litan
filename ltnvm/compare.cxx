@@ -23,13 +23,13 @@ namespace ltn::vm {
 			if(is_float(l)) COMPARE_R(l.f);
 			if(l.type == r.type) {
 				if(is_string(l)) {
-					const auto & strL = heap.read<String>(l.u);
-					const auto & strR = heap.read<String>(r.u);
+					const auto & strL = heap.read<String>(l).str;
+					const auto & strR = heap.read<String>(r).str;
 					return strL <=> strR;
 				}
 				if(is_array(l) || is_tuple(l)) {
-					const auto & arrL = heap.read<Array>(l.u);
-					const auto & arrR = heap.read<Array>(r.u);
+					const auto & arrL = heap.read<Array>(l).arr;
+					const auto & arrR = heap.read<Array>(r).arr;
 					if(arrL.size() != arrR.size()) {
 						return arrL.size() <=> arrR.size();
 					}

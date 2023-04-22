@@ -13,7 +13,12 @@ namespace ltn::vm {
 		}
 	};
 
-	using Map = std::map<Value, Value, Comparator>;
+	struct Map {
+		using Data = std::map<Value, Value, Comparator>; 
+		Data map;
+		bool marked = false;
+		bool in_use = false;
+	};
 
 	inline Map clone(const Map & map) {
 		return map;

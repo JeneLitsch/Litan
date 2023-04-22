@@ -8,65 +8,51 @@
 namespace ltn::vm {
 	template<typename T>
 	class ObjectPool {
-		static constexpr auto PAGE_SIZE = 256;
-		struct Bundle {
-			T obj;
-			bool in_use = false;
-			bool marked = false;
-		};
-		using Page = std::array<Bundle, PAGE_SIZE>;
+		static constexpr std::size_t PAGE_SIZE = 512;
+		using Page = std::array<T, PAGE_SIZE>;
 	public:
 
-		T & get(std::uint64_t id) {
-			return this->get_slot(id).obj;
+		T * get(void * ptr) {
+			return reinterpret_cast<T*>(ptr);
 		}
 
 
-		std::uint64_t alloc(T && obj) {
+		T * alloc(T && t) {
 			if(reuse.empty()) {
 				if(this->next_id >= std::size(this->pages) * PAGE_SIZE) {
 					this->pages.push_back(std::make_unique<Page>());
 				}
-				this->get_slot(this->next_id) = Bundle {
-					.obj = std::move(obj),
-					.in_use = true,
-					.marked = false
-				};
-				return this->next_id++;
+				auto & obj = this->get_slot(this->next_id) = std::move(t);
+				obj.in_use = true;
+				++this->next_id;
+				return &obj;
 			}
 			else {
 				const auto id = this->reuse.front();
 				this->reuse.pop();
-				this->get_slot(id) = Bundle {
-					.obj = std::move(obj),
-					.in_use = true,
-					.marked = false
-				};
-				return id;
+				auto & obj = this->get_slot(id) = std::move(t);
+				obj.in_use = true;
+				return &obj;
 			}
 		}
 
 
 
-		void gc_mark(std::uint64_t id) {
-			this->get_slot(id).marked = true;
+		inline void gc_mark(void * ptr) const {
+			reinterpret_cast<T*>(ptr)->marked = true;
 		}
 
 
 
 		void gc_sweep() {
-			for(std::uint64_t i_page = 0; i_page < std::size(this->pages); ++i_page){
-				auto & page = this->pages[i_page];
-				for(std::uint64_t i_slot = 0; i_slot < PAGE_SIZE; ++i_slot){
-					auto & [obj, in_use, marked] = (*page)[i_slot];
-					if(!in_use) continue;
-					if(!marked) {
-						in_use = false;
-						reuse.push(i_page * PAGE_SIZE + i_slot);
-					}
-					else {
-						marked = false;
-					}
+			for(std::uint64_t i = 0; i < this->next_id; ++i){
+				auto & obj = (*pages[i/PAGE_SIZE])[i%PAGE_SIZE];
+				if(!obj.marked && obj.in_use) {
+					reuse.push(i);
+					obj.in_use = false;
+				}
+				else {
+					obj.marked = false;
 				}
 			}
 		}
@@ -81,8 +67,8 @@ namespace ltn::vm {
 
 
 
-		bool gc_is_marked(std::uint64_t id) const {
-			return this->get_slot(id).marked;
+		bool gc_is_marked(void * ptr) const {
+			return reinterpret_cast<T*>(ptr)->marked;
 		}
 
 
@@ -97,11 +83,9 @@ namespace ltn::vm {
 		}
 	private:
 
-		Bundle & get_slot(std::uint64_t id) {
-			return (*pages[id/PAGE_SIZE])[id%PAGE_SIZE];
-		}
-
-		const Bundle & get_slot(std::uint64_t id) const {
+		T & get_slot(std::uint64_t id) {
+			// std::cout << "PAGE: " << (id/PAGE_SIZE) << "\n"; 
+			// std::cout << "SLOT: " << (id%PAGE_SIZE) << "\n"; 
 			return (*pages[id/PAGE_SIZE])[id%PAGE_SIZE];
 		}
 

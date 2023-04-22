@@ -4,7 +4,7 @@
 
 namespace ltn::vm::inst {
 	namespace {
-		using array = Array;
+		using array = std::vector<Value>;
 		using string = std::string;
 
 
@@ -24,7 +24,7 @@ namespace ltn::vm::inst {
 
 		template<typename Collection>
 		void push_f(const Value ref, Heap & heap, const Value elem) {
-			auto & collection = heap.read<Collection>(ref.u);
+			auto & collection = heap.read<Collection>(ref).get();
 			return push_f(collection, heap, elem);
 		}
 
@@ -55,7 +55,7 @@ namespace ltn::vm::inst {
 
 		template<typename Collection>
 		void push_b(const Value ref, Heap & heap, const Value elem) {
-			auto & collection = heap.read<Collection>(ref.u);
+			auto & collection = heap.read<Collection>(ref).get();
 			push_b(collection, heap, elem);
 		}
 
@@ -72,7 +72,7 @@ namespace ltn::vm::inst {
 
 
 		void push_m(const Value ref, Heap & heap, const Value elem, const Value key) {
-			auto & map = heap.read<Map>(ref.u);
+			auto & map = heap.read<Map>(ref).map;
 			map[key] = elem;
 		}
 
@@ -96,7 +96,7 @@ namespace ltn::vm::inst {
 
 		template<typename Collection>
 		void push_i(const Value ref, Heap & heap, const Value elem, auto i) {
-			auto & collection = heap.read<Collection>(ref.u); 
+			auto & collection = heap.read<Collection>(ref).get(); 
 			if(i != static_cast<std::int64_t>(collection.size())) {
 				guard_index(collection, i);
 			}

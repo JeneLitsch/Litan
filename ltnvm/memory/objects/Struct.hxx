@@ -11,6 +11,8 @@ namespace ltn::vm {
 		
 		Members members;
 	
+		bool marked = false;
+		bool in_use = false;
 	};
 	
 

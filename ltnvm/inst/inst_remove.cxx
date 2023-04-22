@@ -11,7 +11,7 @@ namespace ltn::vm::inst {
 
 		template<typename Collection>
 		void remove_last(const Value ref, Heap & heap) {
-			auto & collection = heap.read<Collection>(ref.u); 
+			auto & collection = heap.read<Collection>(ref).get(); 
 			guardEmpty(collection);
 			collection.pop_back();
 		}
@@ -20,7 +20,7 @@ namespace ltn::vm::inst {
 
 		template<typename Collection>
 		void remove_first(const Value ref, Heap & heap) {
-			auto & collection = heap.read<Collection>(ref.u); 
+			auto & collection = heap.read<Collection>(ref).get(); 
 			guardEmpty(collection);
 			collection.erase(collection.begin());
 		}
@@ -29,7 +29,7 @@ namespace ltn::vm::inst {
 
 		template<typename Collection>
 		void remove_index(const Value ref, Heap & heap, std::int64_t i, std::int64_t size = 1) {
-			auto & collection = heap.read<Collection>(ref.u);
+			auto & collection = heap.read<Collection>(ref).get();
 			guard_index(collection, i);
 			const auto begin = collection.begin() + i;
 			const auto end = begin + size;
@@ -39,8 +39,8 @@ namespace ltn::vm::inst {
 
 
 		void remove_m(const Value ref, Heap & heap, const Value key) {
-			auto & map = heap.read<Map>(ref.u); 
-			map.erase(key);
+			auto & map = heap.read<Map>(ref); 
+			map.map.erase(key);
 		}
 	}  
 

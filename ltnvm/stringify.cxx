@@ -58,21 +58,21 @@ namespace ltn::vm {
 		}
 
 		if(is_array(value)) {
-			const auto & array = heap.read<Array>(value.u);
+			const auto & array = heap.read<Array>(value).arr;
 			std::stringstream ss;
 			print_all(std::begin(array), std::end(array), ss, heap, '[', ']');
 			return ss.str();
 		}
 
 		if(is_tuple(value)) {
-			const auto & array = heap.read<Array>(value.u);
+			const auto & array = heap.read<Array>(value).arr;
 			std::stringstream ss;
 			print_all(std::begin(array), std::end(array), ss, heap, '(', ')');
 			return ss.str();
 		}
 
 		if(is_ostream(value)) {
-			const auto & out = heap.read<OStream>(value.u);
+			const auto & out = heap.read<OStream>(value);
 			if(out.oss) {
 				return out.oss->str();
 			}
@@ -90,7 +90,7 @@ namespace ltn::vm {
 		}
 
 		if(is_clock(value)) {
-			const auto & clock = heap.read<Clock>(value.u);
+			const auto & clock = heap.read<Clock>(value);
 			std::ostringstream ss;
 			ss << "<clock: " << clock.getSeconds() << "s>";
 			return ss.str();
@@ -101,21 +101,21 @@ namespace ltn::vm {
 		}
 
 		if(is_queue(value)) {
-			const auto & deque = heap.read<Deque>(value.u);
+			const auto & deque = heap.read<Deque>(value).deq;
 			std::ostringstream ss;
 			print_all(std::begin(deque), std::end(deque), ss, heap, '<', '>');
 			return ss.str();
 		}
 
 		if(is_stack(value)) {
-			const auto & deque = heap.read<Deque>(value.u);
+			const auto & deque = heap.read<Deque>(value).deq;
 			std::ostringstream ss;
 			print_all(std::begin(deque), std::end(deque), ss, heap, '<', '>');
 			return ss.str();
 		}
 
 		if(is_map(value)) {
-			const auto & map = heap.read<Map>(value.u);
+			const auto & map = heap.read<Map>(value).map;
 			std::ostringstream ss;
 			print_all(std::begin(map), std::end(map), ss, heap, '{', '}');
 			return ss.str();
@@ -126,7 +126,7 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return heap.read<String>(value.u);
+			return heap.read<String>(value).get();
 		}
 
 		throw Exception{

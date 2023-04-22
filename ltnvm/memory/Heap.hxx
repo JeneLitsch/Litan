@@ -33,26 +33,32 @@ namespace ltn::vm {
 
 
 		template<class Obj>
-		std::uint64_t alloc(Obj && obj) {
+		Obj * alloc(Obj && obj) {
 			return pool_of<Obj>().alloc(std::move(obj));
 		}
 
 
 		template<class Obj>
-		Obj & read(std::uint64_t id) {
-			return pool_of<Obj>().get(id);
+		Obj & read(Obj * ptr) {
+			return *ptr;
 		}
 
 
 		template<class Obj>
-		std::uint64_t clone(std::uint64_t id) {
-			auto copy = ltn::vm::clone(this->read<Obj>(id));
+		Obj & read(const Value & value) {
+			return *reinterpret_cast<Obj*>(value.ptr);
+		}
+
+
+		template<class Obj>
+		Obj * clone(void * ptr) {
+			auto copy = ltn::vm::clone(this->read<Obj>(ptr));
 			return this->alloc<Obj>(std::move(copy));
 		}
 
 
 		template<typename ... More>
-		void collect_garbage(const Stack & stack, const Array & globals, More && ...more) {
+		void collect_garbage(const Stack & stack, const std::vector<Value> & globals, More && ...more) {
 			if(gc_counter >= gc_frequency) {
 				((this->mark(more)), ...);
 				mark(stack.get_values());
@@ -74,7 +80,7 @@ namespace ltn::vm {
 
 	private:
 
-		void mark(const Array & values);
+		void mark(const std::vector<Value> & values);
 		void mark(const std::deque<Value> & values);
 		void mark(const Value & value);
 		void mark_array(const Value & value);

@@ -1,3 +1,8 @@
+	var total_errors = "dsopjdlikascd___ß";
+	var last_errors = "dasdasdasde";
+	var test_count = 0;
+	var case_count = 0;
+
 function main(args) {
 	// var cap = 420;
 	// var f = lambda [] (x : int, y : int) => x - y;
@@ -15,5 +20,19 @@ function main(args) {
 	// obj->f(1337);
 
 	// std::invoke(obj.f, [obj, 1337]);
-	std::println(std::invoke(lambda(a,b) => a + b, [40,2]));
+	// std::println(std::invoke(lambda(a,b) => a + b, [40,2]));
+	var std = reflect(namespace std);
+	for(f : std.functions) {
+		std::print(f.name);
+		std::print(" ");
+		std::print(std::arity(f.fx_ptr));
+		std::print("    ");
+		std::print(std::arity(f.fx_ptr));
+		std::print("    ");
+	}
+
+	std::println(total_errors);
+	std::println(last_errors);
+	std::println(test_count);
+	std::println(case_count);
 }

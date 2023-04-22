@@ -4,7 +4,7 @@ namespace ltn::vm::inst {
 	namespace {
 		inline Struct & get_struct(const Value ref, Heap & heap) {
 			if(is_struct(ref)) {
-				return heap.read<Struct>(ref.u);
+				return heap.read<Struct>(ref);
 			}
 			else {
 				throw except::invalid_member_access();

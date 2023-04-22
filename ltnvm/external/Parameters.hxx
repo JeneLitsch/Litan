@@ -8,7 +8,7 @@
 namespace ltn::vm::ext {
 	class Parameters {
 	public:
-		Parameters(Heap & heap, const Array & params);
+		Parameters(Heap & heap, const std::vector<Value> & params);
 
 		template<class T>
 		T get(std::size_t idx) const {
@@ -19,7 +19,7 @@ namespace ltn::vm::ext {
 
 	private:
 		template<class T>
-		T get(std::size_t idx, const Array & array) const {
+		T get(std::size_t idx, const std::vector<Value> & array) const {
 			const Value & value = get_value(idx, array);
 			return convert<T>(value);
 		}
@@ -41,14 +41,14 @@ namespace ltn::vm::ext {
 				throw std::runtime_error{"Parameter not a float"};
 			}
 			else if constexpr(std::same_as<T, std::string>) {
-				if(is_string(value)) return this->heap.read<String>(value.u);
+				if(is_string(value)) return this->heap.read<String>(value);
 				throw std::runtime_error{"Parameter not a string"};
 			}
 			else if constexpr(std::same_as<T, std::vector<typename T::value_type>>) {
 				if(is_array(value)) {
-					auto & input = this->heap.read<Array>(value.u);
+					auto & input = this->heap.read<Array>(value);
 					T output;
-					for(const auto & elem : input) {
+					for(const auto & elem : input.arr) {
 						output.push_back(convert<typename T::value_type>(elem));
 					}
 					return output;
@@ -64,13 +64,13 @@ namespace ltn::vm::ext {
 
 
 
-		const Value & get_value(std::size_t idx, const Array & array) const {
+		const Value & get_value(std::size_t idx, const std::vector<Value> & array) const {
 			if(idx >= std::size(array)) {
 				throw std::runtime_error{"Parameter out of range"};
 			}
 			return array[idx];
 		}
 		Heap & heap;
-		Array params;
+		std::vector<Value> params;
 	};
 }

@@ -6,7 +6,7 @@
 
 namespace ltn::vm::inst {
 	void newi(VmCore & core){
-		core.stack.push(Value{core.fetch_uint(), Value::Type::INT});
+		core.stack.push(value::integer(core.fetch_uint()));
 	}
 
 
@@ -17,13 +17,6 @@ namespace ltn::vm::inst {
 	}
 
 
-
-	void newu(VmCore & core){
-		core.stack.push(Value{core.fetch_uint(), Value::Type::NVLL});
-	}
-	
-
-
 	void newc(VmCore & core) {
 		const auto chr = core.fetch_byte();
 		core.stack.push(value::character(chr));
@@ -32,18 +25,18 @@ namespace ltn::vm::inst {
 
 
 	void truE(VmCore & core){
-		core.stack.push(Value{true, Value::Type::BOOL});
+		core.stack.push(value::boolean(true));
 	}
 
 
 
 	void falsE(VmCore & core){
-		core.stack.push(Value{false, Value::Type::BOOL});
+		core.stack.push(value::boolean(false));
 	}
 
 
 
 	void null(VmCore & core) {
-		core.stack.push(Value{false, Value::Type::NVLL});
+		core.stack.push(value::null);
 	}
 }

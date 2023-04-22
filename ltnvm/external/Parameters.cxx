@@ -3,7 +3,7 @@
 namespace ltn::vm::ext {
 	Parameters::Parameters(
 		Heap & heap,
-		const Array & params) 
+		const std::vector<Value> & params) 
 		: heap(heap)
 		, params(params) {}
 

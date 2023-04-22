@@ -1,7 +1,7 @@
 #include "Heap.hxx"
 #include "ltnvm/type_check.hxx"
 namespace ltn::vm {
-	void Heap::mark(const Array & values) {
+	void Heap::mark(const std::vector<Value> & values) {
 		for(const auto & value : values) {
 			this->mark(value);
 		}
@@ -43,9 +43,9 @@ namespace ltn::vm {
 
 	void Heap::mark_array(const Value & ref) {
 		auto & pool = pool_of<Array>(); 
-		if(!pool.gc_is_marked(ref.u)) {
-			pool.gc_mark(ref.u);
-			auto & arr = pool.get(ref.u);
+		if(!pool.gc_is_marked(ref.ptr)) {
+			pool.gc_mark(ref.ptr);
+			auto & arr = pool.get(ref.ptr)->get();
 			this->mark(arr);
 		}
 	}
@@ -53,29 +53,29 @@ namespace ltn::vm {
 
 
 	void Heap::mark_string(const Value & value) {
-		pool_of<String>().gc_mark(value.u);
+		pool_of<String>().gc_mark(value.ptr);
 	}
 
 
 
 	void Heap::mark_istream(const Value & value) {
-		pool_of<IStream>().gc_mark(value.u);
+		pool_of<IStream>().gc_mark(value.ptr);
 	}
 
 
 
 	void Heap::mark_ostream(const Value & value) {
-		pool_of<OStream>().gc_mark(value.u);
+		pool_of<OStream>().gc_mark(value.ptr);
 	}
 
 
 
 	void Heap::mark_fxptr(const Value & ref) {
 		auto & pool = pool_of<FxPointer>(); 
-		if(!pool.gc_is_marked(ref.u)) {
-			pool.gc_mark(ref.u);
-			auto & fx = pool.get(ref.u);
-			this->mark(fx.captured);
+		if(!pool.gc_is_marked(ref.ptr)) {
+			pool.gc_mark(ref.ptr);
+			auto * fx = pool.get(ref.ptr);
+			this->mark(fx->captured);
 		}
 	}
 
@@ -83,10 +83,10 @@ namespace ltn::vm {
 
 	void Heap::mark_struct(const Value & ref) {
 		auto & pool = pool_of<Struct>(); 
-		if(!pool.gc_is_marked(ref.u)) {
-			pool.gc_mark(ref.u);
-			auto & s = pool.get(ref.u);
-			for(const auto & [key, value] : s.members) {
+		if(!pool.gc_is_marked(ref.ptr)) {
+			pool.gc_mark(ref.ptr);
+			auto * s = pool.get(ref.ptr);
+			for(const auto & [key, value] : s->members) {
 				this->mark(value);
 			}
 		}
@@ -96,21 +96,21 @@ namespace ltn::vm {
 
 	void Heap::mark_deque(const Value & ref) {
 		auto & pool = pool_of<Deque>(); 
-		if(!pool.gc_is_marked(ref.u)) {
-			pool.gc_mark(ref.u);
-			auto & deq = pool.get(ref.u);
+		if(!pool.gc_is_marked(ref.ptr)) {
+			pool.gc_mark(ref.ptr);
+			auto & deq = pool.get(ref.ptr)->deq;
 			this->mark(deq);
 		}
 	}
 
 
 
-	void Heap::mark_map(const Value & value) {
+	void Heap::mark_map(const Value & ref) {
 		auto & pool = pool_of<Map>(); 
-		if(!pool.gc_is_marked(value.u)) {
-			pool.gc_mark(value.u);
-			auto & map = pool.get(value.u);
-			for(auto & [key, value] : map) {
+		if(!pool.gc_is_marked(ref.ptr)) {
+			pool.gc_mark(ref.ptr);
+			auto * map = pool.get(ref.ptr);
+			for(auto & [key, value] : map->map) {
 				this->mark(key);
 				this->mark(value);
 			}
@@ -120,13 +120,13 @@ namespace ltn::vm {
 
 
 	void Heap::mark_clock(const Value & value) {
-		pool_of<Clock>().gc_mark(value.u);
+		pool_of<Clock>().gc_mark(value.ptr);
 	}
 
 
 
 	void Heap::mark_rng(const Value & value) {
-		pool_of<RandomEngine>().gc_mark(value.u);
+		pool_of<RandomEngine>().gc_mark(value.ptr);
 	}
 
 

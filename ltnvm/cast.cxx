@@ -10,10 +10,6 @@ namespace ltn::vm::cast {
 	}
 
 
-	Array to_array(Value value) {
-		return {value};
-	}
-
 	std::int64_t to_int(Value value) {
 		if(is_float(value)) {
 			return static_cast<std::int64_t>(value.f);
@@ -26,7 +22,7 @@ namespace ltn::vm::cast {
 
 	stx::float64_t to_float(Value value, Heap & heap) {
 		if (is_clock(value)) {
-			const auto & clock = heap.read<Clock>(value.u);
+			const auto & clock = heap.read<Clock>(value);
 			return clock.getSeconds();
 		}
 

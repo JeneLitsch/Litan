@@ -21,7 +21,7 @@ namespace ltn::vm::inst {
 
 		// Call functions pointer
 		if(is_fxptr(ref_fx)) {
-			const auto & fxptr = core.heap.read<FxPointer>(ref_fx.u);
+			const auto & fxptr = core.heap.read<FxPointer>(ref_fx);
 			if(arity == fxptr.get_parameters()) {
 				core.stack.push_frame(core.pc, static_cast<std::uint8_t>(arity));
 				load_captures_onto_stack(core.stack, fxptr.captured);
@@ -58,11 +58,11 @@ namespace ltn::vm::inst {
 		const auto ref_param = core.stack.pop();
 		const auto ref_fx = core.stack.pop();
 		if(is_array(ref_param)) {
-			const auto & arguments = core.heap.read<Array>(ref_param.u);
+			const auto & arguments = core.heap.read<Array>(ref_param).get();
 
 			// Call functions pointer
 			if(is_fxptr(ref_fx)) {
-				const auto & fxptr = core.heap.read<FxPointer>(ref_fx.u);
+				const auto & fxptr = core.heap.read<FxPointer>(ref_fx);
 				const auto arity = arguments.size();
 				if(arity == fxptr.get_parameters()) {
 					core.stack.push_frame(core.pc, static_cast<std::uint8_t>(0));

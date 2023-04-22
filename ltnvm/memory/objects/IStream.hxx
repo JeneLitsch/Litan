@@ -26,6 +26,8 @@ namespace ltn::vm {
 		
 		std::unique_ptr<std::istream> storage;
 		std::istream * ptr;
+		bool marked = false;
+		bool in_use = false;
 	};
 
 

@@ -19,11 +19,11 @@ namespace ltn::vm {
 		};
 
 		constexpr Value()
-			: type(Type::NVLL), u(0) {}
+			: type(Type::NVLL), ptr(0) {}
 
-		constexpr Value(std::uint64_t value, Type type) 
-			: type(type), u(value) {}
-		
+		constexpr Value(void * ptr, Type type) 
+			: type(type), ptr(ptr) {}
+
 		constexpr Value(std::int64_t value) 
 			: type(Type::INT), i(value) {}
 
@@ -47,10 +47,10 @@ namespace ltn::vm {
 		};
 	};
 	namespace value {
-		constexpr inline Value null {0, Value::Type::NVLL };
+		constexpr inline Value null;
 
 		constexpr inline Value boolean(bool b) {
-			return Value{b, Value::Type::BOOL};
+			return Value{b};
 		}
 
 		constexpr inline Value integer(auto i) {
@@ -65,20 +65,20 @@ namespace ltn::vm {
 			return Value{static_cast<char>(i)};
 		}
 
-		constexpr inline Value string(std::uint64_t address) {
-			return Value{address, Value::Type::STRING};
+		constexpr inline Value string(void * ptr) {
+			return Value{ptr, Value::Type::STRING};
 		}
 
-		constexpr inline Value array(std::uint64_t address) {
-			return Value{address, Value::Type::ARRAY};
+		constexpr inline Value array(void * ptr) {
+			return Value{ptr, Value::Type::ARRAY};
 		}
 
-		constexpr inline Value rng(std::uint64_t address) {
-			return Value{address, Value::Type::RNG};
+		constexpr inline Value rng(void * ptr) {
+			return Value{ptr, Value::Type::RNG};
 		}
 
-		constexpr inline Value tuple(std::uint64_t address) {
-			return Value{address, Value::Type::TUPLE};
+		constexpr inline Value tuple(void * ptr) {
+			return Value{ptr, Value::Type::TUPLE};
 		}
 	}
 }

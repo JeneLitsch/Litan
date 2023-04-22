@@ -11,7 +11,8 @@ namespace ltn::vm {
 
 		stx::float64_t getSeconds() const;
 
-
+		bool marked = false;
+		bool in_use = false;
 	private:
 		std::chrono::steady_clock clock;
 		std::chrono::time_point<std::chrono::steady_clock> start;

@@ -23,17 +23,16 @@ namespace ltn::vm {
 		}
 
 		if(variant.is_string()) {
-			const auto address = heap.alloc(std::string{variant.as_string()});
-			return value::string(address);
+			auto * ptr = heap.alloc(String{variant.as_string()});
+			return value::string(ptr);
 		}
 
 		if(variant.is_array()) {
-			const auto address = heap.alloc<Array>({});
-			auto & array = heap.read<Array>(address);
+			auto * arr = heap.alloc<Array>({});
 			for(const auto & elem : variant.as_array()) {
-				array.push_back(to_value(elem, heap));
+				arr->arr.push_back(to_value(elem, heap));
 			}
-			return value::string(address);
+			return value::array(arr);
 		}
 
 		return value::null;

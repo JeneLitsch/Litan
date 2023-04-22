@@ -16,7 +16,7 @@ namespace ltn::vm::ext {
 	}
 
 	inline Value wrap_return(std::string value, Heap & heap) {
-		auto ptr = heap.alloc<String>(std::move(value));
+		auto ptr = heap.alloc(String{std::move(value)});
 		return value::string(ptr);
 	}
 
@@ -32,11 +32,10 @@ namespace ltn::vm::ext {
 	
 	template <typename T>
 	inline Value wrap_return(const std::vector<T> & vector, Heap & heap) {
-		auto ptr = heap.alloc<Array>({});
-		auto & array = heap.read<Array>(ptr);
+		auto arr = heap.alloc(Array{});
 		for(const T & elem : vector) {
-			array.push_back(wrap_return(elem, heap));
+			arr->arr.push_back(wrap_return(elem, heap));
 		} 
-		return value::array(ptr);
+		return value::array(arr);
 	}
 }
