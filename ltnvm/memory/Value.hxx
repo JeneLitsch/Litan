@@ -1,6 +1,7 @@
 #pragma once
 #include "stdxx/float64_t.hxx"
 #include <cstdint>
+#include <array>
 
 namespace ltn::vm {
 	struct Value {
@@ -42,6 +43,7 @@ namespace ltn::vm {
 			stx::float64_t f;
 			bool b;
 			char c;
+			void * ptr;
 		};
 	};
 	namespace value {

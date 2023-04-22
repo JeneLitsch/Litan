@@ -8,6 +8,8 @@ namespace ltn::vm {
 	public:
 		constexpr static std::string_view typeName = "OStream";
 
+		OStream() : ptr(nullptr) {}
+
 		OStream(std::ostream & in)
 			: ptr(&in) {}
 

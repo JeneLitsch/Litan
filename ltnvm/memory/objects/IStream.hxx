@@ -7,6 +7,9 @@ namespace ltn::vm {
 	class IStream {
 	public:
 		constexpr static std::string_view typeName = "IStream";
+
+		IStream() : ptr(nullptr) {}
+
 		IStream(std::istream & in)
 			: ptr(&in) {}
 
