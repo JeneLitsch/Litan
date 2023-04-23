@@ -28,6 +28,7 @@ namespace ltn::vm {
 			case Value::Type::STRING:   return this->mark_string(value);
 			case Value::Type::TUPLE:    return this->mark_array(value);
 			case Value::Type::ISTREAM:  return this->mark_istream(value);
+			case Value::Type::ITERATOR: return this->mark_iterator(value);
 			case Value::Type::OSTREAM:  return this->mark_ostream(value);
 			case Value::Type::FX_PTR:   return this->mark_fxptr(value);
 			case Value::Type::CLOCK:    return this->mark_clock(value);

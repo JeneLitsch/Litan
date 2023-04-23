@@ -80,4 +80,8 @@ namespace ltn::vm {
 	constexpr inline bool is_iterator(const Value & val) {
 		return val.type == Value::Type::ITERATOR;
 	}
+
+	constexpr inline bool is_iterator_stop(const Value & val) {
+		return val.type == Value::Type::ITERATOR_STOP;
+	}
 }

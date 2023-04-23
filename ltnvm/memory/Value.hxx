@@ -10,7 +10,7 @@ namespace ltn::vm {
 			BOOL = 0x10, INT, FLOAT, CHAR,
 			ARRAY = 0x20, STRING, TUPLE,
 			ISTREAM = 0x30, OSTREAM,
-			FX_PTR = 0x40, ITERATOR,
+			FX_PTR = 0x40, ITERATOR, ITERATOR_STOP,
 			CLOCK = 0x50,
 			STRUCT = 0x60,
 			QUEUE = 0x70, STACK, MAP,
@@ -46,6 +46,7 @@ namespace ltn::vm {
 	};
 	namespace value {
 		constexpr inline Value null {0, Value::Type::NVLL };
+		constexpr inline Value iterator_stop {0, Value::Type::ITERATOR_STOP };
 
 		constexpr inline Value boolean(bool b) {
 			return Value{b, Value::Type::BOOL};

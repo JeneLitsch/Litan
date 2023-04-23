@@ -547,6 +547,12 @@ namespace ltn::c::inst {
 			.opcode = OpCode::NEXT,
 		};
 	}
+	Inst done() {
+		return InstNone {
+			.name = "done",
+			.opcode = OpCode::DONE,
+		};
+	}
 
 
 

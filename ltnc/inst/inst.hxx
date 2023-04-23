@@ -214,6 +214,7 @@ namespace ltn::c::inst {
 	Inst empty();
 	Inst iter();
 	Inst next();
+	Inst done();
 
 	Inst cast(std::vector<std::uint8_t> code);
 	Inst safe_cast(std::vector<std::uint8_t> code);
