@@ -109,24 +109,57 @@ namespace ltn::c {
 		// Init
 		buf << compile_expression(*stmt.expr);
 		buf << inst::iter();
-		buf << inst::write_x(stmt.iterator_addr);
 
 		// Condition
 		buf << inst::label(label_top);
-		buf << inst::read_x(stmt.iterator_addr);
-		buf << inst::next();
-		buf << inst::duplicate();
-		buf << inst::write_x(stmt.element_addr);
-		buf << inst::done();
-		buf << inst::n0t();
-		buf << inst::ifelse(label_end);
+		buf << inst::for_next(label_end);
+		
 		// Body
+		buf << inst::write_x(stmt.element_addr);
 		buf << compile_statement(*stmt.body);
 		buf << inst::jump(label_top);
 		
 		// End
 		buf << inst::label(label_end);
+		buf << inst::scrap();
 
 		return buf;
+
+		// InstructionBuffer buf;
+		// const auto label_end = make_jump_id("FOREACH_HEAD");
+		// const auto label_top = make_jump_id("FOREACH_BODY");
+		
+		// // Init
+		// buf << compile_expression(*stmt.expr);
+		// buf << inst::write_x(stmt.container_addr);
+		// buf << inst::newi(0);
+		// buf << inst::write_x(stmt.iterator_addr);
+
+		// // Condition
+		// buf << inst::label(label_top);
+		// buf << inst::read_x(stmt.iterator_addr);
+		// buf << inst::read_x(stmt.container_addr) << inst::size();
+		// buf << inst::lt();
+		// buf << inst::ifelse(label_end);
+		
+		// // Load element
+		// buf << inst::read_x(stmt.container_addr);
+		// buf << inst::read_x(stmt.iterator_addr);
+		// buf << inst::at();
+		// buf << inst::write_x(stmt.element_addr);
+		
+		// // Body
+		// buf << compile_statement(*stmt.body);
+		
+		// // Next
+		// buf << inst::read_x(stmt.iterator_addr);
+		// buf << inst::inc();
+		// buf << inst::write_x(stmt.iterator_addr);
+		// buf << inst::jump(label_top);
+		
+		// // End
+		// buf << inst::label(label_end);
+
+		// return buf;
 	}
 }

@@ -57,6 +57,7 @@ namespace ltn {
 		INVOKE,
 		INVOKE_VARIADIC,
 		CAPTURE,
+		FOR_NEXT,
 
 		// Allocations
 		NEWARR = 0x50,

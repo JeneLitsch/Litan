@@ -50,4 +50,12 @@ namespace ltn::vm::inst {
 	void exit(VmCore & core) {
 		throw core.stack.pop();
 	}
+
+
+	void for_next(VmCore & core) {
+		inst::duplicate(core);
+		inst::next(core);
+		core.stack.push(!is_iterator_stop(core.stack.peek())); // duplicate + done + not
+		inst::iF(core);
+	}
 }

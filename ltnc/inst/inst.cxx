@@ -324,6 +324,13 @@ namespace ltn::c::inst {
 			.opcode = OpCode::CAPTURE,
 		};
 	}
+	Inst for_next(const std::string & label) {
+		return InstJump {
+			.name = "for_next",
+			.opcode = OpCode::FOR_NEXT,
+			.label = label,
+		};
+	}
 
 
 	Inst scrap() {

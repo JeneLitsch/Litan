@@ -51,6 +51,7 @@ namespace ltn::vm::inst {
 	void invoke_variadic(VmCore & core);
 	void between(VmCore & core);
 	void capture(VmCore & core);
+	void for_next(VmCore & core);
 	
 	void newarr(VmCore & core);
 	void newstr(VmCore & core);
