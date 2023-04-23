@@ -535,6 +535,20 @@ namespace ltn::c::inst {
 			.opcode = OpCode::EMPTY,
 		};
 	}
+	Inst iter() {
+		return InstNone {
+			.name = "iter",
+			.opcode = OpCode::ITER,
+		};
+	}
+	Inst next() {
+		return InstNone {
+			.name = "next",
+			.opcode = OpCode::NEXT,
+		};
+	}
+
+
 
 	Inst cast(std::vector<std::uint8_t> code) {
 		return InstBytex0 {

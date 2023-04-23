@@ -100,6 +100,7 @@ namespace ltn::vm::inst {
 
 		table[FxCode::ITER_RANGE] = build_in::iter::range;
 		table[FxCode::ITER_NEXT] = build_in::iter::next;
+		table[FxCode::ITER_ITER] = build_in::iter::iter;
 		
 		return table.array;
 	}

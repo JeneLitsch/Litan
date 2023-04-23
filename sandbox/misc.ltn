@@ -17,7 +17,7 @@ function main(args) {
 	// std::invoke(obj.f, [obj, 1337]);
 	// std::println(std::invoke(lambda(a,b) => a + b, [40,2]));
 
-	var iter = std::range(0, 10, 2);
+	var iter = std::iter([1,2,3]);
 	std::println(std::next(iter));
 	std::println(std::next(iter));
 	std::println(std::next(iter));

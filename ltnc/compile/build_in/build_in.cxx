@@ -133,6 +133,7 @@ namespace ltn::c {
 
 		{"iter_range",               vm_build_in<FxCode::ITER_RANGE>},
 		{"iter_next",                vm_build_in<FxCode::ITER_NEXT>},
+		{"iter_iter",                vm_build_in<FxCode::ITER_ITER>},
 	};
 	
 

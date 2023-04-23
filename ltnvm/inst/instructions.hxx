@@ -98,6 +98,8 @@ namespace ltn::vm::inst {
 	void peek(VmCore & core);
 	void contains(VmCore & core);
 	void empty(VmCore & core);
+	void iter(VmCore & core);
+	void next(VmCore & core);
 
 	void cast(VmCore & core);
 	void safe_cast(VmCore & core);

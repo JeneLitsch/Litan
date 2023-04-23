@@ -10,14 +10,21 @@ namespace ltn::vm {
 			std::int64_t current;
 		};
 
+		struct Array {
+			std::uint64_t array;
+			std::uint64_t index;
+		};
+		
+
 		enum class Type {
-			RANGE
+			RANGE, ARRAY
 		};
 
 		Type type;
 
 		union {
 			Range range;
+			Array array;
 		};
 		
 	};
@@ -25,5 +32,6 @@ namespace ltn::vm {
 
 	namespace iterator {
 		Iterator range(std::int64_t begin, std::int64_t end, std::int64_t step);
+		Iterator array(std::uint64_t array);
 	}
 }

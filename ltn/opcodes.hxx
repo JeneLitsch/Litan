@@ -107,6 +107,8 @@ namespace ltn {
 		PEEK,
 		CONTAINS,
 		EMPTY,
+		ITER,
+		NEXT,
 
 		// Cast
 		CAST = 0xb0,

@@ -71,6 +71,9 @@ namespace ltn::vm {
 			auto & iter = pool.get(value.u);
 			switch (iter.type) {
 			case Iterator::Type::RANGE: {} break;
+			case Iterator::Type::ARRAY: {
+				this->mark(value::array(iter.array.array));
+			} break;
 			}
 		}
 	}

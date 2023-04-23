@@ -13,5 +13,17 @@ namespace ltn::vm {
 				},
 			};
 		}
+
+
+
+		Iterator array(std::uint64_t array) {
+			return Iterator {
+				.type = Iterator::Type::ARRAY,
+				.array = Iterator::Array {
+					.array = array,
+					.index = 0,
+				},
+			};
+		}
 	}
 }
