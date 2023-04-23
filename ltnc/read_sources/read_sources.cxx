@@ -10,6 +10,7 @@
 #include "ltnc/stdlib/debug.hxx"
 #include "ltnc/stdlib/functional.hxx"
 #include "ltnc/stdlib/io.hxx"
+#include "ltnc/stdlib/iter.hxx"
 #include "ltnc/stdlib/math.hxx"
 #include "ltnc/stdlib/random.hxx"
 #include "ltnc/stdlib/range.hxx"
@@ -68,6 +69,7 @@ namespace ltn::c {
 		sources.push_back(StringSource{"std_debug", std_debug});
 		sources.push_back(StringSource{"std_functional", std_functional});
 		sources.push_back(StringSource{"std_io", std_io});
+		sources.push_back(StringSource{"std_iter", std_iter});
 		sources.push_back(StringSource{"std_math", std_math});
 		sources.push_back(StringSource{"std_random", std_random});
 		sources.push_back(StringSource{"std_range", std_range});

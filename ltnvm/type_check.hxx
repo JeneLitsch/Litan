@@ -76,4 +76,8 @@ namespace ltn::vm {
 	constexpr inline bool is_rng(const Value & val) {
 		return val.type == Value::Type::RNG;
 	}
+
+	constexpr inline bool is_iterator(const Value & val) {
+		return val.type == Value::Type::ITERATOR;
+	}
 }

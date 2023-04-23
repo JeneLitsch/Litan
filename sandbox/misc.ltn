@@ -15,5 +15,25 @@ function main(args) {
 	// obj->f(1337);
 
 	// std::invoke(obj.f, [obj, 1337]);
-	std::println(std::invoke(lambda(a,b) => a + b, [40,2]));
+	// std::println(std::invoke(lambda(a,b) => a + b, [40,2]));
+
+	var iter = std::range(0, 10, 2);
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
+	std::println(std::next(iter));
 }

@@ -11,6 +11,7 @@ namespace ltn::vm {
 		pool_of<String>().clear();
 		pool_of<Array>().clear();
 		pool_of<IStream>().clear();
+		pool_of<Iterator>().clear();
 		pool_of<OStream>().clear();
 		pool_of<FxPointer>().clear();
 		pool_of<Clock>().clear();
@@ -27,6 +28,7 @@ namespace ltn::vm {
 			+ pool_of<String>().capacity()
 			+ pool_of<Array>().capacity()
 			+ pool_of<IStream>().capacity()
+			+ pool_of<Iterator>().capacity()
 			+ pool_of<OStream>().capacity()
 			+ pool_of<FxPointer>().capacity()
 			+ pool_of<Clock>().capacity()
@@ -43,6 +45,7 @@ namespace ltn::vm {
 			+ pool_of<String>().utilized()
 			+ pool_of<Array>().utilized()
 			+ pool_of<IStream>().utilized()
+			+ pool_of<Iterator>().utilized()
 			+ pool_of<OStream>().utilized()
 			+ pool_of<FxPointer>().utilized()
 			+ pool_of<Clock>().utilized()

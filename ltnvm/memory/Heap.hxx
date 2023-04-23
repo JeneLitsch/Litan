@@ -12,6 +12,7 @@
 #include "objects/String.hxx"
 #include "objects/OStream.hxx"
 #include "objects/IStream.hxx"
+#include "objects/Iterator.hxx"
 #include "objects/FxPointer.hxx"
 #include "objects/Clock.hxx"
 #include "objects/Struct.hxx"
@@ -41,6 +42,12 @@ namespace ltn::vm {
 		template<class Obj>
 		Obj & read(std::uint64_t id) {
 			return pool_of<Obj>().get(id);
+		}
+
+
+		template<class Obj>
+		Obj & read(Value value) {
+			return pool_of<Obj>().get(value.u);
 		}
 
 
@@ -80,6 +87,7 @@ namespace ltn::vm {
 		void mark_array(const Value & value);
 		void mark_string(const Value & value);
 		void mark_istream(const Value & value);
+		void mark_iterator(const Value & value);
 		void mark_ostream(const Value & value);
 		void mark_fxptr(const Value & value);
 		void mark_struct(const Value & value);
@@ -103,6 +111,7 @@ namespace ltn::vm {
 			ObjectPool<String>,
 			ObjectPool<Array>,
 			ObjectPool<IStream>,
+			ObjectPool<Iterator>,
 			ObjectPool<OStream>,
 			ObjectPool<FxPointer>,
 			ObjectPool<Clock>,

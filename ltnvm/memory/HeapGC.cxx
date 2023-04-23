@@ -64,6 +64,19 @@ namespace ltn::vm {
 
 
 
+	void Heap::mark_iterator(const Value & value) {
+		auto & pool = pool_of<Iterator>(); 
+		if(!pool.gc_is_marked(value.u)) {
+			pool.gc_mark(value.u);
+			auto & iter = pool.get(value.u);
+			switch (iter.type) {
+			case Iterator::Type::RANGE: {} break;
+			}
+		}
+	}
+
+
+
 	void Heap::mark_ostream(const Value & value) {
 		pool_of<OStream>().gc_mark(value.u);
 	}
@@ -135,6 +148,7 @@ namespace ltn::vm {
 		pool_of<String>().gc_sweep();
 		pool_of<Array>().gc_sweep();
 		pool_of<IStream>().gc_sweep();
+		pool_of<Iterator>().gc_sweep();
 		pool_of<OStream>().gc_sweep();
 		pool_of<FxPointer>().gc_sweep();
 		pool_of<Clock>().gc_sweep();

@@ -4,6 +4,7 @@
 #include "ltnvm/build_in/random.hxx"
 #include "ltnvm/build_in/functional.hxx"
 #include "ltnvm/build_in/io.hxx"
+#include "ltnvm/build_in/iter.hxx"
 #include "ltnvm/build_in/math.hxx"
 #include "ltnvm/build_in/string.hxx"
 #include "ltnvm/build_in/type.hxx"
@@ -96,6 +97,9 @@ namespace ltn::vm::inst {
 
 		table[FxCode::TYPE_ID] = build_in::type::id;
 		table[FxCode::TYPE_CLONE] = build_in::type::clone;
+
+		table[FxCode::ITER_RANGE] = build_in::iter::range;
+		table[FxCode::ITER_NEXT] = build_in::iter::next;
 		
 		return table.array;
 	}

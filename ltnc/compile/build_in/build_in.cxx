@@ -130,6 +130,9 @@ namespace ltn::c {
 		{"to_string",                vm_build_in<FxCode::TO_STRING>},
 		{"split_string",             vm_build_in<FxCode::SPLIT_STRING>},
 		{"join_string",              vm_build_in<FxCode::JOIN_STRING>},
+
+		{"iter_range",               vm_build_in<FxCode::ITER_RANGE>},
+		{"iter_next",                vm_build_in<FxCode::ITER_NEXT>},
 	};
 	
 

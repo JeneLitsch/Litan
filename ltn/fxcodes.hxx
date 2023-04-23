@@ -72,6 +72,10 @@ namespace ltn {
 		// type
 		TYPE_ID = 0x70,
 		TYPE_CLONE,
+
+		// iterator
+		ITER_RANGE = 0x80,
+		ITER_NEXT,
 		
 	};
 }

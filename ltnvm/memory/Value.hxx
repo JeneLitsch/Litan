@@ -10,7 +10,7 @@ namespace ltn::vm {
 			BOOL = 0x10, INT, FLOAT, CHAR,
 			ARRAY = 0x20, STRING, TUPLE,
 			ISTREAM = 0x30, OSTREAM,
-			FX_PTR = 0x40, 
+			FX_PTR = 0x40, ITERATOR,
 			CLOCK = 0x50,
 			STRUCT = 0x60,
 			QUEUE = 0x70, STACK, MAP,
@@ -77,6 +77,10 @@ namespace ltn::vm {
 
 		constexpr inline Value tuple(std::uint64_t address) {
 			return Value{address, Value::Type::TUPLE};
+		}
+
+		constexpr inline Value iterator(std::uint64_t address) {
+			return Value{address, Value::Type::ITERATOR};
 		}
 	}
 }
