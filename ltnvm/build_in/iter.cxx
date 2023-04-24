@@ -24,4 +24,10 @@ namespace ltn::vm::build_in::iter {
 	Value iter(VmCore & core) {
 		return iteration::wrap(core.stack.pop(), core.heap);
 	}
+
+
+
+	Value is_stop(VmCore & core) {
+		return value::boolean(is_iterator_stop(core.stack.pop()));
+	}
 }

@@ -77,6 +77,6 @@ namespace ltn {
 		ITER_RANGE = 0x80,
 		ITER_NEXT,
 		ITER_ITER,
-		
+		ITER_IS_STOP,
 	};
 }
