@@ -28,7 +28,12 @@ namespace ltn::vm::inst {
 
 	namespace {
 		bool is_done(Iterator::Range & iter) {
-			return iter.current >= iter.begin && iter.current < iter.end;
+			if(iter.begin <= iter.end) {
+				return iter.current >= iter.begin && iter.current < iter.end;
+			}
+			else {
+				return iter.current <= iter.begin && iter.current > iter.end;
+			}
 		}
 		
 		

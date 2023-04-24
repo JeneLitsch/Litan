@@ -2,7 +2,7 @@ namespace sphinx::test {
 	namespace utils {
         function for_sum(begin, end, step) {
 			var sum : any = 0;
-			for (i : {begin, end} : step) {
+			for (i : std::range(begin, end, step)) {
 				sum = sum + i;
 			}
 			return sum;
@@ -12,7 +12,7 @@ namespace sphinx::test {
 
 		function for_skip(begin, end, step) {
 			var skipped : bool = true;
-			for (i : {begin, end} : step) {
+			for (i : std::range(begin, end, step)) {
 				skipped = false;
 			}
 			return skipped;
@@ -20,9 +20,9 @@ namespace sphinx::test {
 
 
 
-		function for_sum(begin : int, end ) {
+		function for_sum(begin : int, end : int) {
 			var sum : any = 0;
-			for (i : {begin, end}) {
+			for (i : std::range(begin, end)) {
 				sum = sum + i;
 			}
 			return sum;
