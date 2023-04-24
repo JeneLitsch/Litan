@@ -8,7 +8,6 @@ namespace ltn::c::sst {
 	struct IfElse;
 	struct While;
 	struct InfiniteLoop;
-	struct For;
 	struct ForEach;
 	struct Assign;
 	struct Return;
@@ -23,7 +22,6 @@ namespace ltn::c::sst {
 		IfElse,
 		While,
 		InfiniteLoop,
-		For,
 		ForEach,
 		Assign,
 		Return,

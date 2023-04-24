@@ -46,40 +46,6 @@ namespace ltn::c {
 
 
 	sst::stmt_ptr analyze_stmt(
-		const ast::For & stmt,
-		Context & context,
-		Scope & scope) {
-		
-		// outer scope of loop 
-		MinorScope loop_scope { &scope };
-
-		auto from = analyze_expression(*stmt.from, context, loop_scope);
-		auto to = analyze_expression(*stmt.to, context, loop_scope);
-		auto step = stmt.step
-			? analyze_expression(*stmt.step, context, scope)
-			: std::make_unique<sst::Integer>(1, type::Int{});
-		
-		const auto label = make_jump_id("FOR");
-
-		const auto i_var = loop_scope.insert(stmt.index_name, location(stmt), type::Int{});
-		loop_scope.insert(var_from(label), location(stmt));
-		loop_scope.insert(var_to(label), location(stmt));
-
-		auto body = analyze_statement(*stmt.body, context, loop_scope);
-				
-		return std::make_unique<sst::For>(
-			label,
-			i_var.address,
-			std::move(from),
-			std::move(to),
-			std::move(step),
-			std::move(body)
-		);
-	}
-
-
-
-	sst::stmt_ptr analyze_stmt(
 		const ast::ForEach & stmt,
 		Context & context,
 		Scope & scope) {

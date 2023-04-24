@@ -182,44 +182,6 @@ namespace ltn::c::sst {
 
 
 
-	struct For final : public Statement {
-		For(
-			std::string label,
-			std::size_t index_addr,
-			std::unique_ptr<Expression> from,
-			std::unique_ptr<Expression> to,
-			std::unique_ptr<Expression> step,
-			std::unique_ptr<Statement> body)
-			: Statement{}
-			, label{label}
-			, index_addr{index_addr}
-			, from(std::move(from))
-			, to(std::move(to))
-			, step(std::move(step))
-			, body(std::move(body)) {}
-
-		virtual std::size_t nested_alloc() const override {
-			return body->nested_alloc();
-		}
-		
-		virtual std::size_t direct_alloc() const override {
-			return 3 + this->from->alloc() + this->to->alloc() + this->step->alloc();
-		}
-	
-		virtual void accept(const StmtVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
-
-		std::string label;
-		std::size_t index_addr;
-		std::unique_ptr<Expression> from;
-		std::unique_ptr<Expression> to;
-		std::unique_ptr<Expression> step;
-		std::unique_ptr<Statement> body;
-	};
-
-
-
 	struct ForEach final : public Statement {
 		ForEach(
 			std::size_t element_addr,
@@ -325,7 +287,6 @@ namespace ltn::c::sst {
 			virtual void visit(const IfElse & x) const override { this->run(x); }
 			virtual void visit(const While & x) const override { this->run(x); }
 			virtual void visit(const InfiniteLoop & x) const override { this->run(x); }
-			virtual void visit(const For & x) const override { this->run(x); }
 			virtual void visit(const ForEach & x) const override { this->run(x); }
 			virtual void visit(const Assign & x) const override { this->run(x); }
 			virtual void visit(const Return & x) const override { this->run(x); }

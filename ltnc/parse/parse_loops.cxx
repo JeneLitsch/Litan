@@ -35,54 +35,20 @@ namespace ltn::c {
 				throw CompilerError{"Expected :", location(tokens)};
 			}
 
-			if(match(TT::BRACE_L, tokens)) {
-				auto from = parse_expression_no_cast(tokens);
 
-				if(!match(TT::COMMA, tokens)) {
-					throw CompilerError{"Expected ,", location(tokens)};
-				}
-				
-				auto to = parse_expression_no_cast(tokens);
+			auto from = parse_expression_no_cast(tokens);
 
-				if(!match(TT::BRACE_R, tokens)) {
-					throw CompilerError{"Expected }", location(tokens)};
-				}
-
-				ast::expr_ptr step;
-				if(match(TT::COLON, tokens)) {
-					step = parse_expression(tokens);
-				}
-
-				if(!match(TT::PAREN_R, tokens)) {
-					throw CompilerError{"Expected )", location(tokens)};
-				}
-
-				auto body = parse_statement(tokens);
-
-				return std::make_unique<ast::For>(
-					var_name,
-					std::move(from),
-					std::move(to),
-					std::move(step),
-					std::move(body),
-					start->location
-				);
+			if(!match(TT::PAREN_R, tokens)) {
+				throw CompilerError{"Expected )", location(tokens)};
 			}
-			else {
-				auto from = parse_expression_no_cast(tokens);
-
-				if(!match(TT::PAREN_R, tokens)) {
-					throw CompilerError{"Expected )", location(tokens)};
-				}
-				
-				auto body = parse_statement(tokens);
-				return std::make_unique<ast::ForEach>(
-					var_name,
-					std::move(from),
-					std::move(body),
-					start->location
-				);
-			}
+			
+			auto body = parse_statement(tokens);
+			return std::make_unique<ast::ForEach>(
+				var_name,
+				std::move(from),
+				std::move(body),
+				start->location
+			);
 		}
 		return nullptr;
 	}

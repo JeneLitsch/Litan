@@ -138,7 +138,7 @@ namespace sphinx::test {
 	function for_scope() {
 		var x = 1337;
 		var had_run = false;
-		for(i: {0, 1}) {
+		for(i : std::range(0, 1)) {
 			assert_equal_strict(x, 1337);
 			var x = 0;
 			assert_equal_strict(x, 0);

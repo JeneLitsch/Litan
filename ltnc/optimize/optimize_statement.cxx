@@ -60,15 +60,6 @@ namespace ltn::c {
 
 			return nullptr;
 		}
-
-		
-		
-		sst::stmt_ptr optimize_for_loop(sst::For & stmt) {
-			stmt.from = optimize_expression(std::move(stmt.from));
-			stmt.to = optimize_expression(std::move(stmt.to));
-			stmt.body = optimize_statement(std::move(stmt.body));
-			return nullptr;
-		}
 	}
 
 
@@ -91,9 +82,6 @@ namespace ltn::c {
 		}
 		if(auto s = as<sst::While>(stmt)) {
 			return optimize_while_loop(*s);
-		}
-		if(auto s = as<sst::For>(stmt)) {
-			return optimize_for_loop(*s);
 		}
 		return nullptr;
 	}

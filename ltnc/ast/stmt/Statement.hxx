@@ -15,7 +15,6 @@ namespace ltn::c::ast {
 	struct IfElse;
 	struct While;
 	struct InfiniteLoop;
-	struct For;
 	struct ForEach;
 	struct NewVar;
 	struct Return;
@@ -32,7 +31,6 @@ namespace ltn::c::ast {
 		IfElse,
 		While,
 		InfiniteLoop,
-		For,
 		ForEach,
 		NewVar,
 		Return,
@@ -177,34 +175,6 @@ namespace ltn::c::ast {
 
 
 
-	struct For final : public Statement {
-		For(
-			std::string index_name,
-			std::unique_ptr<Expression> from,
-			std::unique_ptr<Expression> to,
-			std::unique_ptr<Expression> step,
-			std::unique_ptr<Statement> body,
-			const SourceLocation & location)
-			: Statement(location)
-			, index_name(std::move(index_name))
-			, from(std::move(from))
-			, to(std::move(to))
-			, step(std::move(step))
-			, body(std::move(body)) {}
-
-		virtual void accept(const StmtVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
-
-		std::string index_name;
-		std::unique_ptr<Expression> from;
-		std::unique_ptr<Expression> to;
-		std::unique_ptr<Expression> step;
-		std::unique_ptr<Statement> body;
-	};
-
-
-
 	struct ForEach final : public Statement {
 		ForEach(
 			std::string index_name,
@@ -311,7 +281,6 @@ namespace ltn::c::ast {
 			virtual void visit(const IfElse & x)               const override { this->run(x); };
 			virtual void visit(const While & x)                const override { this->run(x); };
 			virtual void visit(const InfiniteLoop & x)         const override { this->run(x); };
-			virtual void visit(const For & x)                  const override { this->run(x); };
 			virtual void visit(const ForEach & x)              const override { this->run(x); };
 			virtual void visit(const NewVar & x)               const override { this->run(x); };
 			virtual void visit(const Return & x)               const override { this->run(x); };
