@@ -100,8 +100,6 @@ namespace ltn::vm::inst {
 	void contains(VmCore & core);
 	void empty(VmCore & core);
 	void iter(VmCore & core);
-	void next(VmCore & core);
-	void done(VmCore & core);
 
 	void cast(VmCore & core);
 	void safe_cast(VmCore & core);

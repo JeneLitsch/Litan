@@ -129,8 +129,6 @@ namespace ltn::vm {
 		table[OpCode::CONTAINS] = inst::contains;
 		table[OpCode::EMPTY] = inst::empty;
 		table[OpCode::ITER] = inst::iter;
-		table[OpCode::NEXT] = inst::next;
-		table[OpCode::DONE] = inst::done;
 
 		table[OpCode::CAST] = inst::cast;
 		table[OpCode::SAFE_CAST] = inst::safe_cast;

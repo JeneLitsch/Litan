@@ -129,6 +129,14 @@ namespace ltn::vm {
 			return heap.read<String>(value.u);
 		}
 
+		if(is_iterator(value)) {
+			return "<iterator>";
+		}
+
+		if(is_iterator_stop(value)) {
+			return "<iterator_stop>";
+		}
+
 		throw Exception{
 			.type = Exception::Type::INVALID_ARGUMENT,
 			.msg = "Cannot stringify"

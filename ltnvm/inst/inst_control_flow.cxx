@@ -1,6 +1,7 @@
 #include "instructions.hxx"
 #include "ltnvm/type_check.hxx"
 #include "ltnvm/convert.hxx"
+#include "ltnvm/iteration.hxx"
 #include <sstream>
 #include <stack>
 
@@ -53,9 +54,9 @@ namespace ltn::vm::inst {
 
 
 	void for_next(VmCore & core) {
-		inst::duplicate(core);
-		inst::next(core);
-		core.stack.push(!is_iterator_stop(core.stack.peek())); // duplicate + done + not
+		const auto iter = core.stack.peek();
+		core.stack.push(iteration::next(iter, core.heap));
+		core.stack.push(!is_iterator_stop(core.stack.peek())); 
 		inst::iF(core);
 	}
 }

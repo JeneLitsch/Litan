@@ -4,6 +4,7 @@ add_library(libltnvm
 	cast.cxx
 	compare.cxx
 	convert.cxx
+	iteration.cxx
 	LtnVM.cxx
 	stringify.cxx
 	to_value.cxx

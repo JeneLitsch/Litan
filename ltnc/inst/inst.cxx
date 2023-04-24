@@ -548,18 +548,6 @@ namespace ltn::c::inst {
 			.opcode = OpCode::ITER,
 		};
 	}
-	Inst next() {
-		return InstNone {
-			.name = "next",
-			.opcode = OpCode::NEXT,
-		};
-	}
-	Inst done() {
-		return InstNone {
-			.name = "done",
-			.opcode = OpCode::DONE,
-		};
-	}
 
 
 

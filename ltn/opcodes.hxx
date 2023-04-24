@@ -109,8 +109,6 @@ namespace ltn {
 		CONTAINS,
 		EMPTY,
 		ITER,
-		NEXT,
-		DONE,
 
 		// Cast
 		CAST = 0xb0,
