@@ -2,9 +2,9 @@ function main(args) {
 	var iter = std::range(1, 10);
 	// var iter = std::iter([1, 3]);
 
-	var elem = std::next(iter);
+	var elem = std::iter::next(iter);
 	while(!std::iter::is_stop(elem)) {
 		std::println(elem);
-		elem = std::next(iter);
+		elem = std::iter::next(iter);
 	}
 }
