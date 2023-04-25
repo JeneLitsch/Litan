@@ -20,6 +20,18 @@ namespace ltn::vm::iter {
 
 
 
+	Value ArrayCore::get(Heap & heap) {
+		auto & arr = heap.read<Array>(this->ref);
+		if(this->index < std::size(arr)) {
+			return arr[this->index];
+		}
+		else {
+			return value::iterator_stop;
+		}
+	}
+
+
+
 	void ArrayCore::mark(Heap & heap) {
 		heap.mark(value::array(this->ref));
 	}

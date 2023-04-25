@@ -20,6 +20,18 @@ namespace ltn::vm::iter {
 
 
 
+	Value StringCore::get(Heap & heap) {
+		auto & arr = heap.read<String>(this->ref);
+		if(this->index < std::size(arr)) {
+			return value::character(arr[this->index]);
+		}
+		else {
+			return value::iterator_stop;
+		}
+	}
+
+
+
 	void StringCore::mark(Heap & heap) {
 		heap.mark(value::string(this->ref));
 	}

@@ -62,5 +62,15 @@ namespace ltn::vm {
 			auto & iter = heap.read<Iterator>(ref);
 			return iter.next(heap);
 		}
+
+
+	
+		Value get(const Value & ref, Heap & heap) {
+			if(!is_iterator(ref)) {
+				throw except::invalid_argument("std::next expects an iterator");
+			}
+			auto & iter = heap.read<Iterator>(ref);
+			return iter.get(heap);
+		}
 	}
 }

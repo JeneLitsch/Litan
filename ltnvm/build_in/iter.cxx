@@ -20,6 +20,12 @@ namespace ltn::vm::build_in::iter {
 
 
 
+	Value get(VmCore & core) {
+		return iterator::get(core.stack.pop(), core.heap);
+	}
+
+
+
 	Value iter(VmCore & core) {
 		return iterator::wrap(core.stack.pop(), core.heap);
 	}

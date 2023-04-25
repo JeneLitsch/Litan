@@ -7,6 +7,7 @@ namespace ltn::vm {
 	struct Iterator {
 		struct Concept {
 			virtual Value next(Heap & heap) = 0;
+			virtual Value get(Heap & heap) = 0;
 			virtual void mark(Heap & heap) = 0;
 			virtual ~Concept() = default;
 		};
@@ -15,6 +16,7 @@ namespace ltn::vm {
 		struct Impl : Concept {
 			Impl(T && t) : t {std::move(t)} {}
 			virtual Value next(Heap & heap) { return t.next(heap); }
+			virtual Value get(Heap & heap) { return t.get(heap); }
 			virtual void mark(Heap & heap) { return t.mark(heap); }
 			T t;
 		};
@@ -22,6 +24,7 @@ namespace ltn::vm {
 		template<typename T>
 		Iterator(T && impl) : core { std::make_unique<Impl<T>>(std::move(impl)) } {}
 		Value next(Heap & heap) { return core->next(heap); }
+		Value get(Heap & heap) { return core->get(heap); }
 		void mark(Heap & heap) { return core->mark(heap); }
 	private:
 		std::unique_ptr<Concept> core;
@@ -35,5 +38,6 @@ namespace ltn::vm {
 
 		Value wrap(const Value & ref, Heap & heap);
 		Value next(const Value & ref, Heap & heap);
+		Value get(const Value & ref, Heap & heap);
 	}
 }

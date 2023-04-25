@@ -6,6 +6,7 @@ namespace ltn::vm::iter {
 	public:
 		ArrayCore(std::uint64_t ref);
 		Value next(Heap &);
+		Value get(Heap &);
 		void mark(Heap &);
 	private:
 		std::uint64_t ref;
