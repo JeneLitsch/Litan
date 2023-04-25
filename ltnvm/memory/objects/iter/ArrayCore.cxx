@@ -1,5 +1,6 @@
 #include "ArrayCore.hxx"
 #include "ltnvm/VmCore.hxx"
+#include "ltnvm/type_check.hxx"
 
 namespace ltn::vm::iter {
 	ArrayCore::ArrayCore(std::uint64_t ref) 
@@ -9,20 +10,16 @@ namespace ltn::vm::iter {
 
 
 	Value ArrayCore::next(Heap & heap) {
-		auto & arr = heap.read<Array>(this->ref);
-		if(this->index < std::size(arr)) {
-			return arr[this->index++];
-		}
-		else {
-			return value::iterator_stop;
-		}
+		const auto value = this->get(heap);
+		this->index += !is_iterator_stop(value);
+		return value;
 	}
 
 
 
 	Value ArrayCore::get(Heap & heap) {
 		auto & arr = heap.read<Array>(this->ref);
-		if(this->index < std::size(arr)) {
+		if(this->index < std::ssize(arr) && this->index >= 0) {
 			return arr[this->index];
 		}
 		else {
@@ -38,7 +35,7 @@ namespace ltn::vm::iter {
 
 
 
-	void ArrayCore::move(Heap &, std::uint64_t amount) {
+	void ArrayCore::move(Heap &, std::int64_t amount) {
 		this->index += amount;
 	}
 }

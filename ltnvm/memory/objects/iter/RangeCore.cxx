@@ -1,4 +1,5 @@
 #include "RangeCore.hxx"
+#include "ltnvm/type_check.hxx"
 
 namespace ltn::vm::iter {
 	RangeCore::RangeCore(std::int64_t begin, std::int64_t end, std::int64_t step)
@@ -9,20 +10,10 @@ namespace ltn::vm::iter {
 	
 
 
-	Value RangeCore::next(Heap &) {
-		const bool backwards = this->begin <= this->end;
-		const auto done = backwards
-			? this->current >= this->begin && this->current < this->end
-			: this->current <= this->begin && this->current > this->end;
-
-		if(done) {
-			auto prev = this->current;
-			this->current += this->step;
-			return value::integer(prev);
-		}
-		else {
-			return value::iterator_stop;
-		}
+	Value RangeCore::next(Heap & heap) {
+		const auto value = this->get(heap);
+		this->current += this->step * !is_iterator_stop(value);
+		return value;
 	}
 
 
@@ -43,7 +34,7 @@ namespace ltn::vm::iter {
 
 
 	
-	void RangeCore::move(Heap &, std::uint64_t amount) {
+	void RangeCore::move(Heap &, std::int64_t amount) {
 		this->current += amount * this->step;
 	}
 }

@@ -13,10 +13,10 @@ namespace ltn::vm::iter {
 		ArrayCore(std::uint64_t ref);
 		Value next(Heap &);
 		Value get(Heap &);
-		void move(Heap &, std::uint64_t amount);
+		void move(Heap &, std::int64_t amount);
 		void mark(Heap &);
 	private:
 		std::uint64_t ref;
-		std::uint64_t index;
+		std::int64_t index;
 	};
 }

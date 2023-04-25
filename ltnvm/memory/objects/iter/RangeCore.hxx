@@ -13,7 +13,7 @@ namespace ltn::vm::iter {
 		RangeCore(std::int64_t begin, std::int64_t end, std::int64_t step);
 		Value next(Heap &);
 		Value get(Heap &);
-		void move(Heap &, std::uint64_t amount);
+		void move(Heap &, std::int64_t amount);
 		void mark(Heap &) {}
 	private:
 		std::int64_t begin;
