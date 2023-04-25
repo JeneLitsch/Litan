@@ -7,10 +7,10 @@ namespace ltn::vm {
 	class Heap;
 }
 
-namespace ltn::vm::iter {
-	class StringCore  {
+namespace ltn::vm {
+	class ArrayIterator {
 	public:
-		StringCore(std::uint64_t ref);
+		ArrayIterator(std::uint64_t ref);
 		Value next(Heap &);
 		Value get(Heap &);
 		void move(Heap &, std::int64_t amount);

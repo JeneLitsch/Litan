@@ -7,10 +7,10 @@ namespace ltn::vm {
 	class Heap;
 }
 
-namespace ltn::vm::iter {
-	class RangeCore {
+namespace ltn::vm {
+	class RangeIterator {
 	public:
-		RangeCore(std::int64_t begin, std::int64_t end, std::int64_t step);
+		RangeIterator(std::int64_t begin, std::int64_t end, std::int64_t step);
 		Value next(Heap &);
 		Value get(Heap &);
 		void move(Heap &, std::int64_t amount);

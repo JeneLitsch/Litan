@@ -1,7 +1,7 @@
 #include "Iterator.hxx"
-#include "iter/ArrayCore.hxx"
-#include "iter/RangeCore.hxx"
-#include "iter/StringCore.hxx"
+#include "iter/ArrayIterator.hxx"
+#include "iter/RangeIterator.hxx"
+#include "iter/StringIterator.hxx"
 #include "ltnvm/type_check.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/memory/Heap.hxx"
@@ -10,19 +10,19 @@
 namespace ltn::vm {
 	namespace iterator {
 		Iterator range(std::int64_t begin, std::int64_t end, std::int64_t step) {
-			return Iterator { iter::RangeCore(begin, end, step) };
+			return RangeIterator(begin, end, step);
 		}
 
 
 
 		Iterator array(std::uint64_t array) {
-			return Iterator { iter::ArrayCore(array) };
+			return ArrayIterator(array);
 		}
 
 
 
 		Iterator string(std::uint64_t string) {
-			return Iterator { iter::StringCore(string) };
+			return StringIterator(string);
 		}
 
 

@@ -1,15 +1,15 @@
-#include "ArrayCore.hxx"
+#include "ArrayIterator.hxx"
 #include "ltnvm/VmCore.hxx"
 #include "ltnvm/type_check.hxx"
 
-namespace ltn::vm::iter {
-	ArrayCore::ArrayCore(std::uint64_t ref) 
+namespace ltn::vm {
+	ArrayIterator::ArrayIterator(std::uint64_t ref) 
 		: ref{ref}
 		, index{0} {}
 	
 
 
-	Value ArrayCore::next(Heap & heap) {
+	Value ArrayIterator::next(Heap & heap) {
 		const auto value = this->get(heap);
 		this->index += !is_iterator_stop(value);
 		return value;
@@ -17,7 +17,7 @@ namespace ltn::vm::iter {
 
 
 
-	Value ArrayCore::get(Heap & heap) {
+	Value ArrayIterator::get(Heap & heap) {
 		auto & arr = heap.read<Array>(this->ref);
 		if(this->index < std::ssize(arr) && this->index >= 0) {
 			return arr[this->index];
@@ -29,13 +29,13 @@ namespace ltn::vm::iter {
 
 
 
-	void ArrayCore::mark(Heap & heap) {
+	void ArrayIterator::mark(Heap & heap) {
 		heap.mark(value::array(this->ref));
 	}
 
 
 
-	void ArrayCore::move(Heap &, std::int64_t amount) {
+	void ArrayIterator::move(Heap &, std::int64_t amount) {
 		this->index += amount;
 	}
 }

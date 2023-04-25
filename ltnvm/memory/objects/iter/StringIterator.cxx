@@ -1,15 +1,15 @@
-#include "StringCore.hxx"
+#include "StringIterator.hxx"
 #include "ltnvm/VmCore.hxx"
 #include "ltnvm/type_check.hxx"
 
-namespace ltn::vm::iter {
-	StringCore::StringCore(std::uint64_t ref) 
+namespace ltn::vm {
+	StringIterator::StringIterator(std::uint64_t ref) 
 		: ref{ref}
 		, index{0} {}
 	
 
 
-	Value StringCore::next(Heap & heap) {
+	Value StringIterator::next(Heap & heap) {
 		const auto value = this->get(heap);
 		this->index += !is_iterator_stop(value);
 		return value;
@@ -17,7 +17,7 @@ namespace ltn::vm::iter {
 
 
 
-	Value StringCore::get(Heap & heap) {
+	Value StringIterator::get(Heap & heap) {
 		auto & arr = heap.read<String>(this->ref);
 		if(this->index < std::ssize(arr) && this->index >= 0) {
 			return value::character(arr[this->index]);
@@ -29,13 +29,13 @@ namespace ltn::vm::iter {
 
 
 
-	void StringCore::mark(Heap & heap) {
+	void StringIterator::mark(Heap & heap) {
 		heap.mark(value::string(this->ref));
 	}
 
 
 
-	void StringCore::move(Heap &, std::int64_t amount) {
+	void StringIterator::move(Heap &, std::int64_t amount) {
 		this->index += amount;
 	}
 }
