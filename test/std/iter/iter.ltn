@@ -1,8 +1,17 @@
 namespace sphinx::test {
-	function std_iter_iter() {
+	function std_iter_iter_array() {
 		var iter = std::iter::iter([1, 2]);
 		assert_equal_strict(std::iter::next(iter), 1); 
 		assert_equal_strict(std::iter::next(iter), 2); 
+		assert_true(std::iter::is_stop(std::iter::next(iter))); 
+	}
+
+
+
+	function std_iter_iter_string() {
+		var iter = std::iter::iter("AB");
+		assert_equal_strict(std::iter::next(iter), 'A'); 
+		assert_equal_strict(std::iter::next(iter), 'B'); 
 		assert_true(std::iter::is_stop(std::iter::next(iter))); 
 	}
 }
