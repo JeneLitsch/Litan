@@ -19,6 +19,7 @@ namespace ltn::vm::iter {
 	}
 
 
+
 	void ArrayCore::mark(Heap & heap) {
 		heap.mark(value::array(this->ref));
 	}

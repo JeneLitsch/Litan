@@ -10,7 +10,8 @@ namespace ltn::vm::iter {
 
 
 	Value RangeCore::next(Heap &) {
-		const auto done = this->begin <= this->end
+		const bool backwards = this->begin <= this->end;
+		const auto done = backwards
 			? this->current >= this->begin && this->current < this->end
 			: this->current <= this->begin && this->current > this->end;
 

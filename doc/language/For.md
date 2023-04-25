@@ -3,7 +3,7 @@
 ## Syntax
 
 ```js
-for (/*element*/ : /*array*/) /*Body*/
+for (/*element*/ : /*iterable*/) /*Body*/
 ```
 
 ## Examples
@@ -16,6 +16,12 @@ for (i : std::range(0, 42)) {
 ```js
 for (i : std::range(0, 42, 2)) {
 	std::println(i);
+}
+```
+
+```js
+for (c : "ABC") {
+	std::println(c);
 }
 ```
 
