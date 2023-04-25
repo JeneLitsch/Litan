@@ -20,6 +20,7 @@ namespace ltn::vm::build_in::type {
 		if(is_istream(ref)) return Value{core.heap.clone<IStream>(ref.u), ref.type};
 		if(is_rng(ref)) return Value{core.heap.clone<RandomEngine>(ref.u), ref.type};
 		if(is_struct(ref)) return Value{core.heap.clone<Struct>(ref.u), ref.type};
+		if(is_iterator(ref)) return Value{core.heap.clone<Iterator>(ref.u), ref.type};
 		throw except::invalid_argument("Cannot clone");
 	}
 }

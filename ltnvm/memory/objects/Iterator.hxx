@@ -12,28 +12,54 @@ namespace ltn::vm {
 			virtual Value get(Heap & heap) = 0;
 			virtual void move(Heap & heap, std::int64_t amount) = 0;
 			virtual void mark(Heap & heap) = 0;
+			virtual std::unique_ptr<Concept> clone() = 0;
 			virtual ~Concept() = default;
 		};
 
 		template<typename T>
 		struct Impl : Concept {
-			Impl(T && t) : t {std::move(t)} {}
-			virtual Value next(Heap & heap) { return t.next(heap); }
-			virtual Value get(Heap & heap) { return t.get(heap); }
-			virtual void move(Heap & heap, std::int64_t amount) { return t.move(heap, amount); }
-			virtual void mark(Heap & heap) { return t.mark(heap); }
+			template<typename U>
+			Impl(U && t) : t {std::move(t)} {}
+			virtual Value next(Heap & heap) override { 
+				return t.next(heap);
+			}
+
+			virtual Value get(Heap & heap) override {
+				return t.get(heap);
+			}
+			
+			virtual void move(Heap & heap, std::int64_t amount) override { 
+				return t.move(heap, amount);
+			}
+			
+			virtual void mark(Heap & heap) override {
+				return t.mark(heap);
+			}
+			
+			virtual std::unique_ptr<Concept> clone() override {
+				return std::make_unique<Impl<T>>(t);
+			}
+
 			T t;
 		};
 	public:
 		template<typename T>
-		Iterator(T && impl) : core { std::make_unique<Impl<T>>(std::move(impl)) } {}
+		Iterator(T && impl) : core { std::make_unique<Impl<T>>(Impl<T>{std::move(impl)}) } {}
 		Value next(Heap & heap) { return core->next(heap); }
 		Value get(Heap & heap) { return core->get(heap); }
 		void move(Heap & heap, std::int64_t amount) { return core->move(heap, amount); }
 		void mark(Heap & heap) { return core->mark(heap); }
+
+		Iterator clone() const { return Iterator{core->clone()}; }
 	private:
+		Iterator(std::unique_ptr<Concept> core) : core { std::move(core) } {}
+
 		std::unique_ptr<Concept> core;
 	};
+
+
+
+	Iterator clone(const Iterator & iter);
 
 
 	namespace iterator {

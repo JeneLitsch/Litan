@@ -8,6 +8,11 @@
 #include "ltnvm/convert.hxx"
 
 namespace ltn::vm {
+	Iterator clone(const Iterator & iter) {
+		return iter.clone();
+	}
+
+
 	namespace iterator {
 		Iterator range(std::int64_t begin, std::int64_t end, std::int64_t step) {
 			return RangeIterator(begin, end, step);

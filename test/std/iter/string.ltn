@@ -34,4 +34,14 @@ namespace sphinx::test {
 		std::iter::move(iter, 3);
 		assert_true(std::iter::is_stop(std::iter::get(iter)));
 	}
+
+
+
+	function std_iter_string_clone() {
+		var iter1 = std::iter::iter("ABC");
+		var iter2 = std::clone(iter1);
+		std::iter::move(iter1, 1);
+		assert_equal_strict(std::iter::get(iter1), 'B'); 
+		assert_equal_strict(std::iter::get(iter2), 'A'); 
+	}
 }
