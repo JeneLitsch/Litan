@@ -1,7 +1,7 @@
 function main() {
 	var clock = std::chrono::clock();
 	var x = 42;
-	for (i : 0 -> 10000000) {
+	for (i : std::range(0, 10000000)) {
 		var y = x;
 	}
 	std::println(std::str(std::chrono::to_seconds(clock)) + "s");

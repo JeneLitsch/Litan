@@ -4,6 +4,6 @@ function f(a, b, c) {
 
 function main() {
 	var clock = std::chrono::clock();
-	for (i : 0 -> 5000000) f(1, 2, 3);
+	for (i : std::range(0, 5000000)) f(1, 2, 3);
 	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
 }

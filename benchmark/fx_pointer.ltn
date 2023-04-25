@@ -3,6 +3,6 @@ function f() {}
 function main() {
 	var fx_ptr = &f();
 	var clock = std::chrono::clock();
-	for (i : 0 -> 5000000) fx_ptr();
+	for (i : std::range(0, 5000000)) fx_ptr();
 	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
 }
