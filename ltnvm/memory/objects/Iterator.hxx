@@ -1,38 +1,11 @@
 #pragma once
 #include <cstdint>
+#include <memory>
+#include "iter/IteratorCore.hxx"
 
 namespace ltn::vm {
 	struct Iterator {
-		struct Range {
-			std::int64_t begin;
-			std::int64_t end;
-			std::int64_t step;
-			std::int64_t current;
-		};
-
-		struct Array {
-			std::uint64_t array;
-			std::uint64_t index;
-		};
-
-		struct String {
-			std::uint64_t string;
-			std::uint64_t index;
-		};
-		
-
-		enum class Type {
-			RANGE, ARRAY, STRING,
-		};
-
-		Type type;
-
-		union {
-			Range range;
-			Array array;
-			String string;
-		};
-		
+		std::unique_ptr<iter::IteratorCore> core;
 	};
 
 
@@ -40,5 +13,8 @@ namespace ltn::vm {
 		Iterator range(std::int64_t begin, std::int64_t end, std::int64_t step);
 		Iterator array(std::uint64_t array);
 		Iterator string(std::uint64_t string);
+
+		Value wrap(const Value & ref, Heap & heap);
+		Value next(const Value & ref, Heap & heap);
 	}
 }

@@ -1,0 +1,26 @@
+#include "RangeCore.hxx"
+
+namespace ltn::vm::iter {
+	RangeCore::RangeCore(std::int64_t begin, std::int64_t end, std::int64_t step)
+		: begin{begin}
+		, end{end}
+		, step{step}
+		, current{begin} {}
+	
+
+
+	Value RangeCore::next(Heap &) {
+		const auto done = this->begin <= this->end
+			? this->current >= this->begin && this->current < this->end
+			: this->current <= this->begin && this->current > this->end;
+
+		if(done) {
+			auto prev = this->current;
+			this->current += this->step;
+			return value::integer(prev);
+		}
+		else {
+			return value::iterator_stop;
+		}
+	}
+}

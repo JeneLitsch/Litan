@@ -79,11 +79,12 @@ namespace ltn::vm {
 		std::uint64_t capacity() const;
 		std::uint64_t utilized() const;
 
-	private:
 
 		void mark(const Array & values);
 		void mark(const std::deque<Value> & values);
 		void mark(const Value & value);
+	
+	private:
 		void mark_array(const Value & value);
 		void mark_string(const Value & value);
 		void mark_istream(const Value & value);

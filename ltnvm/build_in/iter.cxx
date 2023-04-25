@@ -1,7 +1,6 @@
 #include "iter.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/convert.hxx"
-#include "ltnvm/iteration.hxx"
 #include "ltnvm/inst/instructions.hxx"
 
 namespace ltn::vm::build_in::iter {
@@ -16,13 +15,13 @@ namespace ltn::vm::build_in::iter {
 
 
 	Value next(VmCore & core) {
-		return iteration::next(core.stack.pop(), core.heap);
+		return iterator::next(core.stack.pop(), core.heap);
 	}
 
 
 
 	Value iter(VmCore & core) {
-		return iteration::wrap(core.stack.pop(), core.heap);
+		return iterator::wrap(core.stack.pop(), core.heap);
 	}
 
 

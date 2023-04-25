@@ -19,24 +19,25 @@ namespace ltn::vm {
 
 	void Heap::mark(const Value & value) {
 		switch (value.type) {
-			case Value::Type::NVLL:     return; // no gc required
-			case Value::Type::BOOL:     return; // no gc required
-			case Value::Type::INT:      return; // no gc required
-			case Value::Type::FLOAT:    return; // no gc required
-			case Value::Type::CHAR:     return; // no gc required
-			case Value::Type::ARRAY:    return this->mark_array(value);
-			case Value::Type::STRING:   return this->mark_string(value);
-			case Value::Type::TUPLE:    return this->mark_array(value);
-			case Value::Type::ISTREAM:  return this->mark_istream(value);
-			case Value::Type::ITERATOR: return this->mark_iterator(value);
-			case Value::Type::OSTREAM:  return this->mark_ostream(value);
-			case Value::Type::FX_PTR:   return this->mark_fxptr(value);
-			case Value::Type::CLOCK:    return this->mark_clock(value);
-			case Value::Type::STRUCT:   return this->mark_struct(value);
-			case Value::Type::QUEUE:    return this->mark_deque(value);
-			case Value::Type::STACK:    return this->mark_deque(value);
-			case Value::Type::MAP:      return this->mark_map(value);
-			case Value::Type::RNG:      return this->mark_rng(value);
+			case Value::Type::NVLL:          return; // no gc required
+			case Value::Type::BOOL:          return; // no gc required
+			case Value::Type::INT:           return; // no gc required
+			case Value::Type::FLOAT:         return; // no gc required
+			case Value::Type::CHAR:          return; // no gc required
+			case Value::Type::ARRAY:         return this->mark_array(value);
+			case Value::Type::STRING:        return this->mark_string(value);
+			case Value::Type::TUPLE:         return this->mark_array(value);
+			case Value::Type::ISTREAM:       return this->mark_istream(value);
+			case Value::Type::ITERATOR:      return this->mark_iterator(value);
+			case Value::Type::ITERATOR_STOP: return; // no gc required
+			case Value::Type::OSTREAM:       return this->mark_ostream(value);
+			case Value::Type::FX_PTR:        return this->mark_fxptr(value);
+			case Value::Type::CLOCK:         return this->mark_clock(value);
+			case Value::Type::STRUCT:        return this->mark_struct(value);
+			case Value::Type::QUEUE:         return this->mark_deque(value);
+			case Value::Type::STACK:         return this->mark_deque(value);
+			case Value::Type::MAP:           return this->mark_map(value);
+			case Value::Type::RNG:           return this->mark_rng(value);
 		}
 	}
 
@@ -70,15 +71,7 @@ namespace ltn::vm {
 		if(!pool.gc_is_marked(value.u)) {
 			pool.gc_mark(value.u);
 			auto & iter = pool.get(value.u);
-			switch (iter.type) {
-			case Iterator::Type::RANGE: {} break;
-			case Iterator::Type::ARRAY: {
-				this->mark(value::array(iter.array.array));
-			} break;
-			case Iterator::Type::STRING: {
-				this->mark(value::string(iter.string.string));
-			} break;
-			}
+			iter.core->mark(*this);
 		}
 	}
 
