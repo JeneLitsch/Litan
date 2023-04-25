@@ -9,19 +9,19 @@
 namespace ltn::vm {
 	namespace iterator {
 		Iterator range(std::int64_t begin, std::int64_t end, std::int64_t step) {
-			return Iterator { std::make_unique<iter::RangeCore>(begin, end, step) };
+			return Iterator { iter::RangeCore(begin, end, step) };
 		}
 
 
 
 		Iterator array(std::uint64_t array) {
-			return Iterator { std::make_unique<iter::ArrayCore>(array) };
+			return Iterator { iter::ArrayCore(array) };
 		}
 
 
 
 		Iterator string(std::uint64_t string) {
-			return Iterator { std::make_unique<iter::StringCore>(string) };
+			return Iterator { iter::StringCore(string) };
 		}
 
 

@@ -4,8 +4,8 @@ run () {
 	asmFile="sandbox/$1.asm.ltn"
 	binFile="sandbox/$1.bin.ltn"
 	./bin/ltnc -o --exe $binFile --asm $asmFile --src $ltnFile
-	./bin/ltnvm --exe $binFile --args Hello World 123
 	./bin/ltnvm_old --exe $binFile --args Hello World 123
+	./bin/ltnvm --exe $binFile --args Hello World 123
 	echo 
 }
 

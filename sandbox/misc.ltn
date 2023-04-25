@@ -1,9 +1,17 @@
 function main(args) {
+	var array = [1] * 10000000;
 	var clock = std::chrono::clock();
-	for(i : std::range(0, 1000000)) {}
-	for(i : std::range(0, 1000000)) {}
-	for(i : std::range(0, 1000000)) {}
-	for(i : std::range(0, 1000000)) {}
-	for(i : std::range(0, 1000000)) {}
+	// for(i : std::range(0, 1000000)) {}
+	// for(i : std::range(0, 1000000)) {}
+	// for(i : std::range(0, 1000000)) {}
+	// for(i : std::range(0, 1000000)) {}
+	// for(i : std::range(0, 1000000)) {}
+
+	for(i : array) {}
+	for(i : array) {}
+	for(i : array) {}
+	for(i : array) {}
+	for(i : array) {}
+
 	std::println(std::chrono::to_seconds(clock));
 }
