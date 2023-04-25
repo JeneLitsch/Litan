@@ -25,5 +25,17 @@ namespace ltn::vm {
 				},
 			};
 		}
+
+
+
+		Iterator string(std::uint64_t string) {
+			return Iterator {
+				.type = Iterator::Type::STRING,
+				.string = Iterator::String {
+					.string = string,
+					.index = 0,
+				},
+			};
+		}
 	}
 }

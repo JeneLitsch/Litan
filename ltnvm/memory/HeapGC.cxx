@@ -75,6 +75,9 @@ namespace ltn::vm {
 			case Iterator::Type::ARRAY: {
 				this->mark(value::array(iter.array.array));
 			} break;
+			case Iterator::Type::STRING: {
+				this->mark(value::string(iter.string.string));
+			} break;
 			}
 		}
 	}

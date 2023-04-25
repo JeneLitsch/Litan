@@ -10,6 +10,12 @@ namespace ltn::vm::iteration {
 
 
 
+		Value iter_string(const Value & value, Heap & heap) {
+			return value::iterator(heap.alloc(iterator::string(value.u)));
+		}
+
+
+
 		Value iter_tuple(const Value & value, Heap & heap) {
 			return value::iterator(heap.alloc(iterator::array(value.u)));
 		}
@@ -21,6 +27,7 @@ namespace ltn::vm::iteration {
 		if(is_iterator(ref)) return ref;
 		if(is_array(ref))    return iter_array(ref, heap);
 		if(is_tuple(ref))    return iter_tuple(ref, heap);
+		if(is_string(ref))   return iter_string(ref, heap);
 		throw except::invalid_argument("std::iter expects an iterable object");
 	}
 
@@ -40,6 +47,12 @@ namespace ltn::vm::iteration {
 		
 		bool is_done(Iterator::Array & iter, auto & arr) {
 			return iter.index < std::size(arr);
+		}
+
+
+
+		bool is_done(Iterator::String & iter, auto & str) {
+			return iter.index < std::size(str);
 		}
 
 
@@ -66,6 +79,18 @@ namespace ltn::vm::iteration {
 				return value::iterator_stop;
 			}
 		}
+
+
+
+		Value next_string(Iterator::String & iter, Heap & heap) {
+			auto & str = heap.read<String>(iter.string);
+			if(is_done(iter, str)) {
+				return value::character(str[iter.index++]);
+			}
+			else {
+				return value::iterator_stop;
+			}
+		}
 	}
 
 
@@ -79,6 +104,7 @@ namespace ltn::vm::iteration {
 		switch (iter.type) {
 			case Iterator::Type::RANGE: return next_range(iter.range);
 			case Iterator::Type::ARRAY: return next_array(iter.array, heap);
+			case Iterator::Type::STRING: return next_string(iter.string, heap);
 		}
 	}
 }
