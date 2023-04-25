@@ -26,6 +26,15 @@ namespace ltn::vm::build_in::iter {
 
 
 
+	Value move(VmCore & core) {
+		const auto step = core.stack.pop();
+		const auto iter = core.stack.pop();
+		iterator::move(iter, step, core.heap);
+		return value::null;
+	}
+
+
+
 	Value iter(VmCore & core) {
 		return iterator::wrap(core.stack.pop(), core.heap);
 	}

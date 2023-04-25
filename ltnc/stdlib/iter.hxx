@@ -8,6 +8,7 @@ inline const char * std_iter = R"###(
 			function range(begin : int, end : int) const => range(begin, end, 1)
 			build_in next(iterator) @iter_next
 			build_in get(iterator) @iter_get
+			build_in move(iterator, steps : int) @iter_move
 			build_in iter(iterator) const @iter_iter
 			build_in is_stop(value) const -> bool @iter_is_stop
 		}

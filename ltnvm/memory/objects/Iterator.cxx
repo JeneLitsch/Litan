@@ -5,6 +5,7 @@
 #include "ltnvm/type_check.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/memory/Heap.hxx"
+#include "ltnvm/convert.hxx"
 
 namespace ltn::vm {
 	namespace iterator {
@@ -67,10 +68,22 @@ namespace ltn::vm {
 	
 		Value get(const Value & ref, Heap & heap) {
 			if(!is_iterator(ref)) {
-				throw except::invalid_argument("std::next expects an iterator");
+				throw except::invalid_argument("std::get expects an iterator");
 			}
 			auto & iter = heap.read<Iterator>(ref);
 			return iter.get(heap);
+		}
+
+
+
+		void move(const Value & ref, const Value & amount, Heap & heap) {
+			const auto step = convert::to_int(amount);
+				
+			if(!is_iterator(ref)) {
+				throw except::invalid_argument("std::iter::advance expects an iterator");
+			}
+			auto & iter = heap.read<Iterator>(ref);
+			return iter.move(heap, step);
 		}
 	}
 }

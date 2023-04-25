@@ -123,8 +123,9 @@ files=(
 	"test/std/math/lerp.ltn"
 	"test/std/math/is_between.ltn"
 
+	"test/std/iter/array.ltn"
 	"test/std/iter/range.ltn"
-	"test/std/iter/iter.ltn"
+	"test/std/iter/string.ltn"
 
 	"test/std/string/str.ltn"
 	"test/std/string/split.ltn"

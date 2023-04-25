@@ -35,4 +35,10 @@ namespace ltn::vm::iter {
 	void StringCore::mark(Heap & heap) {
 		heap.mark(value::string(this->ref));
 	}
+
+
+
+	void StringCore::move(Heap &, std::uint64_t amount) {
+		this->index += amount;
+	}
 }

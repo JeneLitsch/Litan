@@ -1,13 +1,13 @@
 namespace sphinx::test {
-	function std_iter_range_empty() {
-		var iter = std::range(0, 0, 1);
-		assert_true(std::iter::is_stop(std::iter::next(iter))); 
+	function std_iter_array_empty() {
+		var iter = std::iter::iter([]);
+		assert_true(std::iter::is_stop(std::iter::next(iter)));
 	}
 
 
 
-	function std_iter_range() {
-		var iter = std::range(1, 4, 1);
+	function std_iter_array() {
+		var iter = std::iter::iter([1, 2, 3]);
 		
 		assert_equal_strict(std::iter::get(iter), 1); 
 		assert_equal_strict(std::iter::next(iter), 1); 
@@ -19,8 +19,8 @@ namespace sphinx::test {
 
 
 
-	function std_iter_range_underflow() {
-		var iter = std::range(1, 4, 1);
+	function std_iter_array_underflow() {
+		var iter = std::iter::iter([1, 2, 3]);
 		
 		std::iter::move(iter, -1);
 		assert_true(std::iter::is_stop(std::iter::next(iter)));
@@ -28,8 +28,8 @@ namespace sphinx::test {
 
 
 
-	function std_iter_range_overflow() {
-		var iter = std::range(1, 4, 1);
+	function std_iter_array_overflow() {
+		var iter = std::iter::iter([1, 2, 3]);
 		
 		std::iter::move(iter, 3);
 		assert_true(std::iter::is_stop(std::iter::get(iter)));

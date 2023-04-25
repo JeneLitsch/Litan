@@ -40,4 +40,10 @@ namespace ltn::vm::iter {
 			return value::iterator_stop;
 		}
 	}
+
+
+	
+	void RangeCore::move(Heap &, std::uint64_t amount) {
+		this->current += amount * this->step;
+	}
 }
