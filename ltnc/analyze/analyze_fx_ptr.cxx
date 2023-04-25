@@ -39,40 +39,6 @@ namespace ltn::c {
 
 
 
-		auto resolve_fx_ptr_template(
-			const ast::FxPointer & fx_ptr,
-			Scope & scope,
-			Context & context) {
-
-			const auto tmpl = get_template(fx_ptr, context, scope);
-
-			const auto arguments = stx::fx::mapped(instantiate_type)(
-				fx_ptr.template_arguments,
-				scope
-			);
-
-			context.fx_queue.stage_template(*tmpl, arguments);
-			
-			add_template_args(
-				scope,
-				tmpl->template_parameters,
-				fx_ptr.template_arguments
-			);
-			
-			const auto * fx = tmpl->fx.get();
-
-			const auto fx_label = make_function_label(*fx);
-			const auto tmpl_label = derive_template(fx_label, arguments);
-
-			if(fx->parameters.size() != fx_ptr.placeholders) {
-				throw undefined_function(fx_ptr);
-			}
-
-			return std::tuple{fx,tmpl_label};
-		}
-
-
-
 		bool refers_to_template(const ast::FxPointer & fx_ptr) {
 			return !fx_ptr.template_arguments.empty();
 		}
@@ -83,12 +49,7 @@ namespace ltn::c {
 			const ast::FxPointer & fx_ptr,
 			Scope & scope,
 			Context & context) {
-			if(refers_to_template(fx_ptr)) {
-				return resolve_fx_ptr_template(fx_ptr, scope, context);
-			}
-			else {
-				return resolve_fx_ptr_normal(fx_ptr, scope, context);
-			}
+			return resolve_fx_ptr_normal(fx_ptr, scope, context);
 		}
 	}
 

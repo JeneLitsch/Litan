@@ -4,7 +4,6 @@ namespace std {
 	build_in queue() const                      @ queue
 	build_in stack() const                      @ stack
 	build_in map() const                        @ map
-	build_in<Key, Val> map() const -> map<Key,Val> @ map
 	function array() const -> array<any> => []
 	
 	build_in push(container, elem)              @ container_push

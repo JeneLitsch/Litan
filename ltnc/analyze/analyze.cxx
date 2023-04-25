@@ -21,50 +21,6 @@ namespace ltn::c {
 	}
 
 
-	stx::reference<const ast::FunctionTemplate> get_template(
-		const auto & symbol,
-		const auto & invoke,
-		Context & context,
-		Scope & scope) {
-
-		const auto * tmpl = context.fx_template_table.resolve(
-			symbol.name,
-			scope.get_namespace(),
-			symbol.namespaze,
-			invoke.arity(),
-			invoke.template_arguments.size()
-		);
-
-		if(tmpl) {
-			return *tmpl;
-		}
-		else {
-			throw undefined_template(symbol.name, location(invoke));
-		}
-	}
-
-
-
-	stx::reference<const ast::FunctionTemplate> get_template(
-		const ast::FxPointer & fx_ptr,
-		Context & context,
-		Scope & scope) {
-
-		return get_template(fx_ptr, fx_ptr, context, scope);
-	}
-
-
-
-	stx::reference<const ast::FunctionTemplate> get_template(
-		const ast::Call & call,
-		const ast::Var & var,
-		Context & context,
-		Scope & scope) {
-		
-		return get_template(var, call, context, scope);
-	}
-
-
 
 	std::string make_template_id(
 		const ast::Functional & fx,
@@ -109,19 +65,13 @@ namespace ltn::c {
 
 
 
-		auto analyze_staged(const StagedFx & staged, Context & context) {
+		auto analyze_staged(const Staged & staged, Context & context) {
 			FunctionScope scope {
 				staged.fx->namespaze,
 				staged.fx->is_const,
 			};
 			scope.inherit_types(staged.deduced_types);
 			return analyze_functional(*staged.fx, context, scope); 
-		}
-
-
-
-		auto analyze_staged(const StagedTemplateFx & staged, Context & context) {
-			return analyze_function_template(staged.tmpl, context, staged.arguments); 
 		}
 	}
 
@@ -143,13 +93,11 @@ namespace ltn::c {
 		sst::Program program;
 		ValidFunctionTable fx_table;
 		FunctionQueue fx_queue;
-		ValidFunctionTemplateTable fx_template_table;
 		ValidDefinitionTable definition_table;
 		MemberTable member_table;
 		ValidGlobalTable global_table;
 		Context context {
 			.fx_table = fx_table,
-			.fx_template_table = fx_template_table,
 			.fx_queue = fx_queue,
 			.definition_table = definition_table,
 			.member_table = member_table,
@@ -191,12 +139,6 @@ namespace ltn::c {
 			ctors.push_back(std::move(ctor));
 		}
 
-		for(const auto & fx_tmpl : source.function_templates) {
-			const auto function_arity = std::size(fx_tmpl->fx->parameters);
-			const auto template_arity = std::size(fx_tmpl->template_parameters);
-			context.fx_template_table.insert(*fx_tmpl, function_arity, template_arity);
-		}
-
 		for(const auto & function : source.functions) {
 			context.fx_table.insert(*function, function->parameters.size());
 		}
@@ -213,10 +155,7 @@ namespace ltn::c {
 
 		while(auto staged = fx_queue.fetch_function()) {
 			try {
-				auto fx = std::visit([&] (auto & s) {
-					return analyze_staged(s, context);
-					}, *staged
-				);
+				auto fx = analyze_staged(*staged, context);
 				program.functions.push_back(std::move(fx));
 			}
 			catch(const CompilerError & error) {

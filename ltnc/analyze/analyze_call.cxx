@@ -123,36 +123,6 @@ namespace ltn::c {
 			context.fx_queue.stage_function(fx, infered_types);
 			return sst_call;
 		}
-
-
-
-		sst::expr_ptr do_call_template(
-			const ast::Call & call,
-			const ast::Var & var,
-			Context & context,
-			Scope & scope) {
-			
-			const auto tmpl = get_template(call, var, context, scope);
-
-			const auto arguments = stx::fx::mapped(instantiate_type)(
-				call.template_arguments,
-				scope
-			);
-
-			const auto label = make_template_label(tmpl, arguments);
-			MinorScope inner_scope(&scope);
-
-			add_template_args(
-				inner_scope,
-				tmpl->template_parameters,
-				call.template_arguments
-			);
-			
-			std::map<std::string, type::Type> infered_types;
-			auto sst_call = do_call(call, *tmpl->fx, context, scope, infered_types);
-			context.fx_queue.stage_template(*tmpl, arguments);
-			return sst_call;
-		}
 	}
 
 
@@ -165,10 +135,6 @@ namespace ltn::c {
 	
 		const auto * var = as<ast::Var>(*call.function_ptr);
 		if(var) {
-			if(!call.template_arguments.empty()) {
-				return do_call_template(call, *var, context, scope);
-			}
-
 			if(var->namespaze.empty()) {
 				const auto * local = scope.resolve(var->name, location(*var));
 				if(local) {

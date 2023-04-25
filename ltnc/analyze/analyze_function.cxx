@@ -146,22 +146,4 @@ namespace ltn::c {
 		};
 		return analyze_functional(functional, context, scope);
 	}
-
-
-
-	sst::func_ptr analyze_function_template(
-		const ast::FunctionTemplate & tmpl,
-		Context & context,
-		const std::vector<type::Type> & arguments) {
-
-		FunctionScope scope { tmpl.fx->namespaze, tmpl.fx->is_const };
-		add_template_args(scope, tmpl.template_parameters, arguments);
-		scope.set_return_type(instantiate_type(tmpl.fx->return_type, scope));
-		const auto label = make_template_label(tmpl, arguments);
-		return analyze_functional(*tmpl.fx, context, scope, label);
-	}
-
-
-
-
 }

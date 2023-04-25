@@ -1,6 +1,6 @@
 namespace sphinx::test {
 	namespace detail {
-		function<T> test_dynamic_cast_type(value) {
+		function test_dynamic_cast_type(type : <T>, value) {
 			var gotten = reflect(expr value ~ T).type.name;
 			var expected = reflect(type optional<T>).name;
 			assert_equal_strict(gotten, expected);
@@ -29,7 +29,7 @@ namespace sphinx::test {
 	
 	
 	function dynamic_cast_bool_type() {
-		detail::test_dynamic_cast_type(<bool>, 42);
+		detail::test_dynamic_cast_type(true, 42);
 	}
 
 
@@ -55,7 +55,7 @@ namespace sphinx::test {
 
 
 	function dynamic_cast_char_type() {
-		detail::test_dynamic_cast_type(<char>, 42);
+		detail::test_dynamic_cast_type('A', 42);
 	}
 
 
@@ -81,7 +81,7 @@ namespace sphinx::test {
 
 
 	function dynamic_cast_int_type() {
-		detail::test_dynamic_cast_type(<int>, 42);
+		detail::test_dynamic_cast_type(0, 42);
 	}
 
 
@@ -107,7 +107,7 @@ namespace sphinx::test {
 
 
 	function dynamic_cast_float_type() {
-		detail::test_dynamic_cast_type(<float>, 42);
+		detail::test_dynamic_cast_type(0.0, 42);
 	}
 
 
@@ -133,7 +133,7 @@ namespace sphinx::test {
 
 
 	function dynamic_cast_string_type() {
-		detail::test_dynamic_cast_type(<string>, 42);
+		detail::test_dynamic_cast_type("", 42);
 	}
 
 
@@ -181,11 +181,11 @@ namespace sphinx::test {
 
 
 	function dynamic_cast_array_type() {
-		detail::test_dynamic_cast_type(<array<bool>>, 42);
-		detail::test_dynamic_cast_type(<array<char>>, 42);
-		detail::test_dynamic_cast_type(<array<int>>, 42);
-		detail::test_dynamic_cast_type(<array<float>>, 42);
-		detail::test_dynamic_cast_type(<array<string>>, 42);
+		detail::test_dynamic_cast_type([true], 42);
+		detail::test_dynamic_cast_type(['C'], 42);
+		detail::test_dynamic_cast_type([0], 42);
+		detail::test_dynamic_cast_type([0.0], 42);
+		detail::test_dynamic_cast_type([""], 42);
 	}
 
 
@@ -212,10 +212,10 @@ namespace sphinx::test {
 
 
 	function dynamic_cast_nested_array_type() {
-		detail::test_dynamic_cast_type(<array<array<bool>>>, 42);
-		detail::test_dynamic_cast_type(<array<array<char>>>, 42);
-		detail::test_dynamic_cast_type(<array<array<int>>>, 42);
-		detail::test_dynamic_cast_type(<array<array<float>>>, 42);
-		detail::test_dynamic_cast_type(<array<array<string>>>, 42);
+		detail::test_dynamic_cast_type([[true]], 42);
+		detail::test_dynamic_cast_type([['C']], 42);
+		detail::test_dynamic_cast_type([[1]], 42);
+		detail::test_dynamic_cast_type([[0.0]], 42);
+		detail::test_dynamic_cast_type([[""]], 42);
 	}
 }

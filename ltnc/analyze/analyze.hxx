@@ -30,7 +30,6 @@ namespace ltn::c {
 	std::unique_ptr<sst::Function> analyze_function(const ast::Function &, Context &, Scope &);
 	sst::func_ptr analyze_functional(const ast::Functional &, Context &, FunctionScope &);
 	sst::func_ptr analyze_functional(const ast::Functional &, Context &);
-	sst::func_ptr analyze_function_template(const ast::FunctionTemplate &, Context &, const std::vector<type::Type> & arguments);
 	sst::func_ptr analyze_function(const ast::Function &, Context &, Scope &,
 		std::optional<Label> override_label = std::nullopt,
 		const std::vector<std::unique_ptr<ast::Var>> & captures = {});
@@ -89,18 +88,6 @@ namespace ltn::c {
 		Scope & scope,
 		const std::vector<std::string> & template_params,
 		const std::vector<type::Type> & template_args);
-
-	stx::reference<const ast::FunctionTemplate> get_template(
-		const ast::FxPointer & fx_ptr,
-		Context & context,
-		Scope & scope);
-
-	stx::reference<const ast::FunctionTemplate> get_template(
-		const ast::Call & call,
-		const ast::Var & var,
-		Context & context,
-		Scope & scope);
-
 
 	type::Type analyze_parameter_type(const ast::Parameter::DeclType & type, Scope &);
 }	

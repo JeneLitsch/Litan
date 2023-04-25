@@ -48,15 +48,6 @@ namespace ltn::c {
 
 
 
-	Label make_template_label(
-		const ast::FunctionTemplate & tmpl,
-		const std::vector<type::Type> & args) {
-		const auto label = make_function_label(*tmpl.fx);
-		return derive_template(label, args);
-	}
-
-
-
 	Label derive_skip(const Label & label) {
 		return make_internal_label(label.get_name() + "_SKIP");
 	}

@@ -15,7 +15,7 @@ namespace sphinx::test {
 
 
 	namespace force_cast_local {
-		function<T> test_type() {
+		function test_type(type : <T>) {
 			var x : any;
 			assert_equal_strict(
 				reflect(expr x ! T).type.name,
@@ -27,9 +27,9 @@ namespace sphinx::test {
 
 
 	function force_cast_type() {
-		force_cast_local::test_type(<int>);
-		force_cast_local::test_type(<string>);
-		force_cast_local::test_type(<array<int>>);
+		force_cast_local::test_type(0);
+		force_cast_local::test_type("");
+		force_cast_local::test_type([0]);
 	}
 
 

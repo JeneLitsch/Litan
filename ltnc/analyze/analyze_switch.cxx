@@ -9,11 +9,9 @@ namespace ltn::c {
 		Scope & scope) {
 
 		InvalidFunctionTable fx_table {"case"};
-		InvalidFunctionTemplateTable fx_template_table {"case"};
 		InvalidGlobalTable global_table {"case"};
 		Context case_context {
 			.fx_table = fx_table,
-			.fx_template_table = fx_template_table,
 			.fx_queue		   = context.fx_queue,
 			.definition_table = context.definition_table, 
 			.member_table = context.member_table, 

@@ -19,11 +19,6 @@ namespace ltn::c {
 	Label make_function_label(
 		const ast::Functional & fx);
 	
-	Label make_template_label(
-		const ast::FunctionTemplate & tmpl,
-		const std::vector<type::Type> & args);
-
-
 
 	Label derive_template(
 		const Label & label,
