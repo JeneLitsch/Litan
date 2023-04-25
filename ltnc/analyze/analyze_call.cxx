@@ -10,17 +10,23 @@ namespace ltn::c {
 			const ast::Call & call,
 			const ast::Functional & fx,
 			Context & context,
-			Scope & scope) {
+			Scope & scope,
+			std::map<std::string, type::Type> & infered_types) {
 			
 			std::vector<sst::expr_ptr> arguments;
 			for(std::size_t i = 0; i < call.arguments.size(); ++i) {
 				const ArgumentLocation location = {ast::location(call), i};
 				auto & argument = call.arguments[i];
 				auto & parameter = fx.parameters[i];
-				const auto param_type = instantiate_type(parameter.type, scope);
-				auto arg_raw = analyze_expression(*argument, context, scope);
-				auto arg_full = conversion_on_pass(std::move(arg_raw), param_type, location);
-				arguments.push_back(std::move(arg_full));
+				auto arg = analyze_expression(*argument, context, scope);
+				if(auto * infered = std::get_if<ast::Parameter::Infered>(&parameter.type)) {
+					infered_types.insert({infered->name, arg->type});
+				}
+				if(auto * type = std::get_if<type::IncompleteType>(&parameter.type)) {
+					const auto param_type = instantiate_type(*type, scope);
+					arg = conversion_on_pass(std::move(arg), param_type, location);
+				}
+				arguments.push_back(std::move(arg));
 			}
 
 			return arguments;
@@ -66,13 +72,16 @@ namespace ltn::c {
 			const ast::Functional & fx,
 			Context & context,
 			Scope & scope,
+			std::map<std::string, type::Type> & infered_types,
 			const std::optional<Label> id_override = std::nullopt) {
 
 			guard_private(fx, scope.get_namespace(), call);
 			guard_const(call, fx, scope);
 
-			auto arguments = analyze_arguments(call, fx, context, scope);
-			auto return_type = instantiate_type(fx.return_type, scope);
+			auto arguments = analyze_arguments(call, fx, context, scope, infered_types);
+			MinorScope dummy_scope{&scope};
+			dummy_scope.inherit_types(infered_types);
+			auto return_type = instantiate_type(fx.return_type, dummy_scope);
 			auto fx_label = make_function_label(fx);
 			auto label = id_override.value_or(std::move(fx_label));
 			
@@ -109,8 +118,10 @@ namespace ltn::c {
 			Context & context,
 			Scope & scope) {
 			
-			context.fx_queue.stage_function(fx);
-			return do_call(call, fx, context, scope);
+			std::map<std::string, type::Type> infered_types;
+			auto sst_call = do_call(call, fx, context, scope, infered_types);
+			context.fx_queue.stage_function(fx, infered_types);
+			return sst_call;
 		}
 
 
@@ -128,7 +139,6 @@ namespace ltn::c {
 				scope
 			);
 
-			context.fx_queue.stage_template(*tmpl, arguments);
 			const auto label = make_template_label(tmpl, arguments);
 			MinorScope inner_scope(&scope);
 
@@ -138,7 +148,10 @@ namespace ltn::c {
 				call.template_arguments
 			);
 			
-			return do_call(call, *tmpl->fx, context, inner_scope, label);
+			std::map<std::string, type::Type> infered_types;
+			auto sst_call = do_call(call, *tmpl->fx, context, scope, infered_types);
+			context.fx_queue.stage_template(*tmpl, arguments);
+			return sst_call;
 		}
 	}
 

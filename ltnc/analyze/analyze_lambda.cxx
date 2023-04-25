@@ -15,7 +15,7 @@ namespace ltn::c {
 
 		type::FxPtr deduce_type(const auto & lambda, Scope & inner_scope) {
 			auto instantiate_all = stx::fx::mapped([&] (const auto & param) {
-				return instantiate_type(param.type, inner_scope);
+				return analyze_parameter_type(param.type, inner_scope);
 			});
 			return type::FxPtr {
 				.return_type = instantiate_type(lambda.fx->return_type, inner_scope),

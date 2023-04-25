@@ -110,7 +110,12 @@ namespace ltn::c {
 
 
 		auto analyze_staged(const StagedFx & staged, Context & context) {
-			return analyze_functional(*staged.fx, context); 
+			FunctionScope scope {
+				staged.fx->namespaze,
+				staged.fx->is_const,
+			};
+			scope.inherit_types(staged.deduced_types);
+			return analyze_functional(*staged.fx, context, scope); 
 		}
 
 
@@ -203,7 +208,7 @@ namespace ltn::c {
 		auto externs = find_extern_funtions(source);
 
 		for(const auto & function : externs) {
-			fx_queue.stage_function(function);
+			fx_queue.stage_function(function, {});
 		}
 
 		while(auto staged = fx_queue.fetch_function()) {

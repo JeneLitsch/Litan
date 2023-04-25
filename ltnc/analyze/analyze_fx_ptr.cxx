@@ -10,7 +10,7 @@ namespace ltn::c {
 			Scope & scope) {
 			
 			return stx::fx::map([&] (const auto & parameter) {
-				return instantiate_type(parameter.type, scope);
+				return analyze_parameter_type(parameter.type, scope);
 			}, parameters);
 		}
 
@@ -30,7 +30,7 @@ namespace ltn::c {
 
 			if(!fx) throw undefined_function(fx_ptr);
 
-			context.fx_queue.stage_function(*fx);
+			context.fx_queue.stage_function(*fx, {});
 
 			const auto label = make_function_label(*fx);
 

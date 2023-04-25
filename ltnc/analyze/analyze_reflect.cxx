@@ -48,7 +48,7 @@ namespace ltn::c {
 
 			if(!fx) throw undefined_function(query.name, location(refl));
 			
-			context.fx_queue.stage_function(*fx);
+			context.fx_queue.stage_function(*fx, {});
 			return fx_to_query(*fx);
 		}
 
@@ -64,7 +64,7 @@ namespace ltn::c {
 			sst_query.namespaze = query.namespaze;
 			for(const auto & fx : context.fx_table.get_symbols()) {
 				if(fx->namespaze == query.namespaze) {
-					context.fx_queue.stage_function(*fx);
+					context.fx_queue.stage_function(*fx, {});
 					sst_query.functions.push_back(fx_to_query(*fx));
 				}
 			}

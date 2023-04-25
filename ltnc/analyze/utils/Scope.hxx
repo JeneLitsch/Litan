@@ -21,6 +21,11 @@ namespace ltn::c {
 		void set_return(const std::string & return_point);
 		void add_type(const std::string & name, const type::Type & type);
 		void inherit_types_from(const Scope & scope);
+		void inherit_types(auto type_table) {
+			for(const auto [alias, type] : type_table) {
+				this->type_map.insert({alias,type});
+			}
+		}
 	protected:
 		std::unordered_map<std::string, Variable> vars;
 		std::optional<std::string> return_point;

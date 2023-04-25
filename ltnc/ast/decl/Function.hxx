@@ -11,8 +11,12 @@
 namespace ltn::c::ast {
 	class Statement;
 	struct Parameter {
+		struct Infered {
+			std::string name;
+		};
 		std::string name;
-		type::IncompleteType type = type::IncompleteType{type::Any{}};
+		using DeclType = std::variant<type::IncompleteType, Infered>;
+		DeclType type = type::IncompleteType{type::Any{}};
 	};
 	using Parameters = std::vector<Parameter>;
 

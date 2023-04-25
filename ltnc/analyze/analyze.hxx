@@ -28,6 +28,7 @@ namespace ltn::c {
 	ast::func_ptr generate_ctor(const ast::Preset &);
 
 	std::unique_ptr<sst::Function> analyze_function(const ast::Function &, Context &, Scope &);
+	sst::func_ptr analyze_functional(const ast::Functional &, Context &, FunctionScope &);
 	sst::func_ptr analyze_functional(const ast::Functional &, Context &);
 	sst::func_ptr analyze_function_template(const ast::FunctionTemplate &, Context &, const std::vector<type::Type> & arguments);
 	sst::func_ptr analyze_function(const ast::Function &, Context &, Scope &,
@@ -99,4 +100,7 @@ namespace ltn::c {
 		const ast::Var & var,
 		Context & context,
 		Scope & scope);
+
+
+	type::Type analyze_parameter_type(const ast::Parameter::DeclType & type, Scope &);
 }	

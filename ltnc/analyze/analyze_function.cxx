@@ -5,7 +5,6 @@
 
 namespace ltn::c {
 	namespace {
-
 		sst::Parameters analyze_parameters(
 			const ast::Parameters & parameters,
 			Scope & scope,
@@ -15,7 +14,7 @@ namespace ltn::c {
 			for(const auto & param : parameters) {
 				auto sst_param = sst::Parameter {
 					.name = param.name,
-					.type = instantiate_type(param.type, scope)
+					.type = analyze_parameter_type(param.type, scope),
 				};
 				scope.insert(sst_param.name, loc, sst_param.type);
 				p.push_back(sst_param);
@@ -130,6 +129,13 @@ namespace ltn::c {
 
 
 
+	sst::func_ptr analyze_functional(const ast::Functional & functional, Context & context, FunctionScope & scope) {
+		scope.set_return_type(instantiate_type(functional.return_type, scope));
+		return analyze_functional(functional, context, scope, std::nullopt);
+	}
+
+
+
 	sst::func_ptr analyze_functional(
 		const ast::Functional & functional,
 		Context & context) {
@@ -138,8 +144,7 @@ namespace ltn::c {
 			functional.namespaze,
 			functional.is_const,
 		};
-		scope.set_return_type(instantiate_type(functional.return_type, scope));
-		return analyze_functional(functional, context, scope, std::nullopt);
+		return analyze_functional(functional, context, scope);
 	}
 
 

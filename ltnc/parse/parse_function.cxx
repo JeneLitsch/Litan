@@ -1,4 +1,5 @@
 #include "parse.hxx"
+#include "stdxx/iife.hxx"
 #include "ltnc/CompilerError.hxx"
 #include <iostream>
 

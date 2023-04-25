@@ -19,6 +19,7 @@ target_sources(libltnc PRIVATE
 	analyze_lambda.cxx
 	analyze_loops.cxx
 	analyze_newvar.cxx
+	analyze_params_args.cxx
 	analyze_primitives.cxx
 	analyze_read.cxx
 	analyze_reflect.cxx

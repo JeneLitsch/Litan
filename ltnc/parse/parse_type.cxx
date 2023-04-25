@@ -145,10 +145,24 @@ namespace ltn::c {
 
 
 
-	type::IncompleteType parse_parameter_type(Tokens & tokens) {
-		return match(TT::COLON, tokens)
-			? parse_type(tokens)
-			: type::IncompleteType{type::Any{}};
+	ast::Parameter::DeclType parse_parameter_type(Tokens & tokens) {
+		if(match(TT::COLON, tokens)) {
+			if(auto open = match(TT::SMALLER, tokens)) {
+				auto name = parse_variable_name(tokens);
+				if(!match(TT::BIGGER, tokens)) throw CompilerError {
+					"Expected >", open->location
+				};
+				return ast::Parameter::Infered{
+					.name = name,
+				};
+			}
+			else {
+				return parse_type(tokens);
+			}
+		}
+		else {
+			return type::IncompleteType{type::Any{}};
+		}
 	}
 
 

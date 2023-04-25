@@ -8,6 +8,7 @@
 namespace ltn::c {
 	struct StagedFx {
 		stx::reference<const ast::Functional> fx;
+		std::map<std::string, type::Type> deduced_types;
 	};
 	inline auto operator<=>(const StagedFx & l, const StagedFx & r) {
 		return  &*l.fx <=> &*r.fx;
@@ -29,7 +30,7 @@ namespace ltn::c {
 
 	class FunctionQueue {
 	public:
-		void stage_function(stx::reference<const ast::Functional> fx);
+		void stage_function(stx::reference<const ast::Functional> fx, std::map<std::string, type::Type> deduced_types);
 		void stage_template(stx::reference<const ast::FunctionTemplate> tmpl, std::vector<type::Type> arguments);
 		std::optional<Staged> fetch_function();
 	private:
