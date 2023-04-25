@@ -124,6 +124,7 @@ files=(
 	"test/std/math/is_between.ltn"
 
 	"test/std/iter/range.ltn"
+	"test/std/iter/iter.ltn"
 
 	"test/std/string/str.ltn"
 	"test/std/string/split.ltn"
