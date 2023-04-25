@@ -71,7 +71,7 @@ namespace ltn::vm {
 		if(!pool.gc_is_marked(value.u)) {
 			pool.gc_mark(value.u);
 			auto & iter = pool.get(value.u);
-			iter.core->mark(*this);
+			iter.mark(*this);
 		}
 	}
 

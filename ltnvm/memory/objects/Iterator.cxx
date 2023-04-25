@@ -9,25 +9,19 @@
 namespace ltn::vm {
 	namespace iterator {
 		Iterator range(std::int64_t begin, std::int64_t end, std::int64_t step) {
-			return Iterator {
-				.core = std::make_unique<iter::RangeCore>(begin, end, step)
-			};
+			return Iterator { std::make_unique<iter::RangeCore>(begin, end, step) };
 		}
 
 
 
 		Iterator array(std::uint64_t array) {
-			return Iterator {
-				.core = std::make_unique<iter::ArrayCore>(array)
-			};
+			return Iterator { std::make_unique<iter::ArrayCore>(array) };
 		}
 
 
 
 		Iterator string(std::uint64_t string) {
-			return Iterator {
-				.core = std::make_unique<iter::StringCore>(string)
-			};
+			return Iterator { std::make_unique<iter::StringCore>(string) };
 		}
 
 
@@ -66,7 +60,7 @@ namespace ltn::vm {
 				throw except::invalid_argument("std::next expects an iterator");
 			}
 			auto & iter = heap.read<Iterator>(ref);
-			return iter.core->next(heap);
+			return iter.next(heap);
 		}
 	}
 }

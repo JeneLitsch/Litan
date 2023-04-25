@@ -5,6 +5,12 @@
 
 namespace ltn::vm {
 	struct Iterator {
+	public:
+		Iterator(std::unique_ptr<iter::IteratorCore> core)
+			: core {std::move(core)} {}
+		Value next(Heap & heap) { return core->next(heap); }
+		void mark(Heap & heap) { return core->mark(heap); }
+	private:
 		std::unique_ptr<iter::IteratorCore> core;
 	};
 
