@@ -60,7 +60,7 @@ namespace ltn::c {
 
 	std::tuple<std::vector<type::IncompleteType>, bool> parse_template_args(Tokens & tokens);
 
-	std::size_t parse_placeholder(Tokens & tokens);
+	std::vector<std::optional<type::IncompleteType>> parse_placeholder(Tokens & tokens);
 
 	// Maches ; or throws
 	void semicolon(Tokens & tokens);

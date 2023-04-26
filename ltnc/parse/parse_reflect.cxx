@@ -16,7 +16,7 @@ namespace ltn::c {
 		
 		ast::Reflect::Query parse_function_query(Tokens & tokens) {
 			auto [name, namespaze] = parse_symbol(tokens);
-			auto arity = match(TT::PAREN_L, tokens) ? parse_placeholder(tokens) : 0;
+			auto arity = match(TT::PAREN_L, tokens) ? std::size(parse_placeholder(tokens)) : 0;
 			return ast::Reflect::FunctionQuery {
 				.namespaze = namespaze,
 				.name = name,

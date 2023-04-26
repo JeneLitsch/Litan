@@ -128,14 +128,12 @@ namespace ltn::c {
 				Namespace namespaze;
 				std::tie(name, namespaze) = parse_symbol(tokens);
 				if(match(TT::PAREN_L, tokens)) {
-					const auto [template_args, done] = parse_template_args(tokens);
-					const std::size_t placeholders = done ? 0 : parse_placeholder(tokens);
-					auto fx_ptr = stx::make_unique<ast::FxPointer>(
-						name,
-						namespaze,
-						placeholders,
+					const auto placeholders = parse_placeholder(tokens);
+					auto fx_ptr = std::make_unique<ast::FxPointer>(
+						std::move(name),
+						std::move(namespaze),
+						std::move(placeholders),
 						location(tokens));
-					fx_ptr->template_arguments = std::move(template_args);
 					return fx_ptr;
 				}
 				throw expected("(", location(tokens));
@@ -161,15 +159,17 @@ namespace ltn::c {
 
 
 
-	std::size_t parse_placeholder(Tokens & tokens) {
-		std::size_t parameters = 0;
+	std::vector<std::optional<type::IncompleteType>> parse_placeholder(Tokens & tokens) {
+		std::vector<std::optional<type::IncompleteType>> placeholders;
 		parse_parameters(tokens, [&] {
-			if (!match(TT::UNDERSCORE, tokens)) {
-				throw expected("placeholder _", location(tokens));
+			if (match(TT::UNDERSCORE, tokens)) {
+				placeholders.push_back(std::nullopt);
 			}
-			parameters++;
+			else {
+				placeholders.push_back(parse_type(tokens));
+			}
 		});
-		return parameters;
+		return placeholders;
 	}
 
 

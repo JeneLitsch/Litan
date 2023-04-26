@@ -51,18 +51,16 @@ namespace ltn::c {
 		const auto fx = scope.resolve_function(
 			fx_ptr.name,
 			fx_ptr.namespaze,
-			fx_ptr.placeholders
+			fx_ptr.arity()
 		);
 
 		if(!fx) throw undefined_function(fx_ptr);
-
-
-
-
 		
-		for(const auto & param : fx->parameters) {
+		for(std::size_t i = 0; i < fx_ptr.arity(); ++i) {
+			auto & param = fx->parameters[i];
+			auto & arg = fx_ptr.placeholders[i];
 			auto [type, deduced] = std::visit([&] (auto & p) {
-				return analyze_parameter(p, std::nullopt, scope);
+				return analyze_parameter(p, arg, scope);
 			}, param.type);
 			if(deduced) {
 				deduced_types.insert(*deduced);

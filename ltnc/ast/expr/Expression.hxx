@@ -480,7 +480,7 @@ namespace ltn::c::ast {
 		FxPointer(
 			const std::string & name,
 			const Namespace & namespaze,
-			const std::size_t placeholders,
+			std::vector<std::optional<type::IncompleteType>> placeholders,
 			const SourceLocation & location)
 			: Expression(location)
 			, name(name)
@@ -492,13 +492,12 @@ namespace ltn::c::ast {
 		}
 
 		std::uint64_t arity() const {
-			return this->placeholders;
+			return std::size(this->placeholders);
 		}
 
 		std::string name;
 		Namespace namespaze;
-		std::size_t placeholders;
-		std::vector<type::IncompleteType> template_arguments;
+		std::vector<std::optional<type::IncompleteType>> placeholders;
 	};
 
 
