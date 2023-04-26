@@ -15,14 +15,14 @@ namespace ltn::c {
 
 
 
-	const Variable * MajorScope::resolve(
+	stx::optref<const Variable> MajorScope::resolve_variable(
 		const std::string & name,
 		const SourceLocation &) const{
 		
 		if(this->vars.contains(name)) {
-			return &this->vars.at(name);
+			return this->vars.at(name);
 		}
-		return nullptr;
+		return stx::nullref;
 	}
 
 

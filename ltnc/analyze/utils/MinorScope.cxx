@@ -7,14 +7,14 @@ namespace ltn::c {
 
 
 
-	const Variable * MinorScope::resolve(
+	stx::optref<const Variable> MinorScope::resolve_variable(
 		const std::string & name,
 		const SourceLocation & location) const{
 		
 		if(this->vars.contains(name)) {
-			return &this->vars.at(name);
+			return this->vars.at(name);
 		}
-		else return this->parent->resolve(name, location);
+		else return this->parent->resolve_variable(name, location);
 	}
 
 

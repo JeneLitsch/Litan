@@ -7,7 +7,7 @@ namespace ltn::c {
 	public:
 		MajorScope(const Namespace & namespaze, bool c0nst, stx::reference<Context> context);
 
-		virtual const Variable * resolve(const std::string & name, const SourceLocation & location) const override;
+		virtual stx::optref<const Variable> resolve_variable(const std::string & name, const SourceLocation & location) const override;
 		virtual std::uint64_t size() const override;
 		virtual bool is_const() const override;
 		virtual const Namespace & get_namespace() const override;

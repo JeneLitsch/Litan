@@ -1,6 +1,8 @@
 function f(x : <T>) -> array<T> {
+	std::println(reflect(type T).name);
 	return [x,x,x];
 }
+
 
 
 
@@ -18,5 +20,7 @@ function main(args) {
 	// std::println(std::chrono::to_seconds(clock));
 
 	var arr = f(0);
+	var arr2 = f(0.0);
 	std::println(reflect(expr arr).type.name);
+	std::println(reflect(expr arr2).type.name);
 }

@@ -20,9 +20,8 @@ namespace ltn::c {
 		auto resolve_fx_ptr(const ast::FxPointer & fx_ptr, Scope & scope) {
 			auto & context = scope.get_context();
 
-			const auto fx = context.fx_table.resolve(
+			const auto fx = scope.resolve_function(
 				fx_ptr.name,
-				scope.get_namespace(),
 				fx_ptr.namespaze,
 				fx_ptr.placeholders
 			);

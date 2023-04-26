@@ -152,45 +152,22 @@ namespace ltn::c {
 		const auto * var = as<ast::Var>(*call.function_ptr);
 		if(var) {
 			if(var->namespaze.empty()) {
-				const auto * local = scope.resolve(var->name, location(*var));
-				if(local) {
+				if(auto local = scope.resolve_variable(var->name, location(*var))) {
 					return do_invoke(call, scope);
 				}
 			}
 
-			auto & context = scope.get_context();
-
-			const auto * fx = context.fx_table.resolve(
-				var->name,
-				scope.get_namespace(),
-				var->namespaze,
-				call.arguments.size()
-			);
-
-			if(fx) {
+			if(auto fx = scope.resolve_function(var->name, var->namespaze, call.arity())) {
 				return do_call_function(call, *fx, scope);
 			}
 
-			const auto * def = context.definition_table.resolve(
-				var->name,
-				scope.get_namespace(),
-				var->namespaze
-			);
-
-			if(def) {
+			if(auto def = scope.resolve_definiton(var->name, var->namespaze)) {
 				return do_invoke(call, scope);
 			}
 
-			const auto * glob = context.global_table.resolve(
-				var->name,
-				scope.get_namespace(),
-				var->namespaze
-			);
-
-			if(glob) {
+			if(auto glob = scope.resolve_global(var->name, var->namespaze)) {
 				return do_invoke(call, scope);
 			}
-
 
 			throw undefined_function(*var);
 		}
@@ -201,12 +178,10 @@ namespace ltn::c {
 
 
 	sst::expr_ptr analyze_expr(const ast::InvokeMember & invoke, Scope & scope) {
-		auto & context = scope.get_context();
-		
 		auto expr = analyze_expression(*invoke.object, scope);
 		auto arguments = analyze_all_expressions(invoke.arguments, scope);
 		const auto type = type::deduce_invokation(expr->type);
-		const auto id = context.member_table.get_id(invoke.member_name);
+		const auto id = scope.resolve_member_id(invoke.member_name);
 
 		return std::make_unique<sst::InvokeMember>(
 			std::move(expr),

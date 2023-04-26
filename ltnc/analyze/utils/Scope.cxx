@@ -38,5 +38,46 @@ namespace ltn::c {
 			this->type_map.insert({key, val});
 		}
 	}
+
+
+
+
+	stx::optref<const ast::Functional> Scope::resolve_function(
+		const std::string & name,
+		const Namespace & ns,
+		std::size_t arity) const {
+
+		auto & context = this->get_context();
+		auto * fx = context.fx_table.resolve(name, this->get_namespace(), ns, arity);
+		return stx::to_optref(fx);
+	}
+
+
+
+	stx::optref<const sst::Global> Scope::resolve_global(
+		const std::string & name,
+		const Namespace & ns) const {
+		
+		auto & context = this->get_context();
+		auto * glob = context.global_table.resolve(name, this->get_namespace(), ns);
+		return stx::to_optref(glob);
+	}
+
+
+
+	stx::optref<const sst::Definition> Scope::resolve_definiton(
+		const std::string & name,
+		const Namespace & ns) const {
+
+		auto & context = this->get_context();
+		auto * def = context.definition_table.resolve(name, this->get_namespace(), ns);
+		return stx::to_optref(def);
+	}
+
+
+
+	std::uint64_t Scope::resolve_member_id(const std::string & name) const {
+		return this->get_context().member_table.get_id(name);
+	}
 }
 

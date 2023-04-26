@@ -64,6 +64,31 @@ namespace ltn::c {
 
 			return sst_fx;
 		}
+
+
+
+
+
+
+
+		sst::func_ptr analyze_functional(
+			const ast::Functional & functional,
+			Scope & scope,
+			std::optional<Label> override_label) {
+
+			if(auto fx = as<const ast::Function>(functional)) {
+				return analyze_function(*fx, scope, override_label, {});
+			}
+			
+			if(auto fx = as<const ast::BuildIn>(functional)) {
+				return analyze_build_in_function(*fx, scope, override_label);
+			}
+
+			throw CompilerError {
+				"Unknown functional declaration",
+				location(functional)
+			};
+		}
 	}
 
 
@@ -104,27 +129,6 @@ namespace ltn::c {
 		} 
 
 		return sst_fx;
-	}
-
-
-
-	sst::func_ptr analyze_functional(
-		const ast::Functional & functional,
-		Scope & scope,
-		std::optional<Label> override_label) {
-
-		if(auto fx = as<const ast::Function>(functional)) {
-			return analyze_function(*fx, scope, override_label, {});
-		}
-		
-		if(auto fx = as<const ast::BuildIn>(functional)) {
-			return analyze_build_in_function(*fx, scope, override_label);
-		}
-
-		throw CompilerError {
-			"Unknown functional declaration",
-			location(functional)
-		};
 	}
 
 
