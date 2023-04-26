@@ -24,7 +24,8 @@ function main(args) {
 	std::println(reflect(expr arr).type.name);
 	std::println(reflect(expr arr2).type.name);
 
-	var a = 1;
-	var fx = lambda[a] (b: int) => a + b;
-	return fx(2); 
+	// var a = 1;
+	var fx = &f(_,_);
+	// var fx = lambda(a,b) => a + b;
+	return fx(2, 2); 
 }
