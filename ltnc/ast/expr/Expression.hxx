@@ -521,7 +521,6 @@ namespace ltn::c::ast {
 
 		std::unique_ptr<Expression> function_ptr;
 		std::vector<std::unique_ptr<Expression>> arguments;
-		std::vector<type::IncompleteType> template_arguments;
 	};
 
 

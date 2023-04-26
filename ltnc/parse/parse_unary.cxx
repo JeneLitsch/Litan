@@ -96,46 +96,18 @@ namespace ltn::c {
 
 			if(auto start = match(TT::PAREN_L, tokens)) {
 
-				auto [template_args, done] = parse_template_args(tokens); 
-				auto function_args = (!done) 
-					? parse_arguments(tokens)
-					: std::vector<ast::expr_ptr>{};
+				auto function_args = parse_arguments(tokens);
 
 				auto call = stx::make_unique<ast::Call>(
 					std::move(l),
 					std::move(function_args),
 					location(tokens)
 				);
-				call->template_arguments = template_args;
 				return parse_postfix(tokens, std::move(call));
 			}
 
 			return l;
 		}
-	}
-
-
-
-	std::tuple<std::vector<type::IncompleteType>, bool> 
-	parse_template_args(Tokens & tokens){
-		std::vector<type::IncompleteType> template_args;
-
-		while(auto token = match(TT::SMALLER, tokens)) {
-			BraceTracker brace_tracker;
-			brace_tracker.open();
-			template_args.push_back(parse_type(tokens, brace_tracker));
-			close_chevron(tokens, brace_tracker);
-			brace_tracker.finalize();
-			
-			if(match(TT::PAREN_R, tokens)) {
-				return {std::move(template_args), true};
-			}
-			if(!match(TT::COMMA, tokens)) {
-				throw CompilerError{ "Expected ,", location(tokens) };
-			}
-		}
-	
-		return {std::move(template_args), false};
 	}
 
 

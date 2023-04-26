@@ -58,8 +58,6 @@ namespace ltn::c {
 	void brace_l(Tokens & tokens);
 	void brace_r(Tokens & tokens);
 
-	std::tuple<std::vector<type::IncompleteType>, bool> parse_template_args(Tokens & tokens);
-
 	std::vector<std::optional<type::IncompleteType>> parse_placeholder(Tokens & tokens);
 
 	// Maches ; or throws

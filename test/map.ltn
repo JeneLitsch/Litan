@@ -1,6 +1,6 @@
 namespace sphinx::test {
 	function map_existing() {
-		var map = std::map(<int>, <int>);
+		var map = std::map();
 		map[42] = 1337;
 		assert_equal_strict(map[42], 1337);
 	}
@@ -8,7 +8,7 @@ namespace sphinx::test {
 
 
 	function map_missing() {
-		var map = std::map(<int>, <int>);
+		var map = std::map();
 		map[42] = 1337;
 		assert_equal_strict(map[123], null);
 	}
