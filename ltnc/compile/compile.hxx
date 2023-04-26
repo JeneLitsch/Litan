@@ -36,7 +36,6 @@ namespace ltn::c {
 
 	// Expression
 	InstructionBuffer compile_expression(const sst::Expression &);
-	InstructionBuffer compile_expr(const sst::Lambda &);
 	InstructionBuffer compile_expr(const sst::Choose &);
 	InstructionBuffer compile_expr(const sst::Ternary &);
 	InstructionBuffer compile_expr(const sst::Binary &);

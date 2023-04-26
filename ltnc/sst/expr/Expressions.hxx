@@ -371,29 +371,6 @@ namespace ltn::c::sst {
 
 
 
-	struct Lambda final : public Literal {
-		Lambda(
-			std::unique_ptr<Functional> fx,
-			std::vector<std::unique_ptr<Var>> captures,
-			const type::Type & type)
-			: Literal(type)
-			, fx(std::move(fx))
-			, captures(std::move(captures)) {}
-
-		virtual std::uint64_t alloc() const override {
-			return 0;
-		}
-
-		virtual void accept(const ExprVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
-
-		std::unique_ptr<Functional> fx;
-		std::vector<std::unique_ptr<Var>> captures;
-	};
-
-
-
 	struct Index final : public Expression {
 		Index(
 			std::unique_ptr<Expression> expr,
@@ -706,7 +683,6 @@ namespace ltn::c::sst {
 			virtual void visit(const InvokeMember & x) const override { this->run(x); };
 			virtual void visit(const Var & x) const override { this->run(x); };
 			virtual void visit(const Index & x) const override { this->run(x); };
-			virtual void visit(const Lambda & x) const override { this->run(x); };
 			virtual void visit(const FxPointer & x) const override { this->run(x); };
 			virtual void visit(const Member & x) const override { this->run(x); };
 			virtual void visit(const GlobalVar & x) const override { this->run(x); };

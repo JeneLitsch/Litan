@@ -93,41 +93,4 @@ namespace ltn::c {
 	InstructionBuffer compile_functional(const sst::Functional & functional) {
 		return compile_functional(functional, std::nullopt);
 	}
-
-
-
-	InstructionBuffer compile_expr(const sst::Lambda & lm) {
-		
-		const auto & fx = *lm.fx;
-		InstructionBuffer buf;
-
-		const auto & label = fx.label;
-		const auto label_skip = derive_skip(label);
-		
-		// Skip
-		buf << inst::jump(label_skip.to_string());
-		
-		InstructionBuffer capture_buf;
-		
-		// compile function
-		buf << compile_functional(*lm.fx);
-
-		// Create function pointer
-		buf << inst::label(label_skip.to_string());
-		buf << inst::newfx(label.to_string(), fx.parameters.size());
-		
-		// store captures
-		for(const auto & capture : lm.captures) {
-			buf << compile_expression(*capture);
-			buf << inst::capture();
-		}
-
-
-		std::vector<type::Type> parameter_types;
-		for(const auto & parameter : fx.parameters) {
-			parameter_types.push_back(parameter.type);
-		}
-
-		return buf;
-	}
 }

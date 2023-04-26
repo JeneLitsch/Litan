@@ -21,7 +21,6 @@ namespace ltn::c::sst {
 	struct InvokeMember;
 	struct Var;
 	struct Index;
-	struct Lambda;
 	struct FxPointer;
 	struct Member;
 	struct GlobalVar;
@@ -50,7 +49,6 @@ namespace ltn::c::sst {
 		InvokeMember,
 		Var,
 		Index,
-		Lambda,
 		FxPointer,
 		Member,
 		GlobalVar,
