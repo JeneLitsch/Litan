@@ -131,7 +131,7 @@ namespace ltn::c {
 			MinorScope dummy_scope{&scope};
 			dummy_scope.inherit_types(infered_types);
 			auto return_type = instantiate_type(fx.return_type, dummy_scope);
-			auto fx_label = make_function_label(fx);
+			auto fx_label = make_function_label(fx, infered_types);
 			
 			auto sst_call = std::make_unique<sst::Call>(
 				std::move(fx_label),

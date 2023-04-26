@@ -1,5 +1,6 @@
 #pragma once
 #include <queue>
+#include <tuple>
 #include <set>
 #include <optional>
 #include "stdxx/reference.hxx"
@@ -11,7 +12,7 @@ namespace ltn::c {
 		std::map<std::string, type::Type> deduced_types;
 	};
 	inline auto operator<=>(const Staged & l, const Staged & r) {
-		return  &*l.fx <=> &*r.fx;
+		return std::tie(l.fx, l.deduced_types) <=> std::tie(r.fx, r.deduced_types);
 	}
 	
 

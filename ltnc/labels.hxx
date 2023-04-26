@@ -18,11 +18,15 @@ namespace ltn::c {
 
 	Label make_function_label(
 		const ast::Functional & fx);
+
+	Label make_function_label(
+		const ast::Functional & fx,
+		const std::map<std::string, type::Type> & args);
 	
 
 	Label derive_template(
 		const Label & label,
-		const std::vector<type::Type> & args);
+		const std::map<std::string, type::Type> & args);
 
 	Label derive_skip(
 		const Label & label);

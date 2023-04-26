@@ -27,8 +27,7 @@ namespace ltn::c {
 
 	ast::func_ptr generate_ctor(const ast::Preset &);
 
-	sst::func_ptr analyze_functional(const ast::Functional &, FunctionScope &);
-	sst::func_ptr analyze_function(const ast::Function &, Scope &,
+	sst::func_ptr analyze_functional(const ast::Functional &, FunctionScope &,
 		std::optional<Label> override_label = std::nullopt,
 		const std::vector<std::unique_ptr<ast::Var>> & captures = {});
 	

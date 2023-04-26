@@ -72,7 +72,8 @@ namespace ltn::c {
 				context,
 			};
 			scope.inherit_types(staged.deduced_types);
-			return analyze_functional(*staged.fx, scope); 
+			auto label = make_function_label(staged.fx, staged.deduced_types);
+			return analyze_functional(staged.fx, scope, label, {}); 
 		}
 	}
 
