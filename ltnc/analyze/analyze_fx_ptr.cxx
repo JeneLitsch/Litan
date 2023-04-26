@@ -16,10 +16,9 @@ namespace ltn::c {
 
 
 
-		auto resolve_fx_ptr_normal(
-			const ast::FxPointer & fx_ptr,
-			Scope & scope,
-			Context & context) {
+
+		auto resolve_fx_ptr(const ast::FxPointer & fx_ptr, Scope & scope) {
+			auto & context = scope.get_context();
 
 			const auto fx = context.fx_table.resolve(
 				fx_ptr.name,
@@ -36,32 +35,14 @@ namespace ltn::c {
 
 			return std::tuple{fx, label};
 		}
-
-
-
-		bool refers_to_template(const ast::FxPointer & fx_ptr) {
-			return !fx_ptr.template_arguments.empty();
-		}
-
-
-
-		auto resolve_fx_ptr(
-			const ast::FxPointer & fx_ptr,
-			Scope & scope,
-			Context & context) {
-			return resolve_fx_ptr_normal(fx_ptr, scope, context);
-		}
 	}
 
 
 
-	sst::expr_ptr analyze_expr(
-		const ast::FxPointer & fx_ptr,
-		Context & context,
-		Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::FxPointer & fx_ptr, Scope & scope) {
 
 		MinorScope inner_scope{&scope};
-		auto [funtional, label] = resolve_fx_ptr(fx_ptr, inner_scope, context);
+		auto [funtional, label] = resolve_fx_ptr(fx_ptr, inner_scope);
 
 		const auto return_type 
 			= instantiate_type(funtional->return_type, inner_scope);

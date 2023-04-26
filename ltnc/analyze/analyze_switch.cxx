@@ -2,44 +2,39 @@
 #include "stdxx/functional.hxx"
 
 namespace ltn::c {
-	auto analyze_cases(
-		auto body_fx,
-		const auto & sw1tch,
-		Context & context,
-		Scope & scope) {
+	auto analyze_cases(auto body_fx, const auto & sw1tch, Scope & scope) {
 
 		InvalidFunctionTable fx_table {"case"};
 		InvalidGlobalTable global_table {"case"};
+		auto & outer_context = scope.get_context(); 
 		Context case_context {
 			.fx_table = fx_table,
-			.fx_queue		   = context.fx_queue,
-			.definition_table = context.definition_table, 
-			.member_table = context.member_table, 
+			.fx_queue = outer_context.fx_queue,
+			.definition_table = outer_context.definition_table, 
+			.member_table = outer_context.member_table, 
 			.global_table = global_table,
-			.reporter = context.reporter
+			.reporter = outer_context.reporter
 		};
 
 		MajorScope case_scope {
 			scope.get_namespace(),
-			true
+			true,
+			case_context
 		};
 
 		return stx::fx::mapped(stx::fx::paired(
-			[&] (auto & c4se) { return analyze_expression(*c4se, case_context, case_scope); },
-			[&] (auto & body) { return body_fx(*body, context, scope); }
+			[&] (auto & c4se) { return analyze_expression(*c4se, case_scope); },
+			[&] (auto & body) { return body_fx(*body, scope); }
 		)) (sw1tch.cases);
 	}
 
 
 
-	sst::stmt_ptr analyze_stmt(
-		const ast::Switch & sw1tch,
-		Context & context,
-		Scope & scope) {
+	sst::stmt_ptr analyze_stmt(const ast::Switch & sw1tch, Scope & scope) {
 		
-		auto condition = analyze_expression(*sw1tch.condition, context, scope);
-		auto cases = analyze_cases(analyze_statement, sw1tch, context, scope);
-		auto def4ault = analyze_statement(*sw1tch.d3fault, context, scope);
+		auto condition = analyze_expression(*sw1tch.condition, scope);
+		auto cases = analyze_cases(analyze_statement, sw1tch, scope);
+		auto def4ault = analyze_statement(*sw1tch.d3fault, scope);
 
 		auto sst_sw1tch = std::make_unique<sst::Switch>();
 		sst_sw1tch->cases = std::move(cases);
@@ -50,14 +45,11 @@ namespace ltn::c {
 
 
 
-	sst::expr_ptr analyze_expr(
-		const ast::Choose & sw1tch,
-		Context & context,
-		Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::Choose & sw1tch, Scope & scope) {
 
-		auto condition = analyze_expression(*sw1tch.condition, context, scope);
-		auto cases = analyze_cases(analyze_expression, sw1tch, context, scope);
-		auto def4ault = analyze_expression(*sw1tch.d3fault, context, scope);
+		auto condition = analyze_expression(*sw1tch.condition, scope);
+		auto cases = analyze_cases(analyze_expression, sw1tch, scope);
+		auto def4ault = analyze_expression(*sw1tch.d3fault, scope);
 
 		type::Type deduced_type = def4ault->type;
 		for(const auto & [expr, body] : cases) {

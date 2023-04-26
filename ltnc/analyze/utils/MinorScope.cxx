@@ -70,4 +70,17 @@ namespace ltn::c {
 		if(this->return_type) return *this->return_type;
 		return this->parent->get_return_type();
 	}
+
+	
+	
+	Context & MinorScope::get_context() const {
+		if(this->context) return *this->context;
+		else return this->parent->get_context();
+	}
+
+
+
+	void MinorScope::set_context(stx::reference<Context> context) {
+		this->context = *context;
+	}
 }

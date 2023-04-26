@@ -22,9 +22,9 @@ namespace ltn::c {
 		template<typename NodeT>
 		auto analyze_static(const auto & statik, Context & context) {
 
-			MajorScope scope { statik.namespaze, false };
+			MajorScope scope { statik.namespaze, false, context};
 
-			auto expr = statik.expr ? analyze_expression(*statik.expr, context, scope) : nullptr;
+			auto expr = statik.expr ? analyze_expression(*statik.expr, scope) : nullptr;
 			auto type = deduce_type(statik, expr, scope);
 
 			if(!expr) {

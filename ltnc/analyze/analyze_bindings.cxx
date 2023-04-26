@@ -5,7 +5,6 @@ namespace ltn::c {
 	namespace {
 		sst::bind_ptr analyze_bind(
 			const ast::GroupBinding & binding,
-			Context & context,
 			Scope & scope,
 			const type::Type & from_type) {
 
@@ -20,7 +19,7 @@ namespace ltn::c {
 				if(type::is_error(type)) {
 					throw cannot_unpack_tuple(binding);
 				} 
-				auto sub_binding = analyze_binding(*binding.sub_bindings[i], context, scope, type);
+				auto sub_binding = analyze_binding(*binding.sub_bindings[i], scope, type);
 				sst_binding->sub_bindings.push_back(std::move(sub_binding));
 			}
 
@@ -31,7 +30,6 @@ namespace ltn::c {
 		
 		sst::bind_ptr analyze_bind(
 			const ast::NewVarBinding & binding,
-			Context &,
 			Scope & scope,
 			const type::Type & from_type) {
 
@@ -44,12 +42,11 @@ namespace ltn::c {
 
 	sst::bind_ptr analyze_binding(
 		const ast::Binding & binding,
-		Context & context,
 		Scope & scope,
 		const type::Type & from_type) {
 
 		return ast::visit_binding(binding, [&] (const auto & b) {
-			return analyze_bind(b, context, scope, from_type);
+			return analyze_bind(b, scope, from_type);
 		});
 	}
 }

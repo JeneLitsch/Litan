@@ -5,7 +5,7 @@ namespace ltn::c {
 	// Major Scope for e.g. functions 
 	class MajorScope : public Scope {
 	public:
-		MajorScope(const Namespace & namespaze, bool c0nst);
+		MajorScope(const Namespace & namespaze, bool c0nst, stx::reference<Context> context);
 
 		virtual const Variable * resolve(const std::string & name, const SourceLocation & location) const override;
 		virtual std::uint64_t size() const override;
@@ -14,6 +14,8 @@ namespace ltn::c {
 		virtual std::optional<std::string> get_return() const override;
 		virtual const type::Type & get_return_type() const override;
 		virtual const type::Type * resolve_type(const std::string & name) const override;
+		virtual Context & get_context() const override;
+		virtual void set_context(stx::reference<Context> context) override;
 
 		void set_return_type(type::Type type);
 	
@@ -21,5 +23,6 @@ namespace ltn::c {
 		Namespace namespaze;
 		bool c0nst = false;
 		type::Type return_type;
+		stx::reference<Context> context;
 	};
 }

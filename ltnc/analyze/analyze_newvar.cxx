@@ -7,13 +7,10 @@
 
 namespace ltn::c {
 	namespace {
-		sst::expr_ptr analyze_new_variable_right(
-			const ast::NewVar & new_var,
-			Context & context,
-			Scope & scope) {
+		sst::expr_ptr analyze_new_variable_right(const ast::NewVar & new_var, Scope & scope) {
 			
 			if(new_var.expr) {
-				auto expr = analyze_expression(*new_var.expr, context, scope);
+				auto expr = analyze_expression(*new_var.expr, scope);
 				if(new_var.type) {
 					auto decl_type = instantiate_type(*new_var.type, scope);
 					expr = conversion_on_assign(std::move(expr), decl_type, location(new_var));
@@ -41,14 +38,11 @@ namespace ltn::c {
 
 
 
-	sst::stmt_ptr analyze_stmt(
-		const ast::NewVar & new_var,
-		Context & context,
-		Scope & scope) {
+	sst::stmt_ptr analyze_stmt(const ast::NewVar & new_var, Scope & scope) {
 
-		auto expr = analyze_new_variable_right(new_var, context, scope);
+		auto expr = analyze_new_variable_right(new_var, scope);
 		auto type = deduce_type(new_var, *expr, scope);
-		auto binding = analyze_binding(*new_var.binding, context, scope, type);
+		auto binding = analyze_binding(*new_var.binding, scope, type);
 		return std::make_unique<sst::Assign>(std::move(binding), std::move(expr));
 	}
 }

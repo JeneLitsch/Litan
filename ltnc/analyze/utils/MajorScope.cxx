@@ -6,8 +6,12 @@ namespace ltn::c {
 
 	MajorScope::MajorScope(
 		const Namespace & namespaze,
-		bool c0nst) 
-	: namespaze { namespaze }, c0nst { c0nst }, return_type{type::Any{}} {}
+		bool c0nst,
+		stx::reference<Context> context) 
+		: namespaze { namespaze }
+		, c0nst { c0nst }
+		, return_type{type::Any{}}
+		, context{context} {}
 
 
 
@@ -60,5 +64,15 @@ namespace ltn::c {
 
 	void MajorScope::set_return_type(type::Type type) {
 		this->return_type = type;
+	}
+
+
+	Context & MajorScope::get_context() const {
+		return *this->context;
+	}
+
+
+	void MajorScope::set_context(stx::reference<Context> context) {
+		this->context = context;
 	}
 }

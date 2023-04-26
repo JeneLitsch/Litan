@@ -42,13 +42,10 @@ namespace ltn::c {
 
 
 
-	sst::stmt_ptr analyze_stmt(
-		const ast::Assign & stmt,
-		Context & context,
-		Scope & scope) {
+	sst::stmt_ptr analyze_stmt(const ast::Assign & stmt, Scope & scope) {
 		guard_const(stmt, scope);
-		auto l = analyze_expression(*stmt.l, context, scope);
-		auto r_raw = analyze_expression(*stmt.r, context, scope);
+		auto l = analyze_expression(*stmt.l, scope);
+		auto r_raw = analyze_expression(*stmt.r, scope);
 		auto r = conversion_on_assign(std::move(r_raw), l->type, location(stmt));
 		auto binding = generate_binding(std::move(l));
 		if(!binding) {

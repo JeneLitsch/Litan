@@ -46,7 +46,6 @@ namespace ltn::c {
 		auto analyze_arguments(
 			const ast::Call & call,
 			const ast::Functional & fx,
-			Context & context,
 			Scope & scope) {
 			
 			std::vector<sst::expr_ptr> arguments;
@@ -56,7 +55,7 @@ namespace ltn::c {
 				auto & argument = call.arguments[i];
 				auto & parameter = fx.parameters[i];
 				auto [arg, deduced_type] = std::visit([&] (auto & t) {
-					auto arg = analyze_expression(*argument, context, scope);
+					auto arg = analyze_expression(*argument, scope);
 					return analyze_parameter(t, std::move(arg), scope, location);
 				}, parameter.type); 
 				arguments.push_back(std::move(arg));
@@ -103,13 +102,10 @@ namespace ltn::c {
 
 
 
-		sst::expr_ptr do_invoke(
-			const ast::Call & call,
-			Context & context,
-			Scope & scope) {
+		sst::expr_ptr do_invoke(const ast::Call & call, Scope & scope) {
 
-			auto expr = analyze_expression(*call.function_ptr, context, scope);
-			auto arguments = analyze_all_expressions(call.arguments, context, scope);
+			auto expr = analyze_expression(*call.function_ptr, scope);
+			auto arguments = analyze_all_expressions(call.arguments, scope);
 			const auto type = type::deduce_invokation(expr->type);
 			
 			return std::make_unique<sst::Invoke>(
@@ -124,13 +120,14 @@ namespace ltn::c {
 		sst::expr_ptr do_call_function(
 			const ast::Call & call,
 			const ast::Functional & fx,
-			Context & context,
 			Scope & scope) {
+
+			auto & context = scope.get_context();
 			
 			guard_private(fx, scope.get_namespace(), call);
 			guard_const(call, fx, scope);
 
-			auto [arguments, infered_types] = analyze_arguments(call, fx, context, scope);
+			auto [arguments, infered_types] = analyze_arguments(call, fx, scope);
 			MinorScope dummy_scope{&scope};
 			dummy_scope.inherit_types(infered_types);
 			auto return_type = instantiate_type(fx.return_type, dummy_scope);
@@ -150,19 +147,18 @@ namespace ltn::c {
 
 
 	// compiles function call fx(...)
-	sst::expr_ptr analyze_expr(
-		const ast::Call & call,
-		Context & context,
-		Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::Call & call, Scope & scope) {
 	
 		const auto * var = as<ast::Var>(*call.function_ptr);
 		if(var) {
 			if(var->namespaze.empty()) {
 				const auto * local = scope.resolve(var->name, location(*var));
 				if(local) {
-					return do_invoke(call, context, scope);
+					return do_invoke(call, scope);
 				}
 			}
+
+			auto & context = scope.get_context();
 
 			const auto * fx = context.fx_table.resolve(
 				var->name,
@@ -172,7 +168,7 @@ namespace ltn::c {
 			);
 
 			if(fx) {
-				return do_call_function(call, *fx, context, scope);
+				return do_call_function(call, *fx, scope);
 			}
 
 			const auto * def = context.definition_table.resolve(
@@ -182,7 +178,7 @@ namespace ltn::c {
 			);
 
 			if(def) {
-				return do_invoke(call, context, scope);
+				return do_invoke(call, scope);
 			}
 
 			const auto * glob = context.global_table.resolve(
@@ -192,25 +188,23 @@ namespace ltn::c {
 			);
 
 			if(glob) {
-				return do_invoke(call, context, scope);
+				return do_invoke(call, scope);
 			}
 
 
 			throw undefined_function(*var);
 		}
 
-		return do_invoke(call, context, scope);
+		return do_invoke(call, scope);
 	}
 
 
 
-	sst::expr_ptr analyze_expr(
-		const ast::InvokeMember & invoke,
-		Context & context,
-		Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::InvokeMember & invoke, Scope & scope) {
+		auto & context = scope.get_context();
 		
-		auto expr = analyze_expression(*invoke.object, context, scope);
-		auto arguments = analyze_all_expressions(invoke.arguments, context, scope);
+		auto expr = analyze_expression(*invoke.object, scope);
+		auto arguments = analyze_all_expressions(invoke.arguments, scope);
 		const auto type = type::deduce_invokation(expr->type);
 		const auto id = context.member_table.get_id(invoke.member_name);
 

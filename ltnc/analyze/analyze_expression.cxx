@@ -2,10 +2,7 @@
 #include "ltnc/type/traits.hxx"
 
 namespace ltn::c {
-	sst::expr_ptr analyze_expr(
-		const ast::ForwardDynamicCall & forward,
-		Context &,
-		Scope &) {
+	sst::expr_ptr analyze_expr(const ast::ForwardDynamicCall & forward, Scope &) {
 		
 		std::vector<sst::expr_ptr> arguments;
 		for(std::uint64_t i = 0; i < forward.arity; ++i) {
@@ -22,13 +19,10 @@ namespace ltn::c {
 
 
 	// compiles any expr
-	sst::expr_ptr analyze_expression(
-		const ast::Expression & expr,
-		Context & context,
-		Scope & scope) {
+	sst::expr_ptr analyze_expression(const ast::Expression & expr, Scope & scope) {
 
 		auto result = ast::visit_expression(expr, [&](const auto & e) {
-			return analyze_expr(e, context, scope);
+			return analyze_expr(e, scope);
 		});
 
 		if(is_error(result->type)) throw invalid_operands(expr);

@@ -69,17 +69,18 @@ namespace ltn::c {
 			FunctionScope scope {
 				staged.fx->namespaze,
 				staged.fx->is_const,
+				context,
 			};
 			scope.inherit_types(staged.deduced_types);
-			return analyze_functional(*staged.fx, context, scope); 
+			return analyze_functional(*staged.fx, scope); 
 		}
 	}
 
 
 
-	std::vector<sst::expr_ptr> analyze_all_expressions(const std::vector<ast::expr_ptr> & exprs, Context & context, Scope & scope) {
+	std::vector<sst::expr_ptr> analyze_all_expressions(const std::vector<ast::expr_ptr> & exprs, Scope & scope) {
 		auto analyze_all = stx::fx::mapped([&] (const auto & expr) {
-			return analyze_expression(*expr, context, scope);
+			return analyze_expression(*expr, scope);
 		});
 		return analyze_all(exprs);
 	}

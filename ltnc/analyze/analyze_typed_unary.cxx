@@ -33,11 +33,8 @@ namespace ltn::c {
 
 
 
-	sst::expr_ptr analyze_expr(
-		const ast::TypedUnary & tunary,
-		Context & context,
-		Scope & scope) {
-		auto expr = analyze_expression(*tunary.expr, context, scope);
+	sst::expr_ptr analyze_expr(const ast::TypedUnary & tunary, Scope & scope) {
+		auto expr = analyze_expression(*tunary.expr, scope);
 		const auto target_type = instantiate_type(tunary.type, scope);
 		const auto op = tunary.op;
 		const auto type = deduce_type(op, target_type);

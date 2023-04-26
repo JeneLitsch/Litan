@@ -29,9 +29,9 @@ namespace ltn::c {
 			Context & context,
 			const auto & namespaze) {
 			
-			MajorScope scope{namespaze, false};
+			MajorScope scope{namespaze, false, context};
 			scope.insert(except.errorname, location(except));
-			auto body = analyze_statement(*except.body, context, scope);
+			auto body = analyze_statement(*except.body, scope);
 			return std::make_unique<sst::Except>(
 				except.errorname,
 				std::move(body)
@@ -70,12 +70,13 @@ namespace ltn::c {
 
 	sst::func_ptr analyze_function(
 		const ast::Function & fx,
-		Context & context,
 		Scope & scope,
 		std::optional<Label> override_label,
 		const std::vector<std::unique_ptr<ast::Var>> & captures) {
 
 		const auto label = override_label.value_or(make_function_label(fx));
+
+		auto & context = scope.get_context();
 
 		auto parameters = analyze_parameters(fx.parameters, scope, location(fx));
 
@@ -83,7 +84,7 @@ namespace ltn::c {
 			scope.insert(capture->name, location(*capture));
 		}
 
-		auto body = analyze_statement(*fx.body, context, scope);
+		auto body = analyze_statement(*fx.body, scope);
 
 		auto sst_fx = std::make_unique<sst::Function>(
 			label,
@@ -109,12 +110,11 @@ namespace ltn::c {
 
 	sst::func_ptr analyze_functional(
 		const ast::Functional & functional,
-		Context & context,
 		Scope & scope,
 		std::optional<Label> override_label) {
 
 		if(auto fx = as<const ast::Function>(functional)) {
-			return analyze_function(*fx, context, scope, override_label, {});
+			return analyze_function(*fx, scope, override_label, {});
 		}
 		
 		if(auto fx = as<const ast::BuildIn>(functional)) {
@@ -129,21 +129,8 @@ namespace ltn::c {
 
 
 
-	sst::func_ptr analyze_functional(const ast::Functional & functional, Context & context, FunctionScope & scope) {
+	sst::func_ptr analyze_functional(const ast::Functional & functional, FunctionScope & scope) {
 		scope.set_return_type(instantiate_type(functional.return_type, scope));
-		return analyze_functional(functional, context, scope, std::nullopt);
-	}
-
-
-
-	sst::func_ptr analyze_functional(
-		const ast::Functional & functional,
-		Context & context) {
-
-		FunctionScope scope {
-			functional.namespaze,
-			functional.is_const,
-		};
-		return analyze_functional(functional, context, scope);
+		return analyze_functional(functional, scope, std::nullopt);
 	}
 }

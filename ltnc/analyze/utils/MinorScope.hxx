@@ -13,12 +13,14 @@ namespace ltn::c {
 		virtual std::optional<std::string> get_return() const override;
 		virtual const type::Type & get_return_type() const override;
 		virtual const type::Type * resolve_type(const std::string & name) const override;
-
+		virtual Context & get_context() const override;
+		virtual void set_context(stx::reference<Context> context) override;
 
 		void override_return_type(type::Type return_type);
 
 	private:
 		const Scope * parent;
 		std::optional<type::Type> return_type;
+		stx::optref<Context> context = stx::nullref;
 	};
 }
