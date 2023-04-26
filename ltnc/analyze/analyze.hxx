@@ -27,7 +27,9 @@ namespace ltn::c {
 
 	ast::func_ptr generate_ctor(const ast::Preset &);
 
-	sst::func_ptr analyze_functional(const ast::Functional &, FunctionScope &,
+	sst::func_ptr analyze_functional(
+		const ast::Functional &,
+		FunctionScope &,
 		std::optional<Label> override_label = std::nullopt,
 		const std::vector<std::unique_ptr<ast::Var>> & captures = {});
 	
@@ -75,16 +77,6 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::InitStruct &, Scope &);
 
 	sst::bind_ptr analyze_binding(const ast::Binding &, Scope &, const type::Type &);
-
-	void add_template_args(
-		Scope & scope,
-		const std::vector<std::string> & template_params,
-		const std::vector<type::IncompleteType> & template_args);
-
-	void add_template_args(
-		Scope & scope,
-		const std::vector<std::string> & template_params,
-		const std::vector<type::Type> & template_args);
 
 	type::Type analyze_parameter_type(const ast::Parameter::DeclType & type, Scope &);
 }	
