@@ -6,30 +6,66 @@
 namespace ltn::c {
 
 	namespace {
-		std::vector<sst::expr_ptr> analyze_arguments(
+		struct ParamResult {
+			sst::expr_ptr expr;
+			std::optional<std::pair<std::string, type::Type>> deduced_type;
+		};
+
+		ParamResult analyze_parameter(
+			const ast::Parameter::Infered & infered,
+			sst::expr_ptr arg,
+			Scope & scope,
+			const ArgumentLocation & loc) {
+
+			auto deduced_types = std::make_pair(infered.name, arg->type);
+			
+			return ParamResult{
+				.expr = std::move(arg),
+				.deduced_type = deduced_types,
+			};
+		}
+
+
+
+		ParamResult analyze_parameter(
+			const type::IncompleteType & type,
+			sst::expr_ptr arg,
+			Scope & scope,
+			const ArgumentLocation & loc) {
+				
+			const auto param_type = instantiate_type(type, scope);
+			auto converted = conversion_on_pass(std::move(arg), param_type, loc);
+			return ParamResult{
+				.expr = std::move(converted),
+				.deduced_type = std::nullopt,
+			};
+		}
+
+
+
+		auto analyze_arguments(
 			const ast::Call & call,
 			const ast::Functional & fx,
 			Context & context,
-			Scope & scope,
-			std::map<std::string, type::Type> & infered_types) {
+			Scope & scope) {
 			
 			std::vector<sst::expr_ptr> arguments;
+			std::map<std::string, type::Type> deduced_param_types;
 			for(std::size_t i = 0; i < call.arguments.size(); ++i) {
 				const ArgumentLocation location = {ast::location(call), i};
 				auto & argument = call.arguments[i];
 				auto & parameter = fx.parameters[i];
-				auto arg = analyze_expression(*argument, context, scope);
-				if(auto * infered = std::get_if<ast::Parameter::Infered>(&parameter.type)) {
-					infered_types.insert({infered->name, arg->type});
-				}
-				if(auto * type = std::get_if<type::IncompleteType>(&parameter.type)) {
-					const auto param_type = instantiate_type(*type, scope);
-					arg = conversion_on_pass(std::move(arg), param_type, location);
-				}
+				auto [arg, deduced_type] = std::visit([&] (auto & t) {
+					auto arg = analyze_expression(*argument, context, scope);
+					return analyze_parameter(t, std::move(arg), scope, location);
+				}, parameter.type); 
 				arguments.push_back(std::move(arg));
+				if(deduced_type) {
+					deduced_param_types.insert(*deduced_type);
+				}
 			}
 
-			return arguments;
+			return std::make_tuple(std::move(arguments), deduced_param_types);
 		}
 
 
@@ -67,33 +103,6 @@ namespace ltn::c {
 
 
 
-		sst::expr_ptr do_call(
-			const ast::Call & call,
-			const ast::Functional & fx,
-			Context & context,
-			Scope & scope,
-			std::map<std::string, type::Type> & infered_types,
-			const std::optional<Label> id_override = std::nullopt) {
-
-			guard_private(fx, scope.get_namespace(), call);
-			guard_const(call, fx, scope);
-
-			auto arguments = analyze_arguments(call, fx, context, scope, infered_types);
-			MinorScope dummy_scope{&scope};
-			dummy_scope.inherit_types(infered_types);
-			auto return_type = instantiate_type(fx.return_type, dummy_scope);
-			auto fx_label = make_function_label(fx);
-			auto label = id_override.value_or(std::move(fx_label));
-			
-			return std::make_unique<sst::Call>(
-				std::move(label),
-				std::move(arguments),
-				std::move(return_type)
-			);
-		}
-
-
-
 		sst::expr_ptr do_invoke(
 			const ast::Call & call,
 			Context & context,
@@ -118,8 +127,21 @@ namespace ltn::c {
 			Context & context,
 			Scope & scope) {
 			
-			std::map<std::string, type::Type> infered_types;
-			auto sst_call = do_call(call, fx, context, scope, infered_types);
+			guard_private(fx, scope.get_namespace(), call);
+			guard_const(call, fx, scope);
+
+			auto [arguments, infered_types] = analyze_arguments(call, fx, context, scope);
+			MinorScope dummy_scope{&scope};
+			dummy_scope.inherit_types(infered_types);
+			auto return_type = instantiate_type(fx.return_type, dummy_scope);
+			auto fx_label = make_function_label(fx);
+			
+			auto sst_call = std::make_unique<sst::Call>(
+				std::move(fx_label),
+				std::move(arguments),
+				std::move(return_type)
+			);
+
 			context.fx_queue.stage_function(fx, infered_types);
 			return sst_call;
 		}
