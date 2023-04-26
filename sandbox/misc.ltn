@@ -1,4 +1,4 @@
-function f(x : <T>) -> array<T> {
+function f(x : <T>, u : int) -> array<T> {
 	std::println(reflect(type T).name);
 	return [x,x,x];
 }
@@ -19,8 +19,12 @@ function main(args) {
 
 	// std::println(std::chrono::to_seconds(clock));
 
-	var arr = f(0);
-	var arr2 = f(0.0);
+	var arr = f(0, 1);
+	var arr2 = f(0.0, 1);
 	std::println(reflect(expr arr).type.name);
 	std::println(reflect(expr arr2).type.name);
+
+	var a = 1;
+	var fx = lambda[a] (b: int) => a + b;
+	return fx(2); 
 }

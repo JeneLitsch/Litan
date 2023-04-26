@@ -527,6 +527,7 @@ namespace ltn::c::sst {
 
 		Label label;
 		std::size_t arity;
+		std::vector<std::unique_ptr<Var>> captures;
 	};
 
 

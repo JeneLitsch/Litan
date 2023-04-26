@@ -64,13 +64,6 @@ namespace ltn::c {
 
 			return sst_fx;
 		}
-
-
-
-
-
-
-
 	}
 
 

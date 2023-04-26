@@ -4,16 +4,19 @@ namespace ltn::c {
 	void FunctionQueue::stage_function(
 		stx::reference<const ast::Functional> fx,
 		std::map<std::string, type::Type> deduced_types) {
-		Staged staged {
+		this->stage_function(Staged {
 			.fx = fx,
 			.deduced_types = deduced_types
-		};
-		if(this->already_known.contains(staged)) return;
-		this->already_known.insert(staged);
-		this->queue.push(std::move(staged));
+		});
 	}
 
 
+
+	void FunctionQueue::stage_function(Staged staged) {
+		if(this->already_known.contains(staged)) return;
+		this->already_known.insert(staged);
+		this->queue.push(std::move(staged));
+	};
 
 
 

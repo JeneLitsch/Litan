@@ -46,14 +46,25 @@ namespace ltn::c {
 		auto inner_scope = create_inner_scope(outer_scope, lambda);
 		auto label = make_lambda_label(lambda);
 		
-		auto sst_fx = analyze_functional(*lambda.fx, inner_scope, label, lambda.captures);
+		// auto sst_fx = analyze_functional(*lambda.fx, inner_scope, label, lambda.captures);
 		auto captures = analyze_captures(lambda.captures, outer_scope);
 		auto type = deduce_type(lambda, inner_scope);
 
-		return std::make_unique<sst::Lambda>(
-			std::move(sst_fx),
-			std::move(captures),
+		outer_scope.get_context().fx_queue.stage_function(Staged{
+			.fx = *lambda.fx,
+			.deduced_types = {},
+			.captures = lambda.captures,
+			.override_namespace = outer_scope.get_namespace(),
+		});
+
+		auto fx_ptr = std::make_unique<sst::FxPointer>(
+			make_function_label(*lambda.fx),
+			lambda.fx->parameters.size(),
 			std::move(type)
 		);
+
+		fx_ptr->captures = std::move(captures);
+
+		return fx_ptr;
 	}
 }

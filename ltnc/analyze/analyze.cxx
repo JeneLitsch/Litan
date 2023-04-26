@@ -67,13 +67,14 @@ namespace ltn::c {
 
 		auto analyze_staged(const Staged & staged, Context & context) {
 			FunctionScope scope {
-				staged.fx->namespaze,
+				staged.override_namespace.value_or(staged.fx->namespaze),
 				staged.fx->is_const,
 				context,
 			};
 			scope.inherit_types(staged.deduced_types);
 			auto label = make_function_label(staged.fx, staged.deduced_types);
-			return analyze_functional(staged.fx, scope, label, {}); 
+			static const std::vector<std::unique_ptr<ast::Var>> no_captures;
+			return analyze_functional(staged.fx, scope, label, staged.captures.value_or(no_captures)); 
 		}
 	}
 
