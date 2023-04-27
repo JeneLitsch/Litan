@@ -1,10 +1,17 @@
 namespace sphinx::test {
 	namespace utils {
-		function deduce_parameter(i : <T>, name : string) {
+		function deduce_parameter_direct(i : <T>, name : string) {
 			assert_equal(
 				(reflect(type T).name, reflect(expr i).type.name),
 				(name, name)
 			);
+		}
+
+
+
+		function deduce_parameter_var_type(i : <T>, name : string) {
+			var x = i;
+			assert_equal(reflect(expr i).type.name, name);
 		}
 
 
@@ -18,12 +25,12 @@ namespace sphinx::test {
 
 
 
-	function deduce_parameter() {
-		utils::deduce_parameter(true, "bool");
-		utils::deduce_parameter(42, "int");
-		utils::deduce_parameter(42.42, "float");
-		utils::deduce_parameter("", "string");
-		utils::deduce_parameter([1], "array<int>");
+	function deduce_parameter_direct() {
+		utils::deduce_parameter_direct(true, "bool");
+		utils::deduce_parameter_direct(42, "int");
+		utils::deduce_parameter_direct(42.42, "float");
+		utils::deduce_parameter_direct("", "string");
+		utils::deduce_parameter_direct([1], "array<int>");
 	}
 
 
@@ -34,5 +41,15 @@ namespace sphinx::test {
 		utils::deduce_parameter_return_type(13.37, "float");
 		utils::deduce_parameter_return_type("", "string");
 		utils::deduce_parameter_return_type([1,2,3], "array<int>");
+	}
+
+
+
+	function deduce_parameter_var_type() {
+		utils::deduce_parameter_var_type(true, "bool");
+		utils::deduce_parameter_var_type(42, "int");
+		utils::deduce_parameter_var_type(13.37, "float");
+		utils::deduce_parameter_var_type("", "string");
+		utils::deduce_parameter_var_type([1,2,3], "array<int>");
 	}
 }
