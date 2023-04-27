@@ -28,6 +28,7 @@ files=(
 	"test/struct.ltn"
 	"test/iostream.ltn"
 	"test/invoke_member.ltn"
+	"test/parameter_deduction.ltn"
 
 	"test/conversion_runtime_parameter.ltn"
 	"test/conversion_runtime_variable.ltn"

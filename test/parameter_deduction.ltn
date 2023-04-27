@@ -1,0 +1,19 @@
+namespace sphinx::test {
+	namespace utils {
+		function get_type_as_str(i : <T>) {
+			return (
+				reflect(type T).name,
+				reflect(expr i).type.name);
+		}
+	}
+
+
+
+	function deduce_parameter() {
+		assert_equal(utils::get_type_as_str(true), ("bool", "bool"));
+		assert_equal(utils::get_type_as_str(42), ("int", "int"));
+		assert_equal(utils::get_type_as_str(42.42), ("float", "float"));
+		assert_equal(utils::get_type_as_str(""), ("string", "string"));
+		assert_equal(utils::get_type_as_str([1]), ("array<int>", "array<int>"));
+	}
+}
