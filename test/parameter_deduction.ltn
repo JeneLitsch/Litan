@@ -1,19 +1,38 @@
 namespace sphinx::test {
 	namespace utils {
-		function get_type_as_str(i : <T>) {
-			return (
-				reflect(type T).name,
-				reflect(expr i).type.name);
+		function deduce_parameter(i : <T>, name : string) {
+			assert_equal(
+				(reflect(type T).name, reflect(expr i).type.name),
+				(name, name)
+			);
+		}
+
+
+
+		function return_as_same_type(t : <T>) -> T => t
+		
+		function deduce_parameter_return_type(t : <T>, name : string) {
+			assert_equal(reflect(expr utils::return_as_same_type(t)).type.name, name);
 		}
 	}
 
 
 
 	function deduce_parameter() {
-		assert_equal(utils::get_type_as_str(true), ("bool", "bool"));
-		assert_equal(utils::get_type_as_str(42), ("int", "int"));
-		assert_equal(utils::get_type_as_str(42.42), ("float", "float"));
-		assert_equal(utils::get_type_as_str(""), ("string", "string"));
-		assert_equal(utils::get_type_as_str([1]), ("array<int>", "array<int>"));
+		utils::deduce_parameter(true, "bool");
+		utils::deduce_parameter(42, "int");
+		utils::deduce_parameter(42.42, "float");
+		utils::deduce_parameter("", "string");
+		utils::deduce_parameter([1], "array<int>");
+	}
+
+
+
+	function deduce_parameter_return_type() {
+		utils::deduce_parameter_return_type(true, "bool");
+		utils::deduce_parameter_return_type(42, "int");
+		utils::deduce_parameter_return_type(13.37, "float");
+		utils::deduce_parameter_return_type("", "string");
+		utils::deduce_parameter_return_type([1,2,3], "array<int>");
 	}
 }
