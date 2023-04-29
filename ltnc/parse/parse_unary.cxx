@@ -58,7 +58,7 @@ namespace ltn::c {
 			if(auto start = match(TT::BRACKET_L, tokens)) {
 				auto index = parse_index(tokens);
 				auto location = ast::location(*index);
-				auto full = stx::make_unique<ast::Index>(
+				auto full = std::make_unique<ast::Index>(
 					std::move(l),
 					std::move(index),
 					location
@@ -68,7 +68,7 @@ namespace ltn::c {
 
 			if(auto start = match(TT::DOT, tokens)) {
 				auto name = parse_member(tokens);
-				auto access = stx::make_unique<ast::Member>(
+				auto access = std::make_unique<ast::Member>(
 					std::move(l),
 					name,
 					location(tokens)
@@ -98,7 +98,7 @@ namespace ltn::c {
 
 				auto function_args = parse_arguments(tokens);
 
-				auto call = stx::make_unique<ast::Call>(
+				auto call = std::make_unique<ast::Call>(
 					std::move(l),
 					std::move(function_args),
 					location(tokens)
@@ -124,7 +124,7 @@ namespace ltn::c {
 		
 		if(auto op = match_op(tokens, table)) {
 			auto && r = parse_prefix(tokens);
-			return stx::make_unique<ast::Unary>(*op, std::move(r), location(tokens));
+			return std::make_unique<ast::Unary>(*op, std::move(r), location(tokens));
 		}
 		return parse_postfix(tokens, parse_primary(tokens));
 	}

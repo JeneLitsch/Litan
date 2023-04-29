@@ -59,14 +59,14 @@ namespace ltn::c {
 				"Expected name after global declaration",
 			};
 			
-			const auto type = parse_var_type_auto(tokens);
+			auto type = parse_var_type_auto(tokens);
 
 
-			auto global = stx::make_unique<ast::Global>(
+			auto global = std::make_unique<ast::Global>(
 				name->location,
 				name->str,
-				namespaze,
-				type
+				std::move(namespaze),
+				std::move(type)
 			);
 
 			global->expr = match(TT::ASSIGN, tokens)

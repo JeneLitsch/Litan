@@ -55,7 +55,7 @@ namespace ltn::c {
 				fx.namespaze,
 				parameters,
 				fx.key,
-				instantiate_type(fx.return_type, scope)
+				analyze_type(*fx.return_type, scope)
 			);
 
 			sst_fx->is_const   = fx.is_const; 
@@ -92,7 +92,7 @@ namespace ltn::c {
 			fx.namespaze,
 			parameters,
 			std::move(body),
-			instantiate_type(fx.return_type, scope)
+			analyze_type(*fx.return_type, scope)
 		);
 
 		sst_fx->is_const = fx.is_const; 
@@ -114,7 +114,7 @@ namespace ltn::c {
 		std::optional<Label> override_label,
 		const std::vector<std::unique_ptr<ast::Var>> & captures) {
 
-		scope.set_return_type(instantiate_type(functional.return_type, scope));
+		scope.set_return_type(analyze_type(*functional.return_type, scope));
 
 		if(auto fx = as<const ast::Function>(functional)) {
 			return analyze_function(*fx, scope, override_label, captures);

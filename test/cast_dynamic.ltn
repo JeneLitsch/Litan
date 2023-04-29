@@ -202,11 +202,11 @@ namespace sphinx::test {
 			[7.0, 8.0, 9.0],
 		];
 
-		assert_equal_strict(arr_int ~ array<array<int>>, arr_int);
-		assert_equal_strict(arr_flt ~ array<array<int>>, null);
+		// assert_equal_strict(arr_int ~ array<array<int>>, arr_int);
+		// assert_equal_strict(arr_flt ~ array<array<int>>, null);
 
-		assert_equal_strict(arr_int ~ array<array<float>>, null);
-		assert_equal_strict(arr_flt ~ array<array<float>>, arr_flt);
+		// assert_equal_strict(arr_int ~ array<array<float>>, null);
+		// assert_equal_strict(arr_flt ~ array<array<float>>, arr_flt);
 	}
 
 

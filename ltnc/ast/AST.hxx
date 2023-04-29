@@ -4,6 +4,7 @@
 #include "ltnc/ast/decl/Function.hxx"
 #include "ltnc/ast/expr/Expression.hxx"
 #include "ltnc/ast/stmt/Statement.hxx"
+#include "ltnc/ast/type/Type.hxx"
 
 namespace ltn::c::ast {
 	using expr_ptr = std::unique_ptr<Expression>;

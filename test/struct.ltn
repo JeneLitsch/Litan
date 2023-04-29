@@ -1,8 +1,10 @@
 namespace sphinx::test {
 	namespace local_struct {
-		preset S {
-			var a;
-			var b;
+		function S(a, b) {
+			return [
+				.a = a,
+				.b = b,
+			];
 		}
 	}
 	

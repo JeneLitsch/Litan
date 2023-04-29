@@ -3,6 +3,7 @@
 #include "ltnc/Namespace.hxx"
 #include "ltnc/ast/Node.hxx"
 #include "ltnc/type/Type.hxx"
+#include "ltnc/ast/type/Type.hxx"
 
 namespace ltn::c::ast {
 	struct Expression;
@@ -30,13 +31,13 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const std::optional<type::IncompleteType> & type)
+			std::optional<type_ptr> type)
 			: Declaration(location, name, namespaze)
 			, id(++counter)
-			, type{type} {}
+			, type{std::move(type)} {}
 		
 		std::uint64_t id;
-		std::optional<type::IncompleteType> type;
+		std::optional<type_ptr> type;
 		const std::string & get_resolve_name() const {
 			return this->name;
 		}
@@ -55,8 +56,8 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const std::optional<type::IncompleteType> & type)
-			: Static{location, name, namespaze, type} {}
+			std::optional<type_ptr> type)
+			: Static{location, name, namespaze, std::move(type)} {}
 		virtual ~Definition() = default;
 		std::unique_ptr<ast::Expression> expr;
 	};
@@ -68,8 +69,8 @@ namespace ltn::c::ast {
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const std::optional<type::IncompleteType> & type)
-			: Static{location, name, namespaze,type} {}
+			std::optional<type_ptr> type)
+			: Static{location, name, namespaze, std::move(type)} {}
 		virtual ~Global() = default;
 		std::unique_ptr<ast::Expression> expr;
 	};
@@ -79,16 +80,16 @@ namespace ltn::c::ast {
 	struct Preset final : public Declaration {
 		struct Member {
 			std::string name;
-			type::IncompleteType type;
+			type_ptr type;
 		};
 
 		Preset(
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const std::vector<Member> & members)
+			std::vector<Member> members)
 			: Declaration(location, name, namespaze)
-			, members(members) {}
+			, members{std::move(members)} {}
 		virtual ~Preset() = default;
 		std::vector<Member> members;
 

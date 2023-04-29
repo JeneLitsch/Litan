@@ -2,8 +2,8 @@
 #include <string_view>
 namespace ltn::c {
 	namespace {
-		type::Type analyze_argument_type_impl(const type::IncompleteType & type, Scope & scope) {
-			return instantiate_type(type, scope);
+		type::Type analyze_argument_type_impl(const ast::type_ptr & type, Scope & scope) {
+			return analyze_type(*type, scope);
 		}
 
 

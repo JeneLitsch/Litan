@@ -7,6 +7,7 @@
 #include "ltnc/Namespace.hxx"
 #include "ltnc/type/Type.hxx"
 #include "ltnc/ast/decl/Declaration.hxx"
+#include "ltnc/ast/type/Type.hxx"
 
 namespace ltn::c::ast {
 	class Statement;
@@ -15,8 +16,8 @@ namespace ltn::c::ast {
 			std::string name;
 		};
 		std::string name;
-		using DeclType = std::variant<type::IncompleteType, Infered>;
-		DeclType type = type::IncompleteType{type::Any{}};
+		using DeclType = std::variant<ast::type_ptr, Infered>;
+		DeclType type;
 	};
 	using Parameters = std::vector<Parameter>;
 
@@ -55,11 +56,11 @@ namespace ltn::c::ast {
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
-			const type::IncompleteType & return_type,
+			ast::type_ptr return_type,
 			const SourceLocation & location)
 			: Declaration(location, name, namespaze)
-			, parameters(parameters)
-			, return_type{return_type} {}
+			, parameters(std::move(parameters))
+			, return_type{std::move(return_type)} {}
 		virtual ~Functional() = default;
 
 		Parameters parameters;
@@ -67,7 +68,7 @@ namespace ltn::c::ast {
 		bool is_private = false;
 		bool is_extern = false;
 
-		type::IncompleteType return_type;
+		ast::type_ptr return_type;
 
 		const std::string & get_resolve_name() const {
 			return this->name;
@@ -85,20 +86,12 @@ namespace ltn::c::ast {
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
-			std::unique_ptr<Statement> && body,
-			const type::IncompleteType & return_type,
+			std::unique_ptr<Statement> body,
+			ast::type_ptr return_type,
 			const SourceLocation & location)
-			: Functional{name, namespaze, parameters, return_type, location}
+			: Functional{name, namespaze, std::move(parameters), std::move(return_type), location}
 			, body(std::move(body)) {}
 
-		Function(
-			const std::string & name,
-			Namespace namespaze,
-			Parameters parameters,
-			std::unique_ptr<Statement> && body,
-			const SourceLocation & location)
-			: Functional{name, namespaze, parameters, type::IncompleteType{type::Any{}}, location}
-			, body(std::move(body)) {}
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
 		std::unique_ptr<Except> except;
@@ -112,9 +105,9 @@ namespace ltn::c::ast {
 			Namespace namespaze,
 			Parameters parameters,
 			const std::string & key,
-			const type::IncompleteType & return_type,
+			ast::type_ptr return_type,
 			const SourceLocation & location)
-			: Functional{name, namespaze, parameters, return_type, location}
+			: Functional{name, namespaze, std::move(parameters), std::move(return_type), location}
 			, key(key) {}
 		virtual ~BuildIn() = default;
 		std::string key;		

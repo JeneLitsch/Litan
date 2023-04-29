@@ -25,13 +25,13 @@ namespace ltn::c {
 
 	ast::defn_ptr parse_definition(Tokens & tokens, const Namespace & namespaze) {
 		if(match(TT::DEFINE, tokens)) {
-			const auto name = parse_name(tokens);
-			const auto type = parse_var_type_auto(tokens);
-			auto definition = stx::make_unique<ast::Definition>(
+			auto name = parse_name(tokens);
+			auto type = parse_var_type_auto(tokens);
+			auto definition = std::make_unique<ast::Definition>(
 				location(tokens),
-				name,
-				namespaze,
-				type
+				std::move(name),
+				std::move(namespaze),
+				std::move(type)
 			);
 			parse_equal_sign(tokens);
 			definition->expr = parse_expression(tokens);

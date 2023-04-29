@@ -8,9 +8,9 @@ namespace ltn::c {
 			const auto make = [&] (ast::TypedUnary::Op op) {
 				auto type = parse_type(tokens);
 				const auto loc = location(*expr);
-				return parse_cast(tokens, stx::make_unique<ast::TypedUnary>(
+				return parse_cast(tokens, std::make_unique<ast::TypedUnary>(
 					op, 
-					type,
+					std::move(type),
 					std::move(expr),
 					loc
 				));

@@ -8,6 +8,7 @@
 #include "ltnc/Namespace.hxx"
 #include "ltnc/Operations.hxx"
 #include "ltnc/ast/Node.hxx"
+#include "ltnc/ast/type/Type.hxx"
 
 
 namespace ltn::c::ast {
@@ -191,7 +192,7 @@ namespace ltn::c::ast {
 		};
 		
 		struct TypeQuery {
-			type::IncompleteType type;
+			type_ptr type;
 		};
 		
 		using Query = std::variant<
@@ -224,12 +225,12 @@ namespace ltn::c::ast {
 
 		TypedUnary(
 			Op op,
-			const type::IncompleteType & type,
+			type_ptr type,
 			std::unique_ptr<Expression> expr,
 			const SourceLocation & location)
 			: Expression{location}
 			, op{op}
-			, type{type}
+			, type{std::move(type)}
 			, expr{std::move(expr)} {}
 
 		virtual void accept(const ExprVisitor & visitor) const override {
@@ -237,7 +238,7 @@ namespace ltn::c::ast {
 		}
 
 		Op op;
-		type::IncompleteType type;
+		type_ptr type;
 		std::unique_ptr<Expression> expr;
 	};
 
@@ -461,17 +462,17 @@ namespace ltn::c::ast {
 		Iife(
 			const SourceLocation & location,
 			std::unique_ptr<Statement> stmt,
-			type::IncompleteType return_type) 
+			type_ptr return_type) 
 			: Expression(location)
 			, stmt(std::move(stmt))
-			, return_type{return_type} {}
+			, return_type{std::move(return_type)} {}
 			
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
 
 		std::unique_ptr<Statement> stmt;
-		type::IncompleteType return_type;
+		type_ptr return_type;
 	};
 
 
@@ -480,7 +481,7 @@ namespace ltn::c::ast {
 		FxPointer(
 			const std::string & name,
 			const Namespace & namespaze,
-			std::vector<std::optional<type::IncompleteType>> placeholders,
+			std::vector<std::optional<type_ptr>> placeholders,
 			const SourceLocation & location)
 			: Expression(location)
 			, name(name)
@@ -497,7 +498,7 @@ namespace ltn::c::ast {
 
 		std::string name;
 		Namespace namespaze;
-		std::vector<std::optional<type::IncompleteType>> placeholders;
+		std::vector<std::optional<type_ptr>> placeholders;
 	};
 
 

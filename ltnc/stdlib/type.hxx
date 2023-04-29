@@ -31,15 +31,18 @@ namespace std {
 
 
 
-	preset pair {
-		var first;
-		var second;
+	function pair(first : <T1>, second : <T2>) {
+		return [ 
+			.first = first,
+			.second = second,
+		];
 	}
 
 
-
-	preset mono {
-		var value;
+	function mono(value : <T>) {
+		return [ 
+			.value = value,
+		];
 	}
 
 

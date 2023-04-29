@@ -21,7 +21,7 @@ namespace ltn::c {
 				std::stringstream iss{token->str};
 				TempType value;
 				iss >> base >> value;
-				return stx::make_unique<ast::Integer>(value, location(tokens)); 
+				return std::make_unique<ast::Integer>(value, location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -43,7 +43,7 @@ namespace ltn::c {
 		ast::expr_ptr parse_character(Tokens & tokens) {
 			if(auto t = match(TT::CHAR, tokens)) {
 				const auto chr = static_cast<std::uint8_t>(t->str.front());
-				return stx::make_unique<ast::Char>(chr, location(tokens)); 
+				return std::make_unique<ast::Char>(chr, location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -52,7 +52,7 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_null(Tokens & tokens) {
 			if(auto t = match(TT::NVLL, tokens)) {
-				return stx::make_unique<ast::Null>(location(tokens)); 
+				return std::make_unique<ast::Null>(location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -64,7 +64,7 @@ namespace ltn::c {
 				std::istringstream iss{token->str};
 				stx::float64_t value;
 				iss >> value;
-				return stx::make_unique<ast::Float>(value, location(tokens)); 
+				return std::make_unique<ast::Float>(value, location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -73,10 +73,10 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_boolean(Tokens & tokens) {
 			if(auto token = match(TT::TRUE, tokens)) {
-				return stx::make_unique<ast::Bool>(true, location(tokens)); 
+				return std::make_unique<ast::Bool>(true, location(tokens)); 
 			}
 			if(auto token = match(TT::FALSE, tokens)) {
-				return stx::make_unique<ast::Bool>(false, location(tokens)); 
+				return std::make_unique<ast::Bool>(false, location(tokens)); 
 			}
 			return nullptr;
 		}
@@ -85,7 +85,7 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_string(Tokens & tokens) {
 			if(auto token = match(TT::STRING, tokens)) {
-				return stx::make_unique<ast::String>(
+				return std::make_unique<ast::String>(
 					token->str,
 					location(tokens)); 
 			}
@@ -117,7 +117,7 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_identifier(Tokens & tokens) {
 			const auto [name, namespaze] = parse_symbol(tokens);
-			return stx::make_unique<ast::Var>(name, namespaze, location(tokens));
+			return std::make_unique<ast::Var>(name, namespaze, location(tokens));
 		}
 
 
@@ -128,7 +128,7 @@ namespace ltn::c {
 				Namespace namespaze;
 				std::tie(name, namespaze) = parse_symbol(tokens);
 				if(match(TT::PAREN_L, tokens)) {
-					const auto placeholders = parse_placeholder(tokens);
+					auto placeholders = parse_placeholder(tokens);
 					auto fx_ptr = std::make_unique<ast::FxPointer>(
 						std::move(name),
 						std::move(namespaze),
@@ -147,10 +147,10 @@ namespace ltn::c {
 			if(match(TT::IIFE, tokens)) {
 				auto return_type = parse_return_type(tokens);
 				auto body = parse_block(tokens);
-				return stx::make_unique<ast::Iife>(
+				return std::make_unique<ast::Iife>(
 					location(tokens),
 					std::move(body),
-					return_type
+					std::move(return_type)
 				);
 			}
 			else return nullptr;
@@ -159,8 +159,8 @@ namespace ltn::c {
 
 
 
-	std::vector<std::optional<type::IncompleteType>> parse_placeholder(Tokens & tokens) {
-		std::vector<std::optional<type::IncompleteType>> placeholders;
+	std::vector<std::optional<ast::type_ptr>> parse_placeholder(Tokens & tokens) {
+		std::vector<std::optional<ast::type_ptr>> placeholders;
 		parse_parameters(tokens, [&] {
 			if (match(TT::UNDERSCORE, tokens)) {
 				placeholders.push_back(std::nullopt);

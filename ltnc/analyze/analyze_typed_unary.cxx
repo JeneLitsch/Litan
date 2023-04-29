@@ -35,7 +35,7 @@ namespace ltn::c {
 
 	sst::expr_ptr analyze_expr(const ast::TypedUnary & tunary, Scope & scope) {
 		auto expr = analyze_expression(*tunary.expr, scope);
-		const auto target_type = instantiate_type(tunary.type, scope);
+		const auto target_type = analyze_type(*tunary.type, scope);
 		const auto op = tunary.op;
 		const auto type = deduce_type(op, target_type);
 		if(!is_castable(op, expr->type, target_type)) {

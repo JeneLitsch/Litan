@@ -18,7 +18,7 @@ namespace ltn::c {
 				return analyze_parameter_type(param.type, inner_scope);
 			});
 			return type::FxPtr {
-				.return_type = instantiate_type(lambda.fx->return_type, inner_scope),
+				.return_type = analyze_type(*lambda.fx->return_type, inner_scope),
 				.parameter_types = instantiate_all(lambda.fx->parameters), 
 			};
 		}
@@ -33,7 +33,7 @@ namespace ltn::c {
 			};
 
 			inner_scope.inherit_types_from(outer_scope);
-			inner_scope.set_return_type(instantiate_type(lambda.fx->return_type, inner_scope));
+			inner_scope.set_return_type(analyze_type(*lambda.fx->return_type, inner_scope));
 
 			return inner_scope;
 		}

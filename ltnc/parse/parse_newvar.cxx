@@ -58,7 +58,7 @@ namespace ltn::c {
 				std::move(binding),
 				std::move(r),
 				location(tokens),
-				type
+				std::move(type)
 			);
 		}
 		return nullptr;

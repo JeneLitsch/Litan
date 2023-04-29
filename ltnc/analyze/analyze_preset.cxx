@@ -6,28 +6,28 @@ namespace ltn::c {
 
 		auto expr = std::make_unique<ast::InitStruct>(location(preset));
 
-		for(const auto & member : preset.members) {
-			const auto var_name = "__" + member.name + "__";
+		// for(const auto & member : preset.members) {
+		// 	const auto var_name = "__" + member.name + "__";
 
-			expr->members.push_back({
-				member.name,
-				std::make_unique<ast::Var>(var_name, Namespace{}, location(preset))
-			});
+		// 	expr->members.push_back({
+		// 		member.name,
+		// 		std::make_unique<ast::Var>(var_name, Namespace{}, location(preset))
+		// 	});
 
-			parameters.push_back(ast::Parameter {
-				.name = var_name,
-				.type = member.type,
-			});
-		}
+		// 	parameters.push_back(ast::Parameter {
+		// 		.name = var_name,
+		// 		.type = member.type,
+		// 	});
+		// }
 
 		auto stmt = std::make_unique<ast::Return>(std::move(expr), location(preset));
 
 		auto ctor = std::make_unique<ast::Function>(
 			preset.name,
 			preset.namespaze,
-			parameters,
+			std::move(parameters),
 			std::move(stmt),
-			type::IncompleteType{type::Any{}},
+			std::make_unique<ast::Type>(location(preset), "any"),
 			location(preset)
 		);
 

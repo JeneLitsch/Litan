@@ -28,6 +28,7 @@ target_sources(libltnc PRIVATE
 	analyze_switch.cxx
 	analyze_ternary.cxx
 	analyze_throw.cxx
+	analyze_type.cxx
 	analyze_typed_unary.cxx
 	analyze_unary.cxx
 	analyze_write.cxx

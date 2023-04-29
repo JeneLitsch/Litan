@@ -135,7 +135,7 @@ namespace ltn::c {
 			Scope & scope) {
 
 			return sst::Reflect::TypeQuery {
-				.type = instantiate_type(query.type, scope)
+				.type = analyze_type(*query.type, scope)
 			};
 		}
 	}

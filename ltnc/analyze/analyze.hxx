@@ -79,4 +79,6 @@ namespace ltn::c {
 	sst::bind_ptr analyze_binding(const ast::Binding &, Scope &, const type::Type &);
 
 	type::Type analyze_parameter_type(const ast::Parameter::DeclType & type, Scope &);
+
+	type::Type analyze_type(const ast::Type &, Scope &);
 }	

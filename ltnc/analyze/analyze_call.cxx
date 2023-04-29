@@ -28,12 +28,12 @@ namespace ltn::c {
 
 
 		ParamResult analyze_parameter(
-			const type::IncompleteType & type,
+			const ast::type_ptr & type,
 			sst::expr_ptr arg,
 			Scope & scope,
 			const ArgumentLocation & loc) {
 				
-			const auto param_type = instantiate_type(type, scope);
+			const auto param_type = analyze_type(*type, scope);
 			auto converted = conversion_on_pass(std::move(arg), param_type, loc);
 			return ParamResult{
 				.expr = std::move(converted),
@@ -130,7 +130,7 @@ namespace ltn::c {
 			auto [arguments, infered_types] = analyze_arguments(call, fx, scope);
 			MinorScope dummy_scope{&scope};
 			dummy_scope.inherit_types(infered_types);
-			auto return_type = instantiate_type(fx.return_type, dummy_scope);
+			auto return_type = analyze_type(*fx.return_type, dummy_scope);
 			auto fx_label = make_function_label(fx, infered_types);
 			
 			auto sst_call = std::make_unique<sst::Call>(

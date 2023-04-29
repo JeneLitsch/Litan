@@ -14,24 +14,25 @@ namespace ltn::c {
 
 		ParamResult analyze_parameter(
 			const ast::Parameter::Infered & infered,
-			std::optional<type::IncompleteType> declared,
+			const std::optional<ast::type_ptr> & declared,
 			Scope & scope) {
-			auto type = declared.value_or(type::IncompleteType{type::Any{}});
+			auto type = declared ? analyze_type(**declared, scope) : type::Any{};
 			return ParamResult{
-				.type = instantiate_type(type, scope),
-				.deduced_type = std::make_pair(infered.name, instantiate_type(type, scope))
+				.type = type,
+				.deduced_type = std::make_pair(infered.name, type),
 			}; 
 		}
 
 
 
 		ParamResult analyze_parameter(
-			const type::IncompleteType & type,
-			std::optional<type::IncompleteType> declared,
+			const ast::type_ptr & type,
+			const std::optional<ast::type_ptr> & declared,
 			Scope & scope) {
 				
+			auto t = analyze_type(*type, scope);
 			return ParamResult{
-				.type = instantiate_type(type, scope),
+				.type = t,
 				.deduced_type = std::nullopt
 			}; 
 		}
@@ -72,8 +73,7 @@ namespace ltn::c {
 
 		param_scope.inherit_types(deduced_types);
 
-		const auto return_type 
-			= instantiate_type(fx->return_type, param_scope);
+		const auto return_type = analyze_type(*fx->return_type, scope);
 
 		const auto type = type::FxPtr {
 			.return_type = return_type,

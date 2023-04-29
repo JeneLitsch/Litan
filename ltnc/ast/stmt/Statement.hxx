@@ -100,11 +100,11 @@ namespace ltn::c::ast {
 			std::unique_ptr<Binding> binding,
 			std::unique_ptr<Expression> expr,
 			const SourceLocation & location,
-			const std::optional<type::IncompleteType> & type = type::IncompleteType{type::Any{}})
+			std::optional<type_ptr> type)
 			: Statement(location)
 			, binding(std::move(binding))
-			, expr(std::move(expr))
-			, type{type} {}
+			, expr{std::move(expr)}
+			, type{std::move(type)} {}
 
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
@@ -112,7 +112,7 @@ namespace ltn::c::ast {
 
 		std::unique_ptr<Binding> binding;		
 		std::unique_ptr<Expression> expr;
-		std::optional<type::IncompleteType> type;
+		std::optional<type_ptr> type;
 	};
 
 

@@ -6,61 +6,72 @@ namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
 
-		type::Array parse_type_array(Tokens & tokens, BraceTracker & brace_tracker) {
+		ast::type_ptr parse_type_array(Tokens & tokens, BraceTracker & brace_tracker) {
+			const auto & loc = location(tokens);
 			open_chevron(tokens, brace_tracker);
-			auto contains = parse_type(tokens, brace_tracker).type;
+			auto contains = parse_type(tokens, brace_tracker);
 			close_chevron(tokens, brace_tracker);
-			return type::Array{contains};
+			auto type = std::make_unique<ast::Type>(loc, "array");
+			type->sub_types.push_back(std::move(contains));
+			return type;
 		}
 
 
-		type::Queue parse_type_queue(Tokens & tokens, BraceTracker & brace_tracker) {
+		ast::type_ptr parse_type_queue(Tokens & tokens, BraceTracker & brace_tracker) {
+			const auto & loc = location(tokens);
 			open_chevron(tokens, brace_tracker);
-			auto contains = parse_type(tokens, brace_tracker).type;
+			auto contains = parse_type(tokens, brace_tracker);
 			close_chevron(tokens, brace_tracker);
-			return type::Queue{contains};
+			auto type = std::make_unique<ast::Type>(loc, "queue");
+			type->sub_types.push_back(std::move(contains));
+			return type;
 		}
 
 
-		type::Stack parse_type_stack(Tokens & tokens, BraceTracker & brace_tracker) {
+		ast::type_ptr parse_type_stack(Tokens & tokens, BraceTracker & brace_tracker) {
+			const auto & loc = location(tokens);
 			open_chevron(tokens, brace_tracker);
-			auto contains = parse_type(tokens, brace_tracker).type;
+			auto contains = parse_type(tokens, brace_tracker);
 			close_chevron(tokens, brace_tracker);
-			return type::Stack{contains};
-		}
-
-
-
-		type::Optional parse_type_optional(Tokens & tokens, BraceTracker & brace_tracker) {
-			open_chevron(tokens, brace_tracker);
-			auto contains = parse_type(tokens, brace_tracker).type;
-			close_chevron(tokens, brace_tracker);
-			return type::Optional{
-				.contains = contains
-			};
+			auto type = std::make_unique<ast::Type>(loc, "stack");
+			type->sub_types.push_back(std::move(contains));
+			return type;
 		}
 
 
 
-		type::Map parse_type_map(Tokens & tokens, BraceTracker & brace_tracker) {
+		ast::type_ptr parse_type_optional(Tokens & tokens, BraceTracker & brace_tracker) {
+			const auto & loc = location(tokens);
 			open_chevron(tokens, brace_tracker);
-			auto key = parse_type(tokens, brace_tracker).type;
+			auto contains = parse_type(tokens, brace_tracker);
+			close_chevron(tokens, brace_tracker);
+			auto type = std::make_unique<ast::Type>(loc, "optional");
+			type->sub_types.push_back(std::move(contains));
+			return type;
+		}
+
+
+
+		ast::type_ptr parse_type_map(Tokens & tokens, BraceTracker & brace_tracker) {
+			const auto & loc = location(tokens);
+			open_chevron(tokens, brace_tracker);
+			auto key = parse_type(tokens, brace_tracker);
 			if(!match(TT::COMMA, tokens)) throw CompilerError{"Expected , between key type"};
-			auto val = parse_type(tokens, brace_tracker).type;
+			auto val = parse_type(tokens, brace_tracker);
 			close_chevron(tokens, brace_tracker);
-			return type::Map{
-				.key = key,
-				.val = val,
-			};
+			auto type = std::make_unique<ast::Type>(loc, "map");
+			type->sub_types.push_back(std::move(key));
+			type->sub_types.push_back(std::move(val));
+			return type;
 		}
 
 
 
 		auto parse_fx_ptr_parameters(Tokens & tokens, BraceTracker & brace_tracker) {
-			std::vector<type::Type> parameter_types;
+			std::vector<ast::type_ptr> parameter_types;
 			if(match(TT::PAREN_R, tokens)) return parameter_types;
 			do {
-				parameter_types.push_back(parse_type(tokens, brace_tracker).type);
+				parameter_types.push_back(parse_type(tokens, brace_tracker));
 			} while(match(TT::COMMA, tokens));
 			if(!match(TT::PAREN_R, tokens)) throw CompilerError{"Expected )"};
 			return parameter_types;
@@ -68,30 +79,16 @@ namespace ltn::c {
 
 
 
-		type::Tuple parse_type_tuple(Tokens & tokens, BraceTracker & brace_tracker) {
-			open_chevron(tokens, brace_tracker);
-			std::vector<type::Type> elements;
-			elements.push_back(parse_type(tokens, brace_tracker).type);
-			while(match(TT::COMMA, tokens)) {
-				elements.push_back(parse_type(tokens, brace_tracker).type);
-			}
-			close_chevron(tokens, brace_tracker);
-			return type::Tuple { 
-				.contained = std::move(elements)
-			};
-		}
-
-
-		type::Type parse_fx_ptr_fancy(Tokens & tokens, const Token & start, BraceTracker & brace_tracker ) {
+		ast::type_ptr parse_fx_ptr_fancy(Tokens & tokens, const Token & start, BraceTracker & brace_tracker ) {
+			const auto & loc = location(tokens);
 			auto parameter_types = parse_fx_ptr_parameters(tokens, brace_tracker);
 			if(!match(TT::RARROW, tokens)) throw CompilerError {
 				"Expected ->", start.location 
 			};
-			const auto return_type = parse_type(tokens).type;
-			return type::FxPtr{
-				.return_type = return_type,
-				.parameter_types = parameter_types,
-			};
+			auto return_type = parse_type(tokens);
+			auto type = std::make_unique<ast::Type>(loc, "fx_ptr", std::move(parameter_types));
+			type->sub_types.push_back(std::move(return_type));
+			return type;
 		}
 
 
@@ -104,39 +101,38 @@ namespace ltn::c {
 
 
 
-	type::IncompleteType parse_type(Tokens & tokens, BraceTracker & brace_tracker) {
+	ast::type_ptr parse_type(Tokens & tokens, BraceTracker & brace_tracker) {
 		if(auto type_name = match(TT::INDENTIFIER, tokens)) {
-			if(type_name->str == "any") return type::IncompleteType{type::Any{}};
-			if(type_name->str == "bool") return type::IncompleteType{type::Bool{}}; 
-			if(type_name->str == "char") return type::IncompleteType{type::Char{}}; 
-			if(type_name->str == "int") return type::IncompleteType{type::Int{}}; 
-			if(type_name->str == "float") return type::IncompleteType{type::Float{}}; 
-			if(type_name->str == "string") return type::IncompleteType{type::String{}}; 
-			if(type_name->str == "array") return type::IncompleteType{parse_type_array(tokens, brace_tracker)}; 
-			if(type_name->str == "tuple") return type::IncompleteType{parse_type_tuple(tokens, brace_tracker)}; 
-			if(type_name->str == "queue") return type::IncompleteType{parse_type_queue(tokens, brace_tracker)}; 
-			if(type_name->str == "stack") return type::IncompleteType{parse_type_stack(tokens, brace_tracker)}; 
-			if(type_name->str == "map") return type::IncompleteType{parse_type_map(tokens, brace_tracker)};
-			if(type_name->str == "optional") return type::IncompleteType{parse_type_optional(tokens, brace_tracker)};
-			if(type_name->str == "istream") return type::IncompleteType{type::Istream{}};
-			if(type_name->str == "ostream") return type::IncompleteType{type::Ostream{}};
-			return type::IncompleteType{type::Other{.type_name = type_name->str}};
+			const auto & loc = location(tokens);
+			std::vector<ast::type_ptr> elements;
+			if(match(TT::SMALLER, tokens)) {
+				brace_tracker.open();
+				elements.push_back(parse_type(tokens, brace_tracker));
+				while(match(TT::COMMA, tokens)) {
+					elements.push_back(parse_type(tokens, brace_tracker));
+				}
+				close_chevron(tokens, brace_tracker);
+			}
+			auto type = std::make_unique<ast::Type>(loc, type_name->str, std::move(elements));
+			return type;
 		}
 		if(auto type_name = match(TT::NVLL, tokens)) {
-			return type::IncompleteType{type::Null{}};
+			return std::make_unique<ast::Type>(type_name->location, "null");
 		}
 		if(auto start = match(TT::PAREN_L, tokens)) {
-			return type::IncompleteType{parse_fx_ptr_fancy(tokens, *start, brace_tracker)};
+			return parse_fx_ptr_fancy(tokens, *start, brace_tracker);
 		}
-		if(match(TT::QMARK, tokens)) {
-			return type::IncompleteType{type::Optional{parse_type(tokens, brace_tracker).type}};
+		if(auto t = match(TT::QMARK, tokens)) {
+			auto type = std::make_unique<ast::Type>(t->location, "optional");
+			type->sub_types.push_back(parse_type(tokens, brace_tracker));
+			return type;
 		}
 		throw CompilerError{"Expected typename", tokens.front().location};
 	}
 	
 
 
-	type::IncompleteType parse_type(Tokens & tokens) {
+	ast::type_ptr parse_type(Tokens & tokens) {
 		BraceTracker brace_tracker;
 		auto type = parse_type(tokens, brace_tracker);
 		brace_tracker.finalize();
@@ -146,6 +142,7 @@ namespace ltn::c {
 
 
 	ast::Parameter::DeclType parse_parameter_type(Tokens & tokens) {
+		const auto & loc = location(tokens);
 		if(match(TT::COLON, tokens)) {
 			if(auto open = match(TT::SMALLER, tokens)) {
 				auto name = parse_variable_name(tokens);
@@ -161,21 +158,22 @@ namespace ltn::c {
 			}
 		}
 		else {
-			return type::IncompleteType{type::Any{}};
+			return std::make_unique<ast::Type>(loc, "any");
 		}
 	}
 
 
 
-	type::IncompleteType parse_var_type(Tokens & tokens) {
-		return match(TT::COLON, tokens)
+	ast::type_ptr parse_var_type(Tokens & tokens) {
+		auto t = match(TT::COLON, tokens);
+		return t
 			? parse_type(tokens)
-			: type::IncompleteType{type::Any{}};
+			: std::make_unique<ast::Type>(location(tokens), "any");
 	}
 
 
 
-	std::optional<type::IncompleteType>	parse_var_type_auto(Tokens & tokens) {
+	std::optional<ast::type_ptr> parse_var_type_auto(Tokens & tokens) {
 		if(match(TT::COLON, tokens)) {
 			if(is_auto(tokens.front())) {
 				tokens.pop();
@@ -190,9 +188,10 @@ namespace ltn::c {
 
 
 
-	type::IncompleteType parse_return_type(Tokens & tokens) {
-		return match(TT::RARROW, tokens)
+	ast::type_ptr parse_return_type(Tokens & tokens) {
+		auto t = match(TT::RARROW, tokens);
+		return t
 			? parse_type(tokens)
-			: type::IncompleteType{type::Any{}};
+			: std::make_unique<ast::Type>(location(tokens), "any");
 	}
 }

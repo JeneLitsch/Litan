@@ -10,7 +10,7 @@ namespace ltn::c {
 			const sst::expr_ptr & expr,
 			Scope & scope) {
 			if(statik.type) {
-				return instantiate_type(*statik.type, scope);
+				return analyze_type(**statik.type, scope);
 			}
 			else {
 				return expr ? expr->type : type::Any{};
