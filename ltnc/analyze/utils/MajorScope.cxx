@@ -1,6 +1,5 @@
 #include "MajorScope.hxx"
 #include "ltnc/CompilerError.hxx"
-#include "ltnc/analyze/instantiate_type.hxx"
 
 namespace ltn::c {
 

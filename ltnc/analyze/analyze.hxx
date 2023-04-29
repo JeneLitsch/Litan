@@ -19,7 +19,6 @@
 #include "utils/MajorScope.hxx"
 #include "utils/MinorScope.hxx"
 
-#include "instantiate_type.hxx"
 #include "error.hxx"
 
 namespace ltn::c {

@@ -36,7 +36,6 @@ target_sources(libltnc PRIVATE
 	conversion.cxx
 	default_value.cxx
 	error.cxx
-	instantiate_type.cxx
 )
 
 add_subdirectory(utils)
