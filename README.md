@@ -54,27 +54,9 @@ function main() {
 }
 ```
 
-## Presets
-
-Presets are predefined structs. The compiler generates a constructor functions for each declared preset.
-
-```js 
-preset MyPreset {
-    var foo;
-    var bar;
-}
-
-function main() {
-    var object = MyPreset(42, 1337);
-    std::println(object.foo);
-    std::println(object.bar);
-}
-```
-
 ## Useful Libraries
 
 - [Sphinx](https://github.com/JeneLitsch/Sphinx) (Unit test framework)
-- [SFML](https://github.com/JeneLitsch/Litan-SFML)
 
 ## Build, Use and Install
 
