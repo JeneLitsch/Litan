@@ -18,7 +18,6 @@ target_sources(libltnc PRIVATE
 	parse_name.cxx
 	parse_newvar.cxx
 	parse_parenthesized.cxx
-	parse_preset.cxx
 	parse_primary.cxx
 	parse_reflect.cxx
 	parse_source.cxx

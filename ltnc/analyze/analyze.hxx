@@ -20,8 +20,6 @@
 namespace ltn::c {
 	sst::Program analyze(const ast::Program & program, Reporter & reporter);
 
-	ast::func_ptr generate_ctor(const ast::Preset &);
-
 	sst::func_ptr analyze_functional(
 		const ast::Functional &,
 		FunctionScope &,

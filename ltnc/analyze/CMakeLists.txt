@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.13)
 
 target_sources(libltnc PRIVATE 
 	analyze_enum.cxx
-	analyze_preset.cxx
 	analyze_array.cxx
 	analyze_binary.cxx
 	analyze_bindings.cxx

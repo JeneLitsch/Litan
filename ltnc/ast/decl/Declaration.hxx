@@ -69,32 +69,6 @@ namespace ltn::c::ast {
 	};
 
 
-
-	struct Preset final : public Declaration {
-		struct Member {
-			std::string name;
-		};
-
-		Preset(
-			const SourceLocation & location,
-			const std::string & name,
-			const Namespace & namespaze,
-			std::vector<Member> members)
-			: Declaration(location, name, namespaze)
-			, members{std::move(members)} {}
-		virtual ~Preset() = default;
-		std::vector<Member> members;
-
-		const std::string & get_resolve_name() const {
-			return this->name;
-		}
-
-		const Namespace & get_resolve_namespace() const {
-			return this->namespaze;
-		}
-	};
-
-
 	
 	struct Enumeration final : public Declaration {
 		struct Label {

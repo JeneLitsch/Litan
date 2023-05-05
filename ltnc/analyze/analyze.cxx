@@ -88,19 +88,8 @@ namespace ltn::c {
 			context.global_table.insert(*glob);
 		}
 
-
-		std::vector<ast::func_ptr> ctors;
-		for(auto & preset : source.presets) {
-			auto ctor = generate_ctor(*preset);
-			ctors.push_back(std::move(ctor));
-		}
-
 		for(const auto & function : source.functions) {
 			context.fx_table.insert(*function, function->parameters.size());
-		}
-
-		for(const auto & ctor : ctors) {
-			context.fx_table.insert(*ctor, ctor->parameters.size());
 		}
 
 		auto externs = find_extern_funtions(source);

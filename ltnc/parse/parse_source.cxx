@@ -113,9 +113,6 @@ namespace ltn::c {
 				else if(auto definition = parse_definition(tokens, namestack.top())) {
 					source.definitions.push_back(std::move(definition));
 				}
-				else if(auto preset = parse_preset(tokens, namestack.top())) {
-					source.presets.push_back(std::move(preset));
-				}
 				else if(match(TT::ENUM, tokens)) {
 					source.enums.push_back(parse_enumeration(tokens, namestack.top()));
 				}
