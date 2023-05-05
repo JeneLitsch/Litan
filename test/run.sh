@@ -118,6 +118,9 @@ files=(
 	"test/std/string/split.ltn"
 	"test/std/string/join.ltn"
 	"test/std/string/replace.ltn"
+
+	"test/std/type/mono.ltn"
+	"test/std/type/pair.ltn"
 )
 
 bin_file="tmp/bin"

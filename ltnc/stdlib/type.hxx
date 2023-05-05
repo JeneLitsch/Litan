@@ -31,19 +31,15 @@ namespace std {
 
 
 
-	function pair(first, second) {
-		return [ 
-			.first = first,
-			.second = second,
-		];
-	}
+	function pair(first, second) => [ 
+		.first = first,
+		.second = second,
+	]
 
 
-	function mono(value) {
-		return [ 
-			.value = value,
-		];
-	}
+	function mono(value) => [ 
+		.value = value,
+	]
 
 
 

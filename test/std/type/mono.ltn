@@ -1,0 +1,6 @@
+namespace sphinx::test {
+	function std_mono() {
+		var mono = std::mono(123);
+		assert_equal_strict(mono.value, 123);
+	}
+}
