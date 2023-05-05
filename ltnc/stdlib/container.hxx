@@ -4,14 +4,14 @@ namespace std {
 	build_in queue() const                      @ queue
 	build_in stack() const                      @ stack
 	build_in map() const                        @ map
-	function array() const -> array<any> => []
+	function array() const => []
 	
 	build_in push(container, elem)              @ container_push
 	build_in pop(container)                     @ container_pop
 	build_in peek(container) const              @ container_peek
-	build_in contains(map, key) const -> bool   @ container_contains
-	build_in size(collection) const -> int      @ container_size
-	build_in empty(collection) const -> bool    @ container_empty
+	build_in contains(map, key) const           @ container_contains
+	build_in size(collection) const             @ container_size
+	build_in empty(collection) const            @ container_empty
 	build_in at(collection, i) const            @ container_at
 	build_in front(collection) const            @ container_front
 	build_in back(collection) const             @ container_back

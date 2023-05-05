@@ -16,17 +16,17 @@ namespace std {
 
 
 
-	build_in round(a:float) const -> int
+	build_in round(a) const
 		@ math_round
 
 
 
-	build_in floor(b:float) const -> int
+	build_in floor(b) const
 		@ math_floor
 
 
 
-	build_in ceil(b:float) const -> int
+	build_in ceil(b) const
 		@ math_ceil
 
 
@@ -36,37 +36,37 @@ namespace std {
 
 
 
-	build_in hypot(a:float, b:float) const -> float
+	build_in hypot(a, b) const
 		@ math_hypot
 
 
 
-	build_in sqrt(a:float) const -> float
+	build_in sqrt(a) const
 		@ math_sqrt
 
 
 
-	function cbrt(a:float) const -> float 
+	function cbrt(a) const 
 		=> a ** (1.0/3.0) 
 	
 
 
-	build_in log(x:float, b:float) const -> float
+	build_in log(x, b) const
 		@ math_log
 
 
 
-	build_in ld(x:float) const -> float
+	build_in ld(x) const
 		@ math_ld
 
 
 
-	build_in lg(x:float) const -> float
+	build_in lg(x) const
 		@ math_lg
 
 
 
-	build_in ln(x:float) const -> float
+	build_in ln(x) const
 		@ math_ln
 
 
@@ -75,27 +75,27 @@ namespace std {
 
 
 
-	build_in sin(b:float) const -> float
+	build_in sin(b) const 
 		@ math_sin
 
 
 
-	build_in cos(b:float) const -> float
+	build_in cos(b) const
 		@ math_cos
 
 
 
-	build_in tan(b:float) const -> float
+	build_in tan(b) const
 		@ math_tan
 
 
 
-	function lerp(a:float, b:float, t:float) const -> float 
+	function lerp(a, b, t) const 
 		=> a + t * (b-a)
 
 
 
-	function is_between(value, min, max) const -> bool
+	function is_between(value, min, max) const
 		=> value >= min && value <= max
 
 

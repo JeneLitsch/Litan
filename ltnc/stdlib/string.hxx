@@ -1,19 +1,17 @@
 #pragma once
 inline const char * std_string = R"###(
 namespace std {
-	build_in split(string : string, delim : string) const -> array<string>
+	build_in split(string, delim) const 
 		@split_string
 
-	build_in join(strings : array<string>, joiner : string) const -> string
+	build_in join(strings, joiner) const
 		@join_string
 
-	function replace(
-		string: string,
-		search_for: string,
-		replace_with: string) const -> string
-		=> (search_for == "" && replace_with == "") ?  string : join(split(string, search_for), replace_with)
+	function replace(string, search_for, replace_with) const
+		=> (search_for == "" && replace_with == "") 
+			? string 
+			: join(split(string, search_for), replace_with)
 
-	build_in str(x : any) const -> string
-		@ to_string
+	build_in str(x) const @ to_string
 }
 )###";

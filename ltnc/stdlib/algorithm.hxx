@@ -1,7 +1,7 @@
 #pragma once
 inline const char * std_algorithm = R"###(
 namespace std {
-	function for_each(array, fx) -> null {
+	function for_each(array, fx) {
 		for (elem : array) fx(elem);
 	}
 
@@ -22,37 +22,37 @@ namespace std {
 
 
 
-	build_in sort_ascn(range) -> null
+	build_in sort_ascn(range)
 		@ algorithm_sort_ascn
 	
 
 
-	build_in sort_desc(range) -> null
+	build_in sort_desc(range)
 		@ algorithm_sort_desc
 	
 
 
-	build_in is_sorted_ascn(range) const -> bool
+	build_in is_sorted_ascn(range) const
 		@ algorithm_is_sorted_ascn
 	
 
 
-	build_in is_sorted_desc(range) const -> bool 
+	build_in is_sorted_desc(range) const 
 		@ algorithm_is_sorted_desc
 	
 
 
-	build_in find(range, key) const -> optional<int>
+	build_in find(range, key) const
 		@ algorithm_find
 	
 
 
-	build_in fill(range, target) -> null
+	build_in fill(range, target)
 		@ algorithm_fill
 	
 
 
-	build_in reverse(range) -> null
+	build_in reverse(range)
 		@ algorithm_reverse
 }
 )###";
