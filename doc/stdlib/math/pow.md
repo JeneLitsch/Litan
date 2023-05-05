@@ -1,6 +1,6 @@
 # std::pow
 
-## std::pow(b:float, x:float) const -> float
+## std::pow(b, x) const
 
 **Parameters:**  
 - b: Base

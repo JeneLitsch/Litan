@@ -1,6 +1,6 @@
 # std::sqrt
 
-### std::sqrt(a:float) const -> float
+### std::sqrt(a) const
 
 **Descriptions:**  
 Returns square-root of numeric value as float.

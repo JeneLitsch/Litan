@@ -14,7 +14,7 @@ Null is returned if an error occurs or the stream reaches EOF.
 
 ---
 
-## std::read_bool(stream : istream)
+## std::read_bool(stream)
 **Parameters:**  
 - stream: an input stream  
 

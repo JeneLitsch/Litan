@@ -1,6 +1,6 @@
 # std::split
 
-## std::split(string : string, delim : string) const -> array&lt;string&gt;
+## std::split(string, delim) const
 
 **Parameters:**  
 * string: String to be split

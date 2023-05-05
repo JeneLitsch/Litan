@@ -1,6 +1,6 @@
 # std::round
 
-## std::round(a:float) const -> int
+## std::round(a:oat) const
 **Parameter:**
 - a: Numeric value
 

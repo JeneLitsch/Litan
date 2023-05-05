@@ -1,6 +1,6 @@
 # std::string
 
-## std::str(x:any) const -> string
+## std::str(x) const
 **Parameters:** 
 * x: any value
 

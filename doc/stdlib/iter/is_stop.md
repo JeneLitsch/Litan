@@ -1,6 +1,6 @@
 # std::iter::is_stop
 
-## std::iter::is_stop(value) const -> bool
+## std::iter::is_stop(value) const
 **Parameters:**
 - value: any value
 

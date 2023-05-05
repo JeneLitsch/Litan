@@ -13,7 +13,7 @@ Null is returned if an error occurs or the stream reaches EOF.
 
 ---
 
-## std::read(stream : istream), std::read_str(stream : istream)
+## std::read(stream), std::read_str(stream)
 **Parameters:**  
 * stream: an input stream
 

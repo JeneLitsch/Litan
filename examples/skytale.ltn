@@ -1,17 +1,17 @@
 // Runs the skytale encryption on some example string
 
-function pad(string : string, chunk : int) -> string {
+function pad(string, chunk) {
 	var missing = (chunk - (std::size(string) % chunk)) % chunk; 
 	return string + (missing * ".");
 }
 
 
 
-function encrypt(plain : string, rows : int) -> string {
+function encrypt(plain, rows) {
 	var size = std::size(plain);
 	var cipher = " " * size;
 	var columns = size / rows;
-	for(i : 0 -> size) {
+	for(i : std::range(0, size)) {
 		var row = i / columns;
 		var col = i % columns;
 		cipher[col * rows + row] = plain[i];
@@ -21,7 +21,7 @@ function encrypt(plain : string, rows : int) -> string {
 
 
 
-function decrypt(plain : string, rows : int) -> string {
+function decrypt(plain, rows) {
 	return encrypt(plain, std::size(plain) / rows); 
 }
 
@@ -35,7 +35,7 @@ function main() {
 		"skytale",
 		"crypto"
 	];
-	for(i : 0 -> std::size(words)) {
+	for(i : std::range(0, std::size(words))) {
 		var original = pad(words[i], rows);
 		var encrypted = encrypt(original, rows);
 		var decrypted = decrypt(encrypted , rows);

@@ -28,31 +28,6 @@ function main() {
 }
 ```
 
-## Type Annotations
-
-Litan allows optional type annotations. The compiler can help you catch type related bugs.
-
-```js
-function main() {
-    var a : int = 4; // Ok!
-}
-```
-
-```js
-function main() {
-    var a : string = 4; // Compiler error
-}
-```
-
-```js
-function f(x : string) -> int 
-    => x // Compiler Error: Cannot return string as int
-
-function main() {
-    f(4); // Compiler Error: Cannot pass int as string
-}
-```
-
 ## Reflections
 
 Reflections allow you to gather infos about your programm at compile-time.

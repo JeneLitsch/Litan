@@ -1,6 +1,6 @@
 # std::for_each
 
-## std::for_each(range, fx) -> null
+## std::for_each(range, fx)
 
 **Parameters:**  
 * range: array or tuple
