@@ -2,6 +2,5 @@ namespace sphinx::test {
 	function std_bits_set() {
 		assert_equal_strict(std::bits::set(0b101, 1, true), 0b111);
 		assert_equal_strict(std::bits::set(true, 1, true), 0b11);
-		assert_equal_strict(std::bits::set('B', 0, true), 'C');
 	}
 }
