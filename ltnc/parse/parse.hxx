@@ -63,7 +63,7 @@ namespace ltn::c {
 
 	std::pair<std::string, Namespace> parse_symbol(Tokens & tokens);
 
-	// ast::type_ptr parse_type(Tokens & tokens);
+	ast::type_ptr parse_type(Tokens & tokens);
 	// ast::type_ptr parse_type(Tokens & tokens, BraceTracker & brace_tracker);
 	// std::optional<ast::type_ptr> parse_var_type_auto(Tokens & tokens);
 	// ast::type_ptr parse_var_type(Tokens & tokens);

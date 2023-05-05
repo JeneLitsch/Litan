@@ -13,6 +13,7 @@ namespace ltn::c::ast {
 	using func_ptr = std::unique_ptr<Functional>;
 	using enum_ptr = std::unique_ptr<Enumeration>;
 	using bind_ptr = std::unique_ptr<Binding>;
+	using type_ptr = std::unique_ptr<Type>;
 	
 	struct Program {
 		std::vector<func_ptr> functions;

@@ -602,6 +602,24 @@ namespace ltn::c::sst {
 
 		std::unique_ptr<Expression> d3fault;
 	};
+	
+
+
+	struct Type final : Expression {
+		Type(std::vector<std::uint8_t> type_code)
+			: Expression{}
+			, type_code{std::move(type_code)} {}
+
+		virtual std::uint64_t alloc() const override {
+			return 0;
+		}
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::vector<std::uint8_t> type_code;
+	};
 
 
 
@@ -637,6 +655,7 @@ namespace ltn::c::sst {
 			virtual void visit(const Choose & x) const override { this->run(x); };
 			virtual void visit(const Reflect & x) const override { this->run(x); };
 			virtual void visit(const InitStruct & x) const override { this->run(x); };
+			virtual void visit(const Type & x) const override { this->run(x); };
 		};
 
 		return Visitor{fx}(expr);

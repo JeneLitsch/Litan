@@ -215,6 +215,7 @@ namespace ltn::c {
 		if(auto expr = parse_iife(tokens)) return expr;
 		if(auto expr = parse_expr_switch(tokens)) return expr;
 		if(auto expr = parse_reflect(tokens)) return expr;
+		if(auto expr = parse_type(tokens)) return expr;
 		return parse_identifier(tokens);
 	}
 }

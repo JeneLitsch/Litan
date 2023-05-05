@@ -23,7 +23,7 @@ target_sources(libltnc PRIVATE
 	compile_switch.cxx
 	compile_ternary.cxx
 	compile_throw.cxx
-	compile_typed_unary.cxx
+	compile_type.cxx
 	compile_unary.cxx
 	compile_write.cxx
 	compile.cxx

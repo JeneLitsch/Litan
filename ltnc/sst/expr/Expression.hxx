@@ -28,6 +28,7 @@ namespace ltn::c::sst {
 	struct Choose;
 	struct Reflect;
 	struct InitStruct;
+	struct Type;
 
 
 
@@ -54,7 +55,8 @@ namespace ltn::c::sst {
 		Ternary,
 		Choose,
 		Reflect,
-		InitStruct
+		InitStruct,
+		Type
 	>;
 
 

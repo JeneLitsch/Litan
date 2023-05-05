@@ -39,6 +39,7 @@ namespace ltn::c::ast {
 	struct Reflect;
 	struct ForwardDynamicCall;
 	struct InitStruct;
+	struct Type;
 
 
 	using ExprVisitor = Visitor<
@@ -64,7 +65,8 @@ namespace ltn::c::ast {
 		Choose,
 		Reflect,
 		ForwardDynamicCall,
-		InitStruct
+		InitStruct,
+		Type
 	>;
 
 
@@ -524,6 +526,46 @@ namespace ltn::c::ast {
 
 
 
+	struct Type final : public Expression {
+		struct Null{};
+		struct Bool{};
+		struct Char{};
+		struct Int{};
+		struct Float{};
+		struct String{};
+		struct Array {
+			std::unique_ptr<Type> contains;
+		};
+		// struct Tuple {
+		// 	std::vector<std::unique_ptr<Type>> contains;
+		// };
+		// struct Fx {
+		// 	std::uint64_t arity;
+		// };
+
+		using Variant = std::variant<
+			Null,
+			Bool,
+			Char,
+			Int,
+			Float,
+			String,
+			Array
+		>;
+
+		Type(Variant variant, const SourceLocation & location)
+			: Expression{location}
+			, variant{std::move(variant)}  {}
+		
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		Variant variant;
+	};
+
+
+
 	auto visit_expression(const Expression & expr, auto && fx) {
 		using Callable = std::decay_t<decltype(fx)>;
 		using Ret = std::invoke_result_t<Callable, Binary>;
@@ -543,7 +585,7 @@ namespace ltn::c::ast {
 			virtual void visit(const Array & x)              const override { this->run(x); };
 			virtual void visit(const Tuple & x)              const override { this->run(x); };
 			virtual void visit(const Call & x)               const override { this->run(x); };
-			virtual void visit(const InvokeMember & x)         const override { this->run(x); };
+			virtual void visit(const InvokeMember & x)       const override { this->run(x); };
 			virtual void visit(const Var & x)                const override { this->run(x); };
 			virtual void visit(const Index & x)              const override { this->run(x); };
 			virtual void visit(const Lambda & x)             const override { this->run(x); };
@@ -555,6 +597,7 @@ namespace ltn::c::ast {
 			virtual void visit(const Reflect & x)            const override { this->run(x); };
 			virtual void visit(const ForwardDynamicCall & x) const override { this->run(x); };
 			virtual void visit(const InitStruct & x)         const override { this->run(x); };
+			virtual void visit(const Type & x)               const override { this->run(x); };
 		};
 
 		return Visitor{fx}(expr);
