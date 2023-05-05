@@ -28,10 +28,8 @@ namespace ltn::c {
 			ast::Parameters parameters{};
 			while(true) {
 				auto name = parse_parameter_name(tokens);
-				auto type = parse_parameter_type(tokens);
 				parameters.push_back(ast::Parameter{
 					.name = std::move(name),
-					.type = std::move(type),
 				});
 				if(match(TT::PAREN_R, tokens)) break;
 				if(!match(TT::COMMA, tokens)) {
@@ -212,14 +210,12 @@ namespace ltn::c {
 			auto parameters = parse_mandatory_parameters(tokens);
 
 			Qualifiers qualifiers = parse_qualifiers(tokens); 
-			auto return_type = parse_return_type(tokens);
 			auto body = parse_body(tokens, std::size(parameters));
 			auto fx = std::make_unique<FunctionalNode>(
 				std::move(name),
 				std::move(namespaze),
 				std::move(parameters),
 				std::move(body),
-				std::move(return_type),
 				location(tokens)
 			);
 			fx->is_const = qualifiers.is_const;
@@ -261,14 +257,12 @@ namespace ltn::c {
 			auto captures = parse_captures(tokens);
 			auto parameters = parse_optional_parameters(tokens);
 			Qualifiers qualifiers = parse_qualifiers(tokens);
-			auto return_type = parse_return_type(tokens);
 			auto body = parse_body(tokens, std::size(parameters)); 
 			auto fx = std::make_unique<ast::Function>(
 				"lambda" + std::to_string(*stx::unique{}), 
 				Namespace{},
 				std::move(parameters),
 				std::move(body),
-				std::move(return_type),
 				location(tokens));
 			fx->except = parse_except(tokens);
 			fx->is_const = qualifiers.is_const;

@@ -12,17 +12,12 @@ namespace ltn::c {
 		virtual bool is_const() const override;
 		virtual const Namespace & get_namespace() const override;
 		virtual std::optional<std::string> get_return() const override;
-		virtual const type::Type & get_return_type() const override;
-		virtual const type::Type * resolve_type(const std::string & name) const override;
 		virtual Context & get_context() const override;
 		virtual void set_context(stx::reference<Context> context) override;
-
-		void set_return_type(type::Type type);
 	
 	private:
 		Namespace namespaze;
 		bool c0nst = false;
-		type::Type return_type;
 		stx::reference<Context> context;
 	};
 }

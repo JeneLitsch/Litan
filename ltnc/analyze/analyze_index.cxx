@@ -22,12 +22,10 @@ namespace ltn::c {
 		const auto constant = sst::visit_expression(*idx, [] (const auto & e) {
 			return int_constant(e);
 		});
-		auto type = type::deduce_index(arr->type, idx->type, constant);
 
 		return std::make_unique<sst::Index>(
 			std::move(arr),
-			std::move(idx),
-			type
+			std::move(idx)
 		);
 	}
 }

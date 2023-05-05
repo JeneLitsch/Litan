@@ -10,10 +10,6 @@
 #include "ltnc/make_jump_id.hxx"
 #include "ltnc/labels.hxx"
 
-#include "ltnc/type/Type.hxx"
-#include "ltnc/type/to_string.hxx"
-#include "ltnc/type/deduction.hxx"
-
 #include "utils/Scope.hxx"
 #include "utils/FunctionScope.hxx"
 #include "utils/MajorScope.hxx"
@@ -71,13 +67,8 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::Iife &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Var &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Member &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::TypedUnary &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Reflect &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::InitStruct &, Scope &);
 
-	sst::bind_ptr analyze_binding(const ast::Binding &, Scope &, const type::Type &);
-
-	type::Type analyze_parameter_type(const ast::Parameter::DeclType & type, Scope &);
-
-	type::Type analyze_type(const ast::Type &, Scope &);
+	sst::bind_ptr analyze_binding(const ast::Binding &, Scope &);
 }	

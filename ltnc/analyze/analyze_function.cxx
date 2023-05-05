@@ -14,9 +14,8 @@ namespace ltn::c {
 			for(const auto & param : parameters) {
 				auto sst_param = sst::Parameter {
 					.name = param.name,
-					.type = analyze_parameter_type(param.type, scope),
 				};
-				scope.insert(sst_param.name, loc, sst_param.type);
+				scope.insert(sst_param.name, loc);
 				p.push_back(sst_param);
 			}
 			return p;
@@ -54,8 +53,7 @@ namespace ltn::c {
 				fx.name,
 				fx.namespaze,
 				parameters,
-				fx.key,
-				analyze_type(*fx.return_type, scope)
+				fx.key
 			);
 
 			sst_fx->is_const   = fx.is_const; 
@@ -91,8 +89,7 @@ namespace ltn::c {
 			fx.name,
 			fx.namespaze,
 			parameters,
-			std::move(body),
-			analyze_type(*fx.return_type, scope)
+			std::move(body)
 		);
 
 		sst_fx->is_const = fx.is_const; 
@@ -113,8 +110,6 @@ namespace ltn::c {
 		FunctionScope & scope,
 		std::optional<Label> override_label,
 		const std::vector<std::unique_ptr<ast::Var>> & captures) {
-
-		scope.set_return_type(analyze_type(*functional.return_type, scope));
 
 		if(auto fx = as<const ast::Function>(functional)) {
 			return analyze_function(*fx, scope, override_label, captures);

@@ -3,40 +3,40 @@
 namespace ltn::c {
 	// compiles int literal
 	sst::expr_ptr analyze_expr(const ast::Integer & expr, Scope &) {
-		return std::make_unique<sst::Integer>(expr.value, type::Int{});
+		return std::make_unique<sst::Integer>(expr.value);
 	}
 
 
 
 	// compiles float literal
 	sst::expr_ptr analyze_expr(const ast::Float & expr, Scope &) {
-		return std::make_unique<sst::Float>(expr.value, type::Float{});
+		return std::make_unique<sst::Float>(expr.value);
 	}
 
 
 
 	// compiles bool literal
 	sst::expr_ptr analyze_expr(const ast::Bool & expr, Scope &) {
-		return std::make_unique<sst::Bool>(expr.value, type::Bool{});
+		return std::make_unique<sst::Bool>(expr.value);
 	}
 
 
 
 	// compiles null literal
 	sst::expr_ptr analyze_expr(const ast::Null &, Scope &) {
-		return std::make_unique<sst::Null>(type::Null{});
+		return std::make_unique<sst::Null>();
 	}
 
 
 	// compiles bool literal
 	sst::expr_ptr analyze_expr(const ast::Char & expr, Scope &) {
-		return std::make_unique<sst::Char>(expr.value, type::Char{});
+		return std::make_unique<sst::Char>(expr.value);
 	}
 
 
 
 	// compiles string literal
 	sst::expr_ptr analyze_expr(const ast::String & expr, Scope &) {
-		return std::make_unique<sst::String>(expr.value, type::String{});
+		return std::make_unique<sst::String>(expr.value);
 	}
 }

@@ -27,7 +27,6 @@ namespace ltn::c {
 			preset.namespaze,
 			std::move(parameters),
 			std::move(stmt),
-			std::make_unique<ast::Type>(location(preset), "any"),
 			location(preset)
 		);
 

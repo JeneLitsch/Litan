@@ -9,7 +9,6 @@ namespace ltn::c {
 		stx::reference<Context> context) 
 		: namespaze { namespaze }
 		, c0nst { c0nst }
-		, return_type{type::Any{}}
 		, context{context} {}
 
 
@@ -22,13 +21,6 @@ namespace ltn::c {
 			return this->vars.at(name);
 		}
 		return stx::nullref;
-	}
-
-
-
-	const type::Type * MajorScope::resolve_type(const std::string & name) const {
-		if(this->type_map.contains(name)) return &this->type_map.at(name);
-		return nullptr;
 	}
 
 
@@ -54,15 +46,6 @@ namespace ltn::c {
 
 	std::optional<std::string> MajorScope::get_return() const {
 		return this->return_point;
-	}
-
-	const type::Type & MajorScope::get_return_type() const  {
-		return this->return_type;
-	}
-
-
-	void MajorScope::set_return_type(type::Type type) {
-		this->return_type = type;
 	}
 
 

@@ -1,5 +1,4 @@
 #include "compile.hxx"
-#include "ltnc/type/traits.hxx"
 #include <iostream>
 #include "stdxx/functional.hxx"
 

@@ -2,12 +2,10 @@
 #include <map>
 #include "ltnc/Namespace.hxx"
 #include "ltnc/sst/Node.hxx"
-#include "ltnc/type/Type.hxx"
 
 namespace ltn::c::sst {
 	struct Expression;
 	struct Integer;
-
 
 
 
@@ -27,11 +25,9 @@ namespace ltn::c::sst {
 	struct Static : public Declaration {
 		Static(
 			const std::string & name,
-			const Namespace & namespaze,
-			const type::Type & type)
+			const Namespace & namespaze)
 			: Declaration(name, namespaze)
-			, id(++counter)
-			, type{type} {}
+			, id(++counter) {}
 		
 		const std::string & get_resolve_name() const {
 			return this->name;
@@ -42,7 +38,6 @@ namespace ltn::c::sst {
 		}
 
 		std::uint64_t id;
-		type::Type type;
 	private:
 		static inline std::uint64_t counter = 0;
 	};
@@ -53,9 +48,8 @@ namespace ltn::c::sst {
 		Definition(
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::Type & type,
 			std::unique_ptr<sst::Expression> expr)
-			: Static{name, namespaze, type}
+			: Static{name, namespaze}
 			, expr{std::move(expr)} {}
 			
 		std::unique_ptr<sst::Expression> expr;
@@ -67,9 +61,8 @@ namespace ltn::c::sst {
 		Global(
 			const std::string & name,
 			const Namespace & namespaze,
-			const type::Type & type,
 			std::unique_ptr<sst::Expression> expr)
-			: Static{name, namespaze, type}
+			: Static{name, namespaze}
 			, expr{std::move(expr)} {}
 
 		std::unique_ptr<sst::Expression> expr;

@@ -2,7 +2,6 @@
 #include <vector>
 #include "ltn/casts.hxx"
 #include "ltn/Visitor.hxx"
-#include "ltnc/type/Type.hxx"
 #include "ltnc/ast/Node.hxx"
 #include "ltnc/ast/bind/Binding.hxx"
 
@@ -99,12 +98,10 @@ namespace ltn::c::ast {
 		NewVar(
 			std::unique_ptr<Binding> binding,
 			std::unique_ptr<Expression> expr,
-			const SourceLocation & location,
-			std::optional<type_ptr> type)
+			const SourceLocation & location)
 			: Statement(location)
 			, binding(std::move(binding))
-			, expr{std::move(expr)}
-			, type{std::move(type)} {}
+			, expr{std::move(expr)} {}
 
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
@@ -112,7 +109,6 @@ namespace ltn::c::ast {
 
 		std::unique_ptr<Binding> binding;		
 		std::unique_ptr<Expression> expr;
-		std::optional<type_ptr> type;
 	};
 
 

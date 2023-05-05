@@ -1,70 +1,24 @@
 #include "analyze.hxx"
 #include "stdxx/functional.hxx"
 #include <string_view>
-#include "conversion.hxx"
 
 namespace ltn::c {
 
 	namespace {
-		struct ParamResult {
-			sst::expr_ptr expr;
-			std::optional<std::pair<std::string, type::Type>> deduced_type;
-		};
-
-		ParamResult analyze_parameter(
-			const ast::Parameter::Infered & infered,
-			sst::expr_ptr arg,
-			Scope & scope,
-			const ArgumentLocation & loc) {
-
-			auto deduced_types = std::make_pair(infered.name, arg->type);
-			
-			return ParamResult{
-				.expr = std::move(arg),
-				.deduced_type = deduced_types,
-			};
-		}
-
-
-
-		ParamResult analyze_parameter(
-			const ast::type_ptr & type,
-			sst::expr_ptr arg,
-			Scope & scope,
-			const ArgumentLocation & loc) {
-				
-			const auto param_type = analyze_type(*type, scope);
-			auto converted = conversion_on_pass(std::move(arg), param_type, loc);
-			return ParamResult{
-				.expr = std::move(converted),
-				.deduced_type = std::nullopt,
-			};
-		}
-
-
-
 		auto analyze_arguments(
 			const ast::Call & call,
 			const ast::Functional & fx,
 			Scope & scope) {
 			
 			std::vector<sst::expr_ptr> arguments;
-			std::map<std::string, type::Type> deduced_param_types;
 			for(std::size_t i = 0; i < call.arguments.size(); ++i) {
 				const ArgumentLocation location = {ast::location(call), i};
 				auto & argument = call.arguments[i];
 				auto & parameter = fx.parameters[i];
-				auto [arg, deduced_type] = std::visit([&] (auto & t) {
-					auto arg = analyze_expression(*argument, scope);
-					return analyze_parameter(t, std::move(arg), scope, location);
-				}, parameter.type); 
-				arguments.push_back(std::move(arg));
-				if(deduced_type) {
-					deduced_param_types.insert(*deduced_type);
-				}
+				arguments.push_back(analyze_expression(*argument, scope));
 			}
 
-			return std::make_tuple(std::move(arguments), deduced_param_types);
+			return arguments;
 		}
 
 
@@ -106,12 +60,10 @@ namespace ltn::c {
 
 			auto expr = analyze_expression(*call.function_ptr, scope);
 			auto arguments = analyze_all_expressions(call.arguments, scope);
-			const auto type = type::deduce_invokation(expr->type);
 			
 			return std::make_unique<sst::Invoke>(
 				std::move(expr),
-				std::move(arguments),
-				type
+				std::move(arguments)
 			);
 		}
 
@@ -127,19 +79,16 @@ namespace ltn::c {
 			guard_private(fx, scope.get_namespace(), call);
 			guard_const(call, fx, scope);
 
-			auto [arguments, infered_types] = analyze_arguments(call, fx, scope);
+			auto arguments = analyze_arguments(call, fx, scope);
 			MinorScope dummy_scope{&scope};
-			dummy_scope.inherit_types(infered_types);
-			auto return_type = analyze_type(*fx.return_type, dummy_scope);
-			auto fx_label = make_function_label(fx, infered_types);
+			auto fx_label = make_function_label(fx);
 			
 			auto sst_call = std::make_unique<sst::Call>(
 				std::move(fx_label),
-				std::move(arguments),
-				std::move(return_type)
+				std::move(arguments)
 			);
 
-			context.fx_queue.stage_function(fx, infered_types);
+			context.fx_queue.stage_function(fx);
 			return sst_call;
 		}
 	}
@@ -180,14 +129,12 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::InvokeMember & invoke, Scope & scope) {
 		auto expr = analyze_expression(*invoke.object, scope);
 		auto arguments = analyze_all_expressions(invoke.arguments, scope);
-		const auto type = type::deduce_invokation(expr->type);
 		const auto id = scope.resolve_member_id(invoke.member_name);
 
 		return std::make_unique<sst::InvokeMember>(
 			std::move(expr),
 			id,
-			std::move(arguments),
-			type
+			std::move(arguments)
 		);
 	}
 }

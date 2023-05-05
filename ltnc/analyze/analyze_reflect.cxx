@@ -49,7 +49,7 @@ namespace ltn::c {
 
 			if(!fx) throw undefined_function(query.name, location(refl));
 			
-			context.fx_queue.stage_function(*fx, {});
+			context.fx_queue.stage_function(*fx);
 			return fx_to_query(*fx);
 		}
 
@@ -66,7 +66,7 @@ namespace ltn::c {
 			sst_query.namespaze = query.namespaze;
 			for(const auto & fx : context.fx_table.get_symbols()) {
 				if(fx->namespaze == query.namespaze) {
-					context.fx_queue.stage_function(*fx, {});
+					context.fx_queue.stage_function(*fx);
 					sst_query.functions.push_back(fx_to_query(*fx));
 				}
 			}
@@ -110,34 +110,6 @@ namespace ltn::c {
 				.line = analyze_reflect_query(refl, query.line, scope), 
 			};
 		}
-
-
-
-		auto analyze_reflect_query(
-			const ast::Reflect &,
-			const ast::Reflect::ExprQuery & query,
-			Scope & scope) {
-			
-			const auto expr = analyze_expression(*query.expr, scope);
-
-			return sst::Reflect::ExprQuery {
-				.type_query = sst::Reflect::TypeQuery{
-					.type = expr->type
-				}
-			};
-		}
-
-
-
-		auto analyze_reflect_query(
-			const ast::Reflect &,
-			const ast::Reflect::TypeQuery & query,
-			Scope & scope) {
-
-			return sst::Reflect::TypeQuery {
-				.type = analyze_type(*query.type, scope)
-			};
-		}
 	}
 
 
@@ -150,8 +122,7 @@ namespace ltn::c {
 			std::visit([&] (const auto & query) -> sst::Reflect::Query {
 				return analyze_reflect_query(refl, query, scope);
 			}, refl.query),
-			make_member_addrs(context.member_table),		
-			type::Any{}
+			make_member_addrs(context.member_table)	
 		);
 	}
 }

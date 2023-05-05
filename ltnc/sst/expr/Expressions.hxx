@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <bitset>
+#include <variant>
 #include "ltn/casts.hxx"
 #include "ltnc/Namespace.hxx"
 #include "ltnc/Label.hxx"
@@ -20,11 +21,10 @@ namespace ltn::c::sst {
 
 	struct Ternary : public Expression {
 		Ternary(
-			const type::Type & type,
 			std::unique_ptr<Expression> condition,
 			std::unique_ptr<Expression> if_branch,
 			std::unique_ptr<Expression> else_branch) 
-			: Expression{type}
+			: Expression{}
 			, condition(std::move(condition))
 			, if_branch(std::move(if_branch))
 			, else_branch(std::move(else_branch)) {}
@@ -53,9 +53,8 @@ namespace ltn::c::sst {
 		using Op = UnaryOp;
 		Unary(
 			Op op,
-			std::unique_ptr<Expression> expr,
-			const type::Type & type)
-			: Expression{type}
+			std::unique_ptr<Expression> expr)
+			: Expression{}
 			, op(op)
 			, expr(std::move(expr)) {}
 
@@ -78,9 +77,8 @@ namespace ltn::c::sst {
 		Binary(
 			Op op,
 			std::unique_ptr<Expression> l,
-			std::unique_ptr<Expression> r,
-			const type::Type & type)
-			: Expression{type}
+			std::unique_ptr<Expression> r)
+			: Expression{}
 			, op(op)
 			, l(std::move(l))
 			, r(std::move(r)) {}
@@ -132,22 +130,12 @@ namespace ltn::c::sst {
 			LineQuery line;
 		};
 
-		struct TypeQuery {
-			type::Type type;
-		};
-
-		struct ExprQuery {
-			TypeQuery type_query;
-		};
-
 		using Query = std::variant<
 			NamespaceQuery,
 			FunctionQuery,
 			FileQuery,
 			LineQuery,
-			LocationQuery,
-			ExprQuery,
-			TypeQuery
+			LocationQuery
 		>;
 
 		struct Addr {
@@ -165,9 +153,8 @@ namespace ltn::c::sst {
 
 		Reflect(
 			Query query,
-			Addr address,
-			const type::Type & type)
-			: Expression{type}
+			Addr address)
+			: Expression{}
 			, query{std::move(query)}
 			, address{address} {}
 
@@ -185,49 +172,19 @@ namespace ltn::c::sst {
 
 
 
-	struct TypedUnary final : public Expression {
-	public:
-		using Op = TypedUnaryOp;
-		
-		TypedUnary(
-			Op op,
-			const type::Type & target_type,
-			std::unique_ptr<Expression> expr,
-			const type::Type & type)
-			: Expression{type}
-			, op{op}
-			, target_type{target_type}
-			, expr{std::move(expr)} {}
-
-		virtual std::uint64_t alloc() const override {
-			return this->expr->alloc();
-		}
-
-		virtual void accept(const ExprVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
-
-		Op op;
-		type::Type target_type;
-		std::unique_ptr<Expression> expr;
-	};
-
-
-
 	struct Literal : public Expression {
-		Literal(const type::Type & type)
-			: Expression{type} {}
+		Literal() : Expression{} {}
 		virtual ~Literal() = default;
 	};
 
 
 
 	struct Integer final : public Literal {
-		Integer(std::bitset<64> value, const type::Type & type)
-			: Integer(static_cast<std::int64_t>(value.to_ullong()), type) {}
-
-		Integer(std::int64_t value, const type::Type & type)
-			: Literal(type)
+		Integer(std::bitset<64> value)
+			: Integer(static_cast<std::int64_t>(value.to_ullong())) {}
+		
+		Integer(std::int64_t value)
+			: Literal()
 			, value(value) {}
 
 		virtual std::uint64_t alloc() const override {
@@ -244,8 +201,8 @@ namespace ltn::c::sst {
 
 
 	struct Float final : public Literal {
-		Float(stx::float64_t value, const type::Type & type)
-			: Literal(type)
+		Float(stx::float64_t value)
+			: Literal()
 			, value(value) {}
 
 		virtual std::uint64_t alloc() const override {
@@ -262,8 +219,8 @@ namespace ltn::c::sst {
 
 
 	struct Bool final : public Literal {
-		Bool(bool value, const type::Type & type)
-			: Literal(type)
+		Bool(bool value)
+			: Literal()
 			, value(value) {}
 
 		virtual std::uint64_t alloc() const override {
@@ -280,8 +237,7 @@ namespace ltn::c::sst {
 
 
 	struct Null final : public Literal {
-		Null(const type::Type & type)
-			: Literal(type) {}
+		Null() : Literal{} {}
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -295,8 +251,8 @@ namespace ltn::c::sst {
 
 
 	struct Char final : public Literal {
-		Char(std::uint8_t value, const type::Type & type)
-			: Literal(type)
+		Char(std::uint8_t value)
+			: Literal()
 			, value(value) {}
 
 		virtual std::uint64_t alloc() const override {
@@ -313,8 +269,8 @@ namespace ltn::c::sst {
 
 
 	struct String final : public Literal {
-		String(const std::string & value, const type::Type & type)
-			: Literal(type)
+		String(const std::string & value)
+			: Literal()
 			, value(value) {}
 
 		virtual std::uint64_t alloc() const override {
@@ -331,7 +287,7 @@ namespace ltn::c::sst {
 
 
 	struct Array final: public Literal {
-		Array(const type::Type & type) : Literal(type) {}
+		Array() : Literal() {}
 
 		virtual std::uint64_t alloc() const override {
 			std::uint64_t count = 0;
@@ -351,7 +307,7 @@ namespace ltn::c::sst {
 
 	
 	struct Tuple final: public Literal {
-		Tuple(const type::Type & type) : Literal(type) {}
+		Tuple() : Literal() {}
 		virtual ~Tuple() = default;
 
 		virtual std::uint64_t alloc() const override {
@@ -374,9 +330,8 @@ namespace ltn::c::sst {
 	struct Index final : public Expression {
 		Index(
 			std::unique_ptr<Expression> expr,
-			std::unique_ptr<Expression> index,
-			const type::Type & type)
-			: Expression{type}
+			std::unique_ptr<Expression> index)
+			: Expression{}
 			, expr(std::move(expr))
 			, index(std::move(index)) {}
 
@@ -400,9 +355,8 @@ namespace ltn::c::sst {
 	struct Var final : public Expression {
 	public:
 		Var(
-			std::size_t address,
-			const type::Type & type)
-			: Expression{type}
+			std::size_t address)
+			: Expression{}
 			, address{address} {}
 
 		virtual std::uint64_t alloc() const override {
@@ -421,9 +375,8 @@ namespace ltn::c::sst {
 	struct GlobalVar final : public Expression {
 	public:
 		GlobalVar(
-			const type::Type & type,
 			std::size_t address)
-			: Expression{type}
+			: Expression{}
 			, address { address } {}
 
 		virtual std::uint64_t alloc() const override {
@@ -441,10 +394,9 @@ namespace ltn::c::sst {
 
 	struct Member final : public Expression {
 		Member(
-			const type::Type & type,
 			std::unique_ptr<Expression> expr,
 			std::size_t address)
-			: Expression{type}
+			: Expression{}
 			, expr(std::move(expr))
 			, address { address } {};
 
@@ -464,10 +416,9 @@ namespace ltn::c::sst {
 
 	struct Iife final : public Expression {
 		Iife(
-			const type::Type & type,
 			std::string return_label,
 			std::unique_ptr<Statement> stmt) 
-			: Expression{type}
+			: Expression{}
 			, return_label{return_label}
 			, stmt(std::move(stmt)) {}
 
@@ -488,9 +439,8 @@ namespace ltn::c::sst {
 	struct FxPointer final : public Expression {
 		FxPointer(
 			const Label & label,
-			std::size_t arity,
-			const type::Type & type)
-			: Expression{type}
+			std::size_t arity)
+			: Expression{}
 			, label{label}
 			, arity{arity} {}
 
@@ -512,9 +462,8 @@ namespace ltn::c::sst {
 	struct Call final : public Expression {
 		Call(
 			const Label & label,
-			std::vector<std::unique_ptr<Expression>> arguments,
-			const type::Type & type)
-			: Expression{type}
+			std::vector<std::unique_ptr<Expression>> arguments)
+			: Expression{}
 			, label{label}
 			, arguments(std::move(arguments)) {}
 
@@ -543,9 +492,8 @@ namespace ltn::c::sst {
 	struct Invoke final : public Expression {
 		Invoke(
 			std::unique_ptr<Expression> function_ptr,
-			std::vector<std::unique_ptr<Expression>> arguments,
-			const type::Type & type)
-			: Expression{type}
+			std::vector<std::unique_ptr<Expression>> arguments)
+			: Expression{}
 			, function_ptr(std::move(function_ptr))
 			, arguments(std::move(arguments)) {}
 		virtual ~Invoke() = default;
@@ -576,9 +524,8 @@ namespace ltn::c::sst {
 		InvokeMember(
 			std::unique_ptr<Expression> object,
 			std::uint64_t member_id,
-			std::vector<std::unique_ptr<Expression>> arguments,
-			const type::Type & type)
-			: Expression{type}
+			std::vector<std::unique_ptr<Expression>> arguments)
+			: Expression{}
 			, object(std::move(object))
 			, member_id{member_id}
 			, arguments(std::move(arguments)) {}
@@ -607,7 +554,7 @@ namespace ltn::c::sst {
 
 
 	struct InitStruct final : public Expression {
-		InitStruct() : Expression{type::Any{}} {}
+		InitStruct() : Expression{} {}
 
 		struct Member {
 			std::uint64_t address;
@@ -632,8 +579,7 @@ namespace ltn::c::sst {
 
 
 	struct Choose final : Expression {
-		Choose(const type::Type & type) 
-			: Expression{type} {}
+		Choose() : Expression{} {}
 
 		virtual std::uint64_t alloc() const override {
 			std::uint64_t count = 0;
@@ -689,7 +635,6 @@ namespace ltn::c::sst {
 			virtual void visit(const Iife & x) const override { this->run(x); };
 			virtual void visit(const Ternary & x) const override { this->run(x); };
 			virtual void visit(const Choose & x) const override { this->run(x); };
-			virtual void visit(const TypedUnary & x) const override { this->run(x); };
 			virtual void visit(const Reflect & x) const override { this->run(x); };
 			virtual void visit(const InitStruct & x) const override { this->run(x); };
 		};

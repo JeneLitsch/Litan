@@ -13,10 +13,8 @@ namespace ltn::c {
 			brace_l(tokens);
 			while(match(TT::VAR, tokens)) {
 				auto name = parse_variable_name(tokens);
-				auto type = parse_var_type(tokens);
 				members.push_back(ast::Preset::Member{
 					.name = std::move(name),
-					.type = std::move(type),
 				});
 				semicolon(tokens);
 			}

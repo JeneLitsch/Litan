@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include "Namespace.hxx"
-#include "type/Type.hxx"
 
 namespace ltn::c {
 	class Label {

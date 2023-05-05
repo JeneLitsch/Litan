@@ -5,19 +5,12 @@
 #include <sstream>
 #include "ltn/unique.hxx"
 #include "ltnc/Namespace.hxx"
-#include "ltnc/type/Type.hxx"
 #include "ltnc/ast/decl/Declaration.hxx"
-#include "ltnc/ast/type/Type.hxx"
 
 namespace ltn::c::ast {
 	class Statement;
 	struct Parameter {
-		struct Infered {
-			std::string name;
-		};
 		std::string name;
-		using DeclType = std::variant<ast::type_ptr, Infered>;
-		DeclType type;
 	};
 	using Parameters = std::vector<Parameter>;
 
@@ -56,19 +49,15 @@ namespace ltn::c::ast {
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
-			ast::type_ptr return_type,
 			const SourceLocation & location)
 			: Declaration(location, name, namespaze)
-			, parameters(std::move(parameters))
-			, return_type{std::move(return_type)} {}
+			, parameters(std::move(parameters)) {}
 		virtual ~Functional() = default;
 
 		Parameters parameters;
 		bool is_const = false;
 		bool is_private = false;
 		bool is_extern = false;
-
-		ast::type_ptr return_type;
 
 		const std::string & get_resolve_name() const {
 			return this->name;
@@ -87,9 +76,8 @@ namespace ltn::c::ast {
 			Namespace namespaze,
 			Parameters parameters,
 			std::unique_ptr<Statement> body,
-			ast::type_ptr return_type,
 			const SourceLocation & location)
-			: Functional{name, namespaze, std::move(parameters), std::move(return_type), location}
+			: Functional{name, namespaze, std::move(parameters), location}
 			, body(std::move(body)) {}
 
 		virtual ~Function() = default;
@@ -105,9 +93,8 @@ namespace ltn::c::ast {
 			Namespace namespaze,
 			Parameters parameters,
 			const std::string & key,
-			ast::type_ptr return_type,
 			const SourceLocation & location)
-			: Functional{name, namespaze, std::move(parameters), std::move(return_type), location}
+			: Functional{name, namespaze, std::move(parameters), location}
 			, key(key) {}
 		virtual ~BuildIn() = default;
 		std::string key;		

@@ -1,6 +1,5 @@
 #include "labels.hxx"
 #include <sstream>
-#include "ltnc/type/to_string.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -47,35 +46,6 @@ namespace ltn::c {
 	}
 
 
-	Label make_function_label(
-		const ast::Functional & fx,
-		const std::map<std::string, type::Type> & args) {
-		
-		std::ostringstream oss;
-		oss << fx.get_resolve_namespace().to_string() 
-			<< fx.get_resolve_name() 
-			<< "(" 
-			<< fx.parameters.size()
-			<< ")";
-
-		bool first = true;
-		for(const auto & [name, type] : args) {
-			if(first) {
-				oss << "{";
-				first = false;
-			}
-			else {
-				oss << ",";
-			}
-			oss << name << "=" << type::to_string(type);
-		}
-		if(!first) {
-			oss << "}";
-		}
-		return make_external_label(oss.str());
-	}
-
-
 
 	Label derive_skip(const Label & label) {
 		return make_internal_label(label.get_name() + "_SKIP");
@@ -85,16 +55,5 @@ namespace ltn::c {
 
 	Label derive_except(const Label & label) {
 		return make_internal_label(label.get_name() + "_EXCEPT");
-	}
-
-
-
-	Label derive_template(const Label & label, const std::map<std::string, type::Type> & args) {
-		std::ostringstream oss;
-		oss << label.get_name();
-		for(const auto & [name, type] : args) {
-			oss << "_" << name << "=" << type::to_string(type);
-		}
-		return make_internal_label(oss.str());
 	}
 }

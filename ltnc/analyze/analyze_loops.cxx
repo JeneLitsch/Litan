@@ -44,9 +44,9 @@ namespace ltn::c {
 		
 		const auto label = make_jump_id("FOREACH");
 		auto expr = analyze_expression(*stmt.expr, loop_scope);				
-		const auto element_var = loop_scope.insert(stmt.index_name, location(stmt), type::deduce_index(expr->type, type::Int{}));
-		const auto iterator_var = loop_scope.insert("_iterator_" + stmt.index_name, location(stmt), type::Any{});
-		const auto container_var = loop_scope.insert("_container_" + stmt.index_name, location(stmt), type::Any{});
+		const auto element_var = loop_scope.insert(stmt.index_name, location(stmt));
+		const auto iterator_var = loop_scope.insert("_iterator_" + stmt.index_name, location(stmt));
+		const auto container_var = loop_scope.insert("_container_" + stmt.index_name, location(stmt));
 		auto body = analyze_statement(*stmt.body, loop_scope);
 
 		return std::make_unique<sst::ForEach>(

@@ -145,12 +145,10 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_iife(Tokens & tokens) {
 			if(match(TT::IIFE, tokens)) {
-				auto return_type = parse_return_type(tokens);
 				auto body = parse_block(tokens);
 				return std::make_unique<ast::Iife>(
 					location(tokens),
-					std::move(body),
-					std::move(return_type)
+					std::move(body)
 				);
 			}
 			else return nullptr;
@@ -159,14 +157,11 @@ namespace ltn::c {
 
 
 
-	std::vector<std::optional<ast::type_ptr>> parse_placeholder(Tokens & tokens) {
-		std::vector<std::optional<ast::type_ptr>> placeholders;
+	std::uint64_t parse_placeholder(Tokens & tokens) {
+		std::uint64_t placeholders;
 		parse_parameters(tokens, [&] {
 			if (match(TT::UNDERSCORE, tokens)) {
-				placeholders.push_back(std::nullopt);
-			}
-			else {
-				placeholders.push_back(parse_type(tokens));
+				++placeholders;
 			}
 		});
 		return placeholders;

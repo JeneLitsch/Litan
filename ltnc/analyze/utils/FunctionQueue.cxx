@@ -2,11 +2,9 @@
 
 namespace ltn::c {
 	void FunctionQueue::stage_function(
-		stx::reference<const ast::Functional> fx,
-		std::map<std::string, type::Type> deduced_types) {
+		stx::reference<const ast::Functional> fx) {
 		this->stage_function(Staged {
 			.fx = fx,
-			.deduced_types = deduced_types
 		});
 	}
 

@@ -5,36 +5,16 @@
 
 namespace ltn::c {
 	namespace {
-		type::Type deduce_type(
-			const ast::Static & statik,
-			const sst::expr_ptr & expr,
-			Scope & scope) {
-			if(statik.type) {
-				return analyze_type(**statik.type, scope);
-			}
-			else {
-				return expr ? expr->type : type::Any{};
-			}
-		}
-
-
-
 		template<typename NodeT>
 		auto analyze_static(const auto & statik, Context & context) {
 
 			MajorScope scope { statik.namespaze, false, context};
 
-			auto expr = statik.expr ? analyze_expression(*statik.expr, scope) : nullptr;
-			auto type = deduce_type(statik, expr, scope);
-
-			if(!expr) {
-				expr = generate_default_value(type, location(statik));
-			}
+			auto expr = statik.expr ? analyze_expression(*statik.expr, scope) : std::make_unique<sst::Null>();
 
 			return std::make_unique<NodeT>(
 				statik.name,
 				statik.namespaze,
-				std::move(type),
 				std::move(expr)
 			);
 		}

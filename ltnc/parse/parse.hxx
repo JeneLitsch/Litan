@@ -6,7 +6,6 @@
 #include "ltnc/tokens/Token.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/Reporter.hxx"
-#include "ltnc/type/Type.hxx"
 #include "ltnc/parse/BraceTracker.hxx"
 
 namespace ltn::c {
@@ -58,17 +57,16 @@ namespace ltn::c {
 	void brace_l(Tokens & tokens);
 	void brace_r(Tokens & tokens);
 
-	std::vector<std::optional<ast::type_ptr>> parse_placeholder(Tokens & tokens);
+	std::uint64_t parse_placeholder(Tokens & tokens);
 
 	// Maches ; or throws
 	void semicolon(Tokens & tokens);
 
 	std::pair<std::string, Namespace> parse_symbol(Tokens & tokens);
 
-	ast::type_ptr parse_type(Tokens & tokens);
-	ast::type_ptr parse_type(Tokens & tokens, BraceTracker & brace_tracker);
-	std::optional<ast::type_ptr> parse_var_type_auto(Tokens & tokens);
-	ast::type_ptr parse_var_type(Tokens & tokens);
-	ast::Parameter::DeclType parse_parameter_type(Tokens & tokens);
-	ast::type_ptr parse_return_type(Tokens & tokens);
+	// ast::type_ptr parse_type(Tokens & tokens);
+	// ast::type_ptr parse_type(Tokens & tokens, BraceTracker & brace_tracker);
+	// std::optional<ast::type_ptr> parse_var_type_auto(Tokens & tokens);
+	// ast::type_ptr parse_var_type(Tokens & tokens);
+	// ast::type_ptr parse_return_type(Tokens & tokens);
 }

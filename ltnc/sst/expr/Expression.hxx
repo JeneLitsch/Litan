@@ -3,7 +3,6 @@
 #include <memory>
 #include "ltn/Visitor.hxx"
 #include "ltnc/sst/Node.hxx"
-#include "ltnc/type/Type.hxx"
 
 namespace ltn::c::sst {
 	struct Binary;
@@ -27,7 +26,6 @@ namespace ltn::c::sst {
 	struct Iife;
 	struct Ternary;
 	struct Choose;
-	struct TypedUnary;
 	struct Reflect;
 	struct InitStruct;
 
@@ -55,7 +53,6 @@ namespace ltn::c::sst {
 		Iife,
 		Ternary,
 		Choose,
-		TypedUnary,
 		Reflect,
 		InitStruct
 	>;
@@ -63,15 +60,12 @@ namespace ltn::c::sst {
 
 
 	struct Expression : public Node {
-		Expression(const type::Type & type)
-			: type{type} {}
+		Expression() {}
 			
 		virtual ~Expression() = default;
 
 		virtual std::uint64_t alloc() const = 0;
 		virtual void accept(const ExprVisitor &) const = 0;
-		
-		type::Type type;
 
 	};
 	using expr_ptr = std::unique_ptr<Expression>;

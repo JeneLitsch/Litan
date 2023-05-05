@@ -2,32 +2,6 @@
 #include "analyze.hxx"
 
 namespace ltn::c {
-	std::string make_template_id(
-		const ast::Functional & fx,
-		const std::vector<type::Type> & arguments) {
-		
-		std::ostringstream oss;
-		oss << "<";
-		oss << fx.get_resolve_namespace().to_string();
-		oss << fx.get_resolve_name();
-		oss << ":";
-		bool first = true;
-		for(const auto & arg : arguments) {
-			if(first) {
-				first = false;
-			}
-			else {
-				oss << ",";
-			}
-			oss << type::to_string(arg);
-		} 
-		oss << ">"; 
-		oss << "(" << fx.parameters.size() << ")";
-		return oss.str();
-	}
-
-
-
 	namespace {
 		std::vector<stx::reference<const ast::Functional>> find_extern_funtions(
 			const ast::Program & source) {
@@ -51,8 +25,7 @@ namespace ltn::c {
 				staged.fx->is_const,
 				context,
 			};
-			scope.inherit_types(staged.deduced_types);
-			auto label = make_function_label(staged.fx, staged.deduced_types);
+			auto label = make_function_label(staged.fx);
 			static const std::vector<std::unique_ptr<ast::Var>> no_captures;
 			return analyze_functional(staged.fx, scope, label, staged.captures.value_or(no_captures)); 
 		}
@@ -133,7 +106,7 @@ namespace ltn::c {
 		auto externs = find_extern_funtions(source);
 
 		for(const auto & function : externs) {
-			fx_queue.stage_function(function, {});
+			fx_queue.stage_function(function);
 		}
 
 		while(auto staged = fx_queue.fetch_function()) {

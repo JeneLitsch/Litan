@@ -15,20 +15,11 @@ namespace ltn::c {
 		virtual bool is_const() const = 0;
 		virtual const Namespace & get_namespace() const = 0;
 		virtual std::optional<std::string> get_return() const = 0;
-		virtual const type::Type & get_return_type() const = 0;
-		virtual const type::Type * resolve_type(const std::string & name) const = 0;
 		virtual Context & get_context() const = 0;
 		virtual void set_context(stx::reference<Context> context) = 0;
 
-		Variable insert(const std::string & name, const SourceLocation & location, const type::Type & type = type::Any{});
+		Variable insert(const std::string & name, const SourceLocation & location);
 		void set_return(const std::string & return_point);
-		void add_type(const std::string & name, const type::Type & type);
-		void inherit_types_from(const Scope & scope);
-		void inherit_types(auto type_table) {
-			for(const auto [alias, type] : type_table) {
-				this->type_map.insert({alias,type});
-			}
-		}
 
 		virtual stx::optref<const Variable> resolve_variable(const std::string & name, const SourceLocation & location) const = 0;
 		stx::optref<const ast::Functional> resolve_function(const std::string & name, const Namespace & ns, std::size_t arity) const;
@@ -39,6 +30,5 @@ namespace ltn::c {
 	protected:
 		std::unordered_map<std::string, Variable> vars;
 		std::optional<std::string> return_point;
-		std::unordered_map<std::string, type::Type> type_map;
 	};
 }

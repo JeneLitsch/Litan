@@ -51,12 +51,7 @@ namespace ltn::c {
 		auto cases = analyze_cases(analyze_expression, sw1tch, scope);
 		auto def4ault = analyze_expression(*sw1tch.d3fault, scope);
 
-		type::Type deduced_type = def4ault->type;
-		for(const auto & [expr, body] : cases) {
-			deduced_type = type::deduce_choose(deduced_type, body->type);
-		}
-
-		auto choose = std::make_unique<sst::Choose>(deduced_type);
+		auto choose = std::make_unique<sst::Choose>();
 		choose->cases = std::move(cases);
 		choose->condition = std::move(condition);
 		choose->d3fault = std::move(def4ault);
