@@ -82,9 +82,9 @@ namespace sphinx::test {
 	function index_string() {
 		var str = "ABC";
 
-		assert_equal(str[0], 'A');
-		assert_equal(str[1], 'B');
-		assert_equal(str[2], 'C');
+		assert_equal_strict(str[0], 'A');
+		assert_equal_strict(str[1], 'B');
+		assert_equal_strict(str[2], 'C');
 	}
 
 
@@ -95,26 +95,6 @@ namespace sphinx::test {
 		str[1] = 'B';
 		str[2] = 'C';
 		assert_equal(str, "ABC");
-	}
-
-
-
-	function index_string_type() {
-		var str : string = "ABC";
-
-		assert_equal(reflect(expr str[0]).type.name, "char");
-		assert_equal(reflect(expr str[1]).type.name, "char");
-		assert_equal(reflect(expr str[2]).type.name, "char");
-	}
-
-
-
-	function index_string_typename() {
-		var str : string = "ABC";
-
-		assert_equal(std::typename(str[0]), "char");
-		assert_equal(std::typename(str[1]), "char");
-		assert_equal(std::typename(str[2]), "char");
 	}
 
 

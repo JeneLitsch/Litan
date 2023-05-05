@@ -14,18 +14,4 @@ namespace sphinx::test {
 		utils::test_read_int("42hello", [42, null], "hello");
 
 	}
-	
-
-
-	function std_io_read_int_type() {
-		assert_equal_strict(
-			reflect(expr std::read_int(std::strin(""))).type.name,
-			"optional<int>"
-		);
-	
-		assert_equal_strict(
-			reflect(expr std::read_int()).type.name,
-			"optional<int>"
-		);
-	}
 }

@@ -8,15 +8,6 @@ namespace sphinx::test {
 
 
 
-	function nulltest_type() {
-		assert_equal(reflect(expr ?null).type.name, "bool");
-		assert_equal(reflect(expr ?1).type.name, "bool");
-		assert_equal(reflect(expr ?true).type.name, "bool");
-		assert_equal(reflect(expr ?[]).type.name, "bool");
-	}
-
-
-
 	function nulltest_typename() {
 		assert_equal(std::typename(?null), "bool");
 		assert_equal(std::typename(?1), "bool");

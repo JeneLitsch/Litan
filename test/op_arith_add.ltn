@@ -12,17 +12,6 @@ namespace sphinx::test {
 
 
 
-	function add_numeric_type() {
-		assert_equal(reflect(expr true + true).type.name, "int");
-		assert_equal(reflect(expr true + 1).type.name,    "int");
-		assert_equal(reflect(expr 'A' + 'A').type.name,   "int");
-		assert_equal(reflect(expr 21 + 21).type.name,     "int");
-		assert_equal(reflect(expr 21 + 21.0).type.name,   "float");
-		assert_equal(reflect(expr 20.5 + 21.5).type.name, "float");
-	}
-
-
-
 	function add_numeric_typename() {
 		assert_equal(std::typename(true + true), "int");
 		assert_equal(std::typename(true + 1),    "int");
@@ -41,13 +30,6 @@ namespace sphinx::test {
 
 
 
-	function add_string_type() {
-		assert_equal(reflect(expr "Hello " + "World").type.name, "string");
-		assert_equal(reflect(expr "" + "").type.name, "string");
-	}
-
-
-
 	function add_array() {
 		assert_equal([] + [], []);
 		assert_equal([] + [1], [1]);
@@ -59,25 +41,14 @@ namespace sphinx::test {
 	}
 
 
-
-	function add_array_type() {
-		assert_equal(reflect(expr [] + []).type.name, "array<>");
-		assert_equal(reflect(expr [1] + []).type.name, "array<int>");
-		assert_equal(reflect(expr [1] + [1]).type.name, "array<int>");
-		assert_equal(reflect(expr [[""]] + [2]).type.name, "array<any>");
-		assert_equal(reflect(expr [[""]] + [[2]]).type.name, "array<array<any>>");
-	}
-
-
-
 	function add_except() {
-		assert_except(lambda => ("":any) + ([]:any));
-		assert_success(lambda => ([]:any) + ([]:any));
-		assert_except(lambda => (1:any) + ([]:any));
-		assert_success(lambda => (1:any) + (2:any));
-		assert_except(lambda => (std::cout():any) + (std::cout():any));
-		assert_except(lambda => (std::struct():any) + (std::struct():any));
-		assert_except(lambda => (std::map():any) + (std::map():any));
-		assert_except(lambda => ("":any) + (1:any));
+		assert_except(lambda => ("") + ([]));
+		assert_success(lambda => ([]) + ([]));
+		assert_except(lambda => (1) + ([]));
+		assert_success(lambda => (1) + (2));
+		assert_except(lambda => (std::cout()) + (std::cout()));
+		assert_except(lambda => (std::struct()) + (std::struct()));
+		assert_except(lambda => (std::map()) + (std::map()));
+		assert_except(lambda => ("") + (1));
 	}
 }

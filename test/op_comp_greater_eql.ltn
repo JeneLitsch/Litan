@@ -19,12 +19,6 @@ namespace sphinx::test {
 
 
 
-    function greater_equal_type() {
-		assert_equal(reflect(expr 1 >= "0").type.name, "bool");
-	}
-
-
-
 	function greater_equal_typename() {
 		assert_equal(std::typename(1 >= "0"), "bool");
 	}

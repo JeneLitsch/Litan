@@ -1,7 +1,7 @@
 namespace sphinx::test {
 	namespace utils {
         function for_sum(begin, end, step) {
-			var sum : any = 0;
+			var sum = 0;
 			for (i : std::range(begin, end, step)) {
 				sum = sum + i;
 			}
@@ -11,7 +11,7 @@ namespace sphinx::test {
 
 
 		function for_skip(begin, end, step) {
-			var skipped : bool = true;
+			var skipped = true;
 			for (i : std::range(begin, end, step)) {
 				skipped = false;
 			}
@@ -20,8 +20,8 @@ namespace sphinx::test {
 
 
 
-		function for_sum(begin : int, end : int) {
-			var sum : any = 0;
+		function for_sum(begin, end) {
+			var sum = 0;
 			for (i : std::range(begin, end)) {
 				sum = sum + i;
 			}
@@ -30,7 +30,7 @@ namespace sphinx::test {
 
 
 
-		function ranged_sum(array : array<int>) {
+		function ranged_sum(array) {
 			var sum = 0;
 			for(elem : array) sum = sum + elem;
 			return sum;
@@ -94,7 +94,7 @@ namespace sphinx::test {
 	function for_ranged_empty() {
 		var sum = 0;
 		for(number : []) {
-			sum = sum + number ! int;
+			sum = sum + number;
 		}
 		assert_equal(sum, 0);
 	}
@@ -109,7 +109,7 @@ namespace sphinx::test {
 			var array3 = array2;
 			return array3;
 		}) {
-			sum = sum + number ! int;
+			sum = sum + number;
 		}
 		assert_equal(sum, 15);
 	}
@@ -125,13 +125,6 @@ namespace sphinx::test {
 		assert_equal(e, 42);
 	}
 
-
-
-	function for_ranged_type() {
-		for(x : [1]) assert_equal_strict(reflect(expr x).type.name, "int");
-		for(x : [1.0]) assert_equal_strict(reflect(expr x).type.name, "float");
-		for(x : ["a"]) assert_equal_strict(reflect(expr x).type.name, "string");
-	}
 
 
 

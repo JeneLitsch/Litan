@@ -2,10 +2,4 @@ namespace sphinx::test {
 	function std_cbrt() {
 		assert_equal_strict(std::round(std::cbrt(125.0)), 5);
 	}
-
-
-
-	function std_cbrt_type() {
-		assert_equal_strict(reflect(expr std::cbrt(125)).type.name, "float");
-	}
 }

@@ -10,21 +10,6 @@ namespace sphinx::test {
 
 
 
-	function ternary_type() {
-		assert_equal(reflect(expr true ? 4 : 3).type.name, "int");
-		assert_equal(reflect(expr false ? 4 : 3).type.name, "int");
-		assert_equal(reflect(expr false ? 4.0 : 3).type.name, "any");
-		assert_equal(reflect(expr false ? 4.0 : 3.0).type.name, "float");
-		assert_equal(reflect(expr false ? "str" : "str").type.name, "string");
-		assert_equal(reflect(expr false ? [1] : [2]).type.name, "array<int>");
-		assert_equal(reflect(expr false ? [1] : [true]).type.name, "array<any>");
-		assert_equal(reflect(expr false ? [1] : []).type.name, "array<int>");
-		assert_equal(reflect(expr false ? [[1]] : [[0.0]]).type.name, "array<array<any>>");
-		assert_equal(reflect(expr false ? [[1]] : [[]]).type.name, "array<array<int>>");
-	}
-
-
-
 	function short_cicuit() {
 		var test_short = lambda(condition) {
 			var second = std::mono(false);

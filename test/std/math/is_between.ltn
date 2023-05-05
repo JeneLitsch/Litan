@@ -4,10 +4,4 @@ namespace sphinx::test {
 		assert_equal_strict(std::is_between(-4.0, -2.0, 2.0), false);
 		assert_equal_strict(std::is_between(4.0, -2.0, 2.0), false);
 	}
-
-
-
-	function std_is_between_type() {
-		assert_equal_strict(reflect(expr std::is_between(0.0, 0.0, 0.0)).type.name, "bool");
-	}
 }

@@ -158,7 +158,7 @@ namespace ltn::c {
 
 
 	std::uint64_t parse_placeholder(Tokens & tokens) {
-		std::uint64_t placeholders;
+		std::uint64_t placeholders = 0;
 		parse_parameters(tokens, [&] {
 			if (match(TT::UNDERSCORE, tokens)) {
 				++placeholders;

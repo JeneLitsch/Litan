@@ -14,17 +14,6 @@ namespace sphinx::test {
 
 
 
-	function elvis_type() {
-		assert_equal(reflect(expr 1 ?: 1).type.name, "int");
-		assert_equal(reflect(expr "1" ?: 1).type.name, "any");
-		assert_equal(reflect(expr "1" ?: "str").type.name, "string");
-		assert_equal(reflect(expr ["1"] ?: [1]).type.name, "array<any>");
-		assert_equal(reflect(expr [[]] ?: [[]]).type.name, "array<array<>>");
-		assert_equal(reflect(expr [[true]] ?: [[1]]).type.name, "array<array<any>>");
-	}
-
-
-
 	function elvis_short_circuit() {
 		var test_short = lambda(a) {
 			var second = std::mono(false);

@@ -15,14 +15,6 @@ namespace sphinx::test {
 		assert_equal([1,2,4] <=> [1,2,3], 1);
     }
 
-    
-	
-	function space_ship_type() {
-		assert_equal(reflect(expr 0.1 <=> 1.1).type.name, "int");
-		assert_equal(reflect(expr 1 <=> 1).type.name, "int");
-		assert_equal(reflect(expr 1 <=> "0").type.name, "int");
-	}
-
 
 
 	function space_ship_typename() {
