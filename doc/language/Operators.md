@@ -205,11 +205,11 @@ All logic operators implement a short circuit mechanism. If the first operand de
 
 | L   | R   | Result | l && r      |
 | --- | --- | ------ | ----------- |
-| Any | Any | Int    | Logical and |
+| Any | Any | Bool   | Logical and |
 
 | L   | R   | Result | l  &vert;&vert; r |
 | --- | --- | ------ | ----------------- |
-| Any | Any | Int    | Logical or        |
+| Any | Any | Bool   | Logical or        |
 
 <br>
 
@@ -225,11 +225,11 @@ All logic operators implement a short circuit mechanism. If the first operand de
 
 | L   | R   | Result | l ?: r                    |
 | --- | --- | ------ | ------------------------- |
-| Any | Any | Int    | Binary condition operator |
+| Any | Any | Any    | Binary condition operator |
 
 | L   | R   | Result | l ?? r                   |
 | --- | --- | ------ | ------------------------ |
-| Any | Any | Int    | Null coalescing operator |
+| Any | Any | Any    | Null coalescing operator |
 
 <br>
 
@@ -260,7 +260,7 @@ Returns l if c is truthy and to r if c is not.
 
 | c   | l   | r   | Result | c ? l : r                 |
 | --- | --- | --- | ------ | ------------------------- |
-| Any | Any | Any | Int    | Binary condition operator |
+| Any | Any | Any | Any    | Binary condition operator |
 
 <br>
 

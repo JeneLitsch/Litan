@@ -3,10 +3,6 @@
 The char type is an 8-Bit integral type used to represent a single character.
 A value of type char can be created by a char literal e.g. `'a'`, `'\n'` or `';'` 
 
-## Type notation
-
-- `char`
-
 **Example**
 ```js
 function main() {

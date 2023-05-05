@@ -94,36 +94,3 @@ function
 +---private
 +---extern
 ```
-
-## Type
-
-A type reflection can be used to get details about a type.
-
-```js
-var refl_int = reflect(type int);
-var refl_str = reflect(type string);
-var refl_arr_float = reflect(type array<float>);
-```
-
-A struct with the type info is returned.
-
-```
-type
-+---name
-```
-
-## Expr
-
-A expression reflection gathers details about an expression
-
-```js
-var refl_expr = reflect(expr 6 + 5.0);
-```
-
-A struct with the expression info is returned.
-
-```
-expr
-+---type
-    +---name
-```
