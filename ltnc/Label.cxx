@@ -1,6 +1,5 @@
 #include "Label.hxx"
 #include <sstream>
-#include "ltnc/type/to_string.hxx"
 
 namespace ltn::c {
 	const std::string & Label::get_name() const {

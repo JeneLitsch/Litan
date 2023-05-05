@@ -1,6 +1,6 @@
 # std::read_all
 
-## std::read_all(stream : istream)
+## std::read_all(stream)
 **Parameters:**  
 * stream: an input stream
 

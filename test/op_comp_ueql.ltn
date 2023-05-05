@@ -11,12 +11,6 @@ namespace sphinx::test {
 
 
 
-	function unequal_type() {
-		assert_equal(reflect(expr 1 != "0").type.name, "bool");
-	}
-
-
-
 	function unequal_typename() {
 		assert_equal(std::typename(1 != "0"), "bool");
 	}

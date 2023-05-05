@@ -1,6 +1,6 @@
 # std::cos
 
-### std::cos(x:float) const -> float
+### std::cos(x) const
 **Parameters:**  
 - a: Numeric value
 

@@ -2,10 +2,4 @@ namespace sphinx::test {
 	function std_sqrt() {
 		assert_equal_strict(std::sqrt(25.0), 5.0);
 	}
-
-
-
-	function std_sqrt_type() {
-		assert_equal_strict(reflect(expr std::sqrt(125)).type.name, "float");
-	}
 }

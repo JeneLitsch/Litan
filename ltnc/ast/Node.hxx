@@ -2,7 +2,6 @@
 #include "stdxx/memory.hxx"
 #include "stdxx/float64_t.hxx"
 #include "ltnc/SourceLocation.hxx"
-#include "ltnc/type/Type.hxx"
 
 namespace ltn::c::ast {
 	class Node {

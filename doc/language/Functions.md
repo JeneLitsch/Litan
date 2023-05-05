@@ -5,7 +5,7 @@
 Every Litan function starts with its header. Every parameter can annotated with type by adding a colon `:` and a typename.
 
 ```js
-function name(param1, param1 : /*TYPE*/, ...) /*Qualifiers*/ -> /*Return type*/
+function name(param1, param1, ...) /*Qualifiers*/
 ```
 
 
@@ -46,7 +46,7 @@ function main(args) {
 ```
 
 ```javascript
-function add(a : int, b : int) const -> int {
+function add(a, b) const {
     return a + b;
 }
 ```

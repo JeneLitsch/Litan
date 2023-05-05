@@ -1,6 +1,6 @@
 # std::bits::set
 
-## std::bits::set(number : int, index : int, value : bool) -> int
+## std::bits::set(number, index, value)
 **Parameters:**
 - number: an integer
 - index: an integer index

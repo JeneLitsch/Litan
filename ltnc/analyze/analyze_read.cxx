@@ -1,34 +1,19 @@
 #include "analyze.hxx"
 #include <string_view>
 namespace ltn::c {
-	sst::expr_ptr analyze_expr(
-		const ast::Var & expr,
-		Context & context,
-		Scope & scope) {
-		
-		const auto * var = scope.resolve(expr.name, location(expr));
-		if(var && expr.namespaze.empty()) {
-			return std::make_unique<sst::Var>(var->address, var->type);
+	sst::expr_ptr analyze_expr(const ast::Var & expr, Scope & scope) {
+		if(expr.namespaze.empty()) {
+			if(auto local = scope.resolve_variable(expr.name, location(expr))) {
+				return std::make_unique<sst::Var>(local->address);
+			}
 		}
 		
-		const auto * def = context.definition_table.resolve(
-			expr.name,
-			scope.get_namespace(),
-			expr.namespaze
-		);
-		
-		if(def) {
-			return std::make_unique<sst::GlobalVar>(def->type, def->id);
+		if(auto def = scope.resolve_definiton(expr.name, expr.namespaze)) {
+			return std::make_unique<sst::GlobalVar>(def->id);
 		}
 
-		const auto * glob = context.global_table.resolve(
-			expr.name,
-			scope.get_namespace(),
-			expr.namespaze
-		);
-		
-		if(glob) {
-			return std::make_unique<sst::GlobalVar>(glob->type, glob->id);
+		if(auto glob = scope.resolve_global(expr.name,	expr.namespaze)) {
+			return std::make_unique<sst::GlobalVar>(glob->id);
 		}
 		
 		throw undefined_variable(expr);
@@ -36,13 +21,9 @@ namespace ltn::c {
 
 	
 	
-	sst::expr_ptr analyze_expr(
-		const ast::Member & access,
-		Context & context,
-		Scope & scope) {
-
-		const auto id = context.member_table.get_id(access.name);
-		auto expr = analyze_expression(*access.expr, context, scope);
-		return std::make_unique<sst::Member>(type::Any{}, std::move(expr), id);
+	sst::expr_ptr analyze_expr(const ast::Member & access, Scope & scope) {
+		const auto id = scope.resolve_member_id(access.name);
+		auto expr = analyze_expression(*access.expr, scope);
+		return std::make_unique<sst::Member>(std::move(expr), id);
 	}
 }

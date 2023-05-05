@@ -37,8 +37,9 @@ namespace ltn::c {
 		sst::Reflect::FunctionQuery analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::FunctionQuery & query,
-			Context & context,
-			Scope &) {
+			Scope & scope) {
+
+			auto & context = scope.get_context();
 
 			const auto * fx = context.fx_table.resolve(
 				query.name,
@@ -57,8 +58,9 @@ namespace ltn::c {
 		sst::Reflect::NamespaceQuery analyze_reflect_query(
 			const ast::Reflect &,
 			const ast::Reflect::NamespaceQuery & query,
-			Context & context,
-			Scope &) {
+			Scope & scope) {
+			
+			auto & context = scope.get_context();
 
 			sst::Reflect::NamespaceQuery sst_query;
 			sst_query.namespaze = query.namespaze;
@@ -77,7 +79,6 @@ namespace ltn::c {
 		sst::Reflect::LineQuery analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::LineQuery &,
-			Context &,
 			Scope &) {
 
 			return sst::Reflect::LineQuery {
@@ -90,7 +91,6 @@ namespace ltn::c {
 		auto analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::FileQuery &,
-			Context &,
 			Scope &) {
 
 			return sst::Reflect::FileQuery {
@@ -103,42 +103,11 @@ namespace ltn::c {
 		auto analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::LocationQuery & query,
-			Context & context,
 			Scope & scope) {
 
 			return sst::Reflect::LocationQuery {
-				.file = analyze_reflect_query(refl, query.file, context, scope), 
-				.line = analyze_reflect_query(refl, query.line, context, scope), 
-			};
-		}
-
-
-
-		auto analyze_reflect_query(
-			const ast::Reflect &,
-			const ast::Reflect::ExprQuery & query,
-			Context & context,
-			Scope & scope) {
-			
-			const auto expr = analyze_expression(*query.expr, context, scope);
-
-			return sst::Reflect::ExprQuery {
-				.type_query = sst::Reflect::TypeQuery{
-					.type = expr->type
-				}
-			};
-		}
-
-
-
-		auto analyze_reflect_query(
-			const ast::Reflect &,
-			const ast::Reflect::TypeQuery & query,
-			Context &,
-			Scope & scope) {
-
-			return sst::Reflect::TypeQuery {
-				.type = instantiate_type(query.type, scope)
+				.file = analyze_reflect_query(refl, query.file, scope), 
+				.line = analyze_reflect_query(refl, query.line, scope), 
 			};
 		}
 	}
@@ -146,17 +115,14 @@ namespace ltn::c {
 
 
 	// compiles array literal
-	sst::expr_ptr analyze_expr(
-		const ast::Reflect & refl,
-		Context & context,
-		Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::Reflect & refl, Scope & scope) {
+		auto & context = scope.get_context();
 			
 		return std::make_unique<sst::Reflect>(
 			std::visit([&] (const auto & query) -> sst::Reflect::Query {
-				return analyze_reflect_query(refl, query, context, scope);
+				return analyze_reflect_query(refl, query, scope);
 			}, refl.query),
-			make_member_addrs(context.member_table),		
-			type::Any{}
+			make_member_addrs(context.member_table)	
 		);
 	}
 }

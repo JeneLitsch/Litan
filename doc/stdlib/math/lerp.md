@@ -1,6 +1,6 @@
 # std::lerp
 
-## std::lerp(a : float, b : float, t : float)
+## std::lerp(a, b, t)
 **Parameters:**
 - a: minimum value
 - b: maximum value

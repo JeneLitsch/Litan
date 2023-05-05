@@ -1,7 +1,7 @@
 namespace sphinx::test {
 	namespace local {
 		function accumulator(sum) {
-			return lambda[sum](elem : int) {
+			return lambda[sum](elem) {
 				sum.value = sum.value + elem;
 			};
 		}

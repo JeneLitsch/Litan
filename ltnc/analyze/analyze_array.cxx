@@ -2,21 +2,15 @@
 #include <string_view>
 namespace ltn::c {
 	namespace {
-		template<typename Node, auto deduce_type>
-		sst::expr_ptr analyze_collection(
-			const auto & ast_collection,
-			Context & context,
-			Scope & scope) {
+		template<typename Node>
+		sst::expr_ptr analyze_collection(const auto & ast_collection, Scope & scope) {
 			
-			std::vector<type::Type> elem_types;
 			std::vector<sst::expr_ptr> elements;
 			for(const auto & elem : ast_collection.elements) {
-				auto result = analyze_expression(*elem, context, scope);
-				elem_types.push_back(result->type);
+				auto result = analyze_expression(*elem, scope);
 				elements.push_back(std::move(result));
 			}
-			auto full_type = deduce_type(elem_types);
-			auto sst_collection = std::make_unique<Node>(full_type);
+			auto sst_collection = std::make_unique<Node>();
 			sst_collection->elements = std::move(elements);
 			return sst_collection;
 		}
@@ -24,29 +18,13 @@ namespace ltn::c {
 
 
 
-	sst::expr_ptr analyze_expr(
-		const ast::Array & array,
-		Context & context,
-		Scope & scope) {
-
-		return analyze_collection<sst::Array, type::deduce_array_of>(
-			array,
-			context,
-			scope
-		);
+	sst::expr_ptr analyze_expr(const ast::Array & array, Scope & scope) {
+		return analyze_collection<sst::Array>(array, scope);
 	}
 
 
 
-	sst::expr_ptr analyze_expr(
-		const ast::Tuple & tuple,
-		Context & context,
-		Scope & scope) {
-
-		return analyze_collection<sst::Tuple, type::deduce_tuple_of>(
-			tuple,
-			context,
-			scope
-		);
+	sst::expr_ptr analyze_expr(const ast::Tuple & tuple, Scope & scope) {
+		return analyze_collection<sst::Tuple>(tuple, scope);
 	}
 }

@@ -2,7 +2,6 @@
 #include <map>
 #include "ltnc/Namespace.hxx"
 #include "ltnc/ast/Node.hxx"
-#include "ltnc/type/Type.hxx"
 
 namespace ltn::c::ast {
 	struct Expression;
@@ -29,14 +28,11 @@ namespace ltn::c::ast {
 		Static(
 			const SourceLocation & location,
 			const std::string & name,
-			const Namespace & namespaze,
-			const std::optional<type::IncompleteType> & type)
+			const Namespace & namespaze)
 			: Declaration(location, name, namespaze)
-			, id(++counter)
-			, type{type} {}
+			, id(++counter) {}
 		
 		std::uint64_t id;
-		std::optional<type::IncompleteType> type;
 		const std::string & get_resolve_name() const {
 			return this->name;
 		}
@@ -54,9 +50,8 @@ namespace ltn::c::ast {
 		Definition(
 			const SourceLocation & location,
 			const std::string & name,
-			const Namespace & namespaze,
-			const std::optional<type::IncompleteType> & type)
-			: Static{location, name, namespaze, type} {}
+			const Namespace & namespaze)
+			: Static{location, name, namespaze} {}
 		virtual ~Definition() = default;
 		std::unique_ptr<ast::Expression> expr;
 	};
@@ -67,9 +62,8 @@ namespace ltn::c::ast {
 		Global(
 			const SourceLocation & location,
 			const std::string & name,
-			const Namespace & namespaze,
-			const std::optional<type::IncompleteType> & type)
-			: Static{location, name, namespaze,type} {}
+			const Namespace & namespaze)
+			: Static{location, name, namespaze} {}
 		virtual ~Global() = default;
 		std::unique_ptr<ast::Expression> expr;
 	};
@@ -79,16 +73,15 @@ namespace ltn::c::ast {
 	struct Preset final : public Declaration {
 		struct Member {
 			std::string name;
-			type::IncompleteType type;
 		};
 
 		Preset(
 			const SourceLocation & location,
 			const std::string & name,
 			const Namespace & namespaze,
-			const std::vector<Member> & members)
+			std::vector<Member> members)
 			: Declaration(location, name, namespaze)
-			, members(members) {}
+			, members{std::move(members)} {}
 		virtual ~Preset() = default;
 		std::vector<Member> members;
 

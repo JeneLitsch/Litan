@@ -1,6 +1,6 @@
 # std::is_between
 
-## std::is_between(value, min, max) const -> bool
+## std::is_between(value, min, max) const
 
 **Parameters:**
 - value: value to check

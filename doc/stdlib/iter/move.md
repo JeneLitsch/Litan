@@ -1,6 +1,6 @@
 # std::iter::move
 
-## std::iter::move(iterator, steps : int)
+## std::iter::move(iterator, steps)
 **Parameters:**
 - iterator: any iterator
 

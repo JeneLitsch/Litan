@@ -5,8 +5,4 @@ namespace sphinx::test {
 		assert_equal_strict(std::read_all(in), str);
 
 	}
-
-	function std_io_read_all_type() {
-		assert_equal_strict(reflect(expr std::read_all(std::cin())).type.name, "string");
-	}
 }

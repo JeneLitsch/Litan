@@ -1,6 +1,6 @@
 # std::ld
 
-## std::ld(x:float) const -> float
+## std::ld(x) const
 
 **Parameters:**  
 - x: Numeric value

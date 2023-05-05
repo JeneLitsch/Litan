@@ -9,10 +9,6 @@
 #include "ltnc/ast/AST.hxx"
 #include "ltnc/sst/SST.hxx"
 
-#include "ltnc/type/Type.hxx"
-#include "ltnc/type/to_string.hxx"
-#include "ltnc/type/deduction.hxx"
-
 #include "InstructionBuffer.hxx"
 #include "ltnc/Instructions.hxx"
 
@@ -36,7 +32,6 @@ namespace ltn::c {
 
 	// Expression
 	InstructionBuffer compile_expression(const sst::Expression &);
-	InstructionBuffer compile_expr(const sst::Lambda &);
 	InstructionBuffer compile_expr(const sst::Choose &);
 	InstructionBuffer compile_expr(const sst::Ternary &);
 	InstructionBuffer compile_expr(const sst::Binary &);
@@ -58,7 +53,7 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Var &);
 	InstructionBuffer compile_expr(const sst::Member &);
 	InstructionBuffer compile_expr(const sst::GlobalVar &);
-	InstructionBuffer compile_expr(const sst::TypedUnary &);
+	// InstructionBuffer compile_expr(const sst::TypedUnary &);
 	InstructionBuffer compile_expr(const sst::Reflect &);
 	InstructionBuffer compile_expr(const sst::InitStruct &);
 	

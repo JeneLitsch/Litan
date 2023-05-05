@@ -3,10 +3,4 @@ namespace sphinx::test {
 		assert_equal_strict(std::is_successful(lambda() {}), true);
 		assert_equal_strict(std::is_successful(lambda() { throw 1; }), false);
 	}
-
-
-
-	function std_fx_is_successful_type() {
-		assert_equal_strict(reflect(expr std::is_successful(lambda() {})).type.name, "bool");
-	}
 }

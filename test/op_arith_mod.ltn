@@ -14,29 +14,19 @@ namespace sphinx::test {
 
 
 
-	function mod_numeric_type() {
-		assert_equal(reflect(expr 4 % 2).type.name, "int");
-		assert_equal(reflect(expr 4 % 2.0).type.name, "float");
-		assert_equal(reflect(expr 4.0 % 2).type.name, "float");
-		assert_equal(reflect(expr 'A' % 2).type.name, "int");
-		assert_equal(reflect(expr true % 2).type.name, "int");
-	}
-
-
-
 	function mod_except() {
-		assert_success(lambda => (true:any) % (true:any));
-		assert_except(lambda => (true:any) % (false:any));
-		assert_success(lambda => (3:any) % (4:any));
-		assert_success(lambda => (3.0:any) % (4:any));
-		assert_except(lambda => (3.0:any) % (0:any));
-		assert_except(lambda => (0:any) % (0:any));
-		assert_except(lambda => ("":any) % ("":any));
-		assert_except(lambda => ([]:any) % ([]:any));
-		assert_except(lambda => ([1]:any) % ([1]:any));
-		assert_except(lambda => (std::map():any) % (std::map():any));
-		assert_except(lambda => (std::struct():any) % (std::struct():any));
-		assert_except(lambda => (std::stack():any) % (std::stack():any));
-		assert_except(lambda => (std::queue():any) % (std::queue():any));
+		assert_success(lambda => (true) % (true));
+		assert_except(lambda => (true) % (false));
+		assert_success(lambda => (3) % (4));
+		assert_success(lambda => (3.0) % (4));
+		assert_except(lambda => (3.0) % (0));
+		assert_except(lambda => (0) % (0));
+		assert_except(lambda => ("") % (""));
+		assert_except(lambda => ([]) % ([]));
+		assert_except(lambda => ([1]) % ([1]));
+		assert_except(lambda => (std::map()) % (std::map()));
+		assert_except(lambda => (std::struct()) % (std::struct()));
+		assert_except(lambda => (std::stack()) % (std::stack()));
+		assert_except(lambda => (std::queue()) % (std::queue()));
 	}
 }

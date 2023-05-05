@@ -2,6 +2,7 @@
 #include <vector>
 #include <utility>
 #include <any>
+#include <variant>
 #include <bitset>
 #include "ltn/casts.hxx"
 #include "ltn/Visitor.hxx"
@@ -35,7 +36,6 @@ namespace ltn::c::ast {
 	struct Iife;
 	struct Ternary;
 	struct Choose;
-	struct TypedUnary;
 	struct Reflect;
 	struct ForwardDynamicCall;
 	struct InitStruct;
@@ -62,7 +62,6 @@ namespace ltn::c::ast {
 		Iife,
 		Ternary,
 		Choose,
-		TypedUnary,
 		Reflect,
 		ForwardDynamicCall,
 		InitStruct
@@ -186,22 +185,12 @@ namespace ltn::c::ast {
 			LineQuery line;
 		};
 		
-		struct ExprQuery {
-			std::unique_ptr<Expression> expr;
-		};
-		
-		struct TypeQuery {
-			type::IncompleteType type;
-		};
-		
 		using Query = std::variant<
 			NamespaceQuery,
 			FunctionQuery,
 			FileQuery,
 			LineQuery,
-			LocationQuery,
-			ExprQuery,
-			TypeQuery
+			LocationQuery
 		>;
 		
 		Reflect(
@@ -216,31 +205,6 @@ namespace ltn::c::ast {
 
 		Query query;
 	};
-
-
-
-	struct TypedUnary final : public Expression {
-		using Op = TypedUnaryOp;
-
-		TypedUnary(
-			Op op,
-			const type::IncompleteType & type,
-			std::unique_ptr<Expression> expr,
-			const SourceLocation & location)
-			: Expression{location}
-			, op{op}
-			, type{type}
-			, expr{std::move(expr)} {}
-
-		virtual void accept(const ExprVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
-
-		Op op;
-		type::IncompleteType type;
-		std::unique_ptr<Expression> expr;
-	};
-
 
 
 
@@ -460,18 +424,15 @@ namespace ltn::c::ast {
 	struct Iife final : public Expression {
 		Iife(
 			const SourceLocation & location,
-			std::unique_ptr<Statement> stmt,
-			type::IncompleteType return_type) 
+			std::unique_ptr<Statement> stmt) 
 			: Expression(location)
-			, stmt(std::move(stmt))
-			, return_type{return_type} {}
+			, stmt(std::move(stmt)) {}
 			
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
 		}
 
 		std::unique_ptr<Statement> stmt;
-		type::IncompleteType return_type;
 	};
 
 
@@ -480,12 +441,12 @@ namespace ltn::c::ast {
 		FxPointer(
 			const std::string & name,
 			const Namespace & namespaze,
-			const std::size_t placeholders,
+			std::uint64_t placeholders,
 			const SourceLocation & location)
 			: Expression(location)
 			, name(name)
 			, namespaze(namespaze)
-			, placeholders(std::move(placeholders)) {}
+			, placeholders(placeholders) {}
 		
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
@@ -497,8 +458,7 @@ namespace ltn::c::ast {
 
 		std::string name;
 		Namespace namespaze;
-		std::size_t placeholders;
-		std::vector<type::IncompleteType> template_arguments;
+		std::uint64_t placeholders;
 	};
 
 
@@ -522,7 +482,6 @@ namespace ltn::c::ast {
 
 		std::unique_ptr<Expression> function_ptr;
 		std::vector<std::unique_ptr<Expression>> arguments;
-		std::vector<type::IncompleteType> template_arguments;
 	};
 
 
@@ -593,7 +552,6 @@ namespace ltn::c::ast {
 			virtual void visit(const Iife & x)               const override { this->run(x); };
 			virtual void visit(const Ternary & x)            const override { this->run(x); };
 			virtual void visit(const Choose & x)             const override { this->run(x); };
-			virtual void visit(const TypedUnary & x)         const override { this->run(x); };
 			virtual void visit(const Reflect & x)            const override { this->run(x); };
 			virtual void visit(const ForwardDynamicCall & x) const override { this->run(x); };
 			virtual void visit(const InitStruct & x)         const override { this->run(x); };

@@ -1,29 +1,20 @@
 #include "FunctionQueue.hxx"
 
 namespace ltn::c {
-	void FunctionQueue::stage_function(stx::reference<const ast::Functional> fx) {
-		StagedFx staged {
+	void FunctionQueue::stage_function(
+		stx::reference<const ast::Functional> fx) {
+		this->stage_function(Staged {
 			.fx = fx,
-		};
-		if(this->already_known.contains(staged)) return;
-		this->already_known.insert(staged);
-		this->queue.push(std::move(staged));
+		});
 	}
 
 
-	void FunctionQueue::stage_template(
-		stx::reference<const ast::FunctionTemplate> tmpl,
-		std::vector<type::Type> arguments) {
-		
-		StagedTemplateFx staged {
-			.tmpl = tmpl,
-			.arguments = std::move(arguments),
-		};
+
+	void FunctionQueue::stage_function(Staged staged) {
 		if(this->already_known.contains(staged)) return;
 		this->already_known.insert(staged);
 		this->queue.push(std::move(staged));
-	}
-
+	};
 
 
 

@@ -1,6 +1,6 @@
 # std::replace
 
-## std::replace(string : string, search_for : string, replace_wih : string) const -> String;
+## std::replace(string, search_for, replace_wih) const
 
 **Parameters:**  
 * string: A string to search and replace subtring in. (It will not be modified)

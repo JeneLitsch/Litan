@@ -12,31 +12,17 @@ namespace sphinx::test {
 
 
 
-	function mlt_numeric_type() {
-		assert_equal(reflect(expr true * true).type.name, "int");
-		assert_equal(reflect(expr true * 1).type.name, "int");
-		assert_equal(reflect(expr 1 * false).type.name, "int");
-		assert_equal(reflect(expr 'A' * 'A').type.name, "int");
-		assert_equal(reflect(expr 'A' * 2).type.name, "int");
-		assert_equal(reflect(expr 1 * 1).type.name, "int");
-		assert_equal(reflect(expr 1.0 * 1).type.name, "float");
-		assert_equal(reflect(expr 1 * 1.0).type.name, "float");
-		assert_equal(reflect(expr 1.0 * 1.0).type.name, "float");
-	}
-
-
-
 	function mlt_except() {
-		assert_except(lambda => (null:any) * (null:any));
-		assert_success(lambda => (3:any) * (4:any));
-		assert_success(lambda => (3.0:any) * (4:any));
-		assert_success(lambda => (3.0:any) * (true:any));
-		assert_success(lambda => (true:any) * (true:any));
-		assert_except(lambda => ([]:any) * ([]:any));
-		assert_except(lambda => ("":any) * ("":any));
-		assert_except(lambda => (std::map():any) * (std::map():any));
-		assert_except(lambda => (std::stack():any) * (std::stack():any));
-		assert_except(lambda => (std::queue():any) * (std::queue():any));
+		assert_except(lambda => (null) * (null));
+		assert_success(lambda => (3) * (4));
+		assert_success(lambda => (3.0) * (4));
+		assert_success(lambda => (3.0) * (true));
+		assert_success(lambda => (true) * (true));
+		assert_except(lambda => ([]) * ([]));
+		assert_except(lambda => ("") * (""));
+		assert_except(lambda => (std::map()) * (std::map()));
+		assert_except(lambda => (std::stack()) * (std::stack()));
+		assert_except(lambda => (std::queue()) * (std::queue()));
 	}
 
 
@@ -47,18 +33,8 @@ namespace sphinx::test {
 		assert_equal_strict("XYZ" * false, "");
 		assert_equal_strict(false * "XYZ", "");
 
-		assert_equal_strict("ABC" * (4 : char), "ABCABCABCABC");
-		assert_equal_strict((4 : char) * "XYZ", "XYZXYZXYZXYZ");
-		
 		assert_equal_strict("ABC" * 3, "ABCABCABC");
 		assert_equal_strict(3 * "XYZ", "XYZXYZXYZ");
-	}
-
-
-
-	function mlt_string_type() {
-		assert_equal_strict(reflect(expr "ABC" * 3).type.name, "string");
-		assert_equal_strict(reflect(expr 3 * "XYZ").type.name, "string");
 	}
 
 
@@ -69,9 +45,6 @@ namespace sphinx::test {
 		assert_equal_strict([1,2,3] * false, []);
 		assert_equal_strict(false * [1,2,3], []);
 
-		assert_equal_strict([1,2] * (4 : char), [1,2,1,2,1,2,1,2]);
-		assert_equal_strict((4 : char) * [1,2], [1,2,1,2,1,2,1,2]);
-		
 		assert_equal_strict([1,2,3] * 3, [1,2,3,1,2,3,1,2,3]);
 		assert_equal_strict(3 * [1,2,3], [1,2,3,1,2,3,1,2,3]);
 	}
@@ -86,14 +59,5 @@ namespace sphinx::test {
 
 	function mlt_array_empty() {
 		assert_equal_strict([] * 3, []);
-	}
-
-
-
-	function mlt_array_type() {
-		assert_equal_strict(reflect(expr [true] * 3).type.name, "array<bool>");
-		assert_equal_strict(reflect(expr [1,2,3] * 3).type.name, "array<int>");
-		assert_equal_strict(reflect(expr 3 * [1,2,3]).type.name, "array<int>");
-		assert_equal_strict(reflect(expr 3 * []).type.name, "array<>");
 	}
 }

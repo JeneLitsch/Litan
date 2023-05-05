@@ -1,4 +1,5 @@
 #include "parse.hxx"
+#include "stdxx/iife.hxx"
 #include "ltnc/CompilerError.hxx"
 #include <iostream>
 
@@ -27,10 +28,8 @@ namespace ltn::c {
 			ast::Parameters parameters{};
 			while(true) {
 				auto name = parse_parameter_name(tokens);
-				auto type = parse_parameter_type(tokens);
 				parameters.push_back(ast::Parameter{
-					.name = name,
-					.type = type,
+					.name = std::move(name),
 				});
 				if(match(TT::PAREN_R, tokens)) break;
 				if(!match(TT::COMMA, tokens)) {
@@ -67,7 +66,7 @@ namespace ltn::c {
 				while(true) {
 					const auto name = parse_variable_name(tokens);
 					const auto & loc = location(tokens);
-					auto var = stx::make_unique<ast::Var>(name, Namespace{}, loc);
+					auto var = std::make_unique<ast::Var>(name, Namespace{}, loc);
 					captures.push_back(std::move(var));
 					if(match(TT::BRACKET_R, tokens)) break;
 					if(!match(TT::COMMA, tokens)) {
@@ -120,7 +119,7 @@ namespace ltn::c {
 			auto expr = std::make_unique<ast::ForwardDynamicCall>(
 				address, arity, i->location
 			);
-			return stx::make_unique<ast::Return>(std::move(expr), i->location);
+			return std::make_unique<ast::Return>(std::move(expr), i->location);
 		}
 
 
@@ -148,7 +147,7 @@ namespace ltn::c {
 			else if(match(TT::DRARROW, tokens)) {
 				auto expr = parse_expression(tokens);
 				const auto & loc = location(tokens);
-				return stx::make_unique<ast::Return>(std::move(expr), loc);
+				return std::make_unique<ast::Return>(std::move(expr), loc);
 			}
 			else {
 				return parse_statement(tokens);
@@ -167,7 +166,7 @@ namespace ltn::c {
 					};
 				}
 				auto body = parse_body(tokens, 1);
-				return stx::make_unique<ast::Except>(
+				return std::make_unique<ast::Except>(
 					params[0].name,
 					std::move(body),
 					location(tokens)
@@ -207,84 +206,46 @@ namespace ltn::c {
 			Tokens & tokens,
 			const Namespace & namespaze,
 			auto parse_body) {
-			const auto name = parse_function_name(tokens);
-			const auto parameters = parse_mandatory_parameters(tokens);
+			auto name = parse_function_name(tokens);
+			auto parameters = parse_mandatory_parameters(tokens);
 
 			Qualifiers qualifiers = parse_qualifiers(tokens); 
-			const auto return_type = parse_return_type(tokens);
 			auto body = parse_body(tokens, std::size(parameters));
-			auto fx = stx::make_unique<FunctionalNode>(
-				name,
-				namespaze,
-				parameters,
+			auto fx = std::make_unique<FunctionalNode>(
+				std::move(name),
+				std::move(namespaze),
+				std::move(parameters),
 				std::move(body),
-				return_type,
-				location(tokens));
+				location(tokens)
+			);
 			fx->is_const = qualifiers.is_const;
 			fx->is_private = qualifiers.is_private;
 			fx->is_extern = qualifiers.is_extern;
 			return fx;
-		}
-
-
-
-		std::vector<std::string> parse_template_parameters(Tokens & tokens) {
-			std::vector<std::string> template_parameters;
-			if(auto begin = match(TT::SMALLER, tokens)) {
-				do {
-					auto t = match(TT::INDENTIFIER, tokens);
-					if (!t) throw CompilerError{
-						"Expected template parameter",
-						begin->location
-					};
-					template_parameters.push_back(t->str);
-				} while(match(TT::COMMA, tokens));
-				if (!match(TT::BIGGER, tokens)) throw CompilerError{
-					"Expected > after template parameters",
-					begin->location
-				};
-			}
-			return template_parameters;
 		}
 	}
 
 
 
 	// parses and returns a functional node
-	std::optional<std::variant<ast::func_ptr, ast::ftmp_ptr>> parse_functional(
+	std::optional<ast::func_ptr> parse_functional(
 		Tokens & tokens,
 		const Namespace & namespaze) {
 
 		if(auto function = match(TT::FUNCTION, tokens)) {
-			const auto template_parameters = parse_template_parameters(tokens);
 			auto fx = functional_node<ast::Function>(
 				tokens,
 				namespaze,
 				parse_body);
 			if(!fx->is_const) fx->except = parse_except(tokens);
-			if(template_parameters.empty()) {
-				return fx;
-			}
-			return stx::make_unique<ast::FunctionTemplate>(
-				std::move(fx),
-				std::move(template_parameters),
-				function->location
-			);
+			return fx;
 		}
 		if(auto function = match(TT::BUILD_IN, tokens)) {
-			const auto template_parameters = parse_template_parameters(tokens);
 			auto fx = functional_node<ast::BuildIn>(
 				tokens,
 				namespaze,
 				parse_build_in_key);
-			if(template_parameters.empty()) {
-				return fx;
-			}
-			return stx::make_unique<ast::FunctionTemplate>(
-				std::move(fx),
-				std::move(template_parameters),
-				function->location
-			);
+			return fx;
 		}
 		return std::nullopt;
 	}
@@ -294,22 +255,20 @@ namespace ltn::c {
 	ast::expr_ptr parse_lambda(Tokens & tokens) {
 		if(match(TT::LAMBDA, tokens)) {
 			auto captures = parse_captures(tokens);
-			const auto parameters = parse_optional_parameters(tokens);
+			auto parameters = parse_optional_parameters(tokens);
 			Qualifiers qualifiers = parse_qualifiers(tokens);
-			const auto return_type = parse_return_type(tokens);
 			auto body = parse_body(tokens, std::size(parameters)); 
-			auto fx = stx::make_unique<ast::Function>(
+			auto fx = std::make_unique<ast::Function>(
 				"lambda" + std::to_string(*stx::unique{}), 
 				Namespace{},
-				parameters,
+				std::move(parameters),
 				std::move(body),
-				return_type,
 				location(tokens));
 			fx->except = parse_except(tokens);
 			fx->is_const = qualifiers.is_const;
 			if(qualifiers.is_private) throw CompilerError { "Lambda cannot be private", location(tokens)};
 			if(qualifiers.is_extern) throw CompilerError {"Lambda cannot be extern", location(tokens)};
-			return stx::make_unique<ast::Lambda>(
+			return std::make_unique<ast::Lambda>(
 				std::move(fx),
 				std::move(captures),
 				location(tokens)); 

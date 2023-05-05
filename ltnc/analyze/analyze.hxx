@@ -10,16 +10,11 @@
 #include "ltnc/make_jump_id.hxx"
 #include "ltnc/labels.hxx"
 
-#include "ltnc/type/Type.hxx"
-#include "ltnc/type/to_string.hxx"
-#include "ltnc/type/deduction.hxx"
-
 #include "utils/Scope.hxx"
 #include "utils/FunctionScope.hxx"
 #include "utils/MajorScope.hxx"
 #include "utils/MinorScope.hxx"
 
-#include "instantiate_type.hxx"
 #include "error.hxx"
 
 namespace ltn::c {
@@ -27,10 +22,9 @@ namespace ltn::c {
 
 	ast::func_ptr generate_ctor(const ast::Preset &);
 
-	std::unique_ptr<sst::Function> analyze_function(const ast::Function &, Context &, Scope &);
-	sst::func_ptr analyze_functional(const ast::Functional &, Context &);
-	sst::func_ptr analyze_function_template(const ast::FunctionTemplate &, Context &, const std::vector<type::Type> & arguments);
-	sst::func_ptr analyze_function(const ast::Function &, Context &, Scope &,
+	sst::func_ptr analyze_functional(
+		const ast::Functional &,
+		FunctionScope &,
 		std::optional<Label> override_label = std::nullopt,
 		const std::vector<std::unique_ptr<ast::Var>> & captures = {});
 	
@@ -38,65 +32,43 @@ namespace ltn::c {
 	sst::defn_ptr analyze_definition(const ast::Definition &, Context &);
 	std::vector<sst::defn_ptr> analyze_enumeration(const ast::Enumeration &);
 
-	sst::stmt_ptr analyze_statement(const ast::Statement &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::Block &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::Return &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::Assign &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::Throw &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::IfElse &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::InfiniteLoop &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::While &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::ForEach &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::NewVar &, Context &, Scope &);
-	sst::stmt_ptr analyze_stmt(const ast::Switch &, Context &, Scope &);
+	sst::stmt_ptr analyze_statement(const ast::Statement &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::Block &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::Return &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::Assign &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::Throw &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::IfElse &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::InfiniteLoop &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::While &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::ForEach &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::NewVar &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::Switch &, Scope &);
 
-	std::vector<sst::expr_ptr> analyze_all_expressions(const std::vector<ast::expr_ptr> &, Context &, Scope &);
+	std::vector<sst::expr_ptr> analyze_all_expressions(const std::vector<ast::expr_ptr> &, Scope &);
 
-	sst::expr_ptr analyze_expression(const ast::Expression &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Lambda &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Choose &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Ternary &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Binary &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Unary &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Integer &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Float &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Bool &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Char &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Null &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::String &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Array &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Tuple &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Call &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::InvokeMember &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Index &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::FxPointer &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Iife &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Var &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Member &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::TypedUnary &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::Reflect &, Context &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::InitStruct &, Context &, Scope &);
+	sst::expr_ptr analyze_expression(const ast::Expression &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Lambda &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Choose &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Ternary &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Binary &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Unary &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Integer &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Float &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Bool &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Char &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Null &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::String &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Array &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Tuple &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Call &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::InvokeMember &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Index &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::FxPointer &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Iife &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Var &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Member &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Reflect &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::InitStruct &, Scope &);
 
-	sst::bind_ptr analyze_binding(const ast::Binding &,	Context &, Scope &, const type::Type &);
-
-	void add_template_args(
-		Scope & scope,
-		const std::vector<std::string> & template_params,
-		const std::vector<type::IncompleteType> & template_args);
-
-	void add_template_args(
-		Scope & scope,
-		const std::vector<std::string> & template_params,
-		const std::vector<type::Type> & template_args);
-
-	stx::reference<const ast::FunctionTemplate> get_template(
-		const ast::FxPointer & fx_ptr,
-		Context & context,
-		Scope & scope);
-
-	stx::reference<const ast::FunctionTemplate> get_template(
-		const ast::Call & call,
-		const ast::Var & var,
-		Context & context,
-		Scope & scope);
+	sst::bind_ptr analyze_binding(const ast::Binding &, Scope &);
 }	

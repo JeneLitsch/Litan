@@ -1,6 +1,6 @@
 # std::log
 
-## std::log(x:float, b:float) const -> float
+## std::log(x, b) const
 
 **Parameters:**  
 - x: Numeric value

@@ -108,32 +108,6 @@ namespace ltn::c {
 			buf << add_member(address.file, compile_reflect_query(address, query.file));
 			return buf;
 		}
-
-
-
-		InstructionBuffer compile_reflect_query(
-			const sst::Reflect::Addr & address,
-			const sst::Reflect::TypeQuery & query) {
-
-			InstructionBuffer buf;
-			buf << inst::newstruct();
-			buf << add_member(address.name, {
-				inst::newstr(type::to_string(query.type))
-			});
-			return buf;
-		}
-
-
-
-		InstructionBuffer compile_reflect_query(
-			const sst::Reflect::Addr & address,
-			const sst::Reflect::ExprQuery & query) {
-
-			InstructionBuffer buf;
-			buf << inst::newstruct();
-			buf << add_member(address.type, compile_reflect_query(address, query.type_query));
-			return buf;
-		}
 	}
 
 

@@ -8,13 +8,6 @@ namespace sphinx::test {
 
 
 
-	function bitor_type() {
-		assert_equal(reflect(expr 1 | 1).type.name, "int");
-		assert_equal(reflect(expr 0 | 1).type.name, "int");
-	}
-
-
-
 	function bitor_typename() {
 		assert_equal(std::typename(1 | 1), "int");
 		assert_equal(std::typename(0 | 1), "int");
@@ -23,13 +16,13 @@ namespace sphinx::test {
 
 
 	function bitor_except() {
-		assert_success(lambda => (1:any) | (1:any));
-		assert_except(lambda => (1.0:any) | (1:any));
-		assert_except(lambda => ("":any) | ("":any));
-		assert_except(lambda => ([]:any) | ([]:any));
-		assert_except(lambda => (std::struct():any) | (std::struct():any));
-		assert_except(lambda => (std::map():any) | (std::map():any));
-		assert_except(lambda => (std::stack():any) | (std::stack():any));
-		assert_except(lambda => (std::queue():any) | (std::queue():any));
+		assert_success(lambda => (1) | (1));
+		assert_except(lambda => (1.0) | (1));
+		assert_except(lambda => ("") | (""));
+		assert_except(lambda => ([]) | ([]));
+		assert_except(lambda => (std::struct()) | (std::struct()));
+		assert_except(lambda => (std::map()) | (std::map()));
+		assert_except(lambda => (std::stack()) | (std::stack()));
+		assert_except(lambda => (std::queue()) | (std::queue()));
 	}
 }

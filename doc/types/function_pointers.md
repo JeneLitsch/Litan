@@ -2,10 +2,6 @@
 
 Function pointers are callable that can be saved and passed around to invoke later. They can be used to implement higher order functions.
 
-## Type notation
-
-- `(TParameters...)->TReturn`
-
 **Example**
 ```js
 function main() {

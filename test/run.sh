@@ -17,28 +17,15 @@ files=(
 	"test/throw.ltn"
 	"test/lambda.ltn"
 	"test/map.ltn"
-	"test/template.ltn"
 	"test/reflect_location.ltn"
 	"test/reflect_function.ltn"
 	"test/reflect_namespace.ltn"
-	"test/reflect_expr.ltn"
 	"test/iife.ltn"
 	"test/function_pointers.ltn"
 	"test/tuple.ltn"
 	"test/struct.ltn"
-	"test/iostream.ltn"
 	"test/invoke_member.ltn"
 
-	"test/conversion_runtime_parameter.ltn"
-	"test/conversion_runtime_variable.ltn"
-	"test/conversion_runtime_return.ltn"
-	"test/cast_static.ltn"
-	"test/cast_dynamic.ltn"
-	"test/cast_force.ltn"
-	"test/copy_static.ltn"
-	"test/copy_dynamic.ltn"
-	"test/copy_force.ltn"
-	
 	"test/op_arith_add.ltn"
 	"test/op_arith_sub.ltn"
 	"test/op_arith_mlt.ltn"
@@ -131,6 +118,9 @@ files=(
 	"test/std/string/split.ltn"
 	"test/std/string/join.ltn"
 	"test/std/string/replace.ltn"
+
+	"test/std/type/mono.ltn"
+	"test/std/type/pair.ltn"
 )
 
 bin_file="tmp/bin"
@@ -139,7 +129,7 @@ asm_file="tmp/asm"
 rm $bin_file
 rm $asm_file
 
-./bin/ltnc -o --asm $asm_file --exe $bin_file --src ${files[*]}
+./bin/ltnc --asm $asm_file --exe $bin_file --src ${files[*]}
 ./bin/ltnvm --exe $bin_file --args Hello World 123
 
 # ./bin/ltn -o --src ${files[*]}

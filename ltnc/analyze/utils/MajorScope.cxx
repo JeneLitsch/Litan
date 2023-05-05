@@ -1,31 +1,26 @@
 #include "MajorScope.hxx"
 #include "ltnc/CompilerError.hxx"
-#include "ltnc/analyze/instantiate_type.hxx"
 
 namespace ltn::c {
 
 	MajorScope::MajorScope(
 		const Namespace & namespaze,
-		bool c0nst) 
-	: namespaze { namespaze }, c0nst { c0nst }, return_type{type::Any{}} {}
+		bool c0nst,
+		stx::reference<Context> context) 
+		: namespaze { namespaze }
+		, c0nst { c0nst }
+		, context{context} {}
 
 
 
-	const Variable * MajorScope::resolve(
+	stx::optref<const Variable> MajorScope::resolve_variable(
 		const std::string & name,
 		const SourceLocation &) const{
 		
 		if(this->vars.contains(name)) {
-			return &this->vars.at(name);
+			return this->vars.at(name);
 		}
-		return nullptr;
-	}
-
-
-
-	const type::Type * MajorScope::resolve_type(const std::string & name) const {
-		if(this->type_map.contains(name)) return &this->type_map.at(name);
-		return nullptr;
+		return stx::nullref;
 	}
 
 
@@ -53,12 +48,13 @@ namespace ltn::c {
 		return this->return_point;
 	}
 
-	const type::Type & MajorScope::get_return_type() const  {
-		return this->return_type;
+
+	Context & MajorScope::get_context() const {
+		return *this->context;
 	}
 
 
-	void MajorScope::set_return_type(type::Type type) {
-		this->return_type = type;
+	void MajorScope::set_context(stx::reference<Context> context) {
+		this->context = context;
 	}
 }

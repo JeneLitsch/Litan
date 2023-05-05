@@ -6,12 +6,12 @@ namespace std {
 		build_in to_seconds(clock)      @ chrono_to_seconds
 		build_in to_milliseconds(clock) @ chrono_to_milliseconds
 
-		function wait(seconds) -> null {
+		function wait(seconds) {
 			var clock = clock();
 			return wait(seconds, clock);
 		}
 
-		function wait(seconds, clock) -> null {
+		function wait(seconds, clock) {
 			var start = to_seconds(clock);
 			var current = start;
 			while(current - start <= seconds) {

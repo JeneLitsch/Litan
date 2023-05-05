@@ -3,10 +3,6 @@
 Tuples are fixed sized collections of values with different types. 
 A tuple can be created by a comma separated list inside parenthesis.
 
-## Type notation
-
-- `tuple<Ts...>`
-
 ## Comparison
 
 The elements in the tuple are compared lexikographically. They are compared from left to right. If the lenghts are different it's just a comparison of the lenghts itself.

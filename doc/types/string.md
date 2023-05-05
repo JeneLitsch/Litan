@@ -2,10 +2,6 @@
 The string type is used to store an array of char values.
 A new string can be created by using a string literal e.g. `"Hello World"` or `"Test"`.
 
-## Type notation
-
-- `string`
-
 **Example**
 ```js
 function main() {

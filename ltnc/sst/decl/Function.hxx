@@ -6,7 +6,6 @@
 #include "ltn/unique.hxx"
 #include "ltnc/Label.hxx"
 #include "ltnc/Namespace.hxx"
-#include "ltnc/type/Type.hxx"
 #include "Declaration.hxx"
 
 namespace ltn::c::sst {
@@ -14,7 +13,6 @@ namespace ltn::c::sst {
 	class Statement;
 	struct Parameter {
 		std::string name;
-		type::Type type = type::Type{type::Any{}};
 	};
 	using Parameters = std::vector<Parameter>;
 
@@ -51,12 +49,10 @@ namespace ltn::c::sst {
 			const Label & label,
 			const std::string & name,
 			Namespace namespaze,
-			Parameters parameters,
-			const type::Type & return_type)
+			Parameters parameters)
 			: Declaration(name, namespaze)
 			, parameters(parameters)
-			, label{label}
-			, return_type{return_type} {}
+			, label{label}{}
 		virtual ~Functional() = default;
 
 		Parameters parameters;
@@ -65,7 +61,6 @@ namespace ltn::c::sst {
 		bool is_extern = false;
 
 		Label label;
-		type::Type return_type;
 
 		const std::string & get_resolve_name() const {
 			return this->name;
@@ -84,19 +79,10 @@ namespace ltn::c::sst {
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
-			std::unique_ptr<Statement> && body,
-			const type::Type & return_type)
-			: Functional{label, name, namespaze, parameters, return_type}
+			std::unique_ptr<Statement> && body)
+			: Functional{label, name, namespaze, parameters}
 			, body(std::move(body)) {}
 
-		Function(
-			const Label & label,
-			const std::string & name,
-			Namespace namespaze,
-			Parameters parameters,
-			std::unique_ptr<Statement> && body)
-			: Functional{label, name, namespaze, parameters, type::Any{}}
-			, body(std::move(body)) {}
 		virtual ~Function() = default;
 		std::unique_ptr<Statement> body;
 		std::unique_ptr<Except> except;
@@ -111,9 +97,8 @@ namespace ltn::c::sst {
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
-			const std::string & key,
-			const type::Type & return_type)
-			: Functional{label, name, namespaze, parameters, return_type}
+			const std::string & key)
+			: Functional{label, name, namespaze, parameters}
 			, key(key) {}
 		virtual ~BuildIn() = default;
 		std::string key;		

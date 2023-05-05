@@ -19,6 +19,7 @@ target_sources(libltnc PRIVATE
 	analyze_lambda.cxx
 	analyze_loops.cxx
 	analyze_newvar.cxx
+	analyze_params_args.cxx
 	analyze_primitives.cxx
 	analyze_read.cxx
 	analyze_reflect.cxx
@@ -27,6 +28,7 @@ target_sources(libltnc PRIVATE
 	analyze_switch.cxx
 	analyze_ternary.cxx
 	analyze_throw.cxx
+	analyze_type.cxx
 	analyze_typed_unary.cxx
 	analyze_unary.cxx
 	analyze_write.cxx
@@ -34,7 +36,6 @@ target_sources(libltnc PRIVATE
 	conversion.cxx
 	default_value.cxx
 	error.cxx
-	instantiate_type.cxx
 )
 
 add_subdirectory(utils)

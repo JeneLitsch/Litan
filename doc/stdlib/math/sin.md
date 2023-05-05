@@ -1,6 +1,6 @@
 # std::sin
 
-### std::sin(x:float) const -> float 
+### std::sin(x) const 
 
 **Descriptions:**  
 Calculates the sine of x.

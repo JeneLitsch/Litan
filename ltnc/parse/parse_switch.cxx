@@ -13,7 +13,7 @@ namespace ltn::c {
 				"Expected (", location(tokens)
 			};
 
-			auto sw1tch = stx::make_unique<NodeT>(location(tokens));
+			auto sw1tch = std::make_unique<NodeT>(location(tokens));
 			sw1tch->condition = parse_expression(tokens);
 
 			if(!match(TT::PAREN_R, tokens)) throw CompilerError {
@@ -63,7 +63,7 @@ namespace ltn::c {
 	ast::stmt_ptr parse_stmt_switch(Tokens & tokens) {
 		auto sw1tch = parse_any_switch<ast::Switch, TT::SWITCH, parse_statement>(tokens);
 		if(sw1tch && !sw1tch->d3fault) {
-			sw1tch->d3fault = stx::make_unique<ast::DoNothing>(location(tokens));
+			sw1tch->d3fault = std::make_unique<ast::DoNothing>(location(tokens));
 		}
 		return sw1tch;
 	} 
@@ -73,7 +73,7 @@ namespace ltn::c {
 	ast::expr_ptr parse_expr_switch(Tokens & tokens) {
 		auto sw1tch = parse_any_switch<ast::Choose, TT::CHOOSE, parse_expression>(tokens);
 		if(sw1tch && !sw1tch->d3fault) {
-			sw1tch->d3fault = stx::make_unique<ast::Null>(location(tokens));
+			sw1tch->d3fault = std::make_unique<ast::Null>(location(tokens));
 		}
 		return sw1tch;
 	}

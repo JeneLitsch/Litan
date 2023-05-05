@@ -5,7 +5,6 @@
 
 namespace ltn::c {
 	namespace {
-
 		sst::Parameters analyze_parameters(
 			const ast::Parameters & parameters,
 			Scope & scope,
@@ -15,9 +14,8 @@ namespace ltn::c {
 			for(const auto & param : parameters) {
 				auto sst_param = sst::Parameter {
 					.name = param.name,
-					.type = instantiate_type(param.type, scope)
 				};
-				scope.insert(sst_param.name, loc, sst_param.type);
+				scope.insert(sst_param.name, loc);
 				p.push_back(sst_param);
 			}
 			return p;
@@ -30,9 +28,9 @@ namespace ltn::c {
 			Context & context,
 			const auto & namespaze) {
 			
-			MajorScope scope{namespaze, false};
+			MajorScope scope{namespaze, false, context};
 			scope.insert(except.errorname, location(except));
-			auto body = analyze_statement(*except.body, context, scope);
+			auto body = analyze_statement(*except.body, scope);
 			return std::make_unique<sst::Except>(
 				except.errorname,
 				std::move(body)
@@ -55,8 +53,7 @@ namespace ltn::c {
 				fx.name,
 				fx.namespaze,
 				parameters,
-				fx.key,
-				instantiate_type(fx.return_type, scope)
+				fx.key
 			);
 
 			sst_fx->is_const   = fx.is_const; 
@@ -71,12 +68,13 @@ namespace ltn::c {
 
 	sst::func_ptr analyze_function(
 		const ast::Function & fx,
-		Context & context,
 		Scope & scope,
 		std::optional<Label> override_label,
 		const std::vector<std::unique_ptr<ast::Var>> & captures) {
 
 		const auto label = override_label.value_or(make_function_label(fx));
+
+		auto & context = scope.get_context();
 
 		auto parameters = analyze_parameters(fx.parameters, scope, location(fx));
 
@@ -84,15 +82,14 @@ namespace ltn::c {
 			scope.insert(capture->name, location(*capture));
 		}
 
-		auto body = analyze_statement(*fx.body, context, scope);
+		auto body = analyze_statement(*fx.body, scope);
 
 		auto sst_fx = std::make_unique<sst::Function>(
 			label,
 			fx.name,
 			fx.namespaze,
 			parameters,
-			std::move(body),
-			instantiate_type(fx.return_type, scope)
+			std::move(body)
 		);
 
 		sst_fx->is_const = fx.is_const; 
@@ -110,12 +107,12 @@ namespace ltn::c {
 
 	sst::func_ptr analyze_functional(
 		const ast::Functional & functional,
-		Context & context,
-		Scope & scope,
-		std::optional<Label> override_label) {
+		FunctionScope & scope,
+		std::optional<Label> override_label,
+		const std::vector<std::unique_ptr<ast::Var>> & captures) {
 
 		if(auto fx = as<const ast::Function>(functional)) {
-			return analyze_function(*fx, context, scope, override_label, {});
+			return analyze_function(*fx, scope, override_label, captures);
 		}
 		
 		if(auto fx = as<const ast::BuildIn>(functional)) {
@@ -127,36 +124,4 @@ namespace ltn::c {
 			location(functional)
 		};
 	}
-
-
-
-	sst::func_ptr analyze_functional(
-		const ast::Functional & functional,
-		Context & context) {
-
-		FunctionScope scope {
-			functional.namespaze,
-			functional.is_const,
-		};
-		scope.set_return_type(instantiate_type(functional.return_type, scope));
-		return analyze_functional(functional, context, scope, std::nullopt);
-	}
-
-
-
-	sst::func_ptr analyze_function_template(
-		const ast::FunctionTemplate & tmpl,
-		Context & context,
-		const std::vector<type::Type> & arguments) {
-
-		FunctionScope scope { tmpl.fx->namespaze, tmpl.fx->is_const };
-		add_template_args(scope, tmpl.template_parameters, arguments);
-		scope.set_return_type(instantiate_type(tmpl.fx->return_type, scope));
-		const auto label = make_template_label(tmpl, arguments);
-		return analyze_functional(*tmpl.fx, context, scope, label);
-	}
-
-
-
-
 }

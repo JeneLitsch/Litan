@@ -1,6 +1,6 @@
 # std::join
 
-## std::join(strings : array&lt;string&gt, joiner : string) const -> String;
+## std::join(strings, joiner) const
 
 **Parameters:**  
 * strings: An array of string

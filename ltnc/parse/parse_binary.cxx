@@ -15,7 +15,7 @@ namespace ltn::c {
 		auto l = presedence_down(tokens);
 		while (auto op = match_op(tokens, op_table::data)) {
 			auto && r = presedence_down(tokens);
-			auto expr = stx::make_unique<ast::Binary>(
+			auto expr = std::make_unique<ast::Binary>(
 				*op,
 				std::move(l),
 				std::move(r),

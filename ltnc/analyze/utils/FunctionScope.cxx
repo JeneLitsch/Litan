@@ -5,6 +5,7 @@ namespace ltn::c {
 
 	FunctionScope::FunctionScope(
 		const Namespace & namespaze,
-		bool c0nst) 
-	: MajorScope { namespaze, c0nst} {}
+		bool c0nst,
+		stx::reference<Context> context) 
+		: MajorScope { namespaze, c0nst, context} {}
 }

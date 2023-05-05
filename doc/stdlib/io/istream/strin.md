@@ -1,6 +1,6 @@
 # std::strin
 
-## std::strin(str) -> istream
+## std::strin(str)
 **Parameters:**  
 str: String to initialize string stream
 

@@ -1,6 +1,6 @@
 # std::fill
 
-## std::fill(range, value) -> null
+## std::fill(range, value)
 
 **Parameters:** 
 * range: A range or an array

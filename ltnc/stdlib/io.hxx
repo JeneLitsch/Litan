@@ -40,82 +40,64 @@ namespace std {
 
 
 	build_in cout() 
-		-> ostream
 	 	@ io_cout
 	
 	build_in fout(path, open_mode)
-		-> ostream
 		@ io_fout
 	
 	build_in strout() 
-		-> ostream
 		@ io_strout
 
 	function fout(path)
-		-> ostream
 		=> fout(path, io::open_mode::OVERRIDE)
 
 
 
 	build_in cin()
-		-> istream
 		@ io_cin
 
 	build_in fin(path)
-		-> istream
 		@ io_fin
 
 	build_in strin(str)
-		-> istream
 		@ io_strin
 
 
 	
-	build_in print(stream : ostream, value) 
-		-> null
+	build_in print(stream, value) 
 		@ io_print
 	
-	build_in read(stream : istream)
-		-> optional<string> 
+	build_in read(stream)
 		@ io_read
 
-	build_in read_str(stream : istream)
-		-> optional<string> 
+	build_in read_str(stream)
 		@ io_read_str
 
-	build_in readln(stream : istream)
-		-> optional<string> 
+	build_in readln(stream)
 		@ io_readln
 
-	build_in read_bool(stream : istream)
-		-> optional<bool> 
+	build_in read_bool(stream)
 		@ io_read_bool
 
-	build_in read_char(stream : istream)
-		-> optional<char> 
+	build_in read_char(stream)
 		@ io_read_char
 
-	build_in read_int(stream : istream)
-		-> optional<int> 
+	build_in read_int(stream)
 		@ io_read_int
 
-	build_in read_float(stream : istream)
-		-> optional<float> 
+	build_in read_float(stream)
 		@ io_read_float
 
-	build_in read_all(stream : istream)
-		-> string 
+	build_in read_all(stream)
 		@ io_read_all
 
 
 	
-	build_in is_eof(stream) const
-		-> bool
-		@ io_is_eof
+	build_in is_eof(stream) const @ io_is_eof
 
 	function print(value) => print(cout(), value)
 
-	function println(stream : ostream, value) {
+	function println(stream, value) {
 		print(stream, value);
 		print(stream, "\n");
 	}
@@ -127,31 +109,24 @@ namespace std {
 	}
 
 	function read() 
-		-> optional<string>
 		=> read(cin())
 	
 	function read_str()
-		-> optional<string>
 		=> read(cin())
 	
 	function readln()
-		-> optional<string>
 		=> readln(cin())
 	
 	function read_bool()  
-		-> optional<bool>
 		=> read_bool(cin())
 
 	function read_char()  
-		-> optional<char>
 		=> read_char(cin())
 	
 	function read_int()   
-		-> optional<int>
 		=> read_int(cin())
 	
 	function read_float() 
-		-> optional<float>
 		=> read_float(cin())
 }
 )###";

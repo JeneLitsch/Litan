@@ -12,20 +12,19 @@ namespace ltn::c {
 			std::vector<ast::Preset::Member> members;
 			brace_l(tokens);
 			while(match(TT::VAR, tokens)) {
-				const auto name = parse_variable_name(tokens);
-				auto type = parse_var_type(tokens);
+				auto name = parse_variable_name(tokens);
 				members.push_back(ast::Preset::Member{
-					.name = name,
-					.type = type
+					.name = std::move(name),
 				});
 				semicolon(tokens);
 			}
 			brace_r(tokens);
-			return stx::make_unique<ast::Preset>(
+			return std::make_unique<ast::Preset>(
 				start->location,
 				name,
 				namespaze,
-				members);
+				std::move(members)
+			);
 		}
 		else return nullptr;
 	}

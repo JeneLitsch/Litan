@@ -51,14 +51,12 @@ namespace ltn::c {
 	ast::stmt_ptr parse_newvar(Tokens & tokens) {
 		if(auto start = match(TT::VAR, tokens)) {
 			auto binding = parse_binding(*start, tokens);
-			auto type = parse_var_type_auto(tokens);
 			auto && r = parse_assign_r(tokens);
 			semicolon(tokens);
 			return std::make_unique<ast::NewVar>(
 				std::move(binding),
 				std::move(r),
-				location(tokens),
-				type
+				location(tokens)
 			);
 		}
 		return nullptr;

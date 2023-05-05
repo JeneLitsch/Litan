@@ -1,9 +1,5 @@
 namespace sphinx::utils {
-	function test_reading(
-		read_fx,
-		input : string,
-		expected,
-		rest : optional<string>) {
+	function test_reading(read_fx, input, expected, rest) {
 		
 		var in = std::strin(input);
 		for(value : expected) {
@@ -20,49 +16,31 @@ namespace sphinx::utils {
 
 
 
-	function test_read(
-		input : string,
-		expected : array<any>,
-		rest : optional<string>)
+	function test_read(input, expected, rest)
 		=> test_reading(&std::read(_), input, expected, rest)
 
 
 
-	function test_read_bool(
-		input : string,
-		expected : array<any>,
-		rest : optional<string>)
+	function test_read_bool(input, expected, rest)
 		=> test_reading(&std::read_bool(_), input, expected, rest)
 
 
 
-	function test_read_char(
-		input : string,
-		expected : array<any>,
-		rest : optional<string>)
+	function test_read_char(input, expected, rest)
 		=> test_reading(&std::read_char(_), input, expected, rest)
 
 
 
-	function test_read_int(
-		input : string,
-		expected : array<any>,
-		rest : optional<string>)
+	function test_read_int(input, expected, rest)
 		=> test_reading(&std::read_int(_), input, expected, rest)
 
 
 
-	function test_read_float(
-		input : string,
-		expected : array<any>,
-		rest : optional<string>)
+	function test_read_float(input, expected, rest)
 		=> test_reading(&std::read_float(_), input, expected, rest)
 
 
 
-	function test_read_str(
-		input : string,
-		expected : array<any>,
-		rest : optional<string>)
+	function test_read_str(input, expected, rest)
 		=> test_reading(&std::read_str(_), input, expected, rest)
 }

@@ -1,6 +1,6 @@
 # std::lg
 
-## std::lg(x:float, b:float) -> float
+## std::lg(x, b)
 
 **Parameters:**  
 - x: Numeric value

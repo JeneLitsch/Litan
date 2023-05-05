@@ -1,36 +1,26 @@
 #pragma once
 #include <queue>
+#include <tuple>
 #include <set>
 #include <optional>
 #include "stdxx/reference.hxx"
 #include "ltnc/ast/AST.hxx"
 
 namespace ltn::c {
-	struct StagedFx {
+	struct Staged {
 		stx::reference<const ast::Functional> fx;
+		stx::optref<const std::vector<std::unique_ptr<ast::Var>>> captures;
+		std::optional<Namespace> override_namespace = std::nullopt;
 	};
-	inline auto operator<=>(const StagedFx & l, const StagedFx & r) {
-		return  &*l.fx <=> &*r.fx;
+	inline auto operator<=>(const Staged & l, const Staged & r) {
+		return l.fx <=> r.fx;
 	}
 	
-	
-	
-	struct StagedTemplateFx {
-		stx::reference<const ast::FunctionTemplate> tmpl;
-		std::vector<type::Type> arguments;
-	};
-	inline auto operator<=>(const StagedTemplateFx & l, const StagedTemplateFx & r) {
-		auto l_fx = &*l.tmpl;
-		auto r_fx = &*r.tmpl;
-		return std::tie(l_fx, l.arguments) <=> std::tie(r_fx, r.arguments);
-	}
-
-	using Staged = std::variant<StagedFx,StagedTemplateFx>;
 
 	class FunctionQueue {
 	public:
 		void stage_function(stx::reference<const ast::Functional> fx);
-		void stage_template(stx::reference<const ast::FunctionTemplate> tmpl, std::vector<type::Type> arguments);
+		void stage_function(Staged staged);
 		std::optional<Staged> fetch_function();
 	private:
 		std::queue<Staged> queue;

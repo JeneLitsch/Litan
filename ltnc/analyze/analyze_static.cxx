@@ -5,36 +5,16 @@
 
 namespace ltn::c {
 	namespace {
-		type::Type deduce_type(
-			const ast::Static & statik,
-			const sst::expr_ptr & expr,
-			Scope & scope) {
-			if(statik.type) {
-				return instantiate_type(*statik.type, scope);
-			}
-			else {
-				return expr ? expr->type : type::Any{};
-			}
-		}
-
-
-
 		template<typename NodeT>
 		auto analyze_static(const auto & statik, Context & context) {
 
-			MajorScope scope { statik.namespaze, false };
+			MajorScope scope { statik.namespaze, false, context};
 
-			auto expr = statik.expr ? analyze_expression(*statik.expr, context, scope) : nullptr;
-			auto type = deduce_type(statik, expr, scope);
-
-			if(!expr) {
-				expr = generate_default_value(type, location(statik));
-			}
+			auto expr = statik.expr ? analyze_expression(*statik.expr, scope) : std::make_unique<sst::Null>();
 
 			return std::make_unique<NodeT>(
 				statik.name,
 				statik.namespaze,
-				std::move(type),
 				std::move(expr)
 			);
 		}
@@ -50,10 +30,8 @@ namespace ltn::c {
 		InvalidDefinitionTable def_table { "definitions" };
 		InvalidGlobalTable global_table { "definitions" };
 		InvalidFunctionTable fx_table { "definitions" };
-		InvalidFunctionTemplateTable fx_template_table { "definitions" };
 		Context read_context {
 			.fx_table          = fx_table,
-			.fx_template_table = fx_template_table,
 			.fx_queue		   = context.fx_queue,
 			.definition_table  = def_table,
 			.member_table      = context.member_table,
@@ -70,10 +48,8 @@ namespace ltn::c {
 		// Functions or defines can be used though.
 		InvalidGlobalTable global_table { "the default value of another global variable" };
 		InvalidFunctionTable fx_table { "the initialization of a global variable" };
-		InvalidFunctionTemplateTable fx_template_table { "the initialization of a global variable" };
 		Context read_context {
 			.fx_table          = fx_table,
-			.fx_template_table = fx_template_table,
 			.fx_queue		   = context.fx_queue,
 			.definition_table  = context.definition_table,
 			.member_table      = context.member_table,

@@ -1,15 +1,13 @@
 #include "analyze.hxx"
 #include "stdxx/functional.hxx"
 #include <string_view>
-#include "conversion.hxx"
 
 namespace ltn::c {
 
 	namespace {
-		std::vector<sst::expr_ptr> analyze_arguments(
+		auto analyze_arguments(
 			const ast::Call & call,
 			const ast::Functional & fx,
-			Context & context,
 			Scope & scope) {
 			
 			std::vector<sst::expr_ptr> arguments;
@@ -17,10 +15,7 @@ namespace ltn::c {
 				const ArgumentLocation location = {ast::location(call), i};
 				auto & argument = call.arguments[i];
 				auto & parameter = fx.parameters[i];
-				const auto param_type = instantiate_type(parameter.type, scope);
-				auto arg_raw = analyze_expression(*argument, context, scope);
-				auto arg_full = conversion_on_pass(std::move(arg_raw), param_type, location);
-				arguments.push_back(std::move(arg_full));
+				arguments.push_back(analyze_expression(*argument, scope));
 			}
 
 			return arguments;
@@ -61,43 +56,14 @@ namespace ltn::c {
 
 
 
-		sst::expr_ptr do_call(
-			const ast::Call & call,
-			const ast::Functional & fx,
-			Context & context,
-			Scope & scope,
-			const std::optional<Label> id_override = std::nullopt) {
+		sst::expr_ptr do_invoke(const ast::Call & call, Scope & scope) {
 
-			guard_private(fx, scope.get_namespace(), call);
-			guard_const(call, fx, scope);
-
-			auto arguments = analyze_arguments(call, fx, context, scope);
-			auto return_type = instantiate_type(fx.return_type, scope);
-			auto fx_label = make_function_label(fx);
-			auto label = id_override.value_or(std::move(fx_label));
-			
-			return std::make_unique<sst::Call>(
-				std::move(label),
-				std::move(arguments),
-				std::move(return_type)
-			);
-		}
-
-
-
-		sst::expr_ptr do_invoke(
-			const ast::Call & call,
-			Context & context,
-			Scope & scope) {
-
-			auto expr = analyze_expression(*call.function_ptr, context, scope);
-			auto arguments = analyze_all_expressions(call.arguments, context, scope);
-			const auto type = type::deduce_invokation(expr->type);
+			auto expr = analyze_expression(*call.function_ptr, scope);
+			auto arguments = analyze_all_expressions(call.arguments, scope);
 			
 			return std::make_unique<sst::Invoke>(
 				std::move(expr),
-				std::move(arguments),
-				type
+				std::move(arguments)
 			);
 		}
 
@@ -106,118 +72,69 @@ namespace ltn::c {
 		sst::expr_ptr do_call_function(
 			const ast::Call & call,
 			const ast::Functional & fx,
-			Context & context,
 			Scope & scope) {
+
+			auto & context = scope.get_context();
 			
+			guard_private(fx, scope.get_namespace(), call);
+			guard_const(call, fx, scope);
+
+			auto arguments = analyze_arguments(call, fx, scope);
+			MinorScope dummy_scope{&scope};
+			auto fx_label = make_function_label(fx);
+			
+			auto sst_call = std::make_unique<sst::Call>(
+				std::move(fx_label),
+				std::move(arguments)
+			);
+
 			context.fx_queue.stage_function(fx);
-			return do_call(call, fx, context, scope);
-		}
-
-
-
-		sst::expr_ptr do_call_template(
-			const ast::Call & call,
-			const ast::Var & var,
-			Context & context,
-			Scope & scope) {
-			
-			const auto tmpl = get_template(call, var, context, scope);
-
-			const auto arguments = stx::fx::mapped(instantiate_type)(
-				call.template_arguments,
-				scope
-			);
-
-			context.fx_queue.stage_template(*tmpl, arguments);
-			const auto label = make_template_label(tmpl, arguments);
-			MinorScope inner_scope(&scope);
-
-			add_template_args(
-				inner_scope,
-				tmpl->template_parameters,
-				call.template_arguments
-			);
-			
-			return do_call(call, *tmpl->fx, context, inner_scope, label);
+			return sst_call;
 		}
 	}
 
 
 
 	// compiles function call fx(...)
-	sst::expr_ptr analyze_expr(
-		const ast::Call & call,
-		Context & context,
-		Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::Call & call, Scope & scope) {
 	
 		const auto * var = as<ast::Var>(*call.function_ptr);
 		if(var) {
-			if(!call.template_arguments.empty()) {
-				return do_call_template(call, *var, context, scope);
-			}
-
 			if(var->namespaze.empty()) {
-				const auto * local = scope.resolve(var->name, location(*var));
-				if(local) {
-					return do_invoke(call, context, scope);
+				if(auto local = scope.resolve_variable(var->name, location(*var))) {
+					return do_invoke(call, scope);
 				}
 			}
 
-			const auto * fx = context.fx_table.resolve(
-				var->name,
-				scope.get_namespace(),
-				var->namespaze,
-				call.arguments.size()
-			);
-
-			if(fx) {
-				return do_call_function(call, *fx, context, scope);
+			if(auto fx = scope.resolve_function(var->name, var->namespaze, call.arity())) {
+				return do_call_function(call, *fx, scope);
 			}
 
-			const auto * def = context.definition_table.resolve(
-				var->name,
-				scope.get_namespace(),
-				var->namespaze
-			);
-
-			if(def) {
-				return do_invoke(call, context, scope);
+			if(auto def = scope.resolve_definiton(var->name, var->namespaze)) {
+				return do_invoke(call, scope);
 			}
 
-			const auto * glob = context.global_table.resolve(
-				var->name,
-				scope.get_namespace(),
-				var->namespaze
-			);
-
-			if(glob) {
-				return do_invoke(call, context, scope);
+			if(auto glob = scope.resolve_global(var->name, var->namespaze)) {
+				return do_invoke(call, scope);
 			}
-
 
 			throw undefined_function(*var);
 		}
 
-		return do_invoke(call, context, scope);
+		return do_invoke(call, scope);
 	}
 
 
 
-	sst::expr_ptr analyze_expr(
-		const ast::InvokeMember & invoke,
-		Context & context,
-		Scope & scope) {
-		
-		auto expr = analyze_expression(*invoke.object, context, scope);
-		auto arguments = analyze_all_expressions(invoke.arguments, context, scope);
-		const auto type = type::deduce_invokation(expr->type);
-		const auto id = context.member_table.get_id(invoke.member_name);
+	sst::expr_ptr analyze_expr(const ast::InvokeMember & invoke, Scope & scope) {
+		auto expr = analyze_expression(*invoke.object, scope);
+		auto arguments = analyze_all_expressions(invoke.arguments, scope);
+		const auto id = scope.resolve_member_id(invoke.member_name);
 
 		return std::make_unique<sst::InvokeMember>(
 			std::move(expr),
 			id,
-			std::move(arguments),
-			type
+			std::move(arguments)
 		);
 	}
 }

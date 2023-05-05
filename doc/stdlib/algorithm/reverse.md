@@ -1,6 +1,6 @@
 # std::reverse
 
-## std::reverse(range) -> null
+## std::reverse(range)
 **Parameters:** 
 * range: an array
 

@@ -2,96 +2,6 @@
 #include "analyze.hxx"
 
 namespace ltn::c {
-	void add_template_args(
-		Scope & scope,
-		const std::vector<std::string> & template_params,
-		const std::vector<type::IncompleteType> & template_args) {
-		const auto arguments = stx::fx::map(instantiate_type, template_args, scope);
-		return add_template_args(scope, template_params, arguments);
-	}
-
-
-	void add_template_args(
-		Scope & scope,
-		const std::vector<std::string> & template_params,
-		const std::vector<type::Type> & template_args) {
-		for(std::size_t i = 0; i < template_args.size(); ++i) {
-			scope.add_type(template_params[i], template_args[i]);
-		}
-	}
-
-
-	stx::reference<const ast::FunctionTemplate> get_template(
-		const auto & symbol,
-		const auto & invoke,
-		Context & context,
-		Scope & scope) {
-
-		const auto * tmpl = context.fx_template_table.resolve(
-			symbol.name,
-			scope.get_namespace(),
-			symbol.namespaze,
-			invoke.arity(),
-			invoke.template_arguments.size()
-		);
-
-		if(tmpl) {
-			return *tmpl;
-		}
-		else {
-			throw undefined_template(symbol.name, location(invoke));
-		}
-	}
-
-
-
-	stx::reference<const ast::FunctionTemplate> get_template(
-		const ast::FxPointer & fx_ptr,
-		Context & context,
-		Scope & scope) {
-
-		return get_template(fx_ptr, fx_ptr, context, scope);
-	}
-
-
-
-	stx::reference<const ast::FunctionTemplate> get_template(
-		const ast::Call & call,
-		const ast::Var & var,
-		Context & context,
-		Scope & scope) {
-		
-		return get_template(var, call, context, scope);
-	}
-
-
-
-	std::string make_template_id(
-		const ast::Functional & fx,
-		const std::vector<type::Type> & arguments) {
-		
-		std::ostringstream oss;
-		oss << "<";
-		oss << fx.get_resolve_namespace().to_string();
-		oss << fx.get_resolve_name();
-		oss << ":";
-		bool first = true;
-		for(const auto & arg : arguments) {
-			if(first) {
-				first = false;
-			}
-			else {
-				oss << ",";
-			}
-			oss << type::to_string(arg);
-		} 
-		oss << ">"; 
-		oss << "(" << fx.parameters.size() << ")";
-		return oss.str();
-	}
-
-
-
 	namespace {
 		std::vector<stx::reference<const ast::Functional>> find_extern_funtions(
 			const ast::Program & source) {
@@ -109,22 +19,23 @@ namespace ltn::c {
 
 
 
-		auto analyze_staged(const StagedFx & staged, Context & context) {
-			return analyze_functional(*staged.fx, context); 
-		}
-
-
-
-		auto analyze_staged(const StagedTemplateFx & staged, Context & context) {
-			return analyze_function_template(staged.tmpl, context, staged.arguments); 
+		auto analyze_staged(const Staged & staged, Context & context) {
+			FunctionScope scope {
+				staged.override_namespace.value_or(staged.fx->namespaze),
+				staged.fx->is_const,
+				context,
+			};
+			auto label = make_function_label(staged.fx);
+			static const std::vector<std::unique_ptr<ast::Var>> no_captures;
+			return analyze_functional(staged.fx, scope, label, staged.captures.value_or(no_captures)); 
 		}
 	}
 
 
 
-	std::vector<sst::expr_ptr> analyze_all_expressions(const std::vector<ast::expr_ptr> & exprs, Context & context, Scope & scope) {
+	std::vector<sst::expr_ptr> analyze_all_expressions(const std::vector<ast::expr_ptr> & exprs, Scope & scope) {
 		auto analyze_all = stx::fx::mapped([&] (const auto & expr) {
-			return analyze_expression(*expr, context, scope);
+			return analyze_expression(*expr, scope);
 		});
 		return analyze_all(exprs);
 	}
@@ -138,13 +49,11 @@ namespace ltn::c {
 		sst::Program program;
 		ValidFunctionTable fx_table;
 		FunctionQueue fx_queue;
-		ValidFunctionTemplateTable fx_template_table;
 		ValidDefinitionTable definition_table;
 		MemberTable member_table;
 		ValidGlobalTable global_table;
 		Context context {
 			.fx_table = fx_table,
-			.fx_template_table = fx_template_table,
 			.fx_queue = fx_queue,
 			.definition_table = definition_table,
 			.member_table = member_table,
@@ -186,12 +95,6 @@ namespace ltn::c {
 			ctors.push_back(std::move(ctor));
 		}
 
-		for(const auto & fx_tmpl : source.function_templates) {
-			const auto function_arity = std::size(fx_tmpl->fx->parameters);
-			const auto template_arity = std::size(fx_tmpl->template_parameters);
-			context.fx_template_table.insert(*fx_tmpl, function_arity, template_arity);
-		}
-
 		for(const auto & function : source.functions) {
 			context.fx_table.insert(*function, function->parameters.size());
 		}
@@ -208,10 +111,7 @@ namespace ltn::c {
 
 		while(auto staged = fx_queue.fetch_function()) {
 			try {
-				auto fx = std::visit([&] (auto & s) {
-					return analyze_staged(s, context);
-					}, *staged
-				);
+				auto fx = analyze_staged(*staged, context);
 				program.functions.push_back(std::move(fx));
 			}
 			catch(const CompilerError & error) {

@@ -1,6 +1,6 @@
 # std::fout
 
-## std::fout(path, open_mode) -> ostream
+## std::fout(path, open_mode)
 **Parameters:**  
 * path: path to file as a String
 * open_mode: std::io::open_mode enum
@@ -15,7 +15,7 @@ If open_mode is set to APPEND new content appended to the end of the file.
 
 ---
 
-## std::fout(path) -> ostream
+## std::fout(path)
 **Parameters:**  
 * path: path to file as a String
 
