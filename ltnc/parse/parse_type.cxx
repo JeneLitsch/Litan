@@ -61,6 +61,30 @@ namespace ltn::c {
 		}
 
 
+		ast::type_ptr fx_type(const Token & begin, Tokens & tokens) {
+			const auto & loc = begin.location;
+			if(match(TT::PAREN_L, tokens)) {
+				auto token_arity = match(TT::INTEGER, tokens);
+				if(!token_arity) throw CompilerError {
+					"Expected arity", loc
+				};
+				if(!match(TT::PAREN_R, tokens)) throw CompilerError {
+					"Expected )", loc
+				};
+
+				std::stringstream iss{token_arity->str};
+				std::uint64_t arity;
+				iss >> arity;
+				return std::make_unique<ast::Type>(ast::Type::FxN{
+					.arity = arity,
+				}, loc);
+			}
+			else {
+				return std::make_unique<ast::Type>(ast::Type::Fx {}, loc); 
+			}
+		}
+
+
 		ast::type_ptr parse_type_name(const Token & begin, Tokens & tokens) {
 			if(auto name = match(TT::NVLL, tokens)) {
 				return simple_type<ast::Type::Null>(begin);
@@ -73,6 +97,7 @@ namespace ltn::c {
 				if(name->str == "string") return simple_type<ast::Type::String>(begin);
 				if(name->str == "array") return array_type(begin, tokens);
 				if(name->str == "tuple") return tuple_type(begin, tokens);
+				if(name->str == "fx") return fx_type(begin, tokens);
 				throw CompilerError {"Unknown type name " + name->str, name->location};
 			}
 			throw CompilerError {"Expected type name", begin.location};

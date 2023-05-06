@@ -64,6 +64,19 @@ namespace ltn::c {
 			return code;
 		}
 
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Fx & type, Scope & scope) {
+			return {type_code::FX};		
+		}
+
+		std::vector<std::uint8_t> analyze_type(const ast::Type::FxN & type, Scope & scope) {
+			std::vector<std::uint8_t> code;
+			code.push_back(type_code::FX_N);
+			for(std::size_t i = 0; i < 8; ++i) {
+				code.push_back((type.arity >> ((i) * 8)) & 0xff);
+			}
+			return code;
+		}
+
 		std::vector<std::uint8_t> analyze_type(const ast::Type & type, Scope & scope) {
 			return std::visit([&] (auto & t) {
 				return analyze_type(t, scope);

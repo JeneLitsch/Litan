@@ -184,4 +184,58 @@ namespace sphinx::test {
 			([1.0,2.0,3.0], (1.0,2,3.0)),
 		]);
 	}
+
+
+
+	function std_type_cast_fx() {
+		var fx_0 = lambda => null;
+		var fx_2 = lambda(a,b) => null;
+		utils::test_cast(<fx>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([] , null),
+			(fx_0, fx_0),
+			(fx_2, fx_2),
+		]);
+	}
+
+
+
+	function std_type_cast_fx_0() {
+		var fx_0 = lambda => null;
+		var fx_2 = lambda(a,b) => null;
+		utils::test_cast(<fx(0)>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([] , null),
+			(fx_0, fx_0),
+			(fx_2, null),
+		]);
+	}
+
+
+
+	function std_type_cast_fx_2() {
+		var fx_0 = lambda => null;
+		var fx_2 = lambda(a,b) => null;
+		utils::test_cast(<fx(2)>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([] ,  null),
+			(fx_0, null),
+			(fx_2, fx_2),
+		]);
+	}
 }

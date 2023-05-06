@@ -15,4 +15,6 @@ namespace ltn::type_code {
 	inline constexpr std::uint8_t STRING   = 's';
 	inline constexpr std::uint8_t ISTREAM  = '>';
 	inline constexpr std::uint8_t OSTREAM  = '<';
+	inline constexpr std::uint8_t FX       = 'F';
+	inline constexpr std::uint8_t FX_N     = 'X';
 }

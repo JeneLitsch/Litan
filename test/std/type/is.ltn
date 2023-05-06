@@ -216,4 +216,51 @@ namespace sphinx::test {
 			((1,2.0,3) , false),
 		]);
 	}
+
+
+
+	function std_is_type_fx() {
+		utils::test_is(<fx>, [
+			(null, false),
+			(true, false),
+			('A' , false),
+			(1   , false),
+			(1.0 , false),
+			(""  , false),
+			([]  , false),
+			(lambda => null , true),
+			(lambda(a,b) => null , true),
+		]);
+	}
+
+
+	function std_is_type_fx_0() {
+		utils::test_is(<fx(0)>, [
+			(null, false),
+			(true, false),
+			('A' , false),
+			(1   , false),
+			(1.0 , false),
+			(""  , false),
+			([]  , false),
+			(lambda => null, true),
+			(lambda(a,b) => null, false),
+		]);
+	}
+
+
+
+	function std_is_type_fx_2() {
+		utils::test_is(<fx(2)>, [
+			(null, false),
+			(true, false),
+			('A' , false),
+			(1   , false),
+			(1.0 , false),
+			(""  , false),
+			([]  , false),
+			(lambda => null, false),
+			(lambda(a,b) => null, true),
+		]);
+	}
 }

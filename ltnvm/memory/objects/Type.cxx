@@ -6,7 +6,7 @@
 
 namespace ltn::vm {
 	namespace {
-		std::uint64_t tuple_size(const std::uint8_t *& code) {
+		std::uint64_t size_uint_8(const std::uint8_t *& code) {
 			std::uint64_t size = 0;
 			for(std::size_t i = 0; i < 8; ++i) {
 				size += static_cast<std::uint64_t>(*(++code)) << (i * 8);
@@ -14,7 +14,7 @@ namespace ltn::vm {
 			return size;
 		}
 		void decode_tuple(const std::uint8_t * code, auto fx) {
-			auto size = tuple_size(code);
+			auto size = size_uint_8(code);
 			for(std::size_t i = 0; i < size; ++i) {
 				fx(++code);
 			}
@@ -35,6 +35,8 @@ namespace ltn::vm {
 			case type_code::ARRAY: return Op::for_array(code, args...);
 			case type_code::TUPLE: return Op::for_tuple(code, args...);
 			case type_code::TUPLE_N: return Op::for_tuple_n(code, args...);
+			case type_code::FX: return Op::for_fx(code, args...);
+			case type_code::FX_N: return Op::for_fx_n(code, args...);
 			default: return Op::for_default(code, args...);
 		}
 	}
@@ -83,6 +85,17 @@ namespace ltn::vm {
 			oss << "tuple(";
 			decode_tuple(code, [&] (auto * elem) { oss << to_type_name(elem); });
 			oss << ")";
+			return oss.str();
+		}
+
+
+		static std::string for_fx(const std::uint8_t *) {
+			return "fx";
+		}
+
+		static std::string for_fx_n(const std::uint8_t * code) {
+			std::ostringstream oss;
+			oss << "fx(" << size_uint_8(code) << ")";
 			return oss.str();
 		}
 
@@ -151,13 +164,26 @@ namespace ltn::vm {
 
 		static bool for_tuple_n(const std::uint8_t * code, const Value & value, Heap & heap) {
 			if(is_tuple(value)) {
-				auto size = tuple_size(code);
+				auto size = size_uint_8(code);
 				auto & tuple = heap.read<Array>(value.u);
 				if(size != std::size(tuple)) return false;
 				for(std::size_t i = 0; i << size; ++i) {
 					if(!type_is(++code, tuple[i], heap)) return false;
 				}
 				return true;
+			}
+			return false;
+		}
+
+		static bool for_fx(const std::uint8_t *, const Value & value, Heap &) {
+			return is_fxptr(value);
+		}
+
+		static bool for_fx_n(const std::uint8_t * code, const Value & value, Heap & heap) {
+			if(is_fxptr(value)) {
+				auto size = size_uint_8(code);
+				auto & fx = heap.read<FxPointer>(value.u);
+				return size == fx.params;
 			}
 			return false;
 		}
@@ -235,13 +261,31 @@ namespace ltn::vm {
 		static Value for_tuple_n(const std::uint8_t * code, const Value & value, Heap & heap) {
 			if(is_tuple(value) || is_array(value)) {
 				auto & arr = heap.read<Array>(value.u);
-				auto size = tuple_size(code);
+				auto size = size_uint_8(code);
 				if(size != std::size(arr)) return value::null;
 				Array result;
 				for(const auto & elem : arr) {
 					result.push_back(type_cast(++code, elem, heap));
 				}
 				return value::tuple(heap.alloc(std::move(result)));
+			}
+			return value::null;
+		}
+
+		static Value for_fx(const std::uint8_t *, const Value & value, Heap & heap) {
+			if(is_fxptr(value)) {
+				return value;
+			}
+			return value::null;
+		}
+
+		static Value for_fx_n(const std::uint8_t * code, const Value & value, Heap & heap) {
+			if(is_fxptr(value)) {
+				auto size = size_uint_8(code);
+				auto & fx = heap.read<FxPointer>(value.u);
+				if(size == fx.params) {
+					return value;
+				}
 			}
 			return value::null;
 		}
