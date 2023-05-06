@@ -43,6 +43,11 @@ namespace ltn::vm {
 					}
 					return std::partial_ordering::equivalent;
 				}
+				if(is_type(l) || is_type(l)) {
+					const auto & type_l = heap.read<Type>(l.u);
+					const auto & type_r = heap.read<Type>(r.u);
+					return type_l.code <=> type_r.code;
+				}
 				return std::partial_ordering::equivalent;
 			}
 			return l.type <=> r.type;

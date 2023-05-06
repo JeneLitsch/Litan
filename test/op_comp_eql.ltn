@@ -11,6 +11,14 @@ namespace sphinx::test {
 
 
 
+	function equal_type() {
+		assert_true(<int> == <int>);
+		assert_false(<int> == <float>);
+		assert_true(<array(int)> == <array(int)>);
+		assert_false(<array(int)> == <array(float)>);
+	}
+
+
 
 	function equal_typename() {
 		assert_equal(std::typename(1 == "0"), "bool");
