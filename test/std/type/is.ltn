@@ -263,4 +263,36 @@ namespace sphinx::test {
 			(lambda(a,b) => null, true),
 		]);
 	}
+
+
+
+	function std_is_type_istream() {
+		utils::test_is(<istream>, [
+			(null, false),
+			(true, false),
+			('A' , false),
+			(1   , false),
+			(1.0 , false),
+			(""  , false),
+			([]  , false),
+			(std::cin(), true),
+			(std::cout(), false),
+		]);
+	}
+
+
+
+	function std_is_type_ostream() {
+		utils::test_is(<ostream>, [
+			(null, false),
+			(true, false),
+			('A' , false),
+			(1   , false),
+			(1.0 , false),
+			(""  , false),
+			([]  , false),
+			(std::cin(), false),
+			(std::cout(), true),
+		]);
+	}
 }

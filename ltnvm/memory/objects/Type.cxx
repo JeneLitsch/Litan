@@ -37,6 +37,8 @@ namespace ltn::vm {
 			case type_code::TUPLE_N: return Op::for_tuple_n(code, args...);
 			case type_code::FX: return Op::for_fx(code, args...);
 			case type_code::FX_N: return Op::for_fx_n(code, args...);
+			case type_code::ISTREAM: return Op::for_istream(code, args...);
+			case type_code::OSTREAM: return Op::for_ostream(code, args...);
 			default: return Op::for_default(code, args...);
 		}
 	}
@@ -97,6 +99,14 @@ namespace ltn::vm {
 			std::ostringstream oss;
 			oss << "fx(" << size_uint_8(code) << ")";
 			return oss.str();
+		}
+
+		static std::string for_istream(const std::uint8_t *) {
+			return "istream";
+		}
+
+		static std::string for_ostream(const std::uint8_t *) {
+			return "ostream";
 		}
 
 		static std::string for_default(const std::uint8_t *) {
@@ -186,6 +196,14 @@ namespace ltn::vm {
 				return size == fx.params;
 			}
 			return false;
+		}
+
+		static bool for_istream(const std::uint8_t *, const Value & value, Heap &) {
+			return is_istream(value);
+		}
+
+		static bool for_ostream(const std::uint8_t *, const Value & value, Heap &) {
+			return is_ostream(value);
 		}
 
 		static bool for_default(const std::uint8_t *, const Value &, Heap &) {
@@ -288,6 +306,14 @@ namespace ltn::vm {
 				}
 			}
 			return value::null;
+		}
+
+		static Value for_istream(const std::uint8_t *, const Value & value, Heap &) {
+			return is_istream(value) ? value : value::null;
+		}
+
+		static Value for_ostream(const std::uint8_t *, const Value & value, Heap &) {
+			return is_ostream(value) ? value : value::null;
 		}
 
 		static Value for_default(const std::uint8_t *, const Value &, Heap &) {

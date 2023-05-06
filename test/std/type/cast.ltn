@@ -238,4 +238,36 @@ namespace sphinx::test {
 			(fx_2, fx_2),
 		]);
 	}
+
+
+
+	function std_type_cast_istream() {
+		utils::test_cast(<istream>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([] ,  null),
+			(std::cin(), std::cin()),
+			(std::cout(), null),
+		]);
+	}
+
+
+
+	function std_type_cast_ostream() {
+		utils::test_cast(<ostream>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([] ,  null),
+			(std::cin(), null),
+			(std::cout(), std::cout()),
+		]);
+	}
 }

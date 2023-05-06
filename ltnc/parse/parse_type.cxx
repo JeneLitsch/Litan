@@ -98,6 +98,8 @@ namespace ltn::c {
 				if(name->str == "array") return array_type(begin, tokens);
 				if(name->str == "tuple") return tuple_type(begin, tokens);
 				if(name->str == "fx") return fx_type(begin, tokens);
+				if(name->str == "istream") return simple_type<ast::Type::IStream>(begin);
+				if(name->str == "ostream") return simple_type<ast::Type::OStream>(begin);
 				throw CompilerError {"Unknown type name " + name->str, name->location};
 			}
 			throw CompilerError {"Expected type name", begin.location};

@@ -76,5 +76,7 @@ namespace sphinx::test {
 		assert_equal_strict(std::str(<fx>), "fx");
 		assert_equal_strict(std::str(<fx(1)>), "fx(1)");
 		assert_equal_strict(std::str(<fx(2)>), "fx(2)");
+		assert_equal_strict(std::str(<istream>), "istream");
+		assert_equal_strict(std::str(<ostream>), "ostream");
 	}
 }

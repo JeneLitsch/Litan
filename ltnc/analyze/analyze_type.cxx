@@ -31,7 +31,6 @@ namespace ltn::c {
 			return {type_code::STRING};		
 		}
 
-
 		std::vector<std::uint8_t> array_of(std::vector<std::uint8_t> type) {
 			std::vector<std::uint8_t> arr{type_code::ARRAY};
 			arr += type;
@@ -77,12 +76,21 @@ namespace ltn::c {
 			return code;
 		}
 
+		std::vector<std::uint8_t> analyze_type(const ast::Type::IStream & type, Scope & scope) {
+			return {type_code::ISTREAM};		
+		}
+
+		std::vector<std::uint8_t> analyze_type(const ast::Type::OStream & type, Scope & scope) {
+			return {type_code::OSTREAM};		
+		}
+
 		std::vector<std::uint8_t> analyze_type(const ast::Type & type, Scope & scope) {
 			return std::visit([&] (auto & t) {
 				return analyze_type(t, scope);
 			}, type.variant);
 		}
 	}
+
 
 
 	sst::expr_ptr analyze_expr(const ast::Type & type, Scope & scope) {

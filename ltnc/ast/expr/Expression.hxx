@@ -544,6 +544,8 @@ namespace ltn::c::ast {
 		struct FxN {
 			std::uint64_t arity;
 		};
+		struct IStream {};
+		struct OStream {};
 
 		using Variant = std::variant<
 			Null,
@@ -553,10 +555,9 @@ namespace ltn::c::ast {
 			Float,
 			String,
 			Array,
-			TupleN,
-			Tuple,
-			Fx,
-			FxN
+			Tuple, TupleN,
+			Fx, FxN,
+			IStream, OStream
 		>;
 
 		Type(Variant variant, const SourceLocation & location)
