@@ -158,7 +158,7 @@ namespace ltn::c::inst {
 	Inst null();
 
 	Inst newarr(std::uint64_t size);
-	Inst newstr(std::vector<std::uint8_t> byte);
+	Inst newstr(std::vector<std::uint8_t> bytes);
 	Inst newstr(const std::string & str);
 	Inst newfx(const std::string & label, std::uint64_t arity);
 	Inst newclock();
@@ -167,6 +167,7 @@ namespace ltn::c::inst {
 	Inst newqueue();
 	Inst newmap();
 	Inst newtuple(std::uint64_t size);
+	Inst newtype(std::vector<std::uint8_t> bytes);
 
 	Inst jump(const std::string & label);
 	Inst call(const std::string & label, std::uint8_t arity);

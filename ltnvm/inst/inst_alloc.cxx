@@ -96,4 +96,16 @@ namespace ltn::vm::inst {
 		core.stack.push(value::tuple(ptr));
 		core.heap.collect_garbage(core.stack, core.static_variables);
 	}
+
+
+
+	void newtype(VmCore & core){
+		const auto size = core.fetch_uint();
+		const auto cstr = core.fetch_str();
+		std::string str(cstr, cstr + size); 
+		const auto ptr = core.heap.alloc<String>({std::move("<" + str + ">")});
+		core.stack.push({ ptr, Value::Type::STRING });
+		core.pc += size;
+		core.heap.collect_garbage(core.stack, core.static_variables);
+	}
 }
