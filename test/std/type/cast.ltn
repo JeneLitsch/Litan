@@ -1,0 +1,141 @@
+namespace sphinx::test {
+	namespace utils {
+		function test_cast(type, expected) {
+			for(e : expected) {
+				var (value, result) = e;
+				assert_equal_strict(std::cast(type, value), result);
+			}
+		}
+	}
+
+
+
+	function std_type_cast_null() {
+		utils::test_cast(<null>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([]  , null),
+		]);
+	}
+
+
+
+	function std_type_cast_bool() {
+		utils::test_cast(<bool>, [
+			(null, false),
+			(false, false),
+			(true, true),
+			('A' , true),
+			(0   , false),
+			(1   , true),
+			(1.0 , true),
+			(""  , true),
+			([]  , true),
+		]);
+	}
+
+
+
+	function std_type_cast_char() {
+		utils::test_cast(<char>, [
+			(null, null),
+			('A' , 'A'),
+			(""  , null),
+			([]  , null),
+		]);
+	}
+
+
+
+	function std_type_cast_int() {
+		utils::test_cast(<int>, [
+			(null, null),
+			(true, 1),
+			('A' , 65),
+			(1   , 1),
+			(1.5 , 1),
+			(""  , null),
+			([]  , null),
+		]);
+	}
+
+
+
+	function std_type_cast_float() {
+		utils::test_cast(<float>, [
+			(null, null),
+			(true, 1.0),
+			('A' , 65.0),
+			(1   , 1.0),
+			(1.5 , 1.5),
+			(""  , null),
+			([]  , null),
+		]);
+	}
+
+
+
+	function std_type_cast_string() {
+		utils::test_cast(<string>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , ""),
+			([]  , null),
+		]);
+	}
+
+
+
+	function std_type_cast_array() {
+		utils::test_cast(<array>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([]  , []),
+			([1,2,3], [1,2,3]),
+			([1.5,2.5,3.5], [1.5,2.5,3.5]),
+		]);
+	}
+
+
+
+	function std_type_cast_array_int() {
+		utils::test_cast(<array(int)>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([]  , []),
+			([1,2,3], [1,2,3]),
+			([1.5,2.5,3.5], [1,2,3]),
+		]);
+	}
+
+
+
+	function std_type_cast_array_float() {
+		utils::test_cast(<array(float)>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([]  , []),
+			([1,2,3], [1.0,2.0,3.0]),
+			([1.0,2.0,3.0], [1.0,2.0,3.0]),
+		]);
+	}
+}

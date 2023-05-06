@@ -158,5 +158,10 @@ namespace std {
 
 	function is_rng(value) const
 		=> is_type(value, type::rng)
+
+
+
+	build_in is(type, value) const @type_is
+	build_in cast(type, value) const @type_cast
 }
 )###";

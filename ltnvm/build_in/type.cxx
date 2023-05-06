@@ -23,4 +23,22 @@ namespace ltn::vm::build_in::type {
 		if(is_iterator(ref)) return Value{core.heap.clone<Iterator>(ref.u), ref.type};
 		throw except::invalid_argument("Cannot clone");
 	}
+
+
+
+	Value is(VmCore & core) {
+		const auto value = core.stack.pop();
+		const auto ref = core.stack.pop();
+		auto & type = core.heap.read<Type>(ref.u);
+		return value::boolean(type_is(type, value, core.heap));
+	}
+
+
+
+	Value cast(VmCore & core) {
+		const auto value = core.stack.pop();
+		const auto ref = core.stack.pop();
+		auto & type = core.heap.read<Type>(ref.u);
+		return type_cast(type, value, core.heap);
+	}
 }

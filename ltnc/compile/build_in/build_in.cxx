@@ -126,6 +126,8 @@ namespace ltn::c {
 
 		{"type_clone",               vm_build_in<FxCode::TYPE_CLONE>},
 		{"type_typeid",              vm_build_in<FxCode::TYPE_ID>},
+		{"type_is",                  vm_build_in<FxCode::TYPE_IS>},
+		{"type_cast",                vm_build_in<FxCode::TYPE_CAST>},
 
 		{"to_string",                vm_build_in<FxCode::TO_STRING>},
 		{"split_string",             vm_build_in<FxCode::SPLIT_STRING>},

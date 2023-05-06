@@ -121,6 +121,8 @@ files=(
 
 	"test/std/type/mono.ltn"
 	"test/std/type/pair.ltn"
+	"test/std/type/is.ltn"
+	"test/std/type/cast.ltn"
 )
 
 bin_file="tmp/bin"

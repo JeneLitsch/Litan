@@ -97,6 +97,8 @@ namespace ltn::vm::inst {
 
 		table[FxCode::TYPE_ID] = build_in::type::id;
 		table[FxCode::TYPE_CLONE] = build_in::type::clone;
+		table[FxCode::TYPE_IS] = build_in::type::is;
+		table[FxCode::TYPE_CAST] = build_in::type::cast;
 
 		table[FxCode::ITER_RANGE] = build_in::iter::range;
 		table[FxCode::ITER_NEXT] = build_in::iter::next;

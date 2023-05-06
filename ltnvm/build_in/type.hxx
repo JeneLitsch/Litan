@@ -4,4 +4,6 @@
 namespace ltn::vm::build_in::type {
 	Value id(VmCore & core);
 	Value clone(VmCore & core);
+	Value is(VmCore & core);
+	Value cast(VmCore & core);
 }
