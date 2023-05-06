@@ -270,4 +270,79 @@ namespace sphinx::test {
 			(std::cout(), std::cout()),
 		]);
 	}
+
+
+	
+	function std_type_cast_iter() {
+		utils::test_cast(<iter>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([] ,  null),
+			(std::range(0,1), std::range(0,1)),
+		]);
+	}
+
+
+
+	function std_type_cast_stop() {
+		utils::test_cast(<stop>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([] ,  null),
+			(std::iter::get(std::range(0,0)), std::iter::get(std::range(0,0))),
+		]);
+	}
+
+
+
+	function std_type_cast_rng() {
+		utils::test_cast(<rng>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([] ,  null),
+			(std::random::mersenne(), std::random::mersenne()),
+		]);
+	}
+
+
+	
+	function std_type_cast_clock() {
+		utils::test_cast(<clock>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([] ,  null),
+			(std::chrono::clock(), std::chrono::clock()),
+		]);
+	}
+
+
+
+	function std_type_cast_type() {
+		utils::test_cast(<type>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([] ,  null),
+			(<int>, <int>),
+		]);
+	}
 }

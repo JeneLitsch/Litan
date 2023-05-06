@@ -100,6 +100,11 @@ namespace ltn::c {
 				if(name->str == "fx") return fx_type(begin, tokens);
 				if(name->str == "istream") return simple_type<ast::Type::IStream>(begin);
 				if(name->str == "ostream") return simple_type<ast::Type::OStream>(begin);
+				if(name->str == "iter") return simple_type<ast::Type::Iterator>(begin);
+				if(name->str == "stop") return simple_type<ast::Type::IteratorStop>(begin);
+				if(name->str == "rng") return simple_type<ast::Type::Rng>(begin);
+				if(name->str == "clock") return simple_type<ast::Type::Clock>(begin);
+				if(name->str == "type") return simple_type<ast::Type::TypeT>(begin);
 				throw CompilerError {"Unknown type name " + name->str, name->location};
 			}
 			throw CompilerError {"Expected type name", begin.location};

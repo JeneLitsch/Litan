@@ -107,11 +107,6 @@ namespace ltn::vm::inst {
 
 		Value conversion(const std::uint8_t * type, const Value & value, VmCore & core) {
 			switch (*type) {
-			case type_code::OPTIONAL: {
-				return is_null(value) 
-					? value::null
-					: conversion(type + 1, value, core);
-			} 
 			case type_code::BOOL:    return convert::to_bool(value);
 			case type_code::CHAR:    return convert::to_char(value);
 			case type_code::INT:     return convert::to_int(value);

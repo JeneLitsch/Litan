@@ -546,6 +546,11 @@ namespace ltn::c::ast {
 		};
 		struct IStream {};
 		struct OStream {};
+		struct Iterator {};
+		struct IteratorStop {};
+		struct TypeT {};
+		struct Rng {};
+		struct Clock {};
 
 		using Variant = std::variant<
 			Null,
@@ -557,7 +562,9 @@ namespace ltn::c::ast {
 			Array,
 			Tuple, TupleN,
 			Fx, FxN,
-			IStream, OStream
+			IStream, OStream,
+			Iterator, IteratorStop,
+			TypeT, Rng, Clock
 		>;
 
 		Type(Variant variant, const SourceLocation & location)

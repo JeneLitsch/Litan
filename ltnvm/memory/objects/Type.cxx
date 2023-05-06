@@ -39,6 +39,11 @@ namespace ltn::vm {
 			case type_code::FX_N: return Op::for_fx_n(code, args...);
 			case type_code::ISTREAM: return Op::for_istream(code, args...);
 			case type_code::OSTREAM: return Op::for_ostream(code, args...);
+			case type_code::ITERATOR: return Op::for_iter(code, args...);
+			case type_code::ITERATOR_STOP: return Op::for_stop(code, args...);
+			case type_code::RNG: return Op::for_rng(code, args...);
+			case type_code::CLOCK: return Op::for_clock(code, args...);
+			case type_code::TYPE: return Op::for_type(code, args...);
 			default: return Op::for_default(code, args...);
 		}
 	}
@@ -107,6 +112,26 @@ namespace ltn::vm {
 
 		static std::string for_ostream(const std::uint8_t *) {
 			return "ostream";
+		}
+
+		static std::string for_iter(const std::uint8_t *) {
+			return "iter";
+		}
+
+		static std::string for_stop(const std::uint8_t *) {
+			return "stop";
+		}
+
+		static std::string for_rng(const std::uint8_t *) {
+			return "rng";
+		}
+
+		static std::string for_clock(const std::uint8_t *) {
+			return "clock";
+		}
+
+		static std::string for_type(const std::uint8_t *) {
+			return "type";
 		}
 
 		static std::string for_default(const std::uint8_t *) {
@@ -204,6 +229,26 @@ namespace ltn::vm {
 
 		static bool for_ostream(const std::uint8_t *, const Value & value, Heap &) {
 			return is_ostream(value);
+		}
+
+		static bool for_iter(const std::uint8_t *, const Value & value, Heap &) {
+			return is_iterator(value);
+		}
+
+		static bool for_stop(const std::uint8_t *, const Value & value, Heap &) {
+			return is_iterator_stop(value);
+		}
+
+		static bool for_rng(const std::uint8_t *, const Value & value, Heap &) {
+			return is_rng(value);
+		}
+
+		static bool for_type(const std::uint8_t *, const Value & value, Heap &) {
+			return is_type(value);
+		}
+
+		static bool for_clock(const std::uint8_t *, const Value & value, Heap &) {
+			return is_clock(value);
 		}
 
 		static bool for_default(const std::uint8_t *, const Value &, Heap &) {
@@ -314,6 +359,26 @@ namespace ltn::vm {
 
 		static Value for_ostream(const std::uint8_t *, const Value & value, Heap &) {
 			return is_ostream(value) ? value : value::null;
+		}
+
+		static Value for_iter(const std::uint8_t *, const Value & value, Heap &) {
+			return is_iterator(value) ? value : value::null;
+		}
+
+		static Value for_stop(const std::uint8_t *, const Value & value, Heap &) {
+			return is_iterator_stop(value) ? value : value::null;
+		}
+
+		static Value for_rng(const std::uint8_t *, const Value & value, Heap &) {
+			return is_rng(value) ? value : value::null;
+		}
+
+		static Value for_type(const std::uint8_t *, const Value & value, Heap &) {
+			return is_type(value) ? value : value::null;
+		}
+		
+		static Value for_clock(const std::uint8_t *, const Value & value, Heap &) {
+			return is_clock(value) ? value : value::null;
 		}
 
 		static Value for_default(const std::uint8_t *, const Value &, Heap &) {

@@ -87,5 +87,9 @@ namespace ltn::vm {
 		constexpr inline Value type(std::uint64_t address) {
 			return Value{address, Value::Type::TYPE};
 		}
+
+		constexpr inline Value fx(std::uint64_t address) {
+			return Value{address, Value::Type::FX_PTR};
+		}
 	}
 }

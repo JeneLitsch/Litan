@@ -84,6 +84,26 @@ namespace ltn::c {
 			return {type_code::OSTREAM};		
 		}
 
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Iterator & type, Scope & scope) {
+			return {type_code::ITERATOR};		
+		}
+
+		std::vector<std::uint8_t> analyze_type(const ast::Type::IteratorStop & type, Scope & scope) {
+			return {type_code::ITERATOR_STOP};		
+		}
+
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Clock & type, Scope & scope) {
+			return {type_code::CLOCK};		
+		}
+
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Rng & type, Scope & scope) {
+			return {type_code::RNG};		
+		}
+
+		std::vector<std::uint8_t> analyze_type(const ast::Type::TypeT & type, Scope & scope) {
+			return {type_code::TYPE};		
+		}
+
 		std::vector<std::uint8_t> analyze_type(const ast::Type & type, Scope & scope) {
 			return std::visit([&] (auto & t) {
 				return analyze_type(t, scope);
