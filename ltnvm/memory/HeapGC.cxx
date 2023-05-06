@@ -38,6 +38,7 @@ namespace ltn::vm {
 			case Value::Type::STACK:         return this->mark_deque(value);
 			case Value::Type::MAP:           return this->mark_map(value);
 			case Value::Type::RNG:           return this->mark_rng(value);
+			case Value::Type::TYPE:          return this->mark_type(value);
 		}
 	}
 
@@ -144,6 +145,12 @@ namespace ltn::vm {
 
 
 
+	void Heap::mark_type(const Value & value) {
+		pool_of<Type>().gc_mark(value.u);
+	}
+
+
+
 	void Heap::sweep() {
 		pool_of<String>().gc_sweep();
 		pool_of<Array>().gc_sweep();
@@ -156,5 +163,6 @@ namespace ltn::vm {
 		pool_of<Deque>().gc_sweep();
 		pool_of<Map>().gc_sweep();
 		pool_of<RandomEngine>().gc_sweep();
+		pool_of<Type>().gc_sweep();
 	}
 }

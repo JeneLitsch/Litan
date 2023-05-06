@@ -102,9 +102,9 @@ namespace ltn::vm::inst {
 	void newtype(VmCore & core){
 		const auto size = core.fetch_uint();
 		const auto cstr = core.fetch_str();
-		std::string str(cstr, cstr + size); 
-		const auto ptr = core.heap.alloc<String>({std::move("<" + str + ">")});
-		core.stack.push({ ptr, Value::Type::STRING });
+		std::vector<std::uint8_t> code(cstr, cstr + size); 
+		const auto ptr = core.heap.alloc<Type>({std::move(code)});
+		core.stack.push(value::type(ptr));
 		core.pc += size;
 		core.heap.collect_garbage(core.stack, core.static_variables);
 	}

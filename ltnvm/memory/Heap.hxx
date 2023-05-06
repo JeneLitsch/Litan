@@ -19,6 +19,7 @@
 #include "objects/Deque.hxx"
 #include "objects/Map.hxx"
 #include "objects/RandomEngine.hxx"
+#include "objects/Type.hxx"
 #include "ObjectPool.hxx"
 
 namespace ltn::vm {
@@ -96,6 +97,7 @@ namespace ltn::vm {
 		void mark_map(const Value & value);
 		void mark_clock(const Value & value);
 		void mark_rng(const Value & value);
+		void mark_type(const Value & value);
 		void sweep();
 
 		template<class Obj>
@@ -119,7 +121,8 @@ namespace ltn::vm {
 			ObjectPool<Struct>,
 			ObjectPool<Deque>,
 			ObjectPool<Map>,
-			ObjectPool<RandomEngine>
+			ObjectPool<RandomEngine>,
+			ObjectPool<Type>
 		> pools;
 
 		std::queue<std::uint64_t> reuse;

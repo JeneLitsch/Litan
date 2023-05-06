@@ -137,6 +137,12 @@ namespace ltn::vm {
 			return "<iterator_stop>";
 		}
 
+		if(is_type(value)) {
+			auto & type = heap.read<Type>(value.u);
+			std::string str {std::begin(type.code), std::end(type.code)};
+			return "<type:" + str + ">";
+		}
+
 		throw Exception{
 			.type = Exception::Type::INVALID_ARGUMENT,
 			.msg = "Cannot stringify"

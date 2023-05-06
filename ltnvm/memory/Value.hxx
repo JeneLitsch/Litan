@@ -14,7 +14,7 @@ namespace ltn::vm {
 			CLOCK = 0x50,
 			STRUCT = 0x60,
 			QUEUE = 0x70, STACK, MAP,
-			RNG = 0x80,
+			RNG = 0x80, TYPE,
 		};
 
 		constexpr Value()
@@ -82,6 +82,10 @@ namespace ltn::vm {
 
 		constexpr inline Value iterator(std::uint64_t address) {
 			return Value{address, Value::Type::ITERATOR};
+		}
+
+		constexpr inline Value type(std::uint64_t address) {
+			return Value{address, Value::Type::TYPE};
 		}
 	}
 }
