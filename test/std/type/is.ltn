@@ -10,7 +10,7 @@ namespace sphinx::test {
 
 
 
-	function std_type_is_null() {
+	function std_is_type_null() {
 		utils::test_is(<null>, [
 			(null, true),
 			(true, false),
@@ -24,7 +24,16 @@ namespace sphinx::test {
 
 
 
-	function std_type_is_bool() {
+	function std_is_null() {
+		assert_true(std::is_null(null));
+		assert_false(std::is_null(1));
+		assert_false(std::is_null(std::pair(1,2)));
+	}
+
+
+
+
+	function std_is_type_bool() {
 		utils::test_is(<bool>, [
 			(null, false),
 			(true, true),
@@ -38,7 +47,15 @@ namespace sphinx::test {
 
 
 
-	function std_type_is_char() {
+	function std_is_bool() {
+		assert_true(std::is_bool(true));
+		assert_false(std::is_bool(null));
+	}
+
+
+
+
+	function std_is_type_char() {
 		utils::test_is(<char>, [
 			(null, false),
 			(true, false),
@@ -52,7 +69,7 @@ namespace sphinx::test {
 
 
 
-	function std_type_is_int() {
+	function std_is_type_int() {
 		utils::test_is(<int>, [
 			(null, false),
 			(true, false),
@@ -66,7 +83,14 @@ namespace sphinx::test {
 
 
 
-	function std_type_is_float() {
+	function std_is_int() {
+		assert_true(std::is_int(1));
+		assert_false(std::is_int('A'));
+	}
+
+
+
+	function std_is_type_float() {
 		utils::test_is(<float>, [
 			(null, false),
 			(true, false),
@@ -80,7 +104,14 @@ namespace sphinx::test {
 
 
 
-	function std_type_is_string() {
+	function std_is_float() {
+		assert_false(std::is_float(1));
+		assert_true(std::is_float(1.0));
+	}
+
+
+
+	function std_is_type_string() {
 		utils::test_is(<string>, [
 			(null, false),
 			(true, false),
@@ -91,10 +122,16 @@ namespace sphinx::test {
 			([]  , false),
 		]);
 	}
+	
+
+	
+	function std_is_string() {
+		assert_true(std::is_string("A"));
+	}
 
 
 
-	function std_type_is_array() {
+	function std_is_type_array() {
 		utils::test_is(<array>, [
 			(null, false),
 			(true, false),
@@ -110,7 +147,14 @@ namespace sphinx::test {
 
 
 
-	function std_type_is_array_int() {
+	function std_is_array() {
+		assert_false(std::is_array("A"));
+		assert_true(std::is_array([]));
+	}
+
+
+
+	function std_is_type_array_int() {
 		utils::test_is(<array(int)>, [
 			(null, false),
 			(true, false),
@@ -126,7 +170,7 @@ namespace sphinx::test {
 
 
 
-	function std_type_is_array_float() {
+	function std_is_type_array_float() {
 		utils::test_is(<array(float)>, [
 			(null, false),
 			(true, false),

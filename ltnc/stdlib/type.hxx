@@ -76,22 +76,13 @@ namespace std {
 
 
 
-	function is_null(value) const
-		=> is_type(value, type::nul)
-
-
-
-	function is_bool(value) const
-		=> is_type(value, type::bool)
-
-	function is_char(value) const
-		=> is_type(value, type::char)
-
-	function is_int(value) const 
-		=> is_type(value, type::int)
-
-	function is_float(value) const 
-		=> is_type(value, type::float)
+	function is_null(value) const   => is(<null>, value)
+	function is_bool(value) const   => is(<bool>, value)
+	function is_char(value) const   => is(<char>, value)
+	function is_int(value) const    => is(<int>, value)
+	function is_float(value) const  => is(<float>, value)
+	function is_array(value) const  => is(<array>, value)
+	function is_string(value) const => is(<string>, value)
 
 	function is_integral(value) const 
 		=> is_bool(value)
@@ -101,17 +92,6 @@ namespace std {
 	function is_numeric(value) const 
 		=> is_integral(value)
 		|| is_float(value)
-
-
-
-
-
-	function is_array(value) const 
-		=> is_type(value, type::array)
-	
-	function is_string(value) const 
-		=> is_type(value, type::string)
-
 
 
 	function is_istream(value) const 

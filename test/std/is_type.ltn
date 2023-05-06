@@ -15,45 +15,7 @@ namespace sphinx::test {
 
 
 
-	function std_is_null() {
-		assert_true(std::is_null(null));
-		assert_false(std::is_null(1));
-		assert_false(std::is_null(std::pair(1,2)));
-	}
 
-
-
-	function std_is_bool() {
-		assert_true(std::is_bool(true));
-		assert_false(std::is_bool(null));
-	}
-
-
-
-	function std_is_int() {
-		assert_true(std::is_int(1));
-		assert_false(std::is_int('A'));
-	}
-
-
-
-	function std_is_float() {
-		assert_false(std::is_float(1));
-		assert_true(std::is_float(1.0));
-	}
-
-
-
-	function std_is_string() {
-		assert_true(std::is_string("A"));
-	}
-
-
-
-	function std_is_array() {
-		assert_false(std::is_array("A"));
-		assert_true(std::is_array([]));
-	}
 
 
 
