@@ -536,9 +536,10 @@ namespace ltn::c::ast {
 		struct Array {
 			std::unique_ptr<Type> contains;
 		};
-		// struct Tuple {
-		// 	std::vector<std::unique_ptr<Type>> contains;
-		// };
+		struct TupleN {
+			std::vector<std::unique_ptr<Type>> contains;
+		};
+		struct Tuple {};
 		// struct Fx {
 		// 	std::uint64_t arity;
 		// };
@@ -550,7 +551,9 @@ namespace ltn::c::ast {
 			Int,
 			Float,
 			String,
-			Array
+			Array,
+			TupleN,
+			Tuple
 		>;
 
 		Type(Variant variant, const SourceLocation & location)

@@ -54,7 +54,6 @@ namespace sphinx::test {
 
 
 
-
 	function std_is_type_char() {
 		utils::test_is(<char>, [
 			(null, false),
@@ -181,6 +180,40 @@ namespace sphinx::test {
 			([]  , true),
 			([1,2,3], false),
 			([1.0,2.0,3.0], true),
+		]);
+	}
+
+
+
+	function std_is_type_tuple() {
+		utils::test_is(<tuple>, [
+			(null, false),
+			(true, false),
+			('A' , false),
+			(1   , false),
+			(1.0 , false),
+			(""  , false),
+			([]  , false),
+			((1,) , true),
+			((1,2) , true),
+			((1,2,3) , true),
+		]);
+	}
+
+
+
+	function std_is_type_tuple_int_float() {
+		utils::test_is(<tuple(int, float)>, [
+			(null, false),
+			(true, false),
+			('A' , false),
+			(1   , false),
+			(1.0 , false),
+			(""  , false),
+			([]  , false),
+			((1,) , false),
+			((1,2.0) , true),
+			((1,2.0,3) , false),
 		]);
 	}
 }

@@ -36,6 +36,31 @@ namespace ltn::c {
 		}
 
 
+		ast::type_ptr tuple_type(const Token & begin, Tokens & tokens) {
+			const auto & loc = begin.location;
+			if(match(TT::PAREN_L, tokens)) {
+				if(match(TT::PAREN_R, tokens)) {
+					return std::make_unique<ast::Type>(ast::Type::TupleN{
+						.contains = {},
+					}, loc);
+				}
+				std::vector<ast::type_ptr> sub_types;
+				do {
+					sub_types.push_back(parse_type_name(begin, tokens));
+				} while(match(TT::COMMA, tokens));
+				if(!match(TT::PAREN_R, tokens)) throw CompilerError {
+					"Expected )", loc
+				};
+				return std::make_unique<ast::Type>(ast::Type::TupleN{
+					.contains = std::move(sub_types),
+				}, loc);
+			}
+			else {
+				return std::make_unique<ast::Type>(ast::Type::Tuple{}, loc); 
+			}
+		}
+
+
 		ast::type_ptr parse_type_name(const Token & begin, Tokens & tokens) {
 			if(auto name = match(TT::NVLL, tokens)) {
 				return simple_type<ast::Type::Null>(begin);
@@ -47,6 +72,7 @@ namespace ltn::c {
 				if(name->str == "float") return simple_type<ast::Type::Float>(begin);
 				if(name->str == "string") return simple_type<ast::Type::String>(begin);
 				if(name->str == "array") return array_type(begin, tokens);
+				if(name->str == "tuple") return tuple_type(begin, tokens);
 				throw CompilerError {"Unknown type name " + name->str, name->location};
 			}
 			throw CompilerError {"Expected type name", begin.location};

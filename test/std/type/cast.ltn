@@ -138,4 +138,50 @@ namespace sphinx::test {
 			([1.0,2.0,3.0], [1.0,2.0,3.0]),
 		]);
 	}
+
+
+	function std_type_cast_tuple() {
+		utils::test_cast(<tuple>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([1]  , (1,)),
+			([1,2,3], (1,2,3)),
+			([1.0,2.0,3.0], (1.0,2.0,3.0)),
+		]);
+	}
+
+
+	function std_type_cast_tuple_float() {
+		utils::test_cast(<tuple(float)>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([1] , (1.0,)),
+			([1,2,3], null),
+			([1.0,2.0,3.0], null),
+		]);
+	}
+
+
+
+	function std_type_cast_tuple_float_int_float() {
+		utils::test_cast(<tuple(float, int, float)>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([1] , null),
+			([1,2,3], (1.0,2,3.0)),
+			([1.0,2.0,3.0], (1.0,2,3.0)),
+		]);
+	}
 }

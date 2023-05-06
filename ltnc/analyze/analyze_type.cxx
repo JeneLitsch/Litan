@@ -47,6 +47,23 @@ namespace ltn::c {
 			}
 		}
 
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Tuple & type, Scope & scope) {
+			return {type_code::TUPLE};		
+		}
+
+		std::vector<std::uint8_t> analyze_type(const ast::Type::TupleN & type, Scope & scope) {
+			std::vector<std::uint8_t> code;
+			code.push_back(type_code::TUPLE_N);
+			std::uint64_t size = std::size(type.contains);
+			for(std::size_t i = 0; i < 8; ++i) {
+				code.push_back((size >> ((i) * 8)) & 0xff);
+			}
+			for(const auto & elem : type.contains) {
+				code += analyze_type(*elem, scope);
+			}
+			return code;
+		}
+
 		std::vector<std::uint8_t> analyze_type(const ast::Type & type, Scope & scope) {
 			return std::visit([&] (auto & t) {
 				return analyze_type(t, scope);
