@@ -139,8 +139,7 @@ namespace ltn::vm {
 
 		if(is_type(value)) {
 			auto & type = heap.read<Type>(value.u);
-			std::string str {std::begin(type.code), std::end(type.code)};
-			return "<type:" + str + ">";
+			return to_type_name(type);
 		}
 
 		throw Exception{

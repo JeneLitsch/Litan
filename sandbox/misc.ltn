@@ -2,5 +2,6 @@ function main(args) {
 	// std::is(<int>, 1);
 	// std::cast(<fx(2)>, 1);
 	// std::default(<array(int)>);
-	std::println(<array(array(float))>);
+	var type = <array(array(float))>;
+	std::println(type);
 }

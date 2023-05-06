@@ -59,4 +59,16 @@ namespace sphinx::test {
 		assert_equal_strict(std::str((1, 2, 3)), "(1, 2, 3)");
 		assert_equal_strict(std::str((1, 2, (3, 4))), "(1, 2, (3, 4))");
 	}
+
+
+
+	function str_str_type() {
+		assert_equal_strict(std::str(<null>), "null");
+		assert_equal_strict(std::str(<bool>), "bool");
+		assert_equal_strict(std::str(<char>), "char");
+		assert_equal_strict(std::str(<int>), "int");
+		assert_equal_strict(std::str(<float>), "float");
+		assert_equal_strict(std::str(<string>), "string");
+		assert_equal_strict(std::str(<array(float)>), "array(float)");
+	}
 }

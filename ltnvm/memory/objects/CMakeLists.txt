@@ -4,6 +4,7 @@ target_sources(libltnvm PRIVATE
 	Clock.cxx
 	Iterator.cxx
 	RandomEngine.cxx
+	Type.cxx
 )
 
 add_subdirectory(iter)

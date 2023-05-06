@@ -37,8 +37,10 @@ namespace ltn::c {
 
 
 		ast::type_ptr parse_type_name(const Token & begin, Tokens & tokens) {
+			if(auto name = match(TT::NVLL, tokens)) {
+				return simple_type<ast::Type::Null>(begin);
+			}
 			if(auto name = match(TT::INDENTIFIER, tokens)) {
-				if(name->str == "null") return simple_type<ast::Type::Null>(begin);
 				if(name->str == "bool") return simple_type<ast::Type::Bool>(begin);
 				if(name->str == "char") return simple_type<ast::Type::Char>(begin);
 				if(name->str == "int") return simple_type<ast::Type::Int>(begin);
