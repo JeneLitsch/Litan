@@ -64,6 +64,32 @@ namespace ltn::c {
 		}
 
 
+
+		ast::type_ptr map_type(const Token & begin, Tokens & tokens) {
+			const auto & loc = begin.location;
+			if(match(TT::PAREN_L, tokens)) {
+				auto key = parse_type_name(begin, tokens);
+				if(!match(TT::COMMA, tokens)) throw CompilerError {
+					"Expected ,", loc
+				};
+				auto val = parse_type_name(begin, tokens);
+				if(!match(TT::PAREN_R, tokens)) throw CompilerError {
+					"Expected )", loc
+				};
+				return std::make_unique<ast::Type>(ast::Type::Map{
+					.key = std::move(key),
+					.value = std::move(val),
+				}, loc);
+			}
+			else {
+				return std::make_unique<ast::Type>(ast::Type::Map{
+					.key = nullptr,
+					.value = nullptr,
+				}, loc); 
+			}
+		}
+
+
 		ast::type_ptr fx_type(const Token & begin, Tokens & tokens) {
 			const auto & loc = begin.location;
 			if(match(TT::PAREN_L, tokens)) {
@@ -110,6 +136,7 @@ namespace ltn::c {
 				if(name->str == "type") return simple_type<ast::Type::TypeT>(begin);
 				if(name->str == "queue") return unary_type<ast::Type::Queue>(begin, tokens);
 				if(name->str == "stack") return unary_type<ast::Type::Stack>(begin, tokens);
+				if(name->str == "map") return map_type(begin, tokens);
 				throw CompilerError {"Unknown type name " + name->str, name->location};
 			}
 			throw CompilerError {"Expected type name", begin.location};

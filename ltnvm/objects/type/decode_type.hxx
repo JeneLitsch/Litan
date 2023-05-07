@@ -25,6 +25,7 @@ namespace ltn::vm {
 			case type_code::TYPE: return Op::for_type(code, args...);
 			case type_code::QUEUE: return Op::for_queue(code, args...);
 			case type_code::STACK: return Op::for_stack(code, args...);
+			case type_code::MAP: return Op::for_map(code, args...);
 			default: return Op::for_default(code, args...);
 		}
 	}

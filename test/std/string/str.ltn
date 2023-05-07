@@ -88,5 +88,7 @@ namespace sphinx::test {
 		assert_equal_strict(std::str(<queue(float)>), "queue(float)");
 		assert_equal_strict(std::str(<stack>), "stack(...)");
 		assert_equal_strict(std::str(<stack(float)>), "stack(float)");
+		assert_equal_strict(std::str(<map>), "map(..., ...)");
+		assert_equal_strict(std::str(<map(float, int)>), "map(float, int)");
 	}
 }

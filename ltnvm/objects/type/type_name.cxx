@@ -96,6 +96,16 @@ namespace ltn::vm {
 			return "stack(" + type_name(std::next(code)) + ")";
 		}
 
+		static std::string for_map(const std::uint8_t * code) {
+			std::ostringstream oss;
+			oss << "map(";
+			oss << type_name(++code); 
+			oss << ", "; 
+			oss << type_name(++code); 
+			oss << ")"; 
+			return oss.str();
+		}
+
 		static std::string for_default(const std::uint8_t *) {
 			throw except::invalid_argument("Cannot generate type name");
 		}

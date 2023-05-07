@@ -371,4 +371,43 @@ namespace sphinx::test {
 			(q1  , q2),
 		]);
 	}
+
+
+
+
+	// function std_cast_type_map() {
+	// 	var map = std::map();
+	// 	map[1] = "";
+	// 	map[1.0] = "";
+	// 	utils::test_cast(<map>, [
+	// 		(null, null),
+	// 		(true, null),
+	// 		('A' , null),
+	// 		(1   , null),
+	// 		(1.0 , null),
+	// 		(""  , null),
+	// 		(map , map),
+	// 	]);
+	// }
+
+
+
+	// function std_cast_type_map_int_float() {
+	// 	var map1 = std::map();
+	// 	map1[1] = "";
+	// 	map1[1.0] = "";
+	// 	var map2 = std::map();
+	// 	map2[1] = 3.3;
+	// 	map2[2] = 4.4;
+	// 	utils::test_cast(<map(int, float)>, [
+	// 		(null, null),
+	// 		(true, null),
+	// 		('A' , null),
+	// 		(1   , null),
+	// 		(1.0 , null),
+	// 		(""  , null),
+	// 		(map1, null),
+	// 		(map2, map2),
+	// 	]);
+	// }
 }

@@ -119,6 +119,20 @@ namespace ltn::vm {
 		static bool for_queue(const std::uint8_t * code, const Value & value, Heap & heap) {
 			return is_unary_type<Deque, is_queue>(code, value, heap);
 		}
+		
+		static bool for_map(const std::uint8_t * code, const Value & value, Heap & heap) {
+			if(is_map(value)) {
+				auto & map = heap.read<Map>(value.u);
+				auto key_ok = std::all_of(std::begin(map), std::end(map), [&](const auto & elem) {
+					return type_is(std::next(code), elem.first, heap);
+				});
+				auto val_ok = std::all_of(std::begin(map), std::end(map), [&](const auto & elem) {
+					return type_is(std::next(code), elem.second, heap);
+				});
+				return key_ok && val_ok;
+			}
+			return false;
+		}
 
 		static bool for_default(const std::uint8_t *, const Value &, Heap &) {
 			return false;

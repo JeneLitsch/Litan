@@ -135,6 +135,14 @@ namespace ltn::c {
 			return optional_subtype(type_code::STACK, type, scope);
 		}
 
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Map & type, Scope & scope) {
+			std::vector<std::uint8_t> arr{type_code::MAP};
+			static const std::vector<std::uint8_t> any{type_code::ANY};
+			arr += type.key ? analyze_type(*type.key, scope) : any;
+			arr += type.value ? analyze_type(*type.value, scope) : any;
+			return arr;
+		}
+
 		std::vector<std::uint8_t> analyze_type(const ast::Type & type, Scope & scope) {
 			return std::visit([&] (auto & t) {
 				return analyze_type(t, scope);

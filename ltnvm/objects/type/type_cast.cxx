@@ -134,6 +134,10 @@ namespace ltn::vm {
 			return cast_unary_type<Deque, is_stack, value::stack>(code, value, heap);
 		}
 
+		static Value for_map(const std::uint8_t * code, const Value & value, Heap & heap) {
+			return value::null;
+		}
+
 		static Value for_default(const std::uint8_t *, const Value &, Heap &) {
 			return value::null;
 		}

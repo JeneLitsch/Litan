@@ -577,7 +577,8 @@ namespace ltn::c::ast {
 			IStream, OStream,
 			Iterator, IteratorStop,
 			TypeT, Rng, Clock,
-			// Struct, Map,
+			// Struct, 
+			Map,
 			Queue, Stack
 		>;
 
