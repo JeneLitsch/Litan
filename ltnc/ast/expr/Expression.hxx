@@ -42,6 +42,7 @@ namespace ltn::c::ast {
 	struct Type;
 
 
+
 	using ExprVisitor = Visitor<
 		Binary,
 		Unary,
@@ -551,6 +552,17 @@ namespace ltn::c::ast {
 		struct TypeT {};
 		struct Rng {};
 		struct Clock {};
+		// struct Struct {};
+		// struct Queue {
+		// 	std::unique_ptr<Type> contains;
+		// };
+		// struct Stack {
+		// 	std::unique_ptr<Type> contains;
+		// };
+		// struct Map {
+		// 	std::unique_ptr<Type> key;
+		// 	std::unique_ptr<Type> value;
+		// };
 
 		using Variant = std::variant<
 			Null,
@@ -565,6 +577,8 @@ namespace ltn::c::ast {
 			IStream, OStream,
 			Iterator, IteratorStop,
 			TypeT, Rng, Clock
+			// Struct, Map,
+			// Queue, Stack
 		>;
 
 		Type(Variant variant, const SourceLocation & location)

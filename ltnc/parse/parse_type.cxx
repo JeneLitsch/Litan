@@ -17,23 +17,26 @@ namespace ltn::c {
 
 
 
-		ast::type_ptr array_type(const Token & begin, Tokens & tokens) {
+
+		template<typename T>
+		ast::type_ptr unary_type(const Token & begin, Tokens & tokens) {
 			const auto & loc = begin.location;
 			if(match(TT::PAREN_L, tokens)) {
 				auto sub_type = parse_type_name(begin, tokens);
 				if(!match(TT::PAREN_R, tokens)) throw CompilerError {
 					"Expected )", loc
 				};
-				return std::make_unique<ast::Type>(ast::Type::Array{
+				return std::make_unique<ast::Type>(T{
 					.contains = std::move(sub_type),
 				}, loc);
 			}
 			else {
-				return std::make_unique<ast::Type>(ast::Type::Array{
+				return std::make_unique<ast::Type>(T{
 					.contains = nullptr,
 				}, loc); 
 			}
 		}
+
 
 
 		ast::type_ptr tuple_type(const Token & begin, Tokens & tokens) {
@@ -95,7 +98,7 @@ namespace ltn::c {
 				if(name->str == "int") return simple_type<ast::Type::Int>(begin);
 				if(name->str == "float") return simple_type<ast::Type::Float>(begin);
 				if(name->str == "string") return simple_type<ast::Type::String>(begin);
-				if(name->str == "array") return array_type(begin, tokens);
+				if(name->str == "array") return unary_type<ast::Type::Array>(begin, tokens);
 				if(name->str == "tuple") return tuple_type(begin, tokens);
 				if(name->str == "fx") return fx_type(begin, tokens);
 				if(name->str == "istream") return simple_type<ast::Type::IStream>(begin);
