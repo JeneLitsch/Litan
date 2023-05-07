@@ -5,5 +5,3 @@ target_sources(libltnvm PRIVATE
 	HeapGC.cxx
 	Stack.cxx
 )
-
-add_subdirectory(objects)

@@ -13,4 +13,5 @@ add_library(libltnvm
 add_subdirectory(build_in)
 add_subdirectory(external)
 add_subdirectory(inst)
+add_subdirectory(objects)
 add_subdirectory(memory)
