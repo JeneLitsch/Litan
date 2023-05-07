@@ -44,6 +44,8 @@ namespace ltn::vm {
 			case type_code::RNG: return Op::for_rng(code, args...);
 			case type_code::CLOCK: return Op::for_clock(code, args...);
 			case type_code::TYPE: return Op::for_type(code, args...);
+			case type_code::QUEUE: return Op::for_queue(code, args...);
+			case type_code::STACK: return Op::for_stack(code, args...);
 			default: return Op::for_default(code, args...);
 		}
 	}
@@ -134,6 +136,14 @@ namespace ltn::vm {
 			return "type";
 		}
 
+		static std::string for_queue(const std::uint8_t * code) {
+			return "queue(" + to_type_name(std::next(code)) + ")";
+		}
+
+		static std::string for_stack(const std::uint8_t * code) {
+			return "stack(" + to_type_name(std::next(code)) + ")";
+		}
+
 		static std::string for_default(const std::uint8_t *) {
 			throw except::invalid_argument("Cannot generate type name");
 		}
@@ -152,6 +162,19 @@ namespace ltn::vm {
 	}
 
 
+
+	namespace {
+		template<typename DataType, auto type_check>
+		bool is_unary_type(const std::uint8_t * code, const Value & value, Heap & heap) {
+			if(type_check(value)) {
+				auto & arr = heap.read<DataType>(value.u);
+				return std::all_of(std::begin(arr), std::end(arr), [&](const auto & elem) {
+					return type_is(std::next(code), elem, heap);
+				});
+			}
+			return false;
+		}
+	}
 
 
 	struct TypeIs {
@@ -184,13 +207,7 @@ namespace ltn::vm {
 		}
 
 		static bool for_array(const std::uint8_t * code, const Value & value, Heap & heap) {
-			if(is_array(value)) {
-				auto & arr = heap.read<Array>(value.u);
-				return std::all_of(std::begin(arr), std::end(arr), [&](const auto & elem) {
-					return type_is(std::next(code), elem, heap);
-				});
-			}
-			return false;
+			return is_unary_type<Array, is_array>(code, value, heap);
 		}
 
 		static bool for_tuple(const std::uint8_t *, const Value & value, Heap &) {
@@ -251,6 +268,14 @@ namespace ltn::vm {
 			return is_clock(value);
 		}
 
+		static bool for_stack(const std::uint8_t * code, const Value & value, Heap & heap) {
+			return is_unary_type<Deque, is_stack>(code, value, heap);
+		}
+
+		static bool for_queue(const std::uint8_t * code, const Value & value, Heap & heap) {
+			return is_unary_type<Deque, is_queue>(code, value, heap);
+		}
+
 		static bool for_default(const std::uint8_t *, const Value &, Heap &) {
 			return false;
 		}
@@ -266,6 +291,23 @@ namespace ltn::vm {
 
 	bool type_is(const Type & type, const Value & value, Heap & heap) {
 		return type_is(type.code.data(), value, heap);
+	}
+
+
+
+	namespace {
+		template<typename DataType, auto type_check, auto make_value>
+		Value cast_unary_type(const std::uint8_t * code, const Value & value, Heap & heap) {
+			if(type_check(value)) {
+				auto & arr = heap.read<DataType>(value.u);
+				DataType result;
+				for(const auto & elem : arr) {
+					result.push_back(type_cast(std::next(code), elem, heap));
+				}
+				return make_value(heap.alloc(std::move(result)));
+			}
+			return value::null;
+		}
 	}
 
 
@@ -300,15 +342,7 @@ namespace ltn::vm {
 		}
 
 		static Value for_array(const std::uint8_t * code, const Value & value, Heap & heap) {
-			if(is_array(value)) {
-				auto & arr = heap.read<Array>(value.u);
-				Array result;
-				for(const auto & elem : arr) {
-					result.push_back(type_cast(std::next(code), elem, heap));
-				}
-				return value::array(heap.alloc(std::move(result)));
-			}
-			return value::null;
+			return cast_unary_type<Array, is_array, value::array>(code, value, heap);
 		}
 
 		static Value for_tuple(const std::uint8_t *, const Value & value, Heap & heap) {
@@ -379,6 +413,14 @@ namespace ltn::vm {
 		
 		static Value for_clock(const std::uint8_t *, const Value & value, Heap &) {
 			return is_clock(value) ? value : value::null;
+		}
+
+		static Value for_queue(const std::uint8_t * code, const Value & value, Heap & heap) {
+			return cast_unary_type<Deque, is_queue, value::queue>(code, value, heap);
+		}
+
+		static Value for_stack(const std::uint8_t * code, const Value & value, Heap & heap) {
+			return cast_unary_type<Deque, is_stack, value::stack>(code, value, heap);
 		}
 
 		static Value for_default(const std::uint8_t *, const Value &, Heap &) {

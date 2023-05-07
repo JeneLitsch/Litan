@@ -21,4 +21,6 @@ namespace ltn::type_code {
 	inline constexpr std::uint8_t RNG           = '?';
 	inline constexpr std::uint8_t TYPE          = ':';
 	inline constexpr std::uint8_t CLOCK         = 'H';
+	inline constexpr std::uint8_t STACK         = 'S';
+	inline constexpr std::uint8_t QUEUE         = 'Q';
 }

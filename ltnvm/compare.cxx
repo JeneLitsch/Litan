@@ -43,6 +43,22 @@ namespace ltn::vm {
 					}
 					return std::partial_ordering::equivalent;
 				}
+				if(is_stack(l) || is_queue(l)) {
+					const auto & deq_l = heap.read<Deque>(l.u);
+					const auto & deq_r = heap.read<Deque>(r.u);
+					if(deq_l.size() != deq_r.size()) {
+						return deq_l.size() <=> deq_r.size();
+					}
+					for(std::size_t i = 0; i < deq_l.size(); i++) {
+						const auto & elemL = deq_l[i];
+						const auto & elemR = deq_r[i];
+						const auto & comp = compare(elemL, elemR, heap);
+						if(comp != 0) {
+							return comp;
+						}
+					}
+					return std::partial_ordering::equivalent;
+				}
 				if(is_type(l) || is_type(l)) {
 					const auto & type_l = heap.read<Type>(l.u);
 					const auto & type_r = heap.read<Type>(r.u);

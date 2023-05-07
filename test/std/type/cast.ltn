@@ -345,4 +345,30 @@ namespace sphinx::test {
 			(<int>, <int>),
 		]);
 	}
+
+
+
+
+	function std_type_cast_queue() {
+		var q1 = std::queue();
+		std::push(q1, 1);
+		std::push(q1, false);
+		std::push(q1, 1.5);
+
+		var q2 = std::queue();
+		std::push(q2, 1);
+		std::push(q2, 0);
+		std::push(q2, 1);
+
+		utils::test_cast(<queue(int)>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([]  , null),
+			(q1  , q2),
+		]);
+	}
 }

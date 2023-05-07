@@ -5,29 +5,57 @@
 namespace ltn::c {
 	namespace {
 		std::vector<std::uint8_t> analyze_type(const ast::Type & type, Scope & scope);
+		
+		
+		std::vector<std::uint8_t> wrap_type(
+			std::vector<std::uint8_t> type,
+			std::uint8_t wrapper_type) {
+			
+			std::vector<std::uint8_t> arr{wrapper_type};
+			arr += type;
+			return arr;
+		}
+
+		
+		
+		std::vector<std::uint8_t> optional_subtype(
+			std::uint8_t warpper_type,
+			const auto & type,
+			Scope & scope) {
+			
+			if(type.contains) {
+				auto sub_type = analyze_type(*type.contains, scope);
+				return wrap_type(std::move(sub_type), warpper_type);
+			}
+			else {
+				return wrap_type({type_code::ANY}, warpper_type);
+			}
+		}
 
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::Null & type, Scope & scope) {
+
+
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Null &, Scope &) {
 			return {type_code::NVLL};		
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::Bool & type, Scope & scope) {
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Bool &, Scope &) {
 			return {type_code::BOOL};		
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::Char & type, Scope & scope) {
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Char &, Scope &) {
 			return {type_code::CHAR};		
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::Int & type, Scope & scope) {
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Int &, Scope &) {
 			return {type_code::INT};		
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::Float & type, Scope & scope) {
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Float &, Scope &) {
 			return {type_code::FLOAT};		
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::String & type, Scope & scope) {
+		std::vector<std::uint8_t> analyze_type(const ast::Type::String &, Scope &) {
 			return {type_code::STRING};		
 		}
 
@@ -38,15 +66,10 @@ namespace ltn::c {
 		}
 		
 		std::vector<std::uint8_t> analyze_type(const ast::Type::Array & type, Scope & scope) {
-			if(type.contains) {
-				return array_of(analyze_type(*type.contains, scope));
-			}
-			else {
-				return array_of({type_code::ANY});
-			}
+			return optional_subtype(type_code::ARRAY, type, scope);
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::Tuple & type, Scope & scope) {
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Tuple &, Scope &) {
 			return {type_code::TUPLE};		
 		}
 
@@ -63,11 +86,11 @@ namespace ltn::c {
 			return code;
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::Fx & type, Scope & scope) {
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Fx &, Scope &) {
 			return {type_code::FX};		
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::FxN & type, Scope & scope) {
+		std::vector<std::uint8_t> analyze_type(const ast::Type::FxN & type, Scope &) {
 			std::vector<std::uint8_t> code;
 			code.push_back(type_code::FX_N);
 			for(std::size_t i = 0; i < 8; ++i) {
@@ -76,32 +99,40 @@ namespace ltn::c {
 			return code;
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::IStream & type, Scope & scope) {
-			return {type_code::ISTREAM};		
+		std::vector<std::uint8_t> analyze_type(const ast::Type::IStream &, Scope &) {
+			return {type_code::ISTREAM};
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::OStream & type, Scope & scope) {
-			return {type_code::OSTREAM};		
+		std::vector<std::uint8_t> analyze_type(const ast::Type::OStream &, Scope &) {
+			return {type_code::OSTREAM};
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::Iterator & type, Scope & scope) {
-			return {type_code::ITERATOR};		
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Iterator &, Scope &) {
+			return {type_code::ITERATOR};
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::IteratorStop & type, Scope & scope) {
-			return {type_code::ITERATOR_STOP};		
+		std::vector<std::uint8_t> analyze_type(const ast::Type::IteratorStop &, Scope &) {
+			return {type_code::ITERATOR_STOP};
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::Clock & type, Scope & scope) {
-			return {type_code::CLOCK};		
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Clock &, Scope &) {
+			return {type_code::CLOCK};
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::Rng & type, Scope & scope) {
-			return {type_code::RNG};		
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Rng &, Scope &) {
+			return {type_code::RNG};
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::Type::TypeT & type, Scope & scope) {
-			return {type_code::TYPE};		
+		std::vector<std::uint8_t> analyze_type(const ast::Type::TypeT &, Scope &) {
+			return {type_code::TYPE};
+		}
+
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Queue & type, Scope & scope) {
+			return optional_subtype(type_code::QUEUE, type, scope);
+		}
+
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Stack & type, Scope & scope) {
+			return optional_subtype(type_code::STACK, type, scope);
 		}
 
 		std::vector<std::uint8_t> analyze_type(const ast::Type & type, Scope & scope) {

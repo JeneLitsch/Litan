@@ -72,6 +72,14 @@ namespace ltn::vm {
 			return Value{address, Value::Type::ARRAY};
 		}
 
+		constexpr inline Value queue(std::uint64_t address) {
+			return Value{address, Value::Type::QUEUE};
+		}
+
+		constexpr inline Value stack(std::uint64_t address) {
+			return Value{address, Value::Type::STACK};
+		}
+
 		constexpr inline Value rng(std::uint64_t address) {
 			return Value{address, Value::Type::RNG};
 		}

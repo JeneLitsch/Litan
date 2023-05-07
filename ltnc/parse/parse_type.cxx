@@ -108,6 +108,8 @@ namespace ltn::c {
 				if(name->str == "rng") return simple_type<ast::Type::Rng>(begin);
 				if(name->str == "clock") return simple_type<ast::Type::Clock>(begin);
 				if(name->str == "type") return simple_type<ast::Type::TypeT>(begin);
+				if(name->str == "queue") return unary_type<ast::Type::Queue>(begin, tokens);
+				if(name->str == "stack") return unary_type<ast::Type::Stack>(begin, tokens);
 				throw CompilerError {"Unknown type name " + name->str, name->location};
 			}
 			throw CompilerError {"Expected type name", begin.location};
