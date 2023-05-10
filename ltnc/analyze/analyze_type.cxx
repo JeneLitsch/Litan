@@ -34,6 +34,16 @@ namespace ltn::c {
 
 
 
+		std::array<std::uint8_t, 8> uint64_to_bytes(std::uint64_t num) {
+			std::array<std::uint8_t, 8> bytes;
+			for(std::size_t i = 0; i < 8; ++i) {
+				bytes[i] = (num >> ((i) * 8)) & 0xff;
+			}
+			return bytes;
+		}
+
+
+
 
 		std::vector<std::uint8_t> analyze_type(const ast::Type::Null &, Scope &) {
 			return {type_code::NVLL};		
@@ -77,9 +87,7 @@ namespace ltn::c {
 			std::vector<std::uint8_t> code;
 			code.push_back(type_code::TUPLE_N);
 			std::uint64_t size = std::size(type.contains);
-			for(std::size_t i = 0; i < 8; ++i) {
-				code.push_back((size >> ((i) * 8)) & 0xff);
-			}
+			code += uint64_to_bytes(size);
 			for(const auto & elem : type.contains) {
 				code += analyze_type(*elem, scope);
 			}
@@ -93,9 +101,7 @@ namespace ltn::c {
 		std::vector<std::uint8_t> analyze_type(const ast::Type::FxN & type, Scope &) {
 			std::vector<std::uint8_t> code;
 			code.push_back(type_code::FX_N);
-			for(std::size_t i = 0; i < 8; ++i) {
-				code.push_back((type.arity >> ((i) * 8)) & 0xff);
-			}
+			code += uint64_to_bytes(type.arity);
 			return code;
 		}
 
@@ -136,11 +142,13 @@ namespace ltn::c {
 		}
 
 		std::vector<std::uint8_t> analyze_type(const ast::Type::Map & type, Scope & scope) {
-			std::vector<std::uint8_t> arr{type_code::MAP};
+			std::vector<std::uint8_t> code{type_code::MAP};
 			static const std::vector<std::uint8_t> any{type_code::ANY};
-			arr += type.key ? analyze_type(*type.key, scope) : any;
-			arr += type.value ? analyze_type(*type.value, scope) : any;
-			return arr;
+			auto key = type.key ? analyze_type(*type.key, scope) : any;
+			auto val = type.value ? analyze_type(*type.value, scope) : any;
+			code += key;
+			code += val;
+			return code;
 		}
 
 		std::vector<std::uint8_t> analyze_type(const ast::Type & type, Scope & scope) {

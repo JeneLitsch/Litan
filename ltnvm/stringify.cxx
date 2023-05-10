@@ -139,7 +139,7 @@ namespace ltn::vm {
 
 		if(is_type(value)) {
 			auto & type = heap.read<Type>(value.u);
-			return type_name(type);
+			return type.node->name();
 		}
 
 		throw Exception{

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include "ltn/type_code.hxx"
 
 namespace ltn::vm::inst {
 
@@ -94,18 +95,6 @@ namespace ltn::vm::inst {
 		const auto size = core.fetch_uint();
 		pushAll(arr, core.stack, size);
 		core.stack.push(value::tuple(ptr));
-		core.heap.collect_garbage(core.stack, core.static_variables);
-	}
-
-
-
-	void newtype(VmCore & core){
-		const auto size = core.fetch_uint();
-		const auto cstr = core.fetch_str();
-		std::vector<std::uint8_t> code(cstr, cstr + size); 
-		const auto ptr = core.heap.alloc<Type>({std::move(code)});
-		core.stack.push(value::type(ptr));
-		core.pc += size;
 		core.heap.collect_garbage(core.stack, core.static_variables);
 	}
 }

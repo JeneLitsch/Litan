@@ -69,7 +69,7 @@ namespace sphinx::test {
 		assert_equal_strict(std::str(<int>), "int");
 		assert_equal_strict(std::str(<float>), "float");
 		assert_equal_strict(std::str(<string>), "string");
-		assert_equal_strict(std::str(<array>), "array(...)");
+		assert_equal_strict(std::str(<array>), "array(any)");
 		assert_equal_strict(std::str(<array(float)>), "array(float)");
 		assert_equal_strict(std::str(<tuple>), "tuple");
 		assert_equal_strict(std::str(<tuple()>), "tuple()");
@@ -84,11 +84,11 @@ namespace sphinx::test {
 		assert_equal_strict(std::str(<rng>), "rng");
 		assert_equal_strict(std::str(<clock>), "clock");
 		assert_equal_strict(std::str(<type>), "type");
-		assert_equal_strict(std::str(<queue>), "queue(...)");
+		assert_equal_strict(std::str(<queue>), "queue(any)");
 		assert_equal_strict(std::str(<queue(float)>), "queue(float)");
-		assert_equal_strict(std::str(<stack>), "stack(...)");
+		assert_equal_strict(std::str(<stack>), "stack(any)");
 		assert_equal_strict(std::str(<stack(float)>), "stack(float)");
-		assert_equal_strict(std::str(<map>), "map(..., ...)");
-		assert_equal_strict(std::str(<map(float, int)>), "map(float, int)");
+		assert_equal_strict(std::str(<map>), "map(any,any)");
+		assert_equal_strict(std::str(<map(float, int)>), "map(float,int)");
 	}
 }

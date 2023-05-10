@@ -1,7 +1,25 @@
 function main(args) {
-	// std::is(<int>, 1);
-	// std::cast(<fx(2)>, 1);
-	// std::default(<array(int)>);
-	var type = <array(array(float))>;
-	std::println(type);
+	// // std::is(<int>, 1);
+	// // std::cast(<fx(2)>, 1);
+	// // std::default(<array(int)>);
+	// var type = <map(int,float)>;
+	// var map = std::map();
+	// map[0] = 0.0;
+	// // map[1] = 0.0;
+	// // map[2] = 0.0;
+	// // map[3] = 0.0;
+	// std::println(std::is(type, map));
+
+	std::println(<null>);
+	std::println(<bool>);
+	std::println(<char>);
+	std::println(<int>);
+	std::println(<float>);
+	std::println(<string>);
+	std::println(<array(array(int))>);
+	std::println(<map(int, int)>);
+	std::println(<type>);
+	std::println(<fx>);
+
+	return std::is(<tuple(int, int, float)>, (1,1,1));
 }

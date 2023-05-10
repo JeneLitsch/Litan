@@ -30,7 +30,7 @@ namespace ltn::vm::build_in::type {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
 		auto & type = core.heap.read<Type>(ref.u);
-		return value::boolean(type_is(type, value, core.heap));
+		return type_is(type, value, core.heap);
 	}
 
 

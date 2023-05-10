@@ -445,7 +445,7 @@ namespace sphinx::test {
 			(1.0 , false),
 			(""  , false),
 			(map1, false),
-			(map2, false),
+			(map2, true),
 		]);
 	}
 }

@@ -8,4 +8,3 @@ target_sources(libltnvm PRIVATE
 )
 
 add_subdirectory(iter)
-add_subdirectory(type)

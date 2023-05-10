@@ -20,6 +20,7 @@ namespace ltn::vm {
 		std::unordered_map<std::int64_t, ext::Callable> externals;
 		std::unordered_map<std::string, std::uint64_t> function_table;
 		std::unordered_map<std::string, std::uint64_t> static_table;
+		std::map<std::vector<std::uint8_t>, std::unique_ptr<TypeNode>> type_table;
 		
 		inline std::uint8_t fetch_byte() {
 			return *this->pc++;
