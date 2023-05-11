@@ -62,7 +62,7 @@ namespace ltn::vm {
 				if(is_type(l) || is_type(l)) {
 					const auto & type_l = heap.read<Type>(l.u);
 					const auto & type_r = heap.read<Type>(r.u);
-					return type_l.code <=> type_r.code;
+					return type_l.node <=> type_r.node;
 				}
 				return std::partial_ordering::equivalent;
 			}

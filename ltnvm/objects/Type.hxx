@@ -15,7 +15,6 @@ namespace ltn::vm {
 	};
 
 	struct Type {
-		std::vector<std::uint8_t> code;
 		const TypeNode * node;
 	};
 
