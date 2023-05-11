@@ -11,10 +11,11 @@ namespace ltn::c {
 	const Token Token::end = Token{Token::Type::___EOF___, "___EOF___", SourceLocation{}};
 
 
-	bool check(Token::Type type, Tokens & tokens) {
-		if(tokens.empty()) return false;
+	std::optional<Token> check(Token::Type type, Tokens & tokens) {
+		if(tokens.empty()) return std::nullopt;
 		const Token t = tokens.front(); 
-		return t.type == type;
+		if(t.type != type) return std::nullopt;
+		return t;
 	}
 
 
@@ -56,6 +57,18 @@ namespace ltn::c {
 	const SourceLocation & location(const Tokens & tokens) {
 		const static SourceLocation fallback {0, ""};
 		return (tokens.empty()) ? fallback : tokens.front().location;
+	}
+
+
+
+	std::optional<Token> match(const std::string & str, Tokens & tokens) {
+		if(auto t = check(TT::INDENTIFIER, tokens)) {
+			if(t->str == str) {
+				tokens.pop();
+				return t;
+			}
+		}
+		return std::nullopt;
 	}
 }
 

@@ -141,13 +141,28 @@ namespace ltn::c {
 			}
 			throw CompilerError {"Expected type name", begin.location};
 		}
+
+
+
+
+		ast::type_ptr parse_type_name_start(const Token & begin, Tokens & tokens) {
+			if(auto name = match("type", tokens)) {
+				if(match(TT::COLON, tokens)) {
+					return parse_type_name(begin, tokens);
+				}
+				else {
+					return simple_type<ast::Type::TypeT>(begin);
+				}
+			}
+			return parse_type_name(begin, tokens);
+		}
 	}
 
 
 
 	ast::type_ptr parse_type(Tokens & tokens) {
 		if(auto begin = match(TT::SMALLER, tokens)) {
-			auto type = parse_type_name(*begin, tokens);
+			auto type = parse_type_name_start(*begin, tokens);
 			if(!match(TT::BIGGER, tokens)) throw CompilerError {
 				"Expected )", begin->location
 			};
