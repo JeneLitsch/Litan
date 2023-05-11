@@ -275,7 +275,7 @@ namespace ltn::c::inst {
 		};
 	}
 	Inst newtype(std::vector<std::uint8_t> bytes) {
-		return InstUint64Bytex {
+		return InstBytex0 {
 			.name = "newtype",
 			.opcode = OpCode::NEWTYPE,
 			.bytes = bytes,
