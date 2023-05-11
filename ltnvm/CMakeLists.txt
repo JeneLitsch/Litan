@@ -8,6 +8,7 @@ add_library(libltnvm
 	stringify.cxx
 	to_value.cxx
 	to_variant.cxx
+	type.cxx
 )
 
 add_subdirectory(build_in)
