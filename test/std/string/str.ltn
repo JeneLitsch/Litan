@@ -74,6 +74,7 @@ namespace sphinx::test {
 		assert_equal_strict(std::str(<tuple>), "tuple");
 		assert_equal_strict(std::str(<tuple()>), "tuple()");
 		assert_equal_strict(std::str(<tuple(int)>), "tuple(int)");
+		assert_equal_strict(std::str(<tuple(int,float)>), "tuple(int,float)");
 		assert_equal_strict(std::str(<fx>), "fx");
 		assert_equal_strict(std::str(<fx(1)>), "fx(1)");
 		assert_equal_strict(std::str(<fx(2)>), "fx(2)");
@@ -90,5 +91,34 @@ namespace sphinx::test {
 		assert_equal_strict(std::str(<stack(float)>), "stack(float)");
 		assert_equal_strict(std::str(<map>), "map(any,any)");
 		assert_equal_strict(std::str(<map(float, int)>), "map(float,int)");
+		
+		assert_equal_strict(std::str(<type:null>), "null");
+		assert_equal_strict(std::str(<type:bool>), "bool");
+		assert_equal_strict(std::str(<type:char>), "char");
+		assert_equal_strict(std::str(<type:int>), "int");
+		assert_equal_strict(std::str(<type:float>), "float");
+		assert_equal_strict(std::str(<type:string>), "string");
+		assert_equal_strict(std::str(<type:array>), "array(any)");
+		assert_equal_strict(std::str(<type:array(float)>), "array(float)");
+		assert_equal_strict(std::str(<type:tuple>), "tuple");
+		assert_equal_strict(std::str(<type:tuple()>), "tuple()");
+		assert_equal_strict(std::str(<type:tuple(int)>), "tuple(int)");
+		assert_equal_strict(std::str(<type:tuple(int,float)>), "tuple(int,float)");
+		assert_equal_strict(std::str(<type:fx>), "fx");
+		assert_equal_strict(std::str(<type:fx(1)>), "fx(1)");
+		assert_equal_strict(std::str(<type:fx(2)>), "fx(2)");
+		assert_equal_strict(std::str(<type:istream>), "istream");
+		assert_equal_strict(std::str(<type:ostream>), "ostream");
+		assert_equal_strict(std::str(<type:iter>), "iter");
+		assert_equal_strict(std::str(<type:stop>), "stop");
+		assert_equal_strict(std::str(<type:rng>), "rng");
+		assert_equal_strict(std::str(<type:clock>), "clock");
+		assert_equal_strict(std::str(<type:type>), "type");
+		assert_equal_strict(std::str(<type:queue>), "queue(any)");
+		assert_equal_strict(std::str(<type:queue(float)>), "queue(float)");
+		assert_equal_strict(std::str(<type:stack>), "stack(any)");
+		assert_equal_strict(std::str(<type:stack(float)>), "stack(float)");
+		assert_equal_strict(std::str(<type:map>), "map(any,any)");
+		assert_equal_strict(std::str(<type:map(float, int)>), "map(float,int)");
 	}
 }
