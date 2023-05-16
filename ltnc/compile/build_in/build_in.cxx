@@ -51,9 +51,9 @@ namespace ltn::c {
 		{"algorithm_fill",           vm_build_in<FxCode::FILL>},
 		{"algorithm_reverse",        vm_build_in<FxCode::REVERSE>},
 
-		{"chrono_clock",             single_return<inst::newclock>},
-		{"chrono_to_seconds",        single_return<inst::cast_float>},
-		{"chrono_to_milliseconds",   build_in::chrono_to_milliseconds},
+		{"chrono_clock",             vm_build_in<FxCode::CHRONO_CLOCK>},
+		{"chrono_to_seconds",        vm_build_in<FxCode::CHRONO_TO_SECONDS>},
+		{"chrono_to_milliseconds",   vm_build_in<FxCode::CHRONO_TO_MILLI_SECONDS>},
 
 		{"queue",                    single_return<inst::newqueue>},
 		{"stack",                    single_return<inst::newstack>},
