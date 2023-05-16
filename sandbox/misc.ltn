@@ -6,9 +6,11 @@ function main(args) {
 	std::println(<float>);
 	std::println(<string>);
 	std::println(<array(array(int))>);
+	std::println(<map>);
 	std::println(<map(int, int)>);
 	std::println(<type>);
 	std::println(<fx>);
+	std::println(<fx(0)>);
 
 	return std::is(<type:tuple(int, int, int)>, (1,1,1));
 }

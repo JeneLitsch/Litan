@@ -82,5 +82,10 @@ namespace ltn {
 		ITER_MOVE,
 		ITER_ITER,
 		ITER_IS_STOP,
+
+		// Chrono
+		CHRONO_CLOCK = 0x90,
+		CHRONO_TO_SECONDS,
+		CHRONO_TO_MILLI_SECONDS,
 	};
 }
