@@ -1,5 +1,6 @@
 #include "type.hxx"
 #include "ltnvm/Exception.hxx"
+#include "ltnvm/inst/instructions.hxx"
 
 namespace ltn::vm::build_in::type {
 	Value id(VmCore & core) {
@@ -40,5 +41,33 @@ namespace ltn::vm::build_in::type {
 		const auto ref = core.stack.pop();
 		auto & type = core.heap.read<Type>(ref.u);
 		return type_cast(type, value, core.heap);
+	}
+
+
+
+	Value queue(VmCore & core) {
+		inst::newqueue(core);
+		return core.stack.pop();
+	}
+
+
+
+	Value stack(VmCore & core) {
+		inst::newstack(core);
+		return core.stack.pop();
+	}
+
+
+
+	Value map(VmCore & core) {
+		inst::newmap(core);
+		return core.stack.pop();
+	}
+
+
+
+	Value strukt(VmCore & core) {
+		inst::newstruct(core);
+		return core.stack.pop();
 	}
 }

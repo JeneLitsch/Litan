@@ -55,10 +55,10 @@ namespace ltn::c {
 		{"chrono_to_seconds",        vm_build_in<FxCode::CHRONO_TO_SECONDS>},
 		{"chrono_to_milliseconds",   vm_build_in<FxCode::CHRONO_TO_MILLI_SECONDS>},
 
-		{"queue",                    single_return<inst::newqueue>},
-		{"stack",                    single_return<inst::newstack>},
-		{"map",                      single_return<inst::newmap>},
-		{"struct",                   single_return<inst::newstruct>},
+		{"queue",                    vm_build_in<FxCode::TYPE_QUEUE>},
+		{"stack",                    vm_build_in<FxCode::TYPE_STACK>},
+		{"map",                      vm_build_in<FxCode::TYPE_MAP>},
+		{"struct",                   vm_build_in<FxCode::TYPE_STRUCT>},
 
 		{"container_push",           single<inst::push>},
 		{"container_pop",            single_return<inst::pop>},
