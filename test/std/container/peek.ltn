@@ -1,0 +1,39 @@
+namespace sphinx::test {
+	function std_peek_array() {
+		var arr = [1,2,3];
+		assert_equal_strict(std::peek(arr), 3);
+		assert_equal_strict(arr, [1,2,3]);
+	}
+
+
+
+	function std_peek_string() {
+		var str = "ABC";
+		assert_equal_strict(std::peek(str), 'C');
+		assert_equal_strict(str, "ABC");
+	}
+
+
+
+	function std_peek_stack() {
+		var stc = std::stack();
+		std::push(stc, 1);
+		std::push(stc, 2);
+		std::push(stc, 3);
+		assert_equal_strict(std::peek(stc), 3);
+		assert_equal_strict(std::peek(stc), 3);
+		assert_equal_strict(std::peek(stc), 3);
+	}
+
+
+
+	function std_peek_queue() {
+		var que = std::queue();
+		std::push(que, 1);
+		std::push(que, 2);
+		std::push(que, 3);
+		assert_equal_strict(std::peek(que), 1);
+		assert_equal_strict(std::peek(que), 1);
+		assert_equal_strict(std::peek(que), 1);
+	}
+}

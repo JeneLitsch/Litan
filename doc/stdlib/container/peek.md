@@ -2,11 +2,15 @@
 
 ## std::peek(container)
 **Parameters:**  
-* container: A Queue or Stack
+* container: 
+  1. Array
+  2. String
+  3. Stack
+  4. Queue 
 
 **Return value:**  
-Any Value   
+Any value    
 
 **Description:**  
-Returns top value of the Stack.  
-Returns front value from Queue.  
+Returns next value from a queue or stack without popping it.
+Returns last element of an array or string. 

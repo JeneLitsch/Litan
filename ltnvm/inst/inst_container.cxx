@@ -74,6 +74,21 @@ namespace ltn::vm::inst {
 	void peek(VmCore & core) {
 		const auto ref = core.stack.pop();
 
+		if(is_array(ref)) {
+			auto & container = core.heap.read<Array>(ref.u);
+			const auto elem = container.back();
+			core.stack.push(elem);
+			return;
+		}
+
+		if(is_string(ref)) {
+			auto & container = core.heap.read<String>(ref.u);
+			const auto elem = container.back();
+			core.stack.push(value::character(elem));
+			return;
+		}
+
+
 		if(is_stack(ref)) {
 			auto & container = core.heap.read<Deque>(ref.u);
 			const auto elem = container.back();
