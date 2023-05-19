@@ -18,7 +18,7 @@ namespace ltn::vm::build_in {
 	}
 	
 	Value pop(VmCore & core) {
-		return run_inst<inst::push>(core);
+		return run_inst<inst::pop>(core);
 	}
 	
 	Value peek(VmCore & core) {

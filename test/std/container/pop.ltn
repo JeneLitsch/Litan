@@ -1,0 +1,31 @@
+namespace sphinx::test {
+	function std_pop_array() {
+		var arr = [1,2,3];
+		assert_equal_strict(std::pop(arr), 3);
+		assert_equal_strict(arr, [1,2]);
+	}
+
+
+
+	function std_pop_stack() {
+		var stc = std::stack();
+		std::push(stc, 1);
+		std::push(stc, 2);
+		std::push(stc, 3);
+		assert_equal_strict(std::pop(stc), 3);
+		assert_equal_strict(std::pop(stc), 2);
+		assert_equal_strict(std::pop(stc), 1);
+	}
+
+
+
+	function std_pop_queue() {
+		var stc = std::queue();
+		std::push(stc, 1);
+		std::push(stc, 2);
+		std::push(stc, 3);
+		assert_equal_strict(std::pop(stc), 1);
+		assert_equal_strict(std::pop(stc), 2);
+		assert_equal_strict(std::pop(stc), 3);
+	}
+}

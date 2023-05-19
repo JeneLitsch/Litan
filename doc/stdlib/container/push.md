@@ -4,7 +4,7 @@
 **Parameters:**:  
 * container: 
   1. Array
-  2. Queue, 
+  2. Queue
   3. Stack
 * elem: A value to push
 
