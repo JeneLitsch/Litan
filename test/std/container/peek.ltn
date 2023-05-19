@@ -6,11 +6,23 @@ namespace sphinx::test {
 	}
 
 
+	
+	function std_peek_array_except() {
+		assert_except(lambda => std::peek([]));
+	}
+
+
 
 	function std_peek_string() {
 		var str = "ABC";
 		assert_equal_strict(std::peek(str), 'C');
 		assert_equal_strict(str, "ABC");
+	}
+
+
+	
+	function std_peek_string_except() {
+		assert_except(lambda => std::peek(""));
 	}
 
 
@@ -27,6 +39,12 @@ namespace sphinx::test {
 
 
 
+	function std_peek_stack_except() {
+		assert_except(lambda => std::peek(std::stack()));
+	}
+
+
+
 	function std_peek_queue() {
 		var que = std::queue();
 		std::push(que, 1);
@@ -35,5 +53,11 @@ namespace sphinx::test {
 		assert_equal_strict(std::peek(que), 1);
 		assert_equal_strict(std::peek(que), 1);
 		assert_equal_strict(std::peek(que), 1);
+	}
+
+
+
+	function std_peek_queue_except() {
+		assert_except(lambda => std::peek(std::queue()));
 	}
 }

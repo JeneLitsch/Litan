@@ -76,6 +76,7 @@ namespace ltn::vm::inst {
 
 		if(is_array(ref)) {
 			auto & container = core.heap.read<Array>(ref.u);
+			if(std::empty(container)) throw except::out_of_range();
 			const auto elem = container.back();
 			core.stack.push(elem);
 			return;
@@ -83,6 +84,7 @@ namespace ltn::vm::inst {
 
 		if(is_string(ref)) {
 			auto & container = core.heap.read<String>(ref.u);
+			if(std::empty(container)) throw except::out_of_range();
 			const auto elem = container.back();
 			core.stack.push(value::character(elem));
 			return;
@@ -91,6 +93,7 @@ namespace ltn::vm::inst {
 
 		if(is_stack(ref)) {
 			auto & container = core.heap.read<Deque>(ref.u);
+			if(std::empty(container)) throw except::out_of_range();
 			const auto elem = container.back();
 			core.stack.push(elem);
 			return;
@@ -98,6 +101,7 @@ namespace ltn::vm::inst {
 
 		if(is_queue(ref)) {
 			auto & container = core.heap.read<Deque>(ref.u);
+			if(std::empty(container)) throw except::out_of_range();
 			const auto elem = container.front();
 			core.stack.push(elem);
 			return;
