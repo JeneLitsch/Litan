@@ -63,6 +63,7 @@ files=(
 	
 	"test/std/container/contains.ltn"
 	"test/std/container/empty.ltn"
+	"test/std/container/front.ltn"
 	"test/std/container/insert.ltn"
 	"test/std/container/peek.ltn"
 	"test/std/container/pop.ltn"

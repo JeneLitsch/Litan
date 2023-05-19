@@ -1,0 +1,23 @@
+namespace sphinx::test {
+	function std_front_array() {
+		assert_equal_strict(std::front([1,2,3]), 1);
+	}
+
+
+
+	function std_front_array_except() {
+		assert_except(lambda => std::front([]));
+	}
+
+
+
+	function std_front_string() {
+		assert_equal_strict(std::front("ABC"), 'A');
+	}
+
+
+
+	function std_front_string_except() {
+		assert_except(lambda => std::front(""));
+	}
+}
