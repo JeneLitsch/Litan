@@ -2,11 +2,11 @@
 
 ## std::pop(container, elem)
 **Parameters:**  
-* container: Queue, Stack or Array
+* container: Array, string, stack or queue 
 
 **Return value:**  
 The popped value    
 
 **Description:**  
-Pops and returns value from a Queue or Stack.
-Removes and return last element of an Array. 
+Pops and returns value from a queue or stack.
+Removes and return last element of an array or string. 

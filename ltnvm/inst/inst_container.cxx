@@ -42,6 +42,14 @@ namespace ltn::vm::inst {
 			return;
 		}
 
+		if(is_string(ref)) {
+			auto & container = core.heap.read<String>(ref.u);
+			const auto elem = container.back();
+			container.pop_back();
+			core.stack.push(value::character(elem));
+			return;
+		}
+
 		if(is_stack(ref)) {
 			auto & container = core.heap.read<Deque>(ref.u);
 			const auto elem = container.back();
