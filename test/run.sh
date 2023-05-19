@@ -57,14 +57,14 @@ files=(
 	"test/op_ternary.ltn"
 
 	"test/std/arity.ltn"
-	"test/std/empty.ltn"
 	"test/std/bits_get.ltn"
 	"test/std/bits_set.ltn"
 	"test/std/is_type.ltn"
 	
-	"test/std/container/size.ltn"
+	"test/std/container/empty.ltn"
 	"test/std/container/insert.ltn"
 	"test/std/container/remove.ltn"
+	"test/std/container/size.ltn"
 
 	"test/std/algorithm/for_each.ltn"
 	"test/std/algorithm/sum.ltn"

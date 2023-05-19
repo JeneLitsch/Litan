@@ -6,6 +6,14 @@ namespace sphinx::test {
 
 
 
+	function std_size_tuple() {
+		assert_equal_strict(std::size((1,)), 1);
+		assert_equal_strict(std::size((1,2)), 2);
+		assert_equal_strict(std::size((1,2,3)), 3);
+	}
+
+
+
 	function std_size_string() {
 		assert_equal(std::size(""), 0);
 		assert_equal(std::size("ABC"), 3);
@@ -42,13 +50,5 @@ namespace sphinx::test {
 		m[1] = 2;
 		m[2] = 3;
 		assert_equal(std::size(m), 3);
-	}
-
-
-
-	function std_size_tuple() {
-		assert_equal_strict(std::size((1,)), 1);
-		assert_equal_strict(std::size((1,2)), 2);
-		assert_equal_strict(std::size((1,2,3)), 3);
 	}
 }

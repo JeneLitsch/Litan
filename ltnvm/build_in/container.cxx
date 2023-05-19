@@ -3,6 +3,7 @@
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/index.hxx"
 #include "ltnvm/inst/instructions.hxx"
+#include "ltnvm/stringify.hxx"
 
 namespace ltn::vm::build_in {
 	template<auto INST>
@@ -62,7 +63,7 @@ namespace ltn::vm::build_in {
 
 
 		Value push_f(string & str, Heap & heap, const Value elem) {
-			const auto strL = convert::to_string(elem, heap);
+			const auto strL = stringify(elem, heap);
 			str = strL + str;
 			return value::null;
 		}
@@ -97,7 +98,7 @@ namespace ltn::vm::build_in {
 
 
 		Value push_b(string & str, Heap & heap, const Value elem) {
-			const auto & strR = convert::to_string(elem, heap);
+			const auto strR = stringify(elem, heap);
 			str += strR;
 			return value::null;
 		}
@@ -140,7 +141,7 @@ namespace ltn::vm::build_in {
 
 
 		Value push_i(string & str, Heap & heap, const Value elem, auto i) {
-			const auto & strX = convert::to_string(elem, heap);
+			const auto strX = stringify(elem, heap);
 			const auto begin = std::begin(strX);
 			const auto end = std::end(strX);
 			const auto at = std::begin(str) + i;

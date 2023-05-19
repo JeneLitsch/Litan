@@ -1,36 +1,65 @@
 namespace sphinx::test {
-	function std_insert_front() {
-		var arr = [];
-		std::insert_front(arr, 3);
-		std::insert_front(arr, 2);
-		std::insert_front(arr, 1);
-		assert_equal_strict(arr, [1,2,3]);
+	namespace utils {
+		function impl_insert_all(insertion, base, elems) {
+			for(e : elems) insertion(base, e);
+			return base;
+		}
+
+		function insert_front_all(base, elems) 
+			=> impl_insert_all(&std::insert_front(_,_),base, elems)
+
+		function insert_back_all(base, elems) 
+			=> impl_insert_all(&std::insert_back(_,_),base, elems)
+
+		function insert_all(base, elems)
+			=> impl_insert_all(
+				lambda(base, e) {
+					var (i, v) = e;
+					std::insert(base, i, v);
+				}, base, elems)
 	}
 
 
 
-	function std_insert_back() {
-		var arr = [];
-		std::insert_back(arr, 1);
-		std::insert_back(arr, 2);
-		std::insert_back(arr, 3);
-		assert_equal_strict(arr, [1,2,3]);
+	function std_insert_front_array() {
+		assert_equal_strict(utils::insert_front_all([], [3,2,1]), [1,2,3]);
 	}
 
 
 
-	function std_insert() {
-		var arr = [];
-		std::insert(arr, 0, 3);
-		std::insert(arr, 0, 1);
-		std::insert(arr, 1, 2);
-		std::insert(arr, 3, 4);
-		assert_equal(arr, [1, 2, 3, 4]);
+	function std_insert_front_string() {
+		assert_equal_strict(utils::insert_front_all("", [3,2.2,1]), "12.23");
+		assert_equal_strict(utils::insert_front_all("", ['C',"AB"]), "ABC");
+		assert_equal_strict(utils::insert_front_all("", [true,false]), "falsetrue");
 	}
 
 
 
-	function std_insert_out_of_range() {
+	function std_insert_back_array() {
+		assert_equal_strict(utils::insert_back_all([], [1,2,3]), [1,2,3]);
+	}
+
+
+
+	function std_insert_back_string() {
+		assert_equal_strict(utils::insert_back_all("", [1,2.2,3]), "12.23");
+		assert_equal_strict(utils::insert_back_all("", ["AB", 'C']), "ABC");
+		assert_equal_strict(utils::insert_back_all("", [false, true]), "falsetrue");
+	}
+
+
+
+	function std_insert_array() {
+		assert_equal_strict(
+			utils::insert_all([], [(0, 3), (0, 1), (1, 2), (3, 4)]),
+			[1, 2, 3, 4]
+		);
+	}
+
+
+
+
+	function std_insert_array_out_of_range() {
 		assert_except(lambda {
 			var arr = [];
 			std::insert(arr, 1, 42);
@@ -40,11 +69,40 @@ namespace sphinx::test {
 
 
 
+	function std_insert_string() {
+		assert_equal_strict(
+			utils::insert_all("", [(0, 3), (0, 1), (1, 2), (3, 4)]),
+			"1234"
+		);
+
+		assert_equal_strict(
+			utils::insert_all("AE", [(1, 'D'), (1, "BC")]),
+			"ABCDE"
+		);
+
+
+		assert_equal_strict(
+			utils::insert_all("", [(0, true), (4, false)]),
+			"truefalse"
+		);
+	}
+
+
+	function std_insert_string_out_of_range() {
+		assert_except(lambda {
+			var str = "";
+			std::insert(str, 1, "X");
+		});
+	}
+
+
+
 	function std_insert_map() { 
-		var map = std::map();
-		std::insert(map, 1, "A");
-		std::insert(map, 2, "B");
-		std::insert(map, 3, "C");
+		var map = utils::insert_all(std::map(), [
+			(1, "A"),
+			(2, "B"),
+			(3, "C"),
+		]);
 		assert_equal_strict(map[1], "A");
 		assert_equal_strict(map[2], "B");
 		assert_equal_strict(map[3], "C");
