@@ -57,7 +57,7 @@ namespace ltn::vm::inst {
 	void invoke_variadic(VmCore & core) {
 		const auto ref_param = core.stack.pop();
 		const auto ref_fx = core.stack.pop();
-		if(is_array(ref_param)) {
+		if(is_array(ref_param) || is_tuple(ref_param)) {
 			const auto & arguments = core.heap.read<Array>(ref_param.u);
 
 			// Call functions pointer

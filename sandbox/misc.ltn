@@ -11,10 +11,4 @@ function main(args) {
 	std::println(<type>);
 	std::println(<fx>);
 	std::println(<fx(0)>);
-
-	var arr = [];
-	std::insert_back(arr, 1);
-	return arr;
-
-	// return std::is(<type:tuple(int, int, int)>, (1,1,1));
 }

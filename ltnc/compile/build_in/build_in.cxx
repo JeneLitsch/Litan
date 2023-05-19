@@ -76,7 +76,7 @@ namespace ltn::c {
 		{"container_remove_back",    vm_build_in<FxCode::REMOVE_BACK>},
 		{"container_remove",         vm_build_in<FxCode::REMOVE>},
 
-		{"functional_invoke_2",      single_return<inst::invoke_variadic>},
+		{"functional_invoke_2",      vm_build_in<FxCode::INVOKE>},
 		{"functional_arity",         vm_build_in<FxCode::ARITY>},
 
 		{"io_cout",                  vm_build_in<FxCode::IO_COUT>},

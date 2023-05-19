@@ -16,7 +16,7 @@ namespace ltn::vm::build_in {
 
 
 	Value invoke(VmCore & core) {
-		inst::invoke(core);
+		inst::invoke_variadic(core);
 		return core.stack.pop();
 	}
 }
