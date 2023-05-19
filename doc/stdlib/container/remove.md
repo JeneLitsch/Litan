@@ -26,7 +26,12 @@ Removes the last element.
 
 ## std::remove(container, i)
 **Parameters:**  
-* container: Array, String or Map
+* container:
+  1. Array or String
+  2. Map
+* i:
+  1. Index
+  2. Map Key 
 
 **Return value:**  
 null
