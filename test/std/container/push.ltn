@@ -1,0 +1,21 @@
+namespace sphinx::test {
+	function std_push_array() {
+		var arr = [];
+		std::push(arr, 1);
+		std::push(arr, 2);
+		std::push(arr, 3);
+		assert_equal_strict(arr, [1,2,3]);
+	}
+
+
+
+	// function std_push_stack() {
+	// TODO
+	// }
+
+
+
+	// function std_push_queue() {
+	// TODO
+	// }
+}
