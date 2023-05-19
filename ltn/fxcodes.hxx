@@ -2,6 +2,7 @@
 #include <cstdint>
 namespace ltn {
 	enum class FxCode : std::uint8_t {
+		// algorithm
 		SORT_ASCN = 0x00,
 		SORT_DESC,
 		IS_SORTED_ASCN,
@@ -9,14 +10,8 @@ namespace ltn {
 		FIND,
 		FILL,
 		REVERSE,
-		INSERT_FRONT,
-		INSERT_BACK,
-		INSERT,
-		REMOVE_FRONT,
-		REMOVE_BACK,
-		REMOVE,
 
-
+		// random
 		RANDOM_SPLIT = 0x10,
 		RANDOM_RAND,
 		RANDOM_RAND_INT,
@@ -94,5 +89,22 @@ namespace ltn {
 		CHRONO_CLOCK = 0x90,
 		CHRONO_TO_SECONDS,
 		CHRONO_TO_MILLI_SECONDS,
+
+		// container
+		PUSH = 0xa0,
+		POP,
+		PEEK,
+		CONTAINS,
+		SIZE,
+		EMPTY,
+		AT,
+		FRONT,
+		BACK,
+		INSERT_FRONT,
+		INSERT_BACK,
+		INSERT,
+		REMOVE_FRONT,
+		REMOVE_BACK,
+		REMOVE,
 	};
 }

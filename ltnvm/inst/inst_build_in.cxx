@@ -39,12 +39,7 @@ namespace ltn::vm::inst {
 		table[FxCode::FIND] = build_in::find;
 		table[FxCode::FILL] = build_in::fill;
 		table[FxCode::REVERSE] = build_in::reverse;
-		table[FxCode::INSERT_FRONT] = build_in::insert_front;
-		table[FxCode::INSERT_BACK] = build_in::insert_back;
-		table[FxCode::INSERT] = build_in::insert;
-		table[FxCode::REMOVE_FRONT] = build_in::remove_front;
-		table[FxCode::REMOVE_BACK] = build_in::remove_back;
-		table[FxCode::REMOVE] = build_in::remove;
+
 		
 		// random
 		table[FxCode::RANDOM_SPLIT]      = build_in::random::split;
@@ -122,6 +117,24 @@ namespace ltn::vm::inst {
 		table[FxCode::CHRONO_CLOCK] = build_in::chrono::clock;
 		table[FxCode::CHRONO_TO_SECONDS] = build_in::chrono::to_seconds;
 		table[FxCode::CHRONO_TO_MILLI_SECONDS] = build_in::chrono::to_milliseconds;
+
+		// Container
+		table[FxCode::INSERT_FRONT] = build_in::insert_front;
+		table[FxCode::INSERT_BACK] = build_in::insert_back;
+		table[FxCode::INSERT] = build_in::insert;
+		table[FxCode::REMOVE_FRONT] = build_in::remove_front;
+		table[FxCode::REMOVE_BACK] = build_in::remove_back;
+		table[FxCode::REMOVE] = build_in::remove;
+
+		table[FxCode::PUSH] = build_in::push;
+		table[FxCode::POP] = build_in::pop;
+		table[FxCode::PEEK] = build_in::peek;
+		table[FxCode::CONTAINS] = build_in::contains;
+		table[FxCode::SIZE] = build_in::size;
+		table[FxCode::EMPTY] = build_in::empty;
+		table[FxCode::AT] = build_in::at;
+		table[FxCode::FRONT] = build_in::front;
+		table[FxCode::BACK] = build_in::back;
 		
 		return table.array;
 	}
