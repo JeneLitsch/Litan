@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 target_sources(libltnc PRIVATE 
+	build_in.cxx
 	compile_array.cxx
 	compile_binary.cxx
 	compile_block.cxx
@@ -28,5 +29,3 @@ target_sources(libltnc PRIVATE
 	compile_write.cxx
 	compile.cxx
 )
-
-add_subdirectory(build_in)

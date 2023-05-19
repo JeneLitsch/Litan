@@ -1,7 +1,6 @@
 #include "compile.hxx"
 #include <iostream>
-#include "build_in/build_in.hxx"
-#include "ltnc/print/print.hxx"
+#include "build_in.hxx"
 
 namespace ltn::c {
 	namespace {
