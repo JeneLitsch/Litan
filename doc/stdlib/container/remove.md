@@ -1,14 +1,35 @@
 # std::remove_*
 
 ## std::remove_front(container)
-TODO
+**Parameters:**  
+* container: Array or String
+
+**Return value:**  
+null
+
+**Description:**  
+Removes the first element.
 
 ---
 
 ## std::remove_back(container)
-TODO
+**Parameters:**  
+* container: Array or String
+
+**Return value:**  
+null
+
+**Description:**  
+Removes the last element.
 
 ---
 
 ## std::remove(container, i)
-TODO
+**Parameters:**  
+* container: Array, String or Map
+
+**Return value:**  
+null
+
+**Description:**  
+Removes element at index/key.

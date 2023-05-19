@@ -2,6 +2,7 @@
 #include "ltn/fxcodes.hxx"
 #include "ltnvm/build_in/algorithm.hxx"
 #include "ltnvm/build_in/chrono.hxx"
+#include "ltnvm/build_in/container.hxx"
 #include "ltnvm/build_in/random.hxx"
 #include "ltnvm/build_in/functional.hxx"
 #include "ltnvm/build_in/io.hxx"
@@ -38,6 +39,12 @@ namespace ltn::vm::inst {
 		table[FxCode::FIND] = build_in::find;
 		table[FxCode::FILL] = build_in::fill;
 		table[FxCode::REVERSE] = build_in::reverse;
+		table[FxCode::INSERT_FRONT] = build_in::insert_front;
+		table[FxCode::INSERT_BACK] = build_in::insert_back;
+		table[FxCode::INSERT] = build_in::insert;
+		table[FxCode::REMOVE_FRONT] = build_in::remove_front;
+		table[FxCode::REMOVE_BACK] = build_in::remove_back;
+		table[FxCode::REMOVE] = build_in::remove;
 		
 		// random
 		table[FxCode::RANDOM_SPLIT]      = build_in::random::split;

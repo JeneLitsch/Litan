@@ -1,0 +1,23 @@
+namespace sphinx::test {
+	function std_remove_front() {
+		var arr = [0,1,2,3];
+		std::remove_front(arr);
+		assert_equal_strict(arr, [1,2,3]);
+	}
+
+
+
+	function std_remove_back() {
+		var arr = [0,1,2,3];
+		std::remove_back(arr);
+		assert_equal_strict(arr, [0,1,2]);
+	}
+
+
+
+	function std_remove() {
+		var arr = [1,2,5,3];
+		std::remove(arr, 2);
+		assert_equal_strict(arr, [1,2,3]);
+	}
+}

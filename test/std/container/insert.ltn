@@ -1,0 +1,40 @@
+namespace sphinx::test {
+	function std_insert_front() {
+		var arr = [];
+		std::insert_front(arr, 3);
+		std::insert_front(arr, 2);
+		std::insert_front(arr, 1);
+		assert_equal_strict(arr, [1,2,3]);
+	}
+
+
+
+	function std_insert_back() {
+		var arr = [];
+		std::insert_back(arr, 1);
+		std::insert_back(arr, 2);
+		std::insert_back(arr, 3);
+		assert_equal_strict(arr, [1,2,3]);
+	}
+
+
+
+	function std_insert() {
+		var arr = [];
+		std::insert(arr, 0, 3);
+		std::insert(arr, 0, 1);
+		std::insert(arr, 1, 2);
+		std::insert(arr, 3, 4);
+		assert_equal(arr, [1, 2, 3, 4]);
+	}
+
+
+
+	function std_insert_out_of_range() {
+		assert_except(lambda {
+			var arr = [];
+			std::insert(arr, 1, 42);
+			assert_equal_strict(arr, [1,2,3]);
+		});
+	}
+}

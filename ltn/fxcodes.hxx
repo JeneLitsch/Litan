@@ -9,6 +9,12 @@ namespace ltn {
 		FIND,
 		FILL,
 		REVERSE,
+		INSERT_FRONT,
+		INSERT_BACK,
+		INSERT,
+		REMOVE_FRONT,
+		REMOVE_BACK,
+		REMOVE,
 
 
 		RANDOM_SPLIT = 0x10,
