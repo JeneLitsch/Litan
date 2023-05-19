@@ -61,11 +61,12 @@ files=(
 	"test/std/bits_set.ltn"
 	"test/std/is_type.ltn"
 	
+	"test/std/container/contains.ltn"
 	"test/std/container/empty.ltn"
 	"test/std/container/insert.ltn"
-	"test/std/container/push.ltn"
 	"test/std/container/peek.ltn"
 	"test/std/container/pop.ltn"
+	"test/std/container/push.ltn"
 	"test/std/container/remove.ltn"
 	"test/std/container/size.ltn"
 
