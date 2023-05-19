@@ -151,12 +151,14 @@ namespace ltn::vm::inst {
 		
 		if (is_array(ref)) {
 			const auto & arr = core.heap.read<Array>(ref.u);
+			if(std::empty(arr)) throw except::out_of_range();
 			core.stack.push(arr.back());
 			return;
 		}
 
 		if (is_string(ref)) {
 			const auto & str = core.heap.read<String>(ref.u);
+			if(std::empty(str)) throw except::out_of_range();
 			const auto chr = str.back(); 
 			core.stack.push(value::character(chr));
 			return;

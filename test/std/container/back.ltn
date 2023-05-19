@@ -1,0 +1,23 @@
+namespace sphinx::test {
+	function std_back_array() {
+		assert_equal_strict(std::back([1,2,3]), 3);
+	}
+
+
+
+	function std_back_array_except() {
+		assert_except(lambda => std::back([]));
+	}
+
+
+
+	function std_back_string() {
+		assert_equal_strict(std::back("ABC"), 'C');
+	}
+
+
+
+	function std_back_string_except() {
+		assert_except(lambda => std::back(""));
+	}
+}

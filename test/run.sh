@@ -61,6 +61,7 @@ files=(
 	"test/std/bits_set.ltn"
 	"test/std/is_type.ltn"
 	
+	"test/std/container/back.ltn"
 	"test/std/container/contains.ltn"
 	"test/std/container/empty.ltn"
 	"test/std/container/front.ltn"
