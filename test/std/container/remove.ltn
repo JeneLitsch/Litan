@@ -20,4 +20,17 @@ namespace sphinx::test {
 		std::remove(arr, 2);
 		assert_equal_strict(arr, [1,2,3]);
 	}
+
+
+
+	function std_remove_map() { 
+		var map = std::map();
+		map[1] = "A";
+		map[2] = "B";
+		map[3] = "C";
+		std::remove(map, 1);
+		assert_equal_strict(map[1], null);
+		assert_equal_strict(map[2], "B");
+		assert_equal_strict(map[3], "C");
+	}
 }

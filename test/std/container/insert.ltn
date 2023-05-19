@@ -37,4 +37,16 @@ namespace sphinx::test {
 			assert_equal_strict(arr, [1,2,3]);
 		});
 	}
+
+
+
+	function std_insert_map() { 
+		var map = std::map();
+		std::insert(map, 1, "A");
+		std::insert(map, 2, "B");
+		std::insert(map, 3, "C");
+		assert_equal_strict(map[1], "A");
+		assert_equal_strict(map[2], "B");
+		assert_equal_strict(map[3], "C");
+	}
 }
