@@ -7,10 +7,22 @@ namespace sphinx::test {
 
 
 
+	function std_pop_array_except() {
+		assert_except(lambda => std::pop([]));
+	}
+
+
+
 	function std_pop_string() {
 		var str = "ABC";
 		assert_equal_strict(std::pop(str), 'C');
 		assert_equal_strict(str, "AB");
+	}
+
+
+
+	function std_pop_string_except() {
+		assert_except(lambda => std::pop(""));
 	}
 
 
@@ -27,6 +39,12 @@ namespace sphinx::test {
 
 
 
+	function std_pop_stack_except() {
+		assert_except(lambda => std::pop(std::stack()));
+	}
+
+
+
 	function std_pop_queue() {
 		var que = std::queue();
 		std::push(que, 1);
@@ -35,5 +53,11 @@ namespace sphinx::test {
 		assert_equal_strict(std::pop(que), 1);
 		assert_equal_strict(std::pop(que), 2);
 		assert_equal_strict(std::pop(que), 3);
+	}
+
+
+
+	function std_pop_queue_except() {
+		assert_except(lambda => std::pop(std::queue()));
 	}
 }
