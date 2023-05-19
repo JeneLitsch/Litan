@@ -58,7 +58,6 @@ namespace ltn::c {
 
 			buf << inst::label(fx.label.to_string());
 			buf << resolve_build_in(fx.key);
-			buf << inst::null();
 			buf << inst::retvrn();
 			
 			return buf;
