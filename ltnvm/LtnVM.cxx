@@ -122,11 +122,6 @@ namespace ltn::vm {
 		table[OpCode::AT_WRITE] = inst::at_write;
 		table[OpCode::FRONT] = inst::front;
 		table[OpCode::BACK] = inst::back;
-		table[OpCode::INSERT] = inst::insert;
-		table[OpCode::REMOVE] = inst::remove;
-		table[OpCode::PUSH] = inst::push;
-		table[OpCode::POP] = inst::pop;
-		table[OpCode::PEEK] = inst::peek;
 		table[OpCode::CONTAINS] = inst::contains;
 		table[OpCode::EMPTY] = inst::empty;
 		table[OpCode::ITER] = inst::iter;

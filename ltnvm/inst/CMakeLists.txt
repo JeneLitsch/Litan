@@ -14,13 +14,11 @@ target_sources(libltnvm PRIVATE
 	inst_control_flow.cxx
 	inst_debug.cxx
 	inst_deref.cxx
-	inst_insert.cxx
 	inst_invoke.cxx
 	inst_iter.cxx
 	inst_math.cxx
 	inst_memory.cxx
 	inst_newtype.cxx
-	inst_remove.cxx
 	inst_size.cxx
 	inst_static.cxx
 	inst_struct.cxx

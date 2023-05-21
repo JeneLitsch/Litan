@@ -505,38 +505,6 @@ namespace ltn::c::inst {
 		};
 	}
 
-	Inst insert(std::uint8_t place) {
-		return InstByte {
-			.name = "insert",
-			.opcode = OpCode::INSERT,
-			.value = place,
-		};
-	}
-	Inst remove(std::uint8_t place) {
-		return InstByte {
-			.name = "remove",
-			.opcode = OpCode::REMOVE,
-			.value = place,
-		};
-	}
-	Inst push() {
-		return InstNone {
-			.name = "push",
-			.opcode = OpCode::PUSH,
-		};
-	}
-	Inst pop() {
-		return InstNone {
-			.name = "pop",
-			.opcode = OpCode::POP,
-		};
-	}
-	Inst peek() {
-		return InstNone {
-			.name = "peek",
-			.opcode = OpCode::PEEK,
-		};
-	}
 	Inst contains() {
 		return InstNone {
 			.name = "contains",

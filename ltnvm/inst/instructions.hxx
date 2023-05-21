@@ -93,11 +93,6 @@ namespace ltn::vm::inst {
 	void at_write(VmCore & core);
 	void front(VmCore & core);
 	void back(VmCore & core);
-	void insert(VmCore & core);
-	void remove(VmCore & core);
-	void push(VmCore & core);
-	void pop(VmCore & core);
-	void peek(VmCore & core);
 	void contains(VmCore & core);
 	void empty(VmCore & core);
 	void iter(VmCore & core);

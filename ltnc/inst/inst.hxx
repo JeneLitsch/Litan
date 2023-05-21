@@ -207,11 +207,6 @@ namespace ltn::c::inst {
 	Inst front();
 	Inst back();
 
-	Inst insert(std::uint8_t place);
-	Inst remove(std::uint8_t place);
-	Inst push();
-	Inst pop();
-	Inst peek();
 	Inst contains();
 	Inst empty();
 	Inst iter();
