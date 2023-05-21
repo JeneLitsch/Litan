@@ -1,5 +1,6 @@
 #include "Iterator.hxx"
 #include "iter/ArrayIterator.hxx"
+#include "iter/CombinedIterator.hxx"
 #include "iter/RangeIterator.hxx"
 #include "iter/StringIterator.hxx"
 #include "ltnvm/type_check.hxx"
@@ -28,6 +29,12 @@ namespace ltn::vm {
 
 		Iterator string(std::uint64_t string) {
 			return StringIterator(string);
+		}
+
+
+		
+		Iterator combined(std::vector<std::uint64_t> refs) {
+			return CombinedIterator(std::move(refs));
 		}
 
 

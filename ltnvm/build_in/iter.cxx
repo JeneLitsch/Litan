@@ -44,4 +44,20 @@ namespace ltn::vm::build_in::iter {
 	Value is_stop(VmCore & core) {
 		return value::boolean(is_iterator_stop(core.stack.pop()));
 	}
+
+
+
+	Value combined(VmCore & core) {
+		auto param = core.stack.pop();
+		if(!is_array(param) && !is_tuple(param)) {
+			throw except::invalid_argument();
+		}
+		auto & arr = core.heap.read<Array>(param.u);
+		std::vector<std::uint64_t> refs;
+		for(auto & e : arr) {
+			refs.push_back(iterator::wrap(e, core.heap).u);
+		}
+		auto ptr = core.heap.alloc(iterator::combined(std::move(refs)));
+		return value::iterator(ptr);
+	}
 }

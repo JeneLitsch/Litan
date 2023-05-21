@@ -113,6 +113,7 @@ namespace ltn::vm::inst {
 		table[FxCode::ITER_MOVE] = build_in::iter::move;
 		table[FxCode::ITER_ITER] = build_in::iter::iter;
 		table[FxCode::ITER_IS_STOP] = build_in::iter::is_stop;
+		table[FxCode::ITER_COMBINED] = build_in::iter::combined;
 
 		table[FxCode::CHRONO_CLOCK] = build_in::chrono::clock;
 		table[FxCode::CHRONO_TO_SECONDS] = build_in::chrono::to_seconds;

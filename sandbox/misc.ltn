@@ -19,17 +19,11 @@ function zip(a, b) {
 
 
 
+
 function main(args) {
-	var m = map([
-		(0, "_0_"),
-		(1, "_1_"),
-		(2, "_2_"),
-		(3, "_3_"),
-	]); 
-	std::println(m);
-	var a = [1,2,3];
+	var a = [1,2,3,4,5];
 	var b = ["A","B","C", "D"];
-	var r = zip(a, b);
-	std::println(r);
-	std::println(<array(array(int))>);
+	for(e : std::combined((a, b))) {
+		std::println(e);
+	}
 }

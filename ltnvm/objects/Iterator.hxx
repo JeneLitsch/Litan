@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <vector>
 #include <memory>
 #include "ltnvm/memory/Value.hxx"
 
@@ -66,6 +67,7 @@ namespace ltn::vm {
 		Iterator range(std::int64_t begin, std::int64_t end, std::int64_t step);
 		Iterator array(std::uint64_t array);
 		Iterator string(std::uint64_t string);
+		Iterator combined(std::vector<std::uint64_t> refs);
 
 		Value wrap(const Value & ref, Heap & heap);
 		Value next(const Value & ref, Heap & heap);
