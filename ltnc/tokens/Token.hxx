@@ -71,6 +71,7 @@ namespace ltn::c {
 			QMARK,
 			ASSIGN,
 			AT,
+			ELLIPSIS,
 			
 			PLUS,
 			MINUS,

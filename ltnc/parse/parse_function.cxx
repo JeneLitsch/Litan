@@ -28,8 +28,10 @@ namespace ltn::c {
 			ast::Parameters parameters{};
 			while(true) {
 				auto name = parse_parameter_name(tokens);
+				auto is_variadic = !!match(TT::ELLIPSIS, tokens);
 				parameters.push_back(ast::Parameter{
 					.name = std::move(name),
+					.is_variadic = is_variadic,
 				});
 				if(match(TT::PAREN_R, tokens)) break;
 				if(!match(TT::COMMA, tokens)) {

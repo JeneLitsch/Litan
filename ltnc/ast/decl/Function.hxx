@@ -11,6 +11,7 @@ namespace ltn::c::ast {
 	class Statement;
 	struct Parameter {
 		std::string name;
+		bool is_variadic;
 	};
 	using Parameters = std::vector<Parameter>;
 

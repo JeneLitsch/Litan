@@ -286,6 +286,12 @@ namespace ltn::c {
 		}
 
 		if(match('.')) {
+			if(match('.')) {
+				if(match('.')) {
+					return make(TT::ELLIPSIS, "...");
+				}
+				throw CompilerError{"invalid token", location};
+			}
 			return make(TT::DOT, ".");
 		}
 

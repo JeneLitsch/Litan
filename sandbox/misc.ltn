@@ -8,7 +8,7 @@ function map(arr) {
 
 
 
-function zip(ranges) {
+function zip(ranges...) {
 	var r = [];
 	for(i : std::zipped(ranges)) {
 		std::insert_back(r, i);
