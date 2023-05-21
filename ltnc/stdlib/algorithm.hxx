@@ -54,5 +54,13 @@ namespace std {
 
 	build_in reverse(range)
 		@ algorithm_reverse
+
+
+
+	function transform(in, fx) {
+		var out = [];
+		for(e : in) std::insert_back(out, fx(e));
+		return out;
+	} 
 }
 )###";
