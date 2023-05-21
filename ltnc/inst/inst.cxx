@@ -526,73 +526,12 @@ namespace ltn::c::inst {
 
 
 
-	Inst cast(std::vector<std::uint8_t> code) {
-		return InstBytex0 {
-			.name = "cast",
-			.opcode = OpCode::CAST,
-			.bytes = code,
-		};
-	}
-	Inst safe_cast(std::vector<std::uint8_t> code) {
-		return InstBytex0 {
-			.name = "safe_cast",
-			.opcode = OpCode::SAFE_CAST,
-			.bytes = code,
-		};
-	}
-
 	Inst cast_bool() {
 		return InstNone {
 			.name = "cast_bool",
 			.opcode = OpCode::CAST_BOOL,
 		};
 	}
-	Inst cast_char() {
-		return InstNone {
-			.name = "cast_char",
-			.opcode = OpCode::CAST_CHAR,
-		};
-	}
-	Inst cast_int() {
-		return InstNone {
-			.name = "cast_int",
-			.opcode = OpCode::CAST_INT,
-		};
-	}
-	Inst cast_float() {
-		return InstNone {
-			.name = "cast_float",
-			.opcode = OpCode::CAST_FLOAT,
-		};
-	}
-	Inst cast_string() {
-		return InstNone {
-			.name = "cast_string",
-			.opcode = OpCode::CAST_STRING,
-		};
-	}
-	Inst copy(std::vector<std::uint8_t> code) {
-		return InstBytex0 {
-			.name = "copy",
-			.opcode = OpCode::COPY,
-			.bytes = code,
-		};
-	}
-	Inst safe_copy(std::vector<std::uint8_t> code) {
-		return InstBytex0 {
-			.name = "safe_copy",
-			.opcode = OpCode::SAFE_COPY,
-			.bytes = code,
-		};
-	}
-	Inst conversion(std::vector<std::uint8_t> code) {
-		return InstBytex0 {
-			.name = "conversion",
-			.opcode = OpCode::CONVERSION,
-			.bytes = code,
-		};
-	}
-
 	Inst member_read(std::uint64_t id) {
 		return InstUint64 {
 			.name = "member_read",

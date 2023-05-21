@@ -211,16 +211,7 @@ namespace ltn::c::inst {
 	Inst empty();
 	Inst iter();
 
-	Inst cast(std::vector<std::uint8_t> code);
-	Inst safe_cast(std::vector<std::uint8_t> code);
 	Inst cast_bool();
-	Inst cast_char();
-	Inst cast_int();
-	Inst cast_float();
-	Inst cast_string();
-	Inst copy(std::vector<std::uint8_t> code);
-	Inst safe_copy(std::vector<std::uint8_t> code);
-	Inst conversion(std::vector<std::uint8_t> code);
 
 	Inst member_read(std::uint64_t id);
 	Inst member_write(std::uint64_t id);

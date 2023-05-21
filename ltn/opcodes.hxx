@@ -107,16 +107,7 @@ namespace ltn {
 		ITER,
 
 		// Cast
-		CAST = 0xb0,
-		SAFE_CAST,
-		CAST_BOOL,
-		CAST_CHAR,
-		CAST_INT,
-		CAST_FLOAT,
-		CAST_STRING,
-		COPY,
-		SAFE_COPY,
-		CONVERSION,
+		CAST_BOOL = 0xb0,
 
 		// Structs
 		MEMBER_READ = 0xd0,

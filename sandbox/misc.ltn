@@ -1,14 +1,35 @@
+function map(arr) {
+	var map = std::map();
+	for(elem : arr) {
+		map[elem[0]] = elem[1];
+	}
+	return map;
+}
+
+
+
+function zip(a, b) {
+	var r = [];
+	var size = std::min(std::size(a), std::size(b));
+	for(i : std::range(0, size)) {
+		std::insert_back(r, (a[i], b[i]));
+	}
+	return r;
+}
+
+
+
 function main(args) {
-	std::println(<null>);
-	std::println(<bool>);
-	std::println(<char>);
-	std::println(<int>);
-	std::println(<float>);
-	std::println(<string>);
-	std::println(<array(array(int))>);
-	std::println(<map>);
-	std::println(<map(int, int)>);
-	std::println(<type>);
-	std::println(<fx>);
-	std::println(<fx(0)>);
+	var m = map([
+		(0, "_0_"),
+		(1, "_1_"),
+		(2, "_2_"),
+		(3, "_3_"),
+	]); 
+	std::println(m);
+	var a = [1,2,3];
+	var b = ["A","B","C", "D"];
+	var r = zip(a, b);
+	std::println(r);
+
 }
