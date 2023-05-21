@@ -1,0 +1,6 @@
+namespace sphinx::test {
+	function std_transform() {
+		var double = lambda(x) => 2*x;
+		assert_equal_strict(std::transform([1,2,3], double), [2,4,6]);
+	}
+}
