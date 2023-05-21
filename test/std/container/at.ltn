@@ -1,0 +1,46 @@
+namespace sphinx::test {
+	function std_at_array() {
+		var arr = [1,2,3];
+		assert_equal_strict(std::at(arr, 0), 1);
+		assert_equal_strict(std::at(arr, 1), 2);
+		assert_equal_strict(std::at(arr, 2), 3);
+	}
+
+
+
+	function std_at_array_except() {
+		assert_except(lambda => std::at([], 0));
+		assert_except(lambda => std::at([1], 5));
+	}
+
+
+	
+	function std_at_tuple() {
+		var tup = (1,2,3);
+		assert_equal_strict(std::at(tup, 0), 1);
+		assert_equal_strict(std::at(tup, 1), 2);
+		assert_equal_strict(std::at(tup, 2), 3);
+	}
+
+
+
+	function std_at_tuple_except() {
+		assert_except(lambda => std::at((1,), 5));
+	}
+
+
+
+	function std_at_string() {
+		var str = "ABC";
+		assert_equal_strict(std::at(str, 0), 'A');
+		assert_equal_strict(std::at(str, 1), 'B');
+		assert_equal_strict(std::at(str, 2), 'C');
+	}
+
+
+
+	function std_at_string_except() {
+		assert_except(lambda => std::at("", 0));
+		assert_except(lambda => std::at("1", 5));
+	}
+}
