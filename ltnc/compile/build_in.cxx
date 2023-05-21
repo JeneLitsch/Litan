@@ -102,7 +102,7 @@ namespace ltn::c {
 		{"iter_move",                FxCode::ITER_MOVE},
 		{"iter_iter",                FxCode::ITER_ITER},
 		{"iter_is_stop",             FxCode::ITER_IS_STOP},
-		{"iter_combined",            FxCode::ITER_COMBINED},
+		{"iter_zipped",              FxCode::ITER_COMBINED},
 	};
 	
 

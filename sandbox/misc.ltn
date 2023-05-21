@@ -10,20 +10,19 @@ function map(arr) {
 
 function zip(a, b) {
 	var r = [];
-	var size = std::min(std::size(a), std::size(b));
-	for(i : std::range(0, size)) {
-		std::insert_back(r, (a[i], b[i]));
+	for(i : std::zipped((a, b))) {
+		std::insert_back(r, i);
 	}
 	return r;
 }
 
 
 
-
 function main(args) {
 	var a = [1,2,3,4,5];
 	var b = ["A","B","C", "D"];
-	for(e : std::combined((a, b))) {
+	for(e : std::zipped((a, b))) {
 		std::println(e);
 	}
+	std::println(zip(a,b));
 }
