@@ -31,5 +31,5 @@ function main(args) {
 	var b = ["A","B","C", "D"];
 	var r = zip(a, b);
 	std::println(r);
-
+	std::println(<array(array(int))>);
 }

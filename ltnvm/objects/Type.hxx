@@ -23,7 +23,7 @@ namespace ltn::vm {
 	}
 
 
-	std::string type_name(const Type & type);
-	bool type_is(const Type & type, const Value & value, Heap & heap);
-	Value type_cast(const Type & type, const Value & value, Heap & heap);
+	std::string type_name(const TypeNode & type);
+	bool type_is(const TypeNode & type, const Value & value, Heap & heap);
+	Value type_cast(const TypeNode & type, const Value & value, Heap & heap);
 }

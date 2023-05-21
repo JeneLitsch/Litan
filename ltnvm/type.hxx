@@ -3,5 +3,5 @@
 
 namespace ltn::vm {
 	struct VmCore;
-	std::pair<const TypeNode*, const std::uint8_t*> make_type(VmCore & core, const std::uint8_t * code);
+	std::pair<std::uint64_t, const std::uint8_t*> make_type(VmCore & core, const std::uint8_t * code);
 }

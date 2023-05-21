@@ -146,7 +146,7 @@ namespace ltn::vm::build_in::io {
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref)) {
 			auto & ostream = core.heap.read<OStream>(ref.u).get();
-			ostream << stringify(value, core.heap); 
+			ostream << stringify(value, core); 
 			return value::null;
 		}
 		else {

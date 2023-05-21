@@ -8,7 +8,7 @@
 
 namespace ltn::vm {
 	namespace {
-		using TypeResult = std::pair<const TypeNode*, const std::uint8_t*>;
+		using TypeResult = std::pair<std::uint64_t, const std::uint8_t*>;
 		inline std::uint64_t read_uint_64(const std::uint8_t * code) {
 			std::uint64_t size = 0;
 			for(std::size_t i = 0; i < 8; ++i) {
@@ -346,78 +346,70 @@ namespace ltn::vm {
 		}
 
 
+		
+		template<typename Node>
+		const std::uint64_t get_type(VmCore & core, auto & bytes, auto && ... args) {
+			if(!core.type_table.contains(bytes)) {
+				auto node = std::make_unique<Node>(std::move(args)...);
+				core.type_table.insert({bytes, core.types.size()});
+				core.types.push_back(std::move(node));
+			}
+			return core.type_table.at(bytes);
+		}
+
+
 
 		template<typename Node>
-		std::pair<const TypeNode*, const std::uint8_t*> make_primary_type(VmCore & core, const std::uint8_t * code) {
+		TypeResult make_primary_type(VmCore & core, const std::uint8_t * code) {
 			auto end = code + 1;
 			std::vector<std::uint8_t> bytes {code, end}; 
-			if(!core.type_table.contains(bytes)) {
-				auto node = std::make_unique<Node>();
-				core.type_table[bytes] = std::move(node);
-			}
-			return { core.type_table.at(bytes).get(), end };
+			return { get_type<Node>(core, bytes), end };
 		}
 
 
 
 		template<typename Node>
-		std::pair<const TypeNode*, const std::uint8_t*> make_unary_type(VmCore & core, const std::uint8_t * code) {
+		TypeResult make_unary_type(VmCore & core, const std::uint8_t * code) {
 			auto [sub_node, end] = make_type(core, code + 1);
 			std::vector<std::uint8_t> bytes {code, end}; 
-			if(!core.type_table.contains(bytes)) {
-				auto node = std::make_unique<Node>(sub_node);
-				core.type_table[bytes] = std::move(node);
-			}
-			return { core.type_table.at(bytes).get(), end };
+			return { get_type<Node>(core, bytes, core.types[sub_node].get()), end };
 		}
 
 
 
 		template<typename Node>
-		std::pair<const TypeNode*, const std::uint8_t*> make_n_ary_type(VmCore & core, const std::uint8_t * code) {
+		TypeResult make_n_ary_type(VmCore & core, const std::uint8_t * code) {
 			auto number = read_uint_64(code + 1);
 			std::vector<const TypeNode *> sub_types;
 			auto current = code + 1 + 8;
 			for(std::size_t i = 0; i < number; ++i) {
 				auto [node, next] = make_type(core, current);
 				current = next;
-				sub_types.push_back(node);
+				sub_types.push_back(core.types[node].get());
 			}
 			auto end = current;
 			std::vector<std::uint8_t> bytes {code, end}; 
-			if(!core.type_table.contains(bytes)) {
-				auto node = std::make_unique<Node>(std::move(sub_types));
-				core.type_table[bytes] = std::move(node);
-			}
-			return { core.type_table.at(bytes).get(), end };
+			return { get_type<Node>(core, bytes, sub_types), end };
 		}
 
 
 
 		template<typename Node>
-		std::pair<const TypeNode*, const std::uint8_t*> make_binary_type(VmCore & core, const std::uint8_t * code) {
+		TypeResult make_binary_type(VmCore & core, const std::uint8_t * code) {
 			auto [sub_node_l, mid] = make_type(core, code + 1);
 			auto [sub_node_r, end] = make_type(core, mid);
 			std::vector<std::uint8_t> bytes {code, end}; 
-			if(!core.type_table.contains(bytes)) {
-				auto node = std::make_unique<Node>(sub_node_l, sub_node_r);
-				core.type_table[bytes] = std::move(node);
-			}
-			return { core.type_table.at(bytes).get(), end };
+			return { get_type<Node>(core, bytes, core.types[sub_node_l].get(), core.types[sub_node_r].get()), end };
 		}
 
 
 
 		template<typename Node>
-		std::pair<const TypeNode*, const std::uint8_t*> make_number_type(VmCore & core, const std::uint8_t * code) {
+		TypeResult make_number_type(VmCore & core, const std::uint8_t * code) {
 			auto end = code + 1 + 8;
 			std::vector<std::uint8_t> bytes {code, end}; 
 			auto number = read_uint_64(code + 1);
-			if(!core.type_table.contains(bytes)) {
-				auto node = std::make_unique<Node>(number);
-				core.type_table[bytes] = std::move(node);
-			}
-			return { core.type_table.at(bytes).get(), end };
+			return { get_type<Node>(core, bytes, number), end };
 		}
 
 
@@ -583,7 +575,7 @@ namespace ltn::vm {
 
 
 
-	std::pair<const TypeNode*, const std::uint8_t*> make_type(VmCore & core, const std::uint8_t * code) {
+	TypeResult make_type(VmCore & core, const std::uint8_t * code) {
 		switch (*code) {
 			case type_code::ANY: return make_type_any(core, code);
 			case type_code::NVLL: return make_type_null(core, code);

@@ -19,7 +19,6 @@ namespace ltn::vm {
 		pool_of<Deque>().clear();
 		pool_of<Map>().clear();
 		pool_of<RandomEngine>().clear();
-		pool_of<Type>().clear();
 	}
 
 
@@ -36,8 +35,7 @@ namespace ltn::vm {
 			+ pool_of<Struct>().capacity()
 			+ pool_of<Deque>().capacity()
 			+ pool_of<Map>().capacity()
-			+ pool_of<RandomEngine>().capacity()
-			+ pool_of<Type>().capacity();
+			+ pool_of<RandomEngine>().capacity();
 	}
 
 
@@ -54,8 +52,7 @@ namespace ltn::vm {
 			+ pool_of<Struct>().utilized()
 			+ pool_of<Deque>().utilized()
 			+ pool_of<Map>().utilized()
-			+ pool_of<RandomEngine>().utilized()
-			+ pool_of<Type>().utilized();
+			+ pool_of<RandomEngine>().utilized();
 	}
 }
 

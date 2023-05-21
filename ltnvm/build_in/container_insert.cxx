@@ -12,7 +12,7 @@ namespace ltn::vm::build_in {
 
 		if(is_string(ref)) {
 			auto & str = core.heap.read<String>(ref.u);
-			const auto strL = stringify(elem, core.heap);
+			const auto strL = stringify(elem, core);
 			str = strL + str;
 			return value::null;
 		}
@@ -34,7 +34,7 @@ namespace ltn::vm::build_in {
 		
 		if(is_string(ref)) {
 			auto & str = core.heap.read<String>(ref.u);
-			const auto strR = stringify(elem, core.heap);
+			const auto strR = stringify(elem, core);
 			str += strR;
 			return value::null;
 		}
@@ -75,7 +75,7 @@ namespace ltn::vm::build_in {
 		
 		if(is_string(ref)) {
 			auto & str = core.heap.read<String>(ref.u); 
-			const auto strX = stringify(elem, core.heap);
+			const auto strX = stringify(elem, core);
 			const auto begin = std::begin(strX);
 			const auto end = std::end(strX);
 			const auto at = to_iter(str, key);

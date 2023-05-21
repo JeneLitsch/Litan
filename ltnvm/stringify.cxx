@@ -3,14 +3,14 @@
 
 namespace ltn::vm {
 	namespace {
-		auto print_element(const Value value, Heap & heap) {
-			return stringify(value, heap);
+		auto print_element(const Value value, VmCore & core) {
+			return stringify(value, core);
 		} 
 
-		auto print_element(const std::pair<Value, Value> pair, Heap & heap) {
+		auto print_element(const std::pair<Value, Value> pair, VmCore & core) {
 			std::ostringstream ss;
 			const auto & [key, val] = pair;
-			ss << stringify(key, heap) << " : " << stringify(val, heap);
+			ss << stringify(key, core) << " : " << stringify(val, core);
 			return ss.str();
 		}
 
@@ -19,19 +19,19 @@ namespace ltn::vm {
 			Iterator begin,
 			Iterator end,
 			std::ostream & out,
-			Heap & heap,
+			VmCore & core,
 			char open = '[',
 			char close = ']') {
 			
 			out << open;
 			for(auto it = begin; it != end; ++it) {
 				if (it != begin) out << ", ";
-				out << print_element(*it, heap);
+				out << print_element(*it, core);
 			}
 			out << close;
 		}
 	}
-	std::string stringify(const Value & value, Heap & heap) {
+	std::string stringify(const Value & value, VmCore & core) {
 		if(is_null(value)) {
 			return "null";
 		}
@@ -58,21 +58,21 @@ namespace ltn::vm {
 		}
 
 		if(is_array(value)) {
-			const auto & array = heap.read<Array>(value.u);
+			const auto & array = core.heap.read<Array>(value.u);
 			std::stringstream ss;
-			print_all(std::begin(array), std::end(array), ss, heap, '[', ']');
+			print_all(std::begin(array), std::end(array), ss, core, '[', ']');
 			return ss.str();
 		}
 
 		if(is_tuple(value)) {
-			const auto & array = heap.read<Array>(value.u);
+			const auto & array = core.heap.read<Array>(value.u);
 			std::stringstream ss;
-			print_all(std::begin(array), std::end(array), ss, heap, '(', ')');
+			print_all(std::begin(array), std::end(array), ss, core, '(', ')');
 			return ss.str();
 		}
 
 		if(is_ostream(value)) {
-			const auto & out = heap.read<OStream>(value.u);
+			const auto & out = core.heap.read<OStream>(value.u);
 			if(out.oss) {
 				return out.oss->str();
 			}
@@ -90,7 +90,7 @@ namespace ltn::vm {
 		}
 
 		if(is_clock(value)) {
-			const auto & clock = heap.read<Clock>(value.u);
+			const auto & clock = core.heap.read<Clock>(value.u);
 			std::ostringstream ss;
 			ss << "<clock: " << clock.getSeconds() << "s>";
 			return ss.str();
@@ -101,23 +101,23 @@ namespace ltn::vm {
 		}
 
 		if(is_queue(value)) {
-			const auto & deque = heap.read<Deque>(value.u);
+			const auto & deque = core.heap.read<Deque>(value.u);
 			std::ostringstream ss;
-			print_all(std::begin(deque), std::end(deque), ss, heap, '<', '>');
+			print_all(std::begin(deque), std::end(deque), ss, core, '<', '>');
 			return ss.str();
 		}
 
 		if(is_stack(value)) {
-			const auto & deque = heap.read<Deque>(value.u);
+			const auto & deque = core.heap.read<Deque>(value.u);
 			std::ostringstream ss;
-			print_all(std::begin(deque), std::end(deque), ss, heap, '<', '>');
+			print_all(std::begin(deque), std::end(deque), ss, core, '<', '>');
 			return ss.str();
 		}
 
 		if(is_map(value)) {
-			const auto & map = heap.read<Map>(value.u);
+			const auto & map = core.heap.read<Map>(value.u);
 			std::ostringstream ss;
-			print_all(std::begin(map), std::end(map), ss, heap, '{', '}');
+			print_all(std::begin(map), std::end(map), ss, core, '{', '}');
 			return ss.str();
 		}
 
@@ -126,7 +126,7 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return heap.read<String>(value.u);
+			return core.heap.read<String>(value.u);
 		}
 
 		if(is_iterator(value)) {
@@ -138,8 +138,8 @@ namespace ltn::vm {
 		}
 
 		if(is_type(value)) {
-			auto & type = heap.read<Type>(value.u);
-			return type.node->name();
+			auto & type = *core.types[value.u];
+			return type.name();
 		}
 
 		throw Exception{
