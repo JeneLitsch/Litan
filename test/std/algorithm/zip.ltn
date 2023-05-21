@@ -1,0 +1,7 @@
+namespace sphinx::test {
+	function std_zip() {
+		var a = [1,2,3];
+		var b = ["A","B","C","D"];
+		assert_equal_strict(std::zip((a,b)), [(1,"A"),(2,"B"),(3,"C")]);
+	}
+}

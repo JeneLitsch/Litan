@@ -83,6 +83,7 @@ files=(
 	"test/std/algorithm/fill.ltn"
 	"test/std/algorithm/reverse.ltn"
 	"test/std/algorithm/transform.ltn"
+	"test/std/algorithm/zip.ltn"
 
 	"test/std/functional/arity.ltn"
 	"test/std/functional/invoke.ltn"

@@ -62,5 +62,9 @@ namespace std {
 		for(e : in) std::insert_back(out, fx(e));
 		return out;
 	} 
+
+
+	function zip(ranges)
+		=> transform(std::zipped(ranges), lambda(x) => x)
 }
 )###";
