@@ -23,6 +23,7 @@ namespace ltn::c {
 				.namespaze = namespaze,
 				.name = name,
 				.arity = arity,
+				.is_variadic = is_variadic
 			};
 		}
 

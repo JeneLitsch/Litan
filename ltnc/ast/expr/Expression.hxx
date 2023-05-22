@@ -177,6 +177,7 @@ namespace ltn::c::ast {
 			Namespace namespaze;
 			std::string name;
 			std::size_t arity;
+			bool is_variadic;
 		};
 		
 		struct FileQuery {};

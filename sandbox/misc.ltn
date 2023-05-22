@@ -18,6 +18,8 @@ function main(args) {
 	var f2 = lambda(a, b...) => b;
 	std::println(f1(1,2,3,4));
 	std::println(f2(1,2,3,4));
+	std::println(reflect(namespace foo).functions[0].fx_ptr(1,2,3,4));
+	std::println(reflect(function foo::f(_,...)).fx_ptr(1,2,3,4));
 	var a = [1,2,3,4,5];
 	var b = ["A","B","C", "D"];
 	for(e : std::zipped((a, b))) {

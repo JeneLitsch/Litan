@@ -110,6 +110,7 @@ namespace ltn::c::sst {
 			bool c0nst; 
 			bool pr1vate; 
 			bool ext3rn; 
+			bool is_variadic; 
 		};
 
 		struct NamespaceQuery {

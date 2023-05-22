@@ -27,7 +27,8 @@ namespace ltn::c {
 			case VariadicMode::PROHIBITED: return
 				fx.name == name &&
 				fx.namespaze == full &&
-				std::size(fx.parameters.simple) == parameters;
+				std::size(fx.parameters.simple) == parameters &&
+				!fx.parameters.variadic;
 			}
 		}
 

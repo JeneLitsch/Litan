@@ -22,6 +22,8 @@ namespace ltn::c {
 			const sst::Reflect::Addr & address,
 			const sst::Reflect::FunctionQuery & query) {
 
+			const auto arity_code = query.arity | std::uint64_t{query.is_variadic} << 63;
+
 			InstructionBuffer buf;
 			buf << inst::newstruct();
 			buf << add_member(address.name, {
@@ -31,7 +33,7 @@ namespace ltn::c {
 				inst::newstr(query.full_name)
 			});
 			buf << add_member(address.fx_ptr, {
-				inst::newfx(query.id, query.arity)
+				inst::newfx(query.id, arity_code)
 			});
 			buf << add_member(address.c0nst, {
 				query.c0nst ? inst::bool_true() : inst::bool_false()

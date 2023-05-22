@@ -5,13 +5,14 @@ namespace ltn::c {
 	namespace {
 		sst::Reflect::FunctionQuery fx_to_query(const ast::Functional & fx) {
 			return sst::Reflect::FunctionQuery {
-				.id        = make_function_label(fx).to_string(),
-				.name      = fx.name,
-				.full_name = fx.namespaze.to_string() + fx.name,
-				.arity     = fx.parameters.simple.size(),
-				.c0nst     = fx.is_const,
-				.pr1vate   = fx.is_private,
-				.ext3rn    = fx.is_extern,
+				.id          = make_function_label(fx).to_string(),
+				.name        = fx.name,
+				.full_name   = fx.namespaze.to_string() + fx.name,
+				.arity       = fx.parameters.simple.size(),
+				.c0nst       = fx.is_const,
+				.pr1vate     = fx.is_private,
+				.ext3rn      = fx.is_extern,
+				.is_variadic = fx.parameters.variadic.has_value(),
 			};
 		}
 
@@ -44,7 +45,8 @@ namespace ltn::c {
 			auto fx = scope.resolve_function(
 				query.name,
 				query.namespaze,
-				query.arity
+				query.arity,
+				query.is_variadic ? VariadicMode::REQUIRED : VariadicMode::PROHIBITED
 			);
 
 			if(!fx) throw undefined_function(query.name, location(refl));
