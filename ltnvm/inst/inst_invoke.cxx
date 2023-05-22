@@ -22,12 +22,26 @@ namespace ltn::vm::inst {
 		// Call functions pointer
 		if(is_fxptr(ref_fx)) {
 			const auto & fxptr = core.heap.read<FxPointer>(ref_fx.u);
-			if(arity == fxptr.get_parameters()) {
+			if(arity == fxptr.arity()) {
 				core.stack.push_frame(core.pc, static_cast<std::uint8_t>(arity));
 				load_captures_onto_stack(core.stack, fxptr.captured);
 				core.pc = fxptr.ptr;
 			}
-			else throw except::invalid_parameters(fxptr.get_parameters(), arity);
+
+			else if(arity >= fxptr.arity() && fxptr.is_variadic) {
+				auto varidic_arity = arity - fxptr.arity();
+				Array tuple;
+				for(std::size_t i = 0; i < varidic_arity; ++i) {
+					tuple.push_back(core.stack.pop());
+				}
+				std::reverse(std::begin(tuple), std::end(tuple));
+				core.stack.push(value::tuple(core.heap.alloc(std::move(tuple))));
+				core.stack.push_frame(core.pc, static_cast<std::uint8_t>(fxptr.arity() + 1));
+				load_captures_onto_stack(core.stack, fxptr.captured);
+				core.pc = fxptr.ptr;
+			}
+
+			else throw except::invalid_parameters(fxptr.arity(), arity);
 		}
 
 		// Call external binding
@@ -64,13 +78,13 @@ namespace ltn::vm::inst {
 			if(is_fxptr(ref_fx)) {
 				const auto & fxptr = core.heap.read<FxPointer>(ref_fx.u);
 				const auto arity = arguments.size();
-				if(arity == fxptr.get_parameters()) {
+				if(arity == fxptr.arity()) {
 					core.stack.push_frame(core.pc, static_cast<std::uint8_t>(0));
 					load_arguments_onto_stack(core.stack, arguments);
 					load_captures_onto_stack(core.stack, fxptr.captured);
 					core.pc = fxptr.ptr;
 				}
-				else throw except::invalid_parameters(fxptr.get_parameters(), arity);
+				else throw except::invalid_parameters(fxptr.arity(), arity);
 			}
 
 			// Call external binding

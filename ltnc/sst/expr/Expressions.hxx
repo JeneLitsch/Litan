@@ -439,10 +439,12 @@ namespace ltn::c::sst {
 	struct FxPointer final : public Expression {
 		FxPointer(
 			const Label & label,
-			std::size_t arity)
+			std::size_t arity,
+			bool is_variadic)
 			: Expression{}
 			, label{label}
-			, arity{arity} {}
+			, arity{arity}
+			, is_variadic{is_variadic} {}
 
 		virtual std::uint64_t alloc() const override {
 			return 0;
@@ -455,6 +457,7 @@ namespace ltn::c::sst {
 		Label label;
 		std::size_t arity;
 		std::vector<std::unique_ptr<Var>> captures;
+		bool is_variadic;
 	};
 
 

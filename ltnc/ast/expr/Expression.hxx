@@ -445,11 +445,13 @@ namespace ltn::c::ast {
 			const std::string & name,
 			const Namespace & namespaze,
 			std::uint64_t placeholders,
+			bool is_variadic,
 			const SourceLocation & location)
 			: Expression(location)
 			, name(name)
 			, namespaze(namespaze)
-			, placeholders(placeholders) {}
+			, placeholders(placeholders)
+			, is_variadic{is_variadic} {}
 		
 		virtual void accept(const ExprVisitor & visitor) const override {
 			visitor.visit(*this);
@@ -462,6 +464,7 @@ namespace ltn::c::ast {
 		std::string name;
 		Namespace namespaze;
 		std::uint64_t placeholders;
+		bool is_variadic;
 	};
 
 

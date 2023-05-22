@@ -6,7 +6,8 @@
 namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::FxPointer & fx_ptr) {
 		InstructionBuffer buf;
-		buf << inst::newfx(fx_ptr.label.to_string(), fx_ptr.arity);
+		const auto arity_code = fx_ptr.arity | std::uint64_t{fx_ptr.is_variadic} << 63;
+		buf << inst::newfx(fx_ptr.label.to_string(), arity_code);
 		for(const auto & capture : fx_ptr.captures) {
 			buf << compile_expression(*capture);
 			buf << inst::capture();

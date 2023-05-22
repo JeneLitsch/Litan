@@ -7,12 +7,12 @@ namespace ltn::vm {
 	struct FxPointer {
 		const std::uint8_t * ptr;
 		std::size_t params;
-		std::size_t get_parameters() const {
+		std::size_t arity() const {
 			return this->params;
 		}
 		std::vector<Value> captured;
+		bool is_variadic = false;
 		constexpr static std::string_view typeName = "FxPointer";
-		
 	};
 
 

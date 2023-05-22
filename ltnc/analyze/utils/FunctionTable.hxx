@@ -6,6 +6,7 @@
 #include "SymbolTable.hxx"
 
 namespace ltn::c {
+
 	struct FunctionErrors {
 		static CompilerError redef(const ast::Functional & def) {
 			std::stringstream msg;
@@ -31,11 +32,11 @@ namespace ltn::c {
 	};
 
 	using FunctionTable
-		= SymbolTable<ast::Functional, std::size_t, bool>;
+		= SymbolTable<ast::Functional, std::size_t, VariadicMode>;
 	
 	using ValidFunctionTable
-		= ValidSymbolTable<ast::Functional, FunctionErrors, std::size_t, bool>;
+		= ValidSymbolTable<ast::Functional, FunctionErrors, std::size_t, VariadicMode>;
 	
 	using InvalidFunctionTable
-		= InvalidSymbolTable<ast::Functional, FunctionErrors, std::size_t, bool>;
+		= InvalidSymbolTable<ast::Functional, FunctionErrors, std::size_t, VariadicMode>;
 }

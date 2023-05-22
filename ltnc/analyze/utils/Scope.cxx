@@ -28,22 +28,11 @@ namespace ltn::c {
 	stx::optref<const ast::Functional> Scope::resolve_function(
 		const std::string & name,
 		const Namespace & ns,
-		std::size_t arity) const {
+		std::size_t arity,
+		VariadicMode var_mode) const {
 
 		auto & context = this->get_context();
-		auto * fx = context.fx_table.resolve(name, this->get_namespace(), ns, arity, false);
-		return stx::to_optref(fx);
-	}
-
-
-
-	stx::optref<const ast::Functional> Scope::resolve_function_variadic(
-		const std::string & name,
-		const Namespace & ns,
-		std::size_t arity) const {
-			
-		auto & context = this->get_context();
-		auto * fx = context.fx_table.resolve(name, this->get_namespace(), ns, arity, true);
+		auto * fx = context.fx_table.resolve(name, this->get_namespace(), ns, arity, var_mode);
 		return stx::to_optref(fx);
 	}
 

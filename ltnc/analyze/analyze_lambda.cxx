@@ -47,7 +47,8 @@ namespace ltn::c {
 
 		auto fx_ptr = std::make_unique<sst::FxPointer>(
 			make_function_label(*lambda.fx),
-			lambda.fx->parameters.simple.size()
+			lambda.fx->parameters.simple.size(),
+			false
 		);
 
 		fx_ptr->captures = std::move(captures);

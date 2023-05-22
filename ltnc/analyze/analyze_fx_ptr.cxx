@@ -14,7 +14,8 @@ namespace ltn::c {
 		const auto fx = scope.resolve_function(
 			fx_ptr.name,
 			fx_ptr.namespaze,
-			fx_ptr.arity()
+			fx_ptr.arity(),
+			fx_ptr.is_variadic ? VariadicMode::REQUIRED : VariadicMode::PROHIBITED
 		);
 
 		if(!fx) throw undefined_function(fx_ptr);
@@ -31,7 +32,8 @@ namespace ltn::c {
 
 		return std::make_unique<sst::FxPointer>(
 			label,
-			fx->parameters.simple.size()
+			fx->parameters.simple.size(),
+			fx_ptr.is_variadic
 		);
 	}
 }

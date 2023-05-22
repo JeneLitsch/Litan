@@ -89,7 +89,7 @@ namespace ltn::c {
 		}
 
 		for(const auto & function : source.functions) {
-			context.fx_table.insert(*function, function->parameters.simple.size(), true);
+			context.fx_table.insert(*function, function->parameters.simple.size(), VariadicMode::ALLOWED);
 		}
 
 		auto externs = find_extern_funtions(source);

@@ -114,7 +114,7 @@ namespace ltn::c {
 				}
 			}
 
-			if(auto fx = scope.resolve_function_variadic(var->name, var->namespaze, call.arity())) {
+			if(auto fx = scope.resolve_function(var->name, var->namespaze, call.arity(), VariadicMode::ALLOWED)) {
 				return do_call_function(call, *fx, scope);
 			}
 

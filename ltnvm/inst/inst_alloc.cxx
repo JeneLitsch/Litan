@@ -82,8 +82,16 @@ namespace ltn::vm::inst {
 
 	void newfx(VmCore & core){
 		const auto address = core.code_begin + core.fetch_uint(); 
-		const auto arity = core.fetch_uint();
-		const auto ref = core.heap.alloc<FxPointer>({address, arity, {}});
+		const auto arity_code = core.fetch_uint();
+		const auto arity = (arity_code << 1) >> 1;
+		const auto is_variadic = (arity_code >> 63) != 0;
+		FxPointer fx_ptr {
+			.ptr = address,
+			.params = arity,
+			.captured = {},
+			.is_variadic = is_variadic,
+		};
+		const auto ref = core.heap.alloc(std::move(fx_ptr));
 		core.stack.push(Value{ref, Value::Type::FX_PTR});
 	}
 

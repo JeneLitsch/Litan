@@ -128,11 +128,12 @@ namespace ltn::c {
 				Namespace namespaze;
 				std::tie(name, namespaze) = parse_symbol(tokens);
 				if(match(TT::PAREN_L, tokens)) {
-					auto placeholders = parse_placeholder(tokens);
+					auto [arity, is_variadic] = parse_placeholder(tokens);
 					auto fx_ptr = std::make_unique<ast::FxPointer>(
 						std::move(name),
 						std::move(namespaze),
-						std::move(placeholders),
+						arity,
+						is_variadic,
 						location(tokens));
 					return fx_ptr;
 				}
@@ -157,14 +158,28 @@ namespace ltn::c {
 
 
 
-	std::uint64_t parse_placeholder(Tokens & tokens) {
+	std::tuple<std::uint64_t, bool> parse_placeholder(Tokens & tokens) {
 		std::uint64_t placeholders = 0;
-		parse_parameters(tokens, [&] {
-			if (match(TT::UNDERSCORE, tokens)) {
+		if(match(TT::PAREN_R, tokens)) {
+			return {placeholders, false};
+		}
+		while(true) {
+			if(match(TT::UNDERSCORE, tokens)) {
 				++placeholders;
 			}
-		});
-		return placeholders;
+			else if(match(TT::ELLIPSIS, tokens)) {
+				if(!match(TT::PAREN_R, tokens)) throw CompilerError {
+					"Variadic placeholder must be last", location(tokens)
+				};
+				return {placeholders, true};
+			}
+			if(match(TT::PAREN_R, tokens)) {
+				return {placeholders, false};
+			}
+			if(!match(TT::COMMA, tokens)) {
+				throw expected(",", location(tokens));
+			}
+		}
 	}
 
 

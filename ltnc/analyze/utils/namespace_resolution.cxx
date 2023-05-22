@@ -8,19 +8,26 @@ namespace ltn::c {
 			const Namespace & full,
 			const std::string_view name,
 			const std::size_t parameters,
-			bool allow_variadic) {
+			VariadicMode variadic_mode) {
 
-			if(allow_variadic && fx.parameters.variadic) {
-				return
+			switch (variadic_mode) {
+
+			case VariadicMode::REQUIRED: return
+				fx.name == name &&
+				fx.namespaze == full &&
+				std::size(fx.parameters.simple) <= parameters &&
+				fx.parameters.variadic;
+			
+			case VariadicMode::ALLOWED:
+				if(fx.parameters.variadic) return
 					fx.name == name &&
 					fx.namespaze == full &&
 					std::size(fx.parameters.simple) <= parameters;
-			}
-			else {
-				return
-					fx.name == name &&
-					fx.namespaze == full &&
-					std::size(fx.parameters.simple) == parameters;
+			
+			case VariadicMode::PROHIBITED: return
+				fx.name == name &&
+				fx.namespaze == full &&
+				std::size(fx.parameters.simple) == parameters;
 			}
 		}
 
@@ -112,9 +119,9 @@ namespace ltn::c {
 		const Namespace & to,
 		const std::string_view name,
 		const std::size_t parameters,
-		bool allow_variadic) {
+		VariadicMode variadic_mode) {
 
-		return resolve_x(functions, from, to, name, parameters, allow_variadic);
+		return resolve_x(functions, from, to, name, parameters, variadic_mode);
 	}
 
 

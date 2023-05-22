@@ -1,4 +1,5 @@
 #pragma once
+#include <tuple>
 #include "stdxx/functional.hxx"
 #include "stdxx/float64_t.hxx"
 #include "stdxx/memory.hxx"
@@ -56,7 +57,7 @@ namespace ltn::c {
 	void brace_l(Tokens & tokens);
 	void brace_r(Tokens & tokens);
 
-	std::uint64_t parse_placeholder(Tokens & tokens);
+	std::tuple<std::uint64_t, bool> parse_placeholder(Tokens & tokens);
 
 	// Maches ; or throws
 	void semicolon(Tokens & tokens);
