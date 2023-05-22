@@ -40,7 +40,7 @@ namespace ltn::c {
 		oss << fx.get_resolve_namespace().to_string() 
 			<< fx.get_resolve_name() 
 			<< "(" 
-			<< fx.parameters.size()
+			<< fx.parameters.simple.size()
 			<< ")";
 		return make_external_label(oss.str());
 	}

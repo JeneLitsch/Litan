@@ -31,11 +31,11 @@ namespace ltn::c {
 	};
 
 	using FunctionTable
-		= SymbolTable<ast::Functional, std::size_t>;
+		= SymbolTable<ast::Functional, std::size_t, bool>;
 	
 	using ValidFunctionTable
-		= ValidSymbolTable<ast::Functional, FunctionErrors, std::size_t>;
+		= ValidSymbolTable<ast::Functional, FunctionErrors, std::size_t, bool>;
 	
 	using InvalidFunctionTable
-		= InvalidSymbolTable<ast::Functional, FunctionErrors, std::size_t>;
+		= InvalidSymbolTable<ast::Functional, FunctionErrors, std::size_t, bool>;
 }

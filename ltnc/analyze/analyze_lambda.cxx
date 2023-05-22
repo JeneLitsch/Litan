@@ -30,6 +30,7 @@ namespace ltn::c {
 		
 		auto inner_scope = create_inner_scope(outer_scope, lambda);
 		auto label = make_lambda_label(lambda);
+
 		
 		// auto sst_fx = analyze_functional(*lambda.fx, inner_scope, label, lambda.captures);
 		auto captures = analyze_captures(lambda.captures, outer_scope);
@@ -40,9 +41,13 @@ namespace ltn::c {
 			.override_namespace = outer_scope.get_namespace(),
 		});
 
+		if(lambda.fx->parameters.variadic) throw CompilerError {
+			"Lambda cannot be variadic", ast::location(lambda)
+		};
+
 		auto fx_ptr = std::make_unique<sst::FxPointer>(
 			make_function_label(*lambda.fx),
-			lambda.fx->parameters.size()
+			lambda.fx->parameters.simple.size()
 		);
 
 		fx_ptr->captures = std::move(captures);

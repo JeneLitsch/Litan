@@ -19,7 +19,7 @@ namespace ltn::c {
 
 
 		// Returns a array of all parameters
-		ast::Parameters parse_basic_parameters(Tokens & tokens) {
+		ast::Parameters parse_parameters_variadic(Tokens & tokens) {
 			
 			if(match(TT::PAREN_R, tokens)) {
 				return {};
@@ -28,33 +28,68 @@ namespace ltn::c {
 			ast::Parameters parameters{};
 			while(true) {
 				auto name = parse_parameter_name(tokens);
-				auto is_variadic = !!match(TT::ELLIPSIS, tokens);
-				parameters.push_back(ast::Parameter{
-					.name = std::move(name),
-					.is_variadic = is_variadic,
-				});
-				if(match(TT::PAREN_R, tokens)) break;
-				if(!match(TT::COMMA, tokens)) {
-					throw CompilerError {
+				if(match(TT::ELLIPSIS, tokens)) {
+					parameters.variadic = ast::Parameter {
+						.name = name
+					};
+					if(!match(TT::PAREN_R, tokens)) throw CompilerError {
+						"Variadic parameter must the last one",
+						location(tokens)
+					};
+					return parameters;
+				}
+				else {
+					parameters.simple.push_back(ast::Parameter{
+						.name = std::move(name),
+					});
+					if(match(TT::PAREN_R, tokens)) return parameters;
+					if(!match(TT::COMMA, tokens)) throw CompilerError {
 						"expected comma between parameters",
 						location(tokens)
 					};
 				}
 			}
-			return parameters;
 		}
 
 
 
-		ast::Parameters parse_optional_parameters(Tokens & tokens) {
-			if(match(TT::PAREN_L, tokens)) return parse_basic_parameters(tokens);
+		// Returns a array of all parameters
+		ast::Parameters parse_parameters(Tokens & tokens) {
+			
+			if(match(TT::PAREN_R, tokens)) {
+				return {};
+			}
+
+			ast::Parameters parameters{};
+			while(true) {
+				auto name = parse_parameter_name(tokens);
+				parameters.simple.push_back(ast::Parameter{
+					.name = std::move(name),
+				});
+				if(match(TT::PAREN_R, tokens)) return parameters;
+				if(!match(TT::COMMA, tokens)) throw CompilerError {
+					"expected comma between parameters",
+					location(tokens)
+				};
+			}
+		}
+
+
+
+		ast::Parameters parse_lambda_parameters(Tokens & tokens) {
+			if(match(TT::PAREN_L, tokens)) return parse_parameters(tokens);
 			return {};
 		}
 
+		
+		ast::Parameters parse_except_parameters(Tokens & tokens) {
+			if(match(TT::PAREN_L, tokens)) return parse_parameters(tokens);
+			throw ltn::c::CompilerError{"missing (", location(tokens)};
+		}
 
 
-		ast::Parameters parse_mandatory_parameters(Tokens & tokens) {
-			if(match(TT::PAREN_L, tokens)) return parse_basic_parameters(tokens);
+		ast::Parameters parse_function_parameters(Tokens & tokens) {
+			if(match(TT::PAREN_L, tokens)) return parse_parameters_variadic(tokens);
 			throw ltn::c::CompilerError{"missing (", location(tokens)};
 		}
 
@@ -160,8 +195,8 @@ namespace ltn::c {
 
 		std::unique_ptr<ast::Except> parse_except(Tokens & tokens) {
 			if(match(TT::EXCEPT, tokens)) {
-				auto params = parse_mandatory_parameters(tokens);
-				if(params.size() != 1) {
+				auto params = parse_except_parameters(tokens);
+				if(params.simple.size() != 1) {
 					throw CompilerError {
 						"Except only takes one error parameter",
 						location(tokens)
@@ -169,7 +204,7 @@ namespace ltn::c {
 				}
 				auto body = parse_body(tokens, 1);
 				return std::make_unique<ast::Except>(
-					params[0].name,
+					params.simple[0].name,
 					std::move(body),
 					location(tokens)
 				);
@@ -209,10 +244,10 @@ namespace ltn::c {
 			const Namespace & namespaze,
 			auto parse_body) {
 			auto name = parse_function_name(tokens);
-			auto parameters = parse_mandatory_parameters(tokens);
+			auto parameters = parse_function_parameters(tokens);
 
 			Qualifiers qualifiers = parse_qualifiers(tokens); 
-			auto body = parse_body(tokens, std::size(parameters));
+			auto body = parse_body(tokens, std::size(parameters.simple));
 			auto fx = std::make_unique<FunctionalNode>(
 				std::move(name),
 				std::move(namespaze),
@@ -257,9 +292,9 @@ namespace ltn::c {
 	ast::expr_ptr parse_lambda(Tokens & tokens) {
 		if(match(TT::LAMBDA, tokens)) {
 			auto captures = parse_captures(tokens);
-			auto parameters = parse_optional_parameters(tokens);
+			auto parameters = parse_lambda_parameters(tokens);
 			Qualifiers qualifiers = parse_qualifiers(tokens);
-			auto body = parse_body(tokens, std::size(parameters)); 
+			auto body = parse_body(tokens, std::size(parameters.simple)); 
 			auto fx = std::make_unique<ast::Function>(
 				"lambda" + std::to_string(*stx::unique{}), 
 				Namespace{},

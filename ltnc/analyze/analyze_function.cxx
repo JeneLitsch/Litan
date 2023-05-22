@@ -11,9 +11,17 @@ namespace ltn::c {
 			const SourceLocation & loc) {
 			
 			sst::Parameters p;
-			for(const auto & param : parameters) {
+			for(const auto & param : parameters.simple) {
 				auto sst_param = sst::Parameter {
 					.name = param.name,
+				};
+				scope.insert(sst_param.name, loc);
+				p.push_back(sst_param);
+			}
+
+			if(parameters.variadic) {
+				auto sst_param = sst::Parameter {
+					.name = parameters.variadic->name,
 				};
 				scope.insert(sst_param.name, loc);
 				p.push_back(sst_param);

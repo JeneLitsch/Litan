@@ -31,7 +31,19 @@ namespace ltn::c {
 		std::size_t arity) const {
 
 		auto & context = this->get_context();
-		auto * fx = context.fx_table.resolve(name, this->get_namespace(), ns, arity);
+		auto * fx = context.fx_table.resolve(name, this->get_namespace(), ns, arity, false);
+		return stx::to_optref(fx);
+	}
+
+
+
+	stx::optref<const ast::Functional> Scope::resolve_function_variadic(
+		const std::string & name,
+		const Namespace & ns,
+		std::size_t arity) const {
+			
+		auto & context = this->get_context();
+		auto * fx = context.fx_table.resolve(name, this->get_namespace(), ns, arity, true);
 		return stx::to_optref(fx);
 	}
 

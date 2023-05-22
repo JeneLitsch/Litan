@@ -8,7 +8,7 @@ namespace ltn::c {
 				.id        = make_function_label(fx).to_string(),
 				.name      = fx.name,
 				.full_name = fx.namespaze.to_string() + fx.name,
-				.arity     = fx.parameters.size(),
+				.arity     = fx.parameters.simple.size(),
 				.c0nst     = fx.is_const,
 				.pr1vate   = fx.is_private,
 				.ext3rn    = fx.is_extern,
@@ -41,7 +41,7 @@ namespace ltn::c {
 
 			auto & context = scope.get_context();
 
-			const auto * fx = context.fx_table.resolve(
+			auto fx = scope.resolve_function(
 				query.name,
 				query.namespaze,
 				query.arity

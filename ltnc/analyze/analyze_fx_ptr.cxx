@@ -18,7 +18,7 @@ namespace ltn::c {
 		);
 
 		if(!fx) throw undefined_function(fx_ptr);
-		
+
 		MinorScope param_scope{&inner_scope};
 
 		context.fx_queue.stage_function(Staged{
@@ -31,7 +31,7 @@ namespace ltn::c {
 
 		return std::make_unique<sst::FxPointer>(
 			label,
-			fx->parameters.size()
+			fx->parameters.simple.size()
 		);
 	}
 }

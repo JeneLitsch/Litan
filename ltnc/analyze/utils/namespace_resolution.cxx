@@ -7,12 +7,21 @@ namespace ltn::c {
 			const ast::Functional & fx,
 			const Namespace & full,
 			const std::string_view name,
-			const std::size_t parameters) {
+			const std::size_t parameters,
+			bool allow_variadic) {
 
-			return
-				fx.name == name &&
-				fx.namespaze == full &&
-				std::size(fx.parameters) == parameters;
+			if(allow_variadic && fx.parameters.variadic) {
+				return
+					fx.name == name &&
+					fx.namespaze == full &&
+					std::size(fx.parameters.simple) <= parameters;
+			}
+			else {
+				return
+					fx.name == name &&
+					fx.namespaze == full &&
+					std::size(fx.parameters.simple) == parameters;
+			}
 		}
 
 
@@ -102,9 +111,10 @@ namespace ltn::c {
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name,
-		const std::size_t parameters) {
+		const std::size_t parameters,
+		bool allow_variadic) {
 
-		return resolve_x(functions, from, to, name, parameters);
+		return resolve_x(functions, from, to, name, parameters, allow_variadic);
 	}
 
 

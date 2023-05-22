@@ -11,10 +11,12 @@ namespace ltn::c::ast {
 	class Statement;
 	struct Parameter {
 		std::string name;
-		bool is_variadic;
 	};
-	using Parameters = std::vector<Parameter>;
 
+	struct Parameters {
+		std::vector<Parameter> simple;
+		std::optional<Parameter> variadic;
+	};
 
 
 	inline std::string mangle(
@@ -24,7 +26,7 @@ namespace ltn::c::ast {
 		std::ostringstream oss;
 		oss << namespaze.to_string();
 		oss << name << "(";
-		oss << std::size(parameters) << ")";
+		oss << std::size(parameters.simple) << ")";
 		return oss.str();
 	}
 

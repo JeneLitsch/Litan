@@ -10,7 +10,7 @@ namespace ltn::c {
 				if(fx->is_extern) {
 					externs.push_back(*fx);
 				}
-				if(fx->name == "main" && (fx->parameters.size() == 0 || fx->parameters.size() == 1)) {
+				if(fx->name == "main" && (fx->parameters.simple.size() == 0 || fx->parameters.simple.size() == 1)) {
 					externs.push_back(*fx);
 				}
 			}
@@ -89,7 +89,7 @@ namespace ltn::c {
 		}
 
 		for(const auto & function : source.functions) {
-			context.fx_table.insert(*function, function->parameters.size());
+			context.fx_table.insert(*function, function->parameters.simple.size(), true);
 		}
 
 		auto externs = find_extern_funtions(source);

@@ -11,11 +11,19 @@ namespace ltn::c {
 			Scope & scope) {
 			
 			std::vector<sst::expr_ptr> arguments;
-			for(std::size_t i = 0; i < call.arguments.size(); ++i) {
+			for(std::size_t i = 0; i < fx.parameters.simple.size(); ++i) {
 				const ArgumentLocation location = {ast::location(call), i};
 				auto & argument = call.arguments[i];
-				auto & parameter = fx.parameters[i];
 				arguments.push_back(analyze_expression(*argument, scope));
+			}
+
+			if(fx.parameters.variadic) {
+				auto tuple = std::make_unique<sst::Tuple>();
+				for(std::size_t i = fx.parameters.simple.size(); i < call.arguments.size(); ++i) {
+					auto & argument = call.arguments[i];
+					tuple->elements.push_back(analyze_expression(*argument, scope));
+				}
+				arguments.push_back(std::move(tuple));
 			}
 
 			return arguments;
@@ -106,7 +114,7 @@ namespace ltn::c {
 				}
 			}
 
-			if(auto fx = scope.resolve_function(var->name, var->namespaze, call.arity())) {
+			if(auto fx = scope.resolve_function_variadic(var->name, var->namespaze, call.arity())) {
 				return do_call_function(call, *fx, scope);
 			}
 
