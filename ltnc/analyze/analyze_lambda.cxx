@@ -41,14 +41,10 @@ namespace ltn::c {
 			.override_namespace = outer_scope.get_namespace(),
 		});
 
-		if(lambda.fx->parameters.variadic) throw CompilerError {
-			"Lambda cannot be variadic", ast::location(lambda)
-		};
-
 		auto fx_ptr = std::make_unique<sst::FxPointer>(
 			make_function_label(*lambda.fx),
 			lambda.fx->parameters.simple.size(),
-			false
+			!!lambda.fx->parameters.variadic
 		);
 
 		fx_ptr->captures = std::move(captures);

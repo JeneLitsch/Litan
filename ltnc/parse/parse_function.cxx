@@ -77,7 +77,7 @@ namespace ltn::c {
 
 
 		ast::Parameters parse_lambda_parameters(Tokens & tokens) {
-			if(match(TT::PAREN_L, tokens)) return parse_parameters(tokens);
+			if(match(TT::PAREN_L, tokens)) return parse_parameters_variadic(tokens);
 			return {};
 		}
 

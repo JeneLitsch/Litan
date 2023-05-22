@@ -14,8 +14,10 @@ namespace foo {
 
 
 function main(args) {
-	var fx = &foo::f(_,...);
-	std::println(fx(1,2,3,4));
+	var f1 = &foo::f(_,...);
+	var f2 = lambda(a, b...) => b;
+	std::println(f1(1,2,3,4));
+	std::println(f2(1,2,3,4));
 	var a = [1,2,3,4,5];
 	var b = ["A","B","C", "D"];
 	for(e : std::zipped((a, b))) {
