@@ -14,6 +14,13 @@ namespace ltn::c {
 			using VM = VariadicMode; 
 			switch (variadic_mode) {
 
+			case VM::EXACT:
+				return
+					fx.name == name &&
+					fx.namespaze == full &&
+					std::size(fx.parameters.simple) == parameters &&
+					fx.parameters.variadic;
+			
 			case VM::REQUIRED:
 				return
 					fx.name == name &&

@@ -25,6 +25,7 @@ files=(
 	"test/tuple.ltn"
 	"test/struct.ltn"
 	"test/invoke_member.ltn"
+	"test/variadic.ltn"
 
 	"test/op_arith_add.ltn"
 	"test/op_arith_sub.ltn"

@@ -1,0 +1,46 @@
+namespace sphinx::test {
+	namespace utils {
+		function variadic_a(args...) => args
+		function variadic_b(x, args...) => (x, args)
+	}
+
+
+
+    function variadic_call_only() {
+		assert_equal_strict(utils::variadic_a(1,2,3), (1,2,3));
+	}
+
+
+
+    function variadic_call_mixed() {
+		assert_equal_strict(utils::variadic_b(1,2,3), (1, (2,3)));
+	}
+
+
+
+	function variadic_fx_ptr_only() {
+		var fx = &utils::variadic_a(...);
+		assert_equal_strict(fx(1,2,3), (1,2,3));
+	}
+
+
+
+	function variadic_fx_ptr_mixed() {
+		var fx = &utils::variadic_b(_,...);
+		assert_equal_strict(fx(1,2,3), (1, (2,3)));
+	}
+
+
+
+	function variadic_lambda_only() {
+		var fx = lambda (args...) => args;
+		assert_equal_strict(fx(1,2,3), (1,2,3));
+	}
+
+
+
+	function variadic_lambda_mixed() {
+		var fx = lambda (x, args...) => (x, args);
+		assert_equal_strict(fx(1,2,3), (1, (2,3)));
+	}
+}

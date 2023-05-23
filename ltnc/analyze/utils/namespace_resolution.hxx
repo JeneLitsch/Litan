@@ -2,7 +2,7 @@
 #include "ltnc/sst/SST.hxx"
 #include "ltnc/ast/AST.hxx"
 namespace ltn::c {
-	enum class VariadicMode { REQUIRED, ALLOWED, PROHIBITED };
+	enum class VariadicMode { EXACT, REQUIRED, ALLOWED, PROHIBITED };
 	
 	const ast::Functional * resolve(
 		const std::vector<const ast::Functional *> & functions,

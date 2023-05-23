@@ -15,7 +15,7 @@ namespace ltn::c {
 			fx_ptr.name,
 			fx_ptr.namespaze,
 			fx_ptr.arity(),
-			fx_ptr.is_variadic ? VariadicMode::REQUIRED : VariadicMode::PROHIBITED
+			fx_ptr.is_variadic ? VariadicMode::EXACT : VariadicMode::PROHIBITED
 		);
 
 		if(!fx) throw undefined_function(fx_ptr);
