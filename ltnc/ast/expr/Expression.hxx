@@ -310,7 +310,7 @@ namespace ltn::c::ast {
 	struct Tuple final: public Expression {
 		Tuple(
 			const SourceLocation & location,
-			std::vector<std::unique_ptr<Expression>> elements)
+			std::vector<std::unique_ptr<Expression>> elements = {})
 			: Expression(location)
 			, elements{std::move(elements)} {}
 

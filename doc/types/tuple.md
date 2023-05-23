@@ -7,11 +7,6 @@ A tuple can be created by a comma separated list inside parenthesis.
 
 The elements in the tuple are compared lexikographically. They are compared from left to right. If the lenghts are different it's just a comparison of the lenghts itself.
 
-## Direct deduction
-
-If an integer literal is directly passed to the index operator (tuple[]), the type of the element at the given position will be deduced at compile time. If the compiler cannot deduce the element type, any is deduced instead. 
-
-
 ## Example
 ```js
 function main() {
@@ -26,6 +21,7 @@ Use a trailing comma to create single element tuples.
 
 ```js
 function main() {
+	var empty = (); 
 	var tuple = (1,); 
 }
 ```

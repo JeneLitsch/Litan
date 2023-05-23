@@ -42,6 +42,9 @@ namespace ltn::c {
 
 	ast::expr_ptr parse_parenthesized(Tokens & tokens) {
 		if(auto start = match(TT::PAREN_L, tokens)) {
+			if(match(TT::PAREN_R, tokens)) {
+				return std::make_unique<ast::Tuple>(start->location);
+			}
 			auto expr = parse_expression(tokens);
 			if(match(TT::PAREN_R, tokens)) {
 				return expr;

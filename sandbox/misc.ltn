@@ -16,6 +16,10 @@ namespace foo {
 function main(args) {
 	var f1 = lambda(a, args...) => args;
 	var f2 = lambda(a) => a;
-	std::println(std::is_variadic(f1));
-	std::println(std::is_variadic(f2));
+	// std::println(std::is_variadic(f1));
+	// std::println(std::is_variadic(f2));
+
+	std::println(std::invoke(f1, (1,)));
+	std::println(std::invoke(f2, (1,)));
+	std::println(());
 }
