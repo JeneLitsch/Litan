@@ -7,4 +7,12 @@ namespace sphinx::test {
 		assert_equal_strict(std::arity(&std::println(_)), 1);
 		assert_equal_strict(std::arity(&std::println(_,_)), 2);
 	}
+
+
+
+	function std_fx_arity_variadic() {
+		assert_equal_strict(std::arity(lambda(args...) {}), 0);
+		assert_equal_strict(std::arity(lambda(a, args...) {}), 1);
+		assert_equal_strict(std::arity(lambda(a, b, args...) {}), 2);
+	}
 }
