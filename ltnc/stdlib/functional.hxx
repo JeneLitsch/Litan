@@ -1,9 +1,9 @@
 #pragma once
 inline const char * std_functional = R"###(
 namespace std {
-	build_in arity(id) const @functional_arity
+	build_in arity(id) const @fx_arity
 
-	build_in invoke(fx, params) @functional_invoke_2
+	build_in invoke(fx, params) @fx_invoke
 	
 	build_in is_variadic(fx) @fx_is_variadic
 	
