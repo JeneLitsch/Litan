@@ -2,7 +2,7 @@ namespace sphinx::test {
 	function std_iter_zipped() {
 		var a = [1,2,3,4,5];
 		var b = ["A","B","C","D"];
-		var iter = std::zipped((a,b));
+		var iter = std::zipped(a,b);
 
 		assert_equal_strict(std::iter::get(iter), (1, "A")); 
 		assert_equal_strict(std::iter::next(iter), (1, "A")); 

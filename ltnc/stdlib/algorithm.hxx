@@ -64,7 +64,7 @@ namespace std {
 	} 
 
 
-	function zip(ranges)
-		=> transform(std::zipped(ranges), lambda(x) => x)
+	function zip(ranges...)
+		=> transform(std::zipped_impl(ranges), lambda(x) => x)
 }
 )###";
