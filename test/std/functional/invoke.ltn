@@ -3,4 +3,14 @@ namespace sphinx::test {
 		assert_equal_strict(std::invoke(lambda(a,b) => a + b, [40,2]), 42);
 		assert_equal_strict(std::invoke(lambda(a,b) => a + b, (40,2)), 42);
 	}
+
+
+
+	function std_fx_invoke_variadic() {
+		var fx = lambda(a,b,args...) => args;
+		assert_equal_strict(std::invoke(fx, [40,2]), ());
+		assert_equal_strict(std::invoke(fx, (40,2)), ());
+		assert_equal_strict(std::invoke(fx, [40,2, 1,2,3]), (1,2,3));
+		assert_equal_strict(std::invoke(fx, (40,2, 1,2,3)), (1,2,3));
+	}
 }
