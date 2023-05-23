@@ -15,25 +15,6 @@ namespace sphinx::test {
 
 
 
-	// namespace detail {
-	// 	function<Key, Val> check_map_type() {
-	// 		var map = std::map(<Key>, <Val>);
-	// 		var gotten = reflect(expr map).type.name;
-	// 		var expected = reflect(type map<Key,Val>).name;
-	// 		assert_equal_strict(gotten, expected);
-	// 	}
-	// }
-
-
-
-	// function map_type() {
-	// 	detail::check_map_type(<int>, <float>);
-	// 	detail::check_map_type(<string>, <char>);
-	// 	detail::check_map_type(<float>, <array<int>>);
-	// }
-
-
-
 	function map_index_type() {
 		// var map = std::map(<int>, <int>);
 		// assert_equal_strict(
