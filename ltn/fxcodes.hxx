@@ -23,6 +23,7 @@ namespace ltn {
 		// functional
 		ARITY = 0x20,
 		INVOKE,
+		FX_IS_VARIADIC,
 
 		// io
 		IO_RESET_COLOR = 0x30,

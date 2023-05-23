@@ -41,6 +41,7 @@ namespace ltn::c {
 
 		{"functional_invoke_2",      FxCode::INVOKE},
 		{"functional_arity",         FxCode::ARITY},
+		{"fx_is_variadic",           FxCode::FX_IS_VARIADIC},
 
 		{"io_cout",                  FxCode::IO_COUT},
 		{"io_fout",                  FxCode::IO_FOUT},

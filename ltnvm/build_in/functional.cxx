@@ -19,4 +19,15 @@ namespace ltn::vm::build_in {
 		inst::invoke_variadic(core);
 		return core.stack.pop();
 	}
+
+
+
+	Value is_variadic(VmCore & core) {
+		const auto ref = core.stack.pop();
+		if(is_fxptr(ref)) {
+			const auto & fxptr = core.heap.read<FxPointer>(ref.u);
+			return value::boolean(fxptr.is_variadic);
+		}
+		throw except::invalid_argument("std::is_variadic expected a function pointer");
+	}
 }

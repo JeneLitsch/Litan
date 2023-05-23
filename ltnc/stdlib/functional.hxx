@@ -5,6 +5,8 @@ namespace std {
 
 	build_in invoke(fx, params) @functional_invoke_2
 	
+	build_in is_variadic(fx) @fx_is_variadic
+	
 	function chain(f1, f2) const
 		=> lambda [f1, f2] (x) 
 			=> (f2)((f1)(x))
