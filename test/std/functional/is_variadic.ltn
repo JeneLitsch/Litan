@@ -1,0 +1,8 @@
+namespace sphinx::test {
+	function std_fx_is_variadic() {
+		assert_equal_strict(std::is_variadic(lambda() => null), false);
+		assert_equal_strict(std::is_variadic(lambda(args...) => null), true);
+		assert_equal_strict(std::is_variadic(lambda(a, b, args...) => null), true);
+		assert_equal_strict(std::is_variadic(lambda(a, b) => null), false);
+	}
+}
