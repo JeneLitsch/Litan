@@ -39,8 +39,8 @@ namespace ltn::c {
 		{"container_remove_back",    FxCode::REMOVE_BACK},
 		{"container_remove",         FxCode::REMOVE},
 
-		{"functional_invoke_2",      FxCode::INVOKE},
-		{"functional_arity",         FxCode::ARITY},
+		{"functional_invoke_2",      FxCode::FX_INVOKE},
+		{"functional_arity",         FxCode::FX_ARITY},
 		{"fx_is_variadic",           FxCode::FX_IS_VARIADIC},
 
 		{"io_cout",                  FxCode::IO_COUT},

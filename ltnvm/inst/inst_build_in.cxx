@@ -50,8 +50,8 @@ namespace ltn::vm::inst {
 		table[FxCode::RANDOM_MERSENNE_1] = build_in::random::mersenne_1;
 
 		//functional
-		table[FxCode::ARITY] = build_in::arity;
-		table[FxCode::INVOKE] = build_in::invoke;
+		table[FxCode::FX_ARITY] = build_in::arity;
+		table[FxCode::FX_INVOKE] = build_in::invoke;
 		table[FxCode::FX_IS_VARIADIC] = build_in::is_variadic;
 
 		//io

@@ -21,8 +21,8 @@ namespace ltn {
 
 
 		// functional
-		ARITY = 0x20,
-		INVOKE,
+		FX_ARITY = 0x20,
+		FX_INVOKE,
 		FX_IS_VARIADIC,
 
 		// io
