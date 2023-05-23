@@ -8,4 +8,4 @@
 int
 
 **Description:**  
-The arity functions returns the number parameters which the function pointer requires.
+The arity functions returns the number parameters which the function pointer requires. Variadic parameters are ignored.
