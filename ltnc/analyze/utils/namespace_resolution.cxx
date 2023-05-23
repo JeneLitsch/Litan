@@ -3,32 +3,35 @@
 namespace ltn::c {
 
 	namespace {
+		
 		bool match(
 			const ast::Functional & fx,
 			const Namespace & full,
 			const std::string_view name,
 			const std::size_t parameters,
 			VariadicMode variadic_mode) {
-
+				
+			using VM = VariadicMode; 
 			switch (variadic_mode) {
 
-			case VariadicMode::REQUIRED: return
-				fx.name == name &&
-				fx.namespaze == full &&
-				std::size(fx.parameters.simple) <= parameters &&
-				fx.parameters.variadic;
-			
-			case VariadicMode::ALLOWED:
-				if(fx.parameters.variadic) return
+			case VM::REQUIRED:
+				return
 					fx.name == name &&
 					fx.namespaze == full &&
-					std::size(fx.parameters.simple) <= parameters;
+					std::size(fx.parameters.simple) <= parameters &&
+					fx.parameters.variadic;
 			
-			case VariadicMode::PROHIBITED: return
-				fx.name == name &&
-				fx.namespaze == full &&
-				std::size(fx.parameters.simple) == parameters &&
-				!fx.parameters.variadic;
+			case VM::ALLOWED:
+				return
+					match(fx, full, name, parameters, VM::REQUIRED) ||
+					match(fx, full, name, parameters, VM::PROHIBITED);
+			
+			case VM::PROHIBITED:
+				return
+					fx.name == name &&
+					fx.namespaze == full &&
+					std::size(fx.parameters.simple) == parameters &&
+					!fx.parameters.variadic;
 			}
 		}
 

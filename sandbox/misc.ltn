@@ -16,10 +16,12 @@ namespace foo {
 function main(args) {
 	var f1 = &foo::f(_,...);
 	var f2 = lambda(a, b...) => b;
+	var f3 = reflect(namespace foo).functions[0].fx_ptr;
+	var f4 = reflect(function foo::f(_,...)).fx_ptr;
 	std::println(f1(1,2,3,4));
 	std::println(f2(1,2,3,4));
-	std::println(reflect(namespace foo).functions[0].fx_ptr(1,2,3,4));
-	std::println(reflect(function foo::f(_,...)).fx_ptr(1,2,3,4));
+	std::println(f3(1,2,3,4));
+	std::println(f4(1,2,3,4));
 	var a = [1,2,3,4,5];
 	var b = ["A","B","C", "D"];
 	for(e : std::zipped((a, b))) {
