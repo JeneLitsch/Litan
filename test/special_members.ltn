@@ -1,0 +1,58 @@
+namespace sphinx::test {
+	function special_member_add() {
+		var op = lambda(self, other) => self.x + other.x;
+		var a = [ .x = 2, .{_+_} = op ];
+		var b = [ .x = 4 ];
+
+		assert_equal_strict((a+b), 6);
+	}
+
+
+
+	function special_member_sub() {
+		var op = lambda(self, other) => self.x - other.x;
+		var a = [ .x = 2, .{_-_} = op ];
+		var b = [ .x = 4 ];
+
+		assert_equal_strict((a-b), -2);
+	}
+
+
+
+	function special_member_mlt() {
+		var op = lambda(self, other) => self.x * other.x;
+		var a = [ .x = 2, .{_*_} = op ];
+		var b = [ .x = 4 ];
+
+		assert_equal_strict((a*b), 8);
+	}
+
+
+
+	function special_member_div() {
+		var op = lambda(self, other) => self.x / other.x;
+		var a = [ .x = 8, .{_/_} = op ];
+		var b = [ .x = 4 ];
+
+		assert_equal_strict((a/b), 2);
+	}
+
+
+
+	function special_member_mod() {
+		var op = lambda(self, other) => self.x % other.x;
+		var a = [ .x = 9, .{_%_} = op ];
+		var b = [ .x = 4 ];
+
+		assert_equal_strict((a%b), 1);
+	}
+
+
+	function special_member_pow() {
+		var op = lambda(self, other) => self.x ** other.x;
+		var a = [ .x = 2, .{_**_} = op ];
+		var b = [ .x = 4 ];
+
+		assert_equal_strict((a**b), 16);
+	}
+}
