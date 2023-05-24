@@ -55,4 +55,11 @@ namespace sphinx::test {
 
 		assert_equal_strict((a**b), 16);
 	}
+
+
+
+	function special_member_str() {
+		var a = [ .x = 2, .{str} = lambda(self) => "ABC" + std::str(self.x) ];
+		assert_equal_strict(std::str(a), "ABC2");
+	}
 }
