@@ -103,9 +103,6 @@ namespace ltn::vm {
 			for(const auto & [key, value] : s.members) {
 				this->mark(value);
 			}
-			for(const auto & [op, value] : s.operators) {
-				this->mark(value);
-			}
 		}
 	}
 

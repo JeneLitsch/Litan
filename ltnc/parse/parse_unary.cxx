@@ -9,8 +9,15 @@ namespace ltn::c {
 
 
 
-		std::string parse_member(Tokens & tokens) {
-			if(auto member = match(TT::INDENTIFIER, tokens)) {
+		std::variant<std::string, MemberCode> parse_member(Tokens & tokens) {
+			if(auto member = match(TT::BRACE_L, tokens)) {
+				MemberCode code = parse_member_code(tokens);
+				if(!match(TT::BRACE_R, tokens)) {
+					throw CompilerError{"Expected }", location(tokens)};
+				}
+				return code;
+			}
+			else if(auto member = match(TT::INDENTIFIER, tokens)) {
 				return member->str;
 			}
 			else {

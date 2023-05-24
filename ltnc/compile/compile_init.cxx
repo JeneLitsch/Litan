@@ -8,12 +8,7 @@ namespace ltn::c {
 			buf << inst::duplicate();
 			buf << compile_expression(*expr);
 			buf << inst::swap();
-			if(is_operator) {
-				buf << inst::operator_write(static_cast<MemberCode>(member));
-			}
-			else {
-				buf << inst::member_write(member);
-			}
+			buf << inst::member_write(member);
 		}
 		return buf;
 	}

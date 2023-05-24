@@ -45,8 +45,8 @@ namespace ltn::vm::inst {
 			const auto & ...args) {
 			auto & strukt = core.heap.read<Struct>(self);
 			const auto arity = 1 + sizeof...(args);
-			for(const auto & [code, ref] : strukt.operators) {
-				if(code == CODE) {
+			for(const auto & [code, ref] : strukt.members) {
+				if(static_cast<MemberCode>(code) == CODE) {
 					auto & fx = core.heap.read<FxPointer>(ref);
 					if(fx.params != arity) throw except::invalid_parameters(arity, fx.params);
 					if(fx.is_variadic) throw except::invalid_member_access();

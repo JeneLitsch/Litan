@@ -25,7 +25,7 @@ namespace ltn::c {
 		stx::optref<const ast::Functional> resolve_function(const std::string & name, const Namespace & ns, std::size_t arity, VariadicMode var_mode = VariadicMode::PROHIBITED) const;
 		stx::optref<const sst::Global> resolve_global(const std::string & name, const Namespace & ns) const;
 		stx::optref<const sst::Definition> resolve_definiton(const std::string & name, const Namespace & ns) const;
-		std::uint64_t resolve_member_id(const std::string & name) const;
+		std::uint64_t resolve_member_id(const std::variant<std::string, MemberCode> & name) const;
 
 	protected:
 		std::unordered_map<std::string, Variable> vars;

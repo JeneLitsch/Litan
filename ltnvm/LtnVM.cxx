@@ -134,7 +134,6 @@ namespace ltn::vm {
 		table[OpCode::GLOBAL_READ] = inst::static_read;
 		table[OpCode::GLOBAL_WRITE] = inst::static_write;
 
-		table[OpCode::OPERATOR_WRITE] = inst::operator_write;
 		return table.array;
 	});
 

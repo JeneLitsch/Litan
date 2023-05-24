@@ -60,7 +60,7 @@ namespace ltn::c {
 
 
 
-	std::uint64_t Scope::resolve_member_id(const std::string & name) const {
+	std::uint64_t Scope::resolve_member_id(const std::variant<std::string, MemberCode> & name) const {
 		return this->get_context().member_table.get_id(name);
 	}
 }

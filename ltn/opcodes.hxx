@@ -114,7 +114,5 @@ namespace ltn {
 		MEMBER_WRITE,
 		GLOBAL_READ,
 		GLOBAL_WRITE,
-		// MEMBER_READ,
-		OPERATOR_WRITE,
 	};
 }

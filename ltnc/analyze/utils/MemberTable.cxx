@@ -1,12 +1,26 @@
 #include "MemberTable.hxx"
 
 namespace ltn::c {
-	std::uint64_t MemberTable::get_id(const std::string & str) {
-		if(this->table.contains(str)) {
-			return this->table.at(str);
+	namespace {
+		std::uint64_t resolve_member_id(auto & table, const std::string & str) {
+			if(table.contains(str)) {
+				return table.at(str);
+			}
+			const auto id = table.size() + 256;
+			table.insert({str, id});
+			return id;
 		}
-		const auto id = this->table.size();
-		this->table.insert({str, id});
-		return id;
+
+
+
+		std::uint64_t resolve_member_id(auto & table, MemberCode code) {
+			return static_cast<std::uint64_t>(code);
+		}
+	}
+
+	std::uint64_t MemberTable::get_id(const std::variant<std::string, MemberCode> & name) {
+		return std::visit([&] (auto & m) {
+			return resolve_member_id(this->table, m);
+		}, name);
 	}
 }

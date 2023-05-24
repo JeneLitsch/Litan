@@ -137,7 +137,7 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::InvokeMember & invoke, Scope & scope) {
 		auto expr = analyze_expression(*invoke.object, scope);
 		auto arguments = analyze_all_expressions(invoke.arguments, scope);
-		const auto id = scope.resolve_member_id(invoke.member_name);
+		const auto id = scope.resolve_member_id(invoke.name);
 
 		return std::make_unique<sst::InvokeMember>(
 			std::move(expr),

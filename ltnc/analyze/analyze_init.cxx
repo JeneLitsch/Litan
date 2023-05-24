@@ -9,7 +9,6 @@ namespace ltn::c {
 			return sst::InitStruct::Member {
 				.address = static_cast<std::uint8_t>(code),
 				.expr = std::move(expr),
-				.is_operator = true,
 			};
 		}
 
@@ -19,7 +18,6 @@ namespace ltn::c {
 			return sst::InitStruct::Member {
 				.address = context.member_table.get_id(name),
 				.expr = std::move(expr),
-				.is_operator = false,
 			};
 		}
 	}

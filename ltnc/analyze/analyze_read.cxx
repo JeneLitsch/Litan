@@ -19,8 +19,8 @@ namespace ltn::c {
 		throw undefined_variable(expr);
 	}
 
-	
-	
+
+
 	sst::expr_ptr analyze_expr(const ast::Member & access, Scope & scope) {
 		const auto id = scope.resolve_member_id(access.name);
 		auto expr = analyze_expression(*access.expr, scope);

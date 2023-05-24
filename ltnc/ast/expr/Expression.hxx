@@ -384,7 +384,7 @@ namespace ltn::c::ast {
 	struct Member final : public Expression {
 		Member(
 			std::unique_ptr<Expression> expr,
-			const std::string & name,
+			const std::variant<std::string, MemberCode> & name,
 			const SourceLocation & location)
 			: Expression(location)
 			, expr(std::move(expr))
@@ -395,7 +395,7 @@ namespace ltn::c::ast {
 		}
 
 		std::unique_ptr<Expression> expr;
-		std::string name;
+		std::variant<std::string, MemberCode> name;
 	};
 
 
@@ -403,12 +403,12 @@ namespace ltn::c::ast {
 	struct InvokeMember final : public Expression {
 		InvokeMember(
 			std::unique_ptr<Expression> object,
-			std::string member_name,
+			const std::variant<std::string, MemberCode> & name,
 			std::vector<std::unique_ptr<Expression>> arguments,
 			const SourceLocation & location)
 			: Expression(location)
 			, object(std::move(object))
-			, member_name{std::move(member_name)}
+			, name{std::move(name)}
 			, arguments(std::move(arguments)) {}
 
 		virtual void accept(const ExprVisitor & visitor) const override {
@@ -420,7 +420,7 @@ namespace ltn::c::ast {
 		}
 
 		std::unique_ptr<Expression> object;
-		std::string member_name;
+		std::variant<std::string, MemberCode> name;
 		std::vector<std::unique_ptr<Expression>> arguments;
 	};
 
