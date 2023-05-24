@@ -8,6 +8,7 @@
 #include "ltnvm/calcBinary.hxx"
 #include "ltnvm/convert.hxx"
 #include "ltnvm/cast.hxx"
+#include "ltnvm/call_special_member.hxx"
 
 #define FETCH\
 	const auto r = core.stack.pop();\
@@ -36,37 +37,6 @@ namespace ltn::vm::inst {
 			const auto ptr = heap.alloc<Container>(std::move(repeated)); 
 			return ptr;
 		}
-
-
-		template<MemberCode CODE>
-		void call_op(
-			VmCore & core,
-			const Value & self,
-			const auto & ...args) {
-			auto & strukt = core.heap.read<Struct>(self);
-			const auto arity = 1 + sizeof...(args);
-			for(const auto & [code, ref] : strukt.members) {
-				if(static_cast<MemberCode>(code) == CODE) {
-					auto & fx = core.heap.read<FxPointer>(ref);
-					if(fx.params != arity) throw except::invalid_parameters(arity, fx.params);
-					if(fx.is_variadic) throw except::invalid_member_access();
-					core.stack.push(self);
-					(core.stack.push(args),...);
-					core.stack.push_frame(core.pc, arity);
-					core.pc = fx.ptr;
-					return;
-				}
-			}
-			switch (CODE) {
-				case MemberCode::ADD: throw except::missing_operator("_+_");
-				case MemberCode::SUB: throw except::missing_operator("_-_");
-				case MemberCode::MLT: throw except::missing_operator("_*_");
-				case MemberCode::DIV: throw except::missing_operator("_/_");
-				case MemberCode::MOD: throw except::missing_operator("_%_");
-				case MemberCode::POW: throw except::missing_operator("_**_");
-				default: throw except::missing_operator("");
-			}
-		}
 	}
 
 
@@ -87,7 +57,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_struct(l)) {
-			return call_op<MemberCode::ADD>(core, l, r);
+			return call_special_member<MemberCode::ADD>(core, l, r);
 		}
 
 		core.stack.push(calc<Addition>(l, r));
@@ -99,7 +69,7 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_struct(l)) {
-			return call_op<MemberCode::SUB>(core, l, r);
+			return call_special_member<MemberCode::SUB>(core, l, r);
 		}
 
 		core.stack.push(calc<Subtraction>(l, r));
@@ -127,7 +97,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_struct(l)) {
-			return call_op<MemberCode::MLT>(core, l, r);
+			return call_special_member<MemberCode::MLT>(core, l, r);
 		}
 
 		core.stack.push(calc<Multiplication>(l, r));
@@ -139,7 +109,7 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_struct(l)) {
-			return call_op<MemberCode::DIV>(core, l, r);
+			return call_special_member<MemberCode::DIV>(core, l, r);
 		}
 
 		core.stack.push(calc<Division>(l, r));
@@ -151,7 +121,7 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_struct(l)) {
-			return call_op<MemberCode::MOD>(core, l, r);
+			return call_special_member<MemberCode::MOD>(core, l, r);
 		}
 		
 		core.stack.push(calc<Modulo>(l, r));
@@ -163,7 +133,7 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_struct(l)) {
-			return call_op<MemberCode::POW>(core, l, r);
+			return call_special_member<MemberCode::POW>(core, l, r);
 		}
 
 		core.stack.push(calc<Power>(l, r));

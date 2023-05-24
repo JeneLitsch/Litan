@@ -20,20 +20,17 @@ namespace ltn::c {
 			else if(match(TT::MINUS, tokens) && match(TT::UNDERSCORE, tokens)) {
 				return MemberCode::SUB;
 			}
-			else if(match(TT::STAR, tokens)) {
-				if(match(TT::STAR, tokens) && match(TT::UNDERSCORE, tokens)) {
-					return MemberCode::POW;
-				}
-				else if(match(TT::UNDERSCORE, tokens)) {
-					return MemberCode::MLT;
-				}
-				throw invalid_operator(tokens);
+			else if(match(TT::STAR, tokens) && match(TT::UNDERSCORE, tokens)) {
+				return MemberCode::MLT;
 			}
 			else if(match(TT::SLASH, tokens) && match(TT::UNDERSCORE, tokens)) {
 				return MemberCode::DIV;
 			}
 			else if(match(TT::PERCENT, tokens) && match(TT::UNDERSCORE, tokens)) {
 				return MemberCode::MOD;
+			}
+			else if(match(TT::STARx2, tokens) && match(TT::UNDERSCORE, tokens)) {
+				return MemberCode::POW;
 			}
 		}
 		throw invalid_operator(tokens);
