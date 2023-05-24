@@ -12,28 +12,28 @@ namespace ltn::c {
 	
 
 
-	OperatorCode parse_operator_code(Tokens & tokens) {
+	MemberCode parse_member_code(Tokens & tokens) {
 		if(match(TT::UNDERSCORE, tokens)) {
 			if(match(TT::PLUS, tokens) && match(TT::UNDERSCORE, tokens)) {
-				return OperatorCode::ADD;
+				return MemberCode::ADD;
 			}
 			else if(match(TT::MINUS, tokens) && match(TT::UNDERSCORE, tokens)) {
-				return OperatorCode::SUB;
+				return MemberCode::SUB;
 			}
 			else if(match(TT::STAR, tokens)) {
 				if(match(TT::STAR, tokens) && match(TT::UNDERSCORE, tokens)) {
-					return OperatorCode::POW;
+					return MemberCode::POW;
 				}
 				else if(match(TT::UNDERSCORE, tokens)) {
-					return OperatorCode::MLT;
+					return MemberCode::MLT;
 				}
 				throw invalid_operator(tokens);
 			}
 			else if(match(TT::SLASH, tokens) && match(TT::UNDERSCORE, tokens)) {
-				return OperatorCode::DIV;
+				return MemberCode::DIV;
 			}
 			else if(match(TT::PERCENT, tokens) && match(TT::UNDERSCORE, tokens)) {
-				return OperatorCode::MOD;
+				return MemberCode::MOD;
 			}
 		}
 		throw invalid_operator(tokens);

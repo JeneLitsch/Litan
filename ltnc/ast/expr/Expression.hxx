@@ -6,7 +6,7 @@
 #include <bitset>
 #include "ltn/casts.hxx"
 #include "ltn/Visitor.hxx"
-#include "ltn/OperatorCode.hxx"
+#include "ltn/MemberCode.hxx"
 #include "ltnc/Namespace.hxx"
 #include "ltnc/Operations.hxx"
 #include "ltnc/ast/Node.hxx"
@@ -496,7 +496,7 @@ namespace ltn::c::ast {
 
 	struct InitStruct final : public Expression {
 		struct Member {
-			std::variant<std::string, OperatorCode> name;
+			std::variant<std::string, MemberCode> name;
 			std::unique_ptr<Expression> expr;
 		};
 

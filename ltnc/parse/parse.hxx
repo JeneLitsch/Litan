@@ -66,5 +66,5 @@ namespace ltn::c {
 
 	ast::type_ptr parse_type(Tokens & tokens);
 
-	OperatorCode parse_operator_code(Tokens & tokens);
+	MemberCode parse_member_code(Tokens & tokens);
 }

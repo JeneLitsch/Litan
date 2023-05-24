@@ -7,7 +7,6 @@ function vec2(x,y) {
 		.{_*_}  = lambda (self, other) => vec2(self.x * other.x, self.y * other.y),
 		.{_/_}  = lambda (self, other) => vec2(self.x / other.x, self.y / other.y),
 		.{_%_}  = lambda (self, other) => vec2(self.x % other.x, self.y % other.y),
-		.{_%_}  = lambda (self, other) => vec2(self.x % other.x, self.y % other.y),
 		.print = lambda(self) {
 			std::print("(");
 			std::print(self.x);

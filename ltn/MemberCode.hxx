@@ -1,7 +1,7 @@
 #pragma once
 
 namespace ltn {
-	enum class OperatorCode {
+	enum class MemberCode {
 		ADD, SUB, MLT, DIV, MOD, POW
 	};
 }

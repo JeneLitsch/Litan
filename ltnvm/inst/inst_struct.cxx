@@ -94,7 +94,7 @@ namespace ltn::vm::inst {
 
 
 	void operator_write(VmCore & core) {
-		const auto id = static_cast<OperatorCode>(core.fetch_byte());
+		const auto id = static_cast<MemberCode>(core.fetch_byte());
 		const auto ref = core.stack.pop();
 		const auto value = core.stack.pop();
 		auto & strukt = get_struct(ref, core.heap);

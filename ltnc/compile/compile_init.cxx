@@ -9,7 +9,7 @@ namespace ltn::c {
 			buf << compile_expression(*expr);
 			buf << inst::swap();
 			if(is_operator) {
-				buf << inst::operator_write(static_cast<OperatorCode>(member));
+				buf << inst::operator_write(static_cast<MemberCode>(member));
 			}
 			else {
 				buf << inst::member_write(member);

@@ -1,11 +1,11 @@
 #include "analyze.hxx"
 #include <iostream>
 #include "stdxx/iife.hxx"
-#include "ltn/OperatorCode.hxx"
+#include "ltn/MemberCode.hxx"
 
 namespace ltn::c {
 	namespace {
-		sst::InitStruct::Member analyze_member(Context &, sst::expr_ptr expr, OperatorCode code) {
+		sst::InitStruct::Member analyze_member(Context &, sst::expr_ptr expr, MemberCode code) {
 			return sst::InitStruct::Member {
 				.address = static_cast<std::uint8_t>(code),
 				.expr = std::move(expr),

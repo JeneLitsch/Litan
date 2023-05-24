@@ -38,15 +38,15 @@ namespace ltn::vm::inst {
 		}
 
 
-		template<OperatorCode OP>
+		template<MemberCode CODE>
 		void call_op(
 			VmCore & core,
 			const Value & self,
 			const auto & ...args) {
 			auto & strukt = core.heap.read<Struct>(self);
 			const auto arity = 1 + sizeof...(args);
-			for(const auto & [op, ref] : strukt.operators) {
-				if(op == OP) {
+			for(const auto & [code, ref] : strukt.operators) {
+				if(code == CODE) {
 					auto & fx = core.heap.read<FxPointer>(ref);
 					if(fx.params != arity) throw except::invalid_parameters(arity, fx.params);
 					if(fx.is_variadic) throw except::invalid_member_access();
@@ -57,13 +57,14 @@ namespace ltn::vm::inst {
 					return;
 				}
 			}
-			switch (OP) {
-				case OperatorCode::ADD: throw except::missing_operator("_+_");
-				case OperatorCode::SUB: throw except::missing_operator("_-_");
-				case OperatorCode::MLT: throw except::missing_operator("_*_");
-				case OperatorCode::DIV: throw except::missing_operator("_/_");
-				case OperatorCode::MOD: throw except::missing_operator("_%_");
-				case OperatorCode::POW: throw except::missing_operator("_**_");
+			switch (CODE) {
+				case MemberCode::ADD: throw except::missing_operator("_+_");
+				case MemberCode::SUB: throw except::missing_operator("_-_");
+				case MemberCode::MLT: throw except::missing_operator("_*_");
+				case MemberCode::DIV: throw except::missing_operator("_/_");
+				case MemberCode::MOD: throw except::missing_operator("_%_");
+				case MemberCode::POW: throw except::missing_operator("_**_");
+				default: throw except::missing_operator("");
 			}
 		}
 	}
@@ -86,7 +87,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_struct(l)) {
-			return call_op<OperatorCode::ADD>(core, l, r);
+			return call_op<MemberCode::ADD>(core, l, r);
 		}
 
 		core.stack.push(calc<Addition>(l, r));
@@ -98,7 +99,7 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_struct(l)) {
-			return call_op<OperatorCode::SUB>(core, l, r);
+			return call_op<MemberCode::SUB>(core, l, r);
 		}
 
 		core.stack.push(calc<Subtraction>(l, r));
@@ -126,7 +127,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_struct(l)) {
-			return call_op<OperatorCode::MLT>(core, l, r);
+			return call_op<MemberCode::MLT>(core, l, r);
 		}
 
 		core.stack.push(calc<Multiplication>(l, r));
@@ -138,7 +139,7 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_struct(l)) {
-			return call_op<OperatorCode::DIV>(core, l, r);
+			return call_op<MemberCode::DIV>(core, l, r);
 		}
 
 		core.stack.push(calc<Division>(l, r));
@@ -150,7 +151,7 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_struct(l)) {
-			return call_op<OperatorCode::MOD>(core, l, r);
+			return call_op<MemberCode::MOD>(core, l, r);
 		}
 		
 		core.stack.push(calc<Modulo>(l, r));
@@ -162,7 +163,7 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_struct(l)) {
-			return call_op<OperatorCode::POW>(core, l, r);
+			return call_op<MemberCode::POW>(core, l, r);
 		}
 
 		core.stack.push(calc<Power>(l, r));

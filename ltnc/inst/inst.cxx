@@ -560,7 +560,7 @@ namespace ltn::c::inst {
 			.value = id,
 		};
 	}
-	Inst operator_write(OperatorCode op) {
+	Inst operator_write(MemberCode op) {
 		return InstByte {
 			.name = "operator_write",
 			.opcode = OpCode::OPERATOR_WRITE,

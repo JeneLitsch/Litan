@@ -1,6 +1,6 @@
 #include "parse.hxx"
 #include "parse_utils.hxx"
-#include "ltn/OperatorCode.hxx"
+#include "ltn/MemberCode.hxx"
 
 namespace ltn::c {
 	using TT = Token::Type;
@@ -21,7 +21,7 @@ namespace ltn::c {
 			}
 
 			if(match(TT::BRACE_L, tokens)) {
-				OperatorCode code = parse_operator_code(tokens);
+				MemberCode code = parse_member_code(tokens);
 
 				if(!match(TT::BRACE_R, tokens)) {
 					throw CompilerError{"Expected }", location(tokens)};
