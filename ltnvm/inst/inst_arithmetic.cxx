@@ -36,13 +36,43 @@ namespace ltn::vm::inst {
 			const auto ptr = heap.alloc<Container>(std::move(repeated)); 
 			return ptr;
 		}
+
+
+		template<OperatorCode OP>
+		void call_op(
+			VmCore & core,
+			const Value & self,
+			const auto & ...args) {
+			auto & strukt = core.heap.read<Struct>(self);
+			const auto arity = 1 + sizeof...(args);
+			for(const auto & [op, ref] : strukt.operators) {
+				if(op == OP) {
+					auto & fx = core.heap.read<FxPointer>(ref);
+					if(fx.params != arity) throw except::invalid_parameters(arity, fx.params);
+					if(fx.is_variadic) throw except::invalid_member_access();
+					core.stack.push(self);
+					(core.stack.push(args),...);
+					core.stack.push_frame(core.pc, arity);
+					core.pc = fx.ptr;
+					return;
+				}
+			}
+			switch (OP) {
+				case OperatorCode::ADD: throw except::missing_operator("_+_");
+				case OperatorCode::SUB: throw except::missing_operator("_-_");
+				case OperatorCode::MLT: throw except::missing_operator("_*_");
+				case OperatorCode::DIV: throw except::missing_operator("_/_");
+				case OperatorCode::MOD: throw except::missing_operator("_%_");
+				case OperatorCode::POW: throw except::missing_operator("_**_");
+			}
+		}
 	}
 
 
 
 	void add(VmCore & core) {
 		FETCH
-		
+
 		if(is_array(l) && is_array(r)) {
 			return core.stack.push(value::array(concat<Array>(l,r,core.heap)));
 		}
@@ -55,6 +85,10 @@ namespace ltn::vm::inst {
 			return core.stack.push(value::string(concat<String>(l,r,core.heap)));
 		}
 
+		if(is_struct(l)) {
+			return call_op<OperatorCode::ADD>(core, l, r);
+		}
+
 		core.stack.push(calc<Addition>(l, r));
 	}
 
@@ -62,6 +96,11 @@ namespace ltn::vm::inst {
 
 	void sub(VmCore & core) {
 		FETCH
+
+		if(is_struct(l)) {
+			return call_op<OperatorCode::SUB>(core, l, r);
+		}
+
 		core.stack.push(calc<Subtraction>(l, r));
 	}
 
@@ -86,6 +125,10 @@ namespace ltn::vm::inst {
 			return core.stack.push(value::array(repeat<Array>(r, l, core.heap)));
 		}
 
+		if(is_struct(l)) {
+			return call_op<OperatorCode::MLT>(core, l, r);
+		}
+
 		core.stack.push(calc<Multiplication>(l, r));
 	}
 
@@ -93,6 +136,11 @@ namespace ltn::vm::inst {
 
 	void div(VmCore & core) {
 		FETCH
+
+		if(is_struct(l)) {
+			return call_op<OperatorCode::DIV>(core, l, r);
+		}
+
 		core.stack.push(calc<Division>(l, r));
 	}
 
@@ -100,6 +148,11 @@ namespace ltn::vm::inst {
 
 	void mod(VmCore & core) {
 		FETCH
+
+		if(is_struct(l)) {
+			return call_op<OperatorCode::MOD>(core, l, r);
+		}
+		
 		core.stack.push(calc<Modulo>(l, r));
 	}
 
@@ -107,6 +160,11 @@ namespace ltn::vm::inst {
 
 	void pow(VmCore & core) {
 		FETCH
+
+		if(is_struct(l)) {
+			return call_op<OperatorCode::POW>(core, l, r);
+		}
+
 		core.stack.push(calc<Power>(l, r));
 	}
 }

@@ -5,6 +5,7 @@
 #include <cstdint>
 #include "stdxx/float64_t.hxx"
 #include "ltn/opcodes.hxx"
+#include "ltn/OperatorCode.hxx"
 #include "ltnc/Label.hxx"
 
 namespace ltn::c::inst {
@@ -217,4 +218,6 @@ namespace ltn::c::inst {
 	Inst member_write(std::uint64_t id);
 	Inst global_read(std::uint64_t id);
 	Inst global_write(std::uint64_t id);
+	Inst operator_write(OperatorCode op);
+
 }

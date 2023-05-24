@@ -80,5 +80,10 @@ namespace ltn::vm {
 			return {Exception::Type::INVALID_MEMBER_ACCESS,
 				"Invalid member access"};
 		}
+
+		inline Exception missing_operator(const std::string & op) {
+			return {Exception::Type::INVALID_MEMBER_ACCESS,
+				"Object has no overload for operator" + op};
+		}
 	}
 }

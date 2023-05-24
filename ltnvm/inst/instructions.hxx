@@ -114,4 +114,6 @@ namespace ltn::vm::inst {
 	void member_write(VmCore & core);
 	void static_read(VmCore & core);
 	void static_write(VmCore & core);
+	void operator_write(VmCore & core);
+
 }

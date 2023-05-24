@@ -4,11 +4,16 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::InitStruct & init) {
 		InstructionBuffer buf;
 		buf << inst::newstruct();
-		for(const auto & [member, expr] : init.members) {
+		for(const auto & [member, expr, is_operator] : init.members) {
 			buf << inst::duplicate();
 			buf << compile_expression(*expr);
 			buf << inst::swap();
-			buf << inst::member_write(member);
+			if(is_operator) {
+				buf << inst::operator_write(static_cast<OperatorCode>(member));
+			}
+			else {
+				buf << inst::member_write(member);
+			}
 		}
 		return buf;
 	}

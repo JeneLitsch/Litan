@@ -11,6 +11,8 @@ namespace ltn::vm::inst {
 			}
 		}
 
+
+
 		Value * get_member(Struct & strukt, const auto id) {
 			for(auto & [memberId, member] : strukt.members) {
 				if(id == memberId) {
@@ -20,6 +22,19 @@ namespace ltn::vm::inst {
 			return nullptr;
 		}
 
+
+
+		Value * get_operator(Struct & strukt, const auto id) {
+			for(auto & [opId, op] : strukt.operators) {
+				if(id == opId) {
+					return &op;
+				}
+			}
+			return nullptr;
+		}
+
+
+
 		void delete_member(Struct & strukt, const auto id) {			
 			const auto finder = [id] (const auto & pair) {
 				return pair.first == id;
@@ -28,6 +43,18 @@ namespace ltn::vm::inst {
 			const auto end = strukt.members.end();
 			const auto found = std::find_if(begin, end, finder); 
 			strukt.members.erase(found);
+		}
+
+
+
+		void delete_operator(Struct & strukt, const auto id) {			
+			const auto finder = [id] (const auto & pair) {
+				return pair.first == id;
+			};
+			const auto begin = strukt.operators.begin();
+			const auto end = strukt.operators.end();
+			const auto found = std::find_if(begin, end, finder); 
+			strukt.operators.erase(found);
 		}
 	}
 
@@ -62,6 +89,25 @@ namespace ltn::vm::inst {
 		}
 		else {
 			strukt.members.push_back({id, value});
+		}
+	}
+
+
+	void operator_write(VmCore & core) {
+		const auto id = static_cast<OperatorCode>(core.fetch_byte());
+		const auto ref = core.stack.pop();
+		const auto value = core.stack.pop();
+		auto & strukt = get_struct(ref, core.heap);
+		if(auto * const op = get_operator(strukt, id)) {
+			if(is_null(value)) {
+				delete_operator(strukt, id);
+			}
+			else {
+				(*op) = value;
+			}
+		}
+		else {
+			strukt.operators.push_back({id, value});
 		}
 	}
 }

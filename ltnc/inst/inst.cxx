@@ -560,4 +560,11 @@ namespace ltn::c::inst {
 			.value = id,
 		};
 	}
+	Inst operator_write(OperatorCode op) {
+		return InstByte {
+			.name = "operator_write",
+			.opcode = OpCode::OPERATOR_WRITE,
+			.value = static_cast<std::uint8_t>(op),
+		};
+	}
 }

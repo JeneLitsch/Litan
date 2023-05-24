@@ -563,6 +563,7 @@ namespace ltn::c::sst {
 		struct Member {
 			std::uint64_t address;
 			std::unique_ptr<Expression> expr;
+			bool is_operator;
 		};
 
 		virtual std::uint64_t alloc() const override {

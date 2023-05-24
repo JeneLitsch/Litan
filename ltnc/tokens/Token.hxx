@@ -44,6 +44,7 @@ namespace ltn::c {
 			CASE,
 			DEFAULT,
 			REFLECT,
+			OPERATOR,
 			
 			INTEGER,
 			INTEGER_HEX,
