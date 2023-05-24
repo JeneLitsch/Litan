@@ -4,8 +4,10 @@
 #include "ltnvm/Exception.hxx"
 
 namespace ltn::vm {
+	Value run_core(VmCore & core);
+	
 	template<MemberCode CODE>
-	void call_special_member(
+	Value call_special_member(
 		VmCore & core,
 		const Value & self,
 		const auto & ...args) {
@@ -18,9 +20,12 @@ namespace ltn::vm {
 				if(fx.is_variadic) throw except::invalid_member_access();
 				core.stack.push(self);
 				(core.stack.push(args),...);
-				core.stack.push_frame(core.pc, arity);
+				const auto prev = core.pc;
 				core.pc = fx.ptr;
-				return;
+				core.stack.push_frame(core.code_end - 1, arity);
+				auto result = run_core(core);
+				core.pc = prev;
+				return result;
 			}
 		}
 		switch (CODE) {

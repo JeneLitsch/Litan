@@ -33,6 +33,9 @@ namespace ltn::c {
 				return MemberCode::POW;
 			}
 		}
+		else if(match("str", tokens)) {
+			return MemberCode::STR;
+		}
 		throw invalid_operator(tokens);
 	}
 }

@@ -1,5 +1,7 @@
 #include "stringify.hxx"
 #include "Exception.hxx"
+#include "ltnvm/call_special_member.hxx"
+#include "ltnvm/LtnVM.hxx"
 
 namespace ltn::vm {
 	namespace {
@@ -31,6 +33,13 @@ namespace ltn::vm {
 			out << close;
 		}
 	}
+
+
+	
+
+
+
+
 	std::string stringify(const Value & value, VmCore & core) {
 		if(is_null(value)) {
 			return "null";
@@ -97,7 +106,13 @@ namespace ltn::vm {
 		}
 
 		if(is_struct(value)) {
-			return "<struct>";
+			try {
+				auto result = call_special_member<MemberCode::STR>(core, value);
+				return stringify(result, core);
+			}
+			catch(...) {
+				return "<struct>";
+			}
 		}
 
 		if(is_queue(value)) {

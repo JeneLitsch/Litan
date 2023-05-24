@@ -2,7 +2,8 @@
 
 namespace ltn {
 	enum class MemberCode {
-		ADD, SUB, MLT, DIV, MOD, POW
+		ADD = 0x10, SUB, MLT, DIV, MOD, POW,
+		STR = 0x20,
 	};
 }
 	
