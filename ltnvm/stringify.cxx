@@ -106,15 +106,13 @@ namespace ltn::vm {
 		}
 
 		if(is_struct(value)) {
-			try {
-				auto result = call_special_member<MemberCode::STR>(core, value);
-				if(is_string(result)) {
-					return core.heap.read<String>(result);
-				} 
-			}
-			catch(...) {
-				return "<struct>";
-			}
+			auto & strukt = core.heap.read<Struct>(value);
+			auto fx = find_special_member<MemberCode::STR>(strukt);
+			if(!fx) return "<struct>";
+			auto result = run_special_member(core, *fx, value);
+			if(is_string(result)) {
+				return core.heap.read<String>(result);
+			} 
 			throw except::invalid_argument("Special member {str} must return string");
 		}
 
