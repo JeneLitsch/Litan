@@ -27,49 +27,49 @@ namespace ltn::vm::inst {
 
 	void eql(VmCore & core) {
 		FETCH
-		return core.stack.push(compare(l, r, core.heap) == 0);
+		return core.stack.push(compare(l, r, core) == 0);
 	}
 
 
 
 	void ueql(VmCore & core) {
 		FETCH
-		return core.stack.push(compare(l, r, core.heap) != 0);
+		return core.stack.push(compare(l, r, core) != 0);
 	}
 
 
 
 	void lt(VmCore & core) {
 		FETCH
-		return core.stack.push(compare(l, r, core.heap) < 0);
+		return core.stack.push(compare(l, r, core) < 0);
 	}
 
 
 
 	void gt(VmCore & core) {
 		FETCH
-		return core.stack.push(compare(l, r, core.heap) > 0);
+		return core.stack.push(compare(l, r, core) > 0);
 	}
 
 
 
 	void smleql(VmCore & core) {
 		FETCH
-		return core.stack.push(compare(l, r, core.heap) <= 0);
+		return core.stack.push(compare(l, r, core) <= 0);
 	}
 
 
 
 	void bgreql(VmCore & core) {
 		FETCH
-		return core.stack.push(compare(l, r, core.heap) >= 0);
+		return core.stack.push(compare(l, r, core) >= 0);
 	}
 
 
 
 	void comp(VmCore & core) {
 		FETCH
-		const auto result = compare(l, r, core.heap);
+		const auto result = compare(l, r, core);
 		return core.stack.push(eval_3_way(result));
 	}
 

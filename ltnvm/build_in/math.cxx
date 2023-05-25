@@ -42,7 +42,7 @@ namespace ltn::vm::build_in {
 	Value min(VmCore & core) {
 		auto a = core.stack.pop();
 		auto b = core.stack.pop();
-		return compare(a, b, core.heap) <= 0 ? a : b;
+		return compare(a, b, core) <= 0 ? a : b;
 	}
 
 
@@ -50,7 +50,7 @@ namespace ltn::vm::build_in {
 	Value max(VmCore & core) {
 		auto a = core.stack.pop();
 		auto b = core.stack.pop();
-		return compare(a, b, core.heap) >= 0 ? a : b;
+		return compare(a, b, core) >= 0 ? a : b;
 	}
 
 
@@ -60,11 +60,11 @@ namespace ltn::vm::build_in {
 		auto min = core.stack.pop();
 		auto val = core.stack.pop();
 
-		if(compare(val, min, core.heap) < 0) {
+		if(compare(val, min, core) < 0) {
 			return min;
 		}
 
-		if(compare(val, max, core.heap) > 0) {
+		if(compare(val, max, core) > 0) {
 			return max;
 		}
 

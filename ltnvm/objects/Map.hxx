@@ -7,9 +7,9 @@ namespace ltn::vm {
 	class Heap;
 	// Implements stack, queue, ...
 	struct Comparator {
-		Heap * heap;
+		VmCore * core;
 		bool operator()(const Value l, const Value r) const {
-			return compare(l, r, *heap) < 0;
+			return compare(l, r, *core) < 0;
 		}
 	};
 

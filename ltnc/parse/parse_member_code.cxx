@@ -36,6 +36,9 @@ namespace ltn::c {
 		else if(match("str", tokens)) {
 			return MemberCode::STR;
 		}
+		else if(match("cmp", tokens)) {
+			return MemberCode::CMP;
+		}
 		throw invalid_operator(tokens);
 	}
 }

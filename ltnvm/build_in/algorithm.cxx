@@ -18,25 +18,25 @@ namespace ltn::vm::build_in {
 
 
 
-	auto smaller(Heap & heap) {
-		return [&heap] (const Value l, const Value r) {
-			return compare(l, r, heap) < 0;
+	auto smaller(VmCore & core) {
+		return [&core] (const Value l, const Value r) {
+			return compare(l, r, core) < 0;
 		};
 	}
 
 
 
-	auto bigger(Heap & heap) {
-		return [&heap] (const Value l, const Value r) {
-			return compare(l, r, heap) > 0;
+	auto bigger(VmCore & core) {
+		return [&core] (const Value l, const Value r) {
+			return compare(l, r, core) > 0;
 		};
 	}
 
 
 
-	auto predicate(Heap & heap, const Value key) {
-		return [&heap, key] (const Value elem) {
-			return compare(elem, key, heap) == 0;
+	auto predicate(VmCore & core, const Value key) {
+		return [&core, key] (const Value elem) {
+			return compare(elem, key, core) == 0;
 		};
 	}
 
@@ -47,7 +47,7 @@ namespace ltn::vm::build_in {
 	Value sort_desc(VmCore & core) {
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
-		const auto comp = bigger(core.heap);
+		const auto comp = bigger(core);
 		std::sort(begin, end, comp);
 		return value::null;
 	}
@@ -57,7 +57,7 @@ namespace ltn::vm::build_in {
 	Value sort_ascn(VmCore & core) {
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
-		const auto comp = smaller(core.heap);
+		const auto comp = smaller(core);
 		std::sort(begin, end, comp);
 		return value::null;
 	}
@@ -67,7 +67,7 @@ namespace ltn::vm::build_in {
 	Value is_sorted_ascn(VmCore & core) {
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
-		const auto comp = smaller(core.heap);
+		const auto comp = smaller(core);
 		return std::is_sorted(begin, end, comp);
 	}
 
@@ -76,7 +76,7 @@ namespace ltn::vm::build_in {
 	Value is_sorted_desc(VmCore & core) {
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
-		const auto comp = bigger(core.heap);
+		const auto comp = bigger(core);
 		return std::is_sorted(begin, end, comp);
 	}
 
@@ -86,7 +86,7 @@ namespace ltn::vm::build_in {
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
-		const auto pred = predicate(core.heap, key);
+		const auto pred = predicate(core, key);
 		const auto found = std::find_if(begin, end, pred);
 		if(found == end) {
 			return value::null;

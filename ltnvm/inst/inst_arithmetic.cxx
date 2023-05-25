@@ -8,7 +8,7 @@
 #include "ltnvm/calcBinary.hxx"
 #include "ltnvm/convert.hxx"
 #include "ltnvm/cast.hxx"
-#include "ltnvm/call_special_member.hxx"
+#include "ltnvm/special_member.hxx"
 
 #define FETCH\
 	const auto r = core.stack.pop();\
