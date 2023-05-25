@@ -156,6 +156,6 @@ namespace std {
 	function is_divisible(obj)    const => is_binary_fx(obj.{_/_})
 	function is_modable(obj)      const => is_binary_fx(obj.{_%_})
 	function is_exponential(obj)  const => is_binary_fx(obj.{_**_})
-	function is_stringyfiable(obj) const => is_unary_fx(obj.{str})
+	function is_stringifiable(obj) const => is_unary_fx(obj.{str})
 }
 )###";

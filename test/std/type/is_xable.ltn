@@ -49,5 +49,5 @@ namespace sphinx::test {
 	function std_is_divisible()     => utils::is_xable(&std::is_divisible(_))
 	function std_is_modable()       => utils::is_xable(&std::is_modable(_))
 	function std_is_exponential()   => utils::is_xable(&std::is_exponential(_))
-	function std_is_stringyfiable() => utils::is_xable(&std::is_stringyfiable(_))
+	function std_is_stringifiable() => utils::is_xable(&std::is_stringifiable(_))
 }
