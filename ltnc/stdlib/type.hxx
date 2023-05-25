@@ -143,5 +143,19 @@ namespace std {
 
 	build_in is(type, value) const @type_is
 	build_in cast(type, value) const @type_cast
+
+	function is_binary_fx(fx) const
+		=> std::is(<fx(2)>, fx) && !std::is_variadic(fx)
+
+	function is_unary_fx(fx) const
+		=> std::is(<fx(1)>, fx) && !std::is_variadic(fx)
+
+	function is_addable(obj)      const => is_binary_fx(obj.{_+_})
+	function is_subtractable(obj) const => is_binary_fx(obj.{_-_})
+	function is_multipliable(obj) const => is_binary_fx(obj.{_*_})
+	function is_divisible(obj)    const => is_binary_fx(obj.{_/_})
+	function is_modable(obj)      const => is_binary_fx(obj.{_%_})
+	function is_exponential(obj)  const => is_binary_fx(obj.{_**_})
+	function is_stringyfiable(obj) const => is_unary_fx(obj.{str})
 }
 )###";
