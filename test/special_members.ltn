@@ -80,34 +80,21 @@ namespace sphinx::test {
 			.{cmp} = lambda(self, other) => self.x <=> other.x,
 		];
 
-		var a = make(1);
-		var b = make(1);
-		var c = make(2);
+		var test = lambda[make](a, b) {
+			var obj_a = make(a);
+			var obj_b = make(b);
+			
+			assert_equal_strict(obj_a <=> obj_b, a <=> b);
+			assert_equal_strict(obj_a == obj_b, a == b);
+			assert_equal_strict(obj_a != obj_b, a != b);
+			assert_equal_strict(obj_a < obj_b, a < b);
+			assert_equal_strict(obj_a <= obj_b, a <= b);
+			assert_equal_strict(obj_a > obj_b, a > b);
+			assert_equal_strict(obj_a >= obj_b, a >= b);
+		};
 
-		assert_equal_strict(a <=> b, 0);
-		assert_equal_strict(a <=> c, -1);
-		assert_equal_strict(c <=> a, 1);
-
-		assert_true(a == b);
-		assert_false(a == c);
-
-		assert_false(a != b);
-		assert_true(a != c);
-
-		assert_false(a < b);
-		assert_true(a < c);
-		assert_false(c < a);
-
-		assert_true(a <= b);
-		assert_true(a <= c);
-		assert_false(c <= a);
-
-		assert_false(a > a);
-		assert_true(c > a);
-		assert_false(a > c);
-
-		assert_true(a >= a);
-		assert_true(c >= a);
-		assert_false(a >= c);
+		test(0,0);
+		test(1,0);
+		test(0,1);
 	}
 }
