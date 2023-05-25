@@ -1,5 +1,5 @@
-# std::is_exponential
-## std::is_exponential(obj) const
+# std::is_powable
+## std::is_powable(obj) const
 
 **Parameters:**
 * obj: a struct object

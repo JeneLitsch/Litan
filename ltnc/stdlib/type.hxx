@@ -150,12 +150,12 @@ namespace std {
 	function is_unary_fx(fx) const
 		=> std::is(<fx(1)>, fx) && !std::is_variadic(fx)
 
-	function is_addable(obj)      const => is_binary_fx(obj.{_+_})
-	function is_subtractable(obj) const => is_binary_fx(obj.{_-_})
-	function is_multipliable(obj) const => is_binary_fx(obj.{_*_})
-	function is_divisible(obj)    const => is_binary_fx(obj.{_/_})
-	function is_modable(obj)      const => is_binary_fx(obj.{_%_})
-	function is_exponential(obj)  const => is_binary_fx(obj.{_**_})
+	function is_addable(obj)       const => is_binary_fx(obj.{_+_})
+	function is_subtractable(obj)  const => is_binary_fx(obj.{_-_})
+	function is_multipliable(obj)  const => is_binary_fx(obj.{_*_})
+	function is_divisible(obj)     const => is_binary_fx(obj.{_/_})
+	function is_modable(obj)       const => is_binary_fx(obj.{_%_})
+	function is_powable(obj)       const => is_binary_fx(obj.{_**_})
 	function is_stringifiable(obj) const => is_unary_fx(obj.{str})
 }
 )###";
