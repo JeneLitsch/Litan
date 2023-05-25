@@ -62,4 +62,10 @@ namespace sphinx::test {
 		var a = [ .x = 2, .{str} = lambda(self) => "ABC" + std::str(self.x) ];
 		assert_equal_strict(std::str(a), "ABC2");
 	}
+
+
+	function special_member_str_except() {
+		var a = [ .x = 2, .{str} = lambda(self) => 42 ];
+		assert_except(lambda[a] () => std::str(a));
+	}
 }

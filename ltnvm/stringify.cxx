@@ -108,11 +108,14 @@ namespace ltn::vm {
 		if(is_struct(value)) {
 			try {
 				auto result = call_special_member<MemberCode::STR>(core, value);
-				return stringify(result, core);
+				if(is_string(result)) {
+					return core.heap.read<String>(result);
+				} 
 			}
 			catch(...) {
 				return "<struct>";
 			}
+			throw except::invalid_argument("Special member {str} must return string");
 		}
 
 		if(is_queue(value)) {
