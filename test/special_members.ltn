@@ -64,8 +64,50 @@ namespace sphinx::test {
 	}
 
 
+
 	function special_member_str_except() {
 		var a = [ .x = 2, .{str} = lambda(self) => 42 ];
 		assert_except(lambda[a] () => std::str(a));
+	}
+
+
+
+
+
+	function special_member_cmp() {
+		var make = lambda(x) => [
+			.x = x,
+			.{cmp} = lambda(self, other) => self.x <=> other.x,
+		];
+
+		var a = make(1);
+		var b = make(1);
+		var c = make(2);
+
+		assert_equal_strict(a <=> b, 0);
+		assert_equal_strict(a <=> c, -1);
+		assert_equal_strict(c <=> a, 1);
+
+		assert_true(a == b);
+		assert_false(a == c);
+
+		assert_false(a != b);
+		assert_true(a != c);
+
+		assert_false(a < b);
+		assert_true(a < c);
+		assert_false(c < a);
+
+		assert_true(a <= b);
+		assert_true(a <= c);
+		assert_false(c <= a);
+
+		assert_false(a > a);
+		assert_true(c > a);
+		assert_false(a > c);
+
+		assert_true(a >= a);
+		assert_true(c >= a);
+		assert_false(a >= c);
 	}
 }
