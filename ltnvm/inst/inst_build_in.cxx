@@ -106,7 +106,6 @@ namespace ltn::vm::inst {
 		table[FxCode::TYPE_QUEUE] = build_in::type::queue;
 		table[FxCode::TYPE_STACK] = build_in::type::stack;
 		table[FxCode::TYPE_MAP] = build_in::type::map;
-		table[FxCode::TYPE_STRUCT] = build_in::type::strukt;
 
 		table[FxCode::ITER_RANGE] = build_in::iter::range;
 		table[FxCode::ITER_NEXT] = build_in::iter::next;

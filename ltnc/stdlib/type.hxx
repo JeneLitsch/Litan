@@ -25,7 +25,7 @@ namespace std {
 
 
 
-	build_in struct() const       @ struct
+	function struct() const => [.]
 	build_in typeid(value) const  @ type_typeid
 	build_in clone(ref) const     @ type_clone
 

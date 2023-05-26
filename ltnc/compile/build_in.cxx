@@ -21,7 +21,6 @@ namespace ltn::c {
 		{"queue",                    FxCode::TYPE_QUEUE},
 		{"stack",                    FxCode::TYPE_STACK},
 		{"map",                      FxCode::TYPE_MAP},
-		{"struct",                   FxCode::TYPE_STRUCT},
 
 		{"container_push",           FxCode::PUSH},
 		{"container_pop",            FxCode::POP},

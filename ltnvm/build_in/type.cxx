@@ -63,11 +63,4 @@ namespace ltn::vm::build_in::type {
 		inst::newmap(core);
 		return core.stack.pop();
 	}
-
-
-
-	Value strukt(VmCore & core) {
-		inst::newstruct(core);
-		return core.stack.pop();
-	}
 }
