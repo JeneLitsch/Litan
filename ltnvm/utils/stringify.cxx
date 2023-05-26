@@ -133,7 +133,8 @@ namespace ltn::vm {
 		if(is_map(value)) {
 			const auto & map = core.heap.read<Map>(value.u);
 			std::ostringstream ss;
-			print_all(std::begin(map), std::end(map), ss, core, '{', '}');
+			if(map.empty()) ss << "[:]";
+			else print_all(std::begin(map), std::end(map), ss, core, '[', ']');
 			return ss.str();
 		}
 
