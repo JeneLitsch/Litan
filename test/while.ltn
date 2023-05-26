@@ -30,4 +30,19 @@ namespace sphinx::test {
 		}
 		assert_equal_strict(x, 1337);
 	}
+
+
+
+	function while_special_bool() {
+		var obj = [
+			.max = 3, .current = 0,
+			.{bool} = lambda(self) {
+				self.current = self.current + 1;
+				return self.current < self.max;
+			},
+		];
+
+		while(obj) {}
+		assert_equal(obj.max, obj.current);
+	}
 }
