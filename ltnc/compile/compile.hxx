@@ -56,6 +56,7 @@ namespace ltn::c {
 	// InstructionBuffer compile_expr(const sst::TypedUnary &);
 	InstructionBuffer compile_expr(const sst::Reflect &);
 	InstructionBuffer compile_expr(const sst::InitStruct &);
+	InstructionBuffer compile_expr(const sst::Map &);
 	InstructionBuffer compile_expr(const sst::Type &);
 	
 	InstructionBuffer compile_conditional(

@@ -582,6 +582,31 @@ namespace ltn::c::sst {
 
 
 
+	struct Map final : public Expression {
+		Map() : Expression{} {}
+
+		struct Pair {
+			expr_ptr key;
+			expr_ptr val;
+		};
+
+		virtual std::uint64_t alloc() const override {
+			std::uint64_t count = 0;
+			for(const auto & [key, val] : this->pairs) {
+				count = std::max(key->alloc() + val->alloc(), count);
+			}
+			return count;
+		}
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::vector<Pair> pairs;
+	};
+
+
+
 	struct Choose final : Expression {
 		Choose() : Expression{} {}
 
@@ -659,6 +684,7 @@ namespace ltn::c::sst {
 			virtual void visit(const Choose & x) const override { this->run(x); };
 			virtual void visit(const Reflect & x) const override { this->run(x); };
 			virtual void visit(const InitStruct & x) const override { this->run(x); };
+			virtual void visit(const Map & x) const override { this->run(x); };
 			virtual void visit(const Type & x) const override { this->run(x); };
 		};
 

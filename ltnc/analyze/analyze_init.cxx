@@ -43,6 +43,13 @@ namespace ltn::c {
 
 	
 	sst::expr_ptr analyze_expr(const ast::Map & init, Scope & scope) {
-		return std::make_unique<sst::Array>();
+		auto map =std::make_unique<sst::Map>();
+		for(auto & [key, val] : init.pairs) {
+			map->pairs.push_back(sst::Map::Pair{
+				.key = analyze_expression(*key, scope),
+				.val = analyze_expression(*val, scope),
+			});
+		}
+		return map;
 	}
 }

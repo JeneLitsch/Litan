@@ -12,4 +12,19 @@ namespace ltn::c {
 		}
 		return buf;
 	}
+
+
+
+	InstructionBuffer compile_expr(const sst::Map & map) {
+		InstructionBuffer buf;
+		buf << inst::newmap();
+		for(auto & [key, val] : map.pairs) {
+			buf << inst::duplicate();
+			buf << compile_expression(*val);
+			buf << inst::swap();
+			buf << compile_expression(*key);
+			buf << inst::at_write();
+		}
+		return buf;
+	}
 }
