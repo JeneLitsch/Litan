@@ -4,8 +4,7 @@
 #include <cmath>
 #include "ltnvm/utils/type_check.hxx"
 #include <sstream>
-#include "ltnvm/Operations.hxx"
-#include "ltnvm/calcBinary.hxx"
+#include "ltnvm/utils/calc_binary.hxx"
 #include "ltnvm/utils/convert.hxx"
 #include "ltnvm/utils/cast.hxx"
 #include "ltnvm/utils/special_member.hxx"
@@ -13,6 +12,7 @@
 #define FETCH\
 	const auto r = core.stack.pop();\
 	const auto l = core.stack.pop();
+
 
 namespace ltn::vm::inst {
 	namespace {
@@ -37,6 +37,58 @@ namespace ltn::vm::inst {
 			const auto ptr = heap.alloc<Container>(std::move(repeated)); 
 			return ptr;
 		}
+
+
+				// Promotes operands to at least int64
+		// Bool --> Int -?> Double
+		template<class Op>
+		struct Promoted {
+			constexpr inline auto operator()(const auto l, const auto r) const {
+				constexpr Op op{};
+				using T = decltype(l+r+std::int64_t(1));
+				return op(static_cast<T>(l), static_cast<T>(r));
+			}
+		};
+
+		using Addition = Promoted<std::plus<void>>;
+		using Subtraction = Promoted<std::minus<void>>;
+		using Multiplication = Promoted<std::multiplies<void>>;
+
+
+
+		struct Division {
+			constexpr auto operator()(const auto l, const auto r) const {
+				if(r == 0) throw except::division_by_zero();
+				using T = decltype(l+r+std::int64_t(1));
+				return static_cast<T>(l) / static_cast<T>(r);
+			}
+		};
+
+		
+		
+		struct Modulo {
+			constexpr auto operator()(const auto l, const auto r) const {
+				if(r == 0) throw except::division_by_zero();
+				using T = decltype(l+r+std::int64_t(1));
+				if constexpr(std::integral<T>) {
+					return static_cast<std::int64_t>(l%r);
+				}
+				else {
+					return std::fmod(l, r);
+				}
+			}
+		};
+
+
+
+		struct Power {
+			constexpr auto operator()(const auto l, const auto r) const 
+				-> decltype(l+r+std::int64_t(1)) {
+				
+				using T = decltype(l+r+std::int64_t(1));
+				return static_cast<T>(std::pow(static_cast<T>(l), static_cast<T>(r)));
+			}
+		};
 	}
 
 

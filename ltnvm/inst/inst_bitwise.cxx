@@ -1,9 +1,7 @@
-#include "instructions.hxx"
-#include <cmath>
-#include "ltnvm/utils/type_check.hxx"
 #include <sstream>
-#include "ltnvm/Operations.hxx"
-#include "ltnvm/calcBinary.hxx"
+#include <cmath>
+#include "ltnvm/inst/instructions.hxx"
+#include "ltnvm/utils/type_check.hxx"
 #include "ltnvm/utils/convert.hxx"
 
 #define FETCH\

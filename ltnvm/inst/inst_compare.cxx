@@ -1,7 +1,6 @@
 #include "instructions.hxx"
 #include "ltnvm/utils/type_check.hxx"
-#include "ltnvm/calcBinary.hxx"
-#include "ltnvm/Operations.hxx"
+#include "ltnvm/utils/calc_binary.hxx"
 #include "ltnvm/utils/compare.hxx"
 #include "ltnvm/utils/convert.hxx"
 

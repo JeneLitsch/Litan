@@ -2,9 +2,59 @@
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/utils/convert.hxx"
 #include "ltnvm/utils/cast.hxx"
-#include "ltnvm/MathFunctions.hxx"
 
 namespace ltn::vm::build_in {
+	namespace {
+		struct Round {
+			inline std::int64_t operator()(const stx::float64_t value) const {
+				return static_cast<std::int64_t>(std::round(value));
+			}
+		};
+
+		struct Floor {
+			inline std::int64_t operator()(const stx::float64_t value) const {
+				return static_cast<std::int64_t>(std::floor(value));
+			}
+		};
+
+		struct Ceil {
+			inline std::int64_t operator()(const stx::float64_t value) const {
+				return static_cast<std::int64_t>(std::ceil(value));
+			}
+		};
+
+		struct Absolute {
+			template <typename T>
+			inline auto operator()(const T value) const {
+				using Promoted = decltype(value + std::int64_t(1));
+				if constexpr(std::is_unsigned_v<T>) {
+					return static_cast<Promoted>(value);
+				}
+				else {
+					return static_cast<Promoted>(std::abs(value));
+				}
+			}
+		};
+
+		struct Sinus {
+			inline stx::float64_t operator()(const auto value) const {
+				return std::sin(static_cast<stx::float64_t>(value));
+			}
+		};
+
+		struct Cosinus {
+			inline stx::float64_t operator()(const auto value) const {
+				return std::cos(static_cast<stx::float64_t>(value));
+			}
+		};
+
+		struct Tangents {
+			inline stx::float64_t operator()(const auto value) const {
+				return std::tan(static_cast<stx::float64_t>(value));
+			}
+		};
+	}
+
 	template<class Fx>
 	Value rounding(const Value & value) {
 		constexpr Fx fx{};
