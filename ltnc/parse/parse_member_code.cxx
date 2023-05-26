@@ -32,12 +32,12 @@ namespace ltn::c {
 			else if(match(TT::STARx2, tokens) && match(TT::UNDERSCORE, tokens)) {
 				return MemberCode::POW;
 			}
+			else if(match(TT::SPACE_SHIP, tokens) && match(TT::UNDERSCORE, tokens)) {
+				return MemberCode::CMP;
+			}
 		}
 		else if(match("str", tokens)) {
 			return MemberCode::STR;
-		}
-		else if(match("cmp", tokens)) {
-			return MemberCode::CMP;
 		}
 		else if(match("bool", tokens)) {
 			return MemberCode::BOOL;

@@ -77,7 +77,7 @@ namespace sphinx::test {
 	function special_member_cmp() {
 		var make = lambda(x) => [
 			.x = x,
-			.{cmp} = lambda(self, other) => self.x <=> other.x,
+			.{_<=>_} = lambda(self, other) => self.x <=> other.x,
 		];
 
 		var test = lambda[make](a, b) {

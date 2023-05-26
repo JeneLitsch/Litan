@@ -8,7 +8,7 @@ namespace sphinx::test {
 		.{_%_} = lambda(self, other) => null,
 		.{_**_} = lambda(self, other) => null,
 		.{str} = lambda(self) => null,
-		.{cmp} = lambda(self, other) => null,
+		.{_<=>_} = lambda(self, other) => null,
 	];
 	
 	var invalid_arity = [
@@ -19,7 +19,7 @@ namespace sphinx::test {
 		.{_%_} = lambda(self) => null,
 		.{_**_} = lambda(self) => null,
 		.{str} = lambda(self, other) => null,
-		.{cmp} = lambda(self) => null,
+		.{_<=>_} = lambda(self) => null,
 	];
 	
 	var invalid_variadic = [ 
@@ -30,7 +30,7 @@ namespace sphinx::test {
 		.{_%_} = lambda(self, other, args...) => null,
 		.{_**_} = lambda(self, other, args...) => null,
 		.{str} = lambda(self, args...) => null,
-		.{cmp} = lambda(self, other, args...) => null,
+		.{_<=>_} = lambda(self, other, args...) => null,
 	];
 	
 	var invalid_no_function  = [ .x = null ];

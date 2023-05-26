@@ -157,6 +157,6 @@ namespace std {
 	function is_modable(obj)       const => is_binary_fx(obj.{_%_})
 	function is_powable(obj)       const => is_binary_fx(obj.{_**_})
 	function is_stringifiable(obj) const => is_unary_fx(obj.{str})
-	function is_comparable(obj)    const => is_binary_fx(obj.{cmp})
+	function is_comparable(obj)    const => is_binary_fx(obj.{_<=>_})
 }
 )###";
