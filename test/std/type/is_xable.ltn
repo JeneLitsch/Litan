@@ -49,13 +49,13 @@ namespace sphinx::test {
 	}
 
 
-	function std_is_addable()        => utils::test_is_xable(&std::is_addable(_))
-	function std_is_subtractable()   => utils::test_is_xable(&std::is_subtractable(_))
-	function std_is_multipliable()   => utils::test_is_xable(&std::is_multipliable(_))
-	function std_is_divisible()      => utils::test_is_xable(&std::is_divisible(_))
-	function std_is_modable()        => utils::test_is_xable(&std::is_modable(_))
-	function std_is_powable()        => utils::test_is_xable(&std::is_powable(_))
-	function std_is_stringifiable()  => utils::test_is_xable(&std::is_stringifiable(_))
-	function std_is_comparable()     => utils::test_is_xable(&std::is_comparable(_))
-	function std_is_boolable()       => utils::test_is_xable(&std::is_boolable(_))
+	function std_has_special_add() => utils::test_is_xable(&std::has_special_add(_))
+	function std_has_special_sub() => utils::test_is_xable(&std::has_special_sub(_))
+	function std_has_special_mlt() => utils::test_is_xable(&std::has_special_mlt(_))
+	function std_has_special_div() => utils::test_is_xable(&std::has_special_div(_))
+	function std_has_special_mod() => utils::test_is_xable(&std::has_special_mod(_))
+	function std_has_special_pow() => utils::test_is_xable(&std::has_special_pow(_))
+	function std_has_special_str() => utils::test_is_xable(&std::has_special_str(_))
+	function std_has_special_cmp() => utils::test_is_xable(&std::has_special_cmp(_))
+	function std_has_special_bool() => utils::test_is_xable(&std::has_special_bool(_))
 }
