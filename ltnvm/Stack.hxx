@@ -53,7 +53,7 @@ namespace ltn::vm {
 		void reset();
 		
 		const std::uint8_t * pop_frame();
-		void push_frame(const std::uint8_t * jumpBack, std::uint8_t arity);	
+		void push_frame(const std::uint8_t * jumpBack, std::uint64_t arity);	
 
 		const std::uint8_t * get_except_handler() const;
 		void set_except_handler(const std::uint8_t * address);

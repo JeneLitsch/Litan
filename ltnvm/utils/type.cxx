@@ -179,7 +179,7 @@ namespace ltn::vm {
 
 
 
-		Value type_cast_null(const Value & value, VmCore & core) {
+		Value type_cast_null(const Value &, VmCore &) {
 			return value::null;
 		}
 
@@ -191,13 +191,13 @@ namespace ltn::vm {
 
 
 		
-		Value type_cast_char(const Value & value, VmCore & core) {
+		Value type_cast_char(const Value & value, VmCore &) {
 			return value::character(cast::to_char(value));
 		}
 
 
 
-		Value type_cast_int(const Value & value, VmCore & core) {
+		Value type_cast_int(const Value & value, VmCore &) {
 			return value::integer(cast::to_int(value));
 		}
 
@@ -310,14 +310,6 @@ namespace ltn::vm {
 
 
 
-		Value type_cast_tuple(const Value & value, VmCore & core, const TypeNode * sub_type_l, const TypeNode * sub_type_r) {
-			return type_is_map(value, core, sub_type_l, sub_type_r) 
-				? value
-				: value::null; 
-		}
-
-
-
 		Value type_cast_tuple_n(const Value & value, VmCore & core, const std::vector<const TypeNode *> & sub_types) {
 			if(is_array_or_tuple(value)) {
 				const Array & input = core.heap.read<Array>(value);
@@ -348,7 +340,7 @@ namespace ltn::vm {
 
 		
 		template<typename Node>
-		const std::uint64_t get_type(VmCore & core, auto & bytes, auto && ... args) {
+		std::uint64_t get_type(VmCore & core, auto & bytes, auto && ... args) {
 			if(!core.type_table.contains(bytes)) {
 				auto node = std::make_unique<Node>(std::move(args)...);
 				core.type_table.insert({bytes, core.types.size()});

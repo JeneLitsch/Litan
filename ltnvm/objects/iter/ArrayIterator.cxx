@@ -20,7 +20,7 @@ namespace ltn::vm {
 	Value ArrayIterator::get(Heap & heap) {
 		auto & arr = heap.read<Array>(this->ref);
 		if(this->index < std::ssize(arr) && this->index >= 0) {
-			return arr[this->index];
+			return arr[static_cast<std::uint64_t>(this->index)];
 		}
 		else {
 			return value::iterator_stop;

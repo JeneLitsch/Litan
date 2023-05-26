@@ -8,7 +8,7 @@ namespace ltn::vm {
 
 
 
-	void Stack::push_frame(const std::uint8_t * return_addr, std::uint8_t arity) {
+	void Stack::push_frame(const std::uint8_t * return_addr, std::uint64_t arity) {
 		this->frames.push_back(Frame{
 			.return_addr = return_addr,
 			.prev_frame_pointer = this->frame_pointer,

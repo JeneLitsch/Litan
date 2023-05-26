@@ -21,7 +21,7 @@ namespace ltn::vm::inst {
 
 
 
-		void do_invoke_fxptr(VmCore & core, const Value ref_fx, std::uint8_t arity) {
+		void do_invoke_fxptr(VmCore & core, const Value ref_fx, std::uint64_t arity) {
 			const auto & fxptr = core.heap.read<FxPointer>(ref_fx.u);
 			const auto call_arity = fxptr.arity() + fxptr.is_variadic;
 
@@ -33,14 +33,14 @@ namespace ltn::vm::inst {
 				throw except::invalid_parameters(fxptr.arity(), arity);
 			}
 
-			core.stack.push_frame(core.pc, static_cast<std::uint8_t>(call_arity));
+			core.stack.push_frame(core.pc, call_arity);
 			load_onto_stack(core.stack, fxptr.captured);
 			core.pc = fxptr.ptr;
 		}
 
 
 
-		void do_invoke_external(VmCore & core, const Value ref_fx, std::uint8_t arity, const std::vector<Value> & args) {
+		void do_invoke_external(VmCore & core, const Value ref_fx, std::uint64_t arity, const std::vector<Value> & args) {
 			if(core.externals.contains(ref_fx.i)) {
 				auto & fxptr = core.externals.at(ref_fx.i);
 				if(arity == fxptr.arity()) {
