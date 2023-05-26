@@ -16,9 +16,7 @@ namespace ltn::c {
 
 
 		auto parse_member(Tokens & tokens) {
-			if(!match(TT::DOT, tokens)) {
-				throw CompilerError{"Expected . (dot)", location(tokens)};
-			}
+
 
 			if(match(TT::BRACE_L, tokens)) {
 				MemberCode code = parse_member_code(tokens);
@@ -54,7 +52,20 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_struct_init(Tokens & tokens) {
 			auto init_struct = std::make_unique<ast::InitStruct>(location(tokens));
-			init_struct->members = list_of<ast::InitStruct::Member>(TT::BRACKET_R, "]", tokens, parse_member);
+			if(!match(TT::DOT, tokens)) {
+				throw CompilerError{"Expected . (dot)", location(tokens)};
+			}
+			if(match(TT::BRACKET_R, tokens)) {
+				return init_struct;
+			}
+			bool first = true;
+			init_struct->members = list_of<ast::InitStruct::Member>(TT::BRACKET_R, "]", tokens, [&] (auto & t) {
+				if(!first && !match(TT::DOT, t)) {
+					throw CompilerError{"Expected . (dot)", location(t)};
+				}
+				first = false;
+				return parse_member(t);
+			});
 			return init_struct;
 		}
 

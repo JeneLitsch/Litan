@@ -16,6 +16,10 @@ var obj = [
 ];
 ```
 
+```js
+var obj = [.];
+```
+
 ## Presets
 
 Presets are declared at a namespace level and can be used to create structs more easily.  
