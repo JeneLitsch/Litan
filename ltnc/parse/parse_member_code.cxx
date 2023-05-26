@@ -13,35 +13,23 @@ namespace ltn::c {
 
 
 	MemberCode parse_member_code(Tokens & tokens) {
-		if(match(TT::UNDERSCORE, tokens)) {
-			if(match(TT::PLUS, tokens) && match(TT::UNDERSCORE, tokens)) {
-				return MemberCode::ADD;
-			}
-			else if(match(TT::MINUS, tokens) && match(TT::UNDERSCORE, tokens)) {
-				return MemberCode::SUB;
-			}
-			else if(match(TT::STAR, tokens) && match(TT::UNDERSCORE, tokens)) {
-				return MemberCode::MLT;
-			}
-			else if(match(TT::SLASH, tokens) && match(TT::UNDERSCORE, tokens)) {
-				return MemberCode::DIV;
-			}
-			else if(match(TT::PERCENT, tokens) && match(TT::UNDERSCORE, tokens)) {
-				return MemberCode::MOD;
-			}
-			else if(match(TT::STARx2, tokens) && match(TT::UNDERSCORE, tokens)) {
-				return MemberCode::POW;
-			}
-			else if(match(TT::SPACE_SHIP, tokens) && match(TT::UNDERSCORE, tokens)) {
-				return MemberCode::CMP;
-			}
+		const static std::map<std::string, MemberCode> table {
+			{"add", MemberCode::ADD},
+			{"sub", MemberCode::SUB},
+			{"mlt", MemberCode::MLT},
+			{"div", MemberCode::DIV},
+			{"mod", MemberCode::MOD},
+			{"pow", MemberCode::POW},
+			{"cmp", MemberCode::CMP},
+			{"str", MemberCode::STR},
+			{"bool", MemberCode::BOOL},
+		};
+
+
+		for(const auto & [name, code] : table) {
+			if(match(name, tokens)) return code;
 		}
-		else if(match("str", tokens)) {
-			return MemberCode::STR;
-		}
-		else if(match("bool", tokens)) {
-			return MemberCode::BOOL;
-		}
+
 		throw invalid_operator(tokens);
 	}
 }

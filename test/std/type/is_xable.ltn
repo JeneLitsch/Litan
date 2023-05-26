@@ -1,36 +1,36 @@
 namespace sphinx::test {
 	
 	var valid = [
-		.{_+_} = lambda(self, other) => null,
-		.{_-_} = lambda(self, other) => null,
-		.{_*_} = lambda(self, other) => null,
-		.{_/_} = lambda(self, other) => null,
-		.{_%_} = lambda(self, other) => null,
-		.{_**_} = lambda(self, other) => null,
+		.{add} = lambda(self, other) => null,
+		.{sub} = lambda(self, other) => null,
+		.{mlt} = lambda(self, other) => null,
+		.{div} = lambda(self, other) => null,
+		.{mod} = lambda(self, other) => null,
+		.{pow} = lambda(self, other) => null,
 		.{str} = lambda(self) => null,
-		.{_<=>_} = lambda(self, other) => null,
+		.{cmp} = lambda(self, other) => null,
 	];
 	
 	var invalid_arity = [
-		.{_+_} = lambda(self) => null,
-		.{_-_} = lambda(self) => null,
-		.{_*_} = lambda(self) => null,
-		.{_/_} = lambda(self) => null,
-		.{_%_} = lambda(self) => null,
-		.{_**_} = lambda(self) => null,
+		.{add} = lambda(self) => null,
+		.{sub} = lambda(self) => null,
+		.{mlt} = lambda(self) => null,
+		.{div} = lambda(self) => null,
+		.{mod} = lambda(self) => null,
+		.{pow} = lambda(self) => null,
 		.{str} = lambda(self, other) => null,
-		.{_<=>_} = lambda(self) => null,
+		.{cmp} = lambda(self) => null,
 	];
 	
 	var invalid_variadic = [ 
-		.{_+_} = lambda(self, other, args...) => null,
-		.{_-_} = lambda(self, other, args...) => null,
-		.{_*_} = lambda(self, other, args...) => null,
-		.{_/_} = lambda(self, other, args...) => null,
-		.{_%_} = lambda(self, other, args...) => null,
-		.{_**_} = lambda(self, other, args...) => null,
+		.{add} = lambda(self, other, args...) => null,
+		.{sub} = lambda(self, other, args...) => null,
+		.{mlt} = lambda(self, other, args...) => null,
+		.{div} = lambda(self, other, args...) => null,
+		.{mod} = lambda(self, other, args...) => null,
+		.{pow} = lambda(self, other, args...) => null,
 		.{str} = lambda(self, args...) => null,
-		.{_<=>_} = lambda(self, other, args...) => null,
+		.{cmp} = lambda(self, other, args...) => null,
 	];
 	
 	var invalid_no_function  = [ .x = null ];
