@@ -1,9 +1,9 @@
 #include "algorithm.hxx"
-#include "ltnvm/convert.hxx"
+#include "ltnvm/utils/convert.hxx"
 #include "ltnvm/Exception.hxx"
-#include "ltnvm/index.hxx"
+#include "ltnvm/utils/index.hxx"
 #include "ltnvm/inst/instructions.hxx"
-#include "ltnvm/stringify.hxx"
+#include "ltnvm/utils/stringify.hxx"
 
 namespace ltn::vm::build_in {
 	Value insert_front(VmCore & core) {

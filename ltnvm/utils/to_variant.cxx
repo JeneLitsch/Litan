@@ -1,5 +1,5 @@
-#include "ltnvm/to_variant.hxx"
-#include "ltnvm/type_check.hxx"
+#include "ltnvm/utils/to_variant.hxx"
+#include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm {
 	Variant to_variant(const Value & value, Heap & heap) {

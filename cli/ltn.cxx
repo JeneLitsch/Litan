@@ -1,5 +1,5 @@
 #include "Litan.hxx"
-#include "ltnvm/cast.hxx"
+#include "ltnvm/utils/cast.hxx"
 #include "ltn/version.hxx"
 #include <filesystem>
 #include <fstream>

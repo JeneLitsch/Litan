@@ -1,5 +1,5 @@
 #include "RangeIterator.hxx"
-#include "ltnvm/type_check.hxx"
+#include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm {
 	RangeIterator::RangeIterator(std::int64_t begin, std::int64_t end, std::int64_t step)

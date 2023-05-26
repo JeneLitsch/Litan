@@ -1,6 +1,6 @@
 #include "StringIterator.hxx"
 #include "ltnvm/VmCore.hxx"
-#include "ltnvm/type_check.hxx"
+#include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm {
 	StringIterator::StringIterator(std::uint64_t ref) 

@@ -1,5 +1,5 @@
 #include "instructions.hxx"
-#include "ltnvm/cast.hxx"
+#include "ltnvm/utils/cast.hxx"
 
 namespace ltn::vm::inst {
 	void cast_bool(VmCore & core) {

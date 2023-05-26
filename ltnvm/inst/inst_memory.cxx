@@ -1,6 +1,6 @@
 #include "instructions.hxx"
-#include "ltnvm/type_check.hxx"
-#include "ltnvm/index.hxx"
+#include "ltnvm/utils/type_check.hxx"
+#include "ltnvm/utils/index.hxx"
 
 namespace ltn::vm::inst {
 	void scrap(VmCore & core) {

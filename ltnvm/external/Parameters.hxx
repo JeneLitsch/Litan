@@ -3,7 +3,7 @@
 #include "stdxx/float64_t.hxx"
 #include "ltnvm/Value.hxx"
 #include "ltnvm/Heap.hxx"
-#include "ltnvm/type_check.hxx"
+#include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm::ext {
 	class Parameters {

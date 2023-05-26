@@ -1,14 +1,14 @@
 #include "LtnVM.hxx"
 #include "ltn/opcodes.hxx"
 #include <sstream>
-#include "cast.hxx"
+#include "ltnvm/utils/cast.hxx"
 #include "inst/instructions.hxx"
 #include "ltn/version.hxx"
 #include "ltn/header.hxx"
 #include "stdxx/iife.hxx"
-#include "ltnvm/to_variant.hxx"
-#include "ltnvm/to_value.hxx"
-#include "ltnvm/stringify.hxx"
+#include "ltnvm/utils/to_variant.hxx"
+#include "ltnvm/utils/to_value.hxx"
+#include "ltnvm/utils/stringify.hxx"
 
 namespace ltn::vm {
 	constexpr void add_instruction(auto & table, auto op_code, auto fx) {

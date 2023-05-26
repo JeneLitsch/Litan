@@ -2,8 +2,8 @@
 #include <filesystem>
 #include "io.hxx"
 #include "ltnvm/Exception.hxx"
-#include "ltnvm/stringify.hxx"
-#include "ltnvm/convert.hxx"
+#include "ltnvm/utils/stringify.hxx"
+#include "ltnvm/utils/convert.hxx"
 
 namespace ltn::vm::build_in::io {
 	namespace {

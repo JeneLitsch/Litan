@@ -1,7 +1,7 @@
-#include "ltnvm/compare.hxx"
+#include "ltnvm/utils/compare.hxx"
 #include "ltnvm/Heap.hxx"
 #include "ltnvm/Exception.hxx"
-#include "ltnvm/special_member.hxx"
+#include "ltnvm/utils/special_member.hxx"
 #include "ltnvm/VmCore.hxx"
 
 namespace ltn::vm {

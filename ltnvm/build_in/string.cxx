@@ -1,6 +1,6 @@
 #include "string.hxx"
 #include "ltnvm/Exception.hxx"
-#include "ltnvm/stringify.hxx"
+#include "ltnvm/utils/stringify.hxx"
 
 namespace ltn::vm::build_in {
 

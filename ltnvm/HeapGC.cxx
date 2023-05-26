@@ -1,5 +1,5 @@
 #include "Heap.hxx"
-#include "ltnvm/type_check.hxx"
+#include "ltnvm/utils/type_check.hxx"
 namespace ltn::vm {
 	void Heap::mark(const Array & values) {
 		for(const auto & value : values) {

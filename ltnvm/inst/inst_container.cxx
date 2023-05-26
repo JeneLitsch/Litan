@@ -1,7 +1,7 @@
 #include "instructions.hxx"
 #include <stdexcept>
-#include "ltnvm/convert.hxx"
-#include "ltnvm/index.hxx"
+#include "ltnvm/utils/convert.hxx"
+#include "ltnvm/utils/index.hxx"
 namespace ltn::vm::inst {
 	void contains(VmCore & core) {
 		const auto key = core.stack.pop();

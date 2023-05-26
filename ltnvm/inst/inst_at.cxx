@@ -1,5 +1,5 @@
 #include "instructions.hxx"
-#include "ltnvm/index.hxx"
+#include "ltnvm/utils/index.hxx"
 
 namespace ltn::vm::inst {
 	void at(VmCore & core) {

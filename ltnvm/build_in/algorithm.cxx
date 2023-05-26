@@ -1,5 +1,5 @@
 #include "algorithm.hxx"
-#include "ltnvm/compare.hxx"
+#include "ltnvm/utils/compare.hxx"
 #include "ltnvm/Exception.hxx"
 #include <algorithm>
 #include <numeric>

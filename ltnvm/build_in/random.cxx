@@ -1,6 +1,6 @@
 #include "random.hxx"
 #include "ltnvm/Exception.hxx"
-#include "ltnvm/convert.hxx"
+#include "ltnvm/utils/convert.hxx"
 
 namespace ltn::vm::build_in::random {
 	namespace {

@@ -1,5 +1,5 @@
 #include "instructions.hxx"
-#include "ltnvm/type_check.hxx"
+#include "ltnvm/utils/type_check.hxx"
 #include <sstream>
 namespace ltn::vm::inst {
 	void capture(VmCore & core) {

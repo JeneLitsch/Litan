@@ -2,13 +2,13 @@
 #include "stdxx/string.hxx"
 #include "stdxx/array.hxx"
 #include <cmath>
-#include "ltnvm/type_check.hxx"
+#include "ltnvm/utils/type_check.hxx"
 #include <sstream>
 #include "ltnvm/Operations.hxx"
 #include "ltnvm/calcBinary.hxx"
-#include "ltnvm/convert.hxx"
-#include "ltnvm/cast.hxx"
-#include "ltnvm/special_member.hxx"
+#include "ltnvm/utils/convert.hxx"
+#include "ltnvm/utils/cast.hxx"
+#include "ltnvm/utils/special_member.hxx"
 
 #define FETCH\
 	const auto r = core.stack.pop();\

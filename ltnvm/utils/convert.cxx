@@ -1,6 +1,6 @@
 #include "convert.hxx"
 #include "type_check.hxx"
-#include "Exception.hxx"
+#include "ltnvm/Exception.hxx"
 #include "special_member.hxx"
 
 namespace ltn::vm::convert {

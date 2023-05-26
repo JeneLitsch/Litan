@@ -2,7 +2,7 @@
 #include <string_view>
 #include <stdexcept>
 #include "ltnvm/Value.hxx"
-#include "Exception.hxx"
+#include "ltnvm/Exception.hxx"
 namespace ltn::vm {
 	template<typename Op>
 	constexpr inline Value calc_r(

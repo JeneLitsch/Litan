@@ -1,6 +1,6 @@
 #include "iter.hxx"
 #include "ltnvm/Exception.hxx"
-#include "ltnvm/convert.hxx"
+#include "ltnvm/utils/convert.hxx"
 #include "ltnvm/inst/instructions.hxx"
 
 namespace ltn::vm::build_in::iter {

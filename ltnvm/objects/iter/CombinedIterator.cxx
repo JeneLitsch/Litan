@@ -1,6 +1,6 @@
 #include "CombinedIterator.hxx"
 #include "ltnvm/VmCore.hxx"
-#include "ltnvm/type_check.hxx"
+#include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm {
 	CombinedIterator::CombinedIterator(std::vector<std::uint64_t> iters) 

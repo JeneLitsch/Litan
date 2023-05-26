@@ -1,6 +1,6 @@
-#include "cast.hxx"
+#include "ltnvm/utils/cast.hxx"
 #include "type_check.hxx"
-#include "Exception.hxx"
+#include "ltnvm/Exception.hxx"
 #include "convert.hxx"
 #include "stdxx/float64_t.hxx"
 

@@ -1,6 +1,6 @@
 #include "ArrayIterator.hxx"
 #include "ltnvm/VmCore.hxx"
-#include "ltnvm/type_check.hxx"
+#include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm {
 	ArrayIterator::ArrayIterator(std::uint64_t ref) 

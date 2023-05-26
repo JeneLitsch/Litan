@@ -1,5 +1,5 @@
 #pragma once
-#include "objects/Type.hxx"
+#include "ltnvm/objects/Type.hxx"
 
 namespace ltn::vm {
 	struct VmCore;

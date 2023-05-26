@@ -3,10 +3,10 @@
 #include "iter/CombinedIterator.hxx"
 #include "iter/RangeIterator.hxx"
 #include "iter/StringIterator.hxx"
-#include "ltnvm/type_check.hxx"
+#include "ltnvm/utils/type_check.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/Heap.hxx"
-#include "ltnvm/convert.hxx"
+#include "ltnvm/utils/convert.hxx"
 
 namespace ltn::vm {
 	Iterator clone(const Iterator & iter) {

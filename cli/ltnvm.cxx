@@ -1,7 +1,7 @@
 #include <fstream>
 #include <filesystem>
 #include "ltnvm/LtnVM.hxx"
-#include "ltnvm/cast.hxx"
+#include "ltnvm/utils/cast.hxx"
 #include "ltn/version.hxx"
 #include "ltn/args.hxx"
 #include "stdxx/args.hxx"

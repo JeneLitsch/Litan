@@ -1,5 +1,5 @@
 #include "instructions.hxx"
-#include "ltnvm/type.hxx"
+#include "ltnvm/utils/type.hxx"
 
 namespace ltn::vm::inst {
 	void newtype(VmCore & core){

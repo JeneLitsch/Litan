@@ -1,6 +1,6 @@
 #include "instructions.hxx"
-#include "ltnvm/index.hxx"
-#include "ltnvm/convert.hxx"
+#include "ltnvm/utils/index.hxx"
+#include "ltnvm/utils/convert.hxx"
 
 namespace ltn::vm::inst {
 	void at_write(VmCore & core) {

@@ -2,7 +2,7 @@
 #include <map>
 #include <string_view>
 #include "ltnvm/Value.hxx"
-#include "ltnvm/compare.hxx"
+#include "ltnvm/utils/compare.hxx"
 namespace ltn::vm {
 	class Heap;
 	// Implements stack, queue, ...

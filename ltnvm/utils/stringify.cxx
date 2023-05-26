@@ -1,6 +1,6 @@
 #include "stringify.hxx"
-#include "Exception.hxx"
-#include "ltnvm/special_member.hxx"
+#include "ltnvm/Exception.hxx"
+#include "ltnvm/utils/special_member.hxx"
 #include "ltnvm/LtnVM.hxx"
 
 namespace ltn::vm {

@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <functional>
-#include "Exception.hxx"
+#include "ltnvm/Exception.hxx"
 #include "VmCore.hxx"
 #include "ltn/variant.hxx"
 
