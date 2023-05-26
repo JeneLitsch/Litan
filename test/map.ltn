@@ -1,25 +1,21 @@
 namespace sphinx::test {
 	function map_existing() {
-		var map = std::map();
-		map[42] = 1337;
+		var map = [42:1337];
 		assert_equal_strict(map[42], 1337);
 	}
 
 
 
 	function map_missing() {
-		var map = std::map();
-		map[42] = 1337;
+		var map = [42:1337];
 		assert_equal_strict(map[123], null);
 	}
 
 
 
-	function map_index_type() {
-		// var map = std::map(<int>, <int>);
-		// assert_equal_strict(
-		// 	reflect(expr map[42]).type.name,
-		// 	reflect(type ?int).name
-		// );
+	function map_empty() {
+		var map = [:];
+		assert_equal_strict(map[123], null);
+		assert_true(std::empty(map));
 	}
 }
