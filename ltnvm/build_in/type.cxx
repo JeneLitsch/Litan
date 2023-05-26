@@ -31,7 +31,7 @@ namespace ltn::vm::build_in::type {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
 		auto & type = core.types[ref.u];
-		return type_is(*type, value, core.heap);
+		return type_is(*type, value, core);
 	}
 
 
@@ -40,7 +40,7 @@ namespace ltn::vm::build_in::type {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
 		auto & type = core.types[ref.u];
-		return type_cast(*type, value, core.heap);
+		return type_cast(*type, value, core);
 	}
 
 

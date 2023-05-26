@@ -28,12 +28,12 @@ namespace ltn::vm {
 		template<stx::string_literal NAME, auto IS, auto CAST>
 		class PrimaryTypeNode : public TypeNode {
 		public:
-			virtual bool is(const Value & value, Heap & heap) const override {
-				return IS(value, heap);
+			virtual bool is(const Value & value, VmCore & core) const override {
+				return IS(value, core);
 			}
 
-			virtual Value cast(const Value & value, Heap & heap) const override {
-				return CAST(value, heap);
+			virtual Value cast(const Value & value, VmCore & core) const override {
+				return CAST(value, core);
 			}
 
 			virtual std::string name() const override {
@@ -48,12 +48,12 @@ namespace ltn::vm {
 		public:
 			UnaryTypeNode(const TypeNode * sub_type) : sub_type{sub_type} {}
 
-			virtual bool is(const Value & value, Heap & heap) const override {
-				return IS(value, heap, sub_type);
+			virtual bool is(const Value & value, VmCore & core) const override {
+				return IS(value, core, sub_type);
 			}
 
-			virtual Value cast(const Value & value, Heap & heap) const override {
-				return CAST(value, heap, sub_type);
+			virtual Value cast(const Value & value, VmCore & core) const override {
+				return CAST(value, core, sub_type);
 			}
 
 			virtual std::string name() const override {
@@ -76,12 +76,12 @@ namespace ltn::vm {
 				: sub_type_l{sub_type_l}
 				, sub_type_r{sub_type_r} {}
 
-			virtual bool is(const Value & value, Heap & heap) const override {
-				return IS(value, heap, sub_type_l, sub_type_r);
+			virtual bool is(const Value & value, VmCore & core) const override {
+				return IS(value, core, sub_type_l, sub_type_r);
 			}
 
-			virtual Value cast(const Value & value, Heap & heap) const override {
-				return CAST(value, heap, sub_type_l, sub_type_r);
+			virtual Value cast(const Value & value, VmCore & core) const override {
+				return CAST(value, core, sub_type_l, sub_type_r);
 			}
 
 			virtual std::string name() const override {
@@ -101,12 +101,12 @@ namespace ltn::vm {
 			NAryTypeNode(std::vector<const TypeNode *> sub_types)
 				: sub_types{std::move(sub_types)} {}
 
-			virtual bool is(const Value & value, Heap & heap) const override {
-				return IS(value, heap, sub_types);
+			virtual bool is(const Value & value, VmCore & core) const override {
+				return IS(value, core, sub_types);
 			}
 
-			virtual Value cast(const Value & value, Heap & heap) const override {
-				return CAST(value, heap, sub_types);
+			virtual Value cast(const Value & value, VmCore & core) const override {
+				return CAST(value, core, sub_types);
 			}
 
 			virtual std::string name() const override {
@@ -133,12 +133,12 @@ namespace ltn::vm {
 		public:
 			NumericTypeNode(std::uint64_t number) : number{number} {}
 
-			virtual bool is(const Value & value, Heap & heap) const override {
-				return IS(value, heap, number);
+			virtual bool is(const Value & value, VmCore & core) const override {
+				return IS(value, core, number);
 			}
 
-			virtual Value cast(const Value & value, Heap & heap) const override {
-				return CAST(value, heap, number);
+			virtual Value cast(const Value & value, VmCore & core) const override {
+				return CAST(value, core, number);
 			}
 
 			virtual std::string name() const override {
@@ -154,179 +154,179 @@ namespace ltn::vm {
 
 
 		template<auto IS>
-		bool simple_check_for(const Value & value, Heap &) {
+		bool simple_check_for(const Value & value, VmCore &) {
 			return IS(value);
 		}
 
 
 		
 		template<auto IS>
-		Value ret_if_or_null(const Value & value, Heap & heap) {
+		Value ret_if_or_null(const Value & value, VmCore &) {
 			return IS(value) ? value : value::null;
 		}
 
 
 
-		Value no_cast(const Value & value, Heap &) {
+		Value no_cast(const Value & value, VmCore &) {
 			return value;
 		}
 
 
 
-		bool always_true(const Value &, Heap &) {
+		bool always_true(const Value &, VmCore &) {
 			return true;
 		}
 
 
 
-		Value type_cast_null(const Value & value, Heap &) {
+		Value type_cast_null(const Value & value, VmCore & core) {
 			return value::null;
 		}
 
 
 
-		Value type_cast_bool(const Value & value, Heap &) {
-			return value::boolean(cast::to_bool(value));
+		Value type_cast_bool(const Value & value, VmCore & core) {
+			return value::boolean(cast::to_bool(value, core));
 		}
 
 
 		
-		Value type_cast_char(const Value & value, Heap &) {
+		Value type_cast_char(const Value & value, VmCore & core) {
 			return value::character(cast::to_char(value));
 		}
 
 
 
-		Value type_cast_int(const Value & value, Heap &) {
+		Value type_cast_int(const Value & value, VmCore & core) {
 			return value::integer(cast::to_int(value));
 		}
 
 
 
-		Value type_cast_float(const Value & value, Heap & heap) {
-			return value::floating(cast::to_float(value, heap));
+		Value type_cast_float(const Value & value, VmCore & core) {
+			return value::floating(cast::to_float(value, core.heap));
 		}
 
 
 
-		Value type_cast_string(const Value & value, Heap & heap) {
-			return value::string(heap.alloc(cast::to_string(value, heap)));
+		Value type_cast_string(const Value & value, VmCore & core) {
+			return value::string(core.heap.alloc(cast::to_string(value, core.heap)));
 		}
 
 
 
 		template<typename Data, auto make_value, auto check_type>
-		Value cast_unary_type(const Value & value, Heap & heap, const TypeNode * sub_type) {
+		Value cast_unary_type(const Value & value, VmCore & core, const TypeNode * sub_type) {
 			if(!check_type(value)) return value::null;
-			const Data & input = heap.read<Data>(value); 
+			const Data & input = core.heap.read<Data>(value); 
 			Data output;
 			for(const auto & elem : input) {
-				output.push_back(sub_type->cast(elem, heap));
+				output.push_back(sub_type->cast(elem, core));
 			}
-			return make_value(heap.alloc(std::move(output)));
+			return make_value(core.heap.alloc(std::move(output)));
 		}
 
 
 
-		Value type_cast_array(const Value & value, Heap & heap, const TypeNode * sub_type) {
-			return cast_unary_type<Array, value::array, is_array>(value, heap, sub_type);
-		}
-
-
-		
-		Value type_cast_queue(const Value & value, Heap & heap, const TypeNode * sub_type) {
-			return cast_unary_type<Deque, value::queue, is_queue>(value, heap, sub_type);
+		Value type_cast_array(const Value & value, VmCore & core, const TypeNode * sub_type) {
+			return cast_unary_type<Array, value::array, is_array>(value, core, sub_type);
 		}
 
 
 		
-		Value type_cast_stack(const Value & value, Heap & heap, const TypeNode * sub_type) {
-			return cast_unary_type<Deque, value::stack, is_stack>(value, heap, sub_type);
+		Value type_cast_queue(const Value & value, VmCore & core, const TypeNode * sub_type) {
+			return cast_unary_type<Deque, value::queue, is_queue>(value, core, sub_type);
+		}
+
+
+		
+		Value type_cast_stack(const Value & value, VmCore & core, const TypeNode * sub_type) {
+			return cast_unary_type<Deque, value::stack, is_stack>(value, core, sub_type);
 		}
 
 
 
 		template<typename Data, auto check_type>
-		bool is_unary_type(const Value & value, Heap & heap, const TypeNode * sub_type) {
+		bool is_unary_type(const Value & value, VmCore & core, const TypeNode * sub_type) {
 			if(!check_type(value)) return false;
-			const Data & input = heap.read<Data>(value);
+			const Data & input = core.heap.read<Data>(value);
 			return std::all_of(std::begin(input), std::end(input), 
-				[&](const auto & elem) { return sub_type->is(elem, heap); 
+				[&](const auto & elem) { return sub_type->is(elem, core); 
 			});
 		}
 
 
 
-		bool type_is_array(const Value & value, Heap & heap, const TypeNode * subtype) {
-			return is_unary_type<Array, is_array>(value, heap, subtype);
+		bool type_is_array(const Value & value, VmCore & core, const TypeNode * subtype) {
+			return is_unary_type<Array, is_array>(value, core, subtype);
 		}
 
 
 
-		bool type_is_queue(const Value & value, Heap & heap, const TypeNode * subtype) {
-			return is_unary_type<Deque, is_queue>(value, heap, subtype);
+		bool type_is_queue(const Value & value, VmCore & core, const TypeNode * subtype) {
+			return is_unary_type<Deque, is_queue>(value, core, subtype);
 		}
 
 
 		
-		bool type_is_stack(const Value & value, Heap & heap, const TypeNode * subtype) {
-			return is_unary_type<Deque, is_stack>(value, heap, subtype);
+		bool type_is_stack(const Value & value, VmCore & core, const TypeNode * subtype) {
+			return is_unary_type<Deque, is_stack>(value, core, subtype);
 		}
 
 
 
-		bool type_is_fx_n(const Value & value, Heap & heap, std::uint64_t arity) {
+		bool type_is_fx_n(const Value & value, VmCore & core, std::uint64_t arity) {
 			if(!is_fxptr(value)) return false;
-			const FxPointer & input = heap.read<FxPointer>(value);
+			const FxPointer & input = core.heap.read<FxPointer>(value);
 			return input.params == arity;
 		}
 
 
 
-		Value type_cast_fx_n(const Value & value, Heap & heap, std::uint64_t arity) {
-			return type_is_fx_n(value, heap, arity) ? value : value::null; 
+		Value type_cast_fx_n(const Value & value, VmCore & core, std::uint64_t arity) {
+			return type_is_fx_n(value, core, arity) ? value : value::null; 
 		}
 
 
 
-		bool type_is_map(const Value & value, Heap & heap, const TypeNode * sub_type_l, const TypeNode * sub_type_r) {
+		bool type_is_map(const Value & value, VmCore & core, const TypeNode * sub_type_l, const TypeNode * sub_type_r) {
 			if(!is_map(value)) return false;
-			const Map & input = heap.read<Map>(value);
+			const Map & input = core.heap.read<Map>(value);
 			return std::all_of(std::begin(input), std::end(input), 
 				[&](const auto & elem) {
 					auto & [key, val] = elem;
-					return sub_type_l->is(key, heap) && sub_type_r->is(val, heap); 
+					return sub_type_l->is(key, core) && sub_type_r->is(val, core); 
 				}
 			);
 		}
 
 
 
-		Value type_cast_map(const Value & value, Heap & heap, const TypeNode * sub_type_l, const TypeNode * sub_type_r) {
-			return type_is_map(value, heap, sub_type_l, sub_type_r) 
+		Value type_cast_map(const Value & value, VmCore & core, const TypeNode * sub_type_l, const TypeNode * sub_type_r) {
+			return type_is_map(value, core, sub_type_l, sub_type_r) 
 				? value
 				: value::null; 
 		}
 
 
 
-		Value type_cast_tuple(const Value & value, Heap & heap, const TypeNode * sub_type_l, const TypeNode * sub_type_r) {
-			return type_is_map(value, heap, sub_type_l, sub_type_r) 
+		Value type_cast_tuple(const Value & value, VmCore & core, const TypeNode * sub_type_l, const TypeNode * sub_type_r) {
+			return type_is_map(value, core, sub_type_l, sub_type_r) 
 				? value
 				: value::null; 
 		}
 
 
 
-		Value type_cast_tuple_n(const Value & value, Heap & heap, const std::vector<const TypeNode *> & sub_types) {
+		Value type_cast_tuple_n(const Value & value, VmCore & core, const std::vector<const TypeNode *> & sub_types) {
 			if(is_array_or_tuple(value)) {
-				const Array & input = heap.read<Array>(value);
+				const Array & input = core.heap.read<Array>(value);
 				if(std::size(input) != std::size(sub_types)) return value::null;
 				Array output;
 				for(std::size_t i = 0; i < std::size(input); ++i) {
-					output.push_back(sub_types[i]->cast(input[i], heap));
+					output.push_back(sub_types[i]->cast(input[i], core));
 				}
-				return value::tuple(heap.alloc(std::move(output)));
+				return value::tuple(core.heap.alloc(std::move(output)));
 			}
 			else {
 				return value::null;
@@ -335,12 +335,12 @@ namespace ltn::vm {
 
 
 
-		bool type_is_tuple_n(const Value & value, Heap & heap, const std::vector<const TypeNode *> & sub_types) {
+		bool type_is_tuple_n(const Value & value, VmCore & core, const std::vector<const TypeNode *> & sub_types) {
 			if(!is_tuple(value)) return false;
-			const Array & input = heap.read<Array>(value);
+			const Array & input = core.heap.read<Array>(value);
 			if(std::size(input) != std::size(sub_types)) return false;
 			for(std::size_t i = 0; i < std::size(input); ++i) {
-				if(!sub_types[i]->is(input[i], heap)) return false;
+				if(!sub_types[i]->is(input[i], core)) return false;
 			}
 			return true;
 		}

@@ -9,6 +9,6 @@ namespace ltn::vm::cast {
 	Array to_array(Value value);
 	std::int64_t to_int(Value value);
 	stx::float64_t to_float(Value value, Heap & heap);
-	bool to_bool(Value value);
+	bool to_bool(Value value, VmCore & core);
 	char to_char(Value value);
 }

@@ -34,8 +34,8 @@ namespace ltn::vm::cast {
 	}
 
 
-	bool to_bool(Value value) {
-		return convert::to_bool(value);
+	bool to_bool(Value value, VmCore & core) {
+		return convert::to_bool(value, core);
 	}
 
 	char to_char(Value value) {

@@ -34,7 +34,7 @@ namespace ltn::vm::inst {
 	void iF(VmCore & core) {
 		const auto value = core.stack.pop();
 		const auto elseAddr = core.fetch_uint();
-		if(!convert::to_bool(value)) {
+		if(!convert::to_bool(value, core)) {
 			core.pc = core.code_begin + elseAddr;
 		}
 	}

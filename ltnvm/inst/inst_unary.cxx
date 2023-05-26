@@ -27,7 +27,7 @@ namespace ltn::vm::inst {
 
 	void n0t(VmCore & core) {
 		FETCH
-		return core.stack.push(!convert::to_bool(x));
+		return core.stack.push(!convert::to_bool(x, core));
 	}
 
 

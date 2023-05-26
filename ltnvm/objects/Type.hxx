@@ -6,11 +6,11 @@
 #include "ltnvm/memory/Value.hxx"
 
 namespace ltn::vm {
-	class Heap;
+	struct VmCore;
 	class TypeNode : stx::non_copyable, stx::non_moveable {
 	public:
-		virtual bool is(const Value & value, Heap & heap) const = 0;
-		virtual Value cast(const Value & value, Heap & heap) const = 0;
+		virtual bool is(const Value &, VmCore &) const = 0;
+		virtual Value cast(const Value &, VmCore &) const = 0;
 		virtual std::string name() const = 0;
 	};
 
@@ -24,6 +24,6 @@ namespace ltn::vm {
 
 
 	std::string type_name(const TypeNode & type);
-	bool type_is(const TypeNode & type, const Value & value, Heap & heap);
-	Value type_cast(const TypeNode & type, const Value & value, Heap & heap);
+	bool type_is(const TypeNode & type, const Value & value, VmCore & core);
+	Value type_cast(const TypeNode & type, const Value & value, VmCore & core);
 }

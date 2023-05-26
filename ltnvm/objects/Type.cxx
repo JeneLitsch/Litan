@@ -7,15 +7,15 @@ namespace ltn::vm {
 
 
 
-	bool type_is(const TypeNode & type, const Value & value, Heap & heap) {
-		return type.is(value, heap);
+	bool type_is(const TypeNode & type, const Value & value, VmCore & core) {
+		return type.is(value, core);
 	}
 
 
 
-	Value type_cast(const TypeNode & type, const Value & value, Heap & heap) {
+	Value type_cast(const TypeNode & type, const Value & value, VmCore & core) {
 		try {
-			return type.cast(value, heap);
+			return type.cast(value, core);
 		}
 		catch(...) {
 			return value::null;

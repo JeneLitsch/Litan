@@ -1,31 +1,17 @@
 #include "convert.hxx"
 #include "type_check.hxx"
 #include "Exception.hxx"
+#include "special_member.hxx"
 
 namespace ltn::vm::convert {
 
 
-	bool to_bool(const Value value) {
-		if(is_bool(value)) {
-			return value.b;
-		}
-
-		if(is_char(value)) {
-			return value.c;
-		}
-
-		if(is_int(value)) {
-			return value.i;
-		}
-		
-		if(is_float(value)) {
-			return value.f != 0.0;
-		}
-
-		if(is_null(value)) {
-			return false;
-		}
-
+	bool to_bool(const Value value, VmCore & core) {
+		if(is_null(value))  return false;
+		if(is_bool(value))  return value.b;
+		if(is_char(value))  return value.c != '\0';
+		if(is_int(value))   return value.i != 0;
+		if(is_float(value)) return value.f != 0.0;
 		return true;
 	}
 

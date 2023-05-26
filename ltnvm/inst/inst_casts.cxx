@@ -4,7 +4,7 @@
 namespace ltn::vm::inst {
 	void cast_bool(VmCore & core) {
 		const auto value = core.stack.pop();
-		const auto b = cast::to_bool(value);
+		const auto b = cast::to_bool(value, core);
 		core.stack.push(Value(b));
 	}
 }
