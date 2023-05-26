@@ -97,4 +97,16 @@ namespace sphinx::test {
 		test(1,0);
 		test(0,1);
 	}
+
+
+
+	function special_member_bool() {
+		var make = lambda(b) => [
+			.b = b,
+			.{bool} = lambda(self) => self.b,
+		];
+
+		assert_false(!!make(false)); 
+		assert_true(!!make(true)); 
+	}
 }

@@ -40,4 +40,14 @@ namespace sphinx::test {
 		}
 		assert_equal_strict(x, 1337);
 	}
+
+
+
+	function if_else_special_bool() {
+		if([ .{bool} = lambda(self) => true ]) pass();
+		else fail();
+
+		if([ .{bool} = lambda(self) => false ]) fail();
+		else pass();
+	}
 }

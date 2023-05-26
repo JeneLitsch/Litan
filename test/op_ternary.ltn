@@ -10,14 +10,16 @@ namespace sphinx::test {
 
 
 
-	function short_cicuit() {
-		var test_short = lambda(condition) {
-			var second = std::mono(false);
-			condition ? null : lambda [second] { second.value = true; }();
-			return second.value;
-		};
+	function ternary_short_cicuit() {
+		true ? pass() : fail();
+		false ? fail() : pass();
+	}
 
-		assert_true(test_short(false));
-		assert_false(test_short(true));
+
+
+
+	function ternary_special_bool() {
+		[ .{bool} = lambda(self) => true,] ? pass() : fail();
+		[ .{bool} = lambda(self) => false,] ? fail() : pass();
 	}
 }
