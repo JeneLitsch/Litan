@@ -3,26 +3,9 @@
 #include "stdxx/iife.hxx"
 
 namespace ltn::c {
-	namespace {
-		std::optional<std::int64_t> int_constant(const sst::Integer & expr) {
-			return expr.value;
-		} 
-
-		std::optional<std::int64_t> int_constant(const auto &) {
-			return std::nullopt;
-		}
-	}
-
-
-
 	sst::expr_ptr analyze_expr(const ast::Index & index, Scope & scope) {
-
 		auto arr = analyze_expression(*index.expr, scope);
 		auto idx = analyze_expression(*index.index, scope);
-		const auto constant = sst::visit_expression(*idx, [] (const auto & e) {
-			return int_constant(e);
-		});
-
 		return std::make_unique<sst::Index>(
 			std::move(arr),
 			std::move(idx)

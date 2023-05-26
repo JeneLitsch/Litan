@@ -69,12 +69,6 @@ namespace ltn::c {
 			return {type_code::STRING};		
 		}
 
-		std::vector<std::uint8_t> array_of(std::vector<std::uint8_t> type) {
-			std::vector<std::uint8_t> arr{type_code::ARRAY};
-			arr += type;
-			return arr;
-		}
-		
 		std::vector<std::uint8_t> analyze_type(const ast::Type::Array & type, Scope & scope) {
 			return optional_subtype(type_code::ARRAY, type, scope);
 		}

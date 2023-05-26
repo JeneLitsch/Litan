@@ -1,18 +1,6 @@
 #include "analyze.hxx"
 
 namespace ltn::c {
-	namespace {
-		std::string var_from(const std::string & name) {
-			return name + "_FROM";
-		}
-
-		std::string var_to(const std::string & name) {
-			return name + "_TO";
-		}
-	}
-
-	
-
 	sst::stmt_ptr analyze_stmt(const ast::While & stmt, Scope & scope) {
 
 		// outer scope of loop 

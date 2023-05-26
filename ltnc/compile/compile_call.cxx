@@ -3,19 +3,26 @@
 #include <string_view>
 
 namespace ltn::c {
+	namespace {
+		std::uint8_t get_arity_uint8(auto & node) {
+			if(node.arity() > 255) throw CompilerError {
+				"Function arity exceeds limit of 255"
+			};
+			return static_cast<std::uint8_t>(node.arity());
+		}
+	}
+
+
 	// compiles function call fx(...)
 	InstructionBuffer compile_expr(const sst::Invoke & invoke) {
 		InstructionBuffer buf;
-
 
 		for(const auto & arg : invoke.arguments) {
 			buf << compile_expression(*arg);
 		}
 		
 		buf << compile_expression(*invoke.function_ptr);
-
-		// buf << inst::newarr();
-		buf << inst::invoke(invoke.arity());
+		buf << inst::invoke(get_arity_uint8(invoke));
 
 		return buf;
 	}
@@ -29,7 +36,7 @@ namespace ltn::c {
 			buf << compile_expression(*argument);
 		}
 
-		buf << inst::call(call.label.to_string(), static_cast<std::uint8_t>(call.arity()));		
+		buf << inst::call(call.label.to_string(), get_arity_uint8(call));		
 		return buf;
 	}
 
@@ -47,8 +54,7 @@ namespace ltn::c {
 			buf << inst::swap();
 		}
 
-		// buf << inst::newarr(invoke.arity());
-		buf << inst::invoke(invoke.arity());
+		buf << inst::invoke(get_arity_uint8(invoke));
 
 		return buf;
 	}

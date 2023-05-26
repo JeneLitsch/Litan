@@ -13,7 +13,7 @@ namespace ltn::c {
 
 
 
-		std::uint64_t resolve_member_id(auto & table, MemberCode code) {
+		std::uint64_t resolve_member_id(auto &, MemberCode code) {
 			return static_cast<std::uint64_t>(code);
 		}
 	}

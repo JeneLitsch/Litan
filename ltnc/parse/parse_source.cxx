@@ -91,11 +91,6 @@ namespace ltn::c {
 
 
 
-	void add_to_source(ast::func_ptr && fx, ast::Program & source) {
-	}
-
-
-
 	ast::Program parse(Tokens & tokens, Reporter & reporter) {
 		ast::Program source;
 		const Namespace namespaze;
