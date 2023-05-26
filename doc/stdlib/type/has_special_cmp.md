@@ -1,5 +1,5 @@
-# std::is_comparable
-## std::is_comparable(obj) const
+# std::has_special_cmp
+## std::has_special_cmp(obj) const
 
 **Parameters:**
 * obj: a struct object
