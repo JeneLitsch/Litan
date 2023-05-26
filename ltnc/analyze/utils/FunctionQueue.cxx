@@ -5,6 +5,8 @@ namespace ltn::c {
 		stx::reference<const ast::Functional> fx) {
 		this->stage_function(Staged {
 			.fx = fx,
+			.captures = {},
+			.override_namespace = std::nullopt,
 		});
 	}
 
@@ -14,7 +16,7 @@ namespace ltn::c {
 		if(this->already_known.contains(staged)) return;
 		this->already_known.insert(staged);
 		this->queue.push(std::move(staged));
-	};
+	}
 
 
 

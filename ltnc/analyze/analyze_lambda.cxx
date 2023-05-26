@@ -9,7 +9,7 @@ namespace ltn::c {
 				return stx::static_unique_cast<sst::Var>(std::move(expr));
 			};
 			return stx::fx::map(fx, captures);
-		};
+		}
 
 
 

@@ -40,6 +40,8 @@ namespace ltn::c {
 					std::size(fx.parameters.simple) == parameters &&
 					!fx.parameters.variadic;
 			}
+
+			return false;
 		}
 
 
