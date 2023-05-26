@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
-#include "memory/Heap.hxx"
-#include "memory/Stack.hxx"
+#include "ltnvm/Heap.hxx"
+#include "ltnvm/Stack.hxx"
 #include "external/Callable.hxx"
 
 namespace ltn::vm {

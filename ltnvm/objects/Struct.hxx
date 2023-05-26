@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <utility>
-#include "ltnvm/memory/Value.hxx"
+#include "ltnvm/Value.hxx"
 #include "ltn/MemberCode.hxx"
 
 namespace ltn::vm {

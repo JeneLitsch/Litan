@@ -9,10 +9,12 @@ add_library(libltnvm
 	to_value.cxx
 	to_variant.cxx
 	type.cxx
+	Heap.cxx
+	HeapGC.cxx
+	Stack.cxx
 )
 
 add_subdirectory(build_in)
 add_subdirectory(external)
 add_subdirectory(inst)
 add_subdirectory(objects)
-add_subdirectory(memory)

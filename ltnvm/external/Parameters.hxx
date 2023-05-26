@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include "stdxx/float64_t.hxx"
-#include "ltnvm/memory/Value.hxx"
-#include "ltnvm/memory/Heap.hxx"
+#include "ltnvm/Value.hxx"
+#include "ltnvm/Heap.hxx"
 #include "ltnvm/type_check.hxx"
 
 namespace ltn::vm::ext {

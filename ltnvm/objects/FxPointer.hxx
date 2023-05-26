@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <string_view>
 #include <vector>
-#include "ltnvm/memory/Value.hxx"
+#include "ltnvm/Value.hxx"
 namespace ltn::vm {
 	struct FxPointer {
 		const std::uint8_t * ptr;

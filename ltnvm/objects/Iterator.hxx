@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <vector>
 #include <memory>
-#include "ltnvm/memory/Value.hxx"
+#include "ltnvm/Value.hxx"
 
 namespace ltn::vm {
 	class Heap;

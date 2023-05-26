@@ -1,6 +1,6 @@
 #pragma once
-#include "ltnvm/memory/Heap.hxx"
-#include "ltnvm/memory/Value.hxx"
+#include "ltnvm/Heap.hxx"
+#include "ltnvm/Value.hxx"
 
 namespace ltn::vm::ext {
 	inline Value wrap_return(bool value, Heap &) {

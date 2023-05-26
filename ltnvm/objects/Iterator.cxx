@@ -5,7 +5,7 @@
 #include "iter/StringIterator.hxx"
 #include "ltnvm/type_check.hxx"
 #include "ltnvm/Exception.hxx"
-#include "ltnvm/memory/Heap.hxx"
+#include "ltnvm/Heap.hxx"
 #include "ltnvm/convert.hxx"
 
 namespace ltn::vm {

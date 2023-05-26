@@ -1,5 +1,5 @@
 #include "ltnvm/compare.hxx"
-#include "ltnvm/memory/Heap.hxx"
+#include "ltnvm/Heap.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/special_member.hxx"
 #include "ltnvm/VmCore.hxx"

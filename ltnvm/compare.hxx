@@ -1,6 +1,6 @@
 #pragma once
 #include <stdexcept>
-#include "memory/Value.hxx"
+#include "ltnvm/Value.hxx"
 #include "type_check.hxx"
 namespace ltn::vm {
 	class VmCore;

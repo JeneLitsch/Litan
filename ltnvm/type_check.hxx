@@ -1,5 +1,5 @@
 #pragma once
-#include "memory/Value.hxx"
+#include "ltnvm/Value.hxx"
 namespace ltn::vm {
 	constexpr inline bool is_null(const Value & val) {
 		return val.type == Value::Type::NVLL;

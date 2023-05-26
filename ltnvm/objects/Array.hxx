@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string_view>
-#include "ltnvm/memory/Value.hxx"
+#include "ltnvm/Value.hxx"
 namespace ltn::vm {
 	using Array = std::vector<Value>;
 

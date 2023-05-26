@@ -1,6 +1,6 @@
 #pragma once
-#include "memory/Value.hxx"
-#include "memory/Heap.hxx"
+#include "ltnvm/Value.hxx"
+#include "ltnvm/Heap.hxx"
 #include "stdxx/float64_t.hxx"
 
 // Explicit type conversions

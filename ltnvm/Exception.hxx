@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <sstream>
-#include "ltnvm/memory/Value.hxx"
+#include "ltnvm/Value.hxx"
 
 namespace ltn::vm {	
 	struct Exception {

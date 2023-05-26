@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include <string_view>
-#include "ltnvm/memory/Value.hxx"
+#include "ltnvm/Value.hxx"
 #include "ltnvm/compare.hxx"
 namespace ltn::vm {
 	class Heap;

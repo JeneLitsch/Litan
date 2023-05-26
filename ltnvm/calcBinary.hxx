@@ -1,7 +1,7 @@
 #pragma once
 #include <string_view>
 #include <stdexcept>
-#include "memory/Value.hxx"
+#include "ltnvm/Value.hxx"
 #include "Exception.hxx"
 namespace ltn::vm {
 	template<typename Op>

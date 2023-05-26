@@ -3,7 +3,7 @@
 #include <string>
 #include <cstdint>
 #include "stdxx/oop.hxx"
-#include "ltnvm/memory/Value.hxx"
+#include "ltnvm/Value.hxx"
 
 namespace ltn::vm {
 	struct VmCore;

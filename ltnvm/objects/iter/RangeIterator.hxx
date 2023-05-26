@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include "ltnvm/memory/Value.hxx"
+#include "ltnvm/Value.hxx"
 
 namespace ltn::vm {
 	struct VmCore;
