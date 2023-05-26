@@ -3,7 +3,7 @@ inline const char * std_container = R"###(
 namespace std {
 	build_in queue() const                      @ queue
 	build_in stack() const                      @ stack
-	build_in map() const                        @ map
+	function map() const => [:]
 	function array() const => []
 	
 	build_in push(container, elem)              @ container_push

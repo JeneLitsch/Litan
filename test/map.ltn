@@ -14,8 +14,14 @@ namespace sphinx::test {
 
 
 	function map_empty() {
-		var map = [:];
-		assert_equal_strict(map[123], null);
-		assert_true(std::empty(map));
+		var map1 = [:];
+		assert_equal_strict(map1[123], null);
+		assert_true(std::empty(map1));
+
+		var map2 = std::map();
+		assert_equal_strict(map2[123], null);
+		assert_true(std::empty(map2));
+
+		assert_equal_strict(map1, map2);
 	}
 }

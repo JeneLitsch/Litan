@@ -62,6 +62,14 @@ namespace sphinx::test {
 
 
 
+	function std_str_map() {
+		assert_equal_strict(std::str([:]), "[:]");
+		assert_equal_strict(std::str(std::map()), "[:]");
+		assert_equal_strict(std::str([1 : 2]), "[1 : 2]");
+		assert_equal_strict(std::str([1 : 2, 3 : 4]), "[1 : 2, 3 : 4]");
+	}
+
+
 	function str_str_type() {
 		assert_equal_strict(std::str(<null>), "null");
 		assert_equal_strict(std::str(<bool>), "bool");

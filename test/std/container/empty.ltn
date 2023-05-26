@@ -32,9 +32,7 @@ namespace sphinx::test {
 
 
 	function std_empty_map() {
-		var m = std::map();
-		assert_true(std::empty(m));
-		m[0] = 1; 
-		assert_false(std::empty(m));
+		assert_true(std::empty([:]));
+		assert_false(std::empty([0:1]));
 	}
 }
