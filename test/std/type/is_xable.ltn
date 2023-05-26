@@ -9,6 +9,7 @@ namespace sphinx::test {
 		.{pow} = lambda(self, other) => null,
 		.{str} = lambda(self) => null,
 		.{cmp} = lambda(self, other) => null,
+		.{bool} = lambda(self) => null,
 	];
 	
 	var invalid_arity = [
@@ -20,6 +21,7 @@ namespace sphinx::test {
 		.{pow} = lambda(self) => null,
 		.{str} = lambda(self, other) => null,
 		.{cmp} = lambda(self) => null,
+		.{bool} = lambda(self, other) => null,
 	];
 	
 	var invalid_variadic = [ 
@@ -31,6 +33,7 @@ namespace sphinx::test {
 		.{pow} = lambda(self, other, args...) => null,
 		.{str} = lambda(self, args...) => null,
 		.{cmp} = lambda(self, other, args...) => null,
+		.{bool} = lambda(self, other, args...) => null,
 	];
 	
 	var invalid_no_function  = [ .x = null ];
@@ -54,4 +57,5 @@ namespace sphinx::test {
 	function std_is_powable()        => utils::test_is_xable(&std::is_powable(_))
 	function std_is_stringifiable()  => utils::test_is_xable(&std::is_stringifiable(_))
 	function std_is_comparable()     => utils::test_is_xable(&std::is_comparable(_))
+	function std_is_boolable()       => utils::test_is_xable(&std::is_boolable(_))
 }
