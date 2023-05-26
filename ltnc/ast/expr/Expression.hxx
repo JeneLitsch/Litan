@@ -40,6 +40,7 @@ namespace ltn::c::ast {
 	struct Reflect;
 	struct ForwardDynamicCall;
 	struct InitStruct;
+	struct Map;
 	struct Type;
 
 
@@ -68,6 +69,7 @@ namespace ltn::c::ast {
 		Reflect,
 		ForwardDynamicCall,
 		InitStruct,
+		Map,
 		Type
 	>;
 
@@ -79,6 +81,9 @@ namespace ltn::c::ast {
 		virtual ~Expression() = default;
 		virtual void accept(const ExprVisitor & visitor) const = 0;
 	};
+
+
+	using expr_ptr = std::unique_ptr<Expression>;
 
 
 
@@ -512,6 +517,24 @@ namespace ltn::c::ast {
 
 
 
+	struct Map final : public Expression {
+		struct Pair {
+			ast::expr_ptr key;
+			ast::expr_ptr val;
+		};
+
+		Map(const SourceLocation & location)
+			: Expression{location} {}
+		
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::vector<Pair> pairs;
+	};
+
+
+
 	struct Choose final : Expression {
 		Choose(const SourceLocation & location)
 			: Expression{location} {}
@@ -631,6 +654,7 @@ namespace ltn::c::ast {
 			virtual void visit(const Reflect & x)            const override { this->run(x); };
 			virtual void visit(const ForwardDynamicCall & x) const override { this->run(x); };
 			virtual void visit(const InitStruct & x)         const override { this->run(x); };
+			virtual void visit(const Map & x)            const override { this->run(x); };
 			virtual void visit(const Type & x)               const override { this->run(x); };
 		};
 

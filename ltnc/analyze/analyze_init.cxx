@@ -39,4 +39,10 @@ namespace ltn::c {
 
 		return sst_init;
 	}
+
+
+	
+	sst::expr_ptr analyze_expr(const ast::Map & init, Scope & scope) {
+		return std::make_unique<sst::Array>();
+	}
 }

@@ -60,10 +60,9 @@ namespace ltn::c {
 			}
 			bool first = true;
 			init_struct->members = list_of<ast::InitStruct::Member>(TT::BRACKET_R, "]", tokens, [&] (auto & t) {
-				if(!first && !match(TT::DOT, t)) {
+				if(!std::exchange(first, false) && !match(TT::DOT, t)) {
 					throw CompilerError{"Expected . (dot)", location(t)};
 				}
-				first = false;
 				return parse_member(t);
 			});
 			return init_struct;
@@ -71,12 +70,74 @@ namespace ltn::c {
 
 
 
-		ast::expr_ptr parse_filled_array(Tokens & tokens) {
-			auto elements = list_of<ast::expr_ptr>(TT::BRACKET_R, "]", tokens, parse_expression);
+		ast::expr_ptr parse_single_element_array(ast::expr_ptr only, Tokens & tokens) {
+			std::vector<ast::expr_ptr> elements;
+			elements.push_back(std::move(only));
 			return std::make_unique<ast::Array>(
 				location(tokens),
 				std::move(elements)
 			);
+		}
+
+
+
+		ast::expr_ptr parse_multi_element_array(ast::expr_ptr first, Tokens & tokens) {
+			std::vector<ast::expr_ptr> elements;
+			elements.push_back(std::move(first));
+			elements += list_of<ast::expr_ptr>(TT::BRACKET_R, "]", tokens, parse_expression);
+			return std::make_unique<ast::Array>(
+				location(tokens),
+				std::move(elements)
+			);
+		}
+
+
+
+		ast::expr_ptr parse_map(ast::expr_ptr first_key, Tokens & tokens) {
+			ast::expr_ptr first_val = parse_expression(tokens);
+			auto map = std::make_unique<ast::Map>(location(tokens));
+			map->pairs.push_back(ast::Map::Pair {
+				.key = std::move(first_key), 
+				.val = std::move(first_val),
+			});
+			if(match(TT::BRACKET_R, tokens)) {
+				return map;
+			}
+			else if(match(TT::COMMA, tokens)) {
+				map->pairs += list_of<ast::Map::Pair>(TT::BRACKET_R, "]", tokens, [&] (auto &) {
+					ast::expr_ptr key = parse_expression(tokens);
+					if(!match(TT::COLON, tokens)) {
+		 				throw CompilerError { "Expected :", location(tokens) };
+					}
+					ast::expr_ptr val = parse_expression(tokens);
+					return ast::Map::Pair {
+						.key = std::move(key), 
+						.val = std::move(val),
+					};
+				});
+				return map;
+			}
+			else {
+ 				throw CompilerError { "Expected ,", location(tokens) };
+			}
+		}
+
+
+
+		ast::expr_ptr parse_filled_array(Tokens & tokens) {
+			auto first = parse_expression(tokens);
+			if(match(TT::BRACKET_R, tokens)) {
+				return parse_single_element_array(std::move(first), tokens);
+			} 
+			else if(match(TT::COMMA, tokens)) {
+				return parse_multi_element_array(std::move(first), tokens);
+			}
+			else if(match(TT::COLON, tokens)) {
+				return parse_map(std::move(first), tokens);
+			}
+			else {
+ 				throw CompilerError { "Expected ,", location(tokens) };
+			}
 		}
 	}
 
@@ -89,6 +150,12 @@ namespace ltn::c {
 			}
 			else if(check(TT::DOT, tokens)) {
 				return parse_struct_init(tokens);
+			}
+			else if(match(TT::COLON, tokens)) {
+				if(!match(TT::BRACKET_R, tokens)) {
+					throw CompilerError { "Expected ]", location(tokens) };
+				}
+				return std::make_unique<ast::Map>(location(tokens));
 			}
 			else {
 				return parse_filled_array(tokens);

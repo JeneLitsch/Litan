@@ -6,7 +6,6 @@
 #include "ltnc/ast/stmt/Statement.hxx"
 
 namespace ltn::c::ast {
-	using expr_ptr = std::unique_ptr<Expression>;
 	using defn_ptr = std::unique_ptr<Definition>;
 	using glob_ptr = std::unique_ptr<Global>;
 	using stmt_ptr = std::unique_ptr<Statement>;
