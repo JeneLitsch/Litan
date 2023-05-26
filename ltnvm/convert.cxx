@@ -12,6 +12,18 @@ namespace ltn::vm::convert {
 		if(is_char(value))  return value.c != '\0';
 		if(is_int(value))   return value.i != 0;
 		if(is_float(value)) return value.f != 0.0;
+
+		if(is_struct(value)) {
+			auto & strukt = core.heap.read<Struct>(value);
+			if(auto fx = find_special_member<MemberCode::BOOL>(strukt)) {
+				auto result = run_special_member(core, *fx, value);
+				if(is_bool(result)) {
+					return result.b;
+				} 
+				throw except::invalid_argument("Special member {bool} must return bool");
+			}
+		}
+
 		return true;
 	}
 

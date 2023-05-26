@@ -39,6 +39,9 @@ namespace ltn::c {
 		else if(match("cmp", tokens)) {
 			return MemberCode::CMP;
 		}
+		else if(match("bool", tokens)) {
+			return MemberCode::BOOL;
+		}
 		throw invalid_operator(tokens);
 	}
 }
