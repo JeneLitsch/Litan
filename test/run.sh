@@ -139,7 +139,7 @@ files=(
 	"test/std/type/pair.ltn"
 	"test/std/type/is.ltn"
 	"test/std/type/cast.ltn"
-	"test/std/type/is_xable.ltn"
+	"test/std/type/has_special_.ltn"
 )
 
 bin_file="tmp/bin"
