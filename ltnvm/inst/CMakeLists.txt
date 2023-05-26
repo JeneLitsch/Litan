@@ -16,7 +16,6 @@ target_sources(libltnvm PRIVATE
 	inst_deref.cxx
 	inst_invoke.cxx
 	inst_iter.cxx
-	inst_math.cxx
 	inst_memory.cxx
 	inst_newtype.cxx
 	inst_size.cxx
