@@ -1,8 +1,26 @@
 #pragma once
 inline const char * std_container = R"###(
 namespace std {
-	build_in queue() const                      @ queue
-	build_in stack() const                      @ stack
+	build_in queue() const @ queue
+
+	function queue(first, other...) {
+		var queue = std::queue();
+		std::push(queue, first);
+		for(elem : other) std::push(queue, elem);
+		return queue;
+	}
+
+
+	build_in stack() const @ stack
+	
+	
+	function stack(first, other...) {
+		var stack = std::stack();
+		std::push(stack, first);
+		for(elem : other) std::push(stack, elem);
+		return stack;
+	}
+	
 	function map() const => [:]
 	function array() const => []
 	
