@@ -1,4 +1,7 @@
 function main(args) {
-	std::println([1 : 2, 3 : 2,]);
-	std::println([:]);
+	var queue = std::stack(1,2,3,4); 
+	std::println(std::pop(queue));
+	std::println(std::pop(queue));
+	std::println(std::pop(queue));
+	std::println(std::pop(queue));
 }
