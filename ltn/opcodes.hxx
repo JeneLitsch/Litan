@@ -70,6 +70,7 @@ namespace ltn {
 		NEWMAP,
 		NEWTUPLE,
 		NEWTYPE,
+		NEWREF_LOCAL,
 
 		// Stack read/write
 		SCRAP = 0x60,
@@ -114,5 +115,7 @@ namespace ltn {
 		MEMBER_WRITE,
 		GLOBAL_READ,
 		GLOBAL_WRITE,
+		REF_READ,
+		REF_WRITE,
 	};
 }

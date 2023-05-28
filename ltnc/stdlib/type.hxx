@@ -27,7 +27,7 @@ namespace std {
 
 	function struct() const => [.]
 	build_in typeid(value) const  @ type_typeid
-	build_in clone(ref) const     @ type_clone
+	build_in clone(obj) const     @ type_clone
 
 
 

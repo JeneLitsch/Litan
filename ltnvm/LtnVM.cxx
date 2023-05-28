@@ -95,6 +95,7 @@ namespace ltn::vm {
 		table[OpCode::NEWMAP] = inst::newmap;
 		table[OpCode::NEWTUPLE] = inst::newtuple;
 		table[OpCode::NEWTYPE] = inst::newtype;
+		table[OpCode::NEWREF_LOCAL] = inst::newref_local;
 
 		table[OpCode::SCRAP] = inst::scrap;
 		table[OpCode::DUPLICATE] = inst::duplicate;
@@ -133,6 +134,9 @@ namespace ltn::vm {
 
 		table[OpCode::GLOBAL_READ] = inst::static_read;
 		table[OpCode::GLOBAL_WRITE] = inst::static_write;
+
+		table[OpCode::REF_READ] = inst::ref_read;
+		table[OpCode::REF_WRITE] = inst::ref_write;
 
 		return table.array;
 	});

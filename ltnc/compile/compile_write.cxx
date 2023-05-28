@@ -57,6 +57,15 @@ namespace ltn::c {
 			buf << inst::write_x(binding.address);
 			return buf;
 		}
+
+
+				
+		InstructionBuffer compile_bind(const sst::RefBinding & binding) {
+			InstructionBuffer buf;
+			buf << compile_expression(*binding.expr);
+			buf << inst::ref_write();
+			return buf;
+		}
 		
 		
 		

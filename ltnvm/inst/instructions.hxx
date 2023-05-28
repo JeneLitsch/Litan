@@ -63,6 +63,7 @@ namespace ltn::vm::inst {
 	void newmap(VmCore & core);
 	void newtuple(VmCore & core);
 	void newtype(VmCore & core);
+	void newref_local(VmCore & core);
 
 	void scrap(VmCore & core);
 	void duplicate(VmCore & core);
@@ -97,22 +98,12 @@ namespace ltn::vm::inst {
 	void empty(VmCore & core);
 	void iter(VmCore & core);
 
-	void cast(VmCore & core);
-	void safe_cast(VmCore & core);
-
 	void cast_bool(VmCore & core);
-	void cast_char(VmCore & core);
-	void cast_int(VmCore & core);
-	void cast_float(VmCore & core);
-	void cast_string(VmCore & core);
-
-	void copy(VmCore & core);
-	void safe_copy(VmCore & core);
-	void conversion(VmCore & core);
 
 	void member_read(VmCore & core);
 	void member_write(VmCore & core);
 	void static_read(VmCore & core);
 	void static_write(VmCore & core);
-
+	void ref_read(VmCore & core);
+	void ref_write(VmCore & core);
 }

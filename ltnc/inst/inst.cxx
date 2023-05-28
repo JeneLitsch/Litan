@@ -281,6 +281,13 @@ namespace ltn::c::inst {
 			.bytes = bytes,
 		};
 	}
+	Inst newref_local(std::uint64_t local_address) {
+		return InstUint64 {
+			.name = "newref_local",
+			.opcode = OpCode::NEWREF_LOCAL,
+			.value = local_address,
+		};
+	}
 
 
 
@@ -558,6 +565,18 @@ namespace ltn::c::inst {
 			.name = "global_write",
 			.opcode = OpCode::GLOBAL_WRITE,
 			.value = id,
+		};
+	}
+	Inst ref_read() {
+		return InstNone {
+			.name = "ref_read",
+			.opcode = OpCode::REF_READ,
+		};
+	}
+	Inst ref_write() {
+		return InstNone {
+			.name = "ref_write",
+			.opcode = OpCode::REF_WRITE,
 		};
 	}
 }

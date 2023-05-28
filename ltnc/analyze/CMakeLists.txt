@@ -21,6 +21,7 @@ target_sources(libltnc PRIVATE
 	analyze_params_args.cxx
 	analyze_primitives.cxx
 	analyze_read.cxx
+	analyze_ref.cxx
 	analyze_reflect.cxx
 	analyze_return.cxx
 	analyze_statement.cxx

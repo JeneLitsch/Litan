@@ -58,6 +58,8 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::InitStruct &);
 	InstructionBuffer compile_expr(const sst::Map &);
 	InstructionBuffer compile_expr(const sst::Type &);
+	InstructionBuffer compile_expr(const sst::RefLocal &);
+	InstructionBuffer compile_expr(const sst::Deref &);
 	
 	InstructionBuffer compile_conditional(
 		const std::string & name,

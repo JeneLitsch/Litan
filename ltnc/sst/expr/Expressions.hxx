@@ -72,6 +72,38 @@ namespace ltn::c::sst {
 
 
 
+	struct RefLocal : public Expression {
+		RefLocal(std::uint64_t address) : Expression{}, address(address) {}
+
+		virtual std::uint64_t alloc() const override {
+			return 0;
+		}
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::uint64_t address;
+	};
+
+
+
+	struct Deref : public Expression {
+		Deref(expr_ptr expr) : Expression{}, expr(std::move(expr)) {}
+
+		virtual std::uint64_t alloc() const override {
+			return this->expr->alloc();
+		}
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		expr_ptr expr;
+	};
+
+
+
 	struct Binary : public Expression {
 		using Op = BinaryOp;
 		Binary(
@@ -686,6 +718,8 @@ namespace ltn::c::sst {
 			virtual void visit(const InitStruct & x) const override { this->run(x); };
 			virtual void visit(const Map & x) const override { this->run(x); };
 			virtual void visit(const Type & x) const override { this->run(x); };
+			virtual void visit(const RefLocal & x) const override { this->run(x); };
+			virtual void visit(const Deref & x) const override { this->run(x); };
 		};
 
 		return Visitor{fx}(expr);

@@ -21,6 +21,18 @@ namespace ltn::vm {
 			const std::size_t address = this->frame_pointer + offset;
 			this->values[address] = value;
 		}
+
+
+
+		inline Value read_absolute(std::uint64_t address) const {
+			return this->values[address];
+		}
+
+
+
+		inline void write_absolute(std::uint64_t address, Value value) {
+			this->values[address] = value;
+		}
 		
 
 
@@ -62,6 +74,10 @@ namespace ltn::vm {
 		std::uint64_t depth() const;
 		
 		const std::vector<Value> & get_values() const;
+
+		inline std::uint64_t local_to_global_address(std::uint64_t local) const {
+			return this->frame_pointer + local;
+		}
 
 	private:
 		struct Frame {

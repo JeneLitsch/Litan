@@ -1,7 +1,13 @@
+function exchange(current, new) {
+	var tmp = deref current;
+	deref current = new;
+	return tmp;
+}
+
+
 function main(args) {
-	var queue = std::stack(1,2,3,4); 
-	std::println(std::pop(queue));
-	std::println(std::pop(queue));
-	std::println(std::pop(queue));
-	std::println(std::pop(queue));
+	var a = 1;
+	std::println(exchange(ref a, 2));
+	std::println(exchange(ref a, 3));
+	std::println(exchange(ref a, 4));
 }

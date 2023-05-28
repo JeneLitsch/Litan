@@ -42,6 +42,8 @@ namespace ltn::c::ast {
 	struct InitStruct;
 	struct Map;
 	struct Type;
+	struct Ref;
+	struct Deref;
 
 
 
@@ -70,7 +72,9 @@ namespace ltn::c::ast {
 		ForwardDynamicCall,
 		InitStruct,
 		Map,
-		Type
+		Type,
+		Ref,
+		Deref
 	>;
 
 
@@ -145,6 +149,34 @@ namespace ltn::c::ast {
 		}
 
 		Op op;
+		std::unique_ptr<Expression> expr;
+	};
+
+
+
+	struct Ref final : public Expression {
+		Ref(expr_ptr expr, const SourceLocation & location)
+			: Expression(location)
+			, expr(std::move(expr)) {}
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::unique_ptr<Expression> expr;
+	};
+
+
+
+	struct Deref final : public Expression {
+		Deref(expr_ptr expr, const SourceLocation & location)
+			: Expression(location)
+			, expr(std::move(expr)) {}
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
 		std::unique_ptr<Expression> expr;
 	};
 
@@ -654,8 +686,10 @@ namespace ltn::c::ast {
 			virtual void visit(const Reflect & x)            const override { this->run(x); };
 			virtual void visit(const ForwardDynamicCall & x) const override { this->run(x); };
 			virtual void visit(const InitStruct & x)         const override { this->run(x); };
-			virtual void visit(const Map & x)            const override { this->run(x); };
+			virtual void visit(const Map & x)                const override { this->run(x); };
 			virtual void visit(const Type & x)               const override { this->run(x); };
+			virtual void visit(const Ref & x)                const override { this->run(x); };
+			virtual void visit(const Deref & x)              const override { this->run(x); };
 		};
 
 		return Visitor{fx}(expr);

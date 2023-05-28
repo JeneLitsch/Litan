@@ -6,7 +6,7 @@ namespace ltn::vm {
 	struct Value {
 		// DO NOT TOUCH/CHANGE THE VALUES !!!
 		enum class Type : std::uint32_t {
-			NVLL = 0x00,
+			NVLL = 0x00, STACK_REF,
 			BOOL = 0x10, INT, FLOAT, CHAR,
 			ARRAY = 0x20, STRING, TUPLE,
 			ISTREAM = 0x30, OSTREAM,
@@ -47,6 +47,10 @@ namespace ltn::vm {
 	namespace value {
 		constexpr inline Value null {0, Value::Type::NVLL };
 		constexpr inline Value iterator_stop {0, Value::Type::ITERATOR_STOP };
+
+		constexpr inline Value stack_ref(std::uint64_t address) {
+			return Value{address, Value::Type::STACK_REF};
+		}
 
 		constexpr inline Value boolean(bool b) {
 			return Value{b, Value::Type::BOOL};

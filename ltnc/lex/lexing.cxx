@@ -121,7 +121,8 @@ namespace ltn::c {
 			{"case",         TT::CASE},
 			{"default",      TT::DEFAULT},
 			{"reflect",      TT::REFLECT},
-			{"operator",     TT::OPERATOR},
+			{"ref",          TT::REF},
+			{"deref",        TT::DEREF},
 		};
 		
 

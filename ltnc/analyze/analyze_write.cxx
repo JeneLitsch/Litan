@@ -35,6 +35,11 @@ namespace ltn::c {
 					l_global->address
 				);
 			}
+			if(auto * l_ref = as<sst::Deref>(*l)) {
+				return std::make_unique<sst::RefBinding>(
+					std::move(l_ref->expr)
+				);
+			}
 			return nullptr;
 		}
 	}

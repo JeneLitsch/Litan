@@ -121,13 +121,22 @@ namespace ltn::c {
 
 	std::unique_ptr<ast::Expression> parse_prefix(Tokens & tokens) {
 		// left unary
-		const std::array table {
+		constexpr static std::array table {
 			std::pair{TT::MINUS, OP::NEG},
 			std::pair{TT::XMARK, OP::NOT},
 			std::pair{TT::QMARK, OP::NUL},
 			std::pair{TT::TILDE, OP::BITNOT},
-			std::pair{TT::STAR,  OP::DEREF},
 		};
+
+		if(auto ref = match(TT::REF, tokens)) {
+			auto && r = parse_prefix(tokens);
+			return std::make_unique<ast::Ref>(std::move(r), ref->location);
+		}
+
+		if(auto deref = match(TT::DEREF, tokens)) {
+			auto && r = parse_prefix(tokens);
+			return std::make_unique<ast::Deref>(std::move(r), deref->location);
+		}
 		
 		if(auto op = match_op(tokens, table)) {
 			auto && r = parse_prefix(tokens);

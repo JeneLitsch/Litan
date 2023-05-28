@@ -14,6 +14,7 @@ namespace ltn::c::sst {
 	struct GlobalBinding;
 	struct MemberBinding;
 	struct LocalBinding;
+	struct RefBinding;
 	struct IndexBinding;
 
 	
@@ -25,6 +26,7 @@ namespace ltn::c::sst {
 		GlobalBinding,
 		MemberBinding,
 		LocalBinding,
+		RefBinding,
 		IndexBinding
 	>;
 
@@ -149,6 +151,22 @@ namespace ltn::c::sst {
 
 
 
+	struct RefBinding final : public Binding {
+		RefBinding(std::unique_ptr<Expression> expr)
+			: Binding{}
+			, expr{std::move(expr)} {}
+
+		virtual std::size_t alloc_count() const override { return 0; }
+	
+		virtual void accept(const BindVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::unique_ptr<Expression> expr;
+	};
+
+
+
 	struct IndexBinding final : public Binding {
 		IndexBinding(
 			std::unique_ptr<Expression> range,
@@ -183,6 +201,7 @@ namespace ltn::c::sst {
 			virtual void visit(const GlobalBinding & x) const override { this->run(x); };
 			virtual void visit(const MemberBinding & x) const override { this->run(x); };
 			virtual void visit(const LocalBinding & x)  const override { this->run(x); };
+			virtual void visit(const RefBinding & x)    const override { this->run(x); };
 			virtual void visit(const IndexBinding & x)  const override { this->run(x); };
 		};
 

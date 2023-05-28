@@ -30,6 +30,8 @@ namespace ltn::c::sst {
 	struct InitStruct;
 	struct Map;
 	struct Type;
+	struct RefLocal;
+	struct Deref;
 
 
 
@@ -58,7 +60,9 @@ namespace ltn::c::sst {
 		Reflect,
 		InitStruct,
 		Map,
-		Type
+		Type,
+		RefLocal,
+		Deref
 	>;
 
 

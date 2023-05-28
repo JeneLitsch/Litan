@@ -169,6 +169,7 @@ namespace ltn::c::inst {
 	Inst newmap();
 	Inst newtuple(std::uint64_t size);
 	Inst newtype(std::vector<std::uint8_t> bytes);
+	Inst newref_local(std::uint64_t local_address);
 
 	Inst jump(const std::string & label);
 	Inst call(const std::string & label, std::uint8_t arity);
@@ -218,5 +219,6 @@ namespace ltn::c::inst {
 	Inst member_write(std::uint64_t id);
 	Inst global_read(std::uint64_t id);
 	Inst global_write(std::uint64_t id);
-
+	Inst ref_read();
+	Inst ref_write();
 }

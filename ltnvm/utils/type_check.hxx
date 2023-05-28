@@ -5,6 +5,10 @@ namespace ltn::vm {
 		return val.type == Value::Type::NVLL;
 	}
 
+	constexpr inline bool is_stack_ref(const Value & val) {
+		return val.type == Value::Type::STACK_REF;
+	}
+
 	constexpr inline bool is_bool(const Value & val) {
 		return val.type == Value::Type::BOOL;
 	}

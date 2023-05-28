@@ -7,7 +7,7 @@ namespace sphinx::utils {
 			assert_equal_strict(read_fx(in), value);
 		}
 		if(?rest) {
-			assert_equal_strict(*rest, std::read_all(in));
+			assert_equal_strict(rest, std::read_all(in));
 		}
 		else {
 			assert_true(std::is_eof(in));

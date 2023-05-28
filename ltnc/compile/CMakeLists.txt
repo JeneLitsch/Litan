@@ -18,6 +18,7 @@ target_sources(libltnc PRIVATE
 	compile_loops.cxx
 	compile_primitives.cxx
 	compile_read.cxx
+	compile_ref.cxx
 	compile_reflect.cxx
 	compile_return.cxx
 	compile_statement.cxx
