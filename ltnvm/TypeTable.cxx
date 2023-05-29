@@ -10,9 +10,10 @@ namespace ltn::vm {
 
 
 	namespace {
-		std::pair<std::uint64_t, const std::uint8_t*> make_type(TypeTable & type_table, const std::uint8_t * code);
-		
 		using TypeResult = std::pair<std::uint64_t, const std::uint8_t*>;
+		
+		TypeResult make_type(TypeTable & type_table, const std::uint8_t * code);
+		
 		inline std::uint64_t read_uint_64(const std::uint8_t * code) {
 			std::uint64_t size = 0;
 			for(std::size_t i = 0; i < 8; ++i) {
@@ -499,6 +500,7 @@ namespace ltn::vm {
 	std::pair<std::uint64_t, const std::uint8_t *> TypeTable::make(const std::uint8_t * code) {
 		return make_type(*this, code);
 	}
+
 
 
 	const Type * TypeTable::operator[](std::uint64_t id) const {
