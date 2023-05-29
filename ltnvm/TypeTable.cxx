@@ -352,9 +352,6 @@ namespace ltn::vm {
 		}
 
 
-		
-
-
 
 		using TypeAny = PrimaryType<"any"
 			, always_true
@@ -468,120 +465,30 @@ namespace ltn::vm {
 
 
 
-		TypeResult make_type_any(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeAny::make(type_table, code);
-		}
-
-		TypeResult make_type_null(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeNull::make(type_table, code);
-		}
-
-		TypeResult make_type_bool(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeBool::make(type_table, code);
-		}
-
-		TypeResult make_type_char(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeChar::make(type_table, code);
-		}
-
-		TypeResult make_type_int(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeInt::make(type_table, code);
-		}
-
-		TypeResult make_type_float(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeFloat::make(type_table, code);
-		}
-
-		TypeResult make_type_string(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeString::make(type_table, code);
-		}
-
-		TypeResult make_type_array(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeArray::make(type_table, code);
-		}
-
-		TypeResult make_type_tuple(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeTuple::make(type_table, code);
-		}
-
-		TypeResult make_type_tuple_n(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeTupleN::make(type_table, code);
-		}
-
-		TypeResult make_type_fx(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeFx::make(type_table, code);
-		}
-
-		TypeResult make_type_fx_n(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeFxN::make(type_table, code);
-		}
-
-		TypeResult make_type_istream(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeIstream::make(type_table, code);
-		}
-
-		TypeResult make_type_ostream(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeOstream::make(type_table, code);
-		}
-
-		TypeResult make_type_iter(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeIter::make(type_table, code);
-		}
-
-		TypeResult make_type_stop(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeStop::make(type_table, code);
-		}
-
-		TypeResult make_type_rng(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeRng::make(type_table, code);
-		}
-
-		TypeResult make_type_clock(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeClock::make(type_table, code);
-		}
-
-		TypeResult make_type_type(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeType::make(type_table, code);
-		}
-
-		TypeResult make_type_queue(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeQueue::make(type_table, code);
-		}
-
-		TypeResult make_type_stack(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeStack::make(type_table, code);
-		}
-
-		TypeResult make_type_map(TypeTable & type_table, const std::uint8_t * code) {
-			return TypeMap::make(type_table, code);
-		}
-
-
-
 		TypeResult make_type(TypeTable & type_table, const std::uint8_t * code) {
 			switch (*code) {
-				case type_code::ANY: return make_type_any(type_table, code);
-				case type_code::NVLL: return make_type_null(type_table, code);
-				case type_code::BOOL: return make_type_bool(type_table, code);
-				case type_code::CHAR: return make_type_char(type_table, code);
-				case type_code::INT: return make_type_int(type_table, code);
-				case type_code::FLOAT: return make_type_float(type_table, code);
-				case type_code::STRING: return make_type_string(type_table, code);
-				case type_code::ARRAY: return make_type_array(type_table, code);
-				case type_code::TUPLE: return make_type_tuple(type_table, code);
-				case type_code::TUPLE_N: return make_type_tuple_n(type_table, code);
-				case type_code::FX: return make_type_fx(type_table, code);
-				case type_code::FX_N: return make_type_fx_n(type_table, code);
-				case type_code::ISTREAM: return make_type_istream(type_table, code);
-				case type_code::OSTREAM: return make_type_ostream(type_table, code);
-				case type_code::ITERATOR: return make_type_iter(type_table, code);
-				case type_code::ITERATOR_STOP: return make_type_stop(type_table, code);
-				case type_code::RNG: return make_type_rng(type_table, code);
-				case type_code::CLOCK: return make_type_clock(type_table, code);
-				case type_code::TYPE: return make_type_type(type_table, code);
-				case type_code::QUEUE: return make_type_queue(type_table, code);
-				case type_code::STACK: return make_type_stack(type_table, code);
-				case type_code::MAP: return make_type_map(type_table, code);
+				case type_code::ANY: return TypeAny::make(type_table, code);
+				case type_code::NVLL: return TypeNull::make(type_table, code);
+				case type_code::BOOL: return TypeBool::make(type_table, code);
+				case type_code::CHAR: return TypeChar::make(type_table, code);
+				case type_code::INT: return TypeInt::make(type_table, code);
+				case type_code::FLOAT: return TypeFloat::make(type_table, code);
+				case type_code::STRING: return TypeString::make(type_table, code);
+				case type_code::ARRAY: return TypeArray::make(type_table, code);
+				case type_code::TUPLE: return TypeTuple::make(type_table, code);
+				case type_code::TUPLE_N: return TypeTupleN::make(type_table, code);
+				case type_code::FX: return TypeFx::make(type_table, code);
+				case type_code::FX_N: return TypeFxN::make(type_table, code);
+				case type_code::ISTREAM: return TypeIstream::make(type_table, code);
+				case type_code::OSTREAM: return TypeOstream::make(type_table, code);
+				case type_code::ITERATOR: return TypeIter::make(type_table, code);
+				case type_code::ITERATOR_STOP: return TypeStop::make(type_table, code);
+				case type_code::RNG: return TypeRng::make(type_table, code);
+				case type_code::CLOCK: return TypeClock::make(type_table, code);
+				case type_code::TYPE: return TypeType::make(type_table, code);
+				case type_code::QUEUE: return TypeQueue::make(type_table, code);
+				case type_code::STACK: return TypeStack::make(type_table, code);
+				case type_code::MAP: return TypeMap::make(type_table, code);
 				default: throw std::runtime_error{""};
 			}
 		}
