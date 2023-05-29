@@ -24,7 +24,7 @@ namespace ltn::vm {
 
 
 		template<stx::string_literal NAME, auto IS, auto CAST>
-		class PrimaryTypeNode : public TypeNode {
+		class PrimaryType : public Type {
 		public:
 			virtual bool is(const Value & value, VmCore & core) const override {
 				return IS(value, core);
@@ -42,9 +42,9 @@ namespace ltn::vm {
 
 
 		template<stx::string_literal NAME, auto IS, auto CAST>
-		class UnaryTypeNode : public TypeNode {
+		class UnaryType : public Type {
 		public:
-			UnaryTypeNode(const TypeNode * sub_type) : sub_type{sub_type} {}
+			UnaryType(const Type * sub_type) : sub_type{sub_type} {}
 
 			virtual bool is(const Value & value, VmCore & core) const override {
 				return IS(value, core, sub_type);
@@ -59,18 +59,18 @@ namespace ltn::vm {
 			}
 
 		private:
-			const TypeNode * sub_type;
+			const Type * sub_type;
 		};
 
 
 
 
 		template<stx::string_literal NAME, auto IS, auto CAST>
-		class BinaryTypeNode : public TypeNode {
+		class BinaryType : public Type {
 		public:
-			BinaryTypeNode(
-				const TypeNode * sub_type_l,
-				const TypeNode * sub_type_r)
+			BinaryType(
+				const Type * sub_type_l,
+				const Type * sub_type_r)
 				: sub_type_l{sub_type_l}
 				, sub_type_r{sub_type_r} {}
 
@@ -87,16 +87,16 @@ namespace ltn::vm {
 			}
 
 		private:
-			const TypeNode * sub_type_l;
-			const TypeNode * sub_type_r;
+			const Type * sub_type_l;
+			const Type * sub_type_r;
 		};
 
 
 
 		template<stx::string_literal NAME, auto IS, auto CAST>
-		class NAryTypeNode : public TypeNode {
+		class NAryType : public Type {
 		public:
-			NAryTypeNode(std::vector<const TypeNode *> sub_types)
+			NAryType(std::vector<const Type *> sub_types)
 				: sub_types{std::move(sub_types)} {}
 
 			virtual bool is(const Value & value, VmCore & core) const override {
@@ -121,15 +121,15 @@ namespace ltn::vm {
 			}
 
 		private:
-			std::vector<const TypeNode *> sub_types;
+			std::vector<const Type *> sub_types;
 		};
 
 
 
 		template<stx::string_literal NAME, auto IS, auto CAST>
-		class NumericTypeNode : public TypeNode {
+		class NumericType : public Type {
 		public:
-			NumericTypeNode(std::uint64_t number) : number{number} {}
+			NumericType(std::uint64_t number) : number{number} {}
 
 			virtual bool is(const Value & value, VmCore & core) const override {
 				return IS(value, core, number);
@@ -214,7 +214,7 @@ namespace ltn::vm {
 
 
 		template<typename Data, auto make_value, auto check_type>
-		Value cast_unary_type(const Value & value, VmCore & core, const TypeNode * sub_type) {
+		Value cast_unary_type(const Value & value, VmCore & core, const Type * sub_type) {
 			if(!check_type(value)) return value::null;
 			const Data & input = core.heap.read<Data>(value); 
 			Data output;
@@ -226,26 +226,26 @@ namespace ltn::vm {
 
 
 
-		Value type_cast_array(const Value & value, VmCore & core, const TypeNode * sub_type) {
+		Value type_cast_array(const Value & value, VmCore & core, const Type * sub_type) {
 			return cast_unary_type<Array, value::array, is_array>(value, core, sub_type);
 		}
 
 
 		
-		Value type_cast_queue(const Value & value, VmCore & core, const TypeNode * sub_type) {
+		Value type_cast_queue(const Value & value, VmCore & core, const Type * sub_type) {
 			return cast_unary_type<Deque, value::queue, is_queue>(value, core, sub_type);
 		}
 
 
 		
-		Value type_cast_stack(const Value & value, VmCore & core, const TypeNode * sub_type) {
+		Value type_cast_stack(const Value & value, VmCore & core, const Type * sub_type) {
 			return cast_unary_type<Deque, value::stack, is_stack>(value, core, sub_type);
 		}
 
 
 
 		template<typename Data, auto check_type>
-		bool is_unary_type(const Value & value, VmCore & core, const TypeNode * sub_type) {
+		bool is_unary_type(const Value & value, VmCore & core, const Type * sub_type) {
 			if(!check_type(value)) return false;
 			const Data & input = core.heap.read<Data>(value);
 			return std::all_of(std::begin(input), std::end(input), 
@@ -255,19 +255,19 @@ namespace ltn::vm {
 
 
 
-		bool type_is_array(const Value & value, VmCore & core, const TypeNode * subtype) {
+		bool type_is_array(const Value & value, VmCore & core, const Type * subtype) {
 			return is_unary_type<Array, is_array>(value, core, subtype);
 		}
 
 
 
-		bool type_is_queue(const Value & value, VmCore & core, const TypeNode * subtype) {
+		bool type_is_queue(const Value & value, VmCore & core, const Type * subtype) {
 			return is_unary_type<Deque, is_queue>(value, core, subtype);
 		}
 
 
 		
-		bool type_is_stack(const Value & value, VmCore & core, const TypeNode * subtype) {
+		bool type_is_stack(const Value & value, VmCore & core, const Type * subtype) {
 			return is_unary_type<Deque, is_stack>(value, core, subtype);
 		}
 
@@ -287,7 +287,7 @@ namespace ltn::vm {
 
 
 
-		bool type_is_map(const Value & value, VmCore & core, const TypeNode * sub_type_l, const TypeNode * sub_type_r) {
+		bool type_is_map(const Value & value, VmCore & core, const Type * sub_type_l, const Type * sub_type_r) {
 			if(!is_map(value)) return false;
 			const Map & input = core.heap.read<Map>(value);
 			return std::all_of(std::begin(input), std::end(input), 
@@ -300,7 +300,7 @@ namespace ltn::vm {
 
 
 
-		Value type_cast_map(const Value & value, VmCore & core, const TypeNode * sub_type_l, const TypeNode * sub_type_r) {
+		Value type_cast_map(const Value & value, VmCore & core, const Type * sub_type_l, const Type * sub_type_r) {
 			return type_is_map(value, core, sub_type_l, sub_type_r) 
 				? value
 				: value::null; 
@@ -308,7 +308,7 @@ namespace ltn::vm {
 
 
 
-		Value type_cast_tuple_n(const Value & value, VmCore & core, const std::vector<const TypeNode *> & sub_types) {
+		Value type_cast_tuple_n(const Value & value, VmCore & core, const std::vector<const Type *> & sub_types) {
 			if(is_array_or_tuple(value)) {
 				const Array & input = core.heap.read<Array>(value);
 				if(std::size(input) != std::size(sub_types)) return value::null;
@@ -325,7 +325,7 @@ namespace ltn::vm {
 
 
 
-		bool type_is_tuple_n(const Value & value, VmCore & core, const std::vector<const TypeNode *> & sub_types) {
+		bool type_is_tuple_n(const Value & value, VmCore & core, const std::vector<const Type *> & sub_types) {
 			if(!is_tuple(value)) return false;
 			const Array & input = core.heap.read<Array>(value);
 			if(std::size(input) != std::size(sub_types)) return false;
@@ -370,7 +370,7 @@ namespace ltn::vm {
 		template<typename Node>
 		TypeResult make_n_ary_type(TypeTable & type_table, const std::uint8_t * code) {
 			auto number = read_uint_64(code + 1);
-			std::vector<const TypeNode *> sub_types;
+			std::vector<const Type *> sub_types;
 			auto current = code + 1 + 8;
 			for(std::size_t i = 0; i < number; ++i) {
 				auto [node, next] = make_type(type_table, current);
@@ -408,12 +408,12 @@ namespace ltn::vm {
 
 
 		TypeResult make_type_any(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"any", always_true, no_cast>;
+			using Node = PrimaryType<"any", always_true, no_cast>;
 			return make_primary_type<Node>(type_table, code);
 		}
 
 		TypeResult make_type_null(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"null",
+			using Node = PrimaryType<"null",
 				simple_check_for<is_null>,
 				type_cast_null
 			>;
@@ -421,7 +421,7 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_bool(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"bool",
+			using Node = PrimaryType<"bool",
 				simple_check_for<is_bool>,
 				type_cast_bool
 			>; 
@@ -429,7 +429,7 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_char(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"char",
+			using Node = PrimaryType<"char",
 				simple_check_for<is_char>,
 				type_cast_char
 			>;    
@@ -437,7 +437,7 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_int(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"int",
+			using Node = PrimaryType<"int",
 				simple_check_for<is_int>,
 				type_cast_int
 			>;    
@@ -445,7 +445,7 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_float(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"float",
+			using Node = PrimaryType<"float",
 				simple_check_for<is_float>,
 				type_cast_float
 			>;    
@@ -453,7 +453,7 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_string(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"string",
+			using Node = PrimaryType<"string",
 				simple_check_for<is_string>,
 				type_cast_string
 			>;    
@@ -461,12 +461,12 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_array(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = UnaryTypeNode<"array", type_is_array, type_cast_array>;    
+			using Node = UnaryType<"array", type_is_array, type_cast_array>;    
 			return make_unary_type<Node>(type_table, code);
 		}
 
 		TypeResult make_type_tuple(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"tuple",
+			using Node = PrimaryType<"tuple",
 				simple_check_for<is_tuple>,
 				ret_if_or_null<is_tuple>
 			>;    
@@ -474,12 +474,12 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_tuple_n(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = NAryTypeNode<"tuple", type_is_tuple_n, type_cast_tuple_n>; 
+			using Node = NAryType<"tuple", type_is_tuple_n, type_cast_tuple_n>; 
 			return make_n_ary_type<Node>(type_table, code);
 		}
 
 		TypeResult make_type_fx(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"fx",
+			using Node = PrimaryType<"fx",
 				simple_check_for<is_fxptr>,
 				ret_if_or_null<is_fxptr>
 			>;    
@@ -487,12 +487,12 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_fx_n(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = NumericTypeNode<"fx", type_is_fx_n, type_cast_fx_n>;    
+			using Node = NumericType<"fx", type_is_fx_n, type_cast_fx_n>;    
 			return make_number_type<Node>(type_table, code);
 		}
 
 		TypeResult make_type_istream(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"istream",
+			using Node = PrimaryType<"istream",
 				simple_check_for<is_istream>,
 				ret_if_or_null<is_istream>
 			>;    
@@ -500,7 +500,7 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_ostream(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"ostream",
+			using Node = PrimaryType<"ostream",
 				simple_check_for<is_ostream>,
 				ret_if_or_null<is_ostream>
 			>;    
@@ -508,7 +508,7 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_iter(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"iter",
+			using Node = PrimaryType<"iter",
 				simple_check_for<is_iterator>,
 				ret_if_or_null<is_iterator>
 			>;    
@@ -516,7 +516,7 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_stop(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"stop",
+			using Node = PrimaryType<"stop",
 				simple_check_for<is_iterator_stop>,
 				ret_if_or_null<is_iterator_stop>
 			>;    
@@ -524,7 +524,7 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_rng(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"rng",
+			using Node = PrimaryType<"rng",
 				simple_check_for<is_rng>,
 				ret_if_or_null<is_rng>
 			>;    
@@ -532,7 +532,7 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_clock(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"clock",
+			using Node = PrimaryType<"clock",
 				simple_check_for<is_clock>,
 				ret_if_or_null<is_clock>
 			>;    
@@ -540,7 +540,7 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_type(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryTypeNode<"type",
+			using Node = PrimaryType<"type",
 				simple_check_for<is_type>,
 				ret_if_or_null<is_type>
 			>;    
@@ -548,17 +548,17 @@ namespace ltn::vm {
 		}
 
 		TypeResult make_type_queue(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = UnaryTypeNode<"queue", type_is_queue, type_cast_queue>;    
+			using Node = UnaryType<"queue", type_is_queue, type_cast_queue>;    
 			return make_unary_type<Node>(type_table, code);
 		}
 
 		TypeResult make_type_stack(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = UnaryTypeNode<"stack", type_is_stack, type_cast_stack>;    
+			using Node = UnaryType<"stack", type_is_stack, type_cast_stack>;    
 			return make_unary_type<Node>(type_table, code);
 		}
 
 		TypeResult make_type_map(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = BinaryTypeNode<"map", type_is_map, type_cast_map>;    
+			using Node = BinaryType<"map", type_is_map, type_cast_map>;    
 			return make_binary_type<Node>(type_table, code);
 		}
 
@@ -600,7 +600,7 @@ namespace ltn::vm {
 	}
 
 
-	const TypeNode * TypeTable::operator[](std::uint64_t id) const {
+	const Type * TypeTable::operator[](std::uint64_t id) const {
 		return this->types[id].get();
 	}
 
@@ -612,7 +612,7 @@ namespace ltn::vm {
 
 
 
-	void TypeTable::add(std::unique_ptr<TypeNode> type) {
+	void TypeTable::add(std::unique_ptr<Type> type) {
 		return this->types.push_back(std::move(type));
 	}
 }

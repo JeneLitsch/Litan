@@ -7,23 +7,15 @@
 
 namespace ltn::vm {
 	struct VmCore;
-	class TypeNode : stx::non_copyable, stx::non_moveable {
+	class Type : stx::non_copyable, stx::non_moveable {
 	public:
 		virtual bool is(const Value &, VmCore &) const = 0;
 		virtual Value cast(const Value &, VmCore &) const = 0;
 		virtual std::string name() const = 0;
 	};
 
-	struct Type {
-		const TypeNode * node;
-	};
 
-	inline Type clone(const Type & type) {
-		return type;
-	}
-
-
-	std::string type_name(const TypeNode & type);
-	bool type_is(const TypeNode & type, const Value & value, VmCore & core);
-	Value type_cast(const TypeNode & type, const Value & value, VmCore & core);
+	std::string type_name(const Type & type);
+	bool type_is(const Type & type, const Value & value, VmCore & core);
+	Value type_cast(const Type & type, const Value & value, VmCore & core);
 }

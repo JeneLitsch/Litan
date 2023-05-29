@@ -10,14 +10,14 @@ namespace ltn::vm {
 	class TypeTable {
 	public:
 		std::map<std::vector<std::uint8_t>, std::uint64_t> code_to_id;
-		const TypeNode * operator[](std::uint64_t id) const;
+		const Type * operator[](std::uint64_t id) const;
 		std::uint64_t size() const;
-		void add(std::unique_ptr<TypeNode> type);
+		void add(std::unique_ptr<Type> type);
 		std::uint64_t resolve_code(const std::vector<std::uint8_t> & code) const;
 
 		std::pair<std::uint64_t, const std::uint8_t *> make(const std::uint8_t * code);
 		
 	private:
-		std::vector<std::unique_ptr<TypeNode>> types;
+		std::vector<std::unique_ptr<Type>> types;
 	};
 }
