@@ -49,6 +49,10 @@ namespace ltn::c {
 			return {type_code::NVLL};		
 		}
 
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Any &, Scope &) {
+			return {type_code::ANY};		
+		}
+
 		std::vector<std::uint8_t> analyze_type(const ast::Type::Bool &, Scope &) {
 			return {type_code::BOOL};		
 		}

@@ -557,6 +557,7 @@ namespace ltn::c::ast {
 
 	struct Type final : public Expression {
 		struct Null{};
+		struct Any{};
 		struct Bool{};
 		struct Char{};
 		struct Int{};
@@ -594,6 +595,7 @@ namespace ltn::c::ast {
 
 		using Variant = std::variant<
 			Null,
+			Any,
 			Bool,
 			Char,
 			Int,

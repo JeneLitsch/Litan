@@ -119,6 +119,7 @@ namespace ltn::c {
 				return simple_type<ast::Type::Null>(begin);
 			}
 			if(auto name = match(TT::INDENTIFIER, tokens)) {
+				if(name->str == "any") return simple_type<ast::Type::Any>(begin);
 				if(name->str == "bool") return simple_type<ast::Type::Bool>(begin);
 				if(name->str == "char") return simple_type<ast::Type::Char>(begin);
 				if(name->str == "int") return simple_type<ast::Type::Int>(begin);
