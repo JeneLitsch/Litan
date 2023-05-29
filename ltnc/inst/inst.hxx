@@ -149,7 +149,6 @@ namespace ltn::c::inst {
 	Inst deref();
 
 	Inst comp();
-	Inst between();
 
 	Inst newi(std::int64_t i64);
 	Inst newf(stx::float64_t f64);
@@ -202,14 +201,8 @@ namespace ltn::c::inst {
 	Inst bit_xor();
 	Inst bit_not();
 
-	Inst size();
 	Inst at();
 	Inst at_write();
-	Inst front();
-	Inst back();
-
-	Inst contains();
-	Inst empty();
 	Inst iter();
 
 	Inst cast_bool();

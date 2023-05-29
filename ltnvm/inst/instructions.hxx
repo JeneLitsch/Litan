@@ -15,7 +15,7 @@ namespace ltn::vm::inst {
 	void mlt(VmCore & core);
 	void div(VmCore & core);
 	void mod(VmCore & core);
-	
+	void pow(VmCore & core);
 	 
 	void eql(VmCore & core);
 	void ueql(VmCore & core);
@@ -26,7 +26,6 @@ namespace ltn::vm::inst {
 	
 	void shift_l(VmCore & core);
 	void shift_r(VmCore & core);
-	
 	
 	void neg(VmCore & core);
 	void n0t(VmCore & core);
@@ -49,7 +48,6 @@ namespace ltn::vm::inst {
 	void iF(VmCore & core);
 	void invoke(VmCore & core);
 	void invoke_variadic(VmCore & core);
-	void between(VmCore & core);
 	void capture(VmCore & core);
 	void for_next(VmCore & core);
 	
@@ -81,38 +79,19 @@ namespace ltn::vm::inst {
 	void write_2(VmCore & core);
 	void write_3(VmCore & core);
 
-	void pow(VmCore & core);
-
 	void bit_or(VmCore & core);
 	void bit_and(VmCore & core);
 	void bit_xor(VmCore & core);
 	void bit_not(VmCore & core);
 	
-	void size(VmCore & core);
 	void at(VmCore & core);
 	void at_write(VmCore & core);
-	void front(VmCore & core);
-	void back(VmCore & core);
-	void contains(VmCore & core);
-	void empty(VmCore & core);
 	void iter(VmCore & core);
 
-	void cast(VmCore & core);
-	void safe_cast(VmCore & core);
-
 	void cast_bool(VmCore & core);
-	void cast_char(VmCore & core);
-	void cast_int(VmCore & core);
-	void cast_float(VmCore & core);
-	void cast_string(VmCore & core);
-
-	void copy(VmCore & core);
-	void safe_copy(VmCore & core);
-	void conversion(VmCore & core);
 
 	void member_read(VmCore & core);
 	void member_write(VmCore & core);
 	void static_read(VmCore & core);
 	void static_write(VmCore & core);
-
 }

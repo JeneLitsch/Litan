@@ -67,7 +67,6 @@ namespace ltn::vm {
 		table[OpCode::DEC] = inst::dec;
 		table[OpCode::DEREF] = inst::deref;
 		table[OpCode::COMP] = inst::comp;
-		table[OpCode::BETWEEN] = inst::between;
 		
 		table[OpCode::NEWI] = inst::newi;
 		table[OpCode::NEWF] = inst::newf;
@@ -117,13 +116,8 @@ namespace ltn::vm {
 		table[OpCode::BITXOR] = inst::bit_xor;
 		table[OpCode::BITNOT] = inst::bit_not;
 
-		table[OpCode::SIZE] = inst::size;
 		table[OpCode::AT] = inst::at;
 		table[OpCode::AT_WRITE] = inst::at_write;
-		table[OpCode::FRONT] = inst::front;
-		table[OpCode::BACK] = inst::back;
-		table[OpCode::CONTAINS] = inst::contains;
-		table[OpCode::EMPTY] = inst::empty;
 		table[OpCode::ITER] = inst::iter;
 
 		table[OpCode::CAST_BOOL] = inst::cast_bool;

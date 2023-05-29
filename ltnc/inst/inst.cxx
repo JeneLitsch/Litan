@@ -160,12 +160,6 @@ namespace ltn::c::inst {
             .opcode = OpCode::COMP,
         };
     }
-	Inst between() {
-        return InstNone {
-            .name = "between",
-			.opcode = OpCode::BETWEEN,
-        };
-    }
 
 
 
@@ -474,12 +468,6 @@ namespace ltn::c::inst {
 			.opcode = OpCode::BITNOT,
 		};
 	}
-	Inst size() {
-		return InstNone {
-			.name = "size",
-			.opcode = OpCode::SIZE,
-		};
-	}
 	Inst at() {
 		return InstNone {
 			.name = "at",
@@ -490,31 +478,6 @@ namespace ltn::c::inst {
 		return InstNone {
 			.name = "at_write",
 			.opcode = OpCode::AT_WRITE,
-		};
-	}
-	Inst front() {
-		return InstNone {
-			.name = "front",
-			.opcode = OpCode::FRONT,
-		};
-	}
-	Inst back() {
-		return InstNone {
-			.name = "back",
-			.opcode = OpCode::BACK,
-		};
-	}
-
-	Inst contains() {
-		return InstNone {
-			.name = "contains",
-			.opcode = OpCode::CONTAINS,
-		};
-	}
-	Inst empty() {
-		return InstNone {
-			.name = "empty",
-			.opcode = OpCode::EMPTY,
 		};
 	}
 	Inst iter() {

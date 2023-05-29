@@ -72,23 +72,5 @@ namespace ltn::vm::inst {
 		return core.stack.push(eval_3_way(result));
 	}
 
-
-
-	void between(VmCore & core) {
-		const auto to = core.stack.pop(); 
-		const auto from = core.stack.pop(); 
-		const auto i = core.stack.pop();
-
-		const auto from_is_less = num_compare(from, to) < 0;
-		const auto min = from_is_less ? from : to;
-		const auto max = from_is_less ? to : from;
-
-		const bool is_in_range = 
-			num_compare(i, min) < 0 ||
-			num_compare(i, max) > 0;
-		
-		core.stack.push(value::boolean(is_in_range));
-	}
-
 	#undef FETCH
 }

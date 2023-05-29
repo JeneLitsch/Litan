@@ -9,7 +9,6 @@ namespace ltn {
 		THROW,
 		BUILD_IN,
 		
-		
 		// Binary arithmetic
 		ADD = 0x10,
 		SUB,
@@ -39,7 +38,6 @@ namespace ltn {
 		DEREF,
 
 		COMP = 0x28,
-		BETWEEN,
 
 		// Primitives
 		NEWI = 0x30,
@@ -97,13 +95,8 @@ namespace ltn {
 		BITNOT,
 
 		// Collections and containers
-		SIZE = 0xa0,
-		AT,
+		AT = 0xa0,
 		AT_WRITE,
-		FRONT,
-		BACK, 
-		CONTAINS,
-		EMPTY,
 		ITER,
 
 		// Cast

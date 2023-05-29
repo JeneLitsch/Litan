@@ -10,7 +10,6 @@ target_sources(libltnvm PRIVATE
 	inst_capture.cxx
 	inst_casts.cxx
 	inst_compare.cxx
-	inst_container.cxx
 	inst_control_flow.cxx
 	inst_debug.cxx
 	inst_deref.cxx
