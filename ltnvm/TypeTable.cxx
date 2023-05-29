@@ -226,24 +226,6 @@ namespace ltn::vm {
 
 
 
-		Value type_cast_array(const Value & value, VmCore & core, const Type * sub_type) {
-			return cast_unary_type<Array, value::array, is_array>(value, core, sub_type);
-		}
-
-
-		
-		Value type_cast_queue(const Value & value, VmCore & core, const Type * sub_type) {
-			return cast_unary_type<Deque, value::queue, is_queue>(value, core, sub_type);
-		}
-
-
-		
-		Value type_cast_stack(const Value & value, VmCore & core, const Type * sub_type) {
-			return cast_unary_type<Deque, value::stack, is_stack>(value, core, sub_type);
-		}
-
-
-
 		template<typename Data, auto check_type>
 		bool is_unary_type(const Value & value, VmCore & core, const Type * sub_type) {
 			if(!check_type(value)) return false;
@@ -251,24 +233,6 @@ namespace ltn::vm {
 			return std::all_of(std::begin(input), std::end(input), 
 				[&](const auto & elem) { return sub_type->is(elem, core); 
 			});
-		}
-
-
-
-		bool type_is_array(const Value & value, VmCore & core, const Type * subtype) {
-			return is_unary_type<Array, is_array>(value, core, subtype);
-		}
-
-
-
-		bool type_is_queue(const Value & value, VmCore & core, const Type * subtype) {
-			return is_unary_type<Deque, is_queue>(value, core, subtype);
-		}
-
-
-		
-		bool type_is_stack(const Value & value, VmCore & core, const Type * subtype) {
-			return is_unary_type<Deque, is_stack>(value, core, subtype);
 		}
 
 
@@ -404,162 +368,204 @@ namespace ltn::vm {
 
 
 
+		using TypeAny = PrimaryType<"any"
+			, always_true
+			, no_cast
+		>;
+		
+		using TypeNull = PrimaryType<"null"
+			, simple_check_for<is_null>
+			, type_cast_null
+		>;
+
+		using TypeBool = PrimaryType<"bool"
+			, simple_check_for<is_bool>
+			, type_cast_bool
+		>;
+
+		using TypeChar = PrimaryType<"char"
+			, simple_check_for<is_char>
+			, type_cast_char
+		>;
+
+		using TypeInt = PrimaryType<"int"
+			, simple_check_for<is_int>
+			, type_cast_int
+		>;
+
+		using TypeFloat = PrimaryType<"float"
+			, simple_check_for<is_float>
+			, type_cast_float
+		>;
+
+		using TypeString = PrimaryType<"string"
+			, simple_check_for<is_string>
+			, type_cast_string
+		>;
+
+		using TypeArray = UnaryType<"array"
+			, is_unary_type<Array, is_array>
+			, cast_unary_type<Array, value::array, is_array>
+		>;
+
+		using TypeTuple = PrimaryType<"tuple"
+			, simple_check_for<is_tuple>
+			, ret_if_or_null<is_tuple>
+		>;
+
+		using TypeTupleN = NAryType<"tuple"
+			, type_is_tuple_n
+			, type_cast_tuple_n
+		>;
+
+		using TypeFx = PrimaryType<"fx"
+			, simple_check_for<is_fxptr>
+			, ret_if_or_null<is_fxptr>
+		>;    
+
+		using TypeFxN = NumericType<"fx"
+			, type_is_fx_n
+			, type_cast_fx_n
+		>;
+
+		using TypeIstream = PrimaryType<"istream"
+			, simple_check_for<is_istream>
+			, ret_if_or_null<is_istream>
+		>;
+
+		using TypeOstream = PrimaryType<"ostream"
+			, simple_check_for<is_ostream>
+			, ret_if_or_null<is_ostream>
+		>;
+
+		using TypeIter = PrimaryType<"iter"
+			, simple_check_for<is_iterator>
+			, ret_if_or_null<is_iterator>
+		>; 
+
+		using TypeStop = PrimaryType<"stop"
+			, simple_check_for<is_iterator_stop>
+			, ret_if_or_null<is_iterator_stop>
+		>; 
+
+		using TypeRng = PrimaryType<"rng"
+			, simple_check_for<is_rng>
+			, ret_if_or_null<is_rng>
+		>;
+
+		using TypeClock = PrimaryType<"clock"
+			, simple_check_for<is_clock>
+			, ret_if_or_null<is_clock>
+		>;
+
+		using TypeType = PrimaryType<"type"
+			, simple_check_for<is_type>
+			, ret_if_or_null<is_type>
+		>;
+
+		using TypeQueue = UnaryType<"queue"
+			, is_unary_type<Deque, is_queue>
+			, cast_unary_type<Deque, value::queue, is_queue>
+		>;
+
+		using TypeStack = UnaryType<"stack"
+			, is_unary_type<Deque, is_stack>
+			, cast_unary_type<Deque, value::stack, is_stack>
+		>;
+
+		using TypeMap = BinaryType<"map"
+			, type_is_map
+			, type_cast_map
+		>;
 
 
 
 		TypeResult make_type_any(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"any", always_true, no_cast>;
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeAny>(type_table, code);
 		}
 
 		TypeResult make_type_null(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"null",
-				simple_check_for<is_null>,
-				type_cast_null
-			>;
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeNull>(type_table, code);
 		}
 
 		TypeResult make_type_bool(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"bool",
-				simple_check_for<is_bool>,
-				type_cast_bool
-			>; 
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeBool>(type_table, code);
 		}
 
 		TypeResult make_type_char(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"char",
-				simple_check_for<is_char>,
-				type_cast_char
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeChar>(type_table, code);
 		}
 
 		TypeResult make_type_int(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"int",
-				simple_check_for<is_int>,
-				type_cast_int
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeInt>(type_table, code);
 		}
 
 		TypeResult make_type_float(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"float",
-				simple_check_for<is_float>,
-				type_cast_float
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeFloat>(type_table, code);
 		}
 
 		TypeResult make_type_string(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"string",
-				simple_check_for<is_string>,
-				type_cast_string
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeString>(type_table, code);
 		}
 
 		TypeResult make_type_array(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = UnaryType<"array", type_is_array, type_cast_array>;    
-			return make_unary_type<Node>(type_table, code);
+			return make_unary_type<TypeArray>(type_table, code);
 		}
 
 		TypeResult make_type_tuple(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"tuple",
-				simple_check_for<is_tuple>,
-				ret_if_or_null<is_tuple>
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeTuple>(type_table, code);
 		}
 
 		TypeResult make_type_tuple_n(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = NAryType<"tuple", type_is_tuple_n, type_cast_tuple_n>; 
-			return make_n_ary_type<Node>(type_table, code);
+			return make_n_ary_type<TypeTupleN>(type_table, code);
 		}
 
 		TypeResult make_type_fx(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"fx",
-				simple_check_for<is_fxptr>,
-				ret_if_or_null<is_fxptr>
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeFx>(type_table, code);
 		}
 
 		TypeResult make_type_fx_n(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = NumericType<"fx", type_is_fx_n, type_cast_fx_n>;    
-			return make_number_type<Node>(type_table, code);
+			return make_number_type<TypeFxN>(type_table, code);
 		}
 
 		TypeResult make_type_istream(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"istream",
-				simple_check_for<is_istream>,
-				ret_if_or_null<is_istream>
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeIstream>(type_table, code);
 		}
 
 		TypeResult make_type_ostream(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"ostream",
-				simple_check_for<is_ostream>,
-				ret_if_or_null<is_ostream>
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeOstream>(type_table, code);
 		}
 
 		TypeResult make_type_iter(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"iter",
-				simple_check_for<is_iterator>,
-				ret_if_or_null<is_iterator>
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeIter>(type_table, code);
 		}
 
 		TypeResult make_type_stop(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"stop",
-				simple_check_for<is_iterator_stop>,
-				ret_if_or_null<is_iterator_stop>
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeStop>(type_table, code);
 		}
 
 		TypeResult make_type_rng(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"rng",
-				simple_check_for<is_rng>,
-				ret_if_or_null<is_rng>
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeRng>(type_table, code);
 		}
 
 		TypeResult make_type_clock(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"clock",
-				simple_check_for<is_clock>,
-				ret_if_or_null<is_clock>
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeClock>(type_table, code);
 		}
 
 		TypeResult make_type_type(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = PrimaryType<"type",
-				simple_check_for<is_type>,
-				ret_if_or_null<is_type>
-			>;    
-			return make_primary_type<Node>(type_table, code);
+			return make_primary_type<TypeType>(type_table, code);
 		}
 
 		TypeResult make_type_queue(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = UnaryType<"queue", type_is_queue, type_cast_queue>;    
-			return make_unary_type<Node>(type_table, code);
+			return make_unary_type<TypeQueue>(type_table, code);
 		}
 
 		TypeResult make_type_stack(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = UnaryType<"stack", type_is_stack, type_cast_stack>;    
-			return make_unary_type<Node>(type_table, code);
+			return make_unary_type<TypeStack>(type_table, code);
 		}
 
 		TypeResult make_type_map(TypeTable & type_table, const std::uint8_t * code) {
-			using Node = BinaryType<"map", type_is_map, type_cast_map>;    
-			return make_binary_type<Node>(type_table, code);
+			return make_binary_type<TypeMap>(type_table, code);
 		}
 
 
