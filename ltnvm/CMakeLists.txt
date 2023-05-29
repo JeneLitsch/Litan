@@ -5,6 +5,7 @@ add_library(libltnvm
 	Heap.cxx
 	HeapGC.cxx
 	Stack.cxx
+	TypeTable.cxx
 )
 
 add_subdirectory(build_in)

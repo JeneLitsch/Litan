@@ -155,7 +155,7 @@ namespace ltn::vm {
 		}
 
 		if(is_type(value)) {
-			auto & type = *core.types[value.u];
+			auto & type = *core.type_table[value.u];
 			return type.name();
 		}
 

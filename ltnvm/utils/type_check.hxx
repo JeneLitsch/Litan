@@ -88,4 +88,9 @@ namespace ltn::vm {
 	constexpr inline bool is_type(const Value & val) {
 		return val.type == Value::Type::TYPE;
 	}
+
+
+	constexpr inline bool is_array_or_tuple(const Value & value) {
+		return is_array(value) || is_tuple(value);
+	}
 }
