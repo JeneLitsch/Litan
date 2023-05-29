@@ -1,6 +1,7 @@
 #include "instructions.hxx"
 #include "ltnvm/utils/type_check.hxx"
 #include "ltnvm/utils/convert.hxx"
+#include "ltnvm/utils/special_member.hxx"
 
 
 namespace ltn::vm::inst {
@@ -43,6 +44,9 @@ namespace ltn::vm::inst {
 		if(is_float(x)) {
 			return core.stack.push({x.f + 1});
 		}
+		if(is_struct(x)) {
+			return core.stack.push(call_special_member<MemberCode::ADD>(core, x, value::integer(1)));
+		}
 		throw except::invalid_argument();
 	}
 	
@@ -58,6 +62,9 @@ namespace ltn::vm::inst {
 		}
 		if(is_float(x)) {
 			return core.stack.push({x.f - 1});
+		}
+		if(is_struct(x)) {
+			return core.stack.push(call_special_member<MemberCode::SUB>(core, x, value::integer(1)));
 		}
 		throw except::invalid_argument();
 	}

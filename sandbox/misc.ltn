@@ -1,7 +1,20 @@
 function main(args) {
-	var queue = std::stack(1,2,3,4); 
-	std::println(std::pop(queue));
-	std::println(std::pop(queue));
-	std::println(std::pop(queue));
-	std::println(std::pop(queue));
+	var obj = [
+		.x = 42,
+		.{add} = lambda(self, other) {
+			var clone = std::clone(self);
+			clone.x = clone.x + other;
+			return clone;
+		},
+		.{sub} = lambda(self, other) {
+			var clone = std::clone(self);
+			clone.x = clone.x - other;
+			return clone;
+		},
+	];
+
+	std::println((obj + 2).x);
+	std::println((obj - 2).x);
+	std::println((obj + 1).x);
+	std::println((obj - 1).x);
 }
