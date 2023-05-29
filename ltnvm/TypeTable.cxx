@@ -23,6 +23,18 @@ namespace ltn::vm {
 
 
 
+		template<typename Node>
+		std::uint64_t get_type(TypeTable & type_table, auto & bytes, auto && ... args) {
+			if(!type_table.code_to_id.contains(bytes)) {
+				auto node = std::make_unique<Node>(std::move(args)...);
+				type_table.code_to_id.insert({bytes, std::size(type_table)});
+				type_table.add(std::move(node));
+			}
+			return type_table.code_to_id.at(bytes);
+		}
+
+
+
 		template<stx::string_literal NAME, auto IS, auto CAST>
 		class PrimaryType : public Type {
 		public:
@@ -36,6 +48,12 @@ namespace ltn::vm {
 
 			virtual std::string name() const override {
 				return NAME.str();
+			}
+
+			static TypeResult make(TypeTable & type_table, const std::uint8_t * code) {
+				auto end = code + 1;
+				std::vector<std::uint8_t> bytes {code, end}; 
+				return { get_type<PrimaryType>(type_table, bytes), end };
 			}
 		};
 
@@ -56,6 +74,12 @@ namespace ltn::vm {
 
 			virtual std::string name() const override {
 				return NAME.str() + "(" + sub_type->name() + ")";
+			}
+
+			static TypeResult make(TypeTable & type_table, const std::uint8_t * code) {
+				auto [sub_node, end] = make_type(type_table, code + 1);
+				std::vector<std::uint8_t> bytes {code, end}; 
+				return { get_type<UnaryType>(type_table, bytes, type_table[sub_node]), end };
 			}
 
 		private:
@@ -84,6 +108,13 @@ namespace ltn::vm {
 
 			virtual std::string name() const override {
 				return NAME.str() + "(" + sub_type_l->name() + "," + sub_type_r->name() + ")";
+			}
+
+			static TypeResult make(TypeTable & type_table, const std::uint8_t * code) {
+				auto [sub_node_l, mid] = make_type(type_table, code + 1);
+				auto [sub_node_r, end] = make_type(type_table, mid);
+				std::vector<std::uint8_t> bytes {code, end}; 
+				return { get_type<BinaryType>(type_table, bytes, type_table[sub_node_l], type_table[sub_node_r]), end };
 			}
 
 		private:
@@ -120,6 +151,20 @@ namespace ltn::vm {
 				return oss.str();
 			}
 
+			static TypeResult make(TypeTable & type_table, const std::uint8_t * code) {
+				auto number = read_uint_64(code + 1);
+				std::vector<const Type *> sub_types;
+				auto current = code + 1 + 8;
+				for(std::size_t i = 0; i < number; ++i) {
+					auto [node, next] = make_type(type_table, current);
+					current = next;
+					sub_types.push_back(type_table[node]);
+				}
+				auto end = current;
+				std::vector<std::uint8_t> bytes {code, end}; 
+				return { get_type<NAryType>(type_table, bytes, sub_types), end };
+			}
+
 		private:
 			std::vector<const Type *> sub_types;
 		};
@@ -143,6 +188,13 @@ namespace ltn::vm {
 				std::ostringstream oss;
 				oss << NAME.str() << "(" << number << ")";
 				return oss.str();
+			}
+
+			static TypeResult make(TypeTable & type_table, const std::uint8_t * code) {
+				auto end = code + 1 + 8;
+				std::vector<std::uint8_t> bytes {code, end}; 
+				auto number = read_uint_64(code + 1);
+				return { get_type<NumericType>(type_table, bytes, number), end };
 			}
 
 		private:
@@ -301,70 +353,6 @@ namespace ltn::vm {
 
 
 		
-		template<typename Node>
-		std::uint64_t get_type(TypeTable & type_table, auto & bytes, auto && ... args) {
-			if(!type_table.code_to_id.contains(bytes)) {
-				auto node = std::make_unique<Node>(std::move(args)...);
-				type_table.code_to_id.insert({bytes, std::size(type_table)});
-				type_table.add(std::move(node));
-			}
-			return type_table.code_to_id.at(bytes);
-		}
-
-
-
-		template<typename Node>
-		TypeResult make_primary_type(TypeTable & type_table, const std::uint8_t * code) {
-			auto end = code + 1;
-			std::vector<std::uint8_t> bytes {code, end}; 
-			return { get_type<Node>(type_table, bytes), end };
-		}
-
-
-
-		template<typename Node>
-		TypeResult make_unary_type(TypeTable & type_table, const std::uint8_t * code) {
-			auto [sub_node, end] = make_type(type_table, code + 1);
-			std::vector<std::uint8_t> bytes {code, end}; 
-			return { get_type<Node>(type_table, bytes, type_table[sub_node]), end };
-		}
-
-
-
-		template<typename Node>
-		TypeResult make_n_ary_type(TypeTable & type_table, const std::uint8_t * code) {
-			auto number = read_uint_64(code + 1);
-			std::vector<const Type *> sub_types;
-			auto current = code + 1 + 8;
-			for(std::size_t i = 0; i < number; ++i) {
-				auto [node, next] = make_type(type_table, current);
-				current = next;
-				sub_types.push_back(type_table[node]);
-			}
-			auto end = current;
-			std::vector<std::uint8_t> bytes {code, end}; 
-			return { get_type<Node>(type_table, bytes, sub_types), end };
-		}
-
-
-
-		template<typename Node>
-		TypeResult make_binary_type(TypeTable & type_table, const std::uint8_t * code) {
-			auto [sub_node_l, mid] = make_type(type_table, code + 1);
-			auto [sub_node_r, end] = make_type(type_table, mid);
-			std::vector<std::uint8_t> bytes {code, end}; 
-			return { get_type<Node>(type_table, bytes, type_table[sub_node_l], type_table[sub_node_r]), end };
-		}
-
-
-
-		template<typename Node>
-		TypeResult make_number_type(TypeTable & type_table, const std::uint8_t * code) {
-			auto end = code + 1 + 8;
-			std::vector<std::uint8_t> bytes {code, end}; 
-			auto number = read_uint_64(code + 1);
-			return { get_type<Node>(type_table, bytes, number), end };
-		}
 
 
 
@@ -481,91 +469,91 @@ namespace ltn::vm {
 
 
 		TypeResult make_type_any(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeAny>(type_table, code);
+			return TypeAny::make(type_table, code);
 		}
 
 		TypeResult make_type_null(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeNull>(type_table, code);
+			return TypeNull::make(type_table, code);
 		}
 
 		TypeResult make_type_bool(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeBool>(type_table, code);
+			return TypeBool::make(type_table, code);
 		}
 
 		TypeResult make_type_char(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeChar>(type_table, code);
+			return TypeChar::make(type_table, code);
 		}
 
 		TypeResult make_type_int(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeInt>(type_table, code);
+			return TypeInt::make(type_table, code);
 		}
 
 		TypeResult make_type_float(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeFloat>(type_table, code);
+			return TypeFloat::make(type_table, code);
 		}
 
 		TypeResult make_type_string(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeString>(type_table, code);
+			return TypeString::make(type_table, code);
 		}
 
 		TypeResult make_type_array(TypeTable & type_table, const std::uint8_t * code) {
-			return make_unary_type<TypeArray>(type_table, code);
+			return TypeArray::make(type_table, code);
 		}
 
 		TypeResult make_type_tuple(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeTuple>(type_table, code);
+			return TypeTuple::make(type_table, code);
 		}
 
 		TypeResult make_type_tuple_n(TypeTable & type_table, const std::uint8_t * code) {
-			return make_n_ary_type<TypeTupleN>(type_table, code);
+			return TypeTupleN::make(type_table, code);
 		}
 
 		TypeResult make_type_fx(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeFx>(type_table, code);
+			return TypeFx::make(type_table, code);
 		}
 
 		TypeResult make_type_fx_n(TypeTable & type_table, const std::uint8_t * code) {
-			return make_number_type<TypeFxN>(type_table, code);
+			return TypeFxN::make(type_table, code);
 		}
 
 		TypeResult make_type_istream(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeIstream>(type_table, code);
+			return TypeIstream::make(type_table, code);
 		}
 
 		TypeResult make_type_ostream(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeOstream>(type_table, code);
+			return TypeOstream::make(type_table, code);
 		}
 
 		TypeResult make_type_iter(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeIter>(type_table, code);
+			return TypeIter::make(type_table, code);
 		}
 
 		TypeResult make_type_stop(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeStop>(type_table, code);
+			return TypeStop::make(type_table, code);
 		}
 
 		TypeResult make_type_rng(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeRng>(type_table, code);
+			return TypeRng::make(type_table, code);
 		}
 
 		TypeResult make_type_clock(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeClock>(type_table, code);
+			return TypeClock::make(type_table, code);
 		}
 
 		TypeResult make_type_type(TypeTable & type_table, const std::uint8_t * code) {
-			return make_primary_type<TypeType>(type_table, code);
+			return TypeType::make(type_table, code);
 		}
 
 		TypeResult make_type_queue(TypeTable & type_table, const std::uint8_t * code) {
-			return make_unary_type<TypeQueue>(type_table, code);
+			return TypeQueue::make(type_table, code);
 		}
 
 		TypeResult make_type_stack(TypeTable & type_table, const std::uint8_t * code) {
-			return make_unary_type<TypeStack>(type_table, code);
+			return TypeStack::make(type_table, code);
 		}
 
 		TypeResult make_type_map(TypeTable & type_table, const std::uint8_t * code) {
-			return make_binary_type<TypeMap>(type_table, code);
+			return TypeMap::make(type_table, code);
 		}
 
 
