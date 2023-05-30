@@ -26,23 +26,30 @@ namespace ltn::c {
 
 		buf << condition;
 		
-		std::size_t i = 0;
+		std::size_t i_case = 0;
 
 		for(const auto & [expr, body] : cases) {
-			buf << inst::label(id + "_CASE_" + std::to_string(i+0));
 			buf << inst::duplicate();
 			buf << expr;
-			buf << inst::eql();
-			buf << inst::ifelse(id + "_CASE_" + std::to_string(i+1));
+			buf << inst::ueql();
+			buf << inst::ifelse(id + "_CASE_" + std::to_string(i_case));
+			++i_case;
+		}
+
+		buf << inst::scrap();
+		buf << def4ult;
+		buf << inst::jump(jump_end);
+
+		std::size_t i_body = 0;
+
+		for(const auto & [expr, body] : cases) {
+			buf << inst::label(id + "_CASE_" + std::to_string(i_body));
 			buf << inst::scrap();
 			buf << body;
 			buf << inst::jump(jump_end);
-			++i;
+			++i_body;
 		}
 
-		buf << inst::label(id + "_CASE_" + std::to_string(i+0));
-		buf << inst::scrap();
-		buf << def4ult;
 		buf << inst::label(jump_end);
 
 		return buf;

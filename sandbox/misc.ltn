@@ -1,40 +1,27 @@
-// function make_obj(value) => [
-// 	.x = value,
+function make_obj(value) => [
+	.x = value,
 
-// 	.{add} = lambda(self, other) => std::match_type(other, [
-// 		(<int>, lambda[self] (other) => make_obj(self.x + other)),
-// 		(<any>, lambda[self] (other) => make_obj(self.x + other.x)),
-// 	]),
+	.{add} = lambda(self, other) => std::match_type(other, [
+		(<int>, lambda[self] (other) => make_obj(self.x + other)),
+		(<any>, lambda[self] (other) => make_obj(self.x + other.x)),
+	]),
 
-// 	.{sub} = lambda(self, other) => std::match_type(other, [
-// 		(<int>, lambda[self] (other) => make_obj(self.x - other)),
-// 	], lambda[self] (other) => make_obj(self.x - other.x))
-// ]
-
-
-
-// function main(args) {
-// 	var obj = make_obj(42);
-// 	var obj2 = make_obj(2);
-
-// 	var a = [1,2,];
-
-// 	std::println((obj + 2).x);
-// 	std::println((obj + obj2).x);
-// 	std::println((obj - 2).x);
-// 	std::println((obj + 1).x);
-// 	std::println((obj - 1).x);
-// }
+	.{sub} = lambda(self, other) => std::match_type(other, [
+		(<int>, lambda[self] (other) => make_obj(self.x - other)),
+		],      lambda[self] (other) => make_obj(self.x - other.x))
+]
 
 
-function f(x) => std::match_type(x, [
-	(<int>,   lambda(x) => std::println("This in an int")),
-	(<float>, lambda(x) => std::println("This in a float")),
-    ],        lambda(x) => std::println("Another type"))
 
+function main(args) {
+	var obj = make_obj(42);
+	var obj2 = make_obj(2);
 
-function main() {
-	f(42);
-	f(13.37);	
-	f("Hello World");	
+	var a = [1,2,];
+
+	std::println((obj + 2).x);
+	std::println((obj + obj2).x);
+	std::println((obj - 2).x);
+	std::println((obj + 1).x);
+	std::println((obj - 1).x);
 }

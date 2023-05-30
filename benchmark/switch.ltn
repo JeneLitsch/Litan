@@ -1,0 +1,11 @@
+function main() {
+	var clock = std::chrono::clock();
+	for(i : std::range(0, 1000000)) {
+		switch(i%3) {
+			case 0 => {};
+			case 1 => {};
+			default => {};
+		} 
+	}
+	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
+}

@@ -14,11 +14,12 @@ run () {
 # 	echo 
 # }
 
-run "array"
-run "string"
-run "memory"
-run "call"
-run "member"
-run "range"
+run "switch"
+# run "array"
+# run "string"
+# run "memory"
+# run "call"
+# run "member"
+# run "range"
 echo
 echo
