@@ -8,7 +8,6 @@ namespace ltn::c {
 			for(const auto & s : statics) {
 				if(s->expr) {
 					buf << compile_expression(*s->expr);
-					buf << inst::global_write(s->id);
 				}
 			}
 			return buf;
