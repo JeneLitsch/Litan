@@ -26,9 +26,9 @@ namespace ltn::c {
 		std::optional<Label> override_label = std::nullopt,
 		const std::vector<std::unique_ptr<ast::Var>> & captures = {});
 	
-	sst::glob_ptr analyze_global(const ast::Global &, Context &);
-	sst::defn_ptr analyze_definition(const ast::Definition &, Context &);
-	std::vector<sst::defn_ptr> analyze_enumeration(const ast::Enumeration &);
+	sst::glob_ptr analyze_global(const ast::Global &, Context &, std::uint64_t id);
+	sst::defn_ptr analyze_definition(const ast::Definition &, Context &, std::uint64_t id);
+	std::vector<sst::defn_ptr> analyze_enumeration(const ast::Enumeration &, std::uint64_t & id);
 
 	sst::stmt_ptr analyze_statement(const ast::Statement &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::Block &, Scope &);

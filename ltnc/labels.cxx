@@ -7,9 +7,6 @@ namespace ltn::c {
 			static std::uint64_t counter = 0; 
 			return counter++;
 		}
-
-
-
 	}
 
 

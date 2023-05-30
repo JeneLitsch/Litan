@@ -25,9 +25,10 @@ namespace ltn::c::sst {
 	struct Static : public Declaration {
 		Static(
 			const std::string & name,
-			const Namespace & namespaze)
+			const Namespace & namespaze,
+			std::uint64_t id)
 			: Declaration(name, namespaze)
-			, id(++counter) {}
+			, id{id} {}
 		
 		const std::string & get_resolve_name() const {
 			return this->name;
@@ -38,8 +39,6 @@ namespace ltn::c::sst {
 		}
 
 		std::uint64_t id;
-	private:
-		static inline std::uint64_t counter = 0;
 	};
 
 
@@ -48,8 +47,9 @@ namespace ltn::c::sst {
 		Definition(
 			const std::string & name,
 			const Namespace & namespaze,
-			std::unique_ptr<sst::Expression> expr)
-			: Static{name, namespaze}
+			std::unique_ptr<sst::Expression> expr,
+			std::uint64_t id)
+			: Static{name, namespaze, id}
 			, expr{std::move(expr)} {}
 			
 		std::unique_ptr<sst::Expression> expr;
@@ -61,8 +61,9 @@ namespace ltn::c::sst {
 		Global(
 			const std::string & name,
 			const Namespace & namespaze,
-			std::unique_ptr<sst::Expression> expr)
-			: Static{name, namespaze}
+			std::unique_ptr<sst::Expression> expr,
+			std::uint64_t id)
+			: Static{name, namespaze, id}
 			, expr{std::move(expr)} {}
 
 		std::unique_ptr<sst::Expression> expr;

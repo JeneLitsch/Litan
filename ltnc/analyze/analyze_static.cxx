@@ -6,7 +6,10 @@
 namespace ltn::c {
 	namespace {
 		template<typename NodeT>
-		auto analyze_static(const auto & statik, Context & context) {
+		auto analyze_static(
+			const auto & statik,
+			Context & context,
+			std::uint64_t id) {
 
 			MajorScope scope { statik.namespaze, false, context};
 
@@ -15,7 +18,8 @@ namespace ltn::c {
 			return std::make_unique<NodeT>(
 				statik.name,
 				statik.namespaze,
-				std::move(expr)
+				std::move(expr),
+				id
 			);
 		}
 	}
@@ -24,7 +28,8 @@ namespace ltn::c {
 
 	sst::defn_ptr analyze_definition(
 		const ast::Definition & def,
-		Context & context) {
+		Context & context,
+		std::uint64_t id) {
 		// Use empty global_table to prohibit the usage of other global variables.
 		// Functions or defines can be used though.
 		InvalidDefinitionTable def_table { "definitions" };
@@ -38,12 +43,15 @@ namespace ltn::c {
 			.global_table      = global_table,
 			.reporter          = context.reporter
 		};
-		return analyze_static<sst::Definition>(def, read_context);
+		return analyze_static<sst::Definition>(def, read_context, id);
 	}
 
 
 
-	sst::glob_ptr analyze_global(const ast::Global & global, Context & context) {
+	sst::glob_ptr analyze_global(
+		const ast::Global & global,
+		Context & context,
+		std::uint64_t id) {
 		// Use empty global_table to prohibit the usage of other global variables.
 		// Functions or defines can be used though.
 		InvalidGlobalTable global_table { "the default value of another global variable" };
@@ -56,6 +64,6 @@ namespace ltn::c {
 			.global_table      = global_table,
 			.reporter          = context.reporter
 		};
-		return analyze_static<sst::Global>(global, read_context);
+		return analyze_static<sst::Global>(global, read_context, id);
 	}
 }

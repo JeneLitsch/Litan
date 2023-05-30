@@ -2,7 +2,7 @@
 #include "stdxx/functional.hxx"
 
 namespace ltn::c {
-	std::vector<sst::defn_ptr> analyze_enumeration(const ast::Enumeration & enumeration) {
+	std::vector<sst::defn_ptr> analyze_enumeration(const ast::Enumeration & enumeration, std::uint64_t & id) {
 
 		auto namespaze = enumeration.namespaze;
 		namespaze.push_back(enumeration.name);
@@ -10,7 +10,8 @@ namespace ltn::c {
 		return stx::fx::mapped([&] (const auto & label) {
 			return std::make_unique<sst::Definition>(
 				label.name, namespaze,
-				std::make_unique<sst::Integer>(label.value)
+				std::make_unique<sst::Integer>(label.value),
+				id++
 			);
 		}) (enumeration.labels);
 	}

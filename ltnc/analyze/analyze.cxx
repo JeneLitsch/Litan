@@ -62,16 +62,18 @@ namespace ltn::c {
 		};
 
 
+		std::uint64_t global_counter = 0;
+
 
 		for(auto & enym : source.enums) {
-			auto definitions = analyze_enumeration(*enym);
+			auto definitions = analyze_enumeration(*enym, global_counter);
 			for(auto & definition : definitions) {
 				program.definitions.push_back(std::move(definition));
 			}
 		}
 
 		for(const auto & definition : source.definitions) {
-			program.definitions.push_back(analyze_definition(*definition, context));
+			program.definitions.push_back(analyze_definition(*definition, context, global_counter++));
 		}
 
 		for(const auto & def : program.definitions) {
@@ -81,7 +83,7 @@ namespace ltn::c {
 
 
 		for(const auto & global : source.globals) {
-			program.globals.push_back(analyze_global(*global, context));
+			program.globals.push_back(analyze_global(*global, context, global_counter++));
 		}
 
 		for(const auto & glob : program.globals) {
