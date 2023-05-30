@@ -1,19 +1,44 @@
+function match_type(value, cases, default_case) {
+	for(pair : cases) {
+		var (type, fx) = pair;
+		if(std::is(type, value)) {
+			return fx(value);
+		}
+	}
+	throw default_case(value);
+}
+
+
+
+function match_type(value, cases)
+	=> match_type(value, cases, lambda (other) { throw "Cannot match type"; })
+
+
+
+function make_obj(value) => [
+	.x = value,
+
+	.{add} = lambda(self, other) => match_type(other, [
+		(<int>, lambda[self] (other) => make_obj(self.x + other)),
+		(<any>, lambda[self] (other) => make_obj(self.x + other.x)),
+	]),
+
+	.{sub} = lambda(self, other) => match_type(other, [
+		(<int>, lambda[self] (other) => make_obj(self.x - other)),
+		(<any>, lambda[self] (other) => make_obj(self.x - other.x)),
+	], lambda (other) { throw ""; })
+]
+
+
+
 function main(args) {
-	var obj = [
-		.x = 42,
-		.{add} = lambda(self, other) {
-			var clone = std::clone(self);
-			clone.x = clone.x + other;
-			return clone;
-		},
-		.{sub} = lambda(self, other) {
-			var clone = std::clone(self);
-			clone.x = clone.x - other;
-			return clone;
-		},
-	];
+	var obj = make_obj(42);
+	var obj2 = make_obj(2);
+
+	var a = [1,2,];
 
 	std::println((obj + 2).x);
+	std::println((obj + obj2).x);
 	std::println((obj - 2).x);
 	std::println((obj + 1).x);
 	std::println((obj - 1).x);

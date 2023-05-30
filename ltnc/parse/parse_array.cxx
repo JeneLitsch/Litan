@@ -84,7 +84,9 @@ namespace ltn::c {
 		ast::expr_ptr parse_multi_element_array(ast::expr_ptr first, Tokens & tokens) {
 			std::vector<ast::expr_ptr> elements;
 			elements.push_back(std::move(first));
-			elements += list_of<ast::expr_ptr>(TT::BRACKET_R, "]", tokens, parse_expression);
+			if(!match(TT::BRACKET_R, tokens)) {
+				elements += list_of<ast::expr_ptr>(TT::BRACKET_R, "]", tokens, parse_expression);
+			}
 			return std::make_unique<ast::Array>(
 				location(tokens),
 				std::move(elements)
