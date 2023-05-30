@@ -7,8 +7,6 @@
 #include "stdxx/string_literal.hxx"
 
 namespace ltn::vm {
-
-
 	namespace {
 		using TypeResult = std::pair<std::uint64_t, const std::uint8_t*>;
 		
@@ -26,12 +24,13 @@ namespace ltn::vm {
 
 		template<typename Node>
 		std::uint64_t get_type(TypeTable & type_table, auto & bytes, auto && ... args) {
-			if(!type_table.code_to_id.contains(bytes)) {
+			if(type_table.contains(bytes)) {
+				return type_table.resolve(bytes);
+			} 
+			else {
 				auto node = std::make_unique<Node>(std::move(args)...);
-				type_table.code_to_id.insert({bytes, std::size(type_table)});
-				type_table.add(std::move(node));
+				return type_table.add(bytes, std::move(node));
 			}
-			return type_table.code_to_id.at(bytes);
 		}
 
 
@@ -86,7 +85,6 @@ namespace ltn::vm {
 		private:
 			const Type * sub_type;
 		};
-
 
 
 
@@ -509,13 +507,22 @@ namespace ltn::vm {
 
 
 
-	std::uint64_t TypeTable::size() const {
-		return std::size(this->types);
+	std::uint64_t TypeTable::add(const std::vector<std::uint8_t> & code, std::unique_ptr<Type> type) {
+		std::uint64_t id = std::size(types);
+		this->code_to_id.insert({code, id});
+		this->types.push_back(std::move(type));
+		return id;
 	}
 
 
 
-	void TypeTable::add(std::unique_ptr<Type> type) {
-		return this->types.push_back(std::move(type));
+	bool TypeTable::contains(const std::vector<std::uint8_t> & code) const {
+		return this->code_to_id.contains(code);
+	}
+
+
+		
+	std::uint64_t TypeTable::resolve(const std::vector<std::uint8_t> & code) const {
+		return this->code_to_id.at(code);
 	}
 }
