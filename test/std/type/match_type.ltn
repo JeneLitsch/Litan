@@ -1,0 +1,37 @@
+namespace sphinx::test {
+	function std_match_type_3() {
+		var do_match = lambda(x) => std::match_type(x, [
+			(<int>,   lambda(x) => "int"),
+			(<float>, lambda(x) => "float"),
+			],        lambda(x) => "other");
+		
+		assert_equal_strict(do_match(1), "int");
+		assert_equal_strict(do_match(1.0), "float");
+		assert_equal_strict(do_match(""), "other");
+	}
+
+
+
+	function std_match_type_2() {
+		var do_match = lambda(x) => std::match_type(x, [
+			(<int>,   lambda(x) => "int"),
+			(<float>, lambda(x) => "float"),
+		]);
+		
+		assert_equal_strict(do_match(1), "int");
+		assert_equal_strict(do_match(1.0), "float");
+	}
+
+
+
+	function std_match_type_2_default() {
+		var do_match = lambda(x) => std::match_type(x, [
+			(<int>,   lambda(x) => "int"),
+			(<float>, lambda(x) => "float"),
+		]);
+		
+		assert_success(lambda[do_match] => do_match(1));
+		assert_success(lambda[do_match] => do_match(1.0));
+		assert_except(lambda[do_match] => do_match(""));
+	}
+}

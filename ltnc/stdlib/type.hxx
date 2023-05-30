@@ -159,5 +159,22 @@ namespace std {
 	function has_special_str(obj) const => is_unary_fx(obj.{str})
 	function has_special_cmp(obj) const => is_binary_fx(obj.{cmp})
 	function has_special_bool(obj) const => is_unary_fx(obj.{bool})
-}
+
+
+
+	function match_type(value, cases, default_case) {
+		for(pair : cases) {
+			var (type, fx) = pair;
+			if(std::is(type, value)) {
+				return fx(value);
+			} 
+		}
+		return default_case(value);
+	}
+
+
+
+	function match_type(value, cases)
+		=> match_type(value, cases, lambda (x) { throw "Cannot match type"; })
+	}
 )###";

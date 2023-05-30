@@ -140,6 +140,7 @@ files=(
 	"test/std/type/is.ltn"
 	"test/std/type/cast.ltn"
 	"test/std/type/has_special_.ltn"
+	"test/std/type/match_type.ltn"
 )
 
 bin_file="tmp/bin"
