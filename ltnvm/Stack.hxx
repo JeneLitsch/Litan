@@ -21,6 +21,18 @@ namespace ltn::vm {
 			const std::size_t address = this->frame_pointer + offset;
 			this->values[address] = value;
 		}
+
+
+
+		inline Value read_absolute(std::uint64_t address) const {
+			return this->values[address];
+		}
+
+
+
+		inline void write_absolute(std::uint64_t address, Value value) {
+			this->values[address] = value;
+		}
 		
 
 
