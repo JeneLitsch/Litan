@@ -292,6 +292,6 @@ namespace ltn::vm {
 		};
 
 		const auto address = core.static_table[name];
-		this->core.static_variables[address] = to_value(variant, core.heap);
+		this->core.stack.write_absolute(address, to_value(variant, core.heap));
 	}
 }

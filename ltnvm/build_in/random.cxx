@@ -18,7 +18,7 @@ namespace ltn::vm::build_in::random {
 		Value mersenne(VmCore & core, std::uint64_t seed) {
 			const auto ptr = core.heap.alloc(RandomEngine{std::mt19937_64{seed}});
 			const auto val = value::rng(ptr); 
-			core.heap.collect_garbage(core.stack, core.static_variables, val);
+			core.heap.collect_garbage(core.stack, val);
 			return val;
 		}
 	}

@@ -23,7 +23,7 @@ namespace ltn::vm::inst {
 		const auto size = core.fetch_uint();
 		pushAll(arr, core.stack, size);
 		core.stack.push({ ptr, Value::Type::ARRAY });
-		core.heap.collect_garbage(core.stack, core.static_variables);
+		core.heap.collect_garbage(core.stack);
 	}
 
 
@@ -35,7 +35,7 @@ namespace ltn::vm::inst {
 		const auto ptr = core.heap.alloc<String>({std::move(str)});
 		core.stack.push({ ptr, Value::Type::STRING });
 		core.pc += size;
-		core.heap.collect_garbage(core.stack, core.static_variables);
+		core.heap.collect_garbage(core.stack);
 	}
 
 
@@ -43,7 +43,7 @@ namespace ltn::vm::inst {
 	void newclock(VmCore & core) {
 		const auto ptr = core.heap.alloc<Clock>({});
 		core.stack.push({ ptr, Value::Type::CLOCK });
-		core.heap.collect_garbage(core.stack, core.static_variables);
+		core.heap.collect_garbage(core.stack);
 	}
 
 
@@ -51,7 +51,7 @@ namespace ltn::vm::inst {
 	void newstruct(VmCore & core) {
 		const auto ptr = core.heap.alloc<Struct>({});
 		core.stack.push({ ptr, Value::Type::STRUCT });
-		core.heap.collect_garbage(core.stack, core.static_variables);
+		core.heap.collect_garbage(core.stack);
 	}
 
 
@@ -59,7 +59,7 @@ namespace ltn::vm::inst {
 	void newstack(VmCore & core) {
 		const auto ref = core.heap.alloc<Deque>({});
 		core.stack.push({ ref, Value::Type::STACK });
-		core.heap.collect_garbage(core.stack, core.static_variables);
+		core.heap.collect_garbage(core.stack);
 	}
 
 
@@ -67,7 +67,7 @@ namespace ltn::vm::inst {
 	void newqueue(VmCore & core) {
 		const auto ref = core.heap.alloc<Deque>({});
 		core.stack.push({ ref, Value::Type::QUEUE });
-		core.heap.collect_garbage(core.stack, core.static_variables);
+		core.heap.collect_garbage(core.stack);
 	}
 
 
@@ -75,7 +75,7 @@ namespace ltn::vm::inst {
 	void newmap(VmCore & core) {
 		const auto ref = core.heap.alloc<Map>(Map{Comparator{&core}});
 		core.stack.push({ ref, Value::Type::MAP });
-		core.heap.collect_garbage(core.stack, core.static_variables);
+		core.heap.collect_garbage(core.stack);
 	}
 
 
@@ -103,6 +103,6 @@ namespace ltn::vm::inst {
 		const auto size = core.fetch_uint();
 		pushAll(arr, core.stack, size);
 		core.stack.push(value::tuple(ptr));
-		core.heap.collect_garbage(core.stack, core.static_variables);
+		core.heap.collect_garbage(core.stack);
 	}
 }

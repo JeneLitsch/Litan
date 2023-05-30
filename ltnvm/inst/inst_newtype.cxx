@@ -6,6 +6,6 @@ namespace ltn::vm::inst {
 		auto [node, end] = core.type_table.make(code);
 		core.stack.push(value::type(node));
 		core.pc = end + 1;
-		core.heap.collect_garbage(core.stack, core.static_variables);
+		core.heap.collect_garbage(core.stack);
 	}
 }
