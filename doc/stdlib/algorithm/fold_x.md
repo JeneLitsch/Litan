@@ -10,7 +10,7 @@
 any
 
 **Description:**   
-Sums up all elements using `f` as a binary operation.
+Sums up all elements using `fx` as a binary operation.
 
 ## std::fold_l(iter, fx)
 **Parameters:**  
@@ -21,7 +21,7 @@ Sums up all elements using `f` as a binary operation.
 any
 
 **Description:**   
-Sums up all elements using `f` as a binary operation.
+Sums up all elements using `fx` as a binary operation.
 
 
 ## std::fold_r(iter, fx, init)
@@ -34,7 +34,7 @@ Sums up all elements using `f` as a binary operation.
 any
 
 **Description:**   
-Sums up all elements in reversed order using `f` as a binary operation.
+Sums up all elements in reversed order using `fx` as a binary operation.
 
 ## std::fold_r(iter, fx)
 **Parameters:**  
@@ -45,4 +45,4 @@ Sums up all elements in reversed order using `f` as a binary operation.
 any
 
 **Description:**   
-Sums up all elements in reversed order using `f` as a binary operation.
+Sums up all elements in reversed order using `fx` as a binary operation.
