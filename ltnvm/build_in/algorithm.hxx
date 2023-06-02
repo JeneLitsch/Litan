@@ -11,5 +11,6 @@ namespace ltn::vm::build_in {
 	Value find(VmCore & core);
 	Value fill(VmCore & core);
 	Value reverse(VmCore & core);
-	Value fold_l(VmCore & core);
+	Value fold_l_2(VmCore & core);
+	Value fold_l_3(VmCore & core);
 }

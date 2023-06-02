@@ -66,5 +66,10 @@ namespace std {
 
 	function zip(ranges...)
 		=> transform(std::zipped_impl(ranges), lambda(x) => x)
+
+
+
+	build_in fold_l(iter, fx, start) @algorithm_fold_l_3
+	build_in fold_l(iter, fx) @algorithm_fold_l_2
 }
 )###";

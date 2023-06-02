@@ -119,20 +119,46 @@ namespace ltn::vm::build_in {
 
 
 
-	Value fold_l(VmCore & core) {
-		auto value = core.stack.pop();
+	namespace {
+		Value fold_l_impl(VmCore & core, const Value & function, Value value, Iterator & iter) {
+			while(true) {
+				auto elem = iter.next(core.heap);
+				if(is_iterator_stop(elem)) break;
+				value = run_function(core, function, value, elem);
+			}
+
+			return value;
+		}
+
+		
+
+		Iterator & get_iter(VmCore & core, const Value & container) {
+			return core.heap.read<Iterator>(iterator::wrap(container, core.heap));
+		}
+	}
+
+
+
+	Value fold_l_2(VmCore & core) {
 		const auto function = core.stack.pop();
 		const auto container = core.stack.pop();
 
-		const Value iter_ref = iterator::wrap(container, core.heap);
-		auto & iter = core.heap.read<Iterator>(iter_ref);
-		
-		while(true) {
-			auto elem = iter.next(core.heap);
-			if(is_iterator_stop(elem)) break;
-			value = run_function(core, function, value, elem);
- 		}
+		auto & iter = get_iter(core, container);
 
-		return value;
+		auto first = iter.next(core.heap);
+		if(is_iterator_stop(first)) return value::null;
+
+		return fold_l_impl(core, function, first, iter);
+	}
+
+
+
+	Value fold_l_3(VmCore & core) {
+		auto init = core.stack.pop();
+		const auto function = core.stack.pop();
+		const auto container = core.stack.pop();
+
+		auto & iter = get_iter(core, container);
+		return fold_l_impl(core, function, init, iter);
 	}
 }

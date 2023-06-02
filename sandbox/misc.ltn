@@ -1,6 +1,3 @@
-build_in fold_l(iter, fx, start) @algorithm_fold_l
-
-
 function main(args) {
-	return fold_l(["A", "B", "C"], lambda(a, b) => a + b, "___");
+	return std::fold_l(["A", "B", "C"], lambda(a, b) => a + b, "___");
 }
