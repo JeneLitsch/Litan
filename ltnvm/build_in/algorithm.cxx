@@ -124,16 +124,12 @@ namespace ltn::vm::build_in {
 			while(true) {
 				auto elem = iter.next(core.heap);
 				if(is_iterator_stop(elem)) break;
+				core.stack.push(value);
 				value = run_function(core, function, value, elem);
+				core.stack.pop();
 			}
 
 			return value;
-		}
-
-		
-
-		Iterator & get_iter(VmCore & core, const Value & container) {
-			return core.heap.read<Iterator>(iterator::wrap(container, core.heap));
 		}
 	}
 
@@ -143,12 +139,21 @@ namespace ltn::vm::build_in {
 		const auto function = core.stack.pop();
 		const auto container = core.stack.pop();
 
-		auto & iter = get_iter(core, container);
+		auto iter_ref = iterator::wrap(container, core.heap);
+		auto & iter = core.heap.read<Iterator>(iter_ref);
 
 		auto first = iter.next(core.heap);
 		if(is_iterator_stop(first)) return value::null;
 
-		return reduce_l_impl(core, function, first, iter);
+		core.stack.push(function);
+		core.stack.push(iter_ref);
+
+		auto result = reduce_l_impl(core, function, first, iter);
+
+		core.stack.pop();
+		core.stack.pop();
+
+		return result;
 	}
 
 
@@ -157,8 +162,19 @@ namespace ltn::vm::build_in {
 		auto init = core.stack.pop();
 		const auto function = core.stack.pop();
 		const auto container = core.stack.pop();
+		auto iter_ref = iterator::wrap(container, core.heap);
+		auto & iter = core.heap.read<Iterator>(iter_ref);
 
-		auto & iter = get_iter(core, container);
-		return reduce_l_impl(core, function, init, iter);
+		core.stack.push(init);
+		core.stack.push(iter_ref);
+		core.stack.push(function);
+
+		auto result = reduce_l_impl(core, function, init, iter);
+
+		core.stack.pop();
+		core.stack.pop();
+		core.stack.pop();
+
+		return result;
 	}
 }
