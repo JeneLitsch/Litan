@@ -65,5 +65,8 @@ namespace sphinx::test {
 		test(std::zipped("ABC", [1,2,3]));
 		test(std::zipped("ABC", [1,2,3,4]));
 		test(std::zipped("ABC", []));
+
+		test(std::reversed([]));
+		test(std::reversed([1,2,3]));
 	}
 }

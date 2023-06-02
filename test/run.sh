@@ -130,6 +130,7 @@ files=(
 	"test/std/iter/range.ltn"
 	"test/std/iter/string.ltn"
 	"test/std/iter/zipped.ltn"
+	"test/std/iter/reversed.ltn"
 
 	"test/std/string/str.ltn"
 	"test/std/string/split.ltn"
