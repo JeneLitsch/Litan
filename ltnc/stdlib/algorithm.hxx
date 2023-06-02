@@ -69,7 +69,10 @@ namespace std {
 
 
 
-	build_in fold_l(iter, fx, start) @algorithm_fold_l_3
+	build_in fold_l(iter, fx, init) @algorithm_fold_l_3
 	build_in fold_l(iter, fx) @algorithm_fold_l_2
+
+	function fold_r(iter, fx, init) => std::fold_l(std::reversed(iter), fx, init)
+	function fold_r(iter, fx) => std::fold_l(std::reversed(iter), fx)
 }
 )###";

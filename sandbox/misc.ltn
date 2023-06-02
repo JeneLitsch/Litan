@@ -1,4 +1,3 @@
 function main(args) {
-	for(e : std::reversed([1,2,3])) std::println(e);
-	// return std::fold_l(["A", "B", "C"], lambda(a, b) => a + b, "___");
+	return std::fold_r(["A", "B", "C"], lambda(a, b) => a + b, "___");
 }
