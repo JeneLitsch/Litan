@@ -1,0 +1,75 @@
+namespace sphinx::test {
+	function std_fold_l_2_array() {
+		var add = lambda(a, b) => a + b;
+		assert_equal_strict(std::fold_l([1,2,3], add), 6);
+		assert_equal_strict(std::fold_l(["A","B","C"], add), "ABC");
+	}
+
+
+
+	function std_fold_l_2_array_empty() {
+		var add = lambda(a, b) => a + b;
+		assert_equal_strict(std::fold_l([], add), null);
+	}
+
+
+
+	function std_fold_l_2_tuple() {
+		var add = lambda(a, b) => a + b;
+		assert_equal_strict(std::fold_l((1,2,3), add), 6);
+		assert_equal_strict(std::fold_l(("A","B","C"), add), "ABC");
+	}
+
+
+
+	function std_fold_l_2_tuple_empty() {
+		var add = lambda(a, b) => a + b;
+		assert_equal_strict(std::fold_l((), add), null);
+	}
+
+
+
+	function std_fold_l_3_array() {
+		var add = lambda(a, b) => a + b;
+		assert_equal_strict(std::fold_l([1,2,3], add, 4), 10);
+		assert_equal_strict(std::fold_l(["A","B","C"], add, "___"), "___ABC");
+	}
+
+
+
+	function std_fold_l_3_array_empty() {
+		var add = lambda(a, b) => a + b;
+		assert_equal_strict(std::fold_l([], add, 4), 4);
+		assert_equal_strict(std::fold_l([], add, "___"), "___");
+	}
+
+
+
+	function std_fold_l_3_tuple() {
+		var add = lambda(a, b) => a + b;
+		assert_equal_strict(std::fold_l((1,2,3), add, 4), 10);
+		assert_equal_strict(std::fold_l(("A","B","C"), add, "___"), "___ABC");
+	}
+
+
+
+	function std_fold_l_3_tuple_empty() {
+		var add = lambda(a, b) => a + b;
+		assert_equal_strict(std::fold_l((), add, 4), 4);
+		assert_equal_strict(std::fold_l((), add, "___"), "___");
+	}
+
+
+
+	function std_fold_l_3_string() {
+		var add = lambda(a, b) => a + [b];
+		assert_equal_strict(std::fold_l("ABC", add, []), ['A', 'B', 'C']);
+	}
+
+
+
+	function std_fold_l_3_string_empty() {
+		var add = lambda(a, b) => a + [b];
+		assert_equal_strict(std::fold_l("", add, []), []);
+	}
+}
