@@ -35,4 +35,35 @@ namespace sphinx::test {
 		assert_true(std::empty([:]));
 		assert_false(std::empty([0:1]));
 	}
+
+
+
+	function std_empty_iterator() {
+		var test = lambda(iter) {
+			var size = std::empty(iter);
+			var counter = 0;
+			for(elem : iter) {
+				counter = counter + 1;
+			}
+			assert_equal_strict(size, counter == 0);
+		};
+
+
+		test(std::range(0,0));
+		test(std::range(0,100));
+		test(std::range(0,100,2));
+		test(std::range(0,99,2));
+		test(std::range(0,99,3));
+		test(std::range(0,99,4));
+
+		test(std::iter::iter([]));
+		test(std::iter::iter([1,2,3]));
+		
+		test(std::iter::iter(""));
+		test(std::iter::iter("ABC"));
+
+		test(std::zipped("ABC", [1,2,3]));
+		test(std::zipped("ABC", [1,2,3,4]));
+		test(std::zipped("ABC", []));
+	}
 }
