@@ -57,40 +57,6 @@ namespace ltn::vm::build_in {
 
 
 
-	Value join_string(VmCore & core) {
-		auto val_joiner = core.stack.pop();
-		auto val_array = core.stack.pop();
-		if(!is_array(val_array) || !is_string(val_joiner)) {
-			throw Exception {
-				Exception::Type::INVALID_ARGUMENT,
-				"std::join expected 1 array and 1 string."
-			};
-		}
-		std::ostringstream joined_string;
-		const auto & array = core.heap.read<Array>(val_array.u);
-		const auto & joiner = core.heap.read<String>(val_joiner.u);
-		bool first = true;
-		for(const auto & val_str : array) {
-			if(first) {
-				first = false;
-			}
-			else {
-				joined_string << joiner;
-			}
-			if(!is_string(val_str)) {
-				if(!is_string(val_array) || !is_string(val_joiner)) {
-					throw Exception {
-						Exception::Type::INVALID_ARGUMENT,
-						"std::join. Each array elements must be a string."
-					};
-				}
-			}
-			joined_string << core.heap.read<String>(val_str.u);
-		}
-		return value::string(core.heap.alloc<String>(joined_string.str()));
-	}
-
-
 	Value parse_bool(VmCore &) {
 		return value::null;
 	}

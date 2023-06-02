@@ -81,7 +81,6 @@ namespace ltn::vm::inst {
 		// string
 		table[FxCode::TO_STRING] = build_in::to_string;
 		table[FxCode::SPLIT_STRING] = build_in::split_string;
-		table[FxCode::JOIN_STRING] = build_in::join_string;
 
 		// Math
 		table[FxCode::MIN] = build_in::min;
