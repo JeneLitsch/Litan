@@ -4,6 +4,8 @@ inline const char * std_iter = R"###(
 		build_in range(begin, end, step) const @iter_range
 		function range(begin, end) const => range(begin, end, 1)
 		function zipped(iters...) const => zipped_impl(iters)
+		build_in reversed(iters) const @iter_reversed 
+		
 		namespace iter {
 			build_in range(begin, end, step) const @iter_range
 			function range(begin, end) const => range(begin, end, 1)
