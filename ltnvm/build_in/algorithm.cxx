@@ -1,6 +1,8 @@
 #include "algorithm.hxx"
 #include "ltnvm/utils/compare.hxx"
+#include "ltnvm/utils/run_function.hxx"
 #include "ltnvm/Exception.hxx"
+#include "ltnvm/objects/Iterator.hxx"
 #include <algorithm>
 #include <numeric>
 
@@ -113,5 +115,24 @@ namespace ltn::vm::build_in {
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		std::reverse(begin, end);
 		return value::null;
+	}
+
+
+
+	Value fold_l(VmCore & core) {
+		auto value = core.stack.pop();
+		const auto function = core.stack.pop();
+		const auto container = core.stack.pop();
+
+		const Value iter_ref = iterator::wrap(container, core.heap);
+		auto & iter = core.heap.read<Iterator>(iter_ref);
+		
+		while(true) {
+			auto elem = iter.next(core.heap);
+			if(is_iterator_stop(elem)) break;
+			value = run_function(core, function, value, elem);
+ 		}
+
+		return value;
 	}
 }

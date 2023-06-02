@@ -39,6 +39,7 @@ namespace ltn::vm::inst {
 		table[FxCode::FIND] = build_in::find;
 		table[FxCode::FILL] = build_in::fill;
 		table[FxCode::REVERSE] = build_in::reverse;
+		table[FxCode::ALGORITHM_FOLD_L] = build_in::fold_l;
 
 		
 		// random
