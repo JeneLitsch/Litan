@@ -8,6 +8,7 @@
   4. Queue
   5. Stack
   6. Map
+  6. Iterator
 
 **Return value:**  
 int
