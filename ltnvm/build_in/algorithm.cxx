@@ -120,7 +120,7 @@ namespace ltn::vm::build_in {
 
 
 	namespace {
-		Value fold_l_impl(VmCore & core, const Value & function, Value value, Iterator & iter) {
+		Value reduce_l_impl(VmCore & core, const Value & function, Value value, Iterator & iter) {
 			while(true) {
 				auto elem = iter.next(core.heap);
 				if(is_iterator_stop(elem)) break;
@@ -139,7 +139,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value fold_l_2(VmCore & core) {
+	Value reduce_l_2(VmCore & core) {
 		const auto function = core.stack.pop();
 		const auto container = core.stack.pop();
 
@@ -148,17 +148,17 @@ namespace ltn::vm::build_in {
 		auto first = iter.next(core.heap);
 		if(is_iterator_stop(first)) return value::null;
 
-		return fold_l_impl(core, function, first, iter);
+		return reduce_l_impl(core, function, first, iter);
 	}
 
 
 
-	Value fold_l_3(VmCore & core) {
+	Value reduce_l_3(VmCore & core) {
 		auto init = core.stack.pop();
 		const auto function = core.stack.pop();
 		const auto container = core.stack.pop();
 
 		auto & iter = get_iter(core, container);
-		return fold_l_impl(core, function, init, iter);
+		return reduce_l_impl(core, function, init, iter);
 	}
 }

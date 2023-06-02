@@ -13,8 +13,8 @@ namespace ltn::c {
 		{"algorithm_find",           FxCode::FIND},
 		{"algorithm_fill",           FxCode::FILL},
 		{"algorithm_reverse",        FxCode::REVERSE},
-		{"algorithm_fold_l_2",       FxCode::ALGORITHM_FOLD_L_2},
-		{"algorithm_fold_l_3",       FxCode::ALGORITHM_FOLD_L_3},
+		{"algorithm_reduce_l_2",       FxCode::ALGORITHM_REDUCE_L_2},
+		{"algorithm_reduce_l_3",       FxCode::ALGORITHM_REDUCE_L_3},
 
 		{"chrono_clock",             FxCode::CHRONO_CLOCK},
 		{"chrono_to_seconds",        FxCode::CHRONO_TO_SECONDS},

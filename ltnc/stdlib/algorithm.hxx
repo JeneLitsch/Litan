@@ -7,18 +7,8 @@ namespace std {
 
 
 
-	function sum(array, start) {
-		var value = start;
-		for (elem : array) {
-			value = value + elem;
-		}
-		return value;
-	}
-
-
-
-	function sum(range)
-		=> sum(range, 0)
+	function sum(iter, start) => std::reduce_l(iter, lambda(a, b) => a + b, start)
+	function sum(range) => sum(range, 0)
 
 
 
@@ -69,10 +59,10 @@ namespace std {
 
 
 
-	build_in fold_l(iter, fx, init) @algorithm_fold_l_3
-	build_in fold_l(iter, fx) @algorithm_fold_l_2
+	build_in reduce_l(iter, fx, init) @algorithm_reduce_l_3
+	build_in reduce_l(iter, fx) @algorithm_reduce_l_2
 
-	function fold_r(iter, fx, init) => std::fold_l(std::reversed(iter), fx, init)
-	function fold_r(iter, fx) => std::fold_l(std::reversed(iter), fx)
+	function reduce_r(iter, fx, init) => std::reduce_l(std::reversed(iter), fx, init)
+	function reduce_r(iter, fx) => std::reduce_l(std::reversed(iter), fx)
 }
 )###";

@@ -1,3 +1,3 @@
 function main(args) {
-	return std::fold_r(["A", "B", "C"], lambda(a, b) => a + b, "___");
+	return std::reduce_r(["A", "B", "C"], lambda(a, b) => a + b, "___");
 }
