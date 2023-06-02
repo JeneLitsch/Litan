@@ -59,10 +59,10 @@ namespace std {
 
 
 
-	build_in reduce_l(iter, fx, init) @algorithm_reduce_l_3
-	build_in reduce_l(iter, fx) @algorithm_reduce_l_2
+	build_in reduce_l(iter, fx, init) const @algorithm_reduce_l_3
+	build_in reduce_l(iter, fx) const @algorithm_reduce_l_2
 
-	function reduce_r(iter, fx, init) => std::reduce_l(std::reversed(iter), fx, init)
-	function reduce_r(iter, fx) => std::reduce_l(std::reversed(iter), fx)
+	function reduce_r(iter, fx, init) const => std::reduce_l(std::reversed(iter), fx, init)
+	function reduce_r(iter, fx) const => std::reduce_l(std::reversed(iter), fx)
 }
 )###";
