@@ -9,4 +9,5 @@ namespace ltn::vm::build_in::iter {
 	Value iter(VmCore & core);
 	Value combined(VmCore & core);
 	Value is_stop(VmCore & core);
+	Value reversed(VmCore & core);
 }

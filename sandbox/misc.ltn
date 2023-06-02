@@ -1,3 +1,8 @@
+build_in reversed(iter) @iter_reversed
+
+
+
 function main(args) {
-	return std::fold_l(["A", "B", "C"], lambda(a, b) => a + b, "___");
+	for(e : reversed([1,2,3])) std::println(e);
+	// return std::fold_l(["A", "B", "C"], lambda(a, b) => a + b, "___");
 }

@@ -2,6 +2,7 @@
 #include "iter/ArrayIterator.hxx"
 #include "iter/CombinedIterator.hxx"
 #include "iter/RangeIterator.hxx"
+#include "iter/ReversedIterator.hxx"
 #include "iter/StringIterator.hxx"
 #include "ltnvm/utils/type_check.hxx"
 #include "ltnvm/Exception.hxx"
@@ -36,6 +37,12 @@ namespace ltn::vm {
 		
 		Iterator combined(std::vector<std::uint64_t> refs) {
 			return CombinedIterator(std::move(refs));
+		}
+
+
+
+		Iterator reversed(std::uint64_t ref, Heap & heap) {
+			return ReversedIterator(ref, heap);
 		}
 
 
@@ -94,7 +101,7 @@ namespace ltn::vm {
 			const auto step = convert::to_int(amount);
 				
 			if(!is_iterator(ref)) {
-				throw except::invalid_argument("std::iter::advance expects an iterator");
+				throw except::invalid_argument("std::iter::move expects an iterator");
 			}
 			auto & iter = heap.read<Iterator>(ref);
 			return iter.move(heap, step);
@@ -104,7 +111,7 @@ namespace ltn::vm {
 
 		std::uint64_t size(const Value & ref, Heap & heap) {
 			if(!is_iterator(ref)) {
-				throw except::invalid_argument("std::iter::advance expects an iterator");
+				throw except::invalid_argument("std::iter::size expects an iterator");
 			}
 			auto & iter = heap.read<Iterator>(ref);
 			return iter.size(heap);

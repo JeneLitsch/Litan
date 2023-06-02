@@ -60,4 +60,11 @@ namespace ltn::vm::build_in::iter {
 		auto ptr = core.heap.alloc(iterator::combined(std::move(refs)));
 		return value::iterator(ptr);
 	}
+
+
+
+	Value reversed(VmCore & core) {
+		auto ref = iterator::wrap(core.stack.pop(), core.heap);
+		return value::iterator(core.heap.alloc(iterator::reversed(ref.u, core.heap)));
+	}
 }

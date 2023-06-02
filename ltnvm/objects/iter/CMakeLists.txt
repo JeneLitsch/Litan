@@ -4,5 +4,6 @@ target_sources(libltnvm PRIVATE
 	ArrayIterator.cxx
 	CombinedIterator.cxx
 	RangeIterator.cxx
+	ReversedIterator.cxx
 	StringIterator.cxx
 )

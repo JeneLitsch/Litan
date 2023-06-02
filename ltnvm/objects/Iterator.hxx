@@ -74,6 +74,7 @@ namespace ltn::vm {
 		Iterator array(std::uint64_t array);
 		Iterator string(std::uint64_t string);
 		Iterator combined(std::vector<std::uint64_t> refs);
+		Iterator reversed(std::uint64_t ref, Heap & heap);
 
 		Value wrap(const Value & ref, Heap & heap);
 		Value next(const Value & ref, Heap & heap);
