@@ -18,6 +18,7 @@ namespace ltn::vm {
 		const auto prev = core.pc;
 		core.pc = fx.ptr;
 		core.stack.push_frame(core.code_end - 1, arity);
+		for(const auto c : fx.captured) core.stack.push(c);
 		auto result = run_core(core);
 		core.pc = prev;
 		return result;
