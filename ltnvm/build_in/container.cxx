@@ -46,6 +46,7 @@ namespace ltn::vm::build_in {
 		if(is_queue(ref)) return size<Deque>(ref, core);
 		if(is_stack(ref)) return size<Deque>(ref, core);
 		if(is_map(ref)) return size<Map>(ref, core);
+		if(is_iterator(ref)) return value::integer(iterator::size(ref, core.heap));
 		throw except::invalid_argument();
 	}
 	

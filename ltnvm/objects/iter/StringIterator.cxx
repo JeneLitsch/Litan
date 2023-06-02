@@ -38,4 +38,11 @@ namespace ltn::vm {
 	void StringIterator::move(Heap &, std::int64_t amount) {
 		this->index += amount;
 	}
+
+
+
+	std::uint64_t StringIterator::size(Heap & heap) const {
+		auto & str = heap.read<String>(this->ref);
+		return static_cast<std::uint64_t>(std::size(str));
+	}
 }

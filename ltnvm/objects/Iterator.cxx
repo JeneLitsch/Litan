@@ -14,6 +14,7 @@ namespace ltn::vm {
 	}
 
 
+
 	namespace iterator {
 		Iterator range(std::int64_t begin, std::int64_t end, std::int64_t step) {
 			return RangeIterator(begin, end, step);
@@ -36,6 +37,7 @@ namespace ltn::vm {
 		Iterator combined(std::vector<std::uint64_t> refs) {
 			return CombinedIterator(std::move(refs));
 		}
+
 
 
 		namespace {
@@ -96,6 +98,16 @@ namespace ltn::vm {
 			}
 			auto & iter = heap.read<Iterator>(ref);
 			return iter.move(heap, step);
+		}
+
+
+
+		std::uint64_t size(const Value & ref, Heap & heap) {
+			if(!is_iterator(ref)) {
+				throw except::invalid_argument("std::iter::advance expects an iterator");
+			}
+			auto & iter = heap.read<Iterator>(ref);
+			return iter.size(heap);
 		}
 	}
 }

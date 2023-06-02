@@ -1,6 +1,7 @@
 #include "CombinedIterator.hxx"
 #include "ltnvm/VmCore.hxx"
 #include "ltnvm/utils/type_check.hxx"
+#include <limits>
 
 namespace ltn::vm {
 	CombinedIterator::CombinedIterator(std::vector<std::uint64_t> iters) 
@@ -48,5 +49,17 @@ namespace ltn::vm {
 			auto & iter = heap.read<Iterator>(ref);
 			iter.move(heap, amount);
 		}
+	}
+
+
+
+	std::uint64_t CombinedIterator::size(Heap & heap) const {
+		if(std::empty(this->iters)) return 0;
+		std::uint64_t size = std::numeric_limits<std::uint64_t>::max();
+		for(const auto & iter_ref : this->iters) {
+			const auto & iter = heap.read<Iterator>(iter_ref); 
+			size = std::min(size, iter.size(heap));
+		}
+		return size;
 	}
 }

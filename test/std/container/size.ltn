@@ -51,4 +51,34 @@ namespace sphinx::test {
 		m[2] = 3;
 		assert_equal(std::size(m), 3);
 	}
+
+
+
+	function std_size_iterator() {
+		var test = lambda(iter) {
+			var size = std::size(iter);
+			var counter = 0;
+			for(elem : iter) {
+				counter = counter + 1;
+			}
+			assert_equal_strict(size, counter);
+		};
+
+
+		test(std::range(0,100));
+		test(std::range(0,100,2));
+		test(std::range(0,99,2));
+		test(std::range(0,99,3));
+		test(std::range(0,99,4));
+
+		test(std::iter::iter([]));
+		test(std::iter::iter([1,2,3]));
+		
+		test(std::iter::iter(""));
+		test(std::iter::iter("ABC"));
+
+		test(std::zipped("ABC", [1,2,3]));
+		test(std::zipped("ABC", [1,2,3,4]));
+		test(std::zipped("ABC", []));
+	}
 }

@@ -16,6 +16,7 @@ namespace ltn::vm {
 		Value get(Heap &);
 		void move(Heap &, std::int64_t amount);
 		void mark(Heap &);
+		std::uint64_t size(Heap & heap) const;
 	private:
 		std::vector<std::uint64_t> iters;
 	};

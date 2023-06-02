@@ -13,6 +13,7 @@ namespace ltn::vm {
 			virtual Value get(Heap & heap) = 0;
 			virtual void move(Heap & heap, std::int64_t amount) = 0;
 			virtual void mark(Heap & heap) = 0;
+			virtual std::uint64_t size(Heap & heap) const = 0;
 			virtual std::unique_ptr<Concept> clone() = 0;
 			virtual ~Concept() = default;
 		};
@@ -36,6 +37,10 @@ namespace ltn::vm {
 			virtual void mark(Heap & heap) override {
 				return t.mark(heap);
 			}
+
+			virtual std::uint64_t size(Heap & heap) const override {
+				return t.size(heap);
+			}
 			
 			virtual std::unique_ptr<Concept> clone() override {
 				return std::make_unique<Impl<T>>(t);
@@ -45,17 +50,18 @@ namespace ltn::vm {
 		};
 	public:
 		template<typename T>
-		Iterator(T && impl) : core { std::make_unique<Impl<T>>(Impl<T>{std::move(impl)}) } {}
-		Value next(Heap & heap) { return core->next(heap); }
-		Value get(Heap & heap) { return core->get(heap); }
-		void move(Heap & heap, std::int64_t amount) { return core->move(heap, amount); }
-		void mark(Heap & heap) { return core->mark(heap); }
+		Iterator(T && impl) : impl { std::make_unique<Impl<T>>(Impl<T>{std::move(impl)}) } {}
+		Value next(Heap & heap) { return impl->next(heap); }
+		Value get(Heap & heap) { return impl->get(heap); }
+		void move(Heap & heap, std::int64_t amount) { return impl->move(heap, amount); }
+		void mark(Heap & heap) { return impl->mark(heap); }
+		std::uint64_t size(Heap & heap) const { return impl->size(heap); }
 
-		Iterator clone() const { return Iterator{core->clone()}; }
+		Iterator clone() const { return Iterator{impl->clone()}; }
 	private:
-		Iterator(std::unique_ptr<Concept> core) : core { std::move(core) } {}
+		Iterator(std::unique_ptr<Concept> impl) : impl { std::move(impl) } {}
 
-		std::unique_ptr<Concept> core;
+		std::unique_ptr<Concept> impl;
 	};
 
 
@@ -73,5 +79,6 @@ namespace ltn::vm {
 		Value next(const Value & ref, Heap & heap);
 		Value get(const Value & ref, Heap & heap);
 		void move(const Value & ref, const Value & amount, Heap & heap);
+		std::uint64_t size(const Value & ref, Heap & heap);
 	}
 }

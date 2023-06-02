@@ -38,4 +38,11 @@ namespace ltn::vm {
 	void ArrayIterator::move(Heap &, std::int64_t amount) {
 		this->index += amount;
 	}
+
+
+
+	std::uint64_t ArrayIterator::size(Heap & heap) const {
+		auto & arr = heap.read<Array>(this->ref);
+		return static_cast<std::uint64_t>(std::size(arr));
+	}
 }

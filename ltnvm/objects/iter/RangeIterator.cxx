@@ -37,4 +37,12 @@ namespace ltn::vm {
 	void RangeIterator::move(Heap &, std::int64_t amount) {
 		this->current += amount * this->step;
 	}
+
+
+
+	std::uint64_t RangeIterator::size(Heap & heap) const {
+		const auto dist = this->end - this->begin;
+		const auto extra = (dist % this->step) != 0;
+		return dist / this->step + extra;
+	}
 }

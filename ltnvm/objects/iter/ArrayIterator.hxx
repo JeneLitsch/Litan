@@ -15,6 +15,7 @@ namespace ltn::vm {
 		Value get(Heap &);
 		void move(Heap &, std::int64_t amount);
 		void mark(Heap &);
+		std::uint64_t size(Heap & heap) const;
 	private:
 		std::uint64_t ref;
 		std::int64_t index;
