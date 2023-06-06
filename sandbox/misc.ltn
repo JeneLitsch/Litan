@@ -3,5 +3,5 @@ define type = <struct>;
 
 function main(args) {
 	var obj = [.a = 1];
-	return std::cast(type, obj).a;
+	return (std::cast(type, obj).a, std::is(type, 1));
 }
