@@ -99,6 +99,8 @@ namespace sphinx::test {
 		assert_equal_strict(std::str(<stack(float)>), "stack(float)");
 		assert_equal_strict(std::str(<map>), "map(any,any)");
 		assert_equal_strict(std::str(<map(float, int)>), "map(float,int)");
+		assert_equal_strict(std::str(<struct>), "struct");
+		assert_equal_strict(std::str(<struct(.a:int)>), "struct(.a:int)");
 		
 		assert_equal_strict(std::str(<type:null>), "null");
 		assert_equal_strict(std::str(<type:bool>), "bool");
