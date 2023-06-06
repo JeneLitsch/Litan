@@ -110,6 +110,8 @@ namespace ltn::c {
 			}
 		}
 
+		program.member_name_table = member_table.get_table();
+
 		return program;
 	}
 

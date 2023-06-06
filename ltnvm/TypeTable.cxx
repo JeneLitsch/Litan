@@ -46,7 +46,7 @@ namespace ltn::vm {
 				return CAST(value, core);
 			}
 
-			virtual std::string name() const override {
+			virtual std::string name(VmCore &) const override {
 				return NAME.str();
 			}
 
@@ -72,8 +72,8 @@ namespace ltn::vm {
 				return CAST(value, core, sub_type);
 			}
 
-			virtual std::string name() const override {
-				return NAME.str() + "(" + sub_type->name() + ")";
+			virtual std::string name(VmCore & core) const override {
+				return NAME.str() + "(" + sub_type->name(core) + ")";
 			}
 
 			static TypeResult make(TypeTable & type_table, const std::uint8_t * code) {
@@ -105,8 +105,8 @@ namespace ltn::vm {
 				return CAST(value, core, sub_type_l, sub_type_r);
 			}
 
-			virtual std::string name() const override {
-				return NAME.str() + "(" + sub_type_l->name() + "," + sub_type_r->name() + ")";
+			virtual std::string name(VmCore & core) const override {
+				return NAME.str() + "(" + sub_type_l->name(core) + "," + sub_type_r->name(core) + ")";
 			}
 
 			static TypeResult make(TypeTable & type_table, const std::uint8_t * code) {
@@ -137,14 +137,14 @@ namespace ltn::vm {
 				return CAST(value, core, sub_types);
 			}
 
-			virtual std::string name() const override {
+			virtual std::string name(VmCore & core) const override {
 				std::ostringstream oss;
 				oss << NAME.str() << "(";
 				bool first = true;
 				for(const auto & st : this->sub_types) {
 				 	if(first) first = false;
 					else oss << ",";
-					oss << st->name();
+					oss << st->name(core);
 				}
 				oss << ")";
 				return oss.str();
@@ -183,7 +183,7 @@ namespace ltn::vm {
 				return CAST(value, core, number);
 			}
 
-			virtual std::string name() const override {
+			virtual std::string name(VmCore &) const override {
 				std::ostringstream oss;
 				oss << NAME.str() << "(" << number << ")";
 				return oss.str();
@@ -230,9 +230,22 @@ namespace ltn::vm {
 				return this->is(value, core) ? value : value::null;
 			}
 
-			virtual std::string name() const override {
+			virtual std::string name(VmCore & core) const override {
 				std::ostringstream oss;
-				oss << "<struct>";
+				oss << "struct";
+				if(!std::empty(this->members)) {
+					oss << "(";
+					bool first = true; 
+					for(auto & member : this->members) {
+						if(first) first = false;
+						else oss << ",";
+						oss << ".";
+						oss << core.member_name_table.at(member.member_id);
+						oss << ":";
+						oss << member.type->name(core);
+					}
+					oss << ")";
+				}
 				return oss.str();
 			}
 

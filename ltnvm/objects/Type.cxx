@@ -1,8 +1,8 @@
 #include "Type.hxx"
 
 namespace ltn::vm {
-	std::string type_name(const Type & type) {
-		return type.name();
+	std::string type_name(const Type & type, VmCore & core) {
+		return type.name(core);
 	}
 
 

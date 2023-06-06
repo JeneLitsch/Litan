@@ -17,6 +17,7 @@ namespace ltn::vm {
 		std::unordered_map<std::int64_t, ext::Callable> externals;
 		std::unordered_map<std::string, std::uint64_t> function_table;
 		std::unordered_map<std::string, std::uint64_t> static_table;
+		std::unordered_map<std::uint64_t, std::string> member_name_table;
 
 		TypeTable type_table;
 		

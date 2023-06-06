@@ -159,13 +159,13 @@ namespace ltn::c {
 		
 		const auto jump_table     = scan(instructions);
 		const auto function_table = build_fx_table(link_info.init_functions, jump_table);
-		const auto & static_table = link_info.global_table;
 
 		std::vector<std::uint8_t> bytecode;
 		bytecode.push_back(ltn::major_version);
 
 		bytecode += sequence_table(function_table);
-		bytecode += sequence_table(static_table);
+		bytecode += sequence_table(link_info.global_table);
+		bytecode += sequence_table(link_info.member_name_table);
 
 		for(const auto & inst : instructions) {
 			std::visit([&] (auto & i) {

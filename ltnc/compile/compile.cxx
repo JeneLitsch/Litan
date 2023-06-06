@@ -46,8 +46,14 @@ namespace ltn::c {
 			extern_globals.insert({full_name, symbol->id});
 		}
 
+		std::map<std::uint64_t, std::string> member_name_table;
+
 		buf << inst::exit();
 
-		return { buf.get(), LinkInfo { extern_functions, extern_globals }};
+		return { buf.get(), LinkInfo { 
+			.init_functions = extern_functions,
+			.global_table = extern_globals,
+			.member_name_table = program.member_name_table,
+		}};
 	}
 }
