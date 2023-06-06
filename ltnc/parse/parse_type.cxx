@@ -115,7 +115,7 @@ namespace ltn::c {
 
 
 
-		std::variant<MemberCode, std::string> parse_struct_member_name(const Token & begin, Tokens & tokens) {
+		std::variant<std::string, MemberCode> parse_struct_member_name(const Token & begin, Tokens & tokens) {
 			if(auto name = match(TT::INDENTIFIER, tokens)) {
 				return name->str;
 			}

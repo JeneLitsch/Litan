@@ -202,6 +202,73 @@ namespace ltn::vm {
 
 
 
+		class StructType : public Type {
+		public:
+			struct Member {
+				std::uint64_t member_id;
+				const Type * type;
+			};
+			StructType(std::vector<Member> members) : members{std::move(members)} {}
+
+			virtual bool is(const Value & value, VmCore & core) const override {
+				if(!is_struct(value)) return false;
+				auto & strukt = core.heap.read<Struct>(value);
+				for(auto & type_member : this->members) {
+					if(auto * data_member = strukt.get(type_member.member_id)){
+						if(!type_member.type->is(*data_member, core)) {
+							return false;
+						}
+					}
+					else {
+						return false;
+					}
+				} 
+				return true;
+			}
+
+			virtual Value cast(const Value & value, VmCore & core) const override {
+				return this->is(value, core) ? value : value::null;
+			}
+
+			virtual std::string name() const override {
+				std::ostringstream oss;
+				oss << "<struct>";
+				return oss.str();
+			}
+
+			static TypeResult make(TypeTable & type_table, const std::uint8_t * code) {
+				auto begin = code;
+				std::vector<Member> members;
+				++code;
+				auto size = read_uint_64(code);
+				code += 8;
+
+				std::cout << "SIZE" << size << "\n"; 
+
+				for(std::size_t i = 0; i < size; ++i) {
+					auto id = read_uint_64(code);
+					auto [type, next] = make_type(type_table, code + 8);
+					code = next;
+
+					std::cout << "ID" << id << " TYPE" << type << "\n"; 
+
+					members.push_back(Member{
+						.member_id = id,
+						.type = type_table[type],
+					});
+				}
+				
+				std::vector<std::uint8_t> bytes {begin, code}; 
+
+				return { get_type<StructType>(type_table, bytes, std::move(members)), code };
+			}
+
+		private:
+			std::vector<Member> members;
+		};
+
+
+
 		template<auto IS>
 		bool simple_check_for(const Value & value, VmCore &) {
 			return IS(value);
@@ -462,10 +529,7 @@ namespace ltn::vm {
 			, type_cast_map
 		>;
 
-		using TypeStruct = PrimaryType<"struct"
-			, simple_check_for<is_struct>
-			, ret_if_or_null<is_struct>
-		>;
+		using TypeStruct = StructType;
 
 
 

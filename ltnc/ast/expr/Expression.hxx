@@ -583,7 +583,7 @@ namespace ltn::c::ast {
 		struct Clock {};
 		struct Struct {
 			struct Member {
-				std::variant<MemberCode, std::string> name;
+				std::variant<std::string, MemberCode> name;
 				std::unique_ptr<Type> type;
 			};
 
