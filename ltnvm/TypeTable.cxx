@@ -243,14 +243,10 @@ namespace ltn::vm {
 				auto size = read_uint_64(code);
 				code += 8;
 
-				std::cout << "SIZE" << size << "\n"; 
-
 				for(std::size_t i = 0; i < size; ++i) {
 					auto id = read_uint_64(code);
 					auto [type, next] = make_type(type_table, code + 8);
 					code = next;
-
-					std::cout << "ID" << id << " TYPE" << type << "\n"; 
 
 					members.push_back(Member{
 						.member_id = id,
