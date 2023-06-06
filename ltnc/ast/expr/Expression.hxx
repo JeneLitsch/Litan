@@ -581,7 +581,14 @@ namespace ltn::c::ast {
 		struct TypeT {};
 		struct Rng {};
 		struct Clock {};
-		struct Struct {};
+		struct Struct {
+			struct Member {
+				std::variant<std::string, MemberCode> name;
+				std::unique_ptr<Type> type;
+			};
+
+			std::vector<Member> members;
+		};
 		struct Queue {
 			std::unique_ptr<Type> contains;
 		};
@@ -607,7 +614,7 @@ namespace ltn::c::ast {
 			IStream, OStream,
 			Iterator, IteratorStop,
 			TypeT, Rng, Clock,
-			// Struct, 
+			Struct, 
 			Map,
 			Queue, Stack
 		>;

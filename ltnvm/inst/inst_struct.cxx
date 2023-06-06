@@ -13,16 +13,6 @@ namespace ltn::vm::inst {
 
 
 
-		Value * get_member(Struct & strukt, const auto id) {
-			for(auto & [memberId, member] : strukt.members) {
-				if(id == memberId) {
-					return &member;
-				}
-			}
-			return nullptr;
-		}
-
-
 
 		void delete_member(Struct & strukt, const auto id) {			
 			const auto finder = [id] (const auto & pair) {
@@ -41,7 +31,7 @@ namespace ltn::vm::inst {
 		const auto id = core.fetch_uint();
 		const auto ref = core.stack.pop();
 		auto & strukt = get_struct(ref, core.heap);
-		if(const auto * const member = get_member(strukt, id)) {
+		if(const auto * const member = strukt.get(id)) {
 			core.stack.push(*member);
 		}
 		else {
@@ -56,7 +46,7 @@ namespace ltn::vm::inst {
 		const auto ref = core.stack.pop();
 		const auto value = core.stack.pop();
 		auto & strukt = get_struct(ref, core.heap);
-		if(auto * const member = get_member(strukt, id)) {
+		if(auto * const member = strukt.get(id)) {
 			if(is_null(value)) {
 				delete_member(strukt, id);
 			}

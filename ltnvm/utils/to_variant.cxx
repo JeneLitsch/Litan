@@ -27,7 +27,7 @@ namespace ltn::vm {
 			return Variant{heap.read<String>(value.u)};
 		}
 
-		if(is_array(value)) {
+		if(is_array_or_tuple(value)) {
 			auto & array = heap.read<Array>(value.u);
 			std::vector<Variant> vector;
 			for(const auto & elem : array) {

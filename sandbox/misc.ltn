@@ -1,11 +1,9 @@
-function join(strings, joiner) const {
-	var cap = 1;
-	var fx = lambda[cap](a,b) => cap;
-	return std::reduce_l(strings, fx, 0);
-}
-
-
+define type = <struct(.a:int, .b:float)>;
 
 function main(args) {
-	return join([1, 2, 3], 1);
+	var obj = [
+		.a = 1,
+		.b = 2.0
+	];
+	return std::is(type, obj);
 }

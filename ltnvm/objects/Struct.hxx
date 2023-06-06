@@ -12,8 +12,21 @@ namespace ltn::vm {
 	struct Struct {
 		using Members = std::vector<std::pair<std::uint64_t, Value>>;
 		Members members;
+
+		Value * get(const auto id) {
+			for(auto & [memberId, member] : this->members) {
+				if(id == memberId) {
+					return &member;
+				}
+			}
+			return nullptr;
+		}
 	};
-	
+
+
+
+
+
 
 
 	inline Struct clone(const Struct & strukt) {

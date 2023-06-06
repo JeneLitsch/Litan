@@ -24,4 +24,5 @@ namespace ltn::type_code {
 	inline constexpr std::uint8_t STACK         = 'S';
 	inline constexpr std::uint8_t QUEUE         = 'Q';
 	inline constexpr std::uint8_t MAP           = 'M';
+	inline constexpr std::uint8_t STRUCT        = '.';
 }

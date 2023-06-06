@@ -149,6 +149,17 @@ namespace ltn::c {
 			return code;
 		}
 
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Struct & type, Scope & scope) {
+			std::vector<std::uint8_t> code;
+			code.push_back(type_code::STRUCT);
+			code += uint64_to_bytes(std::size(type.members));
+			for(auto & member : type.members) {
+				code += uint64_to_bytes(scope.resolve_member_id(member.name));
+				code += analyze_type(*member.type, scope);
+			}
+			return code;
+		}
+
 		std::vector<std::uint8_t> analyze_type(const ast::Type & type, Scope & scope) {
 			return std::visit([&] (auto & t) {
 				return analyze_type(t, scope);
