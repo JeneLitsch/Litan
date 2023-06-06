@@ -581,7 +581,14 @@ namespace ltn::c::ast {
 		struct TypeT {};
 		struct Rng {};
 		struct Clock {};
-		struct Struct {};
+		struct Struct {
+			struct Member {
+				std::variant<MemberCode, std::string> name;
+				std::unique_ptr<Type> type;
+			};
+
+			std::vector<Member> members;
+		};
 		struct Queue {
 			std::unique_ptr<Type> contains;
 		};

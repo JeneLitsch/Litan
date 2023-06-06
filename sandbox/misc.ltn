@@ -1,5 +1,7 @@
-define type = <struct>;
-// define type = <struct({add}, {sub}, {mod}, {div}, {mod})>
+define type = <struct(
+	.a:struct(.a:float),
+	.b:int,
+)>;
 
 function main(args) {
 	var obj = [.a = 1];

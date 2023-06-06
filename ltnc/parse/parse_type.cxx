@@ -1,5 +1,5 @@
 #include "parse.hxx"
-
+#include "parse_utils.hxx"
 
 namespace ltn::c {
 	using TT = Token::Type;
@@ -114,6 +114,65 @@ namespace ltn::c {
 		}
 
 
+
+		std::variant<MemberCode, std::string> parse_struct_member_name(const Token & begin, Tokens & tokens) {
+			if(auto name = match(TT::INDENTIFIER, tokens)) {
+				return name->str;
+			}
+			else if(match(TT::BRACE_L, tokens)) {
+				auto code = parse_member_code(tokens);
+
+				if(!match(TT::BRACE_R, tokens)) {
+					throw CompilerError{"Expected }", location(tokens)};
+				}
+
+				return code;
+			}
+			throw CompilerError{"Expected member", begin.location};
+		}
+
+
+
+		ast::type_ptr parse_struct_member_type(const Token & begin, Tokens & tokens) {
+			if(auto new_begin = match(TT::COLON, tokens)) {
+				return parse_type_name(*new_begin, tokens);
+			}
+
+			return std::make_unique<ast::Type>(ast::Type::Any{}, begin.location);
+		}
+
+
+
+		ast::Type::Struct::Member parse_struct_member(const Token & begin, Tokens & tokens) {
+			if(!match(TT::DOT, tokens)) {
+				throw CompilerError{"Expected .", location(tokens)};
+			}
+			auto name = parse_struct_member_name(begin, tokens);
+			auto type = parse_struct_member_type(begin, tokens);
+
+			return ast::Type::Struct::Member{
+				.name = std::move(name),
+				.type = std::move(type),
+			};
+		}
+
+
+
+		ast::type_ptr parse_struct_type(const Token & begin, Tokens & tokens) {
+			if(match(TT::PAREN_L, tokens)) {
+				auto members = list_of<ast::Type::Struct::Member>(TT::PAREN_R, ")", tokens, [&begin] (auto & tokens) {
+					return parse_struct_member(begin, tokens);
+				});
+				return std::make_unique<ast::Type>(ast::Type::Struct{
+					.members = std::move(members),
+				}, begin.location);
+			}
+			else {
+				return simple_type<ast::Type::Struct>(begin);
+			}
+		}
+
+
 		ast::type_ptr parse_type_name(const Token & begin, Tokens & tokens) {
 			if(auto name = match(TT::NVLL, tokens)) {
 				return simple_type<ast::Type::Null>(begin);
@@ -138,7 +197,7 @@ namespace ltn::c {
 				if(name->str == "queue") return unary_type<ast::Type::Queue>(begin, tokens);
 				if(name->str == "stack") return unary_type<ast::Type::Stack>(begin, tokens);
 				if(name->str == "map") return map_type(begin, tokens);
-				if(name->str == "struct") return simple_type<ast::Type::Struct>(begin);
+				if(name->str == "struct") return parse_struct_type(begin, tokens);
 				throw CompilerError {"Unknown type name " + name->str, name->location};
 			}
 			throw CompilerError {"Expected type name", begin.location};
@@ -166,7 +225,7 @@ namespace ltn::c {
 		if(auto begin = match(TT::SMALLER, tokens)) {
 			auto type = parse_type_name_start(*begin, tokens);
 			if(!match(TT::BIGGER, tokens)) throw CompilerError {
-				"Expected )", begin->location
+				"Expected >", begin->location
 			};
 			return type;
 		}
