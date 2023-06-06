@@ -373,4 +373,40 @@ namespace sphinx::test {
 			(q1  , q2),
 		]);
 	}
+
+
+
+	function std_type_cast_struct_empty() {
+		utils::test_cast(<struct>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([]  , null),
+			([.] , [.]),
+		]);
+	}
+
+
+
+	function std_type_cast_struct_member() {
+		utils::test_cast(<struct(.a)>, [
+			([.], null),
+			([.a = 1], [.a = 1]),
+			([.b = 1], null),
+			([.a = 1, .b = 1], [.a = 1, .b = 1]),
+		]);
+	}
+
+
+
+	function std_type_cast_struct_type() {
+		utils::test_cast(<struct(.a:int)>, [
+			([.], null),
+			([.a = 1], [.a = 1]),
+			([.a = 1.0], null),
+		]);
+	}
 }

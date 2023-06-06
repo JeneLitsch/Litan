@@ -448,4 +448,40 @@ namespace sphinx::test {
 			(map2, true),
 		]);
 	}
+
+
+
+	function std_type_is_struct_empty() {
+		utils::test_is(<struct>, [
+			(null, false),
+			(true, false),
+			('A' , false),
+			(1   , false),
+			(1.0 , false),
+			(""  , false),
+			([]  , false),
+			([.] , true),
+		]);
+	}
+
+
+
+	function std_type_is_struct_member() {
+		utils::test_is(<struct(.a)>, [
+			([.], false),
+			([.a = 1], true),
+			([.b = 1], false),
+			([.a = 1, .b = 1], true),
+		]);
+	}
+
+
+
+	function std_type_is_struct_type() {
+		utils::test_is(<struct(.a:int)>, [
+			([.], false),
+			([.a = 1], true),
+			([.a = 1.0], false),
+		]);
+	}
 }
