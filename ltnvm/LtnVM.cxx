@@ -237,6 +237,16 @@ namespace ltn::vm {
 		this->core.static_table = read_addr_table(it);
 		this->core.member_name_table = read_name_table(it);
 
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::ADD)] = "{add}";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::SUB)] = "{sub}";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::MLT)] = "{mlt}";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::DIV)] = "{div}";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::MOD)] = "{mod}";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::POW)] = "{pow}";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::STR)] = "{str}";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::CMP)] = "{cmp}";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::BOOL)] = "{bool}";
+
 		this->byte_code = { it, std::end(code) };
 		this->core.code_begin = std::data(this->byte_code);
 		this->core.code_end = this->core.code_begin + std::size(this->byte_code);
