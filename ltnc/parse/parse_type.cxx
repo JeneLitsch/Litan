@@ -138,6 +138,7 @@ namespace ltn::c {
 				if(name->str == "queue") return unary_type<ast::Type::Queue>(begin, tokens);
 				if(name->str == "stack") return unary_type<ast::Type::Stack>(begin, tokens);
 				if(name->str == "map") return map_type(begin, tokens);
+				if(name->str == "struct") return simple_type<ast::Type::Struct>(begin);
 				throw CompilerError {"Unknown type name " + name->str, name->location};
 			}
 			throw CompilerError {"Expected type name", begin.location};

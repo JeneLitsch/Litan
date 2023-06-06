@@ -462,6 +462,11 @@ namespace ltn::vm {
 			, type_cast_map
 		>;
 
+		using TypeStruct = PrimaryType<"struct"
+			, simple_check_for<is_struct>
+			, ret_if_or_null<is_struct>
+		>;
+
 
 
 		TypeResult make_type(TypeTable & type_table, const std::uint8_t * code) {
@@ -488,6 +493,7 @@ namespace ltn::vm {
 				case type_code::QUEUE: return TypeQueue::make(type_table, code);
 				case type_code::STACK: return TypeStack::make(type_table, code);
 				case type_code::MAP: return TypeMap::make(type_table, code);
+				case type_code::STRUCT: return TypeStruct::make(type_table, code);
 				default: throw std::runtime_error{""};
 			}
 		}

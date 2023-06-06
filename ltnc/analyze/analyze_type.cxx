@@ -149,6 +149,10 @@ namespace ltn::c {
 			return code;
 		}
 
+		std::vector<std::uint8_t> analyze_type(const ast::Type::Struct & type, Scope & scope) {
+			return {type_code::STRUCT};
+		}
+
 		std::vector<std::uint8_t> analyze_type(const ast::Type & type, Scope & scope) {
 			return std::visit([&] (auto & t) {
 				return analyze_type(t, scope);
