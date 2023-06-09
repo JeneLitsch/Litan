@@ -9,6 +9,7 @@
 #include "ltnc/ast/AST.hxx"
 #include "FunctionTable.hxx"
 
+#include "CustomResolver.hxx"
 #include "DefinitionTable.hxx"
 #include "MemberTable.hxx"
 #include "GlobalTable.hxx"
@@ -23,6 +24,7 @@ namespace ltn::c {
 		MemberTable & member_table;
 		GlobalTable & global_table;
 		Reporter & reporter;
+		CustomResolver & custom_resolver;
 	};
 
 }	

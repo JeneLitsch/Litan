@@ -52,6 +52,7 @@ namespace ltn::c {
 		ValidDefinitionTable definition_table;
 		MemberTable member_table;
 		ValidGlobalTable global_table;
+		CustomResolver custom_resolver;
 		Context context {
 			.fx_table = fx_table,
 			.fx_queue = fx_queue,
@@ -59,6 +60,7 @@ namespace ltn::c {
 			.member_table = member_table,
 			.global_table = global_table,
 			.reporter = reporter,
+			.custom_resolver = custom_resolver,
 		};
 
 

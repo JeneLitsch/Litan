@@ -27,6 +27,8 @@ namespace ltn::c {
 		stx::optref<const sst::Definition> resolve_definiton(const std::string & name, const Namespace & ns) const;
 		std::uint64_t resolve_member_id(const std::variant<std::string, MemberCode> & name) const;
 
+		sst::expr_ptr resolve_custom_literal(const std::string & type, const std::string & value) const;
+
 	protected:
 		std::unordered_map<std::string, Variable> vars;
 		std::optional<std::string> return_point;

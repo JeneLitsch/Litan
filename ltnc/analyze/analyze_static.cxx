@@ -41,7 +41,8 @@ namespace ltn::c {
 			.definition_table  = def_table,
 			.member_table      = context.member_table,
 			.global_table      = global_table,
-			.reporter          = context.reporter
+			.reporter          = context.reporter,
+			.custom_resolver   = context.custom_resolver,
 		};
 		return analyze_static<sst::Definition>(def, read_context, id);
 	}
@@ -62,7 +63,8 @@ namespace ltn::c {
 			.definition_table  = context.definition_table,
 			.member_table      = context.member_table,
 			.global_table      = global_table,
-			.reporter          = context.reporter
+			.reporter          = context.reporter,
+			.custom_resolver   = context.custom_resolver,
 		};
 		return analyze_static<sst::Global>(global, read_context, id);
 	}

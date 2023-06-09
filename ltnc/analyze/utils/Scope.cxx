@@ -63,5 +63,11 @@ namespace ltn::c {
 	std::uint64_t Scope::resolve_member_id(const std::variant<std::string, MemberCode> & name) const {
 		return this->get_context().member_table.get_id(name);
 	}
+
+
+
+	sst::expr_ptr Scope::resolve_custom_literal(const std::string & type, const std::string & value) const {
+		return this->get_context().custom_resolver.resolve(type, value);
+	}
 }
 

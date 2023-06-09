@@ -13,7 +13,8 @@ namespace ltn::c {
 			.definition_table = outer_context.definition_table, 
 			.member_table = outer_context.member_table, 
 			.global_table = global_table,
-			.reporter = outer_context.reporter
+			.reporter = outer_context.reporter,
+			.custom_resolver   = outer_context.custom_resolver,
 		};
 
 		MajorScope case_scope {
