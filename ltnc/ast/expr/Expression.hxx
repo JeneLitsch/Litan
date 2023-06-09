@@ -42,6 +42,7 @@ namespace ltn::c::ast {
 	struct InitStruct;
 	struct Map;
 	struct Type;
+	struct CustomLiteral;
 
 
 
@@ -70,7 +71,8 @@ namespace ltn::c::ast {
 		ForwardDynamicCall,
 		InitStruct,
 		Map,
-		Type
+		Type,
+		CustomLiteral
 	>;
 
 
@@ -632,6 +634,25 @@ namespace ltn::c::ast {
 
 
 
+	struct CustomLiteral final : Expression {
+		CustomLiteral(
+			std::string type,
+			std::string value,
+			const SourceLocation & location)
+			: Expression{location}
+			, type{std::move(type)}
+			, value{std::move(value)} {}
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+		
+		std::string type;
+		std::string value;
+	};
+
+
+
 	auto visit_expression(const Expression & expr, auto && fx) {
 		using Callable = std::decay_t<decltype(fx)>;
 		using Ret = std::invoke_result_t<Callable, Binary>;
@@ -663,8 +684,9 @@ namespace ltn::c::ast {
 			virtual void visit(const Reflect & x)            const override { this->run(x); };
 			virtual void visit(const ForwardDynamicCall & x) const override { this->run(x); };
 			virtual void visit(const InitStruct & x)         const override { this->run(x); };
-			virtual void visit(const Map & x)            const override { this->run(x); };
+			virtual void visit(const Map & x)                const override { this->run(x); };
 			virtual void visit(const Type & x)               const override { this->run(x); };
+			virtual void visit(const CustomLiteral & x)      const override { this->run(x); };
 		};
 
 		return Visitor{fx}(expr);

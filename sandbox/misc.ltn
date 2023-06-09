@@ -1,9 +1,4 @@
-define type = <struct(.a:int, .b:float)>;
-
 function main(args) {
-	var obj = [
-		.a = 1,
-		.b = 2.0
-	];
-	return std::is(type, obj);
+	std::println(@key("@char::nyshjia"));
+	std::println(@lang("#test"));
 }

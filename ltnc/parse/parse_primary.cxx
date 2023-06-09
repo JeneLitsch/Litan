@@ -154,6 +154,23 @@ namespace ltn::c {
 			}
 			else return nullptr;
 		}
+
+
+
+		ast::expr_ptr parse_custom(Tokens & tokens) {
+			if(auto begin = match(TT::AT, tokens)) {
+				const auto & loc = begin->location;
+				auto type = match(TT::INDENTIFIER, tokens);
+				if(!type) throw expected("Expected custom type", loc);
+				if(!match(TT::PAREN_L, tokens)) throw expected("(", loc);
+				auto value = match(TT::STRING, tokens);
+				if(!value) throw expected("Expected string", loc);
+				if(!match(TT::PAREN_R, tokens)) throw expected(")", loc);
+
+				return std::make_unique<ast::CustomLiteral>(type->str, value->str, loc);
+			}
+			else return nullptr;
+		}
 	}
 
 
@@ -231,6 +248,7 @@ namespace ltn::c {
 		if(auto expr = parse_expr_switch(tokens)) return expr;
 		if(auto expr = parse_reflect(tokens)) return expr;
 		if(auto expr = parse_type(tokens)) return expr;
+		if(auto expr = parse_custom(tokens)) return expr;
 		return parse_identifier(tokens);
 	}
 }
