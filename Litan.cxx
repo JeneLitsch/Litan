@@ -3,7 +3,10 @@
 #include <string>
 
 namespace ltn {
-	std::vector<std::uint8_t> build(const std::vector<ltn::c::Source> & user_sources) {
+	std::vector<std::uint8_t> build(
+		const std::vector<ltn::c::Source> & user_sources,
+		const std::vector<ltn::c::CustomLiteral> & literals) {
+
 		ltn::c::Reporter reporter;
 		auto sources = user_sources;
 		ltn::c::inject_stdlib(sources);

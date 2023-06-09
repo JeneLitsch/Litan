@@ -5,8 +5,9 @@
 
 namespace ltn {
 	using LtnVM = vm::LtnVM;
-
 	using Value = vm::Value;
 
-	std::vector<std::uint8_t> build(const std::vector<ltn::c::Source> & sources);
+	std::vector<std::uint8_t> build(
+		const std::vector<ltn::c::Source> & sources,
+		const std::vector<ltn::c::CustomLiteral> & literals = {});
 }

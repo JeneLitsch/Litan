@@ -44,7 +44,8 @@ namespace ltn::c {
 
 	sst::Program analyze(
 		const ast::Program & source,
-		Reporter & reporter) {
+		Reporter & reporter,
+		const std::vector<ltn::c::CustomLiteral> & literals) {
 		
 		sst::Program program;
 		ValidFunctionTable fx_table;
@@ -52,7 +53,7 @@ namespace ltn::c {
 		ValidDefinitionTable definition_table;
 		MemberTable member_table;
 		ValidGlobalTable global_table;
-		CustomResolver custom_resolver;
+		CustomResolver custom_resolver{literals};
 		Context context {
 			.fx_table = fx_table,
 			.fx_queue = fx_queue,

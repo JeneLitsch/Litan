@@ -1,12 +1,10 @@
 #include "CustomResolver.hxx"
 
 namespace ltn::c {
-	CustomResolver::CustomResolver() {
-		auto fx = [] (const std::string & value) {
-			return std::make_unique<sst::String>(value);
-		};
-		this->table.insert({"key", fx});
-		this->table.insert({"lang", fx});
+	CustomResolver::CustomResolver(const std::vector<CustomLiteral> & literals) {
+		for(const auto & lit : literals) {
+			this->table.insert({lit.get_type(), lit});
+		}
 	}
 
 

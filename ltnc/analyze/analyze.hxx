@@ -18,7 +18,10 @@
 #include "error.hxx"
 
 namespace ltn::c {
-	sst::Program analyze(const ast::Program & program, Reporter & reporter);
+	sst::Program analyze(
+		const ast::Program & program,
+		Reporter & reporter,
+		const std::vector<ltn::c::CustomLiteral> & literals = {});
 
 	sst::func_ptr analyze_functional(
 		const ast::Functional &,
