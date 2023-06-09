@@ -12,7 +12,7 @@ namespace ltn {
 		ltn::c::inject_stdlib(sources);
 		auto tokens = ltn::c::lex(sources, reporter);
 		auto ast = ltn::c::parse(tokens, reporter);
-		auto sst = ltn::c::analyze(ast, reporter);
+		auto sst = ltn::c::analyze(ast, reporter, literals);
 		ltn::c::optimize(sst);
 		auto [insts, link_info] = ltn::c::compile(sst, reporter);
 		insts = ltn::c::peephole(insts);
