@@ -83,3 +83,8 @@ Just run `./build.sh COMPILER_GOES_HERE` in this case.
 3. Add the litan subdirectory to your project: e.g. `add_subdirectory(libs/litan)`
 4. Link the library: e.g. `target_link_libraries(my_project litan)`
 5. Include the main header: e.g. `#include "libs/litan/Litan.hxx"`
+
+
+## Special Thanks
+
+Bob Nystrom: For his great book "Crafting Interpreters" which provided a large portion of the information I needed to realize this project. 
