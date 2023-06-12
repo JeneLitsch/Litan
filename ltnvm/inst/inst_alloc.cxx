@@ -73,7 +73,7 @@ namespace ltn::vm::inst {
 
 
 	void newmap(VmCore & core) {
-		const auto ref = core.heap.alloc<Map>(Map{Comparator{&core}});
+		const auto ref = core.heap.alloc<Map>(Map{&core});
 		core.stack.push({ ref, Value::Type::MAP });
 		core.heap.collect_garbage(core.stack);
 	}
