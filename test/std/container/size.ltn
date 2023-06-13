@@ -70,6 +70,13 @@ namespace sphinx::test {
 		test(std::range(0,99,2));
 		test(std::range(0,99,3));
 		test(std::range(0,99,4));
+		test(std::range(100,0,-1));
+		test(std::range(100,0,1));
+		test(std::range(100,0,-3));
+		test(std::range(99,0,-4));
+		test(std::range(100,0,3));
+		test(std::range(0,0,-3));
+
 
 		test(std::iter::iter([]));
 		test(std::iter::iter([1,2,3]));

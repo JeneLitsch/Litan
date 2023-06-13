@@ -42,8 +42,10 @@ namespace ltn::vm {
 
 
 	std::uint64_t RangeIterator::size(Heap &) const {
-		const auto dist = std::abs(this->end - this->begin);
+		const auto diff = this->end - this->begin;
+		if((this->step < 0) != (diff < 0)) return 1 * (diff != 0);
+		const auto dist = std::abs(diff);
 		const auto extra = (dist % this->step) != 0;
-		return static_cast<std::uint64_t>(dist / this->step + extra);
+		return static_cast<std::uint64_t>(diff / this->step + extra);
 	}
 }
