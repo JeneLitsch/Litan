@@ -4,10 +4,10 @@
 #include "ltnvm/Heap.hxx"
 
 namespace ltn::vm {
-	ReversedIterator::ReversedIterator(std::int64_t ref, Heap & heap)
+	ReversedIterator::ReversedIterator(std::uint64_t ref, Heap & heap)
 		: ref{ref} {
 		const auto size = iterator::size(value::iterator(this->ref), heap);
-		heap.read<Iterator>(ref).move(heap, size - 1);
+		heap.read<Iterator>(ref).move(heap, static_cast<std::int64_t>(size) - 1);
 	}
 	
 

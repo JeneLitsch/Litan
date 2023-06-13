@@ -1,4 +1,5 @@
 #include "RangeIterator.hxx"
+#include <cmath>
 #include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm {
@@ -40,9 +41,9 @@ namespace ltn::vm {
 
 
 
-	std::uint64_t RangeIterator::size(Heap & heap) const {
-		const auto dist = this->end - this->begin;
+	std::uint64_t RangeIterator::size(Heap &) const {
+		const auto dist = std::abs(this->end - this->begin);
 		const auto extra = (dist % this->step) != 0;
-		return dist / this->step + extra;
+		return static_cast<std::uint64_t>(dist / this->step + extra);
 	}
 }
