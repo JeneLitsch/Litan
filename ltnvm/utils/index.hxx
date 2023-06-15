@@ -4,19 +4,19 @@
 #include "ltnvm/Exception.hxx"
 
 namespace ltn::vm {
-	void guard_index(const auto & collection, auto i) {
-		if(i < 0) {
+	inline std::int64_t to_index(const Value value, std::uint64_t size) {
+		if(!is_int(value)) throw Exception{
+			Exception::Type::OUT_OF_RANGE,
+			"Expected integer as index"
+		};
+
+		const auto index = ( value.i < 0) ?  value.i + size :  value.i;
+		if(index < 0) {
 			throw Exception{Exception::Type::OUT_OF_RANGE, "Negative index is not allowed"};
 		}
-		if(i >= static_cast<decltype(i)>(collection.size())) {
+		if(index >= size) {
 			throw Exception{Exception::Type::OUT_OF_RANGE, "Index out of range"};
 		}
-	}
-
-	inline std::int64_t to_index(const Value value) {
-		if(!is_int(value)) {
-			throw Exception{Exception::Type::OUT_OF_RANGE,"Expected integer as index"};
-		}
-		return value.i;
+		return index; 
 	}
 }

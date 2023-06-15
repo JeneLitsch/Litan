@@ -52,10 +52,7 @@ namespace ltn::vm::build_in {
 
 	namespace {
 		auto to_iter(auto & container, const Value & key) {
-			const auto i = to_index(key);
-			if(i != static_cast<std::int64_t>(container.size())) {
-				guard_index(container, i);
-			}
+			const auto i = to_index(key, std::size(container) + 1);
 			return std::begin(container) + i;
 		}
 	}

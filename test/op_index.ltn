@@ -42,12 +42,13 @@ namespace sphinx::test {
 
 	function index_array_except() {
 		var array = [1,2,3];
-		assert_except(lambda [array] => array[-1]);
+		assert_success(lambda [array] => array[-1]);
+		assert_except(lambda [array] => array[-10]);
 		assert_success(lambda [array] => array[0]);
 		assert_success(lambda [array] => array[1]);
 		assert_success(lambda [array] => array[2]);
 		assert_except(lambda [array] => array[3]);
-		assert_except(lambda [array] { array[-1] = 5; });
+		assert_success(lambda [array] { array[-1] = 5; });
 		assert_success(lambda [array] { array[0] = 5; });
 		assert_success(lambda [array] { array[1] = 5; });
 		assert_success(lambda [array] { array[2] = 5; });
@@ -102,7 +103,8 @@ namespace sphinx::test {
 	function index_string_except() {
 		var str = "ABC";
 
-		assert_except(lambda[str] => str[-1]);
+		assert_success(lambda[str] => str[-1]);
+		assert_except(lambda[str] => str[-10]);
 		assert_success(lambda[str] => str[0]);
 		assert_success(lambda[str] => str[1]);
 		assert_success(lambda[str] => str[2]);

@@ -39,9 +39,9 @@ namespace ltn::vm::build_in {
 
 
 		template<typename Collection>
-		Value remove_index(const Value ref, Heap & heap, std::int64_t i, std::int64_t size = 1) {
+		Value remove_index(const Value ref, Heap & heap, const Value & index, std::int64_t size = 1) {
 			auto & collection = heap.read<Collection>(ref.u);
-			guard_index(collection, i);
+			const auto i = to_index(index, std::size(collection));
 			const auto begin = collection.begin() + i;
 			const auto end = begin + size;
 			collection.erase(begin, end);
@@ -81,9 +81,8 @@ namespace ltn::vm::build_in {
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(is_map(ref)) return remove_m(ref, core.heap, key);
-		const auto index = to_index(key);
-		if(is_string(ref)) return remove_index<String>(ref, core.heap, index);
-		if(is_array(ref)) return remove_index<Array>(ref, core.heap, index);
+		if(is_string(ref)) return remove_index<String>(ref, core.heap, key);
+		if(is_array(ref)) return remove_index<Array>(ref, core.heap, key);
 		throw except::invalid_argument();
 	}
 }

@@ -1,2 +1,4 @@
 function main(args) {
+	var arr = [1];
+	return arr[0];
 }

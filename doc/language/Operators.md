@@ -275,13 +275,16 @@ TODO
 The index operator is used to retrieve or assign elements from collections.
 An index expression is assignable.
 
-## For arrays
+| a      | k   | Result | a[k]                             |
+| ------ | --- | ------ | -------------------------------- |
+| Array  | Int | Any    | Retrieves element from array    |
+| String | Int | Char   | Retrieves character from string |
+| Map    | Any | Any    | Retrieves value from map    |
 
-Obtains the element at the given index.
+## For Array and Strings
 
-## For string
-
-Obtains the character at the given index.
+Negative indices are allowed and can be used to start indexing from the end of the container.
+The index `-1` refers to the last element.
 
 ## For map
 
