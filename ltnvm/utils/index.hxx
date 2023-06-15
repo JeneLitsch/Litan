@@ -10,11 +10,12 @@ namespace ltn::vm {
 			"Expected integer as index"
 		};
 
-		const auto index = ( value.i < 0) ?  value.i + size :  value.i;
+		const auto wrap = static_cast<std::int64_t>(size) * (value.i < 0);
+		const auto index = value.i + wrap;
 		if(index < 0) {
 			throw Exception{Exception::Type::OUT_OF_RANGE, "Negative index is not allowed"};
 		}
-		if(index >= size) {
+		if(static_cast<std::uint64_t>(index) >= size) {
 			throw Exception{Exception::Type::OUT_OF_RANGE, "Index out of range"};
 		}
 		return index; 
