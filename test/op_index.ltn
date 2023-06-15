@@ -11,6 +11,18 @@ namespace sphinx::test {
 
 
 
+	function index_array_negative() {
+		var array = [1, 2, 3, 4, "_5_"];
+
+		assert_equal(array[-5], 1);
+		assert_equal(array[-4], 2);
+		assert_equal(array[-3], 3);
+		assert_equal(array[-2], 4);
+		assert_equal(array[-1], "_5_");
+	}
+
+
+
 	function index_array2d() {
 		var array = [
 			[1, 2, 3, 4, "_5_"],
@@ -32,9 +44,17 @@ namespace sphinx::test {
 
 
 
-	function index_assign() {
+	function index_array_assign() {
 		var array = [0,0,0];
 		array[0] = 42;
+		assert_equal(array, [42,0,0]); 
+	}
+
+
+
+	function index_array_assign_negative() {
+		var array = [0,0,0];
+		array[-3] = 42;
 		assert_equal(array, [42,0,0]); 
 	}
 
@@ -43,6 +63,8 @@ namespace sphinx::test {
 	function index_array_except() {
 		var array = [1,2,3];
 		assert_success(lambda [array] => array[-1]);
+		assert_success(lambda [array] => array[-3]);
+		assert_except(lambda [array] => array[-4]);
 		assert_except(lambda [array] => array[-10]);
 		assert_success(lambda [array] => array[0]);
 		assert_success(lambda [array] => array[1]);
@@ -90,6 +112,17 @@ namespace sphinx::test {
 
 
 
+
+	function index_string_negative() {
+		var str = "ABC";
+
+		assert_equal_strict(str[-3], 'A');
+		assert_equal_strict(str[-2], 'B');
+		assert_equal_strict(str[-1], 'C');
+	}
+
+
+
 	function index_string_assign() {
 		var str = "...";
 		str[0] = 'A';
@@ -100,10 +133,22 @@ namespace sphinx::test {
 
 
 
+	function index_string_assign_negative() {
+		var str = "...";
+		str[-3] = 'A';
+		str[-2] = 'B';
+		str[-1] = 'C';
+		assert_equal(str, "ABC");
+	}
+
+
+
 	function index_string_except() {
 		var str = "ABC";
 
 		assert_success(lambda[str] => str[-1]);
+		assert_success(lambda[str] => str[-3]);
+		assert_except(lambda[str] => str[-4]);
 		assert_except(lambda[str] => str[-10]);
 		assert_success(lambda[str] => str[0]);
 		assert_success(lambda[str] => str[1]);
