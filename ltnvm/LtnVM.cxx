@@ -74,6 +74,7 @@ namespace ltn::vm {
 		table[OpCode::TRUE] = inst::truE;
 		table[OpCode::FALSE] = inst::falsE;
 		table[OpCode::NVLL] = inst::null;
+		table[OpCode::NEWI8] = inst::newi8;
 
 		table[OpCode::JUMP] = inst::jump;
 		table[OpCode::CALL] = inst::call;

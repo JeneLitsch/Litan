@@ -6,7 +6,7 @@
 
 namespace ltn::vm::inst {
 	void newi(VmCore & core){
-		core.stack.push(Value{core.fetch_uint(), Value::Type::INT});
+		core.stack.push(value::integer(core.fetch_uint()));
 	}
 
 
@@ -45,5 +45,11 @@ namespace ltn::vm::inst {
 
 	void null(VmCore & core) {
 		core.stack.push(Value{false, Value::Type::NVLL});
+	}
+
+
+
+	void newi8(VmCore & core) {
+		core.stack.push(value::integer(core.fetch_byte()));
 	}
 }

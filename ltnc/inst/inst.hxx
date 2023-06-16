@@ -156,6 +156,7 @@ namespace ltn::c::inst {
 	Inst bool_true();
 	Inst bool_false();
 	Inst null();
+	Inst newi8(std::int8_t i8);
 
 	Inst newarr(std::uint64_t size);
 	Inst newstr(std::vector<std::uint8_t> bytes);

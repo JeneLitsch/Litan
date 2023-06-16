@@ -1,10 +1,16 @@
 #include "compile.hxx"
 #include <string_view>
+#include <limits>
 namespace ltn::c {
 	// compiles int literal
 	InstructionBuffer compile_expr(const sst::Integer & expr) {
 		InstructionBuffer buf;
-		buf << inst::newi(expr.value);
+		if(std::in_range<std::int8_t>(expr.value)) {
+			buf << inst::newi8(static_cast<std::int8_t>(expr.value));
+		}
+		else {
+			buf << inst::newi(expr.value);
+		}
 		return buf;
 	}
 

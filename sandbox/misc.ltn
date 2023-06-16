@@ -1,4 +1,3 @@
 function main(args) {
-	var arr = [1];
-	return arr[0];
+	return 256;
 }

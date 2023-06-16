@@ -202,6 +202,13 @@ namespace ltn::c::inst {
 			.opcode = OpCode::NVLL,
 		};
 	}
+	Inst newi8(std::int8_t i8) {
+		return InstByte {
+			.name = "newi8",
+			.opcode = OpCode::NEWI8,
+			.value = static_cast<std::uint8_t>(i8),
+		};
+	}
 
 
 
