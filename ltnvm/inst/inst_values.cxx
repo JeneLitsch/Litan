@@ -18,12 +18,6 @@ namespace ltn::vm::inst {
 
 
 
-	void newu(VmCore & core){
-		core.stack.push(Value{core.fetch_uint(), Value::Type::NVLL});
-	}
-	
-
-
 	void newc(VmCore & core) {
 		const auto chr = core.fetch_byte();
 		core.stack.push(value::character(chr));

@@ -36,7 +36,6 @@ namespace ltn::vm::inst {
 
 	void newi(VmCore & core);
 	void newf(VmCore & core);
-	void newu(VmCore & core);
 	void newc(VmCore & core);
 	void truE(VmCore & core);
 	void falsE(VmCore & core);
