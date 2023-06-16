@@ -14,7 +14,7 @@ namespace ltn::c {
 				return inst::newi_const_2();
 			}
 			if(std::in_range<std::int8_t>(value)) {
-				return inst::newi8(static_cast<std::int8_t>(value));
+				return inst::newi_small(static_cast<std::int8_t>(value));
 			}
 			return inst::newi(value);
 		}

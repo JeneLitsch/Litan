@@ -40,7 +40,7 @@ namespace ltn::vm::inst {
 	void truE(VmCore & core);
 	void falsE(VmCore & core);
 	void null(VmCore & core);
-	void newi8(VmCore & core);
+	void newi_small(VmCore & core);
 	
 	void jump(VmCore & core);
 	void call(VmCore & core);

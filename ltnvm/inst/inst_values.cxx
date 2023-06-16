@@ -43,7 +43,7 @@ namespace ltn::vm::inst {
 
 
 
-	void newi8(VmCore & core) {
+	void newi_small(VmCore & core) {
 		core.stack.push(value::integer(static_cast<std::int8_t>(core.fetch_byte())));
 	}
 

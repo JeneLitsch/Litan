@@ -46,7 +46,7 @@ namespace ltn {
 		TRUE,
 		FALSE,
 		NVLL,
-		NEWI8,
+		NEWI_SMALL,
 
 		// Controlflow and functions
 		JUMP = 0x40,
