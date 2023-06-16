@@ -50,6 +50,6 @@ namespace ltn::vm::inst {
 
 
 	void newi8(VmCore & core) {
-		core.stack.push(value::integer(core.fetch_byte()));
+		core.stack.push(value::integer(static_cast<std::int8_t>(core.fetch_byte())));
 	}
 }
