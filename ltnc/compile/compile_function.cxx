@@ -8,8 +8,17 @@ namespace ltn::c {
 			InstructionBuffer buf;
 			if(fx.body) {
 				const auto body = compile_statement(*fx.body);
-				for(std::size_t i = 0; i < fx.body->nested_alloc(); i++) {
-					buf << inst::null();
+				std::uint64_t remaining = fx.body->nested_alloc(); 
+				const auto max_block_size = std::numeric_limits<std::uint8_t>::max();
+				while(remaining != 0) {
+					const auto block_size = static_cast<std::uint8_t>(std::min<std::uint64_t>(remaining, max_block_size));
+					if(remaining == 1) {
+						buf << inst::null();
+					}
+					else {
+						buf << inst::alloc_local(block_size);
+					}
+					remaining-=block_size;
 				}
 				buf << body;
 			}

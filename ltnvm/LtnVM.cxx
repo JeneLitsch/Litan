@@ -98,6 +98,7 @@ namespace ltn::vm {
 
 		table[OpCode::SCRAP] = inst::scrap;
 		table[OpCode::DUPLICATE] = inst::duplicate;
+		table[OpCode::ALLOC_LOCAL] = inst::alloc_local;
 		table[OpCode::READ_X] = inst::read_x;
 		table[OpCode::WRITE_X] = inst::write_x;
 		table[OpCode::SWAP] = inst::swap;

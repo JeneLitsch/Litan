@@ -64,7 +64,7 @@ namespace ltn::vm::inst {
 
 	void scrap(VmCore & core);
 	void duplicate(VmCore & core);
-	void makevar(VmCore & core);
+	void alloc_local(VmCore & core);
 	void read_x(VmCore & core);
 	void write_x(VmCore & core);
 	void swap(VmCore & core);

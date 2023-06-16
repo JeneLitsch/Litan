@@ -15,6 +15,15 @@ namespace ltn::vm::inst {
 
 
 
+	void alloc_local(VmCore & core) {
+		const auto amount = core.fetch_byte();
+		for(std::uint16_t i = 0; i < amount; ++i) {
+			core.stack.push(value::null);
+		}
+	}
+
+
+
 	void read_x(VmCore & core) {
 		const auto address = core.fetch_uint();
 		const auto value = core.stack.read(address);
