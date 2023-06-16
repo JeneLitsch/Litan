@@ -15,12 +15,6 @@ namespace ltn::vm::inst {
 
 
 
-	void makevar(VmCore & core) {
-		core.stack.push_null();
-	}
-
-
-
 	void read_x(VmCore & core) {
 		const auto address = core.fetch_uint();
 		const auto value = core.stack.read(address);

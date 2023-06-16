@@ -73,7 +73,6 @@ namespace ltn {
 		// Stack read/write
 		SCRAP = 0x60,
 		DUPLICATE,
-		MAKEVAR,
 		READ_X,
 		WRITE_X,
 		SWAP,

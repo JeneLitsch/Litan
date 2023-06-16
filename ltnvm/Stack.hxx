@@ -42,12 +42,6 @@ namespace ltn::vm {
 
 
 
-		inline void push_null() {
-			this->values.push_back(value::null);
-		}
-
-
-
 		inline Value pop() {
 			const auto value = this->values.back();
 			this->values.pop_back();

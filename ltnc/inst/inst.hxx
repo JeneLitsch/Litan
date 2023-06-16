@@ -181,7 +181,6 @@ namespace ltn::c::inst {
 
 	Inst scrap();
 	Inst duplicate();
-	Inst makevar();
 	Inst read_x(std::uint64_t u64);
 	Inst write_x(std::uint64_t u64);
 	Inst swap();

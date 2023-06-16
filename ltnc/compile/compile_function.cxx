@@ -9,7 +9,7 @@ namespace ltn::c {
 			if(fx.body) {
 				const auto body = compile_statement(*fx.body);
 				for(std::size_t i = 0; i < fx.body->nested_alloc(); i++) {
-					buf << inst::makevar();
+					buf << inst::null();
 				}
 				buf << body;
 			}

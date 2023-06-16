@@ -354,12 +354,6 @@ namespace ltn::c::inst {
 			.opcode = OpCode::DUPLICATE,
 		};
 	}
-	Inst makevar() {
-		return InstNone {
-			.name = "makevar",
-			.opcode = OpCode::MAKEVAR,
-		};
-	}
 
 	Inst read_x(std::uint64_t u64) {
 		return InstUint64 {
