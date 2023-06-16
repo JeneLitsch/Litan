@@ -111,6 +111,10 @@ namespace ltn::vm {
 		table[OpCode::WRITE_1] = inst::write_1;
 		table[OpCode::WRITE_2] = inst::write_2;
 		table[OpCode::WRITE_3] = inst::write_3;
+		
+		table[OpCode::NEWI_CONST_0] = inst::newi_const_0;
+		table[OpCode::NEWI_CONST_1] = inst::newi_const_1;
+		table[OpCode::NEWI_CONST_2] = inst::newi_const_2;
 
 		table[OpCode::BITAND] = inst::bit_and;
 		table[OpCode::BITOR] = inst::bit_or;

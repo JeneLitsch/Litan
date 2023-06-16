@@ -2,15 +2,28 @@
 #include <string_view>
 #include <limits>
 namespace ltn::c {
+	namespace {
+		inst::Inst pick_int_inst(std::int64_t value) {
+			if(value == 0) {
+				return inst::newi_const_0();
+			}
+			if(value == 1) {
+				return inst::newi_const_1();
+			}
+			if(value == 2) {
+				return inst::newi_const_2();
+			}
+			if(std::in_range<std::int8_t>(value)) {
+				return inst::newi8(static_cast<std::int8_t>(value));
+			}
+			return inst::newi(value);
+		}
+	}
+
 	// compiles int literal
 	InstructionBuffer compile_expr(const sst::Integer & expr) {
 		InstructionBuffer buf;
-		if(std::in_range<std::int8_t>(expr.value)) {
-			buf << inst::newi8(static_cast<std::int8_t>(expr.value));
-		}
-		else {
-			buf << inst::newi(expr.value);
-		}
+		buf << pick_int_inst(expr.value);
 		return buf;
 	}
 

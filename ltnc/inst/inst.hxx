@@ -197,6 +197,10 @@ namespace ltn::c::inst {
 	Inst write_2();
 	Inst write_3();
 
+	Inst newi_const_0();
+	Inst newi_const_1();
+	Inst newi_const_2();
+
 	Inst bit_and();
 	Inst bit_or();
 	Inst bit_xor();

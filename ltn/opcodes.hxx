@@ -89,6 +89,11 @@ namespace ltn {
 		WRITE_2,
 		WRITE_3,
 
+		// Constants
+		NEWI_CONST_0 = 0x70,
+		NEWI_CONST_1,
+		NEWI_CONST_2,
+
 		// Bitwise
 		BITAND = 0x90,
 		BITOR,

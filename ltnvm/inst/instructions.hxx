@@ -80,6 +80,10 @@ namespace ltn::vm::inst {
 	void write_2(VmCore & core);
 	void write_3(VmCore & core);
 
+	void newi_const_0(VmCore & core);
+	void newi_const_1(VmCore & core);
+	void newi_const_2(VmCore & core);
+
 	void bit_or(VmCore & core);
 	void bit_and(VmCore & core);
 	void bit_xor(VmCore & core);

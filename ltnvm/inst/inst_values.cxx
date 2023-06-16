@@ -32,24 +32,42 @@ namespace ltn::vm::inst {
 
 
 	void truE(VmCore & core){
-		core.stack.push(Value{true, Value::Type::BOOL});
+		core.stack.push(value::boolean(true));
 	}
 
 
 
 	void falsE(VmCore & core){
-		core.stack.push(Value{false, Value::Type::BOOL});
+		core.stack.push(value::boolean(false));
 	}
 
 
 
 	void null(VmCore & core) {
-		core.stack.push(Value{false, Value::Type::NVLL});
+		core.stack.push(value::null);
 	}
 
 
 
 	void newi8(VmCore & core) {
 		core.stack.push(value::integer(static_cast<std::int8_t>(core.fetch_byte())));
+	}
+
+
+
+	void newi_const_0(VmCore & core) {
+		core.stack.push(value::integer(0));
+	}
+
+
+
+	void newi_const_1(VmCore & core) {
+		core.stack.push(value::integer(1));
+	}
+
+
+
+	void newi_const_2(VmCore & core) {
+		core.stack.push(value::integer(2));
 	}
 }

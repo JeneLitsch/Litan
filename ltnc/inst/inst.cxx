@@ -445,6 +445,29 @@ namespace ltn::c::inst {
 
 
 
+	Inst newi_const_0() {
+		return InstNone {
+			.name = "newi_const_0",
+			.opcode = OpCode::NEWI_CONST_0,
+		};
+	}
+
+	Inst newi_const_1() {
+		return InstNone {
+			.name = "newi_const_1",
+			.opcode = OpCode::NEWI_CONST_1,
+		};
+	}
+
+	Inst newi_const_2() {
+		return InstNone {
+			.name = "newi_const_2",
+			.opcode = OpCode::NEWI_CONST_2,
+		};
+	}
+
+
+
 	Inst pow() {
 		return InstNone {
 			.name = "pow",
