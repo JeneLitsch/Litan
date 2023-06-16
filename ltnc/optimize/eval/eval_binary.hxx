@@ -19,20 +19,56 @@ namespace ltn::c {
 	};
 
 
-	struct modolus {
+	struct ModuloImpl {
 		auto operator()(std::integral auto l, std::integral auto r) const {
+			if(r == 0) throw std::runtime_error{""};
 			return l % r;
 		}
 
 		auto operator()(std::floating_point auto l, std::floating_point auto r) const {
+			if(r == 0) throw std::runtime_error{""};
 			return std::fmod(l, r);
 		}
 	};
 
 
-	struct Addition    : Arithmetic<std::plus<void>> {};
-	struct Subtraction : Arithmetic<std::minus<void>> {};
-	struct Multiply    : Arithmetic<std::multiplies<void>> {};
-	struct Divide      : Arithmetic<std::divides<void>> {};
-	struct Modulo      : Arithmetic<modolus> {};
+
+	struct AdditionImpl {
+		auto operator()(auto l, auto r) const {
+			return l + r;
+		}
+	};
+
+
+
+	struct SubtractionImpl {
+		auto operator()(auto l, auto r) const {
+			return l - r;
+		}
+	};
+
+
+
+	struct MultiplyImpl {
+		auto operator()(auto l, auto r) const {
+			return l * r;
+		}
+	};
+
+
+
+	struct DivideImpl {
+		auto operator()(auto l, auto r) const {
+			if(r == 0) throw std::runtime_error{""};
+			return l / r;
+		}
+	};
+
+
+
+	struct Addition    : Arithmetic<AdditionImpl> {};
+	struct Subtraction : Arithmetic<SubtractionImpl> {};
+	struct Multiply    : Arithmetic<MultiplyImpl> {};
+	struct Divide      : Arithmetic<DivideImpl> {};
+	struct Modulo      : Arithmetic<ModuloImpl> {};
 }

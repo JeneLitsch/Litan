@@ -70,27 +70,31 @@ namespace ltn::c {
 		auto & r = binary.r;
 		l = optimize_expression(std::move(l));
 		r = optimize_expression(std::move(r));
+
+		try {
+			if(is_add(binary)) {
+				if(auto expr = eval_arith<Addition>(*l, *r)) return expr;
+				if(auto expr = eval<Addition, sst::String,  sst::String>(*l, *r))  return expr;
+			}
+
+			if(is_sub(binary)) {
+				if(auto expr = eval_arith<Subtraction>(*l, *r)) return expr;
+			}
+
+			if(is_mlt(binary)) {
+				if(auto expr = eval_arith<Multiply>(*l, *r)) return expr;
+			}
+
+			if(is_div(binary)) {
+				if(auto expr = eval_arith<Divide>(*l, *r)) return expr;
+			}
+
+			if(is_mod(binary)) {
+				if(auto expr = eval_arith<Modulo>(*l, *r)) return expr;
+			}
+		}
+		catch(...) {}
 		
-		if(is_add(binary)) {
-			if(auto expr = eval_arith<Addition>(*l, *r)) return expr;
-			if(auto expr = eval<Addition, sst::String,  sst::String>(*l, *r))  return expr;
-		}
-
-		if(is_sub(binary)) {
-			if(auto expr = eval_arith<Subtraction>(*l, *r)) return expr;
-		}
-
-		if(is_mlt(binary)) {
-			if(auto expr = eval_arith<Multiply>(*l, *r)) return expr;
-		}
-
-		if(is_div(binary)) {
-			if(auto expr = eval_arith<Divide>(*l, *r)) return expr;
-		}
-
-		if(is_mod(binary)) {
-			if(auto expr = eval_arith<Modulo>(*l, *r)) return expr;
-		}
 
 		return nullptr;
 	}
