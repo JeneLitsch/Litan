@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+#include <memory>
 #include "ltn/Visitor.hxx"
 #include "ltnc/ast/Node.hxx"
 
