@@ -1,0 +1,8 @@
+function main(){
+	var clock = std::chrono::clock(); 
+	for (i : std::range(0, 1000000)) {
+		1 / 2 / 3 / 4 / 5;
+	}
+	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
+	// std::println(std::debug::state());
+}

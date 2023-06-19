@@ -56,6 +56,12 @@ namespace ltn::vm {
 
 
 
+		inline Value & peek_ref() {
+			return this->values.back();
+		}
+
+
+
 		void reset();
 		
 		const std::uint8_t * pop_frame();

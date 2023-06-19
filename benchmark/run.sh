@@ -1,5 +1,6 @@
 run () {
 	echo "Benchmarking \"$1\""
+	./bin/ltn_1 --src benchmark/$1.ltn
 	./bin/ltn --src benchmark/$1.ltn
 	echo
 }
@@ -14,9 +15,10 @@ run () {
 # 	echo 
 # }
 
-run "switch"
+# run "switch"
 # run "array"
 # run "string"
+run "binary_op"
 # run "memory"
 # run "call"
 # run "member"
