@@ -36,6 +36,18 @@ std::ofstream open_target(
 
 
 
+void write_files(const std::filesystem::path & directory, const std::vector<ltn::c::OutputFile> & files) {
+	if(!std::filesystem::exists(directory)) {
+		std::filesystem::create_directory(directory);
+	}
+	for(const auto & file : files) {
+		std::ofstream ofs{directory / file.name};
+		ofs << file.content;
+	}
+}
+
+
+
 void output_asm(const std::filesystem::path & target, const auto & instructions) {
 	std::ofstream asm_file { target };
 	asm_file << ltn::c::print(instructions);
@@ -70,6 +82,12 @@ int main(int argc, char const *argv[]){
 		"Specifies the output file for executable bytecode."
 	);
 
+	auto & flag_c = desc.add<stx::option_string>(
+		{"-c"},
+		"Transpile to c",
+		"Specifies the output directory for the c files."
+	);
+
 	auto & flag_source = desc.add<stx::option_string_list>(
 		{"--src"},
 		"Source",
@@ -101,6 +119,10 @@ int main(int argc, char const *argv[]){
 		reporter.may_throw();
 		if(flag_asm) {
 			output_asm(flag_asm.value(), instructions);
+		}
+		if(flag_c) {
+			auto files = ltn::c::trans::c::transpile_c(program);
+			write_files(flag_c.value(), files);
 		}
 		auto bytecode = ltn::c::assemble(instructions, link_info);
 

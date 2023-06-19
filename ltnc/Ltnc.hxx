@@ -8,6 +8,7 @@
 #include "assemble/assemble.hxx"
 #include "print/print.hxx"
 #include "read_sources/read_sources.hxx"
+#include "transpile/c/transpile_c.hxx"
 
 #include "source/FileSource.hxx"
 #include "source/StringSource.hxx"
