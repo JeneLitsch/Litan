@@ -3,36 +3,28 @@
 
 namespace ltn::c::trans::c {
 	namespace {
-		Node transpile_c_function(const sst::Function & fx) {
-			return Function {
-				.name = fx.name,
-				.arity = fx.parameters.size(),
-				.body = Block {
-					.elements {
-						Line{
-							.code = "// Test"
-						}
-					}
-				}
-			};
+		std::string transpile_c_function(const sst::Function & fx) {
+			Indent indent {0};
+			Indent inner = indent.in();
+			std::ostringstream oss;
+			oss << "void fx_" << fx.name << "_" << fx.arity() << "() {\n";
+			oss << inner << "struct Value * prev_base_ptr = base_ptr;\n";
+			transpile_c_statement(*fx.body, oss, inner);
+			oss << "}\n";
+			oss << "\n";
+			return oss.str();
 		}
 
 
 
-		Node transpile_c_build_in_function(const sst::BuildIn & fx) {
-			return Function {
-				.name = fx.name,
-				.arity = fx.parameters.size(),
-				.body = Line {
-					.code = "// Test"
-				}
-			};
+		std::string transpile_c_build_in_function(const sst::BuildIn & fx) {
+			return "";
 		}
 	}
 
 
 
-	Node transpile_c_functional(const sst::Functional & functional) {
+	std::string transpile_c_functional(const sst::Functional & functional) {
 		if(auto fx = as<const sst::Function>(functional)) {
 			return transpile_c_function(*fx);
 		}

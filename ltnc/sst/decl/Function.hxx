@@ -69,6 +69,10 @@ namespace ltn::c::sst {
 		const Namespace & get_resolve_namespace() const {
 			return this->namespaze;
 		}
+
+		std::size_t arity() const {
+			return std::size(parameters);
+		}
 	};
 
 
@@ -87,6 +91,7 @@ namespace ltn::c::sst {
 		std::unique_ptr<Statement> body;
 		std::unique_ptr<Except> except;
 		std::vector<std::unique_ptr<Var>> capture;
+
 	};
 
 

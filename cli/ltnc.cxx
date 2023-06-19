@@ -36,14 +36,12 @@ std::ofstream open_target(
 
 
 
-void write_files(const std::filesystem::path & directory, const std::vector<ltn::c::OutputFile> & files) {
-	if(!std::filesystem::exists(directory)) {
-		std::filesystem::create_directory(directory);
+void write_file(const std::filesystem::path & path, const std::string & content) {
+	if(!std::filesystem::exists(path.parent_path())) {
+		std::filesystem::create_directory(path.parent_path());
 	}
-	for(const auto & file : files) {
-		std::ofstream ofs{directory / file.name};
-		ofs << file.content;
-	}
+	std::ofstream ofs{path};
+	ofs << content;
 }
 
 
@@ -121,8 +119,8 @@ int main(int argc, char const *argv[]){
 			output_asm(flag_asm.value(), instructions);
 		}
 		if(flag_c) {
-			auto files = ltn::c::trans::c::transpile_c(program);
-			write_files(flag_c.value(), files);
+			auto c_code = ltn::c::trans::c::transpile_c(program);
+			write_file(flag_c.value(), c_code);
 		}
 		auto bytecode = ltn::c::assemble(instructions, link_info);
 

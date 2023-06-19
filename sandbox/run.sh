@@ -3,7 +3,7 @@ run () {
 	ltnFile="sandbox/$1.ltn"
 	asmFile="sandbox/$1.asm.ltn"
 	binFile="sandbox/$1.bin.ltn"
-	./bin/ltnc -o --exe $binFile --asm $asmFile --src $ltnFile -c tmp/c
+	./bin/ltnc --exe $binFile --asm $asmFile --src $ltnFile -c tmp/c/main.c
 	# ./bin/ltnvm_0 --exe $binFile --args Hello World 123
 	# ./bin/ltnvm_1 --exe $binFile --args Hello World 123
 	./bin/ltnvm --exe $binFile --args Hello World 123
