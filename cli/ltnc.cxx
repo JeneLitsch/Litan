@@ -81,8 +81,8 @@ int main(int argc, char const *argv[]){
 	);
 
 	auto & flag_c = desc.add<stx::option_string>(
-		{"-c"},
-		"Transpile to c",
+		{"--cxx"},
+		"Transpile to C++",
 		"Specifies the output directory for the c files."
 	);
 
@@ -119,7 +119,7 @@ int main(int argc, char const *argv[]){
 			output_asm(flag_asm.value(), instructions);
 		}
 		if(flag_c) {
-			auto c_code = ltn::c::trans::c::transpile_c(program);
+			auto c_code = ltn::c::trans::cxx::transpile_c(program);
 			write_file(flag_c.value(), c_code);
 		}
 		auto bytecode = ltn::c::assemble(instructions, link_info);

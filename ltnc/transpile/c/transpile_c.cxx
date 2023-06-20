@@ -1,6 +1,6 @@
 #include "transpile_c.hxx"
 
-namespace ltn::c::trans::c {
+namespace ltn::c::trans::cxx {
 	namespace {
 		void print_includes(std::ostream & stream) {
 			stream << "#include <stdint.h>\n";

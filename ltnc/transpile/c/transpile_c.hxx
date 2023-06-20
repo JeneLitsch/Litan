@@ -4,7 +4,7 @@
 #include <span>
 #include "ltnc/sst/SST.hxx"
 
-namespace ltn::c::trans::c {
+namespace ltn::c::trans::cxx {
 
 	struct Indent {
 		std::uint64_t indent = 0;

@@ -1,6 +1,6 @@
 #include "transpile_c.hxx"
 
-namespace ltn::c::trans::c {
+namespace ltn::c::trans::cxx {
 	void transpile_c_stmt(const sst::Block & sst_block, std::ostream & out, Indent indent) {
 		out << indent << "{\n";
 		for(const auto & elem : sst_block.statements) {
@@ -12,9 +12,9 @@ namespace ltn::c::trans::c {
 
 
 	void transpile_c_stmt(const sst::Return & ret, std::ostream & out, Indent indent) {
+		out << indent << "return";
 		transpile_c_expression(*ret.expr, out, indent);
-		out << indent << "base_ptr = prev_base_ptr;\n";
-		out << indent << "return;\n";
+		oss << ";\n";
 	}
 
 
@@ -49,7 +49,7 @@ namespace ltn::c::trans::c {
 
 
 
-	void transpile_c_stmt(const sst::Assign &, std::ostream & out, Indent indent) {
+	void transpile_c_stmt(const sst::Assign & assign, std::ostream & out, Indent indent) {
 		out << indent <<  "// Assign\n";
 	}
 

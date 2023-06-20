@@ -1,14 +1,22 @@
 #include "transpile_c.hxx"
 #include <sstream>
 
-namespace ltn::c::trans::c {
+namespace ltn::c::trans::cxx {
 	namespace {
 		std::string transpile_c_function(const sst::Function & fx) {
 			Indent indent {0};
 			Indent inner = indent.in();
 			std::ostringstream oss;
-			oss << "void fx_" << fx.name << "_" << fx.arity() << "() {\n";
-			oss << inner << "struct Value * prev_base_ptr = base_ptr;\n";
+			std::uint64_t var_index = 0; 
+			oss << "Value fx_" << fx.name << "_" << fx.arity() << "("; 
+			for(std::uint64_t i = 0; i < fx.arity(); ++i) {
+				if(i) oss << ", ";
+				oss << "Value var" << var_index++;
+			}
+			oss << ") {\n";
+			for(std::uint64_t i = 0; i < fx.body->nested_alloc(); ++i) {
+				oss << inner << "Value var" << var_index++ << "\n"; 
+			}
 			transpile_c_statement(*fx.body, oss, inner);
 			oss << "}\n";
 			oss << "\n";

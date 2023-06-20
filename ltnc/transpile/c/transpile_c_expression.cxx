@@ -1,6 +1,6 @@
 #include "transpile_c.hxx"
 
-namespace ltn::c::trans::c {
+namespace ltn::c::trans::cxx {
 	void transpile_c_expr(const sst::Choose &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Ternary &, std::ostream & out, Indent indent) {}
 
