@@ -9,8 +9,8 @@ namespace ltn::c::trans::cxx {
 	void transpile_c_expr(const sst::Binary & expr, std::ostream & out, Indent indent) {
 		const auto inner = indent.in();
 		out << "[&] () {\n";
-		out << inner << "const ltn::Value l = "; transpile_c_expression(*expr.l, out, indent.in()); out << ";\n";
-		out << inner << "const ltn::Value r = "; transpile_c_expression(*expr.r, out, indent.in()); out << ";\n";
+		out << inner << "const ltn::Tmp l = "; transpile_c_expression(*expr.l, out, indent.in()); out << ";\n";
+		out << inner << "const ltn::Tmp r = "; transpile_c_expression(*expr.r, out, indent.in()); out << ";\n";
 		out << inner << "return ";
 		using OP = ltn::c::sst::Binary::Op;
 		switch (expr.op)
@@ -46,7 +46,7 @@ namespace ltn::c::trans::cxx {
 
 	void transpile_c_expr(const sst::Unary & expr, std::ostream & out, Indent indent) {
 		out << "[&] () {\n";
-		out << indent.in() << "const ltn::Value x = "; transpile_c_expression(*expr.expr, out, indent.in()); out << ";\n";
+		out << indent.in() << "const ltn::Tmp x = "; transpile_c_expression(*expr.expr, out, indent.in()); out << ";\n";
 		out << indent.in() << "return ";
 		using OP = ltn::c::sst::Unary::Op;
 		switch (expr.op) {
@@ -94,7 +94,7 @@ namespace ltn::c::trans::cxx {
 		const auto inner = indent.in();
 		out << "[&] () {\n";
 		for(std::size_t i = 0; i < std::size(call.arguments); ++i) {
-			out << inner << "const ltn::Value arg_" << i << " = ";
+			out << inner << "const ltn::Tmp arg_" << i << " = ";
 			transpile_c_expression(*call.arguments[i], out, inner);
 			out << ";\n";  
 		}
@@ -107,7 +107,7 @@ namespace ltn::c::trans::cxx {
 		out << call.name << "_" << call.arity() << "(";
 		for(std::size_t i = 0; i < std::size(call.arguments); ++i) {
 			if(i) out << ",";
-			out << "arg_" << i;
+			out << "arg_" << i << ".get()";
 		}
 		out << ");\n";
 		out << indent << "}()";

@@ -61,32 +61,45 @@ namespace ltn::c::trans::cxx {
 
 
 
-		void print_var_class(std::ostream & stream, Indent indent) {
-			stream << indent << "class Var final {\n";
+		void print_value_wrapper_class(std::ostream & stream, Indent indent, std::string_view name) {
+			stream << indent << "class " << name << " final {\n";
 			stream << indent << "public:\n";
 			
-			stream << indent.in() << "Var(const Value & value) : value {value} {\n";
+			stream << indent.in() << name << "(const Value & value) : value {value} {\n";
 			stream << indent.in().in() << "context.push_root(&this->value);\n";
 			stream << indent.in() << "}\n";
 
-			stream << indent.in() << "~Var() {\n";
+			stream << indent.in() << "~" << name << "() {\n";
 			stream << indent.in().in() << "context.pop_root();\n";
 			stream << indent.in() << "}\n";
 
-			stream << indent.in() << "Var & operator=(const Value & value) {\n";
+			stream << indent.in() << name << " & operator=(const Value & value) {\n";
 			stream << indent.in().in() << "this->value = value;\n";
 			stream << indent.in().in() << "return *this;\n";
 			stream << indent.in() << "}\n";
 
 			stream << indent.in() << "const Value & get() const {\n";
 			stream << indent.in().in() << "return this->value;\n";
-			stream << indent.in().in() << "context.pop_root();\n";
 			stream << indent.in() << "}\n";
 
-			print_delete_special_members(stream, "Var", indent.in());
+			stream << indent.in() << " operator const Value &() const {\n";
+			stream << indent.in().in() << "return this->value;\n";
+			stream << indent.in() << "}\n";
+
+			print_delete_special_members(stream, name, indent.in());
 			stream << indent << "private:\n";
 			stream << indent.in() << "Value value;\n";
 			stream << indent << "};\n\n";
+		}
+
+
+		void print_tmp_class(std::ostream & stream, Indent indent) {
+			print_value_wrapper_class(stream, indent, "Tmp");
+		}
+
+
+		void print_var_class(std::ostream & stream, Indent indent) {
+			print_value_wrapper_class(stream, indent, "Var");
 		}
 
 
@@ -234,6 +247,7 @@ namespace ltn::c::trans::cxx {
 		print_context_class(oss, indent_ns);
 		oss << indent_ns << "Context context;\n\n";
 		print_var_class(oss, indent_ns);
+		print_tmp_class(oss, indent_ns);
 
 		print_gc(oss, indent_ns);
 
