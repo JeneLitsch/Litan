@@ -2,6 +2,10 @@ function f(a, b) => a + b
 
 function main(args) {
 	var a = 48;
-	a = f(20, 20);
+	a = f(20, iife{
+		var x = 10;
+		var y = 10;
+		return x + y;
+	});
 	return a + -2 * -1;
 }

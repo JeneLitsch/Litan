@@ -113,7 +113,11 @@ namespace ltn::c::trans::cxx {
 	void transpile_c_expr(const sst::InvokeMember &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Index &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::FxPointer &, std::ostream & out, Indent indent) {}
-	void transpile_c_expr(const sst::Iife &, std::ostream & out, Indent indent) {}
+	void transpile_c_expr(const sst::Iife & iife, std::ostream & out, Indent indent) {
+		out << "[&] () {\n";
+		transpile_c_statement(*iife.stmt, out, indent.in());
+		out << indent << "}()";
+	}
 
 
 
