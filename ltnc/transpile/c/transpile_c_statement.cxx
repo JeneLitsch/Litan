@@ -12,9 +12,9 @@ namespace ltn::c::trans::cxx {
 
 
 	void transpile_c_stmt(const sst::Return & ret, std::ostream & out, Indent indent) {
-		out << indent << "return";
+		out << indent << "return ";
 		transpile_c_expression(*ret.expr, out, indent);
-		oss << ";\n";
+		out << ";\n";
 	}
 
 

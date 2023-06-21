@@ -8,14 +8,14 @@ namespace ltn::c::trans::cxx {
 			Indent inner = indent.in();
 			std::ostringstream oss;
 			std::uint64_t var_index = 0; 
-			oss << "Value fx_" << fx.name << "_" << fx.arity() << "("; 
+			oss << "ltn::Value fx_" << fx.name << "_" << fx.arity() << "("; 
 			for(std::uint64_t i = 0; i < fx.arity(); ++i) {
 				if(i) oss << ", ";
-				oss << "Value var" << var_index++;
+				oss << "ltn::Value var" << var_index++;
 			}
 			oss << ") {\n";
 			for(std::uint64_t i = 0; i < fx.body->nested_alloc(); ++i) {
-				oss << inner << "Value var" << var_index++ << "\n"; 
+				oss << inner << "ltn::Value var" << var_index++ << "\n"; 
 			}
 			transpile_c_statement(*fx.body, oss, inner);
 			oss << "}\n";

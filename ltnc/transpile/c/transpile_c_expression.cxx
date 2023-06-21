@@ -5,66 +5,75 @@ namespace ltn::c::trans::cxx {
 	void transpile_c_expr(const sst::Ternary &, std::ostream & out, Indent indent) {}
 
 	void transpile_c_expr(const sst::Binary & expr, std::ostream & out, Indent indent) {
-		transpile_c_expression(*expr.l, out, indent);
-		transpile_c_expression(*expr.r, out, indent);
+		const auto inner = indent.in();
+		out << "[&] () {\n";
+		out << inner << "const ltn::Value l = "; transpile_c_expression(*expr.l, out, indent.in()); out << ";\n";
+		out << inner << "const ltn::Value r = "; transpile_c_expression(*expr.r, out, indent.in()); out << ";\n";
+		out << inner << "return ";
 		using OP = ltn::c::sst::Binary::Op;
 		switch (expr.op)
 		{
-			case OP::ADD:          out << indent << "op_add();\n";          return;
-			case OP::SUB:          out << indent << "op_sub();\n";          return;
-			case OP::MLT:          out << indent << "op_mlt();\n";          return;
-			case OP::DIV:          out << indent << "op_div();\n";          return;
-			case OP::MOD:          out << indent << "op_mod();\n";          return;
-			case OP::POW:          out << indent << "op_pow();\n";          return;
-			case OP::SMALLER:      out << indent << "op_smaller();\n";      return;
-			case OP::BIGGER:       out << indent << "op_bigger();\n";       return;
-			case OP::SMALLEREQUAL: out << indent << "op_smallerequal();\n"; return;
-			case OP::BIGGEREQUAL:  out << indent << "op_biggerequal();\n";  return;
-			case OP::EQUAL:        out << indent << "op_equal();\n";        return;
-			case OP::UNEQUEL:      out << indent << "op_unequel();\n";      return;
-			case OP::SPACE_SHIP:   out << indent << "op_space_ship();\n";   return;
-			case OP::SHIFT_L:      out << indent << "op_shift_l();\n";      return;
-			case OP::SHIFT_R:      out << indent << "op_shift_r();\n";      return;
-			case OP::BIT_AND:      out << indent << "op_bit_and();\n";      return;
-			case OP::BIT_OR:       out << indent << "op_bit_or();\n";       return;
-			case OP::BIT_XOR:      out << indent << "op_bit_xor();\n";      return;
-			case OP::AND:          out << indent << "op_and();\n";          return;
-			case OP::OR:           out << indent << "op_or();\n";           return;
-			case OP::ELVIS:        out << indent << "op_elvis();\n";        return;
-			case OP::NULLCO:       out << indent << "op_nullco();\n";       return;
+			case OP::ADD:          out << "ltn::add(l, r)";      break;
+			case OP::SUB:          out << "ltn::sub(l, r)";      break;
+			case OP::MLT:          out << "ltn::mlt(l, r)";      break;
+			case OP::DIV:          out << "ltn::div(l, r)";      break;
+			case OP::MOD:          out << "ltn::mod(l, r)";          break;
+			case OP::POW:          out << "ltn::pow(l, r)";          break;
+			case OP::SMALLER:      out << "ltn::smaller(l, r)";      break;
+			case OP::BIGGER:       out << "ltn::bigger(l, r)";       break;
+			case OP::SMALLEREQUAL: out << "ltn::smallerequal(l, r)"; break;
+			case OP::BIGGEREQUAL:  out << "ltn::biggerequal(l, r)";  break;
+			case OP::EQUAL:        out << "ltn::equal(l, r)";        break;
+			case OP::UNEQUEL:      out << "ltn::unequel(l, r)";      break;
+			case OP::SPACE_SHIP:   out << "ltn::space_ship(l, r)";   break;
+			case OP::SHIFT_L:      out << "ltn::shift_l(l, r)";      break;
+			case OP::SHIFT_R:      out << "ltn::shift_r(l, r)";      break;
+			case OP::BIT_AND:      out << "ltn::bit_and(l, r)";      break;
+			case OP::BIT_OR:       out << "ltn::bit_or(l, r)";       break;
+			case OP::BIT_XOR:      out << "ltn::bit_xor(l, r)";      break;
+			case OP::AND:          out << "ltn::and(l, r)";          break;
+			case OP::OR:           out << "ltn::or(l, r)";           break;
+			case OP::ELVIS:        out << "ltn::elvis(l, r)";        break;
+			case OP::NULLCO:       out << "ltn::nullco(l, r)";       break;
 		}
+		out << ";\n";
+		out << indent << "}()";
 	}
 
 	void transpile_c_expr(const sst::Unary & expr, std::ostream & out, Indent indent) {
-		transpile_c_expression(*expr.expr, out, indent);
+		out << "[&] () {\n";
+		out << indent.in() << "const ltn::Value x = "; transpile_c_expression(*expr.expr, out, indent.in()); out << ";\n";
+		out << indent.in() << "return ";
 		using OP = ltn::c::sst::Unary::Op;
 		switch (expr.op) {
-			case OP::NEG:    out << indent << "op_neg();\n";    return; 
-			case OP::NOT:    out << indent << "op_not();\n";    return; 
-			case OP::NUL:    out << indent << "op_nul();\n";    return; 
-			case OP::BITNOT: out << indent << "op_bitnot();\n"; return; 
-			case OP::DEREF:  out << indent << "op_deref();\n";  return; 
+			case OP::NEG:    out << "ltn::neg(x)";    break; 
+			case OP::NOT:    out << "ltn::not(x)";    break; 
+			case OP::NUL:    out << "ltn::nul(x)";    break; 
+			case OP::BITNOT: out << "ltn::bitnot(x)"; break; 
+			case OP::DEREF:  out << "ltn::deref(x)";  break; 
 		}
+		out << ";\n";
+		out << indent << "}()";
 	}
 
 	void transpile_c_expr(const sst::Integer & literal, std::ostream & out, Indent indent) {
-		out << indent << "push(value_int(" << literal.value << "));\n"; 
+		out << "ltn::value_int(" << literal.value << ")"; 
 	}
 
 	void transpile_c_expr(const sst::Float & literal, std::ostream & out, Indent indent) {
-		out << indent << "push(value_float(" << literal.value << "));\n"; 
+		out << "ltn::value_float(" << literal.value << ")"; 
 	}
 
 	void transpile_c_expr(const sst::Bool & literal, std::ostream & out, Indent indent) {
-		out << indent << "push(value_bool(" << literal.value << "));\n"; 
+		out << "ltn::value_bool(" << literal.value << ")"; 
 	}
 
 	void transpile_c_expr(const sst::Char & literal, std::ostream & out, Indent indent) {
-		out << indent << "push(value_char(" << literal.value << "));\n"; 
+		out << "ltn::value_char(" << literal.value << ")"; 
 	}
 
 	void transpile_c_expr(const sst::Null &, std::ostream & out, Indent indent) {
-		out << indent << "push(value_null());\n"; 
+		out << "ltn::value_null());\n"; 
 	}
 	
 	void transpile_c_expr(const sst::String &, std::ostream & out, Indent indent) {}

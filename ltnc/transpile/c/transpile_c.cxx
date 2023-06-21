@@ -3,7 +3,8 @@
 namespace ltn::c::trans::cxx {
 	namespace {
 		void print_includes(std::ostream & stream) {
-			stream << "#include <stdint.h>\n";
+			stream << "#include <cstdint>\n";
+			stream << "#include <concepts>\n";
 			stream << "\n";
 		}
 
@@ -28,51 +29,23 @@ namespace ltn::c::trans::cxx {
 
 		void print_value_struct(std::ostream & stream) {
 			stream << "struct Value {\n";
-			stream << "\t" << "uint32_t type;\n";
-			stream << "\t" << "union {\n";
+			stream << "\t" << "union Val {\n";
 			stream << "\t\t" << "uint8_t b;\n";
 			stream << "\t\t" << "uint8_t c;\n";
 			stream << "\t\t" << "int64_t i;\n";
 			stream << "\t\t" << "double f;\n";
-			stream << "\t" << "} val;\n";
+			stream << "\t" << "};\n";
+			stream << "\t" << "Value(ValueType type, Val val) : type{type}, val{val} {}\n";
+			stream << "\t" << "uint32_t type;\n";
+			stream << "\t" << "Val val;\n";
 			stream << "};\n\n";
-		}
-
-
-
-		void print_push(std::ostream & stream) {
-			stream << "void push(struct Value value) {\n";
-			stream << "\t*(stack_ptr++) = value;\n";
-			stream << "}\n";
-			stream << "\n";
-		}
-
-
-
-		void print_pop(std::ostream & stream) {
-			stream << "struct Value pop() {\n";
-			stream << "\treturn *(--stack_ptr);\n";
-			stream << "}\n";
-			stream << "\n";
-		}
-
-
-
-		void print_stack(std::ostream & stream) {
-			stream << "struct Value stack[1024];\n";
-			stream << "struct Value * stack_ptr = 0;\n";
-			stream << "struct Value * base_ptr = 0;\n";
-			stream << "\n";
 		}
 
 
 
 		void print_main(std::ostream & stream) {
 			stream << "int main() {\n";
-			stream << "\tstack_ptr = stack;\n";
-			stream << "\tbase_ptr = stack;\n";
-			stream << "\tfx_main_0();\n";
-			stream << "\tprintf(\"%f\\n\", pop().val.f);\n";
+			stream << "\treturn fx_main_1(ltn::value_null()).val.i;\n";
 			stream << "}\n";
 			stream << "\n";
 		}
@@ -81,9 +54,7 @@ namespace ltn::c::trans::cxx {
 
 		void print_value_null(std::ostream & stream) {
 			stream << "struct Value value_null() {\n";
-			stream << "\t" << "struct Value value;\n";
-			stream << "\t" << "value.type = NVLL;\n";
-			stream << "\t" << "return value;\n";
+			stream << "\t" << "return Value {NVLL, Value::Val {} };\n";
 			stream << "}\n\n";
 		}
 
@@ -96,10 +67,7 @@ namespace ltn::c::trans::cxx {
 			std::string_view member) {
 			
 			stream << "struct Value value_" << name << "(" << c_type << " x) {\n";
-			stream << "\t" << "struct Value value;\n";
-			stream << "\t" << "value.type = " << ltn_type << ";\n";
-			stream << "\t" << "value.val." << member << " = x;\n";
-			stream << "\t" << "return value;\n";
+			stream << "\t" << "return Value {" << ltn_type << ", Value::Val { ." << member << " = x } };\n";
 			stream << "}\n\n";
 		}
 
@@ -118,40 +86,61 @@ namespace ltn::c::trans::cxx {
 		}
 
 
-
-		void print_arith(
+		void print_wrapped_operator(
 			std::ostream & stream,
 			std::string_view name,
 			std::string_view op) {
-			
-			stream << "void op_" << name << "(){\n";
-			stream << "\t" << "struct Value r = pop();\n";
-			stream << "\t" << "struct Value l = pop();\n";
 
+			stream << "Value " << name << "_impl(std::integral auto l, std::integral auto r) {\n";
+			stream << "\t auto x = static_cast<std::int64_t>(l)" << op << "static_cast<std::int64_t>(r);\n";
+			stream << "\t return value_int(x);\n";
+			stream << "}\n\n";
+
+			stream << "Value " << name << "_impl(std::integral auto l, std::floating_point auto r) {\n";
+			stream << "\t auto x = static_cast<double>(l)" << op << "static_cast<double>(r);\n";
+			stream << "\t return value_float(x);\n";
+			stream << "}\n\n";
+
+			stream << "Value " << name << "_impl(std::floating_point auto l, std::integral auto r) {\n";
+			stream << "\t auto x = static_cast<double>(l)" << op << "static_cast<double>(r);\n";
+			stream << "\t return value_float(x);\n";
+			stream << "}\n\n";
+
+			stream << "Value " << name << "_impl(std::floating_point auto l, std::floating_point auto r) {\n";
+			stream << "\t auto x = static_cast<double>(l)" << op << "static_cast<double>(r);\n";
+			stream << "\t return value_float(x);\n";
+			stream << "}\n\n";
+		}
+
+
+
+		void print_arith_dispatch(std::ostream & stream, std::string_view name) {
+			
+			stream << "Value " << name << "(const Value & l, const Value & r){\n";
 			stream << "\t" << "switch(l.type) {\n";
 			stream << "\t\t" << "case BOOL: switch(r.type) {\n";
-			stream << "\t\t\t" << "case BOOL  :" << print_arith_calc("int",   op, "b", "b");
-			stream << "\t\t\t" << "case CHAR  :" << print_arith_calc("int",   op, "b", "c");
-			stream << "\t\t\t" << "case INT   :" << print_arith_calc("int",   op, "b", "i");
-			stream << "\t\t\t" << "case FLOAT :" << print_arith_calc("float", op, "b", "f");
+			stream << "\t\t\t" << "case BOOL  : return " << name << "_impl(l.val.b, r.val.b);" "\n";
+			stream << "\t\t\t" << "case CHAR  : return " << name << "_impl(l.val.b, r.val.c);" "\n";
+			stream << "\t\t\t" << "case INT   : return " << name << "_impl(l.val.b, r.val.i);" "\n";
+			stream << "\t\t\t" << "case FLOAT : return " << name << "_impl(l.val.b, r.val.f);" "\n";
 			stream << "\t\t" << "}\n";
 			stream << "\t\t" << "case CHAR: switch(r.type) {\n";
-			stream << "\t\t\t" << "case BOOL  :" << print_arith_calc("int",   op, "c", "b");
-			stream << "\t\t\t" << "case CHAR  :" << print_arith_calc("int",   op, "c", "c");
-			stream << "\t\t\t" << "case INT   :" << print_arith_calc("int",   op, "c", "i");
-			stream << "\t\t\t" << "case FLOAT :" << print_arith_calc("float", op, "c", "f");
+			stream << "\t\t\t" << "case BOOL  : return " << name << "_impl(l.val.c, r.val.b);" "\n";
+			stream << "\t\t\t" << "case CHAR  : return " << name << "_impl(l.val.c, r.val.c);" "\n";
+			stream << "\t\t\t" << "case INT   : return " << name << "_impl(l.val.c, r.val.i);" "\n";
+			stream << "\t\t\t" << "case FLOAT : return " << name << "_impl(l.val.c, r.val.f);" "\n";
 			stream << "\t\t" << "}\n";
 			stream << "\t\t" << "case INT: switch(r.type) {\n";
-			stream << "\t\t\t" << "case BOOL :" << print_arith_calc("int",   op, "i", "b");
-			stream << "\t\t\t" << "case CHAR :" << print_arith_calc("int",   op, "i", "c");
-			stream << "\t\t\t" << "case INT  :" << print_arith_calc("int",   op, "i", "i");
-			stream << "\t\t\t" << "case FLOAT:" << print_arith_calc("float", op, "i", "f");
+			stream << "\t\t\t" << "case BOOL  : return " << name << "_impl(l.val.i, r.val.b);" "\n";
+			stream << "\t\t\t" << "case CHAR  : return " << name << "_impl(l.val.i, r.val.c);" "\n";
+			stream << "\t\t\t" << "case INT   : return " << name << "_impl(l.val.i, r.val.i);" "\n";
+			stream << "\t\t\t" << "case FLOAT : return " << name << "_impl(l.val.i, r.val.f);" "\n";
 			stream << "\t\t" << "}\n";
 			stream << "\t\t" << "case FLOAT: switch(r.type) {\n";
-			stream << "\t\t\t" << "case BOOL :" << print_arith_calc("float", op, "f", "b");
-			stream << "\t\t\t" << "case CHAR :" << print_arith_calc("float", op, "f", "c");
-			stream << "\t\t\t" << "case INT  :" << print_arith_calc("float", op, "f", "i");
-			stream << "\t\t\t" << "case FLOAT:" << print_arith_calc("float", op, "f", "f");
+			stream << "\t\t\t" << "case BOOL  : return " << name << "_impl(l.val.f, r.val.b);" "\n";
+			stream << "\t\t\t" << "case CHAR  : return " << name << "_impl(l.val.f, r.val.c);" "\n";
+			stream << "\t\t\t" << "case INT   : return " << name << "_impl(l.val.f, r.val.i);" "\n";
+			stream << "\t\t\t" << "case FLOAT : return " << name << "_impl(l.val.f, r.val.f);" "\n";
 			stream << "\t\t" << "}\n";
 			stream << "\t" << "}\n";
 			stream << "}\n";
@@ -165,14 +154,13 @@ namespace ltn::c::trans::cxx {
 			std::string_view name,
 			std::string_view op) {
 			
-			stream << "void op_" << name << "() {\n";
-			stream << "\t" << "struct Value x = pop();\n";
+			stream << "Value " << name << "(const Value & x) {\n";
 			stream << "\t" << "switch(x.type) {\n";
-			stream << "\t\t" << "case BOOL : return push(value_int(" << op << "x.val.b));\n";
-			stream << "\t\t" << "case CHAR : return push(value_int(" << op << "x.val.c));\n";
-			stream << "\t\t" << "case INT  : return push(value_int(" << op << "x.val.i));\n";
-			stream << "\t\t" << "case FLOAT: return push(value_float(" << op << "x.val.f));\n";
-			stream << "\t" << "}";
+			stream << "\t\t" << "case BOOL : return value_int(-static_cast<std::int64_t>(x.val.b));\n";
+			stream << "\t\t" << "case CHAR : return value_int(-static_cast<std::int64_t>(x.val.c));\n";
+			stream << "\t\t" << "case INT  : return value_int(-static_cast<std::int64_t>(x.val.i));\n";
+			stream << "\t\t" << "case FLOAT: return value_float(-static_cast<double>(x.val.f));\n";
+			stream << "\t" << "}\n";
 			stream << "}\n";
 			stream << "\n";
 		}
@@ -180,30 +168,40 @@ namespace ltn::c::trans::cxx {
 
 	std::string transpile_c(const sst::Program & program) {
 		std::ostringstream oss;
+		
 		print_includes(oss);
+
+		oss << "namespace ltn {\n";
+
 		print_value_type_enum(oss);
 		print_value_struct(oss);
-		print_stack(oss);
-		print_push(oss);
-		print_pop(oss);
 		print_value_null(oss);
-
-		print_value_xyz(oss, "bool", "BOOL", "uint8_t", "b");
-		print_value_xyz(oss, "char", "CHAR", "uint8_t", "c");
-		print_value_xyz(oss, "int", "INT", "int64_t", "i");
+		print_value_xyz(oss, "bool", "BOOL", "bool", "b");
+		print_value_xyz(oss, "char", "CHAR", "std::uint8_t", "c");
+		print_value_xyz(oss, "int", "INT", "std::int64_t", "i");
 		print_value_xyz(oss, "float", "FLOAT", "double", "f");
 
-		print_arith(oss, "add", "+");
-		print_arith(oss, "sub", "-");
-		print_arith(oss, "mlt", "*");
-		print_arith(oss, "div", "/");
+		print_wrapped_operator(oss, "add", "+");
+		print_arith_dispatch(oss, "add");
+
+		print_wrapped_operator(oss, "sub", "-");
+		print_arith_dispatch(oss, "sub");
+
+		print_wrapped_operator(oss, "mlt", "*");
+		print_arith_dispatch(oss, "mlt");
+
+		print_wrapped_operator(oss, "div", "/");
+		print_arith_dispatch(oss, "div");
 		
 		print_unary(oss, "neg", "-");
+
+		oss << "}\n";
 
 		for(const auto & fx : program.functions) {
 			oss << transpile_c_functional(*fx);
 		}
 		
+
 		print_main(oss);
 
 		return oss.str();
