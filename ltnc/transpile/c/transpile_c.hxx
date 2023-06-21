@@ -66,4 +66,6 @@ namespace ltn::c::trans::cxx {
 	void transpile_c_expr(const sst::InitStruct &, std::ostream &, Indent);
 	void transpile_c_expr(const sst::Map &, std::ostream &, Indent);
 	void transpile_c_expr(const sst::Type &, std::ostream &, Indent);
+
+	void transpile_c_binding(const sst::Binding &, std::ostream &, Indent);
 }	

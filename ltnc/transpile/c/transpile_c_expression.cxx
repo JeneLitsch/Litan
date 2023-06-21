@@ -85,7 +85,9 @@ namespace ltn::c::trans::cxx {
 	void transpile_c_expr(const sst::Index &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::FxPointer &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Iife &, std::ostream & out, Indent indent) {}
-	void transpile_c_expr(const sst::Var &, std::ostream & out, Indent indent) {}
+	void transpile_c_expr(const sst::Var & var, std::ostream & out, Indent indent) {
+		out << "var_" << var.address;
+	}
 	void transpile_c_expr(const sst::Member &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::GlobalVar &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Reflect &, std::ostream & out, Indent indent) {}

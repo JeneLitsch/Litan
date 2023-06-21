@@ -11,11 +11,11 @@ namespace ltn::c::trans::cxx {
 			oss << "ltn::Value fx_" << fx.name << "_" << fx.arity() << "("; 
 			for(std::uint64_t i = 0; i < fx.arity(); ++i) {
 				if(i) oss << ", ";
-				oss << "ltn::Value var" << var_index++;
+				oss << "ltn::Value var_" << var_index++;
 			}
 			oss << ") {\n";
 			for(std::uint64_t i = 0; i < fx.body->nested_alloc(); ++i) {
-				oss << inner << "ltn::Value var" << var_index++ << "\n"; 
+				oss << inner << "ltn::Value var_" << var_index++ << " = " << "ltn::value_null()" << ";\n"; 
 			}
 			transpile_c_statement(*fx.body, oss, inner);
 			oss << "}\n";
