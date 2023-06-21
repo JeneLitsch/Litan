@@ -4,6 +4,8 @@ namespace ltn::c::trans::cxx {
 	void transpile_c_expr(const sst::Choose &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Ternary &, std::ostream & out, Indent indent) {}
 
+
+
 	void transpile_c_expr(const sst::Binary & expr, std::ostream & out, Indent indent) {
 		const auto inner = indent.in();
 		out << "[&] () {\n";
@@ -40,6 +42,8 @@ namespace ltn::c::trans::cxx {
 		out << indent << "}()";
 	}
 
+
+
 	void transpile_c_expr(const sst::Unary & expr, std::ostream & out, Indent indent) {
 		out << "[&] () {\n";
 		out << indent.in() << "const ltn::Value x = "; transpile_c_expression(*expr.expr, out, indent.in()); out << ";\n";
@@ -55,6 +59,8 @@ namespace ltn::c::trans::cxx {
 		out << ";\n";
 		out << indent << "}()";
 	}
+
+
 
 	void transpile_c_expr(const sst::Integer & literal, std::ostream & out, Indent indent) {
 		out << "ltn::value_int(" << literal.value << ")"; 
@@ -76,24 +82,55 @@ namespace ltn::c::trans::cxx {
 		out << "ltn::value_null());\n"; 
 	}
 	
+
+
 	void transpile_c_expr(const sst::String &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Array &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Tuple &, std::ostream & out, Indent indent) {}
-	void transpile_c_expr(const sst::Call &, std::ostream & out, Indent indent) {}
+
+
+
+	void transpile_c_expr(const sst::Call & call, std::ostream & out, Indent indent) {
+		const auto inner = indent.in();
+		out << "[&] () {\n";
+		for(std::size_t i = 0; i < std::size(call.arguments); ++i) {
+			out << inner << "const ltn::Value arg_" << i << " = ";
+			transpile_c_expression(*call.arguments[i], out, inner);
+			out << ";\n";  
+		}
+		out << inner << "return " << call.name << "_" << call.arity() << "(";
+		for(std::size_t i = 0; i < std::size(call.arguments); ++i) {
+			if(i) out << ",";
+			out << "arg_" << i;
+		}
+		out << ");\n";
+		out << indent << "}()";
+	}
+
+
+	
 	void transpile_c_expr(const sst::Invoke &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::InvokeMember &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Index &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::FxPointer &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Iife &, std::ostream & out, Indent indent) {}
+
+
+
 	void transpile_c_expr(const sst::Var & var, std::ostream & out, Indent indent) {
 		out << "var_" << var.address;
 	}
+
+
+
 	void transpile_c_expr(const sst::Member &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::GlobalVar &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Reflect &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::InitStruct &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Map &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Type &, std::ostream & out, Indent indent) {}
+
+
 
 	void transpile_c_expression(const sst::Expression & expr, std::ostream & out, Indent indent) {
 		sst::visit_expression(expr, [&] (const auto & e) {

@@ -3,41 +3,36 @@
 
 namespace ltn::c::trans::cxx {
 	namespace {
-		std::string transpile_c_function(const sst::Function & fx) {
-			Indent indent {0};
+		std::string transpile_c_function(const sst::Function & fx, Indent indent) {
 			Indent inner = indent.in();
 			std::ostringstream oss;
-			std::uint64_t var_index = 0; 
-			oss << "ltn::Value fx_" << fx.name << "_" << fx.arity() << "("; 
-			for(std::uint64_t i = 0; i < fx.arity(); ++i) {
-				if(i) oss << ", ";
-				oss << "ltn::Value var_" << var_index++;
-			}
-			oss << ") {\n";
+			oss << indent;
+			print_function_header(fx, oss);
+			oss << "{\n";
 			for(std::uint64_t i = 0; i < fx.body->nested_alloc(); ++i) {
-				oss << inner << "ltn::Value var_" << var_index++ << " = " << "ltn::value_null()" << ";\n"; 
+				oss << inner << "ltn::Value var_" << i + fx.arity() << " = " << "ltn::value_null()" << ";\n"; 
 			}
 			transpile_c_statement(*fx.body, oss, inner);
-			oss << "}\n";
+			oss << indent << "}\n";
 			oss << "\n";
 			return oss.str();
 		}
 
 
 
-		std::string transpile_c_build_in_function(const sst::BuildIn & fx) {
+		std::string transpile_c_build_in_function(const sst::BuildIn & fx, Indent indent) {
 			return "";
 		}
 	}
 
 
 
-	std::string transpile_c_functional(const sst::Functional & functional) {
+	std::string transpile_c_functional(const sst::Functional & functional, Indent indent) {
 		if(auto fx = as<const sst::Function>(functional)) {
-			return transpile_c_function(*fx);
+			return transpile_c_function(*fx, indent);
 		}
 		if(auto fx = as<const sst::BuildIn>(functional)) {
-			return transpile_c_build_in_function(*fx);
+			return transpile_c_build_in_function(*fx, indent);
 		}
 		throw std::runtime_error{"Unknown functional declaration"};
 	}

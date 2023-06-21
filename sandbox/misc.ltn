@@ -1,5 +1,7 @@
+function f(a, b) => a + b
+
 function main(args) {
 	var a = 48;
-	a = 40;
+	a = f(20, 20);
 	return a + -2 * -1;
 }

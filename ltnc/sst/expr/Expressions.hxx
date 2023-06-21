@@ -466,9 +466,11 @@ namespace ltn::c::sst {
 	struct Call final : public Expression {
 		Call(
 			const Label & label,
+			std::string name,
 			std::vector<std::unique_ptr<Expression>> arguments)
 			: Expression{}
 			, label{label}
+			, name{std::move(name)}
 			, arguments(std::move(arguments)) {}
 
 		virtual std::uint64_t alloc() const override {
@@ -488,6 +490,7 @@ namespace ltn::c::sst {
 		}
 
 		Label label;
+		std::string name;
 		std::vector<std::unique_ptr<Expression>> arguments;
 	};
 

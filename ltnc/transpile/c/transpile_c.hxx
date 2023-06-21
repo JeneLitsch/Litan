@@ -3,6 +3,7 @@
 #include <sstream>
 #include <span>
 #include "ltnc/sst/SST.hxx"
+#include "print.hxx"
 
 namespace ltn::c::trans::cxx {
 
@@ -25,7 +26,7 @@ namespace ltn::c::trans::cxx {
 	std::string transpile_c(const sst::Program & program);
 
 	// Functional
-	std::string transpile_c_functional(const sst::Functional &);
+	std::string transpile_c_functional(const sst::Functional &, Indent indent);
 
 	// Statement
 	void transpile_c_statement(const sst::Statement &, std::ostream &, Indent);

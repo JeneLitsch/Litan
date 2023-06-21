@@ -45,7 +45,7 @@ namespace ltn::c::trans::cxx {
 
 		void print_main(std::ostream & stream) {
 			stream << "int main() {\n";
-			stream << "\treturn fx_main_1(ltn::value_null()).val.i;\n";
+			stream << "\treturn fx::main_1(ltn::value_null()).val.i;\n";
 			stream << "}\n";
 			stream << "\n";
 		}
@@ -197,11 +197,19 @@ namespace ltn::c::trans::cxx {
 
 		oss << "}\n";
 
+		oss << "namespace fx {\n";
+		Indent indent {1};
 		for(const auto & fx : program.functions) {
-			oss << transpile_c_functional(*fx);
+			oss << indent;
+			print_function_header(*fx, oss);
+			oss << ";\n";
 		}
+		oss << "\n";
+		for(const auto & fx : program.functions) {
+			oss << transpile_c_functional(*fx, indent);
+		}
+		oss << "}\n";
 		
-
 		print_main(oss);
 
 		return oss.str();
