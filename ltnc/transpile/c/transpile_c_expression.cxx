@@ -87,6 +87,9 @@ namespace ltn::c::trans::cxx {
 	void transpile_c_expr(const sst::String & literal, std::ostream & out, Indent indent) {
 		out << "ltn::value_string(\"" << literal.value << "\")"; 
 	}
+
+
+
 	void transpile_c_expr(const sst::Array & literal, std::ostream & out, Indent indent) {
 		const auto inner = indent.in();
 		out << "[&] () {\n";
@@ -100,7 +103,22 @@ namespace ltn::c::trans::cxx {
 		out << inner << "return tmp.get();\n"; 
 		out << indent << "}()";
 	}
-	void transpile_c_expr(const sst::Tuple &, std::ostream & out, Indent indent) {}
+
+
+
+	void transpile_c_expr(const sst::Tuple & literal, std::ostream & out, Indent indent) {
+		const auto inner = indent.in();
+		out << "[&] () {\n";
+		out << inner << "ltn::Tmp tmp = ltn::value_tuple();\n"; 
+		out << inner << "auto & tup = tmp.get().val.tup->value;\n";
+		for(const auto & elem : literal.elements) {
+			out << inner << "tup.push_back(";
+			transpile_c_expression(*elem, out, inner.in());
+			out << ");\n";
+		} 
+		out << inner << "return tmp.get();\n"; 
+		out << indent << "}()";
+	}
 
 
 

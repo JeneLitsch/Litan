@@ -39,6 +39,7 @@ namespace ltn::c::trans::cxx {
 			stream << indent.in().in() << "double f;\n";
 			stream << indent.in().in() << "String * str;\n";
 			stream << indent.in().in() << "Array * arr;\n";
+			stream << indent.in().in() << "Array * tup;\n";
 			stream << indent.in() << "};\n";
 			stream << indent.in() << "Value(ValueType type, Val val) : type{type}, val{val} {}\n";
 			stream << indent.in() << "uint32_t type;\n";
@@ -230,7 +231,7 @@ namespace ltn::c::trans::cxx {
 
 
 
-		void print_gc(std::ostream & out, Indent indent) {
+		void print_mark(std::ostream & out, Indent indent) {
 			out << indent << "void mark(const Value & value) {\n";
 			print_switch(out, indent.in(), "value.type", {
 				{"STRING", [] (std::ostream & out, Indent indent) {
@@ -244,10 +245,21 @@ namespace ltn::c::trans::cxx {
 					out << indent.in() << "mark(elem);\n";
 					out << indent << "}\n";
 				}},
+				{"TUPLE", [] (std::ostream & out, Indent indent) {
+					out << indent << "auto & tup = *value.val.tup;\n";
+					out << indent << "tup.marked = true;\n";
+					out << indent << "for(auto & elem : tup.value) {\n";
+					out << indent.in() << "mark(elem);\n";
+					out << indent << "}\n";
+				}},
 			});
 			out << indent << "}\n";
 			out << indent << "\n";
+		}
 
+
+
+		void print_gc(std::ostream & out, Indent indent) {
 			out << indent << "void gc(const Context & cnxt) {\n";
 			out << indent.in() << "for(auto * root : cnxt.roots) {\n";
 			out << indent.in().in() << "mark(*root);\n";
@@ -279,6 +291,7 @@ namespace ltn::c::trans::cxx {
 		print_object_wrapper(oss, "String", "std::string", indent_ns);
 		print_object_wrapper(oss, "Array", "std::vector<Value>", indent_ns);
 
+		print_mark(oss, indent_ns);
 		print_gc(oss, indent_ns);
 
 		oss << indent_ns << "template<typename Obj>";
@@ -307,6 +320,13 @@ namespace ltn::c::trans::cxx {
 		oss << indent_ns.in() << "auto obj = std::make_unique<Array>();\n";
 		oss << indent_ns.in() << "auto * ptr = track(context.arrays, std::move(obj));\n";
 		oss << indent_ns.in() << "return Value {ARRAY, Value::Val { .arr=ptr }};\n";
+		oss << indent_ns << "}\n";
+
+		oss << indent_ns << "Value value_tuple() {\n";
+		oss << indent_ns.in() << "gc(context);\n";
+		oss << indent_ns.in() << "auto obj = std::make_unique<Array>();\n";
+		oss << indent_ns.in() << "auto * ptr = track(context.arrays, std::move(obj));\n";
+		oss << indent_ns.in() << "return Value {TUPLE, Value::Val { .tup=ptr }};\n";
 		oss << indent_ns << "}\n";
 
 

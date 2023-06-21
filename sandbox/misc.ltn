@@ -5,6 +5,7 @@ function main(args) {
 	var s2 = "";
 	var s3 = "";
 	var a1 = [1,2,""];
+	var t1 = (1,2,"");
 	var a = 48;
 	a = f(20, iife{
 		var x = 10;
