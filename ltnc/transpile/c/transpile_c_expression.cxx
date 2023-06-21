@@ -98,7 +98,13 @@ namespace ltn::c::trans::cxx {
 			transpile_c_expression(*call.arguments[i], out, inner);
 			out << ";\n";  
 		}
-		out << inner << "return " << call.name << "_" << call.arity() << "(";
+		out << inner << "return ";
+		out << "fx::";
+		print_namespace(call.namespaze, out);
+		if(!std::empty(call.namespaze)) {
+			out << "::";
+		}
+		out << call.name << "_" << call.arity() << "(";
 		for(std::size_t i = 0; i < std::size(call.arguments); ++i) {
 			if(i) out << ",";
 			out << "arg_" << i;

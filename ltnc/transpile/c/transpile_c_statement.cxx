@@ -52,7 +52,6 @@ namespace ltn::c::trans::cxx {
 	void transpile_c_stmt(const sst::Assign & assign, std::ostream & out, Indent indent) {
 		out << indent;
 		transpile_c_binding(*assign.binding, out, indent);
-		out << " = ";
 		transpile_c_expression(*assign.expr, out, indent);
 		out << ";\n";
 	}

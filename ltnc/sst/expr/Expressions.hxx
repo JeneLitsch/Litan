@@ -467,10 +467,12 @@ namespace ltn::c::sst {
 		Call(
 			const Label & label,
 			std::string name,
+			Namespace namespaze,
 			std::vector<std::unique_ptr<Expression>> arguments)
 			: Expression{}
 			, label{label}
 			, name{std::move(name)}
+			, namespaze{std::move(namespaze)}
 			, arguments(std::move(arguments)) {}
 
 		virtual std::uint64_t alloc() const override {
@@ -491,6 +493,7 @@ namespace ltn::c::sst {
 
 		Label label;
 		std::string name;
+		Namespace namespaze;
 		std::vector<std::unique_ptr<Expression>> arguments;
 	};
 

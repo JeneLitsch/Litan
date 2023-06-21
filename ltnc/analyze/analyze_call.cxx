@@ -93,7 +93,8 @@ namespace ltn::c {
 			
 			auto sst_call = std::make_unique<sst::Call>(
 				std::move(fx_label),
-				std::move(fx.name),
+				fx.name,
+				fx.namespaze,
 				std::move(arguments)
 			);
 

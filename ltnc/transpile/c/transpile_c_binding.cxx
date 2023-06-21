@@ -3,7 +3,7 @@
 namespace ltn::c::trans::cxx {
 	namespace {
 		void transpile_c_bind(const sst::NewVarBinding & binding, std::ostream & out, Indent) {
-			out << "var_" << binding.address; 
+			out << "var_" << binding.address << " = "; 
 		}
 		
 
@@ -29,7 +29,7 @@ namespace ltn::c::trans::cxx {
 		
 		
 		void transpile_c_bind(const sst::LocalBinding & binding, std::ostream & out, Indent) {
-			out << "var_" << binding.address; 
+			out << "var_" << binding.address << " = "; 
 		}
 		
 		

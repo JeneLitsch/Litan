@@ -5,6 +5,7 @@ namespace ltn::c::trans::cxx {
 		void print_includes(std::ostream & stream) {
 			stream << "#include <cstdint>\n";
 			stream << "#include <concepts>\n";
+			stream << "#include <iostream>\n";
 			stream << "\n";
 		}
 
@@ -202,7 +203,7 @@ namespace ltn::c::trans::cxx {
 		for(const auto & fx : program.functions) {
 			oss << indent;
 			print_function_header(*fx, oss);
-			oss << ";\n";
+			oss << ";}\n";
 		}
 		oss << "\n";
 		for(const auto & fx : program.functions) {

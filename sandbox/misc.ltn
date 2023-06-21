@@ -7,5 +7,6 @@ function main(args) {
 		var y = 10;
 		return x + y;
 	});
+	std::print(1337);
 	return a + -2 * -1;
 }
