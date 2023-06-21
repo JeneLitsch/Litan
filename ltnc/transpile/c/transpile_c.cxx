@@ -1,4 +1,6 @@
 #include "transpile_c.hxx"
+#include "embed_gc.hxx"
+#include "embed_objects.hxx"
 
 namespace ltn::c::trans::cxx {
 	namespace {
@@ -232,46 +234,6 @@ namespace ltn::c::trans::cxx {
 
 
 
-		void print_mark(std::ostream & out, Indent indent) {
-			out << indent << "void mark(const Value & value) {\n";
-			print_switch(out, indent.in(), "value.type", {
-				{"STRING", [] (std::ostream & out, Indent indent) {
-					out << indent << "auto & str = *value.val.str;\n";
-					out << indent << "str.marked = true;\n";
-				}},
-				{"ARRAY", [] (std::ostream & out, Indent indent) {
-					out << indent << "auto & arr = *value.val.arr;\n";
-					out << indent << "arr.marked = true;\n";
-					out << indent << "for(auto & elem : arr.value) {\n";
-					out << indent.in() << "mark(elem);\n";
-					out << indent << "}\n";
-				}},
-				{"TUPLE", [] (std::ostream & out, Indent indent) {
-					out << indent << "auto & tup = *value.val.tup;\n";
-					out << indent << "tup.marked = true;\n";
-					out << indent << "for(auto & elem : tup.value) {\n";
-					out << indent.in() << "mark(elem);\n";
-					out << indent << "}\n";
-				}},
-			});
-			out << indent << "}\n";
-			out << indent << "\n";
-		}
-
-
-
-		void print_gc(std::ostream & out, Indent indent) {
-			out << indent << "void gc(const Context & cnxt) {\n";
-			out << indent.in() << "for(auto * root : cnxt.roots) {\n";
-			out << indent.in().in() << "mark(*root);\n";
-			out << indent.in() << "}\n";
-			out << indent.in() << "sweep(&context.strings);\n";
-			out << indent.in() << "sweep(&context.arrays);\n";
-			out << indent << "}\n\n";
-		}
-
-
-
 		void print_stringify(std::ostream & out, Indent indent) {
 			out << indent << "std::string stringify(const Value & value) {\n";
 			out << indent.in() << "std::ostringstream oss;\n";
@@ -329,12 +291,12 @@ namespace ltn::c::trans::cxx {
 		print_var_class(oss, indent_ns);
 		print_tmp_class(oss, indent_ns);
 		
-		print_object_wrapper(oss, "String", "std::string", indent_ns);
-		print_object_wrapper(oss, "Array", "std::vector<Value>", indent_ns);
+		embed_object(oss, "String", "std::string", indent_ns);
+		embed_object(oss, "Array", "std::vector<Value>", indent_ns);
 
-		print_sweep(oss, indent_ns);
-		print_mark(oss, indent_ns);
-		print_gc(oss, indent_ns);
+		embed_sweep(oss, indent_ns);
+		embed_mark(oss, indent_ns);
+		embed_run_gc(oss, indent_ns);
 
 		oss << indent_ns << "template<typename Obj>";
 		oss << indent_ns << "static Obj * track(std::unique_ptr<Obj> & base, std::unique_ptr<Obj> obj) {\n";
@@ -370,7 +332,6 @@ namespace ltn::c::trans::cxx {
 		oss << indent_ns.in() << "auto * ptr = track(context.arrays, std::move(obj));\n";
 		oss << indent_ns.in() << "return Value {TUPLE, Value::Val { .tup=ptr }};\n";
 		oss << indent_ns << "}\n";
-
 
 
 		print_wrapped_operator(oss, "add", "+", indent_ns);

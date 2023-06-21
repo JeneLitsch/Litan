@@ -11,7 +11,6 @@ namespace ltn::c::trans::cxx {
 	void print_namespace(const Namespace &, std::ostream &);
 	void print_delete_special_members(std::ostream &, std::string_view name, Indent);
 	void print_object_wrapper(std::ostream &, std::string_view name, std::string_view wrapped, Indent);
-	void print_sweep(std::ostream &, Indent);
 
 	void print_switch(std::ostream & out, Indent indent, std::string_view expr, const std::map<std::string, Print> & cases);
 }
