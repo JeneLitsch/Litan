@@ -6,6 +6,7 @@ namespace ltn::c::trans::cxx {
 			stream << "#include <cstdint>\n";
 			stream << "#include <concepts>\n";
 			stream << "#include <iostream>\n";
+			stream << "#include <vector>\n";
 			stream << "\n";
 		}
 
@@ -28,7 +29,7 @@ namespace ltn::c::trans::cxx {
 
 
 
-		void print_value_struct(std::ostream & stream, Indent indent) {
+		void print_value_class(std::ostream & stream, Indent indent) {
 			stream << indent << "struct Value {\n";
 			stream << indent.in() << "union Val {\n";
 			stream << indent.in().in() << "uint8_t b;\n";
@@ -39,6 +40,52 @@ namespace ltn::c::trans::cxx {
 			stream << indent.in() << "Value(ValueType type, Val val) : type{type}, val{val} {}\n";
 			stream << indent.in() << "uint32_t type;\n";
 			stream << indent.in() << "Val val;\n";
+			stream << indent << "};\n\n";
+		}
+
+
+
+		void print_context_class(std::ostream & stream, Indent indent) {
+			stream << indent << "struct Context {\n";
+			stream << indent.in() << "void push_root(Value * value) {\n";
+			stream << indent.in().in() << "roots.push_back(value);\n"; 
+			stream << indent.in().in() << "std::cout << \"Push\" << roots.size() << \"\\n\";\n"; 
+			stream << indent.in() << "}\n";
+			stream << indent.in() << "void pop_root() {\n";
+			stream << indent.in().in() << "std::cout << \"Pop\" << roots.size() << \"\\n\";\n"; 
+			stream << indent.in().in() << "roots.pop_back();\n"; 
+			stream << indent.in() << "}\n"; 
+			stream << indent.in() << "std::vector<const Value *> roots;\n"; 
+			stream << indent << "};\n\n";
+		}
+
+
+
+		void print_var_class(std::ostream & stream, Indent indent) {
+			stream << indent << "class Var final {\n";
+			stream << indent << "public:\n";
+			
+			stream << indent.in() << "Var(const Value & value) : value {value} {\n";
+			stream << indent.in().in() << "context.push_root(&this->value);\n";
+			stream << indent.in() << "}\n";
+
+			stream << indent.in() << "~Var() {\n";
+			stream << indent.in().in() << "context.pop_root();\n";
+			stream << indent.in() << "}\n";
+
+			stream << indent.in() << "Var & operator=(const Value & value) {\n";
+			stream << indent.in().in() << "this->value = value;\n";
+			stream << indent.in().in() << "return *this;\n";
+			stream << indent.in() << "}\n";
+
+			stream << indent.in() << "const Value & get() const {\n";
+			stream << indent.in().in() << "return this->value;\n";
+			stream << indent.in().in() << "context.pop_root();\n";
+			stream << indent.in() << "}\n";
+
+			print_delete_special_members(stream, "Var", indent.in());
+			stream << indent << "private:\n";
+			stream << indent.in() << "Value value;\n";
 			stream << indent << "};\n\n";
 		}
 
@@ -55,7 +102,7 @@ namespace ltn::c::trans::cxx {
 
 		void print_value_null(std::ostream & stream, Indent indent) {
 			stream << indent << "struct Value value_null() {\n";
-			stream << indent.in() << "\t" << "return Value {NVLL, Value::Val {} };\n";
+			stream << indent.in() << "return Value {NVLL, Value::Val {} };\n";
 			stream << indent << "}\n\n";
 		}
 
@@ -73,19 +120,6 @@ namespace ltn::c::trans::cxx {
 			stream << indent << "}\n\n";
 		}
 
-
-
-		std::string print_arith_calc(
-			std::string_view type_ret,
-			std::string_view op,
-			std::string_view member_l,
-			std::string_view member_r) {
-			std::ostringstream oss;
-			oss << "return push(value_" << type_ret << "(";
-			oss << "l.val." << member_l << op << "r.val." << member_r;
-			oss << "));\n";
-			return oss.str();
-		}
 
 
 		void print_wrapped_operator(
@@ -175,6 +209,16 @@ namespace ltn::c::trans::cxx {
 			stream << indent << "}\n";
 			stream << "\n";
 		}
+
+
+
+		void print_gc(std::ostream & out, Indent indent) {
+			out << indent << "void gc(const Context & cnxt) {\n";
+			out << indent.in() << "for(auto * root : cnxt.roots) {\n";
+			out << indent.in().in() << "std::cout << \"ROOT\\n\";\n";
+			out << indent.in() << "}\n";
+			out << indent << "}\n\n";
+		}
 	}
 
 	std::string transpile_c(const sst::Program & program) {
@@ -186,7 +230,13 @@ namespace ltn::c::trans::cxx {
 		oss << "namespace ltn {\n";
 
 		print_value_type_enum(oss, indent_ns);
-		print_value_struct(oss, indent_ns);
+		print_value_class(oss, indent_ns);
+		print_context_class(oss, indent_ns);
+		oss << indent_ns << "Context context;\n\n";
+		print_var_class(oss, indent_ns);
+
+		print_gc(oss, indent_ns);
+
 		print_value_null(oss, indent_ns);
 		print_value_xyz(oss, indent_ns, "bool", "BOOL", "bool", "b");
 		print_value_xyz(oss, indent_ns, "char", "CHAR", "std::uint8_t", "c");

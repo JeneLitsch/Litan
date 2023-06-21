@@ -8,7 +8,7 @@ namespace ltn::c::trans::cxx {
 		out << "ltn::Value " << fx.name << "_" << fx.arity() << "(";
 		for(std::size_t i = 0; i < fx.arity(); i++) {
 			if(i) out << ",";
-			out << "ltn::Value var_" << i;
+			out << "ltn::Var var_" << i;
 		}
 		out << ")";
 	}
@@ -22,5 +22,14 @@ namespace ltn::c::trans::cxx {
 				out << "_";
 			}
 		}
+	}
+
+
+	
+	void print_delete_special_members(std::ostream & out, std::string_view name, Indent indent) {
+		out << indent << name << "(const " << name <<  "&) = delete;\n";
+		out << indent << name << "(" << name <<  "&&) = delete;\n";
+		out << indent << name << "& operator=(const " << name <<  "&) = delete;\n";
+		out << indent << name << "& operator=(" << name <<  "&&) = delete;\n";
 	}
 }

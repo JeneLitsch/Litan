@@ -10,7 +10,7 @@ namespace ltn::c::trans::cxx {
 			print_function_header(fx, oss);
 			oss << "{\n";
 			for(std::uint64_t i = 0; i < fx.body->nested_alloc(); ++i) {
-				oss << inner << "ltn::Value var_" << i + fx.arity() << " = " << "ltn::value_null()" << ";\n"; 
+				oss << inner << "ltn::Var var_" << i + fx.arity() << " = " << "ltn::value_null()" << ";\n"; 
 			}
 			transpile_c_statement(*fx.body, oss, inner);
 			oss << indent << "}}\n";
@@ -27,7 +27,7 @@ namespace ltn::c::trans::cxx {
 			print_function_header(fx, oss);
 			oss << "{\n";
 			if(fx.key == "io_print") {
-				oss << inner << "std::cout << var_1.val.i;\n"; 
+				oss << inner << "std::cout << var_1.get().val.i;\n"; 
 				oss << inner << "return ltn::value_null();\n"; 
 			}
 			if(fx.key == "io_cout") {

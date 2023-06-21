@@ -128,7 +128,7 @@ namespace ltn::c::trans::cxx {
 
 
 	void transpile_c_expr(const sst::Var & var, std::ostream & out, Indent indent) {
-		out << "var_" << var.address;
+		out << "var_" << var.address << ".get()";
 	}
 
 
