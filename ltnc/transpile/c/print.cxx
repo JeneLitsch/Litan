@@ -63,4 +63,17 @@ namespace ltn::c::trans::cxx {
 		out << indent << "};\n";
 		out << indent << "\n";
 	}
+
+
+
+	void print_switch(std::ostream & out, Indent indent, std::string_view expr, const std::map<std::string, Print> & cases) {
+		out << indent << "switch(" << expr << ") {\n";
+		auto case_indent = indent.in(); 
+		for(const auto & [key, val] : cases) {
+			out << case_indent << "case " << key << ": {\n";
+			val(out, case_indent.in());
+			out << case_indent << "} break;\n";
+		}
+		out << indent << "};\n";
+	}
 }

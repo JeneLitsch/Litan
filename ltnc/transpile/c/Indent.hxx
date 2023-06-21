@@ -4,7 +4,7 @@
 namespace ltn::c::trans {
 	struct Indent {
 		std::uint64_t indent = 0;
-		Indent in() {
+		Indent in() const {
 			return Indent {
 				.indent = this->indent + 1,
 			};
