@@ -6,6 +6,7 @@ namespace ltn::c::trans::cxx {
 			stream << "#include <cstdint>\n";
 			stream << "#include <concepts>\n";
 			stream << "#include <iostream>\n";
+			stream << "#include <sstream>\n";
 			stream << "#include <vector>\n";
 			stream << "#include <memory>\n";
 			stream << "\n";
@@ -53,10 +54,10 @@ namespace ltn::c::trans::cxx {
 			stream << indent << "struct Context {\n";
 			stream << indent.in() << "void push_root(Value * value) {\n";
 			stream << indent.in().in() << "roots.push_back(value);\n"; 
-			stream << indent.in().in() << "std::cout << \"Push\" << roots.size() << \"\\n\";\n"; 
+			// stream << indent.in().in() << "std::cout << \"Push\" << roots.size() << \"\\n\";\n"; 
 			stream << indent.in() << "}\n";
 			stream << indent.in() << "void pop_root() {\n";
-			stream << indent.in().in() << "std::cout << \"Pop\" << roots.size() << \"\\n\";\n"; 
+			// stream << indent.in().in() << "std::cout << \"Pop\" << roots.size() << \"\\n\";\n"; 
 			stream << indent.in().in() << "roots.pop_back();\n"; 
 			stream << indent.in() << "}\n"; 
 			stream << indent.in() << "std::vector<const Value *> roots;\n"; 
@@ -112,7 +113,7 @@ namespace ltn::c::trans::cxx {
 
 		void print_main(std::ostream & stream) {
 			stream << "int main() {\n";
-			stream << "\treturn fx::main_1(ltn::value_null()).val.i;\n";
+			stream << "\tstd::cout << ltn::stringify(fx::main_1(ltn::value_null()));\n";
 			stream << "}\n";
 			stream << "\n";
 		}
@@ -268,6 +269,47 @@ namespace ltn::c::trans::cxx {
 			out << indent.in() << "sweep(&context.arrays);\n";
 			out << indent << "}\n\n";
 		}
+
+
+
+		void print_stringify(std::ostream & out, Indent indent) {
+			out << indent << "std::string stringify(const Value & value) {\n";
+			out << indent.in() << "std::ostringstream oss;\n";
+			print_switch(out, indent.in(), "value.type", {
+				{"BOOL", [] (std::ostream & out, Indent indent) {
+					out << indent << "oss << std::boolalpha << value.val.b;\n";
+				}},
+				{"CHAR", [] (std::ostream & out, Indent indent) {
+					out << indent << "oss << value.val.c;\n";
+				}},
+				{"INT", [] (std::ostream & out, Indent indent) {
+					out << indent << "oss << value.val.i;\n";
+				}},
+				{"FLOAT", [] (std::ostream & out, Indent indent) {
+					out << indent << "oss << value.val.f;\n";
+				}},
+				{"STRING", [] (std::ostream & out, Indent indent) {
+					out << indent << "oss << value.val.str->value;\n";
+				}},
+				{"ARRAY", [] (std::ostream & out, Indent indent) {
+					out << indent << "auto & arr = *value.val.arr;\n";
+					out << indent << "for(auto & elem : arr.value) {\n";
+					out << indent.in() << "oss << stringify(elem);\n";
+					out << indent << "}\n";
+					out << indent << "return oss.str();\n";
+				}},
+				{"TUPLE", [] (std::ostream & out, Indent indent) {
+					out << indent << "auto & tup = *value.val.tup;\n";
+					out << indent << "std::ostringstream oss;\n";
+					out << indent << "for(auto & elem : tup.value) {\n";
+					out << indent.in() << "oss << stringify(elem);\n";
+					out << indent << "}\n";
+				}},
+			});
+			out << indent.in() << "return oss.str();\n";
+			out << indent << "}\n";
+			out << indent << "\n";
+		}
 	}
 
 	std::string transpile_c(const sst::Program & program) {
@@ -287,10 +329,10 @@ namespace ltn::c::trans::cxx {
 		print_var_class(oss, indent_ns);
 		print_tmp_class(oss, indent_ns);
 		
-		print_sweep(oss, indent_ns);
 		print_object_wrapper(oss, "String", "std::string", indent_ns);
 		print_object_wrapper(oss, "Array", "std::vector<Value>", indent_ns);
 
+		print_sweep(oss, indent_ns);
 		print_mark(oss, indent_ns);
 		print_gc(oss, indent_ns);
 
@@ -307,9 +349,9 @@ namespace ltn::c::trans::cxx {
 		print_value_xyz(oss, indent_ns, "int", "INT", "std::int64_t", "i");
 		print_value_xyz(oss, indent_ns, "float", "FLOAT", "double", "f");
 
-		oss << indent_ns << "Value value_string(const char * str) {\n";
+		oss << indent_ns << "Value value_string(const std::string_view str) {\n";
 		oss << indent_ns.in() << "gc(context);\n";
-		oss << indent_ns.in() << "auto obj = std::make_unique<String>(str);\n";
+		oss << indent_ns.in() << "auto obj = std::make_unique<String>(std::string(str));\n";
 		oss << indent_ns.in() << "auto * ptr = track(context.strings, std::move(obj));\n";
 		oss << indent_ns.in() << "return Value {STRING, Value::Val { .str=ptr }};\n";
 		oss << indent_ns << "}\n";
@@ -344,6 +386,8 @@ namespace ltn::c::trans::cxx {
 		print_arith_dispatch(oss, "div", indent_ns);
 		
 		print_unary(oss, "neg", "-", indent_ns);
+
+		print_stringify(oss, indent_ns);
 
 		oss << "}\n";
 

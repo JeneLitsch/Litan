@@ -52,7 +52,7 @@ namespace ltn::c::trans::cxx {
 		out << indent << "void sweep(std::unique_ptr<Obj> * obj) {\n";
 		out << indent.in() << "while(*obj) {\n";
 		out << indent.in().in() << "if(!(*obj)->marked) {\n";
-		out << indent.in().in().in() << "std::cout << \"FREE\";\n";
+		// out << indent.in().in().in() << "std::cout << \"FREE\";\n";
 		out << indent.in().in().in() << "*obj = std::move((*obj)->next);\n";
 		out << indent.in().in() << "}\n";
 		out << indent.in().in() << "else{\n";

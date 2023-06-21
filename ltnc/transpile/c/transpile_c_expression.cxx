@@ -85,7 +85,17 @@ namespace ltn::c::trans::cxx {
 
 
 	void transpile_c_expr(const sst::String & literal, std::ostream & out, Indent indent) {
-		out << "ltn::value_string(\"" << literal.value << "\")"; 
+		out << "ltn::value_string(\"";
+		for(const char c : literal.value) {
+			switch (c) {
+			case '\n': out << "\\n"; break;
+			case '\t': out << "\\t"; break;
+			case '\"': out << "\\\""; break;
+			case '\\': out << "\\\\"; break;
+			default: out << c;
+			}
+		} 
+		out << "\")"; 
 	}
 
 

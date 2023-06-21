@@ -12,8 +12,9 @@ function main(args) {
 		var y = 10;
 		return x + y;
 	});
-	std::print("ABC");
-	std::print("DEF");
-	std::print("GHI");
+	std::println("ABC");
+	std::println("DEF");
+	std::println("GHI");
+	std::println(std::str(42));
 	return a + -2 * -1;
 }

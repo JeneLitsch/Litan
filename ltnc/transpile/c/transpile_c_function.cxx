@@ -13,6 +13,7 @@ namespace ltn::c::trans::cxx {
 				oss << inner << "ltn::Var var_" << i + fx.arity() << " = " << "ltn::value_null()" << ";\n"; 
 			}
 			transpile_c_statement(*fx.body, oss, inner);
+			oss << inner << "return ltn::value_null();\n"; 
 			oss << indent << "}}\n";
 			oss << "\n";
 			return oss.str();
@@ -27,12 +28,17 @@ namespace ltn::c::trans::cxx {
 			print_function_header(fx, oss);
 			oss << "{\n";
 			if(fx.key == "io_print") {
-				oss << inner << "std::cout << var_1.get().val.str->value;\n"; 
+				oss << inner << "std::cout << ltn::stringify(var_1.get());\n"; 
 				oss << inner << "return ltn::value_null();\n"; 
 			}
 			if(fx.key == "io_cout") {
 				oss << inner << "return ltn::value_null();\n"; 
 			}
+			if(fx.key == "to_string") {
+				oss << inner << "auto str = ltn::stringify(var_0.get());\n"; 
+				oss << inner << "return ltn::value_string(std::move(str));\n"; 
+			}
+			oss << inner << "return ltn::value_null();\n"; 
 			oss << indent << "}}\n";
 			oss << "\n";
 			return oss.str();
