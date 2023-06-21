@@ -1,12 +1,17 @@
 function f(a, b) => a + b
 
 function main(args) {
+	var s1 = "";
+	var s2 = "";
+	var s3 = "";
 	var a = 48;
 	a = f(20, iife{
 		var x = 10;
 		var y = 10;
 		return x + y;
 	});
-	std::print(1337);
+	std::print("ABC");
+	std::print("DEF");
+	std::print("GHI");
 	return a + -2 * -1;
 }

@@ -84,7 +84,9 @@ namespace ltn::c::trans::cxx {
 	
 
 
-	void transpile_c_expr(const sst::String &, std::ostream & out, Indent indent) {}
+	void transpile_c_expr(const sst::String & literal, std::ostream & out, Indent indent) {
+		out << "ltn::value_string(\"" << literal.value << "\")"; 
+	}
 	void transpile_c_expr(const sst::Array &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Tuple &, std::ostream & out, Indent indent) {}
 

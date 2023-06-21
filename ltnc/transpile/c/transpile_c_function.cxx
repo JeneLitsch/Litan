@@ -27,7 +27,7 @@ namespace ltn::c::trans::cxx {
 			print_function_header(fx, oss);
 			oss << "{\n";
 			if(fx.key == "io_print") {
-				oss << inner << "std::cout << var_1.get().val.i;\n"; 
+				oss << inner << "std::cout << var_1.get().val.str->value;\n"; 
 				oss << inner << "return ltn::value_null();\n"; 
 			}
 			if(fx.key == "io_cout") {

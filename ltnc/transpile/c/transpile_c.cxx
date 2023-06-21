@@ -7,6 +7,7 @@ namespace ltn::c::trans::cxx {
 			stream << "#include <concepts>\n";
 			stream << "#include <iostream>\n";
 			stream << "#include <vector>\n";
+			stream << "#include <memory>\n";
 			stream << "\n";
 		}
 
@@ -36,6 +37,7 @@ namespace ltn::c::trans::cxx {
 			stream << indent.in().in() << "uint8_t c;\n";
 			stream << indent.in().in() << "int64_t i;\n";
 			stream << indent.in().in() << "double f;\n";
+			stream << indent.in().in() << "String * str;\n";
 			stream << indent.in() << "};\n";
 			stream << indent.in() << "Value(ValueType type, Val val) : type{type}, val{val} {}\n";
 			stream << indent.in() << "uint32_t type;\n";
@@ -56,6 +58,8 @@ namespace ltn::c::trans::cxx {
 			stream << indent.in().in() << "roots.pop_back();\n"; 
 			stream << indent.in() << "}\n"; 
 			stream << indent.in() << "std::vector<const Value *> roots;\n"; 
+			stream << indent.in() << "std::unique_ptr<String> strings;\n"; 
+			stream << indent.in() << "std::unique_ptr<Array> arrays;\n"; 
 			stream << indent << "};\n\n";
 		}
 
@@ -228,8 +232,10 @@ namespace ltn::c::trans::cxx {
 		void print_gc(std::ostream & out, Indent indent) {
 			out << indent << "void gc(const Context & cnxt) {\n";
 			out << indent.in() << "for(auto * root : cnxt.roots) {\n";
-			out << indent.in().in() << "std::cout << \"ROOT\\n\";\n";
+			out << indent.in().in() << "if (root->type == STRING) root->val.str->marked = true;\n";
 			out << indent.in() << "}\n";
+			out << indent.in() << "sweep(&context.strings);\n";
+			out << indent.in() << "sweep(&context.arrays);\n";
 			out << indent << "}\n\n";
 		}
 	}
@@ -241,6 +247,8 @@ namespace ltn::c::trans::cxx {
 		Indent indent_ns {1};
 
 		oss << "namespace ltn {\n";
+		oss << indent_ns << "struct String;\n";
+		oss << indent_ns << "struct Array;\n";
 
 		print_value_type_enum(oss, indent_ns);
 		print_value_class(oss, indent_ns);
@@ -248,14 +256,34 @@ namespace ltn::c::trans::cxx {
 		oss << indent_ns << "Context context;\n\n";
 		print_var_class(oss, indent_ns);
 		print_tmp_class(oss, indent_ns);
+		
+		print_sweep(oss, indent_ns);
+		print_object_wrapper(oss, "String", "std::string", indent_ns);
+		print_object_wrapper(oss, "Array", "std::vector<Value>", indent_ns);
 
 		print_gc(oss, indent_ns);
+
+		oss << indent_ns << "template<typename Obj>";
+		oss << indent_ns << "static Obj * track(std::unique_ptr<Obj> & base, std::unique_ptr<Obj> obj) {\n";
+		oss << indent_ns.in() << "obj->next = std::move(base);\n";
+		oss << indent_ns.in() << "base = std::move(obj);\n";
+		oss << indent_ns.in() << "return base.get();\n";
+		oss << indent_ns << "}\n";
 
 		print_value_null(oss, indent_ns);
 		print_value_xyz(oss, indent_ns, "bool", "BOOL", "bool", "b");
 		print_value_xyz(oss, indent_ns, "char", "CHAR", "std::uint8_t", "c");
 		print_value_xyz(oss, indent_ns, "int", "INT", "std::int64_t", "i");
 		print_value_xyz(oss, indent_ns, "float", "FLOAT", "double", "f");
+
+		oss << indent_ns << "Value value_string(const char * str) {\n";
+		oss << indent_ns.in() << "gc(context);\n";
+		oss << indent_ns.in() << "auto obj = std::make_unique<String>(str);\n";
+		oss << indent_ns.in() << "auto * ptr = track<String>(context.strings, std::move(obj));\n";
+		oss << indent_ns.in() << "return Value {STRING, Value::Val { .str=ptr }};\n";
+		oss << indent_ns << "}\n";
+
+
 
 		print_wrapped_operator(oss, "add", "+", indent_ns);
 		print_arith_dispatch(oss, "add", indent_ns);
