@@ -17,5 +17,7 @@ function main(args) {
 	std::println("GHI");
 	std::println(std::str(42));
 	std::println([1,2,3] + [4,5,6]);
+	std::println((1,2,3) + (4,5,6));
+	std::println("ABC" + "DEF");
 	return a + -2 * -1;
 }

@@ -154,17 +154,21 @@ namespace ltn::c::trans::cxx {
 				}},
 				{"Value::Type::ARRAY", [] (std::ostream & out, Indent indent) {
 					out << indent << "auto & arr = *value.val.arr;\n";
-					out << indent << "for(auto & elem : arr.value) {\n";
-					out << indent.in() << "oss << stringify(elem);\n";
+					out << indent << "oss << \"[\";\n";
+					out << indent << "for(std::size_t i = 0; i < std::size(arr.value); ++i) {\n";
+					out << indent.in() << "if(i) oss << \", \";\n";
+					out << indent.in() << "oss << stringify(arr.value[i]);\n";
 					out << indent << "}\n";
-					out << indent << "return oss.str();\n";
+					out << indent << "oss << \"]\";\n";
 				}},
 				{"Value::Type::TUPLE", [] (std::ostream & out, Indent indent) {
 					out << indent << "auto & tup = *value.val.tup;\n";
-					out << indent << "std::ostringstream oss;\n";
-					out << indent << "for(auto & elem : tup.value) {\n";
-					out << indent.in() << "oss << stringify(elem);\n";
+					out << indent << "oss << \"(\";\n";
+					out << indent << "for(std::size_t i = 0; i < std::size(tup.value); ++i) {\n";
+					out << indent.in() << "if(i) oss << \", \";\n";
+					out << indent.in() << "oss << stringify(tup.value[i]);\n";
 					out << indent << "}\n";
+					out << indent << "oss << \")\";\n";
 				}},
 			});
 			out << indent.in() << "return oss.str();\n";
