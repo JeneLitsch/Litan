@@ -20,7 +20,7 @@ namespace ltn::c::trans::cxx {
 
 
 		void print_value_type_enum(std::ostream & stream, Indent indent) {
-			stream << indent << "enum ValueType {\n";
+			stream << indent << "enum class Type : std::uint8_t {\n";
 			stream << indent.in() << "NVLL = 0x00,\n";
 			stream << indent.in() << "BOOL = 0x10, INT, FLOAT, CHAR,\n";
 			stream << indent.in() << "ARRAY = 0x20, STRING, TUPLE,\n";
@@ -36,23 +36,25 @@ namespace ltn::c::trans::cxx {
 
 
 
-		void print_value_class(std::ostream & stream, Indent indent) {
-			stream << indent << "struct Value {\n";
-			stream << indent.in() << "union Val {\n";
+		void print_value_class(std::ostream & out, Indent indent) {
+			out << indent << "struct Value {\n";
+			print_value_type_enum(out, indent.in());
+			out << indent.in() << "union Val {\n";
 			
 			for(const auto & p : primitive_types) {
-				stream << indent.in().in() << p.data_type << " " << p.value_member << ";\n";
+				out << indent.in().in() << p.data_type << " " << p.value_member << ";\n";
 			}
 
 			for(const auto & o : object_types) {
-				stream << indent.in().in() << o.name << " * " << o.value_member << ";\n";
+				out << indent.in().in() << o.name << " * " << o.value_member << ";\n";
 			}
 
-			stream << indent.in() << "};\n";
-			stream << indent.in() << "Value(ValueType type, Val val) : type{type}, val{val} {}\n";
-			stream << indent.in() << "uint32_t type;\n";
-			stream << indent.in() << "Val val;\n";
-			stream << indent << "};\n\n";
+			out << indent.in() << "};\n";
+			out << indent.in() << "Value(Type type, Val val) : type{type}, val{val} {}\n";
+			out << indent.in() << "Type type;\n";
+			out << indent.in() << "Val val;\n";
+			out << indent << "};\n\n";
+			out << indent << "using VT = Value::Type;\n\n";
 		}
 
 
@@ -131,64 +133,33 @@ namespace ltn::c::trans::cxx {
 
 
 
-		void print_unary(
-			std::ostream & stream,
-			std::string_view name,
-			std::string_view op,
-			Indent indent) {
-
-			auto indent_1 = indent.in();
-			auto indent_2 = indent_1.in();
-			
-			stream << indent << "Value " << name << "(const Value & x) {\n";
-			print_switch(stream, indent.in(), "x.type", {
-				{"BOOL", [] (std::ostream & out, Indent indent) {
-					out << indent << "return value_int(-static_cast<std::int64_t>(x.val.b));\n";
-				}},
-				{"CHAR", [] (std::ostream & out, Indent indent) {
-					out << indent << "return value_int(-static_cast<std::int64_t>(x.val.c));\n";
-				}},
-				{"INT", [] (std::ostream & out, Indent indent) {
-					out << indent << "return value_int(-static_cast<std::int64_t>(x.val.i));\n";
-				}},
-				{"FLOAT", [] (std::ostream & out, Indent indent) {
-					out << indent << "return value_float(-static_cast<double>(x.val.f));\n";
-				}},
-			});
-
-			stream << indent << "}\n";
-			stream << "\n";
-		}
-
-
-
 		void print_stringify(std::ostream & out, Indent indent) {
 			out << indent << "std::string stringify(const Value & value) {\n";
 			out << indent.in() << "std::ostringstream oss;\n";
 			print_switch(out, indent.in(), "value.type", {
-				{"BOOL", [] (std::ostream & out, Indent indent) {
+				{"Value::Type::BOOL", [] (std::ostream & out, Indent indent) {
 					out << indent << "oss << std::boolalpha << value.val.b;\n";
 				}},
-				{"CHAR", [] (std::ostream & out, Indent indent) {
+				{"Value::Type::CHAR", [] (std::ostream & out, Indent indent) {
 					out << indent << "oss << value.val.c;\n";
 				}},
-				{"INT", [] (std::ostream & out, Indent indent) {
+				{"Value::Type::INT", [] (std::ostream & out, Indent indent) {
 					out << indent << "oss << value.val.i;\n";
 				}},
-				{"FLOAT", [] (std::ostream & out, Indent indent) {
+				{"Value::Type::FLOAT", [] (std::ostream & out, Indent indent) {
 					out << indent << "oss << value.val.f;\n";
 				}},
-				{"STRING", [] (std::ostream & out, Indent indent) {
+				{"Value::Type::STRING", [] (std::ostream & out, Indent indent) {
 					out << indent << "oss << value.val.str->value;\n";
 				}},
-				{"ARRAY", [] (std::ostream & out, Indent indent) {
+				{"Value::Type::ARRAY", [] (std::ostream & out, Indent indent) {
 					out << indent << "auto & arr = *value.val.arr;\n";
 					out << indent << "for(auto & elem : arr.value) {\n";
 					out << indent.in() << "oss << stringify(elem);\n";
 					out << indent << "}\n";
 					out << indent << "return oss.str();\n";
 				}},
-				{"TUPLE", [] (std::ostream & out, Indent indent) {
+				{"Value::Type::TUPLE", [] (std::ostream & out, Indent indent) {
 					out << indent << "auto & tup = *value.val.tup;\n";
 					out << indent << "std::ostringstream oss;\n";
 					out << indent << "for(auto & elem : tup.value) {\n";
@@ -212,7 +183,6 @@ namespace ltn::c::trans::cxx {
 
 		print_forward_decls(oss, indent_ns, object_types);
 
-		print_value_type_enum(oss, indent_ns);
 		print_value_class(oss, indent_ns);
 		print_context_class(oss, indent_ns);
 		oss << indent_ns << "Context context;\n\n";
@@ -225,7 +195,7 @@ namespace ltn::c::trans::cxx {
 		embed_mark(oss, indent_ns);
 		embed_run_gc(oss, indent_ns);
 
-		oss << indent_ns << "template<typename Obj>";
+		oss << indent_ns << "template<typename Obj>\n";
 		oss << indent_ns << "static Obj * track(std::unique_ptr<Obj> & base, std::unique_ptr<Obj> obj) {\n";
 		oss << indent_ns.in() << "obj->next = std::move(base);\n";
 		oss << indent_ns.in() << "base = std::move(obj);\n";
@@ -240,44 +210,48 @@ namespace ltn::c::trans::cxx {
 		oss << indent_ns.in() << "gc(context);\n";
 		oss << indent_ns.in() << "auto obj = std::make_unique<String>(std::string(str));\n";
 		oss << indent_ns.in() << "auto * ptr = track(context.strings, std::move(obj));\n";
-		oss << indent_ns.in() << "return Value {STRING, Value::Val { .str=ptr }};\n";
-		oss << indent_ns << "}\n";
+		oss << indent_ns.in() << "return Value {Value::Type::STRING, Value::Val { .str=ptr }};\n";
+		oss << indent_ns << "}\n\n";
 
 		oss << indent_ns << "Value value_array() {\n";
 		oss << indent_ns.in() << "gc(context);\n";
 		oss << indent_ns.in() << "auto obj = std::make_unique<Array>();\n";
 		oss << indent_ns.in() << "auto * ptr = track(context.arrays, std::move(obj));\n";
-		oss << indent_ns.in() << "return Value {ARRAY, Value::Val { .arr=ptr }};\n";
-		oss << indent_ns << "}\n";
+		oss << indent_ns.in() << "return Value {Value::Type::ARRAY, Value::Val { .arr=ptr }};\n";
+		oss << indent_ns << "}\n\n";
 
 		oss << indent_ns << "Value value_tuple() {\n";
 		oss << indent_ns.in() << "gc(context);\n";
 		oss << indent_ns.in() << "auto obj = std::make_unique<Tuple>();\n";
 		oss << indent_ns.in() << "auto * ptr = track(context.tuples, std::move(obj));\n";
-		oss << indent_ns.in() << "return Value {TUPLE, Value::Val { .tup=ptr }};\n";
-		oss << indent_ns << "}\n";
+		oss << indent_ns.in() << "return Value {Value::Type::TUPLE, Value::Val { .tup=ptr }};\n";
+		oss << indent_ns << "}\n\n";
 
 		oss << indent_ns << "Value value_cout() {\n";
 		oss << indent_ns.in() << "gc(context);\n";
 		oss << indent_ns.in() << "auto obj = std::make_unique<OStream>(&std::cout);\n";
 		oss << indent_ns.in() << "auto * ptr = track(context.ostreams, std::move(obj));\n";
-		oss << indent_ns.in() << "return Value {OSTREAM, Value::Val { .out=ptr }};\n";
-		oss << indent_ns << "}\n";
+		oss << indent_ns.in() << "return Value {Value::Type::OSTREAM, Value::Val { .out=ptr }};\n";
+		oss << indent_ns << "}\n\n";
 
+		oss << indent_ns << "constexpr std::uint16_t combine(VT l, VT r) {\n";
+		oss << indent_ns.in() << "return static_cast<std::uint16_t>(l) + (static_cast<std::uint16_t>(r) << 8);\n";
+		oss << indent_ns << "}\n\n";
 
-		print_wrapped_operator(oss, indent_ns, "add", "+");
-		print_arith_dispatch(oss, indent_ns, "add");
+		wrap_binary_operator(oss, indent_ns, "add", "+");
+		arith_dispatch(oss, indent_ns, "add");
 
-		print_wrapped_operator(oss, indent_ns, "sub", "-");
-		print_arith_dispatch(oss, indent_ns, "sub");
+		wrap_binary_operator(oss, indent_ns, "sub", "-");
+		arith_dispatch(oss, indent_ns, "sub");
 
-		print_wrapped_operator(oss, indent_ns, "mlt", "*");
-		print_arith_dispatch(oss, indent_ns, "mlt");
+		wrap_binary_operator(oss, indent_ns, "mlt", "*");
+		arith_dispatch(oss, indent_ns, "mlt");
 
-		print_wrapped_operator(oss, indent_ns, "div", "/");
-		print_arith_dispatch(oss, indent_ns, "div");
+		wrap_binary_operator(oss, indent_ns, "div", "/");
+		arith_dispatch(oss, indent_ns, "div");
 		
-		print_unary(oss, "neg", "-", indent_ns);
+		wrap_unary_operator(oss, indent_ns, "neg", "-");
+		unary_dispatch(oss, "neg", indent_ns);
 
 		print_stringify(oss, indent_ns);
 

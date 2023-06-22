@@ -24,18 +24,18 @@ namespace ltn::c::trans::cxx {
 	void embed_mark(std::ostream & out, Indent indent) {
 		out << indent << "void mark(const Value & value) {\n";
 		print_switch(out, indent.in(), "value.type", {
-			{"STRING", [] (std::ostream & out, Indent indent) {
+			{"Value::Type::STRING", [] (std::ostream & out, Indent indent) {
 				out << indent << "auto & str = *value.val.str;\n";
 				out << indent << "str.marked = true;\n";
 			}},
-			{"ARRAY", [] (std::ostream & out, Indent indent) {
+			{"Value::Type::ARRAY", [] (std::ostream & out, Indent indent) {
 				out << indent << "auto & arr = *value.val.arr;\n";
 				out << indent << "arr.marked = true;\n";
 				out << indent << "for(auto & elem : arr.value) {\n";
 				out << indent.in() << "mark(elem);\n";
 				out << indent << "}\n";
 			}},
-			{"TUPLE", [] (std::ostream & out, Indent indent) {
+			{"Value::Type::TUPLE", [] (std::ostream & out, Indent indent) {
 				out << indent << "auto & tup = *value.val.tup;\n";
 				out << indent << "tup.marked = true;\n";
 				out << indent << "for(auto & elem : tup.value) {\n";
