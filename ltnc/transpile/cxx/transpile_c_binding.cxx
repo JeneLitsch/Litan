@@ -18,7 +18,8 @@ namespace ltn::c::trans::cxx {
 
 
 
-		void transpile_c_bind(const sst::GlobalBinding & binding, std::ostream &, Indent) {
+		void transpile_c_bind(const sst::GlobalBinding & binding, std::ostream & out, Indent) {
+			out << "global::var_" << binding.address << " = "; 
 		}
 
 

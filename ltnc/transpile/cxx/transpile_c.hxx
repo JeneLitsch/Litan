@@ -13,6 +13,9 @@ namespace ltn::c::trans::cxx {
 	// Functional
 	std::string transpile_c_functional(const sst::Functional &, Indent indent);
 
+	void transpile_globals(const sst::Program & program, std::ostream &, Indent);
+	void transpile_functions(const sst::Program & program, std::ostream &, Indent);
+
 	// Statement
 	void transpile_c_statement(const sst::Statement &, std::ostream &, Indent);
 	void transpile_c_stmt(const sst::Block &, std::ostream &, Indent);

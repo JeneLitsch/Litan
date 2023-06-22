@@ -1,5 +1,7 @@
 function f(a, b) => a + b
 
+define global_var = 1;
+
 function main(args) {
 	var s1 = "";
 	var s2 = "";
@@ -21,5 +23,8 @@ function main(args) {
 	std::println("ABC" + "DEF");
 	std::println(true ? 1 : 2);
 	std::println(false ? 1 : 2);
+	std::println(std::pi);
+	global_var = 1337;
+	std::println(global_var);
 	return a + -2 * -1;
 }

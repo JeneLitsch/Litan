@@ -193,7 +193,9 @@ namespace ltn::c::trans::cxx {
 
 
 	void transpile_c_expr(const sst::Member &, std::ostream & out, Indent indent) {}
-	void transpile_c_expr(const sst::GlobalVar &, std::ostream & out, Indent indent) {}
+	void transpile_c_expr(const sst::GlobalVar & global, std::ostream & out, Indent indent) {
+		out << "global::var_" << global.address << ".get()";
+	}
 	void transpile_c_expr(const sst::Reflect &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::InitStruct &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Map &, std::ostream & out, Indent indent) {}

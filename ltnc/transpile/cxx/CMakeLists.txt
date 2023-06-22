@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 target_sources(libltnc PRIVATE 
 	embed_gc.cxx
+	embed_runtime.cxx
 	error.cxx
 	object_types.cxx
 	primitive_types.cxx
