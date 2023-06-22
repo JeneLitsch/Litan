@@ -51,6 +51,36 @@ namespace ltn::c::trans::cxx {
 
 
 
+	void add_dispatch(std::ostream & out, Indent indent) {
+		return binary_dispatch(out, indent, "add", {
+			{"BOOL", "BOOL",  "b", "b"},
+			{"BOOL", "CHAR",  "b", "c"},
+			{"BOOL", "INT",   "b", "i"},
+			{"BOOL", "FLOAT", "b", "f"},
+
+			{"CHAR", "BOOL",  "c", "b"},
+			{"CHAR", "CHAR",  "c", "c"},
+			{"CHAR", "INT",   "c", "i"},
+			{"CHAR", "FLOAT", "c", "f"},
+
+			{"INT", "BOOL",   "i", "b"},
+			{"INT", "CHAR",   "i", "c"},
+			{"INT", "INT",    "i", "i"},
+			{"INT", "FLOAT",  "i", "f"},
+
+			{"FLOAT", "BOOL",  "f", "b"},
+			{"FLOAT", "CHAR",  "f", "c"},
+			{"FLOAT", "INT",   "f", "i"},
+			{"FLOAT", "FLOAT", "f", "f"},
+
+			{"ARRAY", "ARRAY", "arr", "arr"},
+			{"STRING", "STRING", "str", "str"},
+			{"TUPLE", "TUPLE", "tup", "tup"},
+		});
+	}
+	
+
+
 	void wrap_binary_operator(std::ostream & stream, Indent indent, std::string_view name, std::string_view op) {
 		stream << indent << "Value " << name << "_impl(std::integral auto l, std::integral auto r) {\n";
 		stream << indent.in() << "auto x = static_cast<std::int64_t>(l)" << op << "static_cast<std::int64_t>(r);\n";
@@ -71,6 +101,26 @@ namespace ltn::c::trans::cxx {
 		stream << indent.in() << "auto x = static_cast<double>(l)" << op << "static_cast<double>(r);\n";
 		stream << indent.in() << "return value_float(x);\n";
 		stream << indent << "}\n\n";
+	}
+
+
+
+	void print_concat(std::ostream & out, Indent indent) {
+		out << indent << "Value add_impl(const String * l, const String * r) {\n";
+		out << indent.in() << "return value_string(l->value + r->value);\n";
+		out << indent << "}\n\n";
+
+		out << indent << "Value add_impl(const Array * l, const Array * r) {\n";
+		out << indent.in() << "auto x = l->value;\n";
+		out << indent.in() << "for(const auto & elem : r->value) x.push_back(elem);\n";
+		out << indent.in() << "return value_array(std::move(x));\n";
+		out << indent << "}\n\n";
+
+		out << indent << "Value add_impl(const Tuple * l, const Tuple * r) {\n";
+		out << indent.in() << "auto x = l->value;\n";
+		out << indent.in() << "for(const auto & elem : r->value) x.push_back(elem);\n";
+		out << indent.in() << "return value_tuple(std::move(x));\n";
+		out << indent << "}\n\n";
 	}
 
 

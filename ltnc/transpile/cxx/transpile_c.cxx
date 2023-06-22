@@ -213,16 +213,18 @@ namespace ltn::c::trans::cxx {
 		oss << indent_ns.in() << "return Value {Value::Type::STRING, Value::Val { .str=ptr }};\n";
 		oss << indent_ns << "}\n\n";
 
-		oss << indent_ns << "Value value_array() {\n";
+		oss << indent_ns << "Value value_array(std::vector<Value> arr = {}) {\n";
 		oss << indent_ns.in() << "gc(context);\n";
 		oss << indent_ns.in() << "auto obj = std::make_unique<Array>();\n";
+		oss << indent_ns.in() << "obj->value = std::move(arr);\n";
 		oss << indent_ns.in() << "auto * ptr = track(context.arrays, std::move(obj));\n";
 		oss << indent_ns.in() << "return Value {Value::Type::ARRAY, Value::Val { .arr=ptr }};\n";
 		oss << indent_ns << "}\n\n";
 
-		oss << indent_ns << "Value value_tuple() {\n";
+		oss << indent_ns << "Value value_tuple(std::vector<Value> tup = {}) {\n";
 		oss << indent_ns.in() << "gc(context);\n";
 		oss << indent_ns.in() << "auto obj = std::make_unique<Tuple>();\n";
+		oss << indent_ns.in() << "obj->value = std::move(tup);\n";
 		oss << indent_ns.in() << "auto * ptr = track(context.tuples, std::move(obj));\n";
 		oss << indent_ns.in() << "return Value {Value::Type::TUPLE, Value::Val { .tup=ptr }};\n";
 		oss << indent_ns << "}\n\n";
@@ -239,7 +241,8 @@ namespace ltn::c::trans::cxx {
 		oss << indent_ns << "}\n\n";
 
 		wrap_binary_operator(oss, indent_ns, "add", "+");
-		arith_dispatch(oss, indent_ns, "add");
+		print_concat(oss, indent_ns);
+		add_dispatch(oss, indent_ns);
 
 		wrap_binary_operator(oss, indent_ns, "sub", "-");
 		arith_dispatch(oss, indent_ns, "sub");
