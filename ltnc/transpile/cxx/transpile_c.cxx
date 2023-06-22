@@ -3,6 +3,7 @@
 #include "object_types.hxx"
 #include "primitive_types.hxx"
 #include "utils.hxx"
+#include "operators.hxx"
 
 namespace ltn::c::trans::cxx {
 	namespace {
@@ -125,74 +126,6 @@ namespace ltn::c::trans::cxx {
 			stream << "int main() {\n";
 			stream << "\tstd::cout << ltn::stringify(fx::main_1(ltn::value_null()));\n";
 			stream << "}\n";
-			stream << "\n";
-		}
-
-
-
-		void print_wrapped_operator(
-			std::ostream & stream,
-			std::string_view name,
-			std::string_view op,
-			Indent indent) {
-
-			auto indent_1 = indent.in();
-			
-			stream << indent << "Value " << name << "_impl(std::integral auto l, std::integral auto r) {\n";
-			stream << indent_1 << "auto x = static_cast<std::int64_t>(l)" << op << "static_cast<std::int64_t>(r);\n";
-			stream << indent_1 << "return value_int(x);\n";
-			stream << indent << "}\n\n";
-
-			stream << indent << "Value " << name << "_impl(std::integral auto l, std::floating_point auto r) {\n";
-			stream << indent_1 << "auto x = static_cast<double>(l)" << op << "static_cast<double>(r);\n";
-			stream << indent_1 << "return value_float(x);\n";
-			stream << indent << "}\n\n";
-
-			stream << indent << "Value " << name << "_impl(std::floating_point auto l, std::integral auto r) {\n";
-			stream << indent_1 << "auto x = static_cast<double>(l)" << op << "static_cast<double>(r);\n";
-			stream << indent_1 << "return value_float(x);\n";
-			stream << indent << "}\n\n";
-
-			stream << indent << "Value " << name << "_impl(std::floating_point auto l, std::floating_point auto r) {\n";
-			stream << indent_1 << "auto x = static_cast<double>(l)" << op << "static_cast<double>(r);\n";
-			stream << indent_1 << "return value_float(x);\n";
-			stream << indent << "}\n\n";
-		}
-
-
-
-		void print_arith_dispatch(std::ostream & stream, std::string_view name, Indent indent) {
-			auto indent_1 = indent.in();
-			auto indent_2 = indent_1.in();
-			auto indent_3 = indent_2.in();
-			stream << indent << "Value " << name << "(const Value & l, const Value & r){\n";
-			stream << indent_1 << "switch(l.type) {\n";
-			stream << indent_2 << "case BOOL: switch(r.type) {\n";
-			stream << indent_3 << "case BOOL  : return " << name << "_impl(l.val.b, r.val.b);" "\n";
-			stream << indent_3 << "case CHAR  : return " << name << "_impl(l.val.b, r.val.c);" "\n";
-			stream << indent_3 << "case INT   : return " << name << "_impl(l.val.b, r.val.i);" "\n";
-			stream << indent_3 << "case FLOAT : return " << name << "_impl(l.val.b, r.val.f);" "\n";
-			stream << indent_2 << "}\n";
-			stream << indent_2 << "case CHAR: switch(r.type) {\n";
-			stream << indent_3 << "case BOOL  : return " << name << "_impl(l.val.c, r.val.b);" "\n";
-			stream << indent_3 << "case CHAR  : return " << name << "_impl(l.val.c, r.val.c);" "\n";
-			stream << indent_3 << "case INT   : return " << name << "_impl(l.val.c, r.val.i);" "\n";
-			stream << indent_3 << "case FLOAT : return " << name << "_impl(l.val.c, r.val.f);" "\n";
-			stream << indent_2 << "}\n";
-			stream << indent_2 << "case INT: switch(r.type) {\n";
-			stream << indent_3 << "case BOOL  : return " << name << "_impl(l.val.i, r.val.b);" "\n";
-			stream << indent_3 << "case CHAR  : return " << name << "_impl(l.val.i, r.val.c);" "\n";
-			stream << indent_3 << "case INT   : return " << name << "_impl(l.val.i, r.val.i);" "\n";
-			stream << indent_3 << "case FLOAT : return " << name << "_impl(l.val.i, r.val.f);" "\n";
-			stream << indent_2 << "}\n";
-			stream << indent_2 << "case FLOAT: switch(r.type) {\n";
-			stream << indent_3 << "case BOOL  : return " << name << "_impl(l.val.f, r.val.b);" "\n";
-			stream << indent_3 << "case CHAR  : return " << name << "_impl(l.val.f, r.val.c);" "\n";
-			stream << indent_3 << "case INT   : return " << name << "_impl(l.val.f, r.val.i);" "\n";
-			stream << indent_3 << "case FLOAT : return " << name << "_impl(l.val.f, r.val.f);" "\n";
-			stream << indent_2 << "}\n";
-			stream << indent_1 << "}\n";
-			stream << indent << "}\n";
 			stream << "\n";
 		}
 
@@ -332,17 +265,17 @@ namespace ltn::c::trans::cxx {
 		oss << indent_ns << "}\n";
 
 
-		print_wrapped_operator(oss, "add", "+", indent_ns);
-		print_arith_dispatch(oss, "add", indent_ns);
+		print_wrapped_operator(oss, indent_ns, "add", "+");
+		print_arith_dispatch(oss, indent_ns, "add");
 
-		print_wrapped_operator(oss, "sub", "-", indent_ns);
-		print_arith_dispatch(oss, "sub", indent_ns);
+		print_wrapped_operator(oss, indent_ns, "sub", "-");
+		print_arith_dispatch(oss, indent_ns, "sub");
 
-		print_wrapped_operator(oss, "mlt", "*", indent_ns);
-		print_arith_dispatch(oss, "mlt", indent_ns);
+		print_wrapped_operator(oss, indent_ns, "mlt", "*");
+		print_arith_dispatch(oss, indent_ns, "mlt");
 
-		print_wrapped_operator(oss, "div", "/", indent_ns);
-		print_arith_dispatch(oss, "div", indent_ns);
+		print_wrapped_operator(oss, indent_ns, "div", "/");
+		print_arith_dispatch(oss, indent_ns, "div");
 		
 		print_unary(oss, "neg", "-", indent_ns);
 
