@@ -1,6 +1,8 @@
 #include "transpile_c.hxx"
 #include "embed_gc.hxx"
-#include "embed_objects.hxx"
+#include "object_types.hxx"
+#include "primitive_types.hxx"
+#include "utils.hxx"
 
 namespace ltn::c::trans::cxx {
 	namespace {
@@ -36,13 +38,15 @@ namespace ltn::c::trans::cxx {
 		void print_value_class(std::ostream & stream, Indent indent) {
 			stream << indent << "struct Value {\n";
 			stream << indent.in() << "union Val {\n";
-			stream << indent.in().in() << "uint8_t b;\n";
-			stream << indent.in().in() << "uint8_t c;\n";
-			stream << indent.in().in() << "int64_t i;\n";
-			stream << indent.in().in() << "double f;\n";
-			stream << indent.in().in() << "String * str;\n";
-			stream << indent.in().in() << "Array * arr;\n";
-			stream << indent.in().in() << "Array * tup;\n";
+			
+			for(const auto & p : primitive_types) {
+				stream << indent.in().in() << p.data_type << " " << p.value_member << ";\n";
+			}
+
+			for(const auto & o : object_types) {
+				stream << indent.in().in() << o.name << " * " << o.value_member << ";\n";
+			}
+
 			stream << indent.in() << "};\n";
 			stream << indent.in() << "Value(ValueType type, Val val) : type{type}, val{val} {}\n";
 			stream << indent.in() << "uint32_t type;\n";
@@ -63,8 +67,12 @@ namespace ltn::c::trans::cxx {
 			stream << indent.in().in() << "roots.pop_back();\n"; 
 			stream << indent.in() << "}\n"; 
 			stream << indent.in() << "std::vector<const Value *> roots;\n"; 
-			stream << indent.in() << "std::unique_ptr<String> strings;\n"; 
-			stream << indent.in() << "std::unique_ptr<Array> arrays;\n"; 
+
+			for(const auto & obj : object_types) {
+				stream << indent.in() 
+					<< "std::unique_ptr<" << obj.name << "> "
+					<< to_lowercase(obj.name) << "s;\n"; 
+			}
 			stream << indent << "};\n\n";
 		}
 
@@ -118,28 +126,6 @@ namespace ltn::c::trans::cxx {
 			stream << "\tstd::cout << ltn::stringify(fx::main_1(ltn::value_null()));\n";
 			stream << "}\n";
 			stream << "\n";
-		}
-
-
-
-		void print_value_null(std::ostream & stream, Indent indent) {
-			stream << indent << "struct Value value_null() {\n";
-			stream << indent.in() << "return Value {NVLL, Value::Val {} };\n";
-			stream << indent << "}\n\n";
-		}
-
-
-		void print_value_xyz(
-			std::ostream & stream,
-			Indent indent,
-			std::string_view name,
-			std::string_view ltn_type,
-			std::string_view c_type,
-			std::string_view member) {
-			
-			stream << indent << "struct Value value_" << name << "(" << c_type << " x) {\n";
-			stream << indent.in() << "return Value {" << ltn_type << ", Value::Val { ." << member << " = x } };\n";
-			stream << indent << "}\n\n";
 		}
 
 
@@ -222,12 +208,21 @@ namespace ltn::c::trans::cxx {
 			auto indent_2 = indent_1.in();
 			
 			stream << indent << "Value " << name << "(const Value & x) {\n";
-			stream << indent_1 << "switch(x.type) {\n";
-			stream << indent_2 << "case BOOL : return value_int(-static_cast<std::int64_t>(x.val.b));\n";
-			stream << indent_2 << "case CHAR : return value_int(-static_cast<std::int64_t>(x.val.c));\n";
-			stream << indent_2 << "case INT  : return value_int(-static_cast<std::int64_t>(x.val.i));\n";
-			stream << indent_2 << "case FLOAT: return value_float(-static_cast<double>(x.val.f));\n";
-			stream << indent_1 << "}\n";
+			print_switch(stream, indent.in(), "x.type", {
+				{"BOOL", [] (std::ostream & out, Indent indent) {
+					out << indent << "return value_int(-static_cast<std::int64_t>(x.val.b));\n";
+				}},
+				{"CHAR", [] (std::ostream & out, Indent indent) {
+					out << indent << "return value_int(-static_cast<std::int64_t>(x.val.c));\n";
+				}},
+				{"INT", [] (std::ostream & out, Indent indent) {
+					out << indent << "return value_int(-static_cast<std::int64_t>(x.val.i));\n";
+				}},
+				{"FLOAT", [] (std::ostream & out, Indent indent) {
+					out << indent << "return value_float(-static_cast<double>(x.val.f));\n";
+				}},
+			});
+
 			stream << indent << "}\n";
 			stream << "\n";
 		}
@@ -281,8 +276,8 @@ namespace ltn::c::trans::cxx {
 		Indent indent_ns {1};
 
 		oss << "namespace ltn {\n";
-		oss << indent_ns << "struct String;\n";
-		oss << indent_ns << "struct Array;\n";
+
+		print_forward_decls(oss, indent_ns, object_types);
 
 		print_value_type_enum(oss, indent_ns);
 		print_value_class(oss, indent_ns);
@@ -291,8 +286,7 @@ namespace ltn::c::trans::cxx {
 		print_var_class(oss, indent_ns);
 		print_tmp_class(oss, indent_ns);
 		
-		embed_object(oss, "String", "std::string", indent_ns);
-		embed_object(oss, "Array", "std::vector<Value>", indent_ns);
+		print_objects(oss, indent_ns, object_types);
 
 		embed_sweep(oss, indent_ns);
 		embed_mark(oss, indent_ns);
@@ -305,11 +299,9 @@ namespace ltn::c::trans::cxx {
 		oss << indent_ns.in() << "return base.get();\n";
 		oss << indent_ns << "}\n";
 
-		print_value_null(oss, indent_ns);
-		print_value_xyz(oss, indent_ns, "bool", "BOOL", "bool", "b");
-		print_value_xyz(oss, indent_ns, "char", "CHAR", "std::uint8_t", "c");
-		print_value_xyz(oss, indent_ns, "int", "INT", "std::int64_t", "i");
-		print_value_xyz(oss, indent_ns, "float", "FLOAT", "double", "f");
+		for(const auto & p : primitive_types) {
+			p.print_maker(p, oss, indent_ns);
+		}
 
 		oss << indent_ns << "Value value_string(const std::string_view str) {\n";
 		oss << indent_ns.in() << "gc(context);\n";
@@ -317,7 +309,6 @@ namespace ltn::c::trans::cxx {
 		oss << indent_ns.in() << "auto * ptr = track(context.strings, std::move(obj));\n";
 		oss << indent_ns.in() << "return Value {STRING, Value::Val { .str=ptr }};\n";
 		oss << indent_ns << "}\n";
-
 
 		oss << indent_ns << "Value value_array() {\n";
 		oss << indent_ns.in() << "gc(context);\n";
@@ -328,9 +319,16 @@ namespace ltn::c::trans::cxx {
 
 		oss << indent_ns << "Value value_tuple() {\n";
 		oss << indent_ns.in() << "gc(context);\n";
-		oss << indent_ns.in() << "auto obj = std::make_unique<Array>();\n";
-		oss << indent_ns.in() << "auto * ptr = track(context.arrays, std::move(obj));\n";
+		oss << indent_ns.in() << "auto obj = std::make_unique<Tuple>();\n";
+		oss << indent_ns.in() << "auto * ptr = track(context.tuples, std::move(obj));\n";
 		oss << indent_ns.in() << "return Value {TUPLE, Value::Val { .tup=ptr }};\n";
+		oss << indent_ns << "}\n";
+
+		oss << indent_ns << "Value value_cout() {\n";
+		oss << indent_ns.in() << "gc(context);\n";
+		oss << indent_ns.in() << "auto obj = std::make_unique<OStream>(&std::cout);\n";
+		oss << indent_ns.in() << "auto * ptr = track(context.ostreams, std::move(obj));\n";
+		oss << indent_ns.in() << "return Value {OSTREAM, Value::Val { .out=ptr }};\n";
 		oss << indent_ns << "}\n";
 
 

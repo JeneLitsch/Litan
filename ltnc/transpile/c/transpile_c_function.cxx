@@ -32,7 +32,7 @@ namespace ltn::c::trans::cxx {
 				oss << inner << "return ltn::value_null();\n"; 
 			}
 			if(fx.key == "io_cout") {
-				oss << inner << "return ltn::value_null();\n"; 
+				oss << inner << "return ltn::value_cout();\n"; 
 			}
 			if(fx.key == "to_string") {
 				oss << inner << "auto str = ltn::stringify(var_0.get());\n"; 

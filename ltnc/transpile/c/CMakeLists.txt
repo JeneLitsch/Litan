@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.13)
 
 target_sources(libltnc PRIVATE 
 	embed_gc.cxx
-	embed_objects.cxx
+	object_types.cxx
+	primitive_types.cxx
 	print.cxx
 	# transpile_c_array.cxx
 	# transpile_c_binary.cxx
@@ -31,4 +32,5 @@ target_sources(libltnc PRIVATE
 	# transpile_c_unary.cxx
 	# transpile_c_write.cxx
 	transpile_c.cxx
+	utils.cxx
 )
