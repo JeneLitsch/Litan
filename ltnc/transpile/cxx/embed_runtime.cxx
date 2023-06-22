@@ -5,6 +5,7 @@
 #include "utils.hxx"
 #include "operators.hxx"
 #include "print.hxx"
+#include "error.hxx"
 
 namespace ltn::c::trans::cxx {
 	namespace {
@@ -251,6 +252,21 @@ namespace ltn::c::trans::cxx {
 		out << indent << "constexpr std::uint16_t combine(VT l, VT r) {\n";
 		out << indent.in() << "return static_cast<std::uint16_t>(l) + (static_cast<std::uint16_t>(r) << 8);\n";
 		out << indent << "}\n\n";
+
+		out << indent << "Value index(const Value & container, const Value & index) {\n";
+		print_switch(out, indent.in(), "combine(container.type, index.type)", {
+			{"combine(VT::STRING, VT::INT)", [] (std::ostream & out, Indent indent) {
+				out << indent << "return value_char(container.val.str->value[index.val.i]);\n";
+			}},
+			{"combine(VT::ARRAY, VT::INT)", [] (std::ostream & out, Indent indent) {
+				out << indent << "return container.val.arr->value[index.val.i];\n";
+			}},
+			{"combine(VT::TUPLE, VT::INT)", [] (std::ostream & out, Indent indent) {
+				out << indent << "return container.val.tup->value[index.val.i];\n";
+			}},
+		});
+		invalid_operands(out, indent);
+		out << indent << "}\n"; 
 
 		wrap_binary_operator(out, indent, "add", "+");
 		print_concat(out, indent);

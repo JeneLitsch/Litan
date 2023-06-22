@@ -176,7 +176,17 @@ namespace ltn::c::trans::cxx {
 	
 	void transpile_c_expr(const sst::Invoke &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::InvokeMember &, std::ostream & out, Indent indent) {}
-	void transpile_c_expr(const sst::Index &, std::ostream & out, Indent indent) {}
+	void transpile_c_expr(const sst::Index & expr, std::ostream & out, Indent indent) {
+		const auto inner = indent.in();
+		out << "[&] () {\n";
+		out << inner << "const ltn::Tmp l = "; transpile_c_expression(*expr.expr, out, indent.in()); out << ";\n";
+		out << inner << "const ltn::Tmp r = "; transpile_c_expression(*expr.index, out, indent.in()); out << ";\n";
+		out << inner << "return ";
+		out << "ltn::index(l, r)";
+		out << ";\n";
+		out << indent << "}()";
+
+	}
 	void transpile_c_expr(const sst::FxPointer &, std::ostream & out, Indent indent) {}
 	void transpile_c_expr(const sst::Iife & iife, std::ostream & out, Indent indent) {
 		out << "[&] () {\n";

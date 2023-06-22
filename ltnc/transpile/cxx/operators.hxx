@@ -1,9 +1,14 @@
 #pragma once
 #include <ostream>
+#include <array>
+#include <vector>
 #include <string_view>
 #include "Indent.hxx"
 
 namespace ltn::c::trans::cxx {
+	void binary_dispatch(std::ostream & out, Indent indent, std::string_view name,
+		const std::vector<std::array<std::string, 4>> & operands);
+
 	void arith_dispatch(std::ostream &, Indent, std::string_view name);
 	void add_dispatch(std::ostream &, Indent);
 	

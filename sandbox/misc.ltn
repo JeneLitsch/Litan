@@ -26,5 +26,6 @@ function main(args) {
 	std::println(std::pi);
 	global_var = 1337;
 	std::println(global_var);
+	std::println(a1[1]);
 	return a + -2 * -1;
 }
