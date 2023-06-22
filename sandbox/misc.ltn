@@ -19,5 +19,7 @@ function main(args) {
 	std::println([1,2,3] + [4,5,6]);
 	std::println((1,2,3) + (4,5,6));
 	std::println("ABC" + "DEF");
+	std::println(true ? 1 : 2);
+	std::println(false ? 1 : 2);
 	return a + -2 * -1;
 }

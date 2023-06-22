@@ -2,7 +2,24 @@
 
 namespace ltn::c::trans::cxx {
 	void transpile_c_expr(const sst::Choose &, std::ostream & out, Indent indent) {}
-	void transpile_c_expr(const sst::Ternary &, std::ostream & out, Indent indent) {}
+	void transpile_c_expr(const sst::Ternary & ternary, std::ostream & out, Indent indent) {
+		out << "[&] () {\n";
+		out << indent.in() << "const ltn::Tmp condition = ";
+		transpile_c_expression(*ternary.condition, out, indent.in());
+		out << ";\n";
+
+		out << indent.in() << "if(ltn::is_truthy(condition)) {\n";
+		out << indent.in().in() << "return ";
+		transpile_c_expression(*ternary.if_branch, out, indent.in());
+		out << ";\n";
+		out << indent.in() << "}\n";
+		out << indent.in() << "else {\n";
+		out << indent.in().in() << "return ";
+		transpile_c_expression(*ternary.else_branch, out, indent.in());
+		out << ";\n";
+		out << indent.in() << "}\n";
+		out << indent << "}()";
+	}
 
 
 

@@ -175,6 +175,42 @@ namespace ltn::c::trans::cxx {
 			out << indent << "}\n";
 			out << indent << "\n";
 		}
+
+
+
+		void print_is_truthy(std::ostream & out, Indent indent) {
+			out << indent << "bool is_truthy(const Value & value) {\n";
+			out << indent.in() << "std::ostringstream oss;\n";
+			print_switch(out, indent.in(), "value.type", {
+				{"Value::Type::NVLL", [] (std::ostream & out, Indent indent) {
+					out << indent << "return false;\n";
+				}},
+				{"Value::Type::BOOL", [] (std::ostream & out, Indent indent) {
+					out << indent << "return value.val.b;\n";
+				}},
+				{"Value::Type::CHAR", [] (std::ostream & out, Indent indent) {
+					out << indent << "return value.val.c != 0;\n";
+				}},
+				{"Value::Type::INT", [] (std::ostream & out, Indent indent) {
+					out << indent << "return value.val.i != 0;\n";
+				}},
+				{"Value::Type::FLOAT", [] (std::ostream & out, Indent indent) {
+					out << indent << "return value.val.f != 0;\n";
+				}},
+				{"Value::Type::STRING", [] (std::ostream & out, Indent indent) {
+					out << indent << "return true;\n";
+				}},
+				{"Value::Type::ARRAY", [] (std::ostream & out, Indent indent) {
+					out << indent << "return true;\n";
+				}},
+				{"Value::Type::TUPLE", [] (std::ostream & out, Indent indent) {
+					out << indent << "return true;\n";
+				}},
+			});
+			out << indent.in() << "return true;\n";
+			out << indent << "}\n";
+			out << indent << "\n";
+		}
 	}
 
 	std::string transpile_c(const sst::Program & program) {
@@ -261,6 +297,7 @@ namespace ltn::c::trans::cxx {
 		unary_dispatch(oss, "neg", indent_ns);
 
 		print_stringify(oss, indent_ns);
+		print_is_truthy(oss, indent_ns);
 
 		oss << "}\n";
 
