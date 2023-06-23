@@ -347,6 +347,12 @@ namespace ltn::c {
 			.infix = std::nullopt,
 			.precedence = Precedence::NONE,
 		}},
+
+		{ TT::COLONx2, ExprRule {
+			.prefix = parse_identifier,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
 	};
 
 
