@@ -289,27 +289,24 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_lambda(Tokens & tokens) {
-		if(match(TT::LAMBDA, tokens)) {
-			auto captures = parse_captures(tokens);
-			auto parameters = parse_lambda_parameters(tokens);
-			Qualifiers qualifiers = parse_qualifiers(tokens);
-			auto body = parse_body(tokens, std::size(parameters.simple)); 
-			auto fx = std::make_unique<ast::Function>(
-				"lambda" + std::to_string(*stx::unique{}), 
-				Namespace{},
-				std::move(parameters),
-				std::move(body),
-				location(tokens));
-			fx->except = parse_except(tokens);
-			fx->is_const = qualifiers.is_const;
-			if(qualifiers.is_private) throw CompilerError { "Lambda cannot be private", location(tokens)};
-			if(qualifiers.is_extern) throw CompilerError {"Lambda cannot be extern", location(tokens)};
-			return std::make_unique<ast::Lambda>(
-				std::move(fx),
-				std::move(captures),
-				location(tokens)); 
-		}
-		return nullptr;
+	ast::expr_ptr parse_lambda(const Token & begin, Tokens & tokens) {
+		auto captures = parse_captures(tokens);
+		auto parameters = parse_lambda_parameters(tokens);
+		Qualifiers qualifiers = parse_qualifiers(tokens);
+		auto body = parse_body(tokens, std::size(parameters.simple)); 
+		auto fx = std::make_unique<ast::Function>(
+			"lambda" + std::to_string(*stx::unique{}), 
+			Namespace{},
+			std::move(parameters),
+			std::move(body),
+			location(tokens));
+		fx->except = parse_except(tokens);
+		fx->is_const = qualifiers.is_const;
+		if(qualifiers.is_private) throw CompilerError { "Lambda cannot be private", location(tokens)};
+		if(qualifiers.is_extern) throw CompilerError {"Lambda cannot be extern", location(tokens)};
+		return std::make_unique<ast::Lambda>(
+			std::move(fx),
+			std::move(captures),
+			location(tokens)); 
 	}
 }

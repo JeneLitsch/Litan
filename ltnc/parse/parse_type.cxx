@@ -221,14 +221,11 @@ namespace ltn::c {
 
 
 
-	ast::type_ptr parse_type(Tokens & tokens) {
-		if(auto begin = match(TT::SMALLER, tokens)) {
-			auto type = parse_type_name_start(*begin, tokens);
-			if(!match(TT::BIGGER, tokens)) throw CompilerError {
-				"Expected >", begin->location
-			};
-			return type;
-		}
-		else return nullptr;
+	ast::expr_ptr parse_type(const Token & begin, Tokens & tokens) {
+		auto type = parse_type_name_start(begin, tokens);
+		if(!match(TT::BIGGER, tokens)) throw CompilerError {
+			"Expected >", begin.location
+		};
+		return type;
 	}
 }

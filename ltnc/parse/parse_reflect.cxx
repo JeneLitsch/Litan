@@ -63,20 +63,17 @@ namespace ltn::c {
 	}
 
 
-	ast::expr_ptr parse_reflect(Tokens & tokens) {
-		if(auto ref = match(TT::REFLECT, tokens)) {
-			if(!match(TT::PAREN_L, tokens)) throw CompilerError {
-				"Expected ( after reflect", ref->location 
-			};
+	ast::expr_ptr parse_reflect(const Token & begin, Tokens & tokens) {
+		if(!match(TT::PAREN_L, tokens)) throw CompilerError {
+			"Expected ( after reflect", begin.location 
+		};
 
-			auto query = parse_query(tokens);
+		auto query = parse_query(tokens);
 
-			if(!match(TT::PAREN_R, tokens)) throw CompilerError {
-				"Expected ) after reflect", ref->location 
-			};
+		if(!match(TT::PAREN_R, tokens)) throw CompilerError {
+			"Expected ) after reflect", begin.location 
+		};
 
-			return std::make_unique<ast::Reflect>(std::move(query), ref->location);
-		}
-		else return nullptr;
+		return std::make_unique<ast::Reflect>(std::move(query), begin.location);
 	}
 }

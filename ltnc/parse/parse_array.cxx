@@ -175,21 +175,18 @@ namespace ltn::c {
 
 
 
-	ast::expr_ptr parse_array(Tokens & tokens) {
-		if(match(TT::BRACKET_L, tokens)) {
-			if(match(TT::BRACKET_R, tokens)) {
-				return parse_empty_array(tokens);
-			}
-			else if(check(TT::DOT, tokens)) {
-				return parse_struct_init(tokens);
-			}
-			else if(match(TT::COLON, tokens)) {
-				return parse_empty_map(tokens);
-			}
-			else {
-				return parse_filled_array(tokens);
-			}
+	ast::expr_ptr parse_array(const Token & begin, Tokens & tokens) {
+		if(match(TT::BRACKET_R, tokens)) {
+			return parse_empty_array(tokens);
 		}
-		return nullptr;
+		else if(check(TT::DOT, tokens)) {
+			return parse_struct_init(tokens);
+		}
+		else if(match(TT::COLON, tokens)) {
+			return parse_empty_map(tokens);
+		}
+		else {
+			return parse_filled_array(tokens);
+		}
 	}
 }

@@ -15,11 +15,11 @@ namespace ltn::c {
 		NONE,
 	};
 
-	using ParseFx = stx::fx_ptr<ast::expr_ptr(Tokens &)>;
+	using ParseExpr = stx::fx_ptr<ast::expr_ptr(const Token &, Tokens &)>;
 
 	struct ExprRule {
-		std::optional<ParseFx> prefix;
-		std::optional<ParseFx> infix;
+		std::optional<ParseExpr> prefix;
+		std::optional<ParseExpr> infix;
 		Precedence precedence;
 	};
 
@@ -31,7 +31,7 @@ namespace ltn::c {
 	ast::enum_ptr parse_enumeration(Tokens & tokens, Namespace namespaze);
 	ast::defn_ptr parse_definition(Tokens & tokens, const Namespace & namespaze);
 
-	ast::expr_ptr parse_lambda(Tokens & tokens);
+	ast::expr_ptr parse_lambda(const Token & begin, Tokens & tokens);
 
 	// Statements
 	ast::stmt_ptr parse_statement(Tokens & tokens);
@@ -46,7 +46,7 @@ namespace ltn::c {
 	
 	// Expressions
 	ast::expr_ptr parse_assign_r(Tokens & tokens);
-	ast::expr_ptr parse_expr_switch(Tokens & tokens);
+	ast::expr_ptr parse_expr_switch(const Token & begin, Tokens & tokens);
 
 	ast::expr_ptr parse_expression(Tokens & tokens);
 	ast::expr_ptr parse_expression_no_cast(Tokens & tokens);
@@ -55,10 +55,10 @@ namespace ltn::c {
 	ast::expr_ptr parse_binary(Tokens & tokens);
 	ast::expr_ptr parse_unary(Tokens & tokens);
 	ast::expr_ptr parse_primary(Tokens & tokens);
-	ast::expr_ptr parse_reflect(Tokens & tokens);
-	ast::expr_ptr parse_parenthesized(Tokens & tokens);
-	ast::expr_ptr parse_integral(Tokens & tokens);
-	ast::expr_ptr parse_array(Tokens & tokens);
+	ast::expr_ptr parse_reflect(const Token & begin, Tokens & tokens);
+	ast::expr_ptr parse_parenthesized(const Token & begin, Tokens & tokens);
+	ast::expr_ptr parse_array(const Token & begin, Tokens & tokens);
+	ast::expr_ptr parse_type(const Token & begin, Tokens & tokens);
 
 	// Utils
 	std::string parse_preset_name(Tokens & tokens);
@@ -76,7 +76,6 @@ namespace ltn::c {
 
 	std::pair<std::string, Namespace> parse_symbol(Tokens & tokens);
 
-	ast::type_ptr parse_type(Tokens & tokens);
 
 	MemberCode parse_member_code(Tokens & tokens);
 }

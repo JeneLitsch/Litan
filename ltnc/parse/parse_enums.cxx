@@ -7,10 +7,11 @@ namespace ltn::c {
 	
 		std::optional<std::int64_t> explicit_value(Tokens & tokens) {
 			if(match(TT::COLON, tokens)) {
-				if(auto expr = parse_integral(tokens)) {
-					return static_cast<ast::Integer&>(*expr).value;
+				auto expr = parse_expression(tokens);
+				if(auto integer = dynamic_cast<ast::Integer*>(expr.get())) {
+					return integer->value;
 				}
-				throw CompilerError{"Expected integer litaral", location(tokens)};
+				throw CompilerError{"Expected integer literal", location(tokens)};
 			}
 			return std::nullopt;
 		}
