@@ -16,7 +16,7 @@
 
 namespace ltn::c {
 	struct Token {
-		enum class Type {
+		enum class Type : std::uint8_t {
 			___EOF___,
 			
 			COLON,

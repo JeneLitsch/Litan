@@ -11,6 +11,18 @@
 
 namespace ltn::c {
 
+	enum class Precedence {
+		NONE,
+	};
+
+	using ParseFx = stx::fx_ptr<ast::expr_ptr(Tokens &)>;
+
+	struct ExprRule {
+		std::optional<ParseFx> prefix;
+		std::optional<ParseFx> infix;
+		Precedence precedence;
+	};
+
 	// Sources
 	ast::Program parse(Tokens & tokens, Reporter & reporter);
 	

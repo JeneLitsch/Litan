@@ -232,24 +232,135 @@ namespace ltn::c {
 
 
 
+	const std::map<TT, ExprRule> expr_rules {
+
+		{ TT::NVLL, ExprRule {
+			.prefix = parse_null,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::FALSE, ExprRule {
+			.prefix = parse_boolean,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::TRUE, ExprRule {
+			.prefix = parse_boolean,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::CHAR, ExprRule {
+			.prefix = parse_character,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::INTEGER, ExprRule {
+			.prefix = parse_integer_dec,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+		
+		{ TT::INTEGER_BIN, ExprRule {
+			.prefix = parse_integer_bin,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::INTEGER_HEX, ExprRule {
+			.prefix = parse_integer_hex,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::FLOAT, ExprRule {
+			.prefix = parse_floating,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::STRING, ExprRule {
+			.prefix = parse_string,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::BRACKET_L, ExprRule {
+			.prefix = parse_array,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::PAREN_L, ExprRule {
+			.prefix = parse_parenthesized,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::LAMBDA, ExprRule {
+			.prefix = parse_lambda,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::IIFE, ExprRule {
+			.prefix = parse_iife,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::REFLECT, ExprRule {
+			.prefix = parse_reflect,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::AT, ExprRule {
+			.prefix = parse_custom,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::CHOOSE, ExprRule {
+			.prefix = parse_expr_switch,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::SMALLER, ExprRule {
+			.prefix = ParseFx{[] (Tokens & tokens) -> ast::expr_ptr { return parse_type(tokens); }},
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::AMPERSAND, ExprRule {
+			.prefix = parse_fx_pointer,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+
+		{ TT::INDENTIFIER, ExprRule {
+			.prefix = parse_identifier,
+			.infix = std::nullopt,
+			.precedence = Precedence::NONE,
+		}},
+	};
+
+
+
 	// parses primary expr
 	ast::expr_ptr parse_primary(Tokens & tokens) {
-		if(auto expr = parse_integral(tokens)) return expr;
-		if(auto expr = parse_character(tokens)) return expr;
-		if(auto expr = parse_floating(tokens)) return expr;
-		if(auto expr = parse_boolean(tokens)) return expr;
-		if(auto expr = parse_null(tokens)) return expr;
-		if(auto expr = parse_string(tokens)) return expr;
-		if(auto expr = parse_array(tokens)) return expr;
-		if(auto expr = parse_parenthesized(tokens)) return expr; 
-		if(auto expr = parse_fx_pointer(tokens)) return expr;
-		if(auto expr = parse_lambda(tokens)) return expr;
-		if(auto expr = parse_iife(tokens)) return expr;
-		if(auto expr = parse_expr_switch(tokens)) return expr;
-		if(auto expr = parse_reflect(tokens)) return expr;
-		if(auto expr = parse_type(tokens)) return expr;
-		if(auto expr = parse_custom(tokens)) return expr;
-		return parse_identifier(tokens);
+		auto token = tokens.front();
+		auto tt = token.type;
+		if(expr_rules.contains(tt)) {
+			return (*expr_rules.at(tt).prefix)(tokens);
+		}
+
+		throw CompilerError { "Expected expression", token.location };
+
 	}
 }
 
