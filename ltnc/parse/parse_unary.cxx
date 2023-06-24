@@ -3,11 +3,11 @@
 #include <sstream>
 #include "parse_utils.hxx"
 namespace ltn::c {
+	ast::expr_ptr parse_precedence(Tokens & tokens, Precedence precedence);
+
 	namespace {
 		using TT = Token::Type;
 		using OP = UnaryOp;
-
-
 
 		std::variant<std::string, MemberCode> parse_member(Tokens & tokens) {
 			if(auto member = match(TT::BRACE_L, tokens)) {
@@ -55,90 +55,118 @@ namespace ltn::c {
 				};
 			}
 		}
-
-
-
-		std::unique_ptr<ast::Expression> parse_postfix(
-			Tokens & tokens,
-			std::unique_ptr<ast::Expression> l) {
-
-			if(auto start = match(TT::BRACKET_L, tokens)) {
-				auto index = parse_index(tokens);
-				auto location = ast::location(*index);
-				auto full = std::make_unique<ast::Index>(
-					std::move(l),
-					std::move(index),
-					location
-				);
-				return parse_postfix(tokens, std::move(full));
-			}
-
-			if(auto start = match(TT::DOT, tokens)) {
-				auto name = parse_member(tokens);
-				auto access = std::make_unique<ast::Member>(
-					std::move(l),
-					name,
-					location(tokens)
-				);
-				return parse_postfix(tokens, std::move(access));
-			}
-
-
-			if(auto start = match(TT::RARROW, tokens)) {
-				auto name = parse_member(tokens);
-
-				if(!match(TT::PAREN_L, tokens)) throw CompilerError {
-					"Expected ( after member call"
-				};
-
-				auto args = parse_arguments(tokens);
-				auto access = std::make_unique<ast::InvokeMember>(
-					std::move(l),
-					std::move(name),
-					std::move(args),
-					location(tokens)
-				);
-				return parse_postfix(tokens, std::move(access));
-			}
-
-			if(auto start = match(TT::PAREN_L, tokens)) {
-
-				auto function_args = parse_arguments(tokens);
-
-				auto call = std::make_unique<ast::Call>(
-					std::move(l),
-					std::move(function_args),
-					location(tokens)
-				);
-				return parse_postfix(tokens, std::move(call));
-			}
-
-			return l;
-		}
 	}
 
 
 
-	std::unique_ptr<ast::Expression> parse_prefix(Tokens & tokens) {
-		// left unary
-		const std::array table {
-			std::pair{TT::MINUS, OP::NEG},
-			std::pair{TT::XMARK, OP::NOT},
-			std::pair{TT::QMARK, OP::NUL},
-			std::pair{TT::TILDE, OP::BITNOT},
-			std::pair{TT::STAR,  OP::DEREF},
+	ast::expr_ptr parse_index(const Token & begin, Tokens & tokens, ast::expr_ptr l) {
+		auto index = parse_index(tokens);
+		auto location = ast::location(*index);
+		return std::make_unique<ast::Index>(
+			std::move(l),
+			std::move(index),
+			location
+		);
+	}
+
+
+	
+	ast::expr_ptr parse_member(const Token & begin, Tokens & tokens, ast::expr_ptr l) {
+		auto name = parse_member(tokens);
+		return std::make_unique<ast::Member>(
+			std::move(l),
+			name,
+			location(tokens)
+		);
+	}
+
+
+	
+	ast::expr_ptr parse_member_call(const Token & begin, Tokens & tokens, ast::expr_ptr l) {
+		auto name = parse_member(tokens);
+
+		if(!match(TT::PAREN_L, tokens)) throw CompilerError {
+			"Expected ( after member call"
 		};
-		
-		if(auto op = match_op(tokens, table)) {
-			auto && r = parse_prefix(tokens);
-			return std::make_unique<ast::Unary>(*op, std::move(r), location(tokens));
-		}
-		return parse_postfix(tokens, parse_primary(tokens));
+
+		auto args = parse_arguments(tokens);
+		return std::make_unique<ast::InvokeMember>(
+			std::move(l),
+			std::move(name),
+			std::move(args),
+			location(tokens)
+		);
 	}
 
+	
+	ast::expr_ptr parse_call(const Token & begin, Tokens & tokens, ast::expr_ptr l) {
+		auto function_args = parse_arguments(tokens);
+
+		return std::make_unique<ast::Call>(
+			std::move(l),
+			std::move(function_args),
+			location(tokens)
+		);
+	}
+
+
+
+	ast::expr_ptr parse_precedence(Tokens & tokens, Precedence precedence) {
+		std::cout << "AAA\n";
+		ast::expr_ptr expr;
+
+		auto prefix_begin = tokens.front();
+		tokens.pop();
+		auto prefix_tt = prefix_begin.type;
+
+		auto prefix_rule = get_expr_rule(prefix_tt);
+		std::cout << "Token " << prefix_begin.str << "\n";
+		if (!prefix_rule || !prefix_rule->prefix) {
+			throw CompilerError { "Expected expression", prefix_begin.location };
+		}
+
+		expr = (*prefix_rule->prefix)(prefix_begin, tokens);
+
+		auto infix_begin = tokens.front();
+		tokens.pop();
+		auto infix_rule = get_expr_rule(infix_begin.type);
+
+		while (infix_rule && infix_rule->infix && precedence <= infix_rule->precedence) {
+			std::cout << "Token " << infix_begin.str << "\n";
+			expr = (*infix_rule->infix)(infix_begin, tokens, std::move(expr));
+			infix_begin = tokens.front();
+			tokens.pop();
+			infix_rule = get_expr_rule(infix_begin.type);
+		}
+
+		return expr;
+	}
+
+
+	
+	template<OP op>
+	std::unique_ptr<ast::Expression> parse_prefix(Tokens & tokens) {
+		auto r = parse_precedence(tokens, Precedence::PREFIX_UNARY);
+		return std::make_unique<ast::Unary>(op, std::move(r), location(tokens));
+	}
+
+
+
+	ast::expr_ptr parse_neg(const Token & begin, Tokens & tokens) {
+		return parse_prefix<OP::NEG>(tokens);
+	}
+	ast::expr_ptr parse_not(const Token & begin, Tokens & tokens) {
+		return parse_prefix<OP::NOT>(tokens);
+	}
+	ast::expr_ptr parse_nul(const Token & begin, Tokens & tokens) {
+		return parse_prefix<OP::NUL>(tokens);
+	}
+	ast::expr_ptr parse_bitnot(const Token & begin, Tokens & tokens) {
+		return parse_prefix<OP::BITNOT>(tokens);
+	}
 
 
 	std::unique_ptr<ast::Expression> parse_unary(Tokens & tokens) {
-		return parse_prefix(tokens);
+		return parse_precedence(tokens, Precedence::PREFIX_UNARY);
 	}
 }

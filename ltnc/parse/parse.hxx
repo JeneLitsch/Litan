@@ -1,6 +1,7 @@
 #pragma once
 #include <tuple>
 #include "stdxx/functional.hxx"
+#include "stdxx/reference.hxx"
 #include "stdxx/float64_t.hxx"
 #include "stdxx/memory.hxx"
 #include "ltnc/ast/AST.hxx"
@@ -13,15 +14,21 @@ namespace ltn::c {
 
 	enum class Precedence {
 		NONE,
+		POSTFIX_UNARY,
+		PREFIX_UNARY,
+
 	};
 
-	using ParseExpr = stx::fx_ptr<ast::expr_ptr(const Token &, Tokens &)>;
+	using ParsePrefixExpr = stx::fx_ptr<ast::expr_ptr(const Token &, Tokens &)>;
+	using ParseInfixExpr = stx::fx_ptr<ast::expr_ptr(const Token &, Tokens &, ast::expr_ptr)>;
 
 	struct ExprRule {
-		std::optional<ParseExpr> prefix;
-		std::optional<ParseExpr> infix;
+		std::optional<ParsePrefixExpr> prefix;
+		std::optional<ParseInfixExpr> infix;
 		Precedence precedence;
 	};
+
+	stx::optref<const ExprRule> get_expr_rule(Token::Type tt);
 
 	// Sources
 	ast::Program parse(Tokens & tokens, Reporter & reporter);
@@ -54,11 +61,11 @@ namespace ltn::c {
 	ast::expr_ptr parse_condition(Tokens & tokens);
 	ast::expr_ptr parse_binary(Tokens & tokens);
 	ast::expr_ptr parse_unary(Tokens & tokens);
-	ast::expr_ptr parse_primary(Tokens & tokens);
 	ast::expr_ptr parse_reflect(const Token & begin, Tokens & tokens);
 	ast::expr_ptr parse_parenthesized(const Token & begin, Tokens & tokens);
 	ast::expr_ptr parse_array(const Token & begin, Tokens & tokens);
-	ast::expr_ptr parse_type(const Token & begin, Tokens & tokens);
+
+
 
 	// Utils
 	std::string parse_preset_name(Tokens & tokens);
