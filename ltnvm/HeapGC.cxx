@@ -1,7 +1,7 @@
 #include "Heap.hxx"
 #include "ltnvm/utils/type_check.hxx"
 namespace ltn::vm {
-	void Heap::mark(const Array & values) {
+	void Heap::mark(const std::vector<Value> & values) {
 		for(const auto & value : values) {
 			this->mark(value);
 		}
@@ -49,7 +49,7 @@ namespace ltn::vm {
 		if(!pool.gc_is_marked(ref.u)) {
 			pool.gc_mark(ref.u);
 			auto & arr = pool.get(ref.u);
-			this->mark(arr);
+			this->mark(arr.data);
 		}
 	}
 
@@ -113,7 +113,7 @@ namespace ltn::vm {
 		if(!pool.gc_is_marked(ref.u)) {
 			pool.gc_mark(ref.u);
 			auto & deq = pool.get(ref.u);
-			this->mark(deq);
+			this->mark(deq.data);
 		}
 	}
 

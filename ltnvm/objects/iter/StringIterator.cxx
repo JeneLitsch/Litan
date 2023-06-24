@@ -19,8 +19,8 @@ namespace ltn::vm {
 
 	Value StringIterator::get(Heap & heap) {
 		auto & arr = heap.read<String>(this->ref);
-		if(this->index < std::ssize(arr) && this->index >= 0) {
-			return value::character(arr[static_cast<std::uint64_t>(this->index)]);
+		if(this->index < std::ssize(arr.data) && this->index >= 0) {
+			return value::character(arr.data[static_cast<std::uint64_t>(this->index)]);
 		}
 		else {
 			return value::iterator_stop;
@@ -43,6 +43,6 @@ namespace ltn::vm {
 
 	std::uint64_t StringIterator::size(Heap & heap) const {
 		auto & str = heap.read<String>(this->ref);
-		return static_cast<std::uint64_t>(std::size(str));
+		return static_cast<std::uint64_t>(std::size(str.data));
 	}
 }

@@ -80,7 +80,7 @@ namespace ltn::vm {
 		std::uint64_t utilized() const;
 
 
-		void mark(const Array & values);
+		void mark(const std::vector<Value> & values);
 		void mark(const std::deque<Value> & values);
 		void mark(const Value & value);
 	

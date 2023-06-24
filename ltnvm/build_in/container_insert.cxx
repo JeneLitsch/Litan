@@ -13,13 +13,13 @@ namespace ltn::vm::build_in {
 		if(is_string(ref)) {
 			auto & str = core.heap.read<String>(ref.u);
 			const auto strL = stringify(elem, core);
-			str = strL + str;
+			str.data = strL + str.data;
 			return value::null;
 		}
 
 		if(is_array(ref)) {
 			auto & arr = core.heap.read<Array>(ref.u);
-			arr.insert(arr.begin(), elem);
+			arr.data.insert(arr.begin(), elem);
 			return value::null;
 		} 
 
@@ -35,7 +35,7 @@ namespace ltn::vm::build_in {
 		if(is_string(ref)) {
 			auto & str = core.heap.read<String>(ref.u);
 			const auto strR = stringify(elem, core);
-			str += strR;
+			str.data += strR;
 			return value::null;
 		}
 
@@ -52,8 +52,8 @@ namespace ltn::vm::build_in {
 
 	namespace {
 		auto to_iter(auto & container, const Value & key) {
-			const auto i = to_index(key, std::size(container) + 1);
-			return std::begin(container) + i;
+			const auto i = to_index(key, std::size(container.data) + 1);
+			return std::begin(container.data) + i;
 		}
 	}
 
@@ -76,14 +76,14 @@ namespace ltn::vm::build_in {
 			const auto begin = std::begin(strX);
 			const auto end = std::end(strX);
 			const auto at = to_iter(str, key);
-			str.insert(at, begin, end);
+			str.data.insert(at, begin, end);
 			return value::null;
 		}
 
 		if(is_array(ref)) {
 			auto & arr = core.heap.read<Array>(ref.u); 
 			const auto at = to_iter(arr, key);
-			arr.insert(at, elem);
+			arr.data.insert(at, elem);
 			return value::null;
 		}
 

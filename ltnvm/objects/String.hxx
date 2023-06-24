@@ -3,7 +3,10 @@
 #include <string_view>
 
 namespace ltn::vm {
-	using String = std::string;
+	struct String {
+		std::string data;
+	};
+
 
 	inline String clone(const String & string) {
 		return string;

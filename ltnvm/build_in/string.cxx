@@ -21,11 +21,11 @@ namespace ltn::vm::build_in {
 			std::size_t last = 0;
 			std::size_t next = string.find(delim, last);
 			while (next != std::string::npos) {
-				substrs.push_back(string.substr(last, next-last));
+				substrs.push_back(String{string.substr(last, next-last)});
 				last = next + delim.size();
 				next = string.find(delim, last);
 			}
-			substrs.push_back(string.substr(last, next-last));
+			substrs.push_back(String{string.substr(last, next-last)});
 			return substrs;
 		}
 	}
@@ -45,11 +45,11 @@ namespace ltn::vm::build_in {
 		const auto segments_ptr = core.heap.alloc<Array>({});
 		auto & segments = core.heap.read<Array>(segments_ptr);
 
-		if(delim.empty()) return value::array(segments_ptr);
-		if(string.empty()) return value::array(segments_ptr);
+		if(delim.data.empty()) return value::array(segments_ptr);
+		if(string.data.empty()) return value::array(segments_ptr);
 
-		for(auto && str : split_impl(string, delim)) {
-			segments.push_back(value::string(core.heap.alloc<String>(std::move(str))));
+		for(auto && str : split_impl(string.data, delim.data)) {
+			segments.push_back(value::string(core.heap.alloc(String{std::move(str)})));
 		}
 
 		return value::array(segments_ptr);

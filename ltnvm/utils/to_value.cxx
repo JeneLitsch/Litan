@@ -23,7 +23,7 @@ namespace ltn::vm {
 		}
 
 		if(variant.is_string()) {
-			const auto address = heap.alloc(std::string{variant.as_string()});
+			const auto address = heap.alloc(String{variant.as_string()});
 			return value::string(address);
 		}
 

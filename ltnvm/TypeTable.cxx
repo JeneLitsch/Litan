@@ -335,7 +335,7 @@ namespace ltn::vm {
 
 
 		Value type_cast_string(const Value & value, VmCore & core) {
-			return value::string(core.heap.alloc(cast::to_string(value, core.heap)));
+			return value::string(core.heap.alloc(String{cast::to_string(value, core.heap)}));
 		}
 
 
@@ -345,8 +345,8 @@ namespace ltn::vm {
 			if(!check_type(value)) return value::null;
 			const Data & input = core.heap.read<Data>(value); 
 			Data output;
-			for(const auto & elem : input) {
-				output.push_back(sub_type->cast(elem, core));
+			for(const auto & elem : input.data) {
+				output.data.push_back(sub_type->cast(elem, core));
 			}
 			return make_value(core.heap.alloc(std::move(output)));
 		}
@@ -357,7 +357,7 @@ namespace ltn::vm {
 		bool is_unary_type(const Value & value, VmCore & core, const Type * sub_type) {
 			if(!check_type(value)) return false;
 			const Data & input = core.heap.read<Data>(value);
-			return std::all_of(std::begin(input), std::end(input), 
+			return std::all_of(std::begin(input.data), std::end(input.data), 
 				[&](const auto & elem) { return sub_type->is(elem, core); 
 			});
 		}
@@ -402,10 +402,10 @@ namespace ltn::vm {
 		Value type_cast_tuple_n(const Value & value, VmCore & core, const std::vector<const Type *> & sub_types) {
 			if(is_array_or_tuple(value)) {
 				const Array & input = core.heap.read<Array>(value);
-				if(std::size(input) != std::size(sub_types)) return value::null;
+				if(std::size(input.data) != std::size(sub_types)) return value::null;
 				Array output;
-				for(std::size_t i = 0; i < std::size(input); ++i) {
-					output.push_back(sub_types[i]->cast(input[i], core));
+				for(std::size_t i = 0; i < std::size(input.data); ++i) {
+					output.push_back(sub_types[i]->cast(input.data[i], core));
 				}
 				return value::tuple(core.heap.alloc(std::move(output)));
 			}
@@ -419,9 +419,9 @@ namespace ltn::vm {
 		bool type_is_tuple_n(const Value & value, VmCore & core, const std::vector<const Type *> & sub_types) {
 			if(!is_tuple(value)) return false;
 			const Array & input = core.heap.read<Array>(value);
-			if(std::size(input) != std::size(sub_types)) return false;
-			for(std::size_t i = 0; i < std::size(input); ++i) {
-				if(!sub_types[i]->is(input[i], core)) return false;
+			if(std::size(input.data) != std::size(sub_types)) return false;
+			for(std::size_t i = 0; i < std::size(input.data); ++i) {
+				if(!sub_types[i]->is(input.data[i], core)) return false;
 			}
 			return true;
 		}

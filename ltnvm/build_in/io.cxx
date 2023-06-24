@@ -58,7 +58,7 @@ namespace ltn::vm::build_in::io {
 
 		const auto flags = openmode ? std::ios::app : std::ios::trunc;
 
-		auto fout = std::make_unique<std::ofstream>(path, flags);
+		auto fout = std::make_unique<std::ofstream>(path.data, flags);
 		return add_out(core, OStream{std::move(fout)});
 	}
 
@@ -82,10 +82,10 @@ namespace ltn::vm::build_in::io {
 			throw except::invalid_argument();
 		}
 		const auto & path = core.heap.read<String>(ref.u);
-		if(!std::filesystem::exists(path)) {
-			throw except::cannot_open_file(path);
+		if(!std::filesystem::exists(path.data)) {
+			throw except::cannot_open_file(path.data);
 		}
-		return add_in(core, IStream{std::make_unique<std::ifstream>(path)});
+		return add_in(core, IStream{std::make_unique<std::ifstream>(path.data)});
 	}
 
 
@@ -94,7 +94,7 @@ namespace ltn::vm::build_in::io {
 		const auto ref = core.stack.pop();
 		if(!is_string(ref)) throw except::invalid_argument();
 		const auto & str = core.heap.read<String>(ref.u);
-		return add_in(core, IStream{std::make_unique<std::istringstream>(str)});
+		return add_in(core, IStream{std::make_unique<std::istringstream>(str.data)});
 	}
 
 
@@ -163,7 +163,7 @@ namespace ltn::vm::build_in::io {
 		std::string value;
 		in >> value;
 		if(in) {
-			auto ref = core.heap.alloc<String>(std::move(value));
+			auto ref = core.heap.alloc(String{std::move(value)});
 			return value::string(ref);
 		}
 		else {
@@ -179,7 +179,7 @@ namespace ltn::vm::build_in::io {
 		std::string value;
 		std::getline(in, value);
 		if(in) {
-			auto ref = core.heap.alloc<String>(std::move(value));
+			auto ref = core.heap.alloc(String{std::move(value)});
 			return value::string(ref);
 		}
 		else {
@@ -269,7 +269,7 @@ namespace ltn::vm::build_in::io {
 		auto & in = get_istream(core.heap, core.stack);
 		std::ostringstream oss;
 		oss << in.rdbuf();
-		const auto ref = core.heap.alloc<String>(oss.str());
+		const auto ref = core.heap.alloc(String{oss.str()});
 		return value::string(ref);
 	}
 

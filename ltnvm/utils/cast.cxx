@@ -11,7 +11,7 @@ namespace ltn::vm::cast {
 
 
 	Array to_array(Value value) {
-		return {value};
+		return Array{{value}};
 	}
 
 	std::int64_t to_int(Value value) {

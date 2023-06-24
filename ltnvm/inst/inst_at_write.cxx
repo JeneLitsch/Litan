@@ -10,15 +10,15 @@ namespace ltn::vm::inst {
 		
 		if(is_array(ref) || is_tuple(ref)) {
 			auto & arr = core.heap.read<Array>(ref.u);
-			const auto index = to_index(key, std::size(arr));
-			arr[static_cast<std::size_t>(index)] = elem;
+			const auto index = to_index(key, std::size(arr.data));
+			arr.data[static_cast<std::size_t>(index)] = elem;
 			return;
 		}
 
 		if(is_string(ref)) {
 			auto & str = core.heap.read<String>(ref.u);
-			const auto index = to_index(key, std::size(str));
-			str[static_cast<std::size_t>(index)] = convert::to_char(elem);
+			const auto index = to_index(key, std::size(str.data));
+			str.data[static_cast<std::size_t>(index)] = convert::to_char(elem);
 			return;
 		}
 

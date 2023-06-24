@@ -20,7 +20,7 @@ namespace ltn::vm::inst {
 		std::uint64_t concat(const Value & l, const Value & r, Heap & heap) {
 			const auto obj_l = heap.read<T>(l.u);
 			const auto obj_r = heap.read<T>(r.u);
-			return heap.alloc<T>({obj_l + obj_r});
+			return heap.alloc<T>({obj_l.data + obj_r.data});
 		} 
 
 
@@ -33,8 +33,8 @@ namespace ltn::vm::inst {
 			
 			const auto & str = heap.read<Container>(ref.u);
 			const auto & count = cast::to_int(repetitions);
-			auto repeated = stx::repeat(str, count);
-			const auto ptr = heap.alloc<Container>(std::move(repeated)); 
+			auto repeated = stx::repeat(str.data, count);
+			const auto ptr = heap.alloc(Container{std::move(repeated)}); 
 			return ptr;
 		}
 

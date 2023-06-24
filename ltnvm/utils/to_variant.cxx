@@ -24,7 +24,7 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return Variant{heap.read<String>(value.u)};
+			return Variant{heap.read<String>(value.u).data};
 		}
 
 		if(is_array_or_tuple(value)) {

@@ -19,8 +19,8 @@ namespace ltn::vm {
 
 	Value ArrayIterator::get(Heap & heap) {
 		auto & arr = heap.read<Array>(this->ref);
-		if(this->index < std::ssize(arr) && this->index >= 0) {
-			return arr[static_cast<std::uint64_t>(this->index)];
+		if(this->index < std::ssize(arr.data) && this->index >= 0) {
+			return arr.data[static_cast<std::uint64_t>(this->index)];
 		}
 		else {
 			return value::iterator_stop;
@@ -43,6 +43,6 @@ namespace ltn::vm {
 
 	std::uint64_t ArrayIterator::size(Heap & heap) const {
 		auto & arr = heap.read<Array>(this->ref);
-		return static_cast<std::uint64_t>(std::size(arr));
+		return static_cast<std::uint64_t>(std::size(arr.data));
 	}
 }

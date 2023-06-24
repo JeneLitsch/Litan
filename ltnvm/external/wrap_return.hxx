@@ -16,7 +16,7 @@ namespace ltn::vm::ext {
 	}
 
 	inline Value wrap_return(std::string value, Heap & heap) {
-		auto ptr = heap.alloc<String>(std::move(value));
+		auto ptr = heap.alloc(String{std::move(value)});
 		return value::string(ptr);
 	}
 

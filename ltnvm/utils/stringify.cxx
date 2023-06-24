@@ -111,7 +111,7 @@ namespace ltn::vm {
 			if(!fx) return "<struct>";
 			auto result = run_special_member(core, *fx, value);
 			if(is_string(result)) {
-				return core.heap.read<String>(result);
+				return core.heap.read<String>(result).data;
 			} 
 			throw except::invalid_argument("Special member {str} must return string");
 		}
@@ -119,14 +119,14 @@ namespace ltn::vm {
 		if(is_queue(value)) {
 			const auto & deque = core.heap.read<Deque>(value.u);
 			std::ostringstream ss;
-			print_all(std::begin(deque), std::end(deque), ss, core, '<', '>');
+			print_all(std::begin(deque.data), std::end(deque.data), ss, core, '<', '>');
 			return ss.str();
 		}
 
 		if(is_stack(value)) {
 			const auto & deque = core.heap.read<Deque>(value.u);
 			std::ostringstream ss;
-			print_all(std::begin(deque), std::end(deque), ss, core, '<', '>');
+			print_all(std::begin(deque.data), std::end(deque.data), ss, core, '<', '>');
 			return ss.str();
 		}
 
@@ -143,7 +143,7 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return core.heap.read<String>(value.u);
+			return core.heap.read<String>(value.u).data;
 		}
 
 		if(is_iterator(value)) {
