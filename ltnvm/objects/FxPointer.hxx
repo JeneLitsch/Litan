@@ -3,8 +3,10 @@
 #include <string_view>
 #include <vector>
 #include "ltnvm/Value.hxx"
+#include "ltnvm/objects/Object.hxx"
+
 namespace ltn::vm {
-	struct FxPointer {
+	struct FxPointer : public Object {
 		const std::uint8_t * ptr;
 		std::uint64_t params;
 		std::uint64_t arity() const {

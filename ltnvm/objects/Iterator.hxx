@@ -3,11 +3,13 @@
 #include <vector>
 #include <memory>
 #include "ltnvm/Value.hxx"
+#include "ltnvm/objects/Object.hxx"
+
 
 namespace ltn::vm {
 	class Heap;
 
-	struct Iterator {
+	struct Iterator : public Object {
 		struct Concept {
 			virtual Value next(Heap & heap) = 0;
 			virtual Value get(Heap & heap) = 0;

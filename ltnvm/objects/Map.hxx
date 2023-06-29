@@ -3,6 +3,8 @@
 #include <string_view>
 #include "ltnvm/Value.hxx"
 #include "ltnvm/utils/compare.hxx"
+#include "ltnvm/objects/Object.hxx"
+
 namespace ltn::vm {
 	class Heap;
 	// Implements stack, queue, ...
@@ -15,7 +17,7 @@ namespace ltn::vm {
 
 
 
-	class Map {
+	class Map : public Object {
 	public:
 		Map(VmCore * core) 
 			: map{Comparator{core}} {}
