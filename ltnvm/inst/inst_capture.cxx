@@ -6,7 +6,7 @@ namespace ltn::vm::inst {
 		const auto var = core.stack.pop();
 		const auto fxptr = core.stack.peek();
 		if(is_fxptr(fxptr)) {
-			auto & lambda = core.heap.read<FxPointer>(fxptr.u);
+			auto & lambda = core.heap.read<FxPointer>(fxptr);
 			lambda.captured.push_back(var);
 		}
 		else throw except::invalid_argument();

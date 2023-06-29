@@ -4,7 +4,7 @@
 #include <limits>
 
 namespace ltn::vm {
-	CombinedIterator::CombinedIterator(std::vector<std::uint64_t> iters) 
+	CombinedIterator::CombinedIterator(std::vector<Value> iters) 
 		: iters{std::move(iters)} {}
 	
 
@@ -36,7 +36,7 @@ namespace ltn::vm {
 
 	void CombinedIterator::mark(Heap & heap) {
 		for(auto & ref : this->iters) {
-			heap.mark(value::iterator(ref));
+			heap.mark(ref);
 			auto & iter = heap.read<Iterator>(ref);
 			iter.mark(heap);
 		}

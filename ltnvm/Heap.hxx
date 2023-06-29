@@ -40,11 +40,6 @@ namespace ltn::vm {
 		}
 
 
-		template<class Obj>
-		Obj & read(std::uint64_t id) {
-			return pool_of<Obj>().get(id);
-		}
-
 
 		template<class Obj>
 		Obj & read(Value value) {
@@ -53,9 +48,9 @@ namespace ltn::vm {
 
 
 		template<class Obj>
-		std::uint64_t clone(std::uint64_t id) {
+		Value clone(Value id) {
 			auto copy = ltn::vm::clone(this->read<Obj>(id));
-			return this->alloc<Obj>(std::move(copy));
+			return Value{ this->alloc<Obj>(std::move(copy)), id.type };
 		}
 
 

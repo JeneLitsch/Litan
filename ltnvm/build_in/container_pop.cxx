@@ -10,7 +10,7 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 
 		if(is_array(ref)) {
-			auto & container = core.heap.read<Array>(ref.u);
+			auto & container = core.heap.read<Array>(ref);
 			if(std::empty(container)) throw except::out_of_range();
 			const auto elem = container.data.back();
 			container.data.pop_back();
@@ -18,7 +18,7 @@ namespace ltn::vm::build_in {
 		}
 
 		if(is_string(ref)) {
-			auto & container = core.heap.read<String>(ref.u);
+			auto & container = core.heap.read<String>(ref);
 			if(std::empty(container.data)) throw except::out_of_range();
 			const auto elem = container.data.back();
 			container.data.pop_back();
@@ -26,7 +26,7 @@ namespace ltn::vm::build_in {
 		}
 
 		if(is_stack(ref)) {
-			auto & container = core.heap.read<Deque>(ref.u);
+			auto & container = core.heap.read<Deque>(ref);
 			if(std::empty(container.data)) throw except::out_of_range();
 			const auto elem = container.data.back();
 			container.data.pop_back();
@@ -34,7 +34,7 @@ namespace ltn::vm::build_in {
 		}
 
 		if(is_queue(ref)) {
-			auto & container = core.heap.read<Deque>(ref.u);
+			auto & container = core.heap.read<Deque>(ref);
 			if(std::empty(container.data)) throw except::out_of_range();
 			const auto elem = container.data.front();
 			container.data.pop_front();

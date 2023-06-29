@@ -10,14 +10,14 @@ namespace ltn::vm {
 namespace ltn::vm {
 	class StringIterator  {
 	public:
-		StringIterator(std::uint64_t ref);
+		StringIterator(Value ref);
 		Value next(Heap &);
 		Value get(Heap &);
 		void move(Heap &, std::int64_t amount);
 		void mark(Heap &);
 		std::uint64_t size(Heap & heap) const;
 	private:
-		std::uint64_t ref;
+		Value ref;
 		std::int64_t index;
 	};
 }

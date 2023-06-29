@@ -23,55 +23,35 @@ namespace ltn::vm {
 
 
 
-		Iterator array(std::uint64_t array) {
+		Iterator array(Value array) {
 			return ArrayIterator(array);
 		}
 
 
 
-		Iterator string(std::uint64_t string) {
+		Iterator string(Value string) {
 			return StringIterator(string);
 		}
 
 
 		
-		Iterator combined(std::vector<std::uint64_t> refs) {
+		Iterator combined(std::vector<Value> refs) {
 			return CombinedIterator(std::move(refs));
 		}
 
 
 
-		Iterator reversed(std::uint64_t ref, Heap & heap) {
+		Iterator reversed(Value ref, Heap & heap) {
 			return ReversedIterator(ref, heap);
-		}
-
-
-
-		namespace {
-			Value iter_array(const Value & value, Heap & heap) {
-				return value::iterator(heap.alloc(iterator::array(value.u)));
-			}
-
-
-
-			Value iter_string(const Value & value, Heap & heap) {
-				return value::iterator(heap.alloc(iterator::string(value.u)));
-			}
-
-
-
-			Value iter_tuple(const Value & value, Heap & heap) {
-				return value::iterator(heap.alloc(iterator::array(value.u)));
-			}
 		}
 
 
 
 		Value wrap(const Value & ref, Heap & heap) {
 			if(is_iterator(ref)) return ref;
-			if(is_array(ref))    return iter_array(ref, heap);
-			if(is_tuple(ref))    return iter_tuple(ref, heap);
-			if(is_string(ref))   return iter_string(ref, heap);
+			if(is_array(ref))    return value::iterator(heap.alloc(iterator::array(ref)));
+			if(is_tuple(ref))    return value::iterator(heap.alloc(iterator::array(ref)));
+			if(is_string(ref))   return value::iterator(heap.alloc(iterator::string(ref)));
 			throw except::invalid_argument("std::iter expects an iterable object");
 		}
 

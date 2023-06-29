@@ -11,14 +11,14 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 
 		if(is_string(ref)) {
-			auto & str = core.heap.read<String>(ref.u);
+			auto & str = core.heap.read<String>(ref);
 			const auto strL = stringify(elem, core);
 			str.data = strL + str.data;
 			return value::null;
 		}
 
 		if(is_array(ref)) {
-			auto & arr = core.heap.read<Array>(ref.u);
+			auto & arr = core.heap.read<Array>(ref);
 			arr.data.insert(arr.begin(), elem);
 			return value::null;
 		} 
@@ -33,14 +33,14 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 		
 		if(is_string(ref)) {
-			auto & str = core.heap.read<String>(ref.u);
+			auto & str = core.heap.read<String>(ref);
 			const auto strR = stringify(elem, core);
 			str.data += strR;
 			return value::null;
 		}
 
 		if(is_array(ref)) {
-			auto & arr = core.heap.read<Array>(ref.u);
+			auto & arr = core.heap.read<Array>(ref);
 			arr.push_back(elem);
 			return value::null;
 		} 
@@ -65,13 +65,13 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 
 		if(is_map(ref)) {
-			auto & map = core.heap.read<Map>(ref.u);
+			auto & map = core.heap.read<Map>(ref);
 			map[key] = elem;
 			return value::null;
 		}
 		
 		if(is_string(ref)) {
-			auto & str = core.heap.read<String>(ref.u); 
+			auto & str = core.heap.read<String>(ref); 
 			const auto strX = stringify(elem, core);
 			const auto begin = std::begin(strX);
 			const auto end = std::end(strX);
@@ -81,7 +81,7 @@ namespace ltn::vm::build_in {
 		}
 
 		if(is_array(ref)) {
-			auto & arr = core.heap.read<Array>(ref.u); 
+			auto & arr = core.heap.read<Array>(ref); 
 			const auto at = to_iter(arr, key);
 			arr.data.insert(at, elem);
 			return value::null;

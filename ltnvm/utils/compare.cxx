@@ -26,13 +26,13 @@ namespace ltn::vm {
 			if(is_float(l)) COMPARE_R(l.f);
 			if(l.type == r.type) {
 				if(is_string(l)) {
-					const auto & strL = core.heap.read<String>(l.u);
-					const auto & strR = core.heap.read<String>(r.u);
+					const auto & strL = core.heap.read<String>(l);
+					const auto & strR = core.heap.read<String>(r);
 					return strL.data <=> strR.data;
 				}
 				if(is_array(l) || is_tuple(l)) {
-					const auto & arrL = core.heap.read<Array>(l.u);
-					const auto & arrR = core.heap.read<Array>(r.u);
+					const auto & arrL = core.heap.read<Array>(l);
+					const auto & arrR = core.heap.read<Array>(r);
 					if(arrL.data.size() != arrR.data.size()) {
 						return arrL.data.size() <=> arrR.data.size();
 					}
@@ -47,8 +47,8 @@ namespace ltn::vm {
 					return std::partial_ordering::equivalent;
 				}
 				if(is_stack(l) || is_queue(l)) {
-					const auto & deq_l = core.heap.read<Deque>(l.u);
-					const auto & deq_r = core.heap.read<Deque>(r.u);
+					const auto & deq_l = core.heap.read<Deque>(l);
+					const auto & deq_r = core.heap.read<Deque>(r);
 					if(deq_l.data.size() != deq_r.data.size()) {
 						return deq_l.data.size() <=> deq_r.data.size();
 					}

@@ -11,19 +11,19 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 
 		if(is_array(ref)) {
-			auto & container = core.heap.read<Array>(ref.u);
+			auto & container = core.heap.read<Array>(ref);
 			container.push_back(elem);
 			return value::null;
 		}
 
 		if(is_stack(ref)) {
-			auto & container = core.heap.read<Deque>(ref.u);
+			auto & container = core.heap.read<Deque>(ref);
 			container.data.push_back(elem);
 			return value::null;
 		}
 
 		if(is_queue(ref)) {
-			auto & container = core.heap.read<Deque>(ref.u);
+			auto & container = core.heap.read<Deque>(ref);
 			container.data.push_back(elem);
 			return value::null;
 		}

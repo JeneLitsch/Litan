@@ -41,12 +41,12 @@ namespace ltn::vm::ext {
 				throw std::runtime_error{"Parameter not a float"};
 			}
 			else if constexpr(std::same_as<T, std::string>) {
-				if(is_string(value)) return this->heap.read<String>(value.u);
+				if(is_string(value)) return this->heap.read<String>(value);
 				throw std::runtime_error{"Parameter not a string"};
 			}
 			else if constexpr(std::same_as<T, std::vector<typename T::value_type>>) {
 				if(is_array(value)) {
-					auto & input = this->heap.read<Array>(value.u);
+					auto & input = this->heap.read<Array>(value);
 					T output;
 					for(const auto & elem : input.data) {
 						output.push_back(convert<typename T::value_type>(elem));

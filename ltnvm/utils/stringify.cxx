@@ -67,21 +67,21 @@ namespace ltn::vm {
 		}
 
 		if(is_array(value)) {
-			const auto & array = core.heap.read<Array>(value.u);
+			const auto & array = core.heap.read<Array>(value);
 			std::stringstream ss;
 			print_all(std::begin(array), std::end(array), ss, core, '[', ']');
 			return ss.str();
 		}
 
 		if(is_tuple(value)) {
-			const auto & array = core.heap.read<Array>(value.u);
+			const auto & array = core.heap.read<Array>(value);
 			std::stringstream ss;
 			print_all(std::begin(array), std::end(array), ss, core, '(', ')');
 			return ss.str();
 		}
 
 		if(is_ostream(value)) {
-			const auto & out = core.heap.read<OStream>(value.u);
+			const auto & out = core.heap.read<OStream>(value);
 			if(out.oss) {
 				return out.oss->str();
 			}
@@ -99,7 +99,7 @@ namespace ltn::vm {
 		}
 
 		if(is_clock(value)) {
-			const auto & clock = core.heap.read<Clock>(value.u);
+			const auto & clock = core.heap.read<Clock>(value);
 			std::ostringstream ss;
 			ss << "<clock: " << clock.getSeconds() << "s>";
 			return ss.str();
@@ -117,21 +117,21 @@ namespace ltn::vm {
 		}
 
 		if(is_queue(value)) {
-			const auto & deque = core.heap.read<Deque>(value.u);
+			const auto & deque = core.heap.read<Deque>(value);
 			std::ostringstream ss;
 			print_all(std::begin(deque.data), std::end(deque.data), ss, core, '<', '>');
 			return ss.str();
 		}
 
 		if(is_stack(value)) {
-			const auto & deque = core.heap.read<Deque>(value.u);
+			const auto & deque = core.heap.read<Deque>(value);
 			std::ostringstream ss;
 			print_all(std::begin(deque.data), std::end(deque.data), ss, core, '<', '>');
 			return ss.str();
 		}
 
 		if(is_map(value)) {
-			const auto & map = core.heap.read<Map>(value.u);
+			const auto & map = core.heap.read<Map>(value);
 			std::ostringstream ss;
 			if(map.empty()) ss << "[:]";
 			else print_all(std::begin(map), std::end(map), ss, core, '[', ']');
@@ -143,7 +143,7 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return core.heap.read<String>(value.u).data;
+			return core.heap.read<String>(value).data;
 		}
 
 		if(is_iterator(value)) {

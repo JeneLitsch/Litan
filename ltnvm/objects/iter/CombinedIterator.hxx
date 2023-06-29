@@ -11,13 +11,13 @@ namespace ltn::vm {
 namespace ltn::vm {
 	class CombinedIterator {
 	public:
-		CombinedIterator(std::vector<std::uint64_t> iters);
+		CombinedIterator(std::vector<Value> iters);
 		Value next(Heap &);
 		Value get(Heap &);
 		void move(Heap &, std::int64_t amount);
 		void mark(Heap &);
 		std::uint64_t size(Heap & heap) const;
 	private:
-		std::vector<std::uint64_t> iters;
+		std::vector<Value> iters;
 	};
 }

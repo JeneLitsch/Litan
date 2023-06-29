@@ -52,10 +52,10 @@ namespace ltn::vm::build_in::iter {
 		if(!is_array(param) && !is_tuple(param)) {
 			throw except::invalid_argument();
 		}
-		auto & arr = core.heap.read<Array>(param.u);
-		std::vector<std::uint64_t> refs;
+		auto & arr = core.heap.read<Array>(param);
+		std::vector<Value> refs;
 		for(auto & e : arr) {
-			refs.push_back(iterator::wrap(e, core.heap).u);
+			refs.push_back(iterator::wrap(e, core.heap));
 		}
 		auto ptr = core.heap.alloc(iterator::combined(std::move(refs)));
 		return value::iterator(ptr);
@@ -65,6 +65,6 @@ namespace ltn::vm::build_in::iter {
 
 	Value reversed(VmCore & core) {
 		auto ref = iterator::wrap(core.stack.pop(), core.heap);
-		return value::iterator(core.heap.alloc(iterator::reversed(ref.u, core.heap)));
+		return value::iterator(core.heap.alloc(iterator::reversed(ref, core.heap)));
 	}
 }

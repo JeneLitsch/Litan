@@ -22,7 +22,7 @@ namespace ltn::vm::inst {
 
 
 		void do_invoke_fxptr(VmCore & core, const Value ref_fx, std::uint64_t arity) {
-			const auto & fxptr = core.heap.read<FxPointer>(ref_fx.u);
+			const auto & fxptr = core.heap.read<FxPointer>(ref_fx);
 			const auto call_arity = fxptr.arity() + fxptr.is_variadic;
 
 			if(arity >= fxptr.arity() && fxptr.is_variadic) {
@@ -76,7 +76,7 @@ namespace ltn::vm::inst {
 		const auto ref_param = core.stack.pop();
 		const auto ref_fx = core.stack.pop();
 		if(is_array(ref_param) || is_tuple(ref_param)) {
-			const auto & args = core.heap.read<Array>(ref_param.u);
+			const auto & args = core.heap.read<Array>(ref_param);
 			const auto arity = std::size(args.data);
 
 			if(is_fxptr(ref_fx)) {

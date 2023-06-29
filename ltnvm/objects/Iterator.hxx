@@ -71,10 +71,10 @@ namespace ltn::vm {
 
 	namespace iterator {
 		Iterator range(std::int64_t begin, std::int64_t end, std::int64_t step);
-		Iterator array(std::uint64_t array);
-		Iterator string(std::uint64_t string);
-		Iterator combined(std::vector<std::uint64_t> refs);
-		Iterator reversed(std::uint64_t ref, Heap & heap);
+		Iterator array(Value array);
+		Iterator string(Value string);
+		Iterator combined(std::vector<Value> refs);
+		Iterator reversed(Value ref, Heap & heap);
 
 		Value wrap(const Value & ref, Heap & heap);
 		Value next(const Value & ref, Heap & heap);

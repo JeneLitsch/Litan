@@ -19,7 +19,7 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 
 		if(is_map(ref)) {
-			auto & container = core.heap.read<Map>(ref.u);
+			auto & container = core.heap.read<Map>(ref);
 			return value::boolean(container.contains(key));
 		}
 
@@ -31,7 +31,7 @@ namespace ltn::vm::build_in {
 	namespace {
 		template<typename Container>
 		Value size(const Value & ref, VmCore & core) {
-			const auto & container = core.heap.read<Container>(ref.u);
+			const auto & container = core.heap.read<Container>(ref);
 			return value::integer(static_cast<std::int64_t>(std::size(container.data)));
 		}
 	}
@@ -46,7 +46,7 @@ namespace ltn::vm::build_in {
 		if(is_queue(ref)) return size<Deque>(ref, core);
 		if(is_stack(ref)) return size<Deque>(ref, core);
 		if(is_map(ref)) {
-			const auto & map = core.heap.read<Map>(ref.u);
+			const auto & map = core.heap.read<Map>(ref);
 			return value::integer(static_cast<std::int64_t>(std::size(map)));
 		}
 		if(is_iterator(ref)) return value::integer(iterator::size(ref, core.heap));
@@ -71,13 +71,13 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 		
 		if (is_array(ref)) {
-			const auto & arr = core.heap.read<Array>(ref.u);
+			const auto & arr = core.heap.read<Array>(ref);
 			if(std::empty(arr)) throw except::out_of_range();
 			return arr.data.front();
 		}
 
 		if (is_string(ref)) {
-			const auto & str = core.heap.read<String>(ref.u);
+			const auto & str = core.heap.read<String>(ref);
 			if(std::empty(str.data)) throw except::out_of_range();
 			return value::character(str.data.front());
 		}
@@ -89,13 +89,13 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 		
 		if (is_array(ref)) {
-			const auto & arr = core.heap.read<Array>(ref.u);
+			const auto & arr = core.heap.read<Array>(ref);
 			if(std::empty(arr)) throw except::out_of_range();
 			return arr.data.back();
 		}
 
 		if (is_string(ref)) {
-			const auto & str = core.heap.read<String>(ref.u);
+			const auto & str = core.heap.read<String>(ref);
 			if(std::empty(str.data)) throw except::out_of_range();
 			return value::character(str.data.back());
 		}

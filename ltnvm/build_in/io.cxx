@@ -12,7 +12,7 @@ namespace ltn::vm::build_in::io {
 		std::istream & get_istream(Heap & heap, Stack & stack) {
 			const auto ref = stack.pop();
 			if(is_istream(ref)) {
-				return heap.read<IStream>(ref.u).get();
+				return heap.read<IStream>(ref).get();
 			}
 			else {
 				throw except::not_input();
@@ -54,7 +54,7 @@ namespace ltn::vm::build_in::io {
 		const auto ref = core.stack.pop();
 		if(!is_string(ref)) throw except::invalid_argument();
 		
-		const auto & path = core.heap.read<String>(ref.u);
+		const auto & path = core.heap.read<String>(ref);
 
 		const auto flags = openmode ? std::ios::app : std::ios::trunc;
 
@@ -81,7 +81,7 @@ namespace ltn::vm::build_in::io {
 		if(!is_string(ref)) {
 			throw except::invalid_argument();
 		}
-		const auto & path = core.heap.read<String>(ref.u);
+		const auto & path = core.heap.read<String>(ref);
 		if(!std::filesystem::exists(path.data)) {
 			throw except::cannot_open_file(path.data);
 		}
@@ -93,7 +93,7 @@ namespace ltn::vm::build_in::io {
 	Value strin(VmCore & core) {
 		const auto ref = core.stack.pop();
 		if(!is_string(ref)) throw except::invalid_argument();
-		const auto & str = core.heap.read<String>(ref.u);
+		const auto & str = core.heap.read<String>(ref);
 		return add_in(core, IStream{std::make_unique<std::istringstream>(str.data)});
 	}
 
@@ -102,7 +102,7 @@ namespace ltn::vm::build_in::io {
 	Value close_stream(VmCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref)) {
-			auto & ostream = core.heap.read<OStream>(ref.u).get();
+			auto & ostream = core.heap.read<OStream>(ref).get();
 			if(auto * out = dynamic_cast<std::ofstream *>(&ostream)) {
 				out->close();
 			}
@@ -114,7 +114,7 @@ namespace ltn::vm::build_in::io {
 		}
 
 		else if(is_istream(ref)) {
-			auto & istream = core.heap.read<IStream>(ref.u).get();
+			auto & istream = core.heap.read<IStream>(ref).get();
 			if(auto * in = dynamic_cast<std::ifstream *>(&istream)) {
 				in->close();
 			}
@@ -147,7 +147,7 @@ namespace ltn::vm::build_in::io {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref)) {
-			auto & ostream = core.heap.read<OStream>(ref.u).get();
+			auto & ostream = core.heap.read<OStream>(ref).get();
 			ostream << stringify(value, core); 
 			return value::null;
 		}
@@ -279,7 +279,7 @@ namespace ltn::vm::build_in::io {
 		const auto color = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref) && is_int(color)) {
-			auto & out = core.heap.read<OStream>(ref.u).get();
+			auto & out = core.heap.read<OStream>(ref).get();
 			out	<< "\u001b[3" << color.i % 8; 
 			if(color.i >= 8) out << ";1";
 			out << "m";
@@ -294,7 +294,7 @@ namespace ltn::vm::build_in::io {
 		const auto color = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref) && is_int(color)) {
-			auto & out = core.heap.read<OStream>(ref.u).get();
+			auto & out = core.heap.read<OStream>(ref).get();
 			out	<< "\u001b[4" << color.i % 8;
 			if(color.i >= 8) out << ";1";
 			out << "m";
@@ -308,7 +308,7 @@ namespace ltn::vm::build_in::io {
 	Value reset_color(VmCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref)) {
-			auto & out = core.heap.read<OStream>(ref.u).get();
+			auto & out = core.heap.read<OStream>(ref).get();
 			out	<< "\u001b[0m";
 			return value::null;
 		}

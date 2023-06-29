@@ -18,8 +18,8 @@ namespace ltn::vm::inst {
 	namespace {
 		template<typename T>
 		std::uint64_t concat(const Value & l, const Value & r, Heap & heap) {
-			const auto obj_l = heap.read<T>(l.u);
-			const auto obj_r = heap.read<T>(r.u);
+			const auto obj_l = heap.read<T>(l);
+			const auto obj_r = heap.read<T>(r);
 			return heap.alloc<T>({obj_l.data + obj_r.data});
 		} 
 
@@ -31,7 +31,7 @@ namespace ltn::vm::inst {
 			const Value & repetitions,
 			Heap & heap) {
 			
-			const auto & str = heap.read<Container>(ref.u);
+			const auto & str = heap.read<Container>(ref);
 			const auto & count = cast::to_int(repetitions);
 			auto repeated = stx::repeat(str.data, count);
 			const auto ptr = heap.alloc(Container{std::move(repeated)}); 

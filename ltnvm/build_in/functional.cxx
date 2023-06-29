@@ -6,7 +6,7 @@ namespace ltn::vm::build_in {
 	Value arity(VmCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_fxptr(ref)) {
-			const auto & fxptr = core.heap.read<FxPointer>(ref.u);
+			const auto & fxptr = core.heap.read<FxPointer>(ref);
 			return value::integer(static_cast<std::int64_t>(fxptr.params));
 		}
 
@@ -25,7 +25,7 @@ namespace ltn::vm::build_in {
 	Value is_variadic(VmCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_fxptr(ref)) {
-			const auto & fxptr = core.heap.read<FxPointer>(ref.u);
+			const auto & fxptr = core.heap.read<FxPointer>(ref);
 			return value::boolean(fxptr.is_variadic);
 		}
 		throw except::invalid_argument("std::is_variadic expected a function pointer");

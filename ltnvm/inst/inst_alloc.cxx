@@ -18,11 +18,11 @@ namespace ltn::vm::inst {
 
 
 	void newarr(VmCore & core){
-		const auto ptr = core.heap.alloc<Array>({});
+		const auto ptr = value::array(core.heap.alloc<Array>({}));
 		auto & arr = core.heap.read<Array>(ptr); 
 		const auto size = core.fetch_uint();
 		pushAll(arr, core.stack, size);
-		core.stack.push({ ptr, Value::Type::ARRAY });
+		core.stack.push(ptr);
 		core.heap.collect_garbage(core.stack);
 	}
 
@@ -98,11 +98,11 @@ namespace ltn::vm::inst {
 
 
 	void newtuple(VmCore & core){
-		const auto ptr = core.heap.alloc<Array>({});
+		const auto ptr = value::tuple(core.heap.alloc<Array>({}));
 		auto & arr = core.heap.read<Array>(ptr); 
 		const auto size = core.fetch_uint();
 		pushAll(arr, core.stack, size);
-		core.stack.push(value::tuple(ptr));
+		core.stack.push(ptr);
 		core.heap.collect_garbage(core.stack);
 	}
 }

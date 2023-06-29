@@ -3,7 +3,7 @@
 #include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm {
-	StringIterator::StringIterator(std::uint64_t ref) 
+	StringIterator::StringIterator(Value ref) 
 		: ref{ref}
 		, index{0} {}
 	
@@ -30,7 +30,7 @@ namespace ltn::vm {
 
 
 	void StringIterator::mark(Heap & heap) {
-		heap.mark(value::string(this->ref));
+		heap.mark(this->ref);
 	}
 
 

@@ -12,16 +12,16 @@ namespace ltn::vm::build_in::type {
 
 	Value clone(VmCore & core) {
 		const auto ref = core.stack.pop();
-		if(is_array(ref)) return Value{core.heap.clone<Array>(ref.u), ref.type};
-		if(is_string(ref)) return Value{core.heap.clone<String>(ref.u), ref.type};
-		if(is_stack(ref)) return Value{core.heap.clone<Deque>(ref.u), ref.type};
-		if(is_queue(ref)) return Value{core.heap.clone<Deque>(ref.u), ref.type};
-		if(is_map(ref)) return Value{core.heap.clone<Map>(ref.u), ref.type};
-		if(is_ostream(ref)) return Value{core.heap.clone<OStream>(ref.u), ref.type};
-		if(is_istream(ref)) return Value{core.heap.clone<IStream>(ref.u), ref.type};
-		if(is_rng(ref)) return Value{core.heap.clone<RandomEngine>(ref.u), ref.type};
-		if(is_struct(ref)) return Value{core.heap.clone<Struct>(ref.u), ref.type};
-		if(is_iterator(ref)) return Value{core.heap.clone<Iterator>(ref.u), ref.type};
+		if(is_array(ref))    return core.heap.clone<Array>(ref);
+		if(is_string(ref))   return core.heap.clone<String>(ref);
+		if(is_stack(ref))    return core.heap.clone<Deque>(ref);
+		if(is_queue(ref))    return core.heap.clone<Deque>(ref);
+		if(is_map(ref))      return core.heap.clone<Map>(ref);
+		if(is_ostream(ref))  return core.heap.clone<OStream>(ref);
+		if(is_istream(ref))  return core.heap.clone<IStream>(ref);
+		if(is_rng(ref))      return core.heap.clone<RandomEngine>(ref);
+		if(is_struct(ref))   return core.heap.clone<Struct>(ref);
+		if(is_iterator(ref)) return core.heap.clone<Iterator>(ref);
 		throw except::invalid_argument("Cannot clone");
 	}
 

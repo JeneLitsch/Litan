@@ -28,12 +28,12 @@ namespace ltn::vm {
 		}
 
 		if(variant.is_array()) {
-			const auto address = heap.alloc<Array>({});
+			const auto address = value::string(heap.alloc<Array>({}));
 			auto & array = heap.read<Array>(address);
 			for(const auto & elem : variant.as_array()) {
 				array.push_back(to_value(elem, heap));
 			}
-			return value::string(address);
+			return address;
 		}
 
 		return value::null;
