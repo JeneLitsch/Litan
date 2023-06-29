@@ -63,7 +63,7 @@ namespace ltn::vm {
 					return std::partial_ordering::equivalent;
 				}
 				if(is_type(l) || is_type(l)) {
-					return l.u <=> r.u;
+					return l.obj_type <=> r.obj_type;
 				}
 				if(is_struct(l)) {
 					auto & strukt = core.heap.read<Struct>(l);

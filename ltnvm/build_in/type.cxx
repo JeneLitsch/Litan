@@ -30,7 +30,8 @@ namespace ltn::vm::build_in::type {
 	Value is(VmCore & core) {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
-		auto * type = core.type_table[ref.u];
+		if(!is_type(ref)) throw except::invalid_operands();
+		auto * type = ref.obj_type;
 		return type_is(*type, value, core);
 	}
 
@@ -39,7 +40,8 @@ namespace ltn::vm::build_in::type {
 	Value cast(VmCore & core) {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
-		auto * type = core.type_table[ref.u];
+		if(!is_type(ref)) throw except::invalid_operands();
+		auto * type = ref.obj_type;
 		return type_cast(*type, value, core);
 	}
 

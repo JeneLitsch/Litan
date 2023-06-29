@@ -3,6 +3,7 @@
 #include <cstdint>
 
 namespace ltn::vm {
+	class Type;
 	struct Value {
 		// DO NOT TOUCH/CHANGE THE VALUES !!!
 		enum class Type : std::uint32_t {
@@ -35,6 +36,9 @@ namespace ltn::vm {
 		constexpr Value(bool value)
 			: type(Type::BOOL), b(value) {}
 
+		constexpr Value(const ltn::vm::Type * obj_type)
+			: type(Type::TYPE), obj_type(obj_type) {}
+
 		Type type;
 		union {
 			std::uint64_t u;
@@ -42,6 +46,7 @@ namespace ltn::vm {
 			stx::float64_t f;
 			bool b;
 			char c;
+			const ltn::vm::Type * obj_type;
 		};
 	};
 	namespace value {
@@ -92,8 +97,8 @@ namespace ltn::vm {
 			return Value{address, Value::Type::ITERATOR};
 		}
 
-		constexpr inline Value type(std::uint64_t address) {
-			return Value{address, Value::Type::TYPE};
+		constexpr inline Value type(const Type * type) {
+			return Value{type};
 		}
 
 		constexpr inline Value fx(std::uint64_t address) {
