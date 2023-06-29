@@ -1,5 +1,7 @@
 #pragma once
 
 namespace ltn::vm {
-	class Object {};
+	struct Object {
+		bool marked = false;
+	};
 }

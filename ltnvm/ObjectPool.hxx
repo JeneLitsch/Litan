@@ -11,7 +11,6 @@ namespace ltn::vm {
 		struct Bundle {
 			T obj;
 			bool in_use = false;
-			bool marked = false;
 		};
 	public:
 
@@ -26,7 +25,6 @@ namespace ltn::vm {
 				this->objects.push_back(Bundle {
 					.obj = std::move(obj),
 					.in_use = true,
-					.marked = false
 				});
 				return this->next_id++;
 			}
@@ -36,7 +34,6 @@ namespace ltn::vm {
 				this->objects[id] = Bundle {
 					.obj = std::move(obj),
 					.in_use = true,
-					.marked = false
 				};
 				return id;
 			}
@@ -45,21 +42,21 @@ namespace ltn::vm {
 
 
 		void gc_mark(std::uint64_t id) {
-			objects[id].marked = true;
+			objects[id].obj.marked = true;
 		}
 
 
 
 		void gc_sweep() {
 			for(std::uint64_t id = 0; id < std::size(this->objects); ++id){
-				auto & [obj, in_use, marked] = objects[id];
+				auto & [obj, in_use] = objects[id];
 				if(!in_use) continue;
-				if(!marked) {
+				if(!obj.marked) {
 					in_use = false;
 					reuse.push(id);
 				}
 				else {
-					marked = false;
+					obj.marked = false;
 				}
 			}
 		}
@@ -75,7 +72,7 @@ namespace ltn::vm {
 
 
 		bool gc_is_marked(std::uint64_t id) const {
-			return objects[id].marked;
+			return objects[id].obj.marked;
 		}
 
 
