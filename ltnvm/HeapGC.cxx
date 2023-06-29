@@ -44,63 +44,62 @@ namespace ltn::vm {
 
 
 
-	void Heap::mark_array(const Value & ref) {
-		auto & pool = pool_of<Array>(); 
-		if(!pool.gc_is_marked(ref.u)) {
-			pool.gc_mark(ref.u);
-			auto & arr = pool.get(ref.u);
-			this->mark(arr.data);
+	void Heap::mark_array(const Value & value) {
+		auto * obj = value.as<Array>();
+		if(!obj->marked) {
+			obj->marked = true;
+			this->mark(obj->data);
 		}
 	}
 
 
 
 	void Heap::mark_string(const Value & value) {
-		pool_of<String>().gc_mark(value.u);
+		auto * obj = value.as<String>();
+		obj->marked = true;
 	}
 
 
 
 	void Heap::mark_istream(const Value & value) {
-		pool_of<IStream>().gc_mark(value.u);
+		auto * obj = value.as<IStream>();
+		obj->marked = true;
 	}
 
 
 
 	void Heap::mark_iterator(const Value & value) {
-		auto & pool = pool_of<Iterator>(); 
-		if(!pool.gc_is_marked(value.u)) {
-			pool.gc_mark(value.u);
-			auto & iter = pool.get(value.u);
-			iter.mark(*this);
+		auto * obj = value.as<Iterator>();
+		if(!obj->marked) {
+			obj->marked = true;
+			obj->mark(*this);
 		}
 	}
 
 
 
 	void Heap::mark_ostream(const Value & value) {
-		pool_of<OStream>().gc_mark(value.u);
+		auto * obj = value.as<OStream>();
+		obj->marked = true;
 	}
 
 
 
-	void Heap::mark_fxptr(const Value & ref) {
-		auto & pool = pool_of<FxPointer>(); 
-		if(!pool.gc_is_marked(ref.u)) {
-			pool.gc_mark(ref.u);
-			auto & fx = pool.get(ref.u);
-			this->mark(fx.captured);
+	void Heap::mark_fxptr(const Value & value) {
+		auto * obj = value.as<FxPointer>();
+		if(!obj->marked) {
+			obj->marked = true;
+			this->mark(obj->captured);
 		}
 	}
 
 
 
-	void Heap::mark_struct(const Value & ref) {
-		auto & pool = pool_of<Struct>(); 
-		if(!pool.gc_is_marked(ref.u)) {
-			pool.gc_mark(ref.u);
-			auto & s = pool.get(ref.u);
-			for(const auto & [key, value] : s.members) {
+	void Heap::mark_struct(const Value & value) {
+		auto * obj = value.as<Struct>();
+		if(!obj->marked) {
+			obj->marked = true;
+			for(const auto & [key, value] : obj->members) {
 				this->mark(value);
 			}
 		}
@@ -108,23 +107,21 @@ namespace ltn::vm {
 
 
 
-	void Heap::mark_deque(const Value & ref) {
-		auto & pool = pool_of<Deque>(); 
-		if(!pool.gc_is_marked(ref.u)) {
-			pool.gc_mark(ref.u);
-			auto & deq = pool.get(ref.u);
-			this->mark(deq.data);
+	void Heap::mark_deque(const Value & value) {
+		auto * obj = value.as<Deque>();
+		if(!obj->marked) {
+			obj->marked = true;
+			this->mark(obj->data);
 		}
 	}
 
 
 
 	void Heap::mark_map(const Value & value) {
-		auto & pool = pool_of<Map>(); 
-		if(!pool.gc_is_marked(value.u)) {
-			pool.gc_mark(value.u);
-			auto & map = pool.get(value.u);
-			for(auto & [key, value] : map) {
+		auto * obj = value.as<Map>();
+		if(!obj->marked) {
+			obj->marked = true;
+			for(auto & [key, value] : *obj) {
 				this->mark(key);
 				this->mark(value);
 			}
@@ -134,28 +131,30 @@ namespace ltn::vm {
 
 
 	void Heap::mark_clock(const Value & value) {
-		pool_of<Clock>().gc_mark(value.u);
+		auto * obj = value.as<Clock>();
+		obj->marked = true;
 	}
 
 
 
 	void Heap::mark_rng(const Value & value) {
-		pool_of<RandomEngine>().gc_mark(value.u);
+		auto * obj = value.as<RandomEngine>();
+		obj->marked = true;
 	}
 
 
 
 	void Heap::sweep() {
-		pool_of<String>().gc_sweep();
-		pool_of<Array>().gc_sweep();
-		pool_of<IStream>().gc_sweep();
-		pool_of<Iterator>().gc_sweep();
-		pool_of<OStream>().gc_sweep();
-		pool_of<FxPointer>().gc_sweep();
-		pool_of<Clock>().gc_sweep();
-		pool_of<Struct>().gc_sweep();
-		pool_of<Deque>().gc_sweep();
-		pool_of<Map>().gc_sweep();
-		pool_of<RandomEngine>().gc_sweep();
+		std::unique_ptr<Object> * current = &this->objects;
+		while (*current) {
+			if((*current)->marked) {
+				(*current)->marked = false;
+				current = &(*current)->next_object;
+			}
+			else {
+				// current = &(*current)->next_object;
+				*current = std::move((*current)->next_object);
+			}
+		}
 	}
 }

@@ -35,15 +35,18 @@ namespace ltn::vm {
 
 
 		template<class Obj>
-		std::uint64_t alloc(Obj && obj) {
-			return pool_of<Obj>().alloc(std::move(obj));
+		Obj * alloc(Obj && obj) {
+			auto obj_ptr = std::make_unique<Obj>(std::move(obj));
+			obj_ptr->next_object = std::move(this->objects);
+			this->objects = std::move(obj_ptr);
+			return static_cast<Obj*>(this->objects.get());
 		}
 
 
 
 		template<class Obj>
 		Obj & read(Value value) {
-			return pool_of<Obj>().get(value.u);
+			return *static_cast<Obj *>(value.object);
 		}
 
 
@@ -80,6 +83,8 @@ namespace ltn::vm {
 		void mark(const Value & value);
 	
 	private:
+		std::unique_ptr<Object> objects;
+
 		void mark_array(const Value & value);
 		void mark_string(const Value & value);
 		void mark_istream(const Value & value);
@@ -93,31 +98,6 @@ namespace ltn::vm {
 		void mark_rng(const Value & value);
 		void sweep();
 
-		template<class Obj>
-		inline ObjectPool<Obj> & pool_of() {
-			return std::get<ObjectPool<Obj>>(this->pools);
-		} 
-
-		template<class Obj>
-		inline const ObjectPool<Obj> & pool_of() const {
-			return std::get<ObjectPool<Obj>>(this->pools);
-		} 
-
-		std::tuple<
-			ObjectPool<String>,
-			ObjectPool<Array>,
-			ObjectPool<IStream>,
-			ObjectPool<Iterator>,
-			ObjectPool<OStream>,
-			ObjectPool<FxPointer>,
-			ObjectPool<Clock>,
-			ObjectPool<Struct>,
-			ObjectPool<Deque>,
-			ObjectPool<Map>,
-			ObjectPool<RandomEngine>
-		> pools;
-
-		std::queue<std::uint64_t> reuse;
 		std::uint64_t gc_frequency = 10;
 		std::uint64_t gc_counter = 0;
 	};
