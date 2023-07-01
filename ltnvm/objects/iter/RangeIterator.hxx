@@ -11,11 +11,11 @@ namespace ltn::vm {
 	class RangeIterator {
 	public:
 		RangeIterator(std::int64_t begin, std::int64_t end, std::int64_t step);
-		Value next(Heap &);
-		Value get(Heap &);
-		void move(Heap &, std::int64_t amount);
+		Value next();
+		Value get();
+		void move(std::int64_t amount);
 		void mark() {}
-		std::uint64_t size(Heap & heap) const;
+		std::uint64_t size() const;
 	private:
 		std::int64_t begin;
 		std::int64_t end;

@@ -9,18 +9,18 @@ namespace ltn::vm {
 	
 
 
-	Value ArrayIterator::next(Heap & heap) {
-		const auto value = this->get(heap);
+	Value ArrayIterator::next() {
+		const auto value = this->get();
 		this->index += !is_iterator_stop(value);
 		return value;
 	}
 
 
 
-	Value ArrayIterator::get(Heap & heap) {
-		auto & arr = heap.read<Array>(this->ref);
-		if(this->index < std::ssize(arr.data) && this->index >= 0) {
-			return arr.data[static_cast<std::uint64_t>(this->index)];
+	Value ArrayIterator::get() {
+		auto * arr = this->ref.as<Array>();
+		if(this->index < std::ssize(arr->data) && this->index >= 0) {
+			return arr->data[static_cast<std::uint64_t>(this->index)];
 		}
 		else {
 			return value::iterator_stop;
@@ -35,14 +35,14 @@ namespace ltn::vm {
 
 
 
-	void ArrayIterator::move(Heap &, std::int64_t amount) {
+	void ArrayIterator::move(std::int64_t amount) {
 		this->index += amount;
 	}
 
 
 
-	std::uint64_t ArrayIterator::size(Heap & heap) const {
-		auto & arr = heap.read<Array>(this->ref);
-		return static_cast<std::uint64_t>(std::size(arr.data));
+	std::uint64_t ArrayIterator::size() const {
+		auto * arr = this->ref.as<Array>();
+		return static_cast<std::uint64_t>(std::size(arr->data));
 	}
 }

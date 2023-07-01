@@ -122,7 +122,7 @@ namespace ltn::vm::build_in {
 	namespace {
 		Value reduce_l_impl(VmCore & core, const Value & function, Value value, Iterator & iter) {
 			while(true) {
-				auto elem = iter.next(core.heap);
+				auto elem = iter.next();
 				if(is_iterator_stop(elem)) break;
 				core.stack.push(value);
 				value = run_function(core, function, value, elem);
@@ -142,7 +142,7 @@ namespace ltn::vm::build_in {
 		auto iter_ref = iterator::wrap(container, core.heap);
 		auto & iter = core.heap.read<Iterator>(iter_ref);
 
-		auto first = iter.next(core.heap);
+		auto first = iter.next();
 		if(is_iterator_stop(first)) return value::null;
 
 		core.stack.push(function);

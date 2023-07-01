@@ -4,32 +4,33 @@
 #include <limits>
 
 namespace ltn::vm {
-	CombinedIterator::CombinedIterator(std::vector<Value> iters) 
-		: iters{std::move(iters)} {}
+	CombinedIterator::CombinedIterator(std::vector<Value> iters, Heap * heap) 
+		: iters{std::move(iters)}
+		, heap{heap} {}
 	
 
 
-	Value CombinedIterator::next(Heap & heap) {
-		const auto value = this->get(heap);
+	Value CombinedIterator::next() {
+		const auto value = this->get();
 		if(!is_iterator_stop(value)) {
-			this->move(heap, 1);
+			this->move(1);
 		}
 		return value;
 	}
 
 
 
-	Value CombinedIterator::get(Heap & heap) {
+	Value CombinedIterator::get() {
 		Array tuple;
 		for(auto & ref : this->iters) {
-			auto & iter = heap.read<Iterator>(ref);
-			auto elem = iter.get(heap);
+			auto * iter = ref.as<Iterator>();
+			auto elem = iter->get();
 			tuple.push_back(elem);
 			if(is_iterator_stop(elem)) {
 				return value::iterator_stop;
 			}
 		}
-		return value::tuple(heap.alloc(std::move(tuple)));
+		return value::tuple(this->heap->alloc(std::move(tuple)));
 	}
 
 
@@ -44,21 +45,21 @@ namespace ltn::vm {
 
 
 
-	void CombinedIterator::move(Heap & heap, std::int64_t amount) {
+	void CombinedIterator::move(std::int64_t amount) {
 		for(auto & ref : this->iters) {
-			auto & iter = heap.read<Iterator>(ref);
-			iter.move(heap, amount);
+			auto * iter = ref.as<Iterator>();
+			iter->move(amount);
 		}
 	}
 
 
 
-	std::uint64_t CombinedIterator::size(Heap & heap) const {
+	std::uint64_t CombinedIterator::size() const {
 		if(std::empty(this->iters)) return 0;
 		std::uint64_t size = std::numeric_limits<std::uint64_t>::max();
 		for(const auto & iter_ref : this->iters) {
-			const auto & iter = heap.read<Iterator>(iter_ref); 
-			size = std::min(size, iter.size(heap));
+			auto * iter = iter_ref.as<Iterator>();
+			size = std::min(size, iter->size());
 		}
 		return size;
 	}

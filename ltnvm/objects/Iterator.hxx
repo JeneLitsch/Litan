@@ -11,11 +11,11 @@ namespace ltn::vm {
 
 	struct Iterator : public Object {
 		struct Concept {
-			virtual Value next(Heap & heap) = 0;
-			virtual Value get(Heap & heap) = 0;
-			virtual void move(Heap & heap, std::int64_t amount) = 0;
+			virtual Value next() = 0;
+			virtual Value get() = 0;
+			virtual void move(std::int64_t amount) = 0;
 			virtual void mark() = 0;
-			virtual std::uint64_t size(Heap & heap) const = 0;
+			virtual std::uint64_t size() const = 0;
 			virtual std::unique_ptr<Concept> clone() = 0;
 			virtual ~Concept() = default;
 		};
@@ -24,24 +24,24 @@ namespace ltn::vm {
 		struct Impl : Concept {
 			template<typename U>
 			Impl(U && t) : t {std::move(t)} {}
-			virtual Value next(Heap & heap) override { 
-				return t.next(heap);
+			virtual Value next() override { 
+				return t.next();
 			}
 
-			virtual Value get(Heap & heap) override {
-				return t.get(heap);
+			virtual Value get() override {
+				return t.get();
 			}
 			
-			virtual void move(Heap & heap, std::int64_t amount) override { 
-				return t.move(heap, amount);
+			virtual void move(std::int64_t amount) override { 
+				return t.move(amount);
 			}
 			
 			virtual void mark() override {
 				return t.mark();
 			}
 
-			virtual std::uint64_t size(Heap & heap) const override {
-				return t.size(heap);
+			virtual std::uint64_t size() const override {
+				return t.size();
 			}
 			
 			virtual std::unique_ptr<Concept> clone() override {
@@ -53,11 +53,11 @@ namespace ltn::vm {
 	public:
 		template<typename T>
 		Iterator(T && impl) : impl { std::make_unique<Impl<T>>(Impl<T>{std::move(impl)}) } {}
-		Value next(Heap & heap) { return impl->next(heap); }
-		Value get(Heap & heap) { return impl->get(heap); }
-		void move(Heap & heap, std::int64_t amount) { return impl->move(heap, amount); }
+		Value next() { return impl->next(); }
+		Value get() { return impl->get(); }
+		void move(std::int64_t amount) { return impl->move(amount); }
 		void mark() { return impl->mark(); }
-		std::uint64_t size(Heap & heap) const { return impl->size(heap); }
+		std::uint64_t size() const { return impl->size(); }
 
 		Iterator clone() const { return Iterator{impl->clone()}; }
 	private:
@@ -75,8 +75,8 @@ namespace ltn::vm {
 		Iterator range(std::int64_t begin, std::int64_t end, std::int64_t step);
 		Iterator array(Value array);
 		Iterator string(Value string);
-		Iterator combined(std::vector<Value> refs);
-		Iterator reversed(Value ref, Heap & heap);
+		Iterator combined(std::vector<Value> refs, Heap & heap);
+		Iterator reversed(Value ref);
 
 		Value wrap(const Value & ref, Heap & heap);
 		Value next(const Value & ref, Heap & heap);

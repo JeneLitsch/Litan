@@ -35,14 +35,14 @@ namespace ltn::vm {
 
 
 		
-		Iterator combined(std::vector<Value> refs) {
-			return CombinedIterator(std::move(refs));
+		Iterator combined(std::vector<Value> refs, Heap & heap) {
+			return CombinedIterator(std::move(refs), &heap);
 		}
 
 
 
-		Iterator reversed(Value ref, Heap & heap) {
-			return ReversedIterator(ref, heap);
+		Iterator reversed(Value ref) {
+			return ReversedIterator(ref);
 		}
 
 
@@ -62,7 +62,7 @@ namespace ltn::vm {
 				throw except::invalid_argument("std::next expects an iterator");
 			}
 			auto & iter = heap.read<Iterator>(ref);
-			return iter.next(heap);
+			return iter.next();
 		}
 
 
@@ -72,7 +72,7 @@ namespace ltn::vm {
 				throw except::invalid_argument("std::get expects an iterator");
 			}
 			auto & iter = heap.read<Iterator>(ref);
-			return iter.get(heap);
+			return iter.get();
 		}
 
 
@@ -84,7 +84,7 @@ namespace ltn::vm {
 				throw except::invalid_argument("std::iter::move expects an iterator");
 			}
 			auto & iter = heap.read<Iterator>(ref);
-			return iter.move(heap, step);
+			return iter.move(step);
 		}
 
 
@@ -94,7 +94,7 @@ namespace ltn::vm {
 				throw except::invalid_argument("std::iter::size expects an iterator");
 			}
 			auto & iter = heap.read<Iterator>(ref);
-			return iter.size(heap);
+			return iter.size();
 		}
 	}
 }

@@ -10,12 +10,12 @@ namespace ltn::vm {
 namespace ltn::vm {
 	class ReversedIterator {
 	public:
-		ReversedIterator(Value ref, Heap & heap);
-		Value next(Heap &);
-		Value get(Heap &);
-		void move(Heap &, std::int64_t amount);
+		ReversedIterator(Value ref);
+		Value next();
+		Value get();
+		void move(std::int64_t amount);
 		void mark();
-		std::uint64_t size(Heap & heap) const;
+		std::uint64_t size() const;
 	private:
 		Value ref;
 	};

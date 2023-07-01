@@ -4,20 +4,20 @@
 #include "ltnvm/Value.hxx"
 
 namespace ltn::vm {
-	struct VmCore;
 	class Heap;
 }
 
 namespace ltn::vm {
 	class CombinedIterator {
 	public:
-		CombinedIterator(std::vector<Value> iters);
-		Value next(Heap &);
-		Value get(Heap &);
-		void move(Heap &, std::int64_t amount);
+		CombinedIterator(std::vector<Value> iters, Heap * heap);
+		Value next();
+		Value get();
+		void move(std::int64_t amount);
 		void mark();
-		std::uint64_t size(Heap & heap) const;
+		std::uint64_t size() const;
 	private:
 		std::vector<Value> iters;
+		Heap * heap;
 	};
 }
