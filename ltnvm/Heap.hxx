@@ -40,6 +40,7 @@ namespace ltn::vm {
 		Obj * track(std::unique_ptr<Obj> obj_ptr) {
 			obj_ptr->next_object = std::move(this->objects);
 			this->objects = std::move(obj_ptr);
+			++this->size;
 			return static_cast<Obj*>(this->objects.get());
 		}
 
@@ -60,14 +61,13 @@ namespace ltn::vm {
 
 		template<typename ... More>
 		void collect_garbage(const Stack & stack, More && ...more) {
-			if(gc_counter >= gc_frequency) {
+			if(this->size >= this->next_collection) {
 				((this->mark(more)), ...);
 				mark(stack.get_values());
 				sweep();
-				gc_counter = 0;
-			}
-			else {
-				++gc_counter;
+
+				this->next_collection = this->size * 2;
+				// std::cout << "GC: " << this->size << " -> " << this->next_collection << "\n";
 			}
 		}
 
@@ -100,8 +100,7 @@ namespace ltn::vm {
 		void sweep();
 
 		std::uint64_t size = 0;
-		std::uint64_t gc_frequency = 10;
-		std::uint64_t gc_counter = 0;
+		std::uint64_t next_collection = 0;
 	};
 
 
