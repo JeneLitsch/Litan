@@ -7,6 +7,13 @@
 
 namespace ltn::vm {
 	struct FxPointer : public Object {
+		FxPointer(const std::uint8_t * ptr, std::uint64_t params, std::vector<Value> captured, bool is_variadic = false)
+			: Object{}
+			, ptr{ptr} 
+			, params{params}
+			, captured{std::move(captured)}
+			, is_variadic{is_variadic} {}
+
 		const std::uint8_t * ptr;
 		std::uint64_t params;
 		std::uint64_t arity() const {

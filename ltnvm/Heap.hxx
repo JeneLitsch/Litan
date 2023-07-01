@@ -36,7 +36,13 @@ namespace ltn::vm {
 
 		template<class Obj>
 		Obj * alloc(Obj && obj) {
-			auto obj_ptr = std::make_unique<Obj>(std::move(obj));
+			return this->track<Obj>(std::make_unique<Obj>(std::move(obj)));
+		}
+
+
+
+		template<class Obj>
+		Obj * track(std::unique_ptr<Obj> obj_ptr) {
 			obj_ptr->next_object = std::move(this->objects);
 			this->objects = std::move(obj_ptr);
 			return static_cast<Obj*>(this->objects.get());

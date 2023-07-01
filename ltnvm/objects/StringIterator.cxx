@@ -45,4 +45,10 @@ namespace ltn::vm {
 		auto * str = this->ref.as<String>(); 
 		return static_cast<std::uint64_t>(std::size(str->data));
 	}
+
+
+
+	std::unique_ptr<Iterator> StringIterator::clone() const {
+		return std::make_unique<StringIterator>(*this);
+	}
 }

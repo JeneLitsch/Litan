@@ -45,4 +45,10 @@ namespace ltn::vm {
 		auto * arr = this->ref.as<Array>();
 		return static_cast<std::uint64_t>(std::size(arr->data));
 	}
+
+
+
+	std::unique_ptr<Iterator> ArrayIterator::clone() const {
+		return std::make_unique<ArrayIterator>(*this);
+	}
 }

@@ -63,4 +63,10 @@ namespace ltn::vm {
 		}
 		return size;
 	}
+
+
+	
+	std::unique_ptr<Iterator> CombinedIterator::clone() const {
+		return std::make_unique<CombinedIterator>(*this);
+	}
 }

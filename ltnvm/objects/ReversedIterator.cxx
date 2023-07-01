@@ -41,4 +41,10 @@ namespace ltn::vm {
 	std::uint64_t ReversedIterator::size() const {
 		return this->ref.as<Iterator>()->size();
 	}
+
+
+
+	std::unique_ptr<Iterator> ReversedIterator::clone() const {
+		return std::make_unique<ReversedIterator>(*this);
+	}
 }

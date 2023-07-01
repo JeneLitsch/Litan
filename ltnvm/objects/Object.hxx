@@ -4,7 +4,7 @@
 namespace ltn::vm {
 	struct Object {
 		Object() {}
-
+		virtual ~Object() = default;
 
 		Object(const Object & other) {
 			this->marked = other.marked;

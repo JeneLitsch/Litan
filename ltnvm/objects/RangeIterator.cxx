@@ -48,4 +48,10 @@ namespace ltn::vm {
 		const auto extra = (dist % this->step) != 0;
 		return static_cast<std::uint64_t>(diff / this->step + extra);
 	}
+
+
+
+	std::unique_ptr<Iterator> RangeIterator::clone() const {
+		return std::make_unique<RangeIterator>(*this);
+	}
 }
