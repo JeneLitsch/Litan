@@ -24,13 +24,13 @@ namespace ltn::vm {
 
 
 		std::unique_ptr<Iterator> array(Value array) {
-			return std::make_unique<ArrayIterator>(array);
+			return std::make_unique<ArrayIterator>(array.as<Array>());
 		}
 
 
 
 		std::unique_ptr<Iterator> string(Value string) {
-			return std::make_unique<StringIterator>(string);
+			return std::make_unique<StringIterator>(string.as<String>());
 		}
 
 

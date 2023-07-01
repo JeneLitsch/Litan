@@ -3,8 +3,8 @@
 #include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm {
-	StringIterator::StringIterator(Value ref) 
-		: ref{ref}
+	StringIterator::StringIterator(String * string) 
+		: string{string}
 		, index{0} {}
 	
 
@@ -18,9 +18,8 @@ namespace ltn::vm {
 
 
 	Value StringIterator::get() {
-		auto * str = this->ref.as<String>(); 
-		if(this->index < std::ssize(str->data) && this->index >= 0) {
-			return value::character(str->data[static_cast<std::uint64_t>(this->index)]);
+		if(this->index < std::ssize(string->data) && this->index >= 0) {
+			return value::character(string->data[static_cast<std::uint64_t>(this->index)]);
 		}
 		else {
 			return value::iterator_stop;
@@ -30,7 +29,7 @@ namespace ltn::vm {
 
 
 	void StringIterator::mark() {
-		do_mark(this->ref);
+		do_mark(value::string(this->string));
 	}
 
 
@@ -42,8 +41,7 @@ namespace ltn::vm {
 
 
 	std::uint64_t StringIterator::size() const {
-		auto * str = this->ref.as<String>(); 
-		return static_cast<std::uint64_t>(std::size(str->data));
+		return static_cast<std::uint64_t>(std::size(string->data));
 	}
 
 

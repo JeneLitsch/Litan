@@ -3,8 +3,8 @@
 #include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm {
-	ArrayIterator::ArrayIterator(Value ref) 
-		: ref{ref}
+	ArrayIterator::ArrayIterator(Array * array) 
+		: array{array}
 		, index{0} {}
 	
 
@@ -18,9 +18,8 @@ namespace ltn::vm {
 
 
 	Value ArrayIterator::get() {
-		auto * arr = this->ref.as<Array>();
-		if(this->index < std::ssize(arr->data) && this->index >= 0) {
-			return arr->data[static_cast<std::uint64_t>(this->index)];
+		if(this->index < std::ssize(array->data) && this->index >= 0) {
+			return array->data[static_cast<std::uint64_t>(this->index)];
 		}
 		else {
 			return value::iterator_stop;
@@ -30,7 +29,7 @@ namespace ltn::vm {
 
 
 	void ArrayIterator::mark() {
-		do_mark(this->ref);
+		do_mark(value::array(array));
 	}
 
 
@@ -42,8 +41,7 @@ namespace ltn::vm {
 
 
 	std::uint64_t ArrayIterator::size() const {
-		auto * arr = this->ref.as<Array>();
-		return static_cast<std::uint64_t>(std::size(arr->data));
+		return static_cast<std::uint64_t>(std::size(array->data));
 	}
 
 

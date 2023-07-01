@@ -2,11 +2,12 @@
 #include <cstdint>
 #include "ltnvm/Value.hxx"
 #include "Iterator.hxx"
+#include "ltnvm/objects/container/String.hxx"
 
 namespace ltn::vm {
 	class StringIterator : public Iterator {
 	public:
-		StringIterator(Value ref);
+		StringIterator(String * string);
 		
 		virtual Value next() override;
 		virtual Value get() override;
@@ -15,7 +16,7 @@ namespace ltn::vm {
 		virtual std::uint64_t size() const override;
 		virtual std::unique_ptr<Iterator> clone() const override;
 	private:
-		Value ref;
+		String * string;
 		std::int64_t index;
 	};
 }

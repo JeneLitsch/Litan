@@ -2,11 +2,12 @@
 #include <cstdint>
 #include "ltnvm/Value.hxx"
 #include "Iterator.hxx"
+#include "ltnvm/objects/container.hxx"
 
 namespace ltn::vm {
 	class ArrayIterator : public Iterator {
 	public:
-		ArrayIterator(Value ref);
+		ArrayIterator(Array * array);
 
 		virtual Value next() override;
 		virtual Value get() override;
@@ -16,7 +17,7 @@ namespace ltn::vm {
 		virtual std::unique_ptr<Iterator> clone() const override;
 
 	private:
-		Value ref;
+		Array * array;
 		std::int64_t index;
 	};
 }
