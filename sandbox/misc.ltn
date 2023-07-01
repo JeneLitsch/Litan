@@ -1,3 +1,5 @@
-function main(args) {
-	return -1;
+function main() {
+	for(i : std::range(0, 1000)) {
+		var a = "AAAAAAA";
+	} 
 }
