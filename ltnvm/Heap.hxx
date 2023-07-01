@@ -67,7 +67,7 @@ namespace ltn::vm {
 				mark(stack.get_values());
 				sweep();
 
-				this->next_collection = std::max<std::uint64_t>(this->size * 2, 128);
+				this->next_collection = std::max(this->size * growth_factor, min_collection_size);
 				// std::cout << this->size << " : " << this->next_collection << "\n";
 			}
 		}
@@ -102,6 +102,8 @@ namespace ltn::vm {
 
 		std::uint64_t size = 0;
 		std::uint64_t next_collection = 0;
+		std::uint64_t growth_factor = 2;
+		std::uint64_t min_collection_size = 128;
 	};
 
 
