@@ -98,7 +98,14 @@ namespace ltn::vm {
 		void mark_rng(const Value & value);
 		void sweep();
 
+		std::uint64_t size = 0;
 		std::uint64_t gc_frequency = 10;
 		std::uint64_t gc_counter = 0;
 	};
+
+
+
+	void do_mark(const std::vector<Value> & values);
+	void do_mark(const std::deque<Value> & values);
+	void do_mark(const Value & value);
 }

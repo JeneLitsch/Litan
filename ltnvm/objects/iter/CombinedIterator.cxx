@@ -34,11 +34,11 @@ namespace ltn::vm {
 
 
 
-	void CombinedIterator::mark(Heap & heap) {
+	void CombinedIterator::mark() {
 		for(auto & ref : this->iters) {
-			heap.mark(ref);
-			auto & iter = heap.read<Iterator>(ref);
-			iter.mark(heap);
+			do_mark(ref);
+			auto & iter = *ref.as<Iterator>();
+			iter.mark();
 		}
 	}
 

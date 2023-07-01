@@ -9,6 +9,7 @@ namespace ltn::vm {
 
 	void Heap::reset() {
 		this->objects = nullptr;
+		this->size = 0;
 	}
 
 

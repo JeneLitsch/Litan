@@ -29,8 +29,8 @@ namespace ltn::vm {
 
 
 
-	void ArrayIterator::mark(Heap & heap) {
-		heap.mark(this->ref);
+	void ArrayIterator::mark() {
+		do_mark(this->ref);
 	}
 
 

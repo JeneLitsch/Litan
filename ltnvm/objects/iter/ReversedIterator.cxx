@@ -32,8 +32,8 @@ namespace ltn::vm {
 
 
 
-	void ReversedIterator::mark(Heap & heap) {
-		heap.mark(this->ref);
+	void ReversedIterator::mark() {
+		do_mark(this->ref);
 	}
 
 

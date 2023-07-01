@@ -14,7 +14,7 @@ namespace ltn::vm {
 			virtual Value next(Heap & heap) = 0;
 			virtual Value get(Heap & heap) = 0;
 			virtual void move(Heap & heap, std::int64_t amount) = 0;
-			virtual void mark(Heap & heap) = 0;
+			virtual void mark() = 0;
 			virtual std::uint64_t size(Heap & heap) const = 0;
 			virtual std::unique_ptr<Concept> clone() = 0;
 			virtual ~Concept() = default;
@@ -36,8 +36,8 @@ namespace ltn::vm {
 				return t.move(heap, amount);
 			}
 			
-			virtual void mark(Heap & heap) override {
-				return t.mark(heap);
+			virtual void mark() override {
+				return t.mark();
 			}
 
 			virtual std::uint64_t size(Heap & heap) const override {
@@ -56,7 +56,7 @@ namespace ltn::vm {
 		Value next(Heap & heap) { return impl->next(heap); }
 		Value get(Heap & heap) { return impl->get(heap); }
 		void move(Heap & heap, std::int64_t amount) { return impl->move(heap, amount); }
-		void mark(Heap & heap) { return impl->mark(heap); }
+		void mark() { return impl->mark(); }
 		std::uint64_t size(Heap & heap) const { return impl->size(heap); }
 
 		Iterator clone() const { return Iterator{impl->clone()}; }
