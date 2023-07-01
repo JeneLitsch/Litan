@@ -1,6 +1,5 @@
 #include "ReversedIterator.hxx"
 #include "ltnvm/utils/type_check.hxx"
-#include "ltnvm/objects/Iterator.hxx"
 #include "ltnvm/Heap.hxx"
 
 namespace ltn::vm {
