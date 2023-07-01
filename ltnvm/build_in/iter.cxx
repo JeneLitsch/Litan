@@ -15,13 +15,13 @@ namespace ltn::vm::build_in::iter {
 
 
 	Value next(VmCore & core) {
-		return iterator::next(core.stack.pop(), core.heap);
+		return iterator::next(core.stack.pop());
 	}
 
 
 
 	Value get(VmCore & core) {
-		return iterator::get(core.stack.pop(), core.heap);
+		return iterator::get(core.stack.pop());
 	}
 
 
@@ -29,7 +29,7 @@ namespace ltn::vm::build_in::iter {
 	Value move(VmCore & core) {
 		const auto step = core.stack.pop();
 		const auto iter = core.stack.pop();
-		iterator::move(iter, step, core.heap);
+		iterator::move(iter, step);
 		return value::null;
 	}
 

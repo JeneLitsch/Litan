@@ -57,44 +57,40 @@ namespace ltn::vm {
 
 
 
-		Value next(const Value & ref, Heap & heap) {
+		Value next(const Value & ref) {
 			if(!is_iterator(ref)) {
 				throw except::invalid_argument("std::next expects an iterator");
 			}
-			auto & iter = heap.read<Iterator>(ref);
-			return iter.next();
+			return ref.as<Iterator>()->next();
 		}
 
 
 	
-		Value get(const Value & ref, Heap & heap) {
+		Value get(const Value & ref) {
 			if(!is_iterator(ref)) {
 				throw except::invalid_argument("std::get expects an iterator");
 			}
-			auto & iter = heap.read<Iterator>(ref);
-			return iter.get();
+			return ref.as<Iterator>()->get();
 		}
 
 
 
-		void move(const Value & ref, const Value & amount, Heap & heap) {
+		void move(const Value & ref, const Value & amount) {
 			const auto step = convert::to_int(amount);
 				
 			if(!is_iterator(ref)) {
 				throw except::invalid_argument("std::iter::move expects an iterator");
 			}
-			auto & iter = heap.read<Iterator>(ref);
-			return iter.move(step);
+			return ref.as<Iterator>()->move(step);
 		}
 
 
 
-		std::uint64_t size(const Value & ref, Heap & heap) {
+		std::uint64_t size(const Value & ref) {
 			if(!is_iterator(ref)) {
 				throw except::invalid_argument("std::iter::size expects an iterator");
 			}
-			auto & iter = heap.read<Iterator>(ref);
-			return iter.size();
+			return ref.as<Iterator>()->size();
 		}
 	}
 }

@@ -79,9 +79,9 @@ namespace ltn::vm {
 		Iterator reversed(Value ref);
 
 		Value wrap(const Value & ref, Heap & heap);
-		Value next(const Value & ref, Heap & heap);
-		Value get(const Value & ref, Heap & heap);
-		void move(const Value & ref, const Value & amount, Heap & heap);
-		std::uint64_t size(const Value & ref, Heap & heap);
+		Value next(const Value & ref);
+		Value get(const Value & ref);
+		void move(const Value & ref, const Value & amount);
+		std::uint64_t size(const Value & ref);
 	}
 }
