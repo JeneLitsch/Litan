@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.13)
 add_library(libltnvm
 	LtnVM.cxx
 	Heap.cxx
-	HeapGC.cxx
 	Stack.cxx
 	TypeTable.cxx
+	gc.cxx
 )
 
 add_subdirectory(build_in)

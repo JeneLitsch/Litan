@@ -8,14 +8,10 @@
 #include <queue>
 #include "Stack.hxx"
 #include "Value.hxx"
-#include "ltnvm/objects/iter.hxx"
-#include "ltnvm/objects/io.hxx"
-#include "ltnvm/objects/container.hxx"
-#include "ltnvm/objects/FxPointer.hxx"
-#include "ltnvm/objects/Clock.hxx"
-#include "ltnvm/objects/RandomEngine.hxx"
+
 #include "ltnvm/objects/Type.hxx"
 #include "ObjectPool.hxx"
+#include "gc.hxx"
 
 namespace ltn::vm {
 	inline auto access_violation(std::uint64_t at, const std::string_view msg) {
@@ -63,9 +59,10 @@ namespace ltn::vm {
 		void collect_garbage(const Stack & stack, More && ...more) {
 			if(this->size >= this->next_collection) {
 				// std::cout << "GC: " << this->size << " -> ";
-				((this->mark(more)), ...);
-				mark(stack.get_values());
-				sweep();
+				((gc::mark(more)), ...);
+				gc::mark(stack.get_values());
+				const auto collected = gc::sweep(this->objects);
+				this->size -= collected;
 
 				this->next_collection = std::max(this->size * growth_factor, min_collection_size);
 				// std::cout << this->size << " : " << this->next_collection << "\n";
@@ -78,37 +75,13 @@ namespace ltn::vm {
 
 		std::uint64_t capacity() const;
 		std::uint64_t utilized() const;
-
-
-		void mark(const std::vector<Value> & values);
-		void mark(const std::deque<Value> & values);
-		void mark(const Value & value);
 	
 	private:
 		std::unique_ptr<Object> objects;
-
-		void mark_array(const Value & value);
-		void mark_string(const Value & value);
-		void mark_istream(const Value & value);
-		void mark_iterator(const Value & value);
-		void mark_ostream(const Value & value);
-		void mark_fxptr(const Value & value);
-		void mark_struct(const Value & value);
-		void mark_deque(const Value & value);
-		void mark_map(const Value & value);
-		void mark_clock(const Value & value);
-		void mark_rng(const Value & value);
-		void sweep();
 
 		std::uint64_t size = 0;
 		std::uint64_t next_collection = 0;
 		std::uint64_t growth_factor = 2;
 		std::uint64_t min_collection_size = 128;
 	};
-
-
-
-	void do_mark(const std::vector<Value> & values);
-	void do_mark(const std::deque<Value> & values);
-	void do_mark(const Value & value);
 }

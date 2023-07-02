@@ -32,7 +32,7 @@ namespace ltn::vm {
 
 
 	void ReversedIterator::mark() {
-		do_mark(this->ref);
+		gc::mark(this->ref);
 	}
 
 

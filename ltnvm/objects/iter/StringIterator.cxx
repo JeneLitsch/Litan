@@ -29,7 +29,7 @@ namespace ltn::vm {
 
 
 	void StringIterator::mark() {
-		do_mark(value::string(this->string));
+		gc::mark(value::string(this->string));
 	}
 
 

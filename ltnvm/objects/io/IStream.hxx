@@ -2,6 +2,8 @@
 #include <memory>
 #include <istream>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string_view>
 #include "ltnvm/objects/Object.hxx"
 
