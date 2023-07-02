@@ -4,13 +4,17 @@
 #include <iostream>
 
 namespace ltn::vm {
-	Heap::Heap() {}
+	Heap::Heap() {
+		this->reset();
+	}
 
 
 	void Heap::reset() {
 		this->objects = nullptr;
 		this->size = 0;
 		this->next_collection = 128;
+		this->growth_factor = 2;
+		this->min_collection_size = 129;
 	}
 
 

@@ -82,13 +82,13 @@ namespace ltn::vm {
 
 		std::uint64_t capacity() const;
 		std::uint64_t utilized() const;
-	
+
 	private:
 		std::unique_ptr<Object> objects;
 
-		std::uint64_t size = 0;
-		std::uint64_t next_collection = 0;
-		std::uint64_t growth_factor = 2;
-		std::uint64_t min_collection_size = 128;
+		std::uint64_t size;
+		std::uint64_t next_collection;
+		std::uint64_t growth_factor;
+		std::uint64_t min_collection_size;
 	};
 }
