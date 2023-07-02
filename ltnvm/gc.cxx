@@ -1,8 +1,7 @@
 #include "gc.hxx"
 
 namespace ltn::vm::gc {
-	void mark_array(const Value & value) {
-		auto * obj = value.as<Array>();
+	void mark_array(Array * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
 			mark(obj->data);
@@ -11,22 +10,19 @@ namespace ltn::vm::gc {
 
 
 
-	void mark_string(const Value & value) {
-		auto * obj = value.as<String>();
+	void mark_string(String * obj) {
 		obj->marked = true;
 	}
 
 
 
-	void mark_istream(const Value & value) {
-		auto * obj = value.as<IStream>();
+	void mark_istream(IStream * obj) {
 		obj->marked = true;
 	}
 
 
 
-	void mark_iterator(const Value & value) {
-		auto * obj = value.as<Iterator>();
+	void mark_iterator(Iterator * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
 			obj->mark();
@@ -35,15 +31,13 @@ namespace ltn::vm::gc {
 
 
 
-	void mark_ostream(const Value & value) {
-		auto * obj = value.as<OStream>();
+	void mark_ostream(OStream * obj) {
 		obj->marked = true;
 	}
 
 
 
-	void mark_fxptr(const Value & value) {
-		auto * obj = value.as<FxPointer>();
+	void mark_fxptr(FxPointer * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
 			mark(obj->captured);
@@ -52,8 +46,7 @@ namespace ltn::vm::gc {
 
 
 
-	void mark_struct(const Value & value) {
-		auto * obj = value.as<Struct>();
+	void mark_struct(Struct * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
 			for(const auto & [key, value] : obj->members) {
@@ -64,8 +57,7 @@ namespace ltn::vm::gc {
 
 
 
-	void mark_deque(const Value & value) {
-		auto * obj = value.as<Deque>();
+	void mark_deque(Deque * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
 			mark(obj->data);
@@ -74,8 +66,7 @@ namespace ltn::vm::gc {
 
 
 
-	void mark_map(const Value & value) {
-		auto * obj = value.as<Map>();
+	void mark_map(Map * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
 			for(auto & [key, value] : *obj) {
@@ -87,15 +78,13 @@ namespace ltn::vm::gc {
 
 
 
-	void mark_clock(const Value & value) {
-		auto * obj = value.as<Clock>();
+	void mark_clock(Clock * obj) {
 		obj->marked = true;
 	}
 
 
 
-	void mark_rng(const Value & value) {
-		auto * obj = value.as<RandomEngine>();
+	void mark_rng(RandomEngine * obj) {
 		obj->marked = true;
 	}
 
@@ -118,27 +107,28 @@ namespace ltn::vm::gc {
 
 
 	void mark(const Value & value) {
+		using VT = Value::Type; 
 		switch (value.type) {
-			case Value::Type::NVLL:          return; // no gc required
-			case Value::Type::BOOL:          return; // no gc required
-			case Value::Type::INT:           return; // no gc required
-			case Value::Type::FLOAT:         return; // no gc required
-			case Value::Type::CHAR:          return; // no gc required
-			case Value::Type::ARRAY:         return mark_array(value);
-			case Value::Type::STRING:        return mark_string(value);
-			case Value::Type::TUPLE:         return mark_array(value);
-			case Value::Type::ISTREAM:       return mark_istream(value);
-			case Value::Type::ITERATOR:      return mark_iterator(value);
-			case Value::Type::ITERATOR_STOP: return; // no gc required
-			case Value::Type::OSTREAM:       return mark_ostream(value);
-			case Value::Type::FX_PTR:        return mark_fxptr(value);
-			case Value::Type::CLOCK:         return mark_clock(value);
-			case Value::Type::STRUCT:        return mark_struct(value);
-			case Value::Type::QUEUE:         return mark_deque(value);
-			case Value::Type::STACK:         return mark_deque(value);
-			case Value::Type::MAP:           return mark_map(value);
-			case Value::Type::RNG:           return mark_rng(value);
-			case Value::Type::TYPE:          return; // no gc required
+			case VT::NVLL:          return; // no gc required
+			case VT::BOOL:          return; // no gc required
+			case VT::INT:           return; // no gc required
+			case VT::FLOAT:         return; // no gc required
+			case VT::CHAR:          return; // no gc required
+			case VT::ARRAY:         return mark_array(value.as<Array>());
+			case VT::STRING:        return mark_string(value.as<String>());
+			case VT::TUPLE:         return mark_array(value.as<Array>());
+			case VT::ISTREAM:       return mark_istream(value.as<IStream>());
+			case VT::ITERATOR:      return mark_iterator(value.as<Iterator>());
+			case VT::ITERATOR_STOP: return; // no gc required
+			case VT::OSTREAM:       return mark_ostream(value.as<OStream>());
+			case VT::FX_PTR:        return mark_fxptr(value.as<FxPointer>());
+			case VT::CLOCK:         return mark_clock(value.as<Clock>());
+			case VT::STRUCT:        return mark_struct(value.as<Struct>());
+			case VT::QUEUE:         return mark_deque(value.as<Deque>());
+			case VT::STACK:         return mark_deque(value.as<Deque>());
+			case VT::MAP:           return mark_map(value.as<Map>());
+			case VT::RNG:           return mark_rng(value.as<RandomEngine>());
+			case VT::TYPE:          return; // no gc required
 		}
 	}
 
