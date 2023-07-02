@@ -37,9 +37,7 @@ namespace ltn::vm {
 
 	void CombinedIterator::mark() {
 		for(auto & ref : this->iters) {
-			gc::mark(ref);
-			auto & iter = *ref.as<Iterator>();
-			iter.mark();
+			gc::mark_obj(ref.as<Iterator>());
 		}
 	}
 

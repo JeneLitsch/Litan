@@ -29,7 +29,7 @@ namespace ltn::vm {
 
 
 	void ArrayIterator::mark() {
-		gc::mark(value::array(array));
+		gc::mark_obj(array);
 	}
 
 
