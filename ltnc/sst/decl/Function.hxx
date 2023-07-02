@@ -88,19 +88,4 @@ namespace ltn::c::sst {
 		std::unique_ptr<Except> except;
 		std::vector<std::unique_ptr<Var>> capture;
 	};
-
-
-
-	struct BuildIn final : public Functional {
-		BuildIn(
-			const Label & label,
-			const std::string & name,
-			Namespace namespaze,
-			Parameters parameters,
-			const std::string & key)
-			: Functional{label, name, namespaze, parameters}
-			, key(key) {}
-		virtual ~BuildIn() = default;
-		std::string key;		
-	};
 }

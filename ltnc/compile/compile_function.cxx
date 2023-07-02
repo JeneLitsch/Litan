@@ -58,18 +58,6 @@ namespace ltn::c {
 			
 			return buf;
 		}
-
-
-
-		InstructionBuffer compile_build_in_function(const sst::BuildIn & fx) {
-			InstructionBuffer buf;
-
-			buf << inst::label(fx.label.to_string());
-			buf << resolve_build_in(fx.key);
-			buf << inst::retvrn();
-			
-			return buf;
-		}
 	}
 
 
@@ -79,9 +67,6 @@ namespace ltn::c {
 	InstructionBuffer compile_functional(const sst::Functional & functional) {
 		if(auto fx = as<const sst::Function>(functional)) {
 			return compile_function(*fx);
-		}
-		if(auto fx = as<const sst::BuildIn>(functional)) {
-			return compile_build_in_function(*fx);
 		}
 		throw std::runtime_error{"Unknown functional declaration"};
 	}

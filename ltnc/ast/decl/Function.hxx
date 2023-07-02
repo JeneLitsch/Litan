@@ -87,19 +87,4 @@ namespace ltn::c::ast {
 		std::unique_ptr<Statement> body;
 		std::unique_ptr<Except> except;
 	};
-
-
-
-	struct BuildIn final : public Functional {
-		BuildIn(
-			const std::string & name,
-			Namespace namespaze,
-			Parameters parameters,
-			const std::string & key,
-			const SourceLocation & location)
-			: Functional{name, namespaze, std::move(parameters), location}
-			, key(key) {}
-		virtual ~BuildIn() = default;
-		std::string key;		
-	};
 }

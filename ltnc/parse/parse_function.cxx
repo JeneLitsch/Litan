@@ -175,7 +175,7 @@ namespace ltn::c {
 		
 		ast::stmt_ptr parse_body(Tokens & tokens, std::uint64_t arity) {
 			if(auto begin = match(TT::DRARROW, tokens)) {
-				if(match("dynamic", tokens)) {
+				if(match(TT::DYNAMIC, tokens)) {
 					return parse_dynamic_body(tokens, arity);
 				}
 				if(match(TT::BUILD_IN, tokens)) {
@@ -276,22 +276,7 @@ namespace ltn::c {
 			if(!fx->is_const) fx->except = parse_except(tokens);
 			return fx;
 		}
-		if(auto function = match(TT::BUILD_IN, tokens)) {
-			auto fx = functional_node<ast::BuildIn>(
-				tokens,
-				namespaze,
-				[] (Tokens & tokens, std::uint64_t arity) {
-					if(!match(TT::AT, tokens)) {
-						throw CompilerError {
-							"Expected @ before build_in key",
-							location(tokens)
-						};
-					}
-					return parse_build_in_key(tokens, arity);
-				}
-			);
-			return fx;
-		}
+
 		return std::nullopt;
 	}
 
