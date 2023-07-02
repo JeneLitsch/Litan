@@ -8,19 +8,9 @@
 #include <queue>
 #include "Stack.hxx"
 #include "Value.hxx"
-#include "ltnvm/objects/Array.hxx"
-#include "ltnvm/objects/String.hxx"
-#include "ltnvm/objects/OStream.hxx"
-#include "ltnvm/objects/IStream.hxx"
-#include "ltnvm/objects/Iterator.hxx"
-#include "ltnvm/objects/FxPointer.hxx"
-#include "ltnvm/objects/Clock.hxx"
-#include "ltnvm/objects/Struct.hxx"
-#include "ltnvm/objects/Deque.hxx"
-#include "ltnvm/objects/Map.hxx"
-#include "ltnvm/objects/RandomEngine.hxx"
+
 #include "ltnvm/objects/Type.hxx"
-#include "ObjectPool.hxx"
+#include "gc.hxx"
 
 namespace ltn::vm {
 	inline auto access_violation(std::uint64_t at, const std::string_view msg) {
@@ -35,15 +25,32 @@ namespace ltn::vm {
 
 
 		template<class Obj>
-		std::uint64_t alloc(Obj && obj) {
-			return pool_of<Obj>().alloc(std::move(obj));
+		Obj * alloc(Obj && obj) {
+			return this->track<Obj>(std::make_unique<Obj>(std::move(obj)));
+		}
+
+
+
+		template<class Obj>
+		Obj * make(auto && ... args) {
+			return this->track<Obj>(std::make_unique<Obj>(std::move(args)...));
+		}
+
+
+
+		template<class Obj>
+		Obj * track(std::unique_ptr<Obj> obj_ptr) {
+			obj_ptr->next_object = std::move(this->objects);
+			this->objects = std::move(obj_ptr);
+			++this->size;
+			return static_cast<Obj*>(this->objects.get());
 		}
 
 
 
 		template<class Obj>
 		Obj & read(Value value) {
-			return pool_of<Obj>().get(value.u);
+			return *static_cast<Obj *>(value.object);
 		}
 
 
@@ -56,14 +63,15 @@ namespace ltn::vm {
 
 		template<typename ... More>
 		void collect_garbage(const Stack & stack, More && ...more) {
-			if(gc_counter >= gc_frequency) {
-				((this->mark(more)), ...);
-				mark(stack.get_values());
-				sweep();
-				gc_counter = 0;
-			}
-			else {
-				++gc_counter;
+			if(this->size >= this->next_collection) {
+				// std::cout << "GC: " << this->size << " -> ";
+				((gc::mark(more)), ...);
+				gc::mark(stack.get_values());
+				const auto collected = gc::sweep(this->objects);
+				this->size -= collected;
+
+				this->next_collection = std::max(this->size * growth_factor, min_collection_size);
+				// std::cout << this->size << " : " << this->next_collection << "\n";
 			}
 		}
 
@@ -74,51 +82,12 @@ namespace ltn::vm {
 		std::uint64_t capacity() const;
 		std::uint64_t utilized() const;
 
-
-		void mark(const std::vector<Value> & values);
-		void mark(const std::deque<Value> & values);
-		void mark(const Value & value);
-	
 	private:
-		void mark_array(const Value & value);
-		void mark_string(const Value & value);
-		void mark_istream(const Value & value);
-		void mark_iterator(const Value & value);
-		void mark_ostream(const Value & value);
-		void mark_fxptr(const Value & value);
-		void mark_struct(const Value & value);
-		void mark_deque(const Value & value);
-		void mark_map(const Value & value);
-		void mark_clock(const Value & value);
-		void mark_rng(const Value & value);
-		void sweep();
+		std::unique_ptr<Object> objects;
 
-		template<class Obj>
-		inline ObjectPool<Obj> & pool_of() {
-			return std::get<ObjectPool<Obj>>(this->pools);
-		} 
-
-		template<class Obj>
-		inline const ObjectPool<Obj> & pool_of() const {
-			return std::get<ObjectPool<Obj>>(this->pools);
-		} 
-
-		std::tuple<
-			ObjectPool<String>,
-			ObjectPool<Array>,
-			ObjectPool<IStream>,
-			ObjectPool<Iterator>,
-			ObjectPool<OStream>,
-			ObjectPool<FxPointer>,
-			ObjectPool<Clock>,
-			ObjectPool<Struct>,
-			ObjectPool<Deque>,
-			ObjectPool<Map>,
-			ObjectPool<RandomEngine>
-		> pools;
-
-		std::queue<std::uint64_t> reuse;
-		std::uint64_t gc_frequency = 10;
-		std::uint64_t gc_counter = 0;
+		std::uint64_t size;
+		std::uint64_t next_collection;
+		std::uint64_t growth_factor;
+		std::uint64_t min_collection_size;
 	};
 }

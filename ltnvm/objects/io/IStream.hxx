@@ -2,9 +2,13 @@
 #include <memory>
 #include <istream>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string_view>
+#include "ltnvm/objects/Object.hxx"
+
 namespace ltn::vm {
-	class IStream {
+	class IStream : public Object {
 	public:
 		constexpr static std::string_view typeName = "IStream";
 		IStream(std::istream & in)

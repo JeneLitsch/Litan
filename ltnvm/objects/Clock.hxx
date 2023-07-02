@@ -2,8 +2,10 @@
 #include <chrono>
 #include <string_view>
 #include "stdxx/float64_t.hxx"
+#include "ltnvm/objects/Object.hxx"
+
 namespace ltn::vm {
-	class Clock {
+	class Clock : public Object {
 	public:
 		constexpr static std::string_view typeName = "Clock";
 		

@@ -1,13 +1,18 @@
 #pragma once
 #include <variant>
 #include <random>
+#include "ltnvm/objects/Object.hxx"
+
 namespace ltn::vm {
 
-	struct RandomEngine {
+	struct RandomEngine : public Object {
+		using Variant = std::variant<std::mt19937_64>;
+		RandomEngine(Variant var) : engine{std::move(var)} {}
+
 		constexpr static std::string_view typeName = "RandomEngine";
 		using result_type = std::uint64_t;
-		std::variant<std::mt19937_64> engine;
 
+		Variant engine;
 
 
 		void seed(std::int64_t seed) {

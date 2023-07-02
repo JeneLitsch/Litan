@@ -49,7 +49,7 @@ namespace ltn::vm::build_in {
 			const auto & map = core.heap.read<Map>(ref);
 			return value::integer(static_cast<std::int64_t>(std::size(map)));
 		}
-		if(is_iterator(ref)) return value::integer(iterator::size(ref, core.heap));
+		if(is_iterator(ref)) return value::integer(iterator::size(ref));
 		throw except::invalid_argument();
 	}
 	

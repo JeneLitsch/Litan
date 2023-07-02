@@ -1,11 +1,13 @@
 #pragma once
 #include "stdxx/float64_t.hxx"
 #include <cstdint>
+#include "ltnvm/objects/Object.hxx"
 
 namespace ltn::vm {
+	class Type;
 	struct Value {
 		// DO NOT TOUCH/CHANGE THE VALUES !!!
-		enum class Type : std::uint32_t {
+		enum class Type : std::uint16_t {
 			NVLL = 0x00,
 			BOOL = 0x10, INT, FLOAT, CHAR,
 			ARRAY = 0x20, STRING, TUPLE,
@@ -22,6 +24,9 @@ namespace ltn::vm {
 
 		constexpr Value(std::uint64_t value, Type type) 
 			: type(type), u(value) {}
+
+		constexpr Value(Object * object, Type type) 
+			: type(type), object{object}{}
 		
 		constexpr Value(std::int64_t value) 
 			: type(Type::INT), i(value) {}
@@ -35,6 +40,9 @@ namespace ltn::vm {
 		constexpr Value(bool value)
 			: type(Type::BOOL), b(value) {}
 
+		constexpr Value(const ltn::vm::Type * obj_type)
+			: type(Type::TYPE), obj_type(obj_type) {}
+
 		Type type;
 		union {
 			std::uint64_t u;
@@ -42,11 +50,18 @@ namespace ltn::vm {
 			stx::float64_t f;
 			bool b;
 			char c;
+			const ltn::vm::Type * obj_type;
+			ltn::vm::Object * object;
 		};
+
+		template<typename T>
+		T * as() const {
+			return static_cast<T*>(object);
+		}
 	};
 	namespace value {
-		constexpr inline Value null {0, Value::Type::NVLL };
-		constexpr inline Value iterator_stop {0, Value::Type::ITERATOR_STOP };
+		constexpr inline Value null {std::uint64_t{0}, Value::Type::NVLL };
+		constexpr inline Value iterator_stop {std::uint64_t{0}, Value::Type::ITERATOR_STOP };
 
 		constexpr inline Value boolean(bool b) {
 			return Value{b, Value::Type::BOOL};
@@ -64,40 +79,40 @@ namespace ltn::vm {
 			return Value{static_cast<char>(i)};
 		}
 
-		constexpr inline Value string(std::uint64_t address) {
-			return Value{address, Value::Type::STRING};
+		constexpr inline Value string(Object * obj) {
+			return Value{obj, Value::Type::STRING};
 		}
 
-		constexpr inline Value array(std::uint64_t address) {
-			return Value{address, Value::Type::ARRAY};
+		constexpr inline Value array(Object * obj) {
+			return Value{obj, Value::Type::ARRAY};
 		}
 
-		constexpr inline Value queue(std::uint64_t address) {
-			return Value{address, Value::Type::QUEUE};
+		constexpr inline Value queue(Object * obj) {
+			return Value{obj, Value::Type::QUEUE};
 		}
 
-		constexpr inline Value stack(std::uint64_t address) {
-			return Value{address, Value::Type::STACK};
+		constexpr inline Value stack(Object * obj) {
+			return Value{obj, Value::Type::STACK};
 		}
 
-		constexpr inline Value rng(std::uint64_t address) {
-			return Value{address, Value::Type::RNG};
+		constexpr inline Value rng(Object * obj) {
+			return Value{obj, Value::Type::RNG};
 		}
 
-		constexpr inline Value tuple(std::uint64_t address) {
-			return Value{address, Value::Type::TUPLE};
+		constexpr inline Value tuple(Object * obj) {
+			return Value{obj, Value::Type::TUPLE};
 		}
 
-		constexpr inline Value iterator(std::uint64_t address) {
-			return Value{address, Value::Type::ITERATOR};
+		constexpr inline Value iterator(Object * obj) {
+			return Value{obj, Value::Type::ITERATOR};
 		}
 
-		constexpr inline Value type(std::uint64_t address) {
-			return Value{address, Value::Type::TYPE};
+		constexpr inline Value type(const Type * type) {
+			return Value{type};
 		}
 
-		constexpr inline Value fx(std::uint64_t address) {
-			return Value{address, Value::Type::FX_PTR};
+		constexpr inline Value fx(Object * obj) {
+			return Value{obj, Value::Type::FX_PTR};
 		}
 	}
 }

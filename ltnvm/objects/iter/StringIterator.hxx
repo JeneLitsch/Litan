@@ -1,23 +1,22 @@
 #pragma once
 #include <cstdint>
 #include "ltnvm/Value.hxx"
+#include "Iterator.hxx"
+#include "ltnvm/objects/container/String.hxx"
 
 namespace ltn::vm {
-	struct VmCore;
-	class Heap;
-}
-
-namespace ltn::vm {
-	class StringIterator  {
+	class StringIterator : public Iterator {
 	public:
-		StringIterator(Value ref);
-		Value next(Heap &);
-		Value get(Heap &);
-		void move(Heap &, std::int64_t amount);
-		void mark(Heap &);
-		std::uint64_t size(Heap & heap) const;
+		StringIterator(String * string);
+		
+		virtual Value next() override;
+		virtual Value get() override;
+		virtual void move(std::int64_t amount) override;
+		virtual void mark() override;
+		virtual std::uint64_t size() const override;
+		virtual std::unique_ptr<Iterator> clone() const override;
 	private:
-		Value ref;
+		String * string;
 		std::int64_t index;
 	};
 }

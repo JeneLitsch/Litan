@@ -4,62 +4,64 @@
 #include <limits>
 
 namespace ltn::vm {
-	CombinedIterator::CombinedIterator(std::vector<Value> iters) 
-		: iters{std::move(iters)} {}
+	CombinedIterator::CombinedIterator(std::vector<Iterator *> iters, Heap * heap) 
+		: iters{std::move(iters)}
+		, heap{heap} {}
 	
 
 
-	Value CombinedIterator::next(Heap & heap) {
-		const auto value = this->get(heap);
+	Value CombinedIterator::next() {
+		const auto value = this->get();
 		if(!is_iterator_stop(value)) {
-			this->move(heap, 1);
+			this->move(1);
 		}
 		return value;
 	}
 
 
 
-	Value CombinedIterator::get(Heap & heap) {
+	Value CombinedIterator::get() {
 		Array tuple;
-		for(auto & ref : this->iters) {
-			auto & iter = heap.read<Iterator>(ref);
-			auto elem = iter.get(heap);
+		for(auto * iter : this->iters) {
+			auto elem = iter->get();
 			tuple.push_back(elem);
 			if(is_iterator_stop(elem)) {
 				return value::iterator_stop;
 			}
 		}
-		return value::tuple(heap.alloc(std::move(tuple)));
+		return value::tuple(this->heap->alloc(std::move(tuple)));
 	}
 
 
 
-	void CombinedIterator::mark(Heap & heap) {
-		for(auto & ref : this->iters) {
-			heap.mark(ref);
-			auto & iter = heap.read<Iterator>(ref);
-			iter.mark(heap);
+	void CombinedIterator::mark() {
+		for(auto * iter : this->iters) {
+			gc::mark_obj(iter);
 		}
 	}
 
 
 
-	void CombinedIterator::move(Heap & heap, std::int64_t amount) {
-		for(auto & ref : this->iters) {
-			auto & iter = heap.read<Iterator>(ref);
-			iter.move(heap, amount);
+	void CombinedIterator::move(std::int64_t amount) {
+		for(auto * iter : this->iters) {
+			iter->move(amount);
 		}
 	}
 
 
 
-	std::uint64_t CombinedIterator::size(Heap & heap) const {
+	std::uint64_t CombinedIterator::size() const {
 		if(std::empty(this->iters)) return 0;
 		std::uint64_t size = std::numeric_limits<std::uint64_t>::max();
-		for(const auto & iter_ref : this->iters) {
-			const auto & iter = heap.read<Iterator>(iter_ref); 
-			size = std::min(size, iter.size(heap));
+		for(auto * iter : this->iters) {
+			size = std::min(size, iter->size());
 		}
 		return size;
+	}
+
+
+	
+	std::unique_ptr<Iterator> CombinedIterator::clone() const {
+		return std::make_unique<CombinedIterator>(*this);
 	}
 }

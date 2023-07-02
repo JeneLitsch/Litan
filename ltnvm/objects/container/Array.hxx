@@ -2,8 +2,12 @@
 #include <vector>
 #include <string_view>
 #include "ltnvm/Value.hxx"
+#include "ltnvm/objects/Object.hxx"
+
 namespace ltn::vm {
-	struct Array {
+	struct Array : public Object {
+		Array(std::vector<Value> data = {}) : data {data} {}
+
 		std::vector<Value> data;
 
 		inline void push_back(const Value & value) {

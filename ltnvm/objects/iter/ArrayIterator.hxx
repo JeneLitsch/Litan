@@ -1,23 +1,23 @@
 #pragma once
 #include <cstdint>
 #include "ltnvm/Value.hxx"
+#include "Iterator.hxx"
+#include "ltnvm/objects/container.hxx"
 
 namespace ltn::vm {
-	struct VmCore;
-	class Heap;
-}
-
-namespace ltn::vm {
-	class ArrayIterator {
+	class ArrayIterator : public Iterator {
 	public:
-		ArrayIterator(Value ref);
-		Value next(Heap &);
-		Value get(Heap &);
-		void move(Heap &, std::int64_t amount);
-		void mark(Heap &);
-		std::uint64_t size(Heap & heap) const;
+		ArrayIterator(Array * array);
+
+		virtual Value next() override;
+		virtual Value get() override;
+		virtual void move(std::int64_t amount) override;
+		virtual void mark() override;
+		virtual std::uint64_t size() const override;
+		virtual std::unique_ptr<Iterator> clone() const override;
+
 	private:
-		Value ref;
+		Array * array;
 		std::int64_t index;
 	};
 }
