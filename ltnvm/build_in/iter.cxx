@@ -53,11 +53,11 @@ namespace ltn::vm::build_in::iter {
 			throw except::invalid_argument();
 		}
 		auto & arr = core.heap.read<Array>(param);
-		std::vector<Value> refs;
+		std::vector<Iterator *> iters;
 		for(auto & e : arr) {
-			refs.push_back(iterator::wrap(e, core.heap));
+			iters.push_back(iterator::wrap(e, core.heap).as<Iterator>());
 		}
-		auto ptr = core.heap.track(iterator::combined(std::move(refs), core.heap));
+		auto ptr = core.heap.track(iterator::combined(std::move(iters), core.heap));
 		return value::iterator(ptr);
 	}
 

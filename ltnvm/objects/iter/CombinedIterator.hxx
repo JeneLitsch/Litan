@@ -11,7 +11,7 @@ namespace ltn::vm {
 namespace ltn::vm {
 	class CombinedIterator : public Iterator {
 	public:
-		CombinedIterator(std::vector<Value> iters, Heap * heap);
+		CombinedIterator(std::vector<Iterator *> iters, Heap * heap);
 		
 		virtual Value next() override;
 		virtual Value get() override;
@@ -20,7 +20,7 @@ namespace ltn::vm {
 		virtual std::uint64_t size() const override;
 		virtual std::unique_ptr<Iterator> clone() const override;
 	private:
-		std::vector<Value> iters;
+		std::vector<Iterator *> iters;
 		Heap * heap;
 	};
 }

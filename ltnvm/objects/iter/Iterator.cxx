@@ -35,8 +35,8 @@ namespace ltn::vm {
 
 
 		
-		std::unique_ptr<Iterator> combined(std::vector<Value> refs, Heap & heap) {
-			return std::make_unique<CombinedIterator>(std::move(refs), &heap);
+		std::unique_ptr<Iterator> combined(std::vector<Iterator *> iters, Heap & heap) {
+			return std::make_unique<CombinedIterator>(std::move(iters), &heap);
 		}
 
 

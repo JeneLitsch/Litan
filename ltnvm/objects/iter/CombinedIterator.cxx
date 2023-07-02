@@ -4,7 +4,7 @@
 #include <limits>
 
 namespace ltn::vm {
-	CombinedIterator::CombinedIterator(std::vector<Value> iters, Heap * heap) 
+	CombinedIterator::CombinedIterator(std::vector<Iterator *> iters, Heap * heap) 
 		: iters{std::move(iters)}
 		, heap{heap} {}
 	
@@ -22,8 +22,7 @@ namespace ltn::vm {
 
 	Value CombinedIterator::get() {
 		Array tuple;
-		for(auto & ref : this->iters) {
-			auto * iter = ref.as<Iterator>();
+		for(auto * iter : this->iters) {
 			auto elem = iter->get();
 			tuple.push_back(elem);
 			if(is_iterator_stop(elem)) {
@@ -36,16 +35,15 @@ namespace ltn::vm {
 
 
 	void CombinedIterator::mark() {
-		for(auto & ref : this->iters) {
-			gc::mark_obj(ref.as<Iterator>());
+		for(auto * iter : this->iters) {
+			gc::mark_obj(iter);
 		}
 	}
 
 
 
 	void CombinedIterator::move(std::int64_t amount) {
-		for(auto & ref : this->iters) {
-			auto * iter = ref.as<Iterator>();
+		for(auto * iter : this->iters) {
 			iter->move(amount);
 		}
 	}
@@ -55,8 +53,7 @@ namespace ltn::vm {
 	std::uint64_t CombinedIterator::size() const {
 		if(std::empty(this->iters)) return 0;
 		std::uint64_t size = std::numeric_limits<std::uint64_t>::max();
-		for(const auto & iter_ref : this->iters) {
-			auto * iter = iter_ref.as<Iterator>();
+		for(auto * iter : this->iters) {
 			size = std::min(size, iter->size());
 		}
 		return size;
