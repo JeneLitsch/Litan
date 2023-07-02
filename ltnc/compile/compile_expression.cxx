@@ -2,7 +2,7 @@
 #include "build_in.hxx"
 
 namespace ltn::c {
-	InstructionBuffer compile_expr(const sst::RunBuildIn & expr) {
+	InstructionBuffer compile_expr(const sst::BuildIn & expr) {
 		return { resolve_build_in(expr.key) };
 	}
 

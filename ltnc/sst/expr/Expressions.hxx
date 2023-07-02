@@ -652,8 +652,8 @@ namespace ltn::c::sst {
 
 
 
-	struct RunBuildIn final : Expression {
-		RunBuildIn(std::string key)
+	struct BuildIn final : Expression {
+		BuildIn(std::string key)
 			: Expression{}
 			, key{std::move(key)} {}
 
@@ -704,7 +704,7 @@ namespace ltn::c::sst {
 			virtual void visit(const InitStruct & x) const override { this->run(x); };
 			virtual void visit(const Map & x) const override { this->run(x); };
 			virtual void visit(const Type & x) const override { this->run(x); };
-			virtual void visit(const RunBuildIn & x) const override { this->run(x); };
+			virtual void visit(const BuildIn & x) const override { this->run(x); };
 		};
 
 		return Visitor{fx}(expr);

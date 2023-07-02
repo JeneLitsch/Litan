@@ -167,7 +167,7 @@ namespace ltn::c {
 				"Expected )"
 			};
 
-			auto expr = std::make_unique<ast::RunBuildIn>(std::move(key), begin.location);
+			auto expr = std::make_unique<ast::BuildIn>(std::move(key), begin.location);
 			return std::make_unique<ast::Return>(std::move(expr), begin.location);
 		}
 

@@ -43,7 +43,7 @@ namespace ltn::c::ast {
 	struct Map;
 	struct Type;
 	struct CustomLiteral;
-	struct RunBuildIn;
+	struct BuildIn;
 
 
 
@@ -74,7 +74,7 @@ namespace ltn::c::ast {
 		Map,
 		Type,
 		CustomLiteral,
-		RunBuildIn
+		BuildIn
 	>;
 
 
@@ -656,8 +656,8 @@ namespace ltn::c::ast {
 
 
 
-	struct RunBuildIn final : Expression {
-		RunBuildIn(
+	struct BuildIn final : Expression {
+		BuildIn(
 			std::string key,
 			const SourceLocation & location)
 			: Expression{location}
@@ -706,7 +706,7 @@ namespace ltn::c::ast {
 			virtual void visit(const Map & x)                const override { this->run(x); };
 			virtual void visit(const Type & x)               const override { this->run(x); };
 			virtual void visit(const CustomLiteral & x)      const override { this->run(x); };
-			virtual void visit(const RunBuildIn & x)         const override { this->run(x); };
+			virtual void visit(const BuildIn & x)         const override { this->run(x); };
 		};
 
 		return Visitor{fx}(expr);

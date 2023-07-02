@@ -17,8 +17,8 @@ namespace ltn::c {
 
 
 
-	sst::expr_ptr analyze_expr(const ast::RunBuildIn & build_in, Scope &) {
-		return std::make_unique<sst::RunBuildIn>(build_in.key);
+	sst::expr_ptr analyze_expr(const ast::BuildIn & build_in, Scope &) {
+		return std::make_unique<sst::BuildIn>(build_in.key);
 	}
 
 

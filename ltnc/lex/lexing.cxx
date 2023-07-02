@@ -113,7 +113,7 @@ namespace ltn::c {
 			{"null",         TT::NVLL},
 			{"iife",         TT::IIFE},
 			{"build_in",     TT::BUILD_IN},
-			{"dynamic",     TT::DYNAMIC},
+			{"dynamic",      TT::DYNAMIC},
 			{"enum",         TT::ENUM},
 			{"define",       TT::DEFINE},
 			{"preset",       TT::PRESET},

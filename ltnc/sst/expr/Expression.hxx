@@ -30,7 +30,7 @@ namespace ltn::c::sst {
 	struct InitStruct;
 	struct Map;
 	struct Type;
-	struct RunBuildIn;
+	struct BuildIn;
 
 
 
@@ -60,7 +60,7 @@ namespace ltn::c::sst {
 		InitStruct,
 		Map,
 		Type,
-		RunBuildIn
+		BuildIn
 	>;
 
 
