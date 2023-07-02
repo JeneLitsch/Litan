@@ -26,8 +26,8 @@ namespace std {
 
 
 	function struct() const => [.]
-	build_in typeid(value) const  @ type_typeid
-	build_in clone(ref) const     @ type_clone
+	function typeid(value) const  => build_in(type_typeid)
+	function clone(ref) const     => build_in(type_clone)
 
 
 
@@ -141,8 +141,8 @@ namespace std {
 
 
 
-	build_in is(type, value) const @type_is
-	build_in cast(type, value) const @type_cast
+	function is(type, value) const => build_in(type_is)
+	function cast(type, value) const => build_in(type_cast)
 
 	function is_binary_fx(fx) const
 		=> std::is(<fx(2)>, fx) && !std::is_variadic(fx)

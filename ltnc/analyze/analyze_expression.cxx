@@ -16,6 +16,13 @@ namespace ltn::c {
 
 
 
+
+	sst::expr_ptr analyze_expr(const ast::RunBuildIn & build_in, Scope &) {
+		return std::make_unique<sst::RunBuildIn>(build_in.key);
+	}
+
+
+
 	// compiles any expr
 	sst::expr_ptr analyze_expression(const ast::Expression & expr, Scope & scope) {
 		return ast::visit_expression(expr, [&](const auto & e) {

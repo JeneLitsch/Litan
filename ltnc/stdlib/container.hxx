@@ -1,7 +1,10 @@
 #pragma once
 inline const char * std_container = R"###(
 namespace std {
-	build_in queue() const @ queue
+	function queue() const
+		=> build_in(queue)
+
+
 
 	function queue(first, other...) {
 		var queue = std::queue();
@@ -11,8 +14,11 @@ namespace std {
 	}
 
 
-	build_in stack() const @ stack
-	
+
+	function stack() const
+		=> build_in(stack)
+
+
 	
 	function stack(first, other...) {
 		var stack = std::stack();
@@ -21,23 +27,89 @@ namespace std {
 		return stack;
 	}
 	
-	function map() const => [:]
-	function array() const => []
+
+
+	function map() const 
+		=> [:]
 	
-	build_in push(container, elem)              @ container_push
-	build_in pop(container)                     @ container_pop
-	build_in peek(container) const              @ container_peek
-	build_in contains(map, key) const           @ container_contains
-	build_in size(collection) const             @ container_size
-	build_in empty(collection) const            @ container_empty
-	build_in at(collection, i) const            @ container_at
-	build_in front(collection) const            @ container_front
-	build_in back(collection) const             @ container_back
-	build_in insert_back(collection, element)   @ container_insert_back
-	build_in insert_front(collection, element)  @ container_insert_front
-	build_in insert(collection, index, element) @ container_insert
-	build_in remove_back(collection)            @ container_remove_back
-	build_in remove_front(collection)           @ container_remove_front
-	build_in remove(collection, index)          @ container_remove
+	
+	
+	function array() const 
+		=> []
+	
+
+
+	function push(container, elem)              
+		=> build_in(container_push)
+	
+	
+	
+	function pop(container)                     
+		=> build_in(container_pop)
+	
+	
+	
+	function peek(container) const              
+		=> build_in(container_peek)
+	
+	
+	
+	function contains(map, key) const           
+		=> build_in(container_contains)
+	
+	
+	
+	function size(collection) const             
+		=> build_in(container_size)
+	
+	
+	
+	function empty(collection) const            
+		=> build_in(container_empty)
+	
+	
+	
+	function at(collection, i) const            
+		=> build_in(container_at)
+	
+	
+	
+	function front(collection) const            
+		=> build_in(container_front)
+	
+	
+	
+	function back(collection) const             
+		=> build_in(container_back)
+	
+	
+	
+	function insert_back(collection, element)   
+		=> build_in(container_insert_back)
+	
+	
+	
+	function insert_front(collection, element)  
+		=> build_in(container_insert_front)
+	
+	
+	
+	function insert(collection, index, element) 
+		=> build_in(container_insert)
+	
+	
+	
+	function remove_back(collection)            
+		=> build_in(container_remove_back)
+	
+	
+	
+	function remove_front(collection)           
+		=> build_in(container_remove_front)
+	
+	
+	
+	function remove(collection, index)          
+		=> build_in(container_remove)
 }
 )###";
