@@ -17,41 +17,11 @@ namespace ltn::vm {
 
 
 	namespace iterator {
-		std::unique_ptr<Iterator> range(std::int64_t begin, std::int64_t end, std::int64_t step) {
-			return std::make_unique<RangeIterator>(begin, end, step);
-		}
-
-
-
-		std::unique_ptr<Iterator> array(Value array) {
-			return std::make_unique<ArrayIterator>(array.as<Array>());
-		}
-
-
-
-		std::unique_ptr<Iterator> string(Value string) {
-			return std::make_unique<StringIterator>(string.as<String>());
-		}
-
-
-		
-		std::unique_ptr<Iterator> combined(std::vector<Iterator *> iters, Heap & heap) {
-			return std::make_unique<CombinedIterator>(std::move(iters), &heap);
-		}
-
-
-
-		std::unique_ptr<Iterator> reversed(Value ref) {
-			return std::make_unique<ReversedIterator>(ref);
-		}
-
-
-
 		Value wrap(const Value & ref, Heap & heap) {
 			if(is_iterator(ref)) return ref;
-			if(is_array(ref))    return value::iterator(heap.track(iterator::array(ref)));
-			if(is_tuple(ref))    return value::iterator(heap.track(iterator::array(ref)));
-			if(is_string(ref))   return value::iterator(heap.track(iterator::string(ref)));
+			if(is_array(ref))    return value::iterator(heap.make<ArrayIterator>(ref.as<Array>()));
+			if(is_tuple(ref))    return value::iterator(heap.make<ArrayIterator>(ref.as<Array>()));
+			if(is_string(ref))   return value::iterator(heap.make<StringIterator>(ref.as<String>()));
 			throw except::invalid_argument("std::iter expects an iterable object");
 		}
 

@@ -2,13 +2,14 @@
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/utils/convert.hxx"
 #include "ltnvm/inst/instructions.hxx"
+#include "ltnvm/objects/iter.hxx"
 
 namespace ltn::vm::build_in::iter {
 	Value range(VmCore & core) {
 		auto step = convert::to_int(core.stack.pop());
 		auto end = convert::to_int(core.stack.pop());
 		auto begin = convert::to_int(core.stack.pop());
-		auto ptr = core.heap.track(iterator::range(begin, end, step));
+		auto ptr = core.heap.make<RangeIterator>(begin, end, step);
 		return value::iterator(ptr);
 	}
 
@@ -57,7 +58,7 @@ namespace ltn::vm::build_in::iter {
 		for(auto & e : arr) {
 			iters.push_back(iterator::wrap(e, core.heap).as<Iterator>());
 		}
-		auto ptr = core.heap.track(iterator::combined(std::move(iters), core.heap));
+		auto ptr =  core.heap.make<CombinedIterator>(std::move(iters), &core.heap);
 		return value::iterator(ptr);
 	}
 
@@ -65,6 +66,7 @@ namespace ltn::vm::build_in::iter {
 
 	Value reversed(VmCore & core) {
 		auto ref = iterator::wrap(core.stack.pop(), core.heap);
-		return value::iterator(core.heap.track(iterator::reversed(ref)));
+		auto ptr = core.heap.make<ReversedIterator>(ref);
+		return value::iterator(ptr);
 	}
 }

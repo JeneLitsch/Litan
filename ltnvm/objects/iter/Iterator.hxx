@@ -23,12 +23,6 @@ namespace ltn::vm {
 
 
 	namespace iterator {
-		std::unique_ptr<Iterator> range(std::int64_t begin, std::int64_t end, std::int64_t step);
-		std::unique_ptr<Iterator> array(Value array);
-		std::unique_ptr<Iterator> string(Value string);
-		std::unique_ptr<Iterator> combined(std::vector<Iterator *> refs, Heap & heap);
-		std::unique_ptr<Iterator> reversed(Value ref);
-
 		Value wrap(const Value & ref, Heap & heap);
 		Value next(const Value & ref);
 		Value get(const Value & ref);

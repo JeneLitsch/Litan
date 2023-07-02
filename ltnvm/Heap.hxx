@@ -33,6 +33,13 @@ namespace ltn::vm {
 
 
 		template<class Obj>
+		Obj * make(auto && ... args) {
+			return this->track<Obj>(std::make_unique<Obj>(std::move(args)...));
+		}
+
+
+
+		template<class Obj>
 		Obj * track(std::unique_ptr<Obj> obj_ptr) {
 			obj_ptr->next_object = std::move(this->objects);
 			this->objects = std::move(obj_ptr);
