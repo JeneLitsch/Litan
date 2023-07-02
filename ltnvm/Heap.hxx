@@ -10,7 +10,6 @@
 #include "Value.hxx"
 
 #include "ltnvm/objects/Type.hxx"
-#include "ObjectPool.hxx"
 #include "gc.hxx"
 
 namespace ltn::vm {
