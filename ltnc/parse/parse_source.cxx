@@ -102,10 +102,12 @@ namespace ltn::c {
 				if(match(TT::NAMESPACE, tokens)) {
 					namestack.push(inner_namespace(tokens));
 				}
-				else if(auto fx = parse_function(tokens, namestack.top())) {
-					source.functions.push_back(std::move(*fx));
+				else if(match(TT::FUNCTION, tokens)) {
+					auto fx = parse_function(tokens, namestack.top());
+					source.functions.push_back(std::move(fx));
 				}
-				else if(auto definition = parse_definition(tokens, namestack.top())) {
+				else if(match(TT::DEFINE, tokens)) {
+					auto definition = parse_definition(tokens, namestack.top());
 					source.definitions.push_back(std::move(definition));
 				}
 				else if(match(TT::ENUM, tokens)) {
@@ -123,10 +125,7 @@ namespace ltn::c {
 					}
 				}
 				else if(match(TT::___EOF___, tokens)) {
-					if(namestack.empty()) {
-						// Nothing
-					}
-					else {
+					if(!namestack.empty()) {
 						throw unclosed_namespace(tokens);
 					}
 				}

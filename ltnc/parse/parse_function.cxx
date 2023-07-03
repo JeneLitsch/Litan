@@ -264,20 +264,13 @@ namespace ltn::c {
 
 
 	// parses and returns a functional node
-	std::optional<ast::func_ptr> parse_function(
-		Tokens & tokens,
-		const Namespace & namespaze) {
-
-		if(auto function = match(TT::FUNCTION, tokens)) {
-			auto fx = functional_node<ast::Function>(
-				tokens,
-				namespaze,
-				parse_body);
-			if(!fx->is_const) fx->except = parse_except(tokens);
-			return fx;
-		}
-
-		return std::nullopt;
+	ast::func_ptr parse_function(Tokens & tokens, const Namespace & namespaze) {
+		auto fx = functional_node<ast::Function>(
+			tokens,
+			namespaze,
+			parse_body);
+		if(!fx->is_const) fx->except = parse_except(tokens);
+		return fx;
 	}
 
 

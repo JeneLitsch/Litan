@@ -24,18 +24,15 @@ namespace ltn::c {
 
 
 	ast::defn_ptr parse_definition(Tokens & tokens, const Namespace & namespaze) {
-		if(match(TT::DEFINE, tokens)) {
-			auto name = parse_name(tokens);
-			auto definition = std::make_unique<ast::Definition>(
-				location(tokens),
-				std::move(name),
-				std::move(namespaze)
-			);
-			parse_equal_sign(tokens);
-			definition->expr = parse_expression(tokens);
-			semicolon(tokens);
-			return definition;
-		}
-		return nullptr;
+		auto name = parse_name(tokens);
+		auto definition = std::make_unique<ast::Definition>(
+			location(tokens),
+			std::move(name),
+			std::move(namespaze)
+		);
+		parse_equal_sign(tokens);
+		definition->expr = parse_expression(tokens);
+		semicolon(tokens);
+		return definition;
 	}
 }

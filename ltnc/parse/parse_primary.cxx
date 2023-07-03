@@ -201,25 +201,38 @@ namespace ltn::c {
 
 
 
-	std::pair<std::string, Namespace> parse_symbol(Tokens & tokens) {
+	std::pair<std::string, Namespace> parse_symbol_relative(Tokens & tokens, const Token & begin) {
 		Namespace namespaze;
-		if(match(TT::COLONx2, tokens)) {
-			namespaze.set_absolute();
-		}
-		if(const auto & identifier = match(TT::INDENTIFIER, tokens)) {
-			namespaze.push_back(identifier->str);
-			std::string name = identifier->str;
-			while(match(TT::COLONx2, tokens)) {
-				if(auto i = match(TT::INDENTIFIER, tokens)) {
-					namespaze.push_back(i->str);
-					name = i->str;
-				}
+		namespaze.push_back(begin.str);
+		std::string name = begin.str;
+		while(match(TT::COLONx2, tokens)) {
+			if(auto i = match(TT::INDENTIFIER, tokens)) {
+				namespaze.push_back(i->str);
+				name = i->str;
 			}
-			namespaze.pop_back();
-			return {name, namespaze};
+		}
+		namespaze.pop_back();
+		return {name, namespaze};
+	}
+
+
+
+	std::pair<std::string, Namespace> parse_symbol(Tokens & tokens) {
+		if(match(TT::COLONx2, tokens)) {
+			if(const auto & identifier = match(TT::INDENTIFIER, tokens)) {
+				auto symbol = parse_symbol_relative(tokens, *identifier);
+				symbol.second.set_absolute();
+				return parse_symbol_relative(tokens, *identifier);
+			}
+		}
+		else if(const auto & identifier = match(TT::INDENTIFIER, tokens)) {
+			return parse_symbol_relative(tokens, *identifier);
 		}
 		throw expected("indentifier", location(tokens));
 	}
+
+
+
 
 
 
