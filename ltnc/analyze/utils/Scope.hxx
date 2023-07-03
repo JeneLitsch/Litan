@@ -22,7 +22,7 @@ namespace ltn::c {
 		void set_return(const std::string & return_point);
 
 		virtual stx::optref<const Variable> resolve_variable(const std::string & name, const SourceLocation & location) const = 0;
-		stx::optref<const ast::Functional> resolve_function(const std::string & name, const Namespace & ns, std::size_t arity, VariadicMode var_mode = VariadicMode::PROHIBITED) const;
+		stx::optref<const ast::Function> resolve_function(const std::string & name, const Namespace & ns, std::size_t arity, VariadicMode var_mode = VariadicMode::PROHIBITED) const;
 		stx::optref<const sst::Global> resolve_global(const std::string & name, const Namespace & ns) const;
 		stx::optref<const sst::Definition> resolve_definiton(const std::string & name, const Namespace & ns) const;
 		std::uint64_t resolve_member_id(const std::variant<std::string, MemberCode> & name) const;

@@ -3,7 +3,7 @@
 #include <iostream>
 namespace ltn::c {
 	namespace {
-		sst::Reflect::FunctionQuery fx_to_query(const ast::Functional & fx) {
+		sst::Reflect::FunctionQuery fx_to_query(const ast::Function & fx) {
 			return sst::Reflect::FunctionQuery {
 				.id          = make_function_label(fx).to_string(),
 				.name        = fx.name,

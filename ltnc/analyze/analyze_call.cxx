@@ -7,7 +7,7 @@ namespace ltn::c {
 	namespace {
 		auto analyze_arguments(
 			const ast::Call & call,
-			const ast::Functional & fx,
+			const ast::Function & fx,
 			Scope & scope) {
 			
 			std::vector<sst::expr_ptr> arguments;
@@ -31,7 +31,7 @@ namespace ltn::c {
 
 
 
-		void guard_const(const ast::Call & call, const ast::Functional & fx, const Scope & scope) {
+		void guard_const(const ast::Call & call, const ast::Function & fx, const Scope & scope) {
 			if(scope.is_const() && !fx.is_const) {
 				throw const_call_violation(call);
 			}
@@ -54,7 +54,7 @@ namespace ltn::c {
 
 
 		void guard_private(
-			const ast::Functional & fx,
+			const ast::Function & fx,
 			const Namespace & call_ns,
 			const ast::Call & call) {
 			if(fx.is_private && !is_inner_namespace(call_ns, fx.namespaze)) {
@@ -79,7 +79,7 @@ namespace ltn::c {
 
 		sst::expr_ptr do_call_function(
 			const ast::Call & call,
-			const ast::Functional & fx,
+			const ast::Function & fx,
 			Scope & scope) {
 
 			auto & context = scope.get_context();

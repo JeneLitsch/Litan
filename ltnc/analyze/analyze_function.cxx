@@ -88,7 +88,7 @@ namespace ltn::c {
 
 
 	sst::func_ptr analyze_functional(
-		const ast::Functional & functional,
+		const ast::Function & functional,
 		FunctionScope & scope,
 		std::optional<Label> override_label,
 		const std::vector<std::unique_ptr<ast::Var>> & captures) {

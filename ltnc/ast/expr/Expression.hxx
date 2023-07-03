@@ -14,7 +14,6 @@
 
 namespace ltn::c::ast {
 	class Statement;
-	struct Functional;
 	struct Function;
 
 	struct Binary;

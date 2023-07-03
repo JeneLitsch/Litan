@@ -264,7 +264,7 @@ namespace ltn::c {
 
 
 	// parses and returns a functional node
-	std::optional<ast::func_ptr> parse_functional(
+	std::optional<ast::func_ptr> parse_function(
 		Tokens & tokens,
 		const Namespace & namespaze) {
 

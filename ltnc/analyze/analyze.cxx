@@ -3,9 +3,9 @@
 
 namespace ltn::c {
 	namespace {
-		std::vector<stx::reference<const ast::Functional>> find_extern_funtions(
+		std::vector<stx::reference<const ast::Function>> find_extern_funtions(
 			const ast::Program & source) {
-			std::vector<stx::reference<const ast::Functional>> externs;
+			std::vector<stx::reference<const ast::Function>> externs;
 			for(const auto & fx : source.functions) {
 				if(fx->is_extern) {
 					externs.push_back(*fx);

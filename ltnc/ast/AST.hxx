@@ -9,7 +9,7 @@ namespace ltn::c::ast {
 	using defn_ptr = std::unique_ptr<Definition>;
 	using glob_ptr = std::unique_ptr<Global>;
 	using stmt_ptr = std::unique_ptr<Statement>;
-	using func_ptr = std::unique_ptr<Functional>;
+	using func_ptr = std::unique_ptr<Function>;
 	using enum_ptr = std::unique_ptr<Enumeration>;
 	using bind_ptr = std::unique_ptr<Binding>;
 	using type_ptr = std::unique_ptr<Type>;

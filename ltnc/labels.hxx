@@ -16,7 +16,7 @@ namespace ltn::c {
 		const ast::Lambda & lambda);
 
 	Label make_function_label(
-		const ast::Functional & fx);
+		const ast::Function & fx);
 
 	Label derive_skip(
 		const Label & label);

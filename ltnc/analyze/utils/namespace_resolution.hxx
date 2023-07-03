@@ -4,8 +4,8 @@
 namespace ltn::c {
 	enum class VariadicMode { EXACT, REQUIRED, ALLOWED, PROHIBITED };
 	
-	const ast::Functional * resolve(
-		const std::vector<const ast::Functional *> & functions,
+	const ast::Function * resolve(
+		const std::vector<const ast::Function *> & functions,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name,

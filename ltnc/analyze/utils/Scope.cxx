@@ -25,7 +25,7 @@ namespace ltn::c {
 
 
 
-	stx::optref<const ast::Functional> Scope::resolve_function(
+	stx::optref<const ast::Function> Scope::resolve_function(
 		const std::string & name,
 		const Namespace & ns,
 		std::size_t arity,
