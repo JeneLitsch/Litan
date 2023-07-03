@@ -13,7 +13,6 @@
 namespace ltn::c::sst {
 	struct Expression;
 	struct Var;
-	struct Functional;
 	struct Function;
 	class Statement;
 
