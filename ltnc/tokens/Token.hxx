@@ -36,6 +36,7 @@ namespace ltn::c {
 			THROW,
 			IIFE,
 			BUILD_IN,
+			DYNAMIC,
 			ENUM,
 			DEFINE,
 			PRESET,

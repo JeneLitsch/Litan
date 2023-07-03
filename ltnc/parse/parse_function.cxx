@@ -120,12 +120,6 @@ namespace ltn::c {
 
 
 		std::string parse_build_in_key(Tokens & tokens, [[maybe_unused]] std::uint64_t arity) {
-			if(!match(TT::AT, tokens)) {
-				throw CompilerError {
-					"Expected @ before build_in key",
-					location(tokens)
-				};
-			}
 			if(auto str = match(TT::INDENTIFIER, tokens)) {
 				return str->str;
 			}
@@ -161,27 +155,32 @@ namespace ltn::c {
 
 
 
-		ast::stmt_ptr parse_special_body(Tokens & tokens, std::uint64_t arity) {
-			if(auto t = match(TT::INDENTIFIER, tokens)) {
-				if(t->str == "dynamic") {
-					return parse_dynamic_body(tokens, arity);
-				}
-				else throw CompilerError {
-					"Unknown function type " + t->str
-				};
-			}
-			else throw CompilerError {
-				"Expected function type after ="
+
+		ast::stmt_ptr parse_build_in_body(Tokens & tokens, std::uint64_t arity, const Token & begin) {
+			if(!match(TT::PAREN_L, tokens)) throw CompilerError {
+				"Expected ("
 			};
+			
+			auto key = parse_build_in_key(tokens, arity);
+
+			if(!match(TT::PAREN_R, tokens)) throw CompilerError {
+				"Expected )"
+			};
+
+			auto expr = std::make_unique<ast::BuildIn>(std::move(key), begin.location);
+			return std::make_unique<ast::Return>(std::move(expr), begin.location);
 		}
 
 
 		
 		ast::stmt_ptr parse_body(Tokens & tokens, std::uint64_t arity) {
-			if(match(TT::ASSIGN, tokens)) {
-				return parse_special_body(tokens, arity);
-			}
-			else if(match(TT::DRARROW, tokens)) {
+			if(auto begin = match(TT::DRARROW, tokens)) {
+				if(match(TT::DYNAMIC, tokens)) {
+					return parse_dynamic_body(tokens, arity);
+				}
+				if(match(TT::BUILD_IN, tokens)) {
+					return parse_build_in_body(tokens, arity, *begin);
+				}
 				auto expr = parse_expression(tokens);
 				const auto & loc = location(tokens);
 				return std::make_unique<ast::Return>(std::move(expr), loc);
@@ -265,7 +264,7 @@ namespace ltn::c {
 
 
 	// parses and returns a functional node
-	std::optional<ast::func_ptr> parse_functional(
+	std::optional<ast::func_ptr> parse_function(
 		Tokens & tokens,
 		const Namespace & namespaze) {
 
@@ -277,13 +276,7 @@ namespace ltn::c {
 			if(!fx->is_const) fx->except = parse_except(tokens);
 			return fx;
 		}
-		if(auto function = match(TT::BUILD_IN, tokens)) {
-			auto fx = functional_node<ast::BuildIn>(
-				tokens,
-				namespaze,
-				parse_build_in_key);
-			return fx;
-		}
+
 		return std::nullopt;
 	}
 

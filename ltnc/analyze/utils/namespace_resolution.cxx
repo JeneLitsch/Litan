@@ -5,7 +5,7 @@ namespace ltn::c {
 	namespace {
 		
 		bool match(
-			const ast::Functional & fx,
+			const ast::Function & fx,
 			const Namespace & full,
 			const std::string_view name,
 			const std::size_t parameters,
@@ -126,8 +126,8 @@ namespace ltn::c {
 
 
 
-	const ast::Functional * resolve(
-		const std::vector<const ast::Functional *> & functions,
+	const ast::Function * resolve(
+		const std::vector<const ast::Function *> & functions,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name,

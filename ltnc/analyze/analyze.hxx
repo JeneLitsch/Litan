@@ -24,7 +24,7 @@ namespace ltn::c {
 		const std::vector<ltn::c::CustomLiteral> & literals = {});
 
 	sst::func_ptr analyze_functional(
-		const ast::Functional &,
+		const ast::Function &,
 		FunctionScope &,
 		std::optional<Label> override_label = std::nullopt,
 		const std::vector<std::unique_ptr<ast::Var>> & captures = {});

@@ -11,7 +11,7 @@
 namespace ltn::c::sst {
 	using defn_ptr = std::unique_ptr<Definition>;
 	using glob_ptr = std::unique_ptr<Global>;
-	using func_ptr = std::unique_ptr<Functional>;
+	using func_ptr = std::unique_ptr<Function>;
 	using bind_ptr = std::unique_ptr<Binding>;
 	
 	struct Program {

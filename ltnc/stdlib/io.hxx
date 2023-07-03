@@ -27,10 +27,10 @@ namespace std {
 			APPEND : 1;
 		}
 		
-		build_in set_fg_color(stream, color) @ io_fg_color
-		build_in set_bg_color(stream, color) @ io_bg_color
-		build_in reset_color(stream)         @ io_reset_color
-		build_in close(stream)               @ io_close
+		function set_fg_color(stream, color) => build_in(io_fg_color)
+		function set_bg_color(stream, color) => build_in(io_bg_color)
+		function reset_color(stream)         => build_in(io_reset_color)
+		function close(stream)               => build_in(io_close)
 
 		function set_fg_color(color)         => set_fg_color(std::cout(), color)
 		function set_bg_color(color)         => set_bg_color(std::cout(), color)
@@ -39,61 +39,61 @@ namespace std {
 
 
 
-	build_in cout() 
-	 	@ io_cout
+	function cout() 
+	 	=> build_in(io_cout)
 	
-	build_in fout(path, open_mode)
-		@ io_fout
+	function fout(path, open_mode)
+		=> build_in(io_fout)
 	
-	build_in strout() 
-		@ io_strout
+	function strout() 
+		=> build_in(io_strout)
 
 	function fout(path)
 		=> fout(path, io::open_mode::OVERRIDE)
 
 
 
-	build_in cin()
-		@ io_cin
+	function cin()
+		=> build_in(io_cin)
 
-	build_in fin(path)
-		@ io_fin
+	function fin(path)
+		=> build_in(io_fin)
 
-	build_in strin(str)
-		@ io_strin
-
-
-	
-	build_in print(stream, value) 
-		@ io_print
-	
-	build_in read(stream)
-		@ io_read
-
-	build_in read_str(stream)
-		@ io_read_str
-
-	build_in readln(stream)
-		@ io_readln
-
-	build_in read_bool(stream)
-		@ io_read_bool
-
-	build_in read_char(stream)
-		@ io_read_char
-
-	build_in read_int(stream)
-		@ io_read_int
-
-	build_in read_float(stream)
-		@ io_read_float
-
-	build_in read_all(stream)
-		@ io_read_all
+	function strin(str)
+		=> build_in(io_strin)
 
 
 	
-	build_in is_eof(stream) const @ io_is_eof
+	function print(stream, value) 
+		=> build_in(io_print)
+	
+	function read(stream)
+		=> build_in(io_read)
+
+	function read_str(stream)
+		=> build_in(io_read_str)
+
+	function readln(stream)
+		=> build_in(io_readln)
+
+	function read_bool(stream)
+		=> build_in(io_read_bool)
+
+	function read_char(stream)
+		=> build_in(io_read_char)
+
+	function read_int(stream)
+		=> build_in(io_read_int)
+
+	function read_float(stream)
+		=> build_in(io_read_float)
+
+	function read_all(stream)
+		=> build_in(io_read_all)
+
+
+	
+	function is_eof(stream) const => build_in(io_is_eof)
 
 	function print(value) => print(cout(), value)
 

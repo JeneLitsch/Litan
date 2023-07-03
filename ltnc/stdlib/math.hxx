@@ -1,48 +1,48 @@
 #pragma once
 inline const char * std_math = R"###(
 namespace std {
-	build_in min(a, b) const
-		@ math_min
+	function min(a, b) const
+		=> build_in(math_min)
 	
 
 
-	build_in max(a, b) const
-		@ math_max
+	function max(a, b) const
+		=> build_in(math_max)
 	
 
 
-	build_in clamp(x, min, max) const
-		@ math_clamp
+	function clamp(x, min, max) const
+		=> build_in(math_clamp)
 
 
 
-	build_in round(a) const
-		@ math_round
+	function round(a) const
+		=> build_in(math_round)
 
 
 
-	build_in floor(b) const
-		@ math_floor
+	function floor(b) const
+		=> build_in(math_floor)
 
 
 
-	build_in ceil(b) const
-		@ math_ceil
+	function ceil(b) const
+		=> build_in(math_ceil)
 
 
 
-	build_in abs(b) const
-		@ math_abs
+	function abs(b) const
+		=> build_in(math_abs)
 
 
 
-	build_in hypot(a, b) const
-		@ math_hypot
+	function hypot(a, b) const
+		=> build_in(math_hypot)
 
 
 
-	build_in sqrt(a) const
-		@ math_sqrt
+	function sqrt(a) const
+		=> build_in(math_sqrt)
 
 
 
@@ -51,23 +51,23 @@ namespace std {
 	
 
 
-	build_in log(x, b) const
-		@ math_log
+	function log(x, b) const
+		=> build_in(math_log)
 
 
 
-	build_in ld(x) const
-		@ math_ld
+	function ld(x) const
+		=> build_in(math_ld)
 
 
 
-	build_in lg(x) const
-		@ math_lg
+	function lg(x) const
+		=> build_in(math_lg)
 
 
 
-	build_in ln(x) const
-		@ math_ln
+	function ln(x) const
+		=> build_in(math_ln)
 
 
 
@@ -75,18 +75,18 @@ namespace std {
 
 
 
-	build_in sin(b) const 
-		@ math_sin
+	function sin(b) const 
+		=> build_in(math_sin)
 
 
 
-	build_in cos(b) const
-		@ math_cos
+	function cos(b) const
+		=> build_in(math_cos)
 
 
 
-	build_in tan(b) const
-		@ math_tan
+	function tan(b) const
+		=> build_in(math_tan)
 
 
 

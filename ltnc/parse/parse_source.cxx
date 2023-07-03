@@ -102,7 +102,7 @@ namespace ltn::c {
 				if(match(TT::NAMESPACE, tokens)) {
 					namestack.push(inner_namespace(tokens));
 				}
-				else if(auto fx = parse_functional(tokens, namestack.top())) {
+				else if(auto fx = parse_function(tokens, namestack.top())) {
 					source.functions.push_back(std::move(*fx));
 				}
 				else if(auto definition = parse_definition(tokens, namestack.top())) {

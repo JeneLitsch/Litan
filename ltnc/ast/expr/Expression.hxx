@@ -14,7 +14,6 @@
 
 namespace ltn::c::ast {
 	class Statement;
-	struct Functional;
 	struct Function;
 
 	struct Binary;
@@ -43,6 +42,7 @@ namespace ltn::c::ast {
 	struct Map;
 	struct Type;
 	struct CustomLiteral;
+	struct BuildIn;
 
 
 
@@ -72,7 +72,8 @@ namespace ltn::c::ast {
 		InitStruct,
 		Map,
 		Type,
-		CustomLiteral
+		CustomLiteral,
+		BuildIn
 	>;
 
 
@@ -653,6 +654,23 @@ namespace ltn::c::ast {
 
 
 
+
+	struct BuildIn final : Expression {
+		BuildIn(
+			std::string key,
+			const SourceLocation & location)
+			: Expression{location}
+			, key{std::move(key)} {}
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+		
+		std::string key;
+	};
+
+
+
 	auto visit_expression(const Expression & expr, auto && fx) {
 		using Callable = std::decay_t<decltype(fx)>;
 		using Ret = std::invoke_result_t<Callable, Binary>;
@@ -687,6 +705,7 @@ namespace ltn::c::ast {
 			virtual void visit(const Map & x)                const override { this->run(x); };
 			virtual void visit(const Type & x)               const override { this->run(x); };
 			virtual void visit(const CustomLiteral & x)      const override { this->run(x); };
+			virtual void visit(const BuildIn & x)         const override { this->run(x); };
 		};
 
 		return Visitor{fx}(expr);

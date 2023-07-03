@@ -8,7 +8,7 @@
 namespace ltn::c {
 
 	struct FunctionErrors {
-		static CompilerError redef(const ast::Functional & def) {
+		static CompilerError redef(const ast::Function & def) {
 			std::stringstream msg;
 			msg << "Function ";
 			msg << def.namespaze.to_string();
@@ -32,11 +32,11 @@ namespace ltn::c {
 	};
 
 	using FunctionTable
-		= SymbolTable<ast::Functional, std::size_t, VariadicMode>;
+		= SymbolTable<ast::Function, std::size_t, VariadicMode>;
 	
 	using ValidFunctionTable
-		= ValidSymbolTable<ast::Functional, FunctionErrors, std::size_t, VariadicMode>;
+		= ValidSymbolTable<ast::Function, FunctionErrors, std::size_t, VariadicMode>;
 	
 	using InvalidFunctionTable
-		= InvalidSymbolTable<ast::Functional, FunctionErrors, std::size_t, VariadicMode>;
+		= InvalidSymbolTable<ast::Function, FunctionErrors, std::size_t, VariadicMode>;
 }

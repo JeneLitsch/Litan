@@ -44,32 +44,6 @@ namespace ltn::c {
 				std::move(body)
 			);
 		}
-
-
-
-		sst::func_ptr analyze_build_in_function(
-			const ast::BuildIn & fx,
-			Scope & scope,
-			std::optional<Label> override_label) {
-
-			const auto label = override_label.value_or(make_function_label(fx));
-
-			auto parameters = analyze_parameters(fx.parameters, scope, location(fx));
-
-			auto sst_fx = std::make_unique<sst::BuildIn>(
-				label,
-				fx.name,
-				fx.namespaze,
-				parameters,
-				fx.key
-			);
-
-			sst_fx->is_const   = fx.is_const; 
-			sst_fx->is_extern  = fx.is_extern; 
-			sst_fx->is_private = fx.is_private;
-
-			return sst_fx;
-		}
 	}
 
 
@@ -114,7 +88,7 @@ namespace ltn::c {
 
 
 	sst::func_ptr analyze_functional(
-		const ast::Functional & functional,
+		const ast::Function & functional,
 		FunctionScope & scope,
 		std::optional<Label> override_label,
 		const std::vector<std::unique_ptr<ast::Var>> & captures) {
@@ -123,10 +97,6 @@ namespace ltn::c {
 			return analyze_function(*fx, scope, override_label, captures);
 		}
 		
-		if(auto fx = as<const ast::BuildIn>(functional)) {
-			return analyze_build_in_function(*fx, scope, override_label);
-		}
-
 		throw CompilerError {
 			"Unknown functional declaration",
 			location(functional)

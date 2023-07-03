@@ -7,43 +7,48 @@ namespace std {
 
 
 
-	function sum(iter, start) => std::reduce_l(iter, lambda(a, b) => a + b, start)
-	function sum(range) => sum(range, 0)
-
-
-
-	build_in sort_ascn(range)
-		@ algorithm_sort_ascn
+	function sum(iter, start) 
+		=> std::reduce_l(iter, lambda(a, b) => a + b, start)
 	
 
 
-	build_in sort_desc(range)
-		@ algorithm_sort_desc
+	function sum(range) 
+		=> sum(range, 0)
+
+
+
+	function sort_ascn(range)
+		=> build_in(algorithm_sort_ascn)
 	
 
 
-	build_in is_sorted_ascn(range) const
-		@ algorithm_is_sorted_ascn
+	function sort_desc(range)
+		=> build_in(algorithm_sort_desc)
+
+
+
+	function is_sorted_ascn(range) const
+		=> build_in(algorithm_is_sorted_ascn)
 	
 
 
-	build_in is_sorted_desc(range) const 
-		@ algorithm_is_sorted_desc
+	function is_sorted_desc(range) const 
+		=> build_in(algorithm_is_sorted_desc)
 	
 
 
-	build_in find(range, key) const
-		@ algorithm_find
+	function find(range, key) const
+		=> build_in(algorithm_find)
 	
 
 
-	build_in fill(range, target)
-		@ algorithm_fill
+	function fill(range, target)
+		=> build_in(algorithm_fill)
 	
 
 
-	build_in reverse(range)
-		@ algorithm_reverse
+	function reverse(range)
+		=> build_in(algorithm_reverse)
 
 
 
@@ -54,15 +59,28 @@ namespace std {
 	} 
 
 
+
 	function zip(ranges...)
 		=> transform(std::zipped_impl(ranges), lambda(x) => x)
 
 
 
-	build_in reduce_l(iter, fx, init) const @algorithm_reduce_l_3
-	build_in reduce_l(iter, fx) const @algorithm_reduce_l_2
+	function reduce_l(iter, fx, init) const 
+		=> build_in(algorithm_reduce_l_3)
+	
+	
+	
+	function reduce_l(iter, fx) const
+		=> build_in(algorithm_reduce_l_2)
 
-	function reduce_r(iter, fx, init) const => std::reduce_l(std::reversed(iter), fx, init)
-	function reduce_r(iter, fx) const => std::reduce_l(std::reversed(iter), fx)
+
+
+	function reduce_r(iter, fx, init) const 
+		=> std::reduce_l(std::reversed(iter), fx, init)
+	
+	
+	
+	function reduce_r(iter, fx) const
+		=> std::reduce_l(std::reversed(iter), fx)
 }
 )###";

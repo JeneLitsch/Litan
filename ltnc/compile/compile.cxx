@@ -30,7 +30,7 @@ namespace ltn::c {
 		buf << inst::exit();
 		
 		for(const auto & function : program.functions) {
-			buf << compile_functional(*function);
+			buf << compile_function(*function);
 		}
 
 		std::set<std::string> extern_functions;

@@ -8,7 +8,7 @@
 
 namespace ltn::c {
 	struct Staged {
-		stx::reference<const ast::Functional> fx;
+		stx::reference<const ast::Function> fx;
 		stx::optref<const std::vector<std::unique_ptr<ast::Var>>> captures;
 		std::optional<Namespace> override_namespace = std::nullopt;
 	};
@@ -19,7 +19,7 @@ namespace ltn::c {
 
 	class FunctionQueue {
 	public:
-		void stage_function(stx::reference<const ast::Functional> fx);
+		void stage_function(stx::reference<const ast::Function> fx);
 		void stage_function(Staged staged);
 		std::optional<Staged> fetch_function();
 	private:

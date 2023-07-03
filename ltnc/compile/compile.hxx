@@ -16,7 +16,7 @@ namespace ltn::c {
 	std::tuple<std::vector<inst::Inst>, LinkInfo> compile(const sst::Program & program, Reporter & reporter);
 
 	// Functional
-	InstructionBuffer compile_functional(const sst::Functional &);
+	InstructionBuffer compile_function(const sst::Function &);
 
 	// Statement
 	InstructionBuffer compile_statement(const sst::Statement &);

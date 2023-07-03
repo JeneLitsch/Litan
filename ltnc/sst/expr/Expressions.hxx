@@ -13,7 +13,6 @@
 namespace ltn::c::sst {
 	struct Expression;
 	struct Var;
-	struct Functional;
 	struct Function;
 	class Statement;
 
@@ -652,6 +651,24 @@ namespace ltn::c::sst {
 
 
 
+	struct BuildIn final : Expression {
+		BuildIn(std::string key)
+			: Expression{}
+			, key{std::move(key)} {}
+
+		virtual std::uint64_t alloc() const override {
+			return 0;
+		}
+
+		virtual void accept(const ExprVisitor & visitor) const override {
+			visitor.visit(*this);
+		}
+
+		std::string key;
+	};
+
+
+
 	auto visit_expression(const sst::Expression & expr, auto && fx) {
 
 		using Callable = std::decay_t<decltype(fx)>;
@@ -686,6 +703,7 @@ namespace ltn::c::sst {
 			virtual void visit(const InitStruct & x) const override { this->run(x); };
 			virtual void visit(const Map & x) const override { this->run(x); };
 			virtual void visit(const Type & x) const override { this->run(x); };
+			virtual void visit(const BuildIn & x) const override { this->run(x); };
 		};
 
 		return Visitor{fx}(expr);

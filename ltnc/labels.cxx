@@ -32,7 +32,7 @@ namespace ltn::c {
 
 
 
-	Label make_function_label(const ast::Functional & fx) {
+	Label make_function_label(const ast::Function & fx) {
 		std::ostringstream oss;
 		oss << fx.get_resolve_namespace().to_string() 
 			<< fx.get_resolve_name() 

@@ -47,21 +47,25 @@ namespace ltn::c::ast {
 
 
 
-	struct Functional : public Declaration {
-		Functional(
+	struct Function : public Declaration {
+		Function(
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
+			std::unique_ptr<Statement> body,
 			const SourceLocation & location)
 			: Declaration(location, name, namespaze)
-			, parameters(std::move(parameters)) {}
-		virtual ~Functional() = default;
+			, parameters(std::move(parameters))
+			, body{std::move(body)} {}
+		virtual ~Function() = default;
 
 		Parameters parameters;
 		bool is_const = false;
 		bool is_private = false;
 		bool is_extern = false;
-
+		std::unique_ptr<Statement> body;
+		std::unique_ptr<Except> except;
+		
 		const std::string & get_resolve_name() const {
 			return this->name;
 		}
@@ -69,37 +73,5 @@ namespace ltn::c::ast {
 		const Namespace & get_resolve_namespace() const {
 			return this->namespaze;
 		}
-	};
-
-
-
-	struct Function final : public Functional {
-		Function(
-			const std::string & name,
-			Namespace namespaze,
-			Parameters parameters,
-			std::unique_ptr<Statement> body,
-			const SourceLocation & location)
-			: Functional{name, namespaze, std::move(parameters), location}
-			, body(std::move(body)) {}
-
-		virtual ~Function() = default;
-		std::unique_ptr<Statement> body;
-		std::unique_ptr<Except> except;
-	};
-
-
-
-	struct BuildIn final : public Functional {
-		BuildIn(
-			const std::string & name,
-			Namespace namespaze,
-			Parameters parameters,
-			const std::string & key,
-			const SourceLocation & location)
-			: Functional{name, namespaze, std::move(parameters), location}
-			, key(key) {}
-		virtual ~BuildIn() = default;
-		std::string key;		
 	};
 }

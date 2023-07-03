@@ -43,17 +43,19 @@ namespace ltn::c::sst {
 	};
 
 
-
-	struct Functional : public Declaration {
-		Functional(
+	struct Var;
+	struct Function : public Declaration {
+		Function(
 			const Label & label,
 			const std::string & name,
 			Namespace namespaze,
-			Parameters parameters)
+			Parameters parameters,
+			std::unique_ptr<Statement> && body)
 			: Declaration(name, namespaze)
-			, parameters(parameters)
-			, label{label}{}
-		virtual ~Functional() = default;
+			, parameters{std::move(parameters)}
+			, label{std::move(label)}
+			, body{std::move(body)} {}
+		virtual ~Function() = default;
 
 		Parameters parameters;
 		bool is_const = false;
@@ -62,6 +64,10 @@ namespace ltn::c::sst {
 
 		Label label;
 
+		std::unique_ptr<Statement> body;
+		std::unique_ptr<Except> except;
+		std::vector<std::unique_ptr<Var>> capture;
+
 		const std::string & get_resolve_name() const {
 			return this->name;
 		}
@@ -69,38 +75,5 @@ namespace ltn::c::sst {
 		const Namespace & get_resolve_namespace() const {
 			return this->namespaze;
 		}
-	};
-
-
-	struct Var;
-	struct Function final : public Functional {
-		Function(
-			const Label & label,
-			const std::string & name,
-			Namespace namespaze,
-			Parameters parameters,
-			std::unique_ptr<Statement> && body)
-			: Functional{label, name, namespaze, parameters}
-			, body(std::move(body)) {}
-
-		virtual ~Function() = default;
-		std::unique_ptr<Statement> body;
-		std::unique_ptr<Except> except;
-		std::vector<std::unique_ptr<Var>> capture;
-	};
-
-
-
-	struct BuildIn final : public Functional {
-		BuildIn(
-			const Label & label,
-			const std::string & name,
-			Namespace namespaze,
-			Parameters parameters,
-			const std::string & key)
-			: Functional{label, name, namespaze, parameters}
-			, key(key) {}
-		virtual ~BuildIn() = default;
-		std::string key;		
 	};
 }

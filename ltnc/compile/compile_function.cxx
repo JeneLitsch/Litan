@@ -38,51 +38,24 @@ namespace ltn::c {
 			buf << inst::retvrn();
 			return buf;
 		}
-
-
-
-		InstructionBuffer compile_function(const sst::Function & fx) {
-			
-			InstructionBuffer buf;
-
-			const auto except_label = derive_except(fx.label); 
-			
-			buf << inst::label(fx.label.to_string());
-			if(fx.except) buf << inst::trY(except_label.to_string());
-			buf << compile_body(fx);
-			buf << inst::null();
-			buf << inst::retvrn();
-			if(fx.except) {
-				buf << compile_except(*fx.except, except_label);
-			} 
-			
-			return buf;
-		}
-
-
-
-		InstructionBuffer compile_build_in_function(const sst::BuildIn & fx) {
-			InstructionBuffer buf;
-
-			buf << inst::label(fx.label.to_string());
-			buf << resolve_build_in(fx.key);
-			buf << inst::retvrn();
-			
-			return buf;
-		}
 	}
 
 
 
+	InstructionBuffer compile_function(const sst::Function & fx) {
+		InstructionBuffer buf;
 
-
-	InstructionBuffer compile_functional(const sst::Functional & functional) {
-		if(auto fx = as<const sst::Function>(functional)) {
-			return compile_function(*fx);
-		}
-		if(auto fx = as<const sst::BuildIn>(functional)) {
-			return compile_build_in_function(*fx);
-		}
-		throw std::runtime_error{"Unknown functional declaration"};
+		const auto except_label = derive_except(fx.label); 
+		
+		buf << inst::label(fx.label.to_string());
+		if(fx.except) buf << inst::trY(except_label.to_string());
+		buf << compile_body(fx);
+		buf << inst::null();
+		buf << inst::retvrn();
+		if(fx.except) {
+			buf << compile_except(*fx.except, except_label);
+		} 
+		
+		return buf;
 	}
 }

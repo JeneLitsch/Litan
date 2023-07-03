@@ -15,7 +15,7 @@ namespace ltn::c {
 	ast::Program parse(Tokens & tokens, Reporter & reporter);
 	
 	// Funcionals
-	std::optional<ast::func_ptr> parse_functional(Tokens & tokens, const Namespace & namespaze);
+	std::optional<ast::func_ptr> parse_function(Tokens & tokens, const Namespace & namespaze);
 	ast::enum_ptr parse_enumeration(Tokens & tokens, Namespace namespaze);
 	ast::defn_ptr parse_definition(Tokens & tokens, const Namespace & namespaze);
 
