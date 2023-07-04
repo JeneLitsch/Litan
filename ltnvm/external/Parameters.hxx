@@ -41,7 +41,7 @@ namespace ltn::vm::ext {
 				throw std::runtime_error{"Parameter not a float"};
 			}
 			else if constexpr(std::same_as<T, std::string>) {
-				if(is_string(value)) return this->heap.read<String>(value);
+				if(is_string(value)) return this->heap.read<String>(value).data;
 				throw std::runtime_error{"Parameter not a string"};
 			}
 			else if constexpr(std::same_as<T, std::vector<typename T::value_type>>) {
