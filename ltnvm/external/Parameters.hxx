@@ -16,14 +16,61 @@ namespace ltn::vm::ext {
 
 	namespace impl {
 		template<class T>
-		inline T convert(const Value & value);
+		struct Converter {
+			static T convert(const Value & value) {
+				throw std::runtime_error{"Unknown parameter type in external"};
+			}
+		};
+
+
+
+
+
+
+		template<>
+		struct Converter<bool> {
+			static bool convert(const Value & value) {
+				if(is_bool(value)) return value.b;
+				throw std::runtime_error{"Parameter not a boolean"};
+			}
+		};
+
+
+		
+		template<std::integral T>
+		struct Converter<T> {
+			static T convert(const Value & value) {
+				if(is_int(value)) return value.i;
+				throw std::runtime_error{"Parameter not an integer"};
+			}
+		};
+
+
+		
+		template<std::floating_point T>
+		struct Converter<T> {
+			static T convert(const Value & value) {
+				if(is_float(value)) return value.f;
+				throw std::runtime_error{"Parameter not a float"};
+			}
+		};
+
+
+		
+		template<>
+		struct Converter<std::string> {
+			static std::string convert(const Value & value) {
+				if(is_string(value)) return value.as<String>()->data;
+				throw std::runtime_error{"Parameter not a string"};
+			}
+		};
 
 
 
 		template<typename ...T, std::size_t... I>
 		inline std::tuple<T...> make_tuple_from_vector_impl(const std::vector<Value> & values, std::index_sequence<I...>) {
 			return std::make_tuple(
-				(convert<T>(values[I]))...
+				(Converter<T>::convert(values[I]))...
 			);
 		}
 
@@ -36,77 +83,37 @@ namespace ltn::vm::ext {
 
 
 
-		inline bool convert_to_bool(const Value & value) {
-			if(is_bool(value)) return value.b;
-			throw std::runtime_error{"Parameter not a boolean"};
-		}
-
-
-
-
-		template<std::integral T>
-		inline T convert_to_int(const Value & value) {
-			if(is_int(value)) return value.i;
-			throw std::runtime_error{"Parameter not an integer"};
-		}
-
-
-
-		template<std::floating_point T>
-		inline T convert_to_float(const Value & value) {
-			if(is_float(value)) return value.f;
-			throw std::runtime_error{"Parameter not a float"};
-		}
-
-
-
-		inline std::string convert_to_string(const Value & value) {
-			if(is_string(value)) return value.as<String>()->data;
-			throw std::runtime_error{"Parameter not a string"};
-		}
-
-
-
 		template<typename T>
-		inline T convert_to_array(const Value & value) {
-			if(is_array(value)) {
-				auto & input = *value.as<Array>();
-				T output;
-				for(const auto & elem : input.data) {
-					output.push_back(convert<typename T::value_type>(elem));
+		struct Converter<std::vector<T>> {
+			static std::vector<T> convert(const Value & value) {
+				if(is_array(value)) {
+					auto & input = *value.as<Array>();
+					std::vector<T> output;
+					for(const auto & elem : input.data) {
+						output.push_back(Converter<T>::convert(elem));
+					}
+					return output;
+				} 
+				else {
+					throw std::runtime_error{"Parameter not an array"};
 				}
-				return output;
-			} 
-			else {
-				throw std::runtime_error{"Parameter not an array"};
 			}
-		}
+		};
 
 
 
-		template<typename T>
-		inline T convert_to_tuple(const Value & value) {
-			if(is_tuple(value)) {
-				auto & input = *value.as<Array>();
-				return make_tuple_from_vector(input.data, T{});
-			} 
-			else {
-				throw std::runtime_error{"Parameter not an array"};
+		template<typename ... T>
+		struct Converter<std::tuple<T...>> {
+			static std::tuple<T...> convert(const Value & value) {
+				if(is_tuple(value)) {
+					auto & input = *value.as<Array>();
+					return make_tuple_from_vector(input.data, std::tuple<T...>{});
+				} 
+				else {
+					throw std::runtime_error{"Parameter not an array"};
+				}
 			}
-		}
-
-
-
-		template<class T>
-		inline T convert(const Value & value) {
-			if      constexpr(std::same_as<T, bool>)            return convert_to_bool(value);
-			else if constexpr(std::is_integral<T>::value)       return convert_to_int<T>(value);
-			else if constexpr(std::is_floating_point<T>::value) return convert_to_float<T>(value);
-			else if constexpr(is_tuple_type<T>::value)          return convert_to_tuple<T>(value);
-			else if constexpr(std::same_as<T, std::string>)     return convert_to_string(value);
-			else if constexpr(is_vector_type<T>::value)         return convert_to_array<T>(value);
-			else throw std::runtime_error{"Unknown parameter type in external"};
-		}
+		};
 	}
 
 
@@ -126,7 +133,7 @@ namespace ltn::vm::ext {
 		template<class T>
 		T get(std::size_t idx, const std::vector<Value> & array) const {
 			const Value & value = get_value(idx, array);
-			return impl::convert<T>(value);
+			return impl::Converter<T>::convert(value);
 		}
 
 
