@@ -6,24 +6,13 @@
 #include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm::ext {
-
-	template <typename> struct is_tuple_type: std::false_type {};
-	template <typename ...T> struct is_tuple_type<std::tuple<T...>>: std::true_type {};
-
-	template <typename> struct is_vector_type: std::false_type {};
-	template <typename T> struct is_vector_type<std::vector<T>>: std::true_type {};
-
-
 	namespace impl {
 		template<class T>
 		struct Converter {
-			static T convert(const Value & value) {
+			static T convert(const Value &) {
 				throw std::runtime_error{"Unknown parameter type in external"};
 			}
 		};
-
-
-
 
 
 
@@ -67,22 +56,6 @@ namespace ltn::vm::ext {
 
 
 
-		template<typename ...T, std::size_t... I>
-		inline std::tuple<T...> make_tuple_from_vector_impl(const std::vector<Value> & values, std::index_sequence<I...>) {
-			return std::make_tuple(
-				(Converter<T>::convert(values[I]))...
-			);
-		}
-
-
-
-		template<typename ...T>
-		inline std::tuple<T...> make_tuple_from_vector(const std::vector<Value> & values, const std::tuple<T...> &) {
-			return make_tuple_from_vector_impl<T...>(values, std::make_index_sequence<sizeof...(T)>{});
-		}
-
-
-
 		template<typename T>
 		struct Converter<std::vector<T>> {
 			static std::vector<T> convert(const Value & value) {
@@ -104,10 +77,18 @@ namespace ltn::vm::ext {
 
 		template<typename ... T>
 		struct Converter<std::tuple<T...>> {
+						
+			template<std::size_t... I>
+			static std::tuple<T...> make_tuple_from_vector(const std::vector<Value> & values, std::index_sequence<I...>) {
+				return std::make_tuple(
+					(Converter<T>::convert(values[I]))...
+				);
+			}
+
 			static std::tuple<T...> convert(const Value & value) {
 				if(is_tuple(value)) {
 					auto & input = *value.as<Array>();
-					return make_tuple_from_vector(input.data, std::tuple<T...>{});
+					return make_tuple_from_vector(input.data, std::make_index_sequence<sizeof...(T)>{});
 				} 
 				else {
 					throw std::runtime_error{"Parameter not an array"};
