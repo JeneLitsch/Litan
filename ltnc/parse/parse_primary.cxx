@@ -222,7 +222,7 @@ namespace ltn::c {
 			if(const auto & identifier = match(TT::INDENTIFIER, tokens)) {
 				auto symbol = parse_symbol_relative(tokens, *identifier);
 				symbol.second.set_absolute();
-				return parse_symbol_relative(tokens, *identifier);
+				return symbol;
 			}
 		}
 		else if(const auto & identifier = match(TT::INDENTIFIER, tokens)) {
