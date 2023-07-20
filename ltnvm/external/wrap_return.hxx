@@ -1,8 +1,29 @@
 #pragma once
+#include <tuple>
 #include "ltnvm/Heap.hxx"
 #include "ltnvm/Value.hxx"
 
 namespace ltn::vm::ext {
+	inline Value wrap_return(bool value, Heap &);
+		
+	inline Value wrap_return(std::integral auto value, Heap &);
+		
+	inline Value wrap_return(std::floating_point auto value, Heap &);
+
+	inline Value wrap_return(std::string value, Heap & heap);
+
+	template <typename T>
+	inline Value wrap_return(const std::optional<T> & value, Heap & heap);	
+	
+	template <typename T>
+	inline Value wrap_return(const std::vector<T> & vector, Heap & heap);
+
+	template <typename ...T>
+	inline Value wrap_return(const std::tuple<T...> & tup, Heap & heap);
+
+
+
+
 	inline Value wrap_return(bool value, Heap &) {
 		return value::boolean(value);
 	}
@@ -39,4 +60,20 @@ namespace ltn::vm::ext {
 		} 
 		return ptr;
 	}
+
+	namespace impl {
+		template <typename ...T, std::size_t ... I>
+		inline Value wrap_tuple(const std::tuple<T...> & tup, std::index_sequence<I...>, Heap & heap) {
+			auto ptr = value::tuple(heap.alloc<Array>({}));
+			auto & t = heap.read<Array>(ptr);
+			t.data = {wrap_return(std::get<I>(tup), heap)...};
+			return ptr;
+		}
+	}
+
+	template <typename ...T>
+	inline Value wrap_return(const std::tuple<T...> & tup, Heap & heap) {
+		return impl::wrap_tuple(tup, std::make_index_sequence<sizeof...(T)>{}, heap);
+	}
+
 }
