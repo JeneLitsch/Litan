@@ -28,7 +28,7 @@ namespace ltn::vm {
 		}
 
 		if(variant.is_array()) {
-			const auto address = value::string(heap.alloc<Array>({}));
+			const auto address = value::array(heap.alloc<Array>({}));
 			auto & array = heap.read<Array>(address);
 			for(const auto & elem : variant.as_array()) {
 				array.push_back(to_value(elem, heap));
