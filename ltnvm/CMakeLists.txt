@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 add_library(libltnvm
 	LtnVM.cxx
 	Heap.cxx
-	Stack.cxx
+	VmStack.cxx
 	TypeTable.cxx
 	gc.cxx
 )

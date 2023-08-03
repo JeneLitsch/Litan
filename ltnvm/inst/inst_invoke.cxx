@@ -2,7 +2,7 @@
 
 namespace ltn::vm::inst {
 	namespace {
-		inline void load_onto_stack(Stack & stack, const auto & values) {
+		inline void load_onto_stack(VmStack & stack, const auto & values) {
 			for(const auto c : values) {
 				stack.push(c);
 			}
@@ -10,7 +10,7 @@ namespace ltn::vm::inst {
 
 
 
-		std::vector<Value> read_from_stack(Stack & stack, std::uint64_t arity) {
+		std::vector<Value> read_from_stack(VmStack & stack, std::uint64_t arity) {
 			std::vector<Value> args;
 			for(std::size_t i = 0; i < arity; ++i) {
 				args.push_back(stack.pop());

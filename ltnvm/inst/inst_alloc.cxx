@@ -8,7 +8,7 @@
 
 namespace ltn::vm::inst {
 
-	void pushAll(auto & array, Stack & stack, std::uint64_t size) {
+	void pushAll(auto & array, VmStack & stack, std::uint64_t size) {
 		if(!size) return;
 		const auto value = stack.pop();
 		pushAll(array, stack, size -1);

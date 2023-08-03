@@ -9,7 +9,7 @@ namespace ltn::vm::build_in::io {
 	namespace {
 		using VT = Value::Type;
 
-		std::istream & get_istream(Heap & heap, Stack & stack) {
+		std::istream & get_istream(Heap & heap, VmStack & stack) {
 			const auto ref = stack.pop();
 			if(is_istream(ref)) {
 				return heap.read<IStream>(ref).get();

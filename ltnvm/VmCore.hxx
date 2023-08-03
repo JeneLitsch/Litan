@@ -1,14 +1,14 @@
 #pragma once
 #include <unordered_map>
 #include "ltnvm/Heap.hxx"
-#include "ltnvm/Stack.hxx"
+#include "ltnvm/VmStack.hxx"
 #include "ltnvm/TypeTable.hxx"
 #include "external/Callable.hxx"
 
 namespace ltn::vm {
 	struct VmCore {
 		// Runtime
-		Stack stack;
+		VmStack stack;
 		Heap heap;
 		const std::uint8_t * pc;
 		const std::uint8_t * code_begin;

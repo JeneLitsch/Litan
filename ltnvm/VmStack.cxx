@@ -1,14 +1,14 @@
-#include "Stack.hxx"
+#include "VmStack.hxx"
 
 
 namespace ltn::vm {
-	Stack::Stack() {
+	VmStack::VmStack() {
 		this->reset();
 	}
 
 
 
-	void Stack::push_frame(const std::uint8_t * return_addr, std::uint64_t arity) {
+	void VmStack::push_frame(const std::uint8_t * return_addr, std::uint64_t arity) {
 		this->frames.push_back(Frame{
 			.return_addr = return_addr,
 			.prev_frame_pointer = this->frame_pointer,
@@ -19,7 +19,7 @@ namespace ltn::vm {
 
 
 
-	const std::uint8_t * Stack::pop_frame() {
+	const std::uint8_t * VmStack::pop_frame() {
 		const auto & frame = this->frames.back();
 		const auto return_addr = frame.return_addr;
 		const auto oldframe_pointer = frame.prev_frame_pointer;
@@ -31,13 +31,13 @@ namespace ltn::vm {
 
 
 
-	const std::vector<Value> & Stack::get_values() const {
+	const std::vector<Value> & VmStack::get_values() const {
 		return this->values;
 	}
 
 
 
-	void Stack::reset() {
+	void VmStack::reset() {
 		this->values.clear();
 		this->frames.clear();
 		this->frame_pointer = 0;
@@ -45,25 +45,25 @@ namespace ltn::vm {
 
 
 
-	std::uint64_t Stack::size() const {
+	std::uint64_t VmStack::size() const {
 		return this->values.size();
 	}
 
 
 
-	std::uint64_t Stack::depth() const {
+	std::uint64_t VmStack::depth() const {
 		return this->frames.size();
 	}
 
 
 
-	const std::uint8_t * Stack::get_except_handler() const {
+	const std::uint8_t * VmStack::get_except_handler() const {
 		return this->frames.back().except_jump;
 	}
 
 
 
-	void Stack::set_except_handler(const std::uint8_t * address) {
+	void VmStack::set_except_handler(const std::uint8_t * address) {
 		this->frames.back().except_jump = address;
 	}
 }

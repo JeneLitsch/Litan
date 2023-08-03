@@ -7,7 +7,7 @@
 
 namespace ltn::vm::inst {
 	namespace {
-		const std::uint8_t * unwind(Stack & stack) {
+		const std::uint8_t * unwind(VmStack & stack) {
 			while(stack.depth()) {
 				const auto handler = stack.get_except_handler();
 				if(handler != 0) {

@@ -528,7 +528,7 @@ namespace ltn::vm {
 			, cast_unary_type<Segmented, value::queue, is_queue>
 		>;
 
-		using TypeStack = UnaryType<"stack"
+		using TypeVmStack = UnaryType<"stack"
 			, is_unary_type<Segmented, is_stack>
 			, cast_unary_type<Segmented, value::stack, is_stack>
 		>;
@@ -564,7 +564,7 @@ namespace ltn::vm {
 				case type_code::CLOCK: return TypeClock::make(type_table, code);
 				case type_code::TYPE: return TypeType::make(type_table, code);
 				case type_code::QUEUE: return TypeQueue::make(type_table, code);
-				case type_code::STACK: return TypeStack::make(type_table, code);
+				case type_code::STACK: return TypeVmStack::make(type_table, code);
 				case type_code::MAP: return TypeMap::make(type_table, code);
 				case type_code::STRUCT: return TypeStruct::make(type_table, code);
 				default: throw std::runtime_error{""};
