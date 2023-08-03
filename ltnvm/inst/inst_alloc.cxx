@@ -57,14 +57,14 @@ namespace ltn::vm::inst {
 
 	void newstack(VmCore & core) {
 		core.heap.collect_garbage(core.stack);
-		core.stack.push(value::stack(core.heap.make<Segmented>()));
+		core.stack.push(value::stack(core.heap.make<Stack>()));
 	}
 
 
 
 	void newqueue(VmCore & core) {
 		core.heap.collect_garbage(core.stack);
-		core.stack.push(value::queue(core.heap.make<Segmented>()));
+		core.stack.push(value::queue(core.heap.make<Queue>()));
 	}
 
 

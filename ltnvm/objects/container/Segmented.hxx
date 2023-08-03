@@ -8,9 +8,7 @@ namespace ltn::vm {
 	// Implements stack, queue, ...
 	struct Segmented : public Object {
 		std::deque<Value> data;
+	protected:
+		Segmented() = default;
 	};
-
-	inline Segmented clone(const Segmented & deq) {
-		return deq;
-	}
 }
