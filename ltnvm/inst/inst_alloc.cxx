@@ -32,7 +32,7 @@ namespace ltn::vm::inst {
 		const auto size = core.fetch_uint();
 		const auto cstr = core.fetch_str();
 		std::string str(cstr, cstr + size); 
-		const auto ptr = core.heap.alloc<String>({std::move(str)});
+		const auto ptr = core.heap.make<String>(std::move(str));
 		core.stack.push(value::string(ptr));
 		core.pc += size;
 	}
@@ -41,7 +41,7 @@ namespace ltn::vm::inst {
 
 	void newclock(VmCore & core) {
 		core.heap.collect_garbage(core.stack);
-		const auto ptr = core.heap.alloc<Clock>({});
+		const auto ptr = core.heap.make<Clock>();
 		core.stack.push({ ptr, Value::Type::CLOCK });
 	}
 
