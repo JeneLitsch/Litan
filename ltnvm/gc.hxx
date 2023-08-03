@@ -9,7 +9,7 @@ namespace ltn::vm::gc {
 	void mark(const std::vector<Value> & values);
 	void mark(const std::deque<Value> & values);
 
-	void mark_obj(Array * obj);
+	void mark_obj(Contiguous * obj);
 	void mark_obj(String * obj);
 	void mark_obj(IStream * obj);
 	void mark_obj(Iterator * obj);

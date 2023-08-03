@@ -401,9 +401,9 @@ namespace ltn::vm {
 
 		Value type_cast_tuple_n(const Value & value, VmCore & core, const std::vector<const Type *> & sub_types) {
 			if(is_array_or_tuple(value)) {
-				const Array & input = core.heap.read<Array>(value);
+				const Contiguous & input = core.heap.read<Contiguous>(value);
 				if(std::size(input.data) != std::size(sub_types)) return value::null;
-				Array output;
+				Tuple output;
 				for(std::size_t i = 0; i < std::size(input.data); ++i) {
 					output.push_back(sub_types[i]->cast(input.data[i], core));
 				}
@@ -418,7 +418,7 @@ namespace ltn::vm {
 
 		bool type_is_tuple_n(const Value & value, VmCore & core, const std::vector<const Type *> & sub_types) {
 			if(!is_tuple(value)) return false;
-			const Array & input = core.heap.read<Array>(value);
+			const Tuple & input = core.heap.read<Tuple>(value);
 			if(std::size(input.data) != std::size(sub_types)) return false;
 			for(std::size_t i = 0; i < std::size(input.data); ++i) {
 				if(!sub_types[i]->is(input.data[i], core)) return false;

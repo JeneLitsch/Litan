@@ -101,7 +101,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_tuple(l) && is_tuple(r)) {
-			return core.stack.push(value::tuple(concat<Array>(l,r,core.heap)));
+			return core.stack.push(value::tuple(concat<Tuple>(l,r,core.heap)));
 		}
 
 		if(is_string(l) && is_string(r)) {

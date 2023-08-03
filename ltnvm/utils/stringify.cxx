@@ -74,9 +74,9 @@ namespace ltn::vm {
 		}
 
 		if(is_tuple(value)) {
-			const auto & array = core.heap.read<Array>(value);
+			const auto & tuple = core.heap.read<Tuple>(value);
 			std::stringstream ss;
-			print_all(std::begin(array), std::end(array), ss, core, '(', ')');
+			print_all(std::begin(tuple), std::end(tuple), ss, core, '(', ')');
 			return ss.str();
 		}
 

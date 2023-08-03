@@ -28,7 +28,7 @@ namespace ltn::vm {
 		}
 
 		if(is_array_or_tuple(value)) {
-			auto & array = heap.read<Array>(value);
+			auto & array = heap.read<Contiguous>(value);
 			std::vector<Variant> vector;
 			for(const auto & elem : array) {
 				vector.push_back(to_variant(elem, heap));

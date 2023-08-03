@@ -93,11 +93,10 @@ namespace ltn::vm::inst {
 
 
 	void newtuple(VmCore & core){
-		const auto ptr = value::tuple(core.heap.alloc<Array>({}));
-		auto & arr = core.heap.read<Array>(ptr); 
-		const auto size = core.fetch_uint();
-		pushAll(arr, core.stack, size);
-		core.stack.push(ptr);
 		core.heap.collect_garbage(core.stack);
+		const auto size = core.fetch_uint();
+		auto * tup = core.heap.alloc<Tuple>({});
+		pushAll(*tup, core.stack, size);
+		core.stack.push(value::tuple(tup));
 	}
 }

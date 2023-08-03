@@ -1,7 +1,7 @@
 #include "gc.hxx"
 
 namespace ltn::vm::gc {
-	void mark_obj(Array * obj) {
+	void mark_obj(Contiguous * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
 			mark(obj->data);
@@ -116,7 +116,7 @@ namespace ltn::vm::gc {
 			case VT::CHAR:          return; // no gc required
 			case VT::ARRAY:         return mark_obj(value.as<Array>());
 			case VT::STRING:        return mark_obj(value.as<String>());
-			case VT::TUPLE:         return mark_obj(value.as<Array>());
+			case VT::TUPLE:         return mark_obj(value.as<Tuple>());
 			case VT::ISTREAM:       return mark_obj(value.as<IStream>());
 			case VT::ITERATOR:      return mark_obj(value.as<Iterator>());
 			case VT::ITERATOR_STOP: return; // no gc required

@@ -41,7 +41,7 @@ namespace ltn::vm::build_in {
 	Value size(VmCore & core) {
 		const auto ref = core.stack.pop();
 		if (is_array(ref)) return size<Array>(ref, core);
-		if (is_tuple(ref)) return size<Array>(ref, core);
+		if (is_tuple(ref)) return size<Tuple>(ref, core);
 		if(is_string(ref)) return size<String>(ref, core);
 		if(is_queue(ref)) return size<Deque>(ref, core);
 		if(is_stack(ref)) return size<Deque>(ref, core);

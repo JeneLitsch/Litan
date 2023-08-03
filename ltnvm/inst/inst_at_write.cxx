@@ -9,7 +9,7 @@ namespace ltn::vm::inst {
 		const auto elem = core.stack.pop();
 		
 		if(is_array(ref) || is_tuple(ref)) {
-			auto & arr = core.heap.read<Array>(ref);
+			auto & arr = core.heap.read<Contiguous>(ref);
 			const auto index = to_index(key, std::size(arr.data));
 			arr.data[static_cast<std::size_t>(index)] = elem;
 			return;

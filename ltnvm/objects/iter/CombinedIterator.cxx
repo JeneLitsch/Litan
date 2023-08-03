@@ -21,7 +21,7 @@ namespace ltn::vm {
 
 
 	Value CombinedIterator::get() {
-		Array tuple;
+		Tuple tuple;
 		for(auto * iter : this->iters) {
 			auto elem = iter->get();
 			tuple.push_back(elem);

@@ -64,10 +64,9 @@ namespace ltn::vm::ext {
 	namespace impl {
 		template <typename ...T, std::size_t ... I>
 		inline Value wrap_tuple(const std::tuple<T...> & tup, std::index_sequence<I...>, Heap & heap) {
-			auto ptr = value::tuple(heap.alloc<Array>({}));
-			auto & t = heap.read<Array>(ptr);
-			t.data = {wrap_return(std::get<I>(tup), heap)...};
-			return ptr;
+			auto ptr = heap.alloc<Tuple>({});
+			ptr->data = {wrap_return(std::get<I>(tup), heap)...};
+			return value::tuple(ptr);
 		}
 	}
 

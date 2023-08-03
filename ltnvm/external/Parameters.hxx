@@ -87,7 +87,7 @@ namespace ltn::vm::ext {
 
 			static std::tuple<T...> convert(const Value & value) {
 				if(is_tuple(value)) {
-					auto & input = *value.as<Array>();
+					auto & input = *value.as<Tuple>();
 					return make_tuple_from_vector(input.data, std::make_index_sequence<sizeof...(T)>{});
 				} 
 				else {

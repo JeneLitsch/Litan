@@ -31,8 +31,8 @@ namespace ltn::vm {
 					return strL.data <=> strR.data;
 				}
 				if(is_array(l) || is_tuple(l)) {
-					const auto & arrL = core.heap.read<Array>(l);
-					const auto & arrR = core.heap.read<Array>(r);
+					const auto & arrL = core.heap.read<Contiguous>(l);
+					const auto & arrR = core.heap.read<Contiguous>(r);
 					if(arrL.data.size() != arrR.data.size()) {
 						return arrL.data.size() <=> arrR.data.size();
 					}

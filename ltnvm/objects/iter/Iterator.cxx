@@ -1,5 +1,5 @@
 #include "Iterator.hxx"
-#include "ArrayIterator.hxx"
+#include "ContiguousIterator.hxx"
 #include "CombinedIterator.hxx"
 #include "RangeIterator.hxx"
 #include "ReversedIterator.hxx"
@@ -19,8 +19,8 @@ namespace ltn::vm {
 	namespace iterator {
 		Value wrap(const Value & ref, Heap & heap) {
 			if(is_iterator(ref)) return ref;
-			if(is_array(ref))    return value::iterator(heap.make<ArrayIterator>(ref.as<Array>()));
-			if(is_tuple(ref))    return value::iterator(heap.make<ArrayIterator>(ref.as<Array>()));
+			if(is_array(ref))    return value::iterator(heap.make<ContiguousIterator>(ref.as<Array>()));
+			if(is_tuple(ref))    return value::iterator(heap.make<ContiguousIterator>(ref.as<Tuple>()));
 			if(is_string(ref))   return value::iterator(heap.make<StringIterator>(ref.as<String>()));
 			throw except::invalid_argument("std::iter expects an iterable object");
 		}

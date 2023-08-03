@@ -148,12 +148,11 @@ namespace ltn::vm {
 
 
 		void load_main_args(VmCore & core, const std::vector<std::string> & args) {
-			const auto ref = value::array(core.heap.alloc<Array>({}));
-			core.stack.push(ref);
+			const auto arr = core.heap.alloc<Array>({});
+			core.stack.push(value::array(arr));
 			for(const auto & arg : args) {
 				const auto str = core.heap.alloc(String{arg});
-				auto & arr = core.heap.read<Array>(ref);
-				arr.push_back(value::string(str));
+				arr->push_back(value::string(str));
 			}
 		}
 

@@ -13,6 +13,7 @@ namespace ltn::vm::build_in::type {
 	Value clone(VmCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_array(ref))    return core.heap.clone<Array>(ref);
+		if(is_tuple(ref))    return core.heap.clone<Tuple>(ref);
 		if(is_string(ref))   return core.heap.clone<String>(ref);
 		if(is_stack(ref))    return core.heap.clone<Deque>(ref);
 		if(is_queue(ref))    return core.heap.clone<Deque>(ref);

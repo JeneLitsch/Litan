@@ -5,9 +5,9 @@
 #include "ltnvm/objects/container.hxx"
 
 namespace ltn::vm {
-	class ArrayIterator : public Iterator {
+	class ContiguousIterator : public Iterator {
 	public:
-		ArrayIterator(Array * array);
+		ContiguousIterator(Contiguous * container);
 
 		virtual Value next() override;
 		virtual Value get() override;
@@ -17,7 +17,7 @@ namespace ltn::vm {
 		virtual std::unique_ptr<Iterator> clone() const override;
 
 	private:
-		Array * array;
+		Contiguous * container;
 		std::int64_t index;
 	};
 }
