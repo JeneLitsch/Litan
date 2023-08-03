@@ -18,76 +18,74 @@ namespace ltn::vm::inst {
 
 
 	void newarr(VmCore & core){
-		const auto ptr = value::array(core.heap.alloc<Array>({}));
-		auto & arr = core.heap.read<Array>(ptr); 
-		const auto size = core.fetch_uint();
-		pushAll(arr, core.stack, size);
-		core.stack.push(ptr);
 		core.heap.collect_garbage(core.stack);
+		auto * arr = core.heap.make<Array>(); 
+		const auto size = core.fetch_uint();
+		pushAll(*arr, core.stack, size);
+		core.stack.push(value::array(arr));
 	}
 
 
 
 	void newstr(VmCore & core) {
+		core.heap.collect_garbage(core.stack);
 		const auto size = core.fetch_uint();
 		const auto cstr = core.fetch_str();
 		std::string str(cstr, cstr + size); 
 		const auto ptr = core.heap.alloc<String>({std::move(str)});
-		core.stack.push({ ptr, Value::Type::STRING });
+		core.stack.push(value::string(ptr));
 		core.pc += size;
-		core.heap.collect_garbage(core.stack);
 	}
 
 
 
 	void newclock(VmCore & core) {
+		core.heap.collect_garbage(core.stack);
 		const auto ptr = core.heap.alloc<Clock>({});
 		core.stack.push({ ptr, Value::Type::CLOCK });
-		core.heap.collect_garbage(core.stack);
 	}
 
 
 
 	void newstruct(VmCore & core) {
+		core.heap.collect_garbage(core.stack);
 		const auto ptr = core.heap.alloc<Struct>({});
 		core.stack.push({ ptr, Value::Type::STRUCT });
-		core.heap.collect_garbage(core.stack);
 	}
 
 
 
 	void newstack(VmCore & core) {
-		const auto ref = core.heap.alloc<Segmented>({});
-		core.stack.push({ ref, Value::Type::STACK });
 		core.heap.collect_garbage(core.stack);
+		core.stack.push(value::stack(core.heap.make<Segmented>()));
 	}
 
 
 
 	void newqueue(VmCore & core) {
-		const auto ref = core.heap.alloc<Segmented>({});
-		core.stack.push({ ref, Value::Type::QUEUE });
 		core.heap.collect_garbage(core.stack);
+		core.stack.push(value::queue(core.heap.make<Segmented>()));
 	}
 
 
 
 	void newmap(VmCore & core) {
+		core.heap.collect_garbage(core.stack);
 		const auto ref = core.heap.alloc<Map>(Map{&core});
 		core.stack.push({ ref, Value::Type::MAP });
-		core.heap.collect_garbage(core.stack);
 	}
 
 
 
 	void newfx(VmCore & core){
+		core.heap.collect_garbage(core.stack);
 		const auto address = core.code_begin + core.fetch_uint(); 
 		const auto arity_code = core.fetch_uint();
 		const auto arity = (arity_code << 1) >> 1;
 		const auto is_variadic = (arity_code >> 63) != 0;
 		FxPointer fx_ptr { address, arity, {}, is_variadic };
 		const auto ref = core.heap.alloc(std::move(fx_ptr));
-		core.stack.push(Value{ref, Value::Type::FUNCTION});
+		core.stack.push(value::fx(ref));
 	}
 
 
