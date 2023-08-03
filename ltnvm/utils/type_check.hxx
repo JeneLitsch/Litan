@@ -50,7 +50,7 @@ namespace ltn::vm {
 	}
 
 	constexpr inline bool is_fxptr(const Value & val) {
-		return val.type == Value::Type::FX_PTR;
+		return val.type == Value::Type::FUNCTION;
 	}
 
 	constexpr inline bool is_clock(const Value & val) {

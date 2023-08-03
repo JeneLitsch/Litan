@@ -121,7 +121,7 @@ namespace ltn::vm::gc {
 			case VT::ITERATOR:      return mark_obj(value.as<Iterator>());
 			case VT::ITERATOR_STOP: return; // no gc required
 			case VT::OSTREAM:       return mark_obj(value.as<OStream>());
-			case VT::FX_PTR:        return mark_obj(value.as<FxPointer>());
+			case VT::FUNCTION:      return mark_obj(value.as<FxPointer>());
 			case VT::CLOCK:         return mark_obj(value.as<Clock>());
 			case VT::STRUCT:        return mark_obj(value.as<Struct>());
 			case VT::QUEUE:         return mark_obj(value.as<Deque>());

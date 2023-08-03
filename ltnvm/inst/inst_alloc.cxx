@@ -87,7 +87,7 @@ namespace ltn::vm::inst {
 		const auto is_variadic = (arity_code >> 63) != 0;
 		FxPointer fx_ptr { address, arity, {}, is_variadic };
 		const auto ref = core.heap.alloc(std::move(fx_ptr));
-		core.stack.push(Value{ref, Value::Type::FX_PTR});
+		core.stack.push(Value{ref, Value::Type::FUNCTION});
 	}
 
 
