@@ -400,7 +400,7 @@ namespace ltn::vm {
 
 
 		Value type_cast_tuple_n(const Value & value, VmCore & core, const std::vector<const Type *> & sub_types) {
-			if(is_array_or_tuple(value)) {
+			if(is_contiguous(value)) {
 				const Contiguous & input = core.heap.read<Contiguous>(value);
 				if(std::size(input.data) != std::size(sub_types)) return value::null;
 				Tuple output;

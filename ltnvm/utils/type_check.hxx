@@ -90,7 +90,7 @@ namespace ltn::vm {
 	}
 
 
-	constexpr inline bool is_array_or_tuple(const Value & value) {
+	constexpr inline bool is_contiguous(const Value & value) {
 		return is_array(value) || is_tuple(value);
 	}
 }

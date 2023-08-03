@@ -27,7 +27,7 @@ namespace ltn::vm {
 			return Variant{heap.read<String>(value).data};
 		}
 
-		if(is_array_or_tuple(value)) {
+		if(is_contiguous(value)) {
 			auto & array = heap.read<Contiguous>(value);
 			std::vector<Variant> vector;
 			for(const auto & elem : array) {
