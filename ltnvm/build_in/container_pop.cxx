@@ -26,7 +26,7 @@ namespace ltn::vm::build_in {
 		}
 
 		if(is_stack(ref)) {
-			auto & container = core.heap.read<Deque>(ref);
+			auto & container = core.heap.read<Segmented>(ref);
 			if(std::empty(container.data)) throw except::out_of_range();
 			const auto elem = container.data.back();
 			container.data.pop_back();
@@ -34,7 +34,7 @@ namespace ltn::vm::build_in {
 		}
 
 		if(is_queue(ref)) {
-			auto & container = core.heap.read<Deque>(ref);
+			auto & container = core.heap.read<Segmented>(ref);
 			if(std::empty(container.data)) throw except::out_of_range();
 			const auto elem = container.data.front();
 			container.data.pop_front();

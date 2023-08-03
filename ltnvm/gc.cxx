@@ -57,7 +57,7 @@ namespace ltn::vm::gc {
 
 
 
-	void mark_obj(Deque * obj) {
+	void mark_obj(Segmented * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
 			mark(obj->data);
@@ -124,8 +124,8 @@ namespace ltn::vm::gc {
 			case VT::FUNCTION:      return mark_obj(value.as<FxPointer>());
 			case VT::CLOCK:         return mark_obj(value.as<Clock>());
 			case VT::STRUCT:        return mark_obj(value.as<Struct>());
-			case VT::QUEUE:         return mark_obj(value.as<Deque>());
-			case VT::STACK:         return mark_obj(value.as<Deque>());
+			case VT::QUEUE:         return mark_obj(value.as<Segmented>());
+			case VT::STACK:         return mark_obj(value.as<Segmented>());
 			case VT::MAP:           return mark_obj(value.as<Map>());
 			case VT::RNG:           return mark_obj(value.as<RandomEngine>());
 			case VT::TYPE:          return; // no gc required

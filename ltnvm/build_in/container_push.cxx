@@ -17,13 +17,13 @@ namespace ltn::vm::build_in {
 		}
 
 		if(is_stack(ref)) {
-			auto & container = core.heap.read<Deque>(ref);
+			auto & container = core.heap.read<Segmented>(ref);
 			container.data.push_back(elem);
 			return value::null;
 		}
 
 		if(is_queue(ref)) {
-			auto & container = core.heap.read<Deque>(ref);
+			auto & container = core.heap.read<Segmented>(ref);
 			container.data.push_back(elem);
 			return value::null;
 		}

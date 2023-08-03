@@ -524,13 +524,13 @@ namespace ltn::vm {
 		>;
 
 		using TypeQueue = UnaryType<"queue"
-			, is_unary_type<Deque, is_queue>
-			, cast_unary_type<Deque, value::queue, is_queue>
+			, is_unary_type<Segmented, is_queue>
+			, cast_unary_type<Segmented, value::queue, is_queue>
 		>;
 
 		using TypeStack = UnaryType<"stack"
-			, is_unary_type<Deque, is_stack>
-			, cast_unary_type<Deque, value::stack, is_stack>
+			, is_unary_type<Segmented, is_stack>
+			, cast_unary_type<Segmented, value::stack, is_stack>
 		>;
 
 		using TypeMap = BinaryType<"map"

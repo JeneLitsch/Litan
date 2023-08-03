@@ -6,11 +6,11 @@
 
 namespace ltn::vm {
 	// Implements stack, queue, ...
-	struct Deque : public Object {
+	struct Segmented : public Object {
 		std::deque<Value> data;
 	};
 
-	inline Deque clone(const Deque & deq) {
+	inline Segmented clone(const Segmented & deq) {
 		return deq;
 	}
 }

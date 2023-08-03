@@ -15,8 +15,8 @@ namespace ltn::vm::build_in::type {
 		if(is_array(ref))    return core.heap.clone<Array>(ref);
 		if(is_tuple(ref))    return core.heap.clone<Tuple>(ref);
 		if(is_string(ref))   return core.heap.clone<String>(ref);
-		if(is_stack(ref))    return core.heap.clone<Deque>(ref);
-		if(is_queue(ref))    return core.heap.clone<Deque>(ref);
+		if(is_stack(ref))    return core.heap.clone<Segmented>(ref);
+		if(is_queue(ref))    return core.heap.clone<Segmented>(ref);
 		if(is_map(ref))      return core.heap.clone<Map>(ref);
 		if(is_ostream(ref))  return core.heap.clone<OStream>(ref);
 		if(is_istream(ref))  return core.heap.clone<IStream>(ref);

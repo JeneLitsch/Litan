@@ -117,14 +117,14 @@ namespace ltn::vm {
 		}
 
 		if(is_queue(value)) {
-			const auto & deque = core.heap.read<Deque>(value);
+			const auto & deque = core.heap.read<Segmented>(value);
 			std::ostringstream ss;
 			print_all(std::begin(deque.data), std::end(deque.data), ss, core, '<', '>');
 			return ss.str();
 		}
 
 		if(is_stack(value)) {
-			const auto & deque = core.heap.read<Deque>(value);
+			const auto & deque = core.heap.read<Segmented>(value);
 			std::ostringstream ss;
 			print_all(std::begin(deque.data), std::end(deque.data), ss, core, '<', '>');
 			return ss.str();

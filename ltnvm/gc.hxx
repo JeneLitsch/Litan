@@ -16,7 +16,7 @@ namespace ltn::vm::gc {
 	void mark_obj(OStream * obj);
 	void mark_obj(FxPointer * obj);
 	void mark_obj(Struct * obj);
-	void mark_obj(Deque * obj);
+	void mark_obj(Segmented * obj);
 	void mark_obj(Map * obj);
 	void mark_obj(Clock * obj);
 	void mark_obj(RandomEngine * obj);

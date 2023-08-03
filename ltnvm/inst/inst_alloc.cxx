@@ -57,7 +57,7 @@ namespace ltn::vm::inst {
 
 
 	void newstack(VmCore & core) {
-		const auto ref = core.heap.alloc<Deque>({});
+		const auto ref = core.heap.alloc<Segmented>({});
 		core.stack.push({ ref, Value::Type::STACK });
 		core.heap.collect_garbage(core.stack);
 	}
@@ -65,7 +65,7 @@ namespace ltn::vm::inst {
 
 
 	void newqueue(VmCore & core) {
-		const auto ref = core.heap.alloc<Deque>({});
+		const auto ref = core.heap.alloc<Segmented>({});
 		core.stack.push({ ref, Value::Type::QUEUE });
 		core.heap.collect_garbage(core.stack);
 	}

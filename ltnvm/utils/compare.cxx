@@ -47,8 +47,8 @@ namespace ltn::vm {
 					return std::partial_ordering::equivalent;
 				}
 				if(is_stack(l) || is_queue(l)) {
-					const auto & deq_l = core.heap.read<Deque>(l);
-					const auto & deq_r = core.heap.read<Deque>(r);
+					const auto & deq_l = core.heap.read<Segmented>(l);
+					const auto & deq_r = core.heap.read<Segmented>(r);
 					if(deq_l.data.size() != deq_r.data.size()) {
 						return deq_l.data.size() <=> deq_r.data.size();
 					}
