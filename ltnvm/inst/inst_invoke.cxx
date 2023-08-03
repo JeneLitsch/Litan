@@ -41,8 +41,8 @@ namespace ltn::vm::inst {
 
 
 		void do_invoke_external(VmCore & core, const Value ref_fx, std::uint64_t arity, const std::vector<Value> & args) {
-			if(core.externals.contains(ref_fx.i)) {
-				auto & fxptr = core.externals.at(ref_fx.i);
+			if(core.fx_table_ltn_to_cxx.contains(ref_fx.i)) {
+				auto & fxptr = core.fx_table_ltn_to_cxx.at(ref_fx.i);
 				if(arity == fxptr.arity()) {
 					ext::Parameters parameters{core.heap, args};
 					auto result = fxptr(parameters, core.heap);
