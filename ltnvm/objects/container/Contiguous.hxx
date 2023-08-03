@@ -6,8 +6,10 @@
 
 namespace ltn::vm {
 	struct Contiguous : public Object {
+	protected:
 		Contiguous(std::vector<Value> data = {}) : data {data} {}
 
+	public:
 		std::vector<Value> data;
 
 		inline void push_back(const Value & value) {
