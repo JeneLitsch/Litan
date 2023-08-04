@@ -4,6 +4,7 @@
 #include "RangeIterator.hxx"
 #include "ReversedIterator.hxx"
 #include "StringIterator.hxx"
+#include "MapIterator.hxx"
 #include "ltnvm/utils/type_check.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/Heap.hxx"
@@ -22,6 +23,7 @@ namespace ltn::vm {
 			if(is_array(ref))    return value::iterator(heap.make<ContiguousIterator>(ref.as<Array>()));
 			if(is_tuple(ref))    return value::iterator(heap.make<ContiguousIterator>(ref.as<Tuple>()));
 			if(is_string(ref))   return value::iterator(heap.make<StringIterator>(ref.as<String>()));
+			if(is_map(ref))      return value::iterator(heap.make<MapIterator>(ref.as<Map>(), &heap));
 			throw except::invalid_argument("std::iter expects an iterable object");
 		}
 
