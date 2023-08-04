@@ -1,5 +1,8 @@
 function main() {
-	for(i : std::range(0, 1000)) {
-		var a = "AAAAAAA";
+	var map = [ 1:"A", 2:"B" ];
+	for(pair : map) {
+		std::println(pair);
+		std::remove(map, 2);
+		std::insert(map, 3, "C");
 	}
 }

@@ -7,4 +7,5 @@ target_sources(libltnvm PRIVATE
 	RangeIterator.cxx
 	ReversedIterator.cxx
 	StringIterator.cxx
+	MapIterator.cxx
 )
