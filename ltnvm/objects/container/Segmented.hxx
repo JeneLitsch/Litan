@@ -5,10 +5,15 @@
 #include "ltnvm/objects/Object.hxx"
 
 namespace ltn::vm {
-	// Implements stack, queue, ...
-	struct Segmented : public Object {
-		std::deque<Value> data;
+	struct Segmented : public Container<std::deque<Value>> {
+	public:
+		void pop_front() {
+			++this->version;
+			this->data.pop_front();
+		}
+
 	protected:
-		Segmented() = default;
+		Segmented(std_container data = {}) 
+			: Container<std::deque<Value>> {data} {}
 	};
 }

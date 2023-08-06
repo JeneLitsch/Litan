@@ -24,7 +24,7 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return Variant{heap.read<String>(value).data};
+			return Variant{heap.read<String>(value).get_underlying()};
 		}
 
 		if(is_contiguous(value)) {

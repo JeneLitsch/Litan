@@ -45,10 +45,10 @@ namespace ltn::vm::build_in {
 		const auto segments_ptr = value::array(core.heap.alloc<Array>({}));
 		auto & segments = core.heap.read<Array>(segments_ptr);
 
-		if(delim.data.empty()) return segments_ptr;
-		if(string.data.empty()) return segments_ptr;
+		if(delim.empty()) return segments_ptr;
+		if(string.empty()) return segments_ptr;
 
-		for(auto && str : split_impl(string.data, delim.data)) {
+		for(auto && str : split_impl(string.get_underlying(), delim.get_underlying())) {
 			segments.push_back(value::string(core.heap.alloc(String{std::move(str)})));
 		}
 

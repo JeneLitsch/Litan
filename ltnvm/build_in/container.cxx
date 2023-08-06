@@ -32,7 +32,7 @@ namespace ltn::vm::build_in {
 		template<typename Container>
 		Value size(const Value & ref, VmCore & core) {
 			const auto & container = core.heap.read<Container>(ref);
-			return value::integer(static_cast<std::int64_t>(std::size(container.data)));
+			return value::integer(static_cast<std::int64_t>(std::size(container)));
 		}
 	}
 
@@ -73,13 +73,13 @@ namespace ltn::vm::build_in {
 		if (is_array(ref)) {
 			const auto & arr = core.heap.read<Array>(ref);
 			if(std::empty(arr)) throw except::out_of_range();
-			return arr.data.front();
+			return arr.front();
 		}
 
 		if (is_string(ref)) {
 			const auto & str = core.heap.read<String>(ref);
-			if(std::empty(str.data)) throw except::out_of_range();
-			return value::character(str.data.front());
+			if(std::empty(str)) throw except::out_of_range();
+			return value::character(str.front());
 		}
 
 		throw except::invalid_argument();
@@ -91,13 +91,13 @@ namespace ltn::vm::build_in {
 		if (is_array(ref)) {
 			const auto & arr = core.heap.read<Array>(ref);
 			if(std::empty(arr)) throw except::out_of_range();
-			return arr.data.back();
+			return arr.back();
 		}
 
 		if (is_string(ref)) {
 			const auto & str = core.heap.read<String>(ref);
-			if(std::empty(str.data)) throw except::out_of_range();
-			return value::character(str.data.back());
+			if(std::empty(str)) throw except::out_of_range();
+			return value::character(str.back());
 		}
 
 		throw except::invalid_argument();

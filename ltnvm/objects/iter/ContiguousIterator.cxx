@@ -18,8 +18,8 @@ namespace ltn::vm {
 
 
 	Value ContiguousIterator::get() {
-		if(this->index < std::ssize(container->data) && this->index >= 0) {
-			return container->data[static_cast<std::uint64_t>(this->index)];
+		if(this->index < std::ssize(*container) && this->index >= 0) {
+			return (*container)[static_cast<std::uint64_t>(this->index)];
 		}
 		else {
 			return value::iterator_stop;
@@ -41,7 +41,7 @@ namespace ltn::vm {
 
 
 	std::uint64_t ContiguousIterator::size() const {
-		return static_cast<std::uint64_t>(std::size(container->data));
+		return static_cast<std::uint64_t>(std::size(*container));
 	}
 
 

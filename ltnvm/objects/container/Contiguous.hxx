@@ -3,30 +3,20 @@
 #include <string_view>
 #include "ltnvm/Value.hxx"
 #include "ltnvm/objects/Object.hxx"
+#include "Container.hxx"
 
 namespace ltn::vm {
-	struct Contiguous : public Object {
-	protected:
-		Contiguous(std::vector<Value> data = {}) : data {data} {}
-
+	struct Contiguous : public Container<std::vector<Value>> {
 	public:
-		std::vector<Value> data;
-
-		inline void push_back(const Value & value) {
-			data.push_back(value);
+		void insert(iterator iter, const Value & value) {
+			++this->version;
+			this->data.insert(iter, value);
 		}
 
-		inline bool empty() const {
-			return std::empty(data);
-		}
+	protected:
 
-		auto begin() { return std::begin(data); }
-		auto end() { return std::end(data); }
 
-		auto begin() const { return std::begin(data); }
-		auto end() const { return std::end(data); }
-
-		auto cbegin() const { return std::cbegin(data); }
-		auto cend() const { return std::cend(data); }
+		Contiguous(std_container data = {}) 
+			: Container<std::vector<Value>> {data} {}
 	};
 }

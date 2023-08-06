@@ -4,7 +4,7 @@ namespace ltn::vm::gc {
 	void mark_obj(Contiguous * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
-			mark(obj->data);
+			mark(obj->get_underlying());
 		}
 	}
 
@@ -60,7 +60,7 @@ namespace ltn::vm::gc {
 	void mark_obj(Segmented * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
-			mark(obj->data);
+			mark(obj->get_underlying());
 		}
 	}
 

@@ -12,32 +12,32 @@ namespace ltn::vm::build_in {
 		if(is_array(ref)) {
 			auto & container = core.heap.read<Array>(ref);
 			if(std::empty(container)) throw except::out_of_range();
-			const auto elem = container.data.back();
-			container.data.pop_back();
+			const auto elem = container.back();
+			container.pop_back();
 			return elem;
 		}
 
 		if(is_string(ref)) {
 			auto & container = core.heap.read<String>(ref);
-			if(std::empty(container.data)) throw except::out_of_range();
-			const auto elem = container.data.back();
-			container.data.pop_back();
+			if(std::empty(container)) throw except::out_of_range();
+			const auto elem = container.back();
+			container.pop_back();
 			return value::character(elem);
 		}
 
 		if(is_stack(ref)) {
 			auto & container = core.heap.read<Segmented>(ref);
-			if(std::empty(container.data)) throw except::out_of_range();
-			const auto elem = container.data.back();
-			container.data.pop_back();
+			if(std::empty(container)) throw except::out_of_range();
+			const auto elem = container.back();
+			container.pop_back();
 			return elem;
 		}
 
 		if(is_queue(ref)) {
 			auto & container = core.heap.read<Segmented>(ref);
-			if(std::empty(container.data)) throw except::out_of_range();
-			const auto elem = container.data.front();
-			container.data.pop_front();
+			if(std::empty(container)) throw except::out_of_range();
+			const auto elem = container.front();
+			container.pop_front();
 			return elem;
 		}
 	

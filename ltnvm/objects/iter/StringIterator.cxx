@@ -18,8 +18,8 @@ namespace ltn::vm {
 
 
 	Value StringIterator::get() {
-		if(this->index < std::ssize(string->data) && this->index >= 0) {
-			return value::character(string->data[static_cast<std::uint64_t>(this->index)]);
+		if(this->index < std::ssize(*string) && this->index >= 0) {
+			return value::character((*string)[static_cast<std::uint64_t>(this->index)]);
 		}
 		else {
 			return value::iterator_stop;
@@ -41,7 +41,7 @@ namespace ltn::vm {
 
 
 	std::uint64_t StringIterator::size() const {
-		return static_cast<std::uint64_t>(std::size(string->data));
+		return static_cast<std::uint64_t>(std::size(*string));
 	}
 
 

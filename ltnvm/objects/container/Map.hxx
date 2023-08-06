@@ -24,7 +24,7 @@ namespace ltn::vm {
 		Map(VmCore * core) 
 			: map{Comparator{core}} {}
 
-		std::size_t size() const {
+		std::uint64_t size() const {
 			return std::size(this->map);
 		}
 

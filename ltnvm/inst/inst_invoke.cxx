@@ -77,14 +77,14 @@ namespace ltn::vm::inst {
 		const auto ref_fx = core.stack.pop();
 		if(is_array(ref_param) || is_tuple(ref_param)) {
 			const auto & args = core.heap.read<Contiguous>(ref_param);
-			const auto arity = std::size(args.data);
+			const auto arity = std::size(args);
 
 			if(is_fxptr(ref_fx)) {
 				load_onto_stack(core.stack, args);
 				return do_invoke_fxptr(core, ref_fx, arity);
 			}
 			else if(is_int(ref_fx)) {
-				return do_invoke_external(core, ref_fx, arity, args.data);
+				return do_invoke_external(core, ref_fx, arity, args.get_underlying());
 			}
 			else throw except::invalid_argument();
 		}
