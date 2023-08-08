@@ -44,4 +44,24 @@ namespace sphinx::test {
 		assert_equal_strict(std::iter::get(iter1), 2); 
 		assert_equal_strict(std::iter::get(iter2), 1); 
 	}
+
+
+
+	function std_iter_array_invalidate_push() 
+		=> local::array_iter_invalidation(lambda(array) => std::push(array, 4))
+
+
+
+	function std_iter_array_invalidate_pop()
+		=> local::array_iter_invalidation(lambda(array) => std::pop(array))
+
+
+		
+	function std_iter_array_invalidate_insert()
+		=> local::array_iter_invalidation(lambda(array) => std::insert(array, 0, null))
+
+
+
+	function std_iter_array_invalidate_remove()
+		=> local::array_iter_invalidation(lambda(array) => std::remove(array, 0))
 }

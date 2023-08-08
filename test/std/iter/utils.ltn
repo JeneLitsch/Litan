@@ -1,0 +1,18 @@
+namespace sphinx::test::local {
+	function iter_invalidation(container, modification) {
+		var iter = std::iter::iter(container);
+		assert_success(lambda[iter] () => std::iter::next(iter));
+		modification(container);
+		assert_except(lambda[iter] () => std::iter::next(iter));
+	}
+
+
+
+	function array_iter_invalidation(modification)
+		=> iter_invalidation([1,2,3], modification)
+
+	
+	
+	function string_iter_invalidation(modification)
+		=> iter_invalidation("ABC", modification)
+}

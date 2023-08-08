@@ -6,3 +6,6 @@ If a invalidated iterator is used an exception in thrown.
 Currently these containers are affected
 
 - Map
+- String
+- Array
+- Tuple

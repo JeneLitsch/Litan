@@ -77,6 +77,10 @@ namespace ltn::vm {
 		inline const std_container & get_underlying() const {
 			return this->data;
 		}
+
+		std::uint64_t get_version() const {
+			return this->version;
+		}
 	 
 	protected:
 		std_container data;

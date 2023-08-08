@@ -19,5 +19,6 @@ namespace ltn::vm {
 	private:
 		Contiguous * container;
 		std::int64_t index;
+		std::uint64_t version;
 	};
 }
