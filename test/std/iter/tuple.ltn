@@ -1,0 +1,47 @@
+namespace sphinx::test {
+	function std_iter_tuple_empty() {
+		var iter = std::iter::iter(());
+		assert_true(std::iter::is_stop(std::iter::next(iter)));
+	}
+
+
+
+	function std_iter_tuple() {
+		var iter = std::iter::iter((1, 2, 3));
+		
+		assert_equal_strict(std::iter::get(iter), 1); 
+		assert_equal_strict(std::iter::next(iter), 1); 
+		assert_equal_strict(std::iter::get(iter), 2); 
+		assert_equal_strict(std::iter::next(iter), 2);
+		assert_equal_strict(std::iter::get(iter), 3); 
+		assert_equal_strict(std::iter::next(iter), 3); 
+	}
+
+
+
+	function std_iter_tuple_underflow() {
+		var iter = std::iter::iter((1, 2, 3));
+		
+		std::iter::move(iter, -1);
+		assert_true(std::iter::is_stop(std::iter::next(iter)));
+	}
+
+
+
+	function std_iter_tuple_overflow() {
+		var iter = std::iter::iter((1, 2, 3));
+		
+		std::iter::move(iter, 3);
+		assert_true(std::iter::is_stop(std::iter::get(iter)));
+	}
+
+
+
+	function std_iter_tuple_clone() {
+		var iter1 = std::iter::iter((1, 2, 3));
+		var iter2 = std::clone(iter1);
+		std::iter::move(iter1, 1);
+		assert_equal_strict(std::iter::get(iter1), 2); 
+		assert_equal_strict(std::iter::get(iter2), 1); 
+	}
+}
