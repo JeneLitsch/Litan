@@ -129,6 +129,7 @@ files=(
 
 	"test/std/iter/utils.ltn"
 	"test/std/iter/array.ltn"
+	"test/std/iter/tuple.ltn"
 	"test/std/iter/range.ltn"
 	"test/std/iter/string.ltn"
 	"test/std/iter/map.ltn"
