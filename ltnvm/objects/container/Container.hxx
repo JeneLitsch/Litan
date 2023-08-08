@@ -11,6 +11,7 @@ namespace ltn::vm {
 		using std_container = T; 
 		using iterator = typename std_container::iterator;
 		using const_iterator = typename std_container::const_iterator;
+		using value_type = typename std_container::value_type; 
 	protected:
 		Container(std_container data = {}) : data {data} {}
 
@@ -19,7 +20,7 @@ namespace ltn::vm {
 			return l.data <=> r.data;
 		}
 
-		inline void push_back(const Value & value) {
+		inline void push_back(const value_type & value) {
 			++this->version;
 			data.push_back(value);
 		}

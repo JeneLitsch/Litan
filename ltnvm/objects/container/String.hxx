@@ -11,6 +11,11 @@ namespace ltn::vm {
 			this->data.insert(iter, begin, end);
 		}
 
+		void append(const std::string & other) {
+			++this->version;
+			this->data.append(other);
+		}
+
 		String(std_container str = {}) 
 			: Container<std::string> {str} {}
 	};

@@ -29,9 +29,18 @@ namespace ltn::vm::build_in {
 
 
 	Value insert_back_string(VmCore & core, Value ref, Value elem) {
-		auto & str = core.heap.read<String>(ref);
-		const auto strL = stringify(elem, core);
-		str.replace_underlying(str.get_underlying() + strL);
+		auto * str = ref.as<String>();
+		
+		if(is_char(elem)) {
+			str->push_back(elem.c);
+		}
+		else if(is_string(elem)) {
+			str->append(elem.as<String>()->get_underlying());
+		}
+		else {
+			str->append(stringify(elem, core));
+		}
+		
 		return value::null;
 	}
 
