@@ -28,15 +28,21 @@ namespace ltn::vm::build_in {
 
 
 
+	Value insert_back_string(VmCore & core, Value ref, Value elem) {
+		auto & str = core.heap.read<String>(ref);
+		const auto strL = stringify(elem, core);
+		str.replace_underlying(str.get_underlying() + strL);
+		return value::null;
+	}
+
+
+
 	Value insert_back(VmCore & core) {
 		const auto elem = core.stack.pop();
 		const auto ref = core.stack.pop();
 		
 		if(is_string(ref)) {
-			auto & str = core.heap.read<String>(ref);
-			const auto strR = stringify(elem, core);
-			str.replace_underlying(str.get_underlying() + strR);
-			return value::null;
+			return insert_back_string(core, ref, elem);
 		}
 
 		if(is_array(ref)) {

@@ -17,10 +17,7 @@ namespace ltn::vm::build_in {
 		}
 
 		if(is_string(ref)) {
-			auto & str = core.heap.read<String>(ref);
-			const auto strL = stringify(elem, core);
-			str.replace_underlying(strL + str.get_underlying());
-			return value::null;
+			return insert_back_string(core, ref, elem);
 		}
 
 		if(is_stack(ref)) {
