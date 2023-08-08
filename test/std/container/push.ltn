@@ -9,6 +9,27 @@ namespace sphinx::test {
 
 
 
+	function std_push_string_char() {
+		var str = "";
+		std::push(str, 'A');
+		std::push(str, 'B');
+		std::push(str, 'C');
+		assert_equal_strict(str, "ABC");
+	}
+
+
+
+	function std_push_string_string() {
+		var str = "";
+		std::push(str, "");
+		std::push(str, "A");
+		std::push(str, "BC");
+		std::push(str, "XYZ");
+		assert_equal_strict(str, "ABCXYZ");
+	}
+
+
+
 	function std_push_stack() {
 		var stack = std::stack();
 		std::push(stack, 1);
