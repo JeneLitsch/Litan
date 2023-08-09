@@ -1,41 +1,69 @@
 namespace sphinx::test {
-	function var_any() {
+	function var_derfault() {
+		test_name("var local (default)");
+		
 		var x;
 		assert_equal_strict(x, null);
+		assert_type(<null>, x);
+	}
+
+
+
+	function var_null() {
+		test_name("var local (null)");
+		
+		var x = null;
+		assert_equal_strict(x, null);
+		assert_type(<null>, x);
 	}
 
 
 
 	function var_bool() {
+		test_name("var local (bool)");
+
 		var x = true;
 		assert_equal_strict(x, true);
+		assert_type(<bool>, x);
 	}
 
 
 
 	function var_int() {
+		test_name("var local (int)");
+
 		var x = 0;
 		assert_equal_strict(x, 0);
+		assert_type(<int>, x);
 	}
 
 
 	
 	function var_float() {
+		test_name("var local (float)");
+
 		var x =  0.0;
 		assert_equal_strict(x, 0.0);
+		assert_type(<float>, x);
 	}
 
 
 
 	function var_string() {
+		test_name("var local (string)");
+
 		var x = "";
 		assert_equal_strict(x, "");
+		assert_type(<string>, x);
 	}
 
 
 
 	function var_array() {
+		test_name("var local (array)");
+
 		var x = [1,2,3];
 		assert_equal_strict(x, [1,2,3]);
+		assert_type(<array(int)>, x);
 	}
 }
