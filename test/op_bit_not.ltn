@@ -1,6 +1,6 @@
 namespace sphinx::test {
 	function bitnot_value() {
-		test_name("operator ~");
+		test_name("operator(unary) ~");
 
 		assert_equal(~0, -1);
 		assert_equal(~1, -2);
@@ -10,7 +10,7 @@ namespace sphinx::test {
 
 
 	function bitnot_typename() {
-		test_name("operator ~ type");
+		test_name("operator(unary) ~ type");
 
 		assert_type(<int>, ~1);
 		assert_type(<int>, ~true);
@@ -20,7 +20,7 @@ namespace sphinx::test {
 
 
 	function bitnot_except() {
-		test_name("operator ~ except");
+		test_name("operator(unary) ~ except");
 
 		assert_success(lambda => ~(true));
 		assert_success(lambda => ~(false));
