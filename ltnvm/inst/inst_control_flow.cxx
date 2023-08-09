@@ -55,7 +55,7 @@ namespace ltn::vm::inst {
 	void for_next(VmCore & core) {
 		const auto iter = core.stack.peek();
 		core.stack.push(iterator::next(iter));
-		core.stack.push(!is_iterator_stop(core.stack.peek())); 
+		core.stack.push(value::boolean(!is_iterator_stop(core.stack.peek()))); 
 		inst::iF(core);
 	}
 }

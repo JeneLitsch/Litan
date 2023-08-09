@@ -44,7 +44,7 @@ namespace ltn::vm {
 
 
 	void MapIterator::mark() {
-		gc::mark(this->map);
+		gc::mark(value::map(this->map));
 	}
 
 

@@ -42,7 +42,7 @@ namespace ltn::vm::inst {
 	void newclock(VmCore & core) {
 		core.heap.collect_garbage(core.stack);
 		const auto ptr = core.heap.make<Clock>();
-		core.stack.push({ ptr, Value::Type::CLOCK });
+		core.stack.push(value::clock(ptr));
 	}
 
 
@@ -50,7 +50,7 @@ namespace ltn::vm::inst {
 	void newstruct(VmCore & core) {
 		core.heap.collect_garbage(core.stack);
 		const auto ptr = core.heap.alloc<Struct>({});
-		core.stack.push({ ptr, Value::Type::STRUCT });
+		core.stack.push(value::strukt(ptr));
 	}
 
 
@@ -72,7 +72,7 @@ namespace ltn::vm::inst {
 	void newmap(VmCore & core) {
 		core.heap.collect_garbage(core.stack);
 		const auto ref = core.heap.alloc<Map>(Map{&core});
-		core.stack.push({ ref, Value::Type::MAP });
+		core.stack.push(value::map(ref));
 	}
 
 

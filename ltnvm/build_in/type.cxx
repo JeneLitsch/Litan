@@ -35,7 +35,7 @@ namespace ltn::vm::build_in::type {
 		const auto ref = core.stack.pop();
 		if(!is_type(ref)) throw except::invalid_operands();
 		auto * type = ref.obj_type;
-		return type_is(*type, value, core);
+		return value::boolean(type_is(*type, value, core));
 	}
 
 

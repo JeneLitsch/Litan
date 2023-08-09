@@ -69,7 +69,7 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = smaller(core);
-		return std::is_sorted(begin, end, comp);
+		return value::boolean(std::is_sorted(begin, end, comp));
 	}
 
 
@@ -78,7 +78,7 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = bigger(core);
-		return std::is_sorted(begin, end, comp);
+		return value::boolean(std::is_sorted(begin, end, comp));
 	}
 
 

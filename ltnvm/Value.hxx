@@ -19,28 +19,28 @@ namespace ltn::vm {
 			RNG = 0x80, TYPE,
 		};
 
-		constexpr Value()
+		explicit constexpr Value()
 			: type(Type::NVLL), u(0) {}
 
-		constexpr Value(std::uint64_t value, Type type) 
+		explicit constexpr Value(std::uint64_t value, Type type) 
 			: type(type), u(value) {}
 
-		constexpr Value(Object * object, Type type) 
+		explicit constexpr Value(Object * object, Type type) 
 			: type(type), object{object}{}
 		
-		constexpr Value(std::int64_t value) 
+		explicit constexpr Value(std::int64_t value) 
 			: type(Type::INT), i(value) {}
 
-		constexpr Value(char value) 
+		explicit constexpr Value(char value) 
 			: type(Type::CHAR), c(value) {}
 		
-		constexpr Value(stx::float64_t value)
+		explicit constexpr Value(stx::float64_t value)
 			: type(Type::FLOAT), f(value) {}
 
-		constexpr Value(bool value)
+		explicit constexpr Value(bool value)
 			: type(Type::BOOL), b(value) {}
 
-		constexpr Value(const ltn::vm::Type * obj_type)
+		explicit constexpr Value(const ltn::vm::Type * obj_type)
 			: type(Type::TYPE), obj_type(obj_type) {}
 
 		Type type;
@@ -109,6 +109,18 @@ namespace ltn::vm {
 
 		constexpr inline Value type(const Type * type) {
 			return Value{type};
+		}
+
+		constexpr inline Value map(Object * obj) {
+			return Value{obj, Value::Type::MAP};
+		}
+
+		constexpr inline Value clock(Object * obj) {
+			return Value{obj, Value::Type::CLOCK};
+		}
+
+		constexpr inline Value strukt(Object * obj) {
+			return Value{obj, Value::Type::STRUCT};
 		}
 
 		constexpr inline Value fx(Object * obj) {
