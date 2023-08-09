@@ -1,5 +1,7 @@
 namespace sphinx::test {
     function less_equal_value() {
+		test_name("operator <=");
+
 		assert_equal(true <= true, true);
 		assert_equal(true <= false, false);
 		assert_equal('A' <= 'A', true);
@@ -21,6 +23,8 @@ namespace sphinx::test {
 
 
 	function less_equal_type() {
+		test_name("operator <= type");
+
 		assert_type(<bool>, 1 <= "0");
 	}
 }
