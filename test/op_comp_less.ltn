@@ -15,7 +15,7 @@ namespace sphinx::test {
 
 
 	
-	function less_typename() {
-		assert_equal(std::typename(1 > "0"), "bool");
+	function less_type() {
+		assert_type(<bool>, 1 < "0");
 	}
 }

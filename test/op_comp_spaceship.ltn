@@ -17,9 +17,9 @@ namespace sphinx::test {
 
 
 
-	function space_ship_typename() {
-		assert_equal(std::typename(0.1 <=> 1.1), "int");
-		assert_equal(std::typename(1 <=> 1), "int");
-		assert_equal(std::typename(1 <=> "0"), "int");
+	function space_ship_type() {
+		assert_type(<int>, 0.1 <=> 1.1);
+		assert_type(<int>, 1 <=> 1);
+		assert_type(<int>, 1 <=> "0");
 	}
 }
