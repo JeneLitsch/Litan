@@ -50,7 +50,7 @@ namespace ltn::vm {
 	}
 
 	constexpr inline bool is_fxptr(const Value & val) {
-		return val.type == Value::Type::FX_PTR;
+		return val.type == Value::Type::FUNCTION;
 	}
 
 	constexpr inline bool is_clock(const Value & val) {
@@ -90,7 +90,7 @@ namespace ltn::vm {
 	}
 
 
-	constexpr inline bool is_array_or_tuple(const Value & value) {
+	constexpr inline bool is_contiguous(const Value & value) {
 		return is_array(value) || is_tuple(value);
 	}
 }

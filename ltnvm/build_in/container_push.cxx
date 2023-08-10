@@ -1,4 +1,4 @@
-#include "algorithm.hxx"
+#include "container.hxx"
 #include "ltnvm/utils/convert.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/utils/index.hxx"
@@ -16,15 +16,19 @@ namespace ltn::vm::build_in {
 			return value::null;
 		}
 
+		if(is_string(ref)) {
+			return insert_back_string(core, ref, elem);
+		}
+
 		if(is_stack(ref)) {
-			auto & container = core.heap.read<Deque>(ref);
-			container.data.push_back(elem);
+			auto & container = core.heap.read<Segmented>(ref);
+			container.push_back(elem);
 			return value::null;
 		}
 
 		if(is_queue(ref)) {
-			auto & container = core.heap.read<Deque>(ref);
-			container.data.push_back(elem);
+			auto & container = core.heap.read<Segmented>(ref);
+			container.push_back(elem);
 			return value::null;
 		}
 		

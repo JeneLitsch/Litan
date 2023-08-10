@@ -53,7 +53,7 @@ namespace ltn::vm::build_in::iter {
 		if(!is_array(param) && !is_tuple(param)) {
 			throw except::invalid_argument();
 		}
-		auto & arr = core.heap.read<Array>(param);
+		auto & arr = core.heap.read<Contiguous>(param);
 		std::vector<Iterator *> iters;
 		for(auto & e : arr) {
 			iters.push_back(iterator::wrap(e, core.heap).as<Iterator>());

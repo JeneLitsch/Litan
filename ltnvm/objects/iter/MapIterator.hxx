@@ -5,9 +5,9 @@
 #include "ltnvm/objects/container.hxx"
 
 namespace ltn::vm {
-	class ArrayIterator : public Iterator {
+	class MapIterator : public Iterator {
 	public:
-		ArrayIterator(Array * array);
+		MapIterator(Map * container, Heap * heap);
 
 		virtual Value next() override;
 		virtual Value get() override;
@@ -17,7 +17,10 @@ namespace ltn::vm {
 		virtual std::unique_ptr<Iterator> clone() const override;
 
 	private:
-		Array * array;
-		std::int64_t index;
+		Map * map;
+		Map::iterator iterator;
+		std::uint64_t version;
+		Heap * heap;
+		Value current_key;
 	};
 }

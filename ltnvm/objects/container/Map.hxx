@@ -19,10 +19,12 @@ namespace ltn::vm {
 
 	class Map : public Object {
 	public:
+		using std_map = std::map<Value, Value, Comparator>;
+		using iterator = std_map::const_iterator;
 		Map(VmCore * core) 
 			: map{Comparator{core}} {}
 
-		std::size_t size() const {
+		std::uint64_t size() const {
 			return std::size(this->map);
 		}
 
@@ -43,14 +45,21 @@ namespace ltn::vm {
 		}
 
 		Value & operator[](const Value & key) {
+			if(!this->contains(key)) ++this->version;
 			return this->map[key];
 		} 
 
 		void erase(const Value & key) {
+			++this->version;
 			this->map.erase(key);
 		}
+
+		std::uint64_t get_version() const {
+			return this->version;
+		}
 	private:
-		std::map<Value, Value, Comparator> map;
+		std_map map;
+		std::uint64_t version = 0;
 	};
 
 

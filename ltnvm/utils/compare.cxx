@@ -28,17 +28,17 @@ namespace ltn::vm {
 				if(is_string(l)) {
 					const auto & strL = core.heap.read<String>(l);
 					const auto & strR = core.heap.read<String>(r);
-					return strL.data <=> strR.data;
+					return strL <=> strR;
 				}
 				if(is_array(l) || is_tuple(l)) {
-					const auto & arrL = core.heap.read<Array>(l);
-					const auto & arrR = core.heap.read<Array>(r);
-					if(arrL.data.size() != arrR.data.size()) {
-						return arrL.data.size() <=> arrR.data.size();
+					const auto & arrL = core.heap.read<Contiguous>(l);
+					const auto & arrR = core.heap.read<Contiguous>(r);
+					if(arrL.size() != arrR.size()) {
+						return arrL.size() <=> arrR.size();
 					}
-					for(std::size_t i = 0; i < arrL.data.size(); i++) {
-						const auto & elemL = arrL.data[i];
-						const auto & elemR = arrR.data[i];
+					for(std::size_t i = 0; i < arrL.size(); i++) {
+						const auto & elemL = arrL[i];
+						const auto & elemR = arrR[i];
 						const auto & comp = compare(elemL, elemR, core);
 						if(comp != 0) {
 							return comp;
@@ -47,14 +47,14 @@ namespace ltn::vm {
 					return std::partial_ordering::equivalent;
 				}
 				if(is_stack(l) || is_queue(l)) {
-					const auto & deq_l = core.heap.read<Deque>(l);
-					const auto & deq_r = core.heap.read<Deque>(r);
-					if(deq_l.data.size() != deq_r.data.size()) {
-						return deq_l.data.size() <=> deq_r.data.size();
+					const auto & deq_l = core.heap.read<Segmented>(l);
+					const auto & deq_r = core.heap.read<Segmented>(r);
+					if(deq_l.size() != deq_r.size()) {
+						return deq_l.size() <=> deq_r.size();
 					}
-					for(std::size_t i = 0; i < deq_l.data.size(); i++) {
-						const auto & elemL = deq_l.data[i];
-						const auto & elemR = deq_r.data[i];
+					for(std::size_t i = 0; i < deq_l.size(); i++) {
+						const auto & elemL = deq_l[i];
+						const auto & elemR = deq_r[i];
 						const auto & comp = compare(elemL, elemR, core);
 						if(comp != 0) {
 							return comp;

@@ -62,7 +62,7 @@ namespace ltn::vm::build_in {
 			return Value{fx(value.f)};
 		}
 		if(is_int(value) || is_bool(value) || is_char(value)) {
-			return cast::to_int(value);
+			return value::integer(cast::to_int(value));
 		}
 		throw except::invalid_argument();
 	}
@@ -167,7 +167,7 @@ namespace ltn::vm::build_in {
 
 	Value sqrt(VmCore & core) {
 		const auto value = core.stack.pop();
-		return std::sqrt(convert::to_float(value));
+		return value::floating(std::sqrt(convert::to_float(value)));
 	}
 	
 
@@ -175,9 +175,12 @@ namespace ltn::vm::build_in {
 	Value hypot(VmCore & core) {
 		const auto r = core.stack.pop();
 		const auto l = core.stack.pop();
-		return std::hypot(
-			convert::to_float(l),
-			convert::to_float(r));
+		return value::floating(
+			std::hypot(
+				convert::to_float(l),
+				convert::to_float(r)
+			)
+		);
 	}
 
 
@@ -185,15 +188,16 @@ namespace ltn::vm::build_in {
 	Value log(VmCore & core){
 		const auto r = core.stack.pop();
 		const auto l = core.stack.pop();
-		return std::log(convert::to_float(l))
-			/ std::log(convert::to_float(r));
+		return value::floating(
+			std::log(convert::to_float(l))	/ std::log(convert::to_float(r))
+		);
 	}
 	
 
 	
 	Value ln(VmCore & core) {
 		const auto value = core.stack.pop();
-		return std::log(convert::to_float(value));
+		return value::floating(std::log(convert::to_float(value)));
 	}
 
 

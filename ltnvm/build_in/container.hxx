@@ -2,6 +2,7 @@
 #include "ltnvm/VmCore.hxx"
 
 namespace ltn::vm::build_in {
+	Value insert_back_string(VmCore & core, Value ref, Value elem);
 
 	Value push(VmCore & core);
 	Value pop(VmCore & core);

@@ -148,12 +148,11 @@ namespace ltn::vm {
 
 
 		void load_main_args(VmCore & core, const std::vector<std::string> & args) {
-			const auto ref = value::array(core.heap.alloc<Array>({}));
-			core.stack.push(ref);
+			const auto arr = core.heap.alloc<Array>({});
+			core.stack.push(value::array(arr));
 			for(const auto & arg : args) {
 				const auto str = core.heap.alloc(String{arg});
-				auto & arr = core.heap.read<Array>(ref);
-				arr.push_back(value::string(str));
+				arr->push_back(value::string(str));
 			}
 		}
 
@@ -170,12 +169,12 @@ namespace ltn::vm {
 		void jump_to_init(VmCore & core, const std::string & main, std::uint64_t arguments_count) {
 			const auto main_fx = [&] () -> std::string {
 				if(!main.empty()) return main;
-				return core.function_table.contains("main(1)") ? "main(1)" : "main(0)";
+				return core.fx_table_cxx_to_ltn.contains("main(1)") ? "main(1)" : "main(0)";
 			} ();
-			if(!core.function_table.contains(main_fx)) throw std::runtime_error {
+			if(!core.fx_table_cxx_to_ltn.contains(main_fx)) throw std::runtime_error {
 				"Program does not contain function " + main_fx
 			};
-			core.pc = core.code_begin + core.function_table.at(main_fx);
+			core.pc = core.code_begin + core.fx_table_cxx_to_ltn.at(main_fx);
 			core.stack.push_frame(core.code_end - 1, arguments_count);
 		}
 	}
@@ -238,7 +237,7 @@ namespace ltn::vm {
 			throw std::runtime_error{"Incompatible bytecode version"};
 		}
 
-		this->core.function_table = read_addr_table(it);
+		this->core.fx_table_cxx_to_ltn = read_addr_table(it);
 		this->core.static_table = read_addr_table(it);
 		this->core.member_name_table = read_name_table(it);
 

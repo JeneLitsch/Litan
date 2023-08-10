@@ -1,0 +1,59 @@
+namespace sphinx::test {
+	function std_iter_map_empty() {
+		var map = [:];
+		var iter = std::iter::iter(map);
+		assert_true(std::iter::is_stop(std::iter::next(iter)));
+	}
+
+
+
+	function std_iter_map() {
+		var map = [
+			1 : "A",
+			2 : "B",
+			3 : "C",
+		];
+
+		var iter = std::iter::iter(map);
+
+		var x0 = std::iter::next(iter); 
+		var x1 = std::iter::next(iter); 
+		var x2 = std::iter::next(iter); 
+		var x3 = std::iter::next(iter); 
+
+		assert_equal_strict(x0, (1, "A"));
+		assert_equal_strict(x1, (2, "B"));
+		assert_equal_strict(x2, (3, "C"));
+		assert_true(std::iter::is_stop(x3));
+	}
+
+
+
+	function std_iter_map_invalidate_set() {
+		var map = [:];
+		var iter = std::iter::iter(map);
+		map[1] = "A";
+		assert_except(lambda[iter] () => std::iter::next(iter));
+		assert_except(lambda[iter] () => std::iter::get(iter));
+	}
+
+
+
+	function std_iter_map_invalidate_insert() {
+		var map = [:];
+		var iter = std::iter::iter(map);
+		std::insert(map, 1, "A");
+		assert_except(lambda[iter] () => std::iter::next(iter));
+		assert_except(lambda[iter] () => std::iter::get(iter));
+	}
+
+
+
+	function std_iter_map_invalidate_remove() {
+		var map = [1:"A"];
+		var iter = std::iter::iter(map);
+		std::remove(map, 1);
+		assert_except(lambda[iter] () => std::iter::next(iter));
+		assert_except(lambda[iter] () => std::iter::get(iter));
+	}
+}

@@ -13,7 +13,7 @@ namespace ltn::vm::build_in {
 
 
 		void guardEmpty(const auto & collection) {
-			if(collection.data.empty()) throw except::empty_collection();
+			if(std::empty(collection)) throw except::empty_collection();
 		}
 
 		
@@ -22,7 +22,7 @@ namespace ltn::vm::build_in {
 		Value remove_first(const Value ref, Heap & heap) {
 			auto & collection = heap.read<Collection>(ref); 
 			guardEmpty(collection);
-			collection.data.erase(collection.data.begin());
+			collection.erase(collection.begin());
 			return value::null;
 		}
 
@@ -32,19 +32,17 @@ namespace ltn::vm::build_in {
 		Value remove_last(const Value ref, Heap & heap) {
 			auto & collection = heap.read<Collection>(ref); 
 			guardEmpty(collection);
-			collection.data.pop_back();
+			collection.pop_back();
 			return value::null;
 		}
 
 
 
 		template<typename Collection>
-		Value remove_index(const Value ref, Heap & heap, const Value & index, std::int64_t size = 1) {
+		Value remove_index(const Value ref, Heap & heap, const Value & index) {
 			auto & collection = heap.read<Collection>(ref);
-			const auto i = to_index(index, std::size(collection.data));
-			const auto begin = collection.data.begin() + i;
-			const auto end = begin + size;
-			collection.data.erase(begin, end);
+			const auto i = to_index(index, std::size(collection));
+			collection.erase(collection.begin() + i);
 			return value::null;
 		}
 

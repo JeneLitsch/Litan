@@ -1,5 +1,7 @@
 namespace sphinx::test {
     function less_value() {
+		test_name("operator(binary) <");
+
 		assert_equal(1 < 2, true);
 		assert_equal(42 < -2.0, false);
 		assert_equal(-42 < -2.0, true);
@@ -15,7 +17,9 @@ namespace sphinx::test {
 
 
 	
-	function less_typename() {
-		assert_equal(std::typename(1 > "0"), "bool");
+	function less_type() {
+		test_name("operator(binary) < type");
+
+		assert_type(<bool>, 1 < "0");
 	}
 }

@@ -10,16 +10,16 @@ namespace ltn::vm::inst {
 	void neg(VmCore & core) {
 		FETCH
 		if(is_bool(x)) {
-			return core.stack.push({- static_cast<std::int64_t>(x.b)});
+			return core.stack.push(value::integer(-static_cast<std::int64_t>(x.b)));
 		}
 		if(is_char(x)) {
-			return core.stack.push({- static_cast<std::int64_t>(x.c)});
+			return core.stack.push(value::integer(-static_cast<std::int64_t>(x.c)));
 		}
 		if(is_int(x)) {
-			return core.stack.push({- x.i});
+			return core.stack.push(value::integer(-x.i));
 		}
 		if(is_float(x)) {
-			return core.stack.push({- x.f});
+			return core.stack.push(value::floating(-x.f));
 		}
 		throw except::invalid_argument();
 	}
@@ -28,7 +28,7 @@ namespace ltn::vm::inst {
 
 	void n0t(VmCore & core) {
 		FETCH
-		return core.stack.push(!convert::to_bool(x, core));
+		return core.stack.push(value::boolean(!convert::to_bool(x, core)));
 	}
 
 
@@ -36,13 +36,13 @@ namespace ltn::vm::inst {
 	void inc(VmCore & core) {
 		FETCH
 		if(is_char(x)) {
-			return core.stack.push(static_cast<char>(x.c + 1));
+			return core.stack.push(value::integer(static_cast<char>(x.c + 1)));
 		}
 		if(is_int(x)) {
-			return core.stack.push({x.i + 1});
+			return core.stack.push(value::integer(x.i + 1));
 		}
 		if(is_float(x)) {
-			return core.stack.push({x.f + 1});
+			return core.stack.push(value::floating(x.f + 1));
 		}
 		if(is_struct(x)) {
 			return core.stack.push(call_special_member<MemberCode::ADD>(core, x, value::integer(1)));
@@ -55,13 +55,13 @@ namespace ltn::vm::inst {
 	void dec(VmCore & core) {
 		FETCH
 		if(is_char(x)) {
-			return core.stack.push(static_cast<char>(x.c - 1));
+			return core.stack.push(value::integer(static_cast<char>(x.c - 1)));
 		}
 		if(is_int(x)) {
-			return core.stack.push({x.i - 1});
+			return core.stack.push(value::integer(x.i - 1));
 		}
 		if(is_float(x)) {
-			return core.stack.push({x.f - 1});
+			return core.stack.push(value::floating(x.f - 1));
 		}
 		if(is_struct(x)) {
 			return core.stack.push(call_special_member<MemberCode::SUB>(core, x, value::integer(1)));

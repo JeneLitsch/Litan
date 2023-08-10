@@ -1,5 +1,7 @@
 namespace sphinx::test {
     function less_equal_value() {
+		test_name("operator(binary) <=");
+
 		assert_equal(true <= true, true);
 		assert_equal(true <= false, false);
 		assert_equal('A' <= 'A', true);
@@ -15,12 +17,14 @@ namespace sphinx::test {
 		assert_equal("ABCD" <= "ZBC", true);
 		assert_equal("ZBCD" <= "AZBC", false);
 		assert_equal(std::cout() <= std::cout(), true);
-		assert_equal(std::cin()<= std::cout(), true);
+		assert_equal(std::cin() <= std::cout(), true);
     }
 
 
 
-	function less_equal_typename() {
-		assert_equal(std::typename(1 <= "0"), "bool");
+	function less_equal_type() {
+		test_name("operator(binary) <= type");
+
+		assert_type(<bool>, 1 <= "0");
 	}
 }

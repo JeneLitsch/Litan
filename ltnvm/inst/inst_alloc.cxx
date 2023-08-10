@@ -8,7 +8,7 @@
 
 namespace ltn::vm::inst {
 
-	void pushAll(auto & array, Stack & stack, std::uint64_t size) {
+	void pushAll(auto & array, VmStack & stack, std::uint64_t size) {
 		if(!size) return;
 		const auto value = stack.pop();
 		pushAll(array, stack, size -1);
@@ -18,86 +18,83 @@ namespace ltn::vm::inst {
 
 
 	void newarr(VmCore & core){
-		const auto ptr = value::array(core.heap.alloc<Array>({}));
-		auto & arr = core.heap.read<Array>(ptr); 
-		const auto size = core.fetch_uint();
-		pushAll(arr, core.stack, size);
-		core.stack.push(ptr);
 		core.heap.collect_garbage(core.stack);
+		auto * arr = core.heap.make<Array>(); 
+		const auto size = core.fetch_uint();
+		pushAll(*arr, core.stack, size);
+		core.stack.push(value::array(arr));
 	}
 
 
 
 	void newstr(VmCore & core) {
+		core.heap.collect_garbage(core.stack);
 		const auto size = core.fetch_uint();
 		const auto cstr = core.fetch_str();
 		std::string str(cstr, cstr + size); 
-		const auto ptr = core.heap.alloc<String>({std::move(str)});
-		core.stack.push({ ptr, Value::Type::STRING });
+		const auto ptr = core.heap.make<String>(std::move(str));
+		core.stack.push(value::string(ptr));
 		core.pc += size;
-		core.heap.collect_garbage(core.stack);
 	}
 
 
 
 	void newclock(VmCore & core) {
-		const auto ptr = core.heap.alloc<Clock>({});
-		core.stack.push({ ptr, Value::Type::CLOCK });
 		core.heap.collect_garbage(core.stack);
+		const auto ptr = core.heap.make<Clock>();
+		core.stack.push(value::clock(ptr));
 	}
 
 
 
 	void newstruct(VmCore & core) {
-		const auto ptr = core.heap.alloc<Struct>({});
-		core.stack.push({ ptr, Value::Type::STRUCT });
 		core.heap.collect_garbage(core.stack);
+		const auto ptr = core.heap.alloc<Struct>({});
+		core.stack.push(value::strukt(ptr));
 	}
 
 
 
 	void newstack(VmCore & core) {
-		const auto ref = core.heap.alloc<Deque>({});
-		core.stack.push({ ref, Value::Type::STACK });
 		core.heap.collect_garbage(core.stack);
+		core.stack.push(value::stack(core.heap.make<Stack>()));
 	}
 
 
 
 	void newqueue(VmCore & core) {
-		const auto ref = core.heap.alloc<Deque>({});
-		core.stack.push({ ref, Value::Type::QUEUE });
 		core.heap.collect_garbage(core.stack);
+		core.stack.push(value::queue(core.heap.make<Queue>()));
 	}
 
 
 
 	void newmap(VmCore & core) {
-		const auto ref = core.heap.alloc<Map>(Map{&core});
-		core.stack.push({ ref, Value::Type::MAP });
 		core.heap.collect_garbage(core.stack);
+		const auto ref = core.heap.alloc<Map>(Map{&core});
+		core.stack.push(value::map(ref));
 	}
 
 
 
 	void newfx(VmCore & core){
+		core.heap.collect_garbage(core.stack);
 		const auto address = core.code_begin + core.fetch_uint(); 
 		const auto arity_code = core.fetch_uint();
 		const auto arity = (arity_code << 1) >> 1;
 		const auto is_variadic = (arity_code >> 63) != 0;
 		FxPointer fx_ptr { address, arity, {}, is_variadic };
 		const auto ref = core.heap.alloc(std::move(fx_ptr));
-		core.stack.push(Value{ref, Value::Type::FX_PTR});
+		core.stack.push(value::fx(ref));
 	}
 
 
 
 	void newtuple(VmCore & core){
-		const auto ptr = value::tuple(core.heap.alloc<Array>({}));
-		auto & arr = core.heap.read<Array>(ptr); 
-		const auto size = core.fetch_uint();
-		pushAll(arr, core.stack, size);
-		core.stack.push(ptr);
 		core.heap.collect_garbage(core.stack);
+		const auto size = core.fetch_uint();
+		auto * tup = core.heap.alloc<Tuple>({});
+		pushAll(*tup, core.stack, size);
+		core.stack.push(value::tuple(tup));
 	}
 }

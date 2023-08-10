@@ -13,17 +13,35 @@ namespace ltn::vm::build_in {
 		if(is_string(ref)) {
 			auto & str = core.heap.read<String>(ref);
 			const auto strL = stringify(elem, core);
-			str.data = strL + str.data;
+			str.replace_underlying(strL + str.get_underlying());
 			return value::null;
 		}
 
 		if(is_array(ref)) {
 			auto & arr = core.heap.read<Array>(ref);
-			arr.data.insert(arr.begin(), elem);
+			arr.insert(arr.begin(), elem);
 			return value::null;
 		} 
 
 		throw except::invalid_argument();
+	}
+
+
+
+	Value insert_back_string(VmCore & core, Value ref, Value elem) {
+		auto * str = ref.as<String>();
+		
+		if(is_char(elem)) {
+			str->push_back(elem.c);
+		}
+		else if(is_string(elem)) {
+			str->append(elem.as<String>()->get_underlying());
+		}
+		else {
+			str->append(stringify(elem, core));
+		}
+		
+		return value::null;
 	}
 
 
@@ -33,10 +51,7 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 		
 		if(is_string(ref)) {
-			auto & str = core.heap.read<String>(ref);
-			const auto strR = stringify(elem, core);
-			str.data += strR;
-			return value::null;
+			return insert_back_string(core, ref, elem);
 		}
 
 		if(is_array(ref)) {
@@ -52,8 +67,8 @@ namespace ltn::vm::build_in {
 
 	namespace {
 		auto to_iter(auto & container, const Value & key) {
-			const auto i = to_index(key, std::size(container.data) + 1);
-			return std::begin(container.data) + i;
+			const auto i = to_index(key, std::size(container) + 1);
+			return std::begin(container) + i;
 		}
 	}
 
@@ -76,14 +91,14 @@ namespace ltn::vm::build_in {
 			const auto begin = std::begin(strX);
 			const auto end = std::end(strX);
 			const auto at = to_iter(str, key);
-			str.data.insert(at, begin, end);
+			str.insert(at, begin, end);
 			return value::null;
 		}
 
 		if(is_array(ref)) {
 			auto & arr = core.heap.read<Array>(ref); 
 			const auto at = to_iter(arr, key);
-			arr.data.insert(at, elem);
+			arr.insert(at, elem);
 			return value::null;
 		}
 

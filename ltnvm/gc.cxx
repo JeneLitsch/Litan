@@ -1,10 +1,10 @@
 #include "gc.hxx"
 
 namespace ltn::vm::gc {
-	void mark_obj(Array * obj) {
+	void mark_obj(Contiguous * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
-			mark(obj->data);
+			mark(obj->get_underlying());
 		}
 	}
 
@@ -57,10 +57,10 @@ namespace ltn::vm::gc {
 
 
 
-	void mark_obj(Deque * obj) {
+	void mark_obj(Segmented * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
-			mark(obj->data);
+			mark(obj->get_underlying());
 		}
 	}
 
@@ -116,16 +116,16 @@ namespace ltn::vm::gc {
 			case VT::CHAR:          return; // no gc required
 			case VT::ARRAY:         return mark_obj(value.as<Array>());
 			case VT::STRING:        return mark_obj(value.as<String>());
-			case VT::TUPLE:         return mark_obj(value.as<Array>());
+			case VT::TUPLE:         return mark_obj(value.as<Tuple>());
 			case VT::ISTREAM:       return mark_obj(value.as<IStream>());
 			case VT::ITERATOR:      return mark_obj(value.as<Iterator>());
 			case VT::ITERATOR_STOP: return; // no gc required
 			case VT::OSTREAM:       return mark_obj(value.as<OStream>());
-			case VT::FX_PTR:        return mark_obj(value.as<FxPointer>());
+			case VT::FUNCTION:      return mark_obj(value.as<FxPointer>());
 			case VT::CLOCK:         return mark_obj(value.as<Clock>());
 			case VT::STRUCT:        return mark_obj(value.as<Struct>());
-			case VT::QUEUE:         return mark_obj(value.as<Deque>());
-			case VT::STACK:         return mark_obj(value.as<Deque>());
+			case VT::QUEUE:         return mark_obj(value.as<Segmented>());
+			case VT::STACK:         return mark_obj(value.as<Segmented>());
 			case VT::MAP:           return mark_obj(value.as<Map>());
 			case VT::RNG:           return mark_obj(value.as<RandomEngine>());
 			case VT::TYPE:          return; // no gc required

@@ -49,7 +49,7 @@ namespace ltn::vm::ext {
 		template<>
 		struct Converter<std::string> {
 			static std::string convert(const Value & value) {
-				if(is_string(value)) return value.as<String>()->data;
+				if(is_string(value)) return value.as<String>()->get_underlying();
 				throw std::runtime_error{"Parameter not a string"};
 			}
 		};
@@ -62,7 +62,7 @@ namespace ltn::vm::ext {
 				if(is_array(value)) {
 					auto & input = *value.as<Array>();
 					std::vector<T> output;
-					for(const auto & elem : input.data) {
+					for(const auto & elem : input) {
 						output.push_back(Converter<T>::convert(elem));
 					}
 					return output;
@@ -87,8 +87,8 @@ namespace ltn::vm::ext {
 
 			static std::tuple<T...> convert(const Value & value) {
 				if(is_tuple(value)) {
-					auto & input = *value.as<Array>();
-					return make_tuple_from_vector(input.data, std::make_index_sequence<sizeof...(T)>{});
+					auto & input = *value.as<Tuple>();
+					return make_tuple_from_vector(input.get_underlying(), std::make_index_sequence<sizeof...(T)>{});
 				} 
 				else {
 					throw std::runtime_error{"Parameter not an array"};

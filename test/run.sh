@@ -127,9 +127,12 @@ files=(
 	"test/std/math/lerp.ltn"
 	"test/std/math/is_between.ltn"
 
+	"test/std/iter/utils.ltn"
 	"test/std/iter/array.ltn"
+	"test/std/iter/tuple.ltn"
 	"test/std/iter/range.ltn"
 	"test/std/iter/string.ltn"
+	"test/std/iter/map.ltn"
 	"test/std/iter/zipped.ltn"
 	"test/std/iter/reversed.ltn"
 

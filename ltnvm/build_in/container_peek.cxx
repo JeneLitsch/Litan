@@ -12,29 +12,29 @@ namespace ltn::vm::build_in {
 		if(is_array(ref)) {
 			auto & container = core.heap.read<Array>(ref);
 			if(std::empty(container)) throw except::out_of_range();
-			const auto elem = container.data.back();
+			const auto elem = container.back();
 			return elem;
 		}
 
 		if(is_string(ref)) {
 			auto & container = core.heap.read<String>(ref);
-			if(std::empty(container.data)) throw except::out_of_range();
-			const auto elem = container.data.back();
+			if(std::empty(container)) throw except::out_of_range();
+			const auto elem = container.back();
 			return value::character(elem);
 		}
 
 
 		if(is_stack(ref)) {
-			auto & container = core.heap.read<Deque>(ref);
-			if(std::empty(container.data)) throw except::out_of_range();
-			const auto elem = container.data.back();
+			auto & container = core.heap.read<Segmented>(ref);
+			if(std::empty(container)) throw except::out_of_range();
+			const auto elem = container.back();
 			return elem;
 		}
 
 		if(is_queue(ref)) {
-			auto & container = core.heap.read<Deque>(ref);
-			if(std::empty(container.data)) throw except::out_of_range();
-			const auto elem = container.data.front();
+			auto & container = core.heap.read<Segmented>(ref);
+			if(std::empty(container)) throw except::out_of_range();
+			const auto elem = container.front();
 			return elem;
 		}
 

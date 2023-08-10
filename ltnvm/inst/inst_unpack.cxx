@@ -2,13 +2,13 @@
 
 namespace ltn::vm::inst {
 	namespace {
-		void unpack_tuple(int size, const Value & ref, Stack & stack, Heap & heap) {
-			auto & tuple = heap.read<Array>(ref);
-			if(std::ssize(tuple.data) < size) {
+		void unpack_tuple(int size, const Value & ref, VmStack & stack, Heap & heap) {
+			auto & tuple = heap.read<Tuple>(ref);
+			if(std::ssize(tuple) < size) {
 				throw Exception{Exception::Type::OUT_OF_RANGE, "Cannot unpack tuple"};
 			}
 			for(int i = size - 1; i >= 0; --i) {
-				stack.push(tuple.data[static_cast<std::size_t>(i)]);
+				stack.push(tuple[static_cast<std::size_t>(i)]);
 			}
 		}
 	}

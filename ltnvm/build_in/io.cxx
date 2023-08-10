@@ -9,7 +9,7 @@ namespace ltn::vm::build_in::io {
 	namespace {
 		using VT = Value::Type;
 
-		std::istream & get_istream(Heap & heap, Stack & stack) {
+		std::istream & get_istream(Heap & heap, VmStack & stack) {
 			const auto ref = stack.pop();
 			if(is_istream(ref)) {
 				return heap.read<IStream>(ref).get();
@@ -55,10 +55,11 @@ namespace ltn::vm::build_in::io {
 		if(!is_string(ref)) throw except::invalid_argument();
 		
 		const auto & path = core.heap.read<String>(ref);
+		auto & path_str = path.get_underlying(); 
 
 		const auto flags = openmode ? std::ios::app : std::ios::trunc;
 
-		auto fout = std::make_unique<std::ofstream>(path.data, flags);
+		auto fout = std::make_unique<std::ofstream>(path_str, flags);
 		return add_out(core, OStream{std::move(fout)});
 	}
 
@@ -82,10 +83,11 @@ namespace ltn::vm::build_in::io {
 			throw except::invalid_argument();
 		}
 		const auto & path = core.heap.read<String>(ref);
-		if(!std::filesystem::exists(path.data)) {
-			throw except::cannot_open_file(path.data);
+		auto & path_str = path.get_underlying(); 
+		if(!std::filesystem::exists(path_str)) {
+			throw except::cannot_open_file(path_str);
 		}
-		return add_in(core, IStream{std::make_unique<std::ifstream>(path.data)});
+		return add_in(core, IStream{std::make_unique<std::ifstream>(path_str)});
 	}
 
 
@@ -94,7 +96,7 @@ namespace ltn::vm::build_in::io {
 		const auto ref = core.stack.pop();
 		if(!is_string(ref)) throw except::invalid_argument();
 		const auto & str = core.heap.read<String>(ref);
-		return add_in(core, IStream{std::make_unique<std::istringstream>(str.data)});
+		return add_in(core, IStream{std::make_unique<std::istringstream>(str.get_underlying())});
 	}
 
 

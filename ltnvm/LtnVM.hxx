@@ -25,7 +25,7 @@ namespace ltn::vm {
 			const std::vector<Variant> & args);
 
 		void register_function(std::int64_t address, auto fx) {
-			core.externals.emplace(address, ext::Callable{std::move(fx)});
+			core.fx_table_ltn_to_cxx.emplace(address, ext::Callable{std::move(fx)});
 		}
 
 		void set_global(

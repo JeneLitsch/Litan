@@ -1,5 +1,7 @@
 namespace sphinx::test {
 	function bitor() {
+		test_name("operator(binary) |");
+
 		assert_equal(0b011 | 0b110, 0b111);
 		assert_equal(0b001 | 0b100, 0b101);
 		assert_equal(1 | true, 1);
@@ -9,13 +11,17 @@ namespace sphinx::test {
 
 
 	function bitor_typename() {
-		assert_equal(std::typename(1 | 1), "int");
-		assert_equal(std::typename(0 | 1), "int");
+		test_name("operator(binary) | type");
+
+		assert_type(<int>, 1 | 1);
+		assert_type(<int>, 0 | 1);
 	}
 	
 
 
 	function bitor_except() {
+		test_name("operator(binary) | except");
+
 		assert_success(lambda => (1) | (1));
 		assert_except(lambda => (1.0) | (1));
 		assert_except(lambda => ("") | (""));

@@ -343,15 +343,9 @@ namespace ltn::c {
 			SourceLocation loc{1, sourcename};
 			std::vector<Token> tokens;
 			while (true) {
-				try {
-					Token t = token(in, loc);
-					if(t.type == TT::___EOF___) break;
-					tokens += t;
-				}
-				catch(const CompilerError & error) {
-					reporter.push(error);
-					in.ignore();
-				}
+				Token t = token(in, loc);
+				if(t.type == TT::___EOF___) break;
+				tokens += t;
 			}
 			tokens += Token{TT::___EOF___, "___EOF___", loc};
 			return tokens;

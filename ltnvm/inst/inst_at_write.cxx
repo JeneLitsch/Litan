@@ -9,16 +9,16 @@ namespace ltn::vm::inst {
 		const auto elem = core.stack.pop();
 		
 		if(is_array(ref) || is_tuple(ref)) {
-			auto & arr = core.heap.read<Array>(ref);
-			const auto index = to_index(key, std::size(arr.data));
-			arr.data[static_cast<std::size_t>(index)] = elem;
+			auto & arr = core.heap.read<Contiguous>(ref);
+			const auto index = to_index(key, std::size(arr));
+			arr[static_cast<std::size_t>(index)] = elem;
 			return;
 		}
 
 		if(is_string(ref)) {
 			auto & str = core.heap.read<String>(ref);
-			const auto index = to_index(key, std::size(str.data));
-			str.data[static_cast<std::size_t>(index)] = convert::to_char(elem);
+			const auto index = to_index(key, std::size(str));
+			str[static_cast<std::size_t>(index)] = convert::to_char(elem);
 			return;
 		}
 

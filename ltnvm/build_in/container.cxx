@@ -32,7 +32,7 @@ namespace ltn::vm::build_in {
 		template<typename Container>
 		Value size(const Value & ref, VmCore & core) {
 			const auto & container = core.heap.read<Container>(ref);
-			return value::integer(static_cast<std::int64_t>(std::size(container.data)));
+			return value::integer(static_cast<std::int64_t>(std::size(container)));
 		}
 	}
 
@@ -40,11 +40,11 @@ namespace ltn::vm::build_in {
 
 	Value size(VmCore & core) {
 		const auto ref = core.stack.pop();
-		if (is_array(ref)) return size<Array>(ref, core);
-		if (is_tuple(ref)) return size<Array>(ref, core);
+		if(is_array(ref)) return size<Array>(ref, core);
+		if(is_tuple(ref)) return size<Tuple>(ref, core);
 		if(is_string(ref)) return size<String>(ref, core);
-		if(is_queue(ref)) return size<Deque>(ref, core);
-		if(is_stack(ref)) return size<Deque>(ref, core);
+		if(is_queue(ref)) return size<Segmented>(ref, core);
+		if(is_stack(ref)) return size<Segmented>(ref, core);
 		if(is_map(ref)) {
 			const auto & map = core.heap.read<Map>(ref);
 			return value::integer(static_cast<std::int64_t>(std::size(map)));
@@ -73,13 +73,13 @@ namespace ltn::vm::build_in {
 		if (is_array(ref)) {
 			const auto & arr = core.heap.read<Array>(ref);
 			if(std::empty(arr)) throw except::out_of_range();
-			return arr.data.front();
+			return arr.front();
 		}
 
 		if (is_string(ref)) {
 			const auto & str = core.heap.read<String>(ref);
-			if(std::empty(str.data)) throw except::out_of_range();
-			return value::character(str.data.front());
+			if(std::empty(str)) throw except::out_of_range();
+			return value::character(str.front());
 		}
 
 		throw except::invalid_argument();
@@ -91,13 +91,13 @@ namespace ltn::vm::build_in {
 		if (is_array(ref)) {
 			const auto & arr = core.heap.read<Array>(ref);
 			if(std::empty(arr)) throw except::out_of_range();
-			return arr.data.back();
+			return arr.back();
 		}
 
 		if (is_string(ref)) {
 			const auto & str = core.heap.read<String>(ref);
-			if(std::empty(str.data)) throw except::out_of_range();
-			return value::character(str.data.back());
+			if(std::empty(str)) throw except::out_of_range();
+			return value::character(str.back());
 		}
 
 		throw except::invalid_argument();

@@ -20,7 +20,7 @@ namespace ltn::vm::inst {
 		T * concat(const Value & l, const Value & r, Heap & heap) {
 			const auto obj_l = heap.read<T>(l);
 			const auto obj_r = heap.read<T>(r);
-			return heap.alloc<T>({obj_l.data + obj_r.data});
+			return heap.alloc<T>({obj_l.get_underlying() + obj_r.get_underlying()});
 		} 
 
 
@@ -33,7 +33,7 @@ namespace ltn::vm::inst {
 			
 			const auto & str = heap.read<T>(ref);
 			const auto & count = cast::to_int(repetitions);
-			auto repeated = stx::repeat(str.data, count);
+			auto repeated = stx::repeat(str.get_underlying(), count);
 			const auto ptr = heap.alloc(T{std::move(repeated)}); 
 			return ptr;
 		}
@@ -101,7 +101,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_tuple(l) && is_tuple(r)) {
-			return core.stack.push(value::tuple(concat<Array>(l,r,core.heap)));
+			return core.stack.push(value::tuple(concat<Tuple>(l,r,core.heap)));
 		}
 
 		if(is_string(l) && is_string(r)) {

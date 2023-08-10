@@ -1,21 +1,21 @@
 #pragma once
 #include <unordered_map>
 #include "ltnvm/Heap.hxx"
-#include "ltnvm/Stack.hxx"
+#include "ltnvm/VmStack.hxx"
 #include "ltnvm/TypeTable.hxx"
 #include "external/Callable.hxx"
 
 namespace ltn::vm {
 	struct VmCore {
 		// Runtime
-		Stack stack;
+		VmStack stack;
 		Heap heap;
 		const std::uint8_t * pc;
 		const std::uint8_t * code_begin;
 		const std::uint8_t * code_end;
 
-		std::unordered_map<std::int64_t, ext::Callable> externals;
-		std::unordered_map<std::string, std::uint64_t> function_table;
+		std::unordered_map<std::int64_t, ext::Callable> fx_table_ltn_to_cxx;
+		std::unordered_map<std::string, std::uint64_t> fx_table_cxx_to_ltn;
 		std::unordered_map<std::string, std::uint64_t> static_table;
 		std::unordered_map<std::uint64_t, std::string> member_name_table;
 

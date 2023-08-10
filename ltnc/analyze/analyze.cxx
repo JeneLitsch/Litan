@@ -104,13 +104,8 @@ namespace ltn::c {
 		}
 
 		while(auto staged = fx_queue.fetch_function()) {
-			try {
-				auto fx = analyze_staged(*staged, context);
-				program.functions.push_back(std::move(fx));
-			}
-			catch(const CompilerError & error) {
-				reporter.push(error);
-			}
+			auto fx = analyze_staged(*staged, context);
+			program.functions.push_back(std::move(fx));
 		}
 
 		program.member_name_table = member_table.get_table();

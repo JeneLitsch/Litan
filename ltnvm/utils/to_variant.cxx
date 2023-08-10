@@ -24,11 +24,11 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return Variant{heap.read<String>(value).data};
+			return Variant{heap.read<String>(value).get_underlying()};
 		}
 
-		if(is_array_or_tuple(value)) {
-			auto & array = heap.read<Array>(value);
+		if(is_contiguous(value)) {
+			auto & array = heap.read<Contiguous>(value);
 			std::vector<Variant> vector;
 			for(const auto & elem : array) {
 				vector.push_back(to_variant(elem, heap));

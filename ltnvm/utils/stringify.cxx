@@ -74,9 +74,9 @@ namespace ltn::vm {
 		}
 
 		if(is_tuple(value)) {
-			const auto & array = core.heap.read<Array>(value);
+			const auto & tuple = core.heap.read<Tuple>(value);
 			std::stringstream ss;
-			print_all(std::begin(array), std::end(array), ss, core, '(', ')');
+			print_all(std::begin(tuple), std::end(tuple), ss, core, '(', ')');
 			return ss.str();
 		}
 
@@ -111,22 +111,22 @@ namespace ltn::vm {
 			if(!fx) return "<struct>";
 			auto result = run_special_member(core, *fx, value);
 			if(is_string(result)) {
-				return core.heap.read<String>(result).data;
+				return core.heap.read<String>(result).get_underlying();
 			} 
 			throw except::invalid_argument("Special member {str} must return string");
 		}
 
 		if(is_queue(value)) {
-			const auto & deque = core.heap.read<Deque>(value);
+			const auto & deque = core.heap.read<Segmented>(value);
 			std::ostringstream ss;
-			print_all(std::begin(deque.data), std::end(deque.data), ss, core, '<', '>');
+			print_all(std::begin(deque), std::end(deque), ss, core, '<', '>');
 			return ss.str();
 		}
 
 		if(is_stack(value)) {
-			const auto & deque = core.heap.read<Deque>(value);
+			const auto & deque = core.heap.read<Segmented>(value);
 			std::ostringstream ss;
-			print_all(std::begin(deque.data), std::end(deque.data), ss, core, '<', '>');
+			print_all(std::begin(deque), std::end(deque), ss, core, '<', '>');
 			return ss.str();
 		}
 
@@ -143,7 +143,7 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return core.heap.read<String>(value).data;
+			return core.heap.read<String>(value).get_underlying();
 		}
 
 		if(is_iterator(value)) {

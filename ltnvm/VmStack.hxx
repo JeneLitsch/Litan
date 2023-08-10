@@ -4,9 +4,9 @@
 #include <iostream>
 #include "Value.hxx"
 namespace ltn::vm {
-	class Stack {
+	class VmStack {
 	public:
-		Stack();
+		VmStack();
 
 
 
