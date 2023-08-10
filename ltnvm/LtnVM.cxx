@@ -313,6 +313,6 @@ namespace ltn::vm {
 
 
 	bool LtnVM::has_function(const std::string & fx_name) {
-		return this->core.function_table.contains(fx_name);
+		return this->core.fx_table_cxx_to_ltn.contains(fx_name);
 	}
 }
