@@ -31,6 +31,8 @@ namespace ltn::vm {
 		void set_global(
 			const std::string & name,
 			Variant value);
+
+		bool has_function(const std::string & fx_name);
 	
 	private:
 		VmCore core;

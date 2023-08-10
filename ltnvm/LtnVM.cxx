@@ -310,4 +310,10 @@ namespace ltn::vm {
 		const auto address = core.static_table[name];
 		this->core.stack.write_absolute(address, to_value(variant, core.heap));
 	}
+
+
+
+	bool LtnVM::has_function(const std::string & fx_name) {
+		return this->core.function_table.contains(fx_name);
+	}
 }
