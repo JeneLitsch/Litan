@@ -3,6 +3,10 @@
 
 namespace ltn::vm {
 	Variant to_variant(const Value & value, Heap & heap) {
+		return to_variant(value);
+	}
+	
+	Variant to_variant(const Value & value) {
 		if(is_null(value)) {
 			return Variant{};
 		}
@@ -24,14 +28,14 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return Variant{heap.read<String>(value).get_underlying()};
+			return Variant{value.as<String>()->get_underlying()};
 		}
 
 		if(is_contiguous(value)) {
-			auto & array = heap.read<Contiguous>(value);
+			auto & array = *value.as<Contiguous>();
 			std::vector<Variant> vector;
 			for(const auto & elem : array) {
-				vector.push_back(to_variant(elem, heap));
+				vector.push_back(to_variant(elem));
 			}
 			return Variant{vector};
 		}

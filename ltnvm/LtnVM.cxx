@@ -284,12 +284,17 @@ namespace ltn::vm {
 		const std::string & function_label,
 		const std::vector<Variant> & args) {
 
+		const std::uint8_t * prev_pc = this->core.pc;
+
 		load_variant_args(core, args);
 		jump_to_init(core, function_label, std::size(args));
 		try {
-			return to_variant(main_loop(this->core), core.heap);
+			auto ret = to_variant(main_loop(this->core), core.heap);
+			this->core.pc = prev_pc;
+			return ret;
 		}
 		catch(const Unhandled & err) {
+			this->core.pc = prev_pc;
 			throw std::runtime_error { 
 				"Unhandled exception: " + err.exception.msg
 			};

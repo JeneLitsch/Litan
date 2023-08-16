@@ -2,8 +2,11 @@
 #include <tuple>
 #include "ltnvm/Heap.hxx"
 #include "ltnvm/Value.hxx"
+#include "ltnvm/utils/to_value.hxx"
 
 namespace ltn::vm::ext {
+	inline Value wrap_return(const Variant & value, Heap &);
+	
 	inline Value wrap_return(bool value, Heap &);
 		
 	inline Value wrap_return(std::integral auto value, Heap &);
@@ -23,6 +26,9 @@ namespace ltn::vm::ext {
 
 
 
+	inline Value wrap_return(const Variant & value, Heap & heap) {
+		return to_value(value, heap);
+	}
 
 	inline Value wrap_return(bool value, Heap &) {
 		return value::boolean(value);

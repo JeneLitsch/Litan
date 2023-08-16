@@ -4,6 +4,7 @@
 #include "ltnvm/Value.hxx"
 #include "ltnvm/Heap.hxx"
 #include "ltnvm/utils/type_check.hxx"
+#include "ltnvm/utils/to_variant.hxx"
 
 namespace ltn::vm::ext {
 	namespace impl {
@@ -11,6 +12,16 @@ namespace ltn::vm::ext {
 		struct Converter {
 			static T convert(const Value &) {
 				throw std::runtime_error{"Unknown parameter type in external"};
+			}
+		};
+
+
+
+
+		template<>
+		struct Converter<Variant> {
+			static Variant convert(const Value & value) {
+				return to_variant(value);
 			}
 		};
 
