@@ -6,6 +6,7 @@
 #include "ltn/version.hxx"
 #include "ltn/header.hxx"
 #include "stdxx/iife.hxx"
+#include "stdxx/keeper.hxx"
 #include "ltnvm/utils/to_variant.hxx"
 #include "ltnvm/utils/to_value.hxx"
 #include "ltnvm/utils/stringify.hxx"
@@ -266,6 +267,8 @@ namespace ltn::vm {
 
 
 	Variant LtnVM::run(const std::vector<std::string> & args, const std::string & main) {
+		stx::keeper pc_keeper = this->core.pc;
+		
 		load_main_args(core, args);
 		jump_to_init(core, main, 1);
 		try {
@@ -284,17 +287,15 @@ namespace ltn::vm {
 		const std::string & function_label,
 		const std::vector<Variant> & args) {
 
-		const std::uint8_t * prev_pc = this->core.pc;
+		stx::keeper pc_keeper = this->core.pc;
 
 		load_variant_args(core, args);
 		jump_to_init(core, function_label, std::size(args));
 		try {
 			auto ret = to_variant(main_loop(this->core), core.heap);
-			this->core.pc = prev_pc;
 			return ret;
 		}
 		catch(const Unhandled & err) {
-			this->core.pc = prev_pc;
 			throw std::runtime_error { 
 				"Unhandled exception: " + err.exception.msg
 			};
