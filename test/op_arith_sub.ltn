@@ -1,5 +1,7 @@
 namespace sphinx::test {
 	function sub_numeric() {
+		test_name("operator: l - r");
+
 		assert_equal(true - true, 0);
 		assert_equal('B' - 1, 'A');
 		assert_equal('B' - 'B', 0);
@@ -10,6 +12,8 @@ namespace sphinx::test {
 
 
 	function sub_except() {
+		test_name("operator: l - r except");
+
 		assert_success(lambda => (true) - (true));
 		assert_success(lambda => ('A') - ('A'));
 		assert_success(lambda => (3) - (4));

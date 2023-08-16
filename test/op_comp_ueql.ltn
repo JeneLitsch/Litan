@@ -1,6 +1,6 @@
 namespace sphinx::test {
     function unequal() {
-		test_name("operator(binary) !=");
+		test_name("operator: !=");
 				
 		assert_false("Hello" != "Hello");
 		assert_true("Hello" != "World");
@@ -14,7 +14,7 @@ namespace sphinx::test {
 
 
 	function unequal_type() {
-		test_name("operator(binary) != type");
+		test_name("operator: != type");
 
 		assert_type(<bool>, 1 != "0");
 	}

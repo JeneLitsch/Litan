@@ -1,6 +1,6 @@
 namespace sphinx::test {
     function space_ship() {
-		test_name("operator(binary) <=>");
+		test_name("operator: <=>");
 
 		assert_equal(-1 <=> 1, -1);
 		assert_equal(1 <=> 1, 0);
@@ -20,7 +20,7 @@ namespace sphinx::test {
 
 
 	function space_ship_type() {
-		test_name("operator(binary) <=> type");
+		test_name("operator: <=> type");
 
 		assert_type(<int>, 0.1 <=> 1.1);
 		assert_type(<int>, 1 <=> 1);

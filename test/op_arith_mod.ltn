@@ -1,5 +1,7 @@
 namespace sphinx::test {
 	function mod_numeric() {
+		test_name("operator: l % r");
+
 		assert_equal(true % true, 0);
 		assert_equal(false % true, 0);
 		assert_equal(4 % 3, 1);
@@ -15,6 +17,8 @@ namespace sphinx::test {
 
 
 	function mod_except() {
+		test_name("operator: l % r except");
+
 		assert_success(lambda => (true) % (true));
 		assert_except(lambda => (true) % (false));
 		assert_success(lambda => (3) % (4));

@@ -1,5 +1,7 @@
 namespace sphinx::test {
 	function index_array() {
+		test_name("operator: [] (array)");
+
 		var array = [1, 2, 3, 4, "_5_"];
 
 		assert_equal(array[0], 1);
@@ -12,6 +14,8 @@ namespace sphinx::test {
 
 
 	function index_array_negative() {
+		test_name("operator: [] (array) negative");
+
 		var array = [1, 2, 3, 4, "_5_"];
 
 		assert_equal(array[-5], 1);
@@ -24,6 +28,8 @@ namespace sphinx::test {
 
 
 	function index_array2d() {
+		test_name("operator: [] (array2d)");
+
 		var array = [
 			[1, 2, 3, 4, "_5_"],
 			[6.6, 7.7, 8.8, 9.9, 10]
@@ -45,6 +51,8 @@ namespace sphinx::test {
 
 
 	function index_array_assign() {
+		test_name("operator: [] (array x int) assign");
+
 		var array = [0,0,0];
 		array[0] = 42;
 		assert_equal(array, [42,0,0]); 
@@ -53,6 +61,8 @@ namespace sphinx::test {
 
 
 	function index_array_assign_negative() {
+		test_name("operator: [] (array x int) negative assign");
+
 		var array = [0,0,0];
 		array[-3] = 42;
 		assert_equal(array, [42,0,0]); 
@@ -61,6 +71,7 @@ namespace sphinx::test {
 
 
 	function index_array_except() {
+		test_name("operator: array[i] except");
 		var array = [1,2,3];
 		assert_success(lambda [array] => array[-1]);
 		assert_success(lambda [array] => array[-3]);
@@ -80,6 +91,8 @@ namespace sphinx::test {
 
 
 	function index_map() {
+		test_name("operator: map[i]");
+
 		var map = std::map();
 		map[1] = "A";
 		map[2] = "B";
@@ -103,6 +116,8 @@ namespace sphinx::test {
 
 
 	function index_string() {
+		test_name("operator: string[i]");
+
 		var str = "ABC";
 
 		assert_equal_strict(str[0], 'A');
@@ -114,6 +129,8 @@ namespace sphinx::test {
 
 
 	function index_string_negative() {
+		test_name("operator: string[-i]");
+		
 		var str = "ABC";
 
 		assert_equal_strict(str[-3], 'A');
@@ -124,6 +141,8 @@ namespace sphinx::test {
 
 
 	function index_string_assign() {
+		test_name("operator: string[i] = r");
+
 		var str = "...";
 		str[0] = 'A';
 		str[1] = 'B';
@@ -134,6 +153,8 @@ namespace sphinx::test {
 
 
 	function index_string_assign_negative() {
+		test_name("operator: string[-i] = r");
+
 		var str = "...";
 		str[-3] = 'A';
 		str[-2] = 'B';
@@ -144,6 +165,7 @@ namespace sphinx::test {
 
 
 	function index_string_except() {
+		test_name("operator: string[i] = r except");
 		var str = "ABC";
 
 		assert_success(lambda[str] => str[-1]);

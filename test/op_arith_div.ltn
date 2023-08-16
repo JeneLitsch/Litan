@@ -1,5 +1,7 @@
 namespace sphinx::test {
 	function div_numeric() {
+		test_name("operator: l / r");
+
 		assert_equal(true / 1, 1);
 		assert_equal('A' / 2, 32);
 		assert_equal('A' / 2.0, 32.5);
@@ -12,6 +14,8 @@ namespace sphinx::test {
 
 
 	function div_except() {
+		test_name("operator: l / r except");
+
 		assert_success(lambda => (1) / (2));
 		assert_success(lambda => (1.0) / (2));
 		assert_except(lambda => (1.0) / (0));

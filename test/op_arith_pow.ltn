@@ -1,5 +1,7 @@
 namespace sphinx::test {
 	function pow_numeric() {
+		test_name("operator: l ** r");
+
 		assert_equal(true ** false, 1);
 		assert_equal(3 ** 2, 9);
 		assert_equal(3 ** 3, 27);
@@ -11,16 +13,20 @@ namespace sphinx::test {
 
 
 	function pow_numeric_typename() {
-		assert_equal(std::typename(true ** true), "int");
-		assert_equal(std::typename('A' ** 'A'), "int");
-		assert_equal(std::typename(1.0 ** 'A'), "float");
-		assert_equal(std::typename(4 ** 4), "int");
-		assert_equal(std::typename(4 ** 4.0), "float");
+		test_name("operator: l ** r type");
+
+		assert_type(<int>, true ** true);
+		assert_type(<int>, 'A' ** 'A');
+		assert_type(<float>, 1.0 ** 'A');
+		assert_type(<int>, 4 ** 4);
+		assert_type(<float>, 4 ** 4.0);
 	}
 
 
 
 	function pow_except() {
+		test_name("operator: l ** r except");
+
 		assert_success(lambda => (4) ** (4));
 		assert_except(lambda => (4) ** (null));
 		assert_except(lambda => (4.0) ** (null));

@@ -1,5 +1,7 @@
 namespace sphinx::test {
 	function neg_numeric() {
+		test_name("operator: -x");
+
 		assert_equal(-true, 0-1);
 		assert_equal(-0, 0);
 		assert_equal(-4, 0 - 4);
@@ -11,15 +13,19 @@ namespace sphinx::test {
 
 
 	function neg_numeric_typename() {
-		assert_equal(std::typename(-true), "int");
-		assert_equal(std::typename(-'A'), "int");
-		assert_equal(std::typename(-3), "int");
-		assert_equal(std::typename(-3.0), "float");
+		test_name("operator: -x type");
+
+		assert_type(<int>, -true);
+		assert_type(<int>, -'A');
+		assert_type(<int>, -3);
+		assert_type(<float>, -3.0);
 	}
 
 
 
 	function neg_except() {
+		test_name("operator: -x except");
+
 		assert_except(lambda =>  -(null));
 		assert_success(lambda => -(true));
 		assert_success(lambda => -('A'));

@@ -1,8 +1,4 @@
 function main() {
-	var map = [ 1:"A", 2:"B" ];
-	for(pair : map) {
-		std::println(pair);
-		std::remove(map, 2);
-		std::insert(map, 3, "C");
-	}
+	var map = [ .a = "A", .b = "B" ];
+	std::println(map);
 }

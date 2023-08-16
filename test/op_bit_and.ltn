@@ -1,6 +1,6 @@
 namespace sphinx::test {
 	function bitand() {
-		test_name("operator(binary) &");
+		test_name("operator: l & r");
 
 		assert_equal(0b011 & 0b110, 0b010);
 		assert_equal(0b001 & 0b100, 0b000);
@@ -11,7 +11,7 @@ namespace sphinx::test {
 
 
 	function bitand_typename() {
-		test_name("operator(binary) & type");
+		test_name("operator: l & r type");
 
 		assert_type(<int>, 1 & 1);
 		assert_type(<int>, 0 & 1);
@@ -20,7 +20,7 @@ namespace sphinx::test {
 
 
 	function bitand_except() {
-		test_name("operator(binary) & except");
+		test_name("operator: l & r except");
 
 		assert_success(lambda => (1) & (1));
 		assert_except(lambda => (1.0) & (1));

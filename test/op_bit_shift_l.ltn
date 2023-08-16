@@ -1,6 +1,6 @@
 namespace sphinx::test {
 	function shift_l() {
-		test_name("operator(binary) <<");
+		test_name("operator: l << r");
 
 		assert_equal(1 << 1, 2);
 		assert_equal(2 << 2, 8);
@@ -10,7 +10,7 @@ namespace sphinx::test {
 
 
 	function shift_l_typename() {
-		test_name("operator(binary) << type");
+		test_name("operator: l << r type");
 
 		assert_type(<int>, 1 << 1);
 	}
@@ -18,7 +18,7 @@ namespace sphinx::test {
 
 
 	function shift_l_except() {
-		test_name("operator(binary) << except");
+		test_name("operator: l << r except");
 
 		assert_except(lambda => (4) << (null));
 		assert_except(lambda => (4.0) << (2));

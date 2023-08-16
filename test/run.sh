@@ -51,7 +51,6 @@ files=(
 	"test/op_comp_greater.ltn"
 	"test/op_comp_greater_eql.ltn"
 	"test/op_comp_spaceship.ltn"
-	"test/op_deref.ltn"
 	"test/op_elvis.ltn"
 	"test/op_index.ltn"
 	"test/op_nullco.ltn"

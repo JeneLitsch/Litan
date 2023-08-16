@@ -1,6 +1,6 @@
 namespace sphinx::test {
     function equal() {
-		test_name("operator(binary) ==");
+		test_name("operator: ==");
 
 		assert_true("Hello" == "Hello");
 		assert_false("Hello" == "World");
@@ -14,7 +14,7 @@ namespace sphinx::test {
 
 
 	function equal_type_type() {
-		test_name("operator(binary) == (type x type)");
+		test_name("operator: == (type x type)");
 
 		assert_true(<int> == <int>);
 		assert_false(<int> == <float>);
@@ -25,7 +25,7 @@ namespace sphinx::test {
 
 
 	function equal_type() {
-		test_name("operator(binary) == type");
+		test_name("operator: == type");
 
 		assert_type(<bool>, 1 == "0");
 	}
