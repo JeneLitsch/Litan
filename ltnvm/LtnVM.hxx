@@ -3,7 +3,7 @@
 #include <functional>
 #include "ltnvm/Exception.hxx"
 #include "VmCore.hxx"
-#include "ltn/variant.hxx"
+#include "ltn/cxx_types.hxx"
 
 namespace ltn::vm {
 	class LtnVM {
@@ -16,13 +16,13 @@ namespace ltn::vm {
 		
 		void setup(std::span<const std::uint8_t> code);
 		
-		Variant run(
+		Any run(
 			const std::vector<std::string> & args = {},
 			const std::string & main = "");
 
-		Variant run(
+		Any run(
 			const std::string & function_label,
-			const std::vector<Variant> & args);
+			const std::vector<Any> & args);
 
 		void register_function(std::int64_t address, auto fx) {
 			core.fx_table_ltn_to_cxx.emplace(address, ext::Callable{std::move(fx)});
@@ -30,7 +30,7 @@ namespace ltn::vm {
 
 		void set_global(
 			const std::string & name,
-			Variant value);
+			Any value);
 
 		bool has_function(const std::string & fx_name);
 	

@@ -5,7 +5,7 @@
 #include "ltnvm/utils/to_value.hxx"
 
 namespace ltn::vm::ext {
-	inline Value wrap_return(const Variant & value, Heap &);
+	inline Value wrap_return(const Any & value, Heap &);
 	
 	inline Value wrap_return(bool value, Heap &);
 		
@@ -26,7 +26,7 @@ namespace ltn::vm::ext {
 
 
 
-	inline Value wrap_return(const Variant & value, Heap & heap) {
+	inline Value wrap_return(const Any & value, Heap & heap) {
 		return to_value(value, heap);
 	}
 

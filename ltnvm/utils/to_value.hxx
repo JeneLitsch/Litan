@@ -1,8 +1,8 @@
 #pragma once
-#include "ltn/variant.hxx"
+#include "ltn/cxx_types.hxx"
 #include "ltnvm/Value.hxx"
 #include "ltnvm/Heap.hxx"
 
 namespace ltn::vm {
-	Value to_value(const Variant & variant, Heap & heap);
+	Value to_value(const Any & variant, Heap & heap);
 }

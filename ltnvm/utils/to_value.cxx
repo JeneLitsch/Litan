@@ -1,7 +1,7 @@
 #include "to_value.hxx"
 
 namespace ltn::vm {
-	Value to_value(const Variant & variant, Heap & heap) {
+	Value to_value(const Any & variant, Heap & heap) {
 		if(variant.is_null()) {
 			return value::null;
 		}

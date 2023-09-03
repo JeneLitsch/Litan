@@ -11,17 +11,17 @@
 
 namespace ltn {
 
-	class Variant {
+	class Any {
 	public:
 		struct NullT {};
-		Variant();
-		Variant(bool v);
-		Variant(char v);
-		Variant(std::int64_t v);
-		Variant(std::integral auto v) : Variant{static_cast<std::int64_t>(v)} {}
-		Variant(stx::float64_t v);
-		Variant(const std::string v);
-		Variant(const std::vector<Variant> & v);
+		Any();
+		Any(bool v);
+		Any(char v);
+		Any(std::int64_t v);
+		Any(std::integral auto v) : Any{static_cast<std::int64_t>(v)} {}
+		Any(stx::float64_t v);
+		Any(const std::string v);
+		Any(const std::vector<Any> & v);
 
 		bool is_null() const;
 		bool is_bool() const;
@@ -36,9 +36,9 @@ namespace ltn {
 		const std::int64_t & as_int() const;
 		const stx::float64_t & as_float() const;
 		const std::string & as_string() const;
-		const std::vector<Variant> & as_array() const;
+		const std::vector<Any> & as_array() const;
 		
-		friend std::ostream & operator<<(std::ostream & stream, const Variant & variant);
+		friend std::ostream & operator<<(std::ostream & stream, const Any & variant);
 
 	private:
 		template<typename T>
@@ -61,7 +61,7 @@ namespace ltn {
 			std::int64_t,
 			stx::float64_t,
 			std::string,
-			std::vector<Variant>
+			std::vector<Any>
 		> data;
 	};
 
@@ -73,30 +73,30 @@ namespace ltn {
 		};
 
 
-		inline bool variant_cast_impl(type<bool>, const Variant & variant) {
+		inline bool variant_cast_impl(type<bool>, const Any & variant) {
 			return variant.as_bool();
 		}
 
 
 		template<std::integral I>
-		inline std::int64_t variant_cast_impl(type<I>, const Variant & variant) {
+		inline std::int64_t variant_cast_impl(type<I>, const Any & variant) {
 			return variant.as_int();
 		}
 
 
 		template<std::floating_point F>
-		inline stx::float64_t variant_cast_impl(type<F>, const Variant & variant) {
+		inline stx::float64_t variant_cast_impl(type<F>, const Any & variant) {
 			return variant.as_float();
 		}
 
 		
-		inline std::string variant_cast_impl(type<std::string>, const Variant & variant) {
+		inline std::string variant_cast_impl(type<std::string>, const Any & variant) {
 			return variant.as_string();
 		}
 
 
 		template<typename E>
-		inline std::vector<E> variant_cast_impl(type<std::vector<E>>, const Variant & variant) {
+		inline std::vector<E> variant_cast_impl(type<std::vector<E>>, const Any & variant) {
 			std::vector<E> vector;
 			const auto & array = variant.as_array();
 			for(const auto & elem : array) {
@@ -108,7 +108,7 @@ namespace ltn {
 
 
 	template<typename T>
-	inline std::optional<T> variant_cast(const Variant & variant) {
+	inline std::optional<T> variant_cast(const Any & variant) {
 		internal::type<T> t;
 		try {
 			return internal::variant_cast_impl(t, variant);

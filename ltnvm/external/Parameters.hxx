@@ -19,8 +19,8 @@ namespace ltn::vm::ext {
 
 
 		template<>
-		struct Converter<Variant> {
-			static Variant convert(const Value & value) {
+		struct Converter<Any> {
+			static Any convert(const Value & value) {
 				return to_variant(value);
 			}
 		};

@@ -159,7 +159,7 @@ namespace ltn::vm {
 
 
 
-		void load_variant_args(VmCore & core, const std::vector<Variant> & args) {
+		void load_variant_args(VmCore & core, const std::vector<Any> & args) {
 			for(const auto & arg : args) {
 				core.stack.push(to_value(arg, core.heap));
 			};
@@ -266,7 +266,7 @@ namespace ltn::vm {
 
 
 
-	Variant LtnVM::run(const std::vector<std::string> & args, const std::string & main) {
+	Any LtnVM::run(const std::vector<std::string> & args, const std::string & main) {
 		stx::keeper pc_keeper = this->core.pc;
 		
 		load_main_args(core, args);
@@ -283,9 +283,9 @@ namespace ltn::vm {
 
 
 
-	Variant LtnVM::run(
+	Any LtnVM::run(
 		const std::string & function_label,
-		const std::vector<Variant> & args) {
+		const std::vector<Any> & args) {
 
 		stx::keeper pc_keeper = this->core.pc;
 
@@ -306,7 +306,7 @@ namespace ltn::vm {
 
 	void LtnVM::set_global(
 		const std::string & name,
-		Variant variant) {
+		Any variant) {
 
 		if(!core.static_table.contains(name)) throw std::runtime_error {
 			"Program does not contain global variable " + name

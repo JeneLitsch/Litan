@@ -1,88 +1,88 @@
-#include "variant.hxx"
+#include "Any.hxx"
 #include "stdxx/io.hxx"
 
 namespace ltn {
 
-	Variant::Variant()              
+	Any::Any()              
 		: data{NullT{}} {}
 
-	Variant::Variant(bool v)                  
+	Any::Any(bool v)                  
 		: data{v} {}
 
-	Variant::Variant(char v)                  
+	Any::Any(char v)                  
 		: data{v} {}
 	
-	Variant::Variant(std::int64_t v)          
+	Any::Any(std::int64_t v)          
 		: data{v} {}
 	
-	Variant::Variant(stx::float64_t v)        
+	Any::Any(stx::float64_t v)        
 		: data{v} {}
 
-	Variant::Variant(const std::string v)
+	Any::Any(const std::string v)
 		: data{v} {}
 	
-	Variant::Variant(const std::vector<Variant> & v)
+	Any::Any(const std::vector<Any> & v)
 		: data{v} {}
 
 
 
-	bool Variant::is_null() const {
+	bool Any::is_null() const {
 		return this->is<NullT>();
 	}
 
-	bool Variant::is_bool() const {
+	bool Any::is_bool() const {
 		return this->is<bool>();
 	}
 
-	bool Variant::is_char() const {
+	bool Any::is_char() const {
 		return this->is<char>();
 	}
 
-	bool Variant::is_int() const {
+	bool Any::is_int() const {
 		return this->is<std::int64_t>();
 	}
 
-	bool Variant::is_float() const {
+	bool Any::is_float() const {
 		return this->is<stx::float64_t>();
 	}
 
-	bool Variant::is_string() const {
+	bool Any::is_string() const {
 		return this->is<std::string>();
 	}
 
-	bool Variant::is_array() const {
-		return this->is<std::vector<Variant>>();
+	bool Any::is_array() const {
+		return this->is<std::vector<Any>>();
 	}
 
 
 
-	const bool & Variant::as_bool() const {
+	const bool & Any::as_bool() const {
 		return this->get<bool>();
 	}
 
-	const char & Variant::as_char() const {
+	const char & Any::as_char() const {
 		return this->get<char>();
 	}
 
-	const std::int64_t & Variant::as_int() const {
+	const std::int64_t & Any::as_int() const {
 		return this->get<std::int64_t>();
 	}
 
-	const stx::float64_t & Variant::as_float() const {
+	const stx::float64_t & Any::as_float() const {
 		return this->get<stx::float64_t>();
 	}
 
-	const std::string & Variant::as_string() const {
+	const std::string & Any::as_string() const {
 		return this->get<std::string>();
 	}
 
-	const std::vector<Variant> & Variant::as_array() const {
-		return this->get<std::vector<Variant>>();
+	const std::vector<Any> & Any::as_array() const {
+		return this->get<std::vector<Any>>();
 	}
 
 
 	namespace {
-		void print(std::ostream & stream, const Variant::NullT &) {
+		void print(std::ostream & stream, const Any::NullT &) {
 			stream << "null";
 		}
 
@@ -120,14 +120,14 @@ namespace ltn {
 
 
 
-		void print(std::ostream & stream, const std::vector<Variant> & value) {
+		void print(std::ostream & stream, const std::vector<Any> & value) {
 			stream << stx::whole(value);
 		}
 	}
 
 
 
-	std::ostream & operator<<(std::ostream & stream, const Variant & variant) {
+	std::ostream & operator<<(std::ostream & stream, const Any & variant) {
 		std::visit([&] (auto & value) { print(stream, value); }, variant.data);
 		return stream;
 	}
