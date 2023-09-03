@@ -1,36 +1,36 @@
 #include "to_value.hxx"
 
 namespace ltn::vm {
-	Value to_value(const Any & variant, Heap & heap) {
-		if(variant.is_null()) {
+	Value to_value(const Any & any, Heap & heap) {
+		if(any.is_null()) {
 			return value::null;
 		}
 
-		if(variant.is_bool()) {
-			return value::boolean(variant.as_bool());
+		if(any.is_bool()) {
+			return value::boolean(any.as_bool());
 		}
 
-		if(variant.is_char()) {
-			return value::character(variant.as_char());
+		if(any.is_char()) {
+			return value::character(any.as_char());
 		}
 
-		if(variant.is_int()) {
-			return value::integer(variant.as_int());
+		if(any.is_int()) {
+			return value::integer(any.as_int());
 		}
 
-		if(variant.is_float()) {
-			return value::floating(variant.as_float());
+		if(any.is_float()) {
+			return value::floating(any.as_float());
 		}
 
-		if(variant.is_string()) {
-			const auto address = heap.alloc(String{variant.as_string()});
+		if(any.is_string()) {
+			const auto address = heap.alloc(String{any.as_string()});
 			return value::string(address);
 		}
 
-		if(variant.is_array()) {
+		if(any.is_array()) {
 			const auto address = value::array(heap.alloc<Array>({}));
 			auto & array = heap.read<Array>(address);
-			for(const auto & elem : variant.as_array()) {
+			for(const auto & elem : any.as_array()) {
 				array.push_back(to_value(elem, heap));
 			}
 			return address;

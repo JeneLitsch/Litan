@@ -7,7 +7,7 @@
 #include "ltn/header.hxx"
 #include "stdxx/iife.hxx"
 #include "stdxx/keeper.hxx"
-#include "ltnvm/utils/to_variant.hxx"
+#include "ltnvm/utils/to_any.hxx"
 #include "ltnvm/utils/to_value.hxx"
 #include "ltnvm/utils/stringify.hxx"
 
@@ -272,7 +272,7 @@ namespace ltn::vm {
 		load_main_args(core, args);
 		jump_to_init(core, main, 1);
 		try {
-			return to_variant(main_loop(this->core), core.heap);
+			return to_any(main_loop(this->core), core.heap);
 		}
 		catch(const Unhandled & err) {
 			throw std::runtime_error { 
@@ -292,7 +292,7 @@ namespace ltn::vm {
 		load_variant_args(core, args);
 		jump_to_init(core, function_label, std::size(args));
 		try {
-			auto ret = to_variant(main_loop(this->core), core.heap);
+			auto ret = to_any(main_loop(this->core), core.heap);
 			return ret;
 		}
 		catch(const Unhandled & err) {
@@ -306,14 +306,14 @@ namespace ltn::vm {
 
 	void LtnVM::set_global(
 		const std::string & name,
-		Any variant) {
+		Any any) {
 
 		if(!core.static_table.contains(name)) throw std::runtime_error {
 			"Program does not contain global variable " + name
 		};
 
 		const auto address = core.static_table[name];
-		this->core.stack.write_absolute(address, to_value(variant, core.heap));
+		this->core.stack.write_absolute(address, to_value(any, core.heap));
 	}
 
 

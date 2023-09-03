@@ -6,5 +6,5 @@ target_sources(libltnvm PRIVATE
 	convert.cxx
 	stringify.cxx
 	to_value.cxx
-	to_variant.cxx
+	to_any.cxx
 )

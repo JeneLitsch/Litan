@@ -127,8 +127,8 @@ namespace ltn {
 
 
 
-	std::ostream & operator<<(std::ostream & stream, const Any & variant) {
-		std::visit([&] (auto & value) { print(stream, value); }, variant.data);
+	std::ostream & operator<<(std::ostream & stream, const Any & any) {
+		std::visit([&] (auto & value) { print(stream, value); }, any.data);
 		return stream;
 	}
 }

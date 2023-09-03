@@ -38,7 +38,7 @@ namespace ltn {
 		const std::string & as_string() const;
 		const std::vector<Any> & as_array() const;
 		
-		friend std::ostream & operator<<(std::ostream & stream, const Any & variant);
+		friend std::ostream & operator<<(std::ostream & stream, const Any & any);
 
 	private:
 		template<typename T>
@@ -73,34 +73,34 @@ namespace ltn {
 		};
 
 
-		inline bool variant_cast_impl(type<bool>, const Any & variant) {
-			return variant.as_bool();
+		inline bool cast_impl(type<bool>, const Any & any) {
+			return any.as_bool();
 		}
 
 
 		template<std::integral I>
-		inline std::int64_t variant_cast_impl(type<I>, const Any & variant) {
-			return variant.as_int();
+		inline std::int64_t cast_impl(type<I>, const Any & any) {
+			return any.as_int();
 		}
 
 
 		template<std::floating_point F>
-		inline stx::float64_t variant_cast_impl(type<F>, const Any & variant) {
-			return variant.as_float();
+		inline stx::float64_t cast_impl(type<F>, const Any & any) {
+			return any.as_float();
 		}
 
 		
-		inline std::string variant_cast_impl(type<std::string>, const Any & variant) {
-			return variant.as_string();
+		inline std::string cast_impl(type<std::string>, const Any & any) {
+			return any.as_string();
 		}
 
 
 		template<typename E>
-		inline std::vector<E> variant_cast_impl(type<std::vector<E>>, const Any & variant) {
+		inline std::vector<E> cast_impl(type<std::vector<E>>, const Any & any) {
 			std::vector<E> vector;
-			const auto & array = variant.as_array();
+			const auto & array = any.as_array();
 			for(const auto & elem : array) {
-				vector.push_back(variant_cast_impl(type<E>{}, elem));
+				vector.push_back(cast_impl(type<E>{}, elem));
 			} 
 			return vector;
 		}
@@ -108,10 +108,10 @@ namespace ltn {
 
 
 	template<typename T>
-	inline std::optional<T> variant_cast(const Any & variant) {
+	inline std::optional<T> cast(const Any & any) {
 		internal::type<T> t;
 		try {
-			return internal::variant_cast_impl(t, variant);
+			return internal::cast_impl(t, any);
 		}
 		catch(...) {
 			return std::nullopt;

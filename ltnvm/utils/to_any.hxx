@@ -4,6 +4,6 @@
 #include "ltnvm/Heap.hxx"
 
 namespace ltn::vm {
-	Any to_variant(const Value & value);
-	Any to_variant(const Value & value, Heap & heap);
+	Any to_any(const Value & value);
+	Any to_any(const Value & value, Heap & heap);
 }

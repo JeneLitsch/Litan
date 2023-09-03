@@ -4,5 +4,5 @@
 #include "ltnvm/Heap.hxx"
 
 namespace ltn::vm {
-	Value to_value(const Any & variant, Heap & heap);
+	Value to_value(const Any & any, Heap & heap);
 }

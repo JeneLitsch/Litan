@@ -4,7 +4,7 @@
 #include "ltnvm/Value.hxx"
 #include "ltnvm/Heap.hxx"
 #include "ltnvm/utils/type_check.hxx"
-#include "ltnvm/utils/to_variant.hxx"
+#include "ltnvm/utils/to_any.hxx"
 
 namespace ltn::vm::ext {
 	namespace impl {
@@ -21,7 +21,7 @@ namespace ltn::vm::ext {
 		template<>
 		struct Converter<Any> {
 			static Any convert(const Value & value) {
-				return to_variant(value);
+				return to_any(value);
 			}
 		};
 

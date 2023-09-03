@@ -1,12 +1,12 @@
-#include "ltnvm/utils/to_variant.hxx"
+#include "ltnvm/utils/to_any.hxx"
 #include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm {
-	Any to_variant(const Value & value, Heap & heap) {
-		return to_variant(value);
+	Any to_any(const Value & value, Heap & heap) {
+		return to_any(value);
 	}
 	
-	Any to_variant(const Value & value) {
+	Any to_any(const Value & value) {
 		if(is_null(value)) {
 			return Any{};
 		}
@@ -35,7 +35,7 @@ namespace ltn::vm {
 			auto & array = *value.as<Contiguous>();
 			std::vector<Any> vector;
 			for(const auto & elem : array) {
-				vector.push_back(to_variant(elem));
+				vector.push_back(to_any(elem));
 			}
 			return Any{vector};
 		}
