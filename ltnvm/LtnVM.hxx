@@ -20,7 +20,7 @@ namespace ltn::vm {
 			const std::vector<std::string> & args = {},
 			const std::string & main = "");
 
-		Any run(
+		Any call(
 			const std::string & function_label,
 			const std::vector<Any> & args);
 

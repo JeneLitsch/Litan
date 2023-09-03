@@ -283,7 +283,7 @@ namespace ltn::vm {
 
 
 
-	Any LtnVM::run(
+	Any LtnVM::call(
 		const std::string & function_label,
 		const std::vector<Any> & args) {
 
