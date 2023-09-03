@@ -159,10 +159,10 @@ namespace ltn::vm {
 
 
 
-		void load_variant_args(VmCore & core, const std::vector<Any> & args) {
-			for(const auto & arg : args) {
-				core.stack.push(to_value(arg, core.heap));
-			};
+		void load_variant_args(VmCore & core, std::size_t argc, const Any * argv) {
+			for(std::size_t i = 0; i < argc; ++i) {
+				core.stack.push(to_value(argv[i], core.heap));
+			}
 		}
 
 
@@ -286,11 +286,26 @@ namespace ltn::vm {
 	Any LtnVM::call(
 		const std::string & function_label,
 		const std::vector<Any> & args) {
+		
+		return this->call(function_label, args.size(), args.data());
+	}
+
+	Any LtnVM::call(
+		const std::string & function_label,
+		const std::initializer_list<Any> & args) {
+	
+		return this->call(function_label, args.size(), args.begin());
+	}
+
+	Any LtnVM::call(
+		const std::string & function_label,
+		std::size_t argc,
+		const Any * argv) {
 
 		stx::keeper pc_keeper = this->core.pc;
 
-		load_variant_args(core, args);
-		jump_to_init(core, function_label, std::size(args));
+		load_variant_args(core, argc, argv);
+		jump_to_init(core, function_label, argc);
 		try {
 			auto ret = to_any(main_loop(this->core), core.heap);
 			return ret;

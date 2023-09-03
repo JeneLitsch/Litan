@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <functional>
+#include <initializer_list>
 #include "ltnvm/Exception.hxx"
 #include "VmCore.hxx"
 #include "ltn/cxx_types.hxx"
@@ -24,6 +25,10 @@ namespace ltn::vm {
 			const std::string & function_label,
 			const std::vector<Any> & args);
 
+		Any call(
+			const std::string & function_label,
+			const std::initializer_list<Any> & args);
+
 		void register_function(std::int64_t address, auto fx) {
 			core.fx_table_ltn_to_cxx.emplace(address, ext::Callable{std::move(fx)});
 		}
@@ -35,6 +40,11 @@ namespace ltn::vm {
 		bool has_function(const std::string & fx_name);
 	
 	private:
+		Any call(
+			const std::string & function_label,
+			std::size_t argc,
+			const Any * argv);
+
 		VmCore core;
 		std::span<const std::uint8_t> byte_code;
 	};
