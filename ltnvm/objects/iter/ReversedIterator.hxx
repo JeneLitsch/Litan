@@ -4,7 +4,7 @@
 #include "Iterator.hxx"
 
 namespace ltn::vm {
-	struct VmCore;
+	struct VMCore;
 	class Heap;
 }
 

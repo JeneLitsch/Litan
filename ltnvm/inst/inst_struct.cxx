@@ -27,7 +27,7 @@ namespace ltn::vm::inst {
 
 
 
-	void member_read(VmCore & core) {
+	void member_read(VMCore & core) {
 		const auto id = core.fetch_uint();
 		const auto ref = core.stack.pop();
 		auto & strukt = get_struct(ref, core.heap);
@@ -41,7 +41,7 @@ namespace ltn::vm::inst {
 	
 
 	
-	void member_write(VmCore & core) {
+	void member_write(VMCore & core) {
 		const auto id = core.fetch_uint();
 		const auto ref = core.stack.pop();
 		const auto value = core.stack.pop();

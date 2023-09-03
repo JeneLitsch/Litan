@@ -2,7 +2,7 @@
 #include "ltnvm/utils/type_check.hxx"
 #include "ltnvm/utils/convert.hxx"
 #include "ltnvm/utils/cast.hxx"
-#include "ltnvm/VmCore.hxx"
+#include "ltnvm/VMCore.hxx"
 #include "ltn/type_code.hxx"
 #include "stdxx/string_literal.hxx"
 
@@ -38,15 +38,15 @@ namespace ltn::vm {
 		template<stx::string_literal NAME, auto IS, auto CAST>
 		class PrimaryType : public Type {
 		public:
-			virtual bool is(const Value & value, VmCore & core) const override {
+			virtual bool is(const Value & value, VMCore & core) const override {
 				return IS(value, core);
 			}
 
-			virtual Value cast(const Value & value, VmCore & core) const override {
+			virtual Value cast(const Value & value, VMCore & core) const override {
 				return CAST(value, core);
 			}
 
-			virtual std::string name(VmCore &) const override {
+			virtual std::string name(VMCore &) const override {
 				return NAME.str();
 			}
 
@@ -64,15 +64,15 @@ namespace ltn::vm {
 		public:
 			UnaryType(const Type * sub_type) : sub_type{sub_type} {}
 
-			virtual bool is(const Value & value, VmCore & core) const override {
+			virtual bool is(const Value & value, VMCore & core) const override {
 				return IS(value, core, sub_type);
 			}
 
-			virtual Value cast(const Value & value, VmCore & core) const override {
+			virtual Value cast(const Value & value, VMCore & core) const override {
 				return CAST(value, core, sub_type);
 			}
 
-			virtual std::string name(VmCore & core) const override {
+			virtual std::string name(VMCore & core) const override {
 				return NAME.str() + "(" + sub_type->name(core) + ")";
 			}
 
@@ -97,15 +97,15 @@ namespace ltn::vm {
 				: sub_type_l{sub_type_l}
 				, sub_type_r{sub_type_r} {}
 
-			virtual bool is(const Value & value, VmCore & core) const override {
+			virtual bool is(const Value & value, VMCore & core) const override {
 				return IS(value, core, sub_type_l, sub_type_r);
 			}
 
-			virtual Value cast(const Value & value, VmCore & core) const override {
+			virtual Value cast(const Value & value, VMCore & core) const override {
 				return CAST(value, core, sub_type_l, sub_type_r);
 			}
 
-			virtual std::string name(VmCore & core) const override {
+			virtual std::string name(VMCore & core) const override {
 				return NAME.str() + "(" + sub_type_l->name(core) + "," + sub_type_r->name(core) + ")";
 			}
 
@@ -129,15 +129,15 @@ namespace ltn::vm {
 			NAryType(std::vector<const Type *> sub_types)
 				: sub_types{std::move(sub_types)} {}
 
-			virtual bool is(const Value & value, VmCore & core) const override {
+			virtual bool is(const Value & value, VMCore & core) const override {
 				return IS(value, core, sub_types);
 			}
 
-			virtual Value cast(const Value & value, VmCore & core) const override {
+			virtual Value cast(const Value & value, VMCore & core) const override {
 				return CAST(value, core, sub_types);
 			}
 
-			virtual std::string name(VmCore & core) const override {
+			virtual std::string name(VMCore & core) const override {
 				std::ostringstream oss;
 				oss << NAME.str() << "(";
 				bool first = true;
@@ -175,15 +175,15 @@ namespace ltn::vm {
 		public:
 			NumericType(std::uint64_t number) : number{number} {}
 
-			virtual bool is(const Value & value, VmCore & core) const override {
+			virtual bool is(const Value & value, VMCore & core) const override {
 				return IS(value, core, number);
 			}
 
-			virtual Value cast(const Value & value, VmCore & core) const override {
+			virtual Value cast(const Value & value, VMCore & core) const override {
 				return CAST(value, core, number);
 			}
 
-			virtual std::string name(VmCore &) const override {
+			virtual std::string name(VMCore &) const override {
 				std::ostringstream oss;
 				oss << NAME.str() << "(" << number << ")";
 				return oss.str();
@@ -210,7 +210,7 @@ namespace ltn::vm {
 			};
 			StructType(std::vector<Member> members) : members{std::move(members)} {}
 
-			virtual bool is(const Value & value, VmCore & core) const override {
+			virtual bool is(const Value & value, VMCore & core) const override {
 				if(!is_struct(value)) return false;
 				auto & strukt = core.heap.read<Struct>(value);
 				for(auto & type_member : this->members) {
@@ -226,11 +226,11 @@ namespace ltn::vm {
 				return true;
 			}
 
-			virtual Value cast(const Value & value, VmCore & core) const override {
+			virtual Value cast(const Value & value, VMCore & core) const override {
 				return this->is(value, core) ? value : value::null;
 			}
 
-			virtual std::string name(VmCore & core) const override {
+			virtual std::string name(VMCore & core) const override {
 				std::ostringstream oss;
 				oss << "struct";
 				if(!std::empty(this->members)) {
@@ -279,69 +279,69 @@ namespace ltn::vm {
 
 
 		template<auto IS>
-		bool simple_check_for(const Value & value, VmCore &) {
+		bool simple_check_for(const Value & value, VMCore &) {
 			return IS(value);
 		}
 
 
 		
 		template<auto IS>
-		Value ret_if_or_null(const Value & value, VmCore &) {
+		Value ret_if_or_null(const Value & value, VMCore &) {
 			return IS(value) ? value : value::null;
 		}
 
 
 
-		Value no_cast(const Value & value, VmCore &) {
+		Value no_cast(const Value & value, VMCore &) {
 			return value;
 		}
 
 
 
-		bool always_true(const Value &, VmCore &) {
+		bool always_true(const Value &, VMCore &) {
 			return true;
 		}
 
 
 
-		Value type_cast_null(const Value &, VmCore &) {
+		Value type_cast_null(const Value &, VMCore &) {
 			return value::null;
 		}
 
 
 
-		Value type_cast_bool(const Value & value, VmCore & core) {
+		Value type_cast_bool(const Value & value, VMCore & core) {
 			return value::boolean(cast::to_bool(value, core));
 		}
 
 
 		
-		Value type_cast_char(const Value & value, VmCore &) {
+		Value type_cast_char(const Value & value, VMCore &) {
 			return value::character(cast::to_char(value));
 		}
 
 
 
-		Value type_cast_int(const Value & value, VmCore &) {
+		Value type_cast_int(const Value & value, VMCore &) {
 			return value::integer(cast::to_int(value));
 		}
 
 
 
-		Value type_cast_float(const Value & value, VmCore & core) {
+		Value type_cast_float(const Value & value, VMCore & core) {
 			return value::floating(cast::to_float(value, core.heap));
 		}
 
 
 
-		Value type_cast_string(const Value & value, VmCore & core) {
+		Value type_cast_string(const Value & value, VMCore & core) {
 			return value::string(core.heap.alloc(String{cast::to_string(value, core.heap)}));
 		}
 
 
 
 		template<typename Data, auto make_value, auto check_type>
-		Value cast_unary_type(const Value & value, VmCore & core, const Type * sub_type) {
+		Value cast_unary_type(const Value & value, VMCore & core, const Type * sub_type) {
 			if(!check_type(value)) return value::null;
 			const Data & input = core.heap.read<Data>(value); 
 			Data output;
@@ -354,7 +354,7 @@ namespace ltn::vm {
 
 
 		template<typename Data, auto check_type>
-		bool is_unary_type(const Value & value, VmCore & core, const Type * sub_type) {
+		bool is_unary_type(const Value & value, VMCore & core, const Type * sub_type) {
 			if(!check_type(value)) return false;
 			const Data & input = core.heap.read<Data>(value);
 			return std::all_of(std::begin(input), std::end(input), 
@@ -364,7 +364,7 @@ namespace ltn::vm {
 
 
 
-		bool type_is_fx_n(const Value & value, VmCore & core, std::uint64_t arity) {
+		bool type_is_fx_n(const Value & value, VMCore & core, std::uint64_t arity) {
 			if(!is_fxptr(value)) return false;
 			const FxPointer & input = core.heap.read<FxPointer>(value);
 			return input.params == arity;
@@ -372,13 +372,13 @@ namespace ltn::vm {
 
 
 
-		Value type_cast_fx_n(const Value & value, VmCore & core, std::uint64_t arity) {
+		Value type_cast_fx_n(const Value & value, VMCore & core, std::uint64_t arity) {
 			return type_is_fx_n(value, core, arity) ? value : value::null; 
 		}
 
 
 
-		bool type_is_map(const Value & value, VmCore & core, const Type * sub_type_l, const Type * sub_type_r) {
+		bool type_is_map(const Value & value, VMCore & core, const Type * sub_type_l, const Type * sub_type_r) {
 			if(!is_map(value)) return false;
 			const Map & input = core.heap.read<Map>(value);
 			return std::all_of(std::begin(input), std::end(input), 
@@ -391,7 +391,7 @@ namespace ltn::vm {
 
 
 
-		Value type_cast_map(const Value & value, VmCore & core, const Type * sub_type_l, const Type * sub_type_r) {
+		Value type_cast_map(const Value & value, VMCore & core, const Type * sub_type_l, const Type * sub_type_r) {
 			return type_is_map(value, core, sub_type_l, sub_type_r) 
 				? value
 				: value::null; 
@@ -399,7 +399,7 @@ namespace ltn::vm {
 
 
 
-		Value type_cast_tuple_n(const Value & value, VmCore & core, const std::vector<const Type *> & sub_types) {
+		Value type_cast_tuple_n(const Value & value, VMCore & core, const std::vector<const Type *> & sub_types) {
 			if(is_contiguous(value)) {
 				const Contiguous & input = core.heap.read<Contiguous>(value);
 				if(std::size(input) != std::size(sub_types)) return value::null;
@@ -416,7 +416,7 @@ namespace ltn::vm {
 
 
 
-		bool type_is_tuple_n(const Value & value, VmCore & core, const std::vector<const Type *> & sub_types) {
+		bool type_is_tuple_n(const Value & value, VMCore & core, const std::vector<const Type *> & sub_types) {
 			if(!is_tuple(value)) return false;
 			const Tuple & input = core.heap.read<Tuple>(value);
 			if(std::size(input) != std::size(sub_types)) return false;

@@ -2,7 +2,7 @@
 #include "ltnvm/Heap.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/utils/special_member.hxx"
-#include "ltnvm/VmCore.hxx"
+#include "ltnvm/VMCore.hxx"
 
 namespace ltn::vm {
 	namespace {
@@ -19,7 +19,7 @@ namespace ltn::vm {
 			if(is_float(r)) return cmp(l, r.f);\
 		}
 
-		std::partial_ordering compare_impl(const Value l, const Value r, VmCore & core) {
+		std::partial_ordering compare_impl(const Value l, const Value r, VMCore & core) {
 			if(is_bool(l))  COMPARE_R(l.b);
 			if(is_char(l))  COMPARE_R(l.c);
 			if(is_int(l))   COMPARE_R(l.i);
@@ -96,7 +96,7 @@ namespace ltn::vm {
 
 	
 	
-	std::partial_ordering compare(const Value l, const Value r, VmCore & core) {
+	std::partial_ordering compare(const Value l, const Value r, VMCore & core) {
 		const auto result = compare_impl(l, r, core);
 		if(result == std::partial_ordering::unordered) {
 			throw Exception{ Exception::Type::GENERIC_ERROR, "Invalid comparison"};

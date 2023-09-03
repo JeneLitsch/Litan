@@ -2,7 +2,7 @@
 #include "ltnvm/utils/index.hxx"
 
 namespace ltn::vm::inst {
-	void at(VmCore & core) {
+	void at(VMCore & core) {
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();
 		

@@ -93,7 +93,7 @@ namespace ltn::vm::inst {
 
 
 
-	void add(VmCore & core) {
+	void add(VMCore & core) {
 		FETCH
 
 		if(is_array(l) && is_array(r)) {
@@ -117,7 +117,7 @@ namespace ltn::vm::inst {
 
 
 
-	void sub(VmCore & core) {
+	void sub(VMCore & core) {
 		FETCH
 
 		if(is_struct(l)) {
@@ -129,7 +129,7 @@ namespace ltn::vm::inst {
 
 
 
-	void mlt(VmCore & core) {
+	void mlt(VMCore & core) {
 		FETCH
 
 		if(is_string(l) && is_integral(r)) {
@@ -157,7 +157,7 @@ namespace ltn::vm::inst {
 
 
 
-	void div(VmCore & core) {
+	void div(VMCore & core) {
 		FETCH
 
 		if(is_struct(l)) {
@@ -169,7 +169,7 @@ namespace ltn::vm::inst {
 
 
 
-	void mod(VmCore & core) {
+	void mod(VMCore & core) {
 		FETCH
 
 		if(is_struct(l)) {
@@ -181,7 +181,7 @@ namespace ltn::vm::inst {
 
 
 
-	void pow(VmCore & core) {
+	void pow(VMCore & core) {
 		FETCH
 
 		if(is_struct(l)) {

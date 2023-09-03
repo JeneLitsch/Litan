@@ -6,7 +6,7 @@
 #include "ltnvm/utils/stringify.hxx"
 
 namespace ltn::vm::build_in {
-	Value insert_front(VmCore & core) {
+	Value insert_front(VMCore & core) {
 		const auto elem = core.stack.pop();
 		const auto ref = core.stack.pop();
 
@@ -28,7 +28,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value insert_back_string(VmCore & core, Value ref, Value elem) {
+	Value insert_back_string(VMCore & core, Value ref, Value elem) {
 		auto * str = ref.as<String>();
 		
 		if(is_char(elem)) {
@@ -46,7 +46,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value insert_back(VmCore & core) {
+	Value insert_back(VMCore & core) {
 		const auto elem = core.stack.pop();
 		const auto ref = core.stack.pop();
 		
@@ -74,7 +74,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value insert(VmCore & core) {
+	Value insert(VMCore & core) {
 		const auto elem = core.stack.pop();
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();

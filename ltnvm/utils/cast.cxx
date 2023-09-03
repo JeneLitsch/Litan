@@ -34,7 +34,7 @@ namespace ltn::vm::cast {
 	}
 
 
-	bool to_bool(Value value, VmCore & core) {
+	bool to_bool(Value value, VMCore & core) {
 		return convert::to_bool(value, core);
 	}
 

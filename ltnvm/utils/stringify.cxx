@@ -1,15 +1,15 @@
 #include "stringify.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/utils/special_member.hxx"
-#include "ltnvm/LtnVM.hxx"
+#include "ltnvm/VM.hxx"
 
 namespace ltn::vm {
 	namespace {
-		auto print_element(const Value value, VmCore & core) {
+		auto print_element(const Value value, VMCore & core) {
 			return stringify(value, core);
 		} 
 
-		auto print_element(const std::pair<Value, Value> pair, VmCore & core) {
+		auto print_element(const std::pair<Value, Value> pair, VMCore & core) {
 			std::ostringstream ss;
 			const auto & [key, val] = pair;
 			ss << stringify(key, core) << " : " << stringify(val, core);
@@ -21,7 +21,7 @@ namespace ltn::vm {
 			Iterator begin,
 			Iterator end,
 			std::ostream & out,
-			VmCore & core,
+			VMCore & core,
 			char open = '[',
 			char close = ']') {
 			
@@ -40,7 +40,7 @@ namespace ltn::vm {
 
 
 
-	std::string stringify(const Value & value, VmCore & core) {
+	std::string stringify(const Value & value, VMCore & core) {
 		if(is_null(value)) {
 			return "null";
 		}

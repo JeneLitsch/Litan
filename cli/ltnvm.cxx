@@ -1,6 +1,6 @@
 #include <fstream>
 #include <filesystem>
-#include "ltnvm/LtnVM.hxx"
+#include "ltnvm/VM.hxx"
 #include "ltnvm/utils/cast.hxx"
 #include "ltn/version.hxx"
 #include "ltn/args.hxx"
@@ -55,7 +55,7 @@ int main(int argc, char const *argv[]) {
 	try {
 		const auto bytecode = read_bytecode(exec.value());
 
-		ltn::vm::LtnVM vm;
+		ltn::vm::VM vm;
 		const auto main_function = main_init.value_or("");
 		vm.setup(bytecode);
 		// vm.set_global("foo::test", std::int64_t{42});

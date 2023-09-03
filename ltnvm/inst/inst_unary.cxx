@@ -7,7 +7,7 @@
 namespace ltn::vm::inst {
 	#define FETCH const auto x = core.stack.pop();
 
-	void neg(VmCore & core) {
+	void neg(VMCore & core) {
 		FETCH
 		if(is_bool(x)) {
 			return core.stack.push(value::integer(-static_cast<std::int64_t>(x.b)));
@@ -26,14 +26,14 @@ namespace ltn::vm::inst {
 
 
 
-	void n0t(VmCore & core) {
+	void n0t(VMCore & core) {
 		FETCH
 		return core.stack.push(value::boolean(!convert::to_bool(x, core)));
 	}
 
 
 
-	void inc(VmCore & core) {
+	void inc(VMCore & core) {
 		FETCH
 		if(is_char(x)) {
 			return core.stack.push(value::integer(static_cast<char>(x.c + 1)));
@@ -52,7 +52,7 @@ namespace ltn::vm::inst {
 	
 	
 	
-	void dec(VmCore & core) {
+	void dec(VMCore & core) {
 		FETCH
 		if(is_char(x)) {
 			return core.stack.push(value::integer(static_cast<char>(x.c - 1)));

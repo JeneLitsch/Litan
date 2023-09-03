@@ -1,8 +1,8 @@
 #pragma once
-#include "ltnvm/VmCore.hxx"
+#include "ltnvm/VMCore.hxx"
 
 namespace ltn::vm::build_in {
-	Value arity(VmCore & core);
-	Value invoke(VmCore & core);
-	Value is_variadic(VmCore & core);
+	Value arity(VMCore & core);
+	Value invoke(VMCore & core);
+	Value is_variadic(VMCore & core);
 }

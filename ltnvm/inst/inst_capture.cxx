@@ -2,7 +2,7 @@
 #include "ltnvm/utils/type_check.hxx"
 #include <sstream>
 namespace ltn::vm::inst {
-	void capture(VmCore & core) {
+	void capture(VMCore & core) {
 		const auto var = core.stack.pop();
 		const auto fxptr = core.stack.peek();
 		if(is_fxptr(fxptr)) {

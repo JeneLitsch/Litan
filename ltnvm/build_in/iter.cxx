@@ -5,7 +5,7 @@
 #include "ltnvm/objects/iter.hxx"
 
 namespace ltn::vm::build_in::iter {
-	Value range(VmCore & core) {
+	Value range(VMCore & core) {
 		auto step = convert::to_int(core.stack.pop());
 		auto end = convert::to_int(core.stack.pop());
 		auto begin = convert::to_int(core.stack.pop());
@@ -15,19 +15,19 @@ namespace ltn::vm::build_in::iter {
 
 
 
-	Value next(VmCore & core) {
+	Value next(VMCore & core) {
 		return iterator::next(core.stack.pop());
 	}
 
 
 
-	Value get(VmCore & core) {
+	Value get(VMCore & core) {
 		return iterator::get(core.stack.pop());
 	}
 
 
 
-	Value move(VmCore & core) {
+	Value move(VMCore & core) {
 		const auto step = core.stack.pop();
 		const auto iter = core.stack.pop();
 		iterator::move(iter, step);
@@ -36,19 +36,19 @@ namespace ltn::vm::build_in::iter {
 
 
 
-	Value iter(VmCore & core) {
+	Value iter(VMCore & core) {
 		return iterator::wrap(core.stack.pop(), core.heap);
 	}
 
 
 
-	Value is_stop(VmCore & core) {
+	Value is_stop(VMCore & core) {
 		return value::boolean(is_iterator_stop(core.stack.pop()));
 	}
 
 
 
-	Value combined(VmCore & core) {
+	Value combined(VMCore & core) {
 		auto param = core.stack.pop();
 		if(!is_array(param) && !is_tuple(param)) {
 			throw except::invalid_argument();
@@ -64,7 +64,7 @@ namespace ltn::vm::build_in::iter {
 
 
 
-	Value reversed(VmCore & core) {
+	Value reversed(VMCore & core) {
 		auto ref = iterator::wrap(core.stack.pop(), core.heap);
 		auto ptr = core.heap.make<ReversedIterator>(ref);
 		return value::iterator(ptr);

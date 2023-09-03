@@ -9,7 +9,7 @@ namespace ltn::vm::build_in::io {
 	namespace {
 		using VT = Value::Type;
 
-		std::istream & get_istream(Heap & heap, VmStack & stack) {
+		std::istream & get_istream(Heap & heap, VMStack & stack) {
 			const auto ref = stack.pop();
 			if(is_istream(ref)) {
 				return heap.read<IStream>(ref).get();
@@ -22,7 +22,7 @@ namespace ltn::vm::build_in::io {
 
 
 		template<typename T>
-		auto add_out (VmCore & core, T && out) {
+		auto add_out (VMCore & core, T && out) {
 			core.heap.collect_garbage(core.stack);
 			const auto ptr = core.heap.alloc<OStream>(std::forward<T>(out));
 			Value val{ptr, Value::Type::OSTREAM};
@@ -32,7 +32,7 @@ namespace ltn::vm::build_in::io {
 
 
 		template<typename T>
-		Value add_in (VmCore & core, T && in) {
+		Value add_in (VMCore & core, T && in) {
 			core.heap.collect_garbage(core.stack);
 			const auto ptr = core.heap.alloc<IStream>(std::forward<T>(in));
 			Value val{ptr, Value::Type::ISTREAM};
@@ -43,13 +43,13 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value cout(VmCore & core) {
+	Value cout(VMCore & core) {
 		return add_out(core, OStream{std::cout});
 	}
 
 
 
-	Value fout(VmCore & core) {
+	Value fout(VMCore & core) {
 		const auto openmode = convert::to_int(core.stack.pop());
 		const auto ref = core.stack.pop();
 		if(!is_string(ref)) throw except::invalid_argument();
@@ -65,19 +65,19 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value strout(VmCore & core) {
+	Value strout(VMCore & core) {
 		return add_out(core, OStream{std::make_unique<std::ostringstream>()});
 	}
 
 
 
-	Value cin(VmCore & core) {
+	Value cin(VMCore & core) {
 		return add_in(core, IStream{std::cin});
 	}
 
 
 
-	Value fin(VmCore & core) {
+	Value fin(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(!is_string(ref)) {
 			throw except::invalid_argument();
@@ -92,7 +92,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value strin(VmCore & core) {
+	Value strin(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(!is_string(ref)) throw except::invalid_argument();
 		const auto & str = core.heap.read<String>(ref);
@@ -101,7 +101,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value close_stream(VmCore & core) {
+	Value close_stream(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref)) {
 			auto & ostream = core.heap.read<OStream>(ref).get();
@@ -137,7 +137,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value is_eof(VmCore & core) {
+	Value is_eof(VMCore & core) {
 		auto & in = get_istream(core.heap, core.stack); 
 		return value::boolean(in.peek() == EOF);
 	}
@@ -145,7 +145,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value print(VmCore & core) {
+	Value print(VMCore & core) {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref)) {
@@ -160,7 +160,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value read_str(VmCore & core) {
+	Value read_str(VMCore & core) {
 		auto & in = get_istream(core.heap, core.stack); 
 		std::string value;
 		in >> value;
@@ -176,7 +176,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value read_line(VmCore & core) {
+	Value read_line(VMCore & core) {
 		auto & in = get_istream(core.heap, core.stack); 
 		std::string value;
 		std::getline(in, value);
@@ -192,7 +192,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value read_bool(VmCore & core) {
+	Value read_bool(VMCore & core) {
 		auto & in = get_istream(core.heap, core.stack);
 		bool value;
 		in >> std::ws;
@@ -222,7 +222,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value read_char(VmCore & core) {
+	Value read_char(VMCore & core) {
 		auto & in = get_istream(core.heap, core.stack); 
 		char value;
 		in >> value;
@@ -237,7 +237,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value read_int(VmCore & core) {
+	Value read_int(VMCore & core) {
 		auto & in = get_istream(core.heap, core.stack); 
 		std::int64_t value;
 		in >> value;
@@ -252,7 +252,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value read_float(VmCore & core) {
+	Value read_float(VMCore & core) {
 		auto & in = get_istream(core.heap, core.stack); 
 		stx::float64_t value;
 		in >> value;
@@ -267,7 +267,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value read_all(VmCore & core) {
+	Value read_all(VMCore & core) {
 		auto & in = get_istream(core.heap, core.stack);
 		std::ostringstream oss;
 		oss << in.rdbuf();
@@ -277,7 +277,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value set_fg_color(VmCore & core) {
+	Value set_fg_color(VMCore & core) {
 		const auto color = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref) && is_int(color)) {
@@ -292,7 +292,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value set_bg_color(VmCore & core) {
+	Value set_bg_color(VMCore & core) {
 		const auto color = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref) && is_int(color)) {
@@ -307,7 +307,7 @@ namespace ltn::vm::build_in::io {
 
 
 
-	Value reset_color(VmCore & core) {
+	Value reset_color(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref)) {
 			auto & out = core.heap.read<OStream>(ref).get();

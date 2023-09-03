@@ -1,7 +1,7 @@
 #include "instructions.hxx"
 
 namespace ltn::vm::inst {
-	void deref(VmCore & core) {
+	void deref(VMCore & core) {
 		if(is_null(core.stack.peek())) {
 			throw Exception {
 				.type = Exception::Type::INVALID_ARGUMENT,

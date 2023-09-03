@@ -1,13 +1,13 @@
 #pragma once
 #include "ltn/MemberCode.hxx"
-#include "ltnvm/VmCore.hxx"
+#include "ltnvm/VMCore.hxx"
 #include "ltnvm/Exception.hxx"
 
 namespace ltn::vm {
-	Value run_core(VmCore & core);
+	Value run_core(VMCore & core);
 
 	Value run_function(
-		VmCore & core,
+		VMCore & core,
 		const Value & ref,
 		const auto & ...args) {
 		const auto arity = sizeof...(args);

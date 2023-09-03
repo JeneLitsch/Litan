@@ -8,7 +8,7 @@
 
 namespace ltn::vm::inst {
 
-	void pushAll(auto & array, VmStack & stack, std::uint64_t size) {
+	void pushAll(auto & array, VMStack & stack, std::uint64_t size) {
 		if(!size) return;
 		const auto value = stack.pop();
 		pushAll(array, stack, size -1);
@@ -17,7 +17,7 @@ namespace ltn::vm::inst {
 
 
 
-	void newarr(VmCore & core){
+	void newarr(VMCore & core){
 		core.heap.collect_garbage(core.stack);
 		auto * arr = core.heap.make<Array>(); 
 		const auto size = core.fetch_uint();
@@ -27,7 +27,7 @@ namespace ltn::vm::inst {
 
 
 
-	void newstr(VmCore & core) {
+	void newstr(VMCore & core) {
 		core.heap.collect_garbage(core.stack);
 		const auto size = core.fetch_uint();
 		const auto cstr = core.fetch_str();
@@ -39,7 +39,7 @@ namespace ltn::vm::inst {
 
 
 
-	void newclock(VmCore & core) {
+	void newclock(VMCore & core) {
 		core.heap.collect_garbage(core.stack);
 		const auto ptr = core.heap.make<Clock>();
 		core.stack.push(value::clock(ptr));
@@ -47,7 +47,7 @@ namespace ltn::vm::inst {
 
 
 
-	void newstruct(VmCore & core) {
+	void newstruct(VMCore & core) {
 		core.heap.collect_garbage(core.stack);
 		const auto ptr = core.heap.alloc<Struct>({});
 		core.stack.push(value::strukt(ptr));
@@ -55,21 +55,21 @@ namespace ltn::vm::inst {
 
 
 
-	void newstack(VmCore & core) {
+	void newstack(VMCore & core) {
 		core.heap.collect_garbage(core.stack);
 		core.stack.push(value::stack(core.heap.make<Stack>()));
 	}
 
 
 
-	void newqueue(VmCore & core) {
+	void newqueue(VMCore & core) {
 		core.heap.collect_garbage(core.stack);
 		core.stack.push(value::queue(core.heap.make<Queue>()));
 	}
 
 
 
-	void newmap(VmCore & core) {
+	void newmap(VMCore & core) {
 		core.heap.collect_garbage(core.stack);
 		const auto ref = core.heap.alloc<Map>(Map{&core});
 		core.stack.push(value::map(ref));
@@ -77,7 +77,7 @@ namespace ltn::vm::inst {
 
 
 
-	void newfx(VmCore & core){
+	void newfx(VMCore & core){
 		core.heap.collect_garbage(core.stack);
 		const auto address = core.code_begin + core.fetch_uint(); 
 		const auto arity_code = core.fetch_uint();
@@ -90,7 +90,7 @@ namespace ltn::vm::inst {
 
 
 
-	void newtuple(VmCore & core){
+	void newtuple(VMCore & core){
 		core.heap.collect_garbage(core.stack);
 		const auto size = core.fetch_uint();
 		auto * tup = core.heap.alloc<Tuple>({});

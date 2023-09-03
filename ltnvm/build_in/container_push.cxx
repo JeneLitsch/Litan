@@ -6,7 +6,7 @@
 #include "ltnvm/utils/stringify.hxx"
 
 namespace ltn::vm::build_in {
-	Value push(VmCore & core) {
+	Value push(VMCore & core) {
 		const auto elem = core.stack.pop();
 		const auto ref = core.stack.pop();
 

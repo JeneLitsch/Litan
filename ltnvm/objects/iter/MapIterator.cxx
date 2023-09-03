@@ -1,5 +1,5 @@
 #include "MapIterator.hxx"
-#include "ltnvm/VmCore.hxx"
+#include "ltnvm/VMCore.hxx"
 #include "ltnvm/Exception.hxx"
 
 namespace ltn::vm {

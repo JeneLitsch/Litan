@@ -7,14 +7,14 @@
 
 namespace ltn::vm::build_in {
 	template<auto INST>
-	auto run_inst(VmCore & core) {
+	auto run_inst(VMCore & core) {
 		INST(core);
 		return core.stack.pop();
 	}
 	
 
 
-	Value contains(VmCore & core) {
+	Value contains(VMCore & core) {
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();
 
@@ -30,7 +30,7 @@ namespace ltn::vm::build_in {
 
 	namespace {
 		template<typename Container>
-		Value size(const Value & ref, VmCore & core) {
+		Value size(const Value & ref, VMCore & core) {
 			const auto & container = core.heap.read<Container>(ref);
 			return value::integer(static_cast<std::int64_t>(std::size(container)));
 		}
@@ -38,7 +38,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value size(VmCore & core) {
+	Value size(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_array(ref)) return size<Array>(ref, core);
 		if(is_tuple(ref)) return size<Tuple>(ref, core);
@@ -55,19 +55,19 @@ namespace ltn::vm::build_in {
 	
 
 
-	Value empty(VmCore & core) {
+	Value empty(VMCore & core) {
 		return value::boolean(size(core).i == 0);
 	}
 	
 
 
-	Value at(VmCore & core) {
+	Value at(VMCore & core) {
 		return run_inst<inst::at>(core);
 	}
 	
 
 	
-	Value front(VmCore & core) {
+	Value front(VMCore & core) {
 		const auto ref = core.stack.pop();
 		
 		if (is_array(ref)) {
@@ -85,7 +85,7 @@ namespace ltn::vm::build_in {
 		throw except::invalid_argument();
 	}
 	
-	Value back(VmCore & core) {
+	Value back(VMCore & core) {
 		const auto ref = core.stack.pop();
 		
 		if (is_array(ref)) {

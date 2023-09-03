@@ -3,7 +3,7 @@
 #include "ltnvm/utils/convert.hxx"
 
 namespace ltn::vm::inst {
-	void at_write(VmCore & core) {
+	void at_write(VMCore & core) {
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();
 		const auto elem = core.stack.pop();

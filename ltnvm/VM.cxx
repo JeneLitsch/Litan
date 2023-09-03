@@ -1,4 +1,4 @@
-#include "LtnVM.hxx"
+#include "VM.hxx"
 #include "ltn/opcodes.hxx"
 #include <sstream>
 #include "ltnvm/utils/cast.hxx"
@@ -18,7 +18,7 @@ namespace ltn::vm {
 
 
 
-	void illegal_instruction(VmCore &) {
+	void illegal_instruction(VMCore &) {
 		std::stringstream ss;
 		ss << "Illegal Instruction";
 		throw std::runtime_error{ss.str()};
@@ -29,7 +29,7 @@ namespace ltn::vm {
 	constexpr auto instructions_table = stx::iife([] () {
 		
 		struct InstTableWrapper{
-			using InstFx = void(*)(VmCore&);
+			using InstFx = void(*)(VMCore&);
 			constexpr InstTableWrapper() {
 				std::fill(std::begin(array), std::end(array), illegal_instruction);
 			}
@@ -140,7 +140,7 @@ namespace ltn::vm {
 
 
 	namespace {
-		void error(VmCore & core, std::string msg) {
+		void error(VMCore & core, std::string msg) {
 			const auto ref = core.heap.alloc(String{std::move(msg)});
 			core.stack.push(value::string(ref));
 			inst::thr0w(core);
@@ -148,7 +148,7 @@ namespace ltn::vm {
 
 
 
-		void load_main_args(VmCore & core, const std::vector<std::string> & args) {
+		void load_main_args(VMCore & core, const std::vector<std::string> & args) {
 			const auto arr = core.heap.alloc<Array>({});
 			core.stack.push(value::array(arr));
 			for(const auto & arg : args) {
@@ -159,7 +159,7 @@ namespace ltn::vm {
 
 
 
-		void load_variant_args(VmCore & core, std::size_t argc, const Any * argv) {
+		void load_variant_args(VMCore & core, std::size_t argc, const Any * argv) {
 			for(std::size_t i = 0; i < argc; ++i) {
 				core.stack.push(to_value(argv[i], core.heap));
 			}
@@ -167,7 +167,7 @@ namespace ltn::vm {
 
 
 
-		void jump_to_init(VmCore & core, const std::string & main, std::uint64_t arguments_count) {
+		void jump_to_init(VMCore & core, const std::string & main, std::uint64_t arguments_count) {
 			const auto main_fx = [&] () -> std::string {
 				if(!main.empty()) return main;
 				return core.fx_table_cxx_to_ltn.contains("main(1)") ? "main(1)" : "main(0)";
@@ -182,7 +182,7 @@ namespace ltn::vm {
 
 
 
-	Value run_core(VmCore & core) {
+	Value run_core(VMCore & core) {
 		RESUME:
 		try {
 			while(true) {
@@ -203,7 +203,7 @@ namespace ltn::vm {
 
 
 
-	Value main_loop(VmCore & core) {
+	Value main_loop(VMCore & core) {
 		RESUME:
 		try {
 			while(true) {
@@ -227,7 +227,7 @@ namespace ltn::vm {
 
 
 
-	void LtnVM::setup(std::span<const std::uint8_t> code) {
+	void VM::setup(std::span<const std::uint8_t> code) {
 		if(code.size() < 2) {
 			throw std::runtime_error{"Not an executable program"};
 		}
@@ -266,7 +266,7 @@ namespace ltn::vm {
 
 
 
-	Any LtnVM::run(const std::vector<std::string> & args, const std::string & main) {
+	Any VM::run(const std::vector<std::string> & args, const std::string & main) {
 		stx::keeper pc_keeper = this->core.pc;
 		
 		load_main_args(core, args);
@@ -283,21 +283,21 @@ namespace ltn::vm {
 
 
 
-	Any LtnVM::call(
+	Any VM::call(
 		const std::string & function_label,
 		const std::vector<Any> & args) {
 		
 		return this->call(function_label, args.size(), args.data());
 	}
 
-	Any LtnVM::call(
+	Any VM::call(
 		const std::string & function_label,
 		const std::initializer_list<Any> & args) {
 	
 		return this->call(function_label, args.size(), args.begin());
 	}
 
-	Any LtnVM::call(
+	Any VM::call(
 		const std::string & function_label,
 		std::size_t argc,
 		const Any * argv) {
@@ -319,7 +319,7 @@ namespace ltn::vm {
 
 
 
-	void LtnVM::set_global(
+	void VM::set_global(
 		const std::string & name,
 		Any any) {
 
@@ -333,7 +333,7 @@ namespace ltn::vm {
 
 
 
-	bool LtnVM::has_function(const std::string & fx_name) {
+	bool VM::has_function(const std::string & fx_name) {
 		return this->core.fx_table_cxx_to_ltn.contains(fx_name);
 	}
 }

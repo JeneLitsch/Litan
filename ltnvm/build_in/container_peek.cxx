@@ -6,7 +6,7 @@
 #include "ltnvm/utils/stringify.hxx"
 
 namespace ltn::vm::build_in {
-	Value peek(VmCore & core) {
+	Value peek(VMCore & core) {
 		const auto ref = core.stack.pop();
 
 		if(is_array(ref)) {

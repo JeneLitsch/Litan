@@ -1,10 +1,10 @@
 #pragma once
 
 #include "ltnc/Ltnc.hxx"
-#include "ltnvm/LtnVM.hxx"
+#include "ltnvm/VM.hxx"
 
 namespace ltn {
-	using LtnVM = vm::LtnVM;
+	using VM = vm::VM;
 	using Value = vm::Value;
 
 	std::vector<std::uint8_t> build(

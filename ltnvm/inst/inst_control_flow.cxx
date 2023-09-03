@@ -7,14 +7,14 @@
 
 
 namespace ltn::vm::inst {
-	void jump(VmCore & core) {
+	void jump(VMCore & core) {
 		const auto address = core.fetch_uint(); 
 		core.pc = core.code_begin + address;
 	}
 
 
 
-	void call(VmCore & core) {
+	void call(VMCore & core) {
 		const auto address = core.fetch_uint(); 
 		const auto arity = core.fetch_byte();
 		core.stack.push_frame(core.pc, arity);
@@ -23,7 +23,7 @@ namespace ltn::vm::inst {
 
 
 
-	void reTurn(VmCore & core) {
+	void reTurn(VMCore & core) {
 		auto return_value = core.stack.pop();
 		core.pc = core.stack.pop_frame();
 		core.stack.push(return_value);
@@ -31,7 +31,7 @@ namespace ltn::vm::inst {
 
 
 
-	void iF(VmCore & core) {
+	void iF(VMCore & core) {
 		const auto value = core.stack.pop();
 		const auto elseAddr = core.fetch_uint();
 		if(!convert::to_bool(value, core)) {
@@ -41,18 +41,18 @@ namespace ltn::vm::inst {
 
 
 
-	void error(VmCore &) {
+	void error(VMCore &) {
 		throw value::null;
 	}
 
 
 
-	void exit(VmCore & core) {
+	void exit(VMCore & core) {
 		throw core.stack.pop();
 	}
 
 
-	void for_next(VmCore & core) {
+	void for_next(VMCore & core) {
 		const auto iter = core.stack.peek();
 		core.stack.push(iterator::next(iter));
 		core.stack.push(value::boolean(!is_iterator_stop(core.stack.peek()))); 

@@ -6,7 +6,7 @@
 #include <span>
 #include <string_view>
 #include <queue>
-#include "VmStack.hxx"
+#include "VMStack.hxx"
 #include "Value.hxx"
 
 #include "ltnvm/objects/Type.hxx"
@@ -62,7 +62,7 @@ namespace ltn::vm {
 
 
 		template<typename ... More>
-		void collect_garbage(const VmStack & stack, More && ...more) {
+		void collect_garbage(const VMStack & stack, More && ...more) {
 			if(this->size >= this->next_collection) {
 				// std::cout << "GC: " << this->size << " -> ";
 				((gc::mark(more)), ...);

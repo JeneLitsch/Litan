@@ -1,12 +1,12 @@
 #pragma once
-#include "ltnvm/VmCore.hxx"
+#include "ltnvm/VMCore.hxx"
 
 namespace ltn::vm::build_in::random {
-	Value mersenne_0(VmCore & core);
-	Value mersenne_1(VmCore & core);
+	Value mersenne_0(VMCore & core);
+	Value mersenne_1(VMCore & core);
 
-	Value split(VmCore & core);
-	Value rand(VmCore & core);
-	Value rand_int(VmCore & core);
-	Value rand_float(VmCore & core);
+	Value split(VMCore & core);
+	Value rand(VMCore & core);
+	Value rand_int(VMCore & core);
+	Value rand_float(VMCore & core);
 }

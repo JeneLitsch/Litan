@@ -14,7 +14,7 @@
 namespace ltn::vm::inst {
 	static constexpr auto make_build_in_table() {
 		struct TableWrapper{
-			using Fx = Value(*)(VmCore&);
+			using Fx = Value(*)(VMCore&);
 			constexpr TableWrapper() {
 				std::fill(std::begin(array), std::end(array), [] (auto &) -> Value {
 					std::stringstream ss;
@@ -144,7 +144,7 @@ namespace ltn::vm::inst {
 
 	static constexpr auto build_in_table = make_build_in_table();
 
-	void build_in(VmCore & core) {
+	void build_in(VMCore & core) {
 		const auto byte0 = static_cast<std::uint32_t>(core.fetch_byte());
 		const auto byte1 = static_cast<std::uint32_t>(core.fetch_byte());
 		const auto code = (byte0 << 8) + byte1;

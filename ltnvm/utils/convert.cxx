@@ -6,7 +6,7 @@
 namespace ltn::vm::convert {
 
 
-	bool to_bool(const Value value, VmCore & core) {
+	bool to_bool(const Value value, VMCore & core) {
 		if(is_null(value))  return false;
 		if(is_bool(value))  return value.b;
 		if(is_char(value))  return value.c != '\0';

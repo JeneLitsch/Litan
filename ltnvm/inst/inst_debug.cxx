@@ -7,7 +7,7 @@
 
 namespace ltn::vm::inst {
 	namespace {
-		const std::uint8_t * unwind(VmStack & stack) {
+		const std::uint8_t * unwind(VMStack & stack) {
 			while(stack.depth()) {
 				const auto handler = stack.get_except_handler();
 				if(handler != 0) {
@@ -21,14 +21,14 @@ namespace ltn::vm::inst {
 
 
 
-	void tRy(VmCore & core) {
+	void tRy(VMCore & core) {
 		const auto address = core.fetch_uint();
 		core.stack.set_except_handler(core.code_begin + address);
 	}
 
 
 
-	void thr0w(VmCore & core) {
+	void thr0w(VMCore & core) {
 		const auto except = core.stack.pop();
 		if(auto address = unwind(core.stack)) {
 			core.pc = address;

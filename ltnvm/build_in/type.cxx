@@ -3,14 +3,14 @@
 #include "ltnvm/inst/instructions.hxx"
 
 namespace ltn::vm::build_in::type {
-	Value id(VmCore & core) {
+	Value id(VMCore & core) {
 		const auto value = core.stack.pop();
 		return value::integer(static_cast<std::int64_t>(value.type));
 	}
 
 
 
-	Value clone(VmCore & core) {
+	Value clone(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_array(ref))    return core.heap.clone<Array>(ref);
 		if(is_tuple(ref))    return core.heap.clone<Tuple>(ref);
@@ -30,7 +30,7 @@ namespace ltn::vm::build_in::type {
 
 
 
-	Value is(VmCore & core) {
+	Value is(VMCore & core) {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(!is_type(ref)) throw except::invalid_operands();
@@ -40,7 +40,7 @@ namespace ltn::vm::build_in::type {
 
 
 
-	Value cast(VmCore & core) {
+	Value cast(VMCore & core) {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(!is_type(ref)) throw except::invalid_operands();
@@ -50,21 +50,21 @@ namespace ltn::vm::build_in::type {
 
 
 
-	Value queue(VmCore & core) {
+	Value queue(VMCore & core) {
 		inst::newqueue(core);
 		return core.stack.pop();
 	}
 
 
 
-	Value stack(VmCore & core) {
+	Value stack(VMCore & core) {
 		inst::newstack(core);
 		return core.stack.pop();
 	}
 
 
 
-	Value map(VmCore & core) {
+	Value map(VMCore & core) {
 		inst::newmap(core);
 		return core.stack.pop();
 	}

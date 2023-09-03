@@ -9,7 +9,7 @@
 	const auto l = core.stack.pop();
 
 namespace ltn::vm::inst {
-	void shift_l(VmCore & core) {
+	void shift_l(VMCore & core) {
 		FETCH
 		const auto value = convert::to_int(l) << convert::to_int(r);
 		return core.stack.push(Value{value});
@@ -17,7 +17,7 @@ namespace ltn::vm::inst {
 
 
 
-	void shift_r(VmCore & core) {
+	void shift_r(VMCore & core) {
 		FETCH
 		const auto value = convert::to_int(l) >> convert::to_int(r);
 		return core.stack.push(Value{value});
@@ -25,7 +25,7 @@ namespace ltn::vm::inst {
 
 
 
-	void bit_and(VmCore & core) {
+	void bit_and(VMCore & core) {
 		FETCH
 		const auto value = convert::to_int(l) & convert::to_int(r);
 		return core.stack.push(Value{value});
@@ -33,7 +33,7 @@ namespace ltn::vm::inst {
 
 
 
-	void bit_or(VmCore & core) {
+	void bit_or(VMCore & core) {
 		FETCH
 		const auto value = convert::to_int(l) | convert::to_int(r);
 		return core.stack.push(Value{value});
@@ -41,7 +41,7 @@ namespace ltn::vm::inst {
 
 	
 
-	void bit_xor(VmCore & core) {
+	void bit_xor(VMCore & core) {
 		FETCH
 		const auto value = convert::to_int(l) ^ convert::to_int(r);
 		return core.stack.push(Value{value});
@@ -49,7 +49,7 @@ namespace ltn::vm::inst {
 
 
 
-	void bit_not(VmCore & core) {
+	void bit_not(VMCore & core) {
 		const auto x = core.stack.pop();
 		return core.stack.push(Value{~convert::to_int(x)});
 	}

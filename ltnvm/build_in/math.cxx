@@ -89,7 +89,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value min(VmCore & core) {
+	Value min(VMCore & core) {
 		auto a = core.stack.pop();
 		auto b = core.stack.pop();
 		return compare(a, b, core) <= 0 ? a : b;
@@ -97,7 +97,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value max(VmCore & core) {
+	Value max(VMCore & core) {
 		auto a = core.stack.pop();
 		auto b = core.stack.pop();
 		return compare(a, b, core) >= 0 ? a : b;
@@ -105,7 +105,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value clamp(VmCore & core) {
+	Value clamp(VMCore & core) {
 		auto max = core.stack.pop();
 		auto min = core.stack.pop();
 		auto val = core.stack.pop();
@@ -123,56 +123,56 @@ namespace ltn::vm::build_in {
 
 
 
-	Value round(VmCore & core) {
+	Value round(VMCore & core) {
 		return rounding<Round>(core.stack.pop());
 	}
 
 
 
-	Value floor(VmCore & core) {
+	Value floor(VMCore & core) {
 		return rounding<Floor>(core.stack.pop());
 	}
 
 
 
-	Value ceil(VmCore & core) {
+	Value ceil(VMCore & core) {
 		return rounding<Ceil>(core.stack.pop());
 	}
 
 
 
-	Value abs(VmCore & core) {
+	Value abs(VMCore & core) {
 		return function<Absolute>(core.stack.pop());
 	}
 
 
 
-	Value sin(VmCore & core) {
+	Value sin(VMCore & core) {
 		return function<Sinus>(core.stack.pop());
 	}
 
 
 
-	Value cos(VmCore & core) {
+	Value cos(VMCore & core) {
 		return function<Cosinus>(core.stack.pop());
 	}
 
 
 
-	Value tan(VmCore & core) {
+	Value tan(VMCore & core) {
 		return function<Tangents>(core.stack.pop());
 	}
 
 
 
-	Value sqrt(VmCore & core) {
+	Value sqrt(VMCore & core) {
 		const auto value = core.stack.pop();
 		return value::floating(std::sqrt(convert::to_float(value)));
 	}
 	
 
 
-	Value hypot(VmCore & core) {
+	Value hypot(VMCore & core) {
 		const auto r = core.stack.pop();
 		const auto l = core.stack.pop();
 		return value::floating(
@@ -185,7 +185,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value log(VmCore & core){
+	Value log(VMCore & core){
 		const auto r = core.stack.pop();
 		const auto l = core.stack.pop();
 		return value::floating(
@@ -195,21 +195,21 @@ namespace ltn::vm::build_in {
 	
 
 	
-	Value ln(VmCore & core) {
+	Value ln(VMCore & core) {
 		const auto value = core.stack.pop();
 		return value::floating(std::log(convert::to_float(value)));
 	}
 
 
 
-	Value ld(VmCore & core) {
+	Value ld(VMCore & core) {
 		core.stack.push(value::floating(2));
 		return log(core);
 	}
 
 
 
-	Value lg(VmCore & core) {
+	Value lg(VMCore & core) {
 		core.stack.push(value::floating(10));
 		return log(core);
 	}

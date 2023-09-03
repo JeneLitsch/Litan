@@ -3,14 +3,14 @@
 #include "ltnvm/inst/instructions.hxx"
 
 namespace ltn::vm::build_in::chrono {
-	Value clock(VmCore & core) {
+	Value clock(VMCore & core) {
 		inst::newclock(core);
 		return core.stack.pop();
 	}
 
 
 
-	Value to_seconds(VmCore & core) {
+	Value to_seconds(VMCore & core) {
 		auto ref = core.stack.pop();
 		if(!is_clock(ref)) throw except::invalid_argument("Not a clock");
 		auto & clock = core.heap.read<Clock>(ref);
@@ -19,7 +19,7 @@ namespace ltn::vm::build_in::chrono {
 
 
 
-	Value to_milliseconds(VmCore & core) {
+	Value to_milliseconds(VMCore & core) {
 		return value::floating(to_seconds(core).f * 1000.0);
 	}
 }

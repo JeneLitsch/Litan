@@ -5,7 +5,7 @@
 namespace ltn::vm::build_in {
 
 
-	Value to_string(VmCore & core) {
+	Value to_string(VMCore & core) {
 		const auto input = core.stack.pop();
 		const auto address = core.heap.alloc<String>({stringify(input, core)});
 		return value::string(address);
@@ -31,7 +31,7 @@ namespace ltn::vm::build_in {
 	}
 
 
-	Value split_string(VmCore & core) {
+	Value split_string(VMCore & core) {
 		const auto val_delim = core.stack.pop();
 		const auto val_string = core.stack.pop();
 		if(!is_string(val_string) || !is_string(val_delim)) {
@@ -57,25 +57,25 @@ namespace ltn::vm::build_in {
 
 
 
-	Value parse_bool(VmCore &) {
+	Value parse_bool(VMCore &) {
 		return value::null;
 	}
 
 
 
-	Value parse_char(VmCore &) {
+	Value parse_char(VMCore &) {
 		return value::null;
 	}
 
 
 
-	Value parse_int(VmCore &) {
+	Value parse_int(VMCore &) {
 		return value::null;
 	}
 
 
 
-	Value parse_float(VmCore &) {
+	Value parse_float(VMCore &) {
 		return value::null;
 	}	
 }

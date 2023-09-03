@@ -57,7 +57,7 @@ namespace ltn::vm::build_in {
 
 	
 
-	Value remove_front(VmCore & core) {
+	Value remove_front(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_string(ref)) return remove_first<String>(ref, core.heap);
 		if(is_array(ref)) return remove_first<Array>(ref, core.heap);
@@ -66,7 +66,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value remove_back(VmCore & core) {
+	Value remove_back(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_string(ref)) return remove_last<String>(ref, core.heap);
 		if(is_array(ref)) return remove_last<Array>(ref, core.heap);
@@ -75,7 +75,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value remove(VmCore & core) {
+	Value remove(VMCore & core) {
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(is_map(ref)) return remove_m(ref, core.heap, key);

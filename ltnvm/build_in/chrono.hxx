@@ -1,10 +1,10 @@
 #pragma once
-#include "ltnvm/VmCore.hxx"
+#include "ltnvm/VMCore.hxx"
 
 namespace ltn::vm::build_in::chrono {
 	
 	// Algorithm
-	Value clock(VmCore & core);
-	Value to_seconds(VmCore & core);
-	Value to_milliseconds(VmCore & core);
+	Value clock(VMCore & core);
+	Value to_seconds(VMCore & core);
+	Value to_milliseconds(VMCore & core);
 }

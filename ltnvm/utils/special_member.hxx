@@ -1,11 +1,11 @@
 #pragma once
 #include "ltn/MemberCode.hxx"
-#include "ltnvm/VmCore.hxx"
+#include "ltnvm/VMCore.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/utils/run_function.hxx"
 
 namespace ltn::vm {
-	Value run_core(VmCore & core);
+	Value run_core(VMCore & core);
 
 
 
@@ -22,7 +22,7 @@ namespace ltn::vm {
 
 
 	Value run_special_member(
-		VmCore & core,
+		VMCore & core,
 		const Value & ref,
 		const Value & self,
 		const auto & ...args) {
@@ -32,7 +32,7 @@ namespace ltn::vm {
 
 	
 	template<MemberCode CODE>
-	Value call_special_member(VmCore & core, const Value & self, const auto & ...args) {
+	Value call_special_member(VMCore & core, const Value & self, const auto & ...args) {
 		auto & strukt = core.heap.read<Struct>(self);
 		if(auto ref = find_special_member<CODE>(strukt)) {
 			return run_special_member(core, *ref, self, args...);

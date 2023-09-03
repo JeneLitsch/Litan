@@ -9,7 +9,7 @@ namespace ltn::vm {
 	class Heap;
 	// Implements stack, queue, ...
 	struct Comparator {
-		VmCore * core;
+		VMCore * core;
 		bool operator()(const Value l, const Value r) const {
 			return compare(l, r, *core) < 0;
 		}
@@ -21,7 +21,7 @@ namespace ltn::vm {
 	public:
 		using std_map = std::map<Value, Value, Comparator>;
 		using iterator = std_map::const_iterator;
-		Map(VmCore * core) 
+		Map(VMCore * core) 
 			: map{Comparator{core}} {}
 
 		std::uint64_t size() const {

@@ -1,14 +1,14 @@
 #pragma once
-#include "ltnvm/VmCore.hxx"
+#include "ltnvm/VMCore.hxx"
 
 namespace ltn::vm::build_in::type {
-	Value id(VmCore & core);
-	Value clone(VmCore & core);
-	Value is(VmCore & core);
-	Value cast(VmCore & core);
+	Value id(VMCore & core);
+	Value clone(VMCore & core);
+	Value is(VMCore & core);
+	Value cast(VMCore & core);
 
-	Value queue(VmCore & core);
-	Value stack(VmCore & core);
-	Value map(VmCore & core);
-	Value strukt(VmCore & core);
+	Value queue(VMCore & core);
+	Value stack(VMCore & core);
+	Value map(VMCore & core);
+	Value strukt(VMCore & core);
 }

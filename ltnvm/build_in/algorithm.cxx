@@ -19,7 +19,7 @@ namespace ltn::vm::build_in {
 
 
 
-	auto smaller(VmCore & core) {
+	auto smaller(VMCore & core) {
 		return [&core] (const Value l, const Value r) {
 			return compare(l, r, core) < 0;
 		};
@@ -27,7 +27,7 @@ namespace ltn::vm::build_in {
 
 
 
-	auto bigger(VmCore & core) {
+	auto bigger(VMCore & core) {
 		return [&core] (const Value l, const Value r) {
 			return compare(l, r, core) > 0;
 		};
@@ -35,7 +35,7 @@ namespace ltn::vm::build_in {
 
 
 
-	auto predicate(VmCore & core, const Value key) {
+	auto predicate(VMCore & core, const Value key) {
 		return [&core, key] (const Value elem) {
 			return compare(elem, key, core) == 0;
 		};
@@ -45,7 +45,7 @@ namespace ltn::vm::build_in {
 
 
 	// Algorithms
-	Value sort_desc(VmCore & core) {
+	Value sort_desc(VMCore & core) {
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = bigger(core);
@@ -55,7 +55,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value sort_ascn(VmCore & core) {
+	Value sort_ascn(VMCore & core) {
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = smaller(core);
@@ -65,7 +65,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value is_sorted_ascn(VmCore & core) {
+	Value is_sorted_ascn(VMCore & core) {
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = smaller(core);
@@ -74,7 +74,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value is_sorted_desc(VmCore & core) {
+	Value is_sorted_desc(VMCore & core) {
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		const auto comp = bigger(core);
@@ -83,7 +83,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value find(VmCore & core) {
+	Value find(VMCore & core) {
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
@@ -100,7 +100,7 @@ namespace ltn::vm::build_in {
 
 
 	
-	Value fill(VmCore & core) {
+	Value fill(VMCore & core) {
 		const auto value = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(core.stack.pop(), core.heap);
 		std::fill(begin, end, value);
@@ -109,7 +109,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value reverse(VmCore & core) {
+	Value reverse(VMCore & core) {
 		const auto ref = core.stack.pop();
 		const auto [begin, end] = to_cpp_range(ref, core.heap);
 		std::reverse(begin, end);
@@ -119,7 +119,7 @@ namespace ltn::vm::build_in {
 
 
 	namespace {
-		Value reduce_l_impl(VmCore & core, const Value & function, Value value, Iterator & iter) {
+		Value reduce_l_impl(VMCore & core, const Value & function, Value value, Iterator & iter) {
 			while(true) {
 				auto elem = iter.next();
 				if(is_iterator_stop(elem)) break;
@@ -134,7 +134,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value reduce_l_2(VmCore & core) {
+	Value reduce_l_2(VMCore & core) {
 		const auto function = core.stack.pop();
 		const auto container = core.stack.pop();
 
@@ -157,7 +157,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value reduce_l_3(VmCore & core) {
+	Value reduce_l_3(VMCore & core) {
 		auto init = core.stack.pop();
 		const auto function = core.stack.pop();
 		const auto container = core.stack.pop();

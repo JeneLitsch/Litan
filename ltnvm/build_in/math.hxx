@@ -1,26 +1,26 @@
 #pragma once
-#include "ltnvm/VmCore.hxx"
+#include "ltnvm/VMCore.hxx"
 
 namespace ltn::vm::build_in {
-	Value min(VmCore & core);
-	Value max(VmCore & core);
-	Value clamp(VmCore & core);
+	Value min(VMCore & core);
+	Value max(VMCore & core);
+	Value clamp(VMCore & core);
 
-	Value round(VmCore & core);
-	Value floor(VmCore & core);
-	Value ceil(VmCore & core);
+	Value round(VMCore & core);
+	Value floor(VMCore & core);
+	Value ceil(VMCore & core);
 
-	Value abs(VmCore & core);
+	Value abs(VMCore & core);
 
-	Value sin(VmCore & core);
-	Value cos(VmCore & core);
-	Value tan(VmCore & core);
+	Value sin(VMCore & core);
+	Value cos(VMCore & core);
+	Value tan(VMCore & core);
 
-	Value sqrt(VmCore & core);
-	Value hypot(VmCore & core);
+	Value sqrt(VMCore & core);
+	Value hypot(VMCore & core);
 
-	Value log(VmCore & core);
-	Value ln(VmCore & core);
-	Value ld(VmCore & core);
-	Value lg(VmCore & core);
+	Value log(VMCore & core);
+	Value ln(VMCore & core);
+	Value ld(VMCore & core);
+	Value lg(VMCore & core);
 }

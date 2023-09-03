@@ -49,7 +49,7 @@ int main(int argc, char const *argv[]) {
 	}
 
 	ltn::c::Reporter reporter;
-	ltn::LtnVM vm;
+	ltn::VM vm;
 	try {
 		std::vector<std::string> args;
 

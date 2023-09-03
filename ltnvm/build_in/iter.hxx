@@ -1,13 +1,13 @@
 #pragma once
-#include "ltnvm/VmCore.hxx"
+#include "ltnvm/VMCore.hxx"
 
 namespace ltn::vm::build_in::iter {
-	Value range(VmCore & core);
-	Value next(VmCore & core);
-	Value get(VmCore & core);
-	Value move(VmCore & core);
-	Value iter(VmCore & core);
-	Value combined(VmCore & core);
-	Value is_stop(VmCore & core);
-	Value reversed(VmCore & core);
+	Value range(VMCore & core);
+	Value next(VMCore & core);
+	Value get(VMCore & core);
+	Value move(VMCore & core);
+	Value iter(VMCore & core);
+	Value combined(VMCore & core);
+	Value is_stop(VMCore & core);
+	Value reversed(VMCore & core);
 }

@@ -1,30 +1,30 @@
 #pragma once
-#include "ltnvm/VmCore.hxx"
+#include "ltnvm/VMCore.hxx"
 
 namespace ltn::vm::build_in::io {
-	Value cout(VmCore & core);
-	Value fout(VmCore & core);
-	Value strout(VmCore & core);
+	Value cout(VMCore & core);
+	Value fout(VMCore & core);
+	Value strout(VMCore & core);
 
-	Value cin(VmCore & core);
-	Value fin(VmCore & core);
-	Value strin(VmCore & core);
+	Value cin(VMCore & core);
+	Value fin(VMCore & core);
+	Value strin(VMCore & core);
 
-	Value close_stream(VmCore & core);
-	Value is_eof(VmCore & core);
+	Value close_stream(VMCore & core);
+	Value is_eof(VMCore & core);
 
-	Value print(VmCore & core);
+	Value print(VMCore & core);
 
-	Value read_str(VmCore & core);
-	Value read_line(VmCore & core);
-	Value read_bool(VmCore & core);
-	Value read_char(VmCore & core);
-	Value read_int(VmCore & core);
-	Value read_float(VmCore & core);
-	Value read_all(VmCore & core);
+	Value read_str(VMCore & core);
+	Value read_line(VMCore & core);
+	Value read_bool(VMCore & core);
+	Value read_char(VMCore & core);
+	Value read_int(VMCore & core);
+	Value read_float(VMCore & core);
+	Value read_all(VMCore & core);
 
-	Value set_fg_color(VmCore & core);
-	Value set_bg_color(VmCore & core);
-	Value reset_color(VmCore & core);
+	Value set_fg_color(VMCore & core);
+	Value set_bg_color(VMCore & core);
+	Value reset_color(VMCore & core);
 
 }

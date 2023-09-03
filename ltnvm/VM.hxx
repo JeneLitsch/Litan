@@ -3,17 +3,17 @@
 #include <functional>
 #include <initializer_list>
 #include "ltnvm/Exception.hxx"
-#include "VmCore.hxx"
+#include "VMCore.hxx"
 #include "ltn/cxx_types.hxx"
 
 namespace ltn::vm {
-	class LtnVM {
+	class VM {
 	public:
-		LtnVM() {}
-		LtnVM(const LtnVM &) = delete;
-		LtnVM(LtnVM &&) = delete;
-		LtnVM & operator=(const LtnVM &) = delete;
-		LtnVM & operator=(LtnVM &&) = delete;
+		VM() {}
+		VM(const VM &) = delete;
+		VM(VM &&) = delete;
+		VM & operator=(const VM &) = delete;
+		VM & operator=(VM &&) = delete;
 		
 		void setup(std::span<const std::uint8_t> code);
 		
@@ -45,9 +45,9 @@ namespace ltn::vm {
 			std::size_t argc,
 			const Any * argv);
 
-		VmCore core;
+		VMCore core;
 		std::span<const std::uint8_t> byte_code;
 	};
 
-	Value run_core(VmCore & core);
+	Value run_core(VMCore & core);
 }

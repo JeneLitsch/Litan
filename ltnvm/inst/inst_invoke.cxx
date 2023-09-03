@@ -2,7 +2,7 @@
 
 namespace ltn::vm::inst {
 	namespace {
-		inline void load_onto_stack(VmStack & stack, const auto & values) {
+		inline void load_onto_stack(VMStack & stack, const auto & values) {
 			for(const auto c : values) {
 				stack.push(c);
 			}
@@ -10,7 +10,7 @@ namespace ltn::vm::inst {
 
 
 
-		std::vector<Value> read_from_stack(VmStack & stack, std::uint64_t arity) {
+		std::vector<Value> read_from_stack(VMStack & stack, std::uint64_t arity) {
 			std::vector<Value> args;
 			for(std::size_t i = 0; i < arity; ++i) {
 				args.push_back(stack.pop());
@@ -21,7 +21,7 @@ namespace ltn::vm::inst {
 
 
 
-		void do_invoke_fxptr(VmCore & core, const Value ref_fx, std::uint64_t arity) {
+		void do_invoke_fxptr(VMCore & core, const Value ref_fx, std::uint64_t arity) {
 			const auto & fxptr = core.heap.read<FxPointer>(ref_fx);
 			const auto call_arity = fxptr.arity() + fxptr.is_variadic;
 
@@ -40,7 +40,7 @@ namespace ltn::vm::inst {
 
 
 
-		void do_invoke_external(VmCore & core, const Value ref_fx, std::uint64_t arity, const std::vector<Value> & args) {
+		void do_invoke_external(VMCore & core, const Value ref_fx, std::uint64_t arity, const std::vector<Value> & args) {
 			if(core.fx_table_ltn_to_cxx.contains(ref_fx.i)) {
 				auto & fxptr = core.fx_table_ltn_to_cxx.at(ref_fx.i);
 				if(arity == fxptr.arity()) {
@@ -56,7 +56,7 @@ namespace ltn::vm::inst {
 
 
 
-	void invoke(VmCore & core) {
+	void invoke(VMCore & core) {
 		const auto arity = core.fetch_byte();
 		const auto ref_fx = core.stack.pop();
 
@@ -72,7 +72,7 @@ namespace ltn::vm::inst {
 
 
 
-	void invoke_variadic(VmCore & core) {
+	void invoke_variadic(VMCore & core) {
 		const auto ref_param = core.stack.pop();
 		const auto ref_fx = core.stack.pop();
 		if(is_array(ref_param) || is_tuple(ref_param)) {
