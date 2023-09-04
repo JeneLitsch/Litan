@@ -10,6 +10,7 @@
 #include "ltnvm/utils/to_any.hxx"
 #include "ltnvm/utils/to_value.hxx"
 #include "ltnvm/utils/stringify.hxx"
+#include "ltnvm/utils/json.hxx"
 
 namespace ltn::vm {
 	constexpr void add_instruction(auto & table, auto op_code, auto fx) {
@@ -329,6 +330,15 @@ namespace ltn::vm {
 
 		const auto address = core.static_table[name];
 		this->core.stack.write_absolute(address, to_value(any, core.heap));
+	}
+
+	
+
+	void VM::set_globals(const stx::json::iterator & iter) {
+		for(const auto & key : iter.keys()) {
+			const auto address = core.static_table[key];
+			this->core.stack.write_absolute(address, json_to_value(iter[key].get_node(), core));
+		}
 	}
 
 
