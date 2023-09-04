@@ -4,7 +4,7 @@
 #include "stdxx/json.hxx"
 #include "ltnvm/Exception.hxx"
 
-namespace ltn::vm::build_in {
+namespace ltn::vm::build_in::json {
 	namespace {
 		Value json_to_ltn(const stx::json::node & json, VMCore & core);
 
@@ -50,7 +50,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value json_load(VMCore & core) {
+	Value parse(VMCore & core) {
 		auto str = core.stack.pop();
 		if(!is_string(str)) {
 			throw except::invalid_argument();
@@ -59,13 +59,14 @@ namespace ltn::vm::build_in {
 		std::istringstream iss {str.as<String>()->get_underlying()};
 		stx::json::node json_node;
 		iss >> json_node;
-		return json_to_ltn(json_load, core);
+		return json_to_ltn(json_node, core);
 	}
 
 
 
 	namespace {
 		stx::json::node ltn_to_json(const Value & value) {
+			if(is_null(value))  return nullptr;
 			if(is_bool(value))  return value.b;
 			if(is_char(value))  return value.c;
 			if(is_int(value))   return value.i;
@@ -103,7 +104,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value json_store(VMCore & core) {
+	Value print(VMCore & core) {
 		std::ostringstream oss;
 		const stx::json::node json = ltn_to_json(core.stack.pop()); 
 		oss << json;

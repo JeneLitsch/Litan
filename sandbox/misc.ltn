@@ -1,4 +1,3 @@
 function main() {
-	var map = [ .a = "A", .b = "B" ];
-	std::println(map);
+	std::println(std::json::print(["a" : 1]));
 }

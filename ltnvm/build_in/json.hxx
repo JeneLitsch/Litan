@@ -1,7 +1,7 @@
 #pragma once
 #include "ltnvm/VMCore.hxx"
 
-namespace ltn::vm::build_in {
-	Value json_load(VMCore & core);
-	Value json_store(VMCore & core);
+namespace ltn::vm::build_in::json {
+	Value parse(VMCore & core);
+	Value print(VMCore & core);
 }

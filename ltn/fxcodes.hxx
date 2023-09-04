@@ -70,7 +70,10 @@ namespace ltn {
 		IO_CIN,
 		IO_FIN,
 		IO_STRIN,
-		
+
+		JSON_PARSE = 0x68,
+		JSON_PRINT,
+
 		// type
 		TYPE_ID = 0x70,
 		TYPE_CLONE,

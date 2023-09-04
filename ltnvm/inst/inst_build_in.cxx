@@ -7,6 +7,7 @@
 #include "ltnvm/build_in/functional.hxx"
 #include "ltnvm/build_in/io.hxx"
 #include "ltnvm/build_in/iter.hxx"
+#include "ltnvm/build_in/json.hxx"
 #include "ltnvm/build_in/math.hxx"
 #include "ltnvm/build_in/string.hxx"
 #include "ltnvm/build_in/type.hxx"
@@ -77,6 +78,9 @@ namespace ltn::vm::inst {
 		table[FxCode::IO_CIN] = build_in::io::cin;
 		table[FxCode::IO_FIN] = build_in::io::fin;
 		table[FxCode::IO_STRIN] = build_in::io::strin;
+
+		table[FxCode::JSON_PARSE] = build_in::json::parse;
+		table[FxCode::JSON_PRINT] = build_in::json::print;
 
 		// string
 		table[FxCode::TO_STRING] = build_in::to_string;
