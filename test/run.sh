@@ -104,6 +104,9 @@ files=(
 	"test/std/io/read_all.ltn"
 	"test/std/io/utils.ltn"
 
+	"test/std/json/parse.ltn"
+	"test/std/json/print.ltn"
+
 	"test/std/math/pi.ltn"
 	"test/std/math/min.ltn"
 	"test/std/math/max.ltn"

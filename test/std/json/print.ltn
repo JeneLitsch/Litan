@@ -1,0 +1,55 @@
+namespace sphinx::test {
+	function json_print_null() {
+		test_name("std::json::print null");
+		assert_equal_strict("null", std::json::print(null));
+	}
+
+
+	function json_print_bool() {
+		test_name("std::json::print bool");
+		assert_equal_strict("true", std::json::print(true));
+		assert_equal_strict("false", std::json::print(false));
+	}
+
+
+	
+	function json_print_char() {
+		test_name("std::json::print char");
+		assert_equal_strict("65", std::json::print('A'));
+	}
+
+
+
+	function json_print_int() {
+		test_name("std::json::print int");
+		assert_equal_strict("1", std::json::print(1));
+	}
+
+
+
+	function json_print_float() {
+		test_name("std::json::print float");
+		assert_equal_strict("13.17", std::json::print(13.17));
+	}
+
+
+
+	function json_print_string() {
+		test_name("std::json::print string");
+		assert_equal_strict("\"ABC\"", std::json::print("ABC"));
+	}
+
+
+	
+	function json_print_array() {
+		test_name("std::json::print array");
+		assert_equal_strict("[1,2,3]", std::json::print([1,2,3]));
+	}
+
+
+	
+	function json_print_map() {
+		test_name("std::json::print map");
+		assert_equal_strict("{\"A\":1,\"B\":2,\"C\":3}", std::json::print(["A":1,"B":2,"C":3]));
+	}
+}

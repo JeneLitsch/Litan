@@ -1,0 +1,41 @@
+namespace sphinx::test {
+	function json_parse_null() {
+		test_name("std::json::parse null");
+		assert_equal_strict(std::json::parse("null"), null);
+	}
+
+	function json_parse_bool() {
+		test_name("std::json::parse number");
+		assert_equal_strict(std::json::parse("false"), false);
+		assert_equal_strict(std::json::parse("true"), true);
+	}
+
+	function json_parse_number() {
+		test_name("std::json::parse number");
+		assert_equal_strict(std::json::parse("1"), 1.0);
+	}
+
+	function json_parse_string() {
+		test_name("std::json::parse string");
+		assert_equal_strict(std::json::parse("\"ABC\""), "ABC");
+	}
+
+	function json_parse_array() {
+		test_name("std::json::parse array");
+		assert_equal_strict(std::json::parse("[1,2,3]"), [1,2,3]);
+	}
+
+	function json_parse_object() {
+		test_name("std::json::parse object");
+		var str = "{\"A\" : 1, \"B\" : 2}";
+		var obj = [ "A":1, "B":2 ];
+		assert_equal_strict(std::json::parse(str), obj);
+	}
+
+	function json_parse_excepts() {
+		assert_except(lambda => std::json::parse("\"ABC"));
+		assert_except(lambda => std::json::parse("["));
+		assert_except(lambda => std::json::parse("{"));
+		assert_except(lambda => std::json::parse("[1,]"));
+	}
+}
