@@ -13,8 +13,8 @@ namespace ltn::c {
 		{"algorithm_find",           FxCode::FIND},
 		{"algorithm_fill",           FxCode::FILL},
 		{"algorithm_reverse",        FxCode::REVERSE},
-		{"algorithm_reduce_l_2",       FxCode::ALGORITHM_REDUCE_L_2},
-		{"algorithm_reduce_l_3",       FxCode::ALGORITHM_REDUCE_L_3},
+		{"algorithm_reduce_l_2",     FxCode::ALGORITHM_REDUCE_L_2},
+		{"algorithm_reduce_l_3",     FxCode::ALGORITHM_REDUCE_L_3},
 
 		{"chrono_clock",             FxCode::CHRONO_CLOCK},
 		{"chrono_to_seconds",        FxCode::CHRONO_TO_SECONDS},
@@ -64,6 +64,9 @@ namespace ltn::c {
 		{"io_read_all",              FxCode::IO_READ_ALL},
 		{"io_close",                 FxCode::IO_CLOSE_STREAM},
 		{"io_is_eof",                FxCode::IO_IS_EOF},
+
+		{"json_parse",               FxCode::JSON_PARSE},
+		{"json_print",               FxCode::JSON_PRINT},
 		
 		{"math_min",                 FxCode::MIN},
 		{"math_max",                 FxCode::MAX},

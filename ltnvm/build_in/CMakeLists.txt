@@ -12,6 +12,7 @@ target_sources(libltnvm PRIVATE
 	functional.cxx
 	io.cxx
 	iter.cxx
+	json.cxx
 	math.cxx
 	random.cxx
 	string.cxx
