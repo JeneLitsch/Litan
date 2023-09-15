@@ -13,6 +13,16 @@ namespace sphinx::test {
 	function json_parse_number() {
 		test_name("std::json::parse number");
 		assert_equal_strict(std::json::parse("1"), 1.0);
+		assert_equal_strict(std::json::parse("123"), 123.0);
+		assert_equal_strict(std::json::parse("2.0"), 2.0);
+		assert_equal_strict(std::json::parse("123.456"), 123.456);
+		assert_equal_strict(std::json::parse("-3.0"), -3.0);
+		assert_equal_strict(std::json::parse("1.0e2"), 100.0);
+		assert_equal_strict(std::json::parse("1.0e+2"), 100.0);
+		assert_equal_strict(std::json::parse("1.0e-2"), 0.01);
+		assert_equal_strict(std::json::parse("1.0E2"), 100.0);
+		assert_equal_strict(std::json::parse("1.0E+2"), 100.0);
+		assert_equal_strict(std::json::parse("1.0E-2"), 0.01);
 	}
 
 	function json_parse_string() {
@@ -33,9 +43,13 @@ namespace sphinx::test {
 	}
 
 	function json_parse_excepts() {
+		assert_except(lambda => std::json::parse("1. 0"));
 		assert_except(lambda => std::json::parse("\"ABC"));
 		assert_except(lambda => std::json::parse("["));
 		assert_except(lambda => std::json::parse("{"));
 		assert_except(lambda => std::json::parse("[1,]"));
+		assert_except(lambda => std::json::parse("[],"));
+		assert_except(lambda => std::json::parse("[1],"));
+		assert_except(lambda => std::json::parse("{},{}"));
 	}
 }
