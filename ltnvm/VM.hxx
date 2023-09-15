@@ -2,6 +2,7 @@
 #include <iostream>
 #include <functional>
 #include <initializer_list>
+#include "stdxx/json.hxx"
 #include "ltnvm/Exception.hxx"
 #include "VMCore.hxx"
 #include "ltn/cxx_types.hxx"
@@ -36,6 +37,8 @@ namespace ltn::vm {
 		void set_global(
 			const std::string & name,
 			Any value);
+
+		void set_globals(const stx::json::iterator & iter);
 
 		bool has_function(const std::string & fx_name);
 	
