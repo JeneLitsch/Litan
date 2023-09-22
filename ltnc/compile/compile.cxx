@@ -42,8 +42,10 @@ namespace ltn::c {
 
 		AddressTable extern_globals;
 		for(const auto & symbol : program.globals) {
-			const auto full_name = symbol->namespaze.to_string() + symbol->name;
-			extern_globals.insert({full_name, symbol->id});
+			if(symbol->is_extern) {
+				const auto full_name = symbol->namespaze.to_string() + symbol->name;
+				extern_globals.insert({full_name, symbol->id});
+			}
 		}
 
 		std::map<std::uint64_t, std::string> member_name_table;

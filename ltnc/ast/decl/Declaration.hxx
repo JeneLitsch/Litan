@@ -40,6 +40,8 @@ namespace ltn::c::ast {
 		const Namespace & get_resolve_namespace() const {
 			return this->namespaze;
 		}
+
+		bool is_extern = false;
 	private:
 		static inline std::uint64_t counter = 0;
 	};

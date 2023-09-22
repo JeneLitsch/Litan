@@ -1,3 +1,6 @@
+var a extern = 3;
+var b = 3;
+
 function main() {
 	std::println(std::json::print(["a" : 1]));
 }

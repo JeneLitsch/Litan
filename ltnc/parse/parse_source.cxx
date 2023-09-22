@@ -65,6 +65,10 @@ namespace ltn::c {
 				std::move(namespaze)
 			);
 
+			if(match("extern", tokens)) {
+				global->is_extern = true;
+			}
+
 			global->expr = match(TT::ASSIGN, tokens)
 				? parse_expression(tokens)
 				: nullptr;
