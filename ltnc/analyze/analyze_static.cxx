@@ -22,6 +22,7 @@ namespace ltn::c {
 			);
 
 			node->is_extern = statik.is_extern;
+			node->is_private = statik.is_private;
 			return node;
 		}
 	}

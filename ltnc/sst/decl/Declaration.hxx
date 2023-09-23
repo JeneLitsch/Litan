@@ -39,6 +39,7 @@ namespace ltn::c::sst {
 		}
 
 		bool is_extern = false;
+		bool is_private = false;
 		std::uint64_t id;
 	};
 

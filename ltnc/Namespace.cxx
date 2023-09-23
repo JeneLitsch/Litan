@@ -8,6 +8,18 @@ namespace ltn::c {
 
 
 
+	bool Namespace::is_inside_of(const Namespace & inner) const {
+		if((*this).size() < inner.size()) return false;
+		for(std::size_t i = 0; i < inner.size(); i++) {
+			if(inner[i] != (*this)[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+
 	void Namespace::push_back(const std::string & str) {
 		this->path.push_back(str);
 	}

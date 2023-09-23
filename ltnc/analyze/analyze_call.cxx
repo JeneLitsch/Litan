@@ -39,25 +39,11 @@ namespace ltn::c {
 
 
 
-		bool is_inner_namespace(
-			const Namespace & call_ns,
-			const Namespace & fx_ns) {
-			if(fx_ns.size() > call_ns.size()) return false;
-			for(std::size_t i = 0; i < fx_ns.size(); i++) {
-				if(call_ns[i] != fx_ns[i]) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-
-
 		void guard_private(
 			const ast::Function & fx,
 			const Namespace & call_ns,
 			const ast::Call & call) {
-			if(fx.is_private && !is_inner_namespace(call_ns, fx.namespaze)) {
+			if(fx.is_private && !call_ns.is_inside_of(fx.namespaze)) {
 				throw private_call_violation(call);
 			}
 		}

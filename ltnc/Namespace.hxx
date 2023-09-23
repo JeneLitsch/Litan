@@ -14,6 +14,7 @@ namespace ltn::c {
 		const std::string & operator[](std::size_t i) const;
 		std::string & operator[](std::size_t i);
 		bool is_absolute() const;
+		bool is_inside_of(const Namespace & inner) const;
 		void set_absolute();
 		std::string to_string() const;
 
