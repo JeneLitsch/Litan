@@ -38,6 +38,8 @@ namespace ltn::c::sst {
 			return this->namespaze;
 		}
 
+		bool is_extern = false;
+		bool is_private = false;
 		std::uint64_t id;
 	};
 

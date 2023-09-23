@@ -1,3 +1,9 @@
+namespace foo {
+	var a_1 extern private = 3;
+	var a_2 private extern = 3;
+}
+var b = 3;
+
 function main() {
 	std::println(std::json::print(["a" : 1]));
 }

@@ -68,12 +68,15 @@ namespace ltn::c {
 		std::uint64_t global_counter = 0;
 
 
+
 		for(auto & enym : source.enums) {
 			auto definitions = analyze_enumeration(*enym, global_counter);
 			for(auto & definition : definitions) {
 				program.definitions.push_back(std::move(definition));
 			}
 		}
+
+		
 
 		for(const auto & definition : source.definitions) {
 			program.definitions.push_back(analyze_definition(*definition, context, global_counter++));
@@ -93,6 +96,8 @@ namespace ltn::c {
 			context.global_table.insert(*glob);
 		}
 
+
+
 		for(const auto & function : source.functions) {
 			context.fx_table.insert(*function, function->parameters.simple.size(), VariadicMode::ALLOWED);
 		}
@@ -107,6 +112,8 @@ namespace ltn::c {
 			auto fx = analyze_staged(*staged, context);
 			program.functions.push_back(std::move(fx));
 		}
+
+
 
 		program.member_name_table = member_table.get_table();
 

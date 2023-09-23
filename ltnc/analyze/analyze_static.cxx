@@ -14,13 +14,16 @@ namespace ltn::c {
 			MajorScope scope { statik.namespaze, false, context};
 
 			auto expr = statik.expr ? analyze_expression(*statik.expr, scope) : std::make_unique<sst::Null>();
-
-			return std::make_unique<NodeT>(
+			auto node = std::make_unique<NodeT>(
 				statik.name,
 				statik.namespaze,
 				std::move(expr),
 				id
 			);
+
+			node->is_extern = statik.is_extern;
+			node->is_private = statik.is_private;
+			return node;
 		}
 	}
 

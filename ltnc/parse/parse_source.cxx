@@ -65,6 +65,23 @@ namespace ltn::c {
 				std::move(namespaze)
 			);
 
+			while(auto qualifier = match(TT::INDENTIFIER, tokens)) {
+				if(qualifier->str == "extern") {
+					global->is_extern = true;
+				}
+
+				else if(qualifier->str == "private") {
+					global->is_private = true;
+				}
+
+				else {
+					throw CompilerError {
+						"Unknown variable qualifier: " + qualifier->str,
+						qualifier->location
+					};
+				}
+			}
+
 			global->expr = match(TT::ASSIGN, tokens)
 				? parse_expression(tokens)
 				: nullptr;

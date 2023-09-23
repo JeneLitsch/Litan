@@ -13,6 +13,9 @@ namespace ltn::c {
 		}
 
 		if(auto glob = scope.resolve_global(expr.name,	expr.namespaze)) {
+			if(glob->is_private && glob->namespaze.is_inside_of(scope.get_namespace())) {
+				throw CompilerError{"Cannot access private global varaible" , ast::location(expr)};
+			} 
 			return std::make_unique<sst::GlobalVar>(glob->id);
 		}
 		
