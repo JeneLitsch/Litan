@@ -70,8 +70,8 @@ namespace ltn::vm::ext {
 		template<typename T>
 		struct Converter<std::vector<T>> {
 			static std::vector<T> convert(const Value & value) {
-				if(is_array(value)) {
-					auto & input = *value.as<Array>();
+				if(is_contiguous(value)) {
+					auto & input = *value.as<Contiguous>();
 					std::vector<T> output;
 					for(const auto & elem : input) {
 						output.push_back(Converter<T>::convert(elem));
