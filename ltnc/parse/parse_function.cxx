@@ -133,7 +133,7 @@ namespace ltn::c {
 
 
 
-		ast::stmt_ptr parse_dynamic_body(Tokens & tokens, std::uint64_t arity) {
+		ast::stmt_ptr parse_dynamic_body(Tokens & tokens, std::uint64_t arity, bool is_variadic) {
 			if(!match(TT::PAREN_L, tokens)) throw CompilerError {
 				"Expected ("
 			};
@@ -148,7 +148,7 @@ namespace ltn::c {
 			std::uint64_t address;
 			iss >> std::hex >> address;
 			auto expr = std::make_unique<ast::ForwardDynamicCall>(
-				address, arity, i->location
+				address, arity + is_variadic, i->location
 			);
 			return std::make_unique<ast::Return>(std::move(expr), i->location);
 		}
@@ -173,10 +173,10 @@ namespace ltn::c {
 
 
 		
-		ast::stmt_ptr parse_body(Tokens & tokens, std::uint64_t arity) {
+		ast::stmt_ptr parse_body(Tokens & tokens, std::uint64_t arity, bool is_variadic) {
 			if(auto begin = match(TT::DRARROW, tokens)) {
 				if(match(TT::DYNAMIC, tokens)) {
-					return parse_dynamic_body(tokens, arity);
+					return parse_dynamic_body(tokens, arity, is_variadic);
 				}
 				if(match(TT::BUILD_IN, tokens)) {
 					return parse_build_in_body(tokens, arity, *begin);
@@ -201,7 +201,7 @@ namespace ltn::c {
 						location(tokens)
 					};
 				}
-				auto body = parse_body(tokens, 1);
+				auto body = parse_body(tokens, 1, false);
 				return std::make_unique<ast::Except>(
 					params.simple[0].name,
 					std::move(body),
@@ -246,7 +246,7 @@ namespace ltn::c {
 			auto parameters = parse_function_parameters(tokens);
 
 			Qualifiers qualifiers = parse_qualifiers(tokens); 
-			auto body = parse_body(tokens, std::size(parameters.simple));
+			auto body = parse_body(tokens, std::size(parameters.simple), parameters.variadic.has_value());
 			auto fx = std::make_unique<FunctionalNode>(
 				std::move(name),
 				std::move(namespaze),
@@ -280,7 +280,7 @@ namespace ltn::c {
 			auto captures = parse_captures(tokens);
 			auto parameters = parse_lambda_parameters(tokens);
 			Qualifiers qualifiers = parse_qualifiers(tokens);
-			auto body = parse_body(tokens, std::size(parameters.simple)); 
+			auto body = parse_body(tokens, std::size(parameters.simple), parameters.variadic.has_value()); 
 			auto fx = std::make_unique<ast::Function>(
 				"lambda" + std::to_string(*stx::unique{}), 
 				Namespace{},
