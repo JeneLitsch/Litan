@@ -18,36 +18,6 @@ namespace ltn::c::sst {
 
 
 
-	struct Ternary : public Expression {
-		Ternary(
-			std::unique_ptr<Expression> condition,
-			std::unique_ptr<Expression> if_branch,
-			std::unique_ptr<Expression> else_branch) 
-			: Expression{}
-			, condition(std::move(condition))
-			, if_branch(std::move(if_branch))
-			, else_branch(std::move(else_branch)) {}
-
-		virtual std::uint64_t alloc() const override {
-			return std::max({
-				condition->alloc(),
-				if_branch->alloc(),
-				else_branch->alloc(),
-			});
-		}
-
-		virtual void accept(const ExprVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
-	
-		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Expression> if_branch;
-		std::unique_ptr<Expression> else_branch;
-	};
-
-
-
-
 	struct Unary : public Expression {
 		using Op = UnaryOp;
 		Unary(

@@ -1,6 +1,8 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
 #include "eval/eval_conditional.hxx"
+#include "ltnc/sst/expr/Ternary.hxx"
+
 namespace ltn::c {
 	sst::expr_ptr optimize_ternary(sst::Ternary & ternary) {
 		ternary.condition = optimize_expression(std::move(ternary.condition));

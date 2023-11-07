@@ -74,5 +74,16 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor &) const = 0;
 
 	};
+
+
+	
+	template<typename Derived>
+	struct ExpressionCRTP : Expression {
+		virtual void accept(const ExprVisitor & visitor) const override {
+			return visitor.visit(static_cast<const Derived &>(*this));
+		}
+	};
+
+
 	using expr_ptr = std::unique_ptr<Expression>;
 }
