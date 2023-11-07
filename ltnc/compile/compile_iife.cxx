@@ -1,5 +1,7 @@
 #include "compile.hxx"
 #include <string_view>
+#include "ltnc/sst/expr/Iife.hxx"
+
 namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Iife & iife) {
 		InstructionBuffer buf;

@@ -2,6 +2,7 @@
 #include "stdxx/functional.hxx"
 #include "stdxx/iife.hxx"
 #include <string_view>
+#include "ltnc/sst/expr/FxPointer.hxx"
 
 namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::FxPointer & fx_ptr) {

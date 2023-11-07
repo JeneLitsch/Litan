@@ -1,5 +1,8 @@
 #include "analyze.hxx"
 #include <string_view>
+#include "ltnc/sst/expr/Literal.hxx"
+
+
 namespace ltn::c {
 	// compiles int literal
 	sst::expr_ptr analyze_expr(const ast::Integer & expr, Scope &) {

@@ -1,5 +1,6 @@
 #include "analyze.hxx"
 #include "stdxx/functional.hxx"
+#include "ltnc/sst/expr/Literal.hxx"
 
 namespace ltn::c {
 	std::vector<sst::defn_ptr> analyze_enumeration(const ast::Enumeration & enumeration, std::uint64_t & id) {

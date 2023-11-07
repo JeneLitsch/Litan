@@ -38,7 +38,7 @@ namespace ltn::c::ast {
 	struct Choose;
 	struct Reflect;
 	struct ForwardDynamicCall;
-	struct InitStruct;
+	struct Struct;
 	struct Map;
 	struct Type;
 	struct CustomLiteral;
@@ -69,7 +69,7 @@ namespace ltn::c::ast {
 		Choose,
 		Reflect,
 		ForwardDynamicCall,
-		InitStruct,
+		Struct,
 		Map,
 		Type,
 		CustomLiteral,
@@ -502,13 +502,13 @@ namespace ltn::c::ast {
 
 
 
-	struct InitStruct final : public Expression {
+	struct Struct final : public Expression {
 		struct Member {
 			std::variant<std::string, MemberCode> name;
 			std::unique_ptr<Expression> expr;
 		};
 
-		InitStruct(const SourceLocation & location)
+		Struct(const SourceLocation & location)
 			: Expression{location} {}
 		
 		virtual void accept(const ExprVisitor & visitor) const override {
@@ -701,7 +701,7 @@ namespace ltn::c::ast {
 			virtual void visit(const Choose & x)             const override { this->run(x); };
 			virtual void visit(const Reflect & x)            const override { this->run(x); };
 			virtual void visit(const ForwardDynamicCall & x) const override { this->run(x); };
-			virtual void visit(const InitStruct & x)         const override { this->run(x); };
+			virtual void visit(const Struct & x)         const override { this->run(x); };
 			virtual void visit(const Map & x)                const override { this->run(x); };
 			virtual void visit(const Type & x)               const override { this->run(x); };
 			virtual void visit(const CustomLiteral & x)      const override { this->run(x); };

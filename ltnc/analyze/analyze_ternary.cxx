@@ -1,4 +1,6 @@
 #include "analyze.hxx"
+#include "ltnc/sst/expr/Ternary.hxx"
+
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::Ternary & expr, Scope & scope) {
 		

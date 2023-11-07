@@ -2,11 +2,13 @@
 #include <iostream>
 #include "stdxx/iife.hxx"
 #include "ltn/MemberCode.hxx"
+#include "ltnc/sst/expr/Map.hxx"
+#include "ltnc/sst/expr/Struct.hxx"
 
 namespace ltn::c {
 	namespace {
-		sst::InitStruct::Member analyze_member(Context &, sst::expr_ptr expr, MemberCode code) {
-			return sst::InitStruct::Member {
+		sst::Struct::Member analyze_member(Context &, sst::expr_ptr expr, MemberCode code) {
+			return sst::Struct::Member {
 				.address = static_cast<std::uint8_t>(code),
 				.expr = std::move(expr),
 			};
@@ -14,8 +16,8 @@ namespace ltn::c {
 
 
 		
-		sst::InitStruct::Member analyze_member(Context & context, sst::expr_ptr expr, const std::string & name) {
-			return sst::InitStruct::Member {
+		sst::Struct::Member analyze_member(Context & context, sst::expr_ptr expr, const std::string & name) {
+			return sst::Struct::Member {
 				.address = context.member_table.get_id(name),
 				.expr = std::move(expr),
 			};
@@ -23,9 +25,9 @@ namespace ltn::c {
 	}
 
 
-	sst::expr_ptr analyze_expr(const ast::InitStruct & init, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::Struct & init, Scope & scope) {
 		
-		auto sst_init = std::make_unique<sst::InitStruct>();
+		auto sst_init = std::make_unique<sst::Struct>();
 
 		auto & context = scope.get_context();
 

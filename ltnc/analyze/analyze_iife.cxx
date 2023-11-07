@@ -1,5 +1,7 @@
 #include "analyze.hxx"
 #include <string_view>
+#include "ltnc/sst/expr/Iife.hxx"
+
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::Iife & iife, Scope & outer_scope) {
 

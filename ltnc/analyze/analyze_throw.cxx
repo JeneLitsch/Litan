@@ -1,4 +1,6 @@
 #include "analyze.hxx"
+#include "ltnc/sst/expr/Literal.hxx"
+
 namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::Throw & thr0w, Scope & scope) {
 		auto expr = thr0w.expr

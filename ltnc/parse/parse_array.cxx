@@ -30,7 +30,7 @@ namespace ltn::c {
 				}
 				auto expr = parse_expression(tokens);
 
-				return ast::InitStruct::Member{
+				return ast::Struct::Member{
 					.name = code,
 					.expr = std::move(expr),
 				};
@@ -42,7 +42,7 @@ namespace ltn::c {
 				}
 				auto expr = parse_expression(tokens);
 
-				return ast::InitStruct::Member{
+				return ast::Struct::Member{
 					.name = std::move(name),
 					.expr = std::move(expr),
 				};
@@ -51,7 +51,7 @@ namespace ltn::c {
 
 
 		ast::expr_ptr parse_struct_init(Tokens & tokens) {
-			auto init_struct = std::make_unique<ast::InitStruct>(location(tokens));
+			auto init_struct = std::make_unique<ast::Struct>(location(tokens));
 			if(!match(TT::DOT, tokens)) {
 				throw CompilerError{"Expected . (dot)", location(tokens)};
 			}
@@ -59,7 +59,7 @@ namespace ltn::c {
 				return init_struct;
 			}
 			bool first = true;
-			init_struct->members = list_of<ast::InitStruct::Member>(TT::BRACKET_R, "]", tokens, [&] (auto & t) {
+			init_struct->members = list_of<ast::Struct::Member>(TT::BRACKET_R, "]", tokens, [&] (auto & t) {
 				if(!std::exchange(first, false) && !match(TT::DOT, t)) {
 					throw CompilerError{"Expected . (dot)", location(t)};
 				}

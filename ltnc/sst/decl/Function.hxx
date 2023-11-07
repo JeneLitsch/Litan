@@ -7,6 +7,7 @@
 #include "ltnc/Label.hxx"
 #include "ltnc/Namespace.hxx"
 #include "Declaration.hxx"
+#include "ltnc/sst/expr/Var.hxx"
 
 namespace ltn::c::sst {
 	class Statement;

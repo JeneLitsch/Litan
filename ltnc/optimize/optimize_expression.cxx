@@ -1,5 +1,10 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
+#include "ltnc/sst/expr/Binary.hxx"
+#include "ltnc/sst/expr/Ternary.hxx"
+#include "ltnc/sst/expr/Unary.hxx"
+#include "ltnc/sst/expr/Call.hxx"
+
 namespace ltn::c {
 	sst::expr_ptr optimize_expression(sst::Expression & expr) {
 		if(auto call = as<sst::Call>(expr)) {

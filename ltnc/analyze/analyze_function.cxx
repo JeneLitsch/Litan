@@ -2,6 +2,7 @@
 #include <iostream>
 #include "ltnc/print/print.hxx"
 #include "stdxx/functional.hxx"
+#include "ltnc/sst/expr/Var.hxx"
 
 namespace ltn::c {
 	namespace {

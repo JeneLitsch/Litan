@@ -1,4 +1,6 @@
 #include "compile.hxx"
+#include "ltnc/sst/expr/Ternary.hxx"
+
 namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Ternary & expr) {
 		const auto name        = make_jump_id("TERNARY");

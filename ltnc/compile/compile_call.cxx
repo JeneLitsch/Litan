@@ -1,6 +1,9 @@
 #include "compile.hxx"
 #include "stdxx/functional.hxx"
 #include <string_view>
+#include "ltnc/sst/expr/Call.hxx"
+#include "ltnc/sst/expr/Invoke.hxx"
+#include "ltnc/sst/expr/InvokeMember.hxx"
 
 namespace ltn::c {
 	namespace {

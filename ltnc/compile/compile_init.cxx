@@ -1,7 +1,9 @@
 #include "compile.hxx"
+#include "ltnc/sst/expr/Map.hxx"
+#include "ltnc/sst/expr/Struct.hxx"
 
 namespace ltn::c {
-	InstructionBuffer compile_expr(const sst::InitStruct & init) {
+	InstructionBuffer compile_expr(const sst::Struct & init) {
 		InstructionBuffer buf;
 		buf << inst::newstruct();
 		for(const auto & [member, expr] : init.members) {

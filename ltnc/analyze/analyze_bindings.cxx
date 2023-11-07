@@ -1,4 +1,5 @@
 #include "analyze.hxx"
+#include "ltnc/sst/expr/Var.hxx"
 
 namespace ltn::c {
 	namespace {

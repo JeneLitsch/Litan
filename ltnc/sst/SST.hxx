@@ -3,7 +3,6 @@
 #include "decl/Declaration.hxx"
 #include "decl/Function.hxx"
 #include "expr/Expression.hxx"
-#include "expr/Expressions.hxx"
 #include "stmt/Statement.hxx"
 #include "stmt/Statements.hxx"
 #include "ltnc/AddressTable.hxx"
@@ -20,6 +19,5 @@ namespace ltn::c::sst {
 		std::vector<glob_ptr> globals;
 		AddressTable member_name_table;
 	};
-	template<typename T>
-	concept literal_type = std::is_base_of<sst::Literal, T>::value;
+
 }

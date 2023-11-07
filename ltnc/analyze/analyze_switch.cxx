@@ -1,5 +1,6 @@
 #include "analyze.hxx"
 #include "stdxx/functional.hxx"
+#include "ltnc/sst/expr/Choose.hxx"
 
 namespace ltn::c {
 	auto analyze_cases(auto body_fx, const auto & sw1tch, Scope & scope) {

@@ -1,6 +1,7 @@
 #include "compile.hxx"
 #include <iostream>
 #include "stdxx/functional.hxx"
+#include "ltnc/sst/expr/Binary.hxx"
 
 namespace ltn::c {
 	namespace {

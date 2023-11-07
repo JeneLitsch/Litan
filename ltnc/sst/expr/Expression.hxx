@@ -27,7 +27,7 @@ namespace ltn::c::sst {
 	struct Ternary;
 	struct Choose;
 	struct Reflect;
-	struct InitStruct;
+	struct Struct;
 	struct Map;
 	struct Type;
 	struct BuildIn;
@@ -57,7 +57,7 @@ namespace ltn::c::sst {
 		Ternary,
 		Choose,
 		Reflect,
-		InitStruct,
+		Struct,
 		Map,
 		Type,
 		BuildIn
@@ -74,5 +74,16 @@ namespace ltn::c::sst {
 		virtual void accept(const ExprVisitor &) const = 0;
 
 	};
+
+
+	
+	template<typename Derived>
+	struct ExpressionCRTP : Expression {
+		virtual void accept(const ExprVisitor & visitor) const override {
+			return visitor.visit(static_cast<const Derived &>(*this));
+		}
+	};
+
+
 	using expr_ptr = std::unique_ptr<Expression>;
 }
