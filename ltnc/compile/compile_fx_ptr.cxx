@@ -3,6 +3,7 @@
 #include "stdxx/iife.hxx"
 #include <string_view>
 #include "ltnc/sst/expr/FxPointer.hxx"
+#include "ltnc/sst/expr/Var.hxx"
 
 namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::FxPointer & fx_ptr) {

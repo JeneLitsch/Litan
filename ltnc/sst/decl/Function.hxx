@@ -7,10 +7,8 @@
 #include "ltnc/Label.hxx"
 #include "ltnc/Namespace.hxx"
 #include "Declaration.hxx"
-#include "ltnc/sst/expr/Var.hxx"
 
 namespace ltn::c::sst {
-	class Statement;
 	class Statement;
 	struct Parameter {
 		std::string name;
@@ -33,12 +31,8 @@ namespace ltn::c::sst {
 
 
 	struct Except final : public Node {
-		Except(
-			const std::string & errorname,
-			std::unique_ptr<Statement> && body)
-			: body(std::move(body))
-			, errorname(errorname) {}
-		virtual ~Except() = default;
+		Except(const std::string & errorname, std::unique_ptr<Statement> && body);
+		virtual ~Except();
 		std::unique_ptr<Statement> body;
 		std::string errorname;
 	};
@@ -51,12 +45,12 @@ namespace ltn::c::sst {
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
-			std::unique_ptr<Statement> && body)
-			: Declaration(name, namespaze)
-			, parameters{std::move(parameters)}
-			, label{std::move(label)}
-			, body{std::move(body)} {}
-		virtual ~Function() = default;
+			std::unique_ptr<Statement> && body);
+
+		const std::string & get_resolve_name() const;
+		const Namespace & get_resolve_namespace() const;
+		
+		virtual ~Function();
 
 		Parameters parameters;
 		bool is_const = false;
@@ -69,12 +63,5 @@ namespace ltn::c::sst {
 		std::unique_ptr<Except> except;
 		std::vector<std::unique_ptr<Var>> capture;
 
-		const std::string & get_resolve_name() const {
-			return this->name;
-		}
-
-		const Namespace & get_resolve_namespace() const {
-			return this->namespaze;
-		}
 	};
 }
