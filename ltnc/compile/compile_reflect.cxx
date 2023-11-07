@@ -3,6 +3,8 @@
 #include <string_view>
 #include <iostream>
 #include <filesystem>
+#include "ltnc/sst/expr/Reflect.hxx"
+
 namespace ltn::c {
 	namespace {
 		InstructionBuffer add_member(const std::size_t address,

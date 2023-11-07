@@ -1,6 +1,8 @@
 #include "analyze.hxx"
 #include <string_view>
 #include <iostream>
+#include "ltnc/sst/expr/Reflect.hxx"
+
 namespace ltn::c {
 	namespace {
 		sst::Reflect::FunctionQuery fx_to_query(const ast::Function & fx) {
