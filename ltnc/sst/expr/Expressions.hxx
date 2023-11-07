@@ -19,33 +19,6 @@ namespace ltn::c::sst {
 
 
 
-
-
-	struct Index final : public Expression {
-		Index(
-			std::unique_ptr<Expression> expr,
-			std::unique_ptr<Expression> index)
-			: Expression{}
-			, expr(std::move(expr))
-			, index(std::move(index)) {}
-
-		virtual std::uint64_t alloc() const override {
-			return std::max({
-				this->expr->alloc(),
-				this->index->alloc(),
-			});
-		}
-
-		virtual void accept(const ExprVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
-
-		std::unique_ptr<Expression> expr;
-		std::unique_ptr<Expression> index;
-	};
-
-
-
 	struct Var final : public Expression {
 	public:
 		Var(

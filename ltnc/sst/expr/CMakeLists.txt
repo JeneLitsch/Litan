@@ -4,6 +4,7 @@ target_sources(libltnc PRIVATE
 	Array.cxx
 	Binary.cxx
 	Call.cxx
+	Index.cxx
 	Invoke.cxx
 	InvokeMember.cxx
 	Literal.cxx

@@ -1,5 +1,7 @@
 #include "compile.hxx"
 #include <string_view>
+#include "ltnc/sst/expr/Index.hxx"
+
 namespace ltn::c {
 	// compiles index read operation
 	InstructionBuffer compile_expr(const sst::Index & index) {

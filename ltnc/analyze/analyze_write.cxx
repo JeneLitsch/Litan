@@ -1,6 +1,7 @@
 #include "analyze.hxx"
 #include <iostream>
 #include "conversion.hxx"
+#include "ltnc/sst/expr/Index.hxx"
 
 namespace ltn::c {
 	void guard_const(const ast::Node & node, const Scope & scope) {
