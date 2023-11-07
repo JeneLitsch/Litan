@@ -18,58 +18,6 @@ namespace ltn::c::sst {
 
 
 
-	struct Unary : public Expression {
-		using Op = UnaryOp;
-		Unary(
-			Op op,
-			std::unique_ptr<Expression> expr)
-			: Expression{}
-			, op(op)
-			, expr(std::move(expr)) {}
-
-		virtual std::uint64_t alloc() const override {
-			return this->expr->alloc();
-		}
-
-		virtual void accept(const ExprVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
-
-		Op op;
-		std::unique_ptr<Expression> expr;
-	};
-
-
-
-	struct Binary : public Expression {
-		using Op = BinaryOp;
-		Binary(
-			Op op,
-			std::unique_ptr<Expression> l,
-			std::unique_ptr<Expression> r)
-			: Expression{}
-			, op(op)
-			, l(std::move(l))
-			, r(std::move(r)) {}
-
-		virtual std::uint64_t alloc() const override {
-			return std::max({
-				l->alloc(),
-				r->alloc(),
-			});
-		}
-
-		virtual void accept(const ExprVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
-
-		Op op;
-		std::unique_ptr<Expression> l;
-		std::unique_ptr<Expression> r;
-	};
-
-
-
 	struct Reflect : public Expression {
 		struct FunctionQuery {
 			std::string id;

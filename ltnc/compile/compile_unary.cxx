@@ -1,5 +1,6 @@
 #include "compile.hxx"
 #include "stdxx/functional.hxx"
+#include "ltnc/sst/expr/Unary.hxx"
 
 namespace ltn::c {
 	namespace {

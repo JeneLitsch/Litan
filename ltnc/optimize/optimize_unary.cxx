@@ -1,6 +1,8 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
 #include "eval/eval_unary.hxx"
+#include "ltnc/sst/expr/Unary.hxx"
+
 namespace ltn::c {
 	namespace {
 		

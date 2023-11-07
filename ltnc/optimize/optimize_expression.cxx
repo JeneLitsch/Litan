@@ -1,6 +1,8 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
+#include "ltnc/sst/expr/Binary.hxx"
 #include "ltnc/sst/expr/Ternary.hxx"
+#include "ltnc/sst/expr/Unary.hxx"
 
 namespace ltn::c {
 	sst::expr_ptr optimize_expression(sst::Expression & expr) {

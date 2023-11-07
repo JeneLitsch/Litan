@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include "stdxx/functional.hxx"
+#include "ltnc/sst/expr/Binary.hxx"
 
 namespace ltn::c {
 	// compiles a binary operation

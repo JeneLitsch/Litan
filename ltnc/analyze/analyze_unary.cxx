@@ -1,5 +1,6 @@
 #include "analyze.hxx"
 #include "stdxx/functional.hxx"
+#include "ltnc/sst/expr/Unary.hxx"
 
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::Unary & unary, Scope & scope) {

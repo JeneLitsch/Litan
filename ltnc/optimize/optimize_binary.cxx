@@ -1,6 +1,8 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
 #include "eval/eval_binary.hxx"
+#include "ltnc/sst/expr/Binary.hxx"
+
 namespace ltn::c {
 	namespace {
 		template<sst::Binary::Op op>
