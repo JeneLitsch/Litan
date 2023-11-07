@@ -1,10 +1,11 @@
-#include "analyze.hxx"
-#include "stdxx/functional.hxx"
 #include <string_view>
+#include "stdxx/functional.hxx"
+#include "analyze.hxx"
 #include "ltnc/sst/expr/Call.hxx"
 #include "ltnc/sst/expr/Invoke.hxx"
 #include "ltnc/sst/expr/InvokeMember.hxx"
 #include "ltnc/sst/expr/Tuple.hxx"
+#include "ltnc/sst/expr/Var.hxx"
 
 namespace ltn::c {
 

@@ -1,5 +1,7 @@
 #include "compile.hxx"
 #include <string_view>
+#include "ltnc/sst/expr/Member.hxx"
+
 namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::Var & expr) {
 		InstructionBuffer buf;

@@ -2,6 +2,9 @@
 #include <iostream>
 #include "conversion.hxx"
 #include "ltnc/sst/expr/Index.hxx"
+#include "ltnc/sst/expr/Member.hxx"
+#include "ltnc/sst/expr/Var.hxx"
+#include "ltnc/sst/expr/GlobalVar.hxx"
 
 namespace ltn::c {
 	void guard_const(const ast::Node & node, const Scope & scope) {

@@ -63,4 +63,7 @@ namespace ltn::c::sst {
 		String(std::string value) 
 			: LiteralOf<String, std::string>{std::move(value)} {}
 	};
+
+	template<typename T>
+	concept literal_type = std::is_base_of<sst::Literal, T>::value;
 }

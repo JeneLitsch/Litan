@@ -1,5 +1,7 @@
 #include "analyze.hxx"
 #include "stdxx/functional.hxx"
+#include "ltnc/sst/expr/FxPointer.hxx"
+#include "ltnc/sst/expr/Var.hxx"
 
 namespace ltn::c {
 	namespace {

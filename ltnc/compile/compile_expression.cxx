@@ -1,5 +1,6 @@
 #include "compile.hxx"
 #include "build_in.hxx"
+#include "ltnc/sst/expr/BuildIn.hxx"
 
 namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::BuildIn & expr) {

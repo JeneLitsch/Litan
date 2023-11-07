@@ -1,10 +1,9 @@
 #pragma once
 #include "ltnc/ast/AST.hxx"
 #include "to_node_type.hxx"
+#include "ltnc/sst/expr/Literal.hxx"
+
 namespace ltn::c {
-
-
-
 	struct Negation {
 		template<sst::literal_type Litr>
 		auto operator()(const Litr & litr) const {

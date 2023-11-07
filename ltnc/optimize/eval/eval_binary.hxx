@@ -3,6 +3,8 @@
 #include <cmath>
 #include "ltnc/ast/AST.hxx"
 #include "to_node_type.hxx"
+#include "ltnc/sst/expr/Literal.hxx"
+
 namespace ltn::c {
 	template<typename Op>
 	struct Arithmetic {

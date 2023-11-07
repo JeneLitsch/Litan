@@ -1,5 +1,6 @@
 #include "analyze.hxx"
 #include <iostream>
+#include "ltnc/sst/expr/Literal.hxx"
 
 namespace ltn::c {
 
