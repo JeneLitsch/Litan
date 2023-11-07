@@ -666,46 +666,4 @@ namespace ltn::c::sst {
 
 		std::string key;
 	};
-
-
-
-	auto visit_expression(const sst::Expression & expr, auto && fx) {
-
-		using Callable = std::decay_t<decltype(fx)>;
-		using Ret = std::invoke_result_t<Callable, Binary>;
-		using Base = FunctionVisitor<ExprVisitor, Callable, Ret>;
-
-		struct Visitor : public Base {
-			Visitor(Callable fx) : Base {fx} {} 
-
-			virtual void visit(const Binary & x) const override { this->run(x); };
-			virtual void visit(const Unary & x) const override { this->run(x); };
-			virtual void visit(const Integer & x) const override { this->run(x); };
-			virtual void visit(const Float & x) const override { this->run(x); };
-			virtual void visit(const Bool & x) const override { this->run(x); };
-			virtual void visit(const Char & x) const override { this->run(x); };
-			virtual void visit(const Null & x) const override { this->run(x); };
-			virtual void visit(const String & x) const override { this->run(x); };
-			virtual void visit(const Array & x) const override { this->run(x); };
-			virtual void visit(const Tuple & x) const override { this->run(x); };
-			virtual void visit(const Call & x) const override { this->run(x); };
-			virtual void visit(const Invoke & x) const override { this->run(x); };
-			virtual void visit(const InvokeMember & x) const override { this->run(x); };
-			virtual void visit(const Var & x) const override { this->run(x); };
-			virtual void visit(const Index & x) const override { this->run(x); };
-			virtual void visit(const FxPointer & x) const override { this->run(x); };
-			virtual void visit(const Member & x) const override { this->run(x); };
-			virtual void visit(const GlobalVar & x) const override { this->run(x); };
-			virtual void visit(const Iife & x) const override { this->run(x); };
-			virtual void visit(const Ternary & x) const override { this->run(x); };
-			virtual void visit(const Choose & x) const override { this->run(x); };
-			virtual void visit(const Reflect & x) const override { this->run(x); };
-			virtual void visit(const InitStruct & x) const override { this->run(x); };
-			virtual void visit(const Map & x) const override { this->run(x); };
-			virtual void visit(const Type & x) const override { this->run(x); };
-			virtual void visit(const BuildIn & x) const override { this->run(x); };
-		};
-
-		return Visitor{fx}(expr);
-	}
 }
