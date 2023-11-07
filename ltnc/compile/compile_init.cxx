@@ -1,4 +1,5 @@
 #include "compile.hxx"
+#include "ltnc/sst/expr/Map.hxx"
 
 namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::InitStruct & init) {

@@ -2,6 +2,7 @@
 #include <iostream>
 #include "stdxx/iife.hxx"
 #include "ltn/MemberCode.hxx"
+#include "ltnc/sst/expr/Map.hxx"
 
 namespace ltn::c {
 	namespace {
