@@ -69,7 +69,7 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::Var &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Member &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Reflect &, Scope &);
-	sst::expr_ptr analyze_expr(const ast::InitStruct &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::Struct &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Map &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::Type &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::CustomLiteral &, Scope &);

@@ -27,7 +27,7 @@ namespace ltn::c::sst {
 	struct Ternary;
 	struct Choose;
 	struct Reflect;
-	struct InitStruct;
+	struct Struct;
 	struct Map;
 	struct Type;
 	struct BuildIn;
@@ -57,7 +57,7 @@ namespace ltn::c::sst {
 		Ternary,
 		Choose,
 		Reflect,
-		InitStruct,
+		Struct,
 		Map,
 		Type,
 		BuildIn
