@@ -4,6 +4,7 @@
 #include "ltnc/sst/expr/Var.hxx"
 #include "ltnc/sst/expr/GlobalVar.hxx"
 
+
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::Var & expr, Scope & scope) {
 		if(expr.namespaze.empty()) {

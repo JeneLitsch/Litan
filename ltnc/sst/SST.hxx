@@ -1,7 +1,9 @@
 #pragma once
 #include "bind/Binding.hxx"
 #include "decl/Declaration.hxx"
+#include "decl/Definition.hxx"
 #include "decl/Function.hxx"
+#include "decl/Global.hxx"
 #include "expr/Expression.hxx"
 #include "stmt/Statement.hxx"
 #include "stmt/Statements.hxx"
