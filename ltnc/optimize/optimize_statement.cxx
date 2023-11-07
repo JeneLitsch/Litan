@@ -1,6 +1,9 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
 #include "eval/eval_conditional.hxx"
+#include "ltnc/sst/expr/Literal.hxx"
+#include "ltnc/sst/expr/Array.hxx"
+
 namespace ltn::c {
 	namespace {
 		sst::stmt_ptr optimize_unary_statement(auto & stmt) {

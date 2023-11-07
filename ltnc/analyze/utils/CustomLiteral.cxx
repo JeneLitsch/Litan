@@ -1,4 +1,6 @@
 #include "CustomLiteral.hxx"
+#include "ltnc/sst/expr/Literal.hxx"
+
 
 namespace ltn::c {
 	sst::expr_ptr CustomLiteral::operator()(const std::string & value) const {

@@ -4,6 +4,7 @@
 #include "ltnc/sst/expr/Call.hxx"
 #include "ltnc/sst/expr/Invoke.hxx"
 #include "ltnc/sst/expr/InvokeMember.hxx"
+#include "ltnc/sst/expr/Tuple.hxx"
 
 namespace ltn::c {
 

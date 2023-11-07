@@ -1,5 +1,8 @@
 #include "analyze.hxx"
 #include <string_view>
+#include "ltnc/sst/expr/Array.hxx"
+#include "ltnc/sst/expr/Tuple.hxx"
+
 namespace ltn::c {
 	namespace {
 		template<typename Node>

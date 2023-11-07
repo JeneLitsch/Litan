@@ -2,6 +2,8 @@
 #include "ltn/casts.hxx"
 #include "eval/eval_binary.hxx"
 #include "ltnc/sst/expr/Binary.hxx"
+#include "ltnc/sst/expr/Literal.hxx"
+
 
 namespace ltn::c {
 	namespace {

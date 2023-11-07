@@ -1,5 +1,6 @@
 #include "analyze.hxx"
 #include "ltnc/sst/expr/Invoke.hxx"
+#include "ltnc/sst/expr/Literal.hxx"
 
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::ForwardDynamicCall & forward, Scope &) {

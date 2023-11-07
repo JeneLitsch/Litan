@@ -1,6 +1,9 @@
 #include "compile.hxx"
 #include <string_view>
 #include <limits>
+#include "ltnc/sst/expr/Literal.hxx"
+
+
 namespace ltn::c {
 	namespace {
 		inst::Inst pick_int_inst(std::int64_t value) {

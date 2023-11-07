@@ -1,5 +1,8 @@
 #include "compile.hxx"
 #include <string_view>
+#include "ltnc/sst/expr/Array.hxx"
+#include "ltnc/sst/expr/Tuple.hxx"
+
 namespace ltn::c {
 	// compiles array literal
 	InstructionBuffer compile_expr(const sst::Array & array) {
