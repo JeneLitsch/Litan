@@ -1,7 +1,6 @@
 #include "analyze.hxx"
 #include <sstream>
 #include "stdxx/iife.hxx"
-#include "ltnc/analyze/default_value.hxx"
 #include "ltnc/sst/expr/Literal.hxx"
 
 

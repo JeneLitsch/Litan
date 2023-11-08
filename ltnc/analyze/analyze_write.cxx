@@ -1,7 +1,5 @@
 #include "analyze.hxx"
 #include <iostream>
-#include "conversion.hxx"
-
 #include "ltnc/sst/expr/Index.hxx"
 #include "ltnc/sst/expr/Member.hxx"
 #include "ltnc/sst/expr/Var.hxx"
