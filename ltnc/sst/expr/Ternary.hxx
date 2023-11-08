@@ -14,4 +14,6 @@ namespace ltn::c::sst {
 		expr_ptr if_branch;
 		expr_ptr else_branch;
 	};
+
+	std::unique_ptr<Ternary> ternary(expr_ptr condition, expr_ptr if_branch, expr_ptr else_branch);
 }

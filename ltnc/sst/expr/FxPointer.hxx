@@ -19,4 +19,6 @@ namespace ltn::c::sst {
 		std::vector<std::unique_ptr<Var>> captures;
 		bool is_variadic;
 	};
+
+	std::unique_ptr<FxPointer> fx_pointer(const Label & label, std::size_t arity, bool is_variadic);
 }

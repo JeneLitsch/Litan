@@ -18,4 +18,10 @@ namespace ltn::c::sst {
 			else_branch->alloc(),
 		});
 	}
+
+
+
+	std::unique_ptr<Ternary> ternary(expr_ptr condition, expr_ptr if_branch, expr_ptr else_branch) {
+		return std::make_unique<Ternary>(std::move(condition), std::move(if_branch), std::move(else_branch));
+	}
 }

@@ -24,4 +24,10 @@ namespace ltn::c::sst {
 	std::uint64_t InvokeMember::arity() const {
 		return std::size(arguments) + 1;
 	}
+
+
+
+	std::unique_ptr<InvokeMember> invoke_member(expr_ptr object, std::uint64_t member_id, std::vector<expr_ptr> arguments) {
+		return std::make_unique<InvokeMember>(std::move(object), member_id, std::move(arguments));
+	}
 }

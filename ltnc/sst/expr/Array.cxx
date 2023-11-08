@@ -18,4 +18,16 @@ namespace ltn::c::sst {
 	void Array::accept(const ExprVisitor & visitor) const {
 		visitor.visit(*this);
 	}
+
+
+	
+	void Array::push_back(expr_ptr elem) {
+		this->elements.push_back(std::move(elem));
+	}
+
+
+
+	std::unique_ptr<Array> array() {
+		return std::make_unique<Array>();
+	}
 }

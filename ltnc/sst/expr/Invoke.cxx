@@ -20,4 +20,10 @@ namespace ltn::c::sst {
 	std::uint64_t Invoke::arity() const {
 		return std::size(arguments);
 	}
+
+
+
+	std::unique_ptr<Invoke> invoke(expr_ptr function_ptr, std::vector<expr_ptr> arguments) {
+		return std::make_unique<Invoke>(std::move(function_ptr), std::move(arguments));
+	}
 }

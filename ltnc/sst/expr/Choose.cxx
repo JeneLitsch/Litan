@@ -10,4 +10,9 @@ namespace ltn::c::sst {
 		}
 		return count;
 	}
+
+
+	std::unique_ptr<Choose> switch_expr() {
+		return std::make_unique<Choose>();
+	}
 }

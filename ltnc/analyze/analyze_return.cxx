@@ -6,9 +6,7 @@ namespace ltn::c {
 
 	sst::stmt_ptr analyze_stmt(const ast::Return & ret, Scope & scope) {
 		
-		auto expr = ret.expr 
-			? analyze_expression(*ret.expr, scope)
-			: std::make_unique<sst::Null>();
+		auto expr = ret.expr ? analyze_expression(*ret.expr, scope) : sst::null();
 		
 		return std::make_unique<sst::Return>(
 			std::move(expr),

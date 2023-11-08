@@ -14,4 +14,6 @@ namespace ltn::c::sst {
 
 		expr_ptr d3fault;
 	};
+
+	std::unique_ptr<Choose> switch_expr();
 }

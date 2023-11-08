@@ -171,6 +171,6 @@ namespace ltn::c {
 
 
 	sst::expr_ptr analyze_expr(const ast::Type & type, Scope & scope) {
-		return std::make_unique<sst::Type>(analyze_type(type, scope));
+		return sst::type(analyze_type(type, scope));
 	}
 }

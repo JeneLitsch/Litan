@@ -9,4 +9,6 @@ namespace ltn::c::sst {
 
 		std::string key;
 	};
+
+	std::unique_ptr<BuildIn> build_in(std::string key);
 }

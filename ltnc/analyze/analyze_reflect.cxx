@@ -122,7 +122,7 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::Reflect & refl, Scope & scope) {
 		auto & context = scope.get_context();
 			
-		return std::make_unique<sst::Reflect>(
+		return sst::reflect(
 			std::visit([&] (const auto & query) -> sst::Reflect::Query {
 				return analyze_reflect_query(refl, query, scope);
 			}, refl.query),

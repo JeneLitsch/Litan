@@ -19,4 +19,10 @@ namespace ltn::c::sst {
 
 
 	FxPointer::~FxPointer() {}
+
+
+
+	std::unique_ptr<FxPointer> fx_pointer(const Label & label, std::size_t arity, bool is_variadic) {
+		return std::make_unique<FxPointer>(label, arity, is_variadic);
+	}
 }

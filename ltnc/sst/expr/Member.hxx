@@ -11,4 +11,8 @@ namespace ltn::c::sst {
 		expr_ptr expr;
 		std::size_t address;
 	};
+
+
+
+	std::unique_ptr<Member> member(expr_ptr expr, std::uint64_t member);
 }

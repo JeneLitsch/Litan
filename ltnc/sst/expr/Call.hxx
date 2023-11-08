@@ -14,4 +14,8 @@ namespace ltn::c::sst {
 		Label label;
 		std::vector<expr_ptr> arguments;
 	};
+
+
+
+	std::unique_ptr<Call> call(const Label & label, std::vector<expr_ptr> arguments);
 }

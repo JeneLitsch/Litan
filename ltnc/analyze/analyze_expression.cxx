@@ -6,23 +6,20 @@
 
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::ForwardDynamicCall & forward, Scope &) {
-		
+		 
 		std::vector<sst::expr_ptr> arguments;
 		for(std::uint64_t i = 0; i < forward.arity; ++i) {
-			arguments.push_back(std::make_unique<sst::Var>(i));
+			arguments.push_back(sst::var_local(i));
 		}
 
-		return std::make_unique<sst::Invoke>(
-			std::make_unique<sst::Integer>(forward.address),
-			std::move(arguments)
-		);
+		return sst::invoke(sst::integer_addr(forward.address), std::move(arguments));
 	}
 
 
 
 
 	sst::expr_ptr analyze_expr(const ast::BuildIn & build_in, Scope &) {
-		return std::make_unique<sst::BuildIn>(build_in.key);
+		return sst::build_in(build_in.key);
 	}
 
 

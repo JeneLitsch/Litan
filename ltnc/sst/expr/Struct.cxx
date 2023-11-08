@@ -13,4 +13,10 @@ namespace ltn::c::sst {
 		}
 		return count;
 	}
+
+
+
+	std::unique_ptr<Struct> strukt() {
+		return std::make_unique<Struct>();
+	}
 }

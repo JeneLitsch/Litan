@@ -11,4 +11,8 @@ namespace ltn::c::sst {
 
 		std::vector<std::uint8_t> type_code;
 	};
+
+
+
+	std::unique_ptr<Type> type(std::vector<std::uint8_t> code);
 }

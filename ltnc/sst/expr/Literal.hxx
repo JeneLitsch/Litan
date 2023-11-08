@@ -26,8 +26,7 @@ namespace ltn::c::sst {
 
 
 	struct Integer final : public LiteralOf<Integer, std::int64_t> {
-		Integer(std::bitset<64> value);
-		Integer(std::int64_t value);
+		Integer(std::int64_t value);		
 	};
 
 
@@ -39,31 +38,39 @@ namespace ltn::c::sst {
 
 
 	struct Bool final : public LiteralOf<Bool, bool> {
-		Bool(bool value) 
-			: LiteralOf<Bool, bool>{value} {}
+		Bool(bool value);
 	};
 
 
 
 	struct Null final : public LiteralOf<Null, std::nullptr_t> {
-		Null() 
-			: LiteralOf<Null, std::nullptr_t>{nullptr} {}
+		Null();
 	};
 
 
 
 	struct Char final : public LiteralOf<Char, std::uint8_t> {
-		Char(std::uint8_t value) 
-			: LiteralOf<Char, std::uint8_t>{value} {}
+		Char(std::uint8_t value);
 	};
 
 
 
 	struct String final : public LiteralOf<String, std::string> {
-		String(std::string value) 
-			: LiteralOf<String, std::string>{std::move(value)} {}
+		String(std::string value); 
 	};
+
+
 
 	template<typename T>
 	concept literal_type = std::is_base_of<sst::Literal, T>::value;
+
+
+
+	std::unique_ptr<Integer> integer(std::int64_t value);
+	std::unique_ptr<Integer> integer_addr(std::uint64_t value);
+	std::unique_ptr<Float> floating(stx::float64_t value);
+	std::unique_ptr<Bool> boolean(bool value);
+	std::unique_ptr<Null> null();
+	std::unique_ptr<Char> character(std::uint8_t value);
+	std::unique_ptr<String> string(std::string value);
 }

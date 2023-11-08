@@ -62,4 +62,8 @@ namespace ltn::c::sst {
 		Query query;
 		Addr address;
 	};
+
+
+
+	std::unique_ptr<Reflect> reflect(Reflect::Query query, Reflect::Addr address);
 }

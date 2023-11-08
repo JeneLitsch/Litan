@@ -33,8 +33,6 @@ namespace ltn::c {
 		auto inner_scope = create_inner_scope(outer_scope, lambda);
 		auto label = make_lambda_label(lambda);
 
-		
-		// auto sst_fx = analyze_functional(*lambda.fx, inner_scope, label, lambda.captures);
 		auto captures = analyze_captures(lambda.captures, outer_scope);
 
 		outer_scope.get_context().fx_queue.stage_function(Staged{
@@ -43,10 +41,10 @@ namespace ltn::c {
 			.override_namespace = outer_scope.get_namespace(),
 		});
 
-		auto fx_ptr = std::make_unique<sst::FxPointer>(
+		auto fx_ptr = sst::fx_pointer(
 			make_function_label(*lambda.fx),
 			lambda.fx->parameters.simple.size(),
-			!!lambda.fx->parameters.variadic
+			lambda.fx->parameters.variadic.has_value()
 		);
 
 		fx_ptr->captures = std::move(captures);

@@ -16,19 +16,19 @@ namespace ltn::c {
 
 
 	sst::expr_ptr CustomLiteral::make(const std::string & str) {
-		return std::make_unique<sst::String>(str);
+		return sst::string(str);
 	}
 
 
 
 	sst::expr_ptr CustomLiteral::make(double value) {
-		return std::make_unique<sst::Float>(value);
+		return sst::floating(value);
 
 	}
 
 
 
 	sst::expr_ptr CustomLiteral::make(std::int64_t value) {
-		return std::make_unique<sst::Integer>(value);
+		return sst::integer(value);
 	}
 }

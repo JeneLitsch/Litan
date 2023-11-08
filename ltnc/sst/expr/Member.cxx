@@ -19,4 +19,10 @@ namespace ltn::c::sst {
 	std::unique_ptr<Binding> Member::convert_to_bindung() && {
 		return std::make_unique<MemberBinding>(std::move(this->expr), this->address);
 	}
+
+
+
+	std::unique_ptr<Member> member(expr_ptr expr, std::uint64_t member) {
+		return std::make_unique<Member>(std::move(expr), member);
+	}
 }

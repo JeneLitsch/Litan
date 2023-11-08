@@ -5,29 +5,24 @@
 
 namespace ltn::c {
 	namespace {
-		template<typename Node>
-		sst::expr_ptr analyze_collection(const auto & ast_collection, Scope & scope) {
-			
-			std::vector<sst::expr_ptr> elements;
-			for(const auto & elem : ast_collection.elements) {
-				auto result = analyze_expression(*elem, scope);
-				elements.push_back(std::move(result));
+		sst::expr_ptr analyze_collection(const auto & ast, const auto & make_sst, Scope & scope) {
+			auto sst = make_sst();
+			for(const auto & elem : ast.elements) {
+				sst->push_back(analyze_expression(*elem, scope));
 			}
-			auto sst_collection = std::make_unique<Node>();
-			sst_collection->elements = std::move(elements);
-			return sst_collection;
+			return sst;
 		}
 	}
 
 
 
 	sst::expr_ptr analyze_expr(const ast::Array & array, Scope & scope) {
-		return analyze_collection<sst::Array>(array, scope);
+		return analyze_collection(array, sst::array, scope);
 	}
 
 
 
 	sst::expr_ptr analyze_expr(const ast::Tuple & tuple, Scope & scope) {
-		return analyze_collection<sst::Tuple>(tuple, scope);
+		return analyze_collection(tuple, sst::tuple, scope);
 	}
 }

@@ -4,42 +4,36 @@
 
 
 namespace ltn::c {
-	// compiles int literal
 	sst::expr_ptr analyze_expr(const ast::Integer & expr, Scope &) {
-		return std::make_unique<sst::Integer>(expr.value);
+		return sst::integer(expr.value);
 	}
 
 
 
-	// compiles float literal
 	sst::expr_ptr analyze_expr(const ast::Float & expr, Scope &) {
-		return std::make_unique<sst::Float>(expr.value);
+		return sst::floating(expr.value);
 	}
 
 
 
-	// compiles bool literal
 	sst::expr_ptr analyze_expr(const ast::Bool & expr, Scope &) {
-		return std::make_unique<sst::Bool>(expr.value);
+		return sst::boolean(expr.value);
 	}
 
 
 
-	// compiles null literal
 	sst::expr_ptr analyze_expr(const ast::Null &, Scope &) {
-		return std::make_unique<sst::Null>();
+		return sst::null();
 	}
 
 
-	// compiles bool literal
 	sst::expr_ptr analyze_expr(const ast::Char & expr, Scope &) {
-		return std::make_unique<sst::Char>(expr.value);
+		return sst::character(expr.value);
 	}
 
 
 
-	// compiles string literal
 	sst::expr_ptr analyze_expr(const ast::String & expr, Scope &) {
-		return std::make_unique<sst::String>(expr.value);
+		return sst::string(expr.value);
 	}
 }

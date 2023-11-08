@@ -18,4 +18,16 @@ namespace ltn::c::sst {
 	void Tuple::accept(const ExprVisitor & visitor) const {
 		visitor.visit(*this);
 	}
+
+
+
+	void Tuple::push_back(expr_ptr elem) {
+		this->elements.push_back(std::move(elem));
+	}
+
+
+
+	std::unique_ptr<Tuple> tuple() {
+		return std::make_unique<Tuple>();
+	}
 }

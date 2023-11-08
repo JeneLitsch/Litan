@@ -12,4 +12,5 @@ namespace ltn::c::sst {
 		std::unique_ptr<Statement> stmt;
 	};
 
+	std::unique_ptr<Iife> iife(std::string return_label, std::unique_ptr<Statement> stmt);
 }

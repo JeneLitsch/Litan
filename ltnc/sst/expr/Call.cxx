@@ -20,4 +20,10 @@ namespace ltn::c::sst {
 	std::uint64_t Call::arity() const {
 		return std::size(arguments);
 	}
+
+
+
+	std::unique_ptr<Call> call(const Label & label, std::vector<expr_ptr> arguments) {
+		return std::make_unique<Call>(label, std::move(arguments));
+	}
 }

@@ -15,4 +15,6 @@ namespace ltn::c::sst {
 
 		std::vector<Member> members;
 	};
+
+	std::unique_ptr<Struct> strukt();
 }

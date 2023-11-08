@@ -10,7 +10,9 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const override;
 
 		Op op;
-		std::unique_ptr<Expression> l;
-		std::unique_ptr<Expression> r;
+		expr_ptr l;
+		expr_ptr r;
 	};
+
+	std::unique_ptr<Binary> binary(Binary::Op op, expr_ptr l, expr_ptr r);
 }

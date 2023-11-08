@@ -27,7 +27,7 @@ namespace ltn::c {
 
 	sst::expr_ptr analyze_expr(const ast::Struct & init, Scope & scope) {
 		
-		auto sst_init = std::make_unique<sst::Struct>();
+		auto sst_init = sst::strukt();
 
 		auto & context = scope.get_context();
 
@@ -45,7 +45,7 @@ namespace ltn::c {
 
 	
 	sst::expr_ptr analyze_expr(const ast::Map & init, Scope & scope) {
-		auto map =std::make_unique<sst::Map>();
+		auto map = sst::map();
 		for(auto & [key, val] : init.pairs) {
 			map->pairs.push_back(sst::Map::Pair{
 				.key = analyze_expression(*key, scope),

@@ -13,4 +13,6 @@ namespace ltn::c::sst {
 		Op op;
 		expr_ptr expr;
 	};
+
+	std::unique_ptr<Unary> unary(Unary::Op op, expr_ptr expr);
 }

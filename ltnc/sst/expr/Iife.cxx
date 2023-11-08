@@ -11,4 +11,10 @@ namespace ltn::c::sst {
 	std::uint64_t Iife::alloc() const {
 		return this->stmt->direct_alloc() + this->stmt->nested_alloc();
 	}
+
+
+
+	std::unique_ptr<Iife> iife(std::string return_label, std::unique_ptr<Statement> stmt) {
+		return std::make_unique<Iife>(std::move(return_label), std::move(stmt));
+	}
 }

@@ -42,7 +42,7 @@ namespace ltn::c {
 		}
 
 		auto operator()(sst::literal_type auto & litr) const {
-			return stx::make_unique<sst::Bool>(eval(litr));
+			return sst::boolean(eval(litr));
 		}
 	};
 
@@ -58,7 +58,7 @@ namespace ltn::c {
 		}
 
 		auto operator()(sst::literal_type auto & litr) const {
-			return stx::make_unique<sst::Bool>(eval(litr));
+			return sst::boolean(eval(litr));
 		}
 	};
 }

@@ -23,10 +23,10 @@ namespace ltn::c {
 			}
 
 			if(fx.parameters.variadic) {
-				auto tuple = std::make_unique<sst::Tuple>();
+				auto tuple = sst::tuple();
 				for(std::size_t i = fx.parameters.simple.size(); i < call.arguments.size(); ++i) {
 					auto & argument = call.arguments[i];
-					tuple->elements.push_back(analyze_expression(*argument, scope));
+					tuple->push_back(analyze_expression(*argument, scope));
 				}
 				arguments.push_back(std::move(tuple));
 			}
@@ -60,10 +60,7 @@ namespace ltn::c {
 			auto expr = analyze_expression(*call.function_ptr, scope);
 			auto arguments = analyze_all_expressions(call.arguments, scope);
 			
-			return std::make_unique<sst::Invoke>(
-				std::move(expr),
-				std::move(arguments)
-			);
+			return sst::invoke(std::move(expr), std::move(arguments));
 		}
 
 
@@ -82,13 +79,8 @@ namespace ltn::c {
 			MinorScope dummy_scope{&scope};
 			auto fx_label = make_function_label(fx);
 			
-			auto sst_call = std::make_unique<sst::Call>(
-				std::move(fx_label),
-				std::move(arguments)
-			);
-
 			context.fx_queue.stage_function(fx);
-			return sst_call;
+			return sst::call(std::move(fx_label), std::move(arguments));
 		}
 	}
 
@@ -130,10 +122,6 @@ namespace ltn::c {
 		auto arguments = analyze_all_expressions(invoke.arguments, scope);
 		const auto id = scope.resolve_member_id(invoke.name);
 
-		return std::make_unique<sst::InvokeMember>(
-			std::move(expr),
-			id,
-			std::move(arguments)
-		);
+		return sst::invoke_member(std::move(expr), id, std::move(arguments));
 	}
 }

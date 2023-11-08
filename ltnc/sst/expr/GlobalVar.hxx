@@ -10,4 +10,6 @@ namespace ltn::c::sst {
 
 		std::size_t address;
 	};
+
+	std::unique_ptr<GlobalVar> var_global(std::uint64_t address);
 }

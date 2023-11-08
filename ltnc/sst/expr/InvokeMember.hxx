@@ -17,4 +17,6 @@ namespace ltn::c::sst {
 		std::uint64_t member_id;
 		std::vector<expr_ptr> arguments;
 	};
+
+	std::unique_ptr<InvokeMember> invoke_member(expr_ptr object, std::uint64_t member_id, std::vector<expr_ptr> arguments);
 }

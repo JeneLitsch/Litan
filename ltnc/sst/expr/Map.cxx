@@ -12,4 +12,10 @@ namespace ltn::c::sst {
 		}
 		return count;
 	}
+
+
+
+	std::unique_ptr<Map> map() {
+		return std::make_unique<Map>();
+	}
 }

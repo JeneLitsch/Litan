@@ -10,9 +10,6 @@ namespace ltn::c {
 		inner_scope.set_return(return_label);
 		auto body = analyze_statement(*iife.stmt, inner_scope);
 
-		return std::make_unique<sst::Iife>(
-			return_label,
-			std::move(body)
-		);
+		return sst::iife(std::move(return_label), std::move(body));
 	}
 }

@@ -13,4 +13,6 @@ namespace ltn::c::sst {
 		expr_ptr function_ptr;
 		std::vector<expr_ptr> arguments;
 	};
+
+	std::unique_ptr<Invoke> invoke(expr_ptr function_ptr, std::vector<expr_ptr> arguments);
 }

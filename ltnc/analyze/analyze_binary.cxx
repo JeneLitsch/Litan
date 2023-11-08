@@ -14,6 +14,6 @@ namespace ltn::c {
 		auto r = analyze_expression(*binary.r, scope);
 		const auto op = binary.op;
 
-		return std::make_unique<sst::Binary>(op, std::move(l), std::move(r));
+		return sst::binary(op, std::move(l), std::move(r));
 	}
 }

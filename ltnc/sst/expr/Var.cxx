@@ -16,4 +16,10 @@ namespace ltn::c::sst {
 	std::unique_ptr<Binding> Var::convert_to_bindung() && {
 		return std::make_unique<NewVarBinding>(this->address);
 	}
+
+
+
+	std::unique_ptr<Var> var_local(std::uint64_t address) {
+		return std::make_unique<Var>(address);
+	}
 }

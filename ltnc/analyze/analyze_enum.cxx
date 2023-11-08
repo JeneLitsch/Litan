@@ -11,7 +11,7 @@ namespace ltn::c {
 		return stx::fx::mapped([&] (const auto & label) {
 			return std::make_unique<sst::Definition>(
 				label.name, namespaze,
-				std::make_unique<sst::Integer>(label.value),
+				sst::integer(label.value),
 				id++
 			);
 		}) (enumeration.labels);

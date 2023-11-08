@@ -8,6 +8,6 @@ namespace ltn::c {
 		auto expr = analyze_expression(*unary.expr, scope);
 		const auto op = static_cast<sst::Unary::Op>(unary.op);
 
-		return std::make_unique<sst::Unary>(op, std::move(expr));
+		return sst::unary(op, std::move(expr));
 	}
 }

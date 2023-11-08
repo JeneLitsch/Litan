@@ -11,4 +11,7 @@ namespace ltn::c::sst {
 		expr_ptr expr;
 		expr_ptr index;
 	};
+
+
+	std::unique_ptr<Index> index(expr_ptr expr, expr_ptr index);
 }

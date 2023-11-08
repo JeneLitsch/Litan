@@ -10,4 +10,6 @@ namespace ltn::c::sst {
 
 		std::size_t address;
 	};
+
+	std::unique_ptr<Var> var_local(std::uint64_t address);
 }

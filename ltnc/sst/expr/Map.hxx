@@ -15,4 +15,6 @@ namespace ltn::c::sst {
 
 		std::vector<Pair> pairs;
 	};
+
+	std::unique_ptr<Map> map();
 }
