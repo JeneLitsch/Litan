@@ -16,8 +16,8 @@ namespace ltn::c::sst {
 
 
 
-	std::unique_ptr<Binding> Member::convert_to_bindung() && {
-		return std::make_unique<MemberBinding>(std::move(this->expr), this->address);
+	std::unique_ptr<bind::Binding> Member::convert_to_bindung() && {
+		return std::make_unique<bind::Member>(std::move(this->expr), this->address);
 	}
 
 

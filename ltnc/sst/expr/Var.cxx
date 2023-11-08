@@ -13,8 +13,8 @@ namespace ltn::c::sst {
 
 
 
-	std::unique_ptr<Binding> Var::convert_to_bindung() && {
-		return std::make_unique<NewVarBinding>(this->address);
+	std::unique_ptr<bind::Binding> Var::convert_to_bindung() && {
+		return std::make_unique<bind::NewVar>(this->address);
 	}
 
 

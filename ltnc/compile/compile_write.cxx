@@ -4,11 +4,11 @@
 
 namespace ltn::c {
 	namespace {
-		InstructionBuffer compile_binding(const sst::Binding & binding);
+		InstructionBuffer compile_binding(const sst::bind::Binding & binding);
 		
 		
 		
-		InstructionBuffer compile_bind(const sst::NewVarBinding & binding) {
+		InstructionBuffer compile_bind(const sst::bind::NewVar & binding) {
 			InstructionBuffer buf;
 			buf << inst::write_x(binding.address);
 			return buf;
@@ -16,7 +16,7 @@ namespace ltn::c {
 		
 
 
-		InstructionBuffer compile_bind(const sst::GroupBinding & binding) {
+		InstructionBuffer compile_bind(const sst::bind::Group & binding) {
 			InstructionBuffer buf;
 			const auto size = std::size(binding.sub_bindings);
 			buf << inst::unpack(static_cast<std::uint8_t>(size));
@@ -28,7 +28,7 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer compile_bind(const sst::NoBinding &) {
+		InstructionBuffer compile_bind(const sst::bind::Discard &) {
 			InstructionBuffer buf;
 			buf << inst::scrap();
 			return buf;
@@ -36,7 +36,7 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer compile_bind(const sst::GlobalBinding & binding) {
+		InstructionBuffer compile_bind(const sst::bind::Global & binding) {
 			InstructionBuffer buf;
 			buf << inst::global_write(binding.address);
 			return buf;
@@ -44,7 +44,7 @@ namespace ltn::c {
 
 
 
-		InstructionBuffer compile_bind(const sst::MemberBinding & binding) {
+		InstructionBuffer compile_bind(const sst::bind::Member & binding) {
 			InstructionBuffer buf;
 			buf << compile_expression(*binding.object);
 			buf << inst::member_write(binding.address);
@@ -53,7 +53,7 @@ namespace ltn::c {
 		
 		
 		
-		InstructionBuffer compile_bind(const sst::LocalBinding & binding) {
+		InstructionBuffer compile_bind(const sst::bind::Local & binding) {
 			InstructionBuffer buf;
 			buf << inst::write_x(binding.address);
 			return buf;
@@ -61,7 +61,7 @@ namespace ltn::c {
 		
 		
 		
-		InstructionBuffer compile_bind(const sst::IndexBinding & binding) {
+		InstructionBuffer compile_bind(const sst::bind::Index & binding) {
 			InstructionBuffer buf;
 			buf << compile_expression(*binding.range);
 			buf << compile_expression(*binding.index);
@@ -71,10 +71,27 @@ namespace ltn::c {
 
 
 		
-		InstructionBuffer compile_binding(const sst::Binding & binding) {
-			return sst::visit_binding(binding, [&] (const auto & b) {
+		InstructionBuffer compile_binding(const sst::bind::Binding & binding) {
+			auto fx = [&] (const auto & b) {
 				return compile_bind(b);
-			});
+			};
+			using Callable = std::decay_t<decltype(fx)>;
+			using Ret = std::invoke_result_t<Callable, sst::bind::Discard>;
+			using Base = FunctionVisitor<sst::bind::BindVisitor, Callable, Ret>;
+			
+			struct Visitor : public Base {
+				Visitor(Callable fx) : Base {fx} {} 
+				
+				virtual void visit(const sst::bind::Group & x)   const override { this->run(x); };
+				virtual void visit(const sst::bind::NewVar & x)  const override { this->run(x); };
+				virtual void visit(const sst::bind::Discard & x) const override { this->run(x); };
+				virtual void visit(const sst::bind::Global & x)  const override { this->run(x); };
+				virtual void visit(const sst::bind::Member & x)  const override { this->run(x); };
+				virtual void visit(const sst::bind::Local & x)   const override { this->run(x); };
+				virtual void visit(const sst::bind::Index & x)   const override { this->run(x); };
+			};
+
+			return Visitor{fx}(binding);
 		}
 	}
 

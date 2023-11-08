@@ -16,8 +16,8 @@ namespace ltn::c::sst {
 
 
 
-	std::unique_ptr<Binding> Index::convert_to_bindung() && {
-		return std::make_unique<IndexBinding>(std::move(this->expr), std::move(this->index));
+	std::unique_ptr<bind::Binding> Index::convert_to_bindung() && {
+		return std::make_unique<bind::Index>(std::move(this->expr), std::move(this->index));
 	}
 
 

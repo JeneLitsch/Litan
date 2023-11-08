@@ -7,7 +7,7 @@ namespace ltn::c {
 		
 		auto expr = analyze_expression(*stmt.expr, scope);
 		return sst::assign(
-			std::make_unique<sst::NoBinding>(),
+			std::make_unique<sst::bind::Discard>(),
 			std::move(expr)
 		);
 	}

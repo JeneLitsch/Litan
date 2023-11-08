@@ -2,10 +2,13 @@
 #include "Statement.hxx"
 
 namespace ltn::c::sst {
-	struct Binding;
+	namespace bind {
+		struct Binding;
+	}
+
 	struct Expression;
 	struct Assign final : public Statement {
-		Assign(std::unique_ptr<Binding> binding, std::unique_ptr<Expression> expr);
+		Assign(std::unique_ptr<bind::Binding> binding, std::unique_ptr<Expression> expr);
 
 		virtual std::size_t nested_alloc() const override;
 		virtual std::size_t direct_alloc() const override;
@@ -13,9 +16,9 @@ namespace ltn::c::sst {
 
 		virtual ~Assign();
 
-		std::unique_ptr<Binding> binding;
+		std::unique_ptr<bind::Binding> binding;
 		std::unique_ptr<Expression> expr;
 	};
 
-	std::unique_ptr<Assign> assign(std::unique_ptr<Binding> bind, std::unique_ptr<Expression> expr);
+	std::unique_ptr<Assign> assign(std::unique_ptr<bind::Binding> bind, std::unique_ptr<Expression> expr);
 }

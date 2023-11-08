@@ -7,7 +7,7 @@ namespace ltn::c {
 			const ast::GroupBinding & binding,
 			Scope & scope) {
 
-			auto sst_binding = std::make_unique<sst::GroupBinding>();
+			auto sst_binding = std::make_unique<sst::bind::Group>();
 
 			for(std::size_t i = 0; i < std::size(binding.sub_bindings); ++i) {
 				auto sub_binding = analyze_binding(*binding.sub_bindings[i], scope);
@@ -24,7 +24,7 @@ namespace ltn::c {
 			Scope & scope) {
 
 			const auto var = scope.insert(binding.name, location(binding)); 
-			return std::make_unique<sst::NewVarBinding>(var.address);
+			return std::make_unique<sst::bind::NewVar>(var.address);
 		}
 	}
 

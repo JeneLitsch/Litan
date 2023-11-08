@@ -4,28 +4,29 @@
 #include <numeric>
 #include "ltn/Visitor.hxx"
 #include "ltnc/sst/Node.hxx"
-
 namespace ltn::c::sst {
 	struct Expression;
+}
+namespace ltn::c::sst::bind {
 	
-	struct GroupBinding;
-	struct NewVarBinding;
-	struct NoBinding;
-	struct GlobalBinding;
-	struct MemberBinding;
-	struct LocalBinding;
-	struct IndexBinding;
+	struct Group;
+	struct NewVar;
+	struct Discard;
+	struct Global;
+	struct Member;
+	struct Local;
+	struct Index;
 
 	
 	
 	using BindVisitor = Visitor<
-		GroupBinding,
-		NewVarBinding,
-		NoBinding,
-		GlobalBinding,
-		MemberBinding,
-		LocalBinding,
-		IndexBinding
+		Group,
+		NewVar,
+		Discard,
+		Global,
+		Member,
+		Local,
+		Index
 	>;
 
 
@@ -40,9 +41,8 @@ namespace ltn::c::sst {
 
 
 
-	struct GroupBinding : public Binding {
-		GroupBinding()
-			: Binding {} {}
+	struct Group : public Binding {
+		Group() : Binding {} {}
 
 		virtual std::size_t alloc_count() const override {
 			return std::accumulate(
@@ -62,10 +62,14 @@ namespace ltn::c::sst {
 		std::vector<std::unique_ptr<Binding>> sub_bindings;
 	};
 
+	inline std::unique_ptr<Group> group() {
+		return std::make_unique<Group>();
+	}
 
 
-	struct NewVarBinding : public Binding {
-		NewVarBinding(std::uint64_t address)
+
+	struct NewVar : public Binding {
+		NewVar(std::uint64_t address)
 			: Binding {}
 			, address{std::move(address)} {}
 
@@ -82,8 +86,8 @@ namespace ltn::c::sst {
 
 
 
-	struct NoBinding : public Binding {
-		NoBinding() : Binding {} {}
+	struct Discard : public Binding {
+		Discard() : Binding {} {}
 		
 		virtual std::size_t alloc_count() const override {
 			return 0;
@@ -96,8 +100,8 @@ namespace ltn::c::sst {
 
 
 
-	struct GlobalBinding final : public Binding {
-		GlobalBinding(std::uint64_t address)
+	struct Global final : public Binding {
+		Global(std::uint64_t address)
 			: Binding{}
 			, address{address} {}
 
@@ -112,8 +116,8 @@ namespace ltn::c::sst {
 
 
 
-	struct MemberBinding final : public Binding {
-		MemberBinding(
+	struct Member final : public Binding {
+		Member(
 			std::unique_ptr<Expression> object,
 			std::uint64_t address)
 			: Binding{}
@@ -132,8 +136,8 @@ namespace ltn::c::sst {
 
 
 
-	struct LocalBinding final : public Binding {
-		LocalBinding(
+	struct Local final : public Binding {
+		Local(
 			std::uint64_t address)
 			: Binding{}
 			, address{address} {}
@@ -149,8 +153,8 @@ namespace ltn::c::sst {
 
 
 
-	struct IndexBinding final : public Binding {
-		IndexBinding(
+	struct Index final : public Binding {
+		Index(
 			std::unique_ptr<Expression> range,
 			std::unique_ptr<Expression> index)
 			: Binding{}
@@ -166,26 +170,4 @@ namespace ltn::c::sst {
 		std::unique_ptr<Expression> range;
 		std::unique_ptr<Expression> index;
 	};
-
-
-
-	auto visit_binding(const Binding & binding, auto && fx) {
-		using Callable = std::decay_t<decltype(fx)>;
-		using Ret = std::invoke_result_t<Callable, GroupBinding>;
-		using Base = FunctionVisitor<BindVisitor, Callable, Ret>;
-		
-		struct Visitor : public Base {
-			Visitor(Callable fx) : Base {fx} {} 
-			
-			virtual void visit(const GroupBinding & x)  const override { this->run(x); };
-			virtual void visit(const NewVarBinding & x) const override { this->run(x); };
-			virtual void visit(const NoBinding & x)     const override { this->run(x); };
-			virtual void visit(const GlobalBinding & x) const override { this->run(x); };
-			virtual void visit(const MemberBinding & x) const override { this->run(x); };
-			virtual void visit(const LocalBinding & x)  const override { this->run(x); };
-			virtual void visit(const IndexBinding & x)  const override { this->run(x); };
-		};
-
-		return Visitor{fx}(binding);
-	}
 }

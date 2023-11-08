@@ -13,8 +13,8 @@ namespace ltn::c::sst {
 
 
 
-	std::unique_ptr<Binding> GlobalVar::convert_to_bindung() && {
-		return std::make_unique<GlobalBinding>(this->address);
+	std::unique_ptr<bind::Binding> GlobalVar::convert_to_bindung() && {
+		return std::make_unique<bind::Global>(this->address);
 	}
 
 

@@ -5,7 +5,9 @@
 #include "ltnc/sst/Node.hxx"
 
 namespace ltn::c::sst {
-	struct Binding;
+	namespace bind {
+		struct Binding;
+	}
 
 	struct Binary;
 	struct Unary;
@@ -75,7 +77,7 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const = 0;
 		virtual void accept(const ExprVisitor &) const = 0;
 	
-		virtual std::unique_ptr<Binding> convert_to_bindung() && { return nullptr; }
+		virtual std::unique_ptr<bind::Binding> convert_to_bindung() && { return nullptr; }
 	};
 
 
