@@ -13,7 +13,7 @@ namespace ltn::c::sst {
 	struct Return;
 	struct Throw;
 	struct Switch;
-	struct DoNothing;
+	struct NoOp;
 	
 	
 	
@@ -27,7 +27,7 @@ namespace ltn::c::sst {
 		Return,
 		Throw,
 		Switch,
-		DoNothing
+		NoOp
 	>;
 
 

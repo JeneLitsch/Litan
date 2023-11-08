@@ -22,7 +22,7 @@ namespace ltn::c {
 			}
 			return parse_statement(tokens);
 		}
-		return std::make_unique<ast::DoNothing>(location(tokens));
+		return std::make_unique<ast::NoOp>(location(tokens));
 	}
 
 

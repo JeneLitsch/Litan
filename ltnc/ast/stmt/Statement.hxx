@@ -20,7 +20,7 @@ namespace ltn::c::ast {
 	struct Throw;
 	struct Switch;
 	struct StatementExpression;
-	struct DoNothing;
+	struct NoOp;
 	struct Assign;
 
 
@@ -36,7 +36,7 @@ namespace ltn::c::ast {
 		Throw,
 		Switch,
 		StatementExpression,
-		DoNothing,
+		NoOp,
 		Assign
 	>;
 
@@ -52,8 +52,8 @@ namespace ltn::c::ast {
 
 
 	
-	struct DoNothing final : public Statement {
-		DoNothing(const SourceLocation & location) : Statement(location) {}
+	struct NoOp final : public Statement {
+		NoOp(const SourceLocation & location) : Statement(location) {}
 
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);
@@ -283,7 +283,7 @@ namespace ltn::c::ast {
 			virtual void visit(const Throw & x)                const override { this->run(x); };
 			virtual void visit(const Switch & x)           const override { this->run(x); };
 			virtual void visit(const StatementExpression & x)  const override { this->run(x); };
-			virtual void visit(const DoNothing & x)            const override { this->run(x); };
+			virtual void visit(const NoOp & x)            const override { this->run(x); };
 			virtual void visit(const Assign & x)               const override { this->run(x); };
 		};
 

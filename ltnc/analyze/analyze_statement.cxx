@@ -11,9 +11,9 @@ namespace ltn::c {
 
 
 
-	sst::stmt_ptr analyze_stmt(const ast::DoNothing &, Scope &) {
+	sst::stmt_ptr analyze_stmt(const ast::NoOp &, Scope &) {
 		
-		return std::make_unique<sst::DoNothing>();
+		return std::make_unique<sst::NoOp>();
 	}
 
 

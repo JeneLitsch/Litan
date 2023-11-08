@@ -1,6 +1,6 @@
 #include "compile.hxx"
 namespace ltn::c {
-	InstructionBuffer compile_stmt(const sst::DoNothing &) {
+	InstructionBuffer compile_stmt(const sst::NoOp &) {
 		return {};
 	}
 

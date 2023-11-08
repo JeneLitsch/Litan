@@ -14,10 +14,10 @@ namespace ltn::c::sst {
 
 
 	
-	struct DoNothing : public Statement {
-		DoNothing() : Statement{} {}
+	struct NoOp : public Statement {
+		NoOp() : Statement{} {}
 		
-		virtual ~DoNothing() = default;
+		virtual ~NoOp() = default;
 
 		virtual std::size_t nested_alloc() const override { return 0; }
 		virtual std::size_t direct_alloc() const override { return 0; }
@@ -291,7 +291,7 @@ namespace ltn::c::sst {
 			virtual void visit(const Return & x) const override { this->run(x); }
 			virtual void visit(const Throw & x) const override { this->run(x); }
 			virtual void visit(const Switch & x) const override { this->run(x); }
-			virtual void visit(const DoNothing & x) const override { this->run(x); }
+			virtual void visit(const NoOp & x) const override { this->run(x); }
 		};
 
 		return Visitor{fx}(stmt);

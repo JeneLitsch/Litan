@@ -63,7 +63,7 @@ namespace ltn::c {
 	ast::stmt_ptr parse_stmt_switch(Tokens & tokens) {
 		auto sw1tch = parse_any_switch<ast::Switch, TT::SWITCH, parse_statement>(tokens);
 		if(sw1tch && !sw1tch->d3fault) {
-			sw1tch->d3fault = std::make_unique<ast::DoNothing>(location(tokens));
+			sw1tch->d3fault = std::make_unique<ast::NoOp>(location(tokens));
 		}
 		return sw1tch;
 	} 
