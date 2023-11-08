@@ -1,4 +1,5 @@
 #include "analyze.hxx"
+#include "ltnc/sst/stmt/Block.hxx"
 namespace ltn::c {
 	// compiles -> code block {...}
 	sst::stmt_ptr  analyze_stmt(const ast::Block & block, Scope & parent) {
@@ -9,6 +10,6 @@ namespace ltn::c {
 		for(const auto & stmt : block.statements) {
 			statments.push_back(analyze_statement(*stmt, scope));
 		}
-		return std::make_unique<sst::Block>(std::move(statments));
+		return sst::block(std::move(statments));
 	}
 }

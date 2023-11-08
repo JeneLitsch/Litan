@@ -1,4 +1,5 @@
 #include "analyze.hxx"
+#include "ltnc/sst/stmt/IfElse.hxx"
 
 namespace ltn::c {
 	bool has_else_branch(const ast::IfElse & stmt) {
@@ -17,14 +18,14 @@ namespace ltn::c {
 			
 			auto else_branch = analyze_statement(*stmt.else_branch, else_scope);
 			
-			return std::make_unique<sst::IfElse>(
+			return sst::if_else(
 				std::move(condition),
 				std::move(if_branch),
 				std::move(else_branch)
 			);
 		}
 		else {
-			return std::make_unique<sst::IfElse>(
+			return sst::if_else(
 				std::move(condition),
 				std::move(if_branch),
 				nullptr

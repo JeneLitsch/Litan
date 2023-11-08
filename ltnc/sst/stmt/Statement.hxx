@@ -43,4 +43,8 @@ namespace ltn::c::sst {
 
 		virtual void accept(const StmtVisitor &) const = 0;
 	};
+
+
+
+	using stmt_ptr = std::unique_ptr<Statement>;
 }

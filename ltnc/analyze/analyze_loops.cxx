@@ -1,4 +1,7 @@
 #include "analyze.hxx"
+#include "ltnc/sst/stmt/ForEach.hxx"
+#include "ltnc/sst/stmt/InfiniteLoop.hxx"
+#include "ltnc/sst/stmt/While.hxx"
 
 namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::While & stmt, Scope & scope) {

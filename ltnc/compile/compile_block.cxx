@@ -1,4 +1,6 @@
 #include "compile.hxx"
+#include "ltnc/sst/stmt/Block.hxx"
+
 namespace ltn::c {
 	// compiles -> code block {...}
 	InstructionBuffer compile_stmt(const sst::Block & block) {

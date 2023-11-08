@@ -1,4 +1,5 @@
 #include "compile.hxx"
+#include "ltnc/sst/stmt/IfElse.hxx"
 
 namespace ltn::c {
 	bool has_else_branch(const sst::IfElse & stmt) {

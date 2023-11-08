@@ -6,7 +6,6 @@
 #include "decl/Global.hxx"
 #include "expr/Expression.hxx"
 #include "stmt/Statement.hxx"
-#include "stmt/Statements.hxx"
 #include "ltnc/AddressTable.hxx"
 
 namespace ltn::c::sst {

@@ -6,6 +6,7 @@
 #include "ltnc/sst/expr/Member.hxx"
 #include "ltnc/sst/expr/Var.hxx"
 #include "ltnc/sst/expr/GlobalVar.hxx"
+#include "ltnc/sst/stmt/Assign.hxx"
 
 namespace ltn::c {
 	void guard_const(const ast::Node & node, const Scope & scope) {
@@ -24,6 +25,6 @@ namespace ltn::c {
 		if(!binding) {
 			throw left_side_not_assignable(stmt);
 		}
-		return std::make_unique<sst::Assign>(std::move(binding), std::move(r));
+		return sst::assign(std::move(binding), std::move(r));
 	}
 }

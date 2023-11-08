@@ -1,9 +1,12 @@
 #include "analyze.hxx"
+#include "ltnc/sst/stmt/NoOp.hxx"
+#include "ltnc/sst/stmt/Assign.hxx"
+
 namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::StatementExpression & stmt, Scope & scope) {
 		
 		auto expr = analyze_expression(*stmt.expr, scope);
-		return std::make_unique<sst::Assign>(
+		return sst::assign(
 			std::make_unique<sst::NoBinding>(),
 			std::move(expr)
 		);
@@ -12,8 +15,7 @@ namespace ltn::c {
 
 
 	sst::stmt_ptr analyze_stmt(const ast::NoOp &, Scope &) {
-		
-		return std::make_unique<sst::NoOp>();
+		return sst::no_op();
 	}
 
 

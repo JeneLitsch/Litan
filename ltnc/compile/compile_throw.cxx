@@ -1,4 +1,6 @@
 #include "compile.hxx"
+#include "ltnc/sst/stmt/Throw.hxx"
+
 namespace ltn::c {
 	InstructionBuffer compile_stmt(const sst::Throw & thr0w) {
 		InstructionBuffer buf;

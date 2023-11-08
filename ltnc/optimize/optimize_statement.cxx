@@ -1,8 +1,16 @@
 #include "optimize.hxx"
 #include "ltn/casts.hxx"
 #include "eval/eval_conditional.hxx"
-#include "ltnc/sst/expr/Literal.hxx"
 #include "ltnc/sst/expr/Array.hxx"
+#include "ltnc/sst/expr/Literal.hxx"
+#include "ltnc/sst/stmt/Assign.hxx"
+#include "ltnc/sst/stmt/Block.hxx"
+#include "ltnc/sst/stmt/IfElse.hxx"
+#include "ltnc/sst/stmt/Return.hxx"
+#include "ltnc/sst/stmt/Throw.hxx"
+#include "ltnc/sst/stmt/ForEach.hxx"
+#include "ltnc/sst/stmt/InfiniteLoop.hxx"
+#include "ltnc/sst/stmt/While.hxx"
 
 namespace ltn::c {
 	namespace {

@@ -1,6 +1,7 @@
 #include "analyze.hxx"
 #include "stdxx/functional.hxx"
 #include "ltnc/sst/expr/Choose.hxx"
+#include "ltnc/sst/stmt/Switch.hxx"
 
 namespace ltn::c {
 	auto analyze_cases(auto body_fx, const auto & sw1tch, Scope & scope) {
@@ -38,7 +39,7 @@ namespace ltn::c {
 		auto cases = analyze_cases(analyze_statement, sw1tch, scope);
 		auto def4ault = analyze_statement(*sw1tch.d3fault, scope);
 
-		auto sst_sw1tch = std::make_unique<sst::Switch>();
+		auto sst_sw1tch = sst::switch_stmt();
 		sst_sw1tch->cases = std::move(cases);
 		sst_sw1tch->condition = std::move(condition);
 		sst_sw1tch->d3fault = std::move(def4ault);

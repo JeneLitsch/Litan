@@ -1,5 +1,6 @@
 #include "compile.hxx"
 #include <iostream>
+#include "ltnc/sst/stmt/Assign.hxx"
 
 namespace ltn::c {
 	namespace {
