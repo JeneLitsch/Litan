@@ -1,6 +1,6 @@
 #include "Map.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Map::Map() {}
 
 	

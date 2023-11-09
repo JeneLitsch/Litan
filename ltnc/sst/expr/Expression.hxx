@@ -3,11 +3,13 @@
 #include <memory>
 #include "ltn/Visitor.hxx"
 #include "ltnc/sst/Node.hxx"
+#include "ltnc/sst/types.hxx"
 
-namespace ltn::c::sst {
-	namespace bind {
-		struct Binding;
-	}
+namespace ltn::c::sst::bind {
+	struct Binding;
+}
+
+namespace ltn::c::sst::expr {
 
 	struct Binary;
 	struct Unary;
@@ -77,7 +79,7 @@ namespace ltn::c::sst {
 		virtual std::uint64_t alloc() const = 0;
 		virtual void accept(const ExprVisitor &) const = 0;
 	
-		virtual std::unique_ptr<bind::Binding> convert_to_bindung() && { return nullptr; }
+		virtual bind_ptr convert_to_bindung() && { return nullptr; }
 	};
 
 

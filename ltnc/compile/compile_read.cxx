@@ -4,14 +4,14 @@
 #include "ltnc/sst/expr/Var.hxx"
 
 namespace ltn::c {
-	InstructionBuffer compile_expr(const sst::Var & expr) {
+	InstructionBuffer compile_expr(const sst::expr::Var & expr) {
 		InstructionBuffer buf;
 		buf << inst::read_x(expr.address);
 		return buf;
 	}
 
 	
-	InstructionBuffer compile_expr(const sst::Member & access) {
+	InstructionBuffer compile_expr(const sst::expr::Member & access) {
 		InstructionBuffer buf;
 		buf << compile_expression(*access.expr);
 		buf << inst::member_read(access.address);

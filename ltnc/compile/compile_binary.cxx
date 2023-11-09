@@ -111,9 +111,9 @@ namespace ltn::c {
 
 
 	// compiles a binary operation
-	InstructionBuffer compile_expr(const sst::Binary & binary) {
+	InstructionBuffer compile_expr(const sst::expr::Binary & binary) {
 		
-		using OP = ltn::c::sst::Binary::Op;
+		using OP = ltn::c::sst::expr::Binary::Op;
 		const auto l = compile_expression(*binary.l);
 		const auto r = compile_expression(*binary.r);
 		switch (binary.op) {

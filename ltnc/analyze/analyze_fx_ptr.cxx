@@ -31,6 +31,6 @@ namespace ltn::c {
 
 		const auto label = make_function_label(*fx);
 
-		return sst::fx_pointer(label, fx->parameters.simple.size(), fx_ptr.is_variadic);
+		return sst::expr::fx_pointer(label, fx->parameters.simple.size(), fx_ptr.is_variadic);
 	}
 }

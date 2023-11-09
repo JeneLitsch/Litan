@@ -1,6 +1,6 @@
 #include "Tuple.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Tuple::Tuple() : Literal() {}
 
 

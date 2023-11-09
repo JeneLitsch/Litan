@@ -3,6 +3,9 @@
 
 namespace ltn::c::sst {
 	class Statement;
+}
+
+namespace ltn::c::sst::expr {
 	struct Iife final : public ExpressionCRTP<Iife> {
 		Iife(std::string return_label, std::unique_ptr<Statement> stmt);
 

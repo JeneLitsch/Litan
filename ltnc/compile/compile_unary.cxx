@@ -4,7 +4,7 @@
 
 namespace ltn::c {
 	namespace {
-		InstructionBuffer compile_null_test(const sst::Expression & expr) {
+		InstructionBuffer compile_null_test(const sst::expr::Expression & expr) {
 			InstructionBuffer buf;
 			buf << compile_expression(expr);
 			buf << inst::null();
@@ -25,8 +25,8 @@ namespace ltn::c {
 	}
 
 
-	InstructionBuffer compile_expr(const sst::Unary & expr) {
-		using Op = sst::Unary::Op;
+	InstructionBuffer compile_expr(const sst::expr::Unary & expr) {
+		using Op = sst::expr::Unary::Op;
 
 		const auto & inner = *expr.expr;
 		const auto x = compile_expression(inner);

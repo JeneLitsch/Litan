@@ -15,7 +15,7 @@ namespace ltn::c {
 
 			MajorScope scope { statik.namespaze, false, context};
 
-			auto expr = statik.expr ? analyze_expression(*statik.expr, scope) : sst::null();
+			auto expr = statik.expr ? analyze_expression(*statik.expr, scope) : sst::expr::null();
 			auto node = std::make_unique<NodeT>(
 				statik.name,
 				statik.namespaze,

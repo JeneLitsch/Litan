@@ -2,13 +2,12 @@
 #include "Statement.hxx"
 
 namespace ltn::c::sst {
-	struct Expression;
 	struct ForEach final : public Statement {
 		ForEach(
 			std::size_t element_addr,
 			std::size_t container_addr,
 			std::size_t iterator_addr,
-			std::unique_ptr<Expression> expr,
+			expr_ptr expr,
 			std::unique_ptr<Statement> body);
 
 		virtual std::size_t nested_alloc() const override;
@@ -20,7 +19,7 @@ namespace ltn::c::sst {
 		std::size_t element_addr;
 		std::size_t container_addr;
 		std::size_t iterator_addr;
-		std::unique_ptr<Expression> expr;
+		expr_ptr expr;
 		std::unique_ptr<Statement> body;
 	};
 
@@ -28,6 +27,6 @@ namespace ltn::c::sst {
 		std::size_t element_addr,
 		std::size_t container_addr,
 		std::size_t iterator_addr,
-		std::unique_ptr<Expression> expr,
+		expr_ptr expr,
 		std::unique_ptr<Statement> body);
 }

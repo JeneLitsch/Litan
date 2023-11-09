@@ -2,7 +2,7 @@
 #include "Expression.hxx"
 #include "ltnc/Operations.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Unary : public ExpressionCRTP<Unary> {
 		using Op = UnaryOp;
 		

@@ -9,6 +9,7 @@
 #include "ltnc/AddressTable.hxx"
 
 namespace ltn::c::sst {
+	using expr_ptr = expr::expr_ptr;
 	using defn_ptr = std::unique_ptr<Definition>;
 	using glob_ptr = std::unique_ptr<Global>;
 	using func_ptr = std::unique_ptr<Function>;

@@ -14,6 +14,6 @@ namespace ltn::c {
 		auto r = analyze_expression(*binary.r, scope);
 		const auto op = binary.op;
 
-		return sst::binary(op, std::move(l), std::move(r));
+		return sst::expr::binary(op, std::move(l), std::move(r));
 	}
 }

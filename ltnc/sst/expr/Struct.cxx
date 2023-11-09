@@ -1,7 +1,7 @@
 #include "Struct.hxx"
 #include <cmath>
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Struct::Struct() {}
 
 

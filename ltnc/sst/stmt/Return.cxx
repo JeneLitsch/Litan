@@ -3,7 +3,7 @@
 
 namespace ltn::c::sst {
 	Return::Return(
-		std::unique_ptr<Expression> expr,
+		std::unique_ptr<expr::Expression> expr,
 		std::optional<std::string> overide_label)
 		: Statement{}
 		, expr(std::move(expr))
@@ -33,7 +33,7 @@ namespace ltn::c::sst {
 
 
 
-	std::unique_ptr<Return> r3turn(std::unique_ptr<Expression> expr, std::optional<std::string> overide_label) {
+	std::unique_ptr<Return> r3turn(std::unique_ptr<expr::Expression> expr, std::optional<std::string> overide_label) {
 		return std::make_unique<Return>(std::move(expr), std::move(overide_label));
 	}
 }

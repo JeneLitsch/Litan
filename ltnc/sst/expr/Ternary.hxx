@@ -1,7 +1,7 @@
 #pragma once
 #include "Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Ternary : public ExpressionCRTP<Ternary> {
 		Ternary(
 			expr_ptr condition,

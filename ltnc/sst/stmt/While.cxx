@@ -3,7 +3,7 @@
 
 namespace ltn::c::sst {
 	While::While(
-		std::unique_ptr<Expression> condition,
+		std::unique_ptr<expr::Expression> condition,
 		std::unique_ptr<Statement> body)
 		: Statement{}
 		, condition(std::move(condition))
@@ -34,7 +34,7 @@ namespace ltn::c::sst {
 
 
 	std::unique_ptr<While> wh1le(
-		std::unique_ptr<Expression> condition,
+		std::unique_ptr<expr::Expression> condition,
 		std::unique_ptr<Statement> body) {
 		
 		return std::make_unique<While>(std::move(condition), std::move(body));

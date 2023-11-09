@@ -21,8 +21,8 @@ namespace ltn::c {
 
 
 		InstructionBuffer compile_reflect_query(
-			const sst::Reflect::Addr & address,
-			const sst::Reflect::FunctionQuery & query) {
+			const sst::expr::Reflect::Addr & address,
+			const sst::expr::Reflect::FunctionQuery & query) {
 
 			const auto arity_code = query.arity | std::uint64_t{query.is_variadic} << 63;
 
@@ -54,8 +54,8 @@ namespace ltn::c {
 
 
 		InstructionBuffer compile_reflect_query(
-			const sst::Reflect::Addr & address,
-			const sst::Reflect::NamespaceQuery & query) {
+			const sst::expr::Reflect::Addr & address,
+			const sst::expr::Reflect::NamespaceQuery & query) {
 
 			InstructionBuffer buf;
 			buf << inst::newstruct();
@@ -76,8 +76,8 @@ namespace ltn::c {
 
 
 		InstructionBuffer compile_reflect_query(
-			const sst::Reflect::Addr &,
-			const sst::Reflect::LineQuery & query) {
+			const sst::expr::Reflect::Addr &,
+			const sst::expr::Reflect::LineQuery & query) {
 
 			InstructionBuffer buf;
 			buf << inst::newi(static_cast<std::int64_t>(query.line));
@@ -87,8 +87,8 @@ namespace ltn::c {
 
 
 		InstructionBuffer compile_reflect_query(
-			const sst::Reflect::Addr & address,
-			const sst::Reflect::FileQuery & query) {
+			const sst::expr::Reflect::Addr & address,
+			const sst::expr::Reflect::FileQuery & query) {
 
 			const auto path = std::filesystem::path{query.name};
 
@@ -103,8 +103,8 @@ namespace ltn::c {
 
 
 		InstructionBuffer compile_reflect_query(
-			const sst::Reflect::Addr & address,
-			const sst::Reflect::LocationQuery & query) {
+			const sst::expr::Reflect::Addr & address,
+			const sst::expr::Reflect::LocationQuery & query) {
 
 			InstructionBuffer buf;
 			buf << inst::newstruct();
@@ -117,7 +117,7 @@ namespace ltn::c {
 
 
 	// compiles array literal
-	InstructionBuffer compile_expr(const sst::Reflect & refl) {
+	InstructionBuffer compile_expr(const sst::expr::Reflect & refl) {
 
 		return std::visit([&] (const auto & query) {
 			return compile_reflect_query(refl.address, query);

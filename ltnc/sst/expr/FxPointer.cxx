@@ -1,7 +1,7 @@
 #include "FxPointer.hxx"
 #include "Var.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	FxPointer::FxPointer(
 		const Label & label,
 		std::size_t arity,

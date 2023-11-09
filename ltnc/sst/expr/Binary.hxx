@@ -2,7 +2,7 @@
 #include "Expression.hxx"
 #include "ltnc/Operations.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Binary : public ExpressionCRTP<Binary> {
 		using Op = BinaryOp;
 		Binary(Op op, expr_ptr l, expr_ptr r);

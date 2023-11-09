@@ -1,6 +1,6 @@
 #include "InvokeMember.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	InvokeMember::InvokeMember(
 		expr_ptr object,
 		std::uint64_t member_id,

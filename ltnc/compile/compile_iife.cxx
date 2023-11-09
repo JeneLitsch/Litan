@@ -3,7 +3,7 @@
 #include "ltnc/sst/expr/Iife.hxx"
 
 namespace ltn::c {
-	InstructionBuffer compile_expr(const sst::Iife & iife) {
+	InstructionBuffer compile_expr(const sst::expr::Iife & iife) {
 		InstructionBuffer buf;
 		buf << compile_statement(*iife.stmt);
 		buf << inst::null();

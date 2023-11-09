@@ -1,6 +1,6 @@
 #include "Invoke.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Invoke::Invoke(expr_ptr function_ptr, std::vector<expr_ptr> arguments)
 		: function_ptr(std::move(function_ptr))
 		, arguments(std::move(arguments)) {}

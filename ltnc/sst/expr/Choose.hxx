@@ -2,7 +2,7 @@
 #include <vector>
 #include "Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Choose final : ExpressionCRTP<Choose> {
 		Choose();
 
@@ -15,5 +15,5 @@ namespace ltn::c::sst {
 		expr_ptr d3fault;
 	};
 
-	std::unique_ptr<Choose> switch_expr();
+	std::unique_ptr<Choose> sw1tch();
 }

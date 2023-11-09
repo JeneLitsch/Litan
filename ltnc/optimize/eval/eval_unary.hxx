@@ -5,14 +5,14 @@
 
 namespace ltn::c {
 	struct Negation {
-		template<sst::literal_type Litr>
+		template<sst::expr::literal_type Litr>
 		auto operator()(const Litr & litr) const {
 			auto result = eval(litr);
 			using Node = typename node<decltype(result)>::type;
 			return stx::make_unique<Node>(result);
 		}
 
-		auto eval(const sst::literal_type auto & litr) const {
+		auto eval(const sst::expr::literal_type auto & litr) const {
 			return -litr.value + std::int64_t(0);
 		}
 	};
@@ -20,16 +20,16 @@ namespace ltn::c {
 
 
 	struct Truthyness {
-		auto eval(sst::literal_type auto & litr) const {
+		auto eval(sst::expr::literal_type auto & litr) const {
 			return static_cast<bool>(litr.value);
 		}
 
 
-		auto eval(sst::String &) const {
+		auto eval(sst::expr::String &) const {
 			return true;
 		}
 
-		auto eval(sst::Array &) const {
+		auto eval(sst::expr::Array &) const {
 			return true;
 		}
 	};
@@ -37,28 +37,28 @@ namespace ltn::c {
 
 
 	struct Notigation : Truthyness {
-		auto eval(sst::literal_type auto & litr) const {
+		auto eval(sst::expr::literal_type auto & litr) const {
 			return !Truthyness::eval(litr);
 		}
 
-		auto operator()(sst::literal_type auto & litr) const {
-			return sst::boolean(eval(litr));
+		auto operator()(sst::expr::literal_type auto & litr) const {
+			return sst::expr::boolean(eval(litr));
 		}
 	};
 
 
 	
 	struct NullTest {
-		auto eval(sst::literal_type auto &) const {
+		auto eval(sst::expr::literal_type auto &) const {
 			return true;
 		}
 	
-		auto eval(sst::Null &) const {
+		auto eval(sst::expr::Null &) const {
 			return false;
 		}
 
-		auto operator()(sst::literal_type auto & litr) const {
-			return sst::boolean(eval(litr));
+		auto operator()(sst::expr::literal_type auto & litr) const {
+			return sst::expr::boolean(eval(litr));
 		}
 	};
 }

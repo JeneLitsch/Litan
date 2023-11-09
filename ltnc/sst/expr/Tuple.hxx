@@ -2,7 +2,7 @@
 #include <vector>
 #include "Literal.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Tuple final: public Literal {
 		Tuple();
 

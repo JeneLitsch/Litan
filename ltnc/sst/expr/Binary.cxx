@@ -1,6 +1,6 @@
 #include "Binary.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Binary::Binary(Op op, expr_ptr l, expr_ptr r)
 		: op(op)
 		, l(std::move(l))

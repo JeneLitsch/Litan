@@ -2,6 +2,7 @@
 #include <cstdint>
 #include "ltn/Visitor.hxx"
 #include "ltnc/sst/Node.hxx"
+#include "ltnc/sst/types.hxx"
 
 namespace ltn::c::sst {
 	struct Block;

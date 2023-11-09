@@ -2,7 +2,7 @@
 #include "Expression.hxx"
 #include <vector>
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Map final : public ExpressionCRTP<Map> {
 		struct Pair {
 			expr_ptr key;

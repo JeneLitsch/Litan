@@ -5,7 +5,7 @@
 
 namespace ltn::c {
 	// compiles array literal
-	InstructionBuffer compile_expr(const sst::Array & array) {
+	InstructionBuffer compile_expr(const sst::expr::Array & array) {
 		InstructionBuffer buf;
 		for(const auto & elem : array.elements) {
 			buf << compile_expression(*elem);
@@ -16,7 +16,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_expr(const sst::Tuple & array) {
+	InstructionBuffer compile_expr(const sst::expr::Tuple & array) {
 		InstructionBuffer buf;
 		for(const auto & elem : array.elements) {
 			buf << compile_expression(*elem);

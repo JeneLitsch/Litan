@@ -7,7 +7,7 @@ namespace ltn::c {
 		auto expr 
 			= thr0w.expr
 			? analyze_expression(*thr0w.expr, scope)
-			: sst::null();
+			: sst::expr::null();
 		return sst::thr0w(std::move(expr));
 	}
 }

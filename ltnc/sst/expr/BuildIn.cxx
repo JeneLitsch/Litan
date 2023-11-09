@@ -1,6 +1,6 @@
 #include "BuildIn.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	BuildIn::BuildIn(std::string key)
 		: key{std::move(key)} {}
 

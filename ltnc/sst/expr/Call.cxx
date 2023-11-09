@@ -1,6 +1,6 @@
 #include "Call.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Call::Call(const Label & label, std::vector<expr_ptr> arguments)
 		: label{label}
 		, arguments(std::move(arguments)) {}

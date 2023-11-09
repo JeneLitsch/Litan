@@ -4,9 +4,12 @@
 #include <numeric>
 #include "ltn/Visitor.hxx"
 #include "ltnc/sst/Node.hxx"
-namespace ltn::c::sst {
+#include "ltnc/sst/types.hxx"
+
+namespace ltn::c::sst::expr {
 	struct Expression;
 }
+
 namespace ltn::c::sst::bind {
 	
 	struct Group;
@@ -59,7 +62,7 @@ namespace ltn::c::sst::bind {
 			visitor.visit(*this);
 		}
 
-		std::vector<std::unique_ptr<Binding>> sub_bindings;
+		std::vector<bind_ptr> sub_bindings;
 	};
 
 	inline std::unique_ptr<Group> group() {
@@ -118,7 +121,7 @@ namespace ltn::c::sst::bind {
 
 	struct Member final : public Binding {
 		Member(
-			std::unique_ptr<Expression> object,
+			expr_ptr object,
 			std::uint64_t address)
 			: Binding{}
 			, object{std::move(object)}
@@ -130,15 +133,14 @@ namespace ltn::c::sst::bind {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> object;
+		expr_ptr object;
 		std::uint64_t address;
 	};
 
 
 
 	struct Local final : public Binding {
-		Local(
-			std::uint64_t address)
+		Local(std::uint64_t address)
 			: Binding{}
 			, address{address} {}
 
@@ -154,9 +156,7 @@ namespace ltn::c::sst::bind {
 
 
 	struct Index final : public Binding {
-		Index(
-			std::unique_ptr<Expression> range,
-			std::unique_ptr<Expression> index)
+		Index(expr_ptr range, expr_ptr index)
 			: Binding{}
 			, range{std::move(range)}
 			, index{std::move(index)} {}
@@ -167,7 +167,7 @@ namespace ltn::c::sst::bind {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> range;
-		std::unique_ptr<Expression> index;
+		expr_ptr range;
+		expr_ptr index;
 	};
 }

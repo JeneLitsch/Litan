@@ -31,33 +31,33 @@ namespace ltn::c {
 	InstructionBuffer compile_stmt(const sst::Switch &);
 
 	// Expression
-	InstructionBuffer compile_expression(const sst::Expression &);
-	InstructionBuffer compile_expr(const sst::Choose &);
-	InstructionBuffer compile_expr(const sst::Ternary &);
-	InstructionBuffer compile_expr(const sst::Binary &);
-	InstructionBuffer compile_expr(const sst::Unary &);
-	InstructionBuffer compile_expr(const sst::Integer &);
-	InstructionBuffer compile_expr(const sst::Float &);
-	InstructionBuffer compile_expr(const sst::Bool &);
-	InstructionBuffer compile_expr(const sst::Char &);
-	InstructionBuffer compile_expr(const sst::Null &);
-	InstructionBuffer compile_expr(const sst::String &);
-	InstructionBuffer compile_expr(const sst::Array &);
-	InstructionBuffer compile_expr(const sst::Tuple &);
-	InstructionBuffer compile_expr(const sst::Call &);
-	InstructionBuffer compile_expr(const sst::Invoke &);
-	InstructionBuffer compile_expr(const sst::InvokeMember &);
-	InstructionBuffer compile_expr(const sst::Index &);
-	InstructionBuffer compile_expr(const sst::FxPointer &);
-	InstructionBuffer compile_expr(const sst::Iife &);
-	InstructionBuffer compile_expr(const sst::Var &);
-	InstructionBuffer compile_expr(const sst::Member &);
-	InstructionBuffer compile_expr(const sst::GlobalVar &);
-	// InstructionBuffer compile_expr(const sst::TypedUnary &);
-	InstructionBuffer compile_expr(const sst::Reflect &);
-	InstructionBuffer compile_expr(const sst::Struct &);
-	InstructionBuffer compile_expr(const sst::Map &);
-	InstructionBuffer compile_expr(const sst::Type &);
+	InstructionBuffer compile_expression(const sst::expr::Expression &);
+	InstructionBuffer compile_expr(const sst::expr::Choose &);
+	InstructionBuffer compile_expr(const sst::expr::Ternary &);
+	InstructionBuffer compile_expr(const sst::expr::Binary &);
+	InstructionBuffer compile_expr(const sst::expr::Unary &);
+	InstructionBuffer compile_expr(const sst::expr::Integer &);
+	InstructionBuffer compile_expr(const sst::expr::Float &);
+	InstructionBuffer compile_expr(const sst::expr::Bool &);
+	InstructionBuffer compile_expr(const sst::expr::Char &);
+	InstructionBuffer compile_expr(const sst::expr::Null &);
+	InstructionBuffer compile_expr(const sst::expr::String &);
+	InstructionBuffer compile_expr(const sst::expr::Array &);
+	InstructionBuffer compile_expr(const sst::expr::Tuple &);
+	InstructionBuffer compile_expr(const sst::expr::Call &);
+	InstructionBuffer compile_expr(const sst::expr::Invoke &);
+	InstructionBuffer compile_expr(const sst::expr::InvokeMember &);
+	InstructionBuffer compile_expr(const sst::expr::Index &);
+	InstructionBuffer compile_expr(const sst::expr::FxPointer &);
+	InstructionBuffer compile_expr(const sst::expr::Iife &);
+	InstructionBuffer compile_expr(const sst::expr::Var &);
+	InstructionBuffer compile_expr(const sst::expr::Member &);
+	InstructionBuffer compile_expr(const sst::expr::GlobalVar &);
+	// InstructionBuffer compile_expr(const sst::expr::TypedUnary &);
+	InstructionBuffer compile_expr(const sst::expr::Reflect &);
+	InstructionBuffer compile_expr(const sst::expr::Struct &);
+	InstructionBuffer compile_expr(const sst::expr::Map &);
+	InstructionBuffer compile_expr(const sst::expr::Type &);
 	
 	InstructionBuffer compile_conditional(
 		const std::string & name,

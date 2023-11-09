@@ -1,6 +1,6 @@
 #include "Array.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Array::Array() : Literal() {}
 
 

@@ -1,7 +1,7 @@
 #include "GlobalVar.hxx"
 #include "ltnc/sst/bind/Binding.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	GlobalVar::GlobalVar(std::size_t address)
 		: address { address } {}
 
@@ -13,7 +13,7 @@ namespace ltn::c::sst {
 
 
 
-	std::unique_ptr<bind::Binding> GlobalVar::convert_to_bindung() && {
+	bind_ptr GlobalVar::convert_to_bindung() && {
 		return std::make_unique<bind::Global>(this->address);
 	}
 

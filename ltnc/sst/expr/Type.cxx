@@ -1,6 +1,6 @@
 #include "Type.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Type::Type(std::vector<std::uint8_t> type_code)
 		: type_code{std::move(type_code)} {}
 

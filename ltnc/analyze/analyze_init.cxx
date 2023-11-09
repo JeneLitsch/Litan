@@ -7,8 +7,8 @@
 
 namespace ltn::c {
 	namespace {
-		sst::Struct::Member analyze_member(Context &, sst::expr_ptr expr, MemberCode code) {
-			return sst::Struct::Member {
+		sst::expr::Struct::Member analyze_member(Context &, sst::expr_ptr expr, MemberCode code) {
+			return sst::expr::Struct::Member {
 				.address = static_cast<std::uint8_t>(code),
 				.expr = std::move(expr),
 			};
@@ -16,8 +16,8 @@ namespace ltn::c {
 
 
 		
-		sst::Struct::Member analyze_member(Context & context, sst::expr_ptr expr, const std::string & name) {
-			return sst::Struct::Member {
+		sst::expr::Struct::Member analyze_member(Context & context, sst::expr_ptr expr, const std::string & name) {
+			return sst::expr::Struct::Member {
 				.address = context.member_table.get_id(name),
 				.expr = std::move(expr),
 			};
@@ -27,7 +27,7 @@ namespace ltn::c {
 
 	sst::expr_ptr analyze_expr(const ast::Struct & init, Scope & scope) {
 		
-		auto sst_init = sst::strukt();
+		auto sst_init = sst::expr::strukt();
 
 		auto & context = scope.get_context();
 
@@ -45,9 +45,9 @@ namespace ltn::c {
 
 	
 	sst::expr_ptr analyze_expr(const ast::Map & init, Scope & scope) {
-		auto map = sst::map();
+		auto map = sst::expr::map();
 		for(auto & [key, val] : init.pairs) {
-			map->pairs.push_back(sst::Map::Pair{
+			map->pairs.push_back(sst::expr::Map::Pair{
 				.key = analyze_expression(*key, scope),
 				.val = analyze_expression(*val, scope),
 			});

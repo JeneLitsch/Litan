@@ -24,7 +24,7 @@ namespace ltn::c {
 	}
 
 	// compiles int literal
-	InstructionBuffer compile_expr(const sst::Integer & expr) {
+	InstructionBuffer compile_expr(const sst::expr::Integer & expr) {
 		InstructionBuffer buf;
 		buf << pick_int_inst(expr.value);
 		return buf;
@@ -33,7 +33,7 @@ namespace ltn::c {
 
 
 	// compiles float literal
-	InstructionBuffer compile_expr(const sst::Float & expr) {
+	InstructionBuffer compile_expr(const sst::expr::Float & expr) {
 		InstructionBuffer buf;
 		buf << inst::newf(expr.value);
 		return buf;
@@ -42,7 +42,7 @@ namespace ltn::c {
 
 
 	// compiles bool literal
-	InstructionBuffer compile_expr(const sst::Bool & expr) {
+	InstructionBuffer compile_expr(const sst::expr::Bool & expr) {
 		InstructionBuffer buf;
 		if(expr.value) {
 			buf << inst::bool_true();
@@ -56,7 +56,7 @@ namespace ltn::c {
 
 
 	// compiles null literal
-	InstructionBuffer compile_expr(const sst::Null &) {
+	InstructionBuffer compile_expr(const sst::expr::Null &) {
 		InstructionBuffer buf;
 		buf << inst::null();
 		return buf;
@@ -64,7 +64,7 @@ namespace ltn::c {
 
 
 	// compiles bool literal
-	InstructionBuffer compile_expr(const sst::Char & expr) {
+	InstructionBuffer compile_expr(const sst::expr::Char & expr) {
 		InstructionBuffer buf;
 		buf << inst::newc(static_cast<std::uint8_t>(expr.value));
 		return buf;
@@ -73,7 +73,7 @@ namespace ltn::c {
 
 
 	// compiles string literal
-	InstructionBuffer compile_expr(const sst::String & expr) {
+	InstructionBuffer compile_expr(const sst::expr::String & expr) {
 		InstructionBuffer buf;
 		buf << inst::newstr(expr.value);
 		return buf;

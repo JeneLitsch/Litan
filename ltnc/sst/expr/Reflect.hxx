@@ -4,7 +4,7 @@
 #include "Expression.hxx"
 #include "ltnc/Namespace.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Reflect : public ExpressionCRTP<Reflect> {
 		struct FunctionQuery {
 			std::string id;

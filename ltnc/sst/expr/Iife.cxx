@@ -1,7 +1,7 @@
 #include "Iife.hxx"
 #include "ltnc/sst/stmt/Statement.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Iife::Iife(std::string return_label, std::unique_ptr<Statement> stmt) 
 		: return_label{return_label}
 		, stmt(std::move(stmt)) {}

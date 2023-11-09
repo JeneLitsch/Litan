@@ -17,7 +17,7 @@ namespace ltn::c {
 
 
 	// compiles function call fx(...)
-	InstructionBuffer compile_expr(const sst::Invoke & invoke) {
+	InstructionBuffer compile_expr(const sst::expr::Invoke & invoke) {
 		InstructionBuffer buf;
 
 		for(const auto & arg : invoke.arguments) {
@@ -32,7 +32,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_expr(const sst::Call & call) {
+	InstructionBuffer compile_expr(const sst::expr::Call & call) {
 		InstructionBuffer buf;
 
 		for(const auto & argument : call.arguments) {
@@ -45,7 +45,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_expr(const sst::InvokeMember & invoke) {
+	InstructionBuffer compile_expr(const sst::expr::InvokeMember & invoke) {
 		InstructionBuffer buf;
 
 		buf << compile_expression(*invoke.object);

@@ -3,7 +3,7 @@
 #include "Expression.hxx"
 #include "ltnc/Label.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct FxPointer final : public ExpressionCRTP<FxPointer> {
 		FxPointer(
 			const Label & label,

@@ -8,6 +8,10 @@
 #include "ltnc/Namespace.hxx"
 #include "Declaration.hxx"
 
+namespace ltn::c::sst::expr {
+	struct Var;
+}
+
 namespace ltn::c::sst {
 	class Statement;
 	struct Parameter {
@@ -38,7 +42,6 @@ namespace ltn::c::sst {
 	};
 
 
-	struct Var;
 	struct Function : public Declaration {
 		Function(
 			const Label & label,
@@ -61,7 +64,7 @@ namespace ltn::c::sst {
 
 		std::unique_ptr<Statement> body;
 		std::unique_ptr<Except> except;
-		std::vector<std::unique_ptr<Var>> capture;
+		std::vector<std::unique_ptr<expr::Var>> capture;
 
 	};
 }

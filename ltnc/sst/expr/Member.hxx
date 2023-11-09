@@ -1,12 +1,12 @@
 #pragma once
 #include "Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Member final : public ExpressionCRTP<Member> {
 		Member(expr_ptr expr, std::size_t address);
 
 		virtual std::uint64_t alloc() const override;
-		virtual std::unique_ptr<bind::Binding> convert_to_bindung() && override;
+		virtual bind_ptr convert_to_bindung() && override;
 
 		expr_ptr expr;
 		std::size_t address;

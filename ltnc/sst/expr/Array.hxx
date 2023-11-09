@@ -2,7 +2,7 @@
 #include <vector>
 #include "Literal.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Array final: public Literal {
 		Array();
 

@@ -2,7 +2,7 @@
 #include <vector>
 #include "Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct InvokeMember final : public ExpressionCRTP<InvokeMember> {
 		InvokeMember(
 			expr_ptr object,

@@ -1,6 +1,6 @@
 #include "Choose.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Choose::Choose() {}
 
 	std::uint64_t Choose::alloc() const {
@@ -12,7 +12,7 @@ namespace ltn::c::sst {
 	}
 
 
-	std::unique_ptr<Choose> switch_expr() {
+	std::unique_ptr<Choose> sw1tch() {
 		return std::make_unique<Choose>();
 	}
 }

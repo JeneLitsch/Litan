@@ -6,7 +6,7 @@ namespace ltn::c::sst {
 		std::size_t element_addr,
 		std::size_t container_addr,
 		std::size_t iterator_addr,
-		std::unique_ptr<Expression> expr,
+		std::unique_ptr<expr::Expression> expr,
 		std::unique_ptr<Statement> body)
 		: element_addr(element_addr)
 		, container_addr(container_addr)
@@ -42,7 +42,7 @@ namespace ltn::c::sst {
 		std::size_t element_addr,
 		std::size_t container_addr,
 		std::size_t iterator_addr,
-		std::unique_ptr<Expression> expr,
+		std::unique_ptr<expr::Expression> expr,
 		std::unique_ptr<Statement> body) {
 		
 		return std::make_unique<ForEach>(element_addr, container_addr, iterator_addr, std::move(expr), std::move(body));

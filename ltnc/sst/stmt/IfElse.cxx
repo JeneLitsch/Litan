@@ -3,7 +3,7 @@
 
 namespace ltn::c::sst {
 	IfElse::IfElse(
-		std::unique_ptr<Expression> condition,
+		std::unique_ptr<expr::Expression> condition,
 		std::unique_ptr<Statement> if_branch,
 		std::unique_ptr<Statement> else_branch)
 		: Statement{}
@@ -37,7 +37,7 @@ namespace ltn::c::sst {
 
 
 
-	std::unique_ptr<IfElse> if_else(std::unique_ptr<Expression> condition, std::unique_ptr<Statement> if_branch, std::unique_ptr<Statement> else_branch) {
+	std::unique_ptr<IfElse> if_else(std::unique_ptr<expr::Expression> condition, std::unique_ptr<Statement> if_branch, std::unique_ptr<Statement> else_branch) {
 		return std::make_unique<IfElse>(std::move(condition), std::move(if_branch), std::move(else_branch));
 	}
 }

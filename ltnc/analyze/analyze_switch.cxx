@@ -54,7 +54,7 @@ namespace ltn::c {
 		auto cases = analyze_cases(analyze_expression, sw1tch, scope);
 		auto def4ault = analyze_expression(*sw1tch.d3fault, scope);
 
-		auto choose = sst::switch_expr();
+		auto choose = sst::expr::sw1tch();
 		choose->cases = std::move(cases);
 		choose->condition = std::move(condition);
 		choose->d3fault = std::move(def4ault);

@@ -1,6 +1,6 @@
 #include "Literal.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Float::Float(stx::float64_t value)   : LiteralOf<Float, stx::float64_t>{value} {}
 	Integer::Integer(std::int64_t value) : LiteralOf<Integer, std::int64_t>{value} {}
 	Bool::Bool(bool value)               : LiteralOf<Bool, bool>{value} {}

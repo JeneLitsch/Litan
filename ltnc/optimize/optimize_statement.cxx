@@ -39,13 +39,13 @@ namespace ltn::c {
 				stmt.else_branch = optimize_statement(std::move(stmt.else_branch));
 			}
 
-			if(auto expr = pre_decide<sst::Null>(stmt))    return expr;
-			if(auto expr = pre_decide<sst::Bool>(stmt))    return expr;
-			if(auto expr = pre_decide<sst::Char>(stmt))    return expr;
-			if(auto expr = pre_decide<sst::Integer>(stmt)) return expr;
-			if(auto expr = pre_decide<sst::Float>(stmt))   return expr;
-			if(auto expr = pre_decide<sst::String>(stmt))  return expr;
-			if(auto expr = pre_decide<sst::Array>(stmt))   return expr;
+			if(auto expr = pre_decide<sst::expr::Null>(stmt))    return expr;
+			if(auto expr = pre_decide<sst::expr::Bool>(stmt))    return expr;
+			if(auto expr = pre_decide<sst::expr::Char>(stmt))    return expr;
+			if(auto expr = pre_decide<sst::expr::Integer>(stmt)) return expr;
+			if(auto expr = pre_decide<sst::expr::Float>(stmt))   return expr;
+			if(auto expr = pre_decide<sst::expr::String>(stmt))  return expr;
+			if(auto expr = pre_decide<sst::expr::Array>(stmt))   return expr;
 			return nullptr;
 		}
 
@@ -61,13 +61,13 @@ namespace ltn::c {
 			stmt.condition = optimize_expression(std::move(stmt.condition));
 			stmt.body = optimize_statement(std::move(stmt.body));
 
-			if(is_truthy<sst::Null>(*stmt.condition))    return to_infinite(stmt);
-			if(is_truthy<sst::Bool>(*stmt.condition))    return to_infinite(stmt);
-			if(is_truthy<sst::Char>(*stmt.condition))    return to_infinite(stmt);
-			if(is_truthy<sst::Integer>(*stmt.condition)) return to_infinite(stmt);
-			if(is_truthy<sst::Float>(*stmt.condition))   return to_infinite(stmt);
-			if(is_truthy<sst::String>(*stmt.condition))  return to_infinite(stmt);
-			if(is_truthy<sst::Array>(*stmt.condition))   return to_infinite(stmt);
+			if(is_truthy<sst::expr::Null>(*stmt.condition))    return to_infinite(stmt);
+			if(is_truthy<sst::expr::Bool>(*stmt.condition))    return to_infinite(stmt);
+			if(is_truthy<sst::expr::Char>(*stmt.condition))    return to_infinite(stmt);
+			if(is_truthy<sst::expr::Integer>(*stmt.condition)) return to_infinite(stmt);
+			if(is_truthy<sst::expr::Float>(*stmt.condition))   return to_infinite(stmt);
+			if(is_truthy<sst::expr::String>(*stmt.condition))  return to_infinite(stmt);
+			if(is_truthy<sst::expr::Array>(*stmt.condition))   return to_infinite(stmt);
 
 			return nullptr;
 		}

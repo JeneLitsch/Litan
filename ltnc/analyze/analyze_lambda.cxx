@@ -8,7 +8,7 @@ namespace ltn::c {
 		auto analyze_captures(const auto & captures, auto & outer_scope) {
 			auto fx = [&] (const auto & capture) {
 				auto expr = analyze_expr(*capture, outer_scope);
-				return stx::static_unique_cast<sst::Var>(std::move(expr));
+				return stx::static_unique_cast<sst::expr::Var>(std::move(expr));
 			};
 			return stx::fx::map(fx, captures);
 		}
@@ -41,7 +41,7 @@ namespace ltn::c {
 			.override_namespace = outer_scope.get_namespace(),
 		});
 
-		auto fx_ptr = sst::fx_pointer(
+		auto fx_ptr = sst::expr::fx_pointer(
 			make_function_label(*lambda.fx),
 			lambda.fx->parameters.simple.size(),
 			lambda.fx->parameters.variadic.has_value()

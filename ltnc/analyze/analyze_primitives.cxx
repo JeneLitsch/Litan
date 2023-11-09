@@ -5,35 +5,35 @@
 
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::Integer & expr, Scope &) {
-		return sst::integer(expr.value);
+		return sst::expr::integer(expr.value);
 	}
 
 
 
 	sst::expr_ptr analyze_expr(const ast::Float & expr, Scope &) {
-		return sst::floating(expr.value);
+		return sst::expr::floating(expr.value);
 	}
 
 
 
 	sst::expr_ptr analyze_expr(const ast::Bool & expr, Scope &) {
-		return sst::boolean(expr.value);
+		return sst::expr::boolean(expr.value);
 	}
 
 
 
 	sst::expr_ptr analyze_expr(const ast::Null &, Scope &) {
-		return sst::null();
+		return sst::expr::null();
 	}
 
 
 	sst::expr_ptr analyze_expr(const ast::Char & expr, Scope &) {
-		return sst::character(expr.value);
+		return sst::expr::character(expr.value);
 	}
 
 
 
 	sst::expr_ptr analyze_expr(const ast::String & expr, Scope &) {
-		return sst::string(expr.value);
+		return sst::expr::string(expr.value);
 	}
 }

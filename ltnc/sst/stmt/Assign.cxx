@@ -4,8 +4,8 @@
 
 namespace ltn::c::sst {
 	Assign::Assign(
-		std::unique_ptr<bind::Binding> binding,
-		std::unique_ptr<Expression> expr)
+		bind_ptr binding,
+		std::unique_ptr<expr::Expression> expr)
 		: Statement{}
 		, binding{std::move(binding)}
 		, expr(std::move(expr)) {}
@@ -34,7 +34,7 @@ namespace ltn::c::sst {
 
 
 
-	std::unique_ptr<Assign> assign(std::unique_ptr<bind::Binding> bind, std::unique_ptr<Expression> expr) {
+	std::unique_ptr<Assign> assign(bind_ptr bind, std::unique_ptr<expr::Expression> expr) {
 		return std::make_unique<Assign>(std::move(bind), std::move(expr));
 	}
 }

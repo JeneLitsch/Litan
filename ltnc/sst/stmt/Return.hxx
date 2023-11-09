@@ -2,11 +2,12 @@
 #include <optional>
 #include "Statement.hxx"
 
+namespace ltn::c::sst::expr { struct Expression; }
+
 namespace ltn::c::sst {
-	struct Expression;
 	struct Return final : public Statement {
 		Return(
-			std::unique_ptr<Expression> expr,
+			expr_ptr expr,
 			std::optional<std::string> overide_label);
 
 		virtual std::size_t nested_alloc() const override;
@@ -16,10 +17,10 @@ namespace ltn::c::sst {
 
 		virtual ~Return();
 
-		std::unique_ptr<Expression> expr;
+		std::unique_ptr<expr::Expression> expr;
 		std::optional<std::string> overide_label;
 	};
 
 
-	std::unique_ptr<Return> r3turn(std::unique_ptr<Expression> expr, std::optional<std::string> overide_label);
+	std::unique_ptr<Return> r3turn(expr_ptr expr, std::optional<std::string> overide_label);
 }

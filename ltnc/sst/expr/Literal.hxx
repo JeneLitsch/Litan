@@ -3,7 +3,7 @@
 #include "stdxx/float64_t.hxx"
 #include "Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Literal : public Expression {};
 
 	template<typename Derived, typename Value>
@@ -62,7 +62,7 @@ namespace ltn::c::sst {
 
 
 	template<typename T>
-	concept literal_type = std::is_base_of<sst::Literal, T>::value;
+	concept literal_type = std::is_base_of<sst::expr::Literal, T>::value;
 
 
 

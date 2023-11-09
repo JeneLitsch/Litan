@@ -1,7 +1,7 @@
 #pragma once
 #include "Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct BuildIn final : ExpressionCRTP<BuildIn> {
 		BuildIn(std::string key);
 

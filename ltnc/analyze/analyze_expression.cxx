@@ -9,17 +9,17 @@ namespace ltn::c {
 		 
 		std::vector<sst::expr_ptr> arguments;
 		for(std::uint64_t i = 0; i < forward.arity; ++i) {
-			arguments.push_back(sst::var_local(i));
+			arguments.push_back(sst::expr::var_local(i));
 		}
 
-		return sst::invoke(sst::integer_addr(forward.address), std::move(arguments));
+		return sst::expr::invoke(sst::expr::integer_addr(forward.address), std::move(arguments));
 	}
 
 
 
 
 	sst::expr_ptr analyze_expr(const ast::BuildIn & build_in, Scope &) {
-		return sst::build_in(build_in.key);
+		return sst::expr::build_in(build_in.key);
 	}
 
 

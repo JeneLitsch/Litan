@@ -69,7 +69,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_expr(const sst::Choose & sw1tch) {
+	InstructionBuffer compile_expr(const sst::expr::Choose & sw1tch) {
 		
 		const auto condition = compile_expression(*sw1tch.condition);
 		const auto cases = compile_cases(compile_expression, sw1tch);

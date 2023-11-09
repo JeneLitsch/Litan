@@ -5,10 +5,10 @@ namespace ltn::c {
 		
 	};
 
-	sst::expr_ptr optimize_unary(sst::Unary & unary);
-	sst::expr_ptr optimize_binary(sst::Binary & binary);
-	sst::expr_ptr optimize_ternary(sst::Ternary & ternary);
-	sst::expr_ptr optimize_expression(sst::Expression & expr);
+	sst::expr_ptr optimize_unary(sst::expr::Unary & unary);
+	sst::expr_ptr optimize_binary(sst::expr::Binary & binary);
+	sst::expr_ptr optimize_ternary(sst::expr::Ternary & ternary);
+	sst::expr_ptr optimize_expression(sst::expr::Expression & expr);
 	sst::expr_ptr optimize_expression(sst::expr_ptr expr);
 
 	sst::stmt_ptr optimize_statement(sst::Statement & stmt);

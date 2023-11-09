@@ -1,6 +1,6 @@
 #include "Unary.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Unary::Unary(Op op, expr_ptr expr)
 		: op(op)
 		, expr(std::move(expr)) {}

@@ -3,7 +3,7 @@
 #include "ltnc/Label.hxx"
 #include "Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Call final : public ExpressionCRTP<Call> {
 		Call(const Label & label, std::vector<expr_ptr> arguments);
 

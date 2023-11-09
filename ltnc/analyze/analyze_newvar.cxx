@@ -8,7 +8,7 @@ namespace ltn::c {
 		auto expr 
 			= new_var.expr
 			? analyze_expression(*new_var.expr, scope)
-			: sst::null();
+			: sst::expr::null();
 		auto binding = analyze_binding(*new_var.binding, scope);
 		return sst::assign(std::move(binding), std::move(expr));
 	}

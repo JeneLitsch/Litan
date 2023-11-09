@@ -4,7 +4,7 @@
 
 namespace ltn::c {
 	// compiles index read operation
-	InstructionBuffer compile_expr(const sst::Index & index) {
+	InstructionBuffer compile_expr(const sst::expr::Index & index) {
 		const auto arr = compile_expression(*index.expr);
 		const auto idx = compile_expression(*index.index);
 		

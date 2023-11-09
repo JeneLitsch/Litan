@@ -3,8 +3,11 @@
 #include <utility>
 #include "Statement.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Expression;
+}
+
+namespace ltn::c::sst {
 	struct Switch : public Statement {
 		Switch();
 
@@ -14,10 +17,10 @@ namespace ltn::c::sst {
 
 		virtual ~Switch();
 
-		std::unique_ptr<Expression> condition;
+		std::unique_ptr<expr::Expression> condition;
 		
 		std::vector<std::pair<
-			std::unique_ptr<Expression>,
+			std::unique_ptr<expr::Expression>,
 			std::unique_ptr<Statement>
 		>> cases;
 		

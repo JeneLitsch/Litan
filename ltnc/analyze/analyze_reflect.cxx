@@ -5,8 +5,8 @@
 
 namespace ltn::c {
 	namespace {
-		sst::Reflect::FunctionQuery fx_to_query(const ast::Function & fx) {
-			return sst::Reflect::FunctionQuery {
+		sst::expr::Reflect::FunctionQuery fx_to_query(const ast::Function & fx) {
+			return sst::expr::Reflect::FunctionQuery {
 				.id          = make_function_label(fx).to_string(),
 				.name        = fx.name,
 				.full_name   = fx.namespaze.to_string() + fx.name,
@@ -20,8 +20,8 @@ namespace ltn::c {
 
 
 
-		sst::Reflect::Addr make_member_addrs(MemberTable & member_table) {
-			return sst::Reflect::Addr {
+		sst::expr::Reflect::Addr make_member_addrs(MemberTable & member_table) {
+			return sst::expr::Reflect::Addr {
 				.name      = member_table.get_id("name"),
 				.full_name = member_table.get_id("full_name"),
 				.fx_ptr    = member_table.get_id("fx_ptr"),
@@ -37,7 +37,7 @@ namespace ltn::c {
 
 
 
-		sst::Reflect::FunctionQuery analyze_reflect_query(
+		sst::expr::Reflect::FunctionQuery analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::FunctionQuery & query,
 			Scope & scope) {
@@ -59,14 +59,14 @@ namespace ltn::c {
 
 
 
-		sst::Reflect::NamespaceQuery analyze_reflect_query(
+		sst::expr::Reflect::NamespaceQuery analyze_reflect_query(
 			const ast::Reflect &,
 			const ast::Reflect::NamespaceQuery & query,
 			Scope & scope) {
 			
 			auto & context = scope.get_context();
 
-			sst::Reflect::NamespaceQuery sst_query;
+			sst::expr::Reflect::NamespaceQuery sst_query;
 			sst_query.namespaze = query.namespaze;
 			for(const auto & fx : context.fx_table.get_symbols()) {
 				if(fx->namespaze == query.namespaze) {
@@ -80,12 +80,12 @@ namespace ltn::c {
 
 
 
-		sst::Reflect::LineQuery analyze_reflect_query(
+		sst::expr::Reflect::LineQuery analyze_reflect_query(
 			const ast::Reflect & refl,
 			const ast::Reflect::LineQuery &,
 			Scope &) {
 
-			return sst::Reflect::LineQuery {
+			return sst::expr::Reflect::LineQuery {
 				.line = location(refl).line 
 			};
 		}
@@ -97,7 +97,7 @@ namespace ltn::c {
 			const ast::Reflect::FileQuery &,
 			Scope &) {
 
-			return sst::Reflect::FileQuery {
+			return sst::expr::Reflect::FileQuery {
 				.name = location(refl).sourcename 
 			};
 		}
@@ -109,7 +109,7 @@ namespace ltn::c {
 			const ast::Reflect::LocationQuery & query,
 			Scope & scope) {
 
-			return sst::Reflect::LocationQuery {
+			return sst::expr::Reflect::LocationQuery {
 				.file = analyze_reflect_query(refl, query.file, scope), 
 				.line = analyze_reflect_query(refl, query.line, scope), 
 			};
@@ -122,8 +122,8 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::Reflect & refl, Scope & scope) {
 		auto & context = scope.get_context();
 			
-		return sst::reflect(
-			std::visit([&] (const auto & query) -> sst::Reflect::Query {
+		return sst::expr::reflect(
+			std::visit([&] (const auto & query) -> sst::expr::Reflect::Query {
 				return analyze_reflect_query(refl, query, scope);
 			}, refl.query),
 			make_member_addrs(context.member_table)	

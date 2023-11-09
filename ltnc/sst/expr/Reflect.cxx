@@ -1,6 +1,6 @@
 #include "Reflect.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Reflect::Reflect(Query query, Addr address)
 		: query{std::move(query)}
 		, address{address} {}

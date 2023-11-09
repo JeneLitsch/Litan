@@ -3,7 +3,7 @@
 #include "ltnc/sst/expr/Struct.hxx"
 
 namespace ltn::c {
-	InstructionBuffer compile_expr(const sst::Struct & init) {
+	InstructionBuffer compile_expr(const sst::expr::Struct & init) {
 		InstructionBuffer buf;
 		buf << inst::newstruct();
 		for(const auto & [member, expr] : init.members) {
@@ -17,7 +17,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_expr(const sst::Map & map) {
+	InstructionBuffer compile_expr(const sst::expr::Map & map) {
 		InstructionBuffer buf;
 		buf << inst::newmap();
 		for(auto & [key, val] : map.pairs) {

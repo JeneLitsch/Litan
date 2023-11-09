@@ -2,7 +2,7 @@
 #include <vector>
 #include "Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	struct Invoke final : public ExpressionCRTP<Invoke> {
 		Invoke(expr_ptr function_ptr, std::vector<expr_ptr> arguments);
 

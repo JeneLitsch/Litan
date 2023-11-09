@@ -23,7 +23,7 @@ namespace ltn::c {
 			}
 
 			if(fx.parameters.variadic) {
-				auto tuple = sst::tuple();
+				auto tuple = sst::expr::tuple();
 				for(std::size_t i = fx.parameters.simple.size(); i < call.arguments.size(); ++i) {
 					auto & argument = call.arguments[i];
 					tuple->push_back(analyze_expression(*argument, scope));
@@ -60,7 +60,7 @@ namespace ltn::c {
 			auto expr = analyze_expression(*call.function_ptr, scope);
 			auto arguments = analyze_all_expressions(call.arguments, scope);
 			
-			return sst::invoke(std::move(expr), std::move(arguments));
+			return sst::expr::invoke(std::move(expr), std::move(arguments));
 		}
 
 
@@ -80,7 +80,7 @@ namespace ltn::c {
 			auto fx_label = make_function_label(fx);
 			
 			context.fx_queue.stage_function(fx);
-			return sst::call(std::move(fx_label), std::move(arguments));
+			return sst::expr::call(std::move(fx_label), std::move(arguments));
 		}
 	}
 
@@ -122,6 +122,6 @@ namespace ltn::c {
 		auto arguments = analyze_all_expressions(invoke.arguments, scope);
 		const auto id = scope.resolve_member_id(invoke.name);
 
-		return sst::invoke_member(std::move(expr), id, std::move(arguments));
+		return sst::expr::invoke_member(std::move(expr), id, std::move(arguments));
 	}
 }

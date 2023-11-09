@@ -1,6 +1,6 @@
 #include "Ternary.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::expr {
 	Ternary::Ternary(
 		expr_ptr condition,
 		expr_ptr if_branch,

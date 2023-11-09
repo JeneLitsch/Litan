@@ -3,7 +3,6 @@
 #include "Statement.hxx"
 
 namespace ltn::c::sst {
-	struct Expression;
 	struct InfiniteLoop final : public Statement {
 		InfiniteLoop(std::unique_ptr<Statement> body);
 
