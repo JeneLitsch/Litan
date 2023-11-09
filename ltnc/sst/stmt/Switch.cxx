@@ -2,7 +2,7 @@
 #include "Switch.hxx"
 #include "ltnc/sst/expr/Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	Switch::Switch() : Statement{} {}
 
 

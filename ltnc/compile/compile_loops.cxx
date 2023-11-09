@@ -14,7 +14,7 @@ namespace ltn::c {
 		}
 	}
 
-	InstructionBuffer compile_stmt(const sst::While & stmt) {
+	InstructionBuffer compile_stmt(const sst::stmt::While & stmt) {
 		const auto condition = compile_expression(*stmt.condition);
 		const auto body = compile_statement(*stmt.body);
 		const auto name = make_jump_id("WHILE");
@@ -35,7 +35,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_stmt(const sst::InfiniteLoop & stmt) {
+	InstructionBuffer compile_stmt(const sst::stmt::InfiniteLoop & stmt) {
 		const auto body = compile_statement(*stmt.body);
 		const auto jump = make_jump_id("INFINETE_LOOP");
 
@@ -49,7 +49,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_stmt(const sst::ForEach & stmt) {
+	InstructionBuffer compile_stmt(const sst::stmt::ForEach & stmt) {
 		InstructionBuffer buf;
 		const auto label_end = make_jump_id("FOREACH_END");
 		const auto label_top = make_jump_id("FOREACH_BODY");

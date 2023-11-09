@@ -97,7 +97,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_stmt(const sst::Assign & new_var) {
+	InstructionBuffer compile_stmt(const sst::stmt::Assign & new_var) {
 		InstructionBuffer buf;
 		buf << compile_expression(*new_var.expr);
 		buf << compile_binding(*new_var.binding);

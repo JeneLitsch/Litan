@@ -1,7 +1,7 @@
 #pragma once
 #include "Statement.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	struct NoOp : public Statement {
 		NoOp();
 		

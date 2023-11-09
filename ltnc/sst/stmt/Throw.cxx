@@ -1,7 +1,7 @@
 #include "Throw.hxx"
 #include "ltnc/sst/expr/Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	Throw::Throw(std::unique_ptr<expr::Expression> expr) 
 		: Statement{}
 		, expr(std::move(expr)) {}

@@ -23,6 +23,6 @@ namespace ltn::c {
 		if(!binding) {
 			throw left_side_not_assignable(stmt);
 		}
-		return sst::assign(std::move(binding), std::move(r));
+		return sst::stmt::assign(std::move(binding), std::move(r));
 	}
 }

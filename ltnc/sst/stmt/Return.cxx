@@ -1,7 +1,7 @@
 #include "Return.hxx"
 #include "ltnc/sst/expr/Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	Return::Return(
 		std::unique_ptr<expr::Expression> expr,
 		std::optional<std::string> overide_label)

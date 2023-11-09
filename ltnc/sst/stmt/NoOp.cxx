@@ -1,6 +1,6 @@
 #include "NoOp.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	NoOp::NoOp() : Statement{} {}
 	
 

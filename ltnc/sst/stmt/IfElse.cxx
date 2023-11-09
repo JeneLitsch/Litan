@@ -1,7 +1,7 @@
 #include "IfElse.hxx"
 #include "ltnc/sst/expr/Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	IfElse::IfElse(
 		std::unique_ptr<expr::Expression> condition,
 		std::unique_ptr<Statement> if_branch,

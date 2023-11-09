@@ -3,7 +3,7 @@
 
 namespace ltn::c::sst::expr { struct Expression; }
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	struct Throw final : public Statement {
 		Throw(std::unique_ptr<expr::Expression> expr);
 

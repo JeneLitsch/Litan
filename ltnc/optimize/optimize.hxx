@@ -11,7 +11,7 @@ namespace ltn::c {
 	sst::expr_ptr optimize_expression(sst::expr::Expression & expr);
 	sst::expr_ptr optimize_expression(sst::expr_ptr expr);
 
-	sst::stmt_ptr optimize_statement(sst::Statement & stmt);
+	sst::stmt_ptr optimize_statement(sst::stmt::Statement & stmt);
 	sst::stmt_ptr optimize_statement(sst::stmt_ptr stmt);
 
 	void optimize_definition(sst::Definition & definition);

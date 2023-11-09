@@ -18,14 +18,14 @@ namespace ltn::c {
 			
 			auto else_branch = analyze_statement(*stmt.else_branch, else_scope);
 			
-			return sst::if_else(
+			return sst::stmt::if_else(
 				std::move(condition),
 				std::move(if_branch),
 				std::move(else_branch)
 			);
 		}
 		else {
-			return sst::if_else(
+			return sst::stmt::if_else(
 				std::move(condition),
 				std::move(if_branch),
 				nullptr

@@ -6,7 +6,7 @@ namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::StatementExpression & stmt, Scope & scope) {
 		
 		auto expr = analyze_expression(*stmt.expr, scope);
-		return sst::assign(
+		return sst::stmt::assign(
 			std::make_unique<sst::bind::Discard>(),
 			std::move(expr)
 		);
@@ -15,7 +15,7 @@ namespace ltn::c {
 
 
 	sst::stmt_ptr analyze_stmt(const ast::NoOp &, Scope &) {
-		return sst::no_op();
+		return sst::stmt::no_op();
 	}
 
 

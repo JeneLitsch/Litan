@@ -4,7 +4,7 @@
 
 namespace ltn::c::sst::expr { struct Expression; }
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	struct While final : public Statement {
 		While(std::unique_ptr<expr::Expression> condition, std::unique_ptr<Statement> body);
 

@@ -4,7 +4,7 @@
 
 namespace ltn::c::sst::expr { struct Expression; }
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	struct Return final : public Statement {
 		Return(
 			expr_ptr expr,

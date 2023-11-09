@@ -2,7 +2,7 @@
 #include <optional>
 #include "Statement.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	struct IfElse final : public Statement {
 		IfElse(
 			expr_ptr condition,

@@ -3,7 +3,7 @@
 #include <vector>
 #include "Statement.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	struct Block final : public Statement {
 		Block(std::vector<std::unique_ptr<Statement>> statements);
 

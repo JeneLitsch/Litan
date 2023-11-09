@@ -10,6 +10,6 @@ namespace ltn::c {
 			? analyze_expression(*new_var.expr, scope)
 			: sst::expr::null();
 		auto binding = analyze_binding(*new_var.binding, scope);
-		return sst::assign(std::move(binding), std::move(expr));
+		return sst::stmt::assign(std::move(binding), std::move(expr));
 	}
 }

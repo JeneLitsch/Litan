@@ -2,7 +2,7 @@
 #include <optional>
 #include "Statement.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	struct InfiniteLoop final : public Statement {
 		InfiniteLoop(std::unique_ptr<Statement> body);
 

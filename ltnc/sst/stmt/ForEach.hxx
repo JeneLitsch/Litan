@@ -1,7 +1,7 @@
 #pragma once
 #include "Statement.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	struct ForEach final : public Statement {
 		ForEach(
 			std::size_t element_addr,

@@ -7,7 +7,7 @@ namespace ltn::c::sst::expr {
 	struct Expression;
 }
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	struct Switch : public Statement {
 		Switch();
 

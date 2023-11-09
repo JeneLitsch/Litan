@@ -1,6 +1,6 @@
 #include "InfiniteLoop.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	InfiniteLoop::InfiniteLoop(
 		std::unique_ptr<Statement> body)
 		: Statement{}

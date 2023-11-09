@@ -1,7 +1,7 @@
 #include "ForEach.hxx"
 #include "ltnc/sst/expr/Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	ForEach::ForEach(
 		std::size_t element_addr,
 		std::size_t container_addr,

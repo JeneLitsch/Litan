@@ -10,6 +10,6 @@ namespace ltn::c {
 		for(const auto & stmt : block.statements) {
 			statments.push_back(analyze_statement(*stmt, scope));
 		}
-		return sst::block(std::move(statments));
+		return sst::stmt::block(std::move(statments));
 	}
 }

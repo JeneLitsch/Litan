@@ -2,7 +2,7 @@
 #include "ltnc/sst/expr/Expression.hxx"
 #include "ltnc/sst/bind/Binding.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	Assign::Assign(
 		bind_ptr binding,
 		std::unique_ptr<expr::Expression> expr)

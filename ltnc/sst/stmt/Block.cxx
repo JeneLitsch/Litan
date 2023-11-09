@@ -1,6 +1,6 @@
 #include "Block.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	Block::Block(
 		std::vector<std::unique_ptr<Statement>> statements) 
 		: Statement{}

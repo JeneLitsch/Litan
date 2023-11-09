@@ -2,6 +2,7 @@
 #include <map>
 #include "ltnc/Namespace.hxx"
 #include "ltnc/sst/Node.hxx"
+#include "ltnc/sst/types.hxx"
 
 namespace ltn::c::sst::expr {
 	struct Expression;

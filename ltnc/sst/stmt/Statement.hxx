@@ -4,7 +4,7 @@
 #include "ltnc/sst/Node.hxx"
 #include "ltnc/sst/types.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	struct Block;
 	struct IfElse;
 	struct While;
@@ -33,7 +33,7 @@ namespace ltn::c::sst {
 
 
 
-	class Statement : public Node {
+	struct Statement : public Node {
 	public:
 		Statement() {}
 

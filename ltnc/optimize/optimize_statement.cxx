@@ -23,7 +23,7 @@ namespace ltn::c {
 
 
 
-		sst::stmt_ptr optimize_block(sst::Block & block) {
+		sst::stmt_ptr optimize_block(sst::stmt::Block & block) {
 			for(auto & stmt : block.statements) {
 				stmt = optimize_statement(std::move(stmt));
 			}
@@ -32,7 +32,7 @@ namespace ltn::c {
 
 
 
-		sst::stmt_ptr optimize_if_else(sst::IfElse & stmt) {
+		sst::stmt_ptr optimize_if_else(sst::stmt::IfElse & stmt) {
 			stmt.condition = optimize_expression(std::move(stmt.condition));
 			stmt.if_branch = optimize_statement(std::move(stmt.if_branch));
 			if(stmt.else_branch) {
@@ -51,13 +51,13 @@ namespace ltn::c {
 
 
 
-		sst::stmt_ptr to_infinite(sst::While & stmt) {
-			return sst::infinite_loop(std::move(stmt.body));
+		sst::stmt_ptr to_infinite(sst::stmt::While & stmt) {
+			return sst::stmt::infinite_loop(std::move(stmt.body));
 		}
 
 
 
-		sst::stmt_ptr optimize_while_loop(sst::While & stmt) {
+		sst::stmt_ptr optimize_while_loop(sst::stmt::While & stmt) {
 			stmt.condition = optimize_expression(std::move(stmt.condition));
 			stmt.body = optimize_statement(std::move(stmt.body));
 
@@ -75,23 +75,23 @@ namespace ltn::c {
 
 
 
-	sst::stmt_ptr optimize_statement(sst::Statement & stmt) {
-		if(auto s = as<sst::Return>(stmt)) {
+	sst::stmt_ptr optimize_statement(sst::stmt::Statement & stmt) {
+		if(auto s = as<sst::stmt::Return>(stmt)) {
 			return optimize_unary_statement(*s);
 		}
-		if(auto s = as<sst::Assign>(stmt)) {
+		if(auto s = as<sst::stmt::Assign>(stmt)) {
 			return optimize_unary_statement(*s);
 		}
-		if(auto s = as<sst::Throw>(stmt)) {
+		if(auto s = as<sst::stmt::Throw>(stmt)) {
 			return optimize_unary_statement(*s);
 		}
-		if(auto s = as<sst::Block>(stmt)) {
+		if(auto s = as<sst::stmt::Block>(stmt)) {
 			return optimize_block(*s);
 		}
-		if(auto s = as<sst::IfElse>(stmt)) {
+		if(auto s = as<sst::stmt::IfElse>(stmt)) {
 			return optimize_if_else(*s);
 		}
-		if(auto s = as<sst::While>(stmt)) {
+		if(auto s = as<sst::stmt::While>(stmt)) {
 			return optimize_while_loop(*s);
 		}
 		return nullptr;

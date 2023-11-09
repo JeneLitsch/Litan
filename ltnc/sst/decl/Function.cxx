@@ -5,7 +5,7 @@
 namespace ltn::c::sst {
 	Except::Except(
 		const std::string & errorname,
-		std::unique_ptr<Statement> && body)
+		std::unique_ptr<stmt::Statement> && body)
 		: body(std::move(body))
 		, errorname(errorname) {}
 
@@ -20,7 +20,7 @@ namespace ltn::c::sst {
 		const std::string & name,
 		Namespace namespaze,
 		Parameters parameters,
-		std::unique_ptr<Statement> && body)
+		std::unique_ptr<stmt::Statement> && body)
 		: Declaration(name, namespaze)
 		, parameters{std::move(parameters)}
 		, label{std::move(label)}

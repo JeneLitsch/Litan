@@ -39,7 +39,7 @@ namespace ltn::c {
 		auto cases = analyze_cases(analyze_statement, sw1tch, scope);
 		auto def4ault = analyze_statement(*sw1tch.d3fault, scope);
 
-		auto sst_sw1tch = sst::switch_stmt();
+		auto sst_sw1tch = sst::stmt::switch_stmt();
 		sst_sw1tch->cases = std::move(cases);
 		sst_sw1tch->condition = std::move(condition);
 		sst_sw1tch->d3fault = std::move(def4ault);

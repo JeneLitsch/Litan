@@ -13,7 +13,7 @@ namespace ltn::c {
 		auto condition = analyze_expression(*stmt.condition, scope);
 		auto body = analyze_statement(*stmt.body, loop_scope);
 
-		return sst::wh1le(
+		return sst::stmt::wh1le(
 			std::move(condition),
 			std::move(body)
 		);
@@ -25,7 +25,7 @@ namespace ltn::c {
 
 		MinorScope loop_scope { &scope }; 		
 		auto body = analyze_statement(*stmt.body, loop_scope);
-		return sst::infinite_loop(std::move(body));
+		return sst::stmt::infinite_loop(std::move(body));
 	}
 
 
@@ -40,7 +40,7 @@ namespace ltn::c {
 		const auto container_var = loop_scope.insert("_container_" + stmt.index_name, location(stmt));
 		auto body = analyze_statement(*stmt.body, loop_scope);
 
-		return sst::for_each(
+		return sst::stmt::for_each(
 			element_var.address,
 			iterator_var.address,
 			container_var.address,

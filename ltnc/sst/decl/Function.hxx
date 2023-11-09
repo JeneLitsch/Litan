@@ -13,7 +13,6 @@ namespace ltn::c::sst::expr {
 }
 
 namespace ltn::c::sst {
-	class Statement;
 	struct Parameter {
 		std::string name;
 	};
@@ -35,9 +34,9 @@ namespace ltn::c::sst {
 
 
 	struct Except final : public Node {
-		Except(const std::string & errorname, std::unique_ptr<Statement> && body);
+		Except(const std::string & errorname, std::unique_ptr<stmt::Statement> && body);
 		virtual ~Except();
-		std::unique_ptr<Statement> body;
+		std::unique_ptr<stmt::Statement> body;
 		std::string errorname;
 	};
 
@@ -48,7 +47,7 @@ namespace ltn::c::sst {
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
-			std::unique_ptr<Statement> && body);
+			std::unique_ptr<stmt::Statement> && body);
 
 		const std::string & get_resolve_name() const;
 		const Namespace & get_resolve_namespace() const;
@@ -62,7 +61,7 @@ namespace ltn::c::sst {
 
 		Label label;
 
-		std::unique_ptr<Statement> body;
+		std::unique_ptr<stmt::Statement> body;
 		std::unique_ptr<Except> except;
 		std::vector<std::unique_ptr<expr::Var>> capture;
 

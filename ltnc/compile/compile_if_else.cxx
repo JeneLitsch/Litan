@@ -2,13 +2,13 @@
 #include "ltnc/sst/stmt/IfElse.hxx"
 
 namespace ltn::c {
-	bool has_else_branch(const sst::IfElse & stmt) {
+	bool has_else_branch(const sst::stmt::IfElse & stmt) {
 		return stmt.else_branch && (!as<ast::NoOp>(*stmt.else_branch));
 	}
 
 
 
-	InstructionBuffer compile_stmt(const sst::IfElse & stmt) {
+	InstructionBuffer compile_stmt(const sst::stmt::IfElse & stmt) {
 
 		const auto condition = compile_expression(*stmt.condition);
 		const auto if_branch = compile_statement(*stmt.if_branch);

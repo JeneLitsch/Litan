@@ -1,7 +1,7 @@
 #include "While.hxx"
 #include "ltnc/sst/expr/Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::stmt {
 	While::While(
 		std::unique_ptr<expr::Expression> condition,
 		std::unique_ptr<Statement> body)

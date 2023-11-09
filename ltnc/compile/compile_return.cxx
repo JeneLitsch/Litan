@@ -4,7 +4,7 @@
 
 namespace ltn::c {
 	// compiles -> return...;
-	InstructionBuffer compile_stmt(const sst::Return & ret) {
+	InstructionBuffer compile_stmt(const sst::stmt::Return & ret) {
 		InstructionBuffer buf;
 		if(ret.expr) {
 			buf << compile_expression(*ret.expr);

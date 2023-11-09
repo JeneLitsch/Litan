@@ -8,6 +8,6 @@ namespace ltn::c {
 			= thr0w.expr
 			? analyze_expression(*thr0w.expr, scope)
 			: sst::expr::null();
-		return sst::thr0w(std::move(expr));
+		return sst::stmt::thr0w(std::move(expr));
 	}
 }
