@@ -3,9 +3,9 @@
 
 namespace ltn::c::sst::stmt {
 	IfElse::IfElse(
-		std::unique_ptr<expr::Expression> condition,
-		std::unique_ptr<Statement> if_branch,
-		std::unique_ptr<Statement> else_branch)
+		expr_ptr condition,
+		stmt_ptr if_branch,
+		stmt_ptr else_branch)
 		: Statement{}
 		, condition(std::move(condition))
 		, if_branch(std::move(if_branch))
@@ -37,7 +37,7 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::unique_ptr<IfElse> if_else(std::unique_ptr<expr::Expression> condition, std::unique_ptr<Statement> if_branch, std::unique_ptr<Statement> else_branch) {
+	std::unique_ptr<IfElse> if_else(expr_ptr condition, stmt_ptr if_branch, stmt_ptr else_branch) {
 		return std::make_unique<IfElse>(std::move(condition), std::move(if_branch), std::move(else_branch));
 	}
 }

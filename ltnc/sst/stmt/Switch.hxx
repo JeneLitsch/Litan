@@ -17,14 +17,11 @@ namespace ltn::c::sst::stmt {
 
 		virtual ~Switch();
 
-		std::unique_ptr<expr::Expression> condition;
+		expr_ptr condition;
 		
-		std::vector<std::pair<
-			std::unique_ptr<expr::Expression>,
-			std::unique_ptr<Statement>
-		>> cases;
+		std::vector<std::pair<expr_ptr, stmt_ptr>> cases;
 		
-		std::unique_ptr<Statement> d3fault;
+		stmt_ptr d3fault;
 	};
 
 	std::unique_ptr<Switch> switch_stmt();

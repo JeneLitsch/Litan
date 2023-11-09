@@ -6,7 +6,7 @@ namespace ltn::c::sst::expr { struct Expression; }
 
 namespace ltn::c::sst::stmt {
 	struct While final : public Statement {
-		While(std::unique_ptr<expr::Expression> condition, std::unique_ptr<Statement> body);
+		While(expr_ptr condition, stmt_ptr body);
 
 		virtual std::size_t nested_alloc() const override;
 		virtual std::size_t direct_alloc() const override;
@@ -14,9 +14,9 @@ namespace ltn::c::sst::stmt {
 
 		virtual ~While();
 
-		std::unique_ptr<expr::Expression> condition;
-		std::unique_ptr<Statement> body;
+		expr_ptr condition;
+		stmt_ptr body;
 	};
 
-	std::unique_ptr<While> wh1le(std::unique_ptr<expr::Expression> condition, std::unique_ptr<Statement> body);
+	std::unique_ptr<While> wh1le(expr_ptr condition, stmt_ptr body);
 }

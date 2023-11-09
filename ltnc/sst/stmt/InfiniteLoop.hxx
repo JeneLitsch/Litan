@@ -4,14 +4,14 @@
 
 namespace ltn::c::sst::stmt {
 	struct InfiniteLoop final : public Statement {
-		InfiniteLoop(std::unique_ptr<Statement> body);
+		InfiniteLoop(stmt_ptr body);
 
 		virtual std::size_t nested_alloc() const override;
 		virtual std::size_t direct_alloc() const override;
 		virtual void accept(const StmtVisitor & visitor) const override;
 
-		std::unique_ptr<Statement> body;
+		stmt_ptr body;
 	};
 
-	std::unique_ptr<InfiniteLoop> infinite_loop(std::unique_ptr<Statement> body);
+	std::unique_ptr<InfiniteLoop> infinite_loop(stmt_ptr body);
 }

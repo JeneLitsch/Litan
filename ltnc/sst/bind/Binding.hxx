@@ -52,7 +52,7 @@ namespace ltn::c::sst::bind {
 				std::begin(this->sub_bindings),
 				std::end(this->sub_bindings),
 				std::size_t{0},
-				[] (const auto & curr, const std::unique_ptr<Binding> & bind){
+				[] (const auto & curr, const bind_ptr & bind){
 					return curr + bind->alloc_count();
 				}
 			);		

@@ -4,10 +4,6 @@
 #include "ltnc/sst/Node.hxx"
 #include "ltnc/sst/types.hxx"
 
-namespace ltn::c::sst::expr {
-	struct Expression;
-}
-
 namespace ltn::c::sst {
 	struct Global;
 	struct Definition;

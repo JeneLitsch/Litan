@@ -5,10 +5,6 @@
 #include "ltnc/sst/Node.hxx"
 #include "ltnc/sst/types.hxx"
 
-namespace ltn::c::sst::bind {
-	struct Binding;
-}
-
 namespace ltn::c::sst::expr {
 
 	struct Binary;
@@ -90,7 +86,4 @@ namespace ltn::c::sst::expr {
 			return visitor.visit(static_cast<const Derived &>(*this));
 		}
 	};
-
-
-	using expr_ptr = std::unique_ptr<Expression>;
 }

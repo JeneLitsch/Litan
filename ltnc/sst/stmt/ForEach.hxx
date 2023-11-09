@@ -8,7 +8,7 @@ namespace ltn::c::sst::stmt {
 			std::size_t container_addr,
 			std::size_t iterator_addr,
 			expr_ptr expr,
-			std::unique_ptr<Statement> body);
+			stmt_ptr body);
 
 		virtual std::size_t nested_alloc() const override;
 		virtual std::size_t direct_alloc() const override;
@@ -20,7 +20,7 @@ namespace ltn::c::sst::stmt {
 		std::size_t container_addr;
 		std::size_t iterator_addr;
 		expr_ptr expr;
-		std::unique_ptr<Statement> body;
+		stmt_ptr body;
 	};
 
 	std::unique_ptr<ForEach> for_each(
@@ -28,5 +28,5 @@ namespace ltn::c::sst::stmt {
 		std::size_t container_addr,
 		std::size_t iterator_addr,
 		expr_ptr expr,
-		std::unique_ptr<Statement> body);
+		stmt_ptr body);
 }

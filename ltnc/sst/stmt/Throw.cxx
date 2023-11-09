@@ -2,7 +2,7 @@
 #include "ltnc/sst/expr/Expression.hxx"
 
 namespace ltn::c::sst::stmt {
-	Throw::Throw(std::unique_ptr<expr::Expression> expr) 
+	Throw::Throw(expr_ptr expr) 
 		: Statement{}
 		, expr(std::move(expr)) {}
 
@@ -30,7 +30,7 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::unique_ptr<Throw> thr0w(std::unique_ptr<expr::Expression> expr) {
+	std::unique_ptr<Throw> thr0w(expr_ptr expr) {
 		return std::make_unique<Throw>(std::move(expr));
 	}
 }

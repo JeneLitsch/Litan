@@ -13,7 +13,7 @@ namespace ltn::c::sst::stmt {
 		virtual ~Assign();
 
 		bind_ptr binding;
-		std::unique_ptr<expr::Expression> expr;
+		expr_ptr expr;
 	};
 
 	std::unique_ptr<Assign> assign(bind_ptr bind, expr_ptr expr);

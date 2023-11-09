@@ -47,5 +47,5 @@ namespace ltn::c::sst::stmt {
 
 
 
-	using stmt_ptr = std::unique_ptr<Statement>;
+	using stmt_ptr = stmt_ptr;
 }

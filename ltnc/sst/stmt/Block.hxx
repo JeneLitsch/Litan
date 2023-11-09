@@ -5,14 +5,14 @@
 
 namespace ltn::c::sst::stmt {
 	struct Block final : public Statement {
-		Block(std::vector<std::unique_ptr<Statement>> statements);
+		Block(std::vector<stmt_ptr> statements);
 
 		virtual std::size_t nested_alloc() const override;
 		virtual std::size_t direct_alloc() const override;
 		virtual void accept(const StmtVisitor & visitor) const override;
 
-		std::vector<std::unique_ptr<Statement>> statements;
+		std::vector<stmt_ptr> statements;
 	};
 
-	std::unique_ptr<Block> block(std::vector<std::unique_ptr<Statement>> statements);
+	std::unique_ptr<Block> block(std::vector<stmt_ptr> statements);
 }

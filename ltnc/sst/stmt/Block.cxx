@@ -2,7 +2,7 @@
 
 namespace ltn::c::sst::stmt {
 	Block::Block(
-		std::vector<std::unique_ptr<Statement>> statements) 
+		std::vector<stmt_ptr> statements) 
 		: Statement{}
 		, statements(std::move(statements)) {}
 
@@ -32,7 +32,7 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::unique_ptr<Block> block(std::vector<std::unique_ptr<Statement>> statements) {
+	std::unique_ptr<Block> block(std::vector<stmt_ptr> statements) {
 		return std::make_unique<Block>(std::move(statements));
 	}
 }

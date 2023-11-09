@@ -2,7 +2,7 @@
 #include "ltnc/sst/stmt/Statement.hxx"
 
 namespace ltn::c::sst::expr {
-	Iife::Iife(std::string return_label, std::unique_ptr<stmt::Statement> stmt) 
+	Iife::Iife(std::string return_label, stmt_ptr stmt) 
 		: return_label{return_label}
 		, stmt(std::move(stmt)) {}
 
@@ -14,7 +14,7 @@ namespace ltn::c::sst::expr {
 
 
 
-	std::unique_ptr<Iife> iife(std::string return_label, std::unique_ptr<stmt::Statement> stmt) {
+	std::unique_ptr<Iife> iife(std::string return_label, stmt_ptr stmt) {
 		return std::make_unique<Iife>(std::move(return_label), std::move(stmt));
 	}
 }

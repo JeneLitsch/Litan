@@ -6,11 +6,11 @@ namespace ltn::c::sst {
 		Global(
 			const std::string & name,
 			const Namespace & namespaze,
-			std::unique_ptr<sst::expr::Expression> expr,
+			expr_ptr expr,
 			std::uint64_t id);
 
 		virtual ~Global();
 
-		std::unique_ptr<sst::expr::Expression> expr;
+		expr_ptr expr;
 	};
 }

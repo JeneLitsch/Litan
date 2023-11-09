@@ -2,7 +2,7 @@
 
 namespace ltn::c::sst::stmt {
 	InfiniteLoop::InfiniteLoop(
-		std::unique_ptr<Statement> body)
+		stmt_ptr body)
 		: Statement{}
 		, body(std::move(body)) {}
 
@@ -18,7 +18,7 @@ namespace ltn::c::sst::stmt {
 		visitor.visit(*this);
 	}
 
-	std::unique_ptr<InfiniteLoop> infinite_loop(std::unique_ptr<Statement> body) {
+	std::unique_ptr<InfiniteLoop> infinite_loop(stmt_ptr body) {
 		return std::make_unique<InfiniteLoop>(std::move(body));
 	}
 }

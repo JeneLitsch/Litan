@@ -2,9 +2,7 @@
 #include "ltnc/sst/bind/Binding.hxx"
 
 namespace ltn::c::sst::expr {
-	Member::Member(
-		std::unique_ptr<Expression> expr,
-		std::size_t address)
+	Member::Member(expr_ptr expr, std::size_t address)
 		: expr(std::move(expr))
 		, address { address } {};
 

@@ -17,7 +17,7 @@ namespace ltn::c::sst::stmt {
 
 		virtual ~Return();
 
-		std::unique_ptr<expr::Expression> expr;
+		expr_ptr expr;
 		std::optional<std::string> overide_label;
 	};
 

@@ -5,7 +5,7 @@
 namespace ltn::c::sst::stmt {
 	Assign::Assign(
 		bind_ptr binding,
-		std::unique_ptr<expr::Expression> expr)
+		expr_ptr expr)
 		: Statement{}
 		, binding{std::move(binding)}
 		, expr(std::move(expr)) {}
@@ -34,7 +34,7 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::unique_ptr<Assign> assign(bind_ptr bind, std::unique_ptr<expr::Expression> expr) {
+	std::unique_ptr<Assign> assign(bind_ptr bind, expr_ptr expr) {
 		return std::make_unique<Assign>(std::move(bind), std::move(expr));
 	}
 }
