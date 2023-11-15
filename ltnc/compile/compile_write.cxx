@@ -1,5 +1,14 @@
 #include "compile.hxx"
 #include <iostream>
+
+#include "ltnc/sst/bind/Group.hxx"
+#include "ltnc/sst/bind/NewVar.hxx"
+#include "ltnc/sst/bind/Discard.hxx"
+#include "ltnc/sst/bind/Global.hxx"
+#include "ltnc/sst/bind/Member.hxx"
+#include "ltnc/sst/bind/Local.hxx"
+#include "ltnc/sst/bind/Index.hxx"
+
 #include "ltnc/sst/stmt/Assign.hxx"
 
 namespace ltn::c {

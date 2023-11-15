@@ -1,5 +1,5 @@
 #include "Member.hxx"
-#include "ltnc/sst/bind/Binding.hxx"
+#include "ltnc/sst/bind/Member.hxx"
 
 namespace ltn::c::sst::expr {
 	Member::Member(expr_ptr expr, std::size_t address)
@@ -15,7 +15,7 @@ namespace ltn::c::sst::expr {
 
 
 	bind_ptr Member::convert_to_bindung() && {
-		return std::make_unique<bind::Member>(std::move(this->expr), this->address);
+		return bind::member(std::move(this->expr), this->address);
 	}
 
 

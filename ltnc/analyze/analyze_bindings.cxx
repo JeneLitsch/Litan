@@ -1,5 +1,7 @@
 #include "analyze.hxx"
 #include "ltnc/sst/expr/Var.hxx"
+#include "ltnc/sst/bind/Group.hxx"
+#include "ltnc/sst/bind/NewVar.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -7,7 +9,7 @@ namespace ltn::c {
 			const ast::GroupBinding & binding,
 			Scope & scope) {
 
-			auto sst_binding = std::make_unique<sst::bind::Group>();
+			auto sst_binding = sst::bind::group();
 
 			for(std::size_t i = 0; i < std::size(binding.sub_bindings); ++i) {
 				auto sub_binding = analyze_binding(*binding.sub_bindings[i], scope);
@@ -24,7 +26,7 @@ namespace ltn::c {
 			Scope & scope) {
 
 			const auto var = scope.insert(binding.name, location(binding)); 
-			return std::make_unique<sst::bind::NewVar>(var.address);
+			return sst::bind::new_local(var.address);
 		}
 	}
 

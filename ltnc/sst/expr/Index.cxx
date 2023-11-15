@@ -1,5 +1,5 @@
 #include "Index.hxx"
-#include "ltnc/sst/bind/Binding.hxx"
+#include "ltnc/sst/bind/Index.hxx"
 
 namespace ltn::c::sst::expr {
 	Index::Index(expr_ptr expr, expr_ptr index)
@@ -17,7 +17,7 @@ namespace ltn::c::sst::expr {
 
 
 	bind_ptr Index::convert_to_bindung() && {
-		return std::make_unique<bind::Index>(std::move(this->expr), std::move(this->index));
+		return bind::index(std::move(this->expr), std::move(this->index));
 	}
 
 

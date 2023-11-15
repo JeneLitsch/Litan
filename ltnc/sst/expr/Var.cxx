@@ -1,5 +1,5 @@
 #include "Var.hxx"
-#include "ltnc/sst/bind/Binding.hxx"
+#include "ltnc/sst/bind/Local.hxx"
 
 namespace ltn::c::sst::expr {
 	Var::Var(std::size_t address)
@@ -14,7 +14,7 @@ namespace ltn::c::sst::expr {
 
 
 	bind_ptr Var::convert_to_bindung() && {
-		return std::make_unique<bind::NewVar>(this->address);
+		return std::make_unique<bind::Local>(this->address);
 	}
 
 
