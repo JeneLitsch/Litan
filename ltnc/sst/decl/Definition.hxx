@@ -1,7 +1,7 @@
 #pragma once
 #include "Static.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::decl {
 	struct Definition final : public Static {
 		Definition(
 			const std::string & name,

@@ -1,4 +1,5 @@
 #pragma once
+#include "types.hxx"
 #include "bind/Binding.hxx"
 #include "decl/Declaration.hxx"
 #include "decl/Definition.hxx"
@@ -9,15 +10,10 @@
 #include "ltnc/AddressTable.hxx"
 
 namespace ltn::c::sst {
-	using defn_ptr = std::unique_ptr<Definition>;
-	using glob_ptr = std::unique_ptr<Global>;
-	using func_ptr = std::unique_ptr<Function>;
-	
 	struct Program {
 		std::vector<func_ptr> functions;
 		std::vector<defn_ptr> definitions;
 		std::vector<glob_ptr> globals;
 		AddressTable member_name_table;
 	};
-
 }

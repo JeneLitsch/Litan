@@ -4,7 +4,7 @@
 #include "ltnc/sst/Node.hxx"
 #include "ltnc/sst/types.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::decl {
 	struct Global;
 	struct Definition;
 

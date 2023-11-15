@@ -9,17 +9,17 @@
 
 namespace ltn::c {
 	struct GlobalErrors {
-		static CompilerError redef(const sst::Global & def);
+		static CompilerError redef(const sst::decl::Global & def);
 		static CompilerError decl(const std::string & inside);
 		static CompilerError use(const std::string & inside);
 	};
 
 	using GlobalTable
-		= SymbolTable<sst::Global>;
+		= SymbolTable<sst::decl::Global>;
 	
 	using ValidGlobalTable
-		= ValidSymbolTable<sst::Global, GlobalErrors>;
+		= ValidSymbolTable<sst::decl::Global, GlobalErrors>;
 	
 	using InvalidGlobalTable
-		= InvalidSymbolTable<sst::Global, GlobalErrors>;
+		= InvalidSymbolTable<sst::decl::Global, GlobalErrors>;
 }

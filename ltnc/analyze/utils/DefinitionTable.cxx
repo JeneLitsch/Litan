@@ -2,7 +2,7 @@
 
 
 namespace ltn::c {
-	CompilerError DefinitionErrors::redef(const sst::Definition & def) {
+	CompilerError DefinitionErrors::redef(const sst::decl::Definition & def) {
 		std::stringstream msg;
 		msg << "Definition ";
 		msg << def.namespaze.to_string();

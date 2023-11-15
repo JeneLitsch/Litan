@@ -6,14 +6,14 @@
 
 namespace ltn::c {
 	namespace {
-		sst::Parameters analyze_parameters(
+		sst::misc::Parameters analyze_parameters(
 			const ast::Parameters & parameters,
 			Scope & scope,
 			const SourceLocation & loc) {
 			
-			sst::Parameters p;
+			sst::misc::Parameters p;
 			for(const auto & param : parameters.simple) {
-				auto sst_param = sst::Parameter {
+				auto sst_param = sst::misc::Parameter {
 					.name = param.name,
 				};
 				scope.insert(sst_param.name, loc);
@@ -21,7 +21,7 @@ namespace ltn::c {
 			}
 
 			if(parameters.variadic) {
-				auto sst_param = sst::Parameter {
+				auto sst_param = sst::misc::Parameter {
 					.name = parameters.variadic->name,
 				};
 				scope.insert(sst_param.name, loc);
@@ -40,10 +40,7 @@ namespace ltn::c {
 			MajorScope scope{namespaze, false, context};
 			scope.insert(except.errorname, location(except));
 			auto body = analyze_statement(*except.body, scope);
-			return std::make_unique<sst::Except>(
-				except.errorname,
-				std::move(body)
-			);
+			return sst::misc::except(except.errorname, std::move(body));
 		}
 	}
 
@@ -67,7 +64,7 @@ namespace ltn::c {
 
 		auto body = analyze_statement(*fx.body, scope);
 
-		auto sst_fx = std::make_unique<sst::Function>(
+		auto sst_fx = std::make_unique<sst::decl::Function>(
 			label,
 			fx.name,
 			fx.namespaze,

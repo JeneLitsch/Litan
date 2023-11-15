@@ -38,7 +38,7 @@ namespace ltn::c {
 
 
 
-	stx::optref<const sst::Global> Scope::resolve_global(
+	stx::optref<const sst::decl::Global> Scope::resolve_global(
 		const std::string & name,
 		const Namespace & ns) const {
 		
@@ -49,7 +49,7 @@ namespace ltn::c {
 
 
 
-	stx::optref<const sst::Definition> Scope::resolve_definiton(
+	stx::optref<const sst::decl::Definition> Scope::resolve_definiton(
 		const std::string & name,
 		const Namespace & ns) const {
 

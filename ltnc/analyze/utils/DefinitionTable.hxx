@@ -7,17 +7,17 @@
 
 namespace ltn::c {
 	struct DefinitionErrors {
-		static CompilerError redef(const sst::Definition & def);
+		static CompilerError redef(const sst::decl::Definition & def);
 		static CompilerError decl(const std::string & inside);
 		static CompilerError use(const std::string & inside);
 	};
 
 	using DefinitionTable
-		= SymbolTable<sst::Definition>;
+		= SymbolTable<sst::decl::Definition>;
 	
 	using ValidDefinitionTable
-		= ValidSymbolTable<sst::Definition, DefinitionErrors>;
+		= ValidSymbolTable<sst::decl::Definition, DefinitionErrors>;
 	
 	using InvalidDefinitionTable
-		= InvalidSymbolTable<sst::Definition, DefinitionErrors>;
+		= InvalidSymbolTable<sst::decl::Definition, DefinitionErrors>;
 }

@@ -49,7 +49,7 @@ namespace ltn::c {
 			.reporter          = context.reporter,
 			.custom_resolver   = context.custom_resolver,
 		};
-		return analyze_static<sst::Definition>(def, read_context, id);
+		return analyze_static<sst::decl::Definition>(def, read_context, id);
 	}
 
 
@@ -71,6 +71,6 @@ namespace ltn::c {
 			.reporter          = context.reporter,
 			.custom_resolver   = context.custom_resolver,
 		};
-		return analyze_static<sst::Global>(global, read_context, id);
+		return analyze_static<sst::decl::Global>(global, read_context, id);
 	}
 }

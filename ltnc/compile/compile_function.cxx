@@ -28,7 +28,7 @@ namespace ltn::c {
 
 
 		InstructionBuffer compile_except(	
-			const sst::Except & except,
+			const sst::misc::Except & except,
 			const Label& label_except) {
 			
 			InstructionBuffer buf;
@@ -42,7 +42,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_function(const sst::Function & fx) {
+	InstructionBuffer compile_function(const sst::decl::Function & fx) {
 		InstructionBuffer buf;
 
 		const auto except_label = derive_except(fx.label); 

@@ -2,7 +2,7 @@
 
 
 namespace ltn::c {
-	CompilerError GlobalErrors::redef(const sst::Global & def) {
+	CompilerError GlobalErrors::redef(const sst::decl::Global & def) {
 		std::stringstream msg;
 		msg << "Global variable ";
 		msg << def.namespaze.to_string();

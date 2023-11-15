@@ -7,7 +7,11 @@ namespace ltn::c::sst {
 	}
 
 	namespace decl {
-
+		struct Declaration;
+		struct Definition;
+		struct Function;
+		struct Global;
+		struct Static;
 	}
 
 	namespace expr {
@@ -17,6 +21,10 @@ namespace ltn::c::sst {
 	namespace stmt {
 		struct Statement;
 	}
+
+	using defn_ptr = std::unique_ptr<decl::Definition>;
+	using glob_ptr = std::unique_ptr<decl::Global>;
+	using func_ptr = std::unique_ptr<decl::Function>;
 
 	using bind_ptr = std::unique_ptr<bind::Binding>;
 	using expr_ptr = std::unique_ptr<expr::Expression>;

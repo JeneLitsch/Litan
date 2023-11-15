@@ -12,14 +12,14 @@ namespace ltn::c {
 		const std::size_t parameters,
 		VariadicMode variadic_mode);
 
-	const sst::Definition * resolve(
-		const std::vector<const sst::Definition *> & definitions,
+	const sst::decl::Definition * resolve(
+		const std::vector<const sst::decl::Definition *> & definitions,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name);
 
-	const sst::Global * resolve(
-		const std::vector<const sst::Global *> & globals,
+	const sst::decl::Global * resolve(
+		const std::vector<const sst::decl::Global *> & globals,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name);

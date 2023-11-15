@@ -7,7 +7,7 @@ namespace ltn::c {
 		}
 
 		for(const auto & functional : program.functions) {
-			if(auto fx = as<sst::Function>(*functional)) {
+			if(auto fx = as<sst::decl::Function>(*functional)) {
 				optimize_function(*fx);
 			}
 		}

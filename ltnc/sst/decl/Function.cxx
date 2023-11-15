@@ -2,24 +2,13 @@
 #include "ltnc/sst/expr/Var.hxx"
 #include "ltnc/sst/stmt/Statement.hxx"
 
-namespace ltn::c::sst {
-	Except::Except(
-		const std::string & errorname,
-		stmt_ptr && body)
-		: body(std::move(body))
-		, errorname(errorname) {}
-
-
-
-	Except::~Except() {}
-
-
+namespace ltn::c::sst::decl {
 
 	Function::Function(
 		const Label & label,
 		const std::string & name,
 		Namespace namespaze,
-		Parameters parameters,
+		misc::Parameters parameters,
 		stmt_ptr && body)
 		: Declaration(name, namespaze)
 		, parameters{std::move(parameters)}

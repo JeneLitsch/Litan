@@ -14,8 +14,8 @@ namespace ltn::c {
 	sst::stmt_ptr optimize_statement(sst::stmt::Statement & stmt);
 	sst::stmt_ptr optimize_statement(sst::stmt_ptr stmt);
 
-	void optimize_definition(sst::Definition & definition);
-	void optimize_function(sst::Function & function);
+	void optimize_definition(sst::decl::Definition & definition);
+	void optimize_function(sst::decl::Function & function);
 
 
 	void optimize(sst::Program & program);

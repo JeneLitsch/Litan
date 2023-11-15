@@ -1,7 +1,7 @@
 #include "Definition.hxx"
 #include "ltnc/sst/expr/Expression.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::decl {
 	Definition::Definition(
 		const std::string & name,
 		const Namespace & namespaze,

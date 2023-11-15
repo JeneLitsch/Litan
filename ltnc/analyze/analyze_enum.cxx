@@ -9,7 +9,7 @@ namespace ltn::c {
 		namespaze.push_back(enumeration.name);
 
 		return stx::fx::mapped([&] (const auto & label) {
-			return std::make_unique<sst::Definition>(
+			return std::make_unique<sst::decl::Definition>(
 				label.name, namespaze,
 				sst::expr::integer(label.value),
 				id++

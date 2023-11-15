@@ -47,7 +47,7 @@ namespace ltn::c {
 
 
 		bool match(
-			const sst::Definition & definition,
+			const sst::decl::Definition & definition,
 			const Namespace & full,
 			const std::string_view name) {
 
@@ -59,7 +59,7 @@ namespace ltn::c {
 
 		
 		bool match(
-			const sst::Global & global,
+			const sst::decl::Global & global,
 			const Namespace & full,
 			const std::string_view name) {
 
@@ -139,8 +139,8 @@ namespace ltn::c {
 
 
 
-	const sst::Definition * resolve(
-		const std::vector<const sst::Definition *> & definition,
+	const sst::decl::Definition * resolve(
+		const std::vector<const sst::decl::Definition *> & definition,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name) {
@@ -150,8 +150,8 @@ namespace ltn::c {
 
 
 
-	const sst::Global * resolve(
-		const std::vector<const sst::Global *> & globals,
+	const sst::decl::Global * resolve(
+		const std::vector<const sst::decl::Global *> & globals,
 		const Namespace & from,
 		const Namespace & to,
 		const std::string_view name) {

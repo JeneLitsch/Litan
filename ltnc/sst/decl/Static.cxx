@@ -1,6 +1,6 @@
 #include "Static.hxx"
 
-namespace ltn::c::sst {
+namespace ltn::c::sst::decl {
 	Static::Static(
 		const std::string & name,
 		const Namespace & namespaze,
