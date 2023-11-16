@@ -1,5 +1,6 @@
 #include "parse.hxx"
 #include "stdxx/functional.hxx"
+#include "ltnc/ast/decl/Enumeration.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -51,11 +52,6 @@ namespace ltn::c {
 
 		brace_r(tokens);
 
-		return std::make_unique<ast::decl::Enumeration>(
-			location(tokens),
-			enum_name,
-			namespaze,
-			std::move(labels)
-		);
+		return ast::decl::enumeration(location(tokens), enum_name, namespaze, std::move(labels));
 	}
 }

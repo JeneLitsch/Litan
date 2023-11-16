@@ -18,18 +18,6 @@ namespace ltn::c::ast::decl {
 	};
 
 
-	inline std::string mangle(
-		const std::string & name,
-		const Namespace & namespaze,
-		const Parameters & parameters) {
-		std::ostringstream oss;
-		oss << namespaze.to_string();
-		oss << name << "(";
-		oss << std::size(parameters.simple) << ")";
-		return oss.str();
-	}
-
-
 
 	struct Except final : public Node {
 		Except(
