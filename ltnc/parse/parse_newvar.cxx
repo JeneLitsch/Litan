@@ -1,4 +1,6 @@
 #include "parse.hxx"
+#include "ltnc/ast/bind/NewVar.hxx"
+#include "ltnc/ast/bind/Group.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -9,16 +11,13 @@ namespace ltn::c {
 
 
 			ast::bind_ptr parse_single_binding(const Token & start, Tokens & tokens) { 
-				return std::make_unique<ast::NewVarBinding>(
-					start.location,
-					parse_variable_name(tokens)
-				);
+				return ast::bind::new_local(start.location, parse_variable_name(tokens));
 			}
 			
 
 
 			ast::bind_ptr parse_group_binding(const Token & start, Tokens & tokens) {
-				auto binding = std::make_unique<ast::GroupBinding>(start.location);
+				auto binding = ast::bind::group(start.location);
 				const auto add_var = [&] () {
 					auto sub = parse_binding(start, tokens);
 					binding->sub_bindings.push_back(std::move(sub));
@@ -53,7 +52,7 @@ namespace ltn::c {
 			auto binding = parse_binding(*start, tokens);
 			auto && r = parse_assign_r(tokens);
 			semicolon(tokens);
-			return std::make_unique<ast::NewVar>(
+			return std::make_unique<ast::stmt::NewVar>(
 				std::move(binding),
 				std::move(r),
 				location(tokens)

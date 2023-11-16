@@ -6,7 +6,7 @@
 
 
 namespace ltn::c {
-	sst::expr_ptr analyze_expr(const ast::Var & expr, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Var & expr, Scope & scope) {
 		if(expr.namespaze.empty()) {
 			if(auto local = scope.resolve_variable(expr.name, location(expr))) {
 				return sst::expr::var_local(local->address);
@@ -29,7 +29,7 @@ namespace ltn::c {
 
 
 
-	sst::expr_ptr analyze_expr(const ast::Member & access, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Member & access, Scope & scope) {
 		const auto id = scope.resolve_member_id(access.name);
 		auto expr = analyze_expression(*access.expr, scope);
 		return sst::expr::member(std::move(expr), id);

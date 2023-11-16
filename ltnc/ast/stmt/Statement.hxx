@@ -3,13 +3,10 @@
 #include "ltn/casts.hxx"
 #include "ltn/Visitor.hxx"
 #include "ltnc/ast/Node.hxx"
-#include "ltnc/ast/bind/Binding.hxx"
+#include "ltnc/ast/expr/Expression.hxx"
+#include "ltnc/ast/types.hxx"
 
-namespace ltn::c::ast {
-	struct Expression;
-
-
-
+namespace ltn::c::ast::stmt {
 	struct Block;
 	struct IfElse;
 	struct While;
@@ -42,8 +39,7 @@ namespace ltn::c::ast {
 
 
 
-	class Statement : public Node {
-	public:
+	struct Statement : public Node {
 		Statement(const SourceLocation & location) : Node(location) {}
 
 		virtual ~Statement() = default;
@@ -64,7 +60,7 @@ namespace ltn::c::ast {
 
 	struct Throw final : public Statement {
 		Throw(
-			std::unique_ptr<Expression> expr,
+			expr_ptr expr,
 			const SourceLocation & location) 
 			: Statement(location)
 			, expr(std::move(expr)) {}
@@ -73,14 +69,14 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> expr;
+		expr_ptr expr;
 	};
 
 
 
 	struct Block final : public Statement {
 		Block(
-			std::vector<std::unique_ptr<Statement>> statements,
+			std::vector<stmt_ptr> statements,
 			const SourceLocation & location) 
 			: Statement(location)
 			, statements(std::move(statements)) {}
@@ -89,35 +85,32 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::vector<std::unique_ptr<Statement>> statements;
+		std::vector<stmt_ptr> statements;
 	};
 
 
 
 	struct NewVar final : public Statement {
 		NewVar(
-			std::unique_ptr<Binding> binding,
-			std::unique_ptr<Expression> expr,
-			const SourceLocation & location)
-			: Statement(location)
-			, binding(std::move(binding))
-			, expr{std::move(expr)} {}
+			bind_ptr binding,
+			expr_ptr expr,
+			const SourceLocation & location);
 
-		virtual void accept(const StmtVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
+		virtual void accept(const StmtVisitor & visitor) const override;
 
-		std::unique_ptr<Binding> binding;		
-		std::unique_ptr<Expression> expr;
+		virtual ~NewVar(); 
+
+		bind_ptr binding;		
+		expr_ptr expr;
 	};
 
 
 
 	struct IfElse final : public Statement {
 		IfElse(
-			std::unique_ptr<Expression> condition,
-			std::unique_ptr<Statement> if_branch,
-			std::unique_ptr<Statement> else_branch,
+			expr_ptr condition,
+			stmt_ptr if_branch,
+			stmt_ptr else_branch,
 			const SourceLocation & location)
 			: Statement(location)
 			, condition(std::move(condition))
@@ -128,17 +121,17 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Statement> if_branch;
-		std::unique_ptr<Statement> else_branch;
+		expr_ptr condition;
+		stmt_ptr if_branch;
+		stmt_ptr else_branch;
 	};
 
 
 
 	struct While final : public Statement {
 		While(
-			std::unique_ptr<Expression> condition,
-			std::unique_ptr<Statement> body,
+			expr_ptr condition,
+			stmt_ptr body,
 			const SourceLocation & location)
 			: Statement(location)
 			, condition(std::move(condition))
@@ -149,15 +142,15 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Statement> body;
+		expr_ptr condition;
+		stmt_ptr body;
 	};
 
 
 
 	struct InfiniteLoop final : public Statement {
 		InfiniteLoop(
-			std::unique_ptr<Statement> body,
+			stmt_ptr body,
 			const SourceLocation & location)
 			: Statement(location)
 			, body(std::move(body)) {}
@@ -166,7 +159,7 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Statement> body;
+		stmt_ptr body;
 	};
 
 
@@ -174,8 +167,8 @@ namespace ltn::c::ast {
 	struct ForEach final : public Statement {
 		ForEach(
 			std::string index_name,
-			std::unique_ptr<Expression> expr,
-			std::unique_ptr<Statement> body,
+			expr_ptr expr,
+			stmt_ptr body,
 			const SourceLocation & location)
 			: Statement(location)
 			, index_name(std::move(index_name))
@@ -187,15 +180,15 @@ namespace ltn::c::ast {
 		}
 
 		std::string index_name;
-		std::unique_ptr<Expression> expr;
-		std::unique_ptr<Statement> body;
+		expr_ptr expr;
+		stmt_ptr body;
 	};
 
 
 
 	struct StatementExpression final : public Statement {
 		StatementExpression(
-			std::unique_ptr<Expression> expr,
+			expr_ptr expr,
 			const SourceLocation & location)
 			: Statement(location)
 			, expr(std::move(expr)) {}
@@ -204,14 +197,14 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> expr;
+		expr_ptr expr;
 	};
 
 
 
 	struct Return final : public Statement {
 		Return(
-			std::unique_ptr<Expression> expr,
+			expr_ptr expr,
 			const SourceLocation & location)
 			: Statement(location)
 			, expr(std::move(expr)) {}
@@ -220,7 +213,7 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> expr;
+		expr_ptr expr;
 	};
 
 
@@ -228,8 +221,8 @@ namespace ltn::c::ast {
 	struct Assign final : public Statement {
 	public:
 		Assign(
-			std::unique_ptr<Expression> l,
-			std::unique_ptr<Expression> r,
+			expr_ptr l,
+			expr_ptr r,
 			const SourceLocation & location)
 			: Statement(location)
 			, l(std::move(l))
@@ -239,8 +232,8 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> l;
-		std::unique_ptr<Expression> r;
+		expr_ptr l;
+		expr_ptr r;
 	};
 
 
@@ -249,14 +242,14 @@ namespace ltn::c::ast {
 		Switch(const SourceLocation & location)
 			: Statement(location) {}
 
-		std::unique_ptr<Expression> condition;
+		expr_ptr condition;
 
 		std::vector<std::pair<
-			std::unique_ptr<Expression>,
-			std::unique_ptr<Statement>
+			expr_ptr,
+			stmt_ptr
 		>> cases;
 
-		std::unique_ptr<Statement> d3fault;
+		stmt_ptr d3fault;
 
 		virtual void accept(const StmtVisitor & visitor) const override {
 			visitor.visit(*this);

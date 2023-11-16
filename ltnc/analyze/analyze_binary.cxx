@@ -7,7 +7,7 @@
 namespace ltn::c {
 	// compiles a binary operation
 	sst::expr_ptr analyze_expr(
-		const ast::Binary & binary,
+		const ast::expr::Binary & binary,
 		Scope & scope) {
 		
 		auto l = analyze_expression(*binary.l, scope);

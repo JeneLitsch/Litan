@@ -3,7 +3,7 @@
 #include "ltnc/sst/expr/Literal.hxx"
 
 namespace ltn::c {
-	std::vector<sst::defn_ptr> analyze_enumeration(const ast::Enumeration & enumeration, std::uint64_t & id) {
+	std::vector<sst::defn_ptr> analyze_enumeration(const ast::decl::Enumeration & enumeration, std::uint64_t & id) {
 
 		auto namespaze = enumeration.namespaze;
 		namespaze.push_back(enumeration.name);

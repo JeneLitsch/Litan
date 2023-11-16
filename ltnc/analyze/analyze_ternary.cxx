@@ -2,7 +2,7 @@
 #include "ltnc/sst/expr/Ternary.hxx"
 
 namespace ltn::c {
-	sst::expr_ptr analyze_expr(const ast::Ternary & expr, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Ternary & expr, Scope & scope) {
 		
 		auto condition   = analyze_expression(*expr.condition, scope);
 		auto if_branch   = analyze_expression(*expr.if_branch, scope);

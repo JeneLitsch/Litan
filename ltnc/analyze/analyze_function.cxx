@@ -7,7 +7,7 @@
 namespace ltn::c {
 	namespace {
 		void add_parameters_to_scope(
-			const ast::Parameters & parameters,
+			const ast::decl::Parameters & parameters,
 			Scope & scope,
 			const SourceLocation & loc) {
 			
@@ -23,7 +23,7 @@ namespace ltn::c {
 
 
 		auto analyze_except(	
-			const ast::Except & except,
+			const ast::decl::Except & except,
 			Context & context,
 			const auto & namespaze) {
 			
@@ -37,10 +37,10 @@ namespace ltn::c {
 
 
 	sst::func_ptr analyze_function(
-		const ast::Function & fx,
+		const ast::decl::Function & fx,
 		Scope & scope,
 		std::optional<Label> override_label,
-		const std::vector<std::unique_ptr<ast::Var>> & captures) {
+		const std::vector<std::unique_ptr<ast::expr::Var>> & captures) {
 
 		const auto label = override_label.value_or(make_function_label(fx));
 
@@ -70,12 +70,12 @@ namespace ltn::c {
 
 
 	sst::func_ptr analyze_functional(
-		const ast::Function & functional,
+		const ast::decl::Function & functional,
 		FunctionScope & scope,
 		std::optional<Label> override_label,
-		const std::vector<std::unique_ptr<ast::Var>> & captures) {
+		const std::vector<std::unique_ptr<ast::expr::Var>> & captures) {
 
-		if(auto fx = as<const ast::Function>(functional)) {
+		if(auto fx = as<const ast::decl::Function>(functional)) {
 			return analyze_function(*fx, scope, override_label, captures);
 		}
 		

@@ -6,13 +6,13 @@ namespace ltn::c {
 	ast::stmt_ptr parse_just_an_expr(Tokens & tokens) {
 		auto l = parse_expression(tokens);
 		if(auto r = parse_assign_r(tokens)) {
-			return std::make_unique<ast::Assign>(
+			return std::make_unique<ast::stmt::Assign>(
 				std::move(l),
 				std::move(r),
 				location(tokens)
 			);
 		}
-		return std::make_unique<ast::StatementExpression>(
+		return std::make_unique<ast::stmt::StatementExpression>(
 			std::move(l),
 			location(tokens));
 	}

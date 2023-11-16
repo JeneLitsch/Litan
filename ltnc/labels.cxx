@@ -24,7 +24,7 @@ namespace ltn::c {
 
 
 	Label make_lambda_label(
-		const ast::Lambda &) {
+		const ast::expr::Lambda &) {
 		std::ostringstream oss;
 		oss << "LAMBDA" << unique_number();
 		return make_internal_label(oss.str());
@@ -32,7 +32,7 @@ namespace ltn::c {
 
 
 
-	Label make_function_label(const ast::Function & fx) {
+	Label make_function_label(const ast::decl::Function & fx) {
 		std::ostringstream oss;
 		oss << fx.get_resolve_namespace().to_string() 
 			<< fx.get_resolve_name() 

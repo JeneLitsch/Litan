@@ -7,8 +7,7 @@
 #include "ltnc/Namespace.hxx"
 #include "ltnc/ast/decl/Declaration.hxx"
 
-namespace ltn::c::ast {
-	class Statement;
+namespace ltn::c::ast::decl {
 	struct Parameter {
 		std::string name;
 	};
@@ -35,13 +34,10 @@ namespace ltn::c::ast {
 	struct Except final : public Node {
 		Except(
 			const std::string & errorname,
-			std::unique_ptr<Statement> && body,
-			const SourceLocation & location)
-			: Node(location)
-			, body(std::move(body))
-			, errorname(errorname) {}
-		virtual ~Except() = default;
-		std::unique_ptr<Statement> body;
+			stmt_ptr && body,
+			const SourceLocation & location);
+		virtual ~Except();
+		stmt_ptr body;
 		std::string errorname;
 	};
 
@@ -52,18 +48,16 @@ namespace ltn::c::ast {
 			const std::string & name,
 			Namespace namespaze,
 			Parameters parameters,
-			std::unique_ptr<Statement> body,
-			const SourceLocation & location)
-			: Declaration(location, name, namespaze)
-			, parameters(std::move(parameters))
-			, body{std::move(body)} {}
-		virtual ~Function() = default;
+			stmt_ptr body,
+			const SourceLocation & location);
+
+		virtual ~Function();
 
 		Parameters parameters;
 		bool is_const = false;
 		bool is_private = false;
 		bool is_extern = false;
-		std::unique_ptr<Statement> body;
+		stmt_ptr body;
 		std::unique_ptr<Except> except;
 		
 		const std::string & get_resolve_name() const {

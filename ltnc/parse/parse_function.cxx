@@ -19,17 +19,17 @@ namespace ltn::c {
 
 
 		// Returns a array of all parameters
-		ast::Parameters parse_parameters_variadic(Tokens & tokens) {
+		ast::decl::Parameters parse_parameters_variadic(Tokens & tokens) {
 			
 			if(match(TT::PAREN_R, tokens)) {
 				return {};
 			}
 
-			ast::Parameters parameters{};
+			ast::decl::Parameters parameters{};
 			while(true) {
 				auto name = parse_parameter_name(tokens);
 				if(match(TT::ELLIPSIS, tokens)) {
-					parameters.variadic = ast::Parameter {
+					parameters.variadic = ast::decl::Parameter {
 						.name = name
 					};
 					if(!match(TT::PAREN_R, tokens)) throw CompilerError {
@@ -39,7 +39,7 @@ namespace ltn::c {
 					return parameters;
 				}
 				else {
-					parameters.simple.push_back(ast::Parameter{
+					parameters.simple.push_back(ast::decl::Parameter{
 						.name = std::move(name),
 					});
 					if(match(TT::PAREN_R, tokens)) return parameters;
@@ -54,16 +54,16 @@ namespace ltn::c {
 
 
 		// Returns a array of all parameters
-		ast::Parameters parse_parameters(Tokens & tokens) {
+		ast::decl::Parameters parse_parameters(Tokens & tokens) {
 			
 			if(match(TT::PAREN_R, tokens)) {
 				return {};
 			}
 
-			ast::Parameters parameters{};
+			ast::decl::Parameters parameters{};
 			while(true) {
 				auto name = parse_parameter_name(tokens);
-				parameters.simple.push_back(ast::Parameter{
+				parameters.simple.push_back(ast::decl::Parameter{
 					.name = std::move(name),
 				});
 				if(match(TT::PAREN_R, tokens)) return parameters;
@@ -76,34 +76,34 @@ namespace ltn::c {
 
 
 
-		ast::Parameters parse_lambda_parameters(Tokens & tokens) {
+		ast::decl::Parameters parse_lambda_parameters(Tokens & tokens) {
 			if(match(TT::PAREN_L, tokens)) return parse_parameters_variadic(tokens);
 			return {};
 		}
 
 		
-		ast::Parameters parse_except_parameters(Tokens & tokens) {
+		ast::decl::Parameters parse_except_parameters(Tokens & tokens) {
 			if(match(TT::PAREN_L, tokens)) return parse_parameters(tokens);
 			throw ltn::c::CompilerError{"missing (", location(tokens)};
 		}
 
 
-		ast::Parameters parse_function_parameters(Tokens & tokens) {
+		ast::decl::Parameters parse_function_parameters(Tokens & tokens) {
 			if(match(TT::PAREN_L, tokens)) return parse_parameters_variadic(tokens);
 			throw ltn::c::CompilerError{"missing (", location(tokens)};
 		}
 
 
 
-		std::vector<std::unique_ptr<ast::Var>> parse_captures(Tokens & tokens) {
+		std::vector<std::unique_ptr<ast::expr::Var>> parse_captures(Tokens & tokens) {
 			if(!match(TT::BRACKET_L, tokens)) return {};
 
-			std::vector<std::unique_ptr<ast::Var>> captures{};
+			std::vector<std::unique_ptr<ast::expr::Var>> captures{};
 			if(!match(TT::BRACKET_R, tokens)) {
 				while(true) {
 					const auto name = parse_variable_name(tokens);
 					const auto & loc = location(tokens);
-					auto var = std::make_unique<ast::Var>(name, Namespace{}, loc);
+					auto var = std::make_unique<ast::expr::Var>(name, Namespace{}, loc);
 					captures.push_back(std::move(var));
 					if(match(TT::BRACKET_R, tokens)) break;
 					if(!match(TT::COMMA, tokens)) {
@@ -147,10 +147,10 @@ namespace ltn::c {
 			std::stringstream iss{i->str};
 			std::uint64_t address;
 			iss >> std::hex >> address;
-			auto expr = std::make_unique<ast::ForwardDynamicCall>(
+			auto expr = std::make_unique<ast::expr::ForwardDynamicCall>(
 				address, arity + is_variadic, i->location
 			);
-			return std::make_unique<ast::Return>(std::move(expr), i->location);
+			return std::make_unique<ast::stmt::Return>(std::move(expr), i->location);
 		}
 
 
@@ -167,8 +167,8 @@ namespace ltn::c {
 				"Expected )"
 			};
 
-			auto expr = std::make_unique<ast::BuildIn>(std::move(key), begin.location);
-			return std::make_unique<ast::Return>(std::move(expr), begin.location);
+			auto expr = std::make_unique<ast::expr::BuildIn>(std::move(key), begin.location);
+			return std::make_unique<ast::stmt::Return>(std::move(expr), begin.location);
 		}
 
 
@@ -183,7 +183,7 @@ namespace ltn::c {
 				}
 				auto expr = parse_expression(tokens);
 				const auto & loc = location(tokens);
-				return std::make_unique<ast::Return>(std::move(expr), loc);
+				return std::make_unique<ast::stmt::Return>(std::move(expr), loc);
 			}
 			else {
 				return parse_statement(tokens);
@@ -192,7 +192,7 @@ namespace ltn::c {
 
 
 
-		std::unique_ptr<ast::Except> parse_except(Tokens & tokens) {
+		std::unique_ptr<ast::decl::Except> parse_except(Tokens & tokens) {
 			if(match(TT::EXCEPT, tokens)) {
 				auto params = parse_except_parameters(tokens);
 				if(params.simple.size() != 1) {
@@ -202,7 +202,7 @@ namespace ltn::c {
 					};
 				}
 				auto body = parse_body(tokens, 1, false);
-				return std::make_unique<ast::Except>(
+				return std::make_unique<ast::decl::Except>(
 					params.simple[0].name,
 					std::move(body),
 					location(tokens)
@@ -265,7 +265,7 @@ namespace ltn::c {
 
 	// parses and returns a functional node
 	ast::func_ptr parse_function(Tokens & tokens, const Namespace & namespaze) {
-		auto fx = functional_node<ast::Function>(
+		auto fx = functional_node<ast::decl::Function>(
 			tokens,
 			namespaze,
 			parse_body);
@@ -281,7 +281,7 @@ namespace ltn::c {
 			auto parameters = parse_lambda_parameters(tokens);
 			Qualifiers qualifiers = parse_qualifiers(tokens);
 			auto body = parse_body(tokens, std::size(parameters.simple), parameters.variadic.has_value()); 
-			auto fx = std::make_unique<ast::Function>(
+			auto fx = std::make_unique<ast::decl::Function>(
 				"lambda" + std::to_string(*stx::unique{}), 
 				Namespace{},
 				std::move(parameters),
@@ -291,7 +291,7 @@ namespace ltn::c {
 			fx->is_const = qualifiers.is_const;
 			if(qualifiers.is_private) throw CompilerError { "Lambda cannot be private", location(tokens)};
 			if(qualifiers.is_extern) throw CompilerError {"Lambda cannot be extern", location(tokens)};
-			return std::make_unique<ast::Lambda>(
+			return std::make_unique<ast::expr::Lambda>(
 				std::move(fx),
 				std::move(captures),
 				location(tokens)); 

@@ -3,7 +3,7 @@
 #include "ltnc/sst/expr/Iife.hxx"
 
 namespace ltn::c {
-	sst::expr_ptr analyze_expr(const ast::Iife & iife, Scope & outer_scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Iife & iife, Scope & outer_scope) {
 
 		const auto return_label = make_jump_id("IIFE");
 		MinorScope inner_scope{&outer_scope};

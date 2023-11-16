@@ -27,7 +27,7 @@ namespace ltn::c {
 
 
 	sst::defn_ptr analyze_definition(
-		const ast::Definition & def,
+		const ast::decl::Definition & def,
 		Context & context,
 		std::uint64_t id) {
 		// Use empty global_table to prohibit the usage of other global variables.
@@ -50,7 +50,7 @@ namespace ltn::c {
 
 
 	sst::glob_ptr analyze_global(
-		const ast::Global & global,
+		const ast::decl::Global & global,
 		Context & context,
 		std::uint64_t id) {
 		// Use empty global_table to prohibit the usage of other global variables.

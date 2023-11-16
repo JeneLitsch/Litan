@@ -16,13 +16,13 @@ namespace ltn::c {
 
 
 
-	sst::expr_ptr analyze_expr(const ast::Array & array, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Array & array, Scope & scope) {
 		return analyze_collection(array, sst::expr::array, scope);
 	}
 
 
 
-	sst::expr_ptr analyze_expr(const ast::Tuple & tuple, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Tuple & tuple, Scope & scope) {
 		return analyze_collection(tuple, sst::expr::tuple, scope);
 	}
 }

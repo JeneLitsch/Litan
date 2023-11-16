@@ -5,7 +5,7 @@
 
 namespace ltn::c {
 
-	sst::stmt_ptr analyze_stmt(const ast::Return & ret, Scope & scope) {
+	sst::stmt_ptr analyze_stmt(const ast::stmt::Return & ret, Scope & scope) {
 		auto expr = ret.expr ? analyze_expression(*ret.expr, scope) : sst::expr::null();
 		return sst::stmt::r3turn(std::move(expr), scope.get_return());
 	}

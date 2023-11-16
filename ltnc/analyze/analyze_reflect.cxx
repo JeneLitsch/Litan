@@ -5,7 +5,7 @@
 
 namespace ltn::c {
 	namespace {
-		sst::expr::Reflect::FunctionQuery fx_to_query(const ast::Function & fx) {
+		sst::expr::Reflect::FunctionQuery fx_to_query(const ast::decl::Function & fx) {
 			return sst::expr::Reflect::FunctionQuery {
 				.id          = make_function_label(fx).to_string(),
 				.name        = fx.name,
@@ -38,8 +38,8 @@ namespace ltn::c {
 
 
 		sst::expr::Reflect::FunctionQuery analyze_reflect_query(
-			const ast::Reflect & refl,
-			const ast::Reflect::FunctionQuery & query,
+			const ast::expr::Reflect & refl,
+			const ast::expr::Reflect::FunctionQuery & query,
 			Scope & scope) {
 
 			auto & context = scope.get_context();
@@ -60,8 +60,8 @@ namespace ltn::c {
 
 
 		sst::expr::Reflect::NamespaceQuery analyze_reflect_query(
-			const ast::Reflect &,
-			const ast::Reflect::NamespaceQuery & query,
+			const ast::expr::Reflect &,
+			const ast::expr::Reflect::NamespaceQuery & query,
 			Scope & scope) {
 			
 			auto & context = scope.get_context();
@@ -81,8 +81,8 @@ namespace ltn::c {
 
 
 		sst::expr::Reflect::LineQuery analyze_reflect_query(
-			const ast::Reflect & refl,
-			const ast::Reflect::LineQuery &,
+			const ast::expr::Reflect & refl,
+			const ast::expr::Reflect::LineQuery &,
 			Scope &) {
 
 			return sst::expr::Reflect::LineQuery {
@@ -93,8 +93,8 @@ namespace ltn::c {
 
 
 		auto analyze_reflect_query(
-			const ast::Reflect & refl,
-			const ast::Reflect::FileQuery &,
+			const ast::expr::Reflect & refl,
+			const ast::expr::Reflect::FileQuery &,
 			Scope &) {
 
 			return sst::expr::Reflect::FileQuery {
@@ -105,8 +105,8 @@ namespace ltn::c {
 
 
 		auto analyze_reflect_query(
-			const ast::Reflect & refl,
-			const ast::Reflect::LocationQuery & query,
+			const ast::expr::Reflect & refl,
+			const ast::expr::Reflect::LocationQuery & query,
 			Scope & scope) {
 
 			return sst::expr::Reflect::LocationQuery {
@@ -119,7 +119,7 @@ namespace ltn::c {
 
 
 	// compiles array literal
-	sst::expr_ptr analyze_expr(const ast::Reflect & refl, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Reflect & refl, Scope & scope) {
 		auto & context = scope.get_context();
 			
 		return sst::expr::reflect(

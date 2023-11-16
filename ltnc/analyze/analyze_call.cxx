@@ -11,8 +11,8 @@ namespace ltn::c {
 
 	namespace {
 		auto analyze_arguments(
-			const ast::Call & call,
-			const ast::Function & fx,
+			const ast::expr::Call & call,
+			const ast::decl::Function & fx,
 			Scope & scope) {
 			
 			std::vector<sst::expr_ptr> arguments;
@@ -36,7 +36,7 @@ namespace ltn::c {
 
 
 
-		void guard_const(const ast::Call & call, const ast::Function & fx, const Scope & scope) {
+		void guard_const(const ast::expr::Call & call, const ast::decl::Function & fx, const Scope & scope) {
 			if(scope.is_const() && !fx.is_const) {
 				throw const_call_violation(call);
 			}
@@ -45,9 +45,9 @@ namespace ltn::c {
 
 
 		void guard_private(
-			const ast::Function & fx,
+			const ast::decl::Function & fx,
 			const Namespace & call_ns,
-			const ast::Call & call) {
+			const ast::expr::Call & call) {
 			if(fx.is_private && !call_ns.is_inside_of(fx.namespaze)) {
 				throw private_call_violation(call);
 			}
@@ -55,7 +55,7 @@ namespace ltn::c {
 
 
 
-		sst::expr_ptr do_invoke(const ast::Call & call, Scope & scope) {
+		sst::expr_ptr do_invoke(const ast::expr::Call & call, Scope & scope) {
 
 			auto expr = analyze_expression(*call.function_ptr, scope);
 			auto arguments = analyze_all_expressions(call.arguments, scope);
@@ -66,8 +66,8 @@ namespace ltn::c {
 
 
 		sst::expr_ptr do_call_function(
-			const ast::Call & call,
-			const ast::Function & fx,
+			const ast::expr::Call & call,
+			const ast::decl::Function & fx,
 			Scope & scope) {
 
 			auto & context = scope.get_context();
@@ -87,9 +87,9 @@ namespace ltn::c {
 
 
 	// compiles function call fx(...)
-	sst::expr_ptr analyze_expr(const ast::Call & call, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Call & call, Scope & scope) {
 	
-		const auto * var = as<ast::Var>(*call.function_ptr);
+		const auto * var = as<ast::expr::Var>(*call.function_ptr);
 		if(var) {
 			if(var->namespaze.empty()) {
 				if(auto local = scope.resolve_variable(var->name, location(*var))) {
@@ -117,7 +117,7 @@ namespace ltn::c {
 
 
 
-	sst::expr_ptr analyze_expr(const ast::InvokeMember & invoke, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::InvokeMember & invoke, Scope & scope) {
 		auto expr = analyze_expression(*invoke.object, scope);
 		auto arguments = analyze_all_expressions(invoke.arguments, scope);
 		const auto id = scope.resolve_member_id(invoke.name);

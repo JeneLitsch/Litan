@@ -23,14 +23,14 @@ namespace ltn::c {
 	ast::stmt_ptr parse_return(Tokens & tokens) {
 		if(match(TT::RETURN, tokens)) {
 			if(match(TT::SEMICOLON, tokens)) {
-				return std::make_unique<ast::Return>(
+				return std::make_unique<ast::stmt::Return>(
 					nullptr,
 					location(tokens)
 				);
 			}
 			auto expr = parse_expression(tokens);
 			semicolon(tokens);
-			return std::make_unique<ast::Return>(
+			return std::make_unique<ast::stmt::Return>(
 				std::move(expr),
 				location(tokens)
 			);
@@ -42,12 +42,12 @@ namespace ltn::c {
 
 	ast::stmt_ptr parse_throw(Tokens & tokens) {
 		if(match(TT::THROW, tokens)) {
-			std::unique_ptr<ast::Expression> expr = nullptr;
+			ast::expr_ptr expr = nullptr;
 			if(!match(TT::SEMICOLON, tokens)) {
 				expr = parse_expression(tokens);
 				semicolon(tokens);
 			}
-			return std::make_unique<ast::Throw>(
+			return std::make_unique<ast::stmt::Throw>(
 				std::move(expr),
 				location(tokens));
 		}

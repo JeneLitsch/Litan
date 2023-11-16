@@ -12,7 +12,7 @@ namespace ltn::c {
 		template<typename T>
 		ast::type_ptr simple_type(const Token & begin) {
 			const auto & loc = begin.location;
-			return std::make_unique<ast::Type>(T{}, loc); 
+			return std::make_unique<ast::expr::Type>(T{}, loc); 
 		}
 
 
@@ -26,12 +26,12 @@ namespace ltn::c {
 				if(!match(TT::PAREN_R, tokens)) throw CompilerError {
 					"Expected )", loc
 				};
-				return std::make_unique<ast::Type>(T{
+				return std::make_unique<ast::expr::Type>(T{
 					.contains = std::move(sub_type),
 				}, loc);
 			}
 			else {
-				return std::make_unique<ast::Type>(T{
+				return std::make_unique<ast::expr::Type>(T{
 					.contains = nullptr,
 				}, loc); 
 			}
@@ -43,7 +43,7 @@ namespace ltn::c {
 			const auto & loc = begin.location;
 			if(match(TT::PAREN_L, tokens)) {
 				if(match(TT::PAREN_R, tokens)) {
-					return std::make_unique<ast::Type>(ast::Type::TupleN{
+					return std::make_unique<ast::expr::Type>(ast::expr::Type::TupleN{
 						.contains = {},
 					}, loc);
 				}
@@ -54,12 +54,12 @@ namespace ltn::c {
 				if(!match(TT::PAREN_R, tokens)) throw CompilerError {
 					"Expected )", loc
 				};
-				return std::make_unique<ast::Type>(ast::Type::TupleN{
+				return std::make_unique<ast::expr::Type>(ast::expr::Type::TupleN{
 					.contains = std::move(sub_types),
 				}, loc);
 			}
 			else {
-				return std::make_unique<ast::Type>(ast::Type::Tuple{}, loc); 
+				return std::make_unique<ast::expr::Type>(ast::expr::Type::Tuple{}, loc); 
 			}
 		}
 
@@ -76,13 +76,13 @@ namespace ltn::c {
 				if(!match(TT::PAREN_R, tokens)) throw CompilerError {
 					"Expected )", loc
 				};
-				return std::make_unique<ast::Type>(ast::Type::Map{
+				return std::make_unique<ast::expr::Type>(ast::expr::Type::Map{
 					.key = std::move(key),
 					.value = std::move(val),
 				}, loc);
 			}
 			else {
-				return std::make_unique<ast::Type>(ast::Type::Map{
+				return std::make_unique<ast::expr::Type>(ast::expr::Type::Map{
 					.key = nullptr,
 					.value = nullptr,
 				}, loc); 
@@ -104,12 +104,12 @@ namespace ltn::c {
 				std::stringstream iss{token_arity->str};
 				std::uint64_t arity;
 				iss >> arity;
-				return std::make_unique<ast::Type>(ast::Type::FxN{
+				return std::make_unique<ast::expr::Type>(ast::expr::Type::FxN{
 					.arity = arity,
 				}, loc);
 			}
 			else {
-				return std::make_unique<ast::Type>(ast::Type::Fx {}, loc); 
+				return std::make_unique<ast::expr::Type>(ast::expr::Type::Fx {}, loc); 
 			}
 		}
 
@@ -138,19 +138,19 @@ namespace ltn::c {
 				return parse_type_name(*new_begin, tokens);
 			}
 
-			return std::make_unique<ast::Type>(ast::Type::Any{}, begin.location);
+			return std::make_unique<ast::expr::Type>(ast::expr::Type::Any{}, begin.location);
 		}
 
 
 
-		ast::Type::Struct::Member parse_struct_member(const Token & begin, Tokens & tokens) {
+		ast::expr::Type::Struct::Member parse_struct_member(const Token & begin, Tokens & tokens) {
 			if(!match(TT::DOT, tokens)) {
 				throw CompilerError{"Expected .", location(tokens)};
 			}
 			auto name = parse_struct_member_name(begin, tokens);
 			auto type = parse_struct_member_type(begin, tokens);
 
-			return ast::Type::Struct::Member{
+			return ast::expr::Type::Struct::Member{
 				.name = std::move(name),
 				.type = std::move(type),
 			};
@@ -160,42 +160,42 @@ namespace ltn::c {
 
 		ast::type_ptr parse_struct_type(const Token & begin, Tokens & tokens) {
 			if(match(TT::PAREN_L, tokens)) {
-				auto members = list_of<ast::Type::Struct::Member>(TT::PAREN_R, ")", tokens, [&begin] (auto & tokens) {
+				auto members = list_of<ast::expr::Type::Struct::Member>(TT::PAREN_R, ")", tokens, [&begin] (auto & tokens) {
 					return parse_struct_member(begin, tokens);
 				});
-				return std::make_unique<ast::Type>(ast::Type::Struct{
+				return std::make_unique<ast::expr::Type>(ast::expr::Type::Struct{
 					.members = std::move(members),
 				}, begin.location);
 			}
 			else {
-				return simple_type<ast::Type::Struct>(begin);
+				return simple_type<ast::expr::Type::Struct>(begin);
 			}
 		}
 
 
 		ast::type_ptr parse_type_name(const Token & begin, Tokens & tokens) {
 			if(auto name = match(TT::NVLL, tokens)) {
-				return simple_type<ast::Type::Null>(begin);
+				return simple_type<ast::expr::Type::Null>(begin);
 			}
 			if(auto name = match(TT::INDENTIFIER, tokens)) {
-				if(name->str == "any") return simple_type<ast::Type::Any>(begin);
-				if(name->str == "bool") return simple_type<ast::Type::Bool>(begin);
-				if(name->str == "char") return simple_type<ast::Type::Char>(begin);
-				if(name->str == "int") return simple_type<ast::Type::Int>(begin);
-				if(name->str == "float") return simple_type<ast::Type::Float>(begin);
-				if(name->str == "string") return simple_type<ast::Type::String>(begin);
-				if(name->str == "array") return unary_type<ast::Type::Array>(begin, tokens);
+				if(name->str == "any") return simple_type<ast::expr::Type::Any>(begin);
+				if(name->str == "bool") return simple_type<ast::expr::Type::Bool>(begin);
+				if(name->str == "char") return simple_type<ast::expr::Type::Char>(begin);
+				if(name->str == "int") return simple_type<ast::expr::Type::Int>(begin);
+				if(name->str == "float") return simple_type<ast::expr::Type::Float>(begin);
+				if(name->str == "string") return simple_type<ast::expr::Type::String>(begin);
+				if(name->str == "array") return unary_type<ast::expr::Type::Array>(begin, tokens);
 				if(name->str == "tuple") return tuple_type(begin, tokens);
 				if(name->str == "fx") return fx_type(begin, tokens);
-				if(name->str == "istream") return simple_type<ast::Type::IStream>(begin);
-				if(name->str == "ostream") return simple_type<ast::Type::OStream>(begin);
-				if(name->str == "iter") return simple_type<ast::Type::Iterator>(begin);
-				if(name->str == "stop") return simple_type<ast::Type::IteratorStop>(begin);
-				if(name->str == "rng") return simple_type<ast::Type::Rng>(begin);
-				if(name->str == "clock") return simple_type<ast::Type::Clock>(begin);
-				if(name->str == "type") return simple_type<ast::Type::TypeT>(begin);
-				if(name->str == "queue") return unary_type<ast::Type::Queue>(begin, tokens);
-				if(name->str == "stack") return unary_type<ast::Type::Stack>(begin, tokens);
+				if(name->str == "istream") return simple_type<ast::expr::Type::IStream>(begin);
+				if(name->str == "ostream") return simple_type<ast::expr::Type::OStream>(begin);
+				if(name->str == "iter") return simple_type<ast::expr::Type::Iterator>(begin);
+				if(name->str == "stop") return simple_type<ast::expr::Type::IteratorStop>(begin);
+				if(name->str == "rng") return simple_type<ast::expr::Type::Rng>(begin);
+				if(name->str == "clock") return simple_type<ast::expr::Type::Clock>(begin);
+				if(name->str == "type") return simple_type<ast::expr::Type::TypeT>(begin);
+				if(name->str == "queue") return unary_type<ast::expr::Type::Queue>(begin, tokens);
+				if(name->str == "stack") return unary_type<ast::expr::Type::Stack>(begin, tokens);
 				if(name->str == "map") return map_type(begin, tokens);
 				if(name->str == "struct") return parse_struct_type(begin, tokens);
 				throw CompilerError {"Unknown type name " + name->str, name->location};
@@ -212,7 +212,7 @@ namespace ltn::c {
 					return parse_type_name(begin, tokens);
 				}
 				else {
-					return simple_type<ast::Type::TypeT>(begin);
+					return simple_type<ast::expr::Type::TypeT>(begin);
 				}
 			}
 			return parse_type_name(begin, tokens);

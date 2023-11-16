@@ -2,12 +2,12 @@
 #include "ltnc/sst/stmt/IfElse.hxx"
 
 namespace ltn::c {
-	bool has_else_branch(const ast::IfElse & stmt) {
-		return stmt.else_branch && (!as<ast::NoOp>(*stmt.else_branch));
+	bool has_else_branch(const ast::stmt::IfElse & stmt) {
+		return stmt.else_branch && (!as<ast::stmt::NoOp>(*stmt.else_branch));
 	}
 
 
-	sst::stmt_ptr analyze_stmt(const ast::IfElse & stmt, Scope & scope) {
+	sst::stmt_ptr analyze_stmt(const ast::stmt::IfElse & stmt, Scope & scope) {
 		MinorScope if_scope{&scope};
 		
 		auto condition = analyze_expression(*stmt.condition, scope);

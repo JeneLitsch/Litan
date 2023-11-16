@@ -2,7 +2,7 @@
 
 namespace ltn::c {
 	void FunctionQueue::stage_function(
-		stx::reference<const ast::Function> fx) {
+		stx::reference<const ast::decl::Function> fx) {
 		this->stage_function(Staged {
 			.fx = fx,
 			.captures = {},

@@ -30,7 +30,7 @@ namespace ltn::c {
 
 
 
-		std::unique_ptr<ast::Expression> parse_index(Tokens & tokens) {
+		ast::expr_ptr parse_index(Tokens & tokens) {
 			auto index = parse_expression(tokens);
 			if(match(TT::BRACKET_R, tokens)) {
 				return index;
@@ -41,7 +41,7 @@ namespace ltn::c {
 
 
 		auto parse_arguments(Tokens & tokens) {
-			std::vector<std::unique_ptr<ast::Expression>> parameters;
+			std::vector<ast::expr_ptr> parameters;
 			if(match(TT::PAREN_R, tokens)) {
 				 return parameters;
 			}
@@ -58,14 +58,14 @@ namespace ltn::c {
 
 
 
-		std::unique_ptr<ast::Expression> parse_postfix(
+		ast::expr_ptr parse_postfix(
 			Tokens & tokens,
-			std::unique_ptr<ast::Expression> l) {
+			ast::expr_ptr l) {
 
 			if(auto start = match(TT::BRACKET_L, tokens)) {
 				auto index = parse_index(tokens);
 				auto location = ast::location(*index);
-				auto full = std::make_unique<ast::Index>(
+				auto full = std::make_unique<ast::expr::Index>(
 					std::move(l),
 					std::move(index),
 					location
@@ -75,7 +75,7 @@ namespace ltn::c {
 
 			if(auto start = match(TT::DOT, tokens)) {
 				auto name = parse_member(tokens);
-				auto access = std::make_unique<ast::Member>(
+				auto access = std::make_unique<ast::expr::Member>(
 					std::move(l),
 					name,
 					location(tokens)
@@ -92,7 +92,7 @@ namespace ltn::c {
 				};
 
 				auto args = parse_arguments(tokens);
-				auto access = std::make_unique<ast::InvokeMember>(
+				auto access = std::make_unique<ast::expr::InvokeMember>(
 					std::move(l),
 					std::move(name),
 					std::move(args),
@@ -105,7 +105,7 @@ namespace ltn::c {
 
 				auto function_args = parse_arguments(tokens);
 
-				auto call = std::make_unique<ast::Call>(
+				auto call = std::make_unique<ast::expr::Call>(
 					std::move(l),
 					std::move(function_args),
 					location(tokens)
@@ -119,7 +119,7 @@ namespace ltn::c {
 
 
 
-	std::unique_ptr<ast::Expression> parse_prefix(Tokens & tokens) {
+	ast::expr_ptr parse_prefix(Tokens & tokens) {
 		// left unary
 		const std::array table {
 			std::pair{TT::MINUS, OP::NEG},
@@ -131,14 +131,14 @@ namespace ltn::c {
 		
 		if(auto op = match_op(tokens, table)) {
 			auto && r = parse_prefix(tokens);
-			return std::make_unique<ast::Unary>(*op, std::move(r), location(tokens));
+			return std::make_unique<ast::expr::Unary>(*op, std::move(r), location(tokens));
 		}
 		return parse_postfix(tokens, parse_primary(tokens));
 	}
 
 
 
-	std::unique_ptr<ast::Expression> parse_unary(Tokens & tokens) {
+	ast::expr_ptr parse_unary(Tokens & tokens) {
 		return parse_prefix(tokens);
 	}
 }

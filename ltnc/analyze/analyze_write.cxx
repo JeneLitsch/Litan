@@ -15,7 +15,7 @@ namespace ltn::c {
 
 
 
-	sst::stmt_ptr analyze_stmt(const ast::Assign & stmt, Scope & scope) {
+	sst::stmt_ptr analyze_stmt(const ast::stmt::Assign & stmt, Scope & scope) {
 		guard_const(stmt, scope);
 		auto l = analyze_expression(*stmt.l, scope);
 		auto r = analyze_expression(*stmt.r, scope);

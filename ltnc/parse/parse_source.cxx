@@ -59,7 +59,7 @@ namespace ltn::c {
 				"Expected name after global declaration",
 			};
 			
-			auto global = std::make_unique<ast::Global>(
+			auto global = std::make_unique<ast::decl::Global>(
 				name->location,
 				name->str,
 				std::move(namespaze)

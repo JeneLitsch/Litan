@@ -6,7 +6,7 @@
 
 namespace ltn::c {
 
-	sst::expr_ptr analyze_expr(const ast::FxPointer & fx_ptr, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::FxPointer & fx_ptr, Scope & scope) {
 
 		MinorScope inner_scope{&scope};
 

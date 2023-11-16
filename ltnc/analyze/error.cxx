@@ -12,13 +12,13 @@ namespace ltn::c {
 
 
 
-	CompilerError undefined_function(const ast::Var & node) {
+	CompilerError undefined_function(const ast::expr::Var & node) {
 		return undefined_function(node.name, location(node));
 	}
 
 
 
-	CompilerError undefined_function(const ast::FxPointer & node) {
+	CompilerError undefined_function(const ast::expr::FxPointer & node) {
 		return undefined_function(node.name, location(node));
 	}
 
@@ -59,7 +59,7 @@ namespace ltn::c {
 
 
 
-	CompilerError undefined_variable(const ast::Var & var) {
+	CompilerError undefined_variable(const ast::expr::Var & var) {
 		return CompilerError {
 			"Undefined variable " + var.namespaze.to_string() + var.name,
 			location(var)
@@ -80,7 +80,7 @@ namespace ltn::c {
 
 
 
-	CompilerError undefined_global(const ast::Static & global) {
+	CompilerError undefined_global(const ast::decl::Static & global) {
 		std::ostringstream oss;
 		oss
 			<< "Undefined global variable "

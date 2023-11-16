@@ -5,7 +5,7 @@
 #include "ltnc/sst/expr/BuildIn.hxx"
 
 namespace ltn::c {
-	sst::expr_ptr analyze_expr(const ast::ForwardDynamicCall & forward, Scope &) {
+	sst::expr_ptr analyze_expr(const ast::expr::ForwardDynamicCall & forward, Scope &) {
 		 
 		std::vector<sst::expr_ptr> arguments;
 		for(std::uint64_t i = 0; i < forward.arity; ++i) {
@@ -18,15 +18,15 @@ namespace ltn::c {
 
 
 
-	sst::expr_ptr analyze_expr(const ast::BuildIn & build_in, Scope &) {
+	sst::expr_ptr analyze_expr(const ast::expr::BuildIn & build_in, Scope &) {
 		return sst::expr::build_in(build_in.key);
 	}
 
 
 
 	// compiles any expr
-	sst::expr_ptr analyze_expression(const ast::Expression & expr, Scope & scope) {
-		return ast::visit_expression(expr, [&](const auto & e) {
+	sst::expr_ptr analyze_expression(const ast::expr::Expression & expr, Scope & scope) {
+		return ast::expr::visit_expression(expr, [&](const auto & e) {
 			return analyze_expr(e, scope);
 		});
 	}

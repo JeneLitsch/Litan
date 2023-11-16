@@ -13,10 +13,10 @@ namespace ltn::c {
 		const std::string & name);
 
 	Label make_lambda_label(
-		const ast::Lambda & lambda);
+		const ast::expr::Lambda & lambda);
 
 	Label make_function_label(
-		const ast::Function & fx);
+		const ast::decl::Function & fx);
 
 	Label derive_skip(
 		const Label & label);

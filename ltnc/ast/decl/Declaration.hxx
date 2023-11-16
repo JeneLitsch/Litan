@@ -2,9 +2,9 @@
 #include <map>
 #include "ltnc/Namespace.hxx"
 #include "ltnc/ast/Node.hxx"
+#include "ltnc/ast/types.hxx"
 
-namespace ltn::c::ast {
-	struct Expression;
+namespace ltn::c::ast::decl {
 	struct Integer;
 
 
@@ -56,7 +56,7 @@ namespace ltn::c::ast {
 			const Namespace & namespaze)
 			: Static{location, name, namespaze} {}
 		virtual ~Definition() = default;
-		std::unique_ptr<ast::Expression> expr;
+		ast::expr_ptr expr;
 	};
 
 
@@ -68,7 +68,7 @@ namespace ltn::c::ast {
 			const Namespace & namespaze)
 			: Static{location, name, namespaze} {}
 		virtual ~Global() = default;
-		std::unique_ptr<ast::Expression> expr;
+		ast::expr_ptr expr;
 	};
 
 

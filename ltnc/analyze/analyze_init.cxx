@@ -25,7 +25,7 @@ namespace ltn::c {
 	}
 
 
-	sst::expr_ptr analyze_expr(const ast::Struct & init, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Struct & init, Scope & scope) {
 		
 		auto sst_init = sst::expr::strukt();
 
@@ -44,7 +44,7 @@ namespace ltn::c {
 
 
 	
-	sst::expr_ptr analyze_expr(const ast::Map & init, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Map & init, Scope & scope) {
 		auto map = sst::expr::map();
 		for(auto & [key, val] : init.pairs) {
 			map->pairs.push_back(sst::expr::Map::Pair{

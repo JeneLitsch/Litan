@@ -1,13 +1,15 @@
 #include "analyze.hxx"
+
+#include "ltnc/ast/bind/Group.hxx"
+#include "ltnc/ast/bind/NewVar.hxx"
+
 #include "ltnc/sst/expr/Var.hxx"
 #include "ltnc/sst/bind/Group.hxx"
 #include "ltnc/sst/bind/NewVar.hxx"
 
 namespace ltn::c {
 	namespace {
-		sst::bind_ptr analyze_bind(
-			const ast::GroupBinding & binding,
-			Scope & scope) {
+		sst::bind_ptr analyze_bind(const ast::bind::Group & binding, Scope & scope) {
 
 			auto sst_binding = sst::bind::group();
 
@@ -21,23 +23,20 @@ namespace ltn::c {
 		
 
 		
-		sst::bind_ptr analyze_bind(
-			const ast::NewVarBinding & binding,
-			Scope & scope) {
-
-			const auto var = scope.insert(binding.name, location(binding)); 
+		sst::bind_ptr analyze_bind(const ast::bind::NewVar & binding, Scope & scope) {
+			const auto var = scope.insert(binding.name, ast::location(binding)); 
 			return sst::bind::new_local(var.address);
 		}
 	}
 
 
 
-	sst::bind_ptr analyze_binding(
-		const ast::Binding & binding,
-		Scope & scope) {
-
-		return ast::visit_binding(binding, [&] (const auto & b) {
+	sst::bind_ptr analyze_binding(const ast::bind::Binding & binding, Scope & scope) {
+		
+		auto fx = [&] (const auto & b) {
 			return analyze_bind(b, scope);
-		});
+		};
+
+		return ast::bind::visit_binding(binding, fx);
 	}
 }

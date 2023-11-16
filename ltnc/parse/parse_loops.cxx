@@ -12,7 +12,7 @@ namespace ltn::c {
 		if(match(TT::WHILE, tokens)) {
 			auto expr = parse_condition(tokens);
 			auto body = parse_statement(tokens);
-			return std::make_unique<ast::While>(
+			return std::make_unique<ast::stmt::While>(
 				std::move(expr),
 				std::move(body),
 				location(tokens)
@@ -43,7 +43,7 @@ namespace ltn::c {
 			}
 			
 			auto body = parse_statement(tokens);
-			return std::make_unique<ast::ForEach>(
+			return std::make_unique<ast::stmt::ForEach>(
 				var_name,
 				std::move(from),
 				std::move(body),

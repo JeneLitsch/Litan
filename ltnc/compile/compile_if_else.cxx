@@ -3,7 +3,7 @@
 
 namespace ltn::c {
 	bool has_else_branch(const sst::stmt::IfElse & stmt) {
-		return stmt.else_branch && (!as<ast::NoOp>(*stmt.else_branch));
+		return stmt.else_branch && (!as<ast::stmt::NoOp>(*stmt.else_branch));
 	}
 
 

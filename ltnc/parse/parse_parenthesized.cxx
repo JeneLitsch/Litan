@@ -11,7 +11,7 @@ namespace ltn::c {
 		ast::expr_ptr single_element_tuple(ast::expr_ptr first, const Token & start) {
 			std::vector<ast::expr_ptr> elements;
 			elements.push_back(std::move(first));
-			return std::make_unique<ast::Tuple>(
+			return std::make_unique<ast::expr::Tuple>(
 				start.location,
 				std::move(elements)
 			);
@@ -22,7 +22,7 @@ namespace ltn::c {
 		ast::expr_ptr multi_element_tuple(ast::expr_ptr first, Tokens & tokens, const Token & start) {
 			auto elements = list_of<ast::expr_ptr>(TT::PAREN_R, ")", tokens, parse_expression);
 			elements.insert(std::begin(elements), std::move(first));
-			return std::make_unique<ast::Tuple>(
+			return std::make_unique<ast::expr::Tuple>(
 				start.location,
 				std::move(elements)
 			);
@@ -43,7 +43,7 @@ namespace ltn::c {
 	ast::expr_ptr parse_parenthesized(Tokens & tokens) {
 		if(auto start = match(TT::PAREN_L, tokens)) {
 			if(match(TT::PAREN_R, tokens)) {
-				return std::make_unique<ast::Tuple>(start->location);
+				return std::make_unique<ast::expr::Tuple>(start->location);
 			}
 			auto expr = parse_expression(tokens);
 			if(match(TT::PAREN_R, tokens)) {

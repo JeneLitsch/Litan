@@ -3,17 +3,15 @@
 #include <memory>
 #include "ltn/Visitor.hxx"
 #include "ltnc/ast/Node.hxx"
+#include "ltnc/ast/types.hxx"
 
-namespace ltn::c::ast {
-	struct GroupBinding;
-	struct NewVarBinding;
+namespace ltn::c::ast::bind {
+	struct Group;
+	struct NewVar;
 
 
 	
-	using BindVisitor = Visitor<
-		GroupBinding,
-		NewVarBinding
-	>;
+	using BindVisitor = Visitor<Group, NewVar>;
 
 
 
@@ -26,42 +24,15 @@ namespace ltn::c::ast {
 
 
 
-	struct GroupBinding final : public Binding {
-		GroupBinding(const SourceLocation & location)
-			: Binding {location} {}
-
-		virtual void accept(const BindVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
-		
-		std::vector<std::unique_ptr<Binding>> sub_bindings;
-	};
-
-
-
-	struct NewVarBinding final : public Binding {
-		NewVarBinding(const SourceLocation & location, std::string name)
-			: Binding {location}
-			, name{std::move(name)} {}
-
-		virtual void accept(const BindVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
-
-		std::string name;
-	};
-
-
-
 	auto visit_binding(const Binding & binding, auto && fx) {
 		using Callable = std::decay_t<decltype(fx)>;
-		using Ret = std::invoke_result_t<Callable, GroupBinding>;
+		using Ret = std::invoke_result_t<Callable, Group>;
 		using Base = FunctionVisitor<BindVisitor, Callable, Ret>;
 		
 		struct Visitor : public Base {
 			Visitor(Callable fx) : Base {fx} {} 
-			virtual void visit(const GroupBinding & x)  const override { this->run(x); };
-			virtual void visit(const NewVarBinding & x) const override { this->run(x); };
+			virtual void visit(const Group & x)  const override { this->run(x); };
+			virtual void visit(const NewVar & x) const override { this->run(x); };
 		};
 
 		return Visitor{fx}(binding);

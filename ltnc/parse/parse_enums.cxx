@@ -8,7 +8,7 @@ namespace ltn::c {
 		std::optional<std::int64_t> explicit_value(Tokens & tokens) {
 			if(match(TT::COLON, tokens)) {
 				if(auto expr = parse_integral(tokens)) {
-					return static_cast<ast::Integer&>(*expr).value;
+					return static_cast<ast::expr::Integer&>(*expr).value;
 				}
 				throw CompilerError{"Expected integer litaral", location(tokens)};
 			}
@@ -44,14 +44,14 @@ namespace ltn::c {
 		brace_l(tokens);
 
 		auto to_labels = stx::fx::mapped([] (const auto & pair) {
-			return ast::Enumeration::Label { pair.first, pair.second };
+			return ast::decl::Enumeration::Label { pair.first, pair.second };
 		});
 
 		auto labels = to_labels(parse_values(tokens));
 
 		brace_r(tokens);
 
-		return std::make_unique<ast::Enumeration>(
+		return std::make_unique<ast::decl::Enumeration>(
 			location(tokens),
 			enum_name,
 			namespaze,

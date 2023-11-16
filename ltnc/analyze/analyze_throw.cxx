@@ -3,7 +3,7 @@
 #include "ltnc/sst/stmt/Throw.hxx"
 
 namespace ltn::c {
-	sst::stmt_ptr analyze_stmt(const ast::Throw & thr0w, Scope & scope) {
+	sst::stmt_ptr analyze_stmt(const ast::stmt::Throw & thr0w, Scope & scope) {
 		auto expr 
 			= thr0w.expr
 			? analyze_expression(*thr0w.expr, scope)

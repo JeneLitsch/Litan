@@ -3,9 +3,9 @@
 
 namespace ltn::c {
 	namespace {
-		std::vector<stx::reference<const ast::Function>> find_extern_funtions(
+		std::vector<stx::reference<const ast::decl::Function>> find_extern_funtions(
 			const ast::Program & source) {
-			std::vector<stx::reference<const ast::Function>> externs;
+			std::vector<stx::reference<const ast::decl::Function>> externs;
 			for(const auto & fx : source.functions) {
 				if(fx->is_extern) {
 					externs.push_back(*fx);
@@ -26,7 +26,7 @@ namespace ltn::c {
 				context,
 			};
 			auto label = make_function_label(staged.fx);
-			static const std::vector<std::unique_ptr<ast::Var>> no_captures;
+			static const std::vector<std::unique_ptr<ast::expr::Var>> no_captures;
 			return analyze_functional(staged.fx, scope, label, staged.captures.value_or(no_captures)); 
 		}
 	}

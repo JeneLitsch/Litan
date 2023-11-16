@@ -2,7 +2,7 @@
 #include "ltnc/sst/stmt/Block.hxx"
 namespace ltn::c {
 	// compiles -> code block {...}
-	sst::stmt_ptr  analyze_stmt(const ast::Block & block, Scope & parent) {
+	sst::stmt_ptr  analyze_stmt(const ast::stmt::Block & block, Scope & parent) {
 		
 		MinorScope scope { &parent };
 

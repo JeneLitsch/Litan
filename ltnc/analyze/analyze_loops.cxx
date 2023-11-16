@@ -4,7 +4,7 @@
 #include "ltnc/sst/stmt/While.hxx"
 
 namespace ltn::c {
-	sst::stmt_ptr analyze_stmt(const ast::While & stmt, Scope & scope) {
+	sst::stmt_ptr analyze_stmt(const ast::stmt::While & stmt, Scope & scope) {
 
 		// outer scope of loop 
 		MinorScope loop_scope { &scope }; 
@@ -21,7 +21,7 @@ namespace ltn::c {
 
 
 
-	sst::stmt_ptr analyze_stmt(const ast::InfiniteLoop & stmt, Scope & scope) {
+	sst::stmt_ptr analyze_stmt(const ast::stmt::InfiniteLoop & stmt, Scope & scope) {
 
 		MinorScope loop_scope { &scope }; 		
 		auto body = analyze_statement(*stmt.body, loop_scope);
@@ -30,7 +30,7 @@ namespace ltn::c {
 
 
 
-	sst::stmt_ptr analyze_stmt(const ast::ForEach & stmt, Scope & scope) {
+	sst::stmt_ptr analyze_stmt(const ast::stmt::ForEach & stmt, Scope & scope) {
 		MinorScope loop_scope { &scope };
 		
 		const auto label = make_jump_id("FOREACH");

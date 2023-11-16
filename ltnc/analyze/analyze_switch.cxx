@@ -33,7 +33,7 @@ namespace ltn::c {
 
 
 
-	sst::stmt_ptr analyze_stmt(const ast::Switch & sw1tch, Scope & scope) {
+	sst::stmt_ptr analyze_stmt(const ast::stmt::Switch & sw1tch, Scope & scope) {
 		
 		auto condition = analyze_expression(*sw1tch.condition, scope);
 		auto cases = analyze_cases(analyze_statement, sw1tch, scope);
@@ -48,7 +48,7 @@ namespace ltn::c {
 
 
 
-	sst::expr_ptr analyze_expr(const ast::Choose & sw1tch, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Choose & sw1tch, Scope & scope) {
 
 		auto condition = analyze_expression(*sw1tch.condition, scope);
 		auto cases = analyze_cases(analyze_expression, sw1tch, scope);

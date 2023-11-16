@@ -3,7 +3,7 @@
 #include "ltnc/sst/expr/Unary.hxx"
 
 namespace ltn::c {
-	sst::expr_ptr analyze_expr(const ast::Unary & unary, Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Unary & unary, Scope & scope) {
 		
 		auto expr = analyze_expression(*unary.expr, scope);
 		const auto op = static_cast<sst::expr::Unary::Op>(unary.op);

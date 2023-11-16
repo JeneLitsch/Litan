@@ -10,12 +10,10 @@
 #include "ltnc/Namespace.hxx"
 #include "ltnc/Operations.hxx"
 #include "ltnc/ast/Node.hxx"
+#include "ltnc/ast/types.hxx"
 
 
-namespace ltn::c::ast {
-	class Statement;
-	struct Function;
-
+namespace ltn::c::ast::expr {
 	struct Binary;
 	struct Unary;
 	struct Integer;
@@ -86,7 +84,7 @@ namespace ltn::c::ast {
 	};
 
 
-	using expr_ptr = std::unique_ptr<Expression>;
+	using expr_ptr = expr_ptr;
 
 
 
@@ -112,9 +110,9 @@ namespace ltn::c::ast {
 	struct Ternary final : public Expression {
 		Ternary(
 			const SourceLocation & location,
-			std::unique_ptr<Expression> condition,
-			std::unique_ptr<Expression> if_branch,
-			std::unique_ptr<Expression> else_branch) 
+			expr_ptr condition,
+			expr_ptr if_branch,
+			expr_ptr else_branch) 
 			: Expression(location)
 			, condition(std::move(condition))
 			, if_branch(std::move(if_branch))
@@ -124,9 +122,9 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> condition;
-		std::unique_ptr<Expression> if_branch;
-		std::unique_ptr<Expression> else_branch;
+		expr_ptr condition;
+		expr_ptr if_branch;
+		expr_ptr else_branch;
 		
 	};
 
@@ -137,7 +135,7 @@ namespace ltn::c::ast {
 		
 		Unary(
 			Op op,
-			std::unique_ptr<Expression> expr,
+			expr_ptr expr,
 			const SourceLocation & location)
 			: Expression(location)
 			, op(op)
@@ -148,7 +146,7 @@ namespace ltn::c::ast {
 		}
 
 		Op op;
-		std::unique_ptr<Expression> expr;
+		expr_ptr expr;
 	};
 
 
@@ -158,8 +156,8 @@ namespace ltn::c::ast {
 
 		Binary(
 			Op op,
-			std::unique_ptr<Expression> l,
-			std::unique_ptr<Expression> r,
+			expr_ptr l,
+			expr_ptr r,
 			const SourceLocation & location)
 			: Expression(location)
 			, op(op)
@@ -171,8 +169,8 @@ namespace ltn::c::ast {
 		}
 
 		Op op;
-		std::unique_ptr<Expression> l;
-		std::unique_ptr<Expression> r;
+		expr_ptr l;
+		expr_ptr r;
 	};
 
 
@@ -303,7 +301,7 @@ namespace ltn::c::ast {
 	struct Array final: public Expression {
 		Array(
 			const SourceLocation & location,
-			std::vector<std::unique_ptr<Expression>> elements)
+			std::vector<expr_ptr> elements)
 			: Expression(location)
 			, elements{std::move(elements)} {}
 
@@ -311,7 +309,7 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::vector<std::unique_ptr<Expression>> elements;
+		std::vector<expr_ptr> elements;
 	};
 
 
@@ -319,7 +317,7 @@ namespace ltn::c::ast {
 	struct Tuple final: public Expression {
 		Tuple(
 			const SourceLocation & location,
-			std::vector<std::unique_ptr<Expression>> elements = {})
+			std::vector<expr_ptr> elements = {})
 			: Expression(location)
 			, elements{std::move(elements)} {}
 
@@ -327,25 +325,21 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::vector<std::unique_ptr<Expression>> elements;
+		std::vector<expr_ptr> elements;
 	};
 
 
 
 	struct Lambda final : public Expression {
 		Lambda(
-			std::unique_ptr<Function> fx,
+			func_ptr fx,
 			std::vector<std::unique_ptr<Var>> captures,
-			const SourceLocation & location)
-			: Expression(location)
-			, fx(std::move(fx))
-			, captures(std::move(captures)) {}
+			const SourceLocation & location);
 
-		virtual void accept(const ExprVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
+		virtual void accept(const ExprVisitor & visitor) const override;
+		virtual ~Lambda();
 
-		std::unique_ptr<Function> fx;
+		func_ptr fx;
 		std::vector<std::unique_ptr<Var>> captures;
 	};
 
@@ -353,8 +347,8 @@ namespace ltn::c::ast {
 	
 	struct Index final : public Expression {
 		Index(
-			std::unique_ptr<Expression> expr,
-			std::unique_ptr<Expression> index,
+			expr_ptr expr,
+			expr_ptr index,
 			const SourceLocation & location)
 			: Expression(location)
 			, expr(std::move(expr))
@@ -364,8 +358,8 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> expr;
-		std::unique_ptr<Expression> index;
+		expr_ptr expr;
+		expr_ptr index;
 	};
 
 
@@ -391,7 +385,7 @@ namespace ltn::c::ast {
 
 	struct Member final : public Expression {
 		Member(
-			std::unique_ptr<Expression> expr,
+			expr_ptr expr,
 			const std::variant<std::string, MemberCode> & name,
 			const SourceLocation & location)
 			: Expression(location)
@@ -402,7 +396,7 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 
-		std::unique_ptr<Expression> expr;
+		expr_ptr expr;
 		std::variant<std::string, MemberCode> name;
 	};
 
@@ -410,9 +404,9 @@ namespace ltn::c::ast {
 
 	struct InvokeMember final : public Expression {
 		InvokeMember(
-			std::unique_ptr<Expression> object,
+			expr_ptr object,
 			const std::variant<std::string, MemberCode> & name,
-			std::vector<std::unique_ptr<Expression>> arguments,
+			std::vector<expr_ptr> arguments,
 			const SourceLocation & location)
 			: Expression(location)
 			, object(std::move(object))
@@ -427,25 +421,19 @@ namespace ltn::c::ast {
 			return std::size(this->arguments);
 		}
 
-		std::unique_ptr<Expression> object;
+		expr_ptr object;
 		std::variant<std::string, MemberCode> name;
-		std::vector<std::unique_ptr<Expression>> arguments;
+		std::vector<expr_ptr> arguments;
 	};
 
 
 
 	struct Iife final : public Expression {
-		Iife(
-			const SourceLocation & location,
-			std::unique_ptr<Statement> stmt) 
-			: Expression(location)
-			, stmt(std::move(stmt)) {}
-			
-		virtual void accept(const ExprVisitor & visitor) const override {
-			visitor.visit(*this);
-		}
+		Iife(const SourceLocation & location, stmt_ptr stmt);
+		virtual void accept(const ExprVisitor & visitor) const override;
+		virtual ~Iife();
 
-		std::unique_ptr<Statement> stmt;
+		stmt_ptr stmt;
 	};
 
 
@@ -481,8 +469,8 @@ namespace ltn::c::ast {
 
 	struct Call final : public Expression {
 		Call(
-			std::unique_ptr<Expression> function_ptr,
-			std::vector<std::unique_ptr<Expression>> arguments,
+			expr_ptr function_ptr,
+			std::vector<expr_ptr> arguments,
 			const SourceLocation & location)
 			: Expression(location)
 			, function_ptr(std::move(function_ptr))
@@ -496,8 +484,8 @@ namespace ltn::c::ast {
 			return std::size(this->arguments);
 		}
 
-		std::unique_ptr<Expression> function_ptr;
-		std::vector<std::unique_ptr<Expression>> arguments;
+		expr_ptr function_ptr;
+		std::vector<expr_ptr> arguments;
 	};
 
 
@@ -505,7 +493,7 @@ namespace ltn::c::ast {
 	struct Struct final : public Expression {
 		struct Member {
 			std::variant<std::string, MemberCode> name;
-			std::unique_ptr<Expression> expr;
+			expr_ptr expr;
 		};
 
 		Struct(const SourceLocation & location)
@@ -546,14 +534,14 @@ namespace ltn::c::ast {
 			visitor.visit(*this);
 		}
 		
-		std::unique_ptr<Expression> condition;
+		expr_ptr condition;
 		
 		std::vector<std::pair<
-			std::unique_ptr<Expression>,
-			std::unique_ptr<Expression>
+			expr_ptr,
+			expr_ptr
 		>> cases;
 		
-		std::unique_ptr<Expression> d3fault;
+		expr_ptr d3fault;
 	};
 
 

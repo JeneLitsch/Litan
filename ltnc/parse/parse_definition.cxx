@@ -25,7 +25,7 @@ namespace ltn::c {
 
 	ast::defn_ptr parse_definition(Tokens & tokens, const Namespace & namespaze) {
 		auto name = parse_name(tokens);
-		auto definition = std::make_unique<ast::Definition>(
+		auto definition = std::make_unique<ast::decl::Definition>(
 			location(tokens),
 			std::move(name),
 			std::move(namespaze)

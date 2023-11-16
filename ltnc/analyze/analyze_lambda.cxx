@@ -15,7 +15,7 @@ namespace ltn::c {
 
 
 
-		FunctionScope create_inner_scope(Scope & outer_scope, const ast::Lambda & lambda) {
+		FunctionScope create_inner_scope(Scope & outer_scope, const ast::expr::Lambda & lambda) {
 			FunctionScope inner_scope {
 				outer_scope.get_namespace(),
 				lambda.fx->is_const,
@@ -28,7 +28,7 @@ namespace ltn::c {
 
 
 
-	sst::expr_ptr analyze_expr(const ast::Lambda & lambda, Scope & outer_scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Lambda & lambda, Scope & outer_scope) {
 		
 		auto inner_scope = create_inner_scope(outer_scope, lambda);
 		auto label = make_lambda_label(lambda);
