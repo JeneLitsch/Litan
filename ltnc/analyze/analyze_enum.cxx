@@ -9,11 +9,10 @@ namespace ltn::c {
 		namespaze.push_back(enumeration.name);
 
 		return stx::fx::mapped([&] (const auto & label) {
-			return std::make_unique<sst::decl::Definition>(
+			return sst::decl::definition(
 				label.name, namespaze,
 				sst::expr::integer(label.value),
-				id++
-			);
+				id++);
 		}) (enumeration.labels);
 	}
 }

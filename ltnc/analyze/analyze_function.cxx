@@ -6,28 +6,18 @@
 
 namespace ltn::c {
 	namespace {
-		sst::misc::Parameters analyze_parameters(
+		void add_parameters_to_scope(
 			const ast::Parameters & parameters,
 			Scope & scope,
 			const SourceLocation & loc) {
 			
-			sst::misc::Parameters p;
 			for(const auto & param : parameters.simple) {
-				auto sst_param = sst::misc::Parameter {
-					.name = param.name,
-				};
-				scope.insert(sst_param.name, loc);
-				p.push_back(sst_param);
+				scope.insert(param.name, loc);
 			}
 
 			if(parameters.variadic) {
-				auto sst_param = sst::misc::Parameter {
-					.name = parameters.variadic->name,
-				};
-				scope.insert(sst_param.name, loc);
-				p.push_back(sst_param);
+				scope.insert(parameters.variadic->name, loc);
 			}
-			return p;
 		}
 
 
@@ -56,7 +46,7 @@ namespace ltn::c {
 
 		auto & context = scope.get_context();
 
-		auto parameters = analyze_parameters(fx.parameters, scope, location(fx));
+		add_parameters_to_scope(fx.parameters, scope, location(fx));
 
 		for(const auto & capture : captures) {
 			scope.insert(capture->name, location(*capture));
@@ -64,13 +54,7 @@ namespace ltn::c {
 
 		auto body = analyze_statement(*fx.body, scope);
 
-		auto sst_fx = std::make_unique<sst::decl::Function>(
-			label,
-			fx.name,
-			fx.namespaze,
-			parameters,
-			std::move(body)
-		);
+		auto sst_fx = sst::decl::function(fx.name, fx.namespaze, std::move(body), label);
 
 		sst_fx->is_const = fx.is_const; 
 		sst_fx->is_extern = fx.is_extern; 

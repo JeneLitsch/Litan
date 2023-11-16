@@ -7,8 +7,8 @@
 
 namespace ltn::c {
 	namespace {
-		template<typename NodeT>
 		auto analyze_static(
+			auto make,
 			const auto & statik,
 			Context & context,
 			std::uint64_t id) {
@@ -16,12 +16,7 @@ namespace ltn::c {
 			MajorScope scope { statik.namespaze, false, context};
 
 			auto expr = statik.expr ? analyze_expression(*statik.expr, scope) : sst::expr::null();
-			auto node = std::make_unique<NodeT>(
-				statik.name,
-				statik.namespaze,
-				std::move(expr),
-				id
-			);
+			auto node = make(statik.name, statik.namespaze, std::move(expr), id);
 
 			node->is_extern = statik.is_extern;
 			node->is_private = statik.is_private;
@@ -49,7 +44,7 @@ namespace ltn::c {
 			.reporter          = context.reporter,
 			.custom_resolver   = context.custom_resolver,
 		};
-		return analyze_static<sst::decl::Definition>(def, read_context, id);
+		return analyze_static(sst::decl::definition, def, read_context, id);
 	}
 
 
@@ -71,6 +66,6 @@ namespace ltn::c {
 			.reporter          = context.reporter,
 			.custom_resolver   = context.custom_resolver,
 		};
-		return analyze_static<sst::decl::Global>(global, read_context, id);
+		return analyze_static(sst::decl::variable, global, read_context, id);
 	}
 }

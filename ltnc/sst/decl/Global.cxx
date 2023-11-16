@@ -13,4 +13,15 @@ namespace ltn::c::sst::decl {
 
 
 	Global::~Global() {}
+
+
+
+	std::unique_ptr<Global> variable(
+		const std::string & name,
+		const Namespace & namespaze,
+		expr_ptr expr,
+		std::uint64_t id) {
+		
+		return std::make_unique<Global>(name, namespaze, std::move(expr), id);
+	}
 }

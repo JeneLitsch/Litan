@@ -13,4 +13,15 @@ namespace ltn::c::sst::decl {
 
 
 	Definition::~Definition() {}
+
+
+
+	std::unique_ptr<Definition> definition(
+		const std::string & name,
+		const Namespace & namespaze,
+		expr_ptr expr,
+		std::uint64_t id) {
+		
+		return std::make_unique<Definition>(name, namespaze, std::move(expr), id);
+	}
 }

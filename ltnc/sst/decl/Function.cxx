@@ -5,13 +5,11 @@
 namespace ltn::c::sst::decl {
 
 	Function::Function(
-		const Label & label,
 		const std::string & name,
 		Namespace namespaze,
-		misc::Parameters parameters,
-		stmt_ptr && body)
+		stmt_ptr && body,
+		const Label & label)
 		: Declaration(name, namespaze)
-		, parameters{std::move(parameters)}
 		, label{std::move(label)}
 		, body{std::move(body)} {}
 
@@ -30,4 +28,16 @@ namespace ltn::c::sst::decl {
 
 
 	Function::~Function() {}
+
+
+
+
+	std::unique_ptr<Function> function(
+		const std::string & name,
+		Namespace namespaze,
+		stmt_ptr && body,
+		const Label & label) {
+		
+		return std::make_unique<Function>(name, namespaze, std::move(body), label);
+	}
 }
