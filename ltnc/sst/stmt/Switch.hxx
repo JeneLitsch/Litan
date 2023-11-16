@@ -24,5 +24,5 @@ namespace ltn::c::sst::stmt {
 		stmt_ptr d3fault;
 	};
 
-	std::unique_ptr<Switch> switch_stmt();
+	std::unique_ptr<Switch> sw1tch();
 }

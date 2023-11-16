@@ -38,7 +38,7 @@ namespace ltn::c {
 			virtual void visit(const sst::expr::GlobalVar & x) const override { this->run(x); };
 			virtual void visit(const sst::expr::Iife & x) const override { this->run(x); };
 			virtual void visit(const sst::expr::Ternary & x) const override { this->run(x); };
-			virtual void visit(const sst::expr::Choose & x) const override { this->run(x); };
+			virtual void visit(const sst::expr::Switch & x) const override { this->run(x); };
 			virtual void visit(const sst::expr::Reflect & x) const override { this->run(x); };
 			virtual void visit(const sst::expr::Struct & x) const override { this->run(x); };
 			virtual void visit(const sst::expr::Map & x) const override { this->run(x); };

@@ -39,7 +39,7 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::unique_ptr<Switch> switch_stmt() {
+	std::unique_ptr<Switch> sw1tch() {
 		return std::make_unique<Switch>();
 	}
 }

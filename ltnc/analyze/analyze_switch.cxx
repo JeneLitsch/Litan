@@ -1,6 +1,6 @@
 #include "analyze.hxx"
 #include "stdxx/functional.hxx"
-#include "ltnc/sst/expr/Choose.hxx"
+#include "ltnc/sst/expr/Switch.hxx"
 #include "ltnc/sst/stmt/Switch.hxx"
 
 namespace ltn::c {
@@ -39,7 +39,7 @@ namespace ltn::c {
 		auto cases = analyze_cases(analyze_statement, sw1tch, scope);
 		auto def4ault = analyze_statement(*sw1tch.d3fault, scope);
 
-		auto sst_sw1tch = sst::stmt::switch_stmt();
+		auto sst_sw1tch = sst::stmt::sw1tch();
 		sst_sw1tch->cases = std::move(cases);
 		sst_sw1tch->condition = std::move(condition);
 		sst_sw1tch->d3fault = std::move(def4ault);

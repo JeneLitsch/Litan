@@ -32,7 +32,7 @@ namespace ltn::c {
 
 	// Expression
 	InstructionBuffer compile_expression(const sst::expr::Expression &);
-	InstructionBuffer compile_expr(const sst::expr::Choose &);
+	InstructionBuffer compile_expr(const sst::expr::Switch &);
 	InstructionBuffer compile_expr(const sst::expr::Ternary &);
 	InstructionBuffer compile_expr(const sst::expr::Binary &);
 	InstructionBuffer compile_expr(const sst::expr::Unary &);
@@ -53,7 +53,6 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::expr::Var &);
 	InstructionBuffer compile_expr(const sst::expr::Member &);
 	InstructionBuffer compile_expr(const sst::expr::GlobalVar &);
-	// InstructionBuffer compile_expr(const sst::expr::TypedUnary &);
 	InstructionBuffer compile_expr(const sst::expr::Reflect &);
 	InstructionBuffer compile_expr(const sst::expr::Struct &);
 	InstructionBuffer compile_expr(const sst::expr::Map &);

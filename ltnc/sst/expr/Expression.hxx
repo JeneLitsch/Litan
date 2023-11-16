@@ -27,7 +27,7 @@ namespace ltn::c::sst::expr {
 	struct GlobalVar;
 	struct Iife;
 	struct Ternary;
-	struct Choose;
+	struct Switch;
 	struct Reflect;
 	struct Struct;
 	struct Map;
@@ -57,7 +57,7 @@ namespace ltn::c::sst::expr {
 		GlobalVar,
 		Iife,
 		Ternary,
-		Choose,
+		Switch,
 		Reflect,
 		Struct,
 		Map,

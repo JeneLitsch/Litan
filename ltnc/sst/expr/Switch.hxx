@@ -3,8 +3,8 @@
 #include "Expression.hxx"
 
 namespace ltn::c::sst::expr {
-	struct Choose final : ExpressionCRTP<Choose> {
-		Choose();
+	struct Switch final : ExpressionCRTP<Switch> {
+		Switch();
 
 		virtual std::uint64_t alloc() const override;
 
@@ -15,5 +15,5 @@ namespace ltn::c::sst::expr {
 		expr_ptr d3fault;
 	};
 
-	std::unique_ptr<Choose> sw1tch();
+	std::unique_ptr<Switch> sw1tch();
 }

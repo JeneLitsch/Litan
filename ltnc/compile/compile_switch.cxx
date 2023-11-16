@@ -1,6 +1,6 @@
 #include "compile.hxx"
 #include "stdxx/functional.hxx"
-#include "ltnc/sst/expr/Choose.hxx"
+#include "ltnc/sst/expr/Switch.hxx"
 #include "ltnc/sst/stmt/Switch.hxx"
 
 namespace ltn::c {
@@ -69,7 +69,7 @@ namespace ltn::c {
 
 
 
-	InstructionBuffer compile_expr(const sst::expr::Choose & sw1tch) {
+	InstructionBuffer compile_expr(const sst::expr::Switch & sw1tch) {
 		
 		const auto condition = compile_expression(*sw1tch.condition);
 		const auto cases = compile_cases(compile_expression, sw1tch);

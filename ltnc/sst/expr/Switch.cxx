@@ -1,9 +1,9 @@
-#include "Choose.hxx"
+#include "Switch.hxx"
 
 namespace ltn::c::sst::expr {
-	Choose::Choose() {}
+	Switch::Switch() {}
 
-	std::uint64_t Choose::alloc() const {
+	std::uint64_t Switch::alloc() const {
 		std::uint64_t count = 0;
 		for(const auto & [c4se, expr] : this->cases) {
 			count = std::max({c4se->alloc(), expr->alloc(), count});
@@ -12,7 +12,7 @@ namespace ltn::c::sst::expr {
 	}
 
 
-	std::unique_ptr<Choose> sw1tch() {
-		return std::make_unique<Choose>();
+	std::unique_ptr<Switch> sw1tch() {
+		return std::make_unique<Switch>();
 	}
 }

@@ -5,7 +5,6 @@ target_sources(libltnc PRIVATE
 	Binary.cxx
 	BuildIn.cxx
 	Call.cxx
-	Choose.cxx
 	FxPointer.cxx
 	GlobalVar.cxx
 	Iife.cxx
@@ -17,6 +16,7 @@ target_sources(libltnc PRIVATE
 	Member.cxx
 	Reflect.cxx
 	Struct.cxx
+	Switch.cxx
 	Ternary.cxx
 	Tuple.cxx
 	Type.cxx
