@@ -1,4 +1,5 @@
 #include "parse.hxx"
+#include "ltnc/ast/stmt/NewVar.hxx"
 #include "ltnc/ast/bind/NewVar.hxx"
 #include "ltnc/ast/bind/Group.hxx"
 
@@ -52,11 +53,7 @@ namespace ltn::c {
 			auto binding = parse_binding(*start, tokens);
 			auto && r = parse_assign_r(tokens);
 			semicolon(tokens);
-			return std::make_unique<ast::stmt::NewVar>(
-				std::move(binding),
-				std::move(r),
-				location(tokens)
-			);
+			return ast::stmt::new_local(std::move(binding), std::move(r), start->location);
 		}
 		return nullptr;
 	}

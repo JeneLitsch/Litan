@@ -1,9 +1,10 @@
 #include "compile.hxx"
 #include "ltnc/sst/stmt/IfElse.hxx"
+#include "ltnc/sst/stmt/NoOp.hxx"
 
 namespace ltn::c {
 	bool has_else_branch(const sst::stmt::IfElse & stmt) {
-		return stmt.else_branch && (!as<ast::stmt::NoOp>(*stmt.else_branch));
+		return stmt.else_branch && (!as<sst::stmt::NoOp>(*stmt.else_branch));
 	}
 
 

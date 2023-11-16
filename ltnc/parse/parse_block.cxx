@@ -1,5 +1,6 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "ltnc/ast/stmt/Block.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -19,9 +20,6 @@ namespace ltn::c {
 			}
 			statements.push_back(parse_statement(tokens));
 		}
-		return std::make_unique<ast::stmt::Block>(
-			std::move(statements),
-			location(tokens)
-		);
+		return ast::stmt::block(std::move(statements), location(tokens));
 	}
 }

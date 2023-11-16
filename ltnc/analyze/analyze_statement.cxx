@@ -1,4 +1,5 @@
 #include "analyze.hxx"
+#include "ltnc/ast/stmt/StatementExpression.hxx"
 #include "ltnc/sst/stmt/NoOp.hxx"
 #include "ltnc/sst/stmt/Assign.hxx"
 #include "ltnc/sst/bind/Discard.hxx"

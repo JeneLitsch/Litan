@@ -1,5 +1,7 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "ltnc/ast/stmt/ForEach.hxx"
+#include "ltnc/ast/stmt/While.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -12,7 +14,7 @@ namespace ltn::c {
 		if(match(TT::WHILE, tokens)) {
 			auto expr = parse_condition(tokens);
 			auto body = parse_statement(tokens);
-			return std::make_unique<ast::stmt::While>(
+			return ast::stmt::while_loop(
 				std::move(expr),
 				std::move(body),
 				location(tokens)
@@ -43,7 +45,7 @@ namespace ltn::c {
 			}
 			
 			auto body = parse_statement(tokens);
-			return std::make_unique<ast::stmt::ForEach>(
+			return ast::stmt::for_each(
 				var_name,
 				std::move(from),
 				std::move(body),

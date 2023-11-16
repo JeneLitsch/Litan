@@ -1,5 +1,8 @@
 #include "analyze.hxx"
 #include <iostream>
+
+#include "ltnc/ast/stmt/Assign.hxx"
+
 #include "ltnc/sst/expr/Index.hxx"
 #include "ltnc/sst/expr/Member.hxx"
 #include "ltnc/sst/expr/Var.hxx"

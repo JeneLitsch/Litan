@@ -2,9 +2,8 @@
 #include "stdxx/iife.hxx"
 #include "ltnc/CompilerError.hxx"
 #include <iostream>
-
-// The following functions are for parsing the head of function
-// function foo(Type name, ...) -> RType
+#include "ltnc/ast/decl/Function.hxx"
+#include "ltnc/ast/stmt/Return.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -150,7 +149,7 @@ namespace ltn::c {
 			auto expr = std::make_unique<ast::expr::ForwardDynamicCall>(
 				address, arity + is_variadic, i->location
 			);
-			return std::make_unique<ast::stmt::Return>(std::move(expr), i->location);
+			return ast::stmt::retvrn(std::move(expr), i->location);
 		}
 
 
@@ -183,7 +182,7 @@ namespace ltn::c {
 				}
 				auto expr = parse_expression(tokens);
 				const auto & loc = location(tokens);
-				return std::make_unique<ast::stmt::Return>(std::move(expr), loc);
+				return ast::stmt::retvrn(std::move(expr), loc);
 			}
 			else {
 				return parse_statement(tokens);

@@ -1,6 +1,7 @@
 #include "analyze.hxx"
 #include <iostream>
 #include "ltnc/ast/bind/NewVar.hxx"
+#include "ltnc/ast/stmt/NewVar.hxx"
 #include "ltnc/sst/expr/Literal.hxx"
 #include "ltnc/sst/stmt/Assign.hxx"
 

@@ -53,9 +53,8 @@ namespace ltn::c::ast::decl {
 		Definition(
 			const SourceLocation & location,
 			const std::string & name,
-			const Namespace & namespaze)
-			: Static{location, name, namespaze} {}
-		virtual ~Definition() = default;
+			const Namespace & namespaze);
+		virtual ~Definition();
 		ast::expr_ptr expr;
 	};
 
@@ -65,9 +64,8 @@ namespace ltn::c::ast::decl {
 		Global(
 			const SourceLocation & location,
 			const std::string & name,
-			const Namespace & namespaze)
-			: Static{location, name, namespaze} {}
-		virtual ~Global() = default;
+			const Namespace & namespaze);
+		virtual ~Global();
 		ast::expr_ptr expr;
 	};
 

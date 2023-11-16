@@ -1,4 +1,9 @@
 #include "analyze.hxx"
+
+#include "ltnc/ast/stmt/ForEach.hxx"
+#include "ltnc/ast/stmt/InfiniteLoop.hxx"
+#include "ltnc/ast/stmt/While.hxx"
+
 #include "ltnc/sst/stmt/ForEach.hxx"
 #include "ltnc/sst/stmt/InfiniteLoop.hxx"
 #include "ltnc/sst/stmt/While.hxx"

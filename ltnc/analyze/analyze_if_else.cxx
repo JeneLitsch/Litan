@@ -1,4 +1,6 @@
 #include "analyze.hxx"
+#include "ltnc/ast/stmt/IfElse.hxx"
+#include "ltnc/ast/stmt/NoOp.hxx"
 #include "ltnc/sst/stmt/IfElse.hxx"
 
 namespace ltn::c {

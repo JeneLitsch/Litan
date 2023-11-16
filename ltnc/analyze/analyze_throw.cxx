@@ -1,4 +1,5 @@
 #include "analyze.hxx"
+#include "ltnc/ast/stmt/Throw.hxx"
 #include "ltnc/sst/expr/Literal.hxx"
 #include "ltnc/sst/stmt/Throw.hxx"
 

@@ -1,5 +1,7 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "ltnc/ast/stmt/Switch.hxx"
+#include "ltnc/ast/stmt/NoOp.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -63,7 +65,7 @@ namespace ltn::c {
 	ast::stmt_ptr parse_stmt_switch(Tokens & tokens) {
 		auto sw1tch = parse_any_switch<ast::stmt::Switch, TT::SWITCH, parse_statement>(tokens);
 		if(sw1tch && !sw1tch->d3fault) {
-			sw1tch->d3fault = std::make_unique<ast::stmt::NoOp>(location(tokens));
+			sw1tch->d3fault = ast::stmt::no_op(location(tokens));
 		}
 		return sw1tch;
 	} 

@@ -1,4 +1,5 @@
 #include "analyze.hxx"
+#include "ltnc/ast/stmt/Block.hxx"
 #include "ltnc/sst/stmt/Block.hxx"
 namespace ltn::c {
 	// compiles -> code block {...}

@@ -1,5 +1,7 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "ltnc/ast/stmt/IfElse.hxx"
+#include "ltnc/ast/stmt/NoOp.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -22,7 +24,7 @@ namespace ltn::c {
 			}
 			return parse_statement(tokens);
 		}
-		return std::make_unique<ast::stmt::NoOp>(location(tokens));
+		return ast::stmt::no_op(location(tokens));
 	}
 
 
@@ -32,11 +34,12 @@ namespace ltn::c {
 			auto expr = parse_condition(tokens); 
 			auto ifBody = parse_statement(tokens); 
 			auto elseBody = parse_else_branch(tokens); 
-			return std::make_unique<ast::stmt::IfElse>(
+			return ast::stmt::if_else(
 				std::move(expr),
 				std::move(ifBody),
 				std::move(elseBody),
-				location(tokens));
+				location(tokens)
+			);
 		}
 		return nullptr;
 	}

@@ -1,6 +1,8 @@
 #include "parse.hxx"
 #include "ltnc/lex/lexing.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "ltnc/ast/stmt/Return.hxx"
+#include "ltnc/ast/stmt/Throw.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -16,24 +18,14 @@ namespace ltn::c {
 
 
 
-
-
-
-
 	ast::stmt_ptr parse_return(Tokens & tokens) {
 		if(match(TT::RETURN, tokens)) {
 			if(match(TT::SEMICOLON, tokens)) {
-				return std::make_unique<ast::stmt::Return>(
-					nullptr,
-					location(tokens)
-				);
+				return ast::stmt::retvrn(nullptr, location(tokens));
 			}
 			auto expr = parse_expression(tokens);
 			semicolon(tokens);
-			return std::make_unique<ast::stmt::Return>(
-				std::move(expr),
-				location(tokens)
-			);
+			return ast::stmt::retvrn(std::move(expr), location(tokens));
 		}
 		return nullptr;
 	}
@@ -47,9 +39,7 @@ namespace ltn::c {
 				expr = parse_expression(tokens);
 				semicolon(tokens);
 			}
-			return std::make_unique<ast::stmt::Throw>(
-				std::move(expr),
-				location(tokens));
+			return ast::stmt::thr0w(std::move(expr), location(tokens));
 		}
 		else return nullptr;
 	}
