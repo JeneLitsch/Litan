@@ -1,7 +1,11 @@
 #include "analyze.hxx"
 #include <string_view>
+#include "ltnc/ast/expr/Bool.hxx"
+#include "ltnc/ast/expr/Char.hxx"
+#include "ltnc/ast/expr/Float.hxx"
+#include "ltnc/ast/expr/Integer.hxx"
+#include "ltnc/ast/expr/String.hxx"
 #include "ltnc/sst/expr/Literal.hxx"
-
 
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::expr::Integer & expr, Scope &) {

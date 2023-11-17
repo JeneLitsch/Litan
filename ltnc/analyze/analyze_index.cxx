@@ -1,6 +1,7 @@
 #include "analyze.hxx"
 #include <string_view>
 #include "stdxx/iife.hxx"
+#include "ltnc/ast/expr/Index.hxx"
 #include "ltnc/sst/expr/Index.hxx"
 
 namespace ltn::c {

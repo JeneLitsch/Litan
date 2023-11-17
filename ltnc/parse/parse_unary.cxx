@@ -2,6 +2,11 @@
 #include "ltnc/CompilerError.hxx"
 #include <sstream>
 #include "parse_utils.hxx"
+#include "ltnc/ast/expr/Call.hxx"
+#include "ltnc/ast/expr/Member.hxx"
+#include "ltnc/ast/expr/Index.hxx"
+#include "ltnc/ast/expr/Unary.hxx"
+#include "ltnc/ast/expr/InvokeMember.hxx"
 namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
@@ -64,22 +69,13 @@ namespace ltn::c {
 
 			if(auto start = match(TT::BRACKET_L, tokens)) {
 				auto index = parse_index(tokens);
-				auto location = ast::location(*index);
-				auto full = std::make_unique<ast::expr::Index>(
-					std::move(l),
-					std::move(index),
-					location
-				);
-				return parse_postfix(tokens, std::move(full));
+				auto subscript = ast::expr::index(start->location, std::move(l), std::move(index));
+				return parse_postfix(tokens, std::move(subscript));
 			}
 
 			if(auto start = match(TT::DOT, tokens)) {
 				auto name = parse_member(tokens);
-				auto access = std::make_unique<ast::expr::Member>(
-					std::move(l),
-					name,
-					location(tokens)
-				);
+				auto access = ast::expr::member(start->location, std::move(l), name);
 				return parse_postfix(tokens, std::move(access));
 			}
 
@@ -92,24 +88,18 @@ namespace ltn::c {
 				};
 
 				auto args = parse_arguments(tokens);
-				auto access = std::make_unique<ast::expr::InvokeMember>(
+				auto access = ast::expr::invoke_member(
+					start->location,
 					std::move(l),
 					std::move(name),
-					std::move(args),
-					location(tokens)
+					std::move(args)
 				);
 				return parse_postfix(tokens, std::move(access));
 			}
 
 			if(auto start = match(TT::PAREN_L, tokens)) {
-
-				auto function_args = parse_arguments(tokens);
-
-				auto call = std::make_unique<ast::expr::Call>(
-					std::move(l),
-					std::move(function_args),
-					location(tokens)
-				);
+				auto args = parse_arguments(tokens);
+				auto call = ast::expr::call(start->location, std::move(l), std::move(args));
 				return parse_postfix(tokens, std::move(call));
 			}
 
@@ -131,7 +121,7 @@ namespace ltn::c {
 		
 		if(auto op = match_op(tokens, table)) {
 			auto && r = parse_prefix(tokens);
-			return std::make_unique<ast::expr::Unary>(*op, std::move(r), location(tokens));
+			return ast::expr::unary(location(tokens), *op, std::move(r));
 		}
 		return parse_postfix(tokens, parse_primary(tokens));
 	}

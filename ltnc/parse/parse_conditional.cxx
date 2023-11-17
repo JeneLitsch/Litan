@@ -1,13 +1,15 @@
 #include "parse.hxx"
 #include <sstream>
+#include "ltnc/ast/expr/Binary.hxx"
+#include "ltnc/ast/expr/Ternary.hxx"
+
 namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
 
-		template<auto expr_fx>
 		ast::expr_ptr parse_nullco(Tokens & tokens, ast::expr_ptr l) {
-			auto else_expr = expr_fx(tokens);
-			return std::make_unique<ast::expr::Binary>(
+			auto else_expr = parse_expression(tokens);
+			return ast::expr::binary(
 				BinaryOp::NULLCO,
 				std::move(l),
 				std::move(else_expr),
@@ -17,10 +19,9 @@ namespace ltn::c {
 
 
 
-		template<auto expr_fx>
 		ast::expr_ptr parse_elvis(Tokens & tokens, ast::expr_ptr l) {
-			auto else_expr = expr_fx(tokens);
-			return std::make_unique<ast::expr::Binary>(
+			auto else_expr = parse_expression(tokens);
+			return ast::expr::binary(
 				BinaryOp::ELVIS,
 				std::move(l),
 				std::move(else_expr),
@@ -30,18 +31,17 @@ namespace ltn::c {
 
 
 
-		template<auto expr_fx>
-		ast::expr_ptr parse_ternary(Tokens & tokens, ast::expr_ptr l) {
-			auto c = expr_fx(tokens);
+		ast::expr_ptr parse_ternary(Tokens & tokens, ast::expr_ptr condition) {
+			auto if_expr = parse_expression(tokens);
 			if(!match(TT::COLON, tokens)) {
 				throw CompilerError{"Expected :", location(tokens)};
 			}
-			auto r = expr_fx(tokens);
-			return std::make_unique<ast::expr::Ternary>(
+			auto else_expr = parse_expression(tokens);
+			return ast::expr::ternary(
 				location(tokens),
-				std::move(l),
-				std::move(c),
-				std::move(r)
+				std::move(condition),
+				std::move(if_expr),
+				std::move(else_expr)
 			);
 		}
 	}
@@ -53,16 +53,16 @@ namespace ltn::c {
 		if(match(TT::QMARK, tokens)) {
 			// c ?? b
 			if(match(TT::QMARK, tokens)) {
-				return parse_nullco<parse_expression>(tokens, std::move(l));
+				return parse_nullco(tokens, std::move(l));
 			}
 
 			// c ?: b
 			if(match(TT::COLON, tokens)) {
-				return parse_elvis<parse_expression>(tokens, std::move(l));
+				return parse_elvis(tokens, std::move(l));
 			}
 			
 			// c ? a : b
-			return parse_ternary<parse_expression_no_cast>(tokens, std::move(l));
+			return parse_ternary(tokens, std::move(l));
 		}
 		return l;
 	}

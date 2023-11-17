@@ -1,6 +1,7 @@
 #include "analyze.hxx"
 #include "stdxx/functional.hxx"
 
+#include "ltnc/ast/expr/Choose.hxx"
 #include "ltnc/ast/stmt/Switch.hxx"
 
 #include "ltnc/sst/expr/Switch.hxx"

@@ -37,7 +37,6 @@ namespace ltn::c {
 	ast::expr_ptr parse_expr_switch(Tokens & tokens);
 
 	ast::expr_ptr parse_expression(Tokens & tokens);
-	ast::expr_ptr parse_expression_no_cast(Tokens & tokens);
 	ast::expr_ptr parse_conditional(Tokens & tokens);
 	ast::expr_ptr parse_condition(Tokens & tokens);
 	ast::expr_ptr parse_binary(Tokens & tokens);
@@ -64,7 +63,7 @@ namespace ltn::c {
 
 	std::pair<std::string, Namespace> parse_symbol(Tokens & tokens);
 
-	ast::type_ptr parse_type(Tokens & tokens);
+	ast::expr_ptr parse_type(Tokens & tokens);
 
 	MemberCode parse_member_code(Tokens & tokens);
 }

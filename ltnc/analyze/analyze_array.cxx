@@ -1,5 +1,7 @@
 #include "analyze.hxx"
 #include <string_view>
+#include "ltnc/ast/expr/Array.hxx"
+#include "ltnc/ast/expr/Tuple.hxx"
 #include "ltnc/sst/expr/Array.hxx"
 #include "ltnc/sst/expr/Tuple.hxx"
 

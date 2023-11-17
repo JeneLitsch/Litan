@@ -7,7 +7,7 @@
 
 namespace ltn::c {
 	template<typename Elem>
-	inline auto list_of(
+	inline auto vector_of(
 		Token::Type end,
 		std::string end_str,
 		Tokens & tokens,

@@ -1,6 +1,7 @@
 #include "analyze.hxx"
 #include "ltn/type_code.hxx"
 #include "stdxx/array.hxx"
+#include "ltnc/ast/expr/Type.hxx"
 #include "ltnc/sst/expr/Type.hxx"
 
 namespace ltn::c {

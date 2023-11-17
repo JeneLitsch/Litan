@@ -1,6 +1,7 @@
 #include "analyze.hxx"
 #include <string_view>
 #include <iostream>
+#include "ltnc/ast/expr/Reflect.hxx"
 #include "ltnc/sst/expr/Reflect.hxx"
 
 namespace ltn::c {

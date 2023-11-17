@@ -1,5 +1,6 @@
 #include "parse.hxx"
 #include "parse_utils.hxx"
+#include "ltnc/ast/expr/Type.hxx"
 
 namespace ltn::c {
 	using TT = Token::Type;
@@ -160,7 +161,7 @@ namespace ltn::c {
 
 		ast::type_ptr parse_struct_type(const Token & begin, Tokens & tokens) {
 			if(match(TT::PAREN_L, tokens)) {
-				auto members = list_of<ast::expr::Type::Struct::Member>(TT::PAREN_R, ")", tokens, [&begin] (auto & tokens) {
+				auto members = vector_of<ast::expr::Type::Struct::Member>(TT::PAREN_R, ")", tokens, [&begin] (auto & tokens) {
 					return parse_struct_member(begin, tokens);
 				});
 				return std::make_unique<ast::expr::Type>(ast::expr::Type::Struct{
@@ -221,7 +222,7 @@ namespace ltn::c {
 
 
 
-	ast::type_ptr parse_type(Tokens & tokens) {
+	ast::expr_ptr parse_type(Tokens & tokens) {
 		if(auto begin = match(TT::SMALLER, tokens)) {
 			auto type = parse_type_name_start(*begin, tokens);
 			if(!match(TT::BIGGER, tokens)) throw CompilerError {

@@ -1,4 +1,5 @@
 #include "analyze.hxx"
+#include "ltnc/ast/expr/Ternary.hxx"
 #include "ltnc/sst/expr/Ternary.hxx"
 
 namespace ltn::c {

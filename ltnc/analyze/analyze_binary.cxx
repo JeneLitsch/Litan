@@ -2,13 +2,11 @@
 #include <iostream>
 #include <sstream>
 #include "stdxx/functional.hxx"
+#include "ltnc/ast/expr/Binary.hxx"
 #include "ltnc/sst/expr/Binary.hxx"
 
 namespace ltn::c {
-	// compiles a binary operation
-	sst::expr_ptr analyze_expr(
-		const ast::expr::Binary & binary,
-		Scope & scope) {
+	sst::expr_ptr analyze_expr(const ast::expr::Binary & binary, Scope & scope) {
 		
 		auto l = analyze_expression(*binary.l, scope);
 		auto r = analyze_expression(*binary.r, scope);

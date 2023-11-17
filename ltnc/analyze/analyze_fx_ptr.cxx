@@ -2,6 +2,7 @@
 #include "stdxx/functional.hxx"
 #include "stdxx/iife.hxx"
 #include <string_view>
+#include "ltnc/ast/expr/FxPointer.hxx"
 #include "ltnc/sst/expr/FxPointer.hxx"
 
 namespace ltn::c {

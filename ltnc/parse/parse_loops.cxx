@@ -38,7 +38,7 @@ namespace ltn::c {
 			}
 
 
-			auto from = parse_expression_no_cast(tokens);
+			auto from = parse_expression(tokens);
 
 			if(!match(TT::PAREN_R, tokens)) {
 				throw CompilerError{"Expected )", location(tokens)};

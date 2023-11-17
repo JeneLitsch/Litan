@@ -2,6 +2,10 @@
 #include <iostream>
 #include "stdxx/iife.hxx"
 #include "ltn/MemberCode.hxx"
+
+#include "ltnc/ast/expr/Map.hxx"
+#include "ltnc/ast/expr/Struct.hxx"
+
 #include "ltnc/sst/expr/Map.hxx"
 #include "ltnc/sst/expr/Struct.hxx"
 

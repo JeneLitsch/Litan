@@ -3,6 +3,10 @@
 #include "ltnc/CompilerError.hxx"
 #include <iostream>
 #include "ltnc/ast/decl/Function.hxx"
+#include "ltnc/ast/expr/BuildIn.hxx"
+#include "ltnc/ast/expr/Lambda.hxx"
+#include "ltnc/ast/expr/ForwardDynamicCall.hxx"
+#include "ltnc/ast/expr/Var.hxx"
 #include "ltnc/ast/stmt/Return.hxx"
 
 namespace ltn::c {
@@ -102,7 +106,7 @@ namespace ltn::c {
 				while(true) {
 					const auto name = parse_variable_name(tokens);
 					const auto & loc = location(tokens);
-					auto var = std::make_unique<ast::expr::Var>(name, Namespace{}, loc);
+					auto var = ast::expr::variable(loc, name, Namespace{});
 					captures.push_back(std::move(var));
 					if(match(TT::BRACKET_R, tokens)) break;
 					if(!match(TT::COMMA, tokens)) {
@@ -166,8 +170,7 @@ namespace ltn::c {
 				"Expected )"
 			};
 
-			auto expr = std::make_unique<ast::expr::BuildIn>(std::move(key), begin.location);
-			return std::make_unique<ast::stmt::Return>(std::move(expr), begin.location);
+			return ast::stmt::retvrn(ast::expr::build_in(begin.location, std::move(key)), begin.location);
 		}
 
 
@@ -275,7 +278,7 @@ namespace ltn::c {
 
 
 	ast::expr_ptr parse_lambda(Tokens & tokens) {
-		if(match(TT::LAMBDA, tokens)) {
+		if(auto start = match(TT::LAMBDA, tokens)) {
 			auto captures = parse_captures(tokens);
 			auto parameters = parse_lambda_parameters(tokens);
 			Qualifiers qualifiers = parse_qualifiers(tokens);
@@ -290,10 +293,7 @@ namespace ltn::c {
 			fx->is_const = qualifiers.is_const;
 			if(qualifiers.is_private) throw CompilerError { "Lambda cannot be private", location(tokens)};
 			if(qualifiers.is_extern) throw CompilerError {"Lambda cannot be extern", location(tokens)};
-			return std::make_unique<ast::expr::Lambda>(
-				std::move(fx),
-				std::move(captures),
-				location(tokens)); 
+			return ast::expr::lambda(start->location, std::move(fx), std::move(captures)); 
 		}
 		return nullptr;
 	}

@@ -1,5 +1,6 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "ltnc/ast/expr/Reflect.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -75,7 +76,7 @@ namespace ltn::c {
 				"Expected ) after reflect", ref->location 
 			};
 
-			return std::make_unique<ast::expr::Reflect>(std::move(query), ref->location);
+			return ast::expr::reflect(ref->location, std::move(query));
 		}
 		else return nullptr;
 	}

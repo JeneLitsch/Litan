@@ -1,6 +1,11 @@
 #include <string_view>
 #include "stdxx/functional.hxx"
 #include "analyze.hxx"
+
+#include "ltnc/ast/expr/Call.hxx"
+#include "ltnc/ast/expr/InvokeMember.hxx"
+#include "ltnc/ast/expr/Var.hxx"
+
 #include "ltnc/sst/expr/Call.hxx"
 #include "ltnc/sst/expr/Invoke.hxx"
 #include "ltnc/sst/expr/InvokeMember.hxx"

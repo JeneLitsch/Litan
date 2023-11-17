@@ -2,6 +2,8 @@
 #include "ltnc/CompilerError.hxx"
 #include <sstream>
 #include "parse_utils.hxx"
+#include "ltnc/ast/expr/Binary.hxx"
+
 namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
@@ -15,11 +17,7 @@ namespace ltn::c {
 		auto l = presedence_down(tokens);
 		while (auto op = match_op(tokens, op_table::data)) {
 			auto && r = presedence_down(tokens);
-			auto expr = std::make_unique<ast::expr::Binary>(
-				*op,
-				std::move(l),
-				std::move(r),
-				location(tokens));
+			auto expr = ast::expr::binary(*op, std::move(l), std::move(r), location(tokens));
 			l = std::move(expr);
 		}				
 		return l;

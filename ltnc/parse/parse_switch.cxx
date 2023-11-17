@@ -1,5 +1,7 @@
 #include "parse.hxx"
 #include "ltnc/CompilerError.hxx"
+#include "ltnc/ast/expr/Null.hxx"
+#include "ltnc/ast/expr/Choose.hxx"
 #include "ltnc/ast/stmt/Switch.hxx"
 #include "ltnc/ast/stmt/NoOp.hxx"
 

@@ -1,4 +1,6 @@
 #include "error.hxx"
+#include "ltnc/ast/expr/FxPointer.hxx"
+#include "ltnc/ast/expr/Var.hxx"
 
 namespace ltn::c {
 	CompilerError undefined_function(

@@ -1,4 +1,8 @@
 #include "analyze.hxx"
+
+#include "ltnc/ast/expr/BuildIn.hxx"
+#include "ltnc/ast/expr/ForwardDynamicCall.hxx"
+
 #include "ltnc/sst/expr/Invoke.hxx"
 #include "ltnc/sst/expr/Literal.hxx"
 #include "ltnc/sst/expr/Var.hxx"

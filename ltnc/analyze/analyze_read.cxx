@@ -1,5 +1,9 @@
 #include "analyze.hxx"
 #include <string_view>
+
+#include "ltnc/ast/expr/Member.hxx"
+#include "ltnc/ast/expr/Var.hxx"
+
 #include "ltnc/sst/expr/Member.hxx"
 #include "ltnc/sst/expr/Var.hxx"
 #include "ltnc/sst/expr/GlobalVar.hxx"

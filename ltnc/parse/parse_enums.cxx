@@ -1,5 +1,6 @@
 #include "parse.hxx"
 #include "stdxx/functional.hxx"
+#include "ltnc/ast/expr/Integer.hxx"
 #include "ltnc/ast/decl/Enumeration.hxx"
 
 namespace ltn::c {
