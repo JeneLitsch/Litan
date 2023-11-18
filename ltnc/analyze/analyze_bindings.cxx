@@ -37,6 +37,6 @@ namespace ltn::c {
 			return analyze_bind(b, scope);
 		};
 
-		return ast::bind::visit_binding(binding, fx);
+		return ast::bind::visit(binding, fx);
 	}
 }

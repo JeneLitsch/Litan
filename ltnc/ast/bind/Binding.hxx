@@ -24,7 +24,7 @@ namespace ltn::c::ast::bind {
 
 
 
-	auto visit_binding(const Binding & binding, auto && fx) {
+	auto visit(const Binding & binding, auto && fx) {
 		using Callable = std::decay_t<decltype(fx)>;
 		using Ret = std::invoke_result_t<Callable, Group>;
 		using Base = FunctionVisitor<BindVisitor, Callable, Ret>;

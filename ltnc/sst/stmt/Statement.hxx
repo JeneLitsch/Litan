@@ -47,5 +47,26 @@ namespace ltn::c::sst::stmt {
 
 
 
-	using stmt_ptr = stmt_ptr;
+	auto visit(const Statement & stmt, auto && fx) {
+		using Callable = std::decay_t<decltype(fx)>;
+		using Ret = std::invoke_result_t<Callable, NoOp>;
+		using Base = FunctionVisitor<StmtVisitor, Callable, Ret>;
+
+		struct Visitor : public Base {
+			Visitor(Callable fx) : Base {fx} {} 
+			
+			virtual void visit(const Block & x)        const override { this->run(x); }
+			virtual void visit(const IfElse & x)       const override { this->run(x); }
+			virtual void visit(const While & x)        const override { this->run(x); }
+			virtual void visit(const InfiniteLoop & x) const override { this->run(x); }
+			virtual void visit(const ForEach & x)      const override { this->run(x); }
+			virtual void visit(const Assign & x)       const override { this->run(x); }
+			virtual void visit(const Return & x)       const override { this->run(x); }
+			virtual void visit(const Throw & x)        const override { this->run(x); }
+			virtual void visit(const Switch & x)       const override { this->run(x); }
+			virtual void visit(const NoOp & x)         const override { this->run(x); }
+		};
+
+		return Visitor{fx}(stmt);
+	}
 }

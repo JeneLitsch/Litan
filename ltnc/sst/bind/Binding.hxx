@@ -46,4 +46,26 @@ namespace ltn::c::sst::bind {
 			return visitor.visit(static_cast<const Derived &>(*this));
 		}
 	};
+
+
+
+	auto visit(const Binding & binding, auto && fx) {
+		using Callable = std::decay_t<decltype(fx)>;
+		using Ret = std::invoke_result_t<Callable, Discard>;
+		using Base = FunctionVisitor<BindVisitor, Callable, Ret>;
+		
+		struct Visitor : public Base {
+			Visitor(Callable fx) : Base {fx} {} 
+			
+			virtual void visit(const Group & x)   const override { this->run(x); };
+			virtual void visit(const NewVar & x)  const override { this->run(x); };
+			virtual void visit(const Discard & x) const override { this->run(x); };
+			virtual void visit(const Global & x)  const override { this->run(x); };
+			virtual void visit(const Member & x)  const override { this->run(x); };
+			virtual void visit(const Local & x)   const override { this->run(x); };
+			virtual void visit(const Index & x)   const override { this->run(x); };
+		};
+
+		return Visitor{fx}(binding);
+	}
 }

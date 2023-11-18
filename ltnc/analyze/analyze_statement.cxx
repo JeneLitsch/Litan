@@ -21,7 +21,7 @@ namespace ltn::c {
 
 	sst::stmt_ptr  analyze_statement(const ast::stmt::Statement & stmt, Scope & scope) {
 		
-		return ast::stmt::visit_statement(stmt, [&] (const auto & s) -> sst::stmt_ptr {
+		return ast::stmt::visit(stmt, [&] (const auto & s) -> sst::stmt_ptr {
 			return analyze_stmt(s, scope);
 		});
 	}

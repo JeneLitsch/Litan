@@ -85,7 +85,7 @@ namespace ltn::c::ast::expr {
 
 
 
-	auto visit_expression(const Expression & expr, auto && fx) {
+	auto visit(const Expression & expr, auto && fx) {
 		using Callable = std::decay_t<decltype(fx)>;
 		using Ret = std::invoke_result_t<Callable, Binary>;
 		using Base = FunctionVisitor<ExprVisitor, Callable, Ret>;

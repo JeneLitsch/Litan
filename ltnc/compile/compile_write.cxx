@@ -81,26 +81,8 @@ namespace ltn::c {
 
 		
 		InstructionBuffer compile_binding(const sst::bind::Binding & binding) {
-			auto fx = [&] (const auto & b) {
-				return compile_bind(b);
-			};
-			using Callable = std::decay_t<decltype(fx)>;
-			using Ret = std::invoke_result_t<Callable, sst::bind::Discard>;
-			using Base = FunctionVisitor<sst::bind::BindVisitor, Callable, Ret>;
-			
-			struct Visitor : public Base {
-				Visitor(Callable fx) : Base {fx} {} 
-				
-				virtual void visit(const sst::bind::Group & x)   const override { this->run(x); };
-				virtual void visit(const sst::bind::NewVar & x)  const override { this->run(x); };
-				virtual void visit(const sst::bind::Discard & x) const override { this->run(x); };
-				virtual void visit(const sst::bind::Global & x)  const override { this->run(x); };
-				virtual void visit(const sst::bind::Member & x)  const override { this->run(x); };
-				virtual void visit(const sst::bind::Local & x)   const override { this->run(x); };
-				virtual void visit(const sst::bind::Index & x)   const override { this->run(x); };
-			};
-
-			return Visitor{fx}(binding);
+			auto fx = [&] (const auto & b) { return compile_bind(b); };
+			return sst::bind::visit(binding, fx);
 		}
 	}
 

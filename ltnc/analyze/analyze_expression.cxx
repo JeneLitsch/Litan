@@ -30,7 +30,7 @@ namespace ltn::c {
 
 	// compiles any expr
 	sst::expr_ptr analyze_expression(const ast::expr::Expression & expr, Scope & scope) {
-		return ast::expr::visit_expression(expr, [&](const auto & e) {
+		return ast::expr::visit(expr, [&](const auto & e) {
 			return analyze_expr(e, scope);
 		});
 	}
