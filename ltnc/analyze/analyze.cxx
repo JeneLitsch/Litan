@@ -34,15 +34,6 @@ namespace ltn::c {
 
 
 
-	std::vector<sst::expr_ptr> analyze_all_expressions(const std::vector<ast::expr_ptr> & exprs, Scope & scope) {
-		auto analyze_all = stx::fx::mapped([&] (const auto & expr) {
-			return analyze_expression(*expr, scope);
-		});
-		return analyze_all(exprs);
-	}
-
-
-
 	sst::Program analyze(
 		const ast::Program & source,
 		Reporter & reporter,

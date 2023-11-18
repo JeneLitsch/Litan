@@ -45,8 +45,6 @@ namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::stmt::NewVar &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::stmt::Switch &, Scope &);
 
-	std::vector<sst::expr_ptr> analyze_all_expressions(const std::vector<ast::expr_ptr> &, Scope &);
-
 	sst::expr_ptr analyze_expression(const ast::expr::Expression &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::expr::Lambda &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::expr::Choose &, Scope &);
@@ -75,4 +73,6 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::expr::CustomLiteral &, Scope &);
 
 	sst::bind_ptr analyze_binding(const ast::bind::Binding &, Scope &);
+	sst::bind_ptr analyze_bind(const ast::bind::Group &, Scope &);
+	sst::bind_ptr analyze_bind(const ast::bind::NewVar &, Scope &);
 }	

@@ -63,8 +63,7 @@ namespace ltn::c {
 		sst::expr_ptr do_invoke(const ast::expr::Call & call, Scope & scope) {
 
 			auto expr = analyze_expression(*call.function_ptr, scope);
-			auto arguments = analyze_all_expressions(call.arguments, scope);
-			
+			auto arguments = stx::fx::map([&] (const auto & expr) { return analyze_expression(*expr, scope); }, call.arguments);			
 			return sst::expr::invoke(std::move(expr), std::move(arguments));
 		}
 
@@ -124,7 +123,7 @@ namespace ltn::c {
 
 	sst::expr_ptr analyze_expr(const ast::expr::InvokeMember & invoke, Scope & scope) {
 		auto expr = analyze_expression(*invoke.object, scope);
-		auto arguments = analyze_all_expressions(invoke.arguments, scope);
+		auto arguments = stx::fx::map([&] (const auto & expr) { return analyze_expression(*expr, scope); }, invoke.arguments);			
 		const auto id = scope.resolve_member_id(invoke.name);
 
 		return sst::expr::invoke_member(std::move(expr), id, std::move(arguments));
