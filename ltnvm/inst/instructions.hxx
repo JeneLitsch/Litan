@@ -9,6 +9,7 @@ namespace ltn::vm::inst {
 	void tRy(VMCore & core);
 	void thr0w(VMCore & core);
 	void build_in(VMCore & core);
+	void yield(VMCore & core);
 
 	void add(VMCore & core);
 	void sub(VMCore & core);

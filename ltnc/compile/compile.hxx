@@ -22,6 +22,7 @@ namespace ltn::c {
 	InstructionBuffer compile_statement(const sst::stmt::Statement &);
 	InstructionBuffer compile_stmt(const sst::stmt::Block &);
 	InstructionBuffer compile_stmt(const sst::stmt::Return &);
+	InstructionBuffer compile_stmt(const sst::stmt::Yield &);
 	InstructionBuffer compile_stmt(const sst::stmt::Throw &);
 	InstructionBuffer compile_stmt(const sst::stmt::IfElse &);
 	InstructionBuffer compile_stmt(const sst::stmt::InfiniteLoop &);

@@ -8,7 +8,8 @@ namespace ltn {
 		TRY,
 		THROW,
 		BUILD_IN,
-		
+		YIELD,
+
 		// Binary arithmetic
 		ADD = 0x10,
 		SUB,

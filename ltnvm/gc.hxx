@@ -20,6 +20,7 @@ namespace ltn::vm::gc {
 	void mark_obj(Map * obj);
 	void mark_obj(Clock * obj);
 	void mark_obj(RandomEngine * obj);
+	void mark_obj(CoRoutine * obj);
 
 	std::uint64_t sweep(std::unique_ptr<Object> & start);
 }

@@ -1,9 +1,20 @@
-namespace foo {
-	var a_1 extern private = 3;
-	var a_2 private extern = 3;
+function f(x) {
+	var a = 1;
+	yield (x, a);
+	var b = 2;
+	yield (x, a, b);
+	var c = 3;
+	yield (x, a, b, c);
 }
-var b = 3;
 
 function main() {
-	std::println(std::json::print(["a" : 1]));
+	var (cor_1, val_1) = f("ABC");
+	var (cor_2, val_2) = cor_1();
+	var (cor_3, val_3) = cor_2();
+	std::println(val_1);
+	std::println(cor_1);
+	std::println(val_2);
+	std::println(cor_2);
+	std::println(val_3);
+	std::println(cor_3);
 }

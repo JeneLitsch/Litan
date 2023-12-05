@@ -1,8 +1,10 @@
 #include "analyze.hxx"
 #include "ltnc/ast/stmt/StatementExpression.hxx"
+#include "ltnc/ast/stmt/Yield.hxx"
 #include "ltnc/sst/stmt/NoOp.hxx"
 #include "ltnc/sst/stmt/Assign.hxx"
 #include "ltnc/sst/bind/Discard.hxx"
+#include "ltnc/sst/stmt/Yield.hxx"
 
 namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::stmt::StatementExpression & stmt, Scope & scope) {

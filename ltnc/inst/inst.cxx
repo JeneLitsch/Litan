@@ -39,6 +39,13 @@ namespace ltn::c::inst {
 			.value = code,
         };
     }
+
+	Inst yield() {
+		return InstNone {
+            .name = "yield",
+            .opcode = OpCode::YIELD,
+        };
+	}
 	
 	Inst add() {
         return InstNone {

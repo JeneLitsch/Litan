@@ -123,6 +123,7 @@ namespace ltn::c {
 			{"default",      TT::DEFAULT},
 			{"reflect",      TT::REFLECT},
 			{"operator",     TT::OPERATOR},
+			{"yield",        TT::YIELD},
 		};
 		
 

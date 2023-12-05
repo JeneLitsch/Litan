@@ -36,6 +36,7 @@ namespace ltn::c {
 	sst::stmt_ptr analyze_statement(const ast::stmt::Statement &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::stmt::Block &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::stmt::Return &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::stmt::Yield &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::stmt::Assign &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::stmt::Throw &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::stmt::IfElse &, Scope &);

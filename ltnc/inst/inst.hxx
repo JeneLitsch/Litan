@@ -124,6 +124,7 @@ namespace ltn::c::inst {
 	Inst trY(const std::string & label);
 	Inst thr0w();
 	Inst build_in(std::uint16_t code);
+	Inst yield();
 	
 	Inst add();
 	Inst sub();

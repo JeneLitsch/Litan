@@ -90,6 +90,12 @@ namespace ltn::vm::gc {
 
 
 
+	void mark_obj(CoRoutine * obj) {
+		mark(obj->local_variables);		
+	}
+
+
+
 	void mark(const std::vector<Value> & values) {
 		for(const auto & value : values) {
 			mark(value);
@@ -103,6 +109,9 @@ namespace ltn::vm::gc {
 			mark(value);
 		}
 	}
+
+
+
 
 
 
@@ -128,6 +137,7 @@ namespace ltn::vm::gc {
 			case VT::STACK:         return mark_obj(value.as<Segmented>());
 			case VT::MAP:           return mark_obj(value.as<Map>());
 			case VT::RNG:           return mark_obj(value.as<RandomEngine>());
+			case VT::COROUTINE:     return mark_obj(value.as<CoRoutine>());
 			case VT::TYPE:          return; // no gc required
 		}
 	}

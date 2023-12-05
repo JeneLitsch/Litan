@@ -11,4 +11,5 @@ target_sources(libltnc PRIVATE
 	"Switch.cxx"
 	"Throw.cxx"
 	"While.cxx"
+	"Yield.cxx"
 )

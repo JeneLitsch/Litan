@@ -46,6 +46,7 @@ namespace ltn::vm {
 		table[OpCode::TRY] = inst::tRy;
 		table[OpCode::THROW] = inst::thr0w;
 		table[OpCode::BUILD_IN] = inst::build_in;
+		table[OpCode::YIELD] = inst::yield;
 		
 		table[OpCode::ADD] = inst::add;
 		table[OpCode::SUB] = inst::sub;

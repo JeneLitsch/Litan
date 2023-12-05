@@ -52,6 +52,16 @@ namespace ltn::vm::inst {
 			}
 			else throw except::invalid_argument();
 		}
+
+
+
+		void do_invoke_coroutine(VMCore & core, const Value ref, std::uint64_t arity) {
+			if(arity != 0) throw except::invalid_parameters(0, arity);
+			auto * coroutine = ref.as<CoRoutine>(); 
+			core.stack.push_frame(core.pc, 0);
+			load_onto_stack(core.stack, coroutine->local_variables);
+			core.pc = coroutine->resume_address;
+		}
 	}
 
 
@@ -63,10 +73,16 @@ namespace ltn::vm::inst {
 		if(is_fxptr(ref_fx)) {
 			return do_invoke_fxptr(core, ref_fx, arity);
 		}
+		
 		else if(is_int(ref_fx)) {
 			auto args = read_from_stack(core.stack, arity);
 			return do_invoke_external(core, ref_fx, arity, args);
 		}
+		
+		if(is_coroutine(ref_fx)) {
+			return do_invoke_coroutine(core, ref_fx, arity);
+		}
+
 		else throw except::invalid_argument();
 	}
 
