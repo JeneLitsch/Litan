@@ -28,7 +28,7 @@ namespace ltn::c {
 			};
 			auto label = make_function_label(staged.fx);
 			static const std::vector<std::unique_ptr<ast::expr::Var>> no_captures;
-			return analyze_functional(staged.fx, scope, label, staged.captures.value_or(no_captures)); 
+			return analyze_function(staged.fx, scope, label, staged.captures.value_or(no_captures)); 
 		}
 	}
 

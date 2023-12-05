@@ -23,7 +23,7 @@ namespace ltn::c {
 		Reporter & reporter,
 		const std::vector<ltn::c::CustomLiteral> & literals = {});
 
-	sst::func_ptr analyze_functional(
+	sst::func_ptr analyze_function(
 		const ast::decl::Function &,
 		FunctionScope &,
 		std::optional<Label> override_label = std::nullopt,

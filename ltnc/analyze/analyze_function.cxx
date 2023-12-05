@@ -42,7 +42,7 @@ namespace ltn::c {
 
 	sst::func_ptr analyze_function(
 		const ast::decl::Function & fx,
-		Scope & scope,
+		FunctionScope & scope,
 		std::optional<Label> override_label,
 		const std::vector<std::unique_ptr<ast::expr::Var>> & captures) {
 
@@ -67,23 +67,5 @@ namespace ltn::c {
 		} 
 
 		return sst_fx;
-	}
-
-
-
-	sst::func_ptr analyze_functional(
-		const ast::decl::Function & functional,
-		FunctionScope & scope,
-		std::optional<Label> override_label,
-		const std::vector<std::unique_ptr<ast::expr::Var>> & captures) {
-
-		if(auto fx = as<const ast::decl::Function>(functional)) {
-			return analyze_function(*fx, scope, override_label, captures);
-		}
-		
-		throw CompilerError {
-			"Unknown functional declaration",
-			location(functional)
-		};
 	}
 }
