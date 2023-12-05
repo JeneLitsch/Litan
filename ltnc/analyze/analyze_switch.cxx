@@ -25,7 +25,7 @@ namespace ltn::c {
 
 		MajorScope case_scope {
 			scope.get_namespace(),
-			true,
+			Qualifiers::just_const,
 			case_context
 		};
 

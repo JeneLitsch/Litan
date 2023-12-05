@@ -25,6 +25,12 @@ namespace ltn::c {
 
 
 
+	bool MinorScope::is_coroutine() const {
+		return this->parent->is_coroutine();
+	}
+
+
+
 	const Namespace & MinorScope::get_namespace() const {
 		return this->parent->get_namespace();
 	}

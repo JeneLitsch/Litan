@@ -13,6 +13,7 @@ namespace ltn::c {
 	public:
 		virtual std::uint64_t size() const = 0;
 		virtual bool is_const() const = 0;
+		virtual bool is_coroutine() const = 0;
 		virtual const Namespace & get_namespace() const = 0;
 		virtual std::optional<std::string> get_return() const = 0;
 		virtual Context & get_context() const = 0;

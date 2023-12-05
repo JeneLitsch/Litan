@@ -5,10 +5,10 @@ namespace ltn::c {
 
 	MajorScope::MajorScope(
 		const Namespace & namespaze,
-		bool c0nst,
+		Qualifiers qualifiers,
 		stx::reference<Context> context) 
 		: namespaze { namespaze }
-		, c0nst { c0nst }
+		, qualifiers { qualifiers }
 		, context{context} {}
 
 
@@ -26,7 +26,13 @@ namespace ltn::c {
 
 
 	bool MajorScope::is_const() const {
-		return this->c0nst;
+		return this->qualifiers.is_const;
+	}
+
+
+
+	bool MajorScope::is_coroutine() const {
+		return this->qualifiers.is_coroutine;
 	}
 
 

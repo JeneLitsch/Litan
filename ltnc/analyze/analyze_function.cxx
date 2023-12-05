@@ -31,7 +31,7 @@ namespace ltn::c {
 			Context & context,
 			const auto & namespaze) {
 			
-			MajorScope scope{namespaze, false, context};
+			MajorScope scope{namespaze, Qualifiers::none, context};
 			scope.insert(except.errorname, location(except));
 			auto body = analyze_statement(*except.body, scope);
 			return sst::misc::except(except.errorname, std::move(body));
@@ -60,9 +60,7 @@ namespace ltn::c {
 
 		auto sst_fx = sst::decl::function(fx.name, fx.namespaze, std::move(body), label);
 
-		sst_fx->is_const = fx.is_const; 
-		sst_fx->is_extern = fx.is_extern; 
-		sst_fx->is_private = fx.is_private;
+		sst_fx->qualifiers = fx.qualifiers; 
 
 		if(fx.except) {
 			sst_fx->except = analyze_except(*fx.except, context, fx.namespaze);

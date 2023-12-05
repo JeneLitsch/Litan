@@ -1,4 +1,4 @@
-function f(x) {
+function f(x) coroutine {
 	var a = 1;
 	yield (x, a);
 	var b = 2;

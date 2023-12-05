@@ -6,6 +6,7 @@
 #include "ltn/unique.hxx"
 #include "ltnc/Label.hxx"
 #include "ltnc/Namespace.hxx"
+#include "ltnc/Qualifiers.hxx"
 #include "Declaration.hxx"
 #include "ltnc/sst/misc/Except.hxx"
 
@@ -26,9 +27,7 @@ namespace ltn::c::sst::decl {
 		
 		virtual ~Function();
 
-		bool is_const = false;
-		bool is_private = false;
-		bool is_extern = false;
+		Qualifiers qualifiers;
 
 		Label label;
 

@@ -5,6 +5,7 @@
 #include <sstream>
 #include "ltn/unique.hxx"
 #include "ltnc/Namespace.hxx"
+#include "ltnc/Qualifiers.hxx"
 #include "ltnc/ast/decl/Declaration.hxx"
 
 namespace ltn::c::ast::decl {
@@ -42,9 +43,7 @@ namespace ltn::c::ast::decl {
 		virtual ~Function();
 
 		Parameters parameters;
-		bool is_const = false;
-		bool is_private = false;
-		bool is_extern = false;
+		Qualifiers qualifiers; 
 		stmt_ptr body;
 		std::unique_ptr<Except> except;
 		
