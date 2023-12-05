@@ -3,7 +3,7 @@
 namespace ltn::vm::inst {
 	void yield(VMCore & core) {
 		core.heap.collect_garbage(core.stack);
-		const auto coroutine = core.heap.make<CoRoutine>();
+		const auto coroutine = core.heap.make<Coroutine>();
 
 		const auto return_value = core.stack.pop();
 		coroutine->resume_address = core.pc;
@@ -39,7 +39,7 @@ namespace ltn::vm::inst {
 
 	void co_dump(VMCore & core) {
 		core.heap.collect_garbage(core.stack);
-		const auto coroutine = core.heap.make<CoRoutine>();
+		const auto coroutine = core.heap.make<Coroutine>();
 
 		coroutine->resume_address = core.pc;
 		coroutine->local_variables = core.stack.copy_locals();

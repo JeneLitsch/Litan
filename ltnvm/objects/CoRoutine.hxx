@@ -4,10 +4,10 @@
 #include "ltnvm/Value.hxx"
 
 namespace ltn::vm {
-	class CoRoutine : public Object {
+	class Coroutine : public Object {
 	public:
-		constexpr static std::string_view typeName = "CoRoutine";
-		CoRoutine() {}
+		constexpr static std::string_view typeName = "Coroutine";
+		Coroutine() {}
 
 		std::vector<Value> local_variables;
 		const std::uint8_t * resume_address = nullptr;
@@ -15,7 +15,7 @@ namespace ltn::vm {
 
 
 
-	inline CoRoutine clone(const CoRoutine & clock) {
+	inline Coroutine clone(const Coroutine & clock) {
 		return clock;
 	}
 }

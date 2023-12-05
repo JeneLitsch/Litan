@@ -90,7 +90,7 @@ namespace ltn::vm::gc {
 
 
 
-	void mark_obj(CoRoutine * obj) {
+	void mark_obj(Coroutine * obj) {
 		mark(obj->local_variables);		
 	}
 
@@ -137,7 +137,7 @@ namespace ltn::vm::gc {
 			case VT::STACK:         return mark_obj(value.as<Segmented>());
 			case VT::MAP:           return mark_obj(value.as<Map>());
 			case VT::RNG:           return mark_obj(value.as<RandomEngine>());
-			case VT::COROUTINE:     return mark_obj(value.as<CoRoutine>());
+			case VT::COROUTINE:     return mark_obj(value.as<Coroutine>());
 			case VT::TYPE:          return; // no gc required
 		}
 	}

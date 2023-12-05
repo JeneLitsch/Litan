@@ -159,7 +159,7 @@ namespace ltn::vm {
 		}
 
 		if(is_coroutine(value)) {
-			const auto & coroutine = core.heap.read<CoRoutine>(value);
+			const auto & coroutine = core.heap.read<Coroutine>(value);
 			const auto & locals = coroutine.local_variables;
 			std::ostringstream ss;
 			ss << "<coroutine";

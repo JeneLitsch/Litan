@@ -6,4 +6,4 @@
 #include "ltnvm/objects/FxPointer.hxx"
 #include "ltnvm/objects/Clock.hxx"
 #include "ltnvm/objects/RandomEngine.hxx"
-#include "ltnvm/objects/CoRoutine.hxx"
+#include "ltnvm/objects/Coroutine.hxx"
