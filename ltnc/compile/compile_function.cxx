@@ -48,10 +48,21 @@ namespace ltn::c {
 		const auto except_label = derive_except(fx.label); 
 		
 		buf << inst::label(fx.label.to_string());
-		if(fx.except) buf << inst::trY(except_label.to_string());
+		
+		if(fx.except) {
+			buf << inst::trY(except_label.to_string());
+		} 
+		
 		buf << compile_body(fx);
 		buf << inst::null();
-		buf << inst::retvrn();
+		
+		if(fx.qualifiers.is_coroutine) {
+			buf << inst::co_retvrn();
+		}
+		else {
+			buf << inst::retvrn();
+		}
+
 		if(fx.except) {
 			buf << compile_except(*fx.except, except_label);
 		} 
