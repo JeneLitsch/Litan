@@ -353,6 +353,13 @@ namespace ltn::c::inst {
             .opcode = OpCode::CO_RETURN,
         };
 	}
+	Inst co_dump() {
+		return InstNone {
+            .name = "co_dump",
+            .opcode = OpCode::CO_DUMP,
+        };
+	}
+
 
 
 	Inst scrap() {

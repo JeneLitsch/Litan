@@ -180,6 +180,7 @@ namespace ltn::c::inst {
 	Inst for_next(const std::string & label);
 	Inst yield();
 	Inst co_retvrn();
+	Inst co_dump();
 
 	Inst scrap();
 	Inst duplicate();

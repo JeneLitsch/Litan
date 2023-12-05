@@ -59,6 +59,7 @@ namespace ltn {
 		FOR_NEXT,
 		YIELD,
 		CO_RETURN,
+		CO_DUMP,
 
 		// Allocations
 		NEWARR = 0x50,

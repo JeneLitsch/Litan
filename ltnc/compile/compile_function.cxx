@@ -4,23 +4,19 @@
 
 namespace ltn::c {
 	namespace {
-		InstructionBuffer compile_body(const auto & fx) {
+		InstructionBuffer local_alloc(const auto & fx) {
 			InstructionBuffer buf;
-			if(fx.body) {
-				const auto body = compile_statement(*fx.body);
-				std::uint64_t remaining = fx.body->nested_alloc(); 
-				const auto max_block_size = std::numeric_limits<std::uint8_t>::max();
-				while(remaining != 0) {
-					const auto block_size = static_cast<std::uint8_t>(std::min<std::uint64_t>(remaining, max_block_size));
-					if(remaining == 1) {
-						buf << inst::null();
-					}
-					else {
-						buf << inst::alloc_local(block_size);
-					}
-					remaining-=block_size;
+			std::uint64_t remaining = fx.body->nested_alloc(); 
+			const auto max_block_size = std::numeric_limits<std::uint8_t>::max();
+			while(remaining != 0) {
+				const auto block_size = static_cast<std::uint8_t>(std::min<std::uint64_t>(remaining, max_block_size));
+				if(remaining == 1) {
+					buf << inst::null();
 				}
-				buf << body;
+				else {
+					buf << inst::alloc_local(block_size);
+				}
+				remaining-=block_size;
 			}
 			return buf;
 		}
@@ -33,7 +29,7 @@ namespace ltn::c {
 			
 			InstructionBuffer buf;
 			buf << inst::label(label_except.to_string());
-			buf << compile_body(except);
+			buf << compile_statement(*except.body);
 			buf << inst::null();
 			buf << inst::retvrn();
 			return buf;
@@ -48,12 +44,18 @@ namespace ltn::c {
 		const auto except_label = derive_except(fx.label); 
 		
 		buf << inst::label(fx.label.to_string());
-		
+
 		if(fx.except) {
 			buf << inst::trY(except_label.to_string());
 		} 
 		
-		buf << compile_body(fx);
+		buf << local_alloc(fx);
+		
+		if(fx.qualifiers.is_coroutine) {
+			buf << inst::co_dump();
+		}
+
+		buf << compile_statement(*fx.body);
 		buf << inst::null();
 		
 		if(fx.qualifiers.is_coroutine) {

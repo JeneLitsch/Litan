@@ -34,4 +34,17 @@ namespace ltn::vm::inst {
 
 		core.stack.push(value::tuple(tuple));
 	}
+
+
+
+	void co_dump(VMCore & core) {
+		core.heap.collect_garbage(core.stack);
+		const auto coroutine = core.heap.make<CoRoutine>();
+
+		coroutine->resume_address = core.pc;
+		coroutine->local_variables = core.stack.copy_locals();
+		core.pc = core.stack.pop_frame();
+		
+		core.stack.push(value::coroutine(coroutine));
+	}
 }
