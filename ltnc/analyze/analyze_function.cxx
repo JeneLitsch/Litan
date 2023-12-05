@@ -63,6 +63,12 @@ namespace ltn::c {
 		sst_fx->qualifiers = fx.qualifiers; 
 
 		if(fx.except) {
+			if(sst_fx->qualifiers.is_coroutine) {
+				throw CompilerError {
+					"Cannot add except block to coroutine.",
+					ast::location(*fx.except)
+				};
+			}
 			sst_fx->except = analyze_except(*fx.except, context, fx.namespaze);
 		} 
 
