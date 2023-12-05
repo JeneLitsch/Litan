@@ -97,4 +97,8 @@ namespace ltn::vm {
 	constexpr inline bool is_coroutine(const Value & val) {
 		return val.type == Value::Type::COROUTINE;
 	}
+
+	constexpr inline bool is_noroutine(const Value & val) {
+		return val.type == Value::Type::NOROUTINE;
+	}
 }

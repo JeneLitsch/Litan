@@ -16,6 +16,7 @@ namespace ltn::c::sst::stmt {
 	struct Switch;
 	struct NoOp;
 	struct Yield;
+	struct CoReturn;
 	
 	
 	
@@ -30,7 +31,8 @@ namespace ltn::c::sst::stmt {
 		Throw,
 		Switch,
 		NoOp,
-		Yield
+		Yield,
+		CoReturn
 	>;
 
 
@@ -68,6 +70,7 @@ namespace ltn::c::sst::stmt {
 			virtual void visit(const Switch & x)       const override { this->run(x); }
 			virtual void visit(const NoOp & x)         const override { this->run(x); }
 			virtual void visit(const Yield & x)        const override { this->run(x); }
+			virtual void visit(const CoReturn & x)     const override { this->run(x); }
 		};
 
 		return Visitor{fx}(stmt);

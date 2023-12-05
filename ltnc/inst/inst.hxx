@@ -124,7 +124,6 @@ namespace ltn::c::inst {
 	Inst trY(const std::string & label);
 	Inst thr0w();
 	Inst build_in(std::uint16_t code);
-	Inst yield();
 	
 	Inst add();
 	Inst sub();
@@ -179,6 +178,8 @@ namespace ltn::c::inst {
 	Inst invoke_variadic();
 	Inst capture();
 	Inst for_next(const std::string & label);
+	Inst yield();
+	Inst co_retvrn();
 
 	Inst scrap();
 	Inst duplicate();

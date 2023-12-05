@@ -2,12 +2,9 @@
 #include "ltnc/sst/expr/Expression.hxx"
 
 namespace ltn::c::sst::stmt {
-	Yield::Yield(
-		expr_ptr expr,
-		std::optional<std::string> overide_label)
+	Yield::Yield(expr_ptr expr)
 		: Statement{}
-		, expr(std::move(expr))
-		, overide_label{overide_label} {}
+		, expr(std::move(expr)) {}
 
 
 
@@ -33,7 +30,7 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::unique_ptr<Yield> yield(expr_ptr expr, std::optional<std::string> overide_label) {
-		return std::make_unique<Yield>(std::move(expr), std::move(overide_label));
+	std::unique_ptr<Yield> yield(expr_ptr expr) {
+		return std::make_unique<Yield>(std::move(expr));
 	}
 }

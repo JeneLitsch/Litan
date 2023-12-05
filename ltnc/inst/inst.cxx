@@ -40,12 +40,7 @@ namespace ltn::c::inst {
         };
     }
 
-	Inst yield() {
-		return InstNone {
-            .name = "yield",
-            .opcode = OpCode::YIELD,
-        };
-	}
+
 	
 	Inst add() {
         return InstNone {
@@ -345,6 +340,18 @@ namespace ltn::c::inst {
 			.opcode = OpCode::FOR_NEXT,
 			.label = label,
 		};
+	}
+	Inst yield() {
+		return InstNone {
+            .name = "yield",
+            .opcode = OpCode::YIELD,
+        };
+	}
+	Inst co_retvrn() {
+		return InstNone {
+            .name = "co_return",
+            .opcode = OpCode::CO_RETURN,
+        };
 	}
 
 

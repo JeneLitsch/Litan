@@ -9,7 +9,6 @@ namespace ltn::vm::inst {
 	void tRy(VMCore & core);
 	void thr0w(VMCore & core);
 	void build_in(VMCore & core);
-	void yield(VMCore & core);
 
 	void add(VMCore & core);
 	void sub(VMCore & core);
@@ -51,6 +50,8 @@ namespace ltn::vm::inst {
 	void invoke_variadic(VMCore & core);
 	void capture(VMCore & core);
 	void for_next(VMCore & core);
+	void yield(VMCore & core);
+	void co_retvrn(VMCore & core);
 	
 	void newarr(VMCore & core);
 	void newstr(VMCore & core);

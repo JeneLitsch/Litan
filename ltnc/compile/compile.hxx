@@ -30,6 +30,7 @@ namespace ltn::c {
 	InstructionBuffer compile_stmt(const sst::stmt::ForEach &);
 	InstructionBuffer compile_stmt(const sst::stmt::Assign &);
 	InstructionBuffer compile_stmt(const sst::stmt::Switch &);
+	InstructionBuffer compile_stmt(const sst::stmt::CoReturn &);
 
 	// Expression
 	InstructionBuffer compile_expression(const sst::expr::Expression &);

@@ -23,20 +23,4 @@ namespace ltn::c {
 		}
 		return buf;
 	}
-
-
-
-	InstructionBuffer compile_stmt(const sst::stmt::Yield & yield) {
-		InstructionBuffer buf;
-		if(yield.expr) {
-			buf << compile_expression(*yield.expr);
-		}
-		else {
-			buf << inst::null();
-		}
-
-		buf << inst::yield();
-		return buf;
-	}
-
 }

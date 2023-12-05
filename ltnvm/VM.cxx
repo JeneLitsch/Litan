@@ -46,7 +46,6 @@ namespace ltn::vm {
 		table[OpCode::TRY] = inst::tRy;
 		table[OpCode::THROW] = inst::thr0w;
 		table[OpCode::BUILD_IN] = inst::build_in;
-		table[OpCode::YIELD] = inst::yield;
 		
 		table[OpCode::ADD] = inst::add;
 		table[OpCode::SUB] = inst::sub;
@@ -87,6 +86,8 @@ namespace ltn::vm {
 		table[OpCode::INVOKE_VARIADIC] = inst::invoke_variadic;
 		table[OpCode::CAPTURE] = inst::capture;
 		table[OpCode::FOR_NEXT] = inst::for_next;
+		table[OpCode::YIELD] = inst::yield;
+		table[OpCode::CO_RETURN] = inst::co_retvrn;
 
 		table[OpCode::NEWARR] = inst::newarr;
 		table[OpCode::NEWSTR] = inst::newstr;
