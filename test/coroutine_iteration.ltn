@@ -1,5 +1,7 @@
 namespace sphinx::test {
 	function coroutine_iteration() {
+		test_name("Coroutine: iteration");
+
 		var cor = lambda() coroutine {
 			yield 1;
 			yield 2;
