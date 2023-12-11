@@ -29,6 +29,7 @@ files=(
 	"test/special_members.ltn"
 	"test/cofunction.ltn"
 	"test/colambda.ltn"
+	"test/coroutine_iteration.ltn"
 
 	"test/op_arith_add.ltn"
 	"test/op_arith_sub.ltn"

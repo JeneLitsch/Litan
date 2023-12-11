@@ -1,0 +1,14 @@
+namespace sphinx::test {
+	function coroutine_iteration() {
+		var cor = lambda() coroutine {
+			yield 1;
+			yield 2;
+			return 3;
+		} ();
+		
+		for(elem : std::zipped([1, 2, 3], cor)) {
+			var (a, b) = elem;
+			assert_equal_strict(a, b);
+		}
+	}
+}
