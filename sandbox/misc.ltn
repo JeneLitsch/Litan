@@ -1,9 +1,7 @@
-namespace foo {
-	var a_1 extern private = 3;
-	var a_2 private extern = 3;
-}
-var b = 3;
-
 function main() {
-	std::println(std::json::print(["a" : 1]));
+	for((a,b) : std::zipped([1,2,3], [4,5,6])) {
+		std::print(a);
+		std::print(":");
+		std::println(b);
+	}
 }

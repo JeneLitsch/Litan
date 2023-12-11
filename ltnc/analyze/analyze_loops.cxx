@@ -39,14 +39,14 @@ namespace ltn::c {
 		MinorScope loop_scope { &scope };
 		
 		const auto label = make_jump_id("FOREACH");
-		auto expr = analyze_expression(*stmt.expr, loop_scope);				
-		const auto element_var = loop_scope.insert(stmt.index_name, location(stmt));
-		const auto iterator_var = loop_scope.insert("_iterator_" + stmt.index_name, location(stmt));
-		const auto container_var = loop_scope.insert("_container_" + stmt.index_name, location(stmt));
+		auto expr = analyze_expression(*stmt.expr, loop_scope);
+		auto bind = analyze_binding(*stmt.bind, scope);
+		const auto iterator_var = loop_scope.insert("_iterator_" + label, location(stmt));
+		const auto container_var = loop_scope.insert("_container_" + label, location(stmt));
 		auto body = analyze_statement(*stmt.body, loop_scope);
 
 		return sst::stmt::for_each(
-			element_var.address,
+			std::move(bind),
 			iterator_var.address,
 			container_var.address,
 			std::move(expr),

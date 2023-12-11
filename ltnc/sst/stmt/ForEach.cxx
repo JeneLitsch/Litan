@@ -1,14 +1,15 @@
 #include "ForEach.hxx"
 #include "ltnc/sst/expr/Expression.hxx"
+#include "ltnc/sst/bind/Binding.hxx"
 
 namespace ltn::c::sst::stmt {
 	ForEach::ForEach(
-		std::size_t element_addr,
+		bind_ptr bind,
 		std::size_t container_addr,
 		std::size_t iterator_addr,
 		expr_ptr expr,
 		stmt_ptr body)
-		: element_addr(element_addr)
+		: bind(std::move(bind))
 		, container_addr(container_addr)
 		, iterator_addr(iterator_addr)
 		, expr(std::move(expr))
@@ -23,7 +24,7 @@ namespace ltn::c::sst::stmt {
 
 
 	std::size_t ForEach::direct_alloc() const {
-		return 3 + this->expr->alloc();
+		return 2 + this->expr->alloc() + this->bind->alloc_count();
 	}
 
 
@@ -39,12 +40,12 @@ namespace ltn::c::sst::stmt {
 
 
 	std::unique_ptr<ForEach> for_each(
-		std::size_t element_addr,
+		bind_ptr bind,
 		std::size_t container_addr,
 		std::size_t iterator_addr,
 		expr_ptr expr,
 		stmt_ptr body) {
 		
-		return std::make_unique<ForEach>(element_addr, container_addr, iterator_addr, std::move(expr), std::move(body));
+		return std::make_unique<ForEach>(std::move(bind), container_addr, iterator_addr, std::move(expr), std::move(body));
 	}
 }

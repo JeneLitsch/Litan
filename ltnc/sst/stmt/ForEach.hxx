@@ -4,7 +4,7 @@
 namespace ltn::c::sst::stmt {
 	struct ForEach final : public Statement {
 		ForEach(
-			std::size_t element_addr,
+			bind_ptr bind,
 			std::size_t container_addr,
 			std::size_t iterator_addr,
 			expr_ptr expr,
@@ -16,7 +16,7 @@ namespace ltn::c::sst::stmt {
 
 		virtual ~ForEach();
 
-		std::size_t element_addr;
+		bind_ptr bind;
 		std::size_t container_addr;
 		std::size_t iterator_addr;
 		expr_ptr expr;
@@ -24,7 +24,7 @@ namespace ltn::c::sst::stmt {
 	};
 
 	std::unique_ptr<ForEach> for_each(
-		std::size_t element_addr,
+		bind_ptr bind,
 		std::size_t container_addr,
 		std::size_t iterator_addr,
 		expr_ptr expr,
