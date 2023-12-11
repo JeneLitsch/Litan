@@ -35,4 +35,12 @@ namespace sphinx::test {
 		test_name("Coroutine(lambda): Default return after yield");
 		assert_equal_strict(lambda() coroutine { yield 1; } () () [0] () [1], null);
 	}
+
+
+
+	function colambda_noroutine() {
+		test_name("Coroutine(lambda): noroutine");
+		var cor = lambda() coroutine { return 4; } ();
+		assert_equal_strict(cor()[0], std::noroutine());
+	}
 }

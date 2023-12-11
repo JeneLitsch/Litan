@@ -67,4 +67,18 @@ namespace sphinx::test {
 		test_name("Coroutine(function): Default return alfter yield");
 		assert_equal_strict(detail::c5()()[0]()[1], null);
 	}
+
+
+
+	namespace detail {
+		function c6() coroutine {}
+	}
+
+	function cofunction_noroutine() {
+		test_name("Coroutine(function): noroutine");
+
+		var cor = detail::c1();
+		var (nor, val) = cor();
+		assert_equal_strict(nor, std::noroutine());
+	}
 }
