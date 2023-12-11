@@ -138,7 +138,7 @@ namespace ltn::vm::build_in {
 		const auto function = core.stack.pop();
 		const auto container = core.stack.pop();
 
-		auto iter_ref = iterator::wrap(container, core.heap);
+		auto iter_ref = iterator::wrap(container, core);
 		auto & iter = core.heap.read<Iterator>(iter_ref);
 
 		auto first = iter.next();
@@ -161,7 +161,7 @@ namespace ltn::vm::build_in {
 		auto init = core.stack.pop();
 		const auto function = core.stack.pop();
 		const auto container = core.stack.pop();
-		auto iter_ref = iterator::wrap(container, core.heap);
+		auto iter_ref = iterator::wrap(container, core);
 		auto & iter = core.heap.read<Iterator>(iter_ref);
 
 		core.stack.push(init);

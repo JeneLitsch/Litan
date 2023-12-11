@@ -37,7 +37,7 @@ namespace ltn::vm::build_in::iter {
 
 
 	Value iter(VMCore & core) {
-		return iterator::wrap(core.stack.pop(), core.heap);
+		return iterator::wrap(core.stack.pop(), core);
 	}
 
 
@@ -56,7 +56,7 @@ namespace ltn::vm::build_in::iter {
 		auto & arr = core.heap.read<Contiguous>(param);
 		std::vector<Iterator *> iters;
 		for(auto & e : arr) {
-			iters.push_back(iterator::wrap(e, core.heap).as<Iterator>());
+			iters.push_back(iterator::wrap(e, core).as<Iterator>());
 		}
 		auto ptr =  core.heap.make<CombinedIterator>(std::move(iters), &core.heap);
 		return value::iterator(ptr);
@@ -65,7 +65,7 @@ namespace ltn::vm::build_in::iter {
 
 
 	Value reversed(VMCore & core) {
-		auto ref = iterator::wrap(core.stack.pop(), core.heap);
+		auto ref = iterator::wrap(core.stack.pop(), core);
 		auto ptr = core.heap.make<ReversedIterator>(ref);
 		return value::iterator(ptr);
 	}

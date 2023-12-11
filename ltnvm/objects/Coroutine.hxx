@@ -4,6 +4,8 @@
 #include "ltnvm/Value.hxx"
 
 namespace ltn::vm {
+	const struct noroutine_t {} noroutine;
+	
 	class Coroutine : public Object {
 	public:
 		constexpr static std::string_view typeName = "Coroutine";

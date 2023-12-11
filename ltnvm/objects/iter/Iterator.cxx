@@ -5,9 +5,11 @@
 #include "ReversedIterator.hxx"
 #include "StringIterator.hxx"
 #include "MapIterator.hxx"
+#include "CoroutineIterator.hxx"
 #include "ltnvm/utils/type_check.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/Heap.hxx"
+#include "ltnvm/VMCore.hxx"
 #include "ltnvm/utils/convert.hxx"
 
 namespace ltn::vm {
@@ -18,12 +20,14 @@ namespace ltn::vm {
 
 
 	namespace iterator {
-		Value wrap(const Value & ref, Heap & heap) {
-			if(is_iterator(ref)) return ref;
-			if(is_array(ref))    return value::iterator(heap.make<ContiguousIterator>(ref.as<Array>()));
-			if(is_tuple(ref))    return value::iterator(heap.make<ContiguousIterator>(ref.as<Tuple>()));
-			if(is_string(ref))   return value::iterator(heap.make<StringIterator>(ref.as<String>()));
-			if(is_map(ref))      return value::iterator(heap.make<MapIterator>(ref.as<Map>(), &heap));
+		Value wrap(const Value & ref, VMCore & core) {
+			if(is_iterator(ref))  return ref;
+			if(is_array(ref))     return value::iterator(core.heap.make<ContiguousIterator>(ref.as<Array>()));
+			if(is_tuple(ref))     return value::iterator(core.heap.make<ContiguousIterator>(ref.as<Tuple>()));
+			if(is_string(ref))    return value::iterator(core.heap.make<StringIterator>(ref.as<String>()));
+			if(is_map(ref))       return value::iterator(core.heap.make<MapIterator>(ref.as<Map>(), &core.heap));
+			if(is_coroutine(ref)) return value::iterator(core.heap.make<CoroutineIterator>(ref.as<Coroutine>(), &core));
+			if(is_noroutine(ref)) return value::iterator(core.heap.make<CoroutineIterator>(noroutine, &core));
 			throw except::invalid_argument("std::iter expects an iterable object");
 		}
 

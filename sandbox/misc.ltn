@@ -7,7 +7,18 @@ function f(x) coroutine {
 	return (x, a, b, c);
 }
 
+function g() coroutine {
+	yield 1;
+	yield 2;
+	yield 3;
+	return 4;
+}
+
 function main() {
+	for(x : g()) {
+		std::println(x);
+	}
+	
 	var cor_0 = f("ABC");
 	var (cor_1, val_1) = cor_0();
 	var (cor_2, val_2) = cor_1();
