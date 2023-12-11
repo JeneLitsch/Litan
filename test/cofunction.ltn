@@ -1,0 +1,70 @@
+namespace sphinx::test {
+	namespace detail {
+		function c1() coroutine {
+			return 4;
+		}
+	}
+
+	function cofunction_return() {
+		test_name("Coroutine(function): return");
+
+		var cor = detail::c1();
+		var (cor_, val) = cor();
+		assert_equal_strict(val, 4);
+	}
+
+
+
+
+	namespace detail {
+		function c2() coroutine {
+			yield 4;
+		}
+	}
+
+	function cofunction_yield() {
+		test_name("Coroutine(function): yield");
+
+		var cor = detail::c2();
+		var (cor_, val) = cor();
+		assert_equal_strict(val, 4);
+	}
+
+
+
+	namespace detail {
+		function c3(x) coroutine {
+			return x;
+		}
+	}
+
+	function cofunction_param() {
+		test_name("Coroutine(function): Parameter");
+		assert_equal_strict(detail::c3(4)()[1], 4);
+		assert_equal_strict(detail::c3("ABC")()[1], "ABC");
+	}
+
+
+
+	namespace detail {
+		function c4() coroutine {}
+	}
+
+	function cofunction_default_return() {
+		test_name("Coroutine(function): Default return");
+		assert_equal_strict(detail::c4()()[1], null);
+	}
+
+
+
+	namespace detail {
+		function c5() coroutine {
+			yield 0;
+		}
+	}
+
+	function cofunction_default_return_after_yield() {
+		test_name("Coroutine(function): Default return alfter yield");
+		assert_equal_strict(detail::c5()()[0]()[1], null);
+	}
+}

@@ -27,6 +27,8 @@ files=(
 	"test/invoke_member.ltn"
 	"test/variadic.ltn"
 	"test/special_members.ltn"
+	"test/cofunction.ltn"
+	"test/colambda.ltn"
 
 	"test/op_arith_add.ltn"
 	"test/op_arith_sub.ltn"

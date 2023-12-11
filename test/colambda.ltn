@@ -1,0 +1,38 @@
+namespace sphinx::test {
+	function colambda_return() {
+		test_name("Coroutine(lambda): return");
+		var cor = lambda() coroutine { return 4; } ();
+		assert_equal_strict(cor()[1], 4);
+	}
+
+
+	
+	function colambda_yield() {
+		test_name("Coroutine(lambda): yield");
+		var cor = lambda() coroutine { yield 4; } ();
+		assert_equal_strict(cor()[1], 4);
+	}
+
+
+
+	function colambda_params() {
+		test_name("Coroutine(lambda): Parameter");
+		var cor = lambda(x) coroutine { yield x; };
+		assert_equal_strict(cor("ABC")()[1], "ABC");
+		assert_equal_strict(cor(4)()[1], 4);
+	}
+
+
+
+	function colambda_default_return() {
+		test_name("Coroutine(lambda): Default return");
+		assert_equal_strict(lambda() coroutine {} () () [1], null);
+	}
+
+
+
+	function colambda_default_return_after_yield() {
+		test_name("Coroutine(lambda): Default return after yield");
+		assert_equal_strict(lambda() coroutine { yield 1; } () () [0] () [1], null);
+	}
+}
