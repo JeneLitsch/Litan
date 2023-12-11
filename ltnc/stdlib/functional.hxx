@@ -29,5 +29,9 @@ namespace std {
 	except(e) {
 		return false;
 	}
+
+
+
+	function noroutine() => lambda() coroutine {} () () [0]
 }
 )###";

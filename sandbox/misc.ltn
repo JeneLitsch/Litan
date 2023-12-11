@@ -1,17 +1,3 @@
-function f(x) coroutine {
-	yield 1;
-	yield 2;
-	return x;
-}
-
 function main() {
-	var cor_0 = f(42);
-	var (cor_1, val_1) = cor_0();
-	var (cor_2, val_2) = cor_1();
-	var (cor_3, val_3) = cor_2();
-	var (cor_4, val_4) = cor_3();
-	std::println(val_1);
-	std::println(val_2);
-	std::println(val_3);
-	std::println(val_4);
+	std::println(std::noroutine());
 }

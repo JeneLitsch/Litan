@@ -70,6 +70,30 @@ namespace sphinx::test {
 	}
 
 
+
+	function std_str_coroutine() {
+		var c1 = lambda() coroutine {} ();
+		assert_equal_strict(std::str(c1), "<coroutine{}>");
+
+		var c2 = lambda(x) coroutine {} (1);
+		assert_equal_strict(std::str(c2), "<coroutine{1}>");
+		
+		var c3 = lambda(x) coroutine {
+			var x = 2; yield;
+		} (1);
+		assert_equal_strict(std::str(c3), "<coroutine{1, null}>");
+		assert_equal_strict(std::str(c3()[0]), "<coroutine{1, 2}>");
+	}
+
+
+
+
+	function std_str_noroutine() {
+		assert_equal_strict(std::str(std::noroutine()), "<noroutine>");
+	}
+
+
+
 	function str_str_type() {
 		assert_equal_strict(std::str(<null>), "null");
 		assert_equal_strict(std::str(<bool>), "bool");
