@@ -2,14 +2,26 @@
 
 ## Syntax
 
-Coroutines use the normal function syntax. 
-To the declare a coroutine the function requires the coroutine qualifier.
+
+
+Coroutines use can be created in two ways.
+Either as a function-declaration or as a lambda-expression. 
+To the declare a coroutine the coroutine qualifier is required.
 
 ```js
 function foo() coroutine {
 	// Body
 }
 ```
+
+```js
+function main() {
+	var f = lambda() coroutine { 
+		// body
+	};
+}
+```
+
 
 ## Yield and Return
 
