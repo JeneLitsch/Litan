@@ -56,6 +56,7 @@ namespace ltn::vm::inst {
 		table[FxCode::FX_ARITY] = build_in::arity;
 		table[FxCode::FX_INVOKE] = build_in::invoke;
 		table[FxCode::FX_IS_VARIADIC] = build_in::is_variadic;
+		table[FxCode::FX_NOROUTINE] = build_in::noroutine;
 
 		//io
 		table[FxCode::IO_RESET_COLOR] = build_in::io::reset_color;

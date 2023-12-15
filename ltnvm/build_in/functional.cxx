@@ -30,4 +30,10 @@ namespace ltn::vm::build_in {
 		}
 		throw except::invalid_argument("std::is_variadic expected a function pointer");
 	}
+
+
+
+	Value noroutine(VMCore & core) {
+		return value::noroutine;
+	}
 }

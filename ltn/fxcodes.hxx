@@ -25,6 +25,7 @@ namespace ltn {
 		FX_ARITY = 0x20,
 		FX_INVOKE,
 		FX_IS_VARIADIC,
+		FX_NOROUTINE,
 
 		// io
 		IO_RESET_COLOR = 0x30,

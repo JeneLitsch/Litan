@@ -1,6 +1,6 @@
 # std::noroutine
 
-## std::noroutine
+## std::noroutine()
 
 **Parameters:**
 

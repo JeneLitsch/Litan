@@ -32,6 +32,7 @@ namespace std {
 
 
 
-	function noroutine() => lambda() coroutine {} () () [0]
+	function noroutine() 
+		=> build_in(fx_noroutine)
 }
 )###";
