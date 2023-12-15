@@ -16,6 +16,7 @@ namespace ltn::type_code {
 	inline constexpr std::uint8_t OSTREAM       = '<';
 	inline constexpr std::uint8_t FX            = 'F';
 	inline constexpr std::uint8_t FX_N          = 'X';
+	inline constexpr std::uint8_t COROUTINE     = 'C';
 	inline constexpr std::uint8_t ITERATOR      = 'I';
 	inline constexpr std::uint8_t ITERATOR_STOP = '|';
 	inline constexpr std::uint8_t RNG           = '?';

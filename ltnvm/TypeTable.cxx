@@ -481,6 +481,11 @@ namespace ltn::vm {
 		using TypeFx = PrimaryType<"fx"
 			, simple_check_for<is_fxptr>
 			, ret_if_or_null<is_fxptr>
+		>; 
+
+		using TypeCoroutine = PrimaryType<"coroutine"
+			, simple_check_for<is_coroutine>
+			, ret_if_or_null<is_coroutine>
 		>;    
 
 		using TypeFxN = NumericType<"fx"
@@ -556,6 +561,7 @@ namespace ltn::vm {
 				case type_code::TUPLE_N: return TypeTupleN::make(type_table, code);
 				case type_code::FX: return TypeFx::make(type_table, code);
 				case type_code::FX_N: return TypeFxN::make(type_table, code);
+				case type_code::COROUTINE: return TypeCoroutine::make(type_table, code);
 				case type_code::ISTREAM: return TypeIstream::make(type_table, code);
 				case type_code::OSTREAM: return TypeOstream::make(type_table, code);
 				case type_code::ITERATOR: return TypeIter::make(type_table, code);

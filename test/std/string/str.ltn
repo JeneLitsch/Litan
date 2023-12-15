@@ -156,5 +156,7 @@ namespace sphinx::test {
 		assert_equal_strict(std::str(<type:stack(float)>), "stack(float)");
 		assert_equal_strict(std::str(<type:map>), "map(any,any)");
 		assert_equal_strict(std::str(<type:map(float, int)>), "map(float,int)");
+
+		assert_equal_strict(std::str(<coroutine>), "coroutine");
 	}
 }

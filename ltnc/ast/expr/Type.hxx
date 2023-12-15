@@ -46,6 +46,7 @@ namespace ltn::c::ast::expr {
 			std::unique_ptr<Type> key;
 			std::unique_ptr<Type> value;
 		};
+		struct Coroutine {};
 
 		using Variant = std::variant<
 			Null,
@@ -57,7 +58,7 @@ namespace ltn::c::ast::expr {
 			String,
 			Array,
 			Tuple, TupleN,
-			Fx, FxN,
+			Fx, FxN, Coroutine,
 			IStream, OStream,
 			Iterator, IteratorStop,
 			TypeT, Rng, Clock,

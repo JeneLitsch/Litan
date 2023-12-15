@@ -199,6 +199,7 @@ namespace ltn::c {
 				if(name->str == "stack") return unary_type<ast::expr::Type::Stack>(begin, tokens);
 				if(name->str == "map") return map_type(begin, tokens);
 				if(name->str == "struct") return parse_struct_type(begin, tokens);
+				if(name->str == "coroutine") return simple_type<ast::expr::Type::Coroutine>(begin);
 				throw CompilerError {"Unknown type name " + name->str, name->location};
 			}
 			throw CompilerError {"Expected type name", begin.location};

@@ -409,4 +409,19 @@ namespace sphinx::test {
 			([.a = 1.0], null),
 		]);
 	}
+
+
+	function std_type_cast_coroutine() {
+		utils::test_cast(<coroutine>, [
+			(null, null),
+			(true, null),
+			('A' , null),
+			(1   , null),
+			(1.0 , null),
+			(""  , null),
+			([]  , null),
+			([.] , null),
+			(lambda coroutine {} (), lambda coroutine {} ()),
+		]);
+	}
 }
