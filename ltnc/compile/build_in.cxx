@@ -44,6 +44,7 @@ namespace ltn::c {
 		{"fx_arity",                 FxCode::FX_ARITY},
 		{"fx_is_variadic",           FxCode::FX_IS_VARIADIC},
 		{"fx_noroutine",             FxCode::FX_NOROUTINE},
+		{"fx_is_noroutine",          FxCode::FX_IS_NOROUTINE},
 
 		{"io_cout",                  FxCode::IO_COUT},
 		{"io_fout",                  FxCode::IO_FOUT},

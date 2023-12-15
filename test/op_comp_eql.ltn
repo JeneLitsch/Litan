@@ -9,6 +9,24 @@ namespace sphinx::test {
 		assert_false(null == true);
 		assert_true(std::cout() == std::cout());
 		assert_true("123" == "123");
+
+
+	}
+
+
+
+    function equal_coroutine() {
+		assert_true(std::noroutine() == std::noroutine());
+		assert_false(std::noroutine() == 1);
+		assert_false(std::noroutine() == "ABC");
+	}
+
+
+
+    function equal_noroutine() {
+		assert_true(std::noroutine() == std::noroutine());
+		assert_false(std::noroutine() == 1);
+		assert_false(std::noroutine() == "ABC");
 	}
 
 

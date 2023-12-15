@@ -36,4 +36,10 @@ namespace ltn::vm::build_in {
 	Value noroutine(VMCore & core) {
 		return value::noroutine;
 	}
+
+
+
+	Value is_noroutine(VMCore & core) {
+		return value::boolean(ltn::vm::is_noroutine(core.stack.pop()));
+	}
 }
