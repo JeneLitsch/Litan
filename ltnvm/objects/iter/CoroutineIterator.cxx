@@ -30,14 +30,9 @@ namespace ltn::vm {
 			throw std::runtime_error{"Cannot deconstruct coroutine return tuple"};
 		}
 		
-		std::pair<Value, Value> run_noroutine(VMCore & core) {
-			return { value::noroutine, value::null };
-		}
-
 		std::pair<Value, Value> run(VMCore & core, const Value & ref) {
 			if(is_coroutine(ref)) return run_coroutine(core, ref.as<Coroutine>());
-			if(is_noroutine(ref)) return run_noroutine(core);
-			throw std::runtime_error{"Not a coroutine nor noroutine"};
+			throw std::runtime_error{"Not a coroutine!"};
 		}
 	}
 
@@ -49,14 +44,12 @@ namespace ltn::vm {
 
 
 
-	CoroutineIterator::CoroutineIterator(noroutine_t, VMCore * core) {
-
-	}
+	CoroutineIterator::CoroutineIterator(std::nullptr_t, VMCore * core) {}
 	
 
 
 	Value CoroutineIterator::next() {
-		if(is_noroutine(this->coroutine)) return value::iterator_stop;
+		if(is_null(this->coroutine)) return value::iterator_stop;
 		auto [cor, val] = run(*core, this->coroutine);
 		this->coroutine = cor;
 		return val;
@@ -65,7 +58,7 @@ namespace ltn::vm {
 
 
 	Value CoroutineIterator::get() {
-		if(is_noroutine(this->coroutine)) return value::iterator_stop;
+		if(is_null(this->coroutine)) return value::iterator_stop;
 		auto [cor, val] = run(*core, this->coroutine);
 		return val;
 	}

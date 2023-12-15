@@ -97,7 +97,6 @@ files=(
 	"test/std/functional/chain.ltn"
 	"test/std/functional/is_successful.ltn"
 	"test/std/functional/is_variadic.ltn"
-	"test/std/functional/noroutine.ltn"
 
 	"test/std/io/is_eof.ltn"
 	"test/std/io/read.ltn"

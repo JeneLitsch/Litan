@@ -27,7 +27,6 @@ namespace ltn::vm {
 			if(is_string(ref))    return value::iterator(core.heap.make<StringIterator>(ref.as<String>()));
 			if(is_map(ref))       return value::iterator(core.heap.make<MapIterator>(ref.as<Map>(), &core.heap));
 			if(is_coroutine(ref)) return value::iterator(core.heap.make<CoroutineIterator>(ref.as<Coroutine>(), &core));
-			if(is_noroutine(ref)) return value::iterator(core.heap.make<CoroutineIterator>(noroutine, &core));
 			throw except::invalid_argument("std::iter expects an iterable object");
 		}
 

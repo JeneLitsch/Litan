@@ -62,16 +62,6 @@ namespace ltn::vm::inst {
 			load_onto_stack(core.stack, coroutine->local_variables);
 			core.pc = coroutine->resume_address;
 		}
-
-
-		
-		void do_invoke_noroutine(VMCore & core, const Value ref, std::uint64_t arity) {
-			if(arity != 0) throw except::invalid_parameters(0, arity);
-			const auto tuple = core.heap.make<Tuple>();
-			tuple->push_back(value::noroutine);
-			tuple->push_back(value::null);
-			core.stack.push(value::tuple(tuple));
-		}
 	}
 
 
@@ -93,9 +83,7 @@ namespace ltn::vm::inst {
 			return do_invoke_coroutine(core, ref_fx, arity);
 		}
 
-		if(is_noroutine(ref_fx)) {
-			return do_invoke_noroutine(core, ref_fx, arity);
-		}
+
 
 		else throw except::invalid_argument();
 	}

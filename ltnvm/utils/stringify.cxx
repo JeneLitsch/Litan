@@ -168,10 +168,6 @@ namespace ltn::vm {
 			return ss.str();
 		}
 
-		if(is_noroutine(value)) {
-			return "<noroutine>";
-		}
-
 		throw Exception{
 			.type = Exception::Type::INVALID_ARGUMENT,
 			.msg = "Cannot stringify"

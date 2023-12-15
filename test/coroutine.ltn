@@ -1,17 +1,1 @@
-namespace sphinx::test {
-	function noroutine_fix_point() {
-		test_name("Coroutine: noroutine fix point");
-
-		var a = std::noroutine();
-		var b = a()[0];
-
-		assert_equal_strict(a, b);
-	}
-
-
-
-	function noroutine_return_null() {
-		test_name("Coroutine: return null");
-		assert_equal_strict(std::noroutine()()[1], null);
-	}
-}
+namespace sphinx::test {}

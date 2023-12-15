@@ -87,13 +87,6 @@ namespace sphinx::test {
 
 
 
-
-	function std_str_noroutine() {
-		assert_equal_strict(std::str(std::noroutine()), "<noroutine>");
-	}
-
-
-
 	function str_str_type() {
 		assert_equal_strict(std::str(<null>), "null");
 		assert_equal_strict(std::str(<bool>), "bool");

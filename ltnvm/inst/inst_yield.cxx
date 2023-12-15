@@ -29,7 +29,7 @@ namespace ltn::vm::inst {
 		
 		const auto tuple = core.heap.make<Tuple>();
 		
-		tuple->push_back(value::noroutine);
+		tuple->push_back(value::null);
 		tuple->push_back(return_value);
 
 		core.stack.push(value::tuple(tuple));

@@ -36,17 +36,11 @@ yield 42;
 
 The behavior of the `return`-statement is altered inside coroutines.
 When the excution encounters a `return`-statement the coroutine finishes the execution.
-The caller receives a noroutine and the returned value.
+The caller receives a tuple of null and the returned value.
 
 ```js
 return 42;
 ```
-
-## Noroutine
-
-A noroutine is a special value indicating a terminated coroutine.
-Calling it yields a noroutine and null. 
-
 
 ## Direct Usage
 
@@ -65,7 +59,7 @@ function main() {
 	var (cor_1, val_1) = cor_0();
 	var (cor_2, val_2) = cor_1();
 	var (cor_3, val_3) = cor_2();
-	var (cor_4, val_4) = cor_3(); // cor_4 is a noroutine
+	var (cor_4, val_4) = cor_3(); // cor_4 is null
 	std::println(val_1);
 	std::println(val_2);
 	std::println(val_3);

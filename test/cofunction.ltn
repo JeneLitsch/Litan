@@ -74,11 +74,11 @@ namespace sphinx::test {
 		function c6() coroutine {}
 	}
 
-	function cofunction_noroutine() {
-		test_name("Coroutine(function): noroutine");
+	function cofunction_end() {
+		test_name("Coroutine(function): End with null");
 
 		var cor = detail::c1();
 		var (nor, val) = cor();
-		assert_equal_strict(nor, std::noroutine());
+		assert_equal_strict(nor, null);
 	}
 }

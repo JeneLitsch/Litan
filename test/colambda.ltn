@@ -39,8 +39,8 @@ namespace sphinx::test {
 
 
 	function colambda_noroutine() {
-		test_name("Coroutine(lambda): noroutine");
+		test_name("Coroutine(lambda): End with null");
 		var cor = lambda() coroutine { return 4; } ();
-		assert_equal_strict(cor()[0], std::noroutine());
+		assert_equal_strict(cor()[0], null);
 	}
 }

@@ -29,13 +29,5 @@ namespace std {
 	except(e) {
 		return false;
 	}
-
-
-
-	function noroutine() 
-		=> build_in(fx_noroutine)
-
-	function is_noroutine(cor)
-		=> build_in(fx_is_noroutine)
 }
 )###";

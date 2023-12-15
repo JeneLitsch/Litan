@@ -5,12 +5,11 @@
 
 namespace ltn::vm {
 	class Coroutine;
-	class noroutine_t;
 	class VMCore;
 	class CoroutineIterator : public Iterator {
 	public:
 		CoroutineIterator(Coroutine * coroutine, VMCore * core);
-		CoroutineIterator(noroutine_t, VMCore * core);
+		CoroutineIterator(std::nullptr_t, VMCore * core);
 
 		virtual Value next() override;
 		virtual Value get() override;
