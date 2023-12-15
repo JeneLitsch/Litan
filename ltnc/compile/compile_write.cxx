@@ -12,8 +12,8 @@
 #include "ltnc/sst/stmt/Assign.hxx"
 
 namespace ltn::c {
+	InstructionBuffer compile_binding(const sst::bind::Binding & binding);
 	namespace {
-		InstructionBuffer compile_binding(const sst::bind::Binding & binding);
 		
 		
 		
@@ -77,13 +77,13 @@ namespace ltn::c {
 			buf << inst::at_write();
 			return buf;
 		}
+	}
 
 
-		
-		InstructionBuffer compile_binding(const sst::bind::Binding & binding) {
-			auto fx = [&] (const auto & b) { return compile_bind(b); };
-			return sst::bind::visit(binding, fx);
-		}
+
+	InstructionBuffer compile_binding(const sst::bind::Binding & binding) {
+		auto fx = [&] (const auto & b) { return compile_bind(b); };
+		return sst::bind::visit(binding, fx);
 	}
 
 

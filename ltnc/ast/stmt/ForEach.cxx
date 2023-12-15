@@ -1,10 +1,11 @@
 #include "ForEach.hxx"
 #include "ltnc/ast/expr/Expression.hxx"
+#include "ltnc/ast/bind/Binding.hxx"
 
 namespace ltn::c::ast::stmt {
-	ForEach::ForEach(std::string index_name, expr_ptr expr, stmt_ptr body, const SourceLocation & location)
+	ForEach::ForEach(bind_ptr bind, expr_ptr expr, stmt_ptr body, const SourceLocation & location)
 		: Statement(location)
-		, index_name(std::move(index_name))
+		, bind(std::move(bind))
 		, expr(std::move(expr))
 		, body(std::move(body)) {}
 
@@ -20,7 +21,7 @@ namespace ltn::c::ast::stmt {
 
 
 
-	std::unique_ptr<ForEach> for_each(std::string index_name, expr_ptr expr, stmt_ptr body, const SourceLocation & location) {
-		return std::make_unique<ForEach>(std::move(index_name), std::move(expr), std::move(body), location);
+	std::unique_ptr<ForEach> for_each(bind_ptr bind, expr_ptr expr, stmt_ptr body, const SourceLocation & location) {
+		return std::make_unique<ForEach>(std::move(bind), std::move(expr), std::move(body), location);
 	}
 }

@@ -47,6 +47,9 @@ namespace ltn::c {
 	ast::expr_ptr parse_integral(Tokens & tokens);
 	ast::expr_ptr parse_array(Tokens & tokens);
 
+
+	ast::bind_ptr parse_binding(const Token & start, Tokens & tokens);
+	
 	// Utils
 	std::string parse_preset_name(Tokens & tokens);
 	std::string parse_enum_name(Tokens & tokens);

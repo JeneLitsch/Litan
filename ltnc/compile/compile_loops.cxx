@@ -63,7 +63,7 @@ namespace ltn::c {
 		buf << inst::for_next(label_end);
 		
 		// Body
-		buf << inst::write_x(stmt.element_addr);
+		buf << compile_binding(*stmt.bind);
 		buf << compile_statement(*stmt.body);
 		buf << inst::jump(label_top);
 		

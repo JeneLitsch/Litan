@@ -31,7 +31,7 @@ namespace ltn::c {
 				throw CompilerError{"Expected (", location(tokens)};
 			}
 
-			auto var_name = parse_variable_name(tokens);
+			auto bind = parse_binding(*start, tokens);
 
 			if(!match(TT::COLON, tokens)) {
 				throw CompilerError{"Expected :", location(tokens)};
@@ -46,7 +46,7 @@ namespace ltn::c {
 			
 			auto body = parse_statement(tokens);
 			return ast::stmt::for_each(
-				var_name,
+				std::move(bind),
 				std::move(from),
 				std::move(body),
 				start->location
