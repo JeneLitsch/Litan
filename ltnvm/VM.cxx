@@ -86,6 +86,9 @@ namespace ltn::vm {
 		table[OpCode::INVOKE_VARIADIC] = inst::invoke_variadic;
 		table[OpCode::CAPTURE] = inst::capture;
 		table[OpCode::FOR_NEXT] = inst::for_next;
+		table[OpCode::YIELD] = inst::yield;
+		table[OpCode::CO_RETURN] = inst::co_retvrn;
+		table[OpCode::CO_DUMP] = inst::co_dump;
 
 		table[OpCode::NEWARR] = inst::newarr;
 		table[OpCode::NEWSTR] = inst::newstr;

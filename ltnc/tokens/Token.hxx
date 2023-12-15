@@ -46,6 +46,7 @@ namespace ltn::c {
 			DEFAULT,
 			REFLECT,
 			OPERATOR,
+			YIELD,
 			
 			INTEGER,
 			INTEGER_HEX,

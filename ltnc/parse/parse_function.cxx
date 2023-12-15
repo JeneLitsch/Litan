@@ -13,13 +13,6 @@ namespace ltn::c {
 	namespace {
 		using TT = Token::Type;
 
-		struct Qualifiers {
-			bool is_const = false;
-			bool is_extern = false;
-			bool is_private = false;
-		};
-
-
 
 		// Returns a array of all parameters
 		ast::decl::Parameters parse_parameters_variadic(Tokens & tokens) {
@@ -227,6 +220,9 @@ namespace ltn::c {
 				else if(t->str == "extern") {
 					q.is_extern = true;
 				}
+				else if(t->str == "coroutine") {
+					q.is_coroutine = true;
+				}
 				else {
 					throw CompilerError {
 						"Unknown function qualifier: " + t->str,
@@ -236,42 +232,26 @@ namespace ltn::c {
 			}
 			return q;
 		}
-
-
-
-		template<class FunctionalNode>
-		std::unique_ptr<FunctionalNode> functional_node(
-			Tokens & tokens,
-			const Namespace & namespaze,
-			auto parse_body) {
-			auto name = parse_function_name(tokens);
-			auto parameters = parse_function_parameters(tokens);
-
-			Qualifiers qualifiers = parse_qualifiers(tokens); 
-			auto body = parse_body(tokens, std::size(parameters.simple), parameters.variadic.has_value());
-			auto fx = std::make_unique<FunctionalNode>(
-				std::move(name),
-				std::move(namespaze),
-				std::move(parameters),
-				std::move(body),
-				location(tokens)
-			);
-			fx->is_const = qualifiers.is_const;
-			fx->is_private = qualifiers.is_private;
-			fx->is_extern = qualifiers.is_extern;
-			return fx;
-		}
 	}
 
 
 
 	// parses and returns a functional node
 	ast::func_ptr parse_function(Tokens & tokens, const Namespace & namespaze) {
-		auto fx = functional_node<ast::decl::Function>(
-			tokens,
-			namespaze,
-			parse_body);
-		if(!fx->is_const) fx->except = parse_except(tokens);
+		auto name = parse_function_name(tokens);
+		auto parameters = parse_function_parameters(tokens);
+
+		Qualifiers qualifiers = parse_qualifiers(tokens); 
+		auto body = parse_body(tokens, std::size(parameters.simple), parameters.variadic.has_value());
+		auto fx = std::make_unique<ast::decl::Function>(
+			std::move(name),
+			std::move(namespaze),
+			std::move(parameters),
+			std::move(body),
+			location(tokens)
+		);
+		fx->qualifiers = qualifiers;
+		if(!fx->qualifiers.is_const) fx->except = parse_except(tokens);
 		return fx;
 	}
 
@@ -290,9 +270,9 @@ namespace ltn::c {
 				std::move(body),
 				location(tokens));
 			fx->except = parse_except(tokens);
-			fx->is_const = qualifiers.is_const;
+			fx->qualifiers = qualifiers;
 			if(qualifiers.is_private) throw CompilerError { "Lambda cannot be private", location(tokens)};
-			if(qualifiers.is_extern) throw CompilerError {"Lambda cannot be extern", location(tokens)};
+			if(qualifiers.is_extern)  throw CompilerError {"Lambda cannot be extern", location(tokens)};
 			return ast::expr::lambda(start->location, std::move(fx), std::move(captures)); 
 		}
 		return nullptr;

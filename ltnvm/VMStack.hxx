@@ -69,6 +69,13 @@ namespace ltn::vm {
 		
 		const std::vector<Value> & get_values() const;
 
+		std::vector<Value> copy_locals() const {
+			return std::vector<Value>{
+				std::begin(this->values) + frame_pointer,
+				std::end(this->values),
+			};
+		}
+
 	private:
 		struct Frame {
 			const std::uint8_t * return_addr;

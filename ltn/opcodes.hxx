@@ -8,7 +8,7 @@ namespace ltn {
 		TRY,
 		THROW,
 		BUILD_IN,
-		
+
 		// Binary arithmetic
 		ADD = 0x10,
 		SUB,
@@ -57,6 +57,9 @@ namespace ltn {
 		INVOKE_VARIADIC,
 		CAPTURE,
 		FOR_NEXT,
+		YIELD,
+		CO_RETURN,
+		CO_DUMP,
 
 		// Allocations
 		NEWARR = 0x50,

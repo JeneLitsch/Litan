@@ -12,9 +12,9 @@ namespace ltn::c {
 				.name        = fx.name,
 				.full_name   = fx.namespaze.to_string() + fx.name,
 				.arity       = fx.parameters.simple.size(),
-				.c0nst       = fx.is_const,
-				.pr1vate     = fx.is_private,
-				.ext3rn      = fx.is_extern,
+				.c0nst       = fx.qualifiers.is_const,
+				.pr1vate     = fx.qualifiers.is_private,
+				.ext3rn      = fx.qualifiers.is_extern,
 				.is_variadic = fx.parameters.variadic.has_value(),
 			};
 		}

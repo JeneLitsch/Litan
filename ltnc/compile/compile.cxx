@@ -37,7 +37,7 @@ namespace ltn::c {
 		extern_functions.insert("main(0)");
 		extern_functions.insert("main(1)");
 		for(const auto & fx : program.functions) {
-			if(fx->is_extern) extern_functions.insert(fx->label.to_string());
+			if(fx->qualifiers.is_extern) extern_functions.insert(fx->label.to_string());
 		}
 
 		AddressTable extern_globals;

@@ -70,6 +70,23 @@ namespace sphinx::test {
 	}
 
 
+
+	function std_str_coroutine() {
+		var c1 = lambda() coroutine {} ();
+		assert_equal_strict(std::str(c1), "<coroutine{}>");
+
+		var c2 = lambda(x) coroutine {} (1);
+		assert_equal_strict(std::str(c2), "<coroutine{1}>");
+		
+		var c3 = lambda(x) coroutine {
+			var x = 2; yield;
+		} (1);
+		assert_equal_strict(std::str(c3), "<coroutine{1, null}>");
+		assert_equal_strict(std::str(c3()[0]), "<coroutine{1, 2}>");
+	}
+
+
+
 	function str_str_type() {
 		assert_equal_strict(std::str(<null>), "null");
 		assert_equal_strict(std::str(<bool>), "bool");
@@ -139,5 +156,7 @@ namespace sphinx::test {
 		assert_equal_strict(std::str(<type:stack(float)>), "stack(float)");
 		assert_equal_strict(std::str(<type:map>), "map(any,any)");
 		assert_equal_strict(std::str(<type:map(float, int)>), "map(float,int)");
+
+		assert_equal_strict(std::str(<coroutine>), "coroutine");
 	}
 }

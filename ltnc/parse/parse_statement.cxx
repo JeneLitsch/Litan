@@ -2,6 +2,7 @@
 #include "ltnc/lex/lexing.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/ast/stmt/Return.hxx"
+#include "ltnc/ast/stmt/Yield.hxx"
 #include "ltnc/ast/stmt/Throw.hxx"
 
 namespace ltn::c {
@@ -32,6 +33,20 @@ namespace ltn::c {
 
 
 
+	ast::stmt_ptr parse_yield(Tokens & tokens) {
+		if(match(TT::YIELD, tokens)) {
+			if(match(TT::SEMICOLON, tokens)) {
+				return ast::stmt::yield(nullptr, location(tokens));
+			}
+			auto expr = parse_expression(tokens);
+			semicolon(tokens);
+			return ast::stmt::yield(std::move(expr), location(tokens));
+		}
+		return nullptr;
+	}
+
+
+
 	ast::stmt_ptr parse_throw(Tokens & tokens) {
 		if(match(TT::THROW, tokens)) {
 			ast::expr_ptr expr = nullptr;
@@ -55,6 +70,7 @@ namespace ltn::c {
 		if(auto stmt = parse_newvar(tokens))       return stmt;
 		if(auto stmt = parse_throw(tokens))        return stmt;
 		if(auto stmt = parse_return(tokens))       return stmt;
+		if(auto stmt = parse_yield(tokens))       return stmt;
 		if(auto stmt = parse_stmt_switch(tokens))  return stmt;
 		auto stmt =  parse_just_an_expr(tokens);
 		semicolon(tokens);

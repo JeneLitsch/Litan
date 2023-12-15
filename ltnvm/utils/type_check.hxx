@@ -93,4 +93,8 @@ namespace ltn::vm {
 	constexpr inline bool is_contiguous(const Value & value) {
 		return is_array(value) || is_tuple(value);
 	}
+
+	constexpr inline bool is_coroutine(const Value & val) {
+		return val.type == Value::Type::COROUTINE;
+	}
 }

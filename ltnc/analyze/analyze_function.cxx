@@ -31,7 +31,7 @@ namespace ltn::c {
 			Context & context,
 			const auto & namespaze) {
 			
-			MajorScope scope{namespaze, false, context};
+			MajorScope scope{namespaze, Qualifiers::none, context};
 			scope.insert(except.errorname, location(except));
 			auto body = analyze_statement(*except.body, scope);
 			return sst::misc::except(except.errorname, std::move(body));
@@ -42,7 +42,7 @@ namespace ltn::c {
 
 	sst::func_ptr analyze_function(
 		const ast::decl::Function & fx,
-		Scope & scope,
+		FunctionScope & scope,
 		std::optional<Label> override_label,
 		const std::vector<std::unique_ptr<ast::expr::Var>> & captures) {
 
@@ -60,32 +60,18 @@ namespace ltn::c {
 
 		auto sst_fx = sst::decl::function(fx.name, fx.namespaze, std::move(body), label);
 
-		sst_fx->is_const = fx.is_const; 
-		sst_fx->is_extern = fx.is_extern; 
-		sst_fx->is_private = fx.is_private;
+		sst_fx->qualifiers = fx.qualifiers; 
 
 		if(fx.except) {
+			if(sst_fx->qualifiers.is_coroutine) {
+				throw CompilerError {
+					"Cannot add except block to coroutine.",
+					ast::location(*fx.except)
+				};
+			}
 			sst_fx->except = analyze_except(*fx.except, context, fx.namespaze);
 		} 
 
 		return sst_fx;
-	}
-
-
-
-	sst::func_ptr analyze_functional(
-		const ast::decl::Function & functional,
-		FunctionScope & scope,
-		std::optional<Label> override_label,
-		const std::vector<std::unique_ptr<ast::expr::Var>> & captures) {
-
-		if(auto fx = as<const ast::decl::Function>(functional)) {
-			return analyze_function(*fx, scope, override_label, captures);
-		}
-		
-		throw CompilerError {
-			"Unknown functional declaration",
-			location(functional)
-		};
 	}
 }

@@ -39,6 +39,8 @@ namespace ltn::c::inst {
 			.value = code,
         };
     }
+
+
 	
 	Inst add() {
         return InstNone {
@@ -339,6 +341,25 @@ namespace ltn::c::inst {
 			.label = label,
 		};
 	}
+	Inst yield() {
+		return InstNone {
+            .name = "yield",
+            .opcode = OpCode::YIELD,
+        };
+	}
+	Inst co_retvrn() {
+		return InstNone {
+            .name = "co_return",
+            .opcode = OpCode::CO_RETURN,
+        };
+	}
+	Inst co_dump() {
+		return InstNone {
+            .name = "co_dump",
+            .opcode = OpCode::CO_DUMP,
+        };
+	}
+
 
 
 	Inst scrap() {

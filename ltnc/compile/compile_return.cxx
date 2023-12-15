@@ -1,6 +1,7 @@
 #include "compile.hxx"
 #include <iostream>
 #include "ltnc/sst/stmt/Return.hxx"
+#include "ltnc/sst/stmt/Yield.hxx"
 
 namespace ltn::c {
 	// compiles -> return...;

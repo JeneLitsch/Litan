@@ -162,6 +162,10 @@ namespace ltn::c {
 			return code;
 		}
 
+		std::vector<std::uint8_t> analyze_type(const ast::expr::Type::Coroutine &, Scope &) {
+			return {type_code::COROUTINE};
+		}
+
 		std::vector<std::uint8_t> analyze_type(const ast::expr::Type & type, Scope & scope) {
 			return std::visit([&] (auto & t) {
 				return analyze_type(t, scope);

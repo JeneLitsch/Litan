@@ -12,7 +12,7 @@ namespace ltn::vm {
 			BOOL = 0x10, INT, FLOAT, CHAR,
 			ARRAY = 0x20, STRING, TUPLE,
 			ISTREAM = 0x30, OSTREAM,
-			FUNCTION = 0x40, ITERATOR, ITERATOR_STOP,
+			FUNCTION = 0x40, ITERATOR, ITERATOR_STOP, COROUTINE,
 			CLOCK = 0x50,
 			STRUCT = 0x60,
 			QUEUE = 0x70, STACK, MAP,
@@ -125,6 +125,10 @@ namespace ltn::vm {
 
 		constexpr inline Value fx(Object * obj) {
 			return Value{obj, Value::Type::FUNCTION};
+		}
+
+		constexpr inline Value coroutine(Object * obj) {
+			return Value{obj, Value::Type::COROUTINE};
 		}
 	}
 }

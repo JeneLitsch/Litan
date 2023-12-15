@@ -28,6 +28,10 @@ files=(
 	"test/invoke_member.ltn"
 	"test/variadic.ltn"
 	"test/special_members.ltn"
+	"test/coroutine.ltn"
+	"test/coroutine_iteration.ltn"
+	"test/cofunction.ltn"
+	"test/colambda.ltn"
 
 	"test/op_arith_add.ltn"
 	"test/op_arith_sub.ltn"

@@ -42,7 +42,7 @@ namespace ltn::c {
 
 
 		void guard_const(const ast::expr::Call & call, const ast::decl::Function & fx, const Scope & scope) {
-			if(scope.is_const() && !fx.is_const) {
+			if(scope.is_const() && !fx.qualifiers.is_const) {
 				throw const_call_violation(call);
 			}
 		}
@@ -53,7 +53,7 @@ namespace ltn::c {
 			const ast::decl::Function & fx,
 			const Namespace & call_ns,
 			const ast::expr::Call & call) {
-			if(fx.is_private && !call_ns.is_inside_of(fx.namespaze)) {
+			if(fx.qualifiers.is_private && !call_ns.is_inside_of(fx.namespaze)) {
 				throw private_call_violation(call);
 			}
 		}

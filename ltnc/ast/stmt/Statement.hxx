@@ -13,6 +13,7 @@ namespace ltn::c::ast::stmt {
 	struct ForEach;
 	struct NewVar;
 	struct Return;
+	struct Yield;
 	struct Throw;
 	struct Switch;
 	struct StatementExpression;
@@ -33,7 +34,8 @@ namespace ltn::c::ast::stmt {
 		Switch,
 		StatementExpression,
 		NoOp,
-		Assign
+		Assign,
+		Yield
 	>;
 
 
@@ -55,18 +57,19 @@ namespace ltn::c::ast::stmt {
 		struct Visitor : public Base {
 			Visitor(Callable fx) : Base{fx} {}
 
-			virtual void visit(const Block & x)                const override { this->run(x); };
-			virtual void visit(const IfElse & x)               const override { this->run(x); };
-			virtual void visit(const While & x)                const override { this->run(x); };
-			virtual void visit(const InfiniteLoop & x)         const override { this->run(x); };
-			virtual void visit(const ForEach & x)              const override { this->run(x); };
-			virtual void visit(const NewVar & x)               const override { this->run(x); };
-			virtual void visit(const Return & x)               const override { this->run(x); };
-			virtual void visit(const Throw & x)                const override { this->run(x); };
-			virtual void visit(const Switch & x)           const override { this->run(x); };
-			virtual void visit(const StatementExpression & x)  const override { this->run(x); };
-			virtual void visit(const NoOp & x)            const override { this->run(x); };
-			virtual void visit(const Assign & x)               const override { this->run(x); };
+			virtual void visit(const Block & x)               const override { this->run(x); };
+			virtual void visit(const IfElse & x)              const override { this->run(x); };
+			virtual void visit(const While & x)               const override { this->run(x); };
+			virtual void visit(const InfiniteLoop & x)        const override { this->run(x); };
+			virtual void visit(const ForEach & x)             const override { this->run(x); };
+			virtual void visit(const NewVar & x)              const override { this->run(x); };
+			virtual void visit(const Return & x)              const override { this->run(x); };
+			virtual void visit(const Throw & x)               const override { this->run(x); };
+			virtual void visit(const Switch & x)              const override { this->run(x); };
+			virtual void visit(const StatementExpression & x) const override { this->run(x); };
+			virtual void visit(const NoOp & x)                const override { this->run(x); };
+			virtual void visit(const Assign & x)              const override { this->run(x); };
+			virtual void visit(const Yield & x)               const override { this->run(x); };
 		};
 
 		return Visitor{fx}(stmt);

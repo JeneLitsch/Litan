@@ -17,3 +17,5 @@ Depending on the data type of `iterable` the iterator produces the following ele
 - array: Iterates over elements
 - tuple: Iterates over elements
 - map: Iterates over key-value pair
+- couroutine: Repeatedly calls coroutine. 
+- nouroutine: Expired coroutine iterator. Returns iterator_stop

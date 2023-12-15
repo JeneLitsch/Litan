@@ -7,6 +7,7 @@ add_library(libltnc
 	Ltnc.cxx
 	make_jump_id.cxx
 	Namespace.cxx
+	Qualifiers.cxx
 	Reporter.cxx
 )
 

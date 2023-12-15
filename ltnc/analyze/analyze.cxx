@@ -8,7 +8,7 @@ namespace ltn::c {
 			const ast::Program & source) {
 			std::vector<stx::reference<const ast::decl::Function>> externs;
 			for(const auto & fx : source.functions) {
-				if(fx->is_extern) {
+				if(fx->qualifiers.is_extern) {
 					externs.push_back(*fx);
 				}
 				if(fx->name == "main" && (fx->parameters.simple.size() == 0 || fx->parameters.simple.size() == 1)) {
@@ -23,12 +23,12 @@ namespace ltn::c {
 		auto analyze_staged(const Staged & staged, Context & context) {
 			FunctionScope scope {
 				staged.override_namespace.value_or(staged.fx->namespaze),
-				staged.fx->is_const,
+				staged.fx->qualifiers,
 				context,
 			};
 			auto label = make_function_label(staged.fx);
 			static const std::vector<std::unique_ptr<ast::expr::Var>> no_captures;
-			return analyze_functional(staged.fx, scope, label, staged.captures.value_or(no_captures)); 
+			return analyze_function(staged.fx, scope, label, staged.captures.value_or(no_captures)); 
 		}
 	}
 

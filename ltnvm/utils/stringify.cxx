@@ -158,6 +158,16 @@ namespace ltn::vm {
 			return value.obj_type->name(core);
 		}
 
+		if(is_coroutine(value)) {
+			const auto & coroutine = core.heap.read<Coroutine>(value);
+			const auto & locals = coroutine.local_variables;
+			std::ostringstream ss;
+			ss << "<coroutine";
+			print_all(std::begin(locals), std::end(locals), ss, core, '{', '}');
+			ss << ">";
+			return ss.str();
+		}
+
 		throw Exception{
 			.type = Exception::Type::INVALID_ARGUMENT,
 			.msg = "Cannot stringify"

@@ -13,7 +13,7 @@ namespace ltn::c {
 			Context & context,
 			std::uint64_t id) {
 
-			MajorScope scope { statik.namespaze, false, context};
+			MajorScope scope { statik.namespaze, Qualifiers::none, context};
 
 			auto expr = statik.expr ? analyze_expression(*statik.expr, scope) : sst::expr::null();
 			auto node = make(statik.name, statik.namespaze, std::move(expr), id);

@@ -7,6 +7,7 @@
 
 namespace ltn::vm {
 	class Heap;
+	class VMCore;
 
 	struct Iterator : public Object {
 		virtual Value next() = 0;
@@ -23,7 +24,7 @@ namespace ltn::vm {
 
 
 	namespace iterator {
-		Value wrap(const Value & ref, Heap & heap);
+		Value wrap(const Value & ref, VMCore & core);
 		Value next(const Value & ref);
 		Value get(const Value & ref);
 		void move(const Value & ref, const Value & amount);

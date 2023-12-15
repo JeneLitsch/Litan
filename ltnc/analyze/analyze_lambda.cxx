@@ -19,7 +19,7 @@ namespace ltn::c {
 		FunctionScope create_inner_scope(Scope & outer_scope, const ast::expr::Lambda & lambda) {
 			FunctionScope inner_scope {
 				outer_scope.get_namespace(),
-				lambda.fx->is_const,
+				lambda.fx->qualifiers,
 				outer_scope.get_context(),
 			};
 
