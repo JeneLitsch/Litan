@@ -1,0 +1,44 @@
+namespace sphinx::test {
+	function s_bind_var() {
+		test_name("Structured binding: Simple case");
+		var (i, b, f, s, t) = (1, true, 42.42, "xyz", (1, 0));
+		assert_equal_strict(i, 1);
+		assert_equal_strict(b, true);
+		assert_equal_strict(f, 42.42);
+		assert_equal_strict(s, "xyz");
+		assert_equal_strict(t, (1,0));
+	}
+
+
+
+	function s_bind_var_ignore_extra() {
+		test_name("Structured binding: Ignore extra elements");
+		var (i, b, f, s) = (1, true, 42.42, "xyz", null);
+		assert_equal_strict(i, 1);
+		assert_equal_strict(b, true);
+		assert_equal_strict(f, 42.42);
+		assert_equal_strict(s, "xyz");
+	}
+
+
+
+	function s_bind_var_multilevel() {
+		test_name("Structured binding: Multilevel");
+		var (i, b, (f, s)) = (1, true, (42.42, "xyz"));
+		assert_equal_strict(i, 1);
+		assert_equal_strict(b, true);
+		assert_equal_strict(f, 42.42);
+		assert_equal_strict(s, "xyz");
+	}
+
+
+
+	function s_bind_var_ignore_extra_multilevel() {
+		test_name("Structured binding: Multilevel / Ignore extra elements");
+		var (i, b, (f, s), n) = (1, true, (42.42, "xyz", null), null, null);
+		assert_equal_strict(i, 1);
+		assert_equal_strict(b, true);
+		assert_equal_strict(f, 42.42);
+		assert_equal_strict(s, "xyz");
+	}
+}

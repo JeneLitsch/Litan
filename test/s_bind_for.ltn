@@ -1,0 +1,87 @@
+namespace sphinx::test {
+	namespace s_bind_for {
+		function missing(data) => assert_except(lambda [data] {
+			for((key, val, xtr) : data) {}
+		})
+
+
+		function sum(data) {
+			var sum_a = 0;
+			var sum_b = 0;
+			for((a, b) : data) {
+				sum_a = sum_a + a;
+				sum_b = sum_b + b;
+			}
+			return (sum_a, sum_b);
+		}
+	}
+
+
+
+	function s_bind_for_map() {
+		test_name("Structured binding: For-Loop(Map)");
+		var data = [1:10, 2:20, 3:30];
+		var res = s_bind_for::sum(data);
+		assert_equal_strict(res, (6, 60));
+	}
+
+
+
+	function s_bind_for_map_missing() {
+		test_name("Structured binding: For-Loop(Map) / missing");
+		var data = [1:10, 2:20, 3:30];
+		s_bind_for::missing(data);
+	}
+
+
+
+	function s_bind_for_array() {
+		test_name("Structured binding: For-Loop(Array)");
+		var data = [(1, 10), (2, 20), (3, 30)];
+		var res = s_bind_for::sum(data);
+		assert_equal_strict(res, (6, 60));
+	}
+
+
+
+	function s_bind_for_array_missing() {
+		test_name("Structured binding: For-Loop(Map) / missing");
+		var data = [(1, 10), (2, 20), (3, 30)];
+		s_bind_for::missing(data);
+	}
+
+
+
+	function s_bind_for_array_ignore_extra() {
+		test_name("Structured binding: For-Loop(Array) / Ignore extra elements");
+		var data = [(1, 10, 100), (2, 20, 200), (3, 30, 300)];
+		var res = s_bind_for::sum(data);
+		assert_equal_strict(res, (6, 60));
+	}
+
+
+
+	function s_bind_for_zipped() {
+		test_name("Structured binding: For-Loop(zippped)");
+		var data = std::zipped([1,2,3], [10,20,30]);
+		var res = s_bind_for::sum(data);
+		assert_equal_strict(res, (6, 60));
+	}
+
+
+
+	function s_bind_for_zipped_missing() {
+		test_name("Structured binding: For-Loop(zippped) / missing");
+		var data = std::zipped([1,2,3], [10,20,30]);
+		s_bind_for::missing(data);
+	}
+
+
+
+	function s_bind_for_zipped_ignore_extra() {
+		test_name("Structured binding: For-Loop(zippped) / Ignore extra elements");
+		var data = std::zipped([1,2,3], [10,20,30], [100,200,300]);
+		var res = s_bind_for::sum(data);
+		assert_equal_strict(res, (6, 60));
+	}
+}
