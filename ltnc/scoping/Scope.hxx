@@ -6,7 +6,7 @@
 #include "ltnc/SourceLocation.hxx"
 #include "ltnc/Namespace.hxx"
 #include "Variable.hxx"
-#include "Context.hxx"
+#include "ltnc/analyze/utils/Context.hxx"
 
 namespace ltn::c {
 	class Scope {

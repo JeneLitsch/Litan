@@ -10,10 +10,10 @@
 #include "ltnc/make_jump_id.hxx"
 #include "ltnc/labels.hxx"
 
-#include "utils/Scope.hxx"
-#include "utils/FunctionScope.hxx"
-#include "utils/MajorScope.hxx"
-#include "utils/MinorScope.hxx"
+#include "ltnc/scoping/Scope.hxx"
+#include "ltnc/scoping/FunctionScope.hxx"
+#include "ltnc/scoping/MajorScope.hxx"
+#include "ltnc/scoping/MinorScope.hxx"
 
 #include "error.hxx"
 
