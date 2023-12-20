@@ -18,9 +18,9 @@ namespace ltn::c {
 		virtual std::optional<std::string> get_return() const = 0;
 		virtual Context & get_context() const = 0;
 		virtual void set_context(stx::reference<Context> context) = 0;
-
-		Variable insert(const std::string & name, const SourceLocation & location);
 		void set_return(const std::string & return_point);
+
+		Variable declare_variable(const std::string & name, const SourceLocation & location);
 
 		virtual stx::optref<const Variable> resolve_variable(const std::string & name, const SourceLocation & location) const = 0;
 		stx::optref<const ast::decl::Function> resolve_function(const std::string & name, const Namespace & ns, std::size_t arity, VariadicMode var_mode = VariadicMode::PROHIBITED) const;

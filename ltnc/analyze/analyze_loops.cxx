@@ -41,8 +41,8 @@ namespace ltn::c {
 		const auto label = make_jump_id("FOREACH");
 		auto expr = analyze_expression(*stmt.expr, loop_scope);
 		auto bind = analyze_binding(*stmt.bind, scope);
-		const auto iterator_var = loop_scope.insert("_iterator_" + label, location(stmt));
-		const auto container_var = loop_scope.insert("_container_" + label, location(stmt));
+		const auto iterator_var = loop_scope.declare_variable("_iterator_" + label, location(stmt));
+		const auto container_var = loop_scope.declare_variable("_container_" + label, location(stmt));
 		auto body = analyze_statement(*stmt.body, loop_scope);
 
 		return sst::stmt::for_each(
