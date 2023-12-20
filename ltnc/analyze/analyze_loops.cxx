@@ -27,8 +27,8 @@ namespace ltn::c {
 
 
 	sst::stmt_ptr analyze_stmt(const ast::stmt::InfiniteLoop & stmt, Scope & scope) {
-
 		MinorScope loop_scope { &scope }; 		
+		
 		auto body = analyze_statement(*stmt.body, loop_scope);
 		return sst::stmt::infinite_loop(std::move(body));
 	}
