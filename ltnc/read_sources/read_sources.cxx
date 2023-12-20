@@ -20,10 +20,7 @@
 
 namespace ltn::c {
 	namespace {
-		std::vector<ltn::c::Source> read_source_impl(
-			const auto & filepaths,
-			ltn::c::Reporter & reporter) {
-
+		std::vector<ltn::c::Source> read_source_impl(const auto & filepaths) {
 
 			std::vector<Source> sources;
 			inject_stdlib(sources);
@@ -35,7 +32,7 @@ namespace ltn::c {
 				else {
 					std::ostringstream oss;
 					oss << "Cannot open source " << source_path;
-					reporter << ltn::c::CompilerError { oss.str() };
+					throw ltn::c::CompilerError { oss.str() };
 				}
 			}
 			return sources;
@@ -46,17 +43,15 @@ namespace ltn::c {
 
 
 	std::vector<ltn::c::Source> read_sources(
-		const std::vector<std::filesystem::path> & filepaths,
-		ltn::c::Reporter & reporter) {
-		return read_source_impl(filepaths, reporter);
+		const std::vector<std::filesystem::path> & filepaths) {
+		return read_source_impl(filepaths);
 	}
 
 
 
 	std::vector<ltn::c::Source> read_sources(
-		const std::vector<std::string> & filepaths,
-		ltn::c::Reporter & reporter) {
-		return read_source_impl(filepaths, reporter);
+		const std::vector<std::string> & filepaths) {
+		return read_source_impl(filepaths);
 	}
 
 

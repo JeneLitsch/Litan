@@ -11,7 +11,6 @@
 #include "stdxx/oop.hxx"
 
 #include "ltnc/SourceLocation.hxx"
-#include "ltnc/Reporter.hxx"
 #include "ltnc/SourceLocation.hxx"
 
 namespace ltn::c {

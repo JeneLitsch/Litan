@@ -10,7 +10,6 @@ namespace ltn::c {
 			.definition_table = outer->get_context().definition_table, 
 			.member_table = outer->get_context().member_table, 
 			.global_table = global_table,
-			.reporter = outer->get_context().reporter,
-			.custom_resolver   = outer->get_context().custom_resolver,
+			.custom_resolver = outer->get_context().custom_resolver,
 		} {}
 }

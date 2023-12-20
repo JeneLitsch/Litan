@@ -3,7 +3,6 @@
 #include <span>
 #include "ltn/casts.hxx"
 #include "ltnc/CompilerError.hxx"
-#include "ltnc/Reporter.hxx"
 #include "ltnc/ast/AST.hxx"
 #include "ltnc/sst/SST.hxx"
 #include "utils/Context.hxx"
@@ -20,7 +19,6 @@
 namespace ltn::c {
 	sst::Program analyze(
 		const ast::Program & program,
-		Reporter & reporter,
 		const std::vector<ltn::c::CustomLiteral> & literals = {});
 
 	sst::func_ptr analyze_function(

@@ -10,23 +10,21 @@
 #include "stdxx/args.hxx"
 
 
-std::ofstream open_target(
-	const std::filesystem::path & path,
-	ltn::c::Reporter & reporter) {
+std::ofstream open_target(const std::filesystem::path & path) {
 	
 	const auto dir = path.parent_path();
 
 	if(!std::filesystem::exists(dir) && !std::filesystem::create_directory(dir)) {
 		std::ostringstream oss;
 		oss << "Directory " << dir << " does not exist and cannot be created.";
-		reporter << ltn::c::CompilerError { oss.str() };
+		throw ltn::c::CompilerError { oss.str() };
 	}
 
 	std::ofstream ofile { path, std::ios::binary };
 	if(!ofile) {
 		std::ostringstream oss;
 		oss << "Cannot open target " << path; 
-		reporter << ltn::c::CompilerError { oss.str() };
+		throw ltn::c::CompilerError { oss.str() };
 	}
 
 	std::cout << "[Target] " << path << "\n";
@@ -90,22 +88,20 @@ int main(int argc, char const *argv[]){
 	flag_source.mandatory();
 
 	try {
-		ltn::c::Reporter reporter;
-		auto sources = ltn::c::read_sources(flag_source.value(), reporter);
-		auto tokens = ltn::c::lex(sources, reporter);
-		auto source = ltn::c::parse(tokens, reporter);
-		auto program = ltn::c::analyze(source, reporter);
+		auto sources = ltn::c::read_sources(flag_source.value());
+		auto tokens = ltn::c::lex(sources);
+		auto source = ltn::c::parse(tokens);
+		auto program = ltn::c::analyze(source);
 		if(flag_o) ltn::c::optimize(program);
-		auto [instructions, link_info] = ltn::c::compile(program, reporter);
+		auto [instructions, link_info] = ltn::c::compile(program);
 		if(flag_o) instructions = ltn::c::peephole(instructions);
-		reporter.may_throw();
 		if(flag_asm) {
 			output_asm(flag_asm.value(), instructions);
 		}
 		auto bytecode = ltn::c::assemble(instructions, link_info);
 
 		if(flag_exe) {
-			auto ofile = open_target(flag_exe.value(), reporter);
+			auto ofile = open_target(flag_exe.value());
 			for(auto byte : bytecode) {
 				ofile << byte;
 			}

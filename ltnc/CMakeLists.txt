@@ -8,7 +8,6 @@ add_library(libltnc
 	make_jump_id.cxx
 	Namespace.cxx
 	Qualifiers.cxx
-	Reporter.cxx
 )
 
 add_subdirectory(analyze)

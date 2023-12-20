@@ -340,7 +340,7 @@ namespace ltn::c {
 
 
 		namespace {
-		std::vector<Token> lex_source(std::istream & in, std::string sourcename, Reporter & reporter) {
+		std::vector<Token> lex_source(std::istream & in, std::string sourcename) {
 			SourceLocation loc{1, sourcename};
 			std::vector<Token> tokens;
 			while (true) {
@@ -354,17 +354,12 @@ namespace ltn::c {
 	}
 	
 
-	Tokens lex_sources(
-		const std::vector<Source> & sources,
-		Reporter & reporter) {
-		
+	Tokens lex_sources(const std::vector<Source> & sources) {
 		std::vector<Token> tokens;
-
-
 
 		for(auto & source : sources) {
 			auto stream = source.make_istream();
-			tokens += lex_source(*stream, source.get_name(), reporter);
+			tokens += lex_source(*stream, source.get_name());
 		}
 		
 		tokens += Token::end;
@@ -373,11 +368,8 @@ namespace ltn::c {
 
 
 
-	Tokens lex(
-		const std::vector<Source> & sources,
-		Reporter & reporter) {
-
-		return lex_sources(sources, reporter);
+	Tokens lex(const std::vector<Source> & sources) {
+		return lex_sources(sources);
 	}
 }
 

@@ -5,7 +5,6 @@
 #include "ltn/casts.hxx"
 #include "ltn/unique.hxx"
 #include "ltnc/CompilerError.hxx"
-#include "ltnc/Reporter.hxx"
 #include "ltnc/ast/AST.hxx"
 #include "FunctionTable.hxx"
 
@@ -23,7 +22,6 @@ namespace ltn::c {
 		DefinitionTable & definition_table;
 		MemberTable & member_table;
 		GlobalTable & global_table;
-		Reporter & reporter;
 		CustomResolver & custom_resolver;
 	};
 

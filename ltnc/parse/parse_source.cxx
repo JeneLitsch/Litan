@@ -108,7 +108,7 @@ namespace ltn::c {
 
 
 
-	ast::Program parse(Tokens & tokens, Reporter & reporter) {
+	ast::Program parse(Tokens & tokens) {
 		ast::Program source;
 		const Namespace namespaze;
 

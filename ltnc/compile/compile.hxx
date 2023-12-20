@@ -3,7 +3,6 @@
 #include <span>
 #include "ltn/casts.hxx"
 #include "ltnc/CompilerError.hxx"
-#include "ltnc/Reporter.hxx"
 #include "ltnc/make_jump_id.hxx"
 #include "ltnc/labels.hxx"
 #include "ltnc/ast/AST.hxx"
@@ -13,7 +12,7 @@
 #include "ltnc/Instructions.hxx"
 
 namespace ltn::c {
-	std::tuple<std::vector<inst::Inst>, LinkInfo> compile(const sst::Program & program, Reporter & reporter);
+	std::tuple<std::vector<inst::Inst>, LinkInfo> compile(const sst::Program & program);
 
 	// Functional
 	InstructionBuffer compile_function(const sst::decl::Function &);
