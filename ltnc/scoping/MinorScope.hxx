@@ -2,7 +2,7 @@
 #include "Scope.hxx"
 
 namespace ltn::c {
-	class MinorScope final : public Scope {
+	class MinorScope : public Scope {
 	public:
 		MinorScope(const Scope * parent);
 
