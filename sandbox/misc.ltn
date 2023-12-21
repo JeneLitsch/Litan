@@ -1,7 +1,7 @@
 function main() {
-	for((a,b) : std::zipped([1,2,3], [4,5,6])) {
-		std::print(a);
-		std::print(":");
-		std::println(b);
-	}
+	var a = 1;
+	switch(a) {
+		case 1 => var b = 1337;
+	};
+	std::println(b);
 }

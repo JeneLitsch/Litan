@@ -16,7 +16,9 @@ namespace ltn::c {
 
 		return stx::fx::mapped(stx::fx::paired(
 			[&] (auto & c4se) { return analyze_expression(*c4se, case_scope); },
-			[&] (auto & body) { return body_fx(*body, scope); }
+			[&] (auto & body) { 
+				MinorScope body_scope {&scope};
+				return body_fx(*body, body_scope); }
 		)) (sw1tch.cases);
 	}
 
