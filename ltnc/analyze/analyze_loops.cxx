@@ -38,11 +38,13 @@ namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::stmt::ForEach & stmt, Scope & scope) {
 		MinorScope loop_scope { &scope };
 		
+		auto expr = analyze_expression(*stmt.expr, loop_scope );
+		auto bind = analyze_binding(*stmt.bind, loop_scope );
+		
 		const auto label = make_jump_id("FOREACH");
-		auto expr = analyze_expression(*stmt.expr, loop_scope);
-		auto bind = analyze_binding(*stmt.bind, scope);
 		const auto iterator_var = loop_scope.declare_variable("_iterator_" + label, location(stmt));
 		const auto container_var = loop_scope.declare_variable("_container_" + label, location(stmt));
+		
 		auto body = analyze_statement(*stmt.body, loop_scope);
 
 		return sst::stmt::for_each(

@@ -1,7 +1,6 @@
 function main() {
-	var a = 1;
-	switch(a) {
-		case 1 => var b = 1337;
-	};
-	std::println(b);
+	for(i : [1,2,3]) {
+
+	}
+	std::println(i);
 }

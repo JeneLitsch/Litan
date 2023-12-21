@@ -145,7 +145,7 @@ namespace sphinx::test {
 
 
 
-	function for_ranged_scope() {
+	function for_ranged_body_scope() {
 		var x = 1337;
 		var had_run = false;
 		for(i:[1]) {
@@ -158,5 +158,13 @@ namespace sphinx::test {
 		}
 		assert_equal_strict(x, 1337);
 		assert_true(had_run);
+	}
+
+
+
+	function for_ranged_head_scope() {
+		var i = 42;
+		for(i : [1,2,3]) {}
+		assert_equal_strict(i, 42);
 	}
 }
