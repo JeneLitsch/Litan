@@ -29,6 +29,9 @@ namespace ltn::c {
 		std::uint64_t resolve_member_id(const std::variant<std::string, MemberCode> & name) const;
 		sst::expr_ptr resolve_custom_literal(const std::string & type, const std::string & value) const;
 
+		void require_function(stx::reference<const ast::decl::Function> fx);
+		void require_function(StagedFunction staged);
+
 	protected:
 		std::unordered_map<std::string, Variable> vars;
 		std::optional<std::string> return_point;

@@ -7,12 +7,12 @@
 #include "ltnc/ast/AST.hxx"
 
 namespace ltn::c {
-	struct Staged {
+	struct StagedFunction {
 		stx::reference<const ast::decl::Function> fx;
 		stx::optref<const std::vector<std::unique_ptr<ast::expr::Var>>> captures;
 		std::optional<Namespace> override_namespace = std::nullopt;
 	};
-	inline auto operator<=>(const Staged & l, const Staged & r) {
+	inline auto operator<=>(const StagedFunction & l, const StagedFunction & r) {
 		return l.fx <=> r.fx;
 	}
 	
@@ -20,10 +20,10 @@ namespace ltn::c {
 	class FunctionQueue {
 	public:
 		void stage_function(stx::reference<const ast::decl::Function> fx);
-		void stage_function(Staged staged);
-		std::optional<Staged> fetch_function();
+		void stage_function(StagedFunction staged);
+		std::optional<StagedFunction> fetch_function();
 	private:
-		std::queue<Staged> queue;
-		std::set<Staged> already_known;
+		std::queue<StagedFunction> queue;
+		std::set<StagedFunction> already_known;
 	};
 }

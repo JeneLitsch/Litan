@@ -2,6 +2,8 @@
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/analyze/error.hxx"
 
+#include "ltnc/analyze/utils/FunctionQueue.hxx"
+
 namespace ltn::c {
 	void Scope::set_return(const std::string & return_point) {
 		this->return_point = return_point;
@@ -68,6 +70,18 @@ namespace ltn::c {
 
 	sst::expr_ptr Scope::resolve_custom_literal(const std::string & type, const std::string & value) const {
 		return this->get_context().custom_resolver.resolve(type, value);
+	}
+
+
+
+	void Scope::require_function(stx::reference<const ast::decl::Function> fx) {
+		return this->get_context().fx_queue.stage_function(fx);
+	}
+
+	
+	
+	void Scope::require_function(StagedFunction staged) {
+		return this->get_context().fx_queue.stage_function(staged);
 	}
 }
 

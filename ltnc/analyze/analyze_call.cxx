@@ -74,15 +74,13 @@ namespace ltn::c {
 			const ast::decl::Function & fx,
 			Scope & scope) {
 
-			auto & context = scope.get_context();
-			
 			guard_private(fx, scope.get_namespace(), call);
 			guard_const(call, fx, scope);
 
 			auto arguments = analyze_arguments(call, fx, scope);
 			auto fx_label = make_function_label(fx);
 			
-			context.fx_queue.stage_function(fx);
+			scope.require_function(fx);
 			return sst::expr::call(std::move(fx_label), std::move(arguments));
 		}
 	}

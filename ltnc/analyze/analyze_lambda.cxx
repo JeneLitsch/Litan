@@ -24,7 +24,7 @@ namespace ltn::c {
 
 		auto captures = analyze_captures(lambda.captures, outer_scope);
 
-		outer_scope.get_context().fx_queue.stage_function(Staged{
+		outer_scope.require_function(StagedFunction{
 			.fx = *lambda.fx,
 			.captures = lambda.captures,
 			.override_namespace = outer_scope.get_namespace(),

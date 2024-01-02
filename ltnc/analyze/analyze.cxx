@@ -20,7 +20,7 @@ namespace ltn::c {
 
 
 
-		auto analyze_staged(const Staged & staged, Context & context) {
+		auto analyze_staged(const StagedFunction & staged, Context & context) {
 			FunctionScope scope {
 				staged.override_namespace.value_or(staged.fx->namespaze),
 				staged.fx->qualifiers,
