@@ -14,7 +14,6 @@ namespace ltn::c {
 		virtual const Namespace & get_namespace() const override;
 		virtual std::optional<std::string> get_return() const override;
 		virtual Context & get_context() const override;
-		virtual void set_context(stx::reference<Context> context) override;
 	
 	private:
 		Namespace namespaze;

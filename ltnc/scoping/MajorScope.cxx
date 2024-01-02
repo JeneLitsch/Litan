@@ -58,9 +58,4 @@ namespace ltn::c {
 	Context & MajorScope::get_context() const {
 		return *this->context;
 	}
-
-
-	void MajorScope::set_context(stx::reference<Context> context) {
-		this->context = context;
-	}
 }

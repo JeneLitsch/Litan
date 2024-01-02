@@ -61,10 +61,4 @@ namespace ltn::c {
 		if(this->context) return *this->context;
 		else return this->parent->get_context();
 	}
-
-
-
-	void MinorScope::set_context(stx::reference<Context> context) {
-		this->context = *context;
-	}
 }
