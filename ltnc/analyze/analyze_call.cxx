@@ -80,7 +80,6 @@ namespace ltn::c {
 			guard_const(call, fx, scope);
 
 			auto arguments = analyze_arguments(call, fx, scope);
-			MinorScope dummy_scope{&scope};
 			auto fx_label = make_function_label(fx);
 			
 			context.fx_queue.stage_function(fx);

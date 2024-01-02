@@ -1,5 +1,6 @@
 #include "analyze.hxx"
 #include "stdxx/functional.hxx"
+#include "stdxx/memory.hxx"
 #include "ltnc/ast/expr/Lambda.hxx"
 #include "ltnc/sst/expr/FxPointer.hxx"
 #include "ltnc/sst/expr/Var.hxx"
@@ -13,25 +14,12 @@ namespace ltn::c {
 			};
 			return stx::fx::map(fx, captures);
 		}
-
-
-
-		FunctionScope create_inner_scope(Scope & outer_scope, const ast::expr::Lambda & lambda) {
-			FunctionScope inner_scope {
-				outer_scope.get_namespace(),
-				lambda.fx->qualifiers,
-				outer_scope.get_context(),
-			};
-
-			return inner_scope;
-		}
 	}
 
 
 
 	sst::expr_ptr analyze_expr(const ast::expr::Lambda & lambda, Scope & outer_scope) {
 		
-		auto inner_scope = create_inner_scope(outer_scope, lambda);
 		auto label = make_lambda_label(lambda);
 
 		auto captures = analyze_captures(lambda.captures, outer_scope);

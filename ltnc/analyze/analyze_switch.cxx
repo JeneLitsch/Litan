@@ -7,31 +7,19 @@
 #include "ltnc/sst/expr/Switch.hxx"
 #include "ltnc/sst/stmt/Switch.hxx"
 
+#include "ltnc/scoping/CaseScope.hxx"
+#include "ltnc/scoping/BlockScope.hxx"
+
 namespace ltn::c {
 	auto analyze_cases(auto body_fx, const auto & sw1tch, Scope & scope) {
 
-		InvalidFunctionTable fx_table {"case"};
-		InvalidGlobalTable global_table {"case"};
-		auto & outer_context = scope.get_context(); 
-		Context case_context {
-			.fx_table = fx_table,
-			.fx_queue = outer_context.fx_queue,
-			.definition_table = outer_context.definition_table, 
-			.member_table = outer_context.member_table, 
-			.global_table = global_table,
-			.reporter = outer_context.reporter,
-			.custom_resolver   = outer_context.custom_resolver,
-		};
-
-		MajorScope case_scope {
-			scope.get_namespace(),
-			Qualifiers::just_const,
-			case_context
-		};
+		CaseScope case_scope { &scope };
 
 		return stx::fx::mapped(stx::fx::paired(
 			[&] (auto & c4se) { return analyze_expression(*c4se, case_scope); },
-			[&] (auto & body) { return body_fx(*body, scope); }
+			[&] (auto & body) { 
+				BlockScope body_scope {&scope};
+				return body_fx(*body, body_scope); }
 		)) (sw1tch.cases);
 	}
 

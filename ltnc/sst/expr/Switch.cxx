@@ -1,4 +1,5 @@
 #include "Switch.hxx"
+#include <algorithm>
 
 namespace ltn::c::sst::expr {
 	Switch::Switch() {}

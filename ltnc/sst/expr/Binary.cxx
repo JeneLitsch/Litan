@@ -1,4 +1,5 @@
 #include "Binary.hxx"
+#include <algorithm>
 
 namespace ltn::c::sst::expr {
 	Binary::Binary(Op op, expr_ptr l, expr_ptr r)

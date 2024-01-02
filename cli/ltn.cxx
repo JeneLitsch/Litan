@@ -48,22 +48,19 @@ int main(int argc, char const *argv[]) {
 		single_file.push_back(argv[1]);
 	}
 
-	ltn::c::Reporter reporter;
 	ltn::VM vm;
 	try {
 		std::vector<std::string> args;
 
-		auto sources = ltn::c::read_sources(flag_source.value_or(single_file), reporter);
-		auto lexer = ltn::c::lex(sources, reporter);
-		auto source = ltn::c::parse(lexer, reporter);
-		auto program = ltn::c::analyze(source, reporter);
+		auto sources = ltn::c::read_sources(flag_source.value_or(single_file));
+		auto lexer = ltn::c::lex(sources);
+		auto source = ltn::c::parse(lexer);
+		auto program = ltn::c::analyze(source);
 		if(flag_o) ltn::c::optimize(program);
-		auto [instructions, link_info] = ltn::c::compile(program, reporter);
+		auto [instructions, link_info] = ltn::c::compile(program);
 		if(flag_o) instructions = ltn::c::peephole(instructions);
 		auto bytecode = ltn::c::assemble(instructions, link_info);
 		const auto main_function = main_init.value_or("");
-
-		reporter.may_throw();
 
 		vm.setup(bytecode);
 		auto x = vm.run(main_args.value_or({}), main_function);

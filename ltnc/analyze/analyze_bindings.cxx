@@ -23,7 +23,7 @@ namespace ltn::c {
 
 	
 	sst::bind_ptr analyze_bind(const ast::bind::NewVar & binding, Scope & scope) {
-		const auto var = scope.insert(binding.name, ast::location(binding)); 
+		const auto var = scope.declare_variable(binding.name, ast::location(binding)); 
 		return sst::bind::new_local(var.address);
 	}
 

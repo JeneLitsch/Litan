@@ -6,13 +6,12 @@
 #include "ltnc/ast/AST.hxx"
 #include "ltnc/tokens/Token.hxx"
 #include "ltnc/CompilerError.hxx"
-#include "ltnc/Reporter.hxx"
 #include "ltnc/parse/BraceTracker.hxx"
 
 namespace ltn::c {
 
 	// Sources
-	ast::Program parse(Tokens & tokens, Reporter & reporter);
+	ast::Program parse(Tokens & tokens);
 	
 	// Funcionals
 	ast::func_ptr parse_function(Tokens & tokens, const Namespace & namespaze);

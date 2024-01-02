@@ -11,6 +11,6 @@ namespace ltn::c {
 	// compiles any expr
 	InstructionBuffer compile_expression(const sst::expr::Expression & expr) {
 		auto fx = [&](const auto & e) { return compile_expr(e); };
-		return sst::expr::visit(expr, fx);
+		return sst::expr::visit<InstructionBuffer>(expr, fx);
 	}
 }

@@ -36,7 +36,6 @@ namespace ltn::c {
 
 	sst::Program analyze(
 		const ast::Program & source,
-		Reporter & reporter,
 		const std::vector<ltn::c::CustomLiteral> & literals) {
 		
 		sst::Program program;
@@ -52,7 +51,6 @@ namespace ltn::c {
 			.definition_table = definition_table,
 			.member_table = member_table,
 			.global_table = global_table,
-			.reporter = reporter,
 			.custom_resolver = custom_resolver,
 		};
 

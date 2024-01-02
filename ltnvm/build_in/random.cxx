@@ -62,7 +62,7 @@ namespace ltn::vm::build_in::random {
 			std::min(min, max),
 			std::max(min, max)
 		};
-		const auto x = dist(rng);
+		const auto x = rng(dist);
 		return value::integer(x);
 	}
 
@@ -74,7 +74,7 @@ namespace ltn::vm::build_in::random {
 			std::min(min, max),
 			std::max(min, max)
 		};
-		const auto x = dist(rng);
+		const auto x = rng(dist);
 		return value::floating(x);
 	}
 }

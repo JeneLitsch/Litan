@@ -8,7 +8,6 @@ add_library(libltnc
 	make_jump_id.cxx
 	Namespace.cxx
 	Qualifiers.cxx
-	Reporter.cxx
 )
 
 add_subdirectory(analyze)
@@ -22,6 +21,7 @@ add_subdirectory(parse)
 add_subdirectory(peephole)
 add_subdirectory(print)
 add_subdirectory(read_sources)
+add_subdirectory(scoping)
 add_subdirectory(source)
 add_subdirectory(sst)
 add_subdirectory(tokens)

@@ -3,6 +3,7 @@
 #include <tuple>
 #include <vector>
 #include <sstream>
+#include <optional>
 #include "ltn/unique.hxx"
 #include "ltnc/Namespace.hxx"
 #include "ltnc/Qualifiers.hxx"

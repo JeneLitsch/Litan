@@ -1,7 +1,6 @@
 function main() {
-	for((a,b) : std::zipped([1,2,3], [4,5,6])) {
-		std::print(a);
-		std::print(":");
-		std::println(b);
+	for(i : [1,2,3]) {
+
 	}
+	std::println(i);
 }

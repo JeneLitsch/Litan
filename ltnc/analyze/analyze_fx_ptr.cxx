@@ -8,9 +8,6 @@
 namespace ltn::c {
 
 	sst::expr_ptr analyze_expr(const ast::expr::FxPointer & fx_ptr, Scope & scope) {
-
-		MinorScope inner_scope{&scope};
-
 		auto & context = scope.get_context();
 
 		const auto fx = scope.resolve_function(
@@ -21,8 +18,6 @@ namespace ltn::c {
 		);
 
 		if(!fx) throw undefined_function(fx_ptr);
-
-		MinorScope param_scope{&inner_scope};
 
 		context.fx_queue.stage_function(Staged{
 			.fx = *fx,

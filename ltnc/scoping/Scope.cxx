@@ -9,7 +9,7 @@ namespace ltn::c {
 
 	// defines new variable and prevents disambiguations
 	// Variables in outer scope can not be hidden
-	Variable Scope::insert(
+	Variable Scope::declare_variable(
 		const std::string & name,
 		const SourceLocation & location) {
 		if(this->vars.contains(name)) {

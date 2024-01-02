@@ -17,9 +17,7 @@ namespace ltn::c {
 
 
 	// compiles source
-	std::tuple<std::vector<inst::Inst>, LinkInfo> compile(
-		const sst::Program & program,
-		Reporter &) {
+	std::tuple<std::vector<inst::Inst>, LinkInfo> compile(const sst::Program & program) {
 		
 		InstructionBuffer buf;
 

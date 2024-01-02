@@ -5,12 +5,7 @@ target_sources(libltnc PRIVATE
 	CustomResolver.cxx
 	DefinitionTable.cxx
 	FunctionQueue.cxx
-	FunctionScope.cxx
-	MajorScope.cxx
 	MemberTable.cxx
 	GlobalTable.cxx
-	MinorScope.cxx
 	namespace_resolution.cxx
-	Scope.cxx
-	Variable.cxx
 )

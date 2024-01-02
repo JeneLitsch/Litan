@@ -3,31 +3,29 @@
 #include <span>
 #include "ltn/casts.hxx"
 #include "ltnc/CompilerError.hxx"
-#include "ltnc/Reporter.hxx"
 #include "ltnc/ast/AST.hxx"
 #include "ltnc/sst/SST.hxx"
 #include "utils/Context.hxx"
 #include "ltnc/make_jump_id.hxx"
 #include "ltnc/labels.hxx"
 
-#include "utils/Scope.hxx"
-#include "utils/FunctionScope.hxx"
-#include "utils/MajorScope.hxx"
-#include "utils/MinorScope.hxx"
+#include "ltnc/scoping/Scope.hxx"
+#include "ltnc/scoping/FunctionScope.hxx"
+#include "ltnc/scoping/MajorScope.hxx"
+#include "ltnc/scoping/MinorScope.hxx"
 
 #include "error.hxx"
 
 namespace ltn::c {
 	sst::Program analyze(
 		const ast::Program & program,
-		Reporter & reporter,
 		const std::vector<ltn::c::CustomLiteral> & literals = {});
 
 	sst::func_ptr analyze_function(
 		const ast::decl::Function &,
 		FunctionScope &,
-		std::optional<Label> override_label = std::nullopt,
-		const std::vector<std::unique_ptr<ast::expr::Var>> & captures = {});
+		std::optional<Label> override_label,
+		const std::vector<std::unique_ptr<ast::expr::Var>> & captures);
 	
 	sst::glob_ptr analyze_global(const ast::decl::Global &, Context &, std::uint64_t id);
 	sst::defn_ptr analyze_definition(const ast::decl::Definition &, Context &, std::uint64_t id);

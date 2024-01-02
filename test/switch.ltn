@@ -55,4 +55,14 @@ namespace sphinx::test {
 		assert_equal(fx(0), true);
 		assert_equal(fx(4), null);
 	}
+
+
+
+	function switch_scope() {
+		var a = 42;
+		switch(1) {
+			case 1 => var a = 1337;
+		}
+		assert_equal(a, 42);
+	}
 }
