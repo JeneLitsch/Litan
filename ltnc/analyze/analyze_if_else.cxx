@@ -29,10 +29,9 @@ namespace ltn::c {
 			);
 		}
 		else {
-			return sst::stmt::if_else(
+			return sst::stmt::if_only(
 				std::move(condition),
-				std::move(if_branch),
-				nullptr
+				std::move(if_branch)
 			);
 		}
 	}

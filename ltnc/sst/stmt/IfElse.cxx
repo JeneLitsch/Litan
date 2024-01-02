@@ -40,4 +40,8 @@ namespace ltn::c::sst::stmt {
 	std::unique_ptr<IfElse> if_else(expr_ptr condition, stmt_ptr if_branch, stmt_ptr else_branch) {
 		return std::make_unique<IfElse>(std::move(condition), std::move(if_branch), std::move(else_branch));
 	}
+
+	std::unique_ptr<IfElse> if_only(expr_ptr condition, stmt_ptr if_branch) {
+		return std::make_unique<IfElse>(std::move(condition), std::move(if_branch), nullptr);
+	}
 }

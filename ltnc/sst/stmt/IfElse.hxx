@@ -24,4 +24,8 @@ namespace ltn::c::sst::stmt {
 		expr_ptr condition,
 		stmt_ptr if_branch,
 		stmt_ptr else_branch);
+	
+	std::unique_ptr<IfElse> if_only(
+		expr_ptr condition,
+		stmt_ptr if_branch);
 }
