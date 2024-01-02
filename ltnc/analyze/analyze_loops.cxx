@@ -8,11 +8,13 @@
 #include "ltnc/sst/stmt/InfiniteLoop.hxx"
 #include "ltnc/sst/stmt/While.hxx"
 
+#include "ltnc/scoping/BlockScope.hxx"
+
 namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::stmt::While & stmt, Scope & scope) {
 
 		// outer scope of loop 
-		MinorScope loop_scope { &scope }; 
+		BlockScope loop_scope { &scope }; 
 		
 		// compile parts
 		auto condition = analyze_expression(*stmt.condition, scope);
@@ -27,7 +29,7 @@ namespace ltn::c {
 
 
 	sst::stmt_ptr analyze_stmt(const ast::stmt::InfiniteLoop & stmt, Scope & scope) {
-		MinorScope loop_scope { &scope }; 		
+		BlockScope loop_scope { &scope }; 		
 		
 		auto body = analyze_statement(*stmt.body, loop_scope);
 		return sst::stmt::infinite_loop(std::move(body));
@@ -36,7 +38,7 @@ namespace ltn::c {
 
 
 	sst::stmt_ptr analyze_stmt(const ast::stmt::ForEach & stmt, Scope & scope) {
-		MinorScope loop_scope { &scope };
+		BlockScope loop_scope { &scope };
 		
 		auto expr = analyze_expression(*stmt.expr, loop_scope );
 		auto bind = analyze_binding(*stmt.bind, loop_scope );
