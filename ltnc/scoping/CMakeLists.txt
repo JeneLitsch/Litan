@@ -4,6 +4,7 @@ target_sources(libltnc PRIVATE
 	BlockScope.cxx
 	CaseScope.cxx
 	FunctionScope.cxx
+	IifeScope.cxx
 	MajorScope.cxx
 	MinorScope.cxx
 	Scope.cxx

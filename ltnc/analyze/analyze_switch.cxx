@@ -8,6 +8,7 @@
 #include "ltnc/sst/stmt/Switch.hxx"
 
 #include "ltnc/scoping/CaseScope.hxx"
+#include "ltnc/scoping/BlockScope.hxx"
 
 namespace ltn::c {
 	auto analyze_cases(auto body_fx, const auto & sw1tch, Scope & scope) {
@@ -17,7 +18,7 @@ namespace ltn::c {
 		return stx::fx::mapped(stx::fx::paired(
 			[&] (auto & c4se) { return analyze_expression(*c4se, case_scope); },
 			[&] (auto & body) { 
-				MinorScope body_scope {&scope};
+				BlockScope body_scope {&scope};
 				return body_fx(*body, body_scope); }
 		)) (sw1tch.cases);
 	}
