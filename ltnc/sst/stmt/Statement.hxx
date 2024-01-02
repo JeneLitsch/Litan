@@ -51,9 +51,9 @@ namespace ltn::c::sst::stmt {
 
 
 
+	template<typename Ret>
 	auto visit(const Statement & stmt, auto && fx) {
 		using Callable = std::decay_t<decltype(fx)>;
-		using Ret = std::invoke_result_t<Callable, NoOp>;
 		using Base = FunctionVisitor<StmtVisitor, Callable, Ret>;
 
 		struct Visitor : public Base {

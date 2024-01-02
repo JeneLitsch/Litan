@@ -1,4 +1,5 @@
 #include "Ternary.hxx"
+#include <algorithm>
 
 namespace ltn::c::sst::expr {
 	Ternary::Ternary(

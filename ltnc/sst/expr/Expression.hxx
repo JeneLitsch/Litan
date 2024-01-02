@@ -89,10 +89,10 @@ namespace ltn::c::sst::expr {
 
 
 
+	template<typename Ret>
 	auto visit(const Expression & expr, auto && fx) {
 
 		using Callable = std::decay_t<decltype(fx)>;
-		using Ret = std::invoke_result_t<Callable, Binary>;
 		using Base = FunctionVisitor<ExprVisitor, Callable, Ret>;
 
 		struct Visitor : public Base {

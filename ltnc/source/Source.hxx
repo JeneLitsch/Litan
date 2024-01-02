@@ -2,7 +2,7 @@
 #include <string>
 #include <istream>
 #include <fstream>
-#include "stdxx/memory.hxx"
+#include <memory>
 
 namespace ltn::c {
 	class Source final {

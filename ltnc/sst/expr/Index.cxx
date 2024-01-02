@@ -1,5 +1,6 @@
 #include "Index.hxx"
 #include "ltnc/sst/bind/Index.hxx"
+#include <algorithm>
 
 namespace ltn::c::sst::expr {
 	Index::Index(expr_ptr expr, expr_ptr index)

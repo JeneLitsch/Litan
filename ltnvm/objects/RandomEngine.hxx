@@ -27,6 +27,12 @@ namespace ltn::vm {
 			}, engine);
 		}
 
+		auto operator()(auto dist) {
+			return std::visit([&](auto & rng) {
+				return dist(rng);
+			}, engine);
+		}
+
 		auto min() {
 			return std::visit([](auto & rng) {
 				return rng.min();

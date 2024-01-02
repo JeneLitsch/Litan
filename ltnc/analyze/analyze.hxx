@@ -24,8 +24,8 @@ namespace ltn::c {
 	sst::func_ptr analyze_function(
 		const ast::decl::Function &,
 		FunctionScope &,
-		std::optional<Label> override_label = std::nullopt,
-		const std::vector<std::unique_ptr<ast::expr::Var>> & captures = {});
+		std::optional<Label> override_label,
+		const std::vector<std::unique_ptr<ast::expr::Var>> & captures);
 	
 	sst::glob_ptr analyze_global(const ast::decl::Global &, Context &, std::uint64_t id);
 	sst::defn_ptr analyze_definition(const ast::decl::Definition &, Context &, std::uint64_t id);

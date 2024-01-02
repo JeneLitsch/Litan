@@ -1,5 +1,6 @@
 #include "analyze.hxx"
 #include "stdxx/functional.hxx"
+#include "stdxx/memory.hxx"
 #include "ltnc/ast/expr/Lambda.hxx"
 #include "ltnc/sst/expr/FxPointer.hxx"
 #include "ltnc/sst/expr/Var.hxx"
