@@ -13,6 +13,14 @@ namespace ltn::c {
 				<< std::filesystem::relative(this->path);
 			throw CompilerError{oss.str()};
 		}
+
+		if(!std::filesystem::is_regular_file(this->path)) {
+			std::ostringstream oss;
+			oss 
+				<< "Not a file: "
+				<< std::filesystem::relative(this->path);
+			throw CompilerError{oss.str()};
+		}
 	}
 
 

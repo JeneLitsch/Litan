@@ -101,6 +101,7 @@ namespace ltn::c {
 			DRARROW,
 
 			HASH_INCLUDE,
+			HASH_IMPORT,
 		};
 		
 		Type type;

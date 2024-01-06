@@ -322,9 +322,8 @@ namespace ltn::c {
 
 			if(match('#')) {
 				const auto str = read(in, check_id_char);
-				if(str == "include") {
-					return make(TT::HASH_INCLUDE, str);
-				}
+				if(str == "include") return make(TT::HASH_INCLUDE, str);
+				if(str == "import") return make(TT::HASH_IMPORT, str);
 				else {
 					throw CompilerError{"invalid token", location};
 				}

@@ -109,6 +109,34 @@ namespace ltn::c {
 
 
 
+		FileSource parse_import(const Source & includer, const Token & start, Tokens & tokens) {
+			const std::filesystem::path source_path = includer.get_full_name(); 
+			const std::filesystem::path parent_path = source_path.parent_path();
+			if(auto path = match(TT::STRING, tokens)) {
+				const std::filesystem::path dependecy_path = parent_path / path->str;
+				return FileSource{dependecy_path / "_module_.ltn"};
+			}
+			else {
+				throw CompilerError {"Import directive requires file path as quoted string", start.location};
+			}
+		}
+
+
+
+		FileSource parse_include(const Source & includer, const Token & start, Tokens & tokens) {
+			const std::filesystem::path source_path = includer.get_full_name(); 
+			const std::filesystem::path parent_path = source_path.parent_path();
+			if(auto path = match(TT::STRING, tokens)) {
+				const std::filesystem::path dependecy_path = parent_path / path->str;
+				return FileSource{dependecy_path};
+			}
+			else {
+				throw CompilerError {"Include directive requires file path as quoted string", start.location};
+			}
+		}
+
+
+
 		void process_source(
 			const Source & source,
 			ast::Program & ast,
@@ -138,15 +166,10 @@ namespace ltn::c {
 					ast.globals.push_back(parse_global_decl(tokens, namestack.top()));
 				}
 				else if(auto start = match(TT::HASH_INCLUDE, tokens)) {
-					if(auto path = match(TT::STRING, tokens)) {
-						const std::filesystem::path source_path = source.get_full_name(); 
-						const std::filesystem::path parent_path = source_path.parent_path();
-						const std::filesystem::path dependecy_path = parent_path / path->str;
-						pending_sources.push(FileSource{dependecy_path});
-					}
-					else {
-						throw CompilerError {"Include directive requires file path as quoted string", start->location};
-					}
+					pending_sources.push(parse_include(source, *start, tokens));
+				}
+				else if(auto start = match(TT::HASH_IMPORT, tokens)) {
+					pending_sources.push(parse_import(source, *start, tokens));
 				}
 				else if(match(TT::BRACE_R, tokens)) {
 					if(namestack.empty()) {
