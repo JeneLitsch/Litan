@@ -114,7 +114,7 @@ namespace ltn::c {
 			const std::filesystem::path parent_path = source_path.parent_path();
 			if(auto path = match(TT::STRING, tokens)) {
 				const std::filesystem::path dependecy_path = parent_path / path->str;
-				return FileSource{dependecy_path / "_module_.ltn"};
+				return FileSource{dependecy_path / "__module__.ltn"};
 			}
 			else {
 				throw CompilerError {"Import directive requires file path as quoted string", start.location};
