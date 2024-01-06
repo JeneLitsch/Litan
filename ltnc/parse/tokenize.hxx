@@ -6,5 +6,5 @@
 #include "ltnc/source/Source.hxx"
 
 namespace ltn::c {
-	Tokens lex(const std::vector<Source> & sources);
+	Tokens tokenize(const std::vector<Source> & sources);
 }

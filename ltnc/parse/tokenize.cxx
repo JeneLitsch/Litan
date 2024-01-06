@@ -1,13 +1,29 @@
-#include "lexing.hxx"
-#include <unordered_map>
-#include "ltnc/CompilerError.hxx"
-#include "WS.hxx"
-#include "ltnc/source/StringSource.hxx"
 #include <sstream>
+#include <cctype>
+#include <istream>
+#include <iostream>
+#include <unordered_map>
+
+#include "ltnc/parse/tokenize.hxx"
+#include "ltnc/CompilerError.hxx"
+#include "ltnc/source/StringSource.hxx"
 
 
 
 namespace ltn::c {
+	struct WS {	std::size_t & line; };
+
+	std::istream & operator>>(std::istream & in, const WS & ws) {
+		while(std::isspace(in.peek())) {
+			if(in.peek() == '\n') {
+				ws.line++;
+			}
+			in.ignore();
+		}
+		return in;
+	}
+
+
 	namespace {
 		using TT = Token::Type; 
 
@@ -368,7 +384,7 @@ namespace ltn::c {
 
 
 
-	Tokens lex(const std::vector<Source> & sources) {
+	Tokens tokenize(const std::vector<Source> & sources) {
 		return lex_sources(sources);
 	}
 }

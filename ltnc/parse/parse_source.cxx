@@ -2,6 +2,7 @@
 #include "ltnc/CompilerError.hxx"
 #include <iostream>
 #include "stdxx/accu_stack.hxx"
+#include "tokenize.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -150,5 +151,12 @@ namespace ltn::c {
 			}
 		}
 		return source; 
+	}
+
+
+
+	ast::Program parse(const std::vector<Source> & sources) {
+		Tokens tokens = tokenize(sources);
+		return parse(tokens);
 	}
 }

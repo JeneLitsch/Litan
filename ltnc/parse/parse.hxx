@@ -7,10 +7,12 @@
 #include "ltnc/tokens/Token.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/parse/BraceTracker.hxx"
+#include "ltnc/source/Source.hxx"
 
 namespace ltn::c {
 
 	// Sources
+	ast::Program parse(const std::vector<Source> & sources);
 	ast::Program parse(Tokens & tokens);
 	
 	// Funcionals
