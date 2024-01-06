@@ -13,7 +13,6 @@ namespace ltn::c {
 
 	// Sources
 	ast::Program parse(const std::vector<Source> & sources);
-	ast::Program parse(Tokens & tokens);
 	
 	// Funcionals
 	ast::func_ptr parse_function(Tokens & tokens, const Namespace & namespaze);

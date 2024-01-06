@@ -1,8 +1,4 @@
-#include "other.ltn"
+#include "./other.ltn"
 
-function main() {
-	for(i : [1,2,3]) {
-
-	}
-	std::println(i);
-}
+function main() 
+	=> f()

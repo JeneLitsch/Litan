@@ -21,10 +21,10 @@ target_sources(libltnc PRIVATE
 	parse_parenthesized.cxx
 	parse_primary.cxx
 	parse_reflect.cxx
-	parse_source.cxx
 	parse_statement.cxx
 	parse_switch.cxx
 	parse_type.cxx
 	parse_unary.cxx
+	parse.cxx
 	tokenize.cxx
 )

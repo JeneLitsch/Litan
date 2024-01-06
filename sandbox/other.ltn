@@ -1,1 +1,2 @@
-function f() => std::println("Hello World");
+function f() 
+    => std::println("Hello World")

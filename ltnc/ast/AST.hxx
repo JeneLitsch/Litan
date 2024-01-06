@@ -16,4 +16,6 @@ namespace ltn::c::ast {
 		std::vector<glob_ptr> globals;
 		std::vector<enum_ptr> enums;
 	};
+
+	Program & operator+=(Program & ast, Program addition);
 }

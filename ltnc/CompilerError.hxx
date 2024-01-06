@@ -16,7 +16,7 @@ namespace ltn::c {
 	inline std::ostream & operator<<(
 		std::ostream & out,
 		const CompilerError & error) {
-		out << error.what() << std::endl;
+		out << "[Litan Compiler Error] " << error.what() << std::endl;
 		return out;
 	}
 }

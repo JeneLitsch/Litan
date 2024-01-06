@@ -181,191 +181,190 @@ namespace ltn::c {
 			}
 			throw CompilerError{"Unterminated string", location};
 		}
-	}
 	
 
 
-	Token token(std::istream & in, SourceLocation & location) {
-		const auto match = [&] (char chr) {
-			return ltn::c::match_char(in, chr);
-		};
+		Token token(std::istream & in, SourceLocation & location) {
+			const auto match = [&] (char chr) {
+				return ltn::c::match_char(in, chr);
+			};
 
-		const auto make = [&location] (auto type, const auto &str) {
-			return Token{type, str, location};
-		};
+			const auto make = [&location] (auto type, const auto &str) {
+				return Token{type, str, location};
+			};
 
-		in >> WS{location.line};
-		
-		if(is_at_end(in)) return make(TT::___EOF___, "___EOF__");
-		
-		if(match(',')) return make(TT::COMMA, ",");
-		if(match(';')) return make(TT::SEMICOLON, ";");
-		if(match('~')) {
-			return make(TT::TILDE, "~");
-		}
-		
-		if(match('(')) return make(TT::PAREN_L, "(");
-		if(match(')')) return make(TT::PAREN_R, ")");
-		if(match('{')) return make(TT::BRACE_L, "{");
-		if(match('}')) return make(TT::BRACE_R, "}");
-		if(match('[')) return make(TT::BRACKET_L, "[");
-		if(match(']')) return make(TT::BRACKET_R, "]");
-		
-		if(match('-')) {
-			if(match('>')) {
-				return make(TT::RARROW, "->");
-			}
-			return make(TT::MINUS, "-");
-		}
-		if(match('+')) {
-			return make(TT::PLUS, "+");
-		}
-		if(match('*')) {
-			if(match('*')) {
-				return make(TT::STARx2, "**");
-			}
-			return make(TT::STAR, "*");
-		}
-		if(match('/')) {
-			if(match('/')) {
-				comment(in);
-				return token(in, location);
-			}
-			return make(TT::SLASH, "/");
-		}
-		if(match('%')) {
-			return make(TT::PERCENT, "%");
-		}
-		if(match('&')) {
-			if(match('&')) {
-				return make(TT::AND, "&&");
-			}
-			return make(TT::AMPERSAND, "&");
-		}
-		if(match('|')) {
-			if(match('|')) {
-				return make(TT::OR, "||");
-			}
-			return make(TT::BIT_OR, "|");
-		}
-		if(match('^')) {
-			return make(TT::BIT_XOR, "^");
-		}
-		if(match('_')) return make(TT::UNDERSCORE, "_");
-		if(match('@')) return make(TT::AT, "@");
-		
-		if(match('=')) {
-			if(match('=')) return make(TT::EQUAL, "==");
-			if(match('>')) return make(TT::DRARROW, "=>");
-			return make(TT::ASSIGN, "=");
-		}
-
-		if(match('<')) {
-			if(match('<')) {
-				return make(TT::SHIFT_L, "<<");
+			in >> WS{location.line};
+			
+			if(is_at_end(in)) return make(TT::___EOF___, "___EOF__");
+			
+			if(match(',')) return make(TT::COMMA, ",");
+			if(match(';')) return make(TT::SEMICOLON, ";");
+			if(match('~')) {
+				return make(TT::TILDE, "~");
 			}
 			
+			if(match('(')) return make(TT::PAREN_L, "(");
+			if(match(')')) return make(TT::PAREN_R, ")");
+			if(match('{')) return make(TT::BRACE_L, "{");
+			if(match('}')) return make(TT::BRACE_R, "}");
+			if(match('[')) return make(TT::BRACKET_L, "[");
+			if(match(']')) return make(TT::BRACKET_R, "]");
+			
+			if(match('-')) {
+				if(match('>')) {
+					return make(TT::RARROW, "->");
+				}
+				return make(TT::MINUS, "-");
+			}
+			if(match('+')) {
+				return make(TT::PLUS, "+");
+			}
+			if(match('*')) {
+				if(match('*')) {
+					return make(TT::STARx2, "**");
+				}
+				return make(TT::STAR, "*");
+			}
+			if(match('/')) {
+				if(match('/')) {
+					comment(in);
+					return token(in, location);
+				}
+				return make(TT::SLASH, "/");
+			}
+			if(match('%')) {
+				return make(TT::PERCENT, "%");
+			}
+			if(match('&')) {
+				if(match('&')) {
+					return make(TT::AND, "&&");
+				}
+				return make(TT::AMPERSAND, "&");
+			}
+			if(match('|')) {
+				if(match('|')) {
+					return make(TT::OR, "||");
+				}
+				return make(TT::BIT_OR, "|");
+			}
+			if(match('^')) {
+				return make(TT::BIT_XOR, "^");
+			}
+			if(match('_')) return make(TT::UNDERSCORE, "_");
+			if(match('@')) return make(TT::AT, "@");
+			
 			if(match('=')) {
-				if(match('>')) return make(TT::SPACE_SHIP, "<=>");
-				return make(TT::SMALLER_EQUAL, "<=");
+				if(match('=')) return make(TT::EQUAL, "==");
+				if(match('>')) return make(TT::DRARROW, "=>");
+				return make(TT::ASSIGN, "=");
 			}
-			return make(TT::SMALLER, "<");
-		}
 
-		if(match('>')) {
+			if(match('<')) {
+				if(match('<')) {
+					return make(TT::SHIFT_L, "<<");
+				}
+				
+				if(match('=')) {
+					if(match('>')) return make(TT::SPACE_SHIP, "<=>");
+					return make(TT::SMALLER_EQUAL, "<=");
+				}
+				return make(TT::SMALLER, "<");
+			}
+
 			if(match('>')) {
-				return make(TT::SHIFT_R, ">>");
+				if(match('>')) {
+					return make(TT::SHIFT_R, ">>");
+				}
+				if(match('=')) return make(TT::BIGGER_EQUAL, ">=");
+				return make(TT::BIGGER, ">");
 			}
-			if(match('=')) return make(TT::BIGGER_EQUAL, ">=");
-			return make(TT::BIGGER, ">");
-		}
 
-		if(match('!')) {
-			if(match('=')) return make(TT::UNEQUAL, "!=");
-			return make(TT::XMARK, "!");
-		}
+			if(match('!')) {
+				if(match('=')) return make(TT::UNEQUAL, "!=");
+				return make(TT::XMARK, "!");
+			}
+			
+			if(match('?')) {
+				return make(TT::QMARK, "?");
+			}
+
 		
-		if(match('?')) {
-			return make(TT::QMARK, "?");
-		}
 
-	
-
-		if(match('"')) {
-			const auto str = string<'"'>(in, location);
-			return make(TT::STRING, str);
-		}
-
-		if(match('\'')) {
-			const auto str = string<'\''>(in, location);
-			if(str.size() != 1) {
-				throw CompilerError{"Expected single char", location};
+			if(match('"')) {
+				const auto str = string<'"'>(in, location);
+				return make(TT::STRING, str);
 			}
-			return make(TT::CHAR, str);
-		}
 
-		if(match('.')) {
+			if(match('\'')) {
+				const auto str = string<'\''>(in, location);
+				if(str.size() != 1) {
+					throw CompilerError{"Expected single char", location};
+				}
+				return make(TT::CHAR, str);
+			}
+
 			if(match('.')) {
 				if(match('.')) {
-					return make(TT::ELLIPSIS, "...");
+					if(match('.')) {
+						return make(TT::ELLIPSIS, "...");
+					}
+					throw CompilerError{"invalid token", location};
 				}
-				throw CompilerError{"invalid token", location};
+				return make(TT::DOT, ".");
 			}
-			return make(TT::DOT, ".");
-		}
 
-		if(match(':')) {
 			if(match(':')) {
-				return make(TT::COLONx2, "::");
-			}
-			return make(TT::COLON, ":");
-		}
-
-		if(match('#')) {
-			const auto str = read(in, check_id_char);
-			if(str == "include") {
-				return make(TT::HASH_INCLUDE, str);
-			}
-			else {
-				throw CompilerError{"invalid token", location};
-			}
-		}
-
-		if(check_alpha(in)) {
-			const auto str = read(in, check_id_char);
-			if(keywords.contains(str)) {
-				return make(keywords.at(str), str);
-			}
-			return make(TT::INDENTIFIER, str);
-		}
-
-		if(check_digit(in)) {
-			bool zero = false;
-			if(match('0')) {
-				if(match('x')) {
-					const auto int_literal = read(in, check_hex_digit);
-					return make(TT::INTEGER_HEX, int_literal);
+				if(match(':')) {
+					return make(TT::COLONx2, "::");
 				}
-				if(match('b')) {
-					const auto int_literal = read(in, check_bin_digit);
-					return make(TT::INTEGER_BIN, int_literal);
+				return make(TT::COLON, ":");
+			}
+
+			if(match('#')) {
+				const auto str = read(in, check_id_char);
+				if(str == "include") {
+					return make(TT::HASH_INCLUDE, str);
 				}
-				zero = true;
+				else {
+					throw CompilerError{"invalid token", location};
+				}
 			}
-			const auto int_literal = (zero?"0":"") + read(in, check_digit);
-			if(match('.')) {
-				const auto literalFraction = read(in, check_digit);
-				const auto literal = int_literal + "." + literalFraction;
-				return make(TT::FLOAT, literal);
+
+			if(check_alpha(in)) {
+				const auto str = read(in, check_id_char);
+				if(keywords.contains(str)) {
+					return make(keywords.at(str), str);
+				}
+				return make(TT::INDENTIFIER, str);
 			}
-			return make(TT::INTEGER, int_literal);
+
+			if(check_digit(in)) {
+				bool zero = false;
+				if(match('0')) {
+					if(match('x')) {
+						const auto int_literal = read(in, check_hex_digit);
+						return make(TT::INTEGER_HEX, int_literal);
+					}
+					if(match('b')) {
+						const auto int_literal = read(in, check_bin_digit);
+						return make(TT::INTEGER_BIN, int_literal);
+					}
+					zero = true;
+				}
+				const auto int_literal = (zero?"0":"") + read(in, check_digit);
+				if(match('.')) {
+					const auto literalFraction = read(in, check_digit);
+					const auto literal = int_literal + "." + literalFraction;
+					return make(TT::FLOAT, literal);
+				}
+				return make(TT::INTEGER, int_literal);
+			}
+
+			throw CompilerError{"invalid token", location};
 		}
 
-		throw CompilerError{"invalid token", location};
-	}
 
 
-		namespace {
 		std::vector<Token> lex_source(std::istream & in, std::string sourcename) {
 			SourceLocation loc{1, sourcename};
 			std::vector<Token> tokens;
@@ -378,24 +377,11 @@ namespace ltn::c {
 			return tokens;
 		}
 	}
-	
-
-	Tokens lex_sources(const std::vector<Source> & sources) {
-		std::vector<Token> tokens;
-
-		for(auto & source : sources) {
-			auto stream = source.make_istream();
-			tokens += lex_source(*stream, source.get_name());
-		}
-		
-		tokens += Token::end;
-		return Tokens{ std::move(tokens) };
-	}
 
 
-
-	Tokens tokenize(const std::vector<Source> & sources) {
-		return lex_sources(sources);
+	Tokens tokenize(const Source & source) {
+		auto stream = source.make_istream();
+		return lex_source(*stream, source.get_name());
 	}
 }
 
