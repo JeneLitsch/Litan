@@ -321,6 +321,16 @@ namespace ltn::c {
 			return make(TT::COLON, ":");
 		}
 
+		if(match('#')) {
+			const auto str = read(in, check_id_char);
+			if(str == "include") {
+				return make(TT::HASH_INCLUDE, str);
+			}
+			else {
+				throw CompilerError{"invalid token", location};
+			}
+		}
+
 		if(check_alpha(in)) {
 			const auto str = read(in, check_id_char);
 			if(keywords.contains(str)) {
