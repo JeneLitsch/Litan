@@ -1,5 +1,6 @@
 #include "ModuleSource.hxx"
 #include <fstream>
+#include <iostream>
 #include "ltnc/CompilerError.hxx"
 #include "FileSource.hxx"
 
@@ -50,13 +51,13 @@ namespace ltn::c {
 
 
 	std::string ModuleSource::get_name() const {
-		return this->path.filename();
+		return "__module__.ltn";
 	}
 
 
 
 	std::string ModuleSource::get_full_name() const {
-		return this->path.string();
+		return this->path / this->get_name();
 	}
 
 
