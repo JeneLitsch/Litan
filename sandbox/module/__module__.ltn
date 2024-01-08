@@ -1,1 +1,1 @@
-#include "hello_world.ltn"
+#import "submodule"

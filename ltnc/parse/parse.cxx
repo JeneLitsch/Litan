@@ -4,6 +4,7 @@
 #include "stdxx/accu_stack.hxx"
 #include "tokenize.hxx"
 #include "ltnc/source/FileSource.hxx"
+#include "ltnc/source/ModuleSource.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -109,12 +110,12 @@ namespace ltn::c {
 
 
 
-		FileSource parse_import(const Source & includer, const Token & start, Tokens & tokens) {
+		Source parse_import(const Source & includer, const Token & start, Tokens & tokens) {
 			const std::filesystem::path source_path = includer.get_full_name(); 
 			const std::filesystem::path parent_path = source_path.parent_path();
 			if(auto path = match(TT::STRING, tokens)) {
 				const std::filesystem::path dependecy_path = parent_path / path->str;
-				return FileSource{dependecy_path / "__module__.ltn"};
+				return ModuleSource{dependecy_path};
 			}
 			else {
 				throw CompilerError {"Import directive requires file path as quoted string", start.location};
@@ -123,7 +124,7 @@ namespace ltn::c {
 
 
 
-		FileSource parse_include(const Source & includer, const Token & start, Tokens & tokens) {
+		Source parse_include(const Source & includer, const Token & start, Tokens & tokens) {
 			const std::filesystem::path source_path = includer.get_full_name(); 
 			const std::filesystem::path parent_path = source_path.parent_path();
 			if(auto path = match(TT::STRING, tokens)) {
@@ -142,7 +143,7 @@ namespace ltn::c {
 			ast::Program & ast,
 			std::queue<Source> & pending_sources) {
 
-			// std::cout << "[Source] " << std::filesystem::path{source.get_full_name()} << "\n";
+			std::cout << "[Source] " << std::filesystem::path{source.get_full_name()} << "\n";
 
 			Tokens tokens = tokenize(source);
 			stx::accu_stack<Namespace> namestack;
@@ -204,13 +205,18 @@ namespace ltn::c {
 		}
 
 		while(!std::empty(pending_sources)) {
-			const std::filesystem::path path = pending_sources.front().get_full_name(); 
+			const Source & source = pending_sources.front();
+			const std::filesystem::path path = source.get_full_name();
 			const bool new_source = std::none_of(std::begin(known_sources), std::end(known_sources), [&] (auto & s) {
 				return std::filesystem::equivalent(s, path);
 			}); 
 			if(new_source) {
-				process_source(pending_sources.front(), ast, pending_sources);
+				process_source(source, ast, pending_sources);
 				known_sources.push_back(path);
+				std::vector<Source> subsources = source.get_module_subsources(); 
+				for(auto & s : subsources) {
+					pending_sources.push(std::move(s));
+				}
 			}
 			pending_sources.pop();
 		}
