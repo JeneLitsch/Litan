@@ -110,9 +110,43 @@ namespace ltn::c {
 
 
 
-		Source parse_import(const Source & includer, const Token & start, Tokens & tokens) {
+		struct Options {
+			std::map<std::string, std::filesystem::path> include_paths;
+		};
+
+
+
+		std::optional<std::filesystem::path> parse_include_root(const Token & start, Tokens & tokens, const Options & opts) {
+			if(match(TT::BRACE_L, tokens)) {
+				if(auto root = match(TT::STRING, tokens)) {
+					if(opts.include_paths.contains(root->str)) {
+						if(match(TT::BRACE_R, tokens)) {
+							return opts.include_paths.at(root->str);
+						}
+						else {
+							throw CompilerError {"Expected }", start.location};
+						}
+					}
+					else {
+						throw CompilerError {"Unknown root \"" + root->str + "\"", start.location};
+					}
+				}
+				else {
+					throw CompilerError {"Expected include/import root as string", start.location};
+				}
+	
+			}
+			else {
+				return std::nullopt;
+			}
+		}
+
+
+
+		Source parse_import(const Source & includer, const Token & start, Tokens & tokens, const Options & options) {
 			const std::filesystem::path source_path = includer.get_full_name(); 
 			const std::filesystem::path parent_path = source_path.parent_path();
+			auto root = parse_include_root(start, tokens, options);
 			if(auto path = match(TT::STRING, tokens)) {
 				const std::filesystem::path dependecy_path = parent_path / path->str;
 				return ModuleSource{dependecy_path};
@@ -124,9 +158,10 @@ namespace ltn::c {
 
 
 
-		Source parse_include(const Source & includer, const Token & start, Tokens & tokens) {
+		Source parse_include(const Source & includer, const Token & start, Tokens & tokens, const Options & options) {
 			const std::filesystem::path source_path = includer.get_full_name(); 
 			const std::filesystem::path parent_path = source_path.parent_path();
+			auto root = parse_include_root(start, tokens, options);
 			if(auto path = match(TT::STRING, tokens)) {
 				const std::filesystem::path dependecy_path = parent_path / path->str;
 				return FileSource{dependecy_path};
@@ -143,7 +178,11 @@ namespace ltn::c {
 			ast::Program & ast,
 			std::queue<Source> & pending_sources) {
 
-			std::cout << "[Source] " << std::filesystem::path{source.get_full_name()} << "\n";
+			Options options;
+
+			options.include_paths["main"] = std::filesystem::path{source.get_full_name()}.parent_path();
+
+			// std::cout << "[Source] " << std::filesystem::path{source.get_full_name()} << "\n";
 
 			Tokens tokens = tokenize(source);
 			stx::accu_stack<Namespace> namestack;
@@ -167,10 +206,10 @@ namespace ltn::c {
 					ast.globals.push_back(parse_global_decl(tokens, namestack.top()));
 				}
 				else if(auto start = match(TT::HASH_INCLUDE, tokens)) {
-					pending_sources.push(parse_include(source, *start, tokens));
+					pending_sources.push(parse_include(source, *start, tokens, options));
 				}
 				else if(auto start = match(TT::HASH_IMPORT, tokens)) {
-					pending_sources.push(parse_import(source, *start, tokens));
+					pending_sources.push(parse_import(source, *start, tokens, options));
 				}
 				else if(match(TT::BRACE_R, tokens)) {
 					if(namestack.empty()) {
@@ -210,7 +249,7 @@ namespace ltn::c {
 			const bool new_source = std::none_of(std::begin(known_sources), std::end(known_sources), [&] (auto & s) {
 				return std::filesystem::equivalent(s, path);
 			}); 
-			if(new_source) {
+			if(new_source && path.extension() == ".ltn") {
 				process_source(source, ast, pending_sources);
 				known_sources.push_back(path);
 				std::vector<Source> subsources = source.get_module_subsources(); 

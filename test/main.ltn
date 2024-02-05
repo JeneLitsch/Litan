@@ -1,3 +1,7 @@
+#import {"main"} "sphinx"
+#import {"main"} "core"
+#import {"main"} "std"
+
 function main(args) {
 	var clock = std::chrono::clock();
 	sphinx::run_tests();
@@ -6,7 +10,3 @@ function main(args) {
 except(e) {
 	std::println(e);
 }
-
-#include "sphinx/sphinx.ltn"
-#import "core"
-#import "std"
