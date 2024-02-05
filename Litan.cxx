@@ -9,8 +9,7 @@ namespace ltn {
 
 		auto sources = user_sources;
 		ltn::c::inject_stdlib(sources);
-		auto tokens = ltn::c::lex(sources);
-		auto ast = ltn::c::parse(tokens);
+		auto ast = ltn::c::parse(sources);
 		auto sst = ltn::c::analyze(ast, literals);
 		ltn::c::optimize(sst);
 		auto [insts, link_info] = ltn::c::compile(sst);

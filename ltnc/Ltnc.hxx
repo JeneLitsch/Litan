@@ -1,5 +1,4 @@
 #pragma once
-#include "lex/lexing.hxx"
 #include "parse/parse.hxx"
 #include "analyze/analyze.hxx"
 #include "optimize/optimize.hxx"

@@ -89,8 +89,7 @@ int main(int argc, char const *argv[]){
 
 	try {
 		auto sources = ltn::c::read_sources(flag_source.value());
-		auto tokens = ltn::c::lex(sources);
-		auto source = ltn::c::parse(tokens);
+		auto source = ltn::c::parse(sources);
 		auto program = ltn::c::analyze(source);
 		if(flag_o) ltn::c::optimize(program);
 		auto [instructions, link_info] = ltn::c::compile(program);

@@ -53,8 +53,7 @@ int main(int argc, char const *argv[]) {
 		std::vector<std::string> args;
 
 		auto sources = ltn::c::read_sources(flag_source.value_or(single_file));
-		auto lexer = ltn::c::lex(sources);
-		auto source = ltn::c::parse(lexer);
+		auto source = ltn::c::parse(sources);
 		auto program = ltn::c::analyze(source);
 		if(flag_o) ltn::c::optimize(program);
 		auto [instructions, link_info] = ltn::c::compile(program);

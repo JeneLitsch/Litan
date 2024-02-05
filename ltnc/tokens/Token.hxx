@@ -99,6 +99,9 @@ namespace ltn::c {
 
 			RARROW,
 			DRARROW,
+
+			HASH_INCLUDE,
+			HASH_IMPORT,
 		};
 		
 		Type type;
