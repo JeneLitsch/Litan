@@ -2,7 +2,7 @@
 #include "ltnvm/utils/type_check.hxx"
 
 namespace ltn::vm {
-	Any to_any(const Value & value, Heap & heap) {
+	Any to_any(const Value & value, Heap &) {
 		return to_any(value);
 	}
 	

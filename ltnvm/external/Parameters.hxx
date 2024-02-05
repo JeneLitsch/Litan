@@ -136,7 +136,6 @@ namespace ltn::vm::ext {
 			}
 			return array[idx];
 		}
-		Heap & heap;
 		std::vector<Value> params;
 	};
 }

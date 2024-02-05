@@ -7,7 +7,7 @@
 
 namespace ltn::vm {
 	class Heap;
-	class VMCore;
+	struct VMCore;
 
 	struct Iterator : public Object {
 		virtual Value next() = 0;

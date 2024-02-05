@@ -5,7 +5,7 @@
 
 namespace ltn::vm {
 	class Coroutine;
-	class VMCore;
+	struct VMCore;
 	class CoroutineIterator : public Iterator {
 	public:
 		CoroutineIterator(Coroutine * coroutine, VMCore * core);
