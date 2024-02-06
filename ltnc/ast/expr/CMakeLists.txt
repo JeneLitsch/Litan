@@ -8,6 +8,7 @@ target_sources(libltnc PRIVATE
 	Call.cxx
 	Char.cxx
 	Choose.cxx
+	Conditional.cxx
 	CustomLiteral.cxx
 	Lambda.cxx
 	Map.cxx

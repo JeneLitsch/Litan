@@ -31,13 +31,14 @@ namespace ltn::c {
 	ast::stmt_ptr parse_just_an_expr(Tokens & tokens);
 	ast::stmt_ptr parse_stmt_switch(Tokens & tokens);
 	ast::stmt_ptr parse_newvar(Tokens & tokens);
+	ast::stmt_ptr parse_conditional_stmt(Tokens & tokens);
 	
 	// Expressions
 	ast::expr_ptr parse_assign_r(Tokens & tokens);
 	ast::expr_ptr parse_expr_switch(Tokens & tokens);
 
 	ast::expr_ptr parse_expression(Tokens & tokens);
-	ast::expr_ptr parse_conditional(Tokens & tokens);
+	ast::expr_ptr parse_ternary(Tokens & tokens);
 	ast::expr_ptr parse_condition(Tokens & tokens);
 	ast::expr_ptr parse_binary(Tokens & tokens);
 	ast::expr_ptr parse_unary(Tokens & tokens);
@@ -46,6 +47,7 @@ namespace ltn::c {
 	ast::expr_ptr parse_parenthesized(Tokens & tokens);
 	ast::expr_ptr parse_integral(Tokens & tokens);
 	ast::expr_ptr parse_array(Tokens & tokens);
+	ast::expr_ptr parse_conditional_expr(Tokens & tokens);
 
 
 	ast::bind_ptr parse_binding(const Token & start, Tokens & tokens);

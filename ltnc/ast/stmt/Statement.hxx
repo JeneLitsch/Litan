@@ -17,6 +17,7 @@ namespace ltn::c::ast::stmt {
 	struct Throw;
 	struct Switch;
 	struct StatementExpression;
+	struct Conditional;
 	struct NoOp;
 	struct Assign;
 
@@ -33,6 +34,7 @@ namespace ltn::c::ast::stmt {
 		Throw,
 		Switch,
 		StatementExpression,
+		Conditional,
 		NoOp,
 		Assign,
 		Yield
@@ -67,6 +69,7 @@ namespace ltn::c::ast::stmt {
 			virtual void visit(const Throw & x)               const override { this->run(x); };
 			virtual void visit(const Switch & x)              const override { this->run(x); };
 			virtual void visit(const StatementExpression & x) const override { this->run(x); };
+			virtual void visit(const Conditional & x)         const override { this->run(x); };
 			virtual void visit(const NoOp & x)                const override { this->run(x); };
 			virtual void visit(const Assign & x)              const override { this->run(x); };
 			virtual void visit(const Yield & x)               const override { this->run(x); };

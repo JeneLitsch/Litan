@@ -14,64 +14,66 @@
 
 
 namespace ltn::c::ast::expr {
-	struct Binary;
-	struct Unary;
-	struct Integer;
-	struct Float;
-	struct Bool;
-	struct Char;
-	struct Null;
-	struct String;
 	struct Array;
-	struct Tuple;
-	struct Call;
-	struct InvokeMember;
-	struct Var;
-	struct Index;
-	struct Lambda;
-	struct FxPointer;
-	struct Member;
-	struct Iife;
-	struct Ternary;
-	struct Choose;
-	struct Reflect;
-	struct ForwardDynamicCall;
-	struct Struct;
-	struct Map;
-	struct Type;
-	struct CustomLiteral;
+	struct Binary;
+	struct Bool;
 	struct BuildIn;
+	struct Call;
+	struct Char;
+	struct Choose;
+	struct Conditional;
+	struct CustomLiteral;
+	struct Float;
+	struct FxPointer;
+	struct ForwardDynamicCall;
+	struct Iife;
+	struct Index;
+	struct Integer;
+	struct InvokeMember;
+	struct Lambda;
+	struct Map;
+	struct Member;
+	struct Null;
+	struct Unary;
+	struct Reflect;
+	struct String;
+	struct Struct;
+	struct Ternary;
+	struct Tuple;
+	struct Type;
+	struct Var;
 
 
 
 	using ExprVisitor = Visitor<
-		Binary,
-		Unary,
-		Integer,
-		Float,
-		Bool,
-		Char,
-		Null,
-		String,
 		Array,
-		Tuple,
+		Binary,
+		Bool,
+		BuildIn,
 		Call,
-		InvokeMember,
-		Var,
-		Index,
-		Lambda,
-		FxPointer,
-		Member,
-		Iife,
-		Ternary,
+		Char,
 		Choose,
-		Reflect,
-		ForwardDynamicCall,
-		Struct,
-		Map,
-		Type,
+		Conditional,
 		CustomLiteral,
-		BuildIn
+		Float,
+		FxPointer,
+		ForwardDynamicCall,
+		Iife,
+		Index,
+		Integer,
+		InvokeMember,
+		Lambda,
+		Map,
+		Member,
+		Null,
+		Unary,
+		Reflect,
+		String,
+		Struct,
+		Ternary,
+		Tuple,
+		Type,
+		Var
 	>;
 
 
@@ -92,33 +94,35 @@ namespace ltn::c::ast::expr {
 		struct Visitor : public Base {
 			Visitor(Callable fx) : Base {fx} {} 
 
-			virtual void visit(const Binary & x)             const override { this->run(x); };
-			virtual void visit(const Unary & x)              const override { this->run(x); };
-			virtual void visit(const Integer & x)            const override { this->run(x); };
-			virtual void visit(const Float & x)              const override { this->run(x); };
-			virtual void visit(const Bool & x)               const override { this->run(x); };
-			virtual void visit(const Char & x)               const override { this->run(x); };
-			virtual void visit(const Null & x)               const override { this->run(x); };
-			virtual void visit(const String & x)             const override { this->run(x); };
-			virtual void visit(const Array & x)              const override { this->run(x); };
-			virtual void visit(const Tuple & x)              const override { this->run(x); };
-			virtual void visit(const Call & x)               const override { this->run(x); };
-			virtual void visit(const InvokeMember & x)       const override { this->run(x); };
-			virtual void visit(const Var & x)                const override { this->run(x); };
-			virtual void visit(const Index & x)              const override { this->run(x); };
-			virtual void visit(const Lambda & x)             const override { this->run(x); };
-			virtual void visit(const FxPointer & x)          const override { this->run(x); };
-			virtual void visit(const Member & x)             const override { this->run(x); };
-			virtual void visit(const Iife & x)               const override { this->run(x); };
-			virtual void visit(const Ternary & x)            const override { this->run(x); };
-			virtual void visit(const Choose & x)             const override { this->run(x); };
-			virtual void visit(const Reflect & x)            const override { this->run(x); };
-			virtual void visit(const ForwardDynamicCall & x) const override { this->run(x); };
-			virtual void visit(const Struct & x)         const override { this->run(x); };
-			virtual void visit(const Map & x)                const override { this->run(x); };
-			virtual void visit(const Type & x)               const override { this->run(x); };
-			virtual void visit(const CustomLiteral & x)      const override { this->run(x); };
-			virtual void visit(const BuildIn & x)         const override { this->run(x); };
+
+			virtual void visit(const Array & x)              const override { this->run(x); }
+			virtual void visit(const Binary & x)             const override { this->run(x); }
+			virtual void visit(const Bool & x)               const override { this->run(x); }
+			virtual void visit(const BuildIn & x)            const override { this->run(x); }
+			virtual void visit(const Call & x)               const override { this->run(x); }
+			virtual void visit(const Char & x)               const override { this->run(x); }
+			virtual void visit(const Choose & x)             const override { this->run(x); }
+			virtual void visit(const Conditional & x)        const override { this->run(x); }
+			virtual void visit(const CustomLiteral & x)      const override { this->run(x); }
+			virtual void visit(const Float & x)              const override { this->run(x); }
+			virtual void visit(const FxPointer & x)          const override { this->run(x); }
+			virtual void visit(const ForwardDynamicCall & x) const override { this->run(x); }
+			virtual void visit(const Iife & x)               const override { this->run(x); }
+			virtual void visit(const Index & x)              const override { this->run(x); }
+			virtual void visit(const Integer & x)            const override { this->run(x); }
+			virtual void visit(const InvokeMember & x)       const override { this->run(x); }
+			virtual void visit(const Lambda & x)             const override { this->run(x); }
+			virtual void visit(const Map & x)                const override { this->run(x); }
+			virtual void visit(const Member & x)             const override { this->run(x); }
+			virtual void visit(const Null & x)               const override { this->run(x); }
+			virtual void visit(const Unary & x)              const override { this->run(x); }
+			virtual void visit(const Reflect & x)            const override { this->run(x); }
+			virtual void visit(const String & x)             const override { this->run(x); }
+			virtual void visit(const Struct & x)             const override { this->run(x); }
+			virtual void visit(const Ternary & x)            const override { this->run(x); }
+			virtual void visit(const Tuple & x)              const override { this->run(x); }
+			virtual void visit(const Type & x)               const override { this->run(x); }
+			virtual void visit(const Var & x)                const override { this->run(x); }
 		};
 
 		return Visitor{fx}(expr);

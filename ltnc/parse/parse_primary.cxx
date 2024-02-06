@@ -267,6 +267,7 @@ namespace ltn::c {
 		if(auto expr = parse_fx_pointer(tokens)) return expr;
 		if(auto expr = parse_lambda(tokens)) return expr;
 		if(auto expr = parse_iife(tokens)) return expr;
+		if(auto expr = parse_conditional_expr(tokens)) return expr;
 		if(auto expr = parse_expr_switch(tokens)) return expr;
 		if(auto expr = parse_reflect(tokens)) return expr;
 		if(auto expr = parse_type(tokens)) return expr;

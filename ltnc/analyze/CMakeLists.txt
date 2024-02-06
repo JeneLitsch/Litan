@@ -9,6 +9,7 @@ target_sources(libltnc PRIVATE
 	"analyze_call.cxx"
 	"analyze_custom_literal.cxx"
 	"analyze_expression.cxx"
+	"analyze_conditional.cxx"
 	"analyze_function.cxx"
 	"analyze_fx_ptr.cxx"
 	"analyze_static.cxx"
