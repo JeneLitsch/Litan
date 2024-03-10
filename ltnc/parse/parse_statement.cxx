@@ -1,5 +1,4 @@
 #include "parse.hxx"
-#include "ltnc/lex/lexing.hxx"
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/ast/stmt/Return.hxx"
 #include "ltnc/ast/stmt/Yield.hxx"

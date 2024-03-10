@@ -44,7 +44,7 @@ namespace ltn::vm {
 
 
 
-	CoroutineIterator::CoroutineIterator(std::nullptr_t, VMCore * core) {}
+	CoroutineIterator::CoroutineIterator(std::nullptr_t, VMCore *) {}
 	
 
 

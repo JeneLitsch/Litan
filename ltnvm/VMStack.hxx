@@ -71,7 +71,7 @@ namespace ltn::vm {
 
 		std::vector<Value> copy_locals() const {
 			return std::vector<Value>{
-				std::begin(this->values) + frame_pointer,
+				std::begin(this->values) + static_cast<std::ptrdiff_t>(frame_pointer),
 				std::end(this->values),
 			};
 		}

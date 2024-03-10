@@ -4,15 +4,15 @@
 namespace ltn::vm {
 	namespace {
 
-		Value json_to_value_impl(std::monostate, VMCore & core) {
+		Value json_to_value_impl(std::monostate, VMCore &) {
 			return value::null;
 		}
 
-		Value json_to_value_impl(bool x, VMCore & core) {
+		Value json_to_value_impl(bool x, VMCore &) {
 			return value::boolean(x);
 		}
 
-		Value json_to_value_impl(double x, VMCore & core) {
+		Value json_to_value_impl(double x, VMCore &) {
 			return value::floating(x);
 		}
 		

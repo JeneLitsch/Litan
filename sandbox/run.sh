@@ -20,5 +20,5 @@ run_direct () {
 }
 
 
-run misc
-# run_direct misc
+# run misc
+run_direct misc

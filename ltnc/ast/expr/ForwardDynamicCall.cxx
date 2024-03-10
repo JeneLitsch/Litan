@@ -1,4 +1,3 @@
-#pragma once
 #include "ForwardDynamicCall.hxx"
 
 namespace ltn::c::ast::expr {

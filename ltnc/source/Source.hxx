@@ -2,6 +2,7 @@
 #include <string>
 #include <istream>
 #include <fstream>
+#include <vector>
 #include <memory>
 
 namespace ltn::c {
@@ -12,6 +13,7 @@ namespace ltn::c {
 			virtual std::string get_name() const = 0; 
 			virtual std::string get_full_name() const = 0;
 			virtual std::unique_ptr<SourceConcept> clone() const = 0;
+			virtual std::vector<Source> get_module_subsources() const = 0;
 			virtual ~SourceConcept() = default;
 		};
 
@@ -32,6 +34,10 @@ namespace ltn::c {
 
 			virtual std::string get_full_name() const override {
 				return t.get_full_name();
+			}
+
+			virtual std::vector<Source> get_module_subsources() const override {
+				return t.get_module_subsources();
 			}
 
 			virtual std::unique_ptr<SourceConcept> clone() const override {
@@ -102,6 +108,12 @@ namespace ltn::c {
 
 		std::string get_full_name() const {
 			return impl->get_full_name();
+		}
+
+
+
+		std::vector<Source> get_module_subsources() const {
+			return impl->get_module_subsources();
 		}
 
 

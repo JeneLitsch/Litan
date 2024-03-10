@@ -1,6 +1,4 @@
-function main() {
-	for(i : [1,2,3]) {
+#import "module"
 
-	}
-	std::println(i);
-}
+function main() 
+	=> f()

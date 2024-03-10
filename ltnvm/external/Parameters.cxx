@@ -2,10 +2,9 @@
 
 namespace ltn::vm::ext {
 	Parameters::Parameters(
-		Heap & heap,
+		Heap &,
 		const std::vector<Value> & params) 
-		: heap(heap)
-		, params(params) {}
+		: params(params) {}
 
 	Parameters::~Parameters() {}
 }
