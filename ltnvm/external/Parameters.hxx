@@ -40,7 +40,7 @@ namespace ltn::vm::ext {
 		template<std::integral T>
 		struct Converter<T> {
 			static T convert(const Value & value) {
-				if(is_int(value)) return value.i;
+				if(is_int(value)) return static_cast<T>(value.i);
 				throw std::runtime_error{"Parameter not an integer"};
 			}
 		};
@@ -50,7 +50,7 @@ namespace ltn::vm::ext {
 		template<std::floating_point T>
 		struct Converter<T> {
 			static T convert(const Value & value) {
-				if(is_float(value)) return value.f;
+				if(is_float(value)) return static_cast<T>(value.f);
 				throw std::runtime_error{"Parameter not a float"};
 			}
 		};
