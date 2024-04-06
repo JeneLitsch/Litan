@@ -6,13 +6,13 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::size_t Conditional::nested_alloc() const {
+	std::size_t Conditional::temporary_alloc() const {
 		const auto begin = std::begin(this->cases);
 		const auto end = std::end(this->cases);
-		const std::uint64_t start = else_branch ? else_branch->nested_alloc() : 0;  
+		const std::uint64_t start = else_branch ? else_branch->temporary_alloc() : 0;  
 		const auto reduction = [] (const auto & value, const auto & elem) {
 			const auto & [x, y] = elem;
-			return std::max<std::uint64_t>({value, x->alloc() + y->nested_alloc()});
+			return std::max<std::uint64_t>({value, x->alloc() + y->temporary_alloc()});
 		};
 		
 		return std::accumulate(begin, end, start, reduction);
@@ -20,7 +20,7 @@ namespace ltn::c::sst::stmt {
 
 	
 	
-	std::size_t Conditional::direct_alloc() const {
+	std::size_t Conditional::persistent_alloc() const {
 		return 0;
 	}
 
