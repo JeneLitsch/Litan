@@ -11,13 +11,13 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::size_t While::nested_alloc() const {
-		return body->nested_alloc();
+	std::size_t While::temporary_alloc() const {
+		return body->temporary_alloc();
 	}
 	
 
 
-	std::size_t While::direct_alloc() const {
+	std::size_t While::persistent_alloc() const {
 		return this->condition->alloc();
 	}
 

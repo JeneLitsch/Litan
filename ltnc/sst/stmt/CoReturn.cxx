@@ -8,13 +8,13 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::size_t CoReturn::nested_alloc() const { 
+	std::size_t CoReturn::temporary_alloc() const { 
 		return 0;
 	}
 
 
 
-	std::size_t CoReturn::direct_alloc() const { 
+	std::size_t CoReturn::persistent_alloc() const { 
 		return this->expr->alloc();
 	}
 

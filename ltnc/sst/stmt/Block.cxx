@@ -8,19 +8,19 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::size_t Block::nested_alloc() const {
+	std::size_t Block::temporary_alloc() const {
 		std::size_t nested = 0;
 		std::size_t direct = 0;
 		for(const auto & stmt : this->statements) {
-			nested = std::max(nested, stmt->nested_alloc());
-			direct += stmt->direct_alloc();
+			nested = std::max(nested, stmt->temporary_alloc());
+			direct += stmt->persistent_alloc();
 		}
 		return nested + direct;
 	}
 	
 
 
-	std::size_t Block::direct_alloc() const {
+	std::size_t Block::persistent_alloc() const {
 		return 0;
 	}
 

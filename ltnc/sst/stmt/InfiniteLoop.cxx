@@ -6,11 +6,11 @@ namespace ltn::c::sst::stmt {
 		: Statement{}
 		, body(std::move(body)) {}
 
-	std::size_t InfiniteLoop::nested_alloc() const {
-		return body->nested_alloc();
+	std::size_t InfiniteLoop::temporary_alloc() const {
+		return body->temporary_alloc();
 	}
 	
-	std::size_t InfiniteLoop::direct_alloc() const {
+	std::size_t InfiniteLoop::persistent_alloc() const {
 		return 0;
 	}
 

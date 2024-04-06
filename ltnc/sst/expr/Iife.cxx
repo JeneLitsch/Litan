@@ -9,7 +9,7 @@ namespace ltn::c::sst::expr {
 
 
 	std::uint64_t Iife::alloc() const {
-		return this->stmt->direct_alloc() + this->stmt->nested_alloc();
+		return this->stmt->persistent_alloc() + this->stmt->temporary_alloc();
 	}
 
 

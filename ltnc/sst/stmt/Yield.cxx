@@ -8,13 +8,13 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::size_t Yield::nested_alloc() const { 
+	std::size_t Yield::temporary_alloc() const { 
 		return 0;
 	}
 
 
 
-	std::size_t Yield::direct_alloc() const { 
+	std::size_t Yield::persistent_alloc() const { 
 		return this->expr->alloc();
 	}
 
