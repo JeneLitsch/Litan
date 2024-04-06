@@ -18,6 +18,7 @@ namespace ltn::c::sst::expr {
 	struct Array;
 	struct Tuple;
 	struct Call;
+	struct Conditional;
 	struct Invoke;
 	struct InvokeMember;
 	struct Var;
@@ -48,6 +49,7 @@ namespace ltn::c::sst::expr {
 		Array,
 		Tuple,
 		Call,
+		Conditional,
 		Invoke,
 		InvokeMember,
 		Var,
@@ -109,6 +111,7 @@ namespace ltn::c::sst::expr {
 			virtual void visit(const Array & x) const override { this->run(x); };
 			virtual void visit(const Tuple & x) const override { this->run(x); };
 			virtual void visit(const Call & x) const override { this->run(x); };
+			virtual void visit(const Conditional & x) const override { this->run(x); };
 			virtual void visit(const Invoke & x) const override { this->run(x); };
 			virtual void visit(const InvokeMember & x) const override { this->run(x); };
 			virtual void visit(const Var & x) const override { this->run(x); };

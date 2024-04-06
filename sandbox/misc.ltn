@@ -1,5 +1,5 @@
 function main() {
-	var x = 1;
+	var x = 3;
 	var y = conditional {
 		case (x == 1) => 10
 		case (x == 2) => 20
