@@ -7,22 +7,22 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::uint64_t Switch::nested_alloc() const {
+	std::uint64_t Switch::temporary_alloc() const {
 		return 0;
 	}
 
 
 
-	std::size_t Switch::direct_alloc() const {
+	std::size_t Switch::persistent_alloc() const {
 		std::size_t nested = 0;
 		std::size_t direct = 0;
 		for(const auto & [c4se,stmt] : this->cases) {
 			nested = std::max({
 				nested,
-				stmt->nested_alloc(),
+				stmt->temporary_alloc(),
 				c4se->alloc()
 			});
-			direct += stmt->direct_alloc();
+			direct += stmt->persistent_alloc();
 		}
 		return nested + direct;
 	}

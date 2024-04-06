@@ -8,13 +8,13 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::size_t Throw::nested_alloc() const {
+	std::size_t Throw::temporary_alloc() const {
 		return 0;
 	}
 	
 	
 	
-	std::size_t Throw::direct_alloc() const {
+	std::size_t Throw::persistent_alloc() const {
 		return this->expr->alloc();
 	}
 

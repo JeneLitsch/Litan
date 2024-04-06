@@ -12,13 +12,13 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::size_t Assign::nested_alloc() const {
+	std::size_t Assign::temporary_alloc() const {
 		return 0;
 	}
 
 
 
-	std::size_t Assign::direct_alloc() const {
+	std::size_t Assign::persistent_alloc() const {
 		return this->binding->alloc_count() + expr->alloc();
 	}
 

@@ -17,13 +17,13 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::size_t ForEach::nested_alloc() const {
-		return body->nested_alloc();
+	std::size_t ForEach::temporary_alloc() const {
+		return body->temporary_alloc();
 	}
 	
 
 
-	std::size_t ForEach::direct_alloc() const {
+	std::size_t ForEach::persistent_alloc() const {
 		return 2 + this->expr->alloc() + this->bind->alloc_count();
 	}
 

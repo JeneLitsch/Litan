@@ -5,13 +5,13 @@ namespace ltn::c::sst::stmt {
 	
 
 	
-	std::size_t NoOp::nested_alloc() const {
+	std::size_t NoOp::temporary_alloc() const {
 		return 0;
 	}
 
 
 
-	std::size_t NoOp::direct_alloc() const {
+	std::size_t NoOp::persistent_alloc() const {
 		return 0;
 	}
 

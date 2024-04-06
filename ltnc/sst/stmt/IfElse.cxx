@@ -13,15 +13,15 @@ namespace ltn::c::sst::stmt {
 
 
 
-	std::size_t IfElse::nested_alloc() const {
+	std::size_t IfElse::temporary_alloc() const {
 		return this->else_branch
-			? std::max(if_branch->nested_alloc(), else_branch->nested_alloc())
-			: if_branch->nested_alloc();
+			? std::max(if_branch->temporary_alloc(), else_branch->temporary_alloc())
+			: if_branch->temporary_alloc();
 	}
 	
 
 
-	std::size_t IfElse::direct_alloc() const {
+	std::size_t IfElse::persistent_alloc() const {
 		return this->condition->alloc();
 	}
 

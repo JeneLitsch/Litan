@@ -43,8 +43,8 @@ namespace ltn::c::sst::stmt {
 
 		virtual ~Statement() = default;
 
-		virtual std::size_t nested_alloc() const = 0;
-		virtual std::size_t direct_alloc() const = 0;
+		virtual std::size_t temporary_alloc() const = 0;
+		virtual std::size_t persistent_alloc() const = 0;
 
 		virtual void accept(const StmtVisitor &) const = 0;
 	};
