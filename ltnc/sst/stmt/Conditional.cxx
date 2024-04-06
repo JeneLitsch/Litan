@@ -11,8 +11,9 @@ namespace ltn::c::sst::stmt {
 		const auto end = std::end(this->cases);
 		const std::uint64_t start = else_branch ? else_branch->temporary_alloc() : 0;  
 		const auto reduction = [] (const auto & value, const auto & elem) {
-			const auto & [x, y] = elem;
-			return std::max<std::uint64_t>({value, x->alloc() + y->temporary_alloc()});
+			const auto & [cond, body] = elem;
+			const auto new_value = cond->alloc() + body->total_alloc();
+			return std::max<std::uint64_t>(value, new_value);
 		};
 		
 		return std::accumulate(begin, end, start, reduction);
@@ -21,6 +22,8 @@ namespace ltn::c::sst::stmt {
 	
 	
 	std::size_t Conditional::persistent_alloc() const {
+		// No persistent allocation,
+		// No variable in any condtion or body leaks to the outside scope 
 		return 0;
 	}
 

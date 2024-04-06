@@ -7,7 +7,7 @@ namespace ltn::c::sst::stmt {
 		, body(std::move(body)) {}
 
 	std::size_t InfiniteLoop::temporary_alloc() const {
-		return body->temporary_alloc();
+		return body->total_alloc();
 	}
 	
 	std::size_t InfiniteLoop::persistent_alloc() const {

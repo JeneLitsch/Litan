@@ -12,13 +12,13 @@ namespace ltn::c::sst::stmt {
 
 
 	std::size_t Return::temporary_alloc() const { 
-		return 0;
+		return this->expr->alloc();
 	}
 
 
 
 	std::size_t Return::persistent_alloc() const { 
-		return this->expr->alloc();
+		return 0;
 	}
 
 

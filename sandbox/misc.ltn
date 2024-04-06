@@ -1,19 +1,9 @@
 function main() {
-	var x = 3;
-	var y = conditional {
-		case (x == 1) => 10
-		case (x == 2) => 20
-		case (x == 3) => 30
-		case (x == 4) => 40
-		else          => 99
-	};
-	std::println(y);
-
-	conditional {
-		case (x == 1) => std::println(10);
-		case (x == 2) => std::println(20);
-		case (x == 3) => std::println(30);
-		case (x == 4) => std::println(40);
-		else          => std::println(99);
-	};
+	var a;
+	var b;
+	var c;
+	while(iife { var x; return false; }) var d;
+	while(false) { 
+		var e;
+	}
 }

@@ -8,23 +8,23 @@ namespace ltn::c::sst::stmt {
 
 
 	std::uint64_t Switch::temporary_alloc() const {
-		return 0;
+		std::size_t temporary = 0;
+		std::size_t persistent = 0;
+		for(const auto & [c4se,stmt] : this->cases) {
+			temporary = std::max({
+				temporary,
+				stmt->temporary_alloc(),
+				c4se->alloc()
+			});
+			persistent += stmt->persistent_alloc();
+		}
+		return temporary + persistent;
 	}
 
 
 
 	std::size_t Switch::persistent_alloc() const {
-		std::size_t nested = 0;
-		std::size_t direct = 0;
-		for(const auto & [c4se,stmt] : this->cases) {
-			nested = std::max({
-				nested,
-				stmt->temporary_alloc(),
-				c4se->alloc()
-			});
-			direct += stmt->persistent_alloc();
-		}
-		return nested + direct;
+		return 0;
 	}
 
 

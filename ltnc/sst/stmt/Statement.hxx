@@ -48,6 +48,10 @@ namespace ltn::c::sst::stmt {
 		virtual std::size_t temporary_alloc() const = 0;
 		virtual std::size_t persistent_alloc() const = 0;
 
+		std::size_t total_alloc() const {
+			return this->temporary_alloc() + this->persistent_alloc();
+		}
+
 		virtual void accept(const StmtVisitor &) const = 0;
 	};
 
