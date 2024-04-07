@@ -17,6 +17,70 @@ It provides its own scope. Any variable declared inside is only is only visible 
 
 
 
+## Assignment [`stmt.assign`]
+
+```js
+`bind` = `expr`;
+```
+
+The Assigment-Statement assigns the value of the expression on the right to an assignable binding on the left. 
+
+
+
+## New Variable [`stmt.new_var`]
+
+(1)
+
+```js
+var `name`;
+```
+
+(2)
+
+```js
+var `name` = `expr`;
+```
+
+(3)
+
+```js
+var (`name`...) = `expr`;
+var (`name`...(`name`...`name`)) = `expr`;
+```
+
+The New-Variable-Statement creates one or more new variables.  
+
+(1) In its most basic form it creates a single variable and initializes it with null.  
+
+(2) A custom initial value can be provided by assigning an expression.  
+
+(3) The New-Variable-Statement allows easy unpacking of tuple elements by using structured bindings.  
+The expression used to assign to the binding must be a tuple.  
+If the expression provides extra elements not used in the binding, they will be ignored.  
+Example: Destructuring a 3-Tuple into a 2-Bind will fetch the first two elements and discard the third.  
+If the expressions provides less elements than the binding requires, an exception is thrown.  
+
+Examples:
+
+```js
+var foo;
+```
+
+```js
+var bar = "Hello, World!"; 
+```
+
+```js
+var (a, b) = (1, 2); 
+var (c, d) = (42, 1337, 666); 
+```
+
+```js
+var (a, (b, c)) = (1, (2,3)); 
+```
+
+
+
 ## If/Else [`stmt.if_else`]
 
 (1)
@@ -89,6 +153,12 @@ for (elem : array) {
 }
 ```
 
+```js
+var array = [(11,"11"),(22,"22"),(33,"33")];
+for ((num, str) : array) {
+	std::println(std::str(num) + " : " + str);
+}
+```
 
 
 ## Return [`stmt.return`]
