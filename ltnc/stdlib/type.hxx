@@ -62,7 +62,7 @@ namespace std {
 		case std::type::stack     => "stack"
 		case std::type::map       => "map"
 		case std::type::rng       => "rng"
-		default                   => "unknown";
+		else                      => "unknown";
 	}
 
 

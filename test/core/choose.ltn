@@ -36,7 +36,7 @@ namespace sphinx::test {
 	function choose_default() {
 		var fx = lambda (x) => choose(x) {
 			case 0 => true;
-			default => false;
+			else   => false;
 		};
 
 		assert_equal(fx(-3), false);

@@ -44,7 +44,7 @@ namespace ltn::c {
 				while (match(TT::SEMICOLON, tokens));
 			}
 			
-			if(match(TT::DEFAULT, tokens)) {
+			if(match(TT::ELSE, tokens)) {
 				if(!match(TT::DRARROW, tokens)) throw CompilerError {
 					"Expected :", location(tokens)
 				};
