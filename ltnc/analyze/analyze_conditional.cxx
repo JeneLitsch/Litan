@@ -22,6 +22,9 @@ namespace ltn::c {
 			BlockScope body_scope {&scope};
 			sst->set_else(analyze_expression(*ast.else_branch, body_scope));
 		}
+		else {
+			sst->set_else(sst::expr::null());
+		}
 		return sst;
 	}
 
@@ -36,6 +39,9 @@ namespace ltn::c {
 		if(ast.else_branch) {
 			BlockScope body_scope {&scope};
 			sst->set_else(analyze_statement(*ast.else_branch, body_scope));
+		}
+		else {
+			sst->set_else(sst::stmt::no_op());
 		}
 		return sst;
 	}
