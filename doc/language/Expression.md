@@ -4,16 +4,16 @@
 
 ```js
 conditional {
-    case /*condition : expr*/ => /*body : expr*/
+    case `condition` => `expr`
     ...
 }
 ```
 
 ```js
 conditional {
-    case /*condition : expr*/ => /*body : expr*/
+    case `condition` => `expr`
     ...
-    else  => /*body : expr*/
+    else  => `expr`
 }
 ```
 

@@ -4,17 +4,17 @@
 
 ```js
 conditional {
-    case /*condition : expr*/ => /*body : stmt*/
+    case `condition` => `stmt`;
     ...
-};
+}
 ```
 
 ```js
 conditional {
-    case /*condition : expr*/ => /*body : stmt*/
+    case `condition` => `stmt`;
     ...
-    else  => /*body : stmt*/
-};
+    else             => `stmt`;
+}
 ```
 
 The conditional statement checks the conditions in sequence.
