@@ -54,7 +54,6 @@ namespace ltn::c {
 
 	ast::stmt_ptr parse_conditional_stmt(Tokens & tokens) {
 		auto stmt = parse_conditional(tokens, ast::stmt::conditional, parse_statement);
-		if(stmt) semicolon(tokens);
 		return stmt;
 	}
 }
