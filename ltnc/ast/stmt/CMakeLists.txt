@@ -4,6 +4,7 @@ target_sources(libltnc PRIVATE
 	"Assign.cxx"
 	"Block.cxx"
 	"ForEach.cxx"
+	"Conditional.cxx"
 	"IfElse.cxx"
 	"InfiniteLoop.cxx"
 	"NewVar.cxx"

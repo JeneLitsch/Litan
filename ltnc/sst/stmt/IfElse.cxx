@@ -14,15 +14,18 @@ namespace ltn::c::sst::stmt {
 
 
 	std::size_t IfElse::temporary_alloc() const {
-		return this->else_branch
-			? std::max(if_branch->temporary_alloc(), else_branch->temporary_alloc())
-			: if_branch->temporary_alloc();
+		const auto condtion_alloc = this->condition->alloc(); 
+		const auto if_alloc = this->if_branch->total_alloc(); 
+		const auto else_alloc = this->else_branch ? this->else_branch->total_alloc() : 0; 
+		return std::max({condtion_alloc, if_alloc, else_alloc});
 	}
 	
 
 
 	std::size_t IfElse::persistent_alloc() const {
-		return this->condition->alloc();
+		// No persistent allocation
+		// No variable in condtion or body leaks to the outside scope 
+		return 0;
 	}
 
 

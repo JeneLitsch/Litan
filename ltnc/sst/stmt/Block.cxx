@@ -9,18 +9,20 @@ namespace ltn::c::sst::stmt {
 
 
 	std::size_t Block::temporary_alloc() const {
-		std::size_t nested = 0;
-		std::size_t direct = 0;
+		std::size_t temporary = 0;
+		std::size_t persistent = 0;
 		for(const auto & stmt : this->statements) {
-			nested = std::max(nested, stmt->temporary_alloc());
-			direct += stmt->persistent_alloc();
+			temporary = std::max(temporary, stmt->temporary_alloc());
+			persistent += stmt->persistent_alloc();
 		}
-		return nested + direct;
+		return temporary + persistent;
 	}
 	
 
 
 	std::size_t Block::persistent_alloc() const {
+		// No persistent allocation,
+		// because the block discards all variables at the end
 		return 0;
 	}
 

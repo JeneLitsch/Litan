@@ -6,6 +6,7 @@
 
 namespace ltn::c::sst::stmt {
 	struct Block;
+	struct Conditional;
 	struct IfElse;
 	struct While;
 	struct InfiniteLoop;
@@ -22,6 +23,7 @@ namespace ltn::c::sst::stmt {
 	
 	using StmtVisitor = Visitor<
 		Block,
+		Conditional,
 		IfElse,
 		While,
 		InfiniteLoop,
@@ -46,6 +48,10 @@ namespace ltn::c::sst::stmt {
 		virtual std::size_t temporary_alloc() const = 0;
 		virtual std::size_t persistent_alloc() const = 0;
 
+		std::size_t total_alloc() const {
+			return this->temporary_alloc() + this->persistent_alloc();
+		}
+
 		virtual void accept(const StmtVisitor &) const = 0;
 	};
 
@@ -60,6 +66,7 @@ namespace ltn::c::sst::stmt {
 			Visitor(Callable fx) : Base {fx} {} 
 			
 			virtual void visit(const Block & x)        const override { this->run(x); }
+			virtual void visit(const Conditional & x)  const override { this->run(x); }
 			virtual void visit(const IfElse & x)       const override { this->run(x); }
 			virtual void visit(const While & x)        const override { this->run(x); }
 			virtual void visit(const InfiniteLoop & x) const override { this->run(x); }

@@ -43,6 +43,7 @@ namespace ltn::c {
 	sst::stmt_ptr analyze_stmt(const ast::stmt::ForEach &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::stmt::NewVar &, Scope &);
 	sst::stmt_ptr analyze_stmt(const ast::stmt::Switch &, Scope &);
+	sst::stmt_ptr analyze_stmt(const ast::stmt::Conditional &, Scope &);
 
 	sst::expr_ptr analyze_expression(const ast::expr::Expression &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::expr::Lambda &, Scope &);
@@ -70,6 +71,7 @@ namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::expr::Map &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::expr::Type &, Scope &);
 	sst::expr_ptr analyze_expr(const ast::expr::CustomLiteral &, Scope &);
+	sst::expr_ptr analyze_expr(const ast::expr::Conditional &, Scope &);
 
 	sst::bind_ptr analyze_binding(const ast::bind::Binding &, Scope &);
 	sst::bind_ptr analyze_bind(const ast::bind::Group &, Scope &);

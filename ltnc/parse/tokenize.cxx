@@ -140,6 +140,7 @@ namespace ltn::c {
 			{"reflect",      TT::REFLECT},
 			{"operator",     TT::OPERATOR},
 			{"yield",        TT::YIELD},
+			{"conditional",  TT::CONDITIONAL},
 		};
 		
 

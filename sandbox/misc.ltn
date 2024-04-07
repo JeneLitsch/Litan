@@ -1,4 +1,19 @@
-#import "module"
-
-function main() 
-	=> f()
+function main() {
+	var x = 3;
+	var y = conditional {
+		case (x == 1) => 10
+		case (x == 2) => 20
+		case (x == 3) => 30
+		case (x == 4) => 40
+		else          => 99
+	};
+	std::println(y);
+	var a;
+	conditional {
+		case (x == 1) => var a;
+		case (x == 2) => var a;
+		case (x == 3) => var a;
+		case (x == 4) => var a;
+		else          => var a;
+	};
+}

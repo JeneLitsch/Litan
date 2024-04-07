@@ -18,13 +18,15 @@ namespace ltn::c::sst::stmt {
 
 
 	std::size_t ForEach::temporary_alloc() const {
-		return body->temporary_alloc();
+		return 2 + this->expr->alloc() + this->bind->alloc_count() + body->total_alloc();
 	}
 	
 
 
 	std::size_t ForEach::persistent_alloc() const {
-		return 2 + this->expr->alloc() + this->bind->alloc_count();
+		// No persistent allocation
+		// No variable in head or body leaks to the outside scope 
+		return 0;
 	}
 
 

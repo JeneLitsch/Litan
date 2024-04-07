@@ -62,15 +62,16 @@ namespace ltn::c {
 
 	ast::stmt_ptr parse_statement(Tokens & tokens) {
 		while(match(TT::SEMICOLON, tokens));
-		if(auto stmt = parse_block(tokens))        return stmt;
-		if(auto stmt = parse_if_else(tokens))      return stmt;
-		if(auto stmt = parse_while_loop(tokens))   return stmt;
-		if(auto stmt = parse_for_loop(tokens))     return stmt;
-		if(auto stmt = parse_newvar(tokens))       return stmt;
-		if(auto stmt = parse_throw(tokens))        return stmt;
-		if(auto stmt = parse_return(tokens))       return stmt;
-		if(auto stmt = parse_yield(tokens))       return stmt;
-		if(auto stmt = parse_stmt_switch(tokens))  return stmt;
+		if(auto stmt = parse_block(tokens))            return stmt;
+		if(auto stmt = parse_if_else(tokens))          return stmt;
+		if(auto stmt = parse_while_loop(tokens))       return stmt;
+		if(auto stmt = parse_for_loop(tokens))         return stmt;
+		if(auto stmt = parse_newvar(tokens))           return stmt;
+		if(auto stmt = parse_throw(tokens))            return stmt;
+		if(auto stmt = parse_return(tokens))           return stmt;
+		if(auto stmt = parse_yield(tokens))            return stmt;
+		if(auto stmt = parse_stmt_switch(tokens))      return stmt;
+		if(auto stmt = parse_conditional_stmt(tokens)) return stmt;
 		auto stmt =  parse_just_an_expr(tokens);
 		semicolon(tokens);
 		return stmt;

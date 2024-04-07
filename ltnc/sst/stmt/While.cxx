@@ -12,13 +12,15 @@ namespace ltn::c::sst::stmt {
 
 
 	std::size_t While::temporary_alloc() const {
-		return body->temporary_alloc();
+		const auto condtion_alloc = this->condition->alloc(); 
+		const auto body_alloc = this->body->total_alloc(); 
+		return std::max({condtion_alloc, body_alloc});
 	}
 	
 
 
 	std::size_t While::persistent_alloc() const {
-		return this->condition->alloc();
+		return 0;
 	}
 
 

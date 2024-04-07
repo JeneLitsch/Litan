@@ -1,0 +1,31 @@
+namespace sphinx::test {
+	function conditional_expr_case () {
+		var fx = lambda (x) => conditional {
+			case (x == 1) => 11
+			case (x == 2) => 22
+			case (x == 3) => 33
+		};
+
+		assert_equal_strict(fx(1), 11);
+		assert_equal_strict(fx(2), 22);
+		assert_equal_strict(fx(3), 33);
+	}
+
+
+
+	function conditional_expr_else() {
+		assert_equal_strict(conditional {
+			case (false) => 1337
+			else         => 42
+		}, 42);
+
+		assert_equal_strict(conditional { else => 42 }, 42);
+	}
+
+
+
+	function conditional_expr_else_default() {
+		assert_equal_strict(conditional { case(false) => 1 }, null);
+		assert_equal_strict(conditional {  }, null);
+	}
+}

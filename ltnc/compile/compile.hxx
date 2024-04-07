@@ -20,6 +20,7 @@ namespace ltn::c {
 	// Statement
 	InstructionBuffer compile_statement(const sst::stmt::Statement &);
 	InstructionBuffer compile_stmt(const sst::stmt::Block &);
+	InstructionBuffer compile_stmt(const sst::stmt::Conditional &);
 	InstructionBuffer compile_stmt(const sst::stmt::Return &);
 	InstructionBuffer compile_stmt(const sst::stmt::Yield &);
 	InstructionBuffer compile_stmt(const sst::stmt::Throw &);
@@ -46,6 +47,7 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::expr::Array &);
 	InstructionBuffer compile_expr(const sst::expr::Tuple &);
 	InstructionBuffer compile_expr(const sst::expr::Call &);
+	InstructionBuffer compile_expr(const sst::expr::Conditional &);
 	InstructionBuffer compile_expr(const sst::expr::Invoke &);
 	InstructionBuffer compile_expr(const sst::expr::InvokeMember &);
 	InstructionBuffer compile_expr(const sst::expr::Index &);

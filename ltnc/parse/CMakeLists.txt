@@ -9,6 +9,7 @@ target_sources(libltnc PRIVATE
 	parse_braces.cxx
 	parse_condition.cxx
 	parse_conditional.cxx
+	parse_ternary.cxx
 	parse_definition.cxx
 	parse_enums.cxx
 	parse_expression.cxx

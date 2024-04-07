@@ -5,7 +5,7 @@ namespace ltn::c {
 
 
 	ast::expr_ptr parse_expression(Tokens & tokens) {
-		return parse_conditional(tokens);
+		return parse_ternary(tokens);
 	}
 }
 

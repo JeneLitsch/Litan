@@ -1,0 +1,45 @@
+namespace sphinx::test {
+	function conditional_stmt_case () {
+		conditional {
+			case (false) => fail();
+			case (true)  => pass();
+			case (false) => fail();
+		}
+
+		conditional {
+			case (true)  => pass();
+			case (false) => fail();
+			case (false) => fail();
+		}
+
+		conditional {
+			case (false) => fail();
+			case (false) => fail();
+			case (true)  => pass();
+		}
+	}
+
+
+
+	function conditional_stmt_else() {
+		conditional {
+			case (false) => fail();
+			else         => pass();
+		}
+
+		conditional {
+			else         => pass();
+		}
+	}
+
+
+
+	function conditional_stmt_else_default() {
+		conditional { 
+			case(false) => fail();
+		}
+		
+		conditional {}
+		pass();
+	}
+}
