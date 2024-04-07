@@ -212,3 +212,15 @@ The body belonging to the first matching condition is executed.
 If no condition matches the behavior depends on the existence of the else branch.  
 If the else brach exists, its body is executed.  
 Otherwise no code is executed.  
+
+
+
+## Switch [`stmt.switch`]
+
+```js
+switch(`expr`) {
+	case `constant` => `stmt`
+	...
+	else:           => `stmt`
+}
+```
