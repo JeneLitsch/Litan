@@ -43,7 +43,7 @@ namespace std {
 
 
 
-	function typename(x) const => choose(std::typeid(x)) {
+	function typename(x) const => switch(std::typeid(x)) {
 		case std::type::nul       => "null"
 		case std::type::bool      => "bool"
 		case std::type::char      => "char"
@@ -62,7 +62,7 @@ namespace std {
 		case std::type::stack     => "stack"
 		case std::type::map       => "map"
 		case std::type::rng       => "rng"
-		else                      => "unknown";
+		else                      => "unknown"
 	}
 
 

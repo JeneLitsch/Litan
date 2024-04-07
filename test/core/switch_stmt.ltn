@@ -1,5 +1,5 @@
 namespace sphinx::test {
-	function switch_int() {
+	function switch_stmt_int() {
 		var fx = lambda (x) switch(x) {
 			case -3 => return 7;
 			case -2 => return 8;
@@ -18,7 +18,7 @@ namespace sphinx::test {
 
 
 	
-	function switch_other() {
+	function switch_stmt_ther() {
 		var fx = lambda (x) switch(x) {
 			case 'A' => return 1;
 			case "A" => return 2;
@@ -33,7 +33,7 @@ namespace sphinx::test {
 
 
 
-	function switch_default() {
+	function switch_stmt_default() {
 		var fx = lambda (x) switch(x) {
 			case 0 => return true;
 			else   => return false;
@@ -46,7 +46,7 @@ namespace sphinx::test {
 
 
 
-	function switch_default_null() {
+	function switch_stmt_default_null() {
 		var fx = lambda (x) switch(x) {
 			case 0 => return true;
 		};
@@ -58,7 +58,7 @@ namespace sphinx::test {
 
 
 
-	function switch_scope() {
+	function switch_stmt_scope() {
 		var a = 42;
 		switch(1) {
 			case 1 => var a = 1337;

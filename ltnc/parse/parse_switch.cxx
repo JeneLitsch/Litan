@@ -40,8 +40,6 @@ namespace ltn::c {
 				sw1tch->cases.push_back(std::pair{
 					std::move(case_expr),
 					std::move(case_body)});
-
-				while (match(TT::SEMICOLON, tokens));
 			}
 			
 			if(match(TT::ELSE, tokens)) {
@@ -49,7 +47,6 @@ namespace ltn::c {
 					"Expected :", location(tokens)
 				};
 				sw1tch->d3fault = body_fx(tokens);
-				while (match(TT::SEMICOLON, tokens));
 			}
 
 			if(!match(TT::BRACE_R, tokens)) throw CompilerError {
@@ -75,7 +72,7 @@ namespace ltn::c {
 
 
 	ast::expr_ptr parse_expr_switch(Tokens & tokens) {
-		auto sw1tch = parse_any_switch<ast::expr::Choose, TT::CHOOSE, parse_expression>(tokens);
+		auto sw1tch = parse_any_switch<ast::expr::Choose, TT::SWITCH, parse_expression>(tokens);
 		if(sw1tch && !sw1tch->d3fault) {
 			sw1tch->d3fault = std::make_unique<ast::expr::Null>(location(tokens));
 		}
