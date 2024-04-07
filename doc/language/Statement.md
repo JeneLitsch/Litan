@@ -44,16 +44,23 @@ Otherwise the statement is skipped (1) or the else block is executed (2).
 while(`condition`) `stmt`
 ```
 
-The while-loop consists of a condition and a statement as a body.
-As long as the condition is true the statement is repeated.
+The while-loop consists of a condition and a statement as a body.  
+As long as the condition is true the statement is repeated.  
 The body of the loop uses its own scope.
+
+Example:
+```js
+while(true) {
+	std::println("Hello, World!");
+}
+```
 
 
 
 ## For [`stmt.for`]
 
 ```js
-for (`bind` : `expression`) `stmt`
+for (`bind` : `expr`) `stmt`
 ```
 
 Examples:
@@ -79,6 +86,34 @@ for (c : "ABC") {
 var array = [1,2,3,4,5];
 for (elem : array) {
 	std::println(elem);
+}
+```
+
+
+
+## Return [`stmt.return`]
+
+(1)
+
+```js
+return;
+```
+(2)
+
+```js
+return `expr`;
+```
+
+A function can return a value with a return statement.  
+The expression after the return keyword is evaluated and the value is returned (2).  
+A return statement without expression `return;` (1) is equivalent to `return null;`  
+If a function ends without an explicit return statement null is returned by default.
+
+Example:
+
+```js
+function f() {
+    return 42;
 }
 ```
 
