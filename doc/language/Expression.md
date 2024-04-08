@@ -1,6 +1,42 @@
 # Expression
 
 
+## Call [`expr.call`]
+
+(1)
+
+```js
+`function-id`(`parameters...`)
+```
+
+(2)
+
+```js
+`expr`(`parameters...`)
+```
+
+(3)
+
+```js
+`expr`->`member-id`(`parameters...`)
+```
+
+Examples:
+
+```js
+function main() {
+	var x = (lambda (a, b) => a + b)(1, 3);
+	std::println(x); // 4
+}
+```
+
+```js
+function main() {
+	var hello = lambda(name) => "Hello " + std::string(name); 
+	std::println((hello)("World")); // Hello World
+}
+```
+
 
 ## Expression blocks / IIFE [`expr.block`]
 
@@ -74,6 +110,8 @@ Otherwise the conditional expression evaluates to `null`.
 
 ## Lambdas [`expr.lambda`]
 
+(1)
+
 ```js
 lambda
 	[`captures`, ...] // optional
@@ -81,7 +119,7 @@ lambda
 	`stmt.block`
 ```
 
-or
+(2)
 
 ```js
 lambda
