@@ -149,3 +149,90 @@ function main() {
 	std::println((fx)());
 }
 ```
+
+
+
+## Reflection [`expr.reflect`]
+
+```js
+reflect(`query`)
+```
+
+Reflections can be used to inspect properties of program itself.
+
+
+### Line [`expr.reflect.line`]
+
+```js
+reflect(line)
+```
+
+Returns the current line as an int.  
+If the expression is split over mutiple lines, the line containing the `reflect` keyword is used for the line number.
+
+```
+__line__ : int
+```
+
+### File Reflection [`expr.reflect.file`]
+
+```js
+reflect(file)
+```
+
+Returns info about the current file.
+
+```
+__file__
+  .name : string
+```
+
+### Location Reflection [`expr.reflect.location`]
+
+```js
+reflect(location)
+```
+
+Returns combined info about the file and the current line.  
+If the expression is split over mutiple lines, the line containing the `reflect` keyword is used for the line number.
+
+```
+__location__
+  .line : int
+  .file
+    .name : string
+```
+
+### Namespace Reflection [`expr.reflect.namespace`]
+
+```js
+reflect(namespace `namespace-id`)
+```
+
+A namespace query returns the name of the namespace and inspects members of the said namespace.
+A struct with all the collected data is returned.
+
+```
+__namespace__
+  .name      : string
+  .functions : array(__function___)
+```
+
+### Function Reflection [`expr.reflect.fucntion`]
+
+```js
+reflect(function `function-id`())
+reflect(function `function-id`(_,...,_))
+```
+
+A function query returns information reagrding a function. For functions with parameters placeholders _ are used.
+
+```
+__function__
+  .name      : string
+  .full_name : string
+  .fx_ptr    : function
+  .const     : bool
+  .private   : bool
+  .extern    : bool
+```
