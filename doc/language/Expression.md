@@ -6,19 +6,19 @@
 (1)
 
 ```js
-`function-id`(`parameters...`)
+`function-id`(`argument-list`)
 ```
 
 (2)
 
 ```js
-`expr`(`parameters...`)
+`expr`(`argument-list`)
 ```
 
 (3)
 
 ```js
-`expr`->`member-id`(`parameters...`)
+`expr`->`member-id`(`argument-list`)
 ```
 
 Examples:
@@ -41,7 +41,7 @@ function main() {
 ## Expression blocks / IIFE [`expr.block`]
 
 ```js
-iife { `stmt...stmt` }
+iife `stmt.block`
 ```
 
 An IIFE can be used anywhere where an expression is needed.  
@@ -114,8 +114,8 @@ Otherwise the conditional expression evaluates to `null`.
 
 ```js
 lambda
-	[`captures`, ...] // optional
-	(`parameters`, ...) // optional
+	[`capture-list`] // optional
+	(`parameter-list`) // optional
 	`stmt.block`
 ```
 
@@ -123,8 +123,8 @@ lambda
 
 ```js
 lambda
-	[`captures`, ...] // optional
-	(`parameters`, ...) // optional
+	[`capture-list`] // optional
+	(`parameter-list`) // optional
 	=> `expr`
 ```
 
@@ -221,8 +221,7 @@ __namespace__
 ### Function Reflection [`expr.reflect.fucntion`]
 
 ```js
-reflect(function `function-id`())
-reflect(function `function-id`(_,...,_))
+reflect(function `function-id`(`placeholder-list`))
 ```
 
 A function query returns information reagrding a function. For functions with parameters placeholders _ are used.

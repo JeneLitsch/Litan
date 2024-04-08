@@ -5,11 +5,7 @@
 ## Block [`stmt.block`]
 
 ```js
-{
-	`stmt`
-	...
-	`stmt`
-}
+{ `stmt-list` }
 ```
 
 A block statement is set of statements grouped together with curly braces.  
@@ -44,8 +40,7 @@ var `name` = `expr`;
 (3)
 
 ```js
-var (`name`...) = `expr`;
-var (`name`...(`name`...`name`)) = `expr`;
+var (`bind-list`) = `expr`;
 ```
 
 The New-Variable-Statement creates one or more new variables.  
