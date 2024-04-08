@@ -1,6 +1,3 @@
 function main() {
-	var array = [(11,"11"),(22,"22"),(33,"33")];
-	for ((num, str) : array) {
-		std::println(std::str(num) + " : " + str);
-	}
+	
 }

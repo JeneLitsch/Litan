@@ -181,7 +181,7 @@ namespace ltn::c {
 				return ast::stmt::retvrn(std::move(expr), loc);
 			}
 			else {
-				return parse_statement(tokens);
+				return parse_block(tokens);
 			}
 		}
 
