@@ -16,6 +16,7 @@ namespace ltn::vm {
 			.entry = entry,
 		});
 		this->frame_pointer = this->values.size() - arity;
+		this->values.resize(this->values.size() + entry->frame_size, value::null);
 	}
 
 

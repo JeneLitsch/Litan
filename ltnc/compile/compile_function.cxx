@@ -49,7 +49,7 @@ namespace ltn::c {
 			buf << inst::trY(except_label.to_string());
 		} 
 		
-		buf << local_alloc(fx);
+		// buf << local_alloc(fx);
 		
 		if(fx.qualifiers.is_coroutine) {
 			buf << inst::co_dump();
