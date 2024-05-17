@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "While.hxx"
 #include "ltnc/sst/expr/Expression.hxx"
 

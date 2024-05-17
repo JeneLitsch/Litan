@@ -1,4 +1,5 @@
 #include "Conditional.hxx"
+#include <algorithm>
 
 namespace ltn::c::sst::expr {
     Conditional::Conditional() 

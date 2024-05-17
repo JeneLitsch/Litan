@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "IfElse.hxx"
 #include "ltnc/sst/expr/Expression.hxx"
 

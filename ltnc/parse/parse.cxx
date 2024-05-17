@@ -247,7 +247,7 @@ namespace ltn::c {
 			const Source & source = pending_sources.front();
 			const std::filesystem::path path = source.get_full_name();
 			const bool new_source = std::none_of(std::begin(known_sources), std::end(known_sources), [&] (auto & s) {
-				return std::filesystem::equivalent(s, path);
+				return std::filesystem::exists(s) && std::filesystem::exists(path) && std::filesystem::equivalent(s, path);
 			}); 
 			if(new_source && path.extension() == ".ltn") {
 				process_source(source, ast, pending_sources);
