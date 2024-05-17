@@ -31,11 +31,13 @@ namespace ltn::c {
 			buf << compile_function(*function);
 		}
 
-		std::set<std::string> extern_functions;
-		extern_functions.insert("main(0)");
-		extern_functions.insert("main(1)");
+		std::set<std::string> external_functions;
+		std::set<std::string> internal_functions;
+		external_functions.insert("main(0)");
+		external_functions.insert("main(1)");
 		for(const auto & fx : program.functions) {
-			if(fx->qualifiers.is_extern) extern_functions.insert(fx->label.to_string());
+			if(fx->qualifiers.is_extern) external_functions.insert(fx->label.to_string());
+			else internal_functions.insert(fx->label.to_string());
 		}
 
 		AddressTable extern_globals;
@@ -51,7 +53,8 @@ namespace ltn::c {
 		buf << inst::exit();
 
 		return { buf.get(), LinkInfo { 
-			.init_functions = extern_functions,
+			.external_functions = external_functions,
+			.internal_functions = internal_functions,
 			.global_table = extern_globals,
 			.member_name_table = program.member_name_table,
 		}};

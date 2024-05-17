@@ -1,5 +1,9 @@
 #include "FunctionTable.hxx"
 #include "ltn/header.hxx"
+#include <iostream>
+#include <bitset>
+
+
 
 namespace ltn {
 	FunctionTable::FunctionTable() {
@@ -11,10 +15,19 @@ namespace ltn {
 	const FunctionTable::Entry * FunctionTable::operator[](std::uint64_t id) const {
 		return &this->entries[id];
 	}
+
+
+
+	std::optional<std::uint64_t> FunctionTable::find_by_name(const std::string_view name) const {
+		auto * entry = this->get_by_name(name);
+		return entry
+			? std::optional<std::uint64_t>{std::distance(this->entries.data(), entry)}
+			: std::nullopt;
+	}
 	
 	
 	
-	const FunctionTable::Entry * FunctionTable::find_by_name(const std::string_view name) const {
+	const FunctionTable::Entry * FunctionTable::get_by_name(const std::string_view name) const {
 		for(auto & entry : this->entries) {
 			if(entry.name == name) {
 				return &entry;
@@ -26,7 +39,7 @@ namespace ltn {
 	
 	
 	bool FunctionTable::contains(const std::string_view name) const {
-		return find_by_name(name) != nullptr;
+		return get_by_name(name) != nullptr;
 	}
 	
 	
@@ -51,10 +64,14 @@ namespace ltn {
 			const std::string name { it, next };
 			it = next;
 			const std::uint64_t address = read_u64(it);
-			this->push_back(FunctionTable::Entry{
+			const std::bitset<8> flags = read_u8(it);
+			const std::uint8_t arity = read_u8(it);
+			FunctionTable::Entry entry {
 				.address = address,
-				.name = name, 
-			});
+				.name = name,
+				.external = flags[0],
+			};
+			this->push_back(entry);
 		}
 	}
 
@@ -68,6 +85,8 @@ namespace ltn {
 				write_u8(static_cast<std::uint8_t>(c), bytecode);
 			}
 			write_u64(entry.address, bytecode);
+			write_u8(entry.external, bytecode);
+			write_u8(entry.arity, bytecode);
 		}
 	}
 }

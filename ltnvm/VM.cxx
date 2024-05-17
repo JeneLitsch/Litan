@@ -176,7 +176,7 @@ namespace ltn::vm {
 				if(!main.empty()) return main;
 				return core.function_table.contains("main(1)") ? "main(1)" : "main(0)";
 			} ();
-			auto * main_fx = core.function_table.find_by_name(main_name);
+			auto * main_fx = core.function_table.get_by_name(main_name);
 			if(!main_fx) throw std::runtime_error {
 				"Program does not contain function " + main_name
 			};

@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ltn/version.hxx"
 #include "ltn/file/FunctionTable.hxx"
+#include "ltn/file/binary.hxx"
 
 namespace ltn::c {
 	std::uint64_t resolve_label(const AddressTable & jump_table, const std::string & label) {
@@ -36,69 +37,81 @@ namespace ltn::c {
 		void assemble_args(
 			std::vector<std::uint8_t> &,
 			const inst::InstLabel &,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionTable &) {
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> &,
 			const inst::InstNone &,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionTable &) {
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstUint64 & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionTable &) {
 			bytecode += to_bytes(args.value);
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstUint16 & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionTable &) {
 			bytecode += to_bytes(args.value);
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstJump & args,
-			const AddressTable & jump_table) {
+			const AddressTable & jump_table,
+			const FunctionTable &) {
 			const auto address = resolve_label(jump_table, args.label);
 			bytecode += to_bytes(address);
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstCall & args,
-			const AddressTable & jump_table) {
-			const auto address = resolve_label(jump_table, args.label);
-			bytecode += to_bytes(address);
+			const AddressTable & jump_table,
+			const FunctionTable & function_table) {
+			const auto index = function_table.find_by_name(args.label);
+			if(!index) throw std::runtime_error{"Cannot find function " + std::string{args.label}};
+			write_u64(*index, bytecode);
 			bytecode += args.arity;
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstJumpUint64 & args,
-			const AddressTable & jump_table) {
+			const AddressTable & jump_table,
+			const FunctionTable &) {
 			bytecode += to_bytes(resolve_label(jump_table, args.label));
 			bytecode += to_bytes(args.value);
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstInt64 & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionTable &) {
 			bytecode += to_bytes(args.value);
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstFloat & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionTable &) {
 			bytecode += to_bytes(args.value);
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstByte & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionTable &) {
 			bytecode += args.value;
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstUint64Bytex & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionTable &) {
 			const std::uint64_t count = args.bytes.size();
 			bytecode += to_bytes(count);
 			bytecode += args.bytes;
@@ -106,7 +119,8 @@ namespace ltn::c {
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstBytex0 & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionTable &) {
 			bytecode += args.bytes;
 			bytecode.push_back(0); // Add null terminator
 		}
@@ -139,15 +153,27 @@ namespace ltn::c {
 		}
 
 		FunctionTable build_function_table(
-			const std::set<std::string> & fx_ids,
+			const LinkInfo & link_info,
 			const AddressTable & jump_table) {
 			
 			FunctionTable function_table;
-			for(const auto & fx_id : fx_ids) {
+			for(const auto & fx_id : link_info.external_functions) {
 				if(jump_table.contains(fx_id)) {
 					function_table.push_back(FunctionTable::Entry{
-						.address = jump_table.at(fx_id),
 						.name = fx_id,
+						.address = jump_table.at(fx_id),
+						.arity = 0,
+						.external = true,
+					});
+				}
+			}
+			for(const auto & fx_id : link_info.internal_functions) {
+				if(jump_table.contains(fx_id)) {
+					function_table.push_back(FunctionTable::Entry{
+						.name = fx_id,
+						.address = jump_table.at(fx_id),
+						.arity = 0,
+						.external = false,
 					});
 				}
 			}
@@ -162,7 +188,7 @@ namespace ltn::c {
 		const LinkInfo & link_info) {
 		
 		const auto jump_table     = scan(instructions);
-		const auto function_table = build_function_table(link_info.init_functions, jump_table);
+		const auto function_table = build_function_table(link_info, jump_table);
 
 		std::vector<std::uint8_t> bytecode;
 		bytecode.push_back(ltn::major_version);
@@ -176,8 +202,8 @@ namespace ltn::c {
 				return assemble_opcode(bytecode, i, jump_table);
 			}, inst);
 
-			std::visit([&jump_table, &bytecode] (auto & i) {
-				return assemble_args(bytecode, i, jump_table);
+			std::visit([&] (auto & i) {
+				return assemble_args(bytecode, i, jump_table, function_table);
 			}, inst);
 		}
 
