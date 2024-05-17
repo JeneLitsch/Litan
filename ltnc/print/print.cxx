@@ -47,14 +47,6 @@ namespace ltn::c {
 
 
 
-		std::string print_inst(const inst::InstJumpUint64 & args) {
-			std::ostringstream ss;
-			ss << args.name << " " << args.label << " " << args.value;
-			return ss.str();
-		}
-
-
-
 		std::string print_inst(const inst::InstInt64 & args) {
 			std::ostringstream ss;
 			ss << args.name << " " << args.value;

@@ -6,7 +6,7 @@ namespace ltn::c {
 	namespace {
 		InstructionBuffer local_alloc(const auto & fx) {
 			InstructionBuffer buf;
-			std::uint64_t remaining = fx.body->temporary_alloc(); 
+			std::uint64_t remaining = fx.body->total_alloc(); 
 			const auto max_block_size = std::numeric_limits<std::uint8_t>::max();
 			while(remaining != 0) {
 				const auto block_size = static_cast<std::uint8_t>(std::min<std::uint64_t>(remaining, max_block_size));

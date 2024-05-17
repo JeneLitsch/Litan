@@ -55,13 +55,13 @@ namespace ltn::c::inst {
 		bool operator==(const InstCall &) const = default;
 	};
 
-	struct InstJumpUint64 {
+	struct InstFxUint64 {
 		constexpr inline static std::size_t size = 17;
 		std::string_view name;
 		OpCode opcode;
 		std::string label;
 		std::uint64_t value;
-		bool operator==(const InstJumpUint64 &) const = default;
+		bool operator==(const InstFxUint64 &) const = default;
 	};
 
 	struct InstInt64 {
@@ -109,7 +109,6 @@ namespace ltn::c::inst {
 	    InstUint16,
 	    InstJump,
 	    InstCall,
-	    InstJumpUint64,
 	    InstInt64,
 	    InstFloat,
 	    InstByte,
@@ -161,7 +160,7 @@ namespace ltn::c::inst {
 	Inst newarr(std::uint64_t size);
 	Inst newstr(std::vector<std::uint8_t> bytes);
 	Inst newstr(const std::string & str);
-	Inst newfx(const std::string & label, std::uint64_t arity);
+	Inst newfx(const std::string & label, std::uint8_t arity);
 	Inst newclock();
 	Inst newstruct();
 	Inst newstack();

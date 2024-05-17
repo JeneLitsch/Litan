@@ -11,7 +11,7 @@ namespace ltn {
 		struct Entry {
 			std::string name;
 			std::uint64_t address;
-			std::uint64_t arity;
+			std::uint64_t frame_size;
 			bool external;
 		};
 

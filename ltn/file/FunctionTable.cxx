@@ -64,8 +64,8 @@ namespace ltn {
 			const std::string name { it, next };
 			it = next;
 			const std::uint64_t address = read_u64(it);
+			const std::uint8_t frame_size = read_u64(it);
 			const std::bitset<8> flags = read_u8(it);
-			const std::uint8_t arity = read_u8(it);
 			FunctionTable::Entry entry {
 				.address = address,
 				.name = name,
@@ -85,8 +85,8 @@ namespace ltn {
 				write_u8(static_cast<std::uint8_t>(c), bytecode);
 			}
 			write_u64(entry.address, bytecode);
+			write_u64(entry.frame_size, bytecode);
 			write_u8(entry.external, bytecode);
-			write_u8(entry.arity, bytecode);
 		}
 	}
 }

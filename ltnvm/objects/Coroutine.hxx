@@ -2,6 +2,7 @@
 #include <vector>
 #include "Object.hxx"
 #include "ltnvm/Value.hxx"
+#include "ltn/file/FunctionTable.hxx"
 
 namespace ltn::vm {
 	class Coroutine : public Object {
@@ -11,6 +12,7 @@ namespace ltn::vm {
 
 		std::vector<Value> local_variables;
 		const std::uint8_t * resume_address = nullptr;
+		const FunctionTable::Entry * entry;
 	};
 
 

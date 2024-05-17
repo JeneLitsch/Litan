@@ -232,12 +232,12 @@ namespace ltn::c::inst {
 		return newstr(std::vector<std::uint8_t>(str.begin(), str.end()));
 	}
 
-	Inst newfx(const std::string & label, std::uint64_t arity) {
-		return InstJumpUint64 {
+	Inst newfx(const std::string & label, std::uint8_t arity) {
+		return InstCall {
 			.name = "newfx",
 			.opcode = OpCode::NEWFX,
 			.label = label,
-			.value = arity,
+			.arity = arity,
 		};
 	}
 	Inst newclock() {

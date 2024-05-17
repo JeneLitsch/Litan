@@ -1,3 +1,16 @@
 function main() {
-	
+	var fx = lambda (x) => switch(x) {
+		case -3 => 7
+		case -2 => 8
+		case -1 => 9
+		case 0 => 10
+		case 1 => 11
+		case 2 => 12
+		case 3 => 13
+		case 4 => 14
+	};
+
+	std::println(fx(-3));
+	std::println(fx(0));
+	std::println(fx(4));
 }

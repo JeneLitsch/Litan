@@ -19,7 +19,7 @@ namespace ltn::vm::inst {
 		const auto * entry = core.function_table[index];
 		const auto address = entry->address; 
 		const auto arity = core.fetch_byte();
-		core.stack.push_frame(core.pc, arity);
+		core.stack.push_frame(core.pc, arity, entry);
 		core.pc = core.code_begin + address;
 	}
 

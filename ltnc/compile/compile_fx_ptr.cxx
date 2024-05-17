@@ -8,7 +8,7 @@
 namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::expr::FxPointer & fx_ptr) {
 		InstructionBuffer buf;
-		const auto arity_code = fx_ptr.arity | std::uint64_t{fx_ptr.is_variadic} << 63;
+		const auto arity_code = fx_ptr.arity | std::uint64_t{fx_ptr.is_variadic} << 7;
 		buf << inst::newfx(fx_ptr.label.to_string(), arity_code);
 		for(const auto & capture : fx_ptr.captures) {
 			buf << compile_expression(*capture);

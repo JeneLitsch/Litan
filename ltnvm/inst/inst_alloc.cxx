@@ -79,11 +79,11 @@ namespace ltn::vm::inst {
 
 	void newfx(VMCore & core){
 		core.heap.collect_garbage(core.stack);
-		const auto address = core.code_begin + core.fetch_uint(); 
-		const auto arity_code = core.fetch_uint();
-		const auto arity = (arity_code << 1) >> 1;
-		const auto is_variadic = (arity_code >> 63) != 0;
-		FxPointer fx_ptr { address, arity, {}, is_variadic };
+		const auto index = core.fetch_uint(); 
+		const auto arity_code = core.fetch_byte();
+		const auto arity = arity_code & 0b01111111;
+		const auto is_variadic = static_cast<bool>(arity_code & 0b10000000);
+		FxPointer fx_ptr { index, static_cast<std::uint8_t>(arity), {}, is_variadic };
 		const auto ref = core.heap.alloc(std::move(fx_ptr));
 		core.stack.push(value::fx(ref));
 	}

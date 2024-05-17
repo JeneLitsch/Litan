@@ -33,9 +33,11 @@ namespace ltn::vm::inst {
 				throw except::invalid_parameters(fxptr.arity(), arity);
 			}
 
-			core.stack.push_frame(core.pc, call_arity);
+			const auto * entry = core.function_table[fxptr.index];
+			std::cout << entry->name << "\n";
+			core.stack.push_frame(core.pc, call_arity, entry);
 			load_onto_stack(core.stack, fxptr.captured);
-			core.pc = fxptr.ptr;
+			core.pc = core.code_begin + entry->address;
 		}
 
 
@@ -57,8 +59,9 @@ namespace ltn::vm::inst {
 
 		void do_invoke_coroutine(VMCore & core, const Value ref, std::uint64_t arity) {
 			if(arity != 0) throw except::invalid_parameters(0, arity);
-			auto * coroutine = ref.as<Coroutine>(); 
-			core.stack.push_frame(core.pc, 0);
+			auto * coroutine = ref.as<Coroutine>();
+
+			core.stack.push_frame(core.pc, 0, coroutine->entry);
 			load_onto_stack(core.stack, coroutine->local_variables);
 			core.pc = coroutine->resume_address;
 		}

@@ -80,7 +80,7 @@ namespace ltn::c {
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
-			const inst::InstJumpUint64 & args,
+			const inst::InstFxUint64 & args,
 			const AddressTable & jump_table,
 			const FunctionTable &) {
 			bytecode += to_bytes(resolve_label(jump_table, args.label));
@@ -152,33 +152,7 @@ namespace ltn::c {
 			return bytecode;
 		}
 
-		FunctionTable build_function_table(
-			const LinkInfo & link_info,
-			const AddressTable & jump_table) {
-			
-			FunctionTable function_table;
-			for(const auto & fx_id : link_info.external_functions) {
-				if(jump_table.contains(fx_id)) {
-					function_table.push_back(FunctionTable::Entry{
-						.name = fx_id,
-						.address = jump_table.at(fx_id),
-						.arity = 0,
-						.external = true,
-					});
-				}
-			}
-			for(const auto & fx_id : link_info.internal_functions) {
-				if(jump_table.contains(fx_id)) {
-					function_table.push_back(FunctionTable::Entry{
-						.name = fx_id,
-						.address = jump_table.at(fx_id),
-						.arity = 0,
-						.external = false,
-					});
-				}
-			}
-			return function_table;
-		}
+
 	}
 
 
@@ -187,23 +161,20 @@ namespace ltn::c {
 		const std::vector<inst::Inst> & instructions,
 		const LinkInfo & link_info) {
 		
-		const auto jump_table     = scan(instructions);
-		const auto function_table = build_function_table(link_info, jump_table);
-
 		std::vector<std::uint8_t> bytecode;
 		bytecode.push_back(ltn::major_version);
 
-		function_table.write(bytecode);
+		link_info.function_table.write(bytecode);
 		bytecode += sequence_table(link_info.global_table);
 		bytecode += sequence_table(link_info.member_name_table);
 
 		for(const auto & inst : instructions) {
 			std::visit([&] (auto & i) {
-				return assemble_opcode(bytecode, i, jump_table);
+				return assemble_opcode(bytecode, i, link_info.jump_table);
 			}, inst);
 
 			std::visit([&] (auto & i) {
-				return assemble_args(bytecode, i, jump_table, function_table);
+				return assemble_args(bytecode, i, link_info.jump_table, link_info.function_table);
 			}, inst);
 		}
 
