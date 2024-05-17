@@ -3,6 +3,7 @@
 #include "ltnvm/Heap.hxx"
 #include "ltnvm/VMStack.hxx"
 #include "ltnvm/TypeTable.hxx"
+#include "ltn/file/FunctionPool.hxx"
 #include "external/Callable.hxx"
 
 namespace ltn::vm {
@@ -15,10 +16,10 @@ namespace ltn::vm {
 		const std::uint8_t * code_end;
 
 		std::unordered_map<std::int64_t, ext::Callable> fx_table_ltn_to_cxx;
-		std::unordered_map<std::string, std::uint64_t> fx_table_cxx_to_ltn;
 		std::unordered_map<std::string, std::uint64_t> static_table;
 		std::unordered_map<std::uint64_t, std::string> member_name_table;
 
+		FunctionPool function_pool;
 		TypeTable type_table;
 		
 		inline std::uint8_t fetch_byte() {

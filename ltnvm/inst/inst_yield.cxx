@@ -8,6 +8,7 @@ namespace ltn::vm::inst {
 		const auto return_value = core.stack.pop();
 		coroutine->resume_address = core.pc;
 		coroutine->local_variables = core.stack.copy_locals();
+		coroutine->context = core.stack.get_current_frame().context;
 		core.pc = core.stack.pop_frame();
 		
 		const auto tuple = core.heap.make<Tuple>();
@@ -43,6 +44,7 @@ namespace ltn::vm::inst {
 
 		coroutine->resume_address = core.pc;
 		coroutine->local_variables = core.stack.copy_locals();
+		coroutine->context = core.stack.get_current_frame().context;
 		core.pc = core.stack.pop_frame();
 		
 		core.stack.push(value::coroutine(coroutine));

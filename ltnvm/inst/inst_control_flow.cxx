@@ -15,9 +15,10 @@ namespace ltn::vm::inst {
 
 
 	void call(VMCore & core) {
-		const auto address = core.fetch_uint(); 
-		const auto arity = core.fetch_byte();
-		core.stack.push_frame(core.pc, arity);
+		const auto index = core.fetch_uint();
+		const auto * entry = core.function_pool[index];
+		const auto address = entry->address; 
+		core.stack.push_frame(core.pc, entry->arity + entry->is_variadic, entry);
 		core.pc = core.code_begin + address;
 	}
 

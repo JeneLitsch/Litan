@@ -33,9 +33,11 @@ namespace ltn::vm::inst {
 				throw except::invalid_parameters(fxptr.arity(), arity);
 			}
 
-			core.stack.push_frame(core.pc, call_arity);
+			const auto * entry = core.function_pool[fxptr.index];
+			// std::cout << entry->name << "\n";
 			load_onto_stack(core.stack, fxptr.captured);
-			core.pc = fxptr.ptr;
+			core.stack.push_frame(core.pc, call_arity + fxptr.captured.size(), entry);
+			core.pc = core.code_begin + entry->address;
 		}
 
 
@@ -57,9 +59,15 @@ namespace ltn::vm::inst {
 
 		void do_invoke_coroutine(VMCore & core, const Value ref, std::uint64_t arity) {
 			if(arity != 0) throw except::invalid_parameters(0, arity);
-			auto * coroutine = ref.as<Coroutine>(); 
-			core.stack.push_frame(core.pc, 0);
-			load_onto_stack(core.stack, coroutine->local_variables);
+			auto * coroutine = ref.as<Coroutine>();
+			core.stack.push_frame(core.pc, 0, coroutine->context);
+			for(std::size_t i = 0; i < std::size(coroutine->local_variables) - coroutine->context->frame_size; ++i) {
+				core.stack.push(value::null);
+			}
+			std::cout << std::size(coroutine->local_variables) << "|" << coroutine->context->frame_size << "\n";
+			for(std::size_t i = 0; i < std::size(coroutine->local_variables); ++i) {
+				core.stack.write(i, coroutine->local_variables[i]);
+			}
 			core.pc = coroutine->resume_address;
 		}
 	}
@@ -82,8 +90,6 @@ namespace ltn::vm::inst {
 		if(is_coroutine(ref_fx)) {
 			return do_invoke_coroutine(core, ref_fx, arity);
 		}
-
-
 
 		else throw except::invalid_argument();
 	}

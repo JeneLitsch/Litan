@@ -1,5 +1,6 @@
 #include "stdxx/functional.hxx"
 #include "compile.hxx"
+#include "scan.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -13,6 +14,8 @@ namespace ltn::c {
 			return buf;
 		}
 	}
+
+
 
 
 
@@ -31,11 +34,21 @@ namespace ltn::c {
 			buf << compile_function(*function);
 		}
 
-		std::set<std::string> extern_functions;
-		extern_functions.insert("main(0)");
-		extern_functions.insert("main(1)");
+		buf << inst::exit();
+		auto instructions = buf.get();
+
+		AddressTable jump_table = scan(instructions);
+
+		FunctionPool function_pool;
 		for(const auto & fx : program.functions) {
-			if(fx->qualifiers.is_extern) extern_functions.insert(fx->label.to_string());
+			function_pool.push_back(FunctionContext {
+				.name = fx->label.to_string(),
+				.arity = fx->arity,
+				.address = jump_table.at(fx->label.to_string()),
+				.frame_size = fx->body->total_alloc(),
+				.is_external = fx->qualifiers.is_extern,
+				.is_variadic = fx->is_variadic,
+			});
 		}
 
 		AddressTable extern_globals;
@@ -48,12 +61,11 @@ namespace ltn::c {
 
 		std::map<std::uint64_t, std::string> member_name_table;
 
-		buf << inst::exit();
-
-		return { buf.get(), LinkInfo { 
-			.init_functions = extern_functions,
+		return { instructions, LinkInfo { 
 			.global_table = extern_globals,
 			.member_name_table = program.member_name_table,
+			.jump_table = jump_table,
+			.function_pool = function_pool,
 		}};
 	}
 }

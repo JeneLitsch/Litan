@@ -232,12 +232,11 @@ namespace ltn::c::inst {
 		return newstr(std::vector<std::uint8_t>(str.begin(), str.end()));
 	}
 
-	Inst newfx(const std::string & label, std::uint64_t arity) {
-		return InstJumpUint64 {
+	Inst newfx(const std::string & label) {
+		return InstCall {
 			.name = "newfx",
 			.opcode = OpCode::NEWFX,
 			.label = label,
-			.value = arity,
 		};
 	}
 	Inst newclock() {
@@ -294,12 +293,11 @@ namespace ltn::c::inst {
 			.label = label,
 		};
 	}
-	Inst call(const std::string & label, std::uint8_t arity) {
+	Inst call(const std::string & label) {
 		return InstCall {
 			.name = "call",
 			.opcode = OpCode::CALL,
 			.label = label,
-			.arity = arity,
 		};
 	}
 	Inst retvrn() {
@@ -373,14 +371,6 @@ namespace ltn::c::inst {
 		return InstNone {
 			.name = "duplicate",
 			.opcode = OpCode::DUPLICATE,
-		};
-	}
-
-	Inst alloc_local(std::uint8_t amount) {
-		return InstByte {
-			.name = "alloc_local",
-			.opcode = OpCode::ALLOC_LOCAL,
-			.value = amount,
 		};
 	}
 

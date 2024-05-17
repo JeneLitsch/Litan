@@ -32,10 +32,11 @@ namespace ltn::vm::inst {
 		const auto except = core.stack.pop();
 		if(auto address = unwind(core.stack)) {
 			core.pc = address;
+			const auto * context = core.stack.get_current_frame().context;
 			const auto jumpback = core.stack.pop_frame();
 			// These 2 were in the wrong order
 			core.stack.push(except);
-			core.stack.push_frame(jumpback, 1);		
+			core.stack.push_frame(jumpback, 1, context);		
 		}
 		else {
 			throw Unhandled {

@@ -18,6 +18,7 @@ namespace ltn::c::sst::decl {
 	struct Function : public Declaration {
 		Function(
 			const std::string & name,
+			std::uint8_t arity,
 			Namespace namespaze,
 			stmt_ptr && body,
 			const Label & label);
@@ -30,6 +31,8 @@ namespace ltn::c::sst::decl {
 		Qualifiers qualifiers;
 
 		Label label;
+		std::uint8_t arity;
+		bool is_variadic;
 
 		stmt_ptr body;
 		std::unique_ptr<misc::Except> except;
@@ -38,6 +41,7 @@ namespace ltn::c::sst::decl {
 
 	std::unique_ptr<Function> function(
 		const std::string & name,
+		std::uint8_t arity,
 		Namespace namespaze,
 		stmt_ptr && body,
 		const Label & label);

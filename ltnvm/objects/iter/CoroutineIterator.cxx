@@ -15,7 +15,7 @@ namespace ltn::vm {
 		std::pair<Value, Value> run_coroutine(VMCore & core, const Coroutine * cor) {
 			const auto prev = core.pc;
 			core.pc = cor->resume_address;
-			core.stack.push_frame(core.code_end - 1, 0);
+			core.stack.push_frame(core.code_end - 1, 0, cor->context);
 			for(const auto c : cor->local_variables) {
 				core.stack.push(c);
 			} 

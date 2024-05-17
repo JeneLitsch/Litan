@@ -30,4 +30,6 @@ target_sources(libltnc PRIVATE
 	"compile_write.cxx"
 	"compile_yield.cxx"
 	"compile.cxx"
+	"scan.cxx"
+
 )

@@ -3,6 +3,8 @@
 #include "stdxx/array.hxx"
 #include <iostream>
 #include "ltn/version.hxx"
+#include "ltn/file/FunctionPool.hxx"
+#include "ltn/file/binary.hxx"
 
 namespace ltn::c {
 	std::uint64_t resolve_label(const AddressTable & jump_table, const std::string & label) {
@@ -23,89 +25,106 @@ namespace ltn::c {
 			std::reverse(bytes.begin(), bytes.end());
 			return bytes;
 		}
+
 		auto to_bytes(std::signed_integral auto value) {
 			using T = std::make_unsigned_t<decltype(value)>;
 			return to_bytes(stx::bitcast<T>(value));
 		}
+
 		auto to_bytes(std::floating_point auto value) {
 			return to_bytes(stx::bitcast<std::uint64_t>(value));
 		}
 		
 
+
 		void assemble_args(
 			std::vector<std::uint8_t> &,
 			const inst::InstLabel &,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionPool &) {
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> &,
 			const inst::InstNone &,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionPool &) {
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstUint64 & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionPool &) {
 			bytecode += to_bytes(args.value);
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstUint16 & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionPool &) {
 			bytecode += to_bytes(args.value);
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstJump & args,
-			const AddressTable & jump_table) {
+			const AddressTable & jump_table,
+			const FunctionPool &) {
 			const auto address = resolve_label(jump_table, args.label);
 			bytecode += to_bytes(address);
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstCall & args,
-			const AddressTable & jump_table) {
-			const auto address = resolve_label(jump_table, args.label);
-			bytecode += to_bytes(address);
-			bytecode += args.arity;
+			const AddressTable & jump_table,
+			const FunctionPool & function_pool) {
+			const auto index = function_pool.find_by_name(args.label);
+			if(!index) throw std::runtime_error{"Cannot find function " + std::string{args.label}};
+			write_u64(*index, bytecode);
 		}
-		void assemble_args(
-			std::vector<std::uint8_t> & bytecode,
-			const inst::InstJumpUint64 & args,
-			const AddressTable & jump_table) {
-			bytecode += to_bytes(resolve_label(jump_table, args.label));
-			bytecode += to_bytes(args.value);
-		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstInt64 & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionPool &) {
 			bytecode += to_bytes(args.value);
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstFloat & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionPool &) {
 			bytecode += to_bytes(args.value);
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstByte & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionPool &) {
 			bytecode += args.value;
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstUint64Bytex & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionPool &) {
 			const std::uint64_t count = args.bytes.size();
 			bytecode += to_bytes(count);
 			bytecode += args.bytes;
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstBytex0 & args,
-			const AddressTable &) {
+			const AddressTable &,
+			const FunctionPool &) {
 			bytecode += args.bytes;
 			bytecode.push_back(0); // Add null terminator
 		}
@@ -118,12 +137,14 @@ namespace ltn::c {
 			const AddressTable &) {
 			bytecode.push_back(static_cast<std::uint8_t>(inst.opcode));
 		}
+
 		void assemble_opcode(
 			std::vector<std::uint8_t> &,
 			const inst::InstLabel &,
 			const AddressTable &) {
 			
 		}
+
 
 
 		std::vector<std::uint8_t> sequence_table(const AddressTable & table) {
@@ -136,19 +157,6 @@ namespace ltn::c {
 			}
 			return bytecode;
 		}
-
-		AddressTable build_fx_table(
-			const std::set<std::string> & fx_ids,
-			const AddressTable & jump_table) {
-			
-			AddressTable function_table;
-			for(const auto & fx_id : fx_ids) {
-				if(jump_table.contains(fx_id)) {
-					function_table[fx_id] = jump_table.at(fx_id);
-				}
-			}
-			return function_table;
-		}
 	}
 
 
@@ -157,23 +165,20 @@ namespace ltn::c {
 		const std::vector<inst::Inst> & instructions,
 		const LinkInfo & link_info) {
 		
-		const auto jump_table     = scan(instructions);
-		const auto function_table = build_fx_table(link_info.init_functions, jump_table);
-
 		std::vector<std::uint8_t> bytecode;
 		bytecode.push_back(ltn::major_version);
 
-		bytecode += sequence_table(function_table);
+		link_info.function_pool.write(bytecode);
 		bytecode += sequence_table(link_info.global_table);
 		bytecode += sequence_table(link_info.member_name_table);
 
 		for(const auto & inst : instructions) {
 			std::visit([&] (auto & i) {
-				return assemble_opcode(bytecode, i, jump_table);
+				return assemble_opcode(bytecode, i, link_info.jump_table);
 			}, inst);
 
-			std::visit([&jump_table, &bytecode] (auto & i) {
-				return assemble_args(bytecode, i, jump_table);
+			std::visit([&] (auto & i) {
+				return assemble_args(bytecode, i, link_info.jump_table, link_info.function_pool);
 			}, inst);
 		}
 

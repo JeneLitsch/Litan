@@ -8,13 +8,15 @@ namespace ltn::vm {
 
 
 
-	void VMStack::push_frame(const std::uint8_t * return_addr, std::uint64_t arity) {
+	void VMStack::push_frame(const std::uint8_t * return_addr, std::uint64_t arity, const FunctionContext * context) {
 		this->frames.push_back(Frame{
 			.return_addr = return_addr,
 			.prev_frame_pointer = this->frame_pointer,
 			.except_jump = 0,
+			.context = context,
 		});
 		this->frame_pointer = this->values.size() - arity;
+		this->values.resize(this->values.size() + context->frame_size, value::null);
 	}
 
 
@@ -27,6 +29,12 @@ namespace ltn::vm {
 		this->frame_pointer = oldframe_pointer;
 		this->frames.pop_back();
 		return return_addr;
+	}
+
+
+
+	const VMStack::Frame & VMStack::get_current_frame() const {
+		return frames.back();
 	}
 
 

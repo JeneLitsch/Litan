@@ -3,9 +3,20 @@
 #include <cstdint>
 #include <iostream>
 #include "Value.hxx"
+#include "ltn/file/FunctionPool.hxx"
+
 namespace ltn::vm {
 	class VMStack {
 	public:
+		struct Frame {
+			const std::uint8_t * return_addr;
+			std::uint64_t prev_frame_pointer;
+			const std::uint8_t * except_jump = nullptr;
+			const ltn::FunctionContext * context;
+		};
+
+
+
 		VMStack();
 
 
@@ -59,7 +70,8 @@ namespace ltn::vm {
 		void reset();
 		
 		const std::uint8_t * pop_frame();
-		void push_frame(const std::uint8_t * jumpBack, std::uint64_t arity);	
+		void push_frame(const std::uint8_t * jumpBack, std::uint64_t arity, const FunctionContext * entry);
+		const Frame & get_current_frame() const;
 
 		const std::uint8_t * get_except_handler() const;
 		void set_except_handler(const std::uint8_t * address);
@@ -77,11 +89,7 @@ namespace ltn::vm {
 		}
 
 	private:
-		struct Frame {
-			const std::uint8_t * return_addr;
-			std::uint64_t prev_frame_pointer;
-			const std::uint8_t * except_jump = nullptr;
-		};
+
 
 		std::vector<Value> values;
 		std::vector<Frame> frames;

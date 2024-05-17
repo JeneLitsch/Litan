@@ -41,15 +41,7 @@ namespace ltn::c {
 
 		std::string print_inst(const inst::InstCall & args) {
 			std::ostringstream ss;
-			ss << args.name << " " << args.label << " " << static_cast<std::uint32_t>(args.arity);
-			return ss.str();
-		}
-
-
-
-		std::string print_inst(const inst::InstJumpUint64 & args) {
-			std::ostringstream ss;
-			ss << args.name << " " << args.label << " " << args.value;
+			ss << args.name << " " << args.label;
 			return ss.str();
 		}
 

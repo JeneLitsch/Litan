@@ -47,21 +47,11 @@ namespace ltn::c::inst {
 	};
 
 	struct InstCall {
-		constexpr inline static std::size_t size = 10;
+		constexpr inline static std::size_t size = 9;
 		std::string_view name;
 		OpCode opcode;
 		std::string label;
-		std::uint8_t arity;
 		bool operator==(const InstCall &) const = default;
-	};
-
-	struct InstJumpUint64 {
-		constexpr inline static std::size_t size = 17;
-		std::string_view name;
-		OpCode opcode;
-		std::string label;
-		std::uint64_t value;
-		bool operator==(const InstJumpUint64 &) const = default;
 	};
 
 	struct InstInt64 {
@@ -109,7 +99,6 @@ namespace ltn::c::inst {
 	    InstUint16,
 	    InstJump,
 	    InstCall,
-	    InstJumpUint64,
 	    InstInt64,
 	    InstFloat,
 	    InstByte,
@@ -161,7 +150,7 @@ namespace ltn::c::inst {
 	Inst newarr(std::uint64_t size);
 	Inst newstr(std::vector<std::uint8_t> bytes);
 	Inst newstr(const std::string & str);
-	Inst newfx(const std::string & label, std::uint64_t arity);
+	Inst newfx(const std::string & label);
 	Inst newclock();
 	Inst newstruct();
 	Inst newstack();
@@ -171,7 +160,7 @@ namespace ltn::c::inst {
 	Inst newtype(std::vector<std::uint8_t> bytes);
 
 	Inst jump(const std::string & label);
-	Inst call(const std::string & label, std::uint8_t arity);
+	Inst call(const std::string & label);
 	Inst retvrn();
 	Inst ifelse(const std::string & label);
 	Inst invoke(std::uint8_t arity);
@@ -184,7 +173,6 @@ namespace ltn::c::inst {
 
 	Inst scrap();
 	Inst duplicate();
-	Inst alloc_local(std::uint8_t amount);
 	Inst read_x(std::uint64_t u64);
 	Inst write_x(std::uint64_t u64);
 	Inst swap();

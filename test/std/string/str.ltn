@@ -79,10 +79,11 @@ namespace sphinx::test {
 		assert_equal_strict(std::str(c2), "<coroutine{1}>");
 		
 		var c3 = lambda(x) coroutine {
-			var x = 2; yield;
+			var y = 2; yield;
 		} (1);
 		assert_equal_strict(std::str(c3), "<coroutine{1, null}>");
 		assert_equal_strict(std::str(c3()[0]), "<coroutine{1, 2}>");
+		//assert_equal_strict(std::str(c3()[0][0]), "<coroutine{1, 2}>");
 	}
 
 
