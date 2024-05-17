@@ -39,7 +39,7 @@ namespace ltn::c {
 			buf << compile_expression(*argument);
 		}
 
-		buf << inst::call(call.label.to_string(), get_arity_uint8(call));		
+		buf << inst::call(call.label.to_string());		
 		return buf;
 	}
 

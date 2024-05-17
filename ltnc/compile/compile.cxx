@@ -43,9 +43,11 @@ namespace ltn::c {
 		for(const auto & fx : program.functions) {
 			function_table.push_back(ltn::FunctionTable::Entry {
 				.name = fx->label.to_string(),
+				.arity = fx->arity,
 				.address = jump_table.at(fx->label.to_string()),
 				.frame_size = fx->body->total_alloc(),
-				.external = fx->qualifiers.is_extern,
+				.is_external = fx->qualifiers.is_extern,
+				.is_variadic = fx->is_variadic,
 			});
 		}
 

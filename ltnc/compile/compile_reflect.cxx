@@ -35,7 +35,7 @@ namespace ltn::c {
 				inst::newstr(query.full_name)
 			});
 			buf << add_member(address.fx_ptr, {
-				inst::newfx(query.id, arity_code)
+				inst::newfx(query.id)
 			});
 			buf << add_member(address.c0nst, {
 				query.c0nst ? inst::bool_true() : inst::bool_false()

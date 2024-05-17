@@ -6,12 +6,14 @@ namespace ltn::c::sst::decl {
 
 	Function::Function(
 		const std::string & name,
+		std::uint8_t arity,
 		Namespace namespaze,
 		stmt_ptr && body,
 		const Label & label)
 		: Declaration(name, namespaze)
-		, label{std::move(label)}
-		, body{std::move(body)} {}
+		, label { std::move(label) }
+		, arity { arity }
+		, body  { std::move(body) } {}
 
 
 
@@ -34,10 +36,11 @@ namespace ltn::c::sst::decl {
 
 	std::unique_ptr<Function> function(
 		const std::string & name,
+		std::uint8_t arity,
 		Namespace namespaze,
 		stmt_ptr && body,
 		const Label & label) {
 		
-		return std::make_unique<Function>(name, namespaze, std::move(body), label);
+		return std::make_unique<Function>(name, arity, namespaze, std::move(body), label);
 	}
 }

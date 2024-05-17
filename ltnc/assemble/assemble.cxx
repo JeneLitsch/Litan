@@ -76,7 +76,6 @@ namespace ltn::c {
 			const auto index = function_table.find_by_name(args.label);
 			if(!index) throw std::runtime_error{"Cannot find function " + std::string{args.label}};
 			write_u64(*index, bytecode);
-			bytecode += args.arity;
 		}
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,

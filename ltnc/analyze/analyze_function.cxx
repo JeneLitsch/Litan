@@ -58,9 +58,10 @@ namespace ltn::c {
 
 		auto body = analyze_statement(*fx.body, scope);
 
-		auto sst_fx = sst::decl::function(fx.name, fx.namespaze, std::move(body), label);
+		auto sst_fx = sst::decl::function(fx.name, fx.parameters.simple.size(), fx.namespaze, std::move(body), label);
 
 		sst_fx->qualifiers = fx.qualifiers; 
+		sst_fx->is_variadic = fx.parameters.variadic.has_value();
 
 		if(fx.except) {
 			if(sst_fx->qualifiers.is_coroutine) {

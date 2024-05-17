@@ -59,18 +59,25 @@ namespace ltn {
 	void FunctionTable::read(std::span<const std::uint8_t>::iterator & it) {
 		const std::uint64_t table_size = read_u64(it);
 		for(std::uint64_t i = 0; i < table_size; ++i) {
+			
 			const std::uint64_t name_size = read_u64(it);
+			
 			auto next = it + static_cast<long>(name_size);
 			const std::string name { it, next };
 			it = next;
+			
+			const std::uint8_t arity = read_u8(it);
 			const std::uint64_t address = read_u64(it);
-			const std::uint8_t frame_size = read_u64(it);
+			const std::uint64_t frame_size = read_u64(it);
 			const std::bitset<8> flags = read_u8(it);
+			
 			FunctionTable::Entry entry {
-				.address = address,
 				.name = name,
+				.arity = arity,
+				.address = address,
 				.frame_size = frame_size,
-				.external = flags[0],
+				.is_external = flags[0],
+				.is_variadic = flags[1],
 			};
 			this->push_back(entry);
 		}
@@ -85,9 +92,14 @@ namespace ltn {
 			for(char c : entry.name) {
 				write_u8(static_cast<std::uint8_t>(c), bytecode);
 			}
+			write_u8(entry.arity, bytecode);
 			write_u64(entry.address, bytecode);
 			write_u64(entry.frame_size, bytecode);
-			write_u8(entry.external, bytecode);
+			
+			std::bitset<8> flags;
+			flags[0] = entry.is_external;	
+			flags[1] = entry.is_variadic;	
+			write_u8(static_cast<std::uint8_t>(flags.to_ullong()), bytecode);
 		}
 	}
 }

@@ -47,11 +47,10 @@ namespace ltn::c::inst {
 	};
 
 	struct InstCall {
-		constexpr inline static std::size_t size = 10;
+		constexpr inline static std::size_t size = 9;
 		std::string_view name;
 		OpCode opcode;
 		std::string label;
-		std::uint8_t arity;
 		bool operator==(const InstCall &) const = default;
 	};
 
@@ -160,7 +159,7 @@ namespace ltn::c::inst {
 	Inst newarr(std::uint64_t size);
 	Inst newstr(std::vector<std::uint8_t> bytes);
 	Inst newstr(const std::string & str);
-	Inst newfx(const std::string & label, std::uint8_t arity);
+	Inst newfx(const std::string & label);
 	Inst newclock();
 	Inst newstruct();
 	Inst newstack();
@@ -170,7 +169,7 @@ namespace ltn::c::inst {
 	Inst newtype(std::vector<std::uint8_t> bytes);
 
 	Inst jump(const std::string & label);
-	Inst call(const std::string & label, std::uint8_t arity);
+	Inst call(const std::string & label);
 	Inst retvrn();
 	Inst ifelse(const std::string & label);
 	Inst invoke(std::uint8_t arity);
