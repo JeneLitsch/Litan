@@ -376,14 +376,6 @@ namespace ltn::c::inst {
 		};
 	}
 
-	Inst alloc_local(std::uint8_t amount) {
-		return InstByte {
-			.name = "alloc_local",
-			.opcode = OpCode::ALLOC_LOCAL,
-			.value = amount,
-		};
-	}
-
 	Inst read_x(std::uint64_t u64) {
 		return InstUint64 {
 			.name = "read_x",
