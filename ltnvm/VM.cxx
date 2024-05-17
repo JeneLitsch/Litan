@@ -172,14 +172,15 @@ namespace ltn::vm {
 
 
 		void jump_to_init(VMCore & core, const std::string & main, std::uint64_t arguments_count) {
-			const auto main_fx = [&] () -> std::string {
+			const auto main_name = [&] () -> std::string {
 				if(!main.empty()) return main;
-				return core.fx_table_cxx_to_ltn.contains("main(1)") ? "main(1)" : "main(0)";
+				return core.function_table.contains("main(1)") ? "main(1)" : "main(0)";
 			} ();
-			if(!core.fx_table_cxx_to_ltn.contains(main_fx)) throw std::runtime_error {
-				"Program does not contain function " + main_fx
+			auto * main_fx = core.function_table.find_by_name(main_name);
+			if(!main_fx) throw std::runtime_error {
+				"Program does not contain function " + main_name
 			};
-			core.pc = core.code_begin + core.fx_table_cxx_to_ltn.at(main_fx);
+			core.pc = core.code_begin + main_fx->address;
 			core.stack.push_frame(core.code_end - 1, arguments_count);
 		}
 	}
@@ -242,7 +243,8 @@ namespace ltn::vm {
 			throw std::runtime_error{"Incompatible bytecode version"};
 		}
 
-		this->core.fx_table_cxx_to_ltn = read_addr_table(it);
+		// this->core.fx_table_cxx_to_ltn = read_addr_table(it);
+		core.function_table.read(it);
 		this->core.static_table = read_addr_table(it);
 		this->core.member_name_table = read_name_table(it);
 
@@ -347,6 +349,6 @@ namespace ltn::vm {
 
 
 	bool VM::has_function(const std::string & fx_name) {
-		return this->core.fx_table_cxx_to_ltn.contains(fx_name);
+		return this->core.function_table.contains(fx_name);
 	}
 }

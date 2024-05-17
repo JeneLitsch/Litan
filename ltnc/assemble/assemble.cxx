@@ -3,6 +3,7 @@
 #include "stdxx/array.hxx"
 #include <iostream>
 #include "ltn/version.hxx"
+#include "ltn/file/FunctionTable.hxx"
 
 namespace ltn::c {
 	std::uint64_t resolve_label(const AddressTable & jump_table, const std::string & label) {
@@ -137,14 +138,17 @@ namespace ltn::c {
 			return bytecode;
 		}
 
-		AddressTable build_fx_table(
+		FunctionTable build_function_table(
 			const std::set<std::string> & fx_ids,
 			const AddressTable & jump_table) {
 			
-			AddressTable function_table;
+			FunctionTable function_table;
 			for(const auto & fx_id : fx_ids) {
 				if(jump_table.contains(fx_id)) {
-					function_table[fx_id] = jump_table.at(fx_id);
+					function_table.push_back(FunctionTable::Entry{
+						.address = jump_table.at(fx_id),
+						.name = fx_id,
+					});
 				}
 			}
 			return function_table;
@@ -158,12 +162,12 @@ namespace ltn::c {
 		const LinkInfo & link_info) {
 		
 		const auto jump_table     = scan(instructions);
-		const auto function_table = build_fx_table(link_info.init_functions, jump_table);
+		const auto function_table = build_function_table(link_info.init_functions, jump_table);
 
 		std::vector<std::uint8_t> bytecode;
 		bytecode.push_back(ltn::major_version);
 
-		bytecode += sequence_table(function_table);
+		function_table.write(bytecode);
 		bytecode += sequence_table(link_info.global_table);
 		bytecode += sequence_table(link_info.member_name_table);
 

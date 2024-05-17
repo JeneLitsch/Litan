@@ -10,6 +10,8 @@ add_library(libltnc
 	Qualifiers.cxx
 )
 
+target_link_libraries(libltnc libltn)
+
 add_subdirectory(analyze)
 add_subdirectory(assemble)
 add_subdirectory(ast)
