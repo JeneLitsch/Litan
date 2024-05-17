@@ -25,14 +25,17 @@ namespace ltn::c {
 			std::reverse(bytes.begin(), bytes.end());
 			return bytes;
 		}
+
 		auto to_bytes(std::signed_integral auto value) {
 			using T = std::make_unsigned_t<decltype(value)>;
 			return to_bytes(stx::bitcast<T>(value));
 		}
+
 		auto to_bytes(std::floating_point auto value) {
 			return to_bytes(stx::bitcast<std::uint64_t>(value));
 		}
 		
+
 
 		void assemble_args(
 			std::vector<std::uint8_t> &,
@@ -40,12 +43,14 @@ namespace ltn::c {
 			const AddressTable &,
 			const FunctionTable &) {
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> &,
 			const inst::InstNone &,
 			const AddressTable &,
 			const FunctionTable &) {
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstUint64 & args,
@@ -53,6 +58,7 @@ namespace ltn::c {
 			const FunctionTable &) {
 			bytecode += to_bytes(args.value);
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstUint16 & args,
@@ -60,6 +66,7 @@ namespace ltn::c {
 			const FunctionTable &) {
 			bytecode += to_bytes(args.value);
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstJump & args,
@@ -68,6 +75,7 @@ namespace ltn::c {
 			const auto address = resolve_label(jump_table, args.label);
 			bytecode += to_bytes(address);
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstCall & args,
@@ -77,14 +85,7 @@ namespace ltn::c {
 			if(!index) throw std::runtime_error{"Cannot find function " + std::string{args.label}};
 			write_u64(*index, bytecode);
 		}
-		void assemble_args(
-			std::vector<std::uint8_t> & bytecode,
-			const inst::InstFxUint64 & args,
-			const AddressTable & jump_table,
-			const FunctionTable &) {
-			bytecode += to_bytes(resolve_label(jump_table, args.label));
-			bytecode += to_bytes(args.value);
-		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstInt64 & args,
@@ -92,6 +93,7 @@ namespace ltn::c {
 			const FunctionTable &) {
 			bytecode += to_bytes(args.value);
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstFloat & args,
@@ -99,6 +101,7 @@ namespace ltn::c {
 			const FunctionTable &) {
 			bytecode += to_bytes(args.value);
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstByte & args,
@@ -106,6 +109,7 @@ namespace ltn::c {
 			const FunctionTable &) {
 			bytecode += args.value;
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstUint64Bytex & args,
@@ -115,6 +119,7 @@ namespace ltn::c {
 			bytecode += to_bytes(count);
 			bytecode += args.bytes;
 		}
+
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstBytex0 & args,
@@ -132,12 +137,14 @@ namespace ltn::c {
 			const AddressTable &) {
 			bytecode.push_back(static_cast<std::uint8_t>(inst.opcode));
 		}
+
 		void assemble_opcode(
 			std::vector<std::uint8_t> &,
 			const inst::InstLabel &,
 			const AddressTable &) {
 			
 		}
+
 
 
 		std::vector<std::uint8_t> sequence_table(const AddressTable & table) {
@@ -150,8 +157,6 @@ namespace ltn::c {
 			}
 			return bytecode;
 		}
-
-
 	}
 
 

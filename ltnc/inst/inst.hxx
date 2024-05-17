@@ -54,15 +54,6 @@ namespace ltn::c::inst {
 		bool operator==(const InstCall &) const = default;
 	};
 
-	struct InstFxUint64 {
-		constexpr inline static std::size_t size = 17;
-		std::string_view name;
-		OpCode opcode;
-		std::string label;
-		std::uint64_t value;
-		bool operator==(const InstFxUint64 &) const = default;
-	};
-
 	struct InstInt64 {
 		constexpr inline static std::size_t size = 9;
 		std::string_view name;
