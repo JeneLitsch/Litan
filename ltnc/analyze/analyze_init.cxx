@@ -11,7 +11,7 @@
 
 namespace ltn::c {
 	namespace {
-		sst::expr::Struct::Member analyze_member(Context &, sst::expr_ptr expr, MemberCode code) {
+		sst::expr::Struct::Member analyze_member(const Scope &, sst::expr_ptr expr, MemberCode code) {
 			return sst::expr::Struct::Member {
 				.address = static_cast<std::uint8_t>(code),
 				.expr = std::move(expr),
@@ -20,9 +20,9 @@ namespace ltn::c {
 
 
 		
-		sst::expr::Struct::Member analyze_member(Context & context, sst::expr_ptr expr, const std::string & name) {
+		sst::expr::Struct::Member analyze_member(const Scope & scope, sst::expr_ptr expr, const std::string & name) {
 			return sst::expr::Struct::Member {
-				.address = context.member_table.get_id(name),
+				.address = scope.resolve_member_id(name),
 				.expr = std::move(expr),
 			};
 		}
@@ -33,12 +33,10 @@ namespace ltn::c {
 		
 		auto sst_init = sst::expr::strukt();
 
-		auto & context = scope.get_context();
-
 		for(const auto & [member, expr] : init.members) {
 			auto sst_expr = analyze_expression(*expr, scope);
 			auto visitor = [&] (const auto & m) {
-				return analyze_member(context, std::move(sst_expr), m);
+				return analyze_member(scope, std::move(sst_expr), m);
 			};
 			sst_init->members.push_back(std::visit(visitor, member));
 		}

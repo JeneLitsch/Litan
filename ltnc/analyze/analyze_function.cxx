@@ -1,5 +1,7 @@
 #include "analyze.hxx"
 #include <iostream>
+#include "ltnc/scoping/ExceptScope.hxx"
+
 #include "ltnc/print/print.hxx"
 #include "stdxx/functional.hxx"
 
@@ -28,10 +30,10 @@ namespace ltn::c {
 
 		auto analyze_except(	
 			const ast::decl::Except & except,
-			Context & context,
+			Scope & function_scope,
 			const auto & namespaze) {
 			
-			MajorScope scope{namespaze, Qualifiers::none, context};
+			ExceptScope scope{function_scope};
 			scope.declare_variable(except.errorname, location(except));
 			auto body = analyze_statement(*except.body, scope);
 			return sst::misc::except(except.errorname, std::move(body));
@@ -47,8 +49,6 @@ namespace ltn::c {
 		const std::vector<std::unique_ptr<ast::expr::Var>> & captures) {
 
 		const auto label = override_label.value_or(make_function_label(fx));
-
-		auto & context = scope.get_context();
 
 		add_parameters_to_scope(fx.parameters, scope, location(fx));
 
@@ -70,7 +70,7 @@ namespace ltn::c {
 					ast::location(*fx.except)
 				};
 			}
-			sst_fx->except = analyze_except(*fx.except, context, fx.namespaze);
+			sst_fx->except = analyze_except(*fx.except, scope, fx.namespaze);
 		} 
 
 		return sst_fx;

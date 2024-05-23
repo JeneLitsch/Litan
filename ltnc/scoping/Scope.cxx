@@ -83,5 +83,11 @@ namespace ltn::c {
 	void Scope::require_function(StagedFunction staged) {
 		return this->get_context().fx_queue.stage_function(staged);
 	}
+
+
+
+	const std::vector<const ast::decl::Function *> & Scope::get_all_functions() const {
+		return this->get_context().fx_table.get_symbols();
+	}
 }
 

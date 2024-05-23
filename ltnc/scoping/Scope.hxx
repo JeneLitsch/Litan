@@ -32,6 +32,8 @@ namespace ltn::c {
 		void require_function(stx::reference<const ast::decl::Function> fx);
 		void require_function(StagedFunction staged);
 
+		const std::vector<const ast::decl::Function *> & get_all_functions() const;
+
 	protected:
 		std::unordered_map<std::string, Variable> vars;
 		std::optional<std::string> return_point;

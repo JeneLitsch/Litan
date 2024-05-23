@@ -21,18 +21,18 @@ namespace ltn::c {
 
 
 
-		sst::expr::Reflect::Addr make_member_addrs(MemberTable & member_table) {
+		sst::expr::Reflect::Addr make_member_addrs(Scope & scope) {
 			return sst::expr::Reflect::Addr {
-				.name      = member_table.get_id("name"),
-				.full_name = member_table.get_id("full_name"),
-				.fx_ptr    = member_table.get_id("fx_ptr"),
-				.functions = member_table.get_id("functions"),
-				.c0nst     = member_table.get_id("const"),
-				.pr1vate   = member_table.get_id("private"),
-				.ext3rn    = member_table.get_id("extern"),
-				.file      = member_table.get_id("file"),
-				.line      = member_table.get_id("line"),
-				.type      = member_table.get_id("type"),
+				.name      = scope.resolve_member_id("name"),
+				.full_name = scope.resolve_member_id("full_name"),
+				.fx_ptr    = scope.resolve_member_id("fx_ptr"),
+				.functions = scope.resolve_member_id("functions"),
+				.c0nst     = scope.resolve_member_id("const"),
+				.pr1vate   = scope.resolve_member_id("private"),
+				.ext3rn    = scope.resolve_member_id("extern"),
+				.file      = scope.resolve_member_id("file"),
+				.line      = scope.resolve_member_id("line"),
+				.type      = scope.resolve_member_id("type"),
 			};
 		}
 
@@ -63,11 +63,9 @@ namespace ltn::c {
 			const ast::expr::Reflect::NamespaceQuery & query,
 			Scope & scope) {
 			
-			auto & context = scope.get_context();
-
 			sst::expr::Reflect::NamespaceQuery sst_query;
 			sst_query.namespaze = query.namespaze;
-			for(const auto & fx : context.fx_table.get_symbols()) {
+			for(const auto & fx : scope.get_all_functions()) {
 				if(fx->namespaze == query.namespaze) {
 					scope.require_function(*fx);
 					sst_query.functions.push_back(fx_to_query(*fx));
@@ -119,13 +117,11 @@ namespace ltn::c {
 
 	// compiles array literal
 	sst::expr_ptr analyze_expr(const ast::expr::Reflect & refl, Scope & scope) {
-		auto & context = scope.get_context();
-			
 		return sst::expr::reflect(
 			std::visit([&] (const auto & query) -> sst::expr::Reflect::Query {
 				return analyze_reflect_query(refl, query, scope);
 			}, refl.query),
-			make_member_addrs(context.member_table)	
+			make_member_addrs(scope)	
 		);
 	}
 }
