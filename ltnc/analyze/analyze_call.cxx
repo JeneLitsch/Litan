@@ -93,7 +93,7 @@ namespace ltn::c {
 		const auto * var = as<ast::expr::Var>(*call.function_ptr);
 		if(var) {
 			if(var->namespaze.empty()) {
-				if(auto local = scope.resolve_variable(var->name, location(*var))) {
+				if(auto local = scope.resolve_local_variable(var->name, location(*var))) {
 					return do_invoke(call, scope);
 				}
 			}
@@ -106,7 +106,7 @@ namespace ltn::c {
 				return do_invoke(call, scope);
 			}
 
-			if(auto glob = scope.resolve_global(var->name, var->namespaze)) {
+			if(auto glob = scope.resolve_global_variable(var->name, var->namespaze)) {
 				return do_invoke(call, scope);
 			}
 

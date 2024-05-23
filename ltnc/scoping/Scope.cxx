@@ -40,7 +40,7 @@ namespace ltn::c {
 
 
 
-	stx::optref<const sst::decl::Global> Scope::resolve_global(
+	stx::optref<const sst::decl::Global> Scope::resolve_global_variable(
 		const std::string & name,
 		const Namespace & ns) const {
 		

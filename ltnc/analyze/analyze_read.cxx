@@ -12,7 +12,7 @@
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::expr::Var & expr, Scope & scope) {
 		if(expr.namespaze.empty()) {
-			if(auto local = scope.resolve_variable(expr.name, location(expr))) {
+			if(auto local = scope.resolve_local_variable(expr.name, location(expr))) {
 				return sst::expr::var_local(local->address);
 			}
 		}
@@ -21,7 +21,7 @@ namespace ltn::c {
 			return sst::expr::var_global(def->id);
 		}
 
-		if(auto glob = scope.resolve_global(expr.name,	expr.namespaze)) {
+		if(auto glob = scope.resolve_global_variable(expr.name,	expr.namespaze)) {
 			if(glob->is_private && glob->namespaze.is_inside_of(scope.get_namespace())) {
 				throw CompilerError{"Cannot access private global varaible" , ast::location(expr)};
 			} 

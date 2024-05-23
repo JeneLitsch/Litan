@@ -13,7 +13,7 @@ namespace ltn::c {
 
 
 
-	stx::optref<const Variable> MajorScope::resolve_variable(
+	stx::optref<const Variable> MajorScope::resolve_local_variable(
 		const std::string & name,
 		const SourceLocation &) const{
 		
