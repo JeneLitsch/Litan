@@ -6,6 +6,7 @@ target_sources(libltnc PRIVATE
 	ExceptScope.cxx
 	FunctionScope.cxx
 	IifeScope.cxx
+	LocalScope.cxx
 	MajorScope.cxx
 	MinorScope.cxx
 	Scope.cxx

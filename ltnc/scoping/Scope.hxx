@@ -19,7 +19,7 @@ namespace ltn::c {
 		virtual Context & get_context() const = 0;
 		void set_return(const std::string & return_point);
 
-		Variable declare_variable(const std::string & name, const SourceLocation & location);
+		virtual Variable declare_variable(const std::string & name, const SourceLocation & location) = 0;
 
 		virtual stx::optref<const Variable> resolve_local_variable(const std::string & name, const SourceLocation & location) const = 0;
 		
@@ -35,7 +35,6 @@ namespace ltn::c {
 		const std::vector<const ast::decl::Function *> & get_all_functions() const;
 
 	protected:
-		std::unordered_map<std::string, Variable> vars;
 		std::optional<std::string> return_point;
 	};
 }

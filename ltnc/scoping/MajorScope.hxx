@@ -1,9 +1,9 @@
 #pragma once
-#include "Scope.hxx"
+#include "LocalScope.hxx"
 
 namespace ltn::c {
 	// Major Scope for e.g. functions 
-	class MajorScope : public Scope {
+	class MajorScope : public LocalScope {
 	public:
 		MajorScope(const Namespace & namespaze, Qualifiers qualifiers, stx::reference<Context> context);
 

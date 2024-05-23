@@ -1,8 +1,8 @@
 #pragma once
-#include "Scope.hxx"
+#include "LocalScope.hxx"
 
 namespace ltn::c {
-	class MinorScope : public Scope {
+	class MinorScope : public LocalScope {
 	public:
 		MinorScope(const Scope * parent);
 

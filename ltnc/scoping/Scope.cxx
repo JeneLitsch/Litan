@@ -9,22 +9,6 @@ namespace ltn::c {
 		this->return_point = return_point;
 	}
 
-	// defines new variable and prevents disambiguations
-	// Variables in outer scope can not be hidden
-	Variable Scope::declare_variable(
-		const std::string & name,
-		const SourceLocation & location) {
-		if(this->vars.contains(name)) {
-			throw redefined_variable(name, location);
-		}
-		const auto address = size();
-		const Variable var{
-			.address = address,
-		}; 
-		this->vars.insert({name, var});
-		return var;
-	}
-
 
 
 	stx::optref<const ast::decl::Function> Scope::resolve_function(
