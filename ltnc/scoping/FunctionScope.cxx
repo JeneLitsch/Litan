@@ -6,6 +6,6 @@ namespace ltn::c {
 	FunctionScope::FunctionScope(
 		const Namespace & namespaze,
 		Qualifiers qualifiers,
-		stx::reference<Context> context) 
-		: MajorScope { namespaze, qualifiers, context} {}
+		const GlobalScope & global_scope) 
+		: MajorScope { namespaze, qualifiers, global_scope.get_context()} {}
 }

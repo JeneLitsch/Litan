@@ -20,11 +20,11 @@ namespace ltn::c {
 
 
 
-		auto analyze_staged(const StagedFunction & staged, Context & context) {
+		auto analyze_staged(const StagedFunction & staged, GlobalScope & global_scope) {
 			FunctionScope scope {
 				staged.override_namespace.value_or(staged.fx->namespaze),
 				staged.fx->qualifiers,
-				context,
+				global_scope,
 			};
 			auto label = make_function_label(staged.fx);
 			static const std::vector<std::unique_ptr<ast::expr::Var>> no_captures;
@@ -53,7 +53,7 @@ namespace ltn::c {
 			.global_table = global_table,
 			.custom_resolver = custom_resolver,
 		};
-
+		GlobalScope global_scope { context };
 
 		std::uint64_t global_counter = 0;
 
@@ -99,7 +99,7 @@ namespace ltn::c {
 		}
 
 		while(auto staged = fx_queue.fetch_function()) {
-			auto fx = analyze_staged(*staged, context);
+			auto fx = analyze_staged(*staged, global_scope);
 			program.functions.push_back(std::move(fx));
 		}
 
