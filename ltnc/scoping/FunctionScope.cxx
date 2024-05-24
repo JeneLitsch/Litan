@@ -2,10 +2,8 @@
 #include "ltnc/CompilerError.hxx"
 
 namespace ltn::c {
-
 	FunctionScope::FunctionScope(
-		const Namespace & namespaze,
-		Qualifiers qualifiers,
-		const GlobalScope & global_scope) 
-		: MajorScope { namespaze, qualifiers, global_scope.get_context()} {}
+		const NamespaceScope & namspace_scope,
+		Qualifiers qualifiers)
+		: MajorScope { namspace_scope.get_namespace(), qualifiers, namspace_scope.get_context()} {}
 }

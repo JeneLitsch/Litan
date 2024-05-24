@@ -21,14 +21,17 @@ namespace ltn::c {
 
 
 		auto analyze_staged(const StagedFunction & staged, GlobalScope & global_scope) {
-			FunctionScope scope {
-				staged.override_namespace.value_or(staged.fx->namespaze),
-				staged.fx->qualifiers,
+			NamespaceScope namespace_scope {
 				global_scope,
+				staged.override_namespace.value_or(staged.fx->namespaze),
+			};
+			FunctionScope function_scope {
+				namespace_scope,
+				staged.fx->qualifiers,
 			};
 			auto label = make_function_label(staged.fx);
 			static const std::vector<std::unique_ptr<ast::expr::Var>> no_captures;
-			return analyze_function(staged.fx, scope, label, staged.captures.value_or(no_captures)); 
+			return analyze_function(staged.fx, function_scope, label, staged.captures.value_or(no_captures)); 
 		}
 	}
 

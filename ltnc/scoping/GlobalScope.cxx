@@ -51,6 +51,7 @@ namespace ltn::c {
 
 	Variable GlobalScope::declare_variable(const std::string & name, const SourceLocation & location) {
 		// TODO ERROR
+		throw "";
 	}
 
 
