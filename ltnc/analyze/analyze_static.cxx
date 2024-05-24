@@ -13,9 +13,10 @@ namespace ltn::c {
 			Context & context,
 			std::uint64_t id) {
 
-			MajorScope scope { statik.namespaze, Qualifiers::none, context};
+			GlobalScope global_scope { context};
+			NamespaceScope namespace_scope { global_scope, statik.namespaze };
 
-			auto expr = statik.expr ? analyze_expression(*statik.expr, scope) : sst::expr::null();
+			auto expr = statik.expr ? analyze_expression(*statik.expr, namespace_scope) : sst::expr::null();
 			auto node = make(statik.name, statik.namespaze, std::move(expr), id);
 
 			node->is_extern = statik.is_extern;

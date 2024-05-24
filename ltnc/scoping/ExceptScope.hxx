@@ -1,8 +1,8 @@
 #pragma once
-#include "MajorScope.hxx"
+#include "MinorScope.hxx"
 
 namespace ltn::c {
-	class ExceptScope : public MajorScope {
+	class ExceptScope : public MinorScope {
 	public:
 		ExceptScope(const Scope & scope);
 	};

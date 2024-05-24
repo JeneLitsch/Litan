@@ -8,7 +8,6 @@ target_sources(libltnc PRIVATE
 	"GlobalScope.cxx"
 	"IifeScope.cxx"
 	"LocalScope.cxx"
-	"MajorScope.cxx"
 	"MinorScope.cxx"
 	"NamespaceScope.cxx"
 	"Scope.cxx"

@@ -11,7 +11,6 @@
 
 #include "ltnc/scoping/Scope.hxx"
 #include "ltnc/scoping/FunctionScope.hxx"
-#include "ltnc/scoping/MajorScope.hxx"
 #include "ltnc/scoping/MinorScope.hxx"
 
 #include "error.hxx"

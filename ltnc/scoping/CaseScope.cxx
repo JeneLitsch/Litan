@@ -3,13 +3,17 @@
 
 namespace ltn::c {
 	CaseScope::CaseScope(const Scope * outer) 
-		: MajorScope { outer->get_namespace(), Qualifiers::just_const, context }
-		, context {
-			.fx_table = fx_table,
-			.fx_queue = outer->get_context().fx_queue,
-			.definition_table = outer->get_context().definition_table, 
-			.member_table = outer->get_context().member_table, 
-			.global_table = global_table,
-			.custom_resolver = outer->get_context().custom_resolver,
-		} {}
+		: MinorScope { outer } {}
+
+
+
+	stx::optref<const ast::decl::Function> CaseScope::resolve_function(const std::string & name, const Namespace & ns, std::size_t arity, VariadicMode var_mode) const {
+		return stx::to_optref(this->fx_table.resolve(name, this->get_namespace(), ns, arity, var_mode));
+	}
+
+	
+	
+	stx::optref<const sst::decl::Global> CaseScope::resolve_global_variable(const std::string & name, const Namespace & ns) const {
+		return stx::to_optref(this->global_table.resolve(name, ns));
+	}
 }
