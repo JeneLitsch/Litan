@@ -3,7 +3,7 @@
 
 namespace ltn::c {
 	// Tracks, stores and resolves local variables  
-	struct Variable {
+	struct LocalVariableInfo {
 		std::uint64_t address;
 	};
 }

@@ -45,12 +45,12 @@ namespace ltn::c {
 
 
 
-	Variable NamespaceScope::declare_variable(const std::string & name, const SourceLocation & location) {
+	LocalVariableInfo NamespaceScope::declare_variable(const std::string & name, const SourceLocation & location) {
 		throw std::runtime_error { "Cannot declare local varaible in namespace scope" };
 	}
 
 
-	stx::optref<const Variable> NamespaceScope::resolve_local_variable(const std::string & name, const SourceLocation & location) const {
+	stx::optref<const LocalVariableInfo> NamespaceScope::resolve_local_variable(const std::string & name, const SourceLocation & location) const {
 		return global_scope->resolve_local_variable(name, location);
 	}
 

@@ -46,7 +46,7 @@ namespace ltn::c {
 
 	
 
-	stx::optref<const Variable> FunctionScope::resolve_local_variable(
+	stx::optref<const LocalVariableInfo> FunctionScope::resolve_local_variable(
 		const std::string & name,
 		const SourceLocation &) const{
 		
