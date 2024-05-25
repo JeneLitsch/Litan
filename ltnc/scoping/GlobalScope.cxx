@@ -43,7 +43,7 @@ namespace ltn::c {
 	
 	
 
-	LocalVariableInfo GlobalScope::declare_variable(const std::string & name, const SourceLocation & location) {
+	LocalVariableInfo GlobalScope::declare_local_variable(const std::string & name, const SourceLocation & location) {
 		throw std::runtime_error { "Cannot declare local varaible in global scope" };
 	}
 

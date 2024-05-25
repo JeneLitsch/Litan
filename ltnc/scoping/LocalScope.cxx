@@ -2,7 +2,7 @@
 #include "ltnc/analyze/error.hxx"
 
 namespace ltn::c {
-	LocalVariableInfo LocalScope::declare_variable(
+	LocalVariableInfo LocalScope::declare_local_variable(
 		const std::string & name,
 		const SourceLocation & location) {
 		if(this->vars.contains(name)) {

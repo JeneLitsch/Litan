@@ -45,7 +45,7 @@ namespace ltn::c {
 
 
 
-	LocalVariableInfo NamespaceScope::declare_variable(const std::string & name, const SourceLocation & location) {
+	LocalVariableInfo NamespaceScope::declare_local_variable(const std::string & name, const SourceLocation & location) {
 		throw std::runtime_error { "Cannot declare local varaible in namespace scope" };
 	}
 

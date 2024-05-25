@@ -18,11 +18,11 @@ namespace ltn::c {
 			const SourceLocation & loc) {
 			
 			for(const auto & param : parameters.simple) {
-				scope.declare_variable(param.name, loc);
+				scope.declare_local_variable(param.name, loc);
 			}
 
 			if(parameters.variadic) {
-				scope.declare_variable(parameters.variadic->name, loc);
+				scope.declare_local_variable(parameters.variadic->name, loc);
 			}
 		}
 
@@ -34,7 +34,7 @@ namespace ltn::c {
 			const auto & namespaze) {
 			
 			ExceptScope scope{function_scope};
-			scope.declare_variable(except.errorname, location(except));
+			scope.declare_local_variable(except.errorname, location(except));
 			auto body = analyze_statement(*except.body, scope);
 			return sst::misc::except(except.errorname, std::move(body));
 		}
@@ -53,7 +53,7 @@ namespace ltn::c {
 		add_parameters_to_scope(fx.parameters, scope, location(fx));
 
 		for(const auto & capture : captures) {
-			scope.declare_variable(capture->name, location(*capture));
+			scope.declare_local_variable(capture->name, location(*capture));
 		}
 
 		auto body = analyze_statement(*fx.body, scope);

@@ -19,7 +19,7 @@ namespace ltn::c {
 		virtual Context & get_context() const = 0;
 		void set_return(const std::string & return_point);
 
-		virtual LocalVariableInfo declare_variable(const std::string & name, const SourceLocation & location) = 0;
+		virtual LocalVariableInfo declare_local_variable(const std::string & name, const SourceLocation & location) = 0;
 
 		virtual stx::optref<const LocalVariableInfo> resolve_local_variable(const std::string & name, const SourceLocation & location) const = 0;
 		virtual stx::optref<const ast::decl::Function> resolve_function(const std::string & name, const Namespace & ns, std::size_t arity, VariadicMode var_mode = VariadicMode::PROHIBITED) const = 0;
