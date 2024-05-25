@@ -23,9 +23,6 @@ namespace ltn::c {
 		auto analyze_staged(const StagedFunction & staged, RootScope & root_scope) {
 			const auto effective_namespace = staged.override_namespace.value_or(staged.fx->namespaze);
 			NamespaceScope & namespace_scope = root_scope.add_namespace(effective_namespace);
-			// 	root_scope,
-			// 	staged.override_namespace.value_or(staged.fx->namespaze),
-			// };
 			FunctionScope function_scope {
 				namespace_scope,
 				staged.fx->qualifiers,
@@ -59,8 +56,6 @@ namespace ltn::c {
 
 		std::uint64_t global_counter = 0;
 
-
-
 		for(auto & enym : source.enums) {
 			auto definitions = analyze_enumeration(*enym, global_counter);
 			for(auto & definition : definitions) {
@@ -68,30 +63,24 @@ namespace ltn::c {
 			}
 		}
 
-		
-
 		for(const auto & definition : source.definitions) {
 			program.definitions.push_back(analyze_definition(*definition, root_scope, global_counter++));
 		}
 
 		for(const auto & def : program.definitions) {
-			context.definition_table.insert(*def);
+			root_scope.declare_definition(*def);
 		}
-
-
 
 		for(const auto & global : source.globals) {
 			program.globals.push_back(analyze_global(*global, root_scope, global_counter++));
 		}
 
 		for(const auto & glob : program.globals) {
-			context.global_table.insert(*glob);
+			root_scope.declare_global_variable(*glob);
 		}
 
-
-
 		for(const auto & function : source.functions) {
-			context.fx_table.insert(*function, function->parameters.simple.size(), VariadicMode::ALLOWED);
+			context.fx_table.insert(*function, function->parameters.simple.size(), VariadicMode::ALLOWED); // TODO REMOVE
 			root_scope.declare_function(*function);
 		}
 

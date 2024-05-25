@@ -14,7 +14,6 @@ namespace ltn::c {
 			Scope & scope,
 			std::uint64_t id) {
 
-
 			auto expr = statik.expr ? analyze_expression(*statik.expr, scope) : sst::expr::null();
 			auto node = make(statik.name, statik.namespaze, std::move(expr), id);
 
@@ -31,7 +30,7 @@ namespace ltn::c {
 		RootScope & root_scope,
 		std::uint64_t id) {
 		
-		NamespaceScope namespace_scope { root_scope, def.namespaze };
+		NamespaceScope & namespace_scope = root_scope.add_namespace(def.namespaze);
 		DefinitionScope static_scope { namespace_scope };
 
 		return analyze_static(sst::decl::definition, def, static_scope, id);
@@ -44,7 +43,7 @@ namespace ltn::c {
 		RootScope & root_scope,
 		std::uint64_t id) {
 
-		NamespaceScope namespace_scope { root_scope, global.namespaze };
+		NamespaceScope & namespace_scope = root_scope.add_namespace(global.namespaze);
 		GlobalVariableScope static_scope { namespace_scope };
 
 		return analyze_static(sst::decl::variable, global, static_scope, id);

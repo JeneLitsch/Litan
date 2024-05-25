@@ -6,7 +6,9 @@ namespace ltn::c {
 		: GlobalScope {}
 		, namespaze { namespaze } 
 		, parent { parent }
-		{}
+		{
+		std::cout << "NAMESPACE SCOPE:" << namespaze.to_string() << "\n";
+	}
 	
 	
 	
@@ -62,17 +64,12 @@ namespace ltn::c {
 		std::size_t arity,
 		VariadicMode var_mode) const {
 		
-		auto result = find_function(name, ns, arity, var_mode); 
-		if(result) {
+		if(auto result = find_function(name, ns, arity, var_mode)) {
 			return *result->ast_node;
 		}
 		else {
 			return parent->resolve_function(name, ns, arity, var_mode);
 		}
-
-		// auto & context = this->get_context();
-		// auto * fx = context.fx_table.resolve(name, this->get_namespace(), ns, arity, var_mode);
-		// return stx::to_optref(fx);
 	}
 
 
@@ -81,9 +78,12 @@ namespace ltn::c {
 		const std::string & name,
 		const Namespace & ns) const {
 		
-		auto & context = this->get_context();
-		auto * glob = context.global_table.resolve(name, this->get_namespace(), ns);
-		return stx::to_optref(glob);
+		if(auto result = find_global_variable(name, ns)) {
+			return *result->ast_node;
+		}
+		else {
+			return parent->resolve_global_variable(name, ns);
+		}
 	}
 
 
@@ -92,9 +92,12 @@ namespace ltn::c {
 		const std::string & name,
 		const Namespace & ns) const {
 
-		auto & context = this->get_context();
-		auto * def = context.definition_table.resolve(name, this->get_namespace(), ns);
-		return stx::to_optref(def);
+		if(auto result = find_definiton(name, ns)) {
+			return *result->ast_node;
+		}
+		else {
+			return parent->resolve_definiton(name, ns);
+		}
 	}
 
 
@@ -133,7 +136,8 @@ namespace ltn::c {
 				return child->add_namespace_impl(ns, i+1);
 			}
 		}
-		this->children.push_back(std::make_unique<NamespaceScope>(*this, ns));
+		auto subnamespace = Namespace{std::vector<std::string>{std::begin(ns), std::begin(ns) + i + 1}};
+		this->children.push_back(std::make_unique<NamespaceScope>(*this, subnamespace));
 		return this->children.back()->add_namespace_impl(ns, i+1);
 	}
 
@@ -175,14 +179,33 @@ namespace ltn::c {
 
 			return false;
 		}
+
+
+
+		bool match(
+			const sst::decl::Definition & definition,
+			const std::string_view name) {
+
+			return definition.name == name;
+		}
+
+
+		
+		bool match(
+			const sst::decl::Global & global,
+			const std::string_view name) {
+
+			return global.name == name;
+		}
 	}
+
 
 
 	stx::optref<const FunctionInfo> NamespaceScope::find_function(const std::string & name, const Namespace & ns, std::size_t arity, VariadicMode variadic_mode) const {
 		if(ns.empty()) {
-			for(stx::optref f_info : this->functions) {
-				if(match(f_info->ast_node, name, arity, variadic_mode)) {
-					return f_info;
+			for(stx::optref info : this->functions) {
+				if(match(info->ast_node, name, arity, variadic_mode)) {
+					return info;
 				}
 			}
 			return stx::nullref;
@@ -200,8 +223,68 @@ namespace ltn::c {
 
 
 
-	FunctionInfo  NamespaceScope::add_function(stx::reference<const ast::decl::Function> function) {
+	stx::optref<const GlobalVariableInfo> NamespaceScope::find_global_variable(const std::string & name, const Namespace & ns) const {
+		if(ns.empty()) {
+			for(stx::optref info : this->variables) {
+				if(match(info->ast_node, name)) {
+					return info;
+				}
+			}
+			return stx::nullref;
+		}
+		else {
+			for(auto & child : this->children) {
+				if(child->get_namespace_name() == ns[0]) {
+					Namespace sub_namespace { std::vector<std::string>{std::begin(ns) + 1, std::end(ns)} };
+					return child->find_global_variable(name, sub_namespace);
+				}
+			}
+			return stx::nullref;
+		}
+	}
+
+
+	
+	stx::optref<const DefinitionInfo> NamespaceScope::find_definiton(const std::string & name, const Namespace & ns) const {
+		if(ns.empty()) {
+			for(stx::optref info : this->definitions) {
+				if(match(info->ast_node, name)) {
+					return info;
+				}
+			}
+			return stx::nullref;
+		}
+		else {
+			for(auto & child : this->children) {
+				if(child->get_namespace_name() == ns[0]) {
+					Namespace sub_namespace { std::vector<std::string>{std::begin(ns) + 1, std::end(ns)} };
+					return child->find_definiton(name, sub_namespace);
+				}
+			}
+			return stx::nullref;
+		}
+	}
+
+
+
+	FunctionInfo NamespaceScope::add_function(stx::reference<const ast::decl::Function> function) {
 		this->functions.push_back( FunctionInfo { .ast_node = function } );
+		std::cout << function->namespaze.to_string() << function->name << " " << std::size(this->functions) << "\n";
 		return this->functions.back();
+	}
+
+
+
+	GlobalVariableInfo NamespaceScope::add_global_variable(stx::reference<const sst::decl::Global> var) {
+		this->variables.push_back( GlobalVariableInfo { .ast_node = var } );
+		return this->variables.back();
+	}
+	
+	
+	
+	DefinitionInfo NamespaceScope::add_definition(stx::reference<const sst::decl::Definition> def) {
+		this->definitions.push_back( DefinitionInfo { .ast_node = def } );
+		std::cout << def->namespaze.to_string() << " " << def->name << " -> " << this->namespaze.to_string() << " " << std::size(this->definitions) << "\n";
+		return this->definitions.back();
 	}
 }

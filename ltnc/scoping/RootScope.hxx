@@ -16,6 +16,8 @@ namespace ltn::c {
 
 		virtual LocalVariableInfo declare_local_variable(const std::string & name, const SourceLocation & location) override;
 		FunctionInfo declare_function(stx::reference<const ast::decl::Function> function);
+		GlobalVariableInfo declare_global_variable(stx::reference<const sst::decl::Global> var);
+		DefinitionInfo declare_definition(stx::reference<const sst::decl::Definition> def);
 
 		virtual stx::optref<const LocalVariableInfo> resolve_local_variable(const std::string & name, const SourceLocation & location) const override;
 		virtual stx::optref<const ast::decl::Function> resolve_function(const std::string & name, const Namespace & ns, std::size_t arity, VariadicMode var_mode = VariadicMode::PROHIBITED) const override;

@@ -1,4 +1,35 @@
-define a = 4;
-var b = a;
+namespace test::foo::bar {
+	function f() => null
+	define a = 4;
+	define b = 2;
+}
 
-function main() {}
+
+namespace stx {
+	namespace io {
+		enum color {
+			BLACK        : 0x0;
+			RED          : 0x1;
+			GREEN        : 0x2;
+			YELLOW       : 0x3;
+			BLUE         : 0x4;
+			MAGENTA      : 0x5;
+			CYAN         : 0x6;
+			WHITE        : 0x7;
+
+			BOLD_BLACK   : 0x8;
+			BOLD_RED     : 0x9;
+			BOLD_GREEN   : 0xa;
+			BOLD_YELLOW  : 0xb;
+			BOLD_BLUE    : 0xc;
+			BOLD_MAGENTA : 0xd;
+			BOLD_CYAN    : 0xe;
+			BOLD_WHITE   : 0xf;
+		}
+	}
+}
+
+
+function main() {
+	return [test::foo::bar::a, test::foo::bar::b, test::foo::bar::f()];
+}

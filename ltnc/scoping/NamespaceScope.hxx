@@ -28,10 +28,14 @@ namespace ltn::c {
 		const std::string & get_namespace_name() const;
 
 		FunctionInfo add_function(stx::reference<const ast::decl::Function> function);
+		GlobalVariableInfo add_global_variable(stx::reference<const sst::decl::Global> var);
+		DefinitionInfo add_definition(stx::reference<const sst::decl::Definition> def);
 
 	private:
 		NamespaceScope & add_namespace_impl(const Namespace & ns, std::uint64_t i);
 		stx::optref<const FunctionInfo> find_function(const std::string & name, const Namespace & ns, std::size_t arity, VariadicMode variadic_mode = VariadicMode::PROHIBITED) const;
+		stx::optref<const GlobalVariableInfo> find_global_variable(const std::string & name, const Namespace & ns) const;
+		stx::optref<const DefinitionInfo> find_definiton(const std::string & name, const Namespace & ns) const;
 
 		Namespace namespaze;
 
@@ -39,5 +43,7 @@ namespace ltn::c {
 		std::vector<std::unique_ptr<NamespaceScope>> children;
 		
 		std::vector<FunctionInfo> functions;
+		std::vector<GlobalVariableInfo> variables;
+		std::vector<DefinitionInfo> definitions;
 	};
 }

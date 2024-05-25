@@ -40,7 +40,8 @@ namespace ltn::c {
 	
 
 	const Namespace & RootScope::get_namespace() const {
-		return {};
+		static const Namespace ns;
+		return ns;
 	}
 	
 	
@@ -64,9 +65,19 @@ namespace ltn::c {
 
 
 	FunctionInfo RootScope::declare_function(stx::reference<const ast::decl::Function> function) {
-		auto & namespace_scope = this->add_namespace(function->namespaze);
-		std::cout << function->namespaze.to_string() << function->name << " -> " << namespace_scope.get_namespace().to_string() << "\n";
-		return namespace_scope.add_function(function);
+		return this->add_namespace(function->namespaze).add_function(function);
+	}
+
+
+
+	GlobalVariableInfo RootScope::declare_global_variable(stx::reference<const sst::decl::Global> var) {
+		return this->add_namespace(var->namespaze).add_global_variable(var);
+	}
+	
+	
+	
+	DefinitionInfo RootScope::declare_definition(stx::reference<const sst::decl::Definition> def) {
+		return this->add_namespace(def->namespaze).add_definition(def);
 	}
 
 
