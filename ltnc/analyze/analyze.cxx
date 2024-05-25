@@ -91,6 +91,7 @@ namespace ltn::c {
 
 		for(const auto & function : source.functions) {
 			context.fx_table.insert(*function, function->parameters.simple.size(), VariadicMode::ALLOWED);
+			root_scope.add_namespace(function->namespaze);
 		}
 
 		auto externs = find_extern_funtions(source);

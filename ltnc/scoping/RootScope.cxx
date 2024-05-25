@@ -1,4 +1,5 @@
 #include "RootScope.hxx"
+#include "NamespaceScope.hxx"
 
 namespace ltn::c {
 	RootScope::RootScope(stx::reference<Context> context)
@@ -99,5 +100,14 @@ namespace ltn::c {
 
 	sst::expr_ptr RootScope::resolve_custom_literal(const std::string & type, const std::string & value) const {
 		return this->get_context().custom_resolver.resolve(type, value);
+	}
+
+
+
+	NamespaceScope & RootScope::add_namespace(const Namespace & ns) {
+		if(!root_namespace) {
+			root_namespace = std::make_unique<NamespaceScope>(*this, Namespace{});
+		}
+		return root_namespace->add_namespace(ns);
 	}
 }

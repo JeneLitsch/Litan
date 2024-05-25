@@ -4,9 +4,7 @@ namespace ltn::c {
 	NamespaceScope::NamespaceScope(stx::reference<const GlobalScope> parent, const Namespace & namespaze)
 		: GlobalScope {}
 		, parent { parent }
-		, namespaze { namespaze } {
-
-	}
+		, namespaze { namespaze } {}
 	
 	
 	
@@ -99,5 +97,28 @@ namespace ltn::c {
 
 	sst::expr_ptr NamespaceScope::resolve_custom_literal(const std::string & type, const std::string & value) const {
 		return parent->resolve_custom_literal(type, value);
+	}
+
+
+
+	const std::string & NamespaceScope::get_namespace_name() const {
+		if(this->namespaze.empty()) return "";
+		return this->namespaze[this->namespaze.size()-1];
+	}
+
+
+
+	NamespaceScope & NamespaceScope::add_namespace(const Namespace & ns) {
+		if(ns.empty()) {
+			return *this;
+		}
+		Namespace sub_namespace {std::vector<std::string> { std::begin(ns) + 1, std::end(ns) }};
+		for(auto & child : this->children) {
+			if(child->get_namespace_name() == ns[0]) {
+				return child->add_namespace(sub_namespace);
+			}
+		}
+		this->children.push_back(std::make_unique<NamespaceScope>(*this, sub_namespace));
+		return this->children.back()->add_namespace(sub_namespace);
 	}
 }

@@ -2,6 +2,7 @@
 #include "GlobalScope.hxx"
 
 namespace ltn::c {
+	class NamespaceScope;
 	class RootScope : public GlobalScope {
 	public:
 		RootScope(stx::reference<Context> context);
@@ -25,9 +26,12 @@ namespace ltn::c {
 		const auto & get_member_info_table() const {
 			return member_info;
 		}
+
+		NamespaceScope & add_namespace(const Namespace & ns);
+		
 	private:
 		stx::reference<Context> context;
-
 		mutable std::unordered_map<std::string, MemberInfo> member_info;
+		std::unique_ptr<NamespaceScope> root_namespace;
 	};
 }

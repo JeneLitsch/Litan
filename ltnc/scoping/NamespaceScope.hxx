@@ -24,8 +24,12 @@ namespace ltn::c {
 		virtual std::uint64_t resolve_member_id(const std::string & name) const override;
 		virtual sst::expr_ptr resolve_custom_literal(const std::string & type, const std::string & value) const override;
 
+		NamespaceScope & add_namespace(const Namespace & ns);
+		const std::string & get_namespace_name() const;
+
 	private:
 		stx::reference<const GlobalScope> parent;
 		Namespace namespaze;
+		std::vector<std::unique_ptr<NamespaceScope>> children;
 	};
 }

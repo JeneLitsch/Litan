@@ -64,7 +64,6 @@ namespace ltn::vm::inst {
 			for(std::size_t i = 0; i < std::size(coroutine->local_variables) - coroutine->context->frame_size; ++i) {
 				core.stack.push(value::null);
 			}
-			std::cout << std::size(coroutine->local_variables) << "|" << coroutine->context->frame_size << "\n";
 			for(std::size_t i = 0; i < std::size(coroutine->local_variables); ++i) {
 				core.stack.write(i, coroutine->local_variables[i]);
 			}
