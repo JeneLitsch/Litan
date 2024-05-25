@@ -2,7 +2,7 @@
 
 namespace ltn::c {
 	NamespaceScope::NamespaceScope(const RootScope & root_scope, const Namespace & namespaze)
-		: Scope {}
+		: GlobalScope {}
 		, root_scope { root_scope }
 		, namespaze { namespaze } {
 

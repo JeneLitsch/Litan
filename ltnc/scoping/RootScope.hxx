@@ -1,8 +1,8 @@
 #pragma once
-#include "Scope.hxx"
+#include "GlobalScope.hxx"
 
 namespace ltn::c {
-	class RootScope : public Scope {
+	class RootScope : public GlobalScope {
 	public:
 		RootScope(stx::reference<Context> context);
 		

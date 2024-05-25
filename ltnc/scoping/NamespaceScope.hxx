@@ -1,10 +1,10 @@
 #pragma once
-#include "Scope.hxx"
+#include "GlobalScope.hxx"
 #include "ltnc/Namespace.hxx"
 #include "RootScope.hxx"
 
 namespace ltn::c {
-	class NamespaceScope : public Scope {
+	class NamespaceScope : public GlobalScope {
 	public:
 		NamespaceScope(const RootScope & root_scope, const Namespace & namespaze);
 		

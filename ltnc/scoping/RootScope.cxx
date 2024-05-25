@@ -2,7 +2,7 @@
 
 namespace ltn::c {
 	RootScope::RootScope(stx::reference<Context> context)
-		: Scope {}
+		: GlobalScope {}
 		, context { context } {
 		
 		member_info["special:add"] = MemberInfo {.id = static_cast<std::uint64_t>(MemberCode::ADD)};
