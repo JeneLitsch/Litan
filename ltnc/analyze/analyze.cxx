@@ -21,10 +21,11 @@ namespace ltn::c {
 
 
 		auto analyze_staged(const StagedFunction & staged, RootScope & root_scope) {
-			NamespaceScope namespace_scope {
-				root_scope,
-				staged.override_namespace.value_or(staged.fx->namespaze),
-			};
+			const auto effective_namespace = staged.override_namespace.value_or(staged.fx->namespaze);
+			NamespaceScope & namespace_scope = root_scope.add_namespace(effective_namespace);
+			// 	root_scope,
+			// 	staged.override_namespace.value_or(staged.fx->namespaze),
+			// };
 			FunctionScope function_scope {
 				namespace_scope,
 				staged.fx->qualifiers,
@@ -91,7 +92,7 @@ namespace ltn::c {
 
 		for(const auto & function : source.functions) {
 			context.fx_table.insert(*function, function->parameters.simple.size(), VariadicMode::ALLOWED);
-			root_scope.add_namespace(function->namespaze);
+			root_scope.declare_function(*function);
 		}
 
 		auto externs = find_extern_funtions(source);

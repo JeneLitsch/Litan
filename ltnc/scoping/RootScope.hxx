@@ -15,6 +15,7 @@ namespace ltn::c {
 		virtual Context & get_context() const override;
 
 		virtual LocalVariableInfo declare_local_variable(const std::string & name, const SourceLocation & location) override;
+		FunctionInfo declare_function(stx::reference<const ast::decl::Function> function);
 
 		virtual stx::optref<const LocalVariableInfo> resolve_local_variable(const std::string & name, const SourceLocation & location) const override;
 		virtual stx::optref<const ast::decl::Function> resolve_function(const std::string & name, const Namespace & ns, std::size_t arity, VariadicMode var_mode = VariadicMode::PROHIBITED) const override;
@@ -28,7 +29,7 @@ namespace ltn::c {
 		}
 
 		NamespaceScope & add_namespace(const Namespace & ns);
-		
+
 	private:
 		stx::reference<Context> context;
 		mutable std::unordered_map<std::string, MemberInfo> member_info;

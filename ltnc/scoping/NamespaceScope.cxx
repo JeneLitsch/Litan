@@ -1,10 +1,12 @@
 #include "NamespaceScope.hxx"
+#include <iostream>
 
 namespace ltn::c {
 	NamespaceScope::NamespaceScope(stx::reference<const GlobalScope> parent, const Namespace & namespaze)
 		: GlobalScope {}
+		, namespaze { namespaze } 
 		, parent { parent }
-		, namespaze { namespaze } {}
+		{}
 	
 	
 	
@@ -59,10 +61,18 @@ namespace ltn::c {
 		const Namespace & ns,
 		std::size_t arity,
 		VariadicMode var_mode) const {
+		
+		auto result = find_function(name, ns, arity, var_mode); 
+		if(result) {
+			return *result->ast_node;
+		}
+		else {
+			return parent->resolve_function(name, ns, arity, var_mode);
+		}
 
-		auto & context = this->get_context();
-		auto * fx = context.fx_table.resolve(name, this->get_namespace(), ns, arity, var_mode);
-		return stx::to_optref(fx);
+		// auto & context = this->get_context();
+		// auto * fx = context.fx_table.resolve(name, this->get_namespace(), ns, arity, var_mode);
+		// return stx::to_optref(fx);
 	}
 
 
@@ -109,16 +119,89 @@ namespace ltn::c {
 
 
 	NamespaceScope & NamespaceScope::add_namespace(const Namespace & ns) {
-		if(ns.empty()) {
+		return add_namespace_impl(ns, 0);
+	}
+
+
+
+	NamespaceScope & NamespaceScope::add_namespace_impl(const Namespace & ns, std::uint64_t i) {
+		if(ns.size() == i) {
 			return *this;
 		}
-		Namespace sub_namespace {std::vector<std::string> { std::begin(ns) + 1, std::end(ns) }};
 		for(auto & child : this->children) {
-			if(child->get_namespace_name() == ns[0]) {
-				return child->add_namespace(sub_namespace);
+			if(child->get_namespace_name() == ns[i]) {
+				return child->add_namespace_impl(ns, i+1);
 			}
 		}
-		this->children.push_back(std::make_unique<NamespaceScope>(*this, sub_namespace));
-		return this->children.back()->add_namespace(sub_namespace);
+		this->children.push_back(std::make_unique<NamespaceScope>(*this, ns));
+		return this->children.back()->add_namespace_impl(ns, i+1);
+	}
+
+
+
+	namespace {
+		bool match(
+			const ast::decl::Function & fx,
+			const std::string_view name,
+			const std::size_t arity,
+			VariadicMode variadic_mode) {
+				
+			using VM = VariadicMode; 
+			switch (variadic_mode) {
+
+			case VM::EXACT:
+				return
+					fx.name == name &&
+					std::size(fx.parameters.simple) == arity &&
+					fx.parameters.variadic;
+			
+			case VM::REQUIRED:
+				return
+					fx.name == name &&
+					std::size(fx.parameters.simple) <= arity &&
+					fx.parameters.variadic;
+			
+			case VM::ALLOWED:
+				return
+					match(fx, name, arity, VM::REQUIRED) ||
+					match(fx, name, arity, VM::PROHIBITED);
+			
+			case VM::PROHIBITED:
+				return
+					fx.name == name &&
+					std::size(fx.parameters.simple) == arity &&
+					!fx.parameters.variadic;
+			}
+
+			return false;
+		}
+	}
+
+
+	stx::optref<const FunctionInfo> NamespaceScope::find_function(const std::string & name, const Namespace & ns, std::size_t arity, VariadicMode variadic_mode) const {
+		if(ns.empty()) {
+			for(stx::optref f_info : this->functions) {
+				if(match(f_info->ast_node, name, arity, variadic_mode)) {
+					return f_info;
+				}
+			}
+			return stx::nullref;
+		}
+		else {
+			for(auto & child : this->children) {
+				if(child->get_namespace_name() == ns[0]) {
+					Namespace sub_namespace { std::vector<std::string>{std::begin(ns) + 1, std::end(ns)} };
+					return child->find_function(name, sub_namespace, arity, variadic_mode);
+				}
+			}
+			return stx::nullref;
+		}
+	}
+
+
+
+	FunctionInfo  NamespaceScope::add_function(stx::reference<const ast::decl::Function> function) {
+		this->functions.push_back( FunctionInfo { .ast_node = function } );
+		return this->functions.back();
 	}
 }

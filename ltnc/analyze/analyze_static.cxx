@@ -10,10 +10,9 @@ namespace ltn::c {
 		auto analyze_static(
 			auto make,
 			const auto & statik,
-			Context & context,
+			RootScope & root_scope,
 			std::uint64_t id) {
 
-			RootScope root_scope { context};
 			NamespaceScope namespace_scope { root_scope, statik.namespaze };
 
 			auto expr = statik.expr ? analyze_expression(*statik.expr, namespace_scope) : sst::expr::null();
@@ -43,7 +42,8 @@ namespace ltn::c {
 			.global_table      = global_table,
 			.custom_resolver   = context.custom_resolver,
 		};
-		return analyze_static(sst::decl::definition, def, read_context, id);
+		RootScope root_scope { context };
+		return analyze_static(sst::decl::definition, def, root_scope, id);
 	}
 
 
@@ -63,6 +63,7 @@ namespace ltn::c {
 			.global_table      = global_table,
 			.custom_resolver   = context.custom_resolver,
 		};
-		return analyze_static(sst::decl::variable, global, read_context, id);
+		RootScope root_scope { context };
+		return analyze_static(sst::decl::variable, global, root_scope, id);
 	}
 }

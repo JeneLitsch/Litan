@@ -32,6 +32,7 @@ namespace ltn::c {
 		void require_function(StagedFunction staged);
 
 		const std::vector<const ast::decl::Function *> & get_all_functions() const;
+		virtual ~Scope() = default;
 
 	protected:
 		std::optional<std::string> return_point;

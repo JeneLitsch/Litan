@@ -20,7 +20,7 @@ namespace ltn::c {
 
 
 			if(match(TT::BRACE_L, tokens)) {
-				auto name = "special:" + parse_variable_name(tokens);
+				auto name = parse_special_member(tokens);
 
 				if(!match(TT::BRACE_R, tokens)) {
 					throw CompilerError{"Expected }", location(tokens)};

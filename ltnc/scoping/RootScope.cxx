@@ -1,5 +1,7 @@
 #include "RootScope.hxx"
 #include "NamespaceScope.hxx"
+#include "ltnc/ast/AST.hxx"
+#include <iostream>
 
 namespace ltn::c {
 	RootScope::RootScope(stx::reference<Context> context)
@@ -57,6 +59,14 @@ namespace ltn::c {
 
 	LocalVariableInfo RootScope::declare_local_variable(const std::string & name, const SourceLocation & location) {
 		throw std::runtime_error { "Cannot declare local varaible in global scope" };
+	}
+
+
+
+	FunctionInfo RootScope::declare_function(stx::reference<const ast::decl::Function> function) {
+		auto & namespace_scope = this->add_namespace(function->namespaze);
+		std::cout << function->namespaze.to_string() << function->name << " -> " << namespace_scope.get_namespace().to_string() << "\n";
+		return namespace_scope.add_function(function);
 	}
 
 

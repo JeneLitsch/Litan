@@ -27,9 +27,17 @@ namespace ltn::c {
 		NamespaceScope & add_namespace(const Namespace & ns);
 		const std::string & get_namespace_name() const;
 
+		FunctionInfo add_function(stx::reference<const ast::decl::Function> function);
+
 	private:
-		stx::reference<const GlobalScope> parent;
+		NamespaceScope & add_namespace_impl(const Namespace & ns, std::uint64_t i);
+		stx::optref<const FunctionInfo> find_function(const std::string & name, const Namespace & ns, std::size_t arity, VariadicMode variadic_mode = VariadicMode::PROHIBITED) const;
+
 		Namespace namespaze;
+
+		stx::reference<const GlobalScope> parent;
 		std::vector<std::unique_ptr<NamespaceScope>> children;
+		
+		std::vector<FunctionInfo> functions;
 	};
 }
