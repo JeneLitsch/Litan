@@ -3,19 +3,19 @@
 #include "stdxx/iife.hxx"
 #include "ltnc/sst/expr/Literal.hxx"
 
-
+#include "ltnc/scoping/DefinitionScope.hxx"
+#include "ltnc/scoping/GlobalVariableScope.hxx"
 
 namespace ltn::c {
 	namespace {
 		auto analyze_static(
 			auto make,
 			const auto & statik,
-			RootScope & root_scope,
+			Scope & scope,
 			std::uint64_t id) {
 
-			NamespaceScope namespace_scope { root_scope, statik.namespaze };
 
-			auto expr = statik.expr ? analyze_expression(*statik.expr, namespace_scope) : sst::expr::null();
+			auto expr = statik.expr ? analyze_expression(*statik.expr, scope) : sst::expr::null();
 			auto node = make(statik.name, statik.namespaze, std::move(expr), id);
 
 			node->is_extern = statik.is_extern;
@@ -28,42 +28,25 @@ namespace ltn::c {
 
 	sst::defn_ptr analyze_definition(
 		const ast::decl::Definition & def,
-		Context & context,
+		RootScope & root_scope,
 		std::uint64_t id) {
-		// Use empty global_table to prohibit the usage of other global variables.
-		// Functions or defines can be used though.
-		InvalidDefinitionTable def_table { "definitions" };
-		InvalidGlobalTable global_table { "definitions" };
-		InvalidFunctionTable fx_table { "definitions" };
-		Context read_context {
-			.fx_table          = fx_table,
-			.fx_queue		   = context.fx_queue,
-			.definition_table  = def_table,
-			.global_table      = global_table,
-			.custom_resolver   = context.custom_resolver,
-		};
-		RootScope root_scope { context };
-		return analyze_static(sst::decl::definition, def, root_scope, id);
+		
+		NamespaceScope namespace_scope { root_scope, def.namespaze };
+		DefinitionScope static_scope { namespace_scope };
+
+		return analyze_static(sst::decl::definition, def, static_scope, id);
 	}
 
 
 
 	sst::glob_ptr analyze_global(
 		const ast::decl::Global & global,
-		Context & context,
+		RootScope & root_scope,
 		std::uint64_t id) {
-		// Use empty global_table to prohibit the usage of other global variables.
-		// Functions or defines can be used though.
-		InvalidGlobalTable global_table { "the default value of another global variable" };
-		InvalidFunctionTable fx_table { "the initialization of a global variable" };
-		Context read_context {
-			.fx_table          = fx_table,
-			.fx_queue		   = context.fx_queue,
-			.definition_table  = context.definition_table,
-			.global_table      = global_table,
-			.custom_resolver   = context.custom_resolver,
-		};
-		RootScope root_scope { context };
-		return analyze_static(sst::decl::variable, global, root_scope, id);
+
+		NamespaceScope namespace_scope { root_scope, global.namespaze };
+		GlobalVariableScope static_scope { namespace_scope };
+
+		return analyze_static(sst::decl::variable, global, static_scope, id);
 	}
 }

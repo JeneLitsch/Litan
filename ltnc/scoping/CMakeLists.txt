@@ -11,4 +11,7 @@ target_sources(libltnc PRIVATE
 	"MinorScope.cxx"
 	"NamespaceScope.cxx"
 	"Scope.cxx"
+	"StaticScope.cxx"
+	"DefinitionScope.cxx"
+	"GlobalVariableScope.cxx"
 )

@@ -1,5 +1,4 @@
-function main() {
-	var s = "Hello World";
-	var f = lambda[s](x) => std::println(s + std::str(x));
-	f(42);
-}
+define a = 4;
+var b = a;
+
+function main() {}
