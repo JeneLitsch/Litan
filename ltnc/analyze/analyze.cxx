@@ -20,9 +20,9 @@ namespace ltn::c {
 
 
 
-		auto analyze_staged(const StagedFunction & staged, GlobalScope & global_scope) {
+		auto analyze_staged(const StagedFunction & staged, RootScope & root_scope) {
 			NamespaceScope namespace_scope {
-				global_scope,
+				root_scope,
 				staged.override_namespace.value_or(staged.fx->namespaze),
 			};
 			FunctionScope function_scope {
@@ -54,7 +54,7 @@ namespace ltn::c {
 			.global_table = global_table,
 			.custom_resolver = custom_resolver,
 		};
-		GlobalScope global_scope { context };
+		RootScope root_scope { context };
 
 		std::uint64_t global_counter = 0;
 
@@ -100,11 +100,11 @@ namespace ltn::c {
 		}
 
 		while(auto staged = fx_queue.fetch_function()) {
-			auto fx = analyze_staged(*staged, global_scope);
+			auto fx = analyze_staged(*staged, root_scope);
 			program.functions.push_back(std::move(fx));
 		}
 
-		for(auto & [name, info] : global_scope.get_member_info_table()) {
+		for(auto & [name, info] : root_scope.get_member_info_table()) {
 			program.member_name_table[name] = info.id;
 		}
 

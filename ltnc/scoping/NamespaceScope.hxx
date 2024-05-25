@@ -1,12 +1,12 @@
 #pragma once
 #include "Scope.hxx"
 #include "ltnc/Namespace.hxx"
-#include "GlobalScope.hxx"
+#include "RootScope.hxx"
 
 namespace ltn::c {
 	class NamespaceScope : public Scope {
 	public:
-		NamespaceScope(const GlobalScope & global_scope, const Namespace & namespaze);
+		NamespaceScope(const RootScope & root_scope, const Namespace & namespaze);
 		
 		virtual std::uint64_t size() const override;
 		virtual bool is_const() const override;
@@ -25,7 +25,7 @@ namespace ltn::c {
 		virtual sst::expr_ptr resolve_custom_literal(const std::string & type, const std::string & value) const override;
 
 	private:
-		stx::reference<const GlobalScope> global_scope;
+		stx::reference<const RootScope> root_scope;
 		Namespace namespaze;
 	};
 }

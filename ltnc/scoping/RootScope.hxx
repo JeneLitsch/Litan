@@ -2,9 +2,9 @@
 #include "Scope.hxx"
 
 namespace ltn::c {
-	class GlobalScope : public Scope {
+	class RootScope : public Scope {
 	public:
-		GlobalScope(stx::reference<Context> context);
+		RootScope(stx::reference<Context> context);
 		
 		virtual std::uint64_t size() const override;
 		virtual bool is_const() const override;

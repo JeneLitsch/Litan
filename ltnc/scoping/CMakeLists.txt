@@ -5,7 +5,7 @@ target_sources(libltnc PRIVATE
 	"CaseScope.cxx"
 	"ExceptScope.cxx"
 	"FunctionScope.cxx"
-	"GlobalScope.cxx"
+	"RootScope.cxx"
 	"IifeScope.cxx"
 	"LocalScope.cxx"
 	"MinorScope.cxx"
