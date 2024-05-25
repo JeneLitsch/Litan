@@ -40,7 +40,6 @@ namespace ltn::c {
 			.fx_table          = fx_table,
 			.fx_queue		   = context.fx_queue,
 			.definition_table  = def_table,
-			.member_table      = context.member_table,
 			.global_table      = global_table,
 			.custom_resolver   = context.custom_resolver,
 		};
@@ -61,7 +60,6 @@ namespace ltn::c {
 			.fx_table          = fx_table,
 			.fx_queue		   = context.fx_queue,
 			.definition_table  = context.definition_table,
-			.member_table      = context.member_table,
 			.global_table      = global_table,
 			.custom_resolver   = context.custom_resolver,
 		};

@@ -73,8 +73,31 @@ namespace ltn::c {
 
 
 
+	namespace {
+		std::uint64_t resolve_member_id_impl(auto & table, const std::string & str) {
+			if(table.contains(str)) {
+				return table.at(str).id;
+			}
+			const auto id = table.size() + 256;
+			table.insert({str, MemberInfo {
+				.id = id,
+			}});
+			return id;
+		}
+
+
+
+		std::uint64_t resolve_member_id_impl(auto &, MemberCode code) {
+			return static_cast<std::uint64_t>(code);
+		}
+	}
+
+
+
 	std::uint64_t GlobalScope::resolve_member_id(const std::variant<std::string, MemberCode> & name) const {
-		return this->get_context().member_table.get_id(name);
+		return std::visit([&] (auto & m) {
+			return resolve_member_id_impl(this->member_info, m);
+		}, name);
 	}
 
 

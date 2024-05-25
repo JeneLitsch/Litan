@@ -21,7 +21,13 @@ namespace ltn::c {
 		virtual stx::optref<const sst::decl::Definition> resolve_definiton(const std::string & name, const Namespace & ns) const override;
 		virtual std::uint64_t resolve_member_id(const std::variant<std::string, MemberCode> & name) const override;
 		virtual sst::expr_ptr resolve_custom_literal(const std::string & type, const std::string & value) const override;
+	
+		const auto & get_member_info_table() const {
+			return member_info;
+		}
 	private:
 		stx::reference<Context> context;
+
+		mutable std::unordered_map<std::string, MemberInfo> member_info;
 	};
 }

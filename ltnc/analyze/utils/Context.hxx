@@ -10,7 +10,6 @@
 
 #include "CustomResolver.hxx"
 #include "DefinitionTable.hxx"
-#include "MemberTable.hxx"
 #include "GlobalTable.hxx"
 #include "stdxx/oop.hxx"
 #include "FunctionQueue.hxx"
@@ -20,7 +19,6 @@ namespace ltn::c {
 		FunctionTable & fx_table;
 		FunctionQueue & fx_queue;
 		DefinitionTable & definition_table;
-		MemberTable & member_table;
 		GlobalTable & global_table;
 		CustomResolver & custom_resolver;
 	};

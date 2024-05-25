@@ -45,14 +45,12 @@ namespace ltn::c {
 		ValidFunctionTable fx_table;
 		FunctionQueue fx_queue;
 		ValidDefinitionTable definition_table;
-		MemberTable member_table;
 		ValidGlobalTable global_table;
 		CustomResolver custom_resolver{literals};
 		Context context {
 			.fx_table = fx_table,
 			.fx_queue = fx_queue,
 			.definition_table = definition_table,
-			.member_table = member_table,
 			.global_table = global_table,
 			.custom_resolver = custom_resolver,
 		};
@@ -106,9 +104,9 @@ namespace ltn::c {
 			program.functions.push_back(std::move(fx));
 		}
 
-
-
-		program.member_name_table = member_table.get_table();
+		for(auto & [name, info] : global_scope.get_member_info_table()) {
+			program.member_name_table[name] = info.id;
+		}
 
 		return program;
 	}

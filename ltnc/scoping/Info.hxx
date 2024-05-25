@@ -6,4 +6,8 @@ namespace ltn::c {
 	struct LocalVariableInfo {
 		std::uint64_t address;
 	};
+
+	struct MemberInfo {
+		std::uint64_t id;
+	};
 }
