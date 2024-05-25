@@ -14,9 +14,9 @@ namespace ltn::c {
 
 
 
-		std::variant<std::string, MemberCode> parse_member(Tokens & tokens) {
+		std::string parse_member(Tokens & tokens) {
 			if(auto member = match(TT::BRACE_L, tokens)) {
-				MemberCode code = parse_member_code(tokens);
+				auto code = parse_special_member(tokens);
 				if(!match(TT::BRACE_R, tokens)) {
 					throw CompilerError{"Expected }", location(tokens)};
 				}

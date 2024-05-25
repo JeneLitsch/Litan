@@ -116,12 +116,12 @@ namespace ltn::c {
 
 
 
-		std::variant<std::string, MemberCode> parse_struct_member_name(const Token & begin, Tokens & tokens) {
+		std::string parse_struct_member_name(const Token & begin, Tokens & tokens) {
 			if(auto name = match(TT::INDENTIFIER, tokens)) {
 				return name->str;
 			}
 			else if(match(TT::BRACE_L, tokens)) {
-				auto code = parse_member_code(tokens);
+				auto code = parse_special_member(tokens);
 
 				if(!match(TT::BRACE_R, tokens)) {
 					throw CompilerError{"Expected }", location(tokens)};

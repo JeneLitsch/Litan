@@ -87,7 +87,7 @@ namespace ltn::c {
 
 
 
-	std::uint64_t FunctionScope::resolve_member_id(const std::variant<std::string, MemberCode> & name) const {
+	std::uint64_t FunctionScope::resolve_member_id(const std::string & name) const {
 		return namspace_scope->resolve_member_id(name);
 	}
 

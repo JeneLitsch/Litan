@@ -30,7 +30,7 @@ namespace ltn::c::ast::expr {
 		struct Clock {};
 		struct Struct {
 			struct Member {
-				std::variant<std::string, MemberCode> name;
+				std::string name;
 				std::unique_ptr<Type> type;
 			};
 

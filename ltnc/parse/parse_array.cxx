@@ -20,7 +20,7 @@ namespace ltn::c {
 
 
 			if(match(TT::BRACE_L, tokens)) {
-				MemberCode code = parse_member_code(tokens);
+				auto name = "special:" + parse_variable_name(tokens);
 
 				if(!match(TT::BRACE_R, tokens)) {
 					throw CompilerError{"Expected }", location(tokens)};
@@ -32,7 +32,7 @@ namespace ltn::c {
 				auto expr = parse_expression(tokens);
 
 				return ast::expr::Struct::Member{
-					.name = code,
+					.name = name,
 					.expr = std::move(expr),
 				};
 			}

@@ -3,7 +3,18 @@
 namespace ltn::c {
 	GlobalScope::GlobalScope(stx::reference<Context> context)
 		: Scope {}
-		, context { context } {}
+		, context { context } {
+		
+		member_info["special:add"] = MemberInfo {.id = static_cast<std::uint64_t>(MemberCode::ADD)};
+		member_info["special:sub"] = MemberInfo {.id = static_cast<std::uint64_t>(MemberCode::SUB)};
+		member_info["special:mlt"] = MemberInfo {.id = static_cast<std::uint64_t>(MemberCode::MLT)};
+		member_info["special:div"] = MemberInfo {.id = static_cast<std::uint64_t>(MemberCode::DIV)};
+		member_info["special:mod"] = MemberInfo {.id = static_cast<std::uint64_t>(MemberCode::MOD)};
+		member_info["special:pow"] = MemberInfo {.id = static_cast<std::uint64_t>(MemberCode::POW)};
+		member_info["special:cmp"] = MemberInfo {.id = static_cast<std::uint64_t>(MemberCode::CMP)};
+		member_info["special:str"] = MemberInfo {.id = static_cast<std::uint64_t>(MemberCode::STR)};
+		member_info["special:bool"] = MemberInfo {.id = static_cast<std::uint64_t>(MemberCode::BOOL)};
+	}
 
 
 
@@ -73,31 +84,15 @@ namespace ltn::c {
 
 
 
-	namespace {
-		std::uint64_t resolve_member_id_impl(auto & table, const std::string & str) {
-			if(table.contains(str)) {
-				return table.at(str).id;
-			}
-			const auto id = table.size() + 256;
-			table.insert({str, MemberInfo {
-				.id = id,
-			}});
-			return id;
+	std::uint64_t GlobalScope::resolve_member_id(const std::string & name) const {
+		if(member_info.contains(name)) {
+			return member_info.at(name).id;
 		}
-
-
-
-		std::uint64_t resolve_member_id_impl(auto &, MemberCode code) {
-			return static_cast<std::uint64_t>(code);
-		}
-	}
-
-
-
-	std::uint64_t GlobalScope::resolve_member_id(const std::variant<std::string, MemberCode> & name) const {
-		return std::visit([&] (auto & m) {
-			return resolve_member_id_impl(this->member_info, m);
-		}, name);
+		const auto id = member_info.size() + 256;
+		member_info.insert({name, MemberInfo {
+			.id = id,
+		}});
+		return id;
 	}
 
 

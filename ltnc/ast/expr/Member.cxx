@@ -1,7 +1,7 @@
 #include "Member.hxx"
 
 namespace ltn::c::ast::expr {
-	Member::Member(expr_ptr expr, const std::variant<std::string, MemberCode> & name, const SourceLocation & location)
+	Member::Member(expr_ptr expr, const std::string & name, const SourceLocation & location)
 		: Expression(location)
 		, expr(std::move(expr))
 		, name(std::move(name)) {};
@@ -14,19 +14,7 @@ namespace ltn::c::ast::expr {
 
 
 
-	std::unique_ptr<Member> member(const SourceLocation & location, expr_ptr expr, const std::variant<std::string, MemberCode> name) {
-		return std::make_unique<Member>(std::move(expr), name, location);
-	}
-
-
-
 	std::unique_ptr<Member> member(const SourceLocation & location, expr_ptr expr, const std::string & name) {
 		return std::make_unique<Member>(std::move(expr), name, location);
-	}
-
-
-
-	std::unique_ptr<Member> member(const SourceLocation & location, expr_ptr expr, MemberCode code) {
-		return std::make_unique<Member>(std::move(expr), code, location);
 	}
 }

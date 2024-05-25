@@ -70,5 +70,5 @@ namespace ltn::c {
 
 	ast::expr_ptr parse_type(Tokens & tokens);
 
-	MemberCode parse_member_code(Tokens & tokens);
+	std::string parse_special_member(Tokens & tokens);
 }
