@@ -1,9 +1,9 @@
 #include "NamespaceScope.hxx"
 
 namespace ltn::c {
-	NamespaceScope::NamespaceScope(const RootScope & root_scope, const Namespace & namespaze)
+	NamespaceScope::NamespaceScope(stx::reference<const GlobalScope> parent, const Namespace & namespaze)
 		: GlobalScope {}
-		, root_scope { root_scope }
+		, parent { parent }
 		, namespaze { namespaze } {
 
 	}
@@ -11,19 +11,19 @@ namespace ltn::c {
 	
 	
 	std::uint64_t NamespaceScope::size() const {
-		return root_scope->size();
+		return parent->size();
 	}
 
 
 
 	bool NamespaceScope::is_const() const {
-		return root_scope->is_const();
+		return parent->is_const();
 	}
 
 
 
 	bool NamespaceScope::is_coroutine() const {
-		return root_scope->is_coroutine();
+		return parent->is_coroutine();
 	}
 
 
@@ -34,13 +34,13 @@ namespace ltn::c {
 
 
 	std::optional<std::string> NamespaceScope::get_return() const {
-		return root_scope->get_return();
+		return parent->get_return();
 	}
 
 
 
 	Context & NamespaceScope::get_context() const {
-		return root_scope->get_context();
+		return parent->get_context();
 	}
 
 
@@ -51,7 +51,7 @@ namespace ltn::c {
 
 
 	stx::optref<const LocalVariableInfo> NamespaceScope::resolve_local_variable(const std::string & name, const SourceLocation & location) const {
-		return root_scope->resolve_local_variable(name, location);
+		return parent->resolve_local_variable(name, location);
 	}
 
 
@@ -92,12 +92,12 @@ namespace ltn::c {
 
 
 	std::uint64_t NamespaceScope::resolve_member_id(const std::string & name) const {
-		return root_scope->resolve_member_id(name);
+		return parent->resolve_member_id(name);
 	}
 
 
 
 	sst::expr_ptr NamespaceScope::resolve_custom_literal(const std::string & type, const std::string & value) const {
-		return root_scope->resolve_custom_literal(type, value);
+		return parent->resolve_custom_literal(type, value);
 	}
 }
