@@ -41,17 +41,10 @@ namespace ltn::c {
 		return context;
 	}
 	
-
 	
-	void GlobalScope::set_return(const std::string & return_point) {
-		// TODO ERROR
-	}
-
-
 
 	Variable GlobalScope::declare_variable(const std::string & name, const SourceLocation & location) {
-		// TODO ERROR
-		throw "";
+		throw std::runtime_error { "Cannot declare local varaible in global scope" };
 	}
 
 

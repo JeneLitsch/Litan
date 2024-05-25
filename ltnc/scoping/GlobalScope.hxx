@@ -12,7 +12,6 @@ namespace ltn::c {
 		virtual const Namespace & get_namespace() const override;
 		virtual std::optional<std::string> get_return() const override;
 		virtual Context & get_context() const override;
-		void set_return(const std::string & return_point);
 
 		virtual Variable declare_variable(const std::string & name, const SourceLocation & location) override;
 
