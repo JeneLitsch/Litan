@@ -1,1 +1,1 @@
-sudo cp build/litan /usr/local/bin/litan
+sudo cp bin/litan /usr/local/bin/litan

@@ -1,0 +1,1 @@
+./bin/litan run "test/main.ltn"
