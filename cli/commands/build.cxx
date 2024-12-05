@@ -1,10 +1,10 @@
-#include "compile.hxx"
+#include "build.hxx"
 #include <iostream>
 #include "ltnc/Ltnc.hxx"
 #include "../shared/shared.hxx"
 #include "../shared/file.hxx"
 
-int compile(std::string_view script_path, std::string_view target_path) {
+int build(std::string_view script_path, std::string_view target_path) {
 	auto sst = analysis_phase(script_path);
 	auto instructions = synthesis_phase(sst);
 	auto link_info = ltn::c::link(sst, instructions);

@@ -7,9 +7,9 @@ add_executable(litan
 	"litan.cxx"
 	"shared/shared.cxx"
 	"shared/file.cxx"
-	"commands/compile.cxx"
+	"commands/build.cxx"
 	"commands/exec.cxx"
-	"commands/preview.cxx"
+	"commands/dump.cxx"
 	"commands/run.cxx"
 )
 

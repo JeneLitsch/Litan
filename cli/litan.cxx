@@ -12,8 +12,8 @@
 
 #include "commands/run.hxx"
 #include "commands/exec.hxx"
-#include "commands/compile.hxx"
-#include "commands/preview.hxx"
+#include "commands/build.hxx"
+#include "commands/dump.hxx"
 
 
 int main(int argc, const char** argv) {
@@ -28,11 +28,11 @@ int main(int argc, const char** argv) {
 			else if (secondary_command == "exec" && args.size() > 1) {
 				return exec(args[1], args.subspan(2));
 			}
-			else if (secondary_command == "compile" && args.size() > 2) {
-				return compile(args[1], args[2]);
+			else if (secondary_command == "build" && args.size() > 2) {
+				return build(args[1], args[2]);
 			}
-			else if (secondary_command == "preview" && args.size() > 2) {
-				return preview(args[1], args[2]);
+			else if (secondary_command == "dump" && args.size() > 2) {
+				return dump(args[1], args[2]);
 			}
 			else {
 				std::cout << "Invalid litan command " << secondary_command << ".\n";
@@ -49,8 +49,8 @@ int main(int argc, const char** argv) {
 		std::cout << "Usage:\n";
 		std::cout << "    run     <script> args...    : Executes a script\n";
 		std::cout << "    exec    <bytecode> args...  : Executes precompiled bytecode\n";
-		std::cout << "    compile <script> <bytecode> : Compiles script to bytecode\n";
-		std::cout << "    preview <script> <assembly> : Compiles script to assembly for debugging and analysis\n";
+		std::cout << "    build   <script> <bytecode> : Compiles script to bytecode\n";
+		std::cout << "    dump    <script> <assembly> : Compiles script to assembly for debugging and analysis\n";
 		return EXIT_FAILURE;
 	}
 }
