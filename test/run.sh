@@ -7,4 +7,4 @@ rm $asm_file
 # ./bin/ltnc -o --asm $asm_file --exe $bin_file --src "test/main.ltn"
 # ./bin/ltnvm --exe $bin_file --args Hello World 123
 
-./bin/ltn --src "test/main.ltn" --args Hello World 123
+./build/litan run "test/main.ltn"

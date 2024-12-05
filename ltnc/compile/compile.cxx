@@ -20,7 +20,7 @@ namespace ltn::c {
 
 
 	// compiles source
-	std::tuple<std::vector<inst::Inst>, LinkInfo> compile(const sst::Program & program) {
+	std::vector<inst::Inst> compile(const sst::Program & program) {
 		
 		InstructionBuffer buf;
 
@@ -35,8 +35,12 @@ namespace ltn::c {
 		}
 
 		buf << inst::exit();
-		auto instructions = buf.get();
+		return buf.get();
+	}
 
+
+
+	LinkInfo link(const sst::Program & program, const std::vector<inst::Inst> & instructions) {
 		AddressTable jump_table = scan(instructions);
 
 		FunctionPool function_pool;
@@ -61,11 +65,11 @@ namespace ltn::c {
 
 		std::map<std::uint64_t, std::string> member_name_table;
 
-		return { instructions, LinkInfo { 
+		return LinkInfo { 
 			.global_table = extern_globals,
 			.member_name_table = program.member_name_table,
 			.jump_table = jump_table,
 			.function_pool = function_pool,
-		}};
+		};
 	}
 }

@@ -20,6 +20,9 @@ namespace ltn {
 
 	Any::Any(const std::string v)
 		: data{v} {}
+
+	Any::Any(const std::string_view v)
+		: data{std::string(v)} {}
 	
 	Any::Any(const std::vector<Any> & v)
 		: data{v} {}

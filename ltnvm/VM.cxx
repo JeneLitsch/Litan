@@ -168,6 +168,7 @@ namespace ltn::vm {
 			if(!main_fx) throw std::runtime_error {
 				"Program does not contain function " + main_name
 			};
+
 			core.pc = core.code_begin + main_fx->address;
 			core.stack.push_frame(core.code_end - 1, arguments_count, main_fx);
 		}

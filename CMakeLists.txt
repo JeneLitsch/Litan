@@ -27,13 +27,5 @@ add_subdirectory(ltn)
 add_subdirectory(ltnc)
 add_subdirectory(ltnvm)
 
-add_executable(exeltn cli/ltn.cxx)
-target_link_libraries(exeltn libltn libltnc libltnvm)
-
-add_executable(exeltnc cli/ltnc.cxx)
-target_link_libraries(exeltnc libltn libltnc)
-
-add_executable(exeltnvm cli/ltnvm.cxx)
-target_link_libraries(exeltnvm libltn libltnvm)
-
-add_executable(exeltninfo cli/ltninfo.cxx)
+add_executable(litan cli/litan.cxx)
+target_link_libraries(litan libltn libltnc libltnvm)

@@ -3,6 +3,7 @@
 #include <variant>
 #include <string>
 #include <cstdint>
+#include <string_view>
 #include <ostream>
 #include <optional>
 #include "stdxx/float64_t.hxx"
@@ -21,6 +22,7 @@ namespace ltn {
 		Any(std::integral auto v) : Any{static_cast<std::int64_t>(v)} {}
 		Any(stx::float64_t v);
 		Any(const std::string v);
+		Any(const std::string_view v);
 		Any(const std::vector<Any> & v);
 
 		bool is_null() const;

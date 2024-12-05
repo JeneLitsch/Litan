@@ -2,7 +2,7 @@
 #import "core"
 #import "std"
 
-function main(args) {
+function main() {
 	var clock = std::chrono::clock();
 	sphinx::run_tests();
 	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
