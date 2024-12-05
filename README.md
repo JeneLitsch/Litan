@@ -1,7 +1,6 @@
 # Litan
 
-Litan is a gradual typed programming language with a C-like syntax.
-The Compiler and Bytecode-VM can be used as standalones or C++-Library to add scripts to any application.
+Litan is a dynamically typed programming language with a C-like syntax.
 
 ## Hello World
 
@@ -75,14 +74,6 @@ function main() {
    - Note: Clang++ is choosen by default but this can be changed.
 Just run `./build.sh COMPILER_GOES_HERE` in this case.
 3. Run `./install.sh` to install ltn, ltnc, ltnvm and ltninfo into the /usr/local/bin/ directory.
-
-### Use as library
-
-1. Add litan as a submodule to your project.
-2. Add stdxx as a submodule to your project.
-3. Add the litan subdirectory to your project: e.g. `add_subdirectory(libs/litan)`
-4. Link the library: e.g. `target_link_libraries(my_project litan)`
-5. Include the main header: e.g. `#include "libs/litan/Litan.hxx"`
 
 
 ## Special Thanks

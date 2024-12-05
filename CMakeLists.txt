@@ -27,20 +27,13 @@ add_subdirectory(ltn)
 add_subdirectory(ltnc)
 add_subdirectory(ltnvm)
 
-if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
+add_executable(exeltn cli/ltn.cxx)
+target_link_libraries(exeltn libltn libltnc libltnvm)
 
-	add_executable(exeltn cli/ltn.cxx)
-	target_link_libraries(exeltn libltn libltnc libltnvm)
-	
-	add_executable(exeltnc cli/ltnc.cxx)
-	target_link_libraries(exeltnc libltn libltnc)
+add_executable(exeltnc cli/ltnc.cxx)
+target_link_libraries(exeltnc libltn libltnc)
 
-	add_executable(exeltnvm cli/ltnvm.cxx)
-	target_link_libraries(exeltnvm libltn libltnvm)
-	
-	add_executable(exeltninfo cli/ltninfo.cxx)
-	
-else()
-	add_library(litan Litan.cxx)
-	target_link_libraries(litan libltn libltnc libltnvm)
-endif()
+add_executable(exeltnvm cli/ltnvm.cxx)
+target_link_libraries(exeltnvm libltn libltnvm)
+
+add_executable(exeltninfo cli/ltninfo.cxx)

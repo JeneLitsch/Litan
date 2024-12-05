@@ -1,4 +1,3 @@
-#include "Litan.hxx"
 #include "ltnvm/utils/cast.hxx"
 #include "ltn/version.hxx"
 #include <filesystem>
@@ -6,7 +5,8 @@
 #include <iostream>
 #include "ltn/args.hxx"
 #include "stdxx/args.hxx"
-
+#include "ltnc/Ltnc.hxx"
+#include "ltnvm/VM.hxx"
 
 int main(int argc, char const *argv[]) {
 	stx::args args{argc, argv};
@@ -48,7 +48,7 @@ int main(int argc, char const *argv[]) {
 		single_file.push_back(argv[1]);
 	}
 
-	ltn::VM vm;
+	ltn::vm::VM vm;
 	try {
 		std::vector<std::string> args;
 
