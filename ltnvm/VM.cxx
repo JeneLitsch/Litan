@@ -151,17 +151,6 @@ namespace ltn::vm {
 
 
 
-		void load_main_args(VMCore & core, const std::vector<std::string> & args) {
-			const auto arr = core.heap.alloc<Array>({});
-			core.stack.push(value::array(arr));
-			for(const auto & arg : args) {
-				const auto str = core.heap.alloc(String{arg});
-				arr->push_back(value::string(str));
-			}
-		}
-
-
-
 		void load_variant_args(VMCore & core, std::size_t argc, const Any * argv) {
 			for(std::size_t i = 0; i < argc; ++i) {
 				core.stack.push(to_value(argv[i], core.heap));
@@ -227,10 +216,6 @@ namespace ltn::vm {
 
 
 
-
-
-
-
 	void VM::setup(std::span<const std::uint8_t> code) {
 		if(code.size() < 2) {
 			throw std::runtime_error{"Not an executable program"};
@@ -270,36 +255,11 @@ namespace ltn::vm {
 	}
 
 
-
-	Any VM::run(const std::vector<std::string> & args, const std::string & main) {
-		stx::keeper pc_keeper = this->core.pc;
-		
-		load_main_args(core, args);
-		jump_to_init(core, main, 1);
-		try {
-			return to_any(main_loop(this->core), core.heap);
-		}
-		catch(const Unhandled & err) {
-			throw std::runtime_error { 
-				"Unhandled exception: " + err.exception.msg
-			};
-		}
-	}
-
-
-
 	Any VM::call(
 		const std::string & function_label,
 		const std::vector<Any> & args) {
 		
 		return this->call(function_label, args.size(), args.data());
-	}
-
-	Any VM::call(
-		const std::string & function_label,
-		const std::initializer_list<Any> & args) {
-	
-		return this->call(function_label, args.size(), args.begin());
 	}
 
 	Any VM::call(
@@ -320,34 +280,5 @@ namespace ltn::vm {
 				"Unhandled exception: " + err.exception.msg
 			};
 		}
-	}
-
-
-
-	void VM::set_global(
-		const std::string & name,
-		Any any) {
-
-		if(!core.static_table.contains(name)) throw std::runtime_error {
-			"Program does not contain global variable " + name
-		};
-
-		const auto address = core.static_table[name];
-		this->core.stack.write_absolute(address, to_value(any, core.heap));
-	}
-
-	
-
-	void VM::set_globals(const stx::json::iterator & iter) {
-		for(const auto & key : iter.keys()) {
-			const auto address = core.static_table[key];
-			this->core.stack.write_absolute(address, json_to_value(iter[key].get_node(), core));
-		}
-	}
-
-
-
-	bool VM::has_function(const std::string & fx_name) {
-		return this->core.function_pool.contains(fx_name);
 	}
 }

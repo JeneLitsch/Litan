@@ -131,4 +131,9 @@ namespace ltn {
 		std::visit([&] (auto & value) { print(stream, value); }, any.data);
 		return stream;
 	}
+
+
+	Any Any::from_string(const std::string & str) {
+		return Any(str);
+	}
 }

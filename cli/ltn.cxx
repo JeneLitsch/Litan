@@ -8,6 +8,12 @@
 #include "ltnc/Ltnc.hxx"
 #include "ltnvm/VM.hxx"
 
+std::vector<ltn::Any> args_str_to_any(const std::vector<std::string> & strings) {
+	std::vector<ltn::Any> anys;
+	std::ranges::transform(strings, std::back_inserter(anys), ltn::Any::from_string);
+	return anys;
+}
+
 int main(int argc, char const *argv[]) {
 	stx::args args{argc, argv};
 
@@ -60,9 +66,8 @@ int main(int argc, char const *argv[]) {
 		if(flag_o) instructions = ltn::c::peephole(instructions);
 		auto bytecode = ltn::c::assemble(instructions, link_info);
 		const auto main_function = main_init.value_or("");
-
 		vm.setup(bytecode);
-		auto x = vm.run(main_args.value_or({}), main_function);
+		auto x = vm.call(main_function, args_str_to_any(main_args.value_or({})));
 		std::cout << "Exit main() with return value: " << x << "\n";
 	}
 	catch (const ltn::c::CompilerError & error) {

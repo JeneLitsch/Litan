@@ -7,6 +7,13 @@
 #include "stdxx/args.hxx"
 
 
+std::vector<ltn::Any> args_str_to_any(const std::vector<std::string> & strings) {
+	std::vector<ltn::Any> anys;
+	std::ranges::transform(strings, std::back_inserter(anys), ltn::Any::from_string);
+	return anys;
+}
+
+
 std::vector<std::uint8_t> read_bytecode(const std::filesystem::path & path) {
 	std::ifstream file(path, std::ios::binary);
 	if(!file) {
@@ -58,8 +65,7 @@ int main(int argc, char const *argv[]) {
 		ltn::vm::VM vm;
 		const auto main_function = main_init.value_or("");
 		vm.setup(bytecode);
-		// vm.set_global("foo::test", std::int64_t{42});
-		auto x = vm.run(main_args.value_or({}), main_function);
+		auto x = vm.call(main_function, args_str_to_any(main_args.value_or({})));
 		std::cout << "Exit main() with return value: " << x << "\n";		
 		return EXIT_SUCCESS;
 	}

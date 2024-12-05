@@ -40,6 +40,8 @@ namespace ltn {
 		
 		friend std::ostream & operator<<(std::ostream & stream, const Any & any);
 
+		static Any from_string(const std::string & str);
+
 	private:
 		template<typename T>
 		bool is() const {

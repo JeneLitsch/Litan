@@ -116,37 +116,10 @@ namespace ltn::c {
 
 
 
-		std::optional<std::filesystem::path> parse_include_root(const Token & start, Tokens & tokens, const Options & opts) {
-			if(match(TT::BRACE_L, tokens)) {
-				if(auto root = match(TT::STRING, tokens)) {
-					if(opts.include_paths.contains(root->str)) {
-						if(match(TT::BRACE_R, tokens)) {
-							return opts.include_paths.at(root->str);
-						}
-						else {
-							throw CompilerError {"Expected }", start.location};
-						}
-					}
-					else {
-						throw CompilerError {"Unknown root \"" + root->str + "\"", start.location};
-					}
-				}
-				else {
-					throw CompilerError {"Expected include/import root as string", start.location};
-				}
-	
-			}
-			else {
-				return std::nullopt;
-			}
-		}
-
-
 
 		Source parse_import(const Source & includer, const Token & start, Tokens & tokens, const Options & options) {
 			const std::filesystem::path source_path = includer.get_full_name(); 
 			const std::filesystem::path parent_path = source_path.parent_path();
-			auto root = parse_include_root(start, tokens, options);
 			if(auto path = match(TT::STRING, tokens)) {
 				const std::filesystem::path dependecy_path = parent_path / path->str;
 				return ModuleSource{dependecy_path};
@@ -161,7 +134,6 @@ namespace ltn::c {
 		Source parse_include(const Source & includer, const Token & start, Tokens & tokens, const Options & options) {
 			const std::filesystem::path source_path = includer.get_full_name(); 
 			const std::filesystem::path parent_path = source_path.parent_path();
-			auto root = parse_include_root(start, tokens, options);
 			if(auto path = match(TT::STRING, tokens)) {
 				const std::filesystem::path dependecy_path = parent_path / path->str;
 				return FileSource{dependecy_path};

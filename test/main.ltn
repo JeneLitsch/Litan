@@ -1,6 +1,6 @@
-#import {"main"} "sphinx"
-#import {"main"} "core"
-#import {"main"} "std"
+#import "sphinx"
+#import "core"
+#import "std"
 
 function main(args) {
 	var clock = std::chrono::clock();
