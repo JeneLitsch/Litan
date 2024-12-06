@@ -23,6 +23,24 @@ namespace sphinx::test {
 
 
 
+	function array_front() {
+		assert_equal_strict([1,2,3]->front(), 1);
+	}
+
+
+
+	function array_back() {
+		assert_equal_strict([1,2,3]->back(), 3);
+	}
+
+
+
+	function array_peek() {
+		assert_equal_strict([1,2,3]->peek(), 3);
+	}
+
+
+
 	function array_pop() {
 		var arr = [1,2,3];
 		assert_equal_strict([1,2,3], arr);

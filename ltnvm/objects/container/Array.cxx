@@ -48,11 +48,38 @@ namespace ltn::vm {
 
 
 
+		Value array_front(const Value * args) {
+			return req_array(args[0])->front();
+		}
+
+
+
+		Value array_back(const Value * args) {
+			return req_array(args[0])->back();
+		}
+
+
+
+		Value array_peek(const Value * args) {
+			return array_back(args);
+		}
+
+
+
+		std::pair<std::uint64_t, NativeFunctionPointer> wrap(MemberCode code, NativeFunctionHandle handle, std::uint64_t arity) {
+			return std::pair<std::uint64_t, NativeFunctionPointer>{ static_cast<std::uint64_t>(code), NativeFunctionPointer{handle, arity, false} };
+		}
+
+
+
 		std::map<std::uint64_t, NativeFunctionPointer> native_function_table {
-			{ static_cast<std::uint64_t>(MemberCode::SIZE), NativeFunctionPointer{array_size, 1, false} },
-			{ static_cast<std::uint64_t>(MemberCode::IS_EMTPY), NativeFunctionPointer{array_is_empty, 1, false} },
-			{ static_cast<std::uint64_t>(MemberCode::PUSH), NativeFunctionPointer{array_push, 2, false} },
-			{ static_cast<std::uint64_t>(MemberCode::POP), NativeFunctionPointer{array_pop, 1, false} },
+			wrap(MemberCode::SIZE, array_size, 1),
+			wrap(MemberCode::IS_EMTPY, array_is_empty, 1),
+			wrap(MemberCode::PUSH, array_push, 2),
+			wrap(MemberCode::POP,  array_pop, 1),
+			wrap(MemberCode::FRONT, array_front, 1),
+			wrap(MemberCode::BACK, array_back, 1),
+			wrap(MemberCode::PEEK, array_peek, 1),
 		};
 	}
 

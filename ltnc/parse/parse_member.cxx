@@ -41,6 +41,9 @@ namespace ltn::c {
 			{"is_empty", MemberCode::IS_EMTPY},
 			{"push",     MemberCode::PUSH},
 			{"pop",      MemberCode::POP},
+			{"peek",     MemberCode::PEEK},
+			{"back",     MemberCode::BACK},
+			{"front",    MemberCode::FRONT},
 		};
 
 		for(const auto & [name, code] : table) {
