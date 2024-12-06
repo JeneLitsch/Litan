@@ -9,14 +9,12 @@
 namespace ltn::vm {
 	struct ScriptFunctionPointer : public FunctionPointer {
 		ScriptFunctionPointer(std::uint64_t index, std::uint64_t params, bool is_variadic = false)
-			: FunctionPointer{params}
-			, index{index} 
-			, is_variadic{is_variadic} {}
+			: FunctionPointer{params, is_variadic}
+			, index{index} {}
 
 		std::uint64_t index;
 
 		std::vector<Value> captured;
-		bool is_variadic = false;
 		constexpr static std::string_view typeName = "ScriptFunctionPointer";
 	};
 
