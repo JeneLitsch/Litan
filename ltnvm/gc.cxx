@@ -37,7 +37,7 @@ namespace ltn::vm::gc {
 
 
 
-	void mark_obj(FxPointer * obj) {
+	void mark_obj(ScriptFunctionPointer * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
 			mark(obj->captured);
@@ -130,7 +130,7 @@ namespace ltn::vm::gc {
 			case VT::ITERATOR:      return mark_obj(value.as<Iterator>());
 			case VT::ITERATOR_STOP: return; // no gc required
 			case VT::OSTREAM:       return mark_obj(value.as<OStream>());
-			case VT::FUNCTION:      return mark_obj(value.as<FxPointer>());
+			case VT::FUNCTION:      return mark_obj(value.as<ScriptFunctionPointer>());
 			case VT::CLOCK:         return mark_obj(value.as<Clock>());
 			case VT::STRUCT:        return mark_obj(value.as<Struct>());
 			case VT::QUEUE:         return mark_obj(value.as<Segmented>());

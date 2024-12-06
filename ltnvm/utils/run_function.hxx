@@ -11,7 +11,7 @@ namespace ltn::vm {
 		const Value & ref,
 		const auto & ...args) {
 		const auto arity = sizeof...(args);
-		auto & fx = core.heap.read<FxPointer>(ref);
+		auto & fx = core.heap.read<ScriptFunctionPointer>(ref);
 		if(fx.params != arity) throw except::invalid_parameters(arity, fx.params);
 		if(fx.is_variadic) throw except::invalid_member_access();
 		(core.stack.push(args),...);

@@ -4,10 +4,11 @@
 #include <vector>
 #include "ltnvm/Value.hxx"
 #include "ltnvm/objects/Object.hxx"
+//#include "ScriptFunctionPointer.hxx"
 
 namespace ltn::vm {
-	struct FxPointer : public Object {
-		FxPointer(std::uint64_t index, std::uint64_t params, std::vector<Value> captured, bool is_variadic = false)
+	struct ScriptFunctionPointer : public Object {
+		ScriptFunctionPointer(std::uint64_t index, std::uint64_t params, std::vector<Value> captured, bool is_variadic = false)
 			: Object{}
 			, index{index} 
 			, params{params}
@@ -21,12 +22,12 @@ namespace ltn::vm {
 		}
 		std::vector<Value> captured;
 		bool is_variadic = false;
-		constexpr static std::string_view typeName = "FxPointer";
+		constexpr static std::string_view typeName = "ScriptFunctionPointer";
 	};
 
 
 
-	inline FxPointer clone(const FxPointer & fx_ptr) {
+	inline ScriptFunctionPointer clone(const ScriptFunctionPointer & fx_ptr) {
 		return fx_ptr;
 	}
 }

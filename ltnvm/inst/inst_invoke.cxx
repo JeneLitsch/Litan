@@ -22,7 +22,7 @@ namespace ltn::vm::inst {
 
 
 		void do_invoke_fxptr(VMCore & core, const Value ref_fx, std::uint64_t arity) {
-			const auto & fxptr = core.heap.read<FxPointer>(ref_fx);
+			const auto & fxptr = core.heap.read<ScriptFunctionPointer>(ref_fx);
 			const auto call_arity = fxptr.arity() + fxptr.is_variadic;
 
 			if(arity >= fxptr.arity() && fxptr.is_variadic) {

@@ -366,7 +366,7 @@ namespace ltn::vm {
 
 		bool type_is_fx_n(const Value & value, VMCore & core, std::uint64_t arity) {
 			if(!is_fxptr(value)) return false;
-			const FxPointer & input = core.heap.read<FxPointer>(value);
+			const ScriptFunctionPointer & input = core.heap.read<ScriptFunctionPointer>(value);
 			return input.params == arity;
 		}
 

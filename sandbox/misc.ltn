@@ -1,5 +1,3 @@
 function main() {
-	var s = "Hello World";
-	var f = lambda[s](x) => std::println(s + std::str(x));
-	f(42);
+	std::print(lambda(x) => null);
 }
