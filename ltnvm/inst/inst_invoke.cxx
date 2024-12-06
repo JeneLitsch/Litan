@@ -52,6 +52,7 @@ namespace ltn::vm::inst {
 			for (std::size_t i = 0; i < arity; i++) {
 				args.push_back(core.stack.pop());
 			}
+			std::reverse(std::begin(args), std::end(args));
 
 			NativeFunctionPointer * fx_ptr = ref_fx.as<NativeFunctionPointer>();
 			Value return_value = fx_ptr->handle(args.data());

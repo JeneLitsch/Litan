@@ -39,6 +39,8 @@ namespace ltn::c {
 		const static std::map<std::string, MemberCode> table {
 			{"size",     MemberCode::SIZE},
 			{"is_empty", MemberCode::IS_EMTPY},
+			{"push",     MemberCode::PUSH},
+			{"pop",      MemberCode::POP},
 		};
 
 		for(const auto & [name, code] : table) {

@@ -4,8 +4,33 @@ namespace sphinx::test {
 		assert_equal_strict([1,2,3]->size(), 3);
 	}
 
+
+
 	function array_is_empty() {
 		assert_equal_strict([]->is_empty(), true);
 		assert_equal_strict([1,2,3]->is_empty(), false);
+	}
+
+
+
+	function array_push() {
+		var arr = [];
+		arr->push(1);
+		arr->push(2);
+		arr->push(3);
+		assert_equal_strict([1,2,3], arr);
+	}
+
+
+
+	function array_pop() {
+		var arr = [1,2,3];
+		assert_equal_strict([1,2,3], arr);
+		assert_equal_strict(arr->pop(), 3);
+		assert_equal_strict([1,2], arr);
+		assert_equal_strict(arr->pop(), 2);
+		assert_equal_strict([1], arr);
+		assert_equal_strict(arr->pop(), 1);
+		assert_equal_strict([], arr);
 	}
 }
