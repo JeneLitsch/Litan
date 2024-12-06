@@ -81,7 +81,7 @@ namespace ltn::vm::inst {
 		core.heap.collect_garbage(core.stack);
 		const auto index = core.fetch_uint();
 		auto * entry = core.function_pool[index];
-		ScriptFunctionPointer fx_ptr { index, entry->arity, {}, entry->is_variadic };
+		ScriptFunctionPointer fx_ptr { index, entry->arity, entry->is_variadic };
 		const auto ref = core.heap.alloc(std::move(fx_ptr));
 		core.stack.push(value::fx(ref));
 	}
