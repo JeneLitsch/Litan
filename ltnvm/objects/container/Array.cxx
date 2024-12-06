@@ -90,6 +90,7 @@ namespace ltn::vm {
 			Array * array = cast_array(args[0]);
 			std::int64_t index = cast_int(args[1]);
 			Value value = args[2];
+			if(std::size(*array) + 1 <= index) throw except::out_of_range();
 			array->insert(std::begin(*array) + index, value);
 			return value::null;
 		}
