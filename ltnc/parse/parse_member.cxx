@@ -44,6 +44,9 @@ namespace ltn::c {
 			{"peek",     MemberCode::PEEK},
 			{"back",     MemberCode::BACK},
 			{"front",    MemberCode::FRONT},
+			{"at",       MemberCode::AT},
+			{"insert",   MemberCode::INSERT},
+			{"erase",    MemberCode::ERASE},
 		};
 
 		for(const auto & [name, code] : table) {
