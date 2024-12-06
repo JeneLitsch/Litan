@@ -109,7 +109,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_struct(l)) {
-			return core.stack.push(call_special_member<MemberCode::ADD>(core, l, r));
+			return core.stack.push(call_special_member<MemberCode::OPERATOR_ADD>(core, l, r));
 		}
 
 		core.stack.push(calc<Addition>(l, r));
@@ -121,7 +121,7 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_struct(l)) {
-			return core.stack.push(call_special_member<MemberCode::SUB>(core, l, r));
+			return core.stack.push(call_special_member<MemberCode::OPERATOR_SUB>(core, l, r));
 		}
 
 		core.stack.push(calc<Subtraction>(l, r));
@@ -149,7 +149,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_struct(l)) {
-			return core.stack.push(call_special_member<MemberCode::MLT>(core, l, r));
+			return core.stack.push(call_special_member<MemberCode::OPERATOR_MLT>(core, l, r));
 		}
 
 		core.stack.push(calc<Multiplication>(l, r));
@@ -161,7 +161,7 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_struct(l)) {
-			return core.stack.push(call_special_member<MemberCode::DIV>(core, l, r));
+			return core.stack.push(call_special_member<MemberCode::OPERATOR_DIV>(core, l, r));
 		}
 
 		core.stack.push(calc<Division>(l, r));
@@ -173,7 +173,7 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_struct(l)) {
-			return core.stack.push(call_special_member<MemberCode::MOD>(core, l, r));
+			return core.stack.push(call_special_member<MemberCode::OPERATOR_MOD>(core, l, r));
 		}
 		
 		core.stack.push(calc<Modulo>(l, r));
@@ -185,7 +185,7 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_struct(l)) {
-			return core.stack.push(call_special_member<MemberCode::POW>(core, l, r));
+			return core.stack.push(call_special_member<MemberCode::OPERATOR_POW>(core, l, r));
 		}
 
 		core.stack.push(calc<Power>(l, r));

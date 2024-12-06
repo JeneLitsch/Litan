@@ -14,7 +14,6 @@ namespace ltn::vm {
 
 		std::uint64_t index;
 
-		std::vector<Value> captured;
 		constexpr static std::string_view typeName = "ScriptFunctionPointer";
 	};
 

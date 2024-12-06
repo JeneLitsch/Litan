@@ -45,7 +45,7 @@ namespace ltn::vm::inst {
 			return core.stack.push(value::floating(x.f + 1));
 		}
 		if(is_struct(x)) {
-			return core.stack.push(call_special_member<MemberCode::ADD>(core, x, value::integer(1)));
+			return core.stack.push(call_special_member<MemberCode::OPERATOR_ADD>(core, x, value::integer(1)));
 		}
 		throw except::invalid_argument();
 	}
@@ -64,7 +64,7 @@ namespace ltn::vm::inst {
 			return core.stack.push(value::floating(x.f - 1));
 		}
 		if(is_struct(x)) {
-			return core.stack.push(call_special_member<MemberCode::SUB>(core, x, value::integer(1)));
+			return core.stack.push(call_special_member<MemberCode::OPERATOR_SUB>(core, x, value::integer(1)));
 		}
 		throw except::invalid_argument();
 	}

@@ -15,7 +15,7 @@ namespace ltn::vm::convert {
 
 		if(is_struct(value)) {
 			auto & strukt = core.heap.read<Struct>(value);
-			if(auto fx = find_special_member<MemberCode::BOOL>(strukt)) {
+			if(auto fx = find_special_member<MemberCode::OPERATOR_BOOL>(strukt)) {
 				auto result = run_special_member(core, *fx, value);
 				if(is_bool(result)) {
 					return result.b;

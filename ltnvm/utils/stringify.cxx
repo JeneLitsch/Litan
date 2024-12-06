@@ -107,7 +107,7 @@ namespace ltn::vm {
 
 		if(is_struct(value)) {
 			auto & strukt = core.heap.read<Struct>(value);
-			auto fx = find_special_member<MemberCode::STR>(strukt);
+			auto fx = find_special_member<MemberCode::OPERATOR_STR>(strukt);
 			if(!fx) return "<struct>";
 			auto result = run_special_member(core, *fx, value);
 			if(is_string(result)) {

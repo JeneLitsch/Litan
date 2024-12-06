@@ -38,12 +38,12 @@ namespace ltn::vm {
 			return run_special_member(core, *ref, self, args...);
 		}
 		switch (CODE) {
-			case MemberCode::ADD: throw except::missing_operator("_+_");
-			case MemberCode::SUB: throw except::missing_operator("_-_");
-			case MemberCode::MLT: throw except::missing_operator("_*_");
-			case MemberCode::DIV: throw except::missing_operator("_/_");
-			case MemberCode::MOD: throw except::missing_operator("_%_");
-			case MemberCode::POW: throw except::missing_operator("_**_");
+			case MemberCode::OPERATOR_ADD: throw except::missing_operator("_+_");
+			case MemberCode::OPERATOR_SUB: throw except::missing_operator("_-_");
+			case MemberCode::OPERATOR_MLT: throw except::missing_operator("_*_");
+			case MemberCode::OPERATOR_DIV: throw except::missing_operator("_/_");
+			case MemberCode::OPERATOR_MOD: throw except::missing_operator("_%_");
+			case MemberCode::OPERATOR_POW: throw except::missing_operator("_**_");
 			default: throw except::missing_operator("");
 		}
 	}
