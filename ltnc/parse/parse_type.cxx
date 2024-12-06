@@ -116,23 +116,6 @@ namespace ltn::c {
 
 
 
-		std::variant<std::string, MemberCode> parse_struct_member_name(const Token & begin, Tokens & tokens) {
-			if(auto name = match(TT::INDENTIFIER, tokens)) {
-				return name->str;
-			}
-			else if(match(TT::BRACE_L, tokens)) {
-				auto code = parse_member_code(tokens);
-
-				if(!match(TT::BRACE_R, tokens)) {
-					throw CompilerError{"Expected }", location(tokens)};
-				}
-
-				return code;
-			}
-			throw CompilerError{"Expected member", begin.location};
-		}
-
-
 
 		ast::type_ptr parse_struct_member_type(const Token & begin, Tokens & tokens) {
 			if(auto new_begin = match(TT::COLON, tokens)) {
@@ -148,7 +131,7 @@ namespace ltn::c {
 			if(!match(TT::DOT, tokens)) {
 				throw CompilerError{"Expected .", location(tokens)};
 			}
-			auto name = parse_struct_member_name(begin, tokens);
+			auto name = parse_member(tokens);
 			auto type = parse_struct_member_type(begin, tokens);
 
 			return ast::expr::Type::Struct::Member{

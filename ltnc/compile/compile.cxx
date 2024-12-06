@@ -63,8 +63,6 @@ namespace ltn::c {
 			}
 		}
 
-		std::map<std::uint64_t, std::string> member_name_table;
-
 		return LinkInfo { 
 			.global_table = extern_globals,
 			.member_name_table = program.member_name_table,

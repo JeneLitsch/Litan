@@ -20,11 +20,8 @@ namespace ltn::vm::inst {
 		}
 
 
-
-		void do_invoke_fxptr(VMCore & core, const Value ref_fx, std::uint64_t arity) {
-			const auto & fxptr = core.heap.read<ScriptFunctionPointer>(ref_fx);
-			const auto call_arity = fxptr.arity() + fxptr.is_variadic;
-
+		void prepare_args(VMCore & core, const Value ref_fx, std::uint64_t arity) {
+			const auto & fxptr = *ref_fx.as<FunctionPointer>();
 			if(arity >= fxptr.arity() && fxptr.is_variadic) {
 				Tuple tuple {read_from_stack(core.stack, arity - fxptr.arity())};
 				core.stack.push(value::tuple(core.heap.alloc(std::move(tuple))));
@@ -32,12 +29,33 @@ namespace ltn::vm::inst {
 			else if(arity < fxptr.arity()) {
 				throw except::invalid_parameters(fxptr.arity(), arity);
 			}
+		}
 
+
+		void do_invoke_script_function(VMCore & core, const Value ref_fx, std::uint64_t arity) {
+			prepare_args(core, ref_fx, arity);
+
+			const auto & fxptr = *ref_fx.as<ScriptFunctionPointer>();
+			const auto call_arity = fxptr.arity() + fxptr.is_variadic;
 			const auto * entry = core.function_pool[fxptr.index];
 			// std::cout << entry->name << "\n";
 			load_onto_stack(core.stack, fxptr.captured);
 			core.stack.push_frame(core.pc, call_arity + fxptr.captured.size(), entry);
 			core.pc = core.code_begin + entry->address;
+		}
+
+
+		void do_invoke_native_function(VMCore & core, const Value ref_fx, std::uint64_t arity) {
+			prepare_args(core, ref_fx, arity);
+
+			std::vector<Value> args;
+			for (std::size_t i = 0; i < arity; i++) {
+				args.push_back(core.stack.pop());
+			}
+
+			NativeFunctionPointer * fx_ptr = ref_fx.as<NativeFunctionPointer>();
+			Value return_value = fx_ptr->handle(args.data());
+			core.stack.push(return_value);
 		}
 
 
@@ -78,16 +96,18 @@ namespace ltn::vm::inst {
 		const auto arity = core.fetch_byte();
 		const auto ref_fx = core.stack.pop();
 
-		if(is_fxptr(ref_fx)) {
-			return do_invoke_fxptr(core, ref_fx, arity);
+		if(is_script_function(ref_fx)) {
+			return do_invoke_script_function(core, ref_fx, arity);
 		}
-		
+		else if (is_native_function(ref_fx)) {
+			return do_invoke_native_function(core, ref_fx, arity);
+		}
 		else if(is_int(ref_fx)) {
 			auto args = read_from_stack(core.stack, arity);
 			return do_invoke_external(core, ref_fx, arity, args);
 		}
 		
-		if(is_coroutine(ref_fx)) {
+		else if(is_coroutine(ref_fx)) {
 			return do_invoke_coroutine(core, ref_fx, arity);
 		}
 
@@ -103,10 +123,11 @@ namespace ltn::vm::inst {
 			const auto & args = core.heap.read<Contiguous>(ref_param);
 			const auto arity = std::size(args);
 
-			if(is_fxptr(ref_fx)) {
+			if(is_script_function(ref_fx)) {
 				load_onto_stack(core.stack, args);
-				return do_invoke_fxptr(core, ref_fx, arity);
+				return do_invoke_script_function(core, ref_fx, arity);
 			}
+
 			else if(is_int(ref_fx)) {
 				return do_invoke_external(core, ref_fx, arity, args.get_underlying());
 			}

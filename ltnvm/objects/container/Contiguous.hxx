@@ -14,8 +14,6 @@ namespace ltn::vm {
 		}
 
 	protected:
-
-
 		Contiguous(std_container data = {}) 
 			: Container<std::vector<Value>> {data} {}
 	};

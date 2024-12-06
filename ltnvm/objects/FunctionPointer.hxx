@@ -2,6 +2,7 @@
 #include "Object.hxx"
 
 namespace ltn::vm {
+	struct Core;
 	struct FunctionPointer : Object {
 		FunctionPointer(std::uint64_t parameter_count, bool is_variadic = false)
 			: Object{}
@@ -14,5 +15,7 @@ namespace ltn::vm {
 		bool is_variadic;
 
 		std::vector<Value> captured;
+
+		virtual ~FunctionPointer() = default;
 	};
 }

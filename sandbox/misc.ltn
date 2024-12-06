@@ -1,3 +1,4 @@
 function main() {
-	std::print(lambda(x) => null);
+	var f = []->size();
+	std::print(f);
 }

@@ -1,22 +1,24 @@
 #pragma once
 #include "stdxx/float64_t.hxx"
 #include <cstdint>
-#include "ltnvm/objects/Object.hxx"
 
 namespace ltn::vm {
 	class Type;
+	struct Object;
 	struct Value {
 		// DO NOT TOUCH/CHANGE THE VALUES !!!
 		enum class Type : std::uint16_t {
-			NVLL = 0x00,
+			NVLL = 0x00, TYPE,
 			BOOL = 0x10, INT, FLOAT, CHAR,
 			ARRAY = 0x20, STRING, TUPLE,
 			ISTREAM = 0x30, OSTREAM,
-			FUNCTION = 0x40, ITERATOR, ITERATOR_STOP, COROUTINE,
+			FUNCTION = 0x40, ITERATOR, ITERATOR_STOP, COROUTINE, NATIVE_FUNCTION,
 			CLOCK = 0x50,
 			STRUCT = 0x60,
 			QUEUE = 0x70, STACK, MAP,
-			RNG = 0x80, TYPE,
+			RNG = 0x80, 
+
+			FIRST_TYPE = ARRAY,
 		};
 
 		explicit constexpr Value()
@@ -125,6 +127,10 @@ namespace ltn::vm {
 
 		constexpr inline Value fx(Object * obj) {
 			return Value{obj, Value::Type::FUNCTION};
+		}
+
+		constexpr inline Value native_function(Object * obj) {
+			return Value{obj, Value::Type::NATIVE_FUNCTION};
 		}
 
 		constexpr inline Value coroutine(Object * obj) {
