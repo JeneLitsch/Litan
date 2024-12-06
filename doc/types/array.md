@@ -64,6 +64,17 @@ Throws an exception if the array is empty or the index is out of range.
 Returns the value at the given index. 
 Throws an exception if the array is empty or the index is out of range.
 
+### array + array
+
+Concatenate two arrays.
+
+### array * int
+
+Repeat an array.
+
+### int * array
+
+Repeat an array.
 
 
 

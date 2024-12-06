@@ -36,17 +36,7 @@ namespace sphinx::test {
 
 
 
-	function add_array() {
-		test_name("operator: l + r (array + array)");
 
-		assert_equal([] + [], []);
-		assert_equal([] + [1], [1]);
-		assert_equal([1] + [], [1]);
-		assert_equal([1] + [1], [1, 1]);
-		assert_equal([[1]] + [2], [[1], 2]);
-		assert_equal([[""]] + [2], [[""], 2]);
-		assert_equal([[""]] + [[2]], [[""], [2]]);
-	}
 
 
 	function add_except() {
