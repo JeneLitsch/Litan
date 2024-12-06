@@ -17,8 +17,13 @@ namespace ltn::vm {
 			}
 		}
 
+		Value array_is_empty(const Value * args) {
+			return value::boolean(array_size(args).i == 0);
+		}
+
 		std::map<std::uint64_t, NativeFunctionPointer> native_function_table {
 			{ static_cast<std::uint64_t>(MemberCode::SIZE), NativeFunctionPointer{array_size, 1, false} },
+			{ static_cast<std::uint64_t>(MemberCode::IS_EMTPY), NativeFunctionPointer{array_is_empty, 1, false} },
 		};
 	}
 

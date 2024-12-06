@@ -1,0 +1,11 @@
+namespace sphinx::test {
+	function array_size() {
+		assert_equal_strict([]->size(), 0);
+		assert_equal_strict([1,2,3]->size(), 3);
+	}
+
+	function array_is_empty() {
+		assert_equal_strict([]->is_empty(), true);
+		assert_equal_strict([1,2,3]->is_empty(), false);
+	}
+}

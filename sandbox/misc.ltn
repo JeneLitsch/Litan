@@ -1,4 +1,9 @@
 function main() {
-	var f = []->size();
-	std::print(f);
+	var arr1 = [];
+	var arr2 = [1,2,3];
+
+	std::print(arr1->size());
+	std::println(arr1->is_empty());
+	std::print(arr2->size());
+	std::println(arr2->is_empty());
 }

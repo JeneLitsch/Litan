@@ -37,7 +37,8 @@ namespace ltn::c {
 
 	std::optional<MemberCode> parse_reserved_member_name(Tokens & tokens) {
 		const static std::map<std::string, MemberCode> table {
-			{"size", MemberCode::SIZE},
+			{"size",     MemberCode::SIZE},
+			{"is_empty", MemberCode::IS_EMTPY},
 		};
 
 		for(const auto & [name, code] : table) {
