@@ -10,7 +10,7 @@ Return the size the array as an int;
 
 ### -> is_empty(): Bool
 
-Returns wether the array is empty (size == 0)
+Returns whether the array is empty (size == 0)
 
 ### -> push(value : Any): Null
 
@@ -71,6 +71,20 @@ Calls `f` for all elements and create an array containing the result.
 Sums up all elements using `f`.
 Returns `null` if the array is empty.
 
+
+### -> any(f : function): Bool
+
+Tests whether `f` returns a truthy value for any element in the array.
+
+
+### -> all(f : function): Bool
+
+Tests whether `f` returns a truthy value for all elements in the array.
+
+
+### -> none(f : function): Bool
+
+Tests whether `f` returns a truthy value for no element in the array.
 
 
 ## Operators

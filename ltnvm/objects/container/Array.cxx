@@ -140,6 +140,40 @@ namespace ltn::vm {
 
 
 
+		Value array_any(NativeCore * native_core, const Value * args) {
+			Array * array = req_array(args + 0);
+			VMCore & core = *static_cast<VMCore*>(native_core->core);
+			for (const Value & elem : *array) {
+				const Value result = run_function(core, args[1], elem);
+				if (convert::to_bool(result, core)) {
+					return value::boolean(true);
+				}
+			}
+			return value::boolean(false);
+		}
+
+
+
+		Value array_all(NativeCore * native_core, const Value * args) {
+			Array * array = req_array(args + 0);
+			VMCore & core = *static_cast<VMCore*>(native_core->core);
+			for (const Value & elem : *array) {
+				const Value result = run_function(core, args[1], elem);
+				if (!convert::to_bool(result, core)) {
+					return value::boolean(false);
+				}
+			}
+			return value::boolean(true);
+		}
+
+
+
+		Value array_none(NativeCore * native_core, const Value * args) {
+			return value::boolean(!array_any(native_core, args).b);
+		}
+
+
+
 
 		NativeFunctionTable native_function_table {
 			wrap(MemberCode::SIZE,      array_size,      1),
@@ -155,6 +189,9 @@ namespace ltn::vm {
 			wrap(MemberCode::FILTER,    array_filter,    2),
 			wrap(MemberCode::TRANSFORM, array_transform, 2),
 			wrap(MemberCode::REDUCE,    array_reduce,    2),
+			wrap(MemberCode::ANY,       array_any,      2),
+			wrap(MemberCode::ALL,       array_all,     2),
+			wrap(MemberCode::NONE,      array_none,      2),
 		};
 	}
 

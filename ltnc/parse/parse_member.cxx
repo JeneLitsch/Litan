@@ -53,6 +53,9 @@ namespace ltn::c {
 			{"filter",    MemberCode::FILTER},
 			{"transform", MemberCode::TRANSFORM},
 			{"reduce",    MemberCode::REDUCE},
+			{"any",       MemberCode::ANY},
+			{"all",       MemberCode::ALL},
+			{"none",      MemberCode::NONE},
 		};
 
 		for(const auto & [name, code] : table) {

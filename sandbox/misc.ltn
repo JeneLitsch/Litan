@@ -1,14 +1,3 @@
 function main() {
-	var array = [1,2,3,4,5];
-	std::println(array);
-
-	var new_array = array
-		->filter(lambda(x) => x >= 3)
-		->transform(lambda(x) => x * 10);
-	
-	var sum = new_array
-		->reduce(lambda(a, b) => a + b);
-
-	std::println(new_array);
-	std::println(sum);
+	std::println([1,2,3]->none(lambda(x) => x == 4));
 }

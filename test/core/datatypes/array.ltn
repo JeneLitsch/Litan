@@ -80,6 +80,30 @@ namespace sphinx::test {
 
 
 
+	function array_any() {
+		var arr = [1,2,3,4];
+		assert_true(arr->any(lambda(x) => x >= 3));
+		assert_false(arr->any(lambda(x) => x > 4));
+	}
+
+
+
+	function array_all() {
+		var arr = [1,2,3,4];
+		assert_true(arr->all(lambda(x) => x >= 1));
+		assert_false(arr->all(lambda(x) => x >= 3));
+	}
+
+
+
+	function array_none() {
+		var arr = [1,2,3,4];
+		assert_false(arr->none(lambda(x) => x >= 1));
+		assert_true(arr->none(lambda(x) => x > 4));
+	}
+
+
+
 	function array_op_add() {
 		test_name("operator: l + r (array + array)");
 
