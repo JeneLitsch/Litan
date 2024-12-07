@@ -48,6 +48,8 @@ namespace ltn::c {
 			{"insert",   MemberCode::INSERT},
 			{"erase",    MemberCode::ERASE},
 			{"has",      MemberCode::HAS},
+			{"keys",     MemberCode::KEYS},
+			{"values",   MemberCode::VALUES},
 		};
 
 		for(const auto & [name, code] : table) {

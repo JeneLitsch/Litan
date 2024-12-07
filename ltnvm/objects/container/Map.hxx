@@ -59,6 +59,10 @@ namespace ltn::vm {
 		}
 		
 		virtual Value get_member(std::uint64_t id) const override;
+
+		inline const std_map & get_underlying() const {
+			return this->map;
+		}
 	private:
 		std_map map;
 		std::uint64_t version = 0;

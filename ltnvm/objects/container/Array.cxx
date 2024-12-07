@@ -9,26 +9,26 @@
 
 namespace ltn::vm {
 	namespace {
-		Value array_size(const Value * args) {
+		Value array_size(NativeCore *, const Value * args) {
 			return value::integer(req_array(args + 0)->size());
 		}
 
 
 
-		Value array_is_empty(const Value * args) {
+		Value array_is_empty(NativeCore *, const Value * args) {
 			return value::boolean(req_array(args + 0)->empty());
 		}
 
 
 
-		Value array_push(const Value * args) {
+		Value array_push(NativeCore *, const Value * args) {
 			req_array(args + 0)->push_back(args[1]);
 			return value::null;
 		}
 
 
 
-		Value array_pop(const Value * args) {
+		Value array_pop(NativeCore *, const Value * args) {
 			Array * array = req_array(args + 0);
 			if(std::empty(*array)) {
 				throw except::out_of_range();
@@ -40,25 +40,25 @@ namespace ltn::vm {
 
 
 
-		Value array_front(const Value * args) {
+		Value array_front(NativeCore *, const Value * args) {
 			return req_array(args + 0)->front();
 		}
 
 
 
-		Value array_back(const Value * args) {
+		Value array_back(NativeCore *, const Value * args) {
 			return req_array(args + 0)->back();
 		}
 
 
 
-		Value array_peek(const Value * args) {
-			return array_back(args);
+		Value array_peek(NativeCore * native_api, const Value * args) {
+			return array_back(native_api, args);
 		}
 
 
 
-		Value array_at(const Value * args) {
+		Value array_at(NativeCore *, const Value * args) {
 			Array * array = req_array(args + 0);
 			std::int64_t index = req_int(args + 1);
 			if(std::size(*array) <= index) {
@@ -69,7 +69,7 @@ namespace ltn::vm {
 
 
 
-		Value array_insert(const Value * args) {
+		Value array_insert(NativeCore *, const Value * args) {
 			Array * array = req_array(args + 0);
 			std::int64_t index = req_int(args + 1);
 			Value value = args[2];
@@ -82,7 +82,7 @@ namespace ltn::vm {
 
 
 
-		Value array_erase(const Value * args) {
+		Value array_erase(NativeCore *, const Value * args) {
 			Array * array = req_array(args + 0);
 			std::int64_t index = req_int(args + 1);
 			if(std::size(*array) <= index) {

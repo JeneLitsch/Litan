@@ -3,7 +3,12 @@
 #include "ltnvm/Value.hxx"
 
 namespace ltn::vm {
-	using NativeFunctionHandle = Value(*)(const Value *);
+	struct NativeCore {
+		void * core;
+		Value(*alloc_array)(NativeCore * native_core, const Value * data, uint64_t size);
+	};
+	using NativeFunctionHandle = Value(*)(NativeCore *, const Value *);
+
 
 	struct NativeFunctionPointer : public FunctionPointer {
 		NativeFunctionPointer(NativeFunctionHandle handle,  std::uint64_t parameter_count, bool is_variadic = false)

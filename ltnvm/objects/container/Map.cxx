@@ -4,21 +4,21 @@
 
 namespace ltn::vm {
 	namespace {
-		Value map_size(const Value * args) {
+		Value map_size(NativeCore *, const Value * args) {
 			Map * map = req_map(args + 0);
 			return value::integer(std::size(*map));
 		}
 
 
 
-		Value map_is_empty(const Value * args) {
+		Value map_is_empty(NativeCore *, const Value * args) {
 			Map * map = req_map(args + 0);
 			return value::integer(std::empty(*map));
 		}
 
 
 
-		Value map_at(const Value * args) {
+		Value map_at(NativeCore *, const Value * args) {
 			Map * map = req_map(args + 0);
 			const Value key = args[1];
 			if(map->contains(key)) {
@@ -31,7 +31,7 @@ namespace ltn::vm {
 
 
 
-		Value map_has(const Value * args) {
+		Value map_has(NativeCore *, const Value * args) {
 			Map * map = req_map(args + 0);
 			const Value key = args[1];
 			return value::boolean(map->contains(key));
@@ -39,7 +39,7 @@ namespace ltn::vm {
 
 
 
-		Value map_insert(const Value * args) {
+		Value map_insert(NativeCore *, const Value * args) {
 			Map * map = req_map(args + 0);
 			const Value key = args[1];
 			const Value value = args[2];
@@ -49,12 +49,37 @@ namespace ltn::vm {
 
 
 
-		Value map_erase(const Value * args) {
+		Value map_erase(NativeCore * native_core, const Value * args) {
 			Map * map = req_map(args + 0);
 			const Value key = args[1];
-			const Value value = map_at(args);
+			const Value value = map_at(native_core, args);
 			map->erase(key);
 			return value;
+		}
+
+
+
+		Value map_keys(NativeCore * native_core, const Value * args) {
+			Map * map = req_map(args + 0);
+
+			std::vector<Value> keys;
+			for(auto [k, v] : map->get_underlying()) {
+				keys.push_back(k);
+			}
+			Value array_ref = native_core->alloc_array(native_core, std::data(keys), std::size(keys));
+			return array_ref;
+		}
+
+
+
+		Value map_values(NativeCore * native_core, const Value * args) {
+			Map * map = req_map(args + 0);
+			std::vector<Value> values;
+			for(auto [k, v] : map->get_underlying()) {
+				values.push_back(v);
+			}
+			Value array_ref = native_core->alloc_array(native_core, std::data(values), std::size(values));
+			return array_ref;
 		}
 
 
@@ -65,7 +90,9 @@ namespace ltn::vm {
 			wrap(MemberCode::AT,       map_at,       2),
 			wrap(MemberCode::HAS,      map_has,      2),
 			wrap(MemberCode::INSERT,   map_insert,   3),
-			wrap(MemberCode::ERASE,    map_erase,   2),
+			wrap(MemberCode::ERASE,    map_erase,    2),
+			wrap(MemberCode::KEYS,     map_keys,     1),
+			wrap(MemberCode::VALUES,   map_values,   1),
 		};
 	}
 

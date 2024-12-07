@@ -4,21 +4,21 @@
 
 namespace ltn::vm {
 	namespace {
-		Value tuple_size(const Value * args) {
+		Value tuple_size(NativeCore *, const Value * args) {
 			const Tuple * tuple = req_tuple(args + 0);
 			return value::integer(std::size(*tuple));
 		}
 
 
 
-		Value tuple_is_empty(const Value * args) {
+		Value tuple_is_empty(NativeCore *, const Value * args) {
 			const Tuple * tuple = req_tuple(args + 0);
 			return value::boolean(std::empty(*tuple));
 		}
 
 
 
-		Value tuple_at(const Value * args) {
+		Value tuple_at(NativeCore *, const Value * args) {
 			const Tuple * tuple = req_tuple(args + 0);
 			const std::int64_t index = req_int(args + 1);
 			if(std::size(*tuple) <= index) {
@@ -32,14 +32,14 @@ namespace ltn::vm {
 
 
 
-		Value tuple_front(const Value * args) {
+		Value tuple_front(NativeCore *, const Value * args) {
 			const Tuple * tuple = req_tuple(args + 0);
 			return tuple->front();
 		}
 
 
 
-		Value tuple_back(const Value * args) {
+		Value tuple_back(NativeCore *, const Value * args) {
 			const Tuple * tuple = req_tuple(args + 0);
 			return tuple->back();
 		}

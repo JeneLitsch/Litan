@@ -67,4 +67,27 @@ namespace sphinx::test {
 		assert_false(map->has(1));
 		assert_true(map->has(2));
 	}
+
+
+
+
+	function map_keys() {
+		var map = [
+			1 : 11,
+			2 : 22,
+			"A" : 33
+		];
+		assert_equal_strict(map->keys(), [1,2,"A"]);
+	}
+
+
+
+	function map_values() {
+		var map = [
+			1 : 11,
+			2 : 22,
+			"A" : 33
+		];
+		assert_equal_strict(map->values(), [11,22,33]);
+	}
 }

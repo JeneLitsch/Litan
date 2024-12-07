@@ -1,7 +1,20 @@
 #include "instructions.hxx"
 
 namespace ltn::vm::inst {
+
+
 	namespace {
+		Value alloc_array(NativeCore * mative_core, const Value * data, uint64_t size) {
+			VMCore * core = static_cast<VMCore*>(mative_core->core); 
+			Array * array = core->heap.alloc<Array>(Array());
+			for(std::size_t i = 0; i < size; i++) {
+				array->push_back(data[i]);
+			}
+			return value::array(array);
+		}
+		
+		
+
 		inline void load_onto_stack(VMStack & stack, const auto & values) {
 			for(const auto c : values) {
 				stack.push(c);
@@ -55,7 +68,12 @@ namespace ltn::vm::inst {
 			std::reverse(std::begin(args), std::end(args));
 
 			NativeFunctionPointer * fx_ptr = ref_fx.as<NativeFunctionPointer>();
-			Value return_value = fx_ptr->handle(args.data());
+			VMCore * core_ptr = &core;
+			NativeCore native_core = {
+				.core = static_cast<void*>(core_ptr),
+				.alloc_array = alloc_array,
+			};
+			Value return_value = fx_ptr->handle(&native_core, args.data());
 			core.stack.push(return_value);
 		}
 
