@@ -126,6 +126,14 @@ namespace sphinx::test {
 
 
 
+	function array_has() {
+		var arr = [1,2,3,4];
+		assert_false(arr->has(5));
+		assert_true(arr->has(1));
+	}
+
+
+
 	function array_op_add() {
 		test_name("operator: l + r (array + array)");
 

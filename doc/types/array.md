@@ -72,19 +72,25 @@ Sums up all elements using `f`.
 Returns `null` if the array is empty.
 
 
-### -> any(f : function): Bool
+### -> any(f : Function): Bool
 
 Tests whether `f` returns a truthy value for any element in the array.
 
 
-### -> all(f : function): Bool
+### -> all(f : Function): Bool
 
 Tests whether `f` returns a truthy value for all elements in the array.
 
 
-### -> none(f : function): Bool
+### -> none(f : Function): Bool
 
 Tests whether `f` returns a truthy value for no element in the array.
+
+
+### -> has(value : Any): Bool
+
+Tests whether the array contains the given value.
+
 
 
 ## Operators

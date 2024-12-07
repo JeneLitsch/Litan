@@ -168,6 +168,20 @@ namespace ltn::vm {
 
 
 
+		Value array_has(NativeCore * native_core, const Value * args) {
+			VMCore & core = *static_cast<VMCore*>(native_core->core);
+			Array * array = req_array(args + 0);
+			const Value result = args[1];
+			for (const Value & elem : *array) {
+				if (compare(elem, result, core) == 0) {
+					return value::boolean(true);
+				}
+			}
+			return value::boolean(false);
+		}
+
+
+
 		Value array_none(NativeCore * native_core, const Value * args) {
 			return value::boolean(!array_any(native_core, args).b);
 		}
@@ -189,9 +203,10 @@ namespace ltn::vm {
 			wrap(MemberCode::FILTER,    array_filter,    2),
 			wrap(MemberCode::TRANSFORM, array_transform, 2),
 			wrap(MemberCode::REDUCE,    array_reduce,    2),
-			wrap(MemberCode::ANY,       array_any,      2),
-			wrap(MemberCode::ALL,       array_all,     2),
+			wrap(MemberCode::ANY,       array_any,       2),
+			wrap(MemberCode::ALL,       array_all,       2),
 			wrap(MemberCode::NONE,      array_none,      2),
+			wrap(MemberCode::HAS,       array_has,       2),
 		};
 	}
 
