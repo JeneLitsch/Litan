@@ -113,11 +113,6 @@ namespace ltn::vm {
 
 
 	Value Array::get_member(std::uint64_t id) const {
-		if (native_function_table.contains(id)) {
-			return value::native_function(&native_function_table.at(id));
-		}
-		else {
-			return value::null;
-		}
+		return search_native_function_table(native_function_table, id);
 	}
 }
