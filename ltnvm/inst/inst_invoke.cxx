@@ -34,7 +34,7 @@ namespace ltn::vm::inst {
 
 
 		void prepare_args(VMCore & core, const Value ref_fx, std::uint64_t arity) {
-			const auto & fxptr = *ref_fx.as<FunctionPointer>();
+			const auto & fxptr = *value::as<FunctionPointer>(ref_fx);
 			if(arity >= fxptr.arity() && fxptr.is_variadic) {
 				Tuple tuple {read_from_stack(core.stack, arity - fxptr.arity())};
 				core.stack.push(value::tuple(core.heap.alloc(std::move(tuple))));
@@ -48,7 +48,7 @@ namespace ltn::vm::inst {
 		void do_invoke_script_function(VMCore & core, const Value ref_fx, std::uint64_t arity) {
 			prepare_args(core, ref_fx, arity);
 
-			const auto & fxptr = *ref_fx.as<ScriptFunctionPointer>();
+			const auto & fxptr = *value::as<ScriptFunctionPointer>(ref_fx);
 			const auto call_arity = fxptr.arity() + fxptr.is_variadic;
 			const auto * entry = core.function_pool[fxptr.index];
 			// std::cout << entry->name << "\n";
@@ -67,7 +67,7 @@ namespace ltn::vm::inst {
 			}
 			std::reverse(std::begin(args), std::end(args));
 
-			NativeFunctionPointer * fx_ptr = ref_fx.as<NativeFunctionPointer>();
+			NativeFunctionPointer * fx_ptr = value::as<NativeFunctionPointer>(ref_fx);
 			VMCore * core_ptr = &core;
 			NativeCore native_core = {
 				.core = static_cast<void*>(core_ptr),
@@ -96,7 +96,7 @@ namespace ltn::vm::inst {
 
 		void do_invoke_coroutine(VMCore & core, const Value ref, std::uint64_t arity) {
 			if(arity != 0) throw except::invalid_parameters(0, arity);
-			auto * coroutine = ref.as<Coroutine>();
+			auto * coroutine = value::as<Coroutine>(ref);
 			core.stack.push_frame(core.pc, 0, coroutine->context);
 			for(std::size_t i = 0; i < std::size(coroutine->local_variables) - coroutine->context->frame_size; ++i) {
 				core.stack.push(value::null);
@@ -139,7 +139,7 @@ namespace ltn::vm::inst {
 		const auto ref_param = core.stack.pop();
 		const auto ref_fx = core.stack.pop();
 		if(is_array(ref_param) || is_tuple(ref_param)) {
-			const auto & args = core.heap.read<Contiguous>(ref_param);
+			const auto & args = *value::as<Contiguous>(ref_param);
 			const auto arity = std::size(args);
 
 			if(is_script_function(ref_fx)) {

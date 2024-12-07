@@ -47,16 +47,9 @@ namespace ltn::vm {
 		}
 
 
-
-		template<class Obj>
-		Obj & read(Value value) {
-			return *static_cast<Obj *>(value.object);
-		}
-
-
 		template<class Obj>
 		Value clone(Value id) {
-			auto copy = ltn::vm::clone(this->read<Obj>(id));
+			auto copy = ltn::vm::clone(*value::as<Obj>(id));
 			return Value{ this->alloc<Obj>(std::move(copy)), id.type };
 		}
 

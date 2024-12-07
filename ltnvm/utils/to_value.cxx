@@ -29,7 +29,7 @@ namespace ltn::vm {
 
 		if(any.is_array()) {
 			const auto address = value::array(heap.alloc<Array>({}));
-			auto & array = heap.read<Array>(address);
+			auto & array = *value::as<Array>(address);
 			for(const auto & elem : any.as_array()) {
 				array.push_back(to_value(elem, heap));
 			}

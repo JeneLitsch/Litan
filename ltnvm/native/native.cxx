@@ -23,7 +23,7 @@ namespace ltn::vm {
 	
 	Array * req_array(const Value * value) {
 		if (is_array(*value)) {
-			return value->as<Array>();
+			return value::as<Array>(*value);
 		}
 		else {
 			throw except::invalid_argument();
@@ -34,7 +34,7 @@ namespace ltn::vm {
 
 	Tuple * req_tuple(const Value * value) {
 		if (is_tuple(*value)) {
-			return value->as<Tuple>();
+			return value::as<Tuple>(*value);
 		}
 		else {
 			throw except::invalid_argument();
@@ -45,7 +45,7 @@ namespace ltn::vm {
 
 	Map * req_map(const Value * value) {
 		if (is_map(*value)) {
-			return value->as<Map>();
+			return value::as<Map>(*value);
 		}
 		else {
 			throw except::invalid_argument();

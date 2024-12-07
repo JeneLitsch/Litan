@@ -19,8 +19,8 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 
 		if(is_map(ref)) {
-			auto & container = core.heap.read<Map>(ref);
-			return value::boolean(container.contains(key));
+			Map * map = value::as<Map>(ref);
+			return value::boolean(map->contains(key));
 		}
 
 		throw except::invalid_argument();
@@ -31,8 +31,8 @@ namespace ltn::vm::build_in {
 	namespace {
 		template<typename Container>
 		Value size(const Value & ref, VMCore & core) {
-			const auto & container = core.heap.read<Container>(ref);
-			return value::integer(static_cast<std::int64_t>(std::size(container)));
+			const Container * container = value::as<Container>(ref);
+			return value::integer(static_cast<std::int64_t>(std::size(*container)));
 		}
 	}
 
@@ -45,8 +45,8 @@ namespace ltn::vm::build_in {
 		if(is_string(ref)) return size<String>(ref, core);
 		if(is_queue(ref)) return size<Segmented>(ref, core);
 		if(is_map(ref)) {
-			const auto & map = core.heap.read<Map>(ref);
-			return value::integer(static_cast<std::int64_t>(std::size(map)));
+			const Map * map = value::as<Map>(ref);
+			return value::integer(static_cast<std::int64_t>(std::size(*map)));
 		}
 		if(is_iterator(ref)) return value::integer(iterator::size(ref));
 		throw except::invalid_argument();
@@ -70,15 +70,15 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 		
 		if (is_array(ref)) {
-			const auto & arr = core.heap.read<Array>(ref);
-			if(std::empty(arr)) throw except::out_of_range();
-			return arr.front();
+			const Array * arr = value::as<Array>(ref);
+			if(std::empty(*arr)) throw except::out_of_range();
+			return arr->front();
 		}
 
 		if (is_string(ref)) {
-			const auto & str = core.heap.read<String>(ref);
-			if(std::empty(str)) throw except::out_of_range();
-			return value::character(str.front());
+			const String * str = value::as<String>(ref);
+			if(std::empty(*str)) throw except::out_of_range();
+			return value::character(str->front());
 		}
 
 		throw except::invalid_argument();
@@ -88,15 +88,15 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 		
 		if (is_array(ref)) {
-			const auto & arr = core.heap.read<Array>(ref);
-			if(std::empty(arr)) throw except::out_of_range();
-			return arr.back();
+			const Array * arr = value::as<Array>(ref);
+			if(std::empty(*arr)) throw except::out_of_range();
+			return arr->back();
 		}
 
 		if (is_string(ref)) {
-			const auto & str = core.heap.read<String>(ref);
-			if(std::empty(str)) throw except::out_of_range();
-			return value::character(str.back());
+			const String * str = value::as<String>(ref);
+			if(std::empty(*str)) throw except::out_of_range();
+			return value::character(str->back());
 		}
 
 		throw except::invalid_argument();

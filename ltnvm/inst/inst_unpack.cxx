@@ -3,7 +3,7 @@
 namespace ltn::vm::inst {
 	namespace {
 		void unpack_tuple(int size, const Value & ref, VMStack & stack, Heap & heap) {
-			auto & tuple = heap.read<Tuple>(ref);
+			auto & tuple = *value::as<Tuple>(ref);
 			if(std::ssize(tuple) < size) {
 				throw Exception{Exception::Type::OUT_OF_RANGE, "Cannot unpack tuple"};
 			}

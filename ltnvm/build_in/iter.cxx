@@ -53,10 +53,10 @@ namespace ltn::vm::build_in::iter {
 		if(!is_array(param) && !is_tuple(param)) {
 			throw except::invalid_argument();
 		}
-		auto & arr = core.heap.read<Contiguous>(param);
+		Contiguous * arr = value::as<Contiguous>(param);
 		std::vector<Iterator *> iters;
-		for(auto & e : arr) {
-			iters.push_back(iterator::wrap(e, core).as<Iterator>());
+		for(auto & e : *arr) {
+			iters.push_back(value::as<Iterator>(iterator::wrap(e, core)));
 		}
 		auto ptr =  core.heap.make<CombinedIterator>(std::move(iters), &core.heap);
 		return value::iterator(ptr);

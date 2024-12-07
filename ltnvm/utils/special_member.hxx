@@ -33,7 +33,7 @@ namespace ltn::vm {
 	
 	template<MemberCode CODE>
 	Value call_special_member(VMCore & core, const Value & self, const auto & ...args) {
-		auto & strukt = core.heap.read<Struct>(self);
+		auto & strukt = *value::as<Struct>(self);
 		if(auto ref = find_special_member<CODE>(strukt)) {
 			return run_special_member(core, *ref, self, args...);
 		}

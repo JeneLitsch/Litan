@@ -5,8 +5,8 @@
 namespace ltn::vm {
 	ReversedIterator::ReversedIterator(Value ref)
 		: ref{ref} {
-		const auto size = this->ref.as<Iterator>()->size();
-		this->ref.as<Iterator>()->move(static_cast<std::int64_t>(size) - 1);
+		const auto size = value::as<Iterator>(ref)->size();
+		value::as<Iterator>(ref)->move(static_cast<std::int64_t>(size) - 1);
 	}
 	
 
@@ -20,13 +20,13 @@ namespace ltn::vm {
 
 
 	Value ReversedIterator::get() {
-		return this->ref.as<Iterator>()->get();
+		return value::as<Iterator>(this->ref)->get();
 	}
 
 
 	
 	void ReversedIterator::move(std::int64_t amount) {
-		return this->ref.as<Iterator>()->move(-amount);
+		return value::as<Iterator>(this->ref)->move(-amount);
 	}
 
 
@@ -38,7 +38,7 @@ namespace ltn::vm {
 
 
 	std::uint64_t ReversedIterator::size() const {
-		return this->ref.as<Iterator>()->size();
+		return value::as<Iterator>(this->ref)->size();
 	}
 
 

@@ -123,21 +123,21 @@ namespace ltn::vm::gc {
 			case VT::INT:             return; // no gc required
 			case VT::FLOAT:           return; // no gc required
 			case VT::CHAR:            return; // no gc required
-			case VT::ARRAY:           return mark_obj(value.as<Array>());
-			case VT::STRING:          return mark_obj(value.as<String>());
-			case VT::TUPLE:           return mark_obj(value.as<Tuple>());
-			case VT::ISTREAM:         return mark_obj(value.as<IStream>());
-			case VT::ITERATOR:        return mark_obj(value.as<Iterator>());
+			case VT::ARRAY:           return mark_obj(value::as<Array>(value));
+			case VT::STRING:          return mark_obj(value::as<String>(value));
+			case VT::TUPLE:           return mark_obj(value::as<Tuple>(value));
+			case VT::ISTREAM:         return mark_obj(value::as<IStream>(value));
+			case VT::ITERATOR:        return mark_obj(value::as<Iterator>(value));
 			case VT::ITERATOR_STOP:   return; // no gc required
-			case VT::OSTREAM:         return mark_obj(value.as<OStream>());
-			case VT::FUNCTION:        return mark_obj(value.as<FunctionPointer>());
-			case VT::NATIVE_FUNCTION: return mark_obj(value.as<FunctionPointer>());
-			case VT::CLOCK:           return mark_obj(value.as<Clock>());
-			case VT::STRUCT:          return mark_obj(value.as<Struct>());
-			case VT::QUEUE:           return mark_obj(value.as<Segmented>());
-			case VT::MAP:             return mark_obj(value.as<Map>());
-			case VT::RNG:             return mark_obj(value.as<RandomEngine>());
-			case VT::COROUTINE:       return mark_obj(value.as<Coroutine>());
+			case VT::OSTREAM:         return mark_obj(value::as<OStream>(value));
+			case VT::FUNCTION:        return mark_obj(value::as<FunctionPointer>(value));
+			case VT::NATIVE_FUNCTION: return mark_obj(value::as<FunctionPointer>(value));
+			case VT::CLOCK:           return mark_obj(value::as<Clock>(value));
+			case VT::STRUCT:          return mark_obj(value::as<Struct>(value));
+			case VT::QUEUE:           return mark_obj(value::as<Segmented>(value));
+			case VT::MAP:             return mark_obj(value::as<Map>(value));
+			case VT::RNG:             return mark_obj(value::as<RandomEngine>(value));
+			case VT::COROUTINE:       return mark_obj(value::as<Coroutine>(value));
 			case VT::TYPE:            return; // no gc required
 		}
 	}

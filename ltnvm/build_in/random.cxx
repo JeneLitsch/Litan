@@ -6,7 +6,7 @@ namespace ltn::vm::build_in::random {
 	namespace {
 		RandomEngine & get_rng(const Value ref, Heap & heap) {
 			if(is_rng(ref)) {
-				return heap.read<RandomEngine>(ref);
+				return *value::as<RandomEngine>(ref);
 			}
 			else {
 				throw except::invalid_argument();

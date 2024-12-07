@@ -6,8 +6,8 @@ namespace ltn::vm::build_in {
 	Value arity(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_fxptr(ref)) {
-			const auto & fxptr = core.heap.read<FunctionPointer>(ref);
-			return value::integer(static_cast<std::int64_t>(fxptr.params));
+			const auto * fxptr = value::as<FunctionPointer>(ref);
+			return value::integer(static_cast<std::int64_t>(fxptr->params));
 		}
 
 		throw except::invalid_argument("std::arity expected a function pointer");
@@ -25,8 +25,8 @@ namespace ltn::vm::build_in {
 	Value is_variadic(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_fxptr(ref)) {
-			const auto & fxptr = core.heap.read<FunctionPointer>(ref);
-			return value::boolean(fxptr.is_variadic);
+			const FunctionPointer * fxptr = value::as<FunctionPointer>(ref);
+			return value::boolean(fxptr->is_variadic);
 		}
 		throw except::invalid_argument("std::is_variadic expected a function pointer");
 	}

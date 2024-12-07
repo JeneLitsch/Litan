@@ -4,7 +4,7 @@ namespace ltn::vm::inst {
 	namespace {
 		inline Struct & get_struct(const Value ref, Heap & heap) {
 			if(is_struct(ref)) {
-				return heap.read<Struct>(ref);
+				return *value::as<Struct>(ref);
 			}
 			else {
 				throw except::invalid_member_access();
@@ -22,27 +22,6 @@ namespace ltn::vm::inst {
 			const auto found = std::find_if(begin, end, finder); 
 			strukt.members.erase(found);
 		}
-
-
-
-		// void read_struct_member(VMCore & core, const Value & ref, std::uint64_t id) {
-		// 	Struct * strukt = ref.as<Struct>();
-		// 	if(const Value * const member = strukt->get(id)) {
-		// 		return core.stack.push(*member);
-		// 	}
-		// 	else {
-		// 		return core.stack.push(value::null);
-		// 	}
-		// }
-
-
-
-		// void read_array_member(VMCore & core, const Value & ref, std::uint64_t id) {
-		// 	if(id == static_cast<std::uint64_t>(MemberCode::SIZE)) {
-		// 		NativeFunctionPointer * function_pointer = core.heap.alloc(NativeFunctionPointer(, 1, false));
-		// 		core.stack.push(value::native_function(function_pointer));
-		// 	}
-		// }
 	}
 
 
@@ -51,7 +30,7 @@ namespace ltn::vm::inst {
 		const auto id = core.fetch_uint();
 		const auto ref = core.stack.pop();
 		if(is_object(ref)) {
-			core.stack.push(ref.as<Object>()->get_member(id));
+			core.stack.push(value::as<Object>(ref)->get_member(id));
 			return;
 		}
 		// if(is_object(ref)) {

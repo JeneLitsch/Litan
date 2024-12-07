@@ -63,6 +63,10 @@ namespace ltn::vm {
 		inline const std_map & get_underlying() const {
 			return this->map;
 		}
+
+		inline std_map & get_underlying() {
+			return this->map;
+		}
 	private:
 		std_map map;
 		std::uint64_t version = 0;

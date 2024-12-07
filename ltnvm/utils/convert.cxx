@@ -14,7 +14,7 @@ namespace ltn::vm::convert {
 		if(is_float(value)) return value.f != 0.0;
 
 		if(is_struct(value)) {
-			auto & strukt = core.heap.read<Struct>(value);
+			auto & strukt = *value::as<Struct>(value);
 			if(auto fx = find_special_member<MemberCode::OPERATOR_BOOL>(strukt)) {
 				auto result = run_special_member(core, *fx, value);
 				if(is_bool(result)) {
@@ -80,7 +80,7 @@ namespace ltn::vm::convert {
 
 	std::string to_string(Value value, Heap & heap) {
 		if(is_string(value)) {
-			return heap.read<String>(value).get_underlying();
+			return value::as<String>(value)->get_underlying();
 		}
 
 		throw except::invalid_cast("String");

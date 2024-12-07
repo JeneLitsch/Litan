@@ -13,7 +13,7 @@ namespace ltn::vm {
 
 		if (is_script_function(ref)) {
 			const auto arity = sizeof...(args);
-			auto & fx = *ref.as<ScriptFunctionPointer>();
+			auto & fx = *value::as<ScriptFunctionPointer>(ref);
 			if(fx.params != arity) throw except::invalid_parameters(arity, fx.params);
 			if(fx.is_variadic) throw except::invalid_member_access();
 			(core.stack.push(args),...);

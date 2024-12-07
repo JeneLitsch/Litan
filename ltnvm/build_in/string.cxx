@@ -40,10 +40,10 @@ namespace ltn::vm::build_in {
 				"std::split expected 2 strings."
 			};
 		}
-		const auto & string = core.heap.read<String>(val_string);
-		const auto & delim = core.heap.read<String>(val_delim);
+		const auto & string = *value::as<String>(val_string);
+		const auto & delim = *value::as<String>(val_delim);
 		const auto segments_ptr = value::array(core.heap.alloc<Array>({}));
-		auto & segments = core.heap.read<Array>(segments_ptr);
+		auto & segments = *value::as<Array>(segments_ptr);
 
 		if(delim.empty()) return segments_ptr;
 		if(string.empty()) return segments_ptr;

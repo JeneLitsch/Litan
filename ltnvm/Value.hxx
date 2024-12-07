@@ -55,11 +55,6 @@ namespace ltn::vm {
 			const ltn::vm::Type * obj_type;
 			ltn::vm::Object * object;
 		};
-
-		template<typename T>
-		T * as() const {
-			return static_cast<T*>(object);
-		}
 	};
 	namespace value {
 		constexpr inline Value null {std::uint64_t{0}, Value::Type::NVLL };
@@ -131,6 +126,11 @@ namespace ltn::vm {
 
 		constexpr inline Value coroutine(Object * obj) {
 			return Value{obj, Value::Type::COROUTINE};
+		}
+
+		template<typename T>
+		T * as(const Value & value) {
+			return static_cast<T*>(value.object);
 		}
 	}
 }

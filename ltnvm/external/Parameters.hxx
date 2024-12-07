@@ -60,7 +60,7 @@ namespace ltn::vm::ext {
 		template<>
 		struct Converter<std::string> {
 			static std::string convert(const Value & value) {
-				if(is_string(value)) return value.as<String>()->get_underlying();
+				if(is_string(value)) return value::as<String>(value)->get_underlying();
 				throw std::runtime_error{"Parameter not a string"};
 			}
 		};
@@ -71,7 +71,7 @@ namespace ltn::vm::ext {
 		struct Converter<std::vector<T>> {
 			static std::vector<T> convert(const Value & value) {
 				if(is_contiguous(value)) {
-					auto & input = *value.as<Contiguous>();
+					auto & input = *value::as<Contiguous>(value);
 					std::vector<T> output;
 					for(const auto & elem : input) {
 						output.push_back(Converter<T>::convert(elem));
@@ -98,7 +98,7 @@ namespace ltn::vm::ext {
 
 			static std::tuple<T...> convert(const Value & value) {
 				if(is_tuple(value)) {
-					auto & input = *value.as<Tuple>();
+					auto & input = *value::as<Tuple>(value);
 					return make_tuple_from_vector(input.get_underlying(), std::make_index_sequence<sizeof...(T)>{});
 				} 
 				else {

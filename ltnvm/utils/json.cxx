@@ -56,14 +56,14 @@ namespace ltn::vm {
 		if(is_int(value))   return value.i;
 		if(is_float(value)) return value.f;
 		if(is_string(value)) {
-			return value.as<String>()->get_underlying();
+			return value::as<String>(value)->get_underlying();
 		}
 		if(is_array(value)) {
 			stx::json::node node;
 			stx::json::write_iterator it 
 				= stx::json::write_iterator{node}
 				= stx::json::array;
-			for(const auto & elem : *value.as<Array>()) {
+			for(const auto & elem : *value::as<Array>(value)) {
 				it.push_back(value_to_json(elem));
 			}
 			return node;
@@ -73,11 +73,11 @@ namespace ltn::vm {
 			stx::json::write_iterator it 
 				= stx::json::write_iterator{node}
 				= stx::json::object;
-			for(const auto & [key, val] : *value.as<Map>()) {
+			for(const auto & [key, val] : *value::as<Map>(value)) {
 				if(!is_string(key)) {
 					throw std::runtime_error{""};
 				}
-				it[key.as<String>()->get_underlying()] = value_to_json(val);
+				it[value::as<String>(key)->get_underlying()] = value_to_json(val);
 			}
 			return node;
 		}

@@ -26,7 +26,7 @@ namespace ltn::vm::cast {
 
 	stx::float64_t to_float(Value value, Heap & heap) {
 		if (is_clock(value)) {
-			const auto & clock = heap.read<Clock>(value);
+			const auto & clock = *value::as<Clock>(value);
 			return clock.getSeconds();
 		}
 

@@ -10,23 +10,23 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 
 		if(is_array(ref)) {
-			auto & container = core.heap.read<Array>(ref);
-			if(std::empty(container)) throw except::out_of_range();
-			const auto elem = container.back();
+			Array * container = value::as<Array>(ref);
+			if(std::empty(*container)) throw except::out_of_range();
+			const auto elem = container->back();
 			return elem;
 		}
 
 		if(is_string(ref)) {
-			auto & container = core.heap.read<String>(ref);
-			if(std::empty(container)) throw except::out_of_range();
-			const auto elem = container.back();
+			String * container = value::as<String>(ref);
+			if(std::empty(*container)) throw except::out_of_range();
+			const auto elem = container->back();
 			return value::character(elem);
 		}
 
 		if(is_queue(ref)) {
-			auto & container = core.heap.read<Segmented>(ref);
-			if(std::empty(container)) throw except::out_of_range();
-			const auto elem = container.front();
+			Segmented * container = value::as<Segmented>(ref);
+			if(std::empty(*container)) throw except::out_of_range();
+			const auto elem = container->front();
 			return elem;
 		}
 
