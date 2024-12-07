@@ -27,21 +27,21 @@ namespace ltn::vm {
 			if(0 > index) {
 				throw except::out_of_range();
 			}
-			return (*tuple)[index];
+			return tuple->unsafe_at(index);
 		}
 
 
 
 		Value tuple_front(NativeCore *, const Value * args) {
 			const Tuple * tuple = req_tuple(args + 0);
-			return tuple->front();
+			return tuple->unsafe_front();
 		}
 
 
 
 		Value tuple_back(NativeCore *, const Value * args) {
 			const Tuple * tuple = req_tuple(args + 0);
-			return tuple->back();
+			return tuple->unsafe_back();
 		}
 
 

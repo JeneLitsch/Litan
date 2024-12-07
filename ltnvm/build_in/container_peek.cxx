@@ -12,21 +12,21 @@ namespace ltn::vm::build_in {
 		if(is_array(ref)) {
 			Array * container = value::as<Array>(ref);
 			if(std::empty(*container)) throw except::out_of_range();
-			const auto elem = container->back();
+			const auto elem = container->unsafe_back();
 			return elem;
 		}
 
 		if(is_string(ref)) {
 			String * container = value::as<String>(ref);
 			if(std::empty(*container)) throw except::out_of_range();
-			const auto elem = container->back();
+			const auto elem = container->unsafe_back();
 			return value::character(elem);
 		}
 
 		if(is_queue(ref)) {
 			Segmented * container = value::as<Segmented>(ref);
 			if(std::empty(*container)) throw except::out_of_range();
-			const auto elem = container->front();
+			const auto elem = container->unsafe_front();
 			return elem;
 		}
 

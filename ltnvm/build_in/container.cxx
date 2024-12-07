@@ -72,13 +72,13 @@ namespace ltn::vm::build_in {
 		if (is_array(ref)) {
 			const Array * arr = value::as<Array>(ref);
 			if(std::empty(*arr)) throw except::out_of_range();
-			return arr->front();
+			return arr->unsafe_front();
 		}
 
 		if (is_string(ref)) {
 			const String * str = value::as<String>(ref);
 			if(std::empty(*str)) throw except::out_of_range();
-			return value::character(str->front());
+			return value::character(str->unsafe_front());
 		}
 
 		throw except::invalid_argument();
@@ -90,13 +90,13 @@ namespace ltn::vm::build_in {
 		if (is_array(ref)) {
 			const Array * arr = value::as<Array>(ref);
 			if(std::empty(*arr)) throw except::out_of_range();
-			return arr->back();
+			return arr->unsafe_back();
 		}
 
 		if (is_string(ref)) {
 			const String * str = value::as<String>(ref);
 			if(std::empty(*str)) throw except::out_of_range();
-			return value::character(str->back());
+			return value::character(str->unsafe_back());
 		}
 
 		throw except::invalid_argument();

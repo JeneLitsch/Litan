@@ -24,7 +24,7 @@ namespace ltn::vm {
 			if(is_tuple(result)) {
 				auto * tuple = value::as<Tuple>(result);
 				if(tuple->size() == 2) {
-					return { (*tuple)[0], (*tuple)[1] };
+					return { tuple->unsafe_at(0), tuple->unsafe_at(1) };
 				}
 			}
 			throw std::runtime_error{"Cannot deconstruct coroutine return tuple"};

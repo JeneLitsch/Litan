@@ -24,7 +24,7 @@ namespace ltn::vm {
 			throw except::out_of_range("Invalidated map iterator");
 		}
 		if(this->index < std::ssize(*string) && this->index >= 0) {
-			return value::character((*string)[static_cast<std::uint64_t>(this->index)]);
+			return value::character(string->unsafe_at(this->index));
 		}
 		else {
 			return value::iterator_stop;

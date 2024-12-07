@@ -19,7 +19,7 @@ namespace ltn::vm::build_in {
 
 		if(is_array(ref)) {
 			Array * arr = value::as<Array>(ref);
-			arr->insert(std::begin(*arr), elem);
+			arr->unsafe_insert(std::begin(*arr), elem);
 			return value::null;
 		} 
 
@@ -99,7 +99,7 @@ namespace ltn::vm::build_in {
 		if(is_array(ref)) {
 			Array * arr = value::as<Array>(ref); 
 			const auto at = to_iter(arr, key);
-			arr->insert(at, elem);
+			arr->unsafe_insert(at, elem);
 			return value::null;
 		}
 

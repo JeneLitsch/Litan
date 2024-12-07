@@ -25,12 +25,12 @@ namespace ltn::vm {
 			data.push_back(value);
 		}
 
-		void pop_back() {
+		inline void unsafe_pop_back() {
 			++this->version;
 			this->data.pop_back();
 		}
 
-		void erase(iterator iter) {
+		void unsafe_erase(iterator iter) {
 			++this->version;
 			this->data.erase(iter);
 		}
@@ -41,13 +41,12 @@ namespace ltn::vm {
 		}
 
 
-
-		inline auto & operator[](std::uint64_t i) const {
-			return this->data[i];
+		inline value_type & unsafe_at(std::int64_t i) {
+			return data[static_cast<std::uint64_t>(i)];
 		}
 
-		inline auto & operator[](std::uint64_t i) {
-			return this->data[i];
+		inline const value_type & unsafe_at(std::int64_t i) const {
+			return data[static_cast<std::uint64_t>(i)];
 		}
 
 		inline bool empty() const {
@@ -58,11 +57,11 @@ namespace ltn::vm {
 			return std::size(this->data);
 		}
 
-		inline auto & front() const {
+		inline auto & unsafe_front() const {
 			return this->data.front();
 		}
 
-		inline auto & back() const {
+		inline auto & unsafe_back() const {
 			return this->data.back();
 		}
 

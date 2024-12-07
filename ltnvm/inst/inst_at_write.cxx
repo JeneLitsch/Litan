@@ -11,14 +11,14 @@ namespace ltn::vm::inst {
 		if(is_array(ref) || is_tuple(ref)) {
 			auto & arr = *value::as<Contiguous>(ref);
 			const auto index = to_index(key, std::size(arr));
-			arr[static_cast<std::size_t>(index)] = elem;
+			arr.unsafe_at(index) = elem;
 			return;
 		}
 
 		if(is_string(ref)) {
 			auto & str = *value::as<String>(ref);
 			const auto index = to_index(key, std::size(str));
-			str[static_cast<std::size_t>(index)] = convert::to_char(elem);
+			str.unsafe_at(index) = convert::to_char(elem);
 			return;
 		}
 

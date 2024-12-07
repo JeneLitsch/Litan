@@ -8,7 +8,7 @@
 namespace ltn::vm {
 	struct Contiguous : public Container<std::vector<Value>> {
 	public:
-		void insert(iterator iter, const Value & value) {
+		void unsafe_insert(iterator iter, const Value & value) {
 			++this->version;
 			this->data.insert(iter, value);
 		}

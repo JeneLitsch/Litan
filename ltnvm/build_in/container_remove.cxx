@@ -22,7 +22,7 @@ namespace ltn::vm::build_in {
 		Value remove_first(const Value ref, Heap & heap) {
 			Collection * collection = value::as<Collection>(ref); 
 			guardEmpty(*collection);
-			collection->erase(collection->begin());
+			collection->unsafe_erase(collection->begin());
 			return value::null;
 		}
 
@@ -32,7 +32,7 @@ namespace ltn::vm::build_in {
 		Value remove_last(const Value ref, Heap & heap) {
 			Collection * collection = value::as<Collection>(ref); 
 			guardEmpty(*collection);
-			collection->pop_back();
+			collection->unsafe_pop_back();
 			return value::null;
 		}
 
@@ -42,7 +42,7 @@ namespace ltn::vm::build_in {
 		Value remove_index(const Value ref, Heap & heap, const Value & index) {
 			Collection * collection = value::as<Collection>(ref);
 			const auto i = to_index(index, std::size(*collection));
-			collection->erase(collection->begin() + i);
+			collection->unsafe_erase(collection->begin() + i);
 			return value::null;
 		}
 

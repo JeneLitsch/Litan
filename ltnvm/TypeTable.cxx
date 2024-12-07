@@ -405,7 +405,7 @@ namespace ltn::vm {
 				if(std::size(*input) != std::size(sub_types)) return value::null;
 				Tuple output;
 				for(std::size_t i = 0; i < std::size(*input); ++i) {
-					output.push_back(sub_types[i]->cast((*input)[i], core));
+					output.push_back(sub_types[i]->cast(input->unsafe_at(i), core));
 				}
 				return value::tuple(core.heap.alloc(std::move(output)));
 			}
@@ -421,7 +421,7 @@ namespace ltn::vm {
 			const Tuple * input = value::as<Tuple>(value);
 			if(std::size(*input) != std::size(sub_types)) return false;
 			for(std::size_t i = 0; i < std::size(*input); ++i) {
-				if(!sub_types[i]->is((*input)[i], core)) return false;
+				if(!sub_types[i]->is(input->unsafe_at(i), core)) return false;
 			}
 			return true;
 		}
