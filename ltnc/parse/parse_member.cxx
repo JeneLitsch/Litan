@@ -47,6 +47,7 @@ namespace ltn::c {
 			{"at",       MemberCode::AT},
 			{"insert",   MemberCode::INSERT},
 			{"erase",    MemberCode::ERASE},
+			{"has",      MemberCode::HAS},
 		};
 
 		for(const auto & [name, code] : table) {

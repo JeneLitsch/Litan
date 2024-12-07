@@ -57,6 +57,8 @@ namespace ltn::vm {
 		std::uint64_t get_version() const {
 			return this->version;
 		}
+		
+		virtual Value get_member(std::uint64_t id) const override;
 	private:
 		std_map map;
 		std::uint64_t version = 0;

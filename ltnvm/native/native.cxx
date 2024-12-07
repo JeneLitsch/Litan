@@ -43,6 +43,16 @@ namespace ltn::vm {
 
 
 
+	Map * req_map(const Value * value) {
+		if (is_map(*value)) {
+			return value->as<Map>();
+		}
+		else {
+			throw except::invalid_argument();
+		}
+	}
+
+
 
 	std::int64_t req_int(const Value * value) {
 		if (is_int(*value)) {

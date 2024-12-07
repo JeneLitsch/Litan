@@ -1,0 +1,70 @@
+namespace sphinx::test {
+	function map_size() {
+		assert_equal_strict([:]->size(), 0);
+		assert_equal_strict([1 : 1, 2 : 2]->size(), 2);
+	}
+
+
+
+	function map_is_empty() {
+		assert_true([:]->is_empty());
+		assert_false([1 : 1, 2 : 2]->is_empty());
+	}
+
+
+
+	function map_at() {
+		var map = [
+			1 : 11,
+			2 : 22,
+			"A" : 33
+		];
+		assert_equal_strict(map->at(1), 11);
+		assert_equal_strict(map->at(2), 22);
+		assert_equal_strict(map->at("A"), 33);
+		assert_equal_strict(map->at(3), null);
+	}
+
+
+
+	function map_has() {
+		var map = [
+			1 : 11,
+			2 : 22,
+			"A" : 33
+		];
+		assert_true(map->has(1));
+		assert_true(map->has(2));
+		assert_true(map->has("A"));
+		assert_false(map->has(3));
+	}
+
+
+
+	function map_insert() {
+		var map = [:];
+		map->insert(1,11);
+		assert_equal_strict(map[1], 11);
+		map->insert(1,111);
+		assert_equal_strict(map[1], 111);
+		map->insert("",[]);
+		assert_equal_strict(map[""], []);
+		map->insert(null,"test");
+		assert_equal_strict(map[null], "test");
+	}
+
+
+
+	function map_erase() {
+		var map = [
+			1 : 11,
+			2 : 22,
+			"A" : 33
+		];
+		assert_equal_strict(map->erase(1), 11);
+		assert_equal_strict(map->erase("A"), 33);
+		assert_equal_strict(map->erase(""), null);
+		assert_false(map->has(1));
+		assert_true(map->has(2));
+	}
+}
