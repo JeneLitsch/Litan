@@ -80,6 +80,28 @@ namespace sphinx::test {
 
 
 
+	function array_filter() {
+		var arr = [1,2,3,4];
+		assert_equal_strict(arr->filter(lambda(x) => x >= 3), [3,4]);
+		assert_equal_strict(arr->filter(lambda(x) => x >= 3), [3,4]);
+	}
+
+
+
+	function array_transform() {
+		var arr = [1,2,3,4];
+		assert_equal_strict(arr->transform(lambda(x) => x * 10), [10, 20, 30, 40]);
+	}
+
+
+
+	function array_reduce() {
+		var arr = [1,2,3,4];
+		assert_equal_strict(arr->reduce(lambda(a, b) => a + b), 10);
+	}
+
+
+
 	function array_any() {
 		var arr = [1,2,3,4];
 		assert_true(arr->any(lambda(x) => x >= 3));
