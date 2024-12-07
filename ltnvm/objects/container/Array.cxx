@@ -5,6 +5,8 @@
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/VMCore.hxx"
 #include "ltnvm/utils/type_check.hxx"
+#include "ltnvm/utils/run_function.hxx"
+#include "ltnvm/utils/convert.hxx"
 #include "ltnvm/native/native.hxx"
 
 namespace ltn::vm {
@@ -95,18 +97,64 @@ namespace ltn::vm {
 
 
 
+		Value array_filter(NativeCore * native_core, const Value * args) {
+			Array * orig_array = req_array(args + 0);
+			std::vector<Value> dest_array;
+			VMCore & core = *static_cast<VMCore*>(native_core->core);
+			for (const Value & elem : *orig_array) {
+				const bool result = convert::to_bool(run_function(core, args[1], elem), core);
+				if (result) {
+					dest_array.push_back(elem);
+				}
+			}
+			return native_core->alloc_array(native_core, std::data(dest_array), std::size(dest_array));
+		}
+
+
+
+		Value array_transform(NativeCore * native_core, const Value * args) {
+			Array * orig_array = req_array(args + 0);
+			std::vector<Value> dest_array;
+			VMCore & core = *static_cast<VMCore*>(native_core->core);
+			for (const Value & elem : *orig_array) {
+				dest_array.push_back(run_function(core, args[1], elem));
+			}
+			return native_core->alloc_array(native_core, std::data(dest_array), std::size(dest_array));
+		}
+
+
+
+		Value array_reduce(NativeCore * native_core, const Value * args) {
+			Array * array = req_array(args + 0);
+			if(std::empty(*array)) {
+				return value::null;
+			}
+
+			Value sum = array->front();
+			VMCore & core = *static_cast<VMCore*>(native_core->core);
+			for (std::size_t i = 1; i < std::size(*array); i++) {
+				sum = run_function(core, args[1], sum, (*array)[i]);
+			}
+			return sum;
+		}
+
+
+
 
 		NativeFunctionTable native_function_table {
-			wrap(MemberCode::SIZE,     array_size,     1),
-			wrap(MemberCode::IS_EMTPY, array_is_empty, 1),
-			wrap(MemberCode::PUSH,     array_push,     2),
-			wrap(MemberCode::POP,      array_pop,      1),
-			wrap(MemberCode::FRONT,    array_front,    1),
-			wrap(MemberCode::BACK,     array_back,     1),
-			wrap(MemberCode::PEEK,     array_peek,     1),
-			wrap(MemberCode::AT,       array_at,       2),
-			wrap(MemberCode::INSERT,   array_insert,   3),
-			wrap(MemberCode::ERASE,    array_erase,    2),
+			wrap(MemberCode::SIZE,      array_size,      1),
+			wrap(MemberCode::IS_EMTPY,  array_is_empty,  1),
+			wrap(MemberCode::PUSH,      array_push,      2),
+			wrap(MemberCode::POP,       array_pop,       1),
+			wrap(MemberCode::FRONT,     array_front,     1),
+			wrap(MemberCode::BACK,      array_back,      1),
+			wrap(MemberCode::PEEK,      array_peek,      1),
+			wrap(MemberCode::AT,        array_at,        2),
+			wrap(MemberCode::INSERT,    array_insert,    3),
+			wrap(MemberCode::ERASE,     array_erase,     2),
+			wrap(MemberCode::FILTER,    array_filter,    2),
+			wrap(MemberCode::TRANSFORM, array_transform, 2),
+			wrap(MemberCode::REDUCE,    array_reduce,    2),
 		};
 	}
 

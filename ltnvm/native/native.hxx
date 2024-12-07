@@ -14,5 +14,6 @@ namespace ltn::vm {
 	Array * req_array(const Value * value);
 	Tuple * req_tuple(const Value * value);
 	Map * req_map(const Value * value);
+	FunctionPointer * req_function_pointer(const Value * value);
 	std::int64_t req_int(const Value * value);
 }

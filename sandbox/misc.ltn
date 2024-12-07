@@ -1,9 +1,14 @@
 function main() {
-	var arr1 = [];
-	var arr2 = [1,2,3];
+	var array = [1,2,3,4,5];
+	std::println(array);
 
-	std::print(arr1->size());
-	std::println(arr1->is_empty());
-	std::print(arr2->size());
-	std::println(arr2->is_empty());
+	var new_array = array
+		->filter(lambda(x) => x >= 3)
+		->transform(lambda(x) => x * 10);
+	
+	var sum = new_array
+		->reduce(lambda(a, b) => a + b);
+
+	std::println(new_array);
+	std::println(sum);
 }

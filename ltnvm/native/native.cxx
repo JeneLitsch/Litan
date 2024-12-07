@@ -54,6 +54,16 @@ namespace ltn::vm {
 
 
 
+	FunctionPointer * req_function_pointer(const Value * value) {
+		if (is_fxptr(*value)) {
+			return value::as<FunctionPointer>(*value);
+		}
+		else {
+			throw except::invalid_argument();
+		}
+	}
+
+
 	std::int64_t req_int(const Value * value) {
 		if (is_int(*value)) {
 			return value->i;

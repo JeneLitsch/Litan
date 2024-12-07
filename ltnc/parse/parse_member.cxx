@@ -37,19 +37,22 @@ namespace ltn::c {
 
 	std::optional<MemberCode> parse_reserved_member_name(Tokens & tokens) {
 		const static std::map<std::string, MemberCode> table {
-			{"size",     MemberCode::SIZE},
-			{"is_empty", MemberCode::IS_EMTPY},
-			{"push",     MemberCode::PUSH},
-			{"pop",      MemberCode::POP},
-			{"peek",     MemberCode::PEEK},
-			{"back",     MemberCode::BACK},
-			{"front",    MemberCode::FRONT},
-			{"at",       MemberCode::AT},
-			{"insert",   MemberCode::INSERT},
-			{"erase",    MemberCode::ERASE},
-			{"has",      MemberCode::HAS},
-			{"keys",     MemberCode::KEYS},
-			{"values",   MemberCode::VALUES},
+			{"size",      MemberCode::SIZE},
+			{"is_empty",  MemberCode::IS_EMTPY},
+			{"push",      MemberCode::PUSH},
+			{"pop",       MemberCode::POP},
+			{"peek",      MemberCode::PEEK},
+			{"back",      MemberCode::BACK},
+			{"front",     MemberCode::FRONT},
+			{"at",        MemberCode::AT},
+			{"insert",    MemberCode::INSERT},
+			{"erase",     MemberCode::ERASE},
+			{"has",       MemberCode::HAS},
+			{"keys",      MemberCode::KEYS},
+			{"values",    MemberCode::VALUES},
+			{"filter",    MemberCode::FILTER},
+			{"transform", MemberCode::TRANSFORM},
+			{"reduce",    MemberCode::REDUCE},
 		};
 
 		for(const auto & [name, code] : table) {
