@@ -50,7 +50,10 @@ namespace ltn::vm {
 		template<class Obj>
 		Value clone(Value id) {
 			auto copy = ltn::vm::clone(*value::as<Obj>(id));
-			return Value{ this->alloc<Obj>(std::move(copy)), id.type };
+			return {
+				.type = id.type,
+				.object = this->alloc<Obj>(std::move(copy)),
+			};
 		}
 
 

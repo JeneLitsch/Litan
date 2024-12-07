@@ -1,6 +1,7 @@
 #pragma once
 #include "stdxx/float64_t.hxx"
 #include <cstdint>
+#include <concepts>
 
 namespace ltn::vm {
 	class Type;
@@ -21,29 +22,7 @@ namespace ltn::vm {
 			FIRST_TYPE = ARRAY,
 		};
 
-		explicit constexpr Value()
-			: type(Type::NVLL), u(0) {}
 
-		explicit constexpr Value(std::uint64_t value, Type type) 
-			: type(type), u(value) {}
-
-		explicit constexpr Value(Object * object, Type type) 
-			: type(type), object{object}{}
-		
-		explicit constexpr Value(std::int64_t value) 
-			: type(Type::INT), i(value) {}
-
-		explicit constexpr Value(char value) 
-			: type(Type::CHAR), c(value) {}
-		
-		explicit constexpr Value(stx::float64_t value)
-			: type(Type::FLOAT), f(value) {}
-
-		explicit constexpr Value(bool value)
-			: type(Type::BOOL), b(value) {}
-
-		explicit constexpr Value(const ltn::vm::Type * obj_type)
-			: type(Type::TYPE), obj_type(obj_type) {}
 
 		Type type;
 		union {
@@ -57,75 +36,164 @@ namespace ltn::vm {
 		};
 	};
 	namespace value {
-		constexpr inline Value null {std::uint64_t{0}, Value::Type::NVLL };
-		constexpr inline Value iterator_stop {std::uint64_t{0}, Value::Type::ITERATOR_STOP };
+		constexpr inline Value null {
+			.type = Value::Type::NVLL,
+			.b = false,
+		};
+		
+		constexpr inline Value iterator_stop {
+			.type = Value::Type::ITERATOR_STOP,
+			.b = false,
+		};
 
 		constexpr inline Value boolean(bool b) {
-			return Value{b, Value::Type::BOOL};
+			return Value{
+				.type = Value::Type::BOOL,
+				.b = b,
+			};
 		}
 
-		constexpr inline Value integer(auto i) {
-			return Value{static_cast<std::int64_t>(i)};
+		constexpr inline Value integer(std::integral auto i) {
+			return Value{
+				.type = Value::Type::INT,
+				.i = static_cast<std::int64_t>(i),
+			};
 		}
 
-		constexpr inline Value floating(auto i) {
-			return Value{static_cast<stx::float64_t>(i)};
+		constexpr inline Value floating(std::floating_point auto i) {
+			return Value{
+				.type = Value::Type::FLOAT,
+				.f = static_cast<stx::float64_t>(i),
+			};
 		}
 
 		constexpr inline Value character(auto i) {
-			return Value{static_cast<char>(i)};
+			return Value{
+				.type = Value::Type::CHAR,
+				.c = static_cast<char>(i),
+			};
 		}
 
 		constexpr inline Value string(Object * obj) {
-			return Value{obj, Value::Type::STRING};
+			return Value{
+				.type = Value::Type::STRING,
+				.object = obj,
+			};
 		}
 
 		constexpr inline Value array(Object * obj) {
-			return Value{obj, Value::Type::ARRAY};
+			return Value{
+				.type = Value::Type::ARRAY,
+				.object = obj,
+			};
 		}
 
 		constexpr inline Value queue(Object * obj) {
-			return Value{obj, Value::Type::QUEUE};
+			return Value{
+				.type = Value::Type::QUEUE,
+				.object = obj,
+			};
 		}
 
 		constexpr inline Value rng(Object * obj) {
-			return Value{obj, Value::Type::RNG};
+			return Value{
+				.type = Value::Type::RNG,
+				.object = obj,
+			};
 		}
 
 		constexpr inline Value tuple(Object * obj) {
-			return Value{obj, Value::Type::TUPLE};
+			return Value{
+				.type = Value::Type::TUPLE,
+				.object = obj,
+			};
 		}
 
 		constexpr inline Value iterator(Object * obj) {
-			return Value{obj, Value::Type::ITERATOR};
+			return Value{
+				.type = Value::Type::ITERATOR,
+				.object = obj,
+			};
 		}
 
 		constexpr inline Value type(const Type * type) {
-			return Value{type};
+			return Value{
+				.type = Value::Type::TYPE,
+				.obj_type = type,
+			};
 		}
 
 		constexpr inline Value map(Object * obj) {
-			return Value{obj, Value::Type::MAP};
+			return Value{
+				.type = Value::Type::MAP,
+				.object = obj,
+			};
 		}
 
 		constexpr inline Value clock(Object * obj) {
-			return Value{obj, Value::Type::CLOCK};
+			return Value{
+				.type = Value::Type::CLOCK,
+				.object = obj,
+			};
 		}
 
 		constexpr inline Value strukt(Object * obj) {
-			return Value{obj, Value::Type::STRUCT};
+			return Value{
+				.type = Value::Type::STRUCT,
+				.object = obj,
+			};
 		}
 
 		constexpr inline Value fx(Object * obj) {
-			return Value{obj, Value::Type::FUNCTION};
+			return Value{
+				.type = Value::Type::FUNCTION,
+				.object = obj,
+			};
 		}
 
 		constexpr inline Value native_function(Object * obj) {
-			return Value{obj, Value::Type::NATIVE_FUNCTION};
+			return Value{
+				.type = Value::Type::NATIVE_FUNCTION,
+				.object = obj,
+			};
 		}
 
 		constexpr inline Value coroutine(Object * obj) {
-			return Value{obj, Value::Type::COROUTINE};
+			return Value{
+				.type = Value::Type::COROUTINE,
+				.object = obj,
+			};
+		}
+
+		constexpr inline Value ostream(Object * obj) {
+			return Value{
+				.type = Value::Type::OSTREAM,
+				.object = obj,
+			};
+		}
+
+		constexpr inline Value istream(Object * obj) {
+			return Value{
+				.type = Value::Type::ISTREAM,
+				.object = obj,
+			};
+		}
+
+
+		constexpr inline Value deduce(std::int64_t value) {
+			return integer(value);
+		}
+
+		constexpr inline Value deduce(char value) {
+			return character(value);
+		} 
+		
+		constexpr inline Value deduce(stx::float64_t value) {
+			return floating(value);
+		}
+
+		constexpr inline Value deduce(bool value) {
+			return boolean(value);
 		}
 
 		template<typename T>

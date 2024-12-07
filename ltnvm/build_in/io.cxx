@@ -25,8 +25,7 @@ namespace ltn::vm::build_in::io {
 		auto add_out (VMCore & core, T && out) {
 			core.heap.collect_garbage(core.stack);
 			const auto ptr = core.heap.alloc<OStream>(std::forward<T>(out));
-			Value val{ptr, Value::Type::OSTREAM};
-			return val;
+			return value::ostream(ptr);
 		}
 
 
@@ -35,8 +34,7 @@ namespace ltn::vm::build_in::io {
 		Value add_in (VMCore & core, T && in) {
 			core.heap.collect_garbage(core.stack);
 			const auto ptr = core.heap.alloc<IStream>(std::forward<T>(in));
-			Value val{ptr, Value::Type::ISTREAM};
-			return val;
+			return value::istream(ptr);
 		}
 	}
 

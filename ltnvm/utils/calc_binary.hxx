@@ -9,10 +9,10 @@ namespace ltn::vm {
 		auto l,
 		const Value & r) {
 		constexpr Op op;
-		if(is_bool(r))  return Value{op(l, r.b)};
-		if(is_int(r))   return Value{op(l, r.i)};
-		if(is_float(r)) return Value{op(l, r.f)};
-		if(is_char(r))  return Value{op(l, r.c)};
+		if(is_bool(r))  return value::deduce(op(l, r.b));
+		if(is_int(r))   return value::deduce(op(l, r.i));
+		if(is_float(r)) return value::deduce(op(l, r.f));
+		if(is_char(r))  return value::deduce(op(l, r.c));
 		throw except::invalid_operands();
 	}
 
