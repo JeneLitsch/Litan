@@ -251,12 +251,6 @@ namespace ltn::c::inst {
 			.opcode = OpCode::NEWSTRUCT,
 		};
 	}
-	Inst newstack() {
-		return InstNone {
-			.name = "newstack",
-			.opcode = OpCode::NEWSTACK,
-		};
-	}
 	Inst newqueue() {
 		return InstNone {
 			.name = "newqueue",

@@ -25,14 +25,6 @@ namespace ltn::vm::build_in {
 			return value::character(elem);
 		}
 
-		if(is_stack(ref)) {
-			auto & container = core.heap.read<Segmented>(ref);
-			if(std::empty(container)) throw except::out_of_range();
-			const auto elem = container.back();
-			container.pop_back();
-			return elem;
-		}
-
 		if(is_queue(ref)) {
 			auto & container = core.heap.read<Segmented>(ref);
 			if(std::empty(container)) throw except::out_of_range();

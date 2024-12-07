@@ -69,10 +69,6 @@ namespace ltn::vm {
 		return val.type == Value::Type::STRUCT;
 	}
 
-	constexpr inline bool is_stack(const Value & val) {
-		return val.type == Value::Type::STACK;
-	}
-
 	constexpr inline bool is_queue(const Value & val) {
 		return val.type == Value::Type::QUEUE;
 	}

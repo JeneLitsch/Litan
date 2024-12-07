@@ -135,7 +135,6 @@ namespace ltn::vm::gc {
 			case VT::CLOCK:           return mark_obj(value.as<Clock>());
 			case VT::STRUCT:          return mark_obj(value.as<Struct>());
 			case VT::QUEUE:           return mark_obj(value.as<Segmented>());
-			case VT::STACK:           return mark_obj(value.as<Segmented>());
 			case VT::MAP:             return mark_obj(value.as<Map>());
 			case VT::RNG:             return mark_obj(value.as<RandomEngine>());
 			case VT::COROUTINE:       return mark_obj(value.as<Coroutine>());

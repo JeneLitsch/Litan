@@ -15,7 +15,7 @@ namespace ltn::vm {
 			FUNCTION = 0x40, ITERATOR, ITERATOR_STOP, COROUTINE, NATIVE_FUNCTION,
 			CLOCK = 0x50,
 			STRUCT = 0x60,
-			QUEUE = 0x70, STACK, MAP,
+			QUEUE = 0x70, MAP,
 			RNG = 0x80, 
 
 			FIRST_TYPE = ARRAY,
@@ -91,10 +91,6 @@ namespace ltn::vm {
 
 		constexpr inline Value queue(Object * obj) {
 			return Value{obj, Value::Type::QUEUE};
-		}
-
-		constexpr inline Value stack(Object * obj) {
-			return Value{obj, Value::Type::STACK};
 		}
 
 		constexpr inline Value rng(Object * obj) {

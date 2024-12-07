@@ -44,7 +44,6 @@ namespace ltn::vm::build_in {
 		if(is_tuple(ref)) return size<Tuple>(ref, core);
 		if(is_string(ref)) return size<String>(ref, core);
 		if(is_queue(ref)) return size<Segmented>(ref, core);
-		if(is_stack(ref)) return size<Segmented>(ref, core);
 		if(is_map(ref)) {
 			const auto & map = core.heap.read<Map>(ref);
 			return value::integer(static_cast<std::int64_t>(std::size(map)));

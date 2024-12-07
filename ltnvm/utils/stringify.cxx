@@ -123,13 +123,6 @@ namespace ltn::vm {
 			return ss.str();
 		}
 
-		if(is_stack(value)) {
-			const auto & deque = core.heap.read<Segmented>(value);
-			std::ostringstream ss;
-			print_all(std::begin(deque), std::end(deque), ss, core, '<', '>');
-			return ss.str();
-		}
-
 		if(is_map(value)) {
 			const auto & map = core.heap.read<Map>(value);
 			std::ostringstream ss;

@@ -25,7 +25,6 @@ namespace sphinx::test {
 		assert_equal(std::typeid(std::cout()),             std::type::ostream);
 		assert_equal(std::typeid(std::chrono::clock()),    std::type::clock);
 		assert_equal(std::typeid(std::queue()),            std::type::queue);
-		assert_equal(std::typeid(std::stack()),            std::type::stack);
 		assert_equal(std::typeid(std::map()),              std::type::map);
 		assert_equal(std::typeid(std::random::mersenne()), std::type::rng);
 	}

@@ -43,6 +43,7 @@ namespace ltn::vm {
 
 
 
+
 	std::int64_t req_int(const Value * value) {
 		if (is_int(*value)) {
 			return value->i;
