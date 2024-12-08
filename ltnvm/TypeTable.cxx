@@ -212,9 +212,9 @@ namespace ltn::vm {
 
 			virtual bool is(const Value & value, VMCore & core) const override {
 				if(!is_struct(value)) return false;
-				auto & strukt = core.heap.read<Struct>(value);
+				Struct * strukt = value::as<Struct>(value);
 				for(auto & type_member : this->members) {
-					if(auto * data_member = strukt.get(type_member.member_id)){
+					if(auto * data_member = strukt->get(type_member.member_id)){
 						if(!type_member.type->is(*data_member, core)) {
 							return false;
 						}
@@ -343,9 +343,9 @@ namespace ltn::vm {
 		template<typename Data, auto make_value, auto check_type>
 		Value cast_unary_type(const Value & value, VMCore & core, const Type * sub_type) {
 			if(!check_type(value)) return value::null;
-			const Data & input = core.heap.read<Data>(value); 
+			const Data * input = value::as<Data>(value);
 			Data output;
-			for(const auto & elem : input) {
+			for(const auto & elem : *input) {
 				output.push_back(sub_type->cast(elem, core));
 			}
 			return make_value(core.heap.alloc(std::move(output)));
@@ -356,8 +356,8 @@ namespace ltn::vm {
 		template<typename Data, auto check_type>
 		bool is_unary_type(const Value & value, VMCore & core, const Type * sub_type) {
 			if(!check_type(value)) return false;
-			const Data & input = core.heap.read<Data>(value);
-			return std::all_of(std::begin(input), std::end(input), 
+			const Data * input = value::as<Data>(value);
+			return std::all_of(std::begin(*input), std::end(*input), 
 				[&](const auto & elem) { return sub_type->is(elem, core); 
 			});
 		}
@@ -366,8 +366,8 @@ namespace ltn::vm {
 
 		bool type_is_fx_n(const Value & value, VMCore & core, std::uint64_t arity) {
 			if(!is_fxptr(value)) return false;
-			const FunctionPointer & input = core.heap.read<FunctionPointer>(value);
-			return input.params == arity;
+			const FunctionPointer * input = value::as<FunctionPointer>(value);
+			return input->params == arity;
 		}
 
 
@@ -380,8 +380,8 @@ namespace ltn::vm {
 
 		bool type_is_map(const Value & value, VMCore & core, const Type * sub_type_l, const Type * sub_type_r) {
 			if(!is_map(value)) return false;
-			const Map & input = core.heap.read<Map>(value);
-			return std::all_of(std::begin(input), std::end(input), 
+			const Map * input = value::as<Map>(value);
+			return std::all_of(std::begin(*input), std::end(*input), 
 				[&](const auto & elem) {
 					auto & [key, val] = elem;
 					return sub_type_l->is(key, core) && sub_type_r->is(val, core); 
@@ -401,11 +401,11 @@ namespace ltn::vm {
 
 		Value type_cast_tuple_n(const Value & value, VMCore & core, const std::vector<const Type *> & sub_types) {
 			if(is_contiguous(value)) {
-				const Contiguous & input = core.heap.read<Contiguous>(value);
-				if(std::size(input) != std::size(sub_types)) return value::null;
+				const Contiguous * input = value::as<Contiguous>(value);
+				if(std::size(*input) != std::size(sub_types)) return value::null;
 				Tuple output;
-				for(std::size_t i = 0; i < std::size(input); ++i) {
-					output.push_back(sub_types[i]->cast(input[i], core));
+				for(std::size_t i = 0; i < std::size(*input); ++i) {
+					output.push_back(sub_types[i]->cast(input->unsafe_at(i), core));
 				}
 				return value::tuple(core.heap.alloc(std::move(output)));
 			}
@@ -418,10 +418,10 @@ namespace ltn::vm {
 
 		bool type_is_tuple_n(const Value & value, VMCore & core, const std::vector<const Type *> & sub_types) {
 			if(!is_tuple(value)) return false;
-			const Tuple & input = core.heap.read<Tuple>(value);
-			if(std::size(input) != std::size(sub_types)) return false;
-			for(std::size_t i = 0; i < std::size(input); ++i) {
-				if(!sub_types[i]->is(input[i], core)) return false;
+			const Tuple * input = value::as<Tuple>(value);
+			if(std::size(*input) != std::size(sub_types)) return false;
+			for(std::size_t i = 0; i < std::size(*input); ++i) {
+				if(!sub_types[i]->is(input->unsafe_at(i), core)) return false;
 			}
 			return true;
 		}
@@ -533,10 +533,6 @@ namespace ltn::vm {
 			, cast_unary_type<Queue, value::queue, is_queue>
 		>;
 
-		using TypeVmStack = UnaryType<"stack"
-			, is_unary_type<Stack, is_stack>
-			, cast_unary_type<Stack, value::stack, is_stack>
-		>;
 
 		using TypeMap = BinaryType<"map"
 			, type_is_map
@@ -570,7 +566,6 @@ namespace ltn::vm {
 				case type_code::CLOCK: return TypeClock::make(type_table, code);
 				case type_code::TYPE: return TypeType::make(type_table, code);
 				case type_code::QUEUE: return TypeQueue::make(type_table, code);
-				case type_code::STACK: return TypeVmStack::make(type_table, code);
 				case type_code::MAP: return TypeMap::make(type_table, code);
 				case type_code::STRUCT: return TypeStruct::make(type_table, code);
 				default: throw std::runtime_error{""};

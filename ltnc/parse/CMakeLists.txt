@@ -18,7 +18,7 @@ target_sources(libltnc PRIVATE
 	parse_loops.cxx
 	parse_name.cxx
 	parse_newvar.cxx
-	parse_member_code.cxx
+	parse_member.cxx
 	parse_parenthesized.cxx
 	parse_primary.cxx
 	parse_reflect.cxx

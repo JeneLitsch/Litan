@@ -49,8 +49,16 @@ namespace ltn::vm {
 		return val.type == Value::Type::ISTREAM;
 	}
 
-	constexpr inline bool is_fxptr(const Value & val) {
+	constexpr inline bool is_script_function(const Value & val) {
 		return val.type == Value::Type::FUNCTION;
+	}
+
+	constexpr inline bool is_native_function(const Value & val) {
+		return val.type == Value::Type::NATIVE_FUNCTION;
+	}
+
+	constexpr inline bool is_fxptr(const Value & val) {
+		return is_script_function(val) || is_native_function(val);
 	}
 
 	constexpr inline bool is_clock(const Value & val) {
@@ -59,10 +67,6 @@ namespace ltn::vm {
 
 	constexpr inline bool is_struct(const Value & val) {
 		return val.type == Value::Type::STRUCT;
-	}
-
-	constexpr inline bool is_stack(const Value & val) {
-		return val.type == Value::Type::STACK;
 	}
 
 	constexpr inline bool is_queue(const Value & val) {
@@ -96,5 +100,9 @@ namespace ltn::vm {
 
 	constexpr inline bool is_coroutine(const Value & val) {
 		return val.type == Value::Type::COROUTINE;
+	}
+
+	constexpr inline bool is_object(const Value & val) {
+		return static_cast<std::uint64_t>(val.type) >= static_cast<std::uint64_t>(Value::Type::FIRST_TYPE);
 	}
 }

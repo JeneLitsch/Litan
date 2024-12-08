@@ -10,8 +10,9 @@ add_library(libltnvm
 
 target_link_libraries(libltnvm libltn)
 
-add_subdirectory(build_in)
-add_subdirectory(external)
-add_subdirectory(inst)
-add_subdirectory(objects)
-add_subdirectory(utils)
+add_subdirectory("native")
+add_subdirectory("build_in")
+add_subdirectory("external")
+add_subdirectory("inst")
+add_subdirectory("objects")
+add_subdirectory("utils")

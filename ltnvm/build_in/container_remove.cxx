@@ -20,9 +20,9 @@ namespace ltn::vm::build_in {
 
 		template<typename Collection>
 		Value remove_first(const Value ref, Heap & heap) {
-			auto & collection = heap.read<Collection>(ref); 
-			guardEmpty(collection);
-			collection.erase(collection.begin());
+			Collection * collection = value::as<Collection>(ref); 
+			guardEmpty(*collection);
+			collection->unsafe_erase(collection->begin());
 			return value::null;
 		}
 
@@ -30,9 +30,9 @@ namespace ltn::vm::build_in {
 
 		template<typename Collection>
 		Value remove_last(const Value ref, Heap & heap) {
-			auto & collection = heap.read<Collection>(ref); 
-			guardEmpty(collection);
-			collection.pop_back();
+			Collection * collection = value::as<Collection>(ref); 
+			guardEmpty(*collection);
+			collection->unsafe_pop_back();
 			return value::null;
 		}
 
@@ -40,17 +40,17 @@ namespace ltn::vm::build_in {
 
 		template<typename Collection>
 		Value remove_index(const Value ref, Heap & heap, const Value & index) {
-			auto & collection = heap.read<Collection>(ref);
-			const auto i = to_index(index, std::size(collection));
-			collection.erase(collection.begin() + i);
+			Collection * collection = value::as<Collection>(ref);
+			const auto i = to_index(index, std::size(*collection));
+			collection->unsafe_erase(collection->begin() + i);
 			return value::null;
 		}
 
 
 
 		Value remove_m(const Value ref, Heap & heap, const Value key) {
-			auto & map = heap.read<Map>(ref); 
-			map.erase(key);
+			Map * map = value::as<Map>(ref); 
+			map->erase(key);
 			return value::null;
 		}
 	}

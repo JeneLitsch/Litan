@@ -22,15 +22,6 @@ namespace sphinx::test {
 
 
 
-	function std_empty_stack() {
-		var s = std::stack();
-		assert_true(std::empty(s));
-		std::push(s, 1); 
-		assert_false(std::empty(s));
-	}
-
-
-
 	function std_empty_map() {
 		assert_true(std::empty([:]));
 		assert_false(std::empty([0:1]));

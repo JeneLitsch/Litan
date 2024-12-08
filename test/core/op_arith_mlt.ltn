@@ -25,7 +25,6 @@ namespace sphinx::test {
 		assert_except(lambda => ([]) * ([]));
 		assert_except(lambda => ("") * (""));
 		assert_except(lambda => (std::map()) * (std::map()));
-		assert_except(lambda => (std::stack()) * (std::stack()));
 		assert_except(lambda => (std::queue()) * (std::queue()));
 	}
 
@@ -45,31 +44,5 @@ namespace sphinx::test {
 
 
 
-	function mlt_array() {
-		test_name("operator: l * r (array x any)");
 
-		assert_equal_strict([1,2,3] * true, [1,2,3]);
-		assert_equal_strict(true * [1,2,3], [1,2,3]);
-		assert_equal_strict([1,2,3] * false, []);
-		assert_equal_strict(false * [1,2,3], []);
-
-		assert_equal_strict([1,2,3] * 3, [1,2,3,1,2,3,1,2,3]);
-		assert_equal_strict(3 * [1,2,3], [1,2,3,1,2,3,1,2,3]);
-	}
-
-
-
-	function mlt_array_nested() {
-		test_name("operator: l * r (array(array) x any)");
-
-		assert_equal_strict([1, [1]] * 3, [1, [1], 1, [1], 1, [1]]);
-	}
-
-
-
-	function mlt_array_empty() {
-		test_name("operator: l * r ([] x any)");
-
-		assert_equal_strict([] * 3, []);
-	}
 }

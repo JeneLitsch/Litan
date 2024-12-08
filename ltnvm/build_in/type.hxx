@@ -8,7 +8,6 @@ namespace ltn::vm::build_in::type {
 	Value cast(VMCore & core);
 
 	Value queue(VMCore & core);
-	Value stack(VMCore & core);
 	Value map(VMCore & core);
 	Value strukt(VMCore & core);
 }

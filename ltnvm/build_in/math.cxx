@@ -59,7 +59,7 @@ namespace ltn::vm::build_in {
 	Value rounding(const Value & value) {
 		constexpr Fx fx{};
 		if(is_float(value)) {
-			return Value{fx(value.f)};
+			return value::deduce(fx(value.f));
 		}
 		if(is_int(value) || is_bool(value) || is_char(value)) {
 			return value::integer(cast::to_int(value));
@@ -73,16 +73,16 @@ namespace ltn::vm::build_in {
 	Value function(const Value & value) {
 		constexpr Fx fx{};
 		if(is_float(value)) {
-			return Value{fx(value.f)};
+			return value::deduce(fx(value.f));
 		}
 		if(is_int(value)) {
-			return Value{fx(value.i)};
+			return value::deduce(fx(value.i));
 		}
 		if(is_bool(value)) {
-			return Value{fx(value.b)};
+			return value::deduce(fx(value.b));
 		}
 		if(is_char(value)) {
-			return Value{fx(value.c)};
+			return value::deduce(fx(value.c));
 		}
 		throw except::invalid_argument();
 	}
@@ -203,14 +203,14 @@ namespace ltn::vm::build_in {
 
 
 	Value ld(VMCore & core) {
-		core.stack.push(value::floating(2));
+		core.stack.push(value::floating(2.0));
 		return log(core);
 	}
 
 
 
 	Value lg(VMCore & core) {
-		core.stack.push(value::floating(10));
+		core.stack.push(value::floating(10.0));
 		return log(core);
 	}
 }

@@ -22,16 +22,16 @@ namespace ltn::vm {
 			auto result = run_core(core);
 			core.pc = prev;
 			if(is_tuple(result)) {
-				auto * tuple = result.as<Tuple>();
+				auto * tuple = value::as<Tuple>(result);
 				if(tuple->size() == 2) {
-					return { (*tuple)[0], (*tuple)[1] };
+					return { tuple->unsafe_at(0), tuple->unsafe_at(1) };
 				}
 			}
 			throw std::runtime_error{"Cannot deconstruct coroutine return tuple"};
 		}
 		
 		std::pair<Value, Value> run(VMCore & core, const Value & ref) {
-			if(is_coroutine(ref)) return run_coroutine(core, ref.as<Coroutine>());
+			if(is_coroutine(ref)) return run_coroutine(core, value::as<Coroutine>(ref));
 			throw std::runtime_error{"Not a coroutine!"};
 		}
 	}

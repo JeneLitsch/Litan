@@ -10,6 +10,15 @@ namespace ltn::vm {
 		using Members = std::vector<std::pair<std::uint64_t, Value>>;
 		Members members;
 
+		const Value * get(const auto id) const {
+			for(auto & [memberId, member] : this->members) {
+				if(id == memberId) {
+					return &member;
+				}
+			}
+			return nullptr;
+		}
+
 		Value * get(const auto id) {
 			for(auto & [memberId, member] : this->members) {
 				if(id == memberId) {
@@ -17,6 +26,15 @@ namespace ltn::vm {
 				}
 			}
 			return nullptr;
+		}
+
+		virtual Value get_member(std::uint64_t id) const override {
+			if(const Value * member = get(id)) {
+				return *member;
+			}
+			else {
+				return value::null;
+			}
 		}
 	};
 

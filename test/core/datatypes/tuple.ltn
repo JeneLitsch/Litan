@@ -1,0 +1,33 @@
+namespace sphinx::test {
+	function tuple_size() {
+		assert_equal_strict(()->size(), 0);
+		assert_equal_strict((1,2,3)->size(), 3);
+	}
+
+
+
+	function tuple_is_empty() {
+		assert_equal_strict(()->is_empty(), true);
+		assert_equal_strict((1,2,3)->is_empty(), false);
+	}
+
+
+
+	function tuple_at() {
+		assert_equal_strict((1,2,3)->at(0), 1);
+		assert_equal_strict((1,2,3)->at(1), 2);
+		assert_equal_strict((1,2,3)->at(2), 3);
+	}
+
+
+
+	function tuple_front() {
+		assert_equal_strict((1,2,3)->front(), 1);
+	}
+
+
+
+	function tuple_back() {
+		assert_equal_strict((1,2,3)->back(), 3);
+	}
+}

@@ -28,11 +28,11 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return Any{value.as<String>()->get_underlying()};
+			return Any{value::as<String>(value)->get_underlying()};
 		}
 
 		if(is_contiguous(value)) {
-			auto & array = *value.as<Contiguous>();
+			auto & array = *value::as<Contiguous>(value);
 			std::vector<Any> vector;
 			for(const auto & elem : array) {
 				vector.push_back(to_any(elem));

@@ -15,7 +15,6 @@ namespace ltn::vm::build_in::type {
 		if(is_array(ref))    return core.heap.clone<Array>(ref);
 		if(is_tuple(ref))    return core.heap.clone<Tuple>(ref);
 		if(is_string(ref))   return core.heap.clone<String>(ref);
-		if(is_stack(ref))    return core.heap.clone<Stack>(ref);
 		if(is_queue(ref))    return core.heap.clone<Queue>(ref);
 		if(is_map(ref))      return core.heap.clone<Map>(ref);
 		if(is_ostream(ref))  return core.heap.clone<OStream>(ref);
@@ -23,7 +22,7 @@ namespace ltn::vm::build_in::type {
 		if(is_rng(ref))      return core.heap.clone<RandomEngine>(ref);
 		if(is_struct(ref))   return core.heap.clone<Struct>(ref);
 		if(is_iterator(ref)) {
-			return value::iterator(core.heap.track(ref.as<Iterator>()->clone()));
+			return value::iterator(core.heap.track(value::as<Iterator>(ref)->clone()));
 		}
 		throw except::invalid_argument("Cannot clone");
 	}
@@ -52,13 +51,6 @@ namespace ltn::vm::build_in::type {
 
 	Value queue(VMCore & core) {
 		inst::newqueue(core);
-		return core.stack.pop();
-	}
-
-
-
-	Value stack(VMCore & core) {
-		inst::newstack(core);
 		return core.stack.pop();
 	}
 

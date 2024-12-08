@@ -18,8 +18,7 @@ namespace std {
 		struct   : 0x60;
 		range    : 0x61;
 		queue    : 0x70;
-		stack    : 0x71;
-		map      : 0x72;
+		map      : 0x71;
 		rng      : 0x80;
 	}
 
@@ -59,7 +58,6 @@ namespace std {
 		case std::type::struct    => "struct"
 		case std::type::range     => "range"
 		case std::type::queue     => "queue"
-		case std::type::stack     => "stack"
 		case std::type::map       => "map"
 		case std::type::rng       => "rng"
 		else                      => "unknown"

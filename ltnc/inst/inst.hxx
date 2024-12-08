@@ -153,7 +153,6 @@ namespace ltn::c::inst {
 	Inst newfx(const std::string & label);
 	Inst newclock();
 	Inst newstruct();
-	Inst newstack();
 	Inst newqueue();
 	Inst newmap();
 	Inst newtuple(std::uint64_t size);

@@ -13,8 +13,8 @@ namespace ltn::vm::build_in::chrono {
 	Value to_seconds(VMCore & core) {
 		auto ref = core.stack.pop();
 		if(!is_clock(ref)) throw except::invalid_argument("Not a clock");
-		auto & clock = core.heap.read<Clock>(ref);
-		return value::floating(clock.getSeconds());
+		Clock * clock = value::as<Clock>(ref);
+		return value::floating(clock->getSeconds());
 	}
 
 

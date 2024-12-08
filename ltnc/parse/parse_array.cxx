@@ -16,38 +16,17 @@ namespace ltn::c {
 
 
 
-		auto parse_member(Tokens & tokens) {
-
-
-			if(match(TT::BRACE_L, tokens)) {
-				MemberCode code = parse_member_code(tokens);
-
-				if(!match(TT::BRACE_R, tokens)) {
-					throw CompilerError{"Expected }", location(tokens)};
-				}
-
-				if(!match(TT::ASSIGN, tokens)) {
-					throw CompilerError{"Expected =", location(tokens)};
-				}
-				auto expr = parse_expression(tokens);
-
-				return ast::expr::Struct::Member{
-					.name = code,
-					.expr = std::move(expr),
-				};
+		auto parse_member_init(Tokens & tokens) {
+			auto member = parse_member(tokens);
+			if(!match(TT::ASSIGN, tokens)) {
+				throw CompilerError{"Expected =", location(tokens)};
 			}
-			else {
-				auto name = parse_variable_name(tokens);
-				if(!match(TT::ASSIGN, tokens)) {
-					throw CompilerError{"Expected =", location(tokens)};
-				}
-				auto expr = parse_expression(tokens);
+			auto expr = parse_expression(tokens);
 
-				return ast::expr::Struct::Member{
-					.name = std::move(name),
-					.expr = std::move(expr),
-				};
-			}
+			return ast::expr::Struct::Member{
+				.name = member,
+				.expr = std::move(expr),
+			};
 		}
 
 
@@ -64,7 +43,7 @@ namespace ltn::c {
 				if(!std::exchange(first, false) && !match(TT::DOT, t)) {
 					throw CompilerError{"Expected . (dot)", location(t)};
 				}
-				return parse_member(t);
+				return parse_member_init(t);
 			});
 			return init_struct;
 		}

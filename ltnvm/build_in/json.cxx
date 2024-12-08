@@ -13,7 +13,7 @@ namespace ltn::vm::build_in::json {
 				throw except::invalid_argument();
 			}
 
-			std::istringstream iss {str.as<String>()->get_underlying()};
+			std::istringstream iss {value::as<String>(str)->get_underlying()};
 			stx::json::node json_node;
 			iss >> json_node;
 			return json_to_value(json_node, core);

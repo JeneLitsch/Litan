@@ -60,7 +60,7 @@ namespace ltn::vm::ext {
 	template <typename T>
 	inline Value wrap_return(const std::vector<T> & vector, Heap & heap) {
 		auto ptr = value::array(heap.make<Array>());
-		auto & array = heap.read<Array>(ptr);
+		auto & array = *value::as<Array>(ptr);
 		for(const T & elem : vector) {
 			array.push_back(wrap_return(elem, heap));
 		} 

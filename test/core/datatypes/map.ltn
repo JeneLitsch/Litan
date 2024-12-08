@@ -1,0 +1,119 @@
+namespace sphinx::test {
+	function map_size() {
+		assert_equal_strict([:]->size(), 0);
+		assert_equal_strict([1 : 1, 2 : 2]->size(), 2);
+	}
+
+
+
+	function map_is_empty() {
+		assert_true([:]->is_empty());
+		assert_false([1 : 1, 2 : 2]->is_empty());
+	}
+
+
+
+	function map_at() {
+		var map = [
+			1 : 11,
+			2 : 22,
+			"A" : 33
+		];
+		assert_equal_strict(map->at(1), 11);
+		assert_equal_strict(map->at(2), 22);
+		assert_equal_strict(map->at("A"), 33);
+		assert_equal_strict(map->at(3), null);
+	}
+
+
+
+	function map_has() {
+		var map = [
+			1 : 11,
+			2 : 22,
+			"A" : 33
+		];
+		assert_true(map->has(1));
+		assert_true(map->has(2));
+		assert_true(map->has("A"));
+		assert_false(map->has(3));
+	}
+
+
+
+	function map_insert() {
+		var map = [:];
+		map->insert(1,11);
+		assert_equal_strict(map[1], 11);
+		map->insert(1,111);
+		assert_equal_strict(map[1], 111);
+		map->insert("",[]);
+		assert_equal_strict(map[""], []);
+		map->insert(null,"test");
+		assert_equal_strict(map[null], "test");
+	}
+
+
+
+	function map_erase() {
+		var map = [
+			1 : 11,
+			2 : 22,
+			"A" : 33
+		];
+		var map_bak = std::clone(map);
+		
+		assert_equal_strict(map->erase(""), null);
+		assert_equal_strict(map, map_bak);
+
+		assert_equal_strict(map->erase(1), 11);
+		assert_equal_strict(map->erase("A"), 33);
+		assert_false(map->has(1));
+		assert_true(map->has(2));
+	}
+
+
+
+	function map_keys() {
+		var map = [
+			1 : 11,
+			2 : 22,
+			"A" : 33
+		];
+		assert_equal_strict(map->keys(), [1,2,"A"]);
+	}
+
+
+
+	function map_values() {
+		var map = [
+			1 : 11,
+			2 : 22,
+			"A" : 33
+		];
+		assert_equal_strict(map->values(), [11,22,33]);
+	}
+
+
+
+	function map_merged() {
+		var map_1 = [
+			1 : 11,
+			2 : 22,
+			3 : 33,
+		];
+		var map_2 = [
+			2 : 222,
+			3 : 333,
+			4 : 44,
+		];
+		var map_3 = [:];
+		var map_1_2 = map_1->merged(map_2);
+		var map_2_1 = map_2->merged(map_1);
+		var map_3_3 = map_3->merged(map_3);
+
+		assert_equal_strict(map_1_2, [1:11, 2:22, 3:33, 4:44]);
+		assert_equal_strict(map_2_1, [1:11, 2:222, 3:333, 4:44]);
+		assert_equal_strict(map_3_3, [:]);
+	}
+}

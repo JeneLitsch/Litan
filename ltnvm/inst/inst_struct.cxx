@@ -4,13 +4,12 @@ namespace ltn::vm::inst {
 	namespace {
 		inline Struct & get_struct(const Value ref, Heap & heap) {
 			if(is_struct(ref)) {
-				return heap.read<Struct>(ref);
+				return *value::as<Struct>(ref);
 			}
 			else {
 				throw except::invalid_member_access();
 			}
 		}
-
 
 
 
@@ -30,13 +29,17 @@ namespace ltn::vm::inst {
 	void member_read(VMCore & core) {
 		const auto id = core.fetch_uint();
 		const auto ref = core.stack.pop();
-		auto & strukt = get_struct(ref, core.heap);
-		if(const auto * const member = strukt.get(id)) {
-			core.stack.push(*member);
+		if(is_object(ref)) {
+			core.stack.push(value::as<Object>(ref)->get_member(id));
+			return;
 		}
-		else {
-			core.stack.push(value::null);
-		}
+		// if(is_object(ref)) {
+		// 	return read_struct_member(core, ref, id);
+		// }
+		// if(is_array(ref)) {
+		// 	return read_array_member(core, ref, id);
+		// }
+		throw except::invalid_member_access();
 	}
 	
 

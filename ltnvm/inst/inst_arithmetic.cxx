@@ -18,9 +18,9 @@ namespace ltn::vm::inst {
 	namespace {
 		template<typename T>
 		T * concat(const Value & l, const Value & r, Heap & heap) {
-			const auto obj_l = heap.read<T>(l);
-			const auto obj_r = heap.read<T>(r);
-			return heap.alloc<T>({obj_l.get_underlying() + obj_r.get_underlying()});
+			const T * obj_l = value::as<T>(l);
+			const T * obj_r = value::as<T>(r);
+			return heap.alloc<T>({obj_l->get_underlying() + obj_r->get_underlying()});
 		} 
 
 
@@ -31,7 +31,7 @@ namespace ltn::vm::inst {
 			const Value & repetitions,
 			Heap & heap) {
 			
-			const auto & str = heap.read<T>(ref);
+			const auto & str = *value::as<T>(ref);
 			const auto & count = cast::to_int(repetitions);
 			auto repeated = stx::repeat(str.get_underlying(), count);
 			const auto ptr = heap.alloc(T{std::move(repeated)}); 

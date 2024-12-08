@@ -9,21 +9,21 @@ namespace ltn::vm::inst {
 		const auto elem = core.stack.pop();
 		
 		if(is_array(ref) || is_tuple(ref)) {
-			auto & arr = core.heap.read<Contiguous>(ref);
+			auto & arr = *value::as<Contiguous>(ref);
 			const auto index = to_index(key, std::size(arr));
-			arr[static_cast<std::size_t>(index)] = elem;
+			arr.unsafe_at(index) = elem;
 			return;
 		}
 
 		if(is_string(ref)) {
-			auto & str = core.heap.read<String>(ref);
+			auto & str = *value::as<String>(ref);
 			const auto index = to_index(key, std::size(str));
-			str[static_cast<std::size_t>(index)] = convert::to_char(elem);
+			str.unsafe_at(index) = convert::to_char(elem);
 			return;
 		}
 
 		if(is_map(ref)) {
-			auto & map = core.heap.read<Map>(ref);
+			auto & map = *value::as<Map>(ref);
 			map[key] = elem;
 			return;
 		}

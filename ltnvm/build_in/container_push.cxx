@@ -11,8 +11,8 @@ namespace ltn::vm::build_in {
 		const auto ref = core.stack.pop();
 
 		if(is_array(ref)) {
-			auto & container = core.heap.read<Array>(ref);
-			container.push_back(elem);
+			Array * container = value::as<Array>(ref);
+			container->push_back(elem);
 			return value::null;
 		}
 
@@ -20,15 +20,9 @@ namespace ltn::vm::build_in {
 			return insert_back_string(core, ref, elem);
 		}
 
-		if(is_stack(ref)) {
-			auto & container = core.heap.read<Segmented>(ref);
-			container.push_back(elem);
-			return value::null;
-		}
-
 		if(is_queue(ref)) {
-			auto & container = core.heap.read<Segmented>(ref);
-			container.push_back(elem);
+			Segmented * container = value::as<Segmented>(ref);
+			container->push_back(elem);
 			return value::null;
 		}
 		

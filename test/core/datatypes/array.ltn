@@ -1,0 +1,224 @@
+namespace sphinx::test {
+	function array_size() {
+		assert_equal_strict([]->size(), 0);
+		assert_equal_strict([1,2,3]->size(), 3);
+	}
+
+
+
+	function array_is_empty() {
+		assert_equal_strict([]->is_empty(), true);
+		assert_equal_strict([1,2,3]->is_empty(), false);
+	}
+
+
+
+	function array_push() {
+		var arr = [];
+		assert_equal_strict(arr->push(1), null);
+		assert_equal_strict(arr->push(2), null);
+		assert_equal_strict(arr->push(3), null);
+		assert_equal_strict([1,2,3], arr);
+	}
+
+
+
+	function array_pop() {
+		var arr = [1,2,3];
+		assert_equal_strict([1,2,3], arr);
+		assert_equal_strict(arr->pop(), 3);
+		assert_equal_strict([1,2], arr);
+		assert_equal_strict(arr->pop(), 2);
+		assert_equal_strict([1], arr);
+		assert_equal_strict(arr->pop(), 1);
+		assert_equal_strict([], arr);
+	}
+
+
+
+	function array_front() {
+		assert_equal_strict([1,2,3]->front(), 1);
+	}
+
+
+
+	function array_back() {
+		assert_equal_strict([1,2,3]->back(), 3);
+	}
+
+
+
+	function array_peek() {
+		assert_equal_strict([1,2,3]->peek(), 3);
+	}
+
+
+
+	function array_at() {
+		var arr = [1,2,3];
+		assert_equal_strict(arr->at(0), 1);
+		assert_equal_strict(arr->at(1), 2);
+		assert_equal_strict(arr->at(2), 3);
+	}
+
+
+	function array_insert() {
+		var arr = [];
+		assert_equal_strict(arr->insert(0, 1), null);
+		assert_equal_strict(arr->insert(1, 2), null);
+		assert_equal_strict(arr->insert(2, 3), null);
+		assert_equal_strict(arr, [1,2,3]);
+	}
+
+
+
+	function array_erase() {
+		var arr = [1,2,2,3];
+		assert_equal_strict(arr->erase(1), 2);
+		assert_equal_strict(arr, [1,2,3]);
+	}
+
+
+
+	function array_filter() {
+		var arr = [1,2,3,4];
+		assert_equal_strict(arr->filter(lambda(x) => x >= 3), [3,4]);
+		assert_equal_strict(arr->filter(lambda(x) => x >= 3), [3,4]);
+	}
+
+
+
+	function array_transform() {
+		var arr = [1,2,3,4];
+		assert_equal_strict(arr->transform(lambda(x) => x * 10), [10, 20, 30, 40]);
+	}
+
+
+
+	function array_reduce() {
+		var arr = [1,2,3,4];
+		assert_equal_strict(arr->reduce(lambda(a, b) => a + b), 10);
+	}
+
+
+
+	function array_any() {
+		var arr = [1,2,3,4];
+		assert_true(arr->any(lambda(x) => x >= 3));
+		assert_false(arr->any(lambda(x) => x > 4));
+	}
+
+
+
+	function array_all() {
+		var arr = [1,2,3,4];
+		assert_true(arr->all(lambda(x) => x >= 1));
+		assert_false(arr->all(lambda(x) => x >= 3));
+	}
+
+
+
+	function array_none() {
+		var arr = [1,2,3,4];
+		assert_false(arr->none(lambda(x) => x >= 1));
+		assert_true(arr->none(lambda(x) => x > 4));
+	}
+
+
+
+	function array_has() {
+		var arr = [1,2,3,4];
+		assert_false(arr->has(5));
+		assert_true(arr->has(1));
+	}
+
+
+
+	function array_slice() {
+		var array = [0, 1, 2, 3, 4, 5];
+		assert_equal_strict(array->slice(0,array->size()), [0, 1, 2, 3, 4, 5]);
+		assert_equal_strict(array->slice(3,array->size()), [3, 4, 5]);
+		assert_equal_strict(array->slice(0,2), [0, 1]);
+		assert_equal_strict(array->slice(0,0), []);
+	}
+
+
+
+	function array_prefix() {
+		var array = [0, 1, 2, 3, 4, 5];
+		assert_equal_strict(array->prefix(0), []);
+		assert_equal_strict(array->prefix(1), [0]);
+		assert_equal_strict(array->prefix(2), [0,1]);
+		assert_equal_strict(array->prefix(3), [0,1,2]);
+		assert_equal_strict(array->prefix(4), [0,1,2,3]);
+		assert_equal_strict(array->prefix(5), [0,1,2,3,4]);
+		assert_equal_strict(array->prefix(6), [0,1,2,3,4,5]);
+		
+		assert_except(lambda[array]() => array->prefix(7));
+		assert_success(lambda[array]() => array->prefix(6));
+	}
+
+
+	
+	function array_suffix() {
+		var array = [0, 1, 2, 3, 4, 5];
+		assert_equal_strict(array->suffix(0), []);
+		assert_equal_strict(array->suffix(1), [5]);
+		assert_equal_strict(array->suffix(2), [4,5]);
+		assert_equal_strict(array->suffix(3), [3,4,5]);
+		assert_equal_strict(array->suffix(4), [2,3,4,5]);
+		assert_equal_strict(array->suffix(5), [1,2,3,4,5]);
+		assert_equal_strict(array->suffix(6), [0,1,2,3,4,5]);
+	}
+
+
+
+	function array_reversed() {
+		var arr = [1,2,3,4];
+		assert_equal_strict(arr->reversed(), [4,3,2,1]);
+	}
+
+
+
+	function array_op_add() {
+		test_name("operator: l + r (array + array)");
+
+		assert_equal([] + [], []);
+		assert_equal([] + [1], [1]);
+		assert_equal([1] + [], [1]);
+		assert_equal([1] + [1], [1, 1]);
+		assert_equal([[1]] + [2], [[1], 2]);
+		assert_equal([[""]] + [2], [[""], 2]);
+		assert_equal([[""]] + [[2]], [[""], [2]]);
+	}
+
+
+
+	function array_op_mlt() {
+		test_name("operator: l * r (array x any)");
+
+		assert_equal_strict([1,2,3] * true, [1,2,3]);
+		assert_equal_strict(true * [1,2,3], [1,2,3]);
+		assert_equal_strict([1,2,3] * false, []);
+		assert_equal_strict(false * [1,2,3], []);
+
+		assert_equal_strict([1,2,3] * 3, [1,2,3,1,2,3,1,2,3]);
+		assert_equal_strict(3 * [1,2,3], [1,2,3,1,2,3,1,2,3]);
+	}
+
+
+
+	function array_op_mlt_nested() {
+		test_name("operator: l * r (array(array) x any)");
+
+		assert_equal_strict([1, [1]] * 3, [1, [1], 1, [1], 1, [1]]);
+	}
+
+
+
+	function array_op_mlt_empty() {
+		test_name("operator: l * r ([] x any)");
+
+		assert_equal_strict([] * 3, []);
+	}
+}

@@ -1,7 +1,9 @@
 #pragma once
 #include <memory>
+#include "ltnvm/Value.hxx"
 
 namespace ltn::vm {
+	struct VMCore;
 	struct Object {
 		Object() {}
 		virtual ~Object() = default;
@@ -11,14 +13,16 @@ namespace ltn::vm {
 			this->next_object = nullptr;
 		}
 
-
 		Object(Object && other) {
 			this->marked = other.marked;
 			this->next_object = nullptr;
 		}
 
-
 		bool marked = false;
 		std::unique_ptr<Object> next_object;
+
+		virtual Value get_member(std::uint64_t) const {
+			return value::null;
+		}
 	};
 }

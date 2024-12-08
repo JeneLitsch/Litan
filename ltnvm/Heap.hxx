@@ -47,31 +47,25 @@ namespace ltn::vm {
 		}
 
 
-
-		template<class Obj>
-		Obj & read(Value value) {
-			return *static_cast<Obj *>(value.object);
-		}
-
-
 		template<class Obj>
 		Value clone(Value id) {
-			auto copy = ltn::vm::clone(this->read<Obj>(id));
-			return Value{ this->alloc<Obj>(std::move(copy)), id.type };
+			auto copy = ltn::vm::clone(*value::as<Obj>(id));
+			return {
+				.type = id.type,
+				.object = this->alloc<Obj>(std::move(copy)),
+			};
 		}
 
 
 		template<typename ... More>
 		void collect_garbage(const VMStack & stack, More && ...more) {
 			if(this->size >= this->next_collection) {
-				// std::cout << "GC: " << this->size << " -> ";
 				((gc::mark(more)), ...);
 				gc::mark(stack.get_values());
 				const auto collected = gc::sweep(this->objects);
 				this->size -= collected;
 
 				this->next_collection = std::max(this->size * growth_factor, min_collection_size);
-				// std::cout << this->size << " : " << this->next_collection << "\n";
 			}
 		}
 

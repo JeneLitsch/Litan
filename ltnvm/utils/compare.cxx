@@ -26,19 +26,19 @@ namespace ltn::vm {
 			if(is_float(l)) COMPARE_R(l.f);
 			if(l.type == r.type) {
 				if(is_string(l)) {
-					const auto & strL = core.heap.read<String>(l);
-					const auto & strR = core.heap.read<String>(r);
+					const auto & strL = *value::as<String>(l);
+					const auto & strR = *value::as<String>(r);
 					return strL <=> strR;
 				}
 				if(is_array(l) || is_tuple(l)) {
-					const auto & arrL = core.heap.read<Contiguous>(l);
-					const auto & arrR = core.heap.read<Contiguous>(r);
+					const auto & arrL = *value::as<Contiguous>(l);
+					const auto & arrR = *value::as<Contiguous>(r);
 					if(arrL.size() != arrR.size()) {
 						return arrL.size() <=> arrR.size();
 					}
 					for(std::size_t i = 0; i < arrL.size(); i++) {
-						const auto & elemL = arrL[i];
-						const auto & elemR = arrR[i];
+						const auto & elemL = arrL.unsafe_at(i);
+						const auto & elemR = arrR.unsafe_at(i);
 						const auto & comp = compare(elemL, elemR, core);
 						if(comp != 0) {
 							return comp;
@@ -46,15 +46,15 @@ namespace ltn::vm {
 					}
 					return std::partial_ordering::equivalent;
 				}
-				if(is_stack(l) || is_queue(l)) {
-					const auto & deq_l = core.heap.read<Segmented>(l);
-					const auto & deq_r = core.heap.read<Segmented>(r);
+				if(is_queue(l)) {
+					const auto & deq_l = *value::as<Segmented>(l);
+					const auto & deq_r = *value::as<Segmented>(r);
 					if(deq_l.size() != deq_r.size()) {
 						return deq_l.size() <=> deq_r.size();
 					}
 					for(std::size_t i = 0; i < deq_l.size(); i++) {
-						const auto & elemL = deq_l[i];
-						const auto & elemR = deq_r[i];
+						const auto & elemL = deq_l.unsafe_at(i);
+						const auto & elemR = deq_r.unsafe_at(i);
 						const auto & comp = compare(elemL, elemR, core);
 						if(comp != 0) {
 							return comp;
@@ -66,7 +66,7 @@ namespace ltn::vm {
 					return l.obj_type <=> r.obj_type;
 				}
 				if(is_struct(l)) {
-					auto & strukt = core.heap.read<Struct>(l);
+					auto & strukt = *value::as<Struct>(l);
 					auto comparator = find_special_member<MemberCode::OPERATOR_CMP>(strukt);
 					if(comparator) {
 						auto ordering = run_special_member(core, *comparator, l, r);
@@ -76,6 +76,33 @@ namespace ltn::vm {
 							if(ordering.i > 0) return std::partial_ordering::greater;
 						}
 						return std::partial_ordering::unordered;
+					}
+				}
+				if(is_map(l) && is_map(r)) {
+					const Map * map_l = value::as<Map>(l);
+					const Map * map_r = value::as<Map>(r);
+					if (map_l == map_r) {
+						return std::partial_ordering::equivalent;
+					}
+					if(std::size(*map_l) != std::size(*map_r)) {
+						return std::size(*map_l) <=> std::size(*map_r);
+					}
+					else {
+						auto end_l = map_l->end();
+						auto end_r = map_l->end();
+						auto iter_l = map_l->begin();
+						auto iter_r = map_l->begin();
+						while(iter_l != end_l && end_r != end_r) {
+							auto key_result = compare(iter_l->first, iter_r->first, core);
+							if (key_result != 0) {
+								return key_result;
+							}
+							auto value_result = compare(iter_l->second, iter_r->second, core);
+							if (value_result != 0) {
+								return value_result;
+							}
+						}
+						return std::partial_ordering::equivalent;
 					}
 				}
 				return std::partial_ordering::equivalent;

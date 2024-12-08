@@ -21,7 +21,6 @@ namespace ltn::c {
 		{"chrono_to_milliseconds",   FxCode::CHRONO_TO_MILLI_SECONDS},
 
 		{"queue",                    FxCode::TYPE_QUEUE},
-		{"stack",                    FxCode::TYPE_STACK},
 		{"map",                      FxCode::TYPE_MAP},
 
 		{"container_push",           FxCode::PUSH},

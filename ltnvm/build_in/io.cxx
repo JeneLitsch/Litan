@@ -12,7 +12,7 @@ namespace ltn::vm::build_in::io {
 		std::istream & get_istream(Heap & heap, VMStack & stack) {
 			const auto ref = stack.pop();
 			if(is_istream(ref)) {
-				return heap.read<IStream>(ref).get();
+				return value::as<IStream>(ref)->get();
 			}
 			else {
 				throw except::not_input();
@@ -25,8 +25,7 @@ namespace ltn::vm::build_in::io {
 		auto add_out (VMCore & core, T && out) {
 			core.heap.collect_garbage(core.stack);
 			const auto ptr = core.heap.alloc<OStream>(std::forward<T>(out));
-			Value val{ptr, Value::Type::OSTREAM};
-			return val;
+			return value::ostream(ptr);
 		}
 
 
@@ -35,8 +34,7 @@ namespace ltn::vm::build_in::io {
 		Value add_in (VMCore & core, T && in) {
 			core.heap.collect_garbage(core.stack);
 			const auto ptr = core.heap.alloc<IStream>(std::forward<T>(in));
-			Value val{ptr, Value::Type::ISTREAM};
-			return val;
+			return value::istream(ptr);
 		}
 	}
 
@@ -54,8 +52,8 @@ namespace ltn::vm::build_in::io {
 		const auto ref = core.stack.pop();
 		if(!is_string(ref)) throw except::invalid_argument();
 		
-		const auto & path = core.heap.read<String>(ref);
-		auto & path_str = path.get_underlying(); 
+		const String * path = value::as<String>(ref);
+		auto & path_str = path->get_underlying(); 
 
 		const auto flags = openmode ? std::ios::app : std::ios::trunc;
 
@@ -82,8 +80,8 @@ namespace ltn::vm::build_in::io {
 		if(!is_string(ref)) {
 			throw except::invalid_argument();
 		}
-		const auto & path = core.heap.read<String>(ref);
-		auto & path_str = path.get_underlying(); 
+		const String * path = value::as<String>(ref);
+		auto & path_str = path->get_underlying(); 
 		if(!std::filesystem::exists(path_str)) {
 			throw except::cannot_open_file(path_str);
 		}
@@ -95,8 +93,8 @@ namespace ltn::vm::build_in::io {
 	Value strin(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(!is_string(ref)) throw except::invalid_argument();
-		const auto & str = core.heap.read<String>(ref);
-		return add_in(core, IStream{std::make_unique<std::istringstream>(str.get_underlying())});
+		const String * str = value::as<String>(ref);
+		return add_in(core, IStream{std::make_unique<std::istringstream>(str->get_underlying())});
 	}
 
 
@@ -104,7 +102,7 @@ namespace ltn::vm::build_in::io {
 	Value close_stream(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref)) {
-			auto & ostream = core.heap.read<OStream>(ref).get();
+			std::ostream & ostream = value::as<OStream>(ref)->get();
 			if(auto * out = dynamic_cast<std::ofstream *>(&ostream)) {
 				out->close();
 			}
@@ -116,7 +114,7 @@ namespace ltn::vm::build_in::io {
 		}
 
 		else if(is_istream(ref)) {
-			auto & istream = core.heap.read<IStream>(ref).get();
+			std::istream & istream = value::as<IStream>(ref)->get();
 			if(auto * in = dynamic_cast<std::ifstream *>(&istream)) {
 				in->close();
 			}
@@ -149,7 +147,7 @@ namespace ltn::vm::build_in::io {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref)) {
-			auto & ostream = core.heap.read<OStream>(ref).get();
+			std::ostream & ostream = value::as<OStream>(ref)->get();
 			ostream << stringify(value, core); 
 			return value::null;
 		}
@@ -281,7 +279,7 @@ namespace ltn::vm::build_in::io {
 		const auto color = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref) && is_int(color)) {
-			auto & out = core.heap.read<OStream>(ref).get();
+			std::ostream & out = value::as<OStream>(ref)->get();
 			out	<< "\u001b[3" << color.i % 8; 
 			if(color.i >= 8) out << ";1";
 			out << "m";
@@ -296,7 +294,7 @@ namespace ltn::vm::build_in::io {
 		const auto color = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref) && is_int(color)) {
-			auto & out = core.heap.read<OStream>(ref).get();
+			std::ostream & out = value::as<OStream>(ref)->get();
 			out	<< "\u001b[4" << color.i % 8;
 			if(color.i >= 8) out << ";1";
 			out << "m";
@@ -310,7 +308,7 @@ namespace ltn::vm::build_in::io {
 	Value reset_color(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_ostream(ref)) {
-			auto & out = core.heap.read<OStream>(ref).get();
+			std::ostream & out = value::as<OStream>(ref)->get();
 			out	<< "\u001b[0m";
 			return value::null;
 		}

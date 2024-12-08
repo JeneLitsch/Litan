@@ -4,6 +4,5 @@
 #include "container/Struct.hxx"
 #include "container/Segmented.hxx"
 #include "container/Queue.hxx"
-#include "container/Stack.hxx"
 #include "container/Tuple.hxx"
 #include "container/Map.hxx"

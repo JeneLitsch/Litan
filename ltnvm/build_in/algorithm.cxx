@@ -8,9 +8,9 @@
 namespace ltn::vm::build_in {
 	static auto to_cpp_range(const Value ref, Heap & heap) {
 		if(is_array(ref)) {
-			auto & array = heap.read<Array>(ref);
-			const auto begin = array.begin();
-			const auto end = array.end();
+			Array * array = value::as<Array>(ref);
+			const auto begin = std::begin(*array);
+			const auto end = std::end(*array);
 			return std::make_pair(begin, end);
 		}
 
@@ -139,15 +139,15 @@ namespace ltn::vm::build_in {
 		const auto container = core.stack.pop();
 
 		auto iter_ref = iterator::wrap(container, core);
-		auto & iter = core.heap.read<Iterator>(iter_ref);
+		Iterator * iter = value::as<Iterator>(iter_ref);
 
-		auto first = iter.next();
+		auto first = iter->next();
 		if(is_iterator_stop(first)) return value::null;
 
 		core.stack.push(function);
 		core.stack.push(iter_ref);
 
-		auto result = reduce_l_impl(core, function, first, iter);
+		auto result = reduce_l_impl(core, function, first, *iter);
 
 		core.stack.pop();
 		core.stack.pop();
@@ -162,13 +162,13 @@ namespace ltn::vm::build_in {
 		const auto function = core.stack.pop();
 		const auto container = core.stack.pop();
 		auto iter_ref = iterator::wrap(container, core);
-		auto & iter = core.heap.read<Iterator>(iter_ref);
+		Iterator * iter = value::as<Iterator>(iter_ref);
 
 		core.stack.push(init);
 		core.stack.push(iter_ref);
 		core.stack.push(function);
 
-		auto result = reduce_l_impl(core, function, init, iter);
+		auto result = reduce_l_impl(core, function, init, *iter);
 
 		core.stack.pop();
 		core.stack.pop();
