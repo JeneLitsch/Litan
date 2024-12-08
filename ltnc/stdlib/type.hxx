@@ -174,5 +174,8 @@ namespace std {
 
 	function match_type(value, cases)
 		=> match_type(value, cases, lambda (x) { throw "Cannot match type"; })
-	}
+	
+	
+	function load_plugin(path) const => build_in(load_plugin)
+}
 )###";
