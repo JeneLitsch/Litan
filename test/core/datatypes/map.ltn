@@ -61,13 +61,16 @@ namespace sphinx::test {
 			2 : 22,
 			"A" : 33
 		];
+		var map_bak = std::clone(map);
+		
+		assert_equal_strict(map->erase(""), null);
+		assert_equal_strict(map, map_bak);
+
 		assert_equal_strict(map->erase(1), 11);
 		assert_equal_strict(map->erase("A"), 33);
-		assert_equal_strict(map->erase(""), null);
 		assert_false(map->has(1));
 		assert_true(map->has(2));
 	}
-
 
 
 

@@ -78,6 +78,33 @@ namespace ltn::vm {
 						return std::partial_ordering::unordered;
 					}
 				}
+				if(is_map(l) && is_map(r)) {
+					const Map * map_l = value::as<Map>(l);
+					const Map * map_r = value::as<Map>(r);
+					if (map_l == map_r) {
+						return std::partial_ordering::equivalent;
+					}
+					if(std::size(*map_l) != std::size(*map_r)) {
+						return std::size(*map_l) <=> std::size(*map_r);
+					}
+					else {
+						auto end_l = map_l->end();
+						auto end_r = map_l->end();
+						auto iter_l = map_l->begin();
+						auto iter_r = map_l->begin();
+						while(iter_l != end_l && end_r != end_r) {
+							auto key_result = compare(iter_l->first, iter_r->first, core);
+							if (key_result != 0) {
+								return key_result;
+							}
+							auto value_result = compare(iter_l->second, iter_r->second, core);
+							if (value_result != 0) {
+								return value_result;
+							}
+						}
+						return std::partial_ordering::equivalent;
+					}
+				}
 				return std::partial_ordering::equivalent;
 			}
 			return l.type <=> r.type;
