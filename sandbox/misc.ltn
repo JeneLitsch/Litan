@@ -1,3 +1,4 @@
 function main() {
-	std::println([1,2,3]->none(lambda(x) => x == 4));
+	var array = ["ant", "bison", "camel", "duck", "elephant"];
+	std::println(array->slice(0,array->size()));
 }

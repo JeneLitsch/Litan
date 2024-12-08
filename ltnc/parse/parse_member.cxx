@@ -56,6 +56,8 @@ namespace ltn::c {
 			{"any",       MemberCode::ANY},
 			{"all",       MemberCode::ALL},
 			{"none",      MemberCode::NONE},
+			{"slice",     MemberCode::SLICE},
+			{"reversed",  MemberCode::REVERSED},
 		};
 
 		for(const auto & [name, code] : table) {

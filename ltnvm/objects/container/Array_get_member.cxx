@@ -173,6 +173,38 @@ namespace ltn::vm {
 
 
 
+		Value array_slice(NativeCore * native_core, const Value * args) {
+			Array * array = req_array(args + 0);
+			std::int64_t begin = req_int(args + 1);
+			std::int64_t end = req_int(args + 2);
+
+			if(begin < 0 || begin > array->size()) {
+				throw except::out_of_range();
+			}
+
+			if(end < 0 || end > array->size()) {
+				throw except::out_of_range();
+			}
+
+			if (begin > end) {
+				throw except::out_of_range();
+			}
+
+
+			std::vector<Value> slice { std::begin(*array) + begin, std::begin(*array) + end };
+			return native_core->alloc_array(native_core, std::data(slice), std::size(slice));
+		}
+
+
+
+		Value array_reversed(NativeCore * native_core, const Value * args) {
+			Array * array = req_array(args + 0);
+			std::vector<Value> reversed = array->get_underlying();
+			std::reverse(std::begin(reversed), std::end(reversed));
+			return native_core->alloc_array(native_core, std::data(reversed), std::size(reversed));
+		}
+
+
 
 		NativeFunctionTable native_function_table {
 			wrap(MemberCode::SIZE,      array_size,      1),
@@ -192,6 +224,8 @@ namespace ltn::vm {
 			wrap(MemberCode::ALL,       array_all,       2),
 			wrap(MemberCode::NONE,      array_none,      2),
 			wrap(MemberCode::HAS,       array_has,       2),
+			wrap(MemberCode::SLICE,     array_slice,     3),
+			wrap(MemberCode::REVERSED,  array_reversed,   1),
 		};
 	}
 

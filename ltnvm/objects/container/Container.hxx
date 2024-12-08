@@ -40,7 +40,6 @@ namespace ltn::vm {
 			this->data = std::move(new_data);
 		}
 
-
 		inline value_type & unsafe_at(std::int64_t i) {
 			return data[static_cast<std::uint64_t>(i)];
 		}

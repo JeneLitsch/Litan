@@ -92,6 +92,19 @@ Tests whether `f` returns a truthy value for no element in the array.
 Tests whether the array contains the given value.
 
 
+### -> slice(start : Int, end : Int): Array
+
+Returns a copied slice of the array.
+If the size is negative an out of range exception is thrown.
+If the start or end of the slice is out of range an exception is thrown.  
+
+
+### -> reversed(start : Int, end : Int): Array
+
+Returns a copy of the array in reversed order.
+
+
+
 
 ## Operators
 

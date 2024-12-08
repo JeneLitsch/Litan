@@ -134,6 +134,24 @@ namespace sphinx::test {
 
 
 
+	function array_slice() {
+		var array = [0, 1, 2, 3, 4, 5];
+		assert_equal_strict(array->slice(0,array->size()), [0, 1, 2, 3, 4, 5]);
+		assert_equal_strict(array->slice(3,array->size()), [3, 4, 5]);
+		assert_equal_strict(array->slice(0,2), [0, 1]);
+		assert_equal_strict(array->slice(0,0), []);
+	}
+
+
+
+
+	function array_reversed() {
+		var arr = [1,2,3,4];
+		assert_equal_strict(arr->reversed(), [4,3,2,1]);
+	}
+
+
+
 	function array_op_add() {
 		test_name("operator: l + r (array + array)");
 
