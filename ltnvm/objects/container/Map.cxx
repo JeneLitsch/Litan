@@ -84,6 +84,26 @@ namespace ltn::vm {
 
 
 
+		Value map_merged(NativeCore * native_core, const Value * args) {
+			Map * map_l = req_map(args + 0);
+			Map * map_r = req_map(args + 1);
+			std::vector<Value> keys;
+			std::vector<Value> values;
+			for(const auto & [key, value] : *map_l) {
+				keys.push_back(key);
+				values.push_back(value);
+			}
+			for(const auto & [key, value] : *map_r) {
+				if(!map_l->contains(key)) {
+					keys.push_back(key);
+					values.push_back(value);
+				}
+			}
+			return native_core->alloc_map(native_core, std::data(keys), std::data(values), std::size(keys));
+		}
+
+
+
 		NativeFunctionTable native_function_table {
 			wrap(MemberCode::SIZE,     map_size,     1),
 			wrap(MemberCode::IS_EMTPY, map_is_empty, 1),
@@ -93,6 +113,7 @@ namespace ltn::vm {
 			wrap(MemberCode::ERASE,    map_erase,    2),
 			wrap(MemberCode::KEYS,     map_keys,     1),
 			wrap(MemberCode::VALUES,   map_values,   1),
+			wrap(MemberCode::MERGED,   map_merged,   1),
 		};
 	}
 

@@ -12,6 +12,18 @@ namespace ltn::vm::inst {
 			}
 			return value::array(array);
 		}
+
+
+		
+		Value alloc_map(NativeCore * mative_core, const Value * key_data, const Value * value_data, uint64_t size) {
+			VMCore * core = static_cast<VMCore*>(mative_core->core); 
+			Map * map = core->heap.alloc<Map>(Map(core));
+			Map::std_map & std_map = map->get_underlying();
+			for(std::size_t i = 0; i < size; i++) {
+				std_map[key_data[i]] = value_data[i];
+			}
+			return value::map(map);
+		}
 		
 		
 
@@ -71,6 +83,7 @@ namespace ltn::vm::inst {
 			NativeCore native_core = {
 				.core = static_cast<void*>(core_ptr),
 				.alloc_array = alloc_array,
+				.alloc_map = alloc_map,
 			};
 			Value return_value = fx_ptr->handle(&native_core, args.data());
 			core.stack.push(return_value);

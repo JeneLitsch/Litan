@@ -93,4 +93,27 @@ namespace sphinx::test {
 		];
 		assert_equal_strict(map->values(), [11,22,33]);
 	}
+
+
+
+	function map_merged() {
+		var map_1 = [
+			1 : 11,
+			2 : 22,
+			3 : 33,
+		];
+		var map_2 = [
+			2 : 222,
+			3 : 333,
+			4 : 44,
+		];
+		var map_3 = [:];
+		var map_1_2 = map_1->merged(map_2);
+		var map_2_1 = map_2->merged(map_1);
+		var map_3_3 = map_3->merged(map_3);
+
+		assert_equal_strict(map_1_2, [1:11, 2:22, 3:33, 4:44]);
+		assert_equal_strict(map_2_1, [1:11, 2:222, 3:333, 4:44]);
+		assert_equal_strict(map_3_3, [:]);
+	}
 }

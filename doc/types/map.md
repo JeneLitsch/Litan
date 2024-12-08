@@ -46,6 +46,11 @@ Returns all keys in an array;
 Returns all values in an array;
 
 
+### merged(other : Map): Map
+
+Merge two maps without altering the originals.
+Duplicate keys are not copied over.
+
 
 ## Map Literals
 
