@@ -99,6 +99,18 @@ If the size is negative an out of range exception is thrown.
 If the start or end of the slice is out of range an exception is thrown.  
 
 
+### -> prefix(n : Int): Array
+
+Return a slice containing the first n elements in order.
+Same as `arr->slice(0, size)`.
+
+
+### -> suffix(n : Int): Array
+
+Return a slice containing the last n elements in order.
+Same as `arr->slice(arr->size() - size, arr->size())`.
+
+
 ### -> reversed(start : Int, end : Int): Array
 
 Returns a copy of the array in reversed order.

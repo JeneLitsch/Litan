@@ -60,14 +60,12 @@ namespace ltn::vm {
 		template<typename ... More>
 		void collect_garbage(const VMStack & stack, More && ...more) {
 			if(this->size >= this->next_collection) {
-				// std::cout << "GC: " << this->size << " -> ";
 				((gc::mark(more)), ...);
 				gc::mark(stack.get_values());
 				const auto collected = gc::sweep(this->objects);
 				this->size -= collected;
 
 				this->next_collection = std::max(this->size * growth_factor, min_collection_size);
-				// std::cout << this->size << " : " << this->next_collection << "\n";
 			}
 		}
 

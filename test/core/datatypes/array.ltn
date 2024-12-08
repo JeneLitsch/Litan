@@ -144,6 +144,34 @@ namespace sphinx::test {
 
 
 
+	function array_prefix() {
+		var array = [0, 1, 2, 3, 4, 5];
+		assert_equal_strict(array->prefix(0), []);
+		assert_equal_strict(array->prefix(1), [0]);
+		assert_equal_strict(array->prefix(2), [0,1]);
+		assert_equal_strict(array->prefix(3), [0,1,2]);
+		assert_equal_strict(array->prefix(4), [0,1,2,3]);
+		assert_equal_strict(array->prefix(5), [0,1,2,3,4]);
+		assert_equal_strict(array->prefix(6), [0,1,2,3,4,5]);
+		
+		assert_except(lambda[array]() => array->prefix(7));
+		assert_success(lambda[array]() => array->prefix(6));
+	}
+
+
+	
+	function array_suffix() {
+		var array = [0, 1, 2, 3, 4, 5];
+		assert_equal_strict(array->suffix(0), []);
+		assert_equal_strict(array->suffix(1), [5]);
+		assert_equal_strict(array->suffix(2), [4,5]);
+		assert_equal_strict(array->suffix(3), [3,4,5]);
+		assert_equal_strict(array->suffix(4), [2,3,4,5]);
+		assert_equal_strict(array->suffix(5), [1,2,3,4,5]);
+		assert_equal_strict(array->suffix(6), [0,1,2,3,4,5]);
+	}
+
+
 
 	function array_reversed() {
 		var arr = [1,2,3,4];

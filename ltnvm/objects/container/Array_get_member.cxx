@@ -173,16 +173,20 @@ namespace ltn::vm {
 
 
 
-		Value array_slice(NativeCore * native_core, const Value * args) {
-			Array * array = req_array(args + 0);
-			std::int64_t begin = req_int(args + 1);
-			std::int64_t end = req_int(args + 2);
-
-			if(begin < 0 || begin > array->size()) {
+		Value array_slice_impl(NativeCore * native_core, Array * array, std::int64_t begin, std::int64_t end) {
+			if(begin < 0) {
 				throw except::out_of_range();
 			}
 
-			if(end < 0 || end > array->size()) {
+			if(begin > array->size()) {
+				throw except::out_of_range();
+			}
+
+			if(end < 0) {
+				throw except::out_of_range();
+			}
+
+			if(end > array->size()) {
 				throw except::out_of_range();
 			}
 
@@ -190,9 +194,33 @@ namespace ltn::vm {
 				throw except::out_of_range();
 			}
 
-
 			std::vector<Value> slice { std::begin(*array) + begin, std::begin(*array) + end };
 			return native_core->alloc_array(native_core, std::data(slice), std::size(slice));
+		}
+
+
+
+		Value array_slice(NativeCore * native_core, const Value * args) {
+			Array * array = req_array(args + 0);
+			std::int64_t begin = req_int(args + 1);
+			std::int64_t end = req_int(args + 2);
+			return array_slice_impl(native_core, array, begin, end);
+		}
+
+
+
+		Value array_prefix(NativeCore * native_core, const Value * args) {
+			Array * array = req_array(args + 0);
+			std::int64_t size = req_int(args + 1);
+			return array_slice_impl(native_core, array, 0, size);
+		}
+
+
+
+		Value array_suffix(NativeCore * native_core, const Value * args) {
+			Array * array = req_array(args + 0);
+			std::int64_t size = req_int(args + 1);
+			return array_slice_impl(native_core, array, static_cast<std::int64_t>(array->size()) - size, array->size());
 		}
 
 
@@ -207,25 +235,27 @@ namespace ltn::vm {
 
 
 		NativeFunctionTable native_function_table {
-			wrap(MemberCode::SIZE,      array_size,      1),
-			wrap(MemberCode::IS_EMTPY,  array_is_empty,  1),
-			wrap(MemberCode::PUSH,      array_push,      2),
-			wrap(MemberCode::POP,       array_pop,       1),
-			wrap(MemberCode::FRONT,     array_front,     1),
-			wrap(MemberCode::BACK,      array_back,      1),
-			wrap(MemberCode::PEEK,      array_peek,      1),
-			wrap(MemberCode::AT,        array_at,        2),
-			wrap(MemberCode::INSERT,    array_insert,    3),
-			wrap(MemberCode::ERASE,     array_erase,     2),
-			wrap(MemberCode::FILTER,    array_filter,    2),
-			wrap(MemberCode::TRANSFORM, array_transform, 2),
-			wrap(MemberCode::REDUCE,    array_reduce,    2),
-			wrap(MemberCode::ANY,       array_any,       2),
-			wrap(MemberCode::ALL,       array_all,       2),
-			wrap(MemberCode::NONE,      array_none,      2),
-			wrap(MemberCode::HAS,       array_has,       2),
-			wrap(MemberCode::SLICE,     array_slice,     3),
-			wrap(MemberCode::REVERSED,  array_reversed,   1),
+			wrap(MemberCode::SIZE,      array_size,        1),
+			wrap(MemberCode::IS_EMTPY,  array_is_empty,    1),
+			wrap(MemberCode::PUSH,      array_push,        2),
+			wrap(MemberCode::POP,       array_pop,         1),
+			wrap(MemberCode::FRONT,     array_front,       1),
+			wrap(MemberCode::BACK,      array_back,        1),
+			wrap(MemberCode::PEEK,      array_peek,        1),
+			wrap(MemberCode::AT,        array_at,          2),
+			wrap(MemberCode::INSERT,    array_insert,      3),
+			wrap(MemberCode::ERASE,     array_erase,       2),
+			wrap(MemberCode::FILTER,    array_filter,      2),
+			wrap(MemberCode::TRANSFORM, array_transform,   2),
+			wrap(MemberCode::REDUCE,    array_reduce,      2),
+			wrap(MemberCode::ANY,       array_any,         2),
+			wrap(MemberCode::ALL,       array_all,         2),
+			wrap(MemberCode::NONE,      array_none,        2),
+			wrap(MemberCode::HAS,       array_has,         2),
+			wrap(MemberCode::SLICE,     array_slice,       3),
+			wrap(MemberCode::PREFIX,    array_prefix,      2),
+			wrap(MemberCode::SUFFIX,    array_suffix,      2),
+			wrap(MemberCode::REVERSED,  array_reversed,    1),
 		};
 	}
 
