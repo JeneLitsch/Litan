@@ -1,24 +1,25 @@
 #include "Map.hxx"
 #include "ltnvm/native/native.hxx"
 #include "ltnvm/Exception.hxx"
+#include "ltnvm/VMCore.hxx"
 
 namespace ltn::vm {
 	namespace {
-		Value map_size(NativeCore *, const Value * args) {
+		Value map_size(Context *, const Value * args) {
 			Map * map = req_map(args + 0);
 			return value::integer(std::size(*map));
 		}
 
 
 
-		Value map_is_empty(NativeCore *, const Value * args) {
+		Value map_is_empty(Context *, const Value * args) {
 			Map * map = req_map(args + 0);
 			return value::integer(std::empty(*map));
 		}
 
 
 
-		Value map_at(NativeCore *, const Value * args) {
+		Value map_at(Context *, const Value * args) {
 			Map * map = req_map(args + 0);
 			const Value key = args[1];
 			if(map->contains(key)) {
@@ -31,7 +32,7 @@ namespace ltn::vm {
 
 
 
-		Value map_has(NativeCore *, const Value * args) {
+		Value map_has(Context *, const Value * args) {
 			Map * map = req_map(args + 0);
 			const Value key = args[1];
 			return value::boolean(map->contains(key));
@@ -39,7 +40,7 @@ namespace ltn::vm {
 
 
 
-		Value map_insert(NativeCore *, const Value * args) {
+		Value map_insert(Context *, const Value * args) {
 			Map * map = req_map(args + 0);
 			const Value key = args[1];
 			const Value value = args[2];
@@ -49,57 +50,54 @@ namespace ltn::vm {
 
 
 
-		Value map_erase(NativeCore * native_core, const Value * args) {
+		Value map_erase(Context * context, const Value * args) {
 			Map * map = req_map(args + 0);
 			const Value key = args[1];
-			const Value value = map_at(native_core, args);
+			const Value value = map_at(context, args);
 			map->erase(key);
 			return value;
 		}
 
 
 
-		Value map_keys(NativeCore * native_core, const Value * args) {
+		Value map_keys(Context * context, const Value * args) {
+			VMCore & core = *static_cast<VMCore*>(context->core);
 			Map * map = req_map(args + 0);
-
-			std::vector<Value> keys;
+			Array * keys = core.heap.make<Array>();
 			for(auto [k, v] : map->get_underlying()) {
-				keys.push_back(k);
+				keys->push_back(k);
 			}
-			Value array_ref = native_core->alloc_array(native_core, std::data(keys), std::size(keys));
-			return array_ref;
+			return value::array(keys);
 		}
 
 
 
-		Value map_values(NativeCore * native_core, const Value * args) {
+		Value map_values(Context * context, const Value * args) {
+			VMCore & core = *static_cast<VMCore*>(context->core);
 			Map * map = req_map(args + 0);
-			std::vector<Value> values;
+			Array * values = core.heap.make<Array>();
 			for(auto [k, v] : map->get_underlying()) {
-				values.push_back(v);
+				values->push_back(v);
 			}
-			Value array_ref = native_core->alloc_array(native_core, std::data(values), std::size(values));
-			return array_ref;
+			return value::array(values);
 		}
 
 
 
-		Value map_merged(NativeCore * native_core, const Value * args) {
+		Value map_merged(Context * context, const Value * args) {
+			VMCore & core = *static_cast<VMCore*>(context->core);
 			Map * map_l = req_map(args + 0);
 			Map * map_r = req_map(args + 1);
-			std::vector<Value> keys;
-			std::vector<Value> values;
+			Map * merged_map = core.heap.make<Map>(&core);
 			for(const auto & [key, value] : *map_l) {
-				keys.push_back(key);
-				values.push_back(value);
+				(*merged_map)[key] = value;
 			}
 			for(const auto & [key, value] : *map_r) {
 				if(!map_l->contains(key)) {
-					keys.push_back(key);
-					values.push_back(value);
+					(*merged_map)[key] = value;
 				}
 			}
-			return native_core->alloc_map(native_core, std::data(keys), std::data(values), std::size(keys));
+			return value::map(merged_map);
 		}
 
 

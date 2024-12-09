@@ -11,6 +11,9 @@
 #include "ltnvm/build_in/math.hxx"
 #include "ltnvm/build_in/string.hxx"
 #include "ltnvm/build_in/type.hxx"
+#include "ltnvm/build_in/plugin.hxx"
+
+
 
 namespace ltn::vm::inst {
 	static constexpr auto make_build_in_table() {
@@ -29,7 +32,6 @@ namespace ltn::vm::inst {
 				return array[static_cast<std::size_t>(op_code)];
 			}
 		} table;
-		
 
 
 		// algorithm
@@ -141,6 +143,8 @@ namespace ltn::vm::inst {
 		table[FxCode::AT] = build_in::at;
 		table[FxCode::FRONT] = build_in::front;
 		table[FxCode::BACK] = build_in::back;
+
+		table[FxCode::LOAD_PLUGIN] = build_in::load_plugin;
 		
 		return table.array;
 	}

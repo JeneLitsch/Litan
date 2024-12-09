@@ -33,7 +33,7 @@ namespace ltn::vm::build_in::type {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(!is_type(ref)) throw except::invalid_operands();
-		auto * type = ref.obj_type;
+		auto * type = value::as_type_object(ref);
 		return value::boolean(type_is(*type, value, core));
 	}
 
@@ -43,7 +43,7 @@ namespace ltn::vm::build_in::type {
 		const auto value = core.stack.pop();
 		const auto ref = core.stack.pop();
 		if(!is_type(ref)) throw except::invalid_operands();
-		auto * type = ref.obj_type;
+		auto * type = value::as_type_object(ref);
 		return type_cast(*type, value, core);
 	}
 

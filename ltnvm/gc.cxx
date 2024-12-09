@@ -116,8 +116,8 @@ namespace ltn::vm::gc {
 
 
 	void mark(const Value & value) {
-		using VT = Value::Type; 
-		switch (value.type) {
+		using VT = ValueType; 
+		switch (static_cast<VT>(value.type)) {
 			case VT::NVLL:            return; // no gc required
 			case VT::BOOL:            return; // no gc required
 			case VT::INT:             return; // no gc required

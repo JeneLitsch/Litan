@@ -148,7 +148,7 @@ namespace ltn::vm {
 		}
 
 		if(is_type(value)) {
-			return value.obj_type->name(core);
+			return value::as_type_object(value)->name(core);
 		}
 
 		if(is_coroutine(value)) {

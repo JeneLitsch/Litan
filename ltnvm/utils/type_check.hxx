@@ -2,23 +2,23 @@
 #include "ltnvm/Value.hxx"
 namespace ltn::vm {
 	constexpr inline bool is_null(const Value & val) {
-		return val.type == Value::Type::NVLL;
+		return val.type == static_cast<std::uint16_t>(ValueType::NVLL);
 	}
 
 	constexpr inline bool is_bool(const Value & val) {
-		return val.type == Value::Type::BOOL;
+		return val.type == static_cast<std::uint16_t>(ValueType::BOOL);
 	}
 
 	constexpr inline bool is_char(const Value & val) {
-		return val.type == Value::Type::CHAR;
+		return val.type == static_cast<std::uint16_t>(ValueType::CHAR);
 	}
 
 	constexpr inline bool is_int(const Value & val) {
-		return val.type == Value::Type::INT;
+		return val.type == static_cast<std::uint16_t>(ValueType::INT);
 	}
 
 	constexpr inline bool is_float(const Value & val) {
-		return val.type == Value::Type::FLOAT;
+		return val.type == static_cast<std::uint16_t>(ValueType::FLOAT);
 	}
 
 	constexpr inline bool is_integral(const Value & val) {
@@ -30,31 +30,31 @@ namespace ltn::vm {
 	}
 	
 	constexpr inline bool is_string(const Value & val) {
-		return val.type == Value::Type::STRING;
+		return val.type == static_cast<std::uint16_t>(ValueType::STRING);
 	}
 
 	constexpr inline bool is_array(const Value & val) {
-		return val.type == Value::Type::ARRAY;
+		return val.type == static_cast<std::uint16_t>(ValueType::ARRAY);
 	}
 
 	constexpr inline bool is_tuple(const Value & val) {
-		return val.type == Value::Type::TUPLE;
+		return val.type == static_cast<std::uint16_t>(ValueType::TUPLE);
 	}
 
 	constexpr inline bool is_ostream(const Value & val) {
-		return val.type == Value::Type::OSTREAM;
+		return val.type == static_cast<std::uint16_t>(ValueType::OSTREAM);
 	}
 
 	constexpr inline bool is_istream(const Value & val) {
-		return val.type == Value::Type::ISTREAM;
+		return val.type == static_cast<std::uint16_t>(ValueType::ISTREAM);
 	}
 
 	constexpr inline bool is_script_function(const Value & val) {
-		return val.type == Value::Type::FUNCTION;
+		return val.type == static_cast<std::uint16_t>(ValueType::FUNCTION);
 	}
 
 	constexpr inline bool is_native_function(const Value & val) {
-		return val.type == Value::Type::NATIVE_FUNCTION;
+		return val.type == static_cast<std::uint16_t>(ValueType::NATIVE_FUNCTION);
 	}
 
 	constexpr inline bool is_fxptr(const Value & val) {
@@ -62,35 +62,35 @@ namespace ltn::vm {
 	}
 
 	constexpr inline bool is_clock(const Value & val) {
-		return val.type == Value::Type::CLOCK;
+		return val.type == static_cast<std::uint16_t>(ValueType::CLOCK);
 	}
 
 	constexpr inline bool is_struct(const Value & val) {
-		return val.type == Value::Type::STRUCT;
+		return val.type == static_cast<std::uint16_t>(ValueType::STRUCT);
 	}
 
 	constexpr inline bool is_queue(const Value & val) {
-		return val.type == Value::Type::QUEUE;
+		return val.type == static_cast<std::uint16_t>(ValueType::QUEUE);
 	}
 
 	constexpr inline bool is_map(const Value & val) {
-		return val.type == Value::Type::MAP;
+		return val.type == static_cast<std::uint16_t>(ValueType::MAP);
 	}
 
 	constexpr inline bool is_rng(const Value & val) {
-		return val.type == Value::Type::RNG;
+		return val.type == static_cast<std::uint16_t>(ValueType::RNG);
 	}
 
 	constexpr inline bool is_iterator(const Value & val) {
-		return val.type == Value::Type::ITERATOR;
+		return val.type == static_cast<std::uint16_t>(ValueType::ITERATOR);
 	}
 
 	constexpr inline bool is_iterator_stop(const Value & val) {
-		return val.type == Value::Type::ITERATOR_STOP;
+		return val.type == static_cast<std::uint16_t>(ValueType::ITERATOR_STOP);
 	}
 
 	constexpr inline bool is_type(const Value & val) {
-		return val.type == Value::Type::TYPE;
+		return val.type == static_cast<std::uint16_t>(ValueType::TYPE);
 	}
 
 
@@ -99,10 +99,10 @@ namespace ltn::vm {
 	}
 
 	constexpr inline bool is_coroutine(const Value & val) {
-		return val.type == Value::Type::COROUTINE;
+		return val.type == static_cast<std::uint16_t>(ValueType::COROUTINE);
 	}
 
 	constexpr inline bool is_object(const Value & val) {
-		return static_cast<std::uint64_t>(val.type) >= static_cast<std::uint64_t>(Value::Type::FIRST_TYPE);
+		return static_cast<std::uint64_t>(val.type) >= static_cast<std::uint64_t>(ValueType::FIRST_TYPE);
 	}
 }

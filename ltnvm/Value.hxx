@@ -3,178 +3,190 @@
 #include <cstdint>
 #include <concepts>
 
+#include "native/Value.h"
+
 namespace ltn::vm {
 	class Type;
 	struct Object;
-	struct Value {
+
+
+	enum class ValueType {
 		// DO NOT TOUCH/CHANGE THE VALUES !!!
-		enum class Type : std::uint16_t {
-			NVLL = 0x00, TYPE,
-			BOOL = 0x10, INT, FLOAT, CHAR,
-			ARRAY = 0x20, STRING, TUPLE,
-			ISTREAM = 0x30, OSTREAM,
-			FUNCTION = 0x40, ITERATOR, ITERATOR_STOP, COROUTINE, NATIVE_FUNCTION,
-			CLOCK = 0x50,
-			STRUCT = 0x60,
-			QUEUE = 0x70, MAP,
-			RNG = 0x80, 
+		NVLL = 0x00,
+		TYPE,
+		
+		BOOL = 0x10,
+		INT, 
+		FLOAT,
+		CHAR,
+		
+		ARRAY = 0x20, 
+		STRING,
+		TUPLE,
+		
+		ISTREAM = 0x30,
+		OSTREAM,
+		
+		FUNCTION = 0x40,
+		ITERATOR,
+		ITERATOR_STOP,
+		COROUTINE,
+		NATIVE_FUNCTION,
+		
+		CLOCK = 0x50,
+		
+		STRUCT = 0x60,
+		
+		QUEUE = 0x70,
+		MAP,
+		
+		RNG = 0x80, 
 
-			FIRST_TYPE = ARRAY,
-		};
-
-
-
-		Type type;
-		union {
-			std::uint64_t u;
-			std::int64_t i;
-			stx::float64_t f;
-			bool b;
-			char c;
-			const ltn::vm::Type * obj_type;
-			ltn::vm::Object * object;
-		};
+		FIRST_TYPE = ARRAY
 	};
+	
+	using Value = ltn_Value;
+
 	namespace value {
 		constexpr inline Value null {
-			.type = Value::Type::NVLL,
+			.type = static_cast<std::uint16_t>(ValueType::NVLL),
 			.b = false,
 		};
 		
 		constexpr inline Value iterator_stop {
-			.type = Value::Type::ITERATOR_STOP,
+			.type = static_cast<std::uint16_t>(ValueType::ITERATOR_STOP),
 			.b = false,
 		};
 
 		constexpr inline Value boolean(bool b) {
 			return Value{
-				.type = Value::Type::BOOL,
+				.type = static_cast<std::uint16_t>(ValueType::BOOL),
 				.b = b,
 			};
 		}
 
 		constexpr inline Value integer(std::integral auto i) {
 			return Value{
-				.type = Value::Type::INT,
+				.type = static_cast<std::uint16_t>(ValueType::INT),
 				.i = static_cast<std::int64_t>(i),
 			};
 		}
 
 		constexpr inline Value floating(std::floating_point auto i) {
 			return Value{
-				.type = Value::Type::FLOAT,
+				.type = static_cast<std::uint16_t>(ValueType::FLOAT),
 				.f = static_cast<stx::float64_t>(i),
 			};
 		}
 
 		constexpr inline Value character(auto i) {
 			return Value{
-				.type = Value::Type::CHAR,
+				.type = static_cast<std::uint16_t>(ValueType::CHAR),
 				.c = static_cast<char>(i),
 			};
 		}
 
 		constexpr inline Value string(Object * obj) {
 			return Value{
-				.type = Value::Type::STRING,
+				.type = static_cast<std::uint16_t>(ValueType::STRING),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value array(Object * obj) {
 			return Value{
-				.type = Value::Type::ARRAY,
+				.type = static_cast<std::uint16_t>(ValueType::ARRAY),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value queue(Object * obj) {
 			return Value{
-				.type = Value::Type::QUEUE,
+				.type = static_cast<std::uint16_t>(ValueType::QUEUE),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value rng(Object * obj) {
 			return Value{
-				.type = Value::Type::RNG,
+				.type = static_cast<std::uint16_t>(ValueType::RNG),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value tuple(Object * obj) {
 			return Value{
-				.type = Value::Type::TUPLE,
+				.type = static_cast<std::uint16_t>(ValueType::TUPLE),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value iterator(Object * obj) {
 			return Value{
-				.type = Value::Type::ITERATOR,
+				.type = static_cast<std::uint16_t>(ValueType::ITERATOR),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value type(const Type * type) {
 			return Value{
-				.type = Value::Type::TYPE,
-				.obj_type = type,
+				.type = static_cast<std::uint16_t>(ValueType::TYPE),
+				.obj_type = static_cast<const ltn_TypePtr>(type),
 			};
 		}
 
 		constexpr inline Value map(Object * obj) {
 			return Value{
-				.type = Value::Type::MAP,
+				.type = static_cast<std::uint16_t>(ValueType::MAP),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value clock(Object * obj) {
 			return Value{
-				.type = Value::Type::CLOCK,
+				.type = static_cast<std::uint16_t>(ValueType::CLOCK),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value strukt(Object * obj) {
 			return Value{
-				.type = Value::Type::STRUCT,
+				.type = static_cast<std::uint16_t>(ValueType::STRUCT),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value fx(Object * obj) {
 			return Value{
-				.type = Value::Type::FUNCTION,
+				.type = static_cast<std::uint16_t>(ValueType::FUNCTION),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value native_function(Object * obj) {
 			return Value{
-				.type = Value::Type::NATIVE_FUNCTION,
+				.type = static_cast<std::uint16_t>(ValueType::NATIVE_FUNCTION),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value coroutine(Object * obj) {
 			return Value{
-				.type = Value::Type::COROUTINE,
+				.type = static_cast<std::uint16_t>(ValueType::COROUTINE),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value ostream(Object * obj) {
 			return Value{
-				.type = Value::Type::OSTREAM,
+				.type = static_cast<std::uint16_t>(ValueType::OSTREAM),
 				.object = obj,
 			};
 		}
 
 		constexpr inline Value istream(Object * obj) {
 			return Value{
-				.type = Value::Type::ISTREAM,
+				.type = static_cast<std::uint16_t>(ValueType::ISTREAM),
 				.object = obj,
 			};
 		}
@@ -199,6 +211,10 @@ namespace ltn::vm {
 		template<typename T>
 		T * as(const Value & value) {
 			return static_cast<T*>(value.object);
+		}
+
+		constexpr inline const Type * as_type_object(const Value & value) {
+			return static_cast<const Type*>(value.obj_type);
 		}
 	}
 }

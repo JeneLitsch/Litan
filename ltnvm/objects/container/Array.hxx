@@ -16,6 +16,7 @@ namespace ltn::vm {
 		void insert(std::int64_t i, Value value);
 
 		const Value & at(std::int64_t i) const;
+		Value & at(std::int64_t i);
 		Value pop_back();
 
 		const Value & front() const; 

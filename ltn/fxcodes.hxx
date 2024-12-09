@@ -114,5 +114,7 @@ namespace ltn {
 		REMOVE_FRONT,
 		REMOVE_BACK,
 		REMOVE,
+
+		LOAD_PLUGIN = 0xb0,
 	};
 }

@@ -1,4 +1,11 @@
+var test_plugin;
+
 function main() {
-	var array = ["ant", "bison", "camel", "duck", "elephant"];
-	std::println(array->slice(0,array->size()));
+	test_plugin = std::load_plugin("bin/libtest_plugin.so");
+	std::println(test_plugin["test"]());
+	std::println(test_plugin["add"]("1300.0", 37));
+	std::println(test_plugin["sum"]([1,2,3,4]));
+	std::println(test_plugin["array_operations"]([1,2,3,4]));
+	std::println(test_plugin["test_string"]("Hello"));
+	std::println(test_plugin["test_map"]());
 }

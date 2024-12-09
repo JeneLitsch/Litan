@@ -46,6 +46,13 @@ namespace ltn::vm {
 		guard_index(*this, i);
 		return unsafe_at(i);
 	}
+
+
+
+	Value & Array::at(std::int64_t i) {
+		guard_index(*this, i);
+		return unsafe_at(i);
+	}
 	
 
 

@@ -11,51 +11,51 @@
 
 namespace ltn::vm {
 	namespace {
-		Value array_size(NativeCore *, const Value * args) {
+		Value array_size(Context *, const Value * args) {
 			return value::integer(req_array(args + 0)->size());
 		}
 
 
 
-		Value array_is_empty(NativeCore *, const Value * args) {
+		Value array_is_empty(Context *, const Value * args) {
 			return value::boolean(req_array(args + 0)->empty());
 		}
 
 
 
-		Value array_push(NativeCore *, const Value * args) {
+		Value array_push(Context *, const Value * args) {
 			req_array(args + 0)->push_back(args[1]);
 			return value::null;
 		}
 
 
 
-		Value array_pop(NativeCore *, const Value * args) {
+		Value array_pop(Context *, const Value * args) {
 			Array * array = req_array(args + 0);
 			return array->pop_back();
 		}
 
 
 
-		Value array_front(NativeCore *, const Value * args) {
+		Value array_front(Context *, const Value * args) {
 			return req_array(args + 0)->front();
 		}
 
 
 
-		Value array_back(NativeCore *, const Value * args) {
+		Value array_back(Context *, const Value * args) {
 			return req_array(args + 0)->back();
 		}
 
 
 
-		Value array_peek(NativeCore * native_api, const Value * args) {
+		Value array_peek(Context * native_api, const Value * args) {
 			return array_back(native_api, args);
 		}
 
 
 
-		Value array_at(NativeCore *, const Value * args) {
+		Value array_at(Context *, const Value * args) {
 			Array * array = req_array(args + 0);
 			std::int64_t index = req_int(args + 1);
 			return array->at(index);
@@ -63,7 +63,7 @@ namespace ltn::vm {
 
 
 
-		Value array_insert(NativeCore *, const Value * args) {
+		Value array_insert(Context *, const Value * args) {
 			Array * array = req_array(args + 0);
 			std::int64_t index = req_int(args + 1);
 			Value value = args[2];
@@ -74,7 +74,7 @@ namespace ltn::vm {
 
 
 
-		Value array_erase(NativeCore *, const Value * args) {
+		Value array_erase(Context *, const Value * args) {
 			Array * array = req_array(args + 0);
 			std::int64_t index = req_int(args + 1);
 			return array->erase(index);
@@ -82,41 +82,41 @@ namespace ltn::vm {
 
 
 
-		Value array_filter(NativeCore * native_core, const Value * args) {
+		Value array_filter(Context * context, const Value * args) {
+			VMCore & core = *static_cast<VMCore*>(context->core);
 			Array * orig_array = req_array(args + 0);
-			std::vector<Value> dest_array;
-			VMCore & core = *static_cast<VMCore*>(native_core->core);
+			Array * dest_array = core.heap.make<Array>();
 			for (const Value & elem : *orig_array) {
 				const bool result = convert::to_bool(run_function(core, args[1], elem), core);
 				if (result) {
-					dest_array.push_back(elem);
+					dest_array->push_back(elem);
 				}
 			}
-			return native_core->alloc_array(native_core, std::data(dest_array), std::size(dest_array));
+			return value::array(dest_array);
 		}
 
 
 
-		Value array_transform(NativeCore * native_core, const Value * args) {
+		Value array_transform(Context * context, const Value * args) {
+			VMCore & core = *static_cast<VMCore*>(context->core);
 			Array * orig_array = req_array(args + 0);
-			std::vector<Value> dest_array;
-			VMCore & core = *static_cast<VMCore*>(native_core->core);
+			Array * dest_array = core.heap.make<Array>();
 			for (const Value & elem : *orig_array) {
-				dest_array.push_back(run_function(core, args[1], elem));
+				dest_array->push_back(run_function(core, args[1], elem));
 			}
-			return native_core->alloc_array(native_core, std::data(dest_array), std::size(dest_array));
+			return value::array(dest_array);
 		}
 
 
 
-		Value array_reduce(NativeCore * native_core, const Value * args) {
+		Value array_reduce(Context * context, const Value * args) {
 			Array * array = req_array(args + 0);
 			if(std::empty(*array)) {
 				return value::null;
 			}
 
 			Value sum = array->unsafe_front();
-			VMCore & core = *static_cast<VMCore*>(native_core->core);
+			VMCore & core = *static_cast<VMCore*>(context->core);
 			for (std::size_t i = 1; i < std::size(*array); i++) {
 				sum = run_function(core, args[1], sum, array->unsafe_at(i));
 			}
@@ -125,9 +125,9 @@ namespace ltn::vm {
 
 
 
-		Value array_any(NativeCore * native_core, const Value * args) {
+		Value array_any(Context * context, const Value * args) {
 			Array * array = req_array(args + 0);
-			VMCore & core = *static_cast<VMCore*>(native_core->core);
+			VMCore & core = *static_cast<VMCore*>(context->core);
 			for (const Value & elem : *array) {
 				const Value result = run_function(core, args[1], elem);
 				if (convert::to_bool(result, core)) {
@@ -139,9 +139,9 @@ namespace ltn::vm {
 
 
 
-		Value array_all(NativeCore * native_core, const Value * args) {
+		Value array_all(Context * context, const Value * args) {
 			Array * array = req_array(args + 0);
-			VMCore & core = *static_cast<VMCore*>(native_core->core);
+			VMCore & core = *static_cast<VMCore*>(context->core);
 			for (const Value & elem : *array) {
 				const Value result = run_function(core, args[1], elem);
 				if (!convert::to_bool(result, core)) {
@@ -153,8 +153,8 @@ namespace ltn::vm {
 
 
 
-		Value array_has(NativeCore * native_core, const Value * args) {
-			VMCore & core = *static_cast<VMCore*>(native_core->core);
+		Value array_has(Context * context, const Value * args) {
+			VMCore & core = *static_cast<VMCore*>(context->core);
 			Array * array = req_array(args + 0);
 			const Value result = args[1];
 			for (const Value & elem : *array) {
@@ -167,13 +167,14 @@ namespace ltn::vm {
 
 
 
-		Value array_none(NativeCore * native_core, const Value * args) {
-			return value::boolean(!array_any(native_core, args).b);
+		Value array_none(Context * context, const Value * args) {
+			return value::boolean(!array_any(context, args).b);
 		}
 
 
 
-		Value array_slice_impl(NativeCore * native_core, Array * array, std::int64_t begin, std::int64_t end) {
+		Value array_slice_impl(Context * context, Array * array, std::int64_t begin, std::int64_t end) {
+			VMCore & core = *static_cast<VMCore*>(context->core);
 			if(begin < 0) {
 				throw except::out_of_range();
 			}
@@ -194,42 +195,45 @@ namespace ltn::vm {
 				throw except::out_of_range();
 			}
 
-			std::vector<Value> slice { std::begin(*array) + begin, std::begin(*array) + end };
-			return native_core->alloc_array(native_core, std::data(slice), std::size(slice));
+			Array * slice = core.heap.make<Array>(std::vector<Value>{std::begin(*array) + begin, std::begin(*array) + end});
+			return value::array(slice);
 		}
 
 
 
-		Value array_slice(NativeCore * native_core, const Value * args) {
+		Value array_slice(Context * context, const Value * args) {
 			Array * array = req_array(args + 0);
 			std::int64_t begin = req_int(args + 1);
 			std::int64_t end = req_int(args + 2);
-			return array_slice_impl(native_core, array, begin, end);
+			return array_slice_impl(context, array, begin, end);
 		}
 
 
 
-		Value array_prefix(NativeCore * native_core, const Value * args) {
+		Value array_prefix(Context * context, const Value * args) {
 			Array * array = req_array(args + 0);
 			std::int64_t size = req_int(args + 1);
-			return array_slice_impl(native_core, array, 0, size);
+			return array_slice_impl(context, array, 0, size);
 		}
 
 
 
-		Value array_suffix(NativeCore * native_core, const Value * args) {
+		Value array_suffix(Context * context, const Value * args) {
 			Array * array = req_array(args + 0);
 			std::int64_t size = req_int(args + 1);
-			return array_slice_impl(native_core, array, static_cast<std::int64_t>(array->size()) - size, array->size());
+			return array_slice_impl(context, array, static_cast<std::int64_t>(array->size()) - size, array->size());
 		}
 
 
 
-		Value array_reversed(NativeCore * native_core, const Value * args) {
+		Value array_reversed(Context * context, const Value * args) {
+			VMCore & core = *static_cast<VMCore*>(context->core);
 			Array * array = req_array(args + 0);
 			std::vector<Value> reversed = array->get_underlying();
 			std::reverse(std::begin(reversed), std::end(reversed));
-			return native_core->alloc_array(native_core, std::data(reversed), std::size(reversed));
+
+			Array * dest_array = core.heap.make<Array>(std::vector<Value>{std::begin(reversed), std::end(reversed)});
+			return value::array(dest_array);
 		}
 
 

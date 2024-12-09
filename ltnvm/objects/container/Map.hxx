@@ -11,7 +11,7 @@ namespace ltn::vm {
 	struct Comparator {
 		VMCore * core;
 		bool operator()(const Value l, const Value r) const {
-			return compare(l, r, *core) < 0;
+			return strict_compare(l, r, *core) < 0;
 		}
 	};
 
@@ -37,7 +37,12 @@ namespace ltn::vm {
 
 
 		const Value & at(const Value & key) const  {
-			return this->map.at(key);
+			if(contains(key)) {
+				return this->map.at(key);
+			}
+			else {
+				return value::null;
+			}
 		} 
 
 		bool contains(const Value & key) const {

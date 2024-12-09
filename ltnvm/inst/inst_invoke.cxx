@@ -4,29 +4,6 @@ namespace ltn::vm::inst {
 
 
 	namespace {
-		Value alloc_array(NativeCore * mative_core, const Value * data, uint64_t size) {
-			VMCore * core = static_cast<VMCore*>(mative_core->core); 
-			Array * array = core->heap.alloc<Array>(Array());
-			for(std::size_t i = 0; i < size; i++) {
-				array->push_back(data[i]);
-			}
-			return value::array(array);
-		}
-
-
-		
-		Value alloc_map(NativeCore * mative_core, const Value * key_data, const Value * value_data, uint64_t size) {
-			VMCore * core = static_cast<VMCore*>(mative_core->core); 
-			Map * map = core->heap.alloc<Map>(Map(core));
-			Map::std_map & std_map = map->get_underlying();
-			for(std::size_t i = 0; i < size; i++) {
-				std_map[key_data[i]] = value_data[i];
-			}
-			return value::map(map);
-		}
-		
-		
-
 		inline void load_onto_stack(VMStack & stack, const auto & values) {
 			for(const auto c : values) {
 				stack.push(c);
@@ -80,12 +57,11 @@ namespace ltn::vm::inst {
 
 			NativeFunctionPointer * fx_ptr = value::as<NativeFunctionPointer>(ref_fx);
 			VMCore * core_ptr = &core;
-			NativeCore native_core = {
+			Context context = {
 				.core = static_cast<void*>(core_ptr),
-				.alloc_array = alloc_array,
-				.alloc_map = alloc_map,
+
 			};
-			Value return_value = fx_ptr->handle(&native_core, args.data());
+			Value return_value = fx_ptr->handle(&context, args.data());
 			core.stack.push(return_value);
 		}
 

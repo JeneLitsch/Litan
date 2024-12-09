@@ -7,7 +7,7 @@
 
 namespace ltn::vm::build_in::io {
 	namespace {
-		using VT = Value::Type;
+		using VT = ValueType;
 
 		std::istream & get_istream(Heap & heap, VMStack & stack) {
 			const auto ref = stack.pop();

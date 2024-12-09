@@ -109,6 +109,8 @@ namespace ltn::c {
 		{"iter_is_stop",             FxCode::ITER_IS_STOP},
 		{"iter_zipped",              FxCode::ITER_COMBINED},
 		{"iter_reversed",            FxCode::ITER_REVERSED},
+
+		{"load_plugin",              FxCode::LOAD_PLUGIN},
 	};
 	
 
