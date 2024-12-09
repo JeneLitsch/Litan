@@ -69,7 +69,7 @@ namespace ltn::vm {
 			}
 			return std::partial_ordering::equivalent;
 		}
-		if(is_queue(l)) {
+			if(is_stack(l) || is_queue(l)) {
 			const auto & deq_l = *value::as<Segmented>(l);
 			const auto & deq_r = *value::as<Segmented>(r);
 			if(deq_l.size() != deq_r.size()) {

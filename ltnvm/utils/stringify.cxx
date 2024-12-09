@@ -123,6 +123,13 @@ namespace ltn::vm {
 			return ss.str();
 		}
 
+		if(is_stack(value)) {
+			const Stack * deque = value::as<Stack>(value);
+			std::ostringstream ss;
+			print_all(std::begin(*deque), std::end(*deque), ss, core, '<', '>');
+			return ss.str();
+		}
+
 		if(is_map(value)) {
 			const auto & map = *value::as<Map>(value);
 			std::ostringstream ss;

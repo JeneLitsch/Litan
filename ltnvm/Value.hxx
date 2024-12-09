@@ -38,6 +38,7 @@ namespace ltn::vm {
 		STRUCT = 0x60,
 		
 		QUEUE = 0x70,
+		STACK,
 		MAP,
 		
 		RNG = 0x80, 
@@ -103,6 +104,13 @@ namespace ltn::vm {
 		constexpr inline Value queue(Object * obj) {
 			return Value{
 				.type = static_cast<std::uint16_t>(ValueType::QUEUE),
+				.object = obj,
+			};
+		}
+
+		constexpr inline Value stack(Object * obj) {
+				return Value{
+				.type = static_cast<std::uint16_t>(ValueType::STACK),
 				.object = obj,
 			};
 		}

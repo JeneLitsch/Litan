@@ -69,6 +69,10 @@ namespace ltn::vm {
 		return val.type == static_cast<std::uint16_t>(ValueType::STRUCT);
 	}
 
+	constexpr inline bool is_stack(const Value & val) {
+		return val.type == static_cast<std::uint16_t>(ValueType::STACK);
+	}
+
 	constexpr inline bool is_queue(const Value & val) {
 		return val.type == static_cast<std::uint16_t>(ValueType::QUEUE);
 	}

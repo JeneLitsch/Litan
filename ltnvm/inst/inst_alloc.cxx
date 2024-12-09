@@ -55,6 +55,12 @@ namespace ltn::vm::inst {
 
 
 
+	void newstack(VMCore & core) {
+		core.heap.collect_garbage(core.stack);
+		core.stack.push(value::stack(core.heap.make<Stack>()));
+	}
+
+
 
 	void newqueue(VMCore & core) {
 		core.heap.collect_garbage(core.stack);

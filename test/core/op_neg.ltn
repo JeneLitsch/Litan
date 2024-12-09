@@ -34,6 +34,7 @@ namespace sphinx::test {
 		assert_except(lambda =>  -(""));
 		assert_except(lambda =>  -(std::map()));
 		assert_except(lambda =>  -(std::struct()));
+		assert_except(lambda =>  -(std::stack()));
 		assert_except(lambda =>  -(std::queue()));
 		assert_except(lambda =>  -(std::cout()));
 	}

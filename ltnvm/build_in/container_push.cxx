@@ -20,6 +20,12 @@ namespace ltn::vm::build_in {
 			return insert_back_string(core, ref, elem);
 		}
 
+		if(is_stack(ref)) {
+			Stack * container = value::as<Stack>(ref);
+			container->push_back(elem);
+			return value::null;
+		}
+
 		if(is_queue(ref)) {
 			Segmented * container = value::as<Segmented>(ref);
 			container->push_back(elem);

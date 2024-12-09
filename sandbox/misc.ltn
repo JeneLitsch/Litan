@@ -8,4 +8,5 @@ function main() {
 	std::println(test_plugin["array_operations"]([1,2,3,4]));
 	std::println(test_plugin["test_string"]("Hello"));
 	std::println(test_plugin["test_map"]());
+	std::println(std::stack());
 }

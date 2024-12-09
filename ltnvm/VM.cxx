@@ -95,6 +95,7 @@ namespace ltn::vm {
 		table[OpCode::NEWFX] = inst::newfx;
 		table[OpCode::NEWCLOCK] = inst::newclock;
 		table[OpCode::NEWSTRUCT] = inst::newstruct;
+		table[OpCode::NEWSTACK] = inst::newstack;
 		table[OpCode::NEWQUEUE] = inst::newqueue;
 		table[OpCode::NEWMAP] = inst::newmap;
 		table[OpCode::NEWTUPLE] = inst::newtuple;

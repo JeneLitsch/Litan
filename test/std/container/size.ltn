@@ -32,6 +32,16 @@ namespace sphinx::test {
 
 
 
+	function std_size_stack() {
+		var s = std::stack();
+		assert_equal(std::size(s), 0);
+		std::push(s, 1); 
+		std::push(s, 2);
+		std::push(s, 3);
+		assert_equal(std::size(s), 3);
+	}
+
+
 
 	function std_size_map() {
 		var m = std::map();

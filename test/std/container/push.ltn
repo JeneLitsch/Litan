@@ -40,6 +40,16 @@ namespace sphinx::test {
 
 
 
+	function std_push_stack() {
+		var stack = std::stack();
+		std::push(stack, 1);
+		std::push(stack, 2);
+		std::push(stack, 3);
+		assert_equal_strict(stack, std::stack(1,2,3));
+	}
+
+
+
 	function std_push_queue() {
 		var queue = std::queue();
 		std::push(queue, 1);

@@ -28,6 +28,7 @@ namespace sphinx::test {
 		assert_except(lambda => ([]) | ([]));
 		assert_except(lambda => (std::struct()) | (std::struct()));
 		assert_except(lambda => (std::map()) | (std::map()));
+		assert_except(lambda => (std::stack()) | (std::stack()));
 		assert_except(lambda => (std::queue()) | (std::queue()));
 	}
 }

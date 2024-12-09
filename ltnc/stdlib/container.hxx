@@ -15,6 +15,20 @@ namespace std {
 
 
 
+	function stack() const
+		=> build_in(stack)
+
+
+	
+	function stack(first, other...) {
+		var stack = std::stack();
+		std::push(stack, first);
+		for(elem : other) std::push(stack, elem);
+		return stack;
+	}
+	
+
+
 	function map() const 
 		=> [:]
 	

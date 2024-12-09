@@ -16,6 +16,9 @@ namespace sphinx::test {
 
 
 
+
+
+
 	function std_is_ostream() {
 		assert_true(std::is_ostream(std::cout()));
 		assert_true(std::is_ostream(std::strout()));

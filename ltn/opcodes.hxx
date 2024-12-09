@@ -67,6 +67,7 @@ namespace ltn {
 		NEWFX,
 		NEWCLOCK,
 		NEWSTRUCT,
+		NEWSTACK,
 		NEWQUEUE,
 		NEWMAP,
 		NEWTUPLE,

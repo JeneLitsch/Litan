@@ -27,6 +27,24 @@ namespace sphinx::test {
 
 
 
+	function std_peek_stack() {
+		var stc = std::stack();
+		std::push(stc, 1);
+		std::push(stc, 2);
+		std::push(stc, 3);
+		assert_equal_strict(std::peek(stc), 3);
+		assert_equal_strict(std::peek(stc), 3);
+		assert_equal_strict(std::peek(stc), 3);
+	}
+
+
+
+	function std_peek_stack_except() {
+		assert_except(lambda => std::peek(std::stack()));
+	}
+
+
+
 	function std_peek_queue() {
 		var que = std::queue();
 		std::push(que, 1);
