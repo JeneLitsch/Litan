@@ -1,9 +1,11 @@
 #pragma once
 #include <map>
 #include <string_view>
+#include <vector>
 #include "ltnvm/Value.hxx"
 #include "ltnvm/utils/compare.hxx"
 #include "ltnvm/objects/Object.hxx"
+#include "Array.hxx"
 
 namespace ltn::vm {
 	class Heap;
@@ -22,7 +24,8 @@ namespace ltn::vm {
 		using std_map = std::map<Value, Value, Comparator>;
 		using iterator = std_map::const_iterator;
 		Map(VMCore * core) 
-			: map{Comparator{core}} {}
+			: map{Comparator{core}}
+			, core{core} {}
 
 		std::uint64_t size() const {
 			return std::size(this->map);
@@ -72,9 +75,15 @@ namespace ltn::vm {
 		inline std_map & get_underlying() {
 			return this->map;
 		}
+
+		Array keys() const;
+		Array values() const;
+
+		Map merged(const Map & other) const;
 	private:
 		std_map map;
 		std::uint64_t version = 0;
+		VMCore * core;
 	};
 
 

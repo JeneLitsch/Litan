@@ -4,5 +4,6 @@ target_sources(libltnvm PRIVATE
 	"Array_get_member.cxx"
 	"Array.cxx"
 	"Tuple.cxx"
+	"Map_get_members.cxx"
 	"Map.cxx"
 )
