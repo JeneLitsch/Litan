@@ -1,4 +1,5 @@
 #include "Array.hxx"
+#include <algorithm>
 
 namespace ltn::vm {
 	namespace {
@@ -75,5 +76,39 @@ namespace ltn::vm {
 	const Value & Array::back() const {
 		guard_empty(*this);
 		return unsafe_back();
+	}
+
+
+
+	Array Array::reversed() const {
+		Array copied_array = *this;
+		std::reverse(std::begin(copied_array.data), std::end(copied_array.data));
+		return copied_array;
+	}
+
+
+
+	Array Array::slice(std::int64_t begin, std::int64_t end) const {
+		if(begin < 0) {
+			throw except::out_of_range();
+		}
+
+		if(begin > this->size()) {
+			throw except::out_of_range();
+		}
+
+		if(end < 0) {
+			throw except::out_of_range();
+		}
+
+		if(end > this->size()) {
+			throw except::out_of_range();
+		}
+
+		if (begin > end) {
+			throw except::out_of_range();
+		}
+
+		return Array{std::vector<Value>{std::begin(*this) + begin, std::begin(*this) + end}};
 	}
 }

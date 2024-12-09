@@ -173,39 +173,13 @@ namespace ltn::vm {
 
 
 
-		Value array_slice_impl(Context * context, Array * array, std::int64_t begin, std::int64_t end) {
-			VMCore & core = *static_cast<VMCore*>(context->core);
-			if(begin < 0) {
-				throw except::out_of_range();
-			}
-
-			if(begin > array->size()) {
-				throw except::out_of_range();
-			}
-
-			if(end < 0) {
-				throw except::out_of_range();
-			}
-
-			if(end > array->size()) {
-				throw except::out_of_range();
-			}
-
-			if (begin > end) {
-				throw except::out_of_range();
-			}
-
-			Array * slice = core.heap.make<Array>(std::vector<Value>{std::begin(*array) + begin, std::begin(*array) + end});
-			return value::array(slice);
-		}
-
-
-
 		Value array_slice(Context * context, const Value * args) {
 			Array * array = req_array(args + 0);
 			std::int64_t begin = req_int(args + 1);
 			std::int64_t end = req_int(args + 2);
-			return array_slice_impl(context, array, begin, end);
+			VMCore & core = *static_cast<VMCore*>(context->core);
+			Array * slice = core.heap.alloc(array->slice(begin, end));
+			return value::array(slice);
 		}
 
 
@@ -213,7 +187,9 @@ namespace ltn::vm {
 		Value array_prefix(Context * context, const Value * args) {
 			Array * array = req_array(args + 0);
 			std::int64_t size = req_int(args + 1);
-			return array_slice_impl(context, array, 0, size);
+			VMCore & core = *static_cast<VMCore*>(context->core);
+			Array * slice = core.heap.alloc(array->slice(0, size));
+			return value::array(slice);
 		}
 
 
@@ -221,7 +197,9 @@ namespace ltn::vm {
 		Value array_suffix(Context * context, const Value * args) {
 			Array * array = req_array(args + 0);
 			std::int64_t size = req_int(args + 1);
-			return array_slice_impl(context, array, static_cast<std::int64_t>(array->size()) - size, array->size());
+			VMCore & core = *static_cast<VMCore*>(context->core);
+			Array * slice = core.heap.alloc(array->slice(static_cast<std::int64_t>(array->size()) - size, array->size()));
+			return value::array(slice);
 		}
 
 
@@ -229,11 +207,8 @@ namespace ltn::vm {
 		Value array_reversed(Context * context, const Value * args) {
 			VMCore & core = *static_cast<VMCore*>(context->core);
 			Array * array = req_array(args + 0);
-			std::vector<Value> reversed = array->get_underlying();
-			std::reverse(std::begin(reversed), std::end(reversed));
-
-			Array * dest_array = core.heap.make<Array>(std::vector<Value>{std::begin(reversed), std::end(reversed)});
-			return value::array(dest_array);
+			Array * reversed = core.heap.alloc(array->reversed());
+			return value::array(reversed);
 		}
 
 

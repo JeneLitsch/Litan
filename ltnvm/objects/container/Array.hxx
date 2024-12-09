@@ -20,7 +20,10 @@ namespace ltn::vm {
 		Value pop_back();
 
 		const Value & front() const; 
-		const Value & back() const; 
+		const Value & back() const;
+
+		Array reversed() const;
+		Array slice(std::int64_t begin, std::int64_t end) const;
 	};
 
 
