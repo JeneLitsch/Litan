@@ -21,5 +21,16 @@ namespace std {
 
 	function str(x) const
 		=> build_in(to_string)
+
+	
+	
+	function left_pad(str, min_size) {
+		return " " * (min_size - std::size(str)) + str;
+	}
+
+
+	function right_pad(str, min_size) {
+		return str + " " * (min_size - std::size(str));
+	}
 }
 )###";
