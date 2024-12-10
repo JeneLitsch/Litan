@@ -1,0 +1,82 @@
+namespace sphinx::test {
+	function plugin_as_bool() {
+		var func = test_plugin["as_bool"];
+		assert_equal_strict(func(true), true);
+		assert_equal_strict(func(false), false);
+		assert_except(lambda[func] => func(1));
+		assert_except(lambda[func] => func([]));
+	}
+
+
+
+	function plugin_as_char() {
+		var func = test_plugin["as_char"];
+		assert_equal_strict(func('A'), 'A');
+		assert_equal_strict(func('\n'), '\n');
+		assert_except(lambda[func] => func(true));
+		assert_except(lambda[func] => func([]));
+	}
+
+
+
+	function plugin_as_int() {
+		var func = test_plugin["as_int"];
+		assert_equal_strict(func(42), 42);
+		assert_equal_strict(func(1337), 1337);
+		assert_except(lambda[func] => func(true));
+		assert_except(lambda[func] => func([]));
+	}
+
+
+
+	function plugin_as_float() {
+		var func = test_plugin["as_float"];
+		assert_equal_strict(func(42.0), 42.0);
+		assert_equal_strict(func(13.37), 13.37);
+		assert_except(lambda[func] => func(true));
+		assert_except(lambda[func] => func([]));
+	}
+
+
+
+	function plugin_as_array() {
+		var func = test_plugin["as_array"];
+		assert_equal_strict(func([]), []);
+		assert_equal_strict(func([1,2,3]), [1,2,3]);
+		assert_except(lambda[func] => func(true));
+		assert_except(lambda[func] => func("Test"));
+	}
+
+
+
+	function plugin_as_tuple() {
+		var func = test_plugin["as_tuple"];
+		assert_equal_strict(func(()), ());
+		assert_equal_strict(func((42,)), (42,));
+		assert_equal_strict(func((1,2,3)), (1,2,3));
+		assert_except(lambda[func] => func(true));
+		assert_except(lambda[func] => func("Test"));
+	}
+
+
+
+	function plugin_as_map() {
+		var func = test_plugin["as_map"];
+		assert_equal_strict(func([:]), [:]);
+		assert_equal_strict(func([4:2]), [4:2]);
+		assert_equal_strict(func([1:11,2:22,3:33]), [1:11,2:22,3:33]);
+		assert_except(lambda[func] => func(true));
+		assert_except(lambda[func] => func("Test"));
+	}
+
+
+
+	function plugin_as_string() {
+		var func = test_plugin["as_string"];
+		assert_equal_strict(func(""), "");
+		assert_equal_strict(func("test"), "test");
+		assert_except(lambda[func] => func(true));
+		assert_except(lambda[func] => func([1,2,3]));
+	}
+}
+
