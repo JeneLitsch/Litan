@@ -28,6 +28,9 @@ namespace ltn::vm::inst {
 				Tuple tuple {read_from_stack(core.stack, arity - fxptr.arity())};
 				core.stack.push(value::tuple(core.heap.alloc(std::move(tuple))));
 			}
+			else if(arity > fxptr.arity()) {
+				throw except::invalid_parameters(fxptr.arity(), arity);
+			}
 			else if(arity < fxptr.arity()) {
 				throw except::invalid_parameters(fxptr.arity(), arity);
 			}

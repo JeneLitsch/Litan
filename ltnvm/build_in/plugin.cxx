@@ -314,6 +314,9 @@ namespace ltn::vm::build_in {
 		Value args_0 = core.stack.pop();
 		String * path = value::as<String>(args_0);
 		void * handle = dlopen(path->get_underlying().c_str(), RTLD_LAZY);
+		if(handle == nullptr) {
+			throw except::cannot_open_file(path->get_underlying());
+		}
 
 		ltn_PluginInfo * plugin_info = static_cast<ltn_PluginInfo *>(dlsym(handle, "ltn_plugin_info"));
 

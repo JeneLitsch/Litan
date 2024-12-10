@@ -1,9 +1,11 @@
 #import "sphinx"
 #import "core"
 #import "std"
+#import "plugin"
 
 function main() {
 	var clock = std::chrono::clock();
+	load_test_plugin();
 	sphinx::run_tests();
 	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
 }

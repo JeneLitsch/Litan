@@ -92,7 +92,7 @@ namespace ltn::vm {
 			wrap(MemberCode::ERASE,    map_erase,    2),
 			wrap(MemberCode::KEYS,     map_keys,     1),
 			wrap(MemberCode::VALUES,   map_values,   1),
-			wrap(MemberCode::MERGED,   map_merged,   1),
+			wrap(MemberCode::MERGED,   map_merged,   2),
 		};
 	}
 

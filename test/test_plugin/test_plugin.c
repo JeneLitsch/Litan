@@ -3,6 +3,8 @@
 #define LTN_IMPL
 #include "native/litan.h"
 
+#include "is_type.h"
+
 ltn_Value test(ltn_Context * ctx, const ltn_Value * args) {
 	ltn_String str = ltn_alloc_string(ctx, "Hello World!");
 	ltn_Value data[7] = {
@@ -93,6 +95,13 @@ extern ltn_NativeFunctionInfo ltn_exports[] = {
 	{ "test_string", test_string, 1 },
 	{ "test_map", test_map, 0 },
 	{ "test_tuple", test_tuple, 1 },
+
+	{ "is_null", test_is_null, 1 },
+	{ "is_bool", test_is_bool, 1 },
+	{ "is_char", test_is_char, 1 },
+	{ "is_int", test_is_int, 1 },
+	{ "is_float", test_is_float, 1 },
+
 	{0,0,0}
 };
 
