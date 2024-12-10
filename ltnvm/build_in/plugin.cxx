@@ -20,6 +20,19 @@ namespace ltn::vm::build_in {
 		}
 
 
+
+		ltn_Tuple alloc_tuple(Context * mative_core, const Value * data, uint64_t size) {
+			VMCore * core = static_cast<VMCore*>(mative_core->core); 
+			Tuple * tuple = core->heap.make<Tuple>();
+			if (data) {
+				for(std::size_t i = 0; i < size; i++) {
+					tuple->push_back(data[i]);
+				}
+			}
+			return ltn_Tuple{.ptr = static_cast<void*>(tuple)};
+		}
+
+
 		
 		ltn_Map alloc_map(Context * mative_core, const Value * key_data, const Value * value_data, uint64_t size) {
 			VMCore * core = static_cast<VMCore*>(mative_core->core); 
@@ -43,6 +56,12 @@ namespace ltn::vm::build_in {
 
 		Value value_array(ltn_Array array) {
 			return value::array(static_cast<Array*>(array.ptr));
+		}
+		
+
+
+		Value value_tuple(ltn_Tuple array) {
+			return value::tuple(static_cast<Tuple*>(array.ptr));
 		}
 		
 
@@ -95,6 +114,14 @@ namespace ltn::vm::build_in {
 				throw except::invalid_argument();
 			}
 			return ltn_Array{ .ptr = value.object };
+		}
+
+
+		ltn_Tuple as_tuple(Value value) {
+			if (!is_tuple(value)) {
+				throw except::invalid_argument();
+			}
+			return ltn_Tuple{ .ptr = value.object };
 		}
 
 
@@ -195,9 +222,23 @@ namespace ltn::vm::build_in {
 		}
 
 
+		Value tuple_at(ltn_Tuple tuple, ltn_Int index) {
+			Tuple * t = static_cast<Tuple*>(tuple.ptr);
+			if(t->size() <= index) {
+				throw except::out_of_range();
+			}
+			return t->unsafe_at(index);
+		}
+
+		int64_t tuple_size(ltn_Tuple tuple) {
+			return static_cast<Tuple*>(tuple.ptr)->size();
+		}
+
+
 
 		void link_plugin(void * plugin_handle) {
 			link_function<ltn_FuncAllocArray>(plugin_handle, "ltn_alloc_array", alloc_array);
+			link_function<ltn_FuncAllocTuple>(plugin_handle, "ltn_alloc_tuple", alloc_tuple);
 			link_function<ltn_FuncAllocMap>(plugin_handle, "ltn_alloc_map", alloc_map);
 			link_function<ltn_FuncAllocString>(plugin_handle, "ltn_alloc_string", alloc_string);
 			
@@ -207,6 +248,7 @@ namespace ltn::vm::build_in {
 			link_function<ltn_FuncValueInt>(plugin_handle, "ltn_value_int", value::integer<std::int64_t>);
 			link_function<ltn_FuncValueFloat>(plugin_handle, "ltn_value_float", value::floating<double>);
 			link_function<ltn_FuncValueArray>(plugin_handle, "ltn_value_array", value_array);
+			link_function<ltn_FuncValueTuple>(plugin_handle, "ltn_value_tuple", value_tuple);
 			link_function<ltn_FuncValueMap>(plugin_handle, "ltn_value_map", value_map);
 			link_function<ltn_FuncValueString>(plugin_handle, "ltn_value_string", value_string);
 
@@ -215,6 +257,7 @@ namespace ltn::vm::build_in {
 			link_function<ltn_FuncAsInt>(plugin_handle, "ltn_as_int", as_int);
 			link_function<ltn_FuncAsFloat>(plugin_handle, "ltn_as_float", as_float);
 			link_function<ltn_FuncAsArray>(plugin_handle, "ltn_as_array", as_array);
+			link_function<ltn_FuncAsTuple>(plugin_handle, "ltn_as_tuple", as_tuple);
 			link_function<ltn_FuncAsMap>(plugin_handle, "ltn_as_map", as_map);
 			link_function<ltn_FuncAsString>(plugin_handle, "ltn_as_string", as_string);
 			
@@ -224,6 +267,7 @@ namespace ltn::vm::build_in {
 			link_function<ltn_FuncIsType>(plugin_handle, "ltn_is_int", [](Value v) -> bool {return is_int(v);});
 			link_function<ltn_FuncIsType>(plugin_handle, "ltn_is_float", [](Value v) -> bool {return is_float(v);});
 			link_function<ltn_FuncIsType>(plugin_handle, "ltn_is_array", [](Value v) -> bool {return is_array(v);});
+			link_function<ltn_FuncIsType>(plugin_handle, "ltn_is_tuple", [](Value v) -> bool {return is_tuple(v);});
 			link_function<ltn_FuncIsType>(plugin_handle, "ltn_is_map", [](Value v) -> bool {return is_map(v);});
 			link_function<ltn_FuncIsType>(plugin_handle, "ltn_is_string",[](Value v) -> bool {return is_string(v);});
 
@@ -237,6 +281,9 @@ namespace ltn::vm::build_in {
 
 			link_function<ltn_FuncStringData>(plugin_handle, "ltn_string_data", string_data);
 			link_function<ltn_FuncStringSize>(plugin_handle, "ltn_string_size", string_size);
+
+			link_function<ltn_FuncTupleAt>(plugin_handle, "ltn_tuple_at", tuple_at);
+			link_function<ltn_FuncTupleSize>(plugin_handle, "ltn_tuple_size", tuple_size);
 
 			link_function<ltn_FuncMapAt>(plugin_handle, "ltn_map_at", map_at);
 			link_function<ltn_FuncMapPut>(plugin_handle, "ltn_map_put", map_put);

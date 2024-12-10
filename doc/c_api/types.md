@@ -24,6 +24,10 @@ An IEEE 745 double precision floating point type.
 
 A handle to an Litan array object
 
+## ltn_Tuple
+
+A handle to an Litan tuple object
+
 ## ltn_Map
 
 A handle to an Litan map object

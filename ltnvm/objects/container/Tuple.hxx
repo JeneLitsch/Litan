@@ -14,9 +14,11 @@ namespace ltn::vm {
 			: Contiguous{std::move(values)} {};
 
 		virtual Value get_member(std::uint64_t id) const override;
+		Value at(std::int64_t index) const;
 	};
 
 	inline Tuple clone(const Tuple & tup) {
 		return tup;
 	}
+
 }

@@ -70,6 +70,20 @@ ltn_Value test_map(ltn_Context * context, const ltn_Value * args) {
 }
 
 
+ltn_Value test_tuple(ltn_Context * context, const ltn_Value * args) {
+	ltn_Tuple tuple = ltn_as_tuple(args[0]);
+	ltn_Int a = ltn_as_int(ltn_tuple_at(tuple, 0));
+	ltn_Int b = ltn_as_int(ltn_tuple_at(tuple, 1));
+	ltn_Value tuple_values[3] = {
+		ltn_value_int(a + b),
+		ltn_value_bool(ltn_is_tuple(args[0])),
+		ltn_value_bool(ltn_is_tuple(ltn_value_int(42))),
+	};
+	ltn_Tuple new_tuple = ltn_alloc_tuple(context, tuple_values, 3);
+	return ltn_value_tuple(new_tuple);
+}
+
+
 
 extern ltn_NativeFunctionInfo ltn_exports[] = {
 	{ "test", test, 0 },
@@ -78,6 +92,7 @@ extern ltn_NativeFunctionInfo ltn_exports[] = {
 	{ "array_operations", array_operations, 0 },
 	{ "test_string", test_string, 1 },
 	{ "test_map", test_map, 0 },
+	{ "test_tuple", test_tuple, 1 },
 	{0,0,0}
 };
 

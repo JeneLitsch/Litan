@@ -47,7 +47,7 @@ namespace ltn::vm {
 
 
 
-	std::partial_ordering object_compare(const Value l, const Value r, VMCore & core)  {
+	inline std::partial_ordering object_compare(const Value l, const Value r, VMCore & core)  {
 		if(is_string(l)) {
 			const auto & strL = *value::as<String>(l);
 			const auto & strR = *value::as<String>(r);
@@ -69,7 +69,7 @@ namespace ltn::vm {
 			}
 			return std::partial_ordering::equivalent;
 		}
-			if(is_stack(l) || is_queue(l)) {
+		if(is_stack(l) || is_queue(l)) {
 			const auto & deq_l = *value::as<Segmented>(l);
 			const auto & deq_r = *value::as<Segmented>(r);
 			if(deq_l.size() != deq_r.size()) {
@@ -85,7 +85,7 @@ namespace ltn::vm {
 			}
 			return std::partial_ordering::equivalent;
 		}
-		if(is_type(l) || is_type(l)) {
+		if(is_type(l)) {
 			return l.obj_type <=> r.obj_type;
 		}
 		if(is_struct(l)) {

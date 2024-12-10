@@ -21,6 +21,7 @@ typedef void* ltn_ObjectPtr;
 typedef struct { void * ptr; } ltn_Array;
 typedef struct { void * ptr; } ltn_Map;
 typedef struct { void * ptr; } ltn_String;
+typedef struct { void * ptr; } ltn_Tuple;
 
 
 #ifdef __cplusplus
