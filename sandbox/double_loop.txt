@@ -1,0 +1,108 @@
+newi_const_0
+newi_small 4
+newi_small 8
+newi_small 12
+newi_small 14
+newi_small 10
+newi_small 13
+newi_small 9
+newi_small 15
+newi_small 11
+newi_small 6
+newi_const_2
+newi_small 5
+newi_const_1
+newi_small 7
+newi_small 3
+newi_const_1
+newi_const_0
+newi_small 32
+newi_small 16
+newi_small 19
+newi_small 80
+newi_small 65
+newi_small 18
+newi_small 64
+newi_small 17
+newi_small 48
+newi_small 114
+newi_const_0
+newi_small 49
+newi_small 112
+newi_small 97
+newi 128
+newi_small 113
+newi_small 33
+newi_small 96
+newf 3.14159
+newf 2.71828
+newf 6.28319
+newf 3.14159
+null
+exit
+:main(1)
+newi_const_1
+newi_small 3
+call std::range(2)
+iter
+:_FOREACH_BODY8
+for_next _FOREACH_END7
+write_1
+newi_small 10
+newi_small 13
+call std::range(2)
+iter
+:_FOREACH_BODY10
+for_next _FOREACH_END9
+write_x 4
+read_1
+call std::str(1)
+newstr 3 32 124 32 
+add
+read_x 4
+call std::str(1)
+add
+call std::println(1)
+scrap
+jump _FOREACH_BODY10
+:_FOREACH_END9
+scrap
+scrap
+jump _FOREACH_BODY8
+:_FOREACH_END7
+scrap
+scrap
+null
+return
+:std::range(2)
+read_0
+read_1
+newi_const_1
+call std::range(3)
+return
+:std::str(1)
+build_in 64
+return
+:std::println(1)
+call std::cout(0)
+write_1
+read_1
+read_0
+call std::print(2)
+scrap
+read_1
+newstr 1 10 
+call std::print(2)
+scrap
+null
+return
+:std::range(3)
+build_in 128
+return
+:std::cout(0)
+build_in 96
+return
+:std::print(2)
+build_in 53
+return
+exit

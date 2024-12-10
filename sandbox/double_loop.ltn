@@ -1,0 +1,7 @@
+function main(args) {
+	for(x : std::range(1,3)) {
+		for(y : std::range(10,13)) {
+			std::println(std::str(x) + " | " + std::str(y));
+		}
+	}
+}
