@@ -162,6 +162,22 @@ namespace sphinx::test {
 
 
 
+	function for_nested() {
+		var array = [];
+		for (x : [1,2,3]) {
+			for (y : [10,20,30]) {
+				array->push(x * y);
+			}
+		}
+		assert_equal_strict(array, [
+			10, 20, 30,
+			20, 40, 60,
+			30, 60, 90,
+		]);
+	}
+
+
+
 	function for_ranged_head_scope() {
 		var i = 42;
 		for(i : [1,2,3]) {}
