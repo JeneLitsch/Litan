@@ -27,3 +27,27 @@ ltn_Value test_is_int(ltn_Context * context, const ltn_Value * args) {
 ltn_Value test_is_float(ltn_Context * context, const ltn_Value * args) {
 	return ltn_value_bool(ltn_is_float(args[0]));
 }
+
+
+
+ltn_Value test_is_array(ltn_Context * context, const ltn_Value * args) {
+	return ltn_value_bool(ltn_is_array(args[0]));
+}
+
+
+
+ltn_Value test_is_tuple(ltn_Context * context, const ltn_Value * args) {
+	return ltn_value_bool(ltn_is_tuple(args[0]));
+}
+
+
+
+ltn_Value test_is_string(ltn_Context * context, const ltn_Value * args) {
+	return ltn_value_bool(ltn_is_string(args[0]));
+}
+
+
+
+ltn_Value test_is_map(ltn_Context * context, const ltn_Value * args) {
+	return ltn_value_bool(ltn_is_map(args[0]));
+}

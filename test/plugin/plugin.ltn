@@ -72,4 +72,80 @@ namespace sphinx::test {
 		assert_except(lambda[check]() => check());
 		assert_except(lambda[check]() => check(1.1,2.2));
 	}
+
+
+
+	function plugin_is_array() {
+		var check = test_plugin["is_array"];
+
+		assert_true(check([1,2,3]));
+		assert_true(check([]));
+
+		assert_false(check(null));
+		assert_false(check(1));
+		
+		assert_except(lambda[check]() => check());
+		assert_except(lambda[check]() => check([], []));
+		assert_except(lambda[check]() => check(1.1,2.2));
+	}
+
+
+
+	function plugin_is_string() {
+		var check = test_plugin["is_string"];
+
+		assert_true(check(""));
+		assert_true(check("ABC"));
+
+		assert_false(check([1,2,3]));
+		assert_false(check([]));
+		assert_false(check(null));
+		assert_false(check(1));
+		
+		assert_except(lambda[check]() => check());
+		assert_except(lambda[check]() => check([], []));
+		assert_except(lambda[check]() => check(1.1,2.2));
+	}
+
+
+
+
+	function plugin_is_tuple() {
+		var check = test_plugin["is_tuple"];
+
+		assert_true(check(()));
+		assert_true(check((1,)));
+		assert_true(check((1,2)));
+
+		assert_false(check("ABC"));
+		assert_false(check([1,2,3]));
+		assert_false(check(null));
+		assert_false(check(1));
+		
+		assert_except(lambda[check]() => check());
+		assert_except(lambda[check]() => check([], []));
+		assert_except(lambda[check]() => check(1.1,2.2));
+	}
+
+
+
+	function plugin_is_map() {
+		var check = test_plugin["is_map"];
+
+		assert_true(check([:]));
+		assert_true(check([1:1]));
+		assert_true(check([null:null]));
+
+		assert_false(check(()));
+		assert_false(check((1,)));
+		assert_false(check((1,2)));
+		assert_false(check("ABC"));
+		assert_false(check([1,2,3]));
+		assert_false(check(null));
+		assert_false(check(1));
+		
+		assert_except(lambda[check]() => check());
+		assert_except(lambda[check]() => check([], []));
+		assert_except(lambda[check]() => check(1.1,2.2));
+	}
 }

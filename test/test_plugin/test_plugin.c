@@ -101,6 +101,11 @@ extern ltn_NativeFunctionInfo ltn_exports[] = {
 	{ "is_char", test_is_char, 1 },
 	{ "is_int", test_is_int, 1 },
 	{ "is_float", test_is_float, 1 },
+	
+	{ "is_array", test_is_array, 1 },
+	{ "is_tuple", test_is_tuple, 1 },
+	{ "is_string", test_is_string, 1 },
+	{ "is_map", test_is_map, 1 },
 
 	{0,0,0}
 };
