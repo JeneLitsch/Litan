@@ -15,8 +15,10 @@ typedef struct {
 
 typedef struct {
 	void(*init)(void);
+	void(*gc_mark)(void);
 } ltn_PluginInfo;
 
+typedef void(*ltn_FuncGCMark)(ltn_Value value);
 
 typedef ltn_Array(*ltn_FuncAllocArray)(ltn_Context *, const ltn_Value *, uint64_t);
 typedef ltn_Tuple(*ltn_FuncAllocTuple)(ltn_Context *, const ltn_Value *, uint64_t);

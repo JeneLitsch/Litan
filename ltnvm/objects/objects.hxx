@@ -8,3 +8,4 @@
 #include "ltnvm/objects/Clock.hxx"
 #include "ltnvm/objects/RandomEngine.hxx"
 #include "ltnvm/objects/Coroutine.hxx"
+#include "ltnvm/objects/Plugin.hxx"

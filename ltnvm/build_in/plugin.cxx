@@ -8,6 +8,12 @@
 
 namespace ltn::vm::build_in {
 	namespace {
+		void gc_mark(Value value) {
+			gc::mark(value);
+		}
+
+
+
 		ltn_Array alloc_array(Context * mative_core, const Value * data, uint64_t size) {
 			VMCore * core = static_cast<VMCore*>(mative_core->core); 
 			Array * array = core->heap.alloc<Array>(Array());
@@ -236,7 +242,10 @@ namespace ltn::vm::build_in {
 
 
 
+
 		void link_plugin(void * plugin_handle) {
+			link_function<ltn_FuncGCMark>(plugin_handle, "ltn_gc_mark", gc_mark);
+
 			link_function<ltn_FuncAllocArray>(plugin_handle, "ltn_alloc_array", alloc_array);
 			link_function<ltn_FuncAllocTuple>(plugin_handle, "ltn_alloc_tuple", alloc_tuple);
 			link_function<ltn_FuncAllocMap>(plugin_handle, "ltn_alloc_map", alloc_map);
@@ -292,15 +301,15 @@ namespace ltn::vm::build_in {
 		}
 
 
-		Map * load_exports(VMCore & core, void * plugin_handle) {
-			void * symbol = dlsym(plugin_handle, "ltn_exports");
+		Map * load_exports(VMCore & core, Plugin * plugin) {
+			void * symbol = dlsym(plugin->handle, "ltn_exports");
 			ltn_NativeFunctionInfo * ltn_exports = static_cast<ltn_NativeFunctionInfo *>(symbol);
 			
 			Map * map = core.heap.make<Map>(&core);
 
 			for(ltn_NativeFunctionInfo * entry = ltn_exports; entry->name && entry->handle; entry++) {
 				String * key = core.heap.make<String>(entry->name);
-				NativeFunctionPointer * native_function_pointer = core.heap.make<NativeFunctionPointer>(entry->handle, entry->arity, false);
+				NativeFunctionPointer * native_function_pointer = core.heap.make<NativeFunctionPointer>(plugin, entry->handle, entry->arity, false);
 				(*map)[value::string(key)] = value::native_function(native_function_pointer);
 			}
 
@@ -320,10 +329,14 @@ namespace ltn::vm::build_in {
 
 		ltn_PluginInfo * plugin_info = static_cast<ltn_PluginInfo *>(dlsym(handle, "ltn_plugin_info"));
 
+		Plugin * plugin = core.heap.make<Plugin>();
+		plugin->gc_mark = plugin_info->gc_mark;
+		plugin->handle = handle;
+
 		link_plugin(handle);
 		plugin_info->init();
 
-		Map * exports = load_exports(core, handle);
+		Map * exports = load_exports(core, plugin);
 		return value::map(exports);
 	}
 

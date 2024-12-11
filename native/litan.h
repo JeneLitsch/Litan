@@ -11,6 +11,8 @@
 #define LINKED extern
 #endif
 
+LINKED ltn_FuncGCMark ltn_gc_mark;
+
 // Allocations
 LINKED ltn_FuncAllocArray ltn_alloc_array;
 LINKED ltn_FuncAllocMap ltn_alloc_map;

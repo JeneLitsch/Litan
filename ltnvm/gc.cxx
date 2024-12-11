@@ -37,10 +37,28 @@ namespace ltn::vm::gc {
 
 
 
-	void mark_obj(FunctionPointer * obj) {
+	void mark_obj(ScriptFunctionPointer * obj) {
 		if(!obj->marked) {
 			obj->marked = true;
 			mark(obj->captured);
+		}
+	}
+
+
+	void mark_obj(NativeFunctionPointer * obj) {
+		if(!obj->marked) {
+			obj->marked = true;
+			mark(obj->captured);
+			mark_obj(obj->plugin);
+		}
+	}
+
+
+
+	void mark_obj(Plugin * obj) {
+		if(!obj->marked) {
+			obj->marked = true;
+			obj->gc_mark();
 		}
 	}
 
@@ -130,8 +148,8 @@ namespace ltn::vm::gc {
 			case VT::ITERATOR:        return mark_obj(value::as<Iterator>(value));
 			case VT::ITERATOR_STOP:   return; // no gc required
 			case VT::OSTREAM:         return mark_obj(value::as<OStream>(value));
-			case VT::FUNCTION:        return mark_obj(value::as<FunctionPointer>(value));
-			case VT::NATIVE_FUNCTION: return mark_obj(value::as<FunctionPointer>(value));
+			case VT::FUNCTION:        return mark_obj(value::as<ScriptFunctionPointer>(value));
+			case VT::NATIVE_FUNCTION: return mark_obj(value::as<NativeFunctionPointer>(value));
 			case VT::CLOCK:           return mark_obj(value::as<Clock>(value));
 			case VT::STRUCT:          return mark_obj(value::as<Struct>(value));
 			case VT::QUEUE:           return mark_obj(value::as<Segmented>(value));
@@ -146,6 +164,7 @@ namespace ltn::vm::gc {
 
 
 	std::uint64_t sweep(std::unique_ptr<Object> & start) {
+		// return 0;
 		std::unique_ptr<Object> * current = &start;
 		std::uint64_t collected = 0;
 		while (*current) {

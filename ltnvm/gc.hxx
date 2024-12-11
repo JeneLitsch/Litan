@@ -14,7 +14,9 @@ namespace ltn::vm::gc {
 	void mark_obj(IStream * obj);
 	void mark_obj(Iterator * obj);
 	void mark_obj(OStream * obj);
-	void mark_obj(FunctionPointer * obj);
+	void mark_obj(ScriptFunctionPointer * obj);
+	void mark_obj(NativeFunctionPointer * obj);
+	void mark_obj(Plugin * obj);
 	void mark_obj(Struct * obj);
 	void mark_obj(Segmented * obj);
 	void mark_obj(Map * obj);
