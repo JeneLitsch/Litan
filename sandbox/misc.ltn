@@ -3,10 +3,5 @@ var test_plugin;
 function main() {
 	test_plugin = std::load_plugin("bin/libtest_plugin.so");
 	std::println(test_plugin["test_1"]());
-
-	for (i : std::range(0,1000)) {
-		var s = "test";
-	}
-	
-	std::println(test_plugin["test_2"]());
+	// std::println(test_plugin["test_2"]());
 }

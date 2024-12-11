@@ -4,11 +4,16 @@
 #include "types.h"
 #include "Value.h"
 
+enum ltn_Flags {
+	ltn_DEFAULT = 0,
+	ltn_USE_GC = 1,
+};
 
 typedef struct {
 	const char * name;
 	ltn_NativeFunctionHandle handle;
 	uint64_t arity;
+	uint64_t flags;
 } ltn_NativeFunctionInfo;
 
 

@@ -59,7 +59,7 @@ namespace ltn::vm {
 
 		template<typename ... More>
 		void collect_garbage(const VMStack & stack, More && ...more) {
-			if(this->size >= this->next_collection) {
+			if(this->size >= this->next_collection && !is_gc_locked()) {
 				((gc::mark(more)), ...);
 				gc::mark(stack.get_values());
 				const auto collected = gc::sweep(this->objects);
@@ -76,7 +76,20 @@ namespace ltn::vm {
 		std::uint64_t capacity() const;
 		std::uint64_t utilized() const;
 
+		void lock_gc() {
+			gc_lock_stack += 1;
+		}
+		
+		void unlock_gc() {
+			gc_lock_stack -= 1;
+		}
+
+		bool is_gc_locked() const {
+			return gc_lock_stack > 0;
+		}
+
 	private:
+		std::int64_t gc_lock_stack = 0;
 		std::unique_ptr<Object> objects;
 
 		std::uint64_t size;

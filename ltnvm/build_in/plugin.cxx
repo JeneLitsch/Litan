@@ -16,6 +16,7 @@ namespace ltn::vm::build_in {
 
 		ltn_Array alloc_array(Context * mative_core, const Value * data, uint64_t size) {
 			VMCore * core = static_cast<VMCore*>(mative_core->core); 
+			core->heap.collect_garbage(core->stack);
 			Array * array = core->heap.alloc<Array>(Array());
 			if (data) {
 				for(std::size_t i = 0; i < size; i++) {
@@ -29,6 +30,7 @@ namespace ltn::vm::build_in {
 
 		ltn_Tuple alloc_tuple(Context * mative_core, const Value * data, uint64_t size) {
 			VMCore * core = static_cast<VMCore*>(mative_core->core); 
+			core->heap.collect_garbage(core->stack);
 			Tuple * tuple = core->heap.make<Tuple>();
 			if (data) {
 				for(std::size_t i = 0; i < size; i++) {
@@ -42,6 +44,7 @@ namespace ltn::vm::build_in {
 		
 		ltn_Map alloc_map(Context * mative_core, const Value * key_data, const Value * value_data, uint64_t size) {
 			VMCore * core = static_cast<VMCore*>(mative_core->core); 
+			core->heap.collect_garbage(core->stack);
 			Map * map = core->heap.alloc<Map>(Map(core));
 			Map::std_map & std_map = map->get_underlying();
 			for(std::size_t i = 0; i < size; i++) {
@@ -54,6 +57,7 @@ namespace ltn::vm::build_in {
 
 		ltn_String alloc_string(Context * mative_core, const char * data) {
 			VMCore * core = static_cast<VMCore*>(mative_core->core); 
+			core->heap.collect_garbage(core->stack);
 			String * string = core->heap.alloc<String>(std::string{data});
 			return ltn_String{.ptr = static_cast<void*>(string)};
 		}
@@ -242,7 +246,6 @@ namespace ltn::vm::build_in {
 
 
 
-
 		void link_plugin(void * plugin_handle) {
 			link_function<ltn_FuncGCMark>(plugin_handle, "ltn_gc_mark", gc_mark);
 
@@ -301,6 +304,7 @@ namespace ltn::vm::build_in {
 		}
 
 
+
 		Map * load_exports(VMCore & core, Plugin * plugin) {
 			void * symbol = dlsym(plugin->handle, "ltn_exports");
 			ltn_NativeFunctionInfo * ltn_exports = static_cast<ltn_NativeFunctionInfo *>(symbol);
@@ -310,6 +314,7 @@ namespace ltn::vm::build_in {
 			for(ltn_NativeFunctionInfo * entry = ltn_exports; entry->name && entry->handle; entry++) {
 				String * key = core.heap.make<String>(entry->name);
 				NativeFunctionPointer * native_function_pointer = core.heap.make<NativeFunctionPointer>(plugin, entry->handle, entry->arity, false);
+				native_function_pointer->flags = entry->flags;
 				(*map)[value::string(key)] = value::native_function(native_function_pointer);
 			}
 

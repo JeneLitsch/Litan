@@ -62,8 +62,25 @@ namespace ltn::vm::inst {
 			VMCore * core_ptr = &core;
 			Context context = {
 				.core = static_cast<void*>(core_ptr),
-
 			};
+			struct GCLock {
+				NativeFunctionPointer * fx_ptr;
+				VMCore * core;
+				GCLock(NativeFunctionPointer * fx_ptr, VMCore * core)
+					: fx_ptr { fx_ptr } 
+					, core { core } {
+					if (!fx_ptr->uses_gc()) {
+						core->heap.lock_gc();
+					}
+				}
+				~GCLock() {
+					if (!fx_ptr->uses_gc()) {
+						core->heap.unlock_gc();
+					}
+				}
+			};
+
+			GCLock gc_lock{fx_ptr, &core};
 			Value return_value = fx_ptr->handle(&context, args.data());
 			core.stack.push(return_value);
 		}

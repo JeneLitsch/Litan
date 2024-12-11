@@ -16,5 +16,8 @@ namespace ltn::vm {
 		virtual ~NativeFunctionPointer() = default;
 
 		Plugin * plugin;
+		std::uint64_t flags;
+
+		bool uses_gc() const;
 	};
 }
