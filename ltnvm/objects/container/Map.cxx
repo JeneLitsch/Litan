@@ -1,6 +1,16 @@
 #include "Map.hxx"
+#include "ltnvm/utils/stringify.hxx"
 
 namespace ltn::vm {
+	void Map::stringify(VMCore & core, std::ostream & oss, bool nested) {
+		if(this->empty()) {
+			oss << "[:]";
+		}
+		else {
+			print_all(std::begin(*this), std::end(*this), oss, core, '[', ']');
+		}
+	}
+
 	Array Map::keys() const {
 		Array keys;
 		for(auto [k, v] : map) {

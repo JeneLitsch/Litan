@@ -1,14 +1,22 @@
 #include "Clock.hxx"
 
-ltn::vm::Clock::Clock() {
-	this->start = this->clock.now();
+namespace ltn::vm {
+	void Clock::stringify(VMCore & core, std::ostream & oss, bool nested) {
+		oss << "<clock: " << getSeconds() << "s>";
+	}
 
-}
+
+
+	ltn::vm::Clock::Clock() {
+		this->start = this->clock.now();
+
+	}
 
 
 
-stx::float64_t ltn::vm::Clock::getSeconds() const {
-	const auto now = this->clock.now();
-	const std::chrono::duration<stx::float64_t> duration = now - this->start;
-	return duration.count();
+	stx::float64_t ltn::vm::Clock::getSeconds() const {
+		const auto now = this->clock.now();
+		const std::chrono::duration<stx::float64_t> duration = now - this->start;
+		return duration.count();
+	}
 }

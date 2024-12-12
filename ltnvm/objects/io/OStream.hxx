@@ -12,6 +12,8 @@ namespace ltn::vm {
 	public:
 		constexpr static std::string_view typeName = "OStream";
 
+		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
+
 		OStream(std::ostream & in)
 			: ptr(&in) {}
 

@@ -11,6 +11,8 @@ namespace ltn::vm {
 			: Contiguous{std::move(values)} {};
 
 		virtual Value get_member(std::uint64_t id) const override;
+		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
+
 
 		Value erase(std::int64_t i);
 		void insert(std::int64_t i, Value value);

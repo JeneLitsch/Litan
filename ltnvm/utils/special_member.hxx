@@ -10,7 +10,7 @@ namespace ltn::vm {
 
 
 	template<MemberCode CODE>
-	std::optional<Value> find_special_member(Struct & strukt) {
+	std::optional<Value> find_special_member(const Struct & strukt) {
 		for(const auto & [code, ref] : strukt.members) {
 			if(static_cast<MemberCode>(code) == CODE) {
 				return ref;

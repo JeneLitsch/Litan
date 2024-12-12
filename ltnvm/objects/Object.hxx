@@ -24,5 +24,7 @@ namespace ltn::vm {
 		virtual Value get_member(std::uint64_t) const {
 			return value::null;
 		}
+
+		virtual void stringify(VMCore &, std::ostream & oss, bool nested);
 	};
 }

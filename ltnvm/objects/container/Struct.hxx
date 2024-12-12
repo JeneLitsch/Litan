@@ -10,6 +10,8 @@ namespace ltn::vm {
 		using Members = std::vector<std::pair<std::uint64_t, Value>>;
 		Members members;
 
+		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
+
 		const Value * get(const auto id) const {
 			for(auto & [memberId, member] : this->members) {
 				if(id == memberId) {

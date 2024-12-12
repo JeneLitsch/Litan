@@ -2,7 +2,7 @@
 #include <deque>
 #include <string_view>
 #include "ltnvm/Value.hxx"
-#include "ltnvm/objects/Object.hxx"
+#include "Container.hxx"
 
 namespace ltn::vm {
 	struct Segmented : public Container<std::deque<Value>> {

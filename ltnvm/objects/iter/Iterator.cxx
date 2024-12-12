@@ -13,6 +13,12 @@
 #include "ltnvm/utils/convert.hxx"
 
 namespace ltn::vm {
+	void Iterator::stringify(VMCore & core, std::ostream & oss, bool nested) {
+		oss << "<iterator>";
+	}
+
+
+
 	std::unique_ptr<Iterator> clone(const Iterator & iter) {
 		return iter.clone();
 	}

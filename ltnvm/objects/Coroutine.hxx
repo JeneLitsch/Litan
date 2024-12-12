@@ -7,6 +7,8 @@
 namespace ltn::vm {
 	class Coroutine : public Object {
 	public:
+		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
+
 		constexpr static std::string_view typeName = "Coroutine";
 		Coroutine() {}
 

@@ -1,5 +1,6 @@
 #include "Array.hxx"
 #include <algorithm>
+#include "ltnvm/utils/stringify.hxx"
 
 namespace ltn::vm {
 	namespace {
@@ -18,6 +19,12 @@ namespace ltn::vm {
 				throw except::out_of_range();
 			}
 		}
+	}
+
+
+
+	void Array::stringify(VMCore & core, std::ostream & oss, bool nested) {
+		print_all(std::begin(data), std::end(data), oss, core, '[', ']');
 	}
 
 

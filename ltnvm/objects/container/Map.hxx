@@ -27,6 +27,9 @@ namespace ltn::vm {
 			: map{Comparator{core}}
 			, core{core} {}
 
+		virtual Value get_member(std::uint64_t id) const override;
+		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
+
 		std::uint64_t size() const {
 			return std::size(this->map);
 		}
@@ -65,8 +68,6 @@ namespace ltn::vm {
 		std::uint64_t get_version() const {
 			return this->version;
 		}
-		
-		virtual Value get_member(std::uint64_t id) const override;
 
 		inline const std_map & get_underlying() const {
 			return this->map;

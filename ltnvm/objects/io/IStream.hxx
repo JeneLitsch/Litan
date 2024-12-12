@@ -11,6 +11,9 @@ namespace ltn::vm {
 	class IStream : public Object {
 	public:
 		constexpr static std::string_view typeName = "IStream";
+
+		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
+
 		IStream(std::istream & in)
 			: ptr(&in) {}
 

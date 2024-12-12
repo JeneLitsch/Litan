@@ -13,6 +13,7 @@ namespace ltn::vm {
 	enum class ValueType {
 		// DO NOT TOUCH/CHANGE THE VALUES !!!
 		NVLL = 0x00,
+		ITERATOR_STOP,
 		TYPE,
 		
 		BOOL = 0x10,
@@ -29,7 +30,6 @@ namespace ltn::vm {
 		
 		FUNCTION = 0x40,
 		ITERATOR,
-		ITERATOR_STOP,
 		COROUTINE,
 		NATIVE_FUNCTION,
 		

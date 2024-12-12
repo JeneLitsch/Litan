@@ -6,6 +6,8 @@
 namespace ltn::vm {
 
 	struct RandomEngine : public Object {
+		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
+	
 		using Variant = std::variant<std::mt19937_64>;
 		RandomEngine(Variant var) : engine{std::move(var)} {}
 

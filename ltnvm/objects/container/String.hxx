@@ -6,6 +6,10 @@
 
 namespace ltn::vm {
 	struct String : public Container<std::string> {
+		virtual void stringify(VMCore &, std::ostream & oss, bool) override {
+			oss << this->data;
+		}
+
 		void insert(iterator iter, auto begin, auto end) {
 			++this->version;
 			this->data.insert(iter, begin, end);

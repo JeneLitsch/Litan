@@ -5,6 +5,9 @@
 namespace ltn::vm {
 	struct Core;
 	struct FunctionPointer : Object {
+
+		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
+
 		FunctionPointer(std::uint64_t parameter_count, bool is_variadic = false)
 			: Object{}
 			, params{ parameter_count }

@@ -16,6 +16,8 @@ namespace ltn::vm {
 		virtual void mark() = 0;
 		virtual std::uint64_t size() const = 0;
 		virtual std::unique_ptr<Iterator> clone() const = 0;
+
+		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
 	};
 
 

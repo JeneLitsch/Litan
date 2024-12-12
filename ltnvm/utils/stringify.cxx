@@ -4,173 +4,74 @@
 #include "ltnvm/VM.hxx"
 
 namespace ltn::vm {
-	namespace {
-		auto print_element(const Value value, VMCore & core) {
-			return stringify(value, core);
-		} 
+	void print_element(const Value value, VMCore & core, std::ostream & oss) {
+		stringify(value, core, oss);
+	} 
 
-		auto print_element(const std::pair<Value, Value> pair, VMCore & core) {
-			std::ostringstream ss;
-			const auto & [key, val] = pair;
-			ss << stringify(key, core) << " : " << stringify(val, core);
-			return ss.str();
-		}
 
-		template<typename Iterator>
-		void print_all(
-			Iterator begin,
-			Iterator end,
-			std::ostream & out,
-			VMCore & core,
-			char open = '[',
-			char close = ']') {
-			
-			out << open;
-			for(auto it = begin; it != end; ++it) {
-				if (it != begin) out << ", ";
-				out << print_element(*it, core);
-			}
-			out << close;
-		}
+
+	void print_element(const std::pair<Value, Value> pair, VMCore & core, std::ostream & oss) {
+		const auto & [key, val] = pair;
+		stringify(key, core, oss);
+		oss << " : ";
+		stringify(val, core, oss);
 	}
-
-
-	
-
 
 
 
 	std::string stringify(const Value & value, VMCore & core) {
+		std::ostringstream oss;
+		stringify(value, core, oss);
+		return oss.str();
+	}
+
+
+
+	void stringify_primitive(const Value & value, VMCore & core, std::ostream & oss) {
 		if(is_null(value)) {
-			return "null";
-		}
-		if(is_bool(value)) {
-			std::stringstream ss;
-			ss << std::boolalpha << value.b;
-			return ss.str();
-		}
-
-		if(is_char(value)) {
-			return std::string(1, value.c);
-		}
-
-		if(is_int(value)) {
-			std::stringstream ss;
-			ss << value.i;
-			return ss.str();
-		}
-
-		if(is_float(value)) {
-			std::stringstream ss;
-			ss << value.f;
-			return ss.str();
-		}
-
-		if(is_array(value)) {
-			const auto & array = *value::as<Array>(value);
-			std::stringstream ss;
-			print_all(std::begin(array), std::end(array), ss, core, '[', ']');
-			return ss.str();
-		}
-
-		if(is_tuple(value)) {
-			const auto & tuple = *value::as<Tuple>(value);
-			std::stringstream ss;
-			print_all(std::begin(tuple), std::end(tuple), ss, core, '(', ')');
-			return ss.str();
-		}
-
-		if(is_ostream(value)) {
-			const auto & out = *value::as<OStream>(value);
-			if(out.oss) {
-				return out.oss->str();
-			}
-			return "<ostream>";
-		}
-
-		if(is_istream(value)) {
-			return "<istream>";
-		}
-
-		if(is_fxptr(value)) {
-			std::ostringstream ss;
-			ss << "<function>";
-			return  ss.str();
-		}
-
-		if(is_clock(value)) {
-			const auto & clock = *value::as<Clock>(value);
-			std::ostringstream ss;
-			ss << "<clock: " << clock.getSeconds() << "s>";
-			return ss.str();
-		}
-
-		if(is_struct(value)) {
-			auto & strukt = *value::as<Struct>(value);
-			auto fx = find_special_member<MemberCode::OPERATOR_STR>(strukt);
-			if(!fx) return "<struct>";
-			auto result = run_special_member(core, *fx, value);
-			if(is_string(result)) {
-				return value::as<String>(result)->get_underlying();
-			} 
-			throw except::invalid_argument("Special member {str} must return string");
-		}
-
-		if(is_queue(value)) {
-			const auto & deque = *value::as<Segmented>(value);
-			std::ostringstream ss;
-			print_all(std::begin(deque), std::end(deque), ss, core, '<', '>');
-			return ss.str();
-		}
-
-		if(is_stack(value)) {
-			const Stack * deque = value::as<Stack>(value);
-			std::ostringstream ss;
-			print_all(std::begin(*deque), std::end(*deque), ss, core, '<', '>');
-			return ss.str();
-		}
-
-		if(is_map(value)) {
-			const auto & map = *value::as<Map>(value);
-			std::ostringstream ss;
-			if(map.empty()) ss << "[:]";
-			else print_all(std::begin(map), std::end(map), ss, core, '[', ']');
-			return ss.str();
-		}
-
-		if(is_rng(value)) {
-			return "<RNG>";
-		}
-
-		if(is_string(value)) {
-			return value::as<String>(value)->get_underlying();
-		}
-
-		if(is_iterator(value)) {
-			return "<iterator>";
+			oss << "null";
+			return;
 		}
 
 		if(is_iterator_stop(value)) {
-			return "<iterator_stop>";
+			oss << "<iterator_stop>";
+			return;
+		}
+
+		if(is_bool(value)) {
+			oss << std::boolalpha << value.b;
+			return;
+		}
+
+		if(is_char(value)) {
+			oss << std::string(1, value.c);
+			return;
+		}
+
+		if(is_int(value)) {
+			oss << value.i;
+			return;
+		}
+
+		if(is_float(value)) {
+			oss << value.f;
+			return;
+		}
+	}
+
+
+
+	void stringify(const Value & value, VMCore & core, std::ostream & oss) {
+		if(is_object(value)) {
+			value::as<Object>(value)->stringify(core, oss, false);
+			return;
 		}
 
 		if(is_type(value)) {
-			return value::as_type_object(value)->name(core);
+			oss << value::as_type_object(value)->name(core);
+			return;
 		}
 
-		if(is_coroutine(value)) {
-			const auto & coroutine = *value::as<Coroutine>(value);
-			const auto & locals = coroutine.local_variables;
-			std::ostringstream ss;
-			ss << "<coroutine";
-			print_all(std::begin(locals), std::end(locals), ss, core, '{', '}');
-			ss << ">";
-			return ss.str();
-		}
-
-		throw Exception{
-			.type = Exception::Type::INVALID_ARGUMENT,
-			.msg = "Cannot stringify"
-		};
+		stringify_primitive(value, core, oss);
 	}
 }

@@ -1,6 +1,11 @@
 #include "RandomEngine.hxx"
 
 namespace ltn::vm {
+	void RandomEngine::stringify(VMCore & core, std::ostream & oss, bool nested) {
+		oss << "<rng>";
+	}
+
+
 	struct Splitter {
 		RandomEngine operator()(std::mt19937_64 & rng) {
 			return RandomEngine{std::mt19937_64{rng()}};
