@@ -37,6 +37,8 @@ namespace sphinx::test {
 
 
 
+
+
 	function std_str_array() {
 		assert_equal_strict(std::str([1]), "[1]");
 		assert_equal_strict(std::str([1, 2, 3]), "[1, 2, 3]");
@@ -159,5 +161,44 @@ namespace sphinx::test {
 		assert_equal_strict(std::str(<type:map(float, int)>), "map(float,int)");
 
 		assert_equal_strict(std::str(<coroutine>), "coroutine");
+	}
+
+
+
+	function std_str_string_nested_array() {
+		assert_equal_strict(std::str(["1"]), "[\"1\"]");
+		assert_equal_strict(std::str(["\n"]), "[\"\\n\"]");
+		assert_equal_strict(std::str(["\""]), "[\"\\\"\"]");
+		assert_equal_strict(std::str(["\t"]), "[\"\\t\"]");
+	}
+
+
+
+	function std_str_string_nested_tuple() {
+		assert_equal_strict(std::str(("1",)), "(\"1\")");
+		assert_equal_strict(std::str(("\n",)), "(\"\\n\")");
+		assert_equal_strict(std::str(("\"",)), "(\"\\\"\")");
+		assert_equal_strict(std::str(("\t",)), "(\"\\t\")");
+	}
+
+
+
+	function std_str_string_nested_map() {
+		var map = [
+			"\t" : "\n",
+			"\"" : "\\",
+		];
+		var expected = "[\"\\t\" : \"\\n\", \"\\\"\" : \"\\\\\"]";
+		assert_equal_strict(std::str(map), expected);
+	}
+
+
+
+	function std_str_string_nested_coroutine() {
+		var (c, r) = lambda() coroutine {
+			var x = "Test";
+			yield;
+		} ()();
+		assert_equal_strict(std::str(c), "<coroutine{\"Test\"}>");
 	}
 }
