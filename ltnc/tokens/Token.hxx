@@ -38,11 +38,9 @@ namespace ltn::c {
 			DYNAMIC,
 			ENUM,
 			DEFINE,
-			PRESET,
 			SWITCH,
 			CASE,
 			REFLECT,
-			OPERATOR,
 			YIELD,
 			CONDITIONAL,
 			
