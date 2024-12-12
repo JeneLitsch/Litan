@@ -1,8 +1,8 @@
 namespace sphinx::test {
 
-	define def_int = 4;
-	define def_str = "ABC";
-	define def_flt = 4.2;
+	def def_int = 4;
+	def def_str = "ABC";
+	def def_flt = 4.2;
 
 	function define_assigned_init() {
 		assert_equal_strict(def_int, 4);

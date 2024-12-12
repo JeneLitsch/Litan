@@ -3,8 +3,8 @@ Defines are used to declare global constants. Function calls are not allowed in 
 
 ```javascript
 namespace my_namespace {
-	define foo = "Hello World";
-	define bar = 42;
+	def foo = "Hello World";
+	def bar = 42;
 }
 
 function main() {

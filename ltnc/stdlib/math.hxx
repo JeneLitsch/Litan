@@ -100,13 +100,13 @@ namespace std {
 
 
 
-	define pi  = 3.14159265359; 
-	define e   = 2.71828182846;
-	define tau = 6.28318530718;
+	def pi  = 3.14159265359; 
+	def e   = 2.71828182846;
+	def tau = 6.28318530718;
 
 
 	namespace num {
-		define pi = 3.14159265359; 
+		def pi = 3.14159265359; 
 	}
 }
 )###";
