@@ -3,7 +3,7 @@
 
 namespace ltn::vm {
 	std::string stringify(const Value & value, VMCore & core);
-	void stringify(const Value & value, VMCore & core, std::ostream & oss);
+	void stringify(const Value & value, VMCore & core, std::ostream & oss, bool nested);
 
 
 	void print_element(const Value value, VMCore & core, std::ostream & oss);

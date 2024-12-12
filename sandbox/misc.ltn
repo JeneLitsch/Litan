@@ -1,7 +1,7 @@
 var test_plugin;
 
 function main() {
-	test_plugin = std::load_plugin("bin/libtest_plugin.so");
-	std::println(test_plugin["test_1"]());
-	// std::println(test_plugin["test_2"]());
+	var str = "Hello, \t\"\\World!\n";
+	std::println(str);
+	std::println([str]);
 }

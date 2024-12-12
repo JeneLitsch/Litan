@@ -5,23 +5,23 @@
 
 namespace ltn::vm {
 	void print_element(const Value value, VMCore & core, std::ostream & oss) {
-		stringify(value, core, oss);
+		stringify(value, core, oss, true);
 	} 
 
 
 
 	void print_element(const std::pair<Value, Value> pair, VMCore & core, std::ostream & oss) {
 		const auto & [key, val] = pair;
-		stringify(key, core, oss);
+		stringify(key, core, oss, true);
 		oss << " : ";
-		stringify(val, core, oss);
+		stringify(val, core, oss, true);
 	}
 
 
 
 	std::string stringify(const Value & value, VMCore & core) {
 		std::ostringstream oss;
-		stringify(value, core, oss);
+		stringify(value, core, oss, false);
 		return oss.str();
 	}
 
@@ -61,9 +61,9 @@ namespace ltn::vm {
 
 
 
-	void stringify(const Value & value, VMCore & core, std::ostream & oss) {
+	void stringify(const Value & value, VMCore & core, std::ostream & oss, bool nested) {
 		if(is_object(value)) {
-			value::as<Object>(value)->stringify(core, oss, false);
+			value::as<Object>(value)->stringify(core, oss, nested);
 			return;
 		}
 
