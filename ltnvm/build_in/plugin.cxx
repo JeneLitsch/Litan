@@ -327,7 +327,7 @@ namespace ltn::vm::build_in {
 	Value load_plugin_linux(VMCore & core) {
 		Value args_0 = core.stack.pop();
 		String * path = value::as<String>(args_0);
-		void * handle = dlopen(path->get_underlying().c_str(), RTLD_LAZY);
+		void * handle = dlmopen(core.fetch_id(), path->get_underlying().c_str(), RTLD_LAZY);
 		if(handle == nullptr) {
 			throw except::cannot_open_file(path->get_underlying());
 		}

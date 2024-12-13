@@ -8,6 +8,7 @@ target_sources(libltnvm PRIVATE
 	"Type.cxx"
 	"Object.cxx"
 	"Coroutine.cxx"
+	"Plugin.cxx"
 )
 
 add_subdirectory("iter")

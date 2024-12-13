@@ -40,5 +40,10 @@ namespace ltn::vm {
 		inline const std::uint8_t * fetch_str() {
 			return this->pc;
 		}
+
+		std::uint64_t next_id = 0;
+		std::uint64_t fetch_id() {
+			return next_id++;
+		}
 	};
 }
