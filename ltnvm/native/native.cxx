@@ -14,47 +14,51 @@ namespace ltn::vm {
 	}
 
 
-	
-	Array * req_array(const Value * value) {
-		if (is_array(*value)) {
-			return value::as<Array>(*value);
+
+	template<typename Type, auto is_type>
+	Type * req_type(const Value * value) {
+		if (is_type(*value)) {
+			return value::as<Type>(*value);
 		}
 		else {
 			throw except::invalid_argument();
 		}
+	}
+
+
+	
+	Array * req_array(const Value * value) {
+		return req_type<Array, is_array>(value);
 	}
 
 
 
 	Tuple * req_tuple(const Value * value) {
-		if (is_tuple(*value)) {
-			return value::as<Tuple>(*value);
-		}
-		else {
-			throw except::invalid_argument();
-		}
+		return req_type<Tuple, is_tuple>(value);
 	}
 
 
 
 	Map * req_map(const Value * value) {
-		if (is_map(*value)) {
-			return value::as<Map>(*value);
-		}
-		else {
-			throw except::invalid_argument();
-		}
+		return req_type<Map, is_map>(value);
 	}
 
 
 
 	String * req_string(const Value * value) {
-		if (is_string(*value)) {
-			return value::as<String>(*value);
-		}
-		else {
-			throw except::invalid_argument();
-		}
+		return req_type<String, is_string>(value);
+	}
+
+
+
+	Queue * req_queue(const Value * value) {
+		return req_type<Queue, is_queue>(value);
+	}
+
+
+
+	Stack * req_stack(const Value * value) {
+		return req_type<Stack, is_stack>(value);
 	}
 
 

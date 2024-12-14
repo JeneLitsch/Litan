@@ -1,0 +1,21 @@
+namespace sphinx::test {
+	function stack_size() {
+		var stack = std::stack();
+		assert_equal_strict(stack->size(), 0);
+		std::push(stack, 111);
+		assert_equal_strict(stack->size(), 1);
+		std::push(stack, 222);
+		assert_equal_strict(stack->size(), 2);
+	}
+
+
+
+	function stack_is_empty() {
+		var stack = std::stack();
+		assert_true(stack->is_empty());
+		std::push(stack, 111);
+		assert_false(stack->is_empty());
+		std::pop(stack);
+		assert_true(stack->is_empty());
+	}
+}

@@ -9,6 +9,8 @@
 #include "ltnvm/stdlib/tuple.hxx"
 #include "ltnvm/stdlib/map.hxx"
 #include "ltnvm/stdlib/string.hxx"
+#include "ltnvm/stdlib/stack.hxx"
+#include "ltnvm/stdlib/queue.hxx"
 
 namespace ltn::vm::build_in {
 	template<auto INST>
@@ -33,23 +35,13 @@ namespace ltn::vm::build_in {
 
 
 
-	namespace {
-		template<typename Container>
-		Value size(const Value & ref, VMCore & core) {
-			const Container * container = value::as<Container>(ref);
-			return value::integer(static_cast<std::int64_t>(std::size(*container)));
-		}
-	}
-
-
-
 	Value size(VMCore & core) {
 		const auto ref = core.stack.pop();
 		if(is_array(ref)) return call<stdlib::array_size>(core, { ref });
 		if(is_tuple(ref)) return call<stdlib::tuple_size>(core, { ref });
 		if(is_string(ref)) return call<stdlib::string_size>(core, { ref });
-		if(is_queue(ref)) return size<Segmented>(ref, core);
-		if(is_stack(ref)) return size<Segmented>(ref, core);
+		if(is_queue(ref)) return call<stdlib::queue_size>(core, { ref });
+		if(is_stack(ref)) return call<stdlib::stack_size>(core, { ref });
 		if(is_map(ref)) return call<stdlib::map_size>(core, { ref });
 		if(is_iterator(ref)) return value::integer(iterator::size(ref));
 		throw except::invalid_argument();

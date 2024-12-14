@@ -5,4 +5,6 @@ target_sources(libltnvm PRIVATE
 	"map.cxx"
 	"tuple.cxx"
 	"string.cxx"
+	"queue.cxx"
+	"stack.cxx"
 )

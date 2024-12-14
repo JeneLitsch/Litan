@@ -8,6 +8,8 @@ namespace ltn::vm {
 	struct Tuple;
 	struct Map;
 	struct String;
+	struct Queue;
+	struct Stack;
 	using NativeFunctionTable = std::map<std::uint64_t, NativeFunctionPointer>;
 
 	template<typename FuncHeader>
@@ -40,6 +42,8 @@ namespace ltn::vm {
 	Tuple * req_tuple(const Value * value);
 	Map * req_map(const Value * value);
 	String * req_string(const Value * value);
+	Queue * req_queue(const Value * value);
+	Stack * req_stack(const Value * value);
 	FunctionPointer * req_function_pointer(const Value * value);
 	std::int64_t req_int(const Value * value);
 }

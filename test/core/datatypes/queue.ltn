@@ -1,0 +1,21 @@
+namespace sphinx::test {
+	function queue_size() {
+		var queue = std::queue();
+		assert_equal_strict(queue->size(), 0);
+		std::push(queue, 111);
+		assert_equal_strict(queue->size(), 1);
+		std::push(queue, 222);
+		assert_equal_strict(queue->size(), 2);
+	}
+
+
+
+	function queue_is_empty() {
+		var queue = std::queue();
+		assert_true(queue->is_empty());
+		std::push(queue, 111);
+		assert_false(queue->is_empty());
+		std::pop(queue);
+		assert_true(queue->is_empty());
+	}
+}
