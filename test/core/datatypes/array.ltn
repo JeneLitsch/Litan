@@ -80,6 +80,16 @@ namespace sphinx::test {
 
 
 
+	function array_values() {
+		var array = [1,2,3];
+		var copy = array->values();
+		assert_equal_strict(array, copy);
+		array->push(4);
+		assert_false(array == copy);
+	}
+
+
+
 	function array_filter() {
 		var arr = [1,2,3,4];
 		assert_equal_strict(arr->filter(lambda(x) => x >= 3), [3,4]);

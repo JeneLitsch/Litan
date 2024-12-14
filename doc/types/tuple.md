@@ -5,7 +5,6 @@ A tuple can be created by a comma separated list inside parenthesis.
 
 
 
-
 ## Member Functions
 
 ### -> size(): int
@@ -30,6 +29,11 @@ Throws an exception if the tuple is empty.
 
 Returns the value at the given index.  
 Throws an exception if the tuple is empty or the index is out of range.
+
+### -> values(): Array
+
+Copies the values from the tuple into an array and returns it.  
+
 
 
 ## Comparison

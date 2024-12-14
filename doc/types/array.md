@@ -56,6 +56,11 @@ The removed value is returned.
 Throws an exception if the array is empty or the index is out of range.
 
 
+### -> values(): Array
+
+Returns a shallow copy.
+
+
 ### -> filter(f : Function): Array
 
 Creates a shallow copy containing the elements for which `f` returns a truthy result.

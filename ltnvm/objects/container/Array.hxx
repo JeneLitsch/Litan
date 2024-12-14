@@ -10,6 +10,9 @@ namespace ltn::vm {
 		Array(std::vector<Value> && values) 
 			: Contiguous{std::move(values)} {};
 
+		Array(const std::vector<Value> & values) 
+			: Contiguous{values} {};
+
 		virtual Value get_member(std::uint64_t id) const override;
 		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
 

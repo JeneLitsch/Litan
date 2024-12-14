@@ -27,6 +27,7 @@ namespace ltn::vm {
 			wrap<stdlib::tuple_at>       (MemberCode::AT),
 			wrap<stdlib::tuple_front>    (MemberCode::FRONT),
 			wrap<stdlib::tuple_back>     (MemberCode::BACK),
+			wrap<stdlib::tuple_values>   (MemberCode::VALUES),
 		};
 		return search_native_function_table(native_function_table, id);
 	}

@@ -30,4 +30,10 @@ namespace sphinx::test {
 	function tuple_back() {
 		assert_equal_strict((1,2,3)->back(), 3);
 	}
+
+
+
+	function tuple_values() {
+		assert_equal_strict((1,2,3)->values(), [1,2,3]);
+	}
 }

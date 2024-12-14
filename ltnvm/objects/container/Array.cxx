@@ -134,6 +134,7 @@ namespace ltn::vm {
 			wrap<stdlib::array_at>       (MemberCode::AT),
 			wrap<stdlib::array_insert>   (MemberCode::INSERT),
 			wrap<stdlib::array_erase>    (MemberCode::ERASE),
+			wrap<stdlib::array_values>   (MemberCode::VALUES),
 			wrap<stdlib::array_filter>   (MemberCode::FILTER),
 			wrap<stdlib::array_transform>(MemberCode::TRANSFORM),
 			wrap<stdlib::array_reduce>   (MemberCode::REDUCE),

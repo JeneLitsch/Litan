@@ -76,6 +76,15 @@ namespace ltn::vm::stdlib {
 
 
 
+
+	Value array_values::func(Context * context, const Value * args) {
+		Array * array = req_array(args + 0);
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		return value::array(core.heap.alloc<Array>(clone(*array)));
+	}
+
+
+
 	Value array_filter::func(Context * context, const Value * args) {
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		Array * orig_array = req_array(args + 0);
