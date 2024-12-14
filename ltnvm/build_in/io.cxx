@@ -53,7 +53,7 @@ namespace ltn::vm::build_in::io {
 		if(!is_string(ref)) throw except::invalid_argument();
 		
 		const String * path = value::as<String>(ref);
-		auto & path_str = path->get_underlying(); 
+		auto path_str = path->copy_to_std_string(); 
 
 		const auto flags = openmode ? std::ios::app : std::ios::trunc;
 
@@ -81,7 +81,7 @@ namespace ltn::vm::build_in::io {
 			throw except::invalid_argument();
 		}
 		const String * path = value::as<String>(ref);
-		auto & path_str = path->get_underlying(); 
+		auto path_str = path->copy_to_std_string(); 
 		if(!std::filesystem::exists(path_str)) {
 			throw except::cannot_open_file(path_str);
 		}
@@ -94,7 +94,7 @@ namespace ltn::vm::build_in::io {
 		const auto ref = core.stack.pop();
 		if(!is_string(ref)) throw except::invalid_argument();
 		const String * str = value::as<String>(ref);
-		return add_in(core, IStream{std::make_unique<std::istringstream>(str->get_underlying())});
+		return add_in(core, IStream{std::make_unique<std::istringstream>(str->copy_to_std_string())});
 	}
 
 

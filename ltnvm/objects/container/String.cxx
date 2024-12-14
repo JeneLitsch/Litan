@@ -6,7 +6,7 @@ namespace ltn::vm {
 	void String::stringify(VMCore &, std::ostream & oss, bool nested) {
 		if (nested) {
 			oss << '"';
-			for (char c : this->data) {
+			for (char c : this->str) {
 				switch (c) {
 				case '\n': oss << "\\n"; break;
 				case '\t': oss << "\\t"; break;
@@ -18,7 +18,7 @@ namespace ltn::vm {
 			oss << '"';
 		}
 		else {
-			oss << this->data;
+			oss << this->str;
 		}
 	}
 

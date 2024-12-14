@@ -56,7 +56,7 @@ namespace ltn::vm {
 		if(is_int(value))   return value.i;
 		if(is_float(value)) return value.f;
 		if(is_string(value)) {
-			return value::as<String>(value)->get_underlying();
+			return value::as<String>(value)->copy_to_std_string();
 		}
 		if(is_array(value)) {
 			stx::json::node node;
@@ -77,7 +77,7 @@ namespace ltn::vm {
 				if(!is_string(key)) {
 					throw std::runtime_error{""};
 				}
-				it[value::as<String>(key)->get_underlying()] = value_to_json(val);
+				it[value::as<String>(key)->copy_to_std_string()] = value_to_json(val);
 			}
 			return node;
 		}

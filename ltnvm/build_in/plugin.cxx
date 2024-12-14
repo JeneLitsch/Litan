@@ -202,13 +202,13 @@ namespace ltn::vm::build_in {
 
 
 		const char * string_data(ltn_String string) {
-			return static_cast<String*>(string.ptr)->get_underlying().c_str();
+			return static_cast<String*>(string.ptr)->str.data();
 		}
 
 
 
 		int64_t string_size(ltn_String string) {
-			return static_cast<String*>(string.ptr)->get_underlying().size();
+			return static_cast<String*>(string.ptr)->size();
 		}
 
 
@@ -327,9 +327,9 @@ namespace ltn::vm::build_in {
 	Value load_plugin_linux(VMCore & core) {
 		Value args_0 = core.stack.pop();
 		String * path = value::as<String>(args_0);
-		void * handle = dlmopen(core.fetch_id(), path->get_underlying().c_str(), RTLD_LAZY);
+		void * handle = dlmopen(core.fetch_id(), path->str.data(), RTLD_LAZY);
 		if(handle == nullptr) {
-			throw except::cannot_open_file(path->get_underlying());
+			throw except::cannot_open_file(path->copy_to_std_string());
 		}
 
 		ltn_PluginInfo * plugin_info = static_cast<ltn_PluginInfo *>(dlsym(handle, "ltn_plugin_info"));

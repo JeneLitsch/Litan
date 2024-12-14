@@ -15,13 +15,6 @@ namespace ltn::vm::inst {
 			return;
 		}
 
-		if(is_string(ref)) {
-			auto & str = *value::as<String>(ref);
-			const auto index = to_index(key, std::size(str));
-			str.unsafe_at(index) = convert::to_char(elem);
-			return;
-		}
-
 		if(is_map(ref)) {
 			auto & map = *value::as<Map>(ref);
 			map[key] = elem;
