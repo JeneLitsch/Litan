@@ -4,12 +4,6 @@
 #include "ltnvm/objects/objects.hxx"
 
 namespace ltn::vm {
-	std::pair<std::uint64_t, NativeFunctionPointer> wrap(MemberCode code, NativeFunctionHandle handle, std::uint64_t arity) {
-		return std::pair<std::uint64_t, NativeFunctionPointer>{ static_cast<std::uint64_t>(code), NativeFunctionPointer{nullptr, handle, arity, false} };
-	}
-
-
-
 	Value search_native_function_table(NativeFunctionTable & table, std::uint64_t id) {
 		if (table.contains(id)) {
 			return value::native_function(&table.at(id));

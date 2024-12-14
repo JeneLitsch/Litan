@@ -8,8 +8,24 @@ namespace ltn::vm {
 	struct Tuple;
 	struct Map;
 	using NativeFunctionTable = std::map<std::uint64_t, NativeFunctionPointer>;
-	std::pair<std::uint64_t, NativeFunctionPointer> wrap(MemberCode code, NativeFunctionHandle handle, std::uint64_t arity);
+
+	template<typename FuncHeader>
+	std::pair<std::uint64_t, NativeFunctionPointer> wrap(MemberCode code) {
+		return std::pair<std::uint64_t, NativeFunctionPointer>{
+			static_cast<std::uint64_t>(code),
+			NativeFunctionPointer{
+				nullptr,
+				FuncHeader::func,
+				FuncHeader::arity,
+				false
+			}
+		};
+	}
+
+	
 	Value search_native_function_table(NativeFunctionTable & table, std::uint64_t id);
+
+
 	
 	Array * req_array(const Value * value);
 	Tuple * req_tuple(const Value * value);

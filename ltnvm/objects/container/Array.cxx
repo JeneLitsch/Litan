@@ -1,6 +1,7 @@
 #include "Array.hxx"
 #include <algorithm>
 #include "ltnvm/utils/stringify.hxx"
+#include "ltnvm/stdlib/array.hxx"
 
 namespace ltn::vm {
 	namespace {
@@ -117,5 +118,35 @@ namespace ltn::vm {
 		}
 
 		return Array{std::vector<Value>{std::begin(*this) + begin, std::begin(*this) + end}};
+	}
+
+
+
+	Value Array::get_member(std::uint64_t id) const {
+		static NativeFunctionTable native_function_table {
+			wrap<stdlib::array_size>     (MemberCode::SIZE),
+			wrap<stdlib::array_is_empty> (MemberCode::IS_EMTPY),
+			wrap<stdlib::array_push>     (MemberCode::PUSH),
+			wrap<stdlib::array_pop>      (MemberCode::POP),
+			wrap<stdlib::array_front>    (MemberCode::FRONT),
+			wrap<stdlib::array_back>     (MemberCode::BACK),
+			wrap<stdlib::array_peek>     (MemberCode::PEEK),
+			wrap<stdlib::array_at>       (MemberCode::AT),
+			wrap<stdlib::array_insert>   (MemberCode::INSERT),
+			wrap<stdlib::array_erase>    (MemberCode::ERASE),
+			wrap<stdlib::array_filter>   (MemberCode::FILTER),
+			wrap<stdlib::array_transform>(MemberCode::TRANSFORM),
+			wrap<stdlib::array_reduce>   (MemberCode::REDUCE),
+			wrap<stdlib::array_any>      (MemberCode::ANY),
+			wrap<stdlib::array_all>      (MemberCode::ALL),
+			wrap<stdlib::array_none>     (MemberCode::NONE),
+			wrap<stdlib::array_has>      (MemberCode::HAS),
+			wrap<stdlib::array_slice>    (MemberCode::SLICE),
+			wrap<stdlib::array_prefix>   (MemberCode::PREFIX),
+			wrap<stdlib::array_suffix>   (MemberCode::SUFFIX),
+			wrap<stdlib::array_reversed> (MemberCode::REVERSED),
+		};
+
+		return search_native_function_table(native_function_table, id);
 	}
 }
