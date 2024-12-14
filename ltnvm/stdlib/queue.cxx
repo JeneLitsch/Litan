@@ -1,6 +1,7 @@
 #include "queue.hxx"
 #include "ltnvm/objects/container/Queue.hxx"
 #include "ltnvm/Exception.hxx"
+#include "ltnvm/VMCore.hxx"
 
 namespace ltn::vm::stdlib {
 	Value queue_size::func(Context *, const Value * args) {
@@ -24,5 +25,13 @@ namespace ltn::vm::stdlib {
 		Value value = queue->unsafe_front();
 		queue->pop_front();
 		return value;
+	}
+
+	Value queue_values::func(Context * context, const Value * args) {
+		VMCore * core = static_cast<VMCore *>(context->core);
+		Queue * queue = req_queue(args + 0);
+		const std::deque<Value> & deque = queue->get_underlying();
+		Array * array = core->heap.make<Array>(std::vector<Value>{std::begin(deque), std::end(deque)});
+		return value::array(array);
 	}
 }

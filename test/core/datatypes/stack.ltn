@@ -44,4 +44,14 @@ namespace sphinx::test {
 		var stack = std::stack();
 		assert_except(lambda[stack] => stack->pop());
 	}
+
+
+
+	function stack_values() {
+		var stack = std::stack();
+		stack->push(1);
+		stack->push(2);
+		stack->push(3);
+		assert_equal_strict(stack->values(), [1,2,3]);
+	}
 }

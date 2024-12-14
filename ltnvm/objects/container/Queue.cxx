@@ -15,6 +15,7 @@ namespace ltn::vm {
 			wrap<stdlib::queue_is_empty> (MemberCode::IS_EMTPY),
 			wrap<stdlib::queue_push>     (MemberCode::PUSH),
 			wrap<stdlib::queue_pop>      (MemberCode::POP),
+			wrap<stdlib::queue_values>   (MemberCode::VALUES),
 		};
 		return search_native_function_table(native_function_table, id);
 	}

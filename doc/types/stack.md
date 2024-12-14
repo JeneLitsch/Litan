@@ -21,3 +21,7 @@ Adds an element to the top of the stack.
 Removes and returns an element from the top of the stack.  
 If called on an empty stack an exception is thrown.
 
+### ->values():Array
+
+Copies the values on the stack into an array and returns it.  
+Index 0 corresponds to the bottom of the stack.

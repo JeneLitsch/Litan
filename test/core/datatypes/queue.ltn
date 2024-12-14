@@ -44,4 +44,14 @@ namespace sphinx::test {
 		var queue = std::queue();
 		assert_except(lambda[queue] => queue->pop());
 	}
+
+
+
+	function queue_values() {
+		var queue = std::queue();
+		queue->push(1);
+		queue->push(2);
+		queue->push(3);
+		assert_equal_strict(queue->values(), [1,2,3]);
+	}
 }

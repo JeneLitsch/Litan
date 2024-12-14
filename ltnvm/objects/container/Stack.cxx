@@ -13,6 +13,7 @@ namespace ltn::vm {
 			wrap<stdlib::stack_is_empty> (MemberCode::IS_EMTPY),
 			wrap<stdlib::stack_push>     (MemberCode::PUSH),
 			wrap<stdlib::stack_pop>      (MemberCode::POP),
+			wrap<stdlib::stack_values>   (MemberCode::VALUES),
 		};
 		return search_native_function_table(native_function_table, id);
 	}

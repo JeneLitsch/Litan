@@ -1,6 +1,7 @@
 #include "stack.hxx"
 #include "ltnvm/objects/container/Stack.hxx"
 #include "ltnvm/Exception.hxx"
+#include "ltnvm/VMCore.hxx"
 
 namespace ltn::vm::stdlib {
 	Value stack_size::func(Context *, const Value * args) {
@@ -24,5 +25,13 @@ namespace ltn::vm::stdlib {
 		Value value = stack->unsafe_back();
 		stack->unsafe_pop_back();
 		return value;
+	}
+
+	Value stack_values::func(Context * context, const Value * args) {
+		VMCore * core = static_cast<VMCore *>(context->core);
+		Stack * stack = req_stack(args + 0);
+		const std::deque<Value> & deque = stack->get_underlying();
+		Array * array = core->heap.make<Array>(std::vector<Value>{std::begin(deque), std::end(deque)});
+		return value::array(array);
 	}
 }

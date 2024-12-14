@@ -20,3 +20,8 @@ Adds an element to the end of the queue.
 
 Removes and returns an element from the front of the queue.  
 If called on an empty queue an exception is thrown.
+
+### ->values():Array
+
+Copies the values from the queue into an array and returns it.  
+Index 0 corresponds to the front of the queue.
