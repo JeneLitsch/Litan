@@ -1,0 +1,15 @@
+namespace sphinx::test {
+	function string_size() {
+		assert_equal_strict(""->size(), 0);
+		assert_equal_strict("A"->size(), 1);
+		assert_equal_strict("ABC"->size(), 3);
+	}
+
+
+
+	function string_is_empty() {
+		assert_true(""->is_empty());
+		assert_false("A"->is_empty());
+		assert_false("ABC"->is_empty());
+	}
+}

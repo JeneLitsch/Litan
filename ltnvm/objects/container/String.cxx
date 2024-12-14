@@ -1,5 +1,6 @@
 #include "String.hxx"
 #include "stdxx/string.hxx"
+#include "ltnvm/stdlib/string.hxx"
 
 namespace ltn::vm {
 	void String::stringify(VMCore &, std::ostream & oss, bool nested) {
@@ -19,5 +20,15 @@ namespace ltn::vm {
 		else {
 			oss << this->data;
 		}
+	}
+
+
+
+	Value String::get_member(std::uint64_t id) const {
+		static NativeFunctionTable native_function_table {
+			wrap<stdlib::string_size>     (MemberCode::SIZE),
+			wrap<stdlib::string_is_empty> (MemberCode::IS_EMTPY),
+		};
+		return search_native_function_table(native_function_table, id);
 	}
 }

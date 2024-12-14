@@ -48,6 +48,18 @@ namespace ltn::vm {
 
 
 
+	String * req_string(const Value * value) {
+		if (is_string(*value)) {
+			return value::as<String>(*value);
+		}
+		else {
+			throw except::invalid_argument();
+		}
+	}
+
+
+
+
 	FunctionPointer * req_function_pointer(const Value * value) {
 		if (is_fxptr(*value)) {
 			return value::as<FunctionPointer>(*value);

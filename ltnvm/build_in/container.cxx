@@ -4,6 +4,11 @@
 #include "ltnvm/utils/index.hxx"
 #include "ltnvm/inst/instructions.hxx"
 #include "ltnvm/utils/stringify.hxx"
+#include "ltnvm/native/native.hxx"
+#include "ltnvm/stdlib/array.hxx"
+#include "ltnvm/stdlib/tuple.hxx"
+#include "ltnvm/stdlib/map.hxx"
+#include "ltnvm/stdlib/string.hxx"
 
 namespace ltn::vm::build_in {
 	template<auto INST>
@@ -40,15 +45,12 @@ namespace ltn::vm::build_in {
 
 	Value size(VMCore & core) {
 		const auto ref = core.stack.pop();
-		if(is_array(ref)) return size<Array>(ref, core);
-		if(is_tuple(ref)) return size<Tuple>(ref, core);
-		if(is_string(ref)) return size<String>(ref, core);
+		if(is_array(ref)) return call<stdlib::array_size>(core, { ref });
+		if(is_tuple(ref)) return call<stdlib::tuple_size>(core, { ref });
+		if(is_string(ref)) return call<stdlib::string_size>(core, { ref });
 		if(is_queue(ref)) return size<Segmented>(ref, core);
 		if(is_stack(ref)) return size<Segmented>(ref, core);
-		if(is_map(ref)) {
-			const Map * map = value::as<Map>(ref);
-			return value::integer(static_cast<std::int64_t>(std::size(*map)));
-		}
+		if(is_map(ref)) return call<stdlib::map_size>(core, { ref });
 		if(is_iterator(ref)) return value::integer(iterator::size(ref));
 		throw except::invalid_argument();
 	}

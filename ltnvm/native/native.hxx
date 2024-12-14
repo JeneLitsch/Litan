@@ -7,6 +7,7 @@ namespace ltn::vm {
 	struct Array;
 	struct Tuple;
 	struct Map;
+	struct String;
 	using NativeFunctionTable = std::map<std::uint64_t, NativeFunctionPointer>;
 
 	template<typename FuncHeader>
@@ -22,6 +23,14 @@ namespace ltn::vm {
 		};
 	}
 
+	template<typename FuncHeader>
+	Value call(VMCore & core, const std::array<Value, FuncHeader::arity> args) {
+		ltn_Context context {
+			.core = &core,
+		};
+		return FuncHeader::func(&context, args.data());
+	}
+
 	
 	Value search_native_function_table(NativeFunctionTable & table, std::uint64_t id);
 
@@ -30,6 +39,7 @@ namespace ltn::vm {
 	Array * req_array(const Value * value);
 	Tuple * req_tuple(const Value * value);
 	Map * req_map(const Value * value);
+	String * req_string(const Value * value);
 	FunctionPointer * req_function_pointer(const Value * value);
 	std::int64_t req_int(const Value * value);
 }

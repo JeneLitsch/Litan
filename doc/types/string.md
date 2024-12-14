@@ -1,8 +1,21 @@
 # String
-The string type is used to store an array of char values.
+
+The string type is used to store an array of characters.
+
+## Member Functions
+
+### -> size(): Int
+
+Return the size of the string in bytes.
+
+### -> is_empty(): Bool
+
+Returns whether the string is empty (size == 0)
+
+## Literals
+
 A new string can be created by using a string literal e.g. `"Hello World"` or `"Test"`.
 
-**Example**
 ```js
 function main() {
 	var a = "Hello";
