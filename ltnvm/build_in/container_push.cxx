@@ -4,6 +4,9 @@
 #include "ltnvm/utils/index.hxx"
 #include "ltnvm/inst/instructions.hxx"
 #include "ltnvm/utils/stringify.hxx"
+#include "ltnvm/native/native.hxx"
+#include "ltnvm/stdlib/stack.hxx"
+#include "ltnvm/stdlib/queue.hxx"
 
 namespace ltn::vm::build_in {
 	Value push(VMCore & core) {
@@ -20,17 +23,8 @@ namespace ltn::vm::build_in {
 			return insert_back_string(core, ref, elem);
 		}
 
-		if(is_stack(ref)) {
-			Stack * container = value::as<Stack>(ref);
-			container->push_back(elem);
-			return value::null;
-		}
-
-		if(is_queue(ref)) {
-			Segmented * container = value::as<Segmented>(ref);
-			container->push_back(elem);
-			return value::null;
-		}
+		if(is_stack(ref)) return call<stdlib::stack_push>(core, { ref, elem });
+		if(is_queue(ref)) return call<stdlib::queue_push>(core, { ref, elem });
 		
 		throw except::invalid_argument();
 	}

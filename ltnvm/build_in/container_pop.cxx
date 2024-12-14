@@ -4,6 +4,9 @@
 #include "ltnvm/utils/index.hxx"
 #include "ltnvm/inst/instructions.hxx"
 #include "ltnvm/utils/stringify.hxx"
+#include "ltnvm/native/native.hxx"
+#include "ltnvm/stdlib/stack.hxx"
+#include "ltnvm/stdlib/queue.hxx"
 
 namespace ltn::vm::build_in {
 	Value pop(VMCore & core) {
@@ -25,21 +28,8 @@ namespace ltn::vm::build_in {
 			return value::character(elem);
 		}
 
-		if(is_stack(ref)) {
-			Stack * container =  value::as<Stack>(ref);
-			if(std::empty(*container)) throw except::out_of_range();
-			const auto elem = container->unsafe_back();
-			container->unsafe_pop_back();
-			return elem;
-		}
-
-		if(is_queue(ref)) {
-			Segmented * container = value::as<Segmented>(ref);
-			if(std::empty(*container)) throw except::out_of_range();
-			const auto elem = container->unsafe_front();
-			container->pop_front();
-			return elem;
-		}
+		if(is_stack(ref)) return call<stdlib::stack_pop>(core, { ref });
+		if(is_queue(ref)) return call<stdlib::queue_pop>(core, { ref });
 	
 		throw except::invalid_argument();
 	}

@@ -11,6 +11,8 @@ namespace ltn::vm {
 		static NativeFunctionTable native_function_table {
 			wrap<stdlib::stack_size>     (MemberCode::SIZE),
 			wrap<stdlib::stack_is_empty> (MemberCode::IS_EMTPY),
+			wrap<stdlib::stack_push>     (MemberCode::PUSH),
+			wrap<stdlib::stack_pop>      (MemberCode::POP),
 		};
 		return search_native_function_table(native_function_table, id);
 	}

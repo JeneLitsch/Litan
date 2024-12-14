@@ -18,4 +18,30 @@ namespace sphinx::test {
 		std::pop(stack);
 		assert_true(stack->is_empty());
 	}
+
+
+
+	function stack_push_and_pop() {
+		var stack = std::stack();
+		assert_true(stack->is_empty());
+		stack->push(111);
+		assert_false(stack->is_empty());
+		stack->push(222);
+		assert_false(stack->is_empty());
+		stack->push(333);
+		assert_false(stack->is_empty());
+		assert_equal_strict(stack->pop(), 333);
+		assert_false(stack->is_empty());
+		assert_equal_strict(stack->pop(), 222);
+		assert_false(stack->is_empty());
+		assert_equal_strict(stack->pop(), 111);
+		assert_true(stack->is_empty());
+	}
+
+
+
+	function stack_pop_empty() {
+		var stack = std::stack();
+		assert_except(lambda[stack] => stack->pop());
+	}
 }

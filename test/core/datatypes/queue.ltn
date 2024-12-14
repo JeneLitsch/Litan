@@ -18,4 +18,30 @@ namespace sphinx::test {
 		std::pop(queue);
 		assert_true(queue->is_empty());
 	}
+
+
+
+	function queue_push_and_pop() {
+		var queue = std::queue();
+		assert_true(queue->is_empty());
+		queue->push(111);
+		assert_false(queue->is_empty());
+		queue->push(222);
+		assert_false(queue->is_empty());
+		queue->push(333);
+		assert_false(queue->is_empty());
+		assert_equal_strict(queue->pop(), 111);
+		assert_false(queue->is_empty());
+		assert_equal_strict(queue->pop(), 222);
+		assert_false(queue->is_empty());
+		assert_equal_strict(queue->pop(), 333);
+		assert_true(queue->is_empty());
+	}
+
+
+
+	function queue_pop_empty() {
+		var queue = std::queue();
+		assert_except(lambda[queue] => queue->pop());
+	}
 }
