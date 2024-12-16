@@ -29,18 +29,8 @@ namespace ltn::vm::inst {
 
 	void newstr(VMCore & core) {
 		core.heap.collect_garbage(core.stack);
-		const auto * begin = core.fetch_str();
-		const auto * end = begin;
-		core.pc++;
-		while(*end != '\0') {
-			// std::cout << end << "\n";
-			end++;
-			core.pc++;
-		}
-		const auto ptr = core.heap.alloc(String{std::string_view{
-			reinterpret_cast<const char *>(begin),
-			reinterpret_cast<const char *>(end),
-		}, String::non_owning});
+		const std::uint64_t index = core.fetch_uint();
+		const auto ptr = core.heap.alloc(String{core.string_pool[index], String::non_owning});
 		core.stack.push(value::string(ptr));
 	}
 

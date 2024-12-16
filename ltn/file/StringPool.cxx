@@ -28,6 +28,18 @@ namespace ltn {
 
 
 	std::uint64_t StringPool::push(std::string str) {
+		if(std::optional<std::uint64_t> id = find(str)) {
+			return *id;
+		}
+		else {
+			this->data.push_back(std::move(str));
+			return this->size() - 1;
+		}
+	}
+
+
+
+	std::optional<std::uint64_t> StringPool::find(const std::string_view str) const {
 		const auto begin = std::begin(this->data);
 		const auto end = std::end(this->data);
 		const auto pos = std::find(begin, end, str);
@@ -35,8 +47,7 @@ namespace ltn {
 			return std::distance(begin, pos);
 		}
 		else {
-			this->data.push_back(std::move(str));
-			return this->size() - 1;
+			return std::nullopt;
 		}
 	}
 

@@ -233,7 +233,7 @@ namespace ltn::vm {
 		core.string_pool.read(it);
 
 		for(std::uint64_t i = 0; i < core.string_pool.size(); i++) {
-			std::cout << core.string_pool[i] << "\n";
+			std::cout << "STR: " << core.string_pool[i] << "\n";
 		}
 
 		this->core.static_table = read_addr_table(it);

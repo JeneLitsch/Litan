@@ -221,17 +221,13 @@ namespace ltn::c::inst {
 			.value = size,
 		};
 	}
-	Inst newstr(std::vector<std::uint8_t> bytes) {
-		return InstBytex0 {
+	Inst newstr(const std::string & label) {
+		return InstStringConstant {
 			.name = "newstr",
 			.opcode = OpCode::NEWSTR,
-			.bytes = bytes,
+			.label = label,
 		};
 	}
-	Inst newstr(const std::string & str) {
-		return newstr(std::vector<std::uint8_t>(str.begin(), str.end()));
-	}
-
 	Inst newfx(const std::string & label) {
 		return InstCall {
 			.name = "newfx",

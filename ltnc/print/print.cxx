@@ -91,6 +91,14 @@ namespace ltn::c {
 			ss << "\\0";
 			return ss.str();
 		}
+
+
+
+		std::string print_inst(const inst::InstStringConstant & args) {
+			std::ostringstream ss;
+			ss << args.name << " " << args.label << " ";
+			return ss.str();
+		}
 	}
 
 
