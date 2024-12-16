@@ -14,7 +14,8 @@ namespace ltn::vm {
 			, storage {str}
 			, str{*storage} {}
 		
-		String(const String & string) {
+		String(const String & string)
+			: Object { string } {
 			if (string.storage) {
 				storage = string.storage;
 				str = storage.value();

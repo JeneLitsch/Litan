@@ -6,6 +6,7 @@ target_sources(libltnc PRIVATE
 	"BuildIn.cxx"
 	"Call.cxx"
 	"Conditional.cxx"
+	"Expression.cxx"
 	"FxPointer.cxx"
 	"GlobalVar.cxx"
 	"Iife.cxx"

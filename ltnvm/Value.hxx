@@ -139,7 +139,7 @@ namespace ltn::vm {
 		constexpr inline Value type(const Type * type) {
 			return Value{
 				.type = static_cast<std::uint16_t>(ValueType::TYPE),
-				.obj_type = static_cast<const ltn_TypePtr>(type),
+				.obj_type = static_cast<ltn_TypePtr>(type),
 			};
 		}
 

@@ -77,7 +77,7 @@ namespace ltn::c::sst::expr {
 		virtual std::uint64_t alloc() const = 0;
 		virtual void accept(const ExprVisitor &) const = 0;
 	
-		virtual bind_ptr convert_to_bindung() && { return nullptr; }
+		virtual std::unique_ptr<bind::Binding> convert_to_bindung() &&;
 	};
 
 

@@ -4,7 +4,11 @@ namespace ltn::c::sst::expr {
 	BuildIn::BuildIn(std::string key)
 		: key{std::move(key)} {}
 
-		
+	
+
+	BuildIn::~BuildIn() {}
+
+
 
 	std::uint64_t BuildIn::alloc() const {
 		return 0;
