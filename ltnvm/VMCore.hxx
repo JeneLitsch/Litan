@@ -4,6 +4,7 @@
 #include "ltnvm/VMStack.hxx"
 #include "ltnvm/TypeTable.hxx"
 #include "ltn/file/FunctionPool.hxx"
+#include "ltn/file/StringPool.hxx"
 #include "external/Callable.hxx"
 
 namespace ltn::vm {
@@ -20,6 +21,7 @@ namespace ltn::vm {
 		std::unordered_map<std::uint64_t, std::string> member_name_table;
 
 		FunctionPool function_pool;
+		StringPool string_pool;
 		TypeTable type_table;
 		
 		inline std::uint8_t fetch_byte() {

@@ -6,12 +6,6 @@
 
 
 namespace ltn {
-	FunctionPool::FunctionPool() {
-
-	}
-	
-	
-	
 	const FunctionContext * FunctionPool::operator[](std::uint64_t id) const {
 		return &this->entries[id];
 	}
@@ -48,13 +42,6 @@ namespace ltn {
 		return this->entries.push_back(entry);
 	}
 	
-	
-	
-	FunctionPool::~FunctionPool() {
-
-	}
-
-
 
 	void FunctionPool::read(std::span<const std::uint8_t>::iterator & it) {
 		const std::uint64_t table_size = read_u64(it);

@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ltn/version.hxx"
 #include "ltn/file/FunctionPool.hxx"
+#include "ltn/file/StringPool.hxx"
 #include "ltn/file/binary.hxx"
 
 namespace ltn::c {
@@ -168,9 +169,16 @@ namespace ltn::c {
 		std::vector<std::uint8_t> bytecode;
 		bytecode.push_back(ltn::major_version);
 
+		StringPool string_pool;
+		string_pool.push("Hello");
+		string_pool.push("World");
+
 		link_info.function_pool.write(bytecode);
+		string_pool.write(bytecode);
 		bytecode += sequence_table(link_info.global_table);
 		bytecode += sequence_table(link_info.member_name_table);
+
+
 
 		for(const auto & inst : instructions) {
 			std::visit([&] (auto & i) {
