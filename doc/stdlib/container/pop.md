@@ -3,7 +3,6 @@
 ## std::pop(container, elem)
 **Parameters:**  
   1. Array
-  2. String
   3. Stack
   4. Queue 
 
