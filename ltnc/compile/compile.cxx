@@ -102,16 +102,7 @@ namespace ltn::c {
 
 		StringPool string_pool = generate_string_pool(instructions);
 
-		AddressTable extern_globals;
-		for(const auto & symbol : program.globals) {
-			if(symbol->is_extern) {
-				const auto full_name = symbol->namespaze.to_string() + symbol->name;
-				extern_globals.insert({full_name, symbol->id});
-			}
-		}
-
 		return LinkInfo { 
-			.global_table = extern_globals,
 			.member_name_table = program.member_name_table,
 			.jump_table = jump_table,
 			.function_pool = function_pool,

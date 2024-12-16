@@ -9,7 +9,6 @@
 
 namespace ltn::c {
 	struct LinkInfo {
-		AddressTable global_table;
 		AddressTable member_name_table;
 		AddressTable jump_table;
 		FunctionPool function_pool;

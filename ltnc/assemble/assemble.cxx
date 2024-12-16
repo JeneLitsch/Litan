@@ -132,7 +132,6 @@ namespace ltn::c {
 		}
 
 
-
 		void assemble_opcode(
 			std::vector<std::uint8_t> & bytecode,
 			const auto & inst) {
