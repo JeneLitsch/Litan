@@ -2,6 +2,14 @@
 #import "core"
 #import "std"
 #import "plugin"
+#import "import_file.ltn"
+
+namespace sphinx::test {
+	function use_imported_func() {
+		imported_func();
+		pass();
+	}
+}
 
 function main() {
 	var clock = std::chrono::clock();

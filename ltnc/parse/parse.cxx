@@ -122,24 +122,18 @@ namespace ltn::c {
 			const std::filesystem::path parent_path = source_path.parent_path();
 			if(auto path = match(TT::STRING, tokens)) {
 				const std::filesystem::path dependecy_path = parent_path / path->str;
-				return ModuleSource{dependecy_path};
+				if(std::filesystem::is_directory(dependecy_path)) {
+					return ModuleSource{dependecy_path};
+				}
+				else if(std::filesystem::is_regular_file(dependecy_path)) {
+					return FileSource{dependecy_path};
+				}
+				else {
+					throw CompilerError { "Imported module must an existing file or a directory: " + dependecy_path.string() };
+				}
 			}
 			else {
 				throw CompilerError {"Import directive requires file path as quoted string", start.location};
-			}
-		}
-
-
-
-		Source parse_include(const Source & includer, const Token & start, Tokens & tokens, const Options & options) {
-			const std::filesystem::path source_path = includer.get_full_name(); 
-			const std::filesystem::path parent_path = source_path.parent_path();
-			if(auto path = match(TT::STRING, tokens)) {
-				const std::filesystem::path dependecy_path = parent_path / path->str;
-				return FileSource{dependecy_path};
-			}
-			else {
-				throw CompilerError {"Include directive requires file path as quoted string", start.location};
 			}
 		}
 
@@ -176,9 +170,6 @@ namespace ltn::c {
 				}
 				else if(match(TT::VAR, tokens)) {
 					ast.globals.push_back(parse_global_decl(tokens, namestack.top()));
-				}
-				else if(auto start = match(TT::HASH_INCLUDE, tokens)) {
-					pending_sources.push(parse_include(source, *start, tokens, options));
 				}
 				else if(auto start = match(TT::HASH_IMPORT, tokens)) {
 					pending_sources.push(parse_import(source, *start, tokens, options));
