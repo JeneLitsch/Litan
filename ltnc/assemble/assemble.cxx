@@ -169,7 +169,6 @@ namespace ltn::c {
 
 		link_info.function_pool.write(bytecode);
 		link_info.string_pool.write(bytecode);
-		bytecode += sequence_table(link_info.global_table);
 		bytecode += sequence_table(link_info.member_name_table);
 
 		for(const auto & inst : instructions) {

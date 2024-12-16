@@ -22,10 +22,6 @@ namespace ltn::vm {
 			const std::string & function_label,
 			const std::vector<Any> & args);
 
-		void register_function(std::int64_t address, auto fx) {
-			core.fx_table_ltn_to_cxx.emplace(address, ext::Callable{std::move(fx)});
-		}
-	
 	private:
 		Any call(
 			const std::string & function_label,

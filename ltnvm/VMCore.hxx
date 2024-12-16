@@ -16,8 +16,6 @@ namespace ltn::vm {
 		const std::uint8_t * code_begin;
 		const std::uint8_t * code_end;
 
-		std::unordered_map<std::int64_t, ext::Callable> fx_table_ltn_to_cxx;
-		std::unordered_map<std::string, std::uint64_t> static_table;
 		std::unordered_map<std::uint64_t, std::string> member_name_table;
 
 		FunctionPool function_pool;

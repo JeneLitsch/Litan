@@ -86,22 +86,6 @@ namespace ltn::vm::inst {
 		}
 
 
-
-		void do_invoke_external(VMCore & core, const Value ref_fx, std::uint64_t arity, const std::vector<Value> & args) {
-			if(core.fx_table_ltn_to_cxx.contains(ref_fx.i)) {
-				auto & fxptr = core.fx_table_ltn_to_cxx.at(ref_fx.i);
-				if(arity == fxptr.arity()) {
-					ext::Parameters parameters{core.heap, args};
-					auto result = fxptr(parameters, core.heap);
-					core.stack.push(result);
-				}
-				else throw except::invalid_parameters(fxptr.arity(), arity);
-			}
-			else throw except::invalid_argument();
-		}
-
-
-
 		void do_invoke_coroutine(VMCore & core, const Value ref, std::uint64_t arity) {
 			if(arity != 0) throw except::invalid_parameters(0, arity);
 			auto * coroutine = value::as<Coroutine>(ref);
@@ -128,10 +112,6 @@ namespace ltn::vm::inst {
 		else if (is_native_function(ref_fx)) {
 			return do_invoke_native_function(core, ref_fx, arity);
 		}
-		else if(is_int(ref_fx)) {
-			auto args = read_from_stack(core.stack, arity);
-			return do_invoke_external(core, ref_fx, arity, args);
-		}
 		
 		else if(is_coroutine(ref_fx)) {
 			return do_invoke_coroutine(core, ref_fx, arity);
@@ -152,10 +132,6 @@ namespace ltn::vm::inst {
 			if(is_script_function(ref_fx)) {
 				load_onto_stack(core.stack, args);
 				return do_invoke_script_function(core, ref_fx, arity);
-			}
-
-			else if(is_int(ref_fx)) {
-				return do_invoke_external(core, ref_fx, arity, args.get_underlying());
 			}
 			else throw except::invalid_argument();
 		}
