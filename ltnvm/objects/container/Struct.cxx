@@ -9,7 +9,7 @@ namespace ltn::vm {
 			Value value = value::strukt(this);
 			auto result = run_special_member(core, *fx, value);
 			if(is_string(result)) {
-				oss << value::as<String>(result)->get_underlying();
+				oss << value::as<String>(result)->str;
 			} 
 			else {
 				throw except::invalid_argument("Special member {str} must return string");

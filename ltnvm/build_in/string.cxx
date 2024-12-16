@@ -48,7 +48,7 @@ namespace ltn::vm::build_in {
 		if(delim.empty()) return segments_ptr;
 		if(string.empty()) return segments_ptr;
 
-		for(auto && str : split_impl(string.get_underlying(), delim.get_underlying())) {
+		for(auto && str : split_impl(string.copy_to_std_string(), delim.copy_to_std_string())) {
 			segments.push_back(value::string(core.heap.alloc(String{std::move(str)})));
 		}
 

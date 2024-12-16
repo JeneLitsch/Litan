@@ -10,13 +10,6 @@ namespace ltn::vm::build_in {
 		const auto elem = core.stack.pop();
 		const auto ref = core.stack.pop();
 
-		if(is_string(ref)) {
-			String * str = value::as<String>(ref);
-			const auto strL = stringify(elem, core);
-			str->replace_underlying(strL + str->get_underlying());
-			return value::null;
-		}
-
 		if(is_array(ref)) {
 			Array * arr = value::as<Array>(ref);
 			arr->unsafe_insert(std::begin(*arr), elem);
@@ -28,31 +21,10 @@ namespace ltn::vm::build_in {
 
 
 
-	Value insert_back_string(VMCore & core, Value ref, Value elem) {
-		auto * str = value::as<String>(ref);
-		
-		if(is_char(elem)) {
-			str->push_back(elem.c);
-		}
-		else if(is_string(elem)) {
-			str->append(value::as<String>(elem)->get_underlying());
-		}
-		else {
-			str->append(stringify(elem, core));
-		}
-		
-		return value::null;
-	}
-
-
 
 	Value insert_back(VMCore & core) {
 		const auto elem = core.stack.pop();
 		const auto ref = core.stack.pop();
-		
-		if(is_string(ref)) {
-			return insert_back_string(core, ref, elem);
-		}
 
 		if(is_array(ref)) {
 			Array * arr = value::as<Array>(ref);
@@ -86,15 +58,6 @@ namespace ltn::vm::build_in {
 			return value::null;
 		}
 		
-		if(is_string(ref)) {
-			String * str = value::as<String>(ref); 
-			const auto strX = stringify(elem, core);
-			const auto begin = std::begin(strX);
-			const auto end = std::end(strX);
-			const auto at = to_iter(str, key);
-			str->insert(at, begin, end);
-			return value::null;
-		}
 
 		if(is_array(ref)) {
 			Array * arr = value::as<Array>(ref); 

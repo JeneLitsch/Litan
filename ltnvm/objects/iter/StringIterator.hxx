@@ -18,6 +18,5 @@ namespace ltn::vm {
 	private:
 		String * string;
 		std::int64_t index;
-		std::uint64_t version;
 	};
 }

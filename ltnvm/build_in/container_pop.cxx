@@ -20,14 +20,6 @@ namespace ltn::vm::build_in {
 			return elem;
 		}
 
-		if(is_string(ref)) {
-			String * container = value::as<String>(ref);
-			if(std::empty(*container)) throw except::out_of_range();
-			const auto elem = container->unsafe_back();
-			container->unsafe_pop_back();
-			return value::character(elem);
-		}
-
 		if(is_stack(ref)) return call<stdlib::stack_pop>(core, { ref });
 		if(is_queue(ref)) return call<stdlib::queue_pop>(core, { ref });
 	

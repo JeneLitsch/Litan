@@ -140,30 +140,6 @@ namespace sphinx::test {
 
 
 
-	function index_string_assign() {
-		test_name("operator: string[i] = r");
-
-		var str = "...";
-		str[0] = 'A';
-		str[1] = 'B';
-		str[2] = 'C';
-		assert_equal(str, "ABC");
-	}
-
-
-
-	function index_string_assign_negative() {
-		test_name("operator: string[-i] = r");
-
-		var str = "...";
-		str[-3] = 'A';
-		str[-2] = 'B';
-		str[-1] = 'C';
-		assert_equal(str, "ABC");
-	}
-
-
-
 	function index_string_except() {
 		test_name("operator: string[i] = r except");
 		var str = "ABC";

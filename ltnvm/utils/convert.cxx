@@ -80,7 +80,7 @@ namespace ltn::vm::convert {
 
 	std::string to_string(Value value, Heap & heap) {
 		if(is_string(value)) {
-			return value::as<String>(value)->get_underlying();
+			return value::as<String>(value)->copy_to_std_string();
 		}
 
 		throw except::invalid_cast("String");

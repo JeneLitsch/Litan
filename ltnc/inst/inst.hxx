@@ -92,6 +92,14 @@ namespace ltn::c::inst {
 		bool operator==(const InstBytex0 &) const = default;
 	};
 
+	struct InstStringConstant {
+		constexpr inline static std::size_t size = 9;
+		std::string_view name;
+		OpCode opcode;
+		std::string label;
+		bool operator==(const InstStringConstant &) const = default;
+	};
+
     using Inst = std::variant<
 		InstLabel,
         InstNone,
@@ -103,7 +111,8 @@ namespace ltn::c::inst {
 	    InstFloat,
 	    InstByte,
 	    InstUint64Bytex,
-	    InstBytex0
+	    InstBytex0,
+		InstStringConstant
     >;
     
 	Inst label(const std::string & name);
@@ -148,8 +157,7 @@ namespace ltn::c::inst {
 	Inst newi_small(std::int8_t i8);
 
 	Inst newarr(std::uint64_t size);
-	Inst newstr(std::vector<std::uint8_t> bytes);
-	Inst newstr(const std::string & str);
+	Inst newstr(const std::string & label);
 	Inst newfx(const std::string & label);
 	Inst newclock();
 	Inst newstruct();

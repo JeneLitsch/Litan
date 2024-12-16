@@ -27,24 +27,8 @@ namespace sphinx::test {
 
 
 
-	function std_insert_front_string() {
-		assert_equal_strict(utils::insert_front_all("", [3,2.2,1]), "12.23");
-		assert_equal_strict(utils::insert_front_all("", ['C',"AB"]), "ABC");
-		assert_equal_strict(utils::insert_front_all("", [true,false]), "falsetrue");
-	}
-
-
-
 	function std_insert_back_array() {
 		assert_equal_strict(utils::insert_back_all([], [1,2,3]), [1,2,3]);
-	}
-
-
-
-	function std_insert_back_string() {
-		assert_equal_strict(utils::insert_back_all("", [1,2.2,3]), "12.23");
-		assert_equal_strict(utils::insert_back_all("", ["AB", 'C']), "ABC");
-		assert_equal_strict(utils::insert_back_all("", [false, true]), "falsetrue");
 	}
 
 
@@ -58,40 +42,11 @@ namespace sphinx::test {
 
 
 
-
 	function std_insert_array_out_of_range() {
 		assert_except(lambda {
 			var arr = [];
 			std::insert(arr, 1, 42);
 			assert_equal_strict(arr, [1,2,3]);
-		});
-	}
-
-
-
-	function std_insert_string() {
-		assert_equal_strict(
-			utils::insert_all("", [(0, 3), (0, 1), (1, 2), (3, 4)]),
-			"1234"
-		);
-
-		assert_equal_strict(
-			utils::insert_all("AE", [(1, 'D'), (1, "BC")]),
-			"ABCDE"
-		);
-
-
-		assert_equal_strict(
-			utils::insert_all("", [(0, true), (4, false)]),
-			"truefalse"
-		);
-	}
-
-
-	function std_insert_string_out_of_range() {
-		assert_except(lambda {
-			var str = "";
-			std::insert(str, 1, "X");
 		});
 	}
 

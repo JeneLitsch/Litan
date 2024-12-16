@@ -13,20 +13,6 @@ namespace sphinx::test {
 
 
 
-	function std_pop_string() {
-		var str = "ABC";
-		assert_equal_strict(std::pop(str), 'C');
-		assert_equal_strict(str, "AB");
-	}
-
-
-
-	function std_pop_string_except() {
-		assert_except(lambda => std::pop(""));
-	}
-
-
-
 	function std_pop_stack() {
 		var stc = std::stack(1,2,3);
 		assert_equal_strict(std::pop(stc), 3);

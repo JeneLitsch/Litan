@@ -25,6 +25,14 @@ namespace ltn::vm::inst {
 
 
 
+		String * concat_string(const Value & l, const Value & r, Heap & heap) {
+			const String * obj_l = value::as<String>(l);
+			const String * obj_r = value::as<String>(r);
+			return heap.alloc<String>({obj_l->copy_to_std_string() + obj_r->copy_to_std_string()});
+		} 
+
+
+
 		template<typename T>
 		T * repeat(
 			const Value & ref,
@@ -35,6 +43,23 @@ namespace ltn::vm::inst {
 			const auto & count = cast::to_int(repetitions);
 			auto repeated = stx::repeat(str.get_underlying(), count);
 			const auto ptr = heap.alloc(T{std::move(repeated)}); 
+			return ptr;
+		}
+
+
+
+		String * repeat_string(
+			const Value & ref,
+			const Value & repetitions,
+			Heap & heap) {
+			
+			const auto & str = *value::as<String>(ref);
+			const auto & count = cast::to_int(repetitions);
+			std::ostringstream oss;
+			for(std::int64_t i = 0; i < count; i++) {
+				oss << str.str;
+			}
+			const auto ptr = heap.alloc(String{std::move(oss.str())}); 
 			return ptr;
 		}
 
@@ -105,7 +130,7 @@ namespace ltn::vm::inst {
 		}
 
 		if(is_string(l) && is_string(r)) {
-			return core.stack.push(value::string(concat<String>(l,r,core.heap)));
+			return core.stack.push(value::string(concat_string(l,r,core.heap)));
 		}
 
 		if(is_struct(l)) {
@@ -133,11 +158,11 @@ namespace ltn::vm::inst {
 		FETCH
 
 		if(is_string(l) && is_integral(r)) {
-			return core.stack.push(value::string(repeat<String>(l, r, core.heap)));
+			return core.stack.push(value::string(repeat_string(l, r, core.heap)));
 		}
 
 		if(is_integral(l) && is_string(r)) {
-			return core.stack.push(value::string(repeat<String>(r, l, core.heap)));
+			return core.stack.push(value::string(repeat_string(r, l, core.heap)));
 		}
 
 		if(is_array(l) && is_integral(r)) {

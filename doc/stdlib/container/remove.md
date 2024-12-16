@@ -2,7 +2,7 @@
 
 ## std::remove_front(container)
 **Parameters:**  
-* container: Array or String
+* container: Array
 
 **Return value:**  
 null
@@ -14,7 +14,7 @@ Removes the first element.
 
 ## std::remove_back(container)
 **Parameters:**  
-* container: Array or String
+* container: Array
 
 **Return value:**  
 null
@@ -27,7 +27,7 @@ Removes the last element.
 ## std::remove(container, i)
 **Parameters:**  
 * container:
-  1. Array or String
+  1. Array
   2. Map
 * i:
   1. Index

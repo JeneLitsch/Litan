@@ -19,10 +19,6 @@ namespace ltn::vm::build_in {
 			return value::null;
 		}
 
-		if(is_string(ref)) {
-			return insert_back_string(core, ref, elem);
-		}
-
 		if(is_stack(ref)) return call<stdlib::stack_push>(core, { ref, elem });
 		if(is_queue(ref)) return call<stdlib::queue_push>(core, { ref, elem });
 		

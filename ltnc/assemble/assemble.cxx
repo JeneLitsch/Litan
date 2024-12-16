@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ltn/version.hxx"
 #include "ltn/file/FunctionPool.hxx"
+#include "ltn/file/StringPool.hxx"
 #include "ltn/file/binary.hxx"
 
 namespace ltn::c {
@@ -40,48 +41,42 @@ namespace ltn::c {
 		void assemble_args(
 			std::vector<std::uint8_t> &,
 			const inst::InstLabel &,
-			const AddressTable &,
-			const FunctionPool &) {
+			const LinkInfo &) {
 		}
 
 		void assemble_args(
 			std::vector<std::uint8_t> &,
 			const inst::InstNone &,
-			const AddressTable &,
-			const FunctionPool &) {
+			const LinkInfo &) {
 		}
 
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstUint64 & args,
-			const AddressTable &,
-			const FunctionPool &) {
+			const LinkInfo &) {
 			bytecode += to_bytes(args.value);
 		}
 
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstUint16 & args,
-			const AddressTable &,
-			const FunctionPool &) {
+			const LinkInfo &) {
 			bytecode += to_bytes(args.value);
 		}
 
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstJump & args,
-			const AddressTable & jump_table,
-			const FunctionPool &) {
-			const auto address = resolve_label(jump_table, args.label);
+			const LinkInfo & link_info) {
+			const auto address = resolve_label(link_info.jump_table, args.label);
 			bytecode += to_bytes(address);
 		}
 
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstCall & args,
-			const AddressTable & jump_table,
-			const FunctionPool & function_pool) {
-			const auto index = function_pool.find_by_name(args.label);
+			const LinkInfo & link_info) {
+			const auto index = link_info.function_pool.find_by_name(args.label);
 			if(!index) throw std::runtime_error{"Cannot find function " + std::string{args.label}};
 			write_u64(*index, bytecode);
 		}
@@ -89,32 +84,28 @@ namespace ltn::c {
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstInt64 & args,
-			const AddressTable &,
-			const FunctionPool &) {
+			const LinkInfo &) {
 			bytecode += to_bytes(args.value);
 		}
 
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstFloat & args,
-			const AddressTable &,
-			const FunctionPool &) {
+			const LinkInfo &) {
 			bytecode += to_bytes(args.value);
 		}
 
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstByte & args,
-			const AddressTable &,
-			const FunctionPool &) {
+			const LinkInfo &) {
 			bytecode += args.value;
 		}
 
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstUint64Bytex & args,
-			const AddressTable &,
-			const FunctionPool &) {
+			const LinkInfo &) {
 			const std::uint64_t count = args.bytes.size();
 			bytecode += to_bytes(count);
 			bytecode += args.bytes;
@@ -123,26 +114,33 @@ namespace ltn::c {
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
 			const inst::InstBytex0 & args,
-			const AddressTable &,
-			const FunctionPool &) {
+			const LinkInfo &) {
 			bytecode += args.bytes;
 			bytecode.push_back(0); // Add null terminator
 		}
 
+		void assemble_args(
+			std::vector<std::uint8_t> & bytecode,
+			const inst::InstStringConstant & args,
+			const LinkInfo & link_info) {
+			if(std::optional<std::uint64_t> id = link_info.string_pool.find(args.label)) {
+				bytecode += to_bytes(*id);
+			}
+			else {
+				throw std::runtime_error{"Missing entry in StringPool: " + args.label};
+			}
+		}
 
 
 		void assemble_opcode(
 			std::vector<std::uint8_t> & bytecode,
-			const auto & inst,
-			const AddressTable &) {
+			const auto & inst) {
 			bytecode.push_back(static_cast<std::uint8_t>(inst.opcode));
 		}
 
 		void assemble_opcode(
 			std::vector<std::uint8_t> &,
-			const inst::InstLabel &,
-			const AddressTable &) {
-			
+			const inst::InstLabel &) {
 		}
 
 
@@ -169,16 +167,16 @@ namespace ltn::c {
 		bytecode.push_back(ltn::major_version);
 
 		link_info.function_pool.write(bytecode);
-		bytecode += sequence_table(link_info.global_table);
+		link_info.string_pool.write(bytecode);
 		bytecode += sequence_table(link_info.member_name_table);
 
 		for(const auto & inst : instructions) {
 			std::visit([&] (auto & i) {
-				return assemble_opcode(bytecode, i, link_info.jump_table);
+				return assemble_opcode(bytecode, i);
 			}, inst);
 
 			std::visit([&] (auto & i) {
-				return assemble_args(bytecode, i, link_info.jump_table, link_info.function_pool);
+				return assemble_args(bytecode, i, link_info);
 			}, inst);
 		}
 

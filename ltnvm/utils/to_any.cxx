@@ -28,7 +28,7 @@ namespace ltn::vm {
 		}
 
 		if(is_string(value)) {
-			return Any{value::as<String>(value)->get_underlying()};
+			return Any{value::as<String>(value)->copy_to_std_string()};
 		}
 
 		if(is_contiguous(value)) {

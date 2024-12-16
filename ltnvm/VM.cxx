@@ -230,7 +230,8 @@ namespace ltn::vm {
 
 		// this->core.fx_table_cxx_to_ltn = read_addr_table(it);
 		core.function_pool.read(it);
-		this->core.static_table = read_addr_table(it);
+		core.string_pool.read(it);
+
 		this->core.member_name_table = read_name_table(it);
 
 		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_ADD)] = "{add}";

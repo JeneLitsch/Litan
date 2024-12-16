@@ -6,8 +6,7 @@
 namespace ltn::vm {
 	StringIterator::StringIterator(String * string) 
 		: string{string}
-		, index{0}
-		, version{string->get_version()} {}
+		, index{0} {}
 	
 
 
@@ -20,9 +19,6 @@ namespace ltn::vm {
 
 
 	Value StringIterator::get() {
-		if(this->version != this->string->get_version()) {
-			throw except::out_of_range("Invalidated map iterator");
-		}
 		if(this->index < std::ssize(*string) && this->index >= 0) {
 			return value::character(string->unsafe_at(this->index));
 		}
@@ -40,9 +36,6 @@ namespace ltn::vm {
 
 
 	void StringIterator::move(std::int64_t amount) {
-		if(this->version != this->string->get_version()) {
-			throw except::out_of_range("Invalidated map iterator");
-		}
 		this->index += amount;
 	}
 
