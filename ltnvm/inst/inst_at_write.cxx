@@ -10,7 +10,7 @@ namespace ltn::vm::inst {
 		
 		if(is_array(ref) || is_tuple(ref)) {
 			auto & arr = *value::as<Contiguous>(ref);
-			const auto index = to_index(key, std::size(arr));
+			const auto index = to_index(key, std::ssize(arr));
 			arr.unsafe_at(index) = elem;
 			return;
 		}

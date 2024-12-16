@@ -3,7 +3,7 @@
 #include "ltnvm/stdlib/queue.hxx"
 
 namespace ltn::vm {
-	void Queue::stringify(VMCore & core, std::ostream & oss, bool nested) {
+	void Queue::stringify(VMCore & core, std::ostream & oss, bool) {
 		print_all(std::begin(this->data), std::end(this->data), oss, core, '<', '>');
 	}
 

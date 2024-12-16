@@ -19,7 +19,7 @@ namespace ltn::vm::build_in {
 		
 
 		template<typename Collection>
-		Value remove_first(const Value ref, Heap & heap) {
+		Value remove_first(const Value ref) {
 			Collection * collection = value::as<Collection>(ref); 
 			guardEmpty(*collection);
 			collection->unsafe_erase(collection->begin());
@@ -29,7 +29,7 @@ namespace ltn::vm::build_in {
 
 
 		template<typename Collection>
-		Value remove_last(const Value ref, Heap & heap) {
+		Value remove_last(const Value ref) {
 			Collection * collection = value::as<Collection>(ref); 
 			guardEmpty(*collection);
 			collection->unsafe_pop_back();
@@ -39,16 +39,16 @@ namespace ltn::vm::build_in {
 
 
 		template<typename Collection>
-		Value remove_index(const Value ref, Heap & heap, const Value & index) {
+		Value remove_index(const Value ref, const Value & index) {
 			Collection * collection = value::as<Collection>(ref);
-			const auto i = to_index(index, std::size(*collection));
+			const auto i = to_index(index, std::ssize(*collection));
 			collection->unsafe_erase(collection->begin() + i);
 			return value::null;
 		}
 
 
 
-		Value remove_m(const Value ref, Heap & heap, const Value key) {
+		Value remove_map(const Value ref, const Value key) {
 			Map * map = value::as<Map>(ref); 
 			map->erase(key);
 			return value::null;
@@ -59,7 +59,7 @@ namespace ltn::vm::build_in {
 
 	Value remove_front(VMCore & core) {
 		const auto ref = core.stack.pop();
-		if(is_array(ref)) return remove_first<Array>(ref, core.heap);
+		if(is_array(ref)) return remove_first<Array>(ref);
 		throw except::invalid_argument();
 	}
 
@@ -67,7 +67,7 @@ namespace ltn::vm::build_in {
 
 	Value remove_back(VMCore & core) {
 		const auto ref = core.stack.pop();
-		if(is_array(ref)) return remove_last<Array>(ref, core.heap);
+		if(is_array(ref)) return remove_last<Array>(ref);
 		throw except::invalid_argument();
 	}
 
@@ -76,8 +76,8 @@ namespace ltn::vm::build_in {
 	Value remove(VMCore & core) {
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();
-		if(is_map(ref)) return remove_m(ref, core.heap, key);
-		if(is_array(ref)) return remove_index<Array>(ref, core.heap, key);
+		if(is_map(ref)) return remove_map(ref, key);
+		if(is_array(ref)) return remove_index<Array>(ref, key);
 		throw except::invalid_argument();
 	}
 }

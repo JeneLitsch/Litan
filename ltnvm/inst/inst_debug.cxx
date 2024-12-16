@@ -41,7 +41,7 @@ namespace ltn::vm::inst {
 		else {
 			throw Unhandled {
 				.exception = Exception{
-					.msg = cast::to_string(except, core.heap)
+					.msg = cast::to_string(except)
 				}
 			};
 		}

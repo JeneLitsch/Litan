@@ -120,7 +120,7 @@ namespace ltn::vm::stdlib {
 
 		Value sum = array->unsafe_front();
 		VMCore & core = *static_cast<VMCore*>(context->core);
-		for (std::size_t i = 1; i < std::size(*array); i++) {
+		for (std::int64_t i = 1; i < std::ssize(*array); i++) {
 			sum = run_function(core, args[1], sum, array->unsafe_at(i));
 		}
 		return sum;
@@ -199,9 +199,10 @@ namespace ltn::vm::stdlib {
 
 	Value array_suffix::func(Context * context, const Value * args) {
 		Array * array = req_array(args + 0);
-		std::int64_t size = req_int(args + 1);
+		std::int64_t result_size = req_int(args + 1);
+		std::int64_t array_size = std::ssize(*array);
 		VMCore & core = *static_cast<VMCore*>(context->core);
-		Array * slice = core.heap.alloc(array->slice(static_cast<std::int64_t>(array->size()) - size, array->size()));
+		Array * slice = core.heap.alloc(array->slice(array_size - result_size, array_size));
 		return value::array(slice);
 	}
 

@@ -30,8 +30,7 @@ namespace ltn::c {
 
 		auto analyze_except(	
 			const ast::decl::Except & except,
-			Scope & function_scope,
-			const auto & namespaze) {
+			Scope & function_scope) {
 			
 			ExceptScope scope{function_scope};
 			scope.declare_variable(except.errorname, location(except));
@@ -58,7 +57,7 @@ namespace ltn::c {
 
 		auto body = analyze_statement(*fx.body, scope);
 
-		auto sst_fx = sst::decl::function(fx.name, fx.parameters.simple.size(), fx.namespaze, std::move(body), label);
+		auto sst_fx = sst::decl::function(fx.name, static_cast<std::uint8_t>(fx.parameters.simple.size()), fx.namespaze, std::move(body), label);
 
 		sst_fx->qualifiers = fx.qualifiers; 
 		sst_fx->is_variadic = fx.parameters.variadic.has_value();
@@ -70,7 +69,7 @@ namespace ltn::c {
 					ast::location(*fx.except)
 				};
 			}
-			sst_fx->except = analyze_except(*fx.except, scope, fx.namespaze);
+			sst_fx->except = analyze_except(*fx.except, scope);
 		} 
 
 		return sst_fx;

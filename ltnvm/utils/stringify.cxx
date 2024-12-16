@@ -27,7 +27,7 @@ namespace ltn::vm {
 
 
 
-	void stringify_primitive(const Value & value, VMCore & core, std::ostream & oss) {
+	void stringify_primitive(const Value & value, std::ostream & oss) {
 		if(is_null(value)) {
 			oss << "null";
 			return;
@@ -72,6 +72,6 @@ namespace ltn::vm {
 			return;
 		}
 
-		stringify_primitive(value, core, oss);
+		stringify_primitive(value, oss);
 	}
 }

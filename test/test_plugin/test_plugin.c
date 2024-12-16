@@ -21,7 +21,8 @@ ltn_Value test(ltn_Context * context, const ltn_Value* args) {
 
 
 
-extern ltn_NativeFunctionInfo ltn_exports[] = {
+extern ltn_NativeFunctionInfo ltn_exports[];
+ltn_NativeFunctionInfo ltn_exports[] = {
 	{ "test_1",    test,           0, ltn_DEFAULT },
 	{ "test_2",    test,           0, ltn_USE_GC  },
 
@@ -53,7 +54,8 @@ void init() {}
 void gc_mark() {}
 
 
-extern ltn_PluginInfo ltn_plugin_info = {
+extern ltn_PluginInfo ltn_plugin_info;
+ltn_PluginInfo ltn_plugin_info = {
 	.init = init,
 	.gc_mark = gc_mark,
 };

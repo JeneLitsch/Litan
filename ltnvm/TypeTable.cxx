@@ -328,14 +328,14 @@ namespace ltn::vm {
 
 
 
-		Value type_cast_float(const Value & value, VMCore & core) {
-			return value::floating(cast::to_float(value, core.heap));
+		Value type_cast_float(const Value & value, VMCore &) {
+			return value::floating(cast::to_float(value));
 		}
 
 
 
 		Value type_cast_string(const Value & value, VMCore & core) {
-			return value::string(core.heap.alloc(String{cast::to_string(value, core.heap)}));
+			return value::string(core.heap.alloc(String{cast::to_string(value)}));
 		}
 
 
@@ -364,7 +364,7 @@ namespace ltn::vm {
 
 
 
-		bool type_is_fx_n(const Value & value, VMCore & core, std::uint64_t arity) {
+		bool type_is_fx_n(const Value & value, VMCore &, std::uint64_t arity) {
 			if(!is_fxptr(value)) return false;
 			const FunctionPointer * input = value::as<FunctionPointer>(value);
 			return input->params == arity;
@@ -404,8 +404,8 @@ namespace ltn::vm {
 				const Contiguous * input = value::as<Contiguous>(value);
 				if(std::size(*input) != std::size(sub_types)) return value::null;
 				Tuple output;
-				for(std::size_t i = 0; i < std::size(*input); ++i) {
-					output.push_back(sub_types[i]->cast(input->unsafe_at(i), core));
+				for(std::int64_t i = 0; i < std::ssize(*input); ++i) {
+					output.push_back(sub_types[static_cast<std::size_t>(i)]->cast(input->unsafe_at(i), core));
 				}
 				return value::tuple(core.heap.alloc(std::move(output)));
 			}
@@ -420,8 +420,8 @@ namespace ltn::vm {
 			if(!is_tuple(value)) return false;
 			const Tuple * input = value::as<Tuple>(value);
 			if(std::size(*input) != std::size(sub_types)) return false;
-			for(std::size_t i = 0; i < std::size(*input); ++i) {
-				if(!sub_types[i]->is(input->unsafe_at(i), core)) return false;
+			for(std::int64_t i = 0; i < std::ssize(*input); ++i) {
+				if(!sub_types[static_cast<std::size_t>(i)]->is(input->unsafe_at(i), core)) return false;
 			}
 			return true;
 		}

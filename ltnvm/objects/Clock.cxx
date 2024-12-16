@@ -1,7 +1,7 @@
 #include "Clock.hxx"
 
 namespace ltn::vm {
-	void Clock::stringify(VMCore & core, std::ostream & oss, bool nested) {
+	void Clock::stringify(VMCore &, std::ostream & oss, bool) {
 		oss << "<clock: " << getSeconds() << "s>";
 	}
 

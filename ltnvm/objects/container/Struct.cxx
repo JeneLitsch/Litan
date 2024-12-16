@@ -3,7 +3,7 @@
 #include "ltnvm/utils/special_member.hxx"
 
 namespace ltn::vm {
-	void Struct::stringify(VMCore & core, std::ostream & oss, bool nested) {
+	void Struct::stringify(VMCore & core, std::ostream & oss, bool) {
 		auto fx = find_special_member<MemberCode::OPERATOR_STR>(*this);
 		if(fx) {
 			Value value = value::strukt(this);

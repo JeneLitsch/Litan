@@ -59,7 +59,7 @@ namespace ltn::vm::inst {
 			for(std::int64_t i = 0; i < count; i++) {
 				oss << str.str;
 			}
-			const auto ptr = heap.alloc(String{std::move(oss.str())}); 
+			const auto ptr = heap.alloc(String{oss.str()}); 
 			return ptr;
 		}
 

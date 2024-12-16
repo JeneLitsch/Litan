@@ -1,7 +1,7 @@
 #include "RandomEngine.hxx"
 
 namespace ltn::vm {
-	void RandomEngine::stringify(VMCore & core, std::ostream & oss, bool nested) {
+	void RandomEngine::stringify(VMCore &, std::ostream & oss, bool) {
 		oss << "<rng>";
 	}
 

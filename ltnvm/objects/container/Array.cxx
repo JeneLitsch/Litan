@@ -24,7 +24,7 @@ namespace ltn::vm {
 
 
 
-	void Array::stringify(VMCore & core, std::ostream & oss, bool nested) {
+	void Array::stringify(VMCore & core, std::ostream & oss, bool) {
 		print_all(std::begin(data), std::end(data), oss, core, '[', ']');
 	}
 
@@ -101,7 +101,7 @@ namespace ltn::vm {
 			throw except::out_of_range();
 		}
 
-		if(begin > this->size()) {
+		if(begin > std::ssize(*this)) {
 			throw except::out_of_range();
 		}
 
@@ -109,7 +109,7 @@ namespace ltn::vm {
 			throw except::out_of_range();
 		}
 
-		if(end > this->size()) {
+		if(end > std::ssize(*this)) {
 			throw except::out_of_range();
 		}
 

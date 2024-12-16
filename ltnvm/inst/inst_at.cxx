@@ -8,14 +8,14 @@ namespace ltn::vm::inst {
 		
 		if(is_array(ref) || is_tuple(ref)) {
 			const auto & arr = *value::as<Contiguous>(ref);
-			const auto index = to_index(key, std::size(arr));
+			const auto index = to_index(key, std::ssize(arr));
 			core.stack.push(arr.unsafe_at(index));
 			return;
 		}
 
 		if(is_string(ref)) {
 			const auto & str = *value::as<String>(ref);
-			const auto index = to_index(key, std::size(str));
+			const auto index = to_index(key, std::ssize(str));
 			const auto chr = str.unsafe_at(index);
 			core.stack.push(value::character(chr));
 			return;

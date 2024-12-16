@@ -2,7 +2,7 @@
 
 namespace ltn::vm::inst {
 	namespace {
-		inline Struct & get_struct(const Value ref, Heap & heap) {
+		inline Struct & get_struct(const Value ref) {
 			if(is_struct(ref)) {
 				return *value::as<Struct>(ref);
 			}
@@ -33,12 +33,6 @@ namespace ltn::vm::inst {
 			core.stack.push(value::as<Object>(ref)->get_member(id));
 			return;
 		}
-		// if(is_object(ref)) {
-		// 	return read_struct_member(core, ref, id);
-		// }
-		// if(is_array(ref)) {
-		// 	return read_array_member(core, ref, id);
-		// }
 		throw except::invalid_member_access();
 	}
 	
@@ -48,7 +42,7 @@ namespace ltn::vm::inst {
 		const auto id = core.fetch_uint();
 		const auto ref = core.stack.pop();
 		const auto value = core.stack.pop();
-		auto & strukt = get_struct(ref, core.heap);
+		auto & strukt = get_struct(ref);
 		if(auto * const member = strukt.get(id)) {
 			if(is_null(value)) {
 				delete_member(strukt, id);

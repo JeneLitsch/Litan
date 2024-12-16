@@ -117,7 +117,7 @@ namespace ltn::c {
 
 
 
-		Source parse_import(const Source & includer, const Token & start, Tokens & tokens, const Options & options) {
+		Source parse_import(const Source & includer, const Token & start, Tokens & tokens) {
 			const std::filesystem::path source_path = includer.get_full_name(); 
 			const std::filesystem::path parent_path = source_path.parent_path();
 			if(auto path = match(TT::STRING, tokens)) {
@@ -144,12 +144,6 @@ namespace ltn::c {
 			ast::Program & ast,
 			std::queue<Source> & pending_sources) {
 
-			Options options;
-
-			options.include_paths["main"] = std::filesystem::path{source.get_full_name()}.parent_path();
-
-			// std::cout << "[Source] " << std::filesystem::path{source.get_full_name()} << "\n";
-
 			Tokens tokens = tokenize(source);
 			stx::accu_stack<Namespace> namestack;
 
@@ -172,7 +166,7 @@ namespace ltn::c {
 					ast.globals.push_back(parse_global_decl(tokens, namestack.top()));
 				}
 				else if(auto start = match(TT::HASH_IMPORT, tokens)) {
-					pending_sources.push(parse_import(source, *start, tokens, options));
+					pending_sources.push(parse_import(source, *start, tokens));
 				}
 				else if(match(TT::BRACE_R, tokens)) {
 					if(namestack.empty()) {

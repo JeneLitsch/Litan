@@ -9,7 +9,7 @@ namespace ltn::vm::build_in::io {
 	namespace {
 		using VT = ValueType;
 
-		std::istream & get_istream(Heap & heap, VMStack & stack) {
+		std::istream & pop_istream(VMStack & stack) {
 			const auto ref = stack.pop();
 			if(is_istream(ref)) {
 				return value::as<IStream>(ref)->get();
@@ -136,7 +136,7 @@ namespace ltn::vm::build_in::io {
 
 
 	Value is_eof(VMCore & core) {
-		auto & in = get_istream(core.heap, core.stack); 
+		auto & in = pop_istream(core.stack); 
 		return value::boolean(in.peek() == EOF);
 	}
 
@@ -159,7 +159,7 @@ namespace ltn::vm::build_in::io {
 
 
 	Value read_str(VMCore & core) {
-		auto & in = get_istream(core.heap, core.stack); 
+		auto & in = pop_istream(core.stack); 
 		std::string value;
 		in >> value;
 		if(in) {
@@ -175,7 +175,7 @@ namespace ltn::vm::build_in::io {
 
 
 	Value read_line(VMCore & core) {
-		auto & in = get_istream(core.heap, core.stack); 
+		auto & in = pop_istream(core.stack); 
 		std::string value;
 		std::getline(in, value);
 		if(in) {
@@ -191,7 +191,7 @@ namespace ltn::vm::build_in::io {
 
 
 	Value read_bool(VMCore & core) {
-		auto & in = get_istream(core.heap, core.stack);
+		auto & in = pop_istream(core.stack);
 		bool value;
 		in >> std::ws;
 
@@ -221,7 +221,7 @@ namespace ltn::vm::build_in::io {
 
 
 	Value read_char(VMCore & core) {
-		auto & in = get_istream(core.heap, core.stack); 
+		auto & in = pop_istream(core.stack); 
 		char value;
 		in >> value;
 		if(in) {
@@ -236,7 +236,7 @@ namespace ltn::vm::build_in::io {
 
 
 	Value read_int(VMCore & core) {
-		auto & in = get_istream(core.heap, core.stack); 
+		auto & in = pop_istream(core.stack); 
 		std::int64_t value;
 		in >> value;
 		if(in) {
@@ -251,7 +251,7 @@ namespace ltn::vm::build_in::io {
 
 
 	Value read_float(VMCore & core) {
-		auto & in = get_istream(core.heap, core.stack); 
+		auto & in = pop_istream(core.stack); 
 		stx::float64_t value;
 		in >> value;
 		if(in) {
@@ -266,7 +266,7 @@ namespace ltn::vm::build_in::io {
 
 
 	Value read_all(VMCore & core) {
-		auto & in = get_istream(core.heap, core.stack);
+		auto & in = pop_istream(core.stack);
 		std::ostringstream oss;
 		oss << in.rdbuf();
 		const auto ref = core.heap.alloc(String{oss.str()});

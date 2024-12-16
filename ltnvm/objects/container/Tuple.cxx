@@ -4,7 +4,7 @@
 #include "ltnvm/stdlib/tuple.hxx"
 
 namespace ltn::vm {
-	void Tuple::stringify(VMCore & core, std::ostream & oss, bool nested) {
+	void Tuple::stringify(VMCore & core, std::ostream & oss, bool) {
 		print_all(std::begin(data), std::end(data), oss, core, '(', ')');
 	}
 

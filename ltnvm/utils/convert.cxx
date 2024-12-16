@@ -78,7 +78,7 @@ namespace ltn::vm::convert {
 	}
 
 
-	std::string to_string(Value value, Heap & heap) {
+	std::string to_string(Value value) {
 		if(is_string(value)) {
 			return value::as<String>(value)->copy_to_std_string();
 		}

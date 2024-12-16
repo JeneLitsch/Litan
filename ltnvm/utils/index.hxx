@@ -4,7 +4,7 @@
 #include "ltnvm/Exception.hxx"
 
 namespace ltn::vm {
-	inline std::int64_t to_index(const Value value, std::uint64_t size) {
+	inline std::int64_t to_index(const Value value, std::int64_t size) {
 		if(!is_int(value)) throw Exception{
 			Exception::Type::OUT_OF_RANGE,
 			"Expected integer as index"
@@ -15,7 +15,7 @@ namespace ltn::vm {
 		if(index < 0) {
 			throw Exception{Exception::Type::OUT_OF_RANGE, "Negative index is not allowed"};
 		}
-		if(static_cast<std::uint64_t>(index) >= size) {
+		if(index >= size) {
 			throw Exception{Exception::Type::OUT_OF_RANGE, "Index out of range"};
 		}
 		return index; 

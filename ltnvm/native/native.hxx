@@ -6,7 +6,7 @@
 namespace ltn::vm {
 	struct Array;
 	struct Tuple;
-	struct Map;
+	class Map;
 	struct String;
 	struct Queue;
 	struct Stack;

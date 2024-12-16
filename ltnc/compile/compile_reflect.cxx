@@ -24,7 +24,7 @@ namespace ltn::c {
 			const sst::expr::Reflect::Addr & address,
 			const sst::expr::Reflect::FunctionQuery & query) {
 
-			const auto arity_code = query.arity | std::uint64_t{query.is_variadic} << 63;
+			// const auto arity_code = query.arity | std::uint64_t{query.is_variadic} << 63;
 
 			InstructionBuffer buf;
 			buf << inst::newstruct();

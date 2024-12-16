@@ -13,7 +13,7 @@
 #include "ltnvm/utils/convert.hxx"
 
 namespace ltn::vm {
-	void Iterator::stringify(VMCore & core, std::ostream & oss, bool nested) {
+	void Iterator::stringify(VMCore &, std::ostream & oss, bool) {
 		oss << "<iterator>";
 	}
 

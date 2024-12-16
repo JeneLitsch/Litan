@@ -1,7 +1,7 @@
 #include "IStream.hxx"
 
 namespace ltn::vm {
-	void IStream::stringify(VMCore & core, std::ostream & oss, bool nested) {
+	void IStream::stringify(VMCore &, std::ostream & oss, bool) {
 		oss << "<istream>";
 	}
 }

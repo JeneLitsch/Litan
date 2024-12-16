@@ -172,7 +172,7 @@ namespace ltn::vm::build_in {
 
 
 		int64_t array_size(ltn_Array array) {
-			return static_cast<Array*>(array.ptr)->size();
+			return static_cast<std::int64_t>(static_cast<Array*>(array.ptr)->size());
 		}
 
 
@@ -223,7 +223,7 @@ namespace ltn::vm::build_in {
 
 
 		int64_t map_size(ltn_Map map) {
-			return static_cast<Map*>(map.ptr)->size();
+			return static_cast<std::int64_t>(static_cast<Map*>(map.ptr)->size());
 		}
 
 
@@ -234,14 +234,14 @@ namespace ltn::vm::build_in {
 
 		Value tuple_at(ltn_Tuple tuple, ltn_Int index) {
 			Tuple * t = static_cast<Tuple*>(tuple.ptr);
-			if(t->size() <= index) {
+			if(std::ssize(*t) <= index) {
 				throw except::out_of_range();
 			}
 			return t->unsafe_at(index);
 		}
 
 		int64_t tuple_size(ltn_Tuple tuple) {
-			return static_cast<Tuple*>(tuple.ptr)->size();
+			return static_cast<std::int64_t>(static_cast<Tuple*>(tuple.ptr)->size());
 		}
 
 
@@ -327,7 +327,7 @@ namespace ltn::vm::build_in {
 	Value load_plugin_linux(VMCore & core) {
 		Value args_0 = core.stack.pop();
 		String * path = value::as<String>(args_0);
-		void * handle = dlmopen(core.fetch_id(), path->str.data(), RTLD_LAZY);
+		void * handle = dlmopen(static_cast<std::int64_t>(core.fetch_id()), path->str.data(), RTLD_LAZY);
 		if(handle == nullptr) {
 			throw except::cannot_open_file(path->copy_to_std_string());
 		}
@@ -347,7 +347,7 @@ namespace ltn::vm::build_in {
 
 
 
-	Value load_plugin_other(VMCore & core) {
+	Value load_plugin_other(VMCore &) {
 		throw std::runtime_error{"Plugins are only supported on Linux"};
 	}
 	

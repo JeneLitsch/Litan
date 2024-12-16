@@ -5,8 +5,8 @@
 #include "stdxx/float64_t.hxx"
 
 namespace ltn::vm::cast {
-	std::string to_string(Value value, Heap & heap) {
-		return convert::to_string(value, heap);
+	std::string to_string(Value value) {
+		return convert::to_string(value);
 	}
 
 
@@ -24,7 +24,7 @@ namespace ltn::vm::cast {
 
 
 
-	stx::float64_t to_float(Value value, Heap & heap) {
+	stx::float64_t to_float(Value value) {
 		if (is_clock(value)) {
 			const auto & clock = *value::as<Clock>(value);
 			return clock.getSeconds();

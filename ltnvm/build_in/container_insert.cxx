@@ -40,7 +40,7 @@ namespace ltn::vm::build_in {
 	namespace {
 		template<typename Container>
 		auto to_iter(Container * container, const Value & key) {
-			const auto i = to_index(key, std::size(*container) + 1);
+			const auto i = to_index(key, std::ssize(*container) + 1);
 			return std::begin(*container) + i;
 		}
 	}

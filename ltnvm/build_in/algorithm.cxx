@@ -6,7 +6,7 @@
 #include <numeric>
 
 namespace ltn::vm::build_in {
-	static auto to_cpp_range(const Value ref, Heap & heap) {
+	static auto to_cpp_range(const Value ref) {
 		if(is_array(ref)) {
 			Array * array = value::as<Array>(ref);
 			const auto begin = std::begin(*array);
@@ -47,7 +47,7 @@ namespace ltn::vm::build_in {
 	// Algorithms
 	Value sort_desc(VMCore & core) {
 		const auto ref = core.stack.pop();
-		const auto [begin, end] = to_cpp_range(ref, core.heap);
+		const auto [begin, end] = to_cpp_range(ref);
 		const auto comp = bigger(core);
 		std::sort(begin, end, comp);
 		return value::null;
@@ -57,7 +57,7 @@ namespace ltn::vm::build_in {
 
 	Value sort_ascn(VMCore & core) {
 		const auto ref = core.stack.pop();
-		const auto [begin, end] = to_cpp_range(ref, core.heap);
+		const auto [begin, end] = to_cpp_range(ref);
 		const auto comp = smaller(core);
 		std::sort(begin, end, comp);
 		return value::null;
@@ -67,7 +67,7 @@ namespace ltn::vm::build_in {
 
 	Value is_sorted_ascn(VMCore & core) {
 		const auto ref = core.stack.pop();
-		const auto [begin, end] = to_cpp_range(ref, core.heap);
+		const auto [begin, end] = to_cpp_range(ref);
 		const auto comp = smaller(core);
 		return value::boolean(std::is_sorted(begin, end, comp));
 	}
@@ -76,7 +76,7 @@ namespace ltn::vm::build_in {
 
 	Value is_sorted_desc(VMCore & core) {
 		const auto ref = core.stack.pop();
-		const auto [begin, end] = to_cpp_range(ref, core.heap);
+		const auto [begin, end] = to_cpp_range(ref);
 		const auto comp = bigger(core);
 		return value::boolean(std::is_sorted(begin, end, comp));
 	}
@@ -86,7 +86,7 @@ namespace ltn::vm::build_in {
 	Value find(VMCore & core) {
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();
-		const auto [begin, end] = to_cpp_range(ref, core.heap);
+		const auto [begin, end] = to_cpp_range(ref);
 		const auto pred = predicate(core, key);
 		const auto found = std::find_if(begin, end, pred);
 		if(found == end) {
@@ -102,7 +102,7 @@ namespace ltn::vm::build_in {
 	
 	Value fill(VMCore & core) {
 		const auto value = core.stack.pop();
-		const auto [begin, end] = to_cpp_range(core.stack.pop(), core.heap);
+		const auto [begin, end] = to_cpp_range(core.stack.pop());
 		std::fill(begin, end, value);
 		return value::null;
 	}
@@ -111,7 +111,7 @@ namespace ltn::vm::build_in {
 
 	Value reverse(VMCore & core) {
 		const auto ref = core.stack.pop();
-		const auto [begin, end] = to_cpp_range(ref, core.heap);
+		const auto [begin, end] = to_cpp_range(ref);
 		std::reverse(begin, end);
 		return value::null;
 	}

@@ -3,7 +3,7 @@
 #include "ltnvm/stdlib/map.hxx"
 
 namespace ltn::vm {
-	void Map::stringify(VMCore & core, std::ostream & oss, bool nested) {
+	void Map::stringify(VMCore & core, std::ostream & oss, bool) {
 		if(this->empty()) {
 			oss << "[:]";
 		}

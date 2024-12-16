@@ -59,7 +59,7 @@ namespace ltn::vm {
 			if(arrL.size() != arrR.size()) {
 				return arrL.size() <=> arrR.size();
 			}
-			for(std::size_t i = 0; i < arrL.size(); i++) {
+			for(std::int64_t i = 0; i < std::ssize(arrL); i++) {
 				const auto & elemL = arrL.unsafe_at(i);
 				const auto & elemR = arrR.unsafe_at(i);
 				const auto & comp = compare(elemL, elemR, core);
@@ -75,7 +75,7 @@ namespace ltn::vm {
 			if(deq_l.size() != deq_r.size()) {
 				return deq_l.size() <=> deq_r.size();
 			}
-			for(std::size_t i = 0; i < deq_l.size(); i++) {
+			for(std::int64_t i = 0; i < std::ssize(deq_l); i++) {
 				const auto & elemL = deq_l.unsafe_at(i);
 				const auto & elemR = deq_r.unsafe_at(i);
 				const auto & comp = compare(elemL, elemR, core);
