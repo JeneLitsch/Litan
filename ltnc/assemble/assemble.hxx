@@ -1,6 +1,6 @@
 #pragma once
 #include "ltnc/inst/inst.hxx"
-#include "ltnc/Instructions.hxx"
+#include "ltnc/link/LinkInfo.hxx"
 
 namespace ltn::c {
 	std::vector<std::uint8_t> assemble(

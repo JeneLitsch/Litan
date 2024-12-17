@@ -13,7 +13,6 @@
 
 namespace ltn::c {
 	std::vector<inst::Inst> compile(const sst::Program & program);
-	LinkInfo link(const sst::Program & program, const std::vector<inst::Inst> & instructions);
 
 	// Functional
 	InstructionBuffer compile_function(const sst::decl::Function &);
