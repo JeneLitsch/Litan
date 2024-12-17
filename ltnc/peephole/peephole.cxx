@@ -48,37 +48,37 @@ namespace ltn::c {
 
 		const auto patterns = std::array {
 			Pattern{}
-				.search(inst::read_x(0))
-				.replace(inst::read_0()),
+				.search(inst::load_x(0))
+				.replace(inst::load_0()),
 
 			Pattern{}
-				.search(inst::read_x(1))
-				.replace(inst::read_1()),
+				.search(inst::load_x(1))
+				.replace(inst::load_1()),
 
 			Pattern{}
-				.search(inst::read_x(2))
-				.replace(inst::read_2()),
+				.search(inst::load_x(2))
+				.replace(inst::load_2()),
 
 			Pattern{}
-				.search(inst::read_x(3))
-				.replace(inst::read_3()),
+				.search(inst::load_x(3))
+				.replace(inst::load_3()),
 
 
 			Pattern{}
-				.search(inst::write_x(0))
-				.replace(inst::write_0()),
+				.search(inst::store_x(0))
+				.replace(inst::store_0()),
 
 			Pattern{}
-				.search(inst::write_x(1))
-				.replace(inst::write_1()),
+				.search(inst::store_x(1))
+				.replace(inst::store_1()),
 
 			Pattern{}
-				.search(inst::write_x(2))
-				.replace(inst::write_2()),
+				.search(inst::store_x(2))
+				.replace(inst::store_2()),
 
 			Pattern{}
-				.search(inst::write_x(3))
-				.replace(inst::write_3()),
+				.search(inst::store_x(3))
+				.replace(inst::store_3()),
 
 			Pattern{}
 				.search(inst::newi(1), inst::add())

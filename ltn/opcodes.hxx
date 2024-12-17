@@ -76,20 +76,20 @@ namespace ltn {
 		// Stack read/write
 		SCRAP = 0x60,
 		DUPLICATE,
-		READ_X,
-		WRITE_X,
+		LOAD_X,
+		STORE_X,
 		SWAP,
 		UNPACK,
 
 		// Fast stack read/write
-		READ_0 = 0x68,
-		READ_1,
-		READ_2,
-		READ_3, 
-		WRITE_0,
-		WRITE_1,
-		WRITE_2,
-		WRITE_3,
+		LOAD_0 = 0x68,
+		LOAD_1,
+		LOAD_2,
+		LOAD_3, 
+		STORE_0,
+		STORE_1,
+		STORE_2,
+		STORE_3,
 
 		// Constants
 		NEWI_CONST_0 = 0x70,

@@ -103,18 +103,18 @@ namespace ltn::vm {
 
 		table[OpCode::SCRAP] = inst::scrap;
 		table[OpCode::DUPLICATE] = inst::duplicate;
-		table[OpCode::READ_X] = inst::read_x;
-		table[OpCode::WRITE_X] = inst::write_x;
+		table[OpCode::LOAD_X] = inst::load_x;
+		table[OpCode::STORE_X] = inst::store_x;
 		table[OpCode::SWAP] = inst::swap;
 		table[OpCode::UNPACK] = inst::unpack;
-		table[OpCode::READ_0] = inst::read_0;
-		table[OpCode::READ_1] = inst::read_1;
-		table[OpCode::READ_2] = inst::read_2;
-		table[OpCode::READ_3] = inst::read_3;
-		table[OpCode::WRITE_0] = inst::write_0;
-		table[OpCode::WRITE_1] = inst::write_1;
-		table[OpCode::WRITE_2] = inst::write_2;
-		table[OpCode::WRITE_3] = inst::write_3;
+		table[OpCode::LOAD_0] = inst::load_0;
+		table[OpCode::LOAD_1] = inst::load_1;
+		table[OpCode::LOAD_2] = inst::load_2;
+		table[OpCode::LOAD_3] = inst::load_3;
+		table[OpCode::STORE_0] = inst::store_0;
+		table[OpCode::STORE_1] = inst::store_1;
+		table[OpCode::STORE_2] = inst::store_2;
+		table[OpCode::STORE_3] = inst::store_3;
 		
 		table[OpCode::NEWI_CONST_0] = inst::newi_const_0;
 		table[OpCode::NEWI_CONST_1] = inst::newi_const_1;

@@ -181,20 +181,20 @@ namespace ltn::c::inst {
 
 	Inst scrap();
 	Inst duplicate();
-	Inst read_x(std::uint64_t u64);
-	Inst write_x(std::uint64_t u64);
+	Inst load_x(std::uint64_t u64);
+	Inst store_x(std::uint64_t u64);
 	Inst swap();
 	Inst unpack(std::uint8_t size);
 
-	Inst read_0();
-	Inst read_1();
-	Inst read_2();
-	Inst read_3();
+	Inst load_0();
+	Inst load_1();
+	Inst load_2();
+	Inst load_3();
 
-	Inst write_0();
-	Inst write_1();
-	Inst write_2();
-	Inst write_3();
+	Inst store_0();
+	Inst store_1();
+	Inst store_2();
+	Inst store_3();
 
 	Inst newi_const_0();
 	Inst newi_const_1();

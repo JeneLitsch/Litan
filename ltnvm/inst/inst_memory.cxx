@@ -15,7 +15,7 @@ namespace ltn::vm::inst {
 
 
 
-	void read_x(VMCore & core) {
+	void load_x(VMCore & core) {
 		const auto address = core.fetch_uint();
 		const auto value = core.stack.read(address);
 		core.stack.push(value);
@@ -23,7 +23,7 @@ namespace ltn::vm::inst {
 
 
 
-	void write_x(VMCore & core) {
+	void store_x(VMCore & core) {
 		const auto address = core.fetch_uint();
 		const auto value = core.stack.pop();
 		core.stack.write(address, value);
@@ -40,13 +40,13 @@ namespace ltn::vm::inst {
 
 
 
-	void read_0(VMCore & core) { core.stack.push(core.stack.read(0)); }
-	void read_1(VMCore & core) { core.stack.push(core.stack.read(1)); }
-	void read_2(VMCore & core) { core.stack.push(core.stack.read(2)); }
-	void read_3(VMCore & core) { core.stack.push(core.stack.read(3)); }
+	void load_0(VMCore & core) { core.stack.push(core.stack.read(0)); }
+	void load_1(VMCore & core) { core.stack.push(core.stack.read(1)); }
+	void load_2(VMCore & core) { core.stack.push(core.stack.read(2)); }
+	void load_3(VMCore & core) { core.stack.push(core.stack.read(3)); }
 
-	void write_0(VMCore & core) { core.stack.write(0, core.stack.pop()); }
-	void write_1(VMCore & core) { core.stack.write(1, core.stack.pop()); }
-	void write_2(VMCore & core) { core.stack.write(2, core.stack.pop()); }
-	void write_3(VMCore & core) { core.stack.write(3, core.stack.pop()); }
+	void store_0(VMCore & core) { core.stack.write(0, core.stack.pop()); }
+	void store_1(VMCore & core) { core.stack.write(1, core.stack.pop()); }
+	void store_2(VMCore & core) { core.stack.write(2, core.stack.pop()); }
+	void store_3(VMCore & core) { core.stack.write(3, core.stack.pop()); }
 }

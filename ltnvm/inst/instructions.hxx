@@ -67,19 +67,19 @@ namespace ltn::vm::inst {
 
 	void scrap(VMCore & core);
 	void duplicate(VMCore & core);
-	void read_x(VMCore & core);
-	void write_x(VMCore & core);
+	void load_x(VMCore & core);
+	void store_x(VMCore & core);
 	void swap(VMCore & core);
 	void unpack(VMCore & core);
 	
-	void read_0(VMCore & core);
-	void read_1(VMCore & core);
-	void read_2(VMCore & core);
-	void read_3(VMCore & core);
-	void write_0(VMCore & core);
-	void write_1(VMCore & core);
-	void write_2(VMCore & core);
-	void write_3(VMCore & core);
+	void load_0(VMCore & core);
+	void load_1(VMCore & core);
+	void load_2(VMCore & core);
+	void load_3(VMCore & core);
+	void store_0(VMCore & core);
+	void store_1(VMCore & core);
+	void store_2(VMCore & core);
+	void store_3(VMCore & core);
 
 	void newi_const_0(VMCore & core);
 	void newi_const_1(VMCore & core);

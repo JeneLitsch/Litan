@@ -19,7 +19,7 @@ namespace ltn::c {
 		
 		InstructionBuffer compile_bind(const sst::bind::NewVar & binding) {
 			InstructionBuffer buf;
-			buf << inst::write_x(binding.address);
+			buf << inst::store_x(binding.address);
 			return buf;
 		}
 		
@@ -64,7 +64,7 @@ namespace ltn::c {
 		
 		InstructionBuffer compile_bind(const sst::bind::Local & binding) {
 			InstructionBuffer buf;
-			buf << inst::write_x(binding.address);
+			buf << inst::store_x(binding.address);
 			return buf;
 		}
 		

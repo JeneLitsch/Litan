@@ -6,7 +6,7 @@
 namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::expr::Var & expr) {
 		InstructionBuffer buf;
-		buf << inst::read_x(expr.address);
+		buf << inst::load_x(expr.address);
 		return buf;
 	}
 

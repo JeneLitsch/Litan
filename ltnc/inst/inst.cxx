@@ -370,18 +370,18 @@ namespace ltn::c::inst {
 		};
 	}
 
-	Inst read_x(std::uint64_t u64) {
+	Inst load_x(std::uint64_t u64) {
 		return InstUint64 {
-			.name = "read_x",
-			.opcode = OpCode::READ_X,
+			.name = "load_x",
+			.opcode = OpCode::LOAD_X,
 			.value = u64,
 		};
 	}
 
-	Inst write_x(std::uint64_t u64) {
+	Inst store_x(std::uint64_t u64) {
 		return InstUint64 {
-			.name = "write_x",
-			.opcode = OpCode::WRITE_X,
+			.name = "store_x",
+			.opcode = OpCode::STORE_X,
 			.value = u64,
 		};
 	}
@@ -403,52 +403,52 @@ namespace ltn::c::inst {
 
 
 
-	Inst read_0() {
+	Inst load_0() {
 		return InstNone {
-			.name = "read_0",
-			.opcode = OpCode::READ_0,
+			.name = "load_0",
+			.opcode = OpCode::LOAD_0,
 		};
 	}
-	Inst read_1() {
+	Inst load_1() {
 		return InstNone {
-			.name = "read_1",
-			.opcode = OpCode::READ_1,
+			.name = "load_1",
+			.opcode = OpCode::LOAD_1,
 		};
 	}
-	Inst read_2() {
+	Inst load_2() {
 		return InstNone {
-			.name = "read_2",
-			.opcode = OpCode::READ_2,
+			.name = "load_2",
+			.opcode = OpCode::LOAD_2,
 		};
 	}
-	Inst read_3() {
+	Inst load_3() {
 		return InstNone {
-			.name = "read_3",
-			.opcode = OpCode::READ_3,
+			.name = "load_3",
+			.opcode = OpCode::LOAD_3,
 		};
 	}
-	Inst write_0() {
+	Inst store_0() {
 		return InstNone {
-			.name = "write_0",
-			.opcode = OpCode::WRITE_0,
+			.name = "store_0",
+			.opcode = OpCode::STORE_0,
 		};
 	}
-	Inst write_1() {
+	Inst store_1() {
 		return InstNone {
-			.name = "write_1",
-			.opcode = OpCode::WRITE_1,
+			.name = "store_1",
+			.opcode = OpCode::STORE_1,
 		};
 	}
-	Inst write_2() {
+	Inst store_2() {
 		return InstNone {
-			.name = "write_2",
-			.opcode = OpCode::WRITE_2,
+			.name = "store_2",
+			.opcode = OpCode::STORE_2,
 		};
 	}
-	Inst write_3() {
+	Inst store_3() {
 		return InstNone {
-			.name = "write_3",
-			.opcode = OpCode::WRITE_3,
+			.name = "store_3",
+			.opcode = OpCode::STORE_3,
 		};
 	}
 
