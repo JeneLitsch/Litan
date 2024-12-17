@@ -89,6 +89,7 @@ namespace ltn::vm {
 		table[OpCode::YIELD] = inst::yield;
 		table[OpCode::CO_RETURN] = inst::co_retvrn;
 		table[OpCode::CO_DUMP] = inst::co_dump;
+		table[OpCode::RETURN_NULL] = inst::return_null;
 
 		table[OpCode::NEWARR] = inst::newarr;
 		table[OpCode::NEWSTR] = inst::newstr;

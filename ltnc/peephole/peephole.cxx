@@ -7,14 +7,13 @@
 
 namespace ltn::c {
 	namespace {
-		using InstSpan = std::span<const inst::Inst>;
-		using Step = std::function<bool(InstSpan)>;
+		using Step = std::function<bool(std::span<const inst::Inst> )>;
 
 		struct Pattern {
 			std::vector<Step> steps;
 			InstructionBuffer output;
 
-			std::optional<InstructionBuffer> operator()(InstSpan span) const {
+			std::optional<InstructionBuffer> operator()(std::span<const inst::Inst> span) const {
 				for(std::size_t i = 0; i < steps.size(); ++i) {
 					auto & step = steps[i];
 					if(!step(span.subspan(i))) return std::nullopt;
@@ -31,7 +30,7 @@ namespace ltn::c {
 			}
 
 			Pattern & search(const auto & first, const auto & ...args) {
-				this->steps.push_back([first] (InstSpan span) -> bool {
+				this->steps.push_back([first] (std::span<const inst::Inst> span) -> bool {
 					if(span.empty()) return false;
 					return span.front() == first;
 				});
@@ -89,13 +88,21 @@ namespace ltn::c {
 				.replace(inst::dec()),
 
 			Pattern{}
+				.search(inst::null(), inst::retvrn(), inst::null(), inst::retvrn())
+				.replace(inst::return_null()),
+			
+			Pattern{}
 				.search(inst::retvrn(), inst::null(), inst::retvrn())
 				.replace(inst::retvrn()),
+
+			Pattern{}
+				.search(inst::null(), inst::retvrn())
+				.replace(inst::return_null()),
 		};
 
 
 
-		InstructionBuffer transform(std::span<const inst::Inst> & span) {
+		InstructionBuffer apply_pattern(std::span<const inst::Inst> & span) {
 			for(const auto & pattern : patterns) {
 				if(auto x = pattern(span)) {
 					span = span.subspan(pattern.steps.size());
@@ -108,16 +115,19 @@ namespace ltn::c {
 			span = span.subspan(1);
 			return buf;
 		}
+
+		InstructionBuffer transform(std::span<const inst::Inst> input) {
+			InstructionBuffer output;
+			while (!input.empty()) {
+				output << apply_pattern(input);
+			}
+			return output;
+		}
 	}
 
 
 
 	std::vector<inst::Inst> peephole(const std::vector<inst::Inst> & input) {
-		InstructionBuffer final_buf;
-		std::span<const inst::Inst> span = input;
-		while (!span.empty()) {
-			final_buf << transform(span);
-		}
-		return final_buf.get();
+		return transform(input).get();
 	}
 }

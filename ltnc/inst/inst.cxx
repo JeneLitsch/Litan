@@ -353,6 +353,12 @@ namespace ltn::c::inst {
             .opcode = OpCode::CO_DUMP,
         };
 	}
+	Inst return_null() {
+		return InstNone {
+			.name = "return_null",
+			.opcode = OpCode::RETURN_NULL,
+		};
+	}
 
 
 

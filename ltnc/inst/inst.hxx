@@ -178,6 +178,7 @@ namespace ltn::c::inst {
 	Inst yield();
 	Inst co_retvrn();
 	Inst co_dump();
+	Inst return_null();
 
 	Inst scrap();
 	Inst duplicate();

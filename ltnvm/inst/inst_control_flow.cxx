@@ -59,4 +59,10 @@ namespace ltn::vm::inst {
 		core.stack.push(value::boolean(!is_iterator_stop(core.stack.peek()))); 
 		inst::iF(core);
 	}
+
+
+	void return_null(VMCore & core) {
+		core.pc = core.stack.pop_frame();
+		core.stack.push(value::null);
+	}
 }
