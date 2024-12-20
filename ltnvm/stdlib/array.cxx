@@ -214,4 +214,24 @@ namespace ltn::vm::stdlib {
 		Array * reversed = core.heap.alloc(array->reversed());
 		return value::array(reversed);
 	}
+
+
+
+	Value array_zipped::func(Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		Array * array_l = req_array(args + 0);
+		Array * array_r = req_array(args + 1);
+		Array * array_result = core.heap.make<Array>();
+
+		const std::int64_t min_size = std::min(std::ssize(*array_l), std::ssize(*array_r));
+
+		for(std::int64_t i = 0; i < min_size; i++) {
+			Tuple * pair = core.heap.make<Tuple>();
+			pair->push_back(array_l->at(i));
+			pair->push_back(array_r->at(i));
+			array_result->push_back(value::tuple(pair));
+		}
+
+		return value::array(array_result);
+	}
 }

@@ -61,6 +61,7 @@ namespace ltn::c {
 			{"suffix",      MemberCode::SUFFIX},
 			{"reversed",    MemberCode::REVERSED},
 			{"merged",      MemberCode::MERGED},
+			{"zipped",      MemberCode::ZIPPED},
 		};
 
 		for(const auto & [name, code] : table) {

@@ -146,6 +146,7 @@ namespace ltn::vm {
 			wrap<stdlib::array_prefix>   (MemberCode::PREFIX),
 			wrap<stdlib::array_suffix>   (MemberCode::SUFFIX),
 			wrap<stdlib::array_reversed> (MemberCode::REVERSED),
+			wrap<stdlib::array_zipped>   (MemberCode::ZIPPED),
 		};
 
 		return search_native_function_table(native_function_table, id);

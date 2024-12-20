@@ -121,6 +121,18 @@ Same as `arr->slice(arr->size() - size, arr->size())`.
 Returns a copy of the array in reversed order.
 
 
+### -> zipped(other : Array): Array(Tuple)
+
+Returns an array of tuples. Each tuple contains the elements that are at the same index.
+If one array is larger than the other, extraneus elements will be ignored.
+
+```js
+var a = [1,2,3];
+var b = [4,5,6,7];
+var c = a->zipped(b); // c == [(1,4), (2,5), (3,6)]
+```
+
+
 
 
 ## Operators

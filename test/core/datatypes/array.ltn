@@ -190,6 +190,31 @@ namespace sphinx::test {
 
 
 
+	function array_zipped_equal_length() {
+		var arr_a = [1,2,3,4];
+		var arr_b = [5,6,7,8];
+		assert_equal_strict(arr_a->zipped(arr_b), [(1,5), (2,6), (3,7), (4,8)]);
+	}
+
+
+
+	function array_zipped_first_shorter() {
+		var arr_a = [1,2,3];
+		var arr_b = [5,6,7,8];
+		assert_equal_strict(arr_a->zipped(arr_b), [(1,5), (2,6), (3,7)]);
+	}
+
+
+
+
+	function array_zipped_second_shorter() {
+		var arr_a = [1,2,3,4];
+		var arr_b = [5,6,7];
+		assert_equal_strict(arr_a->zipped(arr_b), [(1,5), (2,6), (3,7)]);
+	}
+
+
+
 	function array_op_add() {
 		test_name("operator: l + r (array + array)");
 
