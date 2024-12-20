@@ -25,10 +25,7 @@ namespace ltn::vm::build_in {
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();
 
-		if(is_map(ref)) {
-			Map * map = value::as<Map>(ref);
-			return value::boolean(map->contains(key));
-		}
+		if(is_map(ref)) return call<stdlib::map_has>(core, {ref,key});
 
 		throw except::invalid_argument();
 	}
@@ -64,12 +61,7 @@ namespace ltn::vm::build_in {
 	Value front(VMCore & core) {
 		const auto ref = core.stack.pop();
 		
-		if (is_array(ref)) {
-			const Array * arr = value::as<Array>(ref);
-			if(std::empty(*arr)) throw except::out_of_range();
-			return arr->unsafe_front();
-		}
-
+		if (is_array(ref)) return call<stdlib::array_front>(core, { ref });
 		if (is_string(ref)) {
 			const String * str = value::as<String>(ref);
 			if(std::empty(*str)) throw except::out_of_range();
@@ -82,12 +74,7 @@ namespace ltn::vm::build_in {
 	Value back(VMCore & core) {
 		const auto ref = core.stack.pop();
 		
-		if (is_array(ref)) {
-			const Array * arr = value::as<Array>(ref);
-			if(std::empty(*arr)) throw except::out_of_range();
-			return arr->unsafe_back();
-		}
-
+		if (is_array(ref)) return call<stdlib::array_back>(core, { ref });
 		if (is_string(ref)) {
 			const String * str = value::as<String>(ref);
 			if(std::empty(*str)) throw except::out_of_range();

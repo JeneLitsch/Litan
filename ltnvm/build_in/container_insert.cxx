@@ -4,6 +4,8 @@
 #include "ltnvm/utils/index.hxx"
 #include "ltnvm/inst/instructions.hxx"
 #include "ltnvm/utils/stringify.hxx"
+#include "ltnvm/stdlib/array.hxx"
+#include "ltnvm/stdlib/map.hxx"
 
 namespace ltn::vm::build_in {
 	Value insert_front(VMCore & core) {
@@ -26,11 +28,7 @@ namespace ltn::vm::build_in {
 		const auto elem = core.stack.pop();
 		const auto ref = core.stack.pop();
 
-		if(is_array(ref)) {
-			Array * arr = value::as<Array>(ref);
-			arr->push_back(elem);
-			return value::null;
-		} 
+		if(is_array(ref)) return call<stdlib::array_push>(core, {ref,elem});
 		
 		throw except::invalid_argument();
 	}
@@ -52,19 +50,8 @@ namespace ltn::vm::build_in {
 		const auto key = core.stack.pop();
 		const auto ref = core.stack.pop();
 
-		if(is_map(ref)) {
-			Map * map = value::as<Map>(ref);
-			(*map)[key] = elem;
-			return value::null;
-		}
-		
-
-		if(is_array(ref)) {
-			Array * arr = value::as<Array>(ref); 
-			const auto at = to_iter(arr, key);
-			arr->unsafe_insert(at, elem);
-			return value::null;
-		}
+		if(is_map(ref)) return call<stdlib::map_insert>(core, { ref, key, elem });
+		if(is_array(ref)) return call<stdlib::array_insert>(core, { ref, key, elem });
 
 		throw except::invalid_argument();
 	}
