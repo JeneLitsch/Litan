@@ -4,7 +4,7 @@
 namespace ltn::c::ast::expr {
 	struct Struct final : public Expression {
 		struct Member {
-			std::variant<std::string, MemberCode> name;
+			std::string name;
 			expr_ptr expr;
 		};
 

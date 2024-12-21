@@ -57,8 +57,8 @@ namespace ltn::c {
 			}
 
 			if(auto start = match(TT::DOT, tokens)) {
-				auto name = parse_member(tokens);
-				auto access = ast::expr::member(start->location, std::move(l), name);
+				std::string name = parse_member(tokens);
+				ast::expr_ptr access = ast::expr::member(start->location, std::move(l), std::move(name));
 				return parse_postfix(tokens, std::move(access));
 			}
 

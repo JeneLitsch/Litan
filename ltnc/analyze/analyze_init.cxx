@@ -1,7 +1,6 @@
 #include "analyze.hxx"
 #include <iostream>
 #include "stdxx/iife.hxx"
-#include "ltn/MemberCode.hxx"
 
 #include "ltnc/ast/expr/Map.hxx"
 #include "ltnc/ast/expr/Struct.hxx"
@@ -11,15 +10,6 @@
 
 namespace ltn::c {
 	namespace {
-		sst::expr::Struct::Member analyze_member(const Scope &, sst::expr_ptr expr, MemberCode code) {
-			return sst::expr::Struct::Member {
-				.address = static_cast<std::uint8_t>(code),
-				.expr = std::move(expr),
-			};
-		}
-
-
-		
 		sst::expr::Struct::Member analyze_member(const Scope & scope, sst::expr_ptr expr, const std::string & name) {
 			return sst::expr::Struct::Member {
 				.address = scope.resolve_member_id(name),
@@ -35,10 +25,7 @@ namespace ltn::c {
 
 		for(const auto & [member, expr] : init.members) {
 			auto sst_expr = analyze_expression(*expr, scope);
-			auto visitor = [&] (const auto & m) {
-				return analyze_member(scope, std::move(sst_expr), m);
-			};
-			sst_init->members.push_back(std::visit(visitor, member));
+			sst_init->members.push_back(analyze_member(scope, std::move(sst_expr), member));
 		}
 
 		return sst_init;

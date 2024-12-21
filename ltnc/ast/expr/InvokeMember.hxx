@@ -5,7 +5,7 @@ namespace ltn::c::ast::expr {
 	struct InvokeMember final : public Expression {
 		InvokeMember(
 			expr_ptr object,
-			const std::variant<std::string, MemberCode> & name,
+			const std::string & name,
 			std::vector<expr_ptr> arguments,
 			const SourceLocation & location);
 
@@ -14,7 +14,7 @@ namespace ltn::c::ast::expr {
 		std::uint64_t arity() const;
 
 		expr_ptr object;
-		std::variant<std::string, MemberCode> name;
+		std::string name;
 		std::vector<expr_ptr> arguments;
 	};
 
@@ -23,7 +23,7 @@ namespace ltn::c::ast::expr {
 	std::unique_ptr<InvokeMember> invoke_member(
 		const SourceLocation & location,
 		expr_ptr object,
-		const std::variant<std::string, MemberCode> & name,
+		const std::string & name,
 		std::vector<expr_ptr> arguments
 	);
 }
