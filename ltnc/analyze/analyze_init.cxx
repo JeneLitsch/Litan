@@ -9,38 +9,32 @@
 #include "ltnc/sst/expr/Struct.hxx"
 
 namespace ltn::c {
-	namespace {
-		sst::expr::Struct::Member analyze_member(const Scope & scope, sst::expr_ptr expr, const std::string & name) {
-			return sst::expr::Struct::Member {
-				.address = scope.resolve_member_id(name),
-				.expr = std::move(expr),
+
+	sst::expr_ptr analyze_expr(const ast::expr::Struct & ast_struct, Scope & scope) {
+		auto sst_struct = sst::expr::strukt();
+		for(const auto & [name, expr] : ast_struct.members) {
+			sst::expr_ptr sst_expr = analyze_expression(*expr, scope);
+			const std::uint64_t address = scope.resolve_member_id(name);
+			sst::expr::Struct::Member sst_member {
+				.address = address,
+				.expr = std::move(sst_expr),
 			};
-		}
-	}
-
-
-	sst::expr_ptr analyze_expr(const ast::expr::Struct & init, Scope & scope) {
-		
-		auto sst_init = sst::expr::strukt();
-
-		for(const auto & [member, expr] : init.members) {
-			auto sst_expr = analyze_expression(*expr, scope);
-			sst_init->members.push_back(analyze_member(scope, std::move(sst_expr), member));
+			sst_struct->members.push_back(std::move(sst_member));
 		}
 
-		return sst_init;
+		return sst_struct;
 	}
 
 
 	
-	sst::expr_ptr analyze_expr(const ast::expr::Map & init, Scope & scope) {
-		auto map = sst::expr::map();
-		for(auto & [key, val] : init.pairs) {
-			map->pairs.push_back(sst::expr::Map::Pair{
+	sst::expr_ptr analyze_expr(const ast::expr::Map & ast_map, Scope & scope) {
+		auto sst_map = sst::expr::map();
+		for(auto & [key, val] : ast_map.pairs) {
+			sst_map->pairs.push_back(sst::expr::Map::Pair{
 				.key = analyze_expression(*key, scope),
 				.val = analyze_expression(*val, scope),
 			});
 		}
-		return map;
+		return sst_map;
 	}
 }
