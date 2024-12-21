@@ -77,9 +77,14 @@ namespace ltn::c {
 		}
 
 
+		bool check_id_start_char(std::istream & in) {
+			return check_alpha(in) || check(in, '_');
+		}
+
+
 
 		bool check_id_char(std::istream & in) {
-			return check_alpha_numeric(in) || in.peek() == '_';
+			return check_alpha_numeric(in) || check(in, '_');
 		}
 
 
@@ -92,9 +97,9 @@ namespace ltn::c {
 
 
 
-		std::string read(std::istream & in, const auto & checkFx) {
+		std::string read(std::istream & in, const auto & check_fx) {
 			std::string str;
-			while(checkFx(in)) {
+			while(check_fx(in)) {
 				const char chr = consume(in);
 				str.push_back(chr);
 			}
@@ -247,7 +252,6 @@ namespace ltn::c {
 			if(match('^')) {
 				return make(TT::BIT_XOR, "^");
 			}
-			if(match('_')) return make(TT::UNDERSCORE, "_");
 			if(match('@')) return make(TT::AT, "@");
 			
 			if(match('=')) {
@@ -326,10 +330,13 @@ namespace ltn::c {
 				}
 			}
 
-			if(check_alpha(in)) {
+			if(check_id_start_char(in)) {
 				const auto str = read(in, check_id_char);
 				if(keywords.contains(str)) {
 					return make(keywords.at(str), str);
+				}
+				if(str == "_") {
+					return make(TT::UNDERSCORE, str);
 				}
 				return make(TT::INDENTIFIER, str);
 			}

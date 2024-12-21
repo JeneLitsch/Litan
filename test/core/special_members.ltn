@@ -1,7 +1,7 @@
 namespace sphinx::test {
 	function special_member_add() {
 		var op = lambda(self, other) => self.x + other.x;
-		var a = [ .x = 2, .{add} = op ];
+		var a = [ .x = 2, .__add__ = op ];
 		var b = [ .x = 4 ];
 
 		assert_equal_strict((a+b), 6);
@@ -11,7 +11,7 @@ namespace sphinx::test {
 
 	function special_member_sub() {
 		var op = lambda(self, other) => self.x - other.x;
-		var a = [ .x = 2, .{sub} = op ];
+		var a = [ .x = 2, .__sub__ = op ];
 		var b = [ .x = 4 ];
 
 		assert_equal_strict((a-b), -2);
@@ -21,7 +21,7 @@ namespace sphinx::test {
 
 	function special_member_mlt() {
 		var op = lambda(self, other) => self.x * other.x;
-		var a = [ .x = 2, .{mlt} = op ];
+		var a = [ .x = 2, .__mlt__ = op ];
 		var b = [ .x = 4 ];
 
 		assert_equal_strict((a*b), 8);
@@ -31,7 +31,7 @@ namespace sphinx::test {
 
 	function special_member_div() {
 		var op = lambda(self, other) => self.x / other.x;
-		var a = [ .x = 8, .{div} = op ];
+		var a = [ .x = 8, .__div__ = op ];
 		var b = [ .x = 4 ];
 
 		assert_equal_strict((a/b), 2);
@@ -41,7 +41,7 @@ namespace sphinx::test {
 
 	function special_member_mod() {
 		var op = lambda(self, other) => self.x % other.x;
-		var a = [ .x = 9, .{mod} = op ];
+		var a = [ .x = 9, .__mod__ = op ];
 		var b = [ .x = 4 ];
 
 		assert_equal_strict((a%b), 1);
@@ -50,7 +50,7 @@ namespace sphinx::test {
 
 	function special_member_pow() {
 		var op = lambda(self, other) => self.x ** other.x;
-		var a = [ .x = 2, .{pow} = op ];
+		var a = [ .x = 2, .__pow__ = op ];
 		var b = [ .x = 4 ];
 
 		assert_equal_strict((a**b), 16);
@@ -59,14 +59,14 @@ namespace sphinx::test {
 
 
 	function special_member_str() {
-		var a = [ .x = 2, .{str} = lambda(self) => "ABC" + std::str(self.x) ];
+		var a = [ .x = 2, .__str__ = lambda(self) => "ABC" + std::str(self.x) ];
 		assert_equal_strict(std::str(a), "ABC2");
 	}
 
 
 
 	function special_member_str_except() {
-		var a = [ .x = 2, .{str} = lambda(self) => 42 ];
+		var a = [ .x = 2, .__str__ = lambda(self) => 42 ];
 		assert_except(lambda[a] () => std::str(a));
 	}
 
@@ -77,7 +77,7 @@ namespace sphinx::test {
 	function special_member_cmp() {
 		var make = lambda(x) => [
 			.x = x,
-			.{cmp} = lambda(self, other) => self.x <=> other.x,
+			.__cmp__ = lambda(self, other) => self.x <=> other.x,
 		];
 
 		var test = lambda[make](a, b) {
@@ -103,7 +103,7 @@ namespace sphinx::test {
 	function special_member_bool() {
 		var make = lambda(b) => [
 			.b = b,
-			.{bool} = lambda(self) => self.b,
+			.__bool__ = lambda(self) => self.b,
 		];
 
 		assert_false(!!make(false)); 

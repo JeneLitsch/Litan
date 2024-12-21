@@ -2,41 +2,21 @@
 #include "ltnc/CompilerError.hxx"
 
 namespace ltn::c {
-	namespace {
-		using TT = Token::Type;
-
-		CompilerError invalid_operator(Tokens & tokens) {
-			return CompilerError{"Invalid operator", location(tokens)};
-		}
-	}
-	
-
-
-	MemberCode parse_operator_overload_code(Tokens & tokens) {
-		const static std::map<std::string, MemberCode> table {
-			{"add", MemberCode::OPERATOR_ADD},
-			{"sub", MemberCode::OPERATOR_SUB},
-			{"mlt", MemberCode::OPERATOR_MLT},
-			{"div", MemberCode::OPERATOR_DIV},
-			{"mod", MemberCode::OPERATOR_MOD},
-			{"pow", MemberCode::OPERATOR_POW},
-			{"cmp", MemberCode::OPERATOR_CMP},
-			{"str", MemberCode::OPERATOR_STR},
-			{"bool", MemberCode::OPERATOR_BOOL},
-		};
-
-
-		for(const auto & [name, code] : table) {
-			if(match(name, tokens)) return code;
-		}
-
-		throw invalid_operator(tokens);
-	}
-
+	using TT = Token::Type;
 
 
 	std::optional<MemberCode> parse_reserved_member_name(Tokens & tokens) {
 		const static std::map<std::string, MemberCode> table {
+			{"__add__", MemberCode::OPERATOR_ADD},
+			{"__sub__", MemberCode::OPERATOR_SUB},
+			{"__mlt__", MemberCode::OPERATOR_MLT},
+			{"__div__", MemberCode::OPERATOR_DIV},
+			{"__mod__", MemberCode::OPERATOR_MOD},
+			{"__pow__", MemberCode::OPERATOR_POW},
+			{"__cmp__", MemberCode::OPERATOR_CMP},
+			{"__str__", MemberCode::OPERATOR_STR},
+			{"__bool__", MemberCode::OPERATOR_BOOL},
+
 			{"size",        MemberCode::SIZE},
 			{"is_empty",    MemberCode::IS_EMTPY},
 			{"push",        MemberCode::PUSH},
@@ -75,14 +55,7 @@ namespace ltn::c {
 
 
 	std::variant<std::string, MemberCode> parse_member(Tokens & tokens) {
-		if(auto member = match(TT::BRACE_L, tokens)) {
-			MemberCode code = parse_operator_overload_code(tokens);
-			if(!match(TT::BRACE_R, tokens)) {
-				throw CompilerError{"Expected }", location(tokens)};
-			}
-			return code;
-		}
-		else if(auto code = parse_reserved_member_name(tokens)) {
+		if(auto code = parse_reserved_member_name(tokens)) {
 			return *code;
 		}
 		else if(auto member = match(TT::INDENTIFIER, tokens)) {

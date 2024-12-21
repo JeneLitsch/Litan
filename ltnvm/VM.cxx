@@ -235,15 +235,15 @@ namespace ltn::vm {
 
 		this->core.member_name_table = read_name_table(it);
 
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_ADD)] = "{add}";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_SUB)] = "{sub}";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_MLT)] = "{mlt}";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_DIV)] = "{div}";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_MOD)] = "{mod}";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_POW)] = "{pow}";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_STR)] = "{str}";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_CMP)] = "{cmp}";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_BOOL)] = "{bool}";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_ADD)] = "__add__";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_SUB)] = "__sub__";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_MLT)] = "__mlt__";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_DIV)] = "__div__";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_MOD)] = "__mod__";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_POW)] = "__pow__";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_STR)] = "__str__";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_CMP)] = "__cmp__";
+		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_BOOL)] = "__bool__";
 
 		this->byte_code = { it, std::end(code) };
 		this->core.code_begin = std::data(this->byte_code);

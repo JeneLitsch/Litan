@@ -119,15 +119,15 @@ namespace sphinx::test {
 		assert_equal_strict(std::str(<map(float, int)>), "map(float,int)");
 		assert_equal_strict(std::str(<struct>), "struct");
 		assert_equal_strict(std::str(<struct(.a:int)>), "struct(.a:int)");
-		assert_equal_strict(std::str(<struct(.{add})>), "struct(.{add}:any)");
-		assert_equal_strict(std::str(<struct(.{sub})>), "struct(.{sub}:any)");
-		assert_equal_strict(std::str(<struct(.{mlt})>), "struct(.{mlt}:any)");
-		assert_equal_strict(std::str(<struct(.{div})>), "struct(.{div}:any)");
-		assert_equal_strict(std::str(<struct(.{mod})>), "struct(.{mod}:any)");
-		assert_equal_strict(std::str(<struct(.{pow})>), "struct(.{pow}:any)");
-		assert_equal_strict(std::str(<struct(.{str})>), "struct(.{str}:any)");
-		assert_equal_strict(std::str(<struct(.{cmp})>), "struct(.{cmp}:any)");
-		assert_equal_strict(std::str(<struct(.{bool})>), "struct(.{bool}:any)");
+		assert_equal_strict(std::str(<struct(.__add__)>), "struct(.__add__:any)");
+		assert_equal_strict(std::str(<struct(.__sub__)>), "struct(.__sub__:any)");
+		assert_equal_strict(std::str(<struct(.__mlt__)>), "struct(.__mlt__:any)");
+		assert_equal_strict(std::str(<struct(.__div__)>), "struct(.__div__:any)");
+		assert_equal_strict(std::str(<struct(.__mod__)>), "struct(.__mod__:any)");
+		assert_equal_strict(std::str(<struct(.__pow__)>), "struct(.__pow__:any)");
+		assert_equal_strict(std::str(<struct(.__str__)>), "struct(.__str__:any)");
+		assert_equal_strict(std::str(<struct(.__cmp__)>), "struct(.__cmp__:any)");
+		assert_equal_strict(std::str(<struct(.__bool__)>), "struct(.__bool__:any)");
 		
 		assert_equal_strict(std::str(<type:null>), "null");
 		assert_equal_strict(std::str(<type:bool>), "bool");

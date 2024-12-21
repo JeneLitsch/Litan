@@ -150,15 +150,15 @@ namespace std {
 	function is_unary_fx(fx) const
 		=> std::is(<fx(1)>, fx) && !std::is_variadic(fx)
 
-	function has_special_add(obj) const => is_binary_fx(obj.{add})
-	function has_special_sub(obj) const => is_binary_fx(obj.{sub})
-	function has_special_mlt(obj) const => is_binary_fx(obj.{mlt})
-	function has_special_div(obj) const => is_binary_fx(obj.{div})
-	function has_special_mod(obj) const => is_binary_fx(obj.{mod})
-	function has_special_pow(obj) const => is_binary_fx(obj.{pow})
-	function has_special_str(obj) const => is_unary_fx(obj.{str})
-	function has_special_cmp(obj) const => is_binary_fx(obj.{cmp})
-	function has_special_bool(obj) const => is_unary_fx(obj.{bool})
+	function has_special_add(obj) const => is_binary_fx(obj.__add__)
+	function has_special_sub(obj) const => is_binary_fx(obj.__sub__)
+	function has_special_mlt(obj) const => is_binary_fx(obj.__mlt__)
+	function has_special_div(obj) const => is_binary_fx(obj.__div__)
+	function has_special_mod(obj) const => is_binary_fx(obj.__mod__)
+	function has_special_pow(obj) const => is_binary_fx(obj.__pow__)
+	function has_special_str(obj) const => is_unary_fx(obj.__str__)
+	function has_special_cmp(obj) const => is_binary_fx(obj.__cmp__)
+	function has_special_bool(obj) const => is_unary_fx(obj.__bool__)
 
 
 

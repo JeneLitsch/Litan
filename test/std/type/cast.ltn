@@ -35,8 +35,8 @@ namespace sphinx::test {
 			(1.0 , true),
 			(""  , true),
 			([]  , true),
-			([.{bool} = lambda(self) => false ], false),
-			([.{bool} = lambda(self) => true ], true),
+			([.__bool__ = lambda(self) => false ], false),
+			([.__bool__ = lambda(self) => true ], true),
 		]);
 	}
 

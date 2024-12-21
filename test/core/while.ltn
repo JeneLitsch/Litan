@@ -36,7 +36,7 @@ namespace sphinx::test {
 	function while_special_bool() {
 		var obj = [
 			.max = 3, .current = 0,
-			.{bool} = lambda(self) {
+			.__bool__ = lambda(self) {
 				self.current = self.current + 1;
 				return self.current < self.max;
 			},

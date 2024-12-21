@@ -16,6 +16,9 @@ namespace ltn::c {
 		std::uint64_t resolve_member_id(auto &, MemberCode code) {
 			return static_cast<std::uint64_t>(code);
 		}
+
+
+
 	}
 
 	std::uint64_t MemberTable::get_id(const std::variant<std::string, MemberCode> & name) {

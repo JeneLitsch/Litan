@@ -18,7 +18,7 @@ namespace sphinx::test {
 
 
 	function ternary_special_bool() {
-		[ .{bool} = lambda(self) => true,] ? pass() : fail();
-		[ .{bool} = lambda(self) => false,] ? fail() : pass();
+		[ .__bool__ = lambda(self) => true,] ? pass() : fail();
+		[ .__bool__ = lambda(self) => false,] ? fail() : pass();
 	}
 }

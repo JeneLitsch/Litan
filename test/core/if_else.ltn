@@ -44,10 +44,10 @@ namespace sphinx::test {
 
 
 	function if_else_special_bool() {
-		if([ .{bool} = lambda(self) => true ]) pass();
+		if([ .__bool__ = lambda(self) => true ]) pass();
 		else fail();
 
-		if([ .{bool} = lambda(self) => false ]) fail();
+		if([ .__bool__ = lambda(self) => false ]) fail();
 		else pass();
 	}
 }

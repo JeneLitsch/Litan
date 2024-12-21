@@ -1,39 +1,39 @@
 namespace sphinx::test {
 	
 	var valid = [
-		.{add} = lambda(self, other) => null,
-		.{sub} = lambda(self, other) => null,
-		.{mlt} = lambda(self, other) => null,
-		.{div} = lambda(self, other) => null,
-		.{mod} = lambda(self, other) => null,
-		.{pow} = lambda(self, other) => null,
-		.{str} = lambda(self) => null,
-		.{cmp} = lambda(self, other) => null,
-		.{bool} = lambda(self) => null,
+		.__add__ = lambda(self, other) => null,
+		.__sub__ = lambda(self, other) => null,
+		.__mlt__ = lambda(self, other) => null,
+		.__div__ = lambda(self, other) => null,
+		.__mod__ = lambda(self, other) => null,
+		.__pow__ = lambda(self, other) => null,
+		.__str__ = lambda(self) => null,
+		.__cmp__ = lambda(self, other) => null,
+		.__bool__ = lambda(self) => null,
 	];
 	
 	var invalid_arity = [
-		.{add} = lambda(self) => null,
-		.{sub} = lambda(self) => null,
-		.{mlt} = lambda(self) => null,
-		.{div} = lambda(self) => null,
-		.{mod} = lambda(self) => null,
-		.{pow} = lambda(self) => null,
-		.{str} = lambda(self, other) => null,
-		.{cmp} = lambda(self) => null,
-		.{bool} = lambda(self, other) => null,
+		.__add__ = lambda(self) => null,
+		.__sub__ = lambda(self) => null,
+		.__mlt__ = lambda(self) => null,
+		.__div__ = lambda(self) => null,
+		.__mod__ = lambda(self) => null,
+		.__pow__ = lambda(self) => null,
+		.__str__ = lambda(self, other) => null,
+		.__cmp__ = lambda(self) => null,
+		.__bool__ = lambda(self, other) => null,
 	];
 	
 	var invalid_variadic = [ 
-		.{add} = lambda(self, other, args...) => null,
-		.{sub} = lambda(self, other, args...) => null,
-		.{mlt} = lambda(self, other, args...) => null,
-		.{div} = lambda(self, other, args...) => null,
-		.{mod} = lambda(self, other, args...) => null,
-		.{pow} = lambda(self, other, args...) => null,
-		.{str} = lambda(self, args...) => null,
-		.{cmp} = lambda(self, other, args...) => null,
-		.{bool} = lambda(self, other, args...) => null,
+		.__add__ = lambda(self, other, args...) => null,
+		.__sub__ = lambda(self, other, args...) => null,
+		.__mlt__ = lambda(self, other, args...) => null,
+		.__div__ = lambda(self, other, args...) => null,
+		.__mod__ = lambda(self, other, args...) => null,
+		.__pow__ = lambda(self, other, args...) => null,
+		.__str__ = lambda(self, args...) => null,
+		.__cmp__ = lambda(self, other, args...) => null,
+		.__bool__ = lambda(self, other, args...) => null,
 	];
 	
 	var invalid_no_function  = [ .x = null ];
