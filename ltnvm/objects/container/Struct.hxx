@@ -2,7 +2,7 @@
 #include <vector>
 #include <utility>
 #include "ltnvm/Value.hxx"
-#include "ltn/MemberCode.hxx"
+#include "ltn/reserved_members.hxx"
 #include "ltnvm/objects/Object.hxx"
 
 namespace ltn::vm {

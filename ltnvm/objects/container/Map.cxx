@@ -48,15 +48,15 @@ namespace ltn::vm {
 
 	Value Map::get_member(std::uint64_t id) const {
 		static NativeFunctionTable native_function_table {
-			wrap<stdlib::map_size>     (MemberCode::SIZE),
-			wrap<stdlib::map_is_empty> (MemberCode::IS_EMTPY),
-			wrap<stdlib::map_at>       (MemberCode::AT),
-			wrap<stdlib::map_has>      (MemberCode::HAS),
-			wrap<stdlib::map_insert>   (MemberCode::INSERT),
-			wrap<stdlib::map_erase>    (MemberCode::ERASE),
-			wrap<stdlib::map_keys>     (MemberCode::KEYS),
-			wrap<stdlib::map_values>   (MemberCode::VALUES),
-			wrap<stdlib::map_merged>   (MemberCode::MERGED),
+			wrap<stdlib::map_size>     (ReservedMemberCode::SIZE),
+			wrap<stdlib::map_is_empty> (ReservedMemberCode::IS_EMTPY),
+			wrap<stdlib::map_at>       (ReservedMemberCode::AT),
+			wrap<stdlib::map_has>      (ReservedMemberCode::HAS),
+			wrap<stdlib::map_insert>   (ReservedMemberCode::INSERT),
+			wrap<stdlib::map_erase>    (ReservedMemberCode::ERASE),
+			wrap<stdlib::map_keys>     (ReservedMemberCode::KEYS),
+			wrap<stdlib::map_values>   (ReservedMemberCode::VALUES),
+			wrap<stdlib::map_merged>   (ReservedMemberCode::MERGED),
 		};
 		return search_native_function_table(native_function_table, id);
 	}

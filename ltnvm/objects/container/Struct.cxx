@@ -4,7 +4,7 @@
 
 namespace ltn::vm {
 	void Struct::stringify(VMCore & core, std::ostream & oss, bool) {
-		auto fx = find_special_member<MemberCode::OPERATOR_STR>(*this);
+		auto fx = find_special_member<ReservedMemberCode::OPERATOR_STR>(*this);
 		if(fx) {
 			Value value = value::strukt(this);
 			auto result = run_special_member(core, *fx, value);

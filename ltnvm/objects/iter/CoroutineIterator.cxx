@@ -3,7 +3,7 @@
 #include "ltnvm/utils/type_check.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/objects/Coroutine.hxx"
-#include "ltn/MemberCode.hxx"
+#include "ltn/reserved_members.hxx"
 #include "ltnvm/VMCore.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/objects/Coroutine.hxx"

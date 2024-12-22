@@ -229,21 +229,9 @@ namespace ltn::vm {
 			throw std::runtime_error{"Incompatible bytecode version"};
 		}
 
-		// this->core.fx_table_cxx_to_ltn = read_addr_table(it);
 		core.function_pool.read(it);
 		core.string_pool.read(it);
-
 		this->core.member_name_table = read_name_table(it);
-
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_ADD)] = "__add__";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_SUB)] = "__sub__";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_MLT)] = "__mlt__";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_DIV)] = "__div__";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_MOD)] = "__mod__";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_POW)] = "__pow__";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_STR)] = "__str__";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_CMP)] = "__cmp__";
-		this->core.member_name_table[static_cast<std::uint64_t>(MemberCode::OPERATOR_BOOL)] = "__bool__";
 
 		this->byte_code = { it, std::end(code) };
 		this->core.code_begin = std::data(this->byte_code);

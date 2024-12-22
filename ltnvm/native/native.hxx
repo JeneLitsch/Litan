@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include "ltnvm/objects/NativeFunctionPointer.hxx"
-#include "ltn/MemberCode.hxx"
+#include "ltn/reserved_members.hxx"
 
 namespace ltn::vm {
 	struct Array;
@@ -13,7 +13,7 @@ namespace ltn::vm {
 	using NativeFunctionTable = std::map<std::uint64_t, NativeFunctionPointer>;
 
 	template<typename FuncHeader>
-	std::pair<std::uint64_t, NativeFunctionPointer> wrap(MemberCode code) {
+	std::pair<std::uint64_t, NativeFunctionPointer> wrap(ReservedMemberCode code) {
 		return std::pair<std::uint64_t, NativeFunctionPointer>{
 			static_cast<std::uint64_t>(code),
 			NativeFunctionPointer{

@@ -1,6 +1,6 @@
 #include "parse.hxx"
 #include "parse_utils.hxx"
-#include "ltn/MemberCode.hxx"
+#include "ltn/reserved_members.hxx"
 
 #include "ltnc/ast/expr/Array.hxx"
 #include "ltnc/ast/expr/Map.hxx"

@@ -5,7 +5,7 @@
 #include <cstdint>
 #include "stdxx/float64_t.hxx"
 #include "ltn/opcodes.hxx"
-#include "ltn/MemberCode.hxx"
+#include "ltn/reserved_members.hxx"
 #include "ltnc/Label.hxx"
 
 namespace ltn::c::inst {

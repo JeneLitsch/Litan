@@ -6,7 +6,7 @@
 #include <bitset>
 #include "ltn/casts.hxx"
 #include "ltn/Visitor.hxx"
-#include "ltn/MemberCode.hxx"
+#include "ltn/reserved_members.hxx"
 #include "ltnc/Namespace.hxx"
 #include "ltnc/Operations.hxx"
 #include "ltnc/ast/Node.hxx"

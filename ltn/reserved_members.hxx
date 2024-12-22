@@ -1,7 +1,10 @@
 #pragma once
+#include <map>
+#include <string>
+#include <cstdint>
 
 namespace ltn {
-	enum class MemberCode {
+	enum class ReservedMemberCode {
 		OPERATOR_ADD = 0x10, OPERATOR_SUB, OPERATOR_MLT, OPERATOR_DIV, OPERATOR_MOD, OPERATOR_POW,
 		OPERATOR_STR = 0x20, OPERATOR_CMP, OPERATOR_BOOL,
 
@@ -14,5 +17,7 @@ namespace ltn {
 		SLICE, PREFIX, SUFFIX,
 		ANY, ALL, NONE, HAS,
 	};
+
+	extern const std::map<std::string, std::uint64_t> reserved_member_name_to_code;
 }
 	

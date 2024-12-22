@@ -1,5 +1,5 @@
 #pragma once
-#include "ltn/MemberCode.hxx"
+#include "ltn/reserved_members.hxx"
 #include "ltnvm/VMCore.hxx"
 #include "ltnvm/Exception.hxx"
 

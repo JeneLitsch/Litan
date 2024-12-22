@@ -90,7 +90,7 @@ namespace ltn::vm {
 		}
 		if(is_struct(l)) {
 			auto & strukt = *value::as<Struct>(l);
-			auto comparator = find_special_member<MemberCode::OPERATOR_CMP>(strukt);
+			auto comparator = find_special_member<ReservedMemberCode::OPERATOR_CMP>(strukt);
 			if(comparator) {
 				auto ordering = run_special_member(core, *comparator, l, r);
 				if(is_int(ordering)) {
