@@ -278,7 +278,6 @@ An index expression is assignable.
 | a      | k   | Result | a[k]                             |
 | ------ | --- | ------ | -------------------------------- |
 | Array  | Int | Any    | Retrieves element from array    |
-| String | Int | Char   | Retrieves character from string |
 | Map    | Any | Any    | Retrieves value from map    |
 
 ## For Array and Strings

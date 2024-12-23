@@ -14,7 +14,6 @@ Translates a Litan data structure into a JSON string. Unsupported datatypes thro
 | ---------- | ------ |
 | null       | null   |
 | bool       | bool   |
-| char       | number |
 | int        | number |
 | float      | number |
 | string     | string |

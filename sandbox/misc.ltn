@@ -1,7 +1,6 @@
-var test_plugin;
-
 function main() {
-	var str = "Hello, \t\"\\World!\n";
-	std::println(str);
-	std::println([str]);
+	var a = 'A';
+	var x = 'X';
+	std::println(a); // 64
+	std::println(x); // 88
 }
