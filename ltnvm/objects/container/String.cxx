@@ -111,12 +111,6 @@ namespace ltn::vm {
 
 
 
-	// std::uint32_t String::unsafe_at(std::int64_t i) const {
-	// 	return utf8::code_point_at(str, i);
-	// }
-
-
-
 	std::int64_t String::size() const {
 		return character_count;
 	}

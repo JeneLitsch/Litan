@@ -18,9 +18,9 @@ namespace sphinx::test {
 	}
 
 	function std_split_empty_delim() {
-		var str = "hello world";
+		var str = "hello";
 		var splitted = std::split(str, "");
-		assert_equal_strict(splitted, []);
+		assert_equal_strict(splitted, ["h", "e", "l", "l", "o"]);
 	}
 
 	function std_split_self() {

@@ -2,6 +2,7 @@
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/utils/stringify.hxx"
 #include "ltn/utf8.hxx"
+#include "ltnvm/stdlib/string.hxx"
 
 namespace ltn::vm::build_in {
 
@@ -35,6 +36,7 @@ namespace ltn::vm::build_in {
 	Value split_string(VMCore & core) {
 		const auto val_delim = core.stack.pop();
 		const auto val_string = core.stack.pop();
+		return call<stdlib::string_split>(core, { val_string, val_delim });
 		if(!is_string(val_string) || !is_string(val_delim)) {
 			throw Exception {
 				Exception::Type::INVALID_ARGUMENT,
@@ -43,17 +45,24 @@ namespace ltn::vm::build_in {
 		}
 		const auto & string = *value::as<String>(val_string);
 		const auto & delim = *value::as<String>(val_delim);
-		const auto segments_ptr = value::array(core.heap.alloc<Array>({}));
-		auto & segments = *value::as<Array>(segments_ptr);
+		Array * segments = core.heap.alloc<Array>({});
 
-		if(delim.empty()) return segments_ptr;
-		if(string.empty()) return segments_ptr;
-
-		for(auto && str : split_impl(string.copy_to_std_string(), delim.copy_to_std_string())) {
-			segments.push_back(value::string(core.heap.alloc(String{std::move(str)})));
+			
+		if(string.empty()) return value::array(segments);
+		if(delim.empty()) {
+			for(std::int64_t i = 0; i < string.size(); i++) {
+				std::string utf_character = utf8::encode_char(string.at(i));
+				String * sub_string = core.heap.alloc(String{std::move(utf_character)}); 
+				segments->push_back(value::string(sub_string));
+			}
 		}
+		else {
+			for(auto && str : split_impl(string.copy_to_std_string(), delim.copy_to_std_string())) {
+				segments->push_back(value::string(core.heap.alloc(String{std::move(str)})));
+			}
 
-		return segments_ptr;
+		}
+		return value::array(segments);
 	}
 
 

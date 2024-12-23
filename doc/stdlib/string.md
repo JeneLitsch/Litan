@@ -38,6 +38,7 @@ Edge Cases:
 `std::str(string : String, deliminator : Int) const : Array[String]`
 
 Splits the string at the delimiter and returns the separated parts in an array.  
+An empty delimiter causes the string to separated between every unicode character.
 
 
 ## std::chr

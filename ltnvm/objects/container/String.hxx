@@ -23,7 +23,6 @@ namespace ltn::vm {
 		std::uint32_t unsafe_front() const;
 		std::uint32_t front() const;
 
-		// std::uint32_t unsafe_at(std::int64_t i) const;
 		std::uint32_t at(std::int64_t i) const;
 
 		std::int64_t size() const;

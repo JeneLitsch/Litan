@@ -1,10 +1,5 @@
 function main() {
-	var str = "AÄC";
-	std::println(std::chr(str[0]));
-	std::println(std::chr(str[1]));
-	std::println(std::chr(str[2]));
-	std::println(std::ord("Ä"));
-	for(c : str) {
-		std::println(c);
-	}
+	var str = "AÄxCxßß";
+	var arr = std::split(str, "x");
+	std::println(arr);
 }
