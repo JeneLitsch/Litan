@@ -2,7 +2,6 @@
 
 Wrap values
 - `ltn_value_bool`
-- `ltn_value_char`
 - `ltn_value_int`
 - `ltn_value_float`
 - `ltn_value_array`
@@ -12,7 +11,6 @@ Wrap values
 
 Extract values
 - `ltn_as_bool`
-- `ltn_as_char`
 - `ltn_as_int`
 - `ltn_as_float`
 - `ltn_as_array`
@@ -22,7 +20,6 @@ Extract values
 
 Check values
 - `ltn_is_bool`
-- `ltn_is_char`
 - `ltn_is_int`
 - `ltn_is_float`
 - `ltn_is_array`
@@ -43,13 +40,6 @@ Creates a `ltn_Value` containing null.
 `ltn_Value ltn_value_bool(ltn_Bool)`
 
 Wraps a `ltn_Bool` into a `ltn_Value`.
-
-
-## ltn_value_char
-
-`ltn_Value ltn_value_char(ltn_Char)`
-
-Wraps a `ltn_Char` into a `ltn_Value`.
 
 
 ## ltn_value_int
@@ -101,13 +91,6 @@ Wraps a `ltn_String` into a `ltn_Value`.
 `ltn_Bool ltn_as_bool(ltn_Value)`  
 Extracts a `ltn_Bool` from a `ltn_Value`.  
 If the value does not contain a `ltn_Bool` an error is raised. 
-
-
-## ltn_as_char
-
-`ltn_Char ltn_as_char(ltn_Value)`  
-Extracts a `ltn_Char` from a `ltn_Value`.  
-If the value does not contain a `ltn_Char` an error is raised. 
 
 
 ## ltn_as_int
@@ -162,11 +145,6 @@ Checks whether `value` is null
 
 `bool ltn_is_bool(ltn_Value value)`  
 Checks whether `value` contains a `ltn_Bool`
-
-## ltn_is_char
-
-`bool ltn_is_char(ltn_Value value)`  
-Checks whether `value` contains a `ltn_Char`
 
 
 ## ltn_is_int

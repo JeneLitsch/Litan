@@ -42,7 +42,6 @@ namespace ltn {
 		// Primitives
 		NEWI = 0x30,
 		NEWF,
-		NEWC,
 		TRUE,
 		FALSE,
 		NVLL,

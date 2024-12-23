@@ -22,7 +22,6 @@ LINKED ltn_FuncAllocTuple ltn_alloc_tuple;
 // Wrap into value
 LINKED ltn_FuncValueNull ltn_value_null;
 LINKED ltn_FuncValueBool ltn_value_bool;
-LINKED ltn_FuncValueChar ltn_value_char;
 LINKED ltn_FuncValueInt ltn_value_int;
 LINKED ltn_FuncValueFloat ltn_value_float;
 LINKED ltn_FuncValueArray ltn_value_array;
@@ -32,7 +31,6 @@ LINKED ltn_FuncValueString ltn_value_string;
 
 // Casts
 LINKED ltn_FuncAsBool ltn_as_bool;
-LINKED ltn_FuncAsChar ltn_as_char;
 LINKED ltn_FuncAsInt ltn_as_int;
 LINKED ltn_FuncAsFloat ltn_as_float;
 LINKED ltn_FuncAsArray ltn_as_array;
@@ -43,7 +41,6 @@ LINKED ltn_FuncAsString ltn_as_string;
 // Type check
 LINKED ltn_FuncIsType ltn_is_null;
 LINKED ltn_FuncIsType ltn_is_bool;
-LINKED ltn_FuncIsType ltn_is_char;
 LINKED ltn_FuncIsType ltn_is_int;
 LINKED ltn_FuncIsType ltn_is_float;
 LINKED ltn_FuncIsType ltn_is_array;

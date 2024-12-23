@@ -19,7 +19,6 @@ namespace ltn::vm {
 		BOOL = 0x10,
 		INT, 
 		FLOAT,
-		CHAR,
 		
 		ARRAY = 0x20, 
 		STRING,
@@ -77,13 +76,6 @@ namespace ltn::vm {
 			return Value{
 				.type = static_cast<std::uint16_t>(ValueType::FLOAT),
 				.f = static_cast<stx::float64_t>(i),
-			};
-		}
-
-		constexpr inline Value character(auto i) {
-			return Value{
-				.type = static_cast<std::uint16_t>(ValueType::CHAR),
-				.c = static_cast<char>(i),
 			};
 		}
 
@@ -204,10 +196,6 @@ namespace ltn::vm {
 			return integer(value);
 		}
 
-		constexpr inline Value deduce(char value) {
-			return character(value);
-		} 
-		
 		constexpr inline Value deduce(stx::float64_t value) {
 			return floating(value);
 		}

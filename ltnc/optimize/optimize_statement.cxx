@@ -41,7 +41,6 @@ namespace ltn::c {
 
 			if(auto expr = pre_decide<sst::expr::Null>(stmt))    return expr;
 			if(auto expr = pre_decide<sst::expr::Bool>(stmt))    return expr;
-			if(auto expr = pre_decide<sst::expr::Char>(stmt))    return expr;
 			if(auto expr = pre_decide<sst::expr::Integer>(stmt)) return expr;
 			if(auto expr = pre_decide<sst::expr::Float>(stmt))   return expr;
 			if(auto expr = pre_decide<sst::expr::String>(stmt))  return expr;
@@ -63,7 +62,6 @@ namespace ltn::c {
 
 			if(is_truthy<sst::expr::Null>(*stmt.condition))    return to_infinite(stmt);
 			if(is_truthy<sst::expr::Bool>(*stmt.condition))    return to_infinite(stmt);
-			if(is_truthy<sst::expr::Char>(*stmt.condition))    return to_infinite(stmt);
 			if(is_truthy<sst::expr::Integer>(*stmt.condition)) return to_infinite(stmt);
 			if(is_truthy<sst::expr::Float>(*stmt.condition))   return to_infinite(stmt);
 			if(is_truthy<sst::expr::String>(*stmt.condition))  return to_infinite(stmt);

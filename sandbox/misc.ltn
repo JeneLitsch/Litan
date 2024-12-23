@@ -1,7 +1,8 @@
-var test_plugin;
-
 function main() {
-	var str = "Hello, \t\"\\World!\n";
-	std::println(str);
-	std::println([str]);
+	var a = 'A';
+	var x = 'X';
+	std::println(a);
+	std::println(x);
+	std::println(std::chr('A'));
+	std::println(std::ord("A"));
 }

@@ -17,7 +17,7 @@ namespace ltn::vm::inst {
 			const auto & str = *value::as<String>(ref);
 			const auto index = to_index(key, std::ssize(str));
 			const auto chr = str.unsafe_at(index);
-			core.stack.push(value::character(chr));
+			core.stack.push(value::integer(chr));
 			return;
 		}
 

@@ -9,13 +9,6 @@ ltn_Value test_as_bool(ltn_Context * context, const ltn_Value * args) {
 
 
 
-ltn_Value test_as_char(ltn_Context * context, const ltn_Value * args) {
-	(void)context;
-	return ltn_value_char(ltn_as_char(args[0]));
-}
-
-
-
 ltn_Value test_as_int(ltn_Context * context, const ltn_Value * args) {
 	(void)context;
 	return ltn_value_int(ltn_as_int(args[0]));

@@ -28,7 +28,6 @@ ltn_NativeFunctionInfo ltn_exports[] = {
 
 	{ "is_null",   test_is_null,   1, ltn_DEFAULT },
 	{ "is_bool",   test_is_bool,   1, ltn_DEFAULT },
-	{ "is_char",   test_is_char,   1, ltn_DEFAULT },
 	{ "is_int",    test_is_int,    1, ltn_DEFAULT },
 	{ "is_float",  test_is_float,  1, ltn_DEFAULT },
 	{ "is_array",  test_is_array,  1, ltn_DEFAULT },
@@ -37,7 +36,6 @@ ltn_NativeFunctionInfo ltn_exports[] = {
 	{ "is_map",    test_is_map,    1, ltn_DEFAULT },
 
 	{ "as_bool",   test_as_bool,   1, ltn_DEFAULT },
-	{ "as_char",   test_as_char,   1, ltn_DEFAULT },
 	{ "as_int",    test_as_int,    1, ltn_DEFAULT },
 	{ "as_float",  test_as_float,  1, ltn_DEFAULT },
 	{ "as_array",  test_as_array,  1, ltn_DEFAULT },

@@ -63,13 +63,6 @@ namespace ltn::c {
 	}
 
 
-	// compiles bool literal
-	InstructionBuffer compile_expr(const sst::expr::Char & expr) {
-		InstructionBuffer buf;
-		buf << inst::newc(static_cast<std::uint8_t>(expr.value));
-		return buf;
-	}
-
 
 
 	// compiles string literal

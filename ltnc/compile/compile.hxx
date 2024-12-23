@@ -41,7 +41,6 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::expr::Integer &);
 	InstructionBuffer compile_expr(const sst::expr::Float &);
 	InstructionBuffer compile_expr(const sst::expr::Bool &);
-	InstructionBuffer compile_expr(const sst::expr::Char &);
 	InstructionBuffer compile_expr(const sst::expr::Null &);
 	InstructionBuffer compile_expr(const sst::expr::String &);
 	InstructionBuffer compile_expr(const sst::expr::Array &);

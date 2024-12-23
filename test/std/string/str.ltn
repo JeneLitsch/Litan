@@ -6,7 +6,7 @@ namespace sphinx::test {
 
 
 	function std_str_char() {
-		assert_equal_strict(std::str('X'), "X");
+		assert_equal_strict(std::str('X'), "88");
 	}
 
 
@@ -91,7 +91,6 @@ namespace sphinx::test {
 	function str_str_type() {
 		assert_equal_strict(std::str(<null>), "null");
 		assert_equal_strict(std::str(<bool>), "bool");
-		assert_equal_strict(std::str(<char>), "char");
 		assert_equal_strict(std::str(<int>), "int");
 		assert_equal_strict(std::str(<float>), "float");
 		assert_equal_strict(std::str(<string>), "string");
@@ -131,7 +130,6 @@ namespace sphinx::test {
 		
 		assert_equal_strict(std::str(<type:null>), "null");
 		assert_equal_strict(std::str(<type:bool>), "bool");
-		assert_equal_strict(std::str(<type:char>), "char");
 		assert_equal_strict(std::str(<type:int>), "int");
 		assert_equal_strict(std::str(<type:float>), "float");
 		assert_equal_strict(std::str(<type:string>), "string");

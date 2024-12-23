@@ -12,7 +12,6 @@ namespace ltn::vm {
 		if(is_bool(r))  return value::deduce(op(l, r.b));
 		if(is_int(r))   return value::deduce(op(l, r.i));
 		if(is_float(r)) return value::deduce(op(l, r.f));
-		if(is_char(r))  return value::deduce(op(l, r.c));
 		throw except::invalid_operands();
 	}
 
@@ -23,7 +22,6 @@ namespace ltn::vm {
 		if (is_bool(l))  return calc_r<Op>(l.b, r);
 		if (is_int(l))   return calc_r<Op>(l.i, r);
 		if (is_float(l)) return calc_r<Op>(l.f, r);
-		if (is_char(l))  return calc_r<Op>(l.c, r);
 		throw except::invalid_operands();
 	}
 }

@@ -12,7 +12,6 @@ namespace ltn::c::sst::expr {
 	struct Integer;
 	struct Float;
 	struct Bool;
-	struct Char;
 	struct Null;
 	struct String;
 	struct Array;
@@ -43,7 +42,6 @@ namespace ltn::c::sst::expr {
 		Integer,
 		Float,
 		Bool,
-		Char,
 		Null,
 		String,
 		Array,
@@ -105,7 +103,6 @@ namespace ltn::c::sst::expr {
 			virtual void visit(const Integer & x) const override { this->run(x); };
 			virtual void visit(const Float & x) const override { this->run(x); };
 			virtual void visit(const Bool & x) const override { this->run(x); };
-			virtual void visit(const Char & x) const override { this->run(x); };
 			virtual void visit(const Null & x) const override { this->run(x); };
 			virtual void visit(const String & x) const override { this->run(x); };
 			virtual void visit(const Array & x) const override { this->run(x); };

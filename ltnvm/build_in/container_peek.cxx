@@ -20,7 +20,7 @@ namespace ltn::vm::build_in {
 			String * container = value::as<String>(ref);
 			if(std::empty(*container)) throw except::out_of_range();
 			const auto elem = container->unsafe_back();
-			return value::character(elem);
+			return value::integer(elem);
 		}
 
 

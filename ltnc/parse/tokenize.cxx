@@ -146,13 +146,13 @@ namespace ltn::c {
 		
 
 
-		template<char END> 
 		char de_escape(auto chr, const SourceLocation & location) {
 			switch (chr) {
 			case 'n': return '\n';
 			case 't': return '\t';
 			case '\\': return '\\';
-			case END: return END;
+			case '\"': return '\"';
+			case '\'': return '\'';
 			default: break;
 			}
 			throw CompilerError{"Invalid escape sequence", location};
@@ -168,6 +168,12 @@ namespace ltn::c {
 				if(chr == END) {
 					return ss.str();
 				}
+				if(chr == '\"') {
+					throw CompilerError{"Newline needs to be escaped \\\"", location};
+				}
+				if(chr == '\'') {
+					throw CompilerError{"Newline needs to be escaped \\'", location};
+				}
 				if(chr == '\n') {
 					throw CompilerError{"Newline needs to be escaped \\n", location};
 				}
@@ -175,7 +181,7 @@ namespace ltn::c {
 					throw CompilerError{"Tab needs to be escaped \\t", location};
 				}
 				if(chr == '\\') {
-					ss << de_escape<END>(in.get(), location);
+					ss << de_escape(in.get(), location);
 				}
 				else {
 					ss << chr;

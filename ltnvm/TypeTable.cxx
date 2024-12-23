@@ -315,12 +315,6 @@ namespace ltn::vm {
 		}
 
 
-		
-		Value type_cast_char(const Value & value, VMCore &) {
-			return value::character(cast::to_char(value));
-		}
-
-
 
 		Value type_cast_int(const Value & value, VMCore &) {
 			return value::integer(cast::to_int(value));
@@ -443,11 +437,6 @@ namespace ltn::vm {
 			, type_cast_bool
 		>;
 
-		using TypeChar = PrimaryType<"char"
-			, simple_check_for<is_char>
-			, type_cast_char
-		>;
-
 		using TypeInt = PrimaryType<"int"
 			, simple_check_for<is_int>
 			, type_cast_int
@@ -552,7 +541,6 @@ namespace ltn::vm {
 				case type_code::ANY: return TypeAny::make(type_table, code);
 				case type_code::NVLL: return TypeNull::make(type_table, code);
 				case type_code::BOOL: return TypeBool::make(type_table, code);
-				case type_code::CHAR: return TypeChar::make(type_table, code);
 				case type_code::INT: return TypeInt::make(type_table, code);
 				case type_code::FLOAT: return TypeFloat::make(type_table, code);
 				case type_code::STRING: return TypeString::make(type_table, code);

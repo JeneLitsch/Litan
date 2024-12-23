@@ -72,7 +72,6 @@ namespace ltn::vm {
 		
 		table[OpCode::NEWI] = inst::newi;
 		table[OpCode::NEWF] = inst::newf;
-		table[OpCode::NEWC] = inst::newc;
 		table[OpCode::TRUE] = inst::truE;
 		table[OpCode::FALSE] = inst::falsE;
 		table[OpCode::NVLL] = inst::null;

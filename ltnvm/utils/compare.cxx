@@ -15,14 +15,12 @@ namespace ltn::vm {
 
 		#define COMPARE_R(l) {\
 			if(is_bool(r))  return cmp(l, r.b);\
-			if(is_char(r))  return cmp(l, r.c);\
 			if(is_int(r))   return cmp(l, r.i);\
 			if(is_float(r)) return cmp(l, r.f);\
 		}
 
 		std::partial_ordering compare_impl(const Value l, const Value r, VMCore & core) {
 			if(is_bool(l))  COMPARE_R(l.b);
-			if(is_char(l))  COMPARE_R(l.c);
 			if(is_int(l))   COMPARE_R(l.i);
 			if(is_float(l)) COMPARE_R(l.f);
 			if(l.type == r.type) {
@@ -39,7 +37,6 @@ namespace ltn::vm {
 	
 	std::partial_ordering num_compare(const Value l, const Value r) {
 		if(is_bool(l))  COMPARE_R(l.b);
-		if(is_char(l))  COMPARE_R(l.c);
 		if(is_int(l))   COMPARE_R(l.i);
 		if(is_float(l)) COMPARE_R(l.f);
 		throw Exception{ Exception::Type::GENERIC_ERROR, "Invalid comparison"};
@@ -147,7 +144,6 @@ namespace ltn::vm {
 	std::partial_ordering strict_compare(const Value l, const Value r, VMCore & core) {
 		if (l.type == r.type) {
 			if(is_bool(l))  return l.b <=> r.b;
-			if(is_char(l))  return l.c <=> r.c;
 			if(is_int(l))   return l.i <=> r.i;
 			if(is_float(l)) return l.f <=> r.f;
 			return object_compare(l, r, core);

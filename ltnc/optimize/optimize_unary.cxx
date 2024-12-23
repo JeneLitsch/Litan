@@ -37,13 +37,11 @@ namespace ltn::c {
 		inner = optimize_expression(std::move(inner));
 		if(is_neg(unary)) {
 			if(auto expr = eval<Negation, sst::expr::Bool>(*inner))    return expr;
-			if(auto expr = eval<Negation, sst::expr::Char>(*inner))    return expr;
 			if(auto expr = eval<Negation, sst::expr::Integer>(*inner)) return expr;
 			if(auto expr = eval<Negation, sst::expr::Float>(*inner))   return expr;
 		}
 		if(is_not(unary)) {
 			if(auto expr = eval<Notigation, sst::expr::Bool>(*inner))    return expr;
-			if(auto expr = eval<Notigation, sst::expr::Char>(*inner))    return expr;
 			if(auto expr = eval<Notigation, sst::expr::Integer>(*inner)) return expr;
 			if(auto expr = eval<Notigation, sst::expr::Float>(*inner))   return expr;
 			if(auto expr = eval<Notigation, sst::expr::String>(*inner))  return expr;
@@ -52,7 +50,6 @@ namespace ltn::c {
 		if(is_nul(unary)) {
 			if(auto expr = eval<NullTest, sst::expr::Null>(*inner))    return expr;
 			if(auto expr = eval<NullTest, sst::expr::Bool>(*inner))    return expr;
-			if(auto expr = eval<NullTest, sst::expr::Char>(*inner))    return expr;
 			if(auto expr = eval<NullTest, sst::expr::Integer>(*inner)) return expr;
 			if(auto expr = eval<NullTest, sst::expr::Float>(*inner))   return expr;
 			if(auto expr = eval<NullTest, sst::expr::String>(*inner))  return expr;

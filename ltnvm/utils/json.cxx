@@ -52,7 +52,6 @@ namespace ltn::vm {
 	stx::json::node value_to_json(const Value & value) {
 		if(is_null(value))  return nullptr;
 		if(is_bool(value))  return value.b;
-		if(is_char(value))  return value.c;
 		if(is_int(value))   return value.i;
 		if(is_float(value)) return value.f;
 		if(is_string(value)) {

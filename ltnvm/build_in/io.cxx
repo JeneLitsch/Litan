@@ -225,7 +225,7 @@ namespace ltn::vm::build_in::io {
 		char value;
 		in >> value;
 		if(in) {
-			return value::character(value);
+			return value::integer(value);
 		}
 		else {
 			in.clear();

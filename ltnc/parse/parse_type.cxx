@@ -164,7 +164,6 @@ namespace ltn::c {
 			if(auto name = match(TT::INDENTIFIER, tokens)) {
 				if(name->str == "any") return simple_type<ast::expr::Type::Any>(begin);
 				if(name->str == "bool") return simple_type<ast::expr::Type::Bool>(begin);
-				if(name->str == "char") return simple_type<ast::expr::Type::Char>(begin);
 				if(name->str == "int") return simple_type<ast::expr::Type::Int>(begin);
 				if(name->str == "float") return simple_type<ast::expr::Type::Float>(begin);
 				if(name->str == "string") return simple_type<ast::expr::Type::String>(begin);

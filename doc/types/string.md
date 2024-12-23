@@ -1,7 +1,5 @@
 # String
 
-The string type is used to store an array of characters.
-
 ## Member Functions
 
 ### -> size(): Int

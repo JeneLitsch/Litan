@@ -43,11 +43,6 @@ namespace ltn::vm {
 			return;
 		}
 
-		if(is_char(value)) {
-			oss << std::string(1, value.c);
-			return;
-		}
-
 		if(is_int(value)) {
 			oss << value.i;
 			return;

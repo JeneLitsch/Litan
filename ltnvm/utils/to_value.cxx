@@ -10,10 +10,6 @@ namespace ltn::vm {
 			return value::boolean(any.as_bool());
 		}
 
-		if(any.is_char()) {
-			return value::character(any.as_char());
-		}
-
 		if(any.is_int()) {
 			return value::integer(any.as_int());
 		}

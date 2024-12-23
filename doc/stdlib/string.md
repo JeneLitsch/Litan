@@ -40,6 +40,19 @@ Edge Cases:
 Splits the string at the delimiter and returns the separated parts in an array.  
 
 
+## std::chr
+
+`std::chr(code_point: Int) const : String`
+
+Returns a string containing the character corresponding to the given Unicode code point.
+
+
+## std::ord
+
+`std::ord(string: String) const : Int`
+
+Returns the Unicode code point of the first character in `string`.
+
 ## std::join
 
 `std::join(strings : Array[String], joiner : String) const : String`

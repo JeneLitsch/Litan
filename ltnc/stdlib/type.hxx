@@ -5,7 +5,6 @@ namespace std {
 	enum type {
 		nul      : 0x00;
 		bool     : 0x10;
-		char     : 0x13;
 		int      : 0x11;
 		float    : 0x12;
 		array    : 0x20;
@@ -46,7 +45,6 @@ namespace std {
 	function typename(x) const => switch(std::typeid(x)) {
 		case std::type::nul       => "null"
 		case std::type::bool      => "bool"
-		case std::type::char      => "char"
 		case std::type::int       => "int"		
 		case std::type::float     => "float"	
 		case std::type::string    => "string"
@@ -78,7 +76,6 @@ namespace std {
 
 	function is_null(value) const   => is(<null>, value)
 	function is_bool(value) const   => is(<bool>, value)
-	function is_char(value) const   => is(<char>, value)
 	function is_int(value) const    => is(<int>, value)
 	function is_float(value) const  => is(<float>, value)
 	function is_array(value) const  => is(<array>, value)

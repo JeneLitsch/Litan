@@ -65,7 +65,7 @@ namespace ltn::vm::build_in {
 		if (is_string(ref)) {
 			const String * str = value::as<String>(ref);
 			if(std::empty(*str)) throw except::out_of_range();
-			return value::character(str->unsafe_front());
+			return value::integer(str->unsafe_front());
 		}
 
 		throw except::invalid_argument();
@@ -78,7 +78,7 @@ namespace ltn::vm::build_in {
 		if (is_string(ref)) {
 			const String * str = value::as<String>(ref);
 			if(std::empty(*str)) throw except::out_of_range();
-			return value::character(str->unsafe_back());
+			return value::integer(str->unsafe_back());
 		}
 
 		throw except::invalid_argument();

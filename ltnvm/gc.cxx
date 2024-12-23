@@ -140,7 +140,6 @@ namespace ltn::vm::gc {
 			case VT::BOOL:            return; // no gc required
 			case VT::INT:             return; // no gc required
 			case VT::FLOAT:           return; // no gc required
-			case VT::CHAR:            return; // no gc required
 			case VT::ARRAY:           return mark_obj(value::as<Array>(value));
 			case VT::STRING:          return mark_obj(value::as<String>(value));
 			case VT::TUPLE:           return mark_obj(value::as<Tuple>(value));

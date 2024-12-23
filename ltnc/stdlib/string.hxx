@@ -22,14 +22,24 @@ namespace std {
 	function str(x) const
 		=> build_in(to_string)
 
+
+
+	function chr(char) const
+		=> build_in(chr)
+
+
+	
+	function ord(string) const
+		=> build_in(ord)
+
 	
 	
-	function left_pad(str, min_size) {
+	function left_pad(str, min_size) const {
 		return " " * (min_size - std::size(str)) + str;
 	}
 
 
-	function right_pad(str, min_size) {
+	function right_pad(str, min_size) const {
 		return str + " " * (min_size - std::size(str));
 	}
 }

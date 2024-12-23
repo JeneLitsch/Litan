@@ -20,17 +20,6 @@ Returns true if **value** is of type **bool** or false otherwise.
 ---
 
 
-## std::is_char(value)
-**Parameters:**
-- value: A value of any type to test
-
-**Return value:**  
-Returns true if **value** is of type **char** or false otherwise.
-
----
-
-
-
 ## std::is_int(value)
 **Parameters:**
 - value: A value of any type to test
@@ -56,7 +45,7 @@ Returns true if **value** is of type **float** or false otherwise.
 - value: A value of any type to test
 
 **Return value:**  
-Returns true if **value** is of an **integral**(e.g. bool, char or int) type.
+Returns true if **value** is of an **integral**(e.g. bool, int) type.
 Otherwise false is returned.
 
 ---

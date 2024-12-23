@@ -59,10 +59,6 @@ namespace ltn::c {
 			return {type_code::BOOL};		
 		}
 
-		std::vector<std::uint8_t> analyze_type(const ast::expr::Type::Char &, Scope &) {
-			return {type_code::CHAR};		
-		}
-
 		std::vector<std::uint8_t> analyze_type(const ast::expr::Type::Int &, Scope &) {
 			return {type_code::INT};		
 		}

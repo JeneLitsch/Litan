@@ -32,7 +32,7 @@ namespace ltn::c {
 
 
 	sst::expr_ptr analyze_expr(const ast::expr::Char & expr, Scope &) {
-		return sst::expr::character(expr.value);
+		return sst::expr::integer(static_cast<std::int64_t>(expr.value));
 	}
 
 

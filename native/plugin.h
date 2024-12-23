@@ -32,7 +32,6 @@ typedef ltn_String(*ltn_FuncAllocString)(ltn_Context *, const char * data);
 
 typedef ltn_Value(*ltn_FuncValueNull)();
 typedef ltn_Value(*ltn_FuncValueBool)(ltn_Bool);
-typedef ltn_Value(*ltn_FuncValueChar)(ltn_Char);
 typedef ltn_Value(*ltn_FuncValueInt)(ltn_Int);
 typedef ltn_Value(*ltn_FuncValueFloat)(ltn_Float);
 typedef ltn_Value(*ltn_FuncValueArray)(ltn_Array);
@@ -41,7 +40,6 @@ typedef ltn_Value(*ltn_FuncValueMap)(ltn_Map);
 typedef ltn_Value(*ltn_FuncValueString)(ltn_String);
 
 typedef ltn_Bool(*ltn_FuncAsBool)(ltn_Value);
-typedef ltn_Char(*ltn_FuncAsChar)(ltn_Value);
 typedef ltn_Int(*ltn_FuncAsInt)(ltn_Value);
 typedef ltn_Float(*ltn_FuncAsFloat)(ltn_Value);
 typedef ltn_Array(*ltn_FuncAsArray)(ltn_Value);

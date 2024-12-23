@@ -7,7 +7,7 @@
 optional&lt;char&gt;  
 
 **Description:**  
-Reads a single character from stdin.
+Reads a single character from stdin as an int.
 Null is returned if an error occurs or the stream reaches EOF.
 
 ---
@@ -20,7 +20,7 @@ Null is returned if an error occurs or the stream reaches EOF.
 optional&lt;char&gt;  
 
 **Description:**  
-Reads a single character from stream.
+Reads a single character from stream as an int.
 Null is returned if an error occurs or the stream reaches EOF.
 
 ---

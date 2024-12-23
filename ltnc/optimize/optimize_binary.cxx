@@ -45,22 +45,14 @@ namespace ltn::c {
 		const sst::expr::Expression & r) {
 		
 		if(auto expr = eval<Op, sst::expr::Bool,    sst::expr::Bool>(l, r))    return expr;
-		if(auto expr = eval<Op, sst::expr::Bool,    sst::expr::Char>(l, r))    return expr;
 		if(auto expr = eval<Op, sst::expr::Bool,    sst::expr::Integer>(l, r)) return expr;
 		if(auto expr = eval<Op, sst::expr::Bool,    sst::expr::Float>(l, r))   return expr;
 
-		if(auto expr = eval<Op, sst::expr::Char,    sst::expr::Bool>(l, r))    return expr;
-		if(auto expr = eval<Op, sst::expr::Char,    sst::expr::Char>(l, r))    return expr;
-		if(auto expr = eval<Op, sst::expr::Char,    sst::expr::Integer>(l, r)) return expr;
-		if(auto expr = eval<Op, sst::expr::Char,    sst::expr::Float>(l, r))   return expr;
-
 		if(auto expr = eval<Op, sst::expr::Integer, sst::expr::Bool>(l, r))    return expr;
-		if(auto expr = eval<Op, sst::expr::Integer, sst::expr::Char>(l, r))    return expr;
 		if(auto expr = eval<Op, sst::expr::Integer, sst::expr::Integer>(l, r)) return expr;
 		if(auto expr = eval<Op, sst::expr::Integer, sst::expr::Float>(l, r))   return expr;
 
 		if(auto expr = eval<Op, sst::expr::Float,   sst::expr::Bool>(l, r))    return expr;
-		if(auto expr = eval<Op, sst::expr::Float,   sst::expr::Char>(l, r))    return expr;
 		if(auto expr = eval<Op, sst::expr::Float,   sst::expr::Integer>(l, r)) return expr;
 		if(auto expr = eval<Op, sst::expr::Float,   sst::expr::Float>(l, r))   return expr;
 

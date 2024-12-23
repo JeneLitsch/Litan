@@ -10,5 +10,4 @@ namespace ltn::vm::cast {
 	std::int64_t to_int(Value value);
 	stx::float64_t to_float(Value value);
 	bool to_bool(Value value, VMCore & core);
-	char to_char(Value value);
 }

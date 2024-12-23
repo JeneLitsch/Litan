@@ -5,7 +5,6 @@ namespace ltn::c::sst::expr {
 	Integer::Integer(std::int64_t value) : LiteralOf<Integer, std::int64_t>{value} {}
 	Bool::Bool(bool value)               : LiteralOf<Bool, bool>{value} {}
 	Null::Null()                         : LiteralOf<Null, std::nullptr_t>{nullptr} {}
-	Char::Char(std::uint8_t value)       : LiteralOf<Char, std::uint8_t>{value} {}
 	String::String(std::string value)    : LiteralOf<String, std::string>{std::move(value)} {}
 
 
@@ -28,10 +27,6 @@ namespace ltn::c::sst::expr {
 
 	std::unique_ptr<Null> null() {
 		return std::make_unique<Null>();
-	}
-
-	std::unique_ptr<Char> character(std::uint8_t value) {
-		return std::make_unique<Char>(value);
 	}
 
 	std::unique_ptr<String> string(std::string value) {
