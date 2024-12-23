@@ -54,25 +54,11 @@ namespace sphinx::test {
 
 
 
-	function std_is_type_char() {
-		utils::test_is(<char>, [
-			(null, false),
-			(true, false),
-			('A' , true),
-			(1   , false),
-			(1.0 , false),
-			(""  , false),
-			([]  , false),
-		]);
-	}
-
-
-
 	function std_is_type_int() {
 		utils::test_is(<int>, [
 			(null, false),
 			(true, false),
-			('A' , false),
+			('A' , true),
 			(1   , true),
 			(1.0 , false),
 			(""  , false),
@@ -84,7 +70,7 @@ namespace sphinx::test {
 
 	function std_is_int() {
 		assert_true(std::is_int(1));
-		assert_false(std::is_int('A'));
+		assert_true(std::is_int('A'));
 	}
 
 

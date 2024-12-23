@@ -42,16 +42,6 @@ namespace sphinx::test {
 
 
 
-	function std_type_cast_char() {
-		utils::test_cast(<char>, [
-			(null, null),
-			('A' , 'A'),
-			(""  , null),
-			([]  , null),
-		]);
-	}
-
-
 
 	function std_type_cast_int() {
 		utils::test_cast(<int>, [

@@ -12,7 +12,6 @@ extern "C" {
 #endif
 
 typedef bool ltn_Bool;
-typedef char ltn_Char;
 typedef int64_t ltn_Int;
 typedef double ltn_Float;
 typedef void const * ltn_TypePtr;

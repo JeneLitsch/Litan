@@ -95,14 +95,6 @@ namespace ltn::vm::build_in {
 		}
 
 
-		auto as_char(Value value) {
-			if (!is_char(value)) {
-				throw except::invalid_argument();
-			}
-			return value.c;
-		}
-
-
 		auto as_int(Value value) {
 			if (!is_int(value)) {
 				throw except::invalid_argument();
@@ -256,7 +248,6 @@ namespace ltn::vm::build_in {
 			
 			link_function<ltn_FuncValueNull>(plugin_handle, "ltn_value_null", []() -> Value { return value::null; });
 			link_function<ltn_FuncValueBool>(plugin_handle, "ltn_value_bool", value::boolean);
-			link_function<ltn_FuncValueChar>(plugin_handle, "ltn_value_char", value::character);
 			link_function<ltn_FuncValueInt>(plugin_handle, "ltn_value_int", value::integer<std::int64_t>);
 			link_function<ltn_FuncValueFloat>(plugin_handle, "ltn_value_float", value::floating<double>);
 			link_function<ltn_FuncValueArray>(plugin_handle, "ltn_value_array", value_array);
@@ -265,7 +256,6 @@ namespace ltn::vm::build_in {
 			link_function<ltn_FuncValueString>(plugin_handle, "ltn_value_string", value_string);
 
 			link_function<ltn_FuncAsBool>(plugin_handle, "ltn_as_bool", as_bool);
-			link_function<ltn_FuncAsChar>(plugin_handle, "ltn_as_char", as_char);
 			link_function<ltn_FuncAsInt>(plugin_handle, "ltn_as_int", as_int);
 			link_function<ltn_FuncAsFloat>(plugin_handle, "ltn_as_float", as_float);
 			link_function<ltn_FuncAsArray>(plugin_handle, "ltn_as_array", as_array);
@@ -275,7 +265,6 @@ namespace ltn::vm::build_in {
 			
 			link_function<ltn_FuncIsType>(plugin_handle, "ltn_is_null", [](Value v) -> bool {return is_null(v);});
 			link_function<ltn_FuncIsType>(plugin_handle, "ltn_is_bool", [](Value v) -> bool {return is_bool(v);});
-			link_function<ltn_FuncIsType>(plugin_handle, "ltn_is_char", [](Value v) -> bool {return is_char(v);});
 			link_function<ltn_FuncIsType>(plugin_handle, "ltn_is_int", [](Value v) -> bool {return is_int(v);});
 			link_function<ltn_FuncIsType>(plugin_handle, "ltn_is_float", [](Value v) -> bool {return is_float(v);});
 			link_function<ltn_FuncIsType>(plugin_handle, "ltn_is_array", [](Value v) -> bool {return is_array(v);});

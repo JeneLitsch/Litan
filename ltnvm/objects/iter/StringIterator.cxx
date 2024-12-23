@@ -20,7 +20,7 @@ namespace ltn::vm {
 
 	Value StringIterator::get() {
 		if(this->index < std::ssize(*string) && this->index >= 0) {
-			return value::character(string->unsafe_at(this->index));
+			return value::integer(string->unsafe_at(this->index));
 		}
 		else {
 			return value::iterator_stop;

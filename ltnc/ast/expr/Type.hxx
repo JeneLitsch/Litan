@@ -6,7 +6,6 @@ namespace ltn::c::ast::expr {
 		struct Null{};
 		struct Any{};
 		struct Bool{};
-		struct Char{};
 		struct Int{};
 		struct Float{};
 		struct String{};
@@ -52,7 +51,6 @@ namespace ltn::c::ast::expr {
 			Null,
 			Any,
 			Bool,
-			Char,
 			Int,
 			Float,
 			String,

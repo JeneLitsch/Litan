@@ -61,7 +61,7 @@ namespace ltn::vm::build_in {
 		if(is_float(value)) {
 			return value::deduce(fx(value.f));
 		}
-		if(is_int(value) || is_bool(value) || is_char(value)) {
+		if(is_int(value) || is_bool(value)) {
 			return value::integer(cast::to_int(value));
 		}
 		throw except::invalid_argument();
@@ -80,9 +80,6 @@ namespace ltn::vm::build_in {
 		}
 		if(is_bool(value)) {
 			return value::deduce(fx(value.b));
-		}
-		if(is_char(value)) {
-			return value::deduce(fx(value.c));
 		}
 		throw except::invalid_argument();
 	}

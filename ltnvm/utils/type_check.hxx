@@ -9,10 +9,6 @@ namespace ltn::vm {
 		return val.type == static_cast<std::uint16_t>(ValueType::BOOL);
 	}
 
-	constexpr inline bool is_char(const Value & val) {
-		return val.type == static_cast<std::uint16_t>(ValueType::CHAR);
-	}
-
 	constexpr inline bool is_int(const Value & val) {
 		return val.type == static_cast<std::uint16_t>(ValueType::INT);
 	}
@@ -22,7 +18,7 @@ namespace ltn::vm {
 	}
 
 	constexpr inline bool is_integral(const Value & val) {
-		return is_bool(val) || is_char(val) || is_int(val);
+		return is_bool(val) || is_int(val);
 	}
 
 	constexpr inline bool is_numeric(const Value & val) {

@@ -37,20 +37,4 @@ namespace ltn::vm::cast {
 	bool to_bool(Value value, VMCore & core) {
 		return convert::to_bool(value, core);
 	}
-
-	char to_char(Value value) {
-		if(is_bool(value)) {
-			return static_cast<char>(value.i);
-		}
-
-		if(is_int(value)) {
-			return static_cast<char>(value.i);
-		}
-
-		if(is_float(value)) {
-			return static_cast<char>(value.f);
-		}
-
-		return convert::to_char(value);
-	}
 }

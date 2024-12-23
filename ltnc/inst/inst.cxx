@@ -179,13 +179,6 @@ namespace ltn::c::inst {
 			.value = f64,
 		};
 	}
-	Inst newc(std::uint8_t u8) {
-		return InstByte {
-			.name = "newc",
-			.opcode = OpCode::NEWC,
-			.value = u8
-		};
-	}
 	Inst bool_true() {
 		return InstNone {
 			.name = "true",

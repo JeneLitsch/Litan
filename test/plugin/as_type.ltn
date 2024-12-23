@@ -9,16 +9,6 @@ namespace sphinx::test {
 
 
 
-	function plugin_as_char() {
-		var func = test_plugin["as_char"];
-		assert_equal_strict(func('A'), 'A');
-		assert_equal_strict(func('\n'), '\n');
-		assert_except(lambda[func] => func(true));
-		assert_except(lambda[func] => func([]));
-	}
-
-
-
 	function plugin_as_int() {
 		var func = test_plugin["as_int"];
 		assert_equal_strict(func(42), 42);

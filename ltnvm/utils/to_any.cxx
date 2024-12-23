@@ -15,10 +15,6 @@ namespace ltn::vm {
 			return Any{value.b};
 		}
 		
-		if(is_char(value)) {
-			return Any{value.c};
-		}
-
 		if(is_int(value)) {
 			return Any{value.i};
 		}

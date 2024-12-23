@@ -2,7 +2,7 @@ namespace sphinx::test {
 	function literal_typename() {
 		assert_equal(std::typename(null),   "null");
 		assert_equal(std::typename(true),   "bool");
-		assert_equal(std::typename('A'),    "char");
+		assert_equal(std::typename('A'),    "int");
 		assert_equal(std::typename(1),      "int");
 		assert_equal(std::typename(1.0),    "float");
 		assert_equal(std::typename([]),     "array");
@@ -16,7 +16,7 @@ namespace sphinx::test {
 		assert_equal(std::typeid(null),                    std::type::nul);
 		assert_equal(std::typeid(true),                    std::type::bool);
 		assert_equal(std::typeid(false),                   std::type::bool);
-		assert_equal(std::typeid('a'),                     std::type::char);
+		assert_equal(std::typeid('a'),                     std::type::int);
 		assert_equal(std::typeid(1),                       std::type::int);
 		assert_equal(std::typeid(42.42),                   std::type::float);
 		assert_equal(std::typeid([]),                      std::type::array);

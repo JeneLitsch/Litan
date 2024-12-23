@@ -18,13 +18,6 @@ namespace ltn::vm::inst {
 
 
 
-	void newc(VMCore & core) {
-		const auto chr = core.fetch_byte();
-		core.stack.push(value::character(chr));
-	}
-	
-
-
 	void truE(VMCore & core){
 		core.stack.push(value::boolean(true));
 	}

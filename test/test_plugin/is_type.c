@@ -14,13 +14,6 @@ ltn_Value test_is_bool(ltn_Context * context, const ltn_Value * args) {
 
 
 
-ltn_Value test_is_char(ltn_Context * context, const ltn_Value * args) {
-	(void)context;
-	return ltn_value_bool(ltn_is_char(args[0]));
-}
-
-
-
 ltn_Value test_is_int(ltn_Context * context, const ltn_Value * args) {
 	(void)context;
 	return ltn_value_bool(ltn_is_int(args[0]));

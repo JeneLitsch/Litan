@@ -150,7 +150,6 @@ namespace ltn::c::inst {
 
 	Inst newi(std::int64_t i64);
 	Inst newf(stx::float64_t f64);
-	Inst newc(std::uint8_t f64);
 	Inst bool_true();
 	Inst bool_false();
 	Inst null();

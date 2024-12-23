@@ -18,7 +18,6 @@ typedef struct {
 		ltn_Int i;
 		ltn_Float f;
 		ltn_Bool b;
-		ltn_Char c;
 		ltn_TypePtr obj_type;
 		ltn_ObjectPtr object;
 	};
