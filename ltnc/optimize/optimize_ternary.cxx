@@ -14,7 +14,6 @@ namespace ltn::c {
 
 		if(auto expr = pre_decide<sst::expr::Null>(ternary))    return expr;
 		if(auto expr = pre_decide<sst::expr::Bool>(ternary))    return expr;
-		if(auto expr = pre_decide<sst::expr::Char>(ternary))    return expr;
 		if(auto expr = pre_decide<sst::expr::Integer>(ternary)) return expr;
 		if(auto expr = pre_decide<sst::expr::Float>(ternary))   return expr;
 		if(auto expr = pre_decide<sst::expr::String>(ternary))  return expr;

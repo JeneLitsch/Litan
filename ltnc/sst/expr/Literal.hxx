@@ -49,10 +49,6 @@ namespace ltn::c::sst::expr {
 
 
 
-	struct Char final : public LiteralOf<Char, std::uint8_t> {
-		Char(std::uint8_t value);
-	};
-
 
 
 	struct String final : public LiteralOf<String, std::string> {
@@ -71,6 +67,5 @@ namespace ltn::c::sst::expr {
 	std::unique_ptr<Float> floating(stx::float64_t value);
 	std::unique_ptr<Bool> boolean(bool value);
 	std::unique_ptr<Null> null();
-	std::unique_ptr<Char> character(std::uint8_t value);
 	std::unique_ptr<String> string(std::string value);
 }
