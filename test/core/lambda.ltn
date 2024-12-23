@@ -1,4 +1,16 @@
 namespace sphinx::test {
+	function lambda_noary() {
+		assert_equal((lambda() => 1337)(), 1337);
+	}
+
+
+
+	function lambda_unary() {
+		assert_equal((lambda(x) => x)(42), 42);
+
+	}
+
+
 	function lambda_args() {
 		assert_equal((lambda(a,b) => a + b)(20, 22), 42);
 		assert_equal((lambda(a,b) => a + b)('A', 1), 'B');
