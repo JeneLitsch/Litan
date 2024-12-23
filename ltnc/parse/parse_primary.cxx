@@ -1,6 +1,9 @@
 #include <sstream>
 #include <bitset>
 #include "stdxx/iife.hxx"
+
+#include "ltn/utf8.hxx"
+
 #include "ltnc/CompilerError.hxx"
 #include "ltnc/ast/expr/Bool.hxx"
 #include "ltnc/ast/expr/Char.hxx"
@@ -13,6 +16,7 @@
 #include "ltnc/ast/expr/String.hxx"
 #include "ltnc/ast/expr/CustomLiteral.hxx"
 #include "ltnc/ast/expr/Var.hxx"
+#include "ltnc/CompilerError.hxx"
 
 #include "parse.hxx"
 
@@ -55,8 +59,11 @@ namespace ltn::c {
 
 		ast::expr_ptr parse_character(Tokens & tokens) {
 			if(auto t = match(TT::CHAR, tokens)) {
-				const auto chr = static_cast<std::uint8_t>(t->str.front());
-				return ast::expr::character(location(tokens), chr); 
+				const auto [code, stride] = utf8::decode_char(t->str);
+				if(t->str.size() > stride) {
+					throw CompilerError{"Expected single char", t->location};
+				}
+				return ast::expr::character(location(tokens), code); 
 			}
 			return nullptr;
 		}

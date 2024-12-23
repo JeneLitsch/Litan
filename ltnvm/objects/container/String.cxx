@@ -1,8 +1,44 @@
 #include "String.hxx"
 #include "stdxx/string.hxx"
 #include "ltnvm/stdlib/string.hxx"
+#include "ltn/utf8.hxx"
 
 namespace ltn::vm {
+	String::String(std::string str, Encoding encoding) 
+		: Object{}
+		, storage {str}
+		, str{*storage}
+		, encoding { encoding }
+		, character_count { utf8::character_count(str) }
+		{}
+	
+
+
+	String::String(const String & string)
+		: Object { string }
+		, encoding { string.encoding }
+		, character_count { string.character_count } {
+		if (string.storage) {
+			storage = string.storage;
+			str = storage.value();
+		}
+		else {
+			str = string.str;
+		}
+	}
+
+
+
+	String::String(NonOwning, std::string_view string, Encoding encoding)
+		: Object {}
+		, storage{std::nullopt}
+		, str{string}
+		, encoding { encoding }
+		, character_count { utf8::character_count(str) }
+		{}
+
+
+
 	void String::stringify(VMCore &, std::ostream & oss, bool nested) {
 		if (nested) {
 			oss << '"';
@@ -30,5 +66,73 @@ namespace ltn::vm {
 			wrap<stdlib::string_is_empty> (ReservedMemberCode::IS_EMTPY),
 		};
 		return search_native_function_table(native_function_table, id);
+	}
+
+
+
+	bool String::empty() const {
+		return std::empty(str);
+	}
+
+
+
+	std::uint32_t String::unsafe_back() const {
+		return at(size() - 1);
+	}
+
+
+
+	std::uint32_t String::back() const {
+		return at(size() - 1);
+	}
+
+
+
+	std::uint32_t String::unsafe_front() const {
+		return at(0);
+	}
+
+
+
+	std::uint32_t String::front() const {
+		return at(0);
+	}
+
+
+
+	std::uint32_t String::at(std::int64_t i) const {
+		switch (encoding) {
+		case Encoding::UTF8:
+			return utf8::code_point_at(str, i);
+		case Encoding::ASCII:
+			return static_cast<std::uint32_t>(str[0]);
+		}
+	}
+
+
+
+	// std::uint32_t String::unsafe_at(std::int64_t i) const {
+	// 	return utf8::code_point_at(str, i);
+	// }
+
+
+
+	std::int64_t String::size() const {
+		return character_count;
+	}
+
+
+	std::string String::copy_to_std_string() const {
+		if(storage) {
+			return storage.value();
+		}
+		else {
+			return std::string{str};
+		}
+	}
+
+
+	std::partial_ordering operator<=>(const String & l, const String & r) {
+		return l.str <=> r.str;
 	}
 }

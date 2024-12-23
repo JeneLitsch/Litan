@@ -60,7 +60,7 @@ namespace ltn::vm::ext {
 		template<>
 		struct Converter<std::string> {
 			static std::string convert(const Value & value) {
-				if(is_string(value)) return std::string{value::as<String>(value)->str};
+				if(is_string(value)) return value::as<String>(value)->copy_to_std_string();
 				throw std::runtime_error{"Parameter not a string"};
 			}
 		};

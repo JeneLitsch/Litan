@@ -14,9 +14,33 @@ namespace sphinx::test {
 	}
 
 
+
+	function std_chr_unicode_2_byte() {
+		assert_equal_strict("ä", std::chr(0x00E4));
+		assert_equal_strict("Ä", std::chr(0x00C4));
+		assert_equal_strict("ß", std::chr(0x00DF));
+	}
+
+
+
+
+	function std_chr_unicode_3_byte() {
+		assert_equal_strict("ヸ", std::chr(0x30F8));
+	}
+
+
+
+	function std_chr_unicode_4_byte() {
+		assert_equal_strict("𒀉", std::chr(0x12009));
+	}
+
+
+
 	function std_chr_except_non_int() {
 		assert_except(lambda() => std::chr(3.3));
 		assert_except(lambda() => std::chr("ABC"));
 		assert_except(lambda() => std::chr([1]));
 	}
+
+
 }

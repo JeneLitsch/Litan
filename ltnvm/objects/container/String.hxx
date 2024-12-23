@@ -7,72 +7,39 @@
 
 namespace ltn::vm {
 	struct String : public Object {
+		enum class Encoding { ASCII, UTF8 };
 		const static struct NonOwning {} non_owning;
 		
-		String(std::string str = {}) 
-			: Object{}
-			, storage {str}
-			, str{*storage} {}
-		
-		String(const String & string)
-			: Object { string } {
-			if (string.storage) {
-				storage = string.storage;
-				str = storage.value();
-			}
-			else {
-				str = string.str;
-			}
-		}
-
-		String(std::string_view string, NonOwning)
-			: Object {}
-			, storage{std::nullopt}
-			, str{string}
-			{}
+		String(std::string str = {}, Encoding encoding = Encoding::UTF8); 
+		String(const String & string);
+		String(NonOwning, std::string_view string, Encoding encoding = Encoding::UTF8);
 
 		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
 		virtual Value get_member(std::uint64_t id) const override;
 
-		// const std::string & get_underlying() const {
-		// 	return *storage;
-		// }
+		bool empty() const;
+		std::uint32_t unsafe_back() const;
+		std::uint32_t back() const;
+		std::uint32_t unsafe_front() const;
+		std::uint32_t front() const;
 
-		bool empty() const {
-			return std::empty(str);
+		// std::uint32_t unsafe_at(std::int64_t i) const;
+		std::uint32_t at(std::int64_t i) const;
+
+		std::int64_t size() const;
+		std::string copy_to_std_string() const;
+
+		friend std::partial_ordering operator<=>(const String & l, const String & r);
+
+		operator std::string_view() const {
+			return str;
 		}
 
-		char unsafe_back() const {
-			return str.back();
-		}
-
-		char unsafe_front() const {
-			return str.front();
-		}
-
-		char unsafe_at(std::int64_t i) const {
-			return str[static_cast<std::uint64_t>(i)];
-		}
-
-		std::int64_t size() const {
-			return std::ssize(str);
-		}
-
-		friend std::partial_ordering operator<=>(const String & l, const String & r) {
-			return l.str <=> r.str;
-		}
-
-		std::string copy_to_std_string() const {
-			if(storage) {
-				return storage.value();
-			}
-			else {
-				return std::string{str};
-			}
-		}
-
+	private:
 		std::optional<std::string> storage;
 		std::string_view str;
+		Encoding encoding;
+		std::uint64_t character_count;
 	};
 
 

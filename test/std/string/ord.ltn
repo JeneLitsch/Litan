@@ -23,13 +23,33 @@ namespace sphinx::test {
 
 
 
-	function std_ord_ascii_empty_string() {
+	function std_ord_unicode_2_byte() {
+		assert_equal_strict(0x00E4, std::ord("ä"));
+		assert_equal_strict(0x00C4, std::ord("Ä"));
+		assert_equal_strict(0x00DF, std::ord("ß"));
+	}
+
+
+
+	function std_ord_unicode_3_byte() {
+		assert_equal_strict(0x30F8, std::ord("ヸ"));
+	}
+
+
+
+	function std_ord_unicode_4_byte() {
+		assert_equal_strict(0x12009, std::ord("𒀉"));
+	}
+
+
+
+	function std_ord_empty_string() {
 		assert_except(lambda() => std::ord(""));
 	}
 
 
 
-	function std_ord_ascii_non_string() {
+	function std_ord_non_string() {
 		assert_except(lambda() => std::ord(1));
 		assert_except(lambda() => std::ord([1]));
 		assert_except(lambda() => std::ord([.]));

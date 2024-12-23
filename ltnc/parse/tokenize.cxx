@@ -304,9 +304,6 @@ namespace ltn::c {
 
 			if(match('\'')) {
 				const auto str = string<'\''>(in, location);
-				if(str.size() != 1) {
-					throw CompilerError{"Expected single char", location};
-				}
 				return make(TT::CHAR, str);
 			}
 

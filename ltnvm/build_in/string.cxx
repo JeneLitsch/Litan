@@ -1,6 +1,7 @@
 #include "string.hxx"
 #include "ltnvm/Exception.hxx"
 #include "ltnvm/utils/stringify.hxx"
+#include "ltn/utf8.hxx"
 
 namespace ltn::vm::build_in {
 
@@ -65,9 +66,8 @@ namespace ltn::vm::build_in {
 				"std::chr expected int."
 			};
 		}
-		std::string str_data;
-		str_data.push_back(static_cast<char>(arg.i));
-		return value::string(core.heap.make<String>(std::move(str_data)));
+		String * str = core.heap.make<String>(utf8::encode_char(static_cast<std::uint32_t>(arg.i)));
+		return value::string(str);
 	}
 
 
@@ -88,7 +88,7 @@ namespace ltn::vm::build_in {
 				"std::ord expected non-empty string."
 			};
 		}
-		return value::integer(str->unsafe_at(0));
+		return value::integer(static_cast<std::int64_t>(str->at(0)));
 	}
 
 

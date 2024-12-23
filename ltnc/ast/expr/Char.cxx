@@ -1,7 +1,7 @@
 #include "Char.hxx"
 
 namespace ltn::c::ast::expr {
-	Char::Char(std::uint8_t value, const SourceLocation & location)
+	Char::Char(std::uint32_t value, const SourceLocation & location)
 		: Expression(location), value(value) {}
 
 
@@ -12,7 +12,7 @@ namespace ltn::c::ast::expr {
 
 
 
-	std::unique_ptr<Char> character(const SourceLocation & location, std::uint8_t value) {
+	std::unique_ptr<Char> character(const SourceLocation & location, std::uint32_t value) {
 		return std::make_unique<Char>(value, location);
 	}
 }

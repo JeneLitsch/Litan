@@ -10,6 +10,11 @@ namespace sphinx::test {
 	}
 
 
+	function std_str_char_unicode() {
+		assert_equal_strict(std::str('Ä'), "196");
+	}
+
+
 	
 	function std_str_int() {
 		assert_equal_strict(std::str(1), "1");

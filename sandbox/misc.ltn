@@ -1,8 +1,10 @@
 function main() {
-	var a = 'A';
-	var x = 'X';
-	std::println(a);
-	std::println(x);
-	std::println(std::chr('A'));
-	std::println(std::ord("A"));
+	var str = "AÄC";
+	std::println(std::chr(str[0]));
+	std::println(std::chr(str[1]));
+	std::println(std::chr(str[2]));
+	std::println(std::ord("Ä"));
+	for(c : str) {
+		std::println(c);
+	}
 }

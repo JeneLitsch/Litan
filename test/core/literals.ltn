@@ -29,4 +29,26 @@ namespace sphinx::test {
 		assert_equal(std::typeid(std::map()),              std::type::map);
 		assert_equal(std::typeid(std::random::mersenne()), std::type::rng);
 	}
+
+
+
+	function literal_unicode_2_byte() {
+		assert_equal(std::typename('א'), "int");
+		assert_equal('א', 0x05D0);
+		assert_equal('ʡ', 0x02A1);
+	}
+
+
+
+	function literal_unicode_3_byte() {
+		assert_equal(std::typename('ぐ'), "int");
+		assert_equal('ぐ', 0x3050);
+	}
+
+
+
+	function literal_unicode_4_byte() {
+		assert_equal(std::typename('𠀋'), "int");
+		assert_equal('𠀋', 0x2000B);
+	}
 }

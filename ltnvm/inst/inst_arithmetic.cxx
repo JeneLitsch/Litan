@@ -57,7 +57,7 @@ namespace ltn::vm::inst {
 			const auto & count = cast::to_int(repetitions);
 			std::ostringstream oss;
 			for(std::int64_t i = 0; i < count; i++) {
-				oss << str.str;
+				oss << static_cast<std::string_view>(str);
 			}
 			const auto ptr = heap.alloc(String{oss.str()}); 
 			return ptr;

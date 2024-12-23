@@ -15,4 +15,9 @@ namespace sphinx::test {
 	function std_join_empty_joiner() {
 		assert_equal_strict(std::join(["xxx", "yyy"], ""), "xxxyyy");
 	}
+
+
+	function std_join_unicode() {
+		assert_equal_strict(std::join(["Ä", "Ö", "Ü"], "ß"), "ÄßÖßÜ");
+	}
 }
