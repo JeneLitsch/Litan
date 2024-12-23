@@ -1,0 +1,22 @@
+namespace sphinx::test {
+	function std_chr_ascii() {
+		assert_equal_strict("1", std::chr('1'));
+		assert_equal_strict("A", std::chr('A'));
+	}
+
+
+	function std_chr_ascii_escape() {
+		assert_equal_strict("\n", std::chr('\n'));
+		assert_equal_strict("\t", std::chr('\t'));
+		assert_equal_strict("\\", std::chr('\\'));
+		assert_equal_strict("\"", std::chr('\"'));
+		assert_equal_strict("\'", std::chr('\''));
+	}
+
+
+	function std_chr_except_non_int() {
+		assert_except(lambda() => std::chr(3.3));
+		assert_except(lambda() => std::chr("ABC"));
+		assert_except(lambda() => std::chr([1]));
+	}
+}

@@ -1,0 +1,37 @@
+namespace sphinx::test {
+	function std_ord_ascii() {
+		assert_equal_strict('1', std::ord("1"));
+		assert_equal_strict('A', std::ord("A"));
+	}
+
+
+
+	function std_ord_ascii_escape() {
+		assert_equal_strict('\n', std::ord("\n"));
+		assert_equal_strict('\t', std::ord("\t"));
+		assert_equal_strict('\\', std::ord("\\"));
+		assert_equal_strict('\"', std::ord("\""));
+		assert_equal_strict('\'', std::ord("\'"));
+	}
+
+
+
+	function std_ord_ascii_long_string() {
+		assert_equal_strict('1', std::ord("123"));
+		assert_equal_strict('A', std::ord("ABC"));
+	}
+
+
+
+	function std_ord_ascii_empty_string() {
+		assert_except(lambda() => std::ord(""));
+	}
+
+
+
+	function std_ord_ascii_non_string() {
+		assert_except(lambda() => std::ord(1));
+		assert_except(lambda() => std::ord([1]));
+		assert_except(lambda() => std::ord([.]));
+	}
+}
