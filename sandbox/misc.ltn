@@ -1,6 +1,8 @@
 function main() {
 	var a = 'A';
 	var x = 'X';
-	std::println(a); // 64
-	std::println(x); // 88
+	std::println(a);
+	std::println(x);
+	std::println(std::chr('A'));
+	std::println(std::ord("A"));
 }

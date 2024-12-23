@@ -87,6 +87,8 @@ namespace ltn::vm::inst {
 		// string
 		table[FxCode::TO_STRING] = build_in::to_string;
 		table[FxCode::SPLIT_STRING] = build_in::split_string;
+		table[FxCode::CHR] = build_in::chr;
+		table[FxCode::ORD] = build_in::ord;
 
 		// Math
 		table[FxCode::MIN] = build_in::min;
@@ -150,9 +152,9 @@ namespace ltn::vm::inst {
 		return table.array;
 	}
 
-	static constexpr auto build_in_table = make_build_in_table();
 
 	void build_in(VMCore & core) {
+		static constexpr auto build_in_table = make_build_in_table();
 		const auto byte0 = static_cast<std::uint32_t>(core.fetch_byte());
 		const auto byte1 = static_cast<std::uint32_t>(core.fetch_byte());
 		const auto code = (byte0 << 8) + byte1;

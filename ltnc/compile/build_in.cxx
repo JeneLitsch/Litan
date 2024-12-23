@@ -101,6 +101,8 @@ namespace ltn::c {
 
 		{"to_string",                FxCode::TO_STRING},
 		{"split_string",             FxCode::SPLIT_STRING},
+		{"chr",                      FxCode::CHR},
+		{"ord",                      FxCode::ORD},
 
 		{"iter_range",               FxCode::ITER_RANGE},
 		{"iter_next",                FxCode::ITER_NEXT},

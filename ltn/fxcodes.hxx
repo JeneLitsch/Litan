@@ -46,6 +46,8 @@ namespace ltn {
 		// string
 		TO_STRING = 0x40,
 		SPLIT_STRING,
+		CHR,
+		ORD,
 
 		// math
 		MIN = 0x50,

@@ -57,6 +57,42 @@ namespace ltn::vm::build_in {
 
 
 
+	Value chr(VMCore & core) {
+		const auto arg = core.stack.pop();
+		if(!is_int(arg)) {
+			throw Exception {
+				Exception::Type::INVALID_ARGUMENT,
+				"std::chr expected int."
+			};
+		}
+		std::string str_data;
+		str_data.push_back(static_cast<char>(arg.i));
+		return value::string(core.heap.make<String>(std::move(str_data)));
+	}
+
+
+
+
+	Value ord(VMCore & core) {
+		const auto arg = core.stack.pop();
+		if(!is_string(arg)) {
+			throw Exception {
+				Exception::Type::INVALID_ARGUMENT,
+				"std::ord expected string."
+			};
+		}
+		String * str = value::as<String>(arg);
+		if(str->empty()) {
+			throw Exception {
+				Exception::Type::INVALID_ARGUMENT,
+				"std::ord expected non-empty string."
+			};
+		}
+		return value::integer(str->unsafe_at(0));
+	}
+
+
+
 	Value parse_bool(VMCore &) {
 		return value::null;
 	}
