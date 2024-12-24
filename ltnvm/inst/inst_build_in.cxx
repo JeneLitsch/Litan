@@ -8,8 +8,10 @@
 #include "ltnvm/build_in/type.hxx"
 #include "ltnvm/build_in/plugin.hxx"
 
-#include "ltnvm/stdlib/stdlib.hxx"
+#include "ltnvm/stdlib/misc.hxx"
+#include "ltnvm/stdlib/container.hxx"
 #include "ltnvm/stdlib/io.hxx"
+#include "ltnvm/stdlib/string.hxx"
 #include "ltnvm/stdlib/json.hxx"
 #include "ltnvm/stdlib/functional.hxx"
 #include "ltnvm/stdlib/math.hxx"
@@ -42,13 +44,13 @@ namespace ltn::vm::inst {
 
 
 		// algorithm
-		table[FxCode::SORT_ASCN] = build_in::sort_ascn;
-		table[FxCode::SORT_DESC] = build_in::sort_desc;
-		table[FxCode::IS_SORTED_ASCN] = build_in::is_sorted_ascn;
-		table[FxCode::IS_SORTED_DESC] = build_in::is_sorted_desc;
-		table[FxCode::FIND] = build_in::find;
-		table[FxCode::FILL] = build_in::fill;
-		table[FxCode::REVERSE] = build_in::reverse;
+		table[FxCode::SORT_ASCN]         = build_in::sort_ascn;
+		table[FxCode::SORT_DESC]         = build_in::sort_desc;
+		table[FxCode::IS_SORTED_ASCN]    = build_in::is_sorted_ascn;
+		table[FxCode::IS_SORTED_DESC]    = build_in::is_sorted_desc;
+		table[FxCode::FIND]              = build_in::find;
+		table[FxCode::FILL]              = build_in::fill;
+		table[FxCode::REVERSE]           = build_in::reverse;
 		table[FxCode::ALGORITHM_REDUCE_L_2] = build_in::reduce_l_2;
 		table[FxCode::ALGORITHM_REDUCE_L_3] = build_in::reduce_l_3;
 
@@ -62,58 +64,58 @@ namespace ltn::vm::inst {
 		table[FxCode::RANDOM_MERSENNE_1] = build_in::random::mersenne_1;
 
 		//functional
-		table[FxCode::FX_ARITY]        = as_build_in<stdlib::function_arity>;
-		table[FxCode::FX_INVOKE]       = run_inst<inst::invoke_variadic>;
-		table[FxCode::FX_IS_VARIADIC]  = as_build_in<stdlib::function_is_variadic>;
+		table[FxCode::FX_ARITY]          = as_build_in<stdlib::function_arity>;
+		table[FxCode::FX_INVOKE]         = run_inst<inst::invoke_variadic>;
+		table[FxCode::FX_IS_VARIADIC]    = as_build_in<stdlib::function_is_variadic>;
 
 		//io
-		table[FxCode::IO_RESET_COLOR]  = as_build_in<stdlib::reset_color>;
-		table[FxCode::IO_SET_FG_COLOR] = as_build_in<stdlib::set_fg_color>;
-		table[FxCode::IO_SET_BG_COLOR] = as_build_in<stdlib::set_bg_color>;
-		table[FxCode::IO_IS_EOF]       = as_build_in<stdlib::is_eof>;
-		table[FxCode::IO_CLOSE_STREAM] = as_build_in<stdlib::close_stream>;
-		table[FxCode::IO_PRINT]        = as_build_in<stdlib::print>;
-		table[FxCode::IO_READ_STR]     = as_build_in<stdlib::read_str>;
-		table[FxCode::IO_READ_LINE]    = as_build_in<stdlib::read_line>;
-		table[FxCode::IO_READ_BOOL]    = as_build_in<stdlib::read_bool>;
-		table[FxCode::IO_READ_CHAR]    = as_build_in<stdlib::read_char>;
-		table[FxCode::IO_READ_INT]     = as_build_in<stdlib::read_int>;
-		table[FxCode::IO_READ_FLOAT]   = as_build_in<stdlib::read_float>;
-		table[FxCode::IO_READ_ALL]     = as_build_in<stdlib::read_all>;
+		table[FxCode::IO_RESET_COLOR]    = as_build_in<stdlib::reset_color>;
+		table[FxCode::IO_SET_FG_COLOR]   = as_build_in<stdlib::set_fg_color>;
+		table[FxCode::IO_SET_BG_COLOR]   = as_build_in<stdlib::set_bg_color>;
+		table[FxCode::IO_IS_EOF]         = as_build_in<stdlib::is_eof>;
+		table[FxCode::IO_CLOSE_STREAM]   = as_build_in<stdlib::close_stream>;
+		table[FxCode::IO_PRINT]          = as_build_in<stdlib::print>;
+		table[FxCode::IO_READ_STR]       = as_build_in<stdlib::read_str>;
+		table[FxCode::IO_READ_LINE]      = as_build_in<stdlib::read_line>;
+		table[FxCode::IO_READ_BOOL]      = as_build_in<stdlib::read_bool>;
+		table[FxCode::IO_READ_CHAR]      = as_build_in<stdlib::read_char>;
+		table[FxCode::IO_READ_INT]       = as_build_in<stdlib::read_int>;
+		table[FxCode::IO_READ_FLOAT]     = as_build_in<stdlib::read_float>;
+		table[FxCode::IO_READ_ALL]       = as_build_in<stdlib::read_all>;
+		table[FxCode::IO_COUT]           = as_build_in<stdlib::cout>;
+		table[FxCode::IO_FOUT]           = as_build_in<stdlib::fout>;
+		table[FxCode::IO_STROUT]         = as_build_in<stdlib::strout>;
+		table[FxCode::IO_CIN]            = as_build_in<stdlib::cin>;
+		table[FxCode::IO_FIN]            = as_build_in<stdlib::fin>;
+		table[FxCode::IO_STRIN]          = as_build_in<stdlib::strin>;
 
-		table[FxCode::IO_COUT]         = as_build_in<stdlib::cout>;
-		table[FxCode::IO_FOUT]         = as_build_in<stdlib::fout>;
-		table[FxCode::IO_STROUT]       = as_build_in<stdlib::strout>;
-		table[FxCode::IO_CIN]          = as_build_in<stdlib::cin>;
-		table[FxCode::IO_FIN]          = as_build_in<stdlib::fin>;
-		table[FxCode::IO_STRIN]        = as_build_in<stdlib::strin>;
-
-		table[FxCode::JSON_PARSE]      = as_build_in<stdlib::json_parse>;
-		table[FxCode::JSON_PRINT]      = as_build_in<stdlib::json_print>;
+		// Json
+		table[FxCode::JSON_PARSE]        = as_build_in<stdlib::json_parse>;
+		table[FxCode::JSON_PRINT]        = as_build_in<stdlib::json_print>;
 
 		// string
-		table[FxCode::TO_STRING] = build_in::to_string;
-		table[FxCode::SPLIT_STRING] = build_in::split_string;
-		table[FxCode::CHR] = build_in::chr;
-		table[FxCode::ORD] = build_in::ord;
+		table[FxCode::TO_STRING]         = build_in::to_string;
+		table[FxCode::SPLIT_STRING]      = as_build_in<stdlib::string_split>;
+		table[FxCode::CHR]               = as_build_in<stdlib::chr>;
+		table[FxCode::ORD]               = as_build_in<stdlib::ord>;
 
 		// Math
-		table[FxCode::MIN] = as_build_in<stdlib::min>;
-		table[FxCode::MAX] = as_build_in<stdlib::max>;
-		table[FxCode::CLAMP] = as_build_in<stdlib::clamp>;
-		table[FxCode::ROUND] = as_build_in<stdlib::round>;
-		table[FxCode::FLOOR] = as_build_in<stdlib::floor>;
-		table[FxCode::CEIL] = as_build_in<stdlib::ceil>;
-		table[FxCode::ABS] = as_build_in<stdlib::abs>;
-		table[FxCode::SIN] = as_build_in<stdlib::sin>;
-		table[FxCode::COS] = as_build_in<stdlib::cos>;
-		table[FxCode::TAN] = as_build_in<stdlib::tan>;
-		table[FxCode::SQRT] = as_build_in<stdlib::sqrt>;
-		table[FxCode::HYPOT] = as_build_in<stdlib::hypot>;
-		table[FxCode::LOG] = as_build_in<stdlib::log>;
-		table[FxCode::LN] = as_build_in<stdlib::ln>;
-		table[FxCode::LD] = as_build_in<stdlib::ld>;
-		table[FxCode::LG] = as_build_in<stdlib::lg>;
+		table[FxCode::MIN]               = as_build_in<stdlib::min>;
+		table[FxCode::MAX]               = as_build_in<stdlib::max>;
+		table[FxCode::CLAMP]             = as_build_in<stdlib::clamp>;
+		table[FxCode::ROUND]             = as_build_in<stdlib::round>;
+		table[FxCode::FLOOR]             = as_build_in<stdlib::floor>;
+		table[FxCode::CEIL]              = as_build_in<stdlib::ceil>;
+		table[FxCode::ABS]               = as_build_in<stdlib::abs>;
+		table[FxCode::SIN]               = as_build_in<stdlib::sin>;
+		table[FxCode::COS]               = as_build_in<stdlib::cos>;
+		table[FxCode::TAN]               = as_build_in<stdlib::tan>;
+		table[FxCode::SQRT]              = as_build_in<stdlib::sqrt>;
+		table[FxCode::HYPOT]             = as_build_in<stdlib::hypot>;
+		table[FxCode::LOG]               = as_build_in<stdlib::log>;
+		table[FxCode::LN]                = as_build_in<stdlib::ln>;
+		table[FxCode::LD]                = as_build_in<stdlib::ld>;
+		table[FxCode::LG]                = as_build_in<stdlib::lg>;
 
 		table[FxCode::TYPE_ID] = build_in::type::id;
 		table[FxCode::TYPE_CLONE] = build_in::type::clone;

@@ -11,5 +11,6 @@ target_sources(libltnvm PRIVATE
 	"string.cxx"
 	"queue.cxx"
 	"stack.cxx"
-	"stdlib.cxx"
+	"container.cxx"
+	"misc.cxx"
 )
