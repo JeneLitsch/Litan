@@ -4,7 +4,6 @@ target_sources(libltnvm PRIVATE
 	"algorithm.cxx"
 	"chrono.cxx"
 	"functional.cxx"
-	"io.cxx"
 	"iter.cxx"
 	"json.cxx"
 	"math.cxx"

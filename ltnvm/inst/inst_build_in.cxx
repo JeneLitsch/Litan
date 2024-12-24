@@ -4,7 +4,6 @@
 #include "ltnvm/build_in/chrono.hxx"
 #include "ltnvm/build_in/random.hxx"
 #include "ltnvm/build_in/functional.hxx"
-#include "ltnvm/build_in/io.hxx"
 #include "ltnvm/build_in/iter.hxx"
 #include "ltnvm/build_in/json.hxx"
 #include "ltnvm/build_in/math.hxx"
@@ -13,6 +12,7 @@
 #include "ltnvm/build_in/plugin.hxx"
 
 #include "ltnvm/stdlib/stdlib.hxx"
+#include "ltnvm/stdlib/io.hxx"
 
 
 
@@ -62,31 +62,31 @@ namespace ltn::vm::inst {
 		table[FxCode::RANDOM_MERSENNE_1] = build_in::random::mersenne_1;
 
 		//functional
-		table[FxCode::FX_ARITY] = build_in::arity;
-		table[FxCode::FX_INVOKE] = build_in::invoke;
-		table[FxCode::FX_IS_VARIADIC] = build_in::is_variadic;
+		table[FxCode::FX_ARITY]        = build_in::arity;
+		table[FxCode::FX_INVOKE]       = build_in::invoke;
+		table[FxCode::FX_IS_VARIADIC]  = build_in::is_variadic;
 
 		//io
-		table[FxCode::IO_RESET_COLOR] = build_in::io::reset_color;
-		table[FxCode::IO_SET_FG_COLOR] = build_in::io::set_fg_color;
-		table[FxCode::IO_SET_BG_COLOR] = build_in::io::set_bg_color;
-		table[FxCode::IO_IS_EOF] = build_in::io::is_eof;
-		table[FxCode::IO_CLOSE_STREAM] = build_in::io::close_stream;
-		table[FxCode::IO_PRINT] = build_in::io::print;
-		table[FxCode::IO_READ_STR] = build_in::io::read_str;
-		table[FxCode::IO_READ_LINE] = build_in::io::read_line;
-		table[FxCode::IO_READ_BOOL] = build_in::io::read_bool;
-		table[FxCode::IO_READ_CHAR] = build_in::io::read_char;
-		table[FxCode::IO_READ_INT] = build_in::io::read_int;
-		table[FxCode::IO_READ_FLOAT] = build_in::io::read_float;
-		table[FxCode::IO_READ_ALL] = build_in::io::read_all;
+		table[FxCode::IO_RESET_COLOR]  = as_build_in<stdlib::reset_color>;
+		table[FxCode::IO_SET_FG_COLOR] = as_build_in<stdlib::set_fg_color>;
+		table[FxCode::IO_SET_BG_COLOR] = as_build_in<stdlib::set_bg_color>;
+		table[FxCode::IO_IS_EOF]       = as_build_in<stdlib::is_eof>;
+		table[FxCode::IO_CLOSE_STREAM] = as_build_in<stdlib::close_stream>;
+		table[FxCode::IO_PRINT]        = as_build_in<stdlib::print>;
+		table[FxCode::IO_READ_STR]     = as_build_in<stdlib::read_str>;
+		table[FxCode::IO_READ_LINE]    = as_build_in<stdlib::read_line>;
+		table[FxCode::IO_READ_BOOL]    = as_build_in<stdlib::read_bool>;
+		table[FxCode::IO_READ_CHAR]    = as_build_in<stdlib::read_char>;
+		table[FxCode::IO_READ_INT]     = as_build_in<stdlib::read_int>;
+		table[FxCode::IO_READ_FLOAT]   = as_build_in<stdlib::read_float>;
+		table[FxCode::IO_READ_ALL]     = as_build_in<stdlib::read_all>;
 
-		table[FxCode::IO_COUT] = build_in::io::cout;
-		table[FxCode::IO_FOUT] = build_in::io::fout;
-		table[FxCode::IO_STROUT] = build_in::io::strout;
-		table[FxCode::IO_CIN] = build_in::io::cin;
-		table[FxCode::IO_FIN] = build_in::io::fin;
-		table[FxCode::IO_STRIN] = build_in::io::strin;
+		table[FxCode::IO_COUT]         = as_build_in<stdlib::cout>;
+		table[FxCode::IO_FOUT]         = as_build_in<stdlib::fout>;
+		table[FxCode::IO_STROUT]       = as_build_in<stdlib::strout>;
+		table[FxCode::IO_CIN]          = as_build_in<stdlib::cin>;
+		table[FxCode::IO_FIN]          = as_build_in<stdlib::fin>;
+		table[FxCode::IO_STRIN]        = as_build_in<stdlib::strin>;
 
 		table[FxCode::JSON_PARSE] = build_in::json::parse;
 		table[FxCode::JSON_PRINT] = build_in::json::print;
@@ -154,7 +154,7 @@ namespace ltn::vm::inst {
 		table[FxCode::FRONT]        = as_build_in<stdlib::front>;
 		table[FxCode::BACK]         = as_build_in<stdlib::back>;
 
-		table[FxCode::LOAD_PLUGIN] = build_in::load_plugin;
+		table[FxCode::LOAD_PLUGIN]  = build_in::load_plugin;
 		
 		return table.array;
 	}
