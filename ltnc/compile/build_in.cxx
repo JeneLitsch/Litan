@@ -27,7 +27,7 @@ namespace ltn::c {
 		{"container_push",           FxCode::PUSH},
 		{"container_pop",            FxCode::POP},
 		{"container_peek",           FxCode::PEEK},
-		{"container_contains",       FxCode::CONTAINS},
+		{"container_has",       FxCode::HAS},
 		{"container_size",           FxCode::SIZE},
 		{"container_empty",          FxCode::EMPTY},
 		{"container_at",             FxCode::AT},

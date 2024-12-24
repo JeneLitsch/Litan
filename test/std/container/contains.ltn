@@ -1,11 +1,11 @@
 namespace sphinx::test {
 	function std_contains_array() {
 		var map = [1,2, 3, "A", "B"];
-		assert_true(std::contains(map, 1));
-		assert_true(std::contains(map, 2));
-		assert_true(std::contains(map, 3));
-		assert_false(std::contains(map, 'A'));
-		assert_true(std::contains(map, "A"));
+		assert_true(std::has(map, 1));
+		assert_true(std::has(map, 2));
+		assert_true(std::has(map, 3));
+		assert_false(std::has(map, 'A'));
+		assert_true(std::has(map, "A"));
 	}
 
 
@@ -16,17 +16,17 @@ namespace sphinx::test {
 			2 : "B",
 			3 : "C",
 		];
-		assert_true(std::contains(map, 1));
-		assert_true(std::contains(map, 2));
-		assert_true(std::contains(map, 3));
-		assert_false(std::contains(map, 'A'));
+		assert_true(std::has(map, 1));
+		assert_true(std::has(map, 2));
+		assert_true(std::has(map, 3));
+		assert_false(std::has(map, 'A'));
 	}
 
 
 
 	function std_contains_except() {
-		assert_except(lambda => std::contains(1, 1));
-		assert_success(lambda => std::contains([], 1));
-		assert_except(lambda => std::contains("", 1));
+		assert_except(lambda => std::has(1, 1));
+		assert_success(lambda => std::has([], 1));
+		assert_except(lambda => std::has("", 1));
 	}
 }

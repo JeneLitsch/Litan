@@ -104,7 +104,7 @@ namespace ltn {
 		PUSH = 0xa0,
 		POP,
 		PEEK,
-		CONTAINS,
+		HAS,
 		SIZE,
 		EMPTY,
 		AT,

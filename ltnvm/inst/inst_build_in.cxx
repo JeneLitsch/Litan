@@ -147,7 +147,7 @@ namespace ltn::vm::inst {
 		table[FxCode::PUSH]         = as_build_in<stdlib::push>;
 		table[FxCode::POP]          = as_build_in<stdlib::pop>;
 		table[FxCode::PEEK]         = as_build_in<stdlib::peek>;
-		table[FxCode::CONTAINS]     = as_build_in<stdlib::has>;
+		table[FxCode::HAS]          = as_build_in<stdlib::has>;
 		table[FxCode::SIZE]         = as_build_in<stdlib::size>;
 		table[FxCode::EMPTY]        = as_build_in<stdlib::is_empty>;
 		table[FxCode::AT]           = run_inst<inst::at>;

@@ -54,8 +54,8 @@ namespace std {
 	
 	
 	
-	function contains(map, key) const           
-		=> build_in(container_contains)
+	function has(map, key) const           
+		=> build_in(container_has)
 	
 	
 	
