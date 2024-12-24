@@ -1,5 +1,6 @@
 #pragma once
-#include "ltnvm/VMCore.hxx"
+#include "ltnvm/Value.hxx"
+#include "ltnvm/native/native.hxx"
 
 namespace ltn::vm::stdlib {
 	struct clock {

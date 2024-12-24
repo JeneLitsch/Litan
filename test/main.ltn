@@ -15,7 +15,7 @@ function main() {
 	var clock = std::chrono::clock();
 	load_test_plugin();
 	sphinx::run_tests();
-	std::println(std::str(std::chrono::to_seconds(clock)) + "s");
+	std::println(std::str(clock->milliseconds()) + "ms");
 }
 except(e) {
 	std::println(e);

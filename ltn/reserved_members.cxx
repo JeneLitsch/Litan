@@ -48,6 +48,8 @@ namespace ltn {
 		{"arity",       ReservedMemberCode::ARITY},
 		{"is_variadic", ReservedMemberCode::IS_VARIADIC},
 		{"call",        ReservedMemberCode::CALL},
+		{"seconds",     ReservedMemberCode::TO_SECONDS},
+		{"milliseconds",ReservedMemberCode::TO_MILLISECONDS},
 	});
 
 
