@@ -1,12 +1,12 @@
 #include "instructions.hxx"
 #include "ltn/fxcodes.hxx"
 #include "ltnvm/build_in/algorithm.hxx"
-#include "ltnvm/build_in/chrono.hxx"
 #include "ltnvm/build_in/random.hxx"
 #include "ltnvm/build_in/iter.hxx"
 #include "ltnvm/build_in/type.hxx"
 
 #include "ltnvm/stdlib/misc.hxx"
+#include "ltnvm/stdlib/chrono.hxx"
 #include "ltnvm/stdlib/container.hxx"
 #include "ltnvm/stdlib/io.hxx"
 #include "ltnvm/stdlib/string.hxx"
@@ -136,9 +136,9 @@ namespace ltn::vm::inst {
 		table[FxCode::ITER_REVERSED] = build_in::iter::reversed;
 
 		// Chrono
-		table[FxCode::CHRONO_CLOCK] = build_in::chrono::clock;
-		table[FxCode::CHRONO_TO_SECONDS] = build_in::chrono::to_seconds;
-		table[FxCode::CHRONO_TO_MILLI_SECONDS] = build_in::chrono::to_milliseconds;
+		table[FxCode::CHRONO_CLOCK] = as_build_in<stdlib::clock>;
+		table[FxCode::CHRONO_TO_SECONDS] = as_build_in<stdlib::to_seconds>;
+		table[FxCode::CHRONO_TO_MILLI_SECONDS] = as_build_in<stdlib::to_milliseconds>;
 
 		// Container
 		table[FxCode::INSERT]       = as_build_in<stdlib::insert>;
