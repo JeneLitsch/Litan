@@ -32,6 +32,7 @@ namespace ltn {
 		{"has",         ReservedMemberCode::HAS},
 		{"keys",        ReservedMemberCode::KEYS},
 		{"values",      ReservedMemberCode::VALUES},
+		{"split",      ReservedMemberCode::SPLIT},
 		{"filter",      ReservedMemberCode::FILTER},
 		{"transform",   ReservedMemberCode::TRANSFORM},
 		{"reduce",      ReservedMemberCode::REDUCE},

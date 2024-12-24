@@ -1,5 +1,5 @@
 function main() {
 	var str = "AÄxCxßß";
-	var arr = std::split(str, "x");
+	var arr = str->split("x");
 	std::println(arr);
 }

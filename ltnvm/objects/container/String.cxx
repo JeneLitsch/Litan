@@ -64,6 +64,7 @@ namespace ltn::vm {
 		static NativeFunctionTable native_function_table {
 			wrap<stdlib::string_size>     (ReservedMemberCode::SIZE),
 			wrap<stdlib::string_is_empty> (ReservedMemberCode::IS_EMTPY),
+			wrap<stdlib::string_split>    (ReservedMemberCode::SPLIT),
 		};
 		return search_native_function_table(native_function_table, id);
 	}

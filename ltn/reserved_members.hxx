@@ -12,10 +12,10 @@ namespace ltn {
 		PUSH, POP,
 		BACK, FRONT, PEEK,
 		INSERT, ERASE,
-		KEYS, VALUES, MERGED,
+		KEYS, VALUES, MERGED, SPLIT,
 		FILTER, TRANSFORM, REDUCE, REVERSED, ZIPPED,
 		SLICE, PREFIX, SUFFIX,
-		ANY, ALL, NONE, HAS,
+		ANY, ALL, NONE, HAS, 
 	};
 
 	extern const std::map<std::string, std::uint64_t> reserved_member_name_to_code;
