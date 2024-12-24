@@ -99,7 +99,7 @@ namespace ltn::c {
 		{"type_is",                  FxCode::TYPE_IS},
 		{"type_cast",                FxCode::TYPE_CAST},
 
-		{"to_string",                FxCode::TO_STRING},
+		{"to_string",                FxCode::STR},
 		{"split_string",             FxCode::SPLIT_STRING},
 		{"chr",                      FxCode::CHR},
 		{"ord",                      FxCode::ORD},

@@ -44,7 +44,7 @@ namespace ltn {
 		IO_READ_ALL,
 
 		// string
-		TO_STRING = 0x40,
+		STR = 0x40,
 		SPLIT_STRING,
 		CHR,
 		ORD,

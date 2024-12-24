@@ -13,4 +13,9 @@ namespace ltn::vm::stdlib {
 		constexpr static inline std::uint64_t arity = 1;
 		static Value func(Context *, const Value * args);
 	};
+
+	struct str {
+		constexpr static inline std::uint64_t arity = 1;
+		static Value func(Context *, const Value * args);
+	};
 }

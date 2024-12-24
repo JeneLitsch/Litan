@@ -1,5 +1,6 @@
 #include "misc.hxx"
 #include "ltn/utf8.hxx"
+#include "ltnvm/utils/stringify.hxx"
 
 namespace ltn::vm::stdlib {
 	Value ord::func(Context * context, const Value * args) {
@@ -31,5 +32,12 @@ namespace ltn::vm::stdlib {
 		}
 		String * str = core->heap.make<String>(utf8::encode_char(static_cast<std::uint32_t>(args[0].i)));
 		return value::string(str);
+	}
+
+
+
+	Value str::func(Context * context, const Value * args) {
+		VMCore * core = static_cast<VMCore *>(context->core);
+		return value::string(core->heap.make<String>(stringify(args[0], *core)));
 	}
 }

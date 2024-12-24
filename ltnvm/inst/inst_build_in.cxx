@@ -4,7 +4,6 @@
 #include "ltnvm/build_in/chrono.hxx"
 #include "ltnvm/build_in/random.hxx"
 #include "ltnvm/build_in/iter.hxx"
-#include "ltnvm/build_in/string.hxx"
 #include "ltnvm/build_in/type.hxx"
 #include "ltnvm/build_in/plugin.hxx"
 
@@ -94,7 +93,7 @@ namespace ltn::vm::inst {
 		table[FxCode::JSON_PRINT]        = as_build_in<stdlib::json_print>;
 
 		// string
-		table[FxCode::TO_STRING]         = build_in::to_string;
+		table[FxCode::STR]               = as_build_in<stdlib::str>;
 		table[FxCode::SPLIT_STRING]      = as_build_in<stdlib::string_split>;
 		table[FxCode::CHR]               = as_build_in<stdlib::chr>;
 		table[FxCode::ORD]               = as_build_in<stdlib::ord>;

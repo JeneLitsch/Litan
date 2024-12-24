@@ -6,6 +6,5 @@ target_sources(libltnvm PRIVATE
 	"iter.cxx"
 	"plugin.cxx"
 	"random.cxx"
-	"string.cxx"
 	"type.cxx"
 )
