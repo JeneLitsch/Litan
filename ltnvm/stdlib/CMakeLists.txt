@@ -9,6 +9,7 @@ target_sources(libltnvm PRIVATE
 	"math.cxx"
 	"tuple.cxx"
 	"string.cxx"
+	"plugin.cxx"
 	"queue.cxx"
 	"stack.cxx"
 	"container.cxx"

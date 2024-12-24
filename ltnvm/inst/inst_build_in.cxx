@@ -5,7 +5,6 @@
 #include "ltnvm/build_in/random.hxx"
 #include "ltnvm/build_in/iter.hxx"
 #include "ltnvm/build_in/type.hxx"
-#include "ltnvm/build_in/plugin.hxx"
 
 #include "ltnvm/stdlib/misc.hxx"
 #include "ltnvm/stdlib/container.hxx"
@@ -14,6 +13,7 @@
 #include "ltnvm/stdlib/json.hxx"
 #include "ltnvm/stdlib/functional.hxx"
 #include "ltnvm/stdlib/math.hxx"
+#include "ltnvm/stdlib/plugin.hxx"
 
 
 
@@ -116,6 +116,7 @@ namespace ltn::vm::inst {
 		table[FxCode::LD]                = as_build_in<stdlib::ld>;
 		table[FxCode::LG]                = as_build_in<stdlib::lg>;
 
+		// Type
 		table[FxCode::TYPE_ID] = build_in::type::id;
 		table[FxCode::TYPE_CLONE] = build_in::type::clone;
 		table[FxCode::TYPE_IS] = build_in::type::is;
@@ -124,6 +125,7 @@ namespace ltn::vm::inst {
 		table[FxCode::TYPE_STACK] = build_in::type::stack;
 		table[FxCode::TYPE_MAP] = build_in::type::map;
 
+		// Iter
 		table[FxCode::ITER_RANGE] = build_in::iter::range;
 		table[FxCode::ITER_NEXT] = build_in::iter::next;
 		table[FxCode::ITER_GET] = build_in::iter::get;
@@ -133,6 +135,7 @@ namespace ltn::vm::inst {
 		table[FxCode::ITER_COMBINED] = build_in::iter::combined;
 		table[FxCode::ITER_REVERSED] = build_in::iter::reversed;
 
+		// Chrono
 		table[FxCode::CHRONO_CLOCK] = build_in::chrono::clock;
 		table[FxCode::CHRONO_TO_SECONDS] = build_in::chrono::to_seconds;
 		table[FxCode::CHRONO_TO_MILLI_SECONDS] = build_in::chrono::to_milliseconds;
@@ -144,7 +147,6 @@ namespace ltn::vm::inst {
 		table[FxCode::REMOVE]       = as_build_in<stdlib::erase>;
 		table[FxCode::REMOVE_FRONT] = as_build_in<stdlib::erase_front>;
 		table[FxCode::REMOVE_BACK]  = as_build_in<stdlib::erase_back>;
-
 		table[FxCode::PUSH]         = as_build_in<stdlib::push>;
 		table[FxCode::POP]          = as_build_in<stdlib::pop>;
 		table[FxCode::PEEK]         = as_build_in<stdlib::peek>;
@@ -155,7 +157,8 @@ namespace ltn::vm::inst {
 		table[FxCode::FRONT]        = as_build_in<stdlib::front>;
 		table[FxCode::BACK]         = as_build_in<stdlib::back>;
 
-		table[FxCode::LOAD_PLUGIN]  = build_in::load_plugin;
+		// Plugin
+		table[FxCode::LOAD_PLUGIN]  = as_build_in<stdlib::load_plugin>;
 		
 		return table.array;
 	}

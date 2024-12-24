@@ -6,7 +6,7 @@
 #include "native/plugin.h"
 
 
-namespace ltn::vm::build_in {
+namespace ltn::vm::stdlib {
 	namespace {
 		void gc_mark(Value value) {
 			gc::mark(value);
@@ -315,9 +315,9 @@ namespace ltn::vm::build_in {
 
 
 
-	Value load_plugin_linux(VMCore & core) {
-		Value args_0 = core.stack.pop();
-		String * path_str = value::as<String>(args_0);
+	Value load_plugin_linux(Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		String * path_str = value::as<String>(args[0]);
 		std::string_view path = *path_str;
 		void * handle = dlmopen(static_cast<std::int64_t>(core.fetch_id()), path.data(), RTLD_LAZY);
 		if(handle == nullptr) {
@@ -339,15 +339,15 @@ namespace ltn::vm::build_in {
 
 
 
-	Value load_plugin_other(VMCore &) {
+	Value load_plugin_other(Context *, const Value *) {
 		throw std::runtime_error{"Plugins are only supported on Linux"};
 	}
 	
 
 
-	Value load_plugin(VMCore & core) {
+	Value load_plugin::func(Context * context, const Value * args){
 		#ifdef __linux__ 
-			return load_plugin_linux(core);
+			return load_plugin_linux(context, args);
 		#else
 			return load_plugin_other(core);
 		#endif
