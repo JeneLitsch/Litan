@@ -3,7 +3,6 @@
 #include "ltnvm/build_in/algorithm.hxx"
 #include "ltnvm/build_in/chrono.hxx"
 #include "ltnvm/build_in/random.hxx"
-#include "ltnvm/build_in/functional.hxx"
 #include "ltnvm/build_in/iter.hxx"
 #include "ltnvm/build_in/json.hxx"
 #include "ltnvm/build_in/math.hxx"
@@ -13,6 +12,7 @@
 
 #include "ltnvm/stdlib/stdlib.hxx"
 #include "ltnvm/stdlib/io.hxx"
+#include "ltnvm/stdlib/functional.hxx"
 
 
 
@@ -62,9 +62,9 @@ namespace ltn::vm::inst {
 		table[FxCode::RANDOM_MERSENNE_1] = build_in::random::mersenne_1;
 
 		//functional
-		table[FxCode::FX_ARITY]        = build_in::arity;
-		table[FxCode::FX_INVOKE]       = build_in::invoke;
-		table[FxCode::FX_IS_VARIADIC]  = build_in::is_variadic;
+		table[FxCode::FX_ARITY]        = as_build_in<stdlib::function_arity>;
+		table[FxCode::FX_INVOKE]       = run_inst<inst::invoke_variadic>;
+		table[FxCode::FX_IS_VARIADIC]  = as_build_in<stdlib::function_is_variadic>;
 
 		//io
 		table[FxCode::IO_RESET_COLOR]  = as_build_in<stdlib::reset_color>;

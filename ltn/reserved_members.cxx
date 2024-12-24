@@ -9,15 +9,15 @@ namespace ltn {
 	};
 
 	const auto reserved_members = std::to_array<ReservedMember>({
-		{"__add__", ReservedMemberCode::OPERATOR_ADD},
-		{"__sub__", ReservedMemberCode::OPERATOR_SUB},
-		{"__mlt__", ReservedMemberCode::OPERATOR_MLT},
-		{"__div__", ReservedMemberCode::OPERATOR_DIV},
-		{"__mod__", ReservedMemberCode::OPERATOR_MOD},
-		{"__pow__", ReservedMemberCode::OPERATOR_POW},
-		{"__cmp__", ReservedMemberCode::OPERATOR_CMP},
-		{"__str__", ReservedMemberCode::OPERATOR_STR},
-		{"__bool__", ReservedMemberCode::OPERATOR_BOOL},
+		{"__add__",     ReservedMemberCode::OPERATOR_ADD},
+		{"__sub__",     ReservedMemberCode::OPERATOR_SUB},
+		{"__mlt__",     ReservedMemberCode::OPERATOR_MLT},
+		{"__div__",     ReservedMemberCode::OPERATOR_DIV},
+		{"__mod__",     ReservedMemberCode::OPERATOR_MOD},
+		{"__pow__",     ReservedMemberCode::OPERATOR_POW},
+		{"__cmp__",     ReservedMemberCode::OPERATOR_CMP},
+		{"__str__",     ReservedMemberCode::OPERATOR_STR},
+		{"__bool__",    ReservedMemberCode::OPERATOR_BOOL},
 
 		{"size",        ReservedMemberCode::SIZE},
 		{"is_empty",    ReservedMemberCode::IS_EMTPY},
@@ -32,7 +32,7 @@ namespace ltn {
 		{"has",         ReservedMemberCode::HAS},
 		{"keys",        ReservedMemberCode::KEYS},
 		{"values",      ReservedMemberCode::VALUES},
-		{"split",      ReservedMemberCode::SPLIT},
+		{"split",       ReservedMemberCode::SPLIT},
 		{"filter",      ReservedMemberCode::FILTER},
 		{"transform",   ReservedMemberCode::TRANSFORM},
 		{"reduce",      ReservedMemberCode::REDUCE},
@@ -45,6 +45,9 @@ namespace ltn {
 		{"reversed",    ReservedMemberCode::REVERSED},
 		{"merged",      ReservedMemberCode::MERGED},
 		{"zipped",      ReservedMemberCode::ZIPPED},
+		{"arity",       ReservedMemberCode::ARITY},
+		{"is_variadic", ReservedMemberCode::IS_VARIADIC},
+		{"call",        ReservedMemberCode::CALL},
 	});
 
 

@@ -13,6 +13,29 @@ function main() {
 }
 ```
 
+## Member Functions
+
+### -> arity(): Int
+
+Return the number of expected non-variadic parameters;
+
+### -> is_variadic(): Bool
+
+Returns whether the function is variadic.
+
+### -> call(param: Array|Tuple): Any
+
+Calls the function.
+
+
+## Operators
+
+### Call Operator ()
+
+Calls the function.
+
+
+
 ## From lambdas
 
 Any lambda yields an funtion pointer.

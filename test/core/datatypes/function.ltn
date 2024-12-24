@@ -1,0 +1,33 @@
+namespace sphinx::test {
+	function function_arity() {
+		assert_equal_strict(lambda(){}->arity(), 0);
+		assert_equal_strict(lambda(x){}->arity(), 1);
+		assert_equal_strict(lambda(x,y){}->arity(), 2);
+	}
+
+
+
+	function function_arity_variadic() {
+		assert_equal_strict(lambda(args...){}->arity(), 0);
+		assert_equal_strict(lambda(x,args...){}->arity(), 1);
+		assert_equal_strict(lambda(x,y,args...) {}->arity(), 2);
+	}
+
+
+
+	function function_is_variadic() {
+		assert_false(lambda(){}->is_variadic());
+		assert_false(lambda(x){}->is_variadic());
+		assert_false(lambda(x,y) {}->is_variadic());
+		assert_true(lambda(args...){}->is_variadic());
+		assert_true(lambda(x,args...){}->is_variadic());
+		assert_true(lambda(x,y,args...) {}->is_variadic());
+	}
+
+
+
+	function function_call() {
+		assert_equal_strict(lambda() { return 42; }->call([]), 42);
+		assert_equal_strict(lambda(a,b,c) { return a+b+c; }->call((1,2,3)), 6);
+	}
+}

@@ -16,6 +16,7 @@ namespace ltn {
 		FILTER, TRANSFORM, REDUCE, REVERSED, ZIPPED,
 		SLICE, PREFIX, SUFFIX,
 		ANY, ALL, NONE, HAS, 
+		ARITY, IS_VARIADIC, CALL
 	};
 
 	extern const std::map<std::string, std::uint64_t> reserved_member_name_to_code;
