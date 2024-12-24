@@ -3,7 +3,7 @@
 #include "ltnvm/utils/convert.hxx"
 #include "ltnvm/utils/cast.hxx"
 
-namespace ltn::vm::build_in {
+namespace ltn::vm::stdlib {
 	namespace {
 		struct Round {
 			inline std::int64_t operator()(const stx::float64_t value) const {
@@ -86,26 +86,29 @@ namespace ltn::vm::build_in {
 
 
 
-	Value min(VMCore & core) {
-		auto a = core.stack.pop();
-		auto b = core.stack.pop();
+	Value min::func(Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		const Value a = args[1];
+		const Value b = args[0];
 		return compare(a, b, core) <= 0 ? a : b;
 	}
 
 
 
-	Value max(VMCore & core) {
-		auto a = core.stack.pop();
-		auto b = core.stack.pop();
+	Value max::func(Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		const Value a = args[1];
+		const Value b = args[0];
 		return compare(a, b, core) >= 0 ? a : b;
 	}
 
 
 
-	Value clamp(VMCore & core) {
-		auto max = core.stack.pop();
-		auto min = core.stack.pop();
-		auto val = core.stack.pop();
+	Value clamp::func(Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		const Value max = args[2];
+		const Value min = args[1];
+		const Value val = args[0];
 
 		if(compare(val, min, core) < 0) {
 			return min;
@@ -120,58 +123,58 @@ namespace ltn::vm::build_in {
 
 
 
-	Value round(VMCore & core) {
-		return rounding<Round>(core.stack.pop());
+	Value round::func(Context * context, const Value * args) {
+		return rounding<Round>(args[0]);
 	}
 
 
 
-	Value floor(VMCore & core) {
-		return rounding<Floor>(core.stack.pop());
+	Value floor::func(Context * context, const Value * args) {
+		return rounding<Floor>(args[0]);
 	}
 
 
 
-	Value ceil(VMCore & core) {
-		return rounding<Ceil>(core.stack.pop());
+	Value ceil::func(Context * context, const Value * args) {
+		return rounding<Ceil>(args[0]);
 	}
 
 
 
-	Value abs(VMCore & core) {
-		return function<Absolute>(core.stack.pop());
+	Value abs::func(Context * context, const Value * args) {
+		return function<Absolute>(args[0]);
 	}
 
 
 
-	Value sin(VMCore & core) {
-		return function<Sinus>(core.stack.pop());
+	Value sin::func(Context * context, const Value * args) {
+		return function<Sinus>(args[0]);
 	}
 
 
 
-	Value cos(VMCore & core) {
-		return function<Cosinus>(core.stack.pop());
+	Value cos::func(Context * context, const Value * args) {
+		return function<Cosinus>(args[0]);
 	}
 
 
 
-	Value tan(VMCore & core) {
-		return function<Tangents>(core.stack.pop());
+	Value tan::func(Context * context, const Value * args) {
+		return function<Tangents>(args[0]);
 	}
 
 
 
-	Value sqrt(VMCore & core) {
-		const auto value = core.stack.pop();
+	Value sqrt::func(Context * context, const Value * args) {
+		const auto value = args[0];
 		return value::floating(std::sqrt(convert::to_float(value)));
 	}
 	
 
 
-	Value hypot(VMCore & core) {
-		const auto r = core.stack.pop();
-		const auto l = core.stack.pop();
+	Value hypot::func(Context * context, const Value * args) {
+		const auto r = args[1];
+		const auto l = args[0];
 		return value::floating(
 			std::hypot(
 				convert::to_float(l),
@@ -182,9 +185,9 @@ namespace ltn::vm::build_in {
 
 
 
-	Value log(VMCore & core){
-		const auto r = core.stack.pop();
-		const auto l = core.stack.pop();
+	Value log::func(Context * context, const Value * args) {
+		const auto r = args[1];
+		const auto l = args[0];
 		return value::floating(
 			std::log(convert::to_float(l))	/ std::log(convert::to_float(r))
 		);
@@ -192,22 +195,20 @@ namespace ltn::vm::build_in {
 	
 
 	
-	Value ln(VMCore & core) {
-		const auto value = core.stack.pop();
+	Value ln::func(Context * context, const Value * args) {
+		const auto value = args[0];
 		return value::floating(std::log(convert::to_float(value)));
 	}
 
 
 
-	Value ld(VMCore & core) {
-		core.stack.push(value::floating(2.0));
-		return log(core);
+	Value ld::func(Context * context, const Value * args) {
+		return value::floating(std::log(convert::to_float(args[0])) / std::log(2.0));
 	}
 
 
 
-	Value lg(VMCore & core) {
-		core.stack.push(value::floating(10.0));
-		return log(core);
+	Value lg::func(Context * context, const Value * args) {
+		return value::floating(std::log(convert::to_float(args[0])) / std::log(10.0));
 	}
 }

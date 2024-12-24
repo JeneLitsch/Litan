@@ -4,7 +4,6 @@ target_sources(libltnvm PRIVATE
 	"algorithm.cxx"
 	"chrono.cxx"
 	"iter.cxx"
-	"math.cxx"
 	"plugin.cxx"
 	"random.cxx"
 	"string.cxx"

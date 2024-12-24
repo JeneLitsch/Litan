@@ -4,7 +4,6 @@
 #include "ltnvm/build_in/chrono.hxx"
 #include "ltnvm/build_in/random.hxx"
 #include "ltnvm/build_in/iter.hxx"
-#include "ltnvm/build_in/math.hxx"
 #include "ltnvm/build_in/string.hxx"
 #include "ltnvm/build_in/type.hxx"
 #include "ltnvm/build_in/plugin.hxx"
@@ -13,6 +12,7 @@
 #include "ltnvm/stdlib/io.hxx"
 #include "ltnvm/stdlib/json.hxx"
 #include "ltnvm/stdlib/functional.hxx"
+#include "ltnvm/stdlib/math.hxx"
 
 
 
@@ -98,22 +98,22 @@ namespace ltn::vm::inst {
 		table[FxCode::ORD] = build_in::ord;
 
 		// Math
-		table[FxCode::MIN] = build_in::min;
-		table[FxCode::MAX] = build_in::max;
-		table[FxCode::CLAMP] = build_in::clamp;
-		table[FxCode::ROUND] = build_in::round;
-		table[FxCode::FLOOR] = build_in::floor;
-		table[FxCode::CEIL] = build_in::ceil;
-		table[FxCode::ABS] = build_in::abs;
-		table[FxCode::SIN] = build_in::sin;
-		table[FxCode::COS] = build_in::cos;
-		table[FxCode::TAN] = build_in::tan;
-		table[FxCode::SQRT] = build_in::sqrt;
-		table[FxCode::HYPOT] = build_in::hypot;
-		table[FxCode::LOG] = build_in::log;
-		table[FxCode::LN] = build_in::ln;
-		table[FxCode::LD] = build_in::ld;
-		table[FxCode::LG] = build_in::lg;
+		table[FxCode::MIN] = as_build_in<stdlib::min>;
+		table[FxCode::MAX] = as_build_in<stdlib::max>;
+		table[FxCode::CLAMP] = as_build_in<stdlib::clamp>;
+		table[FxCode::ROUND] = as_build_in<stdlib::round>;
+		table[FxCode::FLOOR] = as_build_in<stdlib::floor>;
+		table[FxCode::CEIL] = as_build_in<stdlib::ceil>;
+		table[FxCode::ABS] = as_build_in<stdlib::abs>;
+		table[FxCode::SIN] = as_build_in<stdlib::sin>;
+		table[FxCode::COS] = as_build_in<stdlib::cos>;
+		table[FxCode::TAN] = as_build_in<stdlib::tan>;
+		table[FxCode::SQRT] = as_build_in<stdlib::sqrt>;
+		table[FxCode::HYPOT] = as_build_in<stdlib::hypot>;
+		table[FxCode::LOG] = as_build_in<stdlib::log>;
+		table[FxCode::LN] = as_build_in<stdlib::ln>;
+		table[FxCode::LD] = as_build_in<stdlib::ld>;
+		table[FxCode::LG] = as_build_in<stdlib::lg>;
 
 		table[FxCode::TYPE_ID] = build_in::type::id;
 		table[FxCode::TYPE_CLONE] = build_in::type::clone;

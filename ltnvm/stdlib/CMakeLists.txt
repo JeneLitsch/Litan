@@ -6,6 +6,7 @@ target_sources(libltnvm PRIVATE
 	"io.cxx"
 	"json.cxx"
 	"map.cxx"
+	"math.cxx"
 	"tuple.cxx"
 	"string.cxx"
 	"queue.cxx"
