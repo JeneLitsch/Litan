@@ -4,6 +4,7 @@ target_sources(libltnvm PRIVATE
 	"array.cxx"
 	"functional.cxx"
 	"io.cxx"
+	"json.cxx"
 	"map.cxx"
 	"tuple.cxx"
 	"string.cxx"
