@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdint>
 #include <iostream>
+#include <algorithm>
 #include "Value.hxx"
 #include "ltn/file/FunctionPool.hxx"
 
@@ -57,6 +58,16 @@ namespace ltn::vm {
 			const auto value = this->values.back();
 			this->values.pop_back();
 			return value;
+		}
+
+
+
+		template<std::uint64_t N>
+		inline std::array<Value, N> pop_n() {
+			std::array<Value, N> segment;
+			std::copy_n(std::end(values) - N, N, std::begin(segment));
+			values.resize(values.size() - N);
+			return segment;
 		}
 
 

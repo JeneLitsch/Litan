@@ -2,7 +2,6 @@
 #include "ltn/fxcodes.hxx"
 #include "ltnvm/build_in/algorithm.hxx"
 #include "ltnvm/build_in/chrono.hxx"
-#include "ltnvm/build_in/container.hxx"
 #include "ltnvm/build_in/random.hxx"
 #include "ltnvm/build_in/functional.hxx"
 #include "ltnvm/build_in/io.hxx"
@@ -13,9 +12,17 @@
 #include "ltnvm/build_in/type.hxx"
 #include "ltnvm/build_in/plugin.hxx"
 
+#include "ltnvm/stdlib/stdlib.hxx"
+
 
 
 namespace ltn::vm::inst {
+	template<auto INST>
+	auto run_inst(VMCore & core) {
+		INST(core);
+		return core.stack.pop();
+	}
+
 	static constexpr auto make_build_in_table() {
 		struct TableWrapper{
 			using Fx = Value(*)(VMCore&);
@@ -130,22 +137,22 @@ namespace ltn::vm::inst {
 		table[FxCode::CHRONO_TO_MILLI_SECONDS] = build_in::chrono::to_milliseconds;
 
 		// Container
-		table[FxCode::INSERT_FRONT] = build_in::insert_front;
-		table[FxCode::INSERT_BACK] = build_in::insert_back;
-		table[FxCode::INSERT] = build_in::insert;
-		table[FxCode::REMOVE_FRONT] = build_in::remove_front;
-		table[FxCode::REMOVE_BACK] = build_in::remove_back;
-		table[FxCode::REMOVE] = build_in::remove;
+		table[FxCode::INSERT]       = as_build_in<stdlib::insert>;
+		table[FxCode::INSERT_FRONT] = as_build_in<stdlib::insert_front>;
+		table[FxCode::INSERT_BACK]  = as_build_in<stdlib::insert_back>;
+		table[FxCode::REMOVE]       = as_build_in<stdlib::erase>;
+		table[FxCode::REMOVE_FRONT] = as_build_in<stdlib::erase_front>;
+		table[FxCode::REMOVE_BACK]  = as_build_in<stdlib::erase_back>;
 
-		table[FxCode::PUSH] = build_in::push;
-		table[FxCode::POP] = build_in::pop;
-		table[FxCode::PEEK] = build_in::peek;
-		table[FxCode::CONTAINS] = build_in::contains;
-		table[FxCode::SIZE] = build_in::size;
-		table[FxCode::EMPTY] = build_in::empty;
-		table[FxCode::AT] = build_in::at;
-		table[FxCode::FRONT] = build_in::front;
-		table[FxCode::BACK] = build_in::back;
+		table[FxCode::PUSH]         = as_build_in<stdlib::push>;
+		table[FxCode::POP]          = as_build_in<stdlib::pop>;
+		table[FxCode::PEEK]         = as_build_in<stdlib::peek>;
+		table[FxCode::CONTAINS]     = as_build_in<stdlib::has>;
+		table[FxCode::SIZE]         = as_build_in<stdlib::size>;
+		table[FxCode::EMPTY]        = as_build_in<stdlib::is_empty>;
+		table[FxCode::AT]           = run_inst<inst::at>;
+		table[FxCode::FRONT]        = as_build_in<stdlib::front>;
+		table[FxCode::BACK]         = as_build_in<stdlib::back>;
 
 		table[FxCode::LOAD_PLUGIN] = build_in::load_plugin;
 		

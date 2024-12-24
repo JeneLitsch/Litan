@@ -41,6 +41,8 @@ namespace ltn::vm {
 			return this->pc;
 		}
 
+
+
 		std::uint64_t next_id = 0;
 		std::uint64_t fetch_id() {
 			return next_id++;

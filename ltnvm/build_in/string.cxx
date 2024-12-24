@@ -34,35 +34,7 @@ namespace ltn::vm::build_in {
 
 
 	Value split_string(VMCore & core) {
-		const auto val_delim = core.stack.pop();
-		const auto val_string = core.stack.pop();
-		return call<stdlib::string_split>(core, { val_string, val_delim });
-		if(!is_string(val_string) || !is_string(val_delim)) {
-			throw Exception {
-				Exception::Type::INVALID_ARGUMENT,
-				"std::split expected 2 strings."
-			};
-		}
-		const auto & string = *value::as<String>(val_string);
-		const auto & delim = *value::as<String>(val_delim);
-		Array * segments = core.heap.alloc<Array>({});
-
-			
-		if(string.empty()) return value::array(segments);
-		if(delim.empty()) {
-			for(std::int64_t i = 0; i < string.size(); i++) {
-				std::string utf_character = utf8::encode_char(string.at(i));
-				String * sub_string = core.heap.alloc(String{std::move(utf_character)}); 
-				segments->push_back(value::string(sub_string));
-			}
-		}
-		else {
-			for(auto && str : split_impl(string.copy_to_std_string(), delim.copy_to_std_string())) {
-				segments->push_back(value::string(core.heap.alloc(String{std::move(str)})));
-			}
-
-		}
-		return value::array(segments);
+		return call<stdlib::string_split>(core, core.stack.pop_n<2>());
 	}
 
 

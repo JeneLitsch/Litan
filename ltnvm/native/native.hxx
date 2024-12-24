@@ -2,6 +2,7 @@
 #include <map>
 #include "ltnvm/objects/NativeFunctionPointer.hxx"
 #include "ltn/reserved_members.hxx"
+#include "ltnvm/VMCore.hxx"
 
 namespace ltn::vm {
 	struct Array;
@@ -33,7 +34,14 @@ namespace ltn::vm {
 		return FuncHeader::func(&context, args.data());
 	}
 
-	
+
+
+	template<typename FuncHeader>
+	Value as_build_in(VMCore & core) {
+		return call<FuncHeader>(core, core.stack.pop_n<FuncHeader::arity>());
+	}
+
+
 	Value search_native_function_table(NativeFunctionTable & table, std::uint64_t id);
 
 

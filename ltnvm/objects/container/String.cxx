@@ -104,7 +104,7 @@ namespace ltn::vm {
 	std::uint32_t String::at(std::int64_t i) const {
 		switch (encoding) {
 		case Encoding::UTF8:
-			return utf8::code_point_at(str, i);
+			return utf8::code_point_at(str, static_cast<std::size_t>(i));
 		case Encoding::ASCII:
 			return static_cast<std::uint32_t>(str[0]);
 		}
@@ -113,7 +113,7 @@ namespace ltn::vm {
 
 
 	std::int64_t String::size() const {
-		return character_count;
+		return static_cast<std::int64_t>(character_count);
 	}
 
 
