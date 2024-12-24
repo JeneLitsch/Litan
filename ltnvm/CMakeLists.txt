@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-add_library(libltnvm
+add_library(libltnvm STATIC
 	"VM.cxx"
 	"Heap.cxx"
 	"VMStack.cxx"

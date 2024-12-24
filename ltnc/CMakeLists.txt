@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-add_library(libltnc
+add_library(libltnc STATIC
 	CompilerError.cxx
 	Label.cxx
 	labels.cxx
