@@ -1,5 +1,3 @@
-#pragma once
-inline const char *std_type = R"###(
 namespace std {
 
 	enum type {
@@ -177,4 +175,3 @@ namespace std {
 	
 	function load_plugin(path) const => build_in(load_plugin)
 }
-)###";

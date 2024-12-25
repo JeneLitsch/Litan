@@ -1,5 +1,3 @@
-#pragma once
-inline const char * std_io = R"###(
 namespace std {
 	namespace io {
 		enum color {
@@ -129,4 +127,3 @@ namespace std {
 	function read_float() 
 		=> read_float(cin())
 }
-)###";

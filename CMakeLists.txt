@@ -49,5 +49,9 @@ target_compile_options(litan_config_c INTERFACE ${WARNINGS_C_ONLY})
 add_subdirectory("litan_core")
 add_subdirectory("litan_compiler")
 add_subdirectory("litan_vm")
+add_subdirectory("litan_stdlib")
 add_subdirectory("cli")
 add_subdirectory("test/test_plugin")
+add_subdirectory("tools")
+
+

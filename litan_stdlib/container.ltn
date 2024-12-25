@@ -1,5 +1,3 @@
-#pragma once
-inline const char * std_container = R"###(
 namespace std {
 	function queue() const
 		=> build_in(queue)
@@ -112,4 +110,3 @@ namespace std {
 	function remove(collection, index)          
 		=> build_in(container_remove)
 }
-)###";

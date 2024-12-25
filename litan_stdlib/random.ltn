@@ -1,5 +1,3 @@
-#pragma once
-inline const char * std_random = R"###(
 namespace std {
 	namespace random {
 		function mersenne()
@@ -27,4 +25,3 @@ namespace std {
 			=> range[rand_int(rng, 0, size(range) - 1)]
 	}
 }
-)###";

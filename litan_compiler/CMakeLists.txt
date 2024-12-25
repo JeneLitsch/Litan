@@ -12,6 +12,7 @@ add_library(litan_compiler STATIC
 
 target_link_libraries(litan_compiler PUBLIC litan_config_cxx)
 target_link_libraries(litan_compiler PUBLIC litan_core)
+target_link_libraries(litan_compiler PUBLIC litan_stdlib)
 
 add_subdirectory("analyze")
 add_subdirectory("assemble")

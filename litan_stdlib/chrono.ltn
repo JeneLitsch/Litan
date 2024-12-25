@@ -1,5 +1,3 @@
-#pragma once
-inline const char * std_chrono = R"###(
 namespace std {
 	namespace chrono {
 		function clock()                
@@ -33,4 +31,3 @@ namespace std {
 		}
 	}
 }
-)###";

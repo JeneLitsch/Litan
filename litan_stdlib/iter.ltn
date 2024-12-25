@@ -1,5 +1,3 @@
-#pragma once
-inline const char * std_iter = R"###(
 	namespace std {
 		function range(begin, end, step) const => build_in(iter_range)
 		function range(begin, end) const => range(begin, end, 1)
@@ -21,4 +19,3 @@ inline const char * std_iter = R"###(
 
 		function zipped_impl(iters) const private => build_in(iter_zipped) 
 	}
-)###";

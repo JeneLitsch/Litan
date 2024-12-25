@@ -1,5 +1,3 @@
-#pragma once
-inline const char * std_string = R"###(
 namespace std {
 	function split(string, delim) const 
 		=> build_in(split_string)
@@ -43,4 +41,3 @@ namespace std {
 		return str + " " * (min_size - std::size(str));
 	}
 }
-)###";

@@ -1,0 +1,4 @@
+cmake_minimum_required(VERSION 3.13)
+
+add_executable(tool_embed_file embed_file.cxx)
+target_link_libraries(tool_embed_file litan_config_cxx)
