@@ -8,10 +8,11 @@ int run(std::span<const std::string_view> args) {
 	std::span<const std::string_view> script_args = args.subspan(1);
 	std::cout << script_args.size() << "\n";
 
-	auto sst = analysis_phase(script_path);
-	auto instructions = synthesis_phase(sst);
-	auto link_info = ltn::c::link(sst, instructions);
-	auto bytecode = ltn::c::assemble(instructions, link_info);
+	auto sources = ltn::c::read_sources({script_path});
+	auto ast = ltn::c::parse(sources);
+	auto sst = ltn::c::analyze(ast);
+	auto instructions = ltn::c::compile(sst);
+	auto bytecode = ltn::c::assemble(instructions);
 
 	const auto main_function = "";
 	ltn::vm::VM vm;

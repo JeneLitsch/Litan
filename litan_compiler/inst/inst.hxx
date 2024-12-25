@@ -7,6 +7,7 @@
 #include "litan_core/opcodes.hxx"
 #include "litan_core/reserved_members.hxx"
 #include "litan_compiler/Label.hxx"
+#include "LinkInfo.hxx"
 
 namespace ltn::c::inst {
     struct InstNone {
@@ -216,4 +217,8 @@ namespace ltn::c::inst {
 	Inst global_read(std::uint64_t id);
 	Inst global_write(std::uint64_t id);
 
+	struct Program {
+		std::vector<Inst> instructions;
+		LinkInfo link_info;
+	};
 }

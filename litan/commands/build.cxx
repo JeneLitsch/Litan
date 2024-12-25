@@ -8,10 +8,11 @@ int build(std::span<const std::string_view> args) {
 	std::string_view script_path = args[0];
 	std::string_view target_path = args[1];
 	
-	auto sst = analysis_phase(script_path);
-	auto instructions = synthesis_phase(sst);
-	auto link_info = ltn::c::link(sst, instructions);
-	auto bytecode = ltn::c::assemble(instructions, link_info);
+	auto sources = ltn::c::read_sources({script_path});
+	auto ast = ltn::c::parse(sources);
+	auto sst = ltn::c::analyze(ast);
+	auto instructions = ltn::c::compile(sst);
+	auto bytecode = ltn::c::assemble(instructions);
 
 	std::cout << "Compiling script...\n";
 	auto ofile = open_file(target_path, std::ios::binary);

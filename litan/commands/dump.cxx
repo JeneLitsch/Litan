@@ -9,10 +9,12 @@ int dump(std::span<const std::string_view> args) {
 	std::cout << "Compiling script...\n";
 	std::cout << "[Source] " << script_path << "\n";
 	std::cout << "[Target] " << target_path << "\n";
-	auto sst = analysis_phase(script_path);
-	auto instructions = synthesis_phase(sst);
+	auto sources = ltn::c::read_sources({script_path});
+	auto ast = ltn::c::parse(sources);
+	auto sst = ltn::c::analyze(ast);
+	auto instructions = ltn::c::compile(sst);
 	auto ofile = open_file(target_path, std::ios::openmode(0));
-	ofile << ltn::c::print(instructions);
+	ofile << ltn::c::print(instructions.instructions);
 	std::cout << "Done!\n";
 	return EXIT_SUCCESS;
 }

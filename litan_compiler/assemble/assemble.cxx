@@ -159,24 +159,22 @@ namespace ltn::c {
 
 
 
-	std::vector<std::uint8_t> assemble(
-		const std::vector<inst::Inst> & instructions,
-		const LinkInfo & link_info) {
+	std::vector<std::uint8_t> assemble(const inst::Program & program) {
 		
 		std::vector<std::uint8_t> bytecode;
 		bytecode.push_back(ltn::major_version);
 
-		link_info.function_pool.write(bytecode);
-		link_info.string_pool.write(bytecode);
-		bytecode += sequence_table(link_info.member_name_table);
+		program.link_info.function_pool.write(bytecode);
+		program.link_info.string_pool.write(bytecode);
+		bytecode += sequence_table(program.link_info.member_name_table);
 
-		for(const auto & inst : instructions) {
+		for(const auto & inst : program.instructions) {
 			std::visit([&] (auto & i) {
 				return assemble_opcode(bytecode, i);
 			}, inst);
 
 			std::visit([&] (auto & i) {
-				return assemble_args(bytecode, i, link_info);
+				return assemble_args(bytecode, i, program.link_info);
 			}, inst);
 		}
 

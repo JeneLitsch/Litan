@@ -1,5 +1,7 @@
 #include "stdxx/functional.hxx"
 #include "compile.hxx"
+#include "peephole/peephole.hxx"
+#include "link/link.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -23,7 +25,7 @@ namespace ltn::c {
 
 
 	// compiles source
-	std::vector<inst::Inst> compile(const sst::Program & program) {
+	inst::Program compile(const sst::Program & program) {
 		
 		InstructionBuffer buf;
 
@@ -38,6 +40,13 @@ namespace ltn::c {
 		}
 
 		buf << inst::exit();
-		return buf.get();
+
+		auto instructions = ltn::c::peephole(buf.get());
+		auto link_info = ltn::c::link(program, instructions);
+
+		return {
+			.instructions = std::move(instructions),
+			.link_info = link_info,
+		};
 	}
 }

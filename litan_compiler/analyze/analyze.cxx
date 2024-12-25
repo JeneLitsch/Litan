@@ -1,6 +1,7 @@
 #include "stdxx/functional.hxx"
 #include "analyze.hxx"
 #include "litan_compiler/ast/expr/Var.hxx"
+#include "optimize/optimize.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -103,10 +104,9 @@ namespace ltn::c {
 			program.functions.push_back(std::move(fx));
 		}
 
-
-
 		program.member_name_table = member_table.get_table();
 
+		optimize(program);
 		return program;
 	}
 

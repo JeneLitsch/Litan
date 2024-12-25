@@ -31,3 +31,6 @@ target_sources(litan_compiler PRIVATE
 	"compile_yield.cxx"
 	"compile.cxx"
 )
+
+add_subdirectory("link")
+add_subdirectory("peephole")

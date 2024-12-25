@@ -38,3 +38,4 @@ target_sources(litan_compiler PRIVATE
 )
 
 add_subdirectory(utils)
+add_subdirectory("optimize")

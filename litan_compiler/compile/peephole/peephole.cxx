@@ -1,5 +1,5 @@
 #include "peephole.hxx"
-#include "../compile/InstructionBuffer.hxx"
+#include "litan_compiler/compile/InstructionBuffer.hxx"
 #include <iostream>
 #include <functional>
 #include <optional>

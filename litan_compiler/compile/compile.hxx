@@ -12,7 +12,7 @@
 #include "litan_compiler/Instructions.hxx"
 
 namespace ltn::c {
-	std::vector<inst::Inst> compile(const sst::Program & program);
+	inst::Program compile(const sst::Program & program);
 
 	// Functional
 	InstructionBuffer compile_function(const sst::decl::Function &);

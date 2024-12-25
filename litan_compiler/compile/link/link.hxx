@@ -1,5 +1,5 @@
 #pragma once
-#include "litan_compiler/link/LinkInfo.hxx"
+#include "litan_compiler/inst/LinkInfo.hxx"
 #include "litan_compiler/sst/SST.hxx"
 #include "litan_compiler/inst/inst.hxx"
 
