@@ -1,4 +1,5 @@
 #pragma once
 #include <string_view>
+#include <span>
 
-int dump(std::string_view script_path, std::string_view target_path);
+int dump(std::span<const std::string_view> args);

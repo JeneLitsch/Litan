@@ -1,4 +1,5 @@
 #pragma once
+#include <span>
 #include <string_view>
 
-int build(std::string_view script_path, std::string_view target_path);
+int build(std::span<const std::string_view> args);

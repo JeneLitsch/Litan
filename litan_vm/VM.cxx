@@ -152,9 +152,11 @@ namespace ltn::vm {
 
 
 		void load_variant_args(VMCore & core, std::size_t argc, const Any * argv) {
+			Tuple * tuple = core.heap.make<Tuple>();
 			for(std::size_t i = 0; i < argc; ++i) {
-				core.stack.push(to_value(argv[i], core.heap));
+				tuple->push_back(to_value(argv[i], core.heap));
 			}
+			core.stack.push(value::tuple(tuple));
 		}
 
 
@@ -170,7 +172,7 @@ namespace ltn::vm {
 			};
 
 			core.pc = core.code_begin + main_fx->address;
-			core.stack.push_frame(core.code_end - 1, arguments_count, main_fx);
+			core.stack.push_frame(core.code_end - 1, 1, main_fx);
 		}
 	}
 

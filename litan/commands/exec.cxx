@@ -18,7 +18,9 @@ std::vector<std::uint8_t> read_bytecode(const std::filesystem::path & path) {
 
 
 
-int exec(std::string_view bytecode_path, std::span<const std::string_view> script_args) {
+int exec(std::span<const std::string_view> args) {
+	std::string_view bytecode_path = args[0];
+	std::span<const std::string_view> script_args = args.subspan(1);
 	auto bytecode = read_bytecode(bytecode_path);
 	const auto main_function = "";
 	ltn::vm::VM vm;

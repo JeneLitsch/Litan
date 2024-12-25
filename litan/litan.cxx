@@ -23,16 +23,16 @@ int main(int argc, const char** argv) {
 		try {
 			const std::string_view secondary_command = args[0];
 			if (secondary_command == "run" && args.size() > 1) {
-				return run(args[1], args.subspan(2));
+				return run(args.subspan(1));
 			}
 			else if (secondary_command == "exec" && args.size() > 1) {
-				return exec(args[1], args.subspan(2));
+				return exec(args.subspan(1));
 			}
 			else if (secondary_command == "build" && args.size() > 2) {
-				return build(args[1], args[2]);
+				return build(args.subspan(1));
 			}
 			else if (secondary_command == "dump" && args.size() > 2) {
-				return dump(args[1], args[2]);
+				return dump(args.subspan(1));
 			}
 			else {
 				std::cout << "Invalid litan command " << secondary_command << ".\n";

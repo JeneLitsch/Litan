@@ -1,1 +1,1 @@
-./bin/litan run "test/main.ltn"
+./bin/litan run "test/main.ltn" "Hello World" 42
