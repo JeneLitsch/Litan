@@ -8,7 +8,8 @@ add_library(libltnvm STATIC
 	"gc.cxx"
 )
 
-target_link_libraries(libltnvm libltn)
+target_link_libraries(libltnvm PUBLIC litan_config_cxx)
+target_link_libraries(libltnvm PUBLIC libltn)
 
 add_subdirectory("native")
 add_subdirectory("build_in")

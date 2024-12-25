@@ -10,7 +10,8 @@ add_library(libltnc STATIC
 	Qualifiers.cxx
 )
 
-target_link_libraries(libltnc libltn)
+target_link_libraries(libltnc PUBLIC litan_config_cxx)
+target_link_libraries(libltnc PUBLIC libltn)
 
 add_subdirectory("analyze")
 add_subdirectory("assemble")

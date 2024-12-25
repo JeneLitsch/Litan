@@ -1,30 +1,47 @@
 cmake_minimum_required(VERSION 3.13)
 
 project(Litan)
-set(CMAKE_CXX_STANDARD 20)
 
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/")
 
-add_compile_options( 
-	-O3 
-	-W 
-	-Wall 
-	-Wextra 
-	-pedantic 
-	-Wpedantic 
-	-pedantic-errors 
-	-Wunused 
-	-Wwrite-strings 
-	-Wconversion 
-	-Wunreachable-code 
-	-Wuninitialized 
-	-Wold-style-cast 
-	-Walloca 
-	-Wparentheses 
-	-Wno-unknown-pragmas 
+set(WARNINGS
+	"-W"
+	"-Wall"
+	"-Wextra"
+	"-pedantic"
+	"-Wpedantic"
+	"-pedantic-errors"
+	"-Wunused"
+	"-Wwrite-strings"
+	"-Wconversion"
+	"-Wunreachable-code"
+	"-Wuninitialized"
+	"-Walloca"
+	"-Wparentheses"
 )
-include_directories("./")
-include_directories("./libs/stdxx")
+
+set(WARNINGS_CXX_ONLY
+	"-Wold-style-cast"
+)
+
+set(WARNINGS_C_ONLY)
+
+add_library(litan_config INTERFACE)
+target_compile_options(litan_config INTERFACE "-O3" )
+target_compile_options(litan_config INTERFACE ${WARNINGS})
+target_include_directories(litan_config INTERFACE "./")
+target_include_directories(litan_config INTERFACE "./libs/stdxx")
+
+add_library(litan_config_cxx INTERFACE)
+target_compile_features(litan_config_cxx INTERFACE "cxx_std_20")
+target_link_libraries(litan_config_cxx INTERFACE litan_config)
+target_compile_options(litan_config_cxx INTERFACE ${WARNINGS_CXX_ONLY})
+
+add_library(litan_config_c INTERFACE)
+target_compile_features(litan_config_c INTERFACE "c_std_99")
+target_link_libraries(litan_config_c INTERFACE litan_config)
+target_compile_options(litan_config_c INTERFACE ${WARNINGS_C_ONLY})
+
 add_subdirectory("ltn")
 add_subdirectory("ltnc")
 add_subdirectory("ltnvm")

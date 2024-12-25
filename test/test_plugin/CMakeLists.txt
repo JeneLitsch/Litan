@@ -6,3 +6,5 @@ add_library(test_plugin SHARED
 	"is_type.c"
 	"as_type.c"
 )
+
+target_link_libraries(test_plugin PRIVATE litan_config_c)

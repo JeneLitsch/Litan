@@ -7,3 +7,5 @@ add_library(libltn STATIC
 )
 
 add_subdirectory("file")
+
+target_link_libraries(libltn PUBLIC litan_config_cxx)

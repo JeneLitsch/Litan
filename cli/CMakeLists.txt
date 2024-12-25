@@ -13,4 +13,9 @@ add_executable(litan
 	"commands/run.cxx"
 )
 
-target_link_libraries(litan libltn libltnc libltnvm)
+target_link_libraries(litan PRIVATE
+	litan_config
+	libltn
+	libltnc
+	libltnvm
+)
