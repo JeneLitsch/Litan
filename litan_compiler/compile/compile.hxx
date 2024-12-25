@@ -12,7 +12,11 @@
 #include "litan_compiler/Instructions.hxx"
 
 namespace ltn::c {
-	inst::Program compile(const sst::Program & program);
+	struct CompileOptions {
+		bool optimize = true;
+	};
+
+	inst::Program compile(const sst::Program & program, const CompileOptions & options);
 
 	// Functional
 	InstructionBuffer compile_function(const sst::decl::Function &);

@@ -11,8 +11,12 @@ int dump(std::span<const std::string_view> args) {
 	std::cout << "[Target] " << target_path << "\n";
 	auto sources = ltn::c::read_sources({script_path});
 	auto ast = ltn::c::parse(sources);
-	auto sst = ltn::c::analyze(ast);
-	auto instructions = ltn::c::compile(sst);
+	auto sst = ltn::c::analyze(ast, ltn::c::AnalysisOptions{
+		.optimize = true,
+	});
+	auto instructions = ltn::c::compile(sst, ltn::c::CompileOptions {
+		.optimize = true,
+	});
 	auto ofile = open_file(target_path, std::ios::openmode(0));
 	ofile << ltn::c::print(instructions.instructions);
 	std::cout << "Done!\n";

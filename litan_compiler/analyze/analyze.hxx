@@ -17,9 +17,11 @@
 #include "error.hxx"
 
 namespace ltn::c {
-	sst::Program analyze(
-		const ast::Program & program,
-		const std::vector<ltn::c::CustomLiteral> & literals = {});
+	struct AnalysisOptions {
+		bool optimize = true;
+	};
+
+	sst::Program analyze(const ast::Program & program, const AnalysisOptions & options);
 
 	sst::func_ptr analyze_function(
 		const ast::decl::Function &,

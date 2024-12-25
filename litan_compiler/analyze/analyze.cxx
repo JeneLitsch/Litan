@@ -35,9 +35,7 @@ namespace ltn::c {
 
 
 
-	sst::Program analyze(
-		const ast::Program & source,
-		const std::vector<ltn::c::CustomLiteral> & literals) {
+	sst::Program analyze(const ast::Program & ast, const AnalysisOptions & options) {
 		
 		sst::Program program;
 		ValidFunctionTable fx_table;
@@ -45,7 +43,7 @@ namespace ltn::c {
 		ValidDefinitionTable definition_table;
 		MemberTable member_table;
 		ValidGlobalTable global_table;
-		CustomResolver custom_resolver{literals};
+		CustomResolver custom_resolver{{}};
 		Context context {
 			.fx_table = fx_table,
 			.fx_queue = fx_queue,
@@ -60,7 +58,7 @@ namespace ltn::c {
 
 
 
-		for(auto & enym : source.enums) {
+		for(auto & enym : ast.enums) {
 			auto definitions = analyze_enumeration(*enym, global_counter);
 			for(auto & definition : definitions) {
 				program.definitions.push_back(std::move(definition));
@@ -69,7 +67,7 @@ namespace ltn::c {
 
 		
 
-		for(const auto & definition : source.definitions) {
+		for(const auto & definition : ast.definitions) {
 			program.definitions.push_back(analyze_definition(*definition, context, global_counter++));
 		}
 
@@ -79,7 +77,7 @@ namespace ltn::c {
 
 
 
-		for(const auto & global : source.globals) {
+		for(const auto & global : ast.globals) {
 			program.globals.push_back(analyze_global(*global, context, global_counter++));
 		}
 
@@ -89,11 +87,11 @@ namespace ltn::c {
 
 
 
-		for(const auto & function : source.functions) {
+		for(const auto & function : ast.functions) {
 			context.fx_table.insert(*function, function->parameters.simple.size(), VariadicMode::ALLOWED);
 		}
 
-		auto externs = find_extern_funtions(source);
+		auto externs = find_extern_funtions(ast);
 
 		for(const auto & function : externs) {
 			fx_queue.stage_function(function);
@@ -106,7 +104,9 @@ namespace ltn::c {
 
 		program.member_name_table = member_table.get_table();
 
-		optimize(program);
+		if (options.optimize) {
+			optimize(program);
+		}
 		return program;
 	}
 

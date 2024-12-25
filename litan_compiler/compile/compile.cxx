@@ -15,9 +15,6 @@ namespace ltn::c {
 			return buf;
 		}
 
-
-
-
 	}
 
 
@@ -25,7 +22,7 @@ namespace ltn::c {
 
 
 	// compiles source
-	inst::Program compile(const sst::Program & program) {
+	inst::Program compile(const sst::Program & program, const CompileOptions & options) {
 		
 		InstructionBuffer buf;
 
@@ -41,7 +38,7 @@ namespace ltn::c {
 
 		buf << inst::exit();
 
-		auto instructions = ltn::c::peephole(buf.get());
+		auto instructions = options.optimize ? ltn::c::peephole(buf.get()) : buf.get();
 		auto link_info = ltn::c::link(program, instructions);
 
 		return {
