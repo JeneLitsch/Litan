@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(Litan)
+project(Litan
+	VERSION 0.0.1
+	DESCRIPTION "A programming language"
+	LANGUAGES CXX C
+)
 
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/")
 
