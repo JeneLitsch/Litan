@@ -43,17 +43,17 @@ namespace ltn::c {
 
 
 	void inject_stdlib(std::vector<ltn::c::Source> & sources) {
-		sources.push_back(StringSource{"std_algorithm", litan_stdlib_algorithm});
-		sources.push_back(StringSource{"std_bits", litan_stdlib_bits});
-		sources.push_back(StringSource{"std_chrono", litan_stdlib_chrono});
-		sources.push_back(StringSource{"std_container", litan_stdlib_container});
-		sources.push_back(StringSource{"std_functional", litan_stdlib_functional});
-		sources.push_back(StringSource{"std_io", litan_stdlib_io});
-		sources.push_back(StringSource{"std_iter", litan_stdlib_iter});
-		sources.push_back(StringSource{"std_json", litan_stdlib_json});
-		sources.push_back(StringSource{"std_math", litan_stdlib_math});
-		sources.push_back(StringSource{"std_random", litan_stdlib_random});
-		sources.push_back(StringSource{"std_string", litan_stdlib_string});
-		sources.push_back(StringSource{"std_type", litan_stdlib_type});
+		sources.push_back(StringSource{"std_algorithm",  ltn::stdlib::algorithm});
+		sources.push_back(StringSource{"std_bits",       ltn::stdlib::bits});
+		sources.push_back(StringSource{"std_chrono",     ltn::stdlib::chrono});
+		sources.push_back(StringSource{"std_container",  ltn::stdlib::container});
+		sources.push_back(StringSource{"std_functional", ltn::stdlib::functional});
+		sources.push_back(StringSource{"std_io",         ltn::stdlib::io});
+		sources.push_back(StringSource{"std_iter",       ltn::stdlib::iter});
+		sources.push_back(StringSource{"std_json",       ltn::stdlib::json});
+		sources.push_back(StringSource{"std_math",       ltn::stdlib::math});
+		sources.push_back(StringSource{"std_random",     ltn::stdlib::random});
+		sources.push_back(StringSource{"std_string",     ltn::stdlib::string});
+		sources.push_back(StringSource{"std_type",       ltn::stdlib::type});
 	}
 }

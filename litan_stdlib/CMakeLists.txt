@@ -22,9 +22,9 @@ foreach(file ${LITAN_STDLIB_FILES})
 endforeach()
 
 add_custom_command(
-	OUTPUT litan_stdlib.c 
-	COMMAND tool_embed_file litan_stdlib ${LITAN_STDLIB_PATHS}  
+	OUTPUT litan_stdlib.cxx
+	COMMAND tool_embed_file ltn::stdlib litan_stdlib ${LITAN_STDLIB_PATHS}  
   	DEPENDS tool_embed_file ${LITAN_STDLIB_FILES}
 )
 
-add_library(litan_stdlib STATIC litan_stdlib.c)
+add_library(litan_stdlib STATIC litan_stdlib.cxx)

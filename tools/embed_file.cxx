@@ -13,42 +13,39 @@ std::string read_entire_file(std::ifstream & fin) {
 }
 
 int main(int argc, char const *argv[]) {
-	if (argc < 3) {
+	if (argc < 2) {
 		return EXIT_FAILURE;
 	}
-	const char * dest_name = argv[1];
-	const std::filesystem::path dest_h = std::filesystem::path{dest_name}.replace_extension(".h");
-	const std::filesystem::path dest_c = std::filesystem::path{dest_name}.replace_extension(".c");
-	
-	std::ofstream output_h { dest_h };
-	std::ofstream output_c { dest_c };
+	const char * namespace_name = argv[1];
+	const char * dest_name = argv[2];
+	std::span<const char *> srcs = { argv + 3, argv + argc };
 
-	output_h << "#pragma once \n\n";
-	output_c << "#include " << dest_h.filename() << "\n\n";
-	std::span<const char *> srcs = { argv + 2, argv + argc };
+	const std::filesystem::path dest_c = std::filesystem::path{dest_name}.replace_extension(".cxx");
+	std::ofstream output { dest_c };
+	output << "namespace " << namespace_name << "{\n";
 	for (const char * src : srcs) {
 		std::filesystem::path src_path = src;
 		std::ifstream input { src_path };
 		
-		std::cout << src << "\n";
+		std::cout << "     |- " << src << "\n";
 
 		const std::string data = read_entire_file(input);
 
-		const std::string var_name = std::filesystem::path(dest_name).stem().concat("_").concat(src_path.stem().string()).string();
+		const std::string var_name = src_path.stem().string();
 
-		output_h << "extern const char * " << var_name << ";\n";
-		output_c << "const char * " << var_name << " = \""; 
+		output << "const char * " << var_name << " = \""; 
 		for (char c : data) {
 			switch (c) {
-				case '\n': output_c << "\\n";  break;
-				case '\t': output_c << "\\t";  break;
-				case '\\': output_c << "\\\\"; break;
-				case '\"': output_c << "\\\""; break;
-				default  : output_c << c;      break;
+				case '\n': output << "\\n";  break;
+				case '\t': output << "\\t";  break;
+				case '\\': output << "\\\\"; break;
+				case '\"': output << "\\\""; break;
+				default  : output << c;      break;
 			}
 		}
-		output_c << "\";\n";
+		output << "\";\n";
 	}
+		output << "}\n";
 
 	return EXIT_SUCCESS;
 }
