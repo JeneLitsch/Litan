@@ -1,7 +1,7 @@
 #include "run.hxx"
 #include "../shared/shared.hxx"
 #include "../shared/file.hxx"
-#include "ltnvm/VM.hxx"
+#include "litan_vm/VM.hxx"
 
 int run(std::string_view script_path, std::span<const std::string_view> script_args) {
 	auto sst = analysis_phase(script_path);

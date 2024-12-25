@@ -1,6 +1,6 @@
 #include "exec.hxx"
 #include "stdlib.h"
-#include "ltnvm/VM.hxx"
+#include "litan_vm/VM.hxx"
 
 
 std::vector<std::uint8_t> read_bytecode(const std::filesystem::path & path) {

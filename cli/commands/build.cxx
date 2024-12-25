@@ -1,6 +1,6 @@
 #include "build.hxx"
 #include <iostream>
-#include "ltnc/Ltnc.hxx"
+#include "litan_compiler/Ltnc.hxx"
 #include "../shared/shared.hxx"
 #include "../shared/file.hxx"
 

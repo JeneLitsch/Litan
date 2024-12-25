@@ -15,7 +15,7 @@ add_executable(litan
 
 target_link_libraries(litan PRIVATE
 	litan_config
-	libltn
-	libltnc
-	libltnvm
+	litan_core
+	litan_compiler
+	litan_vm
 )

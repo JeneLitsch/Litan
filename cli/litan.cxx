@@ -4,11 +4,11 @@
 #include <ranges>
 #include <string_view>
 
-#include "ltn/args.hxx"
-#include "ltnc/Ltnc.hxx"
-#include "ltnvm/VM.hxx"
-#include "ltnvm/utils/cast.hxx"
-#include "ltn/version.hxx"
+#include "litan_core/args.hxx"
+#include "litan_compiler/Ltnc.hxx"
+#include "litan_vm/VM.hxx"
+#include "litan_vm/utils/cast.hxx"
+#include "litan_core/version.hxx"
 
 #include "commands/run.hxx"
 #include "commands/exec.hxx"
