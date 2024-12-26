@@ -77,11 +77,19 @@ namespace ltn::vm {
 		}
 
 
+		// Uses negative indices. -1 is top value 
+		inline const Value peek(std::int64_t depth) const {
+			// return this->values[this->values.size() - 1 - depth];
+			return *(std::end(this->values) + depth);
+		}
+
+
 
 		void reset();
 		
 		const std::uint8_t * pop_frame();
-		void push_frame(const std::uint8_t * jumpBack, std::uint64_t arity, const FunctionContext * entry);
+		void push_frame(const std::uint8_t * return_addr, std::uint64_t arity, const FunctionContext * context);
+		void reuse_frame(std::uint64_t arity, const FunctionContext * context);
 		const Frame & get_current_frame() const;
 
 		const std::uint8_t * get_except_handler() const;

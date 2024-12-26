@@ -70,15 +70,10 @@ namespace ltn::vm::inst {
 
 
 	void tail(VMCore & core) {
-		// std::cout << core.stack.depth() << "\n";
-		// Return
-		const std::uint8_t * return_address = core.stack.pop_frame();
-
-		// Call
 		const auto index = core.fetch_uint();
-		const auto * entry = core.function_pool[index];
-		const auto address = entry->address; 
-		core.stack.push_frame(return_address, entry->arity + entry->is_variadic, entry);
-		core.pc = core.code_begin + address;
+		const auto * context = core.function_pool[index];
+		const std::int64_t total_arity = context->arity + context->is_variadic;
+		core.stack.reuse_frame(total_arity, context);
+		core.pc = core.code_begin + context->address;
 	}
 }
