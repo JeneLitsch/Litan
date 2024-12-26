@@ -1,4 +1,4 @@
 namespace std {
-	function call_stack_depth()
+	function call_stack_depth() const
 		=> build_in(call_stack_depth)
 }
