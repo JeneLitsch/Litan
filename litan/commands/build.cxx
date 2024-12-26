@@ -1,21 +1,26 @@
 #include "build.hxx"
 #include <iostream>
 #include "litan_compiler/Ltnc.hxx"
-#include "../shared/shared.hxx"
-#include "../shared/file.hxx"
+#include "litan/shared/file.hxx"
+#include "litan/shared/options.hxx"
 
 int build(std::span<const std::string_view> args) {
-	std::string_view script_path = args[0];
-	std::string_view target_path = args[1];
+
+	std::span<const std::string_view> flags = cut_options(args);
+	std::span<const std::string_view> rest = args.subspan(flags.size());
+	BuildOptions options = parse_options<BuildOptions, read_build_option>(flags);
+
+	if(rest.size() < 2) {
+		throw std::runtime_error{"Invalid build arguments"};
+	}
+
+	std::string_view script_path = rest[0];
+	std::string_view target_path = rest[1];
 	
 	auto sources = ltn::c::read_sources({script_path});
 	auto ast = ltn::c::parse(sources);
-	auto sst = ltn::c::analyze(ast, ltn::c::AnalysisOptions{
-		.optimize = true,
-	});
-	auto instructions = ltn::c::compile(sst, ltn::c::CompileOptions {
-		.optimize = true,
-	});
+	auto sst = ltn::c::analyze(ast, options.analysis);
+	auto instructions = ltn::c::compile(sst, options.compilation);
 	auto bytecode = ltn::c::assemble(instructions);
 
 	std::cout << "Compiling script...\n";
