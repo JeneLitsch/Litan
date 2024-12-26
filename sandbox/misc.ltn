@@ -1,6 +1,11 @@
+function g() {
+	return 42;
+}
+
+function f() {
+	return f();
+}
+
 function main(args) {
-	var str = "AÄxCxßß";
-	var arr = str->split("x");
-	std::println(arr);
-	std::println(args);
+	std::println(f());
 }

@@ -15,6 +15,7 @@ namespace ltn::vm::inst {
 
 
 	void call(VMCore & core) {
+		// std::cout << core.stack.depth() << "\n";
 		const auto index = core.fetch_uint();
 		const auto * entry = core.function_pool[index];
 		const auto address = entry->address; 
@@ -64,5 +65,20 @@ namespace ltn::vm::inst {
 	void return_null(VMCore & core) {
 		core.pc = core.stack.pop_frame();
 		core.stack.push(value::null);
+	}
+
+
+
+	void tail(VMCore & core) {
+		// std::cout << core.stack.depth() << "\n";
+		// Return
+		const std::uint8_t * return_address = core.stack.pop_frame();
+
+		// Call
+		const auto index = core.fetch_uint();
+		const auto * entry = core.function_pool[index];
+		const auto address = entry->address; 
+		core.stack.push_frame(return_address, entry->arity + entry->is_variadic, entry);
+		core.pc = core.code_begin + address;
 	}
 }

@@ -60,6 +60,7 @@ namespace ltn {
 		CO_RETURN,
 		CO_DUMP,
 		RETURN_NULL,
+		TAIL,
 
 		// Allocations
 		NEWARR = 0x50,
