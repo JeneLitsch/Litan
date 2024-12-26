@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(litan
 	"litan.cxx"
 	"shared/file.cxx"
+	"shared/help.cxx"
 	"shared/options.cxx"
 	"commands/build.cxx"
 	"commands/exec.cxx"

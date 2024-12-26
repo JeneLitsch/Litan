@@ -4,20 +4,23 @@
 #include "litan_compiler/Ltnc.hxx"
 
 struct BuildOptions {
+	bool help = false;
 	ltn::c::AnalysisOptions analysis;
 	ltn::c::CompileOptions compilation;
 };
 
 struct ExecOptions {
-
+	bool help = false;
 };
 
 struct RunOptions {
+	bool help = false;
 	BuildOptions build;
 	ExecOptions exec;
 };
 
 struct DumpOptions {
+	bool help = false;
 	BuildOptions build;
 };
 

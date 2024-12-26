@@ -1,6 +1,7 @@
 #include "dump.hxx"
-#include "litan/shared/options.hxx"
 #include "litan/shared/file.hxx"
+#include "litan/shared/help.hxx"
+#include "litan/shared/options.hxx"
 #include "litan_compiler/Ltnc.hxx"
 
 
@@ -19,6 +20,11 @@ int dump(std::span<const std::string_view> args) {
 	std::span<const std::string_view> rest = args.subspan(flags.size());
 	DumpOptions options = parse_options<DumpOptions, read_dump_option>(flags);
 	
+	if(options.help) {
+		print_usage_hint();
+		return EXIT_SUCCESS;
+	}
+
 	if(rest.size() < 2) {
 		throw std::runtime_error{"Invalid dump arguments"};
 	}

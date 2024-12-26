@@ -2,6 +2,7 @@
 #include "stdlib.h"
 #include "litan_vm/VM.hxx"
 #include "litan/shared/options.hxx"
+#include "litan/shared/help.hxx"
 #include "litan/shared/file.hxx"
 
 std::vector<std::uint8_t> read_bytecode(const std::filesystem::path & path) {
@@ -22,7 +23,12 @@ std::vector<std::uint8_t> read_bytecode(const std::filesystem::path & path) {
 int exec(std::span<const std::string_view> args) {
 	std::span<const std::string_view> flags = cut_options(args);
 	std::span<const std::string_view> rest = args.subspan(flags.size());
-	BuildOptions options = parse_options<BuildOptions, read_build_option>(flags);
+	ExecOptions options = parse_options<ExecOptions, read_exec_option>(flags);
+
+	if(options.help) {
+		print_usage_hint();
+		return EXIT_SUCCESS;
+	}
 
 	if(rest.size() < 1) {
 		throw std::runtime_error{"Invalid exec arguments"};

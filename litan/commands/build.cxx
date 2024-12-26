@@ -3,12 +3,18 @@
 #include "litan_compiler/Ltnc.hxx"
 #include "litan/shared/file.hxx"
 #include "litan/shared/options.hxx"
+#include "litan/shared/help.hxx"
 
 int build(std::span<const std::string_view> args) {
 
 	std::span<const std::string_view> flags = cut_options(args);
 	std::span<const std::string_view> rest = args.subspan(flags.size());
 	BuildOptions options = parse_options<BuildOptions, read_build_option>(flags);
+
+	if(options.help) {
+		print_usage_hint();
+		return EXIT_SUCCESS;
+	}
 
 	if(rest.size() < 2) {
 		throw std::runtime_error{"Invalid build arguments"};

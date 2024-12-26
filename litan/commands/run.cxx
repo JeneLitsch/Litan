@@ -1,5 +1,6 @@
 #include "run.hxx"
 #include "litan/shared/file.hxx"
+#include "litan/shared/help.hxx"
 #include "litan/shared/options.hxx"
 #include "litan_compiler/Ltnc.hxx"
 #include "litan_vm/VM.hxx"
@@ -9,6 +10,11 @@ int run(std::span<const std::string_view> args) {
 	std::span<const std::string_view> rest = args.subspan(flags.size());
 	RunOptions options = parse_options<RunOptions, read_run_option>(flags);
 	
+	if(options.help) {
+		print_usage_hint();
+		return EXIT_SUCCESS;
+	}
+
 	if(rest.size() < 1) {
 		throw std::runtime_error{"Invalid run arguments"};
 	}

@@ -14,14 +14,8 @@
 #include "commands/exec.hxx"
 #include "commands/build.hxx"
 #include "commands/dump.hxx"
+#include "shared/help.hxx"
 
-void print_usage_hint() {
-	std::cout << "Usage:\n";
-	std::cout << "    run   [options...] <script>   [args...] : Executes a script\n";
-	std::cout << "    exec  [options...] <bytecode> [args...] : Executes precompiled bytecode\n";
-	std::cout << "    build [options...] <script> <bytecode>  : Compiles script to bytecode\n";
-	std::cout << "    dump  [options...] <script> <assembly>  : Compiles script to assembly for debugging and analysis\n";
-}
 
 int main(int argc, const char** argv) {
 	const std::vector<std::string_view> args_vector { argv + 1, argv + argc };
@@ -37,7 +31,7 @@ int main(int argc, const char** argv) {
 		if (secondary_command == "run") {
 			return run(rest_args);
 		}
-		else if (secondary_command == "exec" && args.size() > 1) {
+		else if (secondary_command == "exec") {
 			return exec(rest_args);
 		}
 		else if (secondary_command == "build") {
@@ -46,7 +40,7 @@ int main(int argc, const char** argv) {
 		else if (secondary_command == "dump") {
 			return dump(rest_args);
 		}
-		else if (secondary_command == "help") {
+		else if (secondary_command == "--help") {
 			print_usage_hint();
 			return EXIT_SUCCESS;
 		}
