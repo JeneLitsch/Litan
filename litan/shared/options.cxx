@@ -14,7 +14,7 @@ std::span<const std::string_view> cut_options(std::span<const std::string_view> 
 
 template<typename Options>
 bool read_disable_optimization_option(Options & options, const std::string_view flag) {
-	if(flag == "--disable-optimization") {
+	if(flag == "--no-optimization") {
 		options.optimize = false;
 		return true;
 	}
