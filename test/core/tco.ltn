@@ -1,0 +1,20 @@
+
+namespace sphinx::test {
+	namespace tco_local {
+		function tco_f(expected_depth, iteration) {
+			if(iteration < 1000) {
+				return tco_f(expected_depth, iteration + 1);
+			}
+			else {
+				sphinx::assert_equal_strict(std::call_stack_depth(), expected_depth);
+				return iteration;
+			}
+		}
+	}
+
+	function tco() {
+		var expected_depth = std::call_stack_depth() + 1;
+		var total_iterations = tco_local::tco_f(expected_depth, 0);
+		assert_equal_strict(total_iterations, 1000);
+	}
+}
