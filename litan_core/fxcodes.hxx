@@ -10,7 +10,8 @@ namespace ltn {
 		FIND,
 		FILL,
 		REVERSE,
-		ALGORITHM_REDUCE_L_2, ALGORITHM_REDUCE_L_3, 
+		ALGORITHM_REDUCE_L_2,
+		ALGORITHM_REDUCE_L_3, 
 
 		// random
 		RANDOM_SPLIT = 0x10,
@@ -118,5 +119,6 @@ namespace ltn {
 		REMOVE,
 
 		LOAD_PLUGIN = 0xb0,
+		CALL_STACK_DEPTH,
 	};
 }

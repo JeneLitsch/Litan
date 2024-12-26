@@ -3,6 +3,7 @@ function g() {
 }
 
 function f() {
+	std::println(std::call_stack_depth());
 	return f();
 }
 

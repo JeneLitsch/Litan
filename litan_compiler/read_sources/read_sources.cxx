@@ -55,5 +55,6 @@ namespace ltn::c {
 		sources.push_back(StringSource{"std_random",     ltn::stdlib::random});
 		sources.push_back(StringSource{"std_string",     ltn::stdlib::string});
 		sources.push_back(StringSource{"std_type",       ltn::stdlib::type});
+		sources.push_back(StringSource{"std_misc",       ltn::stdlib::misc});
 	}
 }

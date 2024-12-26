@@ -13,4 +13,5 @@ namespace ltn::stdlib {
 	extern const char * iter;
 	extern const char * math;
 	extern const char * string;
+	extern const char * misc;
 }

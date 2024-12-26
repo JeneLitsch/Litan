@@ -159,6 +159,7 @@ namespace ltn::vm::inst {
 
 		// Plugin
 		table[FxCode::LOAD_PLUGIN]  = as_build_in<stdlib::load_plugin>;
+		table[FxCode::CALL_STACK_DEPTH]  = as_build_in<stdlib::call_stack_depth>;
 		
 		return table.array;
 	}
