@@ -13,8 +13,16 @@ namespace sphinx::test {
 	}
 
 	function tco() {
+		var a = 100;
+		var b = 200;
+		var c = 300;
+		
 		var expected_depth = std::call_stack_depth() + 1;
 		var total_iterations = tco_local::tco_f(expected_depth, 0);
 		assert_equal_strict(total_iterations, 1000);
+		// Check whether the frame below stays intact.
+		assert_equal_strict(a, 100);
+		assert_equal_strict(b, 200);
+		assert_equal_strict(c, 300);
 	}
 }
