@@ -12,6 +12,7 @@ set(LITAN_STDLIB_FILES
 	"functional.ltn"
 	"iter.ltn"
 	"math.ltn"
+	"misc.ltn"
 	"string.ltn"
 )
 

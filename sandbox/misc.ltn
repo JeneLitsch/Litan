@@ -1,6 +1,14 @@
+function g() {
+	return 42;
+}
+
+function f(x, y, z) {
+	std::print(x);
+	std::print(" | ");
+	std::println(std::call_stack_depth());
+	return f(x + 1, y, z);
+}
+
 function main(args) {
-	var str = "AÄxCxßß";
-	var arr = str->split("x");
-	std::println(arr);
-	std::println(args);
+	std::println(f(1, 0, 0));
 }

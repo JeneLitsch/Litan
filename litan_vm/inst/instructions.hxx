@@ -53,6 +53,7 @@ namespace ltn::vm::inst {
 	void co_retvrn(VMCore & core);
 	void co_dump(VMCore & core);
 	void return_null(VMCore & core);
+	void tail(VMCore & core);
 	
 	void newarr(VMCore & core);
 	void newstr(VMCore & core);

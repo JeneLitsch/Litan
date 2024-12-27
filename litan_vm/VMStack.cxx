@@ -21,6 +21,24 @@ namespace ltn::vm {
 
 
 
+	void VMStack::reuse_frame(std::uint64_t arity, const FunctionContext * context) {
+		// Move args
+		for (std::int64_t i = 0; i < arity; i++) {
+			write(i, peek(- arity + i));
+		}
+
+		Frame & frame = this->frames.back();
+		// Keep prev_frame_pointer
+		frame.except_jump = 0;
+		frame.context = context;
+		// this->frame_pointer = this->values.size() - context->arity;
+		
+		this->values.resize(this->frame_pointer + arity + context->frame_size, value::null);
+	}
+
+
+
+
 	const std::uint8_t * VMStack::pop_frame() {
 		const auto & frame = this->frames.back();
 		const auto return_addr = frame.return_addr;

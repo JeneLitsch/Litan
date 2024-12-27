@@ -352,6 +352,13 @@ namespace ltn::c::inst {
 			.opcode = OpCode::RETURN_NULL,
 		};
 	}
+	Inst tail(const std::string & label) {
+		return InstCall {
+			.name = "tail",
+			.opcode = OpCode::TAIL,
+			.label = label,
+		};
+	}
 
 
 

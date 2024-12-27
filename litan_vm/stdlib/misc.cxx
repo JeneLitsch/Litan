@@ -40,4 +40,10 @@ namespace ltn::vm::stdlib {
 		VMCore * core = static_cast<VMCore *>(context->core);
 		return value::string(core->heap.make<String>(stringify(args[0], *core)));
 	}
+
+
+	Value call_stack_depth::func(Context * context, const Value * args) {
+		VMCore * core = static_cast<VMCore *>(context->core);
+		return value::integer(core->stack.depth());
+	}
 }

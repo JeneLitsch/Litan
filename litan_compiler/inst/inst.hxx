@@ -179,6 +179,7 @@ namespace ltn::c::inst {
 	Inst co_retvrn();
 	Inst co_dump();
 	Inst return_null();
+	Inst tail(const std::string & label);
 
 	Inst scrap();
 	Inst duplicate();

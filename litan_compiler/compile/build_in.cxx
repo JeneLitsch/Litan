@@ -114,6 +114,7 @@ namespace ltn::c {
 		{"iter_reversed",            FxCode::ITER_REVERSED},
 
 		{"load_plugin",              FxCode::LOAD_PLUGIN},
+		{"call_stack_depth",         FxCode::CALL_STACK_DEPTH},
 	};
 	
 
