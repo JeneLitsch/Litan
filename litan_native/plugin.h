@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NativeCore.h"
+#include "context.h"
 #include "types.h"
 #include "Value.h"
 

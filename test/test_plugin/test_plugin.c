@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #define LTN_IMPL
-#include "native/litan.h"
+#include "litan_native/litan.h"
 
 #include "is_type.h"
 #include "as_type.h"

@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <concepts>
 
-#include "native/Value.h"
+#include "litan_native/Value.h"
 
 namespace ltn::vm {
 	class Type;

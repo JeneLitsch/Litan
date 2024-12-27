@@ -1,5 +1,5 @@
 #include "NativeFunctionPointer.hxx"
-#include "native/plugin.h"
+#include "litan_native/plugin.h"
 
 namespace ltn::vm {
 	bool NativeFunctionPointer::uses_gc() const {

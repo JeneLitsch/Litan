@@ -1,6 +1,6 @@
 #pragma once
 #include "litan_vm/Value.hxx"
-#include "native/NativeCore.h"
+#include "litan_native/context.h"
 
 namespace ltn::vm {
 	using Context = ltn_Context;

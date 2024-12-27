@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.13)
+
+add_library(litan_native INTERFACE)
+target_link_libraries(litan_native INTERFACE litan_config)
+
+add_library(litan_native_c INTERFACE)
+target_link_libraries(litan_native_c INTERFACE litan_config_c)
+target_link_libraries(litan_native_c INTERFACE litan_native)
+
+add_library(litan_native_cxx INTERFACE)
+target_link_libraries(litan_native_cxx INTERFACE litan_config_cxx)
+target_link_libraries(litan_native_cxx INTERFACE litan_native)

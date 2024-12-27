@@ -3,7 +3,7 @@
 #ifdef __linux__
 #include <dlfcn.h>
 #endif
-#include "native/plugin.h"
+#include "litan_native/plugin.h"
 
 
 namespace ltn::vm::stdlib {

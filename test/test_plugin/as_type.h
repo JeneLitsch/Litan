@@ -1,6 +1,6 @@
 #pragma once
 
-#include "native/litan.h"
+#include "litan_native/litan.h"
 
 // Primitive types
 ltn_Value test_as_bool(ltn_Context * context, const ltn_Value * args);

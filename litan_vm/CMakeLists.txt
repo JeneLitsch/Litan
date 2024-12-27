@@ -9,6 +9,7 @@ add_library(litan_vm STATIC
 )
 
 target_link_libraries(litan_vm PUBLIC litan_config_cxx)
+target_link_libraries(litan_vm PUBLIC litan_native_cxx)
 target_link_libraries(litan_vm PUBLIC litan_core)
 
 add_subdirectory("native")
