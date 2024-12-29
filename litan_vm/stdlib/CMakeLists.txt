@@ -9,6 +9,7 @@ target_sources(litan_vm PRIVATE
 	"json.cxx"
 	"map.cxx"
 	"math.cxx"
+	"random.cxx"
 	"misc.cxx"
 	"plugin.cxx"
 	"queue.cxx"

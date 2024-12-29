@@ -1,7 +1,6 @@
 #include "instructions.hxx"
 #include "litan_core/fxcodes.hxx"
 #include "litan_vm/build_in/algorithm.hxx"
-#include "litan_vm/build_in/random.hxx"
 #include "litan_vm/build_in/iter.hxx"
 #include "litan_vm/build_in/type.hxx"
 
@@ -14,6 +13,7 @@
 #include "litan_vm/stdlib/functional.hxx"
 #include "litan_vm/stdlib/math.hxx"
 #include "litan_vm/stdlib/plugin.hxx"
+#include "litan_vm/stdlib/random.hxx"
 
 
 
@@ -52,15 +52,14 @@ namespace ltn::vm::inst {
 		table[FxCode::REVERSE]           = build_in::reverse;
 		table[FxCode::ALGORITHM_REDUCE_L_2] = build_in::reduce_l_2;
 		table[FxCode::ALGORITHM_REDUCE_L_3] = build_in::reduce_l_3;
-
 		
 		// random
-		table[FxCode::RANDOM_SPLIT]      = build_in::random::split;
-		table[FxCode::RANDOM_RAND]       = build_in::random::rand;
-		table[FxCode::RANDOM_RAND_INT]   = build_in::random::rand_int;
-		table[FxCode::RANDOM_RAND_FLOAT] = build_in::random::rand_float;
-		table[FxCode::RANDOM_MERSENNE_0] = build_in::random::mersenne_0;
-		table[FxCode::RANDOM_MERSENNE_1] = build_in::random::mersenne_1;
+		table[FxCode::RANDOM_SPLIT]      = as_build_in<stdlib::split>;
+		table[FxCode::RANDOM_RAND]       = as_build_in<stdlib::rand>;
+		table[FxCode::RANDOM_RAND_INT]   = as_build_in<stdlib::rand_int>;
+		table[FxCode::RANDOM_RAND_FLOAT] = as_build_in<stdlib::rand_float>;
+		table[FxCode::RANDOM_MERSENNE_0] = as_build_in<stdlib::mersenne_0>;
+		table[FxCode::RANDOM_MERSENNE_1] = as_build_in<stdlib::mersenne_1>;
 
 		//functional
 		table[FxCode::FX_ARITY]          = as_build_in<stdlib::function_arity>;

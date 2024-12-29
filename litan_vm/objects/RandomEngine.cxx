@@ -1,4 +1,5 @@
 #include "RandomEngine.hxx"
+#include "litan_vm/stdlib/random.hxx"
 
 namespace ltn::vm {
 	void RandomEngine::stringify(VMCore &, std::ostream & oss, bool) {
