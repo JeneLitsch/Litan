@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.13)
 
 target_sources(litan_vm PRIVATE 
+	"algorithm.cxx"
 	"array.cxx"
+	"iter.cxx"
 	"chrono.cxx"
 	"container.cxx"
 	"functional.cxx"
@@ -16,4 +18,5 @@ target_sources(litan_vm PRIVATE
 	"stack.cxx"
 	"string.cxx"
 	"tuple.cxx"
+	"type.cxx"
 )

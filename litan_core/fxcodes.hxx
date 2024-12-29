@@ -10,8 +10,8 @@ namespace ltn {
 		FIND,
 		FILL,
 		REVERSE,
-		ALGORITHM_REDUCE_L_2,
-		ALGORITHM_REDUCE_L_3, 
+		REDUCE_L_2,
+		REDUCE_L_3, 
 
 		// random
 		RANDOM_SPLIT = 0x10,

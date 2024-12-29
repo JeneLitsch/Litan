@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <numeric>
 
-namespace ltn::vm::build_in {
+namespace ltn::vm::stdlib {
 	static auto to_cpp_range(const Value ref) {
 		if(is_array(ref)) {
 			Array * array = value::as<Array>(ref);
@@ -45,8 +45,9 @@ namespace ltn::vm::build_in {
 
 
 	// Algorithms
-	Value sort_desc(VMCore & core) {
-		const auto ref = core.stack.pop();
+	Value sort_desc::func(ltn_Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		const auto ref = args[0];
 		const auto [begin, end] = to_cpp_range(ref);
 		const auto comp = bigger(core);
 		std::sort(begin, end, comp);
@@ -55,8 +56,9 @@ namespace ltn::vm::build_in {
 
 
 
-	Value sort_ascn(VMCore & core) {
-		const auto ref = core.stack.pop();
+	Value sort_ascn::func(ltn_Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		const auto ref = args[0];
 		const auto [begin, end] = to_cpp_range(ref);
 		const auto comp = smaller(core);
 		std::sort(begin, end, comp);
@@ -65,8 +67,9 @@ namespace ltn::vm::build_in {
 
 
 
-	Value is_sorted_ascn(VMCore & core) {
-		const auto ref = core.stack.pop();
+	Value is_sorted_ascn::func(ltn_Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		const auto ref = args[0];
 		const auto [begin, end] = to_cpp_range(ref);
 		const auto comp = smaller(core);
 		return value::boolean(std::is_sorted(begin, end, comp));
@@ -74,8 +77,9 @@ namespace ltn::vm::build_in {
 
 
 
-	Value is_sorted_desc(VMCore & core) {
-		const auto ref = core.stack.pop();
+	Value is_sorted_desc::func(ltn_Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		const auto ref = args[0];
 		const auto [begin, end] = to_cpp_range(ref);
 		const auto comp = bigger(core);
 		return value::boolean(std::is_sorted(begin, end, comp));
@@ -83,9 +87,10 @@ namespace ltn::vm::build_in {
 
 
 
-	Value find(VMCore & core) {
-		const auto key = core.stack.pop();
-		const auto ref = core.stack.pop();
+	Value find::func(ltn_Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		const auto key = args[1];
+		const auto ref = args[0];
 		const auto [begin, end] = to_cpp_range(ref);
 		const auto pred = predicate(core, key);
 		const auto found = std::find_if(begin, end, pred);
@@ -100,17 +105,17 @@ namespace ltn::vm::build_in {
 
 
 	
-	Value fill(VMCore & core) {
-		const auto value = core.stack.pop();
-		const auto [begin, end] = to_cpp_range(core.stack.pop());
+	Value fill::func(ltn_Context * context, const Value * args) {
+		const auto value = args[1];
+		const auto [begin, end] = to_cpp_range(args[0]);
 		std::fill(begin, end, value);
 		return value::null;
 	}
 
 
 
-	Value reverse(VMCore & core) {
-		const auto ref = core.stack.pop();
+	Value reverse::func(ltn_Context * context, const Value * args) {
+		const auto ref = args[0];
 		const auto [begin, end] = to_cpp_range(ref);
 		std::reverse(begin, end);
 		return value::null;
@@ -134,9 +139,10 @@ namespace ltn::vm::build_in {
 
 
 
-	Value reduce_l_2(VMCore & core) {
-		const auto function = core.stack.pop();
-		const auto container = core.stack.pop();
+	Value reduce_l_2::func(ltn_Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		const auto function = args[1];
+		const auto container = args[0];
 
 		auto iter_ref = iterator::wrap(container, core);
 		Iterator * iter = value::as<Iterator>(iter_ref);
@@ -157,10 +163,11 @@ namespace ltn::vm::build_in {
 
 
 
-	Value reduce_l_3(VMCore & core) {
-		auto init = core.stack.pop();
-		const auto function = core.stack.pop();
-		const auto container = core.stack.pop();
+	Value reduce_l_3::func(ltn_Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		auto init = args[2];
+		const auto function = args[1];
+		const auto container = args[0];
 		auto iter_ref = iterator::wrap(container, core);
 		Iterator * iter = value::as<Iterator>(iter_ref);
 

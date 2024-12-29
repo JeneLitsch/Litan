@@ -2,16 +2,16 @@
 #include "litan_vm/Exception.hxx"
 #include "litan_vm/inst/instructions.hxx"
 
-namespace ltn::vm::build_in::type {
-	Value id(VMCore & core) {
-		const auto value = core.stack.pop();
-		return value::integer(static_cast<std::int64_t>(value.type));
+namespace ltn::vm::stdlib {
+	Value id::func(ltn_Context * context, const Value * args) {
+		return value::integer(static_cast<std::int64_t>(args[0].type));
 	}
 
 
 
-	Value clone(VMCore & core) {
-		const auto ref = core.stack.pop();
+	Value clone::func(ltn_Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		const auto ref = args[0];
 		if(is_array(ref))    return core.heap.clone<Array>(ref);
 		if(is_tuple(ref))    return core.heap.clone<Tuple>(ref);
 		if(is_string(ref))   return core.heap.clone<String>(ref);
@@ -30,42 +30,23 @@ namespace ltn::vm::build_in::type {
 
 
 
-	Value is(VMCore & core) {
-		const auto value = core.stack.pop();
-		const auto ref = core.stack.pop();
-		if(!is_type(ref)) throw except::invalid_operands();
-		auto * type = value::as_type_object(ref);
+	Value is::func(ltn_Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		const auto value = args[1];
+		const auto type_ref = args[0];
+		if(!is_type(type_ref)) throw except::invalid_operands();
+		auto * type = value::as_type_object(type_ref);
 		return value::boolean(type_is(*type, value, core));
 	}
 
 
 
-	Value cast(VMCore & core) {
-		const auto value = core.stack.pop();
-		const auto ref = core.stack.pop();
+	Value cast::func(ltn_Context * context, const Value * args) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		const auto value = args[1];
+		const auto ref = args[0];
 		if(!is_type(ref)) throw except::invalid_operands();
 		auto * type = value::as_type_object(ref);
 		return type_cast(*type, value, core);
-	}
-
-
-
-	Value queue(VMCore & core) {
-		inst::newqueue(core);
-		return core.stack.pop();
-	}
-
-
-
-	Value stack(VMCore & core) {
-		inst::newstack(core);
-		return core.stack.pop();
-	}
-
-
-
-	Value map(VMCore & core) {
-		inst::newmap(core);
-		return core.stack.pop();
 	}
 }

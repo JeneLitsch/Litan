@@ -1,10 +1,8 @@
 #include "instructions.hxx"
 #include "litan_core/fxcodes.hxx"
-#include "litan_vm/build_in/algorithm.hxx"
-#include "litan_vm/build_in/iter.hxx"
-#include "litan_vm/build_in/type.hxx"
 
 #include "litan_vm/stdlib/misc.hxx"
+#include "litan_vm/stdlib/algorithm.hxx"
 #include "litan_vm/stdlib/chrono.hxx"
 #include "litan_vm/stdlib/container.hxx"
 #include "litan_vm/stdlib/io.hxx"
@@ -14,6 +12,8 @@
 #include "litan_vm/stdlib/math.hxx"
 #include "litan_vm/stdlib/plugin.hxx"
 #include "litan_vm/stdlib/random.hxx"
+#include "litan_vm/stdlib/type.hxx"
+#include "litan_vm/stdlib/iter.hxx"
 
 
 
@@ -43,15 +43,15 @@ namespace ltn::vm::inst {
 
 
 		// algorithm
-		table[FxCode::SORT_ASCN]         = build_in::sort_ascn;
-		table[FxCode::SORT_DESC]         = build_in::sort_desc;
-		table[FxCode::IS_SORTED_ASCN]    = build_in::is_sorted_ascn;
-		table[FxCode::IS_SORTED_DESC]    = build_in::is_sorted_desc;
-		table[FxCode::FIND]              = build_in::find;
-		table[FxCode::FILL]              = build_in::fill;
-		table[FxCode::REVERSE]           = build_in::reverse;
-		table[FxCode::ALGORITHM_REDUCE_L_2] = build_in::reduce_l_2;
-		table[FxCode::ALGORITHM_REDUCE_L_3] = build_in::reduce_l_3;
+		table[FxCode::SORT_ASCN]         = as_build_in<stdlib::sort_ascn>;
+		table[FxCode::SORT_DESC]         = as_build_in<stdlib::sort_desc>;
+		table[FxCode::IS_SORTED_ASCN]    = as_build_in<stdlib::is_sorted_ascn>;
+		table[FxCode::IS_SORTED_DESC]    = as_build_in<stdlib::is_sorted_desc>;
+		table[FxCode::FIND]              = as_build_in<stdlib::find>;
+		table[FxCode::FILL]              = as_build_in<stdlib::fill>;
+		table[FxCode::REVERSE]           = as_build_in<stdlib::reverse>;
+		table[FxCode::REDUCE_L_2]        = as_build_in<stdlib::reduce_l_2>;
+		table[FxCode::REDUCE_L_3]        = as_build_in<stdlib::reduce_l_3>;
 		
 		// random
 		table[FxCode::RANDOM_SPLIT]      = as_build_in<stdlib::split>;
@@ -116,45 +116,45 @@ namespace ltn::vm::inst {
 		table[FxCode::LG]                = as_build_in<stdlib::lg>;
 
 		// Type
-		table[FxCode::TYPE_ID] = build_in::type::id;
-		table[FxCode::TYPE_CLONE] = build_in::type::clone;
-		table[FxCode::TYPE_IS] = build_in::type::is;
-		table[FxCode::TYPE_CAST] = build_in::type::cast;
-		table[FxCode::TYPE_QUEUE] = build_in::type::queue;
-		table[FxCode::TYPE_STACK] = build_in::type::stack;
-		table[FxCode::TYPE_MAP] = build_in::type::map;
+		table[FxCode::TYPE_ID]           = as_build_in<stdlib::id>;
+		table[FxCode::TYPE_CLONE]        = as_build_in<stdlib::clone>;
+		table[FxCode::TYPE_IS]           = as_build_in<stdlib::is>;
+		table[FxCode::TYPE_CAST]         = as_build_in<stdlib::cast>;
+		table[FxCode::TYPE_QUEUE]        = run_inst<newqueue>;
+		table[FxCode::TYPE_STACK]        = run_inst<newstack>;
+		table[FxCode::TYPE_MAP]          = run_inst<newmap>;
 
 		// Iter
-		table[FxCode::ITER_RANGE] = build_in::iter::range;
-		table[FxCode::ITER_NEXT] = build_in::iter::next;
-		table[FxCode::ITER_GET] = build_in::iter::get;
-		table[FxCode::ITER_MOVE] = build_in::iter::move;
-		table[FxCode::ITER_ITER] = build_in::iter::iter;
-		table[FxCode::ITER_IS_STOP] = build_in::iter::is_stop;
-		table[FxCode::ITER_COMBINED] = build_in::iter::combined;
-		table[FxCode::ITER_REVERSED] = build_in::iter::reversed;
+		table[FxCode::ITER_RANGE]        = as_build_in<stdlib::iter_range>;
+		table[FxCode::ITER_NEXT]         = as_build_in<stdlib::iter_next>;
+		table[FxCode::ITER_GET]          = as_build_in<stdlib::iter_get>;
+		table[FxCode::ITER_MOVE]         = as_build_in<stdlib::iter_move>;
+		table[FxCode::ITER_ITER]         = as_build_in<stdlib::iter_iter>;
+		table[FxCode::ITER_IS_STOP]      = as_build_in<stdlib::iter_is_stop>;
+		table[FxCode::ITER_COMBINED]     = as_build_in<stdlib::iter_combined>;
+		table[FxCode::ITER_REVERSED]     = as_build_in<stdlib::iter_reversed>;
 
 		// Chrono
-		table[FxCode::CHRONO_CLOCK] = as_build_in<stdlib::clock>;
+		table[FxCode::CHRONO_CLOCK]      = as_build_in<stdlib::clock>;
 		table[FxCode::CHRONO_TO_SECONDS] = as_build_in<stdlib::to_seconds>;
 		table[FxCode::CHRONO_TO_MILLI_SECONDS] = as_build_in<stdlib::to_milliseconds>;
 
 		// Container
-		table[FxCode::INSERT]       = as_build_in<stdlib::insert>;
-		table[FxCode::INSERT_FRONT] = as_build_in<stdlib::insert_front>;
-		table[FxCode::INSERT_BACK]  = as_build_in<stdlib::insert_back>;
-		table[FxCode::REMOVE]       = as_build_in<stdlib::erase>;
-		table[FxCode::REMOVE_FRONT] = as_build_in<stdlib::erase_front>;
-		table[FxCode::REMOVE_BACK]  = as_build_in<stdlib::erase_back>;
-		table[FxCode::PUSH]         = as_build_in<stdlib::push>;
-		table[FxCode::POP]          = as_build_in<stdlib::pop>;
-		table[FxCode::PEEK]         = as_build_in<stdlib::peek>;
-		table[FxCode::HAS]          = as_build_in<stdlib::has>;
-		table[FxCode::SIZE]         = as_build_in<stdlib::size>;
-		table[FxCode::EMPTY]        = as_build_in<stdlib::is_empty>;
-		table[FxCode::AT]           = run_inst<inst::at>;
-		table[FxCode::FRONT]        = as_build_in<stdlib::front>;
-		table[FxCode::BACK]         = as_build_in<stdlib::back>;
+		table[FxCode::INSERT]            = as_build_in<stdlib::insert>;
+		table[FxCode::INSERT_FRONT]      = as_build_in<stdlib::insert_front>;
+		table[FxCode::INSERT_BACK]       = as_build_in<stdlib::insert_back>;
+		table[FxCode::REMOVE]            = as_build_in<stdlib::erase>;
+		table[FxCode::REMOVE_FRONT]      = as_build_in<stdlib::erase_front>;
+		table[FxCode::REMOVE_BACK]       = as_build_in<stdlib::erase_back>;
+		table[FxCode::PUSH]              = as_build_in<stdlib::push>;
+		table[FxCode::POP]               = as_build_in<stdlib::pop>;
+		table[FxCode::PEEK]              = as_build_in<stdlib::peek>;
+		table[FxCode::HAS]               = as_build_in<stdlib::has>;
+		table[FxCode::SIZE]              = as_build_in<stdlib::size>;
+		table[FxCode::EMPTY]             = as_build_in<stdlib::is_empty>;
+		table[FxCode::AT]                = run_inst<inst::at>;
+		table[FxCode::FRONT]             = as_build_in<stdlib::front>;
+		table[FxCode::BACK]              = as_build_in<stdlib::back>;
 
 		// Plugin
 		table[FxCode::LOAD_PLUGIN]  = as_build_in<stdlib::load_plugin>;

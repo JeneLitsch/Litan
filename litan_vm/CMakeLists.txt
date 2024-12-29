@@ -13,7 +13,6 @@ target_link_libraries(litan_vm PUBLIC litan_native_cxx)
 target_link_libraries(litan_vm PUBLIC litan_core)
 
 add_subdirectory("native")
-add_subdirectory("build_in")
 add_subdirectory("external")
 add_subdirectory("inst")
 add_subdirectory("objects")
