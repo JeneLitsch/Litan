@@ -46,6 +46,8 @@ namespace ltn::vm {
 
 
 	
+	std::int64_t req_int(const Value * value);
+
 	Array * req_array(const Value * value);
 	Tuple * req_tuple(const Value * value);
 	Map * req_map(const Value * value);
@@ -53,5 +55,5 @@ namespace ltn::vm {
 	Queue * req_queue(const Value * value);
 	Stack * req_stack(const Value * value);
 	FunctionPointer * req_function_pointer(const Value * value);
-	std::int64_t req_int(const Value * value);
+	RandomEngine * req_rng(const Value * value);
 }

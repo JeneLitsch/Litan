@@ -16,19 +16,19 @@ namespace ltn::vm::stdlib {
 
 
 
-	Value iter_next::func(Context * context, const Value * args) {
+	Value iter_next::func(Context *, const Value * args) {
 		return iterator::next(args[0]);
 	}
 
 
 
-	Value iter_get::func(Context * context, const Value * args) {
+	Value iter_get::func(Context *, const Value * args) {
 		return iterator::get(args[0]);
 	}
 
 
 
-	Value iter_move::func(Context * context, const Value * args) {
+	Value iter_move::func(Context *, const Value * args) {
 		const auto iter = args[0];
 		const auto step = args[1];
 		iterator::move(iter, step);
@@ -44,7 +44,7 @@ namespace ltn::vm::stdlib {
 
 
 
-	Value iter_is_stop::func(Context * context, const Value * args) {
+	Value iter_is_stop::func(Context *, const Value * args) {
 		return value::boolean(is_iterator_stop(args[0]));
 	}
 
@@ -53,7 +53,7 @@ namespace ltn::vm::stdlib {
 	Value iter_combined::func(Context * context, const Value * args) {
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		auto param = args[0];
-		if(!is_array(param) && !is_tuple(param)) {
+		if(!is_contiguous(param)) {
 			throw except::invalid_argument();
 		}
 		Contiguous * arr = value::as<Contiguous>(param);

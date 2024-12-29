@@ -26,6 +26,17 @@ namespace ltn::vm {
 	}
 
 
+
+	std::int64_t req_int(const Value * value) {
+		if (is_int(*value)) {
+			return value->i;
+		}
+		else {
+			throw except::invalid_argument();
+		}
+	}
+
+
 	
 	Array * req_array(const Value * value) {
 		return req_type<Array, is_array>(value);
@@ -63,23 +74,13 @@ namespace ltn::vm {
 
 
 
-
 	FunctionPointer * req_function_pointer(const Value * value) {
-		if (is_fxptr(*value)) {
-			return value::as<FunctionPointer>(*value);
-		}
-		else {
-			throw except::invalid_argument();
-		}
+		return req_type<FunctionPointer, is_fxptr>(value);
 	}
 
 
-	std::int64_t req_int(const Value * value) {
-		if (is_int(*value)) {
-			return value->i;
-		}
-		else {
-			throw except::invalid_argument();
-		}
+
+	RandomEngine * req_rng(const Value * value) {
+		return req_type<RandomEngine, is_rng>(value);
 	}
 }
