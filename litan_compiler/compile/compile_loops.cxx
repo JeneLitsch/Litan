@@ -69,8 +69,6 @@ namespace ltn::c {
 		
 		// End
 		buf << inst::label(label_end);
-		buf << inst::scrap();
-		buf << inst::scrap();
 
 		return buf;
 	}

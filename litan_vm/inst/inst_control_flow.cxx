@@ -54,12 +54,20 @@ namespace ltn::vm::inst {
 	}
 
 
+
 	void for_next(VMCore & core) {
+		const auto elseAddr = core.fetch_uint();
 		const auto iter = core.stack.peek();
-		core.stack.push(iterator::next(iter));
-		core.stack.push(value::boolean(!is_iterator_stop(core.stack.peek()))); 
-		inst::iF(core);
+		const Value elem = iterator::next(iter); 
+		if(is_iterator_stop(elem)) {
+			core.stack.pop(); // Remove iterator
+			core.pc = core.code_begin + elseAddr;
+		}
+		else {
+			core.stack.push(elem);
+		}
 	}
+
 
 
 	void return_null(VMCore & core) {
