@@ -26,7 +26,7 @@ namespace ltn::vm::inst {
 
 
 	void reTurn(VMCore & core) {
-		auto return_value = core.stack.pop();
+		auto return_value = core.stack.peek();
 		core.pc = core.stack.pop_frame();
 		core.stack.push(return_value);
 	}
@@ -60,7 +60,7 @@ namespace ltn::vm::inst {
 		const auto iter = core.stack.peek();
 		const Value elem = iterator::next(iter); 
 		if(is_iterator_stop(elem)) {
-			core.stack.pop(); // Remove iterator
+			core.stack.pop(); // Remove iterator after exiting loop
 			core.pc = core.code_begin + elseAddr;
 		}
 		else {
@@ -80,7 +80,7 @@ namespace ltn::vm::inst {
 	void tail(VMCore & core) {
 		const auto index = core.fetch_uint();
 		const auto * context = core.function_pool[index];
-		const std::int64_t total_arity = context->arity + context->is_variadic;
+		const std::uint64_t total_arity = context->arity + context->is_variadic;
 		core.stack.reuse_frame(total_arity, context);
 		core.pc = core.code_begin + context->address;
 	}
