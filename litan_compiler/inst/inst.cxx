@@ -19,13 +19,6 @@ namespace ltn::c::inst {
             .opcode = OpCode::ERROR,
         };
     }
-	Inst trY(const std::string & label) {
-        return InstJump {
-            .name = "try",
-            .opcode = OpCode::TRY,
-            .label = label,
-        };
-    }
 	Inst thr0w() {
         return InstNone {
             .name = "throw",

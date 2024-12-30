@@ -1,5 +1,6 @@
 #include "link.hxx"
 #include <map>
+#include "litan_compiler/labels.hxx"
 
 namespace ltn::c {
 	namespace {
@@ -51,13 +52,17 @@ namespace ltn::c {
 	LinkInfo link(const sst::Program & program, const std::vector<inst::Inst> & instructions) {
 		AddressTable jump_table = generate_jump_table(instructions);
 
+
 		FunctionPool function_pool;
 		for(const auto & fx : program.functions) {
+			const auto except_label = derive_except(fx->label).to_string();
+			const std::uint64_t except_handler = jump_table.contains(except_label) ? jump_table.at(except_label) : 0;
 			function_pool.push_back(FunctionContext {
 				.name = fx->label.to_string(),
 				.arity = fx->arity,
 				.address = jump_table.at(fx->label.to_string()),
 				.frame_size = fx->body->total_alloc(),
+				.except_handler = except_handler,
 				.is_external = fx->qualifiers.is_extern,
 				.is_variadic = fx->is_variadic,
 			});

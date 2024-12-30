@@ -12,7 +12,6 @@ namespace ltn::vm {
 		this->frames.push_back(Frame{
 			.return_addr = return_addr,
 			.prev_frame_pointer = this->frame_pointer,
-			.except_jump = 0,
 			.context = context,
 		});
 		this->frame_pointer = this->values.size() - arity;
@@ -29,7 +28,6 @@ namespace ltn::vm {
 
 		Frame & frame = this->frames.back();
 		// Keep prev_frame_pointer
-		frame.except_jump = 0;
 		frame.context = context;
 		// this->frame_pointer = this->values.size() - context->arity;
 		
@@ -83,14 +81,13 @@ namespace ltn::vm {
 
 
 
-	const std::uint8_t * VMStack::get_except_handler() const {
-		return this->frames.back().except_jump;
+	std::uint64_t VMStack::get_except_handler() const {
+		return this->frames.back().context->except_handler;
 	}
 
 
 
-	void VMStack::set_except_handler(const std::uint8_t * address) {
-		this->frames.back().except_jump = address;
+	void VMStack::set_except_handler(std::uint64_t address) {
 	}
 }
 

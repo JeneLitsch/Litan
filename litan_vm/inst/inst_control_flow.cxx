@@ -16,10 +16,10 @@ namespace ltn::vm::inst {
 
 	void call(VMCore & core) {
 		// std::cout << core.stack.depth() << "\n";
-		const auto index = core.fetch_uint();
-		const auto * entry = core.function_pool[index];
-		const auto address = entry->address; 
-		core.stack.push_frame(core.pc, entry->arity + entry->is_variadic, entry);
+		const std::uint64_t index = core.fetch_uint();
+		const ltn::FunctionContext * context = core.function_pool[index];
+		const std::uint64_t address = context->address; 
+		core.stack.push_frame(core.pc, context->arity + context->is_variadic, context);
 		core.pc = core.code_begin + address;
 	}
 

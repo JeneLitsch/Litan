@@ -26,10 +26,6 @@ namespace ltn::c {
 		
 		buf << inst::label(fx.label.to_string());
 
-		if(fx.except) {
-			buf << inst::trY(except_label.to_string());
-		} 
-		
 		if(fx.qualifiers.is_coroutine) {
 			buf << inst::co_dump();
 		}

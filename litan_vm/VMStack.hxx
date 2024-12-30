@@ -12,7 +12,6 @@ namespace ltn::vm {
 		struct Frame {
 			const std::uint8_t * return_addr;
 			std::uint64_t prev_frame_pointer;
-			const std::uint8_t * except_jump = nullptr;
 			const ltn::FunctionContext * context;
 		};
 
@@ -92,8 +91,8 @@ namespace ltn::vm {
 		void reuse_frame(std::uint64_t arity, const FunctionContext * context);
 		const Frame & get_current_frame() const;
 
-		const std::uint8_t * get_except_handler() const;
-		void set_except_handler(const std::uint8_t * address);
+		std::uint64_t get_except_handler() const;
+		void set_except_handler(std::uint64_t address);
 		
 		std::uint64_t size() const;
 		std::uint64_t depth() const;

@@ -11,6 +11,7 @@ namespace ltn {
 		std::uint8_t arity;
 		std::uint64_t address;
 		std::uint64_t frame_size;
+		std::uint64_t except_handler;
 		bool is_external;
 		bool is_variadic;
 	};

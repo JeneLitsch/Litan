@@ -56,6 +56,7 @@ namespace ltn {
 			const std::uint8_t arity = read_u8(it);
 			const std::uint64_t address = read_u64(it);
 			const std::uint64_t frame_size = read_u64(it);
+			const std::uint64_t except_handler = read_u64(it);
 			const std::bitset<8> flags = read_u8(it);
 			
 			FunctionContext entry {
@@ -63,6 +64,7 @@ namespace ltn {
 				.arity = arity,
 				.address = address,
 				.frame_size = frame_size,
+				.except_handler = except_handler,
 				.is_external = flags[0],
 				.is_variadic = flags[1],
 			};
@@ -82,6 +84,7 @@ namespace ltn {
 			write_u8(entry.arity, bytecode);
 			write_u64(entry.address, bytecode);
 			write_u64(entry.frame_size, bytecode);
+			write_u64(entry.except_handler, bytecode);
 			
 			std::bitset<8> flags;
 			flags[0] = entry.is_external;	

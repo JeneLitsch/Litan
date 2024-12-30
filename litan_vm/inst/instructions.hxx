@@ -6,7 +6,6 @@ namespace ltn::vm::inst {
 	
 	void exit(VMCore & core);
 	void error(VMCore & core);
-	void tRy(VMCore & core);
 	void thr0w(VMCore & core);
 	void build_in(VMCore & core);
 

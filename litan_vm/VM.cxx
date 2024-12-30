@@ -43,7 +43,6 @@ namespace ltn::vm {
 
 		table[OpCode::EXIT] = inst::exit;
 		table[OpCode::ERROR] = inst::error;
-		table[OpCode::TRY] = inst::tRy;
 		table[OpCode::THROW] = inst::thr0w;
 		table[OpCode::BUILD_IN] = inst::build_in;
 		
