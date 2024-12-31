@@ -221,28 +221,10 @@ namespace ltn::c::inst {
 			.label = label,
 		};
 	}
-	Inst newclock() {
-		return InstNone {
-			.name = "newclock",
-			.opcode = OpCode::NEWCLOCK,
-		};
-	}
 	Inst newstruct() {
 		return InstNone {
 			.name = "newstruct",
 			.opcode = OpCode::NEWSTRUCT,
-		};
-	}
-	Inst newstack() {
-		return InstNone {
-			.name = "newstack",
-			.opcode = OpCode::NEWSTACK,
-		};
-	}
-	Inst newqueue() {
-		return InstNone {
-			.name = "newqueue",
-			.opcode = OpCode::NEWQUEUE,
 		};
 	}
 	Inst newmap() {

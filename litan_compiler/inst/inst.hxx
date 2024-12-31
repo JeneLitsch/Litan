@@ -158,10 +158,7 @@ namespace ltn::c::inst {
 	Inst newarr(std::uint64_t size);
 	Inst newstr(const std::string & label);
 	Inst newfx(const std::string & label);
-	Inst newclock();
 	Inst newstruct();
-	Inst newstack();
-	Inst newqueue();
 	Inst newmap();
 	Inst newtuple(std::uint64_t size);
 	Inst newtype(std::vector<std::uint8_t> bytes);

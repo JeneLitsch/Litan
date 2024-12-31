@@ -36,32 +36,10 @@ namespace ltn::vm::inst {
 
 
 
-	void newclock(VMCore & core) {
-		core.heap.collect_garbage(core.stack);
-		const auto ptr = core.heap.make<Clock>();
-		core.stack.push(value::clock(ptr));
-	}
-
-
-
 	void newstruct(VMCore & core) {
 		core.heap.collect_garbage(core.stack);
 		const auto ptr = core.heap.alloc<Struct>({});
 		core.stack.push(value::strukt(ptr));
-	}
-
-
-
-	void newstack(VMCore & core) {
-		core.heap.collect_garbage(core.stack);
-		core.stack.push(value::stack(core.heap.make<Stack>()));
-	}
-
-
-
-	void newqueue(VMCore & core) {
-		core.heap.collect_garbage(core.stack);
-		core.stack.push(value::queue(core.heap.make<Queue>()));
 	}
 
 

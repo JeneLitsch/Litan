@@ -14,6 +14,8 @@
 #include "litan_vm/stdlib/random.hxx"
 #include "litan_vm/stdlib/type.hxx"
 #include "litan_vm/stdlib/iter.hxx"
+#include "litan_vm/stdlib/stack.hxx"
+#include "litan_vm/stdlib/queue.hxx"
 
 
 
@@ -120,8 +122,8 @@ namespace ltn::vm::inst {
 		table[FxCode::TYPE_CLONE]        = as_build_in<stdlib::clone>;
 		table[FxCode::TYPE_IS]           = as_build_in<stdlib::is>;
 		table[FxCode::TYPE_CAST]         = as_build_in<stdlib::cast>;
-		table[FxCode::TYPE_QUEUE]        = run_inst<newqueue>;
-		table[FxCode::TYPE_STACK]        = run_inst<newstack>;
+		table[FxCode::TYPE_QUEUE]        = as_build_in<stdlib::queue_new>;
+		table[FxCode::TYPE_STACK]        = as_build_in<stdlib::stack_new>;
 		table[FxCode::TYPE_MAP]          = run_inst<newmap>;
 
 		// Iter

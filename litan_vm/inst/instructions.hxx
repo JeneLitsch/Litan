@@ -57,10 +57,7 @@ namespace ltn::vm::inst {
 	void newarr(VMCore & core);
 	void newstr(VMCore & core);
 	void newfx(VMCore & core);
-	void newclock(VMCore & core);
 	void newstruct(VMCore & core);
-	void newstack(VMCore & core);
-	void newqueue(VMCore & core);
 	void newmap(VMCore & core);
 	void newtuple(VMCore & core);
 	void newtype(VMCore & core);
