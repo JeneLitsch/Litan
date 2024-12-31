@@ -1,14 +1,23 @@
-function g() {
-	return 42;
-}
+// function g() {
+// 	return 42;
+// }
 
-function f(x, y, z) {
-	std::print(x);
-	std::print(" | ");
-	std::println(std::call_stack_depth());
-	return f(x + 1, y, z);
-}
+// function f(x, y, z) {
+// 	std::print(x);
+// 	std::print(" | ");
+// 	std::println(std::call_stack_depth());
+// 	return f(x + 1, y, z);
+// }
 
-function main(args) {
-	std::println(f(1, 0, 0));
+// function main(args) {
+// 	std::println(f(1, 0, 0));
+// }
+
+
+function main() {
+	var array = [[1], [1,1], [1,1,1]];
+	// var func = array.size;
+	var func = lambda(e) => e->size();
+	var sizes = array->transform(func);
+	std::println(sizes);
 }

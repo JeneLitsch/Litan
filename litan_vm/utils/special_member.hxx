@@ -2,7 +2,7 @@
 #include "litan_core/reserved_members.hxx"
 #include "litan_vm/VMCore.hxx"
 #include "litan_vm/Exception.hxx"
-#include "litan_vm/utils/run_function.hxx"
+#include "litan_vm/utils/function.hxx"
 
 namespace ltn::vm {
 	Value run_core(VMCore & core);
@@ -26,7 +26,7 @@ namespace ltn::vm {
 		const Value & ref,
 		const Value & self,
 		const auto & ...args) {
-		return run_function(core, ref, self, args...);
+		return invoke_function_recursive(core, ref, self, args...);
 	}
 
 

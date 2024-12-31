@@ -2,7 +2,7 @@
 #include "litan_vm/objects/container/Array.hxx"
 #include "litan_vm/utils/convert.hxx"
 #include "litan_vm/VMCore.hxx"
-#include "litan_vm/utils/run_function.hxx"
+#include "litan_vm/utils/function.hxx"
 
 namespace ltn::vm::stdlib {
 	Value array_size::func(Context *, const Value * args) {
@@ -90,7 +90,7 @@ namespace ltn::vm::stdlib {
 		Array * orig_array = req_array(args + 0);
 		Array * dest_array = core.heap.make<Array>();
 		for (const Value & elem : *orig_array) {
-			const bool result = convert::to_bool(run_function(core, args[1], elem), core);
+			const bool result = convert::to_bool(invoke_function_recursive(core, args[1], elem), core);
 			if (result) {
 				dest_array->push_back(elem);
 			}
@@ -105,7 +105,7 @@ namespace ltn::vm::stdlib {
 		Array * orig_array = req_array(args + 0);
 		Array * dest_array = core.heap.make<Array>();
 		for (const Value & elem : *orig_array) {
-			dest_array->push_back(run_function(core, args[1], elem));
+			dest_array->push_back(invoke_function_recursive(core, args[1], elem));
 		}
 		return value::array(dest_array);
 	}
@@ -121,7 +121,7 @@ namespace ltn::vm::stdlib {
 		Value sum = array->unsafe_front();
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		for (std::int64_t i = 1; i < std::ssize(*array); i++) {
-			sum = run_function(core, args[1], sum, array->unsafe_at(i));
+			sum = invoke_function_recursive(core, args[1], sum, array->unsafe_at(i));
 		}
 		return sum;
 	}
@@ -132,7 +132,7 @@ namespace ltn::vm::stdlib {
 		Array * array = req_array(args + 0);
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		for (const Value & elem : *array) {
-			const Value result = run_function(core, args[1], elem);
+			const Value result = invoke_function_recursive(core, args[1], elem);
 			if (convert::to_bool(result, core)) {
 				return value::boolean(true);
 			}
@@ -146,7 +146,7 @@ namespace ltn::vm::stdlib {
 		Array * array = req_array(args + 0);
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		for (const Value & elem : *array) {
-			const Value result = run_function(core, args[1], elem);
+			const Value result = invoke_function_recursive(core, args[1], elem);
 			if (!convert::to_bool(result, core)) {
 				return value::boolean(false);
 			}

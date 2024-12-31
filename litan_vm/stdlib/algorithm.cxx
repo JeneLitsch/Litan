@@ -1,6 +1,6 @@
 #include "algorithm.hxx"
 #include "litan_vm/utils/compare.hxx"
-#include "litan_vm/utils/run_function.hxx"
+#include "litan_vm/utils/function.hxx"
 #include "litan_vm/Exception.hxx"
 #include <algorithm>
 #include <numeric>
@@ -129,7 +129,7 @@ namespace ltn::vm::stdlib {
 				auto elem = iter.next();
 				if(is_iterator_stop(elem)) break;
 				core.stack.push(value);
-				value = run_function(core, function, value, elem);
+				value = invoke_function_recursive(core, function, value, elem);
 				core.stack.pop();
 			}
 
