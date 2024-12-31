@@ -26,7 +26,8 @@ namespace ltn::vm {
 		const Value & ref,
 		const Value & self,
 		const auto & ...args) {
-		return invoke_function_recursive(core, ref, self, args...);
+		std::array args_array = { self, args... };
+		return invoke_function_immediatly(core, ref, args_array.data(), args_array.size());
 	}
 
 

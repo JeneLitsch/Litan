@@ -10,59 +10,14 @@ namespace ltn::vm {
 		}
 	}
 
+	// Function is executed completely during current instruction
+	Value invoke_script_function_immediatly(VMCore & core, const ScriptFunctionPointer & function, const Value * args, std::uint64_t arity);
+	Value invoke_native_function_immediatly(VMCore & core, const NativeFunctionPointer & function, const Value * args, std::uint64_t arity);
+	Value invoke_function_immediatly(VMCore & core, const Value & ref, const Value * args, std::uint64_t arity);
 
-	std::vector<Value> read_from_stack(VMStack & stack, std::uint64_t arity);
-	void prepare_args(VMCore & core, const Value ref_fx, std::uint64_t arity);
-
-
-
-	Value run_core(VMCore & core);
-
-
-	Value invoke_script_function_recursive(
-		VMCore & core,
-		const ScriptFunctionPointer & function,
-		const auto & ...args) {
-
-		const auto arg_arity = sizeof...(args);
-		if(function.arity() != arg_arity) throw except::invalid_parameters(arg_arity, function.arity());
-		if(function.is_variadic) throw except::invalid_member_access();
-		(core.stack.push(args),...);
-		const auto prev = core.pc;
-		auto * entry = core.function_pool[function.index];
-		core.pc = core.code_begin + entry->address;
-		core.stack.push_frame(core.code_end - 1, arg_arity, entry); 
-		for(const auto c : function.captured) core.stack.push(c);
-		auto result = run_core(core);
-		core.pc = prev;
-		return result;
-	}
-
-
-
-	Value invoke_native_function_recursive(VMCore & core, const Value ref_fx, std::uint64_t arity);
-
-
-
-	Value invoke_function_recursive(
-		VMCore & core,
-		const Value & ref,
-		const auto & ...args) {
-
-		if (is_script_function(ref)) {
-			ScriptFunctionPointer * function = value::as<ScriptFunctionPointer>(ref);
-			return invoke_script_function_recursive(core, *function, args...);
-		}
-		else {
-			throw except::invalid_argument();
-		}
-	}
-	
-
-
-
-
+	// Function is executed after current instruction
 	void invoke_native_function(VMCore & core, const Value ref_fx, std::uint64_t arity);
 	void invoke_script_function(VMCore & core, const Value ref_fx, std::uint64_t arity);
-	void invoke_coroutine(VMCore & core, const Value ref, std::uint64_t arity);
+	void invoke_coroutine(VMCore & core, const Value ref_fx, std::uint64_t arity);
+	void invoke_function(VMCore & core, const Value ref_fx, std::uint64_t arity);
 }

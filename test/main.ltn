@@ -16,7 +16,6 @@ function main(args) {
 	load_test_plugin();
 	sphinx::run_tests();
 	std::println(std::str(clock->milliseconds()) + "ms");
-	std::println(args);
 }
 except(e) {
 	std::println(e);

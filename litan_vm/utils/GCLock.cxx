@@ -1,7 +1,7 @@
 #include "GCLock.hxx"
 
 namespace ltn::vm {
-	GCLock::GCLock(NativeFunctionPointer * fx_ptr, VMCore * core)
+	GCLock::GCLock(const NativeFunctionPointer * fx_ptr, VMCore * core)
 		: fx_ptr { fx_ptr } 
 		, core { core } {
 		if (!fx_ptr->uses_gc()) {

@@ -101,6 +101,8 @@ namespace sphinx::test {
 	function array_transform() {
 		var arr = [1,2,3,4];
 		assert_equal_strict(arr->transform(lambda(x) => x * 10), [10, 20, 30, 40]);
+		assert_equal_strict(arr->transform(test_plugin["is_int"]), [true] * 4);
+		assert_equal_strict(arr->transform(test_plugin["is_bool"]), [false] * 4);
 	}
 
 

@@ -6,17 +6,7 @@ namespace ltn::vm::inst {
 		const auto arity = core.fetch_byte();
 		const auto ref_fx = core.stack.pop();
 
-		if(is_script_function(ref_fx)) {
-			return invoke_script_function(core, ref_fx, arity);
-		}
-		else if (is_native_function(ref_fx)) {
-			return invoke_native_function(core, ref_fx, arity);
-		}
-		else if(is_coroutine(ref_fx)) {
-			return invoke_coroutine(core, ref_fx, arity);
-		}
-
-		else throw except::invalid_argument();
+		invoke_function(core, ref_fx, arity);
 	}
 
 

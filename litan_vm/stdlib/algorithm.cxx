@@ -129,7 +129,8 @@ namespace ltn::vm::stdlib {
 				auto elem = iter.next();
 				if(is_iterator_stop(elem)) break;
 				core.stack.push(value);
-				value = invoke_function_recursive(core, function, value, elem);
+				const std::array<Value, 2> inner_args = { value, elem };
+				value = invoke_function_immediatly(core, function, inner_args.data(), inner_args.size());
 				core.stack.pop();
 			}
 

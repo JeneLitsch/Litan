@@ -90,7 +90,8 @@ namespace ltn::vm::stdlib {
 		Array * orig_array = req_array(args + 0);
 		Array * dest_array = core.heap.make<Array>();
 		for (const Value & elem : *orig_array) {
-			const bool result = convert::to_bool(invoke_function_recursive(core, args[1], elem), core);
+			const std::array<Value, 1> transform_args = { elem };
+			const bool result = convert::to_bool(invoke_function_immediatly(core, args[1], transform_args.data(), transform_args.size()), core);
 			if (result) {
 				dest_array->push_back(elem);
 			}
@@ -105,7 +106,8 @@ namespace ltn::vm::stdlib {
 		Array * orig_array = req_array(args + 0);
 		Array * dest_array = core.heap.make<Array>();
 		for (const Value & elem : *orig_array) {
-			dest_array->push_back(invoke_function_recursive(core, args[1], elem));
+			const std::array<Value, 1> transform_args = { elem };
+			dest_array->push_back(invoke_function_immediatly(core, args[1], transform_args.data(), transform_args.size()));
 		}
 		return value::array(dest_array);
 	}
@@ -121,7 +123,8 @@ namespace ltn::vm::stdlib {
 		Value sum = array->unsafe_front();
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		for (std::int64_t i = 1; i < std::ssize(*array); i++) {
-			sum = invoke_function_recursive(core, args[1], sum, array->unsafe_at(i));
+			const std::array<Value, 2> transform_args = { sum, array->unsafe_at(i) };
+			sum = invoke_function_immediatly(core, args[1], transform_args.data(), transform_args.size());
 		}
 		return sum;
 	}
@@ -132,7 +135,8 @@ namespace ltn::vm::stdlib {
 		Array * array = req_array(args + 0);
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		for (const Value & elem : *array) {
-			const Value result = invoke_function_recursive(core, args[1], elem);
+			const std::array<Value, 1> transform_args = { elem };
+			const Value result = invoke_function_immediatly(core, args[1], transform_args.data(), transform_args.size());
 			if (convert::to_bool(result, core)) {
 				return value::boolean(true);
 			}
@@ -146,7 +150,8 @@ namespace ltn::vm::stdlib {
 		Array * array = req_array(args + 0);
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		for (const Value & elem : *array) {
-			const Value result = invoke_function_recursive(core, args[1], elem);
+			const std::array<Value, 1> transform_args = { elem };
+			const Value result = invoke_function_immediatly(core, args[1], transform_args.data(), transform_args.size());
 			if (!convert::to_bool(result, core)) {
 				return value::boolean(false);
 			}
