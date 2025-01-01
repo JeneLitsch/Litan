@@ -53,7 +53,6 @@ namespace ltn {
 		RETURN,
 		IF,
 		INVOKE,
-		INVOKE_VARIADIC,
 		CAPTURE,
 		FOR_NEXT,
 		YIELD,

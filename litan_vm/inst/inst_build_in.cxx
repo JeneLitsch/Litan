@@ -65,7 +65,7 @@ namespace ltn::vm::inst {
 
 		//functional
 		table[FxCode::FX_ARITY]          = as_build_in<stdlib::function_arity>;
-		table[FxCode::FX_INVOKE]         = run_inst<inst::invoke_variadic>;
+		table[FxCode::FX_INVOKE]         = as_build_in<stdlib::function_call>;
 		table[FxCode::FX_IS_VARIADIC]    = as_build_in<stdlib::function_is_variadic>;
 
 		//io

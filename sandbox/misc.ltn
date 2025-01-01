@@ -15,10 +15,5 @@
 
 
 function main() {
-	var array = [[1], [1,1], [1,1,1]];
-	var func = array.size;
-	// var func = lambda(e) => e->size();
-	var sizes = array->transform(func);
-	std::println(sizes);
-	std::println(array.size(array));
+	std::println((lambda(x, y, args...) => args)(1,2,3,4));
 }

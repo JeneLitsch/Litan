@@ -1,5 +1,6 @@
 #include "functional.hxx"
 #include "litan_vm/inst/instructions.hxx"
+#include "litan_vm/utils/function.hxx"
 
 namespace ltn::vm::stdlib {
 	Value function_arity::func(Context * context, const Value * args) {
@@ -15,10 +16,17 @@ namespace ltn::vm::stdlib {
 	
 	Value function_call::func(Context * context, const Value * args) {
 		VMCore & core = *static_cast<VMCore*>(context->core);
-		core.stack.push(args[0]);
-		core.stack.push(args[1]);
-		inst::invoke_variadic(core);
-		return core.stack.pop();
+		const Value ref_args = args[1];
+		const Value ref_fx = args[0];
+		if(is_array(ref_args) || is_tuple(ref_args)) {
+			const auto & args = *value::as<Contiguous>(ref_args);
+			const auto arity = std::size(args);
+
+			load_onto_stack(core.stack, args);
+			invoke_function(core, ref_fx, arity);
+			return core.stack.pop();
+		}
+		else throw except::invalid_argument();
 	}
 
 

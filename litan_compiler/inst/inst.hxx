@@ -168,7 +168,6 @@ namespace ltn::c::inst {
 	Inst retvrn();
 	Inst ifelse(const std::string & label);
 	Inst invoke(std::uint8_t arity);
-	Inst invoke_variadic();
 	Inst capture();
 	Inst for_next(const std::string & label);
 	Inst yield();

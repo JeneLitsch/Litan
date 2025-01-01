@@ -284,12 +284,6 @@ namespace ltn::c::inst {
 			.value = arity,
 		};
 	}
-	Inst invoke_variadic() {
-		return InstNone {
-			.name = "invoke_variadic",
-			.opcode = OpCode::INVOKE_VARIADIC,
-		};
-	}
 	Inst capture() {
 		return InstNone {
 			.name = "capture",
