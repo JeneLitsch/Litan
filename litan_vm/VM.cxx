@@ -182,7 +182,6 @@ namespace ltn::vm {
 				instructions_table[op_code](core);
 			}
 		}
-
 		catch(const Exception & err) {
 			error(core, err.msg);
 			goto RESUME;
@@ -192,27 +191,6 @@ namespace ltn::vm {
 			return value;
 		}
 	}
-
-
-
-	Value main_loop(VMCore & core) {
-		RESUME:
-		try {
-			while(true) {
-				const std::uint8_t op_code = core.fetch_byte();
-				instructions_table[op_code](core);
-			}
-		}
-		catch(const Exception & err) {
-			error(core, err.msg);
-			goto RESUME;
-		}
-
-		catch(const Value & value) {
-			return value;
-		}
-	}
-
 
 
 	VM::VM() {
@@ -236,16 +214,17 @@ namespace ltn::vm {
 		core->string_pool.read(it);
 		this->core->member_name_table = read_name_table(it);
 
-		this->byte_code = { it, std::end(code) };
-		this->core->code_begin = std::data(this->byte_code);
-		this->core->code_end = this->core->code_begin + std::size(this->byte_code);
+		std::span<const std::uint8_t> bytecode_body { it, std::end(code) }; 
+
+		this->core->code_begin = std::data(bytecode_body);
+		this->core->code_end = this->core->code_begin + std::size(bytecode_body);
 		this->core->pc = this->core->code_begin;
 		this->core->stack.reset();
 		this->core->stack.reset();
 		this->core->heap.reset();
 
 		// init static variables 
-		main_loop(*core);
+		run_core(*core);
 	}
 
 
@@ -266,7 +245,7 @@ namespace ltn::vm {
 		load_variant_args(*core, argc, argv);
 		jump_to_init(*core, function_label, argc);
 		try {
-			auto ret = to_any(main_loop(*this->core), core->heap);
+			auto ret = to_any(run_core(*this->core), core->heap);
 			return ret;
 		}
 		catch(const Unhandled & err) {

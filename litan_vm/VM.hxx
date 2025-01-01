@@ -25,7 +25,6 @@ namespace ltn::vm {
 			const Any * argv);
 
 		std::unique_ptr<VMCore> core;
-		std::span<const std::uint8_t> byte_code;
 	};
 
 	Value run_core(VMCore & core);
