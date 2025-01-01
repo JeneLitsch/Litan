@@ -5,6 +5,7 @@ add_library(litan_vm STATIC
 	"Heap.cxx"
 	"VMStack.cxx"
 	"TypeTable.cxx"
+	"litan_vm.cxx"
 	"gc.cxx"
 )
 

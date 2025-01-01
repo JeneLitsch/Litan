@@ -3,7 +3,7 @@
 #include "litan/shared/help.hxx"
 #include "litan/shared/options.hxx"
 #include "litan_compiler/Ltnc.hxx"
-#include "litan_vm/VM.hxx"
+#include "litan_vm/litan_vm.hxx"
 
 int run(std::span<const std::string_view> args) {
 	std::span<const std::string_view> flags = cut_options(args);
@@ -22,19 +22,20 @@ int run(std::span<const std::string_view> args) {
 	std::string_view script_path = rest[0];
 	std::span<const std::string_view> script_args = rest.subspan(1);
 
+	std::vector<ltn::Any> main_args;
+	for (const auto & arg : script_args) {
+		main_args.push_back(ltn::Any(arg));
+	}
+
+	const auto main_function = "";
+	
 	auto sources = ltn::c::read_sources({script_path});
 	auto ast = ltn::c::parse(sources);
 	auto sst = ltn::c::analyze(ast, options.build.analysis);
 	auto instructions = ltn::c::compile(sst, options.build.compilation);
 	auto bytecode = ltn::c::assemble(instructions);
+	auto vm = ltn::vm::load(bytecode);
+	ltn::vm::execute(vm, main_function, main_args);
 
-	const auto main_function = "";
-	ltn::vm::VM vm;
-	vm.setup(bytecode);
-	std::vector<ltn::Any> main_args;
-	for (const auto & arg : script_args) {
-		main_args.push_back(ltn::Any(arg));
-	}
-	vm.call(main_function, main_args);
 	return EXIT_SUCCESS;
 }

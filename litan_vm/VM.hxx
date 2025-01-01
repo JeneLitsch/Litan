@@ -10,11 +10,7 @@
 namespace ltn::vm {
 	class VM {
 	public:
-		VM() {}
-		VM(const VM &) = delete;
-		VM(VM &&) = delete;
-		VM & operator=(const VM &) = delete;
-		VM & operator=(VM &&) = delete;
+		VM();
 		
 		void setup(std::span<const std::uint8_t> code);
 
@@ -28,7 +24,7 @@ namespace ltn::vm {
 			std::size_t argc,
 			const Any * argv);
 
-		VMCore core;
+		std::unique_ptr<VMCore> core;
 		std::span<const std::uint8_t> byte_code;
 	};
 

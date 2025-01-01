@@ -37,7 +37,6 @@ namespace ltn::c {
 		}
 
 		buf << inst::exit();
-
 		auto instructions = options.optimize ? ltn::c::peephole(buf.get()) : buf.get();
 		auto link_info = ltn::c::link(program, instructions);
 

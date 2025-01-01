@@ -215,6 +215,12 @@ namespace ltn::vm {
 
 
 
+	VM::VM() {
+		core = std::make_unique<VMCore>();
+	}
+
+
+
 	void VM::setup(std::span<const std::uint8_t> code) {
 		if(code.size() < 2) {
 			throw std::runtime_error{"Not an executable program"};
@@ -226,20 +232,20 @@ namespace ltn::vm {
 			throw std::runtime_error{"Incompatible bytecode version"};
 		}
 
-		core.function_pool.read(it);
-		core.string_pool.read(it);
-		this->core.member_name_table = read_name_table(it);
+		core->function_pool.read(it);
+		core->string_pool.read(it);
+		this->core->member_name_table = read_name_table(it);
 
 		this->byte_code = { it, std::end(code) };
-		this->core.code_begin = std::data(this->byte_code);
-		this->core.code_end = this->core.code_begin + std::size(this->byte_code);
-		this->core.pc = this->core.code_begin;
-		this->core.stack.reset();
-		this->core.stack.reset();
-		this->core.heap.reset();
+		this->core->code_begin = std::data(this->byte_code);
+		this->core->code_end = this->core->code_begin + std::size(this->byte_code);
+		this->core->pc = this->core->code_begin;
+		this->core->stack.reset();
+		this->core->stack.reset();
+		this->core->heap.reset();
 
 		// init static variables 
-		main_loop(core);
+		main_loop(*core);
 	}
 
 
@@ -255,12 +261,12 @@ namespace ltn::vm {
 		std::size_t argc,
 		const Any * argv) {
 
-		stx::keeper pc_keeper = this->core.pc;
+		stx::keeper pc_keeper = this->core->pc;
 
-		load_variant_args(core, argc, argv);
-		jump_to_init(core, function_label, argc);
+		load_variant_args(*core, argc, argv);
+		jump_to_init(*core, function_label, argc);
 		try {
-			auto ret = to_any(main_loop(this->core), core.heap);
+			auto ret = to_any(main_loop(*this->core), core->heap);
 			return ret;
 		}
 		catch(const Unhandled & err) {

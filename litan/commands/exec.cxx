@@ -1,6 +1,6 @@
 #include "exec.hxx"
 #include "stdlib.h"
-#include "litan_vm/VM.hxx"
+#include "litan_vm/litan_vm.hxx"
 #include "litan/shared/options.hxx"
 #include "litan/shared/help.hxx"
 #include "litan/shared/file.hxx"
@@ -38,12 +38,11 @@ int exec(std::span<const std::string_view> args) {
 	std::span<const std::string_view> script_args = rest.subspan(1);
 	auto bytecode = read_bytecode(bytecode_path);
 	const auto main_function = "";
-	ltn::vm::VM vm;
-	vm.setup(bytecode);
 	std::vector<ltn::Any> main_args;
 	for (const auto & arg : script_args) {
 		main_args.push_back(ltn::Any(arg));
 	}
-	vm.call(main_function, main_args);
+	auto vm = ltn::vm::load(bytecode);
+	ltn::vm::execute(vm, main_function, main_args);
 	return EXIT_SUCCESS;
 }
