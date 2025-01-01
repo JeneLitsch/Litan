@@ -4,6 +4,8 @@
 #include "litan_vm/utils/type_check.hxx"
 #include "litan_vm/native/native.hxx"
 #include "litan_vm/objects/iter.hxx"
+#include "litan_vm/inst/instructions.hxx"
+#include "litan_vm/utils/container.hxx"
 
 #include "array.hxx"
 #include "tuple.hxx"
@@ -97,6 +99,10 @@ namespace ltn::vm::stdlib {
 		throw except::invalid_argument();
 	}
 
+
+	Value at::func(Context *, const Value * args) {
+		return get_element_from_container(args[0], args[1]);
+	}
 
 	
 	Value has::func(Context * context, const Value * args) {

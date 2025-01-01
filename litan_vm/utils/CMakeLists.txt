@@ -4,6 +4,7 @@ target_sources(litan_vm PRIVATE
 	"cast.cxx"
 	"compare.cxx"
 	"convert.cxx"
+	"container.cxx"
 	"function.cxx"
 	"GCLock.cxx"
 	"json.cxx"

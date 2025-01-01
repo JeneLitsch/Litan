@@ -38,11 +38,10 @@ namespace ltn::vm::stdlib {
 		static Value func(Context *, const Value * args);
 	};
 
-	// TODO
-	// struct at {
-	// 	constexpr static inline std::uint64_t arity = 2;
-	// 	static Value func(Context *, const Value * args);
-	// };
+	struct at {
+		constexpr static inline std::uint64_t arity = 2;
+		static Value func(Context *, const Value * args);
+	};
 
 	struct has {
 		constexpr static inline std::uint64_t arity = 2;

@@ -1,4 +1,3 @@
-#include "instructions.hxx"
 #include "litan_core/fxcodes.hxx"
 
 #include "litan_vm/stdlib/misc.hxx"
@@ -10,6 +9,7 @@
 #include "litan_vm/stdlib/json.hxx"
 #include "litan_vm/stdlib/functional.hxx"
 #include "litan_vm/stdlib/math.hxx"
+#include "litan_vm/stdlib/map.hxx"
 #include "litan_vm/stdlib/plugin.hxx"
 #include "litan_vm/stdlib/random.hxx"
 #include "litan_vm/stdlib/type.hxx"
@@ -20,12 +20,6 @@
 
 
 namespace ltn::vm::inst {
-	template<auto INST>
-	auto run_inst(VMCore & core) {
-		INST(core);
-		return core.stack.pop();
-	}
-
 	static constexpr auto make_build_in_table() {
 		struct TableWrapper{
 			using Fx = Value(*)(VMCore&);
@@ -124,7 +118,7 @@ namespace ltn::vm::inst {
 		table[FxCode::TYPE_CAST]         = as_build_in<stdlib::cast>;
 		table[FxCode::TYPE_QUEUE]        = as_build_in<stdlib::queue_new>;
 		table[FxCode::TYPE_STACK]        = as_build_in<stdlib::stack_new>;
-		table[FxCode::TYPE_MAP]          = run_inst<newmap>;
+		table[FxCode::TYPE_MAP]          = as_build_in<stdlib::map_new>;
 
 		// Iter
 		table[FxCode::ITER_RANGE]        = as_build_in<stdlib::iter_range>;
@@ -154,12 +148,12 @@ namespace ltn::vm::inst {
 		table[FxCode::HAS]               = as_build_in<stdlib::has>;
 		table[FxCode::SIZE]              = as_build_in<stdlib::size>;
 		table[FxCode::EMPTY]             = as_build_in<stdlib::is_empty>;
-		table[FxCode::AT]                = run_inst<inst::at>;
+		table[FxCode::AT]                = as_build_in<stdlib::at>;
 		table[FxCode::FRONT]             = as_build_in<stdlib::front>;
 		table[FxCode::BACK]              = as_build_in<stdlib::back>;
 
 		// Plugin
-		table[FxCode::LOAD_PLUGIN]  = as_build_in<stdlib::load_plugin>;
+		table[FxCode::LOAD_PLUGIN]       = as_build_in<stdlib::load_plugin>;
 		table[FxCode::CALL_STACK_DEPTH]  = as_build_in<stdlib::call_stack_depth>;
 		
 		return table.array;

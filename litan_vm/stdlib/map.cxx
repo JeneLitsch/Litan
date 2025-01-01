@@ -4,6 +4,15 @@
 #include "litan_vm/VMCore.hxx"
 
 namespace ltn::vm::stdlib {
+	Value map_new::func(Context * context, const Value *) {
+		VMCore * core = static_cast<VMCore*>(context->core);
+		core->heap.collect_garbage(core->stack);
+		const auto ref = core->heap.make<Map>(core);
+		return value::map(ref);
+	}
+
+
+
 	Value map_size::func(Context *, const Value * args) {
 		Map * map = req_map(args + 0);
 		return value::integer(std::size(*map));
