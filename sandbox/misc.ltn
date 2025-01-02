@@ -53,4 +53,9 @@ function main() {
 	std::println(std::cast(std::Bool, 0));
 	std::println(std::cast(std::Bool, 0.0));
 	std::println(std::cast(std::Bool, 0.1));
+
+	std::println("");
+	std::println(std::is(std::Int, 1));
+	std::println(std::is(std::Int, 1.0));
+	std::println(std::is(std::Int, null));
 }
