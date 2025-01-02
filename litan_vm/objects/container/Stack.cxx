@@ -7,7 +7,7 @@ namespace ltn::vm {
 		print_all(std::begin(this->data), std::end(this->data), oss, core, '<', '>');
 	}
 
-	Value Stack::get_member(std::uint64_t id) const {
+	Value Stack::get_member(VMCore & core, std::uint64_t id) const {
 		static NativeFunctionTable native_function_table {
 			wrap<stdlib::stack_size>     (ReservedMemberCode::SIZE),
 			wrap<stdlib::stack_is_empty> (ReservedMemberCode::IS_EMTPY),

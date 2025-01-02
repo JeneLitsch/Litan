@@ -8,7 +8,7 @@ namespace ltn::vm {
 
 
 
-	Value FunctionPointer::get_member(std::uint64_t id) const {
+	Value FunctionPointer::get_member(VMCore & core, std::uint64_t id) const {
 		static NativeFunctionTable native_function_table {
 			wrap<stdlib::function_arity>       (ReservedMemberCode::ARITY),
 			wrap<stdlib::function_is_variadic> (ReservedMemberCode::IS_VARIADIC),

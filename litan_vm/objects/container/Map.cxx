@@ -46,7 +46,7 @@ namespace ltn::vm {
 
 
 
-	Value Map::get_member(std::uint64_t id) const {
+	Value Map::get_member(VMCore & core, std::uint64_t id) const {
 		static NativeFunctionTable native_function_table {
 			wrap<stdlib::map_size>     (ReservedMemberCode::SIZE),
 			wrap<stdlib::map_is_empty> (ReservedMemberCode::IS_EMTPY),

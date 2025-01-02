@@ -35,6 +35,7 @@ namespace ltn::vm {
 		CLOCK = 0x50,
 		
 		STRUCT = 0x60,
+		STATIC_OBJECT,
 		
 		QUEUE = 0x70,
 		STACK,
@@ -187,6 +188,13 @@ namespace ltn::vm {
 		constexpr inline Value istream(Object * obj) {
 			return Value{
 				.type = static_cast<std::uint16_t>(ValueType::ISTREAM),
+				.object = obj,
+			};
+		}
+		
+		constexpr inline Value static_object(Object * obj) {
+			return Value{
+				.type = static_cast<std::uint16_t>(ValueType::STATIC_OBJECT),
 				.object = obj,
 			};
 		}

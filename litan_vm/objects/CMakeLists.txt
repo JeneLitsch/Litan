@@ -12,5 +12,6 @@ target_sources(litan_vm PRIVATE
 )
 
 add_subdirectory("iter")
+add_subdirectory("types")
 add_subdirectory("container")
 add_subdirectory("io")

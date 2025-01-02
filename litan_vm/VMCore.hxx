@@ -1,12 +1,14 @@
 #pragma once
 #include <unordered_map>
-#include "litan_vm/Heap.hxx"
-#include "litan_vm/VMStack.hxx"
-#include "litan_vm/TypeTable.hxx"
 #include "litan_core/file/FunctionPool.hxx"
 #include "litan_core/file/StringPool.hxx"
 #include "litan_core/file/MemberNameTable.hxx"
-#include "external/Callable.hxx"
+#include "litan_core/file/StaticPool.hxx"
+#include "litan_vm/Heap.hxx"
+#include "litan_vm/VMStack.hxx"
+#include "litan_vm/TypeTable.hxx"
+#include "litan_vm/external/Callable.hxx"
+#include "litan_vm/objects/types/ArrayType.hxx"
 
 namespace ltn::vm {
 	struct VMCore {
@@ -21,6 +23,11 @@ namespace ltn::vm {
 		FunctionPool function_pool;
 		StringPool string_pool;
 		TypeTable type_table;
+		StaticPool static_pool;
+
+		struct {
+			ArrayType array;
+		} types;
 		
 		inline std::uint8_t fetch_byte() {
 			return *this->pc++;

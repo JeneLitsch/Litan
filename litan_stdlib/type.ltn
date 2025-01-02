@@ -174,4 +174,6 @@ namespace std {
 	
 	
 	function load_plugin(path) const => build_in(load_plugin)
+
+	def Array = null; // Will be set a runtime by the VM
 }

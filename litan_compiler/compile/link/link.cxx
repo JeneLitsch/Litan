@@ -71,10 +71,11 @@ namespace ltn::c {
 		StringPool string_pool = generate_string_pool(instructions);
 
 		return LinkInfo { 
-			.member_name_table = program.member_name_table,
 			.jump_table = jump_table,
 			.function_pool = function_pool,
 			.string_pool = string_pool,
+			.member_name_table = program.member_name_table,
+			.static_pool = program.static_pool,
 		};
 	}
 }

@@ -20,7 +20,7 @@ namespace ltn::vm {
 	}
 
 
-	Value Tuple::get_member(std::uint64_t id) const {
+	Value Tuple::get_member(VMCore & core, std::uint64_t id) const {
 		static NativeFunctionTable native_function_table {
 			wrap<stdlib::tuple_size>     (ReservedMemberCode::SIZE),
 			wrap<stdlib::tuple_is_empty> (ReservedMemberCode::IS_EMTPY),

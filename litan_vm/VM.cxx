@@ -212,9 +212,15 @@ namespace ltn::vm {
 
 		core->function_pool.read(it);
 		core->string_pool.read(it);
-		core->member_name_table.read(it);
 
-		std::span<const std::uint8_t> bytecode_body { it, std::end(code) }; 
+		core->member_name_table.read(it);
+		core->static_pool.read(it);
+
+		// for (auto & [a,b] : core->static_pool.name_to_address) {
+		// 	std::cout << a << "|" << b << "\n";
+		// }
+
+		std::span<const std::uint8_t> bytecode_body { it, std::end(code) };
 
 		this->core->code_begin = std::data(bytecode_body);
 		this->core->code_end = this->core->code_begin + std::size(bytecode_body);
@@ -225,6 +231,11 @@ namespace ltn::vm {
 
 		// init static variables 
 		run_core(*core);
+
+		if(auto name = core->static_pool.at("std::Array")) {
+			static ArrayType array_type;
+			this->core->stack.write_absolute(name.value(), value::static_object(&array_type));
+		}
 	}
 
 

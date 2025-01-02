@@ -9,7 +9,7 @@ namespace ltn::vm {
 
 
 
-	Value Queue::get_member(std::uint64_t id) const {
+	Value Queue::get_member(VMCore & core, std::uint64_t id) const {
 		static NativeFunctionTable native_function_table {
 			wrap<stdlib::queue_size>     (ReservedMemberCode::SIZE),
 			wrap<stdlib::queue_is_empty> (ReservedMemberCode::IS_EMTPY),

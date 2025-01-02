@@ -1,5 +1,6 @@
 #include "type.hxx"
 #include "litan_vm/Exception.hxx"
+#include "litan_vm/objects/container/Array.hxx"
 #include "litan_vm/inst/instructions.hxx"
 
 namespace ltn::vm::stdlib {
@@ -48,5 +49,12 @@ namespace ltn::vm::stdlib {
 		if(!is_type(ref)) throw except::invalid_operands();
 		auto * type = value::as_type_object(ref);
 		return type_cast(*type, value, core);
+	}
+
+
+
+	Value type_array::func(ltn_Context * context, const Value * args) {
+		static ArrayType type;
+		return value::static_object(&type);
 	}
 }

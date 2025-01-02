@@ -84,7 +84,7 @@ namespace ltn {
 		TYPE_CLONE,
 		TYPE_IS,
 		TYPE_CAST,
-		TYPE_QUEUE, TYPE_STACK, TYPE_MAP,
+		QUEUE_NEW, STACK_NEW, MAP_NEW,
 
 		// iterator
 		ITER_RANGE = 0x80,

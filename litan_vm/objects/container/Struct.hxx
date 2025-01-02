@@ -30,7 +30,7 @@ namespace ltn::vm {
 			return nullptr;
 		}
 
-		virtual Value get_member(std::uint64_t id) const override {
+		virtual Value get_member(VMCore & core, std::uint64_t id) const override {
 			if(const Value * member = get(id)) {
 				return *member;
 			}

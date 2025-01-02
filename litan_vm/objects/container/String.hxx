@@ -15,7 +15,7 @@ namespace ltn::vm {
 		String(NonOwning, std::string_view string, Encoding encoding = Encoding::UTF8);
 
 		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
-		virtual Value get_member(std::uint64_t id) const override;
+		virtual Value get_member(VMCore & core, std::uint64_t id) const override;
 
 		bool empty() const;
 		std::uint32_t unsafe_back() const;

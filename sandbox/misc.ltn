@@ -15,5 +15,5 @@
 
 
 function main() {
-	std::println((lambda(x, y, args...) => args)(1,2,3,4));
+	std::println(std::Array.size([1,2,3]));
 }
