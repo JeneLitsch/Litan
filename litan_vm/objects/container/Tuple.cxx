@@ -29,6 +29,6 @@ namespace ltn::vm {
 			wrap<stdlib::tuple_back>     (ReservedMemberCode::BACK),
 			wrap<stdlib::tuple_values>   (ReservedMemberCode::VALUES),
 		};
-		return search_native_function_table(native_function_table, id);
+		return search_native_function_table(native_function_table, id).value_or(value::null);
 	}
 }

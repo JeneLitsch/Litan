@@ -15,6 +15,6 @@ namespace ltn::vm {
 			wrap<stdlib::function_call>        (ReservedMemberCode::CALL),
 		};
 
-		return search_native_function_table(native_function_table, id);
+		return search_native_function_table(native_function_table, id).value_or(value::null);
 	}
 }

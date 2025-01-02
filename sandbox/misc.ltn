@@ -13,7 +13,6 @@
 // 	std::println(f(1, 0, 0));
 // }
 
-
 function main() {
 	var arr = std::Array.new();
 	arr->push(1);
@@ -21,4 +20,30 @@ function main() {
 	arr->push(3);
 	std::println(std::Array.size(arr));
 	std::println(arr);
+	
+	std::println("");
+	std::println(std::Null.new());
+	std::println(std::Null.is(1));
+	std::println(std::Null.is(null));
+	std::println(std::Null.cast(""));
+
+	std::println("");
+	std::println(std::Bool.new());
+	std::println(std::Bool.is(1));
+	std::println(std::Bool.is(null));
+	std::println(std::Bool.cast(1));
+	std::println(std::Bool.cast(true));
+
+	std::println("");
+	std::println(std::Int.new());
+	std::println(std::Int.is(1));
+	std::println(std::Int.is(null));
+	std::println(std::Int.cast(12.12));
+	std::println(std::Int.cast(true));
+
+	std::println("");
+	std::println(std::Float.new());
+	std::println(std::Float.is(1.0));
+	std::println(std::Float.is(null));
+	std::println(std::Float.cast(null));
 }

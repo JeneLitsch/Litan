@@ -15,6 +15,6 @@ namespace ltn::vm {
 			wrap<stdlib::stack_pop>      (ReservedMemberCode::POP),
 			wrap<stdlib::stack_values>   (ReservedMemberCode::VALUES),
 		};
-		return search_native_function_table(native_function_table, id);
+		return search_native_function_table(native_function_table, id).value_or(value::null);
 	}
 }

@@ -47,7 +47,7 @@ namespace ltn::vm {
 	}
 
 
-	Value search_native_function_table(NativeFunctionTable & table, std::uint64_t id);
+	std::optional<Value> search_native_function_table(NativeFunctionTable & table, std::uint64_t id);
 
 
 	

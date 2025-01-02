@@ -24,8 +24,13 @@ namespace ltn::vm::stdlib {
 		static Value func(ltn_Context * context, const Value * args);
 	};
 
-	struct type_array {
+	struct null_new {
 		constexpr static inline std::uint64_t arity = 0;
+		static Value func(ltn_Context * context, const Value * args);
+	};
+
+	struct null_is {
+		constexpr static inline std::uint64_t arity = 1;
 		static Value func(ltn_Context * context, const Value * args);
 	};
 }

@@ -50,11 +50,4 @@ namespace ltn::vm::stdlib {
 		auto * type = value::as_type_object(ref);
 		return type_cast(*type, value, core);
 	}
-
-
-
-	Value type_array::func(ltn_Context * context, const Value * args) {
-		static ArrayType type;
-		return value::static_object(&type);
-	}
 }

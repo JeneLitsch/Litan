@@ -198,6 +198,15 @@ namespace ltn::vm {
 	}
 
 
+	void assign_global_variable(VMCore & core, const std::string & name, Value value) {
+		if(auto addr = core.static_pool.at(name)) {
+			core.stack.write_absolute(addr.value(), value);
+		}
+		else {
+			throw std::runtime_error{"Cannot assign global variable " + name};
+		}
+	}
+
 
 	void VM::setup(std::span<const std::uint8_t> code) {
 		if(code.size() < 2) {
@@ -232,11 +241,13 @@ namespace ltn::vm {
 		// init static variables 
 		run_core(*core);
 
-		if(auto name = core->static_pool.at("std::Array")) {
-			static ArrayType array_type;
-			this->core->stack.write_absolute(name.value(), value::static_object(&array_type));
-		}
+		assign_global_variable(*core, "std::Null", value::static_object(&core->types.null));
+		assign_global_variable(*core, "std::Bool", value::static_object(&core->types.boolean));
+		assign_global_variable(*core, "std::Int", value::static_object(&core->types.integer));
+		assign_global_variable(*core, "std::Float", value::static_object(&core->types.floating));
+		assign_global_variable(*core, "std::Array", value::static_object(&core->types.array));
 	}
+
 
 
 	Any VM::call(
@@ -245,6 +256,8 @@ namespace ltn::vm {
 		
 		return this->call(function_label, args.size(), args.data());
 	}
+
+
 
 	Any VM::call(
 		const std::string & function_label,

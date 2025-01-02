@@ -4,12 +4,12 @@
 #include "litan_vm/objects/objects.hxx"
 
 namespace ltn::vm {
-	Value search_native_function_table(NativeFunctionTable & table, std::uint64_t id) {
+	std::optional<Value> search_native_function_table(NativeFunctionTable & table, std::uint64_t id) {
 		if (table.contains(id)) {
 			return value::native_function(&table.at(id));
 		}
 		else {
-			return value::null;
+			return std::nullopt;
 		}
 	}
 

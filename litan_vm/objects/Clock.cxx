@@ -14,7 +14,7 @@ namespace ltn::vm {
 			wrap<stdlib::to_milliseconds> (ReservedMemberCode::TO_MILLISECONDS),
 		};
 
-		return search_native_function_table(native_function_table, id);
+		return search_native_function_table(native_function_table, id).value_or(value::null);
 	}
 
 

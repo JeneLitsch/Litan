@@ -8,6 +8,10 @@
 #include "litan_vm/VMStack.hxx"
 #include "litan_vm/TypeTable.hxx"
 #include "litan_vm/external/Callable.hxx"
+#include "litan_vm/objects/types/NullType.hxx"
+#include "litan_vm/objects/types/BoolType.hxx"
+#include "litan_vm/objects/types/IntType.hxx"
+#include "litan_vm/objects/types/FloatType.hxx"
 #include "litan_vm/objects/types/ArrayType.hxx"
 
 namespace ltn::vm {
@@ -26,6 +30,10 @@ namespace ltn::vm {
 		StaticPool static_pool;
 
 		struct {
+			NullType null;
+			BoolType boolean;
+			IntType integer;
+			FloatType floating;
 			ArrayType array;
 		} types;
 		

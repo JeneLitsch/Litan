@@ -66,7 +66,7 @@ namespace ltn::vm {
 			wrap<stdlib::string_is_empty> (ReservedMemberCode::IS_EMTPY),
 			wrap<stdlib::string_split>    (ReservedMemberCode::SPLIT),
 		};
-		return search_native_function_table(native_function_table, id);
+		return search_native_function_table(native_function_table, id).value_or(value::null);
 	}
 
 

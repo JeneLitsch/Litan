@@ -29,18 +29,22 @@ namespace ltn::vm {
 	};
 
 
+	static NativeFunctionTable static_functions {
+		wrap<stdlib::array_new>      (ReservedMemberCode::NEW),
+	};
+
+
 
 	Value ArrayType::get_member(VMCore & core, std::uint64_t id) const {
+		if(auto member = search_native_function_table(static_functions, id)) {
+			return member.value();
+		}
 		return get_nonstatic_member(core, id);
 	}
 
 
 
 	Value ArrayType::get_nonstatic_member(VMCore & core, std::uint64_t id) const {
-		if(id == static_cast<std::uint64_t>(ReservedMemberCode::NEW)) {
-			static NativeFunctionPointer fx_ptr = make_native_function_pointer<stdlib::array_new>();
-			return value::native_function(&fx_ptr);
-		}
-		return search_native_function_table(nonstatic_functions, id);
+		return search_native_function_table(nonstatic_functions, id).value_or(value::null);
 	}
 }

@@ -58,6 +58,6 @@ namespace ltn::vm {
 			wrap<stdlib::map_values>   (ReservedMemberCode::VALUES),
 			wrap<stdlib::map_merged>   (ReservedMemberCode::MERGED),
 		};
-		return search_native_function_table(native_function_table, id);
+		return search_native_function_table(native_function_table, id).value_or(value::null);
 	}
 }

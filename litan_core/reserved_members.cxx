@@ -20,6 +20,8 @@ namespace ltn {
 		{"__bool__",    ReservedMemberCode::OPERATOR_BOOL},
 
 		{"new",         ReservedMemberCode::NEW},
+		{"is",          ReservedMemberCode::IS},
+		{"cast",        ReservedMemberCode::CAST},
 
 		{"size",        ReservedMemberCode::SIZE},
 		{"is_empty",    ReservedMemberCode::IS_EMTPY},
