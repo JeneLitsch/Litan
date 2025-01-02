@@ -58,4 +58,6 @@ function main() {
 	std::println(std::is(std::Int, 1));
 	std::println(std::is(std::Int, 1.0));
 	std::println(std::is(std::Int, null));
+
+	std::println(std::cast(std::Array, (1,2,3)));
 }

@@ -31,6 +31,8 @@ namespace ltn::vm {
 
 	static NativeFunctionTable static_functions {
 		wrap<stdlib::array_new>      (ReservedMemberCode::NEW),
+		wrap<stdlib::array_cast>     (ReservedMemberCode::CAST),
+		wrap<stdlib::array_is>       (ReservedMemberCode::IS),
 	};
 
 
