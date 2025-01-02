@@ -2,6 +2,7 @@
 #include "litan_vm/Exception.hxx"
 #include "litan_vm/objects/container/Array.hxx"
 #include "litan_vm/inst/instructions.hxx"
+#include "litan_vm/utils/function.hxx"
 
 namespace ltn::vm::stdlib {
 	Value id::func(ltn_Context * context, const Value * args) {
@@ -46,8 +47,15 @@ namespace ltn::vm::stdlib {
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		const auto value = args[1];
 		const auto ref = args[0];
-		if(!is_type(ref)) throw except::invalid_operands();
-		auto * type = value::as_type_object(ref);
-		return type_cast(*type, value, core);
+		if(is_type(ref)) {
+			auto * type = value::as_type_object(ref);
+			return type_cast(*type, value, core);
+		}
+		if (is_static_object(ref)) {
+			StaticObject * so = value::as<StaticObject>(ref);
+			Value cast_function = so->get_member(core, static_cast<std::uint64_t>(ReservedMemberCode::CAST));
+			return invoke_function_immediatly(core, cast_function, args + 1, 1);
+		}
+		throw except::invalid_operands();
 	}
 }

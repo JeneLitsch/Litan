@@ -45,5 +45,12 @@ function main() {
 	std::println(std::Float.new());
 	std::println(std::Float.is(1.0));
 	std::println(std::Float.is(null));
-	std::println(std::Float.cast(null));
+
+	std::println("");
+	std::println(std::cast(std::Int, 13.37));
+	std::println(std::cast(std::Int, 13.37));
+	std::println(std::cast(std::Bool, 13.37));
+	std::println(std::cast(std::Bool, 0));
+	std::println(std::cast(std::Bool, 0.0));
+	std::println(std::cast(std::Bool, 0.1));
 }

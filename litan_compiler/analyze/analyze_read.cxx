@@ -18,7 +18,7 @@ namespace ltn::c {
 		}
 		
 		if(auto def = scope.resolve_definiton(expr.name, expr.namespaze)) {
-			return sst::expr::var_global(def->id);
+			return sst::expr::def_global(def->id);
 		}
 
 		if(auto glob = scope.resolve_global_variable(expr.name,	expr.namespaze)) {
