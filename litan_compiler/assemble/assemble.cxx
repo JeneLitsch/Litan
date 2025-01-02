@@ -166,7 +166,7 @@ namespace ltn::c {
 
 		program.link_info.function_pool.write(bytecode);
 		program.link_info.string_pool.write(bytecode);
-		bytecode += sequence_table(program.link_info.member_name_table);
+		program.link_info.member_name_table.write(bytecode);
 
 		for(const auto & inst : program.instructions) {
 			std::visit([&] (auto & i) {

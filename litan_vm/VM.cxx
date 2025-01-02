@@ -212,7 +212,7 @@ namespace ltn::vm {
 
 		core->function_pool.read(it);
 		core->string_pool.read(it);
-		this->core->member_name_table = read_name_table(it);
+		core->member_name_table.read(it);
 
 		std::span<const std::uint8_t> bytecode_body { it, std::end(code) }; 
 

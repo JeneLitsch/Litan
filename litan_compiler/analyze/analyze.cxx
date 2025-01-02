@@ -102,7 +102,10 @@ namespace ltn::c {
 			program.functions.push_back(std::move(fx));
 		}
 
-		program.member_name_table = member_table.get_table();
+		for(const auto & [member_name, member_id] : member_table.get_table()) {
+			program.member_name_table.insert(member_id, member_name);
+		}
+
 
 		if (options.optimize) {
 			optimize(program);

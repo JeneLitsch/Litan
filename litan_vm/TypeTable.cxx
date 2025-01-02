@@ -240,7 +240,7 @@ namespace ltn::vm {
 						if(first) first = false;
 						else oss << ",";
 						oss << ".";
-						oss << core.member_name_table.at(member.member_id);
+						oss << core.member_name_table.at(member.member_id).value_or("<error>");
 						oss << ":";
 						oss << member.type->name(core);
 					}

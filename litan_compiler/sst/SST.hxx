@@ -7,13 +7,13 @@
 #include "decl/Global.hxx"
 #include "expr/Expression.hxx"
 #include "stmt/Statement.hxx"
-#include "litan_compiler/AddressTable.hxx"
+#include "litan_core/file/MemberNameTable.hxx"
 
 namespace ltn::c::sst {
 	struct Program {
 		std::vector<func_ptr> functions;
 		std::vector<defn_ptr> definitions;
 		std::vector<glob_ptr> globals;
-		AddressTable member_name_table;
+		MemberNameTable member_name_table;
 	};
 }

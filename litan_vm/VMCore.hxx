@@ -5,6 +5,7 @@
 #include "litan_vm/TypeTable.hxx"
 #include "litan_core/file/FunctionPool.hxx"
 #include "litan_core/file/StringPool.hxx"
+#include "litan_core/file/MemberNameTable.hxx"
 #include "external/Callable.hxx"
 
 namespace ltn::vm {
@@ -16,8 +17,7 @@ namespace ltn::vm {
 		const std::uint8_t * code_begin;
 		const std::uint8_t * code_end;
 
-		std::unordered_map<std::uint64_t, std::string> member_name_table;
-
+		MemberNameTable member_name_table;
 		FunctionPool function_pool;
 		StringPool string_pool;
 		TypeTable type_table;
