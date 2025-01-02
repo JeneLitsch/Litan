@@ -2,7 +2,7 @@
 #include "litan_vm/stdlib/array.hxx"
 
 namespace ltn::vm {
-	static NativeFunctionTable native_function_table {
+	static NativeFunctionTable nonstatic_functions {
 		wrap<stdlib::array_size>     (ReservedMemberCode::SIZE),
 		wrap<stdlib::array_is_empty> (ReservedMemberCode::IS_EMTPY),
 		wrap<stdlib::array_push>     (ReservedMemberCode::PUSH),
@@ -37,6 +37,10 @@ namespace ltn::vm {
 
 
 	Value ArrayType::get_nonstatic_member(VMCore & core, std::uint64_t id) const {
-		return search_native_function_table(native_function_table, id);
+		if(id == static_cast<std::uint64_t>(ReservedMemberCode::NEW)) {
+			static NativeFunctionPointer fx_ptr = make_native_function_pointer<stdlib::array_new>();
+			return value::native_function(&fx_ptr);
+		}
+		return search_native_function_table(nonstatic_functions, id);
 	}
 }

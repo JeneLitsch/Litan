@@ -5,6 +5,13 @@
 #include "litan_vm/utils/function.hxx"
 
 namespace ltn::vm::stdlib {
+	Value array_new::func(Context * context, const Value *) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		return value::array(core.heap.make<Array>());
+	}
+
+
+
 	Value array_size::func(Context *, const Value * args) {
 		return value::integer(req_array(args + 0)->size());
 	}

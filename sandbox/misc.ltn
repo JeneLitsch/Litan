@@ -15,5 +15,10 @@
 
 
 function main() {
-	std::println(std::Array.size([1,2,3]));
+	var arr = std::Array.new();
+	arr->push(1);
+	arr->push(2);
+	arr->push(3);
+	std::println(std::Array.size(arr));
+	std::println(arr);
 }
