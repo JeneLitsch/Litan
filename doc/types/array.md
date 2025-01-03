@@ -1,6 +1,20 @@
-# Array 
+# Array / std::Array
 
 The array type is used store a dynamic array of elements of any type.
+
+## Static Functions
+
+### . new() : Array
+
+Creates a new and empty array.
+
+### . is(value : Any) : Bool
+
+Checks whether value is an array
+
+### . cast(value : Any) : Array
+
+Returns value if value is an array. Otherwise null is returned.
 
 ## Member Functions
 

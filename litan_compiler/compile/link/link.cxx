@@ -13,10 +13,6 @@ namespace ltn::c {
 			return 1 + 8 + inst.bytes.size();
 		}
 
-		std::size_t get_inst_size(const inst::InstBytex0 & inst) {
-			return 1 + inst.bytes.size() + 1;
-		}
-
 		std::size_t size(const inst::Inst & inst) {
 			return std::visit([](auto & i) {
 				return get_inst_size(i);
@@ -71,10 +67,11 @@ namespace ltn::c {
 		StringPool string_pool = generate_string_pool(instructions);
 
 		return LinkInfo { 
-			.member_name_table = program.member_name_table,
 			.jump_table = jump_table,
 			.function_pool = function_pool,
 			.string_pool = string_pool,
+			.member_name_table = program.member_name_table,
+			.static_pool = program.static_pool,
 		};
 	}
 }

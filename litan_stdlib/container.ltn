@@ -1,11 +1,11 @@
 namespace std {
-	function queue() const
+	function make_queue() const
 		=> build_in(queue)
 
 
 
-	function queue(first, other...) {
-		var queue = std::queue();
+	function make_queue(first, other...) {
+		var queue = std::make_queue();
 		std::push(queue, first);
 		for(elem : other) std::push(queue, elem);
 		return queue;
@@ -13,13 +13,13 @@ namespace std {
 
 
 
-	function stack() const
+	function make_stack() const
 		=> build_in(stack)
 
 
 	
-	function stack(first, other...) {
-		var stack = std::stack();
+	function make_stack(first, other...) {
+		var stack = std::make_stack();
 		std::push(stack, first);
 		for(elem : other) std::push(stack, elem);
 		return stack;
@@ -27,12 +27,12 @@ namespace std {
 	
 
 
-	function map() const 
+	function make_map() const 
 		=> [:]
 	
 	
 	
-	function array() const 
+	function make_array() const 
 		=> []
 	
 

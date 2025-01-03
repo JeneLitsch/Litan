@@ -14,15 +14,20 @@ namespace ltn::vm {
 	using NativeFunctionTable = std::map<std::uint64_t, NativeFunctionPointer>;
 
 	template<typename FuncHeader>
+	NativeFunctionPointer make_native_function_pointer() {
+		return NativeFunctionPointer{
+			nullptr,
+			FuncHeader::func,
+			FuncHeader::arity,
+			false
+		};
+	}
+
+	template<typename FuncHeader>
 	std::pair<std::uint64_t, NativeFunctionPointer> wrap(ReservedMemberCode code) {
-		return std::pair<std::uint64_t, NativeFunctionPointer>{
+		return {
 			static_cast<std::uint64_t>(code),
-			NativeFunctionPointer{
-				nullptr,
-				FuncHeader::func,
-				FuncHeader::arity,
-				false
-			}
+			make_native_function_pointer<FuncHeader>(),
 		};
 	}
 
@@ -42,7 +47,7 @@ namespace ltn::vm {
 	}
 
 
-	Value search_native_function_table(NativeFunctionTable & table, std::uint64_t id);
+	std::optional<Value> search_native_function_table(NativeFunctionTable & table, std::uint64_t id);
 
 
 	

@@ -18,6 +18,7 @@ namespace ltn {
 		ANY, ALL, NONE, HAS, 
 		ARITY, IS_VARIADIC, CALL,
 		TO_SECONDS, TO_MILLISECONDS,
+		NEW, IS, CAST,
 	};
 
 	extern const std::map<std::string, std::uint64_t> reserved_member_name_to_code;

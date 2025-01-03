@@ -4,6 +4,16 @@
 
 
 namespace ltn::vm::stdlib {
+	struct iter_is {
+		constexpr static inline std::uint64_t arity = 1;
+		static Value func(Context * context, const Value * args);
+	};
+
+	struct iter_cast {
+		constexpr static inline std::uint64_t arity = 1;
+		static Value func(Context * context, const Value * args);
+	};
+
 	struct iter_range {
 		constexpr static inline std::uint64_t arity = 3;
 		static Value func(Context * context, const Value * args);

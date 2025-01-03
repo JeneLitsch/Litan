@@ -30,7 +30,7 @@ namespace ltn::vm::inst {
 		const auto id = core.fetch_uint();
 		const auto ref = core.stack.pop();
 		if(is_object(ref)) {
-			core.stack.push(value::as<Object>(ref)->get_member(id));
+			core.stack.push(value::as<Object>(ref)->get_member(core, id));
 			return;
 		}
 		throw except::invalid_member_access();

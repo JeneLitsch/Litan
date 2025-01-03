@@ -11,7 +11,7 @@ namespace sphinx::test {
 
 
 	function std_is_type_null() {
-		utils::test_is(<null>, [
+		utils::test_is(std::Null, [
 			(null, true),
 			(true, false),
 			('A' , false),
@@ -34,7 +34,7 @@ namespace sphinx::test {
 
 
 	function std_is_type_bool() {
-		utils::test_is(<bool>, [
+		utils::test_is(std::Bool, [
 			(null, false),
 			(true, true),
 			('A' , false),
@@ -55,7 +55,7 @@ namespace sphinx::test {
 
 
 	function std_is_type_int() {
-		utils::test_is(<int>, [
+		utils::test_is(std::Int, [
 			(null, false),
 			(true, false),
 			('A' , true),
@@ -76,7 +76,7 @@ namespace sphinx::test {
 
 
 	function std_is_type_float() {
-		utils::test_is(<float>, [
+		utils::test_is(std::Float, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -97,7 +97,7 @@ namespace sphinx::test {
 
 
 	function std_is_type_string() {
-		utils::test_is(<string>, [
+		utils::test_is(std::String, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -117,7 +117,7 @@ namespace sphinx::test {
 
 
 	function std_is_type_array() {
-		utils::test_is(<array>, [
+		utils::test_is(std::Array, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -139,40 +139,8 @@ namespace sphinx::test {
 
 
 
-	function std_is_type_array_int() {
-		utils::test_is(<array(int)>, [
-			(null, false),
-			(true, false),
-			('A' , false),
-			(1   , false),
-			(1.0 , false),
-			(""  , false),
-			([]  , true),
-			([1,2,3], true),
-			([1.0,2.0,3.0], false),
-		]);
-	}
-
-
-
-	function std_is_type_array_float() {
-		utils::test_is(<array(float)>, [
-			(null, false),
-			(true, false),
-			('A' , false),
-			(1   , false),
-			(1.0 , false),
-			(""  , false),
-			([]  , true),
-			([1,2,3], false),
-			([1.0,2.0,3.0], true),
-		]);
-	}
-
-
-
 	function std_is_type_tuple() {
-		utils::test_is(<tuple>, [
+		utils::test_is(std::Tuple, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -188,25 +156,8 @@ namespace sphinx::test {
 
 
 
-	function std_is_type_tuple_int_float() {
-		utils::test_is(<tuple(int, float)>, [
-			(null, false),
-			(true, false),
-			('A' , false),
-			(1   , false),
-			(1.0 , false),
-			(""  , false),
-			([]  , false),
-			((1,) , false),
-			((1,2.0) , true),
-			((1,2.0,3) , false),
-		]);
-	}
-
-
-
 	function std_is_type_fx() {
-		utils::test_is(<fx>, [
+		utils::test_is(std::Function, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -220,40 +171,9 @@ namespace sphinx::test {
 	}
 
 
-	function std_is_type_fx_0() {
-		utils::test_is(<fx(0)>, [
-			(null, false),
-			(true, false),
-			('A' , false),
-			(1   , false),
-			(1.0 , false),
-			(""  , false),
-			([]  , false),
-			(lambda => null, true),
-			(lambda(a,b) => null, false),
-		]);
-	}
-
-
-
-	function std_is_type_fx_2() {
-		utils::test_is(<fx(2)>, [
-			(null, false),
-			(true, false),
-			('A' , false),
-			(1   , false),
-			(1.0 , false),
-			(""  , false),
-			([]  , false),
-			(lambda => null, false),
-			(lambda(a,b) => null, true),
-		]);
-	}
-
-
 
 	function std_is_type_istream() {
-		utils::test_is(<istream>, [
+		utils::test_is(std::IStream, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -269,7 +189,7 @@ namespace sphinx::test {
 
 
 	function std_is_type_ostream() {
-		utils::test_is(<ostream>, [
+		utils::test_is(std::OStream, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -286,7 +206,7 @@ namespace sphinx::test {
 
 	
 	function std_is_type_iter() {
-		utils::test_is(<iter>, [
+		utils::test_is(std::Iterator, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -301,7 +221,7 @@ namespace sphinx::test {
 
 
 	function std_is_type_stop() {
-		utils::test_is(<stop>, [
+		utils::test_is(std::IteratorStop, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -316,7 +236,7 @@ namespace sphinx::test {
 
 
 	function std_is_type_rng() {
-		utils::test_is(<rng>, [
+		utils::test_is(std::Random, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -331,7 +251,7 @@ namespace sphinx::test {
 
 	
 	function std_is_type_clock() {
-		utils::test_is(<clock>, [
+		utils::test_is(std::Clock, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -339,14 +259,14 @@ namespace sphinx::test {
 			(1.0 , false),
 			(""  , false),
 			([] ,  false),
-			(std::chrono::clock(), true),
+			(std::chrono::make_clock(), true),
 		]);
 	}
 
 
 
 	function std_is_type_type() {
-		utils::test_is(<type>, [
+		utils::test_is(std::Type, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -354,7 +274,7 @@ namespace sphinx::test {
 			(1.0 , false),
 			(""  , false),
 			([] ,  false),
-			(<int>, true),
+			(std::Int, true),
 		]);
 	}
 
@@ -362,8 +282,8 @@ namespace sphinx::test {
 
 
 	function std_is_type_queue() {
-		var q = std::queue();
-		utils::test_is(<queue>, [
+		var q = std::make_queue();
+		utils::test_is(std::Queue, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -378,32 +298,11 @@ namespace sphinx::test {
 
 
 
-	function std_is_type_queue_float() {
-		var q1 = std::queue();
-		var q2 = std::queue();
-		var q3 = std::queue();
-		std::push(q2, 1);
-		std::push(q3, 1.0);
-		utils::test_is(<queue(float)>, [
-			(null, false),
-			(true, false),
-			('A' , false),
-			(1   , false),
-			(1.0 , false),
-			(""  , false),
-			(q1  , true),
-			(q2  , false),
-			(q3  , true),
-		]);
-	}
-
-
-
 	function std_is_type_map() {
-		var map = std::map();
+		var map = std::make_map();
 		map[1] = "";
 		map[1.0] = "";
-		utils::test_is(<map>, [
+		utils::test_is(std::Map, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -416,29 +315,8 @@ namespace sphinx::test {
 
 
 
-	function std_is_type_map_int_float() {
-		var map1 = std::map();
-		map1[1] = "";
-		map1[1.0] = "";
-		var map2 = std::map();
-		map2[1] = 3.3;
-		map2[2] = 4.4;
-		utils::test_is(<map(int, float)>, [
-			(null, false),
-			(true, false),
-			('A' , false),
-			(1   , false),
-			(1.0 , false),
-			(""  , false),
-			(map1, false),
-			(map2, true),
-		]);
-	}
-
-
-
 	function std_type_is_struct_empty() {
-		utils::test_is(<struct>, [
+		utils::test_is(std::Struct, [
 			(null, false),
 			(true, false),
 			('A' , false),
@@ -452,28 +330,8 @@ namespace sphinx::test {
 
 
 
-	function std_type_is_struct_member() {
-		utils::test_is(<struct(.a)>, [
-			([.], false),
-			([.a = 1], true),
-			([.b = 1], false),
-			([.a = 1, .b = 1], true),
-		]);
-	}
-
-
-
-	function std_type_is_struct_type() {
-		utils::test_is(<struct(.a:int)>, [
-			([.], false),
-			([.a = 1], true),
-			([.a = 1.0], false),
-		]);
-	}
-
-
 	function std_type_is_coroutine() {
-		utils::test_is(<coroutine>, [
+		utils::test_is(std::Coroutine, [
 			(null, false),
 			(true, false),
 			('A' , false),

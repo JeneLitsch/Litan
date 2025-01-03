@@ -31,7 +31,6 @@ namespace ltn::c::sst::expr {
 	struct Reflect;
 	struct Struct;
 	struct Map;
-	struct Type;
 	struct BuildIn;
 
 
@@ -61,7 +60,6 @@ namespace ltn::c::sst::expr {
 		Reflect,
 		Struct,
 		Map,
-		Type,
 		BuildIn
 	>;
 
@@ -122,7 +120,6 @@ namespace ltn::c::sst::expr {
 			virtual void visit(const Reflect & x) const override { this->run(x); };
 			virtual void visit(const Struct & x) const override { this->run(x); };
 			virtual void visit(const Map & x) const override { this->run(x); };
-			virtual void visit(const Type & x) const override { this->run(x); };
 			virtual void visit(const BuildIn & x) const override { this->run(x); };
 		};
 

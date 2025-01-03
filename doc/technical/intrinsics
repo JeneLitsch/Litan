@@ -1,0 +1,6 @@
+# Intrinsics
+
+## __type
+
+Evaluates to null at compile-time but indicates an assignment of a type at load-time or run-time.
+This is used for indicating stdlib types.

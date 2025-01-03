@@ -14,7 +14,7 @@ namespace sphinx::test {
 
 
 	function std_empty_queue() {
-		var q = std::queue();
+		var q = std::make_queue();
 		assert_true(std::empty(q));
 		std::push(q, 1); 
 		assert_false(std::empty(q));
@@ -23,7 +23,7 @@ namespace sphinx::test {
 
 
 	function std_empty_stack() {
-		var s = std::stack();
+		var s = std::make_stack();
 		assert_true(std::empty(s));
 		std::push(s, 1); 
 		assert_false(std::empty(s));

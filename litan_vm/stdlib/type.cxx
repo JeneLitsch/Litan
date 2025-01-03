@@ -1,6 +1,8 @@
 #include "type.hxx"
 #include "litan_vm/Exception.hxx"
+#include "litan_vm/objects/container/Array.hxx"
 #include "litan_vm/inst/instructions.hxx"
+#include "litan_vm/utils/function.hxx"
 
 namespace ltn::vm::stdlib {
 	Value id::func(ltn_Context * context, const Value * args) {
@@ -34,9 +36,12 @@ namespace ltn::vm::stdlib {
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		const auto value = args[1];
 		const auto type_ref = args[0];
-		if(!is_type(type_ref)) throw except::invalid_operands();
-		auto * type = value::as_type_object(type_ref);
-		return value::boolean(type_is(*type, value, core));
+		if (is_type(type_ref)) {
+			StaticObject * so = value::as<StaticObject>(type_ref);
+			Value cast_function = so->get_member(core, static_cast<std::uint64_t>(ReservedMemberCode::IS));
+			return invoke_function_immediatly(core, cast_function, args + 1, 1);
+		}
+		throw except::invalid_operands();
 	}
 
 
@@ -44,9 +49,47 @@ namespace ltn::vm::stdlib {
 	Value cast::func(ltn_Context * context, const Value * args) {
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		const auto value = args[1];
-		const auto ref = args[0];
-		if(!is_type(ref)) throw except::invalid_operands();
-		auto * type = value::as_type_object(ref);
-		return type_cast(*type, value, core);
+		const auto type_ref = args[0];
+		if (is_type(type_ref)) {
+			StaticObject * so = value::as<StaticObject>(type_ref);
+			Value cast_function = so->get_member(core, static_cast<std::uint64_t>(ReservedMemberCode::CAST));
+			try {
+				return invoke_function_immediatly(core, cast_function, args + 1, 1);
+			}
+			catch(...) {
+				return value::null;
+			}
+		}
+		throw except::invalid_operands();
+	}
+
+
+
+	Value stop_new::func(ltn_Context * context, const Value * args) {
+		return value::iterator_stop;
+	}
+
+
+
+	Value stop_is::func(ltn_Context * context, const Value * args) {
+		return value::boolean(is_iterator_stop(args[0]));
+	}
+
+
+
+	Value stop_cast::func(ltn_Context * context, const Value * args) {
+		return is_iterator_stop(args[0]) ? args[0] : value::null;
+	}
+
+
+
+	Value type_is::func(ltn_Context * context, const Value * args) {
+		return value::boolean(is_type(args[0]));
+	}
+
+
+
+	Value type_cast::func(ltn_Context * context, const Value * args) {
+		return is_type(args[0]) ? args[0] : value::null;
 	}
 }

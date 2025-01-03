@@ -59,7 +59,6 @@ namespace ltn::vm::inst {
 	void newstruct(VMCore & core);
 	void newmap(VMCore & core);
 	void newtuple(VMCore & core);
-	void newtype(VMCore & core);
 
 	void scrap(VMCore & core);
 	void duplicate(VMCore & core);

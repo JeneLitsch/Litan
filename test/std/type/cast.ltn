@@ -11,7 +11,7 @@ namespace sphinx::test {
 
 
 	function std_type_cast_null() {
-		utils::test_cast(<null>, [
+		utils::test_cast(std::Null, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -25,7 +25,7 @@ namespace sphinx::test {
 
 
 	function std_type_cast_bool() {
-		utils::test_cast(<bool>, [
+		utils::test_cast(std::Bool, [
 			(null, false),
 			(false, false),
 			(true, true),
@@ -44,7 +44,7 @@ namespace sphinx::test {
 
 
 	function std_type_cast_int() {
-		utils::test_cast(<int>, [
+		utils::test_cast(std::Int, [
 			(null, null),
 			(true, 1),
 			('A' , 65),
@@ -58,7 +58,7 @@ namespace sphinx::test {
 
 
 	function std_type_cast_float() {
-		utils::test_cast(<float>, [
+		utils::test_cast(std::Float, [
 			(null, null),
 			(true, 1.0),
 			('A' , 65.0),
@@ -72,7 +72,7 @@ namespace sphinx::test {
 
 
 	function std_type_cast_string() {
-		utils::test_cast(<string>, [
+		utils::test_cast(std::String, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -86,7 +86,7 @@ namespace sphinx::test {
 
 
 	function std_type_cast_array() {
-		utils::test_cast(<array>, [
+		utils::test_cast(std::Array, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -101,39 +101,8 @@ namespace sphinx::test {
 
 
 
-	function std_type_cast_array_int() {
-		utils::test_cast(<array(int)>, [
-			(null, null),
-			(true, null),
-			('A' , null),
-			(1   , null),
-			(1.0 , null),
-			(""  , null),
-			([]  , []),
-			([1,2,3], [1,2,3]),
-			([1.5,2.5,3.5], [1,2,3]),
-		]);
-	}
-
-
-
-	function std_type_cast_array_float() {
-		utils::test_cast(<array(float)>, [
-			(null, null),
-			(true, null),
-			('A' , null),
-			(1   , null),
-			(1.0 , null),
-			(""  , null),
-			([]  , []),
-			([1,2,3], [1.0,2.0,3.0]),
-			([1.0,2.0,3.0], [1.0,2.0,3.0]),
-		]);
-	}
-
-
 	function std_type_cast_tuple() {
-		utils::test_cast(<tuple>, [
+		utils::test_cast(std::Tuple, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -147,42 +116,11 @@ namespace sphinx::test {
 	}
 
 
-	function std_type_cast_tuple_float() {
-		utils::test_cast(<tuple(float)>, [
-			(null, null),
-			(true, null),
-			('A' , null),
-			(1   , null),
-			(1.0 , null),
-			(""  , null),
-			([1] , (1.0,)),
-			([1,2,3], null),
-			([1.0,2.0,3.0], null),
-		]);
-	}
-
-
-
-	function std_type_cast_tuple_float_int_float() {
-		utils::test_cast(<tuple(float, int, float)>, [
-			(null, null),
-			(true, null),
-			('A' , null),
-			(1   , null),
-			(1.0 , null),
-			(""  , null),
-			([1] , null),
-			([1,2,3], (1.0,2,3.0)),
-			([1.0,2.0,3.0], (1.0,2,3.0)),
-		]);
-	}
-
-
 
 	function std_type_cast_fx() {
 		var fx_0 = lambda => null;
 		var fx_2 = lambda(a,b) => null;
-		utils::test_cast(<fx>, [
+		utils::test_cast(std::Function, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -191,42 +129,6 @@ namespace sphinx::test {
 			(""  , null),
 			([] , null),
 			(fx_0, fx_0),
-			(fx_2, fx_2),
-		]);
-	}
-
-
-
-	function std_type_cast_fx_0() {
-		var fx_0 = lambda => null;
-		var fx_2 = lambda(a,b) => null;
-		utils::test_cast(<fx(0)>, [
-			(null, null),
-			(true, null),
-			('A' , null),
-			(1   , null),
-			(1.0 , null),
-			(""  , null),
-			([] , null),
-			(fx_0, fx_0),
-			(fx_2, null),
-		]);
-	}
-
-
-
-	function std_type_cast_fx_2() {
-		var fx_0 = lambda => null;
-		var fx_2 = lambda(a,b) => null;
-		utils::test_cast(<fx(2)>, [
-			(null, null),
-			(true, null),
-			('A' , null),
-			(1   , null),
-			(1.0 , null),
-			(""  , null),
-			([] ,  null),
-			(fx_0, null),
 			(fx_2, fx_2),
 		]);
 	}
@@ -234,7 +136,7 @@ namespace sphinx::test {
 
 
 	function std_type_cast_istream() {
-		utils::test_cast(<istream>, [
+		utils::test_cast(std::IStream, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -250,7 +152,7 @@ namespace sphinx::test {
 
 
 	function std_type_cast_ostream() {
-		utils::test_cast(<ostream>, [
+		utils::test_cast(std::OStream, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -266,14 +168,12 @@ namespace sphinx::test {
 
 	
 	function std_type_cast_iter() {
-		utils::test_cast(<iter>, [
+		utils::test_cast(std::Iterator, [
 			(null, null),
 			(true, null),
 			('A' , null),
 			(1   , null),
 			(1.0 , null),
-			(""  , null),
-			([] ,  null),
 			(std::range(0,1), std::range(0,1)),
 		]);
 	}
@@ -281,7 +181,7 @@ namespace sphinx::test {
 
 
 	function std_type_cast_stop() {
-		utils::test_cast(<stop>, [
+		utils::test_cast(std::IteratorStop, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -296,7 +196,7 @@ namespace sphinx::test {
 
 
 	function std_type_cast_rng() {
-		utils::test_cast(<rng>, [
+		utils::test_cast(std::Random, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -311,7 +211,7 @@ namespace sphinx::test {
 
 	
 	function std_type_cast_clock() {
-		utils::test_cast(<clock>, [
+		utils::test_cast(std::Clock, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -319,14 +219,14 @@ namespace sphinx::test {
 			(1.0 , null),
 			(""  , null),
 			([] ,  null),
-			(std::chrono::clock(), std::chrono::clock()),
+			(std::chrono::make_clock(), std::chrono::make_clock()),
 		]);
 	}
 
 
 
 	function std_type_cast_type() {
-		utils::test_cast(<type>, [
+		utils::test_cast(std::Type, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -334,7 +234,7 @@ namespace sphinx::test {
 			(1.0 , null),
 			(""  , null),
 			([] ,  null),
-			(<int>, <int>),
+			(std::Int, std::Int),
 		]);
 	}
 
@@ -342,17 +242,12 @@ namespace sphinx::test {
 
 
 	function std_type_cast_queue() {
-		var q1 = std::queue();
-		std::push(q1, 1);
-		std::push(q1, false);
-		std::push(q1, 1.5);
+		var q = std::make_queue();
+		std::push(q, 1);
+		std::push(q, false);
+		std::push(q, 1.5);
 
-		var q2 = std::queue();
-		std::push(q2, 1);
-		std::push(q2, 0);
-		std::push(q2, 1);
-
-		utils::test_cast(<queue(int)>, [
+		utils::test_cast(std::Queue, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -360,14 +255,14 @@ namespace sphinx::test {
 			(1.0 , null),
 			(""  , null),
 			([]  , null),
-			(q1  , q2),
+			(q  , q),
 		]);
 	}
 
 
 
 	function std_type_cast_struct_empty() {
-		utils::test_cast(<struct>, [
+		utils::test_cast(std::Struct, [
 			(null, null),
 			(true, null),
 			('A' , null),
@@ -381,28 +276,8 @@ namespace sphinx::test {
 
 
 
-	function std_type_cast_struct_member() {
-		utils::test_cast(<struct(.a)>, [
-			([.], null),
-			([.a = 1], [.a = 1]),
-			([.b = 1], null),
-			([.a = 1, .b = 1], [.a = 1, .b = 1]),
-		]);
-	}
-
-
-
-	function std_type_cast_struct_type() {
-		utils::test_cast(<struct(.a:int)>, [
-			([.], null),
-			([.a = 1], [.a = 1]),
-			([.a = 1.0], null),
-		]);
-	}
-
-
 	function std_type_cast_coroutine() {
-		utils::test_cast(<coroutine>, [
+		utils::test_cast(std::Coroutine, [
 			(null, null),
 			(true, null),
 			('A' , null),

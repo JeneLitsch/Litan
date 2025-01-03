@@ -14,7 +14,6 @@ namespace ltn::vm {
 		// DO NOT TOUCH/CHANGE THE VALUES !!!
 		NVLL = 0x00,
 		ITERATOR_STOP,
-		TYPE,
 		
 		BOOL = 0x10,
 		INT, 
@@ -35,6 +34,7 @@ namespace ltn::vm {
 		CLOCK = 0x50,
 		
 		STRUCT = 0x60,
+		TYPE,
 		
 		QUEUE = 0x70,
 		STACK,
@@ -42,7 +42,7 @@ namespace ltn::vm {
 		
 		RNG = 0x80, 
 
-		FIRST_TYPE = ARRAY
+		FIRST_OBJECT_TYPE = ARRAY
 	};
 	
 	using Value = ltn_Value;
@@ -128,13 +128,6 @@ namespace ltn::vm {
 			};
 		}
 
-		constexpr inline Value type(const Type * type) {
-			return Value{
-				.type = static_cast<std::uint16_t>(ValueType::TYPE),
-				.obj_type = static_cast<ltn_TypePtr>(type),
-			};
-		}
-
 		constexpr inline Value map(Object * obj) {
 			return Value{
 				.type = static_cast<std::uint16_t>(ValueType::MAP),
@@ -187,6 +180,13 @@ namespace ltn::vm {
 		constexpr inline Value istream(Object * obj) {
 			return Value{
 				.type = static_cast<std::uint16_t>(ValueType::ISTREAM),
+				.object = obj,
+			};
+		}
+		
+		constexpr inline Value type(Object * obj) {
+			return Value{
+				.type = static_cast<std::uint16_t>(ValueType::TYPE),
 				.object = obj,
 			};
 		}

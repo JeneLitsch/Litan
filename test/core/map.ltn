@@ -18,7 +18,7 @@ namespace sphinx::test {
 		assert_equal_strict(map1[123], null);
 		assert_true(std::empty(map1));
 
-		var map2 = std::map();
+		var map2 = std::make_map();
 		assert_equal_strict(map2[123], null);
 		assert_true(std::empty(map2));
 

@@ -3,10 +3,22 @@
 #include "litan_vm/inst/instructions.hxx"
 
 namespace ltn::vm::stdlib {
-	Value clock::func(Context * context, const Value * args)  {
+	Value clock_new::func(Context * context, const Value * args)  {
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		core.heap.collect_garbage(core.stack);
 		return value::clock(core.heap.make<Clock>());
+	}
+
+
+
+	Value clock_is::func(Context * context, const Value * args)  {
+		return value::boolean(is_clock(args[0]));
+	}
+
+
+
+	Value clock_cast::func(Context * context, const Value * args)  {
+		return is_clock(args[0]) ? args[0] : value::null;
 	}
 
 

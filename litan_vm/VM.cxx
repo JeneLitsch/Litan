@@ -95,7 +95,6 @@ namespace ltn::vm {
 		table[OpCode::NEWSTRUCT] = inst::newstruct;
 		table[OpCode::NEWMAP] = inst::newmap;
 		table[OpCode::NEWTUPLE] = inst::newtuple;
-		table[OpCode::NEWTYPE] = inst::newtype;
 
 		table[OpCode::SCRAP] = inst::scrap;
 		table[OpCode::DUPLICATE] = inst::duplicate;
@@ -198,6 +197,15 @@ namespace ltn::vm {
 	}
 
 
+	void assign_global_variable(VMCore & core, const std::string & name, Value value) {
+		if(auto addr = core.static_pool.at(name)) {
+			core.stack.write_absolute(addr.value(), value);
+		}
+		else {
+			throw std::runtime_error{"Cannot assign global variable " + name};
+		}
+	}
+
 
 	void VM::setup(std::span<const std::uint8_t> code) {
 		if(code.size() < 2) {
@@ -212,9 +220,15 @@ namespace ltn::vm {
 
 		core->function_pool.read(it);
 		core->string_pool.read(it);
-		core->member_name_table.read(it);
 
-		std::span<const std::uint8_t> bytecode_body { it, std::end(code) }; 
+		core->member_name_table.read(it);
+		core->static_pool.read(it);
+
+		// for (auto & [a,b] : core->static_pool.name_to_address) {
+		// 	std::cout << a << "|" << b << "\n";
+		// }
+
+		std::span<const std::uint8_t> bytecode_body { it, std::end(code) };
 
 		this->core->code_begin = std::data(bytecode_body);
 		this->core->code_end = this->core->code_begin + std::size(bytecode_body);
@@ -225,7 +239,29 @@ namespace ltn::vm {
 
 		// init static variables 
 		run_core(*core);
+
+		assign_global_variable(*core, "std::Null", value::type(&core->types.null));
+		assign_global_variable(*core, "std::Bool", value::type(&core->types.boolean));
+		assign_global_variable(*core, "std::Int", value::type(&core->types.integer));
+		assign_global_variable(*core, "std::Float", value::type(&core->types.floating));
+		assign_global_variable(*core, "std::Array", value::type(&core->types.array));
+		assign_global_variable(*core, "std::String", value::type(&core->types.string));
+		assign_global_variable(*core, "std::Map", value::type(&core->types.map));
+		assign_global_variable(*core, "std::Tuple", value::type(&core->types.tuple));
+		assign_global_variable(*core, "std::Queue", value::type(&core->types.queue));
+		assign_global_variable(*core, "std::Stack", value::type(&core->types.stack));
+		assign_global_variable(*core, "std::Struct", value::type(&core->types.strukt));
+		assign_global_variable(*core, "std::IStream", value::type(&core->types.istream));
+		assign_global_variable(*core, "std::OStream", value::type(&core->types.ostream));
+		assign_global_variable(*core, "std::Iterator", value::type(&core->types.iterator));
+		assign_global_variable(*core, "std::Clock", value::type(&core->types.clock));
+		assign_global_variable(*core, "std::Function", value::type(&core->types.function));
+		assign_global_variable(*core, "std::Coroutine", value::type(&core->types.coroutine));
+		assign_global_variable(*core, "std::Random", value::type(&core->types.random));
+		assign_global_variable(*core, "std::IteratorStop", value::type(&core->types.iterator_stop));
+		assign_global_variable(*core, "std::Type", value::type(&core->types.type));
 	}
+
 
 
 	Any VM::call(
@@ -234,6 +270,8 @@ namespace ltn::vm {
 		
 		return this->call(function_label, args.size(), args.data());
 	}
+
+
 
 	Any VM::call(
 		const std::string & function_label,

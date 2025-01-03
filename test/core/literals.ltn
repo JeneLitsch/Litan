@@ -13,21 +13,21 @@ namespace sphinx::test {
 
 
 	function literal_typeid() {
-		assert_equal(std::typeid(null),                    std::type::nul);
-		assert_equal(std::typeid(true),                    std::type::bool);
-		assert_equal(std::typeid(false),                   std::type::bool);
-		assert_equal(std::typeid('a'),                     std::type::int);
-		assert_equal(std::typeid(1),                       std::type::int);
-		assert_equal(std::typeid(42.42),                   std::type::float);
-		assert_equal(std::typeid([]),                      std::type::array);
-		assert_equal(std::typeid("test"),                  std::type::string);
-		assert_equal(std::typeid(std::cin()),              std::type::istream);
-		assert_equal(std::typeid(std::cout()),             std::type::ostream);
-		assert_equal(std::typeid(std::chrono::clock()),    std::type::clock);
-		assert_equal(std::typeid(std::queue()),            std::type::queue);
-		assert_equal(std::typeid(std::stack()),            std::type::stack);
-		assert_equal(std::typeid(std::map()),              std::type::map);
-		assert_equal(std::typeid(std::random::mersenne()), std::type::rng);
+		assert_equal(std::typeid(null),                      std::type::nul);
+		assert_equal(std::typeid(true),                      std::type::bool);
+		assert_equal(std::typeid(false),                     std::type::bool);
+		assert_equal(std::typeid('a'),                       std::type::int);
+		assert_equal(std::typeid(1),                         std::type::int);
+		assert_equal(std::typeid(42.42),                     std::type::float);
+		assert_equal(std::typeid([]),                        std::type::array);
+		assert_equal(std::typeid("test"),                    std::type::string);
+		assert_equal(std::typeid(std::cin()),                std::type::istream);
+		assert_equal(std::typeid(std::cout()),               std::type::ostream);
+		assert_equal(std::typeid(std::chrono::make_clock()), std::type::clock);
+		assert_equal(std::typeid(std::make_queue()),         std::type::queue);
+		assert_equal(std::typeid(std::make_stack()),         std::type::stack);
+		assert_equal(std::typeid(std::make_map()),           std::type::map);
+		assert_equal(std::typeid(std::random::mersenne()),   std::type::rng);
 	}
 
 

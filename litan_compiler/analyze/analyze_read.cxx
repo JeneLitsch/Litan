@@ -6,11 +6,16 @@
 
 #include "litan_compiler/sst/expr/Member.hxx"
 #include "litan_compiler/sst/expr/Var.hxx"
+#include "litan_compiler/sst/expr/Literal.hxx"
 #include "litan_compiler/sst/expr/GlobalVar.hxx"
 
 
 namespace ltn::c {
 	sst::expr_ptr analyze_expr(const ast::expr::Var & expr, Scope & scope) {
+		if(expr.name == "__type") {
+			return sst::expr::null();
+		}
+
 		if(expr.namespaze.empty()) {
 			if(auto local = scope.resolve_local_variable(expr.name, location(expr))) {
 				return sst::expr::var_local(local->address);
@@ -18,7 +23,7 @@ namespace ltn::c {
 		}
 		
 		if(auto def = scope.resolve_definiton(expr.name, expr.namespaze)) {
-			return sst::expr::var_global(def->id);
+			return sst::expr::def_global(def->id);
 		}
 
 		if(auto glob = scope.resolve_global_variable(expr.name,	expr.namespaze)) {

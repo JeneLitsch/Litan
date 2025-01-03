@@ -25,6 +25,6 @@ namespace sphinx::test {
 	function less_equal_type() {
 		test_name("operator: <= type");
 
-		assert_type(<bool>, 1 <= "0");
+		assert_type(std::Bool, 1 <= "0");
 	}
 }

@@ -13,6 +13,18 @@ namespace ltn::vm::stdlib {
 
 
 
+	Value map_is::func(Context *, const Value * args) {
+		return value::boolean(is_map(args[0]));
+	}
+
+
+
+	Value map_cast::func(Context *, const Value * args) {
+		return is_map(args[0]) ? args[0] : value::null;
+	}
+
+
+
 	Value map_size::func(Context *, const Value * args) {
 		Map * map = req_map(args + 0);
 		return value::integer(std::size(*map));

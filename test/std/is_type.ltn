@@ -1,16 +1,16 @@
 namespace sphinx::test {
 	function std_is_type() {
-		assert_equal(std::is_type(null,        std::type::nul),     true);
-		assert_equal(std::is_type(true,        std::type::bool),    true);
-		assert_equal(std::is_type(null,        std::type::bool),    false);
-		assert_equal(std::is_type(1,           std::type::int),     true);
-		assert_equal(std::is_type(1,           std::type::float),   false);
-		assert_equal(std::is_type("A",         std::type::string),  true);
-		assert_equal(std::is_type("A",         std::type::array),   false);
-		assert_equal(std::is_type([],          std::type::array),   true);
-		assert_equal(std::is_type(std::map(),  std::type::map),     true);
-		assert_equal(std::is_type(std::map(),  std::type::queue),   false);
-		assert_equal(std::is_type(std::cout(), std::type::ostream), true);
+		assert_equal(std::is_type(null,            std::type::nul),     true);
+		assert_equal(std::is_type(true,            std::type::bool),    true);
+		assert_equal(std::is_type(null,            std::type::bool),    false);
+		assert_equal(std::is_type(1,               std::type::int),     true);
+		assert_equal(std::is_type(1,               std::type::float),   false);
+		assert_equal(std::is_type("A",             std::type::string),  true);
+		assert_equal(std::is_type("A",             std::type::array),   false);
+		assert_equal(std::is_type([],              std::type::array),   true);
+		assert_equal(std::is_type(std::make_map(), std::type::map),     true);
+		assert_equal(std::is_type(std::make_map(), std::type::queue),   false);
+		assert_equal(std::is_type(std::cout(),     std::type::ostream), true);
 	}
 
 

@@ -61,12 +61,6 @@ namespace ltn::vm {
 			value::as<Object>(value)->stringify(core, oss, nested);
 			return;
 		}
-
-		if(is_type(value)) {
-			oss << value::as_type_object(value)->name(core);
-			return;
-		}
-
 		stringify_primitive(value, oss);
 	}
 }

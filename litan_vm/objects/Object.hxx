@@ -21,7 +21,7 @@ namespace ltn::vm {
 		bool marked = false;
 		std::unique_ptr<Object> next_object;
 
-		virtual Value get_member(std::uint64_t) const {
+		virtual Value get_member(VMCore &, std::uint64_t) const {
 			return value::null;
 		}
 

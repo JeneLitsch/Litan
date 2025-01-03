@@ -14,6 +14,18 @@ namespace ltn::vm::stdlib {
 
 
 
+	Value rng_is::func(ltn_Context *, const Value * args) {
+		return value::boolean(is_rng(args[0]));
+	}
+
+
+
+	Value rng_cast::func(ltn_Context *, const Value * args) {
+		return is_rng(args[0]) ? args[0] : value::null;
+	}
+
+
+
 	Value mersenne_0::func(ltn_Context * context, const Value *) {
 		VMCore * core = static_cast<VMCore *>(context->core);
 		const auto seed = std::random_device{}();

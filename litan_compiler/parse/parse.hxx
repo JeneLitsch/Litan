@@ -68,7 +68,5 @@ namespace ltn::c {
 
 	std::pair<std::string, Namespace> parse_symbol(Tokens & tokens);
 
-	ast::expr_ptr parse_type(Tokens & tokens);
-
 	std::string parse_member(Tokens & tokens);
 }

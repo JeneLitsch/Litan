@@ -40,7 +40,6 @@ namespace ltn::c::ast::expr {
 	struct Struct;
 	struct Ternary;
 	struct Tuple;
-	struct Type;
 	struct Var;
 
 
@@ -72,7 +71,6 @@ namespace ltn::c::ast::expr {
 		Struct,
 		Ternary,
 		Tuple,
-		Type,
 		Var
 	>;
 
@@ -121,7 +119,6 @@ namespace ltn::c::ast::expr {
 			virtual void visit(const Struct & x)             const override { this->run(x); }
 			virtual void visit(const Ternary & x)            const override { this->run(x); }
 			virtual void visit(const Tuple & x)              const override { this->run(x); }
-			virtual void visit(const Type & x)               const override { this->run(x); }
 			virtual void visit(const Var & x)                const override { this->run(x); }
 		};
 

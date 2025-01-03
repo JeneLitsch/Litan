@@ -8,6 +8,7 @@
 #include "expr/Expression.hxx"
 #include "stmt/Statement.hxx"
 #include "litan_core/file/MemberNameTable.hxx"
+#include "litan_core/file/StaticPool.hxx"
 
 namespace ltn::c::sst {
 	struct Program {
@@ -15,5 +16,6 @@ namespace ltn::c::sst {
 		std::vector<defn_ptr> definitions;
 		std::vector<glob_ptr> globals;
 		MemberNameTable member_name_table;
+		StaticPool static_pool;
 	};
 }

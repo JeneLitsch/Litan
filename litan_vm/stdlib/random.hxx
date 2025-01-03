@@ -3,6 +3,16 @@
 #include "litan_vm/native/native.hxx"
 
 namespace ltn::vm::stdlib {
+	struct rng_is {
+		constexpr static inline std::uint64_t arity = 1;
+		static Value func(ltn_Context * context, const Value * args);
+	};
+
+	struct rng_cast {
+		constexpr static inline std::uint64_t arity = 1;
+		static Value func(ltn_Context * context, const Value * args);
+	};
+
 	struct mersenne_0 {
 		constexpr static inline std::uint64_t arity = 0;
 		static Value func(ltn_Context * context, const Value * args);

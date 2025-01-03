@@ -71,7 +71,6 @@ namespace ltn {
 		NEWQUEUE,
 		NEWMAP,
 		NEWTUPLE,
-		NEWTYPE,
 
 		// Stack read/write
 		SCRAP = 0x60,

@@ -106,6 +106,13 @@ namespace ltn::c {
 			program.member_name_table.insert(member_id, member_name);
 		}
 
+		for(const auto * def : definition_table.get_symbols()) {
+			program.static_pool.insert(def->id, def->namespaze.to_string() + def->name);
+		}
+
+		for(const auto * glob : global_table.get_symbols()) {
+			program.static_pool.insert(glob->id, glob->namespaze.to_string() + glob->name);
+		}
 
 		if (options.optimize) {
 			optimize(program);

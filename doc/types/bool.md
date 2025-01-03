@@ -1,4 +1,4 @@
-# Bool
+# Bool / std::Bool
 
 The bool type can be set to two states `true` and `false`. 
 A value of type bool can be created by the `true` or `false` keyword.
@@ -11,3 +11,18 @@ function main() {
 	var b = false;
 }
 ```
+
+
+## Static Functions
+
+### . new() : Bool
+
+Returns false.
+
+### . is(value : Any) : Bool
+
+Checks whether value is a boolean.
+
+### . cast(value : Any) : Bool
+
+Casts value to boolean (evaluates truthyness).

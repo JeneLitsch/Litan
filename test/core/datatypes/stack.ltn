@@ -1,6 +1,6 @@
 namespace sphinx::test {
 	function stack_size() {
-		var stack = std::stack();
+		var stack = std::make_stack();
 		assert_equal_strict(stack->size(), 0);
 		std::push(stack, 111);
 		assert_equal_strict(stack->size(), 1);
@@ -11,7 +11,7 @@ namespace sphinx::test {
 
 
 	function stack_is_empty() {
-		var stack = std::stack();
+		var stack = std::make_stack();
 		assert_true(stack->is_empty());
 		std::push(stack, 111);
 		assert_false(stack->is_empty());
@@ -22,7 +22,7 @@ namespace sphinx::test {
 
 
 	function stack_push_and_pop() {
-		var stack = std::stack();
+		var stack = std::make_stack();
 		assert_true(stack->is_empty());
 		stack->push(111);
 		assert_false(stack->is_empty());
@@ -41,14 +41,14 @@ namespace sphinx::test {
 
 
 	function stack_pop_empty() {
-		var stack = std::stack();
+		var stack = std::make_stack();
 		assert_except(lambda[stack] => stack->pop());
 	}
 
 
 
 	function stack_values() {
-		var stack = std::stack();
+		var stack = std::make_stack();
 		stack->push(1);
 		stack->push(2);
 		stack->push(3);

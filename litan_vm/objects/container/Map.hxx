@@ -27,7 +27,7 @@ namespace ltn::vm {
 			: map{Comparator{core}}
 			, core{core} {}
 
-		virtual Value get_member(std::uint64_t id) const override;
+		virtual Value get_member(VMCore & core, std::uint64_t id) const override;
 		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
 
 		std::uint64_t size() const {

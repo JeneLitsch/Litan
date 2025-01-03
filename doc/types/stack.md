@@ -1,6 +1,20 @@
-# Stack
+# Stack / std::Stack
 
 A LIFO data structure
+
+
+### . new() : Stack
+
+Creates a new and empty stack.
+
+### . is(value : Any) : Bool
+
+Checks whether value is a stack.
+
+### . cast(value : Any) : Stack
+
+Returns value if value is a stack. Otherwise null is returned.
+
 
 ## Member Functions
 

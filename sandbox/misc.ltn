@@ -13,7 +13,136 @@
 // 	std::println(f(1, 0, 0));
 // }
 
-
 function main() {
-	std::println((lambda(x, y, args...) => args)(1,2,3,4));
+	var arr = std::Array.new();
+	arr->push(1);
+	arr->push(2);
+	arr->push(3);
+	std::println(std::Array.size(arr));
+	std::println(arr);
+	std::println(std::cast(std::Array, (1,2,3)));
+	
+	std::println("");
+	std::println(std::Null.new());
+	std::println(std::Null.is(1));
+	std::println(std::Null.is(null));
+	std::println(std::Null.cast(""));
+
+	std::println("");
+	std::println(std::Bool.new());
+	std::println(std::Bool.is(1));
+	std::println(std::Bool.is(null));
+	std::println(std::Bool.cast(1));
+	std::println(std::Bool.cast(true));
+
+	std::println("");
+	std::println(std::Int.new());
+	std::println(std::Int.is(1));
+	std::println(std::Int.is(null));
+	std::println(std::Int.cast(12.12));
+	std::println(std::Int.cast(true));
+
+	std::println("");
+	std::println(std::Float.new());
+	std::println(std::Float.is(1.0));
+	std::println(std::Float.is(null));
+
+	std::println("");
+	std::println(std::cast(std::Int, 13.37));
+	std::println(std::cast(std::Int, 13.37));
+	std::println(std::cast(std::Bool, 13.37));
+	std::println(std::cast(std::Bool, 0));
+	std::println(std::cast(std::Bool, 0.0));
+	std::println(std::cast(std::Bool, 0.1));
+
+	std::println("");
+	std::println(std::is(std::Int, 1));
+	std::println(std::is(std::Int, 1.0));
+	std::println(std::is(std::Int, null));
+
+
+	std::println("");
+	std::println(std::String.new());
+	std::println(std::String.is(""));
+	std::println(std::String.cast(3));
+
+	std::println("");
+	std::println(std::Map.new());
+	std::println(std::Map.is(""));
+	std::println(std::Map.is([1:1]));
+	std::println(std::Map.cast(3));
+
+	std::println("");
+	std::println(std::Tuple.new());
+	std::println(std::Tuple.is(""));
+	std::println(std::Tuple.cast(3));
+
+	std::println("");
+	std::println(std::Stack.new());
+	std::println(std::Stack.is(""));
+	std::println(std::Stack.is(std::make_stack()));
+	std::println(std::Stack.cast(3));
+
+	std::println("");
+	std::println(std::Queue.new());
+	std::println(std::Queue.is(""));
+	std::println(std::Queue.is(std::make_queue()));
+	std::println(std::Queue.cast(3));
+
+	std::println("");
+	std::println(std::Struct.new());
+	std::println(std::Struct.is(""));
+	std::println(std::Struct.is(std::make_struct()));
+	std::println(std::Struct.cast(3));
+	std::println(std::Struct.cast([.]));
+
+	std::println("");
+	std::println(std::IStream.is(""));
+	std::println(std::IStream.is(std::cin()));
+	std::println(std::IStream.is(std::cout()));
+	std::println(std::IStream.cast(3));
+	std::println(std::IStream.cast(std::cin()));
+	std::println(std::IStream.cast(std::cout()));
+
+	std::println("");
+	std::println(std::OStream.is(""));
+	std::println(std::OStream.is(std::cin()));
+	std::println(std::OStream.is(std::cout()));
+	std::println(std::OStream.cast(3));
+	std::println(std::OStream.cast(std::cin()));
+	std::println(std::OStream.cast(std::cout()));
+
+	std::println("");
+	std::println(std::Iterator.is(""));
+	std::println(std::Iterator.is(std::make_queue()));
+	std::println(std::Iterator.is(std::range(1,3)));
+	std::println(std::Iterator.cast([1,2,3]));
+
+	std::println("");
+	std::println(std::Clock.is(""));
+	std::println(std::Clock.is(std::chrono::make_clock()));
+	std::println(std::Clock.is(std::range(1,3)));
+	std::println(std::Clock.cast([1,2,3]));
+	std::println(std::Clock.cast(std::chrono::make_clock()));
+
+	std::println("");
+	std::println(std::Function.is(""));
+	std::println(std::Function.is(std::chrono::make_clock()));
+	std::println(std::Function.is(lambda => null));
+	std::println(std::Function.cast([1,2,3]));
+	std::println(std::Function.cast(lambda => null));
+
+	std::println("");
+	std::println(std::Coroutine.is(""));
+	std::println(std::Coroutine.is(lambda coroutine => null));
+	std::println(std::Coroutine.is(std::range(1,3)));
+	std::println(std::Coroutine.cast([1,2,3]));
+	std::println(std::Coroutine.cast(lambda coroutine => null));
+
+	std::println("");
+	std::println(std::Random.is(""));
+	std::println(std::Random.is(std::random::mersenne()));
+	std::println(std::Random.is(std::range(1,3)));
+	std::println(std::Random.cast([1,2,3]));
+	std::println(std::Random.cast(std::random::mersenne()));
 }

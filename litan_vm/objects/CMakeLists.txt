@@ -5,12 +5,12 @@ target_sources(litan_vm PRIVATE
 	"NativeFunctionPointer.cxx"
 	"FunctionPointer.cxx"
 	"RandomEngine.cxx"
-	"Type.cxx"
 	"Object.cxx"
 	"Coroutine.cxx"
 	"Plugin.cxx"
 )
 
 add_subdirectory("iter")
+add_subdirectory("types")
 add_subdirectory("container")
 add_subdirectory("io")

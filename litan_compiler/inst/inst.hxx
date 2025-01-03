@@ -86,13 +86,6 @@ namespace ltn::c::inst {
 		bool operator==(const InstUint64Bytex &) const = default;
 	};
 
-	struct InstBytex0 {
-		std::string_view name;
-		OpCode opcode;
-		std::vector<std::uint8_t> bytes;
-		bool operator==(const InstBytex0 &) const = default;
-	};
-
 	struct InstStringConstant {
 		constexpr inline static std::size_t size = 9;
 		std::string_view name;
@@ -112,7 +105,6 @@ namespace ltn::c::inst {
 	    InstFloat,
 	    InstByte,
 	    InstUint64Bytex,
-	    InstBytex0,
 		InstStringConstant
     >;
     
@@ -161,7 +153,6 @@ namespace ltn::c::inst {
 	Inst newstruct();
 	Inst newmap();
 	Inst newtuple(std::uint64_t size);
-	Inst newtype(std::vector<std::uint8_t> bytes);
 
 	Inst jump(const std::string & label);
 	Inst call(const std::string & label);

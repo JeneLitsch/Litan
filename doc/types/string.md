@@ -1,4 +1,16 @@
-# String
+# String / std::String
+
+### . new() : String
+
+Creates a new and empty string.
+
+### . is(value : Any) : Bool
+
+Checks whether value is a string.
+
+### . cast(value : Any) : String
+
+Returns value if value is a string. Otherwise null is returned.
 
 ## Member Functions
 

@@ -1,4 +1,4 @@
-# Function pointers
+# Function / std::Function
 
 Function pointers are callable that can be saved and passed around to invoke later. They can be used to implement higher order functions.
 
@@ -12,6 +12,17 @@ function main() {
 	fx_lambda(str);
 }
 ```
+
+## Static Functions
+
+### . is(value : Any) : Bool
+
+Checks whether value is a function.
+
+### . cast(value : Any) : Function
+
+Returns value if value is a function. Otherwise null is returned.
+
 
 ## Member Functions
 

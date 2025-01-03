@@ -12,6 +12,19 @@ namespace ltn::vm::stdlib {
 
 
 
+	Value queue_is::func(Context * context, const Value * args) {
+		return value::boolean(is_queue(args[0]));
+	}
+	
+	
+	
+	Value queue_cast::func(Context * context, const Value * args) {
+		return is_queue(args[0]) ? args[0] : value::null;
+	}
+
+
+
+
 	Value queue_size::func(Context *, const Value * args) {
 		Queue * queue = req_queue(args + 0);
 		return value::integer(queue->size());

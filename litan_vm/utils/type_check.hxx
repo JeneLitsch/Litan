@@ -89,11 +89,6 @@ namespace ltn::vm {
 		return val.type == static_cast<std::uint16_t>(ValueType::ITERATOR_STOP);
 	}
 
-	constexpr inline bool is_type(const Value & val) {
-		return val.type == static_cast<std::uint16_t>(ValueType::TYPE);
-	}
-
-
 	constexpr inline bool is_contiguous(const Value & value) {
 		return is_array(value) || is_tuple(value);
 	}
@@ -103,6 +98,10 @@ namespace ltn::vm {
 	}
 
 	constexpr inline bool is_object(const Value & val) {
-		return static_cast<std::uint64_t>(val.type) >= static_cast<std::uint64_t>(ValueType::FIRST_TYPE);
+		return static_cast<std::uint64_t>(val.type) >= static_cast<std::uint64_t>(ValueType::FIRST_OBJECT_TYPE);
+	}
+
+	constexpr inline bool is_type(const Value & val) {
+		return val.type == static_cast<std::uint16_t>(ValueType::TYPE);
 	}
 }

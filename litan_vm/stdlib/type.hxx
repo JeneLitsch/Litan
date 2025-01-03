@@ -23,4 +23,45 @@ namespace ltn::vm::stdlib {
 		constexpr static inline std::uint64_t arity = 2;
 		static Value func(ltn_Context * context, const Value * args);
 	};
+
+
+
+	struct null_new {
+		constexpr static inline std::uint64_t arity = 0;
+		static Value func(ltn_Context * context, const Value * args);
+	};
+
+	struct null_is {
+		constexpr static inline std::uint64_t arity = 1;
+		static Value func(ltn_Context * context, const Value * args);
+	};
+
+
+
+	struct stop_new {
+		constexpr static inline std::uint64_t arity = 0;
+		static Value func(ltn_Context * context, const Value * args);
+	};
+
+	struct stop_is {
+		constexpr static inline std::uint64_t arity = 1;
+		static Value func(ltn_Context * context, const Value * args);
+	};
+
+	struct stop_cast {
+		constexpr static inline std::uint64_t arity = 1;
+		static Value func(ltn_Context * context, const Value * args);
+	};
+
+
+
+	struct type_is {
+		constexpr static inline std::uint64_t arity = 1;
+		static Value func(ltn_Context * context, const Value * args);
+	};
+
+	struct type_cast {
+		constexpr static inline std::uint64_t arity = 1;
+		static Value func(ltn_Context * context, const Value * args);
+	};
 }

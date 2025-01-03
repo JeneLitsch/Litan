@@ -28,7 +28,7 @@ namespace sphinx::test {
 
 
 	function std_peek_stack() {
-		var stc = std::stack();
+		var stc = std::make_stack();
 		std::push(stc, 1);
 		std::push(stc, 2);
 		std::push(stc, 3);
@@ -40,13 +40,13 @@ namespace sphinx::test {
 
 
 	function std_peek_stack_except() {
-		assert_except(lambda => std::peek(std::stack()));
+		assert_except(lambda => std::peek(std::make_stack()));
 	}
 
 
 
 	function std_peek_queue() {
-		var que = std::queue();
+		var que = std::make_queue();
 		std::push(que, 1);
 		std::push(que, 2);
 		std::push(que, 3);
@@ -58,6 +58,6 @@ namespace sphinx::test {
 
 
 	function std_peek_queue_except() {
-		assert_except(lambda => std::peek(std::queue()));
+		assert_except(lambda => std::peek(std::make_queue()));
 	}
 }

@@ -1,6 +1,6 @@
 namespace std {
 	namespace chrono {
-		function clock()                
+		function make_clock()                
 			=> build_in(chrono_clock)
 
 

@@ -20,9 +20,9 @@ namespace ltn::c {
 		{"chrono_to_seconds",        FxCode::CHRONO_TO_SECONDS},
 		{"chrono_to_milliseconds",   FxCode::CHRONO_TO_MILLI_SECONDS},
 
-		{"queue",                    FxCode::TYPE_QUEUE},
-		{"stack",                    FxCode::TYPE_STACK},
-		{"map",                      FxCode::TYPE_MAP},
+		{"queue",                    FxCode::QUEUE_NEW},
+		{"stack",                    FxCode::STACK_NEW},
+		{"map",                      FxCode::MAP_NEW},
 
 		{"container_push",           FxCode::PUSH},
 		{"container_pop",            FxCode::POP},
@@ -98,6 +98,7 @@ namespace ltn::c {
 		{"type_typeid",              FxCode::TYPE_ID},
 		{"type_is",                  FxCode::TYPE_IS},
 		{"type_cast",                FxCode::TYPE_CAST},
+
 
 		{"to_string",                FxCode::STR},
 		{"split_string",             FxCode::SPLIT_STRING},

@@ -240,13 +240,6 @@ namespace ltn::c::inst {
 			.value = size,
 		};
 	}
-	Inst newtype(std::vector<std::uint8_t> bytes) {
-		return InstBytex0 {
-			.name = "newtype",
-			.opcode = OpCode::NEWTYPE,
-			.bytes = bytes,
-		};
-	}
 
 
 

@@ -60,13 +60,8 @@ namespace ltn::vm {
 
 
 
-	Value String::get_member(std::uint64_t id) const {
-		static NativeFunctionTable native_function_table {
-			wrap<stdlib::string_size>     (ReservedMemberCode::SIZE),
-			wrap<stdlib::string_is_empty> (ReservedMemberCode::IS_EMTPY),
-			wrap<stdlib::string_split>    (ReservedMemberCode::SPLIT),
-		};
-		return search_native_function_table(native_function_table, id);
+	Value String::get_member(VMCore & core, std::uint64_t id) const {
+		return core.types.string.get_nonstatic_member(core, id);
 	}
 
 

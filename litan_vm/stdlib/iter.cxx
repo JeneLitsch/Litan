@@ -5,6 +5,16 @@
 #include "litan_vm/objects/iter.hxx"
 
 namespace ltn::vm::stdlib {
+	Value iter_is::func(Context * context, const Value * args) {
+		return value::boolean(is_iterator(args[0]));
+	}
+
+
+	Value iter_cast::func(Context * context, const Value * args) {
+		return iter_iter::func(context, args);
+	}
+
+
 	Value iter_range::func(Context * context, const Value * args) {
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		auto begin = convert::to_int(args[0]);

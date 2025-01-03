@@ -22,7 +22,7 @@ namespace std {
 
 
 
-	function struct() const => [.]
+	function make_struct() const => [.]
 	function typeid(value) const  => build_in(type_typeid)
 	function clone(ref) const     => build_in(type_clone)
 
@@ -72,12 +72,12 @@ namespace std {
 
 
 
-	function is_null(value) const   => is(<null>, value)
-	function is_bool(value) const   => is(<bool>, value)
-	function is_int(value) const    => is(<int>, value)
-	function is_float(value) const  => is(<float>, value)
-	function is_array(value) const  => is(<array>, value)
-	function is_string(value) const => is(<string>, value)
+	function is_null(value) const   => is(Null, value)
+	function is_bool(value) const   => is(Bool, value)
+	function is_int(value) const    => is(Int, value)
+	function is_float(value) const  => is(Float, value)
+	function is_array(value) const  => is(Array, value)
+	function is_string(value) const => is(String, value)
 
 	function is_integral(value) const 
 		=> is_bool(value)
@@ -139,11 +139,12 @@ namespace std {
 	function is(type, value) const => build_in(type_is)
 	function cast(type, value) const => build_in(type_cast)
 
-	function is_binary_fx(fx) const
-		=> std::is(<fx(2)>, fx) && !std::is_variadic(fx)
 
 	function is_unary_fx(fx) const
-		=> std::is(<fx(1)>, fx) && !std::is_variadic(fx)
+		=> std::is(Function, fx) && fx->arity() == 1 && !fx->is_variadic()
+	
+	function is_binary_fx(fx) const
+		=> std::is(Function, fx) && fx->arity() == 2 && !fx->is_variadic()
 
 	function has_special_add(obj) const => is_binary_fx(obj.__add__)
 	function has_special_sub(obj) const => is_binary_fx(obj.__sub__)
@@ -174,4 +175,31 @@ namespace std {
 	
 	
 	function load_plugin(path) const => build_in(load_plugin)
+
+	// Will be set a runtime by the VM
+	def Null = __type;
+	def Bool = __type;
+	def Int = __type;
+	def Float = __type;
+	
+	def String = __type;
+	def Array = __type;
+	def Map = __type;
+	def Tuple = __type;
+	def Stack = __type;
+	def Queue = __type;
+	def Struct = __type;
+
+	def IStream = __type;
+	def OStream = __type;
+
+	def Iterator = __type;
+	def Clock = __type;
+	def Random = __type;
+
+	def Function = __type;
+	def Coroutine = __type;
+	def IteratorStop = __type;
+	def Type = __type;
+	
 }

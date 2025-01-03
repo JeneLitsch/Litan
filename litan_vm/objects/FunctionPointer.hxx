@@ -7,7 +7,7 @@ namespace ltn::vm {
 	struct FunctionPointer : Object {
 
 		virtual void stringify(VMCore & core, std::ostream & oss, bool nested) override;
-		virtual Value get_member(std::uint64_t id) const override;
+		virtual Value get_member(VMCore & core, std::uint64_t id) const override;
 
 		FunctionPointer(std::uint64_t parameter_count, bool is_variadic = false)
 			: Object{}

@@ -3,8 +3,27 @@
 #include "litan_vm/utils/convert.hxx"
 #include "litan_vm/VMCore.hxx"
 #include "litan_vm/utils/function.hxx"
+#include "litan_vm/utils/cast.hxx"
 
 namespace ltn::vm::stdlib {
+	Value array_new::func(Context * context, const Value *) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		return value::array(core.heap.make<Array>());
+	}
+
+
+	Value array_is::func(Context * context, const Value * args) {
+		return value::boolean(is_array(args[0]));
+	}
+
+
+
+	Value array_cast::func(Context * context, const Value * args) {
+		return is_array(args[0]) ? args[0] : value::null;
+	}
+
+
+
 	Value array_size::func(Context *, const Value * args) {
 		return value::integer(req_array(args + 0)->size());
 	}

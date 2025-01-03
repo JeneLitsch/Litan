@@ -3,6 +3,30 @@
 #include "litan_vm/utils/function.hxx"
 
 namespace ltn::vm::stdlib {
+	Value function_is::func(Context * context, const Value * args) {
+		return value::boolean(is_fxptr(args[0]));
+	}
+
+
+
+	Value function_cast::func(Context * context, const Value * args) {
+		return is_fxptr(args[0]) ? args[0] : value::null;
+	}
+
+
+
+	Value coroutine_is::func(Context * context, const Value * args) {
+		return value::boolean(is_coroutine(args[0]));
+	}
+
+
+
+	Value coroutine_cast::func(Context * context, const Value * args) {
+		return is_coroutine(args[0]) ? args[0] : value::null;
+	}
+
+
+
 	Value function_arity::func(Context * context, const Value * args) {
 		if(is_fxptr(args[0])) {
 			const auto * fxptr = value::as<FunctionPointer>(args[0]);
