@@ -191,7 +191,10 @@ namespace std {
 
 	def IStream = null;
 	def OStream = null;
-	def Iterator = null;
 
+	def Iterator = null;
 	def Clock = null;
+
+	def Function = null;
+	def Coroutine = null;
 }

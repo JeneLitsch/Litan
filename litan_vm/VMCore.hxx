@@ -23,6 +23,8 @@
 #include "litan_vm/objects/types/OStreamType.hxx"
 #include "litan_vm/objects/types/IteratorType.hxx"
 #include "litan_vm/objects/types/ClockType.hxx"
+#include "litan_vm/objects/types/FunctionType.hxx"
+#include "litan_vm/objects/types/CoroutineType.hxx"
 
 namespace ltn::vm {
 	struct VMCore {
@@ -56,6 +58,8 @@ namespace ltn::vm {
 			OStreamType ostream;
 			IteratorType iterator;
 			ClockType clock;
+			FunctionType function;
+			CoroutineType coroutine;
 		} types;
 		
 		inline std::uint8_t fetch_byte() {
