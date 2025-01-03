@@ -6,4 +6,5 @@ target_sources(litan_vm PRIVATE
 	"FloatType.cxx"
 	"IntType.cxx"
 	"NullType.cxx"
+	"StringType.cxx"
 )

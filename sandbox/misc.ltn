@@ -20,6 +20,7 @@ function main() {
 	arr->push(3);
 	std::println(std::Array.size(arr));
 	std::println(arr);
+	std::println(std::cast(std::Array, (1,2,3)));
 	
 	std::println("");
 	std::println(std::Null.new());
@@ -59,5 +60,9 @@ function main() {
 	std::println(std::is(std::Int, 1.0));
 	std::println(std::is(std::Int, null));
 
-	std::println(std::cast(std::Array, (1,2,3)));
+
+	std::println("");
+	std::println(std::String.new());
+	std::println(std::String.is(""));
+	std::println(std::String.cast(3));
 }

@@ -1,9 +1,32 @@
 #include "string.hxx"
 #include "litan_vm/objects/container/String.hxx"
 #include "litan_vm/VMCore.hxx"
+#include "litan_vm/utils/stringify.hxx"
 #include "litan_core/utf8.hxx"
 
 namespace ltn::vm::stdlib {
+	Value string_new::func(Context * context, const Value *) {
+		VMCore * core = static_cast<VMCore*>(context->core);
+		core->heap.collect_garbage(core->stack);
+		String * str = core->heap.make<String>();
+		return value::string(str);
+	}
+
+
+
+	Value string_is::func(Context *, const Value * args) {
+		return value::boolean(is_string(args[0]));
+	}
+
+
+	Value string_cast::func(Context * context, const Value * args) {
+		VMCore * core = static_cast<VMCore*>(context->core);
+		core->heap.collect_garbage(core->stack);
+		String * str = core->heap.make<String>(stringify(args[0], *core));
+		return value::string(str);
+	}
+
+
 	Value string_size::func(Context *, const Value * args) {
 		String * string = req_string(args + 0);
 		return value::integer(string->size());

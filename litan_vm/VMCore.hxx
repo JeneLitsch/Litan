@@ -13,6 +13,7 @@
 #include "litan_vm/objects/types/IntType.hxx"
 #include "litan_vm/objects/types/FloatType.hxx"
 #include "litan_vm/objects/types/ArrayType.hxx"
+#include "litan_vm/objects/types/StringType.hxx"
 
 namespace ltn::vm {
 	struct VMCore {
@@ -34,6 +35,7 @@ namespace ltn::vm {
 			BoolType boolean;
 			IntType integer;
 			FloatType floating;
+			StringType string;
 			ArrayType array;
 		} types;
 		

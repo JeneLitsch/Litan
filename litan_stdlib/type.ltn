@@ -181,5 +181,6 @@ namespace std {
 	def Int = null;
 	def Float = null;
 	
+	def String = null;
 	def Array = null;
 }

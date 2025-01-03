@@ -246,6 +246,7 @@ namespace ltn::vm {
 		assign_global_variable(*core, "std::Int", value::static_object(&core->types.integer));
 		assign_global_variable(*core, "std::Float", value::static_object(&core->types.floating));
 		assign_global_variable(*core, "std::Array", value::static_object(&core->types.array));
+		assign_global_variable(*core, "std::String", value::static_object(&core->types.string));
 	}
 
 
