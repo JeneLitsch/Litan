@@ -22,8 +22,8 @@ namespace sphinx::test {
 	function space_ship_type() {
 		test_name("operator: <=> type");
 
-		assert_type(<int>, 0.1 <=> 1.1);
-		assert_type(<int>, 1 <=> 1);
-		assert_type(<int>, 1 <=> "0");
+		assert_type(std::Int, 0.1 <=> 1.1);
+		assert_type(std::Int, 1 <=> 1);
+		assert_type(std::Int, 1 <=> "0");
 	}
 }

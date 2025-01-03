@@ -15,10 +15,10 @@ namespace sphinx::test {
 	function neg_numeric_typename() {
 		test_name("operator: -x type");
 
-		assert_type(<int>, -true);
-		assert_type(<int>, -'A');
-		assert_type(<int>, -3);
-		assert_type(<float>, -3.0);
+		assert_type(std::Int, -true);
+		assert_type(std::Int, -'A');
+		assert_type(std::Int, -3);
+		assert_type(std::Float, -3.0);
 	}
 
 

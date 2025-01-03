@@ -37,8 +37,7 @@ namespace ltn::vm::stdlib {
 		const auto value = args[1];
 		const auto type_ref = args[0];
 		if(is_type(type_ref)) {
-			auto * type = value::as_type_object(type_ref);
-			return value::boolean(type_is(*type, value, core));
+			return value::boolean(false);
 		}
 		if (is_static_object(type_ref)) {
 			StaticObject * so = value::as<StaticObject>(type_ref);
@@ -55,14 +54,48 @@ namespace ltn::vm::stdlib {
 		const auto value = args[1];
 		const auto type_ref = args[0];
 		if(is_type(type_ref)) {
-			auto * type = value::as_type_object(type_ref);
-			return type_cast(*type, value, core);
+			return value::null;
 		}
 		if (is_static_object(type_ref)) {
 			StaticObject * so = value::as<StaticObject>(type_ref);
 			Value cast_function = so->get_member(core, static_cast<std::uint64_t>(ReservedMemberCode::CAST));
-			return invoke_function_immediatly(core, cast_function, args + 1, 1);
+			try {
+				return invoke_function_immediatly(core, cast_function, args + 1, 1);
+			}
+			catch(...) {
+				return value::null;
+			}
 		}
 		throw except::invalid_operands();
+	}
+
+
+
+	Value stop_new::func(ltn_Context * context, const Value * args) {
+		return value::iterator_stop;
+	}
+
+
+
+	Value stop_is::func(ltn_Context * context, const Value * args) {
+		return value::boolean(is_iterator_stop(args[0]));
+	}
+
+
+
+	Value stop_cast::func(ltn_Context * context, const Value * args) {
+		return is_iterator_stop(args[0]) ? args[0] : value::null;
+	}
+
+
+
+	Value type_is::func(ltn_Context * context, const Value * args) {
+		return value::boolean(is_static_object(args[0]));
+	}
+
+
+
+	Value type_cast::func(ltn_Context * context, const Value * args) {
+		return is_static_object(args[0]) ? args[0] : value::null;
 	}
 }

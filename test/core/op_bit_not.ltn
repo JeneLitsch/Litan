@@ -12,9 +12,9 @@ namespace sphinx::test {
 	function bitnot_typename() {
 		test_name("operator: ~x type");
 
-		assert_type(<int>, ~1);
-		assert_type(<int>, ~true);
-		assert_type(<int>, ~'A');
+		assert_type(std::Int, ~1);
+		assert_type(std::Int, ~true);
+		assert_type(std::Int, ~'A');
 	}
 
 

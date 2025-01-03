@@ -25,6 +25,8 @@
 #include "litan_vm/objects/types/ClockType.hxx"
 #include "litan_vm/objects/types/FunctionType.hxx"
 #include "litan_vm/objects/types/CoroutineType.hxx"
+#include "litan_vm/objects/types/TypeType.hxx"
+#include "litan_vm/objects/types/StopType.hxx"
 #include "litan_vm/objects/types/RandomEngineType.hxx"
 
 namespace ltn::vm {
@@ -62,6 +64,8 @@ namespace ltn::vm {
 			FunctionType function;
 			CoroutineType coroutine;
 			RandomEngineType random;
+			StopType iterator_stop;
+			TypeType type;
 		} types;
 		
 		inline std::uint8_t fetch_byte() {

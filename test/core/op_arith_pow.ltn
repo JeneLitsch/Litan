@@ -15,11 +15,11 @@ namespace sphinx::test {
 	function pow_numeric_typename() {
 		test_name("operator: l ** r type");
 
-		assert_type(<int>, true ** true);
-		assert_type(<int>, 'A' ** 'A');
-		assert_type(<float>, 1.0 ** 'A');
-		assert_type(<int>, 4 ** 4);
-		assert_type(<float>, 4 ** 4.0);
+		assert_type(std::Int, true ** true);
+		assert_type(std::Int, 'A' ** 'A');
+		assert_type(std::Float, 1.0 ** 'A');
+		assert_type(std::Int, 4 ** 4);
+		assert_type(std::Float, 4 ** 4.0);
 	}
 
 

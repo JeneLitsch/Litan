@@ -72,12 +72,12 @@ namespace std {
 
 
 
-	function is_null(value) const   => is(<null>, value)
-	function is_bool(value) const   => is(<bool>, value)
-	function is_int(value) const    => is(<int>, value)
-	function is_float(value) const  => is(<float>, value)
-	function is_array(value) const  => is(<array>, value)
-	function is_string(value) const => is(<string>, value)
+	function is_null(value) const   => is(Null, value)
+	function is_bool(value) const   => is(Bool, value)
+	function is_int(value) const    => is(Int, value)
+	function is_float(value) const  => is(Float, value)
+	function is_array(value) const  => is(Array, value)
+	function is_string(value) const => is(String, value)
 
 	function is_integral(value) const 
 		=> is_bool(value)
@@ -139,11 +139,12 @@ namespace std {
 	function is(type, value) const => build_in(type_is)
 	function cast(type, value) const => build_in(type_cast)
 
-	function is_binary_fx(fx) const
-		=> std::is(<fx(2)>, fx) && !std::is_variadic(fx)
 
 	function is_unary_fx(fx) const
-		=> std::is(<fx(1)>, fx) && !std::is_variadic(fx)
+		=> std::is(Function, fx) && fx->arity() == 1 && !fx->is_variadic()
+	
+	function is_binary_fx(fx) const
+		=> std::is(Function, fx) && fx->arity() == 2 && !fx->is_variadic()
 
 	function has_special_add(obj) const => is_binary_fx(obj.__add__)
 	function has_special_sub(obj) const => is_binary_fx(obj.__sub__)
@@ -198,5 +199,7 @@ namespace std {
 
 	def Function = null;
 	def Coroutine = null;
+	def IteratorStop = null;
+	def Type = null;
 	
 }

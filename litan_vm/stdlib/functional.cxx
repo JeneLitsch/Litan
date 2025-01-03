@@ -16,13 +16,13 @@ namespace ltn::vm::stdlib {
 
 
 	Value coroutine_is::func(Context * context, const Value * args) {
-		return value::boolean(is_fxptr(args[0]));
+		return value::boolean(is_coroutine(args[0]));
 	}
 
 
 
 	Value coroutine_cast::func(Context * context, const Value * args) {
-		return is_fxptr(args[0]) ? args[0] : value::null;
+		return is_coroutine(args[0]) ? args[0] : value::null;
 	}
 
 

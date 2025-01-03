@@ -259,6 +259,8 @@ namespace ltn::vm {
 		assign_global_variable(*core, "std::Function", value::static_object(&core->types.function));
 		assign_global_variable(*core, "std::Coroutine", value::static_object(&core->types.coroutine));
 		assign_global_variable(*core, "std::Random", value::static_object(&core->types.random));
+		assign_global_variable(*core, "std::IteratorStop", value::static_object(&core->types.iterator_stop));
+		assign_global_variable(*core, "std::Type", value::static_object(&core->types.type));
 	}
 
 

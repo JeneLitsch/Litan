@@ -4,7 +4,7 @@ namespace sphinx::test {
 		
 		var x;
 		assert_equal_strict(x, null);
-		assert_type(<null>, x);
+		assert_type(std::Null, x);
 	}
 
 
@@ -14,7 +14,7 @@ namespace sphinx::test {
 		
 		var x = null;
 		assert_equal_strict(x, null);
-		assert_type(<null>, x);
+		assert_type(std::Null, x);
 	}
 
 
@@ -24,7 +24,7 @@ namespace sphinx::test {
 
 		var x = true;
 		assert_equal_strict(x, true);
-		assert_type(<bool>, x);
+		assert_type(std::Bool, x);
 	}
 
 
@@ -34,7 +34,7 @@ namespace sphinx::test {
 
 		var x = 0;
 		assert_equal_strict(x, 0);
-		assert_type(<int>, x);
+		assert_type(std::Int, x);
 	}
 
 
@@ -44,7 +44,7 @@ namespace sphinx::test {
 
 		var x =  0.0;
 		assert_equal_strict(x, 0.0);
-		assert_type(<float>, x);
+		assert_type(std::Float, x);
 	}
 
 
@@ -54,7 +54,7 @@ namespace sphinx::test {
 
 		var x = "";
 		assert_equal_strict(x, "");
-		assert_type(<string>, x);
+		assert_type(std::String, x);
 	}
 
 
@@ -64,7 +64,7 @@ namespace sphinx::test {
 
 		var x = [1,2,3];
 		assert_equal_strict(x, [1,2,3]);
-		assert_type(<array(int)>, x);
+		assert_type(std::Array, x);
 	}
 
 

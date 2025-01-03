@@ -1,9 +1,9 @@
 namespace sphinx::test {
 	function std_match_type_3() {
 		var do_match = lambda(x) => std::match_type(x, [
-			(<int>,   lambda(x) => "int"),
-			(<float>, lambda(x) => "float"),
-			],        lambda(x) => "other");
+			(std::Int,   lambda(x) => "int"),
+			(std::Float, lambda(x) => "float"),
+			],           lambda(x) => "other");
 		
 		assert_equal_strict(do_match(1), "int");
 		assert_equal_strict(do_match(1.0), "float");
@@ -14,8 +14,8 @@ namespace sphinx::test {
 
 	function std_match_type_2() {
 		var do_match = lambda(x) => std::match_type(x, [
-			(<int>,   lambda(x) => "int"),
-			(<float>, lambda(x) => "float"),
+			(std::Int,   lambda(x) => "int"),
+			(std::Float, lambda(x) => "float"),
 		]);
 		
 		assert_equal_strict(do_match(1), "int");
@@ -26,8 +26,8 @@ namespace sphinx::test {
 
 	function std_match_type_2_default() {
 		var do_match = lambda(x) => std::match_type(x, [
-			(<int>,   lambda(x) => "int"),
-			(<float>, lambda(x) => "float"),
+			(std::Int,   lambda(x) => "int"),
+			(std::Float, lambda(x) => "float"),
 		]);
 		
 		assert_success(lambda[do_match] => do_match(1));
