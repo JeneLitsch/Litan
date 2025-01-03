@@ -156,7 +156,6 @@ namespace ltn::vm::gc {
 			case VT::MAP:             return mark_obj(value::as<Map>(value));
 			case VT::RNG:             return mark_obj(value::as<RandomEngine>(value));
 			case VT::COROUTINE:       return mark_obj(value::as<Coroutine>(value));
-			case VT::TYPE:            return; // no gc required
 		}
 	}
 

@@ -9,7 +9,6 @@
 #include "VMStack.hxx"
 #include "Value.hxx"
 
-#include "litan_vm/objects/Type.hxx"
 #include "gc.hxx"
 
 namespace ltn::vm {

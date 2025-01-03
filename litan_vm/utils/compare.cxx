@@ -82,9 +82,6 @@ namespace ltn::vm {
 			}
 			return std::partial_ordering::equivalent;
 		}
-		if(is_type(l)) {
-			return l.obj_type <=> r.obj_type;
-		}
 		if(is_struct(l)) {
 			auto & strukt = *value::as<Struct>(l);
 			auto comparator = find_special_member<ReservedMemberCode::OPERATOR_CMP>(strukt);

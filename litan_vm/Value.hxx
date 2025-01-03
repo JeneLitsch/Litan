@@ -14,7 +14,6 @@ namespace ltn::vm {
 		// DO NOT TOUCH/CHANGE THE VALUES !!!
 		NVLL = 0x00,
 		ITERATOR_STOP,
-		TYPE,
 		
 		BOOL = 0x10,
 		INT, 
@@ -126,13 +125,6 @@ namespace ltn::vm {
 			return Value{
 				.type = static_cast<std::uint16_t>(ValueType::ITERATOR),
 				.object = obj,
-			};
-		}
-
-		constexpr inline Value type(const Type * type) {
-			return Value{
-				.type = static_cast<std::uint16_t>(ValueType::TYPE),
-				.obj_type = static_cast<ltn_TypePtr>(type),
 			};
 		}
 

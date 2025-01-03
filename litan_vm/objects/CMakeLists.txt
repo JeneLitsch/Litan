@@ -5,7 +5,6 @@ target_sources(litan_vm PRIVATE
 	"NativeFunctionPointer.cxx"
 	"FunctionPointer.cxx"
 	"RandomEngine.cxx"
-	"Type.cxx"
 	"Object.cxx"
 	"Coroutine.cxx"
 	"Plugin.cxx"
