@@ -258,6 +258,7 @@ namespace ltn::vm {
 		assign_global_variable(*core, "std::Clock", value::static_object(&core->types.clock));
 		assign_global_variable(*core, "std::Function", value::static_object(&core->types.function));
 		assign_global_variable(*core, "std::Coroutine", value::static_object(&core->types.coroutine));
+		assign_global_variable(*core, "std::Random", value::static_object(&core->types.random));
 	}
 
 

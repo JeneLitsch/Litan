@@ -25,6 +25,7 @@
 #include "litan_vm/objects/types/ClockType.hxx"
 #include "litan_vm/objects/types/FunctionType.hxx"
 #include "litan_vm/objects/types/CoroutineType.hxx"
+#include "litan_vm/objects/types/RandomEngineType.hxx"
 
 namespace ltn::vm {
 	struct VMCore {
@@ -60,6 +61,7 @@ namespace ltn::vm {
 			ClockType clock;
 			FunctionType function;
 			CoroutineType coroutine;
+			RandomEngineType random;
 		} types;
 		
 		inline std::uint8_t fetch_byte() {

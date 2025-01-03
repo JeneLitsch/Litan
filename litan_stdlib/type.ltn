@@ -194,7 +194,9 @@ namespace std {
 
 	def Iterator = null;
 	def Clock = null;
+	def Random = null;
 
 	def Function = null;
 	def Coroutine = null;
+	
 }

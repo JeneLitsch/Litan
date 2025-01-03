@@ -93,7 +93,6 @@ namespace ltn::vm {
 		return val.type == static_cast<std::uint16_t>(ValueType::TYPE);
 	}
 
-
 	constexpr inline bool is_contiguous(const Value & value) {
 		return is_array(value) || is_tuple(value);
 	}

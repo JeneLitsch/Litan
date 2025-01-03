@@ -15,6 +15,7 @@ target_sources(litan_vm PRIVATE
 	"IteratorType.cxx"
 	"StackType.cxx"
 	"QueueType.cxx"
+	"RandomEngineType.cxx"
 	"StructType.cxx"
 	"IStreamType.cxx"
 	"OStreamType.cxx"
