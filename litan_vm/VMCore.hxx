@@ -6,7 +6,6 @@
 #include "litan_core/file/StaticPool.hxx"
 #include "litan_vm/Heap.hxx"
 #include "litan_vm/VMStack.hxx"
-#include "litan_vm/TypeTable.hxx"
 #include "litan_vm/external/Callable.hxx"
 #include "litan_vm/objects/types/NullType.hxx"
 #include "litan_vm/objects/types/BoolType.hxx"
@@ -41,7 +40,6 @@ namespace ltn::vm {
 		MemberNameTable member_name_table;
 		FunctionPool function_pool;
 		StringPool string_pool;
-		TypeTable type_table;
 		StaticPool static_pool;
 
 		struct {

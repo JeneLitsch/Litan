@@ -13,10 +13,6 @@ namespace ltn::c {
 			return 1 + 8 + inst.bytes.size();
 		}
 
-		std::size_t get_inst_size(const inst::InstBytex0 & inst) {
-			return 1 + inst.bytes.size() + 1;
-		}
-
 		std::size_t size(const inst::Inst & inst) {
 			return std::visit([](auto & i) {
 				return get_inst_size(i);

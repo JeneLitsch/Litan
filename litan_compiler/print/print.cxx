@@ -82,18 +82,6 @@ namespace ltn::c {
 
 
 
-		std::string print_inst(const inst::InstBytex0 & args) {
-			std::ostringstream ss;
-			ss << args.name << " ";
-			for(const auto byte : args.bytes) {
-				ss << static_cast<std::uint16_t>(byte) << " ";
-			}
-			ss << "\\0";
-			return ss.str();
-		}
-
-
-
 		std::string print_inst(const inst::InstStringConstant & args) {
 			std::ostringstream ss;
 			ss << args.name << " " << args.label << " ";

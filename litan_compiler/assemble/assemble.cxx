@@ -113,14 +113,6 @@ namespace ltn::c {
 
 		void assemble_args(
 			std::vector<std::uint8_t> & bytecode,
-			const inst::InstBytex0 & args,
-			const LinkInfo &) {
-			bytecode += args.bytes;
-			bytecode.push_back(0); // Add null terminator
-		}
-
-		void assemble_args(
-			std::vector<std::uint8_t> & bytecode,
 			const inst::InstStringConstant & args,
 			const LinkInfo & link_info) {
 			if(std::optional<std::uint64_t> id = link_info.string_pool.find(args.label)) {
