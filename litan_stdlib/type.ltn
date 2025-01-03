@@ -177,29 +177,29 @@ namespace std {
 	function load_plugin(path) const => build_in(load_plugin)
 
 	// Will be set a runtime by the VM
-	def Null = null;
-	def Bool = null;
-	def Int = null;
-	def Float = null;
+	def Null = __type;
+	def Bool = __type;
+	def Int = __type;
+	def Float = __type;
 	
-	def String = null;
-	def Array = null;
-	def Map = null;
-	def Tuple = null;
-	def Stack = null;
-	def Queue = null;
-	def Struct = null;
+	def String = __type;
+	def Array = __type;
+	def Map = __type;
+	def Tuple = __type;
+	def Stack = __type;
+	def Queue = __type;
+	def Struct = __type;
 
-	def IStream = null;
-	def OStream = null;
+	def IStream = __type;
+	def OStream = __type;
 
-	def Iterator = null;
-	def Clock = null;
-	def Random = null;
+	def Iterator = __type;
+	def Clock = __type;
+	def Random = __type;
 
-	def Function = null;
-	def Coroutine = null;
-	def IteratorStop = null;
-	def Type = null;
+	def Function = __type;
+	def Coroutine = __type;
+	def IteratorStop = __type;
+	def Type = __type;
 	
 }

@@ -94,6 +94,10 @@ namespace foo {
 
 Types are conventionally named in `PascalCase`.
 
+```
+std::Array
+```
+
 ## Enum Members
 
 Types are conventionally named in `UPPER_CASE`.
