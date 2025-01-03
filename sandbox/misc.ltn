@@ -14,12 +14,7 @@
 // }
 
 function main() {
-	var arr = std::array.empty();
-	var arr = std::map.empty();
-	var arr = std::struct.empty();
-	var arr = std::queue.empty();
-	var arr = std::stack.empty();
-	var arr = std::tuple.empty();
+	var arr = std::Array.new();
 	arr->push(1);
 	arr->push(2);
 	arr->push(3);
@@ -85,19 +80,19 @@ function main() {
 	std::println("");
 	std::println(std::Stack.new());
 	std::println(std::Stack.is(""));
-	std::println(std::Stack.is(std::stack()));
+	std::println(std::Stack.is(std::make_stack()));
 	std::println(std::Stack.cast(3));
 
 	std::println("");
 	std::println(std::Queue.new());
 	std::println(std::Queue.is(""));
-	std::println(std::Queue.is(std::queue()));
+	std::println(std::Queue.is(std::make_queue()));
 	std::println(std::Queue.cast(3));
 
 	std::println("");
 	std::println(std::Struct.new());
 	std::println(std::Struct.is(""));
-	std::println(std::Struct.is(std::struct()));
+	std::println(std::Struct.is(std::make_struct()));
 	std::println(std::Struct.cast(3));
 	std::println(std::Struct.cast([.]));
 
@@ -119,20 +114,20 @@ function main() {
 
 	std::println("");
 	std::println(std::Iterator.is(""));
-	std::println(std::Iterator.is(std::queue()));
+	std::println(std::Iterator.is(std::make_queue()));
 	std::println(std::Iterator.is(std::range(1,3)));
 	std::println(std::Iterator.cast([1,2,3]));
 
 	std::println("");
 	std::println(std::Clock.is(""));
-	std::println(std::Clock.is(std::chrono::clock()));
+	std::println(std::Clock.is(std::chrono::make_clock()));
 	std::println(std::Clock.is(std::range(1,3)));
 	std::println(std::Clock.cast([1,2,3]));
-	std::println(std::Clock.cast(std::chrono::clock()));
+	std::println(std::Clock.cast(std::chrono::make_clock()));
 
 	std::println("");
 	std::println(std::Function.is(""));
-	std::println(std::Function.is(std::chrono::clock()));
+	std::println(std::Function.is(std::chrono::make_clock()));
 	std::println(std::Function.is(lambda => null));
 	std::println(std::Function.cast([1,2,3]));
 	std::println(std::Function.cast(lambda => null));
