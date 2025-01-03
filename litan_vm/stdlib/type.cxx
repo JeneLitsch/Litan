@@ -36,7 +36,7 @@ namespace ltn::vm::stdlib {
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		const auto value = args[1];
 		const auto type_ref = args[0];
-		if (is_static_object(type_ref)) {
+		if (is_type(type_ref)) {
 			StaticObject * so = value::as<StaticObject>(type_ref);
 			Value cast_function = so->get_member(core, static_cast<std::uint64_t>(ReservedMemberCode::IS));
 			return invoke_function_immediatly(core, cast_function, args + 1, 1);
@@ -50,7 +50,7 @@ namespace ltn::vm::stdlib {
 		VMCore & core = *static_cast<VMCore*>(context->core);
 		const auto value = args[1];
 		const auto type_ref = args[0];
-		if (is_static_object(type_ref)) {
+		if (is_type(type_ref)) {
 			StaticObject * so = value::as<StaticObject>(type_ref);
 			Value cast_function = so->get_member(core, static_cast<std::uint64_t>(ReservedMemberCode::CAST));
 			try {
@@ -84,12 +84,12 @@ namespace ltn::vm::stdlib {
 
 
 	Value type_is::func(ltn_Context * context, const Value * args) {
-		return value::boolean(is_static_object(args[0]));
+		return value::boolean(is_type(args[0]));
 	}
 
 
 
 	Value type_cast::func(ltn_Context * context, const Value * args) {
-		return is_static_object(args[0]) ? args[0] : value::null;
+		return is_type(args[0]) ? args[0] : value::null;
 	}
 }

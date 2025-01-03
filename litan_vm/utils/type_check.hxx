@@ -101,7 +101,7 @@ namespace ltn::vm {
 		return static_cast<std::uint64_t>(val.type) >= static_cast<std::uint64_t>(ValueType::FIRST_TYPE);
 	}
 
-	constexpr inline bool is_static_object(const Value & val) {
-		return val.type == static_cast<std::uint16_t>(ValueType::STATIC_OBJECT);
+	constexpr inline bool is_type(const Value & val) {
+		return val.type == static_cast<std::uint16_t>(ValueType::TYPE);
 	}
 }

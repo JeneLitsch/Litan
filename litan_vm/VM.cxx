@@ -240,26 +240,26 @@ namespace ltn::vm {
 		// init static variables 
 		run_core(*core);
 
-		assign_global_variable(*core, "std::Null", value::static_object(&core->types.null));
-		assign_global_variable(*core, "std::Bool", value::static_object(&core->types.boolean));
-		assign_global_variable(*core, "std::Int", value::static_object(&core->types.integer));
-		assign_global_variable(*core, "std::Float", value::static_object(&core->types.floating));
-		assign_global_variable(*core, "std::Array", value::static_object(&core->types.array));
-		assign_global_variable(*core, "std::String", value::static_object(&core->types.string));
-		assign_global_variable(*core, "std::Map", value::static_object(&core->types.map));
-		assign_global_variable(*core, "std::Tuple", value::static_object(&core->types.tuple));
-		assign_global_variable(*core, "std::Queue", value::static_object(&core->types.queue));
-		assign_global_variable(*core, "std::Stack", value::static_object(&core->types.stack));
-		assign_global_variable(*core, "std::Struct", value::static_object(&core->types.strukt));
-		assign_global_variable(*core, "std::IStream", value::static_object(&core->types.istream));
-		assign_global_variable(*core, "std::OStream", value::static_object(&core->types.ostream));
-		assign_global_variable(*core, "std::Iterator", value::static_object(&core->types.iterator));
-		assign_global_variable(*core, "std::Clock", value::static_object(&core->types.clock));
-		assign_global_variable(*core, "std::Function", value::static_object(&core->types.function));
-		assign_global_variable(*core, "std::Coroutine", value::static_object(&core->types.coroutine));
-		assign_global_variable(*core, "std::Random", value::static_object(&core->types.random));
-		assign_global_variable(*core, "std::IteratorStop", value::static_object(&core->types.iterator_stop));
-		assign_global_variable(*core, "std::Type", value::static_object(&core->types.type));
+		assign_global_variable(*core, "std::Null", value::type(&core->types.null));
+		assign_global_variable(*core, "std::Bool", value::type(&core->types.boolean));
+		assign_global_variable(*core, "std::Int", value::type(&core->types.integer));
+		assign_global_variable(*core, "std::Float", value::type(&core->types.floating));
+		assign_global_variable(*core, "std::Array", value::type(&core->types.array));
+		assign_global_variable(*core, "std::String", value::type(&core->types.string));
+		assign_global_variable(*core, "std::Map", value::type(&core->types.map));
+		assign_global_variable(*core, "std::Tuple", value::type(&core->types.tuple));
+		assign_global_variable(*core, "std::Queue", value::type(&core->types.queue));
+		assign_global_variable(*core, "std::Stack", value::type(&core->types.stack));
+		assign_global_variable(*core, "std::Struct", value::type(&core->types.strukt));
+		assign_global_variable(*core, "std::IStream", value::type(&core->types.istream));
+		assign_global_variable(*core, "std::OStream", value::type(&core->types.ostream));
+		assign_global_variable(*core, "std::Iterator", value::type(&core->types.iterator));
+		assign_global_variable(*core, "std::Clock", value::type(&core->types.clock));
+		assign_global_variable(*core, "std::Function", value::type(&core->types.function));
+		assign_global_variable(*core, "std::Coroutine", value::type(&core->types.coroutine));
+		assign_global_variable(*core, "std::Random", value::type(&core->types.random));
+		assign_global_variable(*core, "std::IteratorStop", value::type(&core->types.iterator_stop));
+		assign_global_variable(*core, "std::Type", value::type(&core->types.type));
 	}
 
 
