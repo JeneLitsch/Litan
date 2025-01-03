@@ -21,7 +21,6 @@ target_sources(litan_compiler PRIVATE
 	"Switch.cxx"
 	"Ternary.cxx"
 	"Tuple.cxx"
-	"Type.cxx"
 	"Unary.cxx"
 	"Var.cxx"
 )

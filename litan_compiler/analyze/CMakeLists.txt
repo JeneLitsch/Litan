@@ -29,7 +29,6 @@ target_sources(litan_compiler PRIVATE
 	"analyze_switch.cxx"
 	"analyze_ternary.cxx"
 	"analyze_throw.cxx"
-	"analyze_type.cxx"
 	"analyze_unary.cxx"
 	"analyze_write.cxx"
 	"analyze_yield.cxx"

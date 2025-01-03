@@ -277,7 +277,6 @@ namespace ltn::c {
 		if(auto expr = parse_conditional_expr(tokens)) return expr;
 		if(auto expr = parse_expr_switch(tokens)) return expr;
 		if(auto expr = parse_reflect(tokens)) return expr;
-		if(auto expr = parse_type(tokens)) return expr;
 		if(auto expr = parse_custom(tokens)) return expr;
 		return parse_identifier(tokens);
 	}

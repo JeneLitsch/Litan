@@ -62,7 +62,6 @@ namespace ltn::c {
 	InstructionBuffer compile_expr(const sst::expr::Reflect &);
 	InstructionBuffer compile_expr(const sst::expr::Struct &);
 	InstructionBuffer compile_expr(const sst::expr::Map &);
-	InstructionBuffer compile_expr(const sst::expr::Type &);
 	
 	InstructionBuffer compile_binding(const sst::bind::Binding & binding);
 
