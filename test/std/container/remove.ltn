@@ -36,7 +36,7 @@ namespace sphinx::test {
 
 
 	function std_remove_map() { 
-		var map = std::map();
+		var map = std::make_map();
 		map[1] = "A";
 		map[2] = "B";
 		map[3] = "C";
@@ -49,6 +49,6 @@ namespace sphinx::test {
 
 
 	function std_remove_map_out_of_range() {
-		assert_success(lambda => std::remove(std::map(), 2));
+		assert_success(lambda => std::remove(std::make_map(), 2));
 	}
 }

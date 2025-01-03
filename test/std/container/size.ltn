@@ -22,7 +22,7 @@ namespace sphinx::test {
 
 
 	function std_size_queue() {
-		var q = std::queue();
+		var q = std::make_queue();
 		assert_equal(std::size(q), 0);
 		std::push(q, 1); 
 		std::push(q, 2);
@@ -33,7 +33,7 @@ namespace sphinx::test {
 
 
 	function std_size_stack() {
-		var s = std::stack();
+		var s = std::make_stack();
 		assert_equal(std::size(s), 0);
 		std::push(s, 1); 
 		std::push(s, 2);
@@ -44,7 +44,7 @@ namespace sphinx::test {
 
 
 	function std_size_map() {
-		var m = std::map();
+		var m = std::make_map();
 		assert_equal(std::size(m), 0);
 		m[0] = 1; 
 		m[1] = 2;

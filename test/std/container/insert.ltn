@@ -53,7 +53,7 @@ namespace sphinx::test {
 
 
 	function std_insert_map() { 
-		var map = utils::insert_all(std::map(), [
+		var map = utils::insert_all(std::make_map(), [
 			(1, "A"),
 			(2, "B"),
 			(3, "C"),

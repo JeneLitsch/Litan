@@ -22,7 +22,7 @@ namespace std {
 
 
 
-	function struct() const => [.]
+	function make_struct() const => [.]
 	function typeid(value) const  => build_in(type_typeid)
 	function clone(ref) const     => build_in(type_clone)
 

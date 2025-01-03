@@ -219,7 +219,7 @@ namespace sphinx::test {
 			(1.0 , null),
 			(""  , null),
 			([] ,  null),
-			(std::chrono::clock(), std::chrono::clock()),
+			(std::chrono::make_clock(), std::chrono::make_clock()),
 		]);
 	}
 
@@ -242,7 +242,7 @@ namespace sphinx::test {
 
 
 	function std_type_cast_queue() {
-		var q = std::queue();
+		var q = std::make_queue();
 		std::push(q, 1);
 		std::push(q, false);
 		std::push(q, 1.5);

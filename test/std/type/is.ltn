@@ -259,7 +259,7 @@ namespace sphinx::test {
 			(1.0 , false),
 			(""  , false),
 			([] ,  false),
-			(std::chrono::clock(), true),
+			(std::chrono::make_clock(), true),
 		]);
 	}
 
@@ -282,7 +282,7 @@ namespace sphinx::test {
 
 
 	function std_is_type_queue() {
-		var q = std::queue();
+		var q = std::make_queue();
 		utils::test_is(std::Queue, [
 			(null, false),
 			(true, false),
@@ -299,7 +299,7 @@ namespace sphinx::test {
 
 
 	function std_is_type_map() {
-		var map = std::map();
+		var map = std::make_map();
 		map[1] = "";
 		map[1.0] = "";
 		utils::test_is(std::Map, [

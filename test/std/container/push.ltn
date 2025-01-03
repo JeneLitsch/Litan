@@ -10,20 +10,20 @@ namespace sphinx::test {
 
 
 	function std_push_stack() {
-		var stack = std::stack();
+		var stack = std::make_stack();
 		std::push(stack, 1);
 		std::push(stack, 2);
 		std::push(stack, 3);
-		assert_equal_strict(stack, std::stack(1,2,3));
+		assert_equal_strict(stack, std::make_stack(1,2,3));
 	}
 
 
 
 	function std_push_queue() {
-		var queue = std::queue();
+		var queue = std::make_queue();
 		std::push(queue, 1);
 		std::push(queue, 2);
 		std::push(queue, 3);
-		assert_equal_strict(queue, std::queue(1,2,3));
+		assert_equal_strict(queue, std::make_queue(1,2,3));
 	}
 }

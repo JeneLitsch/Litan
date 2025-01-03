@@ -1,13 +1,13 @@
 namespace sphinx::test {
 	function struct_unknow_member() {
-		var s = std::struct();
+		var s = std::make_struct();
 		assert_equal_strict(s.a, null);
 	}
 
 
 
 	function struct_manual() {
-		var s = std::struct();
+		var s = std::make_struct();
 		s.a = 1;
 		s.b = 2.0;
 		assert_equal_strict(s.a, 1);

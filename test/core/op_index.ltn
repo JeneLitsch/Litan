@@ -93,7 +93,7 @@ namespace sphinx::test {
 	function index_map() {
 		test_name("operator: map[i]");
 
-		var map = std::map();
+		var map = std::make_map();
 		map[1] = "A";
 		map[2] = "B";
 		map[3] = "C";

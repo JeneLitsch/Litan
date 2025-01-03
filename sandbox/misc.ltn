@@ -14,7 +14,12 @@
 // }
 
 function main() {
-	var arr = std::Array.new();
+	var arr = std::array.empty();
+	var arr = std::map.empty();
+	var arr = std::struct.empty();
+	var arr = std::queue.empty();
+	var arr = std::stack.empty();
+	var arr = std::tuple.empty();
 	arr->push(1);
 	arr->push(2);
 	arr->push(3);

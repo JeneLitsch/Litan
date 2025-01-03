@@ -12,7 +12,7 @@ namespace sphinx::test {
 }
 
 function main(args) {
-	var clock = std::chrono::clock();
+	var clock = std::chrono::make_clock();
 	load_test_plugin();
 	sphinx::run_tests();
 	std::println(std::str(clock->milliseconds()) + "ms");
