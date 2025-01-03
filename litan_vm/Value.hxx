@@ -42,7 +42,7 @@ namespace ltn::vm {
 		
 		RNG = 0x80, 
 
-		FIRST_TYPE = ARRAY
+		FIRST_OBJECT_TYPE = ARRAY
 	};
 	
 	using Value = ltn_Value;
