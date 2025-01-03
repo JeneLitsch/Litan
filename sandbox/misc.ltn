@@ -88,4 +88,10 @@ function main() {
 	std::println(std::Queue.is(""));
 	std::println(std::Queue.is(std::queue()));
 	std::println(std::Queue.cast(3));
+
+	std::println("");
+	std::println(std::Struct.new());
+	std::println(std::Struct.is(""));
+	std::println(std::Struct.is(std::struct()));
+	std::println(std::Struct.cast(3));
 }

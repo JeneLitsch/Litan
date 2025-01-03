@@ -21,6 +21,7 @@ target_sources(litan_vm PRIVATE
 	"queue.cxx"
 	"stack.cxx"
 	"string.cxx"
+	"struct.cxx"
 	"tuple.cxx"
 	"type.cxx"
 )

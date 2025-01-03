@@ -251,6 +251,7 @@ namespace ltn::vm {
 		assign_global_variable(*core, "std::Tuple", value::static_object(&core->types.tuple));
 		assign_global_variable(*core, "std::Queue", value::static_object(&core->types.queue));
 		assign_global_variable(*core, "std::Stack", value::static_object(&core->types.stack));
+		assign_global_variable(*core, "std::Struct", value::static_object(&core->types.strukt));
 	}
 
 

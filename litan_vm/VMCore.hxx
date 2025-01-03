@@ -18,6 +18,7 @@
 #include "litan_vm/objects/types/TupleType.hxx"
 #include "litan_vm/objects/types/StackType.hxx"
 #include "litan_vm/objects/types/QueueType.hxx"
+#include "litan_vm/objects/types/StructType.hxx"
 
 namespace ltn::vm {
 	struct VMCore {
@@ -46,6 +47,7 @@ namespace ltn::vm {
 			TupleType tuple;
 			StackType stack;
 			QueueType queue;
+			StructType strukt;
 		} types;
 		
 		inline std::uint8_t fetch_byte() {

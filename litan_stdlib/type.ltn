@@ -187,4 +187,5 @@ namespace std {
 	def Tuple = null;
 	def Stack = null;
 	def Queue = null;
+	def Struct = null;
 }
