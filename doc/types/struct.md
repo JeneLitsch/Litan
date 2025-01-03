@@ -1,4 +1,18 @@
-# Struct
+# Struct / std::Struct
+
+
+### . new() : Struct
+
+Creates a new and empty struct.
+
+### . is(value : Any) : Bool
+
+Checks whether value is a struct.
+
+### . cast(value : Any) : Struct
+
+Returns value if value is a struct. Otherwise null is returned.
+
 
 ## Non existing members
 

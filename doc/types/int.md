@@ -1,4 +1,4 @@
-# Int
+# Int / std::Int
 The int type is used to store a 64-Bit singed integer value.
 A value of type int can be created by a int literal e.g. `0`, `-1` or `42` 
 
@@ -53,3 +53,18 @@ function main() {
 	std::println(x); // 88
 }
 ```
+
+
+## Static Functions
+
+### . new() : Int
+
+Returns `0`.
+
+### . is(value : Any) : Bool
+
+Checks whether value is an integer.
+
+### . cast(value : Any) : Int
+
+Casts value to an integer.

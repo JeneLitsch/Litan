@@ -1,7 +1,21 @@
-# Map
+# Map / std::Map
 
 A data structure consisting of key-value pairs.
 
+
+## Static Functions
+
+### . new() : Map
+
+Creates a new and empty map.
+
+### . is(value : Any) : Bool
+
+Checks whether value is a map.
+
+### . cast(value : Any) : Map
+
+Returns value if value is a map. Otherwise null is returned.
 
 
 ## Member functions

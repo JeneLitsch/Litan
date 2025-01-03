@@ -1,6 +1,19 @@
-# Queue
+# Queue / std::Queue
 
 A FIFO data structure
+
+### . new() : Queue
+
+Creates a new and empty queue.
+
+### . is(value : Any) : Bool
+
+Checks whether value is a queue.
+
+### . cast(value : Any) : Queue
+
+Returns value if value is a queue. Otherwise null is returned.
+
 
 ## Member Functions
 

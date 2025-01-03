@@ -1,8 +1,22 @@
-# Tuple 
+# Tuple / std::Tuple
 
 Tuples are fixed sized collections of values with different types. 
 A tuple can be created by a comma separated list inside parenthesis.
 
+
+## Static Functions
+
+### . new() : Tuple
+
+Creates a new and empty Tuple.
+
+### . is(value : Any) : Bool
+
+Checks whether value is a tuple.
+
+### . cast(value : Any) : Tuple
+
+Returns value if value is a tuple. Otherwise null is returned.
 
 
 ## Member Functions

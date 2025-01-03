@@ -19,8 +19,7 @@ namespace ltn::vm::stdlib {
 
 
 	Value array_cast::func(Context * context, const Value * args) {
-		VMCore & core = *static_cast<VMCore*>(context->core);
-		return value::array(core.heap.make<Array>(cast::to_array(args[0])));
+		return is_array(args[0]) ? args[0] : value::null;
 	}
 
 
