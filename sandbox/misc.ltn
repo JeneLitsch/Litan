@@ -94,4 +94,21 @@ function main() {
 	std::println(std::Struct.is(""));
 	std::println(std::Struct.is(std::struct()));
 	std::println(std::Struct.cast(3));
+	std::println(std::Struct.cast([.]));
+
+	std::println("");
+	std::println(std::IStream.is(""));
+	std::println(std::IStream.is(std::cin()));
+	std::println(std::IStream.is(std::cout()));
+	std::println(std::IStream.cast(3));
+	std::println(std::IStream.cast(std::cin()));
+	std::println(std::IStream.cast(std::cout()));
+
+	std::println("");
+	std::println(std::OStream.is(""));
+	std::println(std::OStream.is(std::cin()));
+	std::println(std::OStream.is(std::cout()));
+	std::println(std::OStream.cast(3));
+	std::println(std::OStream.cast(std::cin()));
+	std::println(std::OStream.cast(std::cout()));
 }

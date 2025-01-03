@@ -188,4 +188,7 @@ namespace std {
 	def Stack = null;
 	def Queue = null;
 	def Struct = null;
+
+	def IStream = null;
+	def OStream = null;
 }

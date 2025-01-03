@@ -134,4 +134,31 @@ namespace ltn::vm::stdlib {
 		constexpr static inline std::uint64_t arity = 1;
 		static Value func(Context * context, const Value * args);
 	};
+
+
+
+	struct istream_is {
+		constexpr static inline std::uint64_t arity = 1; 
+		static Value func(Context * context, const Value * args);
+	};
+
+
+
+	struct istream_cast {
+		constexpr static inline std::uint64_t arity = 1; 
+		static Value func(Context * context, const Value * args);
+	};
+
+
+
+	struct ostream_is {
+		constexpr static inline std::uint64_t arity = 1; 
+		static Value func(Context * context, const Value * args);
+	};
+
+
+	struct ostream_cast {
+		constexpr static inline std::uint64_t arity = 1; 
+		static Value func(Context * context, const Value * args);
+	};
 }

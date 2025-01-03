@@ -19,6 +19,8 @@
 #include "litan_vm/objects/types/StackType.hxx"
 #include "litan_vm/objects/types/QueueType.hxx"
 #include "litan_vm/objects/types/StructType.hxx"
+#include "litan_vm/objects/types/IStreamType.hxx"
+#include "litan_vm/objects/types/OStreamType.hxx"
 
 namespace ltn::vm {
 	struct VMCore {
@@ -48,6 +50,8 @@ namespace ltn::vm {
 			StackType stack;
 			QueueType queue;
 			StructType strukt;
+			IStreamType istream;
+			OStreamType ostream;
 		} types;
 		
 		inline std::uint8_t fetch_byte() {

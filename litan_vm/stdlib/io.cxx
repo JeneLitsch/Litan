@@ -342,4 +342,28 @@ namespace ltn::vm::stdlib {
 		}
 		else throw except::invalid_argument();
 	}
+
+
+
+	Value istream_is::func(Context * context, const Value * args) {
+		return value::boolean(is_istream(args[0]));
+	}
+
+
+
+	Value istream_cast::func(Context * context, const Value * args) {
+		return is_istream(args[0]) ? args[0] : value::null;
+	}
+
+
+
+	Value ostream_is::func(Context * context, const Value * args) {
+		return value::boolean(is_ostream(args[0]));
+	}
+
+
+
+	Value ostream_cast::func(Context * context, const Value * args) {
+		return is_ostream(args[0]) ? args[0] : value::null;
+	}
 }
