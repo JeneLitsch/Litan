@@ -247,6 +247,10 @@ namespace ltn::vm {
 		assign_global_variable(*core, "std::Float", value::static_object(&core->types.floating));
 		assign_global_variable(*core, "std::Array", value::static_object(&core->types.array));
 		assign_global_variable(*core, "std::String", value::static_object(&core->types.string));
+		assign_global_variable(*core, "std::Map", value::static_object(&core->types.map));
+		assign_global_variable(*core, "std::Tuple", value::static_object(&core->types.tuple));
+		assign_global_variable(*core, "std::Queue", value::static_object(&core->types.queue));
+		assign_global_variable(*core, "std::Stack", value::static_object(&core->types.stack));
 	}
 
 

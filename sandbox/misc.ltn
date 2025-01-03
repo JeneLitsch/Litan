@@ -65,4 +65,27 @@ function main() {
 	std::println(std::String.new());
 	std::println(std::String.is(""));
 	std::println(std::String.cast(3));
+
+	std::println("");
+	std::println(std::Map.new());
+	std::println(std::Map.is(""));
+	std::println(std::Map.is([1:1]));
+	std::println(std::Map.cast(3));
+
+	std::println("");
+	std::println(std::Tuple.new());
+	std::println(std::Tuple.is(""));
+	std::println(std::Tuple.cast(3));
+
+	std::println("");
+	std::println(std::Stack.new());
+	std::println(std::Stack.is(""));
+	std::println(std::Stack.is(std::stack()));
+	std::println(std::Stack.cast(3));
+
+	std::println("");
+	std::println(std::Queue.new());
+	std::println(std::Queue.is(""));
+	std::println(std::Queue.is(std::queue()));
+	std::println(std::Queue.cast(3));
 }

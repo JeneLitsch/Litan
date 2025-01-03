@@ -14,6 +14,10 @@
 #include "litan_vm/objects/types/FloatType.hxx"
 #include "litan_vm/objects/types/ArrayType.hxx"
 #include "litan_vm/objects/types/StringType.hxx"
+#include "litan_vm/objects/types/MapType.hxx"
+#include "litan_vm/objects/types/TupleType.hxx"
+#include "litan_vm/objects/types/StackType.hxx"
+#include "litan_vm/objects/types/QueueType.hxx"
 
 namespace ltn::vm {
 	struct VMCore {
@@ -35,8 +39,13 @@ namespace ltn::vm {
 			BoolType boolean;
 			IntType integer;
 			FloatType floating;
+			
 			StringType string;
 			ArrayType array;
+			MapType map;
+			TupleType tuple;
+			StackType stack;
+			QueueType queue;
 		} types;
 		
 		inline std::uint8_t fetch_byte() {

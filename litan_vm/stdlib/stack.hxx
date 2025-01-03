@@ -8,6 +8,16 @@ namespace ltn::vm::stdlib {
 		static Value func(Context *, const Value * args);
 	};
 
+	struct stack_is {
+		constexpr static inline std::uint64_t arity = 1;
+		static Value func(Context *, const Value * args);
+	};
+
+	struct stack_cast {
+		constexpr static inline std::uint64_t arity = 1;
+		static Value func(Context *, const Value * args);
+	};
+
 	struct stack_size {
 		constexpr static inline std::uint64_t arity = 1;
 		static Value func(Context *, const Value * args);

@@ -20,10 +20,7 @@ namespace ltn::vm::stdlib {
 
 
 	Value string_cast::func(Context * context, const Value * args) {
-		VMCore * core = static_cast<VMCore*>(context->core);
-		core->heap.collect_garbage(core->stack);
-		String * str = core->heap.make<String>(stringify(args[0], *core));
-		return value::string(str);
+		return is_string(args[0]) ? args[0] : value::null;
 	}
 
 

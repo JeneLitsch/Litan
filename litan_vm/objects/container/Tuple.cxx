@@ -21,14 +21,6 @@ namespace ltn::vm {
 
 
 	Value Tuple::get_member(VMCore & core, std::uint64_t id) const {
-		static NativeFunctionTable native_function_table {
-			wrap<stdlib::tuple_size>     (ReservedMemberCode::SIZE),
-			wrap<stdlib::tuple_is_empty> (ReservedMemberCode::IS_EMTPY),
-			wrap<stdlib::tuple_at>       (ReservedMemberCode::AT),
-			wrap<stdlib::tuple_front>    (ReservedMemberCode::FRONT),
-			wrap<stdlib::tuple_back>     (ReservedMemberCode::BACK),
-			wrap<stdlib::tuple_values>   (ReservedMemberCode::VALUES),
-		};
-		return search_native_function_table(native_function_table, id).value_or(value::null);
+		return core.types.tuple.get_nonstatic_member(core, id);
 	}
 }

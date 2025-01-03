@@ -3,6 +3,25 @@
 #include "litan_vm/VMCore.hxx"
 
 namespace ltn::vm::stdlib {
+	Value tuple_new::func(Context * context, const Value *) {
+		VMCore & core = *static_cast<VMCore*>(context->core);
+		return value::tuple(core.heap.make<Tuple>());
+	}
+
+
+
+	Value tuple_is::func(Context *, const Value * args) {
+		return value::boolean(is_tuple(args[0]));
+	}
+
+
+
+	Value tuple_cast::func(Context *, const Value * args) {
+		return is_tuple(args[0]) ? args[0] : value::null;
+	}
+
+
+
 	Value tuple_size::func(Context *, const Value * args) {
 		const Tuple * tuple = req_tuple(args + 0);
 		return value::integer(std::size(*tuple));

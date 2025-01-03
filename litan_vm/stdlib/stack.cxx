@@ -13,6 +13,19 @@ namespace ltn::vm::stdlib {
 
 
 
+	Value stack_is::func(Context * context, const Value * args) {
+		return value::boolean(is_stack(args[0]));
+	}
+
+
+	
+	Value stack_cast::func(Context * context, const Value * args) {
+		return is_stack(args[0]) ? args[0] : value::null;
+	}
+
+
+
+
 	Value stack_size::func(Context *, const Value * args) {
 		Stack * stack = req_stack(args + 0);
 		return value::integer(stack->size());

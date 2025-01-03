@@ -183,4 +183,8 @@ namespace std {
 	
 	def String = null;
 	def Array = null;
+	def Map = null;
+	def Tuple = null;
+	def Stack = null;
+	def Queue = null;
 }

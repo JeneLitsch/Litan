@@ -10,13 +10,6 @@ namespace ltn::vm {
 
 
 	Value Queue::get_member(VMCore & core, std::uint64_t id) const {
-		static NativeFunctionTable native_function_table {
-			wrap<stdlib::queue_size>     (ReservedMemberCode::SIZE),
-			wrap<stdlib::queue_is_empty> (ReservedMemberCode::IS_EMTPY),
-			wrap<stdlib::queue_push>     (ReservedMemberCode::PUSH),
-			wrap<stdlib::queue_pop>      (ReservedMemberCode::POP),
-			wrap<stdlib::queue_values>   (ReservedMemberCode::VALUES),
-		};
-		return search_native_function_table(native_function_table, id).value_or(value::null);
+		return core.types.queue.get_nonstatic_member(core, id);
 	}
 }

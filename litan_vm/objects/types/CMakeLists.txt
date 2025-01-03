@@ -7,4 +7,8 @@ target_sources(litan_vm PRIVATE
 	"IntType.cxx"
 	"NullType.cxx"
 	"StringType.cxx"
+	"MapType.cxx"
+	"TupleType.cxx"
+	"StackType.cxx"
+	"QueueType.cxx"
 )
