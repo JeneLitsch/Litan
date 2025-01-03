@@ -9,12 +9,7 @@ namespace ltn::vm {
 
 
 	Value Clock::get_member(VMCore & core, std::uint64_t id) const {
-		static NativeFunctionTable native_function_table {
-			wrap<stdlib::to_seconds>      (ReservedMemberCode::TO_SECONDS),
-			wrap<stdlib::to_milliseconds> (ReservedMemberCode::TO_MILLISECONDS),
-		};
-
-		return search_native_function_table(native_function_table, id).value_or(value::null);
+		return core.types.clock.get_nonstatic_member(core, id);
 	}
 
 

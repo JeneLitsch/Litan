@@ -191,4 +191,7 @@ namespace std {
 
 	def IStream = null;
 	def OStream = null;
+	def Iterator = null;
+
+	def Clock = null;
 }

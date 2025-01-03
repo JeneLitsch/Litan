@@ -254,6 +254,8 @@ namespace ltn::vm {
 		assign_global_variable(*core, "std::Struct", value::static_object(&core->types.strukt));
 		assign_global_variable(*core, "std::IStream", value::static_object(&core->types.istream));
 		assign_global_variable(*core, "std::OStream", value::static_object(&core->types.ostream));
+		assign_global_variable(*core, "std::Iterator", value::static_object(&core->types.iterator));
+		assign_global_variable(*core, "std::Clock", value::static_object(&core->types.clock));
 	}
 
 

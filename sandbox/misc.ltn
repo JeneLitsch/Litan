@@ -111,4 +111,17 @@ function main() {
 	std::println(std::OStream.cast(3));
 	std::println(std::OStream.cast(std::cin()));
 	std::println(std::OStream.cast(std::cout()));
+
+	std::println("");
+	std::println(std::Iterator.is(""));
+	std::println(std::Iterator.is(std::queue()));
+	std::println(std::Iterator.is(std::range(1,3)));
+	std::println(std::Iterator.cast([1,2,3]));
+
+	std::println("");
+	std::println(std::Clock.is(""));
+	std::println(std::Clock.is(std::chrono::clock()));
+	std::println(std::Clock.is(std::range(1,3)));
+	std::println(std::Clock.cast([1,2,3]));
+	std::println(std::Clock.cast(std::chrono::clock()));
 }
